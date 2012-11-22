@@ -22,9 +22,6 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
      */
     protected $_handler;
 
-    /** @var Mage_Webapi_Controller_Request */
-    protected $_apiRequest;
-
     /** @var Mage_Core_Model_App */
     protected $_application;
 
@@ -69,8 +66,8 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
     /**
      * Prepare environment, initialize handler.
      *
-     * @SuppressWarnings(PHPMD.ExitExpression)
      * @return Mage_Core_Controller_Varien_Front
+     * @SuppressWarnings(PHPMD.ExitExpression)
      */
     public function init()
     {
@@ -119,8 +116,8 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
     public function getListOfAvailableApiTypes()
     {
         return array(
-            Mage_Webapi_Controller_Front::API_TYPE_REST,
-            Mage_Webapi_Controller_Front::API_TYPE_SOAP
+            self::API_TYPE_REST,
+            self::API_TYPE_SOAP
         );
     }
 
@@ -145,7 +142,7 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
             }
 
             $apiType = $apiTypeMatch['api_type'];
-            if (!in_array($apiType, Mage_Webapi_Controller_Front::getListOfAvailableApiTypes())) {
+            if (!in_array($apiType, $this->getListOfAvailableApiTypes())) {
                 throw new Mage_Webapi_Exception($this->_helper->__('The "%s" API type is not defined.', $apiType),
                     Mage_Webapi_Exception::HTTP_BAD_REQUEST);
             }

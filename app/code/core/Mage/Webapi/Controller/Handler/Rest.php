@@ -83,9 +83,23 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
     /** @var Mage_Webapi_Controller_Router_Rest */
     protected $_router;
 
-    /** @var Mage_Webapi_Model_Rest_Oauth_Server */
-    protected $_oauthServer;
-
+    /**
+     * Initialize dependencies.
+     *
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_Config $applicationConfig
+     * @param Mage_Webapi_Model_Config $apiConfig
+     * @param Mage_Webapi_Controller_Request_Factory $requestFactory
+     * @param Mage_Webapi_Controller_Response $response
+     * @param Mage_Webapi_Controller_Action_Factory $controllerFactory
+     * @param Mage_Core_Model_Logger $logger
+     * @param Mage_Webapi_Controller_Handler_Rest_Presentation $restPresentation
+     * @param Mage_Webapi_Controller_Handler_ErrorProcessor $errorProcessor
+     * @param Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory
+     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Mage_Webapi_Controller_Router_Rest $router
+     * @param Mage_Webapi_Model_Authorization $authorization
+     */
     public function __construct(
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Config $applicationConfig,
@@ -99,9 +113,7 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
         Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory,
         Mage_Core_Model_Event_Manager $eventManager,
         Mage_Webapi_Controller_Router_Rest $router,
-        Magento_ObjectManager $objectManager,
-        Mage_Webapi_Model_Authorization_RoleLocator $roleLocator,
-        Mage_Webapi_Model_Rest_Oauth_Server $oauthServer
+        Mage_Webapi_Model_Authorization $authorization
     ) {
         parent::__construct(
             $helperFactory,
@@ -111,15 +123,13 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
             $response,
             $controllerFactory,
             $logger,
-            $objectManager,
-            $roleLocator
+            $authorization
         );
         $this->_restPresentation = $restPresentation;
         $this->_errorProcessor = $errorProcessor;
         $this->_rendererFactory = $rendererFactory;
         $this->_eventManager = $eventManager;
         $this->_router = $router;
-        $this->_oauthServer = $oauthServer;
     }
 
     /**
@@ -161,24 +171,24 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
             $this->_checkDeprecationPolicy($route->getResourceName(), $method, $versionAfterFallback);
             $action = $method . $versionAfterFallback;
 
-            $this->_checkResourceAcl($route->getResourceName(), $method);
+            $this->_authorization->checkResourceAcl($route->getResourceName(), $method);
 
             $inputData = $this->_restPresentation->fetchRequestData($controllerInstance, $action);
             $outputData = call_user_func_array(array($controllerInstance, $action), $inputData);
             $this->_restPresentation->prepareResponse($method, $outputData);
         } catch (Mage_Webapi_Exception $e) {
-            $this->_addException($e);
+            $this->getResponse()->setException($e);
         } catch (Exception $e) {
             if (!Mage::getIsDeveloperMode()) {
                 $this->_logger->logException($e);
-                $this->_addException(
+                $this->getResponse()->setException(
                     new Mage_Webapi_Exception(
                         $this->_helper->__("Internal Error. Details are available in Magento log file."),
                         Mage_Webapi_Exception::HTTP_INTERNAL_ERROR
                     )
                 );
             } else {
-                $this->_addException($e);
+                $this->getResponse()->setException($e);
             }
         }
         $this->_sendResponse();
@@ -262,22 +272,6 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
         }
         $operationName = $this->getRequest()->getResourceName() . ucfirst($methodName);
         return $operationName;
-    }
-
-    /**
-     * Authenticate user.
-     *
-     * @throws Mage_Webapi_Exception
-     */
-    protected function _authenticate()
-    {
-        try {
-            $consumer = $this->_oauthServer->authenticateTwoLegged();
-            $this->_roleLocator->setRoleId($consumer->getRoleId());
-        } catch (Exception $e) {
-            throw new Mage_Webapi_Exception($this->_oauthServer->reportProblem($e),
-                Mage_Webapi_Exception::HTTP_UNAUTHORIZED);
-        }
     }
 
     /**

@@ -58,9 +58,10 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
      */
     protected $_usernameToken;
 
+    /** @var Mage_Webapi_Controller_Handler_Soap_Authentication */
+    protected $_authentication;
+
     /**
-     * Initialize dependencies.
-     *
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Core_Model_Config $applicationConfig
      * @param Mage_Webapi_Model_Config $apiConfig
@@ -73,9 +74,8 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
      * @param Mage_Core_Model_App $application
      * @param Mage_Core_Model_Cache $cache
      * @param Magento_DomDocument_Factory $domDocumentFactory
-     * @param Mage_Webapi_Model_Soap_Security_UsernameToken_Factory $usernameTokenFactory
-     * @param Magento_ObjectManager $objectManager
-     * @param Mage_Webapi_Model_Authorization_RoleLocator $roleLocator
+     * @param Mage_Webapi_Model_Authorization $authorization
+     * @param Mage_Webapi_Controller_Handler_Soap_Authentication $authentication
      */
     public function __construct(
         Mage_Core_Model_Factory_Helper $helperFactory,
@@ -90,9 +90,8 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
         Mage_Core_Model_App $application,
         Mage_Core_Model_Cache $cache,
         Magento_DomDocument_Factory $domDocumentFactory,
-        Mage_Webapi_Model_Soap_Security_UsernameToken_Factory $usernameTokenFactory,
-        Magento_ObjectManager $objectManager,
-        Mage_Webapi_Model_Authorization_RoleLocator $roleLocator
+        Mage_Webapi_Model_Authorization $authorization,
+        Mage_Webapi_Controller_Handler_Soap_Authentication $authentication
     ) {
         parent::__construct(
             $helperFactory,
@@ -102,15 +101,14 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
             $response,
             $controllerFactory,
             $logger,
-            $objectManager,
-            $roleLocator
+            $authorization
         );
         $this->_autoDiscover = $autoDiscover;
         $this->_soapServer = $soapServer;
         $this->_cache = $cache;
         $this->_application = $application;
         $this->_domDocumentFactory = $domDocumentFactory;
-        $this->_tokenFactory = $usernameTokenFactory;
+        $this->_authentication = $authentication;
     }
 
     /**
@@ -125,17 +123,24 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
         if (in_array($operation, $this->_getRequestedHeaders())) {
             $this->_processSoapHeader($operation, $arguments);
         } else {
-            $this->_authenticate();
-            $resourceVersion = $this->_getOperationVersion($operation);
-            $resourceName = $this->getApiConfig()->getResourceNameByOperation($operation, $resourceVersion);
-            if (!$resourceName) {
-                $this->_soapFault(sprintf('Method "%s" is not found.', $operation), self::FAULT_CODE_SENDER);
-            }
-            $controllerClass = $this->getApiConfig()->getControllerClassByOperationName($operation);
-            $controllerInstance = $this->_getActionControllerInstance($controllerClass);
-            $method = $this->getApiConfig()->getMethodNameByOperation($operation, $resourceVersion);
             try {
-                $this->_checkResourceAcl($resourceName, $method);
+                if (is_null($this->_usernameToken)) {
+                    $this->_soapFault(
+                        $this->_helper->__('WS-Security UsernameToken is not found in SOAP-request.'),
+                        self::FAULT_CODE_RECEIVER
+                    );
+                }
+                $this->_authentication->authenticate($this->_usernameToken);
+                $resourceVersion = $this->_getOperationVersion($operation);
+                $resourceName = $this->getApiConfig()->getResourceNameByOperation($operation, $resourceVersion);
+                if (!$resourceName) {
+                    $this->_soapFault(sprintf('Method "%s" is not found.', $operation), self::FAULT_CODE_SENDER);
+                }
+                $controllerClass = $this->getApiConfig()->getControllerClassByOperationName($operation);
+                $controllerInstance = $this->_getActionControllerInstance($controllerClass);
+                $method = $this->getApiConfig()->getMethodNameByOperation($operation, $resourceVersion);
+
+                $this->_authorization->checkResourceAcl($resourceName, $method);
 
                 $arguments = reset($arguments);
                 $arguments = get_object_vars($arguments);
@@ -206,46 +211,6 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
         }
 
         return $headers;
-    }
-
-    /**
-     * Authenticate user.
-     */
-    protected function _authenticate()
-    {
-        if (is_null($this->_usernameToken)) {
-            $this->_soapFault(
-                $this->_helper->__('WS-Security UsernameToken is not found in SOAP-request.'),
-                self::FAULT_CODE_SENDER
-            );
-        }
-
-        try {
-            $token = $this->_tokenFactory->createFromArray();
-            $request = $this->_usernameToken;
-            // @codingStandardsIgnoreStart
-            $user = $token->authenticate($request->Username, $request->Password, $request->Created, $request->Nonce);
-            // @codingStandardsIgnoreEnd
-            $this->_roleLocator->setRoleId($user->getRoleId());
-        } catch (Mage_Webapi_Model_Soap_Security_UsernameToken_NonceUsedException $e) {
-            $this->_soapFault(
-                $this->_helper->__('WS-Security UsernameToken Nonce is already used.'),
-                self::FAULT_CODE_SENDER
-            );
-        } catch (Mage_Webapi_Model_Soap_Security_UsernameToken_TimestampRefusedException $e) {
-            $this->_soapFault(
-                $this->_helper->__('WS-Security UsernameToken Created timestamp is refused.'),
-                self::FAULT_CODE_SENDER
-            );
-        } catch (Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidCredentialException $e) {
-            $this->_soapFault($this->_helper->__('Invalid Username or Password.'), self::FAULT_CODE_SENDER);
-        } catch (Exception $e) {
-            $this->_soapFault(
-                $this->_helper->__('Error during authenticating SOAP-request.'),
-                self::FAULT_CODE_SENDER,
-                $e
-            );
-        }
     }
 
     /**
