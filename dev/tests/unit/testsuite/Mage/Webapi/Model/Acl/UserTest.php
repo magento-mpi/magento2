@@ -98,7 +98,7 @@ class Mage_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
     {
         $this->_userResource->expects($this->once())
             ->method('load')
-            ->withAnyParameters()
+            ->with($this->anything(), 'key', 'api_key')
             ->will($this->returnSelf());
 
         $model = $this->_createModel($this->_userResource);

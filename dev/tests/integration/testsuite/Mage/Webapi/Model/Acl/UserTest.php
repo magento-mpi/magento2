@@ -1,17 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Magento_Webapi
- * @subpackage  integration_tests
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Test for Mage_Webapi_Model_Acl_User model
  *
+ * @copyright {}
  * @magentoDataFixture Mage/Webapi/_files/role.php
  */
 class Mage_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase

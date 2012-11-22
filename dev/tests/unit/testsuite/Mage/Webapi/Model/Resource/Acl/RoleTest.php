@@ -26,6 +26,11 @@ class Mage_Webapi_Model_Resource_Acl_RoleTest extends PHPUnit_Framework_TestCase
      */
     protected $_resource;
 
+    /**
+     * @var Varien_Db_Adapter_Pdo_Mysql|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_adapter;
+
     protected function setUp()
     {
         $this->_helper = new Magento_Test_Helper_ObjectManager($this);
@@ -37,7 +42,16 @@ class Mage_Webapi_Model_Resource_Acl_RoleTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array('create'))
             ->getMockForAbstractClass();
+    }
 
+    /**
+     * Create resource model
+     *
+     * @param Varien_Db_Select $selectMock
+     * @return Mage_Webapi_Model_Resource_Acl_Role
+     */
+    protected function _createModel($selectMock = null)
+    {
         $this->_resource = $this->getMockBuilder('Mage_Core_Model_Resource')
             ->disableOriginalConstructor()
             ->setMethods(array('getConnection', 'getTableName'))
@@ -48,39 +62,36 @@ class Mage_Webapi_Model_Resource_Acl_RoleTest extends PHPUnit_Framework_TestCase
             ->withAnyParameters()
             ->will($this->returnArgument(0));
 
-        $adapter = $this->getMockBuilder('Varien_Db_Adapter_Pdo_Mysql')
+        $this->_adapter = $this->getMockBuilder('Varien_Db_Adapter_Pdo_Mysql')
             ->disableOriginalConstructor()
             ->setMethods(array('select', 'fetchCol', 'fetchPairs'))
             ->getMock();
 
-        $adapter->expects($this->any())
-            ->method('select')
-            ->withAnyParameters()
-            ->will($this->returnValue(new Varien_Db_Select($this->getMock('Varien_Db_Adapter_Pdo_Mysql', array(), array(), '', false))));
-
-        $adapter->expects($this->any())
+        $this->_adapter->expects($this->any())
             ->method('fetchCol')
             ->withAnyParameters()
-            ->will($this->returnArgument(0));
+            ->will($this->returnValue(array(1)));
 
-        $adapter->expects($this->any())
+        $this->_adapter->expects($this->any())
             ->method('fetchPairs')
             ->withAnyParameters()
-            ->will($this->returnArgument(0));
+            ->will($this->returnValue(array('key' => 'value')));
+
+        if (!$selectMock) {
+            $selectMock = new Varien_Db_Select(
+                $this->getMock('Varien_Db_Adapter_Pdo_Mysql', array(), array(), '', false));
+        }
+
+        $this->_adapter->expects($this->any())
+            ->method('select')
+            ->withAnyParameters()
+            ->will($this->returnValue($selectMock));
 
         $this->_resource->expects($this->any())
             ->method('getConnection')
             ->withAnyParameters()
-            ->will($this->returnValue($adapter));
-    }
+            ->will($this->returnValue($this->_adapter));
 
-    /**
-     * Create resource model
-     *
-     * @return Mage_Webapi_Model_Resource_Acl_Role
-     */
-    protected function _createModel()
-    {
         return $this->_helper->getModel('Mage_Webapi_Model_Resource_Acl_Role', array(
             'resource' => $this->_resource,
             'helper' => $this->_helperData
@@ -114,18 +125,24 @@ class Mage_Webapi_Model_Resource_Acl_RoleTest extends PHPUnit_Framework_TestCase
      */
     public function testGetRolesList()
     {
-        $model = $this->_createModel();
+        $selectMock = $this->getMockBuilder('Varien_Db_Select')
+            ->setConstructorArgs(array($this->getMock('Varien_Db_Adapter_Pdo_Mysql', array(), array(), '', false)))
+            ->setMethods(array('from', 'order'))
+            ->getMock();
 
-        /** @var Varien_Db_Select $select */
-        $select = $model->getRolesList();
-        $from = $select->getPart('from');
+        $selectMock->expects($this->once())
+            ->method('from')
+            ->with('webapi_role', array('role_id', 'role_name'))
+            ->will($this->returnSelf());
 
-        $this->assertEquals(array('webapi_role' =>
-            array('joinCondition' => null,
-                'joinType' => 'from',
-                'schema' => null,
-                'tableName' => 'webapi_role',
-            )), $from);
+        $selectMock->expects($this->once())
+            ->method('order')
+            ->with('role_name')
+            ->will($this->returnSelf());
+
+        $model = $this->_createModel($selectMock);
+        $result = $model->getRolesList();
+        $this->assertEquals(array('key' => 'value'), $result);
     }
 
     /**
@@ -133,17 +150,19 @@ class Mage_Webapi_Model_Resource_Acl_RoleTest extends PHPUnit_Framework_TestCase
      */
     public function testGetRolesIds()
     {
-        $model = $this->_createModel();
+        $selectMock = $this->getMockBuilder('Varien_Db_Select')
+            ->setConstructorArgs(array($this->getMock('Varien_Db_Adapter_Pdo_Mysql', array(), array(), '', false)))
+            ->setMethods(array('from', 'order'))
+            ->getMock();
 
-        /** @var Varien_Db_Select $select */
-        $select = $model->getRolesIds();
-        $from = $select->getPart('from');
+        $selectMock->expects($this->once())
+            ->method('from')
+            ->with('webapi_role', array('role_id'))
+            ->will($this->returnSelf());
 
-        $this->assertEquals(array('webapi_role' =>
-            array('joinCondition' => null,
-                'joinType' => 'from',
-                'schema' => null,
-                'tableName' => 'webapi_role',
-            )), $from);
+        $model = $this->_createModel($selectMock);
+
+        $result = $model->getRolesIds();
+        $this->assertEquals(array(1), $result);
     }
 }

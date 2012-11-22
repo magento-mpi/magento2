@@ -26,6 +26,11 @@ class Mage_Webapi_Model_Resource_Acl_UserTest extends PHPUnit_Framework_TestCase
      */
     protected $_resource;
 
+    /**
+     * @var Varien_Db_Adapter_Pdo_Mysql|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_adapter;
+
     protected function setUp()
     {
         $this->_helper = new Magento_Test_Helper_ObjectManager($this);
@@ -37,7 +42,16 @@ class Mage_Webapi_Model_Resource_Acl_UserTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array('create'))
             ->getMockForAbstractClass();
+    }
 
+    /**
+     * Create resource model
+     *
+     * @param Varien_Db_Select $selectMock
+     * @return Mage_Webapi_Model_Resource_Acl_User
+     */
+    protected function _createModel($selectMock = null)
+    {
         $this->_resource = $this->getMockBuilder('Mage_Core_Model_Resource')
             ->disableOriginalConstructor()
             ->setMethods(array('getConnection', 'getTableName'))
@@ -48,34 +62,31 @@ class Mage_Webapi_Model_Resource_Acl_UserTest extends PHPUnit_Framework_TestCase
             ->withAnyParameters()
             ->will($this->returnArgument(0));
 
-        $adapter = $this->getMockBuilder('Varien_Db_Adapter_Pdo_Mysql')
+        $this->_adapter = $this->getMockBuilder('Varien_Db_Adapter_Pdo_Mysql')
             ->disableOriginalConstructor()
             ->setMethods(array('select', 'fetchCol'))
             ->getMock();
 
-        $adapter->expects($this->any())
+        if (!$selectMock) {
+            $selectMock = new Varien_Db_Select(
+                $this->getMock('Varien_Db_Adapter_Pdo_Mysql', array(), array(), '', false));
+        }
+
+        $this->_adapter->expects($this->any())
             ->method('select')
             ->withAnyParameters()
-            ->will($this->returnValue(new Varien_Db_Select($this->getMock('Varien_Db_Adapter_Pdo_Mysql', array(), array(), '', false))));
+            ->will($this->returnValue($selectMock));
 
-        $adapter->expects($this->any())
+        $this->_adapter->expects($this->any())
             ->method('fetchCol')
             ->withAnyParameters()
-            ->will($this->returnArgument(0));
+            ->will($this->returnValue(array(1)));
 
         $this->_resource->expects($this->any())
             ->method('getConnection')
             ->withAnyParameters()
-            ->will($this->returnValue($adapter));
-    }
+            ->will($this->returnValue($this->_adapter));
 
-    /**
-     * Create resource model
-     *
-     * @return Mage_Webapi_Model_Resource_Acl_User
-     */
-    protected function _createModel()
-    {
         return $this->_helper->getModel('Mage_Webapi_Model_Resource_Acl_User', array(
             'resource' => $this->_resource,
             'helper' => $this->_helperData
@@ -109,17 +120,23 @@ class Mage_Webapi_Model_Resource_Acl_UserTest extends PHPUnit_Framework_TestCase
      */
     public function testGetRoleUsers()
     {
-        $model = $this->_createModel();
+        $selectMock = $this->getMockBuilder('Varien_Db_Select')
+            ->setConstructorArgs(array($this->getMock('Varien_Db_Adapter_Pdo_Mysql', array(), array(), '', false)))
+            ->setMethods(array('from', 'where'))
+            ->getMock();
 
-        /** @var Varien_Db_Select $select */
-        $select = $model->getRoleUsers(1);
-        $from = $select->getPart('from');
+        $selectMock->expects($this->once())
+            ->method('from')
+            ->with('webapi_user', array('user_id'))
+            ->will($this->returnSelf());
 
-        $this->assertEquals(array('webapi_user' =>
-            array('joinCondition' => null,
-                'joinType' => 'from',
-                'schema' => null,
-                'tableName' => 'webapi_user',
-            )), $from);
+        $selectMock->expects($this->once())
+            ->method('where')
+            ->with('role_id = ?', 1)
+            ->will($this->returnSelf());
+
+        $model = $this->_createModel($selectMock);
+        $result = $model->getRoleUsers(1);
+        $this->assertEquals(array(1), $result);
     }
 }

@@ -42,7 +42,16 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array('create'))
             ->getMockForAbstractClass();
+    }
 
+    /**
+     * Create resource model
+     *
+     * @param Varien_Db_Select $selectMock
+     * @return Mage_Webapi_Model_Resource_Acl_Rule
+     */
+    protected function _createModel($selectMock = null)
+    {
         $this->_resource = $this->getMockBuilder('Mage_Core_Model_Resource')
             ->disableOriginalConstructor()
             ->setMethods(array('getConnection', 'getTableName'))
@@ -60,19 +69,24 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->_adapter->expects($this->any())
-            ->method('select')
-            ->withAnyParameters()
-            ->will($this->returnValue(new Varien_Db_Select($this->getMock('Varien_Db_Adapter_Pdo_Mysql', array(), array(), '', false))));
-
-        $this->_adapter->expects($this->any())
             ->method('fetchCol')
             ->withAnyParameters()
-            ->will($this->returnArgument(0));
+            ->will($this->returnValue(array(1)));
 
         $this->_adapter->expects($this->any())
             ->method('fetchAll')
             ->withAnyParameters()
-            ->will($this->returnArgument(0));
+            ->will($this->returnValue(array(array('key' => 'value'))));
+
+        if (!$selectMock) {
+            $selectMock = new Varien_Db_Select(
+                $this->getMock('Varien_Db_Adapter_Pdo_Mysql', array(), array(), '', false));
+        }
+
+        $this->_adapter->expects($this->any())
+            ->method('select')
+            ->withAnyParameters()
+            ->will($this->returnValue($selectMock));
 
         $this->_adapter->expects($this->any())
             ->method('beginTransaction')
@@ -83,15 +97,7 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends PHPUnit_Framework_TestCase
             ->method('getConnection')
             ->withAnyParameters()
             ->will($this->returnValue($this->_adapter));
-    }
 
-    /**
-     * Create resource model
-     *
-     * @return Mage_Webapi_Model_Resource_Acl_Rule
-     */
-    protected function _createModel()
-    {
         return $this->_helper->getModel('Mage_Webapi_Model_Resource_Acl_Rule', array(
             'resource' => $this->_resource,
             'helper' => $this->_helperData
@@ -114,18 +120,19 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends PHPUnit_Framework_TestCase
      */
     public function testGetRuleList()
     {
-        $model = $this->_createModel();
+        $selectMock = $this->getMockBuilder('Varien_Db_Select')
+            ->setConstructorArgs(array($this->getMock('Varien_Db_Adapter_Pdo_Mysql', array(), array(), '', false)))
+            ->setMethods(array('from'))
+            ->getMock();
 
-        /** @var Varien_Db_Select $select */
-        $select = $model->getRuleList();
-        $from = $select->getPart('from');
+        $selectMock->expects($this->once())
+            ->method('from')
+            ->with('webapi_rule', array('resource_id', 'role_id'))
+            ->will($this->returnSelf());
 
-        $this->assertEquals(array('webapi_rule' =>
-            array('joinCondition' => null,
-                'joinType' => 'from',
-                'schema' => null,
-                'tableName' => 'webapi_rule',
-            )), $from);
+        $model = $this->_createModel($selectMock);
+        $result = $model->getRuleList();
+        $this->assertEquals(array(array('key' => 'value')), $result);
     }
 
     /**
@@ -133,18 +140,24 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends PHPUnit_Framework_TestCase
      */
     public function testGetResourceIdsByRole()
     {
-        $model = $this->_createModel();
+        $selectMock = $this->getMockBuilder('Varien_Db_Select')
+            ->setConstructorArgs(array($this->getMock('Varien_Db_Adapter_Pdo_Mysql', array(), array(), '', false)))
+            ->setMethods(array('from', 'where'))
+            ->getMock();
 
-        /** @var Varien_Db_Select $select */
-        $select = $model->getResourceIdsByRole(1);
-        $from = $select->getPart('from');
+        $selectMock->expects($this->once())
+            ->method('from')
+            ->with('webapi_rule', array('resource_id'))
+            ->will($this->returnSelf());
 
-        $this->assertEquals(array('webapi_rule' =>
-            array('joinCondition' => null,
-                'joinType' => 'from',
-                'schema' => null,
-                'tableName' => 'webapi_rule',
-            )), $from);
+        $selectMock->expects($this->once())
+            ->method('where')
+            ->with('role_id = ?', 1)
+            ->will($this->returnSelf());
+
+        $model = $this->_createModel($selectMock);
+        $result = $model->getResourceIdsByRole(1);
+        $this->assertEquals(array(1), $result);
     }
 
     /**
@@ -168,15 +181,6 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends PHPUnit_Framework_TestCase
             ->withAnyParameters()
             ->will($this->returnValue($this->getMock('Varien_Db_Adapter_Pdo_Mysql', array(), array(), '', false)));
 
-        /** @var Mage_Webapi_Model_Acl_Rule $rule */
-        /*
-        $rule = $this->_helper->getModel('Mage_Webapi_Model_Acl_Rule', array(
-            'eventDispatcher' => $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false),
-            'cacheManager' => $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false),
-            'resource' => $ruleResource
-        ));
-        */
-
         // init rule
         $rule = $this->getMockBuilder('Mage_Webapi_Model_Acl_Rule')
             ->setConstructorArgs(array(
@@ -192,6 +196,8 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends PHPUnit_Framework_TestCase
             ->withAnyParameters()
             ->will($this->returnValue(array('ResourceName')));
 
+        $model = $this->_createModel();
+
         // init adapter
         $this->_adapter->expects($this->any())
             ->method('delete')
@@ -201,13 +207,11 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends PHPUnit_Framework_TestCase
         $this->_adapter->expects($this->once())
             ->method('insertArray')
             ->with('webapi_rule', array('role_id', 'resource_id'),
-                array(array('role_id' => 1, 'resource_id' => 'ResourceName')))
+            array(array('role_id' => 1, 'resource_id' => 'ResourceName')))
             ->will($this->returnValue(1));
 
-        $model = $this->_createModel();
         $rule->setRoleId(1);
         $model->saveResources($rule);
-
 
         // init adapter
         $this->_adapter->expects($this->any())
