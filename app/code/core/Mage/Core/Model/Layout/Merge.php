@@ -89,11 +89,12 @@ class Mage_Core_Model_Layout_Merge
      */
     public function __construct(array $arguments = array())
     {
+        $designArea = Mage::getDesign()->getArea();
         /* Default values */
-        if (!empty($arguments['area']) && empty($arguments['themeId'])) {
-            $arguments['themeId'] = Mage::getDesign()->getConfigurationDesignTheme($arguments['area']);
-        } elseif (empty($arguments['area']) && empty($arguments['themeId'])) {
-            $arguments['area'] = Mage::getDesign()->getArea();
+        if (empty($arguments['area']) && empty($arguments['themeId'])
+            || empty($arguments['themeId']) && $arguments['area'] == $designArea
+        ) {
+            $arguments['area'] = $designArea;
             $arguments['themeId'] = Mage::getDesign()->getDesignTheme()->getId();
         }
 
