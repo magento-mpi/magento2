@@ -1,9 +1,13 @@
 /**
+ * {license_notice}
  *
- *
- * @license     {}
+ * @category    mage
+ * @package     mage
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-
+/*jshint jquery:true browser:true*/
+/*global BASE_URL:true*/
 (function($) {
     var init = $.validator.prototype.init;
     $.extend(true, $.validator.prototype, {
@@ -13,7 +17,7 @@
         init: function() {
             init.apply(this, arguments);
             var highlight = this.settings.highlight;
-            this.settings.highlight = function (element, errorClass, validClass) {
+            this.settings.highlight = function (element) {
                 highlight.apply(this, arguments);
                 $(element).trigger('highlight.validate');
             };
@@ -58,7 +62,7 @@
                     this.options.submitHandler = $.proxy(this.element[0].submit, this.element[0]);
                 }
             }
-            this.element.on('resetElement', function(e, data) {$(e.target).rules('remove');});
+            this.element.on('resetElement', function(e) {$(e.target).rules('remove');});
             this._super('_create');
         },
 
@@ -85,7 +89,7 @@
          * @param {string} response status
          * @param {Object} The jQuery XMLHttpRequest object returned by $.ajax()
          */
-        _onSuccess: function(response, status, jqXHR) {
+        _onSuccess: function(response) {
             if (response.attribute) {
                 $('#' + response.attribute)
                     .addClass('validate-ajax-error')

@@ -6,6 +6,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/*jshint jquery:true browser:true */
+/*global FORM_KEY:true*/
 jQuery(function ($) {
     $.ajaxSetup({
         /*
@@ -48,18 +50,11 @@ jQuery(function ($) {
          * @param {Object} The jQuery XMLHttpRequest object returned by $.ajax()
          * @param {string}
          */
-        complete: function(jqXHR, status) {
+        complete: function(jqXHR) {
             if (jqXHR.readyState === 4) {
-                try {
-                    var jsonObject = jQuery.parseJSON(jqXHR.responseText);
-                    if (jsonObject.ajaxExpired && jsonObject.ajaxRedirect) {
-                        window.location.replace(jsonObject.ajaxRedirect);
-                        throw new SessionError('session expired');
-                    }
-                } catch (e) {
-                    if (e instanceof SessionError) {
-                        return;
-                    }
+                var jsonObject = jQuery.parseJSON(jqXHR.responseText);
+                if (jsonObject.ajaxExpired && jsonObject.ajaxRedirect) {
+                    window.location.replace(jsonObject.ajaxRedirect);
                 }
             }
         }

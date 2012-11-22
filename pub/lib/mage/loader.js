@@ -1,9 +1,12 @@
 /**
+ * {license_notice}
  *
- *
- * @license     {}
+ * @category    mage
+ * @package     mage
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-/*jshint browser:true jquery:true */
+/*jshint browser:true jquery:true*/
 (function($){
     $.widget("mage.loader", {
         options: {

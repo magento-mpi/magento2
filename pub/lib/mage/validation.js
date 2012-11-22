@@ -419,7 +419,7 @@
             'The From Date value should be less than or equal to the To Date value.'
         ],
         "validate-cpassword": [
-            function(v) {
+            function() {
                 var conf = $('#confirmation').length > 0 ? $('#confirmation') : $($('.validate-cpassword')[0]);
                 var pass = false;
                 if ($('#password')) {
@@ -462,9 +462,11 @@
             'Please enter a valid URL Key. For example "example-page", "example-page.html" or "anotherlevel/example-page".'
         ],
         "validate-zip-international": [
-            function(v) {
+            /*function(v) {
                 // @TODO: Cleanup
-                //return Validation.get('IsEmpty').test(v) || /(^[A-z0-9]{2,10}([\s]{0,1}|[\-]{0,1})[A-z0-9]{2,10}$)/.test(v);
+                return Validation.get('IsEmpty').test(v) || /(^[A-z0-9]{2,10}([\s]{0,1}|[\-]{0,1})[A-z0-9]{2,10}$)/.test(v);
+            }*/
+            function() {
                 return true;
             },
             'Please enter a valid zip code.'

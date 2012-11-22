@@ -1,7 +1,12 @@
 /**
+ * {license_notice}
  *
- * @license     {}
+ * @category    mage
+ * @package     mage
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
+/*jshint jquery:true browser:true*/
 (function($) {
     $.widget("mage.notification", {
         options: {
@@ -28,7 +33,7 @@
          * @param {Object} The jQuery XMLHttpRequest object returned by $.ajax()
          * @param {Object}
          */
-        _add: function(e, jqXHR, options) {
+        _add: function(e, jqXHR) {
             var response = $.parseJSON(jqXHR.responseText);
             if (response.error) {
                 this.element.append($.tmpl('globalNotification', response));

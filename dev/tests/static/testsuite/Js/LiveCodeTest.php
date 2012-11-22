@@ -153,7 +153,8 @@ class Js_LiveCodeTest extends PHPUnit_Framework_TestCase
      */
     protected function _executeJsHint($filename)
     {
-        exec($this->_getCommand() . ' ' . $filename . ' ' . TESTS_JSHINT_OPTIONS, $output, $retVal);
+        $command = $this->_getCommand() . ' "' . $filename . '" ' . TESTS_JSHINT_OPTIONS;
+        exec($command, $output, $retVal);
         if ($retVal == 0) {
             return true;
         }

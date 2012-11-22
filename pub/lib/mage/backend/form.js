@@ -1,7 +1,12 @@
 /**
+ * {license_notice}
  *
- * @license     {}
+ * @category    mage
+ * @package     mage
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
+/*jshint jquery:true*/
 (function($) {
     $.widget("mage.form", {
         options: {
@@ -167,4 +172,3 @@
         }
     });
 })(jQuery);
-
