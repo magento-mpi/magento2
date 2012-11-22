@@ -22,9 +22,7 @@
  * @method Mage_Oauth_Model_Consumer setName() setName(string $name)
  * @method string getKey()
  * @method Mage_Oauth_Model_Consumer setKey() setKey(string $key)
- * @method string getSecret()
  * @method Mage_Oauth_Model_Consumer setSecret() setSecret(string $secret)
- * @method string getCallbackUrl()
  * @method Mage_Oauth_Model_Consumer setCallbackUrl() setCallbackUrl(string $url)
  * @method string getCreatedAt()
  * @method Mage_Oauth_Model_Consumer setCreatedAt() setCreatedAt(string $date)
@@ -123,5 +121,25 @@ abstract class Mage_Oauth_Model_Consumer extends Mage_Core_Model_Abstract implem
     public function loadByKey($key)
     {
         return $this->load($key, 'key');
+    }
+
+    /**
+     * Get consumer key.
+     *
+     * @return string
+     */
+    public function getSecret()
+    {
+        return $this->getData('secret');
+    }
+
+    /**
+     * Get consumer callback URL.
+     *
+     * @return string
+     */
+    public function getCallBackUrl()
+    {
+        return $this->getData('callback_url');
     }
 }
