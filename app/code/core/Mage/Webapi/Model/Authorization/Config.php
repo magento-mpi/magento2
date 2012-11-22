@@ -128,10 +128,6 @@ class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Conf
             $result['sortOrder']= $sortOrder;
         }
 
-        if (empty($node->childNodes)) {
-            return $result;
-        }
-
         $result['children'] = array();
         foreach ($node->childNodes as $child) {
             if ($child instanceof DOMElement) {
