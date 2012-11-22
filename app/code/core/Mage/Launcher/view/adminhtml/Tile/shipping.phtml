@@ -1,0 +1,13 @@
+<article class="sl-step">
+    <h2><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Shipping') ?></h2>
+    <div class="create">
+        <p>
+            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Choose Flat Rate, No Shipping or from one of the many shipping vendors that Magento supports.') ?>
+        </p>
+        <a href="#" class="button drawer-open" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Confirm Info') ?></a>
+    </div>
+
+    <div class="completed">
+        <strong><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__($this->getCompletedTitle()) ?></strong>
+    </div>
+</article>

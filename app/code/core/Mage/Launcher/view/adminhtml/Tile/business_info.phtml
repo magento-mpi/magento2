@@ -1,0 +1,22 @@
+<article class="sl-step sl-step-store">
+    <h2><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Store Info') ?></h2>
+    <div class="create">
+        <p>
+            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Confirm your business address and set the Store Emails that you want to use for customer communications.') ?>
+        </p>
+        <a href="#" class="button drawer-open" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Confirm Info') ?></a>
+    </div>
+
+    <div class="completed">
+        <strong><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Business Address') ?></strong>
+         <?php echo $this->getAddress() ?>
+         <?php if($this->getEmails()) ?>
+        <ul>
+            <?php foreach($this->getEmails() as $email):?>
+            <li><strong><?php echo $email->getName() ?></strong> <a href="mailto:<?php echo $email->getEmail() ?>" class="sl-mailto"><?php echo $email->getEmail() ?></a></li>
+            <?php endforeach; ?>
+        </ul>
+
+        <a href="#" class="button drawer-open" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Edit Store Info') ?></a>
+    </div>
+</article>

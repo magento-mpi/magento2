@@ -10,9 +10,21 @@
  */
 -->
 <layout>
+    <launcher_index>
+        <block type="Mage_Launcher_Block_Tile_BusinessInfo" name="business_info.tile" template="tile/business_info.phtml"/>
+        <block type="Mage_Launcher_Block_Tile" name="shipping.tile" template="tile/shipping.phtml"/>
+        <block type="Mage_Launcher_Block_Tile" name="tax.tile" template="tile/tax.phtml"/>
+    </launcher_index>
+
     <launcher_index_index>
+        <update handle="launcher_index"/>
+        <reference name="head">
+            <action method="addCss"><file>Mage_Launcher::launcher.css</file></action>
+        </reference>
         <reference name="content">
-            <block type="Mage_Launcher_Block_LandingPage" name="landing.page" template="landingpage.phtml"/>
+            <block type="Mage_Launcher_Block_LandingPage" name="landing.page" template="landingpage.phtml">
+                <action method="setPageCode"><code>store_launcher</code></action>
+            </block>
         </reference>
     </launcher_index_index>
 </layout>
