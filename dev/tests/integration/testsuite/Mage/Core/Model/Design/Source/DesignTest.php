@@ -11,23 +11,20 @@
 
 class Mage_Core_Model_Design_Source_DesignTest extends PHPUnit_Framework_TestCase
 {
-
     public function testGetAllOptions()
     {
-        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
-        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
-
         /** @var $model Mage_Core_Model_Design_Source_Design */
         $model = Mage::getModel('Mage_Core_Model_Design_Source_Design');
-        $labelCollection = $this->_getLabelCollection();
+        $expectedLabelCollection = $this->_getLabelCollection();
+        $labelCollection = $model->getAllOptions(true);
 
-        $this->assertEquals($labelCollection, $model->getAllOptions(false));
+        foreach ($labelCollection as $key => $data) {
+            $expectedValue = $expectedLabelCollection[$key];
 
-        array_unshift($labelCollection, array(
-             'value' => '',
-             'label' => '-- Please Select --'
-        ));
-        $this->assertEquals($labelCollection, $model->getAllOptions());
+            $this->assertArrayHasKey('label', $data);
+            $this->assertArrayHasKey('value', $data);
+            $this->assertEquals($expectedValue['label'], $data['label']);
+        }
     }
 
     /**
@@ -38,6 +35,10 @@ class Mage_Core_Model_Design_Source_DesignTest extends PHPUnit_Framework_TestCas
     protected function _getLabelCollection()
     {
         return array(
+            array(
+                'value' => '',
+                'label' => '-- Please Select --'
+            ),
             array(
                 'value' => '%d',
                 'label' => 'Magento Blank'
@@ -56,7 +57,7 @@ class Mage_Core_Model_Design_Source_DesignTest extends PHPUnit_Framework_TestCas
             ),
             array(
                 'value' => '%d',
-                'label' => 'Magento Fluid Design  (incompatible version)'
+                'label' => 'Magento Fluid Design (incompatible version)'
             ),
             array(
                 'value' => '%d',

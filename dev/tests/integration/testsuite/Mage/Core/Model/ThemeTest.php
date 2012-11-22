@@ -13,15 +13,11 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test crud operations for theme model using valid data
-     *
-     * @magentoDbIsolation enabled
      */
     public function testCrud()
     {
-        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
-        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
-
-        $themeModel = Mage::getModel('Mage_Core_Model_Theme');
+        /** @var $themeModel Mage_Core_Model_Theme */
+        $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
         $themeModel->setData($this->_getThemeValidData());
 
         $crud = new Magento_Test_Entity($themeModel, array('theme_version' => '2.0.0.1'));
@@ -30,16 +26,22 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
 
     /**
      * Load from configuration
+     *
+     * @magentoAppIsolation enabled
+     * @magentoDbIsolation enabled
      */
     public function testLoadFromConfiguration()
     {
-        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
-        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
+        /** @var $themeUtility Mage_Core_Utility_Theme */
+        $themeUtility = Mage::getModel('Mage_Core_Utility_Theme', array(
+            dirname(__FILE__) . '/_files/design', Mage::getDesign()
+        ));
+        $themeUtility->registerThemes()->setDesignTheme('default/default', 'frontend');
 
         $themePath = implode(DS, array(__DIR__, '_files', 'design', 'frontend', 'default', 'default', 'theme.xml'));
 
         /** @var $themeModel Mage_Core_Model_Theme */
-        $themeModel = Mage::getModel('Mage_Core_Model_Theme');
+        $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
         $themeModel->loadFromConfiguration($themePath);
 
         $this->assertEquals($this->_expectedThemeDataFromConfiguration(), $themeModel->getData());
@@ -54,14 +56,17 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     {
         return array(
             'theme_code'           => 'default',
+            'package_code'         => 'default',
+            'area'                 => 'frontend',
             'theme_title'          => 'Default',
             'theme_version'        => '2.0.0.0',
-            'parent_theme'         => null,
+            'parent_id'            => null,
+            'parent_theme_path'    => null,
             'is_featured'          => true,
             'magento_version_from' => '2.0.0.0-dev1',
             'magento_version_to'   => '*',
             'theme_path'           => 'default/default',
-            'preview_image'        => '',
+            'preview_image'        => null,
             'theme_directory'      => implode(
                 DIRECTORY_SEPARATOR, array(__DIR__, '_files', 'design', 'frontend', 'default', 'default')
             )
@@ -77,9 +82,11 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     {
         return array(
             'theme_code'           => 'space',
+            'area'                 => 'space_area',
             'theme_title'          => 'Space theme',
             'theme_version'        => '2.0.0.0',
-            'parent_theme'         => null,
+            'parent_id'            => null,
+            'parent_theme_path'    => null,
             'is_featured'          => false,
             'magento_version_from' => '2.0.0.0-dev1',
             'magento_version_to'   => '*',
@@ -115,24 +122,16 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
 
     /**
      * Test is virtual
+     *
+     * @magentoAppIsolation enabled
      */
     public function testIsVirtual()
     {
-        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
-        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
-
-        $themeCollection = new Mage_Core_Model_Theme_Collection();
-        Mage::unregister('_singleton/Mage_Core_Model_Theme_Collection');
-        Mage::register('_singleton/Mage_Core_Model_Theme_Collection', $themeCollection);
-
         /** @var $themeModel Mage_Core_Model_Theme */
-        $themeModel = Mage::getModel('Mage_Core_Model_Theme');
+        $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
         $themeModel->setData($this->_getThemeValidData());
 
         $this->assertTrue($themeModel->isVirtual());
-
-        $themeCollection->addItem($themeModel);
-        $this->assertFalse($themeModel->isVirtual());
     }
 
 
@@ -186,20 +185,18 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
 
     public function testGetLabelsCollection()
     {
-        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
-        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
-
         /** @var $themeModel Mage_Core_Model_Theme */
         $themeModel = Mage::getModel('Mage_Core_Model_Theme');
-        $labelCollection = $this->_getLabelCollection();
+        $expectedLabelCollection = $this->_getLabelCollection();
+        $labelCollection = $themeModel->getLabelsCollection('-- Please Select --');
 
-        $this->assertEquals($labelCollection, $themeModel->getLabelsCollection());
+        foreach ($labelCollection as $key => $data) {
+            $expectedValue = $expectedLabelCollection[$key];
 
-        array_unshift($labelCollection, array(
-            'value' => '',
-            'label' => '-- Please Select --'
-        ));
-        $this->assertEquals($labelCollection, $themeModel->getLabelsCollection('-- Please Select --'));
+            $this->assertArrayHasKey('label', $data);
+            $this->assertArrayHasKey('value', $data);
+            $this->assertEquals($expectedValue['label'], $data['label']);
+        }
     }
 
     /**
@@ -210,6 +207,10 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     protected function _getLabelCollection()
     {
         return array(
+            array(
+                'value' => '',
+                'label' => '-- Please Select --'
+            ),
             array(
                 'value' => '%d',
                 'label' => 'Magento Blank'
@@ -228,7 +229,7 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
             ),
             array(
                 'value' => '%d',
-                'label' => 'Magento Fluid Design  (incompatible version)'
+                'label' => 'Magento Fluid Design (incompatible version)'
             ),
             array(
                 'value' => '%d',

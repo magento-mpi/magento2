@@ -41,13 +41,10 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
      * @param string $fullPath
      * @param bool $shouldExist
      * @magentoDataFixture setThemeFixture
-     * @magentoDataProvider getThemeByFullPathDataProvider
+     * @dataProvider getThemeByFullPathDataProvider
      */
     public function testGetThemeByFullPath($fullPath, $shouldExist)
     {
-        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
-        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
-
         $themeCollection = self::_getThemesCollection();
         $hasFound = false;
         /** @var $theme Mage_Core_Model_Theme */
