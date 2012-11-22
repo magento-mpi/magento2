@@ -124,7 +124,7 @@ mkdir($testOutput);
 
 $command
     = 'java -jar "' . $jsTestDriver . '" --config "' . $jsTestDriverConf . '" --port ' . $port .
-    ' --browser "' . $browser . '" --tests all --testOutput ' . $testOutput;
+    ' --browser "' . $browser . '" --tests all --testOutput "' . $testOutput . '"';
 
 echo $command . PHP_EOL;
 
