@@ -24,6 +24,7 @@ class Mage_Adminhtml_Block_Catalog_Product_EditTest extends PHPUnit_Framework_Te
 
     public function testGetTypeSwitcherData()
     {
+        $this->markTestIncomplete('MAGETWO-4604');
         $data = array(
             'current_type' => 'simple',
             'attributes' => array(),
