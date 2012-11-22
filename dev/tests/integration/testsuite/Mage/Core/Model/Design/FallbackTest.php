@@ -4,11 +4,14 @@
  *
  * @category    Magento
  * @package     Mage_Core
- * @subpackage  unit_tests
+ * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+/**
+ * @magentoDbIsolation enabled
+ */
 class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -61,6 +64,9 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      */
     public function testGetFile($file, $area, $themePath, $module, $expectedFilename)
     {
+        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
+        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
+
         $model = $this->_buildModel($area, $themePath, null);
 
         $expectedFilename = str_replace('/', DS, $expectedFilename);
@@ -116,6 +122,9 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      */
     public function testLocaleFileFallback($file, $area, $themePath, $locale, $expectedFilename)
     {
+        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
+        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
+
         $model = $this->_buildModel($area, $themePath, $locale);
 
         $expectedFilename = str_replace('/', DIRECTORY_SEPARATOR, $expectedFilename);
@@ -185,6 +194,9 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      */
     public function testGetSkinFileTheme($file, $area, $themePath, $locale, $expectedFilename)
     {
+        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
+        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
+
         $this->_testGetSkinFile($file, $area, $themePath, $locale, null, $expectedFilename);
     }
 
@@ -243,6 +255,9 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      */
     public function testGetSkinFileL10n($file, $area, $themePath, $locale, $module, $expectedFilename)
     {
+        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
+        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
+
         $this->_testGetSkinFile($file, $area, $themePath, $locale, $module, $expectedFilename);
     }
 
@@ -285,6 +300,9 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      */
     public function testGetSkinFileJsLib($file, $area, $themePath, $expectedFilename)
     {
+        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
+        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
+
         $this->_testGetSkinFile($file, $area, $themePath, 'en_US', null, $expectedFilename);
     }
 
@@ -305,3 +323,4 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
         );
     }
 }
+

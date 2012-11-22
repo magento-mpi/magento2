@@ -71,6 +71,9 @@ class Mage_Core_Model_LayoutTest extends Mage_Core_Model_LayoutTestBase
      */
     public function testGenerateXmlAndElements()
     {
+        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
+        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
+
         $this->_layout->generateXml();
         /* Generate fixture
         file_put_contents(dirname(__FILE__) . '/_files/_layout_update.xml', $this->_model->getNode()->asNiceXml());
@@ -114,6 +117,9 @@ class Mage_Core_Model_LayoutTest extends Mage_Core_Model_LayoutTestBase
 
     public function testLayoutDirectives()
     {
+        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
+        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
+
         /**
          * Test move with the same alias
          */
@@ -180,6 +186,9 @@ class Mage_Core_Model_LayoutTest extends Mage_Core_Model_LayoutTestBase
      */
     public function testLayoutMoveDirectiveBroken()
     {
+        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
+        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
+
         $layout = Mage::getModel('Mage_Core_Model_Layout');
         $layout->getUpdate()->load(array('layout_test_handle_move_broken'));
         $layout->generateXml()->generateElements();
@@ -190,6 +199,9 @@ class Mage_Core_Model_LayoutTest extends Mage_Core_Model_LayoutTestBase
      */
     public function testLayoutMoveAliasBroken()
     {
+        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
+        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
+
         $layout = Mage::getModel('Mage_Core_Model_Layout');
         $layout->getUpdate()->load(array('layout_test_handle_move_alias_broken'));
         $layout->generateXml()->generateElements();
@@ -200,6 +212,9 @@ class Mage_Core_Model_LayoutTest extends Mage_Core_Model_LayoutTestBase
      */
     public function testGenerateElementsBroken()
     {
+        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
+        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
+
         $layout = Mage::getModel('Mage_Core_Model_Layout');
         $layout->getUpdate()->load('layout_test_handle_remove_broken');
         $layout->generateXml()->generateElements();

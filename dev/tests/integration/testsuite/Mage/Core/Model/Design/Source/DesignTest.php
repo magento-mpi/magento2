@@ -14,6 +14,9 @@ class Mage_Core_Model_Design_Source_DesignTest extends PHPUnit_Framework_TestCas
 
     public function testGetAllOptions()
     {
+        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
+        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
+
         /** @var $model Mage_Core_Model_Design_Source_Design */
         $model = Mage::getModel('Mage_Core_Model_Design_Source_Design');
         $labelCollection = $this->_getLabelCollection();
