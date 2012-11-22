@@ -83,6 +83,9 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
     /** @var Mage_Webapi_Controller_Router_Rest */
     protected $_router;
 
+    /** @var Mage_Webapi_Controller_Handler_Rest_Authentication */
+    protected $_authentication;
+
     /**
      * Initialize dependencies.
      *
@@ -99,6 +102,7 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
      * @param Mage_Core_Model_Event_Manager $eventManager
      * @param Mage_Webapi_Controller_Router_Rest $router
      * @param Mage_Webapi_Model_Authorization $authorization
+     * @param Mage_Webapi_Controller_Handler_Rest_Authentication $authentication
      */
     public function __construct(
         Mage_Core_Model_Factory_Helper $helperFactory,
@@ -113,7 +117,8 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
         Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory,
         Mage_Core_Model_Event_Manager $eventManager,
         Mage_Webapi_Controller_Router_Rest $router,
-        Mage_Webapi_Model_Authorization $authorization
+        Mage_Webapi_Model_Authorization $authorization,
+        Mage_Webapi_Controller_Handler_Rest_Authentication $authentication
     ) {
         parent::__construct(
             $helperFactory,
@@ -130,6 +135,7 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
         $this->_rendererFactory = $rendererFactory;
         $this->_eventManager = $eventManager;
         $this->_router = $router;
+        $this->_authentication = $authentication;
     }
 
     /**
@@ -153,7 +159,7 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
     public function handle()
     {
         try {
-            $this->_authenticate();
+            $this->_authentication->authenticate();
             $route = $this->_matchRoute($this->getRequest());
 
             $operation = $this->_getOperationName();

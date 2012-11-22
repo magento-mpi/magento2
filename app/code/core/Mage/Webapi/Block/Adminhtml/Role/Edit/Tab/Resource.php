@@ -106,7 +106,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
      */
     public function isEverythingAllowed()
     {
-        return in_array(Mage_Webapi_Model_Acl_Rule::API_ACL_RESOURCES_ROOT_ID, $this->_getSelectedResourcesIds());
+        return in_array(Mage_Webapi_Model_Authorization::API_ACL_RESOURCES_ROOT_ID, $this->_getSelectedResourcesIds());
     }
 
     /**

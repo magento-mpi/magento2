@@ -207,7 +207,7 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
         $resources = explode(',', $this->getRequest()->getParam('resource', false));
         $isAll = $this->getRequest()->getParam('all');
         if ($isAll) {
-            $resources = array(Mage_Webapi_Model_Acl_Rule::API_ACL_RESOURCES_ROOT_ID);
+            $resources = array(Mage_Webapi_Model_Authorization::API_ACL_RESOURCES_ROOT_ID);
         } elseif (in_array(Mage_Webapi_Helper_Data::RESOURCES_TREE_ROOT_ID, $resources)) {
             unset($resources[array_search(
                 Mage_Webapi_Helper_Data::RESOURCES_TREE_ROOT_ID,

@@ -100,7 +100,7 @@ class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Conf
         }
 
         if ($rootResource && $rootResource->childNodes
-            && (string)$rootResource->getAttribute('id') == Mage_Webapi_Model_Acl_Rule::API_ACL_RESOURCES_ROOT_ID
+            && (string)$rootResource->getAttribute('id') == Mage_Webapi_Model_Authorization::API_ACL_RESOURCES_ROOT_ID
         ) {
             $result = $this->_parseAclResourceDOMElement($rootResource);
         }

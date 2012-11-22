@@ -71,7 +71,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_Fra
                 false
             ),
             'Everything Allowed' => array(
-                array('customer', 'customer/get', Mage_Webapi_Model_Acl_Rule::API_ACL_RESOURCES_ROOT_ID),
+                array('customer', 'customer/get', Mage_Webapi_Model_Authorization::API_ACL_RESOURCES_ROOT_ID),
                 true
             )
         );
