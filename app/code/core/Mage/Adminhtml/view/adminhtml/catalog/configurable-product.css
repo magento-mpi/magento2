@@ -6,7 +6,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-#super_product_links button,
-.filter th {
+#configurable_associated_products_grid .filter-actions,
+#configurable_associated_products_grid .filter
+{
     display: none;
 }

@@ -84,11 +84,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
      */
     protected function _prepareLayout()
     {
-        $this->setChild('grid',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid',
-                'admin.product.edit.tab.super.config.grid')
-        );
-
         $this->addChild('create_empty', 'Mage_Adminhtml_Block_Widget_Button', array(
             'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Create Empty'),
             'class' => 'add',
