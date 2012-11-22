@@ -72,7 +72,7 @@ class Mage_Core_Utility_Theme
     {
         Mage::app()->getConfig()->getOptions()->setDesignDir($this->_designDir);
         $this->_register->register();
-        $this->setDesignTheme($this->_design->getConfigurationDesignTheme(null, false));
+        $this->_design->setDefaultDesignTheme();
         return $this;
     }
 
