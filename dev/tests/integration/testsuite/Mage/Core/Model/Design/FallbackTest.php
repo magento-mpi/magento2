@@ -11,6 +11,7 @@
 
 /**
  * @magentoDbIsolation enabled
+ * @magentoAppIsolation enabled
  */
 class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
 {
@@ -24,30 +25,21 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      */
     protected function _buildModel($area, $themePath, $locale)
     {
-        // Prepare config with directories
-        $dirs = array(
-            'design_dir' => implode(DS, array(__DIR__, '_files', 'design')),
-            'js_dir'     => implode(DS, array(__DIR__, '_files', 'pub', 'js')),
-        );
+        $testDir = implode(DS, array(dirname( __DIR__), '_files', 'fallback'));
+        Mage::getConfig()->getOptions()->addData(array('js_dir' => implode(DS, array($testDir, 'pub', 'js'))));
 
-        Mage::getConfig()->getOptions()->addData($dirs);
+        /** @var $themeUtility Mage_Core_Utility_Theme */
+        $themeUtility = Mage::getModel('Mage_Core_Utility_Theme', array(implode(DS, array($testDir, 'design'))));
+        $themeUtility->registerThemes();
 
-        $options = new Varien_Object($dirs);
-        $appConfig = $this->getMock('Mage_Core_Model_Config', array('getOptions', 'getModuleDir'), array(), '', false);
-        $appConfig->expects($this->any())
-            ->method('getOptions')
-            ->will($this->returnValue($options));
-
-        $themeCollection = new Mage_Core_Model_Theme_Collection();
-        $themeCollection->addDefaultPattern()->loadData();
-        $themeModel = $themeCollection->getItemByColumnValue('theme_path', $themePath);
+        $themeModel = $themeUtility->getThemeByParams($themePath, $area);
+        $themeUtility->getDesign()->setDesignTheme($themeModel);
 
         // Build model
         $params = array(
             'area'       => $area,
             'locale'     => $locale,
             'themeModel' => $themeModel,
-            'appConfig'  => $appConfig
         );
 
         return new Mage_Core_Model_Design_Fallback($params);
@@ -64,9 +56,6 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      */
     public function testGetFile($file, $area, $themePath, $module, $expectedFilename)
     {
-        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
-        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
-
         $model = $this->_buildModel($area, $themePath, null);
 
         $expectedFilename = str_replace('/', DS, $expectedFilename);
@@ -122,9 +111,6 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      */
     public function testLocaleFileFallback($file, $area, $themePath, $locale, $expectedFilename)
     {
-        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
-        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
-
         $model = $this->_buildModel($area, $themePath, $locale);
 
         $expectedFilename = str_replace('/', DIRECTORY_SEPARATOR, $expectedFilename);
@@ -194,9 +180,6 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      */
     public function testGetSkinFileTheme($file, $area, $themePath, $locale, $expectedFilename)
     {
-        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
-        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
-
         $this->_testGetSkinFile($file, $area, $themePath, $locale, null, $expectedFilename);
     }
 
@@ -255,9 +238,6 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      */
     public function testGetSkinFileL10n($file, $area, $themePath, $locale, $module, $expectedFilename)
     {
-        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
-        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
-
         $this->_testGetSkinFile($file, $area, $themePath, $locale, $module, $expectedFilename);
     }
 
@@ -300,9 +280,6 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      */
     public function testGetSkinFileJsLib($file, $area, $themePath, $expectedFilename)
     {
-        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
-        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
-
         $this->_testGetSkinFile($file, $area, $themePath, 'en_US', null, $expectedFilename);
     }
 
