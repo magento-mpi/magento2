@@ -29,7 +29,7 @@ class Mage_Backend_Model_Widget_Grid_SubTotalsTest extends PHPUnit_Framework_Tes
     protected function setUp()
     {
         $this->_parserMock = $this->getMock(
-            'Mage_Backend_Model_Widget_Grid_Parser', array(), array(), '', true, false, false
+            'Mage_Backend_Model_Widget_Grid_Parser', array(), array(), '', false, false, false
         );
 
         $this->_factoryMock = $this->getMock(

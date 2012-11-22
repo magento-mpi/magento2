@@ -112,28 +112,8 @@ abstract class Mage_Backend_Model_Widget_Grid_TotalsAbstract implements Mage_Bac
         $firstOperand = $secondOperand = null;
         foreach ($parsedExpression as $operand) {
             if ($this->_parser->isOperation($operand)) {
-                if (null === $firstOperand && null === $secondOperand) {
-                    $firstOperand = $result;
-                    $secondOperand = $tmpResult;
-                } elseif (null !== $firstOperand && null === $secondOperand) {
-                    $secondOperand = $result;
-                } elseif (null !== $firstOperand && null !== $secondOperand) {
-                    $tmpResult = $result;
-                }
-                switch ($operand) {
-                    case '+':
-                        $result = $firstOperand + $secondOperand;
-                        break;
-                    case '-':
-                        $result = $firstOperand - $secondOperand;
-                        break;
-                    case '*':
-                        $result = $firstOperand * $secondOperand;
-                        break;
-                    case '/':
-                        $result = ($secondOperand) ? $firstOperand / $secondOperand : $secondOperand;
-                        break;
-                }
+                $this->_checkOperandsSet($firstOperand, $secondOperand, $tmpResult, $result);
+                $result = $this->_operate($firstOperand, $secondOperand, $operand, $tmpResult, $result);
                 $firstOperand = $secondOperand = null;
             } else {
                 if (null === $firstOperand) {
@@ -142,6 +122,54 @@ abstract class Mage_Backend_Model_Widget_Grid_TotalsAbstract implements Mage_Bac
                     $secondOperand = $this->_checkOperand($operand, $collection);
                 }
             }
+        }
+        return $result;
+    }
+
+    /**
+     * Check if operands in not null and set operands values if they are empty
+     *
+     * @param float|int $firstOperand
+     * @param float|int $secondOperand
+     * @param float|int $tmpResult
+     * @param float|int $result
+     */
+    protected function _checkOperandsSet(&$firstOperand, &$secondOperand, &$tmpResult, $result)
+    {
+        if (null === $firstOperand && null === $secondOperand) {
+            $firstOperand = $tmpResult;
+            $secondOperand = $result;
+        } elseif (null !== $firstOperand && null === $secondOperand) {
+            $secondOperand = $result;
+        } elseif (null !== $firstOperand && null !== $secondOperand) {
+            $tmpResult = $result;
+        }
+    }
+
+    /**
+     * Get result of operation
+     *
+     * @param float|int $firstOperand
+     * @param float|int $secondOperand
+     * @param string $operation
+     * @return float|int
+     */
+    protected function _operate($firstOperand, $secondOperand, $operation)
+    {
+        $result = 0;
+        switch ($operation) {
+            case '+':
+                $result = $firstOperand + $secondOperand;
+                break;
+            case '-':
+                $result = $firstOperand - $secondOperand;
+                break;
+            case '*':
+                $result = $firstOperand * $secondOperand;
+                break;
+            case '/':
+                $result = ($secondOperand) ? $firstOperand / $secondOperand : $secondOperand;
+                break;
         }
         return $result;
     }
