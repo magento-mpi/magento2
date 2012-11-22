@@ -17,9 +17,6 @@ abstract class Mage_Webapi_Controller_HandlerAbstract
     /** @var Mage_Webapi_Model_Config */
     protected $_apiConfig;
 
-    /** @var Mage_Core_Model_Factory_Helper */
-    protected $_helperFactory;
-
     /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
@@ -36,14 +33,21 @@ abstract class Mage_Webapi_Controller_HandlerAbstract
     /** @var Mage_Core_Model_Logger */
     protected $_logger;
 
-    /** @var Mage_Webapi_Model_Authorization_RoleLocator */
-    protected $_roleLocator;
+    /** @var Mage_Webapi_Model_Authorization */
+    protected $_authorization;
 
     /**
-     * @var Magento_ObjectManager
+     * Initialize dependencies.
+     *
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_Config $applicationConfig
+     * @param Mage_Webapi_Model_Config $apiConfig
+     * @param Mage_Webapi_Controller_Request_Factory $requestFactory
+     * @param Mage_Webapi_Controller_Response $response
+     * @param Mage_Webapi_Controller_Action_Factory $controllerFactory
+     * @param Mage_Core_Model_Logger $logger
+     * @param Mage_Webapi_Model_Authorization $authorization
      */
-    protected $_objectManager;
-
     public function __construct(
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Config $applicationConfig,
@@ -52,10 +56,8 @@ abstract class Mage_Webapi_Controller_HandlerAbstract
         Mage_Webapi_Controller_Response $response,
         Mage_Webapi_Controller_Action_Factory $controllerFactory,
         Mage_Core_Model_Logger $logger,
-        Magento_ObjectManager $objectManager,
-        Mage_Webapi_Model_Authorization_RoleLocator $roleLocator
+        Mage_Webapi_Model_Authorization $authorization
     ) {
-        $this->_helperFactory = $helperFactory;
         $this->_helper = $helperFactory->get('Mage_Webapi_Helper_Data');
         $this->_applicationConfig = $applicationConfig;
         $this->_apiConfig = $apiConfig;
@@ -63,8 +65,7 @@ abstract class Mage_Webapi_Controller_HandlerAbstract
         $this->_response = $response;
         $this->_request = $requestFactory->get();
         $this->_logger = $logger;
-        $this->_roleLocator = $roleLocator;
-        $this->_objectManager = $objectManager;
+        $this->_authorization = $authorization;
     }
 
     /**
@@ -107,34 +108,6 @@ abstract class Mage_Webapi_Controller_HandlerAbstract
     }
 
     /**
-     * Check permissions on specific resource in ACL.
-     *
-     * @param string $resource
-     * @param string $method
-     * @throws Mage_Webapi_Exception
-     */
-    protected function _checkResourceAcl($resource, $method)
-    {
-        try {
-            /** @var Mage_Core_Model_Authorization $authorization */
-            $authorization = $this->_objectManager->get('Mage_Core_Model_Authorization');
-            if (!$authorization->isAllowed($resource . Mage_Webapi_Model_Acl_Rule::RESOURCE_SEPARATOR . $method)
-                && !$authorization->isAllowed(Mage_Webapi_Model_Acl_Rule::API_ACL_RESOURCES_ROOT_ID)
-            ) {
-                throw new Mage_Webapi_Exception(
-                    $this->_helper->__('Access to resource is forbidden.'),
-                    Mage_Webapi_Exception::HTTP_FORBIDDEN
-                );
-            }
-        } catch (Zend_Acl_Exception $e) {
-            throw new Mage_Webapi_Exception(
-                $this->_helper->__('Resource is not found.'),
-                Mage_Webapi_Exception::HTTP_NOT_FOUND
-            );
-        }
-    }
-
-    /**
      * Retrieve response object.
      *
      * @return Mage_Webapi_Controller_Response
@@ -142,18 +115,6 @@ abstract class Mage_Webapi_Controller_HandlerAbstract
     public function getResponse()
     {
         return $this->_response;
-    }
-
-    /**
-     * Add exception to response.
-     *
-     * @param Exception $exception
-     * @return Mage_Webapi_Controller_HandlerAbstract
-     */
-    protected function _addException(Exception $exception)
-    {
-        $this->getResponse()->setException($exception);
-        return $this;
     }
 
     /**

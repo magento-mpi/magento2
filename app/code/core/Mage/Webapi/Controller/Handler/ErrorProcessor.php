@@ -12,7 +12,6 @@ class Mage_Webapi_Controller_Handler_ErrorProcessor
     /**#@+
      * Error data representation formats.
      */
-    const DATA_FORMAT_ARRAY = 'array';
     const DATA_FORMAT_JSON = 'json';
     const DATA_FORMAT_XML = 'xml';
     const DATA_FORMAT_URL_ENCODED_QUERY = 'url_encoded_query';
@@ -24,13 +23,17 @@ class Mage_Webapi_Controller_Handler_ErrorProcessor
     /** @var Mage_Core_Helper_Data */
     protected $_helper;
 
+    /** @var Mage_Core_Model_App */
+    protected $_app;
+
     /**
      * Initialize report directory.
      */
-    public function __construct(Mage_Core_Model_Factory_Helper $helperFactory)
+    public function __construct(Mage_Core_Model_Factory_Helper $helperFactory, Mage_Core_Model_App $app)
     {
         $this->_helperFactory = $helperFactory;
         $this->_helper = $helperFactory->get('Mage_Webapi_Helper_Data');
+        $this->_app = $app;
     }
 
     /**
@@ -41,6 +44,7 @@ class Mage_Webapi_Controller_Handler_ErrorProcessor
      */
     public function saveReport($reportData)
     {
+        // TODO refactor method using Varien_Io_File class functions.
         /** Directory for API related reports. */
         /** @see Error_Processor::__construct() */
         $reportDir = BP . DS . 'var' . DS . 'report' . DS . 'api';
@@ -64,7 +68,7 @@ class Mage_Webapi_Controller_Handler_ErrorProcessor
      */
     public function renderException(Exception $exception, $httpCode = self::DEFAULT_ERROR_HTTP_CODE)
     {
-        if (Mage::getIsDeveloperMode() || $exception instanceof Mage_Webapi_Exception) {
+        if ($this->_app->isDeveloperMode() || $exception instanceof Mage_Webapi_Exception) {
             $this->render($exception->getMessage(), $exception->getTraceAsString(), $httpCode);
         } else {
             $this->saveReport($exception->getMessage() . ' : ' . $exception->getTraceAsString());
@@ -114,12 +118,12 @@ class Mage_Webapi_Controller_Handler_ErrorProcessor
     protected function _formatError(
         $errorMessage,
         $trace,
-        $httpCode = self::DEFAULT_ERROR_HTTP_CODE,
-        $format = self::DATA_FORMAT_ARRAY
+        $httpCode,
+        $format
     ) {
         $errorData = array();
         $message = array('code' => $httpCode, 'message' => $errorMessage);
-        if (Mage::getIsDeveloperMode()) {
+        if ($this->_app->isDeveloperMode()) {
             $message['trace'] = $trace;
         }
         $errorData['messages']['error'][] = $message;
@@ -135,7 +139,7 @@ class Mage_Webapi_Controller_Handler_ErrorProcessor
                     . '<data_item>'
                     . '<code>' . $httpCode . '</code>'
                     . '<message>' . $errorMessage . '</message>'
-                    . (Mage::getIsDeveloperMode() ? '<trace><![CDATA[' . $trace . ']]></trace>' : '')
+                    . ($this->_app->isDeveloperMode() ? '<trace><![CDATA[' . $trace . ']]></trace>' : '')
                     . '</data_item>'
                     . '</error>'
                     . '</messages>'
@@ -143,8 +147,6 @@ class Mage_Webapi_Controller_Handler_ErrorProcessor
                 break;
             case self::DATA_FORMAT_URL_ENCODED_QUERY:
                 $errorData = http_build_query($errorData);
-                break;
-            case self::DATA_FORMAT_ARRAY:
                 break;
         }
         return $errorData;
