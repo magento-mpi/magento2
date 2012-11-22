@@ -4,14 +4,14 @@
  *
  * @copyright {}
  *
- * @method int getRoleId()
- * @method Mage_Webapi_Model_Acl_Rule setRoleId(int $value)
- * @method string getResourceId()
- * @method Mage_Webapi_Model_Resource_Acl_Rule getResource()
- * @method Mage_Webapi_Model_Resource_Acl_Rule_Collection getCollection()
- * @method Mage_Webapi_Model_Acl_Rule setResourceId(string $value)
+ * @method int getRoleId() getRoleId()
+ * @method Mage_Webapi_Model_Acl_Rule setRoleId() setRoleId(int $value)
+ * @method string getResourceId() getResourceId()
+ * @method Mage_Webapi_Model_Resource_Acl_Rule getResource() getResource()
+ * @method Mage_Webapi_Model_Resource_Acl_Rule_Collection getCollection() getCollection()
+ * @method Mage_Webapi_Model_Acl_Rule setResourceId() setResourceId(string $value)
  * @method Mage_Webapi_Model_Acl_Rule setResources() setResources(array $resources)
- * @method array getResources()
+ * @method array getResources() getResources()
  */
 class Mage_Webapi_Model_Acl_Rule extends Mage_Core_Model_Abstract
 {

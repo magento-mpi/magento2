@@ -17,6 +17,11 @@
 class Mage_Webapi_Model_Acl_RoleTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @var Magento_Test_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
      * @var Mage_Webapi_Model_Acl_Role
      */
     protected $_model;
@@ -26,7 +31,8 @@ class Mage_Webapi_Model_Acl_RoleTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Mage_Webapi_Model_Acl_Role');
+        $this->_objectManager = Mage::getObjectManager();
+        $this->_model = $this->_objectManager->create('Mage_Webapi_Model_Acl_Role');
     }
 
     /**
@@ -34,7 +40,7 @@ class Mage_Webapi_Model_Acl_RoleTest extends PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        $this->_model = null;
+        unset($this->_objectManager, $this->_model);
     }
 
     /**

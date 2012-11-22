@@ -17,16 +17,28 @@
 class Mage_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @var Magento_Test_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
      * @var Mage_Webapi_Model_Acl_User
      */
     protected $_model;
+
+    /**
+     * @var Mage_Webapi_Model_Acl_Role_Factory
+     */
+    protected $_roleFactory;
 
     /**
      * Initialize model
      */
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Mage_Webapi_Model_Acl_User');
+        $this->_objectManager = Mage::getObjectManager();
+        $this->_roleFactory = $this->_objectManager->get('Mage_Webapi_Model_Acl_Role_Factory');
+        $this->_model = $this->_objectManager->create('Mage_Webapi_Model_Acl_User');
     }
 
     /**
@@ -34,7 +46,7 @@ class Mage_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        $this->_model = null;
+        unset($this->_objectManager, $this->_model);
     }
 
     /**
@@ -42,8 +54,8 @@ class Mage_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
      */
     public function testCRUD()
     {
-        $role = Mage::getModel('Mage_Webapi_Model_Acl_Role');
-        $role->load('test_role', 'role_name');
+        $role = $this->_roleFactory->create()->load('test_role', 'role_name');
+
         $this->_model
             ->setApiKey('Test User Name')
             ->setRoleId($role->getId());

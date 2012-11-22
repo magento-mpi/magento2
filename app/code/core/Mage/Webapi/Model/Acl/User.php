@@ -4,14 +4,14 @@
  *
  * @copyright {}
  *
- * @method Mage_Webapi_Model_Acl_User setRoleId(int $id)
- * @method int getRoleId()
- * @method Mage_Webapi_Model_Acl_User setApiKey(string $apiKey)
- * @method string getApiKey()
- * @method Mage_Webapi_Model_Acl_User setContactEmail(string $contactEmail)
- * @method string getContactEmail()
- * @method Mage_Webapi_Model_Acl_User setCompanyName(string $companyName)
- * @method string getCompanyName()
+ * @method Mage_Webapi_Model_Acl_User setRoleId() setRoleId(int $id)
+ * @method int getRoleId() getRoleId()
+ * @method Mage_Webapi_Model_Acl_User setApiKey() setApiKey(string $apiKey)
+ * @method string getApiKey() getApiKey()
+ * @method Mage_Webapi_Model_Acl_User setContactEmail() setContactEmail(string $contactEmail)
+ * @method string getContactEmail() getContactEmail()
+ * @method Mage_Webapi_Model_Acl_User setCompanyName() setCompanyName(string $companyName)
+ * @method string getCompanyName() getCompanyName()
  */
 class Mage_Webapi_Model_Acl_User extends Mage_Core_Model_Abstract implements Mage_Oauth_Model_ConsumerInterface
 {

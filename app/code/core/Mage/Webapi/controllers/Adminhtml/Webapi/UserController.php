@@ -11,6 +11,9 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
      */
     protected $_webapiHelperData;
 
+    /** @var Mage_Core_Model_Logger */
+    protected $_logger;
+
     /**
      * Constructor
      *
@@ -18,17 +21,22 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
      * @param Zend_Controller_Response_Abstract $response
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Controller_Varien_Front $frontController
+     * @param Mage_Core_Model_Logger $logger
+     * @param Mage_Webapi_Helper_Data $helper
      * @param array $invokeArgs
      */
     public function __construct(Zend_Controller_Request_Abstract $request,
         Zend_Controller_Response_Abstract $response,
         Magento_ObjectManager $objectManager,
         Mage_Core_Controller_Varien_Front $frontController,
+        Mage_Core_Model_Logger $logger,
+        Mage_Webapi_Helper_Data $helper,
         array $invokeArgs = array()
     ) {
         parent::__construct($request, $response, $objectManager, $frontController, $invokeArgs);
 
-        $this->_webapiHelperData = $this->_objectManager->get('Mage_Webapi_Helper_Data');
+        $this->_logger = $logger;
+        $this->_webapiHelperData = $helper;
     }
 
     /**
@@ -38,16 +46,15 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
      */
     protected function _initAction()
     {
-
         $this->loadLayout()
             ->_setActiveMenu('Mage_Webapi::system_api_webapi_users')
             ->_addBreadcrumb(
-                $this->_webapiHelperData->__('Web Services'),
-                $this->_webapiHelperData->__('Web Services')
+                $this->__('Web Services'),
+                $this->__('Web Services')
             )
             ->_addBreadcrumb(
-                $this->_webapiHelperData->__('API Users'),
-                $this->_webapiHelperData->__('API Users')
+                $this->__('API Users'),
+                $this->__('API Users')
             );
 
         return $this;
@@ -59,9 +66,9 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
     public function indexAction()
     {
         $this->_initAction();
-        $this->_title($this->_webapiHelperData->__('System'))
-            ->_title($this->_webapiHelperData->__('Web Services'))
-            ->_title($this->_webapiHelperData->__('API Users'));
+        $this->_title($this->__('System'))
+            ->_title($this->__('Web Services'))
+            ->_title($this->__('API Users'));
 
         $this->renderLayout();
     }
@@ -81,9 +88,9 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
     public function editAction()
     {
         $this->_initAction();
-        $this->_title($this->_webapiHelperData->__('System'))
-            ->_title($this->_webapiHelperData->__('Web Services'))
-            ->_title($this->_webapiHelperData->__('API Users'));
+        $this->_title($this->__('System'))
+            ->_title($this->__('Web Services'))
+            ->_title($this->__('API Users'));
 
         $userId = (int)$this->getRequest()->getParam('user_id');
         $user = $this->_loadApiUser($userId);
@@ -94,7 +101,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
         // Update title and breadcrumb record.
         $actionTitle = $user->getId()
             ? $this->_webapiHelperData->escapeHtml($user->getApiKey())
-            : $this->_webapiHelperData->__('New API User');
+            : $this->__('New API User');
         $this->_title($actionTitle);
         $this->_addBreadcrumb($actionTitle, $actionTitle);
 
@@ -140,7 +147,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
 
                 $this->_getSession()
                     ->setWebapiUserData(null)
-                    ->addSuccess($this->_webapiHelperData->__('The API user has been saved.'));
+                    ->addSuccess($this->__('The API user has been saved.'));
                 $redirectBack = $this->getRequest()->has('back');
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()
@@ -148,7 +155,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
                     ->addError($e->getMessage());
                 $redirectBack = true;
             } catch (Exception $e) {
-                Mage::logException($e);
+                $this->_logger->logException($e);
                 $this->_getSession()
                     ->setWebapiUserData($data)
                     ->addError($e->getMessage());
@@ -177,7 +184,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
                 $user->delete();
 
                 $this->_getSession()->addSuccess(
-                    $this->_webapiHelperData->__('The API user has been deleted.')
+                    $this->__('The API user has been deleted.')
                 );
                 $this->_redirect('*/*/');
                 return;
@@ -188,7 +195,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
             }
         }
         $this->_getSession()->addError(
-            $this->_webapiHelperData->__('Unable to find a user to be deleted.')
+            $this->__('Unable to find a user to be deleted.')
         );
         $this->_redirect('*/*/');
     }
@@ -249,7 +256,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
         $user = $this->_objectManager->create('Mage_Webapi_Model_Acl_User')->load($userId);
         if (!$user->getId() && $userId) {
             $this->_getSession()->addError(
-                $this->_webapiHelperData->__('This user no longer exists.')
+                $this->__('This user no longer exists.')
             );
             $this->_redirect('*/*/');
             return false;
