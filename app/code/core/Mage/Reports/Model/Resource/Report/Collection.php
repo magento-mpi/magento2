@@ -151,8 +151,7 @@ class Mage_Reports_Model_Resource_Report_Collection extends Varien_Data_Collecti
                 'period' => $dateStart->toString(Mage::app()->getLocale()->getDateFormat()),
                 'start'  => $dateStart->toString('yyyy-MM-dd HH:mm:ss'),
                 'end'    => $dateStart->toString('yyyy-MM-dd 23:59:59')
-            );
-        $dateStart->addDay(1);
+        );
         return $interval;
     }
 
