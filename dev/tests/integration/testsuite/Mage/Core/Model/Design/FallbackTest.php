@@ -4,11 +4,14 @@
  *
  * @category    Magento
  * @package     Mage_Core
- * @subpackage  unit_tests
+ * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+/**
+ * @magentoDbIsolation enabled
+ */
 class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -305,3 +308,4 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
         );
     }
 }
+
