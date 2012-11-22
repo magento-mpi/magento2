@@ -13,28 +13,16 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Mage_Backend_Block_Widget_Grid
 {
-
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setUseAjax(true);
-        $this->setId('super_product_links');
-
-        if ($this->_getProduct() && $this->_getProduct()->getId()) {
-            $this->setDefaultFilter(array('in_products'=>1));
-        }
-    }
-
     /**
      * Get product type
      *
      * @return Mage_Catalog_Model_Product_Type_Configurable
      */
-    public function getProductType()
+    protected function _getProductType()
     {
         return Mage::getSingleton('Mage_Catalog_Model_Product_Type_Configurable');
     }
@@ -49,225 +37,53 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
         return Mage::registry('current_product');
     }
 
-    protected function _addColumnFilterToCollection($column)
-    {
-        // Set custom filter for in product flag
-        if ($column->getId() == 'in_products') {
-            $productIds = $this->_getSelectedProducts();
-
-            if (empty($productIds)) {
-                $productIds = 0;
-            }
-
-            $createdProducts = $this->_getCreatedProducts();
-
-            $existsProducts = $productIds; // Only for "Yes" Filter we will add created products
-
-            if(count($createdProducts)>0) {
-                if(!is_array($existsProducts)) {
-                    $existsProducts = $createdProducts;
-                } else {
-                    $existsProducts = array_merge($createdProducts);
-                }
-            }
-
-            if ($column->getFilter()->getValue()) {
-                $this->getCollection()->addFieldToFilter('entity_id', array('in'=>$existsProducts));
-            }
-            else {
-                if($productIds) {
-                    $this->getCollection()->addFieldToFilter('entity_id', array('nin'=>$productIds));
-                }
-            }
-        }
-        else {
-            parent::_addColumnFilterToCollection($column);
-        }
-        return $this;
-    }
-
-    protected function _getCreatedProducts()
-    {
-        $products = $this->getRequest()->getPost('new_products', null);
-        if (!is_array($products)) {
-            $products = array();
-        }
-
-        return $products;
-    }
-
     /**
-     * Prepare collection
+     * Preparing layout
      *
-     * @return Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid
+     * @return Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid|Mage_Core_Block_Abstract
      */
-    protected function _prepareCollection()
+    protected function _prepareLayout()
     {
-        $allowProductTypes = array();
-        foreach (Mage::helper('Mage_Catalog_Helper_Product_Configuration')->getConfigurableAllowedTypes() as $type) {
-            $allowProductTypes[] = $type->getName();
-        }
+        parent::_prepareLayout();
 
         $product = $this->_getProduct();
-        $collection = $product->getCollection()
-            ->addAttributeToSelect('name')
-            ->addAttributeToSelect('sku')
-            ->addAttributeToSelect('attribute_set_id')
-            ->addAttributeToSelect('type_id')
-            ->addAttributeToSelect('price')
-            ->addFieldToFilter('attribute_set_id',$product->getAttributeSetId())
-            ->addFieldToFilter('type_id', $allowProductTypes)
-            ->addFilterByRequiredOptions()
-            ->joinAttribute('name', 'catalog_product/name', 'entity_id', null, 'inner');
-
-        if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_CatalogInventory')) {
-            Mage::getModel('Mage_CatalogInventory_Model_Stock_Item')->addCatalogInventoryToProductCollection($collection);
-        }
-
-        foreach ($this->getProductType()->getUsedProductAttributes($product) as $attribute) {
-            $collection->addAttributeToSelect($attribute->getAttributeCode());
-            $collection->addAttributeToFilter($attribute->getAttributeCode(), array('notnull'=>1));
-        }
-
-        $this->setCollection($collection);
-
-        if ($this->isReadonly()) {
-            $collection->addFieldToFilter('entity_id', array('in' => $this->_getSelectedProducts()));
-        }
-
-        parent::_prepareCollection();
-        return $this;
-    }
-
-    protected function _getSelectedProducts()
-    {
-        $products = $this->getRequest()->getPost('products', null);
-        if (!is_array($products)) {
-            $products = $this->getProductType()->getUsedProductIds($this->_getProduct());
-        }
-        return $products;
-    }
-
-    /**
-     * Check block is readonly
-     *
-     * @return boolean
-     */
-    public function isReadonly()
-    {
-        if ($this->hasData('is_readonly')) {
-            return $this->getData('is_readonly');
-        }
-        return $this->_getProduct()->getCompositeReadonly();
-    }
-
-    protected function _prepareColumns()
-    {
-        $product = $this->_getProduct();
-        $attributes = $this->getProductType()->getConfigurableAttributes($product);
-
-        $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('ID'),
-            'sortable'  => true,
-            'width'     => '60px',
-            'index'     => 'entity_id',
-            'filter'    => false,
-            'column_css_class' => 'associated-product-id'
-        ));
-        $this->addColumn('name', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Name'),
-            'index'     => 'name',
-            'filter'    => false,
-            'column_css_class' => 'associated-product-name'
-        ));
-
-        $this->addColumn('sku', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('SKU'),
-            'index'     => 'sku',
-            'filter'    => false,
-            'column_css_class' => 'associated-product-sku'
-        ));
-
-        $this->addColumn('price', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Price'),
-            'type'      => 'currency',
-            'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
-            'index'     => 'price',
-            'filter'    => false,
-            'column_css_class' => 'associated-product-price'
-        ));
-
-        $this->addColumn('qty', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Qty'),
-            'index'     => 'qty',
-            'filter'    => false,
-            'column_css_class' => 'associated-product-qty'
-        ));
-
-        $this->addColumn('is_saleable', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Inventory'),
-            'renderer'  => 'Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid_Renderer_Inventory',
-            'filter'    => 'Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid_Filter_Inventory',
-            'index'     => 'is_saleable',
-            'filter'    => false
-        ));
+        $attributes = $this->_getProductType()->getConfigurableAttributes($product);
 
         foreach ($attributes as $attribute) {
             $productAttribute = $attribute->getProductAttribute();
-            $productAttribute->getSource();
-            $this->addColumn($productAttribute->getAttributeCode(), array(
-                'header'    => $productAttribute->getFrontend()->getLabel(),
-                'index'     => $productAttribute->getAttributeCode(),
-                'type'      => $productAttribute->getSourceModel() ? 'options' : 'number',
-                'options'   => $productAttribute->getSourceModel() ? $this->getOptions($attribute) : '',
-                'sortable'  => false
-            ));
+
+            $this->getColumnSet()->addChild(
+                $productAttribute->getAttributeCode(),
+                'Mage_Backend_Block_Widget_Grid_Column',
+                array(
+                    'header' => $productAttribute->getFrontend()->getLabel(),
+                    'index' => $productAttribute->getAttributeCode(),
+                    'type' => 'options',
+                    'options' => $this->getOptions($productAttribute->getSource()),
+                    'sortable' => false
+                )
+            )
+                ->setId($productAttribute->getAttributeCode())
+                ->setGrid($this);
         }
 
-        return parent::_prepareColumns();
-    }
-
-    public function getEditParamsForAssociated()
-    {
-        return array(
-            'base'      =>  '*/*/edit',
-            'params'    =>  array(
-                'required' => $this->_getRequiredAttributesIds(),
-                'popup'    => 1,
-                'product'  => $this->_getProduct()->getId()
-            )
-        );
+        return $this;
     }
 
     /**
-     * Retrieve Required attributes Ids (comma separated)
+     * Get option as hash
      *
-     * @return string
+     * @param Mage_Eav_Model_Entity_Attribute_Source_Abstract $sourceModel
+     * @return array
      */
-    protected function _getRequiredAttributesIds()
+    private function getOptions(Mage_Eav_Model_Entity_Attribute_Source_Abstract $sourceModel)
     {
-        $attributesIds = array();
-        foreach ($this->getProductType()->getConfigurableAttributes($this->_getProduct()) as $attribute) {
-            $attributesIds[] = $attribute->getProductAttribute()->getId();
-        }
-
-        return implode(',', $attributesIds);
-    }
-
-    public function getOptions($attribute) {
         $result = array();
-        foreach ($attribute->getProductAttribute()->getSource()->getAllOptions() as $option) {
-            if($option['value']!='') {
+        foreach ($sourceModel->getAllOptions() as $option) {
+            if ($option['value'] != '') {
                 $result[$option['value']] = $option['label'];
             }
         }
-
         return $result;
     }
-
-    public function getGridUrl()
-    {
-        return $this->getUrl('*/*/superConfig', array('_current'=>true));
-    }
-
 }

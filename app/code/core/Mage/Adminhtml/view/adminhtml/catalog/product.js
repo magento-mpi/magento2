@@ -360,7 +360,6 @@ Product.Configurable.prototype = {
             this.rowInit(this.grid, row);
         }.bind(this));
         this.updateGrid();
-        this.grid.reload(null);
     },
     createAttributes : function() {
         this.attributes.each( function(attribute, index) {

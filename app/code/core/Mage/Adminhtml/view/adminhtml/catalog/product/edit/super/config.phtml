@@ -161,6 +161,7 @@ do {
             <th width="180">Price</th>
             <th width="220">SKU</th>
             <th width="180">Quantity</th>
+            <th width="180">Weight</th>
 <?php
     foreach ($usedProductAttributes as $attribute) {
         /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
@@ -201,12 +202,20 @@ do {
             $product = $productByUsedAttributes[$key];
 ?>
         <tr class="<?php echo $isEven ? 'even' : '' ?>">
-            <td><?php echo $product->getName()?></td>
-            <td><?php echo $product->getPrice()?></td>
-            <td><?php echo $product->getSku()?><button style="float:right">Choose</button></td>
-            <td><?php echo $product->getStockItem()->getQty()?></td>
+            <td class="associated-matrix-product-name"><?php echo $product->getName()?></td>
+            <td class="associated-matrix-product-price"><?php echo $product->getPrice()?></td>
+            <td> <span class="associated-matrix-product-sku"><?php echo $product->getSku()?></span>
+                <button class="add-product"
+                    data-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributesInfo)); ?>"
+                    style="float:right">
+                    Choose
+                </button>
+            </td>
+            <td class="associated-matrix-product-qty"><?php echo $product->getStockItem()->getQty()?></td>
+            <td class="associated-matrix-product-weight"><?php echo $product->getWeight()?></td>
             <td><?php echo implode('</td><td>', $variationalLabels)?></td>
-            <td class="a-center"><input type="checkbox" name="associated_product_ids[]" value="<?php echo $product->getId()?>" class="checkbox" checked="checked"></td>
+            class="checkbox associated-matrix-product-id" checked="checked"></td>
+            <td class="a-center"><input type="checkbox" name="associated_product_ids[]" value="<?php echo $product->getId()?>" class="checkbox associated-matrix-product-id" checked="checked"></td>
         </tr>
 <?php
         } else {
@@ -215,15 +224,16 @@ do {
             <td><input class="associated-matrix-product-name" value="<?php echo $this->_getProduct()->getName(), ' ', implode(' ', $variationalLabels)?>"></td>
             <td><input class="associated-matrix-product-price" value=""></td>
             <td><input class="associated-matrix-product-sku" value="<?php echo $this->_getProduct()->getSku(), '-', implode('-', $variationalLabels)?>">
-                    <button class="add-product"
-                        data-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributesInfo)); ?>"
-                        style="float:right">
-                        Choose
-                    </button>
+                <button class="add-product"
+                    data-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributesInfo)); ?>"
+                    style="float:right">
+                    Choose
+                </button>
             </td>
-            <td><input value=""></td>
+            <td><input class="associated-matrix-product-qty" value=""></td>
+            <td><input class="associated-matrix-product-weight" value=""></td>
             <td><?php echo implode('</td><td>', $variationalLabels)?></td>
-            <td class="a-center"><input type="checkbox" name="associated_product_ids[]" value="" class="checkbox"></td>
+            <td class="a-center"><input type="checkbox" name="associated_product_ids[]" value="" class="checkbox associated-matrix-product-id"></td>
         </tr>
 <?php
         }
@@ -288,30 +298,32 @@ jQuery(function ($) {
         var $button = $(this);
         grid.reloadParams = {
             'filter': $button.data('attributes'),
-            'attributes[]': superProduct.attributes.map(function(el) { return el.attribute_id; })
+            'attributes[]': superProduct.attributes.map(function(el) { return el.attribute_id; }),
+            'products[]' : superProduct.links.keys().size() ? superProduct.links.keys() : [ 0 ],
+            'new_products[]' : superProduct.newProducts
         };
         grid.reload(null, function() {
             $gridDialog.dialog('open')
         });
 
-        grid.rowClickCallback = function() {
+        grid.rowClickCallback = function(grid, event) {
             if (!this.rows || !this.rows.length) {
                 return;
             }
             var $matrixRow = $button.parents('tr');
-            var $gridRow = $(this.rows[0]);
+            var $gridRow = $(event.target).parents('tr');
+            var matrixClass = '.associated-matrix-product-';
+            var associatedClass = '.associated-product-';
+            var productFields = ['name', 'price', 'sku', 'qty', 'weight', 'id'];
 
-            console.log($gridRow.find('.associated-product-name'));
-
-            $matrixRow.find('.associated-matrix-product-name').val($gridRow.find('.associated-product-name')[0].getInnerText());
-            $matrixRow.find('.associated-matrix-product-sku').val($gridRow.find('.associated-product-sku')[0].getInnerText());
-            $matrixRow.find('.associated-matrix-product-price').val($gridRow.find('.associated-product-price')[0].getInnerText());
-
-            console.log($gridRow.find('.associated-product-id')[0].getInnerText());
-
-            $matrixRow.find('.checkbox').val($gridRow.find('.associated-product-id')[0].getInnerText());
-            $matrixRow.find('.checkbox').attr('checked', true);
-
+            $.each(productFields, function() {
+                if ($matrixRow.find(matrixClass + this).is('input')) {
+                    $matrixRow.find(matrixClass + this).val($.trim($gridRow.find(associatedClass + this).text()));
+                } else {
+                    $matrixRow.find(matrixClass + this).html($.trim($gridRow.find(associatedClass + this).text()));
+                }
+            });
+            $matrixRow.find(matrixClass + 'id').attr('checked', true);
             $gridDialog.dialog('close');
         };
     });

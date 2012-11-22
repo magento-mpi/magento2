@@ -149,8 +149,92 @@
         </container>
     </adminhtml_catalog_product_relatedgrid>
 
+    <adminhtml_catalog_product_superconfig_config>
+        <reference name="admin.product.edit.tab.super.config.grid.container">
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid" name="admin.product.edit.tab.super.config.grid" as="grid">
+                <arguments>
+                    <id>configurable_associated_products_grid</id>
+                    <dataSource type="object">Mage_Catalog_Model_Resource_Product_Collection_AssociatedProduct</dataSource>
+                    <use_ajax>true</use_ajax>
+                    <default_sort>entity_id</default_sort>
+                    <default_dir>DESC</default_dir>
+                    <save_parameters_in_session>0</save_parameters_in_session>
+                    <grid_url type="url">
+                        <path>*/*/superConfig</path>
+                        <params>
+                            <_current>1</_current>
+                        </params>
+                    </grid_url>
+                </arguments>
+                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet"
+                       name="admin.product.edit.tab.super.config.grid.columnSet">
+                    <arguments>
+                        <id>super_product_links</id>
+                    </arguments>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="entity_id">
+                        <arguments>
+                            <header translate="true" module="Mage_Core">ID</header>
+                            <width>60px</width>
+                            <type>text</type>
+                            <index>entity_id</index>
+                            <id>entity_id</id>
+                            <filter>0</filter>
+                            <sortable>0</sortable>
+                            <column_css_class>associated-product-id</column_css_class>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
+                        <arguments>
+                            <header translate="true" module="Mage_Core">Name</header>
+                            <type>text</type>
+                            <index>name</index>
+                            <id>name</id>
+                            <filter>0</filter>
+                            <sortable>0</sortable>
+                            <column_css_class>associated-product-name</column_css_class>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="price">
+                        <arguments>
+                            <header translate="true" module="Mage_Core">Price</header>
+                            <type>currency</type>
+                            <index>price</index>
+                            <id>price</id>
+                            <filter>0</filter>
+                            <sortable>0</sortable>
+                            <column_css_class>associated-product-price</column_css_class>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="sku" name="admin.product.edit.tab.super.config.grid.sku">
+                        <arguments>
+                            <header translate="true" module="Mage_Core">SKU</header>
+                            <type>text</type>
+                            <index>sku</index>
+                            <id>sku</id>
+                            <filter>0</filter>
+                            <sortable>0</sortable>
+                            <column_css_class>associated-product-sku</column_css_class>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="weight">
+                        <arguments>
+                            <header translate="true" module="Mage_Core">Weight</header>
+                            <type>text</type>
+                            <index>weight</index>
+                            <id>weight</id>
+                            <filter>0</filter>
+                            <sortable>0</sortable>
+                            <column_css_class>associated-product-weight</column_css_class>
+                        </arguments>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_catalog_product_superconfig_config>
+
     <adminhtml_catalog_product_superconfig>
-        <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid" name="admin.product.edit.tab.super.config.grid" output="1" />
+        <update handle="adminhtml_catalog_product_superconfig_config"/>
+        <container output="1" name="admin.product.edit.tab.super.config.grid.container" label="grid"></container>
     </adminhtml_catalog_product_superconfig>
 
     <adminhtml_catalog_product_alertspricegrid>
@@ -214,22 +298,24 @@
 Layout handle for simple products
 -->
     <adminhtml_catalog_product_simple>
+        <update handle="adminhtml_catalog_product_superconfig_config"/>
         <reference name="product_tabs">
             <action method="addTab"><name>downloadable_items</name><block>Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable</block></action>
         </reference>
         <reference name="product-type-tabs">
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config"></block>
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" name="admin.product.edit.tab.super.config.grid.container"></block>
         </reference>
     </adminhtml_catalog_product_simple>
 <!--
 Layout handle for virtual products
 -->
     <adminhtml_catalog_product_virtual>
+        <update handle="adminhtml_catalog_product_superconfig_config"/>
         <reference name="product_tabs">
             <action method="addTab"><name>downloadable_items</name><block>Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable</block></action>
         </reference>
         <reference name="product-type-tabs">
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config"></block>
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" name="admin.product.edit.tab.super.config.grid.container"></block>
         </reference>
     </adminhtml_catalog_product_virtual>
 
@@ -272,14 +358,16 @@ Layout handle for configurable products
 -->
 
     <adminhtml_catalog_product_configurable_new>
+        <update handle="adminhtml_catalog_product_superconfig_config"/>
         <reference name="product-type-tabs">
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config"></block>
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" name="admin.product.edit.tab.super.config.grid.container"></block>
         </reference>
     </adminhtml_catalog_product_configurable_new>
 
     <adminhtml_catalog_product_configurable>
+        <update handle="adminhtml_catalog_product_superconfig_config"/>
         <reference name="product-type-tabs">
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config"></block>
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" name="admin.product.edit.tab.super.config.grid.container"></block>
         </reference>
     </adminhtml_catalog_product_configurable>
 
