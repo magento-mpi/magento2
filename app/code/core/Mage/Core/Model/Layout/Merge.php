@@ -89,17 +89,18 @@ class Mage_Core_Model_Layout_Merge
      */
     public function __construct(array $arguments = array())
     {
-        $designArea = Mage::getDesign()->getArea();
         /* Default values */
-        if (empty($arguments['area']) && empty($arguments['themeId'])
-            || empty($arguments['themeId']) && $arguments['area'] == $designArea
-        ) {
-            $arguments['area'] = $designArea;
-            $arguments['themeId'] = Mage::getDesign()->getDesignTheme()->getId();
+        if (isset($arguments['area']) && isset($arguments['themeId'])) {
+            $this->_area = $arguments['area'];
+            $this->_themeId = $arguments['themeId'];
+        } elseif (isset($arguments['area'])) {
+            $this->_area = $arguments['area'];
+            $this->_themeId = null;
+        } else {
+            $this->_area = Mage::getDesign()->getArea();
+            $this->_themeId = Mage::getDesign()->getDesignTheme()->getId();
         }
 
-        $this->_area = $arguments['area'];
-        $this->_themeId = $arguments['themeId'];
         $this->_storeId = Mage::app()->getStore(empty($arguments['store']) ? null : $arguments['store'])->getId();
         $this->_elementClass = Mage::getConfig()->getModelClassName('Mage_Core_Model_Layout_Element');
 

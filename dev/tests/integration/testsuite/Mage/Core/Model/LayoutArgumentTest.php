@@ -13,14 +13,12 @@
  * Layout integration tests
  *
  * @magentoDbIsolation enabled
+ * @group module::Mage_Layout_Merge
  */
 class Mage_Core_Model_LayoutArgumentTest extends Mage_Core_Model_LayoutTestBase
 {
     public function testLayoutArgumentsDirective()
     {
-        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
-        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
-
         $this->_layout->getUpdate()->load(array('layout_test_handle_arguments'));
         $this->_layout->generateXml()->generateElements();
         $this->assertEquals('1', $this->_layout->getBlock('block_with_args')->getOne());
@@ -30,9 +28,6 @@ class Mage_Core_Model_LayoutArgumentTest extends Mage_Core_Model_LayoutTestBase
 
     public function testLayoutArgumentsDirectiveIfComplexValues()
     {
-        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
-        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
-
         $this->_layout->getUpdate()->load(array('layout_test_handle_arguments_complex_values'));
         $this->_layout->generateXml()->generateElements();
 
@@ -47,9 +42,6 @@ class Mage_Core_Model_LayoutArgumentTest extends Mage_Core_Model_LayoutTestBase
 
     public function testLayoutObjectArgumentsDirective()
     {
-        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
-        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
-
         $this->_layout->getUpdate()->load(array('layout_test_handle_arguments_object_type'));
         $this->_layout->generateXml()->generateElements();
         $this->assertInstanceOf('Mage_Core_Block_Text', $this->_layout->getBlock('block_with_object_args')->getOne());
@@ -61,9 +53,6 @@ class Mage_Core_Model_LayoutArgumentTest extends Mage_Core_Model_LayoutTestBase
 
     public function testLayoutUrlArgumentsDirective()
     {
-        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
-        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
-
         $this->_layout->getUpdate()->load(array('layout_test_handle_arguments_url_type'));
         $this->_layout->generateXml()->generateElements();
         $this->assertContains('customer/account/login', $this->_layout->getBlock('block_with_url_args')->getOne());
@@ -73,9 +62,6 @@ class Mage_Core_Model_LayoutArgumentTest extends Mage_Core_Model_LayoutTestBase
 
     public function testLayoutObjectArgumentUpdatersDirective()
     {
-        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
-        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
-
         $this->_layout->getUpdate()->load(array('layout_test_handle_arguments_object_type_updaters'));
         $this->_layout->generateXml()->generateElements();
 

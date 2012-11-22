@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @group module::Mage_Layout_Merge
+ */
 class Mage_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -98,7 +101,6 @@ class Mage_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCa
      */
     public function testLayoutDirective($currentArea, $directiveParams, $expectedOutput)
     {
-        $this->markTestIncomplete('Incomplete after register theme in db');
         /** @var $themeUtility Mage_Core_Utility_Theme */
         $themeUtility = Mage::getModel('Mage_Core_Utility_Theme', array(dirname(__DIR__) . '/_files/design'));
         $themeUtility->registerThemes()->setDesignTheme('test/default', $currentArea);
@@ -158,6 +160,5 @@ class Mage_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCa
         $layout = Mage::getSingleton('Mage_Core_Model_Layout', array('area' => $area));
         $this->assertEquals($area, $layout->getArea());
         $this->assertEquals($area, Mage::app()->getLayout()->getArea());
-        Mage::getDesign()->setArea($area);
     }
 }

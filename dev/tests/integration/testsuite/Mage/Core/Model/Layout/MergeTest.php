@@ -11,6 +11,7 @@
 
 /**
  * @magentoDbIsolation enabled
+ * @group module::Mage_Layout_Merge
  */
 class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
 {
@@ -198,6 +199,9 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @group testz
+     */
     public function testLoad()
     {
         $layoutHandle = 'layout_test_handle';
