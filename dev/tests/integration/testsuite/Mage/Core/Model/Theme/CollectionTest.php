@@ -19,7 +19,7 @@ class Mage_Core_Model_Theme_CollectionTest extends PHPUnit_Framework_TestCase
      *
      * @magentoAppIsolation enabled
      */
-    public function testLoadThemesFromFileSystem($firstItemData, $lastItemData)
+    public function testLoadThemesFromFileSystem()
     {
         Mage::app()->getConfig()->getOptions()->setDesignDir(dirname(__DIR__));
 
