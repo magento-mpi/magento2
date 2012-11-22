@@ -13,7 +13,7 @@
 <div id="<?php echo $this->getId()?>">
 <input type="checkbox" id="<?php echo $this->getId()?>-checkbox" name="attributes"
        value=""
-<?php if ($this->_getProduct()->isConfigurable()) {
+<?php if ($this->_getProduct()->isConfigurable() || $this->getRequest()->has('attributes')) {
     echo ' checked="checked" ';
 }?>
 />
