@@ -286,17 +286,17 @@ class Mage_Core_Model_Design_Package
             $params['area'] = $this->getArea();
         }
 
-        if (isset($params['themeId'])) {
+        if (!empty($params['themeId'])) {
             $params['themeModel'] = $this->_getLoadDesignTheme($params['themeId']);
         } elseif (!empty($params['package']) && isset($params['theme'])) {
             $themePath = $params['package'] . '/' . $params['theme'];
             $params['themeModel'] = $this->_getLoadDesignTheme($themePath, $params['area']);
-        } elseif (!isset($params['themeModel']) && $params['area'] !== $this->getArea()) {
+        } elseif (empty($params['themeModel']) && $params['area'] !== $this->getArea()) {
             $params['themeModel'] = $this->_getLoadDesignTheme(
                 $this->getConfigurationDesignTheme($params['area']),
                 $params['area']
             );
-        } elseif (!isset($params['themeModel'])) {
+        } elseif (empty($params['themeModel'])) {
             $params['themeModel'] = $this->getDesignTheme();
         }
 

@@ -31,9 +31,9 @@ class Mage_Core_Model_Layout_Merge
     private $_area;
 
     /**
-     * @var Mage_Core_Model_Theme
+     * @var int
      */
-    private $_theme;
+    private $_themeId;
 
     /**
      * @var int
@@ -90,14 +90,16 @@ class Mage_Core_Model_Layout_Merge
     public function __construct(array $arguments = array())
     {
         /* Default values */
-        $arguments += array(
-            'area'       => Mage::getDesign()->getArea(),
-            'themeModel' => Mage::getDesign()->getDesignTheme(),
-            'store'      => null,
-        );
-        $this->_area    = $arguments['area'];
-        $this->_theme   = $arguments['themeModel'];
-        $this->_storeId = Mage::app()->getStore($arguments['store'])->getId();
+        if (!empty($arguments['area']) && empty($arguments['themeId'])) {
+            $arguments['themeId'] = Mage::getDesign()->getConfigurationDesignTheme($arguments['area']);
+        } elseif (empty($arguments['area']) && empty($arguments['themeId'])) {
+            $arguments['area'] = Mage::getDesign()->getArea();
+            $arguments['themeId'] = Mage::getDesign()->getDesignTheme()->getId();
+        }
+
+        $this->_area = $arguments['area'];
+        $this->_themeId = $arguments['themeId'];
+        $this->_storeId = Mage::app()->getStore(empty($arguments['store']) ? null : $arguments['store'])->getId();
         $this->_elementClass = Mage::getConfig()->getModelClassName('Mage_Core_Model_Layout_Element');
 
         foreach (Mage::getConfig()->getPathVars() as $key => $value) {
@@ -534,7 +536,7 @@ class Mage_Core_Model_Layout_Merge
      */
     protected function _getCacheId($suffix = '')
     {
-        return "LAYOUT_{$this->_area}_STORE{$this->_storeId}_{$this->_theme->getCacheKey()}{$suffix}";
+        return "LAYOUT_{$this->_area}_STORE{$this->_storeId}_{$this->_themeId}{$suffix}";
     }
 
     /**
@@ -575,7 +577,7 @@ class Mage_Core_Model_Layout_Merge
      */
     protected function _loadFileLayoutUpdatesXml()
     {
-        $layoutParams = array('area' => $this->_area, 'themeModel' => $this->_theme);
+        $layoutParams = array('area' => $this->_area, 'themeId' => $this->_themeId);
 
         /*
          * Allow to modify declared layout updates.
