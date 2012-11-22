@@ -34,7 +34,7 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
      */
     public function getNewEmptyItem()
     {
-        return Mage::getModel($this->_itemObjectClass);
+        return Mage::getObjectManager()->create($this->_itemObjectClass);
     }
 
     /**
