@@ -277,10 +277,10 @@
             <arguments>
                 <exportTypes>
                     <csv>
-                        <urlPath>*/*/exportTotalsCsv</urlPath>
+                        <urlPath>*/*/exportAccountsCsv</urlPath>
                     </csv>
                     <excel>
-                        <urlPath>*/*/exportTotalsExcel</urlPath>
+                        <urlPath>*/*/exportAccountsExcel</urlPath>
                     </excel>
                 </exportTypes>
             </arguments>
