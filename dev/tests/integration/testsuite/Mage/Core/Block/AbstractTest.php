@@ -626,6 +626,9 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
      */
     public function testGetVar()
     {
+        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
+        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
+
         Mage::getConfig()->getOptions()->setDesignDir(dirname(__DIR__) . '/Model/_files/design');
         Mage::getDesign()->setDesignTheme('test/default');
 

@@ -274,6 +274,9 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
      */
     public function testPreDispatch($controllerClass, $expectedArea, $expectedStore, $expectedDesign)
     {
+        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
+        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
+
         Mage::getConfig()->setCurrentAreaCode($expectedArea);
         /** @var $controller Mage_Core_Controller_Varien_Action */
         $controller = new $controllerClass(
