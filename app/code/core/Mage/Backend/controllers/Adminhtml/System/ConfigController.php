@@ -38,14 +38,12 @@ class Mage_Backend_Adminhtml_System_ConfigController extends Mage_Backend_Adminh
         $website = $this->getRequest()->getParam('website');
         $store   = $this->getRequest()->getParam('store');
 
-        /** @var $systemConfig Mage_Backend_Model_Config_Structure */
-        $systemConfig = Mage::getSingleton('Mage_Backend_Model_Config_Structure_Reader')->getConfiguration();
-
-        $sections     = $systemConfig->getSections($current);
-        $section      = isset($sections[$current]) ? $sections[$current] : array();
-        $hasChildren  = $systemConfig->hasChildren($section, $website, $store);
-        if (!$hasChildren && $current) {
-            $this->_redirect('*/*/', array('website'=>$website, 'store'=>$store));
+        /** @var $configStructure Mage_Backend_Model_Config_Structure */
+        $configStructure = Mage::getSingleton('Mage_Backend_Model_Config_Structure');
+        /** @var $section Mage_Backend_Model_Config_Structure_Element_Section */
+        $section = $configStructure->getElement($current);
+        if (!$section->isVisible($website, $store) && $current) {
+            $this->_redirect('*/*/', array('website' => $website, 'store' => $store));
         }
 
         $this->loadLayout();
@@ -58,8 +56,6 @@ class Mage_Backend_Adminhtml_System_ConfigController extends Mage_Backend_Adminh
             Mage::helper('Mage_Backend_Helper_Data')->__('System'),
             $this->getUrl('*/system')
         );
-
-        $this->getLayout()->addBlock('Mage_Backend_Block_System_Config_Tabs', '', 'left')->initTabs();
 
         if ($this->_isSectionAllowed) {
             $this->_addContent($this->getLayout()->createBlock('Mage_Backend_Block_System_Config_Edit')->initForm());

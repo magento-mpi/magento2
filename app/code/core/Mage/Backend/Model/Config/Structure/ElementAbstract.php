@@ -87,6 +87,16 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
     }
 
     /**
+     * Retrieve element label
+     *
+     * @return string
+     */
+    public function getComment()
+    {
+        return $this->_getTranslatedAttribute('comment');
+    }
+
+    /**
      * Retrieve frontend model class name
      *
      * @return string
