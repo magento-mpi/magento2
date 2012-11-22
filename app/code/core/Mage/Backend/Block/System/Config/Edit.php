@@ -20,16 +20,11 @@ class Mage_Backend_Block_System_Config_Edit extends Mage_Backend_Block_Widget
     const DEFAULT_SECTION_BLOCK = 'Mage_Backend_Block_System_Config_Form';
 
     /**
-     * Sections configuration
+     * Form block class name
      *
-     * @var array
+     * @var string
      */
-    protected $_section;
-
-    /**
-     * @var Mage_Backend_Model_Config_StructureInterface
-     */
-    protected $_systemConfig;
+    protected $_formBlockName;
 
     /**
      * Block template File
@@ -38,23 +33,56 @@ class Mage_Backend_Block_System_Config_Edit extends Mage_Backend_Block_Widget
      */
     protected $_template = 'Mage_Backend::system/config/edit.phtml';
 
-    protected  function _construct()
-    {
-        $this->_systemConfig = $this->hasData('systemConfig') ?
-            $this->getData('systemConfig') :
-            Mage::getSingleton('Mage_Backend_Model_Config_Structure_Reader')->getConfiguration();
+    /**
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param Mage_Core_Model_Layout $layout
+     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Mage_Backend_Model_Url $urlBuilder
+     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Session $session
+     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Mage_Core_Controller_Varien_Front $frontController
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Backend_Model_Config_Structure $configStructure
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        Mage_Core_Controller_Request_Http $request,
+        Mage_Core_Model_Layout $layout,
+        Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Backend_Model_Url $urlBuilder,
+        Mage_Core_Model_Translate $translator,
+        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_Session $session,
+        Mage_Core_Model_Store_Config $storeConfig,
+        Mage_Core_Controller_Varien_Front $frontController,
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Backend_Model_Config_Structure $configStructure,
+        array $data = array()
+    ) {
+        parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
+            $session, $storeConfig, $frontController, $helperFactory, $data
+        );
 
-        parent::_construct();
+        /** @var $section Mage_Backend_Model_Config_Structure_Element_Section */
+        $section = $configStructure->getElement($this->getRequest()->getParam('section'));
+        $this->_formBlockName = $section->getFrontendModel();
+        if (empty($this->_formBlockName)) {
+            $this->_formBlockName = self::DEFAULT_SECTION_BLOCK;
+        }
 
-        $sectionCode = $this->getRequest()->getParam('section');
-
-        $this->_section = $this->_systemConfig->getSection($sectionCode);
-
-        $this->setTitle($this->_section['label']);
-        $this->setHeaderCss(isset($this->_section['header_css']) ? $this->_section['header_css'] : '');
+        $this->setTitle($section->getLabel());
+        $this->setHeaderCss($section->getHeaderCss());
     }
 
     /**
+     * Prepare layout object
+     *
      * @return Mage_Core_Block_Abstract
      */
     protected function _prepareLayout()
@@ -68,6 +96,8 @@ class Mage_Backend_Block_System_Config_Edit extends Mage_Backend_Block_Widget
     }
 
     /**
+     * Retrieve rendered save buttons
+     *
      * @return string
      */
     public function getSaveButtonHtml()
@@ -76,6 +106,8 @@ class Mage_Backend_Block_System_Config_Edit extends Mage_Backend_Block_Widget
     }
 
     /**
+     * Retrieve config save url
+     *
      * @return string
      */
     public function getSaveUrl()
@@ -84,16 +116,13 @@ class Mage_Backend_Block_System_Config_Edit extends Mage_Backend_Block_Widget
     }
 
     /**
+     * Initialize form block
+     *
      * @return Mage_Backend_Block_System_Config_Edit
      */
     public function initForm()
     {
-        $blockName = isset($this->_section['frontend_model']) ? $this->_section['frontend_model'] : '';
-        if (empty($blockName)) {
-            $blockName = self::DEFAULT_SECTION_BLOCK;
-        }
-
-        $block = $this->getLayout()->createBlock($blockName);
+        $block = $this->getLayout()->createBlock($this->_formBlockName);
         $block->initForm();
         $this->setChild('form', $block);
         return $this;

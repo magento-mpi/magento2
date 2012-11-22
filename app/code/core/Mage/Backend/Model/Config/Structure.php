@@ -57,9 +57,11 @@ class Mage_Backend_Model_Config_Structure
     /**
      * Retrieve tab iterator
      *
+     * @param string $websiteCode
+     * @param string $storeCode
      * @return Mage_Backend_Model_Config_Structure_Element_Iterator
      */
-    public function getTabs()
+    public function getTabs($websiteCode, $storeCode)
     {
         foreach ($this->_data['sections'] as $sectionId => $section) {
             if (isset($section['tab']) && $section['tab']) {

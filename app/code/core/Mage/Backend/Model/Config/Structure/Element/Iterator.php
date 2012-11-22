@@ -18,9 +18,18 @@ class Mage_Backend_Model_Config_Structure_Element_Iterator implements Iterator
     protected $_elements;
 
     /**
+     * Config structure element flyweight
+     *
      * @var Mage_Backend_Model_Config_Structure_ElementAbstract
      */
     protected $_flyweight;
+
+    /**
+     * Last element id
+     *
+     * @var string
+     */
+    protected $_lastId;
 
     /**
      * @param Mage_Backend_Model_Config_Structure_ElementAbstract $element
@@ -38,12 +47,13 @@ class Mage_Backend_Model_Config_Structure_Element_Iterator implements Iterator
     public function setElements(array $elements)
     {
         $this->_elements = $elements;
+        $lastElement = end($elements);
+        $this->_lastId = $lastElement['id'];
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
      * Return the current element
-     * @link http://php.net/manual/en/iterator.current.php
+     *
      * @return Mage_Backend_Model_Config_Structure_ElementInterface
      */
     public function current()
@@ -52,9 +62,8 @@ class Mage_Backend_Model_Config_Structure_Element_Iterator implements Iterator
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
      * Move forward to next element
-     * @link http://php.net/manual/en/iterator.next.php
+     *
      * @return void Any returned value is ignored.
      */
     public function next()
@@ -79,9 +88,8 @@ class Mage_Backend_Model_Config_Structure_Element_Iterator implements Iterator
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
      * Return the key of the current element
-     * @link http://php.net/manual/en/iterator.key.php
+     *
      * @return mixed scalar on success, or null on failure.
      */
     public function key()
@@ -90,9 +98,8 @@ class Mage_Backend_Model_Config_Structure_Element_Iterator implements Iterator
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
      * Checks if current position is valid
-     * @link http://php.net/manual/en/iterator.valid.php
+     *
      * @return boolean The return value will be casted to boolean and then evaluated.
      * Returns true on success or false on failure.
      */
@@ -102,9 +109,8 @@ class Mage_Backend_Model_Config_Structure_Element_Iterator implements Iterator
     }
 
     /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
      * Rewind the Iterator to the first element
-     * @link http://php.net/manual/en/iterator.rewind.php
+     *
      * @return void Any returned value is ignored.
      */
     public function rewind()
@@ -116,5 +122,16 @@ class Mage_Backend_Model_Config_Structure_Element_Iterator implements Iterator
                 $this->next();
             }
         }
+    }
+
+    /**
+     * Check whether element is last in list
+     *
+     * @param Mage_Backend_Model_Config_Structure_ElementInterface $element
+     * @return bool
+     */
+    public function isLast(Mage_Backend_Model_Config_Structure_ElementInterface $element)
+    {
+        return $element->getId() == $this->_lastId;
     }
 }

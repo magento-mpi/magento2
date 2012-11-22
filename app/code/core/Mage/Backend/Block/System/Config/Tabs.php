@@ -20,18 +20,12 @@
  */
 class Mage_Backend_Block_System_Config_Tabs extends Mage_Backend_Block_Widget
 {
-
     /**
      * Tabs
      *
-     * @var array
+     * @var Mage_Backend_Model_Config_Structure_Element_Iterator
      */
     protected $_tabs;
-
-    /**
-     * @var Mage_Backend_Model_Config_StructureInterface
-     */
-    protected $_systemConfig;
 
     /**
      * Block template filename
@@ -51,6 +45,27 @@ class Mage_Backend_Block_System_Config_Tabs extends Mage_Backend_Block_Widget
     protected $_objectFactory;
 
     /**
+     * Currently selected section id
+     *
+     * @var string
+     */
+    protected $_currentSectionId;
+
+    /**
+     * Current website code
+     *
+     * @var string
+     */
+    protected $_websiteCode;
+
+    /**
+     * Current store code
+     *
+     * @var string
+     */
+    protected $_storeCode;
+
+    /**
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Model_Layout $layout
      * @param Mage_Core_Model_Event_Manager $eventManager
@@ -64,6 +79,7 @@ class Mage_Backend_Block_System_Config_Tabs extends Mage_Backend_Block_Widget
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Varien_Data_Collection_Factory $collectionFactory
      * @param Varien_Object_Factory $objectFactory
+     * @param Mage_Backend_Model_Config_Structure $configStructure
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -82,6 +98,7 @@ class Mage_Backend_Block_System_Config_Tabs extends Mage_Backend_Block_Widget
         Mage_Core_Model_Factory_Helper $helperFactory,
         Varien_Data_Collection_Factory $collectionFactory,
         Varien_Object_Factory $objectFactory,
+        Mage_Backend_Model_Config_Structure $configStructure,
         array $data = array()
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
@@ -89,196 +106,67 @@ class Mage_Backend_Block_System_Config_Tabs extends Mage_Backend_Block_Widget
         );
         $this->_collectionFactory = $collectionFactory;
         $this->_objectFactory = $objectFactory;
-    }
+        $websiteCode = $this->getRequest()->getParam('website');
+        $storeCode = $this->getRequest()->getParam('store');
 
-
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->_systemConfig = $this->hasData('systemConfig') ?
-            $this->getData('systemConfig') :
-            Mage::getSingleton('Mage_Backend_Model_Config_Structure_Reader')->getConfiguration();
+        $this->_tabs = $configStructure->getTabs($websiteCode, $storeCode);
 
         $this->setId('system_config_tabs');
         $this->setTitle($this->helper('Mage_Backend_Helper_Data')->__('Configuration'));
     }
 
     /**
-     * Sort sections/tabs
+     * Init block before rendering
      *
-     * @param mixed $a
-     * @param mixed $b
-     * @return int
+     * @return Mage_Core_Block_Abstract|void
      */
-    protected function _sort($a, $b)
+    protected function _beforeToHtml()
     {
-        $aSortOrder = isset($a['sortOrder']) ? (int)$a['sortOrder'] : 0;
-        $bSortOrder = isset($b['sortOrder']) ? (int)$b['sortOrder'] : 0;
-        return $aSortOrder < $bSortOrder ? -1 : ($aSortOrder > $bSortOrder ? 1 : 0);
-    }
+        $this->_currentSectionId = $this->getRequest()->getParam('section');
 
-    /**
-     * Initialize tabs
-     *
-     * @return Mage_Backend_Block_System_Config_Tabs
-     */
-    public function initTabs()
-    {
-        $sections = $this->_systemConfig->getSections();
-        $tabs     = $this->_systemConfig->getTabs();
-
-        usort($sections, array($this, '_sort'));
-        usort($tabs, array($this, '_sort'));
-
-        $this->_initializeTabs($tabs);
-        $current = $this->_initializeSections($sections);
-
-        /** Set last sections  */
-
-        /** @var Varien_Object $tab */
-        foreach ($this->getTabs() as $tab) {
-            $sections = $tab->getSections();
-            if ($sections) {
-                $sections->getLastItem()->setIsLast(true);
-            }
+        if (!$this->_currentSectionId) {
+            $this->_tabs->rewind();
+            /** @var $tab Mage_Backend_Model_Config_Structure_Element_Tab */
+            $tab = $this->_tabs->current();
+            $tab->getChildren()->rewind();
+            $sectionId = $tab->getChildren()->current()->getId();
+            $this->_currentSectionId = $sectionId;
+            $this->getRequest()->setParam('section', $sectionId);
         }
-        $this->helper('Mage_Backend_Helper_Data')->addPageHelpUrl($current . '/');
-
-        return $this;
-    }
-
-    /**
-     * Initialize sections
-     *
-     * @param $sections
-     * @return string
-     */
-    protected function _initializeSections($sections)
-    {
-        $current = $this->getRequest()->getParam('section');
-        $websiteCode = $this->getRequest()->getParam('website');
-        $storeCode = $this->getRequest()->getParam('store');
-
-        /** @var $section array */
-        foreach ($sections as $section) {
-            $this->_eventManager->dispatch('adminhtml_block_system_config_init_tab_sections_before',
-                array('section' => $section)
-            );
-
-            $code = $section['id'];
-            $sectionAllowed = false;
-            if (isset($section['resource'])) {
-                $sectionAllowed = $this->checkSectionPermissions($section['resource']);
-            }
-            if ((empty($current) && $sectionAllowed)) {
-                $current = $code;
-                $this->getRequest()->setParam('section', $current);
-            }
-
-            $helperName = $this->_systemConfig->getAttributeModule($section);
-            $label = $this->helper($helperName)->__($section['label']);
-
-            if ($code == $current) {
-                if (!$this->getRequest()->getParam('website') && !$this->getRequest()->getParam('store')) {
-                    $this->_addBreadcrumb($label);
-                } else {
-                    $this->_addBreadcrumb($label, '', $this->getUrl('*/*/*', array('section' => $code)));
-                }
-
-                $this->setActiveTab($section['tab']);
-                $this->setActiveSection($code);
-            }
-
-            $hasChildren = $this->_systemConfig->hasChildren($section, $websiteCode, $storeCode);
-            if ($sectionAllowed && $hasChildren) {
-                $this->addSection($code, $section['tab'], array(
-                    'class' => isset($section['class']) ? $section['class'] : '',
-                    'label' => $label,
-                    'url' => $this->getUrl('*/*/*', array('_current' => true, 'section' => $code)),
-                ));
-            }
-        }
-
-        return $current;
-    }
-
-    /**
-     * Initialize tabs
-     *
-     * @param array $tabs
-     * @return void
-     */
-    protected function _initializeTabs(array $tabs)
-    {
-        foreach ($tabs as $tab) {
-            $helperName = $this->_systemConfig->getAttributeModule($tab);
-            $label = $this->helper($helperName)->__($tab['label']);
-
-            $this->addTab($tab['id'], array(
-                'label' => $label,
-                'class' => isset($tab['class']) ? $tab['class'] : ''
-            ));
-        }
-    }
-
-    /**
-     * Add tab to tabs list
-     *
-     * @param string $code
-     * @param array $config
-     * @return Mage_Backend_Block_System_Config_Tabs
-     */
-    public function addTab($code, $config)
-    {
-        $tab = $this->_objectFactory->create($config);
-        $tab->setId($code);
-        $this->_tabs[$code] = $tab;
-        return $this;
-    }
-
-    /**
-     * Retrieve tab
-     *
-     * @param string $code
-     * @return Varien_Object
-     */
-    public function getTab($code)
-    {
-        if(isset($this->_tabs[$code])) {
-            return $this->_tabs[$code];
-        }
-        return null;
-    }
-
-    /**
-     * Add section to tab
-     *
-     * @param string $code
-     * @param string $tabCode
-     * @param array $config
-     * @return Mage_Backend_Block_System_Config_Tabs
-     */
-    public function addSection($code, $tabCode, $config)
-    {
-        if($tab = $this->getTab($tabCode)) {
-            if(!$tab->getSections()) {
-                $tab->setSections($this->_collectionFactory->create());
-            }
-            $section = $this->_objectFactory->create($config);
-            $section->setId($code);
-            $tab->getSections()->addItem($section);
-        }
+        $this->helper('Mage_Backend_Helper_Data')->addPageHelpUrl($this->_currentSectionId . '/');
         return $this;
     }
 
     /**
      * Get all tabs
      *
-     * @return Varien_Object[]
+     * @return Mage_Backend_Model_Config_Structure_Element_Iterator
      */
     public function getTabs()
     {
         return $this->_tabs;
+    }
+
+    /**
+     * Retrieve section url by section id
+     *
+     * @param string $sectionId
+     * @return string
+     */
+    public function getSectionUrl($sectionId)
+    {
+        return $this->getUrl('*/*/*', array('_current' => true, 'section' => $sectionId));
+    }
+
+    /**
+     * Check whether section should be displayed as active
+     *
+     * @param Mage_Backend_Model_Config_Structure_Element_Section $section
+     * @return bool
+     */
+    public function isSectionActive(Mage_Backend_Model_Config_Structure_Element_Section $section)
+    {
+        return $section->getId() == $this->_currentSectionId;
     }
 
     /**
@@ -408,18 +296,5 @@ class Mage_Backend_Block_System_Config_Tabs extends Mage_Backend_Block_Widget
 
         return $html;
     }
-
-    /**
-     * Check if specified section can be displayed
-     *
-     * @param string $aclResourceId
-     * @return bool
-     */
-    public function checkSectionPermissions($aclResourceId)
-    {
-        if (!$aclResourceId || trim($aclResourceId) == "") {
-            return false;
-        }
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed($aclResourceId);
-    }
 }
+

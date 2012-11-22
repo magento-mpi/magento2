@@ -118,4 +118,19 @@ class Mage_Backend_Model_Config_Structure_Converter
         }
         return $result;
     }
+
+    /**
+     * Sort sections/tabs
+     *
+     * @param mixed $a
+     * @param mixed $b
+     * @return int
+     */
+    protected function _sort($a, $b)
+    {
+        $aSortOrder = isset($a['sortOrder']) ? (int)$a['sortOrder'] : 0;
+        $bSortOrder = isset($b['sortOrder']) ? (int)$b['sortOrder'] : 0;
+        return $aSortOrder < $bSortOrder ? -1 : ($aSortOrder > $bSortOrder ? 1 : 0);
+    }
+
 }

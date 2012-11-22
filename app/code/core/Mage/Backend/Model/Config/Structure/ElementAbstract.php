@@ -19,6 +19,44 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
     protected $_data;
 
     /**
+     * Helper factory
+     *
+     * @var Mage_Core_Model_Factory_Helper
+     */
+    protected $_helperFactory;
+
+    /**
+     * Authorization model
+     *
+     * @var Mage_Core_Model_Authorization
+     */
+    protected $_authorization;
+
+    /**
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_Authorization $authorization
+     */
+    public function __construct(
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Core_Model_Authorization $authorization
+    ) {
+        $this->_helperFactory = $helperFactory;
+        $this->_authorization = $authorization;
+    }
+
+    /**
+     * Translate element attribute
+     *
+     * @param string $code
+     * @return string
+     */
+    protected function _getTranslatedAttribute($code)
+    {
+        $module = isset($this->_data[$code]['module']) ? $this->_data[$code]['module'] : 'Mage_Core';
+        return $this->_helperFactory->get($module . '_Helper_Data')->__($this->_data[$code]['value']);
+    }
+
+    /**
      * Set element data
      *
      * @param array $data
@@ -45,7 +83,17 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
      */
     public function getLabel()
     {
-        return $this->_data['label'];
+        return $this->_getTranslatedAttribute('label');
+    }
+
+    /**
+     * Retrieve frontend model class name
+     *
+     * @return string
+     */
+    public function getFrontendModel()
+    {
+        return isset($this->_data['frontend_model']) ? $this->_data['frontend_model'] : '';
     }
 
     /**
@@ -60,11 +108,32 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
     }
 
     /**
+     * Check whether section is allowed for current user
+     *
+     * @return bool
+     */
+    public function isAllowed()
+    {
+        return isset($this->_data['resource']) ? $this->_authorization->isAllowed($this->_data['resource']) : false;
+    }
+
+    /**
      * Check whether element should be displayed
      *
      * @return bool
      */
-    public function isVisible()
+    public function isVisible($websiteCode, $storeCode)
     {
+
+    }
+
+    /**
+     * Retrieve css class of a tab
+     *
+     * @return string
+     */
+    public function getClass()
+    {
+        return isset($tab['class']) ? $tab['class'] : '';
     }
 }
