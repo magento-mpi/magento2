@@ -650,8 +650,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $product->setCanSaveConfigurableAttributes(
                 (bool)$this->getRequest()->getPost('affect_configurable_product_attributes')
             );
-        } else {
-            $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE);
         }
 
         /**
