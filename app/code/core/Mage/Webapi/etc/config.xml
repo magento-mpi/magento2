@@ -59,12 +59,6 @@
                             <model>Mage_Webapi_Controller_Request_Rest_Interpreter_Json</model>
                         </application_json>
 
-                        <!-- QUERY -->
-                        <text_plain>
-                            <type>text/plain</type>
-                            <model>Mage_Webapi_Controller_Request_Rest_Interpreter_Query</model>
-                        </text_plain>
-
                         <!-- XML -->
                         <application_xml>
                             <type>application/xml</type>
@@ -91,12 +85,6 @@
                             <type>application/json</type>
                             <model>Mage_Webapi_Controller_Response_Rest_Renderer_Json</model>
                         </application_json>
-
-                        <!-- QUERY -->
-                        <text_plain>
-                            <type>text/plain</type>
-                            <model>Mage_Webapi_Controller_Response_Rest_Renderer_Query</model>
-                        </text_plain>
 
                         <!-- XML -->
                         <text_xml>

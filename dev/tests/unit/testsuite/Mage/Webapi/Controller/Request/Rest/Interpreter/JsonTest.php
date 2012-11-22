@@ -6,14 +6,17 @@
  */
 class Mage_Webapi_Controller_Request_Rest_Interpreter_JsonTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Core_Model_Factory_Helper */
+    /** @var PHPUnit_Framework_MockObject_MockObject|Mage_Core_Model_Factory_Helper */
     protected $_helperFactoryMock;
 
     /** @var Mage_Webapi_Controller_Request_Rest_Interpreter_Json */
     protected $_jsonInterpreter;
 
-    /** @var Mage_Core_Helper_Data */
+    /** @var PHPUnit_Framework_MockObject_MockObject|Mage_Core_Helper_Data */
     protected $_coreHelperMock;
+
+    /** @var PHPUnit_Framework_MockObject_MockObject|Mage_Core_Model_App */
+    protected $_appMock;
 
     protected function setUp()
     {
@@ -23,8 +26,15 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_JsonTest extends PHPUnit_F
         $this->_coreHelperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
         $this->_helperFactoryMock->expects($this->any())->method('get')
             ->will($this->returnValue($this->_coreHelperMock));
+        $this->_appMock = $this->getMockBuilder('Mage_Core_Model_App')
+            ->setMethods(array('isDeveloperMode'))
+            ->disableOriginalConstructor()
+            ->getMock();
         /** Initialize SUT. */
-        $this->_jsonInterpreter = new Mage_Webapi_Controller_Request_Rest_Interpreter_Json($this->_helperFactoryMock);
+        $this->_jsonInterpreter = new Mage_Webapi_Controller_Request_Rest_Interpreter_Json(
+            $this->_helperFactoryMock,
+            $this->_appMock
+        );
         parent::setUp();
     }
 
@@ -58,8 +68,12 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_JsonTest extends PHPUnit_F
         );
     }
 
-    public function testInterpretInvalidEncodedBodyException()
+    public function testInterpretInvalidEncodedBodyExceptionDeveloperModeOn()
     {
+        /** Prepare mocks for SUT constructor. */
+        $this->_appMock->expects($this->once())
+            ->method('isDeveloperMode')
+            ->will($this->returnValue(false));
         $this->setExpectedException(
             'Mage_Webapi_Exception',
             'Decoding error.',
@@ -77,10 +91,11 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_JsonTest extends PHPUnit_F
     public function dataProviderSuccess()
     {
         return array(
-            'Test mixed json array value.' => array('{"0":"assoc_item1","1":"assoc_item2","assoc:test001":'
-                . '"<some01>text<\\/some01>","assoc.test002":"1 > 0","assoc_test003.":"chars ]]>","assoc_test004"'
-                . ':"chars  !\"#$%&\'()*+,\/;<=>?@[\\\]^`{|}~  chars ","key chars `\\\\\/;:][{}\"|\'.,~!@#$%^&*()'
-                . '_+":"chars"}',
+            'Test mixed json array value.' => array(
+                '{"0":"assoc_item1","1":"assoc_item2","assoc:test001":'
+                    . '"<some01>text<\\/some01>","assoc.test002":"1 > 0","assoc_test003.":"chars ]]>","assoc_test004"'
+                    . ':"chars  !\"#$%&\'()*+,\/;<=>?@[\\\]^`{|}~  chars ","key chars `\\\\\/;:][{}\"|\'.,~!@#$%^&*()'
+                    . '_+":"chars"}',
                 array(
                     'assoc_item1',
                     'assoc_item2',

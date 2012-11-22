@@ -1544,4 +1544,14 @@ class Mage_Core_Model_App
             unset($this->_websites[$website->getCode()]);
         }
     }
+
+    /**
+     * Check if developer mode is enabled.
+     *
+     * @return bool
+     */
+    public function isDeveloperMode()
+    {
+        return Mage::getIsDeveloperMode();
+    }
 }
