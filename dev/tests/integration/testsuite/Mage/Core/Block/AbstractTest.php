@@ -623,14 +623,13 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
      * App isolation is enabled, because config options object is affected
      *
      * @magentoAppIsolation enabled
+     * @magentoDbIsolation enabled
      */
     public function testGetVar()
     {
-        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
-        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
-
-        Mage::getConfig()->getOptions()->setDesignDir(dirname(__DIR__) . '/Model/_files/design');
-        Mage::getDesign()->setDesignTheme('test/default');
+        /** @var $themeUtility Mage_Core_Utility_Theme */
+        $themeUtility = Mage::getModel('Mage_Core_Utility_Theme', array(dirname(__DIR__) . '/Model/_files/design'));
+        $themeUtility->registerThemes()->setDesignTheme('test/default', 'frontend');
 
         $this->assertEquals('Core Value1', $this->_block->getVar('var1'));
         $this->assertEquals('value1', $this->_block->getVar('var1', 'Namespace_Module'));
