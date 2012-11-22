@@ -17,7 +17,7 @@
             <action method="addJs"><file>jquery/editableMultiselect/js/jquery.multiselect.js</file></action>
             <action method="addJs"><file>mage/backend/editablemultiselect.js</file></action>
             <action method="addCss"><file>jquery/editableMultiselect/css/jquery.multiselect.css</file></action>
-            <action method="addCss"><file>Mage_Adminhtml::css/ui-lightness/jquery-ui-1.8.21.custom.css</file></action>
+            <action method="addCss"><file>Mage_Core::prototype/magento.css</file></action>
         </reference>
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Tax_Rule_Edit"></block>
