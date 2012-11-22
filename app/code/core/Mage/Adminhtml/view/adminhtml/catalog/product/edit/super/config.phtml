@@ -265,6 +265,7 @@ Validation.add(
 </div>
 <script type="text/javascript">
 jQuery(function($) {
+    var usedAttributes = usedAttributes || [];
     $("#<?php echo $this->getId()?>-checkbox").on('click change', function() {
         var $fieldset = $("#<?php echo $this->getId()?> > fieldset");
         if ($(this).attr('checked')) {
