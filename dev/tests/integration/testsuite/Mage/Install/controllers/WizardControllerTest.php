@@ -34,7 +34,7 @@ class Mage_Install_WizardControllerTest extends Magento_Test_TestCase_Controller
         parent::setUp();
         // emulate non-installed application
         $this->_runOptions[Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_DATA]
-            = '<config><global><install><date>invalid</date></install></global></config>';
+            = sprintf(Mage_Core_Model_Config::CONFIG_TEMPLATE_INSTALL_DATE, 'invalid');
     }
 
     public function tearDown()

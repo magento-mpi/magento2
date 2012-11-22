@@ -33,6 +33,11 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     const XML_PATH_INSTALL_DATE = 'global/install/date';
 
     /**
+     * Configuration template for the application installation date
+     */
+    const CONFIG_TEMPLATE_INSTALL_DATE = '<config><global><install><date>%s</date></install></global></config>';
+
+    /**
      * Flag which allow use cache logic
      *
      * @var bool

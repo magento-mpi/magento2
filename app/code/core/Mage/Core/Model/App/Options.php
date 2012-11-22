@@ -47,7 +47,7 @@ class Mage_Core_Model_App_Options
      *
      * @var string
      */
-    protected $_runType = 'store';
+    protected $_runType = self::APP_RUN_TYPE_STORE;
 
     /**
      * Application run options

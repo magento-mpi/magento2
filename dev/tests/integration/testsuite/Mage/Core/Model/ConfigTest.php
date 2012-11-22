@@ -136,6 +136,33 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testLoadBaseInstallDate()
+    {
+        if (date_default_timezone_get() != 'UTC') {
+            $this->markTestSkipped('Test requires "UTC" to be the default timezone.');
+        }
+        /** @var $model Mage_Core_Model_Config */
+        $model = Mage::getModel('Mage_Core_Model_Config');
+        $model->setOptions(array(
+            Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_DATA
+                => sprintf(Mage_Core_Model_Config::CONFIG_TEMPLATE_INSTALL_DATE, 'Fri, 21 Dec 2012 00:00:00 +0000')
+        ));
+        $model->loadBase();
+        $this->assertEquals(1356048000, $model->getInstallDate());
+    }
+
+    public function testLoadBaseInstallDateInvalid()
+    {
+        /** @var $model Mage_Core_Model_Config */
+        $model = Mage::getModel('Mage_Core_Model_Config');
+        $model->setOptions(array(
+            Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_DATA
+                => sprintf(Mage_Core_Model_Config::CONFIG_TEMPLATE_INSTALL_DATE, 'invalid')
+        ));
+        $model->loadBase();
+        $this->assertEmpty($model->getInstallDate());
+    }
+
     public function testLoadLocales()
     {
         $model = Mage::getModel('Mage_Core_Model_Config');
@@ -151,7 +178,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $model = $this->_createModel();
         $model->setOptions(array(
             Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_DATA
-                => sprintf('<config><global><install><date>%s</date></install></global></config>', date('r'))
+                => sprintf(Mage_Core_Model_Config::CONFIG_TEMPLATE_INSTALL_DATE, 'Wed, 21 Nov 2012 03:26:00 +0000')
         ));
         $model->loadBase();
         $this->assertTrue($model->loadModulesCache());

@@ -23,10 +23,11 @@ class Mage_Core_Model_App_OptionsTest extends PHPUnit_Framework_TestCase
     public function testGetRunType()
     {
         $model = new Mage_Core_Model_App_Options(array());
-        $this->assertEquals('store', $model->getRunType());
+        $this->assertEquals(Mage_Core_Model_App_Options::APP_RUN_TYPE_STORE, $model->getRunType());
 
-        $model = new Mage_Core_Model_App_Options(array(Mage_Core_Model_App_Options::OPTION_APP_RUN_TYPE => 'website'));
-        $this->assertEquals('website', $model->getRunType());
+        $runType = Mage_Core_Model_App_Options::APP_RUN_TYPE_WEBSITE;
+        $model = new Mage_Core_Model_App_Options(array(Mage_Core_Model_App_Options::OPTION_APP_RUN_TYPE => $runType));
+        $this->assertEquals($runType, $model->getRunType());
     }
 
     /**
