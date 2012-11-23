@@ -46,7 +46,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
             dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'design',
             Mage::getModel('Mage_Core_Model_Design_Package')
         ));
-        $themeUtility->registerThemes()->setDesignTheme('test/default', 'frontend');;
+        $themeUtility->registerThemes()->setDesignTheme('test/default', 'frontend');
         $this->_model = $themeUtility->getDesign();
     }
 
@@ -158,8 +158,9 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     public function testGetViewUrlNoFilesDuplicationWithCaching()
     {
         Mage::app()->getLocale()->setLocale('en_US');
-        $themeDesignParams = array('package' => 'test', 'theme' => 'default');
-        $cacheKey = 'frontend/test/default/en_US';
+        $theme = $this->_model->getDesignTheme();
+        $themeDesignParams = array('themeModel' => $theme);
+        $cacheKey = "frontend|{$theme->getId()}|en_US";
         Mage::app()->cleanCache();
 
         $viewFile = 'images/logo.gif';

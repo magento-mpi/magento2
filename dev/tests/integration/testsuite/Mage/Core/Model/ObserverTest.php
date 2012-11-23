@@ -23,10 +23,7 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
     {
         Mage::app()->getConfig()->getOptions()->setDesignDir(dirname(__FILE__) . DS . '_files' . DS . 'design');
 
-        $pathPattern = implode(DS, array(Mage::getBaseDir('design'), 'frontend', 'default', '*', 'theme.xml'));
-
         $eventObserver = $this->_createEventObserverForThemeRegistration();
-        $eventObserver->getEvent()->setPathPattern($pathPattern);
 
         /** @var $observer Mage_Core_Model_Observer */
         $observer = Mage::getModel('Mage_Core_Model_Observer');

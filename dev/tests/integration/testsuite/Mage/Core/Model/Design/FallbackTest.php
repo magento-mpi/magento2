@@ -9,10 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @magentoDbIsolation enabled
- * @magentoAppIsolation enabled
- */
 class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -26,14 +22,18 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
     protected function _buildModel($area, $themePath, $locale)
     {
         $testDir = implode(DS, array(dirname( __DIR__), '_files', 'fallback'));
-        Mage::getConfig()->getOptions()->addData(array('js_dir' => implode(DS, array($testDir, 'pub', 'js'))));
+        Mage::getConfig()->getOptions()->addData(array(
+            'js_dir'     => implode(DS, array($testDir, 'pub', 'js')),
+            'design_dir' => $testDir . DIRECTORY_SEPARATOR .  'design'
+        ));
 
-        /** @var $themeUtility Mage_Core_Utility_Theme */
-        $themeUtility = Mage::getModel('Mage_Core_Utility_Theme', array(implode(DS, array($testDir, 'design'))));
-        $themeUtility->registerThemes();
-
-        $themeModel = $themeUtility->getThemeByParams($themePath, $area);
-        $themeUtility->getDesign()->setDesignTheme($themeModel);
+        /** @var $collection Mage_Core_Model_Theme_Collection */
+        $collection = Mage::getModel('Mage_Core_Model_Theme_Collection');
+        $themeModel = $collection->setBaseDir($testDir . DIRECTORY_SEPARATOR .  'design')
+            ->addDefaultPattern()
+            ->addFilter('theme_path', $themePath)
+            ->addFilter('area', $area)
+            ->getFirstItem();
 
         // Build model
         $params = array(

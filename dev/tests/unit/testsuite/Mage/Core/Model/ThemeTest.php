@@ -15,23 +15,44 @@
 class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Test load from configuration
+     * Return Mock of Theme Model loaded from configuration
      *
-     * @covers Mage_Core_Model_Theme::loadFromConfiguration
+     * @param string $designDir
+     * @param string $targetPath
+     * @return mixed
      */
-    public function testLoadFromConfiguration()
+    protected function _getThemeModel($designDir, $targetPath)
     {
-        $themePath = implode(DS, array(__DIR__, '_files', 'frontend', 'default', 'iphone', 'theme.xml'));
-        $designDir = implode(DS, array(__DIR__, '_files'));
         Mage::getConfig()->getOptions()->setData('design_dir', $designDir);
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         /** @var $themeMock Mage_Core_Model_Theme */
         $arguments = $objectManagerHelper->getConstructArguments(Magento_Test_Helper_ObjectManager::MODEL_ENTITY);
         $themeMock = $this->getMock('Mage_Core_Model_Theme', array('_init'), $arguments, '', true);
-        $themeMock->loadFromConfiguration($themePath);
 
-        $this->assertEquals($this->_expectedThemeDataFromConfiguration(), $themeMock->getData());
+        /** @var $collectionMock Mage_Core_Model_Theme_Collection|PHPUnit_Framework_MockObject_MockObject */
+        $collectionMock = $this->getMock('Mage_Core_Model_Theme_Collection', array('getNewEmptyItem'));
+        $collectionMock->expects($this->any())
+            ->method('getNewEmptyItem')
+            ->will($this->returnValue($themeMock));
+
+        return $collectionMock->setBaseDir($designDir)->addTargetPattern($targetPath)->getFirstItem();
+    }
+
+    /**
+     * Test load from configuration
+     *
+     * @covers Mage_Core_Model_Theme::loadFromConfiguration
+     */
+    public function testLoadFromConfiguration()
+    {
+        $targetPath = implode(DS, array('frontend', 'default', 'iphone', 'theme.xml'));
+        $designDir = implode(DS, array(__DIR__, '_files'));
+
+        $this->assertEquals(
+            $this->_expectedThemeDataFromConfiguration(),
+            $this->_getThemeModel($designDir, $targetPath)->getData()
+        );
     }
 
     /**
@@ -42,17 +63,13 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
      */
     public function testLoadInvalidConfiguration()
     {
-        $themePath = implode(DS, array(__DIR__, '_files', 'frontend', 'default', 'iphone', 'theme_invalid.xml'));
+        $targetPath = implode(DS, array('frontend', 'default', 'iphone', 'theme_invalid.xml'));
         $designDir = implode(DS, array(__DIR__, '_files'));
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        Mage::getConfig()->getOptions()->setData('design_dir', $designDir);
 
-        /** @var $themeMock Mage_Core_Model_Theme */
-        $arguments = $objectManagerHelper->getConstructArguments(Magento_Test_Helper_ObjectManager::MODEL_ENTITY);
-        $themeMock = $this->getMock('Mage_Core_Model_Theme', array('_init'), $arguments, '', true);
-        $themeMock->loadFromConfiguration($themePath);
-
-        $this->assertEquals($this->_expectedThemeDataFromConfiguration(), $themeMock->getData());
+        $this->assertEquals(
+            $this->_expectedThemeDataFromConfiguration(),
+            $this->_getThemeModel($designDir, $targetPath)->getData()
+        );
     }
 
     /**
@@ -70,12 +87,10 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
             'preview_image'        => 'images/preview.png',
             'magento_version_from' => '2.0.0.1-dev1',
             'magento_version_to'   => '*',
-            'is_featured'          => '1',
+            'is_featured'          => true,
             'theme_directory'      => implode(DS, array(__DIR__, '_files', 'frontend', 'default', 'iphone')),
             'parent_theme_path'    => null,
             'area'                 => 'frontend',
-            'package_code'         => 'default',
-            'theme_code'           => 'iphone',
         );
     }
 }

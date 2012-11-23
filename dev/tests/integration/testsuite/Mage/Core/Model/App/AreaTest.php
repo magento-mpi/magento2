@@ -53,8 +53,8 @@ class Mage_Core_Model_App_AreaTest extends PHPUnit_Framework_TestCase
         /** @var $model Mage_Core_Model_App_Area */
         $model = Mage::getModel('Mage_Core_Model_App_Area', array('areaCode' => 'adminhtml'));
         $model->detectDesign();
-
-        $this->assertEquals('default/basic', Mage::getDesign()->getConfigurationDesignTheme('adminhtml', false));
+        $theme = Mage::getDesign()->getConfigurationDesignTheme('adminhtml', array('useId' => false));
+        $this->assertEquals('default/basic', $theme);
     }
 
     /**
@@ -64,7 +64,8 @@ class Mage_Core_Model_App_AreaTest extends PHPUnit_Framework_TestCase
     public function testDetectDesignStoreConfig()
     {
         $this->_model->detectDesign();
-        $this->assertEquals('default/blank', Mage::getDesign()->getConfigurationDesignTheme('frontend', false));
+        $theme = Mage::getDesign()->getConfigurationDesignTheme('frontend', array('useId' => false));
+        $this->assertEquals('default/blank', $theme);
     }
 
     // @codingStandardsIgnoreStart

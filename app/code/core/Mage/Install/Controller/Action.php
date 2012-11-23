@@ -35,7 +35,7 @@ class Mage_Install_Controller_Action extends Mage_Core_Controller_Varien_Action
         /** @var $themesCollection Mage_Core_Model_Theme_Collection */
         $themesCollection = Mage::getModel('Mage_Core_Model_Theme_Collection');
         $themeModel = $themesCollection->addDefaultPattern($design->getArea())
-            ->addFilter('theme_path', $design->getConfigurationDesignTheme($design->getArea(), false))
+            ->addFilter('theme_path', $design->getConfigurationDesignTheme($design->getArea(), array('useId' => false)))
             ->getFirstItem();
         $design->setDesignTheme($themeModel);
         return $this;

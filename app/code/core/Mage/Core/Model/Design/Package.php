@@ -218,15 +218,18 @@ class Mage_Core_Model_Design_Package
      * Get default theme which declared in configuration
      *
      * @param string $area
-     * @param bool $useId
+     * @param array $params
      * @return string|int
      */
-    public function getConfigurationDesignTheme($area = null, $useId = true)
+    public function getConfigurationDesignTheme($area = null, $params = array())
     {
         if (!$area) {
             $area = $this->getArea();
         }
-        $designTheme = (string)Mage::getStoreConfig($this->getConfigPathByArea($area, $useId));
+        $useId = isset($params['useId']) ? $params['useId'] : true;
+        $store = isset($params['store']) ? $params['store'] : null;
+
+        $designTheme = (string)Mage::getStoreConfig($this->getConfigPathByArea($area, $useId), $store);
         if (empty($designTheme)) {
             $designTheme = (string)Mage::getConfig()->getNode($this->getConfigPathByArea($area, $useId));
         }

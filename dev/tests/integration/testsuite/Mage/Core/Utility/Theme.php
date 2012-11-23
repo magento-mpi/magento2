@@ -66,6 +66,40 @@ class Mage_Core_Utility_Theme
     }
 
     /**
+     * Register mocked package model in di
+     *
+     * @static
+     */
+    public static function registerDesignMock()
+    {
+        /** @var $packageMock Mage_Core_Model_Design_Package|PHPUnit_Framework_MockObject_MockObject */
+        $packageMock = PHPUnit_Framework_MockObject_Generator::getMock(
+            'Mage_Core_Model_Design_Package', array('getConfigurationDesignTheme')
+        );
+        $package = Mage::getModel('Mage_Core_Model_Design_Package');
+
+        $callBackFixture = function ($area, $params) use ($package, $packageMock) {
+            $area = $area ? $area : $packageMock->getArea();
+            if (isset($params['useId']) && $params['useId'] == false) {
+                return $package->getConfigurationDesignTheme($area, $params);
+            } else {
+                $params['useId'] = false;
+                /** @var $package Mage_Core_Model_Design_Package */
+                $configPath = $package->getConfigurationDesignTheme($area, $params);
+                return Mage_Core_Utility_Theme::getTheme($configPath, $area)->getId();
+            }
+        };
+
+        $packageMock->expects(new PHPUnit_Framework_MockObject_Matcher_AnyInvokedCount)
+            ->method('getConfigurationDesignTheme')
+            ->will(new PHPUnit_Framework_MockObject_Stub_ReturnCallback($callBackFixture));
+
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Mage::getObjectManager();
+        $objectManager->addSharedInstance($packageMock, 'Mage_Core_Model_Design_Package');
+    }
+
+    /**
      * @return Mage_Core_Utility_Theme
      */
     public function registerThemes()
@@ -101,6 +135,22 @@ class Mage_Core_Utility_Theme
             }
         }
         return $this->_theme;
+    }
+
+    /**
+     * @param string $themePath
+     * @param string|null $area
+     * @return Mage_Core_Model_Theme
+     */
+    public static function getTheme($themePath, $area)
+    {
+        /** @var $theme Mage_Core_Model_Theme */
+        $theme = Mage::getSingleton('Mage_Core_Model_Theme');
+        $collection = $theme->getCollection()
+            ->addFieldToFilter('theme_path', $themePath)
+            ->addFieldToFilter('area', $area)
+            ->load();
+        return $collection->getFirstItem();
     }
 
     /**

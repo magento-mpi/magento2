@@ -628,7 +628,9 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     public function testGetVar()
     {
         /** @var $themeUtility Mage_Core_Utility_Theme */
-        $themeUtility = Mage::getModel('Mage_Core_Utility_Theme', array(dirname(__DIR__) . '/Model/_files/design'));
+        $themeUtility = Mage::getModel('Mage_Core_Utility_Theme', array(
+            dirname(__DIR__) . '/Model/_files/design/'
+        ));
         $themeUtility->registerThemes()->setDesignTheme('test/default', 'frontend');
 
         $this->assertEquals('Core Value1', $this->_block->getVar('var1'));
