@@ -18,6 +18,8 @@ class Mage_Adminhtml_Block_Catalog_Product_EditTest extends PHPUnit_Framework_Te
 
     protected function setUp()
     {
+        $this->markTestIncomplete('MAGETWO-4604');
+        return;
         $this->_block = new Mage_Adminhtml_Block_Catalog_Product_Edit();
         Mage::register('current_product', new Varien_Object(array('type_id' => 'simple')));
     }
