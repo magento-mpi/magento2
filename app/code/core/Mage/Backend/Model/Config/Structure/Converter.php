@@ -11,6 +11,33 @@
 class Mage_Backend_Model_Config_Structure_Converter
 {
     /**
+     * @var Mage_Backend_Model_Config_Structure_Mapper_Factory
+     */
+    protected $_mapperFactory;
+
+    /**
+     * Mapper type list
+     *
+     * @var array
+     */
+    protected $_mapperList = array(
+        Mage_Backend_Model_Config_Structure_Mapper_Factory::MAPPER_PATH,
+        Mage_Backend_Model_Config_Structure_Mapper_Factory::MAPPER_DEPENDENCIES,
+        Mage_Backend_Model_Config_Structure_Mapper_Factory::MAPPER_ATTRIBUTE_INHERITANCE,
+        Mage_Backend_Model_Config_Structure_Mapper_Factory::MAPPER_ELEMENT_TYPE,
+        Mage_Backend_Model_Config_Structure_Mapper_Factory::MAPPER_IGNORE,
+        Mage_Backend_Model_Config_Structure_Mapper_Factory::MAPPER_SORTING,
+    );
+
+    /**
+     * @param Mage_Backend_Model_Config_Structure_Mapper_Factory $mapperFactory
+     */
+    public function __construct(Mage_Backend_Model_Config_Structure_Mapper_Factory $mapperFactory)
+    {
+        $this->_mapperFactory = $mapperFactory;
+    }
+
+    /**
      * Map of single=>plural sub-node names per node
      *
      * E.G. first element makes all 'tab' nodes be renamed to 'tabs' in system node.
@@ -31,6 +58,25 @@ class Mage_Backend_Model_Config_Structure_Converter
      * @return mixed
      */
     public function convert(DOMNode $root)
+    {
+        $result = $this->_convertDOMDocument($root);
+
+        foreach ($this->_mapperList as $type) {
+            /** @var $mapper Mage_Backend_Model_Config_Structure_MapperInterface */
+            $mapper = $this->_mapperFactory->create($type);
+            $result = $mapper->map($result);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Retrieve DOMDocument as array
+     *
+     * @param DOMNode $root
+     * @return mixed
+     */
+    protected function _convertDOMDocument(DOMNode $root)
     {
         $result = $this->_processAttributes($root);
 
@@ -65,7 +111,7 @@ class Mage_Backend_Model_Config_Structure_Converter
                     if ($childName == 'attribute') {
                         $childName = $child->getAttribute('type');
                     }
-                    $convertedChild = $this->convert($child);
+                    $convertedChild = $this->_convertDOMDocument($child);
                     break;
             }
 
@@ -132,5 +178,4 @@ class Mage_Backend_Model_Config_Structure_Converter
         $bSortOrder = isset($b['sortOrder']) ? (int)$b['sortOrder'] : 0;
         return $aSortOrder < $bSortOrder ? -1 : ($aSortOrder > $bSortOrder ? 1 : 0);
     }
-
 }
