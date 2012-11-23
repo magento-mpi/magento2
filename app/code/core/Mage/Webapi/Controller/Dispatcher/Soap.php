@@ -1,10 +1,10 @@
 <?php
 /**
- * Handler for SOAP API calls.
+ * Dispatcher for SOAP API calls.
  *
  * @copyright {}
  */
-class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_HandlerAbstract
+class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_DispatcherAbstract
 {
     const BASE_ACTION_CONTROLLER = 'Mage_Webapi_Controller_ActionAbstract';
 
@@ -17,19 +17,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
     const WEBSERVICE_CACHE_TAG = 'WEBSERVICE';
     const WSDL_CACHE_ID = 'WSDL';
 
-    const REQUEST_PARAM_RESOURCES = 'resources';
-    const REQUEST_PARAM_WSDL = 'wsdl';
-
-    const SOAP_DEFAULT_ENCODING = 'UTF-8';
-
-    /**#@+
-     * Path in config to Webapi settings.
-     */
-    const CONFIG_PATH_WSDL_CACHE_ENABLED = 'webapi/soap/wsdl_cache_enabled';
-    const CONFIG_PATH_SOAP_CHARSET = 'webapi/soap/charset';
-    /**#@-*/
-
-    /** @var Zend\Soap\Server */
+    /** @var Mage_Webapi_Model_Soap_Server */
     protected $_soapServer;
 
     /** @var Mage_Webapi_Model_Soap_AutoDiscover */
@@ -58,43 +46,45 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
      */
     protected $_usernameToken;
 
-    /** @var Mage_Webapi_Controller_Handler_Soap_Authentication */
+    /** @var Mage_Webapi_Controller_Dispatcher_Soap_Authentication */
     protected $_authentication;
+
+    /** @var Mage_Webapi_Controller_Request_Soap */
+    protected $_request;
 
     /**
      * @param Mage_Webapi_Helper_Data $helper
      * @param Mage_Webapi_Model_Config $apiConfig
-     * @param Mage_Webapi_Controller_Request_Factory $requestFactory
+     * @param Mage_Webapi_Controller_Request_Soap $request
      * @param Mage_Webapi_Controller_Response $response
      * @param Mage_Webapi_Controller_Action_Factory $controllerFactory
      * @param Mage_Core_Model_Logger $logger
      * @param Mage_Webapi_Model_Soap_AutoDiscover $autoDiscover
-     * @param Zend\Soap\Server $soapServer
+     * @param Mage_Webapi_Model_Soap_Server $soapServer
      * @param Mage_Core_Model_App $application
      * @param Mage_Core_Model_Cache $cache
      * @param Magento_DomDocument_Factory $domDocumentFactory
      * @param Mage_Webapi_Model_Authorization $authorization
-     * @param Mage_Webapi_Controller_Handler_Soap_Authentication $authentication
+     * @param Mage_Webapi_Controller_Dispatcher_Soap_Authentication $authentication
      */
     public function __construct(
         Mage_Webapi_Helper_Data $helper,
         Mage_Webapi_Model_Config $apiConfig,
-        Mage_Webapi_Controller_Request_Factory $requestFactory,
+        Mage_Webapi_Controller_Request_Soap $request,
         Mage_Webapi_Controller_Response $response,
         Mage_Webapi_Controller_Action_Factory $controllerFactory,
         Mage_Core_Model_Logger $logger,
         Mage_Webapi_Model_Soap_AutoDiscover $autoDiscover,
-        Zend\Soap\Server $soapServer,
+        Mage_Webapi_Model_Soap_Server $soapServer,
         Mage_Core_Model_App $application,
         Mage_Core_Model_Cache $cache,
         Magento_DomDocument_Factory $domDocumentFactory,
         Mage_Webapi_Model_Authorization $authorization,
-        Mage_Webapi_Controller_Handler_Soap_Authentication $authentication
+        Mage_Webapi_Controller_Dispatcher_Soap_Authentication $authentication
     ) {
         parent::__construct(
             $helper,
             $apiConfig,
-            $requestFactory,
             $response,
             $controllerFactory,
             $logger,
@@ -106,10 +96,11 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
         $this->_application = $application;
         $this->_domDocumentFactory = $domDocumentFactory;
         $this->_authentication = $authentication;
+        $this->_request = $request;
     }
 
     /**
-     * Handler for all SOAP operations.
+     * Dispatcher for all SOAP operations.
      *
      * @param string $operation
      * @param array $arguments
@@ -136,7 +127,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
                 $controllerClass = $this->getApiConfig()->getControllerClassByOperationName($operation);
                 $controllerInstance = $this->_controllerFactory->createActionController(
                     $controllerClass,
-                     $this->getRequest()
+                     $this->_request
                  );
                 $method = $this->getApiConfig()->getMethodNameByOperation($operation, $resourceVersion);
 
@@ -216,24 +207,23 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
     /**
      * Implementation of abstract method.
      *
-     * @return Mage_Webapi_Controller_Handler_Soap|Mage_Core_Controller_FrontInterface
+     * @return Mage_Webapi_Controller_Dispatcher_Soap|Mage_Core_Controller_FrontInterface
      */
     public function init()
     {
         parent::init();
-        $this->_initSoapServer();
         return $this;
     }
 
     /**
      * Dispatch request to SOAP endpoint.
      *
-     * @return Mage_Webapi_Controller_Handler_Soap
+     * @return Mage_Webapi_Controller_Dispatcher_Soap
      */
     public function handle()
     {
         try {
-            if ($this->getRequest()->getParam(self::REQUEST_PARAM_WSDL) !== null) {
+            if ($this->_request->getParam(Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL) !== null) {
                 $this->_setResponseContentType('text/xml');
                 $responseBody = $this->_getWsdlContent();
             } else {
@@ -267,7 +257,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
                 foreach ($versions as $version) {
                     $details['availableResources'][$resourceName][$version] = sprintf(
                         '%s?wsdl&resources[%s]=%s',
-                        $this->_getEndpointUri(),
+                        $this->_soapServer->getEndpointUri(),
                         $resourceName,
                         $version
                     );
@@ -285,7 +275,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
      */
     protected function _getWsdlContent()
     {
-        $requestedResources = $this->_getRequestedResources();
+        $requestedResources = $this->_request->getRequestedResources();
         $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedResources));
         if ($this->_cache->canUse(self::WEBSERVICE_CACHE_NAME)) {
             $cachedWsdlContent = $this->_cache->load($cacheId);
@@ -304,7 +294,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
             throw new Mage_Webapi_Exception($e->getMessage(), Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
 
-        $wsdlContent = $this->_autoDiscover->generate($resources, $this->_generateUri());
+        $wsdlContent = $this->_autoDiscover->generate($resources, $this->_soapServer->generateUri());
 
         if ($this->_cache->canUse(self::WEBSERVICE_CACHE_NAME)) {
             $this->_cache->save($wsdlContent, $cacheId, array(self::WEBSERVICE_CACHE_TAG));
@@ -316,7 +306,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
     /**
      * Retrieve SOAP Server.
      *
-     * @return Zend\Soap\Server
+     * @return Mage_Webapi_Model_Soap_Server
      * @throws SoapFault
      */
     protected function _getSoapServer()
@@ -325,47 +315,15 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
     }
 
     /**
-     * Initialize SOAP Server.
-     *
-     * @throws SoapFault
-     */
-    protected function _initSoapServer()
-    {
-        $this->_initWsdlCache();
-        $schemaImportTrials = 0;
-        do {
-            $schemaImportFailed = false;
-            try {
-                $this->_soapServer
-                    ->setWSDL($this->_getWsdlUrl())
-                    ->setEncoding($this->_getApiCharset())
-                    ->setClassmap($this->getApiConfig()->getTypeToClassMap());
-            } catch (SoapFault $e) {
-                $importSchemaMessage = "Can't import schema from 'http://schemas.xmlsoap.org/soap/encoding/'";
-                if (false !== strpos($e->getMessage(), $importSchemaMessage)) {
-                    $schemaImportFailed = true;
-                    $schemaImportTrials++;
-                    sleep(1);
-                } else {
-                    throw $e;
-                }
-            }
-        } while ($schemaImportFailed && $schemaImportTrials < 5);
-        use_soap_error_handler(false);
-        // Front controller plays the role of SOAP handler
-        $this->_soapServer->setReturnResponse(true)->setObject($this);
-    }
-
-    /**
      * Set content type to response object.
      *
      * @param string $contentType
-     * @return Mage_Webapi_Controller_Handler_Soap
+     * @return Mage_Webapi_Controller_Dispatcher_Soap
      */
     protected function _setResponseContentType($contentType = 'text/xml')
     {
         $this->getResponse()->clearHeaders()
-            ->setHeader('Content-Type', "$contentType; charset={$this->_getApiCharset()}");
+            ->setHeader('Content-Type', "$contentType; charset={$this->_soapServer->getApiCharset()}");
         return $this;
     }
 
@@ -373,83 +331,18 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
      * Set body to response object.
      *
      * @param string $responseBody
-     * @return Mage_Webapi_Controller_Handler_Soap
+     * @return Mage_Webapi_Controller_Dispatcher_Soap
      */
     protected function _setResponseBody($responseBody)
     {
         $this->getResponse()->setBody(
             preg_replace(
                 '/<\?xml version="([^\"]+)"([^\>]+)>/i',
-                '<?xml version="$1" encoding="' . $this->_getApiCharset() . '"?>',
+                '<?xml version="$1" encoding="' . $this->_soapServer->getApiCharset() . '"?>',
                 $responseBody
             )
         );
         return $this;
-    }
-
-    /**
-     * Retrieve charset used in API.
-     *
-     * @return string
-     */
-    protected function _getApiCharset()
-    {
-        $charset = $this->_application->getStore()->getConfig(self::CONFIG_PATH_SOAP_CHARSET);
-        return $charset ? $charset : self::SOAP_DEFAULT_ENCODING;
-    }
-
-    /**
-     * Enable or disable SOAP extension WSDL cache depending on Magento configuration.
-     */
-    protected function _initWsdlCache()
-    {
-        $wsdlCacheEnabled = (bool)$this->_application->getStore()->getConfig(self::CONFIG_PATH_WSDL_CACHE_ENABLED);
-        if ($wsdlCacheEnabled) {
-            ini_set('soap.wsdl_cache_enabled', '1');
-        } else {
-            ini_set('soap.wsdl_cache_enabled', '0');
-        }
-    }
-
-    /**
-     * Get WSDL file URL.
-     *
-     * @return string
-     */
-    protected function _getWsdlUrl()
-    {
-        return $this->_generateUri(true);
-    }
-
-    /**
-     * Get SOAP endpoint URL.
-     *
-     * @param bool $isWsdl
-     * @return string
-     */
-    protected function _generateUri($isWsdl = false)
-    {
-        $params = array(
-            self::REQUEST_PARAM_RESOURCES => $this->_getRequestedResources()
-        );
-        if ($isWsdl) {
-            $params[self::REQUEST_PARAM_WSDL] = true;
-        }
-        $query = http_build_query($params, '', '&');
-        return $this->_getEndpointUri() . '?' . $query;
-    }
-
-    /**
-     * Generate URI of SOAP endpoint.
-     *
-     * @return string
-     */
-    protected function _getEndpointUri()
-    {
-        // @TODO: Implement proper endpoint URL retrieval mechanism in APIA-718 story
-        return $this->_application->getStore()->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB)
-            . Mage_Webapi_Controller_Router_Route_Webapi::API_AREA_NAME . '/'
-            . Mage_Webapi_Controller_Front::API_TYPE_SOAP;
     }
 
     /**
@@ -577,7 +470,7 @@ FAULT_MESSAGE;
      */
     protected function _getOperationVersion($operationName)
     {
-        $requestedResources = $this->_getRequestedResources();
+        $requestedResources = $this->_request->getRequestedResources();
         $resourceName = $this->getApiConfig()->getResourceNameByOperation($operationName);
         if (!isset($requestedResources[$resourceName])) {
             throw new Mage_Webapi_Exception(
@@ -588,32 +481,5 @@ FAULT_MESSAGE;
         $version = (int)str_replace('V', '', ucfirst($requestedResources[$resourceName]));
         $this->_validateVersionNumber($version, $resourceName);
         return $version;
-    }
-
-    /**
-     * Identify versions of resources that should be used for API configuration generation.
-     *
-     * @return array
-     * @throws Mage_Webapi_Exception When GET parameters are invalid
-     */
-    protected function _getRequestedResources()
-    {
-        $wsdlParam = self::REQUEST_PARAM_WSDL;
-        $resourcesParam = self::REQUEST_PARAM_RESOURCES;
-        $requestParams = array_keys($this->getRequest()->getParams());
-        $allowedParams = array('api_type', $wsdlParam, $resourcesParam);
-        $notAllowedParameters = array_diff($requestParams, $allowedParams);
-        if (count($notAllowedParameters)) {
-            $message = $this->_helper->__('Not allowed parameters: %s. ', implode(', ', $notAllowedParameters))
-                . $this->_helper->__('Please use only "%s" and "%s".', $wsdlParam, $resourcesParam);
-            throw new Mage_Webapi_Exception($message, Mage_Webapi_Exception::HTTP_BAD_REQUEST);
-        }
-
-        $requestedResources = $this->getRequest()->getParam($resourcesParam);
-        if (empty($requestedResources) || !is_array($requestedResources) || empty($requestedResources)) {
-            $message = $this->_helper->__('Requested resources are missing.');
-            throw new Mage_Webapi_Exception($message, Mage_Webapi_Exception::HTTP_BAD_REQUEST);
-        }
-        return $requestedResources;
     }
 }

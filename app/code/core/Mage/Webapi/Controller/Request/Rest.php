@@ -159,10 +159,10 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
         }
         // Map HTTP methods to classic CRUD verbs
         $operationByMethod = array(
-            'GET' => Mage_Webapi_Controller_Handler_Rest::HTTP_METHOD_GET,
-            'POST' => Mage_Webapi_Controller_Handler_Rest::HTTP_METHOD_CREATE,
-            'PUT' => Mage_Webapi_Controller_Handler_Rest::HTTP_METHOD_UPDATE,
-            'DELETE' => Mage_Webapi_Controller_Handler_Rest::HTTP_METHOD_DELETE
+            'GET' => Mage_Webapi_Controller_Dispatcher_Rest::HTTP_METHOD_GET,
+            'POST' => Mage_Webapi_Controller_Dispatcher_Rest::HTTP_METHOD_CREATE,
+            'PUT' => Mage_Webapi_Controller_Dispatcher_Rest::HTTP_METHOD_UPDATE,
+            'DELETE' => Mage_Webapi_Controller_Dispatcher_Rest::HTTP_METHOD_DELETE
         );
 
         return $operationByMethod[$this->getMethod()];

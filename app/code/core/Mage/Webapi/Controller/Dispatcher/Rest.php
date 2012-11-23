@@ -1,11 +1,10 @@
 <?php
 /**
- * Handler for REST API calls.
+ * Dispatcher for REST API calls.
  *
- * @method Mage_Webapi_Controller_Request_Rest getRequest() getRequest()
  * @copyright {}
  */
-class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_HandlerAbstract
+class Mage_Webapi_Controller_Dispatcher_Rest extends Mage_Webapi_Controller_DispatcherAbstract
 {
     /**#@+
      * Success HTTP response codes.
@@ -68,10 +67,10 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
      */
     protected $_renderer;
 
-    /** @var Mage_Webapi_Controller_Handler_Rest_Presentation */
+    /** @var Mage_Webapi_Controller_Dispatcher_Rest_Presentation */
     protected $_restPresentation;
 
-    /** @var Mage_Webapi_Controller_Handler_ErrorProcessor */
+    /** @var Mage_Webapi_Controller_Dispatcher_ErrorProcessor */
     protected $_errorProcessor;
 
     /** @var Mage_Webapi_Controller_Response_Rest_Renderer_Factory */
@@ -83,45 +82,47 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
     /** @var Mage_Webapi_Controller_Router_Rest */
     protected $_router;
 
-    /** @var Mage_Webapi_Controller_Handler_Rest_Authentication */
+    /** @var Mage_Webapi_Controller_Dispatcher_Rest_Authentication */
     protected $_authentication;
+
+    /** @var Mage_Webapi_Controller_Request_Rest */
+    protected $_request;
 
     /**
      * Initialize dependencies.
      *
      * @param Mage_Webapi_Helper_Data $helper
      * @param Mage_Webapi_Model_Config $apiConfig
-     * @param Mage_Webapi_Controller_Request_Factory $requestFactory
+     * @param Mage_Webapi_Controller_Request_Rest $request
      * @param Mage_Webapi_Controller_Response $response
      * @param Mage_Webapi_Controller_Action_Factory $controllerFactory
      * @param Mage_Core_Model_Logger $logger
-     * @param Mage_Webapi_Controller_Handler_Rest_Presentation $restPresentation
-     * @param Mage_Webapi_Controller_Handler_ErrorProcessor $errorProcessor
+     * @param Mage_Webapi_Controller_Dispatcher_Rest_Presentation $restPresentation
+     * @param Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
      * @param Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory
      * @param Mage_Core_Model_Event_Manager $eventManager
      * @param Mage_Webapi_Controller_Router_Rest $router
      * @param Mage_Webapi_Model_Authorization $authorization
-     * @param Mage_Webapi_Controller_Handler_Rest_Authentication $authentication
+     * @param Mage_Webapi_Controller_Dispatcher_Rest_Authentication $authentication
      */
     public function __construct(
         Mage_Webapi_Helper_Data $helper,
         Mage_Webapi_Model_Config $apiConfig,
-        Mage_Webapi_Controller_Request_Factory $requestFactory,
+        Mage_Webapi_Controller_Request_Rest $request,
         Mage_Webapi_Controller_Response $response,
         Mage_Webapi_Controller_Action_Factory $controllerFactory,
         Mage_Core_Model_Logger $logger,
-        Mage_Webapi_Controller_Handler_Rest_Presentation $restPresentation,
-        Mage_Webapi_Controller_Handler_ErrorProcessor $errorProcessor,
+        Mage_Webapi_Controller_Dispatcher_Rest_Presentation $restPresentation,
+        Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor,
         Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory,
         Mage_Core_Model_Event_Manager $eventManager,
         Mage_Webapi_Controller_Router_Rest $router,
         Mage_Webapi_Model_Authorization $authorization,
-        Mage_Webapi_Controller_Handler_Rest_Authentication $authentication
+        Mage_Webapi_Controller_Dispatcher_Rest_Authentication $authentication
     ) {
         parent::__construct(
             $helper,
             $apiConfig,
-            $requestFactory,
             $response,
             $controllerFactory,
             $logger,
@@ -133,12 +134,13 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
         $this->_eventManager = $eventManager;
         $this->_router = $router;
         $this->_authentication = $authentication;
+        $this->_request = $request;
     }
 
     /**
      * Server errors processing mechanism initialization.
      *
-     * @return Mage_Webapi_Controller_Handler_Rest|Mage_Core_Controller_FrontInterface
+     * @return Mage_Webapi_Controller_Dispatcher_Rest|Mage_Core_Controller_FrontInterface
      */
     public function init()
     {
@@ -151,13 +153,13 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
     /**
      * Handle REST request.
      *
-     * @return Mage_Webapi_Controller_Handler_Rest
+     * @return Mage_Webapi_Controller_Dispatcher_Rest
      */
     public function handle()
     {
         try {
             $this->_authentication->authenticate();
-            $route = $this->_matchRoute($this->getRequest());
+            $route = $this->_matchRoute($this->_request);
 
             $operation = $this->_getOperationName();
             $resourceVersion = $this->_getResourceVersion($operation);
@@ -165,7 +167,7 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
             $controllerClassName = $this->getApiConfig()->getControllerClassByOperationName($operation);
             $controllerInstance = $this->_controllerFactory->createActionController(
                 $controllerClassName,
-                 $this->getRequest()
+                 $this->_request
              );
             $versionAfterFallback = $this->_identifyVersionSuffix($operation, $resourceVersion, $controllerInstance);
             /**
@@ -210,10 +212,10 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
      */
     protected function _checkRoute($methodName, $version)
     {
-        $resourceName = $this->getRequest()->getResourceName();
+        $resourceName = $this->_request->getResourceName();
         $routes = $this->getApiConfig()->getMethodRestRoutes($resourceName, $methodName, $version);
         foreach ($routes as $route) {
-            if ($route->match($this->getRequest())) {
+            if ($route->match($this->_request)) {
                 return;
             }
         }
@@ -233,8 +235,8 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
         $this->_router->setRoutes($this->getApiConfig()->getAllRestRoutes());
         $route = $this->_router->match($request);
         /** Initialize additional request parameters using data from route */
-        $this->getRequest()->setResourceName($route->getResourceName());
-        $this->getRequest()->setResourceType($route->getResourceType());
+        $this->_request->setResourceName($route->getResourceName());
+        $this->_request->setResourceType($route->getResourceType());
         return $route;
     }
 
@@ -259,8 +261,8 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
             self::ACTION_TYPE_ITEM . self::HTTP_METHOD_UPDATE => Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE,
             self::ACTION_TYPE_ITEM . self::HTTP_METHOD_DELETE => Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE,
         );
-        $httpMethod = $this->getRequest()->getHttpMethod();
-        $resourceType = $this->getRequest()->getResourceType();
+        $httpMethod = $this->_request->getHttpMethod();
+        $resourceType = $this->_request->getResourceType();
         if (!isset($restMethodsMap[$resourceType . $httpMethod])) {
             throw new Mage_Webapi_Exception($this->_helper->__('Requested method does not exist.'),
                 Mage_Webapi_Exception::HTTP_NOT_FOUND);
@@ -268,7 +270,7 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
         $methodName = $restMethodsMap[$resourceType . $httpMethod];
         if ($methodName == self::HTTP_METHOD_CREATE) {
             /** If request is numeric array, multi create operation must be used. */
-            $params = $this->getRequest()->getBodyParams();
+            $params = $this->_request->getBodyParams();
             if (count($params)) {
                 $keys = array_keys($params);
                 if (is_numeric($keys[0])) {
@@ -276,19 +278,19 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
                 }
             }
         }
-        $operationName = $this->getRequest()->getResourceName() . ucfirst($methodName);
+        $operationName = $this->_request->getResourceName() . ucfirst($methodName);
         return $operationName;
     }
 
     /**
      * Redeclare custom shutdown function.
      *
-     * @param   string $handler
-     * @return  Mage_Webapi_Controller_Handler_Rest
+     * @param   string $dispatcher
+     * @return  Mage_Webapi_Controller_Dispatcher_Rest
      */
-    public function registerShutdownFunction($handler)
+    public function registerShutdownFunction($dispatcher)
     {
-        register_shutdown_function($handler);
+        register_shutdown_function($dispatcher);
         return $this;
     }
 
@@ -350,7 +352,7 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
     protected function _getRenderer()
     {
         if (!$this->_renderer) {
-            $this->_renderer = $this->_rendererFactory->create($this->getRequest()->getAcceptTypes());
+            $this->_renderer = $this->_rendererFactory->create($this->_request->getAcceptTypes());
         }
         return $this->_renderer;
     }
@@ -363,17 +365,17 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
      */
     protected function _getResourceVersion()
     {
-        $resourceVersion = $this->getRequest()->getResourceVersion();
+        $resourceVersion = $this->_request->getResourceVersion();
         if (is_null($resourceVersion)) {
             throw new LogicException(
                 "Please be sure to call Mage_Webapi_Controller_Request_Rest::setResourceVersion() first.");
         }
-        $this->_validateVersionNumber($resourceVersion, $this->getRequest()->getResourceName());
+        $this->_validateVersionNumber($resourceVersion, $this->_request->getResourceName());
         return $resourceVersion;
     }
 
     /**
-     * Function to catch errors, that has not been caught by the user error handler function.
+     * Function to catch errors, that has not been caught by the user error dispatcher function.
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
@@ -408,7 +410,7 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
             }
             $errorMessage .= ": {$error['message']}  in {$error['file']} on line {$error['line']}";
             try {
-                // call registered error handler
+                // call registered error dispatcher
                 trigger_error("'$errorMessage'", E_USER_ERROR);
             } catch (Exception $e) {
                 $errorMessage = $e->getMessage();

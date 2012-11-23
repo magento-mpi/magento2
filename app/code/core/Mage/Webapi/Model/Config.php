@@ -412,7 +412,7 @@ class Mage_Webapi_Model_Config
     protected function _loadDataFromCache()
     {
         $isLoaded = false;
-        if ($this->_cache->canUse(Mage_Webapi_Controller_Handler_Soap::WEBSERVICE_CACHE_NAME)) {
+        if ($this->_cache->canUse(Mage_Webapi_Controller_Dispatcher_Soap::WEBSERVICE_CACHE_NAME)) {
             $cachedData = $this->_cache->load(self::CONFIG_CACHE_ID);
             if ($cachedData !== false) {
                 $this->_data = unserialize($cachedData);
@@ -427,11 +427,11 @@ class Mage_Webapi_Model_Config
      */
     protected function _saveDataToCache()
     {
-        if ($this->_cache->canUse(Mage_Webapi_Controller_Handler_Soap::WEBSERVICE_CACHE_NAME)) {
+        if ($this->_cache->canUse(Mage_Webapi_Controller_Dispatcher_Soap::WEBSERVICE_CACHE_NAME)) {
             $this->_cache->save(
                 serialize($this->_data),
                 self::CONFIG_CACHE_ID,
-                array(Mage_Webapi_Controller_Handler_Soap::WEBSERVICE_CACHE_TAG)
+                array(Mage_Webapi_Controller_Dispatcher_Soap::WEBSERVICE_CACHE_TAG)
             );
         }
     }
@@ -538,8 +538,8 @@ class Mage_Webapi_Model_Config
      */
     public function getActionTypeByMethod($methodName)
     {
-        $collection = Mage_Webapi_Controller_Handler_Rest::ACTION_TYPE_COLLECTION;
-        $item = Mage_Webapi_Controller_Handler_Rest::ACTION_TYPE_ITEM;
+        $collection = Mage_Webapi_Controller_Dispatcher_Rest::ACTION_TYPE_COLLECTION;
+        $item = Mage_Webapi_Controller_Dispatcher_Rest::ACTION_TYPE_ITEM;
         $actionTypeMap = array(
             Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE => $collection,
             Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE => $collection,
@@ -1052,7 +1052,7 @@ class Mage_Webapi_Model_Config
         if ($this->isArrayType($class)) {
             $this->_processType($this->getArrayItemType($class));
         } else {
-            if (!class_exists($class)) {
+            if (!Magento_Autoload::getInstance()->classExists($class)) {
                 throw new InvalidArgumentException(sprintf('Could not load the "%s" class as parameter type.', $class));
             }
             $reflection = new ClassReflection($class);
@@ -1315,7 +1315,7 @@ class Mage_Webapi_Model_Config
         /** The shortest routes must go first. */
         ksort($restRoutes);
         foreach ($restRoutes as $routePath => $routeMetadata) {
-            if ($routeMetadata['actionType'] == Mage_Webapi_Controller_Handler_Rest::ACTION_TYPE_ITEM
+            if ($routeMetadata['actionType'] == Mage_Webapi_Controller_Dispatcher_Rest::ACTION_TYPE_ITEM
                 && $routeMetadata['resourceName'] == $resourceName
             ) {
                 return $routePath;

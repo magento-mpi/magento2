@@ -4,9 +4,9 @@
  *
  * @copyright {}
  */
-class Mage_Webapi_Controller_Handler_ErrorProcessorTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Controller_Dispatcher_ErrorProcessorTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Webapi_Controller_Handler_ErrorProcessor */
+    /** @var Mage_Webapi_Controller_Dispatcher_ErrorProcessor */
     protected $_errorProcessor;
 
     /** @var Mage_Core_Helper_Data */
@@ -23,7 +23,10 @@ class Mage_Webapi_Controller_Handler_ErrorProcessorTest extends PHPUnit_Framewor
         $helperFactoryMock->expects($this->any())->method('get')->will($this->returnValue($this->_helperMock));
         $this->_appMock = $this->getMockBuilder('Mage_Core_Model_App')->disableOriginalConstructor()->getMock();
         /** Initialize SUT. */
-        $this->_errorProcessor = new Mage_Webapi_Controller_Handler_ErrorProcessor($helperFactoryMock, $this->_appMock);
+        $this->_errorProcessor = new Mage_Webapi_Controller_Dispatcher_ErrorProcessor(
+            $helperFactoryMock,
+            $this->_appMock
+        );
         parent::setUp();
     }
 
@@ -97,8 +100,8 @@ class Mage_Webapi_Controller_Handler_ErrorProcessorTest extends PHPUnit_Framewor
         $this->_errorProcessor->render('Message');
         /** Get output buffer. */
         $actualResult = ob_get_flush();
-        $expectedResult = '<?xml version="1.0"?><magento_api><messages><error><data_item><code>500</code>'
-            . '<message>Message</message></data_item></error></messages></magento_api>';
+        $expectedResult = '<?xml version="1.0"?><error><messages><error><data_item><code>500</code>'
+            . '<message>Message</message></data_item></error></messages></error>';
         $this->assertEquals($expectedResult, $actualResult, 'Wrong rendering in XML.');
     }
 
@@ -115,8 +118,8 @@ class Mage_Webapi_Controller_Handler_ErrorProcessorTest extends PHPUnit_Framewor
         $this->_errorProcessor->render('Message', 'Trace message.', 401);
         /** Get output buffer. */
         $actualResult = ob_get_flush();
-        $expectedResult = '<?xml version="1.0"?><magento_api><messages><error><data_item><code>401</code><message>'
-            . 'Message</message><trace><![CDATA[Trace message.]]></trace></data_item></error></messages></magento_api>';
+        $expectedResult = '<?xml version="1.0"?><error><messages><error><data_item><code>401</code><message>'
+            . 'Message</message><trace><![CDATA[Trace message.]]></trace></data_item></error></messages></error>';
         $this->assertEquals($expectedResult, $actualResult, 'Wrong rendering in XML with turned on developer mode.');
     }
 

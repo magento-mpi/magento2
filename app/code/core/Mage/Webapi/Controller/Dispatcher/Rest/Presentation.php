@@ -4,7 +4,7 @@
  *
  * @copyright {}
  */
-class Mage_Webapi_Controller_Handler_Rest_Presentation
+class Mage_Webapi_Controller_Dispatcher_Rest_Presentation
 {
     /** @var Mage_Webapi_Model_Config */
     protected $_apiConfig;
@@ -117,7 +117,7 @@ class Mage_Webapi_Controller_Handler_Rest_Presentation
             case Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE:
                 // break is intentionally omitted
             case Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE:
-                $this->_response->setHttpResponseCode(Mage_Webapi_Controller_Handler_Rest::HTTP_MULTI_STATUS);
+                $this->_response->setHttpResponseCode(Mage_Webapi_Controller_Dispatcher_Rest::HTTP_MULTI_STATUS);
                 break;
             case Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE:
                 // break is intentionally omitted

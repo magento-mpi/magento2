@@ -4,7 +4,7 @@
  *
  * @copyright {}
  */
-class Mage_Webapi_Controller_Handler_Soap_Authentication
+class Mage_Webapi_Controller_Dispatcher_Soap_Authentication
 {
     /** @var Mage_Webapi_Helper_Data */
     protected $_helper;

@@ -13,7 +13,7 @@ class Mage_Webapi_Controller_Request_Factory
      */
     protected $_apiTypeToRequestMap = array(
         Mage_Webapi_Controller_Front::API_TYPE_REST => 'Mage_Webapi_Controller_Request_Rest',
-        Mage_Webapi_Controller_Front::API_TYPE_SOAP => 'Mage_Webapi_Controller_Request',
+        Mage_Webapi_Controller_Front::API_TYPE_SOAP => 'Mage_Webapi_Controller_Request_Soap',
     );
 
     /** @var Magento_ObjectManager */

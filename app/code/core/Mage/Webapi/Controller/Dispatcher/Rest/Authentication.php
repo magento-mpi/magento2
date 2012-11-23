@@ -4,7 +4,7 @@
  *
  * @copyright {}
  */
-class Mage_Webapi_Controller_Handler_Rest_Authentication
+class Mage_Webapi_Controller_Dispatcher_Rest_Authentication
 {
     /** @var Mage_Webapi_Model_Authorization_RoleLocator */
     protected $_roleLocator;

@@ -4,7 +4,7 @@
  *
  * @copyright {}
  */
-class Mage_Webapi_Controller_Handler_ErrorProcessor
+class Mage_Webapi_Controller_Dispatcher_ErrorProcessor
 {
     const DEFAULT_ERROR_HTTP_CODE = 500;
     const DEFAULT_RESPONSE_CHARSET = 'UTF-8';
@@ -40,7 +40,7 @@ class Mage_Webapi_Controller_Handler_ErrorProcessor
      * Save error report.
      *
      * @param string $reportData
-     * @return Mage_Webapi_Controller_Handler_ErrorProcessor
+     * @return Mage_Webapi_Controller_Dispatcher_ErrorProcessor
      */
     public function saveReport($reportData)
     {
@@ -133,7 +133,7 @@ class Mage_Webapi_Controller_Handler_ErrorProcessor
                 break;
             case self::DATA_FORMAT_XML:
                 $errorData = '<?xml version="1.0"?>'
-                    . '<magento_api>'
+                    . '<error>'
                     . '<messages>'
                     . '<error>'
                     . '<data_item>'
@@ -143,7 +143,7 @@ class Mage_Webapi_Controller_Handler_ErrorProcessor
                     . '</data_item>'
                     . '</error>'
                     . '</messages>'
-                    . '</magento_api>';
+                    . '</error>';
                 break;
             case self::DATA_FORMAT_URL_ENCODED_QUERY:
                 $errorData = http_build_query($errorData);

@@ -2,7 +2,7 @@
 /**
  * Front controller associated with API area.
  *
- * The main responsibility of this class is to identify requested API type and instantiate correct handler for it.
+ * The main responsibility of this class is to identify requested API type and instantiate correct dispatcher for it.
  *
  * @copyright {}
  */
@@ -18,9 +18,9 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
     /**
      * Specific front controller for current API type.
      *
-     * @var Mage_Webapi_Controller_HandlerAbstract
+     * @var Mage_Webapi_Controller_DispatcherAbstract
      */
-    protected $_handler;
+    protected $_dispatcher;
 
     /** @var Mage_Core_Model_App */
     protected $_application;
@@ -31,40 +31,40 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
     /** @var string */
     protected $_apiType;
 
-    /** @var Mage_Webapi_Controller_Handler_Factory */
-    protected $_handlerFactory;
+    /** @var Mage_Webapi_Controller_Dispatcher_Factory */
+    protected $_dispatcherFactory;
 
     /** @var Magento_Controller_Router_Route_Factory */
     protected $_routeFactory;
 
-    /** @var Mage_Webapi_Controller_Handler_ErrorProcessor */
+    /** @var Mage_Webapi_Controller_Dispatcher_ErrorProcessor */
     protected $_errorProcessor;
 
     /**
      * Initialize dependencies.
      *
      * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param Mage_Webapi_Controller_Handler_Factory $handlerFactory
+     * @param Mage_Webapi_Controller_Dispatcher_Factory $dispatcherFactory
      * @param Mage_Core_Model_App $application
      * @param Magento_Controller_Router_Route_Factory $routeFactory
-     * @param Mage_Webapi_Controller_Handler_ErrorProcessor $errorProcessor
+     * @param Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
      */
     public function __construct(
         Mage_Core_Model_Factory_Helper $helperFactory,
-        Mage_Webapi_Controller_Handler_Factory $handlerFactory,
+        Mage_Webapi_Controller_Dispatcher_Factory $dispatcherFactory,
         Mage_Core_Model_App $application,
         Magento_Controller_Router_Route_Factory $routeFactory,
-        Mage_Webapi_Controller_Handler_ErrorProcessor $errorProcessor
+        Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
     ) {
         $this->_helper = $helperFactory->get('Mage_Webapi_Helper_Data');
-        $this->_handlerFactory = $handlerFactory;
+        $this->_dispatcherFactory = $dispatcherFactory;
         $this->_application = $application;
         $this->_routeFactory = $routeFactory;
         $this->_errorProcessor = $errorProcessor;
     }
 
     /**
-     * Prepare environment, initialize handler.
+     * Prepare environment, initialize dispatcher.
      *
      * @return Mage_Core_Controller_Varien_Front
      * @SuppressWarnings(PHPMD.ExitExpression)
@@ -74,7 +74,7 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
         ini_set('display_startup_errors', 0);
         ini_set('display_errors', 0);
         try {
-            $this->_getHandler()->init();
+            $this->_getDispatcher()->init();
         } catch (Exception $e) {
             $this->_errorProcessor->renderException($e);
             /** Request processing must be stopped at this point to prevent output in unacceptable format. */
@@ -90,22 +90,22 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
      */
     public function dispatch()
     {
-        $this->_getHandler()->handle();
+        $this->_getDispatcher()->handle();
         return $this;
     }
 
     /**
      * Retrieve front controller for concrete API type (factory method).
      *
-     * @return Mage_Webapi_Controller_HandlerAbstract
+     * @return Mage_Webapi_Controller_DispatcherAbstract
      * @throws Mage_Core_Exception
      */
-    protected function _getHandler()
+    protected function _getDispatcher()
     {
-        if (is_null($this->_handler)) {
-            $this->_handler = $this->_handlerFactory->get($this->determineApiType());
+        if (is_null($this->_dispatcher)) {
+            $this->_dispatcher = $this->_dispatcherFactory->get($this->determineApiType());
         }
-        return $this->_handler;
+        return $this->_dispatcher;
     }
 
     /**
@@ -141,7 +141,7 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
                     Mage_Webapi_Exception::HTTP_BAD_REQUEST);
             }
 
-            $apiType = $apiTypeMatch['api_type'];
+            $apiType = $apiTypeMatch[Mage_Webapi_Controller_Router_Route_Webapi::PARAM_API_TYPE];
             if (!in_array($apiType, $this->getListOfAvailableApiTypes())) {
                 throw new Mage_Webapi_Exception($this->_helper->__('The "%s" API type is not defined.', $apiType),
                     Mage_Webapi_Exception::HTTP_BAD_REQUEST);

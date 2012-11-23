@@ -1,15 +1,12 @@
 <?php
 /**
- * Abstract handler for web API requests.
+ * Abstract dispatcher for web API requests.
  *
  * @copyright {}
  */
-abstract class Mage_Webapi_Controller_HandlerAbstract
+abstract class Mage_Webapi_Controller_DispatcherAbstract
 {
     const VERSION_MIN = 1;
-
-    /** @var Mage_Webapi_Controller_Request */
-    protected $_request;
 
     /** @var Mage_Webapi_Controller_Response */
     protected $_response;
@@ -38,7 +35,6 @@ abstract class Mage_Webapi_Controller_HandlerAbstract
      *
      * @param Mage_Webapi_Helper_Data $helper
      * @param Mage_Webapi_Model_Config $apiConfig
-     * @param Mage_Webapi_Controller_Request_Factory $requestFactory
      * @param Mage_Webapi_Controller_Response $response
      * @param Mage_Webapi_Controller_Action_Factory $controllerFactory
      * @param Mage_Core_Model_Logger $logger
@@ -47,7 +43,6 @@ abstract class Mage_Webapi_Controller_HandlerAbstract
     public function __construct(
         Mage_Webapi_Helper_Data $helper,
         Mage_Webapi_Model_Config $apiConfig,
-        Mage_Webapi_Controller_Request_Factory $requestFactory,
         Mage_Webapi_Controller_Response $response,
         Mage_Webapi_Controller_Action_Factory $controllerFactory,
         Mage_Core_Model_Logger $logger,
@@ -57,7 +52,6 @@ abstract class Mage_Webapi_Controller_HandlerAbstract
         $this->_apiConfig = $apiConfig;
         $this->_controllerFactory = $controllerFactory;
         $this->_response = $response;
-        $this->_request = $requestFactory->get();
         $this->_logger = $logger;
         $this->_authorization = $authorization;
     }
@@ -65,29 +59,19 @@ abstract class Mage_Webapi_Controller_HandlerAbstract
     /**
      * Handle request.
      *
-     * @return Mage_Webapi_Controller_HandlerAbstract
+     * @return Mage_Webapi_Controller_DispatcherAbstract
      */
     abstract public function handle();
 
     /**
      * Initialize API configuration.
      *
-     * @return Mage_Webapi_Controller_HandlerAbstract
+     * @return Mage_Webapi_Controller_DispatcherAbstract
      */
     public function init()
     {
         $this->_apiConfig->init();
         return $this;
-    }
-
-    /**
-     * Get REST request.
-     *
-     * @return Mage_Webapi_Controller_Request
-     */
-    public function getRequest()
-    {
-        return $this->_request;
     }
 
     /**

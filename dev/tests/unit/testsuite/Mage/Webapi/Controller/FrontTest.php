@@ -12,10 +12,10 @@ class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
     /** @var Magento_Controller_Router_Route_Factory. */
     protected $_routeFactoryMock;
 
-    /** @var Mage_Webapi_Controller_Handler_Factory. */
-    protected $_handlerFactoryMock;
+    /** @var Mage_Webapi_Controller_Dispatcher_Factory. */
+    protected $_dispatcherFactoryMock;
 
-    /** @var Mage_Webapi_Controller_Handler_ErrorProcessor. */
+    /** @var Mage_Webapi_Controller_Dispatcher_ErrorProcessor. */
     protected $_errorProcessorMock;
 
     protected function setUp()
@@ -26,18 +26,18 @@ class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
         $helperFactory = $this->getMock('Mage_Core_Model_Factory_Helper');
         $helperFactory->expects($this->any())->method('get')->will($this->returnValue($helper));
 
-        $this->_handlerFactoryMock = $this->getMockBuilder('Mage_Webapi_Controller_Handler_Factory')
+        $this->_dispatcherFactoryMock = $this->getMockBuilder('Mage_Webapi_Controller_Dispatcher_Factory')
             ->disableOriginalConstructor()->getMock();
         $application = $this->getMockBuilder('Mage_Core_Model_App')->disableOriginalConstructor()->getMock();
         $this->_routeFactoryMock = $this->getMockBuilder('Magento_Controller_Router_Route_Factory')
             ->disableOriginalConstructor()->getMock();
-        $this->_errorProcessorMock = $this->getMockBuilder('Mage_Webapi_Controller_Handler_ErrorProcessor')
+        $this->_errorProcessorMock = $this->getMockBuilder('Mage_Webapi_Controller_Dispatcher_ErrorProcessor')
             ->disableOriginalConstructor()
             ->getMock();
         /** Initialize SUT. */
         $this->_frontControllerMock = new Mage_Webapi_Controller_Front(
             $helperFactory,
-            $this->_handlerFactoryMock,
+            $this->_dispatcherFactoryMock,
             $application,
             $this->_routeFactoryMock,
             $this->_errorProcessorMock
@@ -49,7 +49,7 @@ class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
     {
         unset($this->_frontControllerMock);
         unset($this->_errorProcessorMock);
-        unset($this->_handlerFactoryMock);
+        unset($this->_dispatcherFactoryMock);
         unset($this->_routeFactoryMock);
         parent::tearDown();
     }
@@ -71,11 +71,13 @@ class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
     {
         /** Prepare test data. */
         $this->_createMockForApiRouteAndFactory(array('api_type' => Mage_Webapi_Controller_Front::API_TYPE_REST));
-        $restHandlerMock = $this->getMockBuilder('Mage_Webapi_Controller_Handler_Rest')->disableOriginalConstructor()
+        $restDispatcherMock = $this->getMockBuilder('Mage_Webapi_Controller_Dispatcher_Rest')
+            ->disableOriginalConstructor()
             ->getMock();
         /** Assert init method in mocked object will be executed only once. */
-        $restHandlerMock->expects($this->once())->method('init');
-        $this->_handlerFactoryMock->expects($this->any())->method('get')->will($this->returnValue($restHandlerMock));
+        $restDispatcherMock->expects($this->once())->method('init');
+        $this->_dispatcherFactoryMock->expects($this->any())->method('get')
+            ->will($this->returnValue($restDispatcherMock));
         $this->_frontControllerMock->init();
     }
 
@@ -95,11 +97,13 @@ class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
     public function testDispatch()
     {
         $this->_createMockForApiRouteAndFactory(array('api_type' => Mage_Webapi_Controller_Front::API_TYPE_REST));
-        $restHandlerMock = $this->getMockBuilder('Mage_Webapi_Controller_Handler_Rest')->disableOriginalConstructor()
+        $restDispatcherMock = $this->getMockBuilder('Mage_Webapi_Controller_Dispatcher_Rest')
+            ->disableOriginalConstructor()
             ->getMock();
         /** Assert handle method in mocked object will be executed only once. */
-        $restHandlerMock->expects($this->once())->method('handle');
-        $this->_handlerFactoryMock->expects($this->any())->method('get')->will($this->returnValue($restHandlerMock));
+        $restDispatcherMock->expects($this->once())->method('handle');
+        $this->_dispatcherFactoryMock->expects($this->any())->method('get')
+            ->will($this->returnValue($restDispatcherMock));
         $this->_frontControllerMock->dispatch();
     }
 
