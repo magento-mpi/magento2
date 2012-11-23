@@ -171,7 +171,7 @@
                             <index>entity_id</index>
                             <id>entity_id</id>
                             <filter>0</filter>
-                            <sortable>0</sortable>
+                            <sortable>1</sortable>
                             <column_css_class>associated-product-id</column_css_class>
                         </arguments>
                     </block>
@@ -182,7 +182,7 @@
                             <index>name</index>
                             <id>name</id>
                             <filter>0</filter>
-                            <sortable>0</sortable>
+                            <sortable>1</sortable>
                             <column_css_class>associated-product-name</column_css_class>
                         </arguments>
                     </block>
@@ -193,7 +193,7 @@
                             <index>price</index>
                             <id>price</id>
                             <filter>0</filter>
-                            <sortable>0</sortable>
+                            <sortable>1</sortable>
                             <column_css_class>associated-product-price</column_css_class>
                         </arguments>
                     </block>
@@ -204,7 +204,7 @@
                             <index>sku</index>
                             <id>sku</id>
                             <filter>0</filter>
-                            <sortable>0</sortable>
+                            <sortable>1</sortable>
                             <column_css_class>associated-product-sku</column_css_class>
                         </arguments>
                     </block>
@@ -215,7 +215,7 @@
                             <index>weight</index>
                             <id>weight</id>
                             <filter>0</filter>
-                            <sortable>0</sortable>
+                            <sortable>1</sortable>
                             <column_css_class>associated-product-weight</column_css_class>
                         </arguments>
                     </block>

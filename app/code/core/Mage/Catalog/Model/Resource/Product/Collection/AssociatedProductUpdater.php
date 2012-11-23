@@ -32,8 +32,7 @@ class Mage_Catalog_Model_Resource_Product_Collection_AssociatedProductUpdater
      */
     public function __construct(Mage_CatalogInventory_Model_Resource_Stock_Item $stockItem)
     {
-        $this->_stockItem = isset($stockItem) ? $stockItem
-            : Mage::getModel('Mage_CatalogInventory_Model_Resource_Stock_Item');
+        $this->_stockItem = $stockItem;
     }
 
     /**

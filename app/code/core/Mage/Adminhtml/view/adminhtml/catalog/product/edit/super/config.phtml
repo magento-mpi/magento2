@@ -214,7 +214,6 @@ do {
             <td class="associated-matrix-product-qty"><?php echo $product->getStockItem()->getQty()?></td>
             <td class="associated-matrix-product-weight"><?php echo $product->getWeight()?></td>
             <td><?php echo implode('</td><td>', $variationalLabels)?></td>
-            class="checkbox associated-matrix-product-id" checked="checked"></td>
             <td class="a-center"><input type="checkbox" name="associated_product_ids[]" value="<?php echo $product->getId()?>" class="checkbox associated-matrix-product-id" checked="checked"></td>
         </tr>
 <?php
