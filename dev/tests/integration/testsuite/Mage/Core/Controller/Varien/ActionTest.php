@@ -271,6 +271,7 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
      * @param string $expectedArea
      * @param string $expectedStore
      * @param string $expectedDesign
+     * @group one
      */
     public function testPreDispatch($controllerClass, $expectedArea, $expectedStore, $expectedDesign)
     {

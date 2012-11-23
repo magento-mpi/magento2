@@ -114,7 +114,7 @@ class Mage_Core_Model_App_Emulation extends Varien_Object
             'store' => Mage::app()->getStore()
         );
 
-        $storeTheme = Mage::getStoreConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME_ID, $storeId);
+        $storeTheme = $design->getConfigurationDesignTheme($area, array('useId' => true, 'store' => $storeId));
         $design->setDesignTheme($storeTheme, $area);
 
         if ($area == Mage_Core_Model_App_Area::AREA_FRONTEND) {

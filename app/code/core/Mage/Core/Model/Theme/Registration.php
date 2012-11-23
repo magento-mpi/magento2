@@ -135,7 +135,7 @@ class Mage_Core_Model_Theme_Registration
         foreach ($themeItems as $theme) {
             $area = $theme->getArea();
             if (!isset($themesByArea[$area])) {
-                $themePath = $this->_getDesign()->getConfigurationDesignTheme($area, false);
+                $themePath = $this->_getDesign()->getConfigurationDesignTheme($area, array('useId' => false));
                 $fullPath = $area . '/' . $themePath;
                 $themesByArea[$area] = isset($themeItems[$fullPath]) ? $themeItems[$fullPath] : null;
             }
