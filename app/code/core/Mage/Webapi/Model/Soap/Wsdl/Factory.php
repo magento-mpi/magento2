@@ -26,20 +26,13 @@ class Mage_Webapi_Model_Soap_Wsdl_Factory
      * @param string $endpointUrl
      * @return Mage_Webapi_Model_Soap_Wsdl
      */
-    public function createWsdl($wsdlName, $endpointUrl)
+    public function create($wsdlName, $endpointUrl)
     {
-        // TODO: Temporary solution because of MAGETWO-4956
-        $complexTypeStrategy = $this->_objectManager->create(
-            'Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased'
-        );
-
         return $this->_objectManager->create(
             'Mage_Webapi_Model_Soap_Wsdl',
             array(
                 'name' => $wsdlName,
                 'uri' => $endpointUrl,
-                // TODO: Temporary solution because of MAGETWO-4956
-                'strategy' => $complexTypeStrategy
             ),
             false
         );

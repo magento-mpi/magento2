@@ -26,17 +26,27 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     protected $_wsdlFactory;
 
     /**
+     * @var Mage_Webapi_Helper_Data
+     */
+    protected $_helper;
+
+    /**
      * Construct auto discover with resource config and list of requested resources.
      *
-     * Mage_Webapi_Model_Config $apiConfig
-     * Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
+     * @param Mage_Webapi_Model_Config $apiConfig
+     * @param Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
+     * @param Mage_Webapi_Helper_Data $helper
      *
      * @throws InvalidArgumentException
      */
-    public function __construct(Mage_Webapi_Model_Config $apiConfig, Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory)
-    {
+    public function __construct(
+        Mage_Webapi_Model_Config $apiConfig,
+        Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory,
+        Mage_Webapi_Helper_Data $helper
+    ) {
         $this->_apiConfig = $apiConfig;
         $this->_wsdlFactory = $wsdlFactory;
+        $this->_helper = $helper;
     }
 
     /**
@@ -49,7 +59,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     public function generate($requestedResources, $endPointUrl)
     {
         $this->_collectCallInfo($requestedResources);
-        $wsdl = $this->_wsdlFactory->createWsdl(self::WSDL_NAME, $endPointUrl);
+        $wsdl = $this->_wsdlFactory->create(self::WSDL_NAME, $endPointUrl);
         $wsdl->addSchemaTypeSection();
 
         foreach ($requestedResources as $resourceName => $resourceData) {
@@ -277,7 +287,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
                     $direction = ($direction == 'in') ? 'requiredInput' : 'returned';
                     foreach ($interface['parameters'] as $parameterData) {
                         $parameterType = $parameterData['type'];
-                        if (!$this->_apiConfig->isTypeSimple($parameterType)) {
+                        if (!$this->_helper->isTypeSimple($parameterType)) {
                             $operation = $this->getOperationName($resourceName, $methodName);
                             if ($parameterData['required']) {
                                 $condition = ($direction == 'requiredInput') ? 'yes' : 'always';

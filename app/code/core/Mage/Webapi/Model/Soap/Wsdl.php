@@ -1,6 +1,5 @@
 <?php
-use Zend\Soap\Wsdl,
-    Zend\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface as ComplexTypeStrategy;
+use Zend\Soap\Wsdl;
 
 /**
  * Magento-specific WSDL builder.
@@ -20,12 +19,11 @@ class Mage_Webapi_Model_Soap_Wsdl extends Wsdl
      *
      * @param string $name
      * @param string|Zend\Uri\Uri $uri
-     * @param Zend\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface $strategy
-     * @param array $classMap
+     * @param Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased $strategy
      */
-    public function __construct($name, $uri, ComplexTypeStrategy $strategy, array $classMap = array())
+    public function __construct($name, $uri, Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased $strategy)
     {
         $this->_uri = $uri;
-        parent::__construct($name, $uri, $strategy, $classMap);
+        parent::__construct($name, $uri, $strategy);
     }
 }
