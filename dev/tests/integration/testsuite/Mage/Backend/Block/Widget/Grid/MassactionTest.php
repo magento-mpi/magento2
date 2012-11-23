@@ -10,6 +10,8 @@
  */
 
 /**
+ *
+ * @magentoAppIsolation enabled
  * @magentoDbIsolation enabled
  */
 class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_TestCase
