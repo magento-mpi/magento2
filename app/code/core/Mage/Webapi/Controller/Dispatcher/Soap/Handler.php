@@ -147,7 +147,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
      */
     public function setRequestHeaders(array $requestHeaders)
     {
-        $this->_requestHeaders;
+        $this->_requestHeaders = $requestHeaders;
     }
 
     /**

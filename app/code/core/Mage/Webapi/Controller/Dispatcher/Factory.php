@@ -11,7 +11,7 @@ class Mage_Webapi_Controller_Dispatcher_Factory
      *
      * @var array array({api type} => {API dispatcher class})
      */
-    protected $_apiTypeToDispatcherMap = array(
+    protected $_apiDispatcherMap = array(
         Mage_Webapi_Controller_Front::API_TYPE_REST => 'Mage_Webapi_Controller_Dispatcher_Rest',
         Mage_Webapi_Controller_Front::API_TYPE_SOAP => 'Mage_Webapi_Controller_Dispatcher_Soap',
     );
@@ -42,10 +42,10 @@ class Mage_Webapi_Controller_Dispatcher_Factory
      */
     public function get($apiType)
     {
-        if (!isset($this->_apiTypeToDispatcherMap[$apiType])) {
+        if (!isset($this->_apiDispatcherMap[$apiType])) {
             throw new LogicException('There is no corresponding dispatcher class for the "%s" API type.', $apiType);
         }
-        $dispatcherClass = $this->_apiTypeToDispatcherMap[$apiType];
+        $dispatcherClass = $this->_apiDispatcherMap[$apiType];
         return $this->_objectManager->get($dispatcherClass);
     }
 }

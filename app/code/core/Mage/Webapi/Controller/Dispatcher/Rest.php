@@ -148,19 +148,8 @@ class Mage_Webapi_Controller_Dispatcher_Rest extends Mage_Webapi_Controller_Disp
         $this->_controllerFactory = $controllerFactory;
         $this->_authorization = $authorization;
         $this->_logger = $logger;
-    }
-
-    /**
-     * Server errors processing mechanism initialization.
-     *
-     * @return Mage_Webapi_Controller_Dispatcher_Rest
-     */
-    public function init()
-    {
-        parent::init();
         // redeclare custom shutdown function to handle fatal errors correctly
         $this->registerShutdownFunction(array($this, self::DEFAULT_SHUTDOWN_FUNCTION));
-        return $this;
     }
 
     /**

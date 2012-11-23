@@ -16,9 +16,6 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
     /** @var Mage_Webapi_Model_Soap_AutoDiscover */
     protected $_autoDiscover;
 
-    /** @var Mage_Core_Model_App */
-    protected $_application;
-
     /** @var Mage_Core_Model_Cache */
     protected $_cache;
 
@@ -37,7 +34,6 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
      * @param Mage_Webapi_Controller_Response $response
      * @param Mage_Webapi_Model_Soap_AutoDiscover $autoDiscover
      * @param Mage_Webapi_Model_Soap_Server $soapServer
-     * @param Mage_Core_Model_App $application
      * @param Mage_Core_Model_Cache $cache
      * @param Mage_Webapi_Model_Soap_Fault $soapFault
      */
@@ -48,7 +44,6 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
         Mage_Webapi_Controller_Response $response,
         Mage_Webapi_Model_Soap_AutoDiscover $autoDiscover,
         Mage_Webapi_Model_Soap_Server $soapServer,
-        Mage_Core_Model_App $application,
         Mage_Core_Model_Cache $cache,
         Mage_Webapi_Model_Soap_Fault $soapFault
     ) {
@@ -60,126 +55,8 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
         $this->_autoDiscover = $autoDiscover;
         $this->_soapServer = $soapServer;
         $this->_cache = $cache;
-        $this->_application = $application;
         $this->_request = $request;
         $this->_soapFault = $soapFault;
-    }
-
-    /**
-     * Dispatcher for all SOAP operations.
-     *
-     * @param string $operation
-     * @param array $arguments
-     * @return stdClass
-     */
-    public function __call($operation, $arguments)
-    {
-        if (in_array($operation, $this->_getRequestedHeaders())) {
-            $this->_processSoapHeader($operation, $arguments);
-        } else {
-            try {
-                if (is_null($this->_usernameToken)) {
-                    $this->_soapFault(
-                        $this->_helper->__('WS-Security UsernameToken is not found in SOAP-request.'),
-                        self::FAULT_CODE_RECEIVER
-                    );
-                }
-                $this->_authentication->authenticate($this->_usernameToken);
-                $resourceVersion = $this->_getOperationVersion($operation);
-                $resourceName = $this->getApiConfig()->getResourceNameByOperation($operation, $resourceVersion);
-                if (!$resourceName) {
-                    $this->_soapFault(sprintf('Method "%s" is not found.', $operation), self::FAULT_CODE_SENDER);
-                }
-                $controllerClass = $this->getApiConfig()->getControllerClassByOperationName($operation);
-                $controllerInstance = $this->_controllerFactory->createActionController(
-                    $controllerClass,
-                     $this->_request
-                 );
-                $method = $this->getApiConfig()->getMethodNameByOperation($operation, $resourceVersion);
-
-                $this->_authorization->checkResourceAcl($resourceName, $method);
-
-                $arguments = reset($arguments);
-                $arguments = get_object_vars($arguments);
-                $versionAfterFallback = $this->_identifyVersionSuffix(
-                    $operation,
-                    $resourceVersion,
-                    $controllerInstance
-                );
-                $this->_checkDeprecationPolicy($resourceName, $method, $versionAfterFallback);
-                $action = $method . $versionAfterFallback;
-                $arguments = $this->getHelper()->prepareMethodParams(
-                    $controllerClass,
-                    $action,
-                    $arguments,
-                    $this->getApiConfig()
-                );
-                $outputData = call_user_func_array(array($controllerInstance, $action), $arguments);
-                return (object)array('result' => $outputData);
-            } catch (Mage_Webapi_Exception $e) {
-                $this->_soapFault($e->getMessage(), $e->getOriginator(), $e);
-            } catch (Exception $e) {
-                // TODO: Replace Mage::getIsDeveloperMode() to isDeveloperMode() (Mage_Core_Model_App)
-                if (!Mage::getIsDeveloperMode()) {
-                    $this->_logger->logException($e);
-                    $this->_soapFault($this->_helper->__("Internal Error. Details are available in Magento log file."));
-                } else {
-                    $this->_soapFault($this->_helper->__("Internal Error."), self::FAULT_CODE_RECEIVER, $e);
-                }
-            }
-        }
-    }
-
-    /**
-     * Handle SOAP headers.
-     *
-     * @param string $header
-     * @param array $arguments
-     */
-    protected function _processSoapHeader($header, $arguments)
-    {
-        switch ($header) {
-            case 'Security':
-                foreach ($arguments as $argument) {
-                    // @codingStandardsIgnoreStart
-                    if (is_object($argument) && isset($argument->UsernameToken)) {
-                        $this->_usernameToken = $argument->UsernameToken;
-                    }
-                    // @codingStandardsIgnoreEnd
-                }
-                break;
-        }
-    }
-
-    /**
-     * Get SOAP Header names from request.
-     *
-     * @return array
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-     */
-    protected function _getRequestedHeaders()
-    {
-        $dom = $this->_domDocumentFactory->createDomDocument();
-        $dom->loadXML($this->_getSoapServer()->getLastRequest());
-        $headers = array();
-        /** @var DOMElement $header */
-        foreach ($dom->getElementsByTagName('Header')->item(0)->childNodes as $header) {
-            list($headerNs, $headerName) = explode(":", $header->nodeName);
-            $headers[] = $headerName;
-        }
-
-        return $headers;
-    }
-
-    /**
-     * Implementation of abstract method.
-     *
-     * @return Mage_Webapi_Controller_Dispatcher_Soap
-     */
-    public function init()
-    {
-        parent::init();
-        return $this;
     }
 
     /**
@@ -306,144 +183,5 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
             )
         );
         return $this;
-    }
-
-    /**
-     * Generate SOAP fault.
-     *
-     *
-     * @param string $reason Human-readable explanation of the fault
-     * @param string $code SOAP fault code
-     * @param Exception $exception Exception can be used to add information to Detail node of SOAP message
-     * @throws SoapFault
-     *
-     * @SuppressWarnings(PHPMD.ExitExpression)
-     */
-    protected function _soapFault(
-        $reason = self::FAULT_REASON_INTERNAL,
-        $code = self::FAULT_CODE_RECEIVER,
-        Exception $exception = null
-    ) {
-        header('Content-type: application/soap+xml; charset=UTF-8');
-        if ($this->_isSoapExtensionLoaded()) {
-            $details = null;
-            if (!is_null($exception)) {
-                $details = array('ExceptionCode' => $exception->getCode());
-                // add detailed message only if it differs from fault reason
-                if ($exception->getMessage() != $reason) {
-                    $details['ExceptionMessage'] = $exception->getMessage();
-                }
-                // TODO: Replace Mage::getIsDeveloperMode() to isDeveloperMode() (Mage_Core_Model_App)
-                if (Mage::getIsDeveloperMode()) {
-                    $details['ExceptionTrace'] = "<![CDATA[{$exception->getTraceAsString()}]]>";
-                }
-            }
-            // TODO: Implement Current language definition
-            $language = 'en';
-            die($this->_getSoapFaultMessage($reason, $code, $language, $details));
-        } else {
-            die($this->_getSoapFaultMessage(self::FAULT_CODE_RECEIVER, 'SOAP extension is not loaded.'));
-        }
-    }
-
-    /**
-     * Generate SOAP fault message in XML format.
-     *
-     * @param string $reason Human-readable explanation of the fault
-     * @param string $code SOAP fault code
-     * @param string $language Reason message language
-     * @param string|array|null $details Detailed reason message(s)
-     * @return string
-     */
-    protected function _getSoapFaultMessage(
-        $reason = self::FAULT_REASON_INTERNAL,
-        $code = self::FAULT_CODE_RECEIVER,
-        $language = 'en',
-        $details = null
-    ) {
-        if (is_string($details)) {
-            $detailsXml = "<env:Detail>" . htmlspecialchars($details) . "</env:Detail>";
-        } elseif (is_array($details)) {
-            $detailsXml = "<env:Detail>" . $this->_convertDetailsToXml($details) . "</env:Detail>";
-        } else {
-            $detailsXml = '';
-        }
-        $reason = htmlentities($reason);
-        $message = <<<FAULT_MESSAGE
-<?xml version="1.0" encoding="utf-8" ?>
-<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
-   <env:Body>
-      <env:Fault>
-         <env:Code>
-            <env:Value>$code</env:Value>
-         </env:Code>
-         <env:Reason>
-            <env:Text xml:lang="$language">$reason</env:Text>
-         </env:Reason>
-         $detailsXml
-      </env:Fault>
-   </env:Body>
-</env:Envelope>
-FAULT_MESSAGE;
-        return $message;
-    }
-
-    /**
-     * Recursively convert details array into XML structure.
-     *
-     * @param array $details
-     * @return string
-     */
-    protected function _convertDetailsToXml($details)
-    {
-        $detailsXml = '';
-        foreach ($details as $detailNode => $detailValue) {
-            $detailNode = htmlspecialchars($detailNode);
-            if (is_numeric($detailNode)) {
-                continue;
-            }
-            if (is_string($detailValue)) {
-                $detailsXml .= "<$detailNode>" . htmlspecialchars($detailValue) . "</$detailNode>";
-            } elseif (is_array($detailValue)) {
-                $detailsXml .= "<$detailNode>" . $this->_convertDetailsToXml($detailValue) . "</$detailNode>";
-            }
-        }
-        return $detailsXml;
-    }
-
-    /**
-     * Check whether SOAP extension is loaded or not.
-     *
-     * @return boolean
-     */
-    protected function _isSoapExtensionLoaded()
-    {
-        return class_exists('SoapServer', false);
-    }
-
-    /**
-     * Identify version of requested operation.
-     *
-     * This method is required when there are two or more resource versions specified in request:
-     * http://magento.host/api/soap?wsdl&resources[resource_a]=v1&resources[resource_b]=v2 <br/>
-     * In this case it is not obvious what version of requested operation should be used.
-     *
-     * @param string $operationName
-     * @return int
-     * @throws Mage_Webapi_Exception
-     */
-    protected function _getOperationVersion($operationName)
-    {
-        $requestedResources = $this->_request->getRequestedResources();
-        $resourceName = $this->getApiConfig()->getResourceNameByOperation($operationName);
-        if (!isset($requestedResources[$resourceName])) {
-            throw new Mage_Webapi_Exception(
-                $this->getHelper()->__('The version of "%s" operation cannot be identified.', $operationName),
-                Mage_Webapi_Exception::HTTP_NOT_FOUND
-            );
-        }
-        $version = (int)str_replace('V', '', ucfirst($requestedResources[$resourceName]));
-        $this->_validateVersionNumber($version, $resourceName);
-        return $version;
     }
 }
