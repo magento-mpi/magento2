@@ -33,7 +33,7 @@ class Mage_DesignEditor_Block_Toolbar_ThemeTest extends PHPUnit_Framework_TestCa
      * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
      */
-    public function testIsThemeSelected($themeOld, $themeNew)
+    public function testIsThemeSelected()
     {
         $themeOld = Mage::getObjectManager()->create('Mage_Core_Model_Theme')
             ->setData($this->_getThemeSampleData())
