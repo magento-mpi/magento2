@@ -220,7 +220,7 @@ report_customer_accounts:
                             export: //button[span='Export']
                         dropdowns:
                             show_by: //select[@name='report_period']
-                            export_to: //td[@class="a-right"]/select
+                            export_to: //select[@name='gridAccounts_export']
                             filter_show_report_for: //select[@id='store_switcher']
                         fields:
                             filter_from: //input[@name='report_from']
