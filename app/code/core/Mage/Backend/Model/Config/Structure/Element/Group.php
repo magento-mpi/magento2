@@ -19,15 +19,19 @@ class Mage_Backend_Model_Config_Structure_Element_Group
     protected $_cloneModelFactory;
 
     /**
-     * @param Mage_Backend_Model_Config_Structure_Element_Iterator $childrenIterator
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_Authorization $authorization
+     * @param Mage_Backend_Model_Config_Structure_Element_Iterator_Field $childrenIterator
      * @param Mage_Backend_Model_Config_Clone_Factory $cloneModelFactory
      */
     function __construct(
-        Mage_Backend_Model_Config_Structure_Element_Iterator $childrenIterator,
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Core_Model_Authorization $authorization,
+        Mage_Backend_Model_Config_Structure_Element_Iterator_Field $childrenIterator,
         Mage_Backend_Model_Config_Clone_Factory $cloneModelFactory
     ) {
+        parent::__construct($helperFactory, $authorization, $childrenIterator);
         $this->_cloneModelFactory = $cloneModelFactory;
-        parent::__construct($childrenIterator);
     }
 
     /**

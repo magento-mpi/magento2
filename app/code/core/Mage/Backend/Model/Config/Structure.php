@@ -28,7 +28,7 @@ class Mage_Backend_Model_Config_Structure
     /**
      * Config tab iterator
      *
-     * @var Mage_Backend_Model_Config_Structure_Element_Iterator
+     * @var Mage_Backend_Model_Config_Structure_Element_Iterator_Tab
      */
     protected $_tabIterator;
 
@@ -41,12 +41,12 @@ class Mage_Backend_Model_Config_Structure
 
     /**
      * @param Mage_Backend_Model_Config_Structure_Reader $structureReader
-     * @param Mage_Backend_Model_Config_Structure_Element_Iterator $tabIterator
+     * @param Mage_Backend_Model_Config_Structure_Element_Iterator_Tab $tabIterator
      * @param Mage_Backend_Model_Config_Structure_Element_FlyweightPool $flyweightPool
      */
     public function __construct(
         Mage_Backend_Model_Config_Structure_Reader $structureReader,
-        Mage_Backend_Model_Config_Structure_Element_Iterator $tabIterator,
+        Mage_Backend_Model_Config_Structure_Element_Iterator_Tab $tabIterator,
         Mage_Backend_Model_Config_Structure_Element_FlyweightPool $flyweightPool
     ) {
         $this->_data = $structureReader->getData();

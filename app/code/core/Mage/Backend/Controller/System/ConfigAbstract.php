@@ -15,7 +15,7 @@
  * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Backend_Adminhtml_System_ConfigAbstract extends Mage_Backend_Controller_ActionAbstract
+abstract class Mage_Backend_Controller_System_ConfigAbstract extends Mage_Backend_Controller_ActionAbstract
 {
     /**
      * Authorization model

@@ -45,6 +45,16 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
     }
 
     /**
+     * Retrieve element translation module
+     *
+     * @return string
+     */
+    protected function _getTranslationModule()
+    {
+        return (isset($this->_data['module']) ? $this->_data['module'] : 'Mage_Core') . 'Helper_Data';
+    }
+
+    /**
      * Translate element attribute
      *
      * @param string $code
@@ -132,9 +142,9 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
      *
      * @return bool
      */
-    public function isVisible($websiteCode, $storeCode)
+    public function isVisible($websiteCode = null, $storeCode = null)
     {
-
+        return true;
     }
 
     /**
