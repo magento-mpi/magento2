@@ -18,9 +18,6 @@ class Mage_CatalogSearch_ResultControllerTest extends Magento_Test_TestCase_Cont
      */
     public function testIndexActionTranslation()
     {
-        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
-        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
-
         $this->getRequest()->setParam('q', 'query_text');
         $this->dispatch('catalogsearch/result');
 
