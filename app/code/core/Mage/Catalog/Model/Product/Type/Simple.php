@@ -18,12 +18,12 @@
 class Mage_Catalog_Model_Product_Type_Simple extends Mage_Catalog_Model_Product_Type_Abstract
 {
     /**
-     * Delete data specific for current product type
+     * Delete data specific for Simple product type
      *
      * @param Mage_Catalog_Model_Product $product
      * @return Mage_Catalog_Model_Product_Type_Simple
      */
-    public function deleteProductSpecificData($product)
+    public function deleteTypeSpecificData(Mage_Catalog_Model_Product $product)
     {
         return $this;
     }

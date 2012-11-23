@@ -466,19 +466,19 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
     }
 
     /**
-     * Delete data specific for current product type
+     * Delete data specific for Downloadable product type
      *
      * @param Mage_Catalog_Model_Product $product
      * @return Mage_Downloadable_Model_Product_Type
      */
-    public function deleteProductSpecificData($product)
+    public function deleteTypeSpecificData(Mage_Catalog_Model_Product $product)
     {
-        $downloadableData = $product->getDownloadableData();
         if (!$product->hasDataChanges('type_id')
             || $product->getOrigData('type_id') !== Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE
         ) {
             return $this;
         }
+        $downloadableData = $product->getDownloadableData();
         foreach ($downloadableData as &$links) {
             foreach ($links as &$linkDataArray) {
                 $linkDataArray['is_delete'] = '1';
@@ -486,6 +486,5 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
         }
         $product->setDownloadableData($downloadableData);
         $this->save($product);
-        return $this;
     }
 }

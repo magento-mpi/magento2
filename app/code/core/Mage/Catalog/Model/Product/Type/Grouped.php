@@ -359,12 +359,12 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
     }
 
     /**
-     * Delete data specific for current product type
+     * Delete data specific for Grouped product type
      *
      * @param Mage_Catalog_Model_Product $product
      * @return Mage_Catalog_Model_Product_Type_Grouped
      */
-    public function deleteProductSpecificData($product)
+    public function deleteTypeSpecificData(Mage_Catalog_Model_Product $product)
     {
         return $this;
     }
