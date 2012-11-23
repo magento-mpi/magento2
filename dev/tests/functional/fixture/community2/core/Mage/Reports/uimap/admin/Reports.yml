@@ -142,6 +142,21 @@ report_product_sold:
         form:
             fieldsets:
                 -
+                    report_product_sold:
+                        xpath: //div[@id='gridProductsSold']
+                        fields:
+                            filter_from: //input[@id='gridProductsSold_period_date_from']
+                            filter_to: //input[@id='gridProductsSold_period_date_to']
+                        dropdowns:
+                            show_report_for: //select[@name='limit']
+                            show_by: //select[@id='gridProductsSold_report_period']
+                            export_to: //select[@id='gridProductsSold_export']
+                        buttons:
+                            export: //button[span='Export']
+                            refresh: //button[span='Refresh']
+                        pageelements:
+                            product_sold_grid: //table[@id='gridProductsSold_table']
+                -
                     store_switcher:
                         xpath: //div/p[@class='switcher']
                         dropdowns:
@@ -198,6 +213,24 @@ report_customer_accounts:
         form:
             fieldsets:
                 -
+                    report_customer_accounts:
+                        xpath: //div[@id='gridAccounts']
+                        buttons:
+                            refresh: //button[span='Refresh']
+                            export: //button[span='Export']
+                        dropdowns:
+                            show_by: //select[@name='report_period']
+                            export_to: //td[@class="a-right"]/select
+                            filter_show_report_for: //select[@id='store_switcher']
+                        fields:
+                            filter_from: //input[@name='report_from']
+                            filter_to: //input[@name='report_to']
+                        links:
+                            period: //table[@id='gridAccounts_table']//span[contains(.,'Period')]
+                            number_of_new_accounts: //table[@id='gridAccounts_table']//span[contains(.,'Number of New Accounts')]
+                        pageelements:
+                            report_customer_accounts_table: //table[@id='gridAccounts_table']
+                -
                     store_switcher:
                         xpath: //div/p[@class='switcher']
                         dropdowns:
@@ -212,6 +245,30 @@ report_customer_totals:
         form:
             fieldsets:
                 -
+                    report_customer_totals:
+                        xpath: //div[@id='gridTotalsCustomer']
+                        buttons:
+                            refresh: //button[span='Refresh']
+                            export: //button[span='Export']
+                        dropdowns:
+                            filter_show_report_for: //select[@id='store_switcher']
+                            show_by: //select[@id='gridTotalsCustomer_report_period']
+                            export_to: //select[@id='gridTotalsCustomer_export']
+                        fields:
+                            filter_from: //input[@id='gridTotalsCustomer_period_date_from']
+                            filter_to: //input[@id='gridTotalsCustomer_period_date_to']
+                        links:
+                            period: //table[@id='gridTotalsCustomer_table']//span[contains(.,'Period')]
+                            customer_name: //table[@id='gridTotalsCustomer_table']//span[contains(.,'Customer Name')]
+                            number_of_orders: //table[@id='gridTotalsCustomer_table']//span[contains(.,'Number of Orders')]
+                            average_order_amount: //table[@id='gridTotalsCustomer_table']//span[contains(.,'Average Order Amount')]
+                            total_order_amount: //table[@id='gridTotalsCustomer_table']//span[contains(.,'Total Order Amount')]
+                        pageelements:
+                            customer_by_orders_total_table: //table[@id='gridTotalsCustomer_table']
+                            top_order_amount: //table[@id='gridTotalsCustomer_table']/tbody/tr[1]/td[5]
+                            top_customer_name: //table[@id='gridTotalsCustomer_table']/tbody/tr[1]/td[2]
+                            top_number_of_order: //table[@id='gridTotalsCustomer_table']//tbody/tr[1]/td[3]
+                -
                     store_switcher:
                         xpath: //div/p[@class='switcher']
                         dropdowns:
@@ -225,6 +282,20 @@ report_customer_orders:
     uimap:
         form:
             fieldsets:
+                -
+                    report_customer_orders:
+                        xpath: //div[@id='gridOrdersCustomer']
+                        fields:
+                            filter_from: //input[@id='gridOrdersCustomer_period_date_from']
+                            filter_to: //input[@id='gridOrdersCustomer_period_date_to']
+                        dropdowns:
+                            show_by: //select[@id='gridOrdersCustomer_report_period']
+                            export_to: //select[@id='gridOrdersCustomer_export']
+                        buttons:
+                             export: //button[span='Export']
+                             refresh: //button[span='Refresh']
+                        pageelements:
+                             customer_orders_grid: //table[@id='gridOrdersCustomer_table']
                 -
                     store_switcher:
                         xpath: //div/p[@class='switcher']

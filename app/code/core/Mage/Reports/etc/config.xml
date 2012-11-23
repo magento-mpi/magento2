@@ -43,6 +43,13 @@
         </events>
     </global>
     <adminhtml>
+        <layout>
+            <updates>
+                <reports module="Mage_Reports">
+                    <file>layout.xml</file>
+                </reports>
+            </updates>
+        </layout>
         <translate>
             <modules>
                 <Mage_Reports>

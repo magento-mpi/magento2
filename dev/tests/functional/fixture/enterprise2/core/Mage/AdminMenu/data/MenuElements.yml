@@ -106,8 +106,8 @@ menu:
             report_shopcart_product:
             report_shopcart_abandoned:
         invitations:
-            invitations_general:
-            invitations_customers:
+            report_invitations_general:
+            report_invitations_customers:
             invitations_order_conversion_rate:
         products:
             report_sales_bestsellers:

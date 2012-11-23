@@ -71,6 +71,8 @@
  * @method Community2_Mage_XmlSitemap_Helper|Enterprise2_Mage_XmlSitemap_Helper                             xmlSitemapHelper()
  * @method Community2_Mage_BatchUpdates_Orders_Helper ordersHelper() //@TODO need to remove
  * @method Community2_Mage_BatchUpdates_Products_Helper productsHelper() //@TODO need to remove
+ * @method Enterprise2_Mage_Grid_Helper                                                                     gridHelper()
+ * @method Enterprise2_Mage_Invitation_Helper                                                               invitationHelper()
  */
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 {
@@ -1775,19 +1777,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected static function _getMcaFromCurrentUrl($areasConfig, $currentUrl)
     {
         $mca = '';
-        $currentArea = '';
-        $baseUrl = '';
+        $currentArea = self::_getAreaFromCurrentUrl($areasConfig, $currentUrl);
+        $baseUrl = preg_replace('|^www\.|', '', preg_replace('|^http([s]{0,1})://|', '',
+            preg_replace('|/index.php/?|', '/', $areasConfig[$currentArea]['url'])));
         $currentUrl = preg_replace('|^www\.|', '',
             preg_replace('|^http([s]{0,1})://|', '', preg_replace('|/index.php/?|', '/', $currentUrl)));
-        foreach ($areasConfig as $area => $areaConfig) {
-            $areaUrl = preg_replace('|^www\.|', '',
-                preg_replace('|^http([s]{0,1})://|', '', preg_replace('|/index.php/?|', '/', $areaConfig['url'])));
-            if (strpos($currentUrl, $areaUrl) === 0) {
-                $baseUrl = $areaUrl;
-                $currentArea = $area;
-                break;
-            }
-        }
+
         if (strpos($currentUrl, $baseUrl) !== false) {
             $mca = trim(substr($currentUrl, strlen($baseUrl)), " /\\");
         }
@@ -1796,20 +1791,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $mca = '/' . $mca;
         }
 
-        if ($currentArea == 'admin') {
-            //Removes part of url that appears after pressing "Reset Filter" or "Search" button in grid
-            //(when not using ajax to reload the page)
-            $mca = preg_replace('|/filter/((\S)+)?/form_key/[A-Za-z0-9]+/?|', '/', $mca);
-            //Delete secret key from url
-            $mca = preg_replace('|/(index/)?key/[A-Za-z0-9]+/?|', '/', $mca);
-            //Delete store view part of mca
-            $mca = preg_replace('|/store/[A-Za-z0-9]+/?|', '/', $mca);
-            //Delete action part of mca if it's index
-            $mca = preg_replace('|/index/?$|', '/', $mca);
-        } elseif ($currentArea == 'frontend') {
-            //Delete action part of mca if it's index
-            $mca = preg_replace('|/index/?$|', '/', $mca);
-        }
+        //Removes part of url that appears after pressing "Reset Filter" or "Search" button in grid
+        //(when not using ajax to reload the page)
+        $mca = preg_replace('|/filter/((\S)+)?/form_key/[A-Za-z0-9]+/?|', '/', $mca);
+        //Delete secret key from url
+        $mca = preg_replace('|/(index/)?key/[A-Za-z0-9]+/?|', '/', $mca);
+        //Delete action part of mca if it's index
+        $mca = preg_replace('|/index/?$|', '/', $mca);
+        //Delete action part of mca if it's ?SID=
+        $mca = preg_replace('|(\?)?SID=([a-zA-Z\d]+)?|', '', $mca);
+        //@TODO Temporary fix for magento2
+        $mca = preg_replace('/^(\/)?(admin|backend)(\/)?/', '',$mca);
+
         return preg_replace('|^/|', '', $mca);
     }
 
