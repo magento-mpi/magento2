@@ -187,6 +187,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest extends Mage_Webapi_Controller_Disp
         } catch (Mage_Webapi_Exception $e) {
             $this->getResponse()->setException($e);
         } catch (Exception $e) {
+            // TODO: Replace Mage::getIsDeveloperMode() to isDeveloperMode() (Mage_Core_Model_App)
             if (!Mage::getIsDeveloperMode()) {
                 $this->_logger->logException($e);
                 $this->getResponse()->setException(
@@ -330,6 +331,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest extends Mage_Webapi_Controller_Disp
                 ? $exception->getCode()
                 : Mage_Webapi_Exception::HTTP_INTERNAL_ERROR;
             $messageData = array('code' => $code, 'message' => $exception->getMessage());
+            // TODO: Replace Mage::getIsDeveloperMode() to isDeveloperMode() (Mage_Core_Model_App)
             if (Mage::getIsDeveloperMode()) {
                 $messageData['trace'] = $exception->getTraceAsString();
             }
@@ -415,6 +417,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest extends Mage_Webapi_Controller_Disp
             } catch (Exception $e) {
                 $errorMessage = $e->getMessage();
             }
+            // TODO: Replace Mage::getIsDeveloperMode() to isDeveloperMode() (Mage_Core_Model_App)
             if (!Mage::getIsDeveloperMode()) {
                 $this->_errorProcessor->saveReport($errorMessage);
             }

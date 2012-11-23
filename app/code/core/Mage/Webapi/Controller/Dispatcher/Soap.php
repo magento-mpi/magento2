@@ -153,6 +153,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
             } catch (Mage_Webapi_Exception $e) {
                 $this->_soapFault($e->getMessage(), $e->getOriginator(), $e);
             } catch (Exception $e) {
+                // TODO: Replace Mage::getIsDeveloperMode() to isDeveloperMode() (Mage_Core_Model_App)
                 if (!Mage::getIsDeveloperMode()) {
                     $this->_logger->logException($e);
                     $this->_soapFault($this->_helper->__("Internal Error. Details are available in Magento log file."));
@@ -370,6 +371,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
                 if ($exception->getMessage() != $reason) {
                     $details['ExceptionMessage'] = $exception->getMessage();
                 }
+                // TODO: Replace Mage::getIsDeveloperMode() to isDeveloperMode() (Mage_Core_Model_App)
                 if (Mage::getIsDeveloperMode()) {
                     $details['ExceptionTrace'] = "<![CDATA[{$exception->getTraceAsString()}]]>";
                 }

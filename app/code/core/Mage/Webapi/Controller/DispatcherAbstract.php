@@ -165,6 +165,7 @@ abstract class Mage_Webapi_Controller_DispatcherAbstract
                 );
                 throw new Mage_Webapi_Exception($removalMessage . ' ' . $messageUseMethod, $badRequestCode);
                 // TODO: Replace static call after MAGETWO-4961 implementation
+                // TODO: Replace Mage::getIsDeveloperMode() to isDeveloperMode() (Mage_Core_Model_App)
             } elseif (isset($deprecationPolicy['deprecated']) && Mage::getIsDeveloperMode()) {
                 $deprecationMessage = $this->getHelper()
                     ->__('Version "%s" of "%s" method in "%s" resource is deprecated.',
