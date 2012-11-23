@@ -88,6 +88,16 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_XmlTest extends PHPUnit_Fram
                 '<?xml version="1.0"?><response><prefix_key>value</prefix_key></response>',
                 'Invalid XML render with data key trimming.'
             ),
+            array(
+                'data',
+                '<?xml version="1.0"?><response><item>data</item></response>',
+                'Invalid XML render with simple data.'
+            ),
+            array(
+                new Varien_Object(array('key' => 'value')),
+                '<?xml version="1.0"?><response><key>value</key></response>',
+                'Invalid XML render with Varien_Object data.'
+            ),
         );
     }
 }

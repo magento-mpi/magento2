@@ -75,8 +75,6 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_Xml implements
         if (!is_array($data) && !is_object($data)) {
             if ($isRoot) {
                 $data = array($data);
-            } else {
-                throw new InvalidArgumentException('Data must be an object or an array.');
             }
         } elseif ($data instanceof Varien_Object) {
             $data = $data->toArray();
@@ -120,11 +118,36 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_Xml implements
     protected function _prepareKey($key)
     {
         $replacementMap = array(
-            '!' => '', '"' => '', '#' => '', '$' => '', '%' => '', '&' => '', '\'' => '',
-            '(' => '', ')' => '', '*' => '', '+' => '', ',' => '', '/' => '', ';' => '',
-            '<' => '', '=' => '', '>' => '', '?' => '', '@' => '', '[' => '', '\\' => '',
-            ']' => '', '^' => '', '`' => '', '{' => '', '|' => '', '}' => '', '~' => '',
-            ' ' => '_', ':' => '_'
+            '!' => '',
+            '"' => '',
+            '#' => '',
+            '$' => '',
+            '%' => '',
+            '&' => '',
+            '\'' => '',
+            '(' => '',
+            ')' => '',
+            '*' => '',
+            '+' => '',
+            ',' => '',
+            '/' => '',
+            ';' => '',
+            '<' => '',
+            '=' => '',
+            '>' => '',
+            '?' => '',
+            '@' => '',
+            '[' => '',
+            '\\' => '',
+            ']' => '',
+            '^' => '',
+            '`' => '',
+            '{' => '',
+            '|' => '',
+            '}' => '',
+            '~' => '',
+            ' ' => '_',
+            ':' => '_'
         );
         $key = str_replace(array_keys($replacementMap), array_values($replacementMap), $key);
         $key = trim($key, '_');
