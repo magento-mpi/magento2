@@ -25,6 +25,9 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
     /** @var Mage_Webapi_Model_Soap_Fault */
     protected $_soapFault;
 
+    /** @var Mage_Webapi_Controller_Response */
+    protected $_response;
+
     /**
      * Initialize dependencies.
      *
@@ -49,14 +52,14 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
     ) {
         parent::__construct(
             $helper,
-            $apiConfig,
-            $response
+            $apiConfig
         );
         $this->_autoDiscover = $autoDiscover;
         $this->_soapServer = $soapServer;
         $this->_cache = $cache;
         $this->_request = $request;
         $this->_soapFault = $soapFault;
+        $this->_response = $response;
     }
 
     /**
@@ -81,7 +84,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
             self::_processBadRequest($this->_helper->__('Internal error.'));
         }
 
-        $this->getResponse()->sendResponse();
+        $this->_response->sendResponse();
         return $this;
     }
 
@@ -93,7 +96,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
     protected function _processBadRequest($message)
     {
         $this->_setResponseContentType('text/xml');
-        $this->getResponse()->setHttpResponseCode(400);
+        $this->_response->setHttpResponseCode(400);
         $details = array();
         $resourceConfig = $this->getApiConfig();
         if (!is_null($resourceConfig)) {
@@ -162,7 +165,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
      */
     protected function _setResponseContentType($contentType = 'text/xml')
     {
-        $this->getResponse()->clearHeaders()
+        $this->_response->clearHeaders()
             ->setHeader('Content-Type', "$contentType; charset={$this->_soapServer->getApiCharset()}");
         return $this;
     }
@@ -175,7 +178,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
      */
     protected function _setResponseBody($responseBody)
     {
-        $this->getResponse()->setBody(
+        $this->_response->setBody(
             preg_replace(
                 '/<\?xml version="([^\"]+)"([^\>]+)>/i',
                 '<?xml version="$1" encoding="' . $this->_soapServer->getApiCharset() . '"?>',

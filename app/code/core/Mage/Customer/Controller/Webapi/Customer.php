@@ -15,17 +15,17 @@ class Mage_Customer_Controller_Webapi_Customer extends Mage_Webapi_Controller_Ac
      * Initialize dependencies.
      *
      * @param Mage_Webapi_Controller_Request_Factory $requestFactory
-     * @param Mage_Webapi_Controller_Response $response
+     * @param Mage_Webapi_Controller_Response_Factory $responseFactory
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Magento_ObjectManager $objectManager
      */
     public function __construct(
         Mage_Webapi_Controller_Request_Factory $requestFactory,
-        Mage_Webapi_Controller_Response $response,
+        Mage_Webapi_Controller_Response_Factory $responseFactory,
         Mage_Core_Model_Factory_Helper $helperFactory,
         Magento_ObjectManager $objectManager
     ) {
-        parent::__construct($requestFactory, $response, $helperFactory);
+        parent::__construct($requestFactory, $responseFactory, $helperFactory);
         $this->_translationHelper = $this->_helperFactory->get('Mage_Customer_Helper_Data');
         $this->_objectManager = $objectManager;
     }

@@ -60,24 +60,8 @@ class Mage_Webapi_Controller_Dispatcher_Rest extends Mage_Webapi_Controller_Disp
     const RESOURCE_UPDATED_SUCCESSFUL = 'Resource is updated successfully.';
     /**#@-*/
 
-    const DEFAULT_SHUTDOWN_FUNCTION = 'apiShutdownFunction';
-
-    /**
-     * @var Mage_Webapi_Controller_Response_Rest_RendererInterface
-     */
-    protected $_renderer;
-
     /** @var Mage_Webapi_Controller_Dispatcher_Rest_Presentation */
     protected $_restPresentation;
-
-    /** @var Mage_Webapi_Controller_Dispatcher_ErrorProcessor */
-    protected $_errorProcessor;
-
-    /** @var Mage_Webapi_Controller_Response_Rest_Renderer_Factory */
-    protected $_rendererFactory;
-
-    /** @var Mage_Core_Model_Event_Manager */
-    protected $_eventManager;
 
     /** @var Mage_Webapi_Controller_Router_Rest */
     protected $_router;
@@ -101,19 +85,19 @@ class Mage_Webapi_Controller_Dispatcher_Rest extends Mage_Webapi_Controller_Disp
     /** @var Mage_Core_Model_Logger */
     protected $_logger;
 
+    /** @var Mage_Webapi_Controller_Response_Rest */
+    protected $_response;
+
     /**
      * Initialize dependencies.
      *
      * @param Mage_Webapi_Helper_Data $helper
      * @param Mage_Webapi_Model_Config $apiConfig
      * @param Mage_Webapi_Controller_Request_Rest $request
-     * @param Mage_Webapi_Controller_Response $response
+     * @param Mage_Webapi_Controller_Response_Rest $response
      * @param Mage_Webapi_Controller_Action_Factory $controllerFactory
      * @param Mage_Core_Model_Logger $logger
      * @param Mage_Webapi_Controller_Dispatcher_Rest_Presentation $restPresentation
-     * @param Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
-     * @param Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory
-     * @param Mage_Core_Model_Event_Manager $eventManager
      * @param Mage_Webapi_Controller_Router_Rest $router
      * @param Mage_Webapi_Model_Authorization $authorization
      * @param Mage_Webapi_Controller_Dispatcher_Rest_Authentication $authentication
@@ -122,34 +106,26 @@ class Mage_Webapi_Controller_Dispatcher_Rest extends Mage_Webapi_Controller_Disp
         Mage_Webapi_Helper_Data $helper,
         Mage_Webapi_Model_Config $apiConfig,
         Mage_Webapi_Controller_Request_Rest $request,
-        Mage_Webapi_Controller_Response $response,
+        Mage_Webapi_Controller_Response_Rest $response,
         Mage_Webapi_Controller_Action_Factory $controllerFactory,
         Mage_Core_Model_Logger $logger,
         Mage_Webapi_Controller_Dispatcher_Rest_Presentation $restPresentation,
-        Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor,
-        Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory,
-        Mage_Core_Model_Event_Manager $eventManager,
         Mage_Webapi_Controller_Router_Rest $router,
         Mage_Webapi_Model_Authorization $authorization,
         Mage_Webapi_Controller_Dispatcher_Rest_Authentication $authentication
     ) {
         parent::__construct(
             $helper,
-            $apiConfig,
-            $response
+            $apiConfig
         );
         $this->_restPresentation = $restPresentation;
-        $this->_errorProcessor = $errorProcessor;
-        $this->_rendererFactory = $rendererFactory;
-        $this->_eventManager = $eventManager;
         $this->_router = $router;
         $this->_authentication = $authentication;
         $this->_request = $request;
         $this->_controllerFactory = $controllerFactory;
         $this->_authorization = $authorization;
         $this->_logger = $logger;
-        // redeclare custom shutdown function to handle fatal errors correctly
-        $this->registerShutdownFunction(array($this, self::DEFAULT_SHUTDOWN_FUNCTION));
+        $this->_response = $response;
     }
 
     /**
@@ -191,22 +167,22 @@ class Mage_Webapi_Controller_Dispatcher_Rest extends Mage_Webapi_Controller_Disp
             $outputData = call_user_func_array(array($controllerInstance, $action), $inputData);
             $this->_restPresentation->prepareResponse($method, $outputData);
         } catch (Mage_Webapi_Exception $e) {
-            $this->getResponse()->setException($e);
+            $this->_response->setException($e);
         } catch (Exception $e) {
             // TODO: Replace Mage::getIsDeveloperMode() to isDeveloperMode() (Mage_Core_Model_App)
             if (!Mage::getIsDeveloperMode()) {
                 $this->_logger->logException($e);
-                $this->getResponse()->setException(
+                $this->_response->setException(
                     new Mage_Webapi_Exception(
                         $this->_helper->__("Internal Error. Details are available in Magento log file."),
                         Mage_Webapi_Exception::HTTP_INTERNAL_ERROR
                     )
                 );
             } else {
-                $this->getResponse()->setException($e);
+                $this->_response->setException($e);
             }
         }
-        $this->_sendResponse();
+        $this->_response->sendResponse();
         return $this;
     }
 
@@ -290,82 +266,6 @@ class Mage_Webapi_Controller_Dispatcher_Rest extends Mage_Webapi_Controller_Disp
     }
 
     /**
-     * Redeclare custom shutdown function.
-     *
-     * @param   string $dispatcher
-     * @return  Mage_Webapi_Controller_Dispatcher_Rest
-     */
-    public function registerShutdownFunction($dispatcher)
-    {
-        register_shutdown_function($dispatcher);
-        return $this;
-    }
-
-    /**
-     * Send response to the client, render exceptions if they are present.
-     */
-    protected function _sendResponse()
-    {
-        try {
-            if ($this->getResponse()->isException()) {
-                $this->_renderMessages();
-            }
-            $this->getResponse()->sendResponse();
-        } catch (Exception $e) {
-            // If the server does not support all MIME types accepted by the client it SHOULD send 406 (not acceptable).
-            $httpCode = $e->getCode() == Mage_Webapi_Exception::HTTP_NOT_ACCEPTABLE
-                ? Mage_Webapi_Exception::HTTP_NOT_ACCEPTABLE
-                : Mage_Webapi_Exception::HTTP_INTERNAL_ERROR;
-
-            /** If error was encountered during "error rendering" process then use error renderer. */
-            $this->_errorProcessor->renderException($e, $httpCode);
-        }
-    }
-
-    /**
-     * Generate and set HTTP response code, error messages to Response object.
-     */
-    protected function _renderMessages()
-    {
-        $response = $this->getResponse();
-        $formattedMessages = array();
-        $formattedMessages['messages'] = $response->getMessages();
-        $responseHttpCode = null;
-        /** @var Exception $exception */
-        foreach ($response->getException() as $exception) {
-            $code = ($exception instanceof Mage_Webapi_Exception)
-                ? $exception->getCode()
-                : Mage_Webapi_Exception::HTTP_INTERNAL_ERROR;
-            $messageData = array('code' => $code, 'message' => $exception->getMessage());
-            // TODO: Replace Mage::getIsDeveloperMode() to isDeveloperMode() (Mage_Core_Model_App)
-            if (Mage::getIsDeveloperMode()) {
-                $messageData['trace'] = $exception->getTraceAsString();
-            }
-            $formattedMessages['messages']['error'][] = $messageData;
-            // keep HTTP code for response
-            $responseHttpCode = $code;
-        }
-        // set HTTP code of the last error, Content-Type, and all rendered error messages to body
-        $response->setHttpResponseCode($responseHttpCode);
-        $response->setMimeType($this->_getRenderer()->getMimeType());
-        $response->setBody($this->_getRenderer()->render($formattedMessages));
-        return $this;
-    }
-
-    /**
-     * Get renderer object according to request accepted mime type.
-     *
-     * @return Mage_Webapi_Controller_Response_Rest_RendererInterface
-     */
-    protected function _getRenderer()
-    {
-        if (!$this->_renderer) {
-            $this->_renderer = $this->_rendererFactory->create($this->_request->getAcceptTypes());
-        }
-        return $this->_renderer;
-    }
-
-    /**
      * Identify version of resource associated with requested operation.
      *
      * @return int
@@ -380,54 +280,5 @@ class Mage_Webapi_Controller_Dispatcher_Rest extends Mage_Webapi_Controller_Disp
         }
         $this->_apiConfig->validateVersionNumber($resourceVersion, $this->_request->getResourceName());
         return $resourceVersion;
-    }
-
-    /**
-     * Function to catch errors, that has not been caught by the user error dispatcher function.
-     *
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     */
-    public function apiShutdownFunction()
-    {
-        $fatalErrorFlag = E_ERROR | E_USER_ERROR | E_PARSE | E_CORE_ERROR | E_COMPILE_ERROR | E_RECOVERABLE_ERROR;
-        $error = error_get_last();
-        if ($error && ($error['type'] & $fatalErrorFlag)) {
-            $errorMessage = '';
-            switch ($error['type']) {
-                case E_ERROR:
-                    $errorMessage .= "Fatal Error";
-                    break;
-                case E_PARSE:
-                    $errorMessage .= "Parse Error";
-                    break;
-                case E_CORE_ERROR:
-                    $errorMessage .= "Core Error";
-                    break;
-                case E_COMPILE_ERROR:
-                    $errorMessage .= "Compile Error";
-                    break;
-                case E_USER_ERROR:
-                    $errorMessage .= "User Error";
-                    break;
-                case E_RECOVERABLE_ERROR:
-                    $errorMessage .= "Recoverable Error";
-                    break;
-                default:
-                    $errorMessage .= "Unknown error ({$error['type']})";
-                    break;
-            }
-            $errorMessage .= ": {$error['message']}  in {$error['file']} on line {$error['line']}";
-            try {
-                // call registered error dispatcher
-                trigger_error("'$errorMessage'", E_USER_ERROR);
-            } catch (Exception $e) {
-                $errorMessage = $e->getMessage();
-            }
-            // TODO: Replace Mage::getIsDeveloperMode() to isDeveloperMode() (Mage_Core_Model_App)
-            if (!Mage::getIsDeveloperMode()) {
-                $this->_errorProcessor->saveReport($errorMessage);
-            }
-            $this->_errorProcessor->render($errorMessage);
-        }
     }
 }

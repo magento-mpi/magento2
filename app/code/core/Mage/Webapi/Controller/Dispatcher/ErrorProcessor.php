@@ -6,6 +6,8 @@
  */
 class Mage_Webapi_Controller_Dispatcher_ErrorProcessor
 {
+    const DEFAULT_SHUTDOWN_FUNCTION = 'apiShutdownFunction';
+
     const DEFAULT_ERROR_HTTP_CODE = 500;
     const DEFAULT_RESPONSE_CHARSET = 'UTF-8';
 
@@ -34,6 +36,7 @@ class Mage_Webapi_Controller_Dispatcher_ErrorProcessor
         $this->_helperFactory = $helperFactory;
         $this->_helper = $helperFactory->get('Mage_Webapi_Helper_Data');
         $this->_app = $app;
+        $this->registerShutdownFunction();
     }
 
     /**
@@ -150,5 +153,66 @@ class Mage_Webapi_Controller_Dispatcher_ErrorProcessor
                 break;
         }
         return $errorData;
+    }
+
+    /**
+     * Declare web API-specific shutdown function.
+     *
+     * @return  Mage_Webapi_Controller_Dispatcher_ErrorProcessor
+     */
+    public function registerShutdownFunction()
+    {
+        register_shutdown_function(array($this, self::DEFAULT_SHUTDOWN_FUNCTION));
+        return $this;
+    }
+
+    /**
+     * Function to catch errors, that has not been caught by the user error dispatcher function.
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
+    // TODO: Check if this function is useful (it was migrated from M1)
+    public function apiShutdownFunction()
+    {
+        $fatalErrorFlag = E_ERROR | E_USER_ERROR | E_PARSE | E_CORE_ERROR | E_COMPILE_ERROR | E_RECOVERABLE_ERROR;
+        $error = error_get_last();
+        if ($error && ($error['type'] & $fatalErrorFlag)) {
+            $errorMessage = '';
+            switch ($error['type']) {
+                case E_ERROR:
+                    $errorMessage .= "Fatal Error";
+                    break;
+                case E_PARSE:
+                    $errorMessage .= "Parse Error";
+                    break;
+                case E_CORE_ERROR:
+                    $errorMessage .= "Core Error";
+                    break;
+                case E_COMPILE_ERROR:
+                    $errorMessage .= "Compile Error";
+                    break;
+                case E_USER_ERROR:
+                    $errorMessage .= "User Error";
+                    break;
+                case E_RECOVERABLE_ERROR:
+                    $errorMessage .= "Recoverable Error";
+                    break;
+                default:
+                    $errorMessage .= "Unknown error ({$error['type']})";
+                    break;
+            }
+            $errorMessage .= ": {$error['message']}  in {$error['file']} on line {$error['line']}";
+            try {
+                // call registered error dispatcher
+                trigger_error("'$errorMessage'", E_USER_ERROR);
+            } catch (Exception $e) {
+                $errorMessage = $e->getMessage();
+            }
+            // TODO: Replace Mage::getIsDeveloperMode() to isDeveloperMode() (Mage_Core_Model_App)
+            if (!Mage::getIsDeveloperMode()) {
+                $this->saveReport($errorMessage);
+            }
+            $this->render($errorMessage);
+        }
     }
 }

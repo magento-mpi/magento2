@@ -9,20 +9,14 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation
     /** @var Mage_Webapi_Model_Config */
     protected $_apiConfig;
 
-    /** @var Mage_Core_Model_Factory_Helper */
-    protected $_helperFactory;
-
     /** @var Mage_Webapi_Helper_Data */
     protected $_apiHelper;
 
     /** @var Mage_Webapi_Controller_Request_Rest */
     protected $_request;
 
-    /** @var Mage_Webapi_Controller_Response */
+    /** @var Mage_Webapi_Controller_Response_Rest */
     protected $_response;
-
-    /** @var Mage_Webapi_Controller_Response_Rest_Renderer_Factory */
-    protected $_rendererFactory;
 
     /** @var Magento_Controller_Router_Route_Factory */
     protected $_routeFactory;
@@ -34,27 +28,26 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation
      * Initialize dependencies.
      *
      * @param Mage_Webapi_Model_Config $apiConfig
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Webapi_Helper_Data $helper
      * @param Mage_Webapi_Controller_Request_Factory $requestFactory
-     * @param Mage_Webapi_Controller_Response $response
+     * @param Mage_Webapi_Controller_Response_Rest $response
      * @param Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory
      * @param Magento_Controller_Router_Route_Factory $routeFactory
      */
     public function __construct(
         Mage_Webapi_Model_Config $apiConfig,
-        Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Webapi_Helper_Data $helper,
         Mage_Webapi_Controller_Request_Factory $requestFactory,
-        Mage_Webapi_Controller_Response $response,
+        Mage_Webapi_Controller_Response_Rest $response,
         Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory,
         Magento_Controller_Router_Route_Factory $routeFactory
     ) {
         $this->_apiConfig = $apiConfig;
-        $this->_helperFactory = $helperFactory;
-        $this->_apiHelper = $helperFactory->get('Mage_Webapi_Helper_Data');
+        $this->_apiHelper = $helper;
         $this->_request = $requestFactory->get();
         $this->_response = $response;
-        $this->_rendererFactory = $rendererFactory;
         $this->_routeFactory = $routeFactory;
+        $this->_renderer = $rendererFactory->get();
     }
 
     /**
@@ -209,21 +202,8 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation
      */
     protected function _render($data)
     {
-        $mimeType = $this->getRenderer()->getMimeType();
-        $body = $this->getRenderer()->render($data);
+        $mimeType = $this->_renderer->getMimeType();
+        $body = $this->_renderer->render($data);
         $this->_response->setMimeType($mimeType)->setBody($body);
-    }
-
-    /**
-     * Get renderer or create if it does not exist.
-     *
-     * @return Mage_Webapi_Controller_Response_Rest_RendererInterface
-     */
-    public function getRenderer()
-    {
-        if (!$this->_renderer) {
-            $this->_renderer = $this->_rendererFactory->create($this->_request->getAcceptTypes());
-        }
-        return $this->_renderer;
     }
 }

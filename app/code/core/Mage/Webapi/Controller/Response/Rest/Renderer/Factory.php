@@ -22,33 +22,39 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_Factory
     /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
+    /** @var Mage_Webapi_Controller_Request_Rest */
+    protected $_request;
+
     /**
      * Initialize dependencies.
      *
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_Config $applicationConfig
      * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Webapi_Controller_Request_Rest $request
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Config $applicationConfig,
-        Mage_Core_Model_Factory_Helper $helperFactory
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Webapi_Controller_Request_Rest $request
     ) {
         $this->_objectManager = $objectManager;
         $this->_applicationConfig = $applicationConfig;
         $this->_helper = $helperFactory->get('Mage_Webapi_Helper_Data');
+        $this->_request = $request;
     }
 
     /**
-     * Get Renderer of given type.
+     * Get renderer for Mime-Type specified in Accept header of request.
      *
-     * @param array|string $acceptTypes
      * @return Mage_Webapi_Controller_Response_Rest_RendererInterface
      * @throws Mage_Webapi_Exception
      * @throws LogicException
      */
-    public function create($acceptTypes)
+    public function get()
     {
+        $acceptTypes = $this->_request->getAcceptTypes();
         $availableRenderers = (array)$this->_applicationConfig->getNode(self::XML_PATH_WEBAPI_RESPONSE_RENDERS);
         if (!is_array($acceptTypes)) {
             $acceptTypes = array($acceptTypes);
