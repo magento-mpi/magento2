@@ -4,7 +4,7 @@
  *
  * @copyright {}
  */
-class Vendor_ModuleB_Webapi_ModuleBController extends Mage_Webapi_Controller_ActionAbstract
+class Vendor_ModuleB_Controller_Webapi_ModuleB extends Mage_Webapi_Controller_ActionAbstract
 {
     /**
      * Short description.

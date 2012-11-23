@@ -10,6 +10,8 @@
  */
 include __DIR__ . '/../_files/Model/Webapi/ModuleA/ModuleAData.php';
 include __DIR__ . '/../_files/Model/Webapi/ModuleA/ModuleADataB.php';
+include __DIR__ . '/../_files/Controller/Webapi/ModuleA.php';
+include __DIR__ . '/../_files/Controller/Webapi/SubresourceB.php';
 /**#@-*/
 
 /**
@@ -25,7 +27,7 @@ class Mage_Webapi_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $fixtureDir = __DIR__ . '/../_files/controllers/Webapi/';
+        $fixtureDir = __DIR__ . '/../_files/Controller/Webapi/';
         $directoryScanner = new \Zend\Code\Scanner\DirectoryScanner($fixtureDir);
         $serverReflection = new \Zend\Server\Reflection();
         /** @var Mage_Core_Model_Cache $cache */

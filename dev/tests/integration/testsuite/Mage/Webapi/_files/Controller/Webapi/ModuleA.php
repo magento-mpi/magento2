@@ -4,7 +4,7 @@
  *
  * @copyright {}
  */
-class NamespaceA_ModuleA_Webapi_ModuleAController extends Mage_Webapi_Controller_ActionAbstract
+class NamespaceA_ModuleA_Controller_Webapi_ModuleA extends Mage_Webapi_Controller_ActionAbstract
 {
     /**
      * Get resource v2.

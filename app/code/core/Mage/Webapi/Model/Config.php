@@ -28,11 +28,6 @@ class Mage_Webapi_Model_Config
     protected $_directoryScanner;
 
     /**
-     * @var Magento_Autoload
-     */
-    protected $_autoloader;
-
-    /**
      * @var Mage_Core_Model_Config
      */
     protected $_applicationConfig;
@@ -77,7 +72,6 @@ class Mage_Webapi_Model_Config
         Mage_Core_Model_Cache $cache,
         Magento_Controller_Router_Route_Factory $routeFactory
     ) {
-        $this->_autoloader = Magento_Autoload::getInstance();
         $this->_helperFactory = $helperFactory;
         $this->_helper = $this->_helperFactory->get('Mage_Webapi_Helper_Data');
         $this->_applicationConfig = $appConfig;
@@ -1058,7 +1052,7 @@ class Mage_Webapi_Model_Config
         if ($this->isArrayType($class)) {
             $this->_processType($this->getArrayItemType($class));
         } else {
-            if (!$this->_autoloader->classExists($class)) {
+            if (!class_exists($class)) {
                 throw new InvalidArgumentException(sprintf('Could not load the "%s" class as parameter type.', $class));
             }
             $reflection = new ClassReflection($class);

@@ -4,7 +4,7 @@
  *
  * @copyright {}
  */
-class NamespaceA_ModuleA_Webapi_ModuleA_SubresourceBController extends Mage_Webapi_Controller_ActionAbstract
+class NamespaceA_ModuleA_Controller_Webapi_ModuleA_SubresourceB extends Mage_Webapi_Controller_ActionAbstract
 {
     /**
      * Subresource description.

@@ -12,6 +12,7 @@ use Zend\Soap\Wsdl;
  */
 include __DIR__ . '/../../_files/Model/Webapi/ModuleB/Subresource/SubresourceData.php';
 include __DIR__ . '/../../_files/Model/Webapi/ModuleB/ModuleBData.php';
+include __DIR__ . '/../../_files/Controller/AutoDiscover/ModuleB.php';
 /**#@-*/
 
 /**
@@ -58,7 +59,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $fixtureDir = __DIR__ . '/../../_files/controllers/AutoDiscover/';
+        $fixtureDir = __DIR__ . '/../../_files/Controller/AutoDiscover/';
         $directoryScanner = new \Zend\Code\Scanner\DirectoryScanner($fixtureDir);
         $serverReflection = new \Zend\Server\Reflection();
         /** @var Mage_Core_Model_Cache $cache */

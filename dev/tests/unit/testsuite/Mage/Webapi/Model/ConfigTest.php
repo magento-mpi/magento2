@@ -14,8 +14,12 @@ require_once __DIR__ . '/../_files/data_types/CustomerData.php';
 require_once __DIR__ . '/../_files/data_types/Customer/AddressData.php';
 require_once __DIR__ . '/_files/resource_with_invalid_interface.php';
 require_once __DIR__ . '/_files/resource_with_invalid_name.php';
+require_once __DIR__ . '/_files/autodiscovery/invalid_deprecation_policy/class.php';
 require_once __DIR__ . '/_files/autodiscovery/empty_var_tags/data_type.php';
+require_once __DIR__ . '/_files/autodiscovery/empty_var_tags/class.php';
 require_once __DIR__ . '/_files/autodiscovery/empty_property_description/data_type.php';
+require_once __DIR__ . '/_files/autodiscovery/empty_property_description/class.php';
+require_once __DIR__ . '/_files/autodiscovery/reference_to_invalid_type/class.php';
 /**#@-*/
 
 /**
@@ -779,37 +783,37 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
         $this->_createResourceConfig(__DIR__ . '/_files/autodiscovery/no_resources');
     }
 
-//    public function testExtractDataInvalidTypeOfArgument()
-//    {
-//        $this->setExpectedException('InvalidArgumentException', 'Could not load the ');
-//        $this->_createResourceConfig(__DIR__ . '/_files/autodiscovery/reference_to_invalid_type');
-//    }
+    public function testExtractDataInvalidTypeOfArgument()
+    {
+        $this->setExpectedException('InvalidArgumentException', 'Could not load the ');
+        $this->_createResourceConfig(__DIR__ . '/_files/autodiscovery/reference_to_invalid_type');
+    }
 
-//    public function testExtractDataUndocumentedProperty()
-//    {
-//        $this->setExpectedException(
-//            'InvalidArgumentException',
-//            'Each property must have description with @var annotation.'
-//        );
-//        $this->_createResourceConfig(__DIR__ . '/_files/autodiscovery/empty_property_description');
-//    }
-//
-//    public function testExtractDataPropertyWithoutVarTag()
-//    {
-//        $this->setExpectedException('InvalidArgumentException', 'Property type must be defined with @var tag.');
-//        $this->_createResourceConfig(__DIR__ . '/_files/autodiscovery/empty_var_tags');
-//    }
-//
-//    public function testExtractDataInvalidDeprecationPolicy()
-//    {
-//        $this->setExpectedException(
-//            'LogicException',
-//            '"Invalid_Deprecation_Controller_Webapi_Policy::getV1" '
-//                . 'method has invalid format of Deprecation policy. Accepted formats are createV1, '
-//                . 'catalogProduct::createV1 and Mage_Catalog_Webapi_ProductController::createV1.'
-//        );
-//        $this->_createResourceConfig(__DIR__ . '/_files/autodiscovery/invalid_deprecation_policy');
-//    }
+    public function testExtractDataUndocumentedProperty()
+    {
+        $this->setExpectedException(
+            'InvalidArgumentException',
+            'Each property must have description with @var annotation.'
+        );
+        $this->_createResourceConfig(__DIR__ . '/_files/autodiscovery/empty_property_description');
+    }
+
+    public function testExtractDataPropertyWithoutVarTag()
+    {
+        $this->setExpectedException('InvalidArgumentException', 'Property type must be defined with @var tag.');
+        $this->_createResourceConfig(__DIR__ . '/_files/autodiscovery/empty_var_tags');
+    }
+
+    public function testExtractDataInvalidDeprecationPolicy()
+    {
+        $this->setExpectedException(
+            'LogicException',
+            '"Invalid_Deprecation_Controller_Webapi_Policy::getV1" '
+                . 'method has invalid format of Deprecation policy. Accepted formats are createV1, '
+                . 'catalogProduct::createV1 and Mage_Catalog_Webapi_ProductController::createV1.'
+        );
+        $this->_createResourceConfig(__DIR__ . '/_files/autodiscovery/invalid_deprecation_policy');
+    }
 
     public function testGetMethodRestRoutes()
     {
