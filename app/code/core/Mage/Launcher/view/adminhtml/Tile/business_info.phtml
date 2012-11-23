@@ -10,13 +10,6 @@
     <div class="completed">
         <strong><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Business Address') ?></strong>
          <?php echo $this->getAddress() ?>
-         <?php if($this->getEmails()) ?>
-        <ul>
-            <?php foreach($this->getEmails() as $email):?>
-            <li><strong><?php echo $email->getName() ?></strong> <a href="mailto:<?php echo $email->getEmail() ?>" class="sl-mailto"><?php echo $email->getEmail() ?></a></li>
-            <?php endforeach; ?>
-        </ul>
-
         <a href="#" class="button drawer-open" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Edit Store Info') ?></a>
     </div>
 </article>

@@ -22,12 +22,8 @@ class Mage_Launcher_Adminhtml_IndexController extends Mage_Backend_Controller_Ac
      */
     public function indexAction()
     {
-        /** @var $page Mage_Launcher_Model_Page */
-        $page = Mage::getModel('Mage_Launcher_Model_Page')
-            ->loadByCode('store_launcher');
         $layout = $this->loadLayout();
-        $layout->getLayout()
-            ->getBlock('landing.page')->setPage($page);
+        $layout->getLayout();
         $layout->renderLayout();
     }
 }
