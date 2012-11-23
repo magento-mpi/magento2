@@ -45,9 +45,9 @@ class Mage_Backend_Model_Config_Structure_Converter
      * @var array
      */
     protected $nameMap = array(
-        'system' => array('tab' => 'tabs', 'section' => 'sections'),
-        'section' => array('group' => 'groups'),
-        'group' => array('field' => 'fields'),
+        'system' => array('tab' => 'tabs', 'section'=> 'sections'),
+        'section' => array('group' => 'children'),
+        'group' => array('field' => 'children'),
         'depends' => array('field' => 'fields'),
     );
 

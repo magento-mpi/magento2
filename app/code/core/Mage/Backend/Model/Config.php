@@ -62,6 +62,13 @@ class Mage_Backend_Model_Config extends Varien_Object
     protected $_application;
 
     /**
+     * Config data factory
+     *
+     * @var Mage_Core_Model_Config_Data_Factory
+     */
+    protected $_configDataFactory;
+
+    /**
      * @param Mage_Core_Model_App $application
      * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Event_Manager $eventManager
@@ -73,13 +80,15 @@ class Mage_Backend_Model_Config extends Varien_Object
         Mage_Core_Model_Config $config,
         Mage_Core_Model_Event_Manager $eventManager,
         Mage_Backend_Model_Config_Structure $configStructure,
-        Mage_Core_Model_Resource_Transaction_Factory $transactionFactory
+        Mage_Core_Model_Resource_Transaction_Factory $transactionFactory,
+        Mage_Core_Model_Config_Data_Factory $configDataFactory
     ) {
         $this->_eventManager = $eventManager;
         $this->_configStructure = $configStructure;
         $this->_transactionFactory = $transactionFactory;
         $this->_appConfig = $config;
         $this->_application = $application;
+        $this->_configDataFactory = $configDataFactory;
     }
 
     /**
@@ -340,7 +349,7 @@ class Mage_Backend_Model_Config extends Varien_Object
      */
     protected function _getPathConfig($path, $full = true)
     {
-        $configDataCollection = $this->_objectFactory->getModelInstance('Mage_Core_Model_Config_Data')
+        $configDataCollection = $this->_configDataFactory->create()
             ->getCollection()
             ->addScopeFilter($this->getScope(), $this->getScopeId(), $path);
 

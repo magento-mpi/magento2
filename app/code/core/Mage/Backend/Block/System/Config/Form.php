@@ -330,7 +330,8 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         $name = 'groups[' . $group->getId() . '][fields][' . $fieldPrefix . $field->getId() . '][value]';
 
         if ($field->hasBackendModel()) {
-            $backendModel = $field->getBackendModel()->setPath($path)
+            $backendModel = $field->getBackendModel();
+            $backendModel->setPath($path)
                 ->setValue($data)
                 ->setWebsite($this->getWebsiteCode())
                 ->setStore($this->getStoreCode())
@@ -345,7 +346,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
                 ->addFieldDependence($field->getId(), $dependentId, $dependentValue);
         }
 
-        $formField = $fieldset->addField($field->getId(), $field->getType(), array(
+        $formField = $fieldset->addField($field->getPath($fieldPrefix), $field->getType(), array(
             'name' => $name,
             'label' => $field->getLabel($labelPrefix),
             'comment' => $field->getComment($data),
@@ -380,6 +381,17 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
             $this->_configRoot = Mage::getConfig()->getNode(null, $this->getScope(), $this->getScopeCode());
         }
         return $this->_configRoot;
+    }
+
+    /**
+     *
+     *
+     * @return Mage_Backend_Block_Widget_Form|Mage_Core_Block_Abstract|void
+     */
+    protected function _beforeToHtml()
+    {
+        $this->initForm();
+        return parent::_beforeToHtml();
     }
 
     /**

@@ -72,4 +72,24 @@ class Mage_Backend_Model_Config_Structure_Element_Group
         }
         $fieldset->setOriginalData($originalData);
     }
+
+    /**
+     * Check whether group should be expanded
+     *
+     * @return bool
+     */
+    public function isExpanded()
+    {
+        return (bool) (isset($this->_data['expanded']) ? (int) $this->_data['expanded'] : false);
+    }
+
+    /**
+     * Retrieve group fieldset css
+     *
+     * @return string
+     */
+    public function getFieldsetCss()
+    {
+        return array_key_exists('fieldset_css', $this->_data) ? $this->_data['fieldset_css'] : '';
+    }
 }

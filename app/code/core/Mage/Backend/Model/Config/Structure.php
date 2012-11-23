@@ -103,4 +103,54 @@ class Mage_Backend_Model_Config_Structure
         }
         return $this->_flyweightPool->getFlyweight($child);
     }
+
+    /**
+     * Retrieve paths of fields that have provided attributes with provided values
+     *
+     * @param string $attributeName
+     * @param mixed $attributeValue
+     * @return array
+     */
+    public function getFieldPathsByAttribute($attributeName, $attributeValue)
+    {
+        $result = array();
+        foreach ($this->_data['sections'] as $section) {
+            if (!isset($section['children'])) {
+                continue;
+            }
+            foreach ($section['children'] as $group) {
+                if (isset($group['children'])) {
+                    $path = $section['id'] . '/' . $group['id'];
+                    $result = $result + $this->_getGroupFieldPathsByAttribute(
+                        $group['children'], $path, $attributeName, $attributeValue
+                    );
+                }
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Find group fields with specified attribute and attribute value
+     *
+     * @param array $fields
+     * @param string $parentPath
+     * @param string $attributeName
+     * @param mixed $attributeValue
+     * @return array
+     */
+    protected function _getGroupFieldPathsByAttribute(array $fields, $parentPath, $attributeName, $attributeValue)
+    {
+        $result = array();
+        foreach ($fields as $field) {
+            if (isset($field['children'])) {
+                $result += $this->_getGroupFieldPathsByAttribute(
+                    $field['children'], $parentPath . '/' . $field['id'], $attributeName, $attributeValue
+                );
+            } else if (isset($field[$attributeName]) && $field[$attributeName] == $attributeValue) {
+                $result[] = $parentPath . '/' . $field['id'];
+            }
+        }
+        return $result;
+    }
 }

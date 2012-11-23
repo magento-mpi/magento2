@@ -145,7 +145,7 @@ class Mage_Backend_Model_Config_Structure_Element_Field
      */
     public function getPath($fieldPrefix = '')
     {
-        $path = isset($this->_data['path']) ? $this->_data['path'] : '';
+        $path = isset($this->_data['path']) ? $this->_data['path'] : rand(0, 100000000);
         return $path . '/' . $fieldPrefix . $this->getId();
     }
 
@@ -244,7 +244,7 @@ class Mage_Backend_Model_Config_Structure_Element_Field
         }
 
         $sourceModel = Mage::getSingleton($factoryName);
-        if ($sourceModel instanceof Mage_Core_Model_Option_ArrayInterface) {
+        if ($sourceModel instanceof Varien_Object) {
             $sourceModel->setPath($this->getPath());
         }
         if ($method) {

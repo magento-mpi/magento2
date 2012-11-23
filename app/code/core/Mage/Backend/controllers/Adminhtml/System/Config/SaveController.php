@@ -17,7 +17,7 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_Adminhtml_System_ConfigAbstract
+class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_Controller_System_ConfigAbstract
 {
     /**
      * Backend Config Model Factory

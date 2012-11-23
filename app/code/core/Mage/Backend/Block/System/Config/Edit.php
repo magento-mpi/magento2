@@ -92,6 +92,8 @@ class Mage_Backend_Block_System_Config_Edit extends Mage_Backend_Block_Widget
             'onclick'   => 'configForm.submit()',
             'class' => 'save',
         ));
+        $block = $this->getLayout()->createBlock($this->_formBlockName);
+        $this->setChild('form', $block);
         return parent::_prepareLayout();
     }
 
@@ -113,18 +115,5 @@ class Mage_Backend_Block_System_Config_Edit extends Mage_Backend_Block_Widget
     public function getSaveUrl()
     {
         return $this->getUrl('*/*/save', array('_current' => true));
-    }
-
-    /**
-     * Initialize form block
-     *
-     * @return Mage_Backend_Block_System_Config_Edit
-     */
-    public function initForm()
-    {
-        $block = $this->getLayout()->createBlock($this->_formBlockName);
-        $block->initForm();
-        $this->setChild('form', $block);
-        return $this;
     }
 }

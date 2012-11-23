@@ -43,7 +43,7 @@ class Mage_Backend_Adminhtml_System_ConfigController extends Mage_Backend_Contro
         /** @var $section Mage_Backend_Model_Config_Structure_Element_Section */
         $section = $configStructure->getElement($current);
         if ($current && !$section->isVisible($website, $store)) {
-            $this->_redirect('*/*/', array('website' => $website, 'store' => $store));
+            return $this->_redirect('*/*/', array('website' => $website, 'store' => $store));
         }
 
         $this->loadLayout();
@@ -51,27 +51,13 @@ class Mage_Backend_Adminhtml_System_ConfigController extends Mage_Backend_Contro
         $this->_setActiveMenu('Mage_Adminhtml::system_config');
         $this->getLayout()->getBlock('menu')->setAdditionalCacheKeyInfo(array($current));
 
-/*        $this->_addBreadcrumb(
+        $this->_addBreadcrumb(
             Mage::helper('Mage_Backend_Helper_Data')->__('System'),
             Mage::helper('Mage_Backend_Helper_Data')->__('System'),
             $this->getUrl('*\/system')
         );
 
-        if ($this->_isSectionAllowed) {
-            $this->_addContent($this->getLayout()->createBlock('Mage_Backend_Block_System_Config_Edit')->initForm());
-
-            $this->_addJs($this->getLayout()
-                ->createBlock('Mage_Backend_Block_Template')
-                ->setTemplate('Mage_Adminhtml::system/shipping/ups.phtml'));
-            $this->_addJs($this->getLayout()
-                ->createBlock('Mage_Backend_Block_Template')
-                ->setTemplate('system/config/js.phtml'));
-            $this->_addJs($this->getLayout()
-                ->createBlock('Mage_Backend_Block_Template')
-                ->setTemplate('Mage_Adminhtml::system/shipping/applicable_country.phtml'));
-*/
-            $this->renderLayout();
- //       }
+        $this->renderLayout();
     }
 
     /**
