@@ -42,7 +42,7 @@ class Mage_Backend_Model_Config_Structure_Element_FlyweightPool
      */
     public function getFlyweight(array $data)
     {
-        $flyweight = $this->_flyweights[$data['type']];
+        $flyweight = $this->_flyweights[$data['_elementType']];
         $flyweight->setData($data);
         return $flyweight;
     }

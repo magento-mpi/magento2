@@ -119,6 +119,7 @@ class Mage_Backend_Model_Config_Structure_Converter
                 && array_key_exists($child->nodeName, $this->nameMap[$root->nodeName])) {
                 $childName = $this->nameMap[$root->nodeName][$child->nodeName];
                 $processedSubLists[] = $childName;
+                $convertedChild['_elementType'] = $child->nodeName;
             }
 
             if (in_array($childName, $processedSubLists)) {

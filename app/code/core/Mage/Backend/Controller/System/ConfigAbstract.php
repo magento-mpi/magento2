@@ -98,11 +98,10 @@ abstract class Mage_Backend_Controller_System_ConfigAbstract extends Mage_Backen
      * @throws Exception
      * @return bool
      */
-    protected function _isSectionAllowed($section)
+    protected function _isSectionAllowed($sectionId)
     {
         try {
-            $section = $this->_configStructure->getElement($section);
-            if (false == $this->_authorization->isAllowed($section['resource'])) {
+            if (false == $this->_configStructure->getElement($sectionId)->isAllowed()) {
                 throw new Exception('');
             }
             return true;

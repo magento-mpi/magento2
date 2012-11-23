@@ -32,6 +32,12 @@ abstract class Mage_Backend_Model_Config_Structure_Element_CompositeAbstract
         $this->_childrenIterator = $childrenIterator;
     }
 
+    public function setData(array $data)
+    {
+        parent::setData($data);
+        $this->_childrenIterator->setElements($this->_data['children']);
+    }
+
     /**
      * Check whether element has visible child elements
      *
@@ -52,7 +58,6 @@ abstract class Mage_Backend_Model_Config_Structure_Element_CompositeAbstract
      */
     public function getChildren()
     {
-        $this->_childrenIterator->setElements($this->_data['children']);
         return $this->_childrenIterator;
     }
 }

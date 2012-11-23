@@ -119,7 +119,7 @@ class Mage_Backend_Model_Config_Structure_Element_Group_Proxy
      *
      * @return bool
      */
-    public function isVisible($websiteCode, $storeCode)
+    public function isVisible($websiteCode = '', $storeCode = '')
     {
         return $this->_getSubject()->isVisible($websiteCode, $storeCode);
     }

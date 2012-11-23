@@ -51,7 +51,7 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
      */
     protected function _getTranslationModule()
     {
-        return (isset($this->_data['module']) ? $this->_data['module'] : 'Mage_Core') . 'Helper_Data';
+        return (isset($this->_data['module']) ? $this->_data['module'] : 'Mage_Core') . '_Helper_Data';
     }
 
     /**
@@ -62,8 +62,7 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
      */
     protected function _getTranslatedAttribute($code)
     {
-        $module = isset($this->_data[$code]['module']) ? $this->_data[$code]['module'] : 'Mage_Core';
-        return $this->_helperFactory->get($module . '_Helper_Data')->__($this->_data[$code]['value']);
+        return $this->_helperFactory->get($this->_getTranslationModule())->__($this->_data[$code]);
     }
 
     /**
@@ -83,7 +82,7 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
      */
     public function getId()
     {
-        $this->_data['id'];
+        return $this->_data['id'];
     }
 
     /**

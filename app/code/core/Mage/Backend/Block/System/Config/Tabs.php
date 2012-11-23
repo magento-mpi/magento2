@@ -150,12 +150,12 @@ class Mage_Backend_Block_System_Config_Tabs extends Mage_Backend_Block_Widget
     /**
      * Retrieve section url by section id
      *
-     * @param string $sectionId
+     * @param Mage_Backend_Model_Config_Structure_Element_Section $section
      * @return string
      */
-    public function getSectionUrl($sectionId)
+    public function getSectionUrl(Mage_Backend_Model_Config_Structure_Element_Section $section)
     {
-        return $this->getUrl('*/*/*', array('_current' => true, 'section' => $sectionId));
+        return $this->getUrl('*/*/*', array('_current' => true, 'section' => $section->getId()));
     }
 
     /**
