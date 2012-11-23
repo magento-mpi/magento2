@@ -188,11 +188,11 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
         /** @var $themeModel Mage_Core_Model_Theme */
         $themeModel = Mage::getModel('Mage_Core_Model_Theme');
 
-        /** @var $expectedLabelCollection Mage_Core_Model_Theme_Collection */
-        $expectedLabelCollection = Mage::getModel('Mage_Core_Model_Resource_Theme_Collection');
-        $expectedLabelCollection->addFilter('area', 'frontend');
+        /** @var $expectedCollection Mage_Core_Model_Theme_Collection */
+        $expectedCollection = Mage::getModel('Mage_Core_Model_Resource_Theme_Collection');
+        $expectedCollection->addFilter('area', 'frontend');
 
-        $expectedItemsCount = count($expectedLabelCollection);
+        $expectedItemsCount = count($expectedCollection);
 
         $labelsCollection = $themeModel->getLabelsCollection();
         $this->assertEquals($expectedItemsCount, count($labelsCollection));
