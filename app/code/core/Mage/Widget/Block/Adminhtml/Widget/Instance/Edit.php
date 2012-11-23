@@ -53,7 +53,9 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit extends Mage_Adminhtml_Bl
                 array(
                     'label'     => Mage::helper('Mage_Widget_Helper_Data')->__('Save and Continue Edit'),
                     'class'     => 'save',
-                    'onclick'   => 'saveAndContinueEdit()'
+                    'data_attr'  => array(
+                        'widget-button' => array('event' => 'saveAndContinueEdit', 'related' => '#edit_form'),
+                    ),
                 ),
                 100
             );

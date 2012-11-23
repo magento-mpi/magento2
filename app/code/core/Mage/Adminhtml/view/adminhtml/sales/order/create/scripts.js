@@ -1040,18 +1040,23 @@ AdminOrder.prototype = {
 
     submit : function()
     {
+        // Temporary solution will be replaced after refactoring order functionality
+        var disableAndSave = function() {
+            disableElements('save');
+            jQuery('#edit_form').on('invalid-form.validate', function() {
+                enableElements('save');
+                jQuery('#edit_form').off('invalid-form.validate');
+            });
+            jQuery('#edit_form').triggerHandler('save');
+        }
         if (this.orderItemChanged) {
             if (confirm('You have item changes')) {
-                if (editForm.submit()) {
-                    disableElements('save');
-                }
+                disableAndSave();
             } else {
                 this.itemsUpdate();
             }
         } else {
-            if (editForm.submit()) {
-                disableElements('save');
-            }
+            disableAndSave();
         }
     },
 

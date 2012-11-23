@@ -43,7 +43,6 @@ class Mage_Adminhtml_Block_Tax_Rate_Toolbar_Save extends Mage_Adminhtml_Block_Te
 
         $this->addChild('saveButton', 'Mage_Adminhtml_Block_Widget_Button', array(
             'label'     => Mage::helper('Mage_Tax_Helper_Data')->__('Save Rate'),
-            'onclick'   => 'wigetForm.submit();return false;',
             'class' => 'save'
         ));
 
@@ -67,6 +66,11 @@ class Mage_Adminhtml_Block_Tax_Rate_Toolbar_Save extends Mage_Adminhtml_Block_Te
 
     public function getSaveButtonHtml()
     {
+        $formId = $this->getLayout()->getBlock('tax_rate_form')->getDestElementId();
+        $button = $this->getChildBlock('saveButton');
+        $button->setDataAttr(array(
+            'widget-button' => array('event' => 'save', 'related' => '#' . $formId)
+        ));
         return $this->getChildHtml('saveButton');
     }
 

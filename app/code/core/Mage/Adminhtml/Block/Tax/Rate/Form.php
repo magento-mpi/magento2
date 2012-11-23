@@ -18,6 +18,8 @@
 
 class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_Form
 {
+    const FORM_ELEMENT_ID = 'rate-form';
+    
     protected $_titles = null;
 
     protected $_template = 'tax/rate/form.phtml';
@@ -26,7 +28,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
     protected function _construct()
     {
         parent::_construct();
-        $this->setDestElementId('rate_form');
+        $this->setDestElementId(self::FORM_ELEMENT_ID);
 
     }
 
@@ -132,7 +134,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
 
         $form->setAction($this->getUrl('*/tax_rate/save'));
         $form->setUseContainer(true);
-        $form->setId('rate_form');
+        $form->setId(self::FORM_ELEMENT_ID);
         $form->setMethod('post');
 
         if (!Mage::app()->hasSingleStore()) {

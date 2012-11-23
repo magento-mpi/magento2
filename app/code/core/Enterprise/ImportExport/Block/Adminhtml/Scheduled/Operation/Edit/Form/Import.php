@@ -85,7 +85,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Impo
 
         /** @var $element Varien_Data_Form_Element_Abstract */
         $element = $form->getElement('entity');
-        $element->setData('onchange', 'editForm.handleEntityTypeSelector();');
+        $element->setData('onchange', 'varienImportExportScheduled.handleEntityTypeSelector();');
 
         /** @var $operation Enterprise_ImportExport_Model_Scheduled_Operation */
         $operation = Mage::registry('current_operation');
