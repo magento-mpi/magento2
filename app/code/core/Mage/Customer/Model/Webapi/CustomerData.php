@@ -59,7 +59,7 @@ class Mage_Customer_Model_Webapi_CustomerData
      * Customer address
      *
      * @optional true
-     * @var Mage_Customer_Model_Webapi_Customer_AddressDataa
+     * @var Mage_Customer_Model_Webapi_Customer_AddressData
      */
     public $address;
 }

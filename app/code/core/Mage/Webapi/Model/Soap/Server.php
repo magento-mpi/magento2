@@ -30,16 +30,29 @@ class Mage_Webapi_Model_Soap_Server
     /** @var Mage_Webapi_Controller_Request_Soap */
     protected $_request;
 
+    /** @var Mage_Webapi_Controller_Dispatcher_Soap_Handler */
+    protected $_soapHandler;
+
+    /** @var Magento_DomDocument_Factory */
+    protected $_domDocumentFactory;
+
     public function __construct(
         Zend\Soap\Server $zendSoapServer,
         Mage_Webapi_Model_Config $apiConfig,
         Mage_Core_Model_App $application,
-        Mage_Webapi_Controller_Request_Soap $request
+        Mage_Webapi_Controller_Request_Soap $request,
+        Mage_Webapi_Controller_Dispatcher_Soap_Handler $soapHandler,
+        Magento_DomDocument_Factory $domDocumentFactory
     ) {
         $this->_zendSoapServer = $zendSoapServer;
         $this->_apiConfig = $apiConfig;
+        // TODO: Temporary workaround
+        $this->_apiConfig->init();
         $this->_application = $application;
         $this->_request = $request;
+        $this->_soapHandler = $soapHandler;
+        $this->_domDocumentFactory = $domDocumentFactory;
+        $this->_initSoapServer();
     }
 
     /**
@@ -69,19 +82,30 @@ class Mage_Webapi_Model_Soap_Server
                 }
             }
         } while ($schemaImportFailed && $schemaImportTrials < 5);
-        use_soap_error_dispatcher(false);
-        // TODO: Register valid SOAP dispatcher
-        $this->_zendSoapServer->setReturnResponse(true)->setObject($this);
+        use_soap_error_handler(false);
+        // TODO: Headers are not available at this point.
+        // $this->_soapHandler->setRequestHeaders($this->_getRequestHeaders());
+        $this->_zendSoapServer->setReturnResponse(true)->setObject($this->_soapHandler);
     }
 
     /**
-     * Retrieve request XML.
+     * Get SOAP Header names from request.
      *
-     * @return string
+     * @return array
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
-    public function getLastRequest()
+    protected function _getRequestHeaders()
     {
-        return $this->_zendSoapServer->getLastRequest();
+        $dom = $this->_domDocumentFactory->createDomDocument();
+        $dom->loadXML($this->_zendSoapServer->getLastRequest());
+        $headers = array();
+        /** @var DOMElement $header */
+        foreach ($dom->getElementsByTagName('Header')->item(0)->childNodes as $header) {
+            list($headerNs, $headerName) = explode(":", $header->nodeName);
+            $headers[] = $headerName;
+        }
+
+        return $headers;
     }
 
     /**

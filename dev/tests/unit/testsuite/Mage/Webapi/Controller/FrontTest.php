@@ -101,7 +101,7 @@ class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         /** Assert handle method in mocked object will be executed only once. */
-        $restDispatcherMock->expects($this->once())->method('handle');
+        $restDispatcherMock->expects($this->once())->method('dispatch');
         $this->_dispatcherFactoryMock->expects($this->any())->method('get')
             ->will($this->returnValue($restDispatcherMock));
         $this->_frontControllerMock->dispatch();

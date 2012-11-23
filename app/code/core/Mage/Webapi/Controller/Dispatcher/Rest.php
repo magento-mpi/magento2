@@ -89,6 +89,19 @@ class Mage_Webapi_Controller_Dispatcher_Rest extends Mage_Webapi_Controller_Disp
     protected $_request;
 
     /**
+     * Action controller factory.
+     *
+     * @var Mage_Webapi_Controller_Action_Factory
+     */
+    protected $_controllerFactory;
+
+    /** @var Mage_Webapi_Model_Authorization */
+    protected $_authorization;
+
+    /** @var Mage_Core_Model_Logger */
+    protected $_logger;
+
+    /**
      * Initialize dependencies.
      *
      * @param Mage_Webapi_Helper_Data $helper
@@ -123,10 +136,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest extends Mage_Webapi_Controller_Disp
         parent::__construct(
             $helper,
             $apiConfig,
-            $response,
-            $controllerFactory,
-            $logger,
-            $authorization
+            $response
         );
         $this->_restPresentation = $restPresentation;
         $this->_errorProcessor = $errorProcessor;
@@ -135,12 +145,15 @@ class Mage_Webapi_Controller_Dispatcher_Rest extends Mage_Webapi_Controller_Disp
         $this->_router = $router;
         $this->_authentication = $authentication;
         $this->_request = $request;
+        $this->_controllerFactory = $controllerFactory;
+        $this->_authorization = $authorization;
+        $this->_logger = $logger;
     }
 
     /**
      * Server errors processing mechanism initialization.
      *
-     * @return Mage_Webapi_Controller_Dispatcher_Rest|Mage_Core_Controller_FrontInterface
+     * @return Mage_Webapi_Controller_Dispatcher_Rest
      */
     public function init()
     {
@@ -155,7 +168,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest extends Mage_Webapi_Controller_Disp
      *
      * @return Mage_Webapi_Controller_Dispatcher_Rest
      */
-    public function handle()
+    public function dispatch()
     {
         try {
             $this->_authentication->authenticate();
@@ -169,14 +182,18 @@ class Mage_Webapi_Controller_Dispatcher_Rest extends Mage_Webapi_Controller_Disp
                 $controllerClassName,
                  $this->_request
              );
-            $versionAfterFallback = $this->_identifyVersionSuffix($operation, $resourceVersion, $controllerInstance);
+            $versionAfterFallback = $this->_apiConfig->identifyVersionSuffix(
+                $operation,
+                $resourceVersion,
+                $controllerInstance
+            );
             /**
              * Route check has two stages:
              * The first is performed against full list of routes that is merged from all resources.
              * The second stage of route check can be performed only when actual version to be executed is known.
              */
             $this->_checkRoute($method, $versionAfterFallback);
-            $this->_checkDeprecationPolicy($route->getResourceName(), $method, $versionAfterFallback);
+            $this->_apiConfig->checkDeprecationPolicy($route->getResourceName(), $method, $versionAfterFallback);
             $action = $method . $versionAfterFallback;
 
             $this->_authorization->checkResourceAcl($route->getResourceName(), $method);
@@ -372,7 +389,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest extends Mage_Webapi_Controller_Disp
             throw new LogicException(
                 "Please be sure to call Mage_Webapi_Controller_Request_Rest::setResourceVersion() first.");
         }
-        $this->_validateVersionNumber($resourceVersion, $this->_request->getResourceName());
+        $this->_apiConfig->validateVersionNumber($resourceVersion, $this->_request->getResourceName());
         return $resourceVersion;
     }
 

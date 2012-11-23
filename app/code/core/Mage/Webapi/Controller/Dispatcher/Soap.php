@@ -6,13 +6,6 @@
  */
 class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_DispatcherAbstract
 {
-    const BASE_ACTION_CONTROLLER = 'Mage_Webapi_Controller_ActionAbstract';
-
-    const FAULT_CODE_SENDER = 'Sender';
-    const FAULT_CODE_RECEIVER = 'Receiver';
-
-    const FAULT_REASON_INTERNAL = 'Internal Error.';
-
     const WEBSERVICE_CACHE_NAME = 'config_webservice';
     const WEBSERVICE_CACHE_TAG = 'WEBSERVICE';
     const WSDL_CACHE_ID = 'WSDL';
@@ -23,80 +16,53 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
     /** @var Mage_Webapi_Model_Soap_AutoDiscover */
     protected $_autoDiscover;
 
-    /** @var Mage_Core_Model_Store */
+    /** @var Mage_Core_Model_App */
     protected $_application;
 
     /** @var Mage_Core_Model_Cache */
     protected $_cache;
 
-    /** @var Magento_DomDocument_Factory */
-    protected $_domDocumentFactory;
-
-    /**
-     * Username token factory.
-     *
-     * @var Mage_Webapi_Model_Soap_Security_UsernameToken_Factory
-     */
-    protected $_tokenFactory;
-
-    /**
-     * WS-Security UsernameToken object from request.
-     *
-     * @var stdClass
-     */
-    protected $_usernameToken;
-
-    /** @var Mage_Webapi_Controller_Dispatcher_Soap_Authentication */
-    protected $_authentication;
-
     /** @var Mage_Webapi_Controller_Request_Soap */
     protected $_request;
 
+    /** @var Mage_Webapi_Model_Soap_Fault */
+    protected $_soapFault;
+
     /**
+     * Initialize dependencies.
+     *
      * @param Mage_Webapi_Helper_Data $helper
      * @param Mage_Webapi_Model_Config $apiConfig
      * @param Mage_Webapi_Controller_Request_Soap $request
      * @param Mage_Webapi_Controller_Response $response
-     * @param Mage_Webapi_Controller_Action_Factory $controllerFactory
-     * @param Mage_Core_Model_Logger $logger
      * @param Mage_Webapi_Model_Soap_AutoDiscover $autoDiscover
      * @param Mage_Webapi_Model_Soap_Server $soapServer
      * @param Mage_Core_Model_App $application
      * @param Mage_Core_Model_Cache $cache
-     * @param Magento_DomDocument_Factory $domDocumentFactory
-     * @param Mage_Webapi_Model_Authorization $authorization
-     * @param Mage_Webapi_Controller_Dispatcher_Soap_Authentication $authentication
+     * @param Mage_Webapi_Model_Soap_Fault $soapFault
      */
     public function __construct(
         Mage_Webapi_Helper_Data $helper,
         Mage_Webapi_Model_Config $apiConfig,
         Mage_Webapi_Controller_Request_Soap $request,
         Mage_Webapi_Controller_Response $response,
-        Mage_Webapi_Controller_Action_Factory $controllerFactory,
-        Mage_Core_Model_Logger $logger,
         Mage_Webapi_Model_Soap_AutoDiscover $autoDiscover,
         Mage_Webapi_Model_Soap_Server $soapServer,
         Mage_Core_Model_App $application,
         Mage_Core_Model_Cache $cache,
-        Magento_DomDocument_Factory $domDocumentFactory,
-        Mage_Webapi_Model_Authorization $authorization,
-        Mage_Webapi_Controller_Dispatcher_Soap_Authentication $authentication
+        Mage_Webapi_Model_Soap_Fault $soapFault
     ) {
         parent::__construct(
             $helper,
             $apiConfig,
-            $response,
-            $controllerFactory,
-            $logger,
-            $authorization
+            $response
         );
         $this->_autoDiscover = $autoDiscover;
         $this->_soapServer = $soapServer;
         $this->_cache = $cache;
         $this->_application = $application;
-        $this->_domDocumentFactory = $domDocumentFactory;
-        $this->_authentication = $authentication;
         $this->_request = $request;
+        $this->_soapFault = $soapFault;
     }
 
     /**
@@ -208,7 +174,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
     /**
      * Implementation of abstract method.
      *
-     * @return Mage_Webapi_Controller_Dispatcher_Soap|Mage_Core_Controller_FrontInterface
+     * @return Mage_Webapi_Controller_Dispatcher_Soap
      */
     public function init()
     {
@@ -221,7 +187,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
      *
      * @return Mage_Webapi_Controller_Dispatcher_Soap
      */
-    public function handle()
+    public function dispatch()
     {
         try {
             if ($this->_request->getParam(Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL) !== null) {
@@ -229,7 +195,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
                 $responseBody = $this->_getWsdlContent();
             } else {
                 $this->_setResponseContentType('application/soap+xml');
-                $responseBody = $this->_getSoapServer()->handle();
+                $responseBody = $this->_soapServer->handle();
             }
             $this->_setResponseBody($responseBody);
         } catch (Mage_Webapi_Exception $e) {
@@ -265,7 +231,14 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
                 }
             }
         }
-        $this->_setResponseBody($this->_getSoapFaultMessage($message, self::FAULT_CODE_SENDER, 'en', $details));
+        $this->_setResponseBody(
+            $this->_soapFault->getSoapFaultMessage(
+                $message,
+                Mage_Webapi_Controller_Dispatcher_Soap_Handler::FAULT_CODE_SENDER,
+                'en',
+                $details
+            )
+        );
     }
 
     /**
@@ -302,17 +275,6 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
         }
 
         return $wsdlContent;
-    }
-
-    /**
-     * Retrieve SOAP Server.
-     *
-     * @return Mage_Webapi_Model_Soap_Server
-     * @throws SoapFault
-     */
-    protected function _getSoapServer()
-    {
-        return $this->_soapServer;
     }
 
     /**

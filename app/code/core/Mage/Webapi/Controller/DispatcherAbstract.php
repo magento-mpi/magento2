@@ -6,8 +6,6 @@
  */
 abstract class Mage_Webapi_Controller_DispatcherAbstract
 {
-    const VERSION_MIN = 1;
-
     /** @var Mage_Webapi_Controller_Response */
     protected $_response;
 
@@ -18,50 +16,28 @@ abstract class Mage_Webapi_Controller_DispatcherAbstract
     protected $_helper;
 
     /**
-     * Action controller factory.
-     *
-     * @var Mage_Webapi_Controller_Action_Factory
-     */
-    protected $_controllerFactory;
-
-    /** @var Mage_Core_Model_Logger */
-    protected $_logger;
-
-    /** @var Mage_Webapi_Model_Authorization */
-    protected $_authorization;
-
-    /**
      * Initialize dependencies.
      *
      * @param Mage_Webapi_Helper_Data $helper
      * @param Mage_Webapi_Model_Config $apiConfig
      * @param Mage_Webapi_Controller_Response $response
-     * @param Mage_Webapi_Controller_Action_Factory $controllerFactory
-     * @param Mage_Core_Model_Logger $logger
-     * @param Mage_Webapi_Model_Authorization $authorization
      */
     public function __construct(
         Mage_Webapi_Helper_Data $helper,
         Mage_Webapi_Model_Config $apiConfig,
-        Mage_Webapi_Controller_Response $response,
-        Mage_Webapi_Controller_Action_Factory $controllerFactory,
-        Mage_Core_Model_Logger $logger,
-        Mage_Webapi_Model_Authorization $authorization
+        Mage_Webapi_Controller_Response $response
     ) {
         $this->_helper = $helper;
         $this->_apiConfig = $apiConfig;
-        $this->_controllerFactory = $controllerFactory;
         $this->_response = $response;
-        $this->_logger = $logger;
-        $this->_authorization = $authorization;
     }
 
     /**
-     * Handle request.
+     * Dispatch request.
      *
      * @return Mage_Webapi_Controller_DispatcherAbstract
      */
-    abstract public function handle();
+    abstract public function dispatch();
 
     /**
      * Initialize API configuration.
@@ -186,28 +162,5 @@ abstract class Mage_Webapi_Controller_DispatcherAbstract
     public function getHelper()
     {
         return $this->_helper;
-    }
-
-    /**
-     * Check if version number is from valid range.
-     *
-     * @param int $version
-     * @param string $resourceName
-     * @throws Mage_Webapi_Exception
-     */
-    protected function _validateVersionNumber($version, $resourceName)
-    {
-        $maxVersion = $this->getApiConfig()->getResourceMaxVersion($resourceName);
-        if ((int)$version > $maxVersion) {
-            throw new Mage_Webapi_Exception(
-                $this->getHelper()->__('The maximum version of the requested resource is "%s".', $maxVersion),
-                Mage_Webapi_Exception::HTTP_BAD_REQUEST
-            );
-        } elseif ((int)$version < self::VERSION_MIN) {
-            throw new Mage_Webapi_Exception(
-                $this->getHelper()->__('Resource version cannot be lower than "%s".', self::VERSION_MIN),
-                Mage_Webapi_Exception::HTTP_BAD_REQUEST
-            );
-        }
     }
 }

@@ -22,6 +22,8 @@ class Mage_Webapi_Model_Config
 
     const RESOURCE_CLASS_PATTERN = '/^(.*)_(.*)_Controller_Webapi(_.*)+$/';
 
+    const VERSION_MIN = 1;
+
     /**
      * @var Zend\Code\Scanner\DirectoryScanner
      */
@@ -1398,5 +1400,111 @@ class Mage_Webapi_Model_Config
     public function setDirectoryScanner(Zend\Code\Scanner\DirectoryScanner $directoryScanner)
     {
         $this->_directoryScanner = $directoryScanner;
+    }
+
+    /**
+     * Find the most appropriate version suffix for the requested action.
+     *
+     * If there is no action with requested version, fallback mechanism is used.
+     * If there is no appropriate action found after fallback - exception is thrown.
+     *
+     * @param string $operationName
+     * @param int $requestedVersion
+     * @param Mage_Webapi_Controller_ActionAbstract $controllerInstance
+     * @return string
+     * @throws Mage_Webapi_Exception
+     */
+    public function identifyVersionSuffix($operationName, $requestedVersion, $controllerInstance)
+    {
+        $methodName = $this->getMethodNameByOperation($operationName, $requestedVersion);
+        $methodVersion = $requestedVersion;
+        while ($methodVersion >= self::VERSION_MIN) {
+            $versionSuffix = Mage_Webapi_Model_Config::VERSION_NUMBER_PREFIX . $methodVersion;
+            if ($controllerInstance->hasAction($methodName . $versionSuffix)) {
+                return $versionSuffix;
+            }
+            $methodVersion--;
+        }
+        throw new Mage_Webapi_Exception($this->_helper
+                ->__('The "%s" operation is not implemented in version %s', $operationName, $requestedVersion),
+            Mage_Webapi_Exception::HTTP_BAD_REQUEST
+        );
+    }
+
+    /**
+     * Check if specified method is deprecated or removed.
+     *
+     * Throw exception in two cases:<br/>
+     * - method is removed<br/>
+     * - method is deprecated and developer mode is enabled
+     *
+     * @param string $resourceName
+     * @param string $method
+     * @param string $resourceVersion
+     * @throws Mage_Webapi_Exception
+     * @throws LogicException
+     */
+    public function checkDeprecationPolicy($resourceName, $method, $resourceVersion)
+    {
+        $deprecationPolicy = $this->getDeprecationPolicy($resourceName, $method, $resourceVersion);
+        if ($deprecationPolicy) {
+            /** Initialize message with information about what method should be used instead of requested one. */
+            if (isset($deprecationPolicy['use_resource']) && isset($deprecationPolicy['use_method'])
+                && isset($deprecationPolicy['use_version'])
+            ) {
+                $messageUseMethod = $this->_helper
+                    ->__('Please use version "%s" of "%s" method in "%s" resource instead.',
+                    $deprecationPolicy['use_version'],
+                    $deprecationPolicy['use_method'],
+                    $deprecationPolicy['use_resource']
+                );
+            } else {
+                $messageUseMethod = '';
+            }
+
+            $badRequestCode = Mage_Webapi_Exception::HTTP_BAD_REQUEST;
+            if (isset($deprecationPolicy['removed'])) {
+                $removalMessage = $this->_helper
+                    ->__('Version "%s" of "%s" method in "%s" resource was removed.',
+                    $resourceVersion,
+                    $method,
+                    $resourceName
+                );
+                throw new Mage_Webapi_Exception($removalMessage . ' ' . $messageUseMethod, $badRequestCode);
+                // TODO: Replace static call after MAGETWO-4961 implementation
+            } elseif (isset($deprecationPolicy['deprecated']) && Mage::getIsDeveloperMode()) {
+                $deprecationMessage = $this->_helper
+                    ->__('Version "%s" of "%s" method in "%s" resource is deprecated.',
+                    $resourceVersion,
+                    $method,
+                    $resourceName
+                );
+                throw new Mage_Webapi_Exception($deprecationMessage . ' ' . $messageUseMethod, $badRequestCode);
+            }
+        }
+    }
+
+    /**
+     * Check if version number is from valid range.
+     *
+     * @param int $version
+     * @param string $resourceName
+     * @throws Mage_Webapi_Exception
+     */
+    public function validateVersionNumber($version, $resourceName)
+    {
+        $maxVersion = $this->getResourceMaxVersion($resourceName);
+        if ((int)$version > $maxVersion) {
+            throw new Mage_Webapi_Exception(
+                $this->_helper->__('The maximum version of the requested resource is "%s".', $maxVersion),
+                Mage_Webapi_Exception::HTTP_BAD_REQUEST
+            );
+        } elseif ((int)$version < Mage_Webapi_Model_Config::VERSION_MIN) {
+            throw new Mage_Webapi_Exception(
+                $this->_helper
+                    ->__('Resource version cannot be lower than "%s".', Mage_Webapi_Model_Config::VERSION_MIN),
+                Mage_Webapi_Exception::HTTP_BAD_REQUEST
+            );
+        }
     }
 }

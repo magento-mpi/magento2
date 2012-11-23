@@ -90,7 +90,7 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
      */
     public function dispatch()
     {
-        $this->_getDispatcher()->handle();
+        $this->_getDispatcher()->dispatch();
         return $this;
     }
 
