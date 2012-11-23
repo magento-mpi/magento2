@@ -49,11 +49,11 @@
             this.$is_virtual.on('change click', function() {
                 if ($(this).is(':checked')) {
                     $type.val(self.baseType.virtual).trigger('change');
-                    self.$weight.addClass('validation-disabled').attr('disabled', 'disabled');
+                    self.$weight.addClass('ignore-validate').attr('disabled', 'disabled');
                     self.$tab.show();
                 } else {
                     $type.val(self.baseType.real).trigger('change');
-                    self.$weight.removeClass('validation-disabled').removeAttr('disabled', 'disabled');
+                    self.$weight.removeClass('ignore-validate').removeAttr('disabled', 'disabled');
                     self.$tab.hide();
                 }
             }).trigger('change');
@@ -83,10 +83,10 @@
                 var $inputs = attrContainer.find('select, input, textarea');
                 if (applyTo.length === 0 || $.inArray(typeCode, applyTo) !== -1) {
                     attrContainer.show();
-                    $inputs.removeClass('validation-disabled');
+                    $inputs.removeClass('ignore-validate');
                 } else {
                     attrContainer.hide();
-                    $inputs.addClass('validation-disabled');
+                    $inputs.addClass('ignore-validate');
                 }
             });
         }
