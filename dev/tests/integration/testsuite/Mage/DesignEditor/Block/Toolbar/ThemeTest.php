@@ -30,11 +30,23 @@ class Mage_DesignEditor_Block_Toolbar_ThemeTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * @dataProvider getThemes
+     * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
      */
     public function testIsThemeSelected($themeOld, $themeNew)
     {
+        $themeOld = Mage::getObjectManager()->create('Mage_Core_Model_Theme')
+            ->setData($this->_getThemeSampleData())
+            ->setThemePath('a/b')
+            ->setThemeCode('b')
+            ->save();
+
+        $themeNew = Mage::getObjectManager()->create('Mage_Core_Model_Theme')
+            ->setData($this->_getThemeSampleData())
+            ->setThemePath('c/d')
+            ->setThemeCode('d')
+            ->save();
+
         Mage::getDesign()->setDesignTheme($themeOld);
         $isSelected = $this->_block->isThemeSelected($themeOld->getId());
         $this->assertTrue($isSelected);
@@ -48,36 +60,6 @@ class Mage_DesignEditor_Block_Toolbar_ThemeTest extends PHPUnit_Framework_TestCa
     {
         $value = $this->_block->getSelectHtmlId();
         $this->assertNotEmpty($value);
-    }
-
-    /**
-     * @return array
-     */
-    public function getThemes()
-    {
-        $oldTheme = $this->_getThemeModel()
-            ->setData($this->_getThemeSampleData())
-            ->setThemePath('a/b')
-            ->setThemeCode('b')
-            ->save();
-
-        $newTheme = $this->_getThemeModel()
-            ->setData($this->_getThemeSampleData())
-            ->setThemePath('c/d')
-            ->setThemeCode('d')
-            ->save();
-
-        return array(
-            array($oldTheme, $newTheme)
-        );
-    }
-
-    /**
-     * @return Mage_Core_Model_Theme
-     */
-    protected function _getThemeModel()
-    {
-        return Mage::getModel('Mage_Core_Model_Theme');
     }
 
     /**
