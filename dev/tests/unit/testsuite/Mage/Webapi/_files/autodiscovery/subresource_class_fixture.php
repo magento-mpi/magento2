@@ -6,7 +6,7 @@
  *
  * @copyright {}
  */
-class Vendor_Module_Webapi_Resource_SubresourceController
+class Vendor_Module_Controller_Webapi_Resource_Subresource
 {
     /**
      * @param int $param1

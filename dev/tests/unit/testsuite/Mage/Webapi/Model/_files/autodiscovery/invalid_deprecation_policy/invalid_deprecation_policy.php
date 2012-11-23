@@ -1,6 +1,6 @@
 <?php
 
-class Invalid_Deprecation_Webapi_PolicyController
+class Invalid_Deprecation_Controller_Webapi_Policy
 {
     /**
      * @apiDeprecated resource::get

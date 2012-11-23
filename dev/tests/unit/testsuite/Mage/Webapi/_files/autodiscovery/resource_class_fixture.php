@@ -6,7 +6,7 @@
  *
  * @copyright {}
  */
-class Vendor_Module_Webapi_ResourceController
+class Vendor_Module_Controller_Webapi_Resource
 {
     /**
      * @param Vendor_Module_Model_Webapi_CustomerData[] $resourceData
@@ -66,7 +66,7 @@ class Vendor_Module_Webapi_ResourceController
 
     /**
      * @param int $deleteId The name of this parameter MUST be different from name used in get method.
-     * @apiDeprecated Vendor_Module_Webapi_Resource_SubresourceController::deleteV3
+     * @apiDeprecated Vendor_Module_Controller_Webapi_Resource_Subresource::deleteV3
      */
     public function deleteV2($deleteId)
     {

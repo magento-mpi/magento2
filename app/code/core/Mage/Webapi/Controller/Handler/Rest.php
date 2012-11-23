@@ -89,8 +89,7 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param Mage_Core_Model_Config $applicationConfig
+     * @param Mage_Webapi_Helper_Data $helper
      * @param Mage_Webapi_Model_Config $apiConfig
      * @param Mage_Webapi_Controller_Request_Factory $requestFactory
      * @param Mage_Webapi_Controller_Response $response
@@ -105,8 +104,7 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
      * @param Mage_Webapi_Controller_Handler_Rest_Authentication $authentication
      */
     public function __construct(
-        Mage_Core_Model_Factory_Helper $helperFactory,
-        Mage_Core_Model_Config $applicationConfig,
+        Mage_Webapi_Helper_Data $helper,
         Mage_Webapi_Model_Config $apiConfig,
         Mage_Webapi_Controller_Request_Factory $requestFactory,
         Mage_Webapi_Controller_Response $response,
@@ -121,8 +119,7 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
         Mage_Webapi_Controller_Handler_Rest_Authentication $authentication
     ) {
         parent::__construct(
-            $helperFactory,
-            $applicationConfig,
+            $helper,
             $apiConfig,
             $requestFactory,
             $response,
@@ -166,7 +163,10 @@ class Mage_Webapi_Controller_Handler_Rest extends Mage_Webapi_Controller_Handler
             $resourceVersion = $this->_getResourceVersion($operation);
             $method = $this->getApiConfig()->getMethodNameByOperation($operation, $resourceVersion);
             $controllerClassName = $this->getApiConfig()->getControllerClassByOperationName($operation);
-            $controllerInstance = $this->_getActionControllerInstance($controllerClassName);
+            $controllerInstance = $this->_controllerFactory->createActionController(
+                $controllerClassName,
+                 $this->getRequest()
+             );
             $versionAfterFallback = $this->_identifyVersionSuffix($operation, $resourceVersion, $controllerInstance);
             /**
              * Route check has two stages:

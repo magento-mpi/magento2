@@ -1,6 +1,6 @@
 <?php
 
-class Vendor_Module_Webapi_Empty_Property_DescriptionController
+class Vendor_Module_Controller_Webapi_Empty_Property_Description
 {
     /**
      * @param Vendor_Module_Model_Webapi_Property_Empty_Description $data

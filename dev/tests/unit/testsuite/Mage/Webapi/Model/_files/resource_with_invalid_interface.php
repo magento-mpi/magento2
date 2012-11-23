@@ -6,7 +6,7 @@
  *
  * @copyright {}
  */
-class Vendor_Module_Webapi_Resource_InvalidController
+class Vendor_Module_Controller_Webapi_Invalid_Interface
 {
     /**
      * @param int $resourceId

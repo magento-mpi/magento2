@@ -92,49 +92,49 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
         return array(
             // Test valid data that does not need transformations
             array(
-                'Vendor_Module_Webapi_Resource_SubresourceController',
+                'Vendor_Module_Controller_Webapi_Resource_Subresource',
                 'createV1',
                 array('param1' => 1, 'param2' => 2, 'param3' => array($customerDataObject), 'param4' => 4),
                 array('param1' => 1, 'param2' => 2, 'param3' => array($customerDataObject), 'param4' => 4),
             ),
             // Test filtering unnecessary data
             array(
-                'Vendor_Module_Webapi_Resource_SubresourceController',
+                'Vendor_Module_Controller_Webapi_Resource_Subresource',
                 'createV2',
                 array('param1' => 1, 'param2' => 2, 'param3' => array($customerDataObject), 'param4' => 4),
                 array('param1' => 1, 'param2' => 2),
             ),
             // Test parameters sorting
             array(
-                'Vendor_Module_Webapi_Resource_SubresourceController',
+                'Vendor_Module_Controller_Webapi_Resource_Subresource',
                 'createV1',
                 array('param4' => 4, 'param2' => 2, 'param3' => array($customerDataObject), 'param1' => 1),
                 array('param1' => 1, 'param2' => 2, 'param3' => array($customerDataObject), 'param4' => 4),
             ),
             // Test default values setting
             array(
-                'Vendor_Module_Webapi_Resource_SubresourceController',
+                'Vendor_Module_Controller_Webapi_Resource_Subresource',
                 'createV1',
                 array('param1' => 1, 'param2' => 2),
                 array('param1' => 1, 'param2' => 2, 'param3' => array(), 'param4' => 'default_value'),
             ),
             // Test with object instead of class name
             array(
-                new Vendor_Module_Webapi_Resource_SubresourceController(),
+                new Vendor_Module_Controller_Webapi_Resource_Subresource(),
                 'createV2',
                 array('param2' => 2, 'param1' => 1),
                 array('param1' => 1, 'param2' => 2),
             ),
             // Test passing of partially formatted objects
             array(
-                new Vendor_Module_Webapi_Resource_SubresourceController(),
+                new Vendor_Module_Controller_Webapi_Resource_Subresource(),
                 'updateV1',
                 array('param1' => 1, 'param2' => get_object_vars($customerDataObject)),
                 array('param1' => 1, 'param2' => $customerDataObject),
             ),
             // Test passing of complex type parameter with optional field not set
             array(
-                new Vendor_Module_Webapi_Resource_SubresourceController(),
+                new Vendor_Module_Controller_Webapi_Resource_Subresource(),
                 'updateV1',
                 array('param1' => 1, 'param2' => $customerDataWithoutOptionalFieldsInput),
                 array('param1' => 1, 'param2' => $customerDataWithoutOptionalFieldsOutput),
@@ -164,7 +164,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
         return array(
             // Test exception in case of missing required parameter
             array(
-                'Vendor_Module_Webapi_Resource_SubresourceController',
+                'Vendor_Module_Controller_Webapi_Resource_Subresource',
                 'createV1',
                 array('param2' => 2, 'param4' => 4),
                 'Mage_Webapi_Exception',
@@ -172,7 +172,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
             ),
             // Test passing of complex type parameter with not specified required field
             array(
-                new Vendor_Module_Webapi_Resource_SubresourceController(),
+                new Vendor_Module_Controller_Webapi_Resource_Subresource(),
                 'updateV1',
                 array('param1' => 1, 'param2' => $customerDataWithoutRequiredField),
                 'Mage_Webapi_Exception',

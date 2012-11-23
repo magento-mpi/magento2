@@ -4,7 +4,7 @@
  *
  * @copyright {}
  */
-class Mage_Customer_Webapi_CustomerController extends Mage_Webapi_Controller_ActionAbstract
+class Mage_Customer_Controller_Webapi_Customer extends Mage_Webapi_Controller_ActionAbstract
 {
     /**
      * @var Magento_ObjectManager

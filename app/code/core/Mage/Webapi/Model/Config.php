@@ -20,6 +20,8 @@ class Mage_Webapi_Model_Config
 
     const VERSION_NUMBER_PREFIX = 'V';
 
+    const RESOURCE_CLASS_PATTERN = '/^(.*)_(.*)_Controller_Webapi(_.*)+$/';
+
     /**
      * @var Zend\Code\Scanner\DirectoryScanner
      */
@@ -58,7 +60,7 @@ class Mage_Webapi_Model_Config
      *
      * @var array
      */
-    protected $_autoLoaderClassMap;
+    protected $_registeredResources;
 
     /** @var Magento_Controller_Router_Route_Factory */
     protected $_routeFactory;
@@ -360,12 +362,11 @@ class Mage_Webapi_Model_Config
      * @throws InvalidArgumentException
      * @throws LogicException
      * @return array
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     protected function _extractData()
     {
         if (is_null($this->_data)) {
-            $this->_populateClassMap();
+            $this->_registerResources();
 
             if ($this->_loadDataFromCache()) {
                 return $this;
@@ -373,8 +374,8 @@ class Mage_Webapi_Model_Config
 
             $allRestRoutes = array();
             $serverReflection = new Zend\Server\Reflection;
-            foreach ($this->_autoLoaderClassMap as $className => $filename) {
-                if (preg_match('/(.*)_Webapi_(.*)Controller*/', $className)) {
+            foreach ($this->_registeredResources as $className) {
+                if (preg_match(self::RESOURCE_CLASS_PATTERN, $className)) {
                     $data = array();
                     $data['controller'] = $className;
                     $data['versions'] = array();
@@ -454,7 +455,8 @@ class Mage_Webapi_Model_Config
         $methodNameWithSuffix = $methodReflection->getName();
         $regularExpression = $this->_getMethodNameRegularExpression();
         if (preg_match($regularExpression, $methodNameWithSuffix, $methodMatches)) {
-            $methodVersion = ucfirst($methodMatches[2]);
+            $resourceNamePosition = 2;
+            $methodVersion = ucfirst($methodMatches[$resourceNamePosition]);
         }
         return $methodVersion;
     }
@@ -806,11 +808,10 @@ class Mage_Webapi_Model_Config
     protected function _isSubresource(ReflectionMethod $methodReflection)
     {
         $className = $methodReflection->getDeclaringClass()->getName();
-        preg_match('/.*_Webapi_(.*)Controller*/', $className, $matches);
-        if (!isset($matches[1])) {
-            throw new InvalidArgumentException(sprintf('"%s" is not a valid resource class.', $className));
+        if (preg_match(self::RESOURCE_CLASS_PATTERN, $className, $matches)) {
+            return count(explode('_', trim($matches[3], '_'))) > 1;
         }
-        return count(explode('_', $matches[1])) > 1;
+        throw new InvalidArgumentException(sprintf('"%s" is not a valid resource class.', $className));
     }
 
     /**
@@ -876,9 +877,9 @@ class Mage_Webapi_Model_Config
      *
      * @throws LogicException
      */
-    protected function _populateClassMap()
+    protected function _registerResources()
     {
-        $classMap = array();
+        $this->_registeredResources = array();
         /** @var \Zend\Code\Scanner\FileScanner $file */
         foreach ($this->getDirectoryScanner()->getFiles(true) as $file) {
             $filename = $file->getFile();
@@ -891,13 +892,8 @@ class Mage_Webapi_Model_Config
             }
             /** @var \Zend\Code\Scanner\ClassScanner $class */
             $class = reset($classes);
-            $baseDir = $this->_applicationConfig->getOptions()->getBaseDir() . DIRECTORY_SEPARATOR;
-            $relativePath = str_replace($baseDir, '', $filename);
-            $classMap[$class->getName()] = $relativePath;
+            $this->_registeredResources[] = $class->getName();
         }
-
-        $this->_autoLoaderClassMap = $classMap;
-        $this->_autoloader->addFilesMap($this->_autoLoaderClassMap);
     }
 
     /**
@@ -1149,17 +1145,22 @@ class Mage_Webapi_Model_Config
     /**
      * Identify the list of resource name parts including subresources using class name.
      *
+     * Examples of input/output pairs: <br/>
+     * - 'Mage_Customer_Controller_Webapi_Customer_Address' => array('Customer', 'Address') <br/>
+     * - 'Enterprise_Customer_Controller_Webapi_Customer_Address' => array('EnterpriseCustomer', 'Address') <br/>
+     * - 'Mage_Catalog_Controller_Webapi_Product' => array('Catalog', 'Product')
+     *
      * @param string $className
      * @return array
      * @throws InvalidArgumentException When class is not valid API resource.
      */
     public function getResourceNameParts($className)
     {
-        if (preg_match('/^(.*)_Webapi_(.*)Controller$/', $className, $matches)) {
-            list($moduleNamespace, $moduleName) = explode('_', $matches[1]);
-            $moduleNamespace = $moduleNamespace == 'Mage' ? '' : $moduleNamespace;
-
-            $resourceNameParts = explode('_', $matches[2]);
+        if (preg_match(self::RESOURCE_CLASS_PATTERN, $className, $matches)) {
+            $moduleNamespace = $matches[1];
+            $moduleName = $matches[2];
+            $moduleNamespace = ($moduleNamespace == 'Mage') ? '' : $moduleNamespace;
+            $resourceNameParts = explode('_', trim($matches[3], '_'));
             if ($moduleName == $resourceNameParts[0]) {
                 /** Avoid duplication of words in resource name */
                 $moduleName = '';
@@ -1383,7 +1384,9 @@ class Mage_Webapi_Model_Config
             /** @var Mage_Core_Model_Config_Element $module */
             foreach ($this->_applicationConfig->getNode('modules')->children() as $moduleName => $module) {
                 if ($module->is('active')) {
-                    $directory = $this->_applicationConfig->getModuleDir('controllers', $moduleName) . DS . 'Webapi';
+                    /** Invalid type is specified to retrieve path to module directory. */
+                    $moduleDir = $this->_applicationConfig->getModuleDir('invalid_type', $moduleName);
+                    $directory = $moduleDir . DS . 'Controller' . DS . 'Webapi';
                     if (is_dir($directory)) {
                         $this->_directoryScanner->addDirectory($directory);
                     }

@@ -20,9 +20,6 @@ abstract class Mage_Webapi_Controller_HandlerAbstract
     /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
-    /** @var Mage_Core_Model_Config */
-    protected $_applicationConfig;
-
     /**
      * Action controller factory.
      *
@@ -39,8 +36,7 @@ abstract class Mage_Webapi_Controller_HandlerAbstract
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param Mage_Core_Model_Config $applicationConfig
+     * @param Mage_Webapi_Helper_Data $helper
      * @param Mage_Webapi_Model_Config $apiConfig
      * @param Mage_Webapi_Controller_Request_Factory $requestFactory
      * @param Mage_Webapi_Controller_Response $response
@@ -49,8 +45,7 @@ abstract class Mage_Webapi_Controller_HandlerAbstract
      * @param Mage_Webapi_Model_Authorization $authorization
      */
     public function __construct(
-        Mage_Core_Model_Factory_Helper $helperFactory,
-        Mage_Core_Model_Config $applicationConfig,
+        Mage_Webapi_Helper_Data $helper,
         Mage_Webapi_Model_Config $apiConfig,
         Mage_Webapi_Controller_Request_Factory $requestFactory,
         Mage_Webapi_Controller_Response $response,
@@ -58,8 +53,7 @@ abstract class Mage_Webapi_Controller_HandlerAbstract
         Mage_Core_Model_Logger $logger,
         Mage_Webapi_Model_Authorization $authorization
     ) {
-        $this->_helper = $helperFactory->get('Mage_Webapi_Helper_Data');
-        $this->_applicationConfig = $applicationConfig;
+        $this->_helper = $helper;
         $this->_apiConfig = $apiConfig;
         $this->_controllerFactory = $controllerFactory;
         $this->_response = $response;
@@ -115,45 +109,6 @@ abstract class Mage_Webapi_Controller_HandlerAbstract
     public function getResponse()
     {
         return $this->_response;
-    }
-
-    /**
-     * Instantiate and validate action controller.
-     *
-     * @param string $className
-     * @return Mage_Webapi_Controller_ActionAbstract
-     * @throws LogicException
-     */
-    protected function _getActionControllerInstance($className)
-    {
-        // TODO: Remove dependency on Magento_Autoload by moving API controllers to 'Controller' folder
-        Magento_Autoload::getInstance()->addFilesMap(array($className => $this->_getControllerFileName($className)));
-        $controllerInstance = $this->_controllerFactory->createActionController(
-            $className,
-            $this->getRequest()
-        );
-
-        return $controllerInstance;
-    }
-
-    /**
-     * Identify controller file name by its class name.
-     *
-     * @param string $controllerClassName
-     * @return string
-     * @throws LogicException
-     */
-    protected function _getControllerFileName($controllerClassName)
-    {
-        $parts = explode('_', $controllerClassName);
-        $realModule = implode('_', array_splice($parts, 0, 2));
-        $file = $this->_applicationConfig->getModuleDir('controllers', $realModule) . DS . implode(DS, $parts) . '.php';
-        if (!file_exists($file)) {
-            throw new LogicException(
-                $this->getHelper()->__('Action controller "%s" could not be loaded.', $controllerClassName));
-        }
-
-        return str_replace($this->_applicationConfig->getOptions()->getBaseDir(), '', $file);
     }
 
     /**

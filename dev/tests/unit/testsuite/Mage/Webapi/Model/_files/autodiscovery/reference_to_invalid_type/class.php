@@ -1,6 +1,6 @@
 <?php
 
-class Vendor_Module_Webapi_Invalid_TypeController
+class Vendor_Module_Controller_Webapi_Invalid_Type
 {
     /**
      * @param Not_Existing_Model_Webapi_Class $data

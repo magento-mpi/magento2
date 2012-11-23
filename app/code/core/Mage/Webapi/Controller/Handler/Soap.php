@@ -62,8 +62,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
     protected $_authentication;
 
     /**
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param Mage_Core_Model_Config $applicationConfig
+     * @param Mage_Webapi_Helper_Data $helper
      * @param Mage_Webapi_Model_Config $apiConfig
      * @param Mage_Webapi_Controller_Request_Factory $requestFactory
      * @param Mage_Webapi_Controller_Response $response
@@ -78,8 +77,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
      * @param Mage_Webapi_Controller_Handler_Soap_Authentication $authentication
      */
     public function __construct(
-        Mage_Core_Model_Factory_Helper $helperFactory,
-        Mage_Core_Model_Config $applicationConfig,
+        Mage_Webapi_Helper_Data $helper,
         Mage_Webapi_Model_Config $apiConfig,
         Mage_Webapi_Controller_Request_Factory $requestFactory,
         Mage_Webapi_Controller_Response $response,
@@ -94,8 +92,7 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
         Mage_Webapi_Controller_Handler_Soap_Authentication $authentication
     ) {
         parent::__construct(
-            $helperFactory,
-            $applicationConfig,
+            $helper,
             $apiConfig,
             $requestFactory,
             $response,
@@ -137,7 +134,10 @@ class Mage_Webapi_Controller_Handler_Soap extends Mage_Webapi_Controller_Handler
                     $this->_soapFault(sprintf('Method "%s" is not found.', $operation), self::FAULT_CODE_SENDER);
                 }
                 $controllerClass = $this->getApiConfig()->getControllerClassByOperationName($operation);
-                $controllerInstance = $this->_getActionControllerInstance($controllerClass);
+                $controllerInstance = $this->_controllerFactory->createActionController(
+                    $controllerClass,
+                     $this->getRequest()
+                 );
                 $method = $this->getApiConfig()->getMethodNameByOperation($operation, $resourceVersion);
 
                 $this->_authorization->checkResourceAcl($resourceName, $method);
