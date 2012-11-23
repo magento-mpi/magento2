@@ -585,7 +585,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
             $oldTypeInstance = Mage::getSingleton('Mage_Catalog_Model_Product_Type')
                 ->factory($oldTypeProduct->setTypeId($product->getOrigData('type_id')));
             $oldTypeProduct->setTypeInstance($oldTypeInstance);
-            $oldTypeInstance->deleteProductSpecificData($oldTypeProduct);
+            $oldTypeInstance->deleteTypeSpecificData($oldTypeProduct);
         }
         return $this;
     }
