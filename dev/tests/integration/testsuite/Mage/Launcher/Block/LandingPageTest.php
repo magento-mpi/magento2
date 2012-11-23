@@ -21,7 +21,7 @@ class Mage_Launcher_Block_LandingPageTest extends PHPUnit_Framework_TestCase
 
         $this->assertNotEmpty($tiles);
 
-        foreach($tiles as $tile) {
+        foreach ($tiles as $tile) {
             $this->assertInstanceOf('Mage_Launcher_Block_Tile', $tile);
         }
     }
