@@ -76,26 +76,21 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
 
     public function testJavascript()
     {
-        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
-        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
-
         $javascript = $this->_block->getJavaScript();
 
-        $expectedItem1 =  '#"option_id1":{"label":"Option One",'
+        $expectedItemFirst = '#"option_id1":{"label":"Option One",'
             . '"url":"http:\\\/\\\/localhost\\\/index\.php\\\/key\\\/([\w\d]+)\\\/",'
             . '"complete":"Test","id":"option_id1"}#';
-        $this->assertRegExp($expectedItem1, $javascript);
+        $this->assertRegExp($expectedItemFirst, $javascript);
 
-        $expectedItem2 =  '#"option_id2":{"label":"Option Two",'
+        $expectedItemSecond = '#"option_id2":{"label":"Option Two",'
             . '"url":"http:\\\/\\\/localhost\\\/index\.php\\\/key\\\/([\w\d]+)\\\/",'
             . '"confirm":"Are you sure\?","id":"option_id2"}#';
-        $this->assertRegExp($expectedItem2, $javascript);
+        $this->assertRegExp($expectedItemSecond, $javascript);
     }
 
     public function testJavascriptWithAddedItem()
     {
-        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
-        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
         $input = array(
             'id' => 'option_id3',
             'label' => 'Option Three',
@@ -112,9 +107,6 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
 
     public function testItemsCount()
     {
-        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
-        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
-
         $this->assertEquals(2, count($this->_block->getItems()));
         $this->assertEquals(2, $this->_block->getCount());
     }
@@ -126,9 +118,6 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
      */
     public function testItems($itemId, $expectedItem)
     {
-        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
-        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
-
         $items = $this->_block->getItems();
         $this->assertArrayHasKey($itemId, $items);
 
@@ -140,6 +129,9 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
         $this->assertEquals($expectedItem['blockname'], $actualItem->getBlockName());
     }
 
+    /**
+     * @return array
+     */
     public function itemsDataProvider()
     {
         return array(
@@ -168,9 +160,6 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
 
     public function testGridContainsMassactionColumn()
     {
-        /** Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme */
-        $this->markTestIncomplete('Skipped MAGETWO-3556: Ability for System to Operate w/o Design Theme');
-
         $this->_layout->getBlock('admin.test.grid')->toHtml();
 
         $gridMassactionColumn = $this->_layout->getBlock('admin.test.grid')
