@@ -693,7 +693,7 @@ class Mage_Core_Model_Design_Package
      */
     public function getPublicDir()
     {
-        return Mage::getBaseDir('media')  . DS . 'theme';
+        return Mage::getBaseDir('media') . DS . 'theme';
     }
 
     /**
@@ -713,11 +713,8 @@ class Mage_Core_Model_Design_Package
             $designPath = self::PUBLIC_VIEW_DIR;
         }
 
-        $publicFile = $params['area']
-            . DS . $designPath
-            . DS . $params['locale']
-            . ($params['module'] ? DS . $params['module'] : '')
-            . DS . $file;
+        $publicFile = $params['area'] . DS . $designPath . DS . $params['locale'] .
+            ($params['module'] ? DS . $params['module'] : '') . DS . $file;
 
         return $publicFile;
     }
@@ -991,10 +988,7 @@ class Mage_Core_Model_Design_Package
 
         $result = implode($css);
         if ($imports) {
-            $result = implode("\n", $imports) . "\n"
-                . "/* Import directives above popped up. */\n"
-                . $result
-            ;
+            $result = implode("\n", $imports) . "\n" . "/* Import directives above popped up. */\n" . $result;
         }
         return $result;
     }
