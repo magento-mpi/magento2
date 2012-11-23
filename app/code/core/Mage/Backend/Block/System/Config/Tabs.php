@@ -106,10 +106,8 @@ class Mage_Backend_Block_System_Config_Tabs extends Mage_Backend_Block_Widget
         );
         $this->_collectionFactory = $collectionFactory;
         $this->_objectFactory = $objectFactory;
-        $websiteCode = $this->getRequest()->getParam('website');
-        $storeCode = $this->getRequest()->getParam('store');
 
-        $this->_tabs = $configStructure->getTabs($websiteCode, $storeCode);
+        $this->_tabs = $configStructure->getTabs();
 
         $this->setId('system_config_tabs');
         $this->setTitle($this->helper('Mage_Backend_Helper_Data')->__('Configuration'));
@@ -124,16 +122,7 @@ class Mage_Backend_Block_System_Config_Tabs extends Mage_Backend_Block_Widget
     {
         $this->_currentSectionId = $this->getRequest()->getParam('section');
 
-        if (!$this->_currentSectionId) {
-            $this->_tabs->rewind();
-            /** @var $tab Mage_Backend_Model_Config_Structure_Element_Tab */
-            $tab = $this->_tabs->current();
-            $tab->getChildren()->rewind();
-            $sectionId = $tab->getChildren()->current()->getId();
-            $this->_currentSectionId = $sectionId;
-            $this->getRequest()->setParam('section', $sectionId);
-        }
-        $this->helper('Mage_Backend_Helper_Data')->addPageHelpUrl($this->_currentSectionId . '/');
+        $this->helper('Mage_Backend_Helper_Data')->addPageHelpUrl($this->getRequest()->getParam('section') . '/');
         return $this;
     }
 

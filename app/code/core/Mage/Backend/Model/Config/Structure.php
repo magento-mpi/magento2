@@ -39,6 +39,8 @@ class Mage_Backend_Model_Config_Structure
      */
     protected $_flyweightPool;
 
+    protected $_scope;
+
     /**
      * @param Mage_Backend_Model_Config_Structure_Reader $structureReader
      * @param Mage_Backend_Model_Config_Structure_Element_Iterator_Tab $tabIterator
@@ -55,13 +57,22 @@ class Mage_Backend_Model_Config_Structure
     }
 
     /**
-     * Retrieve tab iterator
+     * Set conf
      *
      * @param string $websiteCode
      * @param string $storeCode
-     * @return Mage_Backend_Model_Config_Structure_Element_Iterator
      */
-    public function getTabs($websiteCode, $storeCode)
+    public function setScope($websiteCode = '', $storeCode = '')
+    {
+        $this->_scope = $websiteCode ? 'website' : ($storeCode ? 'store' : 'default');
+    }
+
+    /**
+     * Retrieve tab iterator
+     *
+    * @return Mage_Backend_Model_Config_Structure_Element_Iterator
+     */
+    public function getTabs()
     {
         foreach ($this->_data['sections'] as $sectionId => $section) {
             if (isset($section['tab']) && $section['tab']) {
