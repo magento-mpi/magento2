@@ -73,14 +73,18 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit extends Mage_Adminhtml_Blo
         if ($this->getStaging()->canSave()) {
             $this->addChild('save_button', 'Mage_Adminhtml_Block_Widget_Button', array(
                 'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Save'),
-                'onclick'   => $this->getEditFormJsObject().'.submit()',
+                'data_attr'  => array(
+                    'widget-button' => array('event' => 'save', 'related' => '#enterprise_staging_form'),
+                ),
                 'class' => 'save'
             ));
         } else {
             if ($this->getRequest()->getParam('type')) {
                 $this->addChild('create_button', 'Mage_Adminhtml_Block_Widget_Button', array(
                     'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Create'),
-                    'onclick'   => $this->getEditFormJsObject().'.runCreate()',
+                    'data_attr'  => array(
+                        'widget-button' => array('event' => 'save', 'related' => '#enterprise_staging_form'),
+                    ),
                     'class'  => 'add'
                 ));
             }

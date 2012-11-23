@@ -30,6 +30,9 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General
     {
         parent::_prepareLayout();
 
+        if ($this->getLayout()->hasElement($this->getNameInLayout() . '_element')) {
+            $this->getLayout()->unsetElement($this->getNameInLayout() . '_element');
+        }
         Varien_Data_Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
                 'Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Form_Renderer_Element',
@@ -65,7 +68,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General
             'class'    => 'validate-code'
         ));
 
-        $element = $fieldset->addField('label', 'text', array(
+        $fieldset->addField('label', 'text', array(
             'name'     => 'label',
             'label'    => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Label'),
             'required' => true,

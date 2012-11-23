@@ -10,10 +10,6 @@
 ?>
 <script type="text/javascript">
 //<![CDATA[
-function saveAndContinueEdit(){
-    editForm.submit($('edit_form').action+'back/edit/');
-}
-
 var show_option_panel           = false;
 var attribute_validate_filters  = <?php echo $this->getValidateFiltersJson();?>;
 var attribute_filter_types      = <?php echo $this->getFilteTypesJson();?>;

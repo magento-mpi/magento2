@@ -11,7 +11,7 @@
 <script type="text/javascript">
 //<![CDATA[
 function setSettings(urlTemplate, typeElement, packageThemeElement) {
-    if (!editForm.validate()) {
+    if (!jQuery('#edit_form').valid()) {
         return false;
     }
     typeElement = $F(typeElement);
@@ -21,9 +21,6 @@ function setSettings(urlTemplate, typeElement, packageThemeElement) {
         'type': typeElement,
         'package_theme': packageThemeElement
     }));
-}
-function saveAndContinueEdit(){
-    editForm.submit($('edit_form').action + 'back/edit/');
 }
 //]]>
 </script>

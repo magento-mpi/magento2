@@ -38,21 +38,12 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit
                 array(
                     'label' => $this->helper('Enterprise_CatalogEvent_Helper_Data')->__('Save and Continue Edit'),
                     'class' => 'save',
-                    'onclick'   => 'saveAndContinue()',
+                    'data_attr'  => array(
+                        'widget-button' => array('event' => 'saveAndContinueEdit', 'related' => '#edit_form')
+                    )
                 ),
                 1
             );
-
-            $this->_formScripts[] = '
-                function saveAndContinue() {
-                    if (editForm.validator.validate()) {
-                        $(editForm.formId).insert({bottom:
-                            \'<\' + \'input type="hidden" name="_continue" value="1" /\' + \'>\'
-                        });
-                        editForm.submit();
-                    }
-                }
-            ';
         }
 
         parent::_prepareLayout();

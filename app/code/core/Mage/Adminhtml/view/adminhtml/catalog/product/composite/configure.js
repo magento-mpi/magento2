@@ -220,7 +220,7 @@ ProductConfigure.prototype = {
      * Do submit configured data through iFrame if needed
      */
     onConfirmBtn: function() {
-        if (productCompositeConfigureForm.validate()) {
+        if (jQuery(this.blockForm).valid()) {
             if (this.listTypes[this.current.listType].urlConfirm) {
                 this.submit();
             } else {
@@ -510,7 +510,7 @@ ProductConfigure.prototype = {
             case 'current':
                 listInfo = this.listTypes[this.current.listType];
                 listTypes = [this.current.listType];
-                if (listInfo.complexTypes) {
+                if (listInfo && listInfo.complexTypes) {
                     listTypes = listTypes.concat(listInfo.complexTypes);
                 }
                 removeConfirmed(listTypes);
