@@ -653,4 +653,80 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
             }
         }
     }
+
+    /**
+     * @param $attributes
+     *
+     * @return bool
+     */
+    public function isDisplayedSuperAttribute($attributes)
+    {
+        foreach ($attributes as $attribute) {
+            $this->addParameter('attributeTitle', $attribute);
+            if (!$this->controlIsVisible('checkbox', 'configurable_attribute_title')) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+    }
+
+    /**
+     * @param $attributes
+     */
+    public function selectSuperAttribute($attributes)
+    {
+        foreach ($attributes as $attribute) {
+            $this->addParameter('attributeTitle', $attribute);
+            if ($this->controlIsVisible('checkbox', 'configurable_attribute_title')) {
+                $this->fillCheckbox('configurable_attribute_title', 'yes');
+            }
+        }
+    }
+
+    public function selectAllVariations($include = true)
+    {
+        $this->openTab('general');
+        if ($this->controlIsVisible('fieldset', 'variations_matrix')) {
+            $checkboxXpath = $this->_getControlXpath('fieldset', 'variations_matrix') . "//*[@class='checkbox']";
+            $rowNumber = $this->getXpathCount($checkboxXpath);
+            while ($rowNumber > 0) {
+                $this->addParameter('rowNum', $rowNumber);
+                if ($include && !$this->isChecked($this->_getControlXpath('checkbox', 'include_variation')))
+                {
+                    $this->clickControl('checkbox', 'include_variation', false);
+                }
+                if (!$include && $this->isChecked($this->_getControlXpath('checkbox', 'include_variation')))
+                {
+                    $this->clickControl('checkbox', 'include_variation', false);
+                }
+                $rowNumber--;
+            }
+        }
+    }
+
+    public function isProductTypeEqualsTo($productData, $productType)
+    {
+        $column = $this->getColumnIdByName('Type');
+        $productLocator = $this->formSearchXpath(array('sku' => $productData['general_sku']));
+        $this->assertEquals($productType, trim($this->getText($productLocator . "//td[$column]")),
+            'Incorrect product type has been created');
+    }
+
+    public function checkGeneratedMatrix(array $matrixData, array $attributesQty)
+    {
+        $checkboxXpath = $this->_getControlXpath('fieldset', 'variations_matrix') . "//*[@type='checkbox']";
+        $rowNumber = $this->getXpathCount($checkboxXpath);
+        while ($rowNumber > 0) {
+            $this->addParameter('rowNum', $rowNumber);
+            $this->assertFalse($this->isChecked($this->_getControlXpath('checkbox', 'include_variation')));
+            foreach ($attributesQty as $value) {
+                $variationData = $this->getText($this->_getControlXpath('pageelement', 'variation_line')
+                    . "/td[5+$value]");
+                $this->assertEquals($matrixData[$rowNumber][$value], $variationData);
+            }
+            $rowNumber--;
+        }
+    }
 }

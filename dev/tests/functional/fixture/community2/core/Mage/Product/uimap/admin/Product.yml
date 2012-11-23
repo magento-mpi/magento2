@@ -3,7 +3,7 @@
 # {license_notice}
 #
 # @category    Magento
-# @package     Mage_AdminUser
+# @package     Mage_Product
 # @subpackage  uimaps
 # @copyright   {copyright}
 # @license     {license_link}
@@ -53,7 +53,16 @@ new_product:
                                         configurable_attribute_title: //input[@type='checkbox' and @title='%attributeTitle%']
                                         associated_product_select: //tbody/tr[%rowNum%]//*[@class='checkbox']
                                     buttons:
-                                        continue: //*[@data-ui-id='product-type-tabs-schedule-block-super-settings-continue-button']
+                                        continue: //*[@data-ui-id='admin-product-edit-tab-super-config-grid-container-super-settings-continue-button']
+                            -
+                                variations_matrix:
+                                    xpath: //*[@id='product-variations-matrix']
+                                    checkboxes:
+
+                                        include_variation: //tbody/tr[%rowNum%]//*[@type='checkbox']
+                                    pageelements:
+
+                                        variation_line: //table/tbody/tr[%rowNum%]
                         checkboxes:
                             is_configurable: //*[@id='config_super_product-checkbox']
                 -
