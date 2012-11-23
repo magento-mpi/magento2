@@ -47,7 +47,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'design',
             Mage::getModel('Mage_Core_Model_Design_Package')
         ));
-        $themeUtility->registerThemes()->setDesignTheme('test/default', 'frontend');;
+        $themeUtility->registerThemes()->setDesignTheme('test/default', 'frontend');
         $this->_model = $themeUtility->getDesign();
     }
 

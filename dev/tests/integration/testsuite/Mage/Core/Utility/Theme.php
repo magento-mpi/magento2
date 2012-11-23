@@ -39,8 +39,6 @@ class Mage_Core_Utility_Theme
      */
     protected $_themesCollection;
 
-    protected $_registered = false;
-
     /**
      * @param string $designDir
      * @param Mage_Core_Model_Design_Package $design
@@ -72,11 +70,8 @@ class Mage_Core_Utility_Theme
      */
     public function registerThemes()
     {
-        //if (!$this->_registered) {
-            Mage::app()->getConfig()->getOptions()->setDesignDir($this->_designDir);
-            $this->_register->register();
-            $this->_registered = true;
-        //}
+        Mage::app()->getConfig()->getOptions()->setDesignDir($this->_designDir);
+        $this->_register->register();
         $this->_design->setDefaultDesignTheme();
         return $this;
     }

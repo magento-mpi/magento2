@@ -155,7 +155,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     /**
      * @magentoConfigFixture default/design/theme/allow_view_files_duplication 0
      */
-    public function ZtestGetViewUrlNoFilesDuplicationWithCaching()
+    public function testGetViewUrlNoFilesDuplicationWithCaching()
     {
         Mage::app()->getLocale()->setLocale('en_US');
         $themeDesignParams = array('package' => 'test', 'theme' => 'default');
