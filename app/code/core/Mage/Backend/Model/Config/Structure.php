@@ -11,7 +11,7 @@
 /**
  * System configuration structure
  */
-class Mage_Backend_Model_Config_Structure
+class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_Structure_SearchInterface
 {
     /**
      * Key that contains field type in structure array

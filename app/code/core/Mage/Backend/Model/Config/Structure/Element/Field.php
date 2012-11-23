@@ -19,17 +19,25 @@ class Mage_Backend_Model_Config_Structure_Element_Field
     protected $_backendFactory;
 
     /**
+     * @var Mage_Backend_Model_Config_Structure_SearchInterface
+     */
+    protected $_filedLocator;
+
+    /**
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Core_Model_Authorization $authorization
      * @param Mage_Backend_Model_Config_Backend_Factory $backendFactory
+     * @param Mage_Backend_Model_Config_Structure_SearchInterface $fieldLocator
      */
     public function __construct(
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Authorization $authorization,
-        Mage_Backend_Model_Config_Backend_Factory $backendFactory
+        Mage_Backend_Model_Config_Backend_Factory $backendFactory,
+        Mage_Backend_Model_Config_Structure_SearchInterface $fieldLocator
     ) {
         parent::__construct($helperFactory, $authorization);
         $this->_backendFactory = $backendFactory;
+        $this->_filedLocator = $fieldLocator;
     }
 
     /**
@@ -136,17 +144,6 @@ class Mage_Backend_Model_Config_Structure_Element_Field
     public function getBackendModel()
     {
         return $this->_backendFactory->create($this->_data['backend_model']);
-    }
-
-    /**
-     * Retrieve element config path
-     *
-     * @return string
-     */
-    public function getPath($fieldPrefix = '')
-    {
-        $path = isset($this->_data['path']) ? $this->_data['path'] : rand(0, 100000000);
-        return $path . '/' . $fieldPrefix . $this->getId();
     }
 
     /**
@@ -277,22 +274,28 @@ class Mage_Backend_Model_Config_Structure_Element_Field
         $dependencies = array();
         foreach ($this->_data['depends']['fields'] as $depend) {
             /* @var array $depend */
-            $dependentId = $section['id'] . '_' . $group['id'] . '_' . $fieldPrefix . $depend['id'];
+            $fieldId = $fieldPrefix . array_pop($depend['dependPath']);
+            $depend['dependPath'] = $fieldId;
+            $dependentId = implode('_', $depend['dependPath']);
+
             $shouldBeAddedDependence = true;
+
             $dependentValue = $depend['value'];
+
             if (isset($depend['separator'])) {
                 $dependentValue = explode($depend['separator'], $dependentValue);
             }
-            $dependentFieldName = $fieldPrefix . $depend['id'];
-            $dependentField = $group['fields'][$dependentFieldName];
+
+            /** @var Mage_Backend_Model_Config_Structure_Element_Field $dependentField  */
+            $dependentField = $this->_filedLocator->getElement($depend['id']);
+
             /*
             * If dependent field can't be shown in current scope and real dependent config value
             * is not equal to preferred one, then hide dependence fields by adding dependence
             * based on not shown field (not rendered field)
             */
-            if (!$this->_canShowField($dependentField)) {
-                $dependentFullPath = $section['id'] . '/' . $group['id'] . '/' . $fieldPrefix . $depend['id'];
-                $dependentValueInStore = Mage::getStoreConfig($dependentFullPath, $this->getStoreCode());
+            if (false == $dependentField->isVisible()) {
+                $dependentValueInStore = Mage::getStoreConfig($dependentField->getPath($fieldPrefix), $this->getStoreCode());
                 if (is_array($dependentValue)) {
                     $shouldBeAddedDependence = !in_array($dependentValueInStore, $dependentValue);
                 } else {

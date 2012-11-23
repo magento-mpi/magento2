@@ -284,7 +284,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
                     $configDataAdditionalGroups[$groupPath] = true;
                 }
             }
-            $this->_initElement($field, $fieldset, $group, $section, $this->getGroupPath(), $fieldPrefix, $labelPrefix);
+            $this->_initElement($field, $fieldset, $path, $fieldPrefix, $labelPrefix);
         }
         return $this;
     }
@@ -294,8 +294,6 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
      *
      * @param Mage_Backend_Model_Config_Structure_Element_Field $field
      * @param Varien_Data_Form_Element_Fieldset $fieldset
-     * @param Mage_Backend_Model_Config_Structure_Element_Group $group
-     * @param Mage_Backend_Model_Config_Structure_Element_Section $section
      * @param $path
      * @param string $fieldPrefix
      * @param string $labelPrefix
@@ -303,8 +301,6 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     protected function _initElement(
         Mage_Backend_Model_Config_Structure_Element_Field $field,
         Varien_Data_Form_Element_Fieldset $fieldset,
-        Mage_Backend_Model_Config_Structure_Element_Group $group,
-        Mage_Backend_Model_Config_Structure_Element_Section $section,
         $path,
         $fieldPrefix = '',
         $labelPrefix = ''
@@ -327,15 +323,8 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         $fieldRenderer->setForm($this);
         $fieldRenderer->setConfigData($this->_configData);
 
-        $pathElements = explode('/', $path);
-        $name = '';
-        while ($subPath = array_shift($pathElements) != $group->getId()) {
-            if ($section->getId() == $subPath) {
-                continue;
-            }
-            $name .= '[groups][' . $subPath . ']';
-        }
-        $name .= '[groups][' . $group->getId() .']'. '[fields][' . $fieldPrefix . $field->getId() . '][value]';
+        $elementName = $this->_generateElementName($field->getPath(), $fieldPrefix);
+        $elementId = $this->_generateElementId($field->getPath($fieldPrefix));
 
         if ($field->hasBackendModel()) {
             $backendModel = $field->getBackendModel();
@@ -348,14 +337,15 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         }
 
         foreach ($field->getDependencies($fieldPrefix) as $dependentId => $dependentValue) {
+            $fieldNameFrom = $this->_generateElementName($dependentId);
             $this->_getDependence()
-                ->addFieldMap($field->getId(), $field->getId())
-                ->addFieldMap($dependentId, $dependentId)
-                ->addFieldDependence($field->getId(), $dependentId, $dependentValue);
+                ->addFieldMap($elementId, $elementName)
+                ->addFieldMap($this->_generateElementId($dependentId), $fieldNameFrom)
+                ->addFieldDependence($elementName, $fieldNameFrom, $dependentValue);
         }
 
-        $formField = $fieldset->addField($field->getPath($fieldPrefix), $field->getType(), array(
-            'name' => $name,
+        $formField = $fieldset->addField($elementId, $field->getType(), array(
+            'name' => $elementName,
             'label' => $field->getLabel($labelPrefix),
             'comment' => $field->getComment($data),
             'tooltip' => $field->getTooltip(),
@@ -376,7 +366,33 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
 
     }
 
+    /**
+     * Generate element name
+     *
+     * @param string $elementPath
+     * @param string $fieldPrefix
+     * @return string
+     */
+    protected function _generateElementName($elementPath, $fieldPrefix = '')
+    {
+        $part = explode('/', $elementPath);
+        array_shift($part); //shift section name
+        $fieldId = array_pop($part);   //shift filed id
+        $groupName = implode('][groups][', $part);
+        $name = 'groups[' . $groupName . '][fields][' . $fieldPrefix . $fieldId . '][value]';
+        return $name;
+    }
 
+    /**
+     * Generate element id
+     *
+     * @param string $path
+     * @return string
+     */
+    protected function _generateElementId($path)
+    {
+        return str_replace('/', '_', $path);
+    }
 
     /**
      * Return config root node for current scope

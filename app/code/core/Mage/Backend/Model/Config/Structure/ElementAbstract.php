@@ -155,4 +155,17 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
     {
         return isset($tab['class']) ? $tab['class'] : '';
     }
+
+
+    /**
+     * Retrieve element config path
+     *
+     * @param string $fieldPrefix
+     * @return string
+     */
+    public function getPath($fieldPrefix = '')
+    {
+        $path = isset($this->_data['path']) ? $this->_data['path'] : rand(0, 100000000);
+        return $path . '/' . $fieldPrefix . $this->getId();
+    }
 }
