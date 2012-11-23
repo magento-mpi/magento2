@@ -62,7 +62,10 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
      * @param array $requestData
      * @param array $expectedResult
      */
-    public function testPrepareMethodParamsPositive($class, $methodName, $requestData,
+    public function testPrepareMethodParamsPositive(
+        $class,
+        $methodName,
+        $requestData,
         $expectedResult = array()
     ) {
         $actualResult = self::$_helper->prepareMethodParams($class, $methodName, $requestData, $this->_getModel());
@@ -143,6 +146,56 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test prepareMethodParams method with unexpected data instead of array.
+     */
+    public function testPrepareMethodParamsArrayExpectedException()
+    {
+        $this->setExpectedException(
+            'Mage_Webapi_Exception',
+            'Data corresponding to "%s" type is expected to be an array.',
+            Mage_Webapi_Exception::HTTP_BAD_REQUEST
+        );
+        self::$_helper->prepareMethodParams(
+            'Vendor_Module_Controller_Webapi_Resource_Subresource',
+            'createV1',
+            array('param1' => 1, 'param2' => 2, 'param3' => 'not_array', 'param4' => 4),
+            $this->_getModel()
+        );
+    }
+
+    /**
+     * Test prepareMethodParams method with complex type equal to unexpected data instead of array.
+     */
+    public function testPrepareMethodParamsComplexTypeArrayExpectedException()
+    {
+        $this->setExpectedException(
+            'Mage_Webapi_Exception',
+            'Data corresponding to "%s" type is expected to be an array.',
+            Mage_Webapi_Exception::HTTP_BAD_REQUEST
+        );
+        self::$_helper->prepareMethodParams(
+            'Vendor_Module_Controller_Webapi_Resource_Subresource',
+            'updateV1',
+            array('param1' => 1, 'param2' => 'Non array complex data'),
+            $this->_getModel()
+        );
+    }
+
+    /**
+     * Test prepareMethodParams method with complex type equal to unexpected data instead of array.
+     */
+    public function testPrepareMethodParamsInvalidDataTypeMapping()
+    {
+        $object = array('key' => 'value');
+        self::$_helper->prepareMethodParams(
+            'Vendor_Module_Controller_Webapi_Resource_Subresource',
+            'updateV5',
+            array('param1' => 1, 'param2' => $object),
+            $this->_getModel()
+        );
+    }
+
+    /**
      * @dataProvider dataProviderForTestPrepareMethodParamsNegative
      * @param string|object $class
      * @param string $methodName
@@ -150,8 +203,13 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
      * @param string $exceptionClass
      * @param string $exceptionMessage
      */
-    public function testPrepareMethodParamsNegative($class, $methodName, $requestData, $exceptionClass,
-        $exceptionMessage) {
+    public function testPrepareMethodParamsNegative(
+        $class,
+        $methodName,
+        $requestData,
+        $exceptionClass,
+        $exceptionMessage
+    ) {
         $this->setExpectedException($exceptionClass, $exceptionMessage);
         self::$_helper->prepareMethodParams($class, $methodName, $requestData, $this->_getModel());
     }
@@ -186,8 +244,11 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testConvertSingularToPlural($singular, $expectedPlural)
     {
-        $this->assertEquals($expectedPlural, self::$_helper->convertSingularToPlural($singular),
-            "Conversion from singular to plural was performed incorrectly.");
+        $this->assertEquals(
+            $expectedPlural,
+            self::$_helper->convertSingularToPlural($singular),
+            "Conversion from singular to plural was performed incorrectly."
+        );
     }
 
     public static function dataProviderForTestConvertSingularToPlural()
@@ -234,4 +295,3 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
         return $apiConfig;
     }
 }
-
