@@ -3,23 +3,22 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Mage_Adminhtml
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/**
- * Test class for Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer
- */
+
 class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_RendererTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @dataProvider virtualTypesProvider
+     * @param string $type
+     * @dataProvider virtualTypesDataProvider
      */
-    public function testIsVirtualCheckboxSelected($type)
+    public function testIsVirtualChecked($type)
     {
         $currentProduct = Mage::getModel('Mage_Catalog_Model_Product');
-        $currentProduct->setTypeInstance($type);
+        $currentProduct->setTypeInstance(new $type);
 
         $block = new Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer();
 
@@ -34,21 +33,22 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_RendererTest exten
     /**
      * @return array
      */
-    public function virtualTypesProvider()
+    public static function virtualTypesDataProvider()
     {
         return array(
-            array(new Mage_Catalog_Model_Product_Type_Virtual()),
-            array(new Mage_Downloadable_Model_Product_Type()),
+            array('Mage_Catalog_Model_Product_Type_Virtual'),
+            array('Mage_Downloadable_Model_Product_Type'),
         );
     }
 
     /**
-     * @dataProvider physicalTypesProvider
+     * @param string $type
+     * @dataProvider physicalTypesDataProvider
      */
-    public function testIsVirtualCheckboxUnSelected($type)
+    public function testIsVirtualUnchecked($type)
     {
         $currentProduct = Mage::getModel('Mage_Catalog_Model_Product');
-        $currentProduct->setTypeInstance($type);
+        $currentProduct->setTypeInstance(new $type);
 
         $block = new Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer();
 
@@ -63,12 +63,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_RendererTest exten
     /**
      * @return array
      */
-    public function physicalTypesProvider()
+    public static function physicalTypesDataProvider()
     {
         return array(
-            array(new Mage_Catalog_Model_Product_Type_Simple()),
-            array(new Mage_Bundle_Model_Product_Type()),
-            array(new Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard())
+            array('Mage_Catalog_Model_Product_Type_Simple'),
+            array('Mage_Bundle_Model_Product_Type'),
         );
     }
 }
