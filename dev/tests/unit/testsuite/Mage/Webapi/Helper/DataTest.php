@@ -182,20 +182,6 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test prepareMethodParams method with complex type equal to unexpected data instead of array.
-     */
-    public function testPrepareMethodParamsInvalidDataTypeMapping()
-    {
-        $object = array('key' => 'value');
-        self::$_helper->prepareMethodParams(
-            'Vendor_Module_Controller_Webapi_Resource_Subresource',
-            'updateV5',
-            array('param1' => 1, 'param2' => $object),
-            $this->_getModel()
-        );
-    }
-
-    /**
      * @dataProvider dataProviderForTestPrepareMethodParamsNegative
      * @param string|object $class
      * @param string $methodName
