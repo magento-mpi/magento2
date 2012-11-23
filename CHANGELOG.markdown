@@ -1,3 +1,26 @@
+2.0.0.0-dev32
+=============
+* Improved product edit workflow:
+  * Introduced Category Assignment control on "General" tab
+  * Eliminated attribute preselection screen
+  * Base image assignment control moved to "General" tab
+  * Base inventory attributes controls displayed on "General" tab. Values of the attributes are synchronized between "General" and "Inventory" tabs
+* Improved static code analysis tests to verify existence of paths specified in white/black lists
+* Reduced memory usage by integration tests by automatic cleaning properties of test classes
+* Added migration tool `dev/tools/migration/themes_view.php` for replacing old `{{skin}}` with new `{{view}}` placeholders
+* Changed handling of exceptions, produced by non-existing view files, to not break whole page
+* Removed empty locale files
+* Bug fixes:
+  * Page with tracking information absent, if shipping labels integration is used
+  * Category is not displayed on frontend with "Use Flat Catalog Category" option enabled
+  * Exception on "Coupons Usage Report" page after upgrade from Magento 1.x
+  * Exception on "Most Viewed Products" page after upgrade from Magento 1.x
+  * Quick search produces error, if searching for a product with an attribute that has "Use In Search Results Layered Navigation" option set to "Yes"
+  * Exception on "Add/Edit Customer" page when Magento profiler with html output is enabled
+  * Can't duplicate downloadable product with sample file attached
+  * Product Type dropdown on "Add Product" page doesn't work in IE9
+  * Various issues related to adding/editing product
+
 2.0.0.0-dev31
 =============
 * Themes:
@@ -7,7 +30,6 @@
 * Dependency injection:
   * Reduced memory leaks of integration tests caused by introduction of object manager
   * Added compiler for dependency injection definitions and ability to run Magento application with the compiled definitions
-  * Implemented CLI tool that generates class proxies and factories for DI
 * `Mage_Adminhtml` breakdown:
   * Implemented XML-schema for system configuration form declaration files (`etc/system.xml` in each module), refactored them to comply with schema and relocated to `etc/adminhtml/system.xml`
   * Removed remnants of `Mage_Admin` module (replaced with `Mage_Backend` and others)
@@ -19,10 +41,11 @@
   * Fatal error on Product Tags and Customers Tagged Product (on product editing page in backend)
   * Trailing space in date caused by new "date picker" JavaScript component
   * Impossibility to add product to an order in backend in IE8
-  * Not picking a template in customer "Shopping Cart" page at the backend
+  * Not picking a template on customer "Shopping Cart" page at the backend
   * "Use Default" checkbox is checked again after saving multiselect attribute config if option does not contain value
   * "Single Store Mode" UI fixes
   * Runtime error when previewing transactional email template
+  * Incorrect redirect after applying filter in grids
   * Various asynchronous placement of profiler keys
   * Various fixes in Taxes backend UI
   * Various fixes in translation literals

@@ -152,9 +152,11 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit extends Mage_Adminhtml_Block_Widget_C
     {
         $this->_addButton('save', array(
             'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Save'),
-            'onclick' => 'editForm.submit()',
             'class'   => 'save',
-            'level'   => -1
+            'level'   => -1,
+            'data_attr'  => array(
+                'widget-button' => array('event' => 'save', 'related' => '#edit_form'),
+            ),
         ));
     }
 

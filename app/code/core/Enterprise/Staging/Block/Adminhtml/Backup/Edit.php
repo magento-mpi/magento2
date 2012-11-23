@@ -49,7 +49,9 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit extends Mage_Adminhtml_Bloc
          if ($this->getBackup()->canRollback()) {
             $this->addChild('rollback_button', 'Mage_Adminhtml_Block_Widget_Button', array(
                 'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Rollback'),
-                'onclick'   => 'enterpriseRollbackForm.submit()',
+                'data_attr'  => array(
+                    'widget-button' => array('event' => 'save', 'related' => '#enterprise_staging_rollback_form'),
+                ),
                 'class'  => 'add'
             ));
         } else {

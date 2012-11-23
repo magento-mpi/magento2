@@ -16,10 +16,6 @@
  */
 class Community2_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to Catalog - Manage Products</p>
-     */
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -27,10 +23,6 @@ class Community2_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Seleniu
     }
 
     /**
-     * <p>Preconditions for tests</p>
-     * <p>1. Custom attribute set based on "Default" set is created</p>
-     * <p>2. A new attribute is created and added to custom attribute set</p>
-     *
      * @test
      *
      * @return array
@@ -71,40 +63,15 @@ class Community2_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Seleniu
         );
     }
 
-    // @codingStandardsIgnoreStart
     /**
-     * <p>Change attribute set during product creation from Default to Custom attribute set </p>
-     * <p>Preconditions:</p>
-     * <p>Custom Attribute set, based on Default is created. User-defined attribute is assigned to this Attribute Set</p>
-     *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as admin</p>
-     * <p>2. Navigate to Catalog - Manage Products</p>
-     * <p>3. Press "Add product button" </p>
-     * <p>4. Select Attribute Set - Default</p>
-     * <p>5. Select Product type(Simple, Virtual, Downloadable, Grouped, Bundle)</p>
-     * <p>6. Press the Continue button</p>
-     * <p>7. Fill all required fields for product creation</p>
-     * <p>8. Press the Change Attribute Set button</p>
-     * <p>9. Select Custom attribute set</p>
-     * <p>10. Press OK button</p>
-     * <p>11. Press Save button on product page</p>
-     *
-     * <p>Expected results:</p>
-     * <p>After Step 6: New Product(Default) page opens with Change Attribute Set button in header (with Back, Reset, Save, Save and Continue Edit buttons)</p>
-     * <p>After Step 8: Change Attribute Set pop-up page opens and has: dropdown list with all attribute sets, OK, Cancel buttons</p>
-     * <p>After Step 10: page title is New Product (%Custom%), attributes from previous attribute set is deleted and for current attribute set is added</p>
-     * <p>After Step 11: Product has been successfully saved and "Product has been saved" message appears</p>
-     *
      * @param string $productType
      * @param array $customSetData
      *
      * @test
-     * @dataProvider changeAttributeSetInCreatedProductDataProvider
+     * @dataProvider productTypeDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-5881, TL-MAGE-5896, TL-MAGE-5900, TL-MAGE-5901, TL-MAGE-5902
      */
-    // @codingStandardsIgnoreEnd
     public function fromDefaultToCustomCreate($productType, $customSetData)
     {
         //Data
@@ -123,41 +90,16 @@ class Community2_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Seleniu
         $this->assertMessagePresent('success', 'success_saved_product');
     }
 
-    // @codingStandardsIgnoreStart
     /**
-     * <p>Change attribute set during product creating from Custom to Default attribute set </p>
-     * <p>Preconditions:</p>
-     * <p>Custom Attribute set, based on Default is created. User-defined attribute is assigned to this Attribute Set</p>
-     *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as admin</p>
-     * <p>2. Navigate to Catalog>Manage Products</p>
-     * <p>3. Press "Add product button" </p>
-     * <p>4. Select Attribute Set - Custom</p>
-     * <p>5. Select Product type (Simple, Virtual, Downloadable, Grouped, Bundle)</p>
-     * <p>6. Press the Continue button</p>
-     * <p>7. Fill all required fields for product creation</p>
-     * <p>8. Press the Change Attribute Set button</p>
-     * <p>9. Select Default attribute set</p>
-     * <p>10. Press OK button</p>
-     * <p>11. Press Save button on product page</p>
-     *
-     * <p>Expected results:</p>
-     * <p>After Step 6: New Product(Custom) page opens with Change Attribute Set button in header (with Back, Reset, Save, Save and Continue Edit buttons)</p>
-     * <p>After Step 8: Change Attribute Set pop-up page opens and has: dropdown list with all attribute sets, OK, Cancel buttons</p>
-     * <p>After Step 10: page title is New Product (Custom), attributes from previous attribute set is deleted and for current attribute set is added</p>
-     * <p>After Step 11: Product has been successfully saved and "Product has been saved" message appears</p>
-     *
      * @param string $productType
      * @param $customSetData
      *
      * @test
-     * @dataProvider changeAttributeSetInCreatedProductDataProvider
+     * @dataProvider productTypeDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-5903, TL-MAGE-5904, TL-MAGE-5905, TL-MAGE-5906, TL-MAGE-5907
      */
-    // @codingStandardsIgnoreEnd
-    public function fromCustomToDefaultCreate($productType, $customSetData)
+    public function fromCustomToDefaultDuringCreation($productType, $customSetData)
     {
         //Data
         $productDataInitial = $this->loadDataSet('Product', $productType . '_product_required',
@@ -176,40 +118,16 @@ class Community2_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Seleniu
         $this->assertMessagePresent('success', 'success_saved_product');
     }
 
-    // @codingStandardsIgnoreStart
     /**
-     * <p>Change attribute set during product editing from Default to Custom attribute set </p>
-     * <p>Preconditions:</p>
-     * <p>Custom Attribute set, based on Default is created. User-defined attribute is assigned to this Attribute Set</p>
-     * <p>Product, based on Default Attribute Set is created</p>
-     *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as admin</p>
-     * <p>2. Navigate to Catalog - Manage Products</p>
-     * <p>3. Find created product in the Manage Products grid and click on it</p>
-     * <p>4. Press the Change Attribute Set button</p>
-     * <p>5. Select custom attribute set</p>
-     * <p>6. Press OK button</p>
-     * <p>7. Press Save button on product page</p>
-     *
-     * <p>Expected results:</p>
-     * <p>After Step 3: %productName%(Default) page opens with Change Attribute Set button in header (with Back, Reset, Save, Save and Continue Edit buttons)</p>
-     * <p>After Step 4: Change Attribute Set pop-up page opens and has: dropdown list with all attribute sets, OK, Cancel buttons</p>
-     * <p>After Step 6: page title is %productName% (New Attr Set Test)</p>
-     * <p>- all information inputted in common for both attribute sets tabs and fields has been saved</p>
-     * <p>- attributes from previous attribute set is deleted and for current attribute set is added</p>
-     * <p>After Step 7: Product has been successfully saved and "Product has been saved" message appears</p>
-     *
      * @param string $productType
      * @param $customSetData
      *
      * @test
-     * @dataProvider changeAttributeSetInCreatedProductDataProvider
+     * @dataProvider productTypeDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-5884, TL-MAGE-5908, TL-MAGE-5909, TL-MAGE-5910, TL-MAGE-5911
      */
-    // @codingStandardsIgnoreEnd
-    public function fromDefaultToCustomEdit($productType, $customSetData)
+    public function fromDefaultToCustomDuringEditing($productType, $customSetData)
     {
         //Data
         $productDataInitial = $this->loadDataSet('Product', $productType . '_product_required');
@@ -229,40 +147,16 @@ class Community2_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Seleniu
         $this->assertMessagePresent('success', 'success_saved_product');
     }
 
-    // @codingStandardsIgnoreStart
     /**
-     * <p>Change attribute set during product editing from Custom to Default attribute set</p>
-     * <p>Preconditions:</p>
-     * <p>Attribute set, based on Default is created. User-defined attribute is assigned to this Attribute Set</p>
-     * <p>Product, based on Default Attribute Set is created</p>
-     *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as admin</p>
-     * <p>2. Navigate to Catalog - Manage Products</p>
-     * <p>3. Find created product in the Manage Products grid and click on it</p>
-     * <p>4. Press the Change Attribute Set button</p>
-     * <p>5. Select Default attribute set</p>
-     * <p>6. Press OK button</p>
-     * <p>7. Press Save button on product page</p>
-     *
-     * <p>Expected results:</p>
-     * <p>After Step 3: %productName%(Custom) page opens with Change Attribute Set button in header (with Back, Reset, Save, Save and Continue Edit buttons)</p>
-     * <p>After Step 4: Change Attribute Set pop-up page opens and has: dropdown list with all attribute sets, OK, Cancel buttons</p>
-     * <p>After Step 6: page title is %productName% (Default)</p>
-     * <p>- all information inputted in common for both attribute sets tabs and fields  has been saved</p>
-     * <p>- attributes from previous attribute set is deleted and for current attribute set is added</p>
-     * <p>After Step 7: Product has been successfully saved and "Product has been saved" message appears</p>
-     *
      * @param string $productType
      * @param $customSetData
      *
      * @test
-     * @dataProvider changeAttributeSetInCreatedProductDataProvider
+     * @dataProvider productTypeDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-5912, TL-MAGE-5913,TL-MAGE-5914,TL-MAGE-5915, TL-MAGE-5916
+     * @TestlinkId TL-MAGE-5912, TL-MAGE-5913, TL-MAGE-5914, TL-MAGE-5915, TL-MAGE-5916
      */
-    // @codingStandardsIgnoreEnd
-    public function fromCustomToDefaultEdit($productType, $customSetData)
+    public function fromCustomToDefaultDuringEditing($productType, $customSetData)
     {
         //Data
         $productDataInitial = $this->loadDataSet('Product', $productType . '_product_required',
@@ -283,14 +177,18 @@ class Community2_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Seleniu
         $this->assertMessagePresent('success', 'success_saved_product');
     }
 
-    public function changeAttributeSetInCreatedProductDataProvider()
+    /**
+     * @return array
+     */
+    public function productTypeDataProvider()
     {
         return array(
             array('simple'),
             array('virtual'),
             array('downloadable'),
             array('grouped'),
-            array('bundle'));
+            array('bundle')
+        );
     }
 
     /**

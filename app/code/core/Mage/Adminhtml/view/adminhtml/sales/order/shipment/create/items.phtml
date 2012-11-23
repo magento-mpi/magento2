@@ -112,8 +112,14 @@ function submitShipment(btn){
     var checkbox = $(btn).up('.order-totals').select('#create_shipping_label')[0];
     if (checkbox && checkbox.checked) {
         packaging.showWindow();
-    } else if(editForm.submit()) {
+    } else {
         disableElements('submit-button');
+        // Temporary solution will be replaced after refactoring order functionality
+        jQuery('#edit_form').on('invalid-form.validate', function() {
+            enableElements('submit-button');
+            jQuery('#edit_form').off('invalid-form.validate');
+        });
+        jQuery('#edit_form').triggerHandler('save');
     }
 }
 //]]>

@@ -6,7 +6,40 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-.base-image-uploader {
-    max-height:265px;
-    max-width:265px;
+
+#product-edit-form-tabs .base-image-uploader {
+    max-height: 265px;
+    max-width: 180px;
+}
+
+#product-edit-form-tabs > div:first-of-type {
+    min-width: 940px;
+}
+
+#product-edit-form-tabs > div:first-of-type .hor-scroll {
+    width: auto;
+    padding-right: 200px;
+    overflow: visible;
+    position: relative;
+}
+
+#product-edit-form-tabs #image_image {
+    position: absolute;
+    right: 0;
+}
+
+#product-edit-form-tabs #qty {
+    width: 50px;
+    margin-right: 16px;
+    text-align: right;
+    padding-right: 3px;
+}
+
+#product-edit-form-tabs #quantity_and_stock_status {
+    width: 204px;
+}
+
+#product-edit-form-tabs #short_description {
+    height: auto;
+    min-height: 3em;
 }

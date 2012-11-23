@@ -88,9 +88,6 @@
             <action method="removeItem"><type>js_css</type><name>menu.css</name></action>
 
             <action method="removeItem"><type>js_css</type><name>mage/calendar.css</name></action>
-            <action method="removeItem"><type>js</type><name>jquery/jquery-1.7.1.min.js</name></action>
-            <action method="removeItem"><type>js</type><name>mage/jquery-no-conflict.js</name></action>
-            <action method="removeItem"><type>js</type><name>jquery/jquery-ui-1.8.18.custom.min.js</name></action>
             <action method="removeItem"><type>js</type><name>jquery/jquery-ui-timepicker-addon.js</name></action>
             <action method="removeItem"><type>js</type><name>mage/calendar.js</name></action>
 
