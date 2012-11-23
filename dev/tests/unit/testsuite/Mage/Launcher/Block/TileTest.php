@@ -15,9 +15,9 @@
 class Mage_Launcher_Block_TileTest extends PHPUnit_Framework_TestCase
 {
     /** @var Mage_Launcher_Block_Tile */
-    protected $block;
+    protected $_block;
     /** @var Mage_Launcher_Model_Tile */
-    protected $tile;
+    protected $_tile;
 
 
     protected function setUp()
@@ -27,16 +27,16 @@ class Mage_Launcher_Block_TileTest extends PHPUnit_Framework_TestCase
         $arguments = array(
             'urlBuilder' => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false)
         );
-        $this->block = $objectManager->getBlock('Mage_Launcher_Block_Tile', $arguments);
+        $this->_block = $objectManager->getBlock('Mage_Launcher_Block_Tile', $arguments);
 
-        $this->tile = $objectManager->getModel('Mage_Launcher_Model_Tile');
-        $this->block->setTile($this->tile);
+        $this->_tile = $objectManager->getModel('Mage_Launcher_Model_Tile');
+        $this->_block->setTile($this->_tile);
     }
 
     protected function tearDown()
     {
-        $this->block = null;
-        $this->tile = null;
+        $this->_block = null;
+        $this->_tile = null;
     }
 
     /**
@@ -45,9 +45,9 @@ class Mage_Launcher_Block_TileTest extends PHPUnit_Framework_TestCase
     public function testGetTileCode()
     {
         $tileCode = 'tax';
-        $this->tile->setCode($tileCode);
+        $this->_tile->setCode($tileCode);
 
-        $this->assertEquals($tileCode, $this->block->getTileCode());
+        $this->assertEquals($tileCode, $this->_block->getTileCode());
     }
 
     /**
@@ -56,8 +56,8 @@ class Mage_Launcher_Block_TileTest extends PHPUnit_Framework_TestCase
     public function testGetTileState()
     {
         $tileState = 1;
-        $this->tile->setState($tileState);
+        $this->_tile->setState($tileState);
 
-        $this->assertEquals($tileState, $this->block->getTileState());
+        $this->assertEquals($tileState, $this->_block->getTileState());
     }
 }
