@@ -854,12 +854,11 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      */
     public function deleteProductSpecificData($product)
     {
-        if (!$product->hasDataChanges('type_id')
-            || $product->getOrigData('type_id') !== Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE
-        ) {
-            return $this;
-        }
-        $this->save($product);
+        Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Type_Configurable')
+            ->saveProducts($product, array());
+        /** @var $configurableAttribute Mage_Catalog_Model_Product_Type_Configurable_Attribute */
+        $configurableAttribute = Mage::getModel('Mage_Catalog_Model_Product_Type_Configurable_Attribute');
+        $configurableAttribute->deleteByProduct($product);
         return $this;
     }
 }

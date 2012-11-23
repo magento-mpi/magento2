@@ -87,6 +87,7 @@ class Mage_Catalog_Model_Product_Type_Configurable_Attribute extends Mage_Core_M
 
     /**
      * Load Counfigurable Attribute by Product and Product's Attribute
+     *
      * @param Mage_Catalog_Model_Product $product
      * @param Mage_Eav_Model_Attribute  $attribute
      */
@@ -96,6 +97,15 @@ class Mage_Catalog_Model_Product_Type_Configurable_Attribute extends Mage_Core_M
         if ($id) {
             $this->load($id);
         }
+    }
 
+    /**
+     * Delete configurable attributes by product id
+     *
+     * @param Mage_Catalog_Model_Product $product
+     */
+    public function deleteByProduct($product)
+    {
+        $this->_getResource()->deleteAttributesByProductId($product->getId());
     }
 }

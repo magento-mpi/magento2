@@ -268,6 +268,8 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends Ma
      * @param Mage_Catalog_Model_Product_Type_Configurable_Attribute $attribute
      * @param $productId
      * @param $attributeId
+     *
+     * @return string
      */
     public function getIdByProductIdAndAttributeId($attribute, $productId, $attributeId)
     {
@@ -275,6 +277,19 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends Ma
             ->from($this->getMainTable(), $this->getIdFieldName())
             ->where('product_id = ?', $productId)
             ->where('attribute_id = ?', $attributeId);
-        return  $this->_getReadAdapter()->fetchOne($select);
+        return $this->_getReadAdapter()->fetchOne($select);
+    }
+
+    /**
+     * Delete configurable attributes by product id
+     *
+     * @param $productId
+     */
+    public function deleteAttributesByProductId($productId)
+    {
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getMainTable(), $this->getIdFieldName())
+            ->where('product_id = ?', $productId);
+        $this->_getWriteAdapter()->query($this->_getReadAdapter()->deleteFromSelect($select, $this->getMainTable()));
     }
 }

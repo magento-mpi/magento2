@@ -273,7 +273,6 @@ class Mage_Catalog_Model_Observer
         $isTransitionalType = $product->getTypeId() === Mage_Catalog_Model_Product_Type::TYPE_SIMPLE
             || $product->getTypeId() === Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL;
         if ($isTransitionalType) {
-            $product->getTypeInstance()->deleteProductSpecificData($product);
             $product->setTypeId($product->hasIsVirtual()
                 ? Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL
                 : Mage_Catalog_Model_Product_Type::TYPE_SIMPLE

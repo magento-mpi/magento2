@@ -72,7 +72,6 @@ class Mage_Downloadable_Model_Observer
                     $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL);
                 }
             } else {
-                Mage::getSingleton('Mage_Downloadable_Model_Product_Type')->deleteProductSpecificData($product);
                 $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE);
             }
         }
