@@ -51,7 +51,7 @@
         </reference>
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit" name="product_edit">
-                <container name="product-type-tabs" label="Tabs" as="">
+                <container name="product-type-tabs" label="Tabs">
                 </container>
             </block>
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_AttributeSet" name="attribute-set-info" template="Mage_Adminhtml::catalog/product/edit/attribute_set.phtml"></block>
