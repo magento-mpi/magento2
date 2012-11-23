@@ -123,7 +123,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
 
         $this->setData(
             'use_ajax',
-            $this->hasData('use_ajax') ? (bool) $this->getData('use_ajax') : true
+            $this->hasData('use_ajax') ? (bool) $this->getData('use_ajax') : false
         );
 
         if ($this->hasData('rssList') && is_array($this->getData('rssList'))) {
