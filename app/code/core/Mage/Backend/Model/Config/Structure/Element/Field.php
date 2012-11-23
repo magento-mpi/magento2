@@ -305,4 +305,14 @@ class Mage_Backend_Model_Config_Structure_Element_Field
         }
         return $dependencies;
     }
+
+    /**
+     * Get element path
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->_data['path'];
+    }
 }

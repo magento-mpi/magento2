@@ -115,6 +115,7 @@ class Mage_Backend_Model_Config extends Varien_Object
 
         // Extends for old config data
         $oldConfigAdditionalGroups = array();
+        $mappedFields = array();
 
         foreach ($groups as $groupId => $groupData) {
             /**
@@ -143,50 +144,39 @@ class Mage_Backend_Model_Config extends Varien_Object
             }
 
             foreach ($groupData['fields'] as $fieldId => $fieldData) {
-
+                /** @var $field Mage_Backend_Model_Config_Structure_Element_Field */
                 $field = $this->_configStructure->getElementByPathParts(array($sectionId, $group->getId(), $fieldId));
-                /**
-                 * Get field backend model
-                 */
-                if ($field && $field->hasBackendModel()) {
-                    $backendModel = $field->getBackendModel();
-                } else if ($group->shouldCloneFields() && isset($mappedFields[$fieldId])) {
-                    $field = $this->_configStructure->getElementByPathParts(
-                        array($sectionId, $group->getId(), $mappedFields[$fieldId])
-                    );
-                    if ($field && $field->hasBackendModel()) {
-                        $backendModel = $field->getBackendModel();
-                    }
-                } else {
-                    $backendModel = $this->_objectFactory->getModelInstance('Mage_Core_Model_Config_Data');
-                }
 
-                $field = $this->_configStructure->getElementByPathParts(array($sectionId, $group->getId(), $fieldId));
+                /** @var Mage_Core_Model_Config_Data $backendModel  */
+                $backendModel = $this->_getBackendModel($field, $group, $mappedFields, $fieldId, $sectionId);
+
                 if ($group->shouldCloneFields() && isset($mappedFields[$fieldId])) {
                     $field = $this->_configStructure->getElementByPathParts(
                         array($sectionId, $group->getId(), $mappedFields[$fieldId])
                     );
                 }
 
-                $backendModel
-                    ->setField($fieldId)
-                    ->setGroups($groups)
-                    ->setGroupId($group->getId())
-                    ->setStoreCode($store)
-                    ->setWebsiteCode($website)
-                    ->setScope($scope)
-                    ->setScopeId($scopeId)
-                    ->setFieldConfig($field)
-                    ->setFieldsetData($fieldsetData);
+                $data = array(
+                    'field' => $fieldId,
+                    'groups' => $groups,
+                    'group_id' => $group->getId(),
+                    'store_code' => $store,
+                    'website_code' => $website,
+                    'scope' => $scope,
+                    'scope_id' => $scopeId,
+                    'field_config' => $field,
+                    'fieldset_data' => $fieldsetData,
+                );
+                $backendModel->addData($data);
+                    
 
                 $this->_checkSingleStoreMode($field, $backendModel);
 
-                if (!isset($fieldData['value'])) {
+                if (false == isset($fieldData['value'])) {
                     $fieldData['value'] = null;
                 }
 
-                $path = $sectionId . '/' . $group->getId() . '/' . $fieldId;
-
+                $path = $field->getPath();
                 /**
                  * Look for custom defined field path
                  */
@@ -231,6 +221,36 @@ class Mage_Backend_Model_Config extends Varien_Object
         $saveTransaction->save();
 
         return $this;
+    }
+
+    /**
+     * Get Backend model
+     *
+     * @param Mage_Backend_Model_Config_Structure_Element_Field $field
+     * @param Mage_Backend_Model_Config_Structure_Element_Group $group
+     * @param array $mappedFields
+     * @param string $fieldId
+     * @param string $sectionId
+     * @return Mage_Core_Model_Abstract|Mage_Core_Model_Config_Data
+     */
+    protected function _getBackendModel(Mage_Backend_Model_Config_Structure_Element_Field $field,
+        Mage_Backend_Model_Config_Structure_Element_Group $group,
+        array $mappedFields,
+        $fieldId,
+        $sectionId
+    ) {
+        if ($field && $field->hasBackendModel()) {
+            return $field->getBackendModel();
+        } elseif ($group->shouldCloneFields() && isset($mappedFields[$fieldId])) {
+            /** @var Mage_Backend_Model_Config_Structure_Element_Field $clonedField  */
+            $clonedField = $this->_configStructure->getElementByPathParts(
+                array($sectionId, $group->getId(), $mappedFields[$fieldId])
+            );
+            if ($clonedField && $clonedField->hasBackendModel()) {
+                return $clonedField->getBackendModel();
+            }
+        }
+        return $this->_objectFactory->getModelInstance('Mage_Core_Model_Config_Data');
     }
 
     /**
