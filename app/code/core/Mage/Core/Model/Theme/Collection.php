@@ -200,31 +200,4 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
     {
         return $item->getFullPath();
     }
-
-    /**
-     * Get items array
-     *
-     * @return array
-     */
-    public function getItemsArray()
-    {
-        $items = array();
-        /** @var $item Mage_Core_Model_Theme */
-        foreach ($this as $item) {
-            $items[$item->getId()] = $item->toArray();
-        }
-        return $items;
-    }
-
-    /**
-     * Return array for select field
-     *
-     * @param bool $addEmptyField
-     * @return array
-     */
-    public function toOptionArray($addEmptyField = false)
-    {
-        $optionArray = $addEmptyField ? array('' => '') : array();
-        return $optionArray + $this->_toOptionArray('theme_id', 'theme_title');
-    }
 }
