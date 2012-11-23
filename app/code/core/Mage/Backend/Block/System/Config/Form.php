@@ -284,7 +284,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
                     $configDataAdditionalGroups[$groupPath] = true;
                 }
             }
-            $this->_initElement($field, $fieldset, $group, $section, $path, $fieldPrefix, $labelPrefix);
+            $this->_initElement($field, $fieldset, $group, $section, $this->getGroupPath(), $fieldPrefix, $labelPrefix);
         }
         return $this;
     }
@@ -327,7 +327,15 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         $fieldRenderer->setForm($this);
         $fieldRenderer->setConfigData($this->_configData);
 
-        $name = 'groups[' . $group->getId() . '][fields][' . $fieldPrefix . $field->getId() . '][value]';
+        $pathElements = explode('/', $path);
+        $name = '';
+        while ($subPath = array_shift($pathElements) != $group->getId()) {
+            if ($section->getId() == $subPath) {
+                continue;
+            }
+            $name .= '[groups][' . $subPath . ']';
+        }
+        $name .= '[groups][' . $group->getId() .']'. '[fields][' . $fieldPrefix . $field->getId() . '][value]';
 
         if ($field->hasBackendModel()) {
             $backendModel = $field->getBackendModel();
