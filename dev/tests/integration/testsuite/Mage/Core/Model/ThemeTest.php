@@ -187,62 +187,17 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     {
         /** @var $themeModel Mage_Core_Model_Theme */
         $themeModel = Mage::getModel('Mage_Core_Model_Theme');
-        $expectedLabelCollection = $this->_getLabelCollection();
-        $labelCollection = $themeModel->getLabelsCollection('-- Please Select --');
 
-        foreach ($labelCollection as $key => $data) {
-            $expectedValue = $expectedLabelCollection[$key];
+        /** @var $expectedCollection Mage_Core_Model_Theme_Collection */
+        $expectedCollection = Mage::getModel('Mage_Core_Model_Resource_Theme_Collection');
+        $expectedCollection->addFilter('area', 'frontend');
 
-            $this->assertArrayHasKey('label', $data);
-            $this->assertArrayHasKey('value', $data);
-            $this->assertEquals($expectedValue['label'], $data['label']);
-        }
-    }
+        $expectedItemsCount = count($expectedCollection);
 
-    /**
-     * Return sorted by title themes
-     *
-     * @return array
-     */
-    protected function _getLabelCollection()
-    {
-        return array(
-            array(
-                'value' => '',
-                'label' => '-- Please Select --'
-            ),
-            array(
-                'value' => '%d',
-                'label' => 'Magento Blank'
-            ),
-            array(
-                'value' => '%d',
-                'label' => 'Magento Demo'
-            ),
-            array(
-                'value' => '%d',
-                'label' => 'Magento Demo Blue'
-            ),
-            array(
-                'value' => '%d',
-                'label' => 'Magento Fixed Design'
-            ),
-            array(
-                'value' => '%d',
-                'label' => 'Magento Fluid Design (incompatible version)'
-            ),
-            array(
-                'value' => '%d',
-                'label' => 'Magento Iphone'
-            ),
-            array(
-                'value' => '%d',
-                'label' => 'Magento Iphone (HTML5)'
-            ),
-            array(
-                'value' => '%d',
-                'label' => 'Magento Modern'
-            )
-        );
+        $labelsCollection = $themeModel->getLabelsCollection();
+        $this->assertEquals($expectedItemsCount, count($labelsCollection));
+
+        $labelsCollection = $themeModel->getLabelsCollection('-- Please Select --');
+        $this->assertEquals(++$expectedItemsCount, count($labelsCollection));
     }
 }
