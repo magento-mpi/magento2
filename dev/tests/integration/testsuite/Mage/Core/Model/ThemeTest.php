@@ -32,19 +32,19 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
      */
     public function testLoadFromConfiguration()
     {
+        $designPath = dirname(__FILE__) . '/_files/design';
         /** @var $themeUtility Mage_Core_Utility_Theme */
-        $themeUtility = Mage::getModel('Mage_Core_Utility_Theme', array(
-            dirname(__FILE__) . '/_files/design', Mage::getDesign()
-        ));
+        $themeUtility = Mage::getModel('Mage_Core_Utility_Theme', array($designPath));
         $themeUtility->registerThemes()->setDesignTheme('default/default', 'frontend');
 
-        $themePath = implode(DS, array(__DIR__, '_files', 'design', 'frontend', 'default', 'default', 'theme.xml'));
+        $themePath = implode(DS, array('frontend', 'default', 'default', 'theme.xml'));
 
         /** @var $themeModel Mage_Core_Model_Theme */
         $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
-        $themeModel->loadFromConfiguration($themePath);
+        $theme = $themeModel->getCollectionFromFilesystem()->setBaseDir($designPath)->addTargetPattern($themePath)
+            ->getFirstItem();
 
-        $this->assertEquals($this->_expectedThemeDataFromConfiguration(), $themeModel->getData());
+        $this->assertEquals($this->_expectedThemeDataFromConfiguration(), $theme->getData());
     }
 
     /**
@@ -55,8 +55,6 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     public function _expectedThemeDataFromConfiguration()
     {
         return array(
-            'theme_code'           => 'default',
-            'package_code'         => 'default',
             'area'                 => 'frontend',
             'theme_title'          => 'Default',
             'theme_version'        => '2.0.0.0',

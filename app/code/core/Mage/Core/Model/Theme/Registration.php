@@ -60,17 +60,18 @@ class Mage_Core_Model_Theme_Registration
     /**
      * Theme registration
      *
+     * @param string $baseDir
      * @param string $pathPattern
      * @return Mage_Core_Model_Theme
      */
-    public function register($pathPattern = '')
+    public function register($baseDir = '', $pathPattern = '')
     {
         $this->_collection = $this->getThemeModel()->getCollectionFromFilesystem();
 
-        if ($pathPattern) {
-            $this->_collection->addTargetPattern($pathPattern);
-        } else {
+        if (empty($baseDir) || empty($pathPattern)) {
             $this->_collection->addDefaultPattern('*');
+        } else {
+            $this->_collection->setBaseDir($baseDir)->addTargetPattern($pathPattern);
         }
 
         foreach ($this->_collection as $theme) {

@@ -21,6 +21,13 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
     protected $_itemObjectClass = 'Mage_Core_Model_Theme';
 
     /**
+     * Base directory with design
+     *
+     * @var string
+     */
+    protected $_baseDir;
+
+    /**
      * Target directory
      *
      * @var array
@@ -38,6 +45,34 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
     }
 
     /**
+     * Set base directory path of design
+     *
+     * @param string $path
+     * @return Mage_Core_Model_Theme_Collection
+     */
+    public function setBaseDir($path)
+    {
+        if ($this->isLoaded() && $this->_baseDir) {
+            $this->clearTargetPatterns()->clear();
+        }
+        $this->_baseDir = rtrim($path, DS);
+        return $this;
+    }
+
+    /**
+     * Get base directory path
+     *
+     * @return string
+     */
+    public function getBaseDir()
+    {
+        if (empty($this->_baseDir)) {
+            $this->setBaseDir(Mage::getBaseDir('design'));
+        }
+        return $this->_baseDir;
+    }
+
+    /**
      * Add default pattern to themes configuration
      *
      * @param string $area
@@ -45,22 +80,22 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
      */
     public function addDefaultPattern($area = Mage_Core_Model_App_Area::AREA_FRONTEND)
     {
-        $this->addTargetPattern(implode(DS, array(Mage::getBaseDir('design'), $area, '*', '*', 'theme.xml')));
+        $this->addTargetPattern(implode(DS, array($area, '*', '*', 'theme.xml')));
         return $this;
     }
 
     /**
      * Target directory setter. Adds directory to be scanned
      *
-     * @param string $value
+     * @param string $relativeTarget
      * @return Mage_Core_Model_Theme_Collection
      */
-    public function addTargetPattern($value)
+    public function addTargetPattern($relativeTarget)
     {
         if ($this->isLoaded()) {
             $this->clear();
         }
-        $this->_targetDirs[] = $value;
+        $this->_targetDirs[] = $relativeTarget;
         return $this;
     }
 
@@ -105,7 +140,10 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
 
         $pathsToThemeConfig = array();
         foreach ($this->getTargetPatterns() as $directoryPath) {
-            $pathsToThemeConfig = array_merge($pathsToThemeConfig, glob($directoryPath, GLOB_NOSORT));
+            $pathsToThemeConfig = array_merge(
+                $pathsToThemeConfig,
+                glob($this->getBaseDir() . DS . $directoryPath, GLOB_NOSORT)
+            );
         }
 
         $this->_loadFromFilesystem($pathsToThemeConfig)
@@ -148,12 +186,61 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
     {
         foreach ($themeConfigPaths as $themeConfigPath) {
             $theme = $this->getNewEmptyItem()
-                ->loadFromConfiguration($themeConfigPath);
+                ->addData($this->_preparePathData($themeConfigPath))
+                ->addData($this->_prepareConfigurationData($themeConfigPath));
             $this->addItem($theme);
         }
         $this->_setIsLoaded();
 
         return $this;
+    }
+
+    /**
+     * Return default path related data
+     *
+     * @param string $configPath
+     * @return array
+     */
+    protected function _preparePathData($configPath)
+    {
+        $themeDirectory = dirname($configPath);
+        $fullPath = trim(substr($themeDirectory, strlen($this->getBaseDir())), DS);
+        $pathPieces = explode(DS, $fullPath);
+        $area = array_shift($pathPieces);
+        $themePath = implode(Mage_Core_Model_Theme::PATH_SEPARATOR, $pathPieces);
+        return array('area' => $area, 'theme_path' => $themePath, 'theme_directory' => $themeDirectory);
+    }
+
+    /**
+     * Return default configuration data
+     *
+     * @param string $configPath
+     * @return array
+     */
+    public function _prepareConfigurationData($configPath)
+    {
+        $themeConfig = $this->_getConfigModel(array($configPath));
+
+        $packageCodes = $themeConfig->getPackageCodes();
+        $packageCode = reset($packageCodes);
+
+        $themeCodes = $themeConfig->getPackageThemeCodes($packageCode);
+        $themeCode = reset($themeCodes);
+
+        $themeVersions = $themeConfig->getCompatibleVersions($packageCode, $themeCode);
+        $media = $themeConfig->getMedia($packageCode, $themeCode);
+        $parentTheme = $themeConfig->getParentTheme($packageCode, $themeCode);
+
+        return array(
+            'parent_id'            => null,
+            'theme_version'        => $themeConfig->getThemeVersion($packageCode, $themeCode),
+            'theme_title'          => $themeConfig->getThemeTitle($packageCode, $themeCode),
+            'preview_image'        => $media['preview_image'] ? $media['preview_image'] : null,
+            'magento_version_from' => $themeVersions['from'],
+            'magento_version_to'   => $themeVersions['to'],
+            'is_featured'          => $themeConfig->getFeatured($packageCode, $themeCode),
+            'parent_theme_path'    => $parentTheme ? implode('/', $parentTheme) : null
+        );
     }
 
     /**
@@ -188,6 +275,17 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
     {
         $this->_filters = array();
         return $this;
+    }
+
+    /**
+     * Return configuration model for themes
+     *
+     * @param array $configPaths
+     * @return Magento_Config_Theme
+     */
+    protected function _getConfigModel(array $configPaths)
+    {
+        return new Magento_Config_Theme($configPaths);
     }
 
     /**

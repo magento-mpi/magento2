@@ -140,12 +140,6 @@ class Mage_Core_Model_Design_Package
      */
     protected $_themes = array();
 
-
-    public function __construct()
-    {
-        $a = 1;
-    }
-
     /**
      * Set package area
      *

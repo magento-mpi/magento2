@@ -19,6 +19,7 @@
  * @method string getPreviewImage()
  * @method string getThemeDirectory()
  * @method string getParentId()
+ * @method Mage_Core_Model_Theme addData(array $data)
  * @method Mage_Core_Model_Theme setParentId(int $id)
  * @method Mage_Core_Model_Theme setParentTheme($parentTheme)
  * @method Mage_Core_Model_Theme setPackageCode(string $packageCode)
@@ -27,6 +28,8 @@
  */
 class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
 {
+    const PATH_SEPARATOR = '/';
+
     /**
      * Theme directory
      */
@@ -96,42 +99,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Loads data that contains in configuration file (theme.xml)
-     *
-     * @param string $configPath
-     * @return Mage_Core_Model_Theme
-     */
-    public function loadFromConfiguration($configPath)
-    {
-        $themeConfig = $this->_getConfigModel(array($configPath));
-
-        $packageCodes = $themeConfig->getPackageCodes();
-        $packageCode = reset($packageCodes);
-
-        $themeCodes = $themeConfig->getPackageThemeCodes($packageCode);
-        $themeCode = reset($themeCodes);
-
-        $themeVersions = $themeConfig->getCompatibleVersions($packageCode, $themeCode);
-        $media = $themeConfig->getMedia($packageCode, $themeCode);
-        $parentTheme = $themeConfig->getParentTheme($packageCode, $themeCode);
-        $this->setData(array(
-            'parent_id'            => null,
-            'theme_path'           => $packageCode . '/' . $themeCode,
-            'theme_version'        => $themeConfig->getThemeVersion($packageCode, $themeCode),
-            'theme_title'          => $themeConfig->getThemeTitle($packageCode, $themeCode),
-            'preview_image'        => $media['preview_image'] ? $media['preview_image'] : null,
-            'magento_version_from' => $themeVersions['from'],
-            'magento_version_to'   => $themeVersions['to'],
-            'is_featured'          => $themeConfig->getFeatured($packageCode, $themeCode),
-            'theme_directory'      => dirname($configPath),
-            'parent_theme_path'    => $parentTheme ? implode('/', $parentTheme) : null
-        ));
-        $this->_initArea()->_updateDefaultParams();
-
-        return $this;
-    }
-
-    /**
      * Processing object after load data
      *
      * @return Mage_Core_Model_Theme
@@ -142,17 +109,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
             $this->_updateDefaultParams();
         }
         return parent::_afterLoad();
-    }
-
-    /**
-     * Return configuration model for themes
-     *
-     * @param array $configPaths
-     * @return Magento_Config_Theme
-     */
-    protected function _getConfigModel(array $configPaths)
-    {
-        return new Magento_Config_Theme($configPaths);
     }
 
     /**
@@ -467,45 +423,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     protected function _getPreviewImageDefaultUrl()
     {
         return Mage::getDesign()->getViewFileUrl('Mage_Core::theme/default_preview.jpg');
-    }
-
-    /**
-     * Get theme area
-     *
-     * @throws Mage_Core_Exception
-     * @return string
-     */
-    public function getArea()
-    {
-        if (!$this->getData('area')) {
-            $this->_initArea();
-        }
-
-        return $this->getData('area');
-    }
-
-    /**
-     * Init area by theme path
-     *
-     * @return Mage_Core_Model_Theme
-     */
-    protected function _initArea()
-    {
-        $themeDirectory = $this->getThemeDirectory();
-        $baseDesignDirectory = Mage::getBaseDir('design');
-        if (substr($themeDirectory, 0, strlen($baseDesignDirectory)) != $baseDesignDirectory) {
-            Mage::throwException(
-                Mage::helper('Mage_Core_Helper_Data')->__('Invalid theme directory "%s"', $themeDirectory)
-            );
-        }
-        $themeDirectory = substr($themeDirectory, strlen($baseDesignDirectory));
-        if (substr($themeDirectory, 0, 1) == DS) {
-            $themeDirectory = substr($themeDirectory, 1);
-        }
-        list($area,) = explode(DS, $themeDirectory, 2);
-        $this->setData('area', $area);
-
-        return $this;
     }
 
     /**

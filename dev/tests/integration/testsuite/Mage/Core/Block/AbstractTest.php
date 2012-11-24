@@ -629,7 +629,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     {
         /** @var $themeUtility Mage_Core_Utility_Theme */
         $themeUtility = Mage::getModel('Mage_Core_Utility_Theme', array(
-            dirname(__FILE__) . '/_files/design/'
+            dirname(__DIR__) . '/Model/_files/design/'
         ));
         $themeUtility->registerThemes()->setDesignTheme('test/default', 'frontend');
 
