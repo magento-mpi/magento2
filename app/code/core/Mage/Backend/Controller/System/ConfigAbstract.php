@@ -71,9 +71,6 @@ abstract class Mage_Backend_Controller_System_ConfigAbstract extends Mage_Backen
     public function preDispatch()
     {
         parent::preDispatch();
-        $this->_configStructure->setScope(
-            $this->getRequest()->getParam('website'), $this->getRequest()->getParam('website')
-        );
 
         if ($this->getRequest()->getParam('section')) {
             $this->_isSectionAllowed = $this->_isSectionAllowed($this->getRequest()->getParam('section'));
@@ -85,8 +82,6 @@ abstract class Mage_Backend_Controller_System_ConfigAbstract extends Mage_Backen
             $sectionId = $tab->getChildren()->current()->getId();
             $this->getRequest()->setParam('section', $sectionId);
         }
-
-
 
         return $this;
     }

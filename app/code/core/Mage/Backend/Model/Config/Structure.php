@@ -39,32 +39,29 @@ class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_S
      */
     protected $_flyweightPool;
 
-    protected $_scope;
+    /**
+     * Provider of current config scope
+     *
+     * @var Mage_Backend_Model_Config_ScopeDefiner
+     */
+    protected $_scopeDefiner;
 
     /**
      * @param Mage_Backend_Model_Config_Structure_Reader $structureReader
      * @param Mage_Backend_Model_Config_Structure_Element_Iterator_Tab $tabIterator
      * @param Mage_Backend_Model_Config_Structure_Element_FlyweightPool $flyweightPool
+     * @param Mage_Backend_Model_Config_ScopeDefiner $scopeDefiner
      */
     public function __construct(
         Mage_Backend_Model_Config_Structure_Reader $structureReader,
         Mage_Backend_Model_Config_Structure_Element_Iterator_Tab $tabIterator,
-        Mage_Backend_Model_Config_Structure_Element_FlyweightPool $flyweightPool
+        Mage_Backend_Model_Config_Structure_Element_FlyweightPool $flyweightPool,
+        Mage_Backend_Model_Config_ScopeDefiner $scopeDefiner
     ) {
         $this->_data = $structureReader->getData();
         $this->_tabIterator = $tabIterator;
         $this->_flyweightPool = $flyweightPool;
-    }
-
-    /**
-     * Set conf
-     *
-     * @param string $websiteCode
-     * @param string $storeCode
-     */
-    public function setScope($websiteCode = '', $storeCode = '')
-    {
-        $this->_scope = $websiteCode ? 'website' : ($storeCode ? 'store' : 'default');
+        $this->_scopeDefiner = $scopeDefiner;
     }
 
     /**
@@ -80,6 +77,7 @@ class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_S
             }
         }
         $this->_tabIterator->setElements($this->_data['tabs']);
+        $this->_tabIterator->setScope($this->_scopeDefiner->getScope());
         return $this->_tabIterator;
     }
 
@@ -112,7 +110,7 @@ class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_S
                 return null;
             }
         }
-        return $this->_flyweightPool->getFlyweight($child);
+        return $this->_flyweightPool->getFlyweight($child, $this->_scopeDefiner->getScope());
     }
 
     /**

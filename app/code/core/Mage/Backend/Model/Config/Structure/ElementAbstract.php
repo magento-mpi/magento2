@@ -19,11 +19,25 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
     protected $_data;
 
     /**
+     * Current scope
+     *
+     * @var string
+     */
+    protected $_scope;
+
+    /**
      * Helper factory
      *
      * @var Mage_Core_Model_Factory_Helper
      */
     protected $_helperFactory;
+
+    /**
+     * Application object
+     *
+     * @var Mage_Core_Model_App
+     */
+    protected $_application;
 
     /**
      * Authorization model
@@ -34,13 +48,16 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
 
     /**
      * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_App $application
      * @param Mage_Core_Model_Authorization $authorization
      */
     public function __construct(
         Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Core_Model_App $application,
         Mage_Core_Model_Authorization $authorization
     ) {
         $this->_helperFactory = $helperFactory;
+        $this->_application = $application;
         $this->_authorization = $authorization;
     }
 
@@ -73,6 +90,16 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
     public function setData(array $data)
     {
         $this->_data = $data;
+    }
+
+    /**
+     * Set current scope
+     *
+     * @param string $scope
+     */
+    public function setScope($scope)
+    {
+        $this->_scope = $scope;
     }
 
     /**
@@ -141,9 +168,26 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
      *
      * @return bool
      */
-    public function isVisible($websiteCode = null, $storeCode = null)
+    public function isVisible()
     {
-        return true;
+        if ($this->_application->isSingleStoreMode()) {
+            return !(isset($this->_data['hide_in_single_store_mode']) && $this->_data['hide_in_single_store_mode']);
+        }
+
+        $result = false;
+        switch ($this->_scope) {
+            case Mage_Backend_Model_Config_ScopeDefiner::SCOPE_STORE:
+                $result = isset($this->_data['showInWebsite']) && $this->_data['showInWebsite'];
+                break;
+            case Mage_Backend_Model_Config_ScopeDefiner::SCOPE_WEBSITE:
+                $result = isset($this->_data['showInWebsite']) && $this->_data['showInWebsite'];
+                break;
+            case Mage_Backend_Model_Config_ScopeDefiner::SCOPE_DEFAULT:
+                $result = isset($this->_data['showInDefault']) && $this->_data['showInDefault'];
+                break;
+        }
+
+        return $result;
     }
 
     /**
@@ -155,7 +199,6 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
     {
         return isset($tab['class']) ? $tab['class'] : '';
     }
-
 
     /**
      * Retrieve element config path

@@ -38,12 +38,14 @@ class Mage_Backend_Model_Config_Structure_Element_FlyweightPool
      * Retrieve initialized flyweight
      *
      * @param array $data
+     * @param string $scope
      * @return Mage_Backend_Model_Config_Structure_ElementInterface
      */
-    public function getFlyweight(array $data)
+    public function getFlyweight(array $data, $scope)
     {
         $flyweight = $this->_flyweights[$data['_elementType']];
         $flyweight->setData($data);
+        $flyweight->setScope($scope);
         return $flyweight;
     }
 }
