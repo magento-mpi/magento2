@@ -31,16 +31,21 @@ class Mage_Downloadable_Model_Product_TypeTest extends PHPUnit_Framework_TestCas
     {
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1);
-        Mage::app()->getStore()->setId(0);
+        Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
         $product->setOrigData();
         $downloadableData = array();
 
         $links = $this->_model->getLinks($product);
         $this->assertNotEmpty($links);
-
+        $samples = $this->_model->getSamples($product);
+        $this->assertNotEmpty($samples->getData());
         foreach ($links as $link) {
             $downloadableData['link'][] = $link->getData();
         }
+        foreach ($samples as $sample) {
+            $downloadableData['sample'][] = $sample->getData();
+        }
+
         $product->setDownloadableData($downloadableData);
         $this->_model->deleteTypeSpecificData($product);
         $product = Mage::getModel('Mage_Catalog_Model_Product');
@@ -48,5 +53,7 @@ class Mage_Downloadable_Model_Product_TypeTest extends PHPUnit_Framework_TestCas
 
         $links = $this->_model->getLinks($product);
         $this->assertEmpty($links);
+        $samples = $this->_model->getSamples($product);
+        $this->assertEmpty($samples->getData());
     }
 }

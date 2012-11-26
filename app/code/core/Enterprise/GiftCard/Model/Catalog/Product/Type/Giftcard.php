@@ -473,7 +473,6 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
      * Delete data specific for Gift Card product type
      *
      * @param Mage_Catalog_Model_Product $product
-     * @return Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard
      */
     public function deleteTypeSpecificData(Mage_Catalog_Model_Product $product)
     {

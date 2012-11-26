@@ -1062,7 +1062,6 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      * Delete data specific for Bundle product type
      *
      * @param Mage_Catalog_Model_Product $product
-     * @return Mage_Bundle_Model_Product_Type
      */
     public function deleteTypeSpecificData(Mage_Catalog_Model_Product $product)
     {

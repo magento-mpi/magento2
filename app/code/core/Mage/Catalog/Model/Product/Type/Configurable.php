@@ -850,7 +850,6 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      * Delete data specific for Configurable product type
      *
      * @param Mage_Catalog_Model_Product $product
-     * @return Mage_Catalog_Model_Product_Type_Configurable
      */
     public function deleteTypeSpecificData(Mage_Catalog_Model_Product $product)
     {

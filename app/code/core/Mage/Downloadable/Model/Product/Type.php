@@ -473,23 +473,22 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      */
     public function deleteTypeSpecificData(Mage_Catalog_Model_Product $product)
     {
-        if ($product->getOrigData('type_id') !== Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
-            return $this;
-        }
-        $downloadableData = $product->getDownloadableData();
-        $_sampleItems = array();
-        $_linkItems = array();
-        foreach ($downloadableData['sample'] as $sample) {
-            $_sampleItems[] = $sample['sample_id'];
-        }
-        foreach ($downloadableData['link'] as $link) {
-            $_linkItems[] = $link['link_id'];
-        }
-        if ($_sampleItems) {
-            Mage::getResourceModel('Mage_Downloadable_Model_Resource_Sample')->deleteItems($_sampleItems);
-        }
-        if ($_linkItems) {
-            Mage::getResourceModel('Mage_Downloadable_Model_Resource_Link')->deleteItems($_linkItems);
+        if ($product->getOrigData('type_id') === Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
+            $downloadableData = $product->getDownloadableData();
+            $sampleItems = array();
+            $linkItems = array();
+            foreach ($downloadableData['sample'] as $sample) {
+                $sampleItems[] = $sample['sample_id'];
+            }
+            if ($sampleItems) {
+                Mage::getResourceModel('Mage_Downloadable_Model_Resource_Sample')->deleteItems($sampleItems);
+            }
+            foreach ($downloadableData['link'] as $link) {
+                $linkItems[] = $link['link_id'];
+            }
+            if ($linkItems) {
+                Mage::getResourceModel('Mage_Downloadable_Model_Resource_Link')->deleteItems($linkItems);
+            }
         }
     }
 }
