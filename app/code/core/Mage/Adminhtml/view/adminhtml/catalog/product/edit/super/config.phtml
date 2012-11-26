@@ -204,8 +204,8 @@ do {
         <tr class="<?php echo $isEven ? 'even' : '' ?>">
             <td class="associated-matrix-product-name"><?php echo $product->getName()?></td>
             <td class="associated-matrix-product-price"><?php echo $product->getPrice()?></td>
-            <td> <span class="associated-matrix-product-sku"><?php echo $product->getSku()?></span>
-                <button class="add-product"
+            <td><span class="associated-matrix-product-sku"><?php echo $product->getSku()?></span>
+                <button class="choose-product"
                     data-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributesInfo)); ?>"
                     style="float:right">
                     Choose
@@ -220,19 +220,30 @@ do {
         } else {
 ?>
         <tr class="<?php echo $isEven ? 'even' : '' ?>">
-            <td><input class="associated-matrix-product-name" value="<?php echo $this->_getProduct()->getName(), ' ', implode(' ', $variationalLabels)?>"></td>
-            <td><input class="associated-matrix-product-price" value=""></td>
-            <td><input class="associated-matrix-product-sku" value="<?php echo $this->_getProduct()->getSku(), '-', implode('-', $variationalLabels)?>">
-                <button class="add-product"
-                    data-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributesInfo)); ?>"
-                    style="float:right">
+            <td class="associated-matrix-product-name"></td>
+            <td class="associated-matrix-product-price"></td>
+            <td><span class="associated-matrix-product-sku"></span>
+                <button class="choose-product"
+                        data-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributesInfo)); ?>"
+                        style="float:right">
                     Choose
                 </button>
             </td>
-            <td><input class="associated-matrix-product-qty" value=""></td>
-            <td><input class="associated-matrix-product-weight" value=""></td>
+            <td class="associated-matrix-product-qty"></td>
+            <td class="associated-matrix-product-weight"></td>
+<!--            <td><input class="associated-matrix-product-name" value="--><?php //echo $this->_getProduct()->getName(), ' ', implode(' ', $variationalLabels)?><!--"></td>-->
+<!--            <td><input class="associated-matrix-product-price" value=""></td>-->
+<!--            <td><input class="associated-matrix-product-sku" value="--><?php //echo $this->_getProduct()->getSku(), '-', implode('-', $variationalLabels)?><!--">-->
+<!--                <button class="choose-product"-->
+<!--                    data-attributes="--><?php //echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributesInfo)); ?><!--"-->
+<!--                    style="float:right">-->
+<!--                    Choose-->
+<!--                </button>-->
+<!--            </td>-->
+<!--            <td><input class="associated-matrix-product-qty" value=""></td>-->
+<!--            <td><input class="associated-matrix-product-weight" value=""></td>-->
             <td><?php echo implode('</td><td>', $variationalLabels)?></td>
-            <td class="a-center"><input type="checkbox" name="associated_product_ids[]" value="" class="checkbox associated-matrix-product-id"></td>
+            <td class="a-center"><input type="checkbox" name="associated_product_ids[]" value="" class="checkbox associated-matrix-product-id" disabled="disabled"></td>
         </tr>
 <?php
         }
@@ -292,7 +303,7 @@ jQuery(function ($) {
         resizable:true
     });
 
-    $('#product-variations-matrix').on('click', '.add-product', function(event) {
+    $('#product-variations-matrix').on('click', '.choose-product', function(event) {
         event.preventDefault();
         var grid = window.<?php echo $this->getGridJsObject() ?>;
         var $button = $(this);
@@ -317,13 +328,11 @@ jQuery(function ($) {
             var productFields = ['name', 'price', 'sku', 'qty', 'weight', 'id'];
 
             $.each(productFields, function() {
-                if ($matrixRow.find(matrixClass + this).is('input')) {
-                    $matrixRow.find(matrixClass + this).val($.trim($gridRow.find(associatedClass + this).text()));
-                } else {
-                    $matrixRow.find(matrixClass + this).html($.trim($gridRow.find(associatedClass + this).text()));
-                }
+                var target = $matrixRow.find(matrixClass + this),
+                    value = $.trim($gridRow.find(associatedClass + this).text());
+                target[target.is('input') ? 'val' : 'html'](value);
             });
-            $matrixRow.find(matrixClass + 'id').attr('checked', true);
+            $matrixRow.find(matrixClass + 'id').attr('checked', true).attr('disabled', false);
             $gridDialog.dialog('close');
         };
     });

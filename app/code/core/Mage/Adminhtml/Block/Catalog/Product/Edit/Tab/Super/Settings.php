@@ -10,7 +10,7 @@
 
 
 /**
- * Create Configuranle procuct Settings Tab Block
+ * Create Configurable product Settings Tab Block
  *
  * @category   Mage
  * @package    Mage_Adminhtml
@@ -28,11 +28,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Mage_
             . $this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getContinueUrl())
             . ").addClass('ignore-validate').submit();";
         $this->addChild('continue_button', 'Mage_Backend_Block_Widget_Button', array(
-            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Generate Variation'),
+            'label'   => Mage::helper('Mage_Catalog_Helper_Data')->__('Generate Variations'),
             'onclick' => $onclick,
-            'class' => 'save',
+            'class'   => 'save',
         ));
-     parent::_prepareLayout();
+        parent::_prepareLayout();
     }
 
     /**
@@ -62,24 +62,20 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Mage_
             ->getSetAttributes($product);
 
         $hasAttributes = false;
-
-        if ($product->isConfigurable()) {
-            $usedAttributes = $this->_getProduct()->getTypeInstance()
-             ->getUsedProductAttributeIds($this->_getProduct());
-        } else {
-            $usedAttributes = array();
-        }
+        $usedAttributes = $product->isConfigurable()
+            ? $this->_getProduct()->getTypeInstance()->getUsedProductAttributeIds($this->_getProduct())
+            : array();
 
         $configurableType = Mage::getSingleton('Mage_Catalog_Model_Product_Type_Configurable');
 
         foreach ($attributes as $attribute) {
             if ($configurableType->canUseAttribute($attribute, $product)) {
                 $hasAttributes = true;
-                $fieldset->addField('attribute_'.$attribute->getAttributeId(), 'checkbox', array(
+                $fieldset->addField('attribute_' . $attribute->getAttributeId(), 'checkbox', array(
                     'label' => $attribute->getFrontend()->getLabel(),
                     'title' => $attribute->getFrontend()->getLabel(),
                     'name'  => 'attributes[]',
-                    'class' => 'attribute-checkbox',
+                    'class' => 'configurable-attribute-checkbox',
                     'value' => $attribute->getAttributeId(),
                     'checked' => in_array($attribute->getAttributeId(), $usedAttributes)
                 ));
@@ -110,7 +106,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Mage_
     public function getContinueUrl()
     {
         return $this->getUrl($this->_getProduct()->getId() ? '*/*/edit' : '*/*/new', array(
-            '_current'   => true,
+            '_current' => true,
         ));
     }
 
