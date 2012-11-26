@@ -33,6 +33,13 @@ class Mage_Launcher_Model_Tile extends Mage_Core_Model_Abstract
     protected $_eventPrefix = 'launcher_tile';
 
     /**
+     * State resolver associated with current tile
+     *
+     * @var Mage_Launcher_Model_Tile_StateResolver|null
+     */
+    protected $_stateResolver;
+
+    /**
      * Class constructor
      *
      * @param Mage_Core_Model_Event_Manager $eventDispatcher
@@ -92,5 +99,27 @@ class Mage_Launcher_Model_Tile extends Mage_Core_Model_Abstract
     public function isComplete()
     {
         return $this->getState() == self::STATE_COMPLETE;
+    }
+
+    /**
+     * Set state resolver associated with current tile
+     *
+     * @param Mage_Launcher_Model_Tile_StateResolver|null $stateResolver
+     * @return Mage_Launcher_Model_Tile
+     */
+    public function setStateResolver(Mage_Launcher_Model_Tile_StateResolver $stateResolver)
+    {
+        $this->_stateResolver = $stateResolver;
+        return $this;
+    }
+
+    /**
+     * Retrieve state resolver associated with current tile
+     *
+     * @return Mage_Launcher_Model_Tile_StateResolver|null
+     */
+    public function getStateResolver()
+    {
+        return $this->_stateResolver;
     }
 }

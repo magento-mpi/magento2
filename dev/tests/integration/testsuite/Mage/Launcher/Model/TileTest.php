@@ -11,6 +11,7 @@
 
 /**
  * @magentoDataFixture Mage/Launcher/_files/pages.php
+ * @magentoDataFixture Mage/Launcher/_files/config_bootstrap.php
  */
 class Mage_Launcher_Model_TileTest extends PHPUnit_Framework_TestCase
 {
@@ -55,5 +56,31 @@ class Mage_Launcher_Model_TileTest extends PHPUnit_Framework_TestCase
         $tile = Mage::getModel('Mage_Launcher_Model_Tile');
         $tile->setCode('tile_1')
             ->save();
+    }
+
+    public function testGetStateResolver()
+    {
+        // tile_1 was saved by fixture
+        $this->assertNull($this->_tile->getStateResolver());
+        $this->_tile->loadByCode('tile_1');
+        $this->assertInstanceOf('Mage_Launcher_Model_Tile_StateResolver', $this->_tile->getStateResolver());
+    }
+
+    public function testGetStateResolverOnUnknownTile()
+    {
+        // state resolver has to be injected only into existing tiles
+        // tile_100 has not been defined by fixture
+        $this->assertNull($this->_tile->getStateResolver());
+        $this->_tile->loadByCode('tile_100');
+        $this->assertNull($this->_tile->getStateResolver());
+    }
+
+    /**
+     * @expectedException Mage_Launcher_Exception
+     */
+    public function testLoadByCodeThrowsExceptionIfStateResolverIsNotSpecifiedForKnownTile()
+    {
+        // tile_50 is provided by fixture but does not have appropriate XML configuration
+        $this->_tile->loadByCode('tile_50');
     }
 }

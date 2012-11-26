@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Launcher
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <adminhtml>
+        <launcher>
+            <tiles>
+                <tile_1>
+                    <state_resolver>Mage_Launcher_Model_Tile_StateResolverStub</state_resolver>
+                </tile_1>
+                <tile_2>
+                    <state_resolver>Mage_Launcher_Model_Tile_StateResolverStub</state_resolver>
+                </tile_2>
+            </tiles>
+        </launcher>
+    </adminhtml>
+</config>

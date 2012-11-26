@@ -11,6 +11,7 @@
 
 /**
  * @magentoDataFixture Mage/Launcher/_files/pages.php
+ * @magentoDataFixture Mage/Launcher/_files/config_bootstrap.php
  */
 class Mage_Launcher_Model_PageTest extends PHPUnit_Framework_TestCase
 {
@@ -28,6 +29,13 @@ class Mage_Launcher_Model_PageTest extends PHPUnit_Framework_TestCase
     {
         $this->_page->loadByCode('landing_page_1');
         $this->assertEquals('landing_page_1', $this->_page->getCode());
+    }
+
+    public function testLoadByCodeDoesNotInjectTileCollectionIntoUnknownPage()
+    {
+        // landing_page_100 has not been defined by fixture
+        $this->_page->loadByCode('landing_page_100');
+        $this->assertNull($this->_page->getTiles());
     }
 
     public function testGetTiles()

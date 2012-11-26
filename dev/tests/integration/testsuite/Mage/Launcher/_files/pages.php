@@ -9,6 +9,7 @@
  * @license     {license_link}
  */
 
+// Page that contains correctly configured tiles
 /**
  * @var $page Mage_Launcher_Model_Page
  */
@@ -33,3 +34,16 @@ $tile->setPageId($pageId)
     ->setState(Mage_Launcher_Model_Tile::STATE_TODO)
     ->setSortOrder(10)
     ->save();
+
+// Page that contains tiles without appropriate configuration for testing expected exceptions
+$page = Mage::getModel('Mage_Launcher_Model_Page');
+$page->setCode('landing_page_50')
+    ->save();
+$pageId = $page->getId();
+$tile = Mage::getModel('Mage_Launcher_Model_Tile');
+$tile->setPageId($pageId)
+    ->setCode('tile_50')
+    ->setState(Mage_Launcher_Model_Tile::STATE_TODO)
+    ->setSortOrder(20)
+    ->save();
+
