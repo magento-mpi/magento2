@@ -477,6 +477,5 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
      */
     public function deleteTypeSpecificData(Mage_Catalog_Model_Product $product)
     {
-        return $this;
     }
 }

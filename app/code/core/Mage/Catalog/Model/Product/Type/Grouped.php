@@ -366,6 +366,5 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
      */
     public function deleteTypeSpecificData(Mage_Catalog_Model_Product $product)
     {
-        return $this;
     }
 }

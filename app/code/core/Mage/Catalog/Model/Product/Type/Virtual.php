@@ -46,6 +46,5 @@ class Mage_Catalog_Model_Product_Type_Virtual extends Mage_Catalog_Model_Product
      */
     public function deleteTypeSpecificData(Mage_Catalog_Model_Product $product)
     {
-        return $this;
     }
 }

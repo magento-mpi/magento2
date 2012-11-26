@@ -25,6 +25,5 @@ class Mage_Catalog_Model_Product_Type_Simple extends Mage_Catalog_Model_Product_
      */
     public function deleteTypeSpecificData(Mage_Catalog_Model_Product $product)
     {
-        return $this;
     }
 }
