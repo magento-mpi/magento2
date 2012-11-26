@@ -284,22 +284,35 @@ class Mage_Webapi_Model_Soap_AutoDiscover
         foreach ($requestedResources as $resourceName => $resourceData) {
             foreach ($resourceData['methods'] as $methodName => $methodData) {
                 foreach ($methodData['interface'] as $direction => $interface) {
-                    $direction = ($direction == 'in') ? 'requiredInput' : 'returned';
-                    foreach ($interface['parameters'] as $parameterData) {
-                        $parameterType = $parameterData['type'];
-                        if (!$this->_helper->isTypeSimple($parameterType)) {
-                            $operation = $this->getOperationName($resourceName, $methodName);
-                            if ($parameterData['required']) {
-                                $condition = ($direction == 'requiredInput') ? 'yes' : 'always';
-                            } else {
-                                $condition = ($direction == 'requiredInput') ? 'no' : 'conditionally';
-                            }
-                            $callInfo = array();
-                            $callInfo[$direction][$condition]['calls'][] = $operation;
-                            $this->_apiConfig->setTypeData($parameterType, array('callInfo' => $callInfo));
-                        }
-                    }
+                    $this->_processParametersCallInfo($interface['parameters'], $resourceName, $methodName, $direction);
                 }
+            }
+        }
+    }
+
+    /**
+     * Process call info data from parameters.
+     *
+     * @param array $parameters
+     * @param string $resourceName
+     * @param string $methodName
+     * @param string $direction
+     */
+    protected function _processParametersCallInfo($parameters, $resourceName, $methodName, $direction)
+    {
+        $direction = ($direction == 'in') ? 'requiredInput' : 'returned';
+        foreach ($parameters as $parameterData) {
+            $parameterType = $parameterData['type'];
+            if (!$this->_helper->isTypeSimple($parameterType)) {
+                $operation = $this->getOperationName($resourceName, $methodName);
+                if ($parameterData['required']) {
+                    $condition = ($direction == 'requiredInput') ? 'yes' : 'always';
+                } else {
+                    $condition = ($direction == 'requiredInput') ? 'no' : 'conditionally';
+                }
+                $callInfo = array();
+                $callInfo[$direction][$condition]['calls'][] = $operation;
+                $this->_apiConfig->setTypeData($parameterType, array('callInfo' => $callInfo));
             }
         }
     }

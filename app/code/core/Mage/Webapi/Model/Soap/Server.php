@@ -46,8 +46,6 @@ class Mage_Webapi_Model_Soap_Server
     ) {
         $this->_zendSoapServer = $zendSoapServer;
         $this->_apiConfig = $apiConfig;
-        // TODO: Temporary workaround
-        $this->_apiConfig->init();
         $this->_application = $application;
         $this->_request = $request;
         $this->_soapHandler = $soapHandler;

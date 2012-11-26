@@ -29,19 +29,21 @@ class Mage_Webapi_Model_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $fixtureDir = __DIR__ . '/../_files/Controller/Webapi/';
         $directoryScanner = new \Zend\Code\Scanner\DirectoryScanner($fixtureDir);
-        $serverReflection = new \Zend\Server\Reflection();
         /** @var Mage_Core_Model_Cache $cache */
         $cache = $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock();
         $appConfig = Mage::app()->getConfig();
         $objectManager = new Magento_Test_ObjectManager();
-        $helperFactory = new Mage_Core_Model_Factory_Helper($objectManager);
+        /** @var Mage_Webapi_Helper_Data $helper */
+        $helper = $objectManager->get('Mage_Webapi_Helper_Data');
+        /** @var Mage_Webapi_Model_Config_Reader_ClassReflector $classReflector */
+        $classReflector = $objectManager->get('Mage_Webapi_Model_Config_Reader_ClassReflector');
+        $reader = new Mage_Webapi_Model_Config_Reader($cache, $appConfig, $helper, $classReflector);
+        $reader->setDirectoryScanner($directoryScanner);
         /** @var Magento_Controller_Router_Route_Factory $routeFactory */
         $routeFactory = $this->getMockBuilder('Magento_Controller_Router_Route_Factory')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_config = new Mage_Webapi_Model_Config($helperFactory, $appConfig, $cache, $routeFactory);
-        $this->_config->setDirectoryScanner($directoryScanner);
-        $this->_config->init();
+        $this->_config = new Mage_Webapi_Model_Config($reader, $helper, $routeFactory);
         $objectManager->addSharedInstance($this->_config, 'Mage_Webapi_Model_Config');
     }
 
@@ -85,6 +87,6 @@ class Mage_Webapi_Model_ConfigTest extends PHPUnit_Framework_TestCase
     public function testGetDataType()
     {
         $expectedType = include __DIR__ . '/../_files/config/data_structure_fixture.php';
-        $this->assertEquals($expectedType, $this->_config->getDataType('NamespaceAModuleAData'));
+        $this->assertEquals($expectedType, $this->_config->getTypeData('NamespaceAModuleAData'));
     }
 }

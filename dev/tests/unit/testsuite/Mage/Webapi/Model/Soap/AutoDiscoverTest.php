@@ -15,6 +15,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
      */
     public function testGenerate($resourceName, $methodName, $interface)
     {
+        $this->markTestSkipped('Skipped until MAGETWO-5507 implemented.');
         /** Prepare arguments for SUT constructor. */
         $resourceConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config')
             ->setMethods(array('getDataType'))

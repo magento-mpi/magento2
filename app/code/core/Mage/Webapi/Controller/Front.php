@@ -73,13 +73,7 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
     {
         ini_set('display_startup_errors', 0);
         ini_set('display_errors', 0);
-        try {
-            $this->_getDispatcher()->init();
-        } catch (Exception $e) {
-            $this->_errorProcessor->renderException($e);
-            /** Request processing must be stopped at this point to prevent output in unacceptable format. */
-            die();
-        }
+
         return $this;
     }
 

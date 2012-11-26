@@ -28,12 +28,12 @@ class Mage_Webapi_Model_Resource_Acl_Rule_Collection extends Mage_Core_Model_Res
     /**
      * Retrieve rules by role.
      *
-     * @param int $id
+     * @param int $roleId
      * @return Mage_Webapi_Model_Resource_Acl_Rule_Collection
      */
-    public function getByRole($id)
+    public function getByRole($roleId)
     {
-        $this->getSelect()->where("role_id = ?", (int)$id);
+        $this->getSelect()->where("role_id = ?", (int)$roleId);
         return $this;
     }
 }

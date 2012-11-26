@@ -34,17 +34,6 @@ abstract class Mage_Webapi_Controller_DispatcherAbstract
     abstract public function dispatch();
 
     /**
-     * Initialize API configuration.
-     *
-     * @return Mage_Webapi_Controller_DispatcherAbstract
-     */
-    public function init()
-    {
-        $this->_apiConfig->init();
-        return $this;
-    }
-
-    /**
      * Retrieve config describing resources available in all APIs.
      * The same resource config must be used in all API types.
      *

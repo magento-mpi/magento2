@@ -60,7 +60,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation
     public function fetchRequestData($controllerInstance, $action)
     {
         $methodReflection = $this->_apiHelper->createMethodReflection($controllerInstance, $action);
-        $methodName = $this->_apiConfig->getMethodNameWithoutVersionSuffix($methodReflection);
+        $methodName = $this->_apiHelper->getMethodNameWithoutVersionSuffix($methodReflection);
         $bodyParamName = $this->_apiConfig->getBodyParamName($methodReflection);
         $requestParams = array_merge(
             $this->_request->getParams(),

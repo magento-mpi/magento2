@@ -68,6 +68,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
         $requestData,
         $expectedResult = array()
     ) {
+        $this->markTestSkipped('Skipped until MAGETWO-5507 implemented.');
         $actualResult = self::$_helper->prepareMethodParams($class, $methodName, $requestData, $this->_getModel());
         $this->assertEquals($expectedResult, $actualResult, "The array of arguments was prepared incorrectly.");
     }
@@ -150,6 +151,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testPrepareMethodParamsArrayExpectedException()
     {
+        $this->markTestSkipped('Skipped until MAGETWO-5507 implemented.');
         $this->setExpectedException(
             'Mage_Webapi_Exception',
             'Data corresponding to "%s" type is expected to be an array.',
@@ -168,6 +170,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testPrepareMethodParamsComplexTypeArrayExpectedException()
     {
+        $this->markTestSkipped('Skipped until MAGETWO-5507 implemented.');
         $this->setExpectedException(
             'Mage_Webapi_Exception',
             'Data corresponding to "%s" type is expected to be an array.',
@@ -196,6 +199,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
         $exceptionClass,
         $exceptionMessage
     ) {
+        $this->markTestSkipped('Skipped until MAGETWO-5507 implemented.');
         $this->setExpectedException($exceptionClass, $exceptionMessage);
         self::$_helper->prepareMethodParams($class, $methodName, $requestData, $this->_getModel());
     }
