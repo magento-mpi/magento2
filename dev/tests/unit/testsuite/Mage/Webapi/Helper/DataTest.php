@@ -21,7 +21,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Webapi_Helper_Data */
     protected static $_helper;
 
-    /** @var Mage_Webapi_Model_Config */
+    /** @var Mage_Webapi_Model_ConfigAbstract */
     protected static $_apiConfig;
 
     protected function setUp()
@@ -38,7 +38,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return Mage_Webapi_Model_Config
+     * @return Mage_Webapi_Model_ConfigAbstract
      */
     protected function _getModel()
     {
@@ -257,7 +257,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
     /**
      * Create resource config initialized with classes found in the specified directory.
      *
-     * @return Mage_Webapi_Model_Config
+     * @return Mage_Webapi_Model_ConfigAbstract
      */
     protected function _createResourceConfig()
     {

@@ -6,7 +6,7 @@
  */
 class Mage_Webapi_Controller_Dispatcher_Rest_Presentation
 {
-    /** @var Mage_Webapi_Model_Config */
+    /** @var Mage_Webapi_Model_Config_Rest */
     protected $_apiConfig;
 
     /** @var Mage_Webapi_Helper_Data */
@@ -27,7 +27,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Webapi_Model_Config $apiConfig
+     * @param Mage_Webapi_Model_Config_Rest $apiConfig
      * @param Mage_Webapi_Helper_Data $helper
      * @param Mage_Webapi_Controller_Request_Factory $requestFactory
      * @param Mage_Webapi_Controller_Response_Rest $response
@@ -35,7 +35,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation
      * @param Magento_Controller_Router_Route_Factory $routeFactory
      */
     public function __construct(
-        Mage_Webapi_Model_Config $apiConfig,
+        Mage_Webapi_Model_Config_Rest $apiConfig,
         Mage_Webapi_Helper_Data $helper,
         Mage_Webapi_Controller_Request_Factory $requestFactory,
         Mage_Webapi_Controller_Response_Rest $response,
@@ -61,13 +61,13 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation
     {
         $methodReflection = $this->_apiHelper->createMethodReflection($controllerInstance, $action);
         $methodName = $this->_apiHelper->getMethodNameWithoutVersionSuffix($methodReflection);
-        $bodyParamName = $this->_apiConfig->getBodyParamName($methodReflection);
+        $bodyParamName = $this->_apiHelper->getBodyParamName($methodReflection);
         $requestParams = array_merge(
             $this->_request->getParams(),
             array($bodyParamName => $this->_getRequestBody($methodName))
         );
         /** Convert names of ID and Parent ID params in request to those which are used in method interface. */
-        $idArgumentName = $this->_apiConfig->getIdParamName($methodReflection);
+        $idArgumentName = $this->_apiHelper->getIdParamName($methodReflection);
         $parentIdParamName = Mage_Webapi_Controller_Router_Route_Rest::PARAM_PARENT_ID;
         $idParamName = Mage_Webapi_Controller_Router_Route_Rest::PARAM_ID;
         if (isset($requestParams[$parentIdParamName]) && ($idArgumentName != $parentIdParamName)) {

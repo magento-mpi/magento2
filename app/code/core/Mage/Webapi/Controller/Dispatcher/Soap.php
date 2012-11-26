@@ -6,9 +6,13 @@
  */
 class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_DispatcherAbstract
 {
-    const WEBSERVICE_CACHE_NAME = 'config_webservice';
-    const WEBSERVICE_CACHE_TAG = 'WEBSERVICE';
+    /**
+     * Cache ID for generated WSDL content.
+     */
     const WSDL_CACHE_ID = 'WSDL';
+
+    /** @var Mage_Webapi_Model_Config_Soap */
+    protected $_apiConfig;
 
     /** @var Mage_Webapi_Model_Soap_Server */
     protected $_soapServer;
@@ -32,7 +36,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
      * Initialize dependencies.
      *
      * @param Mage_Webapi_Helper_Data $helper
-     * @param Mage_Webapi_Model_Config $apiConfig
+     * @param Mage_Webapi_Model_Config_Soap $apiConfig
      * @param Mage_Webapi_Controller_Request_Soap $request
      * @param Mage_Webapi_Controller_Response $response
      * @param Mage_Webapi_Model_Soap_AutoDiscover $autoDiscover
@@ -42,7 +46,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
      */
     public function __construct(
         Mage_Webapi_Helper_Data $helper,
-        Mage_Webapi_Model_Config $apiConfig,
+        Mage_Webapi_Model_Config_Soap $apiConfig,
         Mage_Webapi_Controller_Request_Soap $request,
         Mage_Webapi_Controller_Response $response,
         Mage_Webapi_Model_Soap_AutoDiscover $autoDiscover,
@@ -50,10 +54,8 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
         Mage_Core_Model_Cache $cache,
         Mage_Webapi_Model_Soap_Fault $soapFault
     ) {
-        parent::__construct(
-            $helper,
-            $apiConfig
-        );
+        parent::__construct($helper);
+        $this->_apiConfig = $apiConfig;
         $this->_autoDiscover = $autoDiscover;
         $this->_soapServer = $soapServer;
         $this->_cache = $cache;
@@ -86,6 +88,17 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
 
         $this->_response->sendResponse();
         return $this;
+    }
+
+
+    /**
+     * Retrieve SOAP API config.
+     *
+     * @return Mage_Webapi_Model_Config_Soap
+     */
+    public function getApiConfig()
+    {
+        return $this->_apiConfig;
     }
 
     /**
@@ -131,7 +144,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
     {
         $requestedResources = $this->_request->getRequestedResources();
         $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedResources));
-        if ($this->_cache->canUse(self::WEBSERVICE_CACHE_NAME)) {
+        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
             $cachedWsdlContent = $this->_cache->load($cacheId);
             if ($cachedWsdlContent !== false) {
                 return $cachedWsdlContent;
@@ -150,8 +163,8 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
 
         $wsdlContent = $this->_autoDiscover->generate($resources, $this->_soapServer->generateUri());
 
-        if ($this->_cache->canUse(self::WEBSERVICE_CACHE_NAME)) {
-            $this->_cache->save($wsdlContent, $cacheId, array(self::WEBSERVICE_CACHE_TAG));
+        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
+            $this->_cache->save($wsdlContent, $cacheId, array(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_TAG));
         }
 
         return $wsdlContent;

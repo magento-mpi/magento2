@@ -28,7 +28,7 @@ require_once __DIR__ . '/_files/autodiscovery/reference_to_invalid_type/class.ph
 class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Webapi_Model_Config
+     * @var Mage_Webapi_Model_ConfigAbstract
      */
     protected static $_apiConfig;
 
@@ -44,7 +44,7 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return Mage_Webapi_Model_Config
+     * @return Mage_Webapi_Model_ConfigAbstract
      */
     protected function _getModel()
     {
@@ -950,7 +950,7 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
      * Create resource config initialized with classes found in the specified directory.
      *
      * @param string $pathToDirectoryWithResources
-     * @return Mage_Webapi_Model_Config
+     * @return Mage_Webapi_Model_ConfigAbstract
      */
     protected function _createResourceConfig($pathToDirectoryWithResources)
     {

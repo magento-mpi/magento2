@@ -14,7 +14,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
     const FAULT_CODE_RECEIVER = 'Receiver';
     const HEADER_SECURITY = 'Security';
 
-    /** @var Mage_Webapi_Model_Config */
+    /** @var Mage_Webapi_Model_Config_Soap */
     protected $_apiConfig;
 
     /**
@@ -60,7 +60,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
     protected $_requestHeaders = array(self::HEADER_SECURITY);
 
     public function __construct(
-        Mage_Webapi_Model_Config $apiConfig,
+        Mage_Webapi_Model_Config_Soap $apiConfig,
         Mage_Webapi_Helper_Data $helper,
         Mage_Webapi_Controller_Dispatcher_Soap_Authentication $authentication,
         Mage_Webapi_Controller_Action_Factory $controllerFactory,

@@ -1,17 +1,26 @@
 <?php
 use Zend\Server\Reflection\ReflectionMethod;
+
 /**
  * REST routes generator.
  *
  * @copyright {}
  */
-class Mage_Webapi_Model_Config_Reader_RouteGenerator
+class Mage_Webapi_Model_Config_Reader_Rest_RouteGenerator
 {
+    /** @var array */
+    protected $_routes = array();
+
     /**
      * @var Mage_Webapi_Helper_Data
      */
     protected $_helper;
 
+    /**
+     * Construct routes generator.
+     *
+     * @param Mage_Webapi_Helper_Data $helper
+     */
     public function __construct(Mage_Webapi_Helper_Data $helper)
     {
         $this->_helper = $helper;
@@ -49,7 +58,7 @@ class Mage_Webapi_Model_Config_Reader_RouteGenerator
             $routePath .= "/$additionalRequired/:$additionalRequired";
         }
 
-        $actionType = $this->_helper->getActionTypeByMethod(
+        $actionType = Mage_Webapi_Controller_Request_Rest::getActionTypeByOperation(
             $this->_helper->getMethodNameWithoutVersionSuffix($methodReflection)
         );
         $resourceName = $this->_helper->translateResourceName($methodReflection->getDeclaringClass()->getName());
@@ -58,10 +67,19 @@ class Mage_Webapi_Model_Config_Reader_RouteGenerator
             $routes[$finalRoutePath] = array('actionType' => $actionType, 'resourceName' => $resourceName);
         }
 
+        $this->_routes = array_merge($this->_routes, $routes);
         return $routes;
     }
 
-
+    /**
+     * Retrieve all generated routes.
+     *
+     * @return array
+     */
+    public function getRoutes()
+    {
+        return $this->_routes;
+    }
 
     /**
      * Identify if method expects Parent resource ID to be present in the request.
@@ -136,9 +154,6 @@ class Mage_Webapi_Model_Config_Reader_RouteGenerator
         }
         return $paramNames;
     }
-
-
-
 
     /**
      * Generate list of possible routes taking into account optional params.

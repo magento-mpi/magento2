@@ -246,7 +246,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
      */
     public function setResourceVersion($resourceVersion)
     {
-        $versionPrefix = Mage_Webapi_Model_Config::VERSION_NUMBER_PREFIX;
+        $versionPrefix = Mage_Webapi_Model_ConfigAbstract::VERSION_NUMBER_PREFIX;
         if (preg_match("/^{$versionPrefix}?(\d+)$/i", $resourceVersion, $matches)) {
             $versionNumber = (int)$matches[1];
         } else {
@@ -308,8 +308,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
      * @return string 'collection' or 'item'
      * @throws InvalidArgumentException When method does not match the list of allowed methods
      */
-    // TODO: Remove Mage_Webapi_Model_Config::getActionTypeByMethod() and use this one
-    public function getActionTypeByOperation($operation)
+    public static function getActionTypeByOperation($operation)
     {
         $actionTypeMap = array(
             Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE => self::ACTION_TYPE_COLLECTION,
@@ -322,7 +321,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
             Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE => self::ACTION_TYPE_COLLECTION,
         );
         if (!isset($actionTypeMap[$operation])) {
-            throw new InvalidArgumentException(sprintf('The "%s" method is not a valid resource method.', $methodName));
+            throw new InvalidArgumentException(sprintf('The "%s" method is not a valid resource method.', $operation));
         }
         return $actionTypeMap[$operation];
     }

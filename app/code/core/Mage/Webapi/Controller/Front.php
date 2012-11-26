@@ -66,8 +66,7 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
     /**
      * Prepare environment, initialize dispatcher.
      *
-     * @return Mage_Core_Controller_Varien_Front
-     * @SuppressWarnings(PHPMD.ExitExpression)
+     * @return Mage_Webapi_Controller_Front
      */
     public function init()
     {

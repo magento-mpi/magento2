@@ -20,7 +20,7 @@ include __DIR__ . '/../../_files/Controller/AutoDiscover/ModuleB.php';
  */
 class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Webapi_Model_Config */
+    /** @var Mage_Webapi_Model_Config_Soap */
     protected $_config;
 
     /** @var Mage_Webapi_Model_Soap_AutoDiscover */
@@ -66,19 +66,17 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $directoryScanner = new \Zend\Code\Scanner\DirectoryScanner($fixtureDir);
         /** @var Mage_Core_Model_Cache $cache */
         $cache = $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock();
+        /** @var Mage_Core_Model_App $app */
+        $app = $this->getMockBuilder('Mage_Core_Model_App')->disableOriginalConstructor()->getMock();
         $appConfig = Mage::app()->getConfig();
         $objectManager = new Magento_Test_ObjectManager();
         $this->_helper = $objectManager->get('Mage_Webapi_Helper_Data');
-        /** @var Magento_Controller_Router_Route_Factory $routeFactory */
-        $routeFactory = $this->getMockBuilder('Magento_Controller_Router_Route_Factory')
-            ->disableOriginalConstructor()
-            ->getMock();
-        /** @var Mage_Webapi_Model_Config_Reader_ClassReflector $classReflector */
-        $classReflector = $objectManager->get('Mage_Webapi_Model_Config_Reader_ClassReflector');
-        $reader = new Mage_Webapi_Model_Config_Reader($cache, $appConfig, $this->_helper, $classReflector);
+        /** @var Mage_Webapi_Model_Config_Reader_Soap_ClassReflector $classReflector */
+        $classReflector = $objectManager->get('Mage_Webapi_Model_Config_Reader_Soap_ClassReflector');
+        $reader = new Mage_Webapi_Model_Config_Reader_Soap($classReflector, $this->_helper, $appConfig, $cache);
         $reader->setDirectoryScanner($directoryScanner);
-        $this->_config = new Mage_Webapi_Model_Config($reader, $this->_helper, $routeFactory);
-        $objectManager->addSharedInstance($this->_config, 'Mage_Webapi_Model_Config');
+        $this->_config = new Mage_Webapi_Model_Config_Soap($reader, $this->_helper, $app);
+        $objectManager->addSharedInstance($this->_config, 'Mage_Webapi_Model_Config_Soap');
         $wsdlFactory = new Mage_Webapi_Model_Soap_Wsdl_Factory($objectManager);
         $this->_autoDiscover = new Mage_Webapi_Model_Soap_AutoDiscover($this->_config, $wsdlFactory, $this->_helper);
 
@@ -92,21 +90,6 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $this->_xpath->registerNamespace(Wsdl::WSDL_NS, Wsdl::WSDL_NS_URI);
 
         parent::setUp();
-    }
-
-    /**
-     * Clean up.
-     */
-    protected function tearDown()
-    {
-        unset($this->_config);
-        unset($this->_autoDiscover);
-        unset($this->_dom);
-        unset($this->_xpath);
-        unset($this->_resourceData);
-        unset($this->_resourceName);
-
-        parent::tearDown();
     }
 
     /**

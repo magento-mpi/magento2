@@ -14,7 +14,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      * API Resource config instance.
      * Used to retrieve complex types data.
      *
-     * @var Mage_Webapi_Model_Config
+     * @var Mage_Webapi_Model_Config_Soap
      */
     protected $_apiConfig;
 
@@ -33,14 +33,14 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     /**
      * Construct auto discover with resource config and list of requested resources.
      *
-     * @param Mage_Webapi_Model_Config $apiConfig
+     * @param Mage_Webapi_Model_Config_Soap $apiConfig
      * @param Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
      * @param Mage_Webapi_Helper_Data $helper
      *
      * @throws InvalidArgumentException
      */
     public function __construct(
-        Mage_Webapi_Model_Config $apiConfig,
+        Mage_Webapi_Model_Config_Soap $apiConfig,
         Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory,
         Mage_Webapi_Helper_Data $helper
     ) {

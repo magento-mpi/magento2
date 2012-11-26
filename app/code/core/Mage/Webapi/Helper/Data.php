@@ -22,7 +22,7 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
      * @param string|object $classOrObject Resource class name
      * @param string $methodName Resource method name
      * @param array $requestData Data to be passed to method
-     * @param Mage_Webapi_Model_Config $apiConfig
+     * @param Mage_Webapi_Model_ConfigAbstract $apiConfig
      * @return array Array of prepared method arguments
      * @throws Mage_Webapi_Exception
      */
@@ -30,7 +30,7 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
         $classOrObject,
         $methodName,
         $requestData,
-        Mage_Webapi_Model_Config $apiConfig
+        Mage_Webapi_Model_ConfigAbstract $apiConfig
     ) {
         $methodReflection = $this->createMethodReflection($classOrObject, $methodName);
         $methodData = $apiConfig->getMethodMetadata($methodReflection);
@@ -63,12 +63,12 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param mixed $data
      * @param string $dataType
-     * @param Mage_Webapi_Model_Config $apiConfig
+     * @param Mage_Webapi_Model_ConfigAbstract $apiConfig
      * @return mixed
      * @throws LogicException If specified $dataType is invalid
      * @throws Mage_Webapi_Exception If required fields do not have values specified in $data
      */
-    protected function _formatParamData($data, $dataType, Mage_Webapi_Model_Config $apiConfig)
+    protected function _formatParamData($data, $dataType, Mage_Webapi_Model_ConfigAbstract $apiConfig)
     {
         if ($this->isTypeSimple($dataType) || is_null($data)) {
             $formattedData = $data;
@@ -85,7 +85,7 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param array $data
      * @param string $dataType
-     * @param Mage_Webapi_Model_Config $apiConfig
+     * @param Mage_Webapi_Model_ConfigAbstract $apiConfig
      * @return array
      * @throws Mage_Webapi_Exception If passed data is not an array
      */
@@ -110,7 +110,7 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param array|object $data
      * @param string $dataType
-     * @param Mage_Webapi_Model_Config $apiConfig
+     * @param Mage_Webapi_Model_ConfigAbstract $apiConfig
      * @return object Object of required data type
      * @throws LogicException If specified $dataType is invalid
      * @throws Mage_Webapi_Exception If required fields does not have values specified in $data
@@ -335,7 +335,7 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getResourceNameParts($className)
     {
-        if (preg_match(Mage_Webapi_Model_Config_Reader::RESOURCE_CLASS_PATTERN, $className, $matches)) {
+        if (preg_match(Mage_Webapi_Model_Config_ReaderAbstract::RESOURCE_CLASS_PATTERN, $className, $matches)) {
             $moduleNamespace = $matches[1];
             $moduleName = $matches[2];
             $moduleNamespace = ($moduleNamespace == 'Mage') ? '' : $moduleNamespace;
@@ -400,33 +400,6 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
     public function getMethodNameRegularExpression()
     {
         return sprintf('/(%s)(V\d+)/', implode('|', $this->getAllowedMethods()));
-    }
-
-    /**
-     * Identify resource type by method name.
-     *
-     * @param string $methodName
-     * @return string 'collection' or 'item'
-     * @throws InvalidArgumentException When method does not match the list of allowed methods
-     */
-    public function getActionTypeByMethod($methodName)
-    {
-        $collection = Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_COLLECTION;
-        $item = Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_ITEM;
-        $actionTypeMap = array(
-            Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE => $collection,
-            Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE => $collection,
-            Mage_Webapi_Controller_ActionAbstract::METHOD_GET => $item,
-            Mage_Webapi_Controller_ActionAbstract::METHOD_LIST => $collection,
-            Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE => $item,
-            Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE => $collection,
-            Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE => $item,
-            Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE => $collection,
-        );
-        if (!isset($actionTypeMap[$methodName])) {
-            throw new InvalidArgumentException(sprintf('The "%s" method is not a valid resource method.', $methodName));
-        }
-        return $actionTypeMap[$methodName];
     }
 
     /**
@@ -544,7 +517,7 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
     public  function isSubresource(ReflectionMethod $methodReflection)
     {
         $className = $methodReflection->getDeclaringClass()->getName();
-        if (preg_match(Mage_Webapi_Model_Config_Reader::RESOURCE_CLASS_PATTERN, $className, $matches)) {
+        if (preg_match(Mage_Webapi_Model_Config_ReaderAbstract::RESOURCE_CLASS_PATTERN, $className, $matches)) {
             return count(explode('_', trim($matches[3], '_'))) > 1;
         }
         throw new InvalidArgumentException(sprintf('"%s" is not a valid resource class.', $className));

@@ -31,7 +31,7 @@ Multiline <b>with html</b>.",
                     )
                 ),
             ),
-            'rest_routes' => array('/:resourceVersion/namespaceAModuleAs'),
+//            'rest_routes' => array('/:resourceVersion/namespaceAModuleAs'),
         ),
         'get' => array(
             'documentation' => 'Get resource v2.',
@@ -60,7 +60,7 @@ Multiline <b>with html</b>.",
                     ),
                 ),
             ),
-            'rest_routes' => array('/:resourceVersion/namespaceAModuleAs/:id/newParameter/:newParameter'),
+//            'rest_routes' => array('/:resourceVersion/namespaceAModuleAs/:id/newParameter/:newParameter'),
         ),
     )
 );

@@ -21,7 +21,7 @@ class Mage_Webapi_Model_Soap_Server
     /** @var \Zend\Soap\Server */
     protected $_zendSoapServer;
 
-    /** @var Mage_Webapi_Model_Config */
+    /** @var Mage_Webapi_Model_Config_Soap */
     protected $_apiConfig;
 
     /** @var Mage_Core_Model_Store */
@@ -38,7 +38,7 @@ class Mage_Webapi_Model_Soap_Server
 
     public function __construct(
         Zend\Soap\Server $zendSoapServer,
-        Mage_Webapi_Model_Config $apiConfig,
+        Mage_Webapi_Model_Config_Soap $apiConfig,
         Mage_Core_Model_App $application,
         Mage_Webapi_Controller_Request_Soap $request,
         Mage_Webapi_Controller_Dispatcher_Soap_Handler $soapHandler,

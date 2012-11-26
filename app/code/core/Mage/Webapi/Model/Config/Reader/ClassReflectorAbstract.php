@@ -4,45 +4,70 @@ use Zend\Server\Reflection,
     Zend\Server\Reflection\ReflectionMethod;
 
 /**
- * Class reflector for config reader.
+ * Abstract class reflector for config reader.
  *
  * @copyright {}
  */
-class Mage_Webapi_Model_Config_Reader_ClassReflector
+abstract class Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract
 {
-    /**
-     * @var Mage_Webapi_Helper_Data
-     */
+    /** @var Mage_Webapi_Model_Config_ReaderAbstract */
+    protected $_reader;
+
+    /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
-    /**
-     * @var Mage_Webapi_Model_Config_Reader_TypeProcessor
-     */
+    /** @var Mage_Webapi_Model_Config_Reader_TypeProcessor */
     protected $_typeProcessor;
 
     /**
-     * @var Mage_Webapi_Model_Config_Reader_RouteGenerator
+     * Construct reflector.
+     *
+     * @param Mage_Webapi_Helper_Data $helper
+     * @param Mage_Webapi_Model_Config_Reader_TypeProcessor $typeProcessor
      */
-    protected $_routeGenerator;
-
-    /**
-     * @var array
-     */
-    protected $_restRoutes = array();
-
     public function __construct(
         Mage_Webapi_Helper_Data $helper,
-        Mage_Webapi_Model_Config_Reader_TypeProcessor $typeProcessor,
-        Mage_Webapi_Model_Config_Reader_RouteGenerator $routeGenerator
+        Mage_Webapi_Model_Config_Reader_TypeProcessor $typeProcessor
     ) {
         $this->_helper = $helper;
         $this->_typeProcessor = $typeProcessor;
-        $this->_routeGenerator = $routeGenerator;
     }
 
+    /**
+     * Perform some action after reflecting all files.
+     */
+    abstract public function afterReflectionAction();
+
+    /**
+     * Set reader object.
+     *
+     * @param Mage_Webapi_Model_Config_ReaderAbstract $reader
+     */
+    public function setReader(Mage_Webapi_Model_Config_ReaderAbstract $reader)
+    {
+        $this->_reader = $reader;
+    }
+
+    /**
+     * Retrieve reader object.
+     *
+     * @return Mage_Webapi_Model_Config_ReaderAbstract
+     */
+    public function getReader()
+    {
+        return $this->_reader;
+    }
+
+    /**
+     * Reflect methods in given class and set retrieved data into reader.
+     *
+     * @param $className
+     */
     public function reflectClassMethods($className)
     {
-        $data = array();
+        $data = array(
+            'controller' => $className,
+        );
         $serverReflection = new Reflection;
         foreach ($serverReflection->reflectClass($className)->getMethods() as $methodReflection) {
             try {
@@ -53,32 +78,17 @@ class Mage_Webapi_Model_Config_Reader_ClassReflector
             }
             $version = $this->getMethodVersion($methodReflection);
             if ($version) {
-                $methodMetaData = $this->_extractMethodData($methodReflection);
-                $data['versions'][$version]['methods'][$method] = $methodMetaData;
-                $restRoutes = $this->_routeGenerator->generateRestRoutes($methodReflection);
-                $data['versions'][$version]['methods'][$method]['rest_routes'] = array_keys($restRoutes);
-                $this->_restRoutes = array_merge($this->_restRoutes, $restRoutes);
+                $data['versions'][$version]['methods'][$method] = $this->extractMethodData($methodReflection);
             }
         }
         // Sort versions array for further fallback.
         ksort($data['versions']);
 
-        return $data;
-    }
-
-    public function getRestRoutes()
-    {
-        return $this->_restRoutes;
-    }
-
-    /**
-     * Get type processor object.
-     *
-     * @return Mage_Webapi_Model_Config_Reader_TypeProcessor
-     */
-    public function getTypeProcessor()
-    {
-        return $this->_typeProcessor;
+        $this->getReader()->setData(array(
+            'resources' => array(
+                $this->_helper->translateResourceName($className) => $data,
+            ),
+        ));
     }
 
     /**
@@ -139,7 +149,7 @@ class Mage_Webapi_Model_Config_Reader_ClassReflector
      * @return array
      * @throws InvalidArgumentException
      */
-    protected function _extractMethodData(ReflectionMethod $method)
+    public function extractMethodData(ReflectionMethod $method)
     {
         $methodData = array('documentation' => $method->getDescription());
         $prototypes = $method->getPrototypes();

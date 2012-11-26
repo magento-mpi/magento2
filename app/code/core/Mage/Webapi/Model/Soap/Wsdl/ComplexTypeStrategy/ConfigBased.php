@@ -22,7 +22,7 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
     const APP_INF_NS = 'inf';
 
     /**
-     * @var Mage_Webapi_Model_Config
+     * @var Mage_Webapi_Model_Config_Soap
      */
     protected $_config;
 
@@ -39,10 +39,10 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
     /**
      * Construct strategy with resource config.
      *
-     * @param Mage_Webapi_Model_Config $config
+     * @param Mage_Webapi_Model_Config_Soap $config
      * @param Mage_Webapi_Helper_Data $helper
      */
-    public function __construct(Mage_Webapi_Model_Config $config, Mage_Webapi_Helper_Data $helper)
+    public function __construct(Mage_Webapi_Model_Config_Soap $config, Mage_Webapi_Helper_Data $helper)
     {
         $this->_config = $config;
         $this->_helper = $helper;
