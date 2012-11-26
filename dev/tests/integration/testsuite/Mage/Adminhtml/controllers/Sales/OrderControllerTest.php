@@ -96,7 +96,7 @@ class Mage_Adminhtml_Sales_OrderControllerTest extends Mage_Adminhtml_Utility_Co
             array(
                 'status' => '',
                 'comment' => '',
-                'response' => '{"error":true,"message":"The Comment Text field cannot be empty."}'
+                'response' => '{"error":true,"message":"Comment text cannot be empty."}'
             ),
         );
     }

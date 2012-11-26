@@ -248,7 +248,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 $response = false;
                 $data = $this->getRequest()->getPost('history');
                 if (empty($data['comment']) && ($data['status'] == $order->getDataByKey('status'))) {
-                    Mage::throwException($this->__('The Comment Text field cannot be empty.'));
+                    Mage::throwException($this->__('Comment text cannot be empty.'));
                 }
 
                 $notify = isset($data['is_customer_notified']) ? $data['is_customer_notified'] : false;
