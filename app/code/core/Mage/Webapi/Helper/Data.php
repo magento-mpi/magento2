@@ -428,4 +428,125 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return $actionTypeMap[$methodName];
     }
+
+    /**
+     * Identify request body param name, if it is expected by method.
+     *
+     * @param ReflectionMethod $methodReflection
+     * @return bool|string Return body param name if body is expected, false otherwise
+     * @throws LogicException
+     */
+    public function getBodyParamName(ReflectionMethod $methodReflection)
+    {
+        $bodyParamName = false;
+        /**#@+
+         * Body param position in case of top level resources.
+         */
+        $bodyPosCreate = 1;
+        $bodyPosMultiCreate = 1;
+        $bodyPosUpdate = 2;
+        $bodyPosMultiUpdate = 1;
+        $bodyPosMultiDelete = 1;
+        /**#@-*/
+        $bodyParamPositions = array(
+            Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE => $bodyPosCreate,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE => $bodyPosMultiCreate,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE => $bodyPosUpdate,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE => $bodyPosMultiUpdate,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE => $bodyPosMultiDelete
+        );
+        $methodName = $this->getMethodNameWithoutVersionSuffix($methodReflection);
+        $isBodyExpected = isset($bodyParamPositions[$methodName]);
+        if ($isBodyExpected) {
+            $bodyParamPosition = $bodyParamPositions[$methodName];
+            if ($this->isSubresource($methodReflection)
+                && $methodName != Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE
+            ) {
+                /** For subresources parent ID param must precede request body param. */
+                $bodyParamPosition++;
+            }
+            $methodInterfaces = $methodReflection->getPrototypes();
+            /** @var \Zend\Server\Reflection\Prototype $methodInterface */
+            $methodInterface = reset($methodInterfaces);
+            $methodParams = $methodInterface->getParameters();
+            if (empty($methodParams) || (count($methodParams) < $bodyParamPosition)) {
+                throw new LogicException(sprintf(
+                    'Method "%s" must have parameter for passing request body. '
+                        . 'Its position must be "%s" in method interface.',
+                    $methodReflection->getName(),
+                    $bodyParamPosition
+                ));
+            }
+            /** @var $bodyParamReflection \Zend\Code\Reflection\ParameterReflection */
+            /** Param position in the array should be counted from 0. */
+            $bodyParamReflection = $methodParams[$bodyParamPosition - 1];
+            $bodyParamName = $bodyParamReflection->getName();
+        }
+        return $bodyParamName;
+    }
+
+    /**
+     * Identify ID param name if it is expected for the specified method.
+     *
+     * @param ReflectionMethod $methodReflection
+     * @return bool|string Return ID param name if it is expected; false otherwise.
+     * @throws LogicException If resource method interface does not contain required ID parameter.
+     */
+    public function getIdParamName(ReflectionMethod $methodReflection)
+    {
+        $idParamName = false;
+        $isIdFieldExpected = false;
+        if (!$this->isSubresource($methodReflection)) {
+            /** Top level resource, not subresource */
+            $methodsWithId = array(
+                Mage_Webapi_Controller_ActionAbstract::METHOD_GET,
+                Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE,
+                Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE,
+            );
+            $methodName = $this->getMethodNameWithoutVersionSuffix($methodReflection);
+            if (in_array($methodName, $methodsWithId)) {
+                $isIdFieldExpected = true;
+            }
+        } else {
+            /**
+             * All subresources must have ID field:
+             * either subresource ID (for item operations) or parent resource ID (for collection operations)
+             */
+            $isIdFieldExpected = true;
+        }
+
+        if ($isIdFieldExpected) {
+            /** ID field must always be the first parameter of resource method */
+            $methodInterfaces = $methodReflection->getPrototypes();
+            /** @var \Zend\Server\Reflection\Prototype $methodInterface */
+            $methodInterface = reset($methodInterfaces);
+            $methodParams = $methodInterface->getParameters();
+            if (empty($methodParams)) {
+                throw new LogicException(sprintf(
+                    'The "%s" method must have at least one parameter: resource ID.',
+                    $methodReflection->getName()
+                ));
+            }
+            /** @var ReflectionParameter $idParam */
+            $idParam = reset($methodParams);
+            $idParamName = $idParam->getName();
+        }
+        return $idParamName;
+    }
+
+    /**
+     * Identify if API resource is top level resource or subresource.
+     *
+     * @param ReflectionMethod $methodReflection
+     * @return bool
+     * @throws InvalidArgumentException In case when class name is not valid API resource class.
+     */
+    public  function isSubresource(ReflectionMethod $methodReflection)
+    {
+        $className = $methodReflection->getDeclaringClass()->getName();
+        if (preg_match(Mage_Webapi_Model_Config_Reader::RESOURCE_CLASS_PATTERN, $className, $matches)) {
+            return count(explode('_', trim($matches[3], '_'))) > 1;
+        }
+        throw new InvalidArgumentException(sprintf('"%s" is not a valid resource class.', $className));
+    }
 }

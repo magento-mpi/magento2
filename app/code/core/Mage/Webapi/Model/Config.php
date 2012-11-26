@@ -335,8 +335,7 @@ class Mage_Webapi_Model_Config
      */
     public function getBodyParamName(ReflectionMethod $methodReflection)
     {
-        // TODO: move to helper
-        return $this->_reader->getBodyParamName($methodReflection);
+        return $this->_helper->getBodyParamName($methodReflection);
     }
 
     /**
@@ -347,8 +346,7 @@ class Mage_Webapi_Model_Config
      */
     public function getIdParamName(ReflectionMethod $methodReflection)
     {
-        // TODO: move to helper
-        return $this->_reader->getIdParamName($methodReflection);
+        return $this->_helper->getIdParamName($methodReflection);
     }
 
     /**
