@@ -23,8 +23,7 @@ class Mage_Webapi_Model_Config_Reader_Rest_ClassReflector
         Mage_Webapi_Helper_Data $helper,
         Mage_Webapi_Model_Config_Reader_TypeProcessor $typeProcessor,
         Mage_Webapi_Model_Config_Reader_Rest_RouteGenerator $routeGenerator
-    )
-    {
+    ) {
         parent::__construct($helper, $typeProcessor);
         $this->_routeGenerator = $routeGenerator;
     }

@@ -13,7 +13,7 @@
             echo $this->__('Roles Resources') ?></h4>
     </div>
     <input type="hidden" name="resource" id="role_resources" value="">
-    <fieldset id="role_resources">
+    <fieldset>
 
         <span class="field-row">
             <label for="all"><?php echo $this->__('Resource Access') ?></label>
@@ -62,7 +62,8 @@ Ext.EventManager.onDocumentReady(function() {
     });
 
     tree.setRootNode(root);
-    buildResourcesTree(root, <?php echo $this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getResourcesTree()) ?>);
+    buildResourcesTree(root, <?php echo $this->helper('Mage_Core_Helper_Data')
+        ->jsonEncode($this->getResourcesTree()) ?>);
     tree.addListener('click', resourceClick.createDelegate(this));
 
     // render the tree

@@ -193,8 +193,6 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
     }
 
     /**
-
-    /**
      * Generate annotation data for WSDL.
      * Convert all {key:value} from documentation into appinfo nodes.
      * Override default callInfo values if defined in parameter documentation.
