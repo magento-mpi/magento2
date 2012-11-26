@@ -467,7 +467,6 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * Delete data specific for Downloadable product type
      *
      * @param Mage_Catalog_Model_Product $product
-     * @return Mage_Downloadable_Model_Product_Type
      */
     public function deleteTypeSpecificData(Mage_Catalog_Model_Product $product)
     {
