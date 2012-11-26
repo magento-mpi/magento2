@@ -356,8 +356,6 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
         return $options;
     }
 
-
-
     /**
      * Setting flag if dowenloadable product can be or not in complex product
      * based on link can be purchased separately or not
@@ -476,15 +474,19 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
         if ($product->getOrigData('type_id') === Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
             $downloadableData = $product->getDownloadableData();
             $sampleItems = array();
-            $linkItems = array();
-            foreach ($downloadableData['sample'] as $sample) {
-                $sampleItems[] = $sample['sample_id'];
+            if (isset($downloadableData['sample'])) {
+                foreach ($downloadableData['sample'] as $sample) {
+                    $sampleItems[] = $sample['sample_id'];
+                }
             }
             if ($sampleItems) {
                 Mage::getResourceModel('Mage_Downloadable_Model_Resource_Sample')->deleteItems($sampleItems);
             }
-            foreach ($downloadableData['link'] as $link) {
-                $linkItems[] = $link['link_id'];
+            $linkItems = array();
+            if (isset($downloadableData['link'])) {
+                foreach ($downloadableData['link'] as $link) {
+                    $linkItems[] = $link['link_id'];
+                }
             }
             if ($linkItems) {
                 Mage::getResourceModel('Mage_Downloadable_Model_Resource_Link')->deleteItems($linkItems);
