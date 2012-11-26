@@ -89,11 +89,11 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_XmlTest extends PHPUnit_Fr
         );
         /** Add new message to error dispatcher. */
         $secondErrorMessage = "Strings should be wrapped in double quotes.";
-        $resultExpectedErrorMessages = $firstErrorMessage . $secondErrorMessage;
+        $expectedMessages = $firstErrorMessage . $secondErrorMessage;
         $this->_xmlInterpreter->handleErrors(null, $secondErrorMessage, null, null);
         /** Assert that both error messages were added to error dispatcher. */
         $this->assertAttributeEquals(
-            $resultExpectedErrorMessages,
+            $expectedMessages,
             '_errorMessage',
             $this->_xmlInterpreter,
             'Error messages were not set to error dispatcher.'

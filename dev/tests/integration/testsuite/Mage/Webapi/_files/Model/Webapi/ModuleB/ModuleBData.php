@@ -40,5 +40,5 @@ class Vendor_ModuleB_Model_Webapi_ModuleBData
      * @optional
      * @var Vendor_ModuleB_Model_Webapi_ModuleB_SubresourceData[]
      */
-    public $optionalComplexTypeArray;
+    public $complexTypeArray;
 }

@@ -7,7 +7,7 @@
 class Mage_Webapi_Model_AuthorizationTest extends PHPUnit_Framework_TestCase
 {
     /** @var PHPUnit_Framework_MockObject_MockObject */
-    protected $_coreAuthorizationMock;
+    protected $_coreAuthorization;
 
     /** @var Mage_Webapi_Helper_Data */
     protected $_helperMock;
@@ -18,7 +18,7 @@ class Mage_Webapi_Model_AuthorizationTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         /** Prepare mocks for SUT constructor. */
-        $this->_coreAuthorizationMock = $this->getMockBuilder('Mage_Core_Model_Authorization')
+        $this->_coreAuthorization = $this->getMockBuilder('Mage_Core_Model_Authorization')
             ->setMethods(array('isAllowed'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -26,14 +26,14 @@ class Mage_Webapi_Model_AuthorizationTest extends PHPUnit_Framework_TestCase
         /** Initialize SUT. */
         $this->_webapiAuthorization = new Mage_Webapi_Model_Authorization(
             $this->_helperMock,
-            $this->_coreAuthorizationMock
+            $this->_coreAuthorization
         );
         parent::setUp();
     }
 
     protected function tearDown()
     {
-        unset($this->_coreAuthorizationMock);
+        unset($this->_coreAuthorization);
         unset($this->_helperMock);
         unset($this->_webapiAuthorization);
         parent::tearDown();
@@ -41,7 +41,7 @@ class Mage_Webapi_Model_AuthorizationTest extends PHPUnit_Framework_TestCase
 
     public function testCheckResourceAclMageWebapiException()
     {
-        $this->_coreAuthorizationMock->expects($this->exactly(2))->method('isAllowed')->will($this->returnValue(false));
+        $this->_coreAuthorization->expects($this->exactly(2))->method('isAllowed')->will($this->returnValue(false));
         $this->_helperMock->expects($this->once())->method('__')->will($this->returnArgument(0));
         $this->setExpectedException('Mage_Webapi_Exception', 'Access to resource is forbidden.');
         $this->_webapiAuthorization->checkResourceAcl('invalidResource', 'invalidMethod');
@@ -49,7 +49,7 @@ class Mage_Webapi_Model_AuthorizationTest extends PHPUnit_Framework_TestCase
 
     public function testCheckResourceAcl()
     {
-        $this->_coreAuthorizationMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
+        $this->_coreAuthorization->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
         $this->_webapiAuthorization->checkResourceAcl('validResource', 'validMethod');
     }
 }

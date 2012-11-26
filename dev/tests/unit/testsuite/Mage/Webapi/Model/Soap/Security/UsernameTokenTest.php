@@ -92,8 +92,14 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
             ->with()
             ->will($this->returnValue($password));
 
-        $usernameToken = new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_nonceStorageMock, $this->_userFactoryMock);
-        $this->assertEquals($this->_userMock, $usernameToken->authenticate($username, $tokenPassword, $validDateTime, $tokenNonce));
+        $usernameToken = new Mage_Webapi_Model_Soap_Security_UsernameToken(
+            $this->_nonceStorageMock,
+            $this->_userFactoryMock
+        );
+        $this->assertEquals(
+            $this->_userMock,
+            $usernameToken->authenticate($username, $tokenPassword, $validDateTime, $tokenNonce)
+        );
     }
 
     /**
@@ -124,7 +130,10 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
         $password = 'test_password';
         $nonce = mt_rand();
 
-        $usernameToken = new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_nonceStorageMock, $this->_userFactoryMock);
+        $usernameToken = new Mage_Webapi_Model_Soap_Security_UsernameToken(
+            $this->_nonceStorageMock,
+            $this->_userFactoryMock
+        );
         $usernameToken->authenticate($username, $password, $invalidDateTime, $nonce);
     }
 
@@ -149,7 +158,11 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
      */
     public function testConstructNewUsernameTokenWithInvalidPasswordType()
     {
-        new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_nonceStorageMock, $this->_userFactoryMock, 'INVALID_TYPE');
+        new Mage_Webapi_Model_Soap_Security_UsernameToken(
+            $this->_nonceStorageMock,
+            $this->_userFactoryMock,
+            'INVALID_TYPE'
+        );
     }
 
     /**
@@ -182,7 +195,10 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
             ->with()
             ->will($this->returnValue(false));
 
-        $usernameToken = new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_nonceStorageMock, $this->_userFactoryMock);
+        $usernameToken = new Mage_Webapi_Model_Soap_Security_UsernameToken(
+            $this->_nonceStorageMock,
+            $this->_userFactoryMock
+        );
         $usernameToken->authenticate($username, $tokenPassword, $created, $tokenNonce);
     }
 
@@ -221,7 +237,10 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
             ->with()
             ->will($this->returnValue($invalidPassword));
 
-        $usernameToken = new Mage_Webapi_Model_Soap_Security_UsernameToken($this->_nonceStorageMock, $this->_userFactoryMock);
+        $usernameToken = new Mage_Webapi_Model_Soap_Security_UsernameToken(
+            $this->_nonceStorageMock,
+            $this->_userFactoryMock
+        );
         $usernameToken->authenticate($username, $tokenPassword, $created, $tokenNonce);
     }
 }

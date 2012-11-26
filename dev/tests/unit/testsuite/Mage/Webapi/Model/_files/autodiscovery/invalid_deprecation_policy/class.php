@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * Tests fixture for Auto Discovery functionality.
+ *
+ * @copyright {}
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ */
 class Invalid_Deprecation_Controller_Webapi_Policy
 {
     /**

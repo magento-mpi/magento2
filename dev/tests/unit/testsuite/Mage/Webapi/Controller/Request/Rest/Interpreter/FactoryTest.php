@@ -10,7 +10,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHPUni
     protected $_objectManagerMock;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
-    protected $_applicationConfigMock;
+    protected $_applicationConfig;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_helperMock;
@@ -33,14 +33,14 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHPUni
             ->disableOriginalConstructor()
             ->setMethods(array('get'))
             ->getMockForAbstractClass();
-        $this->_applicationConfigMock = $this->getMockBuilder('Mage_Core_Model_Config')
+        $this->_applicationConfig = $this->getMockBuilder('Mage_Core_Model_Config')
             ->setMethods(array('getNode'))
             ->disableOriginalConstructor()
             ->getMock();
         /** Initialize SUT. */
         $this->_interpreterFactory = new Mage_Webapi_Controller_Request_Rest_Interpreter_Factory(
             $this->_objectManagerMock,
-            $this->_applicationConfigMock,
+            $this->_applicationConfig,
             $this->_helperFactoryMock
         );
         parent::setUp();
@@ -49,7 +49,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHPUni
     protected function tearDown()
     {
         unset($this->_objectManagerMock);
-        unset($this->_applicationConfigMock);
+        unset($this->_applicationConfig);
         unset($this->_helperMock);
         unset($this->_helperFactoryMock);
         unset($this->_interpreterFactory);
@@ -59,7 +59,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHPUni
     public function testGetLogicExceptionEmptyRequestAdapter()
     {
         $this->setExpectedException('LogicException', 'Request interpreter adapter is not set.');
-        $this->_applicationConfigMock->expects($this->once())->method('getNode')->will($this->returnValue(null));
+        $this->_applicationConfig->expects($this->once())->method('getNode')->will($this->returnValue(null));
         $this->_interpreterFactory->get('contentType');
     }
 
@@ -67,17 +67,17 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHPUni
     {
         /** Prepare mocks for SUT constructor. */
         $expectedMetadata = new SimpleXMLElement('<text_xml><type>text/xml</type><model>Xml</model></text_xml>');
-        $this->_applicationConfigMock
+        $this->_applicationConfig
             ->expects($this->once())
             ->method('getNode')
             ->will($this->returnValue(array($expectedMetadata)));
-        $validInterpreterClassMock = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest_Interpreter_Xml')
+        $validInterpreterMock = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest_Interpreter_Xml')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_objectManagerMock
             ->expects($this->once())
             ->method('get')
-            ->will($this->returnValue($validInterpreterClassMock));
+            ->will($this->returnValue($validInterpreterMock));
         /** Initialize SUT. */
         $this->_interpreterFactory->get('text/xml');
     }
@@ -86,7 +86,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHPUni
     {
         /** Prepare mocks for SUT constructor. */
         $expectedMetadata = new SimpleXMLElement('<text_xml><type>text/xml</type><model>Xml</model></text_xml>');
-        $this->_applicationConfigMock
+        $this->_applicationConfig
             ->expects($this->once())
             ->method('getNode')
             ->will($this->returnValue(array($expectedMetadata)));
@@ -107,17 +107,17 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHPUni
     {
         /** Prepare mocks for SUT constructor. */
         $expectedMetadata = new SimpleXMLElement('<text_xml><type>text/xml</type><model>Xml</model></text_xml>');
-        $this->_applicationConfigMock
+        $this->_applicationConfig
             ->expects($this->once())
             ->method('getNode')
             ->will($this->returnValue(array($expectedMetadata)));
-        $invalidInterpreterClassMock = $this->getMockBuilder('Mage_Webapi_Controller_Response_Rest_Renderer_Json')
+        $invalidInterpreter = $this->getMockBuilder('Mage_Webapi_Controller_Response_Rest_Renderer_Json')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_objectManagerMock
             ->expects($this->once())
             ->method('get')
-            ->will($this->returnValue($invalidInterpreterClassMock));
+            ->will($this->returnValue($invalidInterpreter));
         $this->setExpectedException(
             'LogicException',
             'The interpreter must implement "Mage_Webapi_Controller_Request_Rest_InterpreterInterface".'

@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * Tests fixture for Auto Discovery functionality.
+ *
+ * @copyright {}
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ */
 class Invalid_Resource_Name
 {
     /**

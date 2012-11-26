@@ -51,7 +51,8 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBasedTest extends PH
     }
 
     /**
-     * Test that addComplexType returns type wsdl name if it has already been processed (registered at includedTypes in WSDL)
+     * Test that addComplexType returns type wsdl name
+     * if it has already been processed (registered at includedTypes in WSDL)
      */
     public function testCheckTypeName()
     {

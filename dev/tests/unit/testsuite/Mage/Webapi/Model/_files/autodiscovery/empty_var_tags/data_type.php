@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Tests fixture for Auto Discovery functionality.
+ *
+ * @copyright {}
+ */
 class Vendor_Module_Model_Webapi_Property_Without_Var
 {
     /**

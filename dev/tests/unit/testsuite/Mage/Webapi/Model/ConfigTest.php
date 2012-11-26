@@ -49,8 +49,8 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     protected function _getModel()
     {
         if (!self::$_apiConfig) {
-            $pathToResourceFixtures = __DIR__ . '/../_files/autodiscovery';
-            self::$_apiConfig = $this->_createResourceConfig($pathToResourceFixtures);
+            $pathToFixtures = __DIR__ . '/../_files/autodiscovery';
+            self::$_apiConfig = $this->_createResourceConfig($pathToFixtures);
         }
         return self::$_apiConfig;
     }
@@ -211,9 +211,9 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
 
     public function testGetControllerClassByOperationNamePositive()
     {
-        $actualControllerClass = $this->_getModel()->getControllerClassByOperationName('vendorModuleResourceList');
+        $actualClass = $this->_getModel()->getControllerClassByOperationName('vendorModuleResourceList');
         $message = 'Controller class was identified incorrectly by given operation.';
-        $this->assertEquals('Vendor_Module_Controller_Webapi_Resource', $actualControllerClass, $message);
+        $this->assertEquals('Vendor_Module_Controller_Webapi_Resource', $actualClass, $message);
     }
 
     /**
@@ -294,32 +294,29 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     {
         $versionParam = Mage_Webapi_Controller_Router_Route_Rest::PARAM_VERSION;
         $className = "Vendor_Module_Controller_Webapi_Resource";
+        $createPath = "/:$versionParam/vendorModuleResources/requiredField/:requiredField";
         return array(
             array(
                 $className,
                 "createV1",
                 array(
-                    "/:$versionParam/vendorModuleResources/requiredField/:requiredField" => array(
+                    $createPath => array(
                         "actionType" => "collection",
                         "resourceName" => "vendorModuleResource"
                     ),
-                    "/:$versionParam/vendorModuleResources/requiredField/:requiredField/optionalField/"
-                        . ":optionalField" => array(
+                    $createPath . "/optionalField/:optionalField" => array(
                         "actionType" => "collection",
                         "resourceName" => "vendorModuleResource"
                     ),
-                    "/:$versionParam/vendorModuleResources/requiredField/:requiredField/secondOptional/"
-                        . ":secondOptional" => array(
+                    $createPath . "/secondOptional/:secondOptional" => array(
                         "actionType" => "collection",
                         "resourceName" => "vendorModuleResource"
                     ),
-                    "/:$versionParam/vendorModuleResources/requiredField/:requiredField/optionalField/"
-                        . ":optionalField/secondOptional/:secondOptional" => array(
+                    $createPath . "/optionalField/:optionalField/secondOptional/:secondOptional" => array(
                         "actionType" => "collection",
                         "resourceName" => "vendorModuleResource"
                     ),
-                    "/:$versionParam/vendorModuleResources/requiredField/:requiredField/secondOptional/"
-                        . ":secondOptional/optionalField/:optionalField" => array(
+                    $createPath . "/secondOptional/:secondOptional/optionalField/:optionalField" => array(
                         "actionType" => "collection",
                         "resourceName" => "vendorModuleResource"
                     )
@@ -438,6 +435,7 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
      *
      * @param array $expectedRoutes
      * @param array $actualRoutes
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function assertRoutesEqual($expectedRoutes, $actualRoutes)
     {
@@ -447,7 +445,7 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
             "Mage_Webapi_Model_Config::generateRestRoutes() must return value of 'array' type."
         );
 
-        foreach ($expectedRoutes as $expectedRoute => $expectedRouteMetadata) {
+        foreach ($expectedRoutes as $expectedRoute => $expectedMetadata) {
             $this->assertArrayHasKey(
                 $expectedRoute,
                 $actualRoutes,
@@ -590,13 +588,13 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider dataProviderForTestGetResourceNameParts
-     * @param $className
-     * @param $expectedResourceParts
+     * @param string $className
+     * @param array $resourceParts Expected resource parts
      */
-    public function testGetResourceNameParts($className, $expectedResourceParts)
+    public function testGetResourceNameParts($className, $resourceParts)
     {
         $this->assertEquals(
-            $expectedResourceParts,
+            $resourceParts,
             $this->_getModel()->getResourceNameParts($className),
             "Resource parts for rest route were identified incorrectly."
         );
@@ -949,10 +947,10 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     /**
      * Create resource config initialized with classes found in the specified directory.
      *
-     * @param string $pathToDirectoryWithResources
+     * @param string $dirWithResources
      * @return Mage_Webapi_Model_ConfigAbstract
      */
-    protected function _createResourceConfig($pathToDirectoryWithResources)
+    protected function _createResourceConfig($dirWithResources)
     {
         /** Prepare arguments for SUT constructor. */
         $objectManager = new Magento_ObjectManager_Zend();
@@ -974,7 +972,7 @@ class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
             $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock(),
             $routeFactory
         );
-        $apiConfig->setDirectoryScanner(new Zend\Code\Scanner\DirectoryScanner($pathToDirectoryWithResources));
+        $apiConfig->setDirectoryScanner(new Zend\Code\Scanner\DirectoryScanner($dirWithResources));
         $apiConfig->init();
         return $apiConfig;
     }

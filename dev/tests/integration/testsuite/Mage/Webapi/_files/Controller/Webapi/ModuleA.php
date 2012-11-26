@@ -3,6 +3,7 @@
  * API Resource action controller fixture.
  *
  * @copyright {}
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
 class NamespaceA_ModuleA_Controller_Webapi_ModuleA extends Mage_Webapi_Controller_ActionAbstract
 {

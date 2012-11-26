@@ -43,8 +43,8 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
     protected function _getModel()
     {
         if (!self::$_apiConfig) {
-            $pathToResourceFixtures = __DIR__ . '/../../_files/autodiscovery';
-            self::$_apiConfig = $this->_createResourceConfig($pathToResourceFixtures);
+            $pathToFixtures = __DIR__ . '/../../_files/autodiscovery';
+            self::$_apiConfig = $this->_createResourceConfig($pathToFixtures);
         }
         return self::$_apiConfig;
     }
@@ -83,15 +83,15 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
         $customerDataObject->address->street = "streetName";
 
         /** Test passing of complex type parameter with optional field not set */
-        $customerDataWithoutOptionalFieldsInput = array(
+        $optionalNotSetInput = array(
             'email' => "test_email@example.com",
             'firstname' => 'firstName'
         );
-        $customerDataWithoutOptionalFieldsOutput = new Vendor_Module_Model_Webapi_CustomerData();
-        $customerDataWithoutOptionalFieldsOutput->email = "test_email@example.com";
-        $customerDataWithoutOptionalFieldsOutput->firstname = "firstName";
-        $customerDataWithoutOptionalFieldsOutput->lastname = "DefaultLastName";
-        $customerDataWithoutOptionalFieldsOutput->password = "123123q";
+        $optionalNotSetOutput = new Vendor_Module_Model_Webapi_CustomerData();
+        $optionalNotSetOutput->email = "test_email@example.com";
+        $optionalNotSetOutput->firstname = "firstName";
+        $optionalNotSetOutput->lastname = "DefaultLastName";
+        $optionalNotSetOutput->password = "123123q";
 
         return array(
             // Test valid data that does not need transformations
@@ -140,8 +140,8 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
             array(
                 new Vendor_Module_Controller_Webapi_Resource_Subresource(),
                 'updateV1',
-                array('param1' => 1, 'param2' => $customerDataWithoutOptionalFieldsInput),
-                array('param1' => 1, 'param2' => $customerDataWithoutOptionalFieldsOutput),
+                array('param1' => 1, 'param2' => $optionalNotSetInput),
+                array('param1' => 1, 'param2' => $optionalNotSetOutput),
             ),
         );
     }
@@ -206,7 +206,8 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public static function dataProviderForTestPrepareMethodParamsNegative()
     {
-        $customerDataWithoutRequiredField = array(
+        /** Customer data without required field */
+        $withoutRequired = array(
             'email' => "test_email@example.com"
         );
         return array(
@@ -222,7 +223,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
             array(
                 new Vendor_Module_Controller_Webapi_Resource_Subresource(),
                 'updateV1',
-                array('param1' => 1, 'param2' => $customerDataWithoutRequiredField),
+                array('param1' => 1, 'param2' => $withoutRequired),
                 'Mage_Webapi_Exception',
                 'Value of "%s" attribute is required.'
             ),
@@ -262,7 +263,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
     protected function _createResourceConfig()
     {
         /** Prepare arguments for SUT constructor. */
-        $directoryWithFixturesForConfig = __DIR__ . '/../_files/autodiscovery';
+        $pathToFixtures = __DIR__ . '/../_files/autodiscovery';
         $objectManager = new Magento_ObjectManager_Zend();
         $appConfig = new Mage_Core_Model_Config($objectManager);
         $appConfig->setOptions(array('base_dir' => realpath(__DIR__ . "../../../../../../../../")));
@@ -280,7 +281,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
             $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock(),
             $routeFactory
         );
-        $apiConfig->setDirectoryScanner(new Zend\Code\Scanner\DirectoryScanner($directoryWithFixturesForConfig));
+        $apiConfig->setDirectoryScanner(new Zend\Code\Scanner\DirectoryScanner($pathToFixtures));
         $apiConfig->init();
         return $apiConfig;
     }

@@ -39,7 +39,7 @@ return array(
             'vendorModuleBGet' => array('returned' => 'Conditionally'),
         ),
     ),
-    'optionalComplexTypeArray' => array(
+    'complexTypeArray' => array(
         'tagStatus' => 'some status',
         'natureOfType' => 'array',
         'callInfo' => array(

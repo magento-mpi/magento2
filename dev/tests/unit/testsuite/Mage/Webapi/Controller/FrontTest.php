@@ -13,7 +13,7 @@ class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
     protected $_routeFactoryMock;
 
     /** @var Mage_Webapi_Controller_Dispatcher_Factory. */
-    protected $_dispatcherFactoryMock;
+    protected $_dispatcherFactory;
 
     /** @var Mage_Webapi_Controller_Dispatcher_ErrorProcessor. */
     protected $_errorProcessorMock;
@@ -26,7 +26,7 @@ class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
         $helperFactory = $this->getMock('Mage_Core_Model_Factory_Helper');
         $helperFactory->expects($this->any())->method('get')->will($this->returnValue($helper));
 
-        $this->_dispatcherFactoryMock = $this->getMockBuilder('Mage_Webapi_Controller_Dispatcher_Factory')
+        $this->_dispatcherFactory = $this->getMockBuilder('Mage_Webapi_Controller_Dispatcher_Factory')
             ->disableOriginalConstructor()->getMock();
         $application = $this->getMockBuilder('Mage_Core_Model_App')->disableOriginalConstructor()->getMock();
         $this->_routeFactoryMock = $this->getMockBuilder('Magento_Controller_Router_Route_Factory')
@@ -37,7 +37,7 @@ class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
         /** Initialize SUT. */
         $this->_frontControllerMock = new Mage_Webapi_Controller_Front(
             $helperFactory,
-            $this->_dispatcherFactoryMock,
+            $this->_dispatcherFactory,
             $application,
             $this->_routeFactoryMock,
             $this->_errorProcessorMock
@@ -49,7 +49,7 @@ class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
     {
         unset($this->_frontControllerMock);
         unset($this->_errorProcessorMock);
-        unset($this->_dispatcherFactoryMock);
+        unset($this->_dispatcherFactory);
         unset($this->_routeFactoryMock);
         parent::tearDown();
     }
@@ -77,7 +77,7 @@ class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
             ->getMock();
         /** Assert init method in mocked object will be executed only once. */
         $restDispatcherMock->expects($this->once())->method('init');
-        $this->_dispatcherFactoryMock->expects($this->any())->method('get')
+        $this->_dispatcherFactory->expects($this->any())->method('get')
             ->will($this->returnValue($restDispatcherMock));
         $this->_frontControllerMock->init();
     }
@@ -103,7 +103,7 @@ class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
             ->getMock();
         /** Assert handle method in mocked object will be executed only once. */
         $restDispatcherMock->expects($this->once())->method('dispatch');
-        $this->_dispatcherFactoryMock->expects($this->any())->method('get')
+        $this->_dispatcherFactory->expects($this->any())->method('get')
             ->will($this->returnValue($restDispatcherMock));
         $this->_frontControllerMock->dispatch();
     }

@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * Tests fixture for Auto Discovery functionality.
+ *
+ * @copyright {}
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ */
 class Vendor_Module_Controller_Webapi_Empty_Var_Tag
 {
     /**

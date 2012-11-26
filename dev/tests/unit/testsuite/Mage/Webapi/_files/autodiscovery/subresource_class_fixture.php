@@ -5,6 +5,7 @@
  * Fake resource controller.
  *
  * @copyright {}
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
 class Vendor_Module_Controller_Webapi_Resource_Subresource
 {
