@@ -22,17 +22,21 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBasedTest extends PH
      */
     protected function setUp()
     {
-        $this->markTestSkipped('Skipped until MAGETWO-5507 implemented.');
-        $this->_resourceConfig = $this->getMockBuilder('Mage_Webapi_Model_Config')
-            ->setMethods(array('getDataType'))
+        $this->_resourceConfig = $this->getMockBuilder('Mage_Webapi_Model_Config_Soap')
+            ->setMethods(array('getTypeData'))
             ->disableOriginalConstructor()
             ->getMock();
         $this->_wsdl = $this->getMockBuilder('Mage_Webapi_Model_Soap_Wsdl')
             ->setMethods(array('toDomDocument', 'getTypes', 'getSchema'))
             ->disableOriginalConstructor()
             ->getMock();
+        $helper = $this->getMock('Mage_Webapi_Helper_Data', array('__'));
+        $helper->expects($this->any())->method('__')->will($this->returnArgument(0));
 
-        $this->_strategy = new Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased($this->_resourceConfig);
+        $this->_strategy = new Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased(
+            $this->_resourceConfig,
+            $helper
+        );
         $this->_strategy->setContext($this->_wsdl);
 
         parent::setUp();
@@ -56,7 +60,6 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBasedTest extends PH
      */
     public function testCheckTypeName()
     {
-        $this->markTestSkipped('Skipped until MAGETWO-5507 implemented.');
         $testType = 'testComplexTypeName';
         $testTypeWsdlName = 'tns:' . $testType;
         $includedTypes = array(
@@ -78,7 +81,6 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBasedTest extends PH
      */
     public function testAddComplexTypeSimpleParameters($type, $data)
     {
-        $this->markTestSkipped('Skipped until MAGETWO-5507 implemented.');
         $this->_wsdl->expects($this->any())
             ->method('getTypes')
             ->will($this->returnValue(array()));
@@ -95,7 +97,7 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBasedTest extends PH
             ->will($this->returnValue($schemaMock));
 
         $this->_resourceConfig->expects($this->at(0))
-            ->method('getDataType')
+            ->method('getTypeData')
             ->with($type)
             ->will($this->returnValue($data));
 
@@ -206,7 +208,6 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBasedTest extends PH
      */
     public function testAddComplexTypeComplexParameters()
     {
-        $this->markTestSkipped('Skipped until MAGETWO-5507 implemented.');
         $type = 'VendorModuleADataStructure';
         $parameterType = 'ComplexType';
         $typeData = array(
@@ -247,11 +248,11 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBasedTest extends PH
             ->method('getSchema')
             ->will($this->returnValue($schemaMock));
         $this->_resourceConfig->expects($this->at(0))
-            ->method('getDataType')
+            ->method('getTypeData')
             ->with($type)
             ->will($this->returnValue($typeData));
         $this->_resourceConfig->expects($this->at(1))
-            ->method('getDataType')
+            ->method('getTypeData')
             ->with($parameterType)
             ->will($this->returnValue($parameterData));
 

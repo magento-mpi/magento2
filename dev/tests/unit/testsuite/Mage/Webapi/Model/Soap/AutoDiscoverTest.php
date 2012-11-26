@@ -15,10 +15,9 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
      */
     public function testGenerate($resourceName, $methodName, $interface)
     {
-        $this->markTestSkipped('Skipped until MAGETWO-5507 implemented.');
         /** Prepare arguments for SUT constructor. */
-        $resourceConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config')
-            ->setMethods(array('getDataType'))
+        $resourceConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config_Soap')
+            ->setMethods(array('getTypeData'))
             ->disableOriginalConstructor()
             ->getMock();
         $wsdlMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_Wsdl')
@@ -28,11 +27,12 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
                 'addSoapOperation', 'toXML'))
             ->getMock();
         $wsdlFactory = $this->getMock('Mage_Webapi_Model_Soap_Wsdl_Factory',
-            array('createWsdl'), array(new Magento_ObjectManager_Zend()));
-        $wsdlFactory->expects($this->any())->method('createWsdl')->will($this->returnValue($wsdlMock));
-
+            array('create'), array(new Magento_ObjectManager_Zend()));
+        $wsdlFactory->expects($this->any())->method('create')->will($this->returnValue($wsdlMock));
+        $helper = $this->getMock('Mage_Webapi_Helper_Data', array('__'));
+        $helper->expects($this->any())->method('__')->will($this->returnArgument(0));
         /** Initialize SUT. */
-        $autoDiscover = new Mage_Webapi_Model_Soap_AutoDiscover($resourceConfigMock, $wsdlFactory);
+        $autoDiscover = new Mage_Webapi_Model_Soap_AutoDiscover($resourceConfigMock, $wsdlFactory, $helper);
 
         $serviceDomMock = $this->_getDomElementMock();
         $wsdlMock->expects($this->once())

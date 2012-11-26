@@ -65,24 +65,6 @@ class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test Init Front Controller method.
-     */
-    public function testInit()
-    {
-        $this->markTestSkipped('Skipped until MAGETWO-5507 implemented.');
-        /** Prepare test data. */
-        $this->_createMockForApiRouteAndFactory(array('api_type' => Mage_Webapi_Controller_Front::API_TYPE_REST));
-        $restDispatcherMock = $this->getMockBuilder('Mage_Webapi_Controller_Dispatcher_Rest')
-            ->disableOriginalConstructor()
-            ->getMock();
-        /** Assert init method in mocked object will be executed only once. */
-        $restDispatcherMock->expects($this->once())->method('init');
-        $this->_dispatcherFactory->expects($this->any())->method('get')
-            ->will($this->returnValue($restDispatcherMock));
-        $this->_frontControllerMock->init();
-    }
-
-    /**
      * Exception throwing logic for testInitWithException method.
      *
      * @throws Mage_Webapi_Exception

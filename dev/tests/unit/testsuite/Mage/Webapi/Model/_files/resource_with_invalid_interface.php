@@ -28,9 +28,9 @@ class Vendor_Module_Controller_Webapi_Invalid_Interface
     }
 
     /**
-     * @param int $id
+     * @param int $resourceId
      */
-    public function invalidMethodNameV2($id)
+    public function invalidMethodNameV2($resourceId)
     {
         // Body is intentionally left empty
     }
