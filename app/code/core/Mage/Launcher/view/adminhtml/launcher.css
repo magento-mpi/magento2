@@ -442,7 +442,7 @@
 
 .btn-close:after {
     font-family: 'MUI-Icons';
-    content: "\e07d";
+    content: "X";
     cursor: hand;
     display: block;
     vertical-align: baseline;
@@ -1053,3 +1053,9 @@
 
 .drawer-content > header .header-inner,
 .clearfix { *zoom: 1; }
+
+
+.hidden {
+    display: none !important;
+    visibility: hidden;
+}

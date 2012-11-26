@@ -16,7 +16,8 @@ class Mage_Launcher_Block_LandingPageTest extends PHPUnit_Framework_TestCase
 {
     public function testGetTiles()
     {
-        $block = Mage::getObjectManager()->create('Mage_Launcher_Block_LandingPage');
+        $page = Mage::getModel('Mage_Launcher_Model_Page')->loadByCode('store_launcher');
+        $block = Mage::getObjectManager()->create('Mage_Launcher_Block_LandingPage', array('page'=>$page));
         $tiles = $block->getTiles();
 
         $this->assertNotEmpty($tiles);

@@ -1,0 +1,49 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<div class="page-title">
+    <h1 class="title">Store Launcher </h1>
+    <button class="button button-special btn-launch-store hidden">Launch My Store</button>
+</div>
+
+
+<section id="store-launcher" class="store-launcher store-launcher-alternative">
+
+<?php foreach($this->getTiles() as $tile):?>
+    <?php echo $tile->toHtml() ?>
+<?php endforeach;?>
+
+</section>
+
+
+<div id="drawer" class="drawer">
+    <section class="drawer-content" id="store-config">
+        <header>
+            <div class="header-inner">
+                <div class="drawer-header-content">
+                    <div id="drawer-item-1-header">
+                        <h1>Store Info</h1>
+                    </div>
+                </div>
+                <span class="btn-close">Back to Store Launcher</span>
+            </div>
+        </header>
+        <div class="content">
+        </div>
+        <footer>
+            <div class="footer-inner">
+                <div id="drawer-item-1-footer">
+                    <button class="button button-special button-save-settins">Save My Settings</button>
+                </div>
+            </div>
+        </footer>
+    </section>
+</div>

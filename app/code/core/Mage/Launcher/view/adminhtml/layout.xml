@@ -20,9 +20,10 @@
         <update handle="launcher_index"/>
         <reference name="head">
             <action method="addCss"><file>Mage_Launcher::launcher.css</file></action>
+            <action method="addJs"><file>Mage_Launcher::launcher.js</file></action>
         </reference>
         <reference name="content">
-            <block type="Mage_Launcher_Block_LandingPage" name="landing.page" template="landingpage.phtml">
+            <block type="Mage_Launcher_Block_Page_StoreLauncher" name="landing.page" template="page/storelauncher.phtml">
                 <action method="setPageCode"><code>store_launcher</code></action>
             </block>
         </reference>

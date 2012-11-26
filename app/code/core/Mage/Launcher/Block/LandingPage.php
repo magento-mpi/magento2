@@ -22,7 +22,7 @@ class Mage_Launcher_Block_LandingPage extends Mage_Backend_Block_Abstract
      *
      * @var string
      */
-    protected $_pageCode = 'store_launcher';
+    protected $_pageCode = '';
 
     /**
      * Page Model
@@ -51,6 +51,7 @@ class Mage_Launcher_Block_LandingPage extends Mage_Backend_Block_Abstract
 
         if (isset($data['page'])) {
             $this->_page = $data['page'];
+            $this->_pageCode = $this->_page->getCode();
         } else {
             $this->_page = Mage::getModel('Mage_Launcher_Model_Page')->loadByCode($this->_pageCode);
         }
