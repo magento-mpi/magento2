@@ -116,43 +116,8 @@ if (count($this->getSelectedAttributes())) {
 
 <div id="product-variations-matrix" class="grid" style="margin:20px 0">
 <?php
-
-$attributesCount = 0;
-$variationalAttributes = array();
-$usedProductAttributes = $this->_getProduct()->getTypeInstance()->getUsedProductAttributes($this->_getProduct());
-foreach ($usedProductAttributes as $attribute) {
-    /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-    $variationalAttributes[] = array(
-        'id'     => $attribute->getId(),
-        'values' => $attribute->getSource()->getAllOptions(false),
-    );
-    $attributesCount++;
-}
-
-$variations = array();
-$currentVariation = array_fill(0, $attributesCount, 0);
-$variationalAttributes = array_reverse($variationalAttributes);
-$lastAttribute = $attributesCount - 1;
-do {
-    for ($attributeIndex = 0; $attributeIndex < $attributesCount - 1; ++$attributeIndex) {
-        if ($currentVariation[$attributeIndex] >= count($variationalAttributes[$attributeIndex]['values'])) {
-            $currentVariation[$attributeIndex] = 0;
-            ++$currentVariation[$attributeIndex + 1];
-        }
-    }
-    if ($currentVariation[$lastAttribute] >= count($variationalAttributes[$lastAttribute]['values'])) {
-        break;
-    }
-
-    $filledVariation = array();
-    for ($attributeIndex = $attributesCount; $attributeIndex--; ) {
-        $currentAttribute = $variationalAttributes[$attributeIndex];
-        $filledVariation[$currentAttribute['id']] = $currentAttribute['values'][$currentVariation[$attributeIndex]];
-    }
-
-    $variations[] = $filledVariation;
-    $currentVariation[0]++;
-} while (1);
+    $variations = $this->getVariations();
+    $usedProductAttributes = $this->getSelectedAttributes();
 ?>
     <table cellspacing="0">
         <thead>
@@ -177,27 +142,22 @@ do {
 
     $productByUsedAttributes = array();
     foreach ($this->_getProduct()->getTypeInstance()->getUsedProducts($this->_getProduct()) as $product) {
-       $key = '';
+       $key = array();
        foreach ($usedProductAttributes as $attribute) {
            /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-           $key .= $product->getData($attribute->getAttributeCode());
-           $key .= '-';
+           $keys[] = $product->getData($attribute->getAttributeCode());
        }
-       $productByUsedAttributes[rtrim($key, '-')] = $product;
+       $productByUsedAttributes[implode('-', $keys)] = $product;
     }
 
     foreach ($variations as $variation) {
-        $variationalLabels = array();
-        $key = '';
+        $attributesInfo = array();
         $attributesInfo = array();
         foreach ($usedProductAttributes as $attribute) {
             /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-            $variationalLabels[] = $variation[$attribute->getId()]['label'];
-            $key .= $variation[$attribute->getId()]['value'];
             $attributesInfo[$attribute->getAttributeCode()] = $variation[$attribute->getId()]['value'];
-            $key .= '-';
         }
-        $key = rtrim($key, '-');
+        $key = implode('-', array_keys($attributesInfo));
         if (isset($productByUsedAttributes[$key])) {
             $product = $productByUsedAttributes[$key];
 ?>
@@ -213,7 +173,7 @@ do {
             </td>
             <td class="associated-matrix-product-qty"><?php echo $product->getStockItem()->getQty()?></td>
             <td class="associated-matrix-product-weight"><?php echo $product->getWeight()?></td>
-            <td><?php echo implode('</td><td>', $variationalLabels)?></td>
+            <td><?php echo implode('</td><td>', $attributesInfo)?></td>
             <td class="a-center"><input type="checkbox" name="associated_product_ids[]" value="<?php echo $product->getId()?>" class="checkbox associated-matrix-product-id" checked="checked"></td>
         </tr>
 <?php
@@ -231,9 +191,9 @@ do {
             </td>
             <td class="associated-matrix-product-qty"></td>
             <td class="associated-matrix-product-weight"></td>
-<!--            <td><input class="associated-matrix-product-name" value="--><?php //echo $this->_getProduct()->getName(), ' ', implode(' ', $variationalLabels)?><!--"></td>-->
+<!--            <td><input class="associated-matrix-product-name" value="--><?php //echo $this->_getProduct()->getName(), ' ', implode(' ', $attributesInfo)?><!--"></td>-->
 <!--            <td><input class="associated-matrix-product-price" value=""></td>-->
-<!--            <td><input class="associated-matrix-product-sku" value="--><?php //echo $this->_getProduct()->getSku(), '-', implode('-', $variationalLabels)?><!--">-->
+<!--            <td><input class="associated-matrix-product-sku" value="--><?php //echo $this->_getProduct()->getSku(), '-', implode('-', $attributesInfo)?><!--">-->
 <!--                <button class="choose-product"-->
 <!--                    data-attributes="--><?php //echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributesInfo)); ?><!--"-->
 <!--                    style="float:right">-->
@@ -242,7 +202,7 @@ do {
 <!--            </td>-->
 <!--            <td><input class="associated-matrix-product-qty" value=""></td>-->
 <!--            <td><input class="associated-matrix-product-weight" value=""></td>-->
-            <td><?php echo implode('</td><td>', $variationalLabels)?></td>
+            <td><?php echo implode('</td><td>', $attributesInfo)?></td>
             <td class="a-center"><input type="checkbox" name="associated_product_ids[]" value="" class="checkbox associated-matrix-product-id" disabled="disabled"></td>
         </tr>
 <?php
@@ -254,19 +214,11 @@ do {
     </table>
 </div>
 
-<div id="associated-products-container" style="display: none;"><?php echo $this->getGridHtml(); ?></div>
+<div id="associated-products-container"  data-used-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getAttributes())); ?>" style="display: none;">
+    <?php echo $this->getGridHtml(); ?>
+</div>
 <script type="text/javascript">
-var usedAttributes = <?php echo $this->getAttributesJson() ?>;
-var superProduct = new Product.Configurable(usedAttributes,<?php echo $this->getLinksJson() ?>,'<?php echo $this->getHtmlId() ?>_',<?php echo $this->getGridJsObject() ?>, <?php echo ( $this->isReadonly() ? 'true' : 'false'); ?>);
-superProduct.createEmptyUrl = '<?php echo $this->getNewEmptyProductUrl() ?>';
-superProduct.createNormalUrl = '<?php echo $this->getNewProductUrl() ?>';
-superProduct.createQuickUrl = '<?php echo $this->getQuickCreationUrl() ?>';
-
-Validation.add(
-    'validate-configurable',
-    <?php echo $this->helper('Mage_Core_Helper_Data')->jsonEncode(Mage::helper('Mage_Core_Helper_Data')->__('Product with this combination of attributes already associated to configurable.')) ?>,
-    superProduct.checkCreationUniqueAttributes.bind(superProduct)
-)
+    var superProduct = new Product.Configurable(jQuery('#associated-products-container').data('usedAttributes'), <?php echo $this->getLinksJson() ?>,'<?php echo $this->getHtmlId() ?>_',<?php echo $this->getGridJsObject() ?>, <?php echo ( $this->isReadonly() ? 'true' : 'false'); ?>);
 </script>
 
 <div><input type="hidden" name="affect_configurable_product_attributes" value="1" /></div>
@@ -275,7 +227,7 @@ Validation.add(
 </div>
 <script type="text/javascript">
 jQuery(function($) {
-    var usedAttributes = usedAttributes || [];
+    var usedAttributes = jQuery('#associated-products-container').data('usedAttributes');
     $("#<?php echo $this->getId()?>-checkbox").on('click change', function() {
         var $fieldset = $("#<?php echo $this->getId()?> > fieldset");
         if ($(this).attr('checked')) {
@@ -292,9 +244,7 @@ jQuery(function($) {
             $fieldset.hide();
         }
     }).trigger('change');
-});
 
-jQuery(function ($) {
     var $gridDialog = $('#associated-products-container').dialog({
         title:'Select Associated Product',
         autoOpen:false,
@@ -309,9 +259,7 @@ jQuery(function ($) {
         var $button = $(this);
         grid.reloadParams = {
             'filter': $button.data('attributes'),
-            'attributes[]': superProduct.attributes.map(function(el) { return el.attribute_id; }),
-            'products[]' : superProduct.links.keys().size() ? superProduct.links.keys() : [ 0 ],
-            'new_products[]' : superProduct.newProducts
+            'attributes[]': usedAttributes.map(function(el) { return el.attribute_id; })
         };
         grid.reload(null, function() {
             $gridDialog.dialog('open')
@@ -332,7 +280,7 @@ jQuery(function ($) {
                     value = $.trim($gridRow.find(associatedClass + this).text());
                 target[target.is('input') ? 'val' : 'html'](value);
             });
-            $matrixRow.find(matrixClass + 'id').attr('checked', true).attr('disabled', false);
+            $matrixRow.find(matrixClass + 'id').attr('checked', true).removeAttr('disabled');
             $gridDialog.dialog('close');
         };
     });
