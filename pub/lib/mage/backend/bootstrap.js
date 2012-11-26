@@ -61,6 +61,11 @@ jQuery(function ($) {
     });
 
     var bootstrap = function() {
+        /**
+         * Init all components defined via data-mage-init attribute
+         */
+        $.mage.init();
+
         /*
          * Initialization of button widgets
          */
@@ -83,5 +88,5 @@ jQuery(function ($) {
         }
     };
 
-    $(document).ready(bootstrap);
+    $(bootstrap);
 });

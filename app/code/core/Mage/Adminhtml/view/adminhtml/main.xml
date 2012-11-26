@@ -42,6 +42,8 @@ Supported layout update handles (special):
                 <action method="addJs"><file>jquery/jquery-1.8.2.min.js</file></action>
                 <action method="addJs"><file>mage/jquery-no-conflict.js</file></action>
                 <action method="addJs"><file>jquery/jquery-ui-1.9.1.custom.min.js</file></action>
+                <action method="addJs"><file>head.load.min.js</file></action>
+                <action method="addJs"><file>mage/mage.js</file></action>
                 <action method="addJs"><file>jquery/jquery.tmpl.min.js</file></action>
                 <action method="addJs"><file>jquery/jquery.validate.js</file></action>
                 <action method="addJs"><file>mage/translate.js</file></action>
@@ -90,6 +92,7 @@ Supported layout update handles (special):
 
                 <action method="addJs"><file>mage/adminhtml/wysiwyg/tiny_mce/setup.js</file><params/><if/><condition>can_load_tiny_mce</condition></action>
 
+                <block type="Mage_Core_Block_Template" name="head.resources" as="bootstrap" template="Mage_Adminhtml::page/js/resources.phtml"/>
                 <block type="Mage_Core_Block_Html_Calendar" name="head.calendar" as="calendar" template="Mage_Adminhtml::page/js/calendar.phtml"/>
             </block>
 

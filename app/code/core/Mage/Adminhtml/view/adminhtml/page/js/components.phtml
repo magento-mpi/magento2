@@ -1,0 +1,41 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php
+/**
+ * Declare a list of components and its dependencies to resources
+ * @var $this Mage_Core_Block_Template
+ */
+?>
+
+<script type="text/javascript">
+    (function($) {
+        "use strict";
+        /**
+         * Declaration of resources needed for defined components
+         */
+        $.extend(true, $.mage.mage.prototype.resources, {
+            form: [
+                '<?php echo $this->getViewFileUrl('jquery/jquery.tmpl.min.js') ?>',
+                '<?php echo $this->getViewFileUrl('mage/backend/form.js') ?>'
+            ],
+            button: [
+                '<?php echo $this->getViewFileUrl('mage/backend/form.js') ?>'
+            ],
+            validation: [
+                '<?php echo $this->getViewFileUrl('jquery/jquery.validate.js') ?>',
+                '<?php echo $this->getViewFileUrl('mage/translate.js') ?>',
+                '<?php echo $this->getViewFileUrl('mage/validation.js') ?>',
+                '<?php echo $this->getViewFileUrl('mage/backend/validation.js') ?>',
+            ]
+        });
+    })(jQuery);
+</script>
