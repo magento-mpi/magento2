@@ -420,7 +420,7 @@ class Mage_Webapi_Model_Config
         /** The shortest routes must go first. */
         ksort($restRoutes);
         foreach ($restRoutes as $routePath => $routeMetadata) {
-            if ($routeMetadata['actionType'] == Mage_Webapi_Controller_Dispatcher_Rest::ACTION_TYPE_ITEM
+            if ($routeMetadata['actionType'] == Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_ITEM
                 && $routeMetadata['resourceName'] == $resourceName
             ) {
                 return $routePath;

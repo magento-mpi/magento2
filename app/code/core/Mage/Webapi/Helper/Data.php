@@ -411,8 +411,8 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getActionTypeByMethod($methodName)
     {
-        $collection = Mage_Webapi_Controller_Dispatcher_Rest::ACTION_TYPE_COLLECTION;
-        $item = Mage_Webapi_Controller_Dispatcher_Rest::ACTION_TYPE_ITEM;
+        $collection = Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_COLLECTION;
+        $item = Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_ITEM;
         $actionTypeMap = array(
             Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE => $collection,
             Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE => $collection,

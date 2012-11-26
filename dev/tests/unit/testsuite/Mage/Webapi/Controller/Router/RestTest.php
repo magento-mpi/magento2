@@ -17,32 +17,28 @@ class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Webapi_Controller_Request_Rest */
     protected $_request;
 
-    /** @var Mage_Core_Model_Factory_Helper */
-    protected $_helperFactory;
+    /** @var Mage_Webapi_Helper_Data */
+    protected $_helperMock;
+
+    /** @var Mage_Webapi_Model_Config */
+    protected $_apiConfigMock;
 
     protected function setUp()
     {
         /** Prepare mocks for SUT constructor. */
+        $this->_apiConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config')->disableOriginalConstructor()
+            ->getMock();
         $interpreterFactory = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest_Interpreter_Factory')
             ->disableOriginalConstructor()->getMock();
-        $helper = $this->getMock('Mage_Webapi_Helper_Data', array('__'));
-        $helper->expects($this->any())->method('__')->will($this->returnArgument(0));
-        $this->_helperFactory = $this->getMock('Mage_Core_Model_Factory_Helper');
-        $this->_helperFactory->expects($this->any())->method('get')->will($this->returnValue($helper));
+        $this->_helperMock = $this->getMock('Mage_Webapi_Helper_Data', array('__'));
+        $this->_helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
         /** Initialize SUT. */
-        // TODO: Get rid of SUT mocks.
         $this->_routeMock = $this->getMock('Mage_Webapi_Controller_Router_Route_Rest', array('match'),
             array('/test_route/1'));
+        $this->_apiConfigMock->expects($this->once())->method('getAllRestRoutes')
+            ->will($this->returnValue(array($this->_routeMock)));
 
-        $this->_request = new Mage_Webapi_Controller_Request_Rest($interpreterFactory, $this->_helperFactory);
-    }
-
-    public function testRoutesAccessor()
-    {
-        $router = new Mage_Webapi_Controller_Router_Rest($this->_helperFactory);
-        $routes = array($this->_routeMock);
-        $this->assertInstanceOf('Mage_Webapi_Controller_Router_Rest', $router->setRoutes($routes));
-        $this->assertEquals($routes, $router->getRoutes());
+        $this->_request = new Mage_Webapi_Controller_Request_Rest($interpreterFactory, $this->_helperMock);
     }
 
     public function testMatch()
@@ -52,9 +48,7 @@ class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
             ->method('match')
             ->with($this->_request)
             ->will($this->returnValue(array()));
-        $routes = array($this->_routeMock);
-        $router = new Mage_Webapi_Controller_Router_Rest($this->_helperFactory);
-        $router->setRoutes($routes);
+        $router = new Mage_Webapi_Controller_Router_Rest($this->_helperMock, $this->_apiConfigMock);
 
         $matchedRoute = $router->match($this->_request);
         $this->assertEquals($this->_routeMock, $matchedRoute);
@@ -70,9 +64,7 @@ class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
             ->method('match')
             ->with($this->_request)
             ->will($this->returnValue(false));
-        $routes = array($this->_routeMock);
-        $router = new Mage_Webapi_Controller_Router_Rest($this->_helperFactory);
-        $router->setRoutes($routes);
+        $router = new Mage_Webapi_Controller_Router_Rest($this->_helperMock, $this->_apiConfigMock);
 
         $router->match($this->_request);
     }

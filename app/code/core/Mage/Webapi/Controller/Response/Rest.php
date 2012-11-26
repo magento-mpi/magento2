@@ -6,24 +6,69 @@
  */
 class Mage_Webapi_Controller_Response_Rest extends Mage_Webapi_Controller_Response
 {
+    /**#@+
+     * Success HTTP response codes.
+     */
+    const HTTP_OK = 200;
+    const HTTP_CREATED = 201;
+    const HTTP_MULTI_STATUS = 207;
+    /**#@-*/
+
     /** @var Mage_Webapi_Controller_Dispatcher_ErrorProcessor */
     protected $_errorProcessor;
 
     /** @var Mage_Webapi_Controller_Response_Rest_RendererInterface */
     protected $_renderer;
 
+    /** @var Mage_Core_Model_Logger */
+    protected $_logger;
+
+    /** @var Mage_Webapi_Helper_Data */
+    protected $_helper;
+
     /**
      * Initialize dependencies.
      *
      * @param Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory
      * @param Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
+     * @param Mage_Core_Model_Logger $logger
+     * @param Mage_Webapi_Helper_Data $helper
      */
     public function __construct(
         Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory,
-        Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
+        Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor,
+        Mage_Core_Model_Logger $logger,
+        Mage_Webapi_Helper_Data $helper
     ) {
         $this->_renderer = $rendererFactory->get();
         $this->_errorProcessor = $errorProcessor;
+        $this->_logger = $logger;
+        $this->_helper = $helper;
+    }
+
+    /**
+     * Add exception to the list of exceptions.
+     *
+     * Replace real error message of untrusted exceptions to prevent potential vulnerability.
+     *
+     * @param Exception $exception
+     * @return Mage_Webapi_Controller_Response_Rest
+     */
+    public function setException(Exception $exception)
+    {
+        // TODO: Replace Mage::getIsDeveloperMode() to isDeveloperMode() (Mage_Core_Model_App)
+        if ($exception instanceof Mage_Webapi_Exception || Mage::getIsDeveloperMode()) {
+            parent::setException($exception);
+        } else {
+            $this->_logger->logException($exception);
+            parent::setException(
+                new Mage_Webapi_Exception(
+                    $this->_helper->__("Internal Error. Details are available in Magento log file."),
+                    Mage_Webapi_Exception::HTTP_INTERNAL_ERROR
+                )
+            );
+        }
+        return $this;
     }
 
     /**

@@ -11,6 +11,22 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
      */
     const REQUEST_CHARSET = 'utf-8';
 
+    /**#@+
+     * HTTP methods supported by REST.
+     */
+    const HTTP_METHOD_CREATE = 'create';
+    const HTTP_METHOD_GET = 'get';
+    const HTTP_METHOD_UPDATE = 'update';
+    const HTTP_METHOD_DELETE = 'delete';
+    /**#@-*/
+
+    /**#@+
+     * Resource types.
+     */
+    const ACTION_TYPE_ITEM = 'item';
+    const ACTION_TYPE_COLLECTION = 'collection';
+    /**#@-*/
+
     /** @var string */
     protected $_resourceName;
 
@@ -31,9 +47,6 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
     /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
-    /** @var Mage_Core_Model_Factory_Helper */
-    protected $_helperFactory;
-
     /** @var Mage_Webapi_Controller_Request_Rest_Interpreter_Factory */
     protected $_interpreterFactory;
 
@@ -41,17 +54,16 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
      * Initialize dependencies.
      *
      * @param Mage_Webapi_Controller_Request_Rest_Interpreter_Factory $interpreterFactory
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Webapi_Helper_Data $helper
      * @param string|null $uri
      */
     public function __construct(
         Mage_Webapi_Controller_Request_Rest_Interpreter_Factory $interpreterFactory,
-        Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Webapi_Helper_Data $helper,
         $uri = null
     ) {
         parent::__construct(Mage_Webapi_Controller_Front::API_TYPE_REST, $uri);
-        $this->_helperFactory = $helperFactory;
-        $this->_helper = $helperFactory->get('Mage_Webapi_Helper_Data');
+        $this->_helper = $helper;
         $this->_interpreterFactory = $interpreterFactory;
     }
 
@@ -159,10 +171,10 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
         }
         // Map HTTP methods to classic CRUD verbs
         $operationByMethod = array(
-            'GET' => Mage_Webapi_Controller_Dispatcher_Rest::HTTP_METHOD_GET,
-            'POST' => Mage_Webapi_Controller_Dispatcher_Rest::HTTP_METHOD_CREATE,
-            'PUT' => Mage_Webapi_Controller_Dispatcher_Rest::HTTP_METHOD_UPDATE,
-            'DELETE' => Mage_Webapi_Controller_Dispatcher_Rest::HTTP_METHOD_DELETE
+            'GET' => self::HTTP_METHOD_GET,
+            'POST' => self::HTTP_METHOD_CREATE,
+            'PUT' => self::HTTP_METHOD_UPDATE,
+            'DELETE' => self::HTTP_METHOD_DELETE
         );
 
         return $operationByMethod[$this->getMethod()];
@@ -211,12 +223,16 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
     /**
      * Retrieve action version.
      *
-     * @return int|null
+     * @return int
+     * @throws LogicException If resource version cannot be identified.
      */
     public function getResourceVersion()
     {
         if (!$this->_resourceVersion) {
             $this->setResourceVersion($this->getParam(Mage_Webapi_Controller_Router_Route_Rest::PARAM_VERSION));
+        }
+        if (is_null($this->_resourceVersion)) {
+            throw new LogicException("Version number is not specified.");
         }
         return $this->_resourceVersion;
     }
@@ -241,5 +257,73 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
         }
         $this->_resourceVersion = $versionNumber;
         return $this;
+    }
+
+    /**
+     * Identify operation name according to HTTP request parameters.
+     *
+     * @return string
+     * @throws Mage_Webapi_Exception
+     */
+    public function getOperationName()
+    {
+        $restMethodsMap = array(
+            self::ACTION_TYPE_COLLECTION . self::HTTP_METHOD_CREATE =>
+                Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE,
+            self::ACTION_TYPE_COLLECTION . self::HTTP_METHOD_GET =>
+                Mage_Webapi_Controller_ActionAbstract::METHOD_LIST,
+            self::ACTION_TYPE_COLLECTION . self::HTTP_METHOD_UPDATE =>
+                Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE,
+            self::ACTION_TYPE_COLLECTION . self::HTTP_METHOD_DELETE =>
+                Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE,
+            self::ACTION_TYPE_ITEM . self::HTTP_METHOD_GET => Mage_Webapi_Controller_ActionAbstract::METHOD_GET,
+            self::ACTION_TYPE_ITEM . self::HTTP_METHOD_UPDATE => Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE,
+            self::ACTION_TYPE_ITEM . self::HTTP_METHOD_DELETE => Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE,
+        );
+        $httpMethod = $this->getHttpMethod();
+        $resourceType = $this->getResourceType();
+        if (!isset($restMethodsMap[$resourceType . $httpMethod])) {
+            throw new Mage_Webapi_Exception($this->_helper->__('Requested method does not exist.'),
+                Mage_Webapi_Exception::HTTP_NOT_FOUND);
+        }
+        $methodName = $restMethodsMap[$resourceType . $httpMethod];
+        if ($methodName == self::HTTP_METHOD_CREATE) {
+            /** If request is numeric array, multi create operation must be used. */
+            $params = $this->getBodyParams();
+            if (count($params)) {
+                $keys = array_keys($params);
+                if (is_numeric($keys[0])) {
+                    $methodName = Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE;
+                }
+            }
+        }
+        $operationName = $this->getResourceName() . ucfirst($methodName);
+        return $operationName;
+    }
+
+    /**
+     * Identify resource type by operation name.
+     *
+     * @param string $operation
+     * @return string 'collection' or 'item'
+     * @throws InvalidArgumentException When method does not match the list of allowed methods
+     */
+    // TODO: Remove Mage_Webapi_Model_Config::getActionTypeByMethod() and use this one
+    public function getActionTypeByOperation($operation)
+    {
+        $actionTypeMap = array(
+            Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE => self::ACTION_TYPE_COLLECTION,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE => self::ACTION_TYPE_COLLECTION,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_GET => self::ACTION_TYPE_ITEM,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_LIST => self::ACTION_TYPE_COLLECTION,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE => self::ACTION_TYPE_ITEM,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE => self::ACTION_TYPE_COLLECTION,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE => self::ACTION_TYPE_ITEM,
+            Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE => self::ACTION_TYPE_COLLECTION,
+        );
+        if (!isset($actionTypeMap[$operation])) {
+            throw new InvalidArgumentException(sprintf('The "%s" method is not a valid resource method.', $methodName));
+        }
+        return $actionTypeMap[$operation];
     }
 }

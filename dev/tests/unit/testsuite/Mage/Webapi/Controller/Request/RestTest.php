@@ -21,12 +21,10 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()->getMock();
         $helper = $this->getMock('Mage_Webapi_Helper_Data', array('__'));
         $helper->expects($this->any())->method('__')->will($this->returnArgument(0));
-        $helperFactory = $this->getMock('Mage_Core_Model_Factory_Helper');
-        $helperFactory->expects($this->once())->method('get')->will($this->returnValue($helper));
         /** Instantiate request. */
         // TODO: Get rid of SUT mocks.
         $this->_request = $this->getMock('Mage_Webapi_Controller_Request_Rest', array('getHeader', 'getMethod', 'isGet',
-            'isPost', 'isPut', 'isDelete'), array($interpreterFactory, $helperFactory));
+            'isPost', 'isPut', 'isDelete'), array($interpreterFactory, $helper));
     }
 
     protected function tearDown()
@@ -234,10 +232,10 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
         return array(
             // Each element is: array(Request method, CRUD operation name[, expected exception message])
             array('INVALID_METHOD', null, 'Invalid request method'),
-            array('GET', Mage_Webapi_Controller_Dispatcher_Rest::HTTP_METHOD_GET),
-            array('POST', Mage_Webapi_Controller_Dispatcher_Rest::HTTP_METHOD_CREATE),
-            array('PUT', Mage_Webapi_Controller_Dispatcher_Rest::HTTP_METHOD_UPDATE),
-            array('DELETE', Mage_Webapi_Controller_Dispatcher_Rest::HTTP_METHOD_DELETE)
+            array('GET', Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_GET),
+            array('POST', Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_CREATE),
+            array('PUT', Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_UPDATE),
+            array('DELETE', Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_DELETE)
         );
     }
 }
