@@ -45,8 +45,10 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit
             'save_and_edit_button',
             array(
                 'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Save and Continue Edit'),
-                'onclick'   => 'saveAndContinueEdit()',
-                'class'     => 'save'
+                'class'     => 'save',
+                'data_attr'  => array(
+                    'widget-button' => array('event' => 'saveAndContinueEdit', 'related' => '#edit_form')
+                ),
             ),
             100
         );

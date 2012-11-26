@@ -21,7 +21,7 @@
         <div class="login-form">
             <?php echo $this->getMessagesBlock()->toHtml() ?>
             <?php if (!$this->getHasException()): ?>
-                <form method="post" action="<?php echo $this->getPostActionUrl() ?>" id="loginForm">
+                <form method="post" action="<?php echo $this->getPostActionUrl() ?>" id="login-form">
                     <fieldset>
                         <input name="form_key" type="hidden" value="<?php echo $this->getFormKey() ?>" />
                         <h2><?php echo $this->__('Log in to Admin Panel'); ?></h2>
@@ -39,9 +39,7 @@
                     </fieldset>
                 </form>
                 <script type="text/javascript">
-                //<![CDATA[
-                     var loginForm = new varienForm('loginForm');
-                //]]>
+                     jQuery('#login-form').form().validation();
                 </script>
             <?php endif; ?>
         </div>

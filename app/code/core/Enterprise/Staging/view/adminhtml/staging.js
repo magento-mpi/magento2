@@ -27,7 +27,8 @@ Enterprise.Staging.Mapper.prototype = {
     initialize : function(containerId, url, pageVar, sortVar, dirVar, filterVar, mergeForm, stores, websiteId)
     {
         this.formId = mergeForm;
-        this.mergeForm = new varienForm(this.formId);
+        // Temporary solution will be replaced after refactoring of newsletter functionality
+        this.mergeForm = jQuery('#' + this.formId).form().validation();
         this.containerId            = containerId;
         this.tableContainerId       = this.containerId + '_table';
         this.tableRowsContainerId   = this.containerId + '_rows';
@@ -251,21 +252,14 @@ Enterprise.Staging.Mapper.prototype = {
             $('schedule_merge_later_flag').value = '';
         }
 
-        if (!this.mergeForm.validator.validate()){
-            return false;
-        }
-
-        this.mergeForm.submit();
+        // Temporary solution will be replaced after refactoring of newsletter functionality
+        this.mergeForm.triggerHandler('save');
     },
     showScheduleConfigForm : function()
     {
         if (!this.mapKeys.size()) {
             alert('Please, select websites to map');
             return;
-        }
-
-        if (!this.mergeForm.validator.validate()){
-            return false;
         }
 
         var container = $('schedule_config_container');
@@ -454,7 +448,8 @@ Enterprise.Staging.Form.prototype = {
 
         this.formId         = formId;
 
-        this.form           =  new varienForm(this.formId, validationUrl);
+        // Temporary solution will be replaced after refactoring of newsletter functionality
+        this.form           =  jQuery('#' + this.formId).form();
 
         this.items          = new $H(items);
 
@@ -463,6 +458,9 @@ Enterprise.Staging.Form.prototype = {
         this.proceedItems   = new $H();
 
         this.fieldSuffix   = fieldSuffix;
+
+        // Temporary solution will be replaced after refactoring of newsletter functionality
+        this.form.validation({validationUrl: validationUrl});
 
         var itemTemplate = this.getInnerElement('item_template');
         if (itemTemplate) {
@@ -503,11 +501,6 @@ Enterprise.Staging.Form.prototype = {
         this.items.add(key, item);
     },
 
-    runCreate : function()
-    {
-        this.submit();
-    },
-
     getInnerElement: function(elementName)
     {
         return $(this.containerId + '_' + elementName);
@@ -517,18 +510,6 @@ Enterprise.Staging.Form.prototype = {
     {
         var urlTemplate = new Template(urlTemplate, stagingTemplateSyntax);
         setLocation(urlTemplate.evaluate({websites: $F(websiteElement), set: $F(setElement), type: $F(typeElement)}));
-    },
-
-    saveAndContinueEdit : function(urlTemplate)
-    {
-        var urlTemplate = new Template(urlTemplate, this.templatePattern);
-        var url = urlTemplate.evaluate({tab_id: this.activeTab.id});
-        this.form.submit(url);
-    },
-
-    submit : function()
-    {
-        this.form.submit();
     },
 
     frontendAuthenticationCallback: function(event)

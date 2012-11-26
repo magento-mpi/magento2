@@ -135,11 +135,13 @@ function checkButtonsRelation() {
 
 function submitCreditMemo() {
     if ($('creditmemo_do_offline')) $('creditmemo_do_offline').value=0;
-    editForm.submit()
+    // Temporary solution will be replaced after refactoring order functionality
+    jQuery('#edit_form').triggerHandler('save');
 }
 function submitCreditMemoOffline() {
     if ($('creditmemo_do_offline')) $('creditmemo_do_offline').value=1;
-    editForm.submit()
+    // Temporary solution will be replaced after refactoring order functionality
+    jQuery('#edit_form').triggerHandler('save');
 }
 
 var sendEmailCheckbox = $('send_email');

@@ -175,7 +175,7 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
                 $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('id' => $profile->getId())));
                 return;
             }
-            if ($this->getRequest()->getParam('continue')) {
+            if ($this->getRequest()->getParam('back') === 'edit') {
                 $this->_redirect('*/*/edit', array('id' => $profile->getId()));
             } else {
                 $this->_redirect('*/*');
