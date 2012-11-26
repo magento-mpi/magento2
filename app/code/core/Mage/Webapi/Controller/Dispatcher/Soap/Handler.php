@@ -49,6 +49,9 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
     /** @var Mage_Core_Model_Logger */
     protected $_logger;
 
+    /** @var Mage_Core_Model_App */
+    protected $_app;
+
     /**
      * List of headers passed in the request
      *
@@ -64,7 +67,8 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
         Mage_Webapi_Model_Authorization $authorization,
         Mage_Webapi_Controller_Request_Soap $request,
         Mage_Webapi_Model_Soap_Fault $soapFault,
-        Mage_Core_Model_Logger $logger
+        Mage_Core_Model_Logger $logger,
+        Mage_Core_Model_App $app
     ) {
         $this->_apiConfig = $apiConfig;
         $this->_helper = $helper;
@@ -74,6 +78,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
         $this->_request = $request;
         $this->_soapFault = $soapFault;
         $this->_logger = $logger;
+        $this->_app = $app;
     }
 
     /**
@@ -130,7 +135,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
             } catch (Mage_Webapi_Exception $e) {
                 $this->_soapFault($e->getMessage(), $e->getOriginator(), $e);
             } catch (Exception $e) {
-                if (!Mage::getIsDeveloperMode()) {
+                if (!$this->_app->isDeveloperMode()) {
                     $this->_logger->logException($e);
                     $this->_soapFault($this->_helper->__("Internal Error. Details are available in Magento log file."));
                 } else {
@@ -196,7 +201,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
                 if ($exception->getMessage() != $reason) {
                     $details['ExceptionMessage'] = $exception->getMessage();
                 }
-                if (Mage::getIsDeveloperMode()) {
+                if ($this->_app->isDeveloperMode()) {
                     $details['ExceptionTrace'] = "<![CDATA[{$exception->getTraceAsString()}]]>";
                 }
             }

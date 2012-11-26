@@ -24,6 +24,9 @@ class Mage_Webapi_Model_Config
     /** @var Mage_Webapi_Model_Config_Reader */
     protected $_reader;
 
+    /** @var Mage_Core_Model_App */
+    protected $_app;
+
     /**
      * Resources configuration data.
      *
@@ -35,16 +38,18 @@ class Mage_Webapi_Model_Config
      * @param Mage_Webapi_Model_Config_Reader $reader
      * @param Mage_Webapi_Helper_Data $helper
      * @param Magento_Controller_Router_Route_Factory $routeFactory
+     * @param Mage_Core_Model_App $app
      */
     public function __construct(
         Mage_Webapi_Model_Config_Reader $reader,
         Mage_Webapi_Helper_Data $helper,
-        Magento_Controller_Router_Route_Factory $routeFactory
+        Magento_Controller_Router_Route_Factory $routeFactory,
+        Mage_Core_Model_App $app
     ) {
         $this->_reader = $reader;
         $this->_helper = $helper;
         $this->_routeFactory = $routeFactory;
-
+        $this->_app = $app;
         $this->_data = $this->_reader->getData();
     }
 
@@ -555,7 +560,7 @@ class Mage_Webapi_Model_Config
                 );
                 throw new Mage_Webapi_Exception($removalMessage . ' ' . $messageUseMethod, $badRequestCode);
                 // TODO: Replace static call after MAGETWO-4961 implementation
-            } elseif (isset($deprecationPolicy['deprecated']) && Mage::getIsDeveloperMode()) {
+            } elseif (isset($deprecationPolicy['deprecated']) && $this->_app->isDeveloperMode()) {
                 $deprecationMessage = $this->_helper
                     ->__('Version "%s" of "%s" method in "%s" resource is deprecated.',
                     $resourceVersion,

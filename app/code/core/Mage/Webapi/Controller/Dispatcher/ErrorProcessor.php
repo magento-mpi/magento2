@@ -208,8 +208,7 @@ class Mage_Webapi_Controller_Dispatcher_ErrorProcessor
             } catch (Exception $e) {
                 $errorMessage = $e->getMessage();
             }
-            // TODO: Replace Mage::getIsDeveloperMode() to isDeveloperMode() (Mage_Core_Model_App)
-            if (!Mage::getIsDeveloperMode()) {
+            if (!$this->_app->isDeveloperMode()) {
                 $this->saveReport($errorMessage);
             }
             $this->render($errorMessage);

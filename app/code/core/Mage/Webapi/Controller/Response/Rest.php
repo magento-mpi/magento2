@@ -26,6 +26,9 @@ class Mage_Webapi_Controller_Response_Rest extends Mage_Webapi_Controller_Respon
     /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
+    /** @var Mage_Core_Model_App */
+    protected $_app;
+
     /**
      * Initialize dependencies.
      *
@@ -33,17 +36,20 @@ class Mage_Webapi_Controller_Response_Rest extends Mage_Webapi_Controller_Respon
      * @param Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
      * @param Mage_Core_Model_Logger $logger
      * @param Mage_Webapi_Helper_Data $helper
+     * @param Mage_Core_Model_App $app
      */
     public function __construct(
         Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory,
         Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor,
         Mage_Core_Model_Logger $logger,
-        Mage_Webapi_Helper_Data $helper
+        Mage_Webapi_Helper_Data $helper,
+        Mage_Core_Model_App $app
     ) {
         $this->_renderer = $rendererFactory->get();
         $this->_errorProcessor = $errorProcessor;
         $this->_logger = $logger;
         $this->_helper = $helper;
+        $this->_app = $app;
     }
 
     /**
@@ -56,8 +62,7 @@ class Mage_Webapi_Controller_Response_Rest extends Mage_Webapi_Controller_Respon
      */
     public function setException(Exception $exception)
     {
-        // TODO: Replace Mage::getIsDeveloperMode() to isDeveloperMode() (Mage_Core_Model_App)
-        if ($exception instanceof Mage_Webapi_Exception || Mage::getIsDeveloperMode()) {
+        if ($exception instanceof Mage_Webapi_Exception || $this->_app->isDeveloperMode()) {
             parent::setException($exception);
         } else {
             $this->_logger->logException($exception);
@@ -106,8 +111,7 @@ class Mage_Webapi_Controller_Response_Rest extends Mage_Webapi_Controller_Respon
                 ? $exception->getCode()
                 : Mage_Webapi_Exception::HTTP_INTERNAL_ERROR;
             $messageData = array('code' => $code, 'message' => $exception->getMessage());
-            // TODO: Replace Mage::getIsDeveloperMode() to isDeveloperMode() (Mage_Core_Model_App)
-            if (Mage::getIsDeveloperMode()) {
+            if ($this->_app->isDeveloperMode()) {
                 $messageData['trace'] = $exception->getTraceAsString();
             }
             $formattedMessages['messages']['error'][] = $messageData;
