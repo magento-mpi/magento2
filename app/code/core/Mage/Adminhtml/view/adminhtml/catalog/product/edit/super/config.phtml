@@ -234,15 +234,15 @@ jQuery(function($) {
         if ($(this).is(':checked')) {
             $fieldset.show();
             $("#<?php echo $this->getId()?> input[name='attributes[]']").removeAttr('disabled');
-            $('#qty').attr('disabled', 'disabled');
+            $('#qty').attr('disabled', true);
             $.each(usedAttributes, function() {
-                $('#attribute-' + this.attribute_code + '-container select').attr('disabled', 'disabled');
+                $('#attribute-' + this.attribute_code + '-container select').attr('disabled', true);
             });
         } else {
-            $('#qty').removeAttr('disabled', 'disabled');
-            $("#<?php echo $this->getId()?> input[name='attributes[]']").attr('disabled', 'disabled');
+            $('#qty').removeAttr('disabled');
+            $("#<?php echo $this->getId()?> input[name='attributes[]']").attr('disabled', true);
             $.each(usedAttributes, function() {
-                $('#attribute-' + this.attribute_code + '-container select').removeAttr('disabled', 'disabled');
+                $('#attribute-' + this.attribute_code + '-container select').removeAttr('disabled');
             });
             $fieldset.hide();
         }
