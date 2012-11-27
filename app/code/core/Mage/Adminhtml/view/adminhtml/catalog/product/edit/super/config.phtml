@@ -234,10 +234,12 @@ jQuery(function($) {
         if ($(this).is(':checked')) {
             $fieldset.show();
             $("#<?php echo $this->getId()?> input[name='attributes[]']").removeAttr('disabled');
+            $('#qty').attr('disabled', 'disabled');
             $.each(usedAttributes, function() {
                 $('#attribute-' + this.attribute_code + '-container select').attr('disabled', 'disabled');
             });
         } else {
+            $('#qty').removeAttr('disabled', 'disabled');
             $("#<?php echo $this->getId()?> input[name='attributes[]']").attr('disabled', 'disabled');
             $.each(usedAttributes, function() {
                 $('#attribute-' + this.attribute_code + '-container select').removeAttr('disabled', 'disabled');
