@@ -64,16 +64,11 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     {
         $fixtureDir = __DIR__ . '/../../_files/Controller/AutoDiscover/';
         $directoryScanner = new \Zend\Code\Scanner\DirectoryScanner($fixtureDir);
-        /** @var Mage_Core_Model_Cache $cache */
-        $cache = $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock();
         /** @var Mage_Core_Model_App $app */
         $app = $this->getMockBuilder('Mage_Core_Model_App')->disableOriginalConstructor()->getMock();
-        $appConfig = Mage::app()->getConfig();
         $objectManager = new Magento_Test_ObjectManager();
         $this->_helper = $objectManager->get('Mage_Webapi_Helper_Data');
-        /** @var Mage_Webapi_Model_Config_Reader_Soap_ClassReflector $classReflector */
-        $classReflector = $objectManager->get('Mage_Webapi_Model_Config_Reader_Soap_ClassReflector');
-        $reader = new Mage_Webapi_Model_Config_Reader_Soap($classReflector, $this->_helper, $appConfig, $cache);
+        $reader = $objectManager->get('Mage_Webapi_Model_Config_Reader_Soap');
         $reader->setDirectoryScanner($directoryScanner);
         $this->_config = new Mage_Webapi_Model_Config_Soap($reader, $this->_helper, $app);
         $objectManager->addSharedInstance($this->_config, 'Mage_Webapi_Model_Config_Soap');

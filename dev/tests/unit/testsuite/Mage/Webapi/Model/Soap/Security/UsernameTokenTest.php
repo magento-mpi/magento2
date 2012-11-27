@@ -174,10 +174,8 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
     {
         $username = 'test_user';
         $password = 'test_password';
-        $nonce = mt_rand();
-        $created = date('c');
-        $tokenPassword = base64_encode(hash('sha1', $nonce . $created . $password, true));
-        $tokenNonce = base64_encode($nonce);
+        list($created, $tokenPassword, $tokenNonce) = $this->_getTokenData($password);
+
         $this->_nonceStorageMock
             ->expects($this->once())
             ->method('validateNonce')
@@ -212,10 +210,8 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
         $username = 'test_user';
         $password = 'test_password';
         $invalidPassword = 'invalid_password';
-        $nonce = mt_rand();
-        $created = date('c');
-        $tokenPassword = base64_encode(hash('sha1', $nonce . $created . $password, true));
-        $tokenNonce = base64_encode($nonce);
+        list($created, $tokenPassword, $tokenNonce) = $this->_getTokenData($password);
+
         $this->_nonceStorageMock
             ->expects($this->once())
             ->method('validateNonce')
@@ -242,5 +238,14 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
             $this->_userFactoryMock
         );
         $usernameToken->authenticate($username, $tokenPassword, $created, $tokenNonce);
+    }
+
+    protected function _getTokenData($password)
+    {
+        $nonce = mt_rand();
+        $created = date('c');
+        $tokenPassword = base64_encode(hash('sha1', $nonce . $created . $password, true));
+        $tokenNonce = base64_encode($nonce);
+        return array($created, $tokenPassword, $tokenNonce);
     }
 }
