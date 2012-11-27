@@ -59,28 +59,48 @@ class Community2_Mage_Product_Create_ConfigurableWithVariations extends Mage_Sel
         $this->saveForm('save_attribute_set');
         $this->assertMessagePresent('success', 'success_attribute_set_saved');
 
-        return array('attribute1' => $attributeFirst['admin_title'],
+        return array(
+            'attribute1' => $attributeFirst['admin_title'],
             'attribute2' => $attributeSecond['admin_title'],
             'attributeSet' => $attributeSet['set_name'],
             'matrix' => array(
-                '1' => array ('1' => $attributeFirst['option_1']['admin_option_name'],
-                    '2' => $attributeSecond['option_1']['admin_option_name']),
-                '2' => array ('1' => $attributeFirst['option_1']['admin_option_name'],
-                    '2' => $attributeSecond['option_2']['admin_option_name']),
-                '3' => array ('1' => $attributeFirst['option_1']['admin_option_name'],
-                    '2' => $attributeSecond['option_3']['admin_option_name']),
-                '4' => array ('1' => $attributeFirst['option_2']['admin_option_name'],
-                    '2' => $attributeSecond['option_1']['admin_option_name']),
-                '5' => array ('1' => $attributeFirst['option_2']['admin_option_name'],
-                    '2' => $attributeSecond['option_2']['admin_option_name']),
-                '6' => array ('1' => $attributeFirst['option_2']['admin_option_name'],
-                    '2' => $attributeSecond['option_3']['admin_option_name']),
-                '7' => array ('1' => $attributeFirst['option_3']['admin_option_name'],
-                    '2' => $attributeSecond['option_1']['admin_option_name']),
-                '8' => array ('1' => $attributeFirst['option_3']['admin_option_name'],
-                    '2' => $attributeSecond['option_2']['admin_option_name']),
-                '9' => array ('1' => $attributeFirst['option_3']['admin_option_name'],
-                    '2' => $attributeSecond['option_3']['admin_option_name'])),
+                '1' => array(
+                    '1' => $attributeFirst['option_1']['admin_option_name'],
+                    '2' => $attributeSecond['option_1']['admin_option_name']
+                ),
+                '2' => array(
+                    '1' => $attributeFirst['option_1']['admin_option_name'],
+                    '2' => $attributeSecond['option_2']['admin_option_name']
+                ),
+                '3' => array(
+                    '1' => $attributeFirst['option_1']['admin_option_name'],
+                    '2' => $attributeSecond['option_3']['admin_option_name']
+                ),
+                '4' => array(
+                    '1' => $attributeFirst['option_2']['admin_option_name'],
+                    '2' => $attributeSecond['option_1']['admin_option_name']
+                ),
+                '5' => array(
+                    '1' => $attributeFirst['option_2']['admin_option_name'],
+                    '2' => $attributeSecond['option_2']['admin_option_name']
+                ),
+                '6' => array(
+                    '1' => $attributeFirst['option_2']['admin_option_name'],
+                    '2' => $attributeSecond['option_3']['admin_option_name']
+                ),
+                '7' => array(
+                    '1' => $attributeFirst['option_3']['admin_option_name'],
+                    '2' => $attributeSecond['option_1']['admin_option_name']
+                ),
+                '8' => array(
+                    '1' => $attributeFirst['option_3']['admin_option_name'],
+                    '2' => $attributeSecond['option_2']['admin_option_name']
+                ),
+                '9' => array(
+                    '1' => $attributeFirst['option_3']['admin_option_name'],
+                    '2' => $attributeSecond['option_3']['admin_option_name']
+                )
+            ),
         );
     }
 
@@ -114,27 +134,46 @@ class Community2_Mage_Product_Create_ConfigurableWithVariations extends Mage_Sel
         $this->saveForm('save_attribute_set');
         $this->assertMessagePresent('success', 'success_attribute_set_saved');
 
-        return array('attribute1' => $attributeThird['admin_title'],
+        return array(
+            'attribute1' => $attributeThird['admin_title'],
             'attribute2' => $attributeForth['admin_title'],
             'matrix' => array(
-                '1' => array ('1' => $attributeThird['option_1']['admin_option_name'],
-                    '2' => $attributeForth['option_1']['admin_option_name']),
-                '2' => array ('1' => $attributeThird['option_1']['admin_option_name'],
-                    '2' => $attributeForth['option_2']['admin_option_name']),
-                '3' => array ('1' => $attributeThird['option_1']['admin_option_name'],
-                    '2' => $attributeForth['option_3']['admin_option_name']),
-                '4' => array ('1' => $attributeThird['option_2']['admin_option_name'],
-                    '2' => $attributeForth['option_1']['admin_option_name']),
-                '5' => array ('1' => $attributeThird['option_2']['admin_option_name'],
-                    '2' => $attributeForth['option_2']['admin_option_name']),
-                '6' => array ('1' => $attributeThird['option_2']['admin_option_name'],
-                    '2' => $attributeForth['option_3']['admin_option_name']),
-                '7' => array ('1' => $attributeThird['option_3']['admin_option_name'],
-                    '2' => $attributeForth['option_1']['admin_option_name']),
-                '8' => array ('1' => $attributeThird['option_3']['admin_option_name'],
-                    '2' => $attributeForth['option_2']['admin_option_name']),
-                '9' => array ('1' => $attributeThird['option_3']['admin_option_name'],
-                    '2' => $attributeForth['option_3']['admin_option_name'])
+                '1' => array(
+                    '1' => $attributeThird['option_1']['admin_option_name'],
+                    '2' => $attributeForth['option_1']['admin_option_name']
+                ),
+                '2' => array(
+                    '1' => $attributeThird['option_1']['admin_option_name'],
+                    '2' => $attributeForth['option_2']['admin_option_name']
+                ),
+                '3' => array(
+                    '1' => $attributeThird['option_1']['admin_option_name'],
+                    '2' => $attributeForth['option_3']['admin_option_name']
+                ),
+                '4' => array(
+                    '1' => $attributeThird['option_2']['admin_option_name'],
+                    '2' => $attributeForth['option_1']['admin_option_name']
+                ),
+                '5' => array(
+                    '1' => $attributeThird['option_2']['admin_option_name'],
+                    '2' => $attributeForth['option_2']['admin_option_name']
+                ),
+                '6' => array(
+                    '1' => $attributeThird['option_2']['admin_option_name'],
+                    '2' => $attributeForth['option_3']['admin_option_name']
+                ),
+                '7' => array(
+                    '1' => $attributeThird['option_3']['admin_option_name'],
+                    '2' => $attributeForth['option_1']['admin_option_name']
+                ),
+                '8' => array(
+                    '1' => $attributeThird['option_3']['admin_option_name'],
+                    '2' => $attributeForth['option_2']['admin_option_name']
+                ),
+                '9' => array(
+                    '1' => $attributeThird['option_3']['admin_option_name'],
+                    '2' => $attributeForth['option_3']['admin_option_name']
+                )
             ),
         );
     }
@@ -148,7 +187,7 @@ class Community2_Mage_Product_Create_ConfigurableWithVariations extends Mage_Sel
      * @depends setConfigurableAttributesToDefault
      * @TestlinkId TL-MAGE-6476
      */
-    public function checkGeneratedMatrixWhileCreate($defaultData)
+    public function checkGeneratedMatrix($defaultData)
     {
         //Data
         $productData = $this->loadDataSet('Product', 'configurable_product_visible', array(
@@ -176,7 +215,7 @@ class Community2_Mage_Product_Create_ConfigurableWithVariations extends Mage_Sel
      * @depends setConfigurableAttributesToNewSet
      * @TestlinkId TL-MAGE-6477
      */
-    public function validMatrixAfterChangeAttributeSet($data)
+    public function checkGeneratedMatrixAfterChangeAttributeSet($data)
     {
         //Steps
         $this->productHelper()->selectTypeProduct('configurable');
