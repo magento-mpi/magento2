@@ -60,7 +60,7 @@
              */
             stripHtml: function(value) {
                 return value.replace(/<.[^<>]*?>/g, ' ').replace(/&nbsp;|&#160;/gi, ' ')
-                    .replace(/[0-9.(),;:!?%#$'"_+=\/-]*/g, '');
+                    .replace(/[0-9.(),;:!?%#$'"_+=\/-]*/g,'');
             }
         }
     });
@@ -141,13 +141,13 @@
                     return false;
                 }
                 var i, n, d, f, cd, cdv;
-                var LL = ["A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
-                var VL = [1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 7, 9, 2, 3, 4, 5, 6, 7, 8, 9];
-                var FL = [8, 7, 6, 5, 4, 3, 2, 10, 0, 9, 8, 7, 6, 5, 4, 3, 2];
+                var LL = ["A","B","C","D","E","F","G","H","J","K","L","M","N","P","R","S","T","U","V","W","X","Y","Z"];
+                var VL = [1,2,3,4,5,6,7,8,1,2,3,4,5,7,9,2,3,4,5,6,7,8,9];
+                var FL = [8,7,6,5,4,3,2,10,0,9,8,7,6,5,4,3,2];
                 var rs = 0;
                 for (i = 0; i < 17; i++) {
                     f = FL[i];
-                    d = v.slice(i, i + 1);
+                    d = v.slice(i,i+1);
                     if (i === 8) {
                         cdv = d;
                     }
@@ -168,12 +168,8 @@
                     rs += d;
                 }
                 cd = rs % 11;
-                if (cd === 10) {
-                    cd = "X";
-                }
-                if (cd === cdv) {
-                    return true;
-                }
+                if (cd === 10) { cd = "X"; }
+                if (cd === cdv) { return true; }
                 return false;
             },
             'The specified vehicle identification number (VIN) is invalid.'
@@ -188,7 +184,7 @@
                     var gg = parseInt(adata[0], 10);
                     var mm = parseInt(adata[1], 10);
                     var aaaa = parseInt(adata[2], 10);
-                    var xdata = new Date(aaaa, mm - 1, gg);
+                    var xdata = new Date(aaaa, mm-1, gg);
                     if ((xdata.getFullYear() === aaaa) &&
                         (xdata.getMonth() === mm - 1) && (xdata.getDate() === gg )) {
                         check = true;
@@ -279,30 +275,14 @@
 
                 var validTypes = 0x0000;
 
-                if (param.mastercard) {
-                    validTypes |= 0x0001;
-                }
-                if (param.visa) {
-                    validTypes |= 0x0002;
-                }
-                if (param.amex) {
-                    validTypes |= 0x0004;
-                }
-                if (param.dinersclub) {
-                    validTypes |= 0x0008;
-                }
-                if (param.enroute) {
-                    validTypes |= 0x0010;
-                }
-                if (param.discover) {
-                    validTypes |= 0x0020;
-                }
-                if (param.jcb) {
-                    validTypes |= 0x0040;
-                }
-                if (param.unknown) {
-                    validTypes |= 0x0080;
-                }
+                if (param.mastercard) { validTypes |= 0x0001; }
+                if (param.visa) { validTypes |= 0x0002; }
+                if (param.amex) { validTypes |= 0x0004; }
+                if (param.dinersclub) { validTypes |= 0x0008; }
+                if (param.enroute) { validTypes |= 0x0010; }
+                if (param.discover) { validTypes |= 0x0020; }
+                if (param.jcb) { validTypes |= 0x0040; }
+                if (param.unknown) { validTypes |= 0x0080; }
                 if (param.all) {
                     validTypes = 0x0001 | 0x0002 | 0x0004 | 0x0008 | 0x0010 | 0x0020 | 0x0040 | 0x0080;
                 }
@@ -519,13 +499,9 @@
 
         "validateDateAu": [
             function(v) {
-                if ($.mage.isEmptyNoTrim(v)) {
-                    return true;
-                }
+                if ($.mage.isEmptyNoTrim(v)) { return true; }
                 var regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
-                if ($.mage.isEmpty(v) || !regex.test(v)) {
-                    return false;
-                }
+                if ($.mage.isEmpty(v) || !regex.test(v)) { return false; }
                 var d = new Date(v.replace(regex, '$2/$1/$3'));
                 return ( parseInt(RegExp.$2, 10) === (1 + d.getMonth()) ) &&
                     (parseInt(RegExp.$1, 10) === d.getDate()) &&
