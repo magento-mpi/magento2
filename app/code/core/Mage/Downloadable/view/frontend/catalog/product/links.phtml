@@ -52,10 +52,10 @@
         </dd>
     </dl>
     <script type="text/javascript">
-        (function ($) {
+        (function($) {
             head.js("<?php echo $this->getViewFileUrl('Mage_Downloadable::downloadable.js') ?>", function () {
                 $('#downloadable-links-list').downloadable({
-                    linkClass: '.product-downloadable-link',
+                    linkElement: 'input:checkbox',
                     config: <?php echo $this->getJsonConfig() ?>,
                     priceOptionInstance: priceOptionInstance
                 });

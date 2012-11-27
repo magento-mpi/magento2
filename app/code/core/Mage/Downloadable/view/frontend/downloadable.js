@@ -10,7 +10,7 @@
 (function ($) {
     $.widget('mage.downloadable', {
         _create: function() {
-            $(this.options.linkClass).on('change', $.proxy(function() {
+            this.element.find(this.options.linkElement).on('change', $.proxy(function() {
                 this._reloadPrice();
             }, this));
         },
@@ -21,7 +21,7 @@
          */
         _reloadPrice: function() {
             var price = 0;
-            $(this.options.linkClass + ':checked').each($.proxy(function(index, element) {
+            $(this.options.linkElement + ':checked').each($.proxy(function(index, element) {
                 price += this.options.config[$(element).val()];
             }, this));
             this.options.priceOptionInstance.changePrice('config', {'price': price});
