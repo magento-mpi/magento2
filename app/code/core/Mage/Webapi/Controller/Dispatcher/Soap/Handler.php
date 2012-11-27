@@ -13,6 +13,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
     const FAULT_CODE_SENDER = 'Sender';
     const FAULT_CODE_RECEIVER = 'Receiver';
     const HEADER_SECURITY = 'Security';
+    const RESULT_NODE_NAME = 'result';
 
     /** @var Mage_Webapi_Model_Config_Soap */
     protected $_apiConfig;
@@ -59,6 +60,19 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
      */
     protected $_requestHeaders = array(self::HEADER_SECURITY);
 
+    /**
+     * Initialize dependencies.
+     *
+     * @param Mage_Webapi_Model_Config_Soap $apiConfig
+     * @param Mage_Webapi_Helper_Data $helper
+     * @param Mage_Webapi_Controller_Dispatcher_Soap_Authentication $authentication
+     * @param Mage_Webapi_Controller_Action_Factory $controllerFactory
+     * @param Mage_Webapi_Model_Authorization $authorization
+     * @param Mage_Webapi_Controller_Request_Soap $request
+     * @param Mage_Webapi_Model_Soap_Fault $soapFault
+     * @param Mage_Core_Model_Logger $logger
+     * @param Mage_Core_Model_App $app
+     */
     public function __construct(
         Mage_Webapi_Model_Config_Soap $apiConfig,
         Mage_Webapi_Helper_Data $helper,
@@ -131,7 +145,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
                     $this->_apiConfig
                 );
                 $outputData = call_user_func_array(array($controllerInstance, $action), $arguments);
-                return (object)array('result' => $outputData);
+                return (object)array(self::RESULT_NODE_NAME => $outputData);
             } catch (Mage_Webapi_Exception $e) {
                 $this->_soapFault($e->getMessage(), $e->getOriginator(), $e);
             } catch (Exception $e) {
@@ -207,6 +221,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
             }
             // TODO: Implement Current language definition
             $language = 'en';
+            // TODO: Investigate if we can pass soap fault message to response without exit expression.
             die($this->_soapFault->getSoapFaultMessage($reason, $code, $language, $details));
         } else {
             die($this->_soapFault->getSoapFaultMessage(self::FAULT_CODE_RECEIVER, 'SOAP extension is not loaded.'));
@@ -220,7 +235,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
      */
     protected function _isSoapExtensionLoaded()
     {
-        return class_exists('SoapServer', false);
+        return extension_loaded('soap');
     }
 
     /**

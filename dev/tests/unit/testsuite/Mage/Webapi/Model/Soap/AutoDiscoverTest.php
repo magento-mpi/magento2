@@ -31,8 +31,14 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $wsdlFactory->expects($this->any())->method('create')->will($this->returnValue($wsdlMock));
         $helper = $this->getMock('Mage_Webapi_Helper_Data', array('__'));
         $helper->expects($this->any())->method('__')->will($this->returnArgument(0));
+        $cacheMock = $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock();
         /** Initialize SUT. */
-        $autoDiscover = new Mage_Webapi_Model_Soap_AutoDiscover($resourceConfigMock, $wsdlFactory, $helper);
+        $autoDiscover = new Mage_Webapi_Model_Soap_AutoDiscover(
+            $resourceConfigMock,
+            $wsdlFactory,
+            $helper,
+            $cacheMock
+        );
 
         $serviceDomMock = $this->_getDomElementMock();
         $wsdlMock->expects($this->once())

@@ -30,6 +30,9 @@ class Mage_Webapi_Controller_Dispatcher_ErrorProcessor
 
     /**
      * Initialize report directory.
+     *
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_App $app
      */
     public function __construct(Mage_Core_Model_Factory_Helper $helperFactory, Mage_Core_Model_App $app)
     {
@@ -118,12 +121,8 @@ class Mage_Webapi_Controller_Dispatcher_ErrorProcessor
      * @param int $httpCode
      * @return array
      */
-    protected function _formatError(
-        $errorMessage,
-        $trace,
-        $httpCode,
-        $format
-    ) {
+    protected function _formatError($errorMessage, $trace, $httpCode, $format)
+    {
         $errorData = array();
         $message = array('code' => $httpCode, 'message' => $errorMessage);
         if ($this->_app->isDeveloperMode()) {

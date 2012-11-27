@@ -11,6 +11,11 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     const WSDL_NAME = 'MagentoWSDL';
 
     /**
+     * Cache ID for generated WSDL content.
+     */
+    const WSDL_CACHE_ID = 'WSDL';
+
+    /**
      * API Resource config instance.
      * Used to retrieve complex types data.
      *
@@ -30,23 +35,65 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      */
     protected $_helper;
 
+    /** @var Mage_Core_Model_Cache */
+    protected $_cache;
+
     /**
      * Construct auto discover with resource config and list of requested resources.
      *
      * @param Mage_Webapi_Model_Config_Soap $apiConfig
      * @param Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
      * @param Mage_Webapi_Helper_Data $helper
+     * @param Mage_Core_Model_Cache $cache
      *
      * @throws InvalidArgumentException
      */
     public function __construct(
         Mage_Webapi_Model_Config_Soap $apiConfig,
         Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory,
-        Mage_Webapi_Helper_Data $helper
+        Mage_Webapi_Helper_Data $helper,
+        Mage_Core_Model_Cache $cache
     ) {
         $this->_apiConfig = $apiConfig;
         $this->_wsdlFactory = $wsdlFactory;
         $this->_helper = $helper;
+        $this->_cache = $cache;
+    }
+
+    /**
+     * Generate WSDL content and save it to cache.
+     *
+     * @param array $requestedResources
+     * @param string $endpointUrl
+     * @return string
+     * @throws Mage_Webapi_Exception
+     */
+    public function handle($requestedResources, $endpointUrl)
+    {
+        $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedResources));
+        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
+            $cachedWsdlContent = $this->_cache->load($cacheId);
+            if ($cachedWsdlContent !== false) {
+                return $cachedWsdlContent;
+            }
+        }
+
+        $resources = array();
+        try {
+            foreach ($requestedResources as $resourceName => $resourceVersion) {
+                $resources[$resourceName] = $this->_apiConfig->getResourceDataMerged($resourceName, $resourceVersion);
+            }
+        } catch (Exception $e) {
+            throw new Mage_Webapi_Exception($e->getMessage(), Mage_Webapi_Exception::HTTP_BAD_REQUEST);
+        }
+
+        $wsdlContent = $this->generate($resources, $endpointUrl);
+
+        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
+            $this->_cache->save($wsdlContent, $cacheId, array(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_TAG));
+        }
+
+        return $wsdlContent;
     }
 
     /**

@@ -73,7 +73,13 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $this->_config = new Mage_Webapi_Model_Config_Soap($reader, $this->_helper, $app);
         $objectManager->addSharedInstance($this->_config, 'Mage_Webapi_Model_Config_Soap');
         $wsdlFactory = new Mage_Webapi_Model_Soap_Wsdl_Factory($objectManager);
-        $this->_autoDiscover = new Mage_Webapi_Model_Soap_AutoDiscover($this->_config, $wsdlFactory, $this->_helper);
+        $cache = $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock();
+        $this->_autoDiscover = new Mage_Webapi_Model_Soap_AutoDiscover(
+            $this->_config,
+            $wsdlFactory,
+            $this->_helper,
+            $cache
+        );
 
         $this->_resourceName = 'vendorModuleB';
         $this->_resourceData = $this->_config->getResourceDataMerged($this->_resourceName, 'v1');

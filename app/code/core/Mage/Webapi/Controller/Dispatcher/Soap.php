@@ -6,11 +6,6 @@
  */
 class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_DispatcherAbstract
 {
-    /**
-     * Cache ID for generated WSDL content.
-     */
-    const WSDL_CACHE_ID = 'WSDL';
-
     /** @var Mage_Webapi_Model_Config_Soap */
     protected $_apiConfig;
 
@@ -19,9 +14,6 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
 
     /** @var Mage_Webapi_Model_Soap_AutoDiscover */
     protected $_autoDiscover;
-
-    /** @var Mage_Core_Model_Cache */
-    protected $_cache;
 
     /** @var Mage_Webapi_Controller_Request_Soap */
     protected $_request;
@@ -41,7 +33,6 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
      * @param Mage_Webapi_Controller_Response $response
      * @param Mage_Webapi_Model_Soap_AutoDiscover $autoDiscover
      * @param Mage_Webapi_Model_Soap_Server $soapServer
-     * @param Mage_Core_Model_Cache $cache
      * @param Mage_Webapi_Model_Soap_Fault $soapFault
      */
     public function __construct(
@@ -51,14 +42,12 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
         Mage_Webapi_Controller_Response $response,
         Mage_Webapi_Model_Soap_AutoDiscover $autoDiscover,
         Mage_Webapi_Model_Soap_Server $soapServer,
-        Mage_Core_Model_Cache $cache,
         Mage_Webapi_Model_Soap_Fault $soapFault
     ) {
         parent::__construct($helper);
         $this->_apiConfig = $apiConfig;
         $this->_autoDiscover = $autoDiscover;
         $this->_soapServer = $soapServer;
-        $this->_cache = $cache;
         $this->_request = $request;
         $this->_soapFault = $soapFault;
         $this->_response = $response;
@@ -74,7 +63,10 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
         try {
             if ($this->_request->getParam(Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL) !== null) {
                 $this->_setResponseContentType('text/xml');
-                $responseBody = $this->_getWsdlContent();
+                $responseBody = $this->_autoDiscover->handle(
+                    $this->_request->getRequestedResources(),
+                    $this->_soapServer->getEndpointUri()
+                );
             } else {
                 $this->_setResponseContentType('application/soap+xml');
                 $responseBody = $this->_soapServer->handle();
@@ -90,17 +82,6 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
         return $this;
     }
 
-
-    /**
-     * Retrieve SOAP API config.
-     *
-     * @return Mage_Webapi_Model_Config_Soap
-     */
-    public function getApiConfig()
-    {
-        return $this->_apiConfig;
-    }
-
     /**
      * Process request as HTTP 400 and set error message.
      *
@@ -111,19 +92,18 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
         $this->_setResponseContentType('text/xml');
         $this->_response->setHttpResponseCode(400);
         $details = array();
-        $resourceConfig = $this->getApiConfig();
-        if (!is_null($resourceConfig)) {
-            foreach ($resourceConfig->getAllResourcesVersions() as $resourceName => $versions) {
-                foreach ($versions as $version) {
-                    $details['availableResources'][$resourceName][$version] = sprintf(
-                        '%s?wsdl&resources[%s]=%s',
-                        $this->_soapServer->getEndpointUri(),
-                        $resourceName,
-                        $version
-                    );
-                }
+        // TODO: handle exceptions from config.
+        foreach ($this->_apiConfig->getAllResourcesVersions() as $resourceName => $versions) {
+            foreach ($versions as $version) {
+                $details['availableResources'][$resourceName][$version] = sprintf(
+                    '%s?wsdl&resources[%s]=%s',
+                    $this->_soapServer->getEndpointUri(),
+                    $resourceName,
+                    $version
+                );
             }
         }
+
         $this->_setResponseBody(
             $this->_soapFault->getSoapFaultMessage(
                 $message,
@@ -132,42 +112,6 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
                 $details
             )
         );
-    }
-
-    /**
-     * Generate WSDL content based on resource config.
-     *
-     * @return string
-     * @throws Mage_Webapi_Exception
-     */
-    protected function _getWsdlContent()
-    {
-        $requestedResources = $this->_request->getRequestedResources();
-        $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedResources));
-        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
-            $cachedWsdlContent = $this->_cache->load($cacheId);
-            if ($cachedWsdlContent !== false) {
-                return $cachedWsdlContent;
-            }
-        }
-
-        $resources = array();
-        try {
-            foreach ($requestedResources as $resourceName => $resourceVersion) {
-                $resources[$resourceName] = $this->getApiConfig()
-                    ->getResourceDataMerged($resourceName, $resourceVersion);
-            }
-        } catch (Exception $e) {
-            throw new Mage_Webapi_Exception($e->getMessage(), Mage_Webapi_Exception::HTTP_BAD_REQUEST);
-        }
-
-        $wsdlContent = $this->_autoDiscover->generate($resources, $this->_soapServer->generateUri());
-
-        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
-            $this->_cache->save($wsdlContent, $cacheId, array(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_TAG));
-        }
-
-        return $wsdlContent;
     }
 
     /**

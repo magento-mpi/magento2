@@ -36,6 +36,16 @@ class Mage_Webapi_Model_Soap_Server
     /** @var Magento_DomDocument_Factory */
     protected $_domDocumentFactory;
 
+    /**
+     * Initialize dependencies.
+     *
+     * @param Zend\Soap\Server $zendSoapServer
+     * @param Mage_Webapi_Model_Config_Soap $apiConfig
+     * @param Mage_Core_Model_App $application
+     * @param Mage_Webapi_Controller_Request_Soap $request
+     * @param Mage_Webapi_Controller_Dispatcher_Soap_Handler $soapHandler
+     * @param Magento_DomDocument_Factory $domDocumentFactory
+     */
     public function __construct(
         Zend\Soap\Server $zendSoapServer,
         Mage_Webapi_Model_Config_Soap $apiConfig,
