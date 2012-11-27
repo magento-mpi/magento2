@@ -151,14 +151,14 @@ if (count($this->getSelectedAttributes())) {
     }
 
     foreach ($variations as $variation) {
-        $attributesInfo = array();
-        $variationalLabels = array();
+        $attributeValues = array();
+        $attributeLabels = array();
         foreach ($usedProductAttributes as $attribute) {
             /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-            $attributesInfo[$attribute->getAttributeCode()] = $variation[$attribute->getId()]['value'];
-            $variationalLabels[$attribute->getAttributeCode()] = $variation[$attribute->getId()]['label'];
+            $attributeValues[$attribute->getAttributeCode()] = $variation[$attribute->getId()]['value'];
+            $attributeLabels[$attribute->getAttributeCode()] = $variation[$attribute->getId()]['label'];
         }
-        $key = implode('-', array_keys($attributesInfo));
+        $key = implode('-', $attributeValues);
         if (isset($productByUsedAttributes[$key])) {
             $product = $productByUsedAttributes[$key];
 ?>
@@ -167,14 +167,14 @@ if (count($this->getSelectedAttributes())) {
             <td class="associated-matrix-product-price"><?php echo $product->getPrice()?></td>
             <td><span class="associated-matrix-product-sku"><?php echo $product->getSku()?></span>
                 <button class="choose-product"
-                    data-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributesInfo)); ?>"
+                    data-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"
                     style="float:right">
                     Choose
                 </button>
             </td>
             <td class="associated-matrix-product-qty"><?php echo $product->getStockItem()->getQty()?></td>
             <td class="associated-matrix-product-weight"><?php echo $product->getWeight()?></td>
-            <td><?php echo implode('</td><td>', $variationalLabels)?></td>
+            <td><?php echo implode('</td><td>', $attributeLabels)?></td>
             <td class="a-center"><input type="checkbox" name="associated_product_ids[]" value="<?php echo $product->getId()?>" class="checkbox associated-matrix-product-id" checked="checked"></td>
         </tr>
 <?php
@@ -185,25 +185,25 @@ if (count($this->getSelectedAttributes())) {
             <td class="associated-matrix-product-price"></td>
             <td><span class="associated-matrix-product-sku"></span>
                 <button class="choose-product"
-                        data-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributesInfo)); ?>"
+                        data-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"
                         style="float:right">
                     Choose
                 </button>
             </td>
             <td class="associated-matrix-product-qty"></td>
             <td class="associated-matrix-product-weight"></td>
-<!--            <td><input class="associated-matrix-product-name" value="--><?php //echo $this->_getProduct()->getName(), ' ', implode(' ', $attributesInfo)?><!--"></td>-->
+<!--            <td><input class="associated-matrix-product-name" value="--><?php //echo $this->_getProduct()->getName(), ' ', implode(' ', $attributeValues)?><!--"></td>-->
 <!--            <td><input class="associated-matrix-product-price" value=""></td>-->
-<!--            <td><input class="associated-matrix-product-sku" value="--><?php //echo $this->_getProduct()->getSku(), '-', implode('-', $attributesInfo)?><!--">-->
+<!--            <td><input class="associated-matrix-product-sku" value="--><?php //echo $this->_getProduct()->getSku(), '-', implode('-', $attributeValues)?><!--">-->
 <!--                <button class="choose-product"-->
-<!--                    data-attributes="--><?php //echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributesInfo)); ?><!--"-->
+<!--                    data-attributes="--><?php //echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?><!--"-->
 <!--                    style="float:right">-->
 <!--                    Choose-->
 <!--                </button>-->
 <!--            </td>-->
 <!--            <td><input class="associated-matrix-product-qty" value=""></td>-->
 <!--            <td><input class="associated-matrix-product-weight" value=""></td>-->
-            <td><?php echo implode('</td><td>', $variationalLabels)?></td>
+            <td><?php echo implode('</td><td>', $attributeLabels)?></td>
             <td class="a-center"><input type="checkbox" name="associated_product_ids[]" value="" class="checkbox associated-matrix-product-id" disabled="disabled"></td>
         </tr>
 <?php
