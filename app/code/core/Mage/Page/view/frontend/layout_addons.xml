@@ -29,7 +29,7 @@
             <action method="addJs"><file>mage/decorate.js</file></action>
             <action method="addJs"><file>mage/translate.js</file></action>
             <action method="addJs"><file>mage/cookies.js</file></action>
-            <action method="addJs"><file>jquery/jquery-ui-1.9.1.custom.min.js</file></action>
+            <action method="addJs"><file>jquery/jquery-ui-1.9.2.custom.min.js</file></action>
             <action method="addJs"><file>jquery/jquery.tmpl.min.js</file></action>
             <action method="addJs"><file>mage/loader.js</file></action>
         </reference>
