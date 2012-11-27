@@ -63,6 +63,7 @@
                         </allow_product_types>
                     </grouped>
                 </type>
+                <is_virtual_label translate="label">Virtual / Downloadable</is_virtual_label>
             </product>
         </catalog>
         <pdf>

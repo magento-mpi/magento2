@@ -221,6 +221,7 @@
                         <sku/>
                     </used_in_autogeneration>
                 </attributes>
+                <is_virtual_label translate="label">Virtual</is_virtual_label>
             </product>
             <content>
                 <tempate_filter>Mage_Catalog_Model_Template_Filter</tempate_filter>

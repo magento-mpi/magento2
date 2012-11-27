@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer extends V
             ? $data['element']
             : Mage::getModel('Varien_Data_Form_Element_Checkbox');
         $this->_virtual->setId(self::VIRTUAL_FIELD_HTML_ID)->setName('is_virtual')
-            ->setLabel($this->_helper->__('Virtual / Downloadable'));
+            ->setLabel($this->_helper->getIsVirtualControlLabel());
         parent::__construct($data);
     }
 
