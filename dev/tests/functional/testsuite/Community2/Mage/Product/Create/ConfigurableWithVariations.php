@@ -151,6 +151,7 @@ class Community2_Mage_Product_Create_ConfigurableWithVariations extends Mage_Sel
         $superAttributes = array('1','2');
         $this->productHelper()->createProduct($productData, false);
         $this->openTab('general');
+        $this->fillField('general_weight', '15');
         $this->fillCheckbox('is_configurable', 'yes');
         $this->assertTrue($this->isChecked($this->_getControlXpath('checkbox', 'is_configurable')));
         $this->assertTrue($this->controlIsVisible('fieldset', 'product_variations'));
@@ -171,7 +172,7 @@ class Community2_Mage_Product_Create_ConfigurableWithVariations extends Mage_Sel
      * @test
      * @depends setConfigurableAttributesToNewSet
      */
-    public function presenceMatrixAfterChangeAttributeSet($data)
+    public function validMatrixAfterChangeAttributeSet($data)
     {
         $superAttributes = array('1','2');
         $this->productHelper()->selectTypeProduct('configurable');

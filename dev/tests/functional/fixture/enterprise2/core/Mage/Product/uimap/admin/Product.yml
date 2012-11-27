@@ -58,10 +58,8 @@ new_product:
                             -
                                 variations_matrix:
                                      xpath: //*[@id='product-variations-matrix']
-
                                      checkboxes:
                                          include_variation: //tbody/tr[%rowNum%]//*[@type='checkbox']
-
                                      pageelements:
                                          variation_line: //table/tbody/tr[%rowNum%]
                         checkboxes:
@@ -194,7 +192,8 @@ new_product:
         buttons:
             change_attribute_set: //button[span='Change Attribute Set']
             new_category: //button[span='New Category']
-            save: //button[span='Save']
+            save: //*[@data-ui-id='product-edit-save-button']
+            save_and_continue_edit: //*[@data-ui-id='product-edit-save-and-edit-button']
 
 new_configurable_product:
     mca: catalog_product/new/attributes/%attributesUrl%/set/%setId%/type/%productType%/&active_tab=configurable/

@@ -58,14 +58,11 @@ new_product:
                                 variations_matrix:
                                     xpath: //*[@id='product-variations-matrix']
                                     checkboxes:
-
                                         include_variation: //tbody/tr[%rowNum%]//*[@type='checkbox']
                                     pageelements:
-
                                         variation_line: //table/tbody/tr[%rowNum%]
                         checkboxes:
                             is_configurable: //*[@id='config_super_product-checkbox']
-                -
                     prices:
                         fieldsets:
                             -
@@ -159,9 +156,10 @@ new_product:
                         links:
                             suggested_category_name: /*[contains(concat(' ', normalize-space(@class), ' '), ' ui-menu-item ')]/*[text()='%categoryName%']
         buttons:
-            change_attribute_set: //button[span='Change Attribute Set']
+            change_attribute_set: //*[@data-ui-id='product-edit-change-attribute-set-button']
             new_category: //button[span='New Category']
-            save: //button[span='Save']
+            save: //*[@data-ui-id='product-edit-save-button']
+            save_and_continue_edit: //*[@data-ui-id='product-edit-save-and-edit-button']
 
 new_configurable_product:
     mca: catalog_product/new/attributes/%attributesUrl%/set/%setId%/type/%productType%/&active_tab=configurable/
