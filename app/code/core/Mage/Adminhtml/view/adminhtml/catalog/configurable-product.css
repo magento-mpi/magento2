@@ -7,7 +7,6 @@
  * @license     {license_link}
  */
 #configurable_associated_products_grid .filter-actions,
-#configurable_associated_products_grid .filter
-{
+#configurable_associated_products_grid .filter {
     display: none;
 }

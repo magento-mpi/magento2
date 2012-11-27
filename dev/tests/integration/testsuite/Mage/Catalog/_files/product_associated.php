@@ -29,6 +29,6 @@ $product->setTypeId('simple')
     ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
 
     ->setStockData(array(
-    'use_config_manage_stock' => 0,
-))
+        'use_config_manage_stock' => 0,
+    ))
     ->save();

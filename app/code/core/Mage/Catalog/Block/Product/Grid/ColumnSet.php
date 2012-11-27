@@ -90,7 +90,7 @@ class Mage_Catalog_Block_Product_Grid_ColumnSet extends Mage_Backend_Block_Widge
     /**
      * Preparing layout
      *
-     * @return Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid
+     * @return Mage_Catalog_Block_Product_Grid_ColumnSet
      */
     protected function _prepareLayout()
     {

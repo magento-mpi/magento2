@@ -53,12 +53,9 @@ class Mage_Catalog_Model_Resource_Product_Collection_AssociatedProduct
         Mage_Catalog_Helper_Product_Configuration $configurationHelper,
         $resource = null
     ) {
-        $this->_registryManager = isset($registryManager) ? $registryManager
-            : Mage::getModel('Mage_Core_Model_Registry');
-        $this->_productType = isset($productType) ? $productType
-            : Mage::getModel('Mage_Catalog_Model_Product_Type_Configurable');
-        $this->_configurationHelper = isset($configurationHelper) ? $configurationHelper
-            : Mage::getModel('Mage_Catalog_Helper_Product_Configuration');
+        $this->_registryManager = $registryManager;
+        $this->_productType = $productType;
+        $this->_configurationHelper = $configurationHelper;
 
         parent::__construct($resource);
     }

@@ -28,8 +28,8 @@ class Mage_Catalog_Block_Product_Grid_ColumnSetTest extends PHPUnit_Framework_Te
         $layout = Mage::getSingleton('Mage_Core_Model_Layout');
         /** @var $block  Mage_Catalog_Block_Product_Grid_ColumnSet */
         $block = $layout->createBlock('Mage_Catalog_Block_Product_Grid_ColumnSet', 'block');
-        $blockData = $block->getLayout()->getBlock('block.test_configurable')->getData();
-        $this->assertEquals('Test Configurable', $blockData['header']);
-        $this->assertEquals('test_configurable', $blockData['id']);
+        $assertBlock = $block->getLayout()->getBlock('block.test_configurable');
+        $this->assertEquals('Test Configurable', $assertBlock->getHeader());
+        $this->assertEquals('test_configurable', $assertBlock->getId());
     }
 }

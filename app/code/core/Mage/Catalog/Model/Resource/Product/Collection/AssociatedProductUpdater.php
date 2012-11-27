@@ -38,18 +38,18 @@ class Mage_Catalog_Model_Resource_Product_Collection_AssociatedProductUpdater
     /**
      * Add filtration by qty and stock availability
      *
-     * @param Varien_Data_Collection_Db $argument
+     * @param Mage_Catalog_Model_Resource_Product_Collection_AssociatedProduct $collection
      * @return mixed
      */
-    public function update($argument)
+    public function update($collection)
     {
         $this->_stockItem->addCatalogInventoryToProductCollection(
-            $argument,
+            $collection,
             array(
                 'qty' => 'qty',
                 'inventory_in_stock' => 'is_in_stock'
             )
         );
-        return $argument;
+        return $collection;
     }
 }

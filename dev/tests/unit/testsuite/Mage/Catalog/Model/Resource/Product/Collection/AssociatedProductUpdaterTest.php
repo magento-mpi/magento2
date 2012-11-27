@@ -20,7 +20,7 @@ class Mage_Catalog_Model_Resource_Product_Collection_AssociatedProductUpdaterTes
             'qty' => 'qty',
             'inventory_in_stock' => 'is_in_stock'
         );
-        $argument = $this->getMockBuilder('Varien_Data_Collection_Db')
+        $collection = $this->getMockBuilder('Varien_Data_Collection_Db')
             ->disableOriginalConstructor()
             ->getMock();
         $stockItem = $this->getMockBuilder('Mage_CatalogInventory_Model_Resource_Stock_Item')
@@ -29,9 +29,9 @@ class Mage_Catalog_Model_Resource_Product_Collection_AssociatedProductUpdaterTes
             ->getMock();
         $stockItem->expects($this->any())
             ->method('addCatalogInventoryToProductCollection')
-            ->with($argument, $inventory);
+            ->with($collection, $inventory);
 
         $model = new Mage_Catalog_Model_Resource_Product_Collection_AssociatedProductUpdater($stockItem);
-        $model->update($argument);
+        $model->update($collection);
     }
 }
