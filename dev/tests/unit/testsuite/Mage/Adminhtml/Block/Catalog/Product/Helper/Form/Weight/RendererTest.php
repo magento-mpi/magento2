@@ -14,7 +14,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_RendererTest exten
     const VIRTUAL_FIELD_HTML_ID = 'weight_and_type_switcher';
 
     /**
-     * @var Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock
+     * @var Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer
      */
     protected $_model;
 
@@ -25,22 +25,30 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_RendererTest exten
 
     public function testSetForm()
     {
-        $this->_virtual = $this->getMock('Varien_Data_Form_Element_Checkbox',
-            array('setForm', 'setId', 'setName', 'setLabel')
-        );
-        $this->_virtual->expects($this->any())->method('setId')->with($this->equalTo(self::VIRTUAL_FIELD_HTML_ID))
-            ->will($this->returnValue($this->_virtual));
-        $this->_virtual->expects($this->any())->method('setName')->with($this->equalTo('is_virtual'))
-            ->will($this->returnValue($this->_virtual));;
-        $this->_virtual->expects($this->any())->method('setLabel')->with($this->equalTo('Virtual / Downloadable'));
-        $helper = $this->getMock('Mage_Catalog_Helper_Data', array('getIsVirtualControlLabel'));
-        $helper->expects($this->any())->method('getIsVirtualControlLabel')
+        $this->_virtual = new Varien_Object();
+
+        $helper = $this->getMock('Mage_Catalog_Helper_Product', array('getTypeSwitcherControlLabel'));
+        $helper->expects($this->any())->method('getTypeSwitcherControlLabel')
             ->will($this->returnValue('Virtual / Downloadable'));
+
+        $this->assertNull($this->_virtual->getId());
+        $this->assertNull($this->_virtual->getName());
+        $this->assertNull($this->_virtual->getLabel());
+        $this->assertNull($this->_virtual->getForm());
+
         $this->_model = new Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer(
             array('element' => $this->_virtual, 'helper' => $helper)
         );
+
         $form = new Varien_Data_Form();
-        $this->_virtual->expects($this->any())->method('setForm')->with($this->isInstanceOf('Varien_Data_Form'));
         $this->_model->setForm($form);
+
+        $this->assertEquals(
+            Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer::VIRTUAL_FIELD_HTML_ID,
+            $this->_virtual->getId()
+        );
+        $this->assertEquals('is_virtual', $this->_virtual->getName());
+        $this->assertEquals('Virtual / Downloadable', $this->_virtual->getLabel());
+        $this->assertInstanceOf('Varien_Data_Form', $this->_virtual->getForm());
     }
 }

@@ -29,7 +29,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer extends V
     /**
      * Catalog helper
      *
-     * @var Mage_Catalog_Helper_Data
+     * @var Mage_Catalog_Helper_Product
      */
     protected $_helper;
 
