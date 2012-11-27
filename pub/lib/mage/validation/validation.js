@@ -60,7 +60,7 @@
              */
             stripHtml: function(value) {
                 return value.replace(/<.[^<>]*?>/g, ' ').replace(/&nbsp;|&#160;/gi, ' ')
-                    .replace(/[0-9.(),;:!?%#$'"_+=\/-]*/g,'');
+                    .replace(/[0-9.(),;:!?%#$'"_+=\/-]*/g, '');
             }
         }
     });
@@ -141,13 +141,13 @@
                     return false;
                 }
                 var i, n, d, f, cd, cdv;
-                var LL = ["A","B","C","D","E","F","G","H","J","K","L","M","N","P","R","S","T","U","V","W","X","Y","Z"];
-                var VL = [1,2,3,4,5,6,7,8,1,2,3,4,5,7,9,2,3,4,5,6,7,8,9];
-                var FL = [8,7,6,5,4,3,2,10,0,9,8,7,6,5,4,3,2];
+                var LL = ["A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+                var VL = [1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 7, 9, 2, 3, 4, 5, 6, 7, 8, 9];
+                var FL = [8, 7, 6, 5, 4, 3, 2, 10, 0, 9, 8, 7, 6, 5, 4, 3, 2];
                 var rs = 0;
                 for (i = 0; i < 17; i++) {
                     f = FL[i];
-                    d = v.slice(i,i+1);
+                    d = v.slice(i, i + 1);
                     if (i === 8) {
                         cdv = d;
                     }
@@ -168,8 +168,12 @@
                     rs += d;
                 }
                 cd = rs % 11;
-                if (cd === 10) { cd = "X"; }
-                if (cd === cdv) { return true; }
+                if (cd === 10) {
+                    cd = "X";
+                }
+                if (cd === cdv) {
+                    return true;
+                }
                 return false;
             },
             'The specified vehicle identification number (VIN) is invalid.'
@@ -184,9 +188,9 @@
                     var gg = parseInt(adata[0], 10);
                     var mm = parseInt(adata[1], 10);
                     var aaaa = parseInt(adata[2], 10);
-                    var xdata = new Date(aaaa, mm-1, gg);
-                    if ( (xdata.getFullYear() === aaaa) &&
-                        (xdata.getMonth () === mm - 1) && (xdata.getDate() === gg )) {
+                    var xdata = new Date(aaaa, mm - 1, gg);
+                    if ((xdata.getFullYear() === aaaa) &&
+                        (xdata.getMonth() === mm - 1) && (xdata.getDate() === gg )) {
                         check = true;
                     } else {
                         check = false;
@@ -257,7 +261,7 @@
                 return this.optional(element) || /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)*(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i.test(value);
             },
             jQuery.validator.messages.email
-         ],
+        ],
 
         "url2": [
             function(value, element) {
@@ -275,14 +279,30 @@
 
                 var validTypes = 0x0000;
 
-                if (param.mastercard) { validTypes |= 0x0001; }
-                if (param.visa) { validTypes |= 0x0002; }
-                if (param.amex) { validTypes |= 0x0004; }
-                if (param.dinersclub) { validTypes |= 0x0008; }
-                if (param.enroute) { validTypes |= 0x0010; }
-                if (param.discover) { validTypes |= 0x0020; }
-                if (param.jcb) { validTypes |= 0x0040; }
-                if (param.unknown) { validTypes |= 0x0080; }
+                if (param.mastercard) {
+                    validTypes |= 0x0001;
+                }
+                if (param.visa) {
+                    validTypes |= 0x0002;
+                }
+                if (param.amex) {
+                    validTypes |= 0x0004;
+                }
+                if (param.dinersclub) {
+                    validTypes |= 0x0008;
+                }
+                if (param.enroute) {
+                    validTypes |= 0x0010;
+                }
+                if (param.discover) {
+                    validTypes |= 0x0020;
+                }
+                if (param.jcb) {
+                    validTypes |= 0x0040;
+                }
+                if (param.unknown) {
+                    validTypes |= 0x0080;
+                }
                 if (param.all) {
                     validTypes = 0x0001 | 0x0002 | 0x0004 | 0x0008 | 0x0010 | 0x0020 | 0x0040 | 0x0080;
                 }
@@ -340,7 +360,7 @@
         ],
 
         "allowContainerClassName": [
-            function (element) {
+            function(element) {
                 if (element.type === 'radio' || element.type === 'checkbox') {
                     return $(element).hasClass('change-container-classname');
                 }
@@ -349,83 +369,83 @@
         ],
 
         "validateNoHtmlTags": [
-            function (value) {
+            function(value) {
                 return !/<(\/)?\w+/.test(value);
             },
             'HTML tags are not allowed'
         ],
 
         "validateSelect": [
-            function (value) {
+            function(value) {
                 return ((value !== "none") && (value != null) && (value.length !== 0));
             },
             'Please select an option'
         ],
 
         "isEmpty": [
-            function (value) {
+            function(value) {
                 return  (value === '' || (value == null) || (value.length === 0) || /^\s+$/.test(value));
             },
-           'Empty Value'
+            'Empty Value'
         ],
 
         "validateAlphanumWithSpaces": [
-            function (v) {
+            function(v) {
                 return $.mage.isEmptyNoTrim(v) || /^[a-zA-Z0-9 ]+$/.test(v);
             },
             'Please use only letters (a-z or A-Z), numbers (0-9) or spaces only in this field'
         ],
 
         "validateData": [
-            function (v) {
+            function(v) {
                 return $.mage.isEmptyNoTrim(v) || /^[A-Za-z]+[A-Za-z0-9_]+$/.test(v);
             },
             'Please use only letters (a-z or A-Z), numbers (0-9) or underscore (_) in this field, first character should be a letter.'
         ],
 
         "validateStreet": [
-            function (v) {
+            function(v) {
                 return $.mage.isEmptyNoTrim(v) || /^[ \w]{3,}([A-Za-z]\.)?([ \w]*\#\d+)?(\r\n| )[ \w]{3,}/.test(v);
             },
             'Please use only letters (a-z or A-Z) or numbers (0-9) or spaces and # only in this field'
         ],
 
         "validatePhoneStrict": [
-            function (v) {
+            function(v) {
                 return $.mage.isEmptyNoTrim(v) || /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/.test(v);
             },
             'Please enter a valid phone number. For example (123) 456-7890 or 123-456-7890.'
         ],
 
         "validatePhoneLax": [
-            function (v) {
+            function(v) {
                 return $.mage.isEmptyNoTrim(v) || /^((\d[\-. ]?)?((\(\d{3}\))|\d{3}))?[\-. ]?\d{3}[\-. ]?\d{4}$/.test(v);
             },
             'Please enter a valid phone number. For example (123) 456-7890 or 123-456-7890.'
         ],
 
         "validateFax": [
-            function (v) {
+            function(v) {
                 return $.mage.isEmptyNoTrim(v) || /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/.test(v);
             },
             'Please enter a valid phone number. For example (123) 456-7890 or 123-456-7890.'
         ],
 
         "validateEmail": [
-            function (v) {
+            function(v) {
                 return $.mage.isEmptyNoTrim(v) || /^([a-z0-9,!\#\$%&'\*\+\/=\?\^_`\{\|\}~-]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z0-9,!\#\$%&'\*\+\/=\?\^_`\{\|\}~-]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*@([a-z0-9-]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z0-9-]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*\.(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]){2,})$/i.test(v);
             }, 'Please enter a valid email address. For example johndoe@domain.com.'
         ],
 
         "validateEmailSender": [
-            function (v) {
+            function(v) {
                 return $.mage.isEmptyNoTrim(v) || /^[\S ]+$/.test(v);
             },
             'Please enter a valid email address. For example johndoe@domain.com.'
         ],
 
         "validatePassword": [
-            function (v) {
+            function(v) {
                 if (v == null) {
                     return false;
                 }
@@ -439,7 +459,7 @@
         ],
 
         "validateAdminPassword": [
-            function (v) {
+            function(v) {
                 if (v == null) {
                     return false;
                 }
@@ -459,7 +479,7 @@
         ],
 
         "validateUrl": [
-            function (v) {
+            function(v) {
                 if ($.mage.isEmptyNoTrim(v)) {
                     return true;
                 }
@@ -470,38 +490,42 @@
         ],
 
         "validateCleanUrl": [
-            function (v) {
+            function(v) {
                 return $.mage.isEmptyNoTrim(v) || /^(http|https|ftp):\/\/(([A-Z0-9][A-Z0-9_-]*)(\.[A-Z0-9][A-Z0-9_-]*)+.(com|org|net|dk|at|us|tv|info|uk|co.uk|biz|se)$)(:(\d+))?\/?/i.test(v) || /^(www)((\.[A-Z0-9][A-Z0-9_-]*)+.(com|org|net|dk|at|us|tv|info|uk|co.uk|biz|se)$)(:(\d+))?\/?/i.test(v);
             },
             'Please enter a valid URL. For example http://www.example.com or www.example.com'
         ],
 
         "validateXmlIdentifier": [
-            function (v) {
+            function(v) {
                 return $.mage.isEmptyNoTrim(v) || /^[A-Z][A-Z0-9_\/-]*$/i.test(v);
             },
             'Please enter a valid Xml identifier'
         ],
 
         "validateSsn": [
-            function (v) {
+            function(v) {
                 return $.mage.isEmptyNoTrim(v) || /^\d{3}-?\d{2}-?\d{4}$/.test(v);
             },
             'Please enter a valid social security number. For example 123-45-6789.'
         ],
 
         "validateZip": [
-            function (v) {
+            function(v) {
                 return $.mage.isEmptyNoTrim(v) || /(^\d{5}$)|(^\d{5}-\d{4}$)/.test(v);
             },
             'Please enter a valid zip code. For example 90602 or 90602-1234.'
         ],
 
         "validateDateAu": [
-            function (v) {
-                if ($.mage.isEmptyNoTrim(v)) { return true; }
+            function(v) {
+                if ($.mage.isEmptyNoTrim(v)) {
+                    return true;
+                }
                 var regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
-                if ($.mage.isEmpty(v) || !regex.test(v)) { return false; }
+                if ($.mage.isEmpty(v) || !regex.test(v)) {
+                    return false;
+                }
                 var d = new Date(v.replace(regex, '$2/$1/$3'));
                 return ( parseInt(RegExp.$2, 10) === (1 + d.getMonth()) ) &&
                     (parseInt(RegExp.$1, 10) === d.getDate()) &&
@@ -511,13 +535,13 @@
         ],
 
         "validateCurrencyDollar": [
-            function (v) {
+            function(v) {
                 return $.mage.isEmptyNoTrim(v) || /^\$?\-?([1-9]{1}[0-9]{0,2}(\,[0-9]{3})*(\.[0-9]{0,2})?|[1-9]{1}\d*(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|(\.[0-9]{1,2})?)$/.test(v);
             }, 'Please enter a valid $ amount. For example $100.00.'
         ],
 
         "validateNotNegativeNumber": [
-            function (v) {
+            function(v) {
                 if ($.mage.isEmptyNoTrim(v)) {
                     return true;
                 }
@@ -528,7 +552,7 @@
         ],
 
         "validateGreaterThanZero": [
-            function (v) {
+            function(v) {
                 if ($.mage.isEmptyNoTrim(v)) {
                     return true;
                 }
@@ -539,13 +563,39 @@
         ],
 
         "validateCssLength": [
-            function (v) {
+            function(v) {
                 if ($.mage.isEmptyNoTrim(v)) {
                     return true;
                 }
                 v = $.mage.parseNumber(v);
                 return !isNaN(v) && v > 0;
             }, 'Please enter a number greater than 0 in this field'
+        ],
+
+        "validateOneRequiredByName": [
+            function(value, element, params) {
+                var container = '#' + params;
+                var checkedCount = 0;
+                if (element.type === 'checkbox') {
+                    var nameSelector = '[name=' + element.name + ']';
+                    $(nameSelector).each(function() {
+                        if ($(this).is(':checked')) {
+                            checkedCount += 1;
+                            return;
+                        }
+                    });
+                }
+                if (checkedCount > 0) {
+                    $(container).removeClass('validation-failed');
+                    $(container).addClass('validation-passed');
+                    return true;
+                } else {
+                    $(container).addClass('validation-failed');
+                    $(container).removeClass('validation-passed');
+                    return false;
+                }
+            },
+            'Please select one of the options.'
         ]
     };
 
@@ -573,22 +623,30 @@
             ignoreTitle: true,
             errorClass: 'mage-error',
             errorElement: 'div',
+            errorPlacement: function(error, element) {
+                if (element.hasClass("validate-one-required-by-name")) {
+                    error.appendTo('.mage-error-container');
+                }
+                else {
+                    error.insertAfter(element);
+                }
+            },
             rules: {}
         },
-        
-        _create: function(){
+
+        _create: function() {
             this._addRules();
             this.element.validate(this.options);
             this.element.mageEventFormValidate(this);
         },
-        
+
         _addRules: function() {
-            $.each(this.options.rules, function (i, rule) {
+            $.each(this.options.rules, function(i, rule) {
                 rule.unshift(i);
                 $.validator.addMethod.apply($.validator, rule);
             });
         },
-        
+
         /**
          * Check if form pass validation rules without submit
          * @return boolean
