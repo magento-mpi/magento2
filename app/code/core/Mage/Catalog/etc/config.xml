@@ -220,8 +220,12 @@
                         <description/>
                         <sku/>
                     </used_in_autogeneration>
+                    <weight>
+                        <type_switcher translate="label">
+                            <label>Virtual</label>
+                        </type_switcher>
+                    </weight>
                 </attributes>
-                <is_virtual_label translate="label">Virtual</is_virtual_label>
             </product>
             <content>
                 <tempate_filter>Mage_Catalog_Model_Template_Filter</tempate_filter>

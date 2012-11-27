@@ -26,7 +26,6 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
     const CONFIG_PARSE_URL_DIRECTIVES      = 'catalog/frontend/parse_url_directives';
     const XML_PATH_CONTENT_TEMPLATE_FILTER = 'global/catalog/content/tempate_filter';
     const XML_PATH_DISPLAY_PRODUCT_COUNT   = 'catalog/layered_navigation/display_product_count';
-    const XML_PATH_ADMINHTML_VIRTUAL_LABEL = 'global/catalog/product/is_virtual_label';
 
     /**
      * Minimum advertise price constants
@@ -446,15 +445,5 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
     public function shouldDisplayProductCountOnLayer($storeId = null)
     {
         return Mage::getStoreConfigFlag(self::XML_PATH_DISPLAY_PRODUCT_COUNT, $storeId);
-    }
-
-    /**
-     * Get label for virtual control
-     *
-     * @return string
-     */
-    public function getIsVirtualControlLabel()
-    {
-        return $this->__((string)Mage::getConfig()->getNode(self::XML_PATH_ADMINHTML_VIRTUAL_LABEL));
     }
 }
