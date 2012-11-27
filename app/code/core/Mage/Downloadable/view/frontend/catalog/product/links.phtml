@@ -21,8 +21,8 @@
             <li>
                 <?php if ($_linksPurchasedSeparately): ?>
                 <input type="checkbox" <?php if ($_isRequired): ?>data-validate="{validateOneRequiredByName:'downloadable-links-list'}" <?php endif; ?>
-                       class="checkbox <?php if ($_isRequired): ?> validate-one-required-by-name<?php endif; ?> product-downloadable-link"
-                       name="links" id="links_<?php echo $_link->getId() ?>"
+                       class="checkbox <?php if ($_isRequired): ?> validate-one-required-by-name<?php endif; ?> "
+                       name="links[]" id="links_<?php echo $_link->getId() ?>"
                        value="<?php echo $_link->getId(); ?>" <?php echo $this->getLinkCheckedValue($_link); ?> />
                 <?php endif; ?>
                 <span class="label">
@@ -43,13 +43,17 @@
         </ul>
 
             <?php if ($_isRequired): ?>
-                <span id="links-advice-container"></span>
+                <span class="mage-error-container"></span>
             <?php endif;?>
         </dd>
     </dl>
     <script type="text/javascript">
         (function ($) {
-            head.js("<?php echo $this->getViewFileUrl('Mage_Downloadable::downloadable.js') ?>", function () {
+            head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+                "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
+                "<?php echo $this->getViewFileUrl('jquery/jquery.hook.js')?>",
+                "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
+                "<?php echo $this->getViewFileUrl('Mage_Downloadable::downloadable.js') ?>", function () {
                 $('#downloadable-links-list').downloadable({
                     linkElement: 'input:checkbox',
                     config: <?php echo $this->getJsonConfig() ?>,

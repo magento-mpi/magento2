@@ -577,7 +577,7 @@
                 var container = '#' + params;
                 var checkedCount = 0;
                 if (element.type === 'checkbox') {
-                    var nameSelector = '[name=' + element.name + ']';
+                    var nameSelector = '[name="' + element.name + '"]';
                     $(nameSelector).each(function() {
                         if ($(this).is(':checked')) {
                             checkedCount += 1;
