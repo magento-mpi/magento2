@@ -142,7 +142,7 @@ if (count($this->getSelectedAttributes())) {
 
     $productByUsedAttributes = array();
     foreach ($this->_getProduct()->getTypeInstance()->getUsedProducts($this->_getProduct()) as $product) {
-       $key = array();
+       $keys = array();
        foreach ($usedProductAttributes as $attribute) {
            /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
            $keys[] = $product->getData($attribute->getAttributeCode());

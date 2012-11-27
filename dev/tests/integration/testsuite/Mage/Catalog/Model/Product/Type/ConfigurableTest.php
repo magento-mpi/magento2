@@ -59,23 +59,6 @@ class Mage_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framework
         $this->assertTrue(2 === count($ids[0]));
     }
 
-    // testGetParentIdsByChild is after testGetConfigurableAttributesAsArray, because depends on it.
-    public function testGetEditableAttributes()
-    {
-        $this->markTestIncomplete('MAGETWO-4604');
-        $attributes = $this->_model->getEditableAttributes($this->_product);
-
-        // applicable to all types
-        $this->assertArrayHasKey('sku', $attributes);
-        $this->assertArrayHasKey('name', $attributes);
-
-        // applicable to configurable
-        $this->assertArrayHasKey('price', $attributes);
-
-        // not applicable to configurable
-        $this->assertArrayNotHasKey('weight', $attributes);
-    }
-
     public function testCanUseAttribute()
     {
         $this->assertFalse($this->_model->canUseAttribute($this->_getAttributeByCode('sku')));

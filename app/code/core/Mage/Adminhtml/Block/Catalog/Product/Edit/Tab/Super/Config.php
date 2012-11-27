@@ -134,9 +134,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
      */
     public function getAttributes()
     {
-        $attributes = (array) $this->_getProductType()
-            ->getConfigurableAttributesAsArray($this->_getProduct());
-
+        $attributes = (array)$this->_getProductType()->getConfigurableAttributesAsArray($this->_getProduct());
         foreach ($attributes as &$attribute) {
             if (isset($attribute['values']) && is_array($attribute['values'])) {
                 foreach ($attribute['values'] as &$attributeValue) {
@@ -339,17 +337,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
      */
     public function getSelectedAttributes()
     {
-        if (!$this->_getProduct()->isConfigurable()) {
-            return array();
-        } else {
-            return array_filter(
-                $this->_getProductType()->getUsedProductAttributes($this->_getProduct())
-            );
-        }
+        return $this->_getProduct()->isConfigurable()
+            ? array_filter($this->_getProductType()->getUsedProductAttributes($this->_getProduct()))
+            : array();
     }
 
     /**
-     * Get attributes variation
+     * Retrieve all possible attribute values combinations
+     *
      * @return array
      */
     public function getVariations()

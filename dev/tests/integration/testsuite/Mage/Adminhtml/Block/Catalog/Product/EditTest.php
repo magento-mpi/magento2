@@ -14,25 +14,22 @@ class Mage_Adminhtml_Block_Catalog_Product_EditTest extends PHPUnit_Framework_Te
     /**
      * @var Mage_Adminhtml_Block_Catalog_Product_Edit
      */
-    protected $_block = null;
+    protected $_block;
 
     protected function setUp()
     {
-        $this->markTestIncomplete('MAGETWO-4604');
-        return;
-        $this->_block = new Mage_Adminhtml_Block_Catalog_Product_Edit();
-        Mage::register('current_product', new Varien_Object(array('type_id' => 'simple')));
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->getMock('Mage_Catalog_Model_Product', array('getAttributes'), array(), '', false);
+        $product->expects($this->any())->method('getAttributes')->will($this->returnValue(array()));
+        $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE);
+        Mage::register('current_product', $product);
+        $this->_block = Mage::app()->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit');
     }
 
     public function testGetTypeSwitcherData()
     {
-        $this->markTestIncomplete('MAGETWO-4604');
-        $data = array(
-            'current_type' => 'simple',
-            'attributes' => array(),
-        );
-        $jsData = json_decode($this->_block->getTypeSwitcherData(), true);
-        $this->assertEquals($data['current_type'], $jsData['current_type']);
-        $this->assertEquals($data['attributes'], $jsData['attributes']);
+        $data = json_decode($this->_block->getTypeSwitcherData(), true);
+        $this->assertEquals('simple', $data['current_type']);
+        $this->assertEquals(array(), $data['attributes']);
     }
 }
