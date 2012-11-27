@@ -152,10 +152,11 @@ if (count($this->getSelectedAttributes())) {
 
     foreach ($variations as $variation) {
         $attributesInfo = array();
-        $attributesInfo = array();
+        $variationalLabels = array();
         foreach ($usedProductAttributes as $attribute) {
             /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-            $attributesInfo[$attribute->getAttributeCode()] = $variation[$attribute->getId()]['label'];
+            $attributesInfo[$attribute->getAttributeCode()] = $variation[$attribute->getId()]['value'];
+            $variationalLabels[$attribute->getAttributeCode()] = $variation[$attribute->getId()]['label'];
         }
         $key = implode('-', array_keys($attributesInfo));
         if (isset($productByUsedAttributes[$key])) {
@@ -173,7 +174,7 @@ if (count($this->getSelectedAttributes())) {
             </td>
             <td class="associated-matrix-product-qty"><?php echo $product->getStockItem()->getQty()?></td>
             <td class="associated-matrix-product-weight"><?php echo $product->getWeight()?></td>
-            <td><?php echo implode('</td><td>', $attributesInfo)?></td>
+            <td><?php echo implode('</td><td>', $variationalLabels)?></td>
             <td class="a-center"><input type="checkbox" name="associated_product_ids[]" value="<?php echo $product->getId()?>" class="checkbox associated-matrix-product-id" checked="checked"></td>
         </tr>
 <?php
@@ -202,7 +203,7 @@ if (count($this->getSelectedAttributes())) {
 <!--            </td>-->
 <!--            <td><input class="associated-matrix-product-qty" value=""></td>-->
 <!--            <td><input class="associated-matrix-product-weight" value=""></td>-->
-            <td><?php echo implode('</td><td>', $attributesInfo)?></td>
+            <td><?php echo implode('</td><td>', $variationalLabels)?></td>
             <td class="a-center"><input type="checkbox" name="associated_product_ids[]" value="" class="checkbox associated-matrix-product-id" disabled="disabled"></td>
         </tr>
 <?php
