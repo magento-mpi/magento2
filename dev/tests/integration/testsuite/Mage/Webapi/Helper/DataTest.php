@@ -19,32 +19,31 @@ include_once __DIR__ . '/../_files/autodiscovery/subresource_class_fixture.php';
 class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     /** @var Mage_Webapi_Helper_Data */
-    protected static $_helper;
+    protected $_helper;
 
     /** @var Mage_Webapi_Model_ConfigAbstract */
     protected static $_apiConfig;
 
     protected function setUp()
     {
-        self::$_helper = self::getMock('Mage_Webapi_Helper_Data', array('__'));
-        self::$_helper->expects(self::any())->method('__')->will(self::returnArgument(0));
+        $this->_helper = Mage::getObjectManager()->get('Mage_Webapi_Helper_Data');
         parent::setUp();
-    }
-
-    protected function tearDown()
-    {
-        self::$_helper = null;
-        parent::tearDown();
     }
 
     /**
      * @return Mage_Webapi_Model_ConfigAbstract
      */
-    protected function _getModel()
+    protected function _getApiConfig()
     {
         if (!self::$_apiConfig) {
-            $pathToFixtures = __DIR__ . '/../../_files/autodiscovery';
-            self::$_apiConfig = $this->_createResourceConfig($pathToFixtures);
+            $objectManager = Mage::getObjectManager();
+            /** Prepare arguments for SUT constructor. */
+            $pathToFixtures = __DIR__ . '/../_files/autodiscovery';
+            /** @var Mage_Webapi_Model_Config_Reader_Soap $reader */
+            $reader = $objectManager->get('Mage_Webapi_Model_Config_Reader_Soap');
+            $reader->setDirectoryScanner(new Zend\Code\Scanner\DirectoryScanner($pathToFixtures));
+            /** Initialize SUT. */
+            self::$_apiConfig = $objectManager->create('Mage_Webapi_Model_Config_Soap', array('reader' => $reader));
         }
         return self::$_apiConfig;
     }
@@ -68,7 +67,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
         $requestData,
         $expectedResult = array()
     ) {
-        $actualResult = self::$_helper->prepareMethodParams($class, $methodName, $requestData, $this->_getModel());
+        $actualResult = $this->_helper->prepareMethodParams($class, $methodName, $requestData, $this->_getApiConfig());
         $this->assertEquals($expectedResult, $actualResult, "The array of arguments was prepared incorrectly.");
     }
 
@@ -152,14 +151,14 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(
             'Mage_Webapi_Exception',
-            'Data corresponding to "%s" type is expected to be an array.',
+            'Data corresponding to "VendorModuleCustomerData[]" type is expected to be an array.',
             Mage_Webapi_Exception::HTTP_BAD_REQUEST
         );
-        self::$_helper->prepareMethodParams(
+        $this->_helper->prepareMethodParams(
             'Vendor_Module_Controller_Webapi_Resource_Subresource',
             'createV1',
             array('param1' => 1, 'param2' => 2, 'param3' => 'not_array', 'param4' => 4),
-            $this->_getModel()
+            $this->_getApiConfig()
         );
     }
 
@@ -170,14 +169,14 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(
             'Mage_Webapi_Exception',
-            'Data corresponding to "%s" type is expected to be an array.',
+            'Data corresponding to "VendorModuleCustomerData" type is expected to be an array.',
             Mage_Webapi_Exception::HTTP_BAD_REQUEST
         );
-        self::$_helper->prepareMethodParams(
+        $this->_helper->prepareMethodParams(
             'Vendor_Module_Controller_Webapi_Resource_Subresource',
             'updateV1',
             array('param1' => 1, 'param2' => 'Non array complex data'),
-            $this->_getModel()
+            $this->_getApiConfig()
         );
     }
 
@@ -197,7 +196,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
         $exceptionMessage
     ) {
         $this->setExpectedException($exceptionClass, $exceptionMessage);
-        self::$_helper->prepareMethodParams($class, $methodName, $requestData, $this->_getModel());
+        $this->_helper->prepareMethodParams($class, $methodName, $requestData, $this->_getApiConfig());
     }
 
     public static function dataProviderForTestPrepareMethodParamsNegative()
@@ -213,7 +212,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
                 'createV1',
                 array('param2' => 2, 'param4' => 4),
                 'Mage_Webapi_Exception',
-                'Required parameter "%s" is missing.'
+                'Required parameter "param1" is missing.'
             ),
             // Test passing of complex type parameter with not specified required field
             array(
@@ -221,7 +220,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
                 'updateV1',
                 array('param1' => 1, 'param2' => $withoutRequired),
                 'Mage_Webapi_Exception',
-                'Value of "%s" attribute is required.'
+                'Value of "firstname" attribute is required.'
             ),
         );
     }
@@ -233,7 +232,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             $expectedPlural,
-            self::$_helper->convertSingularToPlural($singular),
+            $this->_helper->convertSingularToPlural($singular),
             "Conversion from singular to plural was performed incorrectly."
         );
     }
@@ -260,7 +259,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             $expectedResult,
-            self::$_helper->translateArrayTypeName($typeToBeTranslated),
+            $this->_helper->translateArrayTypeName($typeToBeTranslated),
             "Array type was translated incorrectly."
         );
     }
@@ -284,7 +283,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             $expectedResult,
-            self::$_helper->translateTypeName($typeName),
+            $this->_helper->translateTypeName($typeName),
             "Type translation was performed incorrectly."
         );
     }
@@ -303,7 +302,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testTranslateTypeNameInvalidArgument()
     {
         $this->setExpectedException('InvalidArgumentException', 'Invalid parameter type "Invalid_Type_Name".');
-        self::$_helper->translateTypeName('Invalid_Type_Name');
+        $this->_helper->translateTypeName('Invalid_Type_Name');
     }
 
     public function testGetBodyParamNameInvalidInterface()
@@ -319,7 +318,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
                 $bodyPosition
             )
         );
-        self::$_helper->getBodyParamName(
+        $this->_helper->getBodyParamName(
             $this->_createMethodReflection(
                 'Vendor_Module_Controller_Webapi_Invalid_Interface',
                 $methodName
@@ -330,7 +329,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testGetIdParamNameEmptyMethodInterface()
     {
         $this->setExpectedException('LogicException', 'must have at least one parameter: resource ID.');
-        self::$_helper->getIdParamName(
+        $this->_helper->getIdParamName(
             $this->_createMethodReflection(
                 'Vendor_Module_Controller_Webapi_Invalid_Interface',
                 'emptyInterfaceV2'
@@ -345,7 +344,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
             'InvalidArgumentException',
             sprintf('The controller class name "%s" is invalid.', $className)
         );
-        self::$_helper->getResourceNameParts($className);
+        $this->_helper->getResourceNameParts($className);
     }
 
     /**
@@ -357,7 +356,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             $expectedParts,
-            self::$_helper->getResourceNameParts($className),
+            $this->_helper->getResourceNameParts($className),
             "Resource parts for rest route were identified incorrectly."
         );
     }
@@ -375,38 +374,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $className = 'Vendor_Module_Webapi_Resource_Invalid';
         $this->setExpectedException('LogicException', sprintf('"%s" is not a valid resource class.', $className));
-        self::$_helper->getIdParamName($this->_createMethodReflection($className, 'updateV1'));
-    }
-
-    /**
-     * Create resource config initialized with classes found in the specified directory.
-     *
-     * @return Mage_Webapi_Model_ConfigAbstract
-     */
-    protected function _createResourceConfig()
-    {
-        // TODO: Refactor to use mocks instead of real objects.
-        /** Prepare arguments for SUT constructor. */
-        $pathToFixtures = __DIR__ . '/../_files/autodiscovery';
-        $objectManager = new Magento_ObjectManager_Zend();
-        $appConfig = new Mage_Core_Model_Config($objectManager);
-        $appConfig->setOptions(array('base_dir' => realpath(__DIR__ . "../../../../../../../../")));
-        /** Prepare mocks for SUT constructor. */
-        /** @var Mage_Webapi_Helper_Data $helper */
-        $helper = $this->getMock('Mage_Webapi_Helper_Data', array('__'));
-        $helper->expects($this->any())->method('__')->will($this->returnArgument(0));
-        /** @var Mage_Core_Model_Cache $cache */
-        $cache = $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock();
-        $typeProcessor = new Mage_Webapi_Model_Config_Reader_TypeProcessor($helper);
-        $classReflector = new Mage_Webapi_Model_Config_Reader_Soap_ClassReflector($helper, $typeProcessor);
-        $reader = new Mage_Webapi_Model_Config_Reader_Soap($classReflector, $helper, $appConfig, $cache);
-        $reader->setDirectoryScanner(new Zend\Code\Scanner\DirectoryScanner($pathToFixtures));
-        /** @var Mage_Core_Model_App $app */
-        $app = $this->getMockBuilder('Mage_Core_Model_App')->disableOriginalConstructor()->getMock();
-        /** Initialize SUT. */
-        $apiConfig = new Mage_Webapi_Model_Config_Soap($reader, $helper, $app);
-
-        return $apiConfig;
+        $this->_helper->getIdParamName($this->_createMethodReflection($className, 'updateV1'));
     }
 
     /**

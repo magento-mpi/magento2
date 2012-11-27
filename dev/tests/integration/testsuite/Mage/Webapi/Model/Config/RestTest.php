@@ -134,38 +134,20 @@ class Mage_Webapi_Model_Config_RestTest extends PHPUnit_Framework_TestCase
      * Create resource config initialized with classes found in the specified directory.
      *
      * @param string $pathToResources
-     * @return Mage_Webapi_Model_ConfigAbstract
+     * @return Mage_Webapi_Model_Config_Rest
      */
     protected function _createResourceConfig($pathToResources)
     {
-        // TODO: Refactor to use mocks instead of real objects.
+        $objectManager = Mage::getObjectManager();
         /** Prepare arguments for SUT constructor. */
-        $objectManager = new Magento_ObjectManager_Zend();
-        $appConfig = new Mage_Core_Model_Config($objectManager);
-        $appConfig->setOptions(array('base_dir' => realpath(__DIR__ . "/../../../../../../..")));
-        /** Prepare mocks for SUT constructor. */
-        $helper = $this->getMock('Mage_Webapi_Helper_Data', array('__'));
-        $helper->expects($this->any())->method('__')->will($this->returnArgument(0));
-        // clone is required to prevent mock object removal after test execution
-        /** @var Mage_Webapi_Helper_Data $helperClone */
-        $helperClone = clone $helper;
         /** @var Mage_Core_Model_Cache $cache */
         $cache = $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock();
-        $routeGenerator = new Mage_Webapi_Model_Config_Reader_Rest_RouteGenerator($helperClone);
-        $typeProcessor = new Mage_Webapi_Model_Config_Reader_TypeProcessor($helperClone);
-        $classReflector = new Mage_Webapi_Model_Config_Reader_Rest_ClassReflector(
-            $helperClone,
-            $typeProcessor,
-            $routeGenerator
-        );
-        $reader = new Mage_Webapi_Model_Config_Reader_Rest($classReflector, $helperClone, $appConfig, $cache);
+        /** @var Mage_Webapi_Model_Config_Reader_Rest $reader */
+        $reader = $objectManager->get('Mage_Webapi_Model_Config_Reader_Rest', array('cache' => $cache));
         $reader->setDirectoryScanner(new Zend\Code\Scanner\DirectoryScanner($pathToResources));
-        /** @var Mage_Core_Model_App $app */
-        $app = $this->getMockBuilder('Mage_Core_Model_App')->disableOriginalConstructor()->getMock();
-        $routeFactory = new Magento_Controller_Router_Route_Factory($objectManager);
-        /** Initialize SUT. */
-        $apiConfig = new Mage_Webapi_Model_Config_Rest($reader, $helperClone, $app, $routeFactory);
 
+        /** Initialize SUT. */
+        $apiConfig = $objectManager->create('Mage_Webapi_Model_Config_Rest', array('reader' => $reader));
         return $apiConfig;
     }
 
