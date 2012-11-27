@@ -32,7 +32,5 @@
 </form>
 </div>
 <script type="text/javascript">
-//<![CDATA[
-<?php echo $this->getRollbackJsObjectName() ?> = new varienForm('enterprise_staging_rollback_form', '');
-//]]>
+    jQuery('#enterprise_staging_rollback_form').form().validation();
 </script>

@@ -30,8 +30,10 @@ class Mage_Adminhtml_Block_Cms_Block_Edit extends Mage_Adminhtml_Block_Widget_Fo
 
         $this->_addButton('saveandcontinue', array(
             'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Save and Continue Edit'),
-            'onclick'   => 'saveAndContinueEdit()',
             'class'     => 'save',
+            'data_attr'  => array(
+                'widget-button' => array('event' => 'saveAndContinueEdit', 'related' => '#edit_form'),
+            ),
         ), -100);
 
         $this->_formScripts[] = "
@@ -41,10 +43,6 @@ class Mage_Adminhtml_Block_Cms_Block_Edit extends Mage_Adminhtml_Block_Widget_Fo
                 } else {
                     tinyMCE.execCommand('mceRemoveControl', false, 'block_content');
                 }
-            }
-
-            function saveAndContinueEdit(){
-                editForm.submit($('edit_form').action+'back/edit/');
             }
         ";
     }

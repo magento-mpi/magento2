@@ -40,15 +40,35 @@ class Mage_Adminhtml_Block_Review_Edit extends Mage_Adminhtml_Block_Widget_Form_
 
             $this->addButton('save_and_previous', array(
                 'label'   => Mage::helper('Mage_Review_Helper_Data')->__('Save and Previous'),
-                'onclick' => 'submitAndGo(\'' . $prevId . '\')',
-                'class'   => 'save'
+                'class'   => 'save',
+                'data_attr'  => array(
+                    'widget-button' => array(
+                        'event' => 'save',
+                        'related' => '#edit_form',
+                        'eventData' => array(
+                            'action' => array(
+                                'args' => array('next_item' => $prevId),
+                            ),
+                        ),
+                    ),
+                ),
             ), 3, 11);
         }
         if ($nextId !== false) {
             $this->addButton('save_and_next', array(
                 'label'   => Mage::helper('Mage_Review_Helper_Data')->__('Save and Next'),
-                'onclick' => 'submitAndGo(\'' . $nextId . '\')',
-                'class'   => 'save'
+                'class'   => 'save',
+                'data_attr'  => array(
+                    'widget-button' => array(
+                        'event' => 'save',
+                        'related' => '#edit_form',
+                        'eventData' => array(
+                            'action' => array(
+                                'args' => array('next_item' => $nextId),
+                            ),
+                        ),
+                    ),
+                ),
             ), 3, 100);
 
             $this->addButton('next', array(
@@ -112,16 +132,6 @@ class Mage_Adminhtml_Block_Review_Edit extends Mage_Adminhtml_Block_Widget_Form_
         }
 
         $this->_formInitScripts[] = '
-            function submitAndGo(id)
-            {
-                var nextIdElement = document.createElement("input");
-                nextIdElement.name = "next_item";
-                nextIdElement.type = "text";
-                nextIdElement.value = id;
-                document.getElementById("edit_form").appendChild(nextIdElement);
-                editForm.submit();
-            }
-
             var review = {
                 updateRating: function() {
                         elements = [
