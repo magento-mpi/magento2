@@ -18,6 +18,9 @@
     </adminhtml_cms_page_index>
 
     <adminhtml_cms_page_edit>
+        <reference name="head">
+            <action method="addJs"><file>Enterprise_Cms::page/edit.js</file></action>
+        </reference>
         <reference name="cms_page_edit_tabs">
             <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit" name="cms_page_edit_extender" />
             <block type="Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy" name="cms_page_edit_tab_hierarchy" template="page/tab/hierarchy.phtml"></block>
@@ -55,6 +58,7 @@
     <adminhtml_cms_page_revision_edit>
         <update handle="editor"/>
         <reference name="head">
+            <action method="addJs"><file>Enterprise_Cms::page/edit.js</file></action>
             <action method="addJs"><file>Enterprise_Cms::cms.js</file></action>
         </reference>
         <reference name="content">

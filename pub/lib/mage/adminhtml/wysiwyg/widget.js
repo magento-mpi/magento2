@@ -194,8 +194,12 @@ WysiwygWidget.Widget.prototype = {
     },
 
     insertWidget: function() {
-        widgetOptionsForm = new varienForm(this.formEl);
-        if(widgetOptionsForm.validator && widgetOptionsForm.validator.validate() || !widgetOptionsForm.validator){
+        var validationResult = jQuery('#' + this.formEl).validate({
+            ignore: ".skip-submit",
+            errorClass: 'mage-error'
+        }).valid();
+
+        if (validationResult) {
             var formElements = [];
             var i = 0;
             Form.getElements($(this.formEl)).each(function(e) {
@@ -212,26 +216,26 @@ WysiwygWidget.Widget.prototype = {
             }
 
             new Ajax.Request($(this.formEl).action,
-            {
-                parameters: params,
-                onComplete: function(transport) {
-                    try {
-                        widgetTools.onAjaxSuccess(transport);
-                        Windows.close("widget_window");
+                {
+                    parameters: params,
+                    onComplete: function(transport) {
+                        try {
+                            widgetTools.onAjaxSuccess(transport);
+                            Windows.close("widget_window");
 
-                        if (typeof(tinyMCE) != "undefined" && tinyMCE.activeEditor) {
-                            tinyMCE.activeEditor.focus();
-                            if (this.bMark) {
-                                tinyMCE.activeEditor.selection.moveToBookmark(this.bMark);
+                            if (typeof(tinyMCE) != "undefined" && tinyMCE.activeEditor) {
+                                tinyMCE.activeEditor.focus();
+                                if (this.bMark) {
+                                    tinyMCE.activeEditor.selection.moveToBookmark(this.bMark);
+                                }
                             }
-                        }
 
-                        this.updateContent(transport.responseText);
-                    } catch(e) {
-                        alert(e.message);
-                    }
-                }.bind(this)
-            });
+                            this.updateContent(transport.responseText);
+                        } catch(e) {
+                            alert(e.message);
+                        }
+                    }.bind(this)
+                });
         }
     },
 

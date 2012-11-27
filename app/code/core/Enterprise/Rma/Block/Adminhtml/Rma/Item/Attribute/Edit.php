@@ -45,7 +45,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit
             'save_and_edit_button',
             array(
                 'label'     => Mage::helper('Enterprise_Rma_Helper_Data')->__('Save and Continue Edit'),
-                'onclick'   => 'saveAndContinueEdit()',
+                'data_attr'  => array(
+                    'widget-button' => array('event' => 'saveAndContinueEdit', 'related' => '#edit_form'),
+                ),
                 'class'     => 'save'
             ),
             100

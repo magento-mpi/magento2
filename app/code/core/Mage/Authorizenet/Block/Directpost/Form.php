@@ -56,7 +56,7 @@ class Mage_Authorizenet_Block_Directpost_Form extends Mage_Payment_Block_Form_Cc
      */
     public function isAjaxRequest()
     {
-        return $this->getAction()
+        return $this
             ->getRequest()
             ->getParam('isAjax');
     }
