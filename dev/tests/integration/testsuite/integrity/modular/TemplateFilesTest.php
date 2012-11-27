@@ -10,6 +10,7 @@
  */
 
 /**
+ * @magentoAppIsolation
  * @group integrity
  */
 class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_IntegrityAbstract
@@ -23,6 +24,7 @@ class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_Integrit
      */
     public function testAllTemplates($module, $template, $class, $area)
     {
+        Mage::getDesign()->setDefaultDesignTheme();
         // intentionally to make sure the module files will be requested
         $params = array(
             'area'       => $area,
@@ -38,12 +40,10 @@ class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_Integrit
      */
     public function allTemplatesDataProvider()
     {
-        $configShare = $this->getMock('Mage_Customer_Model_Config_Share', array('isWebsiteScope'), array(), '', false);
-        $configShare->expects($this->any())
-            ->method('isWebsiteScope')
-            ->will($this->returnValue(0));
-        Mage::unregister('_singleton/Mage_Customer_Model_Config_Share');
-        Mage::register('_singleton/Mage_Customer_Model_Config_Share', $configShare);
+        /** @var $website Mage_Core_Model_Website */
+        $website = Mage::getModel('Mage_Core_Model_Website');
+        Mage::app()->getStore()->setWebsiteId(0)->setWebsite($website);
+
 
         $templates = array();
         foreach (Utility_Classes::collectModuleClasses('Block') as $blockClass => $module) {
