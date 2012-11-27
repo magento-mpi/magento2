@@ -36,7 +36,6 @@ class Core_Mage_Tags_BackendCreate1Test extends Core_Mage_Tags_TagsFixtureAbstra
      * @param array $testData
      *
      * @test
-     * @author roman.grebenchuk
      * @dataProvider tagNameDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2327
@@ -78,7 +77,6 @@ class Core_Mage_Tags_BackendCreate1Test extends Core_Mage_Tags_TagsFixtureAbstra
      * @param array $testData
      *
      * @test
-     * @author roman.grebenchuk
      * @dataProvider tagEditDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2344
@@ -120,7 +118,6 @@ class Core_Mage_Tags_BackendCreate1Test extends Core_Mage_Tags_TagsFixtureAbstra
      * @param array $testData
      *
      * @test
-     * @author roman.grebenchuk
      * @dataProvider tagSearchSelectedDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2365
@@ -169,7 +166,6 @@ class Core_Mage_Tags_BackendCreate1Test extends Core_Mage_Tags_TagsFixtureAbstra
      * @param array $testData
      *
      * @test
-     * @author roman.grebenchuk
      * @dataProvider tagSearchNameDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2365

@@ -63,7 +63,6 @@ class Core_Mage_ImportExport_Deleting_AddressTest extends Mage_Selenium_TestCase
      * After step 9: no address in positive cases; address present in negative cases
      *
      * @test
-     * @author iuliia.babenko
      * @dataProvider importDeleteAddress
      * @TestlinkId TL-MAGE-5679, 5680
      */

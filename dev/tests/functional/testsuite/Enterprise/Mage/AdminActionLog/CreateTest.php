@@ -41,7 +41,6 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
      *
      * @return array
      * @test
-     * @author Michael Banin
      * @TestlinkId TL-MAGE-6377
      */
     public function saveRoleActionLog()
@@ -88,7 +87,6 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends saveRoleActionLog
-     * @author Michael Banin
      * @TestlinkId TL-MAGE-6378
      */
     public function editRoleActionLog($fieldData)
@@ -123,7 +121,6 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends saveRoleActionLog
-     * @author Michael Banin
      * @TestlinkId TL-MAGE-6379
      */
     public function deleteRoleActionLog($fieldData)
@@ -158,7 +155,6 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
      * <p>Save action log is created</p>
      *
      * @test
-     * @author Michael Banin
      * @TestlinkId TL-MAGE-6449
      */
     public function saveUserActionLog ()
@@ -221,7 +217,6 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends saveUserActionLog
-     * @author Michael Banin
      * @TestlinkId TL-MAGE-6451
      */
     public function editUserActionLog ($userData)
@@ -259,7 +254,6 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends saveUserActionLog
-     * @author Michael Banin
      * @TestlinkId TL-MAGE-6450
      */
     public function deleteUserActionLog ($userData)

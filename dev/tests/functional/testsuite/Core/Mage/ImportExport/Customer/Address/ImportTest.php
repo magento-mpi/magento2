@@ -67,7 +67,6 @@ class Core_Mage_ImportExport_Import_AddressTest extends Mage_Selenium_TestCase
      * Verify that all Customers address information was imported
      *
      * @test
-     * @author roman.grebenchuk
      * @TestlinkId TL-MAGE-5624
      */
     public function importWithRequiredColumns()
@@ -181,7 +180,6 @@ class Core_Mage_ImportExport_Import_AddressTest extends Mage_Selenium_TestCase
      * Expected: valid address data information was imported correctly
      *
      * @test
-     * @author iuliia.babenko
      * @dataProvider partialImportData
      * @TestlinkId TL-MAGE-5636
      */

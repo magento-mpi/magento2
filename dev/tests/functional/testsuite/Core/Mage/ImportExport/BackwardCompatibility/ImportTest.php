@@ -65,7 +65,6 @@ class Core_Mage_ImportExport_BackwardCompatibility_ImportTest extends Mage_Selen
      * Expected: validation and success messages are correct
      *
      * @test
-     * @author iuliia.babenko
      * @TestlinkId TL-MAGE-1108
      */
     public function validationResultBlock()
@@ -118,7 +117,6 @@ class Core_Mage_ImportExport_BackwardCompatibility_ImportTest extends Mage_Selen
      * Verify that all Customer information was imported
      *
      * @test
-     * @author iuliia.babenko
      * @dataProvider importWithRequiredColumnsData
      * @TestlinkId TL-MAGE-1167
      */
@@ -181,7 +179,6 @@ class Core_Mage_ImportExport_BackwardCompatibility_ImportTest extends Mage_Selen
      * Expected: customer information is updated for existing customer, new customer with address is added
      *
      * @test
-     * @author iuliia.babenko
      * @dataProvider addressData
      * @TestlinkId TL-MAGE-1168
      */

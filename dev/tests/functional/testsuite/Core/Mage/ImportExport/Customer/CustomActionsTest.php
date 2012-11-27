@@ -48,7 +48,6 @@ class Core_Mage_ImportExport_CustomActions_CustomerTest extends Mage_Selenium_Te
      * After step 8: required action applied to customer data
      *
      * @test
-     * @author iuliia.babenko
      * @dataProvider importCustomAction
      * @TestlinkId TL-MAGE-5683, 5684, 5685
      */

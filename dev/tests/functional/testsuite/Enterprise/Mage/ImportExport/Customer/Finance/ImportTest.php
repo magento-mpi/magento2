@@ -62,7 +62,6 @@ class Enterprise_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_TestC
      * Verify that all Customers finance information was imported
      *
      * @test
-     * @author roman.grebenchuk
      * @TestlinkId TL-MAGE-5624
      */
     public function importWithRequiredColumns()
@@ -150,7 +149,6 @@ class Enterprise_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_TestC
      * Expected: valid finance data information was imported correctly
      *
      * @test
-     * @author iuliia.babenko
      * @dataProvider partialImportData
      * @TestlinkId TL-MAGE-5633
      */

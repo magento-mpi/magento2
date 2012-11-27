@@ -59,7 +59,6 @@ class Core_Mage_ShoppingCart_ShoppingCartTest extends Mage_Selenium_TestCase
      *
      * @depends preconditionsForTests
      * @test
-     * @author Maksym_Iakusha
      * @TestlinkId TL-MAGE-5464
      */
     public function verifyShoppingCartGridOnBackend($testData)

@@ -41,7 +41,6 @@ class Core_Mage_Tags_FrontendManagementTest extends Core_Mage_Tags_TagsFixtureAb
      * @param array $testData
      *
      * @test
-     * @author roman.grebenchuk
      * @dataProvider tagNameDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2292

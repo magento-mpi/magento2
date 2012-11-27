@@ -78,7 +78,6 @@ class Enterprise_Mage_Tags_ActionLogsTest extends Mage_Selenium_TestCase
      * @param string $actionFullName
      *
      * @test
-     * @author roman.grebenchuk
      * @depends preconditionsTest
      * @dataProvider tagActionsDataProvider
      * @TestlinkId TL-MAGE-6108

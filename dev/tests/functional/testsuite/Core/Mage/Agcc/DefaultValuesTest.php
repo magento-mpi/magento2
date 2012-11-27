@@ -28,7 +28,6 @@ class Core_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
     /**
      * @test
      * @TestlinkId TL-MAGE-3900
-     * @author yaroslav.goncharuk
      */
     public function codeLengthDefaultValue()
     {
@@ -53,7 +52,6 @@ class Core_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
     /**
      * @test
      * @TestlinkId TL-MAGE-3934
-     * @author yaroslav.goncharuk
      */
     public function codeFormatDefaultValue()
     {
@@ -80,7 +78,6 @@ class Core_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
      * @param string $defaultValue
      * @dataProvider codeSuffixDefaultValueDataProvider
      * @TestlinkId TL-MAGE-3935
-     * @author yaroslav.goncharuk
      */
     public function codePrefixDefaultValue($defaultValue)
     {
@@ -106,7 +103,6 @@ class Core_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
      * @param string $defaultValue
      * @dataProvider codeSuffixDefaultValueDataProvider
      * @TestlinkId TL-MAGE-3936
-     * @author yaroslav.goncharuk
      */
     public function codeSuffixDefaultValue($defaultValue)
     {
@@ -142,7 +138,6 @@ class Core_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
     /**
      * @test
      * @TestlinkId TL-MAGE-3937
-     * @author yaroslav.goncharuk
      */
     public function dashDefaultValue()
     {

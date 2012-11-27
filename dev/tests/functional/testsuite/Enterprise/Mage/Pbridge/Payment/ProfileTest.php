@@ -36,7 +36,6 @@ class Enterprise_Mage_Pbridge_Payment_ProfileTest extends Mage_Selenium_TestCase
 
     /**
      * @test
-     * @author azavadsky
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-6461
      *

@@ -89,7 +89,6 @@ class Core_Mage_ValidationVatNumber_AutomaticAssignmentGroupsBackendTest extends
      * @dataProvider dataForCustomersDataProvider
      *
      * @TestlinkId TL-MAGE-6203, TL-MAGE-6204,  TL-MAGE-6205
-     * @author andrey.vergeles
      */
     public function automaticAssignmentGroupsBackendTest($vatType, $vatNumber, $customerGroup, $vatGroup)
     {

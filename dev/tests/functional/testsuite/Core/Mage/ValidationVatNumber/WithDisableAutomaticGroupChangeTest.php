@@ -52,7 +52,6 @@ class Core_Mage_ValidationVatNumber_WithDisableAutomaticGroupChangeTest extends 
      *
      * @dataProvider creatingCustomerWithDisableAutomaticGroupDataProvider
      * @TestlinkId TL-MAGE-6261
-     * @author andrey.vergeles
      */
     public function creatingCustomerWithDisableAutomaticGroup($customerData)
     {

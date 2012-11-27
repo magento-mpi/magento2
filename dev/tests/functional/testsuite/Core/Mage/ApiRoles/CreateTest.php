@@ -41,7 +41,6 @@ class Core_Mage_ApiRoles_CreateTest extends Mage_Selenium_TestCase
      * <p>Message that Role name is required field is appear</p>
      *
      * @test
-     * @author Michael Banin
      * @TestlinkId TL-MAGE-6358
      */
     public function requiredFields()
@@ -71,7 +70,6 @@ class Core_Mage_ApiRoles_CreateTest extends Mage_Selenium_TestCase
      * <p>Message "The API role has been saved." is displayed</p>
      *
      * @test
-     * @author Michael Banin
      * @TestlinkId TL-MAGE-6291
      */
     public function roleWithAllAccess()
@@ -108,7 +106,6 @@ class Core_Mage_ApiRoles_CreateTest extends Mage_Selenium_TestCase
      * <p>Message "The API role has been saved." is displayed</p>
      *
      * @test
-     * @author Michael Banin
      * @TestlinkId TL-MAGE-6292
      */
     public function roleWithCustomAccess()
@@ -144,7 +141,6 @@ class Core_Mage_ApiRoles_CreateTest extends Mage_Selenium_TestCase
      * <p>Message "The role has been deleted." is displayed</p>
      *
      * @test
-     * @author Michael Banin
      * @TestlinkId TL-MAGE-6366
      */
     public function roleDelete()

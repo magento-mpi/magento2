@@ -36,7 +36,6 @@ class Core_Mage_Tags_RssCreateTest extends Core_Mage_Tags_TagsFixtureAbstract
      * @param array $testData
      *
      * @test
-     * @author roman.grebenchuk
      * @dataProvider tagNameDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2288
@@ -78,7 +77,6 @@ class Core_Mage_Tags_RssCreateTest extends Core_Mage_Tags_TagsFixtureAbstract
      * @param array $testData
      *
      * @test
-     * @author roman.grebenchuk
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2290
      */

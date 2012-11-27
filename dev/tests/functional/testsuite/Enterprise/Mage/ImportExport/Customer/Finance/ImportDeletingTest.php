@@ -43,7 +43,6 @@ class Enterprise_Mage_ImportExport_Deleting_FinanceTest extends Mage_Selenium_Te
      * Expected: Verify that finances are deleted for both customers
      *
      * @test
-     * @author irina.glazunova
      * @dataProvider importData
      * @TestlinkId TL-MAGE-5681
      */
@@ -148,7 +147,6 @@ class Enterprise_Mage_ImportExport_Deleting_FinanceTest extends Mage_Selenium_Te
      * Expected: Verify that finances for both customers aren't deleted
      *
      * @test
-     * @author irina.glazunova
      * @dataProvider importFinanceData
      * @TestlinkId TL-MAGE-5682
      */

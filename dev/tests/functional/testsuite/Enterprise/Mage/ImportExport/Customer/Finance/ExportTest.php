@@ -41,7 +41,6 @@ class Enterprise_Mage_ImportExport_Export_FinanceTest extends Mage_Selenium_Test
      * Expected: Check that among all customers your customer with attribute is present
      *
      * @test
-     * @author roman.grebenchuk
      * @TestlinkId TL-MAGE-5491
      */
     public function simpleExportFinanceFile()

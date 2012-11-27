@@ -38,7 +38,6 @@ class Core_Mage_Agcc_ManageCouponCodesTest extends Mage_Selenium_TestCase
      *
      * @test
      * @TestlinkId TL-MAGE-3886
-     * @author yaroslav.goncharuk
      */
     public function deleteCouponCodesNegative()
     {
@@ -64,7 +63,6 @@ class Core_Mage_Agcc_ManageCouponCodesTest extends Mage_Selenium_TestCase
      *
      * @test
      * @TestlinkId TL-MAGE-3885
-     * @author yaroslav.goncharuk
      */
     public function deleteCouponCodes()
     {

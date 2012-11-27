@@ -40,7 +40,6 @@ class Core_Mage_Tags_Frontend1CreateTest extends Core_Mage_Tags_TagsFixtureAbstr
      * @param array $testData
      *
      * @test
-     * @author roman.grebenchuk
      * @dataProvider tagNameDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2263, TL-MAGE-2267, TL-MAGE-2268, TL-MAGE-2269, TL-MAGE-2270
@@ -96,7 +95,6 @@ class Core_Mage_Tags_Frontend1CreateTest extends Core_Mage_Tags_TagsFixtureAbstr
      * @param string $message
      *
      * @test
-     * @author roman.grebenchuk
      * @dataProvider tagApprovedNameDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2272, TL-MAGE-2274

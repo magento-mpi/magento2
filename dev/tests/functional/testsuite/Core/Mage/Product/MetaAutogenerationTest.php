@@ -298,7 +298,6 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
      * @dataProvider templateMetaMaskDataProvider
      * @depends preconditionsForTests
      * @TestLinkId TL-MAGE-6214
-     * @author Maryna_Ilnytska
      */
     public function afterChangeAttributeSet($metaCode, $metaField, $metaMask, $attributeSet)
     {

@@ -49,7 +49,6 @@ class Enterprise_Mage_ImportExport_Backward_Export_Attribute_CustomerTest
      * Expected: Check that added to system attribute is displayed in "Entity Attributes" list
      *
      * @test
-     * @author iuliia.babenko
      * @TestlinkId TL-MAGE-1310
      *
      * @return array
@@ -240,7 +239,6 @@ class Enterprise_Mage_ImportExport_Backward_Export_Attribute_CustomerTest
      *
      * @return void
      * @test
-     * @author iuliia.babenko
      * @TestlinkId TL-MAGE-5925, TL-MAGE-5926, TL-MAGE-5927
      */
     public function productAttributeInFilterGrid()

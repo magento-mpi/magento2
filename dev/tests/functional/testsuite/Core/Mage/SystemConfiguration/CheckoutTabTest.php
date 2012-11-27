@@ -34,7 +34,6 @@ class Core_Mage_SystemConfiguration_CheckoutTabTest extends Mage_Selenium_TestCa
      *
      * @test
      * @TestlinkId TL-MAGE-6236
-     * @author Tatyana_Gonchar
      */
     function verificationCheckoutTab($diffScope)
     {

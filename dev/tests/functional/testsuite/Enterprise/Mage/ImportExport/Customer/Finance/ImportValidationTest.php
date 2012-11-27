@@ -55,7 +55,6 @@ class Enterprise_Mage_ImportExport_ImportValidation_FinanceTest extends Mage_Sel
      * Expected: Warning about incorrect file appears
      *
      * @test
-     * @author roman.grebenchuk
      * @dataProvider importDataInvalid
      * @TestlinkId TL-MAGE-5643, TL-MAGE-5628
      */
@@ -169,7 +168,6 @@ class Enterprise_Mage_ImportExport_ImportValidation_FinanceTest extends Mage_Sel
      * 7. Repeat steps 4-5
      *
      * @test
-     * @author iuliia.babenko
      * @dataProvider fileDuplicatedRows
      *
      * @TestlinkId TL-MAGE-5951

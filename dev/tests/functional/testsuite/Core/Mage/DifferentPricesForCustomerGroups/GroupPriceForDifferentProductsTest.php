@@ -76,7 +76,6 @@ class Core_Mage_DifferentPricesForCustomerGroups_GroupPriceForDifferentProductsT
      * <p>Product is not created, error message appears;</p>
      *
      * @test
-     * @author andrey.vergeles
      */
     public function emptyGroupPriceField()
     {
@@ -112,7 +111,6 @@ class Core_Mage_DifferentPricesForCustomerGroups_GroupPriceForDifferentProductsT
      * @dataProvider withInvalidValueDataProvider
      *
      * @test
-     * @author andrey.vergeles
      */
     public function withInvalidValue($priceValue, $processedGroupNames)
     {
@@ -161,7 +159,6 @@ class Core_Mage_DifferentPricesForCustomerGroups_GroupPriceForDifferentProductsT
      *
      * @test
      * @dataProvider verifyingPriceOnFrontEndDataProvider
-     * @author andrey.vergeles
      */
     public function verifyingPriceOnFrontEnd ($productType, $processedGroupNames)
     {

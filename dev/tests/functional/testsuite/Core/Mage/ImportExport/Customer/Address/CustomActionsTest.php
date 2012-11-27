@@ -98,7 +98,6 @@ class Core_Mage_ImportExport_CustomActions_AddressTest extends Mage_Selenium_Tes
      * Verify that all Customers Addresses information was imported
      *
      * @test
-     * @author roman.grebenchuk
      * @depends preconditionUpdate
      * @dataProvider importUpdateData
      * @TestlinkId TL-MAGE-5686
@@ -194,7 +193,6 @@ class Core_Mage_ImportExport_CustomActions_AddressTest extends Mage_Selenium_Tes
      * Verify that all Customers Addresses information was imported
      *
      * @test
-     * @author roman.grebenchuk
      * @depends preconditionEmpty
      * @dataProvider importEmptyData
      * @TestlinkId TL-MAGE-5688
@@ -329,7 +327,6 @@ class Core_Mage_ImportExport_CustomActions_AddressTest extends Mage_Selenium_Tes
      * Verify that all Customers addresses information was deleted
      *
      * @test
-     * @author roman.grebenchuk
      * @depends preconditionDelete
      * @dataProvider importDeleteData
      * @TestlinkId TL-MAGE-5687

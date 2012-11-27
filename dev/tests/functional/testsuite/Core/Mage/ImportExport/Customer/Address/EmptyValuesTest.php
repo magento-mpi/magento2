@@ -48,7 +48,6 @@ class Core_Mage_ImportExport_EmptyValues_AddressTest extends Mage_Selenium_TestC
      * Expected: Verify that Company hasn't been changed or removed in "Addresses" tab
      *
      * @test
-     * @author Irina Glazunova
      * @dataProvider importData
      * @TestlinkId TL-MAGE-5640
      */

@@ -73,7 +73,6 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
      * @param array $testData
      *
      * @test
-     * @author iuliia.babenko
      * @depends preconditionsForReportEntriesTest
      * @TestlinkId TL-MAGE-2465
      */
@@ -179,7 +178,6 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
      * @param array $testData
      *
      * @test
-     * @author iuliia.babenko
      * @skipTearDown
      * @depends preconditionsForReportsTests
      * @TestlinkId TL-MAGE-2459
@@ -219,7 +217,6 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
      * @param array $testData
      *
      * @test
-     * @author iuliia.babenko
      * @skipTearDown
      * @depends preconditionsForReportsTests
      * @TestlinkId TL-MAGE-2461
@@ -259,7 +256,6 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
      * @param array $testData
      *
      * @test
-     * @author iuliia.babenko
      * @skipTearDown
      * @depends preconditionsForReportsTests
      * @TestlinkId TL-MAGE-2463
@@ -306,7 +302,6 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
      * @param array $testData
      *
      * @test
-     * @author iuliia.babenko
      * @skipTearDown
      * @depends preconditionsForReportsTests
      * @TestlinkId TL-MAGE-2460
@@ -373,7 +368,6 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
      * @param array $testData
      *
      * @test
-     * @author iuliia.babenko
      * @skipTearDown
      * @depends preconditionsForReportsTests
      * @TestlinkId TL-MAGE-2462
@@ -437,7 +431,6 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
      * @param array $testData
      *
      * @test
-     * @author iuliia.babenko
      * @depends preconditionsForReportsTests
      * @TestlinkId TL-MAGE-2464
      */

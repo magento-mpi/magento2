@@ -61,7 +61,6 @@ class Core_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_TestCase
      * Expected: dropdowns contain correct values
      *
      * @test
-     * @author roman.grebenchuk
      * @TestlinkId TL-MAGE-5615, TL-MAGE-5712
      */
     public function importSettingsGeneralView()
@@ -112,7 +111,6 @@ class Core_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_TestCase
      * Expected: validation and success messages are correct
      *
      * @test
-     * @author iuliia.babenko
      * @TestlinkId TL-MAGE-5618, TL-MAGE-5619, TL-MAGE-5620
      */
     public function validationResultBlock()
@@ -176,7 +174,6 @@ class Core_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_TestCase
      * Verify that all Customer information was imported
      *
      * @test
-     * @author roman.grebenchuk
      * @TestlinkId TL-MAGE-5621
      */
     public function importWithRequiredColumns()
@@ -243,7 +240,6 @@ class Core_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_TestCase
      * new customer is added with proper values of not required attributes
      *
      * @test
-     * @author iuliia.babenko
      * @dataProvider notRequiredColumnsMainData
      * @TestlinkId TL-MAGE-5622, TL-MAGE-5623
      */
@@ -328,7 +324,6 @@ class Core_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_TestCase
      * new customer is added with proper values of not required attributes
      *
      * @test
-     * @author iuliia.babenko
      * @dataProvider notRequiredColumnsAddressData
      * @TestlinkId TL-MAGE-5622, TL-MAGE-5623
      */
@@ -415,7 +410,6 @@ class Core_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_TestCase
      * Expected: valid data information was imported correctly
      *
      * @test
-     * @author iuliia.babenko
      * @dataProvider partialImportData
      * @TestlinkId TL-MAGE-5635
      */
@@ -497,7 +491,6 @@ class Core_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_TestCase
     /**
      * @dataProvider importData
      * @test
-     * @author roman.grebenchuk
      */
     public function simpleImport($data)
     {

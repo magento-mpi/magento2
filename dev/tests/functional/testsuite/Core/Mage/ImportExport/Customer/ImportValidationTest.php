@@ -40,7 +40,6 @@ class Core_Mage_ImportExport_ImportValidation_CustomerTest extends Mage_Selenium
      * Expected: Warning about incorrect file appears
      *
      * @test
-     * @author irina.glazunova
      * @dataProvider importDataFileName
      * @TestlinkId TL-MAGE-5613
      */
@@ -90,7 +89,6 @@ class Core_Mage_ImportExport_ImportValidation_CustomerTest extends Mage_Selenium
      * Expected: Warning about incorrect file appears
      *
      * @test
-     * @author roman.grebenchuk
      * @dataProvider importDataInvalid
      * @TestlinkId TL-MAGE-5630
      */
@@ -248,7 +246,6 @@ class Core_Mage_ImportExport_ImportValidation_CustomerTest extends Mage_Selenium
      * 7. Repeat all steps for addresses file
      *
      * @test
-     * @author iuliia.babenko
      * @depends duplicatedRowsPrecondition
      * @dataProvider fileDuplicatedRows
      *

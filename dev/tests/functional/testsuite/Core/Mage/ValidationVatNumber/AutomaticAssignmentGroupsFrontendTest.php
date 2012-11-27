@@ -92,7 +92,6 @@ class Core_Mage_ValidationVatNumber_AutomaticAssignmentGroupsFrontendTest extend
      * @dataProvider dataForCustomersDataProvider
      *
      * @TestlinkId TL-MAGE-6203, TL-MAGE-6204,  TL-MAGE-6205
-     * @author andrey.vergeles
      */
     public function AutomaticAssignmentGroupsBackendTest($vatNumber, $customerGroup, $vatGroup)
     {
@@ -153,7 +152,6 @@ class Core_Mage_ValidationVatNumber_AutomaticAssignmentGroupsFrontendTest extend
      * @return array
      *
      * @TestlinkId TL-MAGE-4041
-     * @author andrey.vergeles
      */
     public function customerWithValidVatIntraUnion($processedGroupNames)
     {
@@ -195,7 +193,6 @@ class Core_Mage_ValidationVatNumber_AutomaticAssignmentGroupsFrontendTest extend
      * @depends preconditionsForTests
      *
      * @TestlinkId TL-MAGE-3801
-     * @author andrey.vergeles
      */
     public function validationVatNumber()
     {

@@ -100,7 +100,6 @@ class Core_Mage_ValidationVatNumber_FrontEndOrderCreation_OrderForRegisteredTest
      * @dataProvider dataForCustomersDataProvider
      *
      * @TestlinkId TL-MAGE-3942
-     * @author andrey.vergeles
      */
     public function orderForRegisteredCustomers($vatNumber, $customerGroup, $vatGroup)
     {

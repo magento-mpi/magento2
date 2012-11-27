@@ -37,7 +37,6 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
      *
      * @test
      * @TestlinkId TL-MAGE-3763
-     * @author yaroslav.goncharuk
      */
     public function withBlankCouponQtyField()
     {
@@ -58,7 +57,6 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
      *
      * @test
      * @TestlinkId TL-MAGE-3762
-     * @author yaroslav.goncharuk
      */
     public function withFilledCouponQtyField()
     {
@@ -81,7 +79,6 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
      *
      * @test
      * @TestlinkId TL-MAGE-3766
-     * @author yaroslav.goncharuk
      */
     public function withFilledCouponQtyFieldZero()
     {
@@ -105,7 +102,6 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
      * @param string $value
      * @dataProvider withFilledCouponQtyFieldNegativeDataProvider
      * @TestlinkId TL-MAGE-3763
-     * @author yaroslav.goncharuk
      */
     public function withFilledCouponQtyFieldNegative($value)
     {
@@ -136,7 +132,6 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
      *
      * @test
      * @TestlinkId TL-MAGE-3766
-     * @author yaroslav.goncharuk
      */
     public function withBlankCodeLengthField()
     {
@@ -157,7 +152,6 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
      *
      * @test
      * @TestlinkId TL-MAGE-3765
-     * @author yaroslav.goncharuk
      */
     public function withFilledCodeLengthField()
     {
@@ -183,7 +177,6 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
      * @dataProvider withFilledCouponQtyFieldNegativeDataProvider
      * @param string $value
      * @TestlinkId TL-MAGE-3766
-     * @author yaroslav.goncharuk
      */
     public function withFilledCodeLengthFieldNegative($value)
     {
@@ -214,7 +207,6 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
      *
      * @test
      * @TestlinkId TL-MAGE-3866
-     * @author yaroslav.goncharuk
      */
     public function withFilledCodeFormatField()
     {
@@ -241,7 +233,6 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
      * @dataProvider withFilledCodeSuffixFieldDataProvider
      * @param string $value
      * @TestlinkId TL-MAGE-3867
-     * @author yaroslav.goncharuk
      */
     public function withFilledCodePrefixField($value)
     {
@@ -268,7 +259,6 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
      * @dataProvider withFilledCodeSuffixFieldDataProvider
      * @param string $value
      * @TestlinkId TL-MAGE-3869
-     * @author yaroslav.goncharuk
      */
     public function withFilledCodeSuffixField($value)
     {
@@ -305,7 +295,6 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
      *
      * @test
      * @TestlinkId TL-MAGE-3880
-     * @author yaroslav.goncharuk
      */
     public function withBlankDashField()
     {
@@ -330,7 +319,6 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
      *
      * @test
      * @TestlinkId TL-MAGE-3870
-     * @author yaroslav.goncharuk
      */
     public function withFilledDashField()
     {
@@ -357,7 +345,6 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
      * @dataProvider withFilledDashFieldNegativeDataProvider
      * @param string $value
      * @TestlinkId TL-MAGE-3873
-     * @author yaroslav.goncharuk
      */
     public function withFilledDashFieldNegative($value)
     {

@@ -180,7 +180,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2020, TL-MAGE-2021, TL-MAGE-1998, TL-MAGE-2000, TL-MAGE-2002
-     * @author artem.anokhin
      */
     public function addProductsWithoutOptionsToWishlistFromProductPage($testData)
     {
@@ -217,7 +216,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2020, TL-MAGE-2021, TL-MAGE-1998, TL-MAGE-2000, TL-MAGE-2002
-     * @author artem.anokhin
      */
     public function addProductsWithoutOptionsToWishlistFromCatalog($testData)
     {
@@ -254,7 +252,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2020, TL-MAGE-2021, TL-MAGE-1998, TL-MAGE-2000, TL-MAGE-2002
-     * @author artem.anokhin
      */
     public function addProductsWithoutOptionsToShoppingCartFromWishlist($testData)
     {
@@ -301,7 +298,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
      * @dataProvider productsWithOptionsDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2000, TL-MAGE-2002, TL-MAGE-1998, TL-MAGE-2001
-     * @author artem.anokhin
      */
     public function addProductsWithOptionsToShoppingCartFromWishlist($product, $option, $testData)
     {
@@ -364,7 +360,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
      * @dataProvider productsWithOptionsDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2000, TL-MAGE-2002, TL-MAGE-1998, TL-MAGE-2001
-     * @author artem.anokhin
      */
     public function addProductWithOptionsToWishlistFromShoppingCart($product, $option, $testData)
     {
@@ -420,7 +415,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2004
-     * @author artem.anokhin
      */
     public function addProductWithCustomOptionsToWishlist($testData)
     {
@@ -452,7 +446,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2004
-     * @author artem.anokhin
      */
     public function addProductWithCustomOptionsToShoppingCartFromWishlist($testData)
     {
@@ -487,7 +480,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2004
-     * @author artem.anokhin
      */
     public function addProductWithCustomOptionsToWishlistFromShoppingCart($testData)
     {

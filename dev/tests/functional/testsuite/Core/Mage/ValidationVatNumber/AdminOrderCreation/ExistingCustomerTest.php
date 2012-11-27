@@ -106,7 +106,6 @@ class Core_Mage_ValidationVatNumber_AdminOrderCreation_ExistingCustomerTest exte
      * @dataProvider creatingOrderForExistingCustomerDataProvider
      *
      * @TestlinkId TL-MAGE-4932, TL-MAGE-4956, TL-MAGE-4958
-     * @author andrey.vergeles
      */
     public function creatingOrderForExistingCustomer($customerAddressData, $messageType, $testData)
     {

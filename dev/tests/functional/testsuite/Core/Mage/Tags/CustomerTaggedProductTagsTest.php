@@ -38,7 +38,6 @@ class Core_Mage_Tags_CustomerTaggedProductCreateTest extends Core_Mage_Tags_Tags
      * @param array $testData
      *
      * @test
-     * @author roman.grebenchuk
      * @dataProvider tagNameDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-6040, TL-MAGE-6043
@@ -91,7 +90,6 @@ class Core_Mage_Tags_CustomerTaggedProductCreateTest extends Core_Mage_Tags_Tags
      * @param array $testData
      *
      * @test
-     * @author roman.grebenchuk
      * @dataProvider tagAdminNameDataProvider
      * @depends preconditionsForTests
      * TestlinkId TL-MAGE-6041
@@ -132,7 +130,6 @@ class Core_Mage_Tags_CustomerTaggedProductCreateTest extends Core_Mage_Tags_Tags
      * @param array $testData
      *
      * @test
-     * @author roman.grebenchuk
      * @dataProvider tagSearchNameDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-6042

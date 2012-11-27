@@ -41,7 +41,6 @@ class Core_Mage_Tags_MassActionsTest extends Core_Mage_Tags_TagsFixtureAbstract
      * Expected: The message "Please select items" should be appeared.
      *
      * @test
-     * @author iuliia.babenko
      * @dataProvider tagDataProvider
      * @TestlinkId TL-MAGE-2329, TL-MAGE-2332, TL-MAGE-2352, TL-MAGE-2353
      */
@@ -337,7 +336,6 @@ class Core_Mage_Tags_MassActionsTest extends Core_Mage_Tags_TagsFixtureAbstract
      * Expected: The message "Please select items" should appear.
      *
      * @test
-     * @author iuliia.babenko
      * @dataProvider tagDataProvider
      * @TestlinkId TL-MAGE-2334, TL-MAGE-2337, TL-MAGE-2339, TL-MAGE-2358, TL-MAGE-2361, TL-MAGE-2363
      */

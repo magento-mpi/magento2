@@ -64,7 +64,6 @@ class Core_Mage_ImportExport_ImportValidation_AddressTest extends Mage_Selenium_
      * Expected: Warning about incorrect file appears
      *
      * @test
-     * @author roman.grebenchuk
      * @dataProvider importDataInvalid
      * @TestlinkId TL-MAGE-5631, TL-MAGE-5626
      */

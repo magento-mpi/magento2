@@ -46,7 +46,6 @@ class Core_Mage_ImportExport_EmptyValues_CustomerTest extends Mage_Selenium_Test
      * Expected: Verify that customer middle name hasn't been changed or removed
      *
      * @test
-     * @author irina.glazunova
      * @dataProvider importData
      * @TestlinkId TL-MAGE-5639
      */

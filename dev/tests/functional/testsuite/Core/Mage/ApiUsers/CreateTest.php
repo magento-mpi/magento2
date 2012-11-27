@@ -44,7 +44,6 @@ class Core_Mage_ApiUsers_CreateTest extends Mage_Selenium_TestCase
      *
      * @return array
      * @test
-     * @author denis.poloka
      * @TestlinkId TL-MAGE-6296
      */
     public function withRequiredFieldsCreateUser()
@@ -100,7 +99,6 @@ class Core_Mage_ApiUsers_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends withRequiredFieldsCreateUser
-     * @author denis.poloka
      * @TestlinkId TL-MAGE-6359
      */
     public function createUserAlreadyExists($userData)
@@ -133,7 +131,6 @@ class Core_Mage_ApiUsers_CreateTest extends Mage_Selenium_TestCase
      * @param string $messageCount
      *
      * @test
-     * @author denis.poloka
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends withRequiredFieldsCreateUser
      * @TestlinkId TL-MAGE-6364
@@ -180,7 +177,6 @@ class Core_Mage_ApiUsers_CreateTest extends Mage_Selenium_TestCase
      * @param array $userData
      *
      * @test
-     * @author denis.poloka
      * @depends withRequiredFieldsCreateUser
      * @TestlinkId TL-MAGE-6365
      */

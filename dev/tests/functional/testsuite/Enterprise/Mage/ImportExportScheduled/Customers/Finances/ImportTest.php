@@ -44,7 +44,6 @@ class Enterprise_Mage_ImportExportScheduled_CustomActions_FinancesTest extends M
      * @dataProvider financeImportData
      * @depends preconditionImport
      * @test
-     * @author roman.grebenchuk
      * @testLinkId TL-MAGE-5790, TL-MAGE-5793, TL-MAGE-5797
      */
     public function importValidData($financesCsv, $behavior, $customerData)
@@ -96,7 +95,6 @@ class Enterprise_Mage_ImportExportScheduled_CustomActions_FinancesTest extends M
      * @dataProvider financeInvalidImportData
      * @depends preconditionImport
      * @test
-     * @author roman.grebenchuk
      * @testLinkId TL-MAGE-5801
      */
     public function importInvalidData($financesCsv, $behavior, $customerData)

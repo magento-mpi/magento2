@@ -86,7 +86,6 @@ class Core_Mage_Product_CategoryTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider categoryNamesDataProvider
      * @TestlinkId TL-MAGE-6348
-     * @author Dmytro_Aponasenko
      */
     public function selectCategory($categoryName)
     {
@@ -143,7 +142,6 @@ class Core_Mage_Product_CategoryTest extends Mage_Selenium_TestCase
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-6357
-     * @author Dmytro_Aponasenko
      */
     public function selectCategoryWithSubcategories($categories)
     {
@@ -185,7 +183,6 @@ class Core_Mage_Product_CategoryTest extends Mage_Selenium_TestCase
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-6356
-     * @author Dmytro_Aponasenko
      */
     public function selectOneCategoryTwoTimes($categories)
     {
@@ -226,7 +223,6 @@ class Core_Mage_Product_CategoryTest extends Mage_Selenium_TestCase
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-6350
-     * @author Dmytro_Aponasenko
      */
     public function selectTwoCategories($categories)
     {
@@ -265,7 +261,6 @@ class Core_Mage_Product_CategoryTest extends Mage_Selenium_TestCase
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-6351
-     * @author Dmytro_Aponasenko
      */
     public function withSameNameInOneRootCategory($categories)
     {
@@ -306,7 +301,6 @@ class Core_Mage_Product_CategoryTest extends Mage_Selenium_TestCase
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-6349
-     * @author Dmytro_Aponasenko
      */
     public function withSameNameInDifferentRootCategory($categories)
     {
@@ -337,7 +331,6 @@ class Core_Mage_Product_CategoryTest extends Mage_Selenium_TestCase
      * @test
      * @depends selectCategory
      * @TestlinkId TL-MAGE-6353
-     * @author Dmytro_Aponasenko
      */
     public function searchNonexistentCategory()
     {
@@ -373,7 +366,6 @@ class Core_Mage_Product_CategoryTest extends Mage_Selenium_TestCase
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-6352
-     * @author Dmytro_Aponasenko
      */
     public function deleteSelectedCategory($categories)
     {
@@ -417,7 +409,6 @@ class Core_Mage_Product_CategoryTest extends Mage_Selenium_TestCase
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-6354
-     * @author Dmytro_Aponasenko
      */
     public function duplicateProduct($categories)
     {
@@ -459,7 +450,6 @@ class Core_Mage_Product_CategoryTest extends Mage_Selenium_TestCase
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-6355
-     * @author Dmytro_Aponasenko
      */
     public function changeAttributeSet($categories)
     {
