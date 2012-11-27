@@ -9,11 +9,13 @@
  */
 
 /**
- * Catalog Product Abstract Block
+ * Block representing set of columns in product grid
  *
  * @category   Mage
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Catalog_Block_Product_Grid_ColumnSet extends Mage_Backend_Block_Widget_Grid_ColumnSet
 {

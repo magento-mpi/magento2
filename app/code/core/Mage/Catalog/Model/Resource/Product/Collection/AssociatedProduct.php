@@ -33,31 +33,31 @@ class Mage_Catalog_Model_Resource_Product_Collection_AssociatedProduct
     protected $_productType;
 
     /**
-     * Configuration instance
+     * Configuration helper instance
      *
      * @var Mage_Catalog_Helper_Product_Configuration
      */
-    protected $_productConfiguration;
+    protected $_configurationHelper;
 
     /**
      * Collection constructor
      *
      * @param Mage_Core_Model_Registry $registryManager
      * @param Mage_Catalog_Model_Product_Type_Configurable $productType
-     * @param Mage_Catalog_Helper_Product_Configuration $productConfiguration
+     * @param Mage_Catalog_Helper_Product_Configuration $configurationHelper
      * @param null $resource
      */
     public function __construct(
         Mage_Core_Model_Registry $registryManager,
         Mage_Catalog_Model_Product_Type_Configurable $productType,
-        Mage_Catalog_Helper_Product_Configuration $productConfiguration,
+        Mage_Catalog_Helper_Product_Configuration $configurationHelper,
         $resource = null
     ) {
         $this->_registryManager = isset($registryManager) ? $registryManager
             : Mage::getModel('Mage_Core_Model_Registry');
         $this->_productType = isset($productType) ? $productType
             : Mage::getModel('Mage_Catalog_Model_Product_Type_Configurable');
-        $this->_productConfiguration = isset($productConfiguration) ? $productConfiguration
+        $this->_configurationHelper = isset($configurationHelper) ? $configurationHelper
             : Mage::getModel('Mage_Catalog_Helper_Product_Configuration');
 
         parent::__construct($resource);
@@ -92,7 +92,7 @@ class Mage_Catalog_Model_Resource_Product_Collection_AssociatedProduct
     public function _prepareSelect(Varien_Db_Select $select)
     {
         $allowProductTypes = array();
-        foreach ($this->_productConfiguration->getConfigurableAllowedTypes() as $type) {
+        foreach ($this->_configurationHelper->getConfigurableAllowedTypes() as $type) {
             $allowProductTypes[] = $type->getName();
         }
 
