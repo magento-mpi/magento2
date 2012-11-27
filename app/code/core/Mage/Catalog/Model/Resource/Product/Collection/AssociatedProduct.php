@@ -103,6 +103,7 @@ class Mage_Catalog_Model_Resource_Product_Collection_AssociatedProduct
             ->addAttributeToSelect('weight')
             ->addFieldToFilter('attribute_set_id', $product->getAttributeSetId())
             ->addFieldToFilter('type_id', $allowProductTypes)
+            ->addFieldToFilter($product->getIdFieldName(), array('neq' => $product->getId()))
             ->addFilterByRequiredOptions()
             ->joinAttribute('name', 'catalog_product/name', 'entity_id', null, 'inner');
 
