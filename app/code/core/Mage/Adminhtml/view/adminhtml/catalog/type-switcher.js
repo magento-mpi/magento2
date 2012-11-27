@@ -2,7 +2,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     js
+ * @package     Mage_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
