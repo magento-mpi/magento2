@@ -49,6 +49,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_RendererTest exten
         );
         $this->assertEquals('is_virtual', $this->_virtual->getName());
         $this->assertEquals('Virtual / Downloadable', $this->_virtual->getLabel());
-        $this->assertInstanceOf('Varien_Data_Form', $this->_virtual->getForm());
+        $this->assertSame($form, $this->_virtual->getForm());
     }
 }
