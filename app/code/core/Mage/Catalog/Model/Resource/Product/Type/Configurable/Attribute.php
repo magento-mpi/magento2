@@ -263,7 +263,7 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends Ma
     }
 
     /**
-     * Get Configurable Attribute Id by Product id and Attribute id
+     * Get configurable attribute id by product id and attribute id
      *
      * @param Mage_Catalog_Model_Product_Type_Configurable_Attribute $attribute
      * @param $productId
