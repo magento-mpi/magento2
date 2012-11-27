@@ -63,7 +63,7 @@ class Mage_Core_Model_Session_Abstract extends Varien_Object
     protected $_skipSessionIdFlag   = false;
 
     /**
-     *  This method needs to support sessions with APC enabled
+     * This method needs to support sessions with APC enabled
      */
     public function __destruct()
     {
