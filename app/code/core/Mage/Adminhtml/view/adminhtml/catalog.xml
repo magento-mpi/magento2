@@ -143,7 +143,7 @@
 
     <adminhtml_catalog_product_superconfig_config>
         <reference name="admin.product.edit.tab.super.config.grid.container">
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid" name="admin.product.edit.tab.super.config.grid" as="grid">
+            <block type="Mage_Backend_Block_Widget_Grid" name="admin.product.edit.tab.super.config.grid" as="grid">
                 <arguments>
                     <id>configurable_associated_products_grid</id>
                     <dataSource type="object">Mage_Catalog_Model_Resource_Product_Collection_AssociatedProduct</dataSource>
@@ -158,7 +158,7 @@
                         </params>
                     </grid_url>
                 </arguments>
-                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet"
+                <block type="Mage_Catalog_Block_Product_Grid_ColumnSet" as="grid.columnSet"
                        name="admin.product.edit.tab.super.config.grid.columnSet">
                     <arguments>
                         <id>super_product_links</id>

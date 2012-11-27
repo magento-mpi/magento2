@@ -20,6 +20,9 @@ app/code/core/Mage/Backend/Block/Widget/Grid/ExportInterface.php
 app/code/core/Mage/CatalogInventory/Block/Adminhtml/Form/Field/Stock.php
 app/code/core/Mage/Backend/controllers/Adminhtml/SystemController.php
 app/code/core/Mage/Adminhtml/controllers/UrlrewriteController.php
+app/code/core/Mage/Catalog/Block/Product/Grid/ColumnSet.php
+app/code/core/Mage/Catalog/Model/Resource/Product/Collection/AssociatedProduct.php
+app/code/core/Mage/Catalog/Model/Resource/Product/Collection/AssociatedProductUpdater.php
 app/code/core/Mage/Core/Block/Abstract.php
 app/code/core/Mage/Core/data
 app/code/core/Mage/Centinel/Model/State/Jcb.php

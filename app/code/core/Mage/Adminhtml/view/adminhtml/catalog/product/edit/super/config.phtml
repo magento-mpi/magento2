@@ -155,7 +155,7 @@ if (count($this->getSelectedAttributes())) {
         $attributesInfo = array();
         foreach ($usedProductAttributes as $attribute) {
             /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-            $attributesInfo[$attribute->getAttributeCode()] = $variation[$attribute->getId()]['value'];
+            $attributesInfo[$attribute->getAttributeCode()] = $variation[$attribute->getId()]['label'];
         }
         $key = implode('-', array_keys($attributesInfo));
         if (isset($productByUsedAttributes[$key])) {
