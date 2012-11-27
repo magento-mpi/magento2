@@ -61,9 +61,10 @@ class Community2_Mage_Product_Create_ConfigurableWithVariations extends Mage_Sel
 
         return array('attribute1' => $attributeFirst['admin_title'],
             'attribute2' => $attributeSecond['admin_title'],
-            'AttributeSet' => $attributeSet['set_name'],
-            'matrix' => array('1' => array ('1' => $attributeFirst['option_1']['admin_option_name'],
-                '2' => $attributeSecond['option_1']['admin_option_name']),
+            'attributeSet' => $attributeSet['set_name'],
+            'matrix' => array(
+                '1' => array ('1' => $attributeFirst['option_1']['admin_option_name'],
+                    '2' => $attributeSecond['option_1']['admin_option_name']),
                 '2' => array ('1' => $attributeFirst['option_1']['admin_option_name'],
                     '2' => $attributeSecond['option_2']['admin_option_name']),
                 '3' => array ('1' => $attributeFirst['option_1']['admin_option_name'],
@@ -115,8 +116,9 @@ class Community2_Mage_Product_Create_ConfigurableWithVariations extends Mage_Sel
 
         return array('attribute1' => $attributeThird['admin_title'],
             'attribute2' => $attributeForth['admin_title'],
-            'matrix' => array('1' => array ('1' => $attributeThird['option_1']['admin_option_name'],
-                '2' => $attributeForth['option_1']['admin_option_name']),
+            'matrix' => array(
+                '1' => array ('1' => $attributeThird['option_1']['admin_option_name'],
+                    '2' => $attributeForth['option_1']['admin_option_name']),
                 '2' => array ('1' => $attributeThird['option_1']['admin_option_name'],
                     '2' => $attributeForth['option_2']['admin_option_name']),
                 '3' => array ('1' => $attributeThird['option_1']['admin_option_name'],
@@ -132,62 +134,64 @@ class Community2_Mage_Product_Create_ConfigurableWithVariations extends Mage_Sel
                 '8' => array ('1' => $attributeThird['option_3']['admin_option_name'],
                     '2' => $attributeForth['option_2']['admin_option_name']),
                 '9' => array ('1' => $attributeThird['option_3']['admin_option_name'],
-                    '2' => $attributeForth['option_3']['admin_option_name'])),
+                    '2' => $attributeForth['option_3']['admin_option_name'])
+            ),
         );
     }
 
     /**
+     * <p>Configurable Product with Product Variations</p>
+     *
      * @param array $defaultData
      *
      * @test
      * @depends setConfigurableAttributesToDefault
+     * @TestlinkId TL-MAGE-6476
      */
     public function checkGeneratedMatrixWhileCreate($defaultData)
     {
         //Data
-        $productData = $this->loadDataSet('Product', 'configurable_product_visible');
-        unset($productData['configurable_attribute_title']);
-        unset($productData['associated_configurable_data']);
-        $superAttributes = array('1','2');
-        $this->productHelper()->createProduct($productData, false);
+        $productData = $this->loadDataSet('Product', 'configurable_product_visible', array(
+            'configurable_attribute_title' => array($defaultData['attribute1'], $defaultData['attribute2']),
+        ));
+        $this->productHelper()->selectTypeProduct('configurable');
+        $this->productHelper()->fillProductInfo($productData);
         $this->openTab('general');
-        $this->fillField('general_weight', '15');
         $this->fillCheckbox('is_configurable', 'yes');
         $this->assertTrue($this->isChecked($this->_getControlXpath('checkbox', 'is_configurable')));
         $this->assertTrue($this->controlIsVisible('fieldset', 'product_variations'));
-        $this->productHelper()->selectSuperAttribute(array($defaultData['attribute1'], $defaultData['attribute2']));
-        $this->clickButton('continue');
+        $productData['configurable_attribute_title'] = $defaultData['attribute1'] . ', ' . $defaultData['attribute2'];
+        $this->productHelper()->fillConfigurableSettings($productData);
+        //Verifying
         $this->assertTrue($this->controlIsVisible('fieldset', 'variations_matrix'));
-        $this->productHelper()->checkGeneratedMatrix($defaultData['matrix'], $superAttributes);
-        $this->saveForm('save');
-        $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->isProductTypeEqualsTo($productData, 'Configurable Product');
-        $this->productHelper()->openProduct(array('sku' => $productData['general_sku']));
-        $this->productHelper()->checkGeneratedMatrix($defaultData['matrix'], $superAttributes);
+        $this->productHelper()->checkGeneratedMatrix($defaultData['matrix']);
     }
 
     /**
+     * <p>Variation Matrix with Changing Attribute Set</p>
+     *
      * @param array $data
      *
      * @test
      * @depends setConfigurableAttributesToNewSet
+     * @TestlinkId TL-MAGE-6477
      */
     public function validMatrixAfterChangeAttributeSet($data)
     {
-        $superAttributes = array('1','2');
+        //Steps
         $this->productHelper()->selectTypeProduct('configurable');
         $this->fillCheckbox('is_configurable', 'yes');
         $this->assertTrue($this->isChecked($this->_getControlXpath('checkbox', 'is_configurable')));
         $this->assertTrue($this->controlIsVisible('fieldset', 'product_variations'));
-        $this->assertFalse($this->productHelper()->isDisplayedSuperAttribute(array($data['attribute1'],
-            $data['attribute2'])));
-        $this->productHelper()->changeAttributeSet($data['AttributeSet']);
-        $this->assertTrue($this->isChecked($this->_getControlXpath('checkbox', 'is_configurable')));
+        $this->productHelper()->changeAttributeSet($data['attributeSet']);
         $this->openTab('general');
-        $this->fillCheckbox('is_configurable', 'yes');
+        $this->assertTrue($this->isChecked($this->_getControlXpath('checkbox', 'is_configurable')));
         $this->assertTrue($this->controlIsVisible('fieldset', 'product_variations'));
-        $this->productHelper()->selectSuperAttribute(array($data['attribute1'], $data['attribute2']));
-        $this->clickButton('continue');
-        $this->productHelper()->checkGeneratedMatrix($data['matrix'], $superAttributes);
+        $this->productHelper()->fillConfigurableSettings(array(
+                'configurable_attribute_title' => $data['attribute1'] . ', ' . $data['attribute2']
+            )
+        );
+        //Verifying
+        $this->productHelper()->checkGeneratedMatrix($data['matrix']);
     }
 }

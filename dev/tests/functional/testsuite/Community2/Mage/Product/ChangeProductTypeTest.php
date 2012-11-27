@@ -42,9 +42,7 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
         $this->saveForm('save');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
-        $column = $this->getColumnIdByName('Type');
-        $productLocator = $this->formSearchXpath(array('sku' => $productData['general_sku']));
-        $this->assertEquals($changedType, trim($this->getText($productLocator . "//td[$column]")),
+        $this->assertEquals($changedType, $this->productHelper()->getProductType($productData),
             'Incorrect product type has been created');
         $this->productHelper()->openProduct(array('sku' => $productData['general_sku']));
         $this->assertTrue($this->controlIsVisible('field', 'general_weight_disabled'),
@@ -94,9 +92,7 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
         $this->saveForm('save');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
-        $column = $this->getColumnIdByName('Type');
-        $productLocator = $this->formSearchXpath(array('sku' => $productData['general_sku']));
-        $this->assertEquals($changedType, trim($this->getText($productLocator . "//td[$column]")),
+        $this->assertEquals($changedType, $this->productHelper()->getProductType($productData),
             'Incorrect product type has been created');
         $this->productHelper()->openProduct(array('sku' => $productData['general_sku']));
         if ($changedProduct == 'simple') {
@@ -150,9 +146,7 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
         $this->saveForm('save');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
-        $column = $this->getColumnIdByName('Type');
-        $productLocator = $this->formSearchXpath(array('sku' => $productData['general_sku']));
-        $this->assertEquals($changedType, trim($this->getText($productLocator . "//td[$column]")),
+        $this->assertEquals($changedType, $this->productHelper()->getProductType($productData),
             'Incorrect product type has been created');
         $this->productHelper()->openProduct(array('sku' => $productData['general_sku']));
         $this->assertTrue($this->controlIsVisible('field', 'general_weight_disabled'),
@@ -195,9 +189,7 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
         $this->saveForm('save');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
-        $column = $this->getColumnIdByName('Type');
-        $productLocator = $this->formSearchXpath(array('sku' => $productData['general_sku']));
-        $this->assertEquals($changedType, trim($this->getText($productLocator . "//td[$column]")),
+        $this->assertEquals($changedType, $this->productHelper()->getProductType($productData),
             'Incorrect product type has been created');
         $this->productHelper()->openProduct(array('sku' => $productData['general_sku']));
         if ($changedProduct == 'simple') {
@@ -341,9 +333,7 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
         $this->saveForm('save');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
-        $column = $this->getColumnIdByName('Type');
-        $productLocator = $this->formSearchXpath(array('sku' => $configurableProduct['general_sku']));
-        $this->assertEquals('Configurable Product', trim($this->getText($productLocator . "//td[$column]")),
+        $this->assertEquals('Configurable Product', $this->productHelper()->getProductType($configurableProduct),
             'Incorrect product type has been created');
         $this->productHelper()->openProduct(array('sku' => $configurableProduct['general_sku']));
         $this->assertTrue($this->isChecked($this->_getControlXpath('checkbox', 'is_configurable')),
@@ -384,9 +374,7 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
         $this->saveForm('save');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
-        $column = $this->getColumnIdByName('Type');
-        $productLocator = $this->formSearchXpath(array('sku' => $simpleProduct['general_sku']));
-        $this->assertEquals('Simple Product', trim($this->getText($productLocator . "//td[$column]")),
+        $this->assertEquals('Simple Product', $this->productHelper()->getProductType($simpleProduct),
             'Incorrect product type has been created');
         $this->productHelper()->openProduct(array('sku' => $simpleProduct['general_sku']));
         $this->assertFalse($this->isChecked($this->_getControlXpath('checkbox', 'is_configurable')),
@@ -424,9 +412,7 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
         $this->saveForm('save');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
-        $column = $this->getColumnIdByName('Type');
-        $productLocator = $this->formSearchXpath(array('sku' => $simpleProduct['general_sku']));
-        $this->assertEquals('Simple Product', trim($this->getText($productLocator . "//td[$column]")),
+        $this->assertEquals('Simple Product', $this->productHelper()->getProductType($simpleProduct),
             'Incorrect product type has been created');
         $this->productHelper()->openProduct(array('sku' => $simpleProduct['general_sku']));
         $this->assertFalse($this->isChecked($this->_getControlXpath('checkbox', 'is_configurable')),
@@ -471,10 +457,9 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
         $this->saveForm('save');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
-        $column = $this->getColumnIdByName('Type');
-        $productLocator = $this->formSearchXpath(array('sku' => $initialProduct['general_sku']));
-        $this->assertEquals('Configurable Product', trim($this->getText($productLocator . "//td[$column]")),
+        $this->assertEquals('Configurable Product', $this->productHelper()->getProductType($configurableProduct),
             'Incorrect product type has been created');
+        $this->productHelper()->openProduct(array('sku' => $configurableProduct['general_sku']));
         $this->assertTrue($this->isChecked($this->_getControlXpath('checkbox', 'is_configurable')),
             'Product variation checkbox is not checked');
         $this->assertTrue($this->controlIsVisible('fieldset', 'product_variations'),
@@ -511,9 +496,7 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
         $this->saveForm('save');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
-        $column = $this->getColumnIdByName('Type');
-        $productLocator = $this->formSearchXpath(array('sku' => $configurableProduct['general_sku']));
-        $this->assertEquals('Configurable Product', trim($this->getText($productLocator . "//td[$column]")),
+        $this->assertEquals('Configurable Product', $this->productHelper()->getProductType($configurableProduct),
             'Incorrect product type has been created');
         $this->productHelper()->openProduct(array('sku' => $configurableProduct['general_sku']));
         $this->assertTrue($this->isChecked($this->_getControlXpath('checkbox', 'is_configurable')),
