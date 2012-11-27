@@ -50,10 +50,10 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
     }
 
     /**
-     * @covers getItems
-     * @covers getCount
-     * @covers getItemsJson
-     * @covers isAvailable
+     * @covers Mage_Backend_Block_Widget_Grid_Massaction::getItems
+     * @covers Mage_Backend_Block_Widget_Grid_Massaction::getCount
+     * @covers Mage_Backend_Block_Widget_Grid_Massaction::getItemsJson
+     * @covers Mage_Backend_Block_Widget_Grid_Massaction::isAvailable
      */
     public function testMassactionDefaultValues()
     {

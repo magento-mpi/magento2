@@ -86,7 +86,7 @@ class Mage_Catalog_Model_Product_Type_Configurable_Attribute extends Mage_Core_M
     }
 
     /**
-     * Load Counfigurable Attribute by Product and Product's Attribute
+     * Load Configurable Attribute by Product and Product's Attribute
      *
      * @param Mage_Catalog_Model_Product $product
      * @param Mage_Eav_Model_Attribute  $attribute
