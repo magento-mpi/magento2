@@ -12,6 +12,6 @@
 $installer = $this;
 
 $entities = $installer->getDefaultEntities();
-foreach ($entities as $entityName=>$entity) {
+foreach ($entities as $entityName => $entity) {
     $installer->addEntityType($entityName, $entity);
 }
