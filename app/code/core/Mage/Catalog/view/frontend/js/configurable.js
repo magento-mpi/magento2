@@ -15,39 +15,96 @@
         },
 
         _create: function () {
+            // Initial setting of various option values
+            this._initializeOptions();
+
+            // Override defaults with URL query parameters and/or inputs values
+            this._overrideDefaults();
+
+            // Change events to check select reloads
+            this._setupChangeEvents();
+
+            // Fill state
+            this._fillState();
+
+            // Setup child and prev/next settings
+            this._setChildSettings();
+
+            // Setup/configure values to inputs
+            this._configureForValues();
+        },
+
+        /**
+         * Initialize tax configuration, initial settings, and options values.
+         * @private
+         */
+        _initializeOptions: function() {
             this.options.taxConfig = this.options.spConfig.taxConfig;
             this.options.settings = (this.options.spConfig.containerId) ?
                 $(this.options.spConfig.containerId).find(".super-attribute-select") :
                 $('.super-attribute-select');
-
             this.options.values = this.options.spConfig.defaultValues || {};
+        },
 
-            // Override defaults by URL query parameters
+        /**
+         * Override default options values settings with either URL query parameters or
+         * initialized inputs values.
+         * @private
+         */
+        _overrideDefaults: function() {
             var hashIndex = window.location.href.indexOf('#');
             if (hashIndex !== -1) {
-                var queryParams = $.parseQuery({query: window.location.href.substr(hashIndex + 1)});
-                $.each(queryParams, $.proxy(function(key, value) {
-                    this.options.values[key] = value;
-                }, this));
+                this._parseQueryParams(window.location.href.substr(hashIndex + 1));
             }
-
-            // Overwrite defaults by inputs values if needed
             if (this.options.spConfig.inputsInitialized) {
-                this.options.values = {};
-                $.each(this.options.settings, $.proxy(function(index, element) {
-                    if (element.value) {
-                        var attributeId = element.id.replace(/[a-z]*/, '');
-                        this.options.values[attributeId] = element.value;
-                    }
-                }, this));
+                this._setValuesByAttribute();
             }
+        },
 
-            // Put events to check select reloads
-            $.each(this.options.settings, $.proxy(function (index, element) {
+        /**
+         * Parse query parameters from a query string and set options values based on the
+         * key value pairs of the parameters.
+         * @param queryString URL query string containing query parameters.
+         * @private
+         */
+        _parseQueryParams: function(queryString) {
+            var queryParams = $.parseQuery({query: queryString});
+            $.each(queryParams, $.proxy(function(key, value) {
+                this.options.values[key] = value;
+            }, this));
+        },
+
+        /**
+         * Override default options values with values based on each element's attribute
+         * identifier.
+         * @private
+         */
+        _setValuesByAttribute: function() {
+            this.options.values = {};
+            $.each(this.options.settings, $.proxy(function(index, element) {
+                if (element.value) {
+                    var attributeId = element.id.replace(/[a-z]*/, '');
+                    this.options.values[attributeId] = element.value;
+                }
+            }, this));
+        },
+
+        /**
+         * Set up .on('change') events for each option element to configure the option.
+         * @private
+         */
+        _setupChangeEvents: function() {
+            $.each(this.options.settings, $.proxy(function(index, element) {
                 $(element).on('change', this, this._configure);
             }, this));
+        },
 
-            // Fill state
+        /**
+         * Iterate through the option settings and set each option's element configuration,
+         * attribute identifier. Set the state based on the attribute identifier.
+         * @private
+         */
+        _fillState: function() {
             $.each(this.options.settings, $.proxy(function (index, element) {
                 var attributeId = element.id.replace(/[a-z]*/, '');
                 if (attributeId && this.options.spConfig.attributes[attributeId]) {
@@ -56,11 +113,18 @@
                     this.options.state[attributeId] = false;
                 }
             }, this));
+        },
 
+        /**
+         * Set each option's child settings, and next/prev option setting. Fill (initialize)
+         * an option's list of selections as needed or disable an option's setting.
+         * @private
+         */
+        _setChildSettings: function() {
             var childSettings = [];
             for (var j = this.options.settings.length - 1; j >= 0; j--) {
-                var prevSetting = this.options.settings[j - 1] ? this.options.settings[j - 1] : false;
-                var nextSetting = this.options.settings[j + 1] ? this.options.settings[j + 1] : false;
+                var prevSetting = this.options.settings[j - 1] ? this.options.settings[j - 1] : false,
+                    nextSetting = this.options.settings[j + 1] ? this.options.settings[j + 1] : false;
                 if (j === 0) {
                     this._fillSelect(this.options.settings[j]);
                 } else {
@@ -71,9 +135,6 @@
                 this.options.settings[j].nextSetting = nextSetting;
                 childSettings.push(this.options.settings[j]);
             }
-
-            // Set values to inputs
-            this._configureForValues();
         },
 
         /**
