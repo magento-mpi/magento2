@@ -21,8 +21,12 @@ abstract class Mage_Backend_Model_Config_Structure_MapperAbstract
      * @param array $target
      * @return bool
      */
-    protected function _hasValue($key, array $target)
+    protected function _hasValue($key, $target)
     {
+        if (false == is_array($target)) {
+            return false;
+        }
+
         $paths = explode('/', $key);
         foreach ($paths as $path) {
             if (array_key_exists($path, $target)) {

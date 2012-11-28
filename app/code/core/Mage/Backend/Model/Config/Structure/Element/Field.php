@@ -286,6 +286,10 @@ class Mage_Backend_Model_Config_Structure_Element_Field
     public function getDependencies($fieldPrefix)
     {
         $dependencies = array();
+        if (false == isset($this->_data['depends']['fields'])) {
+            return $dependencies;
+        }
+
         foreach ($this->_data['depends']['fields'] as $depend) {
             /* @var array $depend */
             $fieldId = $fieldPrefix . array_pop($depend['dependPath']);

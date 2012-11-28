@@ -79,6 +79,9 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
      */
     protected function _getTranslatedAttribute($code)
     {
+        if (false == array_key_exists($code, $this->_data)) {
+            return '';
+        }
         return $this->_helperFactory->get($this->_getTranslationModule())->__($this->_data[$code]);
     }
 
