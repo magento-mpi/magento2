@@ -12,7 +12,7 @@
 /**
  * Test class for Mage_Launcher_Block_LandingPage
  */
-class Mage_Launcher_Block_LandingPageTest extends PHPUnit_Framework_TestCase
+class Mage_Launcher_Block_Page_StoreLauncherTest extends PHPUnit_Framework_TestCase
 {
     public function testGetTiles()
     {
