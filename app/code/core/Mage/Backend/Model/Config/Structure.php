@@ -76,8 +76,7 @@ class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_S
                 $this->_data['tabs'][$section['tab']]['children'][$sectionId] = $section;
             }
         }
-        $this->_tabIterator->setElements($this->_data['tabs']);
-        $this->_tabIterator->setScope($this->_scopeDefiner->getScope());
+        $this->_tabIterator->setElements($this->_data['tabs'], $this->_scopeDefiner->getScope());
         return $this->_tabIterator;
     }
 

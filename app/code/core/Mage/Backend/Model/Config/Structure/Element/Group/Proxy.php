@@ -43,14 +43,15 @@ class Mage_Backend_Model_Config_Structure_Element_Group_Proxy
         return $this->_subject;
     }
 
-/**
+    /**
      * Set element data
      *
      * @param array $data
+     * @param string $scope
      */
-    public function setData(array $data)
+    public function setData(array $data, $scope)
     {
-        $this->_getSubject()->setData($data);
+        $this->_getSubject()->setData($data, $scope);
     }
 
     /**

@@ -25,6 +25,13 @@ class Mage_Backend_Model_Config_Structure_Element_Iterator implements Iterator
     protected $_flyweight;
 
     /**
+     * Configuration scope
+     *
+     * @var string
+     */
+    protected $_scope;
+
+    /**
      * Last element id
      *
      * @var string
@@ -43,10 +50,12 @@ class Mage_Backend_Model_Config_Structure_Element_Iterator implements Iterator
      * Set element data
      *
      * @param array $elements
+     * @param string $scope
      */
-    public function setElements(array $elements)
+    public function setElements(array $elements, $scope)
     {
         $this->_elements = $elements;
+        $this->_scope = $scope;
         $lastElement = end($elements);
         $this->_lastId = $lastElement['id'];
     }
@@ -84,7 +93,7 @@ class Mage_Backend_Model_Config_Structure_Element_Iterator implements Iterator
      */
     protected function _initFlyweight(array $element)
     {
-        $this->_flyweight->setData($element);
+        $this->_flyweight->setData($element, $this->_scope);
     }
 
     /**

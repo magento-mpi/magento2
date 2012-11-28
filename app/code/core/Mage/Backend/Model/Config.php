@@ -81,7 +81,8 @@ class Mage_Backend_Model_Config extends Varien_Object
         Mage_Core_Model_Event_Manager $eventManager,
         Mage_Backend_Model_Config_Structure $configStructure,
         Mage_Core_Model_Resource_Transaction_Factory $transactionFactory,
-        Mage_Core_Model_Config_Data_Factory $configDataFactory
+        Mage_Core_Model_Config_Data_Factory $configDataFactory,
+        array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_configStructure = $configStructure;
@@ -89,6 +90,7 @@ class Mage_Backend_Model_Config extends Varien_Object
         $this->_appConfig = $config;
         $this->_application = $application;
         $this->_configDataFactory = $configDataFactory;
+        parent::__construct($data);
     }
 
     /**
@@ -259,7 +261,7 @@ class Mage_Backend_Model_Config extends Varien_Object
                 return $clonedField->getBackendModel();
             }
         }
-        return $this->_objectFactory->getModelInstance('Mage_Core_Model_Config_Data');
+        return $this->_configDataFactory->create();
     }
 
     /**

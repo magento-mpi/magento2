@@ -19,25 +19,28 @@ class Mage_Backend_Model_Config_Structure_Element_Field
     protected $_backendFactory;
 
     /**
+     *
      * @var Mage_Backend_Model_Config_Structure_SearchInterface
      */
-    protected $_filedLocator;
+    protected $_fieldLocator;
 
     /**
      * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_App $application
      * @param Mage_Core_Model_Authorization $authorization
      * @param Mage_Backend_Model_Config_Backend_Factory $backendFactory
      * @param Mage_Backend_Model_Config_Structure_SearchInterface $fieldLocator
      */
     public function __construct(
         Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Core_Model_App $application,
         Mage_Core_Model_Authorization $authorization,
         Mage_Backend_Model_Config_Backend_Factory $backendFactory,
         Mage_Backend_Model_Config_Structure_SearchInterface $fieldLocator
     ) {
-        parent::__construct($helperFactory, $authorization);
+        parent::__construct($helperFactory, $application, $authorization);
         $this->_backendFactory = $backendFactory;
-        $this->_filedLocator = $fieldLocator;
+        $this->_fieldLocator = $fieldLocator;
     }
 
     /**
@@ -153,7 +156,8 @@ class Mage_Backend_Model_Config_Structure_Element_Field
      */
     public function getSectionId()
     {
-        return basename($this->getPath());
+        $parts = explode('/', $this->getPath());
+        return current($parts);
     }
 
     /**
@@ -164,6 +168,16 @@ class Mage_Backend_Model_Config_Structure_Element_Field
     public function getGroupPath()
     {
         return dirname($this->getPath());
+    }
+
+    /**
+     * Retrieve config path
+     *
+     * @return null|string
+     */
+    public function getConfigPath()
+    {
+        return isset($this->_data['config_path']) ? $this->_data['config_path'] : null;
     }
 
     /**

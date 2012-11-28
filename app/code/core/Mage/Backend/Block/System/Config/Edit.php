@@ -114,6 +114,6 @@ class Mage_Backend_Block_System_Config_Edit extends Mage_Backend_Block_Widget
      */
     public function getSaveUrl()
     {
-        return $this->getUrl('*/*/save', array('_current' => true));
+        return $this->getUrl('*/system_config_save/index', array('_current' => true));
     }
 }

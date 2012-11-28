@@ -19,7 +19,7 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
     protected $_data;
 
     /**
-     * Current scope
+     * Current configuration scope
      *
      * @var string
      */
@@ -86,19 +86,11 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
      * Set element data
      *
      * @param array $data
-     */
-    public function setData(array $data)
-    {
-        $this->_data = $data;
-    }
-
-    /**
-     * Set current scope
-     *
      * @param string $scope
      */
-    public function setScope($scope)
+    public function setData(array $data, $scope)
     {
+        $this->_data = $data;
         $this->_scope = $scope;
     }
 

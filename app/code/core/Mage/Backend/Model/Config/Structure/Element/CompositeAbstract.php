@@ -20,6 +20,7 @@ abstract class Mage_Backend_Model_Config_Structure_Element_CompositeAbstract
 
     /**
      * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_App $application
      * @param Mage_Core_Model_Authorization $authorization
      * @param Mage_Backend_Model_Config_Structure_Element_Iterator $childrenIterator
      */
@@ -37,11 +38,12 @@ abstract class Mage_Backend_Model_Config_Structure_Element_CompositeAbstract
      * Set flyweight data
      *
      * @param array $data
+     * @param string $scope
      */
-    public function setData(array $data)
+    public function setData(array $data, $scope)
     {
-        parent::setData($data);
-        $this->_childrenIterator->setElements($this->_data['children']);
+        parent::setData($data, $scope);
+        $this->_childrenIterator->setElements($this->_data['children'], $scope);
     }
 
     /**
@@ -52,7 +54,7 @@ abstract class Mage_Backend_Model_Config_Structure_Element_CompositeAbstract
     public function hasChildren()
     {
         foreach ($this->getChildren() as $child) {
-            return (bool) $child;
+            return (bool)$child;
         };
         return false;
     }

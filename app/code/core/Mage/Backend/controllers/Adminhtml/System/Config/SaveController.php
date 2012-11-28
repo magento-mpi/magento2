@@ -48,6 +48,13 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
     protected $_app;
 
     /**
+     * Authentication session
+     *
+     * @var Mage_Backend_Model_Auth_StorageInterface
+     */
+    protected $_authSession;
+
+    /**
      * Constructor
      *
      * @param Zend_Controller_Request_Abstract $request
@@ -60,6 +67,7 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
      * @param Mage_Backend_Model_Config_Factory $configFactory
      * @param Mage_Core_Model_Event_Manager $eventManager
      * @param Mage_Core_Model_App $app
+     * @param Mage_Backend_Model_Auth_StorageInterface $authSession
      * @param array $invokeArgs
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -74,6 +82,7 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
         Mage_Backend_Model_Config_Factory $configFactory,
         Mage_Core_Model_Event_Manager $eventManager,
         Mage_Core_Model_App $app,
+        Mage_Backend_Model_Auth_StorageInterface $authSession,
         array $invokeArgs = array()
     ) {
         parent::__construct($request, $response, $objectManager, $frontController,
@@ -86,6 +95,7 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
         $this->_eventManager = $eventManager;
         $this->_app = $app;
         $this->_configModel = $configModel;
+        $this->_authSession = $authSession;
     }
 
     /**
@@ -111,7 +121,7 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
                 'groups' => $this->_getGroupsForSave()
             );
             /** @var Mage_Backend_Model_Config $configModel  */
-            $configModel = $this->_configFactory->create($configData);
+            $configModel = $this->_configFactory->create(array('data' => $configData));
             $configModel->save();
 
             // re-init configuration
@@ -224,7 +234,7 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
      */
     protected function _saveState($configState = array())
     {
-        $adminUser = $this->_session->getUser();
+        $adminUser = $this->_authSession->getUser();
         if (is_array($configState)) {
             $extra = $adminUser->getExtra();
             if (!is_array($extra)) {

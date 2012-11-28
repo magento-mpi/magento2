@@ -14,8 +14,9 @@ interface Mage_Backend_Model_Config_Structure_ElementInterface
      * Set element data
      *
      * @param array $data
+     * @param string $scope
      */
-    public function setData(array $data);
+    public function setData(array $data, $scope);
 
     /**
      * Retrieve element id
