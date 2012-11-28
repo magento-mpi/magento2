@@ -4,7 +4,7 @@
  *
  * @copyright {}
  */
-class Saas_Pinba_Model_Profiler_Pinba implements Magento_Profiler_DriverInterface
+class Magento_Profiler_Driver_Pinba implements Magento_Profiler_DriverInterface
 {
     const TIMER_NAME_TAG = 'timerId';
 
@@ -15,7 +15,7 @@ class Saas_Pinba_Model_Profiler_Pinba implements Magento_Profiler_DriverInterfac
      *
      * @var array
      */
-    protected $_timersStarted = array();
+    protected $_startedTimers = array();
 
     /**
      * Get tags with timer id included.
@@ -26,7 +26,7 @@ class Saas_Pinba_Model_Profiler_Pinba implements Magento_Profiler_DriverInterfac
      */
     protected function _getTagsWithTimerId($timerId, array $tags = null)
     {
-        return array_merge(array(self::TIMER_NAME_TAG => $timerId), $tags);
+        return array_merge(array(self::TIMER_NAME_TAG => $timerId), (array)$tags);
     }
 
     /**
@@ -55,7 +55,7 @@ class Saas_Pinba_Model_Profiler_Pinba implements Magento_Profiler_DriverInterfac
     {
         if ($this->_isEnabled) {
             $tags = $this->_getTagsWithTimerId($timerId, $tags);
-            $this->_timersStarted[$timerId] = pinba_timer_start($tags);
+            $this->_startedTimers[$timerId] = pinba_timer_start($tags);
         }
     }
 
@@ -69,11 +69,12 @@ class Saas_Pinba_Model_Profiler_Pinba implements Magento_Profiler_DriverInterfac
     {
         if ($this->_isEnabled) {
             if (is_null($timerId)) {
-                foreach (array_keys($this->_timersStarted) as $startedTimerId) {
+                foreach (array_keys($this->_startedTimers) as $startedTimerId) {
                     $this->stop($startedTimerId);
                 }
-            } elseif (isset($this->_timersStarted[$timerId])) {
-                pinba_timer_stop($this->_timersStarted[$timerId]);
+            } elseif (isset($this->_startedTimers[$timerId])) {
+                pinba_timer_stop($this->_startedTimers[$timerId]);
+                unset($this->_startedTimers[$timerId]);
             }
         }
     }
@@ -89,11 +90,12 @@ class Saas_Pinba_Model_Profiler_Pinba implements Magento_Profiler_DriverInterfac
     {
         if ($this->_isEnabled) {
             if (is_null($timerId)) {
-                foreach (array_keys($this->_timersStarted) as $startedTimerId) {
+                foreach (array_keys($this->_startedTimers) as $startedTimerId) {
                     $this->reset($startedTimerId);
                 }
-            } elseif (isset($this->_timersStarted[$timerId])) {
-                pinba_timer_delete($this->_timersStarted[$timerId]);
+            } elseif (isset($this->_startedTimers[$timerId])) {
+                pinba_timer_delete($this->_startedTimers[$timerId]);
+                unset($this->_startedTimers[$timerId]);
             }
         }
     }

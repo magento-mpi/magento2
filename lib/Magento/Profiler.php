@@ -32,6 +32,11 @@ class Magento_Profiler
      */
     static private $_drivers = array();
 
+    /**
+     * List of default tags.
+     *
+     * @var array
+     */
     static private $_defaultTags = array();
 
     /**
@@ -52,6 +57,7 @@ class Magento_Profiler
     public static function add(Magento_Profiler_DriverInterface $driver)
     {
         self::$_drivers[get_class($driver)] = $driver;
+        self::enable();
     }
 
     /**
