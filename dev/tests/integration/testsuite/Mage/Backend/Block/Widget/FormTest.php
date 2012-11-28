@@ -14,6 +14,10 @@
  */
 class Mage_Backend_Block_Widget_FormTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @magentoDataFixture Mage/Core/_files/init_adminhtml_design.php
+     * @magentoAppIsolation enabled
+     */
     public function testSetFieldset()
     {
         $layout = Mage::getObjectManager()->create('Mage_Core_Model_Layout');
