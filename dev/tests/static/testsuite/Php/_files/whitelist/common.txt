@@ -12,6 +12,11 @@ app/code/core/Mage/Adminhtml/Block/Catalog/Product/Helper/Form/Category.php
 app/code/core/Mage/Adminhtml/Block/System/Store/Edit
 app/code/core/Mage/Adminhtml/Block/System/Store/Edit.php
 app/code/core/Mage/Backend/Model/Acl/Config.php
+app/code/core/Mage/Backend/Model/Config/Structure
+app/code/core/Mage/Backend/Model/Config/Structure
+app/code/core/Mage/Backend/Model/Config/Factory.php
+app/code/core/Mage/Backend/Model/Config/ScopeDefiner.php
+app/code/core/Mage/Backend/Model/Config/Structure.php
 app/code/core/Mage/Backend/Block/Widget/Grid/ColumnSet.php
 app/code/core/Mage/Backend/Block/Widget/Grid/Export.php
 app/code/core/Mage/Backend/Block/Widget/Grid/ExportInterface.php
