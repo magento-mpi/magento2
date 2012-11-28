@@ -16,52 +16,59 @@ class Mage_Webapi_Controller_Dispatcher_ErrorProcessor
      */
     const DATA_FORMAT_JSON = 'json';
     const DATA_FORMAT_XML = 'xml';
-    const DATA_FORMAT_URL_ENCODED_QUERY = 'url_encoded_query';
     /**#@-*/
 
-    /** @var Mage_Core_Model_Factory_Helper */
-    protected $_helperFactory;
+    /** @var Mage_Webapi_Helper_Data */
+    protected $_apiHelper;
 
     /** @var Mage_Core_Helper_Data */
-    protected $_helper;
+    protected $_coreHelper;
 
     /** @var Mage_Core_Model_App */
     protected $_app;
 
+    /** @var Mage_Core_Model_Logger */
+    protected $_logger;
+
     /**
-     * Initialize report directory.
+     * Initialize dependencies. Register custom shutdown function.
      *
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Core_Model_App $app
+     * @param Mage_Core_Model_Logger $logger
      */
-    public function __construct(Mage_Core_Model_Factory_Helper $helperFactory, Mage_Core_Model_App $app)
-    {
-        $this->_helperFactory = $helperFactory;
-        $this->_helper = $helperFactory->get('Mage_Webapi_Helper_Data');
+    public function __construct(
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Core_Model_App $app,
+        Mage_Core_Model_Logger $logger
+    ) {
+        $this->_apiHelper = $helperFactory->get('Mage_Webapi_Helper_Data');
+        $this->_coreHelper = $helperFactory->get('Mage_Core_Helper_Data');
         $this->_app = $app;
+        $this->_logger = $logger;
         $this->registerShutdownFunction();
     }
 
     /**
-     * Save error report.
+     * Mask actual exception for security reasons in case when it should not be exposed to API clients.
      *
-     * @param string $reportData
-     * @return Mage_Webapi_Controller_Dispatcher_ErrorProcessor
+     * @param Exception $exception
+     * @return Exception
      */
-    public function saveReport($reportData)
+    public function maskException(Exception $exception)
     {
-        // TODO refactor method using Varien_Io_File class functions.
-        /** Directory for API related reports. */
-        /** @see Error_Processor::__construct() */
-        $reportDir = BP . DS . 'var' . DS . 'report' . DS . 'api';
-        if (!file_exists($reportDir)) {
-            @mkdir($reportDir, 0777, true);
+        if (!($exception instanceof Mage_Webapi_Exception) && !$this->_app->isDeveloperMode()) {
+            /** Log information about actual exception. */
+            $reportId = $this->_logException($exception);
+            /** Create exception with masked message. */
+            return new Mage_Webapi_Exception(
+                $this->_apiHelper
+                    ->__('Internal Error. Details are available in Magento log file. Report ID: "%s"', $reportId),
+                Mage_Webapi_Exception::HTTP_INTERNAL_ERROR
+            );
+        } else {
+            return $exception;
         }
-        $reportId = abs(intval(microtime(true) * rand(100, 1000)));
-        $reportFile = $reportDir . DS . $reportId;
-        @file_put_contents($reportFile, serialize($reportData));
-        @chmod($reportFile, 0777);
-        return $this;
     }
 
     /**
@@ -71,15 +78,42 @@ class Mage_Webapi_Controller_Dispatcher_ErrorProcessor
      *
      * @param Exception $exception
      * @param int $httpCode
+     * @SuppressWarnings(PHPMD.ExitExpression)
      */
     public function renderException(Exception $exception, $httpCode = self::DEFAULT_ERROR_HTTP_CODE)
     {
         if ($this->_app->isDeveloperMode() || $exception instanceof Mage_Webapi_Exception) {
             $this->render($exception->getMessage(), $exception->getTraceAsString(), $httpCode);
         } else {
-            $this->saveReport($exception->getMessage() . ' : ' . $exception->getTraceAsString());
-            $this->render($this->_helper->__('Internal Error'), 'Trace is not available.', $httpCode);
+            $reportId = $this->_logException($exception);
+            $this->render(
+                $this->_apiHelper
+                    ->__('Internal Error. Details are available in Magento log file. Report ID: "%s"', $reportId),
+                'Trace is not available.',
+                $httpCode
+            );
         }
+        // TODO: Move die() call to render() method when it will be covered with functional tests.
+        die();
+    }
+
+    /**
+     * Log information about exception to exception log.
+     *
+     * @param Exception $exception
+     * @return string $reportId
+     */
+    protected function _logException(Exception $exception)
+    {
+        $exceptionClass = get_class($exception);
+        $reportId = uniqid("webapi-");
+        $exceptionForLog = new $exceptionClass(
+            /** Trace is added separately by logException. */
+            "Report ID: $reportId; Message: {$exception->getMessage()}",
+            $exception->getCode()
+        );
+        $this->_logger->logException($exceptionForLog);
+        return $reportId;
     }
 
     /**
@@ -89,17 +123,17 @@ class Mage_Webapi_Controller_Dispatcher_ErrorProcessor
      * @param string $trace
      * @param int $httpCode
      */
-    public function render($errorMessage, $trace = 'Trace is not available.', $httpCode = self::DEFAULT_ERROR_HTTP_CODE)
-    {
+    public function render(
+        $errorMessage,
+        $trace = 'Trace is not available.',
+        $httpCode = self::DEFAULT_ERROR_HTTP_CODE
+    ) {
         if (strstr($_SERVER['HTTP_ACCEPT'], 'json')) {
             $output = $this->_formatError($errorMessage, $trace, $httpCode, self::DATA_FORMAT_JSON);
             $mimeType = 'application/json';
         } elseif (strstr($_SERVER['HTTP_ACCEPT'], 'xml')) {
             $output = $this->_formatError($errorMessage, $trace, $httpCode, self::DATA_FORMAT_XML);
             $mimeType = 'application/xml';
-        } elseif (strstr($_SERVER['HTTP_ACCEPT'], 'text/plain')) {
-            $output = $this->_formatError($errorMessage, $trace, $httpCode, self::DATA_FORMAT_URL_ENCODED_QUERY);
-            $mimeType = 'text/plain';
         } else {
             /** Default format is JSON */
             $output = $this->_formatError($errorMessage, $trace, $httpCode, self::DATA_FORMAT_JSON);
@@ -131,7 +165,7 @@ class Mage_Webapi_Controller_Dispatcher_ErrorProcessor
         $errorData['messages']['error'][] = $message;
         switch ($format) {
             case self::DATA_FORMAT_JSON:
-                $errorData = $this->_helper->jsonEncode($errorData);
+                $errorData = $this->_coreHelper->jsonEncode($errorData);
                 break;
             case self::DATA_FORMAT_XML:
                 $errorData = '<?xml version="1.0"?>'
@@ -146,9 +180,6 @@ class Mage_Webapi_Controller_Dispatcher_ErrorProcessor
                     . '</error>'
                     . '</messages>'
                     . '</error>';
-                break;
-            case self::DATA_FORMAT_URL_ENCODED_QUERY:
-                $errorData = http_build_query($errorData);
                 break;
         }
         return $errorData;
@@ -208,9 +239,31 @@ class Mage_Webapi_Controller_Dispatcher_ErrorProcessor
                 $errorMessage = $e->getMessage();
             }
             if (!$this->_app->isDeveloperMode()) {
-                $this->saveReport($errorMessage);
+                $this->_saveFatalErrorReport($errorMessage);
             }
             $this->render($errorMessage);
         }
+    }
+
+    /**
+     * Log information about fatal error.
+     *
+     * @param string $reportData
+     * @return Mage_Webapi_Controller_Dispatcher_ErrorProcessor
+     */
+    protected function _saveFatalErrorReport($reportData)
+    {
+        // TODO refactor method using Varien_Io_File class functions.
+        /** Directory for API related reports. */
+        /** @see Error_Processor::__construct() */
+        $reportDir = BP . DS . 'var' . DS . 'report' . DS . 'api';
+        if (!file_exists($reportDir)) {
+            @mkdir($reportDir, 0777, true);
+        }
+        $reportId = abs(intval(microtime(true) * rand(100, 1000)));
+        $reportFile = $reportDir . DS . $reportId;
+        @file_put_contents($reportFile, serialize($reportData));
+        @chmod($reportFile, 0777);
+        return $this;
     }
 }

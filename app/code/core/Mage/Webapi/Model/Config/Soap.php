@@ -7,7 +7,7 @@
 class Mage_Webapi_Model_Config_Soap extends Mage_Webapi_Model_ConfigAbstract
 {
     /**
-     * Construct config with SOAP reader.
+     * Initialize dependencies.
      *
      * @param Mage_Webapi_Model_Config_Reader_Soap $reader
      * @param Mage_Webapi_Helper_Data $helper

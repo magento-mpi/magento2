@@ -6,8 +6,7 @@ use Zend\Server\Reflection\ReflectionMethod;
  *
  * @copyright {}
  */
-class Mage_Webapi_Model_Config_Reader_Rest_ClassReflector
-    extends Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract
+class Mage_Webapi_Model_Config_Reader_Rest_ClassReflector extends Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract
 {
     /** @var Mage_Webapi_Model_Config_Reader_Rest_RouteGenerator */
     protected $_routeGenerator;
@@ -33,7 +32,7 @@ class Mage_Webapi_Model_Config_Reader_Rest_ClassReflector
      */
     public function afterReflectionAction()
     {
-        $this->getReader()->setData(array(
+        $this->getReader()->addData(array(
             'types' => $this->_typeProcessor->getTypesData(),
             'type_to_class_map' => $this->_typeProcessor->getTypeToClassMap(),
             'rest_routes' => $this->_routeGenerator->getRoutes(),

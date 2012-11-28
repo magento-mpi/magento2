@@ -18,7 +18,7 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
     /**
      * Specific front controller for current API type.
      *
-     * @var Mage_Webapi_Controller_DispatcherAbstract
+     * @var Mage_Webapi_Controller_DispatcherInterface
      */
     protected $_dispatcher;
 
@@ -83,14 +83,18 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
      */
     public function dispatch()
     {
-        $this->_getDispatcher()->dispatch();
+        try {
+            $this->_getDispatcher()->dispatch();
+        } catch (Exception $e) {
+            $this->_errorProcessor->renderException($e);
+        }
         return $this;
     }
 
     /**
      * Retrieve front controller for concrete API type (factory method).
      *
-     * @return Mage_Webapi_Controller_DispatcherAbstract
+     * @return Mage_Webapi_Controller_DispatcherInterface
      * @throws Mage_Core_Exception
      */
     protected function _getDispatcher()

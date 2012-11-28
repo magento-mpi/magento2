@@ -44,7 +44,7 @@ class Mage_Webapi_Controller_Request_Soap extends Mage_Webapi_Controller_Request
         }
 
         $requestedResources = $this->getParam($resourcesParam);
-        if (empty($requestedResources) || !is_array($requestedResources) || empty($requestedResources)) {
+        if (empty($requestedResources) || !is_array($requestedResources)) {
             $message = $this->_helper->__('Requested resources are missing.');
             throw new Mage_Webapi_Exception($message, Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }

@@ -2,7 +2,7 @@
 use Zend\Code\Reflection\ClassReflection;
 
 /**
- * Config reader properties type reader.
+ * Type processor of config reader properties
  *
  * @copyright {}
  */

@@ -149,11 +149,11 @@ abstract class Mage_Webapi_Model_Config_ReaderAbstract
     }
 
     /**
-     * Set data to reader.
+     * Add data to reader.
      *
      * @param array $data
      */
-    public function setData($data)
+    public function addData($data)
     {
         $this->_data = array_merge_recursive($this->_data, $data);
     }

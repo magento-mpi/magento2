@@ -4,8 +4,11 @@
  *
  * @copyright {}
  */
-class Mage_Webapi_Controller_Dispatcher_Rest extends Mage_Webapi_Controller_DispatcherAbstract
+class Mage_Webapi_Controller_Dispatcher_Rest implements  Mage_Webapi_Controller_DispatcherInterface
 {
+    /** @var Mage_Webapi_Model_Config_Rest */
+    protected $_apiConfig;
+
     /** @var Mage_Webapi_Controller_Dispatcher_Rest_Presentation */
     protected $_restPresentation;
 
@@ -34,7 +37,6 @@ class Mage_Webapi_Controller_Dispatcher_Rest extends Mage_Webapi_Controller_Disp
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Webapi_Helper_Data $helper
      * @param Mage_Webapi_Model_Config_Rest $apiConfig
      * @param Mage_Webapi_Controller_Request_Rest $request
      * @param Mage_Webapi_Controller_Response_Rest $response
@@ -45,7 +47,6 @@ class Mage_Webapi_Controller_Dispatcher_Rest extends Mage_Webapi_Controller_Disp
      * @param Mage_Webapi_Controller_Dispatcher_Rest_Authentication $authentication
      */
     public function __construct(
-        Mage_Webapi_Helper_Data $helper,
         Mage_Webapi_Model_Config_Rest $apiConfig,
         Mage_Webapi_Controller_Request_Rest $request,
         Mage_Webapi_Controller_Response_Rest $response,
@@ -55,7 +56,6 @@ class Mage_Webapi_Controller_Dispatcher_Rest extends Mage_Webapi_Controller_Disp
         Mage_Webapi_Model_Authorization $authorization,
         Mage_Webapi_Controller_Dispatcher_Rest_Authentication $authentication
     ) {
-        parent::__construct($helper);
         $this->_apiConfig = $apiConfig;
         $this->_restPresentation = $restPresentation;
         $this->_router = $router;

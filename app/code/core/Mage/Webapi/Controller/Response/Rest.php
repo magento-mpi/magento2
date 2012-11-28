@@ -20,9 +20,6 @@ class Mage_Webapi_Controller_Response_Rest extends Mage_Webapi_Controller_Respon
     /** @var Mage_Webapi_Controller_Response_Rest_RendererInterface */
     protected $_renderer;
 
-    /** @var Mage_Core_Model_Logger */
-    protected $_logger;
-
     /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
@@ -34,20 +31,17 @@ class Mage_Webapi_Controller_Response_Rest extends Mage_Webapi_Controller_Respon
      *
      * @param Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory
      * @param Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
-     * @param Mage_Core_Model_Logger $logger
      * @param Mage_Webapi_Helper_Data $helper
      * @param Mage_Core_Model_App $app
      */
     public function __construct(
         Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory,
         Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor,
-        Mage_Core_Model_Logger $logger,
         Mage_Webapi_Helper_Data $helper,
         Mage_Core_Model_App $app
     ) {
         $this->_renderer = $rendererFactory->get();
         $this->_errorProcessor = $errorProcessor;
-        $this->_logger = $logger;
         $this->_helper = $helper;
         $this->_app = $app;
     }
@@ -62,18 +56,7 @@ class Mage_Webapi_Controller_Response_Rest extends Mage_Webapi_Controller_Respon
      */
     public function setException(Exception $exception)
     {
-        if ($exception instanceof Mage_Webapi_Exception || $this->_app->isDeveloperMode()) {
-            parent::setException($exception);
-        } else {
-            $this->_logger->logException($exception);
-            parent::setException(
-                new Mage_Webapi_Exception(
-                    $this->_helper->__("Internal Error. Details are available in Magento log file."),
-                    Mage_Webapi_Exception::HTTP_INTERNAL_ERROR
-                )
-            );
-        }
-        return $this;
+        return parent::setException($this->_errorProcessor->maskException($exception));
     }
 
     /**

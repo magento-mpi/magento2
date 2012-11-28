@@ -84,7 +84,7 @@ abstract class Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract
         // Sort versions array for further fallback.
         ksort($data['versions']);
 
-        $this->getReader()->setData(array(
+        $this->getReader()->addData(array(
             'resources' => array(
                 $this->_helper->translateResourceName($className) => $data,
             ),

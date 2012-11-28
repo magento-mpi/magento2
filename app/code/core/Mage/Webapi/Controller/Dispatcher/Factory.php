@@ -37,7 +37,7 @@ class Mage_Webapi_Controller_Dispatcher_Factory
      * Use current API type to define proper request class.
      *
      * @param string $apiType
-     * @return Mage_Webapi_Controller_DispatcherAbstract
+     * @return Mage_Webapi_Controller_DispatcherInterface
      * @throws LogicException If there is no corresponding dispatcher class for current API type.
      */
     public function get($apiType)

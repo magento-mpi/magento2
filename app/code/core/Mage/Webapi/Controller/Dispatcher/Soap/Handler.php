@@ -47,8 +47,8 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
     /** @var Mage_Webapi_Model_Soap_Fault */
     protected $_soapFault;
 
-    /** @var Mage_Core_Model_Logger */
-    protected $_logger;
+    /** @var Mage_Webapi_Controller_Dispatcher_ErrorProcessor */
+    protected $_errorProcessor;
 
     /** @var Mage_Core_Model_App */
     protected $_app;
@@ -70,7 +70,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
      * @param Mage_Webapi_Model_Authorization $authorization
      * @param Mage_Webapi_Controller_Request_Soap $request
      * @param Mage_Webapi_Model_Soap_Fault $soapFault
-     * @param Mage_Core_Model_Logger $logger
+     * @param Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
      * @param Mage_Core_Model_App $app
      */
     public function __construct(
@@ -81,7 +81,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
         Mage_Webapi_Model_Authorization $authorization,
         Mage_Webapi_Controller_Request_Soap $request,
         Mage_Webapi_Model_Soap_Fault $soapFault,
-        Mage_Core_Model_Logger $logger,
+        Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor,
         Mage_Core_Model_App $app
     ) {
         $this->_apiConfig = $apiConfig;
@@ -91,7 +91,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
         $this->_authorization = $authorization;
         $this->_request = $request;
         $this->_soapFault = $soapFault;
-        $this->_logger = $logger;
+        $this->_errorProcessor = $errorProcessor;
         $this->_app = $app;
     }
 
@@ -149,12 +149,8 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
             } catch (Mage_Webapi_Exception $e) {
                 $this->_soapFault($e->getMessage(), $e->getOriginator(), $e);
             } catch (Exception $e) {
-                if (!$this->_app->isDeveloperMode()) {
-                    $this->_logger->logException($e);
-                    $this->_soapFault($this->_helper->__("Internal Error. Details are available in Magento log file."));
-                } else {
-                    $this->_soapFault($this->_helper->__("Internal Error."), self::FAULT_CODE_RECEIVER, $e);
-                }
+                $maskedException = $this->_errorProcessor->maskException($e);
+                $this->_soapFault($maskedException->getMessage(), self::FAULT_CODE_RECEIVER, $maskedException);
             }
         }
     }
@@ -198,7 +194,6 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
      * @param string $code SOAP fault code
      * @param Exception $exception Exception can be used to add information to Detail node of SOAP message
      * @throws SoapFault
-     *
      * @SuppressWarnings(PHPMD.ExitExpression)
      */
     protected function _soapFault(

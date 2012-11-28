@@ -4,7 +4,7 @@
  *
  * @copyright {}
  */
-class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_DispatcherAbstract
+class Mage_Webapi_Controller_Dispatcher_Soap implements Mage_Webapi_Controller_DispatcherInterface
 {
     /** @var Mage_Webapi_Model_Config_Soap */
     protected $_apiConfig;
@@ -24,6 +24,12 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
     /** @var Mage_Webapi_Controller_Response */
     protected $_response;
 
+    /** @var Mage_Webapi_Helper_Data */
+    protected $_helper;
+
+    /** @var Mage_Webapi_Controller_Dispatcher_ErrorProcessor */
+    protected $_errorProcessor;
+
     /**
      * Initialize dependencies.
      *
@@ -34,6 +40,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
      * @param Mage_Webapi_Model_Soap_AutoDiscover $autoDiscover
      * @param Mage_Webapi_Model_Soap_Server $soapServer
      * @param Mage_Webapi_Model_Soap_Fault $soapFault
+     * @param Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
      */
     public function __construct(
         Mage_Webapi_Helper_Data $helper,
@@ -42,15 +49,17 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
         Mage_Webapi_Controller_Response $response,
         Mage_Webapi_Model_Soap_AutoDiscover $autoDiscover,
         Mage_Webapi_Model_Soap_Server $soapServer,
-        Mage_Webapi_Model_Soap_Fault $soapFault
+        Mage_Webapi_Model_Soap_Fault $soapFault,
+        Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
     ) {
-        parent::__construct($helper);
+        $this->_helper = $helper;
         $this->_apiConfig = $apiConfig;
         $this->_autoDiscover = $autoDiscover;
         $this->_soapServer = $soapServer;
         $this->_request = $request;
         $this->_soapFault = $soapFault;
         $this->_response = $response;
+        $this->_errorProcessor = $errorProcessor;
     }
 
     /**
@@ -72,10 +81,9 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
                 $responseBody = $this->_soapServer->handle();
             }
             $this->_setResponseBody($responseBody);
-        } catch (Mage_Webapi_Exception $e) {
-            self::_processBadRequest($e->getMessage());
         } catch (Exception $e) {
-            self::_processBadRequest($this->_helper->__('Internal error.'));
+            $maskedException = $this->_errorProcessor->maskException($e);
+            $this->_processBadRequest($maskedException->getMessage());
         }
 
         $this->_response->sendResponse();

@@ -64,6 +64,17 @@ class Mage_Webapi_Model_Soap_Server
     }
 
     /**
+     * Handle a request.
+     *
+     * @param DOMDocument|DOMNode|SimpleXMLElement|stdClass|string $request Optional request
+     * @return string|void
+     */
+    public function handle($request = null)
+    {
+        return $this->_zendSoapServer->handle($request);
+    }
+
+    /**
      * Initialize SOAP Server.
      *
      * @throws SoapFault
@@ -114,17 +125,6 @@ class Mage_Webapi_Model_Soap_Server
         }
 
         return $headers;
-    }
-
-    /**
-     * Handle a request.
-     *
-     * @param DOMDocument|DOMNode|SimpleXMLElement|stdClass|string $request Optional request
-     * @return string|void
-     */
-    public function handle($request = null)
-    {
-        return $this->_zendSoapServer->handle($request);
     }
 
     /**

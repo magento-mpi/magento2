@@ -42,7 +42,7 @@ abstract class Mage_Webapi_Model_ConfigAbstract
     protected $_data;
 
     /**
-     * Construct config.
+     * Initialize dependencies. Initialize data.
      *
      * @param Mage_Webapi_Model_Config_ReaderAbstract $reader
      * @param Mage_Webapi_Helper_Data $helper
