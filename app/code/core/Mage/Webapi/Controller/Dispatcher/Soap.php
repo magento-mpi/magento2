@@ -71,14 +71,14 @@ class Mage_Webapi_Controller_Dispatcher_Soap implements Mage_Webapi_Controller_D
     {
         try {
             if ($this->_request->getParam(Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL) !== null) {
-                $this->_setResponseContentType('text/xml');
                 $responseBody = $this->_autoDiscover->handle(
                     $this->_request->getRequestedResources(),
                     $this->_soapServer->generateUri()
                 );
+                $this->_setResponseContentType('text/xml');
             } else {
-                $this->_setResponseContentType('application/soap+xml');
                 $responseBody = $this->_soapServer->handle();
+                $this->_setResponseContentType('application/soap+xml');
             }
             $this->_setResponseBody($responseBody);
         } catch (Exception $e) {
@@ -100,7 +100,6 @@ class Mage_Webapi_Controller_Dispatcher_Soap implements Mage_Webapi_Controller_D
         $this->_setResponseContentType('text/xml');
         $this->_response->setHttpResponseCode(400);
         $details = array();
-        // TODO: handle exceptions from config.
         foreach ($this->_apiConfig->getAllResourcesVersions() as $resourceName => $versions) {
             foreach ($versions as $version) {
                 $details['availableResources'][$resourceName][$version] = sprintf(
