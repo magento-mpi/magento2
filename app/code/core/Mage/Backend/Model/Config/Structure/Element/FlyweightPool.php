@@ -11,26 +11,20 @@
 class Mage_Backend_Model_Config_Structure_Element_FlyweightPool
 {
     /**
-     * List of element flyweights
-     *
-     * @var Mage_Backend_Model_Config_Structure_ElementInterface[]
+     * @var Magento_ObjectManager
      */
-    protected $_flyweights;
+    protected $_objectManager;
 
     /**
-     * @param Mage_Backend_Model_Config_Structure_Element_Section $sectionFlyweight
-     * @param Mage_Backend_Model_Config_Structure_Element_Group $groupFlyweight
-     * @param Mage_Backend_Model_Config_Structure_Element_Field $fieldFlyweight
+     * @param Magento_ObjectManager $objectManager
      */
-    public function __construct(
-        Mage_Backend_Model_Config_Structure_Element_Section $sectionFlyweight,
-        Mage_Backend_Model_Config_Structure_Element_Group $groupFlyweight,
-        Mage_Backend_Model_Config_Structure_Element_Field $fieldFlyweight
-    ) {
+    public function __construct(Magento_ObjectManager $objectManager)
+    {
+        $this->_objectManager = $objectManager;
         $this->_flyweights = array(
-            'section' => $sectionFlyweight,
-            'group' => $groupFlyweight,
-            'field' => $fieldFlyweight
+            'section' => 'Mage_Backend_Model_Config_Structure_Element_Section',
+            'group' => 'Mage_Backend_Model_Config_Structure_Element_Group',
+            'field' => 'Mage_Backend_Model_Config_Structure_Element_Field'
         );
     }
 
@@ -43,7 +37,7 @@ class Mage_Backend_Model_Config_Structure_Element_FlyweightPool
      */
     public function getFlyweight(array $data, $scope)
     {
-        $flyweight = $this->_flyweights[$data['_elementType']];
+        $flyweight = $this->_objectManager->create($this->_flyweights[$data['_elementType']]);
         $flyweight->setData($data, $scope);
         return $flyweight;
     }

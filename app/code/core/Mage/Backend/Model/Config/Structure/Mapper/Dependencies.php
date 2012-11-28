@@ -64,6 +64,9 @@ class Mage_Backend_Model_Config_Structure_Mapper_Dependencies extends Mage_Backe
     protected function _getDependPath($field, $config)
     {
         $dependPath = $field['id'];
+        if (strpos($dependPath, '/') === false) {
+            $dependPath = '*/*/' .  $dependPath;
+        }
         $elementPath = $config['path'] . '/' . $config['id'];
 
         $dependPathParts = explode('/', $dependPath);

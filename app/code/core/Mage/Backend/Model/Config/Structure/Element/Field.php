@@ -73,7 +73,6 @@ class Mage_Backend_Model_Config_Structure_Element_Field
      * Retrieve comment
      *
      * @param string $currentValue
-     *
      * @return string
      */
     public function getComment($currentValue = '')
@@ -293,7 +292,7 @@ class Mage_Backend_Model_Config_Structure_Element_Field
         foreach ($this->_data['depends']['fields'] as $depend) {
             /* @var array $depend */
             $fieldId = $fieldPrefix . array_pop($depend['dependPath']);
-            $depend['dependPath'] = $fieldId;
+            $depend['dependPath'][] = $fieldId;
             $dependentId = implode('_', $depend['dependPath']);
 
             $shouldBeAddedDependence = true;
@@ -305,7 +304,7 @@ class Mage_Backend_Model_Config_Structure_Element_Field
             }
 
             /** @var Mage_Backend_Model_Config_Structure_Element_Field $dependentField  */
-            $dependentField = $this->_filedLocator->getElement($depend['id']);
+            $dependentField = $this->_fieldLocator->getElement($depend['id']);
 
             /*
             * If dependent field can't be shown in current scope and real dependent config value
@@ -313,7 +312,9 @@ class Mage_Backend_Model_Config_Structure_Element_Field
             * based on not shown field (not rendered field)
             */
             if (false == $dependentField->isVisible()) {
-                $dependentValueInStore = Mage::getStoreConfig($dependentField->getPath($fieldPrefix), $this->getStoreCode());
+                $dependentValueInStore = Mage::getStoreConfig(
+                    $dependentField->getPath($fieldPrefix), $this->getStoreCode()
+                );
                 if (is_array($dependentValue)) {
                     $shouldBeAddedDependence = !in_array($dependentValueInStore, $dependentValue);
                 } else {

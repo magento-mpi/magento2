@@ -37,7 +37,7 @@ class Mage_Backend_Model_Config_Structure_Search_Proxy implements Mage_Backend_M
     protected function _getSubject()
     {
         if (!$this->_subject) {
-            $this->_subject = $this->_objectManager->get('Mage_Backend_Model_Config_Structure_SearchInterface');
+            $this->_subject = $this->_objectManager->get('Mage_Backend_Model_Config_Structure');
         }
         return $this->_subject;
     }

@@ -337,7 +337,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         }
 
         foreach ($field->getDependencies($fieldPrefix) as $dependentId => $dependentValue) {
-            $fieldNameFrom = $this->_generateElementName($dependentId);
+            $fieldNameFrom = $this->_generateElementName($dependentId, null, '_');
             $this->_getDependence()
                 ->addFieldMap($elementId, $elementName)
                 ->addFieldMap($this->_generateElementId($dependentId), $fieldNameFrom)
@@ -373,9 +373,9 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
      * @param string $fieldPrefix
      * @return string
      */
-    protected function _generateElementName($elementPath, $fieldPrefix = '')
+    protected function _generateElementName($elementPath, $fieldPrefix = '', $separator = '/')
     {
-        $part = explode('/', $elementPath);
+        $part = explode($separator, $elementPath);
         array_shift($part); //shift section name
         $fieldId = array_pop($part);   //shift filed id
         $groupName = implode('][groups][', $part);

@@ -47,13 +47,15 @@ class Mage_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Framewo
         $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false, false);
         $this->_urlModelMock = $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false, false);
         $this->_layoutMock = $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false, false);
+        $groupMock = $this->getMock('Mage_Backend_Model_Config_Structure_Element_Group', array(), array(), '', false);
+        $groupMock->expects($this->once())->method('getFieldsetCss')->will($this->returnValue('test_fieldset_css'));
 
         $data = array(
             'request' => $this->_requestMock,
             'urlBuilder' => $this->_urlModelMock,
             'layout' => $this->_layoutMock,
             'data' => array(
-                'group' => array('fieldset_css' => 'test_fieldset_css')
+                'group' => $groupMock
             )
         );
         $helper = new Magento_Test_Helper_ObjectManager($this);

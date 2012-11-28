@@ -47,6 +47,13 @@ class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_S
     protected $_scopeDefiner;
 
     /**
+     * List of cached elements
+     *
+     * @var array
+     */
+    protected $_elements;
+
+    /**
      * @param Mage_Backend_Model_Config_Structure_Reader $structureReader
      * @param Mage_Backend_Model_Config_Structure_Element_Iterator_Tab $tabIterator
      * @param Mage_Backend_Model_Config_Structure_Element_FlyweightPool $flyweightPool
@@ -99,6 +106,10 @@ class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_S
      */
     public function getElementByPathParts(array $pathParts)
     {
+        $path = implode('_', $pathParts);
+        if (isset($this->_elements[$path])) {
+            return $this->_elements[$path];
+        }
         $children = $this->_data['sections'];
         $child = array();
         foreach ($pathParts as $id) {
@@ -109,7 +120,8 @@ class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_S
                 return null;
             }
         }
-        return $this->_flyweightPool->getFlyweight($child, $this->_scopeDefiner->getScope());
+        $this->_elements[$path] = $this->_flyweightPool->getFlyweight($child, $this->_scopeDefiner->getScope());
+        return $this->_elements[$path];
     }
 
     /**
