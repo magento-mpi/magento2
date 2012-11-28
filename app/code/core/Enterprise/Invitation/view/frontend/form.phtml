@@ -54,12 +54,12 @@
             "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
             function() {
                 /**
-                 * All input fields have the same name attribute 'emaul[]',
+                 * All input fields have the same name attribute 'email[]',
                  * by default jQuery validate only validate the first input field.
                  * We overwrite checkForm function to validate all the input fields.
                  * This maybe a use case to have a beforeValidation event?
                  */
-                $.extend($.validator.prototype, {checkForm: function () {
+                $.extend($.validator.prototype, {checkForm: function() {
                     this.prepareForm();
                     this.findByName(this.elements()[0].name).each($.proxy(function(i, e) {
                         this.check(e);
