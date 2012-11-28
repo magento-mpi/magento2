@@ -68,15 +68,8 @@ class Core_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Login with empty "Captcha"</p>
-     * <p>Steps</p>
-     * <p>1. Enter valid data in the user and password fields </p>
-     * <p>2.Leave captcha field empty;</p>
-     * <p>3. Click "Login" button;</p>
-     * <p>Expected result:</p>
-     * <p>Error message appears - "This is a required field"</p>
      *
      * @test
-     *
      * @TestlinkId TL-MAGE-5467
      */
     public function loginEmptyCaptcha()
@@ -93,12 +86,6 @@ class Core_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Login with wrong "Captcha"</p>
-     * <p>Steps</p>
-     * <p>1. Enter valid data in the user and password fields </p>
-     * <p>2. Enter "1112" in the  captcha field;</p>
-     * <p>3. Click "Login" button;</p>
-     * <p>Expected result:</p>
-     * <p>Error message appears - "Invalid User Name or Password."</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5469
@@ -116,14 +103,10 @@ class Core_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Login with valid "Captcha"</p>
-     * <p>Steps</p>
-     * <p>1. Enter valid data in the user and password fields </p>
-     * <p>2.Enter "1111" in the  captcha field;</p>
-     * <p>3. Click "Login" button;</p>
-     * <p>Expected result:</p>
-     * <p> Login to admin"</p>
-     * @test
+     *
      * @return array
+     *
+     * @test
      * @TestlinkId TL-MAGE-5468
      */
     public function loginValidCaptcha()
@@ -142,14 +125,8 @@ class Core_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Valid e-mail used in "Forgot password" field</p>
-     * <p>Steps</p>
-     * <p>Pre-Conditions:</p>
-     * <p>Admin User is created</p>
-     * <p>1.Fill in "Forgot password" field with correct data;</p>
-     * <p>2. Click "Retrieve password" button;</p>
-     * <p>Expected result:</p>
-     * <p>Error message "This is a required field" appears under 'captcha' field;</p>
-     * * @test
+     *
+     * @test
      * @TestlinkId TL-MAGE-5471
      */
     public function forgotPasswordEmptyCaptcha()
@@ -178,14 +155,6 @@ class Core_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Valid e-mail used in "Forgot password" field</p>
-     * <p>Steps</p>
-     * <p>Pre-Conditions:</p>
-     * <p>Admin User is created</p>
-     * <p>1.Fill in "Forgot password" field with correct data;</p>
-     * <p>2. Fill in "Captcha" field with incorrect data;
-     * <p>2. Click "Retrieve password" button;</p>
-     * <p>Expected result:</p>
-     * <p><p>Error message "Incorrect Captcha";</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5473
@@ -204,14 +173,6 @@ class Core_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Valid e-mail used in "Forgot password" field</p>
-     * <p>Steps</p>
-     * <p>Pre-Conditions:</p>
-     * <p>Admin User is created</p>
-     * <p>1.Fill in "Forgot password" and "Captcha" fields with correct data;</p>
-     * <p>2. Click "Retrieve password" button;</p>
-     * <p>Expected result:</p>
-     * <p>Success message "If there is an account associated.." appears.</p>
-     * <p>Please check your email and click Back to Login."</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5476

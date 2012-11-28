@@ -53,12 +53,6 @@ class Core_Mage_CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating a new static block</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Block"</p>
-     * <p>2. Fill in the fields</p>
-     * <p>3. Click button "Save Block"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the block has been saved.</p>
      *
      * @return array
      * @test
@@ -78,12 +72,6 @@ class Core_Mage_CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating a new static block with existing XML identifier.</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Block"</p>
-     * <p>2. Fill in the fields, enter already existing identifier</p>
-     * <p>3. Click button "Save Block"</p>
-     * <p>Expected result:</p>
-     * <p>Received an error message about already existing identifier.</p>
      *
      * @param array $setData
      *
@@ -103,12 +91,6 @@ class Core_Mage_CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating a new static block</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Block"</p>
-     * <p>2. Fill in the fields, add all types of widgets</p>
-     * <p>3. Click button "Save Block"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the block has been saved.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3224
@@ -131,13 +113,6 @@ class Core_Mage_CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating a new static block with special values (long, special chars).</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Block"</p>
-     * <p>2. Fill in the fields</p>
-     * <p>3. Click button "Save Block"</p>
-     * <p>4. Open the block</p>
-     * <p>Expected result:</p>
-     * <p>All fields has the same values.</p>
      *
      * @param array $specialValue
      *
@@ -175,12 +150,6 @@ class Core_Mage_CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating a new static block with empty required fields.</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Block;"</p>
-     * <p>2. Fill in the fields, but leave one required field empty;</p>
-     * <p>3. Click button "Save Block".</p>
-     * <p>Expected result:</p>
-     * <p>Received error message "This is a required field."</p>
      *
      * @param string $emptyField
      * @param string $fieldType
@@ -216,12 +185,6 @@ class Core_Mage_CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating a new static block with invalid XML identifier.</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Block"</p>
-     * <p>2. Fill in the fields, enter invalid XML identifier</p>
-     * <p>3. Click button "Save Block"</p>
-     * <p>Expected result:</p>
-     * <p>Received an error message about invalid XML identifier.</p>
      *
      * @param string $invalidValue
      *

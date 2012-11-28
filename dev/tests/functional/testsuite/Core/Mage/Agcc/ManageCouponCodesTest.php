@@ -28,13 +28,6 @@ class Core_Mage_Agcc_ManageCouponCodesTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Coupon Codes deleting negative test</p>
-     * <p>Steps:</p>
-     * <p>1. Create SCPR </p>
-     * <p>2. Generate few Coupon Code </p>
-     * <p>3. Select "Delete" in "Action" dropdown</p>
-     * <p>2. Press button "Submit"</p>
-     * <p>Expected result:</p>
-     * <p>Popup "Please select items." appears</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3886
@@ -51,15 +44,6 @@ class Core_Mage_Agcc_ManageCouponCodesTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Coupon Codes deleting test</p>
-     * <p>Steps:</p>
-     * <p>1. Create SCPR </p>
-     * <p>2. Generate one Coupon Code </p>
-     * <p>3. Select generated Coupon Code </p>
-     * <p>4. Select "Delete" in "Action" dropdown</p>
-     * <p>5. Press button "Submit"</p>
-     * <p>5. Press button "OK" on popup</p>
-     * <p>Expected result:</p>
-     * <p>Selected Coupon Code deleted.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3885

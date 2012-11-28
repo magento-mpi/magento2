@@ -28,11 +28,6 @@ class Core_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Saving system settings for Auto Generated Specific Coupon Codes with blank Code Length field</p>
-     * <p>Steps:</p>
-     * <p>1. Leave field Code Length blank</p>
-     * <p>2. Press button "Save Config"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that The configuration has been saved.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3747
@@ -48,11 +43,6 @@ class Core_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Saving system settings for Auto Generated Specific Coupon Codes with filled Code Length field</p>
-     * <p>Steps:</p>
-     * <p>1. Enter an integer numeric value in the Code Length field</p>
-     * <p>2. Press button "Save Config"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that The configuration has been saved.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3747
@@ -68,11 +58,6 @@ class Core_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Saving system settings for Auto Generated Specific Coupon Codes with wrong values in Code Length field</p>
-     * <p>Steps:</p>
-     * <p>1. Enter a decimal numeric value/negative numeric value/not numeric value/any special characters in the CodeLength field</p>
-     * <p>2. Press button "Save Config"</p>
-     * <p>Expected result:</p>
-     * <p>Received the validation message "Please use numbers only in this field. Please avoid spaces or other characters such as dots or commas."</p>
      *
      * @test
      * @param string $value
@@ -100,11 +85,6 @@ class Core_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Saving system settings for Auto Generated Specific Coupon Codes with changed Code format dropdown</p>
-     * <p>Steps:</p>
-     * <p>1. Select value "Numeric" in the Code Format dropdown</p>
-     * <p>2. Press button "Save Config"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that The configuration has been saved.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3749
@@ -120,11 +100,6 @@ class Core_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Saving system settings for Auto Generated Specific Coupon Codes with any values in Code Prefix field</p>
-     * <p>Steps:</p>
-     * <p>1. Enter any value that contains characters, number, special characters and spaces in the Code Prefix field</p>
-     * <p>2. Press button "Save Config"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that The configuration has been saved.</p>
      *
      * @test
      * @param string $value
@@ -154,11 +129,6 @@ class Core_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Saving system settings for Auto Generated Specific Coupon Codes with any values in Code Suffix field</p>
-     * <p>Steps:</p>
-     * <p>1. Enter any value that contains characters, number, special characters and spaces in the Code Suffix field</p>
-     * <p>2. Press button "Save Config"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that The configuration has been saved.</p>
      *
      * @test
      * @param string $value
@@ -188,11 +158,6 @@ class Core_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Saving system settings for Auto Generated Specific Coupon Codes with filled Dash Every X Characters field</p>
-     * <p>Steps:</p>
-     * <p>1. Enter an integer numeric value in the Dash Every X Characters field</p>
-     * <p>2. Press button "Save Config"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that The configuration has been saved.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3755
@@ -208,11 +173,6 @@ class Core_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Saving system settings for Auto Generated Specific Coupon Codes with blank Dash Every X Characters field</p>
-     * <p>Steps:</p>
-     * <p>1. Leave field Dash Every X Characters blank</p>
-     * <p>2. Press button "Save Config"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that The configuration has been saved.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3755
@@ -227,12 +187,8 @@ class Core_Mage_AGCC_SystemConfigurationTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Saving system settings for Auto Generated Specific Coupon Codes with wrong values in Dash Every X Characters field</p>
-     * <p>Steps:</p>
-     * <p>1. Enter a decimal numeric value/negative numeric value/not numeric value/any special characters in the Dash Every X Characters field</p>
-     * <p>2. Press button "Save Config"</p>
-     * <p>Expected result:</p>
-     * <p>Received the validation message "Please use numbers only in this field. Please avoid spaces or other characters such as dots or commas."</p>
+     * <p>Saving system settings for Auto Generated Specific Coupon Codes</p>
+     * <p>with wrong values in Dash Every X Characters field</p>
      *
      * @test
      * @param string $value

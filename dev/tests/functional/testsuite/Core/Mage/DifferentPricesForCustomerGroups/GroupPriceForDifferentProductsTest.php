@@ -65,15 +65,6 @@ class Core_Mage_DifferentPricesForCustomerGroups_GroupPriceForDifferentProductsT
 
     /**
      * <p>Creating product with empty grouped price</p>
-     * <p>Steps<p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields with correct data;</p>
-     * <p>5. Click "Add Grouped Price" button and leave fields in current fieldset empty;</p>
-     * <p>6. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
      *
      * @test
      */
@@ -94,15 +85,6 @@ class Core_Mage_DifferentPricesForCustomerGroups_GroupPriceForDifferentProductsT
 
     /**
      * <p>Creating product with invalid value for  grouped price</p>
-     * <p>Steps<p>
-     * <p>1. Click "Add Product" button</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields</p>
-     * <p>3. Click "Continue" button</p>
-     * <p>4. Fill in required fields with correct data</p>
-     * <p>5. Click "Add Grouped Price" button and enter invalid values</p>
-     * <p>6. Click "Save" button</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears</p>
      *
      * @param $priceValue
      * @param array $processedGroupNames
@@ -142,16 +124,6 @@ class Core_Mage_DifferentPricesForCustomerGroups_GroupPriceForDifferentProductsT
 
     /**
      * <p>Creating different products with grouped price</p>
-     * <p>Steps<p>
-     * <p>1. Click "Add Product" button</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields</p>
-     * <p>3. Click "Continue" button</p>
-     * <p>4. Fill in required fields with correct data</p>
-     * <p>5. Click "Add Grouped Price" button and enter valid values</p>
-     * <p>6. Click "Save" button</p>
-     * <p>7. Goto front-end and login as customer</p>
-     * <p>Expected result:</p>
-     * <p>For all customers, should be displayed corresponding price</p>
      *
      * @param string $productType
      * @param array $processedGroupNames
@@ -173,7 +145,7 @@ class Core_Mage_DifferentPricesForCustomerGroups_GroupPriceForDifferentProductsT
                 'group_2' => $processedGroupNames['wholesale_group'],
                 'group_3' => $processedGroupNames['retailer_group']));
         //Steps. Creating product with Grouped Price
-        if ($productType == 'configurable'){
+        if ($productType == 'configurable') {
             $productData['configurable_attribute_title'] = $processedGroupNames['configurable_attribute_title'];
         }
         $this->navigate('manage_products');

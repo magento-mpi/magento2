@@ -45,22 +45,6 @@ class Core_Mage_ImportExport_Deleting_AddressTest extends Mage_Selenium_TestCase
     }
     /**
      * Verify that deleting customer address via import works correctly
-     * Preconditions: One customer with three addresses created in the system
-     * 5 csv files: 1 - full match to customer address data (positive);
-     * 2 - only unique key match (positive); 3 - different email (negative);
-     * 4 - different website (negative); 5 - different address id (negative)
-     * Steps
-     * 1. Go to System -> Import/Export -> Import
-     * 2. Select Entity Type: Customer Addresses
-     * 3. Select Import Behavior: Delete Entities
-     * 5. Select file from precondition
-     * 6. Click Check Data button
-     * 7. Click Import button
-     * 8. Go to Customers -> Manage Customers
-     * 9. Open customer, check addresses
-     * Expected:
-     * After step 6: corresponding validation messages are shown
-     * After step 9: no address in positive cases; address present in negative cases
      *
      * @test
      * @dataProvider importDeleteAddress

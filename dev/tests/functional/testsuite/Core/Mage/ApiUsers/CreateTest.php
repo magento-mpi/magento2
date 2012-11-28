@@ -35,12 +35,6 @@ class Core_Mage_ApiUsers_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create API User</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add new API Users button</p>
-     * <p>2. Fill User Name, API Secret, User Role fields</p>
-     * <p>3. Push "Save API user" button
-     * <p>Expected result:</p>
-     * <p>New API User Created</p>
      *
      * @return array
      * @test
@@ -88,12 +82,6 @@ class Core_Mage_ApiUsers_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create API User</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add new API Users button</p>
-     * <p>2. Create duplicate of some User</p>
-     * <p>3. Push "Save API user" button
-     * <p>Expected result:</p>
-     * <p>"User Name already exists' massage should be appear</p>
      *
      * @param array $userData
      *
@@ -121,11 +109,6 @@ class Core_Mage_ApiUsers_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Check required field</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add new API Users button</p>
-     * <p>2. Click "save API User"
-     * <p>Expected result:</p>
-     * <p>"This is a required field.' massage should be appear</p>
      *
      * @param string $emptyField
      * @param string $messageCount
@@ -170,9 +153,6 @@ class Core_Mage_ApiUsers_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete API User</p>
-     * <p>Steps</p>
-     * <p>1. Find existing API user</p>
-     * <p>2. Remove user
      *
      * @param array $userData
      *

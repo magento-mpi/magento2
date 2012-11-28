@@ -51,17 +51,6 @@ class Core_Mage_ImportExport_ImportValidation_AddressTest extends Mage_Selenium_
     }
     /**
      * Address Import, if file data is invalid
-     * Steps
-     * Verify that import will not be started, if file has all rows that are invalid
-     * Invalid row is:
-     * a row with empty value of required attribute
-     * a row with wrong value of some system attribute (non existing website_id or group_id)
-     * a row with invalid values for attributes that pass validation (wrong format of email)
-     * value format differs from attribute input type (some text value is present for attribute with type Yes/No)
-     * if the required column is absent in import file (email, website, firstname, lastname, address_id, city,
-     * country_id, postcode, street, telephone), file is invalid
-     * Press "Check Data" button
-     * Expected: Warning about incorrect file appears
      *
      * @test
      * @dataProvider importDataInvalid

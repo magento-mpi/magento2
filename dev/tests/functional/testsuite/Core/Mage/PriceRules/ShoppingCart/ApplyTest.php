@@ -80,19 +80,6 @@ class Core_Mage_PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Place order with Shopping Cart Price Rule using Authorize.net on frontend</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Promotions - Shopping Cart Price Rules;</p>
-     * <p>2. Fill form for Shopping Cart Price Rules (Type of discount is provided via data provider);</p>
-     * <p>3. Save newly created Shopping Cart Price Rules;</p>
-     * <p>4. Navigate to frontend;</p>
-     * <p>5. Add product(s) for which rule should be applied to shopping cart;</p>
-     * <p>6. Apply coupon for the shopping cart;</p>
-     * <p>7. Verify prices for the product(s) in the totals of shopping cart;</p>
-     * <p>Expected results:</p>
-     * <p>Rule is created; Totals changed after applying coupon; Rule is discounting percent of each product;</p>
-     * <p>8. Place order using Authorize.net as Payment method;</p>
-     * <p>Expected results:</p>
-     * <p>Order is successfully placed. Success message is displayed;</p>
      *
      * @param string $ruleType
      * @param array $testData
@@ -152,19 +139,6 @@ class Core_Mage_PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Place order with Shopping Cart Price Rule using Authorize.net on backend</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Promotions - Shopping Cart Price Rules;</p>
-     * <p>2. Fill form for Shopping Cart Price Rules (Type of discount is provided via data provider);</p>
-     * <p>3. Save newly created Shopping Cart Price Rules;</p>
-     * <p>4. Navigate to Sales-Orders page; Create order for newly created customer;</p>
-     * <p>5. Add product(s) for which rule should be applied to shopping cart;</p>
-     * <p>6. Apply coupon;</p>
-     * <p>6. Verify prices for the product(s) in the totals of shopping cart;</p>
-     * <p>Expected results:</p>
-     * <p>Rule is created; Totals changed after applying coupon; Rule is discounting percent of each product;</p>
-     * <p>8. Place order using Authorize.net as Payment method;</p>
-     * <p>Expected results:</p>
-     * <p>Order is successfully placed. Success message is displayed;</p>
      *
      * @param string $ruleType
      * @param array $testData

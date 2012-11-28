@@ -57,25 +57,6 @@ class Core_Mage_CheckoutOnePage_LoggedIn_PaymentMethodDirectPostTest extends Mag
 
     /**
      * <p>Payment method Authorize.net Direct post.</p>
-     * <p>Preconditions:</p>
-     * <p>1.Product is created.</p>
-     * <p>2.Customer without address is registered.</p>
-     * <p>3.Customer signed in at the frontend.</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Proceed to Checkout".</p>
-     * <p>4. Fill in Billing Information tab.</p>
-     * <p>5. Select "Ship to this address" option.</p>
-     * <p>6. Click 'Continue' button.</p>
-     * <p>7. Select Shipping Method.</p>
-     * <p>8. Click 'Continue' button.</p>
-     * <p>9. Select Authorize.net Direct post(by data provider).</p>
-     * <p>10. Click 'Continue' button.</p>
-     * <p>11. Verify information into "Order Review" tab</p>
-     * <p>12. Place order.</p>
-     * <p>Expected result:</p>
-     * <p>Checkout is successful.</p>
      *
      * @param array $testData
      *

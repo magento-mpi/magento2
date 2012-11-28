@@ -60,18 +60,6 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
 
     /**
      * <p>Empty required fields in billing address tab</p>
-     * <p>Preconditions:</p>
-     * <p>1.Product is created.</p>
-     * <p>2.Customer without address is registered.</p>
-     * <p>3.Customer signed in at the frontend.</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Proceed to Checkout".</p>
-     * <p>4. Fill in Billing Information tab. Leave one required field empty</p>
-     * <p>5. Click 'Continue' button.</p>
-     * <p>Expected result:</p>
-     * <p>Error message for field appears</p>
      *
      * @param string $field
      * @param string $message
@@ -99,18 +87,6 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
 
     /**
      * <p>Empty required fields in shipping address tab</p>
-     * <p>Preconditions:</p>
-     * <p>1.Product is created.</p>
-     * <p>2.Customer without address is registered.</p>
-     * <p>3.Customer signed in at the frontend.</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Proceed to Checkout".</p>
-     * <p>4. Fill in Billing Information tab. Leave one required field empty</p>
-     * <p>5. Click 'Continue' button.</p>
-     * <p>Expected result:</p>
-     * <p>Error message for field appears</p>
      *
      * @param string $field
      * @param string $message
@@ -152,19 +128,6 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
 
     /**
      * <p>Shipping method not defined</p>
-     * <p>Preconditions</p>
-     * <p>1. Add product to Shopping Cart</p>
-     * <p>2. Click "Proceed to Checkout"</p>
-     * <p>Steps</p>
-     * <p>1. Fill in Checkout Method tab</p>
-     * <p>2. Click 'Continue' button.</p>
-     * <p>3. Fill in Billing Information tab</p>
-     * <p>4. Select "Ship to this address" option</p>
-     * <p>5. Click 'Continue' button.</p>
-     * <p>6. Leave Shipping Method options empty</p>
-     * <p>7. Click 'Continue' button.</p>
-     * <p>Expected result:</p>
-     * <p>Information window appears "Please specify shipping method."</p>
      *
      * @param array $data
      *
@@ -186,21 +149,6 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
 
     /**
      * <p>Payment method not defined</p>
-     * <p>Preconditions</p>
-     * <p>1. Add product to Shopping Cart</p>
-     * <p>2. Click "Proceed to Checkout"</p>
-     * <p>Steps</p>
-     * <p>1. Fill in Checkout Method tab</p>
-     * <p>2. Click 'Continue' button.</p>
-     * <p>3. Fill in Billing Information tab</p>
-     * <p>4. Select "Ship to this address" option</p>
-     * <p>5. Click 'Continue' button.</p>
-     * <p>6. Select Shipping Method option</p>
-     * <p>7. Click 'Continue' button.</p>
-     * <p>8. Leave Payment Method options empty</p>
-     * <p>9. Click 'Continue' button.</p>
-     * <p>Expected result:</p>
-     * <p>Information window appears "Please specify payment method."</p>
      *
      * @param array $data
      *
@@ -223,21 +171,6 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
 
     /**
      * <p>Verifying "Use Billing Address" checkbox functionality</p>
-     * <p>Preconditions</p>
-     * <p>1. Add product to Shopping Cart</p>
-     * <p>2. Click "Proceed to Checkout"</p>
-     * <p>Steps</p>
-     * <p>1. Fill in Checkout Method tab</p>
-     * <p>2. Click 'Continue' button.</p>
-     * <p>3. Fill in Billing Information tab</p>
-     * <p>4. Select "Ship to different address" option</p>
-     * <p>5. Click 'Continue' button.</p>
-     * <p>6. Check "Use Billing Address" checkbox</p>
-     * <p>7. Verify data used for filling form</p>
-     * <p>8. Click 'Continue' button.</p>
-     * <p>Expected result:</p>
-     * <p>Data must be the same as billing address</p>
-     * <p>Customer successfully redirected to the next page, no error massages appears</p>
      *
      * @param array $data
      *

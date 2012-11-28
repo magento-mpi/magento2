@@ -33,12 +33,6 @@ class Core_Mage_ApiRoles_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>API Role Required fields</p>
-     * <p>Steps</p>
-     * <p>1. Click Add New Role button</p>
-     * <p>2. Click Save API Role button</p>
-     * <p>Expected result:</p>
-     * <p>API Role is not created</p>
-     * <p>Message that Role name is required field is appear</p>
      *
      * @test
      * @TestlinkId TL-MAGE-6358
@@ -59,15 +53,6 @@ class Core_Mage_ApiRoles_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create API Role (Full Access)</p>
-     * <p>Steps</p>
-     * <p>1. Click Add New Role button</p>
-     * <p>2. Fill Role name field</p>
-     * <p>3. Click resources tab</p>
-     * <p>4. At Resources tab select All at Resource Access</p>
-     * <p>5. Click Save API role</p>
-     * <p>Expected result:</p>
-     * <p>API Role is created</p>
-     * <p>Message "The API role has been saved." is displayed</p>
      *
      * @test
      * @TestlinkId TL-MAGE-6291
@@ -94,16 +79,6 @@ class Core_Mage_ApiRoles_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create API Role (Custom Access)</p>
-     * <p>Steps</p>
-     * <p>1. Click Add New Role button</p>
-     * <p>2. Fill Role name field</p>
-     * <p>3. Click resources tab</p>
-     * <p>4. At Resources tab select Custom at Resource Access</p>
-     * <p>5. Open Resources tab and check that Get Customer checkbox are set</p>
-     * <p>6. Click Save API role</p>
-     * <p>Expected result:</p>
-     * <p>API Role is created</p>
-     * <p>Message "The API role has been saved." is displayed</p>
      *
      * @test
      * @TestlinkId TL-MAGE-6292
@@ -132,13 +107,6 @@ class Core_Mage_ApiRoles_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete API Role</p>
-     * <p>Steps</p>
-     * <p>1. Open created role</p>
-     * <p>2. Click Delete API Roles button</p>
-     * <p>3. Verify that success deleted message appear</p>
-     * <p>Expected result:</p>
-     * <p>The role has been deleted.</p>
-     * <p>Message "The role has been deleted." is displayed</p>
      *
      * @test
      * @TestlinkId TL-MAGE-6366

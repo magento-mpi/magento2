@@ -112,22 +112,6 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
 
     /**
      * <p>Verisign. Full Invoice With different types of Capture</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders.</p>
-     * <p>2.Press "Create New Order" button.</p>
-     * <p>3.Press "Create New Customer" button.</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
-     * <p>5.Fill all fields.</p>
-     * <p>6.Press 'Add Products' button.</p>
-     * <p>7.Add first two products.</p>
-     * <p>8.Choose shipping address the same as billing.</p>
-     * <p>9.Check payment method 'Verisign - Visa'</p>
-     * <p>10. Fill in all required fields.</p>
-     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
-     * <p>12.Submit order.</p>
-     * <p>13.Capture online.</p>
-     * <p>Expected result:</p>
-     * <p>New customer is created. Order is created for the new customer. Invoice is created.</p>
      *
      * @param string $captureType
      * @param array $orderData
@@ -157,23 +141,6 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
 
     /**
      * <p>Verisign. Refund</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders.</p>
-     * <p>2.Press "Create New Order" button.</p>
-     * <p>3.Press "Create New Customer" button.</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
-     * <p>5.Fill all fields.</p>
-     * <p>6.Press 'Add Products' button.</p>
-     * <p>7.Add first two products.</p>
-     * <p>8.Choose shipping address the same as billing.</p>
-     * <p>9.Check payment method 'Verisign - Visa'</p>
-     * <p>10. Fill in all required fields.</p>
-     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
-     * <p>12.Submit order.</p>
-     * <p>13.Invoice order.</p>
-     * <p>14.Make refund online.</p>
-     * <p>Expected result:</p>
-     * <p>New customer is created. Order is created for the new customer. Refund Online is successful</p>
      *
      * @param string $captureType
      * @param string $refundType
@@ -208,24 +175,6 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
 
     /**
      * <p>Shipment for order</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders;</p>
-     * <p>2.Press "Create New Order" button;</p>
-     * <p>3.Press "Create New Customer" button;</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists;</p>
-     * <p>5.Fill all required fields;</p>
-     * <p>6.Press 'Add Products' button;</p>
-     * <p>7.Add products;</p>
-     * <p>8.Choose shipping address the same as billing;</p>
-     * <p>9.Check payment method 'Credit Card';</p>
-     * <p>10.Choose any from 'Get shipping methods and rates';</p>
-     * <p>11. Submit order;</p>
-     * <p>12. Invoice order;</p>
-     * <p>13. Ship order;</p>
-     * <p>Expected result:</p>
-     * <p>New customer successfully created. Order is created for the new customer;</p>
-     * <p>Message "The order has been created." is displayed.</p>
-     * <p>Order is invoiced and shipped successfully</p>
      *
      * @param array $orderData
      *
@@ -244,15 +193,6 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
 
     /**
      * <p>Holding and unholding order after creation.</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Orders" page;</p>
-     * <p>2. Create new order for new customer;</p>
-     * <p>3. Hold order;</p>
-     * <p>Expected result:</p>
-     * <p>Order is holden;</p>
-     * <p>4. Unhold order;</p>
-     * <p>Expected result:</p>
-     * <p>Order is unholden;</p>
      *
      * @param array $orderData
      *
@@ -293,25 +233,6 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
 
     /**
      * <p>Reorder.</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders;</p>
-     * <p>2.Press "Create New Order" button;</p>
-     * <p>3.Press "Create New Customer" button;</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists;</p>
-     * <p>5.Fill all required fields;</p>
-     * <p>6.Press 'Add Products' button;</p>
-     * <p>7.Add products;</p>
-     * <p>8.Choose shipping address the same as billing;</p>
-     * <p>9.Check payment method 'Credit Card';</p>
-     * <p>10.Choose any from 'Get shipping methods and rates';</p>
-     * <p>11. Submit order;</p>
-     * <p>12. Edit order (add products and change billing address);</p>
-     * <p>13. Submit order;</p>
-     * <p>Expected results:</p>
-     * <p>New customer successfully created. Order is created for the new customer;</p>
-     * <p>Message "The order has been created." is displayed.</p>
-     * <p>New order during reorder is created.</p>
-     * <p>Message "The order has been created." is displayed.</p>
      *
      * @param array $orderData
      *
@@ -339,22 +260,6 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
 
     /**
      * <p>Void order.</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders.</p>
-     * <p>2.Press "Create New Order" button.</p>
-     * <p>3.Press "Create New Customer" button.</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
-     * <p>5.Fill all fields.</p>
-     * <p>6.Press 'Add Products' button.</p>
-     * <p>7.Add first two products.</p>
-     * <p>8.Choose shipping address the same as billing.</p>
-     * <p>9.Check payment method 'PayPal Direct - Visa'</p>
-     * <p>10. Fill in all required fields.</p>
-     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
-     * <p>12.Submit order.</p>
-     * <p>13.Void Order.</p>
-     * <p>Expected result:</p>
-     * <p>New customer is created. Order is created for the new customer. Void successful</p>
      *
      * @param array $orderData
      *
@@ -378,21 +283,6 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
 
     /**
      * <p>Create Orders using different payment methods with 3DSecure</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders.</p>
-     * <p>2.Press "Create New Order" button.</p>
-     * <p>3.Press "Create New Customer" button.</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
-     * <p>5.Press 'Add Products' button.</p>
-     * <p>6.Add simple product.</p>
-     * <p>7.Fill all required fields in billing address form.</p>
-     * <p>8.Choose shipping address the same as billing.</p>
-     * <p>9.Check shipping method</p>
-     * <p>10.Check payment method</p>
-     * <p>11.Validate card with 3D secure</p>
-     * <p>12.Submit order.</p>
-     * <p>Expected result:</p>
-     * <p>New customer is created. Order is created for the new customer.</p>
      *
      * @param string $card
      * @param bool $needSetUp

@@ -50,21 +50,6 @@ class Core_Mage_ImportExport_Import_AddressTest extends Mage_Selenium_TestCase
 
     /**
      * Required columns
-     * Steps
-     * 1. Go to System -> Import / Export -> Import
-     * 2. Select Entity Type: Customer Addresses
-     * 3. Select Import Behavior: Add/Update Complex Data
-     * 4. Choose file from precondition
-     * 5. Click on Check Data
-     * 6. Click on Import button
-     * 7. Open Customers -> Manage Customers
-     * 8. Open each of imported customers
-     * After step 5
-     * Verify that file is valid, the message 'File is valid!' is displayed
-     * After step 6
-     * Verify that import starting. The message 'Import successfully done.' is displayed
-     * After step 7
-     * Verify that all Customers address information was imported
      *
      * @test
      * @TestlinkId TL-MAGE-5624
@@ -161,23 +146,6 @@ class Core_Mage_ImportExport_Import_AddressTest extends Mage_Selenium_TestCase
 
     /**
      * Partial Import
-     * Verify that if import file has some invalid data, then import will be finished partially
-     * Precondition: one customer created in the system. Two csv files prepared. First one contains two rows:
-     * valid customer address data, invalid customer address data (non existing website id). Second one contains two
-     * rows: valid customer address data, valid customer address data (email is empty)
-     * Steps:
-     * 1. Go to System -> Import/ Export -> Import
-     * 2. In the drop-down "Entity Type" select "Customer Addresses File"
-     * 3. Select "Add/Update Complex Data" import behavior
-     * 5. Choose first file from precondition, click "Check Data" button, Press "Import" button
-     * Expected: messages "Please fix errors and re-upload file or simply press "Import" button to skip rows with
-     * errors" and "Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1" are displayed
-     * 6. Choose second file from precondition, click "Check Data" button, Press "Import" button
-     * Expected: messages "E-mail is not specified in rows: 2" and "Please fix errors and re-upload
-     * file or simply press "Import" button to skip rows with errors", "Checked rows: 2, checked entities: 2, invalid
-     * rows: 1, total errors: 1" are displayed
-     * 7. Open customers
-     * Expected: valid address data information was imported correctly
      *
      * @test
      * @dataProvider partialImportData

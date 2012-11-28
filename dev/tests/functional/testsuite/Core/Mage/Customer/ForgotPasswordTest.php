@@ -19,14 +19,6 @@ class Core_Mage_Customer_ForgotPasswordTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>"Forgot Your Password?" form</p>
-     * <p> Preconditions </p>
-     * <p>Go to front-end as not registered customer.</p>
-     * <p>Steps:</p>
-     * <p>1.Click «Log In»/ «My account» link.</p>
-     * <p>2.Click «Forgot Your Password» link.</p>
-     * <p>Expected result</p>
-     * <p>"Forgot Your Password?" form is opened. </p>
-     * <p>«Email Address» edit filed, «Back» button and «SUBMIT» button are present.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-2035
@@ -45,14 +37,6 @@ class Core_Mage_Customer_ForgotPasswordTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Not valid email address</p>
-     * <p> Preconditions </p>
-     * <p>Go to front-end as not registered customer.</p>
-     * <p>Steps:</p>
-     * <p>1.Click «Log In»/ «My account» link.</p>
-     * <p>2.Click «Forgot Your Password» link.</p>
-     * <p>3.Enter not valid email address into the «Email Address» edit field and click «SUBMIT» button.</p>
-     * <p>Expected result</p>
-     * <p>Error message with text "Please enter a valid email address. For example johndoe@domain.com." should appear.</p>
      *
      * @depends validateForgotPasswordPage
      * @test
@@ -71,15 +55,6 @@ class Core_Mage_Customer_ForgotPasswordTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Valid email address</p>
-     * <p>Preconditions</p>
-     * <p>Go to front-end as not registered customer.</p>
-     * <p>Steps:</p>
-     * <p>1.Click «Log In»/ «My account» link.</p>
-     * <p>2.Click «Forgot Your Password» link.</p>
-     * <p>3.Enter not valid email address into the «Email Address» edit field and click «SUBMIT» button.</p>
-     * <p>4.Try to login use old password </p>
-     * <p>Expected result</p>
-     * <p>Customer can successfully login.</p>
      *
      * @test
      * @depends validateForgotPasswordPage
@@ -99,14 +74,6 @@ class Core_Mage_Customer_ForgotPasswordTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Customer can login with old password till he click on the reset link password</p>
-     * <p> Preconditions </p>
-     * <p>Go to front-end as not registered customer.</p>
-     * <p>Steps:</p>
-     * <p>1.Click «Log In»/ «My account» link.</p>
-     * <p>2.Click «Forgot Your Password» link.</p>
-     * <p>3.Enter not valid email address into the «Email Address» edit field and click «SUBMIT» button.</p>
-     * <p>Expected result</p>
-     * <p>Error message with text "Please enter a valid email address. For example johndoe@domain.com." should appear.</p>
      *
      * @depends validateForgotPasswordPage
      * @test

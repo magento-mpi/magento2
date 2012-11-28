@@ -54,15 +54,6 @@ class Core_Mage_ImportExport_BackwardCompatibility_ImportTest extends Mage_Selen
      * Has been excluded from functionality scope
      * Validation Result block
      * Verify that Validation Result block will be displayed after checking data of import file
-     * Precondition: at least one customer exists, one file is generated after export
-     * Steps:
-     * 1. Go to System -> Import/ Export -> Import
-     * 2. In the drop-down "Entity Type" select "Customers"
-     * 3. In "Import Format Version" dropdown field choose "Magento 1.7 format" parameter
-     * 4. In "Import Behavior" dropdown field choose "Append Complex Data" parameter
-     * 5. Select file to import
-     * 6. Click "Check Data" button.
-     * Expected: validation and success messages are correct
      *
      * @test
      * @TestlinkId TL-MAGE-1108
@@ -97,24 +88,6 @@ class Core_Mage_ImportExport_BackwardCompatibility_ImportTest extends Mage_Selen
 
     /**
      * Required columns
-     * Steps
-     * 1. Go to System -> Import / Export -> Import
-     * 2. Select Entity Type: Customers
-     * 3. In Import Behavior dropdown field choose Append Complex Data parameter
-     * 4. Choose file from precondition
-     * 5. Click on Check Data
-     * 6. Click on Import button
-     * 7. Open Customers -> Manage Customers
-     * 8. Open each of imported customers
-     * Expected:
-     * After step 5
-     * Verify that file is valid, the message 'File is valid!' is displayed
-     * After step 6
-     * Verify that import starting. The message 'Import successfully done.' is displayed
-     * After step 7
-     * Verify that imported customers display on customers grid
-     * After step 8
-     * Verify that all Customer information was imported
      *
      * @test
      * @dataProvider importWithRequiredColumnsData
@@ -167,16 +140,6 @@ class Core_Mage_ImportExport_BackwardCompatibility_ImportTest extends Mage_Selen
     /**
      * Columns for address
      * Verify that import of customer with address works correctly
-     * Precondition: at least one customer exists, csv file contains two customers:
-     * existing (with new customer information and address) and new one
-     * Steps:
-     * 1. Go to System -> Import/ Export -> Import
-     * 2. In the drop-down "Entity Type" select Customers
-     * 3. In the drop-down "Import Behavior" select "Append Complex Data"
-     * 4. Choose file from precondition and click "Check Data" button
-     * 5. Press "Import" button
-     * 6. Go to Customer-> Manage Customers and open each of imported customers
-     * Expected: customer information is updated for existing customer, new customer with address is added
      *
      * @test
      * @dataProvider addressData

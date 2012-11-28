@@ -29,11 +29,6 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Generating coupon codes with blank "Coupon Qty" field</p>
-     * <p>Steps:</p>
-     * <p>1. Leave field "Coupon Qty" blank</p>
-     * <p>2. Press button "Generate"</p>
-     * <p>Expected result:</p>
-     * <p>Received the validation message "This is a required field." under "Coupon Qty" field</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3763
@@ -49,11 +44,6 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Generating coupon codes with filled "Coupon Qty" field</p>
-     * <p>Steps:</p>
-     * <p>1. Enter any integer value in "Coupon Qty" field</p>
-     * <p>2. Press button "Generate"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message "10 Coupon(s) have been generated" on page</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3762
@@ -71,11 +61,6 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Generating coupon codes with filled zero in "Coupon Qty" field</p>
-     * <p>Steps:</p>
-     * <p>1. Enter zero in "Coupon Qty" field</p>
-     * <p>2. Press button "Generate"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message "Please enter a number greater than 0 in this field." under "Coupon Qty" field</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3766
@@ -91,12 +76,7 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <pGenerating coupon codes with wrong values in "Coupon Qty" field</p>
-     * <p>Steps:</p>
-     * <p>1. Enter a decimal numeric value/negative numeric value/not numeric value/any special characters in the "Coupon Qty" field</p>
-     * <p>2. Press button "Generate"</p>
-     * <p>Expected result:</p>
-     * <p>Received the validation message "Please use numbers only in this field. Please avoid spaces or other characters such as dots or commas." under "Coupon Qty" field</p>
+     * <p>Generating coupon codes with wrong values in "Coupon Qty" field</p>
      *
      * @test
      * @param string $value
@@ -124,11 +104,6 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Generating coupon codes with blank "Code Length" field</p>
-     * <p>Steps:</p>
-     * <p>1. Leave field "Code Length" blank</p>
-     * <p>2. Press button "Generate"</p>
-     * <p>Expected result:</p>
-     * <p>Received the validation message "This is a required field." under "Code Length" field</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3766
@@ -144,11 +119,6 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Generating coupon codes with filled "Code Length" field</p>
-     * <p>Steps:</p>
-     * <p>1. Enter any integer value in "Code Length" field</p>
-     * <p>2. Press button "Generate"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message "10 Coupon(s) have been generated" on page</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3765
@@ -166,12 +136,7 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <pGenerating coupon codes with wrong values in "Code Length" field</p>
-     * <p>Steps:</p>
-     * <p>1. Enter a decimal numeric value/negative numeric value/not numeric value/any special characters in the "Code Length" field</p>
-     * <p>2. Press button "Generate"</p>
-     * <p>Expected result:</p>
-     * <p>Received the validation message "Please use numbers only in this field. Please avoid spaces or other characters such as dots or commas." under "Code Length" field</p>
+     * <p>Generating coupon codes with wrong values in "Code Length" field</p>
      *
      * @test
      * @dataProvider withFilledCouponQtyFieldNegativeDataProvider
@@ -199,11 +164,6 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Generating coupon codes with filled "Code Format" field</p>
-     * <p>Steps:</p>
-     * <p>1. Select any integer value in "Code Format" dropdown</p>
-     * <p>2. Press button "Generate"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message "10 Coupon(s) have been generated" on page</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3866
@@ -223,11 +183,6 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Generating coupon codes with any values in "Code Prefix" field</p>
-     * <p>Steps:</p>
-     * <p>1. Enter any value that contains characters, number, special characters and spaces in the "Code Prefix" field</p>
-     * <p>2. Press button "Generate"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message "n Coupon(s) have been generated" on page</p>
      *
      * @test
      * @dataProvider withFilledCodeSuffixFieldDataProvider
@@ -249,11 +204,6 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Generating coupon codes with any values in "Code Suffix" field</p>
-     * <p>Steps:</p>
-     * <p>1. Enter any value that contains characters, number, special characters and spaces in the "Code Suffix" field</p>
-     * <p>2. Press button "Generate"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message "n Coupon(s) have been generated" on page</p>
      *
      * @test
      * @dataProvider withFilledCodeSuffixFieldDataProvider
@@ -287,11 +237,6 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Generating coupon codes with blank "Dash Every X Characters" field</p>
-     * <p>Steps:</p>
-     * <p>1. Leave field "Dash Every X Characters" blank</p>
-     * <p>2. Press button "Generate"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message "n Coupon(s) have been generated" on page</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3880
@@ -311,11 +256,6 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Generating coupon codes with filled "Dash Every X Characters" field</p>
-     * <p>Steps:</p>
-     * <p>1. Enter any integer value in "Dash Every X Characters" field</p>
-     * <p>2. Press button "Generate"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message "n Coupon(s) have been generated" on page</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3870
@@ -334,12 +274,7 @@ class Core_Mage_Agcc_GenerateCouponCodesTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <pGenerating coupon codes with wrong values in "Dash Every X Characters" field</p>
-     * <p>Steps:</p>
-     * <p>1. Enter a decimal numeric value/negative numeric value/not numeric value/any special characters in the "Dash Every X Characters" field</p>
-     * <p>2. Press button "Generate"</p>
-     * <p>Expected result:</p>
-     * <p>Received the validation message "Please use numbers only in this field. Please avoid spaces or other characters such as dots or commas." under "Dash Every X Characters" field</p>
+     * <p>Generating coupon codes with wrong values in "Dash Every X Characters" field</p>
      *
      * @test
      * @dataProvider withFilledDashFieldNegativeDataProvider

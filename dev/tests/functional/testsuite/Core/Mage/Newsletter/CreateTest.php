@@ -49,17 +49,6 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
     /**
      * <p>With valid email</p>
      *
-     * <p> Steps:</p>
-     * <p>1. Navigate to Frontend</p>
-     * <p>2. Open created category</p>
-     * <p>3. Enter a valid email to subscribe</p>
-     * <p>4. Click 'Subscribe' button</p>
-     * <p>Expected result: Success message is displayed</p>
-     * <p>5. Login to backend</p>
-     * <p>6. Go to Newsletter -> Newsletter Subscribers</p>
-     * <p>7. Verify the email in subscribers list</p>
-     * <p>Expected result: The email is present in the subscribers list</p>
-     *
      * @param string $category
      *
      * @test
@@ -85,14 +74,6 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>With valid email that used for registered customer</p>
-     *
-     * <p> Steps:</p>
-     * <p>1. Navigate to Frontend</p>
-     * <p>2. Open created category</p>
-     * <p>3. Enter an email to subscribe</p>
-     * <p>4. Click 'Subscribe' button</p>
-     * <p>Expected result:</p>
-     * <p>Error message is displayed</p>
      *
      * @param string $category
      *
@@ -120,14 +101,6 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
     /**
      * <p>With invalid email</p>
      *
-     * <p> Steps:</p>
-     * <p>1. Navigate to Frontend</p>
-     * <p>2. Open created category</p>
-     * <p>3. Enter invalid email to subscribe</p>
-     * <p>4. Click 'Subscribe' button</p>
-     * <p>Expected result:</p>
-     * <p>Error message is displayed</p>
-     *
      * @param string $category
      *
      * @test
@@ -148,14 +121,6 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
     /**
      * <p>With empty email field</p>
      *
-     * <p> Steps:</p>
-     * <p>1. Navigate to Frontend</p>
-     * <p>2. Open created category</p>
-     * <p>3. Leave email field empty</p>
-     * <p>4. Click 'Subscribe' button</p>
-     * <p>Expected result:</p>
-     * <p>Validation message is displayed</p>
-     *
      * @param string $category
      *
      * @test
@@ -175,14 +140,6 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
     /**
      * <p>With long valid email</p>
      *
-     * <p> Steps:</p>
-     * <p>1. Navigate to Frontend</p>
-     * <p>2. Open created category</p>
-     * <p>3. Enter long valid email to subscribe</p>
-     * <p>4. Click 'Subscribe' button</p>
-     * <p>Expected result:</p>
-     * <p>Error message is displayed</p>
-     *
      * @param string $category
      *
      * @test
@@ -201,18 +158,6 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * subscribe registered customer email.
-     *
-     * <p> Steps:</p>
-     * <p>1. Navigate to Frontend</p>
-     * <p>2. Register customer</p>
-     * <p>3. Open created category</p>
-     * <p>4. Enter customer email to subscribe</p>
-     * <p>5. Click 'Subscribe' button</p>
-     * <p>Expected result: Success message is displayed</p>
-     * <p>6. Login to backend</p>
-     * <p>7. Go to Newsletter -> Newsletter Subscribers</p>
-     * <p>8. Verify the email in subscribers list</p>
-     * <p>Expected result: The email is present in the subscribers list</p>
      *
      * @param string $category
      *
@@ -247,20 +192,6 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
     /**
      * <p> Delete Subscriber</p>
      *
-     * <p> Steps:</p>
-     * <p>1. Navigate to Frontend</p>
-     * <p>2. Open created category</p>
-     * <p>3. Enter email to subscribe</p>
-     * <p>4. Check message</p>
-     * <p>5. Login to backend</p>
-     * <p>6. Goto Newsletter -> Newsletter Subscribers</p>
-     * <p>7. Verify email in subscribers list</p>
-     * <p>8. Select subscriber`s email from the list</p>
-     * <p>9. Choose "Delete" option in actions</p>
-     * <p>10. Click "Submit" button</p>
-     * <p>11. Check confirmation message</p>
-     * <p>Expected result: Subscriber`s has been removed from the list</p>
-     *
      * @param string $category
      *
      * @test
@@ -290,21 +221,7 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p> Unsubscribe Subscriber</p>
-     *
-     * <p> Steps:</p>
-     * <p>1. Navigate to Frontend</p>
-     * <p>2. Open created category</p>
-     * <p>3. Enter email to subscribe</p>
-     * <p>4. Check message</p>
-     * <p>5. Login to backend</p>
-     * <p>6. Goto Newsletter -> Newsletter Subscribers</p>
-     * <p>7. Verify email in subscribers list</p>
-     * <p>8. Select subscriber`s email from the list</p>
-     * <p>9. Choose "Unsubscribe" option in actions</p>
-     * <p>10. Click "Submit" button</p>
-     * <p>11. Check confirmation message</p>
-     * <p>Expected result: Subscriber`s email status has changed</p>
+     * <p>Unsubscribe Subscriber</p>
      *
      * @param string $category
      *

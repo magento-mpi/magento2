@@ -25,11 +25,6 @@ class Core_Mage_BatchUpdates_Order_CancelTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Canceling orders with status "Pending"</p>
-     * <p>Steps:</p>
-     * <p>1. Create two orders</p>
-     * <p>2. Select action "Cancel" for your orders</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the orders has been Canceled</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5934
@@ -51,12 +46,6 @@ class Core_Mage_BatchUpdates_Order_CancelTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Canceling orders with status "Processing" (only Invoice created)</p>
-     * <p>Steps:</p>
-     * <p>1. Create two orders</p>
-     * <p>2. Create invoice for each order</p>
-     * <p>3. Select action "Cancel" for your orders</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the orders cannot be Canceled</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5933
@@ -82,13 +71,6 @@ class Core_Mage_BatchUpdates_Order_CancelTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Canceling orders with status "Processing" (only Shipment created)</p>
-     * <p>Steps:</p>
-     * <p>1. Create two orders</p>
-     * <p>2. Create shipment for each order</p>
-     * <p>3. Select action "Cancel" for your orders</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the orders has been Canceled</p>
-     *
      *
      * @test
      * @TestlinkId TL-MAGE-5987
@@ -114,13 +96,6 @@ class Core_Mage_BatchUpdates_Order_CancelTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Canceling orders with status "Complete" (Invoice and Shipment created)</p>
-     * <p>Steps:</p>
-     * <p>1. Create two orders</p>
-     * <p>2. Create shipment for each order</p>
-     * <p>2. Create shipment for each order</p>
-     * <p>3. Select action "Cancel" for your orders</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the orders has been Canceled</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5935
@@ -146,14 +121,6 @@ class Core_Mage_BatchUpdates_Order_CancelTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Canceling orders with status "Closed" (Invoice, Shipment and Credit Memo created)</p>
-     * <p>Steps:</p>
-     * <p>1. Create two orders</p>
-     * <p>2. Create shipment for each order</p>
-     * <p>3. Create shipment for each order</p>
-     * <p>4. Create credit memo for each order</p>
-     * <p>5. Select action "Cancel" for your orders</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the orders cannot be Canceled</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5936
@@ -179,12 +146,6 @@ class Core_Mage_BatchUpdates_Order_CancelTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Canceling orders with status "Canceled"</p>
-     * <p>Steps:</p>
-     * <p>1. Create two orders</p>
-     * <p>2. Cancel each order</p>
-     * <p>3. Select action "Cancel" for your orders</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the orders cannot be Canceled</p>
      *
      * @test
      * @TestlinkId TL-MAGE-6000
@@ -210,12 +171,6 @@ class Core_Mage_BatchUpdates_Order_CancelTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Canceling orders with status "On Hold"</p>
-     * <p>Steps:</p>
-     * <p>1. Create two orders</p>
-     * <p>2. Hold each order</p>
-     * <p>3. Select action "Cancel" for your orders</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the orders cannot be Canceled</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5937
@@ -241,12 +196,6 @@ class Core_Mage_BatchUpdates_Order_CancelTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Canceling orders with different status - "Pending" and "On Hold"</p>
-     * <p>Steps:</p>
-     * <p>1. Create two orders</p>
-     * <p>2. Hold one order</p>
-     * <p>3. Select action "Cancel" for your orders</p>
-     * <p>Expected result:</p>
-     * <p>Received two messages that the one order cannot be Canceled and one order has been Canceled</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5938
@@ -273,6 +222,7 @@ class Core_Mage_BatchUpdates_Order_CancelTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating one product and two orders for tests</p>
+     *
      * @return array $searchData
      */
     private function createOrders()

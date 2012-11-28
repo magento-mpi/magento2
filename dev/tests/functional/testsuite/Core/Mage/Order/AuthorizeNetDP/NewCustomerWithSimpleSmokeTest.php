@@ -62,19 +62,6 @@ class Core_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extends Mage
 
     /**
      * <p>Place order via Authorize.net Direct Post</p>
-     * <p>Preconditions:</p>
-     * <p>Payment method is enabled and product is created</p>
-     * <p>Steps:</p>
-     * <p>1. Go to admin</p>
-     * <p>2. Sales > Orders > Created New Order</p>
-     * <p>3. Click 'Create New Customer'</p>
-     * <p>4. Add product ot 'Items Ordered'</p>
-     * <p>5. Fill Billing Address with new customer data</p>
-     * <p>6. Select Authorize.net Direct Post and put card data</p>
-     * <p>7. Select Shipping method</p>
-     * <p>8. Click 'Submit Order'</p>
-     * <p>Expected result:</p>
-     * <p>Order is successfully placed</p>
      *
      * @param string $simpleSku
      *
@@ -101,19 +88,6 @@ class Core_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extends Mage
 
     /**
      * <p>Create order with AuthorizeNet Direct Post using all types of credit cards</p>
-     * <p>Preconditions:</p>
-     * <p>Payment method is enabled and product is created</p>
-     * <p>Steps:</p>
-     * <p>1. Go to admin</p>
-     * <p>2. Sales > Orders > Created New Order</p>
-     * <p>3. Click 'Create New Customer'</p>
-     * <p>4. Add product ot 'Items Ordered'</p>
-     * <p>5. Fill Billing Address with new customer data</p>
-     * <p>6. Select Authorize.net Direct Post and put card data</p>
-     * <p>7. Select Shipping method</p>
-     * <p>8. Click 'Submit Order'</p>
-     * <p>Expected result:</p>
-     * <p>Order is successfully placed</p>
      *
      * @param array $orderData
      * @param string $card
@@ -148,22 +122,6 @@ class Core_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extends Mage
 
     /**
      * <p>Authorize.Net Direct Post Full Invoice With different types of Capture</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders.</p>
-     * <p>2.Press "Create New Order" button.</p>
-     * <p>3.Press "Create New Customer" button.</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
-     * <p>5.Fill all fields.</p>
-     * <p>6.Press 'Add Products' button.</p>
-     * <p>7.Add first two products.</p>
-     * <p>8.Choose shipping address the same as billing.</p>
-     * <p>9.Check payment method 'AuthorizeNet - Visa'</p>
-     * <p>10. Fill in all required fields.</p>
-     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
-     * <p>12.Submit order.</p>
-     * <p>13.Create Invoice.</p>
-     * <p>Expected result:</p>
-     * <p>New customer is created. Order is created for the new customer. Invoice is created.</p>
      *
      * @param string $captureType
      * @param array $orderData
@@ -199,23 +157,6 @@ class Core_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extends Mage
 
     /**
      * <p>Authorize.Net Direct Post Full refund/p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders.</p>
-     * <p>2.Press "Create New Order" button.</p>
-     * <p>3.Press "Create New Customer" button.</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
-     * <p>5.Fill all fields.</p>
-     * <p>6.Press 'Add Products' button.</p>
-     * <p>7.Add product.</p>
-     * <p>8.Choose shipping address the same as billing.</p>
-     * <p>9.Check payment method 'Credit Card - Visa'</p>
-     * <p>10. Fill in all required fields.</p>
-     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
-     * <p>12.Submit order.</p>
-     * <p>13.Invoice order.</p>
-     * <p>14.Make refund online.</p>
-     * <p>Expected result:</p>
-     * <p>New customer is created. Order is created for the new customer. Credit memo is(isn't) created</p>
      *
      * @param string $captureType
      * @param string $refundType
@@ -250,24 +191,6 @@ class Core_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extends Mage
 
     /**
      * <p>Partial refund Authorize.net Direct post</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders.</p>
-     * <p>2.Press "Create New Order" button.</p>
-     * <p>3.Press "Create New Customer" button.</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
-     * <p>5.Fill all fields.</p>
-     * <p>6.Press 'Add Products' button.</p>
-     * <p>7.Add product.</p>
-     * <p>8.Choose shipping address the same as billing.</p>
-     * <p>9.Check payment method 'Credit Card - Visa'</p>
-     * <p>10. Fill in all required fields.</p>
-     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
-     * <p>12.Submit order.</p>
-     * <p>13.Invoice order.</p>
-     * <p>14.Make partial refund online(update items quantity).</p>
-     * <p>15.Execute partial refund.</p>
-     * <p>Expected result:</p>
-     * <p>New customer is created. Order is created for the new customer. Credit memo is(isn't) created</p>
      *
      * @param string $captureType
      * @param string $refundType
@@ -321,23 +244,6 @@ class Core_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extends Mage
 
     /**
      * <p>Shipment for Authorize.net Direct Post order</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders;</p>
-     * <p>2.Press "Create New Order" button;</p>
-     * <p>3.Press "Create New Customer" button;</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists;</p>
-     * <p>5.Fill all required fields;</p>
-     * <p>6.Press 'Add Products' button;</p>
-     * <p>7.Add product;</p>
-     * <p>8.Choose shipping address the same as billing;</p>
-     * <p>9.Check payment method 'Authorize.net Direct Post';</p>
-     * <p>10.Choose any from 'Get shipping methods and rates';</p>
-     * <p>11. Submit order;</p>
-     * <p>12. Ship order;</p>
-     * <p>Expected result:</p>
-     * <p>New customer successfully created. Order is created for the new customer;</p>
-     * <p>Message "The order has been created." is displayed.</p>
-     * <p>Order is invoiced and shipped successfully</p>
      *
      * @param array $orderData
      *
@@ -357,15 +263,6 @@ class Core_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extends Mage
 
     /**
      * <p>Holding and unholding order after creation.</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Orders" page;</p>
-     * <p>2. Create new order for new customer;</p>
-     * <p>3. Hold order;</p>
-     * <p>Expected result:</p>
-     * <p>Order is hold;</p>
-     * <p>4. Unhold order;</p>
-     * <p>Expected result:</p>
-     * <p>Order is unhold;</p>
      *
      * @param array $orderData
      *
@@ -388,11 +285,6 @@ class Core_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extends Mage
 
     /**
      * <p>Cancel Pending Order From Order Page</p>
-     * <p>1. Create order via Authorize.net Direct Post</p>
-     * <p>2. Create new customer during order placement</p>
-     * <p>3. Open created order and click'Cancel'</p>
-     * <p>Expected result:</p>
-     * <p>Order is cancelled</p>
      *
      * @param array $orderData
      *
@@ -413,25 +305,6 @@ class Core_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extends Mage
 
     /**
      * <p>Reorder Authorize.net Direct Post.</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders;</p>
-     * <p>2.Press "Create New Order" button;</p>
-     * <p>3.Press "Create New Customer" button;</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists;</p>
-     * <p>5.Fill all required fields;</p>
-     * <p>6.Press 'Add Products' button;</p>
-     * <p>7.Add products;</p>
-     * <p>8.Choose shipping address the same as billing;</p>
-     * <p>9.Check Authorize.net Direct post payment method;</p>
-     * <p>10.Choose any from 'Get shipping methods and rates';</p>
-     * <p>11. Submit order;</p>
-     * <p>12. Edit order (add products and change billing address);</p>
-     * <p>13. Submit order;</p>
-     * <p>Expected results:</p>
-     * <p>New customer successfully created. Order is created for the new customer;</p>
-     * <p>Message "The order has been created." is displayed.</p>
-     * <p>New order during reorder is created.</p>
-     * <p>Message "The order has been created." is displayed.</p>
      *
      * @param array $orderData
      *
@@ -459,23 +332,7 @@ class Core_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extends Mage
 
     /**
      * <p>Void order Authorize.net Direct Post.</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders.</p>
-     * <p>2.Press "Create New Order" button.</p>
-     * <p>3.Press "Create New Customer" button.</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
-     * <p>5.Fill all fields.</p>
-     * <p>6.Press 'Add Products' button.</p>
-     * <p>7.Add product.</p>
-     * <p>8.Choose shipping address the same as billing.</p>
-     * <p>9.Check payment method 'Authorize.net Direct Post - Visa'</p>
-     * <p>10. Fill in all required fields.</p>
-     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
-     * <p>12.Submit order.</p>
-     * <p>13.Void Order.</p>
-     * <p>Expected result:</p>
-     * <p>New customer is created. Order is created for the new customer. Void successful</p>
-     * 
+     *
      * @param array $orderData
      *
      * @test

@@ -18,8 +18,6 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
 {
     /**
      * <p>Preconditions:</p>
-     *  <p>1. Login to backend as admin</p>
-     *  <p>2. Navigate to Catalog - Attributes - Manage Attribute Sets</p>
      */
     protected function assertPreConditions()
     {
@@ -30,8 +28,9 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
     /**
      * <p>Create new attribute set based on Default.</p>
      *
-     * @test
      * @return string
+     *
+     * @test
      */
     public function preconditionsForTests()
     {
@@ -47,15 +46,6 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
 
     /**
      * <p>Remove system attribute group</p>
-     * <p>Steps:</p>
-     *  <p>1. Log in to Admin.</p>
-     *  <p>2. Catalog - Attributes - Manage Attribute Sets.</p>
-     *  <p>3. Select attribute set based on Default.</p>
-     *  <p>4. Drag from Meta group all attributes.</p>
-     *  <p>5. Select Meta group and click on "Delete Selected Group" button.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. Meta group has been deleted.</p>
      *
      * @param string $setName
      *
@@ -80,12 +70,6 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
 
     /**
      * <p>Remove system attribute group with system attributes</p>
-     * <p>Steps:</p>
-     *  <p>1. Log in to Admin.</p>
-     *  <p>2. Catalog - Attributes - Manage Attribute Sets</p>
-     *  <p>3. Select Default system attribute set.</p>
-     *  <p>4. Meta information group has not required system attributes.</p>
-     *  <p>5. Select Meta information group and click on "Delete Selected Group" button.</p>
      *
      * <p>Expected results:</p>
      *  <p>1. Meta information group has been deleted.</p>
@@ -107,15 +91,6 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
 
     /**
      * <p>Remove system attributes from Default attribute set</p>
-     * <p>Steps:</p>
-     *  <p>1. Log in to Admin.</p>
-     *  <p>2. Catalog - Attributes - Manage Attribute Sets.</p>
-     *  <p>3. Select attribute set based on Default.</p>
-     *  <p>4. Drag all system attributes one by one to Unassigned Attributes section.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. All not required system attributes are moved to Unassigned Attributes section without errors.</p>
-     *  <p>2. Attribute set is saving without errors.
      *
      * @param string $attributeCode
      * @param string $setName
@@ -138,15 +113,6 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
 
     /**
      * <p>Remove system attributes from Minimal attribute set</p>
-     * <p>Steps:</p>
-     *  <p>1. Log in to Admin.</p>
-     *  <p>2. Go to Catalog - Attributes - Manage Attribute Sets.</p>
-     *  <p>3. Select Minimal system attribute set.</p>
-     *  <p>4. Drag system attributes from Unassigned Attributes section to Minimal attribute set.</p>
-     *  <p>5. Drag added system attributes from Minimal attribute set to Unassigned Attributes section.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. System attributes has been unassigned from Minimal attribute set without errors.</p>
      *
      * @param string $attributeCode
      *
@@ -211,16 +177,6 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
 
     /**
      * <p>Create simple product based on modified Default attribute set</p>
-     * <p>Preconditions:</p>
-     *  <p>1. All not required system attributes were removed from attribute set based on Default</p>
-     *
-     * <p>Steps:</p>
-     *  <p>1. Log in to Admin.</p>
-     *  <p>2. Go to Catalog - Manage Products.</p>
-     *  <p>3. Create simple product based on modified attribute set.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. Simple product has been created successfully.</p>
      *
      * @param string $attributeCode
      *
@@ -244,15 +200,6 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
 
     /**
      * <p>Non removable system attributes</p>
-     * <p>Steps:</p>
-     *  <p>1. Log in to Admin</p>
-     *  <p>2. Catalog - Attributes - Manage Attribute Sets.
-     *  <p>3. Select Minimal system attribute set.</p>
-     *  <p>4. Drag required system attributes one by one to Unassigned Attributes section.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. There is no possibility to remove required system attributes to Unassigned Attributes section.</p>
-     *  <p>2. "You cannot remove system attribute from this set" message appears.</p>
      *
      * @param string $attributeCode
      *

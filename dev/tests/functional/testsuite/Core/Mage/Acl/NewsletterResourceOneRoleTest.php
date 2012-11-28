@@ -124,7 +124,7 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
         $newNewsletterData = $this->loadDataSet('Newsletter', 'edit_newsletter');
         $this->newsletterHelper()->editNewsletter($newsData, $newNewsletterData);
         $this->validatePage('newsletter_templates');
-       // $this->assertMessagePresent('success', 'success_save_newsletter');
+        // $this->assertMessagePresent('success', 'success_save_newsletter');
         $searchData = $this->newsletterHelper()->convertToFilter($newNewsletterData);
         $this->assertNotNull($this->search($searchData, 'newsletter_templates_grid'),
             'Template (Name: ' . $newNewsletterData['newsletter_template_name'] . ') is not presented in grid');
@@ -183,9 +183,12 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
             'Template(Name:' . $newNewsletterData['newsletter_template_subject']
             . ') is presented in grid, should be deleted');
         $this->navigate('newsletter_queue');
-        $this->assertNull($this->search(array('filter_queue_subject'=> $newNewsletterData['newsletter_template_subject']),
-            'newsletter_templates_grid'), 'Template (Subject:' . $newNewsletterData['newsletter_template_subject']
-                                          . ') is presented in queue grid, should be deleted');
+        $this->assertNull($this->search(array(
+                'filter_queue_subject' => $newNewsletterData['newsletter_template_subject']),
+                'newsletter_templates_grid'
+            ), 'Template (Subject:' . $newNewsletterData['newsletter_template_subject'] . ')
+             is presented in queue grid, should be deleted'
+        );
     }
 
     /**
@@ -240,7 +243,7 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
         $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->navigate('newsletter_subscribers');
-        //Verifying that subscriber is presented in grid and has status 'subscribed' (For Full newsletter ACL resources admin)
+        //Verify that subscriber is present in grid and has status 'subscribed'(For Full newsletter ACL resources admin)
         $this->assertTrue($this->newsletterHelper()->checkStatus('subscribed', $subscriberEmail),
             'Incorrect status for ' . $subscriberEmail['filter_email'] . ' email or subscriber is not presented');
         //Change status to unsubscribe

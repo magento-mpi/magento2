@@ -71,24 +71,6 @@ class Core_Mage_CheckoutOnePage_Existing_PaymentMethodZeroSubtotalTest extends M
 
     /**
      * <p>Payment method Zero Subtotal Checkout.</p>
-     * <p>Preconditions:</p>
-     * <p>1.Product is created.</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Proceed to Checkout".</p>
-     * <p>4. Select Zero Subtotal Checkout with log in</p>
-     * <p>5. Fill in Billing Information tab.</p>
-     * <p>6. Select "Ship to this address" option.</p>
-     * <p>7. Click 'Continue' button.</p>
-     * <p>8. Select Shipping Method.</p>
-     * <p>9. Click 'Continue' button.</p>
-     * <p>10. No Payment Information Required is present.</p>
-     * <p>11. Click 'Continue' button.</p>
-     * <p>12. Verify information into "Order Review" tab</p>
-     * <p>13. Place order.</p>
-     * <p>Expected result:</p>
-     * <p>Checkout is successful.</p>
      *
      * @param array $testData
      *
@@ -113,27 +95,6 @@ class Core_Mage_CheckoutOnePage_Existing_PaymentMethodZeroSubtotalTest extends M
 
     /**
      * <p>Payment method Zero Subtotal Checkout with capture.</p>
-     * <p>Preconditions:</p>
-     * <p>1.Product is created.</p>
-     * <p>2. Shipping is set to Zero.</p>
-     * <p>3. "New Order Status" set to "Processing".</p>
-     * <p>4. "Automatic Invoice all Items" = "Yes".</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Proceed to Checkout".</p>
-     * <p>4. Select Zero Subtotal Checkout with log in</p>
-     * <p>5. Fill in Billing Information tab.</p>
-     * <p>6. Select "Ship to this address" option.</p>
-     * <p>7. Click 'Continue' button.</p>
-     * <p>8. Select Shipping Method.</p>
-     * <p>9. Click 'Continue' button.</p>
-     * <p>10. No Payment Information Required is present.</p>
-     * <p>11. Click 'Continue' button.</p>
-     * <p>12. Verify information into "Order Review" tab</p>
-     * <p>13. Place order.</p>
-     * <p>Expected result:</p>
-     * <p>Checkout is successful.</p>
      *
      * @param array $testData
      *

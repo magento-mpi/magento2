@@ -19,11 +19,6 @@ class Core_Mage_AdminUser_ForgotPasswordTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>"Forgot your user name or password?" form is displayed</p>
-     * <p>Steps:</p>
-     * <p>1.Go to admin Login page. Click on the "Forgot your password?" link.</p>
-     * <p>Expected result</p>
-     * <p>"Forgot Your Password?" form is opened. </p>
-     * <p>«Email Address» edit filed, «Back» button and «Back to Login» button are present.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-2018
@@ -41,12 +36,6 @@ class Core_Mage_AdminUser_ForgotPasswordTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Not valid email address</p>
-     * <p>Steps:</p>
-     * <p>1.Go to backend</p>
-     * <p>2.Click «Forgot Your Password» link.</p>
-     * <p>3.Enter not valid email address into the «Email Address» edit field and click «SUBMIT» button.</p>
-     * <p>Expected result:</p>
-     * <p>Error message with text "Please enter a valid email address. For example johndoe@domain.com." should appear.</p>
      *
      * @depends validateForgotPasswordPage
      * @test
@@ -64,11 +53,6 @@ class Core_Mage_AdminUser_ForgotPasswordTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Valid email address</p>
-     * <p>Steps:</p>
-     * <p>1.Go to admin Login page. Click on the "Forgot your password?" link.</p>
-     * <p>2.Enter email registered for any of admin users and click on the "Retrieve Password" button.</p>
-     * <p>Expected result:</p>
-     * <p>"If there is an account associated with <email_address> you will receive an email with a link to reset your password" message is appeared on the form.</p>
      *
      * @test
      * @depends validateForgotPasswordPage
@@ -95,12 +79,6 @@ class Core_Mage_AdminUser_ForgotPasswordTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Admin can login with old password till he clicks on the reset link password</p>
-     * <p>Steps:</p>
-     * <p>1.Go to backend and click on the «Forgot Your Password» link.</p>
-     * <p>2.Enter email registered for any of admin users and click on the "Retrieve Password" button.</p>
-     * <p>3.Try to login with old credentials</p>
-     * <p>Expected result:</p>
-     * <p>Admin successfully login to backend.</p>
      *
      * @depends validateForgotPasswordPage
      * @test

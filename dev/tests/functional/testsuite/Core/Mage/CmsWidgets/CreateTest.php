@@ -25,6 +25,7 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * @return array
+     *
      * @test
      */
     public function preconditionsForTests()
@@ -61,11 +62,6 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creates All Types of widgets</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Widgets page</p>
-     * <p>2. Create all types of widgets with all fields filled</p>
-     * <p>Expected result</p>
-     * <p>Widgets are created successfully</p>
      *
      * @param string $dataWidgetType
      * @param array $testData
@@ -102,11 +98,6 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creates All Types of widgets with required fields only</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Widgets page</p>
-     * <p>2. Create all types of widgets with required fields filled</p>
-     * <p>Expected result</p>
-     * <p>Widgets are created successfully</p>
      *
      * @param string $dataWidgetType
      * @param array $testData
@@ -135,11 +126,6 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creates All Types of widgets with required fields empty</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Widgets page</p>
-     * <p>2. Create all types of widgets with required fields empty</p>
-     * <p>Expected result</p>
-     * <p>Widgets are not created. Message about required field empty appears.</p>
      *
      * @param string $dataWidgetType
      * @param string $emptyField

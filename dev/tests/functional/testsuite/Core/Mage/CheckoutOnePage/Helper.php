@@ -21,7 +21,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
     /**
      * @staticvar string
      */
-    protected static $activeTab = "[contains(@class,'active')]";
+    protected static $_activeTab = "[contains(@class,'active')]";
 
     /**
      * @staticvar string
@@ -182,7 +182,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
                 }
                 $billingSetXpath = $this->_getControlXpath('fieldset', 'billing_information');
                 $this->clickButton('login', false);
-                $this->waitForElement(array($billingSetXpath . self::$activeTab,
+                $this->waitForElement(array($billingSetXpath . self::$_activeTab,
                                             $this->_getMessageXpath('general_error'),
                                             $this->_getMessageXpath('general_validation')));
                 break;
@@ -196,7 +196,6 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
      * The way to ship the order
      *
      * @param array $shipMethod
-
      */
     public function frontSelectShippingMethod(array $shipMethod)
     {
@@ -245,7 +244,6 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
      * Adding gift message for entire order of each item
      *
      * @param array|string $giftOptions
-
      */
     public function frontAddGiftMessage(array $giftOptions)
     {

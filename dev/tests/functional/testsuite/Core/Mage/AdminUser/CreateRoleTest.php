@@ -34,18 +34,6 @@ class Core_Mage_AdminUser_CreateRoleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Test navigation.</p>
-     * <p>Preconditions</p>
-     * <p>1. Log in to Backend.</p>
-     * <p>2. Navigate to System -> Permissions -> Roles.</p>
-     * <p>Steps:</p>
-     * <p>1. Verify that 'Add New Role' button is present and click her.</p>
-     * <p>2. Verify that the create role page is opened.</p>
-     * <p>3. Verify that 'Back' button is present.</p>
-     * <p>4. Verify that 'Save Role' button is present.</p>
-     * <p>5. Verify that 'Reset' button is present.</p>
-     * <p>Expected result:</p>
-     * <p>'Add New Role', 'Back', 'Save Role', 'Reset' buttons are present<p>
-     * <p>Current page is new role page<p>
      *
      * @test
      */
@@ -61,17 +49,8 @@ class Core_Mage_AdminUser_CreateRoleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Admin Role (all required fields are filled).</p>
-     * <p>Steps:</p>
-     * <p>1.Go to System-Permissions-Roles.</p>
-     * <p>2.Press "Add New Role" button.</p>
-     * <p>3.Fill Role name field.</p>
-     * <p>4.Go to Role Resources tab</p>
-     * <p>5.Set Role Scope = All</p>
-     * <p>6.Set Resource Access = All</p>
-     * <p>7.Press "Save Role" button.</p>
-     * <p>Expected result:</p>
-     * <p>New role successfully saved.</p>
-     * <p>Message "The role has been saved." is displayed.</p>
+     *
+     * @return array $roleData
      *
      * @test
      * @depends navigationTest
@@ -92,17 +71,10 @@ class Core_Mage_AdminUser_CreateRoleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Admin Role (role name field is empty).</p>
-     * <p>Steps:</p>
-     * <p>1.Go to System-Permissions-Role.</p>
-     * <p>2.Press "Add New Role" button.</p>
-     * <p>3.Role name field is empty</p>
-     * <p>4.Press "Save Role" button.</p>
-     * <p>Expected result:</p>
-     * <p>New role is not saved.</p>
-     * <p>Message "This is a required field.." is displayed.</p>
-     * @test
+     *
      * @return array
      *
+     * @test
      * @depends navigationTest
      * @TestlinkId TL-MAGE-5472
      */
@@ -118,17 +90,10 @@ class Core_Mage_AdminUser_CreateRoleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Admin User Role with special symbols in role name field.</p>
-     * <p>Steps:</p>
-     * <p>1.Go to System-Permissions-Role.</p>
-     * <p>2.Press "Add New Role" button.</p>
-     * <p>3.Fill special symbols in Role Name field .</p>
-     * <p>4.Press "Save Role" button.</p>
-     * <p>Expected result:</p>
-     * <p>New Role successfully saved.</p>
-     * <p>Message "The role has been saved." is displayed.</p>
-     * @test
+     *
      * @return array
      *
+     * @test
      * @depends navigationTest
      * @TestlinkId TL-MAGE-5474
      */
@@ -145,17 +110,10 @@ class Core_Mage_AdminUser_CreateRoleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Admin User  role with long name(50symbols).</p>
-     * <p>Steps:</p>
-     * <p>1.Go to System-Permissions-Role.</p>
-     * <p>2.Press "Add New Role" button.</p>
-     * <p>3.Fill 50 symbols in Role Name field.</p>
-     * <p>4.Press "Save Role" button.</p>
-     * <p>Expected result:</p>
-     * <p>New Role successfully saved.</p>
-     * <p>Message "The user has been saved." is displayed.</p>
-     * @test
+     *
      * @return array
      *
+     * @test
      * @depends navigationTest
      * @TestlinkId TL-MAGE-5475
      */
@@ -172,20 +130,13 @@ class Core_Mage_AdminUser_CreateRoleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Edit Admin User Role</p>
-     * <p>Steps:</p>
-     * <p>1.Go to System-Permissions-Role.</p>
-     * <p>2.Find Role in grid and open.</p>
-     * <p>3.Add to Role name "_edited".</p>
-     * <p>4.Press "Save Role" button.</p>
-     * <p>Expected result:</p>
-     * <p>Role successfully saved.</p>
-     * <p>Message "The role has been successfully saved." is displayed.</p>
      *
      * @param array $roleData
      *
-     * @test
-     * @depends withRequiredFields
      * @return array
+     *
+     * @depends withRequiredFields
+     * @test
      * @TestlinkId TL-MAGE-5477
      */
     public function editRoleName($roleData)
@@ -203,13 +154,6 @@ class Core_Mage_AdminUser_CreateRoleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete Admin User Role</p>
-     * <p>Steps:</p>
-     * <p>1.Go to System-Permissions-Role.</p>
-     * <p>2.Find Role in grid and open.</p>
-     * <p>3.Press "Delete Role" button.</p>
-     * <p>Expected result:</p>
-     * <p>The Role successfully deleted.</p>
-     * <p>Message "The role has been deleted." is displayed.</p>
      *
      * @param array $newRoleName
      *

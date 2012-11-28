@@ -40,7 +40,9 @@ class Core_Mage_Captcha_GuestCheckoutTest extends Mage_Selenium_TestCase
 
     /**
      * Create product
+     *
      * @return string
+     *
      * @test
      */
     public function preconditionsForTests()
@@ -57,18 +59,6 @@ class Core_Mage_Captcha_GuestCheckoutTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Enable Captcha on Guest Checkout page</p>
-     * <p>Steps:</p>
-     * <p>1.Enable CAPTCHA on frontend option is set to Yes</p>
-     * <p>2.Display mode is set to Always</p>
-     * <p>3.Forms - "Checkout as Guest" is selected</p>
-     * <p>4.Open Frontend</p>
-     * <p>5.Add any product to shopping cart</p>
-     * <p>6.Proceed to checkout</p>
-     * <p>7.Select "Checkout as Guest" and click "Continue" button</p>
-     * <p>Expected result</p>
-     * <p>CAPTCHA image is present</p>
-     * <p>"Please type the letters below" field is present</p>
-     * <p>Reload Captcha image is present</p>
      *
      * @param string $productName
      *
@@ -102,14 +92,6 @@ class Core_Mage_Captcha_GuestCheckoutTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Reload Captcha for Guest Checkout</p>
-     * <p>Steps:</p>
-     * <p>1.Open Frontend</p>
-     * <p>2.Add any product to shopping cart</p>
-     * <p>3.Proceed to checkout</p>
-     * <p>4.Select "Register" and click "Continue" button</p>
-     * <p>5.Click "Refresh" captcha image</p>
-     * <p>Expected result</p>
-     * <p>CAPTCHA image is refreshed</p>
      *
      * @param string $productName
      *
@@ -138,15 +120,6 @@ class Core_Mage_Captcha_GuestCheckoutTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Empty Captcha for Guest Checkout</p>
-     * <p>Steps:</p>
-     * <p>1.Open Frontend</p>
-     * <p>2.Add any product to shopping cart</p>
-     * <p>3.Proceed to checkout</p>
-     * <p>4.Select "Checkout as Guest" and click "Continue" button</p>
-     * <p>5.Fill all requirement fields except Captcha </p>
-     * <p>6.Click "Continue" button </p>
-     * <p>Expected result</p>
-     * <p>Show validation message "This is a required field."</p>
      *
      * @param string $productName
      *
@@ -168,15 +141,6 @@ class Core_Mage_Captcha_GuestCheckoutTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Wrong Captcha for Guest Checkout</p>
-     * <p>Steps:</p>
-     * <p>1.Open Frontend</p>
-     * <p>2.Add any product to shopping cart</p>
-     * <p>3.Proceed to checkout</p>
-     * <p>4.Select "Checkout as Guest" and click "Continue" button</p>
-     * <p>5.Fill wrong Captcha and all requirement fields</p>
-     * <p>6.Click "Continue" button </p>
-     * <p>Expected result</p>
-     * <p>Show message "Incorrect CAPTCHA."</p>
      *
      * @param string $productName
      *
@@ -199,15 +163,6 @@ class Core_Mage_Captcha_GuestCheckoutTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Correct Captcha for Guest Checkout</p>
-     * <p>Steps:</p>
-     * <p>1.Open Frontend</p>
-     * <p>2.Add any product to shopping cart</p>
-     * <p>3.Proceed to checkout</p>
-     * <p>4.Select "Checkout as Guest" and click "Continue" button</p>
-     * <p>5.Fill all requirement fields and correct CAPTCHA</p>
-     * <p>6.Click "Continue" button </p>
-     * <p>Expected result</p>
-     * <p>"Shipping Method" tab is opened</p>
      *
      * @param string $productName
      *

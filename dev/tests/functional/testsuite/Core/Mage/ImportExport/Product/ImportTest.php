@@ -152,20 +152,6 @@ class Core_Mage_ImportExport_Product_ImportTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Existing Custom Option - Yes, Imported Custom Option - No</p>
-     * <p>Precondition:</p>
-     * <p>1. Create product with custom options</p>
-     * <p>Steps:</p>
-     * <p>1. In System -> Import/ Export ->Export export the file with product from precondition</p>
-     * <p>2. In csv file delete values of custom options</p>
-     * <p>3. Go to System -> Import/ Export ->Import</p>
-     * <p>4. Select entity type "Products"</p>
-     * <p>5. Select behavior "Replace Existing Complex Data"</p>
-     * <p>6. Press "Check Data" button - file is valid</p>
-     * <p>7. Press "Import" button - import finished successfully</p>
-     * <p>8. GO to Catalog-> Manage Products</p>
-     * <p>9. Open edit page of product from precondition</p>
-     * <p>10. Open "Custom Options" tab</p>
-     * <p>Expected Result: The custom options should be absent after importing</p>
      *
      * @depends preconditionReplaceImport
      * @test
@@ -216,26 +202,6 @@ class Core_Mage_ImportExport_Product_ImportTest extends Mage_Selenium_TestCase
     /**
      * <p>Existing Custom Option - No, Imported Custom Option - Yes</p>
      * <p>Delete product with custom options</p>
-     * <p>Precondition:</p>
-     * <p>1. The Product with custom options is created</p>
-     * <p>Steps:</p>
-     * <p>1. Go to System-> Import/Export-> Export</p>
-     * <p>2. Export the file with product from precondition</p>
-     * <p>3. Go to Catalog-> Manage Products</p>
-     * <p>4. Open edit page of product from precondition</p>
-     * <p>5. Delete all custom options for this product in "Custom Options" tab</p>
-     * <p>6. GO to System-> Import/Export-> Import</p>
-     * <p>7. Select "Products" entity type</p>
-     * <p>8. Select "Replace Existing Complex Data"</p>
-     * <p>9. upload the csv file from the step 2</p>
-     * <p>10. Press "Check Data" button</p>
-     * <p>11. Press "Import" button - file was imported successfully </p>
-     * <p>12. Go to Catalog-> Manage Products</p>
-     * <p>13. Open edit page of product from precondition</p>
-     * <p>Expected Result: In "Custom option" tab all custom option from the csv file are presented</p>
-     * <p>14. In System-> Import/Export-> Import make import with "Delete Entities" behavior</p>
-     * <p>15. Go to Catalog-> Manage Products</p>
-     * <p>Expected Result: The product from precondition is absent in products grid</p>
      *
      * @depends preconditionReplaceImport
      * @test
@@ -290,19 +256,6 @@ class Core_Mage_ImportExport_Product_ImportTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Import product with custom options when importing file or Magento has ambiguity</p>
-     * <p>Precondition:</p>
-     * <p>TC1. A product created with with custom option 'brand', field input type</p>
-     * <p>Csv file contains product with custom option 'brand', area input type, price $10.</p>
-     * <p>TC2. Product created with two custom options with the same name 'brand', field and area input type.</p>
-     * <p>Csv file contains product with custom option 'brand', area input type.</p>
-     * <p>Steps:</p>
-     * <p>1. Go to System -> Import/Export -> Import</p>
-     * <p>2. Select 'Products' entity type</p>
-     * <p>3. Select 'Append Complex Data' Import Behavior</p>
-     * <p>4. Select file from precondition</p>
-     * <p>5. Click 'Check Data' button</p>
-     * <p>Expected:</p>
-     * <p>Validation error is shown. Message 'Please fix errors and re-upload file' is shown.</p>
      *
      * @dataProvider ambiguousData
      * @test

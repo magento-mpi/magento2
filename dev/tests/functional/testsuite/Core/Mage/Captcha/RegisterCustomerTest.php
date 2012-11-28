@@ -40,15 +40,6 @@ class Core_Mage_Captcha_RegisterCustomerTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Enable Captcha on Register Customer page</p>
-     * <p>Steps:</p>
-     * <p>1.Enable CAPTCHA on frontend option is set to Yes</p>
-     * <p>2.Display mode is set to Always</p>
-     * <p>3.Forms - "Create user" is selected</p>
-     * <p>4.Open Register Customer page</p>
-     * <p>Expected result</p>
-     * <p>CAPTCHA image is present</p>
-     * <p>"Please type the letters below" field is present</p>
-     * <p>Reload Captcha image is present</p>
      *
      * @test
      * @TestlinkId TL-MAGE-2622
@@ -67,17 +58,6 @@ class Core_Mage_Captcha_RegisterCustomerTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Correct CAPTCHA in Register Customer page</p>
-     * <p>Preconditions:</p>
-     * <p>1.Enable CAPTCHA on frontend option is set to Yes</p>
-     * <p>2.Display mode is set to Always</p>
-     * <p>3.Forms - "Create user" is selected</p>
-     * <p>Steps:</p>
-     * <p>1.Open Register Customer page</p>
-     * <p>2.Input all requirement field and correct captcha</p>
-     * <p>3.Click "Submit" button</p>
-     * <p>Expected result</p>
-     * <p>Customer successfully registered</p>
-     * <p>Open Customer Account page</p>
      *
      * @depends enableCaptcha
      * @test
@@ -98,16 +78,6 @@ class Core_Mage_Captcha_RegisterCustomerTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Wrong CAPTCHA in Register Customer page</p>
-     * <p>Preconditions:</p>
-     * <p>1.Enable CAPTCHA on frontend option is set to Yes</p>
-     * <p>2.Display mode is set to Always</p>
-     * <p>3.Forms - Create user is selected</p>
-     * <p>Steps:</p>
-     * <p>1.Open Register Customer page</p>
-     * <p>2.Input all requirement field and WRONG captcha</p>
-     * <p>3.Click "Submit" button</p>
-     * <p>Expected result</p>
-     * <p>Show message "Incorrect CAPTCHA."</p>
      *
      * @depends enableCaptcha
      * @test
@@ -128,16 +98,6 @@ class Core_Mage_Captcha_RegisterCustomerTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Empty CAPTCHA in Register Customer page</p>
-     * <p>Preconditions:</p>
-     * <p>1.Enable CAPTCHA on frontend option is set to Yes</p>
-     * <p>2.Display mode is set to Always</p>
-     * <p>3.Forms - "Create user" is selected</p>
-     * <p>Steps:</p>
-     * <p>1.Open Register Customer page</p>
-     * <p>2.Fill all requirement fields except Captcha </p>
-     * <p>3.Click "Submit" button</p>
-     * <p>Expected result</p>
-     * <p>Show validation message "This is a required field."</p>
      *
      * @depends enableCaptcha
      * @test
@@ -157,15 +117,6 @@ class Core_Mage_Captcha_RegisterCustomerTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Refreshing CAPTCHA image in Register Customer page</p>
-     * <p>Preconditions:</p>
-     * <p>1.Enable CAPTCHA on frontend option is set to Yes</p>
-     * <p>2.Display mode is set to Always</p>
-     * <p>3.Forms - "Create user" is selected</p>
-     * <p>Steps:</p>
-     * <p>1.Open Forgot Register Customer page</p>
-     * <p>2.Click "Refresh" icon on Captcha image </p>
-     * <p>Expected result</p>
-     * <p>CAPTCHA image should be refreshed</p>
      *
      * @depends enableCaptcha
      * @test

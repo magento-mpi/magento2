@@ -18,10 +18,6 @@ class Core_Mage_Core_IndexTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Verify that going to frontend Core index page returns empty result<p>
-     * <p>Steps to reproduce:<p>
-     * <p>1. Navigate to the Core index page<p>
-     * <p>Expected result:</p>
-     * <p>Empty page with empty body</p>
      *
      * @test
      */

@@ -189,7 +189,8 @@ class Core_Mage_Acl_SalesTaxTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Admin user with Role Resource  Sales/Tax  can create "Customer Tax Class","Product Tax Class","Tax Rate", "Tax Rule"</p>
+     * <p>Admin user with Role Resource  Sales/Tax can create "Customer Tax Class"</p>
+     * <p>"Product Tax Class","Tax Rate", "Tax Rule"</p>
      *
      * @depends permissionTaxRule
      *
@@ -252,7 +253,8 @@ class Core_Mage_Acl_SalesTaxTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Admin user with Role Resource  Sales/Tax  can delete "Customer Tax Class","Product Tax Class","Tax Rate", "Tax Rule"</p>
+     * <p>Admin user with Role Resource  Sales/Tax  can delete "Customer Tax Class"</p>
+     * <p>"Product Tax Class","Tax Rate", "Tax Rule"</p>
      *
      * @param $testData
      * @depends permissionFullFlowTaxRuleCreation
@@ -330,7 +332,7 @@ class Core_Mage_Acl_SalesTaxTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('manage_import_export_tax_rates');
         //Verifying
-        $this->assertTrue($this->buttonIsPresent('import_tax_rates'),'Button "import_tax_rates" is not presented');
-        $this->assertTrue($this->buttonIsPresent('export_tax_rates'),'Button "export_tax_rates" is not presented');
+        $this->assertTrue($this->buttonIsPresent('import_tax_rates'), 'Button "import_tax_rates" is not presented');
+        $this->assertTrue($this->buttonIsPresent('export_tax_rates'), 'Button "export_tax_rates" is not presented');
     }
 }

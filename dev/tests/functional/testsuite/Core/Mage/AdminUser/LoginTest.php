@@ -69,11 +69,6 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Login with empty "Username"/"Password"</p>
-     * <p>Steps</p>
-     * <p>1. Leave one field empty;</p>
-     * <p>2. Click "Login" button;</p>
-     * <p>Expected result:</p>
-     * <p>Error message appears - "This is a required field"</p>
      *
      * @param string $emptyField
      * @param array $loginData
@@ -104,11 +99,6 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Login with not existing user</p>
-     * <p>Steps</p>
-     * <p>1.Fill in fields with incorrect data;</p>
-     * <p>2. Click "Login" button;</p>
-     * <p>Expected result:</p>
-     * <p>Error message appears - "Invalid User Name or Password."</p>
      *
      * @param array $loginData
      *
@@ -128,11 +118,6 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Login with incorrect password</p>
-     * <p>Steps</p>
-     * <p>1.Fill "Username" field with correct data and "Password" with incorrect data;</p>
-     * <p>2. Click "Login" button;</p>
-     * <p>Expected result:</p>
-     * <p>Error message appears - "Invalid User Name or Password."</p>
      *
      * @param array $loginData
      *
@@ -152,13 +137,6 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Login with inactive Admin User account</p>
-     * <p>Steps</p>
-     * <p>Pre-Conditions:</p>
-     * <p>Inactive Admin User is created</p>
-     * <p>1.Fill in "Username" and "Password" fields with correct data;</p>
-     * <p>2. Click "Login" button;</p>
-     * <p>Expected result:</p>
-     * <p>Error message appears - "This account is inactive."</p>
      *
      * @test
      * @depends loginValidUser
@@ -186,13 +164,6 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Login without any permissions</p>
-     * <p>Steps</p>
-     * <p>Pre-Conditions:</p>
-     * <p>Create a new user without Administrators role</p>
-     * <p>1.Fill in "Username" and "Password" fields with correct data;</p>
-     * <p>2. Click "Login" button;</p>
-     * <p>Expected result:</p>
-     * <p>Error message appears - "This account is inactive."</p>
      *
      * @test
      * @depends loginValidUser
@@ -219,13 +190,6 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Empty field "Forgot password"</p>
-     * <p>Steps</p>
-     * <p>1. Goto Login page;</p>
-     * <p>2. Click "Forgot Your password" link;</p>
-     * <p>3. Leave "Email Address" field empty;</p>
-     * <p>4. Click "Retrieve Password" button;</p>
-     * <p>Expected result:</p>
-     * <p>"This is a required field" message appears;</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3150
@@ -243,13 +207,6 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Invalid e-mail used in "Forgot password" field</p>
-     * <p>Steps</p>
-     * <p>1. Goto Login page;</p>
-     * <p>2. Click "Forgot Your password" link;</p>
-     * <p>3. Enter non-existing e-mail into "Email Address" field;</p>
-     * <p>4. Click "Retrieve Password" button;</p>
-     * <p>Expected result:</p>
-     * <p>"If there is an account associated.." message appears;</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3152
@@ -267,14 +224,6 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Valid e-mail used in "Forgot password" field</p>
-     * <p>Steps</p>
-     * <p>Pre-Conditions:</p>
-     * <p>Admin User is created</p>
-     * <p>1.Fill in "Forgot password" field with correct data;</p>
-     * <p>2. Click "Retrieve password" button;</p>
-     * <p>Expected result:</p>
-     * <p>Success message "If there is an account associated.." appears.</p>
-     * <p>Please check your email and click Back to Login."</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3151
@@ -300,19 +249,6 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Valid e-mail used in "Forgot password" field, login with old password</p>
-     * <p>Steps</p>
-     * <p>Pre-Conditions:</p>
-     * <p>Admin User is created</p>
-     * <p>1.Fill in "Forgot password" field with correct data;</p>
-     * <p>2. Click "Retrieve password" button;</p>
-     * <p>Expected result:</p>
-     * <p>Success message appears -</p>
-     * <p>"A new password was sent to your email address.</p>
-     * <p>Please check your email and click Back to Login."</p>
-     * <p>3. Click "Back to Login" link</p>
-     * <p>4. Try to login using old credentials</p>
-     * <p>Expected result:</p>
-     * <p>User still can login, since the password has not been reset.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3153

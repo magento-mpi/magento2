@@ -57,21 +57,6 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
 
     /**
      * <p>Create customer via 'Create order' form (required fields are not filled).</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders;</p>
-     * <p>2.Press "Create New Order" button;</p>
-     * <p>3.Press "Create New Customer" button;</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists;</p>
-     * <p>5.Fill all fields except one required;</p>
-     * <p>6.Press 'Add Products' button;</p>
-     * <p>7.Add first two products;</p>
-     * <p>8.Choose shipping address the same as billing;</p>
-     * <p>9.Check payment method 'Check / Money order';</p>
-     * <p>10.Choose first from 'Get shipping methods and rates';</p>
-     * <p>11.Submit order;</p>
-     * <p>Expected result:</p>
-     * <p>New customer is not created. Order is not created for the new customer.
-     *    Message with "Empty required field" appears.</p>
      *
      * @param string $emptyField
      * @param string $simpleSku
@@ -129,21 +114,6 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
     /**
      * Fails due to MAGE-5616
      * <p>Create customer via 'Create order' form (required fields are not filled).</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders;</p>
-     * <p>2.Press "Create New Order" button;</p>
-     * <p>3.Press "Create New Customer" button;</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists;</p>
-     * <p>5.Fill all fields except one required;</p>
-     * <p>6.Press 'Add Products' button;</p>
-     * <p>7.Fill in billing address with required fields;</p>
-     * <p>8.Check each shipping required fields (message with error should appear near the field);</p>
-     * <p>9.Check payment method 'visa'. Fill its fields with correct information;</p>
-     * <p>10.Choose first from 'Get shipping methods and rates';</p>
-     * <p>11.Submit order;</p>
-     * <p>Expected result:</p>
-     * <p>New customer is not created. Order is not created for the new customer.
-     *    Message with "Empty required field" appears.</p>
      *
      * @param string $emptyField
      * @param string $simpleSku
@@ -200,15 +170,6 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
 
     /**
      * <p>Create order without shipping method</p>
-     * <p>Steps:</p>
-     * <p>1. Create new order for new customer;</p>
-     * <p>2. Add product to order;</p>
-     * <p>3. Fill in billing and shipping address;</p>
-     * <p>4. Choose payment method;</p>
-     * <p>4. Do not choose any shipping method;</p>
-     * <p>5. Submit order;</p>
-     * <p>Expected result:</p>
-     * <p>Order cannot be created by the reason of empty required fields in shipping method.</p>
      *
      * @param string $simpleSku
      *
@@ -234,16 +195,6 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
 
     /**
      * <p>Create order without shipping method</p>
-     * <p>Steps:</p>
-     * <p>1. Create new order for new customer;</p>
-     * <p>2. Add product to order;</p>
-     * <p>3. Fill in billing and shipping address;</p>
-     * <p>4. Choose payment method;</p>
-     * <p>4. Click 'Get shipping methods and rates' link;</p>
-     * <p>6. Do not choose any shipping method;</p>
-     * <p>7. Submit order;</p>
-     * <p>Expected result:</p>
-     * <p>Order cannot be created by the reason of empty required fields in shipping method.</p>
      *
      * @param string $simpleSku
      *
@@ -274,15 +225,6 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
 
     /**
      * <p>Create order without products.</p>
-     * <p>Steps:</p>
-     * <p>1. Create new order for new customer;</p>
-     * <p>2. Fill in the required fields with billing and shipping address;</p>
-     * <p>3. Add products to order;</p>
-     * <p>4. Choose any shipping method;</p>
-     * <p>5. Remove products from order;</p>
-     * <p>6. Submit order;</p>
-     * <p>Expected result:</p>
-     * <p>Order cannot be created. Message 'You need to specify order items.' appears.</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -302,15 +244,6 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
 
     /**
      * <p>Create order without payment method.</p>
-     * <p>Steps:</p>
-     * <p>1. Create new order for new customer;</p>
-     * <p>2. Fill in the required fields with billing and shipping address;</p>
-     * <p>3. Add products to order;</p>
-     * <p>4. Choose any shipping method;</p>
-     * <p>5. Do not choose payment method;</p>
-     * <p>6. Submit order;</p>
-     * <p>Expected result:</p>
-     * <p>Order cannot be created. Message 'Please select one of the options.' appears.</p>
      *
      * @param string $simpleSku
      *

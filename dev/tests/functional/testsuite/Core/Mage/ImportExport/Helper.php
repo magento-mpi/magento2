@@ -276,7 +276,8 @@ class Core_Mage_ImportExport_Helper extends Mage_Selenium_AbstractHelper
      *
      * @return array
      */
-    public function _uploadFile($urlPage, $importUrl, $startUrl, $parameters = array(), $fileName, $continueOnError = true)
+    public function _uploadFile($urlPage, $importUrl, $startUrl,
+                                $parameters = array(), $fileName, $continueOnError = true)
     {
         $chr = curl_init();
         //Open import page

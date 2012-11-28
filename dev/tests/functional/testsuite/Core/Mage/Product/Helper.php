@@ -1231,9 +1231,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                                                    'option_front' => $configurableOptions[2]),
                      'configurableOption' => array('title'                 => $attrData['admin_title'],
                                                    'custom_option_dropdown'=> $configurableOptions[0]),
-                     'attribute'          => array('title'       => $attrData['admin_title'],
-                                                   'title_front' => $attrData['store_view_titles']['Default Store View'],
-                                                   'code'        => $attrCode),
+                     'attribute'         => array('title'       => $attrData['admin_title'],
+                                                  'title_front' => $attrData['store_view_titles']['Default Store View'],
+                                                  'code'        => $attrCode),
                      'category'           => $returnCategory);
     }
 
@@ -1578,7 +1578,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      * @param array $skipFieldFillIn
      * @param string $productType
      */
-    public function createProductWithAutoGeneration(array $productData, $isSave = false, $skipFieldFillIn = array(), $productType = 'simple')
+    public function createProductWithAutoGeneration(array $productData, $isSave = false,
+                                                    $skipFieldFillIn = array(), $productType = 'simple')
     {
         if (!empty($skipFieldFillIn)) {
             foreach ($skipFieldFillIn as $value) {

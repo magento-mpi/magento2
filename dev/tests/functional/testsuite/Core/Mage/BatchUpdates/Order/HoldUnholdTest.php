@@ -20,7 +20,6 @@ class Core_Mage_BatchUpdates_Order_HoldUnholdTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
-     * <p>Navigate to Sales -> Orders</p>
      */
     protected function assertPreConditions()
     {
@@ -29,11 +28,6 @@ class Core_Mage_BatchUpdates_Order_HoldUnholdTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Holding orders with status "Pending"</p>
-     * <p>Steps:</p>
-     * <p>1. Create two orders</p>
-     * <p>2. Select action "Hold" for your orders</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the orders has been hold</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5939
@@ -55,12 +49,6 @@ class Core_Mage_BatchUpdates_Order_HoldUnholdTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Holding orders with status "Processing"</p>
-     * <p>Steps:</p>
-     * <p>1. Create two orders</p>
-     * <p>2. Create invoice for your orders</p>
-     * <p>3. Select action "Hold" for your orders</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the orders has been hold</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5940
@@ -86,12 +74,6 @@ class Core_Mage_BatchUpdates_Order_HoldUnholdTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Holding orders with status "Complete"</p>
-     * <p>Steps:</p>
-     * <p>1. Create two orders</p>
-     * <p>2. Create invoice and shipment for your orders</p>
-     * <p>3. Select action "Hold" for your orders</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the orders has not been hold</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5941
@@ -117,12 +99,6 @@ class Core_Mage_BatchUpdates_Order_HoldUnholdTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Holding orders with status "Closed"</p>
-     * <p>Steps:</p>
-     * <p>1. Create two orders</p>
-     * <p>2. Create invoice, shipment and credit memo for your orders</p>
-     * <p>3. Select action "Hold" for your orders</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the orders has not been hold</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5942
@@ -148,12 +124,6 @@ class Core_Mage_BatchUpdates_Order_HoldUnholdTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Holding orders with status "Cancel"</p>
-     * <p>Steps:</p>
-     * <p>1. Create two orders</p>
-     * <p>2. Create invoice and cancel your orders</p>
-     * <p>3. Select action "Hold" for your orders</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the orders has not been hold</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5943
@@ -179,12 +149,6 @@ class Core_Mage_BatchUpdates_Order_HoldUnholdTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Holding orders with status "On Hold"</p>
-     * <p>Steps:</p>
-     * <p>1. Create two orders</p>
-     * <p>2. Create invoice and hold your orders</p>
-     * <p>3. Select action "Hold" for your orders</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the orders has not been hold</p>
      *
      * @test
      * @TestlinkId TL-MAGE-6001
@@ -210,11 +174,6 @@ class Core_Mage_BatchUpdates_Order_HoldUnholdTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Holding orders with different status</p>
-     * <p>Steps:</p>
-     * <p>1. Create two orders with status "Pending" and "Hold"</p>
-     * <p>3. Select action "Hold" for your orders</p>
-     * <p>Expected result:</p>
-     * <p>Received tow messages that one order has been hold and one not</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5944
@@ -241,11 +200,6 @@ class Core_Mage_BatchUpdates_Order_HoldUnholdTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Unhold orders with status "Pending"</p>
-     * <p>Steps:</p>
-     * <p>1. Create two orders</p>
-     * <p>2. Select action "Unhold" for your orders</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the orders has been not unhold</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5946
@@ -267,11 +221,6 @@ class Core_Mage_BatchUpdates_Order_HoldUnholdTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Unhold orders with status "Hold"</p>
-     * <p>Steps:</p>
-     * <p>1. Create two orders and hold them</p>
-     * <p>2. Select action "Unhold" for your orders</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the orders has been unholden</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5947
@@ -297,11 +246,6 @@ class Core_Mage_BatchUpdates_Order_HoldUnholdTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Unhold orders with different status</p>
-     * <p>Steps:</p>
-     * <p>1. Create two orders with status "Pending" and "Hold"</p>
-     * <p>3. Select action "Unhold" for your orders</p>
-     * <p>Expected result:</p>
-     * <p>Received tow messages that one order has been unhold and one not</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5948
@@ -328,11 +272,6 @@ class Core_Mage_BatchUpdates_Order_HoldUnholdTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Update Attributes fot orders using Batch Updates Negative test</p>
-     * <p>Steps:</p>
-     * <p>1. Select any value in "Action" dropdown</p>
-     * <p>2. Click button "Submit"</p>
-     * <p>Expected result:</p>
-     * <p>Received the popup message "Please select items.".</p>
      *
      * @test
      * @param string $actionValue
@@ -366,6 +305,7 @@ class Core_Mage_BatchUpdates_Order_HoldUnholdTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating one product and two orders for tests</p>
+     *
      * @return array $searchData
      */
     public function createOrders()

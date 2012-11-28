@@ -26,17 +26,6 @@ class Core_Mage_Agcc_ActivatingDeactivatingTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating SCPR without activating Auto Generated Specific Coupon Codes functionality</p>
-     * <p>Steps:</p>
-     * <p>1. Press button "Add New Rule"</p>
-     * <p>2. Fill all required fields</p>
-     * <p>3. Fill any value to "Coupon Code" field</p>
-     * <p>4. Set "Use Auto Generation" checkbox to "No"</p>
-     * <p>5. Press button "Save and Continue Edit"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that The rule has been saved.</p>
-     * <p>Checkbox "Use Auto Generation" remains set to "No"</p>
-     * <p>"Manage Coupon Codes" tab appears</p>
-     * <p>"Manage Coupon Codes" tab is inactive</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3757
@@ -65,16 +54,6 @@ class Core_Mage_Agcc_ActivatingDeactivatingTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating SCPR with activating Auto Generated Specific Coupon Codes functionality</p>
-     * <p>Steps:</p>
-     * <p>1. Press button "Add New Rule"</p>
-     * <p>2. Fill all required fields</p>
-     * <p>3. Set "Use Auto Generation" checkbox to "Yes"</p>
-     * <p>4. Press button "Save and Continue Edit"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that The rule has been saved.</p>
-     * <p>Checkbox "Use Auto Generation" remains set to "Yes"</p>
-     * <p>"Manage Coupon Codes" tab appears</p>
-     * <p>"Manage Coupon Codes" tab is active</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3757
@@ -102,19 +81,6 @@ class Core_Mage_Agcc_ActivatingDeactivatingTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating SCPR with activating Auto Generated Specific Coupon Codes functionality and specified coupon code
-     * in "Coupon Code" field</p>
-     * <p>Steps:</p>
-     * <p>1. Press button "Add New Rule"</p>
-     * <p>2. Fill all required fields</p>
-     * <p>3. Fill any value to "Coupon Code" field</p>
-     * <p>4. Set "Use Auto Generation" checkbox to "Yes"</p>
-     * <p>5. Press button "Save and Continue Edit"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that The rule has been saved.</p>
-     * <p>Checkbox "Use Auto Generation" remains set to "Yes"</p>
-     * <p>"Manage Coupon Codes" tab appears</p>
-     * <p>"Manage Coupon Codes" tab is active</p>
-     * <p>"Coupon Code" field is blank"</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3757
@@ -143,13 +109,6 @@ class Core_Mage_Agcc_ActivatingDeactivatingTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating SCPR with activating Auto Generated Specific Coupon Codes functionality negative test</p>
-     * <p>Steps:</p>
-     * <p>1. Press button "Add New Rule"</p>
-     * <p>1. Select value "Specific Coupon" in "Coupon" dropdown</p>
-     * <p>2. Left "Coupon Code" field blank</p>
-     * <p>4. Press button "Save and Continue Edit"</p>
-     * <p>Expected result:</p>
-     * <p>Received the validation message "This is required field." under "Coupon Code" field.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3760
@@ -166,19 +125,6 @@ class Core_Mage_Agcc_ActivatingDeactivatingTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Deactivating Auto Generated Specific Coupon Codes functionality in SCPR</p>
-     * <p>Steps:</p>
-     * <p>1. Press button "Add New Rule"</p>
-     * <p>2. Fill all required fields</p>
-     * <p>3. Set "Use Auto Generation" checkbox to "Yes"</p>
-     * <p>4. Press button "Save and Continue Edit"</p>
-     * <p>5. Set "Use Auto Generation" checkbox to "No"</p>
-     * <p>6. Fill any value to "Coupon Code" field</p>
-     * <p>7. Press button "Save and Continue Edit"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that The rule has been saved.</p>
-     * <p>Checkbox "Use Auto Generation" remains set to "No"</p>
-     * <p>"Manage Coupon Codes" tab remains</p>
-     * <p>"Manage Coupon Codes" tab is inactive</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3761

@@ -59,7 +59,8 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
         } else {
             $page = $this->_findCurrentPageFromUrl();
         }
-        //$expectedTitle = $this->getUimapPage($this->getConfigHelper()->getArea(), $page)->getTitle($this->_paramsHelper);
+        //$expectedTitle = $this->getUimapPage($this->getConfigHelper()->getArea(),
+        //$page)->getTitle($this->_paramsHelper);
         //$this->assertSame($expectedTitle, $this->url(), 'Title is unexpected for "' . $page . '" page');
         $this->setCurrentPage($page);
     }

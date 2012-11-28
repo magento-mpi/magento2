@@ -33,19 +33,6 @@ class Core_Mage_ImportExport_CustomActions_CustomerTest extends Mage_Selenium_Te
     }
     /**
      * Verify that import customers main file with specified action works correctly
-     * Precondition: 3 csv files, several rows each (update, delete, empty or not recognized actions)
-     * Customers exist in the system
-     * Steps:
-     * 1. Go to System -> Import/Export -> Import
-     * 2. Select Entity Type: Customers Main File
-     * 3. Select Import Behavior: Custom Action
-     * 4. Select file from precondition
-     * 5. Click Check Data button
-     * 6. Click Import button
-     * 7. Go to Customers -> Manage Customers
-     * 8. Open customer (if not deleted after import)
-     * After step 5: corresponding validation messages are shown
-     * After step 8: required action applied to customer data
      *
      * @test
      * @dataProvider importCustomAction

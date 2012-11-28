@@ -62,11 +62,6 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creates Page with required fields</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Pages page</p>
-     * <p>2. Create page with required fields</p>
-     * <p>Expected result</p>
-     * <p>Page is created successfully</p>
      *
      * @return array
      * @test
@@ -88,11 +83,6 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creates Page with all fields and all types of widgets</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Pages page</p>
-     * <p>2. Create page with all fields filled and all types of widgets</p>
-     * <p>Expected result</p>
-     * <p>Page is created successfully</p>
      *
      * @param array $data
      *
@@ -114,11 +104,6 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creates Page with all fields filled except one empty</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Pages page</p>
-     * <p>2. Create page with all fields filled, but leave one empty</p>
-     * <p>Expected result</p>
-     * <p>Page is not created successfully</p>
      *
      * @param string $fieldName
      * @param string $fieldType
@@ -165,12 +150,6 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creates Pages with same URL Key</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Pages page</p>
-     * <p>2. Create page with required fields</p>
-     * <p>3. Create page with the same URL Key</p>
-     * <p>Expected result</p>
-     * <p>Page with the same URL Key is not created</p>
      *
      * @param array $pageData
      *
@@ -189,11 +168,6 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creates Pages with numbers in URL Key</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Pages page</p>
-     * <p>2. Create page with required fields</p>
-     * <p>Expected result</p>
-     * <p>Page with the numbers in URL Key is not created</p>
      *
      * @param string $urlValue
      * @param string $messageType
@@ -229,11 +203,6 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create CMS Page with special values in required fields</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Pages page</p>
-     * <p>2. Create page with all fields filled</p>
-     * <p>Expected result</p>
-     * <p>Page is created successfully</p>
      *
      * @param array $fieldData
      *

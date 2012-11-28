@@ -20,7 +20,6 @@ class Core_Mage_Customer_DeleteTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
-     * <p>Navigate to System -> Manage Customers</p>
      */
     protected function assertPreConditions()
     {
@@ -30,13 +29,6 @@ class Core_Mage_Customer_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete customer.</p>
-     * <p>Preconditions: Create Customer</p>
-     * <p>Steps:</p>
-     * <p>1. Search and open customer.</p>
-     * <p>2. Click 'Delete Customer' button.</p>
-     * <p>Expected result:</p>
-     * <p>Customer is deleted.</p>
-     * <p>Success Message is displayed.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3237
@@ -60,14 +52,6 @@ class Core_Mage_Customer_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete customers.</p>
-     * <p>Preconditions: Create several customers</p>
-     * <p>Steps:</p>
-     * <p>1. Search and choose several customers.</p>
-     * <p>3. Select 'Actions' to 'Delete'.</p>
-     * <p>2. Click 'Submit' button.</p>
-     * <p>Expected result:</p>
-     * <p>Customers are deleted.</p>
-     * <p>Success Message is displayed.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3238

@@ -59,19 +59,6 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
 
     /**
      * <p>Empty required fields(Select Addresses page)</p>
-     * <p>Preconditions:</p>
-     * <p>1.Product is created.</p>
-     * <p>3.Customer signed in at the frontend.</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Checkout with Multiple Addresses".</p>
-     * <p>4. Click "Enter a New Address" on Select Addresses page.</p>
-     * <p>5. Fill in fields except one required.</p>
-     * <p>6. Click 'Submit' button</p>
-     * <p>Expected result:</p>
-     * <p>New address is not added.</p>
-     * <p>Error Message is displayed.</p>
      *
      * @param string $emptyField
      * @param string $fieldName
@@ -106,20 +93,6 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
 
     /**
      * <p>Empty required fields(Select Addresses page)</p>
-     * <p>Preconditions:</p>
-     * <p>1.Product is created.</p>
-     * <p>3.Customer signed in at the frontend.</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Checkout with Multiple Addresses".</p>
-     * <p>4. Move To " Billing Information Page".</p>
-     * <p>5. Click "Add Address"</p>
-     * <p>6. Fill in fields except one required.</p>
-     * <p>7. Click 'Submit' button</p>
-     * <p>Expected result:</p>
-     * <p>New address is not added.</p>
-     * <p>Error Message is displayed.</p>
      *
      * @param string $emptyField
      * @param string $fieldName
@@ -168,19 +141,6 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
 
     /**
      * <p>Fill in all required fields by using special characters</p>
-     * <p>Preconditions:</p>
-     * <p>1.Product is created.</p>
-     * <p>3.Customer signed in at the frontend.</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Checkout with Multiple Addresses".</p>
-     * <p>4. Click "Enter a New Address" on Select Addresses page.</p>
-     * <p>5. Fill in all required fields by using special characters(except the field "email")</p>
-     * <p>6. Click 'Submit' button</p>
-     * <p>Expected result:</p>
-     * <p>New address is added.</p>
-     * <p>Success Message is displayed.(The address has been saved.)</p>
      *
      * @param array $testData
      *
@@ -205,16 +165,6 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
 
     /**
      * <p>Fill in only required fields. Use max long values for fields.</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Checkout with Multiple Addresses".</p>
-     * <p>4. Click "Enter a New Address" on Select Addresses page.</p>
-     * <p>5. Fill in required fields by long value alpha-numeric data.</p>
-     * <p>6. Click 'Submit' button.</p>
-     * <p>Expected result:</p>
-     * <p>New address is added.</p>
-     * <p>Success Message is displayed.(The address has been saved.)</p>
      *
      * @param array $testData
      *
@@ -239,20 +189,6 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
 
     /**
      * <p>Fill in all required fields by using special characters</p>
-     * <p>Preconditions:</p>
-     * <p>1.Product is created.</p>
-     * <p>3.Customer signed in at the frontend.</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Checkout with Multiple Addresses".</p>
-     * <p>4. Move To " Billing Information Page".</p>
-     * <p>5. Click "Add Address"</p>
-     * <p>6. Fill in all required fields by using special characters(except the field "email")</p>
-     * <p>7. Click 'Submit' button</p>
-     * <p>Expected result:</p>
-     * <p>New address is added.</p>
-     * <p>Success Message is displayed.(The address has been saved.)</p>
      *
      * @param array $testData
      *
@@ -277,17 +213,6 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
 
     /**
      * <p>Fill in only required fields. Use max long values for fields.</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Checkout with Multiple Addresses".</p>
-     * <p>4. Move To " Billing Information Page".</p>
-     * <p>5. Click "Add Address"</p>
-     * <p>6. Fill in required fields by long value alpha-numeric data.</p>
-     * <p>7. Click 'Submit' button.</p>
-     * <p>Expected result:</p>
-     * <p>New address is added.</p>
-     * <p>Success Message is displayed.(The address has been saved.)</p>
      *
      * @param array $testData
      *
@@ -312,14 +237,6 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
 
     /**
      * <p>Fill in only required fields. Use max long values for fields.</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Checkout with Multiple Addresses".</p>
-     * <p>4. Fill in Qty with invalid value(negative, non-integer)</p>
-     * <p>6. Click 'Submit' button.</p>
-     * <p>Expected result:</p>
-     * <p>Product removed from Shopping cart</p>
      *
      * @param string $invalidQty
      * @param array $testData
@@ -356,16 +273,6 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
 
     /**
      * <p>Shipping Method is not selected</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Checkout with Multiple Addresses".</p>
-     * <p>4. Move to the Shipping Information Page</p>
-     * <p>5. Leave Shipping Method unselected</p>
-     * <p>6. Click 'Continue to Billing Information' button.</p>
-     * <p>Expected result:</p>
-     * <p>Error Message is displayed.
-     * <p>(Please select shipping methods for all addresses)</p>
      *
      * @param array $testData
      *
@@ -390,16 +297,6 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
 
     /**
      * <p>Payment Method is not selected</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Checkout with Multiple Addresses".</p>
-     * <p>4. Move to the Billing Information Page</p>
-     * <p>5. Leave Payment Method unselected</p>
-     * <p>6. Click 'Continue to Review Your Order' button.</p>
-     * <p>Expected result:</p>
-     * <p>Error Message is displayed.
-     * <p>(Payment method is not defined)</p>
      *
      * @param array $testData
      *
@@ -424,16 +321,6 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
 
     /**
      * <p>Empty Card Info field </p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Checkout with Multiple Addresses".</p>
-     * <p>4. Move to the Billing Information Page</p>
-     * <p>5. Select Credit Card (saved)</p>
-     * <p>6. Fill in fields except one required.</p>
-     * <p>7. Click 'Continue to Review Your Order' button.</p>
-     * <p>Expected result:</p>
-     * <p>Error Message is displayed.
      *
      * @param string $emptyField
      * @param string $fieldName

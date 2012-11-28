@@ -74,19 +74,6 @@ class Core_Mage_PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create catalog price rule - To Fixed Amount</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add New Rule"</p>
-     * <p>2. Fill in required fields</p>
-     * <p>3. Select in "General Information" -> "Customer Groups" = "NOT LOGGED IN"</p>
-     * <p>3. Select in "Apply" field option - "To Fixed Amount"</p>
-     * <p>4. Specify "Discount Amount" = 10%</p>
-     * <p>5. Click "Save and Apply" button</p>
-     * <p>Expected result: New rule created, success message appears</p>
-     * <p>Verification</p>
-     * <p>6. Open product in Frontend as a GUEST</p>
-     * <p>7. Verify product special price = $10.00</p>
-     * <p>8. Login to Frontend</p>
-     * <p>9. Verify product REGULAR PRICE = $120.00</p>
      *
      * @param string $ruleType
      * @param array $testData

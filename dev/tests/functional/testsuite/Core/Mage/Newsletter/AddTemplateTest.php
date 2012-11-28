@@ -31,14 +31,6 @@ class Core_Mage_Newsletter_AddTemplateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Test navigation.</p>
-     * <p>Steps:</p>
-     * <p>1. Verify that 'Add New Template' button is present and click it.</p>
-     * <p>2. Verify that the New Newsletter Template page is opened.</p>
-     * <p>3. Verify that 'Back' button is present.</p>
-     * <p>4. Verify that 'Reset' button is present.</p>
-     * <p>5. Verify that 'Convert to Plain Text' button is present.</p>
-     * <p>3. Verify that 'Preview Template' button is present.</p>
-     * <p>3. Verify that 'Save Template' button is present.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-6055
@@ -60,13 +52,6 @@ class Core_Mage_Newsletter_AddTemplateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Add Template. Fill in required fields.</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add New Template' button.</p>
-     * <p>2. Fill in required fields.</p>
-     * <p>3. Click 'Save Template' button.</p>
-     * <p>Expected result:</p>
-     * <p>Template is created.</p>
-     * <p>Success Message is displayed</p>
      *
      * @test
      * @TestlinkId TL-MAGE-6056
@@ -83,13 +68,6 @@ class Core_Mage_Newsletter_AddTemplateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create New Newsletter Template. Fill in all required fields except one field.</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add New Template' button.</p>
-     * <p>2. Fill in required fields except one field.</p>
-     * <p>3. Click 'Save Template' button.</p>
-     * <p>Expected result:</p>
-     * <p>Newsletter Template is not created.</p>
-     * <p>Error message is displayed.</p>
      *
      * @param $emptyField
      *
@@ -123,14 +101,6 @@ class Core_Mage_Newsletter_AddTemplateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create New Newsletter Template. Fill in fields except 'Sender Email' by using special characters.</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add New Template' button.</p>
-     * <p>2. Fill in 'Template Name' field by special characters.</p>
-     * <p>3. Fill other required fields by regular data.</p>
-     * <p>4. Click 'Save Template' button.</p>
-     * <p>Expected result:</p>
-     * <p>New Newsletter Template is created.</p>
-     * <p>Success Message is displayed</p>
      *
      * @test
      * @TestlinkId TL-MAGE-6059
@@ -150,14 +120,6 @@ class Core_Mage_Newsletter_AddTemplateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Newsletter with invalid value for 'Sender Email' field</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add New Template' button.</p>
-     * <p>2. Fill in 'Sender Email' field by wrong value.</p>
-     * <p>3. Fill other required fields by regular data.</p>
-     * <p>4. Click 'Save Template' button.</p>
-     * <p>Expected result:</p>
-     * <p>Newsletter Template is not created.</p>
-     * <p>Error Message is displayed.</p>
      *
      * @param string $wrongEmail
      *

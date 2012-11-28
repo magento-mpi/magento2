@@ -39,7 +39,9 @@ class Core_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
 
     /**
      * Create customer and product
+     *
      * @return array
+     *
      * @test
      */
     public function preconditionsForTests()
@@ -57,15 +59,6 @@ class Core_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Enable Captcha at Login page</p>
-     * <p>Steps:</p>
-     * <p>1.Enable CAPTCHA on frontend option is set to Yes</p>
-     * <p>2.Display mode is set to Always</p>
-     * <p>3.Forms - Login is selected</p>
-     * <p>4.Open Customer Login page</p>
-     * <p>Expected result</p>
-     * <p>CAPTCHA image is present</p>
-     * <p>"Please type the letters below" field is present</p>
-     * <p>Reload Captcha image is present</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -85,15 +78,6 @@ class Core_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Refreshing CAPTCHA image for Login Form</p>
-     * <p>Preconditions:</p>
-     * <p>1.Enable CAPTCHA on frontend option is set to Yes</p>
-     * <p>2.Display mode is set to Always</p>
-     * <p>3.Forms - Login User is selected</p>
-     * <p>Steps:</p>
-     * <p>1.Open Login customer page</p>
-     * <p>2.Click "Refresh" icon on Captcha image </p>
-     * <p>Expected result</p>
-     * <p>CAPTCHA image should be refreshed</p>
      *
      * @test
      * @depends enableCaptcha
@@ -114,17 +98,6 @@ class Core_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Refreshing CAPTCHA image for Login Form</p>
-     * <p>Preconditions:</p>
-     * <p>1.Enable CAPTCHA on frontend option is set to Yes</p>
-     * <p>2.Display mode is set to Always</p>
-     * <p>3.Forms - Login User is selected</p>
-     * <p>Steps:</p>
-     * <p>1. Set "Merge JavaScript Files" in System->Configuration->Advanced->Developer->JavaScript Settings</p>
-     * <p>2.Clear Magento cache</p>
-     * <p>3.Open Login customer page</p>
-     * <p>4.Click "Refresh" icon on Captcha image </p>
-     * <p>Expected result</p>
-     * <p>CAPTCHA image should be refreshed</p>
      *
      * @test
      * @depends enableCaptcha
@@ -153,17 +126,6 @@ class Core_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
     /**
      *
      * <p>Correct CAPTCHA in Register Customer page</p>
-     * <p>Preconditions:</p>
-     * <p>1.Enable CAPTCHA on frontend option is set to Yes</p>
-     * <p>2.Display mode is set to Always</p>
-     * <p>3.Forms - "Create user" is selected</p>
-     * <p>Steps:</p>
-     * <p>1.Open Register Customer page</p>
-     * <p>2.Input all requirement field and correct captcha</p>
-     * <p>3.Click "Submit" button</p>
-     * <p>Expected result</p>
-     * <p>Customer successfully registered</p>
-     * <p>Customer Account page is open</p>
      *
      * @param array $testUser
      *
@@ -183,16 +145,6 @@ class Core_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Wrong CAPTCHA in Register Customer page</p>
-     * <p>Preconditions:</p>
-     * <p>1.Enable CAPTCHA on frontend option is set to Yes</p>
-     * <p>2.Display mode is set to Always</p>
-     * <p>3.Forms - "Create user" is selected</p>
-     * <p>Steps:</p>
-     * <p>1.Open Register Customer page</p>
-     * <p>2.Fill all requirement field and wrong captcha</p>
-     * <p>3.Click "Submit" button</p>
-     * <p>Expected result</p>
-     * <p>Show message "Incorrect CAPTCHA."</p>
      *
      * @param array $testUser
      *
@@ -215,16 +167,6 @@ class Core_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Empty CAPTCHA in Login Customer page</p>
-     * <p>Preconditions:</p>
-     * <p>1.Enable CAPTCHA on frontend option is set to Yes</p>
-     * <p>2.Display mode is set to Always</p>
-     * <p>3.Forms - "Create user" is selected</p>
-     * <p>Steps:</p>
-     * <p>1.Open Login Customer page</p>
-     * <p>2.Fill all requirement field and wrong captcha</p>
-     * <p>3.Click "Submit" button</p>
-     * <p>Expected result</p>
-     * <p>Show validation message "This is a required field."</p>
      *
      * @param array $testUser
      *
@@ -244,16 +186,6 @@ class Core_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
 
     /**
      * <p>CAPTCHA showing in Login page after specified number</p>
-     * <p>Preconditions:</p>
-     * <p>1.Enable CAPTCHA on frontend option is set to Yes</p>
-     * <p>2.Display mode is set to "After Number of Attempts to Login"</p>
-     * <p>3.Number of Unsuccessful Attempts to Login - "2"</p>
-     * <p>4.Forms - "Login user" is selected</p>
-     * <p>Steps:</p>
-     * <p>1.Open Register Customer page</p>
-     * <p>2.Try to login with wrong password twice</p>
-     * <p>Expected result</p>
-     * <p>Captcha show after second wrong login</p>
      *
      * @test
      * @TestlinkId TL-MAGE-2671

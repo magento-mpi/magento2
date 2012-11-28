@@ -168,12 +168,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
 
     /**
      * <p>Bug present MAGETWO-2829</p>
-     * <p>Add products to Wishlist from Product Details page. For all types without additional options.</p>
-     * <p>Steps:</p>
-     * <p>1. Open product</p>
-     * <p>2. Add product to wishlist</p>
-     * <p>Expected result:</p>
-     * <p>Success message is displayed</p>
      *
      * @param array $testData
      *
@@ -203,13 +197,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
 
     /**
      * <p>Bug present MAGETWO-2829</p>
-     * <p>Add products to Wishlist from Category page. For all types without additional options.</p>
-     * <p>Steps:</p>
-     * <p>1. Open category</p>
-     * <p>2. Find product</p>
-     * <p>3. Add product to wishlist</p>
-     * <p>Expected result:</p>
-     * <p>Success message is displayed</p>
      *
      * @param array $testData
      *
@@ -238,14 +225,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
 
     /**
      * <p>Bug present MAGETWO-2829</p>
-     * <p>Adds products to Shopping Cart from Wishlist and simple with CO</p>
-     * <p>Steps:</p>
-     * <p>1. Empty the shopping cart</p>
-     * <p>2. Add a product to the wishlist</p>
-     * <p>3. Open the wishlist</p>
-     * <p>4. Click 'Add to Cart' button for each product</p>
-     * <p>Expected result:</p>
-     * <p>The products are in the shopping cart</p>
      *
      * @param array $testData
      *
@@ -280,15 +259,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
 
     /**
      * <p>Bug present MAGETWO-2829</p>
-     * <p>Adds products to Shopping Cart from Wishlist and simple with CO</p>
-     * <p>Steps:</p>
-     * <p>1. Empty the shopping cart</p>
-     * <p>2. Add a product to the wishlist</p>
-     * <p>3. Open the wishlist</p>
-     * <p>4. Click 'Add to Cart' button for each product</p>
-     * <p>Expected result:</p>
-     * <p>The products are not in the shopping cart.
-     *    Message 'Please specify the product's option(s) is displayed'</p>
      *
      * @param array $testData
      * @param string $product
@@ -344,13 +314,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
 
     /**
      * <p>Bug present MAGETWO-2829</p>
-     * <p>Add all types of products to Wishlist from Shopping Cart.</p>
-     * <p>Steps:</p>
-     * <p>1. Add products to the shopping cart</p>
-     * <p>2. Move the products to wishlist</p>
-     * <p>3. Open the wishlist</p>
-     * <p>Expected result:</p>
-     * <p>Products are in the wishlist</p>
      *
      * @param array $testData
      * @param string $product
@@ -403,12 +366,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
 
     /**
      * <p>Bug present MAGETWO-2829</p>
-     * <p>Adds a product with custom options to Wishlist from Product Details page</p>
-     * <p>Steps:</p>
-     * <p>1. Open product</p>
-     * <p>2. Add product to wishlist</p>
-     * <p>Expected result:</p>
-     * <p>Success message is displayed</p>
      *
      * @param array $testData
      *
@@ -432,14 +389,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
 
     /**
      * <p>Bug present MAGETWO-2829</p>
-     * <p>Adds a product with custom options to Shopping Cart from Wishlist without selected options</p>
-     * <p>Steps:</p>
-     * <p>1. Open product</p>
-     * <p>2. Add product to wishlist</p>
-     * <p>3. Open wishlist</p>
-     * <p>4. Add product to Shopping Cart</p>
-     * <p>Expected result:</p>
-     * <p>Success message is displayed. Product is added to Shopping Cart</p>
      *
      * @param array $testData
      *
@@ -467,13 +416,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
 
     /**
      * <p>Bug present MAGETWO-2829</p>
-     * <p>Add simple product with custom options to Wishlist from Shopping Cart.</p>
-     * <p>Steps:</p>
-     * <p>1. Add product to the shopping cart</p>
-     * <p>2. Move the product to wishlist</p>
-     * <p>3. Open the wishlist</p>
-     * <p>Expected result:</p>
-     * <p>Product is in the wishlist</p>
      *
      * @param array $testData
      *

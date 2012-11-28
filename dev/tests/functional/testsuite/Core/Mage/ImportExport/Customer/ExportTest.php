@@ -95,13 +95,6 @@ class Core_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_TestCase
 
     /**
      * Simple Export Master file
-     * Steps
-     * 1. Go to System -> Import/ Export -> Export
-     * 2. Choose Customer (Master) file to export
-     * 3. Click on the Continue button
-     * 4. Save file to your computer
-     * 5. Open it.
-     * Expected: Check that among all customers your customer with attribute is present
      *
      * @test
      * @TestlinkId TL-MAGE-5487
@@ -128,13 +121,6 @@ class Core_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_TestCase
 
     /**
      * Customer Master file export with using some filters
-     * Steps
-     * 1. Go to System -> Import/ Export -> Export
-     * 2. Select "Master Type File"
-     * 3. In the "Filter" column according to you attribute select option that was used in your customer creation
-     * 4. Press "Continue" button and save current file
-     * 5. Open file
-     * Expected: In generated file just your customer with selected option of attribute is present
      *
      * @test
      * @TestlinkId TL-MAGE-5488
@@ -194,16 +180,7 @@ class Core_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_TestCase
 
     /**
      * Verify the search by fields "Attribute Label" and "Attribute Code"
-     * This search should work with each file type
-     * Steps:
-     * 1. Go to System-> Import/Export-> Export
-     * 2. Select file type (Customers Main File/Customer Addresses)
-     * 3. Type in "Attribute Code" field any name that is present in the list ('email'), click 'Search' button
-     * 4. Verify that attribute is found
-     * 5. Click 'Reset filter' button
-     * 6. Type in "Attribute Label" field any name that is present in the list ('Email'), click 'Search' button
-     * 7. Verify that attribute is found
-     * 8. Click 'Reset filter' button
+     *
      * @test
      * @TestlinkId TL-MAGE-5482, TL-MAGE-5483, TL-MAGE-5495, TL-MAGE-5497, TL-MAGE-5496, TL-MAGE-5498
      */
@@ -264,12 +241,6 @@ class Core_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_TestCase
 
     /**
      * Export with skipped some attributes
-     * Steps
-     * 1. Admin is logged in at backend
-     * 2. Select "Master Type File"
-     * 3. Select  "SKIP" checkbox for the row with the attribute Date of Birth (for example)
-     * 4. Press "Continue" button and save file to your computer
-     * 5. Verify exported file
      *
      * @test
      * @TestlinkId TL-MAGE-5489
@@ -292,13 +263,6 @@ class Core_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_TestCase
 
     /**
      * Simple Export Address file
-     * Steps
-     * 1. Go to System -> Import/ Export -> Export
-     * 2. Choose Customer Address file to export
-     * 3. Click on the Continue button
-     * 4. Save file to your computer
-     * 5. Open it.
-     * Expected: Check that among all customers addresses your customer address with attribute is present
      *
      * @test
      * @TestlinkId TL-MAGE-5490
@@ -325,13 +289,6 @@ class Core_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_TestCase
 
     /**
      * Customer Address file export with some filters
-     * Steps
-     * 1. Go to System -> Import/ Export -> Export
-     * 2. Select "Address Type File"
-     * 3. In the "Filter" column select "Male" for the attribute "Gender"
-     * 4. Press "Continue" button and save current file
-     * 5. Open file
-     * Expected: In generated file only "Male" customer presents. The addresses attributes are presented also.
      *
      * @test
      * @TestlinkId TL-MAGE-5504

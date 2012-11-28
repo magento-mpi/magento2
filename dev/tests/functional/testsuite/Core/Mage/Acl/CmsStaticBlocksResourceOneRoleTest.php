@@ -57,7 +57,8 @@ class Core_Mage_Acl_CmsStaticBlocksResourceOneRoleTest extends Mage_Selenium_Tes
     }
 
     /**
-     * <p>Admin with Resource: CMS/Static Blocks has access to CMS/Static Blocks menu. All necessary elements are presented</p>
+     * <p>Admin with Resource: CMS/Static Blocks has access to CMS/Static Blocks menu.</p>
+     * <p>All necessary elements are presented</p>
      *
      * @param $loginData
      * @depends preconditionsForTestCreateAdminUser
@@ -76,7 +77,7 @@ class Core_Mage_Acl_CmsStaticBlocksResourceOneRoleTest extends Mage_Selenium_Tes
         $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
             'Count of Top Navigation Menu elements not equal 1, should be equal');
         // Verify  that necessary elements are present on page
-        $elements= $this->loadDataSet('CmsStaticBlockPageElements','manage_cms_static_blocks_page_elements');
+        $elements= $this->loadDataSet('CmsStaticBlockPageElements', 'manage_cms_static_blocks_page_elements');
         $resultElementsArray = array();
         foreach ($elements as $key => $value) {
             $resultElementsArray = array_merge($resultElementsArray, (array_fill_keys(array_keys($value), $key)));

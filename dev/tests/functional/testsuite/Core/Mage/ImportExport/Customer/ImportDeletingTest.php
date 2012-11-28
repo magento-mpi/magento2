@@ -33,17 +33,6 @@ class Core_Mage_ImportExport_Deleting_CustomerTest extends Mage_Selenium_TestCas
 
     /**
      * Deleting Customer via Customers Main File
-     * Preconditions:
-     * 1. Create two customers in Customers-> Manage Customers
-     * 2. Create .csv file with both customers: first with all attributes, second only with values of unique key
-     * Steps:
-     * 1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customers Main File"
-     * 2. Select "Delete Entities" in selector "Import Behavior"
-     * 3. Choose file from precondition
-     * 4. Press "Check Data"
-     * 5. Press "Import" button
-     * 6. Open Customers-> Manage Customers
-     * Expected: Verify that both customers are absent in the system
      *
      * @test
      * @dataProvider importData
@@ -107,16 +96,6 @@ class Core_Mage_ImportExport_Deleting_CustomerTest extends Mage_Selenium_TestCas
 
     /**
      * Deleting Customer via Customers Main File
-     * Preconditions:
-     * 1. Create two customers in Customers-> Manage Customers
-     * 2. Create .csv file with incorrect email for first customer, with incorrect website for second customer
-     * Steps
-     * 1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customers Main File"
-     * 2. Select "Delete Entities" in selector "Import Behavior"
-     * 3. Choose file from precondition
-     * 4. Press "Check Data"
-     * 5. Open Customers-> Manage Customers
-     * Expected: Verify that both customers are present in the system
      *
      * @test
      * @dataProvider importCustomerData

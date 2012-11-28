@@ -94,8 +94,6 @@ class Core_Mage_ImportExport_CustomActions_AddressTest extends Mage_Selenium_Tes
     /**
      * Custom import: update addresses
      * Need to verify that the customer addresses are updated if the action is "Update"
-     * After steps
-     * Verify that all Customers Addresses information was imported
      *
      * @test
      * @depends preconditionUpdate
@@ -187,10 +185,6 @@ class Core_Mage_ImportExport_CustomActions_AddressTest extends Mage_Selenium_Tes
 
     /**
      * Custom import: not recognized or empty action
-     * If action in csv file is empty or not recognized by the system, 'update' action should be used to corresponding
-     * csv row
-     * After steps:
-     * Verify that all Customers Addresses information was imported
      *
      * @test
      * @depends preconditionEmpty
@@ -323,8 +317,6 @@ class Core_Mage_ImportExport_CustomActions_AddressTest extends Mage_Selenium_Tes
     /**
      * Custom import: delete addresses
      * Verify that deleting customer address via import (custom behavior) works correctly
-     * After steps
-     * Verify that all Customers addresses information was deleted
      *
      * @test
      * @depends preconditionDelete

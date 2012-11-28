@@ -18,9 +18,6 @@ class Core_Mage_AttributeSet_Create_BasedOnMinimalTest extends Mage_Selenium_Tes
 {
     /**
      * <p>Preconditions:</p>
-     * <p>Login to backend as admin</p>
-     * <p>Navigate to Catalog - Attributes - Manage Attribute Sets</p>
-     *
      */
     protected function assertPreConditions()
     {
@@ -31,15 +28,9 @@ class Core_Mage_AttributeSet_Create_BasedOnMinimalTest extends Mage_Selenium_Tes
 
     /**
      * <p>Attribute Set creation - based on Minimal</p>
-     * <p>Steps</p>
-     * <p>1. Press the "Add New Set" button</p>
-     * <p>2. - Input unique value in "Name" field</p>
-     * <p>   - Select "Minimal" in "Based On" dropdown list.</p>
-     * <p>3. Click button "Save Attribute Set"</p>
-     * <p>Expected result</p>
-     * <p>Received the message on successful completion of the attribute set creation</p>
      *
      * @return string
+     *
      * @test
      * @TestlinkId TL-MAGE-5697
      */
@@ -56,13 +47,8 @@ class Core_Mage_AttributeSet_Create_BasedOnMinimalTest extends Mage_Selenium_Tes
 
     /**
      * <p>Verifying attributes, assigned to attribute set </p>
-     * <p>Steps</p>
-     * <p>1. Find created attribute set in Manage Attribute Set grid</p>
-     * <p>2. Click on this line
-     * <p>Expected result</p>
-     * <p>The same system attributes as in Minimal Attribute Set are present in Groups field set:</p>
-     * <p>name, description, short_description, sku, price, status, visibility, price_view, tax_class_id, weight</p>
-     * <p>allow_open_amount, giftcard_amounts</p>
+     *
+     * @param array $setName
      *
      * @test
      * @depends createBasedOnMinimalAttributeSetWithoutChanges

@@ -56,19 +56,6 @@ class Core_Mage_ImportExport_BackwardCompatibility_ExportTest extends Mage_Selen
     /**
      * Has been excluded from functionality scope
      * Need to verify that it is possible search by "Attribute Label" and after pressing "Reset Filter" button
-     * result will be reset (list of all attributes will be displayed)
-     * Steps:
-     * 1. Go to System -> Import/ Export -> Export
-     * 2. In "Entity Type" dropdown field choose "Customers" parameter
-     * 3. In "Export Format Version" dropdown field choose "Magento 1.7 format" parameter
-     * 4. Type in "Attribute Label" field any name that is present in the list
-     * 5. Press "Search" button
-     * 6. Press "Reset Filter" button
-     * 7. Type in "Attribute Code" field any code that is present in the list
-     * 8. Press "Search" button
-     * 9. Press "Reset Filter" button
-     * Expected after steps 5,8: Just corresponding attribute will be displayed
-     * Expected after step 9: Result will be reset and the whole list of attributes will be displayed
      *
      * @test
      * @TestlinkId TL-MAGE-1308, 1309
@@ -116,15 +103,6 @@ class Core_Mage_ImportExport_BackwardCompatibility_ExportTest extends Mage_Selen
     /**
      * Has been excluded from functionality scope
      * Simple Export
-     * Precondition: At least one attribute for your customer must be created
-     * Steps:
-     * 1. Go to System -> Import/ Export -> Export
-     * 2. In "Entity Type" drop-down field choose "Customers" parameter
-     * 3. In "Export Format Version" drop-down choose "Magento 1.7" parameter
-     * 4. Click on the Continue button
-     * 5. Save file to your computer
-     * 6. Open it.
-     * Expected: Check that among all customers your customer with attribute is present
      *
      * @test
      * @return array
@@ -155,17 +133,6 @@ class Core_Mage_ImportExport_BackwardCompatibility_ExportTest extends Mage_Selen
     /**
      * Has been excluded from functionality scope
      * Customer export using some filters
-     * Steps
-     * 1. On backend in System -> Import/ Export -> Export select "Customers" entity
-     * type
-     * 2. In "Entity Type" dropdown field choose "Customers" parameter
-     * 3. In "Export Format Version" dropdown field choose "Magento 1.7" parameter
-     * 4. In the "Filter" column according to you attribute select option that was
-     * used in your customer creation
-     * 5. Press "Continue" button and save current file
-     * 6. Open file
-     * Expected: In generated file just your customer with selected option of
-     * attribute is present
      *
      * @test
      * @depends simpleExportMasterFile
@@ -190,15 +157,6 @@ class Core_Mage_ImportExport_BackwardCompatibility_ExportTest extends Mage_Selen
     /**
      * Has been excluded from functionality scope
      * Export with skipped some attributes
-     * Steps
-     * 1. Go to System -> Import/ Export -> Export
-     * 2. In "Entity Type" drop-down field choose "Customers" parameter
-     * 3. In "Export Format Version" dropdown field choose "Magento 1.7 format" parameter
-     * 4. Select  "SKIP" checkbox for the row with the attribute First Name
-     * 5. In the "Filter" column for the attribute enter customer first name
-     * 6. Press "Continue" button and save file to your computer
-     * 7. Open exported file
-     * Expected: file doesn't contain first name attribute
      *
      * @test
      * @depends simpleExportMasterFile

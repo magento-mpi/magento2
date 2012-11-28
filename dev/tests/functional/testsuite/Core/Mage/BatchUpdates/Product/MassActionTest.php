@@ -20,7 +20,6 @@ class Core_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium_TestC
 {
     /**
      * <p>Preconditions:</p>
-     * <p>Navigate to Catalog -> Manage Products</p>
      */
     protected function assertPreConditions()
     {
@@ -30,11 +29,6 @@ class Core_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium_TestC
 
     /**
      * <p>Deleting products using Batch Updates Negative test</p>
-     * <p>Steps:</p>
-     * <p>1. Select value "Delete" in "Action" dropdown</p>
-     * <p>2. Click button "Submit"</p>
-     * <p>Expected result:</p>
-     * <p>Received the popup message "Please select items.".</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5954
@@ -52,12 +46,6 @@ class Core_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium_TestC
 
     /**
      * <p>Change status products using Batch Updates Negative test</p>
-     * <p>Steps:</p>
-     * <p>1. Select value "Change status" in "Action" dropdown</p>
-     * <p>2. Select value "Disabled" in "Status" dropdown</p>
-     * <p>3. Click button "Submit"</p>
-     * <p>Expected result:</p>
-     * <p>Received the popup message "Please select items.".</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5949
@@ -76,11 +64,6 @@ class Core_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium_TestC
 
     /**
      * <p>Update Attributes products using Batch Updates Negative test</p>
-     * <p>Steps:</p>
-     * <p>1. Select value "Update Attribute" in "Action" dropdown</p>
-     * <p>2. Click button "Submit"</p>
-     * <p>Expected result:</p>
-     * <p>Received the popup message "Please select items.".</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5953
@@ -98,18 +81,6 @@ class Core_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium_TestC
 
     /**
      * <p>Updating created products using Batch Updates</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add Product"</p>
-     * <p>2. Fill in the all required fields</p>
-     * <p>3. Click button "Save"</p>
-     * <p>4. Click button "Add Product"</p>
-     * <p>5. Fill in the all required fields</p>
-     * <p>6. Click button "Save"</p>
-     * <p>7. Select created products by checkboxes"</p>
-     * <p>8. Select value "Change Status" in "Action" dropdown</p>
-     * <p>9. Click button "Submit"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the products has been updated.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5950
@@ -142,20 +113,6 @@ class Core_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium_TestC
 
     /**
      * <p>Updating products attributes using Batch Updates</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add Product"</p>
-     * <p>2. Fill in the all required fields</p>
-     * <p>3. Click button "Save"</p>
-     * <p>4. Click button "Add Product"</p>
-     * <p>5. Fill in the all required fields</p>
-     * <p>6. Click button "Save"</p>
-     * <p>7. Select created products by checkboxes"</p>
-     * <p>8. Select value "Update Attributes" in "Action" dropdown</p>
-     * <p>9. Click button "Submit"</p>
-     * <p>10. Fill in the all fields"</p>
-     * <p>11. Click button "Save""</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the products has been updated.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5952

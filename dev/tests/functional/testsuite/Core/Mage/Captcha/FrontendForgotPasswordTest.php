@@ -40,15 +40,6 @@ class Core_Mage_Captcha_FrontendForgotPasswordTest extends Mage_Selenium_TestCas
 
     /**
      * <p>Enable Captcha on Forgot Password page</p>
-     * <p>Steps:</p>
-     * <p>1.Enable CAPTCHA on frontend option is set to Yes</p>
-     * <p>2.Display mode is set to Always</p>
-     * <p>3.Forms - Forgot Password is selected</p>
-     * <p>3.Open Forgot Password page</p>
-     * <p>Expected result</p>
-     * <p>CAPTCHA image is present</p>
-     * <p>"Please type the letters below" field is present</p>
-     * <p>Reload Captcha image is present</p>
      *
      * @test
      */
@@ -66,16 +57,6 @@ class Core_Mage_Captcha_FrontendForgotPasswordTest extends Mage_Selenium_TestCas
 
     /**
      * <p>Empty CAPTCHA in Forgot Password page</p>
-     * <p>Preconditions:</p>
-     * <p>1.Enable CAPTCHA on frontend option is set to Yes</p>
-     * <p>2.Display mode is set to Always</p>
-     * <p>3.Forms - Forgot Password is selected</p>
-     * <p>Steps:</p>
-     * <p>1.Open Forgot Password page</p>
-     * <p>2.Fill "Email Address" field</p>
-     * <p>2.Click "Submit" button</p>
-     * <p>Expected result</p>
-     * <p>Show validation message "This is a required field."</p>
      *
      * @depends enableCaptcha
      * @test
@@ -97,17 +78,6 @@ class Core_Mage_Captcha_FrontendForgotPasswordTest extends Mage_Selenium_TestCas
 
     /**
      * <p>Wrong CAPTCHA in Forgot Password page</p>
-     * <p>Preconditions:</p>
-     * <p>1.Enable CAPTCHA on frontend option is set to Yes</p>
-     * <p>2.Display mode is set to Always</p>
-     * <p>3.Forms - Forgot Password is selected</p>
-     * <p>Steps:</p>
-     * <p>1.Open Forgot Password page</p>
-     * <p>2.Input correct Email Address</p>
-     * <p>2.Input wrong Captcha in field</p>
-     * <p>3.Click "Submit" button</p>
-     * <p>Expected result</p>
-     * <p>Show error message "Incorrect CAPTCHA."</p>
      *
      * @depends enableCaptcha
      * @test
@@ -128,18 +98,6 @@ class Core_Mage_Captcha_FrontendForgotPasswordTest extends Mage_Selenium_TestCas
 
     /**
      * <p>Correct CAPTCHA in Forgot Password page</p>
-     * <p>Preconditions:</p>
-     * <p>1.Enable CAPTCHA on frontend option is set to Yes</p>
-     * <p>2.Display mode is set to Always</p>
-     * <p>3.Forms - Forgot Password is selected</p>
-     * <p>Steps:</p>
-     * <p>1.Open Forgot Password page</p>
-     * <p>2.Input correct Email Address</p>
-     * <p>2.Input correct Captcha in field</p>
-     * <p>3.Click "Submit" button</p>
-     * <p>Expected result</p>
-     * <p>Login page is open</p>
-     * <p>Show message "If there is an account associated with email you will receive an email with a link to reset your password."</p>
      *
      * @depends enableCaptcha
      * @test
@@ -161,15 +119,6 @@ class Core_Mage_Captcha_FrontendForgotPasswordTest extends Mage_Selenium_TestCas
 
     /**
      * <p>Refreshing CAPTCHA image in Forgot Password page</p>
-     * <p>Preconditions:</p>
-     * <p>1.Enable CAPTCHA on frontend option is set to Yes</p>
-     * <p>2.Display mode is set to Always</p>
-     * <p>3.Forms - Forgot Password is selected</p>
-     * <p>Steps:</p>
-     * <p>1.Open Forgot Password page</p>
-     * <p>2.Click "Refresh" icon on Captcha image </p>
-     * <p>Expected result</p>
-     * <p>CAPTCHA image should be refreshed</p>
      *
      * @depends enableCaptcha
      * @test

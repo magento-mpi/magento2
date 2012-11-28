@@ -317,7 +317,8 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Admin user with Role Sales/Orders/Actions/Credit Memos (+View,Credit Memos) can create Credit Memo for order</p>
+     * <p>Admin user with Role Sales/Orders/Actions/Credit Memos</p>
+     * <p>(+View,Credit Memos) can create Credit Memo for order</p>
      *
      * @param $orderId
      *

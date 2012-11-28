@@ -20,7 +20,6 @@ class Core_Mage_BatchUpdates_Customers_MassActionTest extends Mage_Selenium_Test
 {
     /**
      * <p>Preconditions:</p>
-     * <p>Navigate to Customers -> Manage Customers</p>
      */
     protected function assertPreConditions()
     {
@@ -30,13 +29,6 @@ class Core_Mage_BatchUpdates_Customers_MassActionTest extends Mage_Selenium_Test
 
     /**
      * <p>Subscribe to newsletter created customers using Batch Updates</p>
-     * <p>Steps:</p>
-     * <p>1. Create two customers
-     * <p>2. Select created customers by checkboxes</p>
-     * <p>3. Select value "Subscribe to Newsletter" in action dropdown</p>
-     * <p>4. Click button "Submit"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the customers has been updated.</p>
      *
      * @return array
      * @test
@@ -69,12 +61,6 @@ class Core_Mage_BatchUpdates_Customers_MassActionTest extends Mage_Selenium_Test
 
     /**
      * <p>Unsubscribe  from newsletter customers using Batch Updates</p>
-     * <p>Steps:</p>
-     * <p>1. Select created customers by checkboxes from previous test</p>
-     * <p>8. Select value "Unsubscribe from Newsletter" in action dropdown</p>
-     * <p>9. Click button "Submit"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the customers has been updated.</p>
      *
      * @param array|string $affectedCustomers
      *
@@ -96,13 +82,6 @@ class Core_Mage_BatchUpdates_Customers_MassActionTest extends Mage_Selenium_Test
 
     /**
      * <p>Assign customers to non-default Customer group via Batch Updates</p>
-     * <p>Steps:</p>
-     * <p>1. Select created customers by checkboxes from previous test</p>
-     * <p>2. Select value "Assign a Customer Group" in action dropdown</p>
-     * <p>3. Select non-default Customer group which was created for this test</p>
-     * <p>9. Click button "Submit"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the customers has been updated.</p>
      *
      * @param array|string $affectedCustomers
      *
@@ -130,11 +109,6 @@ class Core_Mage_BatchUpdates_Customers_MassActionTest extends Mage_Selenium_Test
 
     /**
      * <p>Update Attributes customer using Batch Updates Negative test</p>
-     * <p>Steps:</p>
-     * <p>1. Select any value in "Action" dropdown</p>
-     * <p>2. Click button "Submit"</p>
-     * <p>Expected result:</p>
-     * <p>Received the popup message "Please select items.".</p>
      *
      * @param string $actionValue
      * @dataProvider updateAttributesByBatchUpdatesNegativeDataProvider
@@ -163,14 +137,6 @@ class Core_Mage_BatchUpdates_Customers_MassActionTest extends Mage_Selenium_Test
 
     /**
      * <p>Assign customers to default customers group using Batch Updates</p>
-     * <p>Steps:</p>
-     * <p>1. Create two customers
-     * <p>2. Select created customers by checkboxes</p>
-     * <p>3. Select value "Assign a Customer Group" in action dropdown</p>
-     * <p>4. In dropdown "Group" select default groups
-     * <p>5. Click button "Submit"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the customers has been updated.</p>
      *
      * @param array|string $groupValue
      *
@@ -208,5 +174,4 @@ class Core_Mage_BatchUpdates_Customers_MassActionTest extends Mage_Selenium_Test
             array('General')
         );
     }
-
 }

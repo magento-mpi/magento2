@@ -21,7 +21,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
     /**
      * @staticvar string
      */
-    protected static $activeTab = "[contains(@class,'active')]";
+    protected static $_activeTab = "[contains(@class,'active')]";
 
     /**
      * @param array $checkout
@@ -301,7 +301,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
                 }
             }
         }
-        $setXpath = $this->_getControlXpath('pageelement', 'billing_information'). self::$activeTab;
+        $setXpath = $this->_getControlXpath('pageelement', 'billing_information'). self::$_activeTab;
         $errorMessageXpath = $this->getBasicXpathMessagesExcludeCurrent('error');
         $waitCondition = array($this->_getMessageXpath('general_validation'), $errorMessageXpath, $setXpath);
         $this->clickButton('continue_to_billing_information', false);
@@ -397,7 +397,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
         $this->assertMultipleCheckoutPageOpened('billing_information');
         $this->selectPaymentMethod($payment);
         $setXpath = $this->_getControlXpath('pageelement', 'place_order');
-        $waitConditions = array($setXpath . self::$activeTab, $this->_getMessageXpath('general_error'),
+        $waitConditions = array($setXpath . self::$_activeTab, $this->_getMessageXpath('general_error'),
                                 $this->_getMessageXpath('general_validation'));
         $this->clickButton('continue_to_review_order', false);
         $this->waitForElementOrAlert($waitConditions);

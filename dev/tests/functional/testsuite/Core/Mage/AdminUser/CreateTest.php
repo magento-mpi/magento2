@@ -20,8 +20,6 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
-     * <p>Log in to Backend.</p>
-     * <p>Navigate to System -> Permissions -> Users./p>
      */
     protected function assertPreConditions()
     {
@@ -31,12 +29,6 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Test navigation.</p>
-     * <p>Steps:</p>
-     * <p>1. Verify that 'Add New User' button is present and click her.</p>
-     * <p>2. Verify that the create user page is opened.</p>
-     * <p>3. Verify that 'Back' button is present.</p>
-     * <p>4. Verify that 'Save User' button is present.</p>
-     * <p>5. Verify that 'Reset' button is present.</p>
      *
      * @test
      */
@@ -53,16 +45,9 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Admin User (all required fields are filled).</p>
-     * <p>Steps:</p>
-     * <p>1.Go to System-Permissions-Users.</p>
-     * <p>2.Press "Add New User" button.</p>
-     * <p>3.Fill all required fields.</p>
-     * <p>4.Press "Save User" button.</p>
-     * <p>Expected result:</p>
-     * <p>New user successfully saved.</p>
-     * <p>Message "The user has been saved." is displayed.</p>
      *
      * @return array
+     *
      * @test
      * @depends navigationTest
      * @TestlinkId TL-MAGE-3144
@@ -81,13 +66,6 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Admin User. Use user name that already exist</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add New User' button.</p>
-     * <p>2. Fill in 'user name' field by using data that already exist.</p>
-     * <p>3. Fill other required fields by regular data.</p>
-     * <p>4. Click 'Save User' button.</p>
-     * <p>Expected result:</p>
-     * <p>User is not created. Error Message is displayed.</p>
      *
      * @param array $userData
      *
@@ -107,13 +85,6 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Admin User. Use email that already exist</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add New User' button.</p>
-     * <p>2. Fill in 'email' field by using email that already exist.</p>
-     * <p>3. Fill other required fields by regular data.</p>
-     * <p>4. Click 'Save User' button.</p>
-     * <p>Expected result:</p>
-     * <p>User is not created. Error Message is displayed.</p>
      *
      * @param array $userData
      *
@@ -133,14 +104,6 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Admin User with one empty required field.</p>
-     * <p>Steps:</p>
-     * <p>1.Go to System-Permissions-Users.</p>
-     * <p>2.Press "Add New User" button.</p>
-     * <p>3.Fill fields except one required.</p>
-     * <p>4.Press "Save User" button.</p>
-     * <p>Expected result:</p>
-     * <p>New user is not saved.</p>
-     * <p>Message "This is a required field." is displayed.</p>
      *
      * @param string $emptyField
      * @param string $messageCount
@@ -176,15 +139,6 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Admin User (all required fields are filled by special characters).</p>
-     * <p>Steps:</p>
-     * <p>1.Press "Add New User" button.</p>
-     * <p>2.Fill in all required fields by special characters
-     * (except 'email', 'password' and 'password_confirmation' fields).</p>
-     * <p>3.Fill in 'email', 'password' and 'password_confirmation' fields by valid data.</p>
-     * <p>4.Press "Save User" button.</p>
-     * <p>Expected result:</p>
-     * <p>New user is saved.</p>
-     * <p>Message "The user has been saved." is displayed.</p>
      *
      * @test
      * @depends withRequiredFieldsOnly
@@ -214,14 +168,6 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Admin User (all required fields are filled by long value data).</p>
-     * <p>Steps:</p>
-     * <p>1.Go to System-Permissions-Users.</p>
-     * <p>2.Press "Add New User" button.</p>
-     * <p>3.Fill all required fields by long value data (exclude 'email').</p>
-     * <p>4.Press "Save User" button.</p>
-     * <p>Expected result:</p>
-     * <p>New user is not saved.</p>
-     * <p>Message "The user has been saved." is displayed.</p>
      *
      * @test
      * @depends withRequiredFieldsOnly
@@ -255,15 +201,6 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Admin User. Use wrong values for 'password' fields.</p>
-     * <p>Steps:</p>
-     * <p>1.Go to System-Permissions-Users.</p>
-     * <p>2.Press "Add New User" button.</p>
-     * <p>3.Fill all required fields by regular data (exclude 'Password' and 'Password Confirmation').</p>
-     * <p>4.Fill 'Password' and 'Password Confirmation' by wrong values.</p>
-     * <p>5.Press "Save User" button.</p>
-     * <p>Expected result:</p>
-     * <p>New user is not saved.</p>
-     * <p>Error Message is displayed.</p>
      *
      * @param string $wrongPasswords
      * @param string $errorMessage
@@ -300,16 +237,6 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Admin User (with invalid data in the 'email' field).</p>
-     * <p>Steps:</p>
-     * <p>1.Go to System-Permissions-Users.</p>
-     * <p>2.Press "Add New User" button.</p>
-     * <p>3.Fill all required fields by regular data (exclude 'email').</p>
-     * <p>4.Fill 'email' field by invalid data [example: me&you@unknown-domain.com / me&You@com].</p>
-     * <p>5.Press "Save User" button.</p>
-     * <p>Expected result:</p>
-     * <p>New user is not saved.</p>
-     * <p>Message "Please enter a valid email." OR "Please enter a valid email address.
-     * For example johndoe@domain.com." is displayed.</p>
      *
      * @param string $invalidEmail
      *
@@ -339,18 +266,6 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Admin User  (as Inactive).</p>
-     * <p>Steps:</p>
-     * <p>1.Go to System-Permissions-Users.</p>
-     * <p>2.Press "Add New User" button.</p>
-     * <p>3.Fill all required fields.</p>
-     * <p>4.Choose in the 'This account is' dropdown - "Inactive".</p>
-     * <p>5.Press "Save User" button.</p>
-     * <p>Expected result:</p>
-     * <p>New user successfully saved. Message "The user has been saved." is displayed.</p>
-     * <p>6.Log out</p>
-     * <p>7.Log in using created user.</p>
-     * <p>Expected result:</p>
-     * <p>Error Message "This account is inactive." is displayed.</p>
      *
      * @test
      * @depends withRequiredFieldsOnly
@@ -374,18 +289,6 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Admin User (with Admin User Role).</p>
-     * <p>Steps:</p>
-     * <p>1.Go to System-Permissions-Users.</p>
-     * <p>2.Press "Add New User" button.</p>
-     * <p>3.Fill all required fields.</p>
-     * <p>4.Choose in the 'User Role' grid - "Administrators" role.</p>
-     * <p>5.Press "Save User" button.</p>
-     * <p>Expected result:</p>
-     * <p>New user successfully saved. Message "The user has been saved." is displayed</p>
-     * <p>6.Log out</p>
-     * <p>7.Log in using created user.</p>
-     * <p>Expected result:</p>
-     * <p>Logged in to Admin.</p>.
      *
      * @test
      * @depends withRequiredFieldsOnly
@@ -408,17 +311,6 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Admin User (with Admin User Role).</p>
-     * <p>Steps:</p>
-     * <p>1.Go to System-Permissions-Users.</p>
-     * <p>2.Press "Add New User" button.</p>
-     * <p>3.Fill all required fields.</p>
-     * <p>4.Press "Save User" button.</p>
-     * <p>Expected result:</p>
-     * <p>New user successfully saved. Message "The user has been saved." is displayed</p>
-     * <p>6.Log out</p>
-     * <p>7.Log in using created user.</p>
-     * <p>Expected result:</p>
-     * <p>Error Message "Access denied." is displayed.</p>
      *
      * @test
      * @depends withRequiredFieldsOnly

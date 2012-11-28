@@ -102,13 +102,6 @@ class Core_Mage_FlatCatalog_OperationsWithCompareTest extends Mage_Selenium_Test
 
     /**
      * <p>Bug present MAGETWO-2829</p>
-     * <p>Adds a product to Compare Products from Product Details page.</p>
-     * <p>Steps:</p>
-     * <p>1. Open product</p>
-     * <p>2. Add product to Compare Products</p>
-     * <p>Expected result:</p>
-     * <p>Success message is displayed.</p>
-     * <p>Product is displayed in Compare Products pop-up window on About Us page</p>
      *
      * @param array $data
      *
@@ -138,12 +131,6 @@ class Core_Mage_FlatCatalog_OperationsWithCompareTest extends Mage_Selenium_Test
 
     /**
      * <p>Bug present MAGETWO-2829</p>
-     * <p>Adds a products to Compare Products from Category page.</p>
-     * <p>Steps:</p>
-     * <p>1. Open product</p>
-     * <p>2. Add product to Compare Products</p>
-     * <p>Expected result:</p>
-     * <p>Success message is displayed.Products displayed in Compare Products pop-up window</p>
      *
      * @param array $data
      *
@@ -171,14 +158,6 @@ class Core_Mage_FlatCatalog_OperationsWithCompareTest extends Mage_Selenium_Test
 
     /**
      * <p>Bug present MAGETWO-2829</p>
-     * <p>Remove a product from CompareProducts block</p>
-     * <p>Steps:</p>
-     * <p>1. Open product</p>
-     * <p>2. Add two products to CompareProducts</p>
-     * <p>3. Remove products from Compare Products</p>
-     * <p>Expected result:</p>
-     * <p>Success message is displayed</p>
-     * <p>Products should not be displayed in the Compare Products pop-up</p>
      *
      * @param array $data
      *
@@ -203,13 +182,6 @@ class Core_Mage_FlatCatalog_OperationsWithCompareTest extends Mage_Selenium_Test
 
     /**
      * <p>Bug present MAGETWO-2829</p>
-     * <p>Compare Products block is not displayed without products</p>
-     * <p>Steps:</p>
-     * <p>1. Open product</p>
-     * <p>2. Add product to Compare Products</p>
-     * <p>3. Remove product from Compare Products</p>
-     * <p>Expected result:</p>
-     * <p>Compare Products block should be empty</p>
      *
      * @param array $data
      *

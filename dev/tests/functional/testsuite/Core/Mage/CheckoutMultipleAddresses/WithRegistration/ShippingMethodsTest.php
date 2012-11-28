@@ -53,6 +53,7 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_ShippingMethodsTest e
 
     /**
      * @return array
+     *
      * @test
      */
     public function preconditionsForTests()
@@ -68,16 +69,7 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_ShippingMethodsTest e
     }
 
     /**
-     * <p>Steps:</p>
-     * <p>1. Configure settings in System->Configuration</p>
-     * <p>2. Add 2 simple products to the shopping cart</p>
-     * <p>3. Checkout with multiple addresses</p>
-     * <p>4. Add default shipping address when needed. Add new shipping address</p>
-     * <p>5. Set each product to be delivered to a separate address</p>
-     * <p>6. Continue with default billing address, Check/Money payment method and appropriate shipping method</p>
-     * <p>7. Place the order</p>
-     * <p>Expected result:</p>
-     * <p>Two new orders are successfully created.</p>
+     * <p>Configure settings in System->Configuration</p>
      *
      * @param string $shipment
      * @param array $testData
@@ -103,16 +95,7 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_ShippingMethodsTest e
     }
 
     /**
-     * <p>Steps:</p>
-     * <p>1. Configure settings in System->Configuration</p>
-     * <p>2. Add 1 simple product and 1 virtual to the shopping cart</p>
-     * <p>3. Checkout with multiple addresses</p>
-     * <p>4. Add default shipping address when needed. Add new shipping address</p>
-     * <p>5. Set each product to be delivered to a separate address</p>
-     * <p>6. Continue with default billing address, Check/Money payment method and appropriate shipping method</p>
-     * <p>7. Place the order</p>
-     * <p>Expected result:</p>
-     * <p>Two new orders are successfully created.</p>
+     * <p>Configure settings in System->Configuration</p>
      *
      * @param string $shipment
      * @param array $testData

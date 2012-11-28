@@ -460,7 +460,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
                     //@TODO
                     //Remove workaround for getting fails, not skipping tests if shipping methods are not available
                     $this->skipTestWithScreenshot('Shipping Service "' . $shipService . '" is currently unavailable.');
-                    //$this->addVerificationMessage('Shipping Service "' . $shipService . '" is currently unavailable.');
+                    //$this->addVerificationMessage('Shipping Service "'.$shipService . '" is currently unavailable.');
                 }
             } elseif ($this->controlIsPresent('field', 'ship_service_name')) {
                 if ($this->controlIsPresent('radiobutton', 'ship_method')) {

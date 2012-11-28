@@ -34,18 +34,6 @@ class Core_Mage_ImportExport_EmptyValues_AddressTest extends Mage_Selenium_TestC
     }
     /**
      * Empty values for existing attributes in csv for Customer Addresses
-     * Preconditions:
-     * 1. Customer is created. Address is added. Company address attribute has some value
-     * 2. CSV file prepared that contains existing customer address info where Company value is empty
-     * Steps
-     * 1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customer Addresses"
-     * 2. Select "Add/Update Complex Data" in selector "Import Behavior"
-     * 3. Choose file from precondition
-     * 4. Press "Check Data"
-     * 5. Press "Import" button
-     * 6. Open Customers-> Manage Customers
-     * 7. Open customer from precondition
-     * Expected: Verify that Company hasn't been changed or removed in "Addresses" tab
      *
      * @test
      * @dataProvider importData

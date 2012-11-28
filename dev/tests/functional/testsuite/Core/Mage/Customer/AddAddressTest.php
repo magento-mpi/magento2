@@ -52,15 +52,6 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Add address for customer. Fill in only required field.</p>
-     * <p>Steps:</p>
-     * <p>1. Search and open customer.</p>
-     * <p>2. Open 'Addresses' tab.</p>
-     * <p>3. Click 'Add New Address' button.</p>
-     * <p>4. Fill in required fields.</p>
-     * <p>5. Click  'Save Customer' button</p>
-     * <p>Expected result:</p>
-     * <p>Customer address is added. Customer info is saved.</p>
-     * <p>Success Message is displayed</p>
      *
      * @param array $searchData
      *
@@ -83,15 +74,6 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
 
     /**
      * Add Address for customer with one empty required field.
-     * <p>Steps:</p>
-     * <p>1. Search and open customer.</p>
-     * <p>2. Open 'Addresses' tab.</p>
-     * <p>3. Click 'Add New Address' button.</p>
-     * <p>4. Fill in fields except one required.</p>
-     * <p>5. Click  'Save Customer' button</p>
-     * <p>Expected result:</p>
-     * <p>Customer address isn't added. Customer info is not saved.</p>
-     * <p>Error Message is displayed</p>
      *
      * @param string $emptyField
      * @param array $searchData
@@ -147,15 +129,6 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Add address for customer. Fill in only required field. Use this address as Default Billing.</p>
-     * <p>Steps:</p>
-     * <p>1. Search and open customer.</p>
-     * <p>2. Open 'Addresses' tab.</p>
-     * <p>3. Click 'Add New Address' button.</p>
-     * <p>4. Fill in required fields.</p>
-     * <p>5. Click  'Save Customer' button</p>
-     * <p>Expected result:</p>
-     * <p>Customer address is added. Customer info is saved.</p>
-     * <p>Success Message is displayed</p>
      *
      * @param array $searchData
      *
@@ -184,15 +157,6 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Add address for customer. Fill in only required field. Use this address as Default Shipping.</p>
-     * <p>Steps:</p>
-     * <p>1. Search and open customer.</p>
-     * <p>2. Open 'Addresses' tab.</p>
-     * <p>3. Click 'Add New Address' button.</p>
-     * <p>4. Fill in required fields.</p>
-     * <p>5. Click  'Save Customer' button</p>
-     * <p>Expected result:</p>
-     * <p>Customer address is added. Customer info is saved.</p>
-     * <p>Success Message is displayed</p>
      *
      * @param array $searchData
      *
@@ -219,15 +183,6 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Add address for customer. Fill in all fields by using special characters(except the field "country").</p>
-     * <p>Steps:</p>
-     * <p>1. Search and open customer.</p>
-     * <p>2. Open 'Addresses' tab.</p>
-     * <p>3. Click 'Add New Address' button.</p>
-     * <p>4. Fill in fields by long value alpha-numeric data except 'country' field.</p>
-     * <p>5. Click  'Save Customer' button</p>
-     * <p>Expected result:</p>
-     * <p>Customer address is added. Customer info is saved.</p>
-     * <p>Success Message is displayed.</p>
      *
      * @param array $searchData
      *
@@ -255,15 +210,6 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Add address for customer. Fill in only required field. Use max long values for fields.</p>
-     * <p>Steps:</p>
-     * <p>1. Search and open customer.</p>
-     * <p>2. Open 'Addresses' tab.</p>
-     * <p>3. Click 'Add New Address' button.</p>
-     * <p>4. Fill in fields by long value alpha-numeric data except 'country' field.</p>
-     * <p>5. Click  'Save Customer' button</p>
-     * <p>Expected result:</p>
-     * <p>Customer address is added. Customer info is saved.</p>
-     * <p>Success Message is displayed. Length of fields are 255 characters.</p>
      *
      * @param array $searchData
      *

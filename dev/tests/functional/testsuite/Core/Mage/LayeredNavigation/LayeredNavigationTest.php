@@ -20,16 +20,6 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
 {
     /**
      * <p>Creating categories and products</p>
-     * <p>Steps</p>
-     * <p>1. Login to backend
-     * <p>2. Create anchor category
-     * <p>3. Create subcategory under anchor category
-     * <p>4. Create non-anchor category
-     * <p>5. Create subcategory under non-anchor category
-     * <p>6. Create simple product assigned to subcategory under anchor category
-     * <p>7. Create simple product assigned anchor category
-     * <p>Expected Result:</p>
-     * <p>Categories with assigned simple products created</p>
      *
      * @return array
      * @test
@@ -102,12 +92,6 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
 
     /**
      * <p>Checking that layered navigation block present on the non-anchor category page</p>
-     * <p>Steps</p>
-     * <p>1. Go to frontend </p>
-     * <p>2. Navigate to non-anchor category </p>
-     * <p>3. Check layered navigation block </p>
-     * <p>Expected Result:</p>
-     * <p>Layered Navigation block should be present on the page</p>
      *
      * @param array $data
      *
@@ -127,12 +111,6 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
 
     /**
      * <p>Checking that layered navigation block present on the anchor category page</p>
-     * <p>Steps</p>
-     * <p>1. Go to frontend </p>
-     * <p>2. Navigate to anchor category </p>
-     * <p>3. Check layered navigation block </p>
-     * <p>Expected Result:</p>
-     * <p>Layered Navigation block (with link to subcategory) should be present on the page</p>
      *
      * @param array $data
      *
@@ -152,12 +130,6 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
 
     /**
      * <p>Selecting subcategory in anchor category layered navigation block</p>
-     * <p>Steps</p>
-     * <p>1. Go to frontend </p>
-     * <p>2. Navigate to anchor category </p>
-     * <p>3. Click on subcategory in layered navigation block </p>
-     * <p>Expected Result:</p>
-     * <p>Subcategory selected, products assigned to this subcategory displays in product grid</p>
      *
      * @param array $data
      *
@@ -185,10 +157,6 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
 
     /**
      * <p>Removing selected category from the anchor category layered navigation block using Remove button</p>
-     * <p>Steps</p>
-     * <p>1. Click on remove_this_item button </p>
-     * <p>Expected Result:</p>
-     * <p>Subcategory removed from currently_shopping_by block</p>
      *
      * @param array $data
      *
@@ -214,11 +182,6 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
 
     /**
      * <p>Removing selected category from the anchor category layered navigation block using Clear All link</p>
-     * <p>Steps</p>
-     * <p>1. Click on subcategory in layered navigation block </p>
-     * <p>2. Click on Clear All link </p>
-     * <p>Expected Result:</p>
-     * <p>Subcategory removed from currently_shopping_by block</p>
      *
      * @param array $data
      *
@@ -248,12 +211,6 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
 
     /**
      * <p>Selecting dropdown attribute</p>
-     * <p>Steps</p>
-     * <p>1. Go to frontend </p>
-     * <p>2. Navigate to anchor category </p>
-     * <p>3. Click on dropdown attribute in layered navigation block </p>
-     * <p>Expected Result:</p>
-     * <p>Only product with selected dropdown attribute displays in product grid</p>
      *
      * @param array $data
      *
@@ -281,10 +238,6 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
 
     /**
      * <p>Removing selected dropdown attribute using Remove button</p>
-     * <p>Steps</p>
-     * <p>1. Click on remove_this_item button </p>
-     * <p>Expected Result:</p>
-     * <p>Dropdown attribute removed from currently_shopping_by block</p>
      *
      * @param array $data
      *
@@ -310,11 +263,6 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
 
     /**
      * <p>Removing selected dropdown attribute using Clear All link</p>
-     * <p>Steps</p>
-     * <p>1. Click on dropdown attribute in layered navigation block </p>
-     * <p>2. Click on Clear All link </p>
-     * <p>Expected Result:</p>
-     * <p>Dropdown attribute removed from currently_shopping_by block</p>
      *
      * @param array $data
      *
@@ -345,12 +293,6 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
 
     /**
      * <p>Selecting multiselect attribute</p>
-     * <p>Steps</p>
-     * <p>1. Go to frontend </p>
-     * <p>2. Navigate to anchor category </p>
-     * <p>3. Click on multiselect attribute in layered navigation block </p>
-     * <p>Expected Result:</p>
-     * <p>Only product with selected multiselect attribute displays in product grid</p>
      *
      * @param array $data
      *
@@ -378,10 +320,6 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
 
     /**
      * <p>Removing selected multiselect attribute using Remove button</p>
-     * <p>Steps</p>
-     * <p>1. Click on remove_this_item button </p>
-     * <p>Expected Result:</p>
-     * <p>multiselect attribute removed from currently_shopping_by block</p>
      *
      * @param array $data
      *
@@ -407,11 +345,6 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
 
     /**
      * <p>Removing selected dropdown attribute using Clear All link</p>
-     * <p>Steps</p>
-     * <p>1. Click on dropdown attribute in layered navigation block </p>
-     * <p>2. Click on Clear All link </p>
-     * <p>Expected Result:</p>
-     * <p>Dropdown attribute removed from currently_shopping_by block</p>
      *
      * @param array $data
      *
@@ -442,12 +375,6 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
 
     /**
      * <p>Selecting price attribute</p>
-     * <p>Steps</p>
-     * <p>1. Go to frontend </p>
-     * <p>2. Navigate to anchor category </p>
-     * <p>3. Click on price attribute in layered navigation block </p>
-     * <p>Expected Result:</p>
-     * <p>Only product with selected price attribute displays in product grid</p>
      *
      * @param array $data
      *
@@ -474,10 +401,6 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
 
     /**
      * <p>Removing selected price attribute using Remove button</p>
-     * <p>Steps</p>
-     * <p>1. Click on remove_this_item button </p>
-     * <p>Expected Result:</p>
-     * <p>price attribute removed from currently_shopping_by block</p>
      *
      * @param array $data
      *
@@ -503,11 +426,6 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
 
     /**
      * <p>Removing selected price attribute using Clear All link</p>
-     * <p>Steps</p>
-     * <p>1. Click on dropdown attribute in layered navigation block </p>
-     * <p>2. Click on Clear All link </p>
-     * <p>Expected Result:</p>
-     * <p>Price attribute removed from currently_shopping_by block</p>
      *
      * @param array $data
      *

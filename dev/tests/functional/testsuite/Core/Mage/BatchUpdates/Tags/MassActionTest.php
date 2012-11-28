@@ -20,7 +20,6 @@ class Core_Mage_BatchUpdates_Tags_MassActionTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
-     * <p>Navigate to Catalog -> Tags -> All tags</p>
      */
     protected function assertPreConditions()
     {
@@ -37,18 +36,6 @@ class Core_Mage_BatchUpdates_Tags_MassActionTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Updating created tags using Batch Updates</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Tag"</p>
-     * <p>2. Fill in the fields in General Information</p>
-     * <p>3. Click button "Save Tag"</p>
-     * <p>4. Click button "Add New Tag"</p>
-     * <p>5. Fill in the fields in General Information</p>
-     * <p>6. Click button "Save Tag"</p>
-     * <p>7. Select created tags by checkboxes"</p>
-     * <p>8. Select value "Change Status in "Action dropdown"</p>
-     * <p>9. Click button "Submit"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the tags has been updated.</p>
      *
      * @test
      * @TestlinkId
@@ -79,18 +66,6 @@ class Core_Mage_BatchUpdates_Tags_MassActionTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Deleting created tags using Batch Updates</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Tag"</p>
-     * <p>2. Fill in the fields in General Information</p>
-     * <p>3. Click button "Save Tag"</p>
-     * <p>4. Click button "Add New Tag"</p>
-     * <p>5. Fill in the fields in General Information</p>
-     * <p>6. Click button "Save Tag"</p>
-     * <p>7. Select created tags by checkboxes</p>
-     * <p>8. Select value "Delete" in "Action dropdown"</p>
-     * <p>9. Click button "Submit"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the tags has been deleted.</p>
      *
      * @test
      * @TestlinkId

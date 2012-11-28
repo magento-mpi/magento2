@@ -58,16 +58,8 @@ class Core_Mage_Captcha_DisplayingSettingsTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Displaying Mode set to Always for Login form</p>
-     * <p>Steps</p>
-     * <p>1. Configure CAPTCHA for Login form </p>
-     * <p>2. Set Displaying Mode to Always <p/>
-     * <p>3.Log out;</p>
-     * <p4.Fill all mandatory fields including CAPTCHA with correct data and click Login</p>
-     * <p>Expected result:</p>
-     * <p>CAPTCHA is present on the Login page"</p>
      *
      * @test
-     *
      * @TestlinkId TL-MAGE-2722
      */
     public function alwaysModeSet()
@@ -83,16 +75,8 @@ class Core_Mage_Captcha_DisplayingSettingsTest extends Mage_Selenium_TestCase
 
     /**
      * <p>CAPTCHA on the Login form is always available, If 0 is specified</p>
-     * <p>Steps</p>
-     * <p>1. Configure CAPTCHA for Login form </p>
-     * <p>2. Set Displaying Mode to After Number of attempts <p/>
-     * <p>3.  Number of Unsuccessful Attempts to Login - enter 0</p>
-     * <p>4.Log out;</p>
-     * <p>Expected result:</p>
-     * <p> CAPTCHA on the Login form is always available,if 0 is specified</p>
      *
      * @test
-     *
      * @TestlinkId TL-MAGE-2725
      */
     public function withZeroNumberUnsuccessfulAttempts()
@@ -107,16 +91,8 @@ class Core_Mage_Captcha_DisplayingSettingsTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Displaying Mode set to After Number of Attempts for Login form</p>
-     * <p>Steps</p>
-     * <p>1. Configure CAPTCHA for Login form </p>
-     * <p>2. Set Displaying Mode to After Number of attempts <p/>
-     * <p>3. Enter a numeric value  in  "Number of Unsuccessful Attempts to Login" field</p>
-     * <p>4.Log out;</p>
-     * <p>Expected result:</p>
-     * <p>CAPTCHA should not presented in "Login" form"</p>
      *
      * @test
-     *
      * @TestlinkId TL-MAGE-2723
      *
      */
@@ -131,17 +107,8 @@ class Core_Mage_Captcha_DisplayingSettingsTest extends Mage_Selenium_TestCase
 
     /**
      * <p>CAPTCHA showing in Login after specified number</p>
-     * <p>Steps</p>
-     * <p>1. Configure CAPTCHA for Login form </p>
-     * <p>2. Set Displaying Mode to After Number of attempts <p/>
-     * <p>3. Enter Number of Unsuccessful Attempts to Login - enter 2 e.g.</p>
-     * <p>4.Log out;</p>
-     * <p>5.Make three unsuccessful login attempts</p>
-     * <p>Expected result:</p>
-     * <p>CAPTCHA should be showed only after second unsuccessful attempt to Login"</p>
      *
      * @test
-     *
      * @TestlinkId TL-MAGE-2724
      */
     public function showingAfterFewAttempts()
@@ -163,17 +130,8 @@ class Core_Mage_Captcha_DisplayingSettingsTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Displaying enable "Case sensitive" settings - uppercase</p>
-     * <p>Steps</p>
-     * <p>1. Configure CAPTCHA for all forms </p>
-     * <p>2. Type the characters of uppercase into "Symbols used in CAPTCHA" field<p/>
-     * <p>3. Select "Yes" into "Case sensitive" field</p>
-     * <p>3.Log out;</p>
-     * <p>Enter to CAPTCHA the symbols of lowercase</p>
-     * <p>Expected result:</p>
-     * <p>User should not pass CAPTCHA.  Error message "Incorrect CAPTCHA."  should be displayed."</p>
      *
      * @test
-     *
      * @TestlinkId TL-MAGE-2743, TL-MAGE-2746
      */
     public function displayingWithEnableCaseSensitive()
@@ -192,17 +150,8 @@ class Core_Mage_Captcha_DisplayingSettingsTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Displaying "Case Sensitive" configuration (disable)</p>
-     * <p>Steps</p>
-     * <p>1. Configure CAPTCHA for all forms </p>
-     * <p>2. Type the characters of uppercase into "Symbols used in CAPTCHA" field<p/>
-     * <p>3. Select "No" into "Case sensitive" field</p>
-     * <p>3.Log out;</p>
-     * <p>Enter to CAPTCHA the symbols of lowercase</p>
-     * <p>Expected result:</p>
-     * <p> User should  pass CAPTCHA successfully</p>
      *
      * @test
-     *
      * @TestlinkId TL-MAGE-2744, TL-MAGE-2747
      */
     public function displayingDisableCaseSensitive()

@@ -34,12 +34,6 @@ class Core_Mage_Captcha_ConfigValidationTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Wrong value "Number of Symbols"</p>
-     * <p>Steps:</p>
-     * <p>1.Open CAPTCHA tab in System-Configuration->Customer Configuration</p>
-     * <p>2.Input wrong value in "Number of Symbols" field </p>
-     * <p>3.Try Save config</p>
-     * <p>Expected result</p>
-     * <p>"The value is not within the specified range." message is show below field</p>
      *
      * @param string $value
      * @dataProvider wrongNumberOfSymbolsDataProvider
@@ -67,12 +61,6 @@ class Core_Mage_Captcha_ConfigValidationTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Correct value "Number of Symbols"</p>
-     * <p>Steps:</p>
-     * <p>1.Open CAPTCHA tab in System-Configuration->Customer Configuration</p>
-     * <p>2.Input correct value in "Number of Symbols" field </p>
-     * <p>3. Save config</p>
-     * <p>Expected result</p>
-     * <p>Configuration successfully saved</p>
      *
      * @param string $value
      * @dataProvider correctNumberOfSymbolsDataProvider

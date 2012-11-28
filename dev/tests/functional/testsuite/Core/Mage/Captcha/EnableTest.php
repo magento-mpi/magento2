@@ -54,15 +54,8 @@ class Core_Mage_Captcha_EnableTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Enabled - works for Login, Forgot Password in one time</p>
-     * <p>Steps</p>
-     * <p>1. Configure CAPTCHA for all forms </p>
-     * <p>2.Log out;</p>
-     * <p>Expected result:</p>
-     * <p>CAPTCHA is present on the Login page"</p>
-     * <p>CAPTCHA is present on the Forgot Password page"</p>
      *
      * @test
-     *
      * @TestlinkId TL-MAGE-2619
      */
     public function forAllForms()
@@ -75,7 +68,8 @@ class Core_Mage_Captcha_EnableTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->controlIsVisible('button', 'captcha_reload'),
             'There is no "Captcha_reload" button on the page');
         $this->clickControl('link', 'forgot_password');
-        $this->assertTrue($this->controlIsVisible('field', 'captcha_field'), 'There is no "Captcha" field on the page');
+        $this->assertTrue($this->controlIsVisible('field', 'captcha_field'),
+            'There is no "Captcha" field on the page');
         $this->assertTrue($this->controlIsVisible('pageelement', 'captcha'),
             'There is no "Captcha" pageelement on the page');
         $this->assertTrue($this->controlIsVisible('button', 'captcha_reload'),
@@ -84,17 +78,9 @@ class Core_Mage_Captcha_EnableTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Enabled for Admin Login form</p>
-     * <p>Steps</p>
-     * <p>1. Configure CAPTCHA for Admin Login form only</p>
-     * <p>2.Log out</p>
-     * <p>Expected result:</p>
-     * <p>CAPTCHA is present on the Login to Admin page"</p>
-     * <p>CAPTCHA is not present on the Forgot Password page"</p>
      *
      * @test
-     *
      * @TestlinkId TL-MAGE-2614, TL-MAGE-2616
-     *
      */
     public function forAdminLoginForm()
     {
@@ -108,16 +94,8 @@ class Core_Mage_Captcha_EnableTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Enabled  for Admin Forgot Password </p>
-     * <p>Steps</p>
-     * <p>1. Configure CAPTCHA for Admin Forgot Password form only</p>
-     * <p>2.Log out</p>
-     * <p>Expected result:</p>
-     * <p>CAPTCHA is present on the Login to Admin page"</p>
-     * <p>CAPTCHA is not present on the Forgot Password page"</p>
      * @test
-     *
      * @TestlinkId TL-MAGE-2614, TL-MAGE-2616
-     *
      */
     public function forForgotPasswordForm()
     {

@@ -54,11 +54,6 @@ class Core_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_TestCase
 
     /**
      * Export Settings General View
-     * Steps
-     * 1. Go to System -> Import/ Export -> Import
-     * 2. Verify that Entity Type dropdown contains correct values
-     * 3. Verify that Import Behavior dropdown contains correct values according to selected entity type
-     * Expected: dropdowns contain correct values
      *
      * @test
      * @TestlinkId TL-MAGE-5615, TL-MAGE-5712
@@ -100,15 +95,6 @@ class Core_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_TestCase
 
     /**
      * Validation Result block
-     * Verify that Validation Result block will be displayed after checking data of import customer files
-     * Precondition: at least one customer exists,
-     * Customer Main, Address, Finance files must be generated after export
-     * Steps
-     * 1. Go to System -> Import/ Export -> Import
-     * 2. Select Customers Entity Type: Customer Main File/Customer Addresses/Customer Finances
-     * 3. Select file to import
-     * 4. Click "Check Data" button.
-     * Expected: validation and success messages are correct
      *
      * @test
      * @TestlinkId TL-MAGE-5618, TL-MAGE-5619, TL-MAGE-5620
@@ -154,24 +140,6 @@ class Core_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_TestCase
 
     /**
      * Required columns
-     * Steps
-     * 1. Go to System -> Import / Export -> Import
-     * 2. Select Entity Type: Customers Main File
-     * 3. Select Import Behavior: Add/Update Complex Data
-     * 4. Choose file from precondition
-     * 5. Click on Check Data
-     * 6. Click on Import button
-     * 7. Open Customers -> Manage Customers
-     * 8. Open each of imported customers
-     * Expected:
-     * After step 5
-     * Verify that file is valid, the message 'File is valid!' is displayed
-     * After step 6
-     * Verify that import starting. The message 'Import successfully done.' is displayed
-     * After step 7
-     * Verify that imported customers display on customers grid
-     * After step 8
-     * Verify that all Customer information was imported
      *
      * @test
      * @TestlinkId TL-MAGE-5621
@@ -226,18 +194,6 @@ class Core_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_TestCase
 
     /**
      * Not required columns
-     * Verify that all  not required values are imported.
-     * Precondition: at least one customer exists, csv file contains two customers:
-     * existing (with new attribute values) and new one
-     * Steps:
-     * 1. Go to System -> Import/ Export -> Import
-     * 2. In the drop-down "Entity Type" select Customers Main File
-     * 3. In the drop-down "Import Behavior" select "Add/Update Complex Data"
-     * 4. Choose file from precondition and click "Check Data" button
-     * 5. Press "Import" button
-     * 6. Go to Customer-> Manage Customers and open each of imported customers
-     * Expected: values of not required attributes is updated for existing customer,
-     * new customer is added with proper values of not required attributes
      *
      * @test
      * @dataProvider notRequiredColumnsMainData
@@ -310,18 +266,6 @@ class Core_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_TestCase
 
     /**
      * Not required columns
-     * Verify that all  not required values are imported.
-     * Precondition: at least one customer exists,
-     * csv file contains two customers: existing (with new attribute values) and new one
-     * Steps
-     * 1. Go to System -> Import/ Export -> Import
-     * 2. In the drop-down "Entity Type" select Customer Addresses
-     * 3. In the drop-down "Import Behavior" select "Add/Update Complex Data"
-     * 4. Choose file from precondition and click "Check Data" button
-     * 5. Press "Import" button
-     * 6. Go to Customer-> Manage Customers and open each of imported customers
-     * Expected: values of not required attributes is updated for existing customer,
-     * new customer is added with proper values of not required attributes
      *
      * @test
      * @dataProvider notRequiredColumnsAddressData
@@ -393,21 +337,6 @@ class Core_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_TestCase
      * Precondition: two csv files prepared. First one contains two rows: valid customer data (new customer),
      * invalid customer data (non existing website id). Second one contains two rows: valid customer data (new
      * customer), valid customer data (email and website id is the same as in first row)
-     * Steps
-     * 1. Go to System -> Import/ Export -> Import
-     * 2. In the drop-down "Entity Type" select "Customers Main File"
-     * 3. Select "Add/Update Complex Data" Import Behavior
-     * 4. Choose first file from precondition, click "Check Data" button, Press "Import" button
-     * Expected: messages "Invalid value in Website column (website does not exists?) in rows: 2", "Please fix
-     * errors and re-upload file or simply press "Import" button to skip rows with errors" and "Checked rows: 2,
-     * checked entities: 2, invalid rows: 1, total errors: 1"
-     * are displayed
-     * 5. Choose second file from precondition, click "Check Data" button, Press "Import" button
-     * Expected: messages "E-mail is duplicated in import file in rows: 2" and "Please fix errors and re-upload
-     * file or simply press "Import" button to skip rows with errors", "Checked rows: 2, checked entities: 2, invalid
-     * rows: 1, total errors: 1" are displayed
-     * 6. Open imported customers
-     * Expected: valid data information was imported correctly
      *
      * @test
      * @dataProvider partialImportData

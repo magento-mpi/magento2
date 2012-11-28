@@ -32,18 +32,6 @@ class Core_Mage_ImportExport_EmptyValues_CustomerTest extends Mage_Selenium_Test
     }
     /**
      * Empty values for existing attributes in csv for Customers Main File
-     * Preconditions:
-     * 1. Customer is created. Middle name attribute has some value
-     * 2. CSV file prepared that contains existing customer info where middle name attribute value is empty
-     * Steps
-     * 1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customers Main File"
-     * 2. Select "Add/Update Complex Data" in selector "Import Behavior"
-     * 3. Choose file from precondition
-     * 4. Press "Check Data"
-     * 5. Press "Import" button
-     * 6. Open Customers-> Manage Customers
-     * 7. Open customer from precondition
-     * Expected: Verify that customer middle name hasn't been changed or removed
      *
      * @test
      * @dataProvider importData

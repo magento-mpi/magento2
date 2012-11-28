@@ -16,8 +16,8 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_AdvancedSearch_AdvancedSearchTest extends Mage_Selenium_TestCase {
-
+class Core_Mage_AdvancedSearch_AdvancedSearchTest extends Mage_Selenium_TestCase
+{
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
@@ -43,10 +43,6 @@ class Core_Mage_AdvancedSearch_AdvancedSearchTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Execute search with all empty fields</p>
-     * <p>1. Open Advanced Search page.</p>
-     * <p>2. Click 'Search' button.</p>
-     * <p>Expected result:</p>
-     * <p>Error message appears: 'Please specify at least one search term.'</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5993
@@ -61,9 +57,6 @@ class Core_Mage_AdvancedSearch_AdvancedSearchTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Execute search with not existing data.</p>
-     * <p>Fill all field with not existing data.</p>
-     * <p>Expected result:</p>
-     * <p>Error message appears: 'No items were found using the following search criteria'.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5994
@@ -107,9 +100,6 @@ class Core_Mage_AdvancedSearch_AdvancedSearchTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Fill all fields.</p>
-     * <p>Click 'Search' button.</p>
-     * <p>Expected result:</p>
-     * <p>Product is found</p>
      *
      * @param array $productData
      *
@@ -145,9 +135,6 @@ class Core_Mage_AdvancedSearch_AdvancedSearchTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Fill all 'Price_from' and 'Price_to' fields.</p>
-     * <p>Click 'Search' button.</p>
-     * <p>Expected result:</p>
-     * <p>Product is found</p>
      *
      * @param $productData
      *
@@ -173,9 +160,6 @@ class Core_Mage_AdvancedSearch_AdvancedSearchTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Fill all 'Price_from' and 'Price_to' fields with incorrect data.</p>
-     * <p>Click 'Search' button.</p>
-     * <p>Expected result:</p>
-     * <p>Error message with text "Please enter a valid number in this field." will appear</p>
      *
      * @param $productData
      *
@@ -199,9 +183,6 @@ class Core_Mage_AdvancedSearch_AdvancedSearchTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Fill all fields.</p>
-     * <p>Click 'Search' button.</p>
-     * <p>Expected result:</p>
-     * <p>Product is not found</p>
      *
      * @param array $productData
      *
@@ -226,9 +207,6 @@ class Core_Mage_AdvancedSearch_AdvancedSearchTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Fill just one field</p>
-     * <p>Click 'Search' button.</p>
-     * <p>Expected result:</p>
-     * <p>Product is found</p>
      *
      * @param $key
      * @param $val

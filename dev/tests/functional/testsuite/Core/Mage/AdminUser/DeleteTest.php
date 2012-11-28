@@ -30,14 +30,6 @@ class Core_Mage_AdminUser_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Admin User (all required fields are filled).</p>
-     * <p>Steps:</p>
-     * <p>1.Press "Add New User" button.</p>
-     * <p>2.Fill all required fields.</p>
-     * <p>3.Press "Save User" button.</p>
-     * <p>4.Press "Delete User" button.</p>
-     * <p>Expected result:</p>
-     * <p>User successfully deleted.</p>
-     * <p>Message "The user has been deleted." is displayed.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3149

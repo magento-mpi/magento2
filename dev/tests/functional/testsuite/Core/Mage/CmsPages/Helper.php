@@ -273,7 +273,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
      *
      * @return array
      */
-    function searchArray($pageData, $key = null)
+    public function searchArray($pageData, $key = null)
     {
         $found = ($key !== null) ? array_keys($pageData, $key) : array_keys($pageData);
         foreach ($pageData as $value) {

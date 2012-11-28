@@ -107,7 +107,7 @@ class Core_Mage_Acl_CmsPageResourceOneRoleTest extends Mage_Selenium_TestCase
         $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
             'Count of Top Navigation Menu elements not equal 1, should be equal');
         // Verify  that necessary elements are present on page
-        $elements= $this->loadDataSet('CmsPageElements','manage_cms_pages_elements');
+        $elements= $this->loadDataSet('CmsPageElements', 'manage_cms_pages_elements');
         $resultElementsArray = array();
         foreach ($elements as $key => $value) {
             $resultElementsArray = array_merge($resultElementsArray, (array_fill_keys(array_keys($value), $key)));
@@ -172,8 +172,8 @@ class Core_Mage_Acl_CmsPageResourceOneRoleTest extends Mage_Selenium_TestCase
         $this->cmsPagesHelper()->openCmsPage($searchPageData);
         $randomName = array('page_title' => $this->generate('string', 15));
         $this->fillFieldset($randomName, 'page_information_fieldset');
-        $this->addParameter('pageName',$randomName['page_title']);
-        $this->saveAndContinueEdit('button','save_and_continue_edit');
+        $this->addParameter('pageName', $randomName['page_title']);
+        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
         $this->assertMessagePresent('success', 'success_saved_cms_page');
         $this->validatePage('save_and_continue_edit_cms_page');
 

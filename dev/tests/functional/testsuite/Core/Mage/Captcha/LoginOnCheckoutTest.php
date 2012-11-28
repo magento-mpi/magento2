@@ -62,17 +62,6 @@ class Core_Mage_Captcha_LoginOnCheckoutTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Enable Captcha for Login on Checkout</p>
-     * <p>Steps:</p>
-     * <p>1.Enable CAPTCHA on frontend option is set to Yes</p>
-     * <p>2.Display mode is set to Always</p>
-     * <p>3.Forms - "Login" is selected</p>
-     * <p>4.Open Frontend</p>
-     * <p>5.Add any product to shopping cart</p>
-     * <p>6.Proceed to checkout</p>
-     * <p>Expected result</p>
-     * <p>CAPTCHA image is present</p>
-     * <p>"Please type the letters below" field is present</p>
-     * <p>Reload Captcha image is present</p>
      *
      * @param array $testData
      *
@@ -103,13 +92,6 @@ class Core_Mage_Captcha_LoginOnCheckoutTest extends Mage_Selenium_TestCase
     }
     /**
      * <p>Reload Captcha for Login on Checkout</p>
-     * <p>Steps:</p>
-     * <p>1.Open Frontend</p>
-     * <p>2.Add any product to shopping cart</p>
-     * <p>3.Proceed to checkout</p>
-     * <p>4.Click "Refresh" captcha image</p>
-     * <p>Expected result</p>
-     * <p>CAPTCHA image is refreshed</p>
      *
      * @param array $testData
      *
@@ -136,14 +118,6 @@ class Core_Mage_Captcha_LoginOnCheckoutTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Empty Captcha for Login on Checkout</p>
-     * <p>Steps:</p>
-     * <p>1.Open Frontend</p>
-     * <p>2.Add any product to shopping cart</p>
-     * <p>3.Proceed to checkout</p>
-     * <p>4.Fill "Login" form and leave empty captcha field</p>
-     * <p>6.Click "Login" button </p>
-     * <p>Expected result</p>
-     * <p>Show validation message "This is a required field."</p>
      *
      * @param array $testData
      *
@@ -159,21 +133,13 @@ class Core_Mage_Captcha_LoginOnCheckoutTest extends Mage_Selenium_TestCase
         $this->productHelper()->frontOpenProduct($testData['product']);
         $this->productHelper()->frontAddProductToCart();
         $this->clickButton('proceed_to_checkout');
-        $this->fillFieldset($testData['user'],'checkout_method');
+        $this->fillFieldset($testData['user'], 'checkout_method');
         $this->clickButton('login', false);
         //Verification
         $this->assertMessagePresent('validation', 'empty_captcha_user_login');
     }
     /**
      * <p>Wrong Captcha for Login on Checkout</p>
-     * <p>Steps:</p>
-     * <p>1.Open Frontend</p>
-     * <p>2.Add any product to shopping cart</p>
-     * <p>3.Proceed to checkout</p>
-     * <p>4.Fill Login form with wrong Captcha</p>
-     * <p>6.Click "Login" button </p>
-     * <p>Expected result</p>
-     * <p>Show message "Incorrect CAPTCHA."</p>
      *
      * @param array $testData
      *
@@ -191,7 +157,7 @@ class Core_Mage_Captcha_LoginOnCheckoutTest extends Mage_Selenium_TestCase
         $this->productHelper()->frontOpenProduct($testData['product']);
         $this->productHelper()->frontAddProductToCart();
         $this->clickButton('proceed_to_checkout');
-        $this->fillFieldset($testData['user'],'checkout_method');
+        $this->fillFieldset($testData['user'], 'checkout_method');
         $this->clickButton('login');
         //Verification
         $this->assertMessagePresent('error', 'incorrect_captcha');
@@ -199,14 +165,6 @@ class Core_Mage_Captcha_LoginOnCheckoutTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Correct Captcha for Login on Checkout</p>
-     * <p>Steps:</p>
-     * <p>1.Open Frontend</p>
-     * <p>2.Add any product to shopping cart</p>
-     * <p>3.Proceed to checkout</p>
-     * <p>4.Fill Login form with Correct Captcha</p>
-     * <p>6.Click "Login" button </p>
-     * <p>Expected result</p>
-     * <p>Billing Information tab is opened</p>
      *
      * @param array $testData
      *
@@ -224,7 +182,7 @@ class Core_Mage_Captcha_LoginOnCheckoutTest extends Mage_Selenium_TestCase
         $this->productHelper()->frontOpenProduct($testData['product']);
         $this->productHelper()->frontAddProductToCart();
         $this->clickButton('proceed_to_checkout');
-        $this->fillFieldset($testData['user'],'checkout_method');
+        $this->fillFieldset($testData['user'], 'checkout_method');
         $this->clickButton('login');
         //Verification
         $this->checkoutOnePageHelper()->assertOnePageCheckoutTabOpened('billing_information');

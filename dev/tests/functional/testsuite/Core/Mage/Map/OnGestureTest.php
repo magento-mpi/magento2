@@ -20,9 +20,7 @@ class Core_Mage_Map_OnGestureTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
-     * <p>Create subcategory.</p>
-     * <p>Create simple product.</p>
-     * @return string`
+     * @return string
      *
      * @test
      */
@@ -48,13 +46,6 @@ class Core_Mage_Map_OnGestureTest extends Mage_Selenium_TestCase
 
     /**
      * <p>MAP is enabled "On Gesture" and link "Click for Price" is displayed on the Category page in Frontend. </p>
-     * <p>Steps:</p>
-     * <p>1. Login to admin</p>
-     * <p>2. Fill in all required fields.</p>
-     * <p>3. Click 'Save Config' button.</p>
-     * <p>4. Navigate to Frontend in the Category page.</p>
-     * <p>Expected result:</p>
-     * <p>Product price is hidden and the "Click for price" link is displayed.</p>
      *
      * @param string $category
      *

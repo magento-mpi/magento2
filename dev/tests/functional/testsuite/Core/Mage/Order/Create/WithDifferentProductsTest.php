@@ -122,16 +122,6 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
 
     /**
      * <p>Creating order with virtual(simple) product with custom options</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Orders" page;</p>
-     * <p>2. Create new order for new customer;</p>
-     * <p>3. Select virtual product and add it to the order.
-     *       Fill any required information to configure product;</p>
-     * <p>4. Fill in all required information.
-     *       Shipping address fill and shipping methods should be disabled;</p>
-     * <p>5. Click "Submit Order" button;</p>
-     * <p>Expected result:</p>
-     * <p>Order is created;</p>
      *
      * @param string $productType
      * @param string $order
@@ -159,15 +149,6 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
 
     /**
      * <p>Creating order with downloadable products</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Orders" page;</p>
-     * <p>2. Create new order for new customer;</p>
-     * <p>3. Select downloadable product and add it to the order.
-     *       Fill any required information to configure product;</p>
-     * <p>4. Fill in all required information; Shipping methods and address should be disabled;</p>
-     * <p>5. Click "Submit Order" button;</p>
-     * <p>Expected result:</p>
-     * <p>Order is created;</p>
      *
      * @test
      * @TestlinkId	TL-MAGE-3280
@@ -189,15 +170,6 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
 
     /**
      * <p>Creating order with bundled products</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Orders" page;</p>
-     * <p>2. Create new order for new customer;</p>
-     * <p>3. Select bundled product and add it to the order.
-     *       Fill any required information to configure product;</p>
-     * <p>4. Fill in all required information</p>
-     * <p>5. Click "Submit Order" button;</p>
-     * <p>Expected result:</p>
-     * <p>Order is created;</p>
      *
      * @param string $productType
      * @param string $order
@@ -233,15 +205,6 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
 
     /**
      * <p>Creating order with configurable product</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Orders" page;</p>
-     * <p>2. Create new order for new customer;</p>
-     * <p>3. Select configurable product and add it to the order.
-     *       Fill any required information to configure product;</p>
-     * <p>4. Fill in all required information</p>
-     * <p>5. Click "Submit Order" button;</p>
-     * <p>Expected result:</p>
-     * <p>Order is created;</p>
      *
      * @param string $productType
      * @param string $order
@@ -267,15 +230,6 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
 
     /**
      * <p>Creating order with grouped products</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Orders" page;</p>
-     * <p>2. Create new order for new customer;</p>
-     * <p>3. Select group product and add it to the order.
-     *       Fill any required information to configure product;</p>
-     * <p>4. Fill in all required information</p>
-     * <p>5. Click "Submit Order" button;</p>
-     * <p>Expected result:</p>
-     * <p>Order is created;</p>
      *
      * @param string $productType
      * @param string $order

@@ -48,23 +48,6 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create customer via 'Create order' without saving address</p>
-     * <p>Create order.</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales->Orders;</p>
-     * <p>2.Press "Create New Order" button;</p>
-     * <p>3.Press "Create New Customer" button;</p>
-     * <p>4.Choose Store View;</p>
-     * <p>5.Press 'Add Products' button;</p>
-     * <p>6.Add product;</p>
-     * <p>7.Fill in billing address(not check 'save in address book');</p>
-     * <p>8.Choose in shipping address the same as billing
-     *      (not check 'save in address book');</p>
-     * <p>9.Check shipping method;</p>
-     * <p>10.Check payment method 'Check / Money order';</p>
-     * <p>11. Submit order;</p>
-     * <p>Expected result:</p>
-     * <p>New customer successfully created without address.
-     *    Order is created for the new customer</p>
      *
      * @param string $simpleSku
      *
@@ -97,21 +80,6 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create customer via 'Create order' with saving address</p>
-     * <p>Create order.</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales->Orders;</p>
-     * <p>2.Press "Create New Order" button;</p>
-     * <p>3.Press "Create New Customer" button;</p>
-     * <p>4.Choose Store View;</p>
-     * <p>5.Press 'Add Products' button;</p>
-     * <p>6.Add product;</p>
-     * <p>7.Fill in billing address(check 'save in address book');</p>
-     * <p>8.Choose in shipping address the same as billing(check 'save in address book');</p>
-     * <p>9.Check shipping method;</p>
-     * <p>10.Check payment method 'Check / Money order';</p>
-     * <p>11. Submit order;</p>
-     * <p>Expected result:</p>
-     * <p>New customer is created with addresses. Order is created for the new customer;</p>
      *
      * @param string $simpleSku
      *
@@ -151,21 +119,6 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create customer via 'Create order' form (use exist email).</p>
-     * <p>Create order.</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales->Orders;</p>
-     * <p>2.Press "Create New Order" button;</p>
-     * <p>3.Press "Create New Customer" button;</p>
-     * <p>4.Choose Store View;</p>
-     * <p>5.Press 'Add Products' button;</p>
-     * <p>6.Add product;</p>
-     * <p>7.Fill in billing address;</p>
-     * <p>8.Choose in shipping address the same as billing;</p>
-     * <p>9.Check shipping method;</p>
-     * <p>10.Check payment method 'Check / Money order';</p>
-     * <p>11. Submit order;</p>
-     * <p>Expected result:</p>
-     * <p>New customer is not created. Order is not created for the new customer;</p>
      *
      * @param string $simpleSku
      *
@@ -193,21 +146,6 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create customer via 'Create order' form (use long email).</p>
-     * <p>Create order.</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales->Orders;</p>
-     * <p>2.Press "Create New Order" button;</p>
-     * <p>3.Press "Create New Customer" button;</p>
-     * <p>4.Choose Store View;</p>
-     * <p>5.Press 'Add Products' button;</p>
-     * <p>6.Add product;</p>
-     * <p>7.Fill in billing address;</p>
-     * <p>8.Choose in shipping address the same as billing;</p>
-     * <p>9.Check shipping method;</p>
-     * <p>10.Check payment method 'Check / Money order';</p>
-     * <p>11. Submit order;</p>
-     * <p>Expected result:</p>
-     * <p>New customer is not created. Order is not created for the new customer;</p>
      *
      * @param string $simpleSku
      *
@@ -230,21 +168,6 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create customer via 'Create order' form (not correct email).</p>
-     * <p>Create order.</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales->Orders;</p>
-     * <p>2.Press "Create New Order" button;</p>
-     * <p>3.Press "Create New Customer" button;</p>
-     * <p>4.Choose Store View;</p>
-     * <p>5.Press 'Add Products' button;</p>
-     * <p>6.Add product;</p>
-     * <p>7.Fill in billing address;</p>
-     * <p>8.Choose in shipping address the same as billing;</p>
-     * <p>9.Check shipping method;</p>
-     * <p>10.Check payment method 'Check / Money order';</p>
-     * <p>11. Submit order;</p>
-     * <p>Expected result:</p>
-     * <p>New customer is not created. Order is not created for the new customer;</p>
      *
      * @param string $simpleSku
      *
@@ -269,21 +192,6 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create customer via 'Create order' form</p>
-     * <p>Create order.</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales->Orders;</p>
-     * <p>2.Press "Create New Order" button;</p>
-     * <p>3.Press "Create New Customer" button;</p>
-     * <p>4.Choose Store View;</p>
-     * <p>5.Press 'Add Products' button;</p>
-     * <p>6.Add product;</p>
-     * <p>7.Fill in billing address;</p>
-     * <p>8.Choose in shipping address the same as billing;</p>
-     * <p>9.Check shipping method;</p>
-     * <p>10.Check payment method 'Check / Money order';</p>
-     * <p>11. Submit order;</p>
-     * <p>Expected result:</p>
-     * <p>New customer is not created. Order is not created for the new customer;</p>
      *
      * @param string $simpleSku
      *
@@ -306,21 +214,6 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create customer via 'Create order' form.</p>
-     * <p>Create order(all fields are filled).</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales->Orders;</p>
-     * <p>2.Press "Create New Order" button;</p>
-     * <p>3.Press "Create New Customer" button;</p>
-     * <p>4.Choose Store View</p>
-     * <p>5.Press 'Add Products' button;</p>
-     * <p>6.Add product;</p>
-     * <p>7.Fill in billing address(use long values);</p>
-     * <p>8.Fill in shipping address(use long values);</p>
-     * <p>9.Check shipping method;</p>
-     * <p>10.Check payment method 'Check / Money order';</p>
-     * <p>11. Submit order;</p>
-     * <p>Expected result:</p>
-     * <p>New customer is not created. Order is not created for the new customer;</p>
      *
      * @param string $simpleSku
      *

@@ -20,13 +20,8 @@ class Core_Mage_Captcha_DisableTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>CAPTCHA: Disabled CAPTCHA is not displayed for all forms</p>
-     * <p>Steps</p>
-     * <p>1. Enable CAPTCHA on Admin option is set to No</p>
-     * <p>Expected result:</p>
-     * <p> CAPTCHA is not displayed for the forms</p>
      *
      * @test
-     *
      * @TestlinkId TL-MAGE-2599, TL-MAGE-2603
      */
     public function captchaDisable()

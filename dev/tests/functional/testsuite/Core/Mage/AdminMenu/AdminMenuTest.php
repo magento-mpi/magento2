@@ -28,14 +28,6 @@ class Core_Mage_AdminMenu_AdminMenuTest extends Mage_Selenium_TestCase
     /**
      * Verify that  only one top level element has css class="active " when any  of child element is selected.
      *
-     * Preconditions:
-     * 1. The dataset that describe all menu items  is presented ( it should be different fo ee and ce release).
-     * Steps to reproduce:
-     * 1. Navigate menu according to dataset.
-     * 2. Verify that all pages that described in dataset is presented.
-     * 3. Verify that only one top level element(element menu parent level0)
-     *    has [ <li class = "active parent level0"  ..]  and they HTML tag A  = [<a class="active" ..]
-     *
      * @param string $currentPageName
      *
      * @test
@@ -56,6 +48,8 @@ class Core_Mage_AdminMenu_AdminMenuTest extends Mage_Selenium_TestCase
 
     /**
      * Retrieve menu items with their top level parents
+     *
+     * @return array $items
      */
     public function menuItemsWithParentsDataProvider()
     {
