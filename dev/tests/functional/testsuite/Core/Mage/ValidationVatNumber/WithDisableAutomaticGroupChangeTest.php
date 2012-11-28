@@ -38,14 +38,6 @@ class Core_Mage_ValidationVatNumber_WithDisableAutomaticGroupChangeTest extends 
 
     /**
      * <p>Backend customer registration. With checkbox "Disable Automatic Group Change Based on VAT ID"</p>
-     * <p>Steps:</p>
-     * <p>1. Goto on back-end and open Manage Customers area</p>
-     * <p>2. Create new customer with Domestic and IntraUnion address. Add different type of VAT Numbers</p>
-     * <p>3. Check checkbox "Disable Automatic Group Change Based on VAT ID"</p>
-     * <p>4. Save Customer</p>
-     * <p>5. Select your customer and verify value of Group</p>
-     * <p>Expected result:</p>
-     * <p>Customer should be assigned to Default Group</p>
      *
      * @param array $customerData
      * @test

@@ -31,12 +31,6 @@ class Core_Mage_Status_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Test navigation.</p>
-     * <p>Steps:</p>
-     * <p>1. Verify that 'Create New Status' button is present and click her.</p>
-     * <p>2. Verify that the new order status page is opened.</p>
-     * <p>3. Verify that 'Back' button is present.</p>
-     * <p>4. Verify that 'Save Status' button is present.</p>
-     * <p>5. Verify that 'Reset' button is present.</p>
      *
      * @test
      */
@@ -52,13 +46,6 @@ class Core_Mage_Status_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Custom Order Status. Fill in only required fields.</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Create New Status' button.</p>
-     * <p>2. Fill in required fields.</p>
-     * <p>3. Click 'Save Status' button.</p>
-     * <p>Expected result:</p>
-     * <p>Status is created.</p>
-     * <p>Success Message is displayed</p>
      *
      * @test
      * @TestlinkId TL-MAGE-1048
@@ -77,14 +64,6 @@ class Core_Mage_Status_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create New Order Status.  Fill in field 'Code' by using code that already exist.</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Create new Order Status' button.</p>
-     * <p>2. Fill in 'Code' field by using code that already exist.</p>
-     * <p>3. Fill other required fields by regular data.</p>
-     * <p>4. Click 'Save Status' button.</p>
-     * <p>Expected result:</p>
-     * <p>Status is not created.</p>
-     * <p>Error Message is displayed.</p>
      *
      * @param array $statusData
      *
@@ -102,13 +81,6 @@ class Core_Mage_Status_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create New Order Status. Fill in all required fields except one field.</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Create New Order Status' button.</p>
-     * <p>2. Fill in required fields except one field.</p>
-     * <p>3. Click 'Save Order' button.</p>
-     * <p>Expected result:</p>
-     * <p>Status is not created.</p>
-     * <p>Error Message is displayed.</p>
      *
      * @param $emptyField
      *
@@ -141,14 +113,6 @@ class Core_Mage_Status_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create New Status Order. Fill in field 'Label' by using special characters.</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'New Status Order' button.</p>
-     * <p>2. Fill in 'Label' field by special characters.</p>
-     * <p>3. Fill other required fields by regular data.</p>
-     * <p>4. Click 'Save Status' button.</p>
-     * <p>Expected result:</p>
-     * <p>New Status Order is created.</p>
-     * <p>Success Message is displayed</p>
      *
      * @test
      *
@@ -167,14 +131,6 @@ class Core_Mage_Status_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create New Order Status.  Fill in field "Code" by using wrong values.</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'New Order Status' button.</p>
-     * <p>2. Fill in 'Code' field by wrong value.</p>
-     * <p>3. Fill other required fields by regular data.</p>
-     * <p>4. Click 'Save Status' button.</p>
-     * <p>Expected result:</p>
-     * <p>New Order Status is not created.</p>
-     * <p>Error Message is displayed.</p>
      *
      * @param $invalidCode
      *

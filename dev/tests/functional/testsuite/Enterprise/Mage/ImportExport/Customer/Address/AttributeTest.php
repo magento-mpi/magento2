@@ -31,11 +31,6 @@ class Enterprise_Mage_ImportExport_Attribute_AddressTest extends Mage_Selenium_T
 
     /**
      * Add customer address attribute
-     * Steps
-     * 1. Admin is logged in at backend
-     * 2. New Customers Address Attribute is created in
-     * Customers -> Attributes -> Manage Customers Address
-     *    Attributes
      *
      * @test
      * @TestlinkId TL-MAGE-5611
@@ -56,18 +51,6 @@ class Enterprise_Mage_ImportExport_Attribute_AddressTest extends Mage_Selenium_T
 
     /**
      * Simple Export Address file with added address attribute (EE only)
-     *
-     * Preconditions:
-     * 1. Admin is logged in at frontend
-     * 2. Create new customer address attribute in Customers -> Attributes -> Manage Customer Address Attributes
-     * 3. Create new customer
-     *
-     * Steps
-     * 1. Go to System-> Import/Export-> Export
-     * 2. Select "Address Type" file
-     * 3. Click on "Continue" button, save and open CSV file.
-     * Expected: All customer addresses attributes are presented in opening file with new attribute from
-     *    the precondition.
      *
      * @test
      * @param array $attrData
@@ -102,19 +85,6 @@ class Enterprise_Mage_ImportExport_Attribute_AddressTest extends Mage_Selenium_T
 
     /**
      * Simple Export Address file with added address attribute (EE only)
-     *
-     * Preconditions:
-     * 1. Admin is logged in at frontend
-     * 2. Create new customer address attribute in Customers -> Attributes -> Manage Customer Address Attributes
-     * 3. Delete the attribute from precondition 2 in Customers -> Attributes -> Manage Customer Address Attributes
-     *
-     *
-     * Steps
-     * 1. Go to System-> Import/Export-> Export
-     * 2. Select "Address Type" file
-     * 3. Click on "Continue" button, save and open CSV file.
-     * Expected: All customer addresses attributes are presented in opening file except new deleted attribute from
-     *    the precondition.
      *
      * @test
      * @param array $attrData

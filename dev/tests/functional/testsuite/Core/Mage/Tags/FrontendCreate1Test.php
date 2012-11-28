@@ -29,11 +29,6 @@ class Core_Mage_Tags_Frontend1CreateTest extends Core_Mage_Tags_TagsFixtureAbstr
     }
     /**
      * Tag creating with Logged Customer:
-     *  Adding single new tag
-     *  Adding several single new tags
-     *  Adding new tag phrase
-     *  Adding single tag and tag phrase
-     *  Adding approved tag
      *
      * @param string $tags
      * @param string $status
@@ -86,8 +81,6 @@ class Core_Mage_Tags_Frontend1CreateTest extends Core_Mage_Tags_TagsFixtureAbstr
     }
     /**
      * Tag creating with Logged Customer
-     *  Adding already assigned tag by the same customer
-     *  Adding already assigned tag by the another customer
      *
      * @param string $tags
      * @param array $testData

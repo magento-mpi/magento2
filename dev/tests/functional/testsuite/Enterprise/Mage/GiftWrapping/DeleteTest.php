@@ -27,16 +27,6 @@ class Enterprise_Mage_GiftWrapping_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Test Case Test Case TL-MAGE-867: Deleting Gift Wrapping</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Gift Wrapping" page;</p>
-     * <p>2. Open previously created gift wrapping;</p>
-     * <p>3. Press "Delete" button;</p>
-     * <p>4. Cancel deletion;</p>
-     * <p>5. Press "Delete" button;</p>
-     * <p>6. Submit deletion;</p>
-     * <p>Expected Results:</p>
-     * <p>1. Gift wrapping is not deleted;</p>
-     * <p>2. Gift wrapping is deleted;</p>
      *
      * @test
      */
@@ -59,18 +49,6 @@ class Enterprise_Mage_GiftWrapping_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Test Case Test Case TL-MAGE-877: Mass actions with Gift Wrappings (delete) </p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Gift Wrapping" page;</p>
-     * <p>2. Select previously created gift wrapping by checking checkbox;</p>
-     * <p>3. Choose massaction action "Delete";</p>
-     * <p>4. Submit action;</p>
-     * <p>5. Cancel action;</p>
-     * <p>6. Select previously created gift wrapping by checking checkbox;</p>
-     * <p>7. Choose massaction action "Delete";</p>
-     * <p>8. Submit action;</p>
-     * <p>Expected Results:</p>
-     * <p>1. Gift wrapping is not deleted;</p>
-     * <p>2. Gift wrapping is deleted;</p>
      *
      * @test
      */

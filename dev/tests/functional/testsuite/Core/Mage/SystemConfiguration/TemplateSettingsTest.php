@@ -26,13 +26,6 @@ class Core_Mage_SystemConfiguration_TemplateSettingsTest extends Mage_Selenium_T
 
     /**
      * <p>Apply different Email Sender</p>
-     * <p>Steps:</p>
-     * <p>1.Go to System - Configuration - ADVANCED - Admin - Admin User Emails.</p>
-     * <p>2.Click on the "Forgot Password Email Sender" drop-down.</p>
-     * <p>3.Select required email sender and save changes. </p>
-     * <p>4.Request password reset for required admin user and check for email sender.</p>
-     * <p>Expected result:</p>
-     * <p>Email sender is those that was selected.</p>
      *
      * @dataProvider diffEmailSendersAdminTemplateDataProvider
      *
@@ -60,12 +53,6 @@ class Core_Mage_SystemConfiguration_TemplateSettingsTest extends Mage_Selenium_T
 
     /**
      * <p>Change Recovery Link Expiration Period</p>
-     * <p>Steps:</p>
-     * <p>1.Go to System - Configuration - ADVANCED - Admin - Admin User Emails.</p>
-     * <p>2.Change Recovery Link Expiration Period(input wrong value)</p>
-     * <p>3.Try to save changes</p>
-     * <p>Expected result:</p>
-     * <p>Appropriate messages are displayed.</p>
      *
      * @dataProvider diffExpirationPeriodAdminTemplateDataProvider
      *
@@ -101,14 +88,6 @@ class Core_Mage_SystemConfiguration_TemplateSettingsTest extends Mage_Selenium_T
 
     /**
      * <p>Use new custom email template for reset admin password</p>
-     * <p>Steps:</p>
-     * <p>1.Go to System - Transactional Emails</p>
-     * <p>2.Click on the "Add New Template" button and select "Forgot Admin Password Template" on the "Template" drop-down</p>
-     * <p>3.Change template and save this changes</p>
-     * <p>4.Go to System - Configuration - ADVANCED - Admin - Admin User Emails</p>
-     * <p>5.Select required email template in "Forgot Password Email Template" and save configuration. </p>
-     * <p>Expected result:</p>
-     * <p>New template is applied and configuration is successfully saved.<p>
      *
      * @test
      * @TestlinkId TL-MAGE-2073
@@ -133,13 +112,6 @@ class Core_Mage_SystemConfiguration_TemplateSettingsTest extends Mage_Selenium_T
 
     /**
      * <p>Apply different Email Sender</p>
-     * <p>Steps:</p>
-     * <p>1.Go to System - Configuration - CUSTOMERS - Customer Configuration - Password Options.</p>
-     * <p>2.Click on the "Forgot Password Email Sender" drop-down.</p>
-     * <p>3.Select required email sender and save changes. </p>
-     * <p>4.Request password reset for required admin user and check for email sender.</p>
-     * <p>Expected result:</p>
-     * <p>Email sender is those that was selected.<p>
      *
      * @dataProvider diffEmailSendersForCustomerTemplateDataProvider
      *
@@ -168,12 +140,6 @@ class Core_Mage_SystemConfiguration_TemplateSettingsTest extends Mage_Selenium_T
 
     /**
      * <p>Admin can change Recovery Link Expiration Period for Customer Forgot Password Template</p>
-     * <p>Steps:</p>
-     * <p>1.Go to System - Configuration - CUSTOMERS - Customer Configuration - Password Options.</p>
-     * <p>2.Change Recovery Link Expiration Period(input wrong value).</p>
-     * <p>3.Try to save changes.</p>
-     * <p>Expected result:</p>
-     * <p>Appropriate messages are displayed.</p>
      *
      * @dataProvider diffExpirationPeriodForCustomerTemplateDataProvider
      *
@@ -212,14 +178,6 @@ class Core_Mage_SystemConfiguration_TemplateSettingsTest extends Mage_Selenium_T
 
     /**
      * <p>Use new custom email template for reset customer password</p>
-     * <p>Steps:</p>
-     * <p>1.Go to System - Transactional Emails</p>
-     * <p>2.Click on the "Add New Template" button and select "Forgot Password on the "Template" drop-down</p>
-     * <p>3.Change template and save this changes</p>
-     * <p>4.Go to System - Configuration - CUSTOMERS - Customer Configuration - Password Options</p>
-     * <p>5.Select required email template in "Forgot Email Template"/"Remind Email Template" and save configuration. </p>
-     * <p>Expected result</p>
-     * <p>New template is applied and configuration is successfully saved.<p>
      *
      * @dataProvider diffEmailTemplatesDataProvider
      *

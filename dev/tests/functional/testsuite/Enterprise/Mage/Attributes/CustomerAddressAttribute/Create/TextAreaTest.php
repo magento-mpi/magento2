@@ -46,14 +46,6 @@ class Enterprise_Mage_Attributes_CustomerAddressAttribute_TextAreaTest extends M
 
     /**
      * <p>Create "Text Area" type Customer Address Attribute (required fields only)</p>
-     * <p>Steps:</p>
-     * <p>1.Click on "Add New Attribute" button</p>
-     * <p>2.Choose "Text Area" in 'Input Type' dropdown</p>
-     * <p>3.Fill all required fields</p>
-     * <p>4.Click on "Save Attribute" button</p>
-     * <p>Expected result:</p>
-     * <p>New attribute ["Text Area" type] successfully created.</p>
-     * <p>Success message: 'The customer attribute has been saved.' is displayed.</p>
      *
      * @return array
      * @test
@@ -75,15 +67,6 @@ class Enterprise_Mage_Attributes_CustomerAddressAttribute_TextAreaTest extends M
     /**
      * <p>Checking of verification for duplicate of Customer Attributes with similar code
      * Creation of new attribute with existing code.</p>
-     * <p>Steps:</p>
-     * <p>1.Click on "Add New Attribute" button</p>
-     * <p>2.Choose "Text Area" in 'Input Type' dropdown</p>
-     * <p>3.Fill 'Attribute Code' field by code used in test before.</p>
-     * <p>4.Fill other required fields by regular data.</p>
-     * <p>5.Click on "Save Attribute" button</p>
-     * <p>Expected result:</p>
-     * <p>New attribute ["Text Area" type] should not be created.</p>
-     * <p>Error message: 'Attribute with the same code already exists' is displayed.</p>
      *
      * @param array $attrData
      *
@@ -102,14 +85,6 @@ class Enterprise_Mage_Attributes_CustomerAddressAttribute_TextAreaTest extends M
 
     /**
      * <p>Checking validation for required fields are EMPTY</p>
-     * <p>Steps:</p>
-     * <p>1.Click on "Add New Attribute" button</p>
-     * <p>2.Choose "Text Area" in 'Input Type' dropdown</p>
-     * <p>3.Skip filling of one field required and fill other required fields.</p>
-     * <p>4.Click on "Save Attribute" button</p>
-     * <p>Expected result:</p>
-     * <p>New attribute ["Text Area" type] should not be created.</p>
-     * <p>Error JS message: 'This is a required field.' is displayed.</p>
      *
      * @param $emptyField
      * @param $messageCount
@@ -144,16 +119,6 @@ class Enterprise_Mage_Attributes_CustomerAddressAttribute_TextAreaTest extends M
 
     /**
      * <p>Checking validation for valid data in the 'Attribute Code' field</p>
-     * <p>Steps:</p>
-     * <p>1.Click on "Add New Attribute" button</p>
-     * <p>2.Choose "Text Area" in 'Input Type' dropdown</p>
-     * <p>3.Fill 'Attribute Code' field by invalid data [Examples: '0xxx'/'_xxx'/'111x']</p>
-     * <p>4.Fill other required fields by regular data.</p>
-     * <p>5.Click on "Save Attribute" button</p>
-     * <p>Expected result:</p>
-     * <p>New attribute ["Text Area" type] should not be created.</p>
-     * <p>Error JS message: 'Please use only letters (a-z), numbers (0-9) or underscore(_) in
-     * this field, first character should be a letter.' is displayed.</p>
      *
      * @param $wrongAttributeCode
      * @param $validationMessage
@@ -190,15 +155,6 @@ class Enterprise_Mage_Attributes_CustomerAddressAttribute_TextAreaTest extends M
     /**
      * <p>Checking of correct validate of submitting form by using special
      * characters for all fields exclude 'Attribute Code' field.</p>
-     * <p>Steps:</p>
-     * <p>1.Click on "Add New Attribute" button</p>
-     * <p>2.Choose "Text Area" in 'Input Type' dropdown</p>
-     * <p>3.Fill 'Attribute Code' field by regular data.</p>
-     * <p>4.Fill other required fields by special characters.</p>
-     * <p>5.Click on "Save Attribute" button</p>
-     * <p>Expected result:</p>
-     * <p>New attribute ["Text Area" type] successfully created.</p>
-     * <p>Success message: 'The customer attribute has been saved.' is displayed.</p>
      *
      * @test
      * @depends withRequiredFieldsOnly
@@ -227,14 +183,6 @@ class Enterprise_Mage_Attributes_CustomerAddressAttribute_TextAreaTest extends M
 
     /**
      * <p>Checking of correct work of submitting form by using long values for fields filling</p>
-     * <p>Steps:</p>
-     * <p>1.Click on "Add New Attribute" button</p>
-     * <p>2.Choose "Text Area" in 'Input Type' dropdown</p>
-     * <p>3.Fill all required fields by long value alpha-numeric data.</p>
-     * <p>4.Click on "Save Attribute" button</p>
-     * <p>Expected result:</p>
-     * <p>New attribute ["Text Area" type] successfully created.<p>
-     * <p>Success message: 'The customer attribute has been saved.' is displayed.</p>
      *
      * @test
      * @depends withRequiredFieldsOnly

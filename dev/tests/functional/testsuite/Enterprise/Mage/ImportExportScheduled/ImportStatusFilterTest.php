@@ -57,18 +57,7 @@ class Enterprise_Mage_ImportExportScheduled_ExportImportStatusFilterTest_Custome
 
     /**
      * Scheduled Import statuses
-     * Steps:
-     * 1. Create new import with status "Disable"
-     * Result: Import was saved with the status "Disable"
-     * 2. Edit Import - change status to "Enable"
-     * Result: The changes was saved with "Enable" status
-     * 3. Select this Import in grid
-     * 4. Change status to "Disable" with a help "Actions"
-     * Result: Status is changed to "Disable"
-     * 5. Create new import with status disabled
-     * 6. Choose both imports in the grid
-     * 7. Change status to "Enabled" with a help "Actions for both imports"
-     *  Result: Status is changed to "Enabled" for both imports
+     *
      * @test
      * @TestlinkId TL-MAGE-5802
      */
@@ -422,35 +411,7 @@ class Enterprise_Mage_ImportExportScheduled_ExportImportStatusFilterTest_Custome
 
     /**
      * Scheduled Import statuses
-     *  Create Product Import in System-> Import/Export-> Scheduled Import/Export
-     *  Create three customer imports with keyword 'test' in the name
-     *  Create another new customer import with another name
-     *  All imports have different 'entity subtype', 'status', 'frequency','last run date'
-     *  Steps:
-     * 1. On 'Scheduled Import/Export' page in filter 'Entity Type' select 'Products' and press 'Search'
-     *  Result: Only 'product imports' should be displayed in the grid
-     * 2. in filter 'Entity Type' select all customer entity types and press 'Search'
-     * Result: Only 'customer imports' should be displayed in the grid
-     * 3. Select 'Daily' frequency and press 'Search'
-     *  Result: Only the imports with frequency 'Daily' are displayed in the grid
-     * 4. Select 'Weekly' frequency and press 'Search'
-     *  Result: Only the imports with frequency 'Weekly' are displayed in the grid
-     * 5. Select 'Monthly' frequency and press 'Search'
-     *  Result: Only the imports with frequency 'Monthly' are displayed in the grid
-     * 6. In the filter select 'Disabled' status and press 'Search'
-     * Result: Only the imports with status 'Disabled' are displayed in the grid
-     * 7. In the filter select 'Enabled' status and press 'Search'
-     * Result: Only the imports with status 'Enabled' are displayed in the grid
-     * 8. In the filter 'Last Outcome' select 'Pending' and press 'Search'
-     * Result: Only Pending imports  are displayed in the grid
-     * 9. In the filter 'Last Outcome' select 'Successful' and press 'Search'
-     * Result: Only Successful imports  are displayed in the grid
-     * 10. In the filter 'Last Outcome' select 'Failed' and press 'Search'
-     * Result: Only Failed imports  are displayed in the grid
-     * 11. Enter in the grid proper date to the fields 'From' and 'To'
-     * Result: Only imports with this last run date  are displayed in the grid
-     * 12. In grid in the field 'Name' enter 'test' and press 'Search' button
-     * Result: Only imports which have the key 'test' in the name are displayed in the grid
+     *
      * @test
      *
      * @TestlinkId TL-MAGE-5803

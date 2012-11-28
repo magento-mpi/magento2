@@ -65,18 +65,6 @@ class Enterprise_Mage_Rma_ItemAttribute_VerifyOnFrontendTest extends Mage_Seleni
 
     /**
      * <p> Verify that Custom RMA Item Attribute is show on frontend(Show on Frontend = Yes)</p>
-     * <p>Preconditions</p>
-     * <p>1. Customer is registered</p>
-     * <p>2. Order placed and shipment created</p>
-     * <p>Steps</p>
-     * <p>1. Login to Backend</p>
-     * <p>2. Navigate to Sales-RMA-Manage RMA Items Attributes<p>
-     * <p>3. Create new RMA attribute with 'Input Type' = 'Text field','Show on Frontend' = 'Yes' and 'Form to Use' = 'Default EAV Form'</p>
-     * <p>4. Login to Frontend</p>
-     * <p>5. Open "View Order" page for order from preconditions</p>
-     * <p>6. Click "Return" button</p>
-     * <p>Expected result</p>
-     * <p>1. New attribute present on Frontend</p>
      *
      * @param array $testData
      * @param array $attributeType
@@ -118,18 +106,6 @@ class Enterprise_Mage_Rma_ItemAttribute_VerifyOnFrontendTest extends Mage_Seleni
 
     /**
      * <p> Verify that Custom RMA Item Attribute is not show on frontend(Show on Frontend = No)</p>
-     * <p>Preconditions</p>
-     * <p>1. Customer is registered</p>
-     * <p>2. Order placed and shipment created</p>
-     * <p>Steps</p>
-     * <p>1. Login to Backend</p>
-     * <p>2. Navigate to Sales-RMA-Manage RMA Items Attributes<p>
-     * <p>3. Create new RMA attribute with 'Input Type' = 'Text field','Show on Frontend' = 'No' and 'Form to Use' = 'Default EAV Form'</p>
-     * <p>4. Login to Frontend</p>
-     * <p>5. Open "View Order" page for order from preconditions</p>
-     * <p>6. Click "Return" button</p>
-     * <p>Expected result</p>
-     * <p>1. New attribute is missing on Frontend</p>
      *
      * @param array $testData
      * @param array $attributeType
@@ -171,22 +147,6 @@ class Enterprise_Mage_Rma_ItemAttribute_VerifyOnFrontendTest extends Mage_Seleni
 
     /**
      * <p> Verify that System RMA Item Attribute is not show on frontend(Show on Frontend = No)</p>
-     * <p>Preconditions</p>
-     * <p>1. Customer is registered</p>
-     * <p>2. Order placed and shipment created</p>
-     * <p>Steps</p>
-     * <p>1. Login to Backend</p>
-     * <p>2. Navigate to Sales-RMA-Manage RMA Items Attributes<p>
-     * <p>3. Open 'Resolution' attribute</p>
-     * <p>4. Set 'Show on Frontend' = 'No' and save attribute</p>
-     * <p>5. Login to Frontend</p>
-     * <p>6. Open "View Order" page for order from preconditions</p>
-     * <p>7. Click "Return" button</p>
-     * <p>8. Repeat steps 2-7 with other system attribute: Item Condition, Reason to Return</p>
-     * <p>Expected result</p>
-     * <p>1. Attribute is missing on Frontend</p>
-     * <p>Postconditions</p>
-     * <p>1. Set 'Show on Frontend' = 'Yes' in previously edited attribute</p>
      *
      * @param array $attributeLabel
      * @param array $attributeName

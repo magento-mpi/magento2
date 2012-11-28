@@ -37,12 +37,6 @@ class Core_Mage_Tags_BackendCreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating a new tag</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Tag"</p>
-     * <p>2. Fill in the fields in General Information</p>
-     * <p>3. Click button "Save Tag"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the tag has been saved.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3494, TL-MAGE-2348
@@ -62,12 +56,6 @@ class Core_Mage_Tags_BackendCreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating a new tag in backend with empty required fields.</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Tag"</p>
-     * <p>2. Fill in the fields in General Information, but leave tag name empty</p>
-     * <p>3. Click button "Save Tag"</p>
-     * <p>Expected result:</p>
-     * <p>Received error message "This is a required field"</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3496
@@ -85,13 +73,6 @@ class Core_Mage_Tags_BackendCreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating a new tag with special values (long, special chars).</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Tag"</p>
-     * <p>2. Fill in the fields in General Information</p>
-     * <p>3. Click button "Save Tag"</p>
-     * <p>4. Open the tag</p>
-     * <p>Expected result:</p>
-     * <p>All fields has the same values.</p>
      *
      * @param array $specialValue
      *
@@ -125,19 +106,6 @@ class Core_Mage_Tags_BackendCreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating a tag and assign it to a product as administrator</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Tag"</p>
-     * <p>2. Fill in the fields in General Information</p>
-     * <p>3. Click button "Save and Continue Edit"</p>
-     * <p>4. Fill in Products Tagged by Administrators</p>
-     * <p>5. Click button "Save Tag"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the tag has been saved.</p>
-     * <p>Steps:</p>
-     * <p>6. Go to the product settings</p>
-     * <p>7. Open Product Tags tab</p>
-     * <p>Expected result:</p>
-     * <p>The assigned tag is displayed.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3495

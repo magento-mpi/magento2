@@ -46,12 +46,6 @@ class Core_Mage_Status_AssignTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Test navigation.</p>
-     * <p>Steps:</p>
-     * <p>1. Verify that 'Assign Status to State' button is present and click it.</p>
-     * <p>2. Verify that the Assign Order Status to State page is opened.</p>
-     * <p>3. Verify that 'Back' button is present.</p>
-     * <p>4. Verify that 'Save Status Assignment' button is present.</p>
-     * <p>5. Verify that 'Reset' button is present.</p>
      *
      * @test
      */
@@ -68,14 +62,6 @@ class Core_Mage_Status_AssignTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Assign Custom Order Status to State</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Assign Status to State' button.</p>
-     * <p>2. Select Order Status from Order Status drop-down</p>
-     * <p>3. Select Order State from Order State drop-down</p>
-     * <p>4. Press 'Save Status Assignment' button
-     * <p>Expected result:</p>
-     * <p>Status is assigned</p>
-     * <p>Success Message is displayed</p>
      *
      * @test
      * @depends newOrderStatusCreate
@@ -92,13 +78,6 @@ class Core_Mage_Status_AssignTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Assign Order Status. Fill in all required fields except one field.</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Assign Status to State' button.</p>
-     * <p>2. Fill in required fields except one field.</p>
-     * <p>3. Click 'Save Status Assignment' button.</p>
-     * <p>Expected result:</p>
-     * <p>Status is not assigned.</p>
-     * <p>Error Message is displayed.</p>
      *
      * @param $emptyField
      * @param $fieldType

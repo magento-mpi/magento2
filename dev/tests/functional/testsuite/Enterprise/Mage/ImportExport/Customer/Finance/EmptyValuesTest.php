@@ -32,24 +32,8 @@ class Enterprise_Mage_ImportExport_EmptyValues_FinanceTest extends Mage_Selenium
     }
     /**
      * Empty values for existing attributes in csv for Customer Finances
-     * Preconditions:
-     * 1. Create two customers
-     * 2. Add some values to Reward Points and Store Credit for both customers
-     * 3. CSV file prepared that contains:<br>
-     * empty columns Reward Points and Store Credit for first customer<br>
-     * value "0" in columns Reward Points and Store Credit for second customer
-     * Steps
-     * 1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customer Finances"
-     * 2. Select "Add/Update Complex Data" in selector "Import Behavior"
-     * 3. Choose file from precondition
-     * 4. Press "Check Data"
-     * 5. Press "Import" button
-     * 6. Open Customers-> Manage Customers
-     * 7. Open customers from precondition
-     * Expected: Customer1 has values as in precondition. Customer2 has "0" for Reward Points and Store Credit
      *
      * @test
-     * @ author irina.glazunova
      * @dataProvider importData
      * @TestlinkId TL-MAGE-5644
      */

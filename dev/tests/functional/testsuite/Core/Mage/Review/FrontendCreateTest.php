@@ -74,19 +74,6 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
     /**
      * <p>Adding Review to product with Not Logged Customer<p>
      *
-     * <p>1. Goto Frontend</p>
-     * <p>2. Open created product</p>
-     * <p>3. Add Review to product</p>
-     * <p>4. Submit review</p>
-     * <p>Expected result:</p>
-     * <p>Success message appears - "Your review has been accepted for moderation."</p>
-     *
-     * <p>Verification:</p>
-     * <p>1. Login to backend;</p>
-     * <p>2. Navigate to Catalog -> Reviews and Ratings -> Customer Reviews -> Pending Reviews;</p>
-     * <p>Expected result:</p>
-     * <p>Review is present into the list and has type - "Guest";</p>
-     *
      * @param array $data
      *
      * @test
@@ -117,20 +104,6 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Adding Review with raring to product with Not Logged Customer<p>
-     *
-     * <p>1. Goto Frontend</p>
-     * <p>2. Select Store View</p>
-     * <p>2. Open created product</p>
-     * <p>3. Add Review with rating to product</p>
-     * <p>4. Submit review</p>
-     * <p>Expected result:</p>
-     * <p>Success message appears - "Your review has been accepted for moderation."</p>
-     *
-     * <p>Verification:</p>
-     * <p>1. Login to backend;</p>
-     * <p>2. Navigate to Catalog -> Reviews and Ratings -> Customer Reviews -> Pending Reviews;</p>
-     * <p>Expected result:</p>
-     * <p>Review is present into the list and has type - "Guest";</p>
      *
      * @param array $data
      *
@@ -163,18 +136,6 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Review creating with Logged Customer</p>
-     *
-     * <p>1. Login to Frontend</p>
-     * <p>2. Open created product</p>
-     * <p>3. Add Review to product</p>
-     * <p>4. Check confirmation message</p>
-     * <p>5. Goto "My Account"</p>
-     * <p>6. Check tag displaying in "My Recent Reviews"</p>
-     * <p>7. Goto "My Product Reviews" tab</p>
-     * <p>8. Check review displaying on the page</p>
-     * <p>9. Open current review - page with assigned product opens</p>
-     * <p>Expected result:</p>
-     * <p>Review is assigned to correct product</p>
      *
      * @param array $data
      *
@@ -214,12 +175,6 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
     /**
      * <p>Review creating empty fields</p>
      *
-     * <p>1. Open Frontend</p>
-     * <p>2. Open created product</p>
-     * <p>3. Add Information to the Review of the product, but with one empty field (via data provider)</p>
-     * <p>Expected result:</p>
-     * <p>Review is not created. Empty Required Field message appears.</p>
-     *
      * @param string $emptyFieldName
      * @param array $data
      *
@@ -254,12 +209,6 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Review creating with Logged Customer with special characters in fields</p>
-     *
-     * <p>1. Login to Frontend</p>
-     * <p>2. Open created product</p>
-     * <p>3. Add Information to the Review of the product use special(long) values</p>
-     * <p>Expected result:</p>
-     * <p>Review is created. Review can be opened on the backend.</p>
      *
      * @param string $reviewData
      * @param array $data

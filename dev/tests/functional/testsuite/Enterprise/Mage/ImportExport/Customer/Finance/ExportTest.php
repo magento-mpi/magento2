@@ -32,13 +32,6 @@ class Enterprise_Mage_ImportExport_Export_FinanceTest extends Mage_Selenium_Test
 
     /**
      * Simple Export Finance file
-     * Steps
-     * 1. Go to System -> Import/ Export -> Export
-     * 2. Choose Customer Finance file to export
-     * 3. Click on the Continue button
-     * 4. Save file to your computer
-     * 5. Open it.
-     * Expected: Check that among all customers your customer with attribute is present
      *
      * @test
      * @TestlinkId TL-MAGE-5491

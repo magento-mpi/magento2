@@ -44,10 +44,6 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
 
     /**
      * <p>Choose Scope selector is displayed on the Manage Page Hierarchy page</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Pages Hierarchy page</p>
-     * <p>Expected result:</p>
-     * <p>There is "Choose Scope" selector  on the page</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -62,13 +58,6 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
 
     /**
      * <p>All references to Website-Store-Store View are displayed in the Widget area</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Widget Instances page</p>
-     * <p>2. Click "Add New Widget Instance" button</p>
-     * <p>3. Fill Settings fields</p>
-     * <p>4. Click "Continue"</p>
-     * <p>Expected result:</p>
-     * <p>There is "Assign to Store Views" selector in the Frontend Properties tab</p>
      *
      * @param string $dataWidgetType
      * @dataProvider widgetTypesDataProvider
@@ -101,14 +90,6 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
 
     /**
      * <p>All references to Website-Store-Store View are displayed in the Banner area</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Banners page</p>
-     * <p>2. Click "Add Banner" button</p>
-     * <p>3. Choose Content tab</p>
-     * <p>4. Click "Back" button
-     * <p>Expected result:</p>
-     * <p>There is "Store View Specific Content" fieldset in the Content tab</p>
-     * <p>There is "Visible In" column on the page</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -131,12 +112,6 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
 
     /**
      * <p>All references to Website-Store-Store View are displayed in the Customer Segments area</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Segments page</p>
-     * <p>2. Click "Add Segment" button</p>
-     * <p>Expected result:</p>
-     * <p>There is "Website" column on the page</p>
-     * <p>There is "Assigned to Website" multiselector on the page</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -156,28 +131,6 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
 
     /**
      * <p>Edit Customer Page</p>
-     * <p>Magento contain only one store view</p>
-     * <p>Customer is created</p>
-     * <p>Single store mode (System->Configuration->General->General->Single-Store Mode) is enabled</p>
-     * <p>Steps</p>
-     * <p>1. Login to Backend</p>
-     * <p>2. Go to Customer->Manege Customer</p>
-     * <p>3. Open customer profile</p>
-     * <p>4. Verify that:</p>
-     * <p>Sales statistic grid contain "Website", "Store", "Store View" columns</p>
-     * <p>Account information tab contain "Associate to Website" dropdown</p>
-     * <p>Table on Orders tab is contain "Bought From" column</p>
-     * <p>Table on Recurring Profile is contain "Store" column</p>
-     * <p>Table on Wishlist tab is contain "Added From" column</p>
-     * <p>Table on Product Review tab is contain "Visible In" Column</p>
-     * <p>ONLY FOR EE</p>
-     * <p> Reward Points grid contain "website" column</p>
-     * <p> Store Credit grid contain 'Website' column</p>
-     * <p> Store credit tab contain "website" drtopdown in 'Update balance' fieldset and filter "Website" in Balance History</p>
-     * <p>Gift registry tab contain 'Website' filter</p>
-     * <p>Reward Points tab contain "website" drtopdown in 'Update balance' fieldset and filter "Website" in Balance History</p>
-     * <p>Expected Result</p>
-     * <p>1. All of the above elements are present</p>
      *
      * @param $userData
      * @depends preconditionsForTests
@@ -231,19 +184,6 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
 
     /**
      * <p>All references to Website-Store-Store View are displayed in the Gift Card Account area.</p>
-     * <p>Steps:</p>
-     * <p>1. Login to Backend.</p>
-     * <p>2. Navigate to System - Manage Stores.</p>
-     * <p>3. If there more one Store View - delete except Default Store View.</p>
-     * <p>4. Navigate System Configuration - Single Store Mode.</p>
-     * <p>5. Configure Enable Single-Store Mode - No.</p>
-     * <p>6. Navigate to Manage Gift Card Accounts page.</p>
-     * <p>7. Click "Add Gift Card Account" button.</p>
-     * <p>8. Navigate to Send Gift Cart tab.</p>
-     * <p>Expected result:</p>
-     * <p>There is "Website" column on the page.</p>
-     * <p>There is "Website" multi selector on the page.</p>
-     * <p>There is "Send Email from the Following Store View" multi selector in the tab.</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -268,18 +208,7 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
 
     /**
      * <p>Catalog Price Rules page contains websites columns and multiselects</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Promotions - Catalog Price Rules
-     * <p>2.Check for Website column on the Grid.
-     * <p>Expected result: </p>
-     * <p>Website column is displayed.</p>
-     * <p>3.Click on the Add New Rule button.</p>
-     * <p>4.Check for Websites multiselect</p>
-     * <p>Expected result: </p>
-     * <p>Websites multiselect is displayed.</p>
-     * <p>5.Click on the Related Banners tab and check "Visible In" column</p>
-     * <p>Expected result: </p>
-     * <p>"Visible In" column is displayed</p>
+     *
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-6262
@@ -303,18 +232,6 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
 
     /**
      * <p>Shopping Cart Price Rules page contains websites columns and multiselects</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Promotions - Shopping Cart Price Rules</p>
-     * <p>2.Check for Website column on the Grid.</p>
-     * <p>Expected result: </p>
-     * <p>Website column is displayed.</p>
-     * <p>3.Click on the Add New Rule button.</p>
-     * <p>4.Check for Websites multiselect</p>
-     * <p>Expected result: </p>
-     * <p>Websites multiselect is displayed.</p>
-     * <p>5.Click on the Related Banners tab and check "Visible In" column</p>
-     * <p>Expected result: </p>
-     * <p>"Visible In" column is displayed</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -339,17 +256,6 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
 
     /**
      * <p>All references to Website-Store-Store View are displayed in the Reward Exchange Rates area</p>
-     * <p>Steps:<p/>
-     * <p>1. Login to Backend.</p>
-     * <p>2. Navigate to System - Manage Stores.</p>
-     * <p>3. If there more one Store View - delete except Default Store View.</p>
-     * <p>4. Navigate System Configuration - Single Store Mode.</p>
-     * <p>5. Configure Enable Single-Store Mode - No.</p>
-     * <p>6. Navigate to Manage Reward Exchange Rates page.</p>
-     * <p>7. Click "Add New Rate" button.</p>
-     * <p>Expected result:</p>
-     * <p>There is "Website" column on the page.</p>
-     * <p>There is "Website" multi selector on the page.</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -368,17 +274,6 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
 
     /**
      * <p>All references to Website-Store-Store View are displayed in the Gift Wrapping area.</p>
-     * <p>Steps:</p>
-     * <p>1. Login to Backend.</p>
-     * <p>2. Navigate to System - Manage Stores.</p>
-     * <p>3. If there more one Store View - delete except Default Store View.</p>
-     * <p>4. Navigate System Configuration - Single Store Mode.</p>
-     * <p>5. Configure Enable Single-Store Mode - No.</p>
-     * <p>6. Navigate to Manage Gift Wrapping page.</p>
-     * <p>7. Click "Add Gift Wrapping" button.</p>
-     * <p>Expected result:</p>
-     * <p>There is "Websites" column on the page.</p>
-     * <p>There is "Websites" multi selector on the page.</p>
      *
      * @test
      * @depends preconditionsForTests

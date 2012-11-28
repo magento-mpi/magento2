@@ -114,49 +114,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
     }
 
     /**
-     * <p>Preconditions:</p>
-     * <ol>
-     * <li>Simple product is created;</li>
-     * <li>Customer is created;</li>
-     * <li>Gift wrapping is created;</li>
-     * <li>Gift wrapping and messages On Item Level are set to "No" in system configuration.</li>
-     * <li>Gift wrapping and messages On Order Level are set to "Yes" in system configuration.</li>
-     * <li>Gift wrapping and messages are set to "Yes" in product settings for product#1 only.</li>
-     * </ol>
-     * <p>Steps:</p>
-     * <ol>
-     * <li>Log into Frontend;</li>
-     * <li>Add one product to shopping cart;</li>
-     * <li>Click "Checkout with Multiple Addresses" link;</li>
-     * <li>Select different shipping addresses for items;</li>
-     * <li>Click button "Continue to shipping information";</li>
-     * <li>Select "Flat Rate" shipping method for item;</li>
-     * <li>Check "Add gift options" checkbox;</li>
-     * <li>Check "Add Gift Options for Entire Order" checkbox;</li>
-     * <li>Select Gift Wrapping from "Gift Wrapping Design" dropdown;</li>
-     * <li>Click "Gift Message" link for entire order;</li>
-     * <li>Add gift message for entire order;</li>
-     * <li>Check "Add gift options for Individual Items" checkbox in the second item.</li>
-     * <li>Select Gift Wrapping from "Gift Wrapping Design" dropdown for item;</li>
-     * <li>Click "Gift Message" link for individual item;</li>
-     * <li>Add gift message for individual item;</li>
-     * <p>Expected Results:</p>
-     * <ol><li>
-     * For product#1 with settings on product level:
-     * "Add Gift Options for Individual Items" checkbox is present;
-     * "Gift Wrapping" for Individual Items is present;
-     * "Gift Message" for Individual Items is present;
-     * "Add Gift Options for the Entire Order" checkbox is present;
-     * "Gift Wrapping" for Entire Order is present;
-     * "Gift Message" for Entire Order  is present;
-     * </li>
-     * <li>
-     * For product#2 without settings on product level:
-     * "Add Gift Options for the Entire Order" checkbox is present;
-     * "Gift Wrapping" for Entire Order is present:
-     * "Gift Message" for Entire Order is present;
-     * "Add Gift Options for Individual Items" checkbox isn't present;
-     * </li></ol>
      *
      * @param array $testData
      *
@@ -196,36 +153,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
     }
 
     /**
-     * <p>Preconditions:</p>
-     * <ol>
-     * <li>Simple products are created;</li>
-     * <li>Customer is created;</li>
-     * <li>Gift wrapping and messages On Item Level are set to "Yes" in system configuration.</li>
-     * <li>Gift wrapping and messages On Order Level are set to "No" in system configuration.</li>
-     * <li>Gift wrapping and messages are set to "No" in product settings for product#1 only.</li>
-     * </ol>
-     * <p>Steps:</p>
-     * <ol>
-     * <li>Log into Frontend;</li>
-     * <li>Add 2 different products to the shopping cart;</li>
-     * <li>Click "Checkout with Multiple Addresses" link;</li>
-     * <li>Select different shipping addresses for items;</li>
-     * <li>Click button "Continue to shipping information";</li>
-     * <li>Select "Flat Rate" shipping methods for items;</li>
-     * </ol>
-     * <p>Expected Results:</p>
-     * <ol><li>
-     * For product#1 with settings on product level:
-     * "Add Gift Options for Individual Items" checkbox isn't present;
-     * "Add Gift Options for the Entire Order" checkbox isn't present;
-     * </li>
-     * <li>
-     * For product#2 without settings on product level:
-     * "Add Gift Options for the Entire Order" checkbox isn't present;
-     * "Add Gift Options for Individual Items" checkbox is present;
-     * "Gift Wrapping" for Individual Items is present;
-     * "Gift Message" for Individual Items is present;
-     * </li></ol>
      *
      * @param array $testData
      *
@@ -261,40 +188,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
     }
 
     /**
-     * <p>Preconditions:</p>
-     * <ol>
-     * <li>Simple products are created;</li>
-     * <li>Customer is created;</li>
-     * <li>Gift wrapping and messages On Item Level are set to "Yes" in system configuration.</li>
-     * <li>Gift wrapping and messages On Order Level are set to "Yes"/"No"(multiple cases) in system configuration</li>
-     * <li>Gift wrapping and messages are set to "No" in product settings for product#1 only.</li>
-     * </ol>
-     * <p>Steps:</p>
-     * <ol>
-     * <li>Log into Frontend;</li>
-     * <li>Add 2 different products to the shopping cart;</li>
-     * <li>Click "Checkout with Multiple Addresses" link;</li>
-     * <li>Select different shipping addresses for items;</li>
-     * <li>Click button "Continue to shipping information";</li>
-     * <li>Select "Flat Rate" shipping methods for items;</li>
-     * </ol>
-     * <p>Expected Results:</p>
-     * <ol><li>
-     * For product#1 with settings on product level:
-     * "Add Gift Options for Individual Items" checkbox is present;
-     * "Gift Wrapping" for Individual Items is present;
-     * "Gift Message" for Individual Items is present;
-     * "Add Gift Options for the Entire Order" checkbox is present;
-     * "Gift Wrapping" for Entire Order is/isn't present;
-     * "Gift Message" for Entire Order isn't/is present;
-     * </li>
-     * <li>
-     * For product#2 without settings on product level:
-     * "Add Gift Options for the Entire Order" checkbox is present;
-     * "Gift Wrapping" for Entire Order is/isn't present:
-     * "Gift Message" for Entire Order isn't/is present;
-     * "Add Gift Options for Individual Items" checkbox isn't present;
-     * </li></ol>
      *
      * @param string $backendData
      * @param array $testData
@@ -354,32 +247,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
     }
 
     /**
-     * <p>Preconditions:</p>
-     * <ol>
-     * <li>Simple products are created;</li>
-     * <li>Customer is created;</li>
-     * <li>Gift wrapping and messages On Item Level are set to "Yes" in system configuration.</li>
-     * <li>Gift wrapping and messages On Order Level are set to "Yes"/"No"(multiple cases) in system configuration</li>
-     * <li><b>Gift wrapping is set to "No" in product settings for product#1 only.</b></li>
-     * <li><b>Gift messages is set to "Yes" in product settings for product#1 only.</b></li>
-     * </ol>
-     * <p>Steps:</p>
-     * <ol>
-     * <li>Log into Frontend;</li>
-     * <li>Add 2 different products to the shopping cart;</li>
-     * <li>Click "Checkout with Multiple Addresses" link;</li>
-     * <li>Select different shipping addresses for items;</li>
-     * <li>Click button "Continue to shipping information";</li>
-     * <li>Select "Flat Rate" shipping methods for items;</li>
-     * </ol>
-     * <p>Expected Results:</p>
-     * <ol>
-     * <li>For product#1 with settings on product level:</li>
-     * <li>"Add Gift Options for Individual Items", "Gift Message" for individual items is present;</li>
-     * <li>"Gift wrapping" for individual items is <b>not</b> present;</li>
-     * <li>For product#2 w/o settings on product level
-     * "Add Gift Options for Individual Items", "Gift Message", "Gift wrapping" for individual items are present;</li>
-     * </ol>
      *
      * @param string $backendData
      * @param array $testData
@@ -435,32 +302,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
 
 
     /**
-     * <p>Preconditions:</p>
-     * <ol>
-     * <li>Simple products are created;</li>
-     * <li>Customer is created;</li>
-     * <li>Gift wrapping and messages On Item Level are set to "Yes" in system configuration.</li>
-     * <li>Gift wrapping and messages On Order Level are set to "Yes"/"No"(multiple cases) in system configuration</li>
-     * <li><b>Gift wrapping is set to "Yes" in product settings for product#1 only.</b></li>
-     * <li><b>Gift messages is set to "No" in product settings for product#1 only.</b</li>
-     * </ol>
-     * <p>Steps:</p>
-     * <ol>
-     * <li>Log into Frontend;</li>
-     * <li>Add 2 different products to the shopping cart;</li>
-     * <li>Click "Checkout with Multiple Addresses" link;</li>
-     * <li>Select different shipping addresses for items;</li>
-     * <li>Click button "Continue to shipping information";</li>
-     * <li>Select "Flat Rate" shipping methods for items;</li>
-     * </ol>
-     * <p>Expected Results:</p>
-     * <ol>
-     * <li>For product#1 with settings on product level:</li>
-     * <li>"Add Gift Options for Individual Items", "Gift Wrapping" for individual items is present;</li>
-     * <li>"Gift Message" for individual items is <b>not</b> present;</li>
-     * <li>For product#2 w/o settings on product level
-     * "Add Gift Options for Individual Items", "Gift Message", "Gift wrapping" for individual items are present;</li>
-     * </ol>
      *
      * @param string $backendData
      * @param array $testData
@@ -518,40 +359,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
     }
 
     /**
-     * <p>Preconditions:</p>
-     * <ol>
-     * <li>Simple product is created;</li>
-     * <li>Customer is created;</li>
-     * <li>Gift wrapping is created;</li>
-     * <li>Gift wrapping for items and order are set to "Yes" in system configuration.</li>
-     * <li>Price for gift wrapping is set in system configuration.</li>
-     * <li>Different price for gift wrapping is set for one product.</li>
-     * <li>In System-Configuration-Sales-Tax "Tax Class for Gift options" set to "None"</li>
-     * </ol>
-     * <p>Steps:</p>
-     * <ol>
-     * <li>Log into Frontend;</li>
-     * <li>Add 2 products to the shopping cart;</li>
-     * <li>Click "Checkout with Multiple Addresses" link;</li>
-     * <li>Select different shipping addresses for items;</li>
-     * <li>Click button "Continue to shipping information";</li>
-     * <li>Select "Flat Rate" shipping method for item;</li>
-     * <li>Check "Add gift options" checkbox;</li>
-     * <li>Check "Add Gift Options for Entire Order" checkbox;</li>
-     * <li>Select Gift Wrapping from "Gift Wrapping Design" dropdown;</li>
-     * <li>Check "Add gift options for Individual Items" checkbox in the second item.</li>
-     * <li>Select Gift Wrapping from "Gift Wrapping Design" dropdown for item;</li>
-     * <li>Proceed to billing information page;</li>
-     * <li>Select "Check/Money Order" payment method;</li>
-     * <li>Proceed to review order information;</li>
-     * <li>Check presence of gift wrapping for item and entire order in totals;</li>
-     * <li>Submit order;</li>
-     * </ol>
-     * <p>Expected Results:</p>
-     * <ol>
-     * <li>Gift wrapping is mentioned in totals and its price is correct;</li>
-     * <li>Order is created;</li>
-     * </ol>
      *
      * @param array $testData
      *
@@ -594,43 +401,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
     }
 
     /**
-     * <p>Preconditions:</p>
-     * <ol>
-     * <li>Simple product is created;</li>
-     * <li>Customer is created;</li>
-     * <li>Web site is created;</li>
-     * <li>Gift wrapping is created;</li>
-     * <li>Gift wrapping for items and order are set to "Yes" in system configuration.</li>
-     * <li>Set Catalog Price Scope "Website" in system configuration.</li>
-     * <li>Price for gift wrapping is set to N1 in Manage Gift Wrapping.</li>
-     * <li>Price for gift wrapping is set to N2 for the product on Default Values level.</li>
-     * <li>Price for gift wrapping is set to N3 for the product on the created website level.</li>
-     * <li>In System-Configuration-Sales-Tax "Tax Class for Gift options" set to "None"</li>
-     * </ol>
-     * <p>Steps:</p>
-     * <ol>
-     * <li>Log to <b>the specific website</b> in frontend;</li>
-     * <li>Add 2 products to the shopping cart;</li>
-     * <li>Click "Checkout with Multiple Addresses" link;</li>
-     * <li>Select different shipping addresses for items;</li>
-     * <li>Click button "Continue to shipping information";</li>
-     * <li>Select "Flat Rate" shipping method for item;</li>
-     * <li>Check "Add gift options" checkbox;</li>
-     * <li>Check "Add Gift Options for Entire Order" checkbox;</li>
-     * <li>Select Gift Wrapping from "Gift Wrapping Design" dropdown;</li>
-     * <li>Check "Add gift options for Individual Items" checkbox in the second item.</li>
-     * <li>Select Gift Wrapping from "Gift Wrapping Design" dropdown for item;</li>
-     * <li>Proceed to billing information page;</li>
-     * <li>Select "Check/Money Order" payment method;</li>
-     * <li>Proceed to review order information;</li>
-     * <li>Check presence of gift wrapping for item and entire order in totals;</li>
-     * <li>Submit order;</li>
-     * </ol>
-     * <p>Expected Results:</p>
-     * <ol>
-     * <li>Gift wrapping is mentioned in totals and its price is N3 (as on the website level);</li>
-     * <li>Order is created;</li>
-     * </ol>
      *
      * @depends preconditionsForTestsWithWebSite
      * @param array $testData
@@ -665,10 +435,10 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
                       'product_2'             => $product2,
                       'gift_options_address1' => $forProduct1,
                       'gift_options_address2' => '%noValue%'));
-        $verifyPrices = $this->loadDataSet('MultipleAddressesCheckout', 'verify_prices_gift_wrapping_TL-MAGE-1044', null,
-            array('product1'         => $product1,
-                  'product2'         => $product2,
-                  'product1wrapping' => $giftWrappingName));
+        $verifyPrices =
+            $this->loadDataSet('MultipleAddressesCheckout', 'verify_prices_gift_wrapping_TL-MAGE-1044', null,
+                array('product1'         => $product1, 'product2'         => $product2,
+                      'product1wrapping' => $giftWrappingName));
         $checkoutData['verify_prices'] = $verifyPrices;
         //Preconditions
         $this->navigate('system_configuration');

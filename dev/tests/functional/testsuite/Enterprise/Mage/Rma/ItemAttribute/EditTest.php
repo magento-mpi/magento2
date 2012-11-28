@@ -29,17 +29,6 @@ class Enterprise_Mage_Rma_ItemAttribute_EditTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Edit RMA item Attribute</p>
-     * <p>Preconditions</p>
-     * <p>1. All type RMA item attribute are created</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Sales-RMA-Manage RMA Items Attributes<p>
-     * <p>2. Open "Text Field" attribute information page</p>
-     * <p>3. Change data in some fields/p>
-     * <p>4. Click "Save Attribute" button</p>
-     * <p>5. Verify that information is saved</p>
-     * <p>6. Repeat step 1-5 with other attribute type: Text Area, Dropdown, Image File</p>
-     * <p>Expected result:</p>
-     * <p>Success message: 'The RMA item attribute has been saved.' is displayed.</p>
      *
      * @test
      * @dataProvider customAttributeDataProvider

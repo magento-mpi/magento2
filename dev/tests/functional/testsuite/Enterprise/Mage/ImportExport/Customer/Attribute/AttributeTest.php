@@ -33,10 +33,6 @@ class Enterprise_Mage_ImportExport_Attribute_CustomerTest extends Mage_Selenium_
 
     /**
      * Add customer attribute
-     * Steps
-     * 1. Admin is logged in at backend
-     * 2. New Customers Attribute is created in Customers -> Attributes -> Manage Customers Attributes
-     * 3. In System-> Import/Export-> Export select "Master Type" file
      *
      * @test
      * @TestlinkId TL-MAGE-5484
@@ -76,10 +72,6 @@ class Enterprise_Mage_ImportExport_Attribute_CustomerTest extends Mage_Selenium_
 
     /**
      * Edit customer attribute
-     * Steps
-     * 1. Admin is logged in at backend
-     * In Customers->Attributes->ManageCustomersAttributes change info in field "Attribute Label" for existing Attribute
-     * 3. In System-> Import/Export-> Export select "Master Type" file
      *
      * @test
      * @param $attrData
@@ -123,11 +115,6 @@ class Enterprise_Mage_ImportExport_Attribute_CustomerTest extends Mage_Selenium_
 
     /**
      * Edit customer attribute
-     * Steps
-     * 1. Admin is logged in at backend
-     * 2. Create new customer attribute in Customers -> Attributes -> Manage Customers Attributes
-     * 3. Delete the attribute from precondition 2 in Customers -> Attributes -> Manage Customers Attributes
-     * 4. In System-> Import/Export-> Export select "Master Type" file
      *
      * @test
      * @param array $attrData
@@ -169,12 +156,6 @@ class Enterprise_Mage_ImportExport_Attribute_CustomerTest extends Mage_Selenium_
 
     /**
      * Customer Master file export with using some filters
-     * Steps
-     * 1. On backend in System -> Import/ Export -> Export select "Master Type File"
-     * 2. In the "Filter" column according to you attribute select option that was used in your customer creation
-     * 3. Press "Continue" button and save current file
-     * 4. Open file
-     * Expected: In generated file just your customer with selected option of attribute is present
      *
      * @test
      * @TestlinkId TL-MAGE-5488

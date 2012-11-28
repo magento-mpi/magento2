@@ -53,17 +53,6 @@ class Enterprise_Mage_GiftWrapping_SystemConfigurationTest extends Mage_Selenium
 
     /**
      * <p>Enabling/Disabling Gift Messages and Gift Wrapping options on Default and Website scope</p>
-     * <p>Steps:</p>
-     * <p>1. Log into backend;</p>
-     * <p>2. Go to Sales page (System Configuration - Sales - Sales - Gift Options);</p>
-     * <p>3. Switch to website scope when needed;</p>
-     * <p>4. Switch "Allow Gift Messages for Order Items", "Allow Gift Wrapping on Order Level",
-     * "Allow Gift Wrapping for Order Items", "Allow Gift Receipt",
-     * "Allow Printed Card", "Allow Gift Messages on Order Level" - all to "Yes"/"No".
-     * <p>5. Save Configuration.</p>
-     * <p>Expected Results:</p>
-     * <p>1. Received the message "The configuration has been saved"</p>
-     * <p>2. All changed field values are correctly set.</p>
      *
      * @param string $settings Name of the dataset with settings
      *
@@ -97,38 +86,6 @@ class Enterprise_Mage_GiftWrapping_SystemConfigurationTest extends Mage_Selenium
     }
 
     /**
-     * <p>Preconditions:</p>
-     * <p>System -> Sales -> Gift Options (Default scope) -> Switch to "no" following options:</p>
-     * <p>"Allow Gift Messages on Order Level";</p>
-     * <p>"Allow Gift Messages for Order Items";</p>
-     * <p>"Allow Gift Wrapping on Order Level";</p>
-     * <p>"Allow Gift Wrapping for Order Items";</p>
-     * <p>"Allow Gift Receipt";</p>
-     * <p>"Allow Printed Card";</p>
-     * <p>System -> Sales -> Gift Options (Website scope) -> Switch to "yes" following options:</p>
-     * <p>"Allow Gift Messages on Order Level";</p>
-     * <p>"Allow Gift Messages for Order Items";</p>
-     * <p>"Allow Gift Wrapping on Order Level";</p>
-     * <p>"Allow Gift Wrapping for Order Items";<p>
-     * <p>"Allow Gift Receipt";</p>
-     * <p>"Allow Printed Card";</p>
-     *
-     * <p>Steps:</p>
-     * <p>1. Log into backend Sales -> Orders;</p>
-     * <p>2. Push "create New Order";</p>
-     * <p>3. Select any customer from list;</p>
-     * <p>4. Select a Store from list;</p>
-     * <p>5. Add at least 2 products using "Add products" button;</p>
-     * <p>6. Enter Billing and shipping addresses;</p>
-     * <p>7. Choose Shipping and payment Methods;</p>
-     * <p>8. Edit gift messages for entire order and Items individually;</p>
-     * <p>9. Push "Submit Order" button;</p>
-     * <p>10. Open the created order. Check if all switched in this test case gift options are</p>
-     * <p> saved;</p>
-     *
-     * <p>Expected result:</p>
-     * <p>After step 9: Notification massage "The order has been created." appears</p>
-     * <p>After step 10: All switched in this test case gift options are saved</p>
      *
      * @param array $testData
      *
@@ -152,32 +109,6 @@ class Enterprise_Mage_GiftWrapping_SystemConfigurationTest extends Mage_Selenium
     }
 
     /**
-     * <p>Preconditions:</p>
-     * <p>System -> Sales -> Gift Options (Default scope) -> Switch to "yes" following options:</p>
-     * <p>"Allow Gift Messages on Order Level";</p>
-     * <p>"Allow Gift Messages for Order Items";</p>
-     * <p>"Allow Gift Wrapping on Order Level";</p>
-     * <p>"Allow Gift Wrapping for Order Items";</p>
-     * <p>"Allow Gift Receipt";</p>
-     * <p>"Allow Printed Card";</p>
-     * <p>System -> Sales -> Gift Options (Website scope) -> Switch to "no" following options:</p>
-     * <p>"Allow Gift Messages on Order Level";</p>
-     * <p>"Allow Gift Messages for Order Items";</p>
-     * <p>"Allow Gift Wrapping on Order Level";</p>
-     * <p>"Allow Gift Wrapping for Order Items";<p>
-     * <p>"Allow Gift Receipt";</p>
-     * <p>"Allow Printed Card";</p>
-     *
-     * <p>Steps:</p>
-     * <p>1. Log into backend Sales-> Orders;</p>
-     * <p>2. Push "create New Order";</p>
-     * <p>3. Select any customer from list;</p>
-     * <p>4. Select a Store from list;</p>
-     * <p>5. Add at least 2 products using "Add products" button;</p>
-     *
-     * <p>Expected result:</p>
-     * <p>After step 5: "Gift Options" link does not appear under any of the added products;</p>
-     * <p>"Gift Options" are not available for the whole order;</p>
      *
      * @param array $testData
      *

@@ -30,17 +30,6 @@ class Enterprise_Mage_ImportExport_Deleting_FinanceTest extends Mage_Selenium_Te
     }
     /**
      * Deleting Customer Finance
-     * Preconditions:
-     * 1. Create two customers in Customers-> Manage Customers
-     * 2. Create csv file with both customers finances: first with all attributes, second only with unique key
-     * Steps
-     * 1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customer Finances"
-     * 2. Select "Delete" in selector "Import Behavior"
-     * 3. Choose file from precondition
-     * 4. Press "Check Data"
-     * 5. Press "Import" button
-     * 6. Open Customers-> Manage Customers
-     * Expected: Verify that finances are deleted for both customers
      *
      * @test
      * @dataProvider importData
@@ -133,18 +122,6 @@ class Enterprise_Mage_ImportExport_Deleting_FinanceTest extends Mage_Selenium_Te
     }
     /**
      * Deleting Customer Finance with different email or website
-     * Preconditions:
-     * 1. Create two customers in Customers-> Manage Customers
-     * 2. Update for both customers "Store Credit" and "Reward Points"
-     * 3. Create .csv file with incorrect email for first customer, with incorrect website for second customer
-     * Steps
-     * 1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customer Finances"
-     * 2. Select "Delete" in selector "Import Behavior"
-     * 3. Choose file from precondition
-     * 4. Press "Check Data"
-     * 5. Press "Import" button
-     * 6. Open Customers-> Manage Customers
-     * Expected: Verify that finances for both customers aren't deleted
      *
      * @test
      * @dataProvider importFinanceData
@@ -238,21 +215,8 @@ class Enterprise_Mage_ImportExport_Deleting_FinanceTest extends Mage_Selenium_Te
     }
     /**
      * Deleting customer finances with wrong or not cpecified _finance_website
-     * Preconditions:
-     * 1. Create two customers in Customers-> Manage Customers
-     * 2. Update for both customers "Store Credit" and "Reward Points"
-     * 3. Create csv file with empty _finance_website for customer1, with incorrect  _finance_website for customer2
-     * Steps
-     * 1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customer Finances"
-     * 2. Select "Delete" in selector "Import Behavior"
-     * 3. Choose file from precondition
-     * 4. Press "Check Data"
-     * 5. Open Customers-> Manage Customers
-     * Expected: After step 6 the message 'File is totaly invalid' is appeared
-     * Expected: After step 7 the finances for both customers aren't deleted
      *
      * @test
-     * @ author irina.glazunova
      * @dataProvider importFinanceData1
      * @TestlinkId TL-MAGE-5717
      */

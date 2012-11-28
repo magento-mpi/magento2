@@ -73,15 +73,6 @@ class Core_Mage_ValidationVatNumber_AutomaticAssignmentGroupsFrontendTest extend
 
     /**
      * <p>Customer registration. With valid VAT Number for domestic country</p>
-     * <p>Steps:</p>
-     * <p>1. Goto on front-end</p>
-     * <p>2. Create new customer</p>
-     * <p>3. Goto tab Address and enter the same country as country of your store</p>
-     * <p>4. Enter valid VAT Number</p>
-     * <p>4. Goto back-end and open "Manage Customers"</p>
-     * <p>5. Select your customer and verify value of Group</p>
-     * <p>Expected result:</p>
-     * <p>Customer should be assigned to group which was specified as "Group for Valid VAT ID - Domestic"</p>
      *
      * @param array $vatGroup
      * @param array|string $vatNumber
@@ -135,15 +126,6 @@ class Core_Mage_ValidationVatNumber_AutomaticAssignmentGroupsFrontendTest extend
 
     /**
      * <p>Customer registration. With invalid VAT Number for domestic country</p>
-     * <p>Steps:</p>
-     * <p>1. Goto on front-end</p>
-     * <p>2. Create new customer</p>
-     * <p>3. Goto tab Address and select some country from Europe Union (but not the same as store country)</p>
-     * <p>4. Enter valid VAT Number</p>
-     * <p>4. Goto back-end and open "Manage Customers"</p>
-     * <p>5. Select your customer and verify value of Group</p>
-     * <p>Expected result:</p>
-     * <p>Customer should be assigned to group which was specified as "Group for Valid VAT ID - Intra-Union"</p>
      *
      * @param array $processedGroupNames
      *
@@ -176,18 +158,11 @@ class Core_Mage_ValidationVatNumber_AutomaticAssignmentGroupsFrontendTest extend
         $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer($userRegisterData);
         $this->openTab('account_information');
-        $this->verifyForm(array('group' => $processedGroupNames['group_valid_vat_intraunion']),'account_information');
+        $this->verifyForm(array('group' => $processedGroupNames['group_valid_vat_intraunion']), 'account_information');
     }
 
     /**
      * <p>Validation VAT with invalid number</p>
-     * <p>Steps:</p>
-     * <p>1. Goto on back-end</p>
-     * <p>2. Open Store Information tab</p>
-     * <p>3. Enter invalid VAT number</p>
-     * <p>4. Click button "Validate VAT Number"</p>
-     * <p>Expected result:</p>
-     * <p>Button "Validate VAT Number" should be changed on red button with text "VAT Number is Invalid"</p>
      *
      * @test
      * @depends preconditionsForTests

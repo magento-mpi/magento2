@@ -27,13 +27,7 @@ class Enterprise_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
     /**
      * <p>Precondition method</p>
      * <p>Admin user with Role System-Permissions is created.</p>
-     * <p>Steps:</p>
-     * <p>1. Create new admin role with "Role Resources":</p>
-     * <p>1.1 Resource Access = Custom</p>
-     * <p>1.2 Resource checkboxes = 'System-Permissions'</p>
-     * <p>2. Create test Admin user with test Role(Full permissions for Permissions menu)</p>
-     * <p>3. Navigate to System-Configuration-ADVANCED-Admin.</p>
-     * <p>4. Set "Maximum Login Failures to Lockout Account" = 3 on "Security" tab</p>
+
      *
      * @test
      * @return array
@@ -62,34 +56,6 @@ class Enterprise_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
 
     /**
      * <p> Verifying unlock action for user with Permission System-Permissions </p>
-     * <p>Preconditions:</p>
-     * <p>1. Role "Role1" with Role resource System-Permissions is created.</p>
-     * <p>2. Admin user "User1" with "Role1" is created.</p>
-     * <p>3. Configure "Maximum Login Failures to Lockout Account"=3.</p>
-     * <p>Steps:</p>
-     * <p>1. Log in to backend using newly created "User1" credentials.</p>
-     * <p>2. Navigate to System-Permissions-Roles.</p>
-     * <p>3. Create new role "Role2".</p>
-     * <p>4. Navigate to System-Permissions-Users.</p>
-     * <p>5. Create new "User2".</p>
-     * <p>6. Log out admin user.</p>
-     * <p>7. Try to log in to backend with "User2" and wrong password . Do this action three times.</p>
-     * <p>Expected result:</p>
-     * <p> User doesn't log in to backend. The message "Invalid Username or Password." is displayed.</p>
-     * <p>8. Log in to backend with "User2" and correct password.</p>
-     * <p>Expected result:</p>
-     * <p>User doesn't log in to backend. The message "Invalid Username or Password." is displayed.</p>
-     * <p>9. Log in to backend with "User1".</p>
-     * <p>10. Navigate to System-Permissions-Locked Users.</p>
-     * <p>11. Choose "User2" in the "Locked administrators" grid and check checkbox.</p>
-     * <p>12. Choose "Unlocked" on Actions dropdown.</p>
-     * <p>13. Click "Submit" button.</p>
-     * <p>Expected result:</p>
-     * <p>The message "Unlocked 1 user(s)." is presented.</p>
-     * <p>14.Log out admin user.</p>
-     * <p>15. Log in to backend with "User2".</p>
-     * <p>Expected result:</p>
-     * <p>The "User2" successfully logged.</p>
      *
      * @depends createAdminWithTestRole
      *

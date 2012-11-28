@@ -56,16 +56,6 @@ class Core_Mage_Tags_FrontendCreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Tag creating with Logged Customer</p>
-     * <p>1. Login to Frontend</p>
-     * <p>2. Open created product</p>
-     * <p>3. Add Tag to product</p>
-     * <p>4. Check confirmation message</p>
-     * <p>5. Goto "My Account"</p>
-     * <p>6. Check tag displaying in "My Recent Tags"</p>
-     * <p>7. Goto "My Tags" tab</p>
-     * <p>8. Check tag displaying on the page</p>
-     * <p>9. Open current tag - page with assigned product opens</p>
-     * <p>10. Tag is assigned to correct product</p>
      *
      * @param string $tags
      * @param array $testData
@@ -106,13 +96,6 @@ class Core_Mage_Tags_FrontendCreateTest extends Mage_Selenium_TestCase
 
     /**
      * Tag creating with Not Logged Customer
-     * <p>1. Goto Frontend</p>
-     * <p>2. Open created product</p>
-     * <p>3. Add Tag to product</p>
-     * <p>4. Login page opened</p>
-     * <p>Expected result:</p>
-     * <p>Customer is redirected to the login page.</p>
-     * <p>The tag has not been added for moderation in backend.</p>
      *
      * @param array $testData
      *
@@ -140,16 +123,6 @@ class Core_Mage_Tags_FrontendCreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Tags Verification in Category</p>
-     * <p>1. Login to Frontend</p>
-     * <p>2. Open created product</p>
-     * <p>3. Add Tag to product</p>
-     * <p>4. Check confirmation message</p>
-     * <p>5. Logout;</p>
-     * <p>6. Login to backend;</p>
-     * <p>7. Navigate to "Catalog->Tags->Pending Tags";</p>
-     * <p>8. Change the status of created Tag;</p>
-     * <p>9. Goto Frontend;</p>
-     * <p>10. Check Tag displaying on category page;</p>
      *
      * @param array $testData
      *

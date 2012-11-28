@@ -35,21 +35,6 @@ class Enterprise_Mage_Acl_CatalogManageCategoryTest extends Mage_Selenium_TestCa
     /**
      * <p>Precondition fot test. Creating User with role Category/Manage Category.</p>
      *
-     * <p>Preconditions</p>
-     * <p>1. Login to backend as admin</p>
-     * <p>2. Go to System>Permissions>Role and click "Add New Role" button</p>
-     * <p>3. Fill "Role Name" field</p>
-     * <p>4. Click Role Resource Tab</p>
-     * <p>5. In Role Resources fieldset  select only one test scope checkbox[Catalog>Manage Category]</p>
-     * <p>6. Click "Save Role" button for save roleSource</p>
-     * <p>7. Go to System>Permissions>Users and click "Add New User" button</p>
-     * <p>8. Fill all required fields (User Info Tab)</p>
-     * <p>9. Click User Role Tab</p>
-     * <p>10. Select testRole</p>
-     * <p>11. Click "Save User" button for save testAdminUser</p>
-     * <p>12. Log out </p>
-     * <p>Expected results:</p>
-     * <p> Admin user and role are successfully created.</p>
      * @test
      * @TestlinkId TL-MAGE-5955
      */
@@ -77,16 +62,6 @@ class Enterprise_Mage_Acl_CatalogManageCategoryTest extends Mage_Selenium_TestCa
 
     /**
      * <p>Deleting  Subcategory</p>
-     * <p>Pre-Conditions:</p>
-     * <p>1. Log in to admin with data of created admin user.</p>
-     * <p>2. Subcategory created</p>
-     * <p>3. Button "Add Root Category" isn't presented on page.
-     * <p>Steps:</p>
-     * <p>1. Log in to admin with data of created admin user.
-     * <p>2. Select created Subcategory</p>
-     * <p>3. Click "Delete" button</p>
-     * <p>Expected result</p>
-     * <p> Subcategory Deleted, Success message appears</p>
      *
      * @param array $loginData
      *
@@ -105,7 +80,7 @@ class Enterprise_Mage_Acl_CatalogManageCategoryTest extends Mage_Selenium_TestCa
         $this->categoryHelper()->checkCategoriesPage();
         //Verifying that button "Add Root Category" doesn't present on page
         if ($this->buttonIsPresent('add_root_category')) {
-            $this->fail("This user doesn't have permission to create root category. The button Create Root Category is present on page");
+            $this->fail("This user doesn't have permission to create root category.The button Create Root Category is present on page");
         }
         //Data
         $subCategoryData = $this->loadDataSet('Category', 'sub_category_required');

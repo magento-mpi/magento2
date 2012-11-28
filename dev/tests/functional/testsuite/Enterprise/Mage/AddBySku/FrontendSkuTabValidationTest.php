@@ -59,27 +59,6 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
             
     /**
      * <p>Valid values for QTY field according SRS</p>
-     * <p>Preconditions:</p>
-     *  <p>1. System - Configuration - SALES - Sales - Order by SKU Settings: Enable Order by SKU on My Account in Front-end - Yes, for Everyone.</p>
-     *  <p>2. Simple product is created.</p>
-     * 
-     * <p>Steps:</p>
-     *  <p>1. Login to Front-end</p>
-     *  <p>2. My Account - Order by SKU</p>
-     *  <p>3. Enter valid value in SKU field, enter non numeric value in QTY field and click Add to Cart button</p>
-     *  <p>4. Enter valid value in SKU field, enter negative value in QTY field and click Add to Cart button</p>
-     *  <p>5. Enter valid value in SKU field, enter 0 value in Qty field.</p>
-     *  <p>6. Enter a valid value in SKU field, enter less than 0.0001 value in Qty field and click "Add to Cart" button</p>
-     *  <p>7. Enter a valid value in SKU field, enter greater than 99999999.9999 value in Qty field and click "Add to Cart" button</p>
-     *  <p>8. Enter a valid value in SKU field and leave Qty field empty.</p>
-     * 
-     *  <p>Expected results:</p>
-     *  <p>after step 3: Qty field is highlighted with red and "Please enter a valid number in this field." message is displayed under the field with "non numeric" value. Product is not added to Shopping Cart.
-     *  <p>after step 4: QTY field is highlighted with red, "Please enter a number greater than 0 in this field" message is displayed, product is not added to Cart</p>
-     *  <p>after step 5: Qty field is highlighted with red and "Please enter a number greater than 0 in this field." message is displayed under the field with "0" value. Product is not added to Shopping Cart.</p>
-     *  <p>after step 6: Qty filed is highlighted with red and "The value is not within the specified range." message is displayed. Product is not added to Shopping Cart.</p>
-     *  <p>after step 7: Qty filed is highlighted with red and "The value is not within the specified range." message is displayed. Product is not added to Shopping Cart.</p>
-     *  <p>after step 8: This is a required field" message is displayed.</p>  
      * 
      * @param string $qty
      * @param string $message
@@ -120,21 +99,6 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
         
     /**
      * <p>Validation rows, for which SKU and Qty values are empty</p>
-     * <p>Preconditions:</p>
-     *  <p>1. System - Configuration - SALES - Sales - Order by SKU Settings: Enable Order by SKU on My Account in Front-end - Yes, for Everyone.</p>
-     *  <p>2. Simple product is created.</p>
-     *  <p>3. Enable Order by SKU on My Account in Front-end - Yes, for Everyone </p> 
-     * 
-     * <p>Steps:</p>
-     *  <p>1. Login to Front-end.</p>
-     *  <p>2. Click My Account - Order by SKU</p>
-     *  <p>3. Leave SKU field  empty and enter a valid value in Qty field.</p>
-     *  <p>Click the "Add to Cart" button.</p>
-     * 
-     * <p>Expected results:</p>
-     *  <p>1. The row should be ignored.</p>
-     *  <p>2. Customer is redirected to Shopping cart.</p>
-     *  <p>3. System displays message "You have not entered any product sku".</p>
      * 
      * @test
      * @depends preconditionsForTests
@@ -155,20 +119,6 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
     
     /**
      * <p>Validation rows, for which SKU and Qty values are empty</p>
-     * <p>Preconditions:</p>
-     *  <p>1. System - Configuration - SALES - Sales - Order by SKU Settings: Enable Order by SKU on My Account in Front-end - Yes, for Everyone.</p>
-     *  <p>2. Simple product is created.</p>
-     * 
-     * <p>Steps:</p>
-     *  <p>1. Login to Front-end</p>
-     *  <p>2. My Account - Order by SKU</p>
-     *  <p>3. Click the "Add Row" button.</p>
-     *  <p>4. Enter a valid SKU and Qty.</p>
-     *  <p>5. Click the "Add to Cart" button.</p>
-     * 
-     * <p>Expected results:</p>
-     * 	<p>1. Customer is redirected to Shopping Cart page.</p>
-     *  <p>2. The row, for which SKU value is empty, should be ignore</p>
      * 
      * @param array $data
      *
@@ -193,22 +143,6 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
     
     /**
      * <p>Adding to Cart by SKU after entering valid and invalid values in multiple fields</p>
-     * <p>Preconditions:</p>
-     *  <p>1. System - Configuration - SALES - Sales - Order by SKU Settings: Enable Order by SKU on My Account in Front-end - Yes, for Everyone.</p>
-     *  <p>2. Simple product is created.</p>
-     * 
-     * <p>Steps:</p>
-     *  <p>1. Login to Frontend</p>
-     *  <p>2. My Account - Order by SKU</p>
-     *  <p>3. Click "Add Row" several times</p>
-     *  <p>4. Enter valid value to the SKU field and invalid to Qty field.</p>
-     *  <p>5. Fill in the remaining lines the valid values</p>
-     *  <p>6. Click Add to Cart button</p>
-     * 
-     *  <p>Expected results:</p>
-     *  <p>1. The items should not be added to the cart.</p>
-     *  <p>2. Customer should stay on Order by SKU tab</p>
-     *  <p>3. Error messages should be appeared under Qty field.</p>
      * 
      * @param array $data
      *
@@ -236,17 +170,6 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
     
     /**
      * <p>Disable order by SKU on My Account for for customers unselected group</p>
-     * <p>Preconditions:</p>
-     *  <p>1. Customer is created and assigned to General customer group.</p>
-     *  <p>2. System - Configuration - SALES - Sales - Order by SKU settings: Enable Order by SKU on My Account in Front-end - Yes, for Specified Customer Groups; Customer Groups - Retailer (e.g.)</p>
-     * 
-     * <p>Steps:</p>
-     *  <p>1. Login to Frontend as the user non assigned to Retailer group</p>
-     *  <p>2. Click My Account</p>
-     *  <p>3. Observe My Account tabs</p>
-     * 
-     * <p>Expected results:</p>
-     *  <p>1. "Order by SKU" tab is not present</p>
      * 
      * @param array $data
      * 
@@ -265,22 +188,11 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
         $this->customerHelper()->frontLoginCustomer($data['customer']);
         $this->navigate('customer_account');
         //Verifying
-        $this->assertFalse($this->controlIsPresent('link','sku_tab'), 'There is "Order by SKU" tab on the page. ');
+        $this->assertFalse($this->controlIsPresent('link', 'sku_tab'), 'There is "Order by SKU" tab on the page. ');
     } 
     
     /**
      * <p>Disable Order by SKU on My Account in Front-end</p>
-     * <p>Preconditions:
-     *  <p>1. System>Configuration>SALES>Sales>Order by SKU settings</p>
-     *  <p>2. Enable Order by SKU on My Account in Front-end - No</p>
-     * 
-     * <p>Steps:</p>
-     *  <p>1. Login to Front-end as the user non assigned to Retailer group</p>
-     *  <p>2. Click My Account</p>
-     *  <p>3. Observe My Account tabs</p>
-     * 
-     * <p>Expected results:</p>
-     *  <p>1. "Order by SKU" tab is not present</p>
      * 
      * @param array $data
      * 
@@ -299,6 +211,6 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
         $this->customerHelper()->frontLoginCustomer($data['customer']);
         $this->navigate('customer_account');
         //Verifying
-        $this->assertFalse($this->controlIsPresent('link','sku_tab'), 'There is "Order by SKU" tab on the page. ');
+        $this->assertFalse($this->controlIsPresent('link', 'sku_tab'), 'There is "Order by SKU" tab on the page. ');
     }
 }

@@ -30,15 +30,6 @@ class Enterprise_Mage_Attributes_CustomerAttribute_DeleteTest extends Mage_Selen
 
     /**
      * <p>Delete Customer Attributes</p>
-     * <p>Steps:</p>
-     * <p>1.Click on "Add New Attribute" button</p>
-     * <p>2.Fill all required fields</p>
-     * <p>3.Click on "Save Attribute" button</p>
-     * <p>4.Search and open attribute</p>
-     * <p>5.Click on "Delete Attribute" button</p>
-     * <p>Expected result:</p>
-     * <p>Attribute successfully deleted.</p>
-     * <p>Success message: 'The customer attribute has been deleted.' is displayed.</p>
      *
      * @param $dataName
      *
@@ -80,10 +71,6 @@ class Enterprise_Mage_Attributes_CustomerAttribute_DeleteTest extends Mage_Selen
 
     /**
      * <p>Delete system  Customer Attributes</p>
-     * <p>Steps:</p>
-     * <p>1.Search and open system Customer Attributes.</p+>
-     * <p>Expected result:</p>
-     * <p>"Delete Attribute" button isn't present.</p>
      *
      * @param array $attributeName
      *

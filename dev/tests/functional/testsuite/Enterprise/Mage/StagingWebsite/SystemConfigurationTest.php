@@ -25,16 +25,6 @@ class Enterprise_Mage_StagingWebsite_SystemConfigurationTest extends Mage_Seleni
 
     /**
      * <p>Test Case TL-MAGE-2006: Automatically Create Entry Points - negative</p>
-     * <p>Steps:</p>
-     * <p>1. Go to system - configuration - general - staging websites;</p>
-     * <p>2. Set "Automatically Create Entry Points for Staging Websites" to "No";</p>
-     * <p>3. Press button "Save Config";</p>
-     * <p>4. Navigate to "Content Staging" - "Staging Website";</p>
-     * <p>5. Press "Add Staging Website" button;</p>
-     * <p>6. Select "Main Website" as Source Website;</p>
-     * <p>7. Check that "Base Url" and "Secure Base Url" fields are present.</p>
-     * <p>Expected Results:</p>
-     * <p>1. "Base Url" and "Secure Base Url" fields are present.</p>
      *
      * @test
      */
@@ -56,17 +46,7 @@ class Enterprise_Mage_StagingWebsite_SystemConfigurationTest extends Mage_Seleni
 
     /**
      * <p>Test Case TL-MAGE-2005: Automatically Create Entry Points</p>
-     * <p>Steps:</p>
-     * <p>1. Go to system - configuration - general - staging websites;</p>
-     * <p>2. Set "Automatically Create Entry Points for Staging Websites" to "Yes";</p>
-     * <p>3. Write Folder Name for Entry Points to field "Folder Name for Entry Points"(staging);</p>
-     * <p>4. Press button "Save Config";</p>
-     * <p>5. Navigate to "Content Staging" - "Staging Website";</p>
-     * <p>6. Press "Add Staging Website" button;</p>
-     * <p>7. Select "Main Website" as Source Website;</p>
-     * <p>8. Check that "Base Url" and "Secure Base Url" fields are present.</p>
-     * <p>Expected Results:</p>
-     * <p>1. "Base Url" and "Secure Base Url" fields are present.</p>
+
      *
      * @test
      */

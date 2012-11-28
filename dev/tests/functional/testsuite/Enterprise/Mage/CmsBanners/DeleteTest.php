@@ -25,13 +25,6 @@ class Enterprise_Mage_CmsBanners_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creates and deletes Banner with required fields</p>
-     * <p>Steps:</p>
-     * <p>1.  Navigate to Manage Banner page</p>
-     * <p>2. Create Banner with required fields</p>
-     * <p>3. Open newly created banner</p>
-     * <p>4. Delete newly created banner</p>
-     * <p>Expected result</p>
-     * <p>Banner is created and deleted successfully</p>
      *
      * @test
      * @TestlinkId TL-MAGE-6022
@@ -54,14 +47,6 @@ class Enterprise_Mage_CmsBanners_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete several banners.</p>
-     * <p>Preconditions: Create several banners</p>
-     * <p>Steps:</p>
-     * <p>1. Search and choose several banners.</p>
-     * <p>3. Select 'Actions' to 'Delete'.</p>
-     * <p>2. Click 'Submit' button.</p>
-     * <p>Expected result:</p>
-     * <p>Banners are deleted.</p>
-     * <p>Success Message is displayed.</p>
      *
      * @test
      * @depends deleteCmsBanner

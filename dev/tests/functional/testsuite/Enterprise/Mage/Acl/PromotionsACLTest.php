@@ -39,27 +39,8 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Check Promotions Full Rights - Catalog Price Rules, Shopping Cart Price Rules and Automated Email Reminder Rules</p>
-     * <p>Preconditions</p>
-     * <p>Login to backend as admin</p>
-     * <p>Go to System-Permissions-Role and click "Add New Role" button</p>
-     * <p>Fill "Role Name" field</p>
-     * <p>Click Role Resource Tab</p>
-     * <p>In Role Resources fieldset  select all Permissions checkboxes</p>
-     * <p>Click "Save Role" button for save roleSource</p>
-     * <p>Go to System>Permissions>Users and click "Add New User" button</p>
-     * <p>Fill all required fields (User Info Tab)</p>
-     * <p>Click User Role Tab</p>
-     * <p>Select testRole</p>
-     * <p>Click "Save User" button for save testAdminUser</p>
-     * <p>Log out </p>
-     * <p>Steps:</p>
-     * <p>1. Log In as admin user with full rights to Promotions Menu</p>
-     * <p>Expected Results:</p>
-     * <p>Only Promotions menu is available</p>
-     * <p>User has rights to create Catalog Price Rule</p>
-     * <p>User has rights to create Shopping Cart Price Rule</p>
-     * <p>User has rights to create Automated Email Reminder Rules</p>
+     * <p>Check Promotions Full Rights - Catalog Price Rules, Shopping Cart Price Rules
+     *    and Automated Email Reminder Rules</p>
      *
      * @TestlinkId TL-MAGE-6021
      * @test
@@ -104,26 +85,6 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Check Promotions only Catalog Price Rules Read Rights</p>
-     * <p>Preconditions</p>
-     * <p> Login to backend as admin</p>
-     * <p>Go to System-Permissions-Role and click "Add New Role" button</p>
-     * <p>Fill "Role Name" field</p>
-     * <p>Click Role Resource Tab</p>
-     * <p>In Role Resources fieldset  select only Catalog Price Rules Checkbox</p>
-     * <p>Click "Save Role" button for save roleSource</p>
-     * <p>Go to System>Permissions>Users and click "Add New User" button</p>
-     * <p>Fill all required fields (User Info Tab)</p>
-     * <p>Click User Role Tab</p>
-     * <p>Select testRole</p>
-     * <p>Click "Save User" button for save testAdminUser</p>
-     * <p>Log out </p>
-     * <p>Steps:</p>
-     * <p>1.Log In as admin user with full rights to Promotions Menu</p>
-     * <p>Expected Results:</p>
-     * <p>Only Promotions menu is available</p>
-     * <p>Admin user has Read access rights to  Catalog Price Rule</p>
-     * <p>Admin user has NO rights to create Shopping Cart Price Rule</p>
-     * <p>Admin user has NO rights to create  Automated Reminder Rule</p>
      *
      * @test
      * @TestlinkId TL-MAGE-1463
@@ -168,26 +129,6 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Check Promotions Shopping Cart price Rules Create Rights</p>
-     * <p>Preconditions</p>
-     * <p>Login to backend as admin</p>
-     * <p>Go to System-Permissions-Role and click "Add New Role" button</p>
-     * <p>Fill "Role Name" field</p>
-     * <p>Click Role Resource Tab</p>
-     * <p>In Role Resources fieldset  select only one test scope checkbox[Sales,Customers,Dashboard,Catalog,Mobile,Newsletter,CMS,Reports,System,External Page Cache,Global Search]</p>
-     * <p>Click "Save Role" button for save roleSource</p>
-     * <p>Go to System>Permissions>Users and click "Add New User" button</p>
-     * <p>Fill all required fields (User Info Tab)</p>
-     * <p>Click User Role Tab</p>
-     * <p>Select testRole</p>
-     * <p>Click "Save User" button for save testAdminUser</p>
-     * <p>Log out </p>
-     * <p>Steps:</p>
-     * <p>1.Log In as admin user with  rights only to Shopping Cart Price Rules</p>
-     * <p>Expected Results:
-     * <p>Only Promotions menu is available</p>
-     * <p>Admin User has  Rights to Shopping Cart Price Rule</p>
-     * <p>Admin User has  Rights to create Catalog Price Rule</p>
-     * <p>Admin User has NO rights to create Automated Reminder Rule</p>
      *
      * @TestlinkId TL-MAGE-1475
      * @test
@@ -233,25 +174,6 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Check Promotions Shopping Cart price Rules Read Rights</p>
-     * <p>Preconditions</p>
-     * <p>Login to backend as admin</p>
-     * <p>Go to System-Permissions-Role and click "Add New Role" button</p>
-     * <p>Fill "Role Name" field</p>
-     * <p>Click Role Resource Tab</p>
-     * <p>In Role Resources fieldset  select only one test scope checkbox[Sales,Customers,Dashboard,Catalog,Mobile,Newsletter,CMS,Reports,System,External Page Cache,Global Search]</p>
-     * <p>Click "Save Role" button for save roleSource</p>
-     * <p>Go to System>Permissions>Users and click "Add New User" button</p>
-     * <p>Fill all required fields (User Info Tab)</p>
-     * <p>Click User Role Tab</p>
-     * <p>Select testRole</p>
-     * <p>Click "Save User" button for save testAdminUser</p>
-     * <p>Log out </p>
-     * <p>Steps:</p>
-     * <p>1.Log In as admin user with  rights only to Shopping Cart Price Rules</p>
-     * <p>Only Promotions menu is available</p>
-     * <p>Admin User has rights to Shopping Cart Price Rule</p>
-     * <p>Admin User has NO rights to create Catalog Price Rule</p>
-     * <p>Admin User hasNO rights to create Automated Reminder Rule</p>
      *
      * @TestlinkId TL-MAGE-1464
      * @test
@@ -296,26 +218,6 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Check Automated Email Reminder Rules Create Rights</p>
-     * <p>Preconditions</p>
-     * <p>Login to backend as admin</p>
-     * <p>Go to System-Permissions-Role and click "Add New Role" button</p>
-     * <p>Fill "Role Name" field</p>
-     * <p>Click Role Resource Tab</p>
-     * <p>In Role Resources fieldset  select only one test scope checkbox[Sales,Customers,Dashboard,Catalog,Mobile,Newsletter,CMS,Reports,System,External Page Cache,Global Search]</p>
-     * <p>Click "Save Role" button for save roleSource</p>
-     * <p>Go to System>Permissions>Users and click "Add New User" button</p>
-     * <p>Fill all required fields (User Info Tab)</p>
-     * <p>Click User Role Tab</p>
-     * <p>Select testRole</p>
-     * <p>Click "Save User" button for save testAdminUser</p>
-     * <p>Log out </p>
-     * <p>Steps:</p>
-     * <p>1.Log In as admin user with  rights only to Shopping Cart Price Rules</p>
-     * <p>Expected Results:</p>
-     * <p>Only Promotions menu is available</p>
-     * <p>Admin user has Create rights  to Automated Email Reminder Rules</p>
-     * <p>Admin user hasNO rights to create Catalog Price Rule</p>
-     * <p>Admin user has NO rights to create Shopping Cart Price Rules</p>
      *
      * @TestlinkId TL-MAGE-1476
      * @test
@@ -360,26 +262,6 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Check Automated Email Reminder Rules  Read Rights</p>
-     * <p>Preconditions</p>
-     * <p>Login to backend as admin</p>
-     * <p>Go to System-Permissions-Role and click "Add New Role" button</p>
-     * <p>Fill "Role Name" field</p>
-     * <p>Click Role Resource Tab</p>
-     * <p>In Role Resources fieldset  select only one test scope checkbox[Sales,Customers,Dashboard,Catalog,Mobile,Newsletter,CMS,Reports,System,External Page Cache,Global Search]</p>
-     * <p>Click "Save Role" button for save roleSource</p>
-     * <p>Go to System>Permissions>Users and click "Add New User" button</p>
-     * <p>Fill all required fields (User Info Tab)</p>
-     * <p>Click User Role Tab</p>
-     * <p>Select testRole</p>
-     * <p>Click "Save User" button for save testAdminUser</p>
-     * <p>Log out </p>
-     * <p>Steps:</p>
-     * <p>1.Log In as admin user with  Read rights to Automated Email Reminder Rules</p>
-     * <p>Expected Results</p>
-     * <p>Only Promotions menu is available</p>
-     * <p>Admin User has Read  rights to Automated Email Reminder Rules</p>
-     * <p>Admin User has NO rights to create Catalog Price Rule</p>
-     * <p>Admin User has NO rights to create Shopping Cart Price Rule</p>
      *
      * @TestlinkId TL-MAGE-1465
      * @test
@@ -424,29 +306,6 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
     /**
      * <p>Bug MAGETWO-2588</p>
      * <p>Create Shopping cart price rule with custom Role Scopes Permissions using "Save and Continue Edit" button</p>
-     * <p>Preconditions</p>
-     * <p>Login to backend as admin</p>
-     * <p>Go to System-Permissions-Role and click "Add New Role" button</p>
-     * <p>Fill "Role Name" field</p>
-     * <p>Click Role Resource Tab</p>
-     * <p>Select Custom Role Scopes for one website</p>
-     * <p>Fill Role Resources fieldset</p>
-     * <p>Click "Save " button for save roleSource</p>
-     * <p>Go to System-Permissions-Users and click "Add New User" button</p>
-     * <p>Fill all required fields (User Info Tab)</p>
-     * <p>Click User Role Tab</p>
-     * <p>Select testRole</p>
-     * <p>Click "Save User" button for save testAdminUser</p>
-     * <p>Log out </p>
-     * <p>Steps:</p>
-     * <p>1.Log In as admin user with rights to create Shopping Cart Price Rules</p>
-     * <p>2.Press "Add new Rule" button</p>
-     * <p>3.Fill all required fields</p>
-     * <p>4.Press "Save and Continue" button</p>
-     * <p>5.Press "Save" button</p>
-     * <p>Expected Results:</p>
-     * <p>Only Promotions menu is available</p>
-     * <p>Admin User has Create  rights to Shopping Cart Price Rule</p>
      *
      * @test
      * @TestlinkId TL-MAGE-2283
@@ -480,29 +339,6 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
     /**
      * <p>Bug MAGETWO-2589</p>
      * <p>Create Automated Reminder Rule with custom Role Scopes Permissions using "Save and Continue Edit" button</p>
-     * <p>Preconditions</p>
-     * <p>Login to backend as admin</p>
-     * <p>Go to System-Permissions-Role and click "Add New Role" button</p>
-     * <p>Fill "Role Name" field</p>
-     * <p>Click Role Resource Tab</p>
-     * <p>Select Custom Role Scopes for one website
-     * <p>Fill Role Resources fieldset</p>
-     * <p>Click "Save " button for save roleSource</p>
-     * <p>Go to System-Permissions-Users and click "Add New User" button</p>
-     * <p>Fill all required fields (User Info Tab)</p>
-     * <p>Click User Role Tab</p>
-     * <p>Select testRole</p>
-     * <p>Click "Save User" button for save testAdminUser</p>
-     * <p>Log out</p>
-     * <p>Steps:</p>
-     * <p>1.Log In as admin user with rights to create Create Automated Reminder Rule</p>
-     * <p>2.Press "Add new Rule" button</p>
-     * <p>3.Fill all required fields</p>
-     * <p>4.Press "Save and Continue" button</p>
-     * <p>5.Press "Save" button</p>
-     * <p>Expected Results:</p>
-     * <p>Only Promotions menu is available</p>
-     * <p>Admin User has Create  rights to Create Automated Reminder Rule</p>
      *
      * @test
      * @TestlinkId TL-MAGE-6083

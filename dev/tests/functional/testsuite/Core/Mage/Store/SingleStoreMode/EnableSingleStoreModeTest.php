@@ -54,11 +54,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
 
     /**
      * <p>Scope Selector is disabled if Single Store Mode enabled.</p>
-     * <p>Steps:</p>
-     * <p>1.Login to backend.</p>
-     * <p>2.Go to System - Configuration.</p>
-     * <p>Expected result: </p>
-     * <p>Scope Selector is not displayed.</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -73,12 +68,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
 
     /**
      * <p>"Export Table Rates" functionality is displayed if Single Store Mode enabled.</p>
-     * <p>Steps:</p>
-     * <p>1.Login to backend.</p>
-     * <p>2.Go to System - Configuration - Sales - Shipping Methods.</p>
-     * <p>3.Check for "Table Rates" fieldset  </p>
-     * <p>Expected result: </p>
-     * <p>"Export CSV" button is displayed.</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -94,12 +83,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
 
     /**
      * <p>"Account Sharing Options" fieldset is displayed if Single Store Mode enabled.</p>
-     * <p>Steps:</p>
-     * <p>1.Login to backend.</p>
-     * <p>2.Go to System - Configuration - Customer - Customer Configuration</p>
-     * <p>3.Check for "Account Sharing Options" fieldset  </p>
-     * <p>Expected result:</p>
-     * <p>"Account Sharing Options" fieldset is displayed.</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -115,12 +98,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
 
     /**
      * <p>"Price" fieldset is displayed if Single Store Mode enabled.</p>
-     * <p>Steps:</p>
-     * <p>1.Login to backend.</p>
-     * <p>2.Go to System - Configuration - Catalog - Catalog</p>
-     * <p>3.Check for "Price" fieldset</p>
-     * <p>Expected result: </p>
-     * <p>"Price" fieldset is displayed.</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -130,17 +107,11 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
     {
         $this->admin('system_configuration');
         $this->systemConfigurationHelper()->openConfigurationTab('catalog_catalog');
-        $this->assertFalse($this->controlIsPresent('fieldset','price'), "Fieldset Price is not present on the page");
+        $this->assertFalse($this->controlIsPresent('fieldset', 'price'), "Fieldset Price is not present on the page");
     }
 
     /**
      * <p>"Debug" fieldset is displayed if Single Store Mode enabled.</p>
-     * <p>Steps:</p>
-     * <p>1.Login to backend.</p>
-     * <p>2.Go to System - Configuration - Advanced - Developer</p>
-     * <p>3.Check for "Debug" fieldset.</p>
-     * <p>Expected result:</p>
-     * <p>"Debug" fieldset is displayed.</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -155,12 +126,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
 
     /**
      *<p>Hints for fields are disabled if Single Store Mode enabled.</p>
-     * <p>Steps:</p>
-     * <p>1.Login to backend.</p>
-     * <p>2.Go to System - Configuration</p>
-     * <p>3.Open required tab and fieldset and check hints</p>
-     * <p>Expected result: </p>
-     * <p>Hints are not displayed</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -180,18 +145,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
 
     /**
      * <p> Manage Product page </p>
-     * <p> 1. Go to Catalog - Manage Products </p>
-     * <p> 2. Check for Websites column on the Products grid.</p>
-     * <p> Expected result:</p>
-     * <p> Websites column is not displayed </p>
-     * <p> 3. Click on the Add Product button</p>
-     * <p> 4. Go to the New Product page, Prices tab</p>
-     * <p> 5. Check for Website column in Group Price and Tier Price tables</p>
-     * <p> Expected result: </p>
-     * <p> Column is not displayed.</p>
-     * <p> 6. Check Website tab on the Product Info tab set</p>
-     * <p> Expected result:</p>
-     * <p> Website tab is not displayed.</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -225,14 +178,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
 
     /**
      * <p> Search Terms page </p>
-     * <p> 1. Go to Catalog - Search Terms</p>
-     * <p> 2. Check for Store column on the Search Terms grid.</p>
-     * <p> Expected result:</p>
-     * <p> Store column is not displayed </p>
-     * <p> 3. Click on the Add New Search Term button</p>
-     * <p> 4. Check for Store dropdown </p>
-     * <p> Expected result: </p>
-     * <p> Store dropdown is not displayed.</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -254,19 +199,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
 
     /**
      * <p> Review and Ratings page </p>
-     * <p> 1. Go to Catalog - Review Ratings - Customer Reviews - Pending Reviews</p>
-     * <p> 2. Check for Visible In column on the Pending Reviews grid.</p>
-     * <p> Expected result:</p>
-     * <p> Visible In column is not displayed </p>
-     * <p> 3. Go to Catalog - Review Ratings - Customer Reviews - All Reviews</p>
-     * <p> 4. Check for Visible In column on the All Reviews grid. </p>
-     * <p> Expected result: </p>
-     * <p> Visible In column is not displayed.</p>
-     * <p> 5. Go to Catalog - Review Ratings - Manage Ratings</p>
-     * <p> 6. Click on the Add New Rating button. </p>
-     * <p> 7. Check for Visible In multiselect</p>
-     * <p> Expected result: </p>
-     * <p> Visible In multiselect is not displayed.</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -294,18 +226,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
 
     /**
      * <p> Tags page </p>
-     * <p> 1. Go to Catalog - Tags - All Tags </p>
-     * <p> 2. Check for Store View column on the Manage Tags grid.</p>
-     * <p> Expected result:</p>
-     * <p> Store View column is not displayed </p>
-     * <p> 3. Click on the Add New Tag button. </p>
-     * <p> 4. Check for Scope switcher</p>
-     * <p> Expected result: </p>
-     * <p> Scope switcher is not displayed.</p>
-     * <p> 5. Go to Catalog - Tags - Pending Tags. </p>
-     * <p> 6. Check for Store View dropdown</p>
-     * <p> Expected result: </p>
-     * <p> Store View dropdown is not displayed.</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -332,10 +252,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
 
     /**
      * <p> URL Rewrite Management page </p>
-     * <p> 1. Go to Catalog - URL Rewrite Management </p>
-     * <p> 2. Check for Store View column on the URL Rewrite Management grid.</p>
-     * <p> Expected result:</p>
-     * <p> Store View column is not displayed </p>
      *
      * @test
      * @depends preconditionsForTests
@@ -352,13 +268,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
 
     /**
      * <p>All references to Website-Store-Store View do not displayed in the Manage Content area</p>
-     * <p>Steps</>
-     * <p>1. Navigate to Manage Pages page</p>
-     * <p>2. Click "Add Mew Page" button</p>
-     * <p>3. Click "Back" button</p>
-     * <p>Expected result:</p>
-     * <p>There is no "Store View" selector on the page</p>
-     * <p>There is no "Store View" column on the page</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -379,13 +288,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
 
     /**
      * <p>All references to Website-Store-Store View do not displayed in the Static Blocks area</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Static Blocks  page</p>
-     * <p>2. Click "Add Mew Block" button</p>
-     * <p>3. Click "Back" button</p>
-     * <p>Expected result:</p>
-     * <p>There is no "Store View" selector on the page</p>
-     * <p>There is no "Store View" column on the page</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -406,13 +308,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
 
     /**
      * <p>Assign to Store Views selector does not displayed in the New Widget Instance page</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Widget Instances page</p>
-     * <p>2. Click "Add New Widget Instance" button</p>
-     * <p>3. Fill Settings fields</p>
-     * <p>4. Click "Continue"</p>
-     * <p>Expected result:</p>
-     * <p>There is no "Assign to Store Views" selector in the Frontend Properties tab</p>
      *
      * @param string $dataWidgetType
      *
@@ -449,13 +344,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
 
     /**
      * <p>All references to Website-Store-Store View do not displayed in the Polls area</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Poll Manager page</p>
-     * <p>2. Click "Add Mew Poll" button</p>
-     * <p>2. Click "Back" button</p>
-     * <p>Expected result:</p>
-     * <p>There is no "Visible In" selector on the page</p>
-     * <p>There is no "Visible In" column on the page</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -476,13 +364,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
 
     /**
      * <p>Scope Selector is not displayed on the Dashboard page.</p>
-     * <p>Steps:</p>
-     * <p>1. Login to Backend.</p>
-     * <p>2. Navigate to System - Manage Stores.</p>
-     * <p>3. If there more one Store View - delete except Default Store View.</p>
-     * <p>4. Navigate to Dashboard page.</p>
-     * <p>Expected result:</p>
-     * <p>There is no "Choose Store View" scope selector on the page.</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -497,15 +378,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
 
     /**
      * <p>Create Customer Page</p>
-     * <p>Magento contain only one store view</p>
-     * <p>Enable single store mode System->Configuration->General->General->Single-Store Mode</p>
-     * <p>Steps</p>
-     * <p>1. Login to Backend</p>
-     * <p>2. Go to Customer->Manege Customer</p>
-     * <p>3. Click "Add new customer" button</p>
-     * <p>4. Verify fields in account information tab</p>
-     * <p>Expected Result</p>
-     * <p>1. Dropdowns "Associate to Website" and "Send From" are missing</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -523,22 +395,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
 
     /**
      * <p>Edit Customer Page</p>
-     * <p>Magento contain only one store view</p>
-     * <p>Customer is created</p>
-     * <p>Single store mode (System->Configuration->General->General->Single-Store Mode) is enabled</p>
-     * <p>Steps</p>
-     * <p>1. Login to Backend</p>
-     * <p>2. Go to Customer->Manege Customer</p>
-     * <p>3. Open customer profile</p>
-     * <p>4. Verify that:</p>
-     * <p>Sales statistic grid not contain "Website", "Store", "Store View" columns</p>
-     * <p>Account information tab not contain "Associate to Website" dropdown</p>
-     * <p>Table on Orders tab is not contain "Bought From" column</p>
-     * <p>Table on Recurring Profile is not contain "Store" column</p>
-     * <p>Table on Wishlist tab is not contain "Added From" column</p>
-     * <p>Table on Product Review tab is not contain "Visible In" Column</p>
-     * <p>Expected Result</p>
-     * <p>1. All of the above elements are missing</p>
      *
      * @param $userData
      * @depends preconditionsForTests
@@ -574,15 +430,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
 
     /**
      * <p>All references to Website-Store-Store View are not displayed in the Newsletter Subscribers area.</p>
-     * <p>Steps:</p>
-     * <p>1. Login to Backend.</p>
-     * <p>2. Navigate to System - Manage Stores.</p>
-     * <p>3. If there more one Store View - delete except Default Store View.</p>
-     * <p>4. Navigate to Newsletter Subscribers page.</p>
-     * <p>Expected result:</p>
-     * <p>There is no "Website" multi selector on the page.</p>
-     * <p>There is no "Store" multi selector on the page.</p>
-     * <p>There is no "Store View" multi selector on the page.</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -601,15 +448,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
 
     /**
      * <p>Catalog Price Rules page does not contain websites columns and multiselects</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Promotions - Catalog Price Rules
-     * <p>2.Check for Website column on the Grid.
-     * <p>Expected result: </p>
-     * <p>Website column is not displayed.</p>
-     * <p>3.Click on the Add New Rule button.</p>
-     * <p>4.Check for Websites multiselect</p>
-     * <p>Expected result: </p>
-     * <p>Websites multiselect is not displayed.</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -629,15 +467,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
 
     /**
      * <p>Shopping Cart Price Rules page does not contain websites columns and multiselects</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Promotions - Shopping Cart Price Rules
-     * <p>2.Check for Website column on the Grid.
-     * <p>Expected result: </p>
-     * <p>Website column is not displayed.</p>
-     * <p>3.Click on the Add New Rule button.</p>
-     * <p>4.Check for Websites multiselect</p>
-     * <p>Expected result: </p>
-     * <p>Websites multiselect is not displayed.</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -656,15 +485,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
     }
     /**
      * <p>Reports</p>
-     * <p>Preconditions</p>
-     * <p>Magento contain only one store view</p>
-     * <p>Disable single store mode System->Configuration->General->General->Single-Store Mode</p>
-     * <p>Steps</p>
-     * <p>1. Login to Backend</p>
-     * <p>2. Go to Reports pages</p>
-     * <p>3. Verify that on all reports pages Scope Selector is missing</p>
-     * <p>Expected Result</p>
-     * <p>Scope Selector is is missing on reports pages</p>
      *
      * @dataProvider allReportPagesDataProvider
      * @depends preconditionsForTests
@@ -705,17 +525,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
 
     /**
      * <p>"Please Select a Store" step is present during New Order Creation</p>
-     * <p>Steps:</p>
-     * <p>1. Login to Backend.</p>
-     * <p>2. Navigate to System - Manage Stores.</p>
-     * <p>3. If there more one Store View - delete except Default Store View.</p>
-     * <p>4. Navigate System Configuration - Single Store Mode.</p>
-     * <p>5. Configure Enable Single-Store Mode - Yes.</p>
-     * <p>6. Navigate to Orders page.</p>
-     * <p>7. Click "Create New Order" button.</p>
-     * <p>8. Choose any customer.</p>
-     * <p>Expected result:</p>
-     * <p>There is no "Please Select a Store" field set on the page</p>
      *
      * @param array $userData
      *
@@ -738,15 +547,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
 
     /**
      * <p>"Store" column is not displayed on the Recurring Profiles(beta) page</p>
-     * <p>Steps:</p>
-     * <p>1. Login to Backend.</p>
-     * <p>2. Navigate to System - Manage Stores.</p>
-     * <p>3. If there more one Store View - delete except Default Store View.</p>
-     * <p>4. Navigate System Configuration - Single Store Mode.</p>
-     * <p>5. Configure Enable Single-Store Mode - Yes.</p>
-     * <p>6. Navigate to Recurring Profiles(beta) page.</p>
-     * <p>Expected result:</p>
-     * <p>There is no "Store" column the page</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -761,17 +561,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
 
     /**
      * <p>All references to Website-Store-Store View are not displayed in the Terms and Conditions area.</p>
-     * <p>Steps:</p>
-     * <p>1. Login to Backend.</p>
-     * <p>2. Navigate to System - Manage Stores.</p>
-     * <p>3. If there more one Store View - delete except Default Store View.</p>
-     * <p>4. Navigate System Configuration - Single Store Mode.</p>
-     * <p>5. Configure Enable Single-Store Mode - Yes.</p></p>
-     * <p>6. Navigate to "Manage Terms and Conditions" page.</p>
-     * <p>7. Click "Add New Condition" button".</p>
-     * <p>Expected result:</p>
-     * <p>There is no "Store View" column on the page.</p>
-     * <p>There is no "Store View" multi selector on the page.</p>
      *
      *
      * @test
@@ -791,15 +580,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
     }
     /**
      * <p>All references to Website-Store-Store View are not displayed in the Schedule Design area.</p>
-     * <p>Steps:</p>
-     * <p>1. Login to Backend.</p>
-     * <p>2. Navigate to System - Manage Stores.</p>
-     * <p>3. If there more one Store View - delete except Default Store View.</p>
-     * <p>4. Navigate to Design page.</p>
-     * <p>5. Click "Add Design Change" button.</p>
-     * <p>Expected result:</p>
-     * <p>There is no "Store" column on the page.</p>
-     * <p>There is no "Store" multi selector on the "New Design Change" page.</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -818,13 +598,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
 
     /**
      * <p>"Content Information" field set is not displayed in the Design-Editor area.</p>
-     * <p>Steps:</p>
-     * <p>1. Login to Backend.</p>
-     * <p>2. Navigate to System - Manage Stores.</p>
-     * <p>3. If there more one Store View - delete except Default Store View.</p>
-     * <p>4. Navigate to Visual Design Editor page.</p>
-     * <p>Expected result:</p>
-     * <p>There is no "Content Information" field set on the page.</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -839,15 +612,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
 
     /**
      * <p>All references to Website-Store-Store View are not displayed in the Import Export-Dataflow-Profiles area.</p>
-     * <p>Steps:</p>
-     * <p>1. Login to Backend.</p>
-     * <p>2. Navigate to System - Manage Stores.</p>
-     * <p>3. If there more one Store View - delete except Default Store View.</p>
-     * <p>4. Navigate to Profiles page.</p>
-     * <p>5. Click "Add New Profile" button.</p>
-     * <p>Expected result:</p>
-     * <p>There is no "Store" column on the page.</p>
-     * <p>There is no "Store" multi selector on the page.</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -866,14 +630,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
 
     /**
      * <p>All references to Website-Store-Store View are not displayed in the Order Statuses area.</p>
-     * <p>Steps:</p>
-     * <p>1. Login to Backend.</p>
-     * <p>2. Navigate to System - Manage Stores.</p>
-     * <p>3. If there more one Store View - delete except Default Store View.</p>
-     * <p>4. Navigate to Order Statuses page.</p>
-     * <p>5. Click "Create New Status" button.</p>
-     * <p>Expected result:</p>
-     * <p>There is no "Store View Specific Labels" field set on the page.</p>
      *
      * @test
      * @depends preconditionsForTests

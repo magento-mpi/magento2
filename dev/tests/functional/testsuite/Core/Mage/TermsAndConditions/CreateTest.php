@@ -47,13 +47,6 @@ class Core_Mage_TermsAndConditions_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Terms and Conditions with mandatory fields only</p>
-     * <p>Steps:</p>
-     * <p>1. Go to Terms and Conditions grid menu.</p>
-     * <p>2. Click "Add New Condition" button.</p>
-     * <p>3. Fill all required fields with data.</p>
-     * <p>4. Click "Save Condition" button.</p>
-     * <p>Expected result:</p>
-     * <p>Message "The condition has been saved." is displayed</p>
      *
      * @return array $termsData
      *
@@ -73,15 +66,6 @@ class Core_Mage_TermsAndConditions_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Terms and Conditions with name that already exists</p>
-     * <p>Preconditions:</p>
-     * <p>One Terms and Condition must be created</p>
-     * <p>Steps:</p>
-     * <p>1. Go to Admin > Sales > Terms and Conditions.</p>
-     * <p>2. Click 'Add New Condition> button.</p>
-     * <p>3. Fill fields with the same data of already created T&C.</p>
-     * <p>4. Click "Save Condition" button</p>
-     * <p>Expected:</p>
-     * <p>T&C is not saved. Error Message appears: "Already name exists."</p>
      *
      * @param $termsData
      *
@@ -100,12 +84,6 @@ class Core_Mage_TermsAndConditions_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Terms and Conditions (Show Content As = HTML)</p>
-     * <p>Steps:</p>
-     * <p>1. Click "Add New Condition" button.</p>
-     * <p>2. Fill all required fields with data.</p>
-     * <p>3. Click "Save Condition" button.</p>
-     * <p>Expected result:</p>
-     * <p>Message "The condition has been saved." is displayed</p>
      *
      * @test
      * @TestLinkId TL-MAGE-2255
@@ -123,14 +101,6 @@ class Core_Mage_TermsAndConditions_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create New Terms and Conditions (Empty mandatory fields)</p>
-     * <p>Steps:</p>
-     * <p>1. Go to Terms and Conditions grid.</p>
-     * <p>2. Press "Add New Condition" button.</p>
-     * <p>3. Fill fields except one required.</p>
-     * <p>4. Press "Save Condition" button.</p>
-     * <p>Expected result:</p>
-     * <p>New Terms and Conditions is not saved.</p>
-     * <p>Message "This is a required field." is displayed.</p>
      *
      * @param string $emptyField
      * @param string $fieldType
@@ -165,13 +135,6 @@ class Core_Mage_TermsAndConditions_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Terms and Conditions (Several Store Views)</p>
-     * <p>Steps:</p>
-     * <p>1.Click "Add New Condition" button.</p>
-     * <p>2.Fill in required fields by regular data.</p>
-     * <p>3.Select several store views.</p>
-     * <p>4.Click "Save Condition" button.</p>
-     * <p>Expected result:</p>
-     * <p>Message "The condition has been saved." is displayed</p>
      *
      * @test
      * @TestlinkId TL-MAGE-2246
@@ -189,12 +152,6 @@ class Core_Mage_TermsAndConditions_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Terms and Conditions(Content Height with wrong value)</p>
-     * <p>Steps:</p>
-     * <p>1.Click "Add New Condition" button.</p>
-     * <p>2.Fill fields by regular data, in Content Height enter more 25 symbols.</p>
-     * <p>3.Click "Save Condition" button.</p>
-     * <p>Expected result:</p>
-     * <p>Error message appears, Content Height is highlighted with red</p>
      *
      * @test
      * @TestLinkId TL-MAGE-2266
@@ -212,14 +169,6 @@ class Core_Mage_TermsAndConditions_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Terms and Conditions (all required fields are filled by long value data = 255).</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Terms and Conditions.</p>
-     * <p>2.Press "Add New Condition" button.</p>
-     * <p>3.Fill all required fields by long value data.</p>
-     * <p>4.Press "Save User" button.</p>
-     * <p>Expected result:</p>
-     * <p>New Terms & Conditions is created.</p>
-     * <p>Message "The condition has been saved." is displayed</p>
      *
      * @test
      * @TestLinkId TL-MAGE-5627
@@ -245,14 +194,6 @@ class Core_Mage_TermsAndConditions_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Terms and Conditions (with special characters).</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Terms and Conditions.</p>
-     * <p>2.Press "Add New Condition" button.</p>
-     * <p>3.Fill all required fields by special characters value data.</p>
-     * <p>4.Press "Save User" button.</p>
-     * <p>Expected result:</p>
-     * <p>New Terms & Conditions is not created.</p>
-     * <p>Message "The condition has been saved." is displayed</p>
      *
      * @test
      * @TestLinkId TL-MAGE-5629

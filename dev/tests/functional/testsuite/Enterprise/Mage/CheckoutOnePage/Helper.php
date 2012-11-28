@@ -76,7 +76,7 @@ class Enterprise_Mage_CheckoutOnePage_Helper extends Core_Mage_CheckoutOnePage_H
             $checkoutData['shipping_data']['add_gift_options']['individual_items'] : array();
 
         if ($itemsGiftWrapping) {
-            foreach($itemsGiftWrapping as $productData) {
+            foreach ($itemsGiftWrapping as $productData) {
                 if (isset($productData['product_name']) && isset($productData['item_gift_wrapping_design'])) {
                     $this->addParameter('productName', $productData['product_name']);
                     $this->addParameter('giftWrapping', $productData['item_gift_wrapping_design']);

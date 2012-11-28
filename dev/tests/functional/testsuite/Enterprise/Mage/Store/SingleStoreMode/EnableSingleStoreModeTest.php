@@ -27,10 +27,6 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
 
     /**
      * <p>Precondition for test:</p>
-     * <p>1. Login to backend.</p>
-     * <p>2. Navigate to System -> Manage Store.</p>
-     * <p>3. Verify that one store-view is created.</p>
-     * <p>4. Go to System - Configuration - General and enable Single-Store Mode.</p>
      *
      * @test
      */
@@ -53,10 +49,6 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
 
     /**
      * <p>Choose Scope selector does not displayed on the Manage Page Hierarchy page</p>
-     * <p>Steps:</p>
-     * <p>Navigate to Manage Pages Hierarchy page.</p>
-     * <p>Expected result:</p>
-     * <p>There is no "Choose Scope" selector  on the page</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -71,13 +63,6 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
 
     /**
      * <p>Assign to Store Views selector does not displayed in the New Widget Instance page</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Widget Instances page</p>
-     * <p>2. Click "Add New Widget Instance" button</p>
-     * <p>3. Fill Settings fields</p>
-     * <p>4. Click "Continue"</p>
-     * <p>Expected result:</p>
-     * <p>There is no "Assign to Store Views" selector in the Frontend Properties tab</p>
      *
      * @param string $dataWidgetType
      *
@@ -111,14 +96,6 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
 
     /**
      * <p>All references to Website-Store-Store View do not displayed in the Banner area</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Banners page</p>
-     * <p>2. Click "Add Banner" button</p>
-     * <p>3. Choose Content tab</p>
-     * <p>4. Click "Back" button</p>
-     * <p>Expected result:</p>
-     * <p>There is no "Store View Specific Content" fieldset in the Content tab</p>
-     * <p>There is no "Visible In" column on the page</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -141,12 +118,6 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
 
     /**
      * <p>All references to Website-Store-Store View do not displayed in the Customer Segments area</p>
-     * <p>Steps:<p/>
-     * <p>1. Navigate to Manage Segments page</p>
-     * <p>2. Click "Add Segment" button</p>
-     * <p>Expected result:</p>
-     * <p>There is no "Website" column on the page</p>
-     * <p>There is no "Assigned to Website" multiselect on the page</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -166,28 +137,6 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
 
     /**
      * <p>Edit Customer Page</p>
-     * <p>Magento contain only one store view</p>
-     * <p>Customer is created</p>
-     * <p>Single store mode (System->Configuration->General->General->Single-Store Mode) is enabled</p>
-     * <p>Steps</p>
-     * <p>1. Login to Backend</p>
-     * <p>2. Go to Customer->Manege Customer</p>
-     * <p>3. Open customer profile</p>
-     * <p>4. Verify that:</p>
-     * <p>Sales statistic grid not contain "Website", "Store", "Store View" columns</p>
-     * <p>Account information tab not contain "Associate to Website" dropdown</p>
-     * <p>Table on Orders tab is not contain "Bought From" column</p>
-     * <p>Table on Recurring Profile is not contain "Store" column</p>
-     * <p>Table on Wishlist tab is not contain "Added From" column</p>
-     * <p>Table on Product Review tab is not contain "Visible In" Column</p>
-     * <p>ONLY FOR EE</p>
-     * <p> Reward Points grid not contain "website" column</p>
-     * <p> Store Credit grid not contain 'Website' column</p>
-     * <p> Store credit tab not contain "website" drtopdown in 'Update balance' fieldset and filter "Website" in Balance History</p>
-     * <p>Gift registry tab not contain 'Website' filter</p>
-     * <p>Reward Points tab not contain "website" drtopdown in 'Update balance' fieldset and filter "Website" in Balance History</p>
-     * <p>Expected Result</p>
-     * <p>1. All of the above elements are missing</p>
      *
      * @param $userData
      *
@@ -246,19 +195,6 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
 
     /**
      * <p>All references to Website-Store-Store View do not displayed in the Gift Card Accounts area</p>
-     * <p>Steps:<p/>
-     * <p>1. Login to Backend.</p>
-     * <p>2. Navigate to System - Manage Stores.</p>
-     * <p>3. If there more one Store View - delete except Default Store View.</p>
-     * <p>4. Navigate System Configuration - Single Store Mode.</p>
-     * <p>5. Configure Enable Single-Store Mode - Yes.</p>
-     * <p>6. Navigate to Manage Gift Card Accounts page.</p>
-     * <p>7. Click "Add New Gift Card Account" button.</p>
-     * <p>6. Navigate to Send Gift Cart tab.</p>
-     * <p>Expected result:</p>
-     * <p>There is no "Website" column on the page.</p>
-     * <p>There is no "Website" multi selector on the page.</p>
-     * <p>There is no "Send Email from the Following Store View" multi selector in the tab.</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -283,18 +219,6 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
 
     /**
      * <p>Catalog Price Rules page does not contain websites columns and multiselects if Single Store Mode is enabled.</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Promotions - Catalog Price Rules
-     * <p>2.Check for Website column on the Grid.
-     * <p>Expected result: </p>
-     * <p>Website column is not displayed.</p>
-     * <p>3.Click on the Add New Rule button.</p>
-     * <p>4.Check for Websites multiselect</p>
-     * <p>Expected result: </p>
-     * <p>Websites multiselect is not displayed.</p>
-     *  <p>5.Click on the Related Banners tab and check "Visible In" column</p>
-     * <p>Expected result: </p>
-     * <p>"Visible In" column is not displayed</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -319,18 +243,6 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
 
     /**
      * <p>Shopping Cart Price Rules page does not contain websites columns and multiselects</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Promotions - Shopping Cart Price Rules</p>
-     * <p>2.Check for Website column on the Grid.</p>
-     * <p>Expected result: </p>
-     * <p>Website column is not displayed.</p>
-     * <p>3.Click on the Add New Rule button.</p>
-     * <p>4.Check for Websites multiselect</p>
-     * <p>Expected result: </p>
-     * <p>Websites multiselect is not displayed.</p>
-     * <p>5.Click on the Related Banners tab and check "Visible In" column</p>
-     * <p>Expected result: </p>
-     * <p>"Visible In" column is not displayed</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -355,17 +267,6 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
 
     /**
      * <p>All references to Website-Store-Store View do not displayed in the Reward Exchange Rates area</p>
-     * <p>Steps:<p/>
-     * <p>1. Login to Backend.</p>
-     * <p>2. Navigate to System - Manage Stores.</p>
-     * <p>3. If there more one Store View - delete except Default Store View.</p>
-     * <p>4. Navigate System Configuration - Single Store Mode.</p>
-     * <p>5. Configure Enable Single-Store Mode - Yes.</p>
-     * <p>6. Navigate to Manage Reward Exchange Rates page.</p>
-     * <p>7. Click "Add New Rate" button.</p>
-     * <p>Expected result:</p>
-     * <p>There is no "Website" column on the page.</p>
-     * <p>There is no "Website" multi selector on the page.</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -384,17 +285,6 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
 
     /**
      * <p>All references to Website-Store-Store View are not displayed in the Gift Wrapping area.</p>
-     * <p>Steps:</p>
-     * <p>1. Login to Backend.</p>
-     * <p>2. Navigate to System - Manage Stores.</p>
-     * <p>3. If there more one Store View - delete except Default Store View.</p>
-     * <p>4. Navigate System Configuration - Single Store Mode.</p>
-     * <p>5. Configure Enable Single-Store Mode - Yes.</p>
-     * <p>6. Navigate to Manage Gift Wrapping page.</p>
-     * <p>7. Click "Add Gift Wrapping" button.</p>
-     * <p>Expected result:</p>
-     * <p>There is no "Websites" column on the page.</p>
-     * <p>There is no "Websites" multi selector on the page.</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -414,20 +304,12 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
 
     /**
      * <p>"Price" fieldset is displayed if Single Store Mode enabled.</p>
-     * <p>Steps:</p>
-     * <p>1.Login to backend.</p>
-     * <p>2.Go to System - Manage Stores</p>
-     * <p>3.Verify that one store-view is created.</p>
-     * <p>4.Go to System - Configuration - Catalog - Catalog</p>
-     * <p>5.Expand Price fieldset and check for "Catalog Price Scope" dropdown </p>
-     * <p>Expected result: </p>
-     * <p>"Catalog Price Scope" dropdown is not displayed.</p>
      *
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-6182
      */
-    function verificationCatalogPrice()
+    public function verificationCatalogPrice()
     {
         $this->admin('system_configuration');
         $this->systemConfigurationHelper()->openConfigurationTab('catalog_catalog');

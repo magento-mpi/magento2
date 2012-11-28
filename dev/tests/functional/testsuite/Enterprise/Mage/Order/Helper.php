@@ -89,8 +89,8 @@ class Enterprise_Mage_Order_Helper extends Core_Mage_Order_Helper
         }
 
         $fieldSetElements = $this->_findUimapElement('fieldset', 'gift_options_for_order')->getFieldsetElements();
-        foreach($fieldSetElements as $controlType => $elements) {
-            foreach($elements as $element => $elementXpath) {
+        foreach ($fieldSetElements as $controlType => $elements) {
+            foreach ($elements as $element => $elementXpath) {
                 if ($this->controlIsPresent($controlType, $element)) {
                     $this->addVerificationMessage("Gift options($element) is available for the order");
                 }

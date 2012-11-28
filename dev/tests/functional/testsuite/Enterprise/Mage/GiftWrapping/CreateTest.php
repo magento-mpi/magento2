@@ -26,14 +26,6 @@ class Enterprise_Mage_GiftWrapping_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Test Case TL-MAGE-836: Adding and configuring new Gift Wrapping</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Gift Wrapping" page;</p>
-     * <p>2. Click button "Add Gift Wrapping";</p>
-     * <p>3. Fill all required fields with correct data;</p>
-     * <p>4. Press button "Save and Continue";</p>
-     * <p>5. Save gift wrapping</p>
-     * <p>Expected Results:</p>
-     * <p>1. Gift wrapping is created;</p>
      *
      * @return string
      * @test
@@ -63,13 +55,6 @@ class Enterprise_Mage_GiftWrapping_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Test Case Test Case TL-MAGE-840: Editing/reconfiguring existing Gift Wrapping</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Gift Wrapping" page;</p>
-     * <p>2. Open previously created gift wrapping;</p>
-     * <p>3. Change gift wrapping configuration to new data;</p>
-     * <p>4. Save gift wrapping</p>
-     * <p>Expected Results:</p>
-     * <p>1. Gift wrapping is saved;</p>
      *
      * @param string $wrappingDesign
      *
@@ -101,17 +86,6 @@ class Enterprise_Mage_GiftWrapping_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Test Case TL-MAGE-873: Mass actions with Gift Wrappings (update statuses)</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Gift Wrapping" page;</p>
-     * <p>2. Select previously created gift wrapping by checking checkbox;</p>
-     * <p>3. Choose massaction action "Change status";</p>
-     * <p>4. Choose massaction status "Disable";</p>
-     * <p>5. Submit action.</p>
-     * <p>6. Choose massaction action "Change status";</p>
-     * <p>7. Choose massaction status "Enable";</p>
-     * <p>8. Submit action.</p>
-     * <p>Expected Results:</p>
-     * <p>1. Gift wrapping is updated;</p>
      *
      * @test
      */
@@ -143,14 +117,6 @@ class Enterprise_Mage_GiftWrapping_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Test Case:</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Gift Wrapping" page;</p>
-     * <p>2. Click button "Add Gift Wrapping";</p>
-     * <p>3. Fill all required fields except one (from data provider);</p>
-     * <p>4. Save gift wrapping</p>
-     * <p>Expected Results:</p>
-     * <p>1. Gift wrapping is not created;</p>
-     * <p>2. Message "This is a required field." for required field appears.</p>
      *
      * @param string $fieldName
      *
@@ -180,14 +146,6 @@ class Enterprise_Mage_GiftWrapping_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Test Case:</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Gift Wrapping" page;</p>
-     * <p>2. Click button "Add Gift Wrapping";</p>
-     * <p>3. Fill all required fields with correct data except price (enter "-10");</p>
-     * <p>4. Save gift wrapping</p>
-     * <p>Expected Results:</p>
-     * <p>1. Gift wrapping is not created;</p>
-     * <p>2. Message "Please enter a valid number in this field." for price field appears.</p>
      *
      * @param string $fieldData
      * @param string $messageName

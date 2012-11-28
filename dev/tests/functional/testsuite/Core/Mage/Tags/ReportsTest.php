@@ -37,38 +37,6 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
 
     /**
      * Checking entries in the tags reports
-     * Preconditions:
-     * 1. Created and assigned products to the store view.
-     * 2. Logged in customer that did not create any tags.
-     * Steps:
-     * 1. Open Frontend.
-     * 2. Go to the Product view page.
-     * 3. Enter new tag name to the "Add Your Tags:" field.
-     * 4. Click on "Add Tags" button.
-     * Expected:
-     * System should reply with message “1 tag(s) have been accepted for moderation.”
-     * Added tag is shown in the My Account -> My Tags.
-     * Tag is added to the Tags -> All Tags.
-     * Tag received "Pending" status.
-     * Tagged product is shown in "Products Tagged by Customers" on the Tag page.
-     * 5. Log into Backend.
-     * 6. Go to the Catalog -> Tags -> Pending Tags.
-     * 7. Select your tag and approve it.
-     * 8. Refresh Cache.
-     * 9. Go to the Reports -> Tags -> Customers.
-     * Expected: Entry about your customer should be added.
-     * 10. Click on "Show Tags" link in your customer.
-     * Expected: Information about product name, tag name, visibility on store views and submission details should be
-     * displayed.
-     * 11. Go to the Reports -> Tags -> Products.
-     * Expected: "Number of Unique Tags" and "Number of Total Tags" should be increased by 1 for the product for what
-     * was assigned new tag.
-     * 12. Click on "Show Tags" link of your product.
-     * Expected: New tag should be in the tag list.
-     * 13. Go to the Reports -> Tags -> Popular.
-     * Expected: Your tag should be in the tag list with popularity 1.
-     * 14. Click on "Show Details" link near your tag.
-     * Expected: Information about customer, product and store view should be displayed.
      *
      * @param array $testData
      *
@@ -287,17 +255,6 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
 
     /**
      * Verifying that Customers Tags report can be exported to a CSV or an Excel file.
-     * Steps:
-     * 1. Go to the Reports -> Tags -> Customers.
-     * 2. Select Export to: "CSV" and click on "Export" button. Select path and click on "OK" button.
-     * Expected: File should contain all entries from the grid.
-     * 3. Select Export to: "Excel XML" and click on "Export" button. Select path and click on "OK" button.
-     * Expected: File should contain all entries from the grid.
-     * 4. Click on "Show Tags" link.
-     * 5. Select Export to: "CSV" and click on "Export" button. Select path and click on "OK" button.
-     * Expected: File should contain all entries from the grid.
-     * 6. Select Export to: "Excel XML" and click on "Export" button. Select path and click on "OK" button.
-     * Expected: File should contain all entries from the grid.
      *
      * @param array $testData
      *
@@ -353,17 +310,6 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
 
     /**
      * Verifying that Products Tags report can be exported to a CSV or an Excel file.
-     * Steps:
-     * 1. Go to the Reports -> Tags -> Customers.
-     * 2. Select Export to: "CSV" and click on "Export" button. Select path and click on "OK" button.
-     * Expected: File should contain all entries from the grid.
-     * 3. Select Export to: "Excel XML" and click on "Export" button. Select path and click on "OK" button.
-     * Expected: File should contain all entries from the grid.
-     * 4. Click on "Show Tags" link.
-     * 5. Select Export to: "CSV" and click on "Export" button. Select path and click on "OK" button.
-     * Expected: File should contain all entries from the grid.
-     * 6. Select Export to: "Excel XML" and click on "Export" button. Select path and click on "OK" button.
-     * Expected: File should contain all entries from the grid.
      *
      * @param array $testData
      *
@@ -416,17 +362,6 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
 
     /**
      * Verifying that Popular Tags report can be exported to a CSV or an Excel file.
-     * Steps:
-     * 1. Go to the Reports -> Tags -> Customers.
-     * 2. Select Export to: "CSV" and click on "Export" button. Select path and click on "OK" button.
-     * Expected: File should contain all entries from the grid.
-     * 3. Select Export to: "Excel XML" and click on "Export" button. Select path and click on "OK" button.
-     * Expected: File should contain all entries from the grid.
-     * 4. Click on "Show Tags" link.
-     * 5. Select Export to: "CSV" and click on "Export" button. Select path and click on "OK" button.
-     * Expected: File should contain all entries from the grid.
-     * 6. Select Export to: "Excel XML" and click on "Export" button. Select path and click on "OK" button.
-     * Expected: File should contain all entries from the grid.
      *
      * @param array $testData
      *

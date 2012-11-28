@@ -52,13 +52,6 @@ class Enterprise_Mage_ImportExportScheduled_Backward_Export_CustomerTest extends
     }
     /**
      * Running Scheduled Export
-     * Precondition:
-     * Scheduled Export for products is created
-     * Steps:
-     * 1. In System->Import/Export->Scheduled Import Export select export for products
-     * 2. Select "Run" in "Action" column
-     * Expected Result:
-     * "Last Outcome" changes from "Pending" to "Successful", message about successful operation is appeared
      *
      * @test
      * TL-MAGE-1499
@@ -104,17 +97,6 @@ class Enterprise_Mage_ImportExportScheduled_Backward_Export_CustomerTest extends
     }
     /**
      * Running Scheduled Import
-     * Precondition:
-     * 1. Two old Scheduled Imports are created for customers and products
-     * "Steps:"
-     * 1. In System > Import/Export > Scheduled Import/Export select import for customers
-     * 2. in "Action" column select "Run"
-     * Expected Result:
-     * "Last Outcome" changes from "Pending" to "Successful", message about successful operation is appeared
-     * 3. In System > Import/Export > Scheduled Import/Export select import for products
-     * in "Action" column select "Run"
-     * Expected Result:
-     * "Last Outcome" changes from "Pending" to "Successful", message about successful operation is appeared
      *
      * @dataProvider simpleScheduledImportData
      * @depends simpleScheduledExport

@@ -43,21 +43,6 @@ class Enterprise_Mage_ImportExportScheduled_ImportForm_CustomerTest extends Mage
 
     /**
      * Adding new Scheduled Import (Customers)
-     * Steps:
-     * 1. Go to System > Import/Export > Scheduled Import/Export
-     * 2. Click “Add Scheduled Import” button
-     * 3. Fill all values (Entity Type: Customers Main File, Import Behavior: Add/Update Complex Data)
-     * 4. Click 'Save' button
-     * Expected: scheduled Import/Export page is opened. Message “The scheduled import has been saved”
-     * in green frame has appeared. Created Scheduled Import is available in grid.
-     * 5. Open created Scheduled Import from grid.
-     * Expected: edit Scheduled Import page is opened. Scheduled Import form is filled correctly.
-     * 6. Go back to Scheduled Import/Export page. Click “Add Scheduled Import” button. Repeat step 3
-     * 7. Click 'Reset' button
-     * Expected: new Scheduled Import form is empty
-     * 8. Repeat step 3
-     * 9. Click 'Back' button
-     * Expected: scheduled Import/Export page is opened. Scheduled Import is not saved.
      *
      * @test
      * @TestlinkId TL-MAGE-5765
@@ -127,31 +112,6 @@ class Enterprise_Mage_ImportExportScheduled_ImportForm_CustomerTest extends Mage
 
     /**
      * Editing existing Scheduled Import (Customers)
-     * Precondition: one Scheduled Import for customers is created</p
-     * Steps:
-     * 1. Go to System > Import/Export > Scheduled Import/Export
-     * 2. Open Scheduled Import from precondition.
-     * Expected: The page "Edit Scheduled Import" is opened.
-     * 3. Select 'Delete Entities' parameter in 'Import Behavior' dropdown field.
-     * 4. Select 'Customer Addresses' parameter in 'Customer Entity Type' dropdown field.
-     * 5. Click 'Save' button
-     * Expected: scheduled Import/Export page is opened. Message “The scheduled import has been saved”
-     * in green frame has appeared.
-     * 6. Open Scheduled Import from grid.
-     * Expected: edit Scheduled Import page is opened. Scheduled Import form is updated with last changes.
-     * 7. Select 'Custom Action' parameter in 'Import Behavior' dropdown field.
-     * 8. Select 'Customer Finances' parameter in 'Customer Entity Type' dropdown field.
-     * 9. Click 'Reset' button
-     * Expected: 'Import Behavior' field value is 'Delete Entities'.
-     * 'Customer Entity Type' field value is 'Customer Addresses'.
-     * 10. Repeat steps 7-8
-     * 11. Click 'Back' button
-     * Expected: Scheduled Import/Export page is opened.
-     * 12. Open Scheduled Import from precondition.
-     * Expected: 'Import Behavior' field value is 'Delete Entities'.
-     * 'Customer Entity Type' field value is 'Customer Addresses'.
-     * Expected: The page "Edit Scheduled Import" is opened.
-     * 13. Go back to Scheduled Import/Export page. Choose 'Edit' in column 'Action' for import from precondition.
      *
      * @test
      * @depends addingNewScheduledImport
@@ -228,14 +188,6 @@ class Enterprise_Mage_ImportExportScheduled_ImportForm_CustomerTest extends Mage
 
     /**
      * Deleting Scheduled Import (Customers)
-     * Precondition: one Scheduled Import for customers is created</p
-     * Steps:
-     * 1. In System > Import/Export > Scheduled Import/Export select Scheduled Import from precondition
-     * 2. Press "Delete" button
-     * Expected:  Prompt with text "Are you sure you want to delete this scheduled export?"
-     * 3. Press "OK" button in the dialog box
-     * Expected: the page "Scheduled Import/Export" is opened. Import from precondition is absent in the grid.
-     * The message "The scheduled import has been deleted." is appeared in the top area.
      *
      * @test
      * @depends addingNewScheduledImport
@@ -264,16 +216,6 @@ class Enterprise_Mage_ImportExportScheduled_ImportForm_CustomerTest extends Mage
 
     /**
      * Deleting Scheduled Imports/Exports (through action)
-     * Precondition: three Scheduled Imports/Exports for customers is created</p
-     * Steps:
-     * 1. In System > Import/Export > Scheduled Import/Export select one Scheduled Import/Export from precondition
-     * 2. In "Actions" drop-down select "Delete"
-     * 3. Press "Submit" button
-     * Expected: Prompt with text "Are you sure you want to delete the selected scheduled imports/exports?".
-     * 4. Press "OK" button.
-     * Expected: The message "Total of 1 record(s) have been deleted" is appeared in the top area.
-     * Import/Export from precondition is absent in the grid.
-     * 5. Repeat steps 1-3 for other 2 imports/exports
      *
      * @test
      * @dataProvider massActionDelete

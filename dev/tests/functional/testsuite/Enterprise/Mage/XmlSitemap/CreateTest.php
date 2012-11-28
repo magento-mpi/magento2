@@ -40,11 +40,6 @@ class Enterprise_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Verifying default value of option "Enable Submission to Robots.txt"</p>
-     * <p>Steps</p>
-     * <p>1. Open Search Engine Submission Settings</p>
-     * <p>2. Option 'Enable Submission to Robots.txt'</p>
-     * <p>Expected result:</p>
-     * <p>"Enable Submission to Robots.txt' = "No" (default)</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5999
@@ -61,14 +56,6 @@ class Enterprise_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Verifying Save process of XML Sitemap</p>
-     * <p>Steps</p>
-     * <p>1. Go to XML Sitemap</p>
-     * <p>2. Set filename and path</p>
-     * <p>3. Click "Save and Generate" button</p>
-     * <p>4. Sitemap has saved</p>
-     * <p>Expected result:</p>
-     * <p>Sitemap created, pushed to robots.txt and success message was appear</p>
-     * <p>Message "The sitemap has been saved" is displayed</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5841
@@ -111,13 +98,6 @@ class Enterprise_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Verifying Required field of XML Sitemap</p>
-     * <p>Steps</p>
-     * <p>1. Go to XML Sitemap</p>
-     * <p>2. Set filename and path with noValue </p>
-     * <p>3.Click Save button</p>
-     * <p>Expected result:</p>
-     * <p>XML Sitemap doesn't created</p>
-     * <p>Message "This is a required field." is displayed</p>
      *
      * @param string $emptyField
      * @param string $messageCount
@@ -158,13 +138,6 @@ class Enterprise_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Verifying "Edit custom instruction of robots.txt File" push to default Robots.txt</p>
-     * <p>Steps</p>
-     * <p>1. Open Search Engine Robots tab</p>
-     * <p>2. Fill "Edit custom instruction of robots.txt File" filed and save config </p>
-     * <p>3. Save config</p>
-     * <p>4. Open file robots.txt
-     * <p>Expected result:</p>
-     * <p>Robots.txt should contained information from field "Edit custom instruction of robots.txt File"</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5876
@@ -201,15 +174,6 @@ class Enterprise_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Verifying Save process of XML Sitemap with Enable Submission to Robots.txt = "No"</p>
-     * <p>Steps</p>
-     * <p>1. Enable Submission to Robots.txt = "No"</p>
-     * <p>1. Go to XML Sitemap</p>
-     * <p>2. Set filename and path</p>
-     * <p>3. Click Save and Generate button</p>
-     * <p>4. Sitemap has saved and generated</p>
-     * <p>Expected result:</p>
-     * <p>Sitemap created and success message was appear and do not pushed to robots.txt</p>
-     * <p>Message "The sitemap has been saved" is displayed</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5928
@@ -263,14 +227,6 @@ class Enterprise_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Verifying Reset to Default button</p>
-     * <p>Steps</p>
-     * <p>1. Open Search Engine Robots tab</p>
-     * <p>2. Fill "Edit custom instruction of robots.txt File" filed </p>
-     * <p>3. Push Reset to Default button</p>
-     * <p>3. Save config</p>
-     * <p>4. Open file robots.txt
-     * <p>Expected result:</p>
-     * <p>Robots.txt should contained predefined fields"</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5932

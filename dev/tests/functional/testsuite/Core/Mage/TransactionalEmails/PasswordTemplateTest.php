@@ -25,14 +25,6 @@ class Core_Mage_TransactionalEmails_PasswordTemplateTest extends Mage_Selenium_T
 
     /**
      * <p>Insert Variable in Forgot Password Template</p>
-     * <p>Steps:</p>
-     * <p>1.Go to System - Transactional Emails.</p>
-     * <p>2.Click on the "Add New Template" button.</p>
-     * <p>3.Verify that "Forgot Password" item is displayed on the "Template" dropdown.</p>
-     * <p>4.Select appropriate drop-down item and click on the "Load Template" button</p>
-     * <p>5.Click on the "Insert Variable" button and verify that "Reset Password URL" is displayed on the "Template Variables" tab<//p>
-     * <p>Expected result</p>
-     * <p>"Reset Password URL" is displayed on the "Template Variables" tab.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-2068
@@ -52,15 +44,6 @@ class Core_Mage_TransactionalEmails_PasswordTemplateTest extends Mage_Selenium_T
 
     /**
      * <p>Create new Admin Password Template</p>
-     * <p>Steps:</p>
-     * <p>1.Go to System - Transactional Emails.</p>
-     * <p>2.Click on the "Add New Template" button.</p>
-     * <p>3.Select Forgot Admin Password drop-down item and click on the "Load Template" button</p>
-     * <p>4.Click on the "Insert Variable" button <//p>
-     * <p>5.Click on the Reset Password URL </p>
-     * <p>6.Enter name for template and save it.
-     * <p>Expected result</p>
-     * <p>Template is successfully saved.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-2067
@@ -79,15 +62,6 @@ class Core_Mage_TransactionalEmails_PasswordTemplateTest extends Mage_Selenium_T
 
     /**
      * <p>Create new Password Reset template</p>
-     * <p>Steps:</p>
-     * <p>1.Go to System - Transactional Emails.</p>
-     * <p>2.Click on the "Add New Template" button.</p>
-     * <p>3.Select Forgot Password drop-down item and click on the "Load Template" button</p>
-     * <p>4.Click on the "Insert Variable" button <//p>
-     * <p>5.Click on the Reset Password URL </p>
-     * <p>6.Enter name for template and save it.
-     * <p>Expected result</p>
-     * <p>Template is successfully saved.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-2070

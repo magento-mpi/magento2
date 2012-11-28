@@ -40,12 +40,6 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Verify that url rewrite form is present at the backend page<p>
-     * <p>Steps to reproduce:<p>
-     * <p>1. Navigate to the form to add new custom url rewrite<p>
-     * <p>Expected result:</p>
-     * <p>A form to enter url rewrite is present</p>
-     * <p>Only one instance of such form is present</p>
-     * <p>The form has proper attributes (matched by uimap xpath)<p>
      *
      * @test
      */
@@ -64,14 +58,6 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Verifying Required field for Custom URL rewrite</p>
-     * <p>Steps</p>
-     * <p>1. Go to URL rewrite management</p>
-     * <p>2. Click Add URL rewrite button</p>
-     * <p>3. At Create URL rewrite dropdown select Custom</p>
-     * <p>4. Click Save button</p>
-     * <p>Expected result:</p>
-     * <p>Custom URL rewrite does not created</p>
-     * <p>Message "This is a required field." is displayed</p>
      *
      * @param string $emptyField
      * @param string $messageCount
@@ -114,14 +100,6 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Verifying Required field for Product URl rewrite</p>
-     * <p>Steps</p>
-     * <p>1. Go to URL rewrite management</p>
-     * <p>2. Click Add URL rewrite button</p>
-     * <p>3. Create URL Rewrite = "For product"</p>
-     * <p>4. Select Product in Grid</p>
-     * <p>5. Select Category</p>
-     * <p>Expected result:</p>
-     * <p>"ID Path" & "Target Path" won't editable</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5517
@@ -175,13 +153,6 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Verifying Required field for Product URl rewrite</p>
-     * <p>Steps</p>
-     * <p>1. Go to URL rewrite management</p>
-     * <p>2. Click Add URL rewrite button</p>
-     * <p>3. Create URL Rewrite = "For Category"</p>
-     * <p>4. Select Category</p>
-     * <p>Expected result:</p>
-     * <p>"Type" & "ID Path" & "Target Path" won't editable</p>
      *
      * @depends withRequiredFieldsNotEditable
      *
@@ -222,12 +193,6 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Verifying Required field for Custom URl rewrite</p>
-     * <p>Steps</p>
-     * <p>1. Go to URL rewrite management</p>
-     * <p>2. Click Add URL rewrite button</p>
-     * <p>3. At Create URL rewrite dropdown select Custom</p>
-     * <p>Expected result:</p>
-     * <p>"Type" & "ID Path" & "Target Path" won't editable</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5694
@@ -252,17 +217,6 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create URL rewrite for product</p>
-     * <p>Steps</p>
-     * <p>1. Go to URL rewrite management</p>
-     * <p>2. Click Add URL rewrite button</p>
-     * <p>3. Create URL Rewrite = "For product"</p>
-     * <p>4. Select Product in Grid</p>
-     * <p>5. Select Category (this step can be skipped)</p>
-     * <p>6. Input needed Request path</p>
-     * <p>7. Save</p>
-     * <p>8. Open store on front with new request path</p>
-     * <p>Expected result:</p>
-     * <p>URL rewrite created and works</p>
      *
      * @return array
      * @test
@@ -323,16 +277,6 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create URL rewrite for product with existing Request path</p>
-     * <p>Steps</p>
-     * <p>1. Go to URL rewrite management</p>
-     * <p>2. Click Add URL rewrite button</p>
-     * <p>3. Create URL Rewrite = "For product"</p>
-     * <p>4. Select Product in Grid</p>
-     * <p>5. Select Category</p>
-     * <p>6. Input existing Request path</p>
-     * <p>7. Save</p>
-     * <p>8. Select</p>
-     * <p>Expected result: message that this Request path is already exist appear</p>
      *
      * @depends urlRewriteForProduct
      *
@@ -381,14 +325,6 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>CMS Pages custom URL Rewrites</p>
-     * <p>Steps</p>
-     * <p>1. Create CMS Page </p>
-     * <p>2. Push "Add URL Rewrite" Button</p>
-     * <p>3. Select Custom URL rewrite</p>
-     * <p>4. Request path = [url_key] ; ID_Path = [url_key]</p>
-     * <p>5. Target path = http://magentocommerce.com
-     * <p>Expected result:</p>
-     * <p>When I'll open page with [url-key] should open http://magentocommerce.com CMS page</p>
      *
      * @test
      * @TestlinkId TL-MAGE-6123
@@ -448,14 +384,6 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>CMS Pages custom URL Rewrites</p>
-     * <p>Steps</p>
-     * <p>1. Create CMS Page </p>
-     * <p>2. Push "Add URL Rewrite" Button</p>
-     * <p>3. Select Custom URL rewrite</p>
-     * <p>4. Request path = [url_key] ; ID_Path = [url_key]</p>
-     * <p>5. Target path = customer-service
-     * <p>Expected result:</p>
-     * <p>When I'll open page with [url-key] should open customer-service CMS page</p>
      *
      * @return array
      * @test
@@ -515,13 +443,6 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>URL Rewrites using an external link</p>
-     * <p>Steps</p>
-     * <p>1. Push "Add URL Rewrite" Button</p>
-     * <p>2. Select Custom URL rewrite</p>
-     * <p>3. Request path = [url_key] ; ID_Path = [url_key]</p>
-     * <p>4. Target path = http://google.com
-     * <p>Expected result:</p>
-     * <p>When I'll try to open request path should open Google page</p>
      *
      * @param array $data
      *
@@ -564,14 +485,6 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>URL Rewrites using an external link</p>
-     * <p>Steps</p>
-     * <p>1. Press Add URL Rewrite button</p>
-     * <p>2. Create URL Rewrite select Product</p>
-     * <p>3. Click on your product</p>
-     * <p>4. Select Request store, Select Target Store (the same as Request Store) and click Save button</p>
-     * <p>5. Open second store and add to the address line the Request Path from step 4</p>
-     * <p>Expected result:</p>
-     * <p>404 page is opened</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5508
@@ -582,7 +495,7 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->navigate('manage_products');
         $productData = $this->loadDataSet('Product', 'simple_product_url_rewrite');
         //        $productSearch =
-        //            $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
+        //        $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         $this->productHelper()->createProduct($productData);
         $this->assertMessagePresent('success', 'success_saved_product');
 
@@ -631,15 +544,6 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>URL Rewrite for category in scope of the same one store</p>
-     * <p>1. Go to URL rewrite management</p>
-     * <p>2. Click Add URL rewrite button</p>
-     * <p>3. Create URL Rewrite = "For category"</p>
-     * <p>4. Select Category in tree</p>
-     * <p>5. Input needed Request path</p>
-     * <p>6. Save</p>
-     * <p>7. Open store on front with new request path</p>
-     * <p>Expected result:</p>
-     * <p>URL rewrite created and category page is opened</p>
      *
      * @return array
      * @test
@@ -693,15 +597,6 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>URL Rewrite for category in scope of the same one store (URL not available from other store)<p>
-     * <p>1. Go to URL rewrite management</p>
-     * <p>2. Click Add URL rewrite button</p>
-     * <p>3. Create URL Rewrite = "For category"</p>
-     * <p>4. Select Category in tree</p>
-     * <p>5. Input needed Request path</p>
-     * <p>6. Save</p>
-     * <p>7. Open other store on front with new request path</p>
-     * <p>Expected result:</p>
-     * <p>404 page is opened</p>
      *
      * @param $fieldData
      *
@@ -743,13 +638,6 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>URL Rewrite for product in scope of two different Websites</p>
-     * <p>Steps</p>
-     * <p>1. Create Product </p>
-     * <p>2. Create Website 1 and Website 2</p>
-     * <p>3. Assign Product to Website 2</p>
-     * <p>4. Open frontend and try open created product</p>
-     * <p>Expected result:</p>
-     * <p>Will be opened 404 page</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5510
@@ -782,7 +670,7 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $productData = $this->loadDataSet('Product', 'simple_product_url_rewrite',
             array('websites' => $websiteDataOne['website_name'], 'categories' => $category['name']));
         //        $productSearch =
-        //            $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
+        //        $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         $this->productHelper()->createProduct($productData);
         $this->assertMessagePresent('success', 'success_saved_product');
 
@@ -799,14 +687,6 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p> Category URl rewrite for two different websites</p>
-     * <p>1. Create two websites</p>
-     * <p>2. Create Category and assigned to each website</p>
-     * <p>3. Press "Add URl rewrite button"</p>
-     * <p>4. Select Category</p>
-     * <p>5. Select Request Store and Target Store</p>
-     * <p>6. Save URL Rewrite</p>
-     * <p>Expected result:</p>
-     * <p>Request path should work correctly</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5533
@@ -858,15 +738,6 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Custom URL Rewrite for product in scope of the same one store<p>
-     * <p>1. Go to URL rewrite management</p>
-     * <p>2. Click Add URL rewrite button</p>
-     * <p>3. Create URL Rewrite = "Custom"</p>
-     * <p>4. Input needed fields</p>
-     * <p>5. Set the same Request store and Target store</p>
-     * <p>6. Save</p>
-     * <p>7. Open front with new request path</p>
-     * <p>Expected result:</p>
-     * <p>Product page is opened</p>
      *
      * @return string
      * @test
@@ -879,7 +750,7 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->navigate('manage_products');
         $productData = $this->loadDataSet('Product', 'simple_product_url_rewrite');
         //        $productSearch =
-        //            $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
+        //        $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         $this->productHelper()->createProduct($productData);
         $this->assertMessagePresent('success', 'success_saved_product');
         //Open URL rewrite management
@@ -917,15 +788,6 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Custom product URL rewrite created for the same one store should not work for other store<p>
-     * <p>1. Go to URL rewrite management</p>
-     * <p>2. Click Add URL rewrite button</p>
-     * <p>3. Create URL Rewrite = "Custom"</p>
-     * <p>4. Input needed fields</p>
-     * <p>5. Set the same Request store and Target store</p>
-     * <p>6. Save</p>
-     * <p>7. Open other store on the front and URL rewrite on it</p>
-     * <p>Expected result:</p>
-     * <p>404 page is opened</p>
      *
      * @param string $uri
      *
@@ -970,11 +832,6 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>URL Rewrite for product in scope of two different Websites</p>
-     * <p>Steps</p>
-     * <p>1. Press Add URL Rewrite button</p>
-     * <p>2. Create URL Rewrite select Product</p>
-     * <p>3. Select category </p>
-     * <p>4. Request store dropdown Store 2 does not available </p>
      *
      * @test
      * @TestlinkId TL-MAGE-5512

@@ -16,18 +16,8 @@ class Enterprise_Mage_Acl_BugVerifications_ReportsTest extends Mage_Selenium_Tes
 
     /**
      * <p>Bug Cover<p/>
-     * <p>MAGETWO-2592: The button "Fetch Updates" is presented on PayPal Settlement Reports page for user which doesn't have permission to Fetch actions</p>
-     *
-     * <p>Steps:</p>
-     * <p>1. Create test role:</p>
-     * <p>On Role Resource tab:</p>
-     * <p>"Resource Access" drop-down = "Custom"</p>
-     * <p>"Resources" = Reports/Sales/PayPal Settlement Reports/View</p>
-     * <p>2. Create "User1" with test role.(System-Permissions-Users)</p>
-     * <p>3. Log in to backend using newly created "User1" credentials.</p>
-     * <p>4. Navigate to Reports-Sales-PayPal Settlement Reports.</p>
-     * <p>Expected results:</p>
-     * <p>The button "Fetch updates" is not presented on PayPal Settlement Reports page.</p>
+     * <p>MAGETWO-2592: The button "Fetch Updates" is presented on PayPal Settlement Reports page
+     * for user which doesn't have permission to Fetch actions</p>
      *
      * @test
      * @TestlinkId TL-MAGE-6074

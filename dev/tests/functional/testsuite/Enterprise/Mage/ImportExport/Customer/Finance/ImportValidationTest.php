@@ -45,14 +45,6 @@ class Enterprise_Mage_ImportExport_ImportValidation_FinanceTest extends Mage_Sel
      * Finances Import, if file data is invalid
      * Steps
      * Verify that import will not be started, if file has all rows that are invalid
-     * Invalid row is:
-     * a row with empty value of required attribute
-     * a row with wrong value of some system attribute (non existing website_id or group_id)
-     * a row with invalid values for attributes that pass validation (wrong format of email)
-     * value format differs from attribute input type (some text value is present for attribute with type Yes/No)
-     * if the required column is absent in import file, file is invalid
-     * Press "Check Data" button
-     * Expected: Warning about incorrect file appears
      *
      * @test
      * @dataProvider importDataInvalid
@@ -156,16 +148,6 @@ class Enterprise_Mage_ImportExport_ImportValidation_FinanceTest extends Mage_Sel
 
     /**
      * Import File with duplicated rows
-     * Precondition: csv files (main file, address file) prepared that contains two identical rows
-     * Steps
-     * 1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customers"
-     * 2. Select Entity Type: "Customers Finance"
-     * 3. Select Import Behavior: "Add/Update Complex Data"
-     * 4. Select customer main file from precondition
-     * 5. Press "Check Data" button
-     * Expected: validation error 'E-mail is duplicated in import file in rows: X''
-     * 6. Add column '_action' with 'update' value to csv file
-     * 7. Repeat steps 4-5
      *
      * @test
      * @dataProvider fileDuplicatedRows

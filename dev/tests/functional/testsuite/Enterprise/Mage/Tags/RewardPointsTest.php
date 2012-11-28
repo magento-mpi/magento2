@@ -35,11 +35,6 @@ class Enterprise_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Precondition:
-     * 1. Create product
-     * 2. Create customer
-     * 3. Reward points functionality for tags is enabled and configured
-     * (System -> Configuration -> Customers -> Reward Points).
      *
      * @return array
      * @test
@@ -75,24 +70,6 @@ class Enterprise_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
     /**
      * Verify that customer receives reward points only after tag has been approved by the store administrator.
      * Verify that the proper reward point amount is added to the customer reward points balance.
-     * Steps:
-     * 1. Open Frontend.
-     * 2. Go to the Product view page.
-     * 3. Enter single tag name to the "Add Your Tags:" field.
-     * 4. Click on "Add Tags" button.
-     * 5. Log into Backend.
-     * 6. Go to the Customers -> Manage Customers and select your customer.
-     * 7. Open Reward points tab.
-     * Expected: reward points balance should be 0.
-     * 8. Go to the Catalog -> Tags -> Pending Tags.
-     * 9. Click on created tag.
-     * 10. Select "Approved" status.
-     * 11. Save changes.
-     * 12. Go to the Customers -> Manage Customers and select your customer.
-     * 13. Open Reward Points tab.
-     * Expected: Reward points should be added to the customer in amount that specified in
-     * System -> Configuration -> Customers -> Reward Points -> New Tag Submission.
-     * Reward History should be updated three times, the reason  should be "For submitting tag (tag_name)".
      *
      * @param array $testData
      *
@@ -155,12 +132,6 @@ class Enterprise_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Precondition:
-     * 1. Create two products
-     * 2. Create customer
-     * 3. Reward points functionality for tags is enabled and configured
-     * (System -> Configuration -> Customers -> Reward Points).
-     * 4. “Rewarded Tag Submission Quantity Limit” is set to 3.
      *
      * @return array
      * @test
@@ -202,26 +173,6 @@ class Enterprise_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
     /**
      * Verify that “Rewarded Tag Submission Quantity Limit” field limits the number of tags that can be used to
      * earn points for each customer.
-     * Steps:
-     * 1. Open Frontend.
-     * 2. Go to the Product view page.
-     * 3. Enter two new tags to the "Add Your Tags:" field.
-     * 4. Click on "Add Tags" button.
-     * 5. Go to the another Product view page.
-     * 6. Enter two tags to the "Add Your Tags:" field.
-     * 7. Click on "Add Tags" button.
-     * 8. Log into Backend.
-     * 9. Go to the Customers -> Manage Customers and select your customer.
-     * 10. Open Reward points tab.
-     * Expected: reward points balance should be 0.
-     * 11. Go to the Catalog -> Tags -> Pending Tags.
-     * 12. Select all created tag and choose "Approved" status for them in mass action.
-     * 13. Go to the Customers -> Manage Customers and select your customer.
-     * 14. Open Reward Point tab.
-     * Expected: Reward points should be added to the customer in amount that specified in
-     * System -> Configuration -> Customers -> Reward Points -> New Tag Submission for each tag (in current case
-     * reward points should be earned only for first three tags). Reward History should be updated three times,
-     * the reason  should be "For submitting tag (tag_name)".
      *
      * @param array $testData
      *

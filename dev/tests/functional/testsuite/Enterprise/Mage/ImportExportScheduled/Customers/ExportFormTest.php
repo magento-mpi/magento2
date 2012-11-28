@@ -27,18 +27,7 @@ class Enterprise_Mage_ImportExportScheduled_ExportForm_CustomerTest extends Mage
 
     /**
      * Adding new Scheduled Export
-     * Steps:
-     * 1. Press "Add Scheduled Export" button in System > Import/Export > Scheduled Import/Export.
-     * 2. Select entity type "Customers Main File"
-     * 3. Fill all other fields
-     * 4. Click "Reset" button
-     * 5. Repeat steps 2-5
-     * 6. Click "Back" button
-     * 7. Repeat steps 1-5
-     * 8. Press "Save" button
-     * Result1: After step 6 the creation form should be cleared
-     * Result2: After step 8 the grid "Scheduled Import/Export" is opened, new export isn't created
-     * Result3: After step 10 the grid "Scheduled Import/Export" is opened, new export is created
+     *
      * @test
      * @TestlinkId TL-MAGE-5769
      */
@@ -97,17 +86,7 @@ class Enterprise_Mage_ImportExportScheduled_ExportForm_CustomerTest extends Mage
 
     /**
      * Editing new Scheduled Export
-     * Preconditions:
-     * The Scheduled export for new export format with entity subtype "Customers Main File" exists
-     * Steps:
-     * 1. Search and open export from precondition in System > Import/Export > Scheduled Import/Export.
-     * 2. Select "Customer Addresses" type, edit info in all others fields all other fields
-     * 3. Click "Save" button
-     * 4. Open this export
-     *  Result: The  changed info is saved
-     * 5.Select "Customer Finances" entity subtype, edit info in all others fields again
-     * 6. Press "Save" button
-     * Result: The changes should be applied
+     *
      * @test
      * @TestlinkId TL-MAGE-5770
      */
@@ -179,12 +158,7 @@ class Enterprise_Mage_ImportExportScheduled_ExportForm_CustomerTest extends Mage
 
     /**
      * Editing new Scheduled Export
-     * Preconditions:
-     * The Scheduled export for new export format with entity subtype "Customers Main File" exists
-     * Steps:
-     * 1. Search export from precondition in System > Import/Export > Scheduled Import/Export.
-     * 2. In column "Action"  select "Edit"
-     *  Result: The  edit page of export from precondition is opened
+     *
      * @test
      * @TestlinkId TL-MAGE-5771
      */
@@ -211,13 +185,7 @@ class Enterprise_Mage_ImportExportScheduled_ExportForm_CustomerTest extends Mage
 
     /**
      * Deleting new Scheduled Export
-     * Preconditions:
-     * The Scheduled export for new export format with entity subtype "Customers Main File" exists
-     * Steps:
-     * 1. Search and open export from precondition in System > Import/Export > Scheduled Import/Export.
-     * 2. Press "Delete" button
-     * 3. Press "OK" in appearing dialog box
-     *  Result: The grid Scheduled Import/Export is appeared with message about deleting.
+     *
      * @test
      * @TestlinkId TL-MAGE-5773
      */

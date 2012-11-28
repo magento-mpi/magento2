@@ -37,9 +37,6 @@ class Enterprise_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage_
 
     /**
      * <p>Category Permissions Options block</p>
-     * <p>Steps:</p>
-     * <p>1. Go to System -> Configuration -> Catalog -> Catalog -> Category Permissions</p>
-     * <p>2. Verify that all fields are present</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5078
@@ -101,20 +98,6 @@ class Enterprise_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage_
 
     /**
      * <p>Allow Adding to Cart set up "No"</p>
-     * <p>Steps</p>
-     * <p>1.Go to System -> Configuration -> Catalog -> Catalog -> Category Permissions</p>
-     * <p>2.Select "Yes" in Enable field</p>
-     * <p>3.Select "Yes, for Everyone" in Allow Browsing Category field</p>
-     * <p>4.Select "Yes, for Everyone" in Display Product Prices</p>
-     * <p>5.Select "No" in Allow Adding to Cart field</p>
-     * <p>6.Click "Save Config" button</p>
-     * <p>7.Clear Magento Cache </p>
-     * <p>8.Open Frontend</p>
-     * <p>9.Open any category</p>
-     * <p>10. Open product page</p>
-     * <p>Expected result:</p>
-     * <p>1. After 9 Category page is open. Product prices is visible. "Add to cart" button is missing</p>
-     * <p>2. After 10 Product page is open. Product prices is visible. "Add to cart" button is missing</p>
      *
      * @param array $testData
      *
@@ -143,26 +126,6 @@ class Enterprise_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage_
 
     /**
      * <p>Allow Adding to Cart set up "Yes, for Specified Customer Groups"</p>
-     * <p>Steps</p>
-     * <p>1.Go to System -> Configuration -> Catalog -> Catalog -> Category Permissions</p>
-     * <p>2.Select "Yes" in Enable field</p>
-     * <p>3.Select "Yes, for Everyone" in Allow Browsing Category field</p>
-     * <p>4.Select "Yes, for Everyone" in Display Product Prices</p>
-     * <p>5.Select "Yes, for Specified Customer Groups" in Allow Adding to Cart field</p>
-     * <p>6.Select "General" in Customer Groups list</p>
-     * <p>7.Click "Save Config" button </p>
-     * <p>8.Clear Magento Cache </p>
-     * <p>9.Open Frontend as a guest</p>
-     * <p>10.Open any category</p>
-     * <p>11.Open product page</p>
-     * <p>12.Login to frontend</p>
-     * <p>13.Open any category</p>
-     * <p>14.Open product page</p>
-     * <p>Expected result:</p>
-     * <p>1. After 10 Category page is open. Product prices is visible. "Add to cart" button is missing</p>
-     * <p>2. After 11 Product page is open. Product prices is visible. "Add to cart" button is missing</p>
-     * <p>3. After 13 Category page is open. Product prices is visible. "Add to cart" button is available</p>
-     * <p>4. After 14 Product page is open. Product prices is visible. "Add to cart" button is available</p>
      *
      * @param array $testData
      *
@@ -199,19 +162,6 @@ class Enterprise_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage_
 
     /**
      * <p>Allow Adding to Cart set up "Yes, for Specified Customer Groups"</p>
-     * <p>Steps</p>
-     * <p>1.Go to System -> Configuration -> Catalog -> Catalog -> Category Permissions</p>
-     * <p>2.Select "Yes" in Enable field</p>
-     * <p>3.Select "Yes, for Everyone" in Allow Browsing Category field</p>
-     * <p>4.Select "No" in Display Product Prices</p>
-     * <p>5.Click "Save Config" button</p>
-     * <p>6.Clear Magento Cache </p>
-     * <p>7.Open Frontend</p>
-     * <p>8.Open any category</p>
-     * <p>9.Open product page</p>
-     * <p>Expected result:</p>
-     * <p>1. After 8 Category page is open. Product prices is not visible. "Add to cart" button is missing</p>
-     * <p>2. After 9 Product page is open. Product prices is not visible. "Add to cart" button is missing</p>
      *
      * @param array $testData
      *
@@ -240,25 +190,6 @@ class Enterprise_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage_
 
     /**
      * <p>Allow Adding to Cart set up "Yes, for Specified Customer Groups"</p>
-     * <p>Steps</p>
-     * <p>1.Go to System -> Configuration -> Catalog -> Catalog -> Category Permissions</p>
-     * <p>2.Select "Yes" in Enable field</p>
-     * <p>3.Select "Yes, for Everyone" in Allow Browsing Category field</p>
-     * <p>4.Select "Yes, for Specified Customer Groups" in Display Product Prices</p>
-     * <p>5.Select "General" in Customer Groups list</p>
-     * <p>6.Click "Save Config" button</p>
-     * <p>7.Clear Magento Cache </p>
-     * <p>8.Open Frontend as a guest</p>
-     * <p>9.Open any category</p>
-     * <p>10.Open product page</p>
-     * <p>11.Login to frontend</p>
-     * <p>12.Open any category</p>
-     * <p>13.Open product page</p>
-     * <p>Expected result:</p>
-     * <p>1. After 9 Category page is open. Product prices is not visible. "Add to cart" button is missing</p>
-     * <p>2. After 10 Product page is open. Product prices is not visible. "Add to cart" button is missing</p>
-     * <p>3. After 12 Category page is open. Product prices is visible. "Add to cart" button is available</p>
-     * <p>4. After 13 Product page is open. Product prices is visible. "Add to cart" button is available</p>
      *
      * @param array $testData
      *
@@ -296,18 +227,6 @@ class Enterprise_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage_
 
     /**
      * <p>Allow Browsing Category set up "No, Redirect to Landing Page"</p>
-     * <p>Steps</p>
-     * <p>1.Go to System -> Configuration -> Catalog -> Catalog -> Category Permissions</p>
-     * <p>2.Select "Yes" in Enable field</p>
-     * <p>3.Select "No, Redirect to Landing Page" in Allow Browsing Category field</p>
-     * <p>4.Select "No" in Display Product Prices</p>
-     * <p>5.Select "About Us" in Landing Page field</p>
-     * <p>6.Clear Magento Cache </p>
-     * <p>7.Open Frontend</p>
-     * <p>8.Open category page</p>
-     * <p>Expected result:</p>
-     * <p>1. After 7 Category navigation menu  is missing</p>
-     * <p>2. After 8 "About Us" page is open</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -328,23 +247,6 @@ class Enterprise_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage_
 
     /**
      * <p>Allow Browsing Category set up "Yes, for Specified Customer Groups"</p>
-     * <p>Steps</p>
-     * <p>1.Go to System -> Configuration -> Catalog -> Catalog -> Category Permissions</p>
-     * <p>2.Select "Yes" in Enable field</p>
-     * <p>3.Select "Yes, for Specified Customer Groups" in Allow Browsing Category field</p>
-     * <p>4.Select "General" in Customer Groups list</p>
-     * <p>5.Select "About Us" in Landing Page field</p>
-     * <p>6.Click "Save Config" button</p>
-     * <p>7.Clear Magento Cache </p>
-     * <p>8.Open Frontend as a guest</p>
-     * <p>9.Try Open category</p>
-     * <p>10.Login to frontend</p>
-     * <p>11.Open category</p>
-     * <p>Expected result:</p>
-     * <p>1. After 8 Category navigation menu  is missing<</p>
-     * <p>2. After 9 "About Us" page is open</p>
-     * <p>3. After 10 Category navigation menu  is present</p>
-     * <p>4. After 11 Category page is open</p>
      *
      * @param array $testData
      *
@@ -374,17 +276,6 @@ class Enterprise_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage_
 
     /**
      * <p>Set up Disallow Catalog Search</p>
-     * <p>Steps</p>
-     * <p>1.Go to System -> Configuration -> Catalog -> Catalog -> Category Permissions</p>
-     * <p>2.Select "Yes" in Enable field</p>
-     * <p>3.Select "NOT LOGGED IN" in Disallow Catalog Search By list</p>
-     * <p>4.Click "Save Config" button</p>
-     * <p>5.Clear Magento Cache </p>
-     * <p>6.Open Frontend</p>
-     * <p>7.Login to Frontend</p>
-     * <p>Expected result:</p>
-     * <p>1. After 6 ﻿Quick search and Advanced search is not available</p>
-     * <p>2. After 7 ﻿Quick search and Advanced search is available</p>
      *
      * @param array $testData
      *
@@ -415,19 +306,6 @@ class Enterprise_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage_
 
     /**
      * <p>Permissions are apply for products in Wishlist</p>
-     * <p>Steps</p>
-     * <p>1.Go to System -> Configuration -> Catalog -> Catalog -> Category Permissions</p>
-     * <p>2.Select "Yes" in Enable field</p>
-     * <p>3.Select "Yes, for Everyone" in Allow Browsing Category field</p>
-     * <p>4.Select "No" in Display Product Prices</p>
-     * <p>5.Click "Save Config" button</p>
-     * <p>6.Clear Magento Cache </p>
-     * <p>7.Open Frontend</p>
-     * <p>8.Open any category</p>
-     * <p>9.Add any product to Wishlist</p>
-     * <p>10. Open Wishlist</p>
-     * <p>Expected result:</p>
-     * <p> Product price is not visible. "Add to cart" button is missing</p>
      *
      * @param array $testData
      *

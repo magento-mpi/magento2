@@ -30,14 +30,6 @@ class Core_Mage_TermsAndConditions_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete created Terms & Conditions</p>
-     * <p>Preconditions:</p>
-     * <p>Terms & Conditions created</p>
-     * <p>Steps:</p>
-     * <p>1. Open created Terms & Conditions.</p>
-     * <p>2. Click "Delete Condition" button.</p>
-     * <p>Expected result:</p>
-     * <p>Terms and Conditions deleted.</p>
-     * <p>Success message appears: "The condition has been deleted"</p>
      *
      * @test
      * @TestLinkId TL-MAGE-2319

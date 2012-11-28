@@ -60,15 +60,15 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
     /**
      * Add Gift Card Amount
      *
-     * @param array $GiftCardData
+     * @param array $giftCardData
      */
-    public function addGiftCardAmount(array $GiftCardData)
+    public function addGiftCardAmount(array $giftCardData)
     {
         $rowNumber = count($this->getControlElements('fieldset', 'prices_gift_card_amounts', null, false));
         $this->addParameter('giftCardId', $rowNumber);
         $this->clickButton('add_gift_card_amount', false);
         $this->waitForAjax();
-        $this->fillForm($GiftCardData, 'prices');
+        $this->fillForm($giftCardData, 'prices');
     }
 
     /**

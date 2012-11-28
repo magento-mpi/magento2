@@ -24,8 +24,8 @@ class Core_Mage_ValidationVatNumber_WithTaxCalculationBasedOnBillingTest extends
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($storeInfo);
-        if (!$this->controlIsPresent('link','store_information_link')) {
-            $this->clickControl('link','store_information_link', false);
+        if (!$this->controlIsPresent('link', 'store_information_link')) {
+            $this->clickControl('link', 'store_information_link', false);
         }
         $this->clickControl('button', 'validate_vat_number', false);
         $this->pleaseWait();
@@ -74,14 +74,6 @@ class Core_Mage_ValidationVatNumber_WithTaxCalculationBasedOnBillingTest extends
 
     /**
      * <p>Backend customer registration. With "Tax Calculation Based On" - Billing Address</p>
-     * <p>Steps:</p>
-     * <p>1. Goto System Configuration and open tab "Create New Account Options"</p>
-     * <p>2. Set for option "Tax Calculation Based On" value - Billing Address</p>
-     * <p>3. Goto Manage Customer area and create new customer</p>
-     * <p>4. Open tab Address, check "Default Shipping Address" and add address with different VAT Numbers</p>
-     * <p>5. Save customer</p>
-     * <p>Expected result:</p>
-     * <p>Customer should be assigned to Default Group</p>
      *
      * @param array $customerData
      * @test
@@ -107,7 +99,7 @@ class Core_Mage_ValidationVatNumber_WithTaxCalculationBasedOnBillingTest extends
         $this->saveForm('save_customer');
         //Verifying
         $this->validationVatNumberHelper()->verifyCustomerGroup($userDataParam, $userRegisterData);
-        $this->verifyForm(array('group' => 'General'),'account_information');
+        $this->verifyForm(array('group' => 'General'), 'account_information');
     }
 
     public function withBillingTaxCalculationSettingTestDataProvider()

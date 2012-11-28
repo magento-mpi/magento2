@@ -240,7 +240,7 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
                                               'qty' => 2*$simpleProducts['simpleWithBackorders']['inventory_qty']),
             'simpleDisabled'         => array('sku' => $simpleProducts['simpleDisabled']['general_sku'],
                                               'qty' => 1),
-            'nonExistentProduct'     => $this->loadDataSet('SkuProducts','non_existent_product'),
+            'nonExistentProduct'     => $this->loadDataSet('SkuProducts', 'non_existent_product'),
             'simpleCategory'         => array('sku' => $simpleProducts['simpleCategory']['general_sku'],
                                               'qty' => 1),
             'simpleWebsite'          => array('sku' => $simpleProducts['simpleWebsite']['general_sku'],
@@ -325,43 +325,6 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
 
     /**
      * <p>Adding different product types using Order by SKU</p>
-     * <p>Preconditions:</p>
-     *  <p>1. Product of correspond product type is created (see DataProvider with product list)</p>
-     *  <p>2. Customer is logged in to the store.</p>
-     *  <p>3. Admin user has enabled the SKU functionality for the corresponding customer group.</p>
-     *
-     * <p>Steps:
-     *  <p>1. Log in to Frontend.</p>
-     *  <p>2. My Account - Add by SKU tab.</p>
-     *  <p>3. Enter to SKU field product SKU.</p>
-     *  <p>4. Enter to Qty field "1".</p>
-     *  <p>5. Click on "Add to Cart" button.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. SKU and Qty fields validation is performed without errors.</p>
-     *  <p>2. Customer is redirected to the Shopping Cart.</p>
-     *  <p>3. System displays message "1 product requires your attention."</p>
-     *  <p>4. Product is added to the Products Requiring Attention grid with correspond message (see DataProvider with product list and messages)</p>
-     *
-     * <p>Steps:</p>
-     *  <p>6.1. If product in required attention grid is needed in configuration</p>
-     *  <p>6.1.1. Click "Specify the product's options" link.</p>
-     *  <p>6.1.2. Configure product.</p>
-     *  <p>6.1.3. Click the "Update Cart" button.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. System displays message "%product_name% was added to your shopping cart."</p>
-     *  <p>2. Product is added to the Shopping Cart with selected options.</p>
-     *  <p>3. Product is deleted from Products Requiring Attention grid.</p>
-     *
-     * <p>Steps:</p>
-     *  <p>6.2. If product in required attention grid can be added to shopping cart only by qty modification</p>
-     *  <p>6.2.1. Enter right quantity.</p>
-     *  <p>6.2.2. Click the "Add to Cart" button.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. Product is added to the Shopping Cart.</p>
-     *  <p>2. Product is deleted from Products Requiring Attention grid.</p>
      *
      * @param string $productType
      * @param array $msgShoppingCart
@@ -373,7 +336,10 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
      * @dataProvider productListDataProvider
      * @depends preconditionsForTests
      * @depends createCustomer
-     * @TestlinkId TL-MAGE-3952, TL-MAGE-3955, TL-MAGE-3952, TL-MAGE-3955, TL-MAGE-4006, TL-MAGE-4050, TL-MAGE-4007, TL-MAGE-5222, TL-MAGE-3996, TL-MAGE-5223, TL-MAGE-5224, TL-MAGE-5225, TL-MAGE-5226, TL-MAGE-3963, TL-MAGE-3965, TL-MAGE-3985, TL-MAGE-3966, TL-MAGE-3967, TL-MAGE-3969, TL-MAGE-3971, TL-MAGE-3999, TL-MAGE-4000, TL-MAGE-4004, TL-MAGE-4071
+     * @TestlinkId TL-MAGE-3952, TL-MAGE-3955, TL-MAGE-3952, TL-MAGE-3955, TL-MAGE-4006, TL-MAGE-4050,
+     *             TL-MAGE-4007, TL-MAGE-5222, TL-MAGE-3996, TL-MAGE-5223, TL-MAGE-5224, TL-MAGE-5225,
+     *             TL-MAGE-5226, TL-MAGE-3963, TL-MAGE-3965, TL-MAGE-3985, TL-MAGE-3966, TL-MAGE-3967,
+     *             TL-MAGE-3969, TL-MAGE-3971, TL-MAGE-3999, TL-MAGE-4000, TL-MAGE-4004, TL-MAGE-4071
      */
     public function addProducts($productType, $msgShoppingCart, $msgAttentionGrid, $data, $customer)
     {
@@ -461,7 +427,8 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
             array('simpleNotVisible', //simple product which Visibility is set to Not Visible Individually
                   array ('type' => 'success', 'text' => 'product_added_to_cart_by_sku'),
                   array ('messageOne' => 'null', 'messageTwo' => 'null')),
-            array('simpleNotVisibleCustom', //product with custom options, which Visibility is set to Not Visible Individually
+            array('simpleNotVisibleCustom', //product with custom options,
+                                            //which Visibility is set to Not Visible Individually
                   array('type' => 'error', 'text' => 'required_attention_product'),
                   array ('messageOne' => 'sku_not_found', 'messageTwo' => 'null')),
             array('simpleNotRequiredCustom', //simple product with custom options (is not required)
@@ -491,7 +458,8 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
             array('grouped', // grouped product [MAGETWO-1466]
                   array('type' => 'error', 'text' =>  'required_attention_product'),
                   array ('messageOne' => 'specify_option', 'messageTwo' => 'link')),
-            array('groupedVisibleIndividual', // grouped product which Visibility is set to Not Visible Individually, as subitem [MAGETWO-1466]
+            array('groupedVisibleIndividual', // grouped product which Visibility is set to Not Visible Individually,
+                                              //as subitem [MAGETWO-1466]
                   array('type' => 'error', 'text' => 'required_attention_product'),
                   array ('messageOne' => 'specify_option', 'messageTwo' => 'link')),
             array('bundleNotAvailable', //bundle with disabled and out of stock subitems
@@ -508,18 +476,6 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
 
     /**
      * <p>Adding to Cart by SKU after entering values in multiple fields</p>
-     * <p>Preconditions:</p>
-     *  <p>1. System - Configuration - SALES - Sales - Order by SKU Settings: Enable Order by SKU on My Account in Frontend - Yes, for Everyone.</p>
-     *  <p>2. Simple product is created.</p>
-     *
-     * <p>Steps:</p>
-     *  <p>1. Login to Frontend</p>
-     *  <p>2. My Account - Order by SKU</p>
-     *  <p>3. Click "Add Row" button several times.</p>
-     *  <p>4. Enter valid values SKUs and QTYs and click Add to Cart button.</p>
-     *
-     * <p>Expected result:</p>
-     * 	<p>1. All products, that  was entered in multiple fields, are added to Shopping Cart.</p>
      *
      * @param array $data
      * @param array $customer
@@ -551,23 +507,6 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
 
     /**
      * <p>Successful and unsuccessful messages are located in frames different color</p>
-     * <p>Preconditions:</p>
-     *  <p>1. System - Configuration - SALES - Sales - Order by SKU Settings: Enable Order by SKU on My Account in Frontend - Yes, for Everyone.</p>
-     *
-     * <p>Steps:</p>
-     *  <p>1. Login to Frontend</p>
-     *  <p>2. My Account - Order by SKU</p>
-     *  <p>3. Enter to SKU field sku simple product</p>
-     *  <p>4. Enter to SKU field sku some product, that cannot be added to cart at once (e.g. configurable)</p>
-     *  <p>5. Click the "Add to Cart" button</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. Customer us redirected to the Shopping Cart page.</p>
-     *  <p>2. Simple product is added to the Shopping Cart</p>
-     *  <p>3. Configurable product is added to the Product Requiring Attention grid</p>
-     *  <p>4. Should be two separate frame:</p>
-     *    <p>"%n% products were added to your shopping cart" in green frame;</p>
-     *    <p>"%m% products requires your attention" in red frame.</p>
      *
      * @param array $data
      * @param array $customer
@@ -599,19 +538,6 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
 
     /**
      * <p>Adding/Removing all items from Products Requiring Attention grid</p>
-     * <p>Preconditions:</p>
-     *  <p>1. System - Configuration - SALES - Sales - Order by SKU Settings: Enable Order by SKU on My Account in Frontend - Yes, for Everyone</p>
-     *
-     * <p>Steps:</p>
-     *  <p>1. Login to Frontend</p>
-     *  <p>2. My Account - Order by Sku tab</p>
-     *  <p>3. Click on "Add new Row" several time</p>
-     *  <p>4. In fields "SKU" enter non-existing SKU of products and click button "Add to Cart"</p>
-     *  <p>5. Click "Remove All" button.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. "Product Requiring Attention" grid should be hidden.</p>
-     *  <p>2. System displays message "Items were successfully removed."</p>
      *
      * @param array $data
      * @param array $customer
@@ -642,20 +568,6 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
 
     /**
      * <p>Adding/Removing each attention product separately</p>
-     * <p>Preconditions:</p>
-     *  <p>1. System - Configuration - SALES - Sales - Order by SKU Settings: Enable Order by SKU on My Account in Frontend - Yes, for Everyone</p>
-     *
-     * <p>Steps:</p>
-     *  <p>1. Login to Frontend</p>
-     *  <p>2. My Account - Order by Sku tab</p>
-     *  <p>3. Click on "Add new Row" tree times</p>
-     *  <p>4. In fields "SKU" enter non-existing SKU of products and click button "Add to Cart"</p>
-     *  <p>5. Remove one product.</p>
-     *  <p>6. Take away all the products one by one.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. All products should be deleted one by one.</p>
-     *  <p>2. "Products Requiring Attention" grid should be hidden.</p>
      *
      * @param array $customer
      *

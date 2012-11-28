@@ -39,25 +39,6 @@ class Enterprise_Mage_StagingWebsite_CreateTest extends Mage_Selenium_TestCase
     /**
      * <p>Test case TL-MAGE-2011 and TL-MAGE-2024:</p>
      * <p>Staging Website Creation</p>
-     * <p>Steps:</p>
-     * <p>1. Go to system - Content Staging - Staging Websites;</p>
-     * <p>2. Press button "Add Staging Website";</p>
-     * <p>3. Select Source Website and press button "Continue";</p>
-     * <p>4. Specify all settings/options for Staging Website:</p>
-     * <p>Staging Website Code, Staging Website Name, Frontend Restriction</p>
-     * <p>and Select Original Website Content to be Copied to the Staging Website</p>
-     * <p>5. Press button "Create".</p>
-     * <p>Expected Results:</p>
-     * <p>1. New Staging Website has been created;</p>
-     * <p>2. Admin user is redirected to Manage Staging Website page;</p>
-     * <p>3. Message "The staging website has been created." appears;</p>
-     * <p>4. Newly created Staging Website entity can be found in the list of Staging Websites and base URL for this
-     * website is automatically created;</p>
-     * <p>5. In "Latest Event" column on Manage Staging Websites page shown value "Staging Website Creation";</p>
-     * <p>6. Staging Website opens to the newly created automatically URL and includes only data of Source Website
-     * selected in Select Original Website Content to be Copied to the Staging Website tab;</p>
-     * <p>7. On Staging Operations Log page record is added with info: "Action - Staging Website Creation,
-     * Websites from - master website, Websites to - target website, Result - Started, Completed".</p>
      *
      * @return string $websiteCode
      * @test
@@ -97,18 +78,6 @@ class Enterprise_Mage_StagingWebsite_CreateTest extends Mage_Selenium_TestCase
     /**
      * <p>Test case TL-MAGE-2019</p>
      * <p>Staging website creation - negative</p>
-     * <p>Steps:</p>
-     * <p>1. Open Content Staging > Staging Websites</p>
-     * <p>2. Press button "Add Staging Website";</p>
-     * <p>3. Select Source Website and press button "Continue";</p>
-     * <p>4. Specify all settings/options for Staging Website:</p>
-     * <p>Staging Website Name, Frontend Restriction</p>
-     * <p>and Select Original Website Content to be Copied to the Staging Website</p>
-     * <p>5. Enter the Staging Website Code that already exists;</p>
-     * <p>6. Press button "Create".</p>
-     * <p>Expected Results:</p>
-     * <p>1. New Staging Website has not been created;</p>
-     * <p>2. Message "Website with the same code already exists." appears;</p>
      *
      * @param $websiteCode
      *
@@ -129,15 +98,6 @@ class Enterprise_Mage_StagingWebsite_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Website with empty fields</p>
-     * <p>Steps:</p>
-     * <p>1. Open Content Staging > Staging Websites</p>
-     * <p>2. Press button "Add Staging Website";</p>
-     * <p>3. Select Source Website and press button "Continue";</p>
-     * <p>4. Specify all settings/options for Staging Website, but leave one field empty;</p>
-     * <p>5. Press button "Create".</p>
-     * <p>Expected Results:</p>
-     * <p>1. New Staging Website has not been created;</p>
-     * <p>2. Message "This is a required field." or "Website Item Must be checked" appears;</p>
      *
      * @param string $fieldType
      * @param string $emptyField
@@ -180,16 +140,6 @@ class Enterprise_Mage_StagingWebsite_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Website with incorrect code</p>
-     * <p>Steps:</p>
-     * <p>1. Open Content Staging > Staging Websites</p>
-     * <p>2. Press button "Add Staging Website";</p>
-     * <p>3. Select Source Website and press button "Continue";</p>
-     * <p>4. Specify all settings/options for Staging Website, but enter "(test)" to website code field;</p>
-     * <p>5. Press button "Create".</p>
-     * <p>Expected Results:</p>
-     * <p>1. New Staging Website has not been created;</p>
-     * <p>2. Message "Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character
-     * must be a letter." appears;</p>
      *
      * @test
      */
@@ -206,20 +156,6 @@ class Enterprise_Mage_StagingWebsite_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Test case TL-MAGE-2012: Editing/reconfiguring existing Staging Website</p>
-     * <p>Steps:</p>
-     * <p>1. Go to system - Content Staging - Staging Websites;</p>
-     * <p>2. Press button "Add Staging Website";</p>
-     * <p>3. Select Source Website and press button "Continue";</p>
-     * <p>4. Specify all settings/options for Staging Website:</p>
-     * <p>Staging Website Code, Staging Website Name, Frontend Restriction</p>
-     * <p>and Select Original Website Content to be Copied to the Staging Website</p>
-     * <p>5. Press button "Create".</p>
-     * <p>6. Edit newly created website by changing restriction;</p>
-     * <p>Expected Results:</p>
-     * <p>1. New Staging Website has been created;</p>
-     * <p>2. Admin user is redirected to Manage Staging Website page;</p>
-     * <p>3. Message "The staging website has been saved." appears;</p>
-     * <p>4. Website has been edited.</p>
      *
      * @test
      */

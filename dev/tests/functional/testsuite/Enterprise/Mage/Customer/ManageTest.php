@@ -46,13 +46,6 @@ class Enterprise_Mage_Customer_ManageTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Verification Manage Shopping Cart Button.</p>
-     * <p>Steps:</p>
-     *  <p>1. Search and open customer.</p>
-     *  <p>2. Click 'Manage Shopping Cart' button.</p>
-     *
-     * <p>Expected result:</p>
-     *  <p>1. 'Manage Shopping Cart' button is present on customer page.</p>
-     *  <p>2. Customer Shopping Cart page is opened.</p>
      *
      * @param array $searchData
      *

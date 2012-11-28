@@ -21,7 +21,8 @@ class Enterprise_Mage_Status_SuperTest extends Mage_Selenium_TestCase
     /**
      * <p>After clicking the "What's this?" link information text appears at the bottom of the page</p>
      * <p>Bug MAGETWO-1395</p>
-     * <p>This test checks whether there is a message to the customer login page. The location messages can only check manually.</p>
+     * <p>This test checks whether there is a message to the customer login page.
+     *    The location messages can only check manually.</p>
      *
      * @test
      *

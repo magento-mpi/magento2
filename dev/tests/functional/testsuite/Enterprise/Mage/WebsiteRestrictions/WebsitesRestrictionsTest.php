@@ -40,12 +40,6 @@ class Enterprise_Mage_WebsiteRestrictionsTest extends Mage_Selenium_TestCase
     }
     /**
      * <p>Check Configuration Fields</p>
-     * <p>Steps:</p>
-     * <p>1.Login to Backend</p>
-     * <p>2.Go to System->Configuration->Advanced->Developer->website Restrictions</p>
-     * <p>3.Check that all dropdowns are present:Access Restriction, Restriction Mode, Startup Page, Landing Page, HTTP Response </p>
-     * <p>Expected result</p>
-     * <p>All fields are present</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5519
@@ -69,18 +63,6 @@ class Enterprise_Mage_WebsiteRestrictionsTest extends Mage_Selenium_TestCase
     /**
      *
      * <p>Website Closed HTTP Response 200 OK</p>
-     * <p>Steps:</p>
-     * <p>1.Login to Backend</p>
-     * <p>2.Go to System->Configuration->Advanced->Developer->website Restrictions</p>
-     * <p>3.Select "Yes" in "Acces Restriction"</p>
-     * <p>4.Select "Website Closed" in "Restriction Mode"</p>
-     * <p>5.Select "503 Service Unavailable" in "Landing Page"</p>
-     * <p>6.Select "200 OK" in "HTTP Response"</p>
-     * <p>7.Save Config</p>
-     * <p>8.Open Frontend Home Page</p>
-     * <p>Expected result</p>
-     * <p>"503 Service Unavailable" page is open</p>
-     * <p>HTTP Responce is "200 OK"</p>
      *
      * @test
      * @depends navigationTest
@@ -103,17 +85,6 @@ class Enterprise_Mage_WebsiteRestrictionsTest extends Mage_Selenium_TestCase
     /**
      *
      * <p>Website Closed HTTP Response 503</p>
-     * <p>Steps:</p>
-     * <p>1.Login to Backend</p>
-     * <p>2.Go to System->Configuration->Advanced->Developer->website Restrictions</p>
-     * <p>3.Select "Yes" in "Acces Restriction"</p>
-     * <p>4.Select "Website Closed" in "Restriction Mode"</p>
-     * <p>5.Select "503 Service Unavailable" in "Landing Page"</p>
-     * <p>6.Select "503 Service Unavailable" in "HTTP Response"</p>
-     * <p>7.Open Frontend Home Page</p>
-     * <p>Expected result</p>
-     * <p>"503 Service Unavailable" page is open</p>
-     * <p>HTTP Responce is "503 Service Unavailable"</p>
      *
      * @test
      * @depends navigationTest
@@ -135,17 +106,6 @@ class Enterprise_Mage_WebsiteRestrictionsTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Redirect to login form in "Login Only" Mode</p>
-     * <p>Preconditions:</p>
-     * <p>Steps:</p>
-     * <p>1.Login to Backend</p>
-     * <p>2.Go to System->Configuration->Advanced->Developer->website Restrictions</p>
-     * <p>3.Select "Yes" in "Acces Restriction"</p>
-     * <p>4.Select "Private Sales: Login Only" in "Restriction Mode"</p>
-     * <p>5.Select "To login form" in "Startup Page"</p>
-     * <p>6.Save config</p>
-     * <p>7.Open Frontend</p>
-     * <p>Expected result</p>
-     * <p>Login page is open</p>
      *
      *
      * @test
@@ -166,18 +126,6 @@ class Enterprise_Mage_WebsiteRestrictionsTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Redirect to landing page in "Login Only" Mode</p>
-     * <p>Preconditions:</p>
-     * <p>Steps:</p>
-     * <p>1.Login to Backend</p>
-     * <p>2.Go to System->Configuration->Advanced->Developer->website Restrictions</p>
-     * <p>3.Select "Yes" in "Acces Restriction"</p>
-     * <p>4.Select "Private Sales: Login Only" in "Restriction Mode"</p>
-     * <p>5.Select "To landing page" in "Startup Page"</p>
-     * <p>6.Select "About Us" in "Landing Page"
-     * <p>7.Save config</p>
-     * <p>8.Open Frontend</p>
-     * <p>Expected result</p>
-     * <p>About Us page is open</p>
      *
      *
      * @test
@@ -198,18 +146,6 @@ class Enterprise_Mage_WebsiteRestrictionsTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Verify that "Forgot Your Password" page is enable in "Login Only" Mode</p>
-     * <p>Preconditions:</p>
-     * <p>Steps:</p>
-     * <p>1.Login to Backend</p>
-     * <p>2.Go to System->Configuration->Advanced->Developer->website Restrictions</p>
-     * <p>3.Select "Yes" in "Acces Restriction"</p>
-     * <p>4.Select "Private Sales: Login Only" in "Restriction Mode"</p>
-     * <p>5.Select "To login form" in "Startup Page"</p>
-     * <p>6.Save config</p>
-     * <p>7.Open Frontend</p>
-     * <p>7.Click "Forgot Your Password" link</p>
-     * <p>Expected result</p>
-     * <p>Forgot Your Password page is open</p>
      *
      *
      * @test
@@ -225,28 +161,13 @@ class Enterprise_Mage_WebsiteRestrictionsTest extends Mage_Selenium_TestCase
         $this->clearInvalidedCache();
         $this->frontend('home_page', false);
         $this->validatePage('customer_login');
-        $this->clickControl('link','forgot_password');
+        $this->clickControl('link', 'forgot_password');
         //Verification
         $this->validatePage('forgot_customer_password');
     }
 
     /**
      * <p>Checkout in "Login Only" Mode</p>
-     * <p>Preconditions:</p>
-     * <p>1.Product is created</p>
-     * <p>2.Customer is created</p>
-     * <p>Steps:</p>
-     * <p>1.Login to Backend</p>
-     * <p>2.Go to System->Configuration->Advanced->Developer->website Restrictions</p>
-     * <p>3.Select "Yes" in "Acces Restriction"</p>
-     * <p>4.Select "Private Sales: Login Only" in "Restriction Mode"</p>
-     * <p>5.Select "To login form" in "Startup Page"</p>
-     * <p>6.Save config</p>
-     * <p>7.Login to Frontend</p>
-     * <p>8.Add product to Shopping Cart</p>
-     * <p>9.Place order</p>
-     * <p>Expected result</p>
-     * <p>Order is successfully created</p>
      *
      *
      * @test
@@ -286,21 +207,6 @@ class Enterprise_Mage_WebsiteRestrictionsTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Register customer in "Login and Register" mode </p>
-     * <p>Steps:</p>
-     * <p>1.Login to Backend</p>
-     * <p>2.Go to System->Configuration->Advanced->Developer->website Restrictions</p>
-     * <p>3.Select "Yes" in "Acces Restriction"</p>
-     * <p>4.Select "Private Sales: Login and Register" in "Restriction Mode"</p>
-     * <p>5.Select "To login form" in "Startup Page"</p>
-     * <p>6.Save config</p>
-     * <p>7.Open Frontend</p>
-     * <p>8.Click "Register" button</p>
-     * <p>9.Fill all required field</p>
-     * <p>9.Click "Submit" button</p>
-     * <p>Expected result</p>
-     * <p>Customer is registered</p>
-     * <p>Open customer Dashboard page</p>
-     * <p>Show message "Thank you for registering with store name"</p>
      *
      * @test
      * @depends navigationTest
@@ -327,17 +233,6 @@ class Enterprise_Mage_WebsiteRestrictionsTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Register customer in "Login Only" mode </p>
-     * <p>Steps:</p>
-     * <p>1.Login to Backend</p>
-     * <p>2.Go to System->Configuration->Advanced->Developer->website Restrictions</p>
-     * <p>3.Select "Yes" in "Acces Restriction"</p>
-     * <p>4.Select "Private Sales: Login Only" in "Restriction Mode"</p>
-     * <p>5.Select "To login form" in "Startup Page"</p>
-     * <p>6.Save config</p>
-     * <p>7.Open Frontend</p>
-     * <p>8.Try to open "Register" page entering URL in browser www.your_site/customer/account/create/</p>
-     * <p>Expected result</p>
-     * <p>Open Login Page </p>
      *
      * @test
      * @depends navigationTest

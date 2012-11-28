@@ -47,7 +47,7 @@ class Enterprise_Mage_CustomerSegment_CreateTest extends Mage_Selenium_TestCase
         } else {
             $dataToOverride[$fieldName] = '';
         }
-        $segmentData = $this->loadDataSet('CustomerSegment','segment_with_all_fields', $dataToOverride);
+        $segmentData = $this->loadDataSet('CustomerSegment', 'segment_with_all_fields', $dataToOverride);
         //Steps
         $this->navigate('manage_customer_segments');
         $this->customerSegmentHelper()->createSegment($segmentData);
@@ -72,7 +72,7 @@ class Enterprise_Mage_CustomerSegment_CreateTest extends Mage_Selenium_TestCase
     public function createWithRequiredFields()
     {
         //Data
-        $segmentData = $this->loadDataSet('CustomerSegment','segment_with_required_fields');
+        $segmentData = $this->loadDataSet('CustomerSegment', 'segment_with_required_fields');
         //Steps
         $this->navigate('manage_customer_segments');
         $this->customerSegmentHelper()->createSegment($segmentData);
@@ -87,7 +87,7 @@ class Enterprise_Mage_CustomerSegment_CreateTest extends Mage_Selenium_TestCase
     public function createWithAllFields()
     {
         //Data
-        $segmentData = $this->loadDataSet('CustomerSegment','segment_with_all_fields');
+        $segmentData = $this->loadDataSet('CustomerSegment', 'segment_with_all_fields');
         //Steps
         $this->navigate('manage_customer_segments');
         $this->customerSegmentHelper()->createSegment($segmentData);
@@ -96,17 +96,17 @@ class Enterprise_Mage_CustomerSegment_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-    * @param string $fieldName
-    *
-    * @test
-    * @dataProvider createWithSpecialSymbolsDataProvider
-    * @TestlinkId TL-MAGE-1827
-    */
+     * @param string $fieldName
+     *
+     * @test
+     * @dataProvider createWithSpecialSymbolsDataProvider
+     * @TestlinkId TL-MAGE-1827
+     */
 
     public function createWithLongValues($fieldName)
     {
         //Data
-        $segmentData = $this->loadDataSet('CustomerSegment','segment_with_all_fields',
+        $segmentData = $this->loadDataSet('CustomerSegment', 'segment_with_all_fields',
             array($fieldName => $this->generate('string', 255, ':alnum:')));
         //Steps
         $this->navigate('manage_customer_segments');
@@ -126,7 +126,7 @@ class Enterprise_Mage_CustomerSegment_CreateTest extends Mage_Selenium_TestCase
     public function createWithSpecialSymbols($fieldName)
     {
         //Data
-        $segmentData = $this->loadDataSet('CustomerSegment','segment_with_all_fields',
+        $segmentData = $this->loadDataSet('CustomerSegment', 'segment_with_all_fields',
             array($fieldName => $this->generate('string', 255, ':punct:')));
         //Steps
         $this->navigate('manage_customer_segments');

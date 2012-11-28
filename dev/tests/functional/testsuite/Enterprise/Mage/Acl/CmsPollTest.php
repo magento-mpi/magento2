@@ -57,16 +57,6 @@ class Enterprise_Mage_Acl_CmsPollTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Admin with Resource: CMS polls has access to CMS/pools menu. All necessary elements are presented</p>
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>Expected results:</p>
-     * <p>1. Current page is Manage Polls </p>
-     * <p>2. Navigation menu has only 1 parent element(CMS)</p>
-     * <p>3. Navigation menu(CMS) has only 1 child element(Pages)</p>
-     * <p>4. Manage Pools contains:</p>
-     * <p>4.1 Buttons: "Add New Poll", "Reset Filter", "Search"</p>
-     * <p>4.2 Fields: "filter_id", "filter_question", "filter_number_of_responses_from", "filter_umber_of_responses_to", "filter_date_posted_from", "filter_date_posted_to", "filter_date_closed_from","filter_date_closed_to"</p>
-     * <p>4.3 Dropdown: "filter_status","filter_visible_in"</p>
      *
      * @param $loginData
      *
@@ -104,16 +94,6 @@ class Enterprise_Mage_Acl_CmsPollTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Admin with Resource: CMS/Polls Scope: Main website can create new poll with all fielded fields</p>
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>2. Click "Add New Poll" button</p>
-     * <p>3. On "Poll Information" Tab fill all fields and select Sore View</p>
-     * <p>4. On "Poll Answers" tab fill "Content Heading"   click "Add New Answer" button and add answer</p>
-     * <p>5. Open newly created pull</p>
-     * <p>Expected results: </p>
-     * <p>1. CMS poll is created</p>
-     * <p>2. Success Message is appeared "The poll has been saved."</p>
-     * <p>3. The buttons 'Save pull' and 'Delete' aren't presented on edit pull page</p>
      *
      * @param $loginData
      *

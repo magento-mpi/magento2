@@ -35,21 +35,6 @@ class Enterprise_Mage_Acl_CatalogManageProductTest extends Mage_Selenium_TestCas
     /**
      * <p> Precondition fot test. Creating User with role Catalog/Manage Products</p>
      *
-     * <p>Preconditions</p>
-     * <p>1. Login to backend as admin</p>
-     * <p>2. Go to System>Permissions>Role and click "Add New Role" button</p>
-     * <p>3. Fill "Role Name" field</p>
-     * <p>4. Click Role Resource Tab</p>
-     * <p>5. In Role Resources fieldset  select only one test scope checkbox[Catalog>Manage Products]</p>
-     * <p>6. Click "Save Role" button for save roleSource</p>
-     * <p>7. Go to System>Permissions>Users and click "Add New User" button</p>
-     * <p>8. Fill all required fields (User Info Tab)</p>
-     * <p>9. Click User Role Tab</p>
-     * <p>10. Select testRole</p>
-     * <p>11. Click "Save User" button for save testAdminUser</p>
-     * <p>12. Log out </p>
-     * <p>Expected results:</p>
-     * <p>1. Role and user are successfully created. </p>
      * @test
      * @TestlinkId TL-MAGE-5956
      */
@@ -78,20 +63,6 @@ class Enterprise_Mage_Acl_CatalogManageProductTest extends Mage_Selenium_TestCas
     /**
      *
      * <p>Delete product.</p>
-     * <p>Preconditions</p>
-     * <p>Log in to admin with user created in previous step.</p>
-     * <p>Steps:</p>
-     * <p>1. Click "Add product" button;</p>
-     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields;</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
-     * <p>6. Open product;</p>
-     * <p>7. Click "Delete" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is deleted, confirmation message appears;</p>
      *
      * @param string $type
      * @param array $loginData
@@ -134,21 +105,6 @@ class Enterprise_Mage_Acl_CatalogManageProductTest extends Mage_Selenium_TestCas
     /**
      * <p>Precondition fot test. Creating User with role Catalog/Manage Products</p>
      *
-     * <p>Preconditions</p>
-     * <p>1. Login to backend as admin</p>
-     * <p>2. Go to System>Permissions>Role and click "Add New Role" button</p>
-     * <p>3. Fill "Role Name" field</p>
-     * <p>4. Click Role Resource Tab</p>
-     * <p>5. In Role Resources fieldset  select only one test scope checkbox[Catalog>Manage Products]</p>
-     * <p>6. Click "Save Role" button for save roleSource</p>
-     * <p>7. Go to System>Permissions>Users and click "Add New User" button</p>
-     * <p>8. Fill all required fields (User Info Tab)</p>
-     * <p>9. Click User Role Tab</p>
-     * <p>10. Select testRole</p>
-     * <p>11. Click "Save User" button for save testAdminUser</p>
-     * <p>Expected result</p>
-     * <p>The user is successfully created. The success message is presented.</p>
-     * <p>12. Log out </p>
      * @test
      * @TestlinkId TL-MAGE-5965
      */
@@ -179,23 +135,6 @@ class Enterprise_Mage_Acl_CatalogManageProductTest extends Mage_Selenium_TestCas
     /**
      *
      * <p>Delete product;</p>
-     * <p>Preconditions:</p>
-     * <p>Log in to admin with user created in the previous step.</p>
-     * <p>Steps:</p>
-     * <p>1. Log in to admin with user that have permission "Catalog/Manage Products/Edit Product Status'";</p>
-     * <p>2. Navigate to Manage products page; </p>
-     * <p>3. The column price is not present on page.</p>
-     * <p>4. Click "Add product" button;</p>
-     * <p>5. Fill in "Attribute Set" and "Product Type" fields;</p>
-     * <p>6. Click "Continue" button;</p>
-     * <p>7. Fill in required fields;</p>
-     * <p>8. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
-     * <p>9. Open product;</p>
-     * <p>10. Click "Delete" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is deleted, confirmation message appears;</p>
      *
      * @param string $type
      * @param array $loginData

@@ -57,18 +57,6 @@ class Enterprise_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest 
 
     /**
      * Scheduled Export statuses
-     * Steps:
-     * 1. Create new export with status "Disable"
-     * Result: Export was saved with the status "Disable"
-     * 2. Edit Export - change status to "Enable"
-     * Result: The changes was saved with "Enable" status
-     * 3. Select this Export in grid
-     * 4. Change status to "Disable" with a help "Actions"
-     * Result: Status is changed to "Disable"
-     * 5. Select this Export in grid
-     * 6. Create new import with status disabled
-     * 7. Change status to "Enabled" with a help "Actions for both exports"
-     *  Result: Status is changed to "Enabled" for both exports
      *
      * @test
      * @TestlinkId TL-MAGE-5816
@@ -502,37 +490,6 @@ class Enterprise_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest 
 
     /**
      * Scheduled Export statuses
-     *  Create Product Export in System-> Import/Export-> Scheduled Import/Export
-     *  Create Customer Export with keyword 'test' in the name
-     *  Create another New Customer Export with keyword 'test' in the name
-     *  Create another New Customer Export with another name
-     *  All Exports have different 'entity subtype', 'status', 'frequency','last run date'
-     *  Steps:
-     * 1. On 'Scheduled Import/Export' page in filter 'Entity Type' select 'Products' and press 'Search'
-     *  Result: Only 'product Exports' should be displayed in the grid
-     * 2. in filter 'Entity Type' select Customers Main File entity type and press 'Search'
-     * Result: Only 'customer Exports' should be displayed in the grid
-     * Repeat step 2 for Customer Addresses and Customer Finances entity types
-     * 3. Select 'Daily' frequency and press 'Search'
-     *  Result: Only the Exports with frequency 'Daily' are displayed in the grid
-     * 4. Select 'Weekly' frequency and press 'Search'
-     *  Result: Only the Exports with frequency 'Weekly' are displayed in the grid
-     * 5. Select 'Monthly' frequency and press 'Search'
-     *  Result: Only the Exports with frequency 'Monthly' are displayed in the grid
-     * 6. In the filter select 'Disabled' status and press 'Search'
-     * Result: Only the Exports with status 'Disabled' are displayed in the grid
-     * 7. In the filter select 'Enabled' status and press 'Search'
-     * Result: Only the Exports with status 'Enabled' are displayed in the grid
-     * 8. In the filter 'Last Outcome' select 'Pending' and press 'Search'
-     * Result: Only Pending Exports  are displayed in the grid
-     * 9. In the filter 'Last Outcome' select 'Successful' and press 'Search'
-     * Result: Only Successful Exports  are displayed in the grid
-     * 10. In the filter 'Last Outcome' select 'Failed' and press 'Search'
-     * Result: Only Failed Exports  are displayed in the grid
-     * 11. Enter in the grid proper date to the fields 'From' and 'To'
-     * Result: Only Exports with this last run date  are displayed in the grid
-     * 12. In grid in the field 'Name' enter 'test' and press 'Search' button
-     * Result: Only Exports which have the key 'test' in the name are displayed in the grid
      *
      * @test
      * @TestlinkId TL-MAGE-5817

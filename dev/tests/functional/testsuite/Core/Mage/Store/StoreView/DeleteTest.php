@@ -30,13 +30,6 @@ class Core_Mage_Store_StoreView_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Store View. Fill in only required fields.</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Create Store View' button.</p>
-     * <p>2. Fill in required fields.</p>
-     * <p>3. Click 'Save Store View' button.</p>
-     * <p>Expected result:</p>
-     * <p>Store View is created.</p>
-     * <p>Success Message is displayed</p>
      *
      * @return string
      * @test
@@ -56,14 +49,6 @@ class Core_Mage_Store_StoreView_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete Store View Without creating DB backup</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "System->Manage Stores";</p>
-     * <p>2. Select created Store View from the grid and open it;</p>
-     * <p>3. Click "Delete Store View" button;</p>
-     * <p>4. Select "No" on Backup Options page;</p>
-     * <p>5. Click "Delete Store View" button;</p>
-     * <p>Expected result:</p>
-     * <p>Success message appears - "The store view has been deleted."</p>
      *
      * @param string $storeView
      *

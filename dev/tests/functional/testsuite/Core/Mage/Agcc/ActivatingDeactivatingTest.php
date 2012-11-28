@@ -39,8 +39,9 @@ class Core_Mage_Agcc_ActivatingDeactivatingTest extends Mage_Selenium_TestCase
         $this->agccHelper()->createRuleAndContinueEdit($ruleData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_rule');
-        if (array_key_exists('websites', $verificationData['info']) &&
-            !$this->controlIsPresent('multiselect', 'websites')) {
+        if (array_key_exists('websites', $verificationData['info'])
+            && !$this->controlIsPresent('multiselect', 'websites')
+        ) {
             unset($verificationData['info']['websites']);
         }
         $this->verifyForm($verificationData['info'], 'rule_information');
@@ -66,8 +67,9 @@ class Core_Mage_Agcc_ActivatingDeactivatingTest extends Mage_Selenium_TestCase
         $this->agccHelper()->createRuleAndContinueEdit($ruleData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_rule');
-        if (array_key_exists('websites', $ruleData['info']) &&
-            !$this->controlIsPresent('multiselect', 'websites')) {
+        if (array_key_exists('websites', $ruleData['info'])
+            && !$this->controlIsPresent('multiselect', 'websites')
+        ) {
             unset($ruleData['info']['websites']);
         }
         $this->verifyForm($ruleData['info'], 'rule_information');
@@ -94,8 +96,9 @@ class Core_Mage_Agcc_ActivatingDeactivatingTest extends Mage_Selenium_TestCase
         $this->agccHelper()->createRuleAndContinueEdit($ruleData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_rule');
-        if (array_key_exists('websites', $verificationData['info']) &&
-            !$this->controlIsPresent('multiselect', 'websites')) {
+        if (array_key_exists('websites', $verificationData['info'])
+            && !$this->controlIsPresent('multiselect', 'websites')
+        ) {
             unset($verificationData['info']['websites']);
         }
         $this->verifyForm($verificationData['info'], 'rule_information');
@@ -137,8 +140,9 @@ class Core_Mage_Agcc_ActivatingDeactivatingTest extends Mage_Selenium_TestCase
         $this->agccHelper()->createRuleAndContinueEdit($ruleData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_rule');
-        if (array_key_exists('websites', $ruleData['info']) &&
-            !$this->controlIsPresent('multiselect', 'websites')) {
+        if (array_key_exists('websites', $ruleData['info'])
+            && !$this->controlIsPresent('multiselect', 'websites')
+        ) {
             unset($ruleData['info']['websites']);
         }
         $this->verifyForm($ruleData['info'], 'rule_information');

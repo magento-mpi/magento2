@@ -67,11 +67,6 @@ class Enterprise_Mage_CmsBanners_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creates Banner with required fields</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to CMS Banners page</p>
-     * <p>2. Create banner with required fields</p>
-     * <p>Expected result</p>
-     * <p>Banner is created successfully</p>
      *
      * @return array
      * @test
@@ -92,11 +87,6 @@ class Enterprise_Mage_CmsBanners_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creates Banner with all fields filled except one empty</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Banner page</p>
-     * <p>2. Create Banner with all fields filled, but leave one empty</p>
-     * <p>Expected result</p>
-     * <p>Banner is not created successfully</p>
      *
      * @param string $fieldName
      * @param string $errorMessage
@@ -132,12 +122,6 @@ class Enterprise_Mage_CmsBanners_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creates non-active banner with specified Banners type</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to CMS Banners page</p>
-     * <p>2. Create non-active banner</p>
-     * <p>3. Add specified Banners type</p>
-     * <p>Expected result</p>
-     * <p>Banner is created successfully</p>
      *
      * @return array
      *
@@ -161,11 +145,6 @@ class Enterprise_Mage_CmsBanners_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create CMS Banner with long values in required fields</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Banner page</p>
-     * <p>2. Create banner with all fields filled with long values</p>
-     * <p>Expected result</p>
-     * <p>Page is created successfully</p>
      *
      * @test
      * @depends withRequiredFields
@@ -186,12 +165,6 @@ class Enterprise_Mage_CmsBanners_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create CMS Banner with empty Store View Specific Content</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to CMS Banner page</p>
-     * <p>2. Goto tab Content</p>
-     * <p>3. Store View Specific Content leave with empty value</p>
-     * <p>Expected result</p>
-     * <p>Banner is not created</p>
      *
      * @test
      * @depends withRequiredFields
@@ -213,12 +186,6 @@ class Enterprise_Mage_CmsBanners_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create CMS Banner with all widgets type</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to CMS Banner page</p>
-     * <p>2. Goto tab Content</p>
-     * <p>3. Click button "Insert Widget" and add all widgets types</p>
-     * <p>Expected result</p>
-     * <p>Banner is created</p>
      *
      * @test
      *
@@ -240,12 +207,6 @@ class Enterprise_Mage_CmsBanners_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create CMS Banner with all widgets type for Specific Content</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to CMS Banner page</p>
-     * <p>2. Goto tab Content</p>
-     * <p>3. Click button "Insert Widget" in block "Store View Specific Content " and add all widgets types</p>
-     * <p>Expected result</p>
-     * <p>Banner is created</p>
      *
      * @test
      *
@@ -268,12 +229,6 @@ class Enterprise_Mage_CmsBanners_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create CMS Banner with all variables</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to CMS Banner page</p>
-     * <p>2. Goto tab Content</p>
-     * <p>3. Click button "Insert Variable" and add all variables</p>
-     * <p>Expected result</p>
-     * <p>Banner is created</p>
      *
      * @test
      * @depends withRequiredFields
@@ -292,12 +247,6 @@ class Enterprise_Mage_CmsBanners_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create CMS Banner with all variables for block Store View Specific Content</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to CMS Banner page</p>
-     * <p>2. Goto tab Content</p>
-     * <p>3. Click button "Insert Variable" in block Store View Specific Content and add all variables</p>
-     * <p>Expected result</p>
-     * <p>Banner is created</p>
      *
      * @test
      * @depends withRequiredFields
@@ -318,12 +267,6 @@ class Enterprise_Mage_CmsBanners_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create CMS Banner with Related Promotions Rules</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to CMS Banner page</p>
-     * <p>2. Goto tab Content and fill all required fields</p>
-     * <p>3. Goto tab Related Promotions and select rules</p>
-     * <p>Expected result</p>
-     * <p>Banner is created</p>
      *
      * param array $priceRuleData
      *

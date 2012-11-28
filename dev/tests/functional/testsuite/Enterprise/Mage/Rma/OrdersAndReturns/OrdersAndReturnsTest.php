@@ -53,12 +53,6 @@ class Enterprise_Mage_Rma_OrdersAndReturns_OrdersAndReturnsTest extends Mage_Sel
 
     /**
      * <p>Check elements on "Returns" page</p>
-     * <p>Steps</p>
-     * <p>1. Open Frontend</p>
-     * <p>2. Click "Orders and Return" link in footer</p>
-     * <p>Expected result</p>
-     * <p>1. "Returns" page is open</p>
-     * <p>2. Page contain: Order ID, Billing Last Name, Find Order By, Email Address fields and Continue button</p>
      *
      * @test
      * @TestlinkId TL-MAGE-6017
@@ -79,16 +73,6 @@ class Enterprise_Mage_Rma_OrdersAndReturns_OrdersAndReturnsTest extends Mage_Sel
 
     /**
      * <p>Enter to OAR with empty field</p>
-     * <p>Precondition</p>
-     * <p>1. Order with simple product is created</p>
-     * <p>Steps</p>
-     * <p>1. Open Frontend</p>
-     * <p>2. Click "Orders and Return" link in footer</p>
-     * <p>3. Leave empty "Order ID" field and fill other fields</p>
-     * <p>4. Click button "Continue"</p>
-     * <p>5. Repeat steps 3-4 with other fields</p>
-     * <p>Expected result</p>
-     * <p>1. Show message "This is a required field."</p>
      *
      * @param array $testData
      * @param string $field
@@ -129,16 +113,6 @@ class Enterprise_Mage_Rma_OrdersAndReturns_OrdersAndReturnsTest extends Mage_Sel
 
     /**
      * <p>Enter to OAR with wrong data</p>
-     * <p>Precondition</p>
-     * <p>1. Order with simple product is created</p>
-     * <p>Steps</p>
-     * <p>1. Open Frontend</p>
-     * <p>2. Click "Orders and Return" link in footer</p>
-     * <p>3. Enter wrong value in "Order ID" field and fill correct data in other fields</p>
-     * <p>4. Click button "Continue"</p>
-     * <p>5. Repeat steps 3-4 with other fields</p>
-     * <p>Expected result</p>
-     * <p>1. Show message "Entered data is incorrect. Please try again."</p>
      *
      * @param array $testData
      * @param string $field
@@ -178,17 +152,6 @@ class Enterprise_Mage_Rma_OrdersAndReturns_OrdersAndReturnsTest extends Mage_Sel
 
     /**
      * <p>Enter to OAR with correct data</p>
-     * <p>Precondition</p>
-     * <p>1. Order with simple product is created</p>
-     * <p>Steps</p>
-     * <p>1. Open Frontend</p>
-     * <p>2. Click "Orders and Return" link in footer</p>
-     * <p>3. Select "Email Address" in "Find Order By" field</p>
-     * <p>3. Enter correct data in all fields </p>
-     * <p>4. Click button "Continue"</p>
-     * <p>5. Repeat case used "ZIP Code" in "Find Order By" field</p>
-     * <p>Expected result</p>
-     * <p>1. "Order information for guest" page is open</p>
      *
      * @param array $testData
      * @param array $field

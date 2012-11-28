@@ -37,7 +37,7 @@ class Enterprise_Mage_CustomerSegment_DeleteTest extends Mage_Selenium_TestCase
     public function deleteCustomerSegment()
     {
         //Data
-        $segmentData = $this->loadDataSet('CustomerSegment','segment_with_all_fields');
+        $segmentData = $this->loadDataSet('CustomerSegment', 'segment_with_all_fields');
         $segmentSearch = array('segment_name' =>$segmentData['general_properties']['segment_name']);
         //Steps
         $this->navigate('manage_customer_segments');

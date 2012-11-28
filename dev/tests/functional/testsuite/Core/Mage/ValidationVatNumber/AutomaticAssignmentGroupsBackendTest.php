@@ -66,18 +66,6 @@ class Core_Mage_ValidationVatNumber_AutomaticAssignmentGroupsBackendTest extends
 
     /**
      * <p>Creating customers from back-end with VAT Number</p>
-     * <p>Preconditions:</p>
-     * <p>1.Product is created.</p>
-     * <p>Steps:</p>
-     * <p>1. Goto Manage Customer Page</p>
-     * <p>2. Click button "Add New Customer"</p>
-     * <p>3. Fill required fields and save customer</p>
-     * <p>4. Open your customer and goto tab "Addresses"</p>
-     * <p>5. Click button "Add New Address" and fill address fields</p>
-     * <p>6. Enter VAT Number</p>
-     * <p>7. Save customer</p>
-     * <p>Expected result:</p>
-     * <p>customer should be saved. Customer should be assigned to corresponding group</p>
      *
      * @param array $vatGroup
      * @param array|string $vatType

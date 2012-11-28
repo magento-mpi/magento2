@@ -22,20 +22,13 @@ class Core_Mage_SystemConfiguration_CheckoutTabTest extends Mage_Selenium_TestCa
 
     /**
      * <p>Checkout tab is displayed on the all Scopes</p>
-     * <p>Preconditions:</p>
-     * <p>Login to backend.</p>
-     * <p>Go to System > Configuration</p>
-     * <p>Steps to reproduce:</p>
-     * <p>1. Select "Main Website" or "Default Store View" or "Default Config" on the scope switcher</p>
-     * <p>Expected result:</p>
-     * <p>Checkout tab is displayed for the every scope.</p>
      *
      * @dataProvider diffConfigScopeDataProvider
      *
      * @test
      * @TestlinkId TL-MAGE-6236
      */
-    function verificationCheckoutTab($diffScope)
+    public function verificationCheckoutTab($diffScope)
     {
         $this->selectStoreScope('dropdown', 'current_configuration_scope', $diffScope);
         $this->assertTrue($this->controlIsPresent('tab', 'sales_checkout'),

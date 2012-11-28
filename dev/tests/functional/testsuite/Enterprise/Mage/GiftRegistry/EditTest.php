@@ -30,15 +30,6 @@ class Enterprise_Mage_GiftRegistry_EditTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Edit created Gift Registry</p>
-     * <p>Preconditions:</p>
-     * <p>Gift Registry created</p>
-     * <p>Steps:</p>
-     * <p>1. Open just created Gift Registry.</p>
-     * <p>2. Navigate to "Code", "Label" fields.</p>
-     * <p>3. Retype information in the fields.</p>
-     * <p>4. Press "Save" button.</p>
-     * <p>Expected Result:</p>
-     * <p>Gift Registry is saved, changes are applied.</p>
      *
      * @test
      * @TestLinkId TL-MAGE-6223

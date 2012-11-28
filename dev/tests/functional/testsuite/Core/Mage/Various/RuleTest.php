@@ -19,14 +19,6 @@ class Core_Mage_Various_RuleTest extends Mage_Selenium_TestCase
      * <p>Verification of MAGETWO-2244:</p>
      * <p>Weight attribute cannot be used in Shopping Cart/Catalog Price Rule condition</p>
      *
-     * <p>Steps:</p>
-     * <p>1. Go to Catalog > Attributes > Manage Attributes and edit the weight attribute</p>
-     * <p>2. Make sure that "Use for Promo Rule Conditions" is set to Yes</p>
-     * <p>3. Go to Promotions > Shopping Cart Price Rules(Catalog price rule) and create/modify a rule</p>
-     * <p>4. In the Conditions tab, select Product attribute combination and add a condition</p>
-     * <p>Expected results:</p>
-     * <p> You should be able to add weight as a condition for a shopping cart price rule/catalog price rule</p>
-     *
      * @param string $ruleType
      * @dataProvider ruleTypesDataProvider
      * @test

@@ -54,14 +54,6 @@ class Core_Mage_Review_BackendEditTest extends Mage_Selenium_TestCase
     /**
      * <p>Check Prev and Next buttons while editing</p>
      *
-     * <p>Preconditions:</p>
-     * <p>Two reviews created</p>
-     *
-     * <p>Expected result:</p>
-     * <p>"Next" and "Previous" buttons must not save changes and rotate reviews in borders of resultset</p>
-     * <p>"Save and Next" and "Save and Previous" buttons must save changes and rotate reviews in borders of
-     * resultset</p>
-     *
      * @param $data
      *
      * @test
@@ -136,12 +128,6 @@ class Core_Mage_Review_BackendEditTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Behavior of the "Next" and "Previous" navigation when filtered field is changing</p>
-     *
-     * <p>Preconditions:</p>
-     * <p>Review created</p>
-     *
-     * <p>Expected result:</p>
-     * <p>Consist of rotation resultset must not be changed after changes in filtered field</p>
      *
      * @param $data
      *

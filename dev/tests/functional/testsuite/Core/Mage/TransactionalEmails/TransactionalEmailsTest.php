@@ -25,16 +25,6 @@ class Core_Mage_TransactionalEmails_TransactionalEmailsTest extends Mage_Seleniu
 
     /**
      * <p>Test navigation.</p>
-     * <p>Steps:</p>
-     * <p>1.Verify that 'Add New Template' button is present and click her.</p>
-     * <p>2.Verify that the create new template page is opened.</p>
-     * <p>3.Verify that 'Back' button is present.</p>
-     * <p>4.Verify that 'Reset' button is present.</p>
-     * <p>5.Verify that 'Convert to Plain Text' button is present.</p>
-     * <p>6.Verify that 'Preview Template' button is present.</p>
-     * <p>7.Verify that 'Save Template' button is present.</p>
-     * <p>8.Verify that 'Load Default Template' fieldset with required fields is present.</p>
-     * <p>9.Verify that 'Template Information' fieldset with required fields is present.</p>
      *
      * @test
      */
@@ -78,15 +68,6 @@ class Core_Mage_TransactionalEmails_TransactionalEmailsTest extends Mage_Seleniu
 
     /**
      * <p>Verification for empty fields</p>
-     * <p>Steps:</p>
-     * <p>1.Go to System - Transactional Emails.</p>
-     * <p>2.Click on the "Add New Template" button.</p>
-     * <p>3.Click on the "Load Template" button</p>
-     * <p>Expected result</p>
-     * <p>"This is required field" message is displayed below the field</p>
-     * <p>4.Reset form and click on the "Save Template" button.</p>
-     * <p>Expected result</p>
-     * <p>"This is required field" message is displayed below all required fields</p>
      *
      * @dataProvider requiredFieldDataProvider
      *
@@ -98,7 +79,8 @@ class Core_Mage_TransactionalEmails_TransactionalEmailsTest extends Mage_Seleniu
     public function testRequiredField($emptyRequiredField, $emptyAssociatedField)
     {
         //Data
-        $templateInformation = $this->loadDataSet('System', 'new_template_information', array($emptyRequiredField => '%noValue%'));
+        $templateInformation =
+            $this->loadDataSet('System', 'new_template_information', array($emptyRequiredField => '%noValue%'));
         //Steps
         $this->clickButton('add_new_template');
         $this->clickButton('load_template', false);
@@ -128,13 +110,6 @@ class Core_Mage_TransactionalEmails_TransactionalEmailsTest extends Mage_Seleniu
 
     /**
      * <p>Create new Template</p>
-     * <p>Steps:</p>
-     * <p>1.Go to System - Transactional Emails.</p>
-     * <p>2.Click on the "Add New Template" button.</p>
-     * <p>3.Select any item drop-down item and click on the "Load Template" button</p>
-     * <p>4.Enter name for template and save it.</p>
-     * <p>Expected result</p>
-     * <p>Template is successfully saved.</p>
      *
      * @test
      */
@@ -151,12 +126,6 @@ class Core_Mage_TransactionalEmails_TransactionalEmailsTest extends Mage_Seleniu
 
     /**
      * <p>Delete template.</p>
-     * <p>Steps:</p>
-     * <p>1. Login to backend and go to System - Transactional Emails</p>
-     * <p>2. Create new template</p>
-     * <p>3. Open new template and click on the "Delete Template" button</p>
-     * <p>Expected result:</p>
-     * <p>Template was deleted successfully. Success message is displayed.</p>
      *
      * @test
      */
@@ -166,7 +135,8 @@ class Core_Mage_TransactionalEmails_TransactionalEmailsTest extends Mage_Seleniu
         $templateData = $this->loadDataSet('System', 'new_load_default_template');
         $templateInformation = $this->loadDataSet('System', 'new_template_information');
         $templateName = array('template_name' => $templateInformation['template_name']);
-        $searchData = $this->loadDataSet('System', 'search_template_data', array('filter_template_name' => $templateInformation['template_name']));
+        $searchData = $this->loadDataSet('System', 'search_template_data',
+            array('filter_template_name' => $templateInformation['template_name']));
         $this->addParameter('template_name', $templateInformation['template_name']);
         //Steps
         $this->transactionalEmailsHelper()->createNewTemplate($templateData, $templateName, '');
@@ -180,13 +150,6 @@ class Core_Mage_TransactionalEmails_TransactionalEmailsTest extends Mage_Seleniu
 
     /**
      * <p>Edit template.</p>
-     * <p>Steps:</p>
-     * <p>1. Login to backend and go to System - Transactional Emails</p>
-     * <p>2. Create new template</p>
-     * <p>3. Open new template and change required data</p>
-     * <p>4. Click Save Template button </p>
-     * <p>Expected result:</p>
-     * <p>Template is saved successfully. Data are successfully changed.</p>
      *
      * @test
      */
@@ -196,7 +159,8 @@ class Core_Mage_TransactionalEmails_TransactionalEmailsTest extends Mage_Seleniu
         $templateData = $this->loadDataSet('System', 'new_load_default_template');
         $templateInformation = $this->loadDataSet('System', 'new_template_information');
         $templateName = array('template_name' => $templateInformation['template_name']);
-        $searchData = $this->loadDataSet('System', 'search_template_data', array('filter_template_name' => $templateInformation['template_name']));
+        $searchData = $this->loadDataSet('System', 'search_template_data',
+            array('filter_template_name' => $templateInformation['template_name']));
         $editData = $this->loadDataSet('System', 'edit_template_information');
         $this->addParameter('template_name', $templateInformation['template_name']);
         //Steps
@@ -211,20 +175,6 @@ class Core_Mage_TransactionalEmails_TransactionalEmailsTest extends Mage_Seleniu
 
     /**
      * <p>Test content buttons('Back', 'Reset', 'Convert to Plain Text') </p>
-     * <p>Steps:</p>
-     * <p>1.Go to System - Transactional Emails.</p>
-     * <p>2.Click on the 'Back' button.</p>
-     * <p>Expected result: </p>
-     * <p>Transactional Emails page is displayed.</p>
-     * <p>3.Go to add new template page and click on the 'Convert to Plain Text'</p>
-     * <p>Expected result: </p>
-     * <p>Confirmation pop-up is displayed</p>
-     * <p>4.Click on 'Yes' button </p>
-     * <p>Expected result: </p>
-     * <p>Page is reload. 'Reload Html Version' button is displayed instead of 'Convert to Plain Text' button</p>
-     * <p>5.Set all required data and click on the 'Reset' button </p>
-     * <p>Expected result</p>
-     * <p>All fields are empty.</p>
      *
      * @test
      */
@@ -241,7 +191,8 @@ class Core_Mage_TransactionalEmails_TransactionalEmailsTest extends Mage_Seleniu
         if ($this->buttonIsPresent('convert_to_plain_text')) {
             $this->clickButtonAndConfirm('convert_to_plain_text', 'confirmation_convert_to_plain_text', false);
         }
-        $this->assertTrue($this->buttonIsPresent('return_html_version'), 'There is no "Return HTML version " button on the page');
+        $this->assertTrue($this->buttonIsPresent('return_html_version'),
+            'There is no "Return HTML version " button on the page');
         //Data
         $templateData = $this->loadDataSet('System', 'new_load_default_template');
         $templateInformation = $this->loadDataSet('System', 'new_template_information');

@@ -38,13 +38,6 @@ class Core_Mage_TermsAndConditions_EditTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Steps:</p>
-     * <p>1. Open just created Terms and Conditions</p>
-     * <p>2. Navigate "Condition Name", "Checkbox Text", "Content" field.</p>
-     * <p>3. Retype information in the fields.</p>
-     * <p>4. Press "Save Condition" button.</p>
-     * <p>Expected Result:</p>
-     * <p>T&C is saved, changes are applied.</p>
      *
      * @test
      * @TestLinkId TL-MAGE-2314

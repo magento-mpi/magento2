@@ -30,12 +30,6 @@ class Enterprise_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating duplicated Gift Card</p>
-     * <p>Steps:</p>
-     * <p>1. Open created product;</p>
-     * <p>2. Click "Duplicate" button;</p>
-     * <p>3. Verify that all fields has the same data except SKU and Status(fields empty)</p>
-     * <p>Expected result:</p>
-     * <p>Product is duplicated, confirmation message appears;</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5866

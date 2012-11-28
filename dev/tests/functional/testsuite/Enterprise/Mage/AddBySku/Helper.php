@@ -24,7 +24,8 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
      * @param array $nextProduct
      * @param bool $pressButton
      */
-    public function addProductShoppingCart(array $nextProduct, $pressButton = true) {
+    public function addProductShoppingCart(array $nextProduct, $pressButton = true)
+    {
         if (!empty($nextProduct)) {
             $i = 0;
             foreach ($nextProduct as $value) {
@@ -57,7 +58,8 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
         $this->validatePage('customer_shopping_cart');
     }
 
-    public function getProductInfoInTable($tableHeadName = 'product_table_head', $productTableLine = 'product_line', $skipFields = array('move_to_wishlist', 'remove')) {
+    public function getProductInfoInTable($tableHeadName = 'product_table_head', $productTableLine = 'product_line', $skipFields = array('move_to_wishlist', 'remove'))
+    {
         $productValues = array();
 
         $tableRowNames = $this->shoppingCartHelper()->getColumnNamesAndNumbers($tableHeadName);
@@ -136,7 +138,8 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
         $this->waitForAjax();
     }
 
-    public function getProductInfoInErrorTable() {
+    public function getProductInfoInErrorTable()
+    {
         $productValues = $this->getProductInfoInTable('product_table_head_error', 'product_line_error');
         for ($i = 1; $i <= count($productValues); $i++) {
             $index = 'product_' . $i;
@@ -151,18 +154,19 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
      */
     public function verifyProductPresentInGrid($sku, $table)
     {
-        if (is_string($sku))
-        {
+        if (is_string($sku)) {
             $this->addParameter('skuProduct', $sku);
-            $this->assertTrue($this->controlIsPresent('pageelement', $table), "There is no product with: $sku in $table grid");
+            $this->assertTrue(
+                $this->controlIsPresent(
+                    'pageelement',
+                    $table), "There is no product with: $sku in $table grid"
+            );
         }
-        if (is_array($sku))
-        {
+        if (is_array($sku)) {
             foreach ($sku as $value)
             {
                 $this->addParameter('skuProduct', $value);
-                if ($this->controlIsPresent('pageelement', $table))
-                {
+                if ($this->controlIsPresent('pageelement', $table)) {
                 }
                 else $this->addVerificationMessage("There is no product with: $value in $table grid");
             }
@@ -215,7 +219,10 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
     }
 
     public function verifyErrorTableIsEmpty() {
-        $this->assertFalse($this->controlIsVisible('fieldset', 'shopping_cart_error'), 'Products are not deleted from attention grid');
+        $this->assertFalse($this->controlIsVisible('fieldset',
+                                                   'shopping_cart_error'),
+                                                   'Products are not deleted from attention grid'
+        );
     }
 
     //---------------------------------------------------Frontend-------------------------------------------------------

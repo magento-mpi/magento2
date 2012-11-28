@@ -74,19 +74,6 @@ class Enterprise_Mage_Tags_PageCacheTest extends Mage_Selenium_TestCase
 
     /**
      * "Flush Magento Cache" and "Flush Cache Storage" buttons behavior
-     * Precondition: FPC ("Page Cache") is enabled, customer is created, product is created
-     * Steps:
-     * 1. Go to frontend
-     * 2. Browse product view page
-     * 3. Submit new tag for a product
-     * 4. Go to backend, open Catalog - Tags - Pending Tags and approve newly submitted tag
-     * 5. Go back to product view page on frontend again, refresh it in browser several times to verify that it is
-     * cached into FPC
-     * Expected: Page is refreshed,  newly approved tag IS NOT shown
-     * 6. Go to backend , System - Cache Management
-     * 7. Click on "Flush Magento Cache"/"Flush Cache Storage" button
-     * 8. Go back to product view page on frontend again, refresh it in browser
-     * Expected: Page is refreshed, newly approved tag IS shown
      *
      * @param string $buttonName
      *

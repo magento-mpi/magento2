@@ -20,25 +20,6 @@ class Core_Mage_Tags_MassActionsTest extends Core_Mage_Tags_TagsFixtureAbstract
 {
     /**
      * Deleting tags using mass action
-     * Precondition: Several tags have "Pending" status.
-     * Steps:
-     * 1. Log into Backend.
-     * 2. Go to the Catalog -> Tags -> Pending Tags.
-     * 3. Select checkbox near tag name.
-     * 4. Select "Delete" in mass action section.
-     * 5. Click on "Submit" button.
-     * Expected: The message "Are you sure" appears.
-     * 6. Click on OK button.
-     * Expected: Selected tag should be deleted.
-     * 7. Select several tags.
-     * 8. Select "Delete" in mass action section.
-     * 9. Click on "Submit" button.
-     * Expected: The message "Are you sure" appears.
-     * 10. Click on OK button.
-     * Expected: Selected tags should be deleted.
-     * 11. Select "Delete" in mass action section.
-     * 12. Click on "Submit" button.
-     * Expected: The message "Please select items" should be appeared.
      *
      * @test
      * @dataProvider tagDataProvider
@@ -96,25 +77,6 @@ class Core_Mage_Tags_MassActionsTest extends Core_Mage_Tags_TagsFixtureAbstract
 
     /**
      * Changing the status of tags to Disabled using mass action
-     * Preconditions:
-     * Three tags are created with the status "Pending"
-     * Steps:
-     * 1. Go to the Catalog -> Tags -> Pending Tags
-     * 2. Select checkbox near first tag name
-     * 3. Choose "Change statuses" in mass action section
-     * 4. Choose "Disabled" status
-     * 5. Press "Submit" button
-     * Expected Result: Tag should receive "Disabled" status and absent on "Pending Tags" page
-     * 6. Go to the Catalog -> Tags -> All Tags
-     * Expected Result: Tag should receive "Disabled" status
-     * 7. Go back to the Catalog -> Tags -> Pending Tags
-     * 8. Select several tags
-     * 9. Choose "Change statuses" in mass action section
-     * 10. Choose "Disabled" status
-     * 11. Press "Submit" button
-     * Expected Result: Tags should receive "Disabled" status and absent on "Pending Tags" page
-     * 12. Go to the Catalog -> Tags -> All Tags
-     * Expected Result: Tags should have "Disabled" status
      *
      * @test
      * @dataProvider tagDataProvider
@@ -178,20 +140,6 @@ class Core_Mage_Tags_MassActionsTest extends Core_Mage_Tags_TagsFixtureAbstract
 
     /**
      * Changing the status of tags to Pending using mass action
-     * Preconditions:
-     * Three tags are created with the status "Pending"
-     * Steps:
-     * 1. Go to the Catalog -> Tags -> Pending Tags
-     * 2. Select checkbox near first tag name
-     * 3. Choose "Change statuses" in mass action section
-     * 4. Choose "Pending" status
-     * 5. Press "Submit" button
-     * Expected Result: Tag should receive "Pending" status
-     * 6. In Catalog -> Tags -> Pending Tags select several tags
-     * 7. Choose "Change statuses" in mass action section
-     * 8. Choose "Pending" status
-     * 9. Press "Submit" button
-     * Expected Result: Tags should receive "Pending" status
      *
      * @test
      * @dataProvider tagDataProvider
@@ -246,25 +194,6 @@ class Core_Mage_Tags_MassActionsTest extends Core_Mage_Tags_TagsFixtureAbstract
 
     /**
      * Changing the status of tags to Approved using mass action
-     * Preconditions:
-     * Three tags are created with the status "Pending"
-     * Steps:
-     * 1. Go to the Catalog -> Tags -> Pending Tags
-     * 2. Select checkbox near first tag name
-     * 3. Choose "Change statuses" in mass action section
-     * 4. Choose "Approved" status
-     * 5. Press "Submit" button
-     * Expected Result: Tag should receive "Approved" status and absent on "Pending Tags" page
-     * 6. Go to the Catalog -> Tags -> All Tags
-     * Expected Result: Tag should receive "Approved" status
-     * 7. Go back to the Catalog -> Tags -> Pending Tags
-     * 8. Select several tags
-     * 9. Choose "Change statuses" in mass action section
-     * 10. Choose "Approved" status
-     * 11. Press "Submit" button
-     * Expected Result: Tags should receive "Disabled" status and absent on "Approved Tags" page
-     * 12. Go to the Catalog -> Tags -> All Tags
-     * Expected Result: Tags should have "Approved" status
      *
      * @test
      * @dataProvider tagDataProvider
@@ -328,12 +257,6 @@ class Core_Mage_Tags_MassActionsTest extends Core_Mage_Tags_TagsFixtureAbstract
 
     /**
      * Changing the status of tags to Disabled/Pending/Approved using mass action
-     * Steps:
-     * 1. Go to the Catalog -> Tags -> Pending Tags
-     * 2. Select "Change status" in mass action section.
-     * 3. Choose "Disabled"/"Pending"/"Approved" status.
-     * 4. Click "Submit" button.
-     * Expected: The message "Please select items" should appear.
      *
      * @test
      * @dataProvider tagDataProvider
@@ -371,17 +294,6 @@ class Core_Mage_Tags_MassActionsTest extends Core_Mage_Tags_TagsFixtureAbstract
 
     /**
      * Selecting tags options
-     * Precondition: two pages of tags with "Pending" status.
-     * Steps:
-     * 1. Go to the Catalog -> Tags -> Pending Tags.
-     * 2. Click on "Select all" link.
-     * Expected: all tags on all pages should be selected.
-     * 3. Click on "Unselect All" link.
-     * Expected: all tags on all pages should be unselected.
-     * 4. Click on "Select Visible" link.
-     * Expected: all tags on the current page should be selected.
-     * 5. Click on "Unselect Visible" link.
-     * Expected: all tags on the current page should be unselected.
      *
      * @test
      * @dataProvider tagDataProvider

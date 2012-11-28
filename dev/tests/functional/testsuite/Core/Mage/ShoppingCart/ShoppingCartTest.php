@@ -44,16 +44,6 @@ class Core_Mage_ShoppingCart_ShoppingCartTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Shopping Cart item block contain product</p>
-     * <p>Preconditions</p>
-     * <p>Customer and product are created</p>
-     * <p>Steps</p>
-     * <p>1. Login to Frontend</p>
-     * <p>2. Add product to Shopping Cart</p>
-     * <p>3. Login to Backend</p>
-     * <p>4. Open Manage Customer page</p>
-     * <p>5. Open Edit Customer page</p>
-     * <p>Expected result</p>
-     * <p>Shopping Cart item block contain Product</p>
      *
      * @param array $testData
      *

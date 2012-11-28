@@ -38,15 +38,6 @@ class Enterprise_Mage_ImportExport_Backward_Export_Attribute_CustomerTest
     /**
      * Has been excluded from functionality scope
      * Need to verify that after customer attribute creation it's shown in "Entity Attributes" block
-     * Steps:
-     * 1. Go to Customers -> Attributes -> Manage Customers Attributes
-     * 2. Click "Add New Attribute" button
-     * 3. Fill required values
-     * 4. Click "Save Attribute" button
-     * 5. Go to System -> Import/ Export -> Export
-     * 6. In "Entity Type" drop-down field choose "Customers" parameter
-     * 7. In "Export Format Version" drop-down field choose "Magento 1.7 format" parameter
-     * Expected: Check that added to system attribute is displayed in "Entity Attributes" list
      *
      * @test
      * @TestlinkId TL-MAGE-1310
@@ -93,15 +84,6 @@ class Enterprise_Mage_ImportExport_Backward_Export_Attribute_CustomerTest
     /**
      * Has been excluded from functionality scope
      * Need to verify that after customer attribute updating it's updated in "Entity Attributes" block
-     * Steps:
-     * 1. Go to Customers -> Attributes -> Manage Customer Attributes
-     * 2. Edit attribute from precondition
-     * 3. Change admin title
-     * 4. Click "Save Attribute" button
-     * 5. Go to System -> Import/ Export -> Export
-     * 6. In "Entity Type" drop-down field choose "Customers" parameter
-     * 7. In "Export Format Version" drop-down field choose "Magento 1.7 format" parameter
-     * Expected: Check that changes are applied for attribute in "Entity Attributes" block
      *
      * @test
      * @TestlinkId TL-MAGE-1310
@@ -158,14 +140,6 @@ class Enterprise_Mage_ImportExport_Backward_Export_Attribute_CustomerTest
     /**
      * Has been excluded from functionality scope
      * Need to verify that after customer attribute deletion it's not shown in "Entity Attributes" block
-     * Steps:
-     * 1. Go to Customers -> Attributes -> Manage Customer Attributes
-     * 2. Edit attribute from precondition
-     * 3. Click "Delete Attribute" button, confirm
-     * 4. Go to System -> Import/ Export -> Export
-     * 5. In "Entity Type" drop-down field choose "Customers" parameter
-     * 6. In "Export Format Version" drop-down field choose "Magento 1.7 format" parameter
-     * Expected: Check that "Entity Attributes" block doesn't contain the attribute any more
      *
      * @test
      * @TestlinkId TL-MAGE-1310
@@ -215,27 +189,6 @@ class Enterprise_Mage_ImportExport_Backward_Export_Attribute_CustomerTest
      * Need to verify that after product attribute creation it's shown in "Entity Attributes" block
      * Need to verify that after product attribute updating it's updated in "Entity Attributes" block
      * Need to verify that after product attribute deletion it's not shown in "Entity Attributes" block
-     * Steps:
-     * 1. Go to Catalog -> Attributes -> Manage Attributes
-     * 2. Click "Add New Attribute" button
-     * 3. Fill required values
-     * 4. Click "Save Attribute" button
-     * 5. Go to System -> Import/ Export -> Export
-     * 6. In "Entity Type" drop-down field choose "Products" parameter
-     * 7. Go to Catalog -> Attributes -> Manage Attributes
-     * 8. Edit attribute label from precondition
-     * 9. Change admin title
-     * 10. Click "Save Attribute" button
-     * 11. Go to System -> Import/ Export -> Export
-     * 12. In "Entity Type" drop-down field choose "Products" parameter
-     * 13. Go to Catalog -> Attributes -> Manage Attributes
-     * 14. Open edit page of attribute from precondition
-     * 15. Click "Delete Attribute" button, confirm
-     * 16. Go to System -> Import/ Export -> Export
-     * 17. In "Entity Type" drop-down field choose "Products" parameter
-     * Expected after steps 6: Check that added to system attribute is displayed in "Entity Attributes" list
-     * Expected after step 12: Check that changes are applied for attribute in "Entity Attributes" block
-     * Expected after step 17: Check that "Entity Attributes" block doesn't contain the attribute any more
      *
      * @return void
      * @test

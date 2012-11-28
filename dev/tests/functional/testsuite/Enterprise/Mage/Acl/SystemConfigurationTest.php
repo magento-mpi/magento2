@@ -26,15 +26,6 @@ class Enterprise_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Access available for user with permission to configure only one resource from Configuration menu</p>
-     * <p>Steps</p>
-     * <p>1. Role "Role1" with permission to configure only one resource from Configuration menu is created</p>
-     * <p>2. Admin user "User1" with "Role1" is created.</p>
-     * <p>3. Login to backend using newly created "User1" credentials.</p>
-     * <p>4. Navigate to System-Configuration.</p>
-     * <p>5. Verify that only one tab is presented.</p>
-     * <p>6. Click on presented tab.</p>
-     * <p>Expected result</p>
-     * <p> Only one tab is presented. This tab equal to resource from ACL tree.</p>
      *
      * @param $resourceCheckbox
      * @param $tabName
@@ -90,11 +81,6 @@ class Enterprise_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
     /**
      * <p>Precondition method</p>
      * <p>Admin user with Role System-Configuration</p>
-     * <p>Preconditions:</p>
-     * <p>1. Create new admin role with "Role Resources":</p>
-     * <p>1.1 Resource Access = Custom</p>
-     * <p>1.2 Resource checkboxes = 'System-Configuration'</p>
-     * <p>2. Create test Admin user with test Role(Full permissions for Configuration menu)</p>
      *
      * @test
      * @return array
@@ -118,15 +104,6 @@ class Enterprise_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
 
     /**
      * <p> Access available for user with Permission System-Configuration and scope for one website </p>
-     * <p>Preconditions</p>
-     * <p>1. Role "Role1" with role resource "System-Configuration: and role scope "Main Website"  is created.</p>
-     * <p>2. Admin user  "User1" with "Role1" is created.</p>
-     * <p>Steps</p>
-     * <p>1. Login to backend using newly created "User1" credentials.</p>
-     * <p>2. Navigate to System-Configuration.</p>
-     * <p>3. Click to all tab(one after the other) in configuration menu.(On the left column).</p>
-     * <p>Expected result</p>
-     * <p>All configuration pages(one after other) are successfully opened.</p>
      *
      * @depends createAdminWithTestRole
      *

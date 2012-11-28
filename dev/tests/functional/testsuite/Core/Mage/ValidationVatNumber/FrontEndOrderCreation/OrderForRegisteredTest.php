@@ -76,20 +76,6 @@ class Core_Mage_ValidationVatNumber_FrontEndOrderCreation_OrderForRegisteredTest
 
     /**
      * <p>Checkout with simple product. Without VAT Number</p>
-     * <p>Preconditions:</p>
-     * <p>1.Product is created.</p>
-     * <p>Steps:</p>
-     * <p>1. Register new customer</p>
-     * <p>2. Open product page.</p>
-     * <p>3. Add product to Shopping Cart.</p>
-     * <p>4. Click "Proceed to Checkout".</p>
-     * <p>5. Fill in Billing Information tab. Field VAT Number is empty</p>
-     * <p>6. Select "Ship to this address" option.</p>
-     * <p>7. Click 'Continue' button.</p>
-     * <p>8. Select Shipping Method and Payment Method.</p>
-     * <p>9. Place order.</p>
-     * <p>Expected result:</p>
-     * <p>Checkout is successful. Customer should be assigned to Default Group</p>
      *
      * @param array $vatGroup
      * @param array $vatNumber

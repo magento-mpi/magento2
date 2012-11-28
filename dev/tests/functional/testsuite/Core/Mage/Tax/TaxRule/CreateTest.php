@@ -73,12 +73,6 @@ class Core_Mage_Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Tax Rule with required fields</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add New Tax Rule" button </p>
-     * <p>2. Fill in required fields</p>
-     * <p>3. Click "Save Rule" button</p>
-     * <p>Expected Result:</p>
-     * <p>Tax Rule created, success message appears</p>
      *
      * @param array $testData
      *
@@ -104,12 +98,6 @@ class Core_Mage_Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Tax Rule with name that exists</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add New Tax Rule" button </p>
-     * <p>2. Fill in Name with value that exists</p>
-     * <p>3. Click "Save Rule" button</p>
-     * <p>Expected Result:</p>
-     * <p>Tax Rule should not be created, error message appears</p>
      *
      * @param array $taxRuleData
      *
@@ -129,12 +117,6 @@ class Core_Mage_Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating a Tax Rule with empty required fields.</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Tax Rule"</p>
-     * <p>2. Fill in the fields, but leave one required field empty;</p>
-     * <p>3. Click button "Save Rule".</p>
-     * <p>Expected result:</p>
-     * <p>Received error message</p>
      *
      * @param string $emptyFieldName Name of the field to leave empty
      * @param string $fieldType Type of the field to leave empty
@@ -171,14 +153,6 @@ class Core_Mage_Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * Fails because of MAGE-5237
-     * <p>Creating a new Tax Rule with special values (long, special chars).</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Tax Rule"</p>
-     * <p>2. Fill in the fields</p>
-     * <p>3. Click button "Save Rule"</p>
-     * <p>4. Open the Tax Rule</p>
-     * <p>Expected result:</p>
-     * <p>All fields has the same values.</p>
      *
      * @param array $specialValue
      * @param array $testData
@@ -214,12 +188,6 @@ class Core_Mage_Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating a new Tax Rule with invalid values for Priority.</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Tax Rule"</p>
-     * <p>2. Fill in the Priority field with invalid value</p>
-     * <p>3. Click button "Save Rule"</p>
-     * <p>Expected result:</p>
-     * <p>Error message: Please enter a valid number in this field.</p>
      *
      * @param string $specialValue
      * @param array $testData
@@ -241,13 +209,6 @@ class Core_Mage_Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating a new Tax Rule with invalid values for Sort Order.</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Tax Rule"</p>
-     * <p>2. Fill in the Sort Order field with invalid value</p>
-     * <p>3. Click button "Save Rule"</p>
-     * <p>Expected result:</p>
-     * <p>Error message: Please enter a valid number in this field.</p>
      *
      * @param string $specialValue
      * @param array $testData

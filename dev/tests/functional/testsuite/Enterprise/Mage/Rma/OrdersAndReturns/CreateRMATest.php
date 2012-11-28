@@ -56,20 +56,6 @@ class Enterprise_Mage_Rma_OrdersAndReturns_CreateRmaTest extends Mage_Selenium_T
 
     /**
      * <p> Enable RMA on frontend</p>
-     * <p>Preconditions</p>
-     * <p>1. Enable RMA on frontend (System-Configuration-Sales-Sales-RMA Settings)</p>
-     * <p>2. Open frontend</p>
-     * <p>3. Place order with simple product as a guest</p>
-     * <p>4. Create shipment for order</p>
-     * <p>Steps</p>
-     * <p>1. Open frontend</p>
-     * <p>2. Click "Orders and Returns" link in pages footer </p>
-     * <p>3. Fill all required fields </p>
-     * <p>4. Click "Continue" button</p>
-     * <p>5. Click "Return" link</p>
-     * <p>Expected result</p>
-     * <p>1. "Create New Return" page is open</p>
-     * <p>2. Page contain: Contact Email Address, Item, Quantity To Return, Resolution, Item Condition, Reason to Return, Comments fields and  Add Item To Return link</p>
      *
      * @param array $testData
      *
@@ -119,22 +105,6 @@ class Enterprise_Mage_Rma_OrdersAndReturns_CreateRmaTest extends Mage_Selenium_T
 
     /**
      * <p> Create RMA with Simple product</p>
-     * <p>Preconditions</p>
-     * <p>1. Enable RMA on frontend (System-Configuration-Sales-Sales-RMA Settings)</p>
-     * <p>2. Open frontend</p>
-     * <p>3. Place order with simple product as a guest</p>
-     * <p>4. Create shipment for order</p>
-     * <p>Steps</p>
-     * <p>1. Open frontend</p>
-     * <p>2. Click "Orders and Returns" link in pages footer </p>
-     * <p>3. Fill all required fields </p>
-     * <p>4. Click "Continue" button</p>
-     * <p>5. Click "Return" link</p>
-     * <p>6. Fill all required field in return form</p>
-     * <p>7. Click "Submit" button</p>
-     * <p>Expected result</p>
-     * <p>1. "Guest Returns" page is open</p>
-     * <p>2. Show message "Return # has been submitted successfully" </p>
      *
      * @param array $testData
      *
@@ -170,21 +140,6 @@ class Enterprise_Mage_Rma_OrdersAndReturns_CreateRmaTest extends Mage_Selenium_T
 
     /**
      * <p> Return wrong product quantity</p>
-     * <p>Preconditions</p>
-     * <p>1. Enable RMA on frontend (System-Configuration-Sales-Sales-RMA Settings)</p>
-     * <p>2. Open frontend</p>
-     * <p>3. Place order with simple product as a guest</p>
-     * <p>4. Create shipment for order</p>
-     * <p>Steps</p>
-     * <p>1. Open frontend</p>
-     * <p>2. Click "Orders and Returns" link in pages footer </p>
-     * <p>3. Fill all required fields </p>
-     * <p>4. Click "Continue" button</p>
-     * <p>5. Click "Return" link</p>
-     * <p>6. Set product quantity 2 and fill all required field in return form</p>
-     * <p>7. Click "Submit" button</p>
-     * <p>Expected result</p>
-     * <p>1. Show message "Quantity of <Product name> is greater than you can return." </p>
      *
      * @param array $testData
      *
@@ -221,24 +176,6 @@ class Enterprise_Mage_Rma_OrdersAndReturns_CreateRmaTest extends Mage_Selenium_T
 
     /**
      * <p> Create RMA for several products</p>
-     * <p>Preconditions</p>
-     * <p>1. Enable RMA on frontend (System-Configuration-Sales-Sales-RMA Settings)</p>
-     * <p>2. Open frontend</p>
-     * <p>3. Place order with two different simple product as a guest</p>
-     * <p>4. Create shipment for order</p>
-     * <p>Steps</p>
-     * <p>1. Open frontend</p>
-     * <p>2. Click "Orders and Returns" link in pages footer </p>
-     * <p>3. Fill all required fields </p>
-     * <p>4. Click "Continue" button</p>
-     * <p>5. Click "Return" link</p>
-     * <p>6. Select one Simple product in Item field and fill all required field in return form</p>
-     * <p>7. Click "Add item to return" link</p>
-     * <p>8. Select other Product in new Item field and fill all required field in return form</p>
-     * <p>9. Click "Submit" button</p>
-     * <p>Expected result</p>
-     * <p>1. "Guest Returns" page is open</p>
-     * <p>2. Show message "Return # has been submitted successfully" </p>
      *
      * @param array $testData
      *
@@ -277,22 +214,6 @@ class Enterprise_Mage_Rma_OrdersAndReturns_CreateRmaTest extends Mage_Selenium_T
 
     /**
      * <p> Create several RMA for one order</p>
-     * <p>Preconditions</p>
-     * <p>1. Enable RMA on frontend (System-Configuration-Sales-Sales-RMA Settings)</p>
-     * <p>2. Open frontend</p>
-     * <p>3. Place order with Two different Simple products as a guest</p>
-     * <p>4. Create shipment for order</p>
-     * <p>Steps</p>
-     * <p>1. Open frontend</p>
-     * <p>2. Click "Orders and Returns" link in pages footer </p>
-     * <p>3. Fill all required fields </p>
-     * <p>4. Click "Continue" button</p>
-     * <p>5. Click "Return" link</p>
-     * <p>5. Create RMA only for One product</p>
-     * <p>6. Create RMA  for other product<</p>
-     * <p>Expected result</p>
-     * <p>1. "Guest Returns" page is open</p>
-     * <p>2. Show message "Return # has been submitted successfully" </p>
      *
      * @param array $testData
      *
@@ -336,23 +257,6 @@ class Enterprise_Mage_Rma_OrdersAndReturns_CreateRmaTest extends Mage_Selenium_T
 
     /**
      * <p> Create RMA after partial shipment</p>
-     * <p>Preconditions</p>
-     * <p>1. Enable RMA on frontend (System-Configuration-Sales-Sales-RMA Settings)</p>
-     * <p>2. Open frontend</p>
-     * <p>3. Place order as a guest with simple product and qty=5 </p>
-     * <p>4. Create partial shipment for order: product qty = 3</p>
-     * <p> Steps</p>
-     * <p>1. Open frontend</p>
-     * <p>2. Click "Orders and Returns" link in pages footer </p>
-     * <p>3. Fill all required fields </p>
-     * <p>4. Click "Continue" button</p>
-     * <p>5. Click "Return" link</p>
-     * <p>6. Try create return for 5 product</p>
-     * <p>7. Create return for 3 product</p>
-     * <p>Expected result</p>
-     * <p>1. After 5 show message "Quantity of %productName% is greater than you can return."</p>
-     * <p>3. After 6 "Guest Returns" page is open</p>
-     * <p>4. After 6 Show message "Return # has been submitted successfully" </p>
      *
      * @param array $testData
      *
@@ -399,17 +303,6 @@ class Enterprise_Mage_Rma_OrdersAndReturns_CreateRmaTest extends Mage_Selenium_T
 
     /**
      * <p>Create RMA for order without shipment</p>
-     * <p>Preconditions</p>
-     * <p>1. Enable RMA on frontend (System-Configuration-Sales-Sales-RMA Settings)</p>
-     * <p>2. Open frontend</p>
-     * <p>3. Place order with simple product as a guest</p>
-     * <p>Steps</p>
-     * <p>1. Open frontend</p>
-     * <p>2. Click "Orders and Returns" link in pages footer </p>
-     * <p>3. Fill all required fields </p>
-     * <p>4. Click "Continue" button</p>
-     * <p>Expected result</p>
-     * <p>1. "Return" link is missing</p>
      *
      * @param array $testData
      *
@@ -440,18 +333,6 @@ class Enterprise_Mage_Rma_OrdersAndReturns_CreateRmaTest extends Mage_Selenium_T
 
     /**
      * <p> Disable RMA on frontend</p>
-     * <p>Preconditions</p>
-     * <p>1. Disable RMA on frontend (System-Configuration-Sales-Sales-RMA Settings)</p>
-     * <p>2. Open frontend</p>
-     * <p>3. Place order with Two different Simple products as a guest</p>
-     * <p>4. Create shipment for order</p>
-     * <p> Steps</p>
-     * <p>1. Open frontend</p>
-     * <p>2. Click "Orders and Returns" link in pages footer </p>
-     * <p>3. Fill all required fields </p>
-     * <p>4. Click "Continue" button</p>
-     * <p>Expected result</p>
-     * <p>1. "Return" link is missing</p>
      *
      * @param array $testData
      *

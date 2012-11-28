@@ -21,9 +21,6 @@ class Core_Mage_Theme_GridTest extends Mage_Selenium_TestCase
     /**
      * <p>Bug Cover<p/>
      * <p>Verification of MAGETWO-4638:</p>
-     * <p>Navigate to System -> Design -> Themes</p>
-     * <p>Expected result:</p>
-     * <p>Theme grid is present on page.</p>
      *
      * @test
      */
@@ -37,9 +34,6 @@ class Core_Mage_Theme_GridTest extends Mage_Selenium_TestCase
     /**
      * <p>Bug Cover<p/>
      * <p>Verification of MAGETWO-4638:</p>
-     * <p>Click "Delete" button</p>
-     * <p>Expected result:</p>
-     * <p>New Theme form is present on page.</p>
      *
      * @depends openGridPage
      * @test

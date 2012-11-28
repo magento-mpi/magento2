@@ -29,11 +29,6 @@ class Core_Mage_Tags_FrontendManagementTest extends Core_Mage_Tags_TagsFixtureAb
     }
     /**
      * Tag creating with Logged Customer:
-     *  Adding single new tag
-     *  Adding several single new tags
-     *  Adding new tag phrase
-     *  Adding single tag and tag phrase
-     *  Adding approved tag
      *
      * @param string $tags
      * @param string $status

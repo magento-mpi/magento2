@@ -18,7 +18,7 @@
  */
 class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
 {
-    protected static $existingSku = '';
+    protected static $_existingSku = '';
 
     /**
      * <p>Preconditions:</p>
@@ -32,16 +32,8 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Gift Card with required fields only</p>
-     * <p>Steps:</p>
-     * <p>1. Click "Add product" button;</p>
-     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields;</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
      *
-     * @param array $giftcard_type
+     * @param array $giftcardType
      * @return array $productData
      *
      * @TestlinkId TL-MAGE-8
@@ -50,17 +42,17 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider differentGiftCardTypes
      */
-    public function onlyRequiredFieldsInGiftCard($giftcard_type)
+    public function onlyRequiredFieldsInGiftCard($giftcardType)
     {
         //Data
         $productData = $this->loadDataSet('Product', 'gift_card_required');
-        $productData['giftcardinfo_card_type'] = $giftcard_type;
+        $productData['giftcardinfo_card_type'] = $giftcardType;
         //Steps
         $this->productHelper()->createProduct($productData, 'giftcard');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        self::$existingSku = $productData;
+        self::$_existingSku = $productData;
     }
 
     public function differentGiftCardTypes()
@@ -74,14 +66,6 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Gift Card with all fields</p>
-     * <p>Steps:</p>
-     * <p>1. Click "Add product" button;</p>
-     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill all fields;</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
      *
      * @depends onlyRequiredFieldsInGiftCard
      *
@@ -106,15 +90,6 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Gift Card with existing SKU</p>
-     * <p>Steps:</p>
-     * <p>1. Click "Add product" button;</p>
-     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields using exist SKU;</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>6. Verify error message;</p>
-     * <p>Expected result:</p>
-     * <p>Error message appears;</p>
      *
      * @depends onlyRequiredFieldsInGiftCard
      *
@@ -124,7 +99,7 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
     public function existSkuInGiftCard()
     {
         //Steps
-        $this->productHelper()->createProduct(self::$existingSku, 'giftcard');
+        $this->productHelper()->createProduct(self::$_existingSku, 'giftcard');
         //Verifying
         $this->assertMessagePresent('validation', 'existing_sku');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
@@ -132,16 +107,6 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Gift Card with empty required fields</p>
-     * <p>Steps:</p>
-     * <p>1. Click "Add product" button;</p>
-     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Leave one required field empty and fill in the rest of fields;</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>6. Verify error message;</p>
-     * <p>7. Repeat scenario for all required fields;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
      *
      * @param $emptyField
      * @param $fieldType
@@ -196,14 +161,6 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Gift Card with empty amounts</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Add "Amounts" fields but do not fill them, the rest fields - with normal data;</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
      *
      * @depends onlyRequiredFieldsInGiftCard
      *
@@ -229,14 +186,6 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Gift Card with special characters into required fields</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields with special symbols ("General" tab), rest - with normal data;
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product created, confirmation message appears</p>
      *
      * @depends onlyRequiredFieldsInGiftCard
      *
@@ -265,14 +214,6 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Gift Card with long values into required fields</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields with long values ("General" tab), rest - with normal data;
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product created, confirmation message appears</p>
      *
      * @depends onlyRequiredFieldsInGiftCard
      *
@@ -302,14 +243,6 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Gift Card with SKU length more than 64 characters.</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields, use for sku string with length more than 64 characters</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
      *
      * @depends onlyRequiredFieldsInGiftCard
      *
@@ -330,14 +263,6 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Gift Card with invalid weight</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in "Weight" field with special characters, the rest - with normal data;</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
      *
      * @depends onlyRequiredFieldsInGiftCard
      *
@@ -359,14 +284,6 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Gift Card with invalid price</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in amounts fields with special characters, the rest fields - with normal data;</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
      *
      * @param $invalidPrice
      *
@@ -406,14 +323,6 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Gift Card with invalid Qty</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields with correct data, "Qty" field - with special characters;</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
      *
      * @param $invalidQty
      *

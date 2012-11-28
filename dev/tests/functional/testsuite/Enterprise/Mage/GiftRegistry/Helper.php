@@ -70,8 +70,8 @@ class Enterprise_Mage_GiftRegistry_Helper extends Mage_Selenium_AbstractHelper
     {
         $xpathGR = $this->search($searchGiftRegistry, 'giftRegistryGrid');
         $this->assertNotEquals(null, $xpathGR, 'Gift Registry is not found');
-        $Id = $this->getColumnIdByName('Label');
-        $this->addParameter('elementLabel', $this->getElement($xpathGR . '//td[' . $Id . ']')->text());
+        $id = $this->getColumnIdByName('Label');
+        $this->addParameter('elementLabel', $this->getElement($xpathGR . '//td[' . $id . ']')->text());
         $this->addParameter('id', $this->defineIdFromTitle($xpathGR));
         $this->getElement($xpathGR)->click();
         $this->waitForPageToLoad();

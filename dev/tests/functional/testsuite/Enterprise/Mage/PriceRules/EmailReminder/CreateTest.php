@@ -26,12 +26,6 @@ class Enterprise_Mage_PriceRules_EmailReminder_CreateTest extends Mage_Selenium_
 
     /**
      * <p>Create a new catalog price rule</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add New Rule"</p>
-     * <p>2. Fill in only required fields in all tabs</p>
-     * <p>3. Click "Save Rule" button</p>
-     * <p>Expected result:</p>
-     * <p>New rule is created. Success message appears.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5676
@@ -43,7 +37,7 @@ class Enterprise_Mage_PriceRules_EmailReminder_CreateTest extends Mage_Selenium_
         //Steps
         $this->clickButton('add_new_rule');
         $this->validatePage('create_automated_email_reminder_rule');
-        $this->fillFieldset($ruleData,'general_information');
+        $this->fillFieldset($ruleData, 'general_information');
         $this->saveForm('save_rule');
         //Verification
         $this->assertMessagePresent('success', 'success_saved_rule');

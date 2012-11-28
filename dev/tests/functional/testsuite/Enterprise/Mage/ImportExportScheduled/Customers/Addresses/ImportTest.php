@@ -72,14 +72,6 @@ class Enterprise_Mage_ImportExportScheduled_Import_AddressesTest extends Mage_Se
     /**
      * Running Scheduled Import of Customer Addresses File (Add/Update, Delete Entities, Custom Action)
      * Precondition: one customer with address is created.
-     * Steps:
-     * 1. In System > Import/Export > Scheduled Import/Export select check box for Scheduled Import
-     * 2. In "Actions" drop-down select "Run"
-     * Expected: last Outcome of run Scheduled Import changes from Pending to Successful.
-     * Message “Operation has been successfully run.” in green frame should appeared.
-     * 3. Open Customers -> Manage Customers
-     * 4. Open customer from precondition
-     * Expected: customers address information was imported
      *
      * @dataProvider addressImportData
      * @depends preconditionImport
@@ -170,15 +162,6 @@ class Enterprise_Mage_ImportExportScheduled_Import_AddressesTest extends Mage_Se
 
     /**
      * Invalid data in Customer Addresses File
-     * Precondition: one customer with address is created.
-     * Steps:
-     * 1. In System > Import/Export > Scheduled Import/Export select check box for Scheduled Import
-     * 2. In "Actions" drop-down select "Run"
-     * Expected: last Outcome of run Scheduled Import changes from Pending to Failed.
-     * Error message “Unable to run operation” in red frame should appear.
-     * 3. Open Customers -> Manage Customers
-     * 4. Open customer from precondition
-     * Expected: customers address information was not imported
      *
      * @dataProvider addressInvalidImportData
      * @depends preconditionImport

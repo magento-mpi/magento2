@@ -31,13 +31,6 @@ class Enterprise_Mage_GiftRegistry_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Navigation test.</p>
-     * <p>Steps:</p>
-     * <p>1. Verify that 'Add New Gift Registry Type' button is present and click her.</p>
-     * <p>2. Verify that the create gift registry is opened.</p>
-     * <p>3. Verify that 'Back' button is present.</p>
-     * <p>4. Verify that 'Save' button is present.</p>
-     * <p>5. Verify that 'Save and Continue Edit' button is present.</p>
-     * <p>6. Verify that 'Reset' button is present.</p>
      *
      * @test
      */
@@ -55,14 +48,6 @@ class Enterprise_Mage_GiftRegistry_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Gift Registry (all required fields are filled).</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Customers - Gift Registry.</p>
-     * <p>2.Press "Add New Gift Registry Type" button.</p>
-     * <p>3.Fill all required fields.</p>
-     * <p>4.Press "Save" button.</p>
-     * <p>Expected result:</p>
-     * <p>New gift registry successfully saved.</p>
-     * <p>Message "The gift registry type has been saved.." is displayed.</p>
      *
      * @return array
      * @test
@@ -83,15 +68,6 @@ class Enterprise_Mage_GiftRegistry_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Validation of empty required fields in Attributes<</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Customers - Gift Registry.</p>
-     * <p>2.Press "Add New Gift Registry Type" button.</p>
-     * <p>3.Fill all required fields.<</p>
-     * <p>4.Add new attribute.<</p>
-     * <p>5.Leave one of required field empty.<</p>
-     * <p>6.Press "Save" button.</p>
-     * <p>Expected result:Validation message appears</p>
-     * <p>New gift registry has not been saved.</p>
      *
      * @param string $optionName
      * @param string $emptyField
@@ -142,15 +118,6 @@ class Enterprise_Mage_GiftRegistry_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Validation of incorrect code fields in Attributes<</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Customers - Gift Registry.</p>
-     * <p>2.Press "Add New Gift Registry Type" button.</p>
-     * <p>3.Fill all required fields.<</p>
-     * <p>4.Add new attribute.<</p>
-     * <p>5.Input incorrect code.<</p>
-     * <p>6.Press "Save" button.</p>
-     * <p>Expected result:Validation message appears</p>
-     * <p>New gift registry has not been saved.</p>
      *
      * @param string $incorrectCode
      * @param string $optionName
@@ -199,13 +166,6 @@ class Enterprise_Mage_GiftRegistry_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Validation of empty required fields</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Customers - Gift Registry.</p>
-     * <p>2.Press "Add New Gift Registry Type" button.</p>
-     * <p>3.Leave empty one of required fields.<</p>
-     * <p>4.Press "Save" button.</p>
-     * <p>Expected result:Validation message appears</p>
-     * <p>New gift registry has not been saved.</p>
      *
      * @param string $emptyField
      * @param string $fieldType
@@ -238,12 +198,6 @@ class Enterprise_Mage_GiftRegistry_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Validation of label field</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add New Gift Registry Type".</p>
-     * <p>2. Fill label field with incorrect data.</p>
-     * <p>3. Press "Save" button.</p>
-     * <p>Expected result: Validation message appears.</p>
-     * <p>New gift registry has not been saved.</p>
      *
      * @param array $incorrectValue
      *
@@ -274,13 +228,6 @@ class Enterprise_Mage_GiftRegistry_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creation with existing code</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add New Gift Registry Type".</p>
-     * <p>2. Input "code" that already exist in code field. </p>
-     * <p>3. Press "Save" button.</p>     *
-     * <p>Expected result:</p>
-     * <p>New gift registry successfully saved.</p>
-     * <p>Message "The gift registry type has been saved.." is displayed.</p>
      *
      * @param array $giftRegistryData
      *
@@ -301,12 +248,6 @@ class Enterprise_Mage_GiftRegistry_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Gift Registry (all required fields are filled by special characters).</p>
-     * <p>Steps:</p>
-     * <p>1. Click "Add New Gift Registry Type".</p>
-     * <p>2.Fill in all required fields by special characters.</p>
-     * <p>3.Press "Save" button.</p>
-     * <p>New gift registry successfully saved.</p>
-     * <p>Message "The gift registry type has been saved.." is displayed.</p>
      *
      * @test
      * @depends withRequiredFieldsOnly
@@ -326,15 +267,6 @@ class Enterprise_Mage_GiftRegistry_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Validation of empty option in Attributes<</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Customers - Gift Registry.</p>
-     * <p>2.Press "Add New Gift Registry Type" button.</p>
-     * <p>3.Fill all required fields.<</p>
-     * <p>4.Add select attribute.<</p>
-     * <p>5.Add empty option.<</p>
-     * <p>6.Press "Save" button.</p>
-     * <p>Expected result:Validation message appears</p>
-     * <p>New gift registry has not been saved.</p>
      *
      * @test
      * @depends navigationTest
@@ -354,12 +286,6 @@ class Enterprise_Mage_GiftRegistry_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Gift Registry (all required fields are filled by long value data).</p>
-     * <p>Steps:</p>
-     * <p>1.Click "Add New Gift Registry Type"</p>
-     * <p>2.Fill in all required fields by special characters</p>
-     * <p>3.Press "Save" button.</p>
-     * <p>New gift registry successfully saved.</p>
-     * <p>Message "The gift registry type has been saved.." is displayed.</p>
      *
      * @test
      * @depends navigationTest
@@ -381,14 +307,6 @@ class Enterprise_Mage_GiftRegistry_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Gift Registry (all fields are filled).</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Customers - Gift Registry.</p>
-     * <p>2.Press "Add New Gift Registry Type" button.</p>
-     * <p>3.Fill all fields.</p>
-     * <p>4.Press "Save" button.</p>
-     * <p>Expected result:</p>
-     * <p>New gift registry successfully saved.</p>
-     * <p>Message "The gift registry type has been saved.." is displayed.</p>
      *
      * @test
      * @depends navigationTest

@@ -26,18 +26,6 @@ class Enterprise_Mage_Rma_ItemAttribute_DeleteTest extends Mage_Selenium_TestCas
 
     /**
      * <p>Delete custom attribute</p>
-     * <p>Steps:</p>
-     * <p>1. Login to Backend</p>
-     * <p>2. Navigate to Sales-RMA-Manage RMA Items Attributes<p>
-     * <p>3. Click on "Add New Attribute" button</p>
-     * <p>4. Choose "Text Field" in 'Input Type' dropdown</p>
-     * <p>5. Fill all required fields</p>
-     * <p>6. Click "Save Attribute" button</p>
-     * <p>7. Open previously created Attribute</p>
-     * <p>8. Click "Delete Attribute" button and confirm popup message</p>
-     * <p>9. Repeat step 2-8 using other attribute type </p>
-     * <p>Expected result:</p>
-     * <p>Success message: 'The RMA item attribute has been deleted.' is displayed.</p>
      *
      * @param array $attributeType
      *
@@ -71,14 +59,6 @@ class Enterprise_Mage_Rma_ItemAttribute_DeleteTest extends Mage_Selenium_TestCas
 
     /**
      * <p>Verify that impossible Delete system RMA attribute</p>
-     * <p>Steps:</p>
-     * <p>1. Login to Backend</p>
-     * <p>2. Navigate to Sales-RMA-Manage RMA Items Attributes<p>
-     * <p>3. Open "Resolution" system attribute</p>
-     * <p>4. Check that "Delete Attribute" button is missing</p>
-     * <p>9. Repeat step 2-4 using other System attribute: Condition, Reason, Reason_other</p>
-     * <p>Expected result:</p>
-     * <p>"Delete Attribute" button is missing</p>
      *
      * @param array $attributeLabel
      *

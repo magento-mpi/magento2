@@ -45,21 +45,6 @@ class Enterprise_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_TestC
 
     /**
      * Required columns
-     * Steps
-     * 1. Go to System -> Import / Export -> Import
-     * 2. Select Entity Type: Customer Finances
-     * 3. Select Import Behavior: Add/Update Complex Data
-     * 4. Choose file from precondition
-     * 5. Click on Check Data
-     * 6. Click on Import button
-     * 7. Open Customers -> Manage Customers
-     * 8. Open each of imported customers
-     * After step 5
-     * Verify that file is valid, the message 'File is valid!' is displayed
-     * After step 6
-     * Verify that import starting. The message 'Import successfully done.' is displayed
-     * After step 7
-     * Verify that all Customers finance information was imported
      *
      * @test
      * @TestlinkId TL-MAGE-5624
@@ -137,16 +122,6 @@ class Enterprise_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_TestC
      * Verify that if import file has some invalid data, then import will be finished partially
      * Precondition: one customer exists in the system. Csv file contains two rows: valid customer finances data,
      * invalid customer finances data (store credit in text format)
-     * Steps
-     * 1. Go to System -> Import/ Export -> Import
-     * 2. Select Entity Type: Customer Finances
-     * 3. Select Import Behavior: Add/Update Complex Data
-     * 4. Choose first file from precondition, click "Check Data" button, Press "Import" button
-     * Expected: messages "Invalid value for 'store_credit' in rows: 2", "Invalid value for 'reward_points' in
-     * rows: 2", "Please fix errors and re-upload file or simply press "Import" button to skip rows with
-     * errors" and "Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 2" are displayed
-     * 5. Open customers
-     * Expected: valid finance data information was imported correctly
      *
      * @test
      * @dataProvider partialImportData

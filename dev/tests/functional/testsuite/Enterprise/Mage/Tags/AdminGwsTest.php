@@ -164,18 +164,6 @@ class Enterprise_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
     /**
      * Check restrictions to Products Tag Report for admin with access to specific website.
      *
-     * 1. Login to backendCreate new root category and test sub category.
-     * 2. Create new website, store and store view: System -> Manage Stores
-     * 3. Create new role with scope access to website which created on step 1 and resource access "All"
-     * 4. Create new backend user with role which created on step 3.
-     * 5. Create new product available for both websites.
-     * 6. Go to frontend. Open default website and find product which created on step 5.
-     *    Post at least one new tag for this product.
-     * 7. Go to backend. Open created tags from backend and set them status "Approved".
-     * 8. Go to Reports -> Tags -> Products and find tagged product in report grid.
-     * 9. Login into backend as user created on step 4 and repeat step 8.
-     *    Expected:   Tagged products not existed in report grid.
-     *
      * @test
      * @param array $testData
      * @depends preconditionCreateTags
@@ -213,18 +201,6 @@ class Enterprise_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
 
     /**
      * Check restrictions to Customers Tag Report for admin with access to specific website.
-     *
-     * 1. Login to backendCreate new root category and test sub category.
-     * 2. Create new website, store and store view: System -> Manage Stores
-     * 3. Create new role with scope access to website which created on step 1 and resource access "All"
-     * 4. Create new backend user with role which created on step 3.
-     * 5. Create new product available for both websites.
-     * 6. Go to frontend. Open default website and find product which created on step 5.
-     *    Post at least one new tag for this product.
-     * 7. Go to backend. Open created tags from backend and set them status "Approved".
-     * 8. Go to Reports -> Tags -> Customers and find customer who tagged product in report grid.
-     * 9. Login into backend as user created on step 4 and repeat step 8.
-     *    Expected:   Customer who tagged product must not existed in report grid.
      *
      * @test
      * @param array $testData
@@ -264,24 +240,6 @@ class Enterprise_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
 
     /**
      * Check restrictions to Customers Tag Report for admin with access to specific website.
-     *
-     * 1. Login to backendCreate new root category and test sub category.
-     * 2. Create new website, store and store view: System -> Manage Stores
-     * 3. Create new role with scope access to website which created on step 1 and resource access "All"
-     * 4. Create new backend user with role which created on step 3.
-     * 5. Create new product available for both websites.
-     * 6. Go to frontend open default website and find product which created on step 5.
-     *    Post at least two new tags for this product.
-     * 7. Go to backend, open one of created tag and set them status "Approved" for one of created tag.
-     * 8. Login into backend as user created on step 4 and go to Catalog -> Tags -> All Tags.
-     *    Check mass actions list.
-     *    Expected: Action "Delete" is absent.
-     * 9. Go to Catalog -> Tags -> Pending Tags, find one of tag which added on step 6 and try to delete this tag
-     *    via mass action.
-     *    Expected: Check that error message "Not enough permissions to delete this item." appeared on top of page.
-     * 10. Try to edit one of created tags on step 6.
-     *    Expected: Check that all test boxed are disabled in "General Information" tab.
-     *    Expected: Check that action buttons Delete Tag, Save Tag, Save and continue edit are absent on edit page.
      *
      * @test
      * @param array $testData

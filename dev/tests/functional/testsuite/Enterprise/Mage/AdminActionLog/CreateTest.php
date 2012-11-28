@@ -32,12 +32,6 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Admin action log for API Role (Save action)</p>
-     * <p>Steps</p>
-     * <p>1. Create API Role</p>
-     * <p>2. Open Admin Actions Logs page</p>
-     * <p>3. Check that Save action log is created
-     * <p>Expected result:</p>
-     * <p>Save action log is created</p>
      *
      * @return array
      * @test
@@ -76,12 +70,6 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Admin action log for API Role (Edit action)</p>
-     * <p>Steps</p>
-     * <p>1. Create API Role and open it from roles grid for edit</p>
-     * <p>2. Open Admin Actions Logs page</p>
-     * <p>3. Check that Edit action log is created
-     * <p>Expected result:</p>
-     * <p>Edit action log is created</p>
      *
      * @param array $fieldData
      *
@@ -110,12 +98,6 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Admin action log for API Role (Delete action)</p>
-     * <p>Steps</p>
-     * <p>1. Create API Role and delete it</p>
-     * <p>2. Open Admin Actions Logs page</p>
-     * <p>3. Check that Delete action log is created
-     * <p>Expected result:</p>
-     * <p>Delete action log is created</p>
      *
      * @param array $fieldData
      *
@@ -147,12 +129,6 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Admin action log for API User (Save action)</p>
-     * <p>Steps</p>
-     * <p>1. Create API User</p>
-     * <p>2. Open Admin Actions Logs page</p>
-     * <p>3. Check that Save action log is created
-     * <p>Expected result:</p>
-     * <p>Save action log is created</p>
      *
      * @test
      * @TestlinkId TL-MAGE-6449
@@ -206,12 +182,6 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Admin action log for API User (Edit action)</p>
-     * <p>Steps</p>
-     * <p>1. Create API User and open it for edit</p>
-     * <p>2. Open Admin Actions Logs page</p>
-     * <p>3. Check that Edit action log is created
-     * <p>Expected result:</p>
-     * <p>Edit action log is created</p>
      *
      * @param array $userData
      *
@@ -243,12 +213,6 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Admin action log for API User (Delete action)</p>
-     * <p>Steps</p>
-     * <p>1. Create API User and delete it</p>
-     * <p>2. Open Admin Actions Logs page</p>
-     * <p>3. Check that Delete action log is created
-     * <p>Expected result:</p>
-     * <p>Delete action log is created</p>
      *
      * @param array $userData
      *

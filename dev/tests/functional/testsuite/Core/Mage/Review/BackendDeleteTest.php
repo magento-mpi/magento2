@@ -66,15 +66,6 @@ class Core_Mage_Review_BackendDeleteTest extends Mage_Selenium_TestCase
     /**
      * <p>Delete review with Rating</p>
      *
-     * <p>Preconditions:</p>
-     * <p>Rating created</p>
-     * <p>Review with rating created;</p>
-     * <p>Steps:</p>
-     * <p>1. Select created review from the list and open it;</p>
-     * <p>2. Click "Delete Review" button;</p>
-     * <p>Expected result:</p>
-     * <p>Success message appears - review removed from the list</p>
-     *
      * @param $data
      *
      * @test
@@ -100,14 +91,6 @@ class Core_Mage_Review_BackendDeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete review without Rating</p>
-     *
-     * <p>Preconditions:</p>
-     * <p>Review without rating created;</p>
-     * <p>Steps:</p>
-     * <p>1. Select created review from the list and open it;</p>
-     * <p>2. Click "Delete Review" button;</p>
-     * <p>Expected result:</p>
-     * <p>Success message appears - review removed from the list</p>
      *
      * @param $data
      *
@@ -135,14 +118,6 @@ class Core_Mage_Review_BackendDeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete review using Mass-Action</p>
-     *
-     * <p>Preconditions:</p>
-     * <p>Review created;</p>
-     * <p>Steps:</p>
-     * <p>1. Select created review from the list check it;</p>
-     * <p>2. Select "Delete" in Actions;</p>
-     * <p>3. Click "Submit" button;</p>
-     * <p>Success message appears - review removed from the list</p>
      *
      * @param $data
      *

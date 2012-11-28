@@ -32,14 +32,6 @@ class Enterprise_Mage_GiftRegistry_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete created Gift Registry</p>
-     * <p>Preconditions:</p>
-     * <p>Gift Registry created</p>
-     * <p>Steps:</p>
-     * <p>1. Open created Gift Registry.</p>
-     * <p>2. Click "Delete" button.</p>
-     * <p>Expected result:</p>
-     * <p>Gift Registry deleted.</p>
-     * <p>Success message appears: "The gift registry type has been deleted."</p>
      *
      * @test
      * @TestLinkId TL-MAGE-6215

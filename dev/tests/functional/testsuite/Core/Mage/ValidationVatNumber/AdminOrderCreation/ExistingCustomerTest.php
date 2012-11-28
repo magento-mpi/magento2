@@ -85,17 +85,6 @@ class Core_Mage_ValidationVatNumber_AdminOrderCreation_ExistingCustomerTest exte
 
     /**
      * <p>Creating order from back-end with different VAT Numbers for existing customers.</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Orders" page</p>
-     * <p>2. Create new order and choose existing customer from the list</p>
-     * <p>3. Choose existing address for billing and shipping</p>
-     * <p>4. Fill in all required fields</p>
-     * (add products, add payment method information, choose shipping method, etc)</p>
-     * <p>5. Click button "Validate VAT Number" and confirm popup</p>
-     * <p>6. Customer group should be automatically changed, corresponding to settings</p>
-     * <p>7. Click "Save" button</p>
-     * <p>Expected result:</p>
-     * <p>Order is created, no error messages appear</p>
      *
      * @param array $customerAddressData
      * @param string $messageType

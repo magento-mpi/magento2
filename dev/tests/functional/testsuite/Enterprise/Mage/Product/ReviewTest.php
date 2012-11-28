@@ -30,12 +30,6 @@ class Enterprise_Mage_Product_ReviewTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Review Gift Card on frontend.</p>
-     * <p>Steps:</p>
-     * <p>1. Create Gift Card product in stock and out of stock;</p>
-     * <p>2. Navigate to frontend;</p>
-     * <p>3. Validate the product details;</p>
-     * <p>Expected result:</p>
-     * <p>Products are created. All details displays according to settings</p>
      *
      * @param string $availability
      *

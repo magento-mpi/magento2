@@ -67,19 +67,6 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
 
     /**
      * <p>Enable Category Permissions</p>
-     * <p>Steps</p>
-     * <p>1.Go to System -> Configuration -> Catalog -> Catalog -> Category Permissions</p>
-     * <p>2.Select "Yes" in Enable field</p>
-     * <p>3.Click "Save Config" button</p>
-     * <p>4.Clear Magento Cache </p>
-     * <p>5.Go to Catalog -> Categories -> Manage Categories</p>
-     * <p>6.Open "Category Permissions" tab</p>
-     * <p>7.Click "New permission"</p>
-     * <p>8.Verify that all elements are present</p>
-     * <p>Expected result:</p>
-     * <p>1. After 5 Category Permissions tab is present</p>
-     * <p>2. After 6 "New Permission" button is present</p>
-     * <p>3. After 8 All element are present</p>
      *
      * @param array $testData
      *
@@ -125,23 +112,6 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
 
     /**
      * <p>Deny Add to cart</p>
-     * <p>Steps</p>
-     * <p>1.Go to Catalog -> Categories -> Manage Categories</p>
-     * <p>2.Select "Category" in category tree</p>
-     * <p>3.Open Category Permissions tab</p>
-     * <p>4.Click "New Permission" button</p>
-     * <p>5.Select "All Website"</p>
-     * <p>6.Select "All Customer Groups" in Customer Group</p>
-     * <p>7.Select "Allow" in Browsing Category column</p>
-     * <p>8.Select "Allow" in Display Product Prices column</p>
-     * <p>9.Select "Deny" in Add to Cart column</p>
-     * <p>10.Click "Save Category" button</p>
-     * <p>11.Clear Magento Cache </p>
-     * <p>12.Open category page at frontend</p>
-     * <p>13.Open Product page</p>
-     * <p>Expected result:</p>
-     * <p>1. After 12 Product price is visible, "Add to cart" button is missing</p>
-     * <p>2. After 13 Product price is visible, "Add to cart" button is missing</p>
      *
      * @param array $testData
      *
@@ -173,22 +143,6 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
 
     /**
      * <p>Deny display price</p>
-     * <p>Steps</p>
-     * <p>1.Go to Catalog -> Categories -> Manage Categories</p>
-     * <p>2.Select "Category" in category tree</p>
-     * <p>3.Open Category Permissions tab</p>
-     * <p>4.Click "New Permission" button</p>
-     * <p>5.Select "All Website"</p>
-     * <p>6.Select "All Customer Groups" in Customer Group</p>
-     * <p>7.Select "Allow" in Browsing Category column</p>
-     * <p>8.Select "Deny" in Display Product Prices column</p>
-     * <p>9.Click "Save Category" button</p>
-     * <p>10.Clear Magento Cache </p>
-     * <p>11.Open category page at frontend</p>
-     * <p>12.Open Product page</p>
-     * <p>Expected result:</p>
-     * <p>1. After 11 Product price and "Add to cart" button are missing</p>
-     * <p>2. After 12 Product price and "Add to cart" button are missing</p>
      *
      * @param array $testData
      *
@@ -220,22 +174,6 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
 
     /**
      * <p>Deny Browsing Category</p>
-     * <p>Steps</p>
-     * <p>1.Go to Catalog -> Categories -> Manage Categories</p>
-     * <p>2.Select "Category" in category tree</p>
-     * <p>3.Open Category Permissions tab</p>
-     * <p>4.Click "New Permission" button</p>
-     * <p>5.Select "All Website"</p>
-     * <p>6.Select "All Customer Groups" in Customer Group</p>
-     * <p>7.Select "Allow" in Browsing Category column</p>
-     * <p>8.Select "Deny" in Display Product Prices column</p>
-     * <p>9.Click "Save Category" button</p>
-     * <p>10.Clear Magento Cache </p>
-     * <p>11.Open category page at frontend</p>
-     * <p>12.Open Product page</p>
-     * <p>Expected result:</p>
-     * <p>1. After 11 Product price and "Add to cart" button are missing</p>
-     * <p>2. After 12 Product price and "Add to cart" button are missing</p>
      *
      * @param array $testData
      *
@@ -261,31 +199,6 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
 
     /**
      * <p>Set up several permissions for category</p>
-     * <p>Steps</p>
-     * <p>1.Go to Catalog -> Categories -> Manage Categories</p>
-     * <p>2.Select "Category" in category tree</p>
-     * <p>3.Open Category Permissions tab</p>
-     * <p>4.Click "New Permission" button</p>
-     * <p>5.Select "All Website"</p>
-     * <p>6.Select "All Customer Groups" in Customer Group</p>
-     * <p>7.Select "Deny" in Browsing Category column</p>
-     * <p>8.Click "New Permission" button</p>
-     * <p>9.Select "All Website</p>
-     * <p>10.Select "General" in Customer Group</p>
-     * <p>11.Select "Allow" in Browsing Category column</p>
-     * <p>12.Select "Allow" in Display Product Prices column</p>
-     * <p>13.Select "Deny" in Add to Cart column</p>
-     * <p>14.Click "Save Category" button</p>
-     * <p>15.Clear Magento Cache </p>
-     * <p>16.Open frontend</p>
-     * <p>17.Login to frontend</p>
-     * <p>18.Open Category</p>
-     * <p>19.Open Product page</p>
-     * <p>Expected result:</p>
-     * <p>1. After 16 Category button is absent</p>
-     * <p>2. After 17 Category button is present </p>
-     * <p>3. After 18 Product price is visible, "Add to cart" button is missing</p>
-     * <p>4. After 19 Product price is visible, "Add to cart" button is missing</p>
      *
      * @param array $testData
      *
@@ -321,23 +234,6 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
 
     /**
      * <p>Permissions are apply for products in Wishlist</p>
-     * <p>Steps</p>
-     * <p>1.Go to Catalog -> Categories -> Manage Categories</p>
-     * <p>2.Select "Category" in category tree</p>
-     * <p>3.Open Category Permissions tab</p>
-     * <p>4.Click "New Permission" button</p>
-     * <p>5.Select "All Website"</p>
-     * <p>6.Select "All Customer Groups" in Customer Group</p>
-     * <p>7.Select "Allow" in Browsing Category column</p>
-     * <p>8.Select "Deny" in Display Product Prices column</p>
-     * <p>9.Click "Save Category" button</p>
-     * <p>10.Clear Magento Cache </p>
-     * <p>11.Open Frontend</p>
-     * <p>12.Open any category</p>
-     * <p>13.Add any product to Wishlist</p>
-     * <p>14. Open Wishlist</p>
-     * <p>Expected result:</p>
-     * <p> Product price is not visible. "Add to cart" button is missing</p>
      *
      * @param array $testData
      *
@@ -368,29 +264,6 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
 
     /**
      * <p>Set up several permissions for category</p>
-     * <p>Steps</p>
-     * <p>1.Go to System -> Configuration -> Catalog -> Catalog -> Category Permissions</p>
-     * <p>2.Select "Yes" in Enable field</p>
-     * <p>3.Select "No" in Allow Browsing Category</p>
-     * <p>4.Save config</p>
-     * <p>5.Go to Catalog -> Categories -> Manage Categories</p>
-     * <p>6.Select "Category" in category tree</p>
-     * <p>7.Open Category Permissions tab</p>
-     * <p>8.Click "New Permission" button</p>
-     * <p>9.Select "All Website"</p>
-     * <p>10.Select "All Customer Groups" in Customer Group</p>
-     * <p>11.Select "Allow" in Browsing Category column</p>
-     * <p>12.Select "Allow" in Display Product Prices column</p>
-     * <p>13.Select "Allow" in Add to Cart column</p>
-     * <p>14.Click "Save Category" button</p>
-     * <p>15.Clear Magento Cache </p>
-     * <p>16.Open frontend</p>
-     * <p>17.Open Category</p>
-     * <p>18.Open Product page</p>
-     * <p>Expected result:</p>
-     * <p>1. After 17 Category panel is present </p>
-     * <p>2. After 18 Product price and "Add to cart" button are present</p>
-     * <p>3. After 19 Product price and "Add to cart" button are present</p>
      *
      * @param array $testData
      *
@@ -429,14 +302,6 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
 
     /**
      * <p>Disable Category Permissions</p>
-     * <p>Steps</p>
-     * <p>1.Go to System -> Configuration -> Catalog -> Catalog -> Category Permissions</p>
-     * <p>2.Select "No" in Enable field</p>
-     * <p>3.Click "Save Config" button</p>
-     * <p>4.Clear Magento Cache </p>
-     * <p>5.Go to Catalog -> Categories -> Manage Categories</p>
-     * <p>Expected result:</p>
-     * <p>1. Category Permissions tab is absent</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5798

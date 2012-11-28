@@ -78,4 +78,4 @@ class Enterprise_Mage_CustomerSegment_Helper extends Mage_Selenium_AbstractHelpe
         $this->openSegment($segmentSearch);
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
     }
- }
+}

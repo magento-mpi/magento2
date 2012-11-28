@@ -17,21 +17,8 @@ class Enterprise_Mage_Acl_BugVerifications_CatalogPriceRuleTest extends Mage_Sel
     /**
      * <p>Bug Cover<p/>
      * <p>MAGETWO-2587:</p>
-     * <p> Fatal error on page if user with permission to one website try to save Catalog Price rule using "Save and Continue Edit" button (EE only)</p>
-     * <p>Preconditions</p>
-     * <p>1. Created role with:</p>
-     * <p>Role Scopes="Main Website"</p>
-     * <p>Role Access=All</p>
-     * <p>2. Created admin user "User1" with this Role</p>
-     * <p>Steps:</p>
-     * <p>1. Log in to backend with User1.</p>
-     * <p>2. Navigate to Promotions->Catalog Price Rules.</p>
-     * <p>3. Click "Add New Rule" button</p>
-     * <p>4. Enter valid data in all required fields.</p>
-     * <p>5. Click "Save and Continue Edit" button.</p>
-     * <p>Expected results:</p>
-     * <p>1. The Catalog price rule is successfully created</p>
-     * <p>2. The message "The rule has been saved" is presented in Edit Catalog price rule page<p>
+     * <p> Fatal error on page if user with permission to one website try to save Catalog Price rule
+     * using "Save and Continue Edit" button (EE only)</p>
      *
      * @test
      * @TestlinkId TL-MAGE-6081
@@ -63,7 +50,7 @@ class Enterprise_Mage_Acl_BugVerifications_CatalogPriceRuleTest extends Mage_Sel
         $this->addParameter('elementTitle', $priceRuleData['info']['rule_name']);
         $this->validatePage('edit_rule_page');
         $this->assertMessagePresent('success', 'success_saved_rule');
-        $this->verifyForm($priceRuleData,'rule_information');
-        $this->verifyForm($priceRuleData,'rule_actions');
+        $this->verifyForm($priceRuleData, 'rule_information');
+        $this->verifyForm($priceRuleData, 'rule_actions');
     }
 }
