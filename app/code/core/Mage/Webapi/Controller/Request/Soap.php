@@ -1,6 +1,6 @@
 <?php
 /**
- * REST API request.
+ * Soap API request.
  *
  * @copyright {}
  */

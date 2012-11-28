@@ -231,9 +231,6 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
         if (!$this->_resourceVersion) {
             $this->setResourceVersion($this->getParam(Mage_Webapi_Controller_Router_Route_Rest::PARAM_VERSION));
         }
-        if (is_null($this->_resourceVersion)) {
-            throw new LogicException("Version number is not specified.");
-        }
         return $this->_resourceVersion;
     }
 
