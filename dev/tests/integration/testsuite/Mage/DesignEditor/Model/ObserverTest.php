@@ -63,9 +63,9 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
     public function testPreDispatchApplyDesign()
     {
         $newTheme = 'default/blank';
-        $this->assertNotEquals($newTheme, Mage::getDesign()->getDesignTheme());
+        $this->assertNotEquals($newTheme, Mage::getDesign()->getDesignTheme()->getThemePath());
         $this->_observer->preDispatch($this->_eventObserver);
-        $this->assertEquals($newTheme, Mage::getDesign()->getDesignTheme());
+        $this->assertEquals($newTheme, Mage::getDesign()->getDesignTheme()->getThemePath());
     }
 
     /**

@@ -39,6 +39,13 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
      */
     protected $_fallback;
 
+    /**
+     * Mocked theme object
+     *
+     * @var Mage_Core_Model_Theme
+     */
+    protected $_theme;
+
     public static function setUpBeforeClass()
     {
         self::$_tmpDir = TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . 'fallback';
@@ -48,16 +55,17 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
     public function setUp()
     {
         $this->_baseDir = DIRECTORY_SEPARATOR . 'base' . DIRECTORY_SEPARATOR . 'dir';
+
+        $this->_theme = $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false);
+
         $params = array(
-            'area' => 'frontend',
-            'package' => 'package',
-            'theme' => 'theme',
-            'locale' => 'en_US',
-            'appConfig' => false,
-            'themeConfig' => false,
+            'area'       => 'frontend',
+            'themeModel' => $this->_theme,
+            'locale'     => 'en_US',
+            'appConfig'  => false,
             'canSaveMap' => false,
-            'mapDir' => self::$_tmpDir,
-            'baseDir' => $this->_baseDir
+            'mapDir'     => self::$_tmpDir,
+            'baseDir'    => $this->_baseDir
         );
 
         $this->_fallback = $this->getMock(
@@ -169,14 +177,12 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
         $expectedPublicFile = 'public/path/to/view_file.ext';
 
         $params = array(
-            'area' => 'frontend',
-            'package' => 'package',
-            'theme' => 'theme',
-            'skin' => 'skin',
-            'locale' => 'en_US',
+            'area'       => 'frontend',
+            'themeModel' => $this->_theme,
+            'locale'     => 'en_US',
             'canSaveMap' => true,
-            'mapDir' => self::$_tmpDir,
-            'baseDir' => ''
+            'mapDir'     => self::$_tmpDir,
+            'baseDir'    => ''
         );
         $model = new Mage_Core_Model_Design_Fallback_CachingProxy($params);
         $model->notifyViewFilePublished($expectedPublicFile, $file, $module);

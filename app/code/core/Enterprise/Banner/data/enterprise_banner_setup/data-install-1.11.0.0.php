@@ -27,6 +27,9 @@ $banners = array(
     )
 );
 
+/** @var $theme Mage_Core_Model_Theme */
+$theme = Mage::getModel('Mage_Core_Model_Resource_Theme_Collection')->getThemeByFullPath('frontend/enterprise/fixed');
+
 foreach ($banners as $sortOrder => $bannerData) {
     $banner = Mage::getModel('Enterprise_Banner_Model_Banner')
         ->setName($bannerData[1])
@@ -55,8 +58,8 @@ foreach ($banners as $sortOrder => $bannerData) {
             'unique_id'    => Mage::helper('Mage_Core_Helper_Data')->uniqHash()
         ))
         ->addData(array(
-            'instance_type'          => 'Enterprise_Banner_Block_Widget_Banner',
-            'package_theme' => 'enterprise/fixed',
+            'instance_type' => 'Enterprise_Banner_Block_Widget_Banner',
+            'theme_id'      => $theme->getId(),
             'title'         => $bannerData[1],
             'sort_order'    => $sortOrder
         ))
