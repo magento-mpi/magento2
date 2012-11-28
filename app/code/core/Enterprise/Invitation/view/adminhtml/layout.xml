@@ -26,7 +26,7 @@
             <block name="invitation_view_tabs" as="tabs" type="Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tabs">
                 <action method="addTab"><tab>general</tab><content>Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General</content></action>
                 <action method="addTab"><tab>history</tab><content>Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_History</content></action>
-                <action method="setDestElementId"><id>invitation_elements</id></action>
+                <action method="setDestElementId"><id>invitation-elements</id></action>
             </block>
         </reference>
     </adminhtml_invitation_view>

@@ -144,9 +144,7 @@ class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resourc
             foreach ($storeIds as $storeId) {
                 $data[] = array(
                     'store_id'         => $storeId,
-                    'area'             => $widgetInstance->getArea(),
-                    'package'          => $widgetInstance->getPackage(),
-                    'theme'            => $widgetInstance->getTheme(),
+                    'theme_id'         => $widgetInstance->getThemeId(),
                     'layout_update_id' => $layoutUpdateId);
             }
             $writeAdapter->insertMultiple($layoutUpdateLinkTable, $data);

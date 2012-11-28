@@ -27,7 +27,9 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit extends Mage_Adm
         $this->_addButton('save_and_continue_edit', array(
             'class'   => 'save',
             'label'   => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Save and Continue Edit'),
-            'onclick' => 'editForm.submit(\'' . $this->getSaveUrl() . '\' + \'back/edit/\')',
+            'data_attr'  => array(
+                'widget-button' => array('event' => 'saveAndContinueEdit', 'related' => '#edit_form'),
+            ),
         ), 3);
 
         if (Mage::registry('current_giftwrapping_model') && Mage::registry('current_giftwrapping_model')->getId()) {
@@ -37,20 +39,23 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit extends Mage_Adm
             );
         }
 
-        $this->_formScripts[] = '
+        $this->_formScripts[] = "
+                // Temporary solution will be replaced after refactoring Gift Wrapping functionality
                 function uploadImagesForPreview() {
-                    var fform = $(editForm.formId)
-                    fform.getElements().each(function(elm){
-                        if (Element.readAttribute(elm, "type") == "file") {
-                            Element.addClassName(elm, "required-entry")
-                        } else {
-                            Element.addClassName(elm, "ignore-validate")
-                        }
+                    var fform = jQuery('#edit_form');
+                    fform.find('input, select, textarea').each(function() {
+                        jQuery(this).attr('type') === 'file' ?
+                            jQuery(this).addClass('required-entry') :
+                            jQuery(this).addClass('ignore-validate temp-ignore-validate');
                     });
-
-                    editForm.submit("' . $this->getUploadUrl()  . '");
+                    fform.on('invalid-form.validate', function() {
+                        fform.find('.temp-ignore-validate').removeClass('ignore-validate temp-ignore-validate');
+                        fform.find('[type=\"file\"]').removeClass('required-entry');
+                        fform.off('invalid-form.validate');
+                    });
+                    fform.triggerHandler('save', [{action: '" . $this->getUploadUrl()  . "'}]);
                 }
-            ';
+            ";
     }
 
     /**

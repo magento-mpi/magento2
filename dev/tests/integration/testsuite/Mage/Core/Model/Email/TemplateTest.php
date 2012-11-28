@@ -23,6 +23,8 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        Mage_Core_Utility_Theme::registerDesignMock();
+        Mage::getDesign()->setDefaultDesignTheme();
         $this->_mail = $this->getMock(
             'Zend_Mail', array('send', 'addTo', 'addBcc', 'setReturnPath', 'setReplyTo'), array('utf-8')
         );

@@ -27,11 +27,9 @@
         </tr>
     </table>
 </div>
-<form action="<?php echo $this->getUrl('*/*/save') ?>" method="post" id="role_edit_form">
+<form action="<?php echo $this->getUrl('*/*/save') ?>" method="post" id="role-edit-form">
     <?php echo $this->getBlockHtml('formkey')?>
 </form>
 <script type="text/javascript">
-//<![CDATA[
-    var roleForm = new varienForm('role_edit_form');
-//]]>
+    jQuery('#role-edit-form').form().validation();
 </script>

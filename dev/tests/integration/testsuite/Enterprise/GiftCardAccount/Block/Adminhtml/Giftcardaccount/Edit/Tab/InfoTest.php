@@ -40,6 +40,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_InfoTe
      * Test Prepare Form in Single Store mode
      *
      * @magentoConfigFixture current_store general/single_store_mode/enabled 1
+     * @magentoDataFixture Mage/Core/_files/init_adminhtml_design.php
      */
     public function testPrepareFormSingleStore()
     {
@@ -56,6 +57,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_InfoTe
      * Test Prepare Form in Multiple Store mode
      *
      * @magentoConfigFixture current_store general/single_store_mode/enabled 0
+     * @magentoDataFixture Mage/Core/_files/init_adminhtml_design.php
      */
     public function testPrepareFormMultipleStore()
     {
@@ -82,6 +84,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_InfoTe
     }
 
     /**
+     * @magentoDataFixture Mage/Core/_files/init_adminhtml_design.php
      * @magentoAppIsolation enabled
      */
     public function testInitForm()

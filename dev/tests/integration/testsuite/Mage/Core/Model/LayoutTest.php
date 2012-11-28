@@ -11,6 +11,9 @@
 
 /**
  * Layout integration tests
+ *
+ * @magentoDbIsolation enabled
+ * @group module::Mage_Layout_Merge
  */
 class Mage_Core_Model_LayoutTest extends Mage_Core_Model_LayoutTestBase
 {

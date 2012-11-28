@@ -50,12 +50,11 @@ class Mage_Oauth_Block_Adminhtml_Oauth_Consumer_Edit extends Mage_Adminhtml_Bloc
 
         $this->_addButton('save_and_continue', array(
             'label'     => Mage::helper('Mage_Oauth_Helper_Data')->__('Save and Continue Edit'),
-            'onclick'   => 'saveAndContinueEdit()',
-            'class' => 'save'
+            'class' => 'save',
+            'data_attr'  => array(
+                'widget-button' => array('event' => 'saveAndContinueEdit', 'related' => '#edit_form'),
+            ),
         ), 100);
-
-        $this->_formScripts[] = "function saveAndContinueEdit()" .
-        "{editForm.submit($('edit_form').action + 'back/edit/')}";
 
         $this->_updateButton('save', 'label', $this->__('Save'));
         $this->_updateButton('save', 'id', 'save_button');
