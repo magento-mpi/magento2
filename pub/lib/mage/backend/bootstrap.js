@@ -75,17 +75,19 @@ jQuery(function ($) {
          * Show loader on ajax send
          */
         $('body').on('ajaxSend', function(e) {
-            $(e.target).loader({
-                icon: $('#loading_mask_loader img').attr('src')
-            }).loader('show');
+            $(e.target).mage({init: {
+                name: 'loader',
+                options: {
+                    icon: $('#loading_mask_loader img').attr('src'),
+                    showOnInit: true
+                }
+            }});
         });
 
         /*
          * Initialization of notification widget
          */
-        if ($('#messages').length) {
-            $('#messages').notification();
-        }
+         $('#messages').mage({init: {name: 'notification'}});
     };
 
     $(bootstrap);

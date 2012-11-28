@@ -32,5 +32,5 @@
     <?php echo $this->getBlockHtml('formkey')?>
 </form>
 <script type="text/javascript">
-    jQuery('#user-edit-form').form().validation();
+    jQuery('#user-edit-form').mage({init: [{name: 'form'}, {name: 'validation'}]});
 </script>

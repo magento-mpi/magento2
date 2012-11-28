@@ -27,5 +27,5 @@
 <?php echo $this->getFormHtml() ?>
 </div>
 <script type="text/javascript">
-   jQuery('#edit_form').form().validation();
+   jQuery('#edit_form').mage({init: [{name: 'form'}, {name: 'validation'}]});
 </script>

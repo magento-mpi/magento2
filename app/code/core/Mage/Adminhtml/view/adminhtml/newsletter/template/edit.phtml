@@ -47,8 +47,8 @@
 </form>
 <script type="text/javascript">
 //<![CDATA[
-    jQuery('#newsletter_template_edit_form').form().validation();
-    jQuery('#newsletter_template_preview_form').form().validation();
+    jQuery('#newsletter_template_edit_form').mage({init: [{name: 'form'}, {name: 'validation'}]});
+    jQuery('#newsletter_template_preview_form').mage({init: [{name: 'form'}, {name: 'validation'}]});
     var templateControl = {
 
         unconvertedText: '',

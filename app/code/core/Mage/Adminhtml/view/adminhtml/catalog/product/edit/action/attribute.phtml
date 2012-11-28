@@ -24,5 +24,8 @@
     <?php echo $this->getBlockHtml('formkey')?>
 </form>
 <script type="text/javascript">
-    jQuery('#attributes-edit-form').form().validation({validationUrl: '<?php echo $this->getValidationUrl() ?>'});
+    jQuery('#attributes-edit-form').mage({init: [
+        {name: 'form'},
+        {name: 'validation', options: {validationUrl: '<?php echo $this->getValidationUrl() ?>'}}
+    ]});
 </script>

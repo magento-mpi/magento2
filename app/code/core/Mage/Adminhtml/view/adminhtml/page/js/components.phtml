@@ -34,7 +34,16 @@
                 '<?php echo $this->getViewFileUrl('jquery/jquery.validate.js') ?>',
                 '<?php echo $this->getViewFileUrl('mage/translate.js') ?>',
                 '<?php echo $this->getViewFileUrl('mage/validation.js') ?>',
-                '<?php echo $this->getViewFileUrl('mage/backend/validation.js') ?>',
+                '<?php echo $this->getViewFileUrl('mage/backend/validation.js') ?>'
+            ],
+            notification: [
+                '<?php echo $this->getViewFileUrl('jquery/jquery.tmpl.min.js') ?>',
+                '<?php echo $this->getViewFileUrl('mage/backend/notification.js') ?>'
+            ],
+            loader: [
+                '<?php echo $this->getViewFileUrl('jquery/jquery.tmpl.min.js') ?>',
+                '<?php echo $this->getViewFileUrl('mage/translate.js') ?>',
+                '<?php echo $this->getViewFileUrl('mage/loader.js') ?>'
             ]
         });
     })(jQuery);
