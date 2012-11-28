@@ -271,6 +271,7 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
      * @param string $expectedArea
      * @param string $expectedStore
      * @param string $expectedDesign
+     * @group one
      */
     public function testPreDispatch($controllerClass, $expectedArea, $expectedStore, $expectedDesign)
     {
@@ -283,10 +284,11 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
             Mage::app()->getFrontController()
         );
         $controller->preDispatch();
+
         $this->assertEquals($expectedArea, Mage::getDesign()->getArea());
         $this->assertEquals($expectedStore, Mage::app()->getStore()->getCode());
         if ($expectedDesign) {
-            $this->assertEquals($expectedDesign, Mage::getDesign()->getDesignTheme());
+            $this->assertEquals($expectedDesign, Mage::getDesign()->getDesignTheme()->getThemePath());
         }
     }
 

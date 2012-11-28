@@ -16,6 +16,7 @@ class Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_AbstractTest
     extends PHPUnit_Framework_TestCase
 {
     /**
+     * @magentoDataFixture Mage/Core/_files/init_adminhtml_design.php
      * @magentoAppIsolation enabled
      */
     public function testPrepareForm()
