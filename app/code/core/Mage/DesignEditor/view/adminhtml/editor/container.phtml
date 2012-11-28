@@ -1,0 +1,18 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     Mage_DesignEditor
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Editor_Container */ ?>
+<div class="content-header">
+    <?php echo $this->getHeaderHtml() ?>
+</div>
+<?php echo $this->getChildHtml(); ?>
+<iframe class="vde_container_frame" src="<?php echo $this->getFrameUrl(); ?>">
+</iframe>

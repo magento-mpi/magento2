@@ -23,6 +23,21 @@
         </reference>
     </adminhtml_system_design_editor_index>
 
+    <adminhtml_system_design_editor_run>
+        <reference name="content">
+            <reference name="head">
+                <action method="addCss"><file>Mage_DesignEditor::css/styles.css</file></action>
+            </reference>
+            <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Container" name="design_editor" template="Mage_DesignEditor::editor/container.phtml">
+                <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Template" name="design_editor_toolbar" template="Mage_DesignEditor::editor/toolbar.phtml">
+                    <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy" name="design_editor_toolbar_handles_hierarchy" template="Mage_DesignEditor::editor/toolbar/handles_hierarchy.phtml" />
+                    <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Template" name="design_editor_toolbar_highlighting" template="Mage_DesignEditor::editor/toolbar/highlighting.phtml" />
+                    <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons" name="design_editor_toolbar_buttons" template="Mage_DesignEditor::editor/toolbar/buttons.phtml" />
+                </block>
+            </block>
+        </reference>
+    </adminhtml_system_design_editor_run>
+
     <adminhtml_system_design_editor_exit>
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Template" name="design_editor_exit" as="exit" template="Mage_DesignEditor::exit.phtml"/>
