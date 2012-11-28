@@ -138,7 +138,7 @@ class Mage_Webapi_Model_Config_RestTest extends PHPUnit_Framework_TestCase
      */
     protected function _createResourceConfig($pathToResources)
     {
-        $objectManager = Mage::getObjectManager();
+        $objectManager = new Magento_Test_ObjectManager();
         /** Prepare arguments for SUT constructor. */
         /** @var Mage_Core_Model_Cache $cache */
         $cache = $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock();

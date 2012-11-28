@@ -9,12 +9,14 @@ class Mage_Webapi_Model_Config_Reader_Soap_ClassReflector
 {
     /**
      * Set types data into reader after reflecting all files.
+     *
+     * @return array
      */
-    public function afterReflectionAction()
+    public function getPostReflectionData()
     {
-        $this->getReader()->addData(array(
+        return array(
             'types' => $this->_typeProcessor->getTypesData(),
             'type_to_class_map' => $this->_typeProcessor->getTypeToClassMap(),
-        ));
+        );
     }
 }

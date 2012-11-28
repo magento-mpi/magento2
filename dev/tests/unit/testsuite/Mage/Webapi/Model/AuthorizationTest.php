@@ -22,7 +22,10 @@ class Mage_Webapi_Model_AuthorizationTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('isAllowed'))
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_helperMock = $this->getMock('Mage_Webapi_Helper_Data', array('__'));
+        $this->_helperMock = $this->getMockBuilder('Mage_Webapi_Helper_Data')
+            ->disableOriginalConstructor()
+            ->setMethods(array('__'))
+            ->getMock();
         /** Initialize SUT. */
         $this->_webapiAuthorization = new Mage_Webapi_Model_Authorization(
             $this->_helperMock,

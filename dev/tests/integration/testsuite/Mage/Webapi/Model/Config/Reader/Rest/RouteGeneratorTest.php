@@ -24,7 +24,7 @@ class Mage_Webapi_Model_Config_Reader_Rest_RouteGeneratorTest extends PHPUnit_Fr
 
     protected function setUp()
     {
-        $helper = $this->getMock('Mage_Webapi_Helper_Data', array('__'));
+        $helper = $this->getMock('Mage_Webapi_Helper_Config', array('__'));
         $this->_model = new Mage_Webapi_Model_Config_Reader_Rest_RouteGenerator($helper);
     }
 
@@ -36,7 +36,9 @@ class Mage_Webapi_Model_Config_Reader_Rest_RouteGeneratorTest extends PHPUnit_Fr
      */
     public function testGenerateRestRoutesTopLevelResource($className, $methodName, $expectedRoutes)
     {
-        $actualRoutes = $this->_model->generateRestRoutes($this->_createMethodReflection($className, $methodName));
+        $actualRoutes = $this->_model->generateRestRoutes(
+            Mage_Webapi_Helper_Data::createMethodReflection($className, $methodName)
+        );
         $this->assertRoutesEqual($expectedRoutes, $actualRoutes);
     }
 
@@ -148,7 +150,9 @@ class Mage_Webapi_Model_Config_Reader_Rest_RouteGeneratorTest extends PHPUnit_Fr
      */
     public function testGenerateRestRoutesSubresource($className, $methodName, $expectedRoutes)
     {
-        $actualRoutes = $this->_model->generateRestRoutes($this->_createMethodReflection($className, $methodName));
+        $actualRoutes = $this->_model->generateRestRoutes(
+            Mage_Webapi_Helper_Data::createMethodReflection($className, $methodName)
+        );
         $this->assertRoutesEqual($expectedRoutes, $actualRoutes);
     }
 
@@ -223,26 +227,10 @@ class Mage_Webapi_Model_Config_Reader_Rest_RouteGeneratorTest extends PHPUnit_Fr
             '"invalidMethodNameV2" is an invalid API resource method.'
         );
         $this->_model->generateRestRoutes(
-            $this->_createMethodReflection(
+            Mage_Webapi_Helper_Data::createMethodReflection(
                 'Vendor_Module_Controller_Webapi_Invalid_Interface',
                 'invalidMethodNameV2'
             )
         );
-    }
-
-    /**
-     * Create Zend method reflection object.
-     *
-     * @param string|object $classOrObject
-     * @param string $methodName
-     * @return Zend\Server\Reflection\ReflectionMethod
-     */
-    protected function _createMethodReflection($classOrObject, $methodName)
-    {
-        $methodReflection = new \ReflectionMethod($classOrObject, $methodName);
-        $classReflection = new \ReflectionClass($classOrObject);
-        $zendClassReflection = new Zend\Server\Reflection\ReflectionClass($classReflection);
-        $zendMethodReflection = new Zend\Server\Reflection\ReflectionMethod($zendClassReflection, $methodReflection);
-        return $zendMethodReflection;
     }
 }

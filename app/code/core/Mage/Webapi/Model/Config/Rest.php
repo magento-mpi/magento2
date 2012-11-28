@@ -13,13 +13,13 @@ class Mage_Webapi_Model_Config_Rest extends Mage_Webapi_Model_ConfigAbstract
      * Construct config with REST reader & route factory.
      *
      * @param Mage_Webapi_Model_Config_Reader_Rest $reader
-     * @param Mage_Webapi_Helper_Data $helper
+     * @param Mage_Webapi_Helper_Config $helper
      * @param Mage_Core_Model_App $app
      * @param Magento_Controller_Router_Route_Factory $routeFactory
      */
     public function __construct(
         Mage_Webapi_Model_Config_Reader_Rest $reader,
-        Mage_Webapi_Helper_Data $helper,
+        Mage_Webapi_Helper_Config $helper,
         Mage_Core_Model_App $app,
         Magento_Controller_Router_Route_Factory $routeFactory
     ) {

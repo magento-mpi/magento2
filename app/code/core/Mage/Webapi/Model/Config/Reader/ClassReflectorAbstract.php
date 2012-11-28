@@ -10,10 +10,7 @@ use Zend\Server\Reflection,
  */
 abstract class Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract
 {
-    /** @var Mage_Webapi_Model_Config_ReaderAbstract */
-    protected $_reader;
-
-    /** @var Mage_Webapi_Helper_Data */
+    /** @var Mage_Webapi_Helper_Config */
     protected $_helper;
 
     /** @var Mage_Webapi_Model_Config_Reader_TypeProcessor */
@@ -22,11 +19,11 @@ abstract class Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract
     /**
      * Construct reflector.
      *
-     * @param Mage_Webapi_Helper_Data $helper
+     * @param Mage_Webapi_Helper_Config $helper
      * @param Mage_Webapi_Model_Config_Reader_TypeProcessor $typeProcessor
      */
     public function __construct(
-        Mage_Webapi_Helper_Data $helper,
+        Mage_Webapi_Helper_Config $helper,
         Mage_Webapi_Model_Config_Reader_TypeProcessor $typeProcessor
     ) {
         $this->_helper = $helper;
@@ -34,34 +31,17 @@ abstract class Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract
     }
 
     /**
-     * Perform some action after reflecting all files.
-     */
-    abstract public function afterReflectionAction();
-
-    /**
-     * Set reader object.
+     * Retrieve data that has been collected during reflecting each class.
      *
-     * @param Mage_Webapi_Model_Config_ReaderAbstract $reader
+     * @return array
      */
-    public function setReader(Mage_Webapi_Model_Config_ReaderAbstract $reader)
-    {
-        $this->_reader = $reader;
-    }
-
-    /**
-     * Retrieve reader object.
-     *
-     * @return Mage_Webapi_Model_Config_ReaderAbstract
-     */
-    public function getReader()
-    {
-        return $this->_reader;
-    }
+    abstract public function getPostReflectionData();
 
     /**
      * Reflect methods in given class and set retrieved data into reader.
      *
      * @param $className
+     * @return array
      */
     public function reflectClassMethods($className)
     {
@@ -84,11 +64,11 @@ abstract class Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract
         // Sort versions array for further fallback.
         ksort($data['versions']);
 
-        $this->getReader()->addData(array(
+        return array(
             'resources' => array(
                 $this->_helper->translateResourceName($className) => $data,
             ),
-        ));
+        );
     }
 
     /**
@@ -139,7 +119,7 @@ abstract class Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract
      */
     protected function _getMethodNameRegularExpression()
     {
-        return sprintf('/(%s)(V\d+)/', implode('|', $this->_helper->getAllowedMethods()));
+        return sprintf('/(%s)(V\d+)/', implode('|', Mage_Webapi_Controller_ActionAbstract::getAllowedMethods()));
     }
 
     /**

@@ -8,7 +8,7 @@ use Zend\Code\Reflection\ClassReflection;
  */
 class Mage_Webapi_Model_Config_Reader_TypeProcessor
 {
-    /** @var Mage_Webapi_Helper_Data */
+    /** @var Mage_Webapi_Helper_Config */
     protected $_helper;
 
     /** @var Magento_Autoload */
@@ -31,9 +31,9 @@ class Mage_Webapi_Model_Config_Reader_TypeProcessor
     /**
      * Construct type processor.
      *
-     * @param Mage_Webapi_Helper_Data $helper
+     * @param Mage_Webapi_Helper_Config $helper
      */
-    public function __construct(Mage_Webapi_Helper_Data $helper)
+    public function __construct(Mage_Webapi_Helper_Config $helper)
     {
         $this->_helper = $helper;
         $this->_autoload = Magento_Autoload::getInstance();

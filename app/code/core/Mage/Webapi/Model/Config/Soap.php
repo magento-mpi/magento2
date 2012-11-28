@@ -10,12 +10,12 @@ class Mage_Webapi_Model_Config_Soap extends Mage_Webapi_Model_ConfigAbstract
      * Initialize dependencies.
      *
      * @param Mage_Webapi_Model_Config_Reader_Soap $reader
-     * @param Mage_Webapi_Helper_Data $helper
+     * @param Mage_Webapi_Helper_Config $helper
      * @param Mage_Core_Model_App $app
      */
     public function __construct(
         Mage_Webapi_Model_Config_Reader_Soap $reader,
-        Mage_Webapi_Helper_Data $helper,
+        Mage_Webapi_Helper_Config $helper,
         Mage_Core_Model_App $app
     ) {
         parent::__construct($reader, $helper, $app);

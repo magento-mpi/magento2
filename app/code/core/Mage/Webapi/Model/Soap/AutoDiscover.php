@@ -31,7 +31,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     protected $_wsdlFactory;
 
     /**
-     * @var Mage_Webapi_Helper_Data
+     * @var Mage_Webapi_Helper_Config
      */
     protected $_helper;
 
@@ -43,7 +43,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      *
      * @param Mage_Webapi_Model_Config_Soap $apiConfig
      * @param Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
-     * @param Mage_Webapi_Helper_Data $helper
+     * @param Mage_Webapi_Helper_Config $helper
      * @param Mage_Core_Model_Cache $cache
      *
      * @throws InvalidArgumentException
@@ -51,7 +51,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     public function __construct(
         Mage_Webapi_Model_Config_Soap $apiConfig,
         Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory,
-        Mage_Webapi_Helper_Data $helper,
+        Mage_Webapi_Helper_Config $helper,
         Mage_Core_Model_Cache $cache
     ) {
         $this->_apiConfig = $apiConfig;

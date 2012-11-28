@@ -27,7 +27,7 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
     protected $_config;
 
     /**
-     * @var Mage_Webapi_Helper_Data
+     * @var Mage_Webapi_Helper_Config
      */
     protected $_helper;
 
@@ -40,9 +40,9 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
      * Construct strategy with resource config.
      *
      * @param Mage_Webapi_Model_Config_Soap $config
-     * @param Mage_Webapi_Helper_Data $helper
+     * @param Mage_Webapi_Helper_Config $helper
      */
-    public function __construct(Mage_Webapi_Model_Config_Soap $config, Mage_Webapi_Helper_Data $helper)
+    public function __construct(Mage_Webapi_Model_Config_Soap $config, Mage_Webapi_Helper_Config $helper)
     {
         $this->_config = $config;
         $this->_helper = $helper;

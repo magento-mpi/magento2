@@ -14,12 +14,12 @@ class Mage_Webapi_Model_Config_Reader_Rest_ClassReflector extends Mage_Webapi_Mo
     /**
      * Construct reflector with route generator.
      *
-     * @param Mage_Webapi_Helper_Data $helper
+     * @param Mage_Webapi_Helper_Config $helper
      * @param Mage_Webapi_Model_Config_Reader_TypeProcessor $typeProcessor
      * @param Mage_Webapi_Model_Config_Reader_Rest_RouteGenerator $routeGenerator
      */
     public function __construct(
-        Mage_Webapi_Helper_Data $helper,
+        Mage_Webapi_Helper_Config $helper,
         Mage_Webapi_Model_Config_Reader_TypeProcessor $typeProcessor,
         Mage_Webapi_Model_Config_Reader_Rest_RouteGenerator $routeGenerator
     ) {
@@ -29,14 +29,16 @@ class Mage_Webapi_Model_Config_Reader_Rest_ClassReflector extends Mage_Webapi_Mo
 
     /**
      * Set types and REST routes data into reader after reflecting all files.
+     *
+     * @return array
      */
-    public function afterReflectionAction()
+    public function getPostReflectionData()
     {
-        $this->getReader()->addData(array(
+        return array(
             'types' => $this->_typeProcessor->getTypesData(),
             'type_to_class_map' => $this->_typeProcessor->getTypeToClassMap(),
             'rest_routes' => $this->_routeGenerator->getRoutes(),
-        ));
+        );
     }
 
     /**

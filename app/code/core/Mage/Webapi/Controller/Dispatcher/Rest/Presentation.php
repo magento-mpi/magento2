@@ -12,6 +12,9 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation
     /** @var Mage_Webapi_Helper_Data */
     protected $_apiHelper;
 
+    /** @var Mage_Webapi_Helper_Config */
+    protected $_configHelper;
+
     /** @var Mage_Webapi_Controller_Request_Rest */
     protected $_request;
 
@@ -29,6 +32,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation
      *
      * @param Mage_Webapi_Model_Config_Rest $apiConfig
      * @param Mage_Webapi_Helper_Data $helper
+     * @param Mage_Webapi_Helper_Config $configHelper
      * @param Mage_Webapi_Controller_Request_Factory $requestFactory
      * @param Mage_Webapi_Controller_Response_Rest $response
      * @param Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory
@@ -37,6 +41,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation
     public function __construct(
         Mage_Webapi_Model_Config_Rest $apiConfig,
         Mage_Webapi_Helper_Data $helper,
+        Mage_Webapi_Helper_Config $configHelper,
         Mage_Webapi_Controller_Request_Factory $requestFactory,
         Mage_Webapi_Controller_Response_Rest $response,
         Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory,
@@ -44,6 +49,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation
     ) {
         $this->_apiConfig = $apiConfig;
         $this->_apiHelper = $helper;
+        $this->_configHelper = $configHelper;
         $this->_request = $requestFactory->get();
         $this->_response = $response;
         $this->_routeFactory = $routeFactory;
@@ -59,15 +65,15 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation
      */
     public function fetchRequestData($controllerInstance, $action)
     {
-        $methodReflection = $this->_apiHelper->createMethodReflection($controllerInstance, $action);
-        $methodName = $this->_apiHelper->getMethodNameWithoutVersionSuffix($methodReflection);
-        $bodyParamName = $this->_apiHelper->getBodyParamName($methodReflection);
+        $methodReflection = Mage_Webapi_Helper_Data::createMethodReflection($controllerInstance, $action);
+        $methodName = $this->_configHelper->getMethodNameWithoutVersionSuffix($methodReflection);
+        $bodyParamName = $this->_configHelper->getOperationBodyParamName($methodReflection);
         $requestParams = array_merge(
             $this->_request->getParams(),
             array($bodyParamName => $this->_getRequestBody($methodName))
         );
         /** Convert names of ID and Parent ID params in request to those which are used in method interface. */
-        $idArgumentName = $this->_apiHelper->getIdParamName($methodReflection);
+        $idArgumentName = $this->_configHelper->getOperationIdParamName($methodReflection);
         $parentIdParamName = Mage_Webapi_Controller_Router_Route_Rest::PARAM_PARENT_ID;
         $idParamName = Mage_Webapi_Controller_Router_Route_Rest::PARAM_ID;
         if (isset($requestParams[$parentIdParamName]) && ($idArgumentName != $parentIdParamName)) {

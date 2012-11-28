@@ -21,7 +21,10 @@ class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         /** Prepare mocks for SUT constructor. */
-        $helper = $this->getMock('Mage_Webapi_Helper_Data', array('__'));
+        $helper = $this->getMockBuilder('Mage_Webapi_Helper_Data')
+            ->disableOriginalConstructor()
+            ->setMethods(array('__'))
+            ->getMock();
         $helper->expects($this->any())->method('__')->will($this->returnArgument(0));
         $helperFactory = $this->getMock('Mage_Core_Model_Factory_Helper');
         $helperFactory->expects($this->any())->method('get')->will($this->returnValue($helper));

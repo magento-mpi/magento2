@@ -12,16 +12,16 @@ class Mage_Webapi_Model_Config_Reader_Rest_RouteGenerator
     protected $_routes = array();
 
     /**
-     * @var Mage_Webapi_Helper_Data
+     * @var Mage_Webapi_Helper_Config
      */
     protected $_helper;
 
     /**
      * Construct routes generator.
      *
-     * @param Mage_Webapi_Helper_Data $helper
+     * @param Mage_Webapi_Helper_Config $helper
      */
-    public function __construct(Mage_Webapi_Helper_Data $helper)
+    public function __construct(Mage_Webapi_Helper_Config $helper)
     {
         $this->_helper = $helper;
     }
@@ -141,8 +141,8 @@ class Mage_Webapi_Model_Config_Reader_Rest_RouteGenerator
         /** @var \Zend\Server\Reflection\Prototype $methodInterface */
         $methodInterface = end($methodInterfaces);
         $methodParams = $methodInterface->getParameters();
-        $idParamName = $this->_helper->getIdParamName($methodReflection);
-        $bodyParamName = $this->_helper->getBodyParamName($methodReflection);
+        $idParamName = $this->_helper->getOperationIdParamName($methodReflection);
+        $bodyParamName = $this->_helper->getOperationBodyParamName($methodReflection);
         /** @var ReflectionParameter $paramReflection */
         foreach ($methodParams as $paramReflection) {
             if (!$paramReflection->isOptional()

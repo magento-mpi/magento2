@@ -19,7 +19,10 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
         /** Prepare mocks for request constructor arguments. */
         $interpreterFactory = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest_Interpreter_Factory')
             ->disableOriginalConstructor()->getMock();
-        $helper = $this->getMock('Mage_Webapi_Helper_Data', array('__'));
+        $helper = $helper = $this->getMockBuilder('Mage_Webapi_Helper_Data')
+            ->disableOriginalConstructor()
+            ->setMethods(array('__'))
+            ->getMock();
         $helper->expects($this->any())->method('__')->will($this->returnArgument(0));
         /** Instantiate request. */
         // TODO: Get rid of SUT mocks.

@@ -37,11 +37,6 @@ abstract class Mage_Webapi_Model_Config_ReaderAbstract
     protected $_cache;
 
     /**
-     * @var Mage_Webapi_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * @var array
      */
     protected $_data = array();
@@ -50,18 +45,15 @@ abstract class Mage_Webapi_Model_Config_ReaderAbstract
      * Construct config reader.
      *
      * @param Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract $classReflector
-     * @param Mage_Webapi_Helper_Data $helper
      * @param Mage_Core_Model_Config $appConfig
      * @param Mage_Core_Model_Cache $cache
      */
     public function __construct(
         Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract $classReflector,
-        Mage_Webapi_Helper_Data $helper,
         Mage_Core_Model_Config $appConfig,
         Mage_Core_Model_Cache $cache
     ) {
         $this->_classReflector = $classReflector;
-        $this->_helper = $helper;
         $this->_applicationConfig = $appConfig;
         $this->_cache = $cache;
     }
@@ -118,7 +110,6 @@ abstract class Mage_Webapi_Model_Config_ReaderAbstract
     public function getData()
     {
         if (!$this->_data && !$this->_loadDataFromCache()) {
-            $this->_classReflector->setReader($this);
             /** @var \Zend\Code\Scanner\FileScanner $file */
             foreach ($this->getDirectoryScanner()->getFiles(true) as $file) {
                 $filename = $file->getFile();
@@ -133,10 +124,12 @@ abstract class Mage_Webapi_Model_Config_ReaderAbstract
                 $class = current($classes);
                 $className = $class->getName();
                 if (preg_match(self::RESOURCE_CLASS_PATTERN, $className)) {
-                    $this->_classReflector->reflectClassMethods($className);
+                    $classData = $this->_classReflector->reflectClassMethods($className);
+                    $this->_addData($classData);
                 }
             }
-            $this->_classReflector->afterReflectionAction();
+            $postReflectionData = $this->_classReflector->getPostReflectionData();
+            $this->_addData($postReflectionData);
 
             if (!isset($this->_data['resources'])) {
                 throw new LogicException('Cannot populate config - no action controllers were found.');
@@ -153,7 +146,7 @@ abstract class Mage_Webapi_Model_Config_ReaderAbstract
      *
      * @param array $data
      */
-    public function addData($data)
+    protected function _addData($data)
     {
         $this->_data = array_merge_recursive($this->_data, $data);
     }

@@ -28,7 +28,7 @@ abstract class Mage_Webapi_Model_ConfigAbstract
     /** @var Mage_Webapi_Model_Config_ReaderAbstract */
     protected $_reader;
 
-    /** @var Mage_Webapi_Helper_Data */
+    /** @var Mage_Webapi_Helper_Config */
     protected $_helper;
 
     /** @var Mage_Core_Model_App */
@@ -45,12 +45,12 @@ abstract class Mage_Webapi_Model_ConfigAbstract
      * Initialize dependencies. Initialize data.
      *
      * @param Mage_Webapi_Model_Config_ReaderAbstract $reader
-     * @param Mage_Webapi_Helper_Data $helper
+     * @param Mage_Webapi_Helper_Config $helper
      * @param Mage_Core_Model_App $app
      */
     public function __construct(
         Mage_Webapi_Model_Config_ReaderAbstract $reader,
-        Mage_Webapi_Helper_Data $helper,
+        Mage_Webapi_Helper_Config $helper,
         Mage_Core_Model_App $app
     ) {
         $this->_reader = $reader;
@@ -127,7 +127,7 @@ abstract class Mage_Webapi_Model_ConfigAbstract
     protected function _parseOperationName($operationName)
     {
         /** Note that '(.*?)' must not be greedy to allow regexp to match 'multiUpdate' method before 'update' */
-        $regEx = sprintf('/(.*?)(%s)$/i', implode('|', $this->_helper->getAllowedMethods()));
+        $regEx = sprintf('/(.*?)(%s)$/i', implode('|', Mage_Webapi_Controller_ActionAbstract::getAllowedMethods()));
         if (preg_match($regEx, $operationName, $matches)) {
             $resourceName = $matches[1];
             $methodName = lcfirst($matches[2]);

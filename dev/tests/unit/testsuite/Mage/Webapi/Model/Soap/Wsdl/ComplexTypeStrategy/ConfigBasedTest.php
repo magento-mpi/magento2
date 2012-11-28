@@ -30,7 +30,7 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBasedTest extends PH
             ->setMethods(array('toDomDocument', 'getTypes', 'getSchema'))
             ->disableOriginalConstructor()
             ->getMock();
-        $helper = $this->getMock('Mage_Webapi_Helper_Data', array('__'));
+        $helper = $this->getMock('Mage_Webapi_Helper_Config', array('__'));
         $helper->expects($this->any())->method('__')->will($this->returnArgument(0));
 
         $this->_strategy = new Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased(
