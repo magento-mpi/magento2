@@ -11,8 +11,7 @@
 /**
  * System Configuration Dependencies Mapper
  */
-class Mage_Backend_Model_Config_Structure_Mapper_Dependencies
-    implements Mage_Backend_Model_Config_Structure_MapperInterface
+class Mage_Backend_Model_Config_Structure_Mapper_Dependencies extends Mage_Backend_Model_Config_Structure_MapperAbstract
 {
     /**
      * Apply map
@@ -52,26 +51,6 @@ class Mage_Backend_Model_Config_Structure_Mapper_Dependencies
             }
         }
         return $groupConfig;
-    }
-
-    /**
-     * Check value existence
-     *
-     * @param string $key
-     * @param array $target
-     * @return bool
-     */
-    protected function _hasValue($key, array $target)
-    {
-        $paths = explode('/', $key);
-        foreach ($paths as $path) {
-            if (array_key_exists($path, $target)) {
-                $target = $target[$path];
-            } else {
-                return false;
-            }
-        }
-        return true;
     }
 
     /**
