@@ -16,7 +16,7 @@
         <div class="gift-wrapping-form">
             <label><?php echo $this->__('Gift Wrapping Design') ?></label><?php echo $this->getDesignSelectHtml() ?>
             <div class="gift-wrapping-design no-display">
-                <img class="image-box no-display" id="image-box-{{id}}" height="75" width="75" alt="" src="<?php echo $this->getSkinUrl('images/spacer.gif')?>" />
+                <img class="image-box no-display" id="image-box-{{id}}" height="75" width="75" alt="" src="<?php echo $this->getViewFileUrl('images/spacer.gif')?>" />
                 <div class="price-box no-display" id="price-box-{{id}}">
                    <?php if ($this->getDisplayWrappingBothPrices()): ?>
                     <span class="price-excluding-tax">
@@ -159,7 +159,7 @@ var giftWrapping = {
             imageBox.src = this.designsInfo[value].path;
             imageBox.removeClassName('no-display');
         } else {
-            imageBox.src = '<?php echo $this->getSkinUrl('images/spacer.gif')?>';
+            imageBox.src = '<?php echo $this->getViewFileUrl('images/spacer.gif')?>';
             imageBox.addClassName('no-display');
         }
         imageBox.up().removeClassName('no-display');

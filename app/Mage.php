@@ -154,7 +154,7 @@ final class Mage
             'revision'  => '0',
             'patch'     => '0',
             'stability' => 'dev',
-            'number'    => '29',
+            'number'    => '30',
         );
     }
 
@@ -665,7 +665,6 @@ final class Mage
             Magento_Profiler::start('self::app::init');
             self::$_app->init($code, $type, $options);
             Magento_Profiler::stop('self::app::init');
-            self::$_app->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
         }
         return self::$_app;
     }
@@ -769,7 +768,7 @@ final class Mage
      */
     protected static function _setConfigModel($options = array())
     {
-        if (isset($options['config_model']) && Magento_Autoload::getInstance()->classExists($options['config_model'])) {
+        if (isset($options['config_model']) && class_exists($options['config_model'])) {
             $alternativeConfigModelName = $options['config_model'];
             unset($options['config_model']);
             $alternativeConfigModel = new $alternativeConfigModelName($options);

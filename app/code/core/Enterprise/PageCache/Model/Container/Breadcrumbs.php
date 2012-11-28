@@ -21,14 +21,12 @@ class Enterprise_PageCache_Model_Container_Breadcrumbs extends Enterprise_PageCa
     protected function _getCacheId()
     {
         if ($this->_getCategoryId() || $this->_getProductId()) {
-            $cacheSubKey = '_' . $this->_getCategoryId()
-                . '_' . $this->_getProductId();
+            $cacheSubKey = '_' . $this->_getCategoryId() . '_' . $this->_getProductId();
         } else {
             $cacheSubKey = $this->_getRequestId();
         }
 
-        return 'CONTAINER_BREADCRUMBS_'
-            . md5($this->_placeholder->getAttribute('cache_id') . $cacheSubKey);
+        return 'CONTAINER_BREADCRUMBS_' . md5($this->_placeholder->getAttribute('cache_id') . $cacheSubKey);
     }
 
     /**
@@ -69,8 +67,18 @@ class Enterprise_PageCache_Model_Container_Breadcrumbs extends Enterprise_PageCa
         if (!$productId && !$categoryId) {
             return '';
         }
+
+        /** @var $breadcrumbsBlock Mage_Page_Block_Html_Breadcrumbs */
         $breadcrumbsBlock = $this->_getPlaceHolderBlock();
-        $breadcrumbsBlock->setNameInLayout('breadcrumbs');
+        $breadcrumbsBlock->setNameInLayout($this->_placeholder->getAttribute('name'));
+        $crumbs = $this->_placeholder->getAttribute('crumbs');
+        if ($crumbs) {
+            $crumbs = unserialize(base64_decode($crumbs));
+            foreach ($crumbs as $crumbName => $crumbInfo) {
+                $breadcrumbsBlock->addCrumb($crumbName, $crumbInfo);
+            }
+        }
+
         Mage::dispatchEvent('render_block', array('block' => $breadcrumbsBlock, 'placeholder' => $this->_placeholder));
         return $breadcrumbsBlock->toHtml();
     }

@@ -1,5 +1,5 @@
-// Files, that are not published with any Magento edition, excluding files declared in common_tests.txt
-// ---------------------------------------------------
+# Files or directories that are not published at all (for any reason, can be non-technical)
+#
 app/code/*/*/*/Model/Resource/Helper/{Oracle,Mssql}.php
 app/code/*/*/*/sql/*/{oracle,mssql}-*
 app/code/community/Find
@@ -8,10 +8,7 @@ app/code/core/Mage/Install/Block/Db/Type/{Oracle,Mssql}.php
 app/code/core/Mage/Install/Model/Installer/Db/{Mssql,Oracle}.php
 app/code/core/Mage/Install/view/install/db/{mssql,oracle}.phtml
 app/code/core/Mage/Install/view/install/layout_{oracle,mssql}.xml
-app/code/local/*
 app/etc/config.{oracle,mssql}.xml
-app/etc/modules/Find_Feed.xml
-app/etc/modules/Social_Facebook.xml
 dev/api-tests
 dev/tests/functional
 dev/tests/integration/etc/local-{oracle,mssql}.xml.dist
@@ -22,9 +19,8 @@ dev/tests/integration/framework/tests/unit/testsuite/Magento/Test/Db/{Oracle,Mss
 dev/tests/integration/testsuite/Social/Facebook
 dev/tests/unit/testsuite/Varien/Db/Adapter/Pdo/MssqlTest.php
 dev/tests/static/testsuite/Legacy/_files/words_internal.xml
+dev/tests/static/testsuite/Php/_files/{whitelist,blacklist}/non_public.txt
 dev/tools/translate
-lib/Magento/Db
-lib/Magento/Payment
 lib/Varien/Db/Adapter/Oracle.php
 lib/Varien/Db/Adapter/Pdo/Mssql.php
 lib/Varien/Db/Statement/Oracle.php

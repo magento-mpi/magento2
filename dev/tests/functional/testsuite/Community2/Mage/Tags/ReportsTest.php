@@ -73,7 +73,7 @@ class Community2_Mage_Tags_ReportsTest extends Community2_Mage_Tags_TagsFixtureA
      * @param array $testData
      *
      * @test
-     * @author Iuliia Babenko
+     * @author iuliia.babenko
      * @depends preconditionsForReportEntriesTest
      * @TestlinkId TL-MAGE-2465
      */
@@ -184,7 +184,7 @@ class Community2_Mage_Tags_ReportsTest extends Community2_Mage_Tags_TagsFixtureA
      * @param array $testData
      *
      * @test
-     * @author Iuliia Babenko
+     * @author iuliia.babenko
      * @skipTearDown
      * @depends preconditionsForReportsTests
      * @TestlinkId TL-MAGE-2459
@@ -230,7 +230,7 @@ class Community2_Mage_Tags_ReportsTest extends Community2_Mage_Tags_TagsFixtureA
      * @param array $testData
      *
      * @test
-     * @author Iuliia Babenko
+     * @author iuliia.babenko
      * @skipTearDown
      * @depends preconditionsForReportsTests
      * @TestlinkId TL-MAGE-2461
@@ -276,7 +276,7 @@ class Community2_Mage_Tags_ReportsTest extends Community2_Mage_Tags_TagsFixtureA
      * @param array $testData
      *
      * @test
-     * @author Iuliia Babenko
+     * @author iuliia.babenko
      * @skipTearDown
      * @depends preconditionsForReportsTests
      * @TestlinkId TL-MAGE-2463
@@ -335,7 +335,7 @@ class Community2_Mage_Tags_ReportsTest extends Community2_Mage_Tags_TagsFixtureA
      * @param array $testData
      *
      * @test
-     * @author Iuliia Babenko
+     * @author iuliia.babenko
      * @skipTearDown
      * @depends preconditionsForReportsTests
      * @TestlinkId TL-MAGE-2460
@@ -410,7 +410,7 @@ class Community2_Mage_Tags_ReportsTest extends Community2_Mage_Tags_TagsFixtureA
      * @param array $testData
      *
      * @test
-     * @author Iuliia Babenko
+     * @author iuliia.babenko
      * @skipTearDown
      * @depends preconditionsForReportsTests
      * @TestlinkId TL-MAGE-2462
@@ -482,7 +482,7 @@ class Community2_Mage_Tags_ReportsTest extends Community2_Mage_Tags_TagsFixtureA
      * @param array $testData
      *
      * @test
-     * @author Iuliia Babenko
+     * @author iuliia.babenko
      * @depends preconditionsForReportsTests
      * @TestlinkId TL-MAGE-2464
      */

@@ -196,7 +196,12 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function __destruct()
     {
+        if (isset($this->_update) && is_object($this->_update)) {
+            $this->_update->__destruct();
+            $this->_update = null;
+        }
         $this->_blocks = array();
+        $this->_xml = null;
     }
 
     /**
@@ -1319,7 +1324,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     {
         if ($block && is_string($block)) {
             $block = Mage::getConfig()->getBlockClassName($block);
-            if (Magento_Autoload::getInstance()->classExists($block)) {
+            if (class_exists($block)) {
                 $block = $this->_blockFactory->createBlock($block, $attributes);
             }
         }

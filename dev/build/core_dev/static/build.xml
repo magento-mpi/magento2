@@ -25,8 +25,18 @@
     <target name="_static_tests_no_js" depends="_product_location" description="All static tests without JS static test">
         <copy file="${basedir}/dev/build/core_dev/static/phpunit.php.xml"
               tofile="${product_root_dir}/dev/tests/static/phpunit.xml" overwrite="true"/>
+        <copy file="${basedir}/dev/build/core_dev/static/pdepend.xml"
+              tofile="${product_root_dir}/dev/tests/static/pdepend.xml" overwrite="true"/>
         <exec dir="${product_root_dir}/dev/tests/static" executable="phpunit" failonerror="true">
             <arg line="--log-junit ${basedir}/static_tests_no_js.xml"/>
+        </exec>
+    </target>
+
+    <target name="_code_legacy_tests" depends="_product_location" description="Code Legacy Tests">
+        <copy file="${basedir}/dev/build/core_dev/static/phpunit.legacy.xml"
+              tofile="${product_root_dir}/dev/tests/static/phpunit.xml" overwrite="true"/>
+        <exec dir="${product_root_dir}/dev/tests/static" executable="phpunit" failonerror="true">
+            <arg line="--log-junit ${basedir}/code_legacy_tests.xml"/>
         </exec>
     </target>
 
@@ -69,6 +79,12 @@
         <exec dir="${product_root_dir}/dev/tests/static" executable="phpunit" failonerror="true">
             <arg line="--log-junit ${basedir}/static_tests_js.xml"/>
         </exec>
+    </target>
+
+    <target name="code_legacy_tests" description="Code Legacy Tests">
+        <antcall>
+            <target name="_code_legacy_tests"/>
+        </antcall>
     </target>
 
 </project>

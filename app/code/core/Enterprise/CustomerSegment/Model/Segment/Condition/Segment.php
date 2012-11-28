@@ -42,7 +42,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Mage_Ru
     public function getValueAfterElementHtml()
     {
         return '<a href="javascript:void(0)" class="rule-chooser-trigger"><img src="'
-            . Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif')
+            . Mage::getDesign()->getViewFileUrl('images/rule_chooser_trigger.gif')
             . '" alt="" class="v-middle rule-chooser-trigger" title="'
             . Mage::helper('Mage_Rule_Helper_Data')->__('Open Chooser') . '" /></a>';
     }

@@ -19,7 +19,6 @@
                 <Mage_Cms/>
                 <Mage_Install/>
                 <Mage_Adminhtml/>
-                <Mage_Admin/>
                 <Mage_AdminNotification/>
                 <Mage_Widget/>
             </depends>
@@ -58,7 +57,7 @@
         </layout>
         <design>
             <theme>
-                <full_name>default/default/enterprise</full_name>
+                <full_name>default/enterprise</full_name>
             </theme>
         </design>
     </adminhtml>
@@ -76,14 +75,14 @@
         </events>
         <design>
             <theme>
-                <full_name>default/enterprise/default</full_name>
+                <full_name>default/enterprise</full_name>
             </theme>
         </design>
     </install>
     <default>
         <design>
             <theme>
-                <full_name>enterprise/default/default</full_name>
+                <full_name>enterprise/fixed</full_name>
             </theme>
             <head>
                 <default_title>Magento Enterprise Edition</default_title>
