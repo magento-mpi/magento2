@@ -58,6 +58,9 @@ new_order_status:
                             status_code: //input[@id='status']
                             status_label: //input[@id='label']
                         required: [status_code, status_label]
+                -
+                    store_view_specific_labels:
+                        xpath: //div[@id='store_labels_fieldset']
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']

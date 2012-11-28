@@ -21,23 +21,41 @@ class Mage_Backend_Model_Widget_Grid_SubTotalsTest extends PHPUnit_Framework_Tes
      */
     protected $_parserMock;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_factoryMock;
+
     protected function setUp()
     {
-        // prepare model
         $this->_parserMock = $this->getMock(
-            'Mage_Backend_Model_Widget_Grid_Parser', array('parseExpression'), array(), '', false, false, false
+            'Mage_Backend_Model_Widget_Grid_Parser', array(), array(), '', false, false, false
         );
-        $this->_parserMock->expects($this->any())
-            ->method('parseExpression')
-            ->with('test1+test2')
-            ->will($this->returnValue(array('test1', 'test2', '+')));
-        $this->_model = new Mage_Backend_Model_Widget_Grid_SubTotals($this->_parserMock);
+
+        $this->_factoryMock = $this->getMock(
+            'Varien_Object_Factory', array('create'), array(), '', false, false, false
+        );
+        $this->_factoryMock->expects($this->any())
+            ->method('create')
+            ->with(array('sub_test1' => 3, 'sub_test2' => 2))
+            ->will(
+                $this->returnValue(
+                    new Varien_Object(array('sub_test1' => 3, 'sub_test2' => 2))
+                )
+            );
+
+        $arguments = array(
+            'factory' => $this->_factoryMock,
+            'parser' =>  $this->_parserMock
+        );
+
+        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_model = $objectManagerHelper->getModel('Mage_Backend_Model_Widget_Grid_SubTotals', $arguments);
 
         // setup columns
         $columns = array(
-            'test1' => 'sum',
-            'test2' => 'avg',
-            'test3' => 'test1+test2'
+            'sub_test1' => 'sum',
+            'sub_test2' => 'avg',
         );
         foreach ($columns as $index => $expression) {
             $this->_model->setColumn($index, $expression);
@@ -47,33 +65,34 @@ class Mage_Backend_Model_Widget_Grid_SubTotalsTest extends PHPUnit_Framework_Tes
     protected function tearDown()
     {
         unset($this->_parserMock);
-    }
-
-    public function testColumns()
-    {
-        $expected = array(
-            'test1' => 'sum',
-            'test2' => 'avg',
-            'test3' => 'test1+test2'
-        );
-
-        $this->assertEquals($expected, $this->_model->getColumns());
+        unset($this->_factoryMock);
     }
 
     public function testCountTotals()
     {
-        // prepare collection
+        $expected = new Varien_Object(
+            array('sub_test1' => 3, 'sub_test2' => 2)
+        );
+        $this->assertEquals($expected, $this->_model->countTotals($this->_getTestCollection()));
+    }
+
+    /**
+     * Retrieve test collection
+     *
+     * @return Varien_Data_Collection
+     */
+    protected function _getTestCollection()
+    {
         $collection = new Varien_Data_Collection();
         $items = array(
-            new Varien_Object(array('test1' => '1', 'test2' => '2')),
-            new Varien_Object(array('test1' => '1', 'test2' => '2')),
-            new Varien_Object(array('test1' => '1', 'test2' => '2'))
+            new Varien_Object(array('sub_test1' => '1', 'sub_test2' => '2')),
+            new Varien_Object(array('sub_test1' => '1', 'sub_test2' => '2')),
+            new Varien_Object(array('sub_test1' => '1', 'sub_test2' => '2'))
         );
         foreach ($items as $item) {
             $collection->addItem($item);
         }
 
-        $expected = new Varien_Object(array('test1' => 3, 'test2' => 2, 'test3' => 5));
-        $this->assertEquals($expected, $this->_model->countTotals($collection));
+        return $collection;
     }
 }

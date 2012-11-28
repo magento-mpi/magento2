@@ -8,14 +8,14 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Model_Widget_Grid_SubTotals extends Mage_Backend_Model_Widget_Grid_Totals_Abstract
+class Mage_Backend_Model_Widget_Grid_SubTotals extends Mage_Backend_Model_Widget_Grid_TotalsAbstract
 {
     /**
      * Count collection column sum based on column index
      *
-     * @param $index
-     * @param $collection
-     * @return mixed
+     * @param string $index
+     * @param Varien_Data_Collection $collection
+     * @return float|int
      */
     protected function _countSum($index, $collection)
     {
@@ -29,12 +29,13 @@ class Mage_Backend_Model_Widget_Grid_SubTotals extends Mage_Backend_Model_Widget
     /**
      * Count collection column average based on column index
      *
-     * @param $index
-     * @param $collection
-     * @return mixed
+     * @param string $index
+     * @param Varien_Data_Collection $collection
+     * @return float|int
      */
     protected function _countAverage($index, $collection)
     {
-        return $this->_countSum($index, $collection) / count($collection);
+        $itemsCount = count($collection);
+        return $itemsCount ? $this->_countSum($index, $collection) / $itemsCount : $itemsCount;
     }
 }

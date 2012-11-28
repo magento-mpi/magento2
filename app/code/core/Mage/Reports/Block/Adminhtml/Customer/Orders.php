@@ -18,12 +18,17 @@
 
 class Mage_Reports_Block_Adminhtml_Customer_Orders extends Mage_Backend_Block_Widget_Grid_Container
 {
+    /**
+     * Define children block group
+     *
+     * @var string
+     */
     protected $_blockGroup = 'Mage_Reports';
 
     protected function _construct()
     {
         $this->_controller = 'report_customer_orders';
-        $this->_headerText = Mage::helper('Mage_Reports_Helper_Data')->__('Customers by number of orders');
+        $this->_headerText = $this->helper('Mage_Reports_Helper_Data')->__('Customers by number of orders');
         parent::_construct();
         $this->_removeButton('add');
     }

@@ -95,7 +95,6 @@ class Tools_Migration_System_Configuration_Generator
     protected function _createDOMDocument(array $configuration)
     {
         $dom = new DOMDocument();
-        $dom->appendChild($dom->createComment($configuration['comment']));
         $configElement = $dom->createElement('config');
         $systemElement = $dom->createElement('system');
         $configElement->appendChild($systemElement);

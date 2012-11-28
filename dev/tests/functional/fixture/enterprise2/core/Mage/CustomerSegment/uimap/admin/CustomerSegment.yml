@@ -1,0 +1,53 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_CustomerSegment
+# @subpackage  uimaps
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+manage_customer_segments:
+    mca: customersegment/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'customersegment/')]
+    title: Customer Segments / Customers / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    manage_segments_grid:
+                        xpath: //div[@id='customersegmentGrid']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                        dropdowns:
+                            filter_status: //select[@name='grid_segment_is_active']
+                            filter_website: //select[@name='grid_segment_website']
+                        fields:
+                            filter_id: //input[@name='grid_segment_id']
+                            filter_segment_name: //input[@name='grid_segment_name']
+        buttons:
+            add_segment: //button[span='Add Segment']
+        messages: &segmentMessages
+            success_saved_segment: //li[normalize-space(@class)='success-msg' and contains(.,'The segment has been saved.')]
+            success_deleted_cms_banner: //li[normalize-space(@class)='success-msg' and contains(.,'The segment has been deleted.')]
+            confirmation_for_delete: Are you sure you want to do this?
+create_customer_segment:
+    mca: customersegment/new/
+    title: New Segment / Customer Segments / Customers / Magento Admin
+    uimap:
+        form:
+            tabs:
+                -
+                    general_properties:
+                        xpath: //a[@title='General Properties']/span
+                        fieldsets:
+                            -
+                                general_properties:
+                                    xpath: //div[@id='segment_base_fieldset']
+                                    multiselects:
+                                        assigned_to_website: //select[@id='segment_website_ids']:
+        buttons:
+            back: //button[span='Back']

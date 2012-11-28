@@ -38,21 +38,63 @@ class Mage_Backend_Model_Widget_Grid_ParserTest extends PHPUnit_Framework_TestCa
     {
         return array(
             array(
-                '1+2',
-                array( '1', '2', '+')
-            ),
-            array(
                 '1-2',
-                array( '1', '2', '-')
+                array('1', '2', '-')
             ),
             array(
                 '1*2',
-                array( '1', '2', '*')
+                array('1', '2', '*')
             ),
             array(
                 '1/2',
-                array( '1', '2', '/')
-            )
+                array('1', '2', '/')
+            ),
+            array(
+                '1+2+3',
+                array('1', '2', '+', '3', '+')
+            ),
+            array(
+                '1*2*3+4',
+                array('1', '2', '*', '3', '*', '4', '+')
+            ),
+            array(
+                '1-2-3',
+                array('1', '2', '-', '3', '-')
+            ),
+            array(
+                '1*2*3',
+                array('1', '2', '*', '3', '*')
+            ),
+            array(
+                '1/2/3',
+                array('1', '2', '/', '3', '/')
+            ),
+            array(
+                '1 * 2 / 3 + 4 * 5 * 6 - 7 - 8',
+                array('1', '2', '*', '3', '/', '4', '5', '*', '6', '*', '+', '7', '-', '8', '-')
+            ),
+        );
+    }
+
+    /**
+     * @param $operation
+     * @param $expected
+     * @dataProvider isOperationDataProvider
+     */
+    public function testIsOperation($operation, $expected)
+    {
+        $this->assertEquals($expected, $this->_model->isOperation($operation));
+    }
+
+    public function isOperationDataProvider()
+    {
+        return array(
+            array('+', true),
+            array('-', true),
+            array('*', true),
+            array('/', true),
+            array('0', false),
+            array('aa', false)
         );
     }
 }

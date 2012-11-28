@@ -14,36 +14,84 @@ reports_sales_sales:
     mca: report_sales/sales/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/sales/')]
     title: Sales / Sales / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
 
 # Sales: Order Taxes Report Grouped by Tax Rate page
 report_sales_tax:
     mca: report_sales/tax/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/tax/')]
     title: Tax / Sales / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
 
 # Sales: Total Invoiced vs. Paid Report page
 report_sales_invoiced:
     mca: report_sales/invoiced/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/invoiced/')]
     title: Total Invoiced / Sales / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
 
 # Sales: Total Shipped Report page
 report_sales_shipping:
     mca: report_sales/shipping/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/shipping/')]
     title: Shipping / Sales / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
 
 # Sales: Total Refunded Report page
 report_sales_refunded:
     mca: report_sales/refunded/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/refunded/')]
     title: Total Refunded / Sales / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
 
 # Sales: Coupons Usage Report page
 report_sales_coupons:
     mca: report_sales/coupons/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/coupons/')]
     title: Coupons / Sales / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
 
 # Sales: PayPal Settlement Reports page
 paypal_reports:
@@ -62,12 +110,28 @@ report_shopcart_abandoned:
     mca: report_shopcart/abandoned/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_shopcart/abandoned/')]
     title: Abandoned Carts / Shopping Cart / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
 
 # Products:
 report_sales_bestsellers:
     mca: report_sales/bestsellers/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/bestsellers/')]
     title: Bestsellers / Products / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
 
 # Products: Products Ordered page
 report_product_sold:
@@ -92,24 +156,53 @@ report_product_sold:
                             refresh: //button[span='Refresh']
                         pageelements:
                             product_sold_grid: //table[@id='gridProductsSold_table']
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
 
 # Products: Most Viewed page
 report_product_viewed:
     mca: report_product/viewed/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_product/viewed/')]
     title: Most Viewed / Products / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
 
 # Products: Low stock page
 report_product_lowstock:
     mca: report_product/lowstock/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_product/lowstock/')]
     title: Low Stock / Products / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
 
 # Products: Downloads page
 report_product_downloads:
     mca: report_product/downloads/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_product/downloads/')]
     title: Downloads / Products / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
 
 # Customers: New Accounts page
 report_customer_accounts:
@@ -127,7 +220,7 @@ report_customer_accounts:
                             export: //button[span='Export']
                         dropdowns:
                             show_by: //select[@name='report_period']
-                            export_to: //td[@class="a-right"]/select
+                            export_to: //select[@name='gridAccounts_export']
                             filter_show_report_for: //select[@id='store_switcher']
                         fields:
                             filter_from: //input[@name='report_from']
@@ -137,7 +230,12 @@ report_customer_accounts:
                             number_of_new_accounts: //table[@id='gridAccounts_table']//span[contains(.,'Number of New Accounts')]
                         pageelements:
                             report_customer_accounts_table: //table[@id='gridAccounts_table']
-                            
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
+
 # Customers: Customers by Orders Total page
 report_customer_totals:
     mca: report_customer/totals/
@@ -170,6 +268,11 @@ report_customer_totals:
                             top_order_amount: //table[@id='gridTotalsCustomer_table']/tbody/tr[1]/td[5]
                             top_customer_name: //table[@id='gridTotalsCustomer_table']/tbody/tr[1]/td[2]
                             top_number_of_order: //table[@id='gridTotalsCustomer_table']//tbody/tr[1]/td[3]
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
 
 # Customers: Customers by number of orders page
 report_customer_orders:
@@ -193,6 +296,11 @@ report_customer_orders:
                              refresh: //button[span='Refresh']
                         pageelements:
                              customer_orders_grid: //table[@id='gridOrdersCustomer_table']
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
 
 # Tags: Customers Tags page
 report_tag_customer:
@@ -270,6 +378,11 @@ report_tag_popular:
     uimap:
         form:
             fieldsets:
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']
                 -
                     report_tag_popular_grid:
                         xpath: //div[@id='grid']

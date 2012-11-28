@@ -21,23 +21,48 @@ class Mage_Backend_Model_Widget_Grid_TotalsTest extends PHPUnit_Framework_TestCa
      */
     protected $_parserMock;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_factoryMock;
+
     protected function setUp()
     {
         // prepare model
         $this->_parserMock = $this->getMock(
             'Mage_Backend_Model_Widget_Grid_Parser', array('parseExpression'), array(), '', false, false, false
         );
-        $this->_parserMock->expects($this->any())
-            ->method('parseExpression')
-            ->with('test1+test2')
-            ->will($this->returnValue(array('test1', 'test2', '+')));
-        $this->_model = new Mage_Backend_Model_Widget_Grid_Totals($this->_parserMock);
+
+        $this->_factoryMock = $this->getMock(
+            'Varien_Object_Factory', array('create'), array(), '', false, false, false
+        );
+
+        $createValueMap = array(
+            array(
+                array('test1' => 3, 'test2' => 2),
+                new Varien_Object(array('test1' => 3, 'test2' => 2))
+            ),
+            array(
+                array('test4' => 9, 'test5' => 2),
+                new Varien_Object(array('test4' => 9, 'test5' => 2))
+            )
+        );
+        $this->_factoryMock->expects($this->any())
+            ->method('create')
+            ->will($this->returnValueMap($createValueMap));
+
+        $arguments = array(
+            'factory' => $this->_factoryMock,
+            'parser' =>  $this->_parserMock
+        );
+
+        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_model = $objectManagerHelper->getModel('Mage_Backend_Model_Widget_Grid_Totals', $arguments);
 
         // setup columns
         $columns = array(
             'test1' => 'sum',
-            'test2' => 'avg',
-            'test3' => 'test1+test2'
+            'test2' => 'avg'
         );
         foreach ($columns as $index => $expression) {
             $this->_model->setColumn($index, $expression);
@@ -47,17 +72,7 @@ class Mage_Backend_Model_Widget_Grid_TotalsTest extends PHPUnit_Framework_TestCa
     protected function tearDown()
     {
         unset($this->_parserMock);
-    }
-
-    public function testColumns()
-    {
-        $expected = array(
-            'test1' => 'sum',
-            'test2' => 'avg',
-            'test3' => 'test1+test2'
-        );
-
-        $this->assertEquals($expected, $this->_model->getColumns());
+        unset($this->_factoryMock);
     }
 
     public function testCountTotals()
@@ -73,7 +88,7 @@ class Mage_Backend_Model_Widget_Grid_TotalsTest extends PHPUnit_Framework_TestCa
             $collection->addItem($item);
         }
 
-        $expected = new Varien_Object(array('test1' => 3, 'test2' => 2, 'test3' => 5));
+        $expected = new Varien_Object(array('test1' => 3, 'test2' => 2));
         $this->assertEquals($expected, $this->_model->countTotals($collection));
     }
 

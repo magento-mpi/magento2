@@ -121,6 +121,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function __construct(
         Mage_Core_Controller_Request_Http $request,
@@ -397,16 +398,6 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
     public function getEmptyCellColspan()
     {
         return $this->getColumnCount() - count($this->_groupedColumn);
-    }
-
-    /**
-     * Retrieve columns to render
-     *
-     * @return array
-     */
-    public function getSubTotalColumns()
-    {
-        return $this->getMultipleRowColumns();
     }
 
     /**
