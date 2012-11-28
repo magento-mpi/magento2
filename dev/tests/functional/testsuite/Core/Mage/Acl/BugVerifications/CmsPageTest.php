@@ -15,22 +15,7 @@
 class Core_Mage_Acl_BugVerifications_CmsPageTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Bug Cover<p/>
      * <p>Verification of MAGETWO-2578:</p>
-     * <p>"Save Page" and "Save and Continue Edit" buttons are not presented for admin role with full Custom Resources</p>
-     *
-     * <p>Preconditions:</p>
-     * <p>1. Create test role:</p>
-     * <p>On Role Resource tab:</p>
-     * <p>"Resource Access" drop-down = "Custom"</p>
-     * <p>"Resources" = check all exist cheсk-boxes (custom full admin resources)</p>
-     * <p>2. Create Test Admin User with test role.(System>permissions>Users)</p>
-     * <p>Steps:</p>
-     * <p>1. Login to backend as Test Admin User</p>
-     * <p>2. Go to CMS-Page (in EE CMS-Page-Manage Content)</p>
-     * <p>3. Click "Add New Page" button</p>
-     * <p>Expected results:</p>
-     * <p> Buttons : 'Back', 'Reset', 'Save Page', 'Save And Continue Edit' are presented on the page </p>
      *
      * @test
      * @TestlinkId TL-MAGE-6080

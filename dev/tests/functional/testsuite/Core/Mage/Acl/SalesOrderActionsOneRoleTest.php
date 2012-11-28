@@ -23,9 +23,9 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
      * <p>Precondition Method</p>
      * <p>Creating Simple product and test customer for next tests</p>
      *
-     * @test
-     *
      * @return array
+     *
+     * @test
      */
     public function preconditionsForTestsCreateProduct()
     {
@@ -52,9 +52,10 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
      * <p>Precondition Method</p>
      * <p>Create test Role with full permissions for Sales Order Actions</p>
      *
-     * @depends preconditionsForTestsCreateProduct
+     * @return array $roleSource
+     *
      * @test
-     * @return array
+     * @depends preconditionsForTestsCreateProduct
      */
     public function createRole()
     {
@@ -77,10 +78,10 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
      *
      * @param array $roleSource
      *
-     * @depends createRole
-     * @test
-     * @return array
+     * @return array $testAdminUser
      *
+     * @test
+     * @depends createRole
      */
     public function createAdminWithTestRole($roleSource)
     {
@@ -97,18 +98,10 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
     /**
      * <p>Verify count of Top Navigation elements and they children</p>
      *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>2. Expected results:</p>
-     * <p>3. Opened page is Sales Order page</p>
-     * <p>Expected results: </p>
-     * <p>1. Count of Top Navigation elements = 1</p>
-     * <p>2. Count of Children Top Navigation elements = 4</p>
-     *
      * @param array $testAdminUser
-     * @depends createAdminWithTestRole
-     * @test
      *
+     * @test
+     * @depends createAdminWithTestRole
      * @TestlinkId TL-MAGE-5967
      */
     public function verifyScopeOneRole($testAdminUser)
@@ -126,21 +119,15 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
     /**
      * <p>Admin User with full Sales-Order-Action Resources can create order </p>
      *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>2. Create order(click "Create New Order" and fill all required fields)</p>
-     * <p>Expected results:</p>
-     * <p>1. Sales Order page is opened</p>
-     * <p>2. Order is created, success message is appeared</p>
-     *
      * @param array $testAdminUser
      * @param array $orderData
      *
+     * @return bool|int
+     *
+     * @test
      * @depends createAdminWithTestRole
      * @depends preconditionsForTestsCreateProduct
      * @depends verifyScopeOneRole
-     * @test
-     * @return bool|int
      * @TestlinkId TL-MAGE-5968
      */
     public function createOrderOneRole($testAdminUser, $orderData)
@@ -161,15 +148,9 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
     /**
      * <p>Admin User with full Sales-Order-Action Resources can create invoice for order</p>
      *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>2. Search in orders grid test order and click</p>
-     * <p>3. Create invoice for this order(click "Invoice" button and do all required actions)</p>
-     * <p>Expected results:</p>
-     * <p>1. Invoice for test order is created, success message is appeared</p>
-     *
      * @param string $orderId
      * @param array $testAdminUser
+     *
      * @depends createOrderOneRole
      * @depends createAdminWithTestRole
      *
@@ -187,15 +168,9 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
     /**
      * <p>Admin User with full Sales-Order-Action Resources can Hold order</p>
      *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>2. Search in orders grid test order and click</p>
-     * <p>3. Put test order tu Hold status(click "Hold" button)</p>
-     * <p>Expected results:</p>
-     * <p>1. Test Order is held, success message is appeared</p>
-     *
      * @param $orderId
      * @param array $testAdminUser
+     *
      * @depends createOrderOneRole
      * @depends createAdminWithTestRole
      *
@@ -213,13 +188,6 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Admin User with full Sales-Order-Action Resources can unHold order</p>
-     *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>2. Search in orders grid "test order" and click</p>
-     * <p>3. Put test order to unHold status(click "unHold" button)</p>
-     * <p>Expected results:</p>
-     * <p>1. Test Order is unHeld, success message is appeared</p>
      *
      * @param $orderId
      * @param array $testAdminUser
@@ -243,13 +211,6 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
     /**
      * <p>Admin User with full Sales-Order-Action Resources can create Shipment for order</p>
      *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>2. Search in orders grid test order and click</p>
-     * <p>3. Create Shipment for test order(click "Ship" button and fill all required fields)</p>
-     * <p>Expected results:</p>
-     * <p>1. Shipment for test order is created, success message is appeared</p>
-     *
      * @param array $testAdminUser
      * @param $orderId
      *
@@ -270,13 +231,6 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Admin User with full Sales-Order-Action Resources can create Credit Memo for order</p>
-     *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>2. Search in orders grid test order and click</p>
-     * <p>3. Create Credit Memo for test order(click "Credit Memo" button and fill all required fields)</p>
-     * <p>Expected results:</p>
-     * <p>1. "Credit Memo" for test order is created, success message is appeared</p>
      *
      * @param $orderId
      * @param array $testAdminUser
@@ -299,22 +253,16 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
     /**
      * <p>Admin User with full Sales-Order-Action Resources can create Reorder for order</p>
      *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>2. Search in orders grid test order and click</p>
-     * <p>3. Make Reorder for test order(click "Reorder" button and confirm)</p>
-     * <p>Expected results:</p>
-     * <p>1. New order based on test order is created, success message is appeared</p>
-     *
      * @param bool|int $orderId
      * @param array $testAdminUser
+     *
+     * @return bool|int
      *
      * @depends createOrderOneRole
      * @depends createAdminWithTestRole
      * @depends holdOrderOneRole
      *
      * @test
-     * @return bool|int
      * @TestlinkId TL-MAGE-5974
      */
     public function reorderOrderOneRole($orderId, $testAdminUser)
@@ -333,21 +281,15 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
     /**
      * <p>Admin User with full Sales-Order-Action Resources can edit Order(create new)</p>
      *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>2. Search in orders grid test order and click</p>
-     * <p>3. Make Edit for test order(click "Edit" button and confirm)</p>
-     * <p>Expected results:</p>
-     * <p>1. New order based on test order is created, success message is appeared</p>
-     *
      * @param $orderId
      * @param array $testAdminUser
+     *
+     * @return bool|int
      *
      * @depends reorderOrderOneRole
      * @depends createAdminWithTestRole
      *
      * @test
-     * @return bool|int
      * @TestlinkId TL-MAGE-5976
      */
     public function editOrderOneRole($orderId, $testAdminUser)
@@ -365,13 +307,6 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Admin User with full Sales-Order-Action Resources can cancel order</p>
-     *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>2. Search in orders grid test order and click</p>
-     * <p>3. Make Cancel for test order(click "Cancel" button and confirm)</p>
-     * <p>Expected results:</p>
-     * <p>1. Test order is canceled, success message is appeared</p>
      *
      * @param $orderId
      * @param array $testAdminUser

@@ -50,16 +50,6 @@ class Core_Mage_Acl_CmsWidgetTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Admin with Resource: CMS widget has access to CMS/widgets menu. All necessary elements are presented</p>
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>Expected results:</p>
-     * <p>1. Current page is Manage Widgets</p>
-     * <p>2. Navigation menu has only 1 parent element(CMS)</p>
-     * <p>3. Navigation menu(CMS) has only 1 child element(Pages)</p>
-     * <p>4. Manage Widgets contains:</p>
-     * <p>4.1 Buttons: "Add New Widget Instance", "Reset Filter", "Search"</p>
-     * <p>4.2 Fields: "page", "filter_widget_id", "filter_title", "filter_sort_order"</p>
-     * <p>4.3 Dropdowns: "view_per_page", "filter_type", "filter_package_theme"</p>
      *
      * @param $loginData
      *

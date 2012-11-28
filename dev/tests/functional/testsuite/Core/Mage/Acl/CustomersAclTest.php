@@ -29,25 +29,8 @@ class Core_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Preconditions</p>
-     * <p>1. Login to backend as admin</p>
-     * <p>2. Go to System>Permissions>Role and click "Add New Role" button</p>
-     * <p>3. Fill "Role Name" field</p>
-     * <p>4. Click Role Resource Tab</p>
-     * <p>5. In Role Resources fieldset  select only one test scope checkbox[Customers>Manage Customers]</p>
-     * <p>6. Click "Save Role" button for save roleSource</p>
-     * <p>7. Go to System>Permissions>Users and click "Add New User" button</p>
-     * <p>8. Fill all required fields (User Info Tab)</p>
-     * <p>9. Click User Role Tab</p>
-     * <p>10. Select testRole</p>
-     * <p>11. Click "Save User" button for save testAdminUser</p>
-     * <p>12. Log out </p>
-     * <p>Steps:</p>
-     * <p>1. Log in as testAdminUser</p>
-     * <p>Expected results:</p>
-     * <p>1. Manage customers page is available </p>
      *
      * @test
-     *
      * @TestlinkId TL-MAGE-5729
      */
     public function roleResourceAccessManageCustomer()
@@ -80,17 +63,9 @@ class Core_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Test navigation.</p>
-     * <p>Steps:</p>
-     * <p>1. Verify that 'Add New Customer' button is present and click her.</p>
-     * <p>2. Verify that the create customer page is opened.</p>
-     * <p>3. Verify that 'Back' button is present.</p>
-     * <p>4. Verify that 'Save Customer' button is present.</p>
-     * <p>5. Verify that 'Reset' button is present.</p>
      *
      * @test
-     *
      * @depends roleResourceAccessManageCustomer
-     *
      * @TestlinkId TL-MAGE-5729
      */
     public function navigation()
@@ -109,20 +84,11 @@ class Core_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create customer by filling in only required fields</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add New Customer' button.</p>
-     * <p>2. Fill in required fields.</p>
-     * <p>3. Click 'Save Customer' button.</p>
-     * <p>Expected result:</p>
-     * <p>Customer is created.</p>
-     * <p>Success Message is displayed</p>
+     *
+     * @return array $userData
      *
      * @test
-     *
-     * @return array
-     *
      * @depends navigation
-     *
      * @TestlinkId TL-MAGE-3587
      */
     public function withRequiredFieldsOnly()
@@ -139,21 +105,11 @@ class Core_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create customer. Use email that already exist</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add New Customer' button.</p>
-     * <p>2. Fill in 'Email' field by using email that already exist.</p>
-     * <p>3. Fill other required fields by regular data.</p>
-     * <p>4. Click 'Save Customer' button.</p>
-     * <p>Expected result:</p>
-     * <p>Customer is not created.</p>
-     * <p>Error Message is displayed.</p>
-     *
-     * @test
      *
      * @param array $userData
      *
+     * @test
      * @depends withRequiredFieldsOnly
-     *
      * @TestlinkId TL-MAGE-3582
      */
     public function withEmailThatAlreadyExists(array $userData)
@@ -167,25 +123,8 @@ class Core_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Preconditions</p>
-     * <p>1. Log in to backend as admin</p>
-     * <p>2. Go to System>Permissions>Role and click "Add New Role" button</p>
-     * <p>3. Fill "Role Name" field</p>
-     * <p>4. Click Role Resource Tab</p>
-     * <p>5. In Role Resources fieldset  select only one test scope checkbox[Customers>Manage Groups]</p>
-     * <p>6. Click "Save Role" button for save roleSource</p>
-     * <p>7. Go to System>Permissions>Users and click "Add New User" button</p>
-     * <p>8. Fill all required fields (User Info Tab)</p>
-     * <p>9. Click User Role Tab</p>
-     * <p>10. Select testRole</p>
-     * <p>11. Click "Save User" button for save testAdminUser</p>
-     * <p>12. Log out </p>
-     * <p>Steps:</p>
-     * <p>1. Log in as testAdminUser</p>
-     * <p>Expected results:</p>
-     * <p>1. Manage groups page is available </p>
      *
      * @test
-     *
      * @TestlinkId TL-MAGE-5730
      */
     public function roleResourceAccessCustomerGroups()
@@ -218,18 +157,9 @@ class Core_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create customer group</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add New Customer' button.</p>
-     * <p>2. Fill all required field with correct data.</p>
-     * <p>3. Click 'Save Customer Group' button.</p>
-     * <p>Expected result:</p>
-     * <p>Customer group is  created.</p>
-     * <p>Success message is displayed.</p>
      *
      * @test
-     *
      * @depends roleResourceAccessCustomerGroups
-     *
      * @TestlinkId TL-MAGE-5732
      */
     public function createGroup()
@@ -244,25 +174,8 @@ class Core_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Preconditions</p>
-     * <p>1. Login to backend as admin</p>
-     * <p>2. Go to System>Permissions>Role and click "Add New Role" button</p>
-     * <p>3. Fill "Role Name" field</p>
-     * <p>4. Click Role Resource Tab</p>
-     * <p>5. In Role Resources fieldset  select only one test scope checkbox[Customers>Online Customers]</p>
-     * <p>6. Click "Save Role" button for save roleSource</p>
-     * <p>7. Go to System>Permissions>Users and click "Add New User" button</p>
-     * <p>8. Fill all required fields (User Info Tab)</p>
-     * <p>9. Click User Role Tab</p>
-     * <p>10. Select testRole</p>
-     * <p>11. Click "Save User" button for save testAdminUser</p>
-     * <p>12. Log out </p>
-     * <p>Steps:</p>
-     * <p>1. Log in as testAdminUser</p>
-     * <p>Expected results:</p>
-     * <p>1. Online customers page is available </p>
      *
      * @test
-     *
      * @TestlinkId TL-MAGE-5731
      */
     public function roleResourceAccessOnlineCustomers()

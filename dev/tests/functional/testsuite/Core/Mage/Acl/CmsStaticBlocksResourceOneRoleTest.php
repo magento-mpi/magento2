@@ -59,17 +59,6 @@ class Core_Mage_Acl_CmsStaticBlocksResourceOneRoleTest extends Mage_Selenium_Tes
     /**
      * <p>Admin with Resource: CMS/Static Blocks has access to CMS/Static Blocks menu. All necessary elements are presented</p>
      *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>Expected results:</p>
-     * <p>1. Current page is Manage Pages </p>
-     * <p>2. Navigation menu has only 1 parent element(CMS)</p>
-     * <p>3. Navigation menu(CMS) has only 1 child element(Static Blocks)</p>
-     * <p>4. Manage Pages contains:</p>
-     * <p>4.1 Buttons: "Add New Block", "Reset Filter", "Search"</p>
-     * <p>4.2 Fields: "filter_block_title", "filter_block_identifier", "filter_block_created_from", "filter_block_created_to", "filter_block_modified_from", "filter_block_modified_to"</p>
-     * <p>4.3 Dropdowns: "filter_store_view", "filter_block_status"</p>
-     *
      * @param $loginData
      * @depends preconditionsForTestCreateAdminUser
      *
@@ -104,16 +93,6 @@ class Core_Mage_Acl_CmsStaticBlocksResourceOneRoleTest extends Mage_Selenium_Tes
     /**
      * <p>Admin with Resource: CMS/Static Blocks can create new block with all fielded fields and conditions</p>
      *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>2. Click "Add New Block" button</p>
-     * <p>3. Fill all fields with valid data</p>
-     * <p>4. Select Store View  and click "Show / Hide Editor" button</p>
-     * <p>4.1 Click "Insert Widgets..." button and add one of each type of widgets</p>
-     * <p>Expected results: </p>
-     * <p>1. Static Block is created</p>
-     * <p>2. Success Message is appeared "The block has been saved."</p>
-     *
      * @param $loginData
      * @depends preconditionsForTestCreateAdminUser
      * @return array
@@ -136,16 +115,6 @@ class Core_Mage_Acl_CmsStaticBlocksResourceOneRoleTest extends Mage_Selenium_Tes
 
     /**
      * <p>Admin with Resource: CMS/Static Blocks can edit block and save using "Save And Continue Edit" button</p>
-     *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>2. Find test static block in grid and click</p>
-     * <p>3. Fill "Block Title" and "Identifier" fields with any new value</p>
-     * <p>4. Click "Save And Continue Edit" button</p>
-     * <p>Expected results:</p>
-     * <p>1. Block is saved</p>
-     * <p>2. Current page is "Edit Block '%Block Title%'"</p>
-     * <p>3. Success Message is appeared "The block has been saved."</p>
      *
      * @param $loginData
      * @param $searchPageData
@@ -177,15 +146,6 @@ class Core_Mage_Acl_CmsStaticBlocksResourceOneRoleTest extends Mage_Selenium_Tes
 
     /**
      * <p>Admin with Resource: CMS/Static Blocks can delete static block</p>
-     *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>2. Find test static block in grid and click</p>
-     * <p>3. Click "Delete Page" button</p>
-     * <p>4. Click "OK" button for confirm action</p>
-     * <p>Expected results:</p>
-     * <p>1. Block is deleted</p>
-     * <p>2. Success Message is appeared "The block has been deleted."</p>
      *
      * @param $loginData
      * @param $searchPageData

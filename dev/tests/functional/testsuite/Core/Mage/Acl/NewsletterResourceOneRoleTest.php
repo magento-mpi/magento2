@@ -25,8 +25,8 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
     /**
      * <p>Create Admin User with full Newsletter resources role</p>
      *
+     * @return array $loginData
      *
-     * @return array
      * @test
      */
     public function createAdminUser()
@@ -50,21 +50,12 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
     /**
      * <p>Admin with Resource: Newsletter has access to Newsletter menu. All necessary buttons are presented</p>
      *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>2. Click "Add New Template"</p>
-     * <p>Expected results:</p>
-     * <p>1. Navigation menu has only 1 parent element(Newsletter)</p>
-     * <p>2. Navigation menu(Newsletter)  has only 4 child elements</p>
-     * <p>3. Opened page is "New Newsletter Template" </p>
-     * <p>4. Buttons 'Back','Reset','Preview Template','Save Template' are presented on page</p>
-     *
      * @param array $loginData
      *
-     * @depends  createAdminUser
-     *
      * @return array
+     *
      * @test
+     * @depends createAdminUser
      * @TestlinkId TL-MAGE-6034
      */
     public function verifyScopeNewsletterResource($loginData)
@@ -89,21 +80,12 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
     /**
      * <p>Admin with Resource: Newsletter can create new newsletter template</p>
      *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>2. Click "Add New Template"</p>
-     * <p>3. Fill all fields and click "Save Template" button</p>
-     * <p>Expected results:</p>
-     * <p>1. Opened page is "Newsletter Templates" </p>
-     * <p>2. Success Message is appeared "The newsletter template has been saved."</p>
-     * <p>3. Templates grid contains created template </p>
-     *
      * @param $loginData
      *
-     * @depends createAdminUser
+     * @return array $newsData
      *
-     * @return array
      * @test
+     * @depends createAdminUser
      * @TestlinkId TL-MAGE-6035
      */
     public function createNewsletterResourceOneRole($loginData)
@@ -125,23 +107,14 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
     /**
      *<p>Admin with Resource: Newsletter can edit and save exists newsletter template</p>
      *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>2. Find test template in Newsletter Template grid and click</p>
-     * <p>3. Fill all fields with new data and click "Save Template" button</p>
-     * <p>Expected results:</p>
-     * <p>1. Opened page is "Newsletter Templates" </p>
-     * <p>2. Success Message is appeared "The newsletter template has been saved."</p>
-     * <p>3. Templates grid contains created template </p>
-     *
      * @param array $loginData
      * @param array $newsData
      *
+     * @return array $newNewsletterData
+     *
+     * @test
      * @depends createAdminUser
      * @depends createNewsletterResourceOneRole
-     *
-     * @return array $newNewsletterData
-     * @test
      * @TestlinkId TL-MAGE-6036
      */
     public function editNewsletterResourceOneRole($loginData, $newsData)
@@ -161,18 +134,6 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Admin with Resource: Newsletter can put newsletter template to queue<p/>
-     *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>2. Find test template in Newsletter Template grid</p>
-     * <p>3. In Action column find dropdown and select "Queue Newsletter..."</p>
-     * <p>4. Select/fill Queue Date Start</p>
-     * <p>5. Fill all fields with new data</p>
-     * <p>6. Click "Save Newsletter" button</p>
-     * <p>Expected results:</p>
-     * <p>1. Opened page is "Newsletter Queue" </p>
-     * <p>2. Success Message is appeared "The newsletter Queue has been saved."</p>
-     * <p>3. Queue grid contains created template </p>
      *
      * @param array $loginData
      * @param $newNewsletterData
@@ -199,17 +160,6 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Admin with Resource: Newsletter can delete newsletter template</p>
-     *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>2. Find test template in Newsletter Template grid and click</p>
-     * <p>3. Click "Delete Template"</p>
-     * <p>4. Go to Newsletter>Newsletter queue</p>
-     * <p>Expected results:</p>
-     * <p>1. Opened page is "Newsletter Templates" </p>
-     * <p>2. Success Message is appeared "The newsletter template has been deleted."</p>
-     * <p>3. Templates grid does not contain created template </p>
-     * <p>4. Queue grid does not contain created template </p>
      *
      * @param array $loginData
      * @param array  $newNewsletterData
@@ -242,6 +192,7 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
      * <p>Precondition method for create subscriber</p>
      *
      * @return array
+     *
      * @test
      */
     public function preconditionSubscribeCustomer()
@@ -274,20 +225,6 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Admin with Resource: Newsletter can unsubscribe/delete subscribers</p>
-     *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>2. Go to Newsletter>Newsletter Subscribers</p>
-     * <p>3. Find in grid test subscribed customer and select(checkbox)</p>
-     * <p>4. In Mass action dropdown select "Unsubscribe", click "Submit" </p>
-     * <p>5. In Mass action dropdown select "Delete", click "Submit" </p>
-     * <p>Expected results:</p>
-     * <p>1. after step 4: Opened page is "Newsletter Subscribers" </p>
-     * <p>2. after step 4: Success Message is appeared "Total of 1 record(s) were updated"</p>
-     * <p>3. after step 4: Subscribers grid contains this user with status = Unsubscribe </p>
-     * <p>4. after step 5: Opened page is "Newsletter Subscribers" </p>
-     * <p>5. after step 5: Success Message is appeared "Total of 1 record(s) were updated"</p>
-     * <p>6. after step 5: Subscribers grid does not contain this user</p>
      *
      * @param $loginData
      * @param $subscriberEmail

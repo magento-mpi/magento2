@@ -34,21 +34,9 @@ class Core_Mage_Acl_CatalogManageCategoryTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Precondition fot test. Creating User with role Catalog/Manage Category</p>
-     * <p>Preconditions</p>
-     * <p>1. Log in to backend as admin</p>
-     * <p>2. Go to System>Permissions>Role and click "Add New Role" button</p>
-     * <p>3. Fill "Role Name" field</p>
-     * <p>4. Click Role Resource Tab</p>
-     * <p>5. In Role Resources fieldset  select only one test scope checkbox[Catalog>Manage Category]</p>
-     * <p>6. Click "Save Role" button for save roleSource</p>
-     * <p>7. Go to System>Permissions>Users and click "Add New User" button</p>
-     * <p>8. Fill all required fields (User Info Tab)</p>
-     * <p>9. Click User Role Tab</p>
-     * <p>10. Select testRole</p>
-     * <p>11. Click "Save User" button for save testAdminUser</p>
-     * <p>12. Log out </p>
-     * <p>Expected result:</p>
-     * <p>The role and user are successfully created.</p>
+     *
+     * @return array $loginData
+     *
      * @test
      * @TestlinkId TL-MAGE-5955
      */
@@ -76,14 +64,6 @@ class Core_Mage_Acl_CatalogManageCategoryTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Deleting Root Category</p>
-     * <p>Pre-Conditions:</p>
-     * <p>1.Log in to admin with data of created admin user</p>
-     * <p>2. Root Category created</p>
-     * <p>Steps:</p>
-     * <p>1.Select Root Category</p>
-     * <p>2. Click "Delete" button</p>
-     * <p>Expected result</p>
-     * <p> Root category Deleted, Success message appears</p>
      *
      * @param array $loginData
      *
@@ -112,14 +92,6 @@ class Core_Mage_Acl_CatalogManageCategoryTest extends Mage_Selenium_TestCase
 
     /**
      * <p> Deleting  Subcategory</p>
-     * <p>Pre-Conditions:</p>
-     * <p>1. Log in to admin with data of created admin user.</p>
-     * <p>2. Subcategory created</p>
-     * <p>Steps:</p>
-     * <p>1. Select created Subcategory</p>
-     * <p>2. Click "Delete" button</p>
-     * <p>Expected result</p>
-     * <p> Subcategory Deleted, Success message appears</p>
      *
      * @param array $loginData
      *

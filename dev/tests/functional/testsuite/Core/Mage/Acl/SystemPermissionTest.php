@@ -26,12 +26,6 @@ class Core_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Precondition method</p>
-     * <p>Admin user with Role System-Permissions is created.</p>
-     * <p>Steps:</p>
-     * <p>1. Create new admin role with "Role Resources":</p>
-     * <p>1.1 Resource Access = Custom.</p>
-     * <p>1.2 Resource checkboxes = 'System-Permissions'.</p>
-     * <p>2. Create test Admin user with test Role(Full permissions for Permissions menu).</p>
      *
      * @test
      * @return array
@@ -103,22 +97,6 @@ class Core_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
 
     /**
      * <p> Actions available for user with Permission System-Permissions </p>
-     * <p>Preconditions</p>
-     * <p>1. Role "Role1" with Role resource System-Permissions is created.</p>
-     * <p>2. Admin user "User1" with "Role1" is created.</p>
-     * <p>Steps:</p>
-     * <p>1. Log in to backend using newly created "User1" credentials.</p>
-     * <p>2. Navigate to System-Permissions-Role.</p>
-     * <p>3. Create "Role2"</p>
-     * <p>4. Navigate to System-Permissions-Users.</p>
-     * <p>5. Create "User2"</p>
-     * <p>6. Navigate to System-Permissions-Role.</p>
-     * <p>7. Delete "Role2".</p>
-     * <p>Expected result</p>
-     * <p>The Role2 is successfully deleted.</p>
-     * <p>8. Try to delete "Role1".</p>
-     * <p>Expected result:</p>
-     * <p>The "Role1" is not deleted. The message "Self-assigned roles cannot be deleted." is displayed.</p>
      *
      * @depends createAdminWithTestRole
      *
@@ -152,4 +130,3 @@ class Core_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('error', 'delete_self_assigned_role');
     }
 }
-

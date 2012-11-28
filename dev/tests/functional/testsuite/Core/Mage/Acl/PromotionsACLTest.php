@@ -40,28 +40,9 @@ class Core_Mage_Acl_PromotionsACLTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Check Promotions Full rights</p>
-     * <p>Preconditions:</p>
-     * <p>Login to backend as admin</p>
-     * <p>Go to System-Permissions-Role and click "Add New Role" button</p>
-     * <p>Fill "Role Name" field</p>
-     * <p>Click Role Resource Tab</p>
-     * <p>In Role Resources fieldset  select all Permissions checkboxes</p>
-     * <p>Click "Save Role" button for save roleSource</p>
-     * <p>Go to System-Permissions-Users and click "Add New User" button</p>
-     * <p>Fill all required fields (User Info Tab)</p>
-     * <p>Click User Role Tab</p>
-     * <p>Select testRole</p>
-     * <p>Click "Save User" button for save testAdminUser</p>
-     * <p>Log out </p>
-     * <p>Steps:</p>
-     * <p>1.Log In as admin user with full rights to Promotions Menu</p>
-     * <p>Expected Results:</p>
-     * <p>Only Promotions menu is available</p>
-     * <p>Admin User has Rights to create Catalog Price Rule</p>
-     * <p>Admin User has Rights to create Shopping Cart Price Rule</p>
      *
-     * @TestlinkId TL-MAGE-6021
      * @test
+     * @TestlinkId TL-MAGE-6021
      */
     public function checkPromotionsFullRights()
     {
@@ -99,28 +80,9 @@ class Core_Mage_Acl_PromotionsACLTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Check Promotions Catalog Only Rights</p>
-     * <p>Preconditions</p>
-     * <p>Login to backend as admin</p>
-     * <p>Go to System-Permissions-Role and click "Add New Role" button</p>
-     * <p>Fill "Role Name" field</p>
-     * <p>Click Role Resource Tab</p>
-     * <p>In Role Resources fieldset  select only Catalog Price Rules Checkbox</p>
-     * <p>Click "Save Role" button for save roleSource</p>
-     * <p>Go to System>Permissions>Users and click "Add New User" button</p>
-     * <p>Fill all required fields (User Info Tab)</p>
-     * <p>Click User Role Tab</p>
-     * <p>Select testRole</p>
-     * <p>Click "Save User" button for save testAdminUser</p>
-     * <p>Log out </p>
-     * <p>Steps:</p>
-     * <p>1.Log In as admin user with full rights to Promotions Menu</p>
-     * <p>Expected Results:</p>
-     * <p>Only Promotions menu is available</p>
-     * <p>Admin User has Rights to create Catalog Price Rule</p>
-     * <p>Admin User has Rights to create Shopping Cart Price Rule</p>
      *
-     * @TestlinkId TL-MAGE-1467
      * @test
+     * @TestlinkId TL-MAGE-1467
      */
     public function checkPromotionsCatalogOnlyRights()
     {
@@ -158,28 +120,9 @@ class Core_Mage_Acl_PromotionsACLTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Check Promotions Shopping Cart Only Rights</p>
-     * <p>Preconditions</p>
-     * <p>Login to backend as admin</p>
-     * <p>Go to System>Permissions-Role and click "Add New Role" button</p>
-     * <p>Fill "Role Name" field</p>
-     * <p>Click Role Resource Tab</p>
-     * <p>In Role Resources fieldset  select only one test scope checkbox[Sales,Customers,Dashboard,Catalog,Mobile,Newsletter,CMS,Reports,System,External Page Cache,Global Search]</p>
-     * <p>Click "Save Role" button for save roleSource</p>
-     * <p>Go to System>Permissions>Users and click "Add New User" button</p>
-     * <p>Fill all required fields (User Info Tab)</p>
-     * <p>Click User Role Tab</p>
-     * <p>Select testRole</p>
-     * <p>Click "Save User" button for save testAdminUser</p>
-     * <p> Log out </p>
-     * <p>Steps:<p/>
-     * <p>1.Log In as admin user with  rights only to Shopping Cart Price Rules</p>
-     * <p>Expected Results</p>
-     * <p>Only Promotions menu is available</p>
-     * <p>Admin User has rights to create Shopping Cart Price Rule</p>
-     * <p>Admin User has NO rights to create Catalog Price Rule</p>
      *
-     * @TestlinkId TL-MAGE-1475
      * @test
+     * @TestlinkId TL-MAGE-1475
      */
     public function checkPromotionsShoppingCartOnlyRights()
     {
@@ -214,4 +157,3 @@ class Core_Mage_Acl_PromotionsACLTest extends Mage_Selenium_TestCase
             "Element isn't present on the page");
     }
 }
-

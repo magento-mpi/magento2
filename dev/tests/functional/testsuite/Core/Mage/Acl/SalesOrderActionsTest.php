@@ -27,8 +27,9 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
     /**
      * <p>Creating Simple product</p>
      *
-     * @test
      * @return array
+     *
+     * @test
      */
     public function preconditionsForTestsCreateProduct()
     {
@@ -52,20 +53,6 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Admin user with Role Sales/Orders/Actions/Create (+View) can create order</p>
-     *
-     * <p>Preconditions:</p>
-     * <p>1. Create new admin role with "Role Resources" :</p>
-     * <p>1.1 Resource Access = Custom</p>
-     * <p>1.2 Resource checkboxes = 'Sales/Orders/Actions/Create'</p>
-     * <p>1.3 Resource checkboxes = 'Sales/Orders/Actions/View'</p>
-     * <p>2. Create new "test admin user" with this role</p>
-     * <p>Steps:</p>
-     * <p>1. Login to backend as "test admin user"</p>
-     * <p>2. Create new Order</p>
-     * <p>Expected results:</p>
-     * <p>1. Order is created, success message is presented</p>
-     * <p>2. Button "Back" is presented on order page</p>
-     * <p>3. Buttons 'Edit', 'Cancel', 'Send Email', 'Hold', 'Unhold', 'Credit Memo', 'Invoice', 'Ship', 'Reorder', 'Void'  are not presented</p>
      *
      * @param array $testData
      *
@@ -118,11 +105,13 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
 
     /**
      * Preconditions for next tests
+     *
      * @param $testData
+     *
+     * @return string
      *
      * @depends preconditionsForTestsCreateProduct
      * @test
-     * @return string
      */
     public function createOrderForTest($testData)
     {
@@ -140,23 +129,6 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Admin user with Role Sales/Orders/Actions/Invoice (+View, Invoices) can invoice order</p>
-     *
-     * <p>Preconditions:</p>
-     * <p>1. Create new admin role with "Role Resources" :</p>
-     * <p>1.1 Resource Access = Custom</p>
-     * <p>1.2 Resource checkboxes = 'Sales/Orders/Actions/Invoice'</p>
-     * <p>1.3 Resource checkboxes = 'Sales/Orders/Actions/View'</p>
-     * <p>1.4 Resource checkboxes = 'Sales/Invoices'</p>
-     * <p>2. Create new "test admin user" with this role</p>
-     * <p>Steps:</p>
-     * <p>1. Login to backend as "test admin user"</p>
-     * <p>2. Find  in orders grid and click "test order"</p>
-     * <p>3. Create invoice for "test order"</p>
-     * <p>Expected results</p>
-     * <p>1. Button "Back" is presented on order page</p>
-     * <p>2. Button "Invoice" is presented on order page</p>
-     * <p>3. Buttons 'Edit', 'Cancel', 'Send Email', 'Hold', 'Unhold', 'Credit Memo', 'Invoice', 'Ship', 'Reorder', 'Void'  are not presented</p>
-     * <p>4. Invoice is created</p>
      *
      * @param string
      *
@@ -203,26 +175,11 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Admin user with Role Sales/Orders/Actions/Hold (+View) can Hold order</p>
-     * <p>
-     * <p>Preconditions:</p>
-     * <p>1. Create new admin role with "Role Resources" :</p>
-     * <p>1.1 Resource Access = Custom</p>
-     * <p>1.2 Resource checkboxes = 'Sales/Orders/Actions/Hold'</p>
-     * <p>1.3 Resource checkboxes = 'Sales/Orders/Actions/View'</p>
-     * <p>2. Create new "test admin user" with this role</p>
-     * <p>Steps:</p>
-     * <p>1. Login to backend as "test admin user"</p>
-     * <p>2. Find  in orders grid and click "test order"</p>
-     * <p>3. Hold "test order"</p>
-     * <p>Expected results</p>
-     * <p>1. Button "Back" is presented on order page</p>
-     * <p>2. Button "Hold" is presented on order page</p>
-     * <p>3. Buttons 'Edit', 'Cancel', 'Send Email', 'Ship', 'Unhold', 'Credit Memo', 'Invoice', 'Reorder', 'Void' are not presented</p>
-     * <p>4. Order is holden</p>
      *
      * @param $orderId
      *
      * @depends createOrderForTest
+     *
      * @test
      * @TestlinkId TL-MAGE-5722
      */
@@ -243,7 +200,7 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
         $this->logoutAdminUser();
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
-        ////Steps And Verifying
+        //Steps And Verifying
         $this->searchAndOpen(array('filter_order_id'=> $orderId), 'sales_order_grid');
         $buttonsFalse =
             array('edit', 'cancel', 'send_email', 'ship', 'unhold', 'credit_memo', 'invoice', 'reorder', 'void');
@@ -265,27 +222,12 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Admin user with Role Sales/Orders/Actions/Unhold (+View) can Unhold order</p>
-     * <p>
-     * <p>Preconditions:</p>
-     * <p>1. Create new admin role with "Role Resources" :</p>
-     * <p>1.1 Resource Access = Custom</p>
-     * <p>1.2 Resource checkboxes = 'Sales/Orders/Actions/Unhold'</p>
-     * <p>1.3 Resource checkboxes = 'Sales/Orders/Actions/View'</p>
-     * <p>2. Create new "test admin user" with this role</p>
-     * <p>Steps:</p>
-     * <p>1. Login to backend as "test admin user"</p>
-     * <p>2. Find  in orders grid and click "test order"(holden)</p>
-     * <p>3. Unhold "test order"</p>
-     * <p>Expected results</p>
-     * <p>1. Button "Back" is presented on order page</p>
-     * <p>2. Button "Unhold" is presented on order page</p>
-     * <p>3. Buttons 'Edit', 'Cancel', 'Send Email', 'Ship', 'Hold', 'Credit Memo', 'Invoice', 'Reorder', 'Void'</p>
-     * <p>4. Order is unholden</p>
      *
      * @param $orderId
      *
      * @depends createOrderForTest
      * @depends permissionHoldOrder
+     *
      * @test
      * @TestlinkId TL-MAGE-5723
      */
@@ -329,27 +271,11 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
     /**
      * <p>Admin user with Role Sales/Orders/Actions/Ship (+View) can Ship order</p>
      *
-     * <p>Preconditions:</p>
-     * <p>1. Create new admin role with "Role Resources" :</p>
-     * <p>1.1 Resource Access = Custom</p>
-     * <p>1.2 Resource checkboxes = 'Sales/Orders/Actions/Ship'</p>
-     * <p>1.3 Resource checkboxes = 'Sales/Shipments'</p>
-     * <p>1.4 Resource checkboxes = 'Sales/Orders/Actions/View'</p>
-     * <p>2. Create new "test admin user" with this role</p>
-     * <p>Steps:</p>
-     * <p>1. Login to backend as "test admin user"</p>
-     * <p>2. Find  in orders grid and click "test order"</p>
-     * <p>3. Ship "test order"</p>
-     * <p>Expected results</p>
-     * <p>1. Button "Back" is presented on order page</p>
-     * <p>2. Button "Ship" is presented on order page</p>
-     * <p>3. Buttons 'Edit', 'Cancel', 'Send Email', 'Hold', 'Unhold', 'Credit Memo', 'Invoice', 'Reorder', 'Void' are not presented</p>
-     * <p>4. Order is shipped</p>
-     *
      * @param $orderId
      *
      * @depends createOrderForTest
      * @depends permissionUnholdOrder
+     *
      * @test
      * @TestlinkId TL-MAGE-5724
      */
@@ -371,7 +297,7 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
         $this->logoutAdminUser();
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
-        ////Steps And Verifying
+        //Steps And Verifying
         $this->searchAndOpen(array('filter_order_id'=> $orderId), 'sales_order_grid');
         $buttonsFalse =
             array('edit', 'cancel', 'send_email', 'hold', 'unhold', 'credit_memo', 'invoice', 'reorder', 'void');
@@ -393,27 +319,11 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
     /**
      * <p>Admin user with Role Sales/Orders/Actions/Credit Memos (+View,Credit Memos) can create Credit Memo for order</p>
      *
-     * <p>Preconditions:</p>
-     * <p>1. Create new admin role with "Role Resources" :</p>
-     * <p>1.1 Resource Access = Custom</p>
-     * <p>1.2 Resource checkboxes = 'Sales/Orders/Actions/Credit Memos'</p>
-     * <p>1.3 Resource checkboxes = 'Sales/Credit Memos'</p>
-     * <p>1.4 Resource checkboxes = 'Sales/Orders/Actions/View'</p>
-     * <p>2. Create new "test admin user" with this role</p>
-     * <p>Steps:</p>
-     * <p>1. Login to backend as "test admin user"</p>
-     * <p>2. Find  in orders grid and click "test order"</p>
-     * <p>3. Create Credit Memo for "test order"</p>
-     * <p>Expected results</p>
-     * <p>1. Button "Back" is presented on order page</p>
-     * <p>2. Button "Credit Memos" is presented on order page</p>
-     * <p>3. Buttons 'Edit', 'Cancel', 'Send Email', 'Hold', 'Unhold', 'Ship', 'Invoice', 'Reorder', 'Void' are not presented</p>
-     * <p>4. Credit Memo is created</p>
-     *
      * @param $orderId
      *
      * @depends createOrderForTest
      * @depends permissionShipOrder
+     *
      * @test
      * @TestlinkId TL-MAGE-5726
      */
@@ -456,29 +366,14 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
     /**
      * <p>Admin user with Role Sales/Orders/Actions/Reorder (+View,Create) can Reorder order</p>
      *
-     * <p>Preconditions:</p>
-     * <p>1. Create new admin role with "Role Resources" :</p>
-     * <p>1.1 Resource Access = Custom</p>
-     * <p>1.2 Resource checkboxes = 'Sales/Orders/Actions/Reorder'</p>
-     * <p>1.3 Resource checkboxes = 'Sales/Orders/Actions/Create'</p>
-     * <p>1.4 Resource checkboxes = 'Sales/Orders/Actions/View'</p>
-     * <p>2. Create new "test admin user" with this role</p>
-     * <p>Steps:</p>
-     * <p>1. Login to backend as "test admin user"</p>
-     * <p>2. Find  in orders grid and click "test order"</p>
-     * <p>3. Reorder "test order"</p>
-     * <p>Expected results</p>
-     * <p>1. Button "Back" is presented on order page</p>
-     * <p>2. Button "Reorder" is presented on order page</p>
-     * <p>3. Buttons 'Edit', 'Cancel', 'Send Email', 'Hold', 'Unhold', 'Ship', 'Invoice', 'Credit Memo','Void' are not presented</p>
-     * <p>4. Reorder is created</p>
-     *
      * @param $orderId
+     *
+     * @return string
      *
      * @depends createOrderForTest
      * @depends permissionCreditMemoOrder
+     *
      * @test
-     * @return string
      * @TestlinkId TL-MAGE-5725
      */
     public function permissionReorderOrder($orderId)
@@ -526,28 +421,12 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
     /**
      * <p>Admin user with Role Sales/Orders/Actions/Edit (+View,Create) has ability to edit(create new) order</p>
      *
-     * <p>Preconditions:</p>
-     * <p>1. Create new admin role with "Role Resources" :</p>
-     * <p>1.1 Resource Access = Custom</p>
-     * <p>1.2 Resource checkboxes = 'Sales/Orders/Actions/Edit'</p>
-     * <p>1.3 Resource checkboxes = 'Sales/Orders/Actions/Create'</p>
-     * <p>1.4 Resource checkboxes = 'Sales/Orders/Actions/View'</p>
-     * <p>2. Create new "test admin user" with this role</p>
-     * <p>Steps:</p>
-     * <p>1. Login to backend as "test admin user"</p>
-     * <p>2. Find  in orders grid and click "test order"</p>
-     * <p>3. Edit(create new based on exist)  "test order"</p>
-     * <p>Expected results</p>
-     * <p>1. Button "Back" is presented on order page</p>
-     * <p>2. Button "Edit" is presented on order page</p>
-     * <p>3. Buttons 'Reorder', 'Cancel', 'Send Email', 'Hold', 'Unhold', 'Ship', 'Invoice', 'Credit Memo','Void' are not presented</p>
-     * <p>4. New order is created with №xxxxxxxx-1</p>
-     *
      * @param $orderId
+     *
+     * @return string
      *
      * @depends permissionReorderOrder
      * @test
-     * @return string
      * @TestlinkId TL-MAGE-5727
      */
     public function permissionEditOrder($orderId)
@@ -594,25 +473,10 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
     /**
      * <p>Admin user with Role Sales/Orders/Actions/Cancel (+View) has ability to cancel order</p>
      *
-     * <p>Preconditions:</p>
-     * <p>1. Create new admin role with "Role Resources" :</p>
-     * <p>1.1 Resource Access = Custom</p>
-     * <p>1.2 Resource checkboxes = 'Sales/Orders/Actions/Cancel'</p>
-     * <p>1.3 Resource checkboxes = 'Sales/Orders/Actions/View'</p>
-     * <p>2. Create new "test admin user" with this role</p>
-     * <p>Steps:</p>
-     * <p>1. Login to backend as "test admin user"</p>
-     * <p>2. Find  in orders grid and click "test order"</p>
-     * <p>3. Cancel "test order"</p>
-     * <p>Expected results</p>
-     * <p>1. Button "Back" is presented on order page</p>
-     * <p>2. Button "Cancel" is presented on order page</p>
-     * <p>3. Buttons 'Reorder', 'Edit', 'Send Email', 'Hold', 'Unhold', 'Ship', 'Invoice', 'Credit Memo', 'Void' are not presented</p>
-     * <p>4. New order is canceled</p>
-     *
      * @param $orderId
      *
      * @depends permissionEditOrder
+     *
      * @test
      * @TestlinkId TL-MAGE-5728
      */

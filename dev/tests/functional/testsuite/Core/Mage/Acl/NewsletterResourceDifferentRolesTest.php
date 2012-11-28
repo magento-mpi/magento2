@@ -26,20 +26,6 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
     /**
      * <p>Admin with Resource: Newsletter/Newsletter Templates has ability to create new newsletter template</p>
      *
-     * <p>Preconditions:</p>
-     * <p>1. Create new admin role with "Role Resources" :</p>
-     * <p>1.1 Resource Access = Custom</p>
-     * <p>1.2 Resource checkboxes = 'Newsletter/Newsletter Templates'</p>
-     * <p>2. Create new "test admin user" with this role</p>
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>2. Click "Add New Template"</p>
-     * <p>3. Fill all fields and click "Save Template" button</p>
-     * <p>Expected results:</p>
-     * <p>1. Opened page is "Newsletter Templates" </p>
-     * <p>2. Success Message is appeared "The newsletter template has been saved."</p>
-     * <p>3. Templates grid contains created template </p>
-     *
      * @return array
      * @test
      * @TestlinkId TL-MAGE-6066
@@ -75,29 +61,14 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
     }
 
     /**
-     * <p>Admin with Resource: Newsletter/Newsletter Templates has ability to edit and save exists newsletter template</p>
-     *
-     * <p>Preconditions:</p>
-     * <p>1. Create new admin role with "Role Resources" :</p>
-     * <p>1.1 Resource Access = Custom</p>
-     * <p>1.2 Resource checkboxes = 'Newsletter/Newsletter Templates'</p>
-     * <p>2. Create new "test admin user" with this role</p>
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>2. Find test template in Newsletter Template grid and click</p>
-     * <p>3. Fill all fields with new data and click "Save Template" button</p>
-     * <p>Expected results:</p>
-     * <p>1. Opened page is "Newsletter Templates" </p>
-     * <p>2. Success Message is appeared "The newsletter template has been saved."</p>
-     * <p>3. Templates grid contains created template </p>
+     * <p>Admin with Resource: Newsletter/Newsletter Templates has ability to edit/save exists newsletter template</p>
      *
      * @param array $newsData
      *
-     * @depends createNewsletterResourceDifferentRoles
-     *
      * @return array
-     * @test
      *
+     * @test
+     * @depends createNewsletterResourceDifferentRoles
      * @TestlinkId TL-MAGE-6067
      */
     public function editNewsletterResourceDifferentRoles($newsData)
@@ -131,30 +102,13 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
     }
 
     /**
-     * <p>Admin with Resource: Newsletter/Newsletter Templates and Newsletter Queue  has ability to put newsletter template to queue</p>
-     *
-     * <p>Preconditions:</p>
-     * <p>1. Create new admin role with "Role Resources" :</p>
-     * <p>1.1 Resource Access = Custom</p>
-     * <p>1.2 Resource checkboxes = 'Newsletter/Newsletter Templates'</p>
-     * <p>1.3 Resource checkboxes = 'Newsletter/Newsletter Queue'</p>
-     * <p>2. Create new "test admin user" with this role</p>
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>2. Find test template in Newsletter Template grid</p>
-     * <p>3. In Action column find dropdown and select "Queue Newsletter..."</p>
-     * <p>4. Select/fill Queue Date Start</p>
-     * <p>5. Fill all fields with new data</p>
-     * <p>6. Click "Save Newsletter" button</p>
-     * <p>Expected results:</p>
-     * <p>1. Opened page is "Newsletter Queue" </p>
-     * <p>2. Success Message is appeared "The newsletter Queue has been saved."</p>
-     * <p>3. Queue grid contains created template </p>
+     * <p>Admin with Resource: Newsletter/Newsletter Templates</p>
+     * <p>And Newsletter Queue has ability to put newsletter template to queue</p>
      *
      * @param $newNewsletterData
-     * @depends editNewsletterResourceDifferentRoles
      *
      * @test
+     * @depends editNewsletterResourceDifferentRoles
      * @TestlinkId TL-MAGE-6068
      */
     public function putNewsToQueueDifferentRoles($newNewsletterData)
@@ -188,28 +142,13 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
     }
 
     /**
-     * <p>Admin with Resource: Newsletter/Newsletter Templates and Newsletter Queue  has ability to delete newsletter template</p>
-     *
-     * <p>Preconditions:</p>
-     * <p>1. Create new admin role with "Role Resources" :</p>
-     * <p>1.1 Resource Access = Custom</p>
-     * <p>1.2 Resource checkboxes = 'Newsletter/Newsletter Templates'</p>
-     * <p>1.3 Resource checkboxes = 'Newsletter/Newsletter Queue'</p>
-     * <p>2. Create new "test admin user" with this role</p>
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>2. Find test template in Newsletter Template grid and click</p>
-     * <p>3. Click "Delete Template"</p>
-     * <p>4. Go to Newsletter>Newsletter queue</p>
-     * <p>Expected results:</p>
-     * <p>1. Opened page is "Newsletter Templates" </p>
-     * <p>2. Success Message is appeared "The newsletter template has been deleted."</p>
-     * <p>3. Templates grid does not contain created template </p>
-     * <p>4. Queue grid does not contain created template </p>
+     * <p>Admin with Resource: Newsletter/Newsletter Templates</p>
+     * <p>And Newsletter Queue has ability to delete newsletter template</p>
      *
      * @param $newNewsletterData
-     * @depends  editNewsletterResourceDifferentRoles
+     *
      * @test
+     * @depends  editNewsletterResourceDifferentRoles
      * @TestlinkId TL-MAGE-6069
      */
 
@@ -250,6 +189,7 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
      * <p>Precondition method for create subscriber</p>
      *
      * @return array
+     *
      * @test
      */
     public function preconditionSubscribeCustomer()
@@ -282,30 +222,10 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
     /**
      * <p>Admin with Resource: Newsletter/Newsletter Subscribers  has ability to unsubscribe/delete subscribers</p>
      *
-     * <p>Preconditions:</p>
-     * <p>1. Create new admin role with "Role Resources" :</p>
-     * <p>1.1 Resource Access = Custom</p>
-     * <p>1.2 Resource checkboxes = 'Newsletter/Newsletter Subscribers'</p>
-     * <p>2. Create new "test admin user" with this role</p>
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>2. Go to Newsletter>Newsletter Subscribers</p>
-     * <p>3. Find in grid test subscribed customer and select(checkbox)</p>
-     * <p>4. In Mass action dropdown select "Unsubscribe", click "Submit" </p>
-     * <p>5. In Mass action dropdown select "Delete", click "Submit" </p>
-     * <p>Expected results:</p>
-     * <p>1. after step 4: Opened page is "Newsletter Subscribers" </p>
-     * <p>2. after step 4: Success Message is appeared "Total of 1 record(s) were updated"</p>
-     * <p>3. after step 4: Subscribers grid contains this user with status = Unsubscribe </p>
-     * <p>4. after step 5: Opened page is "Newsletter Subscribers" </p>
-     * <p>5. after step 5: Success Message is appeared "Total of 1 record(s) were updated"</p>
-     * <p>6. after step 5: Subscribers grid does not contain this user</p>
-     *
      * @param $subscriberEmail
-     * @depends preconditionSubscribeCustomer
      *
      * @test
-     *
+     * @depends preconditionSubscribeCustomer
      * @TestlinkId TL-MAGE-6070
      */
     public function actionsWithSubscribersOneRole($subscriberEmail)

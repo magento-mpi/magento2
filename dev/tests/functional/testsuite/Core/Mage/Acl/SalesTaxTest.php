@@ -27,17 +27,6 @@ class Core_Mage_Acl_SalesTaxTest extends Mage_Selenium_TestCase
     /**
      * <p>Admin user with Role Resource  Sales/Tax/Customer Tax Class can create new Customer Tax Class</p>
      *
-     * <p>Preconditions:</p>
-     * <p>1. Create new admin role with "Role Resources" :</p>
-     * <p>1.1 Resource Access = Custom</p>
-     * <p>1.2 Resource checkboxes = 'Sales/Tax/Customer Tax Class'</p>
-     * <p>2. Create new "test admin user" with this role</p>
-     * <p>Steps:</p>
-     * <p>1. Login to backend as "test admin user"</p>
-     * <p>2. Create new Customer Tax Class (click "Add New" button, fill all required fields)</p>
-     * <p>Expected results:</p>
-     * <p>1. Customer Tax Class is created, success message is presented</p>
-     *
      * @test
      * @return array
      * @TestlinkId TL-MAGE-5957
@@ -77,17 +66,6 @@ class Core_Mage_Acl_SalesTaxTest extends Mage_Selenium_TestCase
     /**
      * <p>Admin user with Role Resource  Sales/Tax/Product Tax Class can create new Product Tax Class</p>
      *
-     * <p>Preconditions:</p>
-     * <p>1. Create new admin role with "Role Resources" :</p>
-     * <p>1.1 Resource Access = Custom</p>
-     * <p>1.2 Resource checkboxes = 'Sales/Tax/Product Tax Class'</p>
-     * <p>2. Create new "test admin user" with this role</p>
-     * <p>Steps:</p>
-     * <p>1. Login to backend as "test admin user"</p>
-     * <p>2. Create new Product Tax Class (click "Add New" button, fill all required fields)</p>
-     * <p>Expected results:</p>
-     * <p>1. Product Tax Class is created, success message is presented</p>
-     *
      * @test
      * @return array
      * @TestlinkId TL-MAGE-5958
@@ -125,17 +103,6 @@ class Core_Mage_Acl_SalesTaxTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Admin user with Role Resource  Sales/Tax/Manage Tax Zones & Rates  can create new Tax Rate</p>
-     *
-     * <p>Preconditions:</p>
-     * <p>1. Create new admin role with "Role Resources" :</p>
-     * <p>1.1 Resource Access = Custom</p>
-     * <p>1.2 Resource checkboxes = 'Sales/Tax/Manage Tax Zones & Rates'</p>
-     * <p>2. Create new "test admin user" with this role</p>
-     * <p>Steps:</p>
-     * <p>1. Login to backend as "test admin user"</p>
-     * <p>2. Create new Tax Rate (click "Add New Tax Rate" button, fill all required fields)</p>
-     * <p>Expected results:</p>
-     * <p>1. Tax Rate is created, success message is presented</p>
      *
      * @test
      * @return array
@@ -175,18 +142,6 @@ class Core_Mage_Acl_SalesTaxTest extends Mage_Selenium_TestCase
     /**
      * <p>Admin user with Role Resource  Sales/Tax/Manage Tax Rules  can create new Tax Rule</p>
      *
-     * <p>Preconditions:</p>
-     * <p>0."Customer Tax Class","Product Tax Class","Tax Rate" are created</p>
-     * <p>1. Create new admin role with "Role Resources" :</p>
-     * <p>1.1 Resource Access = Custom</p>
-     * <p>1.2 Resource checkboxes = 'Sales/Tax/Manage Tax Rules'</p>
-     * <p>2. Create new "test admin user" with this role</p>
-     * <p>Steps:</p>
-     * <p>1. Login to backend as "test admin user"</p>
-     * <p>2. Create new Tax Rules  (click "Add New Tax Rule" button, fill all required fields)</p>
-     * <p>Expected results:</p>
-     * <p>1. Tax Rule is created, success message is presented</p>
-     *
      * @param array $customerTaxClassData
      * @param array $productTaxClassData
      * @param array $rate
@@ -194,6 +149,7 @@ class Core_Mage_Acl_SalesTaxTest extends Mage_Selenium_TestCase
      * @depends permissionCustomerTaxClass
      * @depends permissionProductTaxClass
      * @depends permissionTaxRates
+     *
      * @test
      * @return array
      * @TestlinkId TL-MAGE-5960
@@ -235,24 +191,8 @@ class Core_Mage_Acl_SalesTaxTest extends Mage_Selenium_TestCase
     /**
      * <p>Admin user with Role Resource  Sales/Tax  can create "Customer Tax Class","Product Tax Class","Tax Rate", "Tax Rule"</p>
      *
-     * <p>Preconditions:</p>
-     * <p>1. Create new admin role with "Role Resources" :</p>
-     * <p>1.1 Resource Access = Custom</p>
-     * <p>1.2 Resource checkboxes = 'Sales/Tax'</p>
-     * <p>2. Create new "test admin user" with this role</p>
-     * <p>Steps:</p>
-     * <p>1. Login to backend as "test admin user"</p>
-     * <p>2. Create new Customer Tax Class  (click "Add New" button, fill all required fields)</p>
-     * <p>3. Create new Product Tax Class  (click "Add New" button, fill all required fields)</p>
-     * <p>4. Create new Tax Rate  (click "Add New Tax Rate" button, fill all required fields)</p>
-     * <p>5. Create new Tax Rule  (click "Add New Tax Rule" button, fill all required fields)</p>
-     * <p>Expected results:</p>
-     * <p>1. Customer Tax Class is created, success message is presented</p>
-     * <p>2. Product Tax Class is created, success message is presented</p>
-     * <p>3. Tax Rate is created, success message is presented</p>
-     * <p>4. Tax Rule is created, success message is presented</p>
-     *
      * @depends permissionTaxRule
+     *
      * @test
      * @return array
      * @TestlinkId TL-MAGE-5961
@@ -314,34 +254,9 @@ class Core_Mage_Acl_SalesTaxTest extends Mage_Selenium_TestCase
     /**
      * <p>Admin user with Role Resource  Sales/Tax  can delete "Customer Tax Class","Product Tax Class","Tax Rate", "Tax Rule"</p>
      *
-     * <p>Preconditions:</p>
-     * <p>"Customer Tax Class", "Product Tax Class", "Tax Rate", "Tax Rule" are created</p>
-     * <p>1. Create new admin role with "Role Resources" :</p>
-     * <p>1.1 Resource Access = Custom</p>
-     * <p>1.2 Resource checkboxes = 'Sales/Tax'</p>
-     * <p>2. Create new "test admin user" with this role</p>
-     * <p>Steps:</p>
-     * <p>1. Login to backend as "test admin user"</p>
-     * <p>2. Go to "Manage Tax Rules" page</p>
-     * <p>3. Find in grid test Tax Rule and click </p>
-     * <p>4. Click "Delete Rule"</p>
-     * <p>5. Go to "Product Tax Classes" page</p>
-     * <p>6. Find in grid test Product Tax Class and click </p>
-     * <p>7. Click "Delete Class" button</p>
-     * <p>8. Go to "Manage Tax Rates" page</p>
-     * <p>9. Find in grid test Tax Rates and click </p>
-     * <p>10. Click "Delete Rate" button</p>
-     * <p>11. Go to "Customer Tax Classes" page</p>
-     * <p>12. Find in grid test Customer Tax Class and click </p>
-     * <p>13. Click "Delete Class"</p>
-     * <p>Expected results:</p>
-     * <p>1. Tax Rules is deleted, success message is presented</p>
-     * <p>2. Product Tax Class is deleted, success message is presented</p>
-     * <p>3. Tax Rates is deleted, success message is presented</p>
-     * <p>4. Customer Tax Class is deleted, success message is presented</p>
-     *
      * @param $testData
      * @depends permissionFullFlowTaxRuleCreation
+     *
      * @test
      * @TestlinkId TL-MAGE-5962
      */
@@ -389,19 +304,6 @@ class Core_Mage_Acl_SalesTaxTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Admin user with Role Resource  Sales/Tax has ability to use Import/Export functionality</p>
-     *
-     * <p>Preconditions:</p>
-     * <p>1. Create new admin role with "Role Resources" :</p>
-     * <p>1.1 Resource Access = Custom</p>
-     * <p>1.2 Resource checkboxes = 'Sales/Tax'</p>
-     * <p>2. Create new "test admin user" with this role</p>
-     * <p>Steps:</p>
-     * <p>1. Login to backend as "test admin user"</p>
-     * <p>2. Go to "Import / Export Tax Rates" page</p>
-     * <p>Expected results:</p>
-     * <p>1. Page is opened</p>
-     * <p>2. Button "Import Tax Rates" is presented and clickable</p>
-     * <p>3. Button "Export Tax Rates" is presented and clickable</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5963

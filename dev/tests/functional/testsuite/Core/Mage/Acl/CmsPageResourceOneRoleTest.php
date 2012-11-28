@@ -38,6 +38,7 @@ class Core_Mage_Acl_CmsPageResourceOneRoleTest extends Mage_Selenium_TestCase
      * <p>Creates Category to use during tests</p>
      *
      * @return array
+     *
      * @test
      */
     public function preconditionsForTestsCreateCategory()
@@ -65,7 +66,6 @@ class Core_Mage_Acl_CmsPageResourceOneRoleTest extends Mage_Selenium_TestCase
     /**
      * <p>Create Admin User with full CMS pages resources role</p>
      *
-     *
      * @return array
      * @test
      */
@@ -90,21 +90,10 @@ class Core_Mage_Acl_CmsPageResourceOneRoleTest extends Mage_Selenium_TestCase
     /**
      * <p>Admin with Resource: CMS pages has access to CMS/page menu. All necessary elements are presented</p>
      *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>Expected results:</p>
-     * <p>1. Current page is Manage Pages </p>
-     * <p>2. Navigation menu has only 1 parent element(CMS)</p>
-     * <p>3. Navigation menu(CMS) has only 1 child element(Pages)</p>
-     * <p>4. Manage Pages contains:</p>
-     * <p>4.1 Buttons: "Add New Page", "Reset Filter", "Search"</p>
-     * <p>4.2 Fields: "page", "filter_title", "filter_url_key", "filter_created_from", "filter_created_to", "filter_last_modified_from", "filter_last_modified_to"</p>
-     * <p>4.3 Dropdowns: "view_per_page", "filter_layout", "filter_store_view", "filter_status"</p>
-     *
-     *
      * @param $loginData
-     * @depends preconditionsForTestCreateAdminUser
+     *
      * @test
+     * @depends preconditionsForTestCreateAdminUser
      * @TestlinkId TL-MAGE-6129
      */
     public function verifyScopeCmsPageOneRoleResource($loginData)
@@ -135,16 +124,6 @@ class Core_Mage_Acl_CmsPageResourceOneRoleTest extends Mage_Selenium_TestCase
     /**
      * <p>Admin with Resource: CMS/Pages can create new page with all fielded fields</p>
      *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>2. Click "Add New Page" button</p>
-     * <p>3. On "Page Information" Tab fill all fields and select Sore View</p>
-     * <p>4. On "Content" tab fill "Content Heading"  and click "Show / Hide Editor" button</p>
-     * <p>4.1 Click "Insert Widgets..." button and add one of each type of widgets</p>
-     * <p>Expected results: </p>
-     * <p>1. CMS page is created</p>
-     * <p>2. Success Message is appeared "The page has been saved."</p>
-     *
      * @param $data
      * @param $loginData
      *
@@ -153,7 +132,6 @@ class Core_Mage_Acl_CmsPageResourceOneRoleTest extends Mage_Selenium_TestCase
      * @depends verifyScopeCmsPageOneRoleResource
      *
      * @return array
-     *
      * @test
      * @TestlinkId TL-MAGE-6131
      */
@@ -175,16 +153,6 @@ class Core_Mage_Acl_CmsPageResourceOneRoleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Admin with Resource: CMS/Pages can edit cms page and save using "Save And Continue Edit" button</p>
-     *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>2. Find test cms page in grid and click</p>
-     * <p>3. On "Page Information" tab fill "Page Title" with any new value</p>
-     * <p>4. Click "Save And Continue Edit" button</p>
-     * <p>Expected results:</p>
-     * <p>1. Page is saved</p>
-     * <p>2. Current page is "Edit Page '%Page Title%'"</p>
-     * <p>3. Success Message is appeared "The page has been saved."</p>
      *
      * @param $loginData
      * @param $searchPageData
@@ -215,15 +183,6 @@ class Core_Mage_Acl_CmsPageResourceOneRoleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Admin with Resource: CMS/Pages can delete cms page</p>
-     *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as test admin user</p>
-     * <p>2. Find test cms page in grid and click</p>
-     * <p>3. Click "Delete Page" button</p>
-     * <p>4. Click "OK" button for confirm action</p>
-     * <p>Expected results:</p>
-     * <p>1. Page is deleted</p>
-     * <p>2. Success Message is appeared "The page has been deleted."</p>
      *
      * @param $loginData
      * @param $searchPageData
