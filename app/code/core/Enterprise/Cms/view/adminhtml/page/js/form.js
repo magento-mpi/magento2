@@ -8,12 +8,7 @@
  */
 /*jshint jquery:true*/
 (function($) {
-    $.widget("mage.validation", $.mage.validation, {
-        options: {
-            ignore: 'form form input, form form select, form form textarea'
-        }
-    });
-
+    "use strict";
     $.widget("mage.form", $.mage.form, {
         options: {
             handlersData: {

@@ -18,26 +18,16 @@
          * @protected
          */
         _init: function() {
-            var inits = this._toArray(this.element.data('mage-init'));
-            inits.push.apply(inits, this._toArray(this.options.init));
+            var inits = $.mage.toArray(this.element.data('mage-init'));
+            inits.push.apply(inits, $.mage.toArray(this.options.init));
             $.each(inits, $.proxy(function(i, init){
                 this._initComponent(init);
             }, this));
         },
 
         /**
-         * Convert passed argument into an array
-         * @param {(undefined|Object|Array)} a
-         * @return {Array}
-         * @protected
-         */
-        _toArray: function(a) {
-            return !a ? [] : !$.isArray(a) ? [a] : a;
-        },
-
-        /**
          * Run initialization of a component
-         * @param {Object} init setting for a component in format
+         * @param {Object} init - setting for a component in format
          *      {name: {string}[, options: {Object}][, args: {Array}][, resources: {Array}]}
          * @private
          */
@@ -65,8 +55,8 @@
 
         /**
          * Initializate inits when all resources are loaded
-         * @param {Array} resources
-         * @param {Function} handler
+         * @param {Array} resources - list of resources
+         * @param {Function} handler - initialization callback
          * @private
          */
         _onload: function(resources, handler) {
@@ -78,10 +68,77 @@
 
     /**
      * Handler of components declared through data attribute
+     * @param {(null|Element)} context
+     * @return {(null|Element)}
      */
     $.mage.init = function(context) {
         $('[data-mage-init]', context || document).mage();
         return context;
+    };
+
+    /**
+     * Declare a new component based on already declared one in the mage widget
+     * @param {string} component - name of a new component
+     *      (can be the same as a name of super component)
+     * @param {string} from - name of super component
+     * @param {(undefined|Object|Array)} resources - list of resources
+     * @return {Object} $.mage
+     */
+    $.mage.extend = function(component, from, resources) {
+        resources = $.merge(
+            ($.mage.mage.prototype.resources[from] || []).slice(),
+            this.toArray(resources)
+        );
+        this.component(component, resources);
+        return $.mage;
+    };
+
+    /**
+     * Declare a new component or several components at a time in the mage widget
+     * @param {(string|Object)} component - name of component
+     *      or several componets with lists of required resources
+     *      {component1: {Array}, component2: {Array}}
+     * @param {(string|Array)} resources - URL of one resource or list of URLs
+     * @return {Object} $.mage
+     */
+    $.mage.component = function(component) {
+        if ($.isPlainObject(component)) {
+            $.extend(true, $.mage.mage.prototype.resources, component);
+        } else if (typeof component === 'string' && arguments[1]) {
+            this.mage.prototype.resources[component] = this.toArray(arguments[1]);
+        }
+        return $.mage;
+    };
+
+    /**
+     * Helper allows easily bind handler with component's initialisation
+     * @param {string} component - name of a component
+     *      which initialization shold be customized
+     * @param {(string|Function)} selector - filter of component's elements
+     *      or a handler function if selector is not defined
+     * @param {Function} handler - handler function
+     * @return {Object} $.mage
+     */
+    $.mage.onInit = function(component, selector, handler) {
+        if (!handler) {
+            handler = selector;
+            selector = null;
+        }
+        $($.mage).bind(component + 'init', function(e, init) {
+            if (!selector || $(e.target).is(selector)) {
+                handler.apply(init, init.args || $.mage.toArray(init.options));
+            }
+        });
+        return $.mage;
+    };
+
+    /**
+     * Convert passed argument into an array
+     * @param {(undefined|Object|Array)} a
+     * @return {Array}
+     */
+    $.mage.toArray = function(a) {
+        return $.isArray(a) ? a : !a ? [] : [a];
     };
 })(jQuery);
 

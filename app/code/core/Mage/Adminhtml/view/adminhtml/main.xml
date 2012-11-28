@@ -44,7 +44,7 @@ Supported layout update handles (special):
                 <action method="addJs"><file>jquery/jquery-ui-1.9.1.custom.min.js</file></action>
                 <action method="addJs"><file>head.load.min.js</file></action>
                 <action method="addJs"><file>mage/mage.js</file></action>
-                <action method="addJs"><file>mage/backend/form.js</file></action>
+                <action method="addJs"><file>mage/backend/button.js</file></action>
                 <action method="addJs"><file>jquery/jquery.tmpl.min.js</file></action>
                 <action method="addJs"><file>mage/translate.js</file></action>
                 <action method="addJs"><file>mage/backend/bootstrap.js</file></action>
