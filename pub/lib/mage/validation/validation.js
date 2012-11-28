@@ -550,17 +550,16 @@
 
         "validateOneRequiredByName": [
             function(value, element, params) {
-                var container = '#' + params;
                 var checkedCount = 0;
                 if (element.type === 'checkbox') {
-                    var nameSelector = '[name="' + element.name + '"]';
-                    $(nameSelector).each(function() {
+                    $('[name="' + element.name + '"]').each(function() {
                         if ($(this).is(':checked')) {
                             checkedCount += 1;
-                            return;
+                            return false;
                         }
                     });
                 }
+                var container = '#' + params;
                 if (checkedCount > 0) {
                     $(container).removeClass('validation-failed');
                     $(container).addClass('validation-passed');
@@ -601,7 +600,7 @@
             errorElement: 'div',
             errorPlacement: function(error, element) {
                 if (element.hasClass("validate-one-required-by-name")) {
-                    error.appendTo('.mage-error-container');
+                    error.appendTo('#links-advice-container');
                 }
                 else {
                     error.insertAfter(element);
