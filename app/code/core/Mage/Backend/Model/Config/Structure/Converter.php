@@ -24,7 +24,6 @@ class Mage_Backend_Model_Config_Structure_Converter
         Mage_Backend_Model_Config_Structure_Mapper_Factory::MAPPER_PATH,
         Mage_Backend_Model_Config_Structure_Mapper_Factory::MAPPER_DEPENDENCIES,
         Mage_Backend_Model_Config_Structure_Mapper_Factory::MAPPER_ATTRIBUTE_INHERITANCE,
-        Mage_Backend_Model_Config_Structure_Mapper_Factory::MAPPER_ELEMENT_TYPE,
         Mage_Backend_Model_Config_Structure_Mapper_Factory::MAPPER_IGNORE,
         Mage_Backend_Model_Config_Structure_Mapper_Factory::MAPPER_SORTING,
     );
@@ -47,7 +46,7 @@ class Mage_Backend_Model_Config_Structure_Converter
     protected $nameMap = array(
         'system' => array('tab' => 'tabs', 'section'=> 'sections'),
         'section' => array('group' => 'children'),
-        'group' => array('field' => 'children'),
+        'group' => array('field' => 'children', 'group' => 'children'),
         'depends' => array('field' => 'fields'),
     );
 

@@ -16,7 +16,6 @@ class Mage_Backend_Model_Config_Structure_Mapper_Factory
     const MAPPER_SORTING                = 'sorting';
     const MAPPER_PATH                   = 'path';
     const MAPPER_IGNORE                 = 'ignore';
-    const MAPPER_ELEMENT_TYPE           = 'element_type';
     const MAPPER_DEPENDENCIES           = 'dependencies';
     const MAPPER_ATTRIBUTE_INHERITANCE  = 'attribute_inheritance';
 
@@ -32,7 +31,6 @@ class Mage_Backend_Model_Config_Structure_Mapper_Factory
         self::MAPPER_SORTING => 'Mage_Backend_Model_Config_Structure_Mapper_Sorting',
         self::MAPPER_PATH => 'Mage_Backend_Model_Config_Structure_Mapper_Path',
         self::MAPPER_IGNORE => 'Mage_Backend_Model_Config_Structure_Mapper_Ignore',
-        self::MAPPER_ELEMENT_TYPE => 'Mage_Backend_Model_Config_Structure_Mapper_ElementType',
         self::MAPPER_DEPENDENCIES => 'Mage_Backend_Model_Config_Structure_Mapper_Dependencies',
         self::MAPPER_ATTRIBUTE_INHERITANCE => 'Mage_Backend_Model_Config_Structure_Mapper_Attribute_Inheritance',
     );
