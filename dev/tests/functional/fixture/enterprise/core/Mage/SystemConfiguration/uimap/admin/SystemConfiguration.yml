@@ -52,6 +52,10 @@ system_configuration:
                     general_design:
                         fieldsets:
                             -
+                                design_theme:
+                                    dropdowns:
+                                        design_theme: //*[@id='design_theme_full_name']
+                            -
                                 transaction_emails:
                                     links:
                                         transaction_emails_link: //parent::div//a[@id='design_email-head']
