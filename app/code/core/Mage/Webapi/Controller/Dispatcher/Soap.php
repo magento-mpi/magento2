@@ -65,7 +65,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap extends Mage_Webapi_Controller_Disp
                 $this->_setResponseContentType('text/xml');
                 $responseBody = $this->_autoDiscover->handle(
                     $this->_request->getRequestedResources(),
-                    $this->_soapServer->getEndpointUri()
+                    $this->_soapServer->generateUri()
                 );
             } else {
                 $this->_setResponseContentType('application/soap+xml');
