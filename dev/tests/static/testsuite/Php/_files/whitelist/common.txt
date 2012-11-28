@@ -5,6 +5,7 @@ app/bootstrap.php
 app/code/core/Mage/Adminhtml/Block/Catalog/Product/Edit/Tab/Options/Popup/Grid.php
 app/code/core/Mage/Adminhtml/Block/Catalog/Product/Helper/Form/Weight/Renderer.php
 app/code/core/Mage/Adminhtml/Block/Catalog/Product/Options/Ajax.php
+app/code/core/Mage/Adminhtml/Block/Cms/Page/Edit/Tab/Design.php
 app/code/core/Mage/Adminhtml/Block/Customer/Edit/Tab/Account.php
 app/code/core/Mage/Adminhtml/Model/Observer.php
 app/code/core/Mage/Adminhtml/Block/Urlrewrite
@@ -14,7 +15,9 @@ app/code/core/Mage/Adminhtml/Block/Catalog/Product/Helper/Form/Category.php
 app/code/core/Mage/Adminhtml/Block/System/Store/Edit
 app/code/core/Mage/Adminhtml/Block/System/Store/Edit.php
 app/code/core/Mage/Backend/Model/Acl/Config.php
+app/code/core/Mage/Backend/Block/System/Config/Form/Field/Regexceptions.php
 app/code/core/Mage/Backend/Block/Widget/Grid/ColumnSet.php
+app/code/core/Mage/Backend/Block/Widget/Grid/Column/Filter/Theme.php
 app/code/core/Mage/Backend/Block/Widget/Grid/Export.php
 app/code/core/Mage/Backend/Block/Widget/Grid/ExportInterface.php
 app/code/core/Mage/CatalogInventory/Block/Adminhtml/Form/Field/Stock.php
@@ -28,6 +31,7 @@ app/code/core/Mage/Core/data
 app/code/core/Mage/Centinel/Model/State/Jcb.php
 app/code/core/Mage/Core/Model/Config/Module.php
 app/code/core/Mage/Core/Model/Design.php
+app/code/core/Mage/Core/Model/Design/Source/Design.php
 app/code/core/Mage/Core/Model/ShellAbstract.php
 app/code/core/Mage/Core/Model/Layout.php
 app/code/core/Mage/Core/Model/Layout/Update.php

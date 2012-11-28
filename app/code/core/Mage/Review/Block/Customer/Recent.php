@@ -18,16 +18,18 @@
 
 class Mage_Review_Block_Customer_Recent extends Mage_Core_Block_Template
 {
-
     protected $_template = 'customer/list.phtml';
 
-    protected function _construct()
+    /**
+     * Product reviews collection
+     *
+     * @var Mage_Review_Model_Resource_Review_Product_Collection
+     */
+    protected $_collection;
+
+    protected function _initCollection()
     {
-        parent::_construct();
-
-
         $this->_collection = Mage::getModel('Mage_Review_Model_Review')->getProductCollection();
-
         $this->_collection
             ->addStoreFilter(Mage::app()->getStore()->getId())
             ->addCustomerFilter(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())
@@ -35,15 +37,19 @@ class Mage_Review_Block_Customer_Recent extends Mage_Core_Block_Template
             ->setPageSize(5)
             ->load()
             ->addReviewSummary();
+        return $this;
     }
 
     public function count()
     {
-        return $this->_collection->getSize();
+        return $this->_getCollection()->getSize();
     }
 
     protected function _getCollection()
     {
+        if (!$this->_collection) {
+            $this->_initCollection();
+        }
         return $this->_collection;
     }
 

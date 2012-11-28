@@ -33,17 +33,12 @@ class Mage_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCase
         $this->assertSame('test', $this->_model->getInstanceType());
     }
 
-    public function testGetPackageGetThemeDefault()
+    public function testSetThemeId()
     {
-        $this->assertEquals(Mage_Core_Model_Design_Package::DEFAULT_PACKAGE, $this->_model->getPackage());
-        $this->assertEquals(Mage_Core_Model_Design_Package::DEFAULT_THEME, $this->_model->getTheme());
-    }
+        $theme = Mage::getDesign()->setDefaultDesignTheme()->getDesignTheme();
+        $this->_model->setThemeId($theme->getId());
 
-    public function testGetPackageGetTheme()
-    {
-        $this->_model->setPackageTheme('some_package/some_theme');
-        $this->assertEquals('some_package', $this->_model->getPackage());
-        $this->assertEquals('some_theme', $this->_model->getTheme());
+        $this->assertEquals($theme->getId(), $this->_model->getThemeId());
     }
 
     /**

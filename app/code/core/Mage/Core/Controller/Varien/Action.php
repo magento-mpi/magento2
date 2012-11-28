@@ -551,8 +551,19 @@ abstract class Mage_Core_Controller_Varien_Action implements Mage_Core_Controlle
     {
         $area = Mage::app()->getArea($this->getLayout()->getArea());
         $area->load();
+        $this->_initDefaultTheme();
         $area->detectDesign($this->getRequest());
+        return $this;
+    }
 
+    /**
+     * Initialize theme
+     *
+     * @return Mage_Core_Controller_Varien_Action
+     */
+    protected function _initDefaultTheme()
+    {
+        Mage::getDesign()->setDefaultDesignTheme();
         return $this;
     }
 

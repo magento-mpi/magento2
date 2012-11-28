@@ -51,4 +51,5 @@ return array(
     $this->_getRule('_ship_id'),
     $this->_getRule('_sortedChildren'),
     $this->_getRule('_sortInstructions'),
+    $this->_getRule('_config', 'Mage_Core_Model_Design_Package'),
 );
