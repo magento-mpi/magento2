@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
 
 return array(
     'config' => array(
@@ -27,14 +26,14 @@ return array(
                                     'field_2' => array(
                                         'id' => '*/*/field_2',
                                         'value' => 10,
-                                    )
-                                )
+                                    ),
+                                ),
                             ),
                             'children' => array(
                                 'field_2' => array(
                                     'id' => 'field_2',
                                     '_elementType' => 'field',
-                                )
+                                ),
                             ),
                         ),
                         'group_2' => array(
@@ -46,7 +45,7 @@ return array(
                                     '_elementType' => 'field',
                                 )
                             ),
-                        )
+                        ),
                     ),
                 ),
                 'section_2' => array(
@@ -65,14 +64,14 @@ return array(
                                         'fields' => array(
                                             'field_4' => array(
                                                 'id' => '*/*/field_4',
-                                                'value' => 'someValue'
+                                                'value' => 'someValue',
                                             ),
                                             'field_1' => array(
                                                 'id' => 'section_1/*/field_1',
-                                                'value' => 'someValue'
-                                            )
-                                        )
-                                    )
+                                                'value' => 'someValue',
+                                            ),
+                                        ),
+                                    ),
                                 ),
                                 'field_4' => array(
                                     'id' => 'field_4',
@@ -82,10 +81,10 @@ return array(
                                         'fields' => array(
                                             'field_3' => array(
                                                 'id' => '*/*/field_3',
-                                                'value' => 0
-                                            )
-                                        )
-                                    )
+                                                'value' => 0,
+                                            ),
+                                        ),
+                                    ),
                                 ),
                                 'group_4_1' => array(
                                     'id' => 'group_4_1',
@@ -95,9 +94,9 @@ return array(
                                         'fields' => array(
                                             'field_3' => array(
                                                 'id' => '*/*/field_3',
-                                                'value' => 0
-                                            )
-                                        )
+                                                'value' => 0,
+                                            ),
+                                        ),
                                     ),
                                     'children' => array(
                                         'field_5' => array(
@@ -108,18 +107,18 @@ return array(
                                                 'fields' => array(
                                                     'field_4' => array(
                                                         'id' => '*/*/*/field_4',
-                                                        'value' => 'someValue'
+                                                        'value' => 'someValue',
                                                     ),
-                                                )
-                                            )
+                                                ),
+                                            ),
                                         ),
                                     ),
                                 ),
                             ),
-                        )
-                    )
-                )
-            )
-        )
-    )
+                        ),
+                    ),
+                ),
+            ),
+        ),
+    ),
 );

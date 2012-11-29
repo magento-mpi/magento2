@@ -29,28 +29,40 @@ class Mage_Backend_Model_Config_Structure_Mapper_Dependencies extends Mage_Backe
         return $data;
     }
 
-    protected function _processConfig($groupConfig)
+    /**
+     * Process configuration
+     *
+     * @param array $config
+     * @return array
+     */
+    protected function _processConfig($config)
     {
-        $groupConfig = $this->_processDepends($groupConfig);
+        $config = $this->_processDepends($config);
 
-        if ($this->_hasValue('children', $groupConfig)) {
-            foreach ($groupConfig['children'] as &$fieldConfig) {
-                $fieldConfig = $this->_processConfig($fieldConfig);
+        if ($this->_hasValue('children', $config)) {
+            foreach ($config['children'] as &$subConfig) {
+                $subConfig = $this->_processConfig($subConfig);
             }
         }
-        return $groupConfig;
+        return $config;
     }
 
-    protected function _processDepends($groupConfig)
+    /**
+     * Process dependencies configuration
+     *
+     * @param array $config
+     * @return array
+     */
+    protected function _processDepends($config)
     {
-        if ($this->_hasValue('depends/fields', $groupConfig)) {
-            foreach ($groupConfig['depends']['fields'] as &$field) {
-                $dependPath = $this->_getDependPath($field, $groupConfig);
+        if ($this->_hasValue('depends/fields', $config)) {
+            foreach ($config['depends']['fields'] as &$field) {
+                $dependPath = $this->_getDependPath($field, $config);
                 $field['dependPath'] = $dependPath;
                 $field['id'] = implode('/', $dependPath);
             }
         }
-        return $groupConfig;
+        return $config;
     }
 
     /**
@@ -73,7 +85,6 @@ class Mage_Backend_Model_Config_Structure_Mapper_Dependencies extends Mage_Backe
         $elementPathParts = explode('/', $elementPath);
         $output = array();
         foreach ($dependPathParts as $index => $path) {
-
             if ($path === '*') {
                 if (false == array_key_exists($index, $elementPathParts)) {
                     throw new InvalidArgumentException('Invalid relative depends structure');
