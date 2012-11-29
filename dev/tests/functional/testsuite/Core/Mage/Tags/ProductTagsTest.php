@@ -179,11 +179,13 @@ class Core_Mage_Tags_ProductCreateTest extends Core_Mage_Tags_TagsFixtureAbstrac
         //Check records count
         $totalCount = intval($this->getControlAttribute('pageelement', 'qtyElementsInTable', 'text'));
         $this->assertEquals(1, $totalCount, 'Total records found is incorrect');
-        $this->assertNotNull($this->tagsHelper()->search(array('tag_name'                   => $tags['tag_name'],
-                                                               'status'                     => $tags['tag_status'],
-                                                               'tag_search_num_of_use_from' => $tags['base_popularity'],
-                                                               'tag_search_num_of_use_to'   => $tags['base_popularity']),
-            'tags_grid'), 'Tags search is failed: ' . print_r($tags['tag_name'], true));
+        $this->assertNotNull($this->tagsHelper()->search(
+            array(
+                'tag_name'                   => $tags['tag_name'],
+                'status'                     => $tags['tag_status'],
+                'tag_search_num_of_use_from' => $tags['base_popularity'],
+                'tag_search_num_of_use_to'   => $tags['base_popularity']), 'tags_grid'),
+        'Tags search is failed: ' . print_r($tags['tag_name'], true));
     }
     public function tagSearchNameDataProvider()
     {

@@ -427,7 +427,6 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
 
     /**
      * <p>Create Customer Page</p>
-
      *
      * @test
      * @depends preconditionsForTests
