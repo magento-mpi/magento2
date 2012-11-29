@@ -9,6 +9,7 @@
  * @license     {license_link}
  */
 
+//@codingStandardsIgnoreStart
 /**
  * Abstract test helper class
  *
@@ -232,6 +233,7 @@
  * @method string       windowHandles() Retrieves a list of all available window handles
  * @method void|string  url($url = null)
  */
+//@codingStandardsIgnoreEnd
 class Mage_Selenium_AbstractHelper
 {
     /**
