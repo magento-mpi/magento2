@@ -28,9 +28,7 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
     {
         $expected = array('tenantId' => '12345');
         Magento_Profiler::setDefaultTags($expected);
-        $reflectionProperty = new ReflectionProperty('Magento_Profiler', '_defaultTags');
-        $reflectionProperty->setAccessible(true);
-        $this->assertEquals($expected, $reflectionProperty->getValue());
+        $this->assertAttributeEquals($expected, '_defaultTags', 'Magento_Profiler');
     }
 
     public function testAddTagFilter()
@@ -43,13 +41,8 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
             'tag1' => array('value_1.1', 'value_1.2'),
             'tag2' => array('value_2.1'),
         );
-        $reflectionProperty = new ReflectionProperty('Magento_Profiler', '_tagFilters');
-        $reflectionProperty->setAccessible(true);
-        $this->assertEquals($expected, $reflectionProperty->getValue());
-
-        $reflectionProperty = new ReflectionProperty('Magento_Profiler', '_hasTagFilters');
-        $reflectionProperty->setAccessible(true);
-        $this->assertTrue($reflectionProperty->getValue());
+        $this->assertAttributeEquals($expected, '_tagFilters', 'Magento_Profiler');
+        $this->assertAttributeEquals(true, '_hasTagFilters', 'Magento_Profiler');
     }
 
     public function testAdd()
@@ -62,9 +55,7 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
         $expected = array(
             get_class($mock) => $mock
         );
-        $reflectionProperty = new ReflectionProperty('Magento_Profiler', '_drivers');
-        $reflectionProperty->setAccessible(true);
-        $this->assertEquals($expected, $reflectionProperty->getValue());
+        $this->assertAttributeEquals($expected, '_drivers', 'Magento_Profiler');
     }
 
     /**
@@ -203,39 +194,66 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
         Magento_Profiler::add($driver);
         Magento_Profiler::reset();
 
-        $reflectionProperty = new ReflectionProperty('Magento_Profiler', '_currentPath');
-        $reflectionProperty->setAccessible(true);
-        $this->assertEquals(array(), $reflectionProperty->getValue());
-
-        $reflectionProperty = new ReflectionProperty('Magento_Profiler', '_tagFilters');
-        $reflectionProperty->setAccessible(true);
-        $this->assertEquals(array(), $reflectionProperty->getValue());
-
-        $reflectionProperty = new ReflectionProperty('Magento_Profiler', '_defaultTags');
-        $reflectionProperty->setAccessible(true);
-        $this->assertEquals(array(), $reflectionProperty->getValue());
-
-        $reflectionProperty = new ReflectionProperty('Magento_Profiler', '_drivers');
-        $reflectionProperty->setAccessible(true);
-        $this->assertEquals(array(), $reflectionProperty->getValue());
-
-        $reflectionProperty = new ReflectionProperty('Magento_Profiler', '_hasTagFilters');
-        $reflectionProperty->setAccessible(true);
-        $this->assertFalse($reflectionProperty->getValue());
+        $this->assertAttributeEquals(array(), '_currentPath', 'Magento_Profiler');
+        $this->assertAttributeEquals(array(), '_tagFilters', 'Magento_Profiler');
+        $this->assertAttributeEquals(array(), '_defaultTags', 'Magento_Profiler');
+        $this->assertAttributeEquals(array(), '_drivers', 'Magento_Profiler');
+        $this->assertAttributeEquals(false, '_hasTagFilters', 'Magento_Profiler');
     }
 
-    public function testTagFilter()
+    /**
+     * @param string $timerName
+     * @param array $tags
+     * @dataProvider skippedFilterDataProvider
+     */
+    public function testTagFilterSkip($timerName, array $tags = null)
+    {
+        $driver = $this->_getDriverMock();
+        $driver->expects($this->never())
+            ->method('start');
+
+        Magento_Profiler::add($driver);
+        Magento_Profiler::addTagFilter('type', 'test');
+        Magento_Profiler::start($timerName, $tags);
+    }
+
+    /**
+     * @return array
+     */
+    public function skippedFilterDataProvider()
+    {
+        return array(
+            'no tags' => array('timer', null),
+            'no expected tags' => array('timer', array('tag' => 'value')),
+            'no expected tag value' => array('timer', array('type' => 'db')),
+        );
+    }
+
+    /**
+     * @param string $timerName
+     * @param array $tags
+     * @dataProvider passedFilterDataProvider
+     */
+    public function testTagFilterPass($timerName, array $tags = null)
     {
         $driver = $this->_getDriverMock();
         $driver->expects($this->once())
             ->method('start')
-            ->with('started_timer');
+            ->with($timerName, $tags);
 
         Magento_Profiler::add($driver);
         Magento_Profiler::addTagFilter('type', 'test');
-        Magento_Profiler::start('skipped1');
-        Magento_Profiler::start('skipped2', array('tag' => 'some'));
-        Magento_Profiler::start('skipped3', array('type' => 'some'));
-        Magento_Profiler::start('started_timer', array('type' => 'test'));
+        Magento_Profiler::start($timerName, $tags);
+    }
+
+    /**
+     * @return array
+     */
+    public function passedFilterDataProvider()
+    {
+        return array(
+            'one expected tag' => array('timer', array('type' => 'test')),
+            'more than one tag with expected' => array('timer', array('tag' => 'value', 'type' => 'test')),
+        );
     }
 }

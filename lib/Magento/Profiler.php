@@ -203,7 +203,7 @@ class Magento_Profiler
      * Start collecting statistics for specified timer
      *
      * @param string $timerName
-     * @param array $tags
+     * @param array|null $tags
      * @throws Varien_Exception
      */
     public static function start($timerName, array $tags = null)
