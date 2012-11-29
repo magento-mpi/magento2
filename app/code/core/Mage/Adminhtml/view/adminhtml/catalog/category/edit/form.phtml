@@ -41,15 +41,12 @@
     (function($) {
         $.mage.extend('categoryForm', 'form',
             '<?php echo $this->getViewFileUrl('Mage_Adminhtml::catalog/category/form.js') ?>');
-        $('#category_edit_form').mage({init: [
-            {name: 'categoryForm', options: {
-                refreshUrl: '<?php echo $this->getRefreshPathUrl() ?>'
-            }},
-            {name: 'validation', options: {submitHandler: function(form){
+        $('#category_edit_form')
+            .mage('categoryForm', {refreshUrl: '<?php echo $this->getRefreshPathUrl() ?>'})
+            .mage('validation', {submitHandler: function(form){
                 form.submit();
                 displayLoadingMask();
-            }}}
-        ]});
+            }});
     })(jQuery);
 <?php if(($block = $this->getLayout()->getBlock('category.product.grid')) && ($_gridJsObject=$block->getJsObjectName())): ?>
 

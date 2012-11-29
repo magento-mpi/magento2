@@ -28,7 +28,7 @@ Enterprise.Staging.Mapper.prototype = {
     {
         this.formId = mergeForm;
         // Temporary solution will be replaced after refactoring of newsletter functionality
-        this.mergeForm = jQuery('#' + this.formId).mage({init: [{name: 'form'}, {name: 'validation'}]});
+        this.mergeForm = jQuery('#' + this.formId).mage('form').mage('validation');
         this.containerId            = containerId;
         this.tableContainerId       = this.containerId + '_table';
         this.tableRowsContainerId   = this.containerId + '_rows';
@@ -449,7 +449,7 @@ Enterprise.Staging.Form.prototype = {
         this.formId         = formId;
 
         // Temporary solution will be replaced after refactoring of newsletter functionality
-        this.form           =  jQuery('#' + this.formId).mage({init: {name: 'form'}});
+        this.form           =  jQuery('#' + this.formId).mage('form');
 
         this.items          = new $H(items);
 

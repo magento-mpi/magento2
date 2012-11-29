@@ -40,10 +40,8 @@
 <script type="text/javascript">
 //<![CDATA[
     var productTemplateSyntax = /(^|.|\r|\n)({{(\w+)}})/;
-    jQuery('#product-edit-form').mage({init: [
-        {name: 'form'},
-        {name: 'validation', options: {validationUrl: '<?php echo $this->getValidationUrl() ?>'}}
-    ]});
+    jQuery('#product-edit-form').mage('form')
+        .mage('validation', {validationUrl: '<?php echo $this->getValidationUrl() ?>'});
     function setSettings(urlTemplate, setElement, typeElement) {
         var template = new Template(urlTemplate, productTemplateSyntax);
         setLocation(template.evaluate({attribute_set:$F(setElement),type:$F(typeElement)}));

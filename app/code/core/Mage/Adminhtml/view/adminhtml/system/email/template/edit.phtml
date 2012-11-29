@@ -95,9 +95,9 @@
 </form>
 <script type="text/javascript">
 //<![CDATA[
-    jQuery('#email_template_edit_form').mage({init: [{name: 'form'}, {name: 'validation'}]});
-    jQuery('#email_template_preview_form').mage({init: [{name: 'form'}, {name: 'validation'}]});
-    jQuery('#email_template_load_form').mage({init: {name: 'validation'}});
+    jQuery('#email_template_edit_form').mage('form').mage('validation');
+    jQuery('#email_template_preview_form').mage('form').mage('validation');
+    jQuery('#email_template_load_form').mage('validation');
     var templateControl = {
         unconvertedText: '',
         typeChange: false,

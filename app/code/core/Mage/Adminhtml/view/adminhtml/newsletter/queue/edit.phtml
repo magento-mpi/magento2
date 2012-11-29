@@ -42,8 +42,8 @@
 </form>
 <script type="text/javascript">
 //<![CDATA[
-jQuery('#queue_edit_form').mage({init: [{name: 'form'}, {name: 'validation'}]});
-jQuery('#newsletter_queue_preview_form').mage({init: [{name: 'form'}, {name: 'validation'}]});
+jQuery('#queue_edit_form').mage('form').mage('validation');
+jQuery('#newsletter_queue_preview_form').mage('form').mage('validation');
 
 var queueControl = {
     id: 'text',

@@ -75,19 +75,16 @@ jQuery(function ($) {
          * Show loader on ajax send
          */
         $('body').on('ajaxSend', function(e) {
-            $(e.target).mage({init: {
-                name: 'loader',
-                options: {
-                    icon: $('#loading_mask_loader img').attr('src'),
-                    showOnInit: true
-                }
-            }});
+            $(e.target).mage('loader', {
+                icon: $('#loading_mask_loader img').attr('src'),
+                showOnInit: true
+            });
         });
 
         /*
          * Initialization of notification widget
          */
-         $('#messages').mage({init: {name: 'notification'}});
+         $('#messages').mage('notification');
     };
 
     $(bootstrap);

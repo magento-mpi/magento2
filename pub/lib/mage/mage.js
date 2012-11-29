@@ -10,136 +10,156 @@
 /*global head:true */
 (function($) {
     "use strict";
-    $.widget('mage.mage', {
-        resources: {},
-
+    /**
+     * Main namespace for Magento extansions
+     * @type {Object}
+     */
+    $.mage = {
         /**
-         * Process all inits
-         * @protected
+         * Convert passed argument into an array
+         * @param {(undefined|Object|Array)} a
+         * @return {Array}
          */
-        _init: function() {
-            var inits = $.mage.toArray(this.element.data('mage-init'));
-            inits.push.apply(inits, $.mage.toArray(this.options.init));
-            $.each(inits, $.proxy(function(i, init){
-                this._initComponent(init);
-            }, this));
+        toArray: function(a) {
+            return $.isArray(a) ? a : !a ? [] : [a];
+        }
+    };
+})(jQuery);
+
+/**
+ * Plugin mage and group of heplers for it
+ */
+(function($) {
+    "use strict";
+    /**
+     * Plugin mage, initialize components on elements
+     * @param {string} name — component name
+     * @param {}
+     * @return {Object}
+     */
+    $.fn.mage = function() {
+        var args = Array.prototype.slice.call(arguments),
+            name = args.shift();
+        return this.each(function(){
+            var inits = $(this).data('mage-init') || {};
+            if (name) {
+                inits[name] = args;
+            }
+            $.each(inits, $.proxy(_initComponent, this));
+        });
+    };
+
+    /**
+     * Storage of declared resources
+     * @type {Object}
+     * @private
+     */
+    var _resources = {};
+
+    /**
+     * Execute initialization callback when all resources are loaded
+     * @param {Array} args - list of resources
+     * @param {Function} handler - initialization callback
+     * @private
+     */
+    function _onload(args, handler) {
+        args.push(handler);
+        head.js.apply(head, args);
+    }
+
+    /**
+     * Run initialization of a component
+     * @param {Object} init - setting for a component in format
+     *      {name: {string}[, options: {Object}][, args: {Array}][, resources: {Array}]}
+     * @private
+     */
+    function _initComponent(name, args) {
+        /*jshint validthis: true */
+        var init = {
+            name: name,
+            args: $.mage.toArray(args),
+            resources: (_resources[name] || []).slice()
+        };
+        // Through event-listener 3-rd party developer can modify options and list of resources
+        $($.mage).trigger($.Event(name + 'init', {target: this}), init);
+        // Buid an initialization handler
+        var handler = $.proxy(function() {
+            this[init.name].apply(this, init.args);
+        }, $(this));
+        if (init.resources.length) {
+            _onload(init.resources, handler);
+        } else {
+            handler();
+        }
+    }
+
+    $.extend($.mage, {
+        /**
+         * Handler of components declared through data attribute
+         * @param {(null|Element)} context
+         * @return {(null|Element)}
+         */
+        init: function(context) {
+            $('[data-mage-init]', context || document).mage();
+            return context;
         },
 
         /**
-         * Run initialization of a component
-         * @param {Object} init - setting for a component in format
-         *      {name: {string}[, options: {Object}][, args: {Array}][, resources: {Array}]}
-         * @private
+         * Declare a new component based on already declared one in the mage widget
+         * @param {string} component - name of a new component
+         *      (can be the same as a name of super component)
+         * @param {string} from - name of super component
+         * @param {(undefined|Object|Array)} resources - list of resources
+         * @return {Object} $.mage
          */
-        _initComponent: function(init){
-            // there's nothing to do if name is undefined
-            if (!init.name) {
-                return;
-            }
-            init.options = init.options || {};
-            init.resources = (init.resources || this.resources[init.name] || []).slice();
-
-            // Through event-listener 3-rd party developer can modify options and list of resources
-            $($.mage).trigger($.Event(init.name + 'init', {target: this.element}), init);
-
-            var handler = $.proxy(function() {
-                this[init.name](init.options);
-            }, this.element);
-
-            if (init.resources.length) {
-                this._onload(init.resources, handler);
-            } else {
-                handler();
-            }
+        extend: function(component, from, resources) {
+            resources = $.merge(
+                (_resources[from] || []).slice(),
+                this.toArray(resources)
+            );
+            this.component(component, resources);
+            return this;
         },
 
         /**
-         * Initializate inits when all resources are loaded
-         * @param {Array} resources - list of resources
-         * @param {Function} handler - initialization callback
-         * @private
+         * Declare a new component or several components at a time in the mage widget
+         * @param {(string|Object)} component - name of component
+         *      or several componets with lists of required resources
+         *      {component1: {Array}, component2: {Array}}
+         * @param {(string|Array)} resources - URL of one resource or list of URLs
+         * @return {Object} $.mage
          */
-        _onload: function(resources, handler) {
-            var args = resources;
-            args.push(handler);
-            head.js.apply(head, args);
+        component: function(component) {
+            if ($.isPlainObject(component)) {
+                $.extend(_resources, component);
+            } else if (typeof component === 'string' && arguments[1]) {
+                _resources[component] = this.toArray(arguments[1]);
+            }
+            return this;
+        },
+
+        /**
+         * Helper allows easily bind handler with component's initialisation
+         * @param {string} component - name of a component
+         *      which initialization shold be customized
+         * @param {(string|Function)} selector - filter of component's elements
+         *      or a handler function if selector is not defined
+         * @param {Function} handler - handler function
+         * @return {Object} $.mage
+         */
+        onInit: function(component, selector, handler) {
+            if (!handler) {
+                handler = selector;
+                selector = null;
+            }
+            $(this).bind(component + 'init', function(e, init) {
+                if (!selector || $(e.target).is(selector)) {
+                    handler.apply(init, init.args || this.toArray(init.options));
+                }
+            });
+            return this;
         }
     });
-
-    /**
-     * Handler of components declared through data attribute
-     * @param {(null|Element)} context
-     * @return {(null|Element)}
-     */
-    $.mage.init = function(context) {
-        $('[data-mage-init]', context || document).mage();
-        return context;
-    };
-
-    /**
-     * Declare a new component based on already declared one in the mage widget
-     * @param {string} component - name of a new component
-     *      (can be the same as a name of super component)
-     * @param {string} from - name of super component
-     * @param {(undefined|Object|Array)} resources - list of resources
-     * @return {Object} $.mage
-     */
-    $.mage.extend = function(component, from, resources) {
-        resources = $.merge(
-            ($.mage.mage.prototype.resources[from] || []).slice(),
-            this.toArray(resources)
-        );
-        this.component(component, resources);
-        return $.mage;
-    };
-
-    /**
-     * Declare a new component or several components at a time in the mage widget
-     * @param {(string|Object)} component - name of component
-     *      or several componets with lists of required resources
-     *      {component1: {Array}, component2: {Array}}
-     * @param {(string|Array)} resources - URL of one resource or list of URLs
-     * @return {Object} $.mage
-     */
-    $.mage.component = function(component) {
-        if ($.isPlainObject(component)) {
-            $.extend(true, $.mage.mage.prototype.resources, component);
-        } else if (typeof component === 'string' && arguments[1]) {
-            this.mage.prototype.resources[component] = this.toArray(arguments[1]);
-        }
-        return $.mage;
-    };
-
-    /**
-     * Helper allows easily bind handler with component's initialisation
-     * @param {string} component - name of a component
-     *      which initialization shold be customized
-     * @param {(string|Function)} selector - filter of component's elements
-     *      or a handler function if selector is not defined
-     * @param {Function} handler - handler function
-     * @return {Object} $.mage
-     */
-    $.mage.onInit = function(component, selector, handler) {
-        if (!handler) {
-            handler = selector;
-            selector = null;
-        }
-        $($.mage).bind(component + 'init', function(e, init) {
-            if (!selector || $(e.target).is(selector)) {
-                handler.apply(init, init.args || $.mage.toArray(init.options));
-            }
-        });
-        return $.mage;
-    };
-
-    /**
-     * Convert passed argument into an array
-     * @param {(undefined|Object|Array)} a
-     * @return {Array}
-     */
-    $.mage.toArray = function(a) {
-        return $.isArray(a) ? a : !a ? [] : [a];
-    };
 })(jQuery);
 
 
