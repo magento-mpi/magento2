@@ -142,9 +142,9 @@ class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_S
             foreach ($section['children'] as $group) {
                 if (isset($group['children'])) {
                     $path = $section['id'] . '/' . $group['id'];
-                    $result = $result + $this->_getGroupFieldPathsByAttribute(
+                    $result = array_merge($result, $this->_getGroupFieldPathsByAttribute(
                         $group['children'], $path, $attributeName, $attributeValue
-                    );
+                    ));
                 }
             }
         }

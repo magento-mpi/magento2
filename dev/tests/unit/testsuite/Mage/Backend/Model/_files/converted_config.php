@@ -79,6 +79,7 @@ return array(
                                                     'id' => 'field_3.1.1',
                                                     'translate' => 'label',
                                                     'showInWebsite' => '1',
+                                                    'backend_model' => 'Mage_Backend_Model_Config_Backend_Encrypted',
                                                     'type' => 'text',
                                                     'label' => 'Field 3.1.1',
                                                     '_elementType' => 'field',

@@ -19,7 +19,7 @@ class Mage_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestCase
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_flyweightPoolMock;
+    protected $_flyweightFactory;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -43,8 +43,8 @@ class Mage_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_flyweightPoolMock = $this->getMock(
-            'Mage_Backend_Model_Config_Structure_Element_FlyweightPool', array(), array(), '', false
+        $this->_flyweightFactory = $this->getMock(
+            'Mage_Backend_Model_Config_Structure_Element_FlyweightFactory', array(), array(), '', false
         );
         $this->_tabIteratorMock = $this->getMock(
             'Mage_Backend_Model_Config_Structure_Element_Iterator_Tab', array(), array(), '', false
@@ -55,6 +55,7 @@ class Mage_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestCase
         $this->_scopeDefinerMock = $this->getMock(
             'Mage_Backend_Model_Config_ScopeDefiner', array(), array(), '', false
         );
+        $this->_scopeDefinerMock->expects($this->any())->method('getScope')->will($this->returnValue('scope'));
 
         $filePath = dirname(__DIR__) . '/_files';
         $this->_structureData = require $filePath . '/converted_config.php';
@@ -62,8 +63,18 @@ class Mage_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_structureData['config']['system'])
         );
         $this->_model = new Mage_Backend_Model_Config_Structure(
-            $this->_readerMock, $this->_tabIteratorMock, $this->_flyweightPoolMock, $this->_scopeDefinerMock
+            $this->_readerMock, $this->_tabIteratorMock, $this->_flyweightFactory, $this->_scopeDefinerMock
         );
+    }
+
+    protected function tearDown()
+    {
+        unset($this->_flyweightFactory);
+        unset($this->_scopeDefinerMock);
+        unset($this->_structureData);
+        unset($this->_tabIteratorMock);
+        unset($this->_readerMock);
+        unset($this->_model);
     }
 
     public function testGetTabsBuildsSectionTree()
@@ -76,25 +87,65 @@ class Mage_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestCase
         ));
         $expected = array('tab1' => array('children' => array('section1' => array('tab' => 'tab1'))));
         $model = new Mage_Backend_Model_Config_Structure(
-            $this->_readerMock, $this->_tabIteratorMock, $this->_flyweightPoolMock, $this->_scopeDefinerMock
+            $this->_readerMock, $this->_tabIteratorMock, $this->_flyweightFactory, $this->_scopeDefinerMock
         );
         $this->_tabIteratorMock->expects($this->once())->method('setElements')->with($expected);
         $this->assertEquals($this->_tabIteratorMock, $model->getTabs());
     }
 
-    public function testGetElementReturnsProperElementByPath()
-    {
-        $section = $this->_structureData['config']['system']['sections']['section_1'];
-        $fields = $section['children']['group_level_1']['children'];
-        $this->_flyweightPoolMock->expects($this->once())->method('getFlyweight')
-            ->with($fields['field_3'])
-            ->will($this->returnValue('expected'));
-        $this->assertEquals('expected', $this->_model->getElement('section_1/group_2/field_3'));
-    }
-
     public function testGetElementReturnsNullIfNotExistingElementIsRequested()
     {
-        $this->_flyweightPoolMock->expects($this->never())->method('getFlyweight');
+        $this->_flyweightFactory->expects($this->never())->method('create');
         $this->assertNull($this->_model->getElement('section_1/group_2/nonexisting_field'));
+    }
+
+    public function testGetElementReturnsProperElementByPath()
+    {
+        $elementMock = $this->getMock('Mage_Backend_Model_Config_Structure_Element_Field', array(), array(), '', false);
+        $section = $this->_structureData['config']['system']['sections']['section_1'];
+        $fieldData = $section['children']['group_level_1']['children']['field_3'];
+        $elementMock->expects($this->once())->method('setData')->with($fieldData, 'scope');
+
+        $this->_flyweightFactory->expects($this->once())->method('create')
+            ->with('field')
+            ->will($this->returnValue($elementMock));
+        $this->assertEquals($elementMock, $this->_model->getElement('section_1/group_level_1/field_3'));
+    }
+
+    public function testGetElementReturnsProperElementByPathCachesObject()
+    {
+        $elementMock = $this->getMock('Mage_Backend_Model_Config_Structure_Element_Field', array(), array(), '', false);
+        $section = $this->_structureData['config']['system']['sections']['section_1'];
+        $fieldData = $section['children']['group_level_1']['children']['field_3'];
+        $elementMock->expects($this->once())->method('setData')->with($fieldData, 'scope');
+
+        $this->_flyweightFactory->expects($this->once())->method('create')
+            ->with('field')
+            ->will($this->returnValue($elementMock));
+        $this->assertEquals($elementMock, $this->_model->getElement('section_1/group_level_1/field_3'));
+        $this->assertEquals($elementMock, $this->_model->getElement('section_1/group_level_1/field_3'));
+    }
+
+    /**
+     * @param $attributeName
+     * @param $attributeValue
+     * @param $paths
+     * @dataProvider getFieldPathsByAttributeDataProvider
+     */
+    public function testGetFieldPathsByAttribute($attributeName, $attributeValue, $paths)
+    {
+        $this->assertEquals($paths, $this->_model->getFieldPathsByAttribute($attributeName, $attributeValue));
+    }
+
+    public function getFieldPathsByAttributeDataProvider()
+    {
+        return array(
+            array('backend_model', 'Mage_Backend_Model_Config_Backend_Encrypted', array(
+                'section_1/group_1/field_2',
+                'section_1/group_level_1/group_level_2/group_level_3/field_3.1.1',
+                'section_2/group_3/field_4',
+            )),
+            array('attribute_2', 'test_value_2', array('section_2/group_3/field_4'))
+        );
     }
 }
