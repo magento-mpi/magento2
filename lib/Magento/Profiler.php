@@ -251,13 +251,13 @@ class Magento_Profiler
             throw new Varien_Exception($exceptionMsg);
         }
 
-        /* Move one level up in timers nesting tree */
-        array_pop(self::$_currentPath);
-
         $timerId = self::_getTimerId();
         /** @var Magento_Profiler_DriverInterface $driver */
         foreach (self::$_drivers as $driver) {
             $driver->stop($timerId);
         }
+
+        /* Move one level up in timers nesting tree */
+        array_pop(self::$_currentPath);
     }
 }
