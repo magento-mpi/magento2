@@ -29,10 +29,11 @@ class Mage_Launcher_Model_Tile_StateResolverStub implements Mage_Launcher_Model_
     *
     * @param Mage_Core_Model_Config $config
     * @param string $sectionName
+    * @param int $currentState current state of the tile
     * @return int result state
     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
     */
-    public function handleSystemConfigChange(Mage_Core_Model_Config $config, $sectionName)
+    public function handleSystemConfigChange(Mage_Core_Model_Config $config, $sectionName, $currentState)
     {
         return Mage_Launcher_Model_Tile::STATE_COMPLETE;
     }
