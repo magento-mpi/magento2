@@ -181,30 +181,19 @@ if (count($this->getSelectedAttributes())) {
         } else {
 ?>
         <tr class="<?php echo $isEven ? 'even' : '' ?>">
-            <td class="associated-matrix-product-name"></td>
-            <td class="associated-matrix-product-price"></td>
-            <td><span class="associated-matrix-product-sku"></span>
+            <td class="associated-matrix-product-name"><input value="<?php echo $this->_getProduct()->getName(), '-', implode('-', $attributeLabels)?>"/></td>
+            <td class="associated-matrix-product-price"><input value="<?php echo $this->_getProduct()->getPrice()?>"/></td>
+            <td class="associated-matrix-product-sku"><input value="<?php echo $this->_getProduct()->getSku(), '-', implode('-', $attributeLabels)?>"/>
                 <button class="choose-product"
-                        data-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"
-                        style="float:right">
+                    data-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"
+                    style="float:right">
                     Choose
                 </button>
             </td>
-            <td class="associated-matrix-product-qty"></td>
-            <td class="associated-matrix-product-weight"></td>
-<!--            <td><input class="associated-matrix-product-name" value="--><?php //echo $this->_getProduct()->getName(), ' ', implode(' ', $attributeValues)?><!--"></td>-->
-<!--            <td><input class="associated-matrix-product-price" value=""></td>-->
-<!--            <td><input class="associated-matrix-product-sku" value="--><?php //echo $this->_getProduct()->getSku(), '-', implode('-', $attributeValues)?><!--">-->
-<!--                <button class="choose-product"-->
-<!--                    data-attributes="--><?php //echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?><!--"-->
-<!--                    style="float:right">-->
-<!--                    Choose-->
-<!--                </button>-->
-<!--            </td>-->
-<!--            <td><input class="associated-matrix-product-qty" value=""></td>-->
-<!--            <td><input class="associated-matrix-product-weight" value=""></td>-->
+            <td class="associated-matrix-product-qty"><input value=""></td>
+            <td class="associated-matrix-product-weight"><input value="<?php echo $this->_getProduct()->getWeight()?>"></td>
             <td><?php echo implode('</td><td>', $attributeLabels)?></td>
-            <td class="a-center"><input type="checkbox" name="associated_product_ids[]" value="" class="checkbox associated-matrix-product-id" disabled="disabled"></td>
+            <td class="a-center"><input type="checkbox" name="associated_product_ids[]" value="" class="checkbox associated-matrix-product-id" checked="checked"></td>
         </tr>
 <?php
         }
@@ -280,8 +269,10 @@ jQuery(function($) {
 
             $.each(productFields, function() {
                 var target = $matrixRow.find(matrixClass + this),
-                    value = $.trim($gridRow.find(associatedClass + this).text());
-                target[target.is('input') ? 'val' : 'html'](value);
+                    value = $.trim($gridRow.find(associatedClass + this).text()),
+                    button = target.find('button.choose-product');
+
+                target.html(value).append(button);
             });
             $matrixRow.find(matrixClass + 'id').attr('checked', true).removeAttr('disabled');
             $gridDialog.dialog('close');
