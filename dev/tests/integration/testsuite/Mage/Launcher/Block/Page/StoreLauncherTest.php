@@ -16,8 +16,8 @@ class Mage_Launcher_Block_Page_StoreLauncherTest extends PHPUnit_Framework_TestC
 {
     public function testGetTiles()
     {
-        /** @var $block Mage_Launcher_Block_LandingPage */
-        $block = Mage::getObjectManager()->create('Mage_Launcher_Block_LandingPage');
+        /** @var $block Mage_Launcher_Block_Page_StoreLauncher */
+        $block = Mage::getObjectManager()->create('Mage_Launcher_Block_Page_StoreLauncher');
 
         $this->assertInstanceOf('Mage_Launcher_Model_Page', $block->getPage());
     }

@@ -25,6 +25,11 @@ class Mage_Launcher_Block_LandingPage extends Mage_Backend_Block_Abstract
     protected $_pageCode = '';
 
     /**
+     * @var Mage_Launcher_Model_PageFactory
+     */
+    protected $_pageFactory;
+
+    /**
      * Page Model
      *
      * @var Mage_Launcher_Model_Page
@@ -43,18 +48,13 @@ class Mage_Launcher_Block_LandingPage extends Mage_Backend_Block_Abstract
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Launcher_Model_PageFactory $pageFactory,
         array $data = array()
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
             $session, $storeConfig, $frontController, $helperFactory, $data
         );
-
-        if (isset($data['page'])) {
-            $this->_page = $data['page'];
-            $this->_pageCode = $this->_page->getCode();
-        } else {
-            $this->_page = Mage::getModel('Mage_Launcher_Model_Page')->loadByCode($this->_pageCode);
-        }
+        $this->_pageFactory = $pageFactory;
     }
 
     /**
@@ -64,7 +64,22 @@ class Mage_Launcher_Block_LandingPage extends Mage_Backend_Block_Abstract
      */
     public function getPage()
     {
+        if (!$this->_page) {
+            $this->_page = $this->_pageFactory->create()->loadByCode($this->_pageCode);
+        }
         return $this->_page;
+    }
+
+    /**
+     * Sets Page
+     *
+     * @param $page Mage_Launcher_Model_Page
+     * @return Mage_Launcher_Block_LandingPage
+     */
+    public function setPage($page)
+    {
+        $this->_page = $page;
+        return $this;
     }
 
     /**
