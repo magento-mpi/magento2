@@ -35,9 +35,9 @@ class Mage_Adminhtml_Catalog_ProductControllerTest extends PHPUnit_Framework_Tes
 
     protected function setUp()
     {
-        $this->_request = $this->getMockBuilder('Zend_Controller_Request_Abstract')
+        $this->_request = $this->getMockBuilder('Mage_Core_Controller_Request_Http')
             ->setMethods(array('getPost', 'getParam'))->getMock();
-        $this->_response = $this->getMockBuilder('Zend_Controller_Response_Abstract')->getMock();
+        $this->_response = $this->getMockBuilder('Mage_Core_Controller_Response_Http')->getMock();
         $this->_objectManager = $this->getMockBuilder('Magento_ObjectManager')->getMock();
         $frontController = $this->getMockBuilder('Mage_Core_Controller_Varien_Front')->getMock();
 
@@ -47,7 +47,7 @@ class Mage_Adminhtml_Catalog_ProductControllerTest extends PHPUnit_Framework_Tes
         $translatorMock = $this->getMockBuilder('Mage_Core_Model_Translate')->getMock();
 
         $this->_controller = $this->getMockBuilder('Mage_Adminhtml_Catalog_ProductController')
-            ->setMethods(array('loadLayout', '_initProduct', '_initProductSave', '_redirect'))
+            ->setMethods(array('loadLayout', '_initProduct', '_initProductSave', '_redirect', '__'))
             ->setConstructorArgs(array(
                 $this->_request,
                 $this->_response,
@@ -60,6 +60,7 @@ class Mage_Adminhtml_Catalog_ProductControllerTest extends PHPUnit_Framework_Tes
                 )
             ))
             ->getMock();
+        $this->_controller->expects($this->any())->method('__')->will($this->returnArgument(0));
     }
 
     /**

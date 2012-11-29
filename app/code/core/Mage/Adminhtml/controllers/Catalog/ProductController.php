@@ -686,8 +686,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
     /**
      * Save product action
-     *
-     * @throws Mage_Core_Exception
      */
     public function saveAction()
     {
@@ -704,7 +702,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
             try {
                 if (isset($data['product'][$product->getIdFieldName()])) {
-                    throw new Mage_Core_Exception('Unable to save product');
+                    throw new Mage_Core_Exception($this->__('Unable to save product'));
                 }
 
                 $originalSku = $product->getSku();
@@ -1012,7 +1010,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 //                Mage::throwException('data_invalid', implode("\n", $strErrors));
 //            }
             if (isset($requestData[$product->getIdFieldName()])) {
-                throw new Mage_Core_Exception('Unable to create product');
+                throw new Mage_Core_Exception($this->__('Unable to create product'));
             }
 
             $product->validate();
