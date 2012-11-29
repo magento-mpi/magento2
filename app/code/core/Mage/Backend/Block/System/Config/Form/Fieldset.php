@@ -81,7 +81,7 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
         /** @var Mage_Backend_Model_Config_Structure_Element_Group $group  */
         $group = $this->getGroup();
         $configCss = $group->getFieldsetCss();
-        return 'config collapseable' . $configCss ? $configCss . ' ' : '';
+        return 'config collapseable' . ($configCss ? ' ' . $configCss: '');
     }
 
     /**
