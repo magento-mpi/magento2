@@ -182,12 +182,8 @@ class Enterprise_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
      */
     public function receivingRewardPointsLimitation($testData)
     {
-        $tags = array(
-            $this->generate('string', 4, ':lower:'),
-            $this->generate('string', 4, ':lower:'),
-            $this->generate('string', 4, ':lower:'),
-            $this->generate('string', 4, ':lower:'),
-        );
+        $tags = array($this->generate('string', 4, ':lower:'), $this->generate('string', 4, ':lower:'),
+                      $this->generate('string', 4, ':lower:'), $this->generate('string', 4, ':lower:'),);
 
         $rewardTagConfig = $this->loadDataSet('General', 'enable_reward_points_for_tag_submission');
         $rewardPointsForTag =
@@ -195,15 +191,14 @@ class Enterprise_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
 
         $rewardTagLimitConfig = $this->loadDataSet('General', 'set_rewarded_tag_submission_quantity_limit');
         $rewardPointsLimit =
-            $rewardTagLimitConfig['tab_1']['configuration']['actions_for_acquiring_reward_points']['rewarded_tag_submission_limit'];
+            $rewardTagLimitConfig['tab_1']['configuration']['actions_for_acquiring_reward_points']
+            ['rewarded_tag_submission_limit'];
 
         $rewardBalance = $rewardPointsForTag * $rewardPointsLimit;
 
         //Step 1
-        $this->customerHelper()->frontLoginCustomer(array(
-                'email' => $testData['customer']['email'],
-                'password' => $testData['customer']['password'])
-        );
+        $this->customerHelper()->frontLoginCustomer(array('email'    => $testData['customer']['email'],
+                                                          'password' => $testData['customer']['password']));
         for ($i = 0; $i < 2; $i++) {
             //Steps 2, 5
             $this->productHelper()->frontOpenProduct($testData['product'][$i]);
@@ -220,9 +215,8 @@ class Enterprise_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
             }
             foreach ($addedTags[$i] as $tag) {
                 $this->navigate('manage_products');
-                $this->assertTrue($this->tagsHelper()->verifyTagProduct(
-                        array('tag_search_name' => $tag,
-                            'tag_search_email' => $testData['customer']['email']),
+                $this->assertTrue($this->tagsHelper()->verifyTagProduct(array('tag_search_name'  => $tag,
+                                                                'tag_search_email' => $testData['customer']['email']),
                         array('product_name' => $testData['product'][$i])),
                     'Customer tagged product verification failed');
             }
@@ -247,11 +241,15 @@ class Enterprise_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
         $this->assertEquals($rewardBalance, $this->customerHelper()->getRewardPointsBalance(),
             'Customer reward points balance is wrong');
         for ($i = 0; $i < $rewardPointsLimit; $i++) {
-            $this->assertNotNull($this->customerHelper()->searchRewardPointsHistoryRecord(array(
-                'Balance' => ($i + 1) * $rewardPointsForTag,
-                'Points' => '+' . $rewardPointsForTag,
-                'Reason' => 'For submitting tag (' . $tags[$i]['tag_name'] . ').',
-            )), 'Reward points history record is absent');
+            $this->assertNotNull($this->customerHelper()->searchRewardPointsHistoryRecord(array('Balance' => ($i + 1)
+                                                                                                * $rewardPointsForTag,
+                                                                                                'Points'  => '+'
+                                                                                                 . $rewardPointsForTag,
+                                                                                                'Reason'  =>
+                                                                                                'For submitting tag ('
+                                                                                                . $tags[$i]['tag_name']
+                                                                                                . ').',)),
+                'Reward points history record is absent');
         }
     }
 }

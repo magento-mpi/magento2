@@ -186,7 +186,6 @@ class Enterprise_Mage_Attributes_CustomerAddressAttribute_Create_AttachmentFileT
     /**
      * <p>Checking of correct validate of submitting form by using special
      * characters for all fields exclude 'Attribute Code' field.</p>
-
      *
      * @test
      * @depends withRequiredFieldsOnly

@@ -218,7 +218,8 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
     }
 
     /**
-     * <p>Catalog Price Rules page does not contain websites columns and multiselects if Single Store Mode is enabled.</p>
+     * <p>Catalog Price Rules page does not contain websites columns
+     *    and multiselects if Single Store Mode is enabled.</p>
      *
      * @test
      * @depends preconditionsForTests

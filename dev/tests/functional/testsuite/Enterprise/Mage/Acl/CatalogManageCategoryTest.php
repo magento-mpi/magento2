@@ -80,7 +80,8 @@ class Enterprise_Mage_Acl_CatalogManageCategoryTest extends Mage_Selenium_TestCa
         $this->categoryHelper()->checkCategoriesPage();
         //Verifying that button "Add Root Category" doesn't present on page
         if ($this->buttonIsPresent('add_root_category')) {
-            $this->fail("This user doesn't have permission to create root category.The button Create Root Category is present on page");
+            $this->fail("This user doesn't have permission to create root category.
+                       The button Create Root Category is present on page");
         }
         //Data
         $subCategoryData = $this->loadDataSet('Category', 'sub_category_required');

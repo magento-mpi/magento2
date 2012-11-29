@@ -78,7 +78,7 @@ class Enterprise_Mage_Acl_CmsPollTest extends Mage_Selenium_TestCase
                 $this->_getControlXpath('pageelement', 'navigation_children_menu_items'))),
             'Count of Top Navigation Menu elements not equal 1, should be equal');
         // Verify  that necessary elements are present on page
-        $elements = $this->loadDataSet('CmsPollElements','manage_cms_poll_elements');
+        $elements = $this->loadDataSet('CmsPollElements', 'manage_cms_poll_elements');
         $resultElementsArray = array();
         foreach ($elements as $key => $value) {
             $resultElementsArray = array_merge($resultElementsArray, (array_fill_keys(array_keys($value), $key)));

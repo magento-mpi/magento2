@@ -17,7 +17,7 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Selenium_TestCase
-{    
+{
     /**
      * <p>Enable Order By SKU functionality on Frontend</p>
      */
@@ -73,11 +73,12 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
     { 
         //Preconditions:    
         $this->frontend();
-        if ($this->controlIsPresent('link', 'log_in'))
+        if ($this->controlIsPresent('link', 'log_in')) {
             $this->customerHelper()->frontLoginCustomer($data['customer']);
+        }
         //Steps:
         $this->navigate('order_by_sku');    
-        $this->addBySkuHelper()->frontFulfillSkuQtyRows(array ('sku' => $data['simple_product']['sku'], 'qty' => $qty));   
+        $this->addBySkuHelper()->frontFulfillSkuQtyRows(array('sku' => $data['simple_product']['sku'], 'qty' => $qty));
         $this->clickButton('add_to_cart', false);
         $this->waitForAjax();
         //Verifying
@@ -108,13 +109,14 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
     {  
         //Preconditions:
         $this->shoppingCartHelper()->frontClearShoppingCart();
-        if ($this->controlIsPresent('link', 'log_in'))
+        if ($this->controlIsPresent('link', 'log_in')) {
             $this->customerHelper()->frontLoginCustomer($data['customer']);
+        }
         //Steps:
-        $this->navigate('order_by_sku');        
-        $this->clickButton('add_to_cart');        
+        $this->navigate('order_by_sku');
+        $this->clickButton('add_to_cart');
         //Verifying
-        $this->assertMessagePresent('error', 'no_product_added_by_sku');        
+        $this->assertMessagePresent('error', 'no_product_added_by_sku');
     }
     
     /**
@@ -130,8 +132,9 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
     { 
         //Preconditions:
         $this->shoppingCartHelper()->frontClearShoppingCart();
-        if ($this->controlIsPresent('link', 'log_in'))
+        if ($this->controlIsPresent('link', 'log_in')) {
             $this->customerHelper()->frontLoginCustomer($data['customer']);
+        }
         //Steps:
         $this->navigate('order_by_sku'); 
         $this->clickButton('add_row', false);  
@@ -155,17 +158,18 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
     {  
         //Preconditions:
         $this->frontend();
-        if ($this->controlIsPresent('link', 'log_in'))
+        if ($this->controlIsPresent('link', 'log_in')) {
             $this->customerHelper()->frontLoginCustomer($data['customer']);
+        }
         //Steps:
-        $this->navigate('order_by_sku'); 
-        $this->clickButton('add_row', false);     
-        $this->addBySkuHelper()->frontFulfillSkuQtyRows(array ('sku' => $data['simple_product']['sku'], 
-                                                          'qty' => '#$%'), array ('1'));
-        $this->addBySkuHelper()->frontFulfillSkuQtyRows($data['simple_product'], array('2'));        
-        $this->clickButton('add_to_cart',false);        
+        $this->navigate('order_by_sku');
+        $this->clickButton('add_row', false);
+        $this->addBySkuHelper()->frontFulfillSkuQtyRows(array('sku' => $data['simple_product']['sku'], 'qty' => '#$%'),
+            array('1'));
+        $this->addBySkuHelper()->frontFulfillSkuQtyRows($data['simple_product'], array('2'));
+        $this->clickButton('add_to_cart', false);
         //Verifying
-        $this->assertMessagePresent('error', 'sku_invalid_number');      
+        $this->assertMessagePresent('error', 'sku_invalid_number');
     }
     
     /**

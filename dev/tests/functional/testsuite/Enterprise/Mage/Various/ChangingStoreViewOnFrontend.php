@@ -32,20 +32,21 @@ class Enterprise_Mage_Various_ChangingStoreViewOnFrontend extends Mage_Selenium_
     public function changingStoreViewOnEnterpriseTheme()
     {
         $storeData = $this->loadDataSet('Store', 'generic_store');
-        $firstStoreViewData = $this->loadDataSet('StoreView', 'generic_store_view',
-            array('store_name' => $storeData['store_name']));
-        $secondStoreViewData = $this->loadDataSet('StoreView', 'generic_store_view',
-            array('store_name' => $storeData['store_name']));
+        $firstStoreViewData =
+            $this->loadDataSet('StoreView', 'generic_store_view', array('store_name' => $storeData['store_name']));
+        $secondStoreViewData =
+            $this->loadDataSet('StoreView', 'generic_store_view', array('store_name' => $storeData['store_name']));
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->openConfigurationTab('general_design');
-        $xpath = $this->_getControlXpath('link','design_theme_link');
+        $xpath = $this->_getControlXpath('link', 'design_theme_link');
         if (!$this->elementIsPresent($xpath . "[@class='open']")) {
-            $this->clickControl('link','design_theme_link', false);
+            $this->clickControl('link', 'design_theme_link', false);
         }
-        $dropdownXpath= $this->_getControlXpath('dropdown', 'design_theme');
-        if (!$this->elementIsPresent($dropdownXpath .
-            "//option[@selected='selected' and @value='enterprise/default/default']")) {
+        $dropdownXpath = $this->_getControlXpath('dropdown', 'design_theme');
+        if (!$this->elementIsPresent(
+            $dropdownXpath . "//option[@selected='selected' and @value='enterprise/default/default']")
+        ) {
             $this->fillDropdown('design_theme', 'enterprise/default/default');
             $this->clickButton('save_config');
             $this->assertMessagePresent('success', 'success_saved_config');

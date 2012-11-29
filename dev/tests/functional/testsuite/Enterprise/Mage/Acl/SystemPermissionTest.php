@@ -27,7 +27,6 @@ class Enterprise_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
     /**
      * <p>Precondition method</p>
      * <p>Admin user with Role System-Permissions is created.</p>
-
      *
      * @test
      * @return array

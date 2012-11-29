@@ -58,8 +58,11 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
         $this->validatePage('customer_shopping_cart');
     }
 
-    public function getProductInfoInTable($tableHeadName = 'product_table_head', $productTableLine = 'product_line', $skipFields = array('move_to_wishlist', 'remove'))
-    {
+    public function getProductInfoInTable(
+        $tableHeadName = 'product_table_head',
+        $productTableLine = 'product_line',
+        $skipFields = array('move_to_wishlist','remove')
+    ) {
         $productValues = array();
 
         $tableRowNames = $this->shoppingCartHelper()->getColumnNamesAndNumbers($tableHeadName);
@@ -93,8 +96,8 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
                         $values = array_map('trim', $values);
                         foreach ($values as $k => $v) {
                             if ($k % 2 != 0 && isset($values[$k - 1])) {
-                                $productValues['product_' . $i][$key . '_'
-                                        . strtolower(preg_replace('#[^0-9a-z]+#i', '', $values[$k - 1]))] = $v;
+                                $productValues['product_' . $i][
+                                $key . '_' . strtolower(preg_replace('#[^0-9a-z]+#i', '', $values[$k - 1]))] = $v;
                             }
                         }
                     } else {
@@ -156,19 +159,16 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
     {
         if (is_string($sku)) {
             $this->addParameter('skuProduct', $sku);
-            $this->assertTrue(
-                $this->controlIsPresent(
-                    'pageelement',
-                    $table), "There is no product with: $sku in $table grid"
-            );
+            $this->assertTrue($this->controlIsPresent('pageelement', $table),
+                "There is no product with: $sku in $table grid");
         }
         if (is_array($sku)) {
-            foreach ($sku as $value)
-            {
+            foreach ($sku as $value) {
                 $this->addParameter('skuProduct', $value);
                 if ($this->controlIsPresent('pageelement', $table)) {
+                } else {
+                    $this->addVerificationMessage("There is no product with: $value in $table grid");
                 }
-                else $this->addVerificationMessage("There is no product with: $value in $table grid");
             }
         }
         $this->assertEmptyVerificationErrors();
@@ -202,8 +202,9 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
         $this->addParameter($paramName, $rowCount);
     }
 
-    public function clearShoppingCartAndErrorTable() {
-//        $this->addBySkuHelper()->clearShoppingCart();
+    public function clearShoppingCartAndErrorTable()
+    {
+        //        $this->addBySkuHelper()->clearShoppingCart();
         $this->addBySkuHelper()->removeAllItemsFromErrorTable();
     }
 
@@ -218,11 +219,10 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
         return false;
     }
 
-    public function verifyErrorTableIsEmpty() {
-        $this->assertFalse($this->controlIsVisible('fieldset',
-                                                   'shopping_cart_error'),
-                                                   'Products are not deleted from attention grid'
-        );
+    public function verifyErrorTableIsEmpty()
+    {
+        $this->assertFalse($this->controlIsVisible('fieldset', 'shopping_cart_error'),
+            'Products are not deleted from attention grid');
     }
 
     //---------------------------------------------------Frontend-------------------------------------------------------

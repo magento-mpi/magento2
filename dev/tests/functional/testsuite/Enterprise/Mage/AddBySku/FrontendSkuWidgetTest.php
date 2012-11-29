@@ -17,7 +17,7 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class Enterprise_Mage_AddBySku_FrontendSkuWidgetTest extends Mage_Selenium_TestCase
-{    
+{
     /**
      * <p>Enable Order By SKU functionality on Frontend</p>
      */
@@ -240,7 +240,7 @@ class Enterprise_Mage_AddBySku_FrontendSkuWidgetTest extends Mage_Selenium_TestC
         $this->clickControl('link', 'sku_link');
         //Verifying
         $this->assertTrue($this->checkCurrentPage('customer_login'),
-                                                  'Guest should be redirected to Login or Create an Account page');        
+            'Guest should be redirected to Login or Create an Account page');
     }
     
     /**
@@ -330,7 +330,7 @@ class Enterprise_Mage_AddBySku_FrontendSkuWidgetTest extends Mage_Selenium_TestC
         $this->categoryHelper()->frontOpenCategory($category); 
         //Verifying
         $this->assertFalse($this->controlIsPresent('link', 'sku_link'),
-                                                   'The link on the Order by SKU widget should not be present. ');
+            'The link on the Order by SKU widget should not be present. ');
     }
     /**
      * <p>Displaing Link Text in the widget with disabled SKU functionality on Frontend</p>
@@ -353,7 +353,7 @@ class Enterprise_Mage_AddBySku_FrontendSkuWidgetTest extends Mage_Selenium_TestC
         $this->categoryHelper()->frontOpenCategory($category); 
         //Verifying
         $this->assertFalse($this->controlIsPresent('link', 'sku_link'),
-                                                   'The link on the Order by SKU widget should not be present. ');
+            'The link on the Order by SKU widget should not be present. ');
     }
     
     /**
@@ -373,9 +373,9 @@ class Enterprise_Mage_AddBySku_FrontendSkuWidgetTest extends Mage_Selenium_TestC
     public function qtyValidation($qty, $message, $category, $data)
     { 
         //Steps:
-        $this->frontend();  
+        $this->frontend();
         $this->categoryHelper()->frontOpenCategory($category);
-        $this->addBySkuHelper()->frontFulfillSkuQtyRows(array ('sku' => $data['simple_product']['sku'], 'qty' => $qty));   
+        $this->addBySkuHelper()->frontFulfillSkuQtyRows(array('sku' => $data['simple_product']['sku'], 'qty' => $qty));
         $this->clickButton('add_to_cart_by_sku', false);
         $this->waitForAjax();
         //Verifying

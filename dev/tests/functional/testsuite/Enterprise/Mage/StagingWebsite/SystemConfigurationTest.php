@@ -46,7 +46,6 @@ class Enterprise_Mage_StagingWebsite_SystemConfigurationTest extends Mage_Seleni
 
     /**
      * <p>Test Case TL-MAGE-2005: Automatically Create Entry Points</p>
-
      *
      * @test
      */

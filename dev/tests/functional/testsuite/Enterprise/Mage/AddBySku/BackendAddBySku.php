@@ -82,8 +82,8 @@ class Enterprise_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCas
      * @test
      * @TestlinkId	TL-MAGE-4051
      */
-      public function displayingAddBySku($customer)
-      {
+    public function displayingAddBySku($customer)
+    {
         //Steps
         $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer($customer);
@@ -110,7 +110,7 @@ class Enterprise_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCas
         $this->assertTrue($this->controlIsPresent('button', 'reset_file'), '"Reset file" button is not present');
         $this->assertTrue($this->controlIsPresent('pageelement', 'allowed_file'),
             '"Allowed file type label are not displayed under "File" field');
-      }
+    }
 
     /**
      * <p>Adding to Cart by SKU after entering SKU and QTY</p>
