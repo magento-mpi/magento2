@@ -61,7 +61,8 @@ class Core_Mage_Customer_RedirectAfterLoginTest extends Mage_Selenium_TestCase
      */
     public function redirectToPreviousPageAfterLogin($userData)
     {
-        //Set System-Configurations-Customer Configurations-Login options- Redirect Customer to Account Dashboard after Logging in to "NO"
+        //Set System-Configurations-Customer Configurations-Login options-
+        //Redirect Customer to Account Dashboard after Logging in to "NO"
         $this->navigate('system_configuration');
         $redirectOption = $this->loadDataSet('CustomerRedirect', 'enable_customer_configuration_redirect',
             array('redirect_customer_to_account_dashboard_after_logging_in' => 'No'));
@@ -94,7 +95,8 @@ class Core_Mage_Customer_RedirectAfterLoginTest extends Mage_Selenium_TestCase
      */
     public function redirectToAccountDashboardAfterLogin($userData)
     {
-        //Set System-Configurations-Customer Configurations-Login options- Redirect Customer to Account Dashboard after Logging in to "Yes"
+        //Set System-Configurations-Customer Configurations-Login options-
+        //Redirect Customer to Account Dashboard after Logging in to "Yes"
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('CustomerRedirect/enable_customer_configuration_redirect');
         //Go to frontend as non registered customer

@@ -1578,9 +1578,12 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      * @param array $skipFieldFillIn
      * @param string $productType
      */
-    public function createProductWithAutoGeneration(array $productData, $isSave = false,
-                                                    $skipFieldFillIn = array(), $productType = 'simple')
-    {
+    public function createProductWithAutoGeneration(
+        array $productData,
+        $isSave = false,
+        $skipFieldFillIn = array(),
+        $productType = 'simple'
+    ) {
         if (!empty($skipFieldFillIn)) {
             foreach ($skipFieldFillIn as $value) {
                 unset($productData[$value]);

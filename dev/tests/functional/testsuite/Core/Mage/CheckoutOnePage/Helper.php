@@ -26,7 +26,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
     /**
      * @staticvar string
      */
-    protected static $notActiveTab = "[not(contains(@class,'active'))]";
+    protected static $_notActiveTab = "[not(contains(@class,'active'))]";
 
     /**
      * Create order using one page checkout

@@ -163,7 +163,6 @@ class Core_Mage_Captcha_RegisterDuringCheckoutTest extends Mage_Selenium_TestCas
 
     /**
      * <p>Correct Captcha for Register During Checkout</p>
-
      *
      * @param string $productName
      *
