@@ -18,6 +18,66 @@
  */
 class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Block_Widget
 {
+    /**
+     * @var Mage_Core_Model_Registry
+     */
+    protected $_registryManager;
+
+    /**
+     * @var Mage_Backend_Model_Menu_Config
+     */
+    protected $_menuConfig;
+
+    /**
+     * @var Mage_Backend_Model_Config_Structure
+     */
+    protected $_configStructure;
+
+    /**
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param Mage_Core_Model_Layout $layout
+     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Mage_Backend_Model_Url $urlBuilder
+     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Session $session
+     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Mage_Core_Controller_Varien_Front $frontController
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_Registry $registry
+     * @param Mage_Backend_Model_Menu_Config $menuConfig
+     * @param Mage_Backend_Model_Config_Structure $configStructure
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        Mage_Core_Controller_Request_Http $request,
+        Mage_Core_Model_Layout $layout,
+        Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Backend_Model_Url $urlBuilder,
+        Mage_Core_Model_Translate $translator,
+        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_Session $session,
+        Mage_Core_Model_Store_Config $storeConfig,
+        Mage_Core_Controller_Varien_Front $frontController,
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Core_Model_Registry $registry,
+        Mage_Backend_Model_Menu_Config $menuConfig,
+        Mage_Backend_Model_Config_Structure $configStructure,
+        array $data = array()
+    )
+    {
+        parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache,
+            $designPackage, $session, $storeConfig, $frontController, $helperFactory, $data
+        );
+        $this->_registryManager = $registry;
+        $this->_menuConfig = $menuConfig;
+        $this->_configStructure = $configStructure;
+    }
+
 
     protected $_template = 'system/email/template/edit.phtml';
 
@@ -271,7 +331,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
      */
     public function getEmailTemplate()
     {
-        return Mage::registry('current_email_template');
+        return $this->_registryManager->registry('current_email_template');
     }
 
     /**
@@ -295,7 +355,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
         $paths = $this->getEmailTemplate()->getSystemConfigPathsWhereUsedAsDefault();
         $pathsParts = $this->_getSystemConfigPathsParts($paths);
         if($asJSON){
-            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($pathsParts);
+            return $this->helper('Mage_Core_Helper_Data')->jsonEncode($pathsParts);
         }
         return $pathsParts;
     }
@@ -308,7 +368,9 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
      */
     public function getUsedCurrentlyForPaths($asJSON = true)
     {
-        $paths = $this->getEmailTemplate()->getSystemConfigPathsWhereUsedCurrently();
+        /** @var Mage_Adminhtml_Model_Email_Template $template  */
+        $template = $this->getEmailTemplate();
+        $paths = $template->getSystemConfigPathsWhereUsedCurrently();
         $pathsParts = $this->_getSystemConfigPathsParts($paths);
         if($asJSON){
             return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($pathsParts);
@@ -325,10 +387,10 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
     protected function _getSystemConfigPathsParts($paths)
     {
         $result = $urlParams = $prefixParts = array();
-        $scopeLabel = Mage::helper('Mage_Adminhtml_Helper_Data')->__('GLOBAL');
+        $scopeLabel = $this->helper('Mage_Adminhtml_Helper_Data')->__('GLOBAL');
         if ($paths) {
             /** @var $menu Mage_Backend_Model_Menu */
-            $menu = Mage::getSingleton('Mage_Backend_Model_Menu_Config')->getMenu();
+            $menu = $this->_menuConfig->getMenu();
             $item = $menu->get('Mage_Adminhtml::system');
             // create prefix path parts
             $prefixParts[] = array(
@@ -341,7 +403,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
             );
 
             $pathParts = $prefixParts;
-            foreach ($paths as $id => $pathData) {
+            foreach ($paths as $pathData) {
                 list($sectionName, $groupName, $fieldName) = explode('/', $pathData['path']);
                 $urlParams = array('section' => $sectionName);
                 if (isset($pathData['scope']) && isset($pathData['scope_id'])) {
@@ -365,16 +427,17 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
                             break;
                     }
                 }
-                $configStructure = Mage::getSingleton('Mage_Backend_Model_Config_Structure');
                 $pathParts[] = array(
-                    'title' => $configStructure->getElement($sectionName)->getLabel(),
+                    'title' => $this->_configStructure->getElement($sectionName)->getLabel(),
                     'url' => $this->getUrl('adminhtml/system_config/edit', $urlParams),
                 );
                 $pathParts[] = array(
-                    'title' => $configStructure->getElementByPathParts(array($sectionName, $groupName))->getLabel()
+                    'title' => $this->_configStructure->getElementByPathParts(array($sectionName, $groupName))
+                        ->getLabel()
                 );
                 $pathParts[] = array(
-                    'title' => $configStructure->getElementByPathParts(array($sectionName, $groupName, $fieldName))
+                    'title' => $this->_configStructure
+                        ->getElementByPathParts(array($sectionName, $groupName, $fieldName))
                         ->getLabel(),
                     'scope' => $scopeLabel
                 );
