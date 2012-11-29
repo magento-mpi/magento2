@@ -37,18 +37,19 @@ class Mage_Webapi_Controller_Dispatcher_SoapTest extends PHPUnit_Framework_TestC
     {
         parent::setUp();
 
-        $helperMock = $this->getMockBuilder('Mage_Webapi_Helper_Data')
-            ->disableOriginalConstructor()
-            ->setMethods(array('__'))
-            ->getMock();
         $this->_apiConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config_Soap')
             ->disableOriginalConstructor()
             ->setMethods(array('getAllResourcesVersions'))
             ->getMock();
         $this->_soapServerMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_Server')
             ->disableOriginalConstructor()
-            ->setMethods(array('getApiCharset', 'generateUri', 'getEndpointUri', 'handle'))
             ->getMock();
+        $this->_soapServerMock->expects($this->any())->method('setWSDL')->will($this->returnSelf());
+        $this->_soapServerMock->expects($this->any())->method('setEncoding')->will($this->returnSelf());
+        $this->_soapServerMock->expects($this->any())->method('setSoapVersion')->will($this->returnSelf());
+        $this->_soapServerMock->expects($this->any())->method('setClassmap')->will($this->returnSelf());
+        $this->_soapServerMock->expects($this->any())->method('setReturnResponse')->will($this->returnSelf());
+        $this->_soapServerMock->expects($this->any())->method('setObject')->will($this->returnSelf());
         $this->_autoDiscoverMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_AutoDiscover')
             ->disableOriginalConstructor()
             ->setMethods(array('handle'))
@@ -69,16 +70,19 @@ class Mage_Webapi_Controller_Dispatcher_SoapTest extends PHPUnit_Framework_TestC
             ->disableOriginalConstructor()
             ->setMethods(array('maskException'))
             ->getMock();
+        $soapHandlerMock = $this->getMockBuilder('Mage_Webapi_Controller_Dispatcher_Soap_Handler')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->_dispatcher = new Mage_Webapi_Controller_Dispatcher_Soap(
-            $helperMock,
             $this->_apiConfigMock,
             $this->_requestMock,
             $this->_responseMock,
             $this->_autoDiscoverMock,
             $this->_soapServerMock,
             $this->_soapFaultMock,
-            $this->_errorProcessorMock
+            $this->_errorProcessorMock,
+            $soapHandlerMock
         );
     }
 
@@ -142,6 +146,9 @@ class Mage_Webapi_Controller_Dispatcher_SoapTest extends PHPUnit_Framework_TestC
         $expectedResponse = '<?xml version="1.0" encoding="' . $charset .'"?><root>SOAP_RESPONSE</root>';
 
         $this->_soapServerMock->expects($this->once())
+            ->method('initWsdlCache')
+            ->with();
+        $this->_soapServerMock->expects($this->once())
             ->method('handle')
             ->will($this->returnValue($expectedResponse));
 
@@ -193,7 +200,7 @@ class Mage_Webapi_Controller_Dispatcher_SoapTest extends PHPUnit_Framework_TestC
             ->method('getSoapFaultMessage')
             ->with(
                 $expectedException->getMessage(),
-                Mage_Webapi_Controller_Dispatcher_Soap_Handler::FAULT_CODE_SENDER,
+                Mage_Webapi_Model_Soap_Fault::FAULT_CODE_SENDER,
                 'en',
                 $expectedDetails
             )

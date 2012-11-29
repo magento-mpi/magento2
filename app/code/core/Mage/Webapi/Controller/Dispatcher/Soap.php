@@ -24,16 +24,15 @@ class Mage_Webapi_Controller_Dispatcher_Soap implements Mage_Webapi_Controller_D
     /** @var Mage_Webapi_Controller_Response */
     protected $_response;
 
-    /** @var Mage_Webapi_Helper_Data */
-    protected $_helper;
-
     /** @var Mage_Webapi_Controller_Dispatcher_ErrorProcessor */
     protected $_errorProcessor;
+
+    /** @var Mage_Webapi_Controller_Dispatcher_Soap_Handler */
+    protected $_soapHandler;
 
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Webapi_Helper_Data $helper
      * @param Mage_Webapi_Model_Config_Soap $apiConfig
      * @param Mage_Webapi_Controller_Request_Soap $request
      * @param Mage_Webapi_Controller_Response $response
@@ -41,18 +40,18 @@ class Mage_Webapi_Controller_Dispatcher_Soap implements Mage_Webapi_Controller_D
      * @param Mage_Webapi_Model_Soap_Server $soapServer
      * @param Mage_Webapi_Model_Soap_Fault $soapFault
      * @param Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
+     * @param Mage_Webapi_Controller_Dispatcher_Soap_Handler $soapHandler
      */
     public function __construct(
-        Mage_Webapi_Helper_Data $helper,
         Mage_Webapi_Model_Config_Soap $apiConfig,
         Mage_Webapi_Controller_Request_Soap $request,
         Mage_Webapi_Controller_Response $response,
         Mage_Webapi_Model_Soap_AutoDiscover $autoDiscover,
         Mage_Webapi_Model_Soap_Server $soapServer,
         Mage_Webapi_Model_Soap_Fault $soapFault,
-        Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
+        Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor,
+        Mage_Webapi_Controller_Dispatcher_Soap_Handler $soapHandler
     ) {
-        $this->_helper = $helper;
         $this->_apiConfig = $apiConfig;
         $this->_autoDiscover = $autoDiscover;
         $this->_soapServer = $soapServer;
@@ -60,6 +59,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap implements Mage_Webapi_Controller_D
         $this->_soapFault = $soapFault;
         $this->_response = $response;
         $this->_errorProcessor = $errorProcessor;
+        $this->_soapHandler = $soapHandler;
     }
 
     /**
@@ -77,7 +77,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap implements Mage_Webapi_Controller_D
                 );
                 $this->_setResponseContentType('text/xml');
             } else {
-                $responseBody = $this->_soapServer->handle();
+                $responseBody = $this->_initSoapServer()->handle();
                 $this->_setResponseContentType('application/soap+xml');
             }
             $this->_setResponseBody($responseBody);
@@ -114,7 +114,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap implements Mage_Webapi_Controller_D
         $this->_setResponseBody(
             $this->_soapFault->getSoapFaultMessage(
                 $message,
-                Mage_Webapi_Controller_Dispatcher_Soap_Handler::FAULT_CODE_SENDER,
+                Mage_Webapi_Model_Soap_Fault::FAULT_CODE_SENDER,
                 'en',
                 $details
             )
@@ -150,5 +150,25 @@ class Mage_Webapi_Controller_Dispatcher_Soap implements Mage_Webapi_Controller_D
             )
         );
         return $this;
+    }
+
+    /**
+     * Initialize SOAP Server.
+     *
+     * @return Mage_Webapi_Model_Soap_Server
+     */
+    protected function _initSoapServer()
+    {
+        $this->_soapServer->initWsdlCache();
+        $this->_soapServer->setWSDL($this->_soapServer->generateUri(true))
+            ->setEncoding($this->_soapServer->getApiCharset())
+            ->setSoapVersion(SOAP_1_2)
+            ->setClassmap($this->_apiConfig->getTypeToClassMap());
+        use_soap_error_handler(false);
+        // TODO: Headers are not available at this point.
+        // $this->_soapHandler->setRequestHeaders($this->_getRequestHeaders());
+        $this->_soapServer->setReturnResponse(true)->setObject($this->_soapHandler);
+
+        return $this->_soapServer;
     }
 }

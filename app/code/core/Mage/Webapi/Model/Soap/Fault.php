@@ -4,8 +4,62 @@
  *
  * @copyright {}
  */
-class Mage_Webapi_Model_Soap_Fault
+class Mage_Webapi_Model_Soap_Fault extends RuntimeException
 {
+    const FAULT_REASON_INTERNAL = 'Internal Error.';
+
+    const FAULT_CODE_SENDER = 'Sender';
+    const FAULT_CODE_RECEIVER = 'Receiver';
+
+    /** @var string */
+    protected $_soapCode;
+
+    /**
+     * Construct exception.
+     *
+     * @param string $reason
+     * @param string $code
+     * @param Exception $previous
+     */
+    public function __construct(
+        $reason = self::FAULT_REASON_INTERNAL,
+        $code = self::FAULT_CODE_RECEIVER,
+        Exception $previous = null
+    ) {
+        parent::__construct($reason, 0, $previous);
+        $this->_soapCode = $code;
+    }
+
+    /**
+     * Render exception as XML.
+     *
+     * @param $isDeveloperMode
+     * @return string
+     */
+    public function toXml($isDeveloperMode)
+    {
+        $details = null;
+        if ($isDeveloperMode) {
+            $details = array(
+                'ExceptionTrace' => "<![CDATA[{$this->getTraceAsString()}]]>"
+            );
+        }
+
+        // TODO: Implement Current language definition
+        $language = 'en';
+        return $this->getSoapFaultMessage($this->getMessage(), $this->getSoapCode(), $language, $details);
+    }
+
+    /**
+     * Retrieve SOAP fault code.
+     *
+     * @return string
+     */
+    public function getSoapCode()
+    {
+        return $this->_soapCode;
+    }
+
     /**
      * Generate SOAP fault message in XML format.
      *
@@ -15,12 +69,8 @@ class Mage_Webapi_Model_Soap_Fault
      * @param string|array|null $details Detailed reason message(s)
      * @return string
      */
-    public function getSoapFaultMessage(
-        $reason = Mage_Webapi_Controller_Dispatcher_Soap_Handler::FAULT_REASON_INTERNAL,
-        $code = Mage_Webapi_Controller_Dispatcher_Soap_Handler::FAULT_CODE_RECEIVER,
-        $language = 'en',
-        $details = null
-    ) {
+    public function getSoapFaultMessage($reason, $code, $language, $details)
+    {
         if (is_string($details)) {
             $detailsXml = "<env:Detail>" . htmlspecialchars($details) . "</env:Detail>";
         } elseif (is_array($details)) {
@@ -35,7 +85,7 @@ class Mage_Webapi_Model_Soap_Fault
    <env:Body>
       <env:Fault>
          <env:Code>
-            <env:Value>$code</env:Value>
+            <env:Value>env:$code</env:Value>
          </env:Code>
          <env:Reason>
             <env:Text xml:lang="$language">$reason</env:Text>

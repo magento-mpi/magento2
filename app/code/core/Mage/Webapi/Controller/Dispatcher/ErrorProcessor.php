@@ -83,7 +83,7 @@ class Mage_Webapi_Controller_Dispatcher_ErrorProcessor
     public function renderException(Exception $exception, $httpCode = self::DEFAULT_ERROR_HTTP_CODE)
     {
         if ($this->_app->isDeveloperMode() || $exception instanceof Mage_Webapi_Exception) {
-            $this->render($exception->getMessage(), $exception->getTraceAsString(), $httpCode);
+            $this->render($exception->getMessage(), $exception->getTraceAsString(), $exception->getCode());
         } else {
             $reportId = $this->_logException($exception);
             $this->render(

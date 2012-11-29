@@ -9,7 +9,6 @@ use Zend\Soap\Wsdl\ComplexTypeStrategy\AbstractComplexTypeStrategy,
  * @copyright {}
  */
 class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends AbstractComplexTypeStrategy
-    implements ComplexTypeStrategyInterface
 {
     /**
      *  Array item key value for element.

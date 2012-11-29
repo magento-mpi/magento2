@@ -6,7 +6,6 @@
  */
 class Mage_Webapi_Controller_Request_Soap extends Mage_Webapi_Controller_Request
 {
-
     /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
@@ -16,10 +15,8 @@ class Mage_Webapi_Controller_Request_Soap extends Mage_Webapi_Controller_Request
      * @param Mage_Webapi_Helper_Data $helper
      * @param string|null $uri
      */
-    public function __construct(
-        Mage_Webapi_Helper_Data $helper,
-        $uri = null
-    ) {
+    public function __construct(Mage_Webapi_Helper_Data $helper, $uri = null)
+    {
         parent::__construct(Mage_Webapi_Controller_Front::API_TYPE_SOAP, $uri);
         $this->_helper = $helper;
     }

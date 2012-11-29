@@ -9,20 +9,11 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Webapi_Model_Soap_Server */
     protected $_soapServer;
 
-    /** @var Zend\Soap\Server */
-    protected $_zendSoapServerMock;
-
-    /** @var Mage_Webapi_Model_Config_Soap */
-    protected $_apiConfigMock;
-
     /** @var Mage_Core_Model_App */
     protected $_applicationMock;
 
     /** @var Mage_Webapi_Controller_Request_Soap */
     protected $_requestMock;
-
-    /** @var Mage_Webapi_Controller_Dispatcher_Soap_Handler */
-    protected $_soapHandler;
 
     /** @var Magento_DomDocument_Factory */
     protected $_domDocumentFactory;
@@ -36,28 +27,15 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
         $this->_storeMock = $this->getMockBuilder('Mage_Core_Model_Store')->disableOriginalConstructor()->getMock();
         $this->_applicationMock = $this->getMockBuilder('Mage_Core_Model_App')->disableOriginalConstructor()->getMock();
         $this->_applicationMock->expects($this->any())->method('getStore')->will($this->returnValue($this->_storeMock));
-        $this->_zendSoapServerMock = $this->getMockBuilder('Zend\Soap\Server')->getMock();
-        $this->_zendSoapServerMock->expects($this->any())->method('setWSDL')->will($this->returnSelf());
-        $this->_zendSoapServerMock->expects($this->any())->method('setEncoding')->will($this->returnSelf());
-        $this->_zendSoapServerMock->expects($this->any())->method('setClassmap')->will($this->returnSelf());
-        $this->_zendSoapServerMock->expects($this->any())->method('setReturnResponse')->will($this->returnSelf());
-        $this->_zendSoapServerMock->expects($this->any())->method('setObject')->will($this->returnSelf());
         $this->_requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Request_Soap')->disableOriginalConstructor()
             ->getMock();
-        $this->_apiConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config_Soap')->disableOriginalConstructor()
-            ->getMock();
-        $this->_soapHandler = $this->getMockBuilder('Mage_Webapi_Controller_Dispatcher_Soap_Handler')
-            ->disableOriginalConstructor()->getMock();
         $this->_domDocumentFactory = $this->getMockBuilder('Magento_DomDocument_Factory')
             ->disableOriginalConstructor()->getMock();
 
         /** Init SUT. */
         $this->_soapServer = new Mage_Webapi_Model_Soap_Server(
-            $this->_zendSoapServerMock,
-            $this->_apiConfigMock,
             $this->_applicationMock,
             $this->_requestMock,
-            $this->_soapHandler,
             $this->_domDocumentFactory
         );
 
@@ -67,86 +45,10 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         unset($this->_soapServer);
-        unset($this->_zendSoapServerMock);
-        unset($this->_apiConfigMock);
         unset($this->_applicationMock);
         unset($this->_requestMock);
-        unset($this->_soapHandler);
-        unset($this->_domDocumentFactory);
         unset($this->_storeMock);
         parent::tearDown();
-    }
-
-    /**
-     * Test Soap server construct.
-     */
-    public function testConstruct()
-    {
-        /** Mock required objects for SOAP server init and assert proper methods run and parameter. */
-        $this->_storeMock->expects($this->exactly(2))->method('getConfig')->will($this->returnValue(true));
-        $this->_applicationMock->expects($this->exactly(3))->method('getStore')->will(
-            $this->returnValue($this->_storeMock)
-        );
-        $this->_zendSoapServerMock->expects($this->once())->method('setReturnResponse')->with($this->equalTo(true));
-
-        new Mage_Webapi_Model_Soap_Server(
-            $this->_zendSoapServerMock,
-            $this->_apiConfigMock,
-            $this->_applicationMock,
-            $this->_requestMock,
-            $this->_soapHandler,
-            $this->_domDocumentFactory
-        );
-    }
-
-    /**
-     * Test Soap server construct with Soap Fault exception.
-     */
-    public function testConstructSoapFaultException()
-    {
-        /** Mock objects required for SOAP server init. */
-        $this->_storeMock->expects($this->any())->method('getConfig')->will($this->returnValue(true));
-        $this->_applicationMock->expects($this->any())->method('getStore')->will(
-            $this->returnValue($this->_storeMock)
-        );
-        $soapFaultException = new SoapFault('400', 'Error', 'Server error', 'Details', 'Fault details', 'Fault header');
-        /** Mock Zend Soap Server setWSDL method to throw Soap Fault exception. */
-        $this->_zendSoapServerMock->expects($this->once())->method('setWSDL')->will(
-            $this->throwException($soapFaultException)
-        );
-        /** Assert Soap Fault will be re-thrown in initSoapServer method. */
-        $this->setExpectedException('SoapFault', 'Error');
-
-        new Mage_Webapi_Model_Soap_Server(
-            $this->_zendSoapServerMock,
-            $this->_apiConfigMock,
-            $this->_applicationMock,
-            $this->_requestMock,
-            $this->_soapHandler,
-            $this->_domDocumentFactory
-        );
-    }
-
-    /**
-     * Test handle method without parameters.
-     */
-    public function testHandleEmptyParameters()
-    {
-        /** Mock parent handle method to return passed argument. */
-        $this->_zendSoapServerMock->expects($this->once())->method('handle')->will($this->returnArgument(0));
-        $this->assertNull($this->_soapServer->handle(), 'Wrong request handling with default parameters.');
-    }
-
-    /**
-     * Test handle method.
-     */
-    public function testHandle()
-    {
-        /** Mock parent handle method to return passed argument. */
-        $this->_zendSoapServerMock->expects($this->once())->method('handle')->will($this->returnArgument(0));
-        $actualResult = $this->_soapServer->handle('Request');
-        $expectedResult = 'Request';
-        $this->assertEquals($expectedResult, $actualResult, 'Wrong request handling with parameters.');
     }
 
     /**

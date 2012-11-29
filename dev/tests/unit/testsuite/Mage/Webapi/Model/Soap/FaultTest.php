@@ -22,10 +22,7 @@ class Mage_Webapi_Model_Soap_FaultTest extends PHPUnit_Framework_TestCase
         parent::tearDown();
     }
 
-    /**
-     * Test public function getSoapFaultMessage method with default parameters.
-     */
-    public function testGetSoapFaultMessageDefaultParameters()
+    public function testToXmlDeveloperModeOff()
     {
         $expectedResult = <<<XML
 <?xml version="1.0" encoding="utf-8" ?>
@@ -33,7 +30,7 @@ class Mage_Webapi_Model_Soap_FaultTest extends PHPUnit_Framework_TestCase
     <env:Body>
         <env:Fault>
             <env:Code>
-                <env:Value>Receiver</env:Value>
+                <env:Value>env:Receiver</env:Value>
             </env:Code>
             <env:Reason>
                 <env:Text xml:lang="en">Internal Error.</env:Text>
@@ -42,11 +39,18 @@ class Mage_Webapi_Model_Soap_FaultTest extends PHPUnit_Framework_TestCase
     </env:Body>
 </env:Envelope>
 XML;
+        $actualXml = $this->_soapFault->toXml(false);
         $this->assertXmlStringEqualsXmlString(
             $expectedResult,
-            $this->_soapFault->getSoapFaultMessage(),
+            $actualXml,
             'Wrong soap fault message with default parameters.'
         );
+    }
+
+    public function testToXmlDeveloperModeOn()
+    {
+        $actualXml = $this->_soapFault->toXml(true);
+        $this->assertContains('<ExceptionTrace>', $actualXml, 'Exception trace not found in XML.');
     }
 
     /**
@@ -68,7 +72,6 @@ XML;
             $language,
             $additionalParameters
         );
-
         $this->assertXmlStringEqualsXmlString($expectedResult, $actualResult, $assertMessage);
     }
 
@@ -85,7 +88,7 @@ XML;
             //Each array contains data for SOAP Fault Message, Expected XML and Assert Message.
             array(
                 'Fault reason',
-                'Fault code',
+                'Sender',
                 'cn',
                 array('key1' => 'value1', 'key2' => 'value2'),
                 $expectedXmls['expectedResultArrayDataDetails'],
@@ -93,7 +96,7 @@ XML;
             ),
             array(
                 'Fault reason',
-                'Fault code',
+                'Sender',
                 'en',
                 array('value1', 'value2'),
                 $expectedXmls['expectedResultIndexArrayDetails'],
@@ -101,7 +104,7 @@ XML;
             ),
             array(
                 'Fault reason',
-                'Fault code',
+                'Sender',
                 'en',
                 array(),
                 $expectedXmls['expectedResultEmptyArrayDetails'],
@@ -109,7 +112,7 @@ XML;
             ),
             array(
                 'Fault reason',
-                'Fault code',
+                'Sender',
                 'en',
                 (object)array('key' => 'value'),
                 $expectedXmls['expectedResultObjectDetails'],
@@ -117,7 +120,7 @@ XML;
             ),
             array(
                 'Fault reason',
-                'Fault code',
+                'Sender',
                 'en',
                 'String details',
                 $expectedXmls['expectedResultStringDetails'],
@@ -125,7 +128,7 @@ XML;
             ),
             array(
                 'Fault reason',
-                'Fault code',
+                'Sender',
                 'en',
                 array('key' => array('sub_key' => 'value')),
                 $expectedXmls['expectedResultComplexDataDetails'],

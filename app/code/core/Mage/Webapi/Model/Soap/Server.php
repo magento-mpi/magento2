@@ -1,10 +1,12 @@
 <?php
 /**
  * Magento-specific SOAP server.
+ * TODO: Remove dependency on Zend SOAP Server and methods overrides. Create Magento_Soap_Server instead.
+ * TODO: Remove dependence on application config, probably move it to dispatcher.
  *
  * @copyright {}
  */
-class Mage_Webapi_Model_Soap_Server
+class Mage_Webapi_Model_Soap_Server extends \Zend\Soap\Server
 {
     const SOAP_DEFAULT_ENCODING = 'UTF-8';
 
@@ -18,93 +20,87 @@ class Mage_Webapi_Model_Soap_Server
     const REQUEST_PARAM_RESOURCES = 'resources';
     const REQUEST_PARAM_WSDL = 'wsdl';
 
-    /** @var \Zend\Soap\Server */
-    protected $_zendSoapServer;
-
-    /** @var Mage_Webapi_Model_Config_Soap */
-    protected $_apiConfig;
-
     /** @var Mage_Core_Model_Store */
     protected $_application;
-
-    /** @var Mage_Webapi_Controller_Request_Soap */
-    protected $_request;
-
-    /** @var Mage_Webapi_Controller_Dispatcher_Soap_Handler */
-    protected $_soapHandler;
 
     /** @var Magento_DomDocument_Factory */
     protected $_domDocumentFactory;
 
+    /** @var Mage_Webapi_Controller_Request_Soap */
+    protected $_request;
+
     /**
      * Initialize dependencies.
      *
-     * @param Zend\Soap\Server $zendSoapServer
-     * @param Mage_Webapi_Model_Config_Soap $apiConfig
      * @param Mage_Core_Model_App $application
      * @param Mage_Webapi_Controller_Request_Soap $request
-     * @param Mage_Webapi_Controller_Dispatcher_Soap_Handler $soapHandler
      * @param Magento_DomDocument_Factory $domDocumentFactory
      */
     public function __construct(
-        Zend\Soap\Server $zendSoapServer,
-        Mage_Webapi_Model_Config_Soap $apiConfig,
         Mage_Core_Model_App $application,
         Mage_Webapi_Controller_Request_Soap $request,
-        Mage_Webapi_Controller_Dispatcher_Soap_Handler $soapHandler,
         Magento_DomDocument_Factory $domDocumentFactory
     ) {
-        $this->_zendSoapServer = $zendSoapServer;
-        $this->_apiConfig = $apiConfig;
+        parent::__construct();
+
         $this->_application = $application;
         $this->_request = $request;
-        $this->_soapHandler = $soapHandler;
         $this->_domDocumentFactory = $domDocumentFactory;
-        $this->_initSoapServer();
     }
 
     /**
-     * Handle a request.
+     * Process Webapi SOAP fault.
      *
-     * @param DOMDocument|DOMNode|SimpleXMLElement|stdClass|string $request Optional request
-     * @return string|void
+     * @param Mage_Webapi_Model_Soap_Fault|Exception|string $fault
+     * @param string $code
+     * @return SoapFault|string
      */
-    public function handle($request = null)
+    public function fault($fault = null, $code = null)
     {
-        return $this->_zendSoapServer->handle($request);
+        if ($fault instanceof Mage_Webapi_Model_Soap_Fault) {
+            return $fault->toXml($this->_application->isDeveloperMode());
+        } else {
+            return parent::fault($fault, $code);
+        }
     }
 
     /**
-     * Initialize SOAP Server.
+     * Catch exceptions if request is invalid and output fault message.
      *
-     * @throws SoapFault
+     * @param DOMDocument|DOMNode|SimpleXMLElement|stdClass|string $request
+     * @return Mage_Webapi_Model_Soap_Server
+     * @SuppressWarnings(PHPMD.ExitExpression)
      */
-    protected function _initSoapServer()
+    protected function _setRequest($request)
     {
-        $this->_initWsdlCache();
-        $schemaImportTrials = 0;
-        do {
-            $schemaImportFailed = false;
-            try {
-                $this->_zendSoapServer
-                    ->setWSDL($this->_getWsdlUrl())
-                    ->setEncoding($this->getApiCharset())
-                    ->setClassmap($this->_apiConfig->getTypeToClassMap());
-            } catch (SoapFault $e) {
-                $importSchemaMessage = "Can't import schema from 'http://schemas.xmlsoap.org/soap/encoding/'";
-                if (false !== strpos($e->getMessage(), $importSchemaMessage)) {
-                    $schemaImportFailed = true;
-                    $schemaImportTrials++;
-                    sleep(1);
-                } else {
-                    throw $e;
-                }
-            }
-        } while ($schemaImportFailed && $schemaImportTrials < 5);
-        use_soap_error_handler(false);
-        // TODO: Headers are not available at this point.
-        // $this->_soapHandler->setRequestHeaders($this->_getRequestHeaders());
-        $this->_zendSoapServer->setReturnResponse(true)->setObject($this->_soapHandler);
+        try {
+            parent::_setRequest($request);
+        } catch (Exception $e) {
+            $fault = new Mage_Webapi_Model_Soap_Fault(
+                $e->getMessage(),
+                Mage_Webapi_Model_Soap_Fault::FAULT_CODE_SENDER
+            );
+            die($fault->toXml($this->_application->isDeveloperMode()));
+        }
+        return $this;
+    }
+
+    /**
+     * Suppress PHP error output because it has already been displayed by SoapServer extension.
+     * TODO: remove this method when removing dependence on Zend/Soap/Server
+     *
+     * @param int $errno
+     * @param string $errstr
+     * @param string $errfile
+     * @param int $errline
+     * @param array $errcontext
+     * @return void
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @SuppressWarnings(PHPMD.ExitExpression)
+     */
+    public function handlePhpErrors($errno, $errstr, $errfile = null, $errline = null, array $errcontext = null)
+    {
+        die();
     }
 
     /**
@@ -113,10 +109,10 @@ class Mage_Webapi_Model_Soap_Server
      * @return array
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
-    protected function _getRequestHeaders()
+    public function getRequestHeaders()
     {
         $dom = $this->_domDocumentFactory->createDomDocument();
-        $dom->loadXML($this->_zendSoapServer->getLastRequest());
+        $dom->loadXML($this->getLastRequest());
         $headers = array();
         /** @var DOMElement $header */
         foreach ($dom->getElementsByTagName('Header')->item(0)->childNodes as $header) {
@@ -130,7 +126,7 @@ class Mage_Webapi_Model_Soap_Server
     /**
      * Enable or disable SOAP extension WSDL cache depending on Magento configuration.
      */
-    protected function _initWsdlCache()
+    public function initWsdlCache()
     {
         $wsdlCacheEnabled = (bool)$this->_application->getStore()->getConfig(self::CONFIG_PATH_WSDL_CACHE_ENABLED);
         if ($wsdlCacheEnabled) {
@@ -148,17 +144,7 @@ class Mage_Webapi_Model_Soap_Server
     public function getApiCharset()
     {
         $charset = $this->_application->getStore()->getConfig(self::CONFIG_PATH_SOAP_CHARSET);
-        return $charset ? $charset : self::SOAP_DEFAULT_ENCODING;
-    }
-
-    /**
-     * Get WSDL file URL.
-     *
-     * @return string
-     */
-    protected function _getWsdlUrl()
-    {
-        return $this->generateUri(true);
+        return $charset ? $charset : Mage_Webapi_Model_Soap_Server::SOAP_DEFAULT_ENCODING;
     }
 
     /**
