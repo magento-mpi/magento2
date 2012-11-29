@@ -72,11 +72,7 @@ class Magento_Validator
                 } else {
                     /** @var Magento_Validator_ConstraintAbstract $constraint */
                     if (!$constraint->isValidData($data, $field)) {
-                        foreach ($constraint->getErrors() as $errorFieldName => $errors) {
-                            foreach ($errors as $error) {
-                                $this->_messages[$errorFieldName][] = $error;
-                            }
-                        }
+                        $this->_populateErrorMessages($constraint);
                         $isValid = false;
                     }
                 }
@@ -94,5 +90,21 @@ class Magento_Validator
     public function getMessages()
     {
         return $this->_messages;
+    }
+
+    /**
+     * Save error messages into messages array
+     *
+     * @param Magento_Validator_ConstraintAbstract $constraint
+     * @return Magento_Validator
+     */
+    protected function _populateErrorMessages($constraint)
+    {
+        foreach ($constraint->getErrors() as $errorFieldName => $errors) {
+            foreach ($errors as $error) {
+                $this->_messages[$errorFieldName][] = $error;
+            }
+        }
+        return $this;
     }
 }

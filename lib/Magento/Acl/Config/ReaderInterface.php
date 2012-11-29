@@ -24,5 +24,5 @@ interface Magento_Acl_Config_ReaderInterface
      * @abstract
      * @return mixed
      */
-    function getAclResources();
+    public function getAclResources();
 }

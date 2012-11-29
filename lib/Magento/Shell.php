@@ -47,7 +47,7 @@ class Magento_Shell
      *
      * @return bool
      */
-    public function getVerbose()
+    public function isVerbose()
     {
         return $this->_isVerbose;
     }

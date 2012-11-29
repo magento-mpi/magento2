@@ -176,7 +176,7 @@ class Magento_Config_Theme extends Magento_Config_XmlAbstract
      * @param string $theme
      * @return bool
      */
-    public function getFeatured($package, $theme)
+    public function isFeatured($package, $theme)
     {
         $this->_ensureThemeExists($package, $theme);
         return $this->_data[$package]['themes'][$theme]['featured'];

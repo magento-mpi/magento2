@@ -64,12 +64,7 @@ class Magento_Config_Dom
      */
     protected function _mergeNode(DOMElement $node, $parentPath)
     {
-        /* Identify node path based on parent path and node attributes */
-        $path = $parentPath . '/' . $node->tagName;
-        $idAttribute = $this->_findIdAttribute($path);
-        if ($idAttribute && $id = $node->getAttribute($idAttribute)) {
-            $path .= "[@{$idAttribute}='{$id}']";
-        }
+        $path = $this->_getNodePathByParent($node, $parentPath);
 
         $matchedNode = $this->_getMatchedNode($path);
 
@@ -168,5 +163,22 @@ class Magento_Config_Dom
         $errors = libxml_get_errors();
         libxml_use_internal_errors(false);
         return $result;
+    }
+
+    /**
+     * Identify node path based on parent path and node attributes
+     *
+     * @param DOMElement $node
+     * @param string $parentPath
+     * @return string
+     */
+    protected function _getNodePathByParent(DOMElement $node, $parentPath)
+    {
+        $path = $parentPath . '/' . $node->tagName;
+        $idAttribute = $this->_findIdAttribute($path);
+        if ($idAttribute && $value = $node->getAttribute($idAttribute)) {
+            $path .= "[@{$idAttribute}='{$value}']";
+        }
+        return $path;
     }
 }
