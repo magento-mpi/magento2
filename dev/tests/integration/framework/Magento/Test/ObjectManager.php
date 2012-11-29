@@ -60,21 +60,6 @@ class Magento_Test_ObjectManager extends Magento_ObjectManager_Zend
     }
 
     /**
-     * Add shared instance
-     *
-     * @param object $instance
-     * @param string $classOrAlias
-     * @return Magento_Test_ObjectManager
-     * @throws Zend\Di\Exception\InvalidArgumentException
-     */
-    public function addSharedInstance($instance, $classOrAlias)
-    {
-        $this->_di->instanceManager()->addSharedInstance($instance, $classOrAlias);
-
-        return $this;
-    }
-
-    /**
      * Remove shared instance
      *
      * @param string $classOrAlias

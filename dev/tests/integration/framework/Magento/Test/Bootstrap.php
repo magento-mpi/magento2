@@ -90,11 +90,11 @@ class Magento_Test_Bootstrap
     protected $_tmpDir;
 
     /**
-     * Application initialization options
+     * Application initialization parameters
      *
      * @var array
      */
-    protected $_options = array();
+    protected $_initParams = array();
 
     /**
      * DB vendor name
@@ -183,18 +183,32 @@ class Magento_Test_Bootstrap
         $this->_verifyDirectories();
 
         $sandboxUniqueId = md5(sha1_file($this->_localXmlFile) . '_' . $globalEtcFiles . '_' . $moduleEtcFiles);
-        $this->_installDir = "{$tmpDir}/sandbox-{$this->_dbVendorName}-{$sandboxUniqueId}";
-        $this->_installEtcDir = $this->_installDir . '/etc';
+        $installDir = "{$tmpDir}/sandbox-{$this->_dbVendorName}-{$sandboxUniqueId}";
+        $this->_ensureDirExists($installDir);
+        $this->_installDir = $installDir;
+        $this->_installEtcDir = "{$installDir}/etc";
 
-        $this->_options = array(
-            'etc_dir'     => $this->_installEtcDir,
-            'var_dir'     => $this->_installDir,
-            'tmp_dir'     => $this->_installDir . DIRECTORY_SEPARATOR . 'tmp',
-            'cache_dir'   => $this->_installDir . DIRECTORY_SEPARATOR . 'cache',
-            'log_dir'     => $this->_installDir . DIRECTORY_SEPARATOR . 'log',
-            'session_dir' => $this->_installDir . DIRECTORY_SEPARATOR . 'session',
-            'media_dir'   => $this->_installDir . DIRECTORY_SEPARATOR . 'media',
-            'upload_dir'  => $this->_installDir . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'upload',
+        $this->_initParams = array(
+            Mage_Core_Model_App::INIT_OPTION_DIRS => array(
+                Mage_Core_Model_App_Dir::CONFIG => 'etc',          // compare to default app/etc
+                Mage_Core_Model_App_Dir::VAR_DIR => '',            // var
+                Mage_Core_Model_App_Dir::TMP => 'tmp',             // var/tmp
+                Mage_Core_Model_App_Dir::CACHE => 'cache',         // var/cache
+                Mage_Core_Model_App_Dir::LOG => 'log',             // var/log
+                Mage_Core_Model_App_Dir::SESSION => 'session',     // var/session
+                Mage_Core_Model_App_Dir::MEDIA => 'media',         // pub/media
+                Mage_Core_Model_App_Dir::UPLOAD => 'media/upload', // pub/media/upload
+            ),
+            Mage_Core_Model_App::INIT_OPTION_DIR_PATHS => array(
+                Mage_Core_Model_App_Dir::CONFIG => $this->_installEtcDir,
+                Mage_Core_Model_App_Dir::VAR_DIR => $installDir,
+                Mage_Core_Model_App_Dir::TMP => "{$installDir}/tmp",
+                Mage_Core_Model_App_Dir::CACHE => "{$installDir}/cache",
+                Mage_Core_Model_App_Dir::LOG => "{$installDir}/log",
+                Mage_Core_Model_App_Dir::SESSION => "{$installDir}/session",
+                Mage_Core_Model_App_Dir::MEDIA => "{$installDir}/media",
+                Mage_Core_Model_App_Dir::UPLOAD => "{$installDir}/media/upload",
+            ),
         );
 
         $this->_db = $this->_instantiateDb($shell);
@@ -202,7 +216,6 @@ class Magento_Test_Bootstrap
         if ($isCleanupEnabled) {
             $this->_cleanup();
         }
-        $this->_ensureDirExists($this->_installDir);
 
         $this->_isDeveloperMode = $isDeveloperMode;
 
@@ -233,7 +246,7 @@ class Magento_Test_Bootstrap
         Mage::setIsDeveloperMode($this->_isDeveloperMode);
         Mage_Core_Utility_Theme::registerDesignMock();
         Mage::$headersSentThrowsException = false;
-        Mage::app('', 'store', $this->_options);
+        Mage::app($this->_initParams);
     }
 
     /**
@@ -241,39 +254,22 @@ class Magento_Test_Bootstrap
      */
     public function reinitialize()
     {
-        $this->resetApp();
+        $this->_resetApp();
         $this->initialize();
     }
 
     /**
-     * Re-create empty temporary dir by specified
-     *
-     * @param string $optionCode
-     * @throws Magento_Exception if one of protected directories specified
+     * Run application normally, but with encapsulated initialization options
      */
-    public function cleanupDir($optionCode)
+    public function runApp()
     {
-        if (in_array($optionCode, array('etc_dir', 'var_dir', 'media_dir'))) {
-            throw new Magento_Exception("Directory '{$optionCode}' must not be cleaned up while running tests.");
-        }
-        $dir = $this->_options[$optionCode];
-        $this->_removeDirectory($dir, false);
-    }
-
-    /**
-     * Get application initialization options
-     *
-     * @return array
-     */
-    public function getAppOptions()
-    {
-        return $this->_options;
+        Mage::run($this->_initParams);
     }
 
     /**
      * Reset application global state
      */
-    public function resetApp()
+    protected function _resetApp()
     {
         /** @var $objectManager Magento_Test_ObjectManager */
         $objectManager = Mage::getObjectManager();

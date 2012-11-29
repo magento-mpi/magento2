@@ -19,36 +19,16 @@
  */
 class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 {
-    protected static $_options = array();
-
-    public static function setUpBeforeClass()
-    {
-        self::$_options = Magento_Test_Bootstrap::getInstance()->getAppOptions();
-    }
-
     public function testGetResourceModel()
     {
         $this->assertInstanceOf('Mage_Core_Model_Resource_Config', $this->_createModel(true)->getResourceModel());
-    }
-
-    public function testGetOptions()
-    {
-        $this->assertInstanceOf('Mage_Core_Model_Config_Options', $this->_createModel(true)->getOptions());
-    }
-
-    public function testSetOptions()
-    {
-        $model = $this->_createModel();
-        $key = uniqid('key');
-        $model->setOptions(array($key  => 'value'));
-        $this->assertEquals('value', $model->getOptions()->getData($key));
     }
 
     public function testInit()
     {
         $model = $this->_createModel();
         $this->assertFalse($model->getNode());
-        $model->init(self::$_options);
+        $model->init();
         $this->assertInstanceOf('Varien_Simplexml_Element', $model->getNode());
     }
 
@@ -56,7 +36,6 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $model = $this->_createModel();
         $this->assertFalse($model->getNode());
-        $model->setOptions(self::$_options);
         $model->loadBase();
         $this->assertInstanceOf('Varien_Simplexml_Element', $model->getNode('global'));
     }
@@ -73,7 +52,6 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $configOptions['etc_dir'] = __DIR__ . "/_files/local_config/{$etcDir}";
         /** @var $model Mage_Core_Model_Config */
         $model = Mage::getModel('Mage_Core_Model_Config');
-        $model->setOptions($configOptions);
         $model->loadBase();
         $this->assertInstanceOf('Varien_Simplexml_Element', $model->getNode($expectedNode));
         $this->assertEquals($expectedValue, (string)$model->getNode($expectedNode));
@@ -87,20 +65,20 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         return array(
             'no local config file & no custom config file' => array(
                 'no_local_config_no_custom_config',
-                array(Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_FILE => ''),
+                array(Mage_Core_Model_Config::INIT_OPTION_EXTRA_FILE => ''),
                 'a/value',
                 'b',
             ),
             'no local config file & custom config file' => array(
                 'no_local_config_custom_config',
-                array(Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_FILE => 'custom/local.xml'),
+                array(Mage_Core_Model_Config::INIT_OPTION_EXTRA_FILE => 'custom/local.xml'),
                 'a',
                 '',
             ),
             'no local config file & custom config data' => array(
                 'no_local_config_no_custom_config',
                 array(
-                    Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_DATA
+                    Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA
                         => '<root><a><value>overridden</value></a></root>'
                 ),
                 'a/value',
@@ -108,27 +86,27 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
             ),
             'local config file & no custom config file' => array(
                 'local_config_no_custom_config',
-                array(Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_FILE => ''),
+                array(Mage_Core_Model_Config::INIT_OPTION_EXTRA_FILE => ''),
                 'value',
                 'local',
             ),
             'local config file & custom config file' => array(
                 'local_config_custom_config',
-                array(Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_FILE => 'custom/local.xml'),
+                array(Mage_Core_Model_Config::INIT_OPTION_EXTRA_FILE => 'custom/local.xml'),
                 'value',
                 'custom',
             ),
             'local config file & invalid custom config file' => array(
                 'local_config_custom_config',
-                array(Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_FILE => 'custom/invalid.pattern.xml'),
+                array(Mage_Core_Model_Config::INIT_OPTION_EXTRA_FILE => 'custom/invalid.pattern.xml'),
                 'value',
                 'local',
             ),
             'local config file & custom config data' => array(
                 'local_config_custom_config',
                 array(
-                    Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_FILE => 'custom/local.xml',
-                    Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_DATA => '<root><value>overridden</value></root>',
+                    Mage_Core_Model_Config::INIT_OPTION_EXTRA_FILE => 'custom/local.xml',
+                    Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA => '<root><value>overridden</value></root>',
                 ),
                 'value',
                 'overridden',
@@ -144,7 +122,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         /** @var $model Mage_Core_Model_Config */
         $model = Mage::getModel('Mage_Core_Model_Config');
         $model->setOptions(array(
-            Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_DATA
+            Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA
                 => sprintf(Mage_Core_Model_Config::CONFIG_TEMPLATE_INSTALL_DATE, 'Fri, 21 Dec 2012 00:00:00 +0000')
         ));
         $model->loadBase();
@@ -156,7 +134,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         /** @var $model Mage_Core_Model_Config */
         $model = Mage::getModel('Mage_Core_Model_Config');
         $model->setOptions(array(
-            Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_DATA
+            Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA
                 => sprintf(Mage_Core_Model_Config::CONFIG_TEMPLATE_INSTALL_DATE, 'invalid')
         ));
         $model->loadBase();
@@ -177,7 +155,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $model = $this->_createModel();
         $model->setOptions(array(
-            Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_DATA
+            Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA
                 => sprintf(Mage_Core_Model_Config::CONFIG_TEMPLATE_INSTALL_DATE, 'Wed, 21 Nov 2012 03:26:00 +0000')
         ));
         $model->loadBase();
@@ -201,7 +179,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $model = $this->_createModel();
         $model->setOptions(array(
-            Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_DATA
+            Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA
                 => '<config><modules><Mage_Core><active>false</active></Mage_Core></modules></config>'
         ));
         $model->loadBase();
@@ -248,13 +226,12 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     public function testReinitBaseConfig()
     {
         $model = $this->_createModel();
-        $options = self::$_options;
-        $options[Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_DATA] = '<config><test>old_value</test></config>';
+        $options[Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA] = '<config><test>old_value</test></config>';
         $model->setOptions($options);
         $model->loadBase();
         $this->assertEquals('old_value', $model->getNode('test'));
 
-        $options[Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_DATA] = '<config><test>new_value</test></config>';
+        $options[Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA] = '<config><test>new_value</test></config>';
         $model->setOptions($options);
         $model->reinit();
         $this->assertEquals('new_value', $model->getNode('test'));
@@ -329,26 +306,11 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testGetTempVarDir()
-    {
-        $this->assertTrue(is_dir($this->_createModel()->getTempVarDir()));
-    }
-
-    public function testGetDistroServerVars()
+    public function testGetDistroBaseUrl()
     {
         $_SERVER['SCRIPT_NAME'] = __FILE__;
         $_SERVER['HTTP_HOST'] = 'example.com';
-        $vars = $this->_createModel()->getDistroServerVars();
-        $this->assertArrayHasKey('root_dir', $vars);
-        $this->assertArrayHasKey('app_dir', $vars);
-        $this->assertArrayHasKey('var_dir', $vars);
-        $this->assertArrayHasKey('base_url', $vars);
-        $this->assertEquals('http://example.com/', $vars['base_url']);
-    }
-
-    public function testSubstDistroServerVars()
-    {
-        $this->assertEquals('http://localhost/', $this->_createModel()->substDistroServerVars('{{base_url}}'));
+        $this->assertEquals('http://example.com/', $this->_createModel()->testGetDistroBaseUrl());
     }
 
     public function testGetModuleConfig()
@@ -356,27 +318,6 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $model = $this->_createModel(true);
         $this->assertInstanceOf('Mage_Core_Model_Config_Element', $model->getModuleConfig());
         $this->assertInstanceOf('Mage_Core_Model_Config_Element', $model->getModuleConfig('Mage_Core'));
-    }
-
-    public function testGetVarDir()
-    {
-        $dir = $this->_createModel()->getVarDir();
-        $this->assertTrue(is_dir($dir));
-        $this->assertTrue(is_writable($dir));
-    }
-
-    public function testCreateDirIfNotExists()
-    {
-        $model = $this->_createModel();
-        $dir = $model->getVarDir() . DIRECTORY_SEPARATOR . uniqid('dir');
-        try {
-            $this->assertFalse(is_dir($dir));
-            $this->assertTrue($model->createDirIfNotExists($dir));
-            rmdir($dir);
-        } catch (Exception $e) {
-            rmdir($dir);
-            throw $e;
-        }
     }
 
     public function testGetModuleDir()

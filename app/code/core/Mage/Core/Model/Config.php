@@ -13,14 +13,17 @@
  */
 class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 {
-    const CACHE_TAG         = 'CONFIG';
+    const CACHE_TAG = 'CONFIG';
 
-    /**@+
-     * Option key names
+    /**
+     * Read additional file during initialization
      */
-    const OPTION_LOCAL_CONFIG_EXTRA_FILE = 'local_config';
-    const OPTION_LOCAL_CONFIG_EXTRA_DATA = 'local_config_extra_data';
-    /**@-*/
+    const INIT_OPTION_EXTRA_FILE = 'MAGE_CONFIG_FILE';
+
+    /**
+     * Read additional data (XML-string) during initialization
+     */
+    const INIT_OPTION_EXTRA_DATA = 'MAGE_CONFIG_DATA';
 
     /**
      * Local configuration file
@@ -70,13 +73,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     protected $_cacheLoadedSections = array();
 
     /**
-     * Configuration options
-     *
-     * @var Mage_Core_Model_Config_Options
-     */
-    protected $_options;
-
-    /**
      * Storage for generated class names
      *
      * @var array
@@ -96,20 +92,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * @var array
      */
     protected $_secureUrlCache = array();
-
-    /**
-     * System environment server variables
-     *
-     * @var array
-     */
-    protected $_distroServerVars;
-
-    /**
-     * Array which is using for replace placeholders of server variables
-     *
-     * @var array
-     */
-    protected $_substServerVars;
 
     /**
      * Resource model
@@ -227,11 +209,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         $this->_objectManager = $objectManager;
         $this->setCacheId('config_global');
-        $options = $sourceData;
-        if (!is_array($options)) {
-            $options = array($options);
-        }
-        $this->_options = $this->_objectManager->create('Mage_Core_Model_Config_Options', array('data' => $options));
         $this->_prototype = $this->_objectManager->create('Mage_Core_Model_Config_Base');
         $this->_prototype->loadString('<config/>');
         $this->_cacheChecksum = null;
@@ -252,39 +229,14 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     }
 
     /**
-     * Get configuration options object
-     *
-     * @return Mage_Core_Model_Config_Options
-     */
-    public function getOptions()
-    {
-        return $this->_options;
-    }
-
-    /**
-     * Set configuration options
-     *
-     * @param array $options
-     * @return Mage_Core_Model_Config
-     */
-    public function setOptions($options)
-    {
-        if (is_array($options)) {
-            $this->getOptions()->addData($options);
-        }
-        return $this;
-    }
-
-    /**
      * Initialization of core configuration
      *
      * @return Mage_Core_Model_Config
      */
-    public function init($options=array())
+    public function init()
     {
         $this->setCacheChecksum(null);
         $this->_cacheLoadedSections = array();
-        $this->setOptions($options);
         $this->loadBase();
 
         $cacheLoad = $this->loadModulesCache();
@@ -305,7 +257,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function loadBase()
     {
-        $etcDir = $this->getOptions()->getEtcDir();
+        /** @var $dirs Mage_Core_Model_App_Dir */
+        $dirs = $this->_objectManager->get('Mage_Core_Model_App_Dir');
+        $etcDir = $dirs->getPath(Mage_Core_Model_App_Dir::CONFIG);
         if (!$this->getNode()) {
             $this->loadString('<config/>');
         }
@@ -331,7 +285,11 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     protected function _loadLocalConfig()
     {
-        $etcDir = $this->getOptions()->getEtcDir();
+        /** @var $app Mage_Core_Model_App */
+        $app = $this->_objectManager->get('Mage_Core_Model_App');
+        /** @var $dirs Mage_Core_Model_App_Dir */
+        $dirs = $this->_objectManager->get('Mage_Core_Model_App_Dir');
+        $etcDir = $dirs->getPath(Mage_Core_Model_App_Dir::CONFIG);
         $localConfigParts = array();
 
         $localConfigFile = $etcDir . DIRECTORY_SEPARATOR . self::LOCAL_CONFIG_FILE;
@@ -342,7 +300,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             $localConfigParts[] = $localConfig;
 
             // 2. app/etc/<dir>/<file>.xml
-            $localConfigExtraFile = $this->getOptions()->getData(self::OPTION_LOCAL_CONFIG_EXTRA_FILE);
+            $localConfigExtraFile = $app->getInitParam(self::INIT_OPTION_EXTRA_FILE);
             if (preg_match('/^[a-z\d_-]+\/[a-z\d_-]+\.xml$/', $localConfigExtraFile)) {
                 $localConfigExtraFile = $etcDir . DIRECTORY_SEPARATOR . $localConfigExtraFile;
                 $localConfig = clone $this->_prototype;
@@ -352,7 +310,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         }
 
         // 3. extra local configuration string
-        $localConfigExtraData = $this->getOptions()->getData(self::OPTION_LOCAL_CONFIG_EXTRA_DATA);
+        $localConfigExtraData = $app->getInitParam(self::INIT_OPTION_EXTRA_DATA);
         if ($localConfigExtraData) {
             $localConfig = clone $this->_prototype;
             $localConfig->loadString($localConfigExtraData);
@@ -396,7 +354,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function loadLocales()
     {
-        $localeDir = $this->getOptions()->getLocaleDir();
+        /** @var $dirs Mage_Core_Model_App_Dir */
+        $dirs = $this->_objectManager->get('Mage_Core_Model_App_Dir');
+        $localeDir = $dirs->getPath(Mage_Core_Model_App_Dir::LOCALE);
         $files = glob($localeDir . DS . '*' . DS . 'config.xml');
 
         if (is_array($files) && !empty($files)) {
@@ -486,14 +446,13 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     /**
      * Reinitialize configuration
      *
-     * @param   array $options
-     * @return  Mage_Core_Model_Config
+     * @return Mage_Core_Model_Config
      */
-    public function reinit($options = array())
+    public function reinit()
     {
         $this->_allowCacheForInit = false;
         $this->_useCache = false;
-        return $this->init($options);
+        return $this->init();
     }
 
     /**
@@ -608,7 +567,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
          */
         if (!$xmlString) {
             $this->_useCache = false;
-            $this->reinit($this->_options);
+            $this->reinit();
             return false;
         } else {
             $xml = simplexml_load_string($xmlString, $this->_elementClass);
@@ -789,7 +748,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     protected function _getDeclaredModuleFiles()
     {
-        $codeDir = $this->getOptions()->getCodeDir();
+        /** @var $dirs Mage_Core_Model_App_Dir */
+        $dirs = $this->_objectManager->get('Mage_Core_Model_App_Dir');
+        $codeDir = $dirs->getPath(Mage_Core_Model_App_Dir::CODE);
         $moduleFiles = glob($codeDir . DS . '*' . DS . '*' . DS . '*' . DS . 'etc' . DS . 'config.xml');
 
         if (!$moduleFiles) {
@@ -813,7 +774,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             }
         }
 
-        $etcDir = $this->getOptions()->getEtcDir();
+        $etcDir = $dirs->getPath(Mage_Core_Model_App_Dir::CONFIG);
         $additionalFiles = glob($etcDir . DS . 'modules' . DS . '*.xml');
 
         foreach ($additionalFiles as $v) {
@@ -1012,65 +973,29 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         }
         return $result;
     }
-    /**
-     * Retrieve temporary directory path
-     *
-     * @return string
-     */
-    public function getTempVarDir()
-    {
-        return $this->getOptions()->getVarDir();
-    }
 
     /**
      * Get default server variables values
      *
      * @return array
      */
-    public function getDistroServerVars()
+    public function getDistroBaseUrl()
     {
-        if (!$this->_distroServerVars) {
+        if (isset($_SERVER['SCRIPT_NAME']) && isset($_SERVER['HTTP_HOST'])) {
+            $secure = (!empty($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] != 'off'))
+                || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443');
+            $scheme = ($secure ? 'https' : 'http') . '://' ;
 
-            if (isset($_SERVER['SCRIPT_NAME']) && isset($_SERVER['HTTP_HOST'])) {
-                $secure = (!empty($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] != 'off'))
-                        || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443');
-                $scheme = ($secure ? 'https' : 'http') . '://' ;
+            $hostArr = explode(':', $_SERVER['HTTP_HOST']);
+            $host = $hostArr[0];
+            $port = isset($hostArr[1]) && (!$secure && $hostArr[1] != 80 || $secure && $hostArr[1] != 443)
+                ? ':'. $hostArr[1]
+                : '';
+            $path = Mage::app()->getRequest()->getBasePath();
 
-                $hostArr = explode(':', $_SERVER['HTTP_HOST']);
-                $host = $hostArr[0];
-                $port = isset(
-                    $hostArr[1]) && (!$secure && $hostArr[1]!=80 || $secure && $hostArr[1]!=443
-                ) ? ':'.$hostArr[1] : '';
-                $path = Mage::app()->getRequest()->getBasePath();
-
-                $baseUrl = $scheme.$host.$port.rtrim($path, '/').'/';
-            } else {
-                $baseUrl = 'http://localhost/';
-            }
-
-            $options = $this->getOptions();
-            $this->_distroServerVars = array(
-                'root_dir'  => $options->getBaseDir(),
-                'app_dir'   => $options->getAppDir(),
-                'var_dir'   => $options->getVarDir(),
-                'base_url'  => $baseUrl,
-            );
-
-            foreach ($this->_distroServerVars as $k=>$v) {
-                $this->_substServerVars['{{'.$k.'}}'] = $v;
-            }
+            return $scheme . $host . $port . rtrim($path, '/') . '/';
         }
-        return $this->_distroServerVars;
-    }
-
-    public function substDistroServerVars($data)
-    {
-        $this->getDistroServerVars();
-        return str_replace(
-            array_keys($this->_substServerVars),
-            array_values($this->_substServerVars),
-            $data
-        );
+        return 'http://localhost/';
     }
 
     /**
@@ -1115,27 +1040,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     }
 
     /**
-     * Get temporary data directory name
-     *
-     * @param   string $path
-     * @param   string $type
-     * @return  string
-     */
-    public function getVarDir($path=null, $type='var')
-    {
-        $dir = Mage::getBaseDir($type).($path!==null ? DS.$path : '');
-        if (!$this->createDirIfNotExists($dir)) {
-            return false;
-        }
-        return $dir;
-    }
-
-    public function createDirIfNotExists($dir)
-    {
-        return $this->getOptions()->createDirIfNotExists($dir);
-    }
-
-    /**
      * Get module directory by directory type
      *
      * @param   string $type
@@ -1149,7 +1053,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         }
 
         $codePool = (string)$this->getModuleConfig($moduleName)->codePool;
-        $dir = $this->getOptions()->getCodeDir() . DS . $codePool . DS . uc_words($moduleName, DS);
+        /** @var $dirs Mage_Core_Model_App_Dir */
+        $dirs = $this->_objectManager->get('Mage_Core_Model_App_Dir');
+        $dir = $dirs->getPath(Mage_Core_Model_App_Dir::CODE) . DS . $codePool . DS . uc_words($moduleName, DS);
 
         switch ($type) {
             case 'etc':

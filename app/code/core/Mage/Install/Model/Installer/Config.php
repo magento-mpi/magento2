@@ -49,7 +49,16 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
     public function install()
     {
         $data = $this->getConfigData();
-        foreach (Mage::getModel('Mage_Core_Model_Config')->getDistroServerVars() as $index=>$value) {
+
+        /** @var $dirs Mage_Core_Model_App_Dir */
+        $dirs = Mage::getObjectManager()->get('Mage_Core_Model_App_Dir');
+        $defaults = array(
+            'root_dir' => $dirs->getPath(Mage_Core_Model_App_Dir::ROOT),
+            'app_dir'  => $dirs->getPath(Mage_Core_Model_App_Dir::APP),
+            'var_dir'  => $dirs->getPath(Mage_Core_Model_App_Dir::VAR_DIR),
+            'base_url' => Mage::getModel('Mage_Core_Model_Config')->getDistroBaseUrl(),
+        );
+        foreach ($defaults as $index => $value) {
             if (!isset($data[$index])) {
                 $data[$index] = $value;
             }

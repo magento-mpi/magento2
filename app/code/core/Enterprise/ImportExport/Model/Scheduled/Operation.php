@@ -36,7 +36,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
      * Log directory
      *
      */
-    const LOG_DIRECTORY = 'log/import_export/';
+    const LOG_DIRECTORY = 'import_export/';
 
     /**
      * File history directory
@@ -541,8 +541,8 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
      */
     protected function _getHistoryDirPath()
     {
-        $dirPath = Mage::getBaseDir('var') . DS . self::LOG_DIRECTORY . date('Y' . DS . 'm' . DS . 'd')
-            . DS . self::FILE_HISTORY_DIRECTORY . DS;
+        $dirPath = Mage::getBaseDir(Mage_Core_Model_App_Dir::LOG) . DS . self::LOG_DIRECTORY
+            . date('Y' . DS . 'm' . DS . 'd') . DS . self::FILE_HISTORY_DIRECTORY . DS;
 
         if (!is_dir($dirPath)) {
             mkdir($dirPath, 0777, true);

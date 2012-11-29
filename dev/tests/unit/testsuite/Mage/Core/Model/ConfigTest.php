@@ -29,7 +29,6 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
             ->will($this->returnCallback(array($this, 'getInstance')));
 
         $this->_model = new Mage_Core_Model_Config($objectManagerMock, $data);
-        $this->assertInstanceOf('Mage_Core_Model_Config_Options', $this->_model->getOptions());
     }
 
     public function constructorDataProvider()

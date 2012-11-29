@@ -63,9 +63,19 @@ class Mage_Core_Model_Design_Package
     /**#@-*/
 
     /**
-     * Path to configuration node for file duplication
+     * Path to configuration node that indicates how to materialize view files: with or without "duplication"
      */
     const XML_PATH_ALLOW_DUPLICATION = 'default/design/theme/allow_view_files_duplication';
+
+    /**
+     * Path to config node that allows automatically updating map files in runtime
+     */
+    const XML_PATH_ALLOW_MAP_UPDATE = 'global/dev/design_fallback/allow_map_update';
+
+    /**
+     * Sub-directory where to store maps of view files fallback (if used)
+     */
+    const FALLBACK_MAP_DIR = 'maps/fallback';
 
     /**
      * PCRE that matches non-absolute URLs in CSS content
@@ -387,15 +397,20 @@ class Mage_Core_Model_Design_Package
     {
         $cacheKey = "{$params['area']}|{$params['themeModel']->getCacheKey()}|{$params['locale']}";
         if (!isset($this->_fallback[$cacheKey])) {
-            $params['canSaveMap'] = (bool) (string) Mage::app()->getConfig()
-                ->getNode('global/dev/design_fallback/allow_map_update');
-            $params['mapDir'] = Mage::getConfig()->getTempVarDir() . '/maps/fallback';
-            $params['baseDir'] = Mage::getBaseDir();
-
-            $model = $this->_isDeveloperMode() ?
-                'Mage_Core_Model_Design_Fallback' :
-                'Mage_Core_Model_Design_Fallback_CachingProxy';
-            $this->_fallback[$cacheKey] = Mage::getModel($model, array('data' => $params));
+            $fallback = Mage::getObjectManager()->create('Mage_Core_Model_Design_Fallback', array('params' => $params));
+            if ($this->_isDeveloperMode()) {
+                $this->_fallback[$cacheKey] = $fallback;
+            } else {
+                /** @var $dirs Mage_Core_Model_App_Dir */
+                $dirs = Mage::getObjectManager()->get('Mage_Core_Model_App_Dir');
+                $proxy = new Mage_Core_Model_Design_Fallback_CachingProxy(
+                    $fallback,
+                    $dirs->getPath(Mage_Core_Model_App_Dir::VAR_DIR) . DIRECTORY_SEPARATOR . self::FALLBACK_MAP_DIR,
+                    $dirs->getPath(Mage_Core_Model_App_Dir::ROOT),
+                    (bool)(string)Mage::app()->getConfig()->getNode(self::XML_PATH_ALLOW_MAP_UPDATE)
+                );
+                $this->_fallback[$cacheKey] = $proxy;
+            }
         }
         return $this->_fallback[$cacheKey];
     }

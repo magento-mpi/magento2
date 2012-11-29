@@ -366,21 +366,11 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
 
         $this->_cleanUpDatabase();
 
-        /* Remove temporary directories */
-        $configOptions = Mage::app()->getConfig()->getOptions();
-        $dirsToRemove = array(
-            $configOptions->getCacheDir(),
-            $configOptions->getSessionDir(),
-            $configOptions->getExportDir(),
-            $configOptions->getLogDir(),
-            $configOptions->getVarDir() . '/report',
-        );
-        foreach ($dirsToRemove as $dir) {
+        /* Remove temporary directories and local.xml */
+        foreach (glob(Mage::getBaseDir(Mage_Core_Model_App_Dir::VAR_DIR) . '/*', GLOB_ONLYDIR) as $dir) {
             Varien_Io_File::rmdirRecursive($dir);
         }
-
-        /* Remove local configuration */
-        unlink($configOptions->getEtcDir() . '/local.xml');
+        unlink(Mage::getBaseDir(Mage_Core_Model_App_Dir::CONFIG) . DIRECTORY_SEPARATOR . '/local.xml');
         return true;
     }
 

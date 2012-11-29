@@ -91,6 +91,11 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     const MEDIA_REWRITE_SCRIPT            = 'get.php/';
 
     /**
+     * A placeholder for generating base URL
+     */
+    const BASE_URL_PLACEHOLDER            = '{{base_url}}';
+
+    /**
      * Cache flag
      *
      * @var boolean
@@ -453,14 +458,17 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
                 $url = $this->getConfig(self::XML_PATH_SECURE_BASE_URL);
             }
             if ($placeholder == 'unsecure_public_url' || $placeholder == 'secure_public_url') {
-                $pubName = Mage_Core_Model_Config_Options::PUB_DIRECTORY;
-                $url.= (substr(dirname($_SERVER['SCRIPT_FILENAME']), -4) == '/' . $pubName) ? '' : $pubName . '/';
+                /** @var $dirs Mage_Core_Model_App_Dir */
+                $dirs = Mage::getObjectManager()->get('Mage_Core_Model_App_Dir');
+                $pubName = $dirs->get(Mage_Core_Model_App_Dir::PUB);
+                $url .= (substr(dirname($_SERVER['SCRIPT_FILENAME']), -4) == '/' . $pubName) ? '' : $pubName . '/';
             }
 
             if ($url) {
                 $sValue = str_replace('{{' . $placeholder . '}}', $url, $sValue);
-            } elseif (strpos($sValue, '{{base_url}}') !== false) {
-                $sValue = Mage::getConfig()->substDistroServerVars($sValue);
+            } elseif (strpos($sValue, Mage_Core_Model_Store::BASE_URL_PLACEHOLDER) !== false) {
+                $distroBaseUrl = Mage::getConfig()->getDistroBaseUrl();
+                $sValue = str_replace(Mage_Core_Model_Store::BASE_URL_PLACEHOLDER, $distroBaseUrl, $sValue);
             }
         }
 
@@ -550,9 +558,9 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
                     throw Mage::exception('Mage_Core', Mage::helper('Mage_Core_Helper_Data')->__('Invalid base url type'));
             }
 
-            if (false !== strpos($url, '{{base_url}}')) {
-                $baseUrl = Mage::getConfig()->substDistroServerVars('{{base_url}}');
-                $url = str_replace('{{base_url}}', $baseUrl, $url);
+            if (false !== strpos($url, Mage_Core_Model_Store::BASE_URL_PLACEHOLDER)) {
+                $distroBaseUrl = Mage::getConfig()->getDistroBaseUrl();
+                $url = str_replace(Mage_Core_Model_Store::BASE_URL_PLACEHOLDER, $distroBaseUrl, $url);
             }
 
             $this->_baseUrlCache[$cacheKey] = rtrim($url, '/') . '/';

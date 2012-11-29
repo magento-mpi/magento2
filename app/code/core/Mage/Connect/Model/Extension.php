@@ -266,8 +266,10 @@ class Mage_Connect_Model_Extension extends Varien_Object
     public function createPackage()
     {
         $path = Mage::helper('Mage_Connect_Helper_Data')->getLocalPackagesPath();
-        if (!Mage::getConfig()->createDirIfNotExists($path)) {
-            return false;
+        if (!is_dir($path)) {
+            if (!mkdir($path)) {
+                return false;
+            }
         }
         if (!$this->getPackageXml()) {
             $this->generatePackageXml();
@@ -284,8 +286,10 @@ class Mage_Connect_Model_Extension extends Varien_Object
     public function createPackageV1x()
     {
         $path = Mage::helper('Mage_Connect_Helper_Data')->getLocalPackagesPathV1x();
-        if (!Mage::getConfig()->createDirIfNotExists($path)) {
-            return false;
+        if (!is_dir($path)) {
+            if (!mkdir($path)) {
+                return false;
+            }
         }
         if (!$this->getPackageXml()) {
             $this->generatePackageXml();

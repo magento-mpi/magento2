@@ -249,27 +249,6 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @dataProvider cleanupDirExceptionDataProvider
-     * @expectedException Magento_Exception
-     */
-    public function testCleanupDirException($optionCode)
-    {
-        $this->_bootstrap->cleanupDir($optionCode);
-    }
-
-    /**
-     * @return array
-     */
-    public function cleanupDirExceptionDataProvider()
-    {
-        return array(
-            'etc'   => array('etc_dir'),
-            'var'   => array('var_dir'),
-            'media' => array('media_dir'),
-        );
-    }
-
     public function testGetTmpDir()
     {
         $this->assertEquals(self::$_tmpDir, $this->_bootstrap->getTmpDir());

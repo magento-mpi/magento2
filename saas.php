@@ -18,4 +18,8 @@
  *
  * @param string $appConfigString
  */
-return new EntryPoint;
+return function ($appConfigString) {
+    $params = array_merge($_SERVER, unserialize($appConfigString));
+    require __DIR__ . '/app/bootstrap.php';
+    Mage::run($params);
+};
