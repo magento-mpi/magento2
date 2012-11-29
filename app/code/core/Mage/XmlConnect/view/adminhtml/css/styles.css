@@ -52,7 +52,9 @@ border:1px}
 .popup-theme-save { background:#fff; border:1px solid #d6d6d6; position:fixed; top:50%; left:50%; margin:-50px 0 0 -100px; padding:20px; width:200px; z-index:999; -webkit-box-shadow: 0px 3px 5px #ccc; -moz-box-shadow:0px 3px 5px #ccc; box-shadow:0px 3px 5px #ccc; }
 .popup-theme-save h3 { background:#6f8992; color:#fff; font-size:12px; padding:2px 10px; position:relative; margin:-21px -21px 20px; }
 .popup-theme-save .input-text { display:block; margin:0 0 10px; width:200px; }
-.popup-theme-save .validation-advice { margin:-7px 0 10px; }
+.popup-theme-save .validation-advice,
+.popup-theme-save label.mage-error { margin:-7px 0 10px; }
+label.mage-error {width: auto !important; display: block;}
 
 .istore-buttons-set { float:right; margin:0 0 10px; }
 

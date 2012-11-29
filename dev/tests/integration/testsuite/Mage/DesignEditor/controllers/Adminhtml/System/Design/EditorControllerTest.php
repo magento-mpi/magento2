@@ -59,7 +59,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
         $expectedFormAction = 'http://localhost/index.php/backend/admin/system_design_editor/launch/';
         $this->assertContains('Visual Design Editor', $content);
         $this->assertContains('<form id="edit_form" action="' . $expectedFormAction, $content);
-        $this->assertContains("editForm = new varienForm('edit_form'", $content);
+        $this->assertContains("jQuery('#edit_form').form()", $content);
     }
 
     /**
