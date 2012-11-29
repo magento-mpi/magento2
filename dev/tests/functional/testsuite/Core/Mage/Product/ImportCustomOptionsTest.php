@@ -81,31 +81,7 @@ class Core_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_TestCase
     /**
      * <p>Import custom options of all types from different product types</p>
      * <p>Preconditions:</p>
-     *  <p>1. Product of correspond type with custom options is created.</p>
-     *
-     * <p>Steps:</p>
-     *  <p>1. Log in to Backend.</p>
-     *  <p>2. Go to Catalog - Manage Products.</p>
-     *  <p>3. Click the "Add Product" button.</p>
-     *  <p>4. Select "Default" attribute set and correspond product type.</p>
-     *  <p>5. Click the "Continue" button.</p>
-     *  <p>6. Fill in all required fields.</p>
-     *  <p>7. Open "Custom Options" tab.</p>
-     *  <p>8. Click the "Import Options" button.</p>
-     *  <p>9. Select previously created product.</p>
-     *  <p>10. Click the "Import" button on the grid.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. Custom options from selected product were fully copied and added to creating product.</p>
-     *  <p>2. Grid with products was closed.</p>
-     *
-     *  <p>Steps:</p>
-     *  <p>11. Save product.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. Product successfully saved.</p>
-     *  <p>2. System displays message "The product has been saved."</p>
-     *  <p>3. Imported custom options were saved.</p>
+     * <p>1. Product of correspond type with custom options is created.</p>
      *
      * @param string $type
      * @param array $attrData
@@ -160,40 +136,7 @@ class Core_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_TestCase
     /**
      * <p>Import one custom option several times</p>
      * <p>Preconditions:</p>
-     *  <p>1. Simple product with custom option is created.</p>
-     *
-     * <p>Steps:</p>
-     *  <p>1. Log in to Backend.</p>
-     *  <p>2. Go to Catalog - Manage Products.</p>
-     *  <p>3. Click the "Add Product" button.</p>
-     *  <p>4. Select "Default" attribute set and simple product type.</p>
-     *  <p>5. Click the "Continue" button.</p>
-     *  <p>6. Fill in all required fields.</p>
-     *  <p>7. Open "Custom Options" tab.</p>
-     *  <p>8. Click the "Import Options" button.</p>
-     *  <p>9. Select previously created simple product.</p>
-     *  <p>10. Click the "Import" button on the grid.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. Custom option from selected product was fully copied and added to creating product.</p>
-     *  <p>2. Grid with products was closed.</p>
-     *
-     * <p>Steps:</p>
-     *  <p>11. Click the "Import Options" button.</p>
-     *  <p>12. Select previously created simple product.</p>
-     *  <p>13. Click the "Import" button on the grid.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. Custom option from selected product was fully copied and added to existent custom option.</p>
-     *  <p>2. Grid with products was closed.</p>
-     *
-     * <p>Steps:</p>
-     *  <p>14. Save product.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. Product successfully saved.</p>
-     *  <p>2. System displays message "The product has been saved."</p>
-     *  <p>3. Imported custom options were saved.</p>
+     * <p>1. Simple product with custom option is created.</p>
      *
      * @param array $simpleProducts
      *
@@ -222,40 +165,7 @@ class Core_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_TestCase
     /**
      * <p>Import custom options from several products</p>
      * <p>Preconditions:</p>
-     *  <p>1. Two simple product with different custom options are created.</p>
-     *
-     * <p>Steps:</p>
-     *  <p>1. Log in to Backend.</p>
-     *  <p>2. Go to Catalog - Manage Products.</p>
-     *  <p>3. Click the "Add Product" button.</p>
-     *  <p>4. Select "Default" attribute set and simple product type.</p>
-     *  <p>5. Click the "Continue" button.</p>
-     *  <p>6. Fill in all required fields.</p>
-     *  <p>7. Open "Custom Options" tab.</p>
-     *  <p>8. Click the "Import Options" button.</p>
-     *  <p>9. Select previously created first simple product.</p>
-     *  <p>10. Click the "Import" button on the grid.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. Custom option from selected product was fully copied and added to creating product.</p>
-     *  <p>2. Grid with products was closed.</p>
-     *
-     * <p>Steps:</p>
-     *  <p>11. Click the "Import Options" button.</p>
-     *  <p>12. Select previously created second simple product.</p>
-     *  <p>13. Click the "Import" button on the grid.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. Custom option from selected product was fully copied and added to existent custom option.</p>
-     *  <p>2. Grid with products was closed.</p>
-     *
-     * <p>Steps:</p>
-     *  <p>14. Save product.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. Product successfully saved.</p>
-     *  <p>2. System displays message "The product has been saved."</p>
-     *  <p>3. Imported custom options were saved.</p>
+     * <p>1. Two simple product with different custom options are created.</p>
      *
      * @param array $simpleProducts
      *
@@ -285,32 +195,7 @@ class Core_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_TestCase
     /**
      * <p>Delete imported custom option</p>
      * <p>Preconditions:</p>
-     *  <p>1. Simple product with custom options is created.</p>
-     *
-     * <p>Steps:</p>
-     *  <p>1. Log in to Backend.</p>
-     *  <p>2. Go to Catalog - Manage Products.</p>
-     *  <p>3. Click the "Add Product" button.</p>
-     *  <p>4. Select "Default" attribute set and simple product type.</p>
-     *  <p>5. Click the "Continue" button.</p>
-     *  <p>6. Fill in all required fields.</p>
-     *  <p>7. Open "Custom Options" tab.</p>
-     *  <p>8. Click the "Import Options" button.</p>
-     *  <p>9. Select previously created simple product.</p>
-     *  <p>10. Click the "Import" button on the grid.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. Custom options from selected product were fully copied and added to creating product.</p>
-     *  <p>2. Grid with products was closed.</p>
-     *
-     * <p>Steps:</p>
-     *  <p>11. Delete all custom options.</p>
-     *  <p>12. Save product.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. Product successfully saved.</p>
-     *  <p>2. System displays message "The product has been saved."</p>
-     *  <p>3. Product saved without custom options.</p>
+     * <p>1. Simple product with custom options is created.</p>
      *
      * @param array $simpleProducts
      *
@@ -338,35 +223,7 @@ class Core_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_TestCase
     /**
      * <p>Import custom options to product with custom options</p>
      * <p>Preconditions:</p>
-     *  <p>1. Simple product with custom options is created.</p>
-     *
-     * <p>Steps:</p>
-     *  <p>1. Log in to Backend.</p>
-     *  <p>2. Go to Catalog - Manage Products.</p>
-     *  <p>3. Click the "Add Product" button.</p>
-     *  <p>4. Select "Default" attribute set and simple product type.</p>
-     *  <p>5. Click the "Continue" button.</p>
-     *  <p>6. Fill in all required fields.</p>
-     *  <p>7. Open "Custom Options" tab.</p>
-     *  <p>8. Add custom options.</p>
-     *  <p>9. Save product.</p>
-     *  <p>10. Open saved product.</p>
-     *  <p>11. Open "Custom Options" tab.</p>
-     *  <p>12. Click the "Import Options" button.</p>
-     *  <p>13. Select previously created simple product.</p>
-     *  <p>14. Click the "Import" button on the grid.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. Custom options from selected product were fully copied and added to existent custom options.</p>
-     *  <p>2. Grid with products was closed.</p>
-     *
-     * <p>Steps:</p>
-     *  <p>15. Save product.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. Product successfully saved.</p>
-     *  <p>2. System displays message "The product has been saved."</p>
-     *  <p>3. Imported custom options were saved.</p>
+     * <p>1. Simple product with custom options is created.</p>
      *
      * @param array $simpleProducts
      *

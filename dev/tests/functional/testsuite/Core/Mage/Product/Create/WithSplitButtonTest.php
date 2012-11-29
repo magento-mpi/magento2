@@ -28,14 +28,6 @@ class Core_Mage_Product_Create_WithSplitButtonTest extends Mage_Selenium_TestCas
 
     /**
      * <p>Creating simple product with required fields using "Add Product" split button</p>
-     * <p>Steps:</p>
-     *  <p>1. Click "Add Product" split button</p>
-     *  <p>2. Fill all required fields</p>
-     *  <p>3. Click "Save" button</p>
-     *
-     * <p>Expected result:</p>
-     *  <p>After Step 1. New simple product creation page is opened. Default attribute set is setted by default</p>
-     *  <p>After Step 3. The message: "The product has been saved" appears</p>
      *
      * @test
      * @TestlinkId TL-MAGE-6084

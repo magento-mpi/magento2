@@ -66,20 +66,6 @@ class Core_Mage_Product_CategoryTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Select category and save product</p>
-     * <p>Preconditions:</p>
-     *  <p>1. Category has been created.</p>
-     *
-     * <p>Steps:</p>
-     *  <p>1. Log in to Backend.</p>
-     *  <p>2. Navigate to Catalog - Manage Products.</p>
-     *  <p>3. Click 'Add Product' button.</p>
-     *  <p>4. Fulfill all required fields.</p>
-     *  <p>5. Enter created category name into the category control field and choose proper category from list.</p>
-     *  <p>6. Save product.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. Product successfully saved with selected category.</p>
-     *  <p>2. System displays message 'The product has been saved.'</p>
      *
      * @param string $categoryName
      *
@@ -122,20 +108,6 @@ class Core_Mage_Product_CategoryTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Select category with subcategory</p>
-     * <p>Preconditions:</p>
-     *  <p>1. Category with subcategory has been created.</p>
-     *
-     * <p>Steps:</p>
-     *  <p>1. Log in to Backend.</p>
-     *  <p>2. Navigate to Catalog - Manage Products.</p>
-     *  <p>3. Click 'Add Product' button.</p>
-     *  <p>4. Fulfill all required fields.</p>
-     *  <p>5. Select category name which contains subcategory in the category control.</p>
-     *  <p>6. Save product.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. Product successfully saved with selected category.</p>
-     *  <p>2. System displays message 'The product has been saved.'</p>
      *
      * @param string $categories
      *
@@ -164,19 +136,6 @@ class Core_Mage_Product_CategoryTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Select the same category two times.</p>
-     * <p>Preconditions:</p>
-     *  <p>1. Category has been created.</p>
-     *
-     * <p>Steps:</p>
-     *  <p>1. Log in to Backend.</p>
-     *  <p>2. Navigate to Catalog - Manage Products.</p>
-     *  <p>3. Click 'Add Product' button.</p>
-     *  <p>4. Fulfill all required fields.</p>
-     *  <p>5. Enter created category name into the category control field and choose proper category from list.</p>
-     *  <p>6. Enter the same category name into the category control field.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. Selected category is not displayed in the list with proposed categories.</p>
      *
      * @param string $categories
      *
@@ -202,21 +161,6 @@ class Core_Mage_Product_CategoryTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Select two different categories</p>
-     * <p>Preconditions:</p>
-     *  <p>1. Two categories have been created in default root category.</p>
-     *
-     * <p>Steps:</p>
-     *  <p>1. Log in to Backend.</p>
-     *  <p>2. Navigate to Catalog - Manage Products.</p>
-     *  <p>3. Click 'Add Product' button.</p>
-     *  <p>4. Fulfill all required fields.</p>
-     *  <p>5. Enter first category name into the category control field and choose proper category from list.</p>
-     *  <p>6. Enter second category name into the category control field and choose proper category from list.</p>
-     *  <p>7. Save product.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. Product successfully saved with selected categories.</p>
-     *  <p>2. System displays message 'The product has been saved.'</p>
      *
      * @param string $categories
      *
@@ -240,21 +184,6 @@ class Core_Mage_Product_CategoryTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Select two categories with the same name in one root categories</p>
-     * <p>Preconditions:</p>
-     *  <p>1. Two categories with the same name have been created in default root category.</p>
-     *
-     * <p>Steps:</p>
-     *  <p>1. Log in to Backend.</p>
-     *  <p>2. Navigate to Catalog - Manage Products.</p>
-     *  <p>3. Click 'Add Product' button.</p>
-     *  <p>4. Fulfill all required fields.</p>
-     *  <p>5. Enter category name into the category control field and choose proper category from list.</p>
-     *  <p>6. Enter category name into the category control field and choose proper category from list.</p>
-     *  <p>7. Save product.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. Product successfully saved with selected categories.</p>
-     *  <p>2. System displays message 'The product has been saved.'</p>
      *
      * @param string $categories
      *
@@ -278,23 +207,6 @@ class Core_Mage_Product_CategoryTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Select two categories with the same name in different root categories</p>
-     * <p>Preconditions:</p>
-     *  <p>1. New root category has been created.</p>
-     *  <p>2. Category 'Category_test' has been created in new root category.</p>
-     *  <p>3. Category 'Category_test' has been created in root 'Default Category'.</p>
-     *
-     * <p>Steps:</p>
-     *  <p>1. Log in to Backend.</p>
-     *  <p>2. Navigate to Catalog - Manage Products.</p>
-     *  <p>3. Click 'Add Product' button.</p>
-     *  <p>4. Fulfill all required fields.</p>
-     *  <p>5. Enter 'Category_test' into the category control field and choose category in 'Default Category'.</p>
-     *  <p>6. Enter 'Category_test' into the category control field and choose category placed in new root category.</p>
-     *  <p>7. Save product.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. Product successfully saved with selected categories.</p>
-     *  <p>2. System displays message 'The product has been saved.'</p>
      *
      * @param string $categories
      *
@@ -318,15 +230,6 @@ class Core_Mage_Product_CategoryTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Search for nonexistent category</p>
-     * <p>Steps:</p>
-     *  <p>1. Log in to Backend.</p>
-     *  <p>2. Navigate to Catalog - Manage Products.</p>
-     *  <p>3. Click 'Add Product' button.</p>
-     *  <p>4. Fulfill all required fields.</p>
-     *  <p>5. Enter nonexistent category name into the category control field.</p>
-     *
-     * <p>Expected results:</p>
-     * <p>1. List with proposed categories is empty.</p>
      *
      * @test
      * @depends selectCategory
@@ -347,16 +250,6 @@ class Core_Mage_Product_CategoryTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete selected category</p>
-     * <p>Preconditions:</p>
-     *  <p>1. Category has been created.</p>
-     *
-     * <p>Steps:</p>
-     *  <p>1. Log in to Backend.</p>
-     *  <p>2. Navigate to Catalog - Manage Products.</p>
-     *  <p>3. Click 'Add Product' button.</p>
-     *  <p>4. Fulfill all required fields.</p>
-     *  <p>5. Enter category name into the category control field and choose proper category from list.</p>
-     *  <p>6. Delete selected category.</p>
      *
      * <p>Expected results:</p>
      *  <p>1. Selected category was successfully unassigned.</p>
@@ -387,22 +280,6 @@ class Core_Mage_Product_CategoryTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Duplicate product</p>
-     * <p>Preconditions:</p>
-     *  <p>1. Category has been created.</p>
-     *
-     * <p>Steps:</p>
-     *  <p>1. Log in to Backend.</p>
-     *  <p>2. Navigate to Catalog - Manage Products.</p>
-     *  <p>3. Click 'Add Product' button.</p>
-     *  <p>4. Fulfill all required fields.</p>
-     *  <p>5. Enter category name into the category control field and choose proper category from list.</p>
-     *  <p>6. Save product.</p>
-     *  <p>7. Open created product.</p>
-     *  <p>8. Click 'Duplicate' button.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. Product was successfully duplicated.</p>
-     *  <p>2. System displays message 'The product has been duplicated.'.</p>
      *
      * @param string $categories
      *
@@ -429,21 +306,6 @@ class Core_Mage_Product_CategoryTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Change attribute set</p>
-     * <p>Preconditions:</p>
-     *  <p>1. Category has been created.</p>
-     *  <p>2. Attribute set based on default has been created.</p>
-     *
-     * <p>Steps:</p>
-     *  <p>1. Log in to Backend.</p>
-     *  <p>2. Navigate to Catalog - Manage Products.</p>
-     *  <p>3. Click 'Add Product' button.</p>
-     *  <p>4. Fulfill all required fields.</p>
-     *  <p>5. Enter category name into the category control field and choose proper category from list.</p>
-     *  <p>6. Change attribute set.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. Attribute set was successfully changed.</p>
-     *  <p>2. Selected category is displayed.</p>
      *
      * @param string $categories
      *

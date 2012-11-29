@@ -30,14 +30,6 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating product with required fields only</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add product' button;</p>
-     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in required fields;</p>
-     * <p>5. Click 'Save' button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
      *
      * @return array $productData
      * @test
@@ -56,14 +48,6 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating product with required fields only</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add product' button;</p>
-     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in required fields;</p>
-     * <p>5. Click 'Save' button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3360
@@ -80,14 +64,6 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating product with all fields</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add product' button;</p>
-     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in all fields;</p>
-     * <p>5. Click 'Save' button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
      *
      * @test
      * @depends requiredFieldsForDynamicSmoke
@@ -111,14 +87,6 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating product with all fields</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add product' button;</p>
-     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in all fields;</p>
-     * <p>5. Click 'Save' button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
      *
      * @test
      * @depends requiredFieldsForDynamicSmoke
@@ -142,15 +110,6 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating product with existing SKU</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add product' button;</p>
-     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in required fields using exist SKU;</p>
-     * <p>5. Click 'Save and Continue Edit' button;</p>
-     * <p>Expected result:</p>
-     * <p>1. Product is saved, confirmation message appears;</p>
-     * <p>2. Auto-increment is added to SKU;</p>
      *
      * @param $productData
      *
@@ -176,16 +135,6 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating product with empty required fields</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add product' button;</p>
-     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Leave one required field empty and fill in the rest of fields;</p>
-     * <p>5. Click 'Save' button;</p>
-     * <p>6. Verify error message;</p>
-     * <p>7. Repeat scenario for all required fields for both tabs;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
      *
      * @param $emptyField
      * @param $fieldType
@@ -228,14 +177,6 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating product with special characters into required fields</p>
-     * <p>Steps</p>
-     * <p>1. Click 'Add Product' button;</p>
-     * <p>2. Fill in 'Attribute Set', 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in required fields with special symbols ('General' tab), rest - with normal data;
-     * <p>5. Click 'Save' button;</p>
-     * <p>Expected result:</p>
-     * <p>Product created, confirmation message appears</p>
      *
      * @test
      * @depends requiredFieldsForDynamicSmoke
@@ -263,14 +204,6 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating product with long values from required fields</p>
-     * <p>Steps</p>
-     * <p>1. Click 'Add Product' button;</p>
-     * <p>2. Fill in 'Attribute Set', 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in required fields with long values ('General' tab), rest - with normal data;
-     * <p>5. Click 'Save' button;</p>
-     * <p>Expected result:</p>
-     * <p>Product created, confirmation message appears</p>
      *
      * @test
      * @depends requiredFieldsForDynamicSmoke
@@ -299,14 +232,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating product with SKU length more than 64 characters.</p>
-     * <p>Steps</p>
-     * <p>1. Click 'Add Product' button;</p>
-     * <p>2. Fill in 'Attribute Set', 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in required fields, use for sku string with length more than 64 characters</p>
-     * <p>5. Click 'Save' button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
+     *
      * @test
      * @depends requiredFieldsForDynamicSmoke
      * @TestlinkId TL-MAGE-3352
@@ -326,14 +252,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     /**
      * Fails due to MAGE-5658
      * <p>Creating product with invalid weight</p>
-     * <p>Steps</p>
-     * <p>1. Click 'Add Product' button;</p>
-     * <p>2. Fill in 'Attribute Set', 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in 'Weight' field with special characters, the rest - with normal data;</p>
-     * <p>5. Click 'Save' button;</p>
-     * <p>Expected result:</p>
-     * <p>Product created, confirmation message appears, Weight=0;</p>
+     *
      * @test
      * @TestlinkId TL-MAGE-3357
      */
@@ -351,14 +270,6 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating product with invalid price</p>
-     * <p>Steps</p>
-     * <p>1. Click 'Add Product' button;</p>
-     * <p>2. Fill in 'Attribute Set', 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in 'Price' field with special characters, the rest fields - with normal data;</p>
-     * <p>5. Click 'Save' button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
      *
      * @param $invalidPrice
      *
@@ -381,14 +292,6 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating product with invalid special price</p>
-     * <p>Steps</p>
-     * <p>1. Click 'Add Product' button;</p>
-     * <p>2. Fill in 'Attribute Set', 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in field 'Special Price' with invalid data, the rest fields - with correct data;
-     * <p>5. Click 'Save' button;</p>
-     * <p>Expected result:<p>
-     * <p>Product is not created, error message appears;</p>
      *
      * @param $invalidValue
      *
@@ -412,15 +315,6 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating product with empty tier price</p>
-     * <p>Steps<p>
-     * <p>1. Click 'Add Product' button;</p>
-     * <p>2. Fill in 'Attribute Set', 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in required fields with correct data;</p>
-     * <p>5. Click 'Add Tier' button and leave fields in current fieldset empty;</p>
-     * <p>6. Click 'Save' button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
      *
      * @param $emptyTierPrice
      *
@@ -453,15 +347,6 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating product with invalid Tier Price Data</p>
-     * <p>Steps</p>
-     * <p>1. Click 'Add Product' button;</p>
-     * <p>2. Fill in 'Attribute Set', 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in required fields with correct data;</p>
-     * <p>5. Click 'Add Tier' button and fill in fields in current fieldset with incorrect data;</p>
-     * <p>6. Click 'Save' button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
      *
      * @param $invalidTierData
      *
@@ -489,16 +374,6 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating product with empty Bundle Items Default Title</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add product' button;</p>
-     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in required fields;</p>
-     * <p>5. Add Bundle Items Option;</p>
-     * <p>6. Leave Default Title field empty and fill in the rest of fields;</p>
-     * <p>7. Click 'Save' button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
      *
      * @test
      * @depends requiredFieldsForDynamicSmoke
@@ -520,16 +395,6 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating product with Bundle Items invalid "Position"</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add product' button;</p>
-     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in required fields;</p>
-     * <p>5. Add Bundle Items Option;</p>
-     * <p>6. Enter invalid data into "Position" field and fill in the rest of fields;</p>
-     * <p>7. Click 'Save' button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
      *
      * @param $invalidPosition
      *
@@ -554,18 +419,6 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Bundle product with Simple product</p>
-     * <p>Preconditions</p>
-     * <p>Physical Simple product created</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add product' button;</p>
-     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in all fields;</p>
-     * <p>5. Goto "Associated products" tab;</p>
-     * <p>6. Select created Simple product;</p>
-     * <p>5. Click 'Save' button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
      *
      * @param $dataBundleType
      *
@@ -599,18 +452,6 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Bundle product with Virtual product</p>
-     * <p>Preconditions</p>
-     * <p>Physical Simple product created</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add product' button;</p>
-     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in all fields;</p>
-     * <p>5. Goto "Associated products" tab;</p>
-     * <p>6. Select created Virtual product;</p>
-     * <p>5. Click 'Save' button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
      *
      * @param $dataBundleType
      *

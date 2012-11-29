@@ -60,17 +60,6 @@ class Core_Mage_Product_SkuAutoGenerationTest extends Mage_Selenium_TestCase
 
     /**
      * <p>SKU auto-generation verification</p>
-     * <p>Preconditions:</p>
-     *  <p>1. Mask for SKU = {{name}}</p>
-     *
-     * <p>Steps:</p>
-     *  <p>1. Log in to Backend.</p>
-     *  <p>2. Go Catalog - Manage Products.</p>
-     *  <p>3. Start to create new simple product.</p>
-     *  <p>4. Enter some text to Name field.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. SKU field is equal to product name.</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -91,20 +80,6 @@ class Core_Mage_Product_SkuAutoGenerationTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create product using SKU auto-generation</p>
-     * <p>Preconditions:</p>
-     *  <p>1. Mask for SKU = {{name}}</p>
-     *  <p>2. Product name length is less than 64 symbols and unique.</p>
-     *
-     * <p>Steps:</p>
-     *  <p>1. Log in to Backend.</p>
-     *  <p>2. Go Catalog - Manage Products.</p>
-     *  <p>3. Start to create new simple product.</p>
-     *  <p>4. Fulfill all required fields except SKU.</p>
-     *  <p>5. Save product.</p>
-     *  <p>6. Open created product.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. SKU field is equal to product name.</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -126,20 +101,6 @@ class Core_Mage_Product_SkuAutoGenerationTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create product with user-defined SKU</p>
-     * <p>Preconditions:</p>
-     *  <p>1. Mask for SKU = {{name}}</p>
-     *
-     * <p>Steps:</p>
-     *  <p>1. Log in to Backend.</p>
-     *  <p>2. Go Catalog - Manage Products.</p>
-     *  <p>3. Start to create new simple product.</p>
-     *  <p>4. Fulfill all required fields except SKU</p>
-     *  <p>5. Enter valid value to SKU field.</p>
-     *  <p>6. Save product.</p>
-     *  <p>7. Open created product.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. SKU field is equal to user-defined SKU.</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -165,18 +126,6 @@ class Core_Mage_Product_SkuAutoGenerationTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create product with long Name</p>
-     * <p>Preconditions:</p>
-     *  <p>1. Mask for SKU = {{name}}</p>
-     *
-     * <p>Steps:</p>
-     *  <p>1. Log in to Backend.</p>
-     *  <p>2. Go Catalog - Manage Products.</p>
-     *  <p>3. Start to create new simple product.</p>
-     *  <p>4. Fulfill all required fields except SKU. To Name field enter value more than 64 characters.</p>
-     *  <p>6. Save product.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1.  System displays "SKU length should be 64 characters maximum." message under SKU field.</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -197,21 +146,6 @@ class Core_Mage_Product_SkuAutoGenerationTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create product with already existed SKU</p>
-     * <p>Preconditions:</p>
-     *  <p>1. Mask for SKU = {{name}}</p>
-     *  <p>2. Simple product with SKU = "simple_product_sku" is created.</p>
-     *
-     * <p>Steps:</p>
-     *  <p>1. Log in to Backend.</p>
-     *  <p>2. Go Catalog - Manage Products.</p>
-     *  <p>3. Start to create new simple product.</p>
-     *  <p>4. Fulfill all required fields except SKU</p>
-     *  <p>5. Enter "simple_product_sku" to SKU field.</p>
-     *  <p>6. Click "Save and Continue Edit" button.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. Product is saved, confirmation message appears.</p>
-     *  <p>2. Product SKU is equal to "simple_product_sku-1".</p>
      *
      * @test
      * @depends preconditionsForTests
@@ -240,18 +174,6 @@ class Core_Mage_Product_SkuAutoGenerationTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating duplicated simple product</p>
-     * <p>Preconditions:</p>
-     *  <p>1. Simple product with SKU = "simple_product_sku" is created.</p>
-     *
-     * <p>Steps:
-     *  <p>1. Log in to Backend.</p>
-     *  <p>2. Go Catalog - Manage Products.</p>
-     *  <p>3. Open existed product.</p>
-     *  <p>4. Click "Duplicate" button.</p>
-     *
-     * <p>Expected result:</p>
-     *  <p>1. Product is duplicated, confirmation message appears.</p>
-     *  <p>2. Product SKU is equal to "simple_product_sku-1"
      *
      * @test
      * @depends preconditionsForTests
@@ -275,18 +197,6 @@ class Core_Mage_Product_SkuAutoGenerationTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating product with empty SKU mask</p>
-     * <p>Preconditions:</p>
-     *  <p>1. "Mask for SKU" is empty</p>
-     *
-     * <p>Steps:</p>
-     *  <p>1. Log in to Backend.</p>
-     *  <p>2. Go Catalog - Manage Products.</p>
-     *  <p>3. Start to create new simple product.</p>
-     *  <p>4. Fulfill all required fields except SKU.</p>
-     *  <p>5. Save product.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. System displays message 'This is a required field.' under 'SKU' field. </p>
      *
      * @test
      * @depends preconditionsForTests
@@ -312,19 +222,6 @@ class Core_Mage_Product_SkuAutoGenerationTest extends Mage_Selenium_TestCase
 
     /**
      * <p>SKU Auto-generation template verification</p>
-     * <p>Preconditions:</p>
-     *  <p>1. Setup different templates for "Mask for SKU"</p>
-     *
-     * <p>Steps:</p>
-     *  <p>1. Log in to Backend.</p>
-     *  <p>2. Go Catalog - Manage Products.</p>
-     *  <p>3. Start to create new simple product.</p>
-     *  <p>4. Fulfill all required fields except SKU.</p>
-     *  <p>5. Save product.</p>
-     *  <p>6. Open created product.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. SKU field is equal to prefix_product_name.</p>
      *
      * @param string $skuMask
      *
@@ -369,17 +266,6 @@ class Core_Mage_Product_SkuAutoGenerationTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Verification SKU attribute default value</p>
-     * <p>Preconditions:</p>
-     *  <p>1. Default value for system attribute SKU is set to "sku_default_value"</p>
-     *
-     * <p>Steps:</p>
-     *  <p>1. Log in to Backend.</p>
-     *  <p>2. Go Catalog - Manage Products.</p>
-     *  <p>3. Start to create new simple product.</p>
-     *  <p>4. Fulfill all required fields except SKU.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. SKU field is equal to "sku_default_value".</p>
      *
      * @test
      * @TestLinkId TL-MAGE-6073

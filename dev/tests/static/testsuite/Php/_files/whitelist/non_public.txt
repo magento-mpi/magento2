@@ -3,3 +3,5 @@
 # This file will not be published, too
 #
 dev/build
+dev/tests/functional/testsuite/Core/Mage/Product
+dev/tests/functional/testsuite/Core/Mage/ProductAttribute

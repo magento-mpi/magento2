@@ -30,16 +30,6 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create product with custom options</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields with correct data;</p>
-     * <p>5. Click "Custom Options" tab;</p>
-     * <p>6. Add all types of options;</p>
-     * <p>7. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, susses message appears;</p>
      *
      * @TestlinkId TL-MAGE-3382
      * @test
@@ -63,17 +53,6 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create product with empty required field in custom options</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields with correct data;</p>
-     * <p>5. Click "Custom Options" tab;</p>
-     * <p>6. Click "Add New Option" button;</p>
-     * <p>7. Leave one required field empty;</p>
-     * <p>8. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
      *
      * @param $emptyCustomField
      *
@@ -110,18 +89,6 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create product with CustomOption: Empty field 'option row Title' if 'Input Type'='Select' type</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields with correct data;</p>
-     * <p>5. Click "Custom Options" tab;</p>
-     * <p>6. Click "Add New Option" button;</p>
-     * <p>7. Select "Multipleselect" (or any other from Select type) into "Input Type" field;</p>
-     * <p>7. Leave option row title empty;</p>
-     * <p>8. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
      *
      * @param string $optionDataName
      *
@@ -156,18 +123,6 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create product with invalid "Sort Order" into custom options</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields with correct data;</p>
-     * <p>5. Click "Custom Options" tab;</p>
-     * <p>6. Click "Add New Option" button;</p>
-     * <p>7. Select "Multipleselect" into "Input Type" field;</p>
-     * <p>8. Fill in "Sort Order" field with incorrect data;</p>
-     * <p>9. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
      *
      * @param $invalidData
      *
@@ -196,18 +151,6 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create product custom option: use invalid value for field 'Max Characters'</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields with correct data;</p>
-     * <p>5. Click "Custom Options" tab;</p>
-     * <p>6. Click "Add New Option" button;</p>
-     * <p>7. Select "Field" or "Area" into "Input Type" field;</p>
-     * <p>8. Fill in "Max Characters" field with incorrect data;</p>
-     * <p>9. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
      *
      * @param $invalidData
      *
@@ -242,18 +185,6 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create product with Custom Option: Use special symbols for filling field 'Price'</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields with correct data;</p>
-     * <p>5. Click "Custom Options" tab;</p>
-     * <p>6. Click "Add New Option" button;</p>
-     * <p>7. Select custom option type into "Input Type" field;</p>
-     * <p>8. Fill in "Price" field with incorrect data;</p>
-     * <p>9. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
      *
      * @param $optionDataName
      *
@@ -283,18 +214,6 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create product with Custom Option: Use text value for filling field 'Price'</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields with correct data;</p>
-     * <p>5. Click "Custom Options" tab;</p>
-     * <p>6. Click "Add New Option" button;</p>
-     * <p>7. Select custom option type into "Input Type" field;</p>
-     * <p>8. Fill in "Price" field with incorrect data;</p>
-     * <p>9. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
      *
      * @param $optionDataName
      *
@@ -340,18 +259,6 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create product with Custom Option: Use negative number for filling field 'Price'</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields with correct data;</p>
-     * <p>5. Click "Custom Options" tab;</p>
-     * <p>6. Click "Add New Option" button;</p>
-     * <p>7. Select custom option type into "Input Type" field;</p>
-     * <p>8. Fill in "Price" field with incorrect data;</p>
-     * <p>9. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;;</p>
      *
      * @param $optionName
      *
@@ -383,18 +290,6 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create product with Custom Option: Use negative number for filling field 'Price'</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields with correct data;</p>
-     * <p>5. Click "Custom Options" tab;</p>
-     * <p>6. Click "Add New Option" button;</p>
-     * <p>7. Select custom option type into "Input Type" field;</p>
-     * <p>8. Fill in "Price" field with incorrect data;</p>
-     * <p>9. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
      *
      * @param $optionName
      *

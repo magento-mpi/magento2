@@ -28,35 +28,8 @@ class Core_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selenium_Te
     /**
      * <p>Default value for System attributes</p>
      * <p>Preconditions:</p>
-     *  <p>1. System attribute is existed.</p>
-     *  <p>2. System attribute is presented in Default attribute set.</p>
-     *
-     * <p>Steps:</p>
-     *  <p>1. Login to backend as admin</p>
-     *  <p>2. Go to Catalog - Attributes - Manage Attributes</p>
-     *  <p>3. Enter attribute code  in Attribute Code search field and press the "Search" button</p>
-     *  <p>4. Open attribute.</p>
-     *  <p>5. Click on Manage Label / Options tab</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. Attribute options is not editable and not present such buttons:</p>
-     *  <p>1.1. "Add option" button</p>
-     *  <p>1.2. "Delete" button</p>
-     *
-     * <p>Steps:</p>
-     *  <p>6. Select default attribute option.</p>
-     *  <p>7. Press the "Save Attribute" button</p>
-     *  <p>8. Go to Catalog - Manage Products</p>
-     *  <p>9. Press the "Add Product" button</p>
-     *  <p>10. Select "Default" as "Attribute Set".</p>
-     *  <p>11. Select "Simple Product" as "Product Type"</p>
-     *  <p>12. Press the "Continue" button</p>
-     *  <p>13. Verify that system attribute is used Default value and fill all required field.</p>
-     *  <p>14. Press the "Save" button</p>
-     *  <p>14. Find created product in grid and click on it.</p>
-     *
-     * <p>Expected result:</p>
-     *  <p>1. Product page opens with saved changes. For system attribute default value is selected.</p>
+     * <p>1. System attribute is existed.</p>
+     * <p>2. System attribute is presented in Default attribute set.</p>
      *
      * @param string $attributeCode
      * @param string $productType
@@ -128,21 +101,7 @@ class Core_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selenium_Te
     /**
      * <p>Change selected default value for tax_class_id to '-- Please Select --'</p>
      * <p>Preconditions:</p>
-     *  <p>1. Default value is specified for system attribute 'tax_class_id'.</p>
-     *
-     * <p>Steps:</p>
-     *  <p>1. Log in to backend.</p>
-     *  <p>2. Go to Catalog - Attributes - Manage Attributes</p>
-     *  <p>3. Open system attribute 'tax_class_id'.</p>
-     *  <p>4. Choose '-- Please Select --' option as default.</p>
-     *  <p>5. Save attribute.</p>
-     *  <p>6. Go to Catalog - Manage Products.</p>
-     *  <p>7. Start to create new product.</p>
-     *  <p>8. Fulfill all required fields except 'Tax Class'.</p>
-     *  <p>9. Save product.</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. System displays message 'This is a required field.' under 'Tax Class' filed.</p>
+     * <p>1. Default value is specified for system attribute 'tax_class_id'.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-6082

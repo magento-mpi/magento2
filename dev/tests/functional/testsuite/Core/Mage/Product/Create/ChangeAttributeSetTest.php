@@ -54,30 +54,8 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         return array('product_attribute_set' => $setName, 'assigned_attribute' => $attrData['attribute_code']);
     }
 
-    // @codingStandardsIgnoreStart
     /**
      * <p>Change attribute set during product creation from Default to Custom attribute set </p>
-     * <p>Preconditions:</p>
-     * <p>Custom Attribute set, based on Default is created. User-defined attribute is assigned to this Attribute Set</p>
-     *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as admin</p>
-     * <p>2. Navigate to Catalog - Manage Products</p>
-     * <p>3. Press "Add product button" </p>
-     * <p>4. Select Attribute Set - Default</p>
-     * <p>5. Select Product type(Simple, Virtual, Downloadable, Grouped, Bundle)</p>
-     * <p>6. Press the Continue button</p>
-     * <p>7. Fill all required fields for product creation</p>
-     * <p>8. Press the Change Attribute Set button</p>
-     * <p>9. Select Custom attribute set</p>
-     * <p>10. Press OK button</p>
-     * <p>11. Press Save button on product page</p>
-     *
-     * <p>Expected results:</p>
-     * <p>After Step 6: New Product(Default) page opens with Change Attribute Set button in header (with Back, Reset, Save, Save and Continue Edit buttons)</p>
-     * <p>After Step 8: Change Attribute Set pop-up page opens and has: dropdown list with all attribute sets, OK, Cancel buttons</p>
-     * <p>After Step 10: page title is New Product (%Custom%), attributes from previous attribute set is deleted and for current attribute set is added</p>
-     * <p>After Step 11: Product has been successfully saved and "Product has been saved" message appears</p>
      *
      * @param string $productType
      * @param array $customSetData
@@ -106,30 +84,8 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $this->assertMessagePresent('success', 'success_saved_product');
     }
 
-    // @codingStandardsIgnoreStart
     /**
      * <p>Change attribute set during product creating from Custom to Default attribute set </p>
-     * <p>Preconditions:</p>
-     * <p>Custom Attribute set, based on Default is created. User-defined attribute is assigned to this Attribute Set</p>
-     *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as admin</p>
-     * <p>2. Navigate to Catalog>Manage Products</p>
-     * <p>3. Press "Add product button" </p>
-     * <p>4. Select Attribute Set - Custom</p>
-     * <p>5. Select Product type (Simple, Virtual, Downloadable, Grouped, Bundle)</p>
-     * <p>6. Press the Continue button</p>
-     * <p>7. Fill all required fields for product creation</p>
-     * <p>8. Press the Change Attribute Set button</p>
-     * <p>9. Select Default attribute set</p>
-     * <p>10. Press OK button</p>
-     * <p>11. Press Save button on product page</p>
-     *
-     * <p>Expected results:</p>
-     * <p>After Step 6: New Product(Custom) page opens with Change Attribute Set button in header (with Back, Reset, Save, Save and Continue Edit buttons)</p>
-     * <p>After Step 8: Change Attribute Set pop-up page opens and has: dropdown list with all attribute sets, OK, Cancel buttons</p>
-     * <p>After Step 10: page title is New Product (Custom), attributes from previous attribute set is deleted and for current attribute set is added</p>
-     * <p>After Step 11: Product has been successfully saved and "Product has been saved" message appears</p>
      *
      * @param string $productType
      * @param $customSetData
@@ -159,29 +115,8 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $this->assertMessagePresent('success', 'success_saved_product');
     }
 
-    // @codingStandardsIgnoreStart
     /**
      * <p>Change attribute set during product editing from Default to Custom attribute set </p>
-     * <p>Preconditions:</p>
-     * <p>Custom Attribute set, based on Default is created. User-defined attribute is assigned to this Attribute Set</p>
-     * <p>Product, based on Default Attribute Set is created</p>
-     *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as admin</p>
-     * <p>2. Navigate to Catalog - Manage Products</p>
-     * <p>3. Find created product in the Manage Products grid and click on it</p>
-     * <p>4. Press the Change Attribute Set button</p>
-     * <p>5. Select custom attribute set</p>
-     * <p>6. Press OK button</p>
-     * <p>7. Press Save button on product page</p>
-     *
-     * <p>Expected results:</p>
-     * <p>After Step 3: %productName%(Default) page opens with Change Attribute Set button in header (with Back, Reset, Save, Save and Continue Edit buttons)</p>
-     * <p>After Step 4: Change Attribute Set pop-up page opens and has: dropdown list with all attribute sets, OK, Cancel buttons</p>
-     * <p>After Step 6: page title is %productName% (New Attr Set Test)</p>
-     * <p>- all information inputted in common for both attribute sets tabs and fields has been saved</p>
-     * <p>- attributes from previous attribute set is deleted and for current attribute set is added</p>
-     * <p>After Step 7: Product has been successfully saved and "Product has been saved" message appears</p>
      *
      * @param string $productType
      * @param $customSetData
@@ -212,29 +147,8 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $this->assertMessagePresent('success', 'success_saved_product');
     }
 
-    // @codingStandardsIgnoreStart
     /**
      * <p>Change attribute set during product editing from Custom to Default attribute set</p>
-     * <p>Preconditions:</p>
-     * <p>Attribute set, based on Default is created. User-defined attribute is assigned to this Attribute Set</p>
-     * <p>Product, based on Default Attribute Set is created</p>
-     *
-     * <p>Steps:</p>
-     * <p>1. Login to backend as admin</p>
-     * <p>2. Navigate to Catalog - Manage Products</p>
-     * <p>3. Find created product in the Manage Products grid and click on it</p>
-     * <p>4. Press the Change Attribute Set button</p>
-     * <p>5. Select Default attribute set</p>
-     * <p>6. Press OK button</p>
-     * <p>7. Press Save button on product page</p>
-     *
-     * <p>Expected results:</p>
-     * <p>After Step 3: %productName%(Custom) page opens with Change Attribute Set button in header (with Back, Reset, Save, Save and Continue Edit buttons)</p>
-     * <p>After Step 4: Change Attribute Set pop-up page opens and has: dropdown list with all attribute sets, OK, Cancel buttons</p>
-     * <p>After Step 6: page title is %productName% (Default)</p>
-     * <p>- all information inputted in common for both attribute sets tabs and fields  has been saved</p>
-     * <p>- attributes from previous attribute set is deleted and for current attribute set is added</p>
-     * <p>After Step 7: Product has been successfully saved and "Product has been saved" message appears</p>
      *
      * @param string $productType
      * @param $customSetData

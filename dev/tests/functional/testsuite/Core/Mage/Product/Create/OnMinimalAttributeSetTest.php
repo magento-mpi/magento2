@@ -63,18 +63,8 @@ class Core_Mage_Product_Create_OnMinimalAttributeSetTest extends Mage_Selenium_T
         return array('simple_sku' => $productData['general_sku'], 'attribute' => $attrData['admin_title']);
     }
 
-    // @codingStandardsIgnoreStart
     /**
      * <p>Create products based on minimal attribute set</p>
-     * <p>Steps:</p>
-     * <p>1. Click "Add product" button;</p>
-     * <p>2. Choose "Attribute Set" - "Minimal";</p>
-     * <p>3. Choose "Product Type" - "Simple Product with custom options", "Downloadable Product", "Configurable Product", "Bundle (Fixed) Product", "Bundle (Dynamic) Product", "Grouped Product";</p>
-     * <p>4. Click "Continue" button;</p>
-     * <p>5. On "General" tab: Fill Fields: Name, Description, Short Description, SKU, Price, Status, Visibility, Tax Class, Weight (depends on product type);</p>
-     * <p>6. On "Website" tab: select created website.;</p>
-     * <p>7. On "Categories" tab: select created category;</p>
-     * <p>8. Click "Save" button.;</p>
      *
      * <p>Expected result:</p>
      * <p> Product is created. System displays successful message "The product has been saved.";</p>
@@ -144,19 +134,6 @@ class Core_Mage_Product_Create_OnMinimalAttributeSetTest extends Mage_Selenium_T
     /**
      * <p>Creating product with empty required fields</p>
      *
-     * <p>Steps:</p>
-     * <p>1. Click "Add product" button;</p>
-     * <p>2. Choose "Attribute Set" - "Minimal";</p>
-     * <p>3. Choose "Product Type" - "Simple";</p>
-     * <p>4. Click "Continue" button;</p>
-     * <p>5. On "General" tab: set  "Visibility " to "-- Please Select --";</p>
-     * <p>6. Click "Save" button.;</p>
-     *
-     * <p>Expected result:</p>
-     * <p>1. Simple product is not created. System displays successful message "The product has been saved.";</p>
-     * <p>2. Received error message "This is a required field." for fields:</p>
-     * <p>Name, Description, Short Description, SKU, Price, Status, Visibility, Tax Class, Weight;</p>
-     *
      * @param $emptyField
      * @param $fieldType
      *
@@ -179,6 +156,7 @@ class Core_Mage_Product_Create_OnMinimalAttributeSetTest extends Mage_Selenium_T
 
     /**
      * Data Provider for verification Required Fields
+     * @return array
      */
     public function withRequiredFieldsEmptyDataProvider()
     {
