@@ -73,9 +73,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
             $this->addChild('save_button', 'Mage_Adminhtml_Block_Widget_Button', array(
                 'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Save'),
                 'class' => 'save',
-                'data_attr'  => array(
-                    'widget-button' => array('event' => 'save', 'related' => '#product-edit-form')
-                )
+                'data_attribute'  => array(
+                    'mage-init' => array(
+                        'button' => array('event' => 'save', 'target' => '#product-edit-form'),
+                    ),
+                ),
             ));
         }
 
@@ -83,10 +85,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
             if (!$this->getProduct()->isReadonly()) {
                 $this->addChild('save_and_edit_button', 'Mage_Adminhtml_Block_Widget_Button', array(
                     'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Save and Continue Edit'),
-                    'data_attr'  => array(
-                        'widget-button' => array('event' => 'saveAndContinueEdit', 'related' => '#product-edit-form')
+                    'class' => 'save',
+                    'data_attribute'  => array(
+                        'mage-init' => array(
+                            'button' => array('event' => 'saveAndContinueEdit', 'target' => '#product-edit-form'),
+                        ),
                     ),
-                    'class' => 'save'
                 ));
             }
             if ($this->getProduct()->isDeleteable()) {

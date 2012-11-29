@@ -38,9 +38,11 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit
                 array(
                     'label' => $this->helper('Enterprise_CatalogEvent_Helper_Data')->__('Save and Continue Edit'),
                     'class' => 'save',
-                    'data_attr'  => array(
-                        'widget-button' => array('event' => 'saveAndContinueEdit', 'related' => '#edit_form')
-                    )
+                    'data_attribute'  => array(
+                        'mage-init' => array(
+                            'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'),
+                        ),
+                    ),
                 ),
                 1
             );

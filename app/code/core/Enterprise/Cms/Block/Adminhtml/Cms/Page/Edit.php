@@ -40,14 +40,16 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit
                         $editBlock->addButton('preview', array(
                             'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Preview'),
                             'class'     => 'preview',
-                            'data_attr'  => array(
-                                'widget-button' => array(
-                                    'event' => 'preview',
-                                    'related' => '#edit_form',
-                                    'eventData' => array(
-                                        'action' => $this->getUrl('*/cms_page_revision/preview'),
-                                    )
-                                )
+                            'data_attribute'  => array(
+                                'mage-init' => array(
+                                    'button' => array(
+                                        'event' => 'preview',
+                                        'target' => '#edit_form',
+                                        'eventData' => array(
+                                            'action' => $this->getUrl('*/cms_page_revision/preview'),
+                                        )
+                                    ),
+                                ),
                             ),
                         ));
                     }

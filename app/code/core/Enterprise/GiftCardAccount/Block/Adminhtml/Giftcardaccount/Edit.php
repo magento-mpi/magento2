@@ -25,8 +25,10 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit extends Ma
 
         $this->_updateButton('save', 'label', Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Save'));
         $this->_updateButton('save', 'onclick', $clickSave);
-        $this->_updateButton('save', 'data_attr', array(
-            'widget-button' => array('event' => 'save', 'related' => '#edit_form')
+        $this->_updateButton('save', 'data_attribute', array(
+            'mage-init' => array(
+                'button' => array('event' => 'save', 'target' => '#edit_form'),
+            ),
         ));
         $this->_updateButton('delete', 'label', Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Delete'));
 
@@ -38,8 +40,10 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit extends Ma
             'label'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Save & Send Email'),
             'onclick'   => $clickSend,
             'class'     => 'save',
-            'data_attr' => array(
-                'widget-button' => array('event' => 'save', 'related' => '#edit_form')
+            'data_attribute' => array(
+                'mage-init' => array(
+                    'button' => array('event' => 'save', 'target' => '#edit_form'),
+                ),
             )
         ));
     }

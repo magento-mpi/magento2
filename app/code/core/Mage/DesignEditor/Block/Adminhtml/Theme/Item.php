@@ -39,15 +39,17 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Item extends Mage_Backend_Block_Wi
         $previewButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
         $previewButton->setData(array(
             'label'   => $this->__('Launch'),
-            'data_attr'  => array(
-                'widget-button' => array(
-                    'event' => 'save',
-                    'related' => '#edit_form',
-                    'eventData' => array(
-                        'action' => array('args' => array(
-                            'theme_id' => $themeId
-                        )),
-                    )
+            'data_attribute'  => array(
+                'mage-init' => array(
+                    'button' => array(
+                        'event' => 'save',
+                        'target' => '#edit_form',
+                        'eventData' => array(
+                            'action' => array('args' => array(
+                                'theme_id' => $themeId
+                            )),
+                        ),
+                    ),
                 ),
             ),
             'class'   => 'save',

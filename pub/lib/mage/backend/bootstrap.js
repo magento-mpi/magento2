@@ -67,11 +67,6 @@ jQuery(function ($) {
         $.mage.init();
 
         /*
-         * Initialization of button widgets
-         */
-        $('*[data-widget-button]').button();
-
-        /*
          * Show loader on ajax send
          */
         $('body').on('ajaxSend', function(e) {

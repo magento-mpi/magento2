@@ -62,8 +62,10 @@ class Mage_Backend_Block_System_Config_Edit extends Mage_Backend_Block_Widget
         $this->addChild('save_button', 'Mage_Backend_Block_Widget_Button', array(
             'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Save Config'),
             'class' => 'save',
-            'data_attr'  => array(
-                'widget-button' => array('event' => 'save', 'related' => '#config-edit-form')
+            'data_attribute'  => array(
+                'mage-init' => array(
+                    'button' => array('event' => 'save', 'target' => '#config-edit-form'),
+                ),
             ),
         ));
         return parent::_prepareLayout();
