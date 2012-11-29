@@ -71,7 +71,8 @@
         },
         reloadPrice: function () {
             if (this.options.priceConfig) {
-                var priceSelectors = [
+                var skipIds = [],
+                    priceSelectors = [
                         '#product-price-' + this.options.priceConfig.productId,
                         '#bundle-price-' + this.options.priceConfig.productId,
                         '#price-including-tax-' + this.options.priceConfig.productId,
@@ -112,6 +113,18 @@
                                         configOptions[element.val()].includeTax,
                                         configOptions[element.val()].oldPrice);
                                 }
+                            }
+                        } else if (element.hasClass('datetime-picker') && ($.inArray(optionId, skipIds) === -1)) {
+                            var dateSelected = true;
+                            $('.datetime-picker[id^="options_' + optionId + '"]').each(function() {
+                                if ($(this).val() === '') {
+                                    dateSelected = false;
+                                }
+                            });
+                            if (dateSelected) {
+                                optionPrice.update(configOptions.price, configOptions.excludeTax,
+                                    configOptions.includeTax, configOptions.oldPrice);
+                                skipIds[optionId] = optionId;
                             }
                         } else if (element.is('select')) {
                             element.find(':selected').each(function () {
