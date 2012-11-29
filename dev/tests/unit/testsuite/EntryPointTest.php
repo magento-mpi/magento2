@@ -76,6 +76,6 @@ class EntryPointTest extends PHPUnit_Framework_TestCase
                     Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_FILE => 'local_file',
                 ),
             ),
-       );
+        );
     }
 }
