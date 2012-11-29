@@ -61,7 +61,6 @@ abstract class Mage_Backend_Controller_System_ConfigAbstract extends Mage_Backen
         $this->_configStructure = $configStructure;
     }
 
-
     /**
      * Controller pre-dispatch method
      * Check if current section is found and is allowed
@@ -101,14 +100,16 @@ abstract class Mage_Backend_Controller_System_ConfigAbstract extends Mage_Backen
      *
      * Will forward to deniedAction(), if not allowed.
      *
-     * @param string $section
+     * @param string $sectionId
      * @throws Exception
      * @return bool
      */
     protected function _isSectionAllowed($sectionId)
     {
         try {
-            if (false == $this->_configStructure->getElement($sectionId)->isAllowed()) {
+            /** @var Mage_Backend_Model_Config_Structure_ElementAbstract $element  */
+            $element = $this->_configStructure->getElement($sectionId);
+            if (false == $element->isAllowed()) {
                 throw new Exception('');
             }
             return true;

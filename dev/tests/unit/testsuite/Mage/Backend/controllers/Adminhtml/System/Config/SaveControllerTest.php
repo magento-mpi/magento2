@@ -35,11 +35,6 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_authorizationMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_configMock;
 
     /**
@@ -55,7 +50,17 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
+    protected $_authMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
     protected $_appMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_sectionMock;
 
     public function setUp()
     {
@@ -63,7 +68,7 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
         $responseMock = $this->getMock('Mage_Core_Controller_Response_Http', array(), array(), '', false, false);
         $objectManagerMock = $this->getMock('Magento_ObjectManager', array(), array(), '', false, false);
         $frontControllerMock = $this->getMock('Mage_Core_Controller_Varien_Front', array(), array(), '', false, false);
-        $this->_authorizationMock = $this->getMock('Mage_Core_Model_Authorization', array(), array(), '', false, false);
+        $authorizationMock = $this->getMock('Mage_Core_Model_Authorization', array(), array(), '', false, false);
         $this->_configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false, false);
         $configStructureMock = $this->getMock('Mage_Backend_Model_Config_Structure',
             array(), array(), '', false, false
@@ -75,11 +80,25 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
         $this->_appMock = $this->getMock('Mage_Core_Model_App', array(), array(), '', false, false);
         $helperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false, false);
         $this->_sessionMock = $this->getMock('Mage_Backend_Model_Session',
-            array('getUser', 'addSuccess', 'addException'), array(), '', false, false
+            array('addSuccess', 'addException'), array(), '', false, false
+        );
+
+        $this->_authMock = $this->getMock('Mage_Backend_Model_Auth_Session',
+            array('getUser'), array(), '', false, false
+        );
+
+        $this->_sectionMock = $this->getMockForAbstractClass(
+            'Mage_Backend_Model_Config_Structure_ElementAbstract',
+            array(),
+            '',
+            false,
+            false,
+            true,
+            array('isAllowed')
         );
 
         $configStructureMock->expects($this->any())->method('getElement')
-            ->will($this->returnValue(array('resource' => 'acl_resource')));
+            ->will($this->returnValue($this->_sectionMock));
 
         $helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
         $helperMock->expects($this->any())->method('getUrl')->will($this->returnArgument(0));
@@ -89,12 +108,13 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
             $responseMock,
             $objectManagerMock,
             $frontControllerMock,
-            $this->_authorizationMock,
+            $authorizationMock,
             $configStructureMock,
             $this->_configMock,
             $this->_configFactoryMock,
             $this->_eventManagerMock,
             $this->_appMock,
+            $this->_authMock,
             array(
                 'helper' => $helperMock,
                 'session' => $this->_sessionMock,
@@ -104,8 +124,7 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
 
     public function testIndexActionWithAllowedSection()
     {
-        $this->_authorizationMock->expects($this->any())
-            ->method('isAllowed')->with('acl_resource')->will($this->returnValue(true));
+        $this->_sectionMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
         $this->_configMock->expects($this->once())->method('reinit');
         $this->_sessionMock->expects($this->once())->method('addSuccess')->with('The configuration has been saved.');
 
@@ -132,7 +151,7 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
             'store' => 'test_store',
             'groups' => $groups
         );
-        $this->_configFactoryMock->expects($this->once())->method('create')->with($params)
+        $this->_configFactoryMock->expects($this->once())->method('create')->with(array('data' => $params))
             ->will($this->returnValue($backendConfigMock));
 
         $this->_controller->indexAction();
@@ -140,8 +159,7 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
 
     public function testIndexActionWithNotAllowedSection()
     {
-        $this->_authorizationMock->expects($this->any())
-            ->method('isAllowed')->with('acl_resource')->will($this->returnValue(false));
+        $this->_sectionMock->expects($this->any())->method('isAllowed')->will($this->returnValue(false));
 
         $backendConfigMock = $this->getMock('Mage_Backend_Model_Config', array(), array(), '', false, false);
         $backendConfigMock->expects($this->never())->method('save');
@@ -158,14 +176,12 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
 
     public function testIndexActionSaveState()
     {
-        $this->_authorizationMock->expects($this->any())
-            ->method('isAllowed')->with('acl_resource')->will($this->returnValue(false));
-
+        $this->_sectionMock->expects($this->any())->method('isAllowed')->will($this->returnValue(false));
         $data = array('some_key' => 'some_value');
 
         $userMock = $this->getMock('Mage_User_Model_User', array(), array(), '', false, false);
         $userMock->expects($this->once())->method('saveExtra')->with(array('configState' => $data));
-        $this->_sessionMock->expects($this->once())->method('getUser')->will($this->returnValue($userMock));
+        $this->_authMock->expects($this->once())->method('getUser')->will($this->returnValue($userMock));
 
         $this->_requestMock->expects($this->any())
             ->method('getPost')->with('config_state')->will($this->returnValue($data));
@@ -174,8 +190,7 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
 
     public function testIndexActionGetGroupForSave()
     {
-        $this->_authorizationMock->expects($this->any())
-            ->method('isAllowed')->with('acl_resource')->will($this->returnValue(true));
+        $this->_sectionMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
 
         $groups = array('some.key' => 'some.val');
         $requestParamMap = array(
@@ -207,7 +222,7 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
             'groups' => $groupToSave
         );
         $backendConfigMock = $this->getMock('Mage_Backend_Model_Config', array(), array(), '', false, false);
-        $this->_configFactoryMock->expects($this->once())->method('create')->with($params)
+        $this->_configFactoryMock->expects($this->once())->method('create')->with(array('data' => $params))
             ->will($this->returnValue($backendConfigMock));
         $backendConfigMock->expects($this->once())->method('save');
 
@@ -216,8 +231,7 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
 
     public function testIndexActionSaveAdvanced()
     {
-        $this->_authorizationMock->expects($this->any())
-            ->method('isAllowed')->with('acl_resource')->will($this->returnValue(true));
+        $this->_sectionMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
 
         $requestParamMap = array(
             array('section', null, 'advanced'),
