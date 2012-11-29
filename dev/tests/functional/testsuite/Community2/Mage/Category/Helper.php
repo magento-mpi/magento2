@@ -1,6 +1,7 @@
 <?php
-
 /**
+ * Magento
+ *
  * {license_notice}
  *
  * @category    Magento
@@ -9,17 +10,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Helper class
- *
- * @package     selenium
- * @subpackage  tests
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
 class Community2_Mage_Category_Helper extends Core_Mage_Category_Helper
 {
-
     /**
      * Select category by path
      *
@@ -104,5 +96,43 @@ class Community2_Mage_Category_Helper extends Core_Mage_Category_Helper
         }
 
         return $isCorrectName;
+    }
+
+    /**
+     * Select categories for product on general tab
+     *
+     * @param array $productData
+     */
+    public function productSelectCategory(array $productData)
+    {
+        if (array_key_exists('categories', $productData)) {
+            $this->openTab('general');
+            $categories = explode(',', $productData['categories']);
+            $categories = array_map('trim', $categories);
+            foreach ($categories as $value) {
+                $this->assignCategory($value);
+            }
+        }
+    }
+
+    /**
+     * Assign category to the product by it's full path
+     *
+     * @param string $categoryPath
+     */
+    public function assignCategory($categoryPath)
+    {
+        $nodes = explode('/', $categoryPath);
+        $selectedCategory = end($nodes);
+        $this->fillField('categories', $selectedCategory);
+        $this->keyDown($this->_getControlXpath('field', 'categories'), ' ');
+        $this->waitForElementVisible($this->_getControlXpath('fieldset', 'category_search'));
+        $this->addParameter('categoryPath', $categoryPath);
+        $categoryXpath = $this->_getControlXpath('link', 'category');
+        if ($this->controlIsVisible('link', 'category')) {
+            $this->mouseOver($categoryXpath);
+            $this->clickControl('link', 'category', false);
+            $this->waitForAjax();
+        }
     }
 }

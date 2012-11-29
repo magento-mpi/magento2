@@ -1,0 +1,12 @@
+/**
+ * {license_notice}
+ *
+ * @category    Mage_Catalog
+ * @package
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+.base-image-uploader {
+    max-height:265px;
+    max-width:265px;
+}

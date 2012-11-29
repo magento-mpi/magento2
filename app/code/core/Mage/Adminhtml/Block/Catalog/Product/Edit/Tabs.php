@@ -23,7 +23,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
     {
         parent::_construct();
         $this->setId('product_info_tabs');
-        $this->setDestElementId('product_edit_form');
+        $this->setDestElementId('product-edit-form');
         $this->setTitle(Mage::helper('Mage_Catalog_Helper_Data')->__('Product Information'));
     }
 
@@ -85,12 +85,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                         ->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Websites')->toHtml()),
                 ));
             }
-
-            $this->addTab('categories', array(
-                'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Categories'),
-                'url'       => $this->getUrl('*/*/categories', array('_current' => true)),
-                'class'     => 'ajax',
-            ));
 
             $this->addTab('related', array(
                 'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Related Products'),

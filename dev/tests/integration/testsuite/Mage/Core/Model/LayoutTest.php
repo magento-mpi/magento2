@@ -11,6 +11,9 @@
 
 /**
  * Layout integration tests
+ *
+ * @magentoDbIsolation enabled
+ * @group module::Mage_Layout_Merge
  */
 class Mage_Core_Model_LayoutTest extends Mage_Core_Model_LayoutTestBase
 {
@@ -285,7 +288,6 @@ class Mage_Core_Model_LayoutTest extends Mage_Core_Model_LayoutTestBase
                 array(
                     'type' => 'Mage_Core_Block_Text_List',
                     'key1' => 'value1',
-                    'is_anonymous' => true
                 ),
                 '/text_list/'
             ),
