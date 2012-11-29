@@ -1,6 +1,6 @@
 <?php
 /**
- * SOAP web API authentication model.
+ * REST web API authentication model.
  *
  * @copyright {}
  */

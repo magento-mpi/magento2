@@ -66,6 +66,11 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Authentication
                 $this->_helper->__('Invalid Username or Password.'),
                 Mage_Webapi_Exception::HTTP_BAD_REQUEST
             );
+        } catch (Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidDateException $e) {
+            throw new Mage_Webapi_Exception(
+                $this->_helper->__('Invalid UsernameToken Created date.'),
+                Mage_Webapi_Exception::HTTP_BAD_REQUEST
+            );
         }
     }
 }
