@@ -20,9 +20,8 @@ interface Magento_Profiler_DriverInterface
      * Stop timer
      *
      * @param string $timerId
-     * @param array|null $tags
      */
-    public function stop($timerId = null, array $tags = null);
+    public function stop($timerId);
 
     /**
      * Reset collected statistics for specified timer or for whole profiler if timer name is omitted.
@@ -30,14 +29,4 @@ interface Magento_Profiler_DriverInterface
      * @param string|null $timerId
      */
     public function reset($timerId = null);
-
-    /**
-     * Enable profiling.
-     */
-    public function enable();
-
-    /**
-     * Disabled profiling.
-     */
-    public function disable();
 }

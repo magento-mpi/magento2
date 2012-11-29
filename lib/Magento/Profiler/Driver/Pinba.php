@@ -8,8 +8,6 @@ class Magento_Profiler_Driver_Pinba implements Magento_Profiler_DriverInterface
 {
     const TIMER_NAME_TAG = 'timerId';
 
-    protected $_isEnabled = false;
-
     /**
      * Array with started timers
      *
@@ -30,22 +28,6 @@ class Magento_Profiler_Driver_Pinba implements Magento_Profiler_DriverInterface
     }
 
     /**
-     * Enable profiling.
-     */
-    public function enable()
-    {
-        $this->_isEnabled = true;
-    }
-
-    /**
-     * Disabled profiling.
-     */
-    public function disable()
-    {
-        $this->_isEnabled = false;
-    }
-
-    /**
      * Start timer
      *
      * @param string $timerId
@@ -53,29 +35,20 @@ class Magento_Profiler_Driver_Pinba implements Magento_Profiler_DriverInterface
      */
     public function start($timerId, array $tags = null)
     {
-        if ($this->_isEnabled) {
-            $tags = $this->_getTagsWithTimerId($timerId, $tags);
-            $this->_startedTimers[$timerId] = pinba_timer_start($tags);
-        }
+        $tags = $this->_getTagsWithTimerId($timerId, $tags);
+        $this->_startedTimers[$timerId] = pinba_timer_start($tags);
     }
 
     /**
      * Stop timer for given key.
      *
-     * @param null|string $timerId
-     * @param array $tags
+     * @param null $timerId
      */
-    public function stop($timerId = null, array $tags = null)
+    public function stop($timerId)
     {
-        if ($this->_isEnabled) {
-            if (is_null($timerId)) {
-                foreach (array_keys($this->_startedTimers) as $startedTimerId) {
-                    $this->stop($startedTimerId);
-                }
-            } elseif (isset($this->_startedTimers[$timerId])) {
-                pinba_timer_stop($this->_startedTimers[$timerId]);
-                unset($this->_startedTimers[$timerId]);
-            }
+        if (isset($this->_startedTimers[$timerId])) {
+            pinba_timer_stop($this->_startedTimers[$timerId]);
+            unset($this->_startedTimers[$timerId]);
         }
     }
 
@@ -88,15 +61,13 @@ class Magento_Profiler_Driver_Pinba implements Magento_Profiler_DriverInterface
      */
     public function reset($timerId = null)
     {
-        if ($this->_isEnabled) {
-            if (is_null($timerId)) {
-                foreach (array_keys($this->_startedTimers) as $startedTimerId) {
-                    $this->reset($startedTimerId);
-                }
-            } elseif (isset($this->_startedTimers[$timerId])) {
-                pinba_timer_delete($this->_startedTimers[$timerId]);
-                unset($this->_startedTimers[$timerId]);
+        if (is_null($timerId)) {
+            foreach (array_keys($this->_startedTimers) as $startedTimerId) {
+                $this->reset($startedTimerId);
             }
+        } elseif (isset($this->_startedTimers[$timerId])) {
+            pinba_timer_delete($this->_startedTimers[$timerId]);
+            unset($this->_startedTimers[$timerId]);
         }
     }
 }
