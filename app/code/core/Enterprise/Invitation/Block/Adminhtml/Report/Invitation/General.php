@@ -9,12 +9,12 @@
  */
 
 /**
- * Adminhtml invitation general report page content block
+ * Backend invitation general report page content block
  *
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_General extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_General extends Mage_Backend_Block_Widget_Grid_Container
 {
     protected function _construct()
     {

@@ -14,6 +14,8 @@
  * @category   Mage
  * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Backend_Block_System_Config_Form_Field
     extends Mage_Backend_Block_Abstract
@@ -203,5 +205,4 @@ class Mage_Backend_Block_System_Config_Form_Field
         $html .= '</td>';
         return $html;
     }
-
 }
