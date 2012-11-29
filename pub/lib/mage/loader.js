@@ -34,7 +34,7 @@
          * @protected
          */
         _bind: function() {
-            this.element.on('ajaxComplete ajaxError', function(e) {
+            this.element.on('ajaxComplete ajaxError processStop', function(e) {
                 e.stopImmediatePropagation();
                 $($(e.target).is(document) ? 'body' : e.target).loader('hide');
             });

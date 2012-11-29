@@ -41,7 +41,7 @@ Supported layout update handles (special):
                 <action method="setTitle" translate="title"><title>Magento Admin</title></action>
                 <action method="addJs"><file>jquery/jquery-1.8.2.min.js</file></action>
                 <action method="addJs"><file>mage/jquery-no-conflict.js</file></action>
-                <action method="addJs"><file>jquery/jquery-ui-1.9.1.custom.min.js</file></action>
+                <action method="addJs"><file>jquery/jquery-ui-1.9.2.custom.min.js</file></action>
                 <action method="addJs"><file>jquery/jquery.tmpl.min.js</file></action>
                 <action method="addJs"><file>jquery/jquery.validate.js</file></action>
                 <action method="addJs"><file>mage/translate.js</file></action>
@@ -68,7 +68,7 @@ Supported layout update handles (special):
                 <action method="addJs"><file>mage/adminhtml/events.js</file></action>
                 <action method="addJs"><file>mage/adminhtml/loader.js</file></action>
                 <action method="addJs"><file>mage/adminhtml/grid.js</file></action>
-                <action method="addJs"><file>mage/adminhtml/tabs.js</file></action>
+                <action method="addJs"><file>mage/backend/tabs.js</file></action>
                 <action method="addJs"><file>mage/adminhtml/form.js</file></action>
                 <action method="addJs"><file>mage/adminhtml/accordion.js</file></action>
                 <action method="addJs"><file>mage/adminhtml/tools.js</file></action>
