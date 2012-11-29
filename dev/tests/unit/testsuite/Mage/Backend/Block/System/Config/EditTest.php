@@ -62,7 +62,7 @@ class Mage_Backend_Block_System_Config_EditTest extends PHPUnit_Framework_TestCa
         $this->_urlModelMock = $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false, false);
 
         $this->_sectionMock = $this->getMock(
-            'Mage_Backend_Model_Config_Structure_Section', array(), array(), '', false
+            'Mage_Backend_Model_Config_Structure_Element_Section', array(), array(), '', false
         );
         $this->_systemConfigMock->expects($this->once())
             ->method('getElement')
@@ -99,7 +99,7 @@ class Mage_Backend_Block_System_Config_EditTest extends PHPUnit_Framework_TestCa
 
     public function testGetSaveUrl()
     {
-        $expectedUrl = '*/*/save';
+        $expectedUrl = '*/system_config_save/index';
         $expectedParams = array('_current' => true);
 
         $this->_urlModelMock->expects($this->once())
@@ -109,23 +109,5 @@ class Mage_Backend_Block_System_Config_EditTest extends PHPUnit_Framework_TestCa
         );
 
         $this->assertEquals($expectedUrl, $this->_object->getSaveUrl());
-    }
-
-    public function testInitFormWhenFrontendModelIsSet()
-    {
-        $block = $this->getMock('Mage_Core_Block_Template',
-            array('initForm', 'getNameInLayout', 'getIsAnonymous'), array(), '', false, false
-        );
-        $block->expects($this->once())->method('initForm');
-        $block->expects($this->once())->method('getNameInLayout')->will($this->returnValue('test_block_name'));
-
-        $this->_layoutMock->expects($this->once())
-            ->method('createBlock')
-            ->with('Some_Frontend_Model')
-            ->will($this->returnValue($block)
-        );
-
-        $this->_layoutMock->expects($this->once())->method('setChild')->with(null, 'test_block_name', 'form');
-        $this->_object->initForm();
     }
 }
