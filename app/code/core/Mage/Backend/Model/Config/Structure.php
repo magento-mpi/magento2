@@ -35,9 +35,9 @@ class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_S
     /**
      * Pool of config element flyweight objects
      *
-     * @var Mage_Backend_Model_Config_Structure_Element_FlyweightPool
+     * @var Mage_Backend_Model_Config_Structure_Element_FlyweightFactory
      */
-    protected $_flyweightPool;
+    protected $_flyweightFactory;
 
     /**
      * Provider of current config scope
@@ -49,25 +49,25 @@ class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_S
     /**
      * List of cached elements
      *
-     * @var array
+     * @var Mage_Backend_Model_Config_Structure_ElementInterface[]
      */
     protected $_elements;
 
     /**
      * @param Mage_Backend_Model_Config_Structure_Reader $structureReader
      * @param Mage_Backend_Model_Config_Structure_Element_Iterator_Tab $tabIterator
-     * @param Mage_Backend_Model_Config_Structure_Element_FlyweightPool $flyweightPool
+     * @param Mage_Backend_Model_Config_Structure_Element_FlyweightFactory $flyweightFactory
      * @param Mage_Backend_Model_Config_ScopeDefiner $scopeDefiner
      */
     public function __construct(
         Mage_Backend_Model_Config_Structure_Reader $structureReader,
         Mage_Backend_Model_Config_Structure_Element_Iterator_Tab $tabIterator,
-        Mage_Backend_Model_Config_Structure_Element_FlyweightPool $flyweightPool,
+        Mage_Backend_Model_Config_Structure_Element_FlyweightFactory $flyweightFactory,
         Mage_Backend_Model_Config_ScopeDefiner $scopeDefiner
     ) {
         $this->_data = $structureReader->getData();
         $this->_tabIterator = $tabIterator;
-        $this->_flyweightPool = $flyweightPool;
+        $this->_flyweightFactory = $flyweightFactory;
         $this->_scopeDefiner = $scopeDefiner;
     }
 
@@ -120,7 +120,8 @@ class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_S
                 return null;
             }
         }
-        $this->_elements[$path] = $this->_flyweightPool->getFlyweight($child, $this->_scopeDefiner->getScope());
+        $this->_elements[$path] = $this->_flyweightFactory->create($child['_elementType']);
+        $this->_elements[$path]->setData($child, $this->_scopeDefiner->getScope());
         return $this->_elements[$path];
     }
 

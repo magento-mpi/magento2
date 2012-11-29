@@ -36,6 +36,11 @@ class Mage_Backend_Block_System_Config_EditTest extends PHPUnit_Framework_TestCa
      */
     protected $_urlModelMock;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_sectionMock;
+
     protected function setUp()
     {
         $this->_systemConfigMock = $this->getMock('Mage_Backend_Model_Config_Structure',
@@ -56,15 +61,13 @@ class Mage_Backend_Block_System_Config_EditTest extends PHPUnit_Framework_TestCa
 
         $this->_urlModelMock = $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false, false);
 
-        $sections = array(
-            'frontend_model' => 'Some_Frontend_Model',
-            'label' => 'test_label'
+        $this->_sectionMock = $this->getMock(
+            'Mage_Backend_Model_Config_Structure_Section', array(), array(), '', false
         );
         $this->_systemConfigMock->expects($this->once())
-            ->method('getSection')
+            ->method('getElement')
             ->with('test_section')
-            ->will($this->returnValue($sections)
-        );
+            ->will($this->returnValue($this->_sectionMock));
 
         $data = array(
             'data' => array(
@@ -72,7 +75,8 @@ class Mage_Backend_Block_System_Config_EditTest extends PHPUnit_Framework_TestCa
             ),
             'request' => $this->_requestMock,
             'layout' => $this->_layoutMock,
-            'urlBuilder' => $this->_urlModelMock
+            'urlBuilder' => $this->_urlModelMock,
+            'configStructure' => $this->_systemConfigMock
         );
 
         $helper = new Magento_Test_Helper_ObjectManager($this);

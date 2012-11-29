@@ -32,6 +32,11 @@ class Mage_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestCase
     protected $_readerMock;
 
     /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_scopeDefinerMock;
+
+    /**
      * @var array
      */
     protected $_structureData;
@@ -42,10 +47,13 @@ class Mage_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestCase
             'Mage_Backend_Model_Config_Structure_Element_FlyweightPool', array(), array(), '', false
         );
         $this->_tabIteratorMock = $this->getMock(
-            'Mage_Backend_Model_Config_Structure_Element_Iterator', array(), array(), '', false
+            'Mage_Backend_Model_Config_Structure_Element_Iterator_Tab', array(), array(), '', false
         );
         $this->_readerMock = $this->getMock(
             'Mage_Backend_Model_Config_Structure_Reader', array(), array(), '', false
+        );
+        $this->_scopeDefinerMock = $this->getMock(
+            'Mage_Backend_Model_Config_ScopeDefiner', array(), array(), '', false
         );
 
         $filePath = dirname(__DIR__) . '/_files';
@@ -54,7 +62,7 @@ class Mage_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_structureData['config']['system'])
         );
         $this->_model = new Mage_Backend_Model_Config_Structure(
-            $this->_readerMock, $this->_tabIteratorMock, $this->_flyweightPoolMock
+            $this->_readerMock, $this->_tabIteratorMock, $this->_flyweightPoolMock, $this->_scopeDefinerMock
         );
     }
 
@@ -68,7 +76,7 @@ class Mage_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestCase
         ));
         $expected = array('tab1' => array('children' => array('section1' => array('tab' => 'tab1'))));
         $model = new Mage_Backend_Model_Config_Structure(
-            $this->_readerMock, $this->_tabIteratorMock, $this->_flyweightPoolMock
+            $this->_readerMock, $this->_tabIteratorMock, $this->_flyweightPoolMock, $this->_scopeDefinerMock
         );
         $this->_tabIteratorMock->expects($this->once())->method('setElements')->with($expected);
         $this->assertEquals($this->_tabIteratorMock, $model->getTabs());
@@ -76,7 +84,8 @@ class Mage_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestCase
 
     public function testGetElementReturnsProperElementByPath()
     {
-        $fields = $this->_structureData['config']['system']['sections']['section_1']['children']['group_2']['children'];
+        $section = $this->_structureData['config']['system']['sections']['section_1'];
+        $fields = $section['children']['group_level_1']['children'];
         $this->_flyweightPoolMock->expects($this->once())->method('getFlyweight')
             ->with($fields['field_3'])
             ->will($this->returnValue('expected'));
