@@ -291,20 +291,20 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
      * Compares mca from current url and from area mca array
      *
      * @param string $mca
-     * @param string $page_mca
+     * @param string $pageMca
      *
      * @deprecated
      *
      * @return bool
      */
-    protected function _compareMcaAndPageMca($mca, $page_mca)
+    protected function _compareMcaAndPageMca($mca, $pageMca)
     {
-        if (parse_url($page_mca, PHP_URL_PATH) == parse_url($mca, PHP_URL_HOST) . parse_url($mca, PHP_URL_PATH)) {
-            parse_str(parse_url($mca, PHP_URL_QUERY), $mca_params);
-            parse_str(parse_url($page_mca, PHP_URL_QUERY), $page_mca_params);
-            if (array_keys($mca_params) == array_keys($page_mca_params)) {
-                foreach ($page_mca_params as $key => $value) {
-                    if ($mca_params[$key] != $value && $value != '%anyValue%') {
+        if (parse_url($pageMca, PHP_URL_PATH) == parse_url($mca, PHP_URL_HOST) . parse_url($mca, PHP_URL_PATH)) {
+            parse_str(parse_url($mca, PHP_URL_QUERY), $mcaParams);
+            parse_str(parse_url($pageMca, PHP_URL_QUERY), $pageMcaParams);
+            if (array_keys($mcaParams) == array_keys($pageMcaParams)) {
+                foreach ($pageMcaParams as $key => $value) {
+                    if ($mcaParams[$key] != $value && $value != '%anyValue%') {
                         return false;
                     }
                 }

@@ -9,6 +9,7 @@
  * @license     {license_link}
  */
 
+//@codingStandardsIgnoreStart
 /**
  * An extended test case implementation that adds useful helper methods
  *
@@ -70,6 +71,7 @@
  * @method Enterprise_Mage_StagingWebsite_Helper                                                       stagingWebsiteHelper()
  * @method Enterprise_Mage_WebsiteRestrictions_Helper                                                  websiteRestrictionsHelper()
  */
+//@codingStandardsIgnoreEnd
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
 {
     ################################################################################
@@ -155,7 +157,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * Name of run Test Class
      * @var null
      */
-    public static $_testClass = null;
+    public static $testClass = null;
 
     /**
      * Name of last testcase in test class
@@ -189,10 +191,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     #                             Else variables                                   #
     ################################################################################
     /**
-     * Loading holder XPath
+     * Loads holder XPath
      * @staticvar string
      */
-    protected static $xpathLoadingHolder = "//div[@id='loading-mask'][contains(@style,'display:') and contains(@style,'none')]";
+    protected static $_maskXpath = "//div[@id='loading-mask'][contains(@style,'display:') and contains(@style,'none')]";
 
     /**
      * Constructs a test case with the given name and browser to test execution
@@ -250,8 +252,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     {
         $currentTestClass = get_class($this);
         static $setUpBeforeTestsError = null;
-        if (self::$_testClass != $currentTestClass) {
-            self::$_testClass = $currentTestClass;
+        if (self::$testClass != $currentTestClass) {
+            self::$testClass = $currentTestClass;
             $this->setLastTestNameInClass();
             try {
                 $setUpBeforeTestsError = null;
@@ -282,7 +284,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $this->prepareSession();
     }
 
-    final function setUp()
+    public final function setUp()
     {
         $this->prepareBrowserSession();
         $this->cookie()->clear();
@@ -304,7 +306,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     private function setLastTestNameInClass()
     {
         $testMethods = array();
-        $class = new ReflectionClass(self::$_testClass);
+        $class = new ReflectionClass(self::$testClass);
         /**
          * @var ReflectionMethod $method
          */
@@ -314,7 +316,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             }
         }
         $testName = end($testMethods);
-        $data = PHPUnit_Util_Test::getProvidedData(self::$_testClass, $testName);
+        $data = PHPUnit_Util_Test::getProvidedData(self::$testClass, $testName);
         if ($data) {
             $testName .= sprintf(' with data set #%d', count($data) - 1);
         }
@@ -328,7 +330,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * Used after execution of each test in test class
      * @throws Exception
      */
-    final function tearDown()
+    public final function tearDown()
     {
         if ($this->hasFailed()) {
             if ($this->_saveHtmlPageOnFailure) {
@@ -549,13 +551,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if (is_null($url)) {
             $url = self::_getMcaFromCurrentUrl($this->_configHelper->getConfigAreas(), $this->url());
         }
-        $title_arr = explode('/', $url);
-        if (in_array($paramName, $title_arr) && isset($title_arr[array_search($paramName, $title_arr) + 1])) {
-            return $title_arr[array_search($paramName, $title_arr) + 1];
+        $titleArr = explode('/', $url);
+        if (in_array($paramName, $titleArr) && isset($titleArr[array_search($paramName, $titleArr) + 1])) {
+            return $titleArr[array_search($paramName, $titleArr) + 1];
         }
-        foreach ($title_arr as $key => $value) {
-            if (preg_match("#$paramName$#i", $value) && isset($title_arr[$key + 1])) {
-                return $title_arr[$key + 1];
+        foreach ($titleArr as $key => $value) {
+            if (preg_match("#$paramName$#i", $value) && isset($titleArr[$key + 1])) {
+                return $titleArr[$key + 1];
             }
         }
         return null;
@@ -1073,7 +1075,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     /**
      * Checks if any 'validation' message exists on the page
      *
-     * @param null|string $message Validation message ID from UIMap OR XPath of the validation message (by default = null)
+     * @param null|string $message Validation message ID from UIMap OR XPath of validation message(by default = null)
      *
      * @return array
      */
@@ -2397,7 +2399,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @return string
      * @throws RuntimeException
      */
-    static function combineLocatorsToOne(array $locators)
+    public static function combineLocatorsToOne(array $locators)
     {
         $values = array_values($locators);
         $locatorDeterminants = array('//' => '|', 'css='=> ', ');
@@ -2608,7 +2610,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $this->addParameter('tab', $this->getControlAttribute('tab', $tabName, 'id'));
         }
         $this->clickControlAndWaitMessage($controlType, $controlName);
-        $this->waitForElement(self::$xpathLoadingHolder);
+        $this->waitForElement(self::$_xpathLoadingHolder);
         if (!is_null($tabUimap)) {
             $this->assertSame($tabName, $this->_getActiveTabUimap()->getTabId(),
                 'Opened wrong tab after Save and Continue Edit action');
@@ -2739,8 +2741,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @return array
      */
-    public function _prepareDataForSearch(array $data, array $checkFields = array(self::FIELD_TYPE_DROPDOWN => 'website'))
-    {
+    public function _prepareDataForSearch(
+        array $data,
+        array $checkFields = array(self::FIELD_TYPE_DROPDOWN => 'website')
+    ) {
         foreach ($checkFields as $fieldType => $fieldName) {
             if (array_key_exists($fieldName, $data) && !$this->controlIsPresent($fieldType, $fieldName)) {
                 unset($data[$fieldName]);
@@ -3458,7 +3462,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function pleaseWait($waitDisappear = 30)
     {
         $this->waitForAjax();
-        $this->waitForElement(self::$xpathLoadingHolder, $waitDisappear);
+        $this->waitForElement(self::$_xpathLoadingHolder, $waitDisappear);
     }
 
     /**
@@ -3663,8 +3667,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @throws OutOfRangeException
      * @return bool
      */
-    public function selectStoreScope($controlType, $controlName, $scopePath = null, $confirmation = false, $scopeType = 'storeView')
-    {
+    public function selectStoreScope(
+        $controlType,
+        $controlName,
+        $scopePath = null,
+        $confirmation = false,
+        $scopeType = 'storeView'
+    ) {
         if (is_null($scopePath)) {
             $scopePath = 'Main Website/Main Website Store/Default Store View';
         }
@@ -3778,8 +3787,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @return array
      */
-    public function getChildElements(PHPUnit_Extensions_Selenium2TestCase_Element $parentElement, $childLocator, $failIfEmpty = true)
-    {
+    public function getChildElements(
+        PHPUnit_Extensions_Selenium2TestCase_Element $parentElement,
+        $childLocator,
+        $failIfEmpty = true
+    ) {
         if (preg_match('|^//|', $childLocator)) {
             $childLocator = '.' . $childLocator;
         }
