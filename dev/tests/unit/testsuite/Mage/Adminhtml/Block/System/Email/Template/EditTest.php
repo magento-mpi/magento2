@@ -60,6 +60,16 @@ class Mage_Adminhtml_Block_System_Email_Template_EditTest extends PHPUnit_Framew
                 'scope_id' => 'scope_id_1',
                 'path' => 'section1/group1/field1',
             ),
+            array(
+                'scope' => 'scope_11',
+                'scope_id' => 'scope_id_1',
+                'path' => 'section1/group1/group2/field1',
+            ),
+            array(
+                'scope' => 'scope_11',
+                'scope_id' => 'scope_id_1',
+                'path' => 'section1/group1/group2/group3/field1',
+            ),
         );
         $templateMock = $this->getMock('Mage_Adminhtml_Model_Email_Template', array(), array(), '', false, false);
         $templateMock->expects($this->once())
@@ -81,7 +91,13 @@ class Mage_Adminhtml_Block_System_Email_Template_EditTest extends PHPUnit_Framew
             array(), array(), '', false, false
         );
 
-        $groupMock = $this->getMock('Mage_Backend_Model_Config_Structure_Element_Group',
+        $groupMock1 = $this->getMock('Mage_Backend_Model_Config_Structure_Element_Group',
+            array(), array(), '', false, false
+        );
+        $groupMock2 = $this->getMock('Mage_Backend_Model_Config_Structure_Element_Group',
+            array(), array(), '', false, false
+        );
+        $groupMock3 = $this->getMock('Mage_Backend_Model_Config_Structure_Element_Group',
             array(), array(), '', false, false
         );
 
@@ -90,14 +106,20 @@ class Mage_Adminhtml_Block_System_Email_Template_EditTest extends PHPUnit_Framew
         );
 
         $map = array(
-            array(array('section1', 'group1'), $groupMock),
+            array(array('section1', 'group1'), $groupMock1),
+            array(array('section1', 'group1', 'group2'), $groupMock2),
+            array(array('section1', 'group1', 'group2', 'group3'), $groupMock3),
             array(array('section1', 'group1', 'field1'), $filedMock),
+            array(array('section1', 'group1', 'group2', 'field1'), $filedMock),
+            array(array('section1', 'group1', 'group2', 'group3', 'field1'), $filedMock),
         );
         $sectionMock->expects($this->any())->method('getLabel')->will($this->returnValue('Section_1_Label'));
-        $groupMock->expects($this->any())->method('getLabel')->will($this->returnValue('Group_1_Label'));
+        $groupMock1->expects($this->any())->method('getLabel')->will($this->returnValue('Group_1_Label'));
+        $groupMock2->expects($this->any())->method('getLabel')->will($this->returnValue('Group_2_Label'));
+        $groupMock3->expects($this->any())->method('getLabel')->will($this->returnValue('Group_3_Label'));
         $filedMock->expects($this->any())->method('getLabel')->will($this->returnValue('Field_1_Label'));
 
-        $this->_configStructureMock->expects($this->once())
+        $this->_configStructureMock->expects($this->any())
             ->method('getElement')->with('section1')->will($this->returnValue($sectionMock));
 
         $this->_configStructureMock->expects($this->any())
@@ -125,6 +147,55 @@ class Mage_Adminhtml_Block_System_Email_Template_EditTest extends PHPUnit_Framew
                     'scope' => 'GLOBAL',
                 ),
             ),
+            array(
+                array(
+                    'title' => 'Title',
+                ),
+                array(
+                    'title' => 'Title',
+                    'url'   => 'adminhtml/system_config/',
+                ),
+                array(
+                    'title' => 'Section_1_Label',
+                    'url'   => 'adminhtml/system_config/edit',
+                ),
+                array(
+                    'title' => 'Group_1_Label',
+                ),
+                array(
+                    'title' => 'Group_2_Label',
+                ),
+                array(
+                    'title' => 'Field_1_Label',
+                    'scope' => 'GLOBAL',
+                ),
+            ),
+            array(
+                array(
+                    'title' => 'Title',
+                ),
+                array(
+                    'title' => 'Title',
+                    'url'   => 'adminhtml/system_config/',
+                ),
+                array(
+                    'title' => 'Section_1_Label',
+                    'url'   => 'adminhtml/system_config/edit',
+                ),
+                array(
+                    'title' => 'Group_1_Label',
+                ),
+                array(
+                    'title' => 'Group_2_Label',
+                ),
+                array(
+                    'title' => 'Group_3_Label',
+                ),
+                array(
+                    'title' => 'Field_1_Label',
+                    'scope' => 'GLOBAL',
+                ),
+            )
         );
         $this->assertEquals($expected, $actual);
     }

@@ -352,7 +352,9 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
      */
     public function getUsedDefaultForPaths($asJSON = true)
     {
-        $paths = $this->getEmailTemplate()->getSystemConfigPathsWhereUsedAsDefault();
+        /** @var $template Mage_Adminhtml_Model_Email_Template */
+        $template = $this->getEmailTemplate();
+        $paths = $template->getSystemConfigPathsWhereUsedAsDefault();
         $pathsParts = $this->_getSystemConfigPathsParts($paths);
         if($asJSON){
             return $this->helper('Mage_Core_Helper_Data')->jsonEncode($pathsParts);
@@ -368,7 +370,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
      */
     public function getUsedCurrentlyForPaths($asJSON = true)
     {
-        /** @var Mage_Adminhtml_Model_Email_Template $template  */
+        /** @var $template Mage_Adminhtml_Model_Email_Template */
         $template = $this->getEmailTemplate();
         $paths = $template->getSystemConfigPathsWhereUsedCurrently();
         $pathsParts = $this->_getSystemConfigPathsParts($paths);
@@ -404,7 +406,9 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
 
             $pathParts = $prefixParts;
             foreach ($paths as $pathData) {
-                list($sectionName, $groupName, $fieldName) = explode('/', $pathData['path']);
+                $pathDataParts = explode('/', $pathData['path']);
+                $sectionName = array_shift($pathDataParts);
+
                 $urlParams = array('section' => $sectionName);
                 if (isset($pathData['scope']) && isset($pathData['scope_id'])) {
                     switch ($pathData['scope']) {
@@ -431,13 +435,19 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
                     'title' => $this->_configStructure->getElement($sectionName)->getLabel(),
                     'url' => $this->getUrl('adminhtml/system_config/edit', $urlParams),
                 );
-                $pathParts[] = array(
-                    'title' => $this->_configStructure->getElementByPathParts(array($sectionName, $groupName))
-                        ->getLabel()
-                );
+                $elementPathParts = array($sectionName);
+                while (count($pathDataParts) != 1) {
+                    $elementPathParts[] = array_shift($pathDataParts);
+                    $pathParts[] = array(
+                        'title' => $this->_configStructure
+                            ->getElementByPathParts($elementPathParts)
+                            ->getLabel()
+                    );
+                }
+                $elementPathParts[] = array_shift($pathDataParts);
                 $pathParts[] = array(
                     'title' => $this->_configStructure
-                        ->getElementByPathParts(array($sectionName, $groupName, $fieldName))
+                        ->getElementByPathParts($elementPathParts)
                         ->getLabel(),
                     'scope' => $scopeLabel
                 );
