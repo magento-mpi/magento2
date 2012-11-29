@@ -70,6 +70,8 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      */
     public function handle($requestedResources, $endpointUrl)
     {
+        /** Sort requested resources by names to prevent caching of the same wsdl file more than once. */
+        ksort($requestedResources);
         $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedResources));
         if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
             $cachedWsdlContent = $this->_cache->load($cacheId);

@@ -31,7 +31,7 @@ abstract class Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract
     }
 
     /**
-     * Retrieve data that has been collected during reflecting each class.
+     * Retrieve data that has been collected during reflection of all classes.
      *
      * @return array
      */
