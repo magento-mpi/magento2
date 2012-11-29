@@ -42,10 +42,12 @@ class Magento_Test_ObjectManager extends Magento_ObjectManager_Zend
     public function clearCache()
     {
         foreach ($this->_classesToDestruct as $className) {
-            $object = $this->get($className);
-            if ($object) {
-                // force to cleanup circular references
-                $object->__destruct();
+            if ($this->_di->instanceManager()->hasSharedInstance($className)) {
+                $object = $this->get($className);
+                if ($object) {
+                    // force to cleanup circular references
+                    $object->__destruct();
+                }
             }
         }
 

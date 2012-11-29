@@ -89,9 +89,9 @@ class Mage_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCase
     public function testGetRouterByRoute()
     {
         $this->_model->init();
-        $this->assertInstanceOf('Mage_Core_Controller_Varien_Router_Standard', $this->_model->getRouterByRoute(''));
+        $this->assertInstanceOf('Mage_Core_Controller_Varien_Router_Base', $this->_model->getRouterByRoute(''));
         $this->assertInstanceOf(
-            'Mage_Core_Controller_Varien_Router_Standard',
+            'Mage_Core_Controller_Varien_Router_Base',
             $this->_model->getRouterByRoute('checkout')
         );
         $this->assertInstanceOf('Mage_Core_Controller_Varien_Router_Default', $this->_model->getRouterByRoute('test'));
@@ -101,11 +101,11 @@ class Mage_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->init();
         $this->assertInstanceOf(
-            'Mage_Core_Controller_Varien_Router_Standard',
+            'Mage_Core_Controller_Varien_Router_Base',
             $this->_model->getRouterByFrontName('')
         );
         $this->assertInstanceOf(
-            'Mage_Core_Controller_Varien_Router_Standard',
+            'Mage_Core_Controller_Varien_Router_Base',
             $this->_model->getRouterByFrontName('checkout')
         );
         $this->assertInstanceOf(

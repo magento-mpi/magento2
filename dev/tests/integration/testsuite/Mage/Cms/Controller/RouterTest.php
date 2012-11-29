@@ -18,7 +18,10 @@ class Mage_Cms_Controller_RouterTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = new Mage_Cms_Controller_Router(new Mage_Core_Model_Event_ManagerStub());
+        $this->_model = new Mage_Cms_Controller_Router(
+            Mage::getObjectManager()->get('Mage_Core_Controller_Varien_Action_Factory'),
+            new Mage_Core_Model_Event_ManagerStub()
+        );
     }
 
     /**
@@ -26,7 +29,7 @@ class Mage_Cms_Controller_RouterTest extends PHPUnit_Framework_TestCase
      */
     public function testMatch()
     {
-        $request = new Zend_Controller_Request_Http();
+        $request = new Mage_Core_Controller_Request_Http();
         //Open Node
         $request->setPathInfo('parent_node');
         $controller = $this->_model->match($request);

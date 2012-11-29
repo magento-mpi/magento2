@@ -19,7 +19,6 @@
  */
 class Mage_Core_Model_App
 {
-
     const XML_PATH_INSTALL_DATE = 'global/install/date';
 
     const XML_PATH_SKIP_PROCESS_MODULES_UPDATES = 'global/skip_process_modules_updates';
@@ -241,7 +240,8 @@ class Mage_Core_Model_App
     /**
      * Constructor
      */
-    public function __construct(Mage_Core_Controller_Varien_Front $frontController,
+    public function __construct(
+        Mage_Core_Controller_Varien_Front $frontController,
         Magento_ObjectManager $objectManager
     ) {
         $this->_frontController = $frontController;
@@ -1045,7 +1045,7 @@ class Mage_Core_Model_App
     }
 
     /**
-     * Retrive layout object
+     * Retrieve layout object
      *
      * @return Mage_Core_Model_Layout
      */

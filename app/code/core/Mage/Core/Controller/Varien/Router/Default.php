@@ -39,9 +39,8 @@ class Mage_Core_Controller_Varien_Router_Default extends Mage_Core_Controller_Va
             ->setControllerName($controllerName)
             ->setActionName($actionName);
 
-        return Mage::getControllerInstance('Mage_Core_Controller_Varien_Action_Forward',
-            $request,
-            $this->getFront()->getResponse()
+        return $this->_controllerFactory->createController('Mage_Core_Controller_Varien_Action_Forward',
+            array('request' => $request)
         );
     }
 }

@@ -30,14 +30,14 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
      *
      * @var string
      */
-    protected $_area;
+    protected $_areaCode;
 
     /**
      * Base controller that belongs to area
      *
      * @var string
      */
-    protected $_baseController = null;
+    protected $_baseController;
 
     /**
      * @var Magento_ObjectManager
@@ -45,17 +45,26 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
     protected $_objectManager;
 
     /**
+     * @param Mage_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Magento_ObjectManager $objectManager
-     * @param array $options
+     * @param string $areaCode
+     * @param string $baseController
+     * @throws InvalidArgumentException
      */
-    public function __construct(Magento_ObjectManager $objectManager, array $options = array())
-    {
-        $this->_objectManager = $objectManager;
-        $this->_area           = isset($options['area']) ? $options['area'] : null;
-        $this->_baseController = isset($options['base_controller']) ? $options['base_controller'] : null;
+    public function __construct(
+        Mage_Core_Controller_Varien_Action_Factory $controllerFactory,
+        Magento_ObjectManager $objectManager,
+        $areaCode,
+        $baseController
+    ) {
+        parent::__construct($controllerFactory);
 
-        if (is_null($this->_area) || is_null($this->_baseController)) {
-            Mage::throwException("Not enough options to initialize router.");
+        $this->_objectManager  = $objectManager;
+        $this->_areaCode       = $areaCode;
+        $this->_baseController = $baseController;
+
+        if (is_null($this->_areaCode) || is_null($this->_baseController)) {
+            throw new InvalidArgumentException("Not enough options to initialize router.");
         }
     }
 
@@ -101,9 +110,9 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
     public function fetchDefault()
     {
         $this->getFront()->setDefault(array(
-            'module' => 'core',
+            'module'     => 'core',
             'controller' => 'index',
-            'action' => 'index'
+            'action'     => 'index'
         ));
     }
 
@@ -150,7 +159,7 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
             return null;
         }
 
-        $this->_objectManager->loadAreaConfiguration($this->_area);
+        $this->_objectManager->loadAreaConfiguration($this->_areaCode);
 
         return $this->_matchController($request, $params);
     }
@@ -263,22 +272,6 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
     }
 
     /**
-     * Get new controller instance
-     *
-     * @param $controllerClassName
-     * @param Zend_Controller_Request_Http $request
-     * @return Mage_Core_Controller_Varien_Action
-     */
-    protected function _getControllerInstance($controllerClassName, Zend_Controller_Request_Http $request)
-    {
-        return Mage::getControllerInstance($controllerClassName,
-            $request,
-            $this->getFront()->getResponse(),
-            array('areaCode' => $this->_area)
-        );
-    }
-
-    /**
      * Get not found controller instance
      *
      * @param $currentModuleName
@@ -303,7 +296,9 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
             }
 
             // instantiate controller class
-            $controllerInstance = $this->_getControllerInstance($controllerClassName, $request);
+            $controllerInstance = $this->_controllerFactory->createController($controllerClassName,
+                array('request' => $request, 'areaCode' => $this->_areaCode)
+            );
         } else {
             return null;
         }
@@ -383,9 +378,11 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
                 continue;
             }
 
-            Mage::getConfig()->setCurrentAreaCode($this->_area);
+            Mage::getConfig()->setCurrentAreaCode($this->_areaCode);
             // instantiate controller class
-            $controllerInstance = $this->_getControllerInstance($controllerClassName, $request);
+            $controllerInstance = $this->_controllerFactory->createController($controllerClassName,
+                array('request' => $request, 'areaCode' => $this->_areaCode)
+            );
 
             $found = true;
             break;
@@ -586,11 +583,11 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
      * Check that request uses https protocol if it should.
      * Function redirects user to correct URL if needed.
      *
-     * @param Mage_Core_Controller_Request_Http $request
+     * @param Zend_Controller_Request_Http $request
      * @param string $path
      * @return void
      */
-    protected function _checkShouldBeSecure($request, $path = '')
+    protected function _checkShouldBeSecure(Zend_Controller_Request_Http $request, $path = '')
     {
         if (!Mage::isInstalled() || $request->getPost()) {
             return;

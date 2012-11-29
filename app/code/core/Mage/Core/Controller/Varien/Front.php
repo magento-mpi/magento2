@@ -11,6 +11,16 @@
 
 class Mage_Core_Controller_Varien_Front extends Varien_Object
 {
+    const XML_STORE_ROUTERS_PATH = 'web/routers';
+
+    /**
+     * @var Mage_Core_Controller_Varien_Router_Factory
+     */
+    protected $_routerFactory;
+
+    /**
+     * @var array
+     */
     protected $_defaults = array();
 
     /**
@@ -20,9 +30,14 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
      */
     protected $_routers = array();
 
-    protected $_urlCache = array();
+    public function __construct(
+        Mage_Core_Controller_Varien_Router_Factory $routerFactory,
+        array $data = array()
+    ) {
+        $this->_routerFactory = $routerFactory;
 
-    const XML_STORE_ROUTERS_PATH = 'web/routers';
+        parent::__construct($data);
+    }
 
     public function setDefault($key, $value=null)
     {
@@ -57,7 +72,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
     /**
      * Retrieve response object
      *
-     * @return Zend_Controller_Response_Http
+     * @return Mage_Core_Controller_Response_Http
      */
     public function getResponse()
     {
@@ -122,7 +137,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
                 continue;
             }
             if (isset($routerInfo['class'])) {
-                $router = Mage::getSingleton($routerInfo['class'], array('options' => $routerInfo));
+                $router = $this->_routerFactory->createRouter($routerInfo['class'], $routerInfo);
                 if (isset($routerInfo['area'])) {
                     $router->collectRoutes($routerInfo['area'], $routerCode);
                 }
@@ -134,7 +149,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
         Mage::dispatchEvent('controller_front_init_routers', array('front'=>$this));
 
         // Add default router at the last
-        $default = new Mage_Core_Controller_Varien_Router_Default();
+        $default = $this->_routerFactory->createRouter('Mage_Core_Controller_Varien_Router_Default');
         $this->addRouter('default', $default);
 
         return $this;

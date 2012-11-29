@@ -51,13 +51,13 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $observerData->setEvent(new Varien_Event(array(
             'controller_action' => Mage::getModel(
                 'Mage_Core_Controller_Front_Action',
-                array('request' => $request, 'response' => new Magento_Test_Response())
+                array('request' => $request, 'response' => new Magento_Test_Response(), 'areaCode' => 'adminhtml')
             )
         )));
         $this->_cookie
             ->expects($this->once())
-            ->method('updateCustomerCookies')
-        ;
+            ->method('updateCustomerCookies');
+
         Mage::app()->getCacheInstance()->allowUse(Mage_Core_Block_Abstract::CACHE_GROUP);
         Mage::getSingleton('Mage_Catalog_Model_Session')->setParamsMemorizeDisabled(false);
         $this->_observer->processPreDispatch($observerData);
@@ -73,7 +73,7 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $observerData->setEvent(new Varien_Event(array(
             'controller_action' => Mage::getModel(
                 'Mage_Core_Controller_Front_Action',
-                array('request' => $request, 'response' => new Magento_Test_Response())
+                array('request' => $request, 'response' => new Magento_Test_Response(), 'areaCode' => 'adminhtml')
             )
         )));
         $this->_cookie
