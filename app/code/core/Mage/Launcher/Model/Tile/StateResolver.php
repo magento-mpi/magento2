@@ -22,7 +22,6 @@ interface Mage_Launcher_Model_Tile_StateResolver
     /**
      * Resolve state
      *
-     * @abstract
      * @return int identified state
      */
     public function resolve();
@@ -30,7 +29,6 @@ interface Mage_Launcher_Model_Tile_StateResolver
     /**
      * Handle System Configuration change (handle related event) and return new state
      *
-     * @abstract
      * @param Mage_Core_Model_Config $config
      * @param string $sectionName
      * @return int result state

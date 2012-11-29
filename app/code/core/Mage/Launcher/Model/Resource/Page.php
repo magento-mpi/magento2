@@ -22,23 +22,23 @@ class Mage_Launcher_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abst
      *
      * @var Mage_Launcher_Model_Resource_Tile_Collection
      */
-    protected $_tileCollectionPrototype;
+    protected $_tileCollectionBase;
 
     /**
      * Class constructor
      *
-     * @param Mage_Launcher_Model_Resource_Tile_Collection $tileCollectionPrototype
+     * @param Mage_Launcher_Model_Resource_Tile_Collection $tileCollectionBase
      * @param Mage_Core_Model_Resource $resource
      */
     public function __construct(
-        Mage_Launcher_Model_Resource_Tile_Collection $tileCollectionPrototype,
+        Mage_Launcher_Model_Resource_Tile_Collection $tileCollectionBase,
         Mage_Core_Model_Resource $resource
     ) {
         parent::__construct($resource);
-        $this->_tileCollectionPrototype = $tileCollectionPrototype;
+        $this->_tileCollectionBase = $tileCollectionBase;
     }
 
-     /**
+    /**
      * Define main table
      */
     protected function _construct()
@@ -58,7 +58,7 @@ class Mage_Launcher_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abst
 
         if ($object->getId()) {
             // Add tiles collection to successfully loaded page (load it lazily) sorted by sort_order
-            $tileCollection = clone $this->_tileCollectionPrototype;
+            $tileCollection = clone $this->_tileCollectionBase;
             $tiles = $tileCollection->addFieldToFilter('page_id', array('eq' => $object->getId()))
                 ->setOrder('sort_order', Varien_Data_Collection::SORT_ORDER_ASC);
             $object->setTiles($tiles);

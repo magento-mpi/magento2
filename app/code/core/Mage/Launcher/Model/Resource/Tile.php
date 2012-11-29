@@ -22,7 +22,7 @@ class Mage_Launcher_Model_Resource_Tile extends Mage_Core_Model_Resource_Db_Abst
      *
      * @var Mage_Launcher_Model_Tile_StateResolverFactory
      */
-    protected $_stateResolverFactory;
+    protected $_resolverFactory;
 
     /**
      * Class constructor
@@ -35,7 +35,7 @@ class Mage_Launcher_Model_Resource_Tile extends Mage_Core_Model_Resource_Db_Abst
         Mage_Core_Model_Resource $resource
     ) {
         parent::__construct($resource);
-        $this->_stateResolverFactory = $stateResolverFactory;
+        $this->_resolverFactory = $stateResolverFactory;
     }
 
     /**
@@ -58,7 +58,7 @@ class Mage_Launcher_Model_Resource_Tile extends Mage_Core_Model_Resource_Db_Abst
 
         if ($object->getId()) {
             // Add corresponding state resolver to successfully loaded tile
-            $stateResolver = $this->_stateResolverFactory->create($object->getCode());
+            $stateResolver = $this->_resolverFactory->create($object->getCode());
             $object->setStateResolver($stateResolver);
         }
 
