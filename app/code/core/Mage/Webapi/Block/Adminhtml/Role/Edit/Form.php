@@ -14,8 +14,8 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Form extends Mage_Backend_Block_Widg
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form(array(
-            'id' => 'edit_form',
             'action' => $this->getUrl('*/*/save'),
+            'id' => 'edit_form',
             'method' => 'post'
         ));
         $form->setUseContainer(true);
