@@ -39,8 +39,8 @@ class Mage_Backend_Model_Config_Structure_Mapper_PathTest extends PHPUnit_Framew
                                         'group_1.1' => array(
                                             'id' => 'group_1.1',
                                             'children' => array(
-                                                'filed_1.2' => array(
-                                                    'id' => 'filed_1.2',
+                                                'field_1.2' => array(
+                                                    'id' => 'field_1.2',
                                                 )
                                             ),
                                         ),
@@ -69,8 +69,8 @@ class Mage_Backend_Model_Config_Structure_Mapper_PathTest extends PHPUnit_Framew
                                         'group_1.1' => array(
                                             'id' => 'group_1.1',
                                             'children' => array(
-                                                'filed_1.2' => array(
-                                                    'id' => 'filed_1.2',
+                                                'field_1.2' => array(
+                                                    'id' => 'field_1.2',
                                                     'path' => 'section_1/group_1/group_1.1',
                                                 ),
                                             ),
