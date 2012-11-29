@@ -18,6 +18,7 @@ class Mage_XmlConnect_Helper_ImageTest extends PHPUnit_Framework_TestCase
      */
     public function testGetViewImagesUrl($area, $file)
     {
+        $this->markTestIncomplete('MAGETWO-4738');
         $helper = Mage::helper('Mage_XmlConnect_Helper_Image');
         Mage::getDesign()->setArea($area);
 

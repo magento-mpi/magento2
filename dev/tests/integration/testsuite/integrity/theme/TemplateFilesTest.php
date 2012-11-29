@@ -21,11 +21,10 @@ class Integrity_Theme_TemplateFilesTest extends Magento_Test_TestCase_IntegrityA
     {
         $invalidTemplates = array();
         foreach ($this->templatesDataProvider() as $template) {
-            list($area, $package, $theme, $module, $file, $xml) = $template;
+            list($area, $themeId, $module, $file, $xml) = $template;
             $params = array(
                 'area'     => $area,
-                'package'  => $package,
-                'theme'    => $theme,
+                'themeId'  => $themeId,
                 'module'   => $module
             );
             try {
@@ -33,7 +32,7 @@ class Integrity_Theme_TemplateFilesTest extends Magento_Test_TestCase_IntegrityA
                 $this->assertFileExists($templateFilename);
             } catch (PHPUnit_Framework_ExpectationFailedException $e) {
                 $invalidTemplates[] = "{$templateFilename}\n"
-                    . "Parameters: {$area}/{$package}/{$theme} {$module}::{$file}\nLayout update: {$xml}";
+                    . "Parameters: {$area}/{$themeId} {$module}::{$file}\nLayout update: {$xml}";
             }
         }
 
@@ -45,15 +44,14 @@ class Integrity_Theme_TemplateFilesTest extends Magento_Test_TestCase_IntegrityA
         $templates = array();
 
         $themes = $this->_getDesignThemes();
-        foreach ($themes as $view) {
-            list($area, $package, $theme) = explode('/', $view);
+        foreach ($themes as $theme) {
             $layoutUpdate = Mage::getModel(
                 'Mage_Core_Model_Layout_Merge',
-                array('arguments' => array('area' => $area, 'package' => $package, 'theme' => $theme))
+                array('arguments' => array('area' => $theme->getArea(), 'themeId' => $theme->getId()))
             );
             $layoutTemplates = $this->_getLayoutTemplates($layoutUpdate->getFileLayoutUpdatesXml());
             foreach ($layoutTemplates as $templateData) {
-                $templates[] = array_merge(array($area, $package, $theme), $templateData);
+                $templates[] = array_merge(array($theme->getArea(), $theme->getId()), $templateData);
             }
         }
 
