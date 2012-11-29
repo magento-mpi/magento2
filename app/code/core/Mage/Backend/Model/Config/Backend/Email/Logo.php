@@ -9,12 +9,12 @@
  */
 
  /**
- * Backend model for uploading transactional emails custom logo image
- *
- * @category   Mage
- * @package    Mage_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
- */
+  * Backend model for uploading transactional emails custom logo image
+  *
+  * @category   Mage
+  * @package    Mage_Backend
+  * @author     Magento Core Team <core@magentocommerce.com>
+  */
 class Mage_Backend_Model_Config_Backend_Email_Logo extends Mage_Backend_Model_Config_Backend_Image
 {
     /**

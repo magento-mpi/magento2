@@ -184,10 +184,12 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
         if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isLoggedIn()) {
             if ($this->getRequest()->isPost()) {
                 $_isValidFormKey = $this->_validateFormKey();
-                $_keyErrorMsg = Mage::helper('Mage_Backend_Helper_Data')->__('Invalid Form Key. Please refresh the page.');
+                $_keyErrorMsg = Mage::helper('Mage_Backend_Helper_Data')
+                    ->__('Invalid Form Key. Please refresh the page.');
             } elseif (Mage::getSingleton('Mage_Backend_Model_Url')->useSecretKey()) {
                 $_isValidSecretKey = $this->_validateSecretKey();
-                $_keyErrorMsg = Mage::helper('Mage_Backend_Helper_Data')->__('Invalid Secret Key. Please refresh the page.');
+                $_keyErrorMsg = Mage::helper('Mage_Backend_Helper_Data')
+                    ->__('Invalid Secret Key. Please refresh the page.');
             }
         }
         if (!$_isValidFormKey || !$_isValidSecretKey) {
@@ -347,7 +349,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
 
     public function deniedAction()
     {
-        $this->getResponse()->setHeader('HTTP/1.1','403 Forbidden');
+        $this->getResponse()->setHeader('HTTP/1.1', '403 Forbidden');
         if (!Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isLoggedIn()) {
             $this->_redirect('*/auth/login');
             return;
@@ -378,8 +380,8 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
 
     public function norouteAction($coreRoute = null)
     {
-        $this->getResponse()->setHeader('HTTP/1.1','404 Not Found');
-        $this->getResponse()->setHeader('Status','404 File not found');
+        $this->getResponse()->setHeader('HTTP/1.1', '404 Not Found');
+        $this->getResponse()->setHeader('Status', '404 File not found');
         $this->loadLayout(array('default', 'adminhtml_noroute'));
         $this->renderLayout();
     }

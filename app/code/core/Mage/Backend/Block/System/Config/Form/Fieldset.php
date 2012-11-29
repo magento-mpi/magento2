@@ -123,14 +123,14 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
                    $$('#{$id} table tbody tr').each(function(tr) {
                        Event.observe(tr, 'mouseover', function (event) {
                            var relatedTarget = $(event.relatedTarget || event.fromElement);
-                           if(relatedTarget && (relatedTarget == this || relatedTarget.descendantOf(this))) {
+                           if (relatedTarget && (relatedTarget == this || relatedTarget.descendantOf(this))) {
                                return;
                            }
                            showTooltip(event);
                        });
                        Event.observe(tr, 'mouseout', function (event) {
                            var relatedTarget = $(event.relatedTarget || event.toElement);
-                           if(relatedTarget && (relatedTarget == this || relatedTarget.childOf(this))) {
+                           if (relatedTarget && (relatedTarget == this || relatedTarget.childOf(this))) {
                                return;
                            }
                            hideTooltip(event);
@@ -151,7 +151,7 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
                        $$('div.system-tooltip-box').invoke('hide');
                        if ($(id)) {
                            $(id).show().setStyle({height : tableHeight});
-                           if(document.viewport.getWidth() < 1200) {
+                           if (document.viewport.getWidth() < 1200) {
                                $(id).addClassName('system-tooltip-small').setStyle({height : 'auto'});
                            } else {
                                $(id).removeClassName('system-tooltip-small');

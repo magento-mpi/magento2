@@ -184,7 +184,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         /** @var $section Mage_Backend_Model_Config_Structure_Element_Section */
         $section = $this->_configStructure->getElement($this->getSectionCode());
         if ($section && $section->isVisible($this->getWebsiteCode(), $this->getStoreCode())) {
-            foreach ($section->getChildren() as $group){
+            foreach ($section->getChildren() as $group) {
                 $this->_initGroup($group, $section, $form);
             }
         }
@@ -200,11 +200,10 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
      * @param Mage_Backend_Model_Config_Structure_Element_Section $section
      * @param Varien_Data_Form $form
      */
-    protected function _initGroup(
-        Mage_Backend_Model_Config_Structure_Element_Group $group,
+    protected function _initGroup(Mage_Backend_Model_Config_Structure_Element_Group $group,
         Mage_Backend_Model_Config_Structure_Element_Section $section,
-        Varien_Data_Form $form)
-    {
+        Varien_Data_Form $form
+    ) {
         $frontendModelClass = $group->getFrontendModel();
         $fieldsetRenderer = $frontendModelClass ?
             Mage::getBlockSingleton($frontendModelClass) :
@@ -244,7 +243,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
      */
     protected function _getDependence()
     {
-        if (!$this->getChildBlock('element_dependence')){
+        if (!$this->getChildBlock('element_dependence')) {
             $this->addChild('element_dependence', 'Mage_Backend_Block_Widget_Form_Element_Dependence');
         }
         return $this->getChildBlock('element_dependence');

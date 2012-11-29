@@ -32,7 +32,7 @@ class Mage_Backend_Model_Config_Backend_File extends Mage_Core_Model_Config_Data
     protected function _beforeSave()
     {
         $value = $this->getValue();
-        if ($_FILES['groups']['tmp_name'][$this->getGroupId()]['fields'][$this->getField()]['value']){
+        if ($_FILES['groups']['tmp_name'][$this->getGroupId()]['fields'][$this->getField()]['value']) {
 
             $uploadDir = $this->_getUploadDir();
 
@@ -80,7 +80,10 @@ class Mage_Backend_Model_Config_Backend_File extends Mage_Core_Model_Config_Data
     public function validateMaxSize($filePath)
     {
         if ($this->_maxFileSize > 0 && filesize($filePath) > ($this->_maxFileSize * 1024)) {
-            throw Mage::exception('Mage_Core', Mage::helper('Mage_Backend_Helper_Data')->__('Uploaded file is larger than %.2f kilobytes allowed by server', $this->_maxFileSize));
+            throw Mage::exception('Mage_Core',
+                Mage::helper('Mage_Backend_Helper_Data')
+                    ->__('Uploaded file is larger than %.2f kilobytes allowed by server', $this->_maxFileSize)
+            );
         }
     }
 
@@ -115,11 +118,13 @@ class Mage_Backend_Model_Config_Backend_File extends Mage_Core_Model_Config_Data
 
         if (is_array($fieldConfig['upload_dir'])) {
             $uploadDir = $fieldConfig['upload_dir']['value'];
-            if (array_key_exists('scope_info', $fieldConfig['upload_dir']) && $fieldConfig['upload_dir']['scope_info']){
+            if (array_key_exists('scope_info', $fieldConfig['upload_dir'])
+                && $fieldConfig['upload_dir']['scope_info']
+            ) {
                 $uploadDir = $this->_appendScopeInfo($uploadDir);
             }
 
-            if (array_key_exists('config', $fieldConfig['upload_dir'])){
+            if (array_key_exists('config', $fieldConfig['upload_dir'])) {
                 $uploadRoot = $this->_getUploadRoot($fieldConfig['upload_dir']['config']);
                 $uploadDir = $uploadRoot . '/' . $uploadDir;
             }

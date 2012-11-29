@@ -145,8 +145,7 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
 
         if ($cacheSecretKey) {
             $secret = array(self::SECRET_KEY_PARAM_NAME => "\${$routeName}/{$controllerName}/{$actionName}\$");
-        }
-        else {
+        } else {
             $secret = array(
                 self::SECRET_KEY_PARAM_NAME => $this->getSecretKey($routeName, $controllerName, $actionName)
             );

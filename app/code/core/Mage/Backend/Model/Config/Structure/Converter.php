@@ -29,26 +29,26 @@ class Mage_Backend_Model_Config_Structure_Converter
     );
 
     /**
-     * @param Mage_Backend_Model_Config_Structure_Mapper_Factory $mapperFactory
-     */
-    public function __construct(Mage_Backend_Model_Config_Structure_Mapper_Factory $mapperFactory)
-    {
-        $this->_mapperFactory = $mapperFactory;
-    }
-
-    /**
      * Map of single=>plural sub-node names per node
      *
      * E.G. first element makes all 'tab' nodes be renamed to 'tabs' in system node.
      *
      * @var array
      */
-    protected $nameMap = array(
+    protected $_nameMap = array(
         'system' => array('tab' => 'tabs', 'section'=> 'sections'),
         'section' => array('group' => 'children'),
         'group' => array('field' => 'children', 'group' => 'children'),
         'depends' => array('field' => 'fields'),
     );
+
+    /**
+     * @param Mage_Backend_Model_Config_Structure_Mapper_Factory $mapperFactory
+     */
+    public function __construct(Mage_Backend_Model_Config_Structure_Mapper_Factory $mapperFactory)
+    {
+        $this->_mapperFactory = $mapperFactory;
+    }
 
     /**
      * Retrieve DOMDocument as array
@@ -114,9 +114,9 @@ class Mage_Backend_Model_Config_Structure_Converter
                     break;
             }
 
-            if (array_key_exists($root->nodeName, $this->nameMap)
-                && array_key_exists($child->nodeName, $this->nameMap[$root->nodeName])) {
-                $childName = $this->nameMap[$root->nodeName][$child->nodeName];
+            if (array_key_exists($root->nodeName, $this->_nameMap)
+                && array_key_exists($child->nodeName, $this->_nameMap[$root->nodeName])) {
+                $childName = $this->_nameMap[$root->nodeName][$child->nodeName];
                 $processedSubLists[] = $childName;
                 $convertedChild['_elementType'] = $child->nodeName;
             }

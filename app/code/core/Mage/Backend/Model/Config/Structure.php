@@ -74,7 +74,7 @@ class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_S
     /**
      * Retrieve tab iterator
      *
-    * @return Mage_Backend_Model_Config_Structure_Element_Iterator
+     * @return Mage_Backend_Model_Config_Structure_Element_Iterator
      */
     public function getTabs()
     {

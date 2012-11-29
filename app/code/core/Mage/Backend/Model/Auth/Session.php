@@ -16,7 +16,9 @@
  * @package     Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Auth_Session extends Mage_Core_Model_Session_Abstract implements Mage_Backend_Model_Auth_StorageInterface
+class Mage_Backend_Model_Auth_Session
+    extends Mage_Core_Model_Session_Abstract
+    implements Mage_Backend_Model_Auth_StorageInterface
 {
     const XML_PATH_SESSION_LIFETIME = 'admin/security/session_lifetime';
 
@@ -119,7 +121,9 @@ class Mage_Backend_Model_Auth_Session extends Mage_Core_Model_Session_Abstract i
                     if (!$acl->has($resource)) {
                         return $acl->isAllowed($user->getAclRole(), null, $privilege);
                     }
-                } catch (Exception $e) { }
+                } catch (Exception $e) {
+
+                }
             }
         }
         return false;

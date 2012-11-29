@@ -201,7 +201,7 @@ class Mage_Backend_Block_Widget_Container extends Mage_Backend_Block_Template
         if (null === $blockClassName) {
             $blockClassName = 'Mage_Backend_Block_Widget_Button';
         }
-        $block = $this->getLayout()->createBlock($blockClassName,  $this->getNameInLayout() . '-' . $childId);
+        $block = $this->getLayout()->createBlock($blockClassName, $this->getNameInLayout() . '-' . $childId);
         $this->setChild($childId, $block);
         return $block;
     }

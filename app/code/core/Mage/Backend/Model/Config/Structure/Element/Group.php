@@ -25,7 +25,7 @@ class Mage_Backend_Model_Config_Structure_Element_Group
      * @param Mage_Backend_Model_Config_Structure_Element_Iterator_Field $childrenIterator
      * @param Mage_Backend_Model_Config_Clone_Factory $cloneModelFactory
      */
-    function __construct(
+    public function __construct(
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_App $application,
         Mage_Core_Model_Authorization $authorization,

@@ -311,11 +311,9 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
             if (is_string($filter)) {
                 $data = $this->helper('Mage_Backend_Helper_Data')->prepareFilterString($filter);
                 $this->_setFilterValues($data);
-            }
-            else if ($filter && is_array($filter)) {
+            } else if ($filter && is_array($filter)) {
                 $this->_setFilterValues($filter);
-            }
-            else if(0 !== sizeof($this->_defaultFilter)) {
+            } else if (0 !== sizeof($this->_defaultFilter)) {
                 $this->_setFilterValues($this->_defaultFilter);
             }
 
@@ -733,9 +731,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
                 $session->setData($sessionParamName, $param);
             }
             return $param;
-        }
-        elseif ($this->_saveParametersInSession && ($param = $session->getData($sessionParamName)))
-        {
+        } elseif ($this->_saveParametersInSession && ($param = $session->getData($sessionParamName))) {
             return $param;
         }
 
@@ -814,7 +810,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     public function getMainButtonsHtml()
     {
         $html = '';
-        if($this->getColumnSet()->isFilterVisible()) {
+        if ($this->getColumnSet()->isFilterVisible()) {
             $html.= $this->getResetFilterButtonHtml();
             $html.= $this->getSearchButtonHtml();
         }

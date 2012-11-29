@@ -24,7 +24,7 @@ abstract class Mage_Backend_Model_Config_Structure_Element_CompositeAbstract
      * @param Mage_Core_Model_Authorization $authorization
      * @param Mage_Backend_Model_Config_Structure_Element_Iterator $childrenIterator
      */
-    function __construct(
+    public function __construct(
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_App $application,
         Mage_Core_Model_Authorization $authorization,

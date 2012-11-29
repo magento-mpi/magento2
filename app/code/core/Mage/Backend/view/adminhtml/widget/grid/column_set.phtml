@@ -11,7 +11,7 @@
 <?php
 $numColumns = sizeof($this->getColumns());
 ?>
-<?php if($this->getCollection()): ?>
+<?php if ($this->getCollection()): ?>
         <?php foreach ($this->getColumns() as $_column): ?>
             <col <?php echo $_column->getHtmlProperty() ?> />
         <?php endforeach; ?>

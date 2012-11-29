@@ -102,12 +102,14 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Datetime extends Mage_Backend
         $html = '<div class="range" id="'.$htmlId.'_range"><div class="range-line date">'
             . '<span class="label">' . Mage::helper('Mage_Backend_Helper_Data')->__('From').':</span>'
             . '<input type="text" name="'.$this->_getHtmlName().'[from]" id="'.$htmlId.'_from"'
-                . ' value="'.$this->getEscapedValue('from').'" class="input-text no-changes" ' . $this->getUiId('filter', $this->_getHtmlName(), 'from') .  '/>'
+            . ' value="'.$this->getEscapedValue('from')
+            .'" class="input-text no-changes" ' . $this->getUiId('filter', $this->_getHtmlName(), 'from') .  '/>'
             . '</div>';
         $html.= '<div class="range-line date">'
             . '<span class="label">' . Mage::helper('Mage_Backend_Helper_Data')->__('To').' :</span>'
             . '<input type="text" name="'.$this->_getHtmlName().'[to]" id="'.$htmlId.'_to"'
-                . ' value="'.$this->getEscapedValue('to').'" class="input-text no-changes" ' . $this->getUiId('filter', $this->_getHtmlName(), 'to') .  '/>'
+            . ' value="'.$this->getEscapedValue('to')
+            .'" class="input-text no-changes" ' . $this->getUiId('filter', $this->_getHtmlName(), 'to') .  '/>'
             . '</div></div>';
         $html.= '<input type="hidden" name="'.$this->_getHtmlName().'[locale]"'
             . ' value="'.$this->getLocale()->getLocaleCode().'"/>';
@@ -118,7 +120,8 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Datetime extends Mage_Backend
                         timeFormat: "' . $timeFormat . '",
                         showsTime: '. ( $this->getColumn()->getFilterTime() ? 'true' : 'false') .',
                         buttonImage: "'. Mage::getDesign()->getViewFileUrl('images/grid-cal.gif') . '",
-                        buttonText: "'.$this->escapeHtml(Mage::helper('Mage_Backend_Helper_Data')->__('Date selector')).'",
+                        buttonText: "'
+                            . $this->escapeHtml(Mage::helper('Mage_Backend_Helper_Data')->__('Date selector')).'",
                         from: {
                             id: "'.$htmlId.'_from"
                         },
