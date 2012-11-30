@@ -8,6 +8,71 @@ use Zend\Soap\Wsdl;
  */
 class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
 {
+    /** @var Mage_Webapi_Model_Soap_Wsdl */
+    protected $_wsdlMock;
+
+    /** @var Mage_Webapi_Model_Soap_AutoDiscover */
+    protected $_autoDiscover;
+
+    /** @var Mage_Core_Model_Cache */
+    protected $_cacheMock;
+
+    /** @var Mage_Webapi_Model_Config_Soap */
+    protected $_resourceConfigMock;
+
+    protected function setUp()
+    {
+        /** Prepare arguments for SUT constructor. */
+        $this->_resourceConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config_Soap')
+            ->disableOriginalConstructor()->getMock();
+
+        $this->_wsdlMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_Wsdl')
+            ->disableOriginalConstructor()
+            ->setMethods(
+            array(
+                'addSchemaTypeSection',
+                'addService',
+                'addPortType',
+                'addBinding',
+                'addSoapBinding',
+                'addElement',
+                'addComplexType',
+                'addMessage',
+                'addPortOperation',
+                'addBindingOperation',
+                'addSoapOperation',
+                'toXML'
+            )
+        )
+            ->getMock();
+        $wsdlFactory = $this->getMock(
+            'Mage_Webapi_Model_Soap_Wsdl_Factory',
+            array('create'),
+            array(new Magento_ObjectManager_Zend())
+        );
+        $wsdlFactory->expects($this->any())->method('create')->will($this->returnValue($this->_wsdlMock));
+        $helper = $this->getMock('Mage_Webapi_Helper_Config', array('__'));
+        $helper->expects($this->any())->method('__')->will($this->returnArgument(0));
+        $this->_cacheMock = $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock();
+        /** Initialize SUT. */
+        $this->_autoDiscover = new Mage_Webapi_Model_Soap_AutoDiscover(
+            $this->_resourceConfigMock,
+            $wsdlFactory,
+            $helper,
+            $this->_cacheMock
+        );
+        parent::setUp();
+    }
+
+    protected function tearDown()
+    {
+        unset($this->_wsdlMock);
+        unset($this->_autoDiscover);
+        unset($this->_cacheMock);
+        unset($this->_resourceConfigMock);
+        parent::tearDown();
+    }
+
     /**
      * Positive test case. Generate simple resource WSDL.
      *
@@ -15,67 +80,50 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
      */
     public function testGenerate($resourceName, $methodName, $interface)
     {
-        /** Prepare arguments for SUT constructor. */
-        $resourceConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config_Soap')
-            ->setMethods(array('getTypeData'))
-            ->disableOriginalConstructor()
-            ->getMock();
-        $wsdlMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_Wsdl')
-            ->disableOriginalConstructor()
-            ->setMethods(array('addSchemaTypeSection', 'addService', 'addPortType', 'addBinding', 'addSoapBinding',
-                'addElement', 'addComplexType', 'addMessage', 'addPortOperation', 'addBindingOperation',
-                'addSoapOperation', 'toXML'))
-            ->getMock();
-        $wsdlFactory = $this->getMock('Mage_Webapi_Model_Soap_Wsdl_Factory',
-            array('create'), array(new Magento_ObjectManager_Zend()));
-        $wsdlFactory->expects($this->any())->method('create')->will($this->returnValue($wsdlMock));
-        $helper = $this->getMock('Mage_Webapi_Helper_Config', array('__'));
-        $helper->expects($this->any())->method('__')->will($this->returnArgument(0));
-        $cacheMock = $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock();
-        /** Initialize SUT. */
-        $autoDiscover = new Mage_Webapi_Model_Soap_AutoDiscover(
-            $resourceConfigMock,
-            $wsdlFactory,
-            $helper,
-            $cacheMock
-        );
-
         $serviceDomMock = $this->_getDomElementMock();
-        $wsdlMock->expects($this->once())
-            ->method('addService')
-            ->will($this->returnValue($serviceDomMock));
+        $this->_wsdlMock->expects($this->once())->method('addService')->will($this->returnValue($serviceDomMock));
         $portTypeDomMock = $this->_getDomElementMock();
-        $portTypeName = $autoDiscover->getPortTypeName($resourceName);
-        $wsdlMock->expects($this->once())
+        $portTypeName = $this->_autoDiscover->getPortTypeName($resourceName);
+        $this->_wsdlMock->expects($this->once())
             ->method('addPortType')
             ->with($portTypeName)
             ->will($this->returnValue($portTypeDomMock));
         $bindingDomMock = $this->_getDomElementMock();
-        $bindingName = $autoDiscover->getBindingName($resourceName);
-        $wsdlMock->expects($this->once())
+        $bindingName = $this->_autoDiscover->getBindingName($resourceName);
+        $this->_wsdlMock->expects($this->once())
             ->method('addBinding')
             ->with($bindingName, Wsdl::TYPES_NS . ':' . $portTypeName)
             ->will($this->returnValue($bindingDomMock));
-        $wsdlMock->expects($this->once())
+        $this->_wsdlMock->expects($this->once())
             ->method('addSoapBinding')
             ->with($bindingDomMock);
-        $operationName = $autoDiscover->getOperationName($resourceName, $methodName);
-        $inputMessageName = $autoDiscover->getInputMessageName($operationName);
-        $outputMessageName = $autoDiscover->getOutputMessageName($operationName);
-        $wsdlMock->expects($this->once())
+        $operationName = $this->_autoDiscover->getOperationName($resourceName, $methodName);
+        $inputMessageName = $this->_autoDiscover->getInputMessageName($operationName);
+        $outputMessageName = $this->_autoDiscover->getOutputMessageName($operationName);
+        $this->_wsdlMock->expects($this->once())
             ->method('addPortOperation')
-            ->with($portTypeDomMock, $operationName, Wsdl::TYPES_NS . ':' . $inputMessageName,
-                Wsdl::TYPES_NS . ':'.$outputMessageName);
+            ->with(
+            $portTypeDomMock,
+            $operationName,
+            Wsdl::TYPES_NS . ':' . $inputMessageName,
+            Wsdl::TYPES_NS . ':' . $outputMessageName
+        );
         $operationDomMock = $this->_getDomElementMock();
-        $wsdlMock->expects($this->once())
+        $this->_wsdlMock->expects($this->once())
             ->method('addBindingOperation')
-            ->with($bindingDomMock, $operationName, array('use' => 'literal'), array('use' => 'literal'), false,
-                SOAP_1_2)
+            ->with(
+            $bindingDomMock,
+            $operationName,
+            array('use' => 'literal'),
+            array('use' => 'literal'),
+            false,
+            SOAP_1_2
+        )
             ->will($this->returnValue($operationDomMock));
-        $wsdlMock->expects($this->once())
+        $this->_wsdlMock->expects($this->once())
             ->method('addSoapOperation')
             ->with($operationDomMock, $operationName, SOAP_1_2);
-        $wsdlMock->expects($this->once())
+        $this->_wsdlMock->expects($this->once())
             ->method('toXML');
 
         $requestedResources = array(
@@ -89,7 +137,49 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
             ),
         );
         $endpointUrl = 'http://magento.host/api/soap/';
-        $autoDiscover->generate($requestedResources, $endpointUrl);
+        $this->_autoDiscover->generate($requestedResources, $endpointUrl);
+    }
+
+    /**
+     * Test handle method with loading wsdl from cache.
+     */
+    public function testHandleLoadWsdlFromCache()
+    {
+        /** Mock cache canUse method to return true. */
+        $this->_cacheMock->expects($this->once())->method('canUse')->will($this->returnValue(true));
+        /** Mock cache load method to return cache Id. */
+        $this->_cacheMock->expects($this->once())->method('load')->will($this->returnArgument(0));
+        $requestedResources = array(
+            'res1' => 'v1',
+            'res2' => 'v2'
+        );
+        $result = $this->_autoDiscover->handle($requestedResources, 'http://magento.host');
+        /** Assert handle method will return string that starts with WSDL. */
+        $this->assertStringStartsWith(
+            Mage_Webapi_Model_Soap_AutoDiscover::WSDL_CACHE_ID,
+            $result,
+            'Wsdl is not loaded from cache.'
+        );
+    }
+
+    /**
+     * Test handle method with exception.
+     */
+    public function testHandleWithException()
+    {
+        /** Mock cache canUse method to return false. */
+        $this->_cacheMock->expects($this->once())->method('canUse')->will($this->returnValue(false));
+        $requestedResources = array('res1' => 'v1');
+        $exception = new LogicException('getResourceDataMerged Exception');
+        $this->_resourceConfigMock->expects($this->once())->method('getResourceDataMerged')->will(
+            $this->throwException($exception)
+        );
+        $this->setExpectedException(
+            'Mage_Webapi_Exception',
+            'getResourceDataMerged Exception',
+            Mage_Webapi_Exception::HTTP_BAD_REQUEST
+        );
+        $this->_autoDiscover->handle($requestedResources, 'http://magento.host');
     }
 
     /**
