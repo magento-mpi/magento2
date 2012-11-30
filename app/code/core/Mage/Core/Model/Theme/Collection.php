@@ -254,7 +254,7 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
         /** @var $theme Mage_Core_Model_Theme */
         foreach ($this->getItems() as $itemKey => $theme) {
             $removeItem = false;
-            foreach($filters as $filter) {
+            foreach ($filters as $filter) {
                 if ($filter['type'] == 'and' && $theme->getDataUsingMethod($filter['field']) != $filter['value']) {
                     $removeItem = true;
                 }
