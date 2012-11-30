@@ -66,11 +66,6 @@
         <request>
             <direct_front_name/>
         </request>
-        <log>
-            <core>
-                <writer_model>Zend_Log_Writer_Stream</writer_model>
-            </core>
-        </log>
         <dev>
             <page_type>
                 <render_inherited>0</render_inherited>

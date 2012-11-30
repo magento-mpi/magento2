@@ -72,7 +72,7 @@ class Mage_ProductAlert_Helper_Data extends Mage_Core_Helper_Url
     {
         if (is_string($block)) {
             $block = Mage::getConfig()->getBlockClassName($block);
-            if (Magento_Autoload::getInstance()->classExists($block)) {
+            if (class_exists($block)) {
                 $block = new $block(array());
             }
         }

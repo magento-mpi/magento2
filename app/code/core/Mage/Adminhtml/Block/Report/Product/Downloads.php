@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_Report_Product_Downloads extends Mage_Adminhtml_Block
             $this->getLayout()->createBlock('Mage_Backend_Block_Store_Switcher')
                 ->setUseConfirm(false)
                 ->setSwitchUrl($this->getUrl('*/*/*', array('store'=>null)))
-                ->setTemplate('Mage_Adminhtml::report/store/switcher.phtml')
+                ->setTemplate('Mage_Reports::store/switcher.phtml')
         );
         return parent::_prepareLayout();
     }

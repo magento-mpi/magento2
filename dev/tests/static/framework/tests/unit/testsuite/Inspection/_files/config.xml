@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento
+ * @subpackage  static_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <words>
+        <word>demon</word>
+        <word>vampire</word>
+    </words>
+    <whitelist>
+        <item>
+            <path>twilight/eclipse.php</path>
+        </item>
+        <item>
+            <word>vampire</word>
+            <path>twilight/newmoon.php</path>
+        </item>
+    </whitelist>
+</config>

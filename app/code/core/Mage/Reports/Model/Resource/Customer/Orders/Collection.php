@@ -26,30 +26,30 @@ class Mage_Reports_Model_Resource_Customer_Orders_Collection extends Mage_Report
     /**
      * Join fields
      *
-     * @param string $from
-     * @param string $to
+     * @param string $fromDate
+     * @param string $toDate
      * @return Mage_Reports_Model_Resource_Customer_Orders_Collection
      */
-    protected function _joinFields($from = '', $to = '')
+    protected function _joinFields($fromDate = '', $toDate = '')
     {
         $this->joinCustomerName()
             ->groupByCustomer()
             ->addOrdersCount()
-            ->addAttributeToFilter('created_at', array('from' => $from, 'to' => $to, 'datetime' => true));
+            ->addAttributeToFilter('created_at', array('from' => $fromDate, 'to' => $toDate, 'datetime' => true));
         return $this;
     }
 
     /**
      * Set date range
      *
-     * @param string $from
-     * @param string $to
+     * @param string $fromDate
+     * @param string $toDate
      * @return Mage_Reports_Model_Resource_Customer_Orders_Collection
      */
-    public function setDateRange($from, $to)
+    public function setDateRange($fromDate, $toDate)
     {
         $this->_reset()
-            ->_joinFields($from, $to);
+            ->_joinFields($fromDate, $toDate);
         return $this;
     }
 

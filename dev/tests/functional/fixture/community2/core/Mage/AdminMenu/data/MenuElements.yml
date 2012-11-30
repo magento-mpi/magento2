@@ -126,8 +126,6 @@ menu:
         import_export:
             import:
             export:
-            system_convert_gui:
-            system_convert_profile:
         manage_currency:
             system_currency:
             system_currencysymbol:
