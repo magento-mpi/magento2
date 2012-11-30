@@ -231,6 +231,7 @@ class Magento_Test_Bootstrap
     public function initialize()
     {
         Mage::setIsDeveloperMode($this->_isDeveloperMode);
+        Mage_Core_Utility_Theme::registerDesignMock();
         Mage::$headersSentThrowsException = false;
         Mage::app('', 'store', $this->_options);
     }
@@ -496,11 +497,6 @@ class Magento_Test_Bootstrap
 
         /* Switch an application to installed mode */
         $this->initialize();
-        /**
-         * Initialization of front controller with all routers.
-         * Should be here as needed only once after installation process.
-         */
-        Mage::app()->getFrontController();
     }
 
     /**

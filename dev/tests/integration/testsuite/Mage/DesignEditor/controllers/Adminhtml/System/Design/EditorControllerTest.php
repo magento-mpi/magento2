@@ -25,7 +25,9 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
     {
         $theme = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
         $theme->setData(array(
-            'package_title'        => 'Default',
+            'theme_code'           => 'default',
+            'package_code'         => 'default',
+            'area'                 => 'frontend',
             'parent_id'            => null,
             'theme_path'           => 'default/demo',
             'theme_version'        => '2.0.0.0',

@@ -17,7 +17,7 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var Mage_Backend_Model_Menu_Logger
+     * @var Mage_Core_Model_Logger
      */
     protected $_logger;
 
@@ -37,7 +37,7 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
         $this->_items['item3'] = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
         $this->_items['item3']->expects($this->any())->method('getId')->will($this->returnValue('item3'));
 
-        $this->_logger = $this->getMock('Mage_Backend_Model_Menu_Logger');
+        $this->_logger = $this->getMock('Mage_Core_Model_Logger', array('log'), array(), '', false);
 
         $this->_model = new Mage_Backend_Model_Menu($this->_logger);
     }
@@ -331,5 +331,12 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
             }
         }
         $this->assertEquals($expected, $actual);
+    }
+
+    public function testSerialize()
+    {
+        $this->assertNotEmpty($this->_model->serialize());
+        $this->_logger->expects($this->once())->method('log');
+        $this->_model->add($this->_items['item1']);
     }
 }

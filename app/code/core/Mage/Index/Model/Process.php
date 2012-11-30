@@ -561,10 +561,10 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
      */
     public function safeProcessEvent(Mage_Index_Model_Event $event)
     {
-        if ($this->isLocked()) {
+        if (!$this->matchEvent($event)) {
             return $this;
         }
-        if (!$this->matchEvent($event)) {
+        if ($this->isLocked()) {
             return $this;
         }
         $this->lock();
