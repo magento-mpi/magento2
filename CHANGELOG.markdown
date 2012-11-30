@@ -1,3 +1,48 @@
+2.0.0.0-dev33
+=============
+* Improved Themes functionality to meet the following requirements:
+  * Magento instance doesn’t crash in case there’re no themes at all
+  * Features like selection of themes, custom design selection in "Custom Design", CMS Pages, Products and Categories  can work  without themes. They use base view files only.
+  * Virtual themes work in the same way as the non-virtual (which are present in file system) though they additionally have inheritance property. Changes were made in Theme Switcher, in fall-back mechanism, in Widgets etc.
+  * Non-virtual themes are being added to DB during installation
+  * Framework uses theme id as identifier instead of theme code
+* Grids
+  * Continuous refactoring of grid-related classes to make grids configurable via layout and to move grid related classes to corresponding modules. Changes were made in Report grids
+* Removed obsolete modules:
+  * Mage_XmlConnect
+  * Mage_Dataflow
+* Significantly changed Logging subsystem:
+  * Mage_Core_Model_Logger class is responsible for logging
+  * Changes are made to comply with DI paradigm
+  * Custom Logger in Mage_Backend_Menu subsystem is removed due to usage of regular one
+* Changes made in Autoload process
+  * Fixed Autoload to prevent class_exists() from causing fatal error
+  * Added new libraries in lib/Magento/Autoload responsible for including files and registering in autoload
+* Implemented new Form Widget
+  * Replaced usage of different instances of varienForm with a new Form Widget (productForm, categoryForm, instances of type "onclick declaration", "as child component",  "instantiation only")
+  * Replaced prototype validation with jQuery analog
+  * Additionally implemented Form Widget in different modules (CMS, Customer, Backend, Sitemap, DesignEditor, Tags, SystemEmail, Newsletters, ImportExport, Connect, Authorize.net)
+* Minor improvements
+  * Fixed css styles for validation messages in different parts of the system
+  * Removed usage of  jquery-ui-1.8.21.custom.css
+  * Updated versions of jQuery and jQuery-UI on backend
+  * Updated trademark strings
+  * Improvements  made in indexers to stabilize tests
+* Bugfixes:
+  * Void button should disappear after voiding the order
+  * Status drop-down in "Shopping cart price rule" admin grid can't be translated
+  * Console Installer does not Work
+  * Loading indicator image isn’t loading in Backend during new tax rule creation
+  * Impossible to create product of type other than simple in IE
+  * Server's Response on Image Save Action Contains Absolute Path to the Image Stored on Server
+  * Admin user can edit order addresses even if his role does not have order edit permission
+  * Order comment is not Posted without status change
+  * Admin can save new product with any ID using Firebug
+  * Can't submit order when Authorize.Net module is enabled
+  * New Product Page isn't opened while click split button Add Product after scroll page
+  * Add/edit page works incorrect in Poll Manager on backend
+  * Incorrect Export file on Reports>Customers>New Accounts page(customer_totals)
+
 2.0.0.0-dev32
 =============
 * Improved product edit workflow:
