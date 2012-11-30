@@ -95,22 +95,4 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
         unset($this->_model);
     }
 
-    public function testSetDataInitializesChildIterator()
-    {
-        $this->_iteratorMock->expects($this->once())->method('setElements')
-            ->with(array('someGroup' => array()), 'scope');
-        $this->_model->setData($this->_testData, 'scope');
-    }
-
-    public function testHasChildrenReturnsFalseIfThereAreNoChildren()
-    {
-        $this->assertFalse($this->_model->hasChildren());
-    }
-
-    public function testHasChildrenReturnsTrueIfThereAreVisibleChildren()
-    {
-        $this->_iteratorMock->expects($this->once())->method('current')->will($this->returnValue(true));
-        $this->_iteratorMock->expects($this->once())->method('valid')->will($this->returnValue(true));
-        $this->assertTrue($this->_model->hasChildren());
-    }
 }

@@ -43,7 +43,9 @@ abstract class Mage_Backend_Model_Config_Structure_Element_CompositeAbstract
     public function setData(array $data, $scope)
     {
         parent::setData($data, $scope);
-        $this->_childrenIterator->setElements($this->_data['children'], $scope);
+        if (isset($this->_data['children'])) {
+            $this->_childrenIterator->setElements($this->_data['children'], $scope);
+        }
     }
 
     /**

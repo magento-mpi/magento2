@@ -39,6 +39,7 @@
                         <label>Group Level 3</label>
                         <field id="field_3.1.1" translate="label" showInWebsite="1" type="text">
                             <label>Field 3.1.1</label>
+                            <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
                         </field>
                     </group>
                 </group>

@@ -40,17 +40,21 @@ class Mage_Backend_Model_Config_Structure_Element_Iterator_FieldTest extends PHP
         $this->_model->setElements(array(
             'someGroup_1' => array(
                 '_elementType' => 'group',
+                'id' => 'someGroup_1'
             ),
             'someField_1' => array(
                 '_elementType' => 'field',
+                'id' => 'someField_1'
             ),
             'someGroup_2' => array(
                 '_elementType' => 'group',
+                'id' => 'someGroup_2'
             ),
             'someField_2' => array(
                 '_elementType' => 'field',
+                'id' => 'someField_2'
             )
-        ));
+        ), 'scope');
     }
 
     protected function tearDown()
@@ -62,11 +66,19 @@ class Mage_Backend_Model_Config_Structure_Element_Iterator_FieldTest extends PHP
 
     public function testIteratorInitializesCorrespondingFlyweights()
     {
-        $this->_fieldMock->expects($this->exactly(2))->method('setData')->with(array('_elementType' => 'field'));
-        $this->_fieldMock->expects($this->any())->method('isVisible')->will($this->returnValue(true));
-        $this->_groupMock->expects($this->exactly(2))->method('setData')->with(array('_elementType' => 'group'));
+        $this->_groupMock->expects($this->at(0))->method('setData')
+            ->with(array('_elementType' => 'group', 'id' => 'someGroup_1'), 'scope');
+        $this->_groupMock->expects($this->at(2))->method('setData')
+            ->with(array('_elementType' => 'group', 'id' => 'someGroup_2'), 'scope');
         $this->_groupMock->expects($this->any())->method('isVisible')->will($this->returnValue(true));
-        $items = array();
+
+        $this->_fieldMock->expects($this->at(0))->method('setData')
+            ->with(array('_elementType' => 'field', 'id' => 'someField_1'), 'scope');
+        $this->_fieldMock->expects($this->at(2))->method('setData')
+            ->with(array('_elementType' => 'field', 'id' => 'someField_2'), 'scope');
+        $this->_fieldMock->expects($this->any())->method('isVisible')->will($this->returnValue(true));
+
+       $items = array();
         foreach ($this->_model as $item) {
             $items[] = $item;
         }

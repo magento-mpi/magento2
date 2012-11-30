@@ -16,7 +16,7 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
      *
      * @var array
      */
-    protected $_data;
+    protected $_data = array();
 
     /**
      * Current configuration scope
@@ -104,7 +104,7 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
      */
     public function getId()
     {
-        return $this->_data['id'];
+        return isset($this->_data['id']) ? $this->_data['id'] : '';
     }
 
     /**
@@ -172,7 +172,7 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
         $result = false;
         switch ($this->_scope) {
             case Mage_Backend_Model_Config_ScopeDefiner::SCOPE_STORE:
-                $result = isset($this->_data['showInWebsite']) && $this->_data['showInWebsite'];
+                $result = isset($this->_data['showInStore']) && $this->_data['showInStore'];
                 break;
             case Mage_Backend_Model_Config_ScopeDefiner::SCOPE_WEBSITE:
                 $result = isset($this->_data['showInWebsite']) && $this->_data['showInWebsite'];
@@ -192,7 +192,7 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
      */
     public function getClass()
     {
-        return isset($tab['class']) ? $tab['class'] : '';
+        return isset($this->_data['class']) ? $this->_data['class'] : '';
     }
 
     /**
@@ -203,7 +203,7 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
      */
     public function getPath($fieldPrefix = '')
     {
-        $path = isset($this->_data['path']) ? $this->_data['path'] : rand(0, 100000000);
+        $path = isset($this->_data['path']) ? $this->_data['path'] : '';
         return $path . '/' . $fieldPrefix . $this->getId();
     }
 }
