@@ -122,11 +122,11 @@ if (count($this->getSelectedAttributes())) {
     <table cellspacing="0">
         <thead>
         <tr class="headings">
-            <th width="180">Product Name</th>
-            <th width="180">Price</th>
-            <th width="220">SKU</th>
-            <th width="180">Quantity</th>
-            <th width="180">Weight</th>
+            <th width="180">Product Name <span class="required">*</span></th>
+            <th width="180">Price <span class="required">*</span></th>
+            <th width="220">SKU <span class="required">*</span></th>
+            <th width="180">Quantity <span class="required">*</span></th>
+            <th width="180">Weight <span class="required">*</span></th>
 <?php
     foreach ($usedProductAttributes as $attribute) {
         /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
@@ -150,7 +150,7 @@ if (count($this->getSelectedAttributes())) {
        $productByUsedAttributes[implode('-', $keys)] = $product;
     }
 
-    foreach ($variations as $variation) {
+    foreach ($variations as $variationKey => $variation) {
         $attributeValues = array();
         $attributeLabels = array();
         foreach ($usedProductAttributes as $attribute) {
@@ -181,19 +181,30 @@ if (count($this->getSelectedAttributes())) {
         } else {
 ?>
         <tr class="<?php echo $isEven ? 'even' : '' ?>">
-            <td class="associated-matrix-product-name"><input value="<?php echo $this->_getProduct()->getName(), '-', implode('-', $attributeLabels)?>"/></td>
-            <td class="associated-matrix-product-price"><input value="<?php echo $this->_getProduct()->getPrice()?>"/></td>
-            <td class="associated-matrix-product-sku"><input value="<?php echo $this->_getProduct()->getSku(), '-', implode('-', $attributeLabels)?>"/>
+            <td class="associated-matrix-product-name">
+                <input name="associated_matrix_product[<?php echo $variationKey?>][name]" value="<?php echo $this->_getProduct()->getName(), '-', implode('-', $attributeLabels)?>" class="required-entry"/>
+            </td>
+            <td class="associated-matrix-product-price">
+                <input name="associated_matrix_product[<?php echo $variationKey?>][price]" value="<?php echo $this->_getProduct()->getPrice()?>" class="required-entry validate-zero-or-greater"/>
+            </td>
+            <td class="associated-matrix-product-sku">
+                <input name="associated_matrix_product[<?php echo $variationKey?>][sku]" value="<?php echo $this->_getProduct()->getSku(), '-', implode('-', $attributeLabels)?>" class="required-entry"/>
                 <button class="choose-product"
                     data-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"
                     style="float:right">
                     Choose
                 </button>
             </td>
-            <td class="associated-matrix-product-qty"><input value=""></td>
-            <td class="associated-matrix-product-weight"><input value="<?php echo $this->_getProduct()->getWeight()?>"></td>
+            <td class="associated-matrix-product-qty">
+                <input name="associated_matrix_product[<?php echo $variationKey?>][qty]" value="" class="required-entry validate-number">
+            </td>
+            <td class="associated-matrix-product-weight">
+                <input name="associated_matrix_product[<?php echo $variationKey?>][weight]" value="<?php echo $this->_getProduct()->getWeight()?>" class="required-entry validate-zero-or-greater">
+            </td>
             <td><?php echo implode('</td><td>', $attributeLabels)?></td>
-            <td class="a-center"><input type="checkbox" name="associated_product_ids[]" value="" class="checkbox associated-matrix-product-id" checked="checked"></td>
+            <td class="a-center">
+                <input type="checkbox" name="associated_product_ids[]" value="" class="checkbox associated-matrix-product-id" checked="checked">
+            </td>
         </tr>
 <?php
         }
@@ -243,6 +254,14 @@ jQuery(function($) {
         minWidth:980,
         modal:true,
         resizable:true
+    });
+
+    $('input.associated-matrix-product-id').on('click', function () {
+        if ($(this).is(':checked')) {
+            $(this).closest('tr').removeClass('ignore-validate');
+        } else {
+            $(this).closest('tr').addClass('ignore-validate');
+        }
     });
 
     $('#product-variations-matrix').on('click', '.choose-product', function(event) {
