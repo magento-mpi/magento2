@@ -535,14 +535,14 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
     /**
      * Set date range
      *
-     * @param string $from
-     * @param string $to
+     * @param string $fromDate
+     * @param string $toDate
      * @return Mage_Reports_Model_Resource_Order_Collection
      */
-    public function setDateRange($from, $to)
+    public function setDateRange($fromDate, $toDate)
     {
         $this->_reset()
-            ->addFieldToFilter('created_at', array('from' => $from, 'to' => $to))
+            ->addFieldToFilter('created_at', array('from' => $fromDate, 'to' => $toDate))
             ->addFieldToFilter('state', array('neq' => Mage_Sales_Model_Order::STATE_CANCELED))
             ->getSelect()
                 ->columns(array('orders' => 'COUNT(DISTINCT(main_table.entity_id))'))

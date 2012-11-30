@@ -50,7 +50,9 @@ class Mage_Adminhtml_Block_System_Variable_Edit extends Mage_Adminhtml_Block_Wid
         $this->_addButton('save_and_edit', array(
             'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Save and Continue Edit'),
             'class'     => 'save',
-            'onclick'   => 'editForm.submit(\'' . $this->getSaveAndContinueUrl() . '\');'
+            'data_attr'  => array(
+                'widget-button' => array('event' => 'saveAndContinueEdit', 'related' => '#edit_form'),
+            ),
         ), 100);
         if (!$this->getVariable()->getId()) {
             $this->removeButton('delete');

@@ -10,6 +10,7 @@
  */
 
 /**
+ * @magentoAppIsolation
  * @group integrity
  */
 class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_IntegrityAbstract
@@ -19,16 +20,16 @@ class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_Integrit
      * @param string $template
      * @param string $class
      * @param string $area
-     * dataProvider allTemplatesDataProvider
+     * @dataProvider allTemplatesDataProvider
      */
-    public function testAllTemplates(/*$module, $template, $class, $area*/)
+    public function testAllTemplates($module, $template, $class, $area)
     {
-        $this->markTestIncomplete('Test incompleted after DI introduction');
+        Mage::getDesign()->setDefaultDesignTheme();
+        // intentionally to make sure the module files will be requested
         $params = array(
-            'area'    => $area,
-            'package' => false, // intentionally to make sure the module files will be requested
-            'theme'   => false,
-            'module'  => $module
+            'area'       => $area,
+            'themeModel' => Mage::getModel('Mage_Core_Model_Theme'),
+            'module'     => $module
         );
         $file = Mage::getDesign()->getFilename($template, $params);
         $this->assertFileExists($file, "Block class: {$class}");
@@ -39,8 +40,13 @@ class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_Integrit
      */
     public function allTemplatesDataProvider()
     {
+        /** @var $website Mage_Core_Model_Website */
+        $website = Mage::getModel('Mage_Core_Model_Website');
+        Mage::app()->getStore()->setWebsiteId(0)->setWebsite($website);
+
+
         $templates = array();
-        /*foreach (Utility_Classes::collectModuleClasses('Block') as $blockClass => $module) {
+        foreach (Utility_Classes::collectModuleClasses('Block') as $blockClass => $module) {
             if (!in_array($module, $this->_getEnabledModules())) {
                 continue;
             }
@@ -61,12 +67,12 @@ class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_Integrit
 
             Mage::getConfig()->setCurrentAreaCode($area);
 
-            $block = new $blockClass;
+            $block = Mage::getModel($blockClass);
             $template = $block->getTemplate();
             if ($template) {
                 $templates[] = array($module, $template, $blockClass, $area);
             }
-        }*/
+        }
         return $templates;
     }
 

@@ -153,7 +153,7 @@ class Magento_Config_Theme extends Magento_Config_XmlAbstract
      *
      * @param string $package
      * @param string $theme
-     * @return string|null
+     * @return array|null
      */
     public function getParentTheme($package, $theme)
     {

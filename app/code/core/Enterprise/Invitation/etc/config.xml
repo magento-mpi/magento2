@@ -18,6 +18,7 @@
             <depends>
                 <Mage_Adminhtml/>
                 <Mage_Customer/>
+                <Mage_Reports/>
                 <Enterprise_WebsiteRestriction/>
             </depends>
         </Enterprise_Invitation>

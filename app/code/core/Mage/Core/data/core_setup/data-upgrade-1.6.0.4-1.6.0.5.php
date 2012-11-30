@@ -21,7 +21,4 @@ if ($tableName) {
     $installer->getConnection()->delete($tableName, array('code = ?' => 'admin_setup'));
 }
 
-
 $installer->endSetup();
-
-Mage::dispatchEvent('theme_registration_from_filesystem');

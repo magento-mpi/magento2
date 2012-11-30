@@ -22,6 +22,7 @@ class MageTest extends PHPUnit_Framework_TestCase
      * @param bool $forceLog
      * @param int $expectedLevel
      * @param string $expectedKey
+     * @param bool $expectsAddLog
      * @dataProvider logDataProvider
      * @throws Exception
      */

@@ -305,7 +305,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
             Mage::app()->getLocale()->emulate($selectedStoreId);
             Mage::app()->setCurrentStore(Mage::app()->getStore($selectedStoreId));
 
-            $theme = Mage::getStoreConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME, $selectedStoreId);
+            $theme = Mage::getDesign()->getConfigurationDesignTheme(null, array('store' => $selectedStoreId));
             Mage::getDesign()->setDesignTheme($theme, 'frontend');
 
             $designChange = Mage::getSingleton('Mage_Core_Model_Design')
@@ -315,6 +315,9 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
                 Mage::getDesign()->setDesignTheme($designChange->getDesign());
             }
 
+            // add handles used to render cms page on frontend
+            $this->getLayout()->getUpdate()->addHandle('default');
+            $this->getLayout()->getUpdate()->addHandle('cms_page_view');
             Mage::helper('Mage_Cms_Helper_Page')->renderPageExtended($this);
             Mage::app()->getLocale()->revert();
 

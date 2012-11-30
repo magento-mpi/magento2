@@ -61,7 +61,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
      */
     public function __construct()
     {
-        Mage::init();
+        Mage::app();
         $this->_getInstaller()->setDataModel($this->_getDataModel());
     }
 

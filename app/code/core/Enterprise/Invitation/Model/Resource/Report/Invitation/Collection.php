@@ -22,11 +22,11 @@ class Enterprise_Invitation_Model_Resource_Report_Invitation_Collection
     /**
      * Joins Invitation report data, and filter by date
      *
-     * @param Zend_Date|string $from
-     * @param Zend_Date|string $to
+     * @param Zend_Date|string $fromDate
+     * @param Zend_Date|string $toDate
      * @return Enterprise_Invitation_Model_Resource_Report_Invitation_Collection
      */
-    public function setDateRange($from, $to)
+    public function setDateRange($fromDate, $toDate)
     {
         $this->_reset();
 
@@ -48,7 +48,7 @@ class Enterprise_Invitation_Model_Resource_Report_Invitation_Collection
             'COUNT(DISTINCT main_table.referral_id) / COUNT(main_table.invitation_id) * 100'
         );
 
-        $this->addFieldToFilter('invitation_date', array('from' => $from, 'to' => $to, 'time' => true))
+        $this->addFieldToFilter('invitation_date', array('from' => $fromDate, 'to' => $toDate, 'time' => true))
             ->getSelect()
             ->reset(Zend_Db_Select::COLUMNS)
             ->columns(array(
@@ -59,7 +59,7 @@ class Enterprise_Invitation_Model_Resource_Report_Invitation_Collection
                 'accepted_rate' => $acceptedRate
             ));
 
-        $this->_joinFields($from, $to);
+        $this->_joinFields($fromDate, $toDate);
 
         return $this;
     }

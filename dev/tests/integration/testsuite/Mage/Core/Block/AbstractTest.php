@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+/**
+ * @magentoAppIsolation enabled
+ */
 class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -25,6 +27,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        Mage::getDesign()->setDefaultDesignTheme();
         $this->_block = $this->getMockForAbstractClass('Mage_Core_Block_Abstract',
             $this->_getBlockDependencies()
         );
@@ -76,6 +79,19 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $this->assertEmpty($childBlock->getParentBlock());
         $parentBlock->setChild('block2', $childBlock);
         $this->assertSame($parentBlock, $childBlock->getParentBlock());
+    }
+
+    /**
+     * @covers Mage_Core_Block_Abstract::addChild
+     */
+    public function testAddChild()
+    {
+        $parentBlock = $this->_createBlockWithLayout('testAddChild', 'testAddChild', 'Mage_Core_Block_Text');
+        $child = $parentBlock->addChild('testAddChildAlias', 'Mage_Core_Block_Text', array('content' => 'content'));
+        $this->assertInstanceOf('Mage_Core_Block_Text', $child);
+        $this->assertEquals('testAddChild.testAddChildAlias', $child->getNameInLayout());
+        $this->assertEquals($child, $parentBlock->getChildBlock('testAddChildAlias'));
+        $this->assertEquals('content', $child->getContent());
     }
 
     public function testSetGetNameInLayout()
@@ -204,6 +220,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_block->getChildBlock($childAlias));
 
         // With layout
+        /** @var $layout Mage_Core_Model_Layout */
         $layout = Mage::getModel('Mage_Core_Model_Layout');
         $layout->addBlock($this->_block, $parentName);
         $layout->addBlock($child, $childName);
@@ -211,7 +228,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $this->_block->setChild($childAlias, $child);
         $result = $this->_block->getChildBlock($childAlias);
         $this->assertInstanceOf('Mage_Core_Block_Text', $result);
-        $this->assertEquals($parentName . '.' .  $childAlias, $result->getNameInLayout());
+        $this->assertEquals($childName, $result->getNameInLayout());
         $this->assertEquals($child, $result);
     }
 
@@ -449,6 +466,13 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     {
         $this->assertStringStartsWith('http://localhost/pub/media/theme/frontend/', $this->_block->getViewFileUrl());
         $this->assertStringEndsWith('css/styles.css', $this->_block->getViewFileUrl('css/styles.css'));
+
+        /**
+         * File is not exist
+         */
+        $this->assertStringEndsWith(
+            '/core/index/notfound', $this->_block->getViewFileUrl('not_exist_folder/wrong_bad_file.xyz')
+        );
     }
 
     public function testGetSetMessagesBlock()
@@ -599,11 +623,16 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
      * App isolation is enabled, because config options object is affected
      *
      * @magentoAppIsolation enabled
+     * @magentoDbIsolation enabled
      */
     public function testGetVar()
     {
-        Mage::getConfig()->getOptions()->setDesignDir(dirname(__DIR__) . '/Model/_files/design');
-        Mage::getDesign()->setDesignTheme('test/default');
+        /** @var $themeUtility Mage_Core_Utility_Theme */
+        $themeUtility = Mage::getModel('Mage_Core_Utility_Theme', array(
+            dirname(__DIR__) . '/Model/_files/design/'
+        ));
+        $themeUtility->registerThemes()->setDesignTheme('test/default', 'frontend');
+
         $this->assertEquals('Core Value1', $this->_block->getVar('var1'));
         $this->assertEquals('value1', $this->_block->getVar('var1', 'Namespace_Module'));
         $this->_block->setModuleName('Namespace_Module');
@@ -640,6 +669,14 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         return array($blocks, $names);
     }
 
+    /**
+     * Create Block with Layout
+     *
+     * @param string $name
+     * @param null|string $alias
+     * @param null|string $type
+     * @return Mage_Core_Block_Abstract
+     */
     protected function _createBlockWithLayout($name = 'block', $alias = null,
         $type = 'Mage_Core_Block_Abstract'
     ) {

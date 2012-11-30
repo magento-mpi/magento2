@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Mage_Catalog>
-            <version>1.6.0.0.17</version>
+            <version>1.6.0.0.19</version>
             <active>true</active>
             <codePool>core</codePool>
             <depends>
@@ -194,6 +194,7 @@
                 </flat>
                 <attributes>
                     <unassignable>
+                        <image/>
                         <name/>
                         <description/>
                         <short_description/>
@@ -202,6 +203,8 @@
                         <status/>
                         <visibility/>
                         <weight/>
+                        <category_ids/>
+                        <quantity_and_stock_status/>
                     </unassignable>
                     <used_in_autogeneration>
                         <name/>

@@ -17,6 +17,7 @@ Magento_Autoload_IncludePath::addIncludePath(array(
     realpath(__DIR__ . '/../../../../app/code/core'),
     realpath(__DIR__ . '/../../../../lib'),
 ));
+
 define('TESTS_TEMP_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'tmp');
 if (is_dir(TESTS_TEMP_DIR)) {
     Varien_Io_File::rmdirRecursive(TESTS_TEMP_DIR);

@@ -43,7 +43,9 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit extends Ma
         $this->_addButton('save_and_continue_edit', array(
             'class'   => 'save',
             'label'   => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Save and Continue Edit'),
-            'onclick' => 'editForm.submit($(\'edit_form\').action + \'back/edit/\')',
+            'data_attr'  => array(
+                'widget-button' => array('event' => 'saveAndContinueEdit', 'related' => '#edit_form')
+            ),
         ), 3);
     }
 

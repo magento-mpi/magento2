@@ -58,15 +58,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
         }
 
         if (!$this->getProduct()->isReadonly()) {
-            $this->setChild('change_attribute_set_button',
-                $this->getLayout()->createBlock(
-                    'Mage_Adminhtml_Block_Widget_Button',
-                    $this->getNameInLayout() . '-change-attribute-set'
-                )->setData(array(
+            if (!$this->getProduct()->isConfigurable() || !$this->getIsConfigured()) {
+                $this->addChild('change_attribute_set_button', 'Mage_Adminhtml_Block_Widget_Button', array(
                     'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Change Attribute Set'),
                     'onclick' => "jQuery('#attribute-set-info').dialog('open');"
-                ))
-            );
+                ));
+            }
 
             $this->addChild('reset_button', 'Mage_Adminhtml_Block_Widget_Button', array(
                 'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Reset'),
@@ -75,8 +72,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
 
             $this->addChild('save_button', 'Mage_Adminhtml_Block_Widget_Button', array(
                 'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Save'),
-                'onclick'   => 'productForm.submit()',
-                'class' => 'save'
+                'class' => 'save',
+                'data_attr'  => array(
+                    'widget-button' => array('event' => 'save', 'related' => '#product-edit-form')
+                )
             ));
         }
 
@@ -84,7 +83,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
             if (!$this->getProduct()->isReadonly()) {
                 $this->addChild('save_and_edit_button', 'Mage_Adminhtml_Block_Widget_Button', array(
                     'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Save and Continue Edit'),
-                    'onclick'   => 'saveAndContinueEdit(\''.$this->getSaveAndContinueUrl().'\')',
+                    'data_attr'  => array(
+                        'widget-button' => array('event' => 'saveAndContinueEdit', 'related' => '#product-edit-form')
+                    ),
                     'class' => 'save'
                 ));
             }

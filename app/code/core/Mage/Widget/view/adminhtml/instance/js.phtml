@@ -10,20 +10,17 @@
 ?>
 <script type="text/javascript">
 //<![CDATA[
-function setSettings(urlTemplate, typeElement, packageThemeElement) {
-    if (!editForm.validate()) {
+function setSettings(urlTemplate, typeElement, themeElement) {
+    if (!jQuery('#edit_form').valid()) {
         return false;
     }
     typeElement = $F(typeElement);
-    packageThemeElement = $F(packageThemeElement).replace(/\//g, "-");
+    themeElement = $F(themeElement);
 
     setLocation(new Template(urlTemplate, /(^|.|\r|\n)({{(\w+)}})/).evaluate({
         'type': typeElement,
-        'package_theme': packageThemeElement
+        'theme_id': themeElement
     }));
-}
-function saveAndContinueEdit(){
-    editForm.submit($('edit_form').action + 'back/edit/');
 }
 //]]>
 </script>

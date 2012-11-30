@@ -118,7 +118,7 @@
     function updatePriceAmountValidation() {
         if($('allow_open_amount')) {
             if ($('allow_open_amount').value == 1) {
-                productForm.validator.reset('giftcard_amounts_total');
+                jQuery('#giftcard_amounts_total').trigger('resetElement');
                 Element.removeClassName($('giftcard_amounts_total'), 'required-entry');
             } else {
                 if (!Element.hasClassName($('giftcard_amounts_total'), 'required-entry')) {

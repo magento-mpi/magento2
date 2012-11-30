@@ -71,10 +71,6 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
             array('legend '=> Mage::helper('Mage_CatalogRule_Helper_Data')->__('General Information'))
         );
 
-        $fieldset->addField('auto_apply', 'hidden', array(
-            'name' => 'auto_apply',
-        ));
-
         if ($model->getId()) {
             $fieldset->addField('rule_id', 'hidden', array(
                 'name' => 'rule_id',

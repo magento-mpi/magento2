@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Enterprise_Enterprise>
-            <version>1.11.0.1</version>
+            <version>1.11.0.2</version>
             <active>false</active>
             <codePool>core</codePool>
             <depends>
@@ -33,9 +33,11 @@
                 </setup>
             </enterprise_enterprise_setup>
         </resources>
-        <rewrites>
-            <Mage_Core_Model_Resource_Setup_Migration>Enterprise_Enterprise_Model_Resource_Setup_Migration</Mage_Core_Model_Resource_Setup_Migration>
-        </rewrites>
+        <di>
+            <aliases>
+                <Mage_Core_Model_Resource_Setup_Migration>Enterprise_Enterprise_Model_Resource_Setup_Migration</Mage_Core_Model_Resource_Setup_Migration>
+            </aliases>
+        </di>
     </global>
     <adminhtml>
         <events>

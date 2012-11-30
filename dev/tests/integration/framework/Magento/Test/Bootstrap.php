@@ -231,6 +231,7 @@ class Magento_Test_Bootstrap
     public function initialize()
     {
         Mage::setIsDeveloperMode($this->_isDeveloperMode);
+        Mage_Core_Utility_Theme::registerDesignMock();
         Mage::$headersSentThrowsException = false;
         Mage::app('', 'store', $this->_options);
     }
