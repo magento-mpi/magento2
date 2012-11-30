@@ -94,6 +94,27 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     protected $_configStructure;
 
     /**
+     *Form fieldset factory
+     *
+     * @var Mage_Backend_Block_System_Config_Form_Fieldset_Factory
+     */
+    protected $_fieldsetFactory;
+
+    /**
+     * Form field factory
+     *
+     * @var Mage_Backend_Block_System_Config_Form_Field_Factory
+     */
+    protected $_fieldFactory;
+
+    /**
+     * Form field factory
+     *
+     * @var Mage_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Model_Layout $layout
      * @param Mage_Core_Model_Event_Manager $eventManager
@@ -105,10 +126,14 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_Url_Generator $urlGenerator
      * @param Mage_Backend_Model_Config_Factory $configFactory
      * @param Varien_Data_Form_Factory $formFactory
      * @param Mage_Backend_Model_Config_Clone_Factory $cloneModelFactory
      * @param Mage_Backend_Model_Config_Structure $configStructure
+     * @param Mage_Backend_Block_System_Config_Form_Fieldset_Factory $fieldsetFactory
+     * @param Mage_Backend_Block_System_Config_Form_Field_Factory $fieldFactory
+     * @param Mage_Core_Model_Config $coreConfig
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -125,19 +150,26 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Core_Model_Url_Generator $urlGenerator,
         Mage_Backend_Model_Config_Factory $configFactory,
         Varien_Data_Form_Factory $formFactory,
         Mage_Backend_Model_Config_Clone_Factory $cloneModelFactory,
         Mage_Backend_Model_Config_Structure $configStructure,
+        Mage_Backend_Block_System_Config_Form_Fieldset_Factory $fieldsetFactory,
+        Mage_Backend_Block_System_Config_Form_Field_Factory $fieldFactory,
+        Mage_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $data
+            $session, $storeConfig, $frontController, $helperFactory, $urlGenerator, $data
         );
         $this->_configFactory = $configFactory;
         $this->_formFactory = $formFactory;
         $this->_cloneModelFactory = $cloneModelFactory;
         $this->_configStructure = $configStructure;
+        $this->_fieldsetFactory = $fieldsetFactory;
+        $this->_fieldFactory = $fieldFactory;
+        $this->_coreConfig = $coreConfig;
 
         $this->_scopeLabels = array(
             self::SCOPE_DEFAULT  => $this->helper('Mage_Backend_Helper_Data')->__('[GLOBAL]'),
@@ -153,7 +185,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
      */
     protected function _initObjects()
     {
-        $this->_configRoot = Mage::getConfig()->getNode(null, $this->getScope(), $this->getScopeCode());
+        $this->_configRoot = $this->_coreConfig->getNode(null, $this->getScope(), $this->getScopeCode());
 
         $this->_configDataObject = $this->_configFactory->create(
             array(
@@ -164,9 +196,8 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         );
 
         $this->_configData = $this->_configDataObject->load();
-
-        $this->_defaultFieldsetRenderer = Mage::getBlockSingleton('Mage_Backend_Block_System_Config_Form_Fieldset');
-        $this->_defaultFieldRenderer = Mage::getBlockSingleton('Mage_Backend_Block_System_Config_Form_Field');
+        $this->_defaultFieldsetRenderer = $this->_fieldsetFactory->create();
+        $this->_defaultFieldRenderer = $this->_fieldFactory->create();
         return $this;
     }
 
@@ -219,8 +250,8 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
             'expanded' => $group->isExpanded()
         );
 
-        $fieldset = $form->addFieldset($section->getId() . '_' . $group->getId(), $fieldsetConfig)
-            ->setRenderer($fieldsetRenderer);
+        $fieldset = $form->addFieldset($section->getId() . '_' . $group->getId(), $fieldsetConfig);
+        $fieldset->setRenderer($fieldsetRenderer);
         $group->populateFieldset($fieldset);
         $this->_addElementTypes($fieldset);
 

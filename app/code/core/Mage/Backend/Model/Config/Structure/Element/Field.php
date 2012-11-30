@@ -103,7 +103,7 @@ class Mage_Backend_Model_Config_Structure_Element_Field
         if (isset($this->_data['tooltip'])) {
             return $this->_getTranslatedAttribute('tooltip');
         } elseif (isset($this->_data['tooltip_block'])) {
-            return $this->getLayout()->createBlock($element['tooltip_block'])->toHtml();
+            return $this->getLayout()->createBlock($this->_data['tooltip_block'])->toHtml();
         }
         return '';
     }
