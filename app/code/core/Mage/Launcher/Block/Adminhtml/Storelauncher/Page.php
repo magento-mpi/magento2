@@ -15,7 +15,7 @@
  * @package    Mage_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Block_Page_StoreLauncher extends Mage_Launcher_Block_LandingPage
+class Mage_Launcher_Block_Adminhtml_Storelauncher_Page extends Mage_Launcher_Block_Adminhtml_Page
 {
     /**
      * Page Code

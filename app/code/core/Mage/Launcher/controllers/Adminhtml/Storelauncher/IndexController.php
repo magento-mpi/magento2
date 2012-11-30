@@ -15,7 +15,7 @@
  * @package     Mage_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Adminhtml_IndexController extends Mage_Backend_Controller_ActionAbstract
+class Mage_Launcher_Adminhtml_Storelauncher_IndexController extends Mage_Backend_Controller_ActionAbstract
 {
     /**
      * Index action

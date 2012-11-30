@@ -9,16 +9,16 @@
  */
 
 /**
- * Tile Abstract Block
+ * Base Tile Block
  *
  * @method Mage_Launcher_Model_Tile getTile()
- * @method Mage_Launcher_Block_Tile setTile(Mage_Launcher_Model_Tile $value)
+ * @method Mage_Launcher_Block_Adminhtml_Tile setTile(Mage_Launcher_Model_Tile $value)
  *
  * @category   Mage
  * @package    Mage_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Block_Tile extends Mage_Backend_Block_Abstract
+class Mage_Launcher_Block_Adminhtml_Tile extends Mage_Backend_Block_Abstract
 {
     /**
      * Get Tile Code

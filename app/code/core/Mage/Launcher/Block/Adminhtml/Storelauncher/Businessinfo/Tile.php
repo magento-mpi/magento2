@@ -9,13 +9,13 @@
  */
 
 /**
- * Tile Abstract Block
+ * BusinessInfo Tile Block
  *
  * @category   Mage
  * @package    Mage_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Block_Tile_BusinessInfo extends Mage_Launcher_Block_Tile
+class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile extends Mage_Launcher_Block_Adminhtml_Tile
 {
 
 }

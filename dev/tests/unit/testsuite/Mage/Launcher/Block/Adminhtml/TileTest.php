@@ -10,11 +10,11 @@
  */
 
 /**
- * Test class for Mage_Launcher_Block_Tile
+ * Test class for Mage_Launcher_Block_Adminhtml_Tile
  */
-class Mage_Launcher_Block_TileTest extends PHPUnit_Framework_TestCase
+class Mage_Launcher_Block_Adminhtml_TileTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Launcher_Block_Tile */
+    /** @var Mage_Launcher_Block_Adminhtml_Tile */
     protected $_block;
     /** @var Mage_Launcher_Model_Tile */
     protected $_tile;
@@ -27,7 +27,7 @@ class Mage_Launcher_Block_TileTest extends PHPUnit_Framework_TestCase
         $arguments = array(
             'urlBuilder' => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false)
         );
-        $this->_block = $objectManager->getBlock('Mage_Launcher_Block_Tile', $arguments);
+        $this->_block = $objectManager->getBlock('Mage_Launcher_Block_Adminhtml_Tile', $arguments);
 
         $this->_tile = $objectManager->getModel('Mage_Launcher_Model_Tile');
         $this->_block->setTile($this->_tile);
@@ -40,7 +40,7 @@ class Mage_Launcher_Block_TileTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_Launcher_Block_Tile::getTileCode
+     * @covers Mage_Launcher_Block_Adminhtml_Tile::getTileCode
      */
     public function testGetTileCode()
     {
@@ -51,7 +51,7 @@ class Mage_Launcher_Block_TileTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_Launcher_Block_Tile::getTileCode
+     * @covers Mage_Launcher_Block_Adminhtml_Tile::getTileState
      */
     public function testGetTileState()
     {

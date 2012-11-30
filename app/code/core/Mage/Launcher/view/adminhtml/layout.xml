@@ -11,21 +11,19 @@
 -->
 <layout>
     <launcher_index>
-        <block type="Mage_Launcher_Block_Tile_BusinessInfo" name="business_info.tile" template="tile/business_info.phtml"/>
-        <block type="Mage_Launcher_Block_Tile" name="shipping.tile" template="tile/shipping.phtml"/>
-        <block type="Mage_Launcher_Block_Tile" name="tax.tile" template="tile/tax.phtml"/>
+        <block type="Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile" name="business_info.tile" template="page/storelauncher/tile/businessinfo.phtml"/>
+        <block type="Mage_Launcher_Block_Adminhtml_Tile" name="shipping.tile" template="page/storelauncher/tile/shipping.phtml"/>
+        <block type="Mage_Launcher_Block_Adminhtml_Tile" name="tax.tile" template="page/storelauncher/tile/tax.phtml"/>
     </launcher_index>
 
-    <launcher_index_index>
+    <launcher_storelauncher_index_index>
         <update handle="launcher_index"/>
         <reference name="head">
-            <action method="addCss"><file>Mage_Launcher::launcher.css</file></action>
-            <action method="addJs"><file>Mage_Launcher::launcher.js</file></action>
+            <action method="addCss"><file>Mage_Launcher::page/launcher.css</file></action>
+            <action method="addJs"><file>Mage_Launcher::page/launcher.js</file></action>
         </reference>
         <reference name="content">
-            <block type="Mage_Launcher_Block_Page_StoreLauncher" name="landing.page" template="page/storelauncher.phtml">
-                <action method="setPageCode"><code>store_launcher</code></action>
-            </block>
+            <block type="Mage_Launcher_Block_Adminhtml_Storelauncher_Page" name="landing.page" template="page/storelauncher/storelauncher.phtml" />
         </reference>
-    </launcher_index_index>
+    </launcher_storelauncher_index_index>
 </layout>

@@ -15,7 +15,7 @@
  * @package    Mage_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Block_LandingPage extends Mage_Backend_Block_Abstract
+class Mage_Launcher_Block_Adminhtml_Page extends Mage_Backend_Block_Abstract
 {
     /**
      * Page Code
@@ -87,7 +87,7 @@ class Mage_Launcher_Block_LandingPage extends Mage_Backend_Block_Abstract
      *
      * @return array|null
      */
-    public function getTiles()
+    public function getTileBlocks()
     {
         $tilesBlocks = array();
 
@@ -99,8 +99,8 @@ class Mage_Launcher_Block_LandingPage extends Mage_Backend_Block_Abstract
         foreach($tiles as $item) {
             $block = $this->getLayout()->getBlock($this->_getTileBlockName($item->getCode()));
             if (!$block) {
-                /** @var $block Mage_Launcher_Block_Tile */
-                $block = $this->getLayout()->createBlock('Mage_Launcher_Block_Tile',
+                /** @var $block Mage_Launcher_Block_Adminhtml_Tile */
+                $block = $this->getLayout()->createBlock('Mage_Launcher_Block_Adminhtml_Tile',
                     $this->_getTileBlockName($item->getCode()));
             }
             $block->setTile($item);
