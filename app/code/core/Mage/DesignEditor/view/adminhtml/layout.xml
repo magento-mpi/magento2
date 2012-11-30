@@ -24,10 +24,13 @@
     </adminhtml_system_design_editor_index>
 
     <adminhtml_system_design_editor_run>
+        <reference name="head">
+             <action method="addJs"><file>Mage_DesignEditor::js/base.js</file></action>
+             <action method="addJs"><file>jquery/jstree/jquery.jstree.js</file></action>
+             <action method="addJs"><file>jquery/slimScroll/slimScroll.min.js</file></action>
+             <action method="addCss"><file>Mage_DesignEditor::css/styles.css</file></action>
+        </reference>
         <reference name="content">
-            <reference name="head">
-                <action method="addCss"><file>Mage_DesignEditor::css/styles.css</file></action>
-            </reference>
             <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Container" name="design_editor" template="Mage_DesignEditor::editor/container.phtml">
                 <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Template" name="design_editor_toolbar" template="Mage_DesignEditor::editor/toolbar.phtml">
                     <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy" name="design_editor_toolbar_handles_hierarchy" template="Mage_DesignEditor::editor/toolbar/handles_hierarchy.phtml" />

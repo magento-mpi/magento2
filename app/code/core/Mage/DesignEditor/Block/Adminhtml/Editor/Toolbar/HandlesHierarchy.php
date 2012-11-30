@@ -10,6 +10,9 @@
 
 /**
  * Page handles navigation control
+ *
+ * @method array getHierarchy() getHierarchy()
+ * @method Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy setHierarchy() setHierarchy(array $data)
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy extends Mage_Backend_Block_Template
 {
@@ -54,7 +57,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy extends 
      */
     public function renderHierarchy()
     {
-        return $this->_renderHierarchy($this->getLayout()->getUpdate()->getPageHandlesHierarchy());
+        return $this->_renderHierarchy($this->getHierarchy());
     }
 
     /**

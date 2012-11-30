@@ -82,9 +82,23 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         $eventDispatcher = $this->_objectManager->get('Mage_Core_Model_Event_Manager');
         $eventDispatcher->dispatch('design_editor_activate');
 
+        $customLayoutParams = array('area' => Mage_Core_Model_App_Area::AREA_FRONTEND);
+
+        /** @var $customFrontLayout Mage_Core_Model_Layout_Merge */
+        $customFrontLayout = $this->_objectManager->create('Mage_Core_Model_Layout_Merge',
+            array('arguments' => $customLayoutParams)
+        );
+        $pageTypes = $customFrontLayout->getPageHandlesHierarchy();
+
         $this->_title($this->__('System'))->_title($this->__('Design'))->_title($this->__('Editor'));
         $this->loadLayout();
         $this->_setActiveMenu('Mage_DesignEditor::system_design_editor');
+
+        /** @var $hierarchyBlock Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy */
+        $hierarchyBlock = $this->getLayout()->getBlock('design_editor_toolbar_handles_hierarchy');
+        if ($hierarchyBlock) {
+            $hierarchyBlock->setHierarchy($pageTypes);
+        }
 
         /** @var $editorBlock Mage_DesignEditor_Block_Adminhtml_Editor_Container */
         $editorBlock = $this->getLayout()->getBlock('design_editor');

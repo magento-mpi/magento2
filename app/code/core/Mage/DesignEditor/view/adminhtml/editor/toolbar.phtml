@@ -15,3 +15,10 @@
         <?php echo $layout->renderElement($name) ?>
     <?php endforeach; ?>
 </div>
+<script type="text/javascript">
+(function ($) {
+    $( document ).ready(function( ){
+	    $( '#vde_handles_hierarchy' ).vde_menu( {treeSelector : '#vde_handles_tree', slimScroll:true } )
+    });
+})(jQuery);
+</script>
