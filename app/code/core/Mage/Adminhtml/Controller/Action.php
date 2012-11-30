@@ -37,6 +37,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Backend_Controller_ActionAbs
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Layout_Factory $layoutFactory
+     * @param array $invokeArgs
      */
     public function __construct(
         Mage_Core_Controller_Request_Http $request,
@@ -44,9 +45,12 @@ class Mage_Adminhtml_Controller_Action extends Mage_Backend_Controller_ActionAbs
         $areaCode = null,
         Magento_ObjectManager $objectManager,
         Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Layout_Factory $layoutFactory
+        Mage_Core_Model_Layout_Factory $layoutFactory,
+        array $invokeArgs = array()
     ) {
-        parent::__construct($request, $response, $areaCode, $objectManager, $frontController, $layoutFactory);
+        parent::__construct($request, $response, $areaCode, $objectManager, $frontController, $layoutFactory,
+            $invokeArgs
+        );
 
         $this->_translator = isset($invokeArgs['translator']) ? $invokeArgs['translator'] : $this->_getTranslator();
     }
