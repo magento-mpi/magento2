@@ -166,7 +166,7 @@ class Mage_Selenium_TestSuite extends PHPUnit_Framework_TestSuite
             }
         }
 
-       foreach ($newClasses as $className) {
+        foreach ($newClasses as $className) {
             $class = new ReflectionClass($className);
 
             if (!$class->isAbstract()) {
