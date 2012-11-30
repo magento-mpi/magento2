@@ -9,13 +9,15 @@
 /*jshint jquery:true browser:true */
 /*global FORM_KEY:true*/
 jQuery(function ($) {
+    'use strict';
+    // @TODO move isJSON method inside file with utility functions
     $.extend(true, $, {
         mage: {
             isJSON : function(json){
                 json = json.replace(/\\["\\\/bfnrtu]/g, '@');
                 json = json.replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']');
                 json = json.replace(/(?:^|:|,)(?:\s*\[)+/g, '');
-                return (/^[\],:{}\s]*$/.test(json))
+                return (/^[\],:{}\s]*$/.test(json));
             }
         }
     });
