@@ -940,6 +940,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $this->_quickCreateFillProductData(
                 $newSimpleProduct, $parentProduct, array_merge($simpeProductData, $configurableAttribute)
             );
+            $newSimpleProduct->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE);
             $newSimpleProduct->save();
 
             $associatedProductIds[] = $newSimpleProduct->getId();

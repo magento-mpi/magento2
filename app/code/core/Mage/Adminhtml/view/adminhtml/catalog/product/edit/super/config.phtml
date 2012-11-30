@@ -125,7 +125,7 @@ if (count($this->getSelectedAttributes())) {
             <th width="180">Product Name <span class="required">*</span></th>
             <th width="180">Price <span class="required">*</span></th>
             <th width="220">SKU <span class="required">*</span></th>
-            <th width="180">Quantity <span class="required">*</span></th>
+            <th width="180">Quantity</th>
             <th width="180">Weight <span class="required">*</span></th>
 <?php
     foreach ($usedProductAttributes as $attribute) {
@@ -179,17 +179,19 @@ if (count($this->getSelectedAttributes())) {
         </tr>
 <?php
         } else {
+            $checked = $this->_getProduct()->getId() ? '' : ' checked="checked"';
+            $disabled = $this->_getProduct()->getId() ? ' disabled="disabled"' : '';
 ?>
         <tr class="<?php echo $isEven ? 'even' : '' ?>">
             <td class="associated-matrix-product-name">
-                <input name="create_matrix_product[<?php echo $variationKey?>][name]" value="<?php echo $this->_getProduct()->getName(), '-', implode('-', $attributeLabels)?>" class="required-entry"/>
-                <input type="hidden" name="create_matrix_product[<?php echo $variationKey?>][configurable_attribute]" value="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"/>
+                <input name="create_matrix_product[<?php echo $variationKey?>][name]" value="<?php echo $this->_getProduct()->getName(), '-', implode('-', $attributeLabels)?>" class="required-entry"<?php echo $disabled?>/>
+                <input type="hidden" name="create_matrix_product[<?php echo $variationKey?>][configurable_attribute]" value="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"<?php echo $disabled?>/>
             </td>
             <td class="associated-matrix-product-price">
-                <input name="create_matrix_product[<?php echo $variationKey?>][price]" value="<?php echo $this->_getProduct()->getPrice()?>" class="required-entry validate-zero-or-greater"/>
+                <input name="create_matrix_product[<?php echo $variationKey?>][price]" value="<?php echo $this->_getProduct()->getPrice()?>" class="required-entry validate-zero-or-greater"<?php echo $disabled?>/>
             </td>
             <td class="associated-matrix-product-sku">
-                <input name="create_matrix_product[<?php echo $variationKey?>][sku]" value="<?php echo $this->_getProduct()->getSku(), '-', implode('-', $attributeLabels)?>" class="required-entry"/>
+                <input name="create_matrix_product[<?php echo $variationKey?>][sku]" value="<?php echo $this->_getProduct()->getSku(), '-', implode('-', $attributeLabels)?>" class="required-entry"<?php echo $disabled?>/>
                 <button class="choose-product"
                     data-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"
                     style="float:right">
@@ -197,14 +199,14 @@ if (count($this->getSelectedAttributes())) {
                 </button>
             </td>
             <td class="associated-matrix-product-qty">
-                <input name="create_matrix_product[<?php echo $variationKey?>][stock_data][qty]" value="" class="required-entry validate-number">
+                <input name="create_matrix_product[<?php echo $variationKey?>][stock_data][qty]" value=""<?php echo $disabled?>>
             </td>
             <td class="associated-matrix-product-weight">
-                <input name="create_matrix_product[<?php echo $variationKey?>][weight]" value="<?php echo $this->_getProduct()->getWeight()?>" class="required-entry validate-zero-or-greater">
+                <input name="create_matrix_product[<?php echo $variationKey?>][weight]" value="<?php echo $this->_getProduct()->getWeight()?>" class="required-entry validate-zero-or-greater"<?php echo $disabled?>>
             </td>
             <td><?php echo implode('</td><td>', $attributeLabels)?></td>
             <td class="a-center">
-                <input type="checkbox" name="associated_product_ids[]" value="" class="checkbox associated-matrix-product-id" checked="checked">
+                <input type="checkbox" name="associated_product_ids[]" value="" class="checkbox associated-matrix-product-id"<?php echo $checked?>>
             </td>
         </tr>
 <?php
