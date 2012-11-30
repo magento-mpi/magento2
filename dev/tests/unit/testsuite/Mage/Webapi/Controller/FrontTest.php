@@ -94,6 +94,27 @@ class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test dispatch method with exception.
+     */
+    public function testDispatchException()
+    {
+        $this->_createMockForApiRouteAndFactory(array('api_type' => Mage_Webapi_Controller_Front::API_TYPE_REST));
+        $restDispatcherMock = $this->getMockBuilder('Mage_Webapi_Controller_Dispatcher_Rest')
+            ->disableOriginalConstructor()
+            ->getMock();
+        /** Init Logical exception. */
+        $logicalException = new LogicException();
+        /** Mock dispatcher to throw Logical exception. */
+        $restDispatcherMock->expects($this->any())->method('dispatch')->will($this->throwException($logicalException));
+        $this->_dispatcherFactory->expects($this->any())->method('get')->will($this->returnValue($restDispatcherMock));
+        /** Assert error processor renderException method will be executed with Logical Exception. */
+        $this->_errorProcessorMock->expects($this->once())->method('renderException')->with(
+            $this->equalTo($logicalException)
+        );
+        $this->_frontControllerMock->dispatch();
+    }
+
+    /**
      * Test DetermineApiType method with Not defined API Type.
      */
     public function testDetermineApiTypeNotDefined()

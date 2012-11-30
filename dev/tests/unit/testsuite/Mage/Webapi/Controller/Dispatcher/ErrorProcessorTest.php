@@ -170,4 +170,60 @@ class Mage_Webapi_Controller_Dispatcher_ErrorProcessorTest extends PHPUnit_Frame
         $this->_helperMock->expects($this->once())->method('jsonEncode');
         $this->_errorProcessor->renderException($exception);
     }
+
+    /**
+     * Test maskException method with Mage_Webapi_Exception.
+     */
+    public function testMaskWebapiException()
+    {
+        /** Init mage_webapi_Exception. */
+        $apiException = new Mage_Webapi_Exception('Message', 400);
+        /** Asser Webapi exception was not masked. */
+        $this->assertEquals(
+            $this->_errorProcessor->maskException($apiException),
+            $apiException,
+            'Webapi Exception was masked wrong.'
+        );
+    }
+
+    /**
+     * Test maskException method with turned on developer mode.
+     */
+    public function testMaskExceptionInDeveloperMode()
+    {
+        /** Mock app isDeveloperMode to return true. */
+        $this->_appMock->expects($this->once())->method('isDeveloperMode')->will($this->returnValue(true));
+        /** Init Logical exception. */
+        $logicalException = new LogicException();
+        /** Asser Webapi exception was not masked. */
+        $this->assertEquals(
+            $this->_errorProcessor->maskException($logicalException),
+            $logicalException,
+            'Exception was masked wrong in developer mode.'
+        );
+    }
+
+    /**
+     * Test maskException method with turned on developer mode.
+     */
+    public function testMaskNonWebapiException()
+    {
+        /** Assert exception was logged. */
+        $this->_loggerMock->expects($this->once())->method('logException');
+        $maskedException = $this->_errorProcessor->maskException(new LogicException());
+        /** Assert masked exception type is Mage_Webapi_Exception. */
+        $this->assertInstanceOf('Mage_Webapi_Exception', $maskedException, 'Masked exception type is not Webapi.');
+        /** Asser masked exception code is 500. */
+        $this->assertEquals(
+            Mage_Webapi_Exception::HTTP_INTERNAL_ERROR,
+            $maskedException->getCode(),
+            'Masked exception code is wrong.'
+        );
+        /** Assert masked exception message. */
+        $this->assertEquals(
+            'Internal Error. Details are available in Magento log file. Report ID: "%s"',
+            $maskedException->getMessage(),
+            'Masked exception message is wrong.'
+        );
+    }
 }
