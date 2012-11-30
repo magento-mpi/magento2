@@ -634,7 +634,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
         $attributes = $this->getRequest()->getParam('attributes');
         if (!empty($attributes)) {
-            $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE);
             $this->_objectManager->get('Mage_Catalog_Model_Product_Type_Configurable')->setUsedProductAttributeIds(
                 $attributes,
                 $product
@@ -650,9 +649,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $product->setCanSaveConfigurableAttributes(
                 (bool)$this->getRequest()->getPost('affect_configurable_product_attributes')
             );
-        } elseif ($product->getTypeId() === Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
-            $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL);
-            $product->setTypeInstance(null);
         }
 
         /**
