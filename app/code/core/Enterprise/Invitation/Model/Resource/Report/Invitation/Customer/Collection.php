@@ -22,11 +22,11 @@ class Enterprise_Invitation_Model_Resource_Report_Invitation_Customer_Collection
     /**
      * Joins Invitation report data, and filter by date
      *
-     * @param Zend_Date|string $from
-     * @param Zend_Date|string $to
+     * @param Zend_Date|string $fromDate
+     * @param Zend_Date|string $toDate
      * @return Enterprise_Invitation_Model_Resource_Report_Invitation_Customer_Collection
      */
-    public function setDateRange($from, $to)
+    public function setDateRange($fromDate, $toDate)
     {
         $this->_reset();
         $this->getSelect()
@@ -42,7 +42,7 @@ class Enterprise_Invitation_Model_Resource_Report_Invitation_Customer_Collection
         $this->_joinFields['invitation_date'] = array('table' => 'invitation', 'field' => 'invitation_date');
 
         // Filter by date range
-        $this->addFieldToFilter('invitation_date', array('from' => $from, 'to' => $to, 'time' => true));
+        $this->addFieldToFilter('invitation_date', array('from' => $fromDate, 'to' => $toDate, 'time' => true));
 
         // Add customer name
         $this->addNameToSelect();

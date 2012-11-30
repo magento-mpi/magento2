@@ -9,18 +9,8 @@
  * @license     {license_link}
  */
 
-define('SELENIUM_UNIT_TESTS_BASEDIR', realpath(dirname(__FILE__)));
-
-define('SELENIUM_TESTS_BASEDIR', realpath(SELENIUM_UNIT_TESTS_BASEDIR . DIRECTORY_SEPARATOR . '..'
+define('SELENIUM_TESTS_BASEDIR', realpath(__DIR__ . DIRECTORY_SEPARATOR . '..'
     . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..'));
 define('SELENIUM_TESTS_FWDIR', realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'framework'));
-
-set_include_path(implode(PATH_SEPARATOR, array(
-    SELENIUM_UNIT_TESTS_BASEDIR,
-    SELENIUM_TESTS_FWDIR,
-    get_include_path(),
-)));
-
-require_once SELENIUM_TESTS_FWDIR . '/functions.php';
-require_once 'Mage/Autoloader.php';
-Mage_Autoloader::register();
+require __DIR__ . '/../../../../../../../app/autoload.php';
+Magento_Autoload_IncludePath::addIncludePath(array(__DIR__, SELENIUM_TESTS_FWDIR));

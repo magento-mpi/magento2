@@ -17,16 +17,7 @@ $codeDirs = array(
     $rootDir . '/app/code/core/',
     $rootDir . '/dev/tests/integration/framework/',
 );
-
 set_include_path(implode(PATH_SEPARATOR, $codeDirs) . PATH_SEPARATOR . get_include_path());
-
-function magentoAutoloadForIntegrationTests($class)
-{
-    $file = str_replace('_', '/', $class) . '.php';
-    require_once $file;
-}
-
-spl_autoload_register('magentoAutoloadForIntegrationTests');
 
 Mage::setRoot();
 Mage::initializeObjectManager(null, new Magento_Test_ObjectManager());
