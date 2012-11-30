@@ -49,7 +49,7 @@ class Mage_Core_Model_Event_ManagerStub extends Mage_Core_Model_Event_Manager
      * @param array $params
      * @return Mage_Core_Model_App|null
      */
-    public function dispatch($eventName, $params)
+    public function dispatch($eventName, array $params = array())
     {
         switch ($eventName) {
             case 'cms_controller_router_match_before' :

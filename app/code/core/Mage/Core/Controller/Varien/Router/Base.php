@@ -142,10 +142,10 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
     /**
      * Match provided request and if matched - return corresponding controller
      *
-     * @param Zend_Controller_Request_Http $request
+     * @param Mage_Core_Controller_Request_Http $request
      * @return Mage_Core_Controller_Front_Action|null
      */
-    public function match(Zend_Controller_Request_Http $request)
+    public function match(Mage_Core_Controller_Request_Http $request)
     {
         //checking before even try to find out that current module
         //should use this router
@@ -178,10 +178,10 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
     /**
      * Parse request URL params
      *
-     * @param Zend_Controller_Request_Http $request
+     * @param Mage_Core_Controller_Request_Http $request
      * @return array
      */
-    protected function _parseRequest(Zend_Controller_Request_Http $request)
+    protected function _parseRequest(Mage_Core_Controller_Request_Http $request)
     {
         $output = array();
 
@@ -201,11 +201,11 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
     /**
      * Match module front name
      *
-     * @param Zend_Controller_Request_Http $request
+     * @param Mage_Core_Controller_Request_Http $request
      * @param string $param
      * @return string|null
      */
-    protected function _matchModuleFrontName(Zend_Controller_Request_Http $request, $param)
+    protected function _matchModuleFrontName(Mage_Core_Controller_Request_Http $request, $param)
     {
         // get module name
         if ($request->getModuleName()) {
@@ -227,11 +227,11 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
     /**
      * Match controller name
      *
-     * @param Zend_Controller_Request_Http $request
+     * @param Mage_Core_Controller_Request_Http $request
      * @param string $param
      * @return string
      */
-    protected function _matchControllerName(Zend_Controller_Request_Http $request,  $param)
+    protected function _matchControllerName(Mage_Core_Controller_Request_Http $request,  $param)
     {
         if ($request->getControllerName()) {
             $controller = $request->getControllerName();
@@ -252,11 +252,11 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
     /**
      * Match controller name
      *
-     * @param Zend_Controller_Request_Http $request
+     * @param Mage_Core_Controller_Request_Http $request
      * @param string $param
      * @return string
      */
-    protected function _matchActionName(Zend_Controller_Request_Http $request, $param)
+    protected function _matchActionName(Mage_Core_Controller_Request_Http $request, $param)
     {
         if (empty($action)) {
             if ($request->getActionName()) {
@@ -275,10 +275,10 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
      * Get not found controller instance
      *
      * @param $currentModuleName
-     * @param Zend_Controller_Request_Http $request
+     * @param Mage_Core_Controller_Request_Http $request
      * @return Mage_Core_Controller_Varien_Action|null
      */
-    protected function _getNotFoundControllerInstance($currentModuleName, Zend_Controller_Request_Http $request)
+    protected function _getNotFoundControllerInstance($currentModuleName, Mage_Core_Controller_Request_Http $request)
     {
         $controllerInstance = null;
 
@@ -321,11 +321,11 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
     /**
      * Create matched controller instance
      *
-     * @param Zend_Controller_Request_Http $request
+     * @param Mage_Core_Controller_Request_Http $request
      * @param array $params
      * @return Mage_Core_Controller_Front_Action|null
      */
-    protected function _matchController(Zend_Controller_Request_Http $request, array $params)
+    protected function _matchController(Mage_Core_Controller_Request_Http $request, array $params)
     {
         $this->fetchDefault();
 

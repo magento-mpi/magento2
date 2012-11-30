@@ -78,6 +78,10 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
      */
     public function runAction()
     {
+        /** @var $eventDispatcher Mage_Core_Model_Event_Manager */
+        $eventDispatcher = $this->_objectManager->get('Mage_Core_Model_Event_Manager');
+        $eventDispatcher->dispatch('design_editor_activate');
+
         $this->_title($this->__('System'))->_title($this->__('Design'))->_title($this->__('Editor'));
         $this->loadLayout();
         $this->_setActiveMenu('Mage_DesignEditor::system_design_editor');

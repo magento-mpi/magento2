@@ -15,10 +15,10 @@ class Mage_Core_Controller_Varien_Router_Default extends Mage_Core_Controller_Va
      * If store is admin and specified different admin front name,
      * change store to default (Possible when enabled Store Code in URL)
      *
-     * @param Zend_Controller_Request_Http $request
+     * @param Mage_Core_Controller_Request_Http $request
      * @return boolean
      */
-    public function match(Zend_Controller_Request_Http $request)
+    public function match(Mage_Core_Controller_Request_Http $request)
     {
         $noRoute        = explode('/', Mage::app()->getStore()->getConfig('web/default/no_route'));
         $moduleName     = isset($noRoute[0]) ? $noRoute[0] : 'core';

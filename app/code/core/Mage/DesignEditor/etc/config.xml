@@ -21,6 +21,17 @@
             </depends>
         </Mage_DesignEditor>
     </modules>
+    <default>
+        <web>
+            <routers>
+                <vde>
+                    <area>frontend</area>
+                    <class>Mage_DesignEditor_Controller_Varien_Router_Standard</class>
+                    <base_controller>Mage_Core_Controller_Varien_Action</base_controller>
+                </vde>
+            </routers>
+        </web>
+    </default>
     <frontend>
         <layout>
             <updates>
