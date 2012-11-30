@@ -98,7 +98,7 @@ class Mage_Adminhtml_DashboardControllerTest extends PHPUnit_Framework_TestCase
         }
 
         $routerFactory = $this->getMock('Mage_Core_Controller_Varien_Router_Factory', array(), array(), '', false);
-        $varienFront = new Mage_Core_Controller_Varien_Front($routerFactory);
+        $varienFront = new Mage_Core_Controller_Varien_Front($routerFactory, $objectManager);
         $layoutFactory = $this->getMock('Mage_Core_Model_Layout_Factory', array(), array(), '', false);
 
         return $this->getMock('Mage_Adminhtml_DashboardController', array('__'), array(
