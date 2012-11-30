@@ -44,7 +44,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_AuthenticationTest extends PHPUnit_
             ->setMethods(array('createFromArray'))
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_tokenMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_Security_usernameToken')
+        $this->_tokenMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_Security_UsernameToken')
             ->disableOriginalConstructor()
             ->setMethods(array('authenticate'))
             ->getMock();
