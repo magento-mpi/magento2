@@ -27,11 +27,10 @@ class Integrity_Theme_RenderersTest extends Magento_Test_TestCase_IntegrityAbstr
         }
 
         $blocks = array();
-        foreach ($this->_getDesignThemes() as $themeInfo) {
-            list($area, $package, $theme) = explode('/', $themeInfo);
+        foreach ($this->_getDesignThemes() as $theme) {
             $layoutUpdate = Mage::getModel(
                 'Mage_Core_Model_Layout_Merge',
-                array('arguments' => array('area' => $area, 'package' => $package, 'theme' => $theme))
+                array('arguments' => array('area' => $theme->getArea(), 'themeId' => $theme->getId()))
             );
             $blockElements = $layoutUpdate->getFileLayoutUpdatesXml()->xpath($xpath);
             if ($blockElements) {
@@ -58,12 +57,9 @@ class Integrity_Theme_RenderersTest extends Magento_Test_TestCase_IntegrityAbstr
         return array(
             array('Enterprise_Customer', '//action[@method=\'addRenderer\']/renderer_block'),
             array('Enterprise_Rma', '//action[@method=\'addRenderer\']/renderer_block'),
-            array('Enterprise_Staging', '//action[@method=\'addInformationRenderer\']/block'),
             array('Mage_Adminhtml', '//action[@method=\'addOptionRenderer\']/block'),
             array('Mage_Bundle', '//action[@method=\'addRenderer\']/block'),
             array('Mage_Catalog', '//action[@method=\'addOptionRenderer\']/block'),
-            array('Mage_XmlConnect', '//action[@method=\'addRenderer\']/renderer'),
-            array('Mage_XmlConnect', '//action[@method=\'addItemRender\']/block')
         );
     }
 }

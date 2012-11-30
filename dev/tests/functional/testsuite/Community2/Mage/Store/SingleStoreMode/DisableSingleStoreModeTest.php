@@ -948,34 +948,6 @@ class Community2_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
     }
 
     /**
-     * <p>All references to Website-Store-Store View are displayed in the Import Export-Dataflow-Profiles area.</p>
-     * <p>Steps:</p>
-     * <p>1. Login to Backend.</p>
-     * <p>2. Navigate to System - Manage Stores.</p>
-     * <p>3. If there more one Store View - delete except Default Store View.</p>
-     * <p>4. Navigate to Profiles page.</p>
-     * <p>5. Click "Add New Profile" button.</p>
-     * <p>Expected result:</p>
-     * <p>There is "Store" column on the page.</p>
-     * <p>There is "Store" multi selector on the page.</p>
-     *
-     * @test
-     * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6314
-     * @author Nataliya_Kolenko
-     */
-    public function verificationImportExportDataflowProfiles()
-    {
-        $this->navigate('system_convert_gui');
-        $this->assertTrue($this->controlIsPresent('dropdown', 'store'), 'There is no "Store" column on the page');
-        $this->assertTrue($this->controlIsPresent('button', 'add_new_profile'),
-            'There is no "Add New Profile" button on the page');
-        $this->clickButton('add_new_profile');
-        $this->assertTrue($this->controlIsPresent('dropdown', 'store'),
-            'There is no "Store" multi selector on the page');
-    }
-
-    /**
      * <p>There is "Store View Specific Labels" field set is displayed in the Order Statuses area.</p>
      * <p>Steps:</p>
      * <p>1. Login to Backend.</p>

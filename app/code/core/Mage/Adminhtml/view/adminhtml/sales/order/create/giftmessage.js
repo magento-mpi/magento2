@@ -182,12 +182,13 @@ GiftOptionsPopup.prototype = {
     },
 
     onOkButton : function() {
-        var giftOptionsForm = new varienForm('gift_options_configuration_form');
-        giftOptionsForm.canShowError = true;
-        if (!giftOptionsForm.validate()) {
+        var giftOptionsForm = jQuery('#gift_options_configuration_form');
+        if (!giftOptionsForm.validate().valid()) {
             return false;
         }
-        giftOptionsForm.validator.reset();
+        if (jQuery.isFunction(giftOptionsForm[0].reset)) {
+            giftOptionsForm[0].reset();
+        }
         this.closeWindow();
         return true;
     },

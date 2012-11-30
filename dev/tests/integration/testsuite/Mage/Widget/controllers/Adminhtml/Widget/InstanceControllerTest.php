@@ -15,10 +15,14 @@ class Mage_Widget_Adminhtml_Widget_InstanceControllerTest extends Mage_Adminhtml
     {
         parent::setUp();
 
+        $theme = Mage::getDesign()->setDefaultDesignTheme()->getDesignTheme();
         $this->getRequest()->setParam('type', 'Mage_Cms_Block_Widget_Page_Link');
-        $this->getRequest()->setParam('package_theme', 'default-demo');
+        $this->getRequest()->setParam('theme_id', $theme->getId());
     }
 
+    /**
+     * @magentoConfigFixture adminhtml/design/theme/full_name default/basic
+     */
     public function testEditAction()
     {
         $this->dispatch('backend/admin/widget_instance/edit');
@@ -27,12 +31,18 @@ class Mage_Widget_Adminhtml_Widget_InstanceControllerTest extends Mage_Adminhtml
         );
     }
 
+    /**
+     * @magentoConfigFixture adminhtml/design/theme/full_name default/basic
+     */
     public function testBlocksAction()
     {
         $this->dispatch('backend/admin/widget_instance/blocks');
         $this->assertStringStartsWith('<select name="block" id=""', $this->getResponse()->getBody());
     }
 
+    /**
+     * @magentoConfigFixture adminhtml/design/theme/full_name default/basic
+     */
     public function testTemplateAction()
     {
         $this->dispatch('backend/admin/widget_instance/template');

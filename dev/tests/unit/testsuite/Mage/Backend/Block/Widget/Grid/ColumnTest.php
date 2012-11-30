@@ -335,4 +335,40 @@ class Mage_Backend_Block_Widget_Grid_ColumnTest extends PHPUnit_Framework_TestCa
         $this->_block->setGrid($grid);
         $this->assertEquals($grid, $this->_block->getGrid());
     }
+
+    /**
+     * @param $groupedData
+     * @param $expected
+     * @dataProvider columnGroupedDataProvider
+     */
+    public function testColumnIsGrouped($groupedData, $expected)
+    {
+        $arguments = array(
+            'layout' => $this->_layoutMock,
+            'urlBuilder' => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false),
+            'data' => $groupedData
+        );
+
+        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $block = $objectManagerHelper->getBlock('Mage_Backend_Block_Widget_Grid_Column', $arguments);
+        $this->assertEquals($expected, $block->isGrouped());
+    }
+
+    public function columnGroupedDataProvider()
+    {
+        return array(
+            array(
+                array(),
+                false
+            ),
+            array(
+                array('grouped' => 0),
+                false
+            ),
+            array(
+                array('grouped' => 1),
+                true
+            )
+        );
+    }
 }

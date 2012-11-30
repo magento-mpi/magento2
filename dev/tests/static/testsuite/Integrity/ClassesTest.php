@@ -25,7 +25,6 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
      */
     public function testPhpFile($file)
     {
-        self::skipBuggyFile($file);
         $contents = file_get_contents($file);
         $classes = Utility_Classes::getAllMatches($contents, '/
             # ::getResourceModel ::getBlockSingleton ::getModel ::getSingleton
@@ -91,7 +90,6 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
      */
     public function testConfigFile($path)
     {
-        self::skipBuggyFile($path);
         $classes = Utility_Classes::collectClassesInConfig(simplexml_load_file($path));
         $this->_assertClassesExist($classes);
     }
@@ -110,7 +108,6 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
      */
     public function testLayoutFile($path)
     {
-        self::skipBuggyFile($path);
         $xml = simplexml_load_file($path);
 
         $classes = Utility_Classes::getXmlNodeValues($xml,
@@ -133,33 +130,6 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
     public function layoutFileDataProvider()
     {
         return Utility_Files::init()->getLayoutFiles();
-    }
-
-    /**
-     * Determine that some files must be skipped because implementation, broken by some bug
-     *
-     * @param string $path
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     */
-    public static function skipBuggyFile($path)
-    {
-        $path = str_replace(DIRECTORY_SEPARATOR, '/', $path);
-        if (strpos($path, 'app/code/core/Mage/XmlConnect/view/frontend/layout.xml')
-            || strpos($path, 'app/code/core/Mage/XmlConnect/Block/Checkout/Pbridge/Result.php')
-            || strpos($path, 'app/code/core/Mage/XmlConnect/Block/Catalog/Product/Price/Giftcard.php')
-            || strpos($path, 'app/code/core/Mage/XmlConnect/Block/Checkout/Payment/Method/List.php')
-            || strpos($path, 'app/code/core/Mage/XmlConnect/Block/Catalog/Product/Options/Giftcard.php')
-            || strpos($path, 'app/code/core/Mage/XmlConnect/controllers/Paypal/MepController.php')
-            || strpos($path, 'app/code/core/Mage/XmlConnect/Block/Catalog/Product/Related.php')
-            || strpos($path, 'app/code/core/Mage/XmlConnect/controllers/CartController.php')
-            || strpos($path, 'app/code/core/Mage/XmlConnect/Block/Customer/Storecredit.php')
-            || strpos($path, 'app/code/core/Mage/XmlConnect/Block/Customer/Storecredit.php')
-            || strpos($path, 'app/code/core/Mage/XmlConnect/controllers/PbridgeController.php')
-            || strpos($path, 'app/code/core/Mage/XmlConnect/Block/Customer/Address/Form.php')
-            || strpos($path, 'app/code/core/Mage/XmlConnect/controllers/CustomerController.php')
-        ) {
-            self::markTestIncomplete('Bug MMOBAPP-1792');
-        }
     }
 
     /**

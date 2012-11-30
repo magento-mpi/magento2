@@ -53,8 +53,16 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
 
         $this->_addButton('preview', array(
             'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Preview'),
-            'onclick'   => "previewAction('edit_form', editForm, '" . $this->getPreviewUrl() . "')",
             'class'     => 'preview',
+            'data_attr'  => array(
+                'widget-button' => array(
+                    'event' => 'preview',
+                    'related' => '#edit_form',
+                    'eventData' => array(
+                        'action' => $this->getPreviewUrl()
+                    )
+                )
+            )
         ));
 
         if ($config->canCurrentUserPublishRevision()) {
@@ -69,8 +77,10 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
                 $this->_addButton('save_publish', array(
                     'id'        => 'save_publish_button',
                     'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Save and Publish'),
-                    'onclick'   => "saveAndPublishAction(editForm, '" . $this->getSaveUrl() . "')",
                     'class'     => 'publish no-display',
+                    'data_attr'  => array(
+                        'widget-button' => array('event' => 'saveAndPublish', 'related' => '#edit_form')
+                    )
                 ), 1);
             }
 
@@ -79,34 +89,50 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
 
         if ($config->canCurrentUserSaveRevision()) {
             $this->_updateButton('save', 'label', Mage::helper('Enterprise_Cms_Helper_Data')->__('Save'));
-            $this->_updateButton('save', 'onclick', 'editForm.submit(\'' . $this->getSaveUrl() . '\');');
+            $this->_updateButton('save', 'data_attr', array(
+                'widget-button' => array('event' => 'save', 'related' => '#edit_form')
+            ));
             $this->_updateButton(
                 'saveandcontinue',
-                'onclick',
-                'editForm.submit(\'' . $this->getSaveUrl() . '\'+\'back/edit/\');'
+                'data_attr',
+                array(
+                    'widget-button' => array('event' => 'preview', 'related' => '#edit_form')
+                )
             );
 
+            $page = Mage::registry('cms_page');
             // Adding button to create new version
             $this->_addButton('new_version', array(
                 'id'        => 'new_version',
                 'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Save in New Version...'),
-                'onclick'   => 'newVersionAction()',
+                'data_attr'  => array(
+                    'widget-button' => array(
+                        'event' => 'save',
+                        'related' => '#edit_form',
+                        'eventData' => array(
+                            'action' => $this->getNewVersionUrl(),
+                            'target' => 'cms-page-preview-' . ($page ? $page->getPageId() : ''),
+                        )
+                    )
+                ),
                 'class'     => 'new',
             ));
 
             $this->_formScripts[] = "
-                function newVersionAction(){
+                function newVersionAction(e){
                     var versionName = prompt('" . Mage::helper('Enterprise_Cms_Helper_Data')->__('Specify New Version Name (required)') . "', '')
                     if (versionName == '') {
                         alert('" . Mage::helper('Enterprise_Cms_Helper_Data')->__('You should specify valid name') . "');
-                        return false;
+                        e.stopImmediatePropagation();
                     } else if (versionName == null) {
                         return false;
+                        e.stopImmediatePropagation();
                     }
-
                     $('page_label').value = versionName;
-                    editForm.submit('" . $this->getNewVersionUrl() . "');
                 }
+                (function($){
+                    $('#new_version').on('click', newVersionAction);
+                })(jQuery)
             ";
 
         } else {

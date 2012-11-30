@@ -25,6 +25,6 @@
     </div>
 <?php endif; ?>
 <script type="text/javascript">
-    editForm = new varienForm('edit_form', '<?php echo $this->getValidationUrl() ?>');
+    jQuery('#edit_form').form().validation({validationUrl: '<?php echo $this->getValidationUrl() ?>'});
 </script>
 <?php echo $this->getFormScripts() ?>

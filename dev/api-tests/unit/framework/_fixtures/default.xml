@@ -76,7 +76,6 @@
                     <sort_order>0</sort_order>
                     <default_group_id>0</default_group_id>
                     <is_default>0</is_default>
-                    <is_staging>0</is_staging>
                     <master_login></master_login>
                     <master_password></master_password>
                     <visibility></visibility>
@@ -88,7 +87,6 @@
                     <sort_order>0</sort_order>
                     <default_group_id>1</default_group_id>
                     <is_default>1</is_default>
-                    <is_staging>0</is_staging>
                     <master_login></master_login>
                     <master_password></master_password>
                     <visibility></visibility>
@@ -100,7 +98,6 @@
                     <sort_order>2</sort_order>
                     <default_group_id>2</default_group_id>
                     <is_default>0</is_default>
-                    <is_staging>0</is_staging>
                     <master_login></master_login>
                     <master_password></master_password>
                     <visibility></visibility>

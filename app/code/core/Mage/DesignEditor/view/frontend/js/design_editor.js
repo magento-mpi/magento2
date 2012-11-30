@@ -145,11 +145,11 @@
             });
             this.element.find( this.options.cellSelector ).vde_menu();
         },
-        destroy: function() {
+        _destroy: function() {
             this.element.find( this.options.cellSelector ).each( function(i, element) {
                 $(element).data('vde_menu').destroy();
             });
-            $.Widget.prototype.destroy.call( this );
+            this._super();
         }
     });
 
@@ -475,7 +475,7 @@
                 widget.setHistory(history);
             });
         },
-        destroy: function() {
+        _destroy: function() {
             //DOM structure can be missed when test executed
             var panelContainer = $(this.options.panelSelector);
             if (panelContainer.size()) {
@@ -486,10 +486,13 @@
                 toolbarContainer.vde_historyToolbar('destroy');
             }
             $(window).vde_history('destroy');
-            $(this.options.highlightElementSelector).vde_removable('destroy');
-            $(this.options.containerSelector).vde_container('destroy');
-
-            pagePrototype.destroy.call(this);
+            if($(this.options.highlightElementSelector).is(':vde-vde_removable')) {
+                $(this.options.highlightElementSelector).vde_removable('destroy');
+            }
+            if($(this.options.containerSelector).is(':vde-vde_container')) {
+                $(this.options.containerSelector).vde_container('destroy');
+            }
+            pagePrototype._destroy.call(this);
         }
     }));
 
