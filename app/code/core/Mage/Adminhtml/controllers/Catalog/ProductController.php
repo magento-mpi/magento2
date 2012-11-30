@@ -960,7 +960,9 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     protected function _quickCreateFillProductData($product, $parentProduct, $postData)
     {
         $product->setStoreId(0)
-            ->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
+            ->setTypeId($parentProduct->hasData('is_virtual')
+                ? Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL
+                : Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
             ->setAttributeSetId($parentProduct->getAttributeSetId());
 
 

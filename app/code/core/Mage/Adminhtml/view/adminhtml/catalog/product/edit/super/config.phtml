@@ -199,7 +199,7 @@ if (count($this->getSelectedAttributes())) {
                 </button>
             </td>
             <td class="associated-matrix-product-qty">
-                <input name="create_matrix_product[<?php echo $variationKey?>][stock_data][qty]" value=""<?php echo $disabled?>>
+                <input name="create_matrix_product[<?php echo $variationKey?>][quantity_and_stock_status][qty]" value=""<?php echo $disabled?> class="validate-number">
             </td>
             <td class="associated-matrix-product-weight">
                 <input name="create_matrix_product[<?php echo $variationKey?>][weight]" value="<?php echo $this->_getProduct()->getWeight()?>" class="required-entry validate-zero-or-greater"<?php echo $disabled?>>
