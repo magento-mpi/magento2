@@ -1,8 +1,20 @@
 <?php
 /**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Adminhtml
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/**
+ *
  * Test class for Mage_Adminhtml_Catalog_ProductController
  *
- * @copyright {}
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 require_once __DIR__ . '/../../../../../../../../'
     . 'app/code/core/Mage/Adminhtml/controllers/Catalog/ProductController.php';
