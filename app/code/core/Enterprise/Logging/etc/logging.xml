@@ -1398,31 +1398,6 @@
         </actions>
     </adminhtml_system_design>
 
-    <adminhtml_system_convert_gui translate="label">
-        <label>Import/Export Profiles</label>
-        <expected_models>
-            <Mage_Dataflow_Model_Profile/>
-        </expected_models>
-        <actions>
-            <adminhtml_system_convert_gui_save>
-                <action>save</action>
-            </adminhtml_system_convert_gui_save>
-
-            <adminhtml_system_convert_gui_edit>
-                <action>edit</action>
-            </adminhtml_system_convert_gui_edit>
-
-            <adminhtml_system_convert_gui_delete>
-                <action>delete</action>
-            </adminhtml_system_convert_gui_delete>
-
-            <adminhtml_system_convert_gui_run>
-                <action>run</action>
-                <post_dispatch>postDispatchSystemImportExportRun</post_dispatch>
-            </adminhtml_system_convert_gui_run>
-        </actions>
-    </adminhtml_system_convert_gui>
-
     <adminhtml_system_currency translate="label">
         <label>Manage Currency Rates</label>
         <actions>

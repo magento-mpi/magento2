@@ -105,41 +105,6 @@ system_design_editor:
                         dropdowns:
                             store_view: //select[@name='store_id']
 
-# Import/Export: Profiles page
-system_convert_gui:
-    mca: system_convert_gui/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_convert_gui/')]
-    title: Profiles / Import and Export / System / Magento Admin
-    uimap:
-        form:
-            fieldsets:
-                -
-                    convert_profile_grid:
-                        xpath: //div[@id='convertProfileGrid']
-                        dropdowns:
-                            store: //select[@name='store_id']
-        buttons:
-            add_new_profile: //button[span='Add New Profile']
-
-# Add New Profile page
-new_system_convert_gui:
-    mca: system_convert_gui/new/
-    title: New Profile / Profiles / Import and Export / System / Magento Admin
-    uimap:
-        form:
-            fieldsets:
-                -
-                    profile_information:
-                        xpath: //div[@id='profile-generator']/fieldset[1]
-                        dropdowns:
-                            store: //select[@name='store_id']
-
-# Import/Export: Advanced Profiles page
-system_convert_profile:
-    mca: system_convert_profile/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_convert_profile/')]
-    title: Advanced Profiles / Import and Export / System / Magento Admin
-
 # Manage Currency:
 system_currency:
     mca: system_currency/
