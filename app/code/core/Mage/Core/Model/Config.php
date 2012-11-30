@@ -1519,21 +1519,19 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $nodeAreas = $this->getNode('global/areas');
         if (is_object($nodeAreas)) {
             foreach ($nodeAreas->asArray() as $areaCode => $areaInfo) {
+                if (empty($areaCode)
+                    || (!isset($areaInfo['base_controller']) || empty($areaInfo['base_controller']))
+                ) {
+                    continue;
+                }
                 /**
-                 * TODO: There could be several base action controllers in scope of one area for different API types.
-                 * TODO: These action controllers can be specified in the concrete implementations of API front controllers.
-                 * TODO: That is why:
-                 *
-                 * TODO: Check of 'base_controller' and 'routers' nodes existance is excessive:
-                 * TODO: 'base_controller' is checked in Mage_Core_Controller_Varien_Router_Base::__construct()
+                 * TODO: Check of 'routers' nodes existance is excessive:
                  * TODO: 'routers' check is moved Mage_Core_Model_Config::getRouters()
                  */
 
                 /**
                  * TODO: Routers are not required in API.
-                 * TODO: That is why:
-                 *
-                 * TODO: Check for empty router class moved to Mage_Core_Model_Config::getRouters()
+                 * TODO: That is why Check for empty router class moved to Mage_Core_Model_Config::getRouters()
                  */
                 $this->_allowedAreas[$areaCode] = $areaInfo;
             }

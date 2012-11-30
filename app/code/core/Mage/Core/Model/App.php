@@ -800,6 +800,7 @@ class Mage_Core_Model_App
         /**
          * TODO: Temporary implementation for API. Must be reconsidered during implementation
          * TODO: of ability to set different front controllers in different area.
+         * TODO: See also related changes in Mage_Core_Model_Config.
          */
         // TODO: Assure that everything work fine work in areas without routers (e.g. URL generation)
         /** Default front controller class */
