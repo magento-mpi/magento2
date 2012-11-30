@@ -640,7 +640,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 $product
             );
 
-            $product->setAssociatedProductIds($this->getRequest()->getPost('associated_product_ids', array()));
+            $this->_generateSimpleProducts($product);
 
             $data = $this->getRequest()->getPost('configurable_attributes_data');
             if ($data) {
@@ -921,6 +921,67 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         }
     }
 
+    /**
+     * Generate simple products linked with configurable
+     *
+     * @param Mage_Catalog_Model_Product $parentProduct
+     */
+    protected function _generateSimpleProducts(Mage_Catalog_Model_Product $parentProduct)
+    {
+        $associatedProductIds = $this->getRequest()->getPost('associated_product_ids', array());
+
+        foreach ($this->getRequest()->getPost('create_matrix_product', array()) as $simpeProductData) {
+            $newSimpleProduct = $this->_objectManager->create('Mage_Catalog_Model_Product');
+            $configurableAttribute = Mage::helper('Mage_Core_Helper_Data')
+                ->jsonDecode($simpeProductData['configurable_attribute']);
+            unset($simpeProductData['configurable_attribute']);
+            $this->_filterStockData($simpeProductData['stock_data']);
+
+            $this->_quickCreateFillProductData(
+                $newSimpleProduct, $parentProduct, array_merge($simpeProductData, $configurableAttribute)
+            );
+            $newSimpleProduct->save();
+
+            $associatedProductIds[] = $newSimpleProduct->getId();
+        }
+
+        $parentProduct->setAssociatedProductIds(array_filter($associatedProductIds));
+    }
+
+    /**
+     * Fill simple product data during quick creation
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param Mage_Catalog_Model_Product $parentProduct
+     * @param array $postData
+     * @return void
+     */
+    protected function _quickCreateFillProductData($product, $parentProduct, $postData)
+    {
+        $product->setStoreId(0)
+            ->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
+            ->setAttributeSetId($parentProduct->getAttributeSetId());
+
+
+        foreach ($product->getTypeInstance()->getEditableAttributes($product) as $attribute) {
+            if ($attribute->getIsUnique()
+                || $attribute->getAttributeCode() == 'url_key'
+                || $attribute->getFrontend()->getInputType() == 'gallery'
+                || $attribute->getFrontend()->getInputType() == 'media_image'
+                || !$attribute->getIsVisible()) {
+                continue;
+            }
+
+            $product->setData(
+                $attribute->getAttributeCode(),
+                $parentProduct->getData($attribute->getAttributeCode())
+            );
+        }
+
+        $product->addData($postData);
+        $product->setWebsiteIds($parentProduct->getWebsiteIds());
+    }
+
     public function quickCreateAction()
     {
         $result = array();
@@ -938,29 +999,11 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
         /* @var $product Mage_Catalog_Model_Product */
 
-        $product = Mage::getModel('Mage_Catalog_Model_Product')
-            ->setStoreId(0)
-            ->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
-            ->setAttributeSetId($configurableProduct->getAttributeSetId());
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
 
-
-        foreach ($product->getTypeInstance()->getEditableAttributes($product) as $attribute) {
-            if ($attribute->getIsUnique()
-                || $attribute->getAttributeCode() == 'url_key'
-                || $attribute->getFrontend()->getInputType() == 'gallery'
-                || $attribute->getFrontend()->getInputType() == 'media_image'
-                || !$attribute->getIsVisible()) {
-                continue;
-            }
-
-            $product->setData(
-                $attribute->getAttributeCode(),
-                $configurableProduct->getData($attribute->getAttributeCode())
-            );
-        }
-
-        $product->addData($this->getRequest()->getParam('simple_product', array()));
-        $product->setWebsiteIds($configurableProduct->getWebsiteIds());
+        $this->_quickCreateFillProductData(
+            $product, $configurableProduct, $this->getRequest()->getParam('simple_product', array())
+        );
 
         $autogenerateOptions = array();
         $result['attributes'] = array();

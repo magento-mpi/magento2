@@ -182,13 +182,14 @@ if (count($this->getSelectedAttributes())) {
 ?>
         <tr class="<?php echo $isEven ? 'even' : '' ?>">
             <td class="associated-matrix-product-name">
-                <input name="associated_matrix_product[<?php echo $variationKey?>][name]" value="<?php echo $this->_getProduct()->getName(), '-', implode('-', $attributeLabels)?>" class="required-entry"/>
+                <input name="create_matrix_product[<?php echo $variationKey?>][name]" value="<?php echo $this->_getProduct()->getName(), '-', implode('-', $attributeLabels)?>" class="required-entry"/>
+                <input type="hidden" name="create_matrix_product[<?php echo $variationKey?>][configurable_attribute]" value="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"/>
             </td>
             <td class="associated-matrix-product-price">
-                <input name="associated_matrix_product[<?php echo $variationKey?>][price]" value="<?php echo $this->_getProduct()->getPrice()?>" class="required-entry validate-zero-or-greater"/>
+                <input name="create_matrix_product[<?php echo $variationKey?>][price]" value="<?php echo $this->_getProduct()->getPrice()?>" class="required-entry validate-zero-or-greater"/>
             </td>
             <td class="associated-matrix-product-sku">
-                <input name="associated_matrix_product[<?php echo $variationKey?>][sku]" value="<?php echo $this->_getProduct()->getSku(), '-', implode('-', $attributeLabels)?>" class="required-entry"/>
+                <input name="create_matrix_product[<?php echo $variationKey?>][sku]" value="<?php echo $this->_getProduct()->getSku(), '-', implode('-', $attributeLabels)?>" class="required-entry"/>
                 <button class="choose-product"
                     data-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"
                     style="float:right">
@@ -196,10 +197,10 @@ if (count($this->getSelectedAttributes())) {
                 </button>
             </td>
             <td class="associated-matrix-product-qty">
-                <input name="associated_matrix_product[<?php echo $variationKey?>][qty]" value="" class="required-entry validate-number">
+                <input name="create_matrix_product[<?php echo $variationKey?>][stock_data][qty]" value="" class="required-entry validate-number">
             </td>
             <td class="associated-matrix-product-weight">
-                <input name="associated_matrix_product[<?php echo $variationKey?>][weight]" value="<?php echo $this->_getProduct()->getWeight()?>" class="required-entry validate-zero-or-greater">
+                <input name="create_matrix_product[<?php echo $variationKey?>][weight]" value="<?php echo $this->_getProduct()->getWeight()?>" class="required-entry validate-zero-or-greater">
             </td>
             <td><?php echo implode('</td><td>', $attributeLabels)?></td>
             <td class="a-center">
@@ -258,9 +259,9 @@ jQuery(function($) {
 
     $('input.associated-matrix-product-id').on('click', function () {
         if ($(this).is(':checked')) {
-            $(this).closest('tr').removeClass('ignore-validate');
+            $(this).closest('tr').find('input').removeAttr('disabled');
         } else {
-            $(this).closest('tr').addClass('ignore-validate');
+            $(this).closest('tr').find('input[type!=checkbox]').attr('disabled', 'disabled');
         }
     });
 
@@ -291,7 +292,7 @@ jQuery(function($) {
                     value = $.trim($gridRow.find(associatedClass + this).text()),
                     button = target.find('button.choose-product');
 
-                target.html(value).append(button);
+                target[target.is('input[type=checkbox]') ? 'val' : 'html'](value).append(button);
             });
             $matrixRow.find(matrixClass + 'id').attr('checked', true).removeAttr('disabled');
             $gridDialog.dialog('close');
