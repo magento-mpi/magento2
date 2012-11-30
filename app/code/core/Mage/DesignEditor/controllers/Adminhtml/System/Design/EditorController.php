@@ -14,10 +14,45 @@
 class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * Display the design editor launcher page
+     * Display theme selector
      */
     public function indexAction()
     {
+        $this->_doSelectionTheme('firstEntrance');
+    }
+
+    /**
+     * Display available theme list. Only when no customized themes
+     */
+    public function firstEntranceAction()
+    {
+        $this->_doSelectionTheme('index');
+    }
+
+    /**
+     * Check whether is customized themes in database
+     *
+     * @return bool
+     */
+    protected function _isFirstEntrance()
+    {
+        /** @var $themeService Mage_Core_Model_Theme_Service */
+        $themeService = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
+        return !$themeService->isPresentCustomizedThemes();
+    }
+
+    /**
+     * Load layout
+     *
+     * @param string $forwardAction
+     */
+    protected function _doSelectionTheme($forwardAction)
+    {
+        if ($forwardAction == 'index' xor $this->_isFirstEntrance()) {
+            $this->_forward($forwardAction);
+            return;
+        }
+
         try {
             $this->_title($this->__('System'))->_title($this->__('Design'))->_title($this->__('Editor'));
             $this->loadLayout();
@@ -28,6 +63,15 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $this->_redirectUrl($this->_getRefererUrl());
             Mage::logException($e);
         }
+    }
+
+    /**
+     * Ajax loading available themes
+     */
+    public function availableThemesAction()
+    {
+        $this->loadLayout();
+        $this->renderLayout();
     }
 
     /**
