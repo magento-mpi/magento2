@@ -70,6 +70,9 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
         // prepare request to imitate
         $this->_prepareVdeRequest($request);
 
+        // apply rewrites
+        $this->getFront()->applyRewrites();
+
         // match routers
         $controller = null;
         $routers = $this->_getMatchedRouters();

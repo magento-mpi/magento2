@@ -14,6 +14,11 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
     const XML_STORE_ROUTERS_PATH = 'web/routers';
 
     /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
      * @var Mage_Core_Controller_Varien_Router_Factory
      */
     protected $_routerFactory;
@@ -32,8 +37,10 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
 
     public function __construct(
         Mage_Core_Controller_Varien_Router_Factory $routerFactory,
+        Magento_ObjectManager $objectManager,
         array $data = array()
     ) {
+        $this->_objectManager = $objectManager;
         $this->_routerFactory = $routerFactory;
 
         parent::__construct($data);
@@ -170,14 +177,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
         Magento_Profiler::start('dispatch');
 
         $request->setPathInfo()->setDispatched(false);
-        if (!$request->isStraight()) {
-            Magento_Profiler::start('db_url_rewrite');
-            Mage::getModel('Mage_Core_Model_Url_Rewrite')->rewrite();
-            Magento_Profiler::stop('db_url_rewrite');
-        }
-        Magento_Profiler::start('config_url_rewrite');
-        $this->rewrite();
-        Magento_Profiler::stop('config_url_rewrite');
+        $this->applyRewrites();
 
         Magento_Profiler::stop('dispatch');
 
@@ -205,6 +205,26 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
         Magento_Profiler::stop('send_response');
         Mage::dispatchEvent('controller_front_send_response_after', array('front'=>$this));
         return $this;
+    }
+
+    /**
+     * Apply rewrites to current request
+     */
+    public function applyRewrites()
+    {
+        // URL rewrite
+        if (!$this->getRequest()->isStraight()) {
+            Magento_Profiler::start('db_url_rewrite');
+            /** @var $urlRewrite Mage_Core_Model_Url_Rewrite */
+            $urlRewrite = $this->_objectManager->create('Mage_Core_Model_Url_Rewrite');
+            $urlRewrite->rewrite();
+            Magento_Profiler::stop('db_url_rewrite');
+        }
+
+        // config rewrite
+        Magento_Profiler::start('config_url_rewrite');
+        $this->rewrite();
+        Magento_Profiler::stop('config_url_rewrite');
     }
 
     public function getRouterByRoute($routeName)
