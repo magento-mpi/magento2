@@ -2,8 +2,6 @@
 /**
  * Tests fixture for Auto Discovery functionality. Customer address entity.
  *
- * {license_notice}
- *
  * @copyright   {copyright}
  * @license     {license_link}
  */

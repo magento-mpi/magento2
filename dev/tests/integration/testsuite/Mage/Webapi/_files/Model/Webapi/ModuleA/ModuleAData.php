@@ -2,8 +2,6 @@
 /**
  * Test data structure fixture
  *
- * {license_notice}
- *
  * @copyright   {copyright}
  * @license     {license_link}
  */

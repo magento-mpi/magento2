@@ -2,7 +2,10 @@
 /**
  * Setup script for Webapi module.
  *
- * @copyright  {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 /* @var $installer Mage_Core_Model_Resource_Setup */
