@@ -17,7 +17,7 @@ class Mage_Testlink_Connector
      * Default server url. Should be overriden in phpunit.xml
      * @var string
      */
-    public static $SERVER_URL = "http://localhost//testlink/lib/api/xmlrpc.php";
+    public static $serverURL = "http://localhost//testlink/lib/api/xmlrpc.php";
 
     /**
      * @var IXR_Client
@@ -25,7 +25,7 @@ class Mage_Testlink_Connector
     private $_client;
 
     /**
-     * Key used for getting connection to xml-rpc of testlink (all test cases will be signed from the user whoes id is used)
+     * Key used to get connection to xml-rpc of testlink (all test cases will be signed from the user whoes id is used)
      *
      * @var string|null
      */
@@ -49,7 +49,7 @@ class Mage_Testlink_Connector
      */
     public function __construct()
     {
-        $this->_client = new IXR_Client(Mage_Testlink_Connector::$SERVER_URL);
+        $this->_client = new IXR_Client(Mage_Testlink_Connector::$serverURL);
     }
 
     /**
@@ -86,10 +86,19 @@ class Mage_Testlink_Connector
      *
      * @return array
      */
-    protected function reportResult($tcaseexternalid=null, $tplanid, $buildid=null, $buildname=null,
-                          $status, $notes=null, $bugid=null, $customfields=null, $platformname=null,
-                          $overwrite=false, $debug=false)
-    {
+    protected function reportResult(
+        $tcaseexternalid=null,
+        $tplanid,
+        $buildid=null,
+        $buildname=null,
+        $status,
+        $notes=null,
+        $bugid=null,
+        $customfields=null,
+        $platformname=null,
+        $overwrite=false,
+        $debug=false
+    ) {
         $this->_client->debug = $debug;
         $data = array();
         $data["devKey"] = Mage_Testlink_Connector::$devKey;
@@ -184,17 +193,17 @@ class Mage_Testlink_Connector
     /**
      * Gets array of all tests plans in project
      *
-     * @param string    $project_id
+     * @param string    $projectId
      *
      * @return array
      */
-    protected function getTestPlans($project_id)
+    protected function getTestPlans($projectId)
     {
         $plans = array();
-        if (is_numeric($project_id)) {
+        if (is_numeric($projectId)) {
             $method = 'getProjectTestPlans';
             $args = array();
-            $args["testprojectid"] = $project_id;
+            $args["testprojectid"] = $projectId;
             $plans = $this->action($method, $args);
         }
         return $plans;
@@ -203,14 +212,14 @@ class Mage_Testlink_Connector
     /**
      * Gets the last test plan from project or searches for test plan by name or id
      *
-     * @param string        $project_id
+     * @param string        $projectId
      * @param string|null   $testPlan
      *
      * @return array
      */
-    public function getTestPlan($project_id, $testPlan=null)
+    public function getTestPlan($projectId, $testPlan=null)
     {
-        $plans = $this->getTestPlans($project_id);
+        $plans = $this->getTestPlans($projectId);
         if (isset($testPlan) && !empty($plans)) {
             if (is_numeric($testPlan)) {
                 foreach ($plans as $plan) {
@@ -237,25 +246,25 @@ class Mage_Testlink_Connector
      *
      * @return array
      */
-    protected function getBuilds($testplan_id)
+    protected function getBuilds($testplanId)
     {
         $method = 'getBuildsForTestPlan';
         $args = array();
-        $args["testplanid"] = $testplan_id;
+        $args["testplanid"] = $testplanId;
         return $this->action($method, $args);
     }
 
     /**
      * Gets current build
      *
-     * @param string      $testplan_id
+     * @param string      $testplanId
      * @param string|null $buildId
      *
      * @return array
      */
-    public function getBuild($testplan_id, $buildId=null)
+    public function getBuild($testplanId, $buildId=null)
     {
-        $builds = isset($testplan_id) ? $this->getBuilds($testplan_id) : array();
+        $builds = isset($testplanId) ? $this->getBuilds($testplanId) : array();
         if (!empty($builds)) {
             if (isset($buildId)) {
                 foreach ($builds as $build) {
@@ -281,15 +290,15 @@ class Mage_Testlink_Connector
     /**
      * Gets available tests from the test plan in testlink
      *
-     * @param string $testplan_id
+     * @param string $testplanId
      *
      * @return array
      */
-    protected function getTests($testplan_id)
+    protected function getTests($testplanId)
     {
         $method = 'getTestCasesForTestPlan';
         $args = array();
-        $args["testplanid"] = $testplan_id;
+        $args["testplanid"] = $testplanId;
         return $this->action($method, $args);
     }
 }
