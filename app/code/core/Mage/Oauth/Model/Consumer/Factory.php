@@ -2,7 +2,10 @@
 /**
  * Consumer builder factory.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Oauth_Model_Consumer_Factory
 {

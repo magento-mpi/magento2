@@ -2,7 +2,10 @@
 /**
  * Factory of web API requests.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Controller_Response_Factory
 {

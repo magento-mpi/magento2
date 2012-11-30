@@ -2,7 +2,10 @@
 /**
  * Data structure description for customer address entity
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Customer_Model_Webapi_Customer_AddressData
 {

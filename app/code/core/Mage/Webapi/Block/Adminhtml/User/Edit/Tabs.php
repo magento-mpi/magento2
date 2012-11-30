@@ -2,7 +2,10 @@
 /**
  * Web API user edit page tabs.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  *
  * @method Varien_Object getApiUser() getApiUser()
  * @method Mage_Webapi_Block_Adminhtml_User_Edit_Tabs setApiUser() setApiUser(Varien_Object $apiUser)

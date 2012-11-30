@@ -6,7 +6,10 @@ use Zend\Server\Reflection,
 /**
  * Abstract class reflector for config reader.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 abstract class Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract
 {

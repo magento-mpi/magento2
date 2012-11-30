@@ -2,7 +2,10 @@
 /**
  * Test class for Mage_Webapi_Model_Authorization_Loader_Resource
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Framework_TestCase
 {

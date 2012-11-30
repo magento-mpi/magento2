@@ -2,7 +2,10 @@
 /**
  * SOAP web API authentication model.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Controller_Dispatcher_Soap_AuthenticationTest extends PHPUnit_Framework_TestCase
 {

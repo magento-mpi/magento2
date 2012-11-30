@@ -2,7 +2,10 @@
 /**
  * API Resource action controller fixture.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
 class Vendor_ModuleB_Controller_Webapi_ModuleB extends Mage_Webapi_Controller_ActionAbstract

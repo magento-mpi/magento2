@@ -2,7 +2,10 @@
 /**
  * Test class for Mage_Webapi_Model_Acl_Role_UsersUpdater
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Model_Acl_Role_UsersUpdaterTest extends PHPUnit_Framework_TestCase
 {

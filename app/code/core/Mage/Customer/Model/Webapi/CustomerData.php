@@ -4,7 +4,10 @@
  * {myAppInfo:hello}
  * {seeLink:http://wiki.magento.com/:link title:link for description}
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Customer_Model_Webapi_CustomerData
 {

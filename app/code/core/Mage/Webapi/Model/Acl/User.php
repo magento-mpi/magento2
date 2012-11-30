@@ -2,7 +2,10 @@
 /**
  * Web API User model.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  *
  * @method Mage_Webapi_Model_Acl_User setRoleId() setRoleId(int $id)
  * @method int getRoleId() getRoleId()

@@ -2,7 +2,10 @@
 /**
  * Test Rest router route.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Controller_Router_Route_RestTest extends PHPUnit_Framework_TestCase
 {

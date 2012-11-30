@@ -2,7 +2,10 @@
 /**
  * Constraint option
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Magento_Validator_Constraint_Option implements  Magento_Validator_Constraint_OptionInterface
 {

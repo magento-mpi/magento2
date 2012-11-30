@@ -2,7 +2,10 @@
 /**
  * Magento Validator Builder
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Magento_Validator_Builder
 {

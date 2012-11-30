@@ -3,7 +3,10 @@
 /**
  * Configuration of Webapi module menu in Magento admin panel.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 -->
 <config>

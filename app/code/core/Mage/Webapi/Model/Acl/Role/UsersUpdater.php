@@ -2,7 +2,10 @@
 /**
  * Users in role grid items updater.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Model_Acl_Role_UsersUpdater implements Mage_Core_Model_Layout_Argument_UpdaterInterface
 {

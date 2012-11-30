@@ -2,7 +2,10 @@
 /**
  * Short description
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Catalog_Webapi_ProductController extends Mage_Webapi_Controller_ActionAbstract
 {

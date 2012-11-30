@@ -2,7 +2,10 @@
 /**
  *  JSON Renderer allows to format array or object as JSON document.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Controller_Response_Rest_Renderer_Json implements
     Mage_Webapi_Controller_Response_Rest_RendererInterface

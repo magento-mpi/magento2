@@ -2,7 +2,10 @@
 /**
  * Annotations fixture for Vendor_ModuleB_Model_Webapi_ModuleBData class
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 return array(
     'stringParam' => array(

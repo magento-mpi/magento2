@@ -2,7 +2,10 @@
 /**
  * Factory of REST renderers.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Controller_Response_Rest_Renderer_Factory
 {

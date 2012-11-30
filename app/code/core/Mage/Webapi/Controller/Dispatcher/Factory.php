@@ -2,7 +2,10 @@
 /**
  * Factory of web API dispatchers.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Controller_Dispatcher_Factory
 {

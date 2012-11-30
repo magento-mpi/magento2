@@ -2,7 +2,10 @@
 /**
  * Soap API Request Test.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestCase
 {

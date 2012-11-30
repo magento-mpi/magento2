@@ -4,7 +4,10 @@
  *
  * The main responsibility of this class is to identify requested API type and instantiate correct dispatcher for it.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterface
 {

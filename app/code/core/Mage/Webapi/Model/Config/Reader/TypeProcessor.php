@@ -4,7 +4,10 @@ use Zend\Code\Reflection\ClassReflection;
 /**
  * Type processor of config reader properties
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Model_Config_Reader_TypeProcessor
 {

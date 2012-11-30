@@ -3,7 +3,10 @@
 /**
  * Representation of Webapi module in System Configuration (Magento admin panel).
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 -->
 <config>

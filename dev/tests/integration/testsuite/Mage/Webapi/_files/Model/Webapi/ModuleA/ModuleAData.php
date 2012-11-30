@@ -2,7 +2,10 @@
 /**
  * Test data structure fixture
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class NamespaceA_ModuleA_Model_Webapi_ModuleAData
 {

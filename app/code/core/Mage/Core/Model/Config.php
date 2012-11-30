@@ -2,7 +2,10 @@
 /**
  * Core configuration class
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 {

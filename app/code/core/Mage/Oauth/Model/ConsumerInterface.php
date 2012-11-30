@@ -2,7 +2,10 @@
 /**
  * oAuth consumer interface.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 interface Mage_Oauth_Model_ConsumerInterface
 {

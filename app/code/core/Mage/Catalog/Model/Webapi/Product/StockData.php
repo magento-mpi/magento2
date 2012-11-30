@@ -2,7 +2,10 @@
 /**
  * Data structure description for product stock data
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Catalog_Model_Webapi_Product_StockData
 {

@@ -4,7 +4,10 @@
  * TODO: Remove dependency on Zend SOAP Server and methods overrides. Create Magento_Soap_Server instead.
  * TODO: Remove dependence on application config, probably move it to dispatcher.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Model_Soap_Server extends \Zend\Soap\Server
 {

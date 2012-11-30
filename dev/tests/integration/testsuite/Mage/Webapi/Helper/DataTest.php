@@ -2,7 +2,10 @@
 /**
  * File contains tests for Auto Discovery functionality.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 /**#@+

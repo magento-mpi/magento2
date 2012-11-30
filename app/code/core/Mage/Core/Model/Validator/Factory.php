@@ -2,7 +2,10 @@
 /**
  * Magento validator config factory
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Core_Model_Validator_Factory
 {

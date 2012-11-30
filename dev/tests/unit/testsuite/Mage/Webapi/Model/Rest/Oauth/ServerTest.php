@@ -2,7 +2,10 @@
 /**
  * Two-legged oAuth server test.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Model_Rest_Oauth_ServerTest extends PHPUnit_Framework_TestCase
 {

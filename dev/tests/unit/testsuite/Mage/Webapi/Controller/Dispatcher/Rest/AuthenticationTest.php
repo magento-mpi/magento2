@@ -2,7 +2,10 @@
 /**
  * REST web API authentication test.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Controller_Dispatcher_Rest_AuthenticationTest extends PHPUnit_Framework_TestCase
 {

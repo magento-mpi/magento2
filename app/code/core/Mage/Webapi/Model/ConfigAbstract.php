@@ -7,7 +7,10 @@ use Zend\Server\Reflection\ReflectionMethod;
  * This class is responsible for collecting web API configuration using reflection
  * as well as for implementing interface to provide access to collected configuration.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 abstract class Mage_Webapi_Model_ConfigAbstract
 {

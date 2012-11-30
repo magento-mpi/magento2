@@ -4,7 +4,10 @@ use Zend\Server\Reflection\ReflectionMethod;
 /**
  * Webapi config helper.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
 {

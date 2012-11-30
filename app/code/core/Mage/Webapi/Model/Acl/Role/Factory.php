@@ -2,7 +2,10 @@
 /**
  * ACL Role factory.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Model_Acl_Role_Factory
 {

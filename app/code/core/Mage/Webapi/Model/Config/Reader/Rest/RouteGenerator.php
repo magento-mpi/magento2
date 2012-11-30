@@ -4,7 +4,10 @@ use Zend\Server\Reflection\ReflectionMethod;
 /**
  * REST routes generator.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Model_Config_Reader_Rest_RouteGenerator
 {

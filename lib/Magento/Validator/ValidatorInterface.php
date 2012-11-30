@@ -2,7 +2,10 @@
 /**
  * Validator interface
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 interface Magento_Validator_ValidatorInterface extends Zend_Validate_Interface
 {

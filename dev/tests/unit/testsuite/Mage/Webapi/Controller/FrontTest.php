@@ -2,7 +2,10 @@
 /**
  * Test Webapi Front Controller.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
 {

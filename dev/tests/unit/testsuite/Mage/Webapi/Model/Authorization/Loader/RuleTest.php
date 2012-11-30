@@ -2,7 +2,10 @@
 /**
  * Test class for Mage_Webapi_Model_Authorization_Loader_Rule
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Model_Authorization_Loader_RuleTest extends PHPUnit_Framework_TestCase
 {

@@ -3,7 +3,10 @@
 /**
  * Configuration of ACL for Webapi module.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 -->
 <config>

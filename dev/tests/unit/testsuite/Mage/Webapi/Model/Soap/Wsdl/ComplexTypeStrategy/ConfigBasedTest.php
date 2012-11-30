@@ -4,7 +4,10 @@ use Zend\Soap\Wsdl;
 /**
  * Complex type strategy tests.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBasedTest extends PHPUnit_Framework_TestCase
 {

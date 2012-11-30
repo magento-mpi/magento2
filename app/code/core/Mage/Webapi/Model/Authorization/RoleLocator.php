@@ -2,7 +2,10 @@
 /**
  * API ACL RoleLocator
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Model_Authorization_RoleLocator implements Magento_Authorization_RoleLocator
 {

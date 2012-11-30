@@ -4,7 +4,10 @@ use Zend\Soap\Wsdl;
 /**
  * SOAP AutoDiscover tests.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
 {

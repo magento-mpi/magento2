@@ -2,7 +2,10 @@
 /**
  * Customer REST API controller
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Customer_Controller_Webapi_Customer extends Mage_Webapi_Controller_ActionAbstract
 {

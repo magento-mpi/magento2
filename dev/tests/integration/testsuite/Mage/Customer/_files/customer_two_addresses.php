@@ -2,7 +2,10 @@
 /**
  * Customer address fixture with entity_id = 2, this fixture also creates address with entity_id = 1
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 require 'customer_address.php';

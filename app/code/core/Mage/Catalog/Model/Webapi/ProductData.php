@@ -2,7 +2,10 @@
 /**
  * Data structure description for product entity
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Catalog_Model_Webapi_ProductData
 {

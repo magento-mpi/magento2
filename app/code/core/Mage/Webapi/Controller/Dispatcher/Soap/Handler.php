@@ -4,7 +4,10 @@
  *
  * The main responsibility is to instantiate proper action controller (resource) and execute requested method on it.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Controller_Dispatcher_Soap_Handler
 {

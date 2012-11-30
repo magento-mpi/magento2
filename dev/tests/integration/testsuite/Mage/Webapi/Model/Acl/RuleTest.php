@@ -2,7 +2,10 @@
 /**
  * Test for Mage_Webapi_Model_Acl_Rule model
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  * @magentoDataFixture Mage/Webapi/_files/role.php
  */
 class Mage_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase

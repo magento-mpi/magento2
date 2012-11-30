@@ -2,7 +2,10 @@
 /**
  * Unit test for abstract service layer Mage_Core_Service_ServiceAbstract
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Core_Service_ServiceAbstractTest extends PHPUnit_Framework_TestCase
 {

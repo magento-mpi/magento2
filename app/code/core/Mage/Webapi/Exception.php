@@ -2,7 +2,10 @@
 /**
  * Webapi module exception. Should be used in web API resources implementation.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Exception extends RuntimeException
 {

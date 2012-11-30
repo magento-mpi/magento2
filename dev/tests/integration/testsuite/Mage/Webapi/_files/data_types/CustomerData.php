@@ -2,7 +2,10 @@
 /**
  * Tests fixture for Auto Discovery functionality. Customer entity.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Vendor_Module_Model_Webapi_CustomerData
 {

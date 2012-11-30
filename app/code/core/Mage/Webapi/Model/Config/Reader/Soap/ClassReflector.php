@@ -2,7 +2,10 @@
 /**
  * SOAP API specific class reflector.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Model_Config_Reader_Soap_ClassReflector
     extends Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract

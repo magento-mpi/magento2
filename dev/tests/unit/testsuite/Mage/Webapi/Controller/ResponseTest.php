@@ -2,7 +2,10 @@
 /**
  * Test for Webapi Response model.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Controller_ResponseTest extends PHPUnit_Framework_TestCase
 {

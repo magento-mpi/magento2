@@ -2,7 +2,10 @@
 /**
  * Abstract route for Magento web API.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 abstract class Mage_Webapi_Controller_Router_RouteAbstract extends Zend_Controller_Router_Route
 {

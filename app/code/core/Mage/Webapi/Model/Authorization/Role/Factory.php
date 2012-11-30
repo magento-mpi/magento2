@@ -2,7 +2,10 @@
 /**
  * Factory for Mage_Webapi_Model_Authorization_Role
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Model_Authorization_Role_Factory
 {

@@ -3,7 +3,10 @@
  * Fixture of processed complex type class.
  * Complex type class is at /_files/controllers/Webapi/ModuleA/SubresourceData.php
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 return array(
     'documentation' => 'Test data structure fixture',

@@ -4,7 +4,10 @@ use Zend\Soap\Wsdl;
 /**
  * SOAP AutoDiscover integration tests.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 /**#@+
