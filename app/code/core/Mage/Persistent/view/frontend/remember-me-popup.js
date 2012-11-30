@@ -35,7 +35,7 @@
             this._renderPopupBlock();
             $('body').append(this.windowOverlay.hide());
             $('body').append(this.popupBlock.hide());
-            this.element.find('a').on('click', $.proxy(function() {this._showPopUp();}, this));
+            this.element.find('a').on('click', $.proxy(this._showPopUp, this));
         },
 
         /**
@@ -63,11 +63,10 @@
                 this.popupBlock = $(this.options.popupBlock);
             } else {
                 $.template('popupBlockTemplate', this.options.popupBlockTemplate);
-                this.popupBlock = $.tmpl('popupBlockTemplate', {title: this.options.title, content: this.options.content});
+                this.popupBlock = $.tmpl('popupBlockTemplate',
+                    {title: this.options.title, content: this.options.content});
             }
-            this.popupBlock.find(this.options.closeBtn).on('click', $.proxy(function() {
-                this._hidePopUp();
-            }, this));
+            this.popupBlock.find(this.options.closeBtn).on('click', $.proxy(this._hidePopUp, this));
         },
 
         /**
