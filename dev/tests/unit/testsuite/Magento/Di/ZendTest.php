@@ -10,9 +10,9 @@
  */
 
 /**
- * Test case for Magento_Di
+ * Test case for Magento_Di_Zend
  */
-class Magento_DiTest extends PHPUnit_Framework_TestCase
+class Magento_Di_ZendTest extends PHPUnit_Framework_TestCase
 {
     /**#@+
      * Parent classes for test classes
@@ -37,7 +37,7 @@ class Magento_DiTest extends PHPUnit_Framework_TestCase
     /**
      * Model under test
      *
-     * @var Magento_Di
+     * @var Magento_Di_Zend
      */
     protected $_model;
 
@@ -244,7 +244,7 @@ class Magento_DiTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(false));
 
         $instanceManager = $this->getMock(
-            'Zend\Di\InstanceManager',
+            'Magento_Di_InstanceManager_Zend',
             array('hasSharedInstance', 'getSharedInstance', 'addSharedInstanceWithParameters', 'addSharedInstance')
         );
         $instanceManager->expects($this->any())
@@ -275,7 +275,7 @@ class Magento_DiTest extends PHPUnit_Framework_TestCase
                 ->method('addSharedInstance');
         }
 
-        $this->_model = new Magento_Di($definitions, $instanceManager);
+        $this->_model = new Magento_Di_Zend($definitions, $instanceManager);
     }
 
     /**
@@ -379,7 +379,7 @@ class Magento_DiTest extends PHPUnit_Framework_TestCase
                 ->will($this->returnValue($invalidInstantiator));
         }
 
-        $instanceManager = $this->getMock('Zend\Di\InstanceManager', array('hasAlias', 'getClassFromAlias'));
+        $instanceManager = $this->getMock('Magento_Di_InstanceManager_Zend', array('hasAlias', 'getClassFromAlias'));
         $instanceManager->expects($this->once())
             ->method('hasAlias')
             ->will($this->returnValue($noDefinition));
@@ -389,7 +389,7 @@ class Magento_DiTest extends PHPUnit_Framework_TestCase
                 ->will($this->returnValue(self::TEST_CLASS_MODEL . '_Other'));
         }
 
-        $this->_model = new Magento_Di($definitions, $instanceManager);
+        $this->_model = new Magento_Di_Zend($definitions, $instanceManager);
     }
 
     /**
@@ -494,7 +494,7 @@ class Magento_DiTest extends PHPUnit_Framework_TestCase
         }
 
         $instanceManager = $this->getMock(
-            'Zend\Di\InstanceManager', array('hasAlias', 'addSharedInstanceWithParameters', 'addSharedInstance')
+            'Magento_Di_InstanceManager_Zend', array('hasAlias', 'addSharedInstanceWithParameters', 'addSharedInstance')
         );
         $instanceManager->expects($this->any())
             ->method('hasAlias')
@@ -521,7 +521,7 @@ class Magento_DiTest extends PHPUnit_Framework_TestCase
                 ->method('addSharedInstance');
         }
 
-        $this->_model = new Magento_Di($definitions, $instanceManager);
+        $this->_model = new Magento_Di_Zend($definitions, $instanceManager);
     }
 
     /**
@@ -600,7 +600,7 @@ class Magento_DiTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($constructParameters));
 
         $instanceManager = $this->getMock(
-            'Zend\Di\InstanceManager', array('hasAlias', 'getClassFromAlias', 'hasSharedInstance', 'getSharedInstance')
+            'Magento_Di_InstanceManager_Zend', array('hasAlias', 'getClassFromAlias', 'hasSharedInstance', 'getSharedInstance')
         );
         $instanceManager->expects($this->any())
             ->method('hasAlias')
@@ -615,6 +615,6 @@ class Magento_DiTest extends PHPUnit_Framework_TestCase
             ->method('getSharedInstance')
             ->will($this->returnCallback(array($this, 'callbackGetSharedInstance')));
 
-        $this->_model = new Magento_Di($definitions, $instanceManager);
+        $this->_model = new Magento_Di_Zend($definitions, $instanceManager);
     }
 }

@@ -63,7 +63,6 @@ class Mage_Checkout_OnepageControllerTest extends Magento_Test_TestCase_Controll
 
     public function testReviewAction()
     {
-        $this->markTestIncomplete('Must be fixed in the scope of MAGETWO-5543');
         $this->dispatch('checkout/onepage/review');
         $this->assertContains('Place Order', $this->getResponse()->getBody());
         $this->assertContains('checkout-review', $this->getResponse()->getBody());
@@ -74,7 +73,6 @@ class Mage_Checkout_OnepageControllerTest extends Magento_Test_TestCase_Controll
      */
     public function testReviewActionLocalization()
     {
-        $this->markTestIncomplete('Must be fixed in the scope of MAGETWO-5543');
         $this->dispatch('checkout/onepage/review');
         $this->assertNotContains('Place Order', $this->getResponse()->getBody());
         $this->assertContains('Bestellung aufgeben', $this->getResponse()->getBody());

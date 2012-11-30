@@ -39,4 +39,27 @@ interface Magento_ObjectManager
      * @return mixed
      */
     public function loadAreaConfiguration($areaCode = null);
+
+    /**
+     * Add shared instance
+     *
+     * @param object $instance
+     * @param string $classOrAlias
+     */
+    public function addSharedInstance($instance, $classOrAlias);
+
+    /**
+     * Remove shared instance
+     *
+     * @param string $classOrAlias
+     */
+    public function removeSharedInstance($classOrAlias);
+
+    /**
+     * Check whether instance manager has shared instance of given class (alias)
+     *
+     * @param string $classOrAlias
+     * @return bool
+     */
+    public function hasSharedInstance($classOrAlias);
 }

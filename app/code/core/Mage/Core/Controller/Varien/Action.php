@@ -251,7 +251,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
      */
     public function getLayout()
     {
-        return $this->_layoutFactory->createFromArray(array('area' => $this->_currentArea));
+        return $this->_layoutFactory->createLayout(array('area' => $this->_currentArea));
     }
 
     /**

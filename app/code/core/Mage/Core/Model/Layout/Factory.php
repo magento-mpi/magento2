@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Model_Layout_Factory implements Magento_ObjectManager_Factory
+class Mage_Core_Model_Layout_Factory
 {
     const CLASS_NAME = 'Mage_Core_Model_Layout';
 
@@ -27,10 +27,28 @@ class Mage_Core_Model_Layout_Factory implements Magento_ObjectManager_Factory
 
     /**
      * @param array $arguments
+     * @param string $className
      * @return Mage_Core_Model_Layout
      */
-    public function createFromArray(array $arguments = array())
+    public function createLayout(array $arguments = array(), $className = self::CLASS_NAME)
     {
-        return $this->_objectManager->get(static::CLASS_NAME, $arguments);
+        $createLayout = true;
+        if (isset($arguments['area'])) {
+            if ($this->_objectManager->hasSharedInstance(self::CLASS_NAME)) {
+                /** @var $layout Mage_Core_Model_Layout */
+                $layout = $this->_objectManager->get(self::CLASS_NAME);
+                if ($arguments['area'] != $layout->getArea()) {
+                    $this->_objectManager->removeSharedInstance(self::CLASS_NAME);
+                } else {
+                    $createLayout = false;
+                }
+            }
+        }
+        if ($createLayout) {
+            $layout = $this->_objectManager->create($className, $arguments, false);
+            $this->_objectManager->addSharedInstance($layout, self::CLASS_NAME);
+        }
+
+        return $this->_objectManager->get(self::CLASS_NAME);
     }
 }

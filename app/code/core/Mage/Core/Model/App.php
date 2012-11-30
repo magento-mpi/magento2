@@ -98,13 +98,6 @@ class Mage_Core_Model_App
     protected $_design;
 
     /**
-     * Application layout object
-     *
-     * @var Mage_Core_Model_Layout
-     */
-    protected $_layout;
-
-    /**
      * Application configuration object
      *
      * @var Mage_Core_Model_Config
@@ -1070,14 +1063,7 @@ class Mage_Core_Model_App
      */
     public function getLayout()
     {
-        if (!$this->_layout) {
-            if ($this->getFrontController()->getAction()) {
-                $this->_layout = $this->getFrontController()->getAction()->getLayout();
-            } else {
-                $this->_layout = Mage::getSingleton('Mage_Core_Model_Layout');
-            }
-        }
-        return $this->_layout;
+        return $this->_objectManager->get('Mage_Core_Model_Layout');
     }
 
     /**
