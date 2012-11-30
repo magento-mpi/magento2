@@ -22,7 +22,7 @@ class Mage_Selenium_TestConfiguration
      * Configuration object instance
      * @var Mage_Selenium_TestConfiguration|null
      */
-    private static $instance = null;
+    private static $_instance = null;
 
     /**
      * Initial options
@@ -108,29 +108,29 @@ class Mage_Selenium_TestConfiguration
      */
     public static function getInstance($options = null)
     {
-        if (is_null(static::$instance)) {
-            static::$instance = new static();
+        if (is_null(static::$_instance)) {
+            static::$_instance = new static();
             if (is_array($options)) {
-                static::$instance->setInitialOptions($options);
+                static::$_instance->setInitialOptions($options);
             }
-            static::$instance->init();
+            static::$_instance->init();
         } else {
             if (!is_null($options)) {
                 throw new RuntimeException('Cannot redeclare initial options on existed instance.');
             }
         }
-        return static::$instance;
+        return static::$_instance;
     }
 
     /**
      * Set instance
      *
      * @static
-     * @param Mage_Selenium_TestConfiguration|null $instance
+     * @param Mage_Selenium_TestConfiguration|null $_instance
      */
-    public static function setInstance(Mage_Selenium_TestConfiguration $instance = null)
+    public static function setInstance(Mage_Selenium_TestConfiguration $_instance = null)
     {
-        static::$instance = $instance;
+        static::$_instance = $_instance;
     }
 
     /**
@@ -213,6 +213,7 @@ class Mage_Selenium_TestConfiguration
         return $this;
     }
 
+    //@codingStandardsIgnoreStart
     /**
      * Get $helperName helper instance
      *
@@ -221,6 +222,7 @@ class Mage_Selenium_TestConfiguration
      * @return Mage_Selenium_Helper_Uimap|Mage_Selenium_Helper_Params|Mage_Selenium_Helper_File|Mage_Selenium_Helper_DataGenerator|Mage_Selenium_Helper_Data|Mage_Selenium_Helper_Config|Mage_Selenium_Helper_Cache
      * @throws OutOfRangeException
      */
+    //@codingStandardsIgnoreEnd
     public function getHelper($helperName)
     {
         $class = 'Mage_Selenium_Helper_' . ucfirst($helperName);
