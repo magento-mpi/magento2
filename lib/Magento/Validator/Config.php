@@ -44,8 +44,7 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
             $builderClass = $this->_defaultBuilderClass;
         }
 
-        $autoLoader = Magento_Autoload::getInstance();
-        if (!$autoLoader->classExists($builderClass)) {
+        if (!class_exists($builderClass)) {
             throw new InvalidArgumentException(sprintf('Builder class "%s" was not found', $builderClass));
         }
 
