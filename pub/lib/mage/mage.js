@@ -14,16 +14,7 @@
      * Main namespace for Magento extansions
      * @type {Object}
      */
-    $.mage = {
-        /**
-         * Convert passed argument into an array
-         * @param {(undefined|Object|Array)} a
-         * @return {Array}
-         */
-        toArray: function(a) {
-            return $.isArray(a) ? a : !a ? [] : [a];
-        }
-    };
+    $.mage = {};
 })(jQuery);
 
 /**
@@ -38,8 +29,8 @@
      * @return {Object}
      */
     $.fn.mage = function() {
-        var args = Array.prototype.slice.call(arguments),
-            name = args.shift();
+        var name = arguments[0],
+            args = Array.prototype.slice.call(arguments, 1);
         return this.each(function(){
             var inits = $(this).data('mage-init') || {};
             if (name) {
@@ -77,12 +68,12 @@
         /*jshint validthis: true */
         var init = {
             name: name,
-            args: $.mage.toArray(args),
+            args: $.makeArray(args),
             resources: (_resources[name] || []).slice()
         };
         // Through event-listener 3-rd party developer can modify options and list of resources
         $($.mage).trigger($.Event(name + 'init', {target: this}), init);
-        // Buid an initialization handler
+        // Build an initialization handler
         var handler = $.proxy(function() {
             this[init.name].apply(this, init.args);
         }, $(this));
@@ -115,7 +106,7 @@
         extend: function(component, from, resources) {
             resources = $.merge(
                 (_resources[from] || []).slice(),
-                this.toArray(resources)
+                $.makeArray(resources)
             );
             this.component(component, resources);
             return this;
@@ -133,7 +124,7 @@
             if ($.isPlainObject(component)) {
                 $.extend(_resources, component);
             } else if (typeof component === 'string' && arguments[1]) {
-                _resources[component] = this.toArray(arguments[1]);
+                _resources[component] = $.makeArray(arguments[1]);
             }
             return this;
         },
@@ -154,7 +145,7 @@
             }
             $(this).bind(component + 'init', function(e, init) {
                 if (!selector || $(e.target).is(selector)) {
-                    handler.apply(init, init.args || this.toArray(init.options));
+                    handler.apply(init, init.args || $.makeArray(init.options));
                 }
             });
             return this;
