@@ -130,7 +130,8 @@ class Mage_Webapi_Controller_Response_RestTest extends PHPUnit_Framework_TestCas
         ob_start();
         $this->_responseRest->sendResponse();
         /** Get output buffer and stop output buffering. */
-        $actualResponse = ob_get_flush();
+        $actualResponse = ob_get_contents();
+        ob_end_clean();
         $this->assertEquals($expectedResult, $actualResponse, $assertMessage);
     }
 
@@ -165,7 +166,8 @@ class Mage_Webapi_Controller_Response_RestTest extends PHPUnit_Framework_TestCas
         ob_start();
         $this->_responseRest->sendResponse();
         /** Get output buffer and stop output buffering. */
-        $actualResponse = ob_get_flush();
+        $actualResponse = ob_get_contents();
+        ob_end_clean();
         $this->assertStringStartsWith($expectedResult, $actualResponse, $assertMessage);
     }
 
