@@ -33,9 +33,10 @@ class Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolver
      *
      * @param Mage_Core_Model_Config $config
      * @param string $sectionName
+     * @param int $currentState current state of the tile
      * @return int result state
      */
-    public function handleSystemConfigChange(Mage_Core_Model_Config $config, $sectionName)
+    public function handleSystemConfigChange(Mage_Core_Model_Config $config, $sectionName, $currentState)
     {
 
     }
