@@ -36,10 +36,15 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api extends Enterprise_Pbr
 
     public function validateToken($orderId)
     {
+        Magento_Profiler::start('pbridge_validate_token', array(
+            'group' => 'pbridge',
+            'operation' => 'pbridge:validate_token'
+        ));
         $this->_call(array(
             'client_identifier' => $orderId,
             'payment_action' => 'validate_token'
         ));
+        Magento_Profiler::stop('pbridge_validate_token');
         return $this;
     }
 
@@ -51,8 +56,13 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api extends Enterprise_Pbr
      */
     public function doAuthorize($request)
     {
+        Magento_Profiler::start('pbridge_place', array(
+            'group' => 'pbridge',
+            'operation' => 'pbridge:place'
+        ));
         $request->setData('payment_action', 'place');
         $this->_call($request->getData());
+        Magento_Profiler::stop('pbridge_place');
         return $this;
     }
 
@@ -64,8 +74,13 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api extends Enterprise_Pbr
      */
     public function doCapture($request)
     {
+        Magento_Profiler::start('pbridge_capture', array(
+            'group' => 'pbridge',
+            'operation' => 'pbridge:capture'
+        ));
         $request->setData('payment_action', 'capture');
         $this->_call($request->getData());
+        Magento_Profiler::stop('pbridge_capture');
         return $this;
     }
 
@@ -77,8 +92,13 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api extends Enterprise_Pbr
      */
     public function doRefund($request)
     {
+        Magento_Profiler::start('pbridge_refund', array(
+            'group' => 'pbridge',
+            'operation' => 'pbridge:refund'
+        ));
         $request->setData('payment_action', 'refund');
         $this->_call($request->getData());
+        Magento_Profiler::stop('pbridge_refund');
         return $this;
     }
 
@@ -90,8 +110,13 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api extends Enterprise_Pbr
      */
     public function doVoid($request)
     {
+        Magento_Profiler::start('pbridge_void', array(
+            'group' => 'pbridge',
+            'operation' => 'pbridge:void'
+        ));
         $request->setData('payment_action', 'void');
         $this->_call($request->getData());
+        Magento_Profiler::stop('pbridge_void');
         return $this;
     }
 }
