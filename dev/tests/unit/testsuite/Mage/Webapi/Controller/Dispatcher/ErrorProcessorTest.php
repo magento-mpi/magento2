@@ -58,7 +58,8 @@ class Mage_Webapi_Controller_Dispatcher_ErrorProcessorTest extends PHPUnit_Frame
         ob_start();
         $this->_errorProcessor->render('Message');
         /** Get output buffer. */
-        $actualResult = ob_get_flush();
+        $actualResult = ob_get_contents();
+        ob_end_clean();
         $expectedResult = '{"messages":{"error":[{"code":500,"message":"Message"}]}}';
         $this->assertEquals($expectedResult, $actualResult, 'Wrong rendering in Json.');
     }
@@ -90,7 +91,8 @@ class Mage_Webapi_Controller_Dispatcher_ErrorProcessorTest extends PHPUnit_Frame
         );
         ob_start();
         $this->_errorProcessor->render('Message', 'Message trace.', 401);
-        $actualResult = ob_get_flush();
+        $actualResult = ob_get_contents();
+        ob_end_clean();
         $expectedResult = '{"messages":{"error":[{"code":401,"message":"Message","trace":"Message trace."}]}}';
         $this->assertEquals($expectedResult, $actualResult, 'Wrong rendering in Json.');
     }
@@ -105,7 +107,8 @@ class Mage_Webapi_Controller_Dispatcher_ErrorProcessorTest extends PHPUnit_Frame
         ob_start();
         $this->_errorProcessor->render('Message');
         /** Get output buffer. */
-        $actualResult = ob_get_flush();
+        $actualResult = ob_get_contents();
+        ob_end_clean();
         $expectedResult = '<?xml version="1.0"?><error><messages><error><data_item><code>500</code>'
             . '<message>Message</message></data_item></error></messages></error>';
         $this->assertEquals($expectedResult, $actualResult, 'Wrong rendering in XML.');
@@ -123,7 +126,8 @@ class Mage_Webapi_Controller_Dispatcher_ErrorProcessorTest extends PHPUnit_Frame
         ob_start();
         $this->_errorProcessor->render('Message', 'Trace message.', 401);
         /** Get output buffer. */
-        $actualResult = ob_get_flush();
+        $actualResult = ob_get_contents();
+        ob_end_clean();
         $expectedResult = '<?xml version="1.0"?><error><messages><error><data_item><code>401</code><message>'
             . 'Message</message><trace><![CDATA[Trace message.]]></trace></data_item></error></messages></error>';
         $this->assertEquals($expectedResult, $actualResult, 'Wrong rendering in XML with turned on developer mode.');
