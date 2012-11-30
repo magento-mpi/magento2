@@ -177,25 +177,25 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
         Magento_Profiler::start('dispatch');
 
         $request->setPathInfo()->setDispatched(false);
-        $this->applyRewrites();
+        $this->applyRewrites($request);
 
         Magento_Profiler::stop('dispatch');
 
         Magento_Profiler::start('routers_match');
         $routingCycleCounter = 0;
-        while (!$request->isDispatched() && $routingCycleCounter++<100) {
+        while (!$request->isDispatched() && $routingCycleCounter++ < 100) {
+            /** @var $router Mage_Core_Controller_Varien_Router_Abstract */
             foreach ($this->_routers as $router) {
                 /** @var $controllerInstance Mage_Core_Controller_Varien_Action */
                 $controllerInstance = $router->match($this->getRequest());
                 if ($controllerInstance) {
-
                     $controllerInstance->dispatch($request->getActionName());
                     break;
                 }
             }
         }
         Magento_Profiler::stop('routers_match');
-        if ($routingCycleCounter>100) {
+        if ($routingCycleCounter > 100) {
             Mage::throwException('Front controller reached 100 router match iterations');
         }
         // This event gives possibility to launch something before sending output (allow cookie setting)
@@ -209,21 +209,23 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
 
     /**
      * Apply rewrites to current request
+     *
+     * @param Mage_Core_Controller_Request_Http $request
      */
-    public function applyRewrites()
+    public function applyRewrites(Mage_Core_Controller_Request_Http $request)
     {
         // URL rewrite
-        if (!$this->getRequest()->isStraight()) {
+        if (!$request->isStraight()) {
             Magento_Profiler::start('db_url_rewrite');
             /** @var $urlRewrite Mage_Core_Model_Url_Rewrite */
             $urlRewrite = $this->_objectManager->create('Mage_Core_Model_Url_Rewrite');
-            $urlRewrite->rewrite();
+            $urlRewrite->rewrite($request);
             Magento_Profiler::stop('db_url_rewrite');
         }
 
         // config rewrite
         Magento_Profiler::start('config_url_rewrite');
-        $this->rewrite();
+        $this->rewrite($request);
         Magento_Profiler::stop('config_url_rewrite');
     }
 
@@ -275,10 +277,15 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
 
     /**
      * Apply configuration rewrites to current url
+     *
+     * @param Mage_Core_Controller_Request_Http $request
      */
-    public function rewrite()
+    public function rewrite(Mage_Core_Controller_Request_Http $request = null)
     {
-        $request = $this->getRequest();
+        if (!$request) {
+            $request = $this->getRequest();
+        }
+
         $config = Mage::getConfig()->getNode('global/rewrite');
         if (!$config) {
             return;
