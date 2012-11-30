@@ -88,7 +88,7 @@ class Webapi_Sales_Order_Comment_AdminTest extends Magento_Test_Webservice_Rest_
 
         $response = $this->callGet("orders/{$order->getId()}/comments");
 
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $response->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $response->getStatus());
         $this->assertCount(self::HISTORY_COUNT + 1, $response->getBody());
     }
 
@@ -109,7 +109,7 @@ class Webapi_Sales_Order_Comment_AdminTest extends Magento_Test_Webservice_Rest_
 
         $response = $this->callGet("orders/{$order->getId()}/comments");
 
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $response->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $response->getStatus());
         $this->assertCount((self::HISTORY_COUNT * 2) + 1, $response->getBody());
     }
 

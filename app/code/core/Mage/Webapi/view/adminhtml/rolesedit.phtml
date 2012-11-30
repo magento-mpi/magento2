@@ -1,33 +1,32 @@
 <?php
 /**
- * {license_notice}
+ * Template of web API roles edit page in Magento admin panel.
  *
- * @category    design
- * @package     default_default
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {}
+ *
+ * @var Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource $this
  */
 ?>
 <div class="entry-edit">
     <div class="entry-edit-head">
         <h4 class="icon-head head-edit-form fieldset-legend"><?php
-            echo Mage::helper('Mage_Webapi_Helper_Data')->__('Roles Resources') ?></h4>
+            echo $this->__('Roles Resources') ?></h4>
     </div>
     <input type="hidden" name="resource" id="role_resources" value="">
-    <fieldset id="role_resources">
+    <fieldset>
 
         <span class="field-row">
-            <label for="all"><?php echo Mage::helper('Mage_Webapi_Helper_Data')->__('Resource Access') ?></label>
+            <label for="all"><?php echo $this->__('Resource Access') ?></label>
             <select id="all" name="all" onchange="$('resources_container').toggle()" class="select">
                 <option value="0" <?php echo $this->isEverythingAllowed() ? '' : 'selected="selected"'; ?>><?php
-                    echo Mage::helper('Mage_Webapi_Helper_Data')->__('Custom') ?></option>
+                    echo $this->__('Custom') ?></option>
                 <option value="1" <?php echo $this->isEverythingAllowed() ? 'selected="selected"' : ''; ?>><?php
-                    echo Mage::helper('Mage_Webapi_Helper_Data')->__('All') ?></option>
+                    echo $this->__('All') ?></option>
             </select>
         </span>
 
         <span class="field-row" id="resources_container">
-            <label><?php echo Mage::helper('Mage_Webapi_Helper_Data')->__('Resources') ?></label>
+            <label><?php echo $this->__('Resources') ?></label>
             <div class="f-left">
                 <div class="tree x-tree" id="resource-tree"></div>
             </div>
@@ -63,7 +62,8 @@ Ext.EventManager.onDocumentReady(function() {
     });
 
     tree.setRootNode(root);
-    buildResourcesTree(root, <?php echo $this->getResourceTreeJson() ?>);
+    buildResourcesTree(root, <?php echo $this->helper('Mage_Core_Helper_Data')
+        ->jsonEncode($this->getResourcesTree()) ?>);
     tree.addListener('click', resourceClick.createDelegate(this));
 
     // render the tree

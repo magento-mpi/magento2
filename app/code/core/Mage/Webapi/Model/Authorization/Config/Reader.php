@@ -1,24 +1,13 @@
 <?php
 /**
- * {license_notice}
+ * API ACL Config Reader model.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
- * Api Acl Config Reader model
- *
- * @category    Mage
- * @package     Mage_Webapi
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @copyright {}
  */
 class Mage_Webapi_Model_Authorization_Config_Reader extends Magento_Acl_Config_Reader
 {
     /**
-     * Get absolute path to the XML-schema file
+     * Get absolute path to the XML-schema file.
      *
      * @return string
      */
@@ -28,7 +17,7 @@ class Mage_Webapi_Model_Authorization_Config_Reader extends Magento_Acl_Config_R
     }
 
     /**
-     * Get XML-contents, initial for merging
+     * Get XML-contents, initial for merging.
      *
      * @return string
      */

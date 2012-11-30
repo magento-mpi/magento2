@@ -48,7 +48,7 @@ class Webapi_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Adm
         /* @var $fixtureCustomer Mage_Customer_Model_Customer */
         $fixtureCustomer = $this->getFixture('customer');
         $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         list($addressId) = array_reverse(explode('/', $restResponse->getHeader('Location')));
         /* @var $createdCustomerAddress Mage_Customer_Model_Address */
@@ -311,7 +311,7 @@ class Webapi_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Adm
         $dataForCreate['firstname'] = 'testFirstname<b>Test</b>';
 
         $restResponse = $this->callPost('customers/' . $fixtureCustomer->getId() . '/addresses', $dataForCreate);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         list($addressId) = array_reverse(explode('/', $restResponse->getHeader('Location')));
         /* @var $createdCustomerAddress Mage_Customer_Model_Address */
@@ -336,7 +336,7 @@ class Webapi_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Adm
             ->getAddressesCollection()
             ->getFirstItem();
         $restResponse = $this->callGet('customers/addresses/' . $fixtureCustomerAddress->getId());
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
@@ -362,7 +362,7 @@ class Webapi_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Adm
         $fixtureCustomer = $this->getFixture('customer');
 
         $restResponse = $this->callGet('customers/' . $fixtureCustomer->getId() . '/addresses');
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
@@ -393,7 +393,7 @@ class Webapi_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Adm
             ->getAddressesCollection()
             ->getFirstItem();
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         /* @var $updatedCustomerAddress Mage_Customer_Model_Address */
         $updatedCustomerAddress = Mage::getModel('Mage_Customer_Model_Address')
@@ -434,7 +434,7 @@ class Webapi_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Adm
             ->getAddressesCollection()
             ->getFirstItem();
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         /* @var $updatedCustomerAddress Mage_Customer_Model_Address */
         $updatedCustomerAddress = Mage::getModel('Mage_Customer_Model_Address')
@@ -476,7 +476,7 @@ class Webapi_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Adm
         $dataForUpdate['country_id'] = 'US'; // for US region is required
         $dataForUpdate['region'] = 'New York';
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
     }
 
     /**
@@ -497,7 +497,7 @@ class Webapi_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Adm
         unset($dataForUpdate['country_id']); // for US (default country for fixture) region is required
         $dataForUpdate['region'] = 'New York';
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
     }
 
     /**
@@ -518,7 +518,7 @@ class Webapi_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Adm
         $dataForUpdate['country_id'] = 'UA'; // for UA region is not required
         $dataForUpdate['region'] = 'New York';
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
     }
 
     /**
@@ -541,7 +541,7 @@ class Webapi_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Adm
         unset($dataForUpdate['country_id']); // for UA (current country for fixture) region is NOT required
         $dataForUpdate['region'] = 'New York';
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
     }
 
     /**
@@ -563,7 +563,7 @@ class Webapi_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Adm
         $dataForUpdate['country_id'] = 'UA'; // for UA region is not required
         unset($dataForUpdate['region']);
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
     }
 
     /**
@@ -870,7 +870,7 @@ class Webapi_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Adm
         $dataForUpdate['firstname'] = 'testFirstname<b>Test</b>';
 
         $restResponse = $this->callPut('customers/addresses/' . $fixtureCustomerAddress->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         /* @var $updatedCustomerAddress Mage_Customer_Model_Address */
         $updatedCustomerAddress = Mage::getModel('Mage_Customer_Model_Address')
@@ -894,7 +894,7 @@ class Webapi_Customer_Address_AdminTest extends Magento_Test_Webservice_Rest_Adm
             ->getAddressesCollection()
             ->getFirstItem();
         $restResponse = $this->callDelete('customers/addresses/' . $fixtureCustomerAddress->getId());
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         /* @var $customerAddress Mage_Customer_Model_Address */
         $customerAddress = Mage::getModel('Mage_Customer_Model_Address')->load($fixtureCustomerAddress->getId());

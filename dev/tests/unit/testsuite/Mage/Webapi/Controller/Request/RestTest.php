@@ -1,16 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Mage_Webapi
- * @subpackage  unit_tests
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Test Webapi Request model
+ *
+ * @copyright {}
  */
 class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
 {
@@ -19,18 +11,37 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
      *
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_requestMock;
+    protected $_request;
 
+    /** @var PHPUnit_Framework_MockObject_MockObject */
+    protected $_interpreterFactory;
 
     protected function setUp()
     {
         parent::setUp();
-
-        $helper = $this->getMock('Mage_Webapi_Helper_Data', array('__'));
+        /** Prepare mocks for request constructor arguments. */
+        $this->_interpreterFactory = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest_Interpreter_Factory')
+            ->setMethods(array('interpret', 'get'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $helper = $this->getMockBuilder('Mage_Webapi_Helper_Data')
+            ->disableOriginalConstructor()
+            ->setMethods(array('__'))
+            ->getMock();
         $helper->expects($this->any())->method('__')->will($this->returnArgument(0));
-        $requestMock = $this->getMock('Mage_Webapi_Controller_Request_Rest', array('getHeader', 'getMethod', 'isGet',
-            'isPost', 'isPut', 'isDelete'), array(null, $helper));
-        $this->_requestMock = $requestMock;
+        /** Instantiate request. */
+        // TODO: Get rid of SUT mocks.
+        $this->_request = $this->getMock(
+            'Mage_Webapi_Controller_Request_Rest',
+            array('getHeader', 'getMethod', 'isGet', 'isPost', 'isPut', 'isDelete', 'getRawBody'),
+            array($this->_interpreterFactory, $helper)
+        );
+    }
+
+    protected function tearDown()
+    {
+        unset($this->_request);
+        parent::tearDown();
     }
 
     /**
@@ -42,41 +53,58 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
      */
     public function testGetAcceptTypes($acceptHeader, $expectedResult)
     {
-        $this->_requestMock
+        $this->_request
             ->expects($this->once())
             ->method('getHeader')
             ->with('Accept')
             ->will($this->returnValue($acceptHeader));
         /** @var Mage_Webapi_Controller_Request_Rest _requestMock */
-        $this->assertSame($expectedResult, $this->_requestMock->getAcceptTypes());
+        $this->assertSame($expectedResult, $this->_request->getAcceptTypes());
     }
 
     /**
-     * Test for getBodyParams() method
+     * Test for getBodyParams() method.
      */
     public function testGetBodyParams()
     {
-        $this->markTestIncomplete('Bug MAGETWO-692');
-        $rawBody = 'a=123&b=145';
-        $interpreterMock = $this->getMock('Mage_Webapi_Model_Request_Interpreter_Interface', array('interpret'));
-        $requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest')
-            ->setMethods(array('_getInterpreter','getRawBody'))
-            ->disableOriginalConstructor()
-            ->getMock();
+        $params = array('a' => 123, 'b' => 145);
+        $this->prepareSutForGetBodyParamsTest($params);
+        $this->assertEquals(
+            $params,
+            $this->_request->getBodyParams(),
+            'Body parameters were retrieved incorrectly.'
+        );
+    }
 
-        $requestMock->expects($this->once())
+    /**
+     * Prepare SUT for GetBodyParams() method mock.
+     *
+     * @param array $params
+     */
+    protected function prepareSutForGetBodyParamsTest($params)
+    {
+        $rawBody = 'rawBody';
+        $this->_request->expects($this->once())
             ->method('getRawBody')
             ->will($this->returnValue($rawBody));
-
-        $requestMock->expects($this->once())
-            ->method('_getInterpreter')
-            ->will($this->returnValue($interpreterMock));
-
-        $interpreterMock->expects($this->once())
+        $contentType = 'contentType';
+        $this->_request
+            ->expects($this->once())
+            ->method('getHeader')
+            ->with('Content-Type')
+            ->will($this->returnValue($contentType));
+        $interpreter = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest_Interpreter_Json')
+            ->disableOriginalConstructor()
+            ->setMethods(array('interpret'))
+            ->getMock();
+        $interpreter->expects($this->once())
             ->method('interpret')
-            ->with($rawBody);
-
-        $requestMock->getBodyParams();
+            ->with($rawBody)
+            ->will($this->returnValue($params));
+        $this->_interpreterFactory->expects($this->once())
+            ->method('get')
+            ->with($contentType)
+            ->will($this->returnValue($interpreter));
     }
 
     /**
@@ -89,18 +117,20 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
      */
     public function testGetContentType($contentTypeHeader, $contentType, $exceptionMessage = false)
     {
-        $this->_requestMock
+        $this->_request
             ->expects($this->once())
             ->method('getHeader')
             ->with('Content-Type')
             ->will($this->returnValue($contentTypeHeader));
 
         try {
-            $this->assertEquals($contentType, $this->_requestMock->getContentType());
+            $this->assertEquals($contentType, $this->_request->getContentType());
         } catch (Mage_Webapi_Exception $e) {
             if ($exceptionMessage) {
                 $this->assertEquals(
-                    $exceptionMessage, $e->getMessage(), 'Exception message does not match expected one'
+                    $exceptionMessage,
+                    $e->getMessage(),
+                    'Exception message does not match expected one'
                 );
                 return;
             } else {
@@ -116,7 +146,6 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
      * Test for getOperation() method
      *
      * @dataProvider providerRequestMethod
-     *
      * @param string $requestMethod Request method
      * @param string $crudOperation CRUD operation name
      * @param string|boolean $exceptionMessage Exception message (boolean FALSE if exception is not expected)
@@ -134,23 +163,25 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
         }
 
         if ($expectedMethod) {
-            $this->_requestMock
+            $this->_request
                 ->expects($this->once())
                 ->method($expectedMethod)
                 ->will($this->returnValue(true));
         }
 
-        $this->_requestMock
+        $this->_request
             ->expects($this->any())
             ->method('getMethod')
             ->will($this->returnValue($requestMethod));
 
         try {
-            $this->assertEquals($crudOperation, $this->_requestMock->getHttpMethod());
+            $this->assertEquals($crudOperation, $this->_request->getHttpMethod());
         } catch (Mage_Webapi_Exception $e) {
             if ($exceptionMessage) {
                 $this->assertEquals(
-                    $exceptionMessage, $e->getMessage(), 'Exception message does not match expected one'
+                    $exceptionMessage,
+                    $e->getMessage(),
+                    'Exception message does not match expected one'
                 );
                 return;
             } else {
@@ -168,38 +199,10 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
      */
     public function testGetResourceType()
     {
-        $this->assertNull($this->_requestMock->getResourceType());
+        $this->assertNull($this->_request->getResourceType());
         $resource = 'test_resource';
-        $this->_requestMock->setResourceType($resource);
-        $this->assertEquals($resource, $this->_requestMock->getResourceType());
-    }
-
-    /**
-     * Test for isAssocArrayInRequestBody() method
-     */
-    public function testIsAssocArrayInRequestBody()
-    {
-        $rawBodyIsAssocArray = array('key' => 'field');
-        $requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest')
-            ->setMethods(array('getBodyParams'))
-            ->disableOriginalConstructor()
-            ->getMock();
-        $requestMock->expects($this->once())
-            ->method('getBodyParams')
-            ->will($this->returnValue($rawBodyIsAssocArray));
-        /** @var Mage_Webapi_Controller_Request_Rest $requestMock */
-        $this->assertTrue($requestMock->isAssocArrayInRequestBody());
-
-        $requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest')
-            ->setMethods(array('getBodyParams'))
-            ->disableOriginalConstructor()
-            ->getMock();
-        $rawBodyIsNotAssocArray = array(0 => array('key' => 'field'));
-        $requestMock->expects($this->once())
-            ->method('getBodyParams')
-            ->will($this->returnValue($rawBodyIsNotAssocArray));
-
-        $this->assertFalse($requestMock->isAssocArrayInRequestBody());
+        $this->_request->setResourceType($resource);
+        $this->assertEquals($resource, $this->_request->getResourceType());
     }
 
     /**
@@ -224,8 +227,16 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
                 'text/html, application/xml;q=0.9, application/xhtml+xml, image/png, image/webp,'
                     . ' image/jpeg, image/gif, image/x-xbitmap, */*;q=0.1',
                 array(
-                    'text/html', 'application/xhtml+xml', 'image/png', 'image/webp', 'image/jpeg',
-                    'image/gif', 'image/x-xbitmap','application/xml',  '*/*')
+                    'text/html',
+                    'application/xhtml+xml',
+                    'image/png',
+                    'image/webp',
+                    'image/jpeg',
+                    'image/gif',
+                    'image/x-xbitmap',
+                    'application/xml',
+                    '*/*'
+                )
             )
         );
     }
@@ -261,10 +272,191 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
         return array(
             // Each element is: array(Request method, CRUD operation name[, expected exception message])
             array('INVALID_METHOD', null, 'Invalid request method'),
-            array('GET', Mage_Webapi_Controller_Front_Rest::HTTP_METHOD_GET),
-            array('POST', Mage_Webapi_Controller_Front_Rest::HTTP_METHOD_CREATE),
-            array('PUT', Mage_Webapi_Controller_Front_Rest::HTTP_METHOD_UPDATE),
-            array('DELETE', Mage_Webapi_Controller_Front_Rest::HTTP_METHOD_DELETE)
+            array('GET', Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_GET),
+            array('POST', Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_CREATE),
+            array('PUT', Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_UPDATE),
+            array('DELETE', Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_DELETE)
         );
+    }
+
+    /**
+     * @dataProvider dataProviderTestGetActionTypeByMethod
+     * @param string $methodName
+     * @param string $expectedActionType
+     */
+    public function testGetActionTypeByMethod($methodName, $expectedActionType)
+    {
+        $this->assertEquals(
+            $expectedActionType,
+            Mage_Webapi_Controller_Request_Rest::getActionTypeByOperation($methodName),
+            "Action type was identified incorrectly by method name."
+        );
+    }
+
+    public static function dataProviderTestGetActionTypeByMethod()
+    {
+        return array(
+            array(
+                Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE,
+                Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_COLLECTION
+            ),
+            array(
+                Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE,
+                Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_ITEM
+            ),
+        );
+    }
+
+    public function testGetActionTypeException()
+    {
+        $methodName = 'invalidMethodV1';
+        $this->setExpectedException(
+            'InvalidArgumentException',
+            sprintf('The "%s" method is not a valid resource method.', $methodName)
+        );
+        Mage_Webapi_Controller_Request_Rest::getActionTypeByOperation($methodName);
+    }
+
+    public function testGetResourceVersion()
+    {
+        $this->_request->setParam('resourceVersion', 'v1');
+        $this->assertEquals(1, $this->_request->getResourceVersion(), 'Version number was missed.');
+    }
+
+    public function testGetResourceVersionVersionIsNotSpecifiedException()
+    {
+        $this->setExpectedException(
+            'Mage_Webapi_Exception',
+            'Resource version is not specified or invalid one is specified',
+            Mage_Webapi_Exception::HTTP_BAD_REQUEST
+        );
+        $this->_request->getResourceVersion();
+    }
+
+    public function testGetResourceName()
+    {
+        $resourceName = 'resourceName';
+        $this->_request->setResourceName($resourceName);
+        $this->assertEquals($resourceName, $this->_request->getResourceName());
+    }
+
+    public function testGetOperationNameMethodNotExistException()
+    {
+        /** Prepare mocks for SUT constructor. */
+        $this->setExpectedException(
+            'Mage_Webapi_Exception',
+            'Requested method does not exist.',
+            Mage_Webapi_Exception::HTTP_NOT_FOUND
+        );
+        $this->_request->expects($this->once())->method('isPost')->will($this->returnValue(true));
+        $this->_request->expects($this->once())->method('getMethod')->will($this->returnValue('POST'));
+        $this->_request->setResourceType(Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_ITEM);
+        /** Initialize SUT. */
+        $this->_request->getOperationName();
+    }
+
+    /**
+     * @dataProvider getOperationNameProvider
+     */
+    public function testGetOperationName($resourceType, $httpMethod, $operationName)
+    {
+        /** Prepare mocks for SUT constructor. */
+        $this->_request->setResourceType($resourceType);
+        $this->_request->expects($this->once())->method('isPost')->will($this->returnValue(true));
+        $this->_request->expects($this->once())->method('getMethod')->will($this->returnValue($httpMethod));
+        $this->_request->setResourceName('resourceName');
+
+        /** Initialize SUT. */
+        $this->assertEquals(
+            $operationName,
+            $this->_request->getOperationName(),
+            'Method getOperationName() retrieved invalid resource name. Check $restMethodMap variable.'
+        );
+    }
+
+    /**
+     * Success getOperationName() method data provider
+     *
+     * @return array
+     */
+    public function getOperationNameProvider()
+    {
+        return array(
+            'GET request with action type: item.' => array(
+                Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_ITEM,
+                'GET',
+                'resourceNameGet',
+            ),
+            'PUT request with action type: item.' => array(
+                Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_ITEM,
+                'PUT',
+                'resourceNameUpdate',
+            ),
+            'DELETE request with action type: item.' => array(
+                Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_ITEM,
+                'DELETE',
+                'resourceNameDelete',
+            ),
+            'GET request with action type: collection.' => array(
+                Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_COLLECTION,
+                'GET',
+                'resourceNameList',
+            ),
+            'PUT request with action type: collection.' => array(
+                Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_COLLECTION,
+                'PUT',
+                'resourceNameMultiUpdate',
+            ),
+            'DELETE request with action type: collection.' => array(
+                Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_COLLECTION,
+                'DELETE',
+                'resourceNameMultiDelete',
+            ),
+        );
+    }
+
+    public function testGetOperationNameWithCreateMethod()
+    {
+        /** Prepare mocks for SUT constructor. */
+        $this->prepareSutForGetOperationNameWithCreateMethod();
+        $this->prepareSutForGetBodyParamsTest(array('key_1' => 'value', 'key_2' => 'value'));
+
+        /** Initialize SUT. */
+        $this->assertEquals(
+            'resourceNameCreate',
+            $this->_request->getOperationName(),
+            'Invalid resource name for create method.'
+        );
+    }
+
+    public function testGetOperationNameWithMultiCreateMethod()
+    {
+        /** Prepare mocks for SUT constructor. */
+        $this->prepareSutForGetOperationNameWithCreateMethod();
+        $params = array(
+            array('key_1' => 'value 1'),
+            array('key_2' => 'value 2'),
+        );
+        $this->prepareSutForGetBodyParamsTest($params);
+
+        /** Initialize SUT. */
+        $this->assertEquals(
+            'resourceNameMultiCreate',
+            $this->_request->getOperationName(),
+            'Invalid resource name for multi create method.'
+        );
+    }
+
+    /**
+     * Prepare SUT for GetOperationName() with create action.
+     */
+    protected function prepareSutForGetOperationNameWithCreateMethod()
+    {
+        $this->_request->setResourceType(Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_COLLECTION);
+        $this->_request->expects($this->once())->method('isPost')->will($this->returnValue(true));
+        $this->_request->expects($this->once())
+            ->method('getMethod')
+            ->will($this->returnValue('POST'));
+        $this->_request->setResourceName('resourceName');
     }
 }

@@ -1,15 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Magento_Validator
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Abstract validator class.
+ *
+ * @copyright {}
  */
 abstract class Magento_Validator_ValidatorAbstract implements Magento_Validator_ValidatorInterface
 {

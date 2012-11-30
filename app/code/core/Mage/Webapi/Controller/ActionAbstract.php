@@ -1,15 +1,8 @@
 <?php
 /**
- * {license_notice}
+ * Generic action controller for all resources available via web API.
  *
- * @category    Mage
- * @package     Mage_Backend
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
- * Generic API action controller.
+ * @copyright {}
  */
 abstract class Mage_Webapi_Controller_ActionAbstract
 {
@@ -24,15 +17,16 @@ abstract class Mage_Webapi_Controller_ActionAbstract
      * Allowed API resource methods.
      */
     const METHOD_CREATE = 'create';
-    const METHOD_RETRIEVE = 'get';
+    const METHOD_GET = 'get';
     const METHOD_LIST = 'list';
     const METHOD_UPDATE = 'update';
     const METHOD_DELETE = 'delete';
     const METHOD_MULTI_UPDATE = 'multiUpdate';
     const METHOD_MULTI_DELETE = 'multiDelete';
+    const METHOD_MULTI_CREATE = 'multiCreate';
     /**#@-*/
 
-    /** @var Mage_Webapi_Controller_RequestAbstract */
+    /** @var Mage_Webapi_Controller_Request */
     protected $_request;
 
     /** @var Mage_Webapi_Controller_Response */
@@ -41,25 +35,31 @@ abstract class Mage_Webapi_Controller_ActionAbstract
     /** @var Mage_Webapi_Helper_Data */
     protected $_translationHelper;
 
+    /** @var Mage_Core_Model_Factory_Helper */
+    protected $_helperFactory;
+
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Webapi_Controller_RequestAbstract $request
-     * @param Mage_Webapi_Controller_Response $response
-     * @param Mage_Core_Helper_Abstract $translationHelper
+     * @param Mage_Webapi_Controller_Request_Factory $requestFactory
+     * @param Mage_Webapi_Controller_Response_Factory $responseFactory
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
      */
-    public function __construct(Mage_Webapi_Controller_RequestAbstract $request,
-        Mage_Webapi_Controller_Response $response, Mage_Core_Helper_Abstract $translationHelper = null
+    public function __construct(
+        Mage_Webapi_Controller_Request_Factory $requestFactory,
+        Mage_Webapi_Controller_Response_Factory $responseFactory,
+        Mage_Core_Model_Factory_Helper $helperFactory
     ) {
-        $this->_translationHelper = $translationHelper ? $translationHelper : Mage::helper('Mage_Webapi_Helper_Data');
-        $this->_request = $request;
-        $this->_response = $response;
+        $this->_helperFactory = $helperFactory;
+        $this->_translationHelper = $this->_helperFactory->get('Mage_Webapi_Helper_Data');
+        $this->_request = $requestFactory->get();
+        $this->_response = $responseFactory->get();
     }
 
     /**
      * Retrieve request.
      *
-     * @return Mage_Webapi_Controller_RequestAbstract
+     * @return Mage_Webapi_Controller_Request
      */
     public function getRequest()
     {
@@ -83,7 +83,7 @@ abstract class Mage_Webapi_Controller_ActionAbstract
      * @return Varien_Data_Collection_Db
      * @throws Mage_Webapi_Exception
      */
-    // TODO: Check and finish this method
+    // TODO: Check and finish this method (the implementation was migrated from Magento 1)
     final protected function _applyCollectionModifiers(Varien_Data_Collection_Db $collection)
     {
         $pageNumber = $this->getRequest()->getPageNumber();
@@ -121,7 +121,7 @@ abstract class Mage_Webapi_Controller_ActionAbstract
     }
 
     /**
-     * Check if specified action is defined in current controller
+     * Check if specified action is defined in current controller.
      *
      * @param string $actionName
      * @return bool
@@ -129,5 +129,24 @@ abstract class Mage_Webapi_Controller_ActionAbstract
     public function hasAction($actionName)
     {
         return method_exists($this, $actionName);
+    }
+
+    /**
+     * Retrieve list of allowed method names in action controllers.
+     *
+     * @return array
+     */
+    public static function getAllowedMethods()
+    {
+        return array(
+            self::METHOD_CREATE,
+            self::METHOD_GET,
+            self::METHOD_LIST,
+            self::METHOD_UPDATE,
+            self::METHOD_MULTI_UPDATE,
+            self::METHOD_DELETE,
+            self::METHOD_MULTI_DELETE,
+            self::METHOD_MULTI_CREATE,
+        );
     }
 }

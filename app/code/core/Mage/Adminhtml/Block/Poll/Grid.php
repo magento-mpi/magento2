@@ -18,9 +18,9 @@
 class Mage_Adminhtml_Block_Poll_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
 
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('pollGrid');
         $this->setDefaultSort('poll_title');
         $this->setDefaultDir('ASC');
@@ -68,7 +68,7 @@ class Mage_Adminhtml_Block_Poll_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'width'     => '120px',
             'type'      => 'datetime',
             'index'     => 'date_posted',
-        	'format'	=> Mage::app()->getLocale()->getDateFormat()
+            'date_format' => Mage::app()->getLocale()->getDateFormat()
         ));
 
         $this->addColumn('date_closed', array(
@@ -78,7 +78,7 @@ class Mage_Adminhtml_Block_Poll_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'type'      => 'datetime',
             'default'   => '--',
             'index'     => 'date_closed',
-        	'format'	=> Mage::app()->getLocale()->getDateFormat()
+            'date_format' => Mage::app()->getLocale()->getDateFormat()
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {

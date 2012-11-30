@@ -1,51 +1,51 @@
 <?php
 /**
- * {license_notice}
+ * Web API role edit page.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
- * Web API role edit page
+ * @copyright {}
  *
- * @method Mage_Webapi_Block_Adminhtml_Role_Edit setApiRole(Mage_Webapi_Model_Acl_Role $role)
- * @method Mage_Webapi_Model_Acl_Role getApiRole()
- *
- * @category   Mage
- * @package    Mage_Webapi
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_Webapi_Block_Adminhtml_Role_Edit setApiRole() setApiRole(Mage_Webapi_Model_Acl_Role $role)
+ * @method Mage_Webapi_Model_Acl_Role getApiRole() getApiRole()
  */
 class Mage_Webapi_Block_Adminhtml_Role_Edit extends Mage_Backend_Block_Widget_Form_Container
 {
     /**
-     * Initialize form container
+     * @var string
      */
-    public function __construct()
-    {
-        $this->_blockGroup = 'Mage_Webapi';
-        $this->_objectId = 'role_id';
-        $this->_controller = 'adminhtml_role';
+    protected $_blockGroup = 'Mage_Webapi';
 
-        parent::__construct();
+    /**
+     * @var string
+     */
+    protected $_controller = 'adminhtml_role';
+
+    /**
+     * @var string
+     */
+    protected $_objectId = 'role_id';
+
+    /**
+     * Internal Constructor.
+     */
+    protected function _construct()
+    {
+        parent::_construct();
 
         $this->_formScripts[] = "function saveAndContinueEdit(url)" .
             "{var tagForm = new varienForm('edit_form'); tagForm.submit(url);}";
 
         $this->_addButton('save_and_continue', array(
-            'label' => Mage::helper('Mage_Webapi_Helper_Data')->__('Save and Continue Edit'),
+            'label' => $this->__('Save and Continue Edit'),
             'onclick' => "saveAndContinueEdit('" . $this->getSaveAndContinueUrl() . "')",
             'class' => 'save'
         ), 100);
 
-        $this->_updateButton('save', 'label', Mage::helper('Mage_Webapi_Helper_Data')->__('Save API Role'));
-        $this->_updateButton('delete', 'label', Mage::helper('Mage_Webapi_Helper_Data')->__('Delete API Role'));
+        $this->_updateButton('save', 'label', $this->__('Save API Role'));
+        $this->_updateButton('delete', 'label', $this->__('Delete API Role'));
     }
 
     /**
-     * Retrieve role SaveAndContinue URL
+     * Retrieve role SaveAndContinue URL.
      *
      * @return string
      */
@@ -55,17 +55,16 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit extends Mage_Backend_Block_Widget_Fo
     }
 
     /**
-     * Get header text
+     * Get header text.
      *
      * @return string
      */
     public function getHeaderText()
     {
         if ($this->getApiRole()->getId()) {
-            return Mage::helper('Mage_Webapi_Helper_Data')
-                ->__("Edit API Role '%s'", $this->escapeHtml($this->getApiRole()->getRoleName()));
+            return $this->__("Edit API Role '%s'", $this->escapeHtml($this->getApiRole()->getRoleName()));
         } else {
-            return Mage::helper('Mage_Webapi_Helper_Data')->__('New API Role');
+            return $this->__('New API Role');
         }
     }
 }

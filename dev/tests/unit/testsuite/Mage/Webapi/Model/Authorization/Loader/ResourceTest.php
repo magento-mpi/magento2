@@ -1,16 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Mage_Webapi
- * @subpackage  unit_tests
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Test class for Mage_Webapi_Model_Authorization_Loader_Resource
+ *
+ * @copyright {}
  */
 class Mage_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Framework_TestCase
 {
@@ -20,100 +12,96 @@ class Mage_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Framew
     protected $_model;
 
     /**
+     * @var Magento_Acl
+     */
+    protected $_acl;
+
+    /**
+     * @var Magento_Test_Helper_ObjectManager
+     */
+    protected $_helper;
+
+    /**
+     * @var Mage_Webapi_Model_Authorization_Config
+     */
+    protected $_config;
+
+    /**
      * Set up before test
      */
     protected function setUp()
     {
-        /** @var $objectFactory Mage_Core_Model_Config */
-        $objectFactory = $this->getMock('Mage_Core_Model_Config',
-            array('getModelInstance'), array(), '', false);
-        $getModel = function()
-        {
-            return new Magento_Acl_Resource(func_get_arg(1));
-        };
-        $objectFactory->expects($this->any())
-            ->method('getModelInstance')
-            ->will($this->returnCallback($getModel));
-        /** @var $config Mage_Webapi_Model_Authorization_Config */
-        $config = $this->getMock('Mage_Webapi_Model_Authorization_Config',
+        $this->_helper = new Magento_Test_Helper_ObjectManager($this);
+
+        $resource = new Magento_Acl_Resource('test resource');
+
+        /** @var $resourceFactory Magento_Acl_ResourceFactory */
+        $resourceFactory = $this->getMock('Magento_Acl_ResourceFactory',
+            array('createResource'), array(), '', false);
+        $resourceFactory->expects($this->any())
+            ->method('createResource')
+            ->will($this->returnValue($resource));
+
+        $this->_config = $this->getMock('Mage_Webapi_Model_Authorization_Config',
             array('getAclResources', 'getAclVirtualResources'), array(), '', false);
-        $config->expects($this->once())
+        $this->_config->expects($this->once())
             ->method('getAclResources')
             ->will($this->returnValue($this->getResourceXPath()->query('/config/acl/resources/*')));
-        $config->expects($this->once())
-            ->method('getAclVirtualResources')
-            ->will($this->returnValue($this->getResourceXPath()->query('/config/mapping/*')));
-        $this->_model = new Mage_Webapi_Model_Authorization_Loader_Resource(array(
-            'objectFactory' => $objectFactory,
-            'config' => $config,
-        ));
-    }
 
+        $this->_model = $this->_helper->getModel('Mage_Webapi_Model_Authorization_Loader_Resource', array(
+            'resourceFactory' => $resourceFactory,
+            'configuration' => $this->_config,
+        ));
+
+        $this->_acl = $this->getMock('Magento_Acl', array('has', 'addResource', 'deny', 'getResources'), array(), '',
+            false);
+    }
 
     /**
      * Test for Mage_Webapi_Model_Authorization_Loader_Resource::populateAcl
-     *
-     * @param bool $parent
-     * @param bool $resource
-     * @param bool $allowedParent
-     * @param bool $allowedResource
-     * @param bool $allowedVirtual
-     *
-     * @dataProvider populateAclDataProvider
      */
-    public function testPopulateAcl($parent, $resource, $allowedParent, $allowedResource, $allowedVirtual)
+    public function testPopulateAcl()
     {
-        $parentName = 'customer';
-        $resourceName = 'customer/get';
-        $virtualName = 'customer/list';
-        $acl = new Magento_Acl();
-        $this->_model->populateAcl($acl);
-        $acl->allow(null, 'customer');
-        if ($parent === true) {
-            $acl->allow(null, $parentName);
-        } elseif ($parent === false) {
-            $acl->deny(null, $parentName);
-        }
-        if ($resource === true) {
-            $acl->allow(null, $resourceName);
-        } elseif ($resource === false) {
-            $acl->deny(null, $resourceName);
-        }
-        $this->assertEquals($allowedParent, $acl->isAllowed(null, $parentName));
-        $this->assertEquals($allowedResource, $acl->isAllowed(null, $resourceName));
-        $this->assertEquals($allowedVirtual, $acl->isAllowed(null, $virtualName));
+        $this->_config->expects($this->once())
+            ->method('getAclVirtualResources')
+            ->will($this->returnValue($this->getResourceXPath()->query('/config/mapping/*')));
+
+        $this->_acl->expects($this->once())
+            ->method('getResources')
+            ->will($this->returnValue(array('customer/get', 'customer/create')));
+        $this->_acl->expects($this->exactly(2))
+            ->method('deny')
+            ->with(null, $this->logicalOr('customer/get', 'customer/create'));
+        $this->_acl->expects($this->exactly(2))
+            ->method('has')
+            ->with($this->logicalOr('customer/get', 'customer/list'))
+            ->will($this->returnValueMap(array(
+                array('customer/get', true),
+                array('customer/list', false)
+            )));
+        $this->_acl->expects($this->exactly(7))
+            ->method('addResource');
+
+        $this->_model->populateAcl($this->_acl);
     }
 
     /**
-     * Data provider for testPopulateAcl
-     *
-     * @return array
+     * Test for Mage_Webapi_Model_Authorization_Loader_Resource::populateAcl with invalid Virtual resources DOM
      */
-    public function populateAclDataProvider()
+    public function testPopulateAclWithInvalidDOM()
     {
-        return array(
-            array(
-                'parent' => true,
-                'resource' => false,
-                'allowedParent' => true,
-                'allowedResource' => false,
-                'allowedVirtual' => false
-            ),
-            array(
-                'parent' => true,
-                'resource' => null,
-                'allowedParent' => true,
-                'allowedResource' => false,
-                'allowedVirtual' => false
-            ),
-            array(
-                'parent' => false,
-                'resource' => true,
-                'allowedParent' => false,
-                'allowedResource' => true,
-                'allowedVirtual' => true
-            ),
-        );
+        $this->_config->expects($this->once())
+            ->method('getAclVirtualResources')
+            ->will($this->returnValue(array(3)));
+
+        $this->_acl->expects($this->once())
+            ->method('getResources')
+            ->will($this->returnValue(array('customer/get', 'customer/list')));
+        $this->_acl->expects($this->exactly(2))
+            ->method('deny')
+            ->with(null, $this->logicalOr('customer/get', 'customer/list'));
+
+        $this->_model->populateAcl($this->_acl);
     }
 
     /**

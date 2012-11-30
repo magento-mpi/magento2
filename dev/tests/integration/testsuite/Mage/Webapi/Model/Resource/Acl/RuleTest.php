@@ -1,33 +1,55 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Mage_Webapi
- * @subpackage  integration_tests
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Test for Mage_Webapi_Model_Resource_Acl_Rule
+ *
+ * @copyright {}
+ *
+ * @magentoDataFixture Mage/Webapi/_files/role_with_rule.php
  */
 class Mage_Webapi_Model_Resource_Acl_RuleTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @var Magento_Test_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
+     * @var Mage_Webapi_Model_Resource_Acl_Rule
+     */
+    protected $_ruleResource;
+
+    protected function setUp()
+    {
+        $this->_objectManager = Mage::getObjectManager();
+        $this->_ruleResource = $this->_objectManager->get('Mage_Webapi_Model_Resource_Acl_Rule');
+    }
+
+    protected function tearDown()
+    {
+        unset($this->_objectManager, $this->_ruleResource);
+    }
+
+    /**
      * Test for Mage_Webapi_Model_Resource_Acl_Role::getRolesIds()
-     *
-     * @magentoDataFixture Mage/Webapi/_files/role_with_rule.php
      */
     public function testGetRuleList()
     {
-        $role = Mage::getModel('Mage_Webapi_Model_Acl_Role')->load('Test role', 'role_name');
+        /** @var Mage_Webapi_Model_Acl_Role $role */
+        $role = $this->_objectManager->create('Mage_Webapi_Model_Acl_Role')->load('Test role', 'role_name');
         $allowResourceId = 'customer/get';
-        /** @var $ruleResource Mage_Webapi_Model_Resource_Acl_Rule */
-        $ruleResource = Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_Rule');
-        $rules = $ruleResource->getRuleList();
+        $rules = $this->_ruleResource->getRuleList();
         $this->assertCount(1, $rules);
         $this->assertEquals($allowResourceId, $rules[0]['resource_id']);
         $this->assertEquals($role->getId(), $rules[0]['role_id']);
+    }
+
+    /**
+     * Test for Mage_Webapi_Model_Resource_Acl_Role::getResourceIdsByRole()
+     */
+    public function testGetResourceIdsByRole()
+    {
+        /** @var Mage_Webapi_Model_Acl_Role $role */
+        $role = $this->_objectManager->create('Mage_Webapi_Model_Acl_Role')->load('Test role', 'role_name');
+        $this->assertEquals(array('customer/get'), $this->_ruleResource->getResourceIdsByRole($role->getId()));
     }
 }

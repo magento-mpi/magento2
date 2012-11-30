@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Webapi module validation configuration.
+ *
+ * @copyright {}
+ */
+-->
 <validation>
     <entity name="api_user">
         <rules>
@@ -12,7 +19,7 @@
                         </constraint>
                     </property>
                     <property name="contact_email">
-                        <constraint class="Magento_Validator_EmailAddress" />
+                        <constraint class="Magento_Validator_EmailAddress"/>
                         <constraint class="Magento_Validator_StringLength">
                             <argument>
                                 <option name="min">1</option>

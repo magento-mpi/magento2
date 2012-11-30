@@ -1,20 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Mage
- * @package     Mage_Core
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-
-/**
  * Core configuration class
  *
- * @category    Mage
- * @package     Mage_Core
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @copyright {}
  */
 class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 {
@@ -194,26 +182,28 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     protected $_currentAreaCode = null;
 
     /**
-     * Validator config files
+     * Object manager
      *
-     * @var array
+     * @var Magento_ObjectManager
      */
-    protected $_validatorConfigFiles = null;
+    protected $_objectManager;
 
     /**
      * Class construct
      *
+     * @param Magento_ObjectManager $objectManager
      * @param mixed $sourceData
      */
-    public function __construct($sourceData=null)
+    public function __construct(Magento_ObjectManager $objectManager, $sourceData=null)
     {
+        $this->_objectManager = $objectManager;
         $this->setCacheId('config_global');
         $options = $sourceData;
         if (!is_array($options)) {
             $options = array($options);
         }
-        $this->_options = new Mage_Core_Model_Config_Options($options);
-        $this->_prototype = new Mage_Core_Model_Config_Base();
+        $this->_options = $this->_objectManager->create('Mage_Core_Model_Config_Options', array('data' => $options));
+        $this->_prototype = $this->_objectManager->create('Mage_Core_Model_Config_Base');
         $this->_cacheChecksum = null;
         parent::__construct($sourceData);
     }
@@ -369,7 +359,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $this->_loadDeclaredModules();
 
         Magento_Profiler::start('load_modules_configuration');
-        $this->loadModulesConfiguration(array('config.xml'), $this);
+        $resourceConfig = sprintf('config.%s.xml', $this->getResourceConnectionModel('core'));
+        $this->loadModulesConfiguration(array('config.xml',$resourceConfig), $this);
         Magento_Profiler::stop('load_modules_configuration');
 
         /**
@@ -985,38 +976,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         }
         return $result;
     }
-
-    /**
-     * Collect API resource configuration files for specified modules.
-     *
-     * @param array $modules Requested modules. Format is as follows:<pre>
-     *      array(
-     *         'Mage_Customer' => 'v1',
-     *         'Catalog_Product' => 'v2',
-     *         ...
-     *      )</pre>
-     *      where key is Magento module name and value is requested version.
-     * @return array of paths to configuration files
-     * @throws RuntimeException if specified module or module version not available
-     */
-    public function getModulesApiConfigurationFiles(array $modules)
-    {
-        $files = array();
-        $helper = Mage::helper('Mage_Core_Helper_Data');
-        foreach ($modules as $module => $version) {
-            $moduleConfig = $this->getModuleConfig($module);
-            if (!$moduleConfig || !$moduleConfig->is('active')) {
-                throw new RuntimeException($helper->__('Unknown module "%s".', $module));
-            }
-            $file = $this->getModuleDir('etc', $module) . DS . 'webapi' . DS . $version . DS . 'resource.xml';
-            if (!file_exists($file)) {
-                throw new RuntimeException($helper->__('Unknown version "%s" for module "%s".', $version, $module));
-            }
-            $files[] = $file;
-        }
-        return $files;
-    }
-
     /**
      * Retrieve temporary directory path
      *
@@ -1292,27 +1251,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         return $this->getModelClassName($helperClass);
     }
 
-    /**
-     * Retrieve resource helper instance
-     *
-     * Example:
-     * $config->getResourceHelper('Mage_Core')
-     * will instantiate Mage_Cms_Model_Resource_Helper_<db_adapter_name>
-     *
-     * @param string $moduleName
-     * @return Mage_Core_Model_Resource_Helper_Abstract|false
-     */
-    public function getResourceHelper($moduleName)
-    {
-        $connectionModel = $this->_getResourceConnectionModel('core');
-
-        $helperClassName = $moduleName . '_Model_Resource_Helper_' . ucfirst($connectionModel);
-        $connection = strtolower($moduleName);
-        if (substr($moduleName, 0, 5) == 'Mage_') {
-            $connection = substr($connection, 5);
-        }
-        return $this->getModelInstance($helperClassName, $connection);
-    }
 
     /**
      * Retrieve module class name
@@ -1342,7 +1280,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $className = $this->getModelClassName($modelClass);
         if (class_exists($className)) {
             Magento_Profiler::start('FACTORY:' . $className);
-            $obj = new $className($constructArguments);
+            $obj = $this->_objectManager->create($className, $constructArguments);
             Magento_Profiler::stop('FACTORY:' . $className);
             return $obj;
         } else {
@@ -1559,7 +1497,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * @param string $moduleName
      * @return string
      */
-    protected function _getResourceConnectionModel($moduleName = null)
+    public function getResourceConnectionModel($moduleName = null)
     {
         $config = null;
         if (!is_null($moduleName)) {
@@ -1672,6 +1610,18 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         return $routers;
     }
 
+    public function isModuleEnabled($moduleName)
+    {
+        if (!$this->getNode('modules/' . $moduleName)) {
+            return false;
+        }
+
+        $isActive = $this->getNode('modules/' . $moduleName . '/active');
+        if (!$isActive || !in_array((string)$isActive, array('true', '1'))) {
+            return false;
+        }
+        return true;
+    }
 
     /**
      * Get currently used area code
@@ -1695,31 +1645,15 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     }
 
     /**
-     * Get validator config object.
+     * Cleanup circular references
      *
-     * Will instantiate Magento_Validator_Config
-     *
-     * @return Magento_Validator_Config
+     * Destructor should be called explicitly in order to work around the PHP bug
+     * https://bugs.php.net/bug.php?id=62468
      */
-    public function getValidatorConfig()
+    public function __destruct()
     {
-        if (is_null($this->_validatorConfigFiles)) {
-            $this->_validatorConfigFiles = $this->getModuleConfigurationFiles('validation.xml');
+        $this->_cacheLoadedSections = array();
 
-            $translateAdapter = Mage::app()->getTranslator();
-            $translatorCallback = function () use ($translateAdapter) {
-                /** @var Mage_Core_Model_Translate $translateAdapter */
-                $args = func_get_args();
-                $expr = new Mage_Core_Model_Translate_Expr($args[0]);
-                array_unshift($args, $expr);
-                return $translateAdapter->translate($args);
-            };
-            $translator = new Magento_Translate_Adapter(array(
-                'translator' => $translatorCallback
-            ));
-            Magento_Validator_ValidatorAbstract::setDefaultTranslator($translator);
-        }
-
-        return new Magento_Validator_Config($this->_validatorConfigFiles);
+        parent::__destruct();
     }
 }

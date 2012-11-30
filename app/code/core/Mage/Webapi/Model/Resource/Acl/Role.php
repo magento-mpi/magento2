@@ -1,24 +1,30 @@
 <?php
 /**
- * {license_notice}
+ * Web API ACL role resource.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
- * Web API ACL role resource
- *
- * @category    Mage
- * @package     Mage_Webapi
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @copyright {}
  */
 class Mage_Webapi_Model_Resource_Acl_Role extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Resource initialization
+     * @var Mage_Webapi_Helper_Data
+     */
+    protected $_helper;
+
+    /**
+     * Class constructor.
+     *
+     * @param Mage_Core_Model_Resource $resource
+     * @param Mage_Webapi_Helper_Data $helper
+     */
+    public function __construct(Mage_Core_Model_Resource $resource, Mage_Webapi_Helper_Data $helper)
+    {
+        $this->_helper = $helper;
+        parent::__construct($resource);
+    }
+
+    /**
+     * Resource initialization.
      */
     protected function _construct()
     {
@@ -26,7 +32,7 @@ class Mage_Webapi_Model_Resource_Acl_Role extends Mage_Core_Model_Resource_Db_Ab
     }
 
     /**
-     * Initialize unique fields
+     * Initialize unique fields.
      *
      * @return Mage_Webapi_Model_Resource_Acl_Role
      */
@@ -35,14 +41,14 @@ class Mage_Webapi_Model_Resource_Acl_Role extends Mage_Core_Model_Resource_Db_Ab
         $this->_uniqueFields = array(
             array(
                 'field' => 'role_name',
-                'title' => Mage::helper('Mage_Webapi_Helper_Data')->__('Role Name')
+                'title' => $this->_helper->__('Role Name')
             ),
         );
         return $this;
     }
 
     /**
-     * Get roles list for selects
+     * Get roles list for selects.
      *
      * @return array
      */
@@ -56,7 +62,7 @@ class Mage_Webapi_Model_Resource_Acl_Role extends Mage_Core_Model_Resource_Db_Ab
     }
 
     /**
-     * Get all roles ids
+     * Get all roles IDs.
      *
      * @return array
      */

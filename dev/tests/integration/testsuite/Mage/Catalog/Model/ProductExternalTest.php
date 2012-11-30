@@ -26,7 +26,7 @@ class Mage_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = new Mage_Catalog_Model_Product;
+        $this->_model = Mage::getModel('Mage_Catalog_Model_Product');
     }
 
     protected function tearDown()
@@ -82,24 +82,11 @@ class Mage_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCase
         $this->assertSame($categoryTwo, $this->_model->getCategory());
     }
 
-    public function testSetCategoryIds()
-    {
-        $this->_model->setCategoryIds('1,2,,3');
-        $this->assertEquals(array(0 => 1, 1 => 2, 3 => 3), $this->_model->getData('category_ids'));
-    }
-
-    /**
-     * @expectedException Mage_Core_Exception
-     */
-    public function testSetCategoryIdsException()
-    {
-        $this->_model->setCategoryIds(1);
-    }
-
     public function testGetCategoryIds()
     {
         // none
-        $model = new Mage_Catalog_Model_Product;
+        /** @var $model Mage_Catalog_Model_Product */
+        $model = Mage::getModel('Mage_Catalog_Model_Product');
         $this->assertEquals(array(), $model->getCategoryIds());
 
         // fixture
@@ -128,7 +115,10 @@ class Mage_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCase
     public function testGetWebsiteIds()
     {
         // set
-        $model = new Mage_Catalog_Model_Product(array('website_ids' => array(1, 2)));
+        /** @var $model Mage_Catalog_Model_Product */
+        $model = Mage::getModel('Mage_Catalog_Model_Product',
+            array('data' => array('website_ids' => array(1, 2)))
+        );
         $this->assertEquals(array(1, 2), $model->getWebsiteIds());
 
         // fixture
@@ -139,7 +129,10 @@ class Mage_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCase
     public function testGetStoreIds()
     {
         // set
-        $model = new Mage_Catalog_Model_Product(array('store_ids' => array(1, 2)));
+        /** @var $model Mage_Catalog_Model_Product */
+        $model = Mage::getModel('Mage_Catalog_Model_Product',
+            array('data' => array('store_ids' => array(1, 2)))
+        );
         $this->assertEquals(array(1, 2), $model->getStoreIds());
 
         // fixture
@@ -243,7 +236,8 @@ class Mage_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCase
         $this->_model->setUrlPath('test');
         $this->assertEquals('test', $this->_model->getUrlPath());
 
-        $category = new Mage_Catalog_Model_Category;
+        /** @var $category Mage_Catalog_Model_Category */
+        $category = Mage::getModel('Mage_Catalog_Model_Category');
         $category->setUrlPath('category');
         $this->assertEquals('category/test', $this->_model->getUrlPath($category));
     }
@@ -258,7 +252,9 @@ class Mage_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(array(), $this->_model->getOptions());
 
         $optionId = uniqid();
-        $option = new Mage_Catalog_Model_Product_Option(array('key' => 'value'));
+        $option = Mage::getModel('Mage_Catalog_Model_Product_Option',
+            array('data' => array('key' => 'value'))
+        );
         $option->setId($optionId);
         $this->_model->addOption($option);
 

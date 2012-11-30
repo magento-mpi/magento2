@@ -22,16 +22,21 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBasedTest extends PH
      */
     protected function setUp()
     {
-        $this->_resourceConfig = $this->getMockBuilder('Mage_Webapi_Model_Config_Resource')
-            ->setMethods(array('getDataType'))
+        $this->_resourceConfig = $this->getMockBuilder('Mage_Webapi_Model_Config_Soap')
+            ->setMethods(array('getTypeData'))
             ->disableOriginalConstructor()
             ->getMock();
         $this->_wsdl = $this->getMockBuilder('Mage_Webapi_Model_Soap_Wsdl')
             ->setMethods(array('toDomDocument', 'getTypes', 'getSchema'))
             ->disableOriginalConstructor()
             ->getMock();
+        $helper = $this->getMock('Mage_Webapi_Helper_Config', array('__'));
+        $helper->expects($this->any())->method('__')->will($this->returnArgument(0));
 
-        $this->_strategy = new Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased($this->_resourceConfig);
+        $this->_strategy = new Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased(
+            $this->_resourceConfig,
+            $helper
+        );
         $this->_strategy->setContext($this->_wsdl);
 
         parent::setUp();
@@ -50,7 +55,8 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBasedTest extends PH
     }
 
     /**
-     * Test that addComplexType returns type wsdl name if it has already been processed (registered at includedTypes in WSDL)
+     * Test that addComplexType returns type wsdl name
+     * if it has already been processed (registered at includedTypes in WSDL)
      */
     public function testCheckTypeName()
     {
@@ -91,7 +97,7 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBasedTest extends PH
             ->will($this->returnValue($schemaMock));
 
         $this->_resourceConfig->expects($this->at(0))
-            ->method('getDataType')
+            ->method('getTypeData')
             ->with($type)
             ->will($this->returnValue($data));
 
@@ -242,11 +248,11 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBasedTest extends PH
             ->method('getSchema')
             ->will($this->returnValue($schemaMock));
         $this->_resourceConfig->expects($this->at(0))
-            ->method('getDataType')
+            ->method('getTypeData')
             ->with($type)
             ->will($this->returnValue($typeData));
         $this->_resourceConfig->expects($this->at(1))
-            ->method('getDataType')
+            ->method('getTypeData')
             ->with($parameterType)
             ->will($this->returnValue($parameterData));
 

@@ -1,27 +1,16 @@
 <?php
 /**
- * {license_notice}
+ * Web API Role tab with main information.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
- * Web API Role tab with main information
+ * @copyright {}
  *
- * @method Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main setApiRole(Mage_Webapi_Model_Acl_Role $role)
- * @method Mage_Webapi_Model_Acl_Role getApiRole()
- *
- * @category   Mage
- * @package    Mage_Webapi
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main setApiRole() setApiRole(Mage_Webapi_Model_Acl_Role $role)
+ * @method Mage_Webapi_Model_Acl_Role getApiRole() getApiRole()
  */
 class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main extends Mage_Backend_Block_Widget_Form
 {
     /**
-     * Prepare Form
+     * Prepare Form.
      *
      * @return Mage_Backend_Block_Widget_Form
      */
@@ -30,7 +19,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main extends Mage_Backend_Block_
         $form = new Varien_Data_Form();
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend' => Mage::helper('Mage_Webapi_Helper_Data')->__('Role Information'))
+            'legend' => $this->__('Role Information'))
         );
 
         $role = $this->getApiRole();
@@ -46,8 +35,8 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main extends Mage_Backend_Block_
             'id' => 'role_name',
             'class' => 'required-entry',
             'required' => true,
-            'label' => Mage::helper('Mage_Webapi_Helper_Data')->__('Role Name'),
-            'title' => Mage::helper('Mage_Webapi_Helper_Data')->__('Role Name'),
+            'label' => $this->__('Role Name'),
+            'title' => $this->__('Role Name'),
         ));
 
         $fieldset->addField('in_role_user', 'hidden',
@@ -57,9 +46,15 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main extends Mage_Backend_Block_
             )
         );
 
-        $fieldset->addField('in_role_user_old', 'hidden', array('name' => 'in_role_user_old'));
+        $fieldset->addField('in_role_user_old', 'hidden',
+            array(
+                'name' => 'in_role_user_old'
+            )
+        );
 
-        $form->setValues($role->getData());
+        if ($role) {
+            $form->setValues($role->getData());
+        }
         $this->setForm($form);
 
         return parent::_prepareForm();

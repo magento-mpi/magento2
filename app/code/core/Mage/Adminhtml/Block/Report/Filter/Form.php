@@ -108,7 +108,7 @@ class Mage_Adminhtml_Block_Report_Filter_Form extends Mage_Adminhtml_Block_Widge
         $form->setHtmlIdPrefix($htmlIdPrefix);
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('Mage_Reports_Helper_Data')->__('Filter')));
 
-        $dateFormatIso = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+        $dateFormat = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
 
         $fieldset->addField('store_ids', 'hidden', array(
             'name'  => 'store_ids'
@@ -133,8 +133,8 @@ class Mage_Adminhtml_Block_Report_Filter_Form extends Mage_Adminhtml_Block_Widge
 
         $fieldset->addField('from', 'date', array(
             'name'      => 'from',
-            'format'    => $dateFormatIso,
-            'image'     => $this->getSkinUrl('images/grid-cal.gif'),
+            'date_format' => $dateFormat,
+            'image'     => $this->getViewFileUrl('images/grid-cal.gif'),
             'label'     => Mage::helper('Mage_Reports_Helper_Data')->__('From'),
             'title'     => Mage::helper('Mage_Reports_Helper_Data')->__('From'),
             'required'  => true
@@ -142,8 +142,8 @@ class Mage_Adminhtml_Block_Report_Filter_Form extends Mage_Adminhtml_Block_Widge
 
         $fieldset->addField('to', 'date', array(
             'name'      => 'to',
-            'format'    => $dateFormatIso,
-            'image'     => $this->getSkinUrl('images/grid-cal.gif'),
+            'date_format' => $dateFormat,
+            'image'     => $this->getViewFileUrl('images/grid-cal.gif'),
             'label'     => Mage::helper('Mage_Reports_Helper_Data')->__('To'),
             'title'     => Mage::helper('Mage_Reports_Helper_Data')->__('To'),
             'required'  => true

@@ -1,12 +1,9 @@
 <?xml version="1.0"?>
 <!--
 /**
- * {license_notice}
+ * Configuration of Webapi module menu in Magento admin panel.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {}
  */
 -->
 <config>
@@ -14,7 +11,7 @@
         <add id="Mage_Webapi::system_api" title="Web Services" module="Mage_Webapi" sortOrder="25"
              parent="Mage_Adminhtml::system" resource="Mage_Webapi::webapi"/>
         <add id="Mage_Webapi::system_api_webapi_users" title="API Users" module="Mage_Webapi" sortOrder="1"
-            parent="Mage_Webapi::system_api" action="adminhtml/webapi_user" resource="Mage_Webapi::webapi_users"/>
+             parent="Mage_Webapi::system_api" action="adminhtml/webapi_user" resource="Mage_Webapi::webapi_users"/>
         <add id="Mage_Webapi::system_api_webapi_roles" title="API Roles" module="Mage_Webapi" sortOrder="2"
              parent="Mage_Webapi::system_api" action="adminhtml/webapi_role" resource="Mage_Webapi::webapi_roles"/>
     </menu>

@@ -22,7 +22,8 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_Fra
      */
     protected function _getFormInstance($args = array())
     {
-        $layout = new Mage_Core_Model_Layout();
+        /** @var $layout Mage_Core_Model_Layout */
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
         /** @var $block Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form */
         $block = $layout->createBlock('Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form', 'block', $args);
         $block->toHtml();
@@ -135,6 +136,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_Fra
     {
         $resourceMock = $this->getMockBuilder('Mage_Cms_Model_Resource_Page')
             ->setMethods(array('lookupStoreIds'))
+            ->disableOriginalConstructor()
             ->getMock();
         $resourceMock->expects($this->any())
             ->method('lookupStoreIds')
@@ -142,6 +144,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_Fra
 
         $cmsPageMock = $this->getMockBuilder('Mage_Cms_Model_Page')
             ->setMethods(array('getResource', 'getId'))
+            ->disableOriginalConstructor()
             ->getMock();
         $cmsPageMock->expects($this->any())
             ->method('getId')

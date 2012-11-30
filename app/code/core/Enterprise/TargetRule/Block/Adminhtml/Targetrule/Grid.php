@@ -16,9 +16,9 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Grid extends Mage_Adminht
     /**
      * Constructor
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('TargetRuleGrid');
         $this->setDefaultSort('sort_order');
         $this->setDefaultDir('ASC');

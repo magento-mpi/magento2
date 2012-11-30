@@ -38,7 +38,7 @@ class Webapi_Catalog_Product_Configurable_CustomerTest extends Webapi_Catalog_Pr
                 true, true, true);
         }
         $restResponse = $this->callGet($this->_getResourcePath($configurable->getId()));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus(),
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus(),
             "Response status is invalid.");
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);

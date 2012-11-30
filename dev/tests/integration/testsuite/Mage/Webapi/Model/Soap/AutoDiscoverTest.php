@@ -12,6 +12,7 @@ use Zend\Soap\Wsdl;
  */
 include __DIR__ . '/../../_files/Model/Webapi/ModuleB/Subresource/SubresourceData.php';
 include __DIR__ . '/../../_files/Model/Webapi/ModuleB/ModuleBData.php';
+include __DIR__ . '/../../_files/Controller/AutoDiscover/ModuleB.php';
 /**#@-*/
 
 /**
@@ -19,11 +20,14 @@ include __DIR__ . '/../../_files/Model/Webapi/ModuleB/ModuleBData.php';
  */
 class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Webapi_Model_Config_Resource */
+    /** @var Mage_Webapi_Model_Config_Soap */
     protected $_config;
 
     /** @var Mage_Webapi_Model_Soap_AutoDiscover */
     protected $_autoDiscover;
+
+    /** @var Mage_Webapi_Helper_Config */
+    protected $_helper;
 
     /**
      * Name of the resource under the test.
@@ -58,42 +62,35 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $fixtureDir = __DIR__ . '/../../_files/controllers/AutoDiscover/';
+        $fixtureDir = __DIR__ . '/../../_files/Controller/AutoDiscover/';
         $directoryScanner = new \Zend\Code\Scanner\DirectoryScanner($fixtureDir);
+        /** @var Mage_Core_Model_App $app */
+        $app = $this->getMockBuilder('Mage_Core_Model_App')->disableOriginalConstructor()->getMock();
+        $objectManager = new Magento_Test_ObjectManager();
+        $this->_helper = $objectManager->get('Mage_Webapi_Helper_Config');
+        $reader = $objectManager->get('Mage_Webapi_Model_Config_Reader_Soap');
+        $reader->setDirectoryScanner($directoryScanner);
+        $this->_config = new Mage_Webapi_Model_Config_Soap($reader, $this->_helper, $app);
+        $objectManager->addSharedInstance($this->_config, 'Mage_Webapi_Model_Config_Soap');
+        $wsdlFactory = new Mage_Webapi_Model_Soap_Wsdl_Factory($objectManager);
         $cache = $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock();
-        $this->_config = new Mage_Webapi_Model_Config_Resource(array(
-            'directoryScanner' => $directoryScanner,
-            'cache' => $cache,
-        ));
-        $this->_autoDiscover = new Mage_Webapi_Model_Soap_AutoDiscover(array(
-            'resource_config' => $this->_config,
-            'endpoint_url' => 'http://magento.host/api/soap/'
-        ));
+        $this->_autoDiscover = new Mage_Webapi_Model_Soap_AutoDiscover(
+            $this->_config,
+            $wsdlFactory,
+            $this->_helper,
+            $cache
+        );
 
         $this->_resourceName = 'vendorModuleB';
         $this->_resourceData = $this->_config->getResourceDataMerged($this->_resourceName, 'v1');
-        $xml = $this->_autoDiscover->generate(array($this->_resourceName => $this->_resourceData));
+        $xml = $this->_autoDiscover->generate(array($this->_resourceName => $this->_resourceData),
+            'http://magento.host/api/soap');
         $this->_dom = new DOMDocument('1.0', 'utf-8');
         $this->_dom->loadXML($xml);
         $this->_xpath = new DOMXPath($this->_dom);
         $this->_xpath->registerNamespace(Wsdl::WSDL_NS, Wsdl::WSDL_NS_URI);
 
         parent::setUp();
-    }
-
-    /**
-     * Clean up.
-     */
-    protected function tearDown()
-    {
-        unset($this->_config);
-        unset($this->_autoDiscover);
-        unset($this->_dom);
-        unset($this->_xpath);
-        unset($this->_resourceData);
-        unset($this->_resourceName);
-
-        parent::tearDown();
     }
 
     /**
@@ -169,7 +166,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
 
         // Generated from Vendor_ModuleB_Model_Webapi_ModuleBData class.
         $dataStructureName = 'VendorModuleBData';
-        $typeData = $this->_config->getDataType($dataStructureName);
+        $typeData = $this->_config->getTypeData($dataStructureName);
         $complexTypeXpath = "//{$wsdlNs}:types/{$xsdNs}:schema/{$xsdNs}:complexType[@name='%s']";
         /** @var DOMElement $dataStructure */
         $dataStructure = $this->_xpath->query(sprintf($complexTypeXpath, $dataStructureName))->item(0);
@@ -177,7 +174,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
             $dataStructureName));
         $this->_assertDocumentation($typeData['documentation'], $dataStructure);
         // Expected appinfo tags.
-        $expectedAppinfo = include __DIR__ . '/../../_files/controllers/annotation_fixture.php';
+        $expectedAppinfo = include __DIR__ . '/../../_files/Controller/annotation_fixture.php';
 
         foreach ($typeData['parameters'] as $parameterName => $parameterData) {
             // remove all appinfo placeholders from expected doc.
@@ -207,14 +204,14 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
             $complexType)->item(0);
         $this->assertNotNull($parameterElement, sprintf('"%s" element was not found in complex type "%s".',
             $expectedName, $complexType->getAttribute('name')));
-        $isArray = $this->_config->isArrayType($expectedType);
+        $isArray = $this->_helper->isArrayType($expectedType);
         if ($isArray) {
-            $expectedType = $this->_config->translateArrayTypeName($expectedType);
+            $expectedType = $this->_helper->translateArrayTypeName($expectedType);
         } else {
             $this->assertEquals($expectedIsRequired ? 1 : 0, $parameterElement->getAttribute('minOccurs'));
             $this->assertEquals(1, $parameterElement->getAttribute('maxOccurs'));
         }
-        $expectedNs = $this->_config->isTypeSimple($expectedType) ? $xsdNs : $tns;
+        $expectedNs = $this->_helper->isTypeSimple($expectedType) ? $xsdNs : $tns;
         $this->assertEquals("{$expectedNs}:{$expectedType}", $parameterElement->getAttribute('type'));
         $this->_assertDocumentation($expectedDoc, $parameterElement);
         $this->_assertAppinfo($expectedAppinfo, $parameterElement);

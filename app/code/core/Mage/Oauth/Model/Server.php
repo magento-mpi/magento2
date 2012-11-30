@@ -79,7 +79,7 @@ class Mage_Oauth_Model_Server
     /**
      * Consumer object
      *
-     * @var Mage_Oauth_Model_Consumer
+     * @var Mage_Oauth_Model_ConsumerInterface
      */
     protected $_consumer;
 
@@ -146,7 +146,7 @@ class Mage_Oauth_Model_Server
     /**
      * Request object
      *
-     * @var Mage_Core_Controller_Request_Http
+     * @var Zend_Controller_Request_Http
      */
     protected $_request;
 
@@ -171,22 +171,34 @@ class Mage_Oauth_Model_Server
      */
     protected $_token;
 
+    /** @var Mage_Oauth_Model_Token_Factory */
+    protected $_tokenFactory;
+
+    /** @var Mage_Oauth_Model_Consumer_Factory */
+    protected $_consumerFactory;
+
+    /** @var Mage_Oauth_Model_Nonce_Factory */
+    protected $_nonceFactory;
+
     /**
      * Internal constructor not depended on params
      *
      * @param Zend_Controller_Request_Http $request OPTIONAL Request object (If not specified - use singleton)
+     * @param Mage_Oauth_Model_Token_Factory $tokenFactory
+     * @param Mage_Oauth_Model_Consumer_Factory $consumerFactory
+     * @param Mage_Oauth_Model_Nonce_Factory $nonceFactory
      * @throws Exception
      */
-    public function __construct($request = null)
-    {
-        if (is_object($request)) {
-            if (!$request instanceof Zend_Controller_Request_Http) {
-                throw new Exception('Invalid request object passed');
-            }
-            $this->_request = $request;
-        } else {
-            $this->_request = Mage::app()->getRequest();
-        }
+    public function __construct(
+        Zend_Controller_Request_Http $request,
+        Mage_Oauth_Model_Token_Factory $tokenFactory,
+        Mage_Oauth_Model_Consumer_Factory $consumerFactory,
+        Mage_Oauth_Model_Nonce_Factory $nonceFactory
+    ) {
+        $this->_request = $request;
+        $this->_tokenFactory = $tokenFactory;
+        $this->_consumerFactory = $consumerFactory;
+        $this->_nonceFactory = $nonceFactory;
     }
 
     /**
@@ -285,30 +297,14 @@ class Mage_Oauth_Model_Server
      */
     protected function _initConsumer()
     {
-        $this->_consumer = Mage::getModel('Mage_Oauth_Model_Consumer');
-
-        $this->_consumer->load($this->_protocolParams['oauth_consumer_key'], 'key');
-
-        if (!$this->_consumer->getId()) {
-            $this->_throwException('', self::ERR_CONSUMER_KEY_REJECTED);
-        }
-    }
-
-    /**
-     * Initialize two legged consumer
-     *
-     * @throws Mage_Oauth_Exception
-     */
-    protected function _initTwoLeggedConsumer()
-    {
-        $this->_consumer = Mage::getModel('Mage_Webapi_Model_Acl_User');
-
-        $this->_consumer->load($this->_protocolParams['oauth_consumer_key'], 'api_key');
+        $this->_consumer = $this->_consumerFactory->create();
+        $this->_consumer->loadByKey($this->_protocolParams['oauth_consumer_key']);
 
         if (!$this->_consumer->getId()) {
             $this->_throwException('', self::ERR_CONSUMER_KEY_REJECTED);
         }
     }
+
     /**
      * Load token object, validate it depending on request type, set access data and save
      *
@@ -317,7 +313,7 @@ class Mage_Oauth_Model_Server
      */
     protected function _initToken()
     {
-        $this->_token = Mage::getModel('Mage_Oauth_Model_Token');
+        $this->_token = $this->_tokenFactory->create();
 
         if (self::REQUEST_INITIATE != $this->_requestType) {
             $this->_validateTokenParam();
@@ -469,9 +465,7 @@ class Mage_Oauth_Model_Server
         if ($timestamp <= 0 || $timestamp > (time() + self::TIME_DEVIATION)) {
             $this->_throwException('', self::ERR_TIMESTAMP_REFUSED);
         }
-        /** @var $nonceObj Mage_Oauth_Model_Nonce */
-        $nonceObj = Mage::getModel('Mage_Oauth_Model_Nonce');
-
+        $nonceObj = $this->_nonceFactory->create();
         $nonceObj->load($nonce, 'nonce');
 
         if ($nonceObj->getTimestamp() == $timestamp) {
@@ -535,32 +529,6 @@ class Mage_Oauth_Model_Server
             $this->_protocolParams['oauth_signature_method'],
             $this->_consumer->getSecret(),
             !is_null($this->_token) ? $this->_token->getSecret() : null,
-            $this->_request->getMethod(),
-            $this->_request->getScheme() . '://' . $this->_request->getHttpHost() . $this->_request->getRequestUri()
-        );
-
-        if ($calculatedSign != $this->_protocolParams['oauth_signature']) {
-            $this->_throwException($calculatedSign, self::ERR_SIGNATURE_INVALID);
-        }
-    }
-
-    /**
-     * Validate SOAP signature
-     *
-     * @param string $operation
-     * @throws Mage_Oauth_Exception
-     */
-    protected function _validateSoapSignature($operation)
-    {
-        $util = new Zend_Oauth_Http_Utility();
-        // TODO: investigate base for signature, currently only SOAP operation is used
-        $params = array(
-            'soap_operation' => $operation
-        );
-        $calculatedSign = $util->sign(array_merge($params, $this->_protocolParams),
-            $this->_protocolParams['oauth_signature_method'],
-            $this->_consumer->getSecret(),
-            null,
             $this->_request->getMethod(),
             $this->_request->getScheme() . '://' . $this->_request->getHttpHost() . $this->_request->getRequestUri()
         );
@@ -643,28 +611,6 @@ class Mage_Oauth_Model_Server
         $this->_processRequest(self::REQUEST_RESOURCE);
 
         return $this->_token;
-    }
-
-    /**
-     * Authenticate two-legged REST request.
-     *
-     * @return Mage_Webapi_Model_Acl_User
-     */
-    public function authenticateTwoLegged()
-    {
-        // get parameters from request
-        $this->_fetchParams();
-
-        // make generic validation of request parameters
-        $this->_validateProtocolParams();
-
-        // initialize consumer
-        $this->_initTwoLeggedConsumer();
-
-        // validate signature
-        $this->_validateSignature();
-
-        return $this->_consumer;
     }
 
     /**

@@ -59,7 +59,6 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
 
     /**
      * Internal constructor, that is called from real constructor
-     *
      */
     protected function _construct()
     {
@@ -140,8 +139,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
             foreach ($key as $k=>$v) {
                 $this->assign($k, $v);
             }
-        }
-        else {
+        } else {
             $this->_viewVars[$key] = $value;
         }
         return $this;
@@ -191,8 +189,9 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     /**
      * Retrieve block view from file (template)
      *
-     * @param   string $fileName
-     * @return  string
+     * @param  string $fileName
+     * @return string
+     * @throws Exception
      */
     public function fetchView($fileName)
     {
@@ -285,7 +284,7 @@ HTML;
     public function getBaseUrl()
     {
         if (!$this->_baseUrl) {
-            $this->_baseUrl = $this->_getUrlModel()->getBaseUrl();
+            $this->_baseUrl = $this->_urlBuilder->getBaseUrl();
         }
         return $this->_baseUrl;
     }
@@ -325,7 +324,7 @@ HTML;
     protected function _getAllowSymlinks()
     {
         if (is_null($this->_allowSymlinks)) {
-            $this->_allowSymlinks = Mage::getStoreConfigFlag(self::XML_PATH_TEMPLATE_ALLOW_SYMLINK);
+            $this->_allowSymlinks = $this->_storeConfig->getConfigFlag(self::XML_PATH_TEMPLATE_ALLOW_SYMLINK);
         }
         return $this->_allowSymlinks;
     }

@@ -1,44 +1,32 @@
 <?php
 /**
- * {license_notice}
+ * API ACL Rule Loader
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
- * Api Acl Rule Loader
- *
- * @category    Mage
- * @package     Mage_Webapi
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @copyright {}
  */
 class Mage_Webapi_Model_Authorization_Loader_Rule implements Magento_Acl_Loader
 {
     /**
      * @var Mage_Webapi_Model_Resource_Acl_Rule
      */
-    protected $_resourceModel;
+    protected $_ruleResource;
 
     /**
-     * @param array $data
+     * @param Mage_Webapi_Model_Resource_Acl_Rule $ruleResource
      */
-    public function __construct(array $data = array())
+    public function __construct(Mage_Webapi_Model_Resource_Acl_Rule $ruleResource)
     {
-        $this->_resourceModel = isset($data['resourceModel']) ?
-            $data['resourceModel'] : Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_Rule');
+        $this->_ruleResource = $ruleResource;
     }
 
     /**
-     * Populate ACL with rules from external storage
+     * Populate ACL with rules from external storage.
      *
      * @param Magento_Acl $acl
      */
     public function populateAcl(Magento_Acl $acl)
     {
-        $ruleList = $this->_resourceModel->getRuleList();
+        $ruleList = $this->_ruleResource->getRuleList();
         foreach ($ruleList as $rule) {
             $role = $rule['role_id'];
             $resource = $rule['resource_id'];

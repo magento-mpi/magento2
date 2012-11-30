@@ -1,15 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Magento_Validator
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Validation configuration files handler
+ *
+ * @copyright {}
  */
 class Magento_Validator_Config extends Magento_Config_XmlAbstract
 {
@@ -26,12 +19,7 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
     protected $_defaultBuilderClass = 'Magento_Validator_Builder';
 
     /**
-     * @var array
-     */
-    protected $_validatorBuilders = array();
-
-    /**
-     * Get validator builder instance based on entity and group.
+     * Create validator builder instance based on entity and group.
      *
      * @param string $entityName
      * @param string $groupName
@@ -39,7 +27,7 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
      * @throws InvalidArgumentException
      * @return Magento_Validator_Builder
      */
-    public function getValidatorBuilder($entityName, $groupName, array $builderConfig = null)
+    public function createValidatorBuilder($entityName, $groupName, array $builderConfig = null)
     {
         if (!isset($this->_data[$entityName])) {
             throw new InvalidArgumentException(sprintf('Unknown validation entity "%s"', $entityName));
@@ -50,30 +38,26 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
                 $entityName));
         }
 
-        $builderKey = $entityName . '/' . $groupName;
-        if (!array_key_exists($builderKey, $this->_validatorBuilders)) {
-            if (array_key_exists('builder', $this->_data[$entityName][$groupName])) {
-                $builderClass = $this->_data[$entityName][$groupName]['builder'];
-            } else {
-                $builderClass = $this->_defaultBuilderClass;
-            }
+        if (array_key_exists('builder', $this->_data[$entityName][$groupName])) {
+            $builderClass = $this->_data[$entityName][$groupName]['builder'];
+        } else {
+            $builderClass = $this->_defaultBuilderClass;
+        }
 
-            $autoLoader = Magento_Autoload::getInstance();
-            if (!$autoLoader->classExists($builderClass)) {
-                throw new InvalidArgumentException(sprintf('Builder class "%s" was not found', $builderClass));
-            }
+        $autoLoader = Magento_Autoload::getInstance();
+        if (!$autoLoader->classExists($builderClass)) {
+            throw new InvalidArgumentException(sprintf('Builder class "%s" was not found', $builderClass));
+        }
 
-            $builder = new $builderClass($this->_data[$entityName][$groupName]['constraints']);
-            if (!$builder instanceof Magento_Validator_Builder) {
-                throw new InvalidArgumentException(
-                    sprintf('Builder "%s" must extend Magento_Validator_Builder', $builderClass));
-            }
-            $this->_validatorBuilders[$builderKey] = $builder;
+        $builder = new $builderClass($this->_data[$entityName][$groupName]['constraints']);
+        if (!$builder instanceof Magento_Validator_Builder) {
+            throw new InvalidArgumentException(
+                sprintf('Builder "%s" must extend Magento_Validator_Builder', $builderClass));
         }
         if ($builderConfig) {
-            $this->_validatorBuilders[$builderKey]->addConfigurations($builderConfig);
+            $builder->addConfigurations($builderConfig);
         }
-        return $this->_validatorBuilders[$builderKey];
+        return $builder;
     }
 
     /**
@@ -87,7 +71,7 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
     public function createValidator($entityName, $groupName, array $builderConfig = null)
     {
         return $this
-            ->getValidatorBuilder($entityName, $groupName, $builderConfig)
+            ->createValidatorBuilder($entityName, $groupName, $builderConfig)
             ->createValidator();
     }
 

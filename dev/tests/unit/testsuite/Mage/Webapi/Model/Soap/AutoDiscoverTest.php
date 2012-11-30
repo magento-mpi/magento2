@@ -15,24 +15,30 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
      */
     public function testGenerate($resourceName, $methodName, $interface)
     {
-        $resourceConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config_Resource')
-            ->setMethods(array('getDataType'))
+        /** Prepare arguments for SUT constructor. */
+        $resourceConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config_Soap')
+            ->setMethods(array('getTypeData'))
             ->disableOriginalConstructor()
             ->getMock();
-
         $wsdlMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_Wsdl')
             ->disableOriginalConstructor()
             ->setMethods(array('addSchemaTypeSection', 'addService', 'addPortType', 'addBinding', 'addSoapBinding',
                 'addElement', 'addComplexType', 'addMessage', 'addPortOperation', 'addBindingOperation',
                 'addSoapOperation', 'toXML'))
             ->getMock();
-        $endpointUrl = 'http://magento.host/api/soap/';
-        $autoDiscover = new Mage_Webapi_Model_Soap_AutoDiscover(array(
-            'resource_config' => $resourceConfigMock,
-            'endpoint_url' => $endpointUrl,
-            'wsdl' => $wsdlMock,
-        ));
-        $this->assertInstanceOf('Mage_Webapi_Model_Soap_AutoDiscover', $autoDiscover);
+        $wsdlFactory = $this->getMock('Mage_Webapi_Model_Soap_Wsdl_Factory',
+            array('create'), array(new Magento_ObjectManager_Zend()));
+        $wsdlFactory->expects($this->any())->method('create')->will($this->returnValue($wsdlMock));
+        $helper = $this->getMock('Mage_Webapi_Helper_Config', array('__'));
+        $helper->expects($this->any())->method('__')->will($this->returnArgument(0));
+        $cacheMock = $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock();
+        /** Initialize SUT. */
+        $autoDiscover = new Mage_Webapi_Model_Soap_AutoDiscover(
+            $resourceConfigMock,
+            $wsdlFactory,
+            $helper,
+            $cacheMock
+        );
 
         $serviceDomMock = $this->_getDomElementMock();
         $wsdlMock->expects($this->once())
@@ -82,7 +88,8 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
                 ),
             ),
         );
-        $autoDiscover->generate($requestedResources);
+        $endpointUrl = 'http://magento.host/api/soap/';
+        $autoDiscover->generate($requestedResources, $endpointUrl);
     }
 
     /**
@@ -167,37 +174,5 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         return $this->getMockBuilder('DOMElement')
             ->disableOriginalConstructor()
             ->getMock();
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testGenerateMissingResourceConfig()
-    {
-        new Mage_Webapi_Model_Soap_AutoDiscover(array());
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testGenerateInvalidResourceConfig()
-    {
-        $stdObject = new stdClass();
-        new Mage_Webapi_Model_Soap_AutoDiscover(array(
-            'resource_config' => $stdObject
-        ));
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testGenerateMissingEndpointUrl()
-    {
-        $resourceConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config_Resource')
-            ->disableOriginalConstructor()
-            ->getMock();
-        new Mage_Webapi_Model_Soap_AutoDiscover(array(
-            'resource_config' => $resourceConfigMock
-        ));
     }
 }

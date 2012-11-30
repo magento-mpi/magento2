@@ -1,16 +1,8 @@
 <?php
 /**
- * {license_notice}
+ * Integration test for service layer Mage_Customer_Service_Customer
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  integration_tests
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
- * Test service layer Mage_Customer_Service_Customer
+ * @copyright {}
  */
 class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
 {
@@ -20,13 +12,25 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager = null;
+
+    /**
      * @var Mage_Customer_Model_Customer
      */
     protected $_createdCustomer;
 
+    /**
+     * @var Mage_Customer_Model_Customer_Factory
+     */
+    protected $_customerFactory = null;
+
     protected function setUp()
     {
-        $this->_model = new Mage_Customer_Service_Customer();
+        $this->_objectManager = Mage::getObjectManager();
+        $this->_customerFactory = new Mage_Customer_Model_Customer_Factory($this->_objectManager);
+        $this->_model = $this->_objectManager->create('Mage_Customer_Service_Customer');
     }
 
     protected function tearDown()
@@ -34,6 +38,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         $previousStoreId = Mage::app()->getStore();
         Mage::app()->setCurrentStore(Mage::app()->getStore(Mage_Core_Model_App::ADMIN_STORE_ID));
         if ($this->_createdCustomer && $this->_createdCustomer->getId() > 0) {
+            $this->_createdCustomer->getAddressesCollection()->delete();
             $this->_createdCustomer->delete();
         }
         Mage::app()->setCurrentStore($previousStoreId);
@@ -51,7 +56,8 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mage_Customer_Model_Customer', $this->_createdCustomer);
         $this->assertNotEmpty($this->_createdCustomer->getId());
 
-        $loadedCustomer = Mage::getModel('Mage_Customer_Model_Customer')->load($this->_createdCustomer->getId());
+        $loadedCustomer = $this->_customerFactory->create()
+            ->load($this->_createdCustomer->getId());
         if (array_key_exists('sendemail', $customerData)) {
             unset($customerData['sendemail']);
         }
@@ -76,9 +82,9 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'group_id' => 1,
                 'disable_auto_group_change' => 0,
                 'prefix' => 'Prefix',
-                'firstname' => 'SomeName',
+                'firstname' => 'Service',
                 'middlename' => 'Middlename',
-                'lastname' => 'SomeSurname',
+                'lastname' => 'CreateValid',
                 'suffix' => 'Suffix',
                 'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
                 'dob' => date('Y-m-d H:i:s'),
@@ -91,7 +97,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
             )),
             'Mandatory data' => array(array(
                 'firstname' => 'SomeName',
-                'lastname' => 'SomeSurname',
+                'lastname' => 'CreateMandatory',
                 'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
             )),
         );
@@ -121,7 +127,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'disable_auto_group_change' => 0,
                 'prefix' => null,
                 'firstname' => null,
-                'lastname' => 'SomeSurname',
+                'lastname' => 'ServiceTestCreateExceptionFNR',
                 'suffix' => null,
                 'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
                 'password' => '123123q',
@@ -132,8 +138,8 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'group_id' => 1,
                 'disable_auto_group_change' => 0,
                 'prefix' => null,
-                'firstname' => 'SomeName',
-                'lastname' => 'SomeSurname',
+                'firstname' => 'ServiceTestCreate',
+                'lastname' => 'ExceptionInvalidEmail',
                 'suffix' => null,
                 'email' => '111@111',
                 'password' => '123123q',
@@ -144,8 +150,8 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'group_id' => 1,
                 'disable_auto_group_change' => 0,
                 'prefix' => null,
-                'firstname' => 'SomeName',
-                'lastname' => 'SomeSurname',
+                'firstname' => 'ServiceTestCreate',
+                'lastname' => 'ExceptionPassword',
                 'suffix' => null,
                 'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
                 'password' => '123',
@@ -161,8 +167,8 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     public function testCreateWithAddresses($addressesData)
     {
         $customerData = array(
-            'firstname' => 'SomeName',
-            'lastname' => 'SomeSurname',
+            'firstname' => 'ServiceTest',
+            'lastname' => 'CreateWithAddress',
             'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
         );
 
@@ -170,7 +176,8 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         $this->assertCount(count($addressesData), $this->_createdCustomer->getAddresses());
 
         /** @var Mage_Customer_Model_Customer $loadedCustomer */
-        $loadedCustomer = Mage::getModel('Mage_Customer_Model_Customer')->load($this->_createdCustomer->getId());
+        $loadedCustomer = $this->_customerFactory->create()
+            ->load($this->_createdCustomer->getId());
 
         $createdData = array();
         /** @var Mage_Customer_Model_Address $address */
@@ -258,8 +265,8 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     public function testCreateWithInvalidAddressId()
     {
         $customerData = array(
-            'firstname' => 'SomeName',
-            'lastname' => 'SomeSurname',
+            'firstname' => 'ServiceTest',
+            'lastname' => 'InvalidAddress',
             'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
         );
 
@@ -284,14 +291,15 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
      */
     public function testUpdate($customerData)
     {
-        $expected = new Mage_Customer_Model_Customer();
-        $expected->load(1);
+        $expected = $this->_customerFactory->create()
+            ->load(1);
 
         $updatedCustomer = $this->_model->update($expected->getId(), $customerData);
         $this->assertInstanceOf('Mage_Customer_Model_Customer', $updatedCustomer);
         $this->assertFalse($updatedCustomer->isObjectNew());
 
-        $actualData = Mage::getModel('Mage_Customer_Model_Customer')->load($expected->getId())->getData();
+        $actualData = $this->_customerFactory->create()
+            ->load($expected->getId())->getData();
         $expectedData = array_merge($updatedCustomer->toArray(array_keys($actualData)), $customerData);
         if (isset($expectedData['password'])) {
             // TODO Add assertions for password if needed
@@ -315,9 +323,9 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
             'Multiple properties' => array(array(
                 'disable_auto_group_change' => 0,
                 'prefix' => 'Prefix',
-                'firstname' => 'SomeName',
+                'firstname' => 'ServiceTest',
                 'middlename' => 'Middlename',
-                'lastname' => 'SomeSurname',
+                'lastname' => 'UpdateMultiple',
                 'suffix' => 'Suffix',
                 'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
                 'dob' => date('Y-m-d H:i:s'),
@@ -372,7 +380,9 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
      */
     public function testAutoGeneratePassword()
     {
-        $oldPasswordHash = Mage::getModel('Mage_Customer_Model_Customer')->load(1)->getPasswordHash();
+        $oldPasswordHash = $this->_customerFactory->create()
+            ->load(1)
+            ->getPasswordHash();
         $updatedCustomer = $this->_model->update(1, array(
             'autogenerate_password' => true,
         ));
@@ -388,14 +398,16 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     public function testCustomerAddressManipulation($addressesData)
     {
         /** @var Mage_Customer_Model_Customer $customer */
-        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load(1);
+        $customer = $this->_customerFactory->create()
+            ->load(1);
         $this->assertCount(2, $customer->getAddresses(), 'Not all customer addresses were created.');
         $updatedCustomer = $this->_model->update(1, array(), $addressesData);
         $this->assertCount(count($addressesData), $updatedCustomer->getAddresses(),
             'Customer address was not deleted.');
 
         /** @var Mage_Customer_Model_Customer $actualCustomer */
-        $actualCustomer = Mage::getModel('Mage_Customer_Model_Customer')->load(1);
+        $actualCustomer = $this->_customerFactory->create()
+            ->load(1);
         $actualAddresses = $actualCustomer->getAddresses();
         $this->assertCount(count($addressesData), $actualAddresses, 'Customer address was not actually deleted.');
 
@@ -466,7 +478,8 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
      */
     public function testCallback()
     {
-        $customer = Mage::getModel('Mage_Customer_Model_Customer')->load(1);
+        $customer = $this->_customerFactory->create()
+            ->load(1);
         $customerData = array('firstname' => 'Updated name');
         $customer->addData($customerData);
         $addressData = array(array(
@@ -500,22 +513,21 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param int $storeId
+     * @param bool $isAdminStore
      * @param boolean $isConfirmed
      * @dataProvider forceConfirmedDataProvider
-     * @magentoAppIsolation enabled
      */
-    public function testCustomerSetForceConfirmed($storeId, $isConfirmed)
+    public function testCustomerSetForceConfirmed($isAdminStore, $isConfirmed)
     {
-        Mage::app()->setCurrentStore($storeId);
+        $this->_model->setIsAdminStore($isAdminStore);
         $customerData = array(
-            'firstname' => 'SomeName',
-            'lastname' => 'SomeSurname',
+            'firstname' => 'ServiceTest',
+            'lastname' => 'ForceConfirmed',
             'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
             'password' => '123123q'
         );
-        $customer = $this->_model->create($customerData);
-        $this->assertEquals($isConfirmed, $customer->getForceConfirmed());
+        $this->_createdCustomer = $this->_model->create($customerData);
+        $this->assertEquals($isConfirmed, $this->_createdCustomer->getForceConfirmed());
     }
 
     /**
@@ -524,8 +536,8 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     public function forceConfirmedDataProvider()
     {
         return array(
-            'admin store' => array(Mage_Core_Model_App::ADMIN_STORE_ID, true),
-            'distro store' => array(Mage_Core_Model_App::DISTRO_STORE_ID, false),
+            'admin store' => array(true, true),
+            'distro store' => array(false, false),
         );
     }
 }

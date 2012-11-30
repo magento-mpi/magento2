@@ -1,11 +1,8 @@
 <?php
 /**
- * {license_notice}
+ * Update script for Webapi module.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright  {}
  */
 
 /* @var Mage_Core_Model_Resource_Setup $installer */
@@ -19,10 +16,10 @@ $connection->changeColumn(
     'api_secret',
     'secret',
     array(
-        'type'     => Varien_Db_Ddl_Table::TYPE_TEXT,
-        'length'   => 255,
+        'type' => Varien_Db_Ddl_Table::TYPE_TEXT,
+        'length' => 255,
         'nullable' => false,
-        'comment'  => 'Secret used for authentication.'
+        'comment' => 'Secret used for authentication.'
     )
 );
 

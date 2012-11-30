@@ -18,12 +18,12 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder extends Mage_Adminhtml_Block_
      *
      * @return void
      */
-    public function __construct()
+    protected function _construct()
     {
         $this->_blockGroup = 'Enterprise_Reminder';
         $this->_controller = 'adminhtml_reminder';
         $this->_headerText = Mage::helper('Enterprise_Reminder_Helper_Data')->__('Automated Email Marketing Reminder Rules');
         $this->_addButtonLabel = Mage::helper('Enterprise_Reminder_Helper_Data')->__('Add New Rule');
-        parent::__construct();
+        parent::_construct();
     }
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Theme
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <modules>
+        <Mage_Theme>
+            <version>1.6.0.0</version>
+            <active>true</active>
+            <codePool>core</codePool>
+        </Mage_Theme>
+    </modules>
+    <admin>
+        <routers>
+            <adminhtml>
+                <use>admin</use>
+                <args>
+                    <modules>
+                        <theme>Mage_Theme_Adminhtml</theme>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <theme module="Mage_Theme">
+                    <file>layout.xml</file>
+                </theme>
+            </updates>
+        </layout>
+    </adminhtml>
+</config>

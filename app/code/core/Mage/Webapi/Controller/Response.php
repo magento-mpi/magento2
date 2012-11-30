@@ -1,29 +1,18 @@
 <?php
 /**
- * {license_notice}
+ * Web API response.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright  {copyright}
- * @license    {license_link}
- */
-
-/**
- * Abstract API response.
- *
- * @category   Mage
- * @package    Mage_Webapi
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @copyright {}
  */
 class Mage_Webapi_Controller_Response extends Zend_Controller_Response_Http
 {
     /**
-     * Character set which must be used in response
+     * Character set which must be used in response.
      */
     const RESPONSE_CHARSET = 'utf-8';
 
     /**#@+
-     * Default message types
+     * Default message types.
      */
     const MESSAGE_TYPE_SUCCESS = 'success';
     const MESSAGE_TYPE_ERROR = 'error';
@@ -31,14 +20,14 @@ class Mage_Webapi_Controller_Response extends Zend_Controller_Response_Http
     /**#@- */
 
     /**
-     * Messages
+     * Messages.
      *
      * @var array
      */
     protected $_messages = array();
 
     /**
-     * Set header appropriate to specified MIME type
+     * Set header appropriate to specified MIME type.
      *
      * @param string $mimeType MIME type
      * @return Mage_Webapi_Controller_Response
@@ -49,7 +38,7 @@ class Mage_Webapi_Controller_Response extends Zend_Controller_Response_Http
     }
 
     /**
-     * Add message to response
+     * Add message to response.
      *
      * @param string $message
      * @param string $code
@@ -66,7 +55,7 @@ class Mage_Webapi_Controller_Response extends Zend_Controller_Response_Http
     }
 
     /**
-     * Has messages
+     * Has messages.
      *
      * @return bool
      */
@@ -76,7 +65,7 @@ class Mage_Webapi_Controller_Response extends Zend_Controller_Response_Http
     }
 
     /**
-     * Return messages
+     * Return messages.
      *
      * @return array
      */
@@ -86,7 +75,7 @@ class Mage_Webapi_Controller_Response extends Zend_Controller_Response_Http
     }
 
     /**
-     * Clear messages
+     * Clear messages.
      *
      * @return Mage_Webapi_Controller_Response
      */

@@ -1,51 +1,45 @@
 <?php
 /**
- * {license_notice}
+ * Controller for web API roles management in Magento admin panel.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
- * Web API Adminhtml roles controller
- *
- * @category   Mage
- * @package    Mage_Webapi
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @copyright {}
  */
 class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * Init
+     * Init.
+     *
      * @return Mage_Webapi_Adminhtml_Webapi_RoleController
      */
     protected function _initAction()
     {
         $this->loadLayout();
         $this->_setActiveMenu('Mage_Webapi::system_api_webapi_roles');
-        $this->_addBreadcrumb(Mage::helper('Mage_Webapi_Helper_Data')->__('Web Api'),
-            Mage::helper('Mage_Webapi_Helper_Data')->__('Web Api'));
-        $this->_addBreadcrumb(Mage::helper('Mage_Webapi_Helper_Data')->__('API Roles'),
-            Mage::helper('Mage_Webapi_Helper_Data')->__('API Roles'));
+        $this->_addBreadcrumb(
+            $this->__('Web Api'),
+            $this->__('Web Api')
+        );
+        $this->_addBreadcrumb(
+            $this->__('API Roles'),
+            $this->__('API Roles')
+        );
         return $this;
     }
 
     /**
-     * Web API Roles grid
+     * Web API roles grid.
      */
     public function indexAction()
     {
-        $this->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('System'))
-             ->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('Web Api'))
-             ->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('API Roles'));
+        $this->_title($this->__('System'))
+            ->_title($this->__('Web Api'))
+            ->_title($this->__('API Roles'));
         $this->_initAction();
         $this->renderLayout();
     }
 
     /**
-     * AJAX Web API Roles grid
+     * AJAX Web API roles grid.
      */
     public function rolegridAction()
     {
@@ -54,34 +48,48 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
     }
 
     /**
-     * Edit Web API role
+     * Grid in edit role form.
+     */
+    public function usersgridAction()
+    {
+        $this->loadLayout(false);
+        $this->renderLayout();
+    }
+
+    /**
+     * Edit Web API role.
      */
     public function editAction()
     {
         $this->_initAction();
-        $this->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('System'))
-             ->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('Web Api'))
-             ->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('API Roles'));
+        $this->_title($this->__('System'))
+            ->_title($this->__('Web Api'))
+            ->_title($this->__('API Roles'));
 
         $roleId = $this->getRequest()->getParam('role_id');
 
         /** @var Mage_Webapi_Model_Acl_Role $role */
-        $role = Mage::getModel('Mage_Webapi_Model_Acl_Role');
+        $role = $this->_objectManager->create('Mage_Webapi_Model_Acl_Role');
         if ($roleId) {
             $role->load($roleId);
             if (!$role->getId()) {
                 $this->_getSession()->addError(
-                    Mage::helper('Mage_Webapi_Helper_Data')->__('This API Role no longer exists.'));
+                    $this->__('This API role no longer exists.')
+                );
                 $this->_redirect('*/*/');
                 return;
             }
-            $this->_addBreadcrumb(Mage::helper('Mage_Webapi_Helper_Data')->__('Edit API Role'),
-                Mage::helper('Mage_Webapi_Helper_Data')->__('Edit API Role'));
-            $this->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('Edit API Role'));
+            $this->_addBreadcrumb(
+                $this->__('Edit API Role'),
+                $this->__('Edit API Role')
+            );
+            $this->_title($this->__('Edit API Role'));
         } else {
-            $this->_addBreadcrumb(Mage::helper('Mage_Webapi_Helper_Data')->__('Add New API Role'),
-                Mage::helper('Mage_Webapi_Helper_Data')->__('Add New API Role'));
-            $this->_title(Mage::helper('Mage_Webapi_Helper_Data')->__('New API Role'));
+            $this->_addBreadcrumb(
+                $this->__('Add New API Role'),
+                $this->__('Add New API Role')
+            );
+            $this->_title($this->__('New API Role'));
         }
 
         // Restore previously entered form data from session
@@ -106,26 +114,28 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
     }
 
     /**
-     * Remove role
+     * Remove role.
      */
     public function deleteAction()
     {
         $roleId = $this->getRequest()->getParam('role_id', false);
 
         try {
-            Mage::getModel('Mage_Webapi_Model_Acl_Role')->load($roleId)->delete();
+            $this->_objectManager->create('Mage_Webapi_Model_Acl_Role')->load($roleId)->delete();
             $this->_getSession()->addSuccess(
-                Mage::helper('Mage_Webapi_Helper_Data')->__('The API role has been deleted.'));
+                $this->__('The API role has been deleted.')
+            );
         } catch (Exception $e) {
             $this->_getSession()->addError(
-                Mage::helper('Mage_Webapi_Helper_Data')->__('An error occurred while deleting this role.'));
+                $this->__('An error occurred while deleting this role.')
+            );
         }
 
         $this->_redirect("*/*/");
     }
 
     /**
-     * Save role
+     * Save role.
      */
     public function saveAction()
     {
@@ -133,10 +143,11 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
         if ($data) {
             $roleId = $this->getRequest()->getPost('role_id', false);
             /** @var Mage_Webapi_Model_Acl_Role $role */
-            $role = Mage::getModel('Mage_Webapi_Model_Acl_Role')->load($roleId);
+            $role = $this->_objectManager->create('Mage_Webapi_Model_Acl_Role')->load($roleId);
             if (!$role->getId() && $roleId) {
                 $this->_getSession()->addError(
-                    Mage::helper('Mage_Webapi_Helper_Data')->__('This Role no longer exists'));
+                    $this->__('This role no longer exists.')
+                );
                 $this->_redirect('*/*/');
                 return;
             }
@@ -151,7 +162,8 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
                 $this->_saveUsers($role->getId());
 
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Mage_Webapi_Helper_Data')->__('The API role has been saved.'));
+                    $this->__('The API role has been saved.')
+                );
                 $this->_getSession()->setWebapiRoleData(false);
 
                 if ($roleId && !$this->getRequest()->has('continue')) {
@@ -168,25 +180,23 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
     }
 
     /**
-     * Validate Web API Role data
+     * Validate Web API role data.
      *
      * @param Mage_Webapi_Model_Acl_Role $role
-     * @return boolean
      * @throws Magento_Validator_Exception
      */
     protected function _validateRole($role)
     {
         $group = $role->isObjectNew() ? 'create' : 'update';
-        $validator = Mage::getConfig()->getValidatorConfig()
-            ->getValidatorBuilder('api_role', $group)
-            ->createValidator();
+        $validator = $this->_objectManager->get('Mage_Core_Model_Validator_Factory')
+            ->createValidator('api_role', $group);
         if (!$validator->isValid($role)) {
             throw new Magento_Validator_Exception($validator->getMessages());
         }
     }
 
     /**
-     * Save Role resources
+     * Save role resources.
      *
      * @param integer $roleId
      * @param boolean $isNewRole
@@ -197,30 +207,27 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
         $resources = explode(',', $this->getRequest()->getParam('resource', false));
         $isAll = $this->getRequest()->getParam('all');
         if ($isAll) {
-            $resources = array(Mage_Webapi_Model_Acl_Rule::API_ACL_RESOURCES_ROOT_ID);
+            $resources = array(Mage_Webapi_Model_Authorization::API_ACL_RESOURCES_ROOT_ID);
         } elseif (in_array(Mage_Webapi_Helper_Data::RESOURCES_TREE_ROOT_ID, $resources)) {
-            unset($resources[array_search(Mage_Webapi_Helper_Data::RESOURCES_TREE_ROOT_ID,
-                $resources)]);
+            unset($resources[array_search(
+                Mage_Webapi_Helper_Data::RESOURCES_TREE_ROOT_ID,
+                $resources
+            )]);
         }
 
         $saveResourcesFlag = true;
         if (!$isNewRole) {
             // Check changes
-            $rulesSet = Mage::getModel('Mage_Webapi_Model_Acl_Rule')->getByRole($roleId)->load();
-            if ($rulesSet->count() == count($resources)) {
+            /** @var Mage_Webapi_Model_Resource_Acl_Rule $ruleResource */
+            $ruleResource = $this->_objectManager->get('Mage_Webapi_Model_Resource_Acl_Rule');
+            $oldResources = $ruleResource->getResourceIdsByRole($roleId);
+            if (count($oldResources) == count($resources) && !array_diff($oldResources, $resources)) {
                 $saveResourcesFlag = false;
-                /** @var Mage_Webapi_Model_Acl_Rule $rule */
-                foreach ($rulesSet as $rule) {
-                    if (!in_array($rule->getResourceId(), $resources)) {
-                        $saveResourcesFlag = true;
-                        break;
-                    }
-                }
             }
         }
 
         if ($saveResourcesFlag) {
-            Mage::getModel('Mage_Webapi_Model_Acl_Rule')
+            $this->_objectManager->create('Mage_Webapi_Model_Acl_Rule')
                 ->setRoleId($roleId)
                 ->setResources($resources)
                 ->saveResources();
@@ -228,31 +235,31 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
     }
 
     /**
-     * Save linked users
+     * Save linked users.
      *
      * @param integer $roleId
      */
     protected function _saveUsers($roleId)
     {
         // parse users list
-        $roleUsers = $this->_parseRoleUsers($this->getRequest()->getParam('in_role_user', null));
-        $oldRoleUsers = $this->_parseRoleUsers($this->getRequest()->getParam('in_role_user_old', null));
+        $roleUsers = $this->_parseRoleUsers($this->getRequest()->getParam('in_role_user'));
+        $oldRoleUsers = $this->_parseRoleUsers($this->getRequest()->getParam('in_role_user_old'));
 
         if ($roleUsers != $oldRoleUsers) {
             foreach ($oldRoleUsers as $userId) {
-                $user = Mage::getModel('Mage_Webapi_Model_Acl_User')->load($userId);
+                $user = $this->_objectManager->create('Mage_Webapi_Model_Acl_User')->load($userId);
                 $user->setRoleId(null)->save();
             }
 
             foreach ($roleUsers as $userId) {
-                $user = Mage::getModel('Mage_Webapi_Model_Acl_User')->load($userId);
+                $user = $this->_objectManager->create('Mage_Webapi_Model_Acl_User')->load($userId);
                 $user->setRoleId($roleId)->save();
             }
         }
     }
 
     /**
-     * Parse request string with users
+     * Parse request string with users.
      *
      * @param string $roleUsers
      * @return array
@@ -268,22 +275,13 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
     }
 
     /**
-     * Grid in edit role form
-     */
-    public function editrolegridAction()
-    {
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Mage_Webapi_Block_Adminhtml_Role_Grid_User')->toHtml()
-        );
-    }
-
-    /**
-     * Check access rights
+     * Check access rights.
+     *
      * @return boolean
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Webapi::webapi_roles');
+        return $this->_objectManager->get('Mage_Core_Model_Authorization')->isAllowed('Mage_Webapi::webapi_roles');
     }
 
 }

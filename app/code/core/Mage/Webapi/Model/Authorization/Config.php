@@ -1,20 +1,8 @@
 <?php
 /**
- * {license_notice}
+ * API ACL Config model
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-
-/**
- * Api Acl Config model
- *
- * @category    Mage
- * @package     Mage_Webapi
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @copyright {}
  */
 class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Config_ConfigInterface
 {
@@ -33,25 +21,35 @@ class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Conf
      */
     protected $_reader;
 
-    public function __construct(array $args = array())
-    {
-        $this->_config = isset($args['config']) ? $args['config'] : Mage::getConfig();
+    /**
+     * @var Mage_Webapi_Model_Authorization_Config_Reader_Factory
+     */
+    protected $_readerFactory;
+
+    /**
+     * @param Mage_Core_Model_Config $config
+     * @param Mage_Webapi_Model_Authorization_Config_Reader_Factory $readerFactory
+     */
+    public function __construct(Mage_Core_Model_Config $config,
+        Mage_Webapi_Model_Authorization_Config_Reader_Factory $readerFactory
+    ) {
+        $this->_config = $config;
+        $this->_readerFactory = $readerFactory;
     }
 
     /**
-     * Retrieve list of acl files from each module
+     * Retrieve list of ACL files from each module.
      *
      * @return array
      */
     protected function _getAclResourceFiles()
     {
-        $files = $this->_config
-            ->getModuleConfigurationFiles('webapi' . DIRECTORY_SEPARATOR . 'acl.xml');
+        $files = $this->_config->getModuleConfigurationFiles('webapi' . DIRECTORY_SEPARATOR . 'acl.xml');
         return (array)$files;
     }
 
     /**
-     * Reader object initialization
+     * Reader object initialization.
      *
      * @return Magento_Acl_Config_Reader
      */
@@ -59,14 +57,13 @@ class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Conf
     {
         if (is_null($this->_reader)) {
             $aclResourceFiles = $this->_getAclResourceFiles();
-            $this->_reader = $this->_config
-                ->getModelInstance('Mage_Webapi_Model_Authorization_Config_Reader', $aclResourceFiles);
+            $this->_reader = $this->_readerFactory->createReader(array($aclResourceFiles));
         }
         return $this->_reader;
     }
 
     /**
-     * Get DOMXPath with loaded resources inside
+     * Get DOMXPath with loaded resources inside.
      *
      * @return DOMXPath
      */
@@ -77,7 +74,7 @@ class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Conf
     }
 
     /**
-     * Return ACL Resources
+     * Return ACL Resources.
      *
      * @return DOMNodeList
      */
@@ -87,9 +84,93 @@ class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Conf
     }
 
     /**
-     * Return ACL Virtual Resources
+     * Return array representation of ACL resources.
      *
-     * Virtual resources are not shown in resource list, they use existing resource to check permission
+     * @param bool $includeRoot If FALSE then only children of root element will be returned
+     * @return array
+     */
+    public function getAclResourcesAsArray($includeRoot = true)
+    {
+        $result = array();
+        $rootResource = null;
+        $resources = $this->getAclResources();
+
+        if ($resources && $resources->length == 1) {
+            $rootResource = $resources->item(0);
+        }
+
+        if ($rootResource && $rootResource->childNodes
+            && (string)$rootResource->getAttribute('id') == Mage_Webapi_Model_Authorization::API_ACL_RESOURCES_ROOT_ID
+        ) {
+            $result = $this->_parseAclResourceDOMElement($rootResource);
+        }
+
+        if (!$includeRoot) {
+            $result = isset($result['children']) ? $result['children'] : array();
+        }
+        return $result;
+    }
+
+    /**
+     * Parse DOMElement of ACL resource in config and return its array representation.
+     *
+     * @param DOMElement $node
+     * @return array
+     */
+    protected function _parseAclResourceDOMElement(DOMElement $node)
+    {
+        $result = array();
+
+        $result['id'] = (string)$node->getAttribute('id');
+        $result['text'] = (string)$node->getAttribute('title');
+        $sortOrder = (string)$node->getAttribute('sortOrder');
+        if (!empty($sortOrder)) {
+            $result['sortOrder']= $sortOrder;
+        }
+
+        $result['children'] = array();
+        foreach ($node->childNodes as $child) {
+            if ($child instanceof DOMElement) {
+                $result['children'][] = $this->_parseAclResourceDOMElement($child);
+            }
+        }
+
+        if (!empty($result['children'])) {
+            $result['children'] = $this->_getSortedBySortOrder($result['children']);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get array elements sorted by sortOrder key
+     *
+     * @param array $elements
+     * @return array
+     */
+    protected function _getSortedBySortOrder(array $elements)
+    {
+        $sortable = array();
+        $unsortable = array();
+        foreach ($elements as $element) {
+            if (isset($element['sortOrder'])) {
+                $sortable[] = $element;
+            } else {
+                $unsortable[] = $element;
+            }
+        }
+        usort($sortable, function ($firstItem, $secondItem) {
+            // To preserve the original order in the array, return 1 when $firstItem == $secondItem instead of 0
+            return $firstItem['sortOrder'] < $secondItem['sortOrder'] ? -1 : 1;
+        });
+        // Move un-sortable elements to the end of array to preserve their original order between each other
+        return array_merge($sortable, $unsortable);
+    }
+
+    /**
+     * Return ACL Virtual Resources.
+     *
+     * Virtual resources are not shown in resource list, they use existing resource to check permission.
      *
      * @return DOMNodeList
      */

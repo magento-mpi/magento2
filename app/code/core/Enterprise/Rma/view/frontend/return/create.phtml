@@ -50,7 +50,7 @@
     <div id="template_container" class="template" style="display:none;">
         <div id="template_registrant">
             <p class="btn-remove" id="btn-remove_index_"><a href="#" onclick="removeRegistrant(_index_); return false" class="btn-remove">
-                <img src="<?php echo $this->getSkinUrl('images/btn_remove.gif') ?>" alt="<?php echo $this->__('Remove') ?>" /></a>
+                <img src="<?php echo $this->getViewFileUrl('images/btn_remove.gif') ?>" alt="<?php echo $this->__('Remove') ?>" /></a>
             </p>
             <div class="field">
                 <label for="items:item_index_" class="required"><em>*</em><?php echo $this->__('Item') ?></label>
@@ -138,7 +138,7 @@
                                     <?php endforeach; ?>
                                         </tbody>
                                     </table>
-                                    <script type="text/javascript">decorateTable('return-items-table-<?php echo $bundleID?>');</script>
+                                    <script type="text/javascript">(function($) {$('#return-items-table-<?php echo $bundleID?>').decorate('table')})(jQuery)</script>
                                 </div>
                             </div>
                         </div>

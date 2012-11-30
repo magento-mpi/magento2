@@ -121,7 +121,7 @@ class Webapi_Catalog_Category_Product_AdminTest extends Magento_Test_Webservice_
 
         foreach ($assignedProducts as $assignedProduct) {
             $restResponse = $this->callPost($this->_getResourcePath($category->getId()), $assignedProduct);
-            $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus(),
+            $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus(),
                 "Invalid response code received.");
         }
 
@@ -220,7 +220,7 @@ class Webapi_Catalog_Category_Product_AdminTest extends Magento_Test_Webservice_
         $assignedProduct = array('product_id' => $product->getId(), 'position' => "999.9");
         $storeId = Mage::app()->getDefaultStoreView()->getId();
         $restResponse = $this->callPost($this->_getResourcePath($category->getId(), null, $storeId), $assignedProduct);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus(),
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus(),
             "Invalid response code received.");
         /** @var $updatedCategory Mage_Catalog_Model_Category */
         $updatedCategory = Mage::getModel('Mage_Catalog_Model_Category')->setStoreId($storeId)->load($category->getId());
@@ -293,7 +293,7 @@ class Webapi_Catalog_Category_Product_AdminTest extends Magento_Test_Webservice_
         $dataForUpdate = array('position' => $updatedPosition);
 
         $restResponse = $this->callPut($this->_getResourcePath($category->getId(), $updatedProductId), $dataForUpdate);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         /** @var $updatedCategory Mage_Catalog_Model_Category */
         $updatedCategory = Mage::getModel('Mage_Catalog_Model_Category')->load($category->getId());
@@ -395,7 +395,7 @@ class Webapi_Catalog_Category_Product_AdminTest extends Magento_Test_Webservice_
         unset($assignedProducts[$deletedProductId]);
 
         $restResponse = $this->callDelete($this->_getResourcePath($category->getId(), $deletedProductId));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         /** @var $updatedCategory Mage_Catalog_Model_Category */
         $updatedCategory = Mage::getModel('Mage_Catalog_Model_Category')->load($category->getId());
@@ -512,7 +512,7 @@ class Webapi_Catalog_Category_Product_AdminTest extends Magento_Test_Webservice_
         $assignedProducts = $category->getProductsPosition();
 
         $restResponse = $this->callGet($this->_getResourcePath($category->getId()));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         $assignedProductsFromResponse = $restResponse->getBody();
         $this->assertInternalType('array', $assignedProductsFromResponse, 'Response has invalid format.');

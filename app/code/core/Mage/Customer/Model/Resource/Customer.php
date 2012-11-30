@@ -1,28 +1,24 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Mage
- * @package     Mage_Customer
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-
-/**
  * Customer entity resource model
  *
- * @category    Mage
- * @package     Mage_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @copyright {}
  */
 class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstract
 {
     /**
-     * Resource initialization
+     * @var Mage_Core_Model_Validator_Factory
      */
-    public function __construct()
+    protected $_validatorFactory;
+
+    /**
+     * Resource initialization
+     *
+     * @param Mage_Core_Model_Validator_Factory $validatorFactory
+     */
+    public function __construct(Mage_Core_Model_Validator_Factory $validatorFactory)
     {
+        $this->_validatorFactory = $validatorFactory;
         $this->setType('customer');
         $this->setConnection('customer_read', 'customer_write');
     }
@@ -111,10 +107,7 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
      */
     protected function _validate($customer)
     {
-        $validatorFactory = Mage::getConfig()->getValidatorConfig();
-        $validator = $validatorFactory
-            ->getValidatorBuilder('customer', 'save')
-            ->createValidator();
+        $validator = $this->_validatorFactory->createValidator('customer', 'save');
 
         if (!$validator->isValid($customer)) {
             throw new Magento_Validator_Exception($validator->getMessages());

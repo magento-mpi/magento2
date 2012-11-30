@@ -172,7 +172,7 @@ class Mage_Webapi_Model_ResourceTest extends Mage_PHPUnit_TestCase
      */
     public function testCriticalWithPredefinedMessage()
     {
-        $message = Mage_Webapi_Controller_Front_Rest::RESOURCE_METHOD_NOT_ALLOWED;
+        $message = Mage_Webapi_Controller_Handler_Rest::RESOURCE_METHOD_NOT_ALLOWED;
         $this->setExpectedException('Mage_Webapi_Exception', $message, Mage_Webapi_Exception::HTTP_METHOD_NOT_ALLOWED);
         $this->_resource->_critical($message);
     }

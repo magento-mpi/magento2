@@ -1,24 +1,30 @@
 <?php
 /**
- * {license_notice}
+ * Web API User resource model.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
- * Web API User resource model
- *
- * @category    Mage
- * @package     Mage_Webapi
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @copyright {}
  */
 class Mage_Webapi_Model_Resource_Acl_User extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Resource initialization
+     * @var Mage_Webapi_Helper_Data
+     */
+    protected $_helper;
+
+    /**
+     * Class constructor.
+     *
+     * @param Mage_Core_Model_Resource $resource
+     * @param Mage_Webapi_Helper_Data $helper
+     */
+    public function __construct(Mage_Core_Model_Resource $resource, Mage_Webapi_Helper_Data $helper)
+    {
+        $this->_helper = $helper;
+        parent::__construct($resource);
+    }
+
+    /**
+     * Resource initialization.
      */
     protected function _construct()
     {
@@ -26,7 +32,7 @@ class Mage_Webapi_Model_Resource_Acl_User extends Mage_Core_Model_Resource_Db_Ab
     }
 
     /**
-     * Initialize unique fields
+     * Initialize unique fields.
      *
      * @return Mage_Webapi_Model_Resource_Acl_User
      */
@@ -35,16 +41,16 @@ class Mage_Webapi_Model_Resource_Acl_User extends Mage_Core_Model_Resource_Db_Ab
         $this->_uniqueFields = array(
             array(
                 'field' => 'api_key',
-                'title' => Mage::helper('Mage_Webapi_Helper_Data')->__('API Key')
+                'title' => $this->_helper->__('API Key')
             ),
         );
         return $this;
     }
 
     /**
-     * Get role users
+     * Get role users.
      *
-     * @param int $roleId
+     * @param integer $roleId
      * @return array
      */
     public function getRoleUsers($roleId)

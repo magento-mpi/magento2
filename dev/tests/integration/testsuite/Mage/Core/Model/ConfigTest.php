@@ -1,12 +1,8 @@
 <?php
 /**
- * {license_notice}
+ * Integration test for Mage_Core_Model_Config
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  integration_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {}
  */
 
 /**
@@ -68,7 +64,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testLoadBaseLocalConfig($etcDir, $option, $expectedNode, $expectedValue)
     {
-        $model = new Mage_Core_Model_Config;
+        $model = Mage::getModel('Mage_Core_Model_Config');
         $model->setOptions(array('etc_dir' => __DIR__ . "/_files/local_config/{$etcDir}", 'local_config' => $option));
         $model->loadBase();
         $this->assertInstanceOf('Varien_Simplexml_Element', $model->getNode($expectedNode));
@@ -91,7 +87,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testLoadLocales()
     {
-        $model = new Mage_Core_Model_Config();
+        $model = Mage::getModel('Mage_Core_Model_Config');
         $model->init(array(
             'locale_dir' => dirname(__FILE__) . '/_files/locale'
         ));
@@ -130,7 +126,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $samplePath = 'general/locale/firstday';
 
         // emulate a system config value in database
-        $configResource = new Mage_Core_Model_Resource_Config;
+        $configResource = Mage::getResourceModel('Mage_Core_Model_Resource_Config');
         $configResource->saveConfig($samplePath, 1, 'default', 0);
 
         try {
@@ -413,7 +409,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     protected function _createModel($initialize = false)
     {
-        $model = new Mage_Core_Model_Config;
+        $model = Mage::getModel('Mage_Core_Model_Config');
         if ($initialize) {
             $model->init(self::$_options);
         }
@@ -482,25 +478,5 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         );
         $this->assertEquals($testRouterExpected, $loadedRouters['test_router1'], 'Test router is not loaded correctly');
         $this->assertEquals($testRouterExpected, $loadedRouters['test_router2'], 'Test router is not loaded correctly');
-    }
-
-    /**
-     * Test getValidatorConfig
-     *
-     * @magentoAppIsolation enabled
-     */
-    public function testGetValidatorConfig()
-    {
-        $this->assertInstanceOf('Magento_Validator_Config', $this->_createModel(true)->getValidatorConfig());
-        // Check that default translator was set
-        $translator = Magento_Validator_ValidatorAbstract::getDefaultTranslator();
-        $this->assertInstanceOf('Magento_Translate_AdapterInterface', $translator);
-        $this->assertEquals('Message', $translator->__('Message'));
-        $this->assertEquals('Message', $translator->translate('Message'));
-        $this->assertEquals(
-            'Message with "placeholder one" and "placeholder two"',
-            $translator->__('Message with "%s" and "%s"', 'placeholder one', 'placeholder two')
-        );
-
     }
 }

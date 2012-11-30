@@ -6,6 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/*jshint browser:true jquery:true */
 (function($){
     $.widget("mage.loader", {
         options: {
@@ -56,9 +57,11 @@
         _render: function () {
             this.loader = $.tmpl(this.options.template, this.options)
                 .css(this._getCssObj());
-            this.element.is('body') ?
-                this.element.prepend(this.loader) :
+            if (this.element.is('body')) {
+                this.element.prepend(this.loader);
+            } else {
                 this.element.before(this.loader);
+            }
         },
         /**
          * Prepare object with css properties for loader
@@ -74,7 +77,7 @@
                 width: width + 'px',
                 position: position,
                 'margin-bottom': '-' + height + 'px'
-            }
+            };
         },
         /**
          * Destroy loader
@@ -86,7 +89,9 @@
     });
     $(document).ready(function(){
         $('body').on('ajaxSend', function(e){
-            $(e.target).loader().loader('show');
+            $(e.target).loader({
+                icon: $('#loading_mask_loader img').attr('src')
+            }).loader('show');
         });
-    })
+    });
 })(jQuery);

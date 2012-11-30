@@ -20,6 +20,7 @@ class Mage_Adminhtml_Block_Notification_Grid extends Mage_Adminhtml_Block_Widget
 {
     protected function _construct()
     {
+        parent::_construct();
         $this->setSaveParametersInSession(true);
         $this->setId('notificationGrid');
         $this->setIdFieldName('notification_id');

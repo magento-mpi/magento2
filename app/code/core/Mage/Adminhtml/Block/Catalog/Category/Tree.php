@@ -14,17 +14,19 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Catalog_Category_Abstract
 {
 
     protected $_withProductCount;
 
-    public function __construct()
+    protected $_template = 'catalog/category/tree.phtml';
+
+
+    protected function _construct()
     {
-        parent::__construct();
-        $this->setTemplate('catalog/category/tree.phtml');
+        parent::_construct();
         $this->setUseAjax(true);
         $this->_withProductCount = true;
     }
@@ -55,7 +57,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
         }
 
         $this->setChild('store_switcher',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Store_Switcher')
+            $this->getLayout()->createBlock('Mage_Backend_Block_Store_Switcher')
                 ->setSwitchUrl($this->getUrl('*/*/*', array('_current'=>true, '_query'=>false, 'store'=>null)))
                 ->setTemplate('store/switcher/enhanced.phtml')
         );
@@ -84,6 +86,57 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
             $this->setData('category_collection', $collection);
         }
         return $collection;
+    }
+
+    /**
+     * Retrieve list of categories with name containing $namePart and their parents
+     *
+     * @param string $namePart
+     * @return string
+     */
+    public function getSuggestedCategoriesJson($namePart)
+    {
+        $storeId = $this->getRequest()->getParam('store', $this->_getDefaultStoreId());
+
+        /* @var $collection Mage_Catalog_Model_Resource_Category_Collection */
+        $collection = Mage::getModel('Mage_Catalog_Model_Category')->getCollection();
+
+        $matchingNamesCollection = clone $collection;
+        $matchingNamesCollection->addAttributeToFilter('name', array('like' => "%{$namePart}%"))
+            ->addAttributeToSelect('path')
+            ->setStoreId($storeId);
+
+        $shownCategoriesIds = array();
+        foreach ($matchingNamesCollection as $category) {
+            foreach (explode('/', $category->getPath()) as $parentId) {
+                $shownCategoriesIds[$parentId] = 1;
+            }
+        }
+
+        $collection->addAttributeToFilter('entity_id', array('in' => array_keys($shownCategoriesIds)))
+            ->addAttributeToSelect(array('name', 'is_active', 'parent_id'))
+            ->setStoreId($storeId);
+
+        $categoryById = array(
+            Mage_Catalog_Model_Category::TREE_ROOT_ID => array(
+                'id' => Mage_Catalog_Model_Category::TREE_ROOT_ID,
+                'children' => array()
+            )
+        );
+        foreach ($collection as $category) {
+            foreach (array($category->getId(), $category->getParentId()) as $categoryId) {
+                if (!isset($categoryById[$categoryId])) {
+                    $categoryById[$categoryId] = array('id' => $categoryId, 'children' => array());
+                }
+            }
+            $categoryById[$category->getId()]['is_active'] = $category->getIsActive();
+            $categoryById[$category->getId()]['name'] = $category->getName();
+            $categoryById[$category->getParentId()]['children'][] = &$categoryById[$category->getId()];
+        }
+
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
+            $categoryById[Mage_Catalog_Model_Category::TREE_ROOT_ID]['children']
+        );
     }
 
     public function getAddRootButtonHtml()
@@ -155,7 +208,9 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
     public function getTreeJson($parenNodeCategory=null)
     {
         $rootArray = $this->_getNodeJson($this->getRoot($parenNodeCategory));
-        $json = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(isset($rootArray['children']) ? $rootArray['children'] : array());
+        $json = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
+            isset($rootArray['children']) ? $rootArray['children'] : array()
+        );
         return $json;
     }
 

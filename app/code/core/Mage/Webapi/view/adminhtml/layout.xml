@@ -1,12 +1,9 @@
 <?xml version="1.0"?>
 <!--
 /**
- * {license_notice}
+ * Layout of Webapi module for Magento admin panel.
  *
- * @category    design
- * @package     default_default
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {}
  */
 -->
 <layout>
@@ -83,21 +80,74 @@
         <container name="webapi_user.grid.container" label="API Users Grid Container" output="1" />
     </adminhtml_webapi_user_grid>
 
-    <adminhtml_webapi_user_rolesgrid>
-        <block type="Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Roles" name="root" output="toHtml" />
-    </adminhtml_webapi_user_rolesgrid>
-
     <adminhtml_webapi_user_edit>
+        <update handle="adminhtml_webapi_user_edit_tab_roles_grid_block"/>
         <reference name="content">
-            <block type="Mage_Webapi_Block_Adminhtml_User_Edit" name="webapi.user.edit" />
+            <block type="Mage_Webapi_Block_Adminhtml_User_Edit" name="webapi.user.edit"/>
         </reference>
         <reference name="left">
             <block type="Mage_Webapi_Block_Adminhtml_User_Edit_Tabs" name="webapi.user.edit.tabs">
                 <block type="Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Main" name="webapi.user.edit.tab.main" />
-                <block type="Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Roles" name="webapi.user.edit.tab.roles" />
+                <block type='Mage_Backend_Block_Widget_Grid_Container' name="webapi.user.edit.tab.roles.grid.container"/>
             </block>
         </reference>
     </adminhtml_webapi_user_edit>
+
+    <adminhtml_webapi_user_edit_tab_roles_grid_block>
+        <reference name="webapi.user.edit.tab.roles.grid.container">
+            <block type="Mage_Backend_Block_Widget_Grid" name="webapi.user.edit.tab.roles.grid" as="grid">
+                <arguments>
+                    <id>permissionsUserRolesGrid</id>
+                    <dataSource type="object">Mage_Webapi_Model_Resource_Acl_Role_Collection</dataSource>
+                    <use_ajax>true</use_ajax>
+                    <default_sort>sort_order</default_sort>
+                    <default_dir>ASC</default_dir>
+                    <grid_url type="url">
+                        <path>*/*/rolesgrid</path>
+                        <params>
+                            <_current>1</_current>
+                        </params>
+                    </grid_url>
+                </arguments>
+                <action method="setTitle" translate="value"><value>User Roles Information</value></action>
+                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" name="webapi.user.edit.tab.roles.grid.columnSet" as="grid.columnSet">
+                    <arguments>
+                        <id>permissionsUserRolesGrid</id>
+                    </arguments>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" name="webapi.user.edit.tab.roles.grid.columnSet.role_id" as="role_id">
+                        <arguments>
+                            <id>role_id</id>
+                            <index>role_id</index>
+                            <html_name>role_id</html_name>
+                            <header translate="true" module="Mage_Webapi">Assigned</header>
+                            <type>radio</type>
+                            <header_css_class>a-center</header_css_class>
+                            <align>center</align>
+                            <filter>0</filter>
+                            <sortable>0</sortable>
+                            <required>0</required>
+                            <value>
+                                <updater>Mage_Webapi_Model_Acl_User_RoleUpdater</updater>
+                            </value>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="role_name">
+                        <arguments>
+                            <id>role_name</id>
+                            <header translate="true" module="Mage_Webapi">Role Name</header>
+                            <index>role_name</index>
+                        </arguments>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_webapi_user_edit_tab_roles_grid_block>
+
+    <adminhtml_webapi_user_rolesgrid>
+        <update handle="formkey"/>
+        <update handle="adminhtml_webapi_user_edit_tab_roles_grid_block"/>
+        <container name="webapi.user.edit.tab.roles.grid.container" label="API User Roles Grid Container" output="1" />
+    </adminhtml_webapi_user_rolesgrid>
 
     <adminhtml_webapi_role_grid_block>
         <reference name="webapi_role.grid.container">
@@ -147,35 +197,118 @@
     <adminhtml_webapi_role_index>
         <update handle="adminhtml_webapi_role_grid_block"/>
         <reference name="content">
-            <block type="Mage_Webapi_Block_Adminhtml_Role" name="webapi_role.grid.container" />
+            <block type="Mage_Webapi_Block_Adminhtml_Role" name="webapi_role.grid.container"/>
         </reference>
     </adminhtml_webapi_role_index>
 
     <adminhtml_webapi_role_rolegrid>
         <update handle="formkey"/>
         <update handle="adminhtml_webapi_role_grid_block"/>
-        <container name="webapi_role.grid.container" label="API Roles Grid Container" output="1" />
+        <container name="webapi_role.grid.container" label="API Roles Grid Container" output="1"/>
     </adminhtml_webapi_role_rolegrid>
 
     <adminhtml_webapi_role_edit>
+        <update handle="adminhtml_webapi_role_edit_tab_users_grid_block"/>
         <reference name="content">
-            <block type="Mage_Webapi_Block_Adminhtml_Role_Edit" name="webapi.role.edit" />
+            <block type="Mage_Webapi_Block_Adminhtml_Role_Edit" name="webapi.role.edit"/>
         </reference>
         <reference name="left">
             <block type="Mage_Webapi_Block_Adminhtml_Role_Edit_Tabs" name="webapi.role.edit.tabs">
-                <block type="Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main" name="webapi.role.edit.tab.main" />
+                <block type="Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main" name="webapi.role.edit.tab.main"/>
                 <block type="Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource" name="webapi.role.edit.tab.resource"
-                    template="Mage_Webapi::rolesedit.phtml" />
-                <block type="Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_User" name="webapi.role.edit.tab.user"
-                    template="Mage_Webapi::rolesusers.phtml" />
+                       template="Mage_Webapi::rolesedit.phtml"/>
+                <block type='Mage_Backend_Block_Widget_Grid_Container' name="webapi.role.edit.tab.users.grid.container"/>
             </block>
         </reference>
         <reference name="head">
-            <action method="setCanLoadExtJs"><flag>1</flag></action>
+            <action method="setCanLoadExtJs">
+                <flag>1</flag>
+            </action>
         </reference>
         <reference name="js">
-            <block type="Mage_Core_Block_Template" name="roles-users-grid-js"
-                template="Mage_Webapi::rolesusersgridjs.phtml" />
+            <block type="Mage_Core_Block_Template" template="Mage_Webapi::rolesusersgridjs.phtml"/>
         </reference>
     </adminhtml_webapi_role_edit>
+
+    <adminhtml_webapi_role_usersgrid>
+        <update handle="formkey"/>
+        <update handle="adminhtml_webapi_role_edit_tab_users_grid_block"/>
+        <container name="webapi.role.edit.tab.users.grid.container" label="API Role Users Grid Container" output="1" />
+    </adminhtml_webapi_role_usersgrid>
+
+    <adminhtml_webapi_role_edit_tab_users_grid_block>
+        <reference name="webapi.role.edit.tab.users.grid">
+            <arguments>
+                <dataSource>
+                    <updater>Mage_Webapi_Model_Acl_Role_UsersUpdater</updater>
+                </dataSource>
+            </arguments>
+        </reference>
+        <reference name="webapi.role.edit.tab.users.grid.container">
+            <block type="Mage_Backend_Block_Widget_Grid" name="webapi.role.edit.tab.users.grid" as="grid">
+                <arguments>
+                    <id>roleUserGrid</id>
+                    <dataSource type="object">Mage_Webapi_Model_Resource_Acl_User_Collection</dataSource>
+                    <use_ajax>true</use_ajax>
+                    <default_sort>role_user_id</default_sort>
+                    <default_dir>ASC</default_dir>
+                    <grid_url type="url">
+                        <path>*/*/usersgrid</path>
+                        <params>
+                            <_current>1</_current>
+                        </params>
+                    </grid_url>
+                </arguments>
+                <action method="setTitle" translate="value"><value>Role Users Information</value></action>
+                <action method="setDefaultFilter">
+                    <value>
+                        <in_role_users>1</in_role_users>
+                    </value>
+                </action>
+                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" name="webapi.role.edit.tab.users.grid.columnSet" as="grid.columnSet">
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" name="webapi.role.edit.tab.users.grid.columnSet.in_role_users" as="in_role_users">
+                        <arguments>
+                            <id>in_role_users</id>
+                            <index>in_role_users</index>
+                            <html_name>in_role_users</html_name>
+                            <header_css_class>a-center</header_css_class>
+                            <type>checkbox</type>
+                            <values>
+                                <updater>Mage_Webapi_Model_Acl_Role_InRoleUserUpdater</updater>
+                            </values>
+                            <name>in_role_users</name>
+                            <align>center</align>
+                            <index>user_id</index>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="role_user_id">
+                        <arguments>
+                            <id>role_name</id>
+                            <header translate="true" module="Mage_Webapi">User ID</header>
+                            <width>20</width>
+                            <align>left</align>
+                            <sortable>1</sortable>
+                            <index>user_id</index>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="role_user_contactemail">
+                        <arguments>
+                            <id>role_user_contactemail</id>
+                            <header translate="true" module="Mage_Webapi">Contact Email</header>
+                            <align>left</align>
+                            <index>contact_email</index>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="role_user_apikey">
+                        <arguments>
+                            <id>role_user_apikey</id>
+                            <header translate="true" module="Mage_Webapi">API Key</header>
+                            <align>left</align>
+                            <index>api_key</index>
+                        </arguments>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_webapi_role_edit_tab_users_grid_block>
 </layout>

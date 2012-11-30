@@ -1,19 +1,8 @@
 <?php
 /**
- * {license_notice}
+ * Abstract route for Magento web API.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright  {copyright}
- * @license    {license_link}
- */
-
-/**
- * Webservice apia2 route abstract
- *
- * @category   Mage
- * @package    Mage_Webapi
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @copyright {}
  */
 abstract class Mage_Webapi_Controller_Router_RouteAbstract extends Zend_Controller_Router_Route
 {
@@ -21,7 +10,7 @@ abstract class Mage_Webapi_Controller_Router_RouteAbstract extends Zend_Controll
      * Matches a Request with parts defined by a map. Assigns and
      * returns an array of variables on a successful match.
      *
-     * @param Mage_Webapi_Controller_RequestAbstract $request
+     * @param Mage_Webapi_Controller_Request $request
      * @param boolean $partial Partial path matching
      * @return array|bool An array of assigned values or a boolean false on a mismatch
      */

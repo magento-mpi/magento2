@@ -44,7 +44,7 @@ class Webapi_Sales_Order_Address_AdminTest extends Magento_Test_Webservice_Rest_
 
         //test billing
         $restResponse = $this->callGet('orders/' . $order->getId() . '/addresses/billing');
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
@@ -56,7 +56,7 @@ class Webapi_Sales_Order_Address_AdminTest extends Magento_Test_Webservice_Rest_
 
         //test shipping
         $restResponse = $this->callGet('orders/' . $order->getId() . '/addresses/shipping');
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
@@ -93,7 +93,7 @@ class Webapi_Sales_Order_Address_AdminTest extends Magento_Test_Webservice_Rest_
         $order = $this->getFixture('order');
 
         $restResponse = $this->callGet('orders/' . $order->getId() . '/addresses');
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);

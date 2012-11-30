@@ -1,15 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Magento_Validator
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Exception class for validator
+ *
+ * @copyright {}
  */
 class Magento_Validator_Exception extends Exception
 {

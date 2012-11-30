@@ -1,42 +1,29 @@
 <?php
 /**
- * {license_notice}
+ * Web API adminhtml user block.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
- * Web API permissions user block
- *
- * @category   Mage
- * @package    Mage_Webapi
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @copyright {}
  */
 class Mage_Webapi_Block_Adminhtml_User extends Mage_Backend_Block_Widget_Grid_Container
 {
     /**
-     * Initialize grid container
+     * @var string
      */
-    public function __construct()
-    {
-        $this->_blockGroup = 'Mage_Webapi';
-        $this->_controller = 'adminhtml_user';
-        $this->_headerText = Mage::helper('Mage_Webapi_Helper_Data')->__('API Users');
-        $this->_addButtonLabel = Mage::helper('Mage_Webapi_Helper_Data')->__('Add New API User');
-        parent::__construct();
-    }
+    protected $_blockGroup = 'Mage_Webapi';
 
     /**
-     * Prepare output HTML
-     *
-     * @return string
+     * @var string
      */
-    protected function _toHtml()
+    protected $_controller = 'adminhtml_user';
+
+    /**
+     * Internal constructor.
+     */
+    protected function _construct()
     {
-        Mage::dispatchEvent('webapi_user_html_before', array('block' => $this));
-        return parent::_toHtml();
+        parent::_construct();
+
+        $this->_headerText = $this->__('API Users');
+        $this->_updateButton('add', 'label', $this->__('Add New API User'));
     }
 }

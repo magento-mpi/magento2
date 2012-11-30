@@ -18,12 +18,12 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        Mage::getDesign()->setDesignTheme('default/default/default', 'frontend');
+        Mage::getDesign()->setDesignTheme('default/demo', 'frontend');
     }
 
     protected function setUp()
     {
-        $this->_block = new Mage_Page_Block_Html_Head;
+        $this->_block = Mage::app()->getLayout()->createBlock('Mage_Page_Block_Html_Head');
     }
 
     protected function tearDown()
@@ -53,6 +53,24 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
         $this->_block->addCss('');
     }
 
+    public function testGetCssJsHtmlBadLink()
+    {
+        $this->_block->addJs('varien/js.js')
+            ->addJs('varien/form.js', '', 'lt IE 7')
+            ->addCss('not_exist_folder/wrong_bad_file.xyz')
+            ->addCss('css/styles.css', '   media="print" ')
+            ->addJs('not_exist_folder/wrong_bad_file2.xyz');
+
+        $this->assertEquals('<script type="text/javascript" src="http://localhost/index.php/core/index/notfound">'
+            . '</script>' . "\n" . '<!--[if lt IE 7]>' . "\n"
+            . '<script type="text/javascript" src="http://localhost/pub/lib/varien/form.js"></script>' . "\n"
+            . '<![endif]-->' . "\n" . '<link rel="stylesheet" type="text/css" media="all"'
+            . ' href="http://localhost/index.php/core/index/notfound" />' . "\n"
+            . '<link rel="stylesheet" type="text/css" media="print"'
+            . ' href="http://localhost/pub/media/theme/frontend/default/demo/en_US/css/styles.css" />'
+            . "\n", $this->_block->getCssJsHtml());
+    }
+
     public function testGetCssJsHtml()
     {
         $this->_block->addJs('zero.js', '', null, 'nonexisting_condition')
@@ -67,12 +85,12 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             '<script type="text/javascript" src="http://localhost/pub/lib/varien/js.js"></script>' . "\n"
             . '<script type="text/javascript" '
-            . 'src="http://localhost/pub/media/skin/frontend/default/default/default/en_US/Mage_Bundle/bundle.js">'
+            . 'src="http://localhost/pub/media/theme/frontend/default/demo/en_US/Mage_Bundle/bundle.js">'
             . '</script>' . "\n"
             . '<link rel="stylesheet" type="text/css" media="all"'
             . ' href="http://localhost/pub/lib/tiny_mce/themes/advanced/skins/default/ui.css" />' . "\n"
             . '<link rel="stylesheet" type="text/css" media="print" '
-                . 'href="http://localhost/pub/media/skin/frontend/default/default/default/en_US/css/styles.css" />'
+                . 'href="http://localhost/pub/media/theme/frontend/default/demo/en_US/css/styles.css" />'
                 . "\n"
             . '<link rel="alternate" type="application/rss+xml" title="RSS Feed" href="http://example.com/feed.xml" />'
                 . "\n"

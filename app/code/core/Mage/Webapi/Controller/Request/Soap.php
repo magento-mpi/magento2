@@ -1,56 +1,48 @@
 <?php
 /**
- * {license_notice}
+ * Soap API request.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright {}
  */
-
-/**
- * SOAP API Request
- *
- * @category   Mage
- * @package    Mage_Webapi
- * @author     Magento Core Team <core@magentocommerce.com>
- */
-class Mage_Webapi_Controller_Request_Soap extends Mage_Webapi_Controller_RequestAbstract
+class Mage_Webapi_Controller_Request_Soap extends Mage_Webapi_Controller_Request
 {
+    /** @var Mage_Webapi_Helper_Data */
+    protected $_helper;
+
     /**
-     * Initialize API type.
+     * Initialize dependencies.
      *
+     * @param Mage_Webapi_Helper_Data $helper
      * @param string|null $uri
      */
-    public function __construct($uri = null)
+    public function __construct(Mage_Webapi_Helper_Data $helper, $uri = null)
     {
-        $this->setApiType(Mage_Webapi_Controller_Front_Base::API_TYPE_SOAP);
-        parent::__construct($uri);
+        parent::__construct(Mage_Webapi_Controller_Front::API_TYPE_SOAP, $uri);
+        $this->_helper = $helper;
     }
 
     /**
-     * Identify versions of resources that should be used for API configuration file generation.
+     * Identify versions of resources that should be used for API configuration generation.
      *
      * @return array
      * @throws Mage_Webapi_Exception When GET parameters are invalid
      */
     public function getRequestedResources()
     {
-        $helper = Mage::helper('Mage_Webapi_Helper_Data');
-        $wsdlParam = Mage_Webapi_Controller_Front_Soap::REQUEST_PARAM_WSDL;
-        $resourcesParam = Mage_Webapi_Controller_Front_Soap::REQUEST_PARAM_RESOURCES;
+        $wsdlParam = Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL;
+        $resourcesParam = Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_RESOURCES;
         $requestParams = array_keys($this->getParams());
-        $allowedParams = array('api_type', $wsdlParam, $resourcesParam);
+        $allowedParams = array(Mage_Webapi_Controller_Router_Route_Webapi::PARAM_API_TYPE, $wsdlParam, $resourcesParam);
         $notAllowedParameters = array_diff($requestParams, $allowedParams);
         if (count($notAllowedParameters)) {
-            $message = $helper->__('Not allowed parameters: %s. ', implode(', ', $notAllowedParameters))
-                . $helper->__('Please, use only "%s" and "%s".', $wsdlParam, $resourcesParam);
+            $message = $this->_helper->__('Not allowed parameters: %s. ', implode(', ', $notAllowedParameters))
+                . $this->_helper->__('Please use only "%s" and "%s".', $wsdlParam, $resourcesParam);
             throw new Mage_Webapi_Exception($message, Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
 
         $requestedResources = $this->getParam($resourcesParam);
-        if (empty($requestedResources) || !is_array($requestedResources) || empty($requestedResources)) {
-            $message = $helper->__('Missing requested resources.');
+        if (empty($requestedResources) || !is_array($requestedResources)) {
+            $message = $this->_helper->__('Requested resources are missing.');
             throw new Mage_Webapi_Exception($message, Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
         return $requestedResources;

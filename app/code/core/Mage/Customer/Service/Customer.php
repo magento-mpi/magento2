@@ -1,19 +1,8 @@
 <?php
 /**
- * {license_notice}
+ * Customer service is responsible for customer business workflow encapsulation
  *
- * @category    Mage
- * @package     Mage_Customer
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
- * Customer service is responsible for customer business workflows encapsulation
- *
- * @category    Mage
- * @package     Mage_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @copyright {}
  */
 class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
 {
@@ -28,16 +17,74 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
     protected $_afterSaveCallback = null;
 
     /**
+     * @var Mage_Customer_Helper_Data
+     */
+    protected $_translateHelper = null;
+
+    /**
+     * @var Mage_Customer_Model_Customer_Factory
+     */
+    protected $_customerFactory = null;
+
+    /**
+     * @var Mage_Customer_Model_Address_Factory
+     */
+    protected $_addressFactory = null;
+
+    /**
+     * @var bool
+     */
+    protected $_isAdminStore = true;
+
+    /**
+     * @var bool
+     */
+    protected $_sendRemainderEmail = true;
+    // todo: drop the parameter as soon as front controller of webapi will be able to return routers
+
+    /**
      * Constructor
      *
-     * @param array $args
+     * @param Mage_Customer_Helper_Data $helper
+     * @param Mage_Customer_Model_Customer_Factory $customerFactory
+     * @param Mage_Customer_Model_Address_Factory $addressFactory
+     * @param bool $isAdminStore
      */
-    public function __construct(array $args = array())
+    public function __construct(
+        Mage_Customer_Helper_Data $helper,
+        Mage_Customer_Model_Customer_Factory $customerFactory,
+        Mage_Customer_Model_Address_Factory $addressFactory,
+        $isAdminStore = true
+    ) {
+        $this->_translateHelper = $helper;
+        $this->_customerFactory = $customerFactory;
+        $this->_addressFactory = $addressFactory;
+        $this->_isAdminStore = $isAdminStore;
+    }
+
+    /**
+     * Set is admin store flag.
+     *
+     * @param bool $isAdminStore
+     * @return Mage_Customer_Service_Customer
+     */
+    public function setIsAdminStore($isAdminStore)
     {
-        if (!isset($args['helper'])) {
-            $args['helper'] = Mage::helper('Mage_Customer_Helper_Data');
-        }
-        parent::__construct($args);
+        $this->_isAdminStore = $isAdminStore;
+        return $this;
+    }
+
+    /**
+     * Set flag if send remainder email
+     *
+     * @param bool $flag
+     * @return Mage_Customer_Service_Customer
+     */
+    public function setSendRemainderEmail($flag)
+    {
+        // todo: drop next string as soon as front controller of webapi will be able to return routers
+        $this->_sendRemainderEmail = (bool)$flag;
+        return $this;
     }
 
     /**
@@ -73,8 +120,7 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
      */
     public function create(array $customerData, array $addressesData = null)
     {
-        /** @var Mage_Customer_Model_Customer $customer */
-        $customer = Mage::getModel('Mage_Customer_Model_Customer');
+        $customer = $this->_customerFactory->create();
         $this->_preparePasswordForSave($customer, $customerData);
         $this->_save($customer, $customerData, $addressesData);
 
@@ -170,7 +216,7 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
         $password = $this->_getCustomerPassword($customer, $customerData);
         if (!is_null($password)) {
             // 'force_confirmed' should be set in admin area only
-            if (Mage::app()->getStore()->getId() == Mage_Core_Model_App::ADMIN_STORE_ID) {
+            if ($this->_isAdminStore) {
                 $customer->setForceConfirmed(true);
             }
             $customer->setPassword($password);
@@ -208,8 +254,10 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
     {
         if (!empty($customerData['password']) || $this->_isAutogeneratePassword($customerData)) {
             $newPassword = $this->_getCustomerPassword($customer, $customerData);
-            $customer->changePassword($newPassword)
-                ->sendPasswordReminderEmail();
+            $customer->changePassword($newPassword);
+            if ($this->_sendRemainderEmail) {
+                $customer->sendPasswordReminderEmail();
+            }
         }
 
         return $this;
@@ -271,8 +319,7 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
      */
     protected function _loadCustomerById($customerId)
     {
-        /** @var Mage_Customer_Model_Customer $customer */
-        $customer = Mage::getModel('Mage_Customer_Model_Customer');
+        $customer = $this->_customerFactory->create();
         $customer->load($customerId);
         if (!$customer->getId()) {
             throw new Mage_Core_Exception($this->_translateHelper->__("The customer with the specified ID not found."));
@@ -306,8 +353,7 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
                         $this->_translateHelper->__('The address with the specified ID not found.'));
                 }
             } else {
-                /** @var Mage_Customer_Model_Address $address */
-                $address = Mage::getModel('Mage_Customer_Model_Address');
+                $address = $this->_addressFactory->create();
                 $address->setCustomerId($customer->getId());
                 // Add customer address into addresses collection
                 $customer->addAddress($address);

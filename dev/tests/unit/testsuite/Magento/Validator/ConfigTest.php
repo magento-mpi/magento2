@@ -1,16 +1,8 @@
 <?php
 /**
- * {license_notice}
+ * Unit Test for Magento_Validator_Config
  *
- * @category    Magento
- * @package     Magento_Validator
- * @subpackage  unit_tests
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
- * Test for Magento_Validator_Config
+ * @copyright {}
  */
 class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
 {
@@ -48,7 +40,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     public function testCreateValidatorInvalidEntityName()
     {
         $this->_initConfig();
-        $this->_config->getValidatorBuilder('invalid_entity', null);
+        $this->_config->createValidatorBuilder('invalid_entity', null);
     }
 
     /**
@@ -58,7 +50,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     public function testCreateValidatorInvalidGroupName()
     {
         $this->_initConfig();
-        $this->_config->getValidatorBuilder('test_entity_a', 'invalid_group');
+        $this->_config->createValidatorBuilder('test_entity_a', 'invalid_group');
     }
 
     /**
@@ -78,7 +70,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     public function testGetValidatorBuilderClassNotFound()
     {
         $this->_initConfig(array(__DIR__ . '/_files/validation/negative/invalid_builder_class.xml'));
-        $this->_config->getValidatorBuilder('catalog_product', 'create');
+        $this->_config->createValidatorBuilder('catalog_product', 'create');
     }
 
     /**
@@ -88,7 +80,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     public function testGetValidatorBuilderInstanceInvalid()
     {
         $this->_initConfig(array(__DIR__ . '/_files/validation/negative/invalid_builder_instance.xml'));
-        $this->_config->getValidatorBuilder('catalog_product', 'create');
+        $this->_config->createValidatorBuilder('catalog_product', 'create');
     }
 
     /**
@@ -97,7 +89,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     public function testGetValidatorBuilderInstance()
     {
         $this->_initConfig();
-        $builder = $this->_config->getValidatorBuilder('test_entity_a', 'check_alnum');
+        $builder = $this->_config->createValidatorBuilder('test_entity_a', 'check_alnum');
         $this->assertInstanceOf('Magento_Validator_Builder', $builder);
     }
 
@@ -107,8 +99,8 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
      * @param string $entityName
      * @param string $groupName
      * @param mixed $value
-     * @param $expectedResult
-     * @param $expectedMessages
+     * @param bool $expectedResult
+     * @param array $expectedMessages
      */
     public function testCreateValidator($entityName, $groupName, $value, $expectedResult, $expectedMessages)
     {
@@ -193,7 +185,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->_initConfig(array(__DIR__ . '/_files/validation/positive/builder/validation.xml'));
-        $builder = $this->_config->getValidatorBuilder('test_entity_a', 'check_builder');
+        $builder = $this->_config->createValidatorBuilder('test_entity_a', 'check_builder');
         $this->assertInstanceOf('Magento_Validator_Test_Builder', $builder);
 
         $expected = array(

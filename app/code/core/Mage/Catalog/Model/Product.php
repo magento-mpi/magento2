@@ -91,21 +91,20 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     protected $_calculatePrice = true;
 
     /**
-     * Resource instance
-     *
-     * @var Mage_Catalog_Model_Resource_Product
-     */
-    protected $_resource;
-
-    /**
-     * Initialize data
-     *
+     * @param Mage_Core_Model_Event_Manager $eventDispatcher
+     * @param Mage_Core_Model_Cache $cacheManager
      * @param array $data
+     * @param Mage_Catalog_Model_Resource_Product $resource
+     * @param Mage_Catalog_Model_Resource_Product_Collection $resourceCollection
      */
-    public function __construct(array $data = array())
-    {
-        $this->_resource = isset($data['resource']) ? $data['resource'] : null;
-        parent::__construct($data);
+    public function __construct(
+        Mage_Core_Model_Event_Manager $eventDispatcher,
+        Mage_Core_Model_Cache $cacheManager,
+        Mage_Catalog_Model_Resource_Product $resource,
+        Mage_Catalog_Model_Resource_Product_Collection $resourceCollection,
+        array $data = array()
+    ) {  
+        parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -136,10 +135,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getResourceCollection()
     {
-        if (empty($this->_resourceCollectionName)) {
-            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('The model collection resource name is not defined.'));
-        }
-        $collection = Mage::getResourceModel($this->_resourceCollectionName);
+        $collection = parent::getResourceCollection();
         $collection->setStoreId($this->getStoreId());
         return $collection;
     }
@@ -315,36 +311,13 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     }
 
     /**
-     * Set assigned category IDs array to product
-     *
-     * @param array|string $ids
-     * @return Mage_Catalog_Model_Product
-     */
-    public function setCategoryIds($ids)
-    {
-        if (is_string($ids)) {
-            $ids = explode(',', $ids);
-        } elseif (!is_array($ids)) {
-            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Invalid category IDs.'));
-        }
-        foreach ($ids as $i => $v) {
-            if (empty($v)) {
-                unset($ids[$i]);
-            }
-        }
-
-        $this->setData('category_ids', $ids);
-        return $this;
-    }
-
-    /**
      * Retrieve assigned category Ids
      *
      * @return array
      */
     public function getCategoryIds()
     {
-        if (! $this->hasData('category_ids')) {
+        if (!$this->hasData('category_ids')) {
             $wasLocked = false;
             if ($this->isLockedAttribute('category_ids')) {
                 $wasLocked = true;
@@ -357,7 +330,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             }
         }
 
-        return (array) $this->_getData('category_ids');
+        return (array)$this->_getData('category_ids');
     }
 
     /**
@@ -573,19 +546,6 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             }
         }
         return $this;
-    }
-
-    /**
-     * Retrieve resource instance wrapper
-     *
-     * @return Mage_Catalog_Model_Resource_Product
-     */
-    protected function _getResource()
-    {
-        if (is_null($this->_resource)) {
-            return parent::_getResource();
-        }
-        return $this->_resource;
     }
 
     /**

@@ -1,16 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Mage_Webapi
- * @subpackage  unit_tests
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Test class for Mage_Webapi_Model_Authorization_Config
+ *
+ * @copyright {}
  */
 class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestCase
 {
@@ -20,12 +12,17 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
     protected $_model;
 
     /**
-     * @var Magento_Acl_Config_Reader
+     * @var Magento_Acl_Config_Reader|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configReader;
 
     /**
-     * @var Mage_Core_Model_Config
+     * @var Mage_Webapi_Model_Authorization_Config_Reader_Factory|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_readerFactory;
+
+    /**
+     * @var Mage_Core_Model_Config|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_config;
 
@@ -34,18 +31,34 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
      */
     protected function setUp()
     {
-        $this->_config = $this->getMock('Mage_Core_Model_Config',
-            array('getModelInstance', 'getModuleConfigurationFiles'), array(), '', false);
-        $this->_configReader = $this->getMock('Magento_Acl_Config_Reader',
-            array('getAclResources'), array(), '', false);
-        $this->_model = new Mage_Webapi_Model_Authorization_Config(array(
-            'config' => $this->_config
+        $helper = new Magento_Test_Helper_ObjectManager($this);
+
+        $this->_config = $this->getMockBuilder('Mage_Core_Model_Config')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getModuleConfigurationFiles'))
+            ->getMock();
+
+        $this->_readerFactory = $this->getMockBuilder('Mage_Webapi_Model_Authorization_Config_Reader_Factory')
+            ->disableOriginalConstructor()
+            ->setMethods(array('createReader'))
+            ->getMock();
+
+        $this->_configReader = $this->getMockBuilder('Magento_Acl_Config_Reader')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getAclResources'))
+            ->getMock();
+
+        $this->_model = $helper->getModel('Mage_Webapi_Model_Authorization_Config', array(
+            'config' => $this->_config,
+            'readerFactory' => $this->_readerFactory
         ));
-        $this->_config->expects($this->once())
+
+        $this->_config->expects($this->any())
             ->method('getModuleConfigurationFiles')
             ->will($this->returnValue(array()));
-        $this->_config->expects($this->once())
-            ->method('getModelInstance')
+
+        $this->_readerFactory->expects($this->any())
+            ->method('createReader')
             ->will($this->returnValue($this->_configReader));
     }
 
@@ -101,7 +114,7 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
     }
 
     /**
-     * test for Mage_Webapi_Model_Authorization_ConfigTest::getAclVirtualResources
+     * Test for Mage_Webapi_Model_Authorization_Config::getAclVirtualResources
      */
     public function testGetAclVirtualResources()
     {
@@ -132,5 +145,139 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
         sort($expectedResources);
         sort($actualResources);
         $this->assertEquals($expectedResources, $actualResources);
+    }
+
+    /**
+     * Test for Mage_Webapi_Model_Authorization_Config::getAclResourcesAsArray
+     *
+     * @dataProvider aclResourcesDataProvider
+     * @param string $actualXmlFile
+     * @param bool $includeRoot
+     * @param array $expectedResources
+     */
+    public function testGetAclResourcesAsArray($actualXmlFile, $includeRoot, $expectedResources)
+    {
+        $actualAclResources = new DOMDocument();
+        $actualAclResources->load($actualXmlFile);
+
+        $this->_configReader->expects($this->once())
+            ->method('getAclResources')
+            ->will($this->returnValue($actualAclResources));
+
+        $this->assertEquals($expectedResources, $this->_model->getAclResourcesAsArray($includeRoot));
+    }
+
+    /**
+     * @return array
+     */
+    public function aclResourcesDataProvider()
+    {
+        $aclResourcesArray = array (
+            'id' => 'Mage_Webapi',
+            'text' => '',
+            'children' => array(
+                array(
+                    'id' => 'customer',
+                    'text' => 'Manage Customers',
+                    'sortOrder' => 20,
+                    'children' => array(
+                        array(
+                            'id' => 'customer/update',
+                            'text' => 'Edit Customer',
+                            'sortOrder' => 10,
+                            'children' => array(),
+                        ),
+                        array(
+                            'id' => 'customer/get',
+                            'text' => 'Get Customer',
+                            'sortOrder' => 20,
+                            'children' => array(),
+                        ),
+                        array(
+                            'id' => 'customer/create',
+                            'text' => 'Create Customer',
+                            'sortOrder' => 30,
+                            'children' => array(),
+                        ),
+                        array(
+                            'id' => 'customer/delete',
+                            'text' => 'Delete Customer',
+                            'children' => array(),
+                        ),
+                    ),
+                ),
+            ),
+        );
+        return array(
+            array(
+                'actualXmlFile' => __DIR__ . DIRECTORY_SEPARATOR .  '..'
+                    . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'acl.xml',
+                'includeRoot' => true,
+                'expectedResources' => $aclResourcesArray
+            ),
+            array(
+                'actualXmlFile' =>__DIR__ . DIRECTORY_SEPARATOR .  '..'
+                    . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'acl.xml',
+                'includeRoot' => false,
+                'expectedResources' => $aclResourcesArray['children'],
+            )
+        );
+    }
+
+    /**
+     * Test for method _getSortedBySortOrder
+     *
+     * @dataProvider getSortedBySortOrderDataProvider
+     * @param array $originArray
+     * @param array $sortedArray
+     */
+    public function testGetSortedBySortOrder($originArray, $sortedArray)
+    {
+        $methodReflection = new ReflectionMethod($this->_model, '_getSortedBySortOrder');
+        $methodReflection->setAccessible(true);
+        $this->assertEquals($sortedArray, $methodReflection->invoke($this->_model, $originArray));
+    }
+
+    /**
+     * @return array
+     */
+    public function getSortedBySortOrderDataProvider()
+    {
+        return array(
+            array(
+                array(
+                    array('name' => 'A', 'sortOrder' => 2),
+                    array('name' => 'B', 'sortOrder' => 1),
+                    array('name' => 'C', 'sortOrder' => 1),
+                    array('name' => 'D', 'sortOrder' => 1),
+                    array('name' => 'E', 'sortOrder' => 0)
+                ),
+                array(
+                    array('name' => 'E', 'sortOrder' => 0),
+                    array('name' => 'B', 'sortOrder' => 1),
+                    array('name' => 'C', 'sortOrder' => 1),
+                    array('name' => 'D', 'sortOrder' => 1),
+                    array('name' => 'A', 'sortOrder' => 2),
+                )
+            ),
+            array(
+                array(
+                    array('name' => 'A'),
+                    array('name' => 'B'),
+                    array('name' => 'C', 'sortOrder' => 1),
+                    array('name' => 'D'),
+                    array('name' => 'E'),
+                    array('name' => 'F', 'sortOrder' => -1)
+                ),
+                array(
+                    array('name' => 'F', 'sortOrder' => -1),
+                    array('name' => 'C', 'sortOrder' => 1),
+                    array('name' => 'A'),
+                    array('name' => 'B'),
+                    array('name' => 'D'),
+                    array('name' => 'E'),
+                )
+            )
+        );
     }
 }

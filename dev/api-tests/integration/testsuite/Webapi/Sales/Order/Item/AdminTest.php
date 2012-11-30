@@ -47,7 +47,7 @@ class Webapi_Sales_Order_Item_AdminTest extends Magento_Test_Webservice_Rest_Adm
         $fixtureOrder = $this->getFixture('order');
 
         $restResponse = $this->callGet('orders/' . $fixtureOrder->getId() . '/items');
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);

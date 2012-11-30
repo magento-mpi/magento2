@@ -29,7 +29,6 @@ return array(
                     ),
                 ),
             ),
-            'rest_routes' => array('/:resourceVersion/namespaceAModuleAs/subresourceBs/:id'),
         ),
         'list' => array(
             'documentation' => 'List description.',
@@ -53,7 +52,6 @@ return array(
                     ),
                 ),
             ),
-            'rest_routes' => array('/:resourceVersion/namespaceAModuleAs/:parentId/subresourceBs'),
         )
     )
 );

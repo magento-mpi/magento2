@@ -1,20 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright  {copyright}
- * @license    {license_link}
- */
-
-/**
- * SOAP WS-Security UsernameToken model.
+ * Model of SOAP WS-Security user token.
  *
  * @see http://docs.oasis-open.org/wss-m/wss/v1.1.1/os/wss-UsernameTokenProfile-v1.1.1-os.html
- * @category   Mage
- * @package    Mage_Webapi
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @copyright {}
  */
 class Mage_Webapi_Model_Soap_Security_UsernameToken
 {
@@ -26,25 +15,6 @@ class Mage_Webapi_Model_Soap_Security_UsernameToken
     /**#@-*/
 
     /**
-     * @var Mage_Core_Model_Config
-     */
-    protected $_objectFactory;
-
-    /**
-     * Username value.
-     *
-     * @var string
-     */
-    protected $_username;
-
-    /**
-     * Password value.
-     *
-     * @var string
-     */
-    protected $_password;
-
-    /**
      * Password type value.
      *
      * @var string
@@ -52,92 +22,71 @@ class Mage_Webapi_Model_Soap_Security_UsernameToken
     protected $_passwordType = self::PASSWORD_TYPE_TEXT;
 
     /**
-     * Token nonce.
+     * Nonce storage.
      *
-     * @var string
+     * @var Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage
      */
-    protected $_nonce;
+    protected $_nonceStorage;
 
     /**
-     * Token created at timestamp.
+     * Webapi users factory.
      *
-     * @var string
+     * @var Mage_Webapi_Model_Acl_User_Factory
      */
-    protected $_created;
+    protected $_userFactory;
 
     /**
-     * Construct WS-Security UsernameToken object.
+     * Constructor.
      *
-     * @param array $options
-     * @throws Mage_Webapi_Model_Soap_Security_UsernameToken_MissingUsernameException
-     * @throws Mage_Webapi_Model_Soap_Security_UsernameToken_MissingPasswordException
-     * @throws Mage_Webapi_Model_Soap_Security_UsernameToken_MissingNonceException
-     * @throws Mage_Webapi_Model_Soap_Security_UsernameToken_MissingCreatedException
+     * @param Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage $nonceStorage
+     * @param Mage_Webapi_Model_Acl_User_Factory $userFactory
+     * @param string $passwordType
      * @throws Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidPasswordTypeException
-     * @throws Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidDateException
      */
-    public function __construct($options)
-    {
-        $this->_objectFactory = isset($options['objectFactory']) ? $options['objectFactory'] : Mage::getConfig();
-
-        if (!isset($options['username']) || empty($options['username'])) {
-            throw new Mage_Webapi_Model_Soap_Security_UsernameToken_MissingUsernameException;
+    public function __construct(
+        Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage $nonceStorage,
+        Mage_Webapi_Model_Acl_User_Factory $userFactory,
+        $passwordType = self::PASSWORD_TYPE_DIGEST
+    ) {
+        if (!in_array($passwordType, array(self::PASSWORD_TYPE_DIGEST, self::PASSWORD_TYPE_TEXT))) {
+            throw new Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidPasswordTypeException;
         }
-        $this->_username = $options['username'];
-
-        if (isset($options['passwordType'])) {
-            if (!in_array($options['passwordType'], array(self::PASSWORD_TYPE_DIGEST, self::PASSWORD_TYPE_TEXT))) {
-                throw new Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidPasswordTypeException;
-            }
-            $this->_passwordType = $options['passwordType'];
-        }
-
-        if (!isset($options['password']) || empty($options['password'])) {
-            throw new Mage_Webapi_Model_Soap_Security_UsernameToken_MissingPasswordException;
-        }
-        $this->_password = $options['password'];
-
-        if (!isset($options['created']) || empty($options['created'])) {
-            throw new Mage_Webapi_Model_Soap_Security_UsernameToken_MissingCreatedException;
-        }
-        $createdTimestamp = $this->_getTimestampFromDate($options['created']);
-        if (!$createdTimestamp) {
-            throw new Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidDateException;
-        }
-        $this->_created = $options['created'];
-
-        if (!isset($options['nonce']) || empty($options['nonce'])) {
-            throw new Mage_Webapi_Model_Soap_Security_UsernameToken_MissingNonceException;
-        }
-        /** @var Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage $nonceStorage */
-        $nonceStorage = isset($options['nonceStorage'])
-            ? $options['nonceStorage']
-            : $this->_objectFactory->getModelInstance('Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage');
-        $nonceStorage->validateNonce($options['nonce'], $createdTimestamp);
-        $this->_nonce = $options['nonce'];
+        $this->_passwordType = $passwordType;
+        $this->_nonceStorage = $nonceStorage;
+        $this->_userFactory = $userFactory;
     }
 
     /**
-     * Authenticate token and return user model.
+     * Authenticate username token data.
      *
-     * @throws Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidCredentialException
+     * @param string $username username value from token.
+     * @param string $password password value from token.
+     * @param string $created timestamp created value (must be in ISO-8601 format).
+     * @param string $nonce timestamp nonce.
      * @return Mage_Webapi_Model_Acl_User
+     * @throws Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidCredentialException
+     * @throws Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidDateException
      */
-    public function authenticate()
+    public function authenticate($username, $password, $created, $nonce)
     {
-        /** @var Mage_Webapi_Model_Acl_User $user */
-        $user = $this->_objectFactory->getModelInstance('Mage_Webapi_Model_Acl_User');
-        if (!$user->load($this->_username, 'api_key')->getId()) {
+        $createdTimestamp = $this->_getTimestampFromDate($created);
+        if (!$createdTimestamp) {
+            throw new Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidDateException;
+        }
+        $this->_nonceStorage->validateNonce($nonce, $createdTimestamp);
+
+        $user = $this->_userFactory->create();
+        if (!$user->load($username, 'api_key')->getId()) {
             throw new Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidCredentialException;
         }
 
-        $password = $user->getSecret();
+        $localPassword = $user->getSecret();
         if ($this->_passwordType == self::PASSWORD_TYPE_DIGEST) {
-            $baseString = base64_decode($this->_nonce) . $this->_created . $password;
-            $password = base64_encode(hash('sha1', $baseString, true));
+            $baseString = base64_decode($nonce) . $created . $localPassword;
+            $localPassword = base64_encode(hash('sha1', $baseString, true));
         }
 
-        if ($password != $this->_password) {
+        if ($localPassword != $password) {
             throw new Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidCredentialException;
         }
 

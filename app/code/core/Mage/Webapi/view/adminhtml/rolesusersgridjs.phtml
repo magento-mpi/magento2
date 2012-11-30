@@ -1,22 +1,33 @@
 <?php
 /**
- * {license_notice}
+ * Template contains JS that handles checkbox on users grid in role edit tab.
  *
- * @category    design
- * @package     default_default
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {}
+ *
+ * @var Mage_Core_Block_Template $this
  */
 ?>
-<script type="text/javascript">
-<!--
-<?php $myBlock = $this->getLayout()->getBlock('roleUsersGrid'); ?>
-<?php if(is_object($myBlock) && $myBlock->getJsObjectName()): ?>
+<?php $usersGridBlock = $this->getLayout()->getBlock('webapi.role.edit.tab.users.grid'); ?>
+<?php $inRoleUsersColumn = $this->getLayout()->getBlock('webapi.role.edit.tab.users.grid.columnSet.in_role_users'); ?>
+<?php if ($usersGridBlock && $usersGridBlock->getJsObjectName()): ?>
+    <script type="text/javascript">
     var checkBoxes = $H({});
     var warning = false;
-    var inRoleUsers = $H(<?php echo $myBlock->_getUsers(true) ?>);
-    if (inRoleUsers.size() > 0) warning = true;
+    var inRoleUsers = $H(arrayToObject(
+        <?php echo $this->helper('Mage_Core_Helper_Data')->jsonEncode($inRoleUsersColumn->getValues()) ?>)
+    );
+    if (inRoleUsers.size() > 0) {
+        warning = true;
+    }
     $('in_role_user').value = inRoleUsers.toQueryString();
+
+    function arrayToObject(array) {
+        var result = {};
+        for (var i = 0; i < array.length; ++i) {
+            result[array[i]] = 1;
+        }
+        return result;
+    }
 
     function registerUserRole(grid, element, checked) {
         if (checked) {
@@ -30,13 +41,15 @@
 
     function roleUsersRowClick(grid, event) {
         var trElement = Event.findElement(event, 'tr');
-        var isInput   = Event.element(event).tagName == 'INPUT';
+        var isInput = Event.element(event).tagName == 'INPUT';
         if (trElement) {
             var checkbox = Element.getElementsBySelector(trElement, 'input');
             if (checkbox[0]) {
                 var checked = isInput ? checkbox[0].checked : !checkbox[0].checked;
-                if (warning && checkBoxes.size() > 0) {
-                    if (!confirm("<?php echo Mage::helper('Mage_Webapi_Helper_Data')->__('Warning!\r\nThis action will remove this user from already assigned role\r\nAre you sure?') ?>")) {
+                if (inRoleUsers.get(checkbox[0].value) && !checked && warning && checkBoxes.size() > 0) {
+                    if (!confirm("<?php echo $this
+                        ->__('Warning!\r\nThis action will remove this user from already assigned role\r\nAre you sure?'
+                    ) ?>")) {
                         checkbox[0].checked = false;
                         checkBoxes.each(function(elem) {
                             if (elem.value.status == 1) {
@@ -47,7 +60,7 @@
                     }
                     warning = false;
                 }
-                <?php echo $myBlock->getJsObjectName() ?>.setCheckboxChecked(checkbox[0], checked);
+                <?php echo $usersGridBlock->getJsObjectName() ?>.setCheckboxChecked(checkbox[0], checked);
             }
         }
     }
@@ -59,9 +72,11 @@
         }
     }
 
-    function myhandler(obj) {
-        if (checkBoxes.size() > 0) {
-            if (!confirm("<?php echo Mage::helper('Mage_Webapi_Helper_Data')->__('Warning!\r\nThis action will remove those users from already assigned roles\r\nAre you sure?') ?>")) {
+    function checkCheckboxesHandler(obj) {
+        if (warning && checkBoxes.size() > 0) {
+            if (!confirm("<?php echo $this
+                ->__('Warning!\r\nThis action will remove those users from already assigned roles\r\nAre you sure?')?>")
+            ) {
                 obj.checked = false;
                 checkBoxes.each(function(elem) {
                     if (elem.value.status == 1) {
@@ -73,17 +88,18 @@
             warning = false;
         }
         checkBoxes.each(function(elem) {
-            <?php echo $myBlock->getJsObjectName() ?>.setCheckboxChecked(elem.value.object, obj.checked);
+            <?php echo $usersGridBlock->getJsObjectName() ?>.setCheckboxChecked(elem.value.object, obj.checked);
         });
     }
 
-<?php echo $myBlock->getJsObjectName() ?>.rowClickCallback = roleUsersRowClick;
-<?php echo $myBlock->getJsObjectName() ?>.initRowCallback = roleUsersRowInit;
-<?php echo $myBlock->getJsObjectName() ?>.checkboxCheckCallback = registerUserRole;
-<?php echo $myBlock->getJsObjectName() ?>.checkCheckboxes = myhandler;
-<?php echo $myBlock->getJsObjectName() ?>.rows.each(
-    function(row){roleUsersRowInit(<?php echo $myBlock->getJsObjectName() ?>, row)});
+    <?php echo $usersGridBlock->getJsObjectName() ?>.rowClickCallback = roleUsersRowClick;
+    <?php echo $usersGridBlock->getJsObjectName() ?>.initRowCallback = roleUsersRowInit;
+    <?php echo $usersGridBlock->getJsObjectName() ?>.checkboxCheckCallback = registerUserRole;
+    <?php echo $usersGridBlock->getJsObjectName() ?>.checkCheckboxes = checkCheckboxesHandler;
+    <?php echo $usersGridBlock->getJsObjectName() ?>.rows.each(
+    function(row) {
+        roleUsersRowInit(<?php echo $usersGridBlock->getJsObjectName() ?>, row)}
+    );
     $('in_role_user_old').value = $('in_role_user').value;
+    </script>
 <?php endif; ?>
-//-->
-</script>

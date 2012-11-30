@@ -276,7 +276,7 @@ system_configuration:
                                 customer_automated_email_rule:
                                     xpath: //fieldset[@id='promo_enterprise_reminder']
                             -
-                                customer_auto_generated_codes:
+                                auto_generated_specific_coupon_codes:
                                     xpath: //fieldset[@id='promo_auto_generated_coupon_codes']
                 -
                     customer_reward_points:
@@ -357,9 +357,21 @@ system_configuration:
                             -
                                 authorize_net_payment_bridge:
                                     xpath: //fieldset[@id='payment_pbridge_authorizenet']
+                                    dropdowns:
+                                        anpb_enabled: //select[@name='groups[pbridge_authorizenet][fields][active][value]']
+                                        anpb_enable_cim: //select[@name='groups[pbridge_authorizenet][fields][payment_profiles_enabled][value]']
                             -
                                 payment_bridge:
                                     xpath: //fieldset[@id='payment_pbridge']
+                                    fields:
+                                        pb_merchant_code: //input[@name="groups[pbridge][fields][merchantcode][value]"]
+                                        pb_merchant_key: //input[@name="groups[pbridge][fields][merchantkey][value]"]
+                                        pb_gateway_url: //input[@name="groups[pbridge][fields][gatewayurl][value]"]
+                                        pb_data_transfer_key: //input[@name="groups[pbridge][fields][transferkey][value]"]
+                                        pb_unique_identifier: //input[@name="groups[pbridge][fields][uniquekey][value]"]
+                                    dropdowns:
+                                        pb_enabled: //select[@name='groups[pbridge][fields][active][value]']
+                                        pb_debug: //select[@name='groups[pbridge][fields][debug][value]']
                             -
                                 ogone_direct_payment_bridge:
                                     xpath: //fieldset[@id='payment_pbridge_ogone_direct']

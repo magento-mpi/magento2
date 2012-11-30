@@ -18,9 +18,9 @@
 class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
 {
 
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('customer_info_tabs');
         $this->setDestElementId('edit_form');
         $this->setTitle(Mage::helper('Mage_Customer_Helper_Data')->__('Customer Information'));
@@ -34,7 +34,8 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
                 if (Mage::registry('current_customer')->getId()) {
                     $this->addTab('view', array(
                         'label'     => Mage::helper('Mage_Customer_Helper_Data')->__('Customer View'),
-                        'content'   => $this->getLayout()->createBlock('Mage_Adminhtml_Block_Customer_Edit_Tab_View')->toHtml(),
+                        'content'   => $this->getLayout()
+                        ->createBlock('Mage_Adminhtml_Block_Customer_Edit_Tab_View')->toHtml(),
                         'active'    => true
                     ));
                 }
@@ -102,9 +103,9 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
     protected function _updateActiveTab()
     {
         $tabId = $this->getRequest()->getParam('tab');
-        if( $tabId ) {
+        if ($tabId) {
             $tabId = preg_replace("#{$this->getId()}_#", '', $tabId);
-            if($tabId) {
+            if ($tabId) {
                 $this->setActiveTab($tabId);
             }
         }

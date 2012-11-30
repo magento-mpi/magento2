@@ -82,7 +82,7 @@ class CallbackHandler
         }
 
         if (null === self::$hasWeakRefExtension) {
-            self::$hasWeakRefExtension = class_exists('WeakRef');
+            self::$hasWeakRefExtension = class_exists('WeakRef', false);
         }
 
         // If pecl/weakref is not installed, simply store the callback and return

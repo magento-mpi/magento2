@@ -1,141 +1,135 @@
 <?php
 /**
- * {license_notice}
+ * Web API role resource tab.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
- * Web API role resource tab
+ * @copyright {}
  *
- * @method Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource setApiRole(Mage_Webapi_Model_Acl_Role $role)
- * @method Mage_Webapi_Model_Acl_Role getApiRole()
- * @method Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource setSelectedResources(array $selrids)
- * @method array getSelectedResources()
+ * @method Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource setApiRole() setApiRole(Mage_Webapi_Model_Acl_Role $role)
+ * @method Mage_Webapi_Model_Acl_Role getApiRole() getApiRole()
+ * @method Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource setSelectedResources() setSelectedResources(array $srIds)
+ * @method array getSelectedResources() getSelectedResources()
  *
- * @category   Mage
- * @package    Mage_Webapi
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Block_Widget_Form
 {
     /**
-     * Prepare Form
+     * @var Mage_Webapi_Model_Authorization_Config
+     */
+    protected $_authorizationConfig;
+
+    /**
+     * @var Mage_Webapi_Model_Resource_Acl_Rule
+     */
+    protected $_ruleResource;
+
+    /**
+     * @var array
+     */
+    protected $_aclResourcesTree;
+
+    /**
+     * @var array
+     */
+    protected $_selResourcesIds;
+
+    /**
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param Mage_Core_Model_Layout $layout
+     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Mage_Backend_Model_Url $urlBuilder
+     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Session $session
+     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Mage_Core_Controller_Varien_Front $frontController
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Webapi_Model_Authorization_Config $authorizationConfig
+     * @param Mage_Webapi_Model_Resource_Acl_Rule $ruleResource
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        Mage_Core_Controller_Request_Http $request,
+        Mage_Core_Model_Layout $layout,
+        Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Backend_Model_Url $urlBuilder,
+        Mage_Core_Model_Translate $translator,
+        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_Session $session,
+        Mage_Core_Model_Store_Config $storeConfig,
+        Mage_Core_Controller_Varien_Front $frontController,
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Webapi_Model_Authorization_Config $authorizationConfig,
+        Mage_Webapi_Model_Resource_Acl_Rule $ruleResource,
+        array $data = array()
+    ) {
+        parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
+            $session, $storeConfig, $frontController, $helperFactory, $data
+        );
+        $this->_authorizationConfig = $authorizationConfig;
+        $this->_ruleResource = $ruleResource;
+    }
+
+    /**
+     * Prepare Form.
      *
      * @return Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource
      */
     protected function _prepareForm()
     {
-        /** @var $role Mage_Webapi_Model_Acl_Role */
-        $role = $this->getApiRole();
+        $this->_aclResourcesTree = $this->_authorizationConfig->getAclResourcesAsArray(false);
+        $selectedResources = $this->_getSelectedResourcesIds();
 
-        if ($role->getRoleId()) {
-            $resources = Mage::getModel('Mage_Webapi_Model_Acl_Role')->getResourcesArray();
-            /** @var $rulesSet Mage_Webapi_Model_Resource_Acl_Rule_Collection */
-            $rulesSet = Mage::getModel('Mage_Webapi_Model_Acl_Rule')->getByRole($role->getRoleId());
-
-            $selectedRoleIds = array();
-            /** @var $item Mage_Webapi_Model_Acl_Rule */
-            foreach ($rulesSet as $item) {
-                $resourceId = $item->getResourceId();
-                if (in_array($resourceId, $resources)
-                    || $resourceId == Mage_Webapi_Model_Acl_Rule::API_ACL_RESOURCES_ROOT_ID) {
-                    array_push($selectedRoleIds, $resourceId);
+        if ($selectedResources) {
+            $selResourcesCallback = function (&$resourceItem) use ($selectedResources, &$selResourcesCallback) {
+                if (in_array($resourceItem['id'], $selectedResources)) {
+                    $resourceItem['checked'] = true;
                 }
-            }
-
-            $this->setSelectedResources($selectedRoleIds);
-        } else {
-            $this->setSelectedResources(array());
+                if (!empty($resourceItem['children'])) {
+                    array_walk($resourceItem['children'], $selResourcesCallback);
+                }
+            };
+            array_walk($this->_aclResourcesTree, $selResourcesCallback);
         }
 
         return parent::_prepareForm();
     }
 
     /**
-     * Check resource access is set to "All"
+     * Check whether resource access is set to "All".
+     *
      * @return bool
      */
     public function isEverythingAllowed()
     {
-        return in_array(Mage_Webapi_Model_Acl_Rule::API_ACL_RESOURCES_ROOT_ID, $this->getSelectedResources());
+        return in_array(Mage_Webapi_Model_Authorization::API_ACL_RESOURCES_ROOT_ID, $this->_getSelectedResourcesIds());
     }
 
     /**
-     * Get resource tree as JSON
+     * Get ACL resources tree.
      *
      * @return string
      */
-    public function getResourceTreeJson()
+    public function getResourcesTree()
     {
-        /** @var $resources DOMNodeList */
-        $resources = Mage::getModel('Mage_Webapi_Model_Acl_Role')->getResourcesList();
-
-        if ($resources && $resources->length == 1
-            && (string)$resources->item(0)->getAttribute('id')
-                == Mage_Webapi_Model_Acl_Rule::API_ACL_RESOURCES_ROOT_ID
-            && $resources->item(0)->childNodes) {
-
-            $resourceArray = $this->_getNodeJson($resources->item(0));
-            if (!empty($resourceArray['children'])) {
-                return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($resourceArray['children']);
-            }
-        }
-
-        return '';
+        return $this->_aclResourcesTree;
     }
 
     /**
-     * Sorting function for array sorting
+     * Get selected ACL resources of given API role.
      *
-     * @param array $firstArg
-     * @param array $secondArg
-     * @return int
-     */
-    protected function _sortTree($firstArg, $secondArg)
-    {
-        return $firstArg['sortOrder'] < $secondArg['sortOrder']
-            ? -1 : ($firstArg['sortOrder'] > $secondArg['sortOrder'] ? 1 : 0);
-    }
-
-    /**
-     * Recursive creation of resource tree
-     *
-     * @param DOMElement $node
      * @return array
      */
-    protected function _getNodeJson($node)
+    protected function _getSelectedResourcesIds()
     {
-        $item = array();
-        $selRes = $this->getSelectedResources();
-
-        $item['id'] = (string)$node->getAttribute('id');
-        $item['text'] = (string)$node->getAttribute('title');
-        $sortOrder = (string)$node->getAttribute('sortOrder');
-        $item['sortOrder']= !empty($sortOrder) ? (int)$sortOrder : 0;
-
-        if (in_array($item['id'], $selRes)) {
-            $item['checked'] = true;
+        $apiRole = $this->getApiRole();
+        if (null === $this->_selResourcesIds && $apiRole && $apiRole->getId()) {
+            $this->_selResourcesIds = $this->_ruleResource->getResourceIdsByRole($apiRole->getRoleId());
         }
-
-        if (empty($node->childNodes)) {
-            return $item;
-        }
-
-        $item['children'] = array();
-        foreach ($node->childNodes as $child) {
-            if ($child instanceof DOMElement) {
-                $item['children'][] = $this->_getNodeJson($child);
-            }
-        }
-
-        if (!empty($item['children'])) {
-            usort($item['children'], array($this, '_sortTree'));
-        }
-
-        return $item;
+        return (array)$this->_selResourcesIds;
     }
 }

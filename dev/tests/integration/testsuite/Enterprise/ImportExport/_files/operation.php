@@ -9,7 +9,8 @@
  * @license     {license_link}
  */
 
-$operation = new Enterprise_ImportExport_Model_Scheduled_Operation();
+/** @var $operation Enterprise_ImportExport_Model_Scheduled_Operation */
+$operation = Mage::getModel('Enterprise_ImportExport_Model_Scheduled_Operation');
 
 $data = array(
     'operation_type'    => 'export',
@@ -21,7 +22,7 @@ $data = array(
         'file_path'   => 'export',
     ),
     'start_time'        => '00:00:00',
-    'freq'              => Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_DAILY,
+    'freq'              => Mage_Cron_Model_Config_Source_Frequency::CRON_DAILY,
     'status'            => '1',
     'email_receiver'    => 'general',
     'email_sender'      => 'general',

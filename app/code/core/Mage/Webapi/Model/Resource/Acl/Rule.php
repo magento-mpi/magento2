@@ -1,29 +1,18 @@
 <?php
 /**
- * {license_notice}
+ * Resource model for ACL rule.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
- * Web API ACL Rules resource model
+ * @copyright {}
  *
- * @method array getResources()
- * @method Mage_Webapi_Model_Resource_Acl_Rule setResources(array $resourcesList)
- * @method int getRoleId()
- * @method Mage_Webapi_Model_Resource_Acl_Rule setRoleId(int $roleId)
- *
- * @category    Mage
- * @package     Mage_Webapi
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @method array getResources() getResources()
+ * @method Mage_Webapi_Model_Resource_Acl_Rule setResources() setResources(array $resourcesList)
+ * @method int getRoleId() getRoleId()
+ * @method Mage_Webapi_Model_Resource_Acl_Rule setRoleId() setRoleId(int $roleId)
  */
 class Mage_Webapi_Model_Resource_Acl_Rule extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Resource initialization
+     * Resource initialization.
      */
     protected function _construct()
     {
@@ -31,7 +20,7 @@ class Mage_Webapi_Model_Resource_Acl_Rule extends Mage_Core_Model_Resource_Db_Ab
     }
 
     /**
-     * Get all rules from DB
+     * Get all rules from DB.
      *
      * @return array
      */
@@ -43,7 +32,22 @@ class Mage_Webapi_Model_Resource_Acl_Rule extends Mage_Core_Model_Resource_Db_Ab
     }
 
     /**
-     * Save resources
+     * Get resource IDs assigned to role.
+     *
+     * @param integer $roleId Web api user role ID
+     * @return array
+     */
+    public function getResourceIdsByRole($roleId)
+    {
+        $adapter = $this->getReadConnection();
+        $select = $adapter->select()
+            ->from($this->getMainTable(), array('resource_id'))
+            ->where('role_id = ?', (int)$roleId);
+        return $adapter->fetchCol($select);
+    }
+
+    /**
+     * Save resources.
      *
      * @param Mage_Webapi_Model_Acl_Rule $rule
      * @throws Exception

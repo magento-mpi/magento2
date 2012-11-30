@@ -19,12 +19,11 @@
 class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
 {
     /**
-     * Initialize template
+     * Block template
+     *
+     * @var string
      */
-    protected function _construct()
-    {
-        $this->setTemplate('html/head.phtml');
-    }
+    protected $_template = 'html/head.phtml';
 
     /**
      * Add CSS file to HEAD entity
@@ -173,25 +172,65 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
                 $params = ' ' . $params;
             }
             switch ($contentType) {
-                case 'css':
-                    foreach (Mage::getDesign()->getOptimalCssUrls($items) as $url) {
-                        $html .= sprintf('<link%s href="%s" />' . "\n", $params, $url);
-                    }
+                case Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS:
+                    $html .= $this->_generateCssHtml($items, $params);
                     break;
-                case 'js':
-                    foreach (Mage::getDesign()->getOptimalJsUrls($items) as $url) {
-                        $html .= sprintf('<script%s type="text/javascript" src="%s"></script>' . "\n", $params, $url);
-                    }
+                case Mage_Core_Model_Design_Package::CONTENT_TYPE_JS:
+                    $html .= $this->_generateJsHtml($items, $params);
                     break;
                 case 'link':
                     foreach ($items as $file) {
                         $html .= sprintf('<link%s href="%s" />' . "\n", $params, $file);
                     }
                     break;
+                default:
+                    break;
             }
             if (!empty($if)) {
                 $html .= '<![endif]-->' . "\n";
             }
+        }
+        return $html;
+    }
+
+    /**
+     * Generate css links
+     *
+     * @param array $items
+     * @param array $params
+     * @return string
+     */
+    protected function _generateCssHtml($items, $params)
+    {
+        $html = '';
+        $pattern = '<link%s href="%s" />' . "\n";
+        try {
+            foreach (Mage::getDesign()->getOptimalCssUrls($items) as $url) {
+                $html .= sprintf($pattern, $params, $url);
+            }
+        } catch (Magento_Exception $e) {
+            $html .= sprintf($pattern, $params, $this->_getNotFoundUrl());
+        }
+        return $html;
+    }
+
+    /**
+     * Generate js links
+     *
+     * @param array $items
+     * @param array $params
+     * @return string
+     */
+    protected function _generateJsHtml($items, $params)
+    {
+        $html = '';
+        $pattern = '<script%s type="text/javascript" src="%s"></script>' . "\n";
+        try {
+            foreach (Mage::getDesign()->getOptimalJsUrls($items) as $url) {
+                $html .= sprintf($pattern, $params, $url);
+            }
+        } catch (Magento_Exception $e) {
+            $html .= sprintf($pattern, $params, $this->_getNotFoundUrl());
         }
         return $html;
     }
@@ -311,7 +350,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     }
 
     /**
-     * Get miscellanious scripts/styles to be included in head before head closing tag
+     * Get miscellaneous scripts/styles to be included in head before head closing tag
      *
      * @return string
      */
@@ -343,7 +382,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
      */
     protected function _getFaviconFile()
     {
-        $folderName = Mage_Adminhtml_Model_System_Config_Backend_Image_Favicon::UPLOAD_DIR;
+        $folderName = Mage_Backend_Model_Config_Backend_Image_Favicon::UPLOAD_DIR;
         $storeConfig = Mage::getStoreConfig('design/head/shortcut_icon');
         $faviconFile = Mage::getBaseUrl('media') . $folderName . '/' . $storeConfig;
         $absolutePath = Mage::getBaseDir('media') . '/' . $folderName . '/' . $storeConfig;
@@ -351,7 +390,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
         if (!is_null($storeConfig) && $this->_isFile($absolutePath)) {
             $url = $faviconFile;
         } else {
-            $url = $this->getSkinUrl('Mage_Page::favicon.ico');
+            $url = $this->getViewFileUrl('Mage_Page::favicon.ico');
         }
         return $url;
     }

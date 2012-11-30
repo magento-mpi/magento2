@@ -115,9 +115,16 @@ class Mage_Core_Model_App
     /**
      * Application front controller
      *
-     * @var Mage_Core_Controller_Varien_Front
+     * @var Mage_Core_Controller_FrontInterface
      */
     protected $_frontController;
+
+    /**
+     * Flag to identify whether front controller is initialized
+     *
+     * @var bool
+     */
+    protected $_isFrontControllerInitialized = false;
 
     /**
      * Cache object
@@ -127,10 +134,10 @@ class Mage_Core_Model_App
     protected $_cache;
 
     /**
-    * Use Cache
-    *
-    * @var array
-    */
+     * Use Cache
+     *
+     * @var array
+     */
     protected $_useCache;
 
     /**
@@ -225,10 +232,18 @@ class Mage_Core_Model_App
     protected $_isCacheLocked = null;
 
     /**
+     * Object manager
+     *
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
      * Constructor
      */
-    public function __construct()
+    public function __construct(Magento_ObjectManager $objectManager)
     {
+        $this->_objectManager = $objectManager;
     }
 
     /**
@@ -252,6 +267,7 @@ class Mage_Core_Model_App
         $this->_initBaseConfig();
         $this->_initCache();
         $this->_config->init($options);
+        $this->_objectManager->loadAreaConfiguration();
         Magento_Profiler::stop('init_config');
 
         if (Mage::isInstalled($options)) {
@@ -333,6 +349,7 @@ class Mage_Core_Model_App
 
             $this->_initModules();
             $this->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
+            $this->_objectManager->loadAreaConfiguration();
 
             if ($this->_config->isLocalConfigLoaded()) {
                 $scopeCode = isset($params['scope_code']) ? $params['scope_code'] : '';
@@ -391,7 +408,7 @@ class Mage_Core_Model_App
             $options = array();
         }
         $options = array_merge($options, $cacheInitOptions);
-        $this->_cache = Mage::getModel('Mage_Core_Model_Cache', $options);
+        $this->_cache = Mage::getModel('Mage_Core_Model_Cache', array('options' => $options));
         $this->_isCacheLocked = false;
         return $this;
     }
@@ -747,7 +764,6 @@ class Mage_Core_Model_App
      */
     protected function _initFrontController()
     {
-        // TODO: Assure that everything work fine work in areas without routers (e.g. URL generation)
         $this->_frontController = $this->_getFrontControllerByCurrentArea();
         Magento_Profiler::start('init_front_controller');
         $this->_frontController->init();
@@ -762,13 +778,18 @@ class Mage_Core_Model_App
      */
     protected function _getFrontControllerByCurrentArea()
     {
+        /**
+         * TODO: Temporary implementation for API. Must be reconsidered during implementation
+         * TODO: of ability to set different front controllers in different area.
+         */
+        // TODO: Assure that everything work fine work in areas without routers (e.g. URL generation)
         /** Default front controller class */
         $frontControllerClass = 'Mage_Core_Controller_Varien_Front';
         $pathParts = explode('/', trim($this->getRequest()->getPathInfo(), '/'));
         if ($pathParts) {
             /** If area front name is used it is expected to be set on the first place in path info */
             $frontName = reset($pathParts);
-            foreach (Mage::getConfig()->getAreas() as $areaCode => $areaInfo) {
+            foreach ($this->getConfig()->getAreas() as $areaCode => $areaInfo) {
                 if (isset($areaInfo['front_controller'])
                     && isset($areaInfo['frontName']) && ($frontName == $areaInfo['frontName'])
                 ) {
@@ -778,7 +799,7 @@ class Mage_Core_Model_App
                 }
             }
         }
-        return new $frontControllerClass();
+        return $this->_objectManager->create($frontControllerClass);
     }
 
     /**
@@ -827,7 +848,10 @@ class Mage_Core_Model_App
     public function getArea($code)
     {
         if (!isset($this->_areas[$code])) {
-            $this->_areas[$code] = new Mage_Core_Model_App_Area($code);
+            $this->_areas[$code] = $this->_objectManager->create(
+                'Mage_Core_Model_App_Area',
+                array('areaCode' => $code)
+            );
         }
         return $this->_areas[$code];
     }
@@ -1120,8 +1144,9 @@ class Mage_Core_Model_App
      */
     public function getFrontController()
     {
-        if (!$this->_frontController) {
+        if (!$this->_isFrontControllerInitialized) {
             $this->_initFrontController();
+            $this->_isFrontControllerInitialized = true;
         }
         return $this->_frontController;
     }
@@ -1245,7 +1270,7 @@ class Mage_Core_Model_App
     public function getRequest()
     {
         if (empty($this->_request)) {
-            $this->_request = new Mage_Core_Controller_Request_Http();
+            $this->_request = $this->_objectManager->get('Mage_Core_Controller_Request_Http');
         }
         return $this->_request;
     }
@@ -1270,7 +1295,7 @@ class Mage_Core_Model_App
     public function getResponse()
     {
         if (empty($this->_response)) {
-            $this->_response = new Mage_Core_Controller_Response_Http();
+            $this->_response = $this->_objectManager->get('Mage_Core_Controller_Response_Http');
             $this->_response->headersSentThrowsException = Mage::$headersSentThrowsException;
             $this->_response->setHeader("Content-Type", "text/html; charset=UTF-8");
         }
@@ -1518,5 +1543,15 @@ class Mage_Core_Model_App
             unset($this->_websites[$website->getWebsiteId()]);
             unset($this->_websites[$website->getCode()]);
         }
+    }
+
+    /**
+     * Check if developer mode is enabled.
+     *
+     * @return bool
+     */
+    public function isDeveloperMode()
+    {
+        return Mage::getIsDeveloperMode();
     }
 }

@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Mage_User>
-            <version>1.6.1.1</version>
+            <version>1.6.1.2</version>
             <active>true</active>
             <codePool>core</codePool>
         </Mage_User>
@@ -45,6 +45,13 @@
                 </admin_emails_forgot_email_template>
             </email>
         </template>
+        <di>
+            <Mage_User_Model_User><shared>0</shared></Mage_User_Model_User>
+            <Mage_User_Model_Role><shared>0</shared></Mage_User_Model_Role>
+            <preferences>
+                <Mage_Backend_Model_Auth_Credential_StorageInterface>Mage_User_Model_User</Mage_Backend_Model_Auth_Credential_StorageInterface>
+            </preferences>
+        </di>
     </global>
     <default>
         <admin>

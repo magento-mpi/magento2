@@ -123,7 +123,7 @@ class Webapi_Customer_Customers_AdminTest extends Magento_Test_Webservice_Rest_A
     public function testCreate()
     {
         $response = $this->callPost('customers', $this->_customer->getData());
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $response->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $response->getStatus());
         list($customerId) = array_reverse(explode('/', $response->getHeader('Location')));
 
         /** @var $customer Mage_Customer_Model_Customer */
@@ -143,11 +143,11 @@ class Webapi_Customer_Customers_AdminTest extends Magento_Test_Webservice_Rest_A
         $this->_generateCustomers();
 
         $requestParams = array(
-            Mage_Webapi_Controller_RequestAbstract::QUERY_PARAM_ORDER_FIELD => 'entity_id',
-            Mage_Webapi_Controller_RequestAbstract::QUERY_PARAM_ORDER_DIR => Varien_Data_Collection::SORT_ORDER_ASC
+            Mage_Webapi_Controller_Request::QUERY_PARAM_ORDER_FIELD => 'entity_id',
+            Mage_Webapi_Controller_Request::QUERY_PARAM_ORDER_DIR => Varien_Data_Collection::SORT_ORDER_ASC
         );
         $response = $this->callGet('customers', $requestParams);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $response->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $response->getStatus());
 
         $customerIds = array();
         foreach ($response->getBody() as $item) {

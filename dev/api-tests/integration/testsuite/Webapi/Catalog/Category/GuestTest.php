@@ -79,7 +79,7 @@ class Webapi_Catalog_Category_GuestTest extends Magento_Test_Webservice_Rest_Gue
         /** @var $category Mage_Catalog_Model_Category */
         $category = $this->getFixture('category');
         $restResponse = $this->callGet($this->_getResourcePath($category->getId()));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
         $originalData = $category->getData();
@@ -136,7 +136,7 @@ class Webapi_Catalog_Category_GuestTest extends Magento_Test_Webservice_Rest_Gue
         $storeGroup = $this->getFixture('store_group');
         $storeId = reset($storeGroup->getStoreIds());
         $restResponse = $this->callGet($this->_getResourcePath(null, $storeId));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
         $treeRootCategory = reset($responseData);
@@ -156,7 +156,7 @@ class Webapi_Catalog_Category_GuestTest extends Magento_Test_Webservice_Rest_Gue
         /** @var $parentCategory Mage_Catalog_Model_Category */
         $parentCategory = reset($categoryTree);
         $restResponse = $this->callGet($this->_getResourcePath(), array('root' => $parentCategory->getId()));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
 

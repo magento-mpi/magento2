@@ -4,12 +4,11 @@ use Zend\Soap\Wsdl\ComplexTypeStrategy\AbstractComplexTypeStrategy,
     Zend\Soap\Wsdl;
 
 /**
- * Complex type strategy for WSDL auto discovery using resource config.
+ * Magento-specific Complex type strategy for WSDL auto discovery.
  *
  * @copyright {}
  */
 class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends AbstractComplexTypeStrategy
-    implements ComplexTypeStrategyInterface
 {
     /**
      *  Array item key value for element.
@@ -22,9 +21,14 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
     const APP_INF_NS = 'inf';
 
     /**
-     * @var Mage_Webapi_Model_Config_Resource
+     * @var Mage_Webapi_Model_Config_Soap
      */
     protected $_config;
+
+    /**
+     * @var Mage_Webapi_Helper_Config
+     */
+    protected $_helper;
 
     /**
      * @var DOMDocument
@@ -34,11 +38,13 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
     /**
      * Construct strategy with resource config.
      *
-     * @param Mage_Webapi_Model_Config_Resource $config
+     * @param Mage_Webapi_Model_Config_Soap $config
+     * @param Mage_Webapi_Helper_Config $helper
      */
-    public function __construct(Mage_Webapi_Model_Config_Resource $config)
+    public function __construct(Mage_Webapi_Model_Config_Soap $config, Mage_Webapi_Helper_Config $helper)
     {
         $this->_config = $config;
+        $this->_helper = $helper;
     }
 
     /**
@@ -65,56 +71,75 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
 
         $complexType = $this->_dom->createElement(Wsdl::XSD_NS . ':complexType');
         $complexType->setAttribute('name', $type);
-        $typeData = $this->_config->getDataType($type);
+        $typeData = $this->_config->getTypeData($type);
         if (isset($typeData['documentation'])) {
             $this->addAnnotation($complexType, $typeData['documentation']);
         }
 
         if (isset($typeData['parameters']) && is_array($typeData['parameters'])) {
-            $sequence = $this->_dom->createElement(Wsdl::XSD_NS . ':sequence');
-            foreach ($typeData['parameters'] as $parameterName => $parameterData) {
-                $parameterType = $parameterData['type'];
-                $element = $this->_dom->createElement(Wsdl::XSD_NS . ':element');
-                $element->setAttribute('name', $parameterName);
-                $isRequired = isset($parameterData['required']) && $parameterData['required'];
-                $default = isset($parameterData['default']) ? $parameterData['default'] : null;
-                $callInfo = isset($typeData['callInfo']) ? $typeData['callInfo'] : $parentCallInfo;
-                if (!$isRequired) {
-                    if (isset($callInfo['requiredInput']['yes'])) {
-                        $callInfo['requiredInput']['no']['calls'] = $callInfo['requiredInput']['yes']['calls'];
-                        unset($callInfo['requiredInput']['yes']);
-                    }
-                    if (isset($callInfo['returned']['always'])) {
-                        $callInfo['returned']['conditionally']['calls'] = $callInfo['returned']['always']['calls'];
-                        unset($callInfo['returned']['always']);
-                    }
-                }
-
-                if ($this->_config->isArrayType($parameterType)) {
-                    $this->_processArrayParameter($parameterType, $callInfo);
-                    $element->setAttribute('type', Wsdl::TYPES_NS . ':' . $this->_config
-                        ->translateArrayTypeName($parameterType));
-                } else {
-                    $element->setAttribute('minOccurs', $isRequired ? 1 : 0);
-                    $maxOccurs = (isset($parameterData['isArray']) && $parameterData['isArray']) ? 'unbounded' : 1;
-                    $element->setAttribute('maxOccurs', $maxOccurs);
-                    if ($this->_config->isTypeSimple($parameterType)) {
-                        $typeNs = Wsdl::XSD_NS;
-                    } else {
-                        $typeNs = Wsdl::TYPES_NS;
-                        $this->addComplexType($parameterType, $callInfo);
-                    }
-                    $element->setAttribute('type', $typeNs . ':' . $parameterType);
-                }
-
-                $this->addAnnotation($element, $parameterData['documentation'], $default, $callInfo);
-                $sequence->appendChild($element);
-            }
+            $callInfo = isset($typeData['callInfo']) ? $typeData['callInfo'] : $parentCallInfo;
+            $sequence = $this->_processParameters($typeData['parameters'], $callInfo);
             $complexType->appendChild($sequence);
         }
 
         $this->getContext()->getSchema()->appendChild($complexType);
         return $soapType;
+    }
+
+    /**
+     * Process type parameters and create complex type sequence.
+     *
+     * @param array $parameters
+     * @param array $callInfo
+     * @return DOMElement
+     */
+    protected function _processParameters($parameters, $callInfo)
+    {
+        $sequence = $this->_dom->createElement(Wsdl::XSD_NS . ':sequence');
+        foreach ($parameters as $parameterName => $parameterData) {
+            $parameterType = $parameterData['type'];
+            $element = $this->_dom->createElement(Wsdl::XSD_NS . ':element');
+            $element->setAttribute('name', $parameterName);
+            $isRequired = isset($parameterData['required']) && $parameterData['required'];
+            $default = isset($parameterData['default']) ? $parameterData['default'] : null;
+            $this->_revertRequiredCallInfo($isRequired, $callInfo);
+
+            if ($this->_helper->isArrayType($parameterType)) {
+                $this->_processArrayParameter($parameterType, $callInfo);
+                $element->setAttribute(
+                    'type',
+                    Wsdl::TYPES_NS . ':' . $this->_helper->translateArrayTypeName($parameterType)
+                );
+            } else {
+                $this->_processParameter($element, $isRequired, $parameterData, $parameterType, $callInfo);
+            }
+
+            $this->addAnnotation($element, $parameterData['documentation'], $default, $callInfo);
+            $sequence->appendChild($element);
+        }
+
+        return $sequence;
+    }
+
+    /**
+     * @param DOMElement $element
+     * @param boolean $isRequired
+     * @param array $parameterData
+     * @param string $parameterType
+     * @param array $callInfo
+     */
+    protected function _processParameter(DOMElement $element, $isRequired, $parameterData, $parameterType, $callInfo)
+    {
+        $element->setAttribute('minOccurs', $isRequired ? 1 : 0);
+        $maxOccurs = (isset($parameterData['isArray']) && $parameterData['isArray']) ? 'unbounded' : 1;
+        $element->setAttribute('maxOccurs', $maxOccurs);
+        if ($this->_helper->isTypeSimple($parameterType)) {
+            $typeNs = Wsdl::XSD_NS;
+        } else {
+            $typeNs = Wsdl::TYPES_NS;
+            $this->addComplexType($parameterType, $callInfo);
+        }
+        $element->setAttribute('type', $typeNs . ':' . $parameterType);
     }
 
     /**
@@ -125,9 +150,9 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
      */
     protected function _processArrayParameter($type, $callInfo = array())
     {
-        $arrayItemType = $this->_config->getArrayItemType($type);
-        $arrayTypeName = $this->_config->translateArrayTypeName($type);
-        if (!$this->_config->isTypeSimple($arrayItemType)) {
+        $arrayItemType = $this->_helper->getArrayItemType($type);
+        $arrayTypeName = $this->_helper->translateArrayTypeName($type);
+        if (!$this->_helper->isTypeSimple($arrayItemType)) {
             $this->addComplexType($arrayItemType, $callInfo);
         }
         $arrayTypeParameters = array(
@@ -147,6 +172,26 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
     }
 
     /**
+     * Revert required call info data if needed.
+     *
+     * @param boolean $isRequired
+     * @param array $callInfo
+     */
+    protected function _revertRequiredCallInfo($isRequired, &$callInfo)
+    {
+        if (!$isRequired) {
+            if (isset($callInfo['requiredInput']['yes'])) {
+                $callInfo['requiredInput']['no']['calls'] = $callInfo['requiredInput']['yes']['calls'];
+                unset($callInfo['requiredInput']['yes']);
+            }
+            if (isset($callInfo['returned']['always'])) {
+                $callInfo['returned']['conditionally']['calls'] = $callInfo['returned']['always']['calls'];
+                unset($callInfo['returned']['always']);
+            }
+        }
+    }
+
+    /**
      * Generate annotation data for WSDL.
      * Convert all {key:value} from documentation into appinfo nodes.
      * Override default callInfo values if defined in parameter documentation.
@@ -160,34 +205,16 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
     {
         $annotationNode = $this->_dom->createElement(Wsdl::XSD_NS . ':annotation');
 
-        $elementType = null;
-        if ($element->hasAttribute('type')) {
-            list($typeNs, $elementType) = explode(':', $element->getAttribute('type'));
-        }
+        $elementType = $this->_getElementType($element);
         $appInfoNode = $this->_dom->createElement(Wsdl::XSD_NS . ':appinfo');
-        $appInfoNode->setAttributeNS(Wsdl::XML_NS_URI, Wsdl::XML_NS . ':' . self::APP_INF_NS,
-            $this->getContext()->getTargetNamespace());
+        $appInfoNode->setAttributeNS(
+            Wsdl::XML_NS_URI,
+            Wsdl::XML_NS . ':' . self::APP_INF_NS,
+            $this->getContext()->getTargetNamespace()
+        );
 
-        if ($elementType == 'boolean') {
-            $default = (bool)$default ? 'true' : 'false';
-        }
-        if ($elementType == 'int') {
-            $this->_processRequiredAnnotation('min', $documentation, $appInfoNode);
-            $this->_processRequiredAnnotation('max', $documentation, $appInfoNode);
-        }
-        if ($elementType == 'string') {
-            $this->_processRequiredAnnotation('maxLength', $documentation, $appInfoNode);
-        }
-        if ($default) {
-            $defaultNode = $this->_dom->createElement(self::APP_INF_NS . ':default');
-            $defaultNode->appendChild($this->_dom->createTextNode($default));
-            $appInfoNode->appendChild($defaultNode);
-        }
-        if ($this->_config->isArrayType($elementType)) {
-            $natureOfTypeNode = $this->_dom->createElement(self::APP_INF_NS . ':natureOfType');
-            $natureOfTypeNode->appendChild($this->_dom->createTextNode('array'));
-            $appInfoNode->appendChild($natureOfTypeNode);
-        }
+        $this->_processDefaultValueAnnotation($elementType, $default, $appInfoNode);
+        $this->_processElementType($elementType, $documentation, $appInfoNode);
 
         if (preg_match_all('/{([a-z]+):(.+)}/Ui', $documentation, $matches)) {
             for ($i = 0; $i < count($matches[0]); $i++) {
@@ -228,7 +255,7 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
         }
         $this->_processCallInfo($appInfoNode, $callInfo);
         $documentationNode = $this->_dom->createElement(Wsdl::XSD_NS . ':documentation');
-        $documentationText = isset($documentation) ? trim($documentation) : '';
+        $documentationText = trim($documentation);
         $documentationNode->appendChild($this->_dom->createTextNode($documentationText));
         $annotationNode->appendChild($documentationNode);
         $annotationNode->appendChild($appInfoNode);
@@ -236,7 +263,66 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
     }
 
     /**
-     * Check if there is given annotation in documentation, and if not - create and empty one.
+     * Process different element types.
+     *
+     * @param string $elementType
+     * @param string $documentation
+     * @param DOMElement $appInfoNode
+     */
+    protected function _processElementType($elementType, $documentation, DOMElement $appInfoNode)
+    {
+        if ($elementType == 'int') {
+            $this->_processRequiredAnnotation('min', $documentation, $appInfoNode);
+            $this->_processRequiredAnnotation('max', $documentation, $appInfoNode);
+        }
+        if ($elementType == 'string') {
+            $this->_processRequiredAnnotation('maxLength', $documentation, $appInfoNode);
+        }
+
+        if ($this->_helper->isArrayType($elementType)) {
+            $natureOfTypeNode = $this->_dom->createElement(self::APP_INF_NS . ':natureOfType');
+            $natureOfTypeNode->appendChild($this->_dom->createTextNode('array'));
+            $appInfoNode->appendChild($natureOfTypeNode);
+        }
+    }
+
+    /**
+     * Process default value annotation.
+     *
+     * @param string $elementType
+     * @param string $default
+     * @param DOMElement $appInfoNode
+     */
+    protected function _processDefaultValueAnnotation($elementType, $default, DOMElement $appInfoNode)
+    {
+        if ($elementType == 'boolean') {
+            $default = (bool)$default ? 'true' : 'false';
+        }
+        if ($default) {
+            $defaultNode = $this->_dom->createElement(self::APP_INF_NS . ':default');
+            $defaultNode->appendChild($this->_dom->createTextNode($default));
+            $appInfoNode->appendChild($defaultNode);
+        }
+    }
+
+    /**
+     * Retrieve element type.
+     *
+     * @param DOMElement $element
+     * @return string|null
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     */
+    protected function _getElementType(DOMElement $element)
+    {
+        $elementType = null;
+        if ($element->hasAttribute('type')) {
+            list($typeNs, $elementType) = explode(':', $element->getAttribute('type'));
+        }
+        return $elementType;
+    }
+
+    /**
+     * Check if there is given annotation in documentation, and if not - create an empty one.
      *
      * @param $annotation
      * @param $documentation

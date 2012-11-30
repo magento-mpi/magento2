@@ -27,15 +27,22 @@ class Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorageTest extends PHP
     /**
      * Set up cache instance mock and nonce storage object to be tested.
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->_cacheMock = $this->getMockBuilder('Mage_Core_Model_Cache')
             ->disableOriginalConstructor()
             ->setMethods(array('load', 'save'))
             ->getMock();
-        $this->_nonceStorage = new Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage(array(
-            'cacheInstance' => $this->_cacheMock
-        ));
+        $this->_nonceStorage = new Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage($this->_cacheMock);
+    }
+
+    /**
+     * Clean up.
+     */
+    protected function tearDown()
+    {
+        unset($this->_cacheMock);
+        unset($this->_nonceStorage);
     }
 
     /**
@@ -81,7 +88,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorageTest extends PHP
             ->expects($this->once())
             ->method('save')
             ->with($timestamp, $this->_nonceStorage->getNonceCacheId($nonce),
-            array(Mage_Webapi_Controller_Front_Soap::WEBSERVICE_CACHE_TAG),
+            array(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_TAG),
             Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage::NONCE_TTL
                 + Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage::NONCE_FROM_FUTURE_ACCEPTABLE_RANGE);
 

@@ -1,24 +1,13 @@
 <?php
 /**
- * {license_notice}
+ * Web API User Resource Collection.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
- * Web Api User Resource Collection
- *
- * @category    Mage
- * @package     Mage_Webapi
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @copyright {}
  */
 class Mage_Webapi_Model_Resource_Acl_User_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Resource collection initialization
+     * Resource collection initialization.
      */
     protected function _construct()
     {

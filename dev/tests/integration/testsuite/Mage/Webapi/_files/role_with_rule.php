@@ -10,14 +10,14 @@
  */
 
 $allowResourceId = 'customer/get';
-
-$role = new Mage_Webapi_Model_Acl_Role();
+/** @var Mage_Webapi_Model_Acl_Role $role */
+$role = Mage::getModel('Mage_Webapi_Model_Acl_Role');
 $role->setData(array(
     'role_name' => 'Test role'
 ));
 $role->save();
-
-$rule = new Mage_Webapi_Model_Acl_Rule();
+/** @var Mage_Webapi_Model_Acl_Rule $rule */
+$rule = Mage::getModel('Mage_Webapi_Model_Acl_Rule');
 $rule->setData(array(
     'resource_id' => $allowResourceId,
     'role_id' => $role->getRoleId()

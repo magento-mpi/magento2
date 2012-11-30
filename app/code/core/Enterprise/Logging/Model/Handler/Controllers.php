@@ -86,7 +86,9 @@ class Enterprise_Logging_Model_Handler_Controllers
         $change = Mage::getModel('Enterprise_Logging_Model_Event_Changes');
 
         //Collect skip encrypted fields
-        $encryptedNodeEntriesPaths = Mage::getSingleton('Mage_Adminhtml_Model_Config')->getEncryptedNodeEntriesPaths(true);
+        $encryptedNodeEntriesPaths = Mage::getSingleton('Mage_Backend_Model_Config_Structure_Reader')
+            ->getConfiguration()
+            ->getEncryptedNodeEntriesPaths(true);
         $skipEncrypted = array();
         foreach ($encryptedNodeEntriesPaths as $fieldName) {
             $skipEncrypted[] = $fieldName['field'];
@@ -380,17 +382,28 @@ class Enterprise_Logging_Model_Handler_Controllers
             return false;
         }
         $classType = Mage::app()->getRequest()->getParam('class_type');
-        $classId = Mage::app()->getRequest()->getParam('class_id');
-        if ($classType == 'PRODUCT') {
-            $eventModel->setEventCode('tax_product_tax_classes');
+        $classId = (int)Mage::app()->getRequest()->getParam('class_id');
+
+        return $this->_logTaxClassEvent($classType, $eventModel, $classId);
+    }
+
+    /**
+     * Custom switcher for tax_class_save, to distinguish product and customer tax classes
+     *
+     * @param Varien_Simplexml_Element $config
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @return Enterprise_Logging_Model_Event
+     */
+    public function postDispatchTaxClassDelete($config, $eventModel)
+    {
+        if (!Mage::app()->getRequest()->isPost()) {
+            return false;
         }
-        $success = true;
-        $messages = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
-        if ($messages) {
-            $success = 'error' != $messages->getType();
-        }
-        return $eventModel->setIsSuccess($success)->setInfo($classType
-            . ($classId ? ': #' . Mage::app()->getRequest()->getParam('class_id') : ''));
+        $classId = (int)Mage::app()->getRequest()->getParam('class_id');
+        $classModel = Mage::registry('tax_class_model');
+        $classType = $classModel != null ? $classModel->getClassType() : '';
+
+        return $this->_logTaxClassEvent($classType, $eventModel, $classId);
     }
 
     /**
@@ -660,5 +673,33 @@ class Enterprise_Logging_Model_Handler_Controllers
         }
         $message .= Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage()->getCode();
         return $eventModel->setInfo($message);
+    }
+
+    /**
+     * Log tax class event
+     * @param string $classType
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @param int $classId
+     *
+     * @return mixed
+     */
+    protected function _logTaxClassEvent($classType, $eventModel, $classId)
+    {
+        if ($classType == 'PRODUCT') {
+            $eventModel->setEventCode('tax_product_tax_classes');
+        }
+
+        $success = true;
+        $body = Mage::app()->getResponse()->getBody();
+        $messages = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($body);
+        if (!empty($messages['success'])) {
+            $success = $messages['success'];
+            if (empty($classId) && !empty($messages['class_id'])) {
+                $classId = $messages['class_id'];
+            }
+        }
+
+        $messageInfo = $classType . ($classId ? ': #' . $classId : '');
+        return $eventModel->setIsSuccess($success)->setInfo($messageInfo);
     }
 }

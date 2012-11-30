@@ -61,7 +61,7 @@ class Webapi_Customer_Customers_CustomerTest extends Magento_Test_Webservice_Res
         $this->_generateCustomers();
 
         $response = $this->callGet('customers');
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $response->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $response->getStatus());
 
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = $this->getDefaultCustomer();

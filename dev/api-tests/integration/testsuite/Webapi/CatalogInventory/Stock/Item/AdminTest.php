@@ -49,7 +49,7 @@ class Webapi_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservi
         $stockItem = $this->getFixture('stockItem');
 
         $restResponse = $this->callGet('stockitems/' . $stockItem->getId());
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
@@ -79,7 +79,7 @@ class Webapi_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservi
     public function testGetStockItems()
     {
         $restResponse = $this->callGet('stockitems', array('order' => 'item_id', 'dir' => Zend_Db_Select::SQL_DESC));
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
@@ -109,7 +109,7 @@ class Webapi_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservi
         $dataForUpdate  = $this->_loadStockItemData();
 
         $restResponse = $this->callPut('stockitems/' . $stockItem->getId(), $dataForUpdate);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_OK, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_OK, $restResponse->getStatus());
 
         /* @var $updatedStockItem Mage_CatalogInventory_Model_Stock_Item */
         $updatedStockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item')
@@ -168,7 +168,7 @@ class Webapi_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservi
         }
 
         $restResponse = $this->callPut('stockitems', $dataForUpdate);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_MULTI_STATUS, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_MULTI_STATUS, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('messages', $responseData);
@@ -199,7 +199,7 @@ class Webapi_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservi
         $dataForUpdate = array($singleItemDataForUpdate);
 
         $restResponse = $this->callPut('stockitems', $dataForUpdate);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_MULTI_STATUS, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_MULTI_STATUS, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('messages', $responseData);
@@ -226,7 +226,7 @@ class Webapi_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservi
         $dataForUpdate = array($singleItemDataForUpdate);
 
         $restResponse = $this->callPut('stockitems', $dataForUpdate);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_MULTI_STATUS, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_MULTI_STATUS, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('messages', $responseData);
@@ -252,7 +252,7 @@ class Webapi_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservi
         $dataForUpdate = array($singleItemDataForUpdate);
 
         $restResponse = $this->callPut('stockitems', $dataForUpdate);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_MULTI_STATUS, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_MULTI_STATUS, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('messages', $responseData);
@@ -285,7 +285,7 @@ class Webapi_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservi
         }
 
         $restResponse = $this->callPut('stockitems', $dataForUpdate);
-        $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_MULTI_STATUS, $restResponse->getStatus());
+        $this->assertEquals(Mage_Webapi_Controller_Handler_Rest::HTTP_MULTI_STATUS, $restResponse->getStatus());
 
         $responseData = $restResponse->getBody();
         $this->assertArrayHasKey('messages', $responseData);

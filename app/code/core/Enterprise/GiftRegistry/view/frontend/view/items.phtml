@@ -55,7 +55,7 @@
                 <?php endforeach ?>
             </tbody>
         </table>
-        <script type="text/javascript">decorateTable('shopping-cart-table')</script>
+        <script type="text/javascript">(function($) {$('#shopping-cart-table').decorate('table')})(jQuery)</script>
     </fieldset>
 </form>
 <?php if (!$_itemsCount): ?>

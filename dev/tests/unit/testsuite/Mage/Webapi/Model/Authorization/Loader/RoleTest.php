@@ -1,16 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Mage_Webapi
- * @subpackage  unit_tests
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Test class for Mage_Webapi_Model_Authorization_Loader_Role
+ *
+ * @copyright {}
  */
 class Mage_Webapi_Model_Authorization_Loader_RoleTest extends PHPUnit_Framework_TestCase
 {
@@ -25,22 +17,34 @@ class Mage_Webapi_Model_Authorization_Loader_RoleTest extends PHPUnit_Framework_
     protected $_model;
 
     /**
-     * @var Mage_Core_Model_Config
+     * @var Mage_Webapi_Model_Authorization_Role_Factory
      */
-    protected $_config;
+    protected $_roleFactory;
+
+    /**
+     * @var Magento_Acl
+     */
+    protected $_acl;
 
     /**
      * Set up before test
      */
     protected function setUp()
     {
+        $helper = new Magento_Test_Helper_ObjectManager($this);
+
         $this->_resourceModelMock = $this->getMock('Mage_Webapi_Model_Resource_Acl_Role',
             array('getRolesIds'), array(), '', false);
-        $this->_config = $this->getMock('Mage_Core_Model_Config',
-            array('getModelInstance'), array(), '', false);
-        $this->_model = new Mage_Webapi_Model_Authorization_Loader_Role(array(
-            'resourceModel' => $this->_resourceModelMock,
-            'config' => $this->_config,
+
+        $this->_roleFactory = $this->getMock('Mage_Webapi_Model_Authorization_Role_Factory',
+            array('createRole'), array(), '', false);
+
+        $this->_acl = $this->getMock('Magento_Acl', array('addRole', 'deny'), array(), '',
+            false);
+
+        $this->_model = $helper->getModel('Mage_Webapi_Model_Authorization_Loader_Role', array(
+            'roleResource' => $this->_resourceModelMock,
+            'roleFactory' => $this->_roleFactory,
         ));
     }
 
@@ -51,20 +55,30 @@ class Mage_Webapi_Model_Authorization_Loader_RoleTest extends PHPUnit_Framework_
      */
     public function testPopulateAclWithRoles()
     {
-        $roleIds = array(2, 4, 5, 8);
-        $getModel = function()
-        {
-            return new Mage_Webapi_Model_Authorization_Role(func_get_arg(1));
-        };
-        $this->_resourceModelMock->expects($this->once())->method('getRolesIds')->will($this->returnValue($roleIds));
-        $this->_config->expects($this->any())->method('getModelInstance')->will($this->returnCallback($getModel));
-        $acl = new Magento_Acl();
-        $this->_model->populateAcl($acl);
-        $this->assertEquals($roleIds, $acl->getRoles());
-        //Check that nothing is allowed for just loaded roles
-        foreach ($roleIds as $role) {
-            $this->assertFalse($acl->isAllowed($role));
-        }
+        $roleOne = new Mage_Webapi_Model_Authorization_Role(3);
+        $roleTwo = new Mage_Webapi_Model_Authorization_Role(4);
+        $roleIds = array(3, 4);
+        $createRoleMap = array(
+            array(array(3), $roleOne),
+            array(array(4), $roleTwo),
+        );
+        $this->_resourceModelMock->expects($this->once())
+            ->method('getRolesIds')
+            ->will($this->returnValue($roleIds));
+
+        $this->_roleFactory->expects($this->exactly(count($roleIds)))
+            ->method('createRole')
+            ->will($this->returnValueMap($createRoleMap));
+
+        $this->_acl->expects($this->exactly(count($roleIds)))
+            ->method('addRole')
+            ->with($this->logicalOr($roleOne, $roleTwo));
+
+        $this->_acl->expects($this->exactly(count($roleIds)))
+            ->method('deny')
+            ->with($this->logicalOr($roleOne, $roleTwo));
+
+        $this->_model->populateAcl($this->_acl);
     }
 
     /**
@@ -74,9 +88,19 @@ class Mage_Webapi_Model_Authorization_Loader_RoleTest extends PHPUnit_Framework_
      */
     public function testPopulateAclWithNoRoles()
     {
-        $this->_resourceModelMock->expects($this->once())->method('getRolesIds')->will($this->returnValue(array()));
-        $acl = new Magento_Acl();
-        $this->_model->populateAcl($acl);
-        $this->assertEquals(array(), $acl->getRoles());
+        $this->_resourceModelMock->expects($this->once())
+            ->method('getRolesIds')
+            ->will($this->returnValue(array()));
+
+        $this->_roleFactory->expects($this->never())
+            ->method('createRole');
+
+        $this->_acl->expects($this->never())
+            ->method('addRole');
+
+        $this->_acl->expects($this->never())
+            ->method('deny');
+
+        $this->_model->populateAcl($this->_acl);
     }
 }

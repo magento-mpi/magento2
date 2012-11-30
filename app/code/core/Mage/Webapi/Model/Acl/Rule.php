@@ -1,42 +1,32 @@
 <?php
 /**
- * {license_notice}
+ * Web API ACL Rules.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
- * Web API ACL Rules
+ * @copyright {}
  *
- * @method int getRoleId()
- * @method Mage_Webapi_Model_Acl_Rule setRoleId(int $value)
- * @method string getResourceId()
- * @method Mage_Webapi_Model_Resource_Acl_Rule getResource()
- * @method Mage_Webapi_Model_Resource_Acl_Rule_Collection getCollection()
- * @method Mage_Webapi_Model_Acl_Rule setResourceId(string $value)
- * @method Mage_Webapi_Model_Acl_Rule setResources(array $resources)
- *
- * @category    Mage
- * @package     Mage_Webapi
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @method int getRoleId() getRoleId()
+ * @method Mage_Webapi_Model_Acl_Rule setRoleId() setRoleId(int $value)
+ * @method string getResourceId() getResourceId()
+ * @method Mage_Webapi_Model_Resource_Acl_Rule getResource() getResource()
+ * @method Mage_Webapi_Model_Resource_Acl_Rule_Collection getCollection() getCollection()
+ * @method Mage_Webapi_Model_Acl_Rule setResourceId() setResourceId(string $value)
+ * @method Mage_Webapi_Model_Acl_Rule setResources() setResources(array $resources)
+ * @method array getResources() getResources()
  */
 class Mage_Webapi_Model_Acl_Rule extends Mage_Core_Model_Abstract
 {
     /**
-     * Web API ACL config's resources root ID
+     * Web API ACL config's resources root ID.
      */
     const API_ACL_RESOURCES_ROOT_ID = 'Mage_Webapi';
 
     /**
-     * Web API ACL resource separator
+     * Web API ACL resource separator.
      */
     const RESOURCE_SEPARATOR = '/';
 
     /**
-     * Constructor
+     * Constructor.
      */
     protected function _construct()
     {
@@ -44,7 +34,7 @@ class Mage_Webapi_Model_Acl_Rule extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Save role resources
+     * Save role resources.
      *
      * @return Mage_Webapi_Model_Acl_Rule
      */
@@ -52,16 +42,5 @@ class Mage_Webapi_Model_Acl_Rule extends Mage_Core_Model_Abstract
     {
         $this->getResource()->saveResources($this);
         return $this;
-    }
-
-    /**
-     * Retrieve rules by role
-     *
-     * @param int $roleId
-     * @return Mage_Webapi_Model_Resource_Acl_Rule_Collection
-     */
-    public function getByRole($roleId)
-    {
-        return $this->getCollection()->getByRole($roleId);
     }
 }

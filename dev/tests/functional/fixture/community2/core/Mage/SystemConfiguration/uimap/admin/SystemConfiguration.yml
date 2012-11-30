@@ -13,7 +13,7 @@
 
 # 'System Configuration' page
 system_configuration:
-    uimap: &system_configuration_uimap
+    uimap: &systemConfigurationUimap
         form: &systemConfiguration
             tabs:
                 -
@@ -48,6 +48,11 @@ system_configuration:
                                         vat_number_is_invalid: //button[span='VAT Number is Invalid']
                                     link:
                                         store_information_tab: //a[@id='general_store_information-head']
+                            -
+                                single_store_mode:
+                                    xpath: //fieldset[@id='general_single_store_mode']
+                                    dropdowns:
+                                        enable_single_store_mode: //select[@id='general_single_store_mode_enabled']
                 -
                     customers_customer_configuration:
                         fieldsets:
@@ -201,6 +206,12 @@ system_configuration:
                             -
                                 minimum_advertised_price:
                                     xpath: //fieldset[@id='sales_msrp']
+                            -
+                                general:
+                                    xpath: //fieldset[@id='sales_general']
+                            -
+                                dashboard_sales:
+                                    xpath: //fieldset[@id='sales_dashboard']
                 -
                     sales_sales_emails:
                         fieldsets:
@@ -298,10 +309,10 @@ system_configuration:
             validation_for_field_dash: //div[@id='advice-validate-digits-promo_auto_generated_coupon_codes_dash']
 
 system_configuration_tabs:
-    uimap: *systemConfiguration
+    uimap: *systemConfigurationUimap
 
 system_configuration_website:
-    uimap: *systemConfiguration
+    uimap: *systemConfigurationUimap
 
 system_configuration_store:
-    uimap: *systemConfiguration
+    uimap: *systemConfigurationUimap

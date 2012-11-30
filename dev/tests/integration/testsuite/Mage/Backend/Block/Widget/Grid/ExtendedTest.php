@@ -24,8 +24,9 @@ class Mage_Backend_Block_Widget_Grid_ExtendedTest extends PHPUnit_Framework_Test
     protected function setUp()
     {
         $this->_layoutMock = Mage::getModel('Mage_Core_Model_Layout');
-        $this->_block = new Mage_Backend_Block_Widget_Grid_Extended(array('layout' => $this->_layoutMock));
-        $this->_layoutMock->addBlock($this->_block, 'grid');
+        $this->_block = $this->_layoutMock->createBlock(
+            'Mage_Backend_Block_Widget_Grid_Extended', 'grid', array('layout' => $this->_layoutMock)
+        );
 
         $this->_block->addColumn('column1',
             array('id' => 'columnId1')
@@ -33,7 +34,12 @@ class Mage_Backend_Block_Widget_Grid_ExtendedTest extends PHPUnit_Framework_Test
         $this->_block->addColumn('column2',
             array('id' => 'columnId2')
         );
+    }
 
+    protected function tearDown()
+    {
+        unset($this->_layoutMock);
+        unset($this->_block);
     }
 
     public function testAddColumnAddsChildToColumnSet()
@@ -60,5 +66,11 @@ class Mage_Backend_Block_Widget_Grid_ExtendedTest extends PHPUnit_Framework_Test
         $this->_block->sortColumnsByOrder();
         $columnNames = $this->_block->getLayout()->getChildNames($this->_block->getColumnSet()->getNameInLayout());
         $this->assertEquals($this->_block->getColumn('column2')->getNameInLayout(), $columnNames[0]);
+    }
+
+    public function testGetMainButtonsHtmlReturnsEmptyStringIfFiltersArentVisible()
+    {
+        $this->_block->setFilterVisibility(false);
+        $this->assertEquals('', $this->_block->getMainButtonsHtml());
     }
 }

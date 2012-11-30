@@ -1,82 +1,75 @@
 <?php
 /**
- * {license_notice}
+ * Router for Magento web API.
  *
- * @category    Mage
- * @package     Mage_Webapi
- * @copyright  {copyright}
- * @license    {license_link}
- */
-
-/**
- * Webservice webapi router model
- *
- * @category   Mage
- * @package    Mage_Webapi
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @copyright {}
  */
 class Mage_Webapi_Controller_Router_Rest
 {
-    /**
-     * Routes which are stored in module config files webapi.xml
-     *
-     * @var array
-     */
+    /** @var array */
     protected $_routes = array();
 
-    /** @var Mage_Core_Helper_Abstract */
+    /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
+    /** @var Mage_Webapi_Model_Config_Rest */
+    protected $_apiConfig;
+
     /**
-     * Initialize helper.
+     * Initialize dependencies.
      *
-     * @param Mage_Core_Helper_Abstract $helper
+     * @param Mage_Webapi_Helper_Data $helper
+     * @param Mage_Webapi_Model_Config_Rest $apiConfig
      */
-    function __construct(Mage_Core_Helper_Abstract $helper = null)
-    {
-        $this->_helper = $helper ? $helper : Mage::helper('Mage_Webapi_Helper_Data');
+    public function __construct(
+        Mage_Webapi_Helper_Data $helper,
+        Mage_Webapi_Model_Config_Rest $apiConfig
+    ) {
+        $this->_helper = $helper;
+        $this->_apiConfig = $apiConfig;
     }
 
     /**
-     * Set routes
+     * Route the Request, the only responsibility of the class.
+     * Find route that matches current URL, set parameters of the route to Request object.
      *
-     * @param array $routes
-     * @return Mage_Webapi_Controller_Router_Rest
-     */
-    public function setRoutes(array $routes)
-    {
-        $this->_routes = $routes;
-
-        return $this;
-    }
-
-    /**
-     * Get routes
-     *
-     * @return array
-     */
-    public function getRoutes()
-    {
-        return $this->_routes;
-    }
-
-    /**
-     * Route the Request, the only responsibility of the class
-     * Find route that match current URL, set parameters of the route to Request object
-     *
-     * @param Mage_Webapi_Controller_RequestAbstract $request
+     * @param Mage_Webapi_Controller_Request_Rest $request
      * @return Mage_Webapi_Controller_Router_Route_Rest
      * @throws Mage_Webapi_Exception
      */
-    public function match(Mage_Webapi_Controller_RequestAbstract $request)
+    public function match(Mage_Webapi_Controller_Request_Rest $request)
     {
-        /** @var Mage_Webapi_Controller_Router_Route_Rest $route */
-        foreach ($this->getRoutes() as $route) {
+        /** @var Mage_Webapi_Controller_Router_Route_Rest[] $routes */
+        $routes = $this->_apiConfig->getAllRestRoutes();
+        foreach ($routes as $route) {
             $params = $route->match($request);
             if ($params !== false) {
-                // TODO: Try to remove params set to $request
                 $request->setParams($params);
+                /** Initialize additional request parameters using data from route */
+                $request->setResourceName($route->getResourceName());
+                $request->setResourceType($route->getResourceType());
                 return $route;
+            }
+        }
+        throw new Mage_Webapi_Exception($this->_helper->__('Request does not match any route.'),
+            Mage_Webapi_Exception::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * Check whether current request matches any route of specified method or not. Method version is taken into account.
+     *
+     * @param Mage_Webapi_Controller_Request_Rest $request
+     * @param string $methodName
+     * @param string $version
+     * @throws Mage_Webapi_Exception In case when request does not match any route of specified method.
+     */
+    public function checkRoute(Mage_Webapi_Controller_Request_Rest $request, $methodName, $version)
+    {
+        $resourceName = $request->getResourceName();
+        $routes = $this->_apiConfig->getMethodRestRoutes($resourceName, $methodName, $version);
+        foreach ($routes as $route) {
+            if ($route->match($request)) {
+                return;
             }
         }
         throw new Mage_Webapi_Exception($this->_helper->__('Request does not match any route.'),

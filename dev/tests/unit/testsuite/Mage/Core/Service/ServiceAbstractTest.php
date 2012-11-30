@@ -1,16 +1,8 @@
 <?php
 /**
- * {license_notice}
+ * Unit test for abstract service layer Mage_Core_Service_ServiceAbstract
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  unit_tests
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
- * Test class for Mage_Core_Service_ServiceAbstract
+ * @copyright {}
  */
 class Mage_Core_Service_ServiceAbstractTest extends PHPUnit_Framework_TestCase
 {
@@ -24,22 +16,7 @@ class Mage_Core_Service_ServiceAbstractTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $config = $this->getMockBuilder('Mage_Core_Model_Config')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $helper = $this->getMockBuilder('Mage_Core_Helper_Data')
-            ->setMethods(array('__'))
-            ->getMock();
-        $helper->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
-
         $this->_service = $this->getMockBuilder('Mage_Core_Service_ServiceAbstract')
-            ->setConstructorArgs(array(array(
-                'config' => $config,
-                'helper' => $helper,
-            )))
             ->getMock();
     }
 

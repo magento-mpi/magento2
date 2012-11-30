@@ -8,14 +8,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-$role = new Mage_Webapi_Model_Acl_Role();
+/** @var Mage_Webapi_Model_Acl_Role $role */
+$role = Mage::getModel('Mage_Webapi_Model_Acl_Role');
 $role->setData(array(
     'role_name' => 'Test role'
 ));
 $role->save();
-
-$user = new Mage_Webapi_Model_Acl_User();
+/** @var Mage_Webapi_Model_Acl_User $user */
+$user = Mage::getModel('Mage_Webapi_Model_Acl_User');
 $user->setData(array(
     'api_key' => 'test_username',
     'secret' => '123123qa',

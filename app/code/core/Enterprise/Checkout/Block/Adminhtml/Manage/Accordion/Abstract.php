@@ -36,9 +36,9 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
     /**
      * Initialize Grid
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setUseAjax(true);
         $this->setPagerVisibility(false);
         $this->setFilterVisibility(false);
