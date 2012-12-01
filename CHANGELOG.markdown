@@ -2,46 +2,44 @@
 =============
 * Improved Themes functionality to meet the following requirements:
   * Magento instance doesn’t crash in case there’re no themes at all
-  * Features like selection of themes, custom design selection in "Custom Design", CMS Pages, Products and Categories  can work  without themes. They use base view files only.
-  * Virtual themes work in the same way as the non-virtual (which are present in file system) though they additionally have inheritance property. Changes were made in Theme Switcher, in fall-back mechanism, in Widgets etc.
+  * Features like selection of themes in system configuration, custom theme selection in Custom Design, CMS pages, Products and Categories can work without themes. They use base view files only.
+  * Virtual themes work in the same way as the non-virtual (which are present in file system) though they additionally have inheritance property. Changes were made in theme switcher, in fallback mechanism, in widgets etc.
   * Non-virtual themes are being added to DB during installation
-  * Framework uses theme id as identifier instead of theme code
-* Grids
-  * Continuous refactoring of grid-related classes to make grids configurable via layout and to move grid related classes to corresponding modules. Changes were made in Report grids
+  * Application framework uses theme id as identifier instead of theme code
+* Refactored a variety of report grids in backend (admin) to make them configurable through layout, rather than hard-coded.
 * Removed obsolete modules:
-  * Mage_XmlConnect
-  * Mage_Dataflow
+  * `Mage_XmlConnect`
+  * `Mage_Dataflow`
 * Significantly changed Logging subsystem:
-  * Mage_Core_Model_Logger class is responsible for logging
+  * `Mage_Core_Model_Logger` class is responsible for logging
   * Changes are made to comply with DI paradigm
-  * Custom Logger in Mage_Backend_Menu subsystem is removed due to usage of regular one
-* Changes made in Autoload process
-  * Fixed Autoload to prevent class_exists() from causing fatal error
-  * Added new libraries in lib/Magento/Autoload responsible for including files and registering in autoload
-* Implemented new Form Widget
-  * Replaced usage of different instances of varienForm with a new Form Widget (productForm, categoryForm, instances of type "onclick declaration", "as child component",  "instantiation only")
+  * Custom logger in `Mage_Backend_Menu` subsystem is removed due to usage of regular one
+* Changes made in autoload process
+  * Fixed autoload to prevent `class_exists()` from causing fatal error
+  * The `Magento_Autoload` library was divided into 2 classes: `Magento_Autoload_IncludePath` is responsible for loading from include path, `Magento_Autoload_ClassMap` from a class map. Stacked "class map" loader on top of "include path" loader in application bootstrap.
+* Implemented new jQuery form widget. Its responsibility is to prepare form for submission (change form attributes if needed)
+  * Replaced usage of different instances of `varienForm` with a new form widget (`productForm`, `categoryForm`, instances of type "onclick declaration", "as child component", "instantiation only")
   * Replaced prototype validation with jQuery analog
-  * Additionally implemented Form Widget in different modules (CMS, Customer, Backend, Sitemap, DesignEditor, Tags, SystemEmail, Newsletters, ImportExport, Connect, Authorize.net)
+  * Additionally implemented form widget in different modules (CMS, Customer, Backend, Sitemap, DesignEditor, Tags, SystemEmail, Newsletters, ImportExport, Connect, Authorize.net)
 * Minor improvements
   * Fixed css styles for validation messages in different parts of the system
-  * Removed usage of  jquery-ui-1.8.21.custom.css
+  * Removed usage of `jquery-ui-1.8.21.custom.css`
   * Updated versions of jQuery and jQuery-UI on backend
-  * Updated trademark strings
-  * Improvements  made in indexers to stabilize tests
+  * Updated Magento trademark and copyright labels at the bottom of pages: changed legal entity name to X.Commerce, Inc, made translation engine pick them up
+  * Improvements made in indexers to stabilize tests. Fixed wrong initialization order of indexers that sometimes caused failure of reindexing all at once
 * Bugfixes:
-  * Void button should disappear after voiding the order
-  * Status drop-down in "Shopping cart price rule" admin grid can't be translated
-  * Console Installer does not Work
-  * Loading indicator image isn’t loading in Backend during new tax rule creation
-  * Impossible to create product of type other than simple in IE
-  * Server's Response on Image Save Action Contains Absolute Path to the Image Stored on Server
-  * Admin user can edit order addresses even if his role does not have order edit permission
-  * Order comment is not Posted without status change
-  * Admin can save new product with any ID using Firebug
-  * Can't submit order when Authorize.Net module is enabled
-  * New Product Page isn't opened while click split button Add Product after scroll page
-  * Add/edit page works incorrect in Poll Manager on backend
-  * Incorrect Export file on Reports>Customers>New Accounts page(customer_totals)
+  * Set correct order's data change state during voiding the order
+  * Set translator to pick up status labels in drop-down in "Shopping cart price rule" admin grid
+  * Fixed an issue in console installer that initialized application in such a way, that it could not load certain event area.
+  * Fixed incorrect loader image source in backend during new tax rule creation
+  * Fixed JS error in IE with creating products via floating toolbar
+  * Fixed image save url during uploading product's images
+  * Added permission check for editing shipping and billing addresses during viewing the order
+  * Changed saving of order comments from backend. Comment is saved even without status change
+  * Added additional validation into `quickCreateAction` of `Mage_Adminhtml_Catalog_ProductController` to prevent saving new product with any id using firebug
+  * Fixed JS errors in Authorize.net Direct Post submodule
+  * Fixed JS errors in split button on creating product
+  * Fixed errors in poll's list template in backend
 
 2.0.0.0-dev32
 =============
