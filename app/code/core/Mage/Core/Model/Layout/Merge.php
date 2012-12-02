@@ -538,7 +538,9 @@ class Mage_Core_Model_Layout_Merge
      */
     protected function _getCacheId($suffix = '')
     {
-        return "LAYOUT_{$this->_area}_STORE{$this->_storeId}_{$this->_themeId}{$suffix}";
+        $themeId = $this->_themeId ?: Mage_Core_Model_Theme::CACHE_TAG_NO_THEME . Mage::getDesign()
+            ->getDesignTheme()->getThemePath();
+        return "LAYOUT_{$this->_area}_STORE{$this->_storeId}_{$themeId}{$suffix}";
     }
 
     /**
