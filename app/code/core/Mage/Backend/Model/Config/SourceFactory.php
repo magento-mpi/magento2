@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Model_Config_Backend_Factory
+class Mage_Backend_Model_Config_SourceFactory
 {
     /**
      * Object manager
@@ -18,26 +18,22 @@ class Mage_Backend_Model_Config_Backend_Factory
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectmanager
+     * @param Magento_ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectmanager)
+    public function __construct(Magento_ObjectManager $objectManager)
     {
-        $this->_objectManager = $objectmanager;
+        $this->_objectManager = $objectManager;
     }
 
     /**
      * Create backend model by name
      *
      * @param string $modelName
-     * @param array $arguments
      * @return mixed
      */
     public function create($modelName)
     {
         $model = $this->_objectManager->create($modelName);
-        if (!$model instanceof Mage_Core_Model_Config_Data) {
-            throw new InvalidArgumentException('Invalid config field backend model: ' . $modelName);
-        }
         return $model;
     }
 }

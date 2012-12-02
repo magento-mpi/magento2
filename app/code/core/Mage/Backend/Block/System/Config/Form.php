@@ -392,8 +392,16 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         ));
         $field->populateInput($formField);
 
+        if ($field->hasValidation()) {
+            $formField->addClass($field->getValidation());
+        }
+        if ($field->getType() == 'multiselect') {
+            $formField->setCanBeEmpty($field->canBeEmpty());
+        }
+        if ($field->hasSourceModel()) {
+            $formField->setValues($field->getOptions());
+        }
         $formField->setRenderer($fieldRenderer);
-
     }
 
     /**

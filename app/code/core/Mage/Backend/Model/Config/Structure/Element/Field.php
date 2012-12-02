@@ -14,9 +14,23 @@ class Mage_Backend_Model_Config_Structure_Element_Field
     /**
      * Backend model factory
      *
-     * @var Mage_Backend_Model_Config_Backend_Factory
+     * @var Mage_Backend_Model_Config_BackendFactory
      */
     protected $_backendFactory;
+
+    /**
+     * Source model factory
+     *
+     * @var Mage_Backend_Model_Config_SourceFactory
+     */
+    protected $_sourceFactory;
+
+    /**
+     * Comment model factory
+     *
+     * @var Mage_Backend_Model_Config_CommentFactory
+     */
+    protected $_commentFactory;
 
     /**
      *
@@ -25,21 +39,37 @@ class Mage_Backend_Model_Config_Structure_Element_Field
     protected $_fieldLocator;
 
     /**
+     * Block factory
+     *
+     * @var Mage_Core_Model_BlockFactory
+     */
+    protected $_blockFactory;
+
+    /**
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Core_Model_App $application
      * @param Mage_Core_Model_Authorization $authorization
-     * @param Mage_Backend_Model_Config_Backend_Factory $backendFactory
+     * @param Mage_Backend_Model_Config_BackendFactory $backendFactory
+     * @param Mage_Backend_Model_Config_SourceFactory $sourceFactory
+     * @param Mage_Backend_Model_Config_CommentFactory $commentFactory
+     * @param Mage_Core_Model_BlockFactory $blockFactory
      * @param Mage_Backend_Model_Config_Structure_SearchInterface $fieldLocator
      */
     public function __construct(
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_App $application,
         Mage_Core_Model_Authorization $authorization,
-        Mage_Backend_Model_Config_Backend_Factory $backendFactory,
+        Mage_Backend_Model_Config_BackendFactory $backendFactory,
+        Mage_Backend_Model_Config_SourceFactory $sourceFactory,
+        Mage_Backend_Model_Config_CommentFactory $commentFactory,
+        Mage_Core_Model_BlockFactory $blockFactory,
         Mage_Backend_Model_Config_Structure_SearchInterface $fieldLocator
     ) {
         parent::__construct($helperFactory, $application, $authorization);
         $this->_backendFactory = $backendFactory;
+        $this->_sourceFactory = $sourceFactory;
+        $this->_commentFactory = $commentFactory;
+        $this->_blockFactory = $blockFactory;
         $this->_fieldLocator = $fieldLocator;
     }
 
@@ -81,10 +111,8 @@ class Mage_Backend_Model_Config_Structure_Element_Field
         if (isset($this->_data['comment'])) {
             if (is_array($this->_data['comment'])) {
                 if (isset($this->_data['comment']['model'])) {
-                    $model = Mage::getModel($this->_data['comment']['model']);
-                    if (method_exists($model, 'getCommentText')) {
-                        $comment = $model->getCommentText($this->_data, $currentValue);
-                    }
+                    $model = $this->_commentFactory->create($this->_data['comment']['model']);
+                    $comment = $model->getCommentText($currentValue);
                 }
             } else {
                 $comment = parent::getComment();
@@ -103,7 +131,7 @@ class Mage_Backend_Model_Config_Structure_Element_Field
         if (isset($this->_data['tooltip'])) {
             return $this->_getTranslatedAttribute('tooltip');
         } elseif (isset($this->_data['tooltip_block'])) {
-            return $this->getLayout()->createBlock($this->_data['tooltip_block'])->toHtml();
+            return $this->_blockFactory->createBlock($this->_data['tooltip_block'])->toHtml();
         }
         return '';
     }
@@ -125,7 +153,7 @@ class Mage_Backend_Model_Config_Structure_Element_Field
      */
     public function getFrontendClass()
     {
-        return isset($element['frontend_class']) ? $element['frontend_class'] : '';
+        return isset($this->_data['frontend_class']) ? $this->_data['frontend_class'] : '';
     }
 
     /**
@@ -223,28 +251,44 @@ class Mage_Backend_Model_Config_Structure_Element_Field
             }
         }
         $formField->setOriginalData($originalData);
-        if (isset($this->_data['validate'])) {
-            $formField->addClass($this->_data['validate']);
-        }
+    }
 
-        if ($this->getType() == 'multiselect' && isset($this->_data['can_be_empty'])) {
-            $formField->setCanBeEmpty(true);
-        }
+    /**
+     * Check whether field has validation class
+     *
+     * @return bool
+     */
+    public function hasValidation()
+    {
+        return isset($this->_data['validate']);
+    }
 
-        if (isset($this->_data['source_model'])) {
-            $formField->setValues($this->getOptions());
-        }
+    /**
+     * Check whether field can be empty
+     *
+     * @return bool
+     */
+    public function canBeEmpty()
+    {
+        return isset($this->_data['can_be_empty']);
+    }
+
+    /**
+     * Check whether field has source model
+     *
+     * @return bool
+     */
+    public function hasSourceModel()
+    {
+        return isset($this->_data['source_model']);
     }
 
     /**
      * Retrieve source model option list
      *
-     * @param array $element
-     * @param string $path
-     * @param string $fieldType
      * @return array
      */
-    protected function getOptions()
+    public function getOptions()
     {
         $factoryName = $this->_data['source_model'];
         $method = false;
@@ -253,7 +297,7 @@ class Mage_Backend_Model_Config_Structure_Element_Field
             list($factoryName, $method) = array_values($matches);
         }
 
-        $sourceModel = Mage::getSingleton($factoryName);
+        $sourceModel = $this->_sourceFactory->create($factoryName);
         if ($sourceModel instanceof Varien_Object) {
             $sourceModel->setPath($this->getPath());
         }
