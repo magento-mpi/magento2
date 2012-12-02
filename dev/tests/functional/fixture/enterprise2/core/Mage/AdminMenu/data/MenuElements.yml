@@ -106,8 +106,8 @@ menu:
             report_shopcart_product:
             report_shopcart_abandoned:
         invitations:
-            invitations_general:
-            invitations_customers:
+            report_invitations_general:
+            report_invitations_customers:
             invitations_order_conversion_rate:
         products:
             report_sales_bestsellers:
@@ -151,8 +151,6 @@ menu:
                import:
                export:
                import_export_scheduled:
-               system_convert_gui:
-               system_convert_profile:
            manage_currency:
                system_currency:
                system_currencysymbol:

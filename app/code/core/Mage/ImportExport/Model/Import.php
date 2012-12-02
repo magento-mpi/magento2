@@ -524,7 +524,7 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
             ->asArray();
         foreach ($entitiesConfig as $entityCode => $entityData) {
             $behaviorToken = isset($entityData['behavior_token']) ? $entityData['behavior_token'] : null;
-            if ($behaviorToken && Magento_Autoload::getInstance()->classExists($behaviorToken)) {
+            if ($behaviorToken && class_exists($behaviorToken)) {
                 /** @var $behaviorModel Mage_ImportExport_Model_Source_Import_BehaviorAbstract */
                 $behaviorModel = Mage::getModel($behaviorToken);
                 $behaviourData[$entityCode] = array(

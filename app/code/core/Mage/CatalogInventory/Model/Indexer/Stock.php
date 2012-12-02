@@ -57,9 +57,6 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
         Mage_Core_Model_Config_Data::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE
         ),
-        Mage_Catalog_Model_Convert_Adapter_Product::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE
-        )
     );
 
     /**
@@ -173,10 +170,6 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
 
             case Mage_Catalog_Model_Product::ENTITY:
                 $this->_registerCatalogProductEvent($event);
-                break;
-
-            case Mage_Catalog_Model_Convert_Adapter_Product::ENTITY:
-                $event->addNewData('cataloginventory_stock_reindex_all', true);
                 break;
 
             case Mage_Core_Model_Store::ENTITY:

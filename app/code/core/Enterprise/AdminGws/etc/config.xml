@@ -64,14 +64,6 @@
                     </enterprise_admingws>
                 </observers>
             </admin_permissions_role_prepare_save>
-            <staging_website_create_after>
-                <observers>
-                    <enterprise_admingws>
-                        <class>Enterprise_AdminGws_Model_Observer</class>
-                        <method>copyWebsiteCopyPermissions</method>
-                    </enterprise_admingws>
-                </observers>
-            </staging_website_create_after>
             <controller_action_predispatch>
                 <observers>
                     <enterprise_admingws>
@@ -272,14 +264,6 @@
                     </enterprise_admingws>
                 </observers>
             </adminhtml_banner_edit_tab_content_before_prepare_form>
-            <adminhtml_staging_backup_edit_tab_rollback_after_prepare_columns>
-                <observers>
-                    <enterprise_admingws>
-                        <class>Enterprise_AdminGws_Model_Blocks</class>
-                        <method>disableStagingBackupRollbackTabItems</method>
-                    </enterprise_admingws>
-                </observers>
-            </adminhtml_staging_backup_edit_tab_rollback_after_prepare_columns>
         </events>
         <enterprise>
             <admingws>
@@ -323,7 +307,6 @@
                     <mage_newsletter_model_resource_queue_collection>addStoreFilter</mage_newsletter_model_resource_queue_collection>
                     <mage_newsletter_model_resource_subscriber_collection>addStoreFilter</mage_newsletter_model_resource_subscriber_collection>
                     <mage_core_model_resource_design_collection>addStoreFilter</mage_core_model_resource_design_collection>
-                    <mage_dataflow_model_resource_profile_collection>addStoreFilter</mage_dataflow_model_resource_profile_collection>
                     <mage_user_model_resource_role_collection>limitAdminPermissionRoles</mage_user_model_resource_role_collection>
                     <mage_user_model_resource_role_collection>limitAdminPermissionRoles</mage_user_model_resource_role_collection>
                     <mage_user_model_resource_user_collection>limitAdminPermissionUsers</mage_user_model_resource_user_collection>
@@ -493,15 +476,6 @@
                     <adminhtml__catalog_product_review__edit>validateCatalogProductReview</adminhtml__catalog_product_review__edit>
                     <adminhtml__catalog_product_review__save>validateCatalogProductReview</adminhtml__catalog_product_review__save>
                     <adminhtml__catalog_product_review__delete>validateCatalogProductReview</adminhtml__catalog_product_review__delete>
-                    <adminhtml__staging_manage__merge>blockStagingAction</adminhtml__staging_manage__merge>
-                    <adminhtml__staging_manage__mergePost>blockStagingAction</adminhtml__staging_manage__mergePost>
-                    <adminhtml__staging_manage__save>blockStagingAction</adminhtml__staging_manage__save>
-                    <adminhtml__staging_manage__delete>blockStagingAction</adminhtml__staging_manage__delete>
-                    <adminhtml__staging_manage__unschedule>blockStagingAction</adminhtml__staging_manage__unschedule>
-                    <adminhtml__staging_manage__resetStatus>blockStagingAction</adminhtml__staging_manage__resetStatus>
-                    <adminhtml__staging_backup__massDelete>blockStagingAction</adminhtml__staging_backup__massDelete>
-                    <adminhtml__staging_backup__delete>blockStagingAction</adminhtml__staging_backup__delete>
-                    <adminhtml__staging_backup__rollbackPost>blockStagingAction</adminhtml__staging_backup__rollbackPost>
                     <adminhtml__process__save>blockIndexAction</adminhtml__process__save>
                     <adminhtml__process__massChangeMode>blockIndexAction</adminhtml__process__massChangeMode>
                     <adminhtml__process__massReindex>blockIndexAction</adminhtml__process__massReindex>
@@ -554,11 +528,6 @@
                     <mage_adminhtml_block_sales_order_grid>removeNotAllowedMassactionsForOrders</mage_adminhtml_block_sales_order_grid>
                     <mage_index_block_adminhtml_process_grid>removeProcessListButtons</mage_index_block_adminhtml_process_grid>
                     <mage_index_block_adminhtml_process_edit>removeProcessEditButtons</mage_index_block_adminhtml_process_edit>
-                    <enterprise_staging_block_adminhtml_staging>removeStagingGridButtons</enterprise_staging_block_adminhtml_staging>
-                    <enterprise_staging_block_adminhtml_staging_grid>removeStagingGridActions</enterprise_staging_block_adminhtml_staging_grid>
-                    <enterprise_staging_block_adminhtml_staging_edit>removeStagingEditButtons</enterprise_staging_block_adminhtml_staging_edit>
-                    <enterprise_staging_block_adminhtml_backup_grid>removeStagingBackupGridActions</enterprise_staging_block_adminhtml_backup_grid>
-                    <enterprise_staging_block_adminhtml_backup_edit>removeStagingBackupEditButtons</enterprise_staging_block_adminhtml_backup_edit>
                     <enterprise_giftWrapping_block_adminhtml_giftwrapping_edit>removeGiftWrappingEditButtons</enterprise_giftWrapping_block_adminhtml_giftwrapping_edit>
                     <enterprise_giftWrapping_block_adminhtml_giftwrapping_grid>removeGiftWrappingForbiddenMassactions</enterprise_giftWrapping_block_adminhtml_giftwrapping_grid>
                     <enterprise_cms_block_adminhtml_cms_page_revision_edit>removeRevisionEditButtons</enterprise_cms_block_adminhtml_cms_page_revision_edit>
