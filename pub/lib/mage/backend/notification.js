@@ -35,7 +35,7 @@
          */
         _add: function(e, jqXHR) {
             var response = $.parseJSON(jqXHR.responseText);
-            if (response.error) {
+            if (response && response.error) {
                 this.element.append($.tmpl('globalNotification', response));
             }
         }

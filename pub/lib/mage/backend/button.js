@@ -28,9 +28,11 @@
          * @protected
          */
         _bind: function() {
-            this.element.on('click', $.proxy(function() {
-                $(this.target).trigger(this.event, [this.eventData]);
-            }, this.options));
+            this.element
+                .off('click.button')
+                .on('click.button', $.proxy(function(e) {
+                    $(this.target).trigger(this.event, [this.eventData]);
+                }, this.options));
         }
     });
 })(jQuery);
