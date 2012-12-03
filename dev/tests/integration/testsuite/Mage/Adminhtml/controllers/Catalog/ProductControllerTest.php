@@ -23,7 +23,7 @@ class Mage_Adminhtml_Catalog_ProductControllerTest extends Mage_Adminhtml_Utilit
         $errorMessages = $session->getMessages()->getErrors();
         $this->assertCount(1, $errorMessages);
         $this->assertEquals('Unable to save product', $errorMessages[0]->getCode());
-        $this->assertRedirect($this->stringStartsWith('http://localhost/index.php/backend/admin/catalog_product/edit'));
+        $this->assertRedirect($this->stringContains('/backend/admin/catalog_product/edit'));
     }
 
     /**
