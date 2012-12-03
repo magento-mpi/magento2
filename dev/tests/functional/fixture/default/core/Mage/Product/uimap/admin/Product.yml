@@ -470,11 +470,6 @@ new_product:
                         xpath: //a[@title='Associated Products']/span
                         fieldsets:
                             -
-                                create_simple_assosiated_product:
-                                    xpath: //div[contains(div/h4,'Create Simple Associated Product')]
-                                    buttons:
-                                        create_empty: //button[span='Create Empty']
-                            -
                                 super_products_attribute_configuration: &superProductsAttributeconfiguration
                                     xpath: //li[contains(div/text(),'%attributeTitle%')]
                                     checkboxes:
@@ -657,30 +652,6 @@ edit_product:
                     associated:
                         xpath: //a[@title='Associated Products']/span
                         fieldsets:
-                            -
-                                create_simple_assosiated_product:
-                                    xpath: //div[contains(div/h4,'Create Simple Associated Product')]
-                                    buttons:
-                                        create_empty: //button[span='Create Empty']
-                                        create_copy_from_configurable: //button[span='Copy From Configurable']
-                            -
-                                quick_simple_product_creation:
-                                    xpath: //div[contains(div/h4,'Quick simple product creation')]
-                                    buttons:
-                                        quick_create: //button[span='Quick Create']
-                                    checkboxes:
-                                        quick_simple_product_name_use_default: //input[@id='simple_product_name_autogenerate']
-                                        quick_simple_product_sku_use_default: //input[@id='simple_product_sku_autogenerate']
-                                    dropdowns:
-                                        quick_simple_product_status: //select[@id='simple_product_status']
-                                        quick_simple_product_visibility: //select[@id='simple_product_visibility']
-                                        quick_simple_product_attribute_value: //select[@id='simple_product_%attributeCode%']
-                                        quick_simple_product_stock_availability: //select[@id='simple_product_inventory_is_in_stock']
-                                    fields:
-                                        quick_simple_product_name: //input[@id='simple_product_name']
-                                        quick_simple_product_sku: //input[@id='simple_product_sku']
-                                        quick_simple_product_weight: //input[@id='simple_product_weight']
-                                        quick_simple_product_qty: //input[@id='simple_product_inventory_qty']
                             -
                                 super_products_attribute_configuration: *superProductsAttributeconfiguration
                             -

@@ -32,6 +32,7 @@ new_product:
                                         general_weight_disabled: //input[@id='weight' and (@disabled)]
                                     checkboxes:
                                         weight_and_type_switcher: //input[@id='weight_and_type_switcher']
+                            -
                                 category_search:
                                     xpath: //*[@id='html-body']/ul
                                     links:
@@ -40,6 +41,7 @@ new_product:
                                     pageelements:
                                         category_list: //*[@class='ui-menu-item']
                                         all_categories: //*[contains(@data-ui-id, 'category-selector')]
+                            -
                                 chosen_category:
                                     xpath: //*[@class='category-selector-search-choice button']
                                     links:
@@ -51,16 +53,19 @@ new_product:
                                     xpath: //*[@id='config_super_product']/fieldset
                                     checkboxes:
                                         configurable_attribute_title: //input[@type='checkbox' and @title='%attributeTitle%']
-                                        associated_product_select: //tbody/tr[%rowNum%]//*[@class='checkbox']
                                     buttons:
-                                        continue: //*[@data-ui-id='admin-product-edit-tab-super-config-grid-container-super-settings-continue-button']
+                                        generate_variations: //*[@data-ui-id='admin-product-edit-tab-super-config-grid-container-super-settings-continue-button']
                             -
                                 variations_matrix:
                                     xpath: //*[@id='product-variations-matrix']
                                     checkboxes:
-                                        include_variation: //tbody/tr[%rowNum%]//*[@type='checkbox']
+                                        associated_product_select: //tbody/tr[%attributeSearch%]//*[@type='checkbox']
+                                        assigned_product: //table/tbody/tr[contains(., '%productSku%') and %attributeSearch%]//input[@checked='checked']
                                     pageelements:
+                                        attribute_header: //table/thead/tr/th[contains(.,'%attributeTitle%')]
                                         variation_line: //table/tbody/tr[%rowNum%]
+                                    buttons:
+                                        choose: //tr[%attributeSearch%]//button
                         checkboxes:
                             is_configurable: //*[@id='config_super_product-checkbox']
                     prices:
@@ -119,9 +124,6 @@ new_product:
                                         product_price_to: //*[@id='productGrid_product_filter_price_to']
                                         product_qty_from: //*[@id='productGrid_product_filter_qty_from']
                                         product_qty_to: //*[@id='productGrid_product_filter_qty_to']
-                -
-                    associated:
-                        xpath: //a[@title='General']/span
             fieldsets:
                 -
                     product_information:
@@ -155,6 +157,11 @@ new_product:
                         xpath: //*[contains(concat(' ', normalize-space(@class), ' '), ' ui-autocomplete ')]
                         links:
                             suggested_category_name: /*[contains(concat(' ', normalize-space(@class), ' '), ' ui-menu-item ')]/*[text()='%categoryName%']
+                -
+                    select_associated_product:
+                        xpath: //*[@id='associated-products-container']/ancestor::*[contains(concat(' ', normalize-space(@class), ' '), ' ui-dialog ')]
+                        pageelements:
+                            sku_cell: //*[contains(@class, 'associated-product-sku') and contains(.,'%productSku%')]
         buttons:
             change_attribute_set: //*[@data-ui-id='product-edit-change-attribute-set-button']
             new_category: //button[span='New Category']

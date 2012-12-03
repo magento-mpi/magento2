@@ -291,7 +291,8 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
         return array(
             'attributeSet' => $attributeSet['set_name'],
             'attributeName' => $attributeData['admin_title'],
-            'productSku' => $simpleProduct['general_sku']
+            'productSku' => $simpleProduct['general_sku'],
+            'attributeValue' => $attributeData['option_1']['admin_option_name']
         );
     }
 
@@ -313,14 +314,15 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
             'product_attribute_set' => $data['attributeSet'],
             'configurable_attribute_title' => $data['attributeName'],
             'associated_configurable_data' => $this->loadDataSet('Product', 'associated_configurable_data',
-                array('associated_search_sku' => $data['productSku'])))
+                array(
+                    'associated_search_sku' => $data['productSku'],
+                    'associated_product_attribute_value' => $data['attributeValue']
+                )
+            ))
         );
         //Steps and Verifying
         $this->productHelper()->selectTypeProduct($initialType);
         $this->productHelper()->changeAttributeSet($data['attributeSet']);
-        if ($initialType != 'simple') {
-            $this->fillCheckbox('weight_and_type_switcher', 'no');
-        }
         $this->assertFalse($this->isChecked($this->_getControlXpath('checkbox', 'is_configurable')),
             'Product variation checkbox is selected');
         $this->assertFalse($this->controlIsVisible('fieldset', 'product_variations'),
@@ -338,7 +340,7 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
         $this->productHelper()->openProduct(array('sku' => $configurableProduct['general_sku']));
         $this->assertTrue($this->isChecked($this->_getControlXpath('checkbox', 'is_configurable')),
             'Product variation checkbox is not checked');
-        $this->assertTrue($this->controlIsVisible('pageelement', 'product_variations'),
+        $this->assertTrue($this->controlIsVisible('fieldset', 'product_variations'),
             'Product variation block is absent');
     }
 
@@ -370,6 +372,7 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
         $this->fillCheckbox('is_configurable', 'no');
         $this->assertFalse($this->controlIsVisible('fieldset', 'product_variations'),
             'Product variation block is present');
+        $this->fillCheckbox('weight_and_type_switcher', 'no');
         $this->productHelper()->fillProductInfo($simpleProduct);
         $this->saveForm('save');
         //Verifying
@@ -400,7 +403,11 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
             'product_attribute_set' => $data['attributeSet'],
             'configurable_attribute_title' => $data['attributeName'],
             'associated_configurable_data' => $this->loadDataSet('Product', 'associated_configurable_data',
-                array('associated_search_sku' => $data['productSku'])))
+                array(
+                    'associated_search_sku' => $data['productSku'],
+                    'associated_product_attribute_value' => $data['attributeValue']
+                )
+            ))
         );
         //Steps
         $this->productHelper()->createProduct($configurableProduct, 'configurable', false);
@@ -408,6 +415,7 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
         $this->fillCheckbox('is_configurable', 'no');
         $this->assertFalse($this->controlIsVisible('fieldset', 'product_variations'),
             'Product variation block is present');
+        $this->fillCheckbox('weight_and_type_switcher', 'no');
         $this->productHelper()->fillProductInfo($simpleProduct, 'simple');
         $this->saveForm('save');
         //Verifying
@@ -440,18 +448,20 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
             'product_attribute_set' => $data['attributeSet'],
             'configurable_attribute_title' => $data['attributeName'],
             'associated_configurable_data' => $this->loadDataSet('Product', 'associated_configurable_data',
-                array('associated_search_sku' => $data['productSku'])))
+                array(
+                    'associated_search_sku' => $data['productSku'],
+                    'associated_product_attribute_value' => $data['attributeValue']
+                )
+            ))
         );
         //Steps
         $this->productHelper()->createProduct($initialProduct, $initialType);
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('sku' => $initialProduct['general_sku']));
-        if ($initialType != 'simple') {
-            $this->fillCheckbox('weight_and_type_switcher', 'no');
-        }
         $this->fillCheckbox('is_configurable', 'yes');
         $this->assertTrue($this->controlIsVisible('fieldset', 'product_variations'),
             'Product variation block is absent');
+        $this->productHelper()->changeAttributeSet($data['attributeSet']);
         $this->productHelper()->fillConfigurableSettings($configurableProduct);
         $this->productHelper()->fillProductInfo($configurableProduct, 'configurable');
         $this->saveForm('save');
@@ -482,7 +492,11 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
             'product_attribute_set' => $data['attributeSet'],
             'configurable_attribute_title' => $data['attributeName'],
             'associated_configurable_data' => $this->loadDataSet('Product', 'associated_configurable_data',
-                array('associated_search_sku' => $data['productSku'])))
+                array(
+                    'associated_search_sku' => $data['productSku'],
+                    'associated_product_attribute_value' => $data['attributeValue']
+                )
+            ))
         );
         //Steps
         $this->productHelper()->createProduct($configurableProduct, 'configurable');
