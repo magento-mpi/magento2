@@ -75,12 +75,12 @@
                 </parameters>
                 <shared>0</shared>
             </Mage_Backend_Model_Config_Structure_Element_Iterator_Field>
-            <Mage_Backend_Model_Config_Structure_Element_Field>
+            <Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper>
                 <parameters>
                     <fieldLocator>Mage_Backend_Model_Config_Structure_Search_Proxy</fieldLocator>
                 </parameters>
                 <shared>0</shared>
-            </Mage_Backend_Model_Config_Structure_Element_Field>
+            </Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper>
             <Mage_Backend_Model_Config_Structure_Element_Tab>
                 <parameters>
                     <childrenIterator>Mage_Backend_Model_Config_Structure_Element_Iterator_Section</childrenIterator>

@@ -19,19 +19,28 @@ class Mage_Backend_Model_Config_Structure_Element_Group
     protected $_cloneModelFactory;
 
     /**
+     *
+     * @var Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper
+     */
+    protected $_dependencyMapper;
+
+    /**
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Core_Model_App $application
      * @param Mage_Backend_Model_Config_Structure_Element_Iterator_Field $childrenIterator
      * @param Mage_Backend_Model_Config_Clone_Factory $cloneModelFactory
+     * @param Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper $dependencyMapper
      */
     public function __construct(
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_App $application,
         Mage_Backend_Model_Config_Structure_Element_Iterator_Field $childrenIterator,
-        Mage_Backend_Model_Config_Clone_Factory $cloneModelFactory
+        Mage_Backend_Model_Config_Clone_Factory $cloneModelFactory,
+        Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper $dependencyMapper
     ) {
         parent::__construct($helperFactory, $application, $childrenIterator);
         $this->_cloneModelFactory = $cloneModelFactory;
+        $this->_dependencyMapper = $dependencyMapper;
     }
 
     /**
@@ -91,5 +100,22 @@ class Mage_Backend_Model_Config_Structure_Element_Group
     public function getFieldsetCss()
     {
         return array_key_exists('fieldset_css', $this->_data) ? $this->_data['fieldset_css'] : '';
+    }
+
+    /**
+     * Retrieve field dependencies
+     *
+     * @param $storeCode
+     * @return array
+     */
+    public function getDependencies($storeCode)
+    {
+        $dependencies = array();
+        if (false == isset($this->_data['depends']['fields'])) {
+            return $dependencies;
+        }
+
+        $dependencies = $this->_dependencyMapper->getDependencies($this->_data['depends']['fields'], $storeCode);
+        return $dependencies;
     }
 }

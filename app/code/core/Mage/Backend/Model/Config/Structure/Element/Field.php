@@ -34,9 +34,9 @@ class Mage_Backend_Model_Config_Structure_Element_Field
 
     /**
      *
-     * @var Mage_Backend_Model_Config_Structure_SearchInterface
+     * @var Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper
      */
-    protected $_fieldLocator;
+    protected $_dependencyMapper;
 
     /**
      * Block factory
@@ -52,7 +52,7 @@ class Mage_Backend_Model_Config_Structure_Element_Field
      * @param Mage_Backend_Model_Config_SourceFactory $sourceFactory
      * @param Mage_Backend_Model_Config_CommentFactory $commentFactory
      * @param Mage_Core_Model_BlockFactory $blockFactory
-     * @param Mage_Backend_Model_Config_Structure_SearchInterface $fieldLocator
+     * @param Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper $dependencyMapper
      */
     public function __construct(
         Mage_Core_Model_Factory_Helper $helperFactory,
@@ -61,14 +61,14 @@ class Mage_Backend_Model_Config_Structure_Element_Field
         Mage_Backend_Model_Config_SourceFactory $sourceFactory,
         Mage_Backend_Model_Config_CommentFactory $commentFactory,
         Mage_Core_Model_BlockFactory $blockFactory,
-        Mage_Backend_Model_Config_Structure_SearchInterface $fieldLocator
+        Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper $dependencyMapper
     ) {
         parent::__construct($helperFactory, $application);
         $this->_backendFactory = $backendFactory;
         $this->_sourceFactory = $sourceFactory;
         $this->_commentFactory = $commentFactory;
         $this->_blockFactory = $blockFactory;
-        $this->_fieldLocator = $fieldLocator;
+        $this->_dependencyMapper = $dependencyMapper;
     }
 
     /**
@@ -341,43 +341,8 @@ class Mage_Backend_Model_Config_Structure_Element_Field
         if (false == isset($this->_data['depends']['fields'])) {
             return $dependencies;
         }
+        $this->_dependencyMapper->getDependencies($this->_data['depends']['fields'], $storeCode, $fieldPrefix);
 
-        foreach ($this->_data['depends']['fields'] as $depend) {
-            /* @var array $depend */
-            $fieldId = $fieldPrefix . array_pop($depend['dependPath']);
-            $depend['dependPath'][] = $fieldId;
-            $dependentId = implode('_', $depend['dependPath']);
-
-            $shouldBeAddedDependence = true;
-
-            $dependentValue = $depend['value'];
-
-            if (isset($depend['separator'])) {
-                $dependentValue = explode($depend['separator'], $dependentValue);
-            }
-
-            /** @var Mage_Backend_Model_Config_Structure_Element_Field $dependentField  */
-            $dependentField = $this->_fieldLocator->getElement($depend['id']);
-
-            /*
-            * If dependent field can't be shown in current scope and real dependent config value
-            * is not equal to preferred one, then hide dependence fields by adding dependence
-            * based on not shown field (not rendered field)
-            */
-            if (false == $dependentField->isVisible()) {
-                $dependentValueInStore = $this->_application
-                    ->getStore($storeCode)
-                    ->getConfig($dependentField->getPath($fieldPrefix));
-                if (is_array($dependentValue)) {
-                    $shouldBeAddedDependence = !in_array($dependentValueInStore, $dependentValue);
-                } else {
-                    $shouldBeAddedDependence = $dependentValue != $dependentValueInStore;
-                }
-            }
-            if ($shouldBeAddedDependence) {
-                $dependencies[$dependentId] = $dependentValue;
-            }
-        }
         return $dependencies;
     }
 }

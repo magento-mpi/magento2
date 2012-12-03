@@ -255,6 +255,12 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         $group->populateFieldset($fieldset);
         $this->_addElementTypes($fieldset);
 
+        $dependencies = $group->getDependencies($this->getStoreCode());
+        $elementName = $this->_generateElementName($group->getPath());
+        $elementId = $this->_generateElementId($group->getPath());
+
+        $this->_populateDependenciesBlock($dependencies, $elementId, $elementName);
+
         if ($group->shouldCloneFields()) {
             $cloneModel = $group->getCloneModel();
             foreach ($cloneModel->getPrefixes() as $prefix) {
@@ -366,13 +372,9 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
             $data = $backendModel->getValue();
         }
 
-        foreach ($field->getDependencies($fieldPrefix, $this->getStoreCode()) as $dependentId => $dependentValue) {
-            $fieldNameFrom = $this->_generateElementName($dependentId, null, '_');
-            $this->_getDependence()
-                ->addFieldMap($elementId, $elementName)
-                ->addFieldMap($this->_generateElementId($dependentId), $fieldNameFrom)
-                ->addFieldDependence($elementName, $fieldNameFrom, $dependentValue);
-        }
+        $dependencies = $field->getDependencies($fieldPrefix, $this->getStoreCode());
+        $this->_populateDependenciesBlock($dependencies, $elementId, $elementName);
+
 
         $formField = $fieldset->addField($elementId, $field->getType(), array(
             'name' => $elementName,
@@ -405,10 +407,29 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     }
 
     /**
+     * Populate dependencies block
+     *
+     * @param array $dependencies
+     * @param $elementId
+     * @param $elementName
+     */
+    protected function _populateDependenciesBlock(array $dependencies, $elementId, $elementName)
+    {
+        foreach ($dependencies as $dependentId => $dependentValue) {
+            $fieldNameFrom = $this->_generateElementName($dependentId, null, '_');
+            $this->_getDependence()
+                ->addFieldMap($elementId, $elementName)
+                ->addFieldMap($this->_generateElementId($dependentId), $fieldNameFrom)
+                ->addFieldDependence($elementName, $fieldNameFrom, $dependentValue);
+        }
+    }
+
+    /**
      * Generate element name
      *
      * @param string $elementPath
      * @param string $fieldPrefix
+     * @param string $separator
      * @return string
      */
     protected function _generateElementName($elementPath, $fieldPrefix = '', $separator = '/')
