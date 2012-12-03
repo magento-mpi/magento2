@@ -3,15 +3,13 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Catalog
+ * @package     Mage_Catalog
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test class for Mage_Catalog_Product_CompareController.
- *
  * @magentoDataFixture Mage/Catalog/controllers/_files/products.php
  */
 class Mage_Catalog_Product_CompareControllerTest extends Magento_Test_TestCase_ControllerAbstract

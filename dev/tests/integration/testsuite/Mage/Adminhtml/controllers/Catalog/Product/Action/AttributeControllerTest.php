@@ -1,17 +1,14 @@
 <?php
-    /**
-     * {license_notice}
-     *
-     * @category    Mage
-     * @package     Mage_Adminhtml
-     * @subpackage  integration_tests
-     * @copyright   {copyright}
-     * @license     {license_link}
-     */
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Adminhtml
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
-    /**
-     * @ group module:Mage_Adminhtml
-     */
 class Mage_Adminhtml_Catalog_Product_Action_AttributeControllerTest extends Mage_Adminhtml_Utility_Controller
 {
     /**
@@ -19,7 +16,7 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeControllerTest extends Mage
      *
      * @magentoDataFixture Mage/Catalog/_files/product_simple.php
      */
-    public function testSaveActionRedirectsSuccesfully()
+    public function testSaveActionRedirectsSuccessfully()
     {
         /** @var $session Mage_Adminhtml_Model_Session */
         $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
