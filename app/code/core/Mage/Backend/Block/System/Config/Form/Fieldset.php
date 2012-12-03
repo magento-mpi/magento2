@@ -54,7 +54,8 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
     {
         $default = !$this->getRequest()->getParam('website') && !$this->getRequest()->getParam('store');
 
-        $html = '<div  class="entry-edit-head collapseable" ><a id="' . $element->getHtmlId()
+        $html = '<div><div>';
+        $html .= '<div  class="entry-edit-head collapseable" ><a id="' . $element->getHtmlId()
             . '-head" href="#" onclick="Fieldset.toggleCollapse(\'' . $element->getHtmlId() . '\', \''
             . $this->getUrl('*/*/state') . '\'); return false;">' . $element->getLegend() . '</a></div>';
         $html .= '<input id="'.$element->getHtmlId() . '-state" name="config_state[' . $element->getId()
@@ -108,6 +109,7 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
             }
         }
         $html .= '</fieldset>' . $this->_getExtraJs($element, $tooltipsExist);
+        $html .= '</div></div>';
         return $html;
     }
 
