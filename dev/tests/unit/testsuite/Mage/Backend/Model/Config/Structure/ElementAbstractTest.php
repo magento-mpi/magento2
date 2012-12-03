@@ -156,9 +156,9 @@ class Mage_Backend_Model_Config_Structure_ElementAbstractTest extends PHPUnit_Fr
     /**
      * @param array $settings
      * @param string $scope
-     * @dataProvider isVisibleReturnsFalseForProperScopesDataProvider
+     * @dataProvider isVisibleReturnsFalseForNonProperScopesDataProvider
      */
-    public function testIsVisibleReturnsFalseForProperScopes($settings, $scope)
+    public function testIsVisibleReturnsFalseForNonProperScopes($settings, $scope)
     {
         $this->_model->setData($settings, $scope);
         $this->assertFalse($this->_model->isVisible());

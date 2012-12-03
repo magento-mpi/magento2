@@ -62,11 +62,11 @@ class Mage_Backend_Model_Config extends Varien_Object
     protected $_application;
 
     /**
-     * Config data factory
+     * Config data loader
      *
-     * @var Mage_Core_Model_Config_Data_Factory
+     * @var Mage_Backend_Model_Config_Loader
      */
-    protected $_configDataFactory;
+    protected $_configLoader;
 
     /**
      * @param Mage_Core_Model_App $application
@@ -74,6 +74,8 @@ class Mage_Backend_Model_Config extends Varien_Object
      * @param Mage_Core_Model_Event_Manager $eventManager
      * @param Mage_Backend_Model_Config_Structure $configStructure
      * @param Mage_Core_Model_Resource_Transaction_Factory $transactionFactory
+     * @param Mage_Backend_Model_Config_Loader $configLoader
+     * @param array $data
      */
     public function __construct(
         Mage_Core_Model_App $application,
@@ -81,7 +83,7 @@ class Mage_Backend_Model_Config extends Varien_Object
         Mage_Core_Model_Event_Manager $eventManager,
         Mage_Backend_Model_Config_Structure $configStructure,
         Mage_Core_Model_Resource_Transaction_Factory $transactionFactory,
-        Mage_Core_Model_Config_Data_Factory $configDataFactory,
+        Mage_Backend_Model_Config_Loader $configLoader,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -89,7 +91,7 @@ class Mage_Backend_Model_Config extends Varien_Object
         $this->_transactionFactory = $transactionFactory;
         $this->_appConfig = $config;
         $this->_application = $application;
-        $this->_configDataFactory = $configDataFactory;
+        $this->_configLoader = $configLoader;
         parent::__construct($data);
     }
 
@@ -287,7 +289,7 @@ class Mage_Backend_Model_Config extends Varien_Object
      */
     public function extendConfig($path, $full = true, $oldConfig = array())
     {
-        $extended = $this->_getPathConfig($path, $full);
+        $extended = $this->_configLoader->getConfigByPath($path, $this->getScope(), $this->getScopeId(), $full);
         if (is_array($oldConfig) && !empty($oldConfig)) {
             return $oldConfig + $extended;
         }
@@ -339,7 +341,9 @@ class Mage_Backend_Model_Config extends Varien_Object
      */
     protected function _getConfig($full = true)
     {
-        return $this->_getPathConfig($this->getSection(), $full);
+        return $this->_configLoader->getConfigByPath(
+            $this->getSection(), $this->getScope(), $this->getScopeId(), $full
+        );
     }
 
     /**
@@ -351,24 +355,7 @@ class Mage_Backend_Model_Config extends Varien_Object
      */
     protected function _getPathConfig($path, $full = true)
     {
-        $configDataCollection = $this->_configDataFactory->create()
-            ->getCollection()
-            ->addScopeFilter($this->getScope(), $this->getScopeId(), $path);
-
-        $config = array();
-        foreach ($configDataCollection as $data) {
-            if ($full) {
-                $config[$data->getPath()] = array(
-                    'path'      => $data->getPath(),
-                    'value'     => $data->getValue(),
-                    'config_id' => $data->getConfigId()
-                );
-            } else {
-                $config[$data->getPath()] = $data->getValue();
-            }
-        }
-        return $config;
-    }
+   }
 
     /**
      * Set correct scope if isSingleStoreMode = true

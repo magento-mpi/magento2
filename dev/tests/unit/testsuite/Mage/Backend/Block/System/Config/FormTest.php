@@ -233,7 +233,7 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
         $fieldMock->expects($this->once())->method('hasBackendModel')->will($this->returnValue(false));
         $fieldMock->expects($this->once())->method('getDependencies')
             ->with($fieldPrefix)->will($this->returnValue(array()));
-        $fieldMock->expects($this->once())->method('getType')->will($this->returnValue('field'));
+        $fieldMock->expects($this->any())->method('getType')->will($this->returnValue('field'));
         $fieldMock->expects($this->once())->method('getLabel')->will($this->returnValue('label'));
         $fieldMock->expects($this->once())->method('getComment')->will($this->returnValue('comment'));
         $fieldMock->expects($this->once())->method('getTooltip')->will($this->returnValue('tooltip'));

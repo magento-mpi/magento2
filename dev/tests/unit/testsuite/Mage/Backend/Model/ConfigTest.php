@@ -34,17 +34,17 @@ class Mage_Backend_Model_ConfigTest extends PHPUnit_Framework_TestCase
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_configDataFactory;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_appConfigMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_applicationMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_configLoaderMock;
 
     public function setUp()
     {
@@ -59,8 +59,8 @@ class Mage_Backend_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->_transFactoryMock = $this->getMock(
             'Mage_Core_Model_Resource_Transaction_Factory', array(), array(), '', false
         );
-        $this->_configDataFactory = $this->getMock('Mage_Core_Model_Config_Data_Factory', array(), array(), '', false);
         $this->_appConfigMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
+        $this->_configLoaderMock = $this->getMock('Mage_Backend_Model_Config_Loader', array(), array(), '', false);
         $this->_applicationMock = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
 
         $this->_model = new Mage_Backend_Model_Config(
@@ -69,13 +69,13 @@ class Mage_Backend_Model_ConfigTest extends PHPUnit_Framework_TestCase
             $this->_eventManagerMock,
             $structureMock,
             $this->_transFactoryMock,
-            $this->_configDataFactory
+            $this->_configLoaderMock
         );
     }
 
     public function testSaveDoesNotDoAnythingIfGroupsAreNotPassed()
     {
-        $this->_configDataFactory->expects($this->never())->method('create');
+        $this->_configLoaderMock->expects($this->never())->method('getConfigByPath');
         $this->_model->save();
     }
 
@@ -89,16 +89,5 @@ class Mage_Backend_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertSame('', $this->_model->getSection());
         $this->assertSame('', $this->_model->getWebsite());
         $this->assertSame('', $this->_model->getStore());
-    }
-
-    public function testSave()
-    {
-        $this->_model->setSection('section');
-        $this->_model->setGroups(array('group_1' => array()));
-        $this->_model->setStore('store');
-        $this->_model->setWebsite('website');
-        $this->_model->setScope('scope');
-        $this->_model->setScopeId('scopeID');
-
     }
 }
