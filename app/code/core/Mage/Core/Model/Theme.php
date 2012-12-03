@@ -29,6 +29,16 @@
 class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
 {
     /**
+     * Cache tag for virtual theme
+     */
+    const CACHE_TAG_VIRTUAL_THEME = 'VIRTUAL';
+
+    /**
+     * Cache tag for empty theme
+     */
+    const CACHE_TAG_NO_THEME = 'NO_THEME';
+
+    /**
      * Separator between theme_path elements
      */
     const PATH_SEPARATOR = '/';
@@ -435,7 +445,15 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function getCacheKey()
     {
-        return $this->getId() . $this->getThemePath();
+        if (!$this->getId()) {
+            return self::CACHE_TAG_NO_THEME . $this->getThemePath();
+        }
+
+        $isVirtual = '';
+        if ($this->isVirtual()) {
+            $isVirtual = self::CACHE_TAG_VIRTUAL_THEME;
+        }
+        return $this->getId() . $isVirtual . $this->getThemePath();
     }
 
     /**
@@ -527,5 +545,13 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     public function getLabelsCollectionForSystemConfiguration()
     {
         return $this->getLabelsCollection(Mage::helper('Mage_Core_Helper_Data')->__('-- No Theme --'));
+    }
+
+    /**
+     * Clear data for clone
+     */
+    public function __clone()
+    {
+        $this->unsetData()->setOrigData();
     }
 }

@@ -10,9 +10,9 @@
  */
 
 /**
- *
  * @magentoAppIsolation enabled
  * @magentoDbIsolation enabled
+ * @magentoDataFixture Mage/Backend/Block/_files/theme_registration.php
  */
 class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_TestCase
 {
@@ -25,23 +25,6 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
      * @var Mage_Core_Model_Layout
      */
     protected $_layout;
-
-    public static function setUpBeforeClass()
-    {
-        /* Point application to predefined layout fixtures */
-        Mage::getConfig()->setOptions(array(
-            'design_dir' => realpath( __DIR__ . '/../../_files/design'),
-        ));
-
-        /** @var $themeRegistration Mage_Core_Model_Theme_Registration */
-        $themeRegistration = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Registration');
-        $themeRegistration->register();
-
-        Mage::getDesign()->setDesignTheme('test/default', 'adminhtml');
-
-        /* Disable loading and saving layout cache */
-        Mage::app()->getCacheInstance()->banUse('layout');
-    }
 
     protected function setUp()
     {
