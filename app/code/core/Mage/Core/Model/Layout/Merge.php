@@ -95,7 +95,7 @@ class Mage_Core_Model_Layout_Merge
             $this->_themeId = $arguments['themeId'];
         } elseif (isset($arguments['area'])) {
             $this->_area = $arguments['area'];
-            $this->_themeId = null;
+            $this->_themeId = Mage::getDesign()->getConfigurationDesignTheme($arguments['area']);
         } else {
             $this->_area = Mage::getDesign()->getArea();
             $this->_themeId = Mage::getDesign()->getDesignTheme()->getId();
@@ -538,9 +538,7 @@ class Mage_Core_Model_Layout_Merge
      */
     protected function _getCacheId($suffix = '')
     {
-        $themeId = $this->_themeId ?: Mage_Core_Model_Theme::CACHE_TAG_NO_THEME . Mage::getDesign()
-            ->getDesignTheme()->getThemePath();
-        return "LAYOUT_{$this->_area}_STORE{$this->_storeId}_{$themeId}{$suffix}";
+        return "LAYOUT_{$this->_area}_STORE{$this->_storeId}_{$this->_themeId}{$suffix}";
     }
 
     /**

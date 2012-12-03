@@ -1,4 +1,13 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @category   Mage
+ * @package    Mage_Core
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+
 /* Point application to predefined layout fixtures */
 Mage::getConfig()->setOptions(array(
     'design_dir' => realpath( __DIR__ . '/design'),

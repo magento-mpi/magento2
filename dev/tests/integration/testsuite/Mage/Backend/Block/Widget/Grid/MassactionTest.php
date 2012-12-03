@@ -47,6 +47,7 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
      * @covers getCount
      * @covers getItemsJson
      * @covers isAvailable
+     * @magentoConfigFixture adminhtml/design/theme/full_name test/default
      */
     public function testMassactionDefaultValues()
     {
@@ -59,6 +60,9 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
         $this->assertFalse($blockEmpty->isAvailable());
     }
 
+    /**
+     * @magentoConfigFixture adminhtml/design/theme/full_name test/default
+     */
     public function testJavascript()
     {
         $javascript = $this->_block->getJavaScript();
@@ -74,6 +78,9 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
         $this->assertRegExp($expectedItemSecond, $javascript);
     }
 
+    /**
+     * @magentoConfigFixture adminhtml/design/theme/full_name test/default
+     */
     public function testJavascriptWithAddedItem()
     {
         $input = array(
@@ -90,6 +97,9 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
         $this->assertRegExp($expected, $this->_block->getJavaScript());
     }
 
+    /**
+     * @magentoConfigFixture adminhtml/design/theme/full_name test/default
+     */
     public function testItemsCount()
     {
         $this->assertEquals(2, count($this->_block->getItems()));
@@ -100,6 +110,7 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
      * @param $itemId
      * @param $expectedItem
      * @dataProvider itemsDataProvider
+     * @magentoConfigFixture adminhtml/design/theme/full_name test/default
      */
     public function testItems($itemId, $expectedItem)
     {
@@ -143,6 +154,9 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
         );
     }
 
+    /**
+     * @magentoConfigFixture adminhtml/design/theme/full_name test/default
+     */
     public function testGridContainsMassactionColumn()
     {
         $this->_layout->getBlock('admin.test.grid')->toHtml();

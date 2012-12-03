@@ -29,11 +29,6 @@
 class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
 {
     /**
-     * Cache tag for virtual theme
-     */
-    const CACHE_TAG_VIRTUAL_THEME = 'VIRTUAL';
-
-    /**
      * Cache tag for empty theme
      */
     const CACHE_TAG_NO_THEME = 'NO_THEME';
@@ -449,11 +444,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
             return self::CACHE_TAG_NO_THEME . $this->getThemePath();
         }
 
-        $isVirtual = '';
-        if ($this->isVirtual()) {
-            $isVirtual = self::CACHE_TAG_VIRTUAL_THEME;
-        }
-        return $this->getId() . $isVirtual . $this->getThemePath();
+        return $this->getId() . $this->getThemePath();
     }
 
     /**

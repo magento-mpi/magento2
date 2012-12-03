@@ -107,11 +107,6 @@ class Mage_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCa
         ));
         $themeUtility->registerThemes()->setDesignTheme('test/default', $currentArea);
 
-        Mage::getConfig()->cleanCache();
-        $themeFrontend = $themeUtility->getThemeByParams('test/default', 'frontend');
-        Mage::app()->getStore('default')->setConfig('design/theme/theme_id', $themeFrontend->getId());
-        Mage::getDesign()->setDesignTheme('test/default', 'adminhtml');
-
         $this->_emulateCurrentArea($currentArea);
         $actualOutput = $this->_model->layoutDirective(array(
             '{{layout ' . $directiveParams . '}}',

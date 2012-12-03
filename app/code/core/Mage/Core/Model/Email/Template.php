@@ -278,6 +278,7 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
 
     /**
      * Return template id
+     *
      * return int|null
      */
     public function getId()
@@ -287,6 +288,7 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
 
     /**
      * Set id of template
+     *
      * @param int $value
      * @return Mage_Core_Model_Email_Template
      */
