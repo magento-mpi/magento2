@@ -54,4 +54,19 @@ class Mage_Core_Model_Theme_Service
         }
         return $this->_hasCustomizedThemes;
     }
+
+    /**
+     * Return not customized theme collection by page
+     *
+     * @param int $page
+     * @return Mage_Core_Model_Resource_Theme_Collection
+     */
+    public function getNotCustomizedFrontThemes($page)
+    {
+        return $this->_theme->getCollection()
+            ->addAreaFilter()
+            ->addFilter('theme_path', "theme_path != ''", 'string')
+            ->setPageSize()
+            ->setCurPage($page);
+    }
 }

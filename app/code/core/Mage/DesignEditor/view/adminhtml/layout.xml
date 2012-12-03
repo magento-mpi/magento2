@@ -11,10 +11,20 @@
 -->
 <layout>
     <adminhtml_system_design_editor_index>
+        <reference name="head">
+            <action method="addJs"><file>Mage_DesignEditor::js/infinitescroll.js</file></action>
+        </reference>
         <reference name="content">
-            <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Selector_Tabs" name="theme_selector_tabs">
-                <action method="addTab"><name>available_themes</name><block>Mage_DesignEditor_Block_Adminhtml_Theme_Selector_Tab_Available</block></action>
+            <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Selector_Tabs" name="theme.selector.tabs">
+                <action method="addTab"><name>available_themes</name><block>available.themes.tab</block></action>
                 <action method="addTab"><name>customizations</name><block>Mage_DesignEditor_Block_Adminhtml_Theme_Selector_Tab_Customizations</block></action>
+                <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Selector_Tab_Available" name="available.themes.tab">
+                    <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available" name="available.theme.list" template="Mage_DesignEditor::theme/list/available.phtml">
+                        <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Item" name="design.editor.theme.item" as="item" template="Mage_DesignEditor::theme/item.phtml">
+                            <block type="Mage_Backend_Block_Template" name="design.editor.theme" as="theme" template="Mage_DesignEditor::theme.phtml" />
+                        </block>
+                    </block>
+                </block>
             </block>
         </reference>
     </adminhtml_system_design_editor_index>
@@ -24,9 +34,11 @@
             <action method="addJs"><file>Mage_DesignEditor::js/infinitescroll.js</file></action>
         </reference>
         <reference name="content">
-            <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available" name="available.theme.list" template="Mage_DesignEditor::theme/list/available.phtml">
-                <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Item" name="design_editor_theme_item" as="item" template="Mage_DesignEditor::theme/item.phtml">
-                    <block type="Mage_Backend_Block_Template" name="design_editor_theme" as="theme" template="Mage_DesignEditor::theme.phtml" />
+            <block type="Mage_Backend_Block_Template" name="available.theme.list.container" as="theme" template="Mage_DesignEditor::theme/selector/firstEntrance.phtml">
+                <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available" name="available.theme.list" template="Mage_DesignEditor::theme/list/available.phtml">
+                    <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Item" name="design.editor.theme.item" as="item" template="Mage_DesignEditor::theme/item.phtml">
+                        <block type="Mage_Backend_Block_Template" name="design.editor.theme" as="theme" template="Mage_DesignEditor::theme.phtml" />
+                    </block>
                 </block>
             </block>
         </reference>
@@ -35,18 +47,12 @@
     <adminhtml_system_design_editor_loadthemelist>
         <container name="root" label="Root" output="1">
             <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available" name="available.theme.list" template="Mage_DesignEditor::theme/list/available_ajax.phtml">
-                <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Item" name="design_editor_theme_item" as="item" template="Mage_DesignEditor::theme/item.phtml">
-                    <block type="Mage_Backend_Block_Template" name="design_editor_theme" as="theme" template="Mage_DesignEditor::theme.phtml" />
+                <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Item" name="design.editor.theme.item" as="item" template="Mage_DesignEditor::theme/item.phtml">
+                    <block type="Mage_Backend_Block_Template" name="design.editor.theme" as="theme" template="Mage_DesignEditor::theme.phtml" />
                 </block>
             </block>
         </container>
     </adminhtml_system_design_editor_loadthemelist>
-
-    <adminhtml_system_design_editor_availablethemes>
-        <container name="root" label="Root" output="1">
-            <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Selector_Tab_Available" name="available_themes"/>
-        </container>
-    </adminhtml_system_design_editor_availablethemes>
 
     <adminhtml_system_design_editor_exit>
         <reference name="content">

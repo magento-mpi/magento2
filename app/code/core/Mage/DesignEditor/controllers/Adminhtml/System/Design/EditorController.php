@@ -75,8 +75,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         $this->loadLayout();
 
         /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
-        $collection = $this->_objectManager->create('Mage_Core_Model_Resource_Theme_Collection');
-        $collection->addAreaFilter()->setPageSize()->setCurPage($page);
+        $collection = $this->_objectManager->get('Mage_Core_Model_Theme_Service')->getNotCustomizedFrontThemes($page);
 
         $this->getLayout()->getBlock('available.theme.list')->setCollection($collection)->setNextPage(++$page);
         $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(
