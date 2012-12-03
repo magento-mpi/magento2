@@ -158,18 +158,18 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
     public function preconditionsGiftWrapping()
     {
         //Data
-        $giftWrappingDataWithoutImg = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
-        $giftWrappingDataWithImg = $this->loadDataSet('GiftWrapping', 'gift_wrapping_with_image');
+        $gWrapDataWithoutImg = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
+        $gWrapDataWithImg = $this->loadDataSet('GiftWrapping', 'gift_wrapping_with_image');
         //Steps
         $this->navigate('manage_gift_wrapping');
-        $this->giftWrappingHelper()->createGiftWrapping($giftWrappingDataWithoutImg);
+        $this->giftWrappingHelper()->createGiftWrapping($gWrapDataWithoutImg);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_gift_wrapping');
         //Steps
-        $this->giftWrappingHelper()->createGiftWrapping($giftWrappingDataWithImg);
+        $this->giftWrappingHelper()->createGiftWrapping($gWrapDataWithImg);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_gift_wrapping');
-        return array('img' => $giftWrappingDataWithImg, 'noImg' => $giftWrappingDataWithoutImg);
+        return array('img' => $gWrapDataWithImg, 'noImg' => $gWrapDataWithoutImg);
     }
 
     /**
@@ -437,7 +437,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
         //Preconditions
         $this->navigate('system_configuration');
         $printedCardOptions = $this->loadDataSet('GiftMessage', 'gift_printed_card_enable');
-        $expectedPrintedCardPrice =
+        $expectedPrCardPrice =
             $printedCardOptions['tab_1']['configuration']['gift_options']['default_price_for_printed_card'];
         $this->systemConfigurationHelper()->configure($printedCardOptions);
         //Data
@@ -456,8 +456,8 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
         $this->searchAndOpen(array('filter_order_id' => $orderId), 'sales_order_grid');
         $priceElement = $this->getElement($this->_getControlXpath('pageelement', 'printed_card_price'));
         $printedCardPrice = trim($priceElement->text(), '$\t\n\r');
-        $this->assertEquals($expectedPrintedCardPrice, $printedCardPrice,
-            "Printed Card price is different. Actual: $printedCardPrice. Expected:  . $expectedPrintedCardPrice");
+        $this->assertEquals($expectedPrCardPrice, $printedCardPrice,
+            "Printed Card price is different. Actual: $printedCardPrice. Expected:  . $expectedPrCardPrice");
     }
 
     /**
@@ -764,15 +764,15 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
     public function checkoutWithGiftWrappingAndMessageWebsiteScope($customerData, $productData, $website)
     {
         //Preconditions
-        $giftWrappingEnableWebsite = $this->loadDataSet('GiftMessage', 'gift_wrapping_all_enable_on_website',
+        $gWrappingEnableWebsite = $this->loadDataSet('GiftMessage', 'gift_wrapping_all_enable_on_website',
             array('configuration_scope' => $website['general_information']['staging_website_name']));
-        $giftMessagesEnableWebsite = $this->loadDataSet('GiftMessage', 'gift_message_all_enable_on_website',
+        $gMessagesEnableWebsite = $this->loadDataSet('GiftMessage', 'gift_message_all_enable_on_website',
             array('configuration_scope' => $website['general_information']['staging_website_name']));
         $this->navigate('system_configuration');
         //        $this->systemConfigurationHelper()->configure('GiftMessage/gift_message_all_disable');
         //        $this->systemConfigurationHelper()->configure('GiftMessage/gift_wrapping_all_disable');
-        $this->systemConfigurationHelper()->configure($giftWrappingEnableWebsite);
-        $this->systemConfigurationHelper()->configure($giftMessagesEnableWebsite);
+        $this->systemConfigurationHelper()->configure($gWrappingEnableWebsite);
+        $this->systemConfigurationHelper()->configure($gMessagesEnableWebsite);
 
         $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image',
             array('gift_wrapping_websites' => $website['general_information']['staging_website_name']));
@@ -816,15 +816,15 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
     public function possibilityToAddGiftAttributesToOrder($customerData, $productData, $website)
     {
         //Preconditions
-        $giftWrappingEnableWebsite = $this->loadDataSet('GiftMessage', 'gift_wrapping_all_disable_on_website',
+        $gWrappingEnableWebsite = $this->loadDataSet('GiftMessage', 'gift_wrapping_all_disable_on_website',
             array('configuration_scope' => $website['general_information']['staging_website_name']));
-        $giftMessagesEnableWebsite = $this->loadDataSet('GiftMessage', 'gift_message_all_disable_on_website',
+        $gMessagesEnableWebsite = $this->loadDataSet('GiftMessage', 'gift_message_all_disable_on_website',
             array('configuration_scope' => $website['general_information']['staging_website_name']));
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('GiftMessage/gift_message_all_enable');
         $this->systemConfigurationHelper()->configure('GiftMessage/gift_wrapping_all_enable');
-        $this->systemConfigurationHelper()->configure($giftWrappingEnableWebsite);
-        $this->systemConfigurationHelper()->configure($giftMessagesEnableWebsite);
+        $this->systemConfigurationHelper()->configure($gWrappingEnableWebsite);
+        $this->systemConfigurationHelper()->configure($gMessagesEnableWebsite);
         //Data
         $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
         $individualItemsMsg = $this->loadDataSet('OnePageCheckout', 'gift_message_for_individual_items_one_page', null,
@@ -884,15 +884,15 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
     public function restrictionToAddGiftAttributesToOrder($customerData, $productData, $website)
     {
         //Preconditions
-        $giftWrappingDisableWebsite = $this->loadDataSet('GiftMessage', 'gift_wrapping_all_disable_on_website',
+        $gWrapDisableWebsite = $this->loadDataSet('GiftMessage', 'gift_wrapping_all_disable_on_website',
             array('configuration_scope' => $website['general_information']['staging_website_name']));
-        $giftMessagesDisableWebsite = $this->loadDataSet('GiftMessage', 'gift_message_all_disable_on_website',
+        $gMessDisableWebsite = $this->loadDataSet('GiftMessage', 'gift_message_all_disable_on_website',
             array('configuration_scope' => $website['general_information']['staging_website_name']));
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('GiftMessage/gift_message_all_enable');
         $this->systemConfigurationHelper()->configure('GiftMessage/gift_wrapping_all_enable');
-        $this->systemConfigurationHelper()->configure($giftWrappingDisableWebsite);
-        $this->systemConfigurationHelper()->configure($giftMessagesDisableWebsite);
+        $this->systemConfigurationHelper()->configure($gWrapDisableWebsite);
+        $this->systemConfigurationHelper()->configure($gMessDisableWebsite);
         //Data
         $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'gift_data_general', null,

@@ -128,16 +128,16 @@ class Enterprise_Mage_StagingWebsite_MergeTest extends Mage_Selenium_TestCase
         //Data
         $mergeWebsiteData = $this->loadDataSet('StagingWebsite', 'schedule_merge_website',
             array('filter_website_name' => $websiteName));
-        $mergeWebsiteDataWODate = $mergeWebsiteData;
-        $mergeWebsiteDataWODate['schedule_merge']['schedule_merge_input'] = '';
-        $mergeWebsiteDataWODate = $this->clearDataArray($mergeWebsiteDataWODate);
+        $mergeSiteDataWODate = $mergeWebsiteData;
+        $mergeSiteDataWODate['schedule_merge']['schedule_merge_input'] = '';
+        $mergeSiteDataWODate = $this->clearDataArray($mergeSiteDataWODate);
         $scheduleCompleted = $this->loadDataSet('Backups', 'staging_website_schedule_completed_log',
             array('filter_website_from' => $websiteName,
                   'filter_website_to'   => 'Main Website'));
         //Steps
         $this->navigate('manage_staging_websites');
         $this->addParameter('elementTitle', $websiteName);
-        $this->stagingWebsiteHelper()->mergeWebsite($mergeWebsiteDataWODate);
+        $this->stagingWebsiteHelper()->mergeWebsite($mergeSiteDataWODate);
         $this->assertMessagePresent('validation', 'empty_required_field_merge_date');
         $this->navigate('manage_staging_websites');
         $this->stagingWebsiteHelper()->mergeWebsite($mergeWebsiteData);

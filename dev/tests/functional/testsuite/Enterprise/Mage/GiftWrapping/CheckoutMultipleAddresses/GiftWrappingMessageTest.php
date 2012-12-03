@@ -431,8 +431,8 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
         //Data
         $forProduct1 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_no_order');
         $forProduct2 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_no_order');
-        $reconfigureForProduct1 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_no_order');
-        $reconfigureForProduct2 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_no_order');
+        $reconfigForProduct1 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_no_order');
+        $reconfigForProduct2 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_no_order');
         $productsAdd = $this->loadDataSet('MultipleAddressesCheckout', 'products_to_add_with_qty', null,
             array('product_1' => $testData['simpleDefault'], 'product_2' => $testData['simpleDefault']));
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
@@ -444,8 +444,8 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
             $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login/shipping_data', null,
                 array('product_1'             => $testData['simpleDefault'],
                       'product_2'             => $testData['simpleDefault'],
-                      'gift_options_address1' => $reconfigureForProduct1,
-                      'gift_options_address2' => $reconfigureForProduct2));
+                      'gift_options_address1' => $reconfigForProduct1,
+                      'gift_options_address2' => $reconfigForProduct2));
         $reconfiguredCheckout = $checkoutData;
         $reconfiguredCheckout['shipping_data'] = $reconfigureShipping;
         //Steps
@@ -480,10 +480,10 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
         $forProduct2 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_yes_item',
             array('product_name'           => $testData['simpleDefault'],
                   'gift_wrapping_for_item' => $testData['wrappingDefault']));
-        $reconfigureForProduct1 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_yes_item',
+        $reconfigForProduct1 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_yes_item',
             array('product_name'           => $testData['simpleDefault'],
                   'gift_wrapping_for_item' => $wrapping['gift_wrapping_design']));
-        $reconfigureForProduct2 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_yes_item',
+        $reconfigForProduct2 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_yes_item',
             array('product_name'           => $testData['simpleDefault'],
                   'gift_wrapping_for_item' => $wrapping['gift_wrapping_design']));
         $productsAdd = $this->loadDataSet('MultipleAddressesCheckout', 'products_to_add_with_qty', null,
@@ -497,8 +497,8 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
             $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login/shipping_data', null,
                 array('product_1'             => $testData['simpleDefault'],
                       'product_2'             => $testData['simpleDefault'],
-                      'gift_options_address1' => $reconfigureForProduct1,
-                      'gift_options_address2' => $reconfigureForProduct2));
+                      'gift_options_address1' => $reconfigForProduct1,
+                      'gift_options_address2' => $reconfigForProduct2));
         $reconfiguredCheckout = $checkoutData;
         $reconfiguredCheckout['shipping_data'] = $reconfigureShipping;
         //Steps

@@ -41,7 +41,7 @@ class Enterprise_Mage_GiftRegistry_EditTest extends Mage_Selenium_TestCase
         $searchGiftRegistry = $this->loadDataSet('GiftRegistry', 'search_gift_registry',
             array('filter_label' => $giftRegistryData['general']['label']));
         $editGiftRegistryData = $this->loadDataSet('GiftRegistry', 'edit_gift_registry');
-        $searchGiftRegistryEdited = $this->loadDataSet('GiftRegistry', 'search_gift_registry',
+        $searchGiftRegEdited = $this->loadDataSet('GiftRegistry', 'search_gift_registry',
             array('filter_label' => $editGiftRegistryData['label']));
         //Steps
         $this->giftRegistryHelper()->createGiftRegistry($giftRegistryData);
@@ -54,7 +54,7 @@ class Enterprise_Mage_GiftRegistry_EditTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_gift_registry');
         //Steps
-        $this->giftRegistryHelper()->openGiftRegistry($searchGiftRegistryEdited);
+        $this->giftRegistryHelper()->openGiftRegistry($searchGiftRegEdited);
         //Verifying
         $this->giftRegistryHelper()->verifyGiftRegistry($editGiftRegistryData);
     }

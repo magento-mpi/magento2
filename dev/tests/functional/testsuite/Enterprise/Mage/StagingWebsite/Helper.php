@@ -133,9 +133,9 @@ class Enterprise_Mage_StagingWebsite_Helper extends Mage_Selenium_AbstractHelper
                 if (isset($mergeConfig['define_stores'])) {
                     $websiteFromId = $this->getControlAttribute('pageelement', 'merge_from', 'value');;
                     $this->addParameter('websiteFromId', $websiteFromId);
-                    $i = 3;
+                    $storeIndex = 3;
                     foreach ($mergeConfig['define_stores'] as $storeViews) {
-                        $this->addParameter('ind', $i++);
+                        $this->addParameter('ind', $storeIndex++);
                         $this->clickButton('add_new_store_view_map', false);
                         $this->waitForAjax();
                         $this->fillFieldset($storeViews, 'merge_configuration');

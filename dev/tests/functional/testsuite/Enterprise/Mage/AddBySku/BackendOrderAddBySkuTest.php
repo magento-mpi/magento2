@@ -188,7 +188,7 @@ class Enterprise_Mage_AddBySku_BackendOrderAddBySkuTest extends Mage_Selenium_Te
         $productDataNonExist = array(('0') => $this->loadDataSet('SkuProducts', 'non_exist_product_back'),
                                      ('1') => $this->loadDataSet('SkuProducts', 'non_exist_product_back'),
                                      ('2') => $this->loadDataSet('SkuProducts', 'non_exist_product_back'));
-        $a = array($productDataNonExist[0]['sku'], $productDataNonExist[1]['sku'], $productDataNonExist[2]['sku']);
+        $sku = array($productDataNonExist[0]['sku'], $productDataNonExist[1]['sku'], $productDataNonExist[2]['sku']);
 
         //Steps
         $this->navigate('manage_sales_orders');
@@ -205,7 +205,7 @@ class Enterprise_Mage_AddBySku_BackendOrderAddBySkuTest extends Mage_Selenium_Te
         $this->fillFieldset($productDataNonExist[2], 'order_items_ordered_sku');
         $this->buttonIsPresent('submit_sku_form', false);
         $this->clickButton('submit_sku_form', true);
-        $this->addBySkuHelper()->verifyProductPresentInGrid($a, 'sku_product_required');
+        $this->addBySkuHelper()->verifyProductPresentInGrid($sku, 'sku_product_required');
         $this->addParameter('row', 3);
         $this->clickButton('remove_one_invalid', false);
         $this->pleaseWait();
