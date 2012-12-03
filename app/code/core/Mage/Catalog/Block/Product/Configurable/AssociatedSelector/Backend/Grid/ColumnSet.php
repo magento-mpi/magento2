@@ -17,7 +17,8 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Mage_Catalog_Block_Product_Grid_ColumnSet extends Mage_Backend_Block_Widget_Grid_ColumnSet
+class Mage_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_ColumnSet
+    extends Mage_Backend_Block_Widget_Grid_ColumnSet
 {
     /**
      * Registry instance
@@ -90,7 +91,7 @@ class Mage_Catalog_Block_Product_Grid_ColumnSet extends Mage_Backend_Block_Widge
     /**
      * Preparing layout
      *
-     * @return Mage_Catalog_Block_Product_Grid_ColumnSet
+     * @return Mage_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_ColumnSet
      */
     protected function _prepareLayout()
     {

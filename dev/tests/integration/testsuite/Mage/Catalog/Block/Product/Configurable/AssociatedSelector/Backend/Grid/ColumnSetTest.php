@@ -9,7 +9,8 @@
  * @license     {license_link}
  */
 
-class Mage_Catalog_Block_Product_Grid_ColumnSetTest extends PHPUnit_Framework_TestCase
+class Mage_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_ColumnSetTest
+    extends PHPUnit_Framework_TestCase
 {
 
     /**
@@ -26,8 +27,11 @@ class Mage_Catalog_Block_Product_Grid_ColumnSetTest extends PHPUnit_Framework_Te
 
         /** @var $layout Mage_Core_Model_Layout */
         $layout = Mage::getSingleton('Mage_Core_Model_Layout');
-        /** @var $block  Mage_Catalog_Block_Product_Grid_ColumnSet */
-        $block = $layout->createBlock('Mage_Catalog_Block_Product_Grid_ColumnSet', 'block');
+        /** @var $block  Mage_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_ColumnSet */
+        $block = $layout->createBlock(
+            'Mage_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_ColumnSet',
+            'block'
+        );
         $assertBlock = $block->getLayout()->getBlock('block.test_configurable');
         $this->assertEquals('Test Configurable', $assertBlock->getHeader());
         $this->assertEquals('test_configurable', $assertBlock->getId());
