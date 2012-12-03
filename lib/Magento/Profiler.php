@@ -174,29 +174,34 @@ class Magento_Profiler
     }
 
     /**
-     * Reset collected statistics for specified timer or for whole profiler if timer name is omitted
+     * Clear collected statistics for specified timer or for whole profiler if timer id is omitted
      *
-     * @param string|null $timerId
+     * @param string|null $timerName
      */
-    public static function reset($timerId = null)
+    public static function clear($timerName = null)
     {
-        if (!self::isEnabled()) {
-            return;
+        if (strpos($timerName, self::NESTING_SEPARATOR) !== false) {
+            throw new Varien_Exception('Timer name must not contain a nesting separator.');
         }
-
+        $timerId = self::_getTimerId($timerName);
         /** @var Magento_Profiler_DriverInterface $driver */
         foreach (self::$_drivers as $driver) {
-            $driver->reset($timerId);
+            $driver->clear($timerId);
         }
+    }
 
-        if ($timerId === null) {
-            self::$_currentPath = array();
-            self::$_tagFilters = array();
-            self::$_defaultTags = array();
-            self::$_hasTagFilters = false;
-            self::$_drivers = array();
-            return;
-        }
+    /**
+     * Reset profiler to initial state
+     */
+    public static function reset()
+    {
+        self::clear();
+        self::$_enabled = false;
+        self::$_currentPath = array();
+        self::$_tagFilters = array();
+        self::$_defaultTags = array();
+        self::$_hasTagFilters = false;
+        self::$_drivers = array();
     }
 
     /**
@@ -208,8 +213,12 @@ class Magento_Profiler
      */
     public static function start($timerName, array $tags = null)
     {
+        if (!self::$_enabled) {
+            return;
+        }
+
         $tags = self::_getTags($tags);
-        if (!self::isEnabled() || !self::_checkTags($tags)) {
+        if (!self::_checkTags($tags)) {
             return;
         }
 

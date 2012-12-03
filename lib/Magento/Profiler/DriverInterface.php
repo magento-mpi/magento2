@@ -24,9 +24,9 @@ interface Magento_Profiler_DriverInterface
     public function stop($timerId);
 
     /**
-     * Reset collected statistics for specified timer or for whole profiler if timer name is omitted.
+     * Clear collected statistics for specified timer or for whole profiler if timer name is omitted.
      *
      * @param string|null $timerId
      */
-    public function reset($timerId = null);
+    public function clear($timerId = null);
 }

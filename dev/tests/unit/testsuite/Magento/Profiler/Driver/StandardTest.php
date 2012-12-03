@@ -10,13 +10,6 @@
 class Magento_Profiler_Driver_StandardTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Backup value of Magento_Profiler enable state
-     *
-     * @var bool
-     */
-    protected $_profilerEnabled;
-
-    /**
      * @var Magento_Profiler_Driver_Standard_Stat|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_stat;
@@ -28,18 +21,13 @@ class Magento_Profiler_Driver_StandardTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_profilerEnabled = Magento_Profiler::isEnabled();
         $this->_stat = $this->getMock('Magento_Profiler_Driver_Standard_Stat');
         $this->_driver = new Magento_Profiler_Driver_Standard($this->_stat);
     }
 
     protected function tearDown()
     {
-        if (Magento_Profiler::isEnabled() && !$this->_profilerEnabled) {
-            Magento_Profiler::enable();
-        } elseif (Magento_Profiler::isEnabled()) {
-            Magento_Profiler::disable();
-        }
+        Magento_Profiler::reset();
     }
 
     /**
@@ -72,12 +60,12 @@ class Magento_Profiler_Driver_StandardTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test reset method
+     * Test clear method
      */
-    public function testReset()
+    public function testClear()
     {
-        $this->_stat->expects($this->once())->method('reset')->with('timer_name');
-        $this->_driver->reset('timer_name');
+        $this->_stat->expects($this->once())->method('clear')->with('timer_id');
+        $this->_driver->clear('timer_id');
     }
 
     /**
@@ -86,12 +74,12 @@ class Magento_Profiler_Driver_StandardTest extends PHPUnit_Framework_TestCase
     public function testStart()
     {
         $this->_stat->expects($this->once())->method('start')->with(
-            'timer_name',
+            'timer_id',
             $this->greaterThanOrEqual(microtime(true)),
             $this->greaterThanOrEqual(0),
             $this->greaterThanOrEqual(0)
         );
-        $this->_driver->start('timer_name');
+        $this->_driver->start('timer_id');
     }
 
     /**
@@ -100,11 +88,11 @@ class Magento_Profiler_Driver_StandardTest extends PHPUnit_Framework_TestCase
     public function testStop()
     {
         $this->_stat->expects($this->once())->method('stop')->with(
-            'timer_name',
+            'timer_id',
             $this->greaterThanOrEqual(microtime(true)),
             $this->greaterThanOrEqual(0),
             $this->greaterThanOrEqual(0)
         );
-        $this->_driver->stop('timer_name');
+        $this->_driver->stop('timer_id');
     }
 }

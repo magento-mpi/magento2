@@ -2,14 +2,16 @@
 /**
  * Unit Test for Magento_Profiler
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
 {
     protected function tearDown()
     {
         Magento_Profiler::reset();
-        Magento_Profiler::disable();
     }
 
     public function testEnable()
@@ -64,7 +66,7 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
     protected function _getDriverMock()
     {
         return $this->getMockBuilder('Magento_Profiler_DriverInterface')
-            ->setMethods(array('start', 'stop', 'reset'))
+            ->setMethods(array('start', 'stop', 'clear'))
             ->getMockForAbstractClass();
     }
 
@@ -82,8 +84,6 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
     {
         $driver = $this->_getDriverMock();
         $driver->expects($this->never())
-            ->method('reset');
-        $driver->expects($this->never())
             ->method('start');
         $driver->expects($this->never())
             ->method('stop');
@@ -92,7 +92,6 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
         Magento_Profiler::disable();
         Magento_Profiler::start('test');
         Magento_Profiler::stop('test');
-        Magento_Profiler::reset('test');
     }
 
     public function testStartStopSimple()
@@ -173,22 +172,22 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
         Magento_Profiler::start('some_other_timer', array('type' => 'test'));
     }
 
-    public function testResetTimer()
+    public function testClearTimer()
     {
         $driver = $this->_getDriverMock();
         $driver->expects($this->once())
-            ->method('reset')
+            ->method('clear')
             ->with('timer');
 
         Magento_Profiler::add($driver);
-        Magento_Profiler::reset('timer');
+        Magento_Profiler::clear('timer');
     }
 
     public function testResetProfiler()
     {
         $driver = $this->_getDriverMock();
         $driver->expects($this->once())
-            ->method('reset')
+            ->method('clear')
             ->with(null);
 
         Magento_Profiler::add($driver);

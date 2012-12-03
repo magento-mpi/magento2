@@ -20,11 +20,6 @@ class Magento_Profiler_Driver_Standard_Output_Firebug extends Magento_Profiler_D
     protected $_response;
 
     /**
-     * @var Zend_Wildfire_Plugin_Interface
-     */
-    protected $_firePhp;
-
-    /**
      * Start output buffering
      */
     public function __construct()
@@ -40,12 +35,12 @@ class Magento_Profiler_Driver_Standard_Output_Firebug extends Magento_Profiler_D
     public function display(Magento_Profiler_Driver_Standard_Stat $stat)
     {
         $firebugMessage = new Zend_Wildfire_Plugin_FirePhp_TableMessage($this->_renderCaption());
-        $firebugMessage->setHeader(array_keys($this->_getColumns()));
+        $firebugMessage->setHeader(array_keys($this->_columns));
 
-        foreach ($this->_getTimerNames($stat) as $timerName) {
+        foreach ($this->_getTimerIds($stat) as $timerId) {
             $row = array();
-            foreach ($this->_getColumns() as $key) {
-                $row[] = $this->_renderColumnValue($stat->fetch($timerName, $key), $key);
+            foreach ($this->_columns as $column) {
+                $row[] = $this->_renderColumnValue($stat->fetch($timerId, $column), $column);
             }
             $firebugMessage->addRow($row);
         }
@@ -72,7 +67,7 @@ class Magento_Profiler_Driver_Standard_Output_Firebug extends Magento_Profiler_D
      * @param string $timerId
      * @return string
      */
-    protected function _renderTimerName($timerId)
+    protected function _renderTimerId($timerId)
     {
         $nestingSep = preg_quote(Magento_Profiler::NESTING_SEPARATOR, '/');
         return preg_replace('/.+?' . $nestingSep . '/', '. ', $timerId);
