@@ -29,6 +29,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_AuthenticationTest extends PHPUnit_
 
     protected function setUp()
     {
+        $this->_usernameToken = new stdClass();
         /** Prepare mocks for SUT constructor. */
         $this->_usernameToken->Username = 'userName';
         $this->_usernameToken->Password = 'password';
