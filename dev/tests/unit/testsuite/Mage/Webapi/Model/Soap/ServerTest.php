@@ -121,6 +121,30 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test fault method with Exception.
+     */
+    public function testExceptionFault()
+    {
+        /** Init Exception. */
+        $exception = new Exception();
+        $faultResult = $this->_soapServer->fault($exception);
+        /** Assert returned object is instance of SoapFault class. */
+        $this->assertInstanceOf('SoapFault', $faultResult, 'SoapFault was not returned.');
+    }
+
+    /**
+     * Test fault method with Mage_Webapi_Model_Soap_Fault.
+     */
+    public function testWebapiSoapFault()
+    {
+        /** Mock Webapi Soap fault. */
+        $apiFault = $this->getMockBuilder('Mage_Webapi_Model_Soap_Fault')->disableOriginalConstructor()->getMock();
+        /** Assert mocked fault toXml method will be executed once. */
+        $apiFault->expects($this->once())->method('toXml');
+        $this->_soapServer->fault($apiFault);
+    }
+
+    /**
      * Data provider for generateUri test.
      */
     public function providerForGenerateUriTest()
