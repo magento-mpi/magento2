@@ -159,7 +159,7 @@ new_product:
                             apply: //*[@id='change-attribute-set-apply-button']
         buttons:
             change_attribute_set: //button[span='Change Attribute Set']
-            save: //button[span='Save']
+            save: //button[@data-ui-id="product-edit-save-button"]
 
 new_configurable_product:
     mca: catalog_product/new/attributes/%attributesUrl%/set/%setId%/type/%productType%/&active_tab=configurable/

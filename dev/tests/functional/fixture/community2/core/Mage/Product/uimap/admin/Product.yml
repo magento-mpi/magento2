@@ -311,5 +311,5 @@ updating_products:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save: //button[span='Save']
+            save: //button[@data-ui-id="product-edit-save-button"]]
         messages:

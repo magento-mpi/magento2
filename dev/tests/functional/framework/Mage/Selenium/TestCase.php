@@ -168,6 +168,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected $_urlPostfix;
 
     /**
+     * Additional prefix for navigation URL
+     * @var string
+     */
+    protected $_urlPrefix = array();
+
+    /**
      * Testcase error
      * @var boolean
      * @deprecated
@@ -1457,6 +1463,44 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     * Get additional prefix for navigation
+     *
+     * @return string
+     */
+    public function getUrlPostfix()
+    {
+        if (is_null($this->_urlPostfix)) {
+            return '';
+        }
+        return $this->_urlPrefix;
+    }
+
+    /**
+     * Set additional prefix for navigation
+     *
+     * @param string $area
+     * @param string $urlPrefix your params to add to URL (exp: /vde/frontPage)
+     */
+    public function setUrlPrefix($area, $urlPrefix)
+    {
+        $this->_urlPrefix[$area] = $urlPrefix;
+    }
+
+    /**
+     * Get additional prefix for navigation
+     *
+     * @param string $area
+     * @return string
+     */
+    public function getUrlPrefix($area = 'frontend')
+    {
+        if (isset($this->_urlPrefix[$area]) && !is_null($this->_urlPrefix[$area])) {
+            return $this->_urlPrefix[$area];
+        }
+        return '';
+    }
+
+    /**
      * Navigates to the specified page in specified area.<br>
      * Page identifier must be described in the UIMap.
      *
@@ -1493,10 +1537,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if ($clickXpath && $this->isElementPresent($clickXpath)) {
             $this->click($clickXpath);
             $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        } elseif (isset($this->_urlPostfix)) {
-            $this->open($this->_uimapHelper->getPageUrl($area, $page, $this->_paramsHelper) . $this->_urlPostfix);
         } else {
-            $this->open($this->_uimapHelper->getPageUrl($area, $page, $this->_paramsHelper));
+            $url = $this->_uimapHelper->getPageUrl($area, $page, $this->_paramsHelper);
+            $baseUrl = $this->_configHelper->getBaseUrl();
+            $url = str_replace($baseUrl, $baseUrl . $this->getUrlPrefix($area), $url);
+            $this->open($url . $this->getUrlPostfix());
         }
         if ($validatePage) {
             $this->validatePage($page);
@@ -1652,6 +1697,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $areasConfig = $this->_configHelper->getConfigAreas();
         $currentUrl = $this->getLocation();
+        $currentUrl = str_replace($this->getUrlPrefix(), '', $currentUrl);
         $mca = self::_getMcaFromCurrentUrl($areasConfig, $currentUrl);
         $area = self::_getAreaFromCurrentUrl($areasConfig, $currentUrl);
         return $this->_uimapHelper->getUimapPageByMca($area, $mca, $this->_paramsHelper);
@@ -1694,7 +1740,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected function _findCurrentPageFromUrl($url = null)
     {
         if (is_null($url)) {
-            $url = str_replace($this->_urlPostfix, '', $this->getLocation());
+            $url = $this->getLocation();
+            $url = str_replace($this->getUrlPostfix(), '', $url);
+            $url = str_replace($this->getUrlPrefix(), '', $url);
         }
         $areasConfig = $this->_configHelper->getConfigAreas();
         $mca = self::_getMcaFromCurrentUrl($areasConfig, $url);
