@@ -49,6 +49,8 @@ class Mage_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_Co
      * @param Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory $generatorFactory
      * @param Mage_Core_Model_Registry $registryManager,
      * @param Mage_Catalog_Model_Product_Type_Configurable $productType
+     * @param Mage_Backend_Model_Widget_Grid_SubTotals $subtotals
+     * @param Mage_Backend_Model_Widget_Grid_Totals $totals
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -67,12 +69,14 @@ class Mage_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_Co
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory $generatorFactory,
         Mage_Core_Model_Registry $registryManager,
+        Mage_Backend_Model_Widget_Grid_SubTotals $subtotals,
+        Mage_Backend_Model_Widget_Grid_Totals $totals,
         Mage_Catalog_Model_Product_Type_Configurable $productType,
         array $data = array()
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
             $session, $storeConfig, $frontController, $helperFactory, $helperFactory->get('Mage_Backend_Helper_Data'),
-            $generatorFactory, $data);
+            $generatorFactory, $subtotals, $totals, $data);
 
         $this->_registryManager = $registryManager;
         $this->_productType = $productType;
