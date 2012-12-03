@@ -43,6 +43,11 @@ class Mage_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Fr
         'not_vde' => '/customer/account',
     );
 
+    public function tearDown()
+    {
+        unset($this->_model);
+    }
+
     /**
      * Data provider for testMatch
      *
