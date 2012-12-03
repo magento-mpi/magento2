@@ -131,7 +131,7 @@ urlrewrite_custom:
                             target_path: //input[@name='target_path']
                             description: //textarea[@id='description']
         buttons:
-            save: //button[span='Save']
+            save: //button[@data-ui-id='urlrewrite-catalog-category-edit-save-button']
             back: //button[span='Back']
         messages: *pageMessages
 

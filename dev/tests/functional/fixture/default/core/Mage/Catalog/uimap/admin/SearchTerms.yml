@@ -59,4 +59,4 @@ create_search_terms:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_search: //button[span='Save Search']
+            save_search: //button[@data-ui-id='catalog-search-edit-save-button']

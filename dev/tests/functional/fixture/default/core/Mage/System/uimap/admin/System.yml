@@ -222,7 +222,7 @@ new_email_template:
             reset: //button[span='Reset']
             convert_to_plain_text: //button[span='Convert to Plain Text']
             preview_template: //button[span='Preview Template']
-            save_template: //button[span='Save Template']
+            save_template: //button[@title='Save Template']
             return_html_version: //button[span='Return Html Version']
             delete: //button[span='Delete Template']
         messages: *templateMessages

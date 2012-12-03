@@ -97,7 +97,7 @@ new_admin_user:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_admin_user: //button[span='Save User']
+            save_admin_user: //button[@data-ui-id='adminhtml-user-edit-save-button']
         messages: *adminUserMessages
 
 # 'Edit User' page
@@ -110,7 +110,7 @@ edit_admin_user:
             back: //button[span='Back']
             reset: //button[span='Reset']
             delete_user: //button[span='Delete User']
-            save_admin_user: //button[span='Save User']
+            save_admin_user: //button[@data-ui-id='adminhtml-user-edit-save-button']
         messages: *adminUserMessages
 
 new_admin_user_with_error:
@@ -121,7 +121,7 @@ new_admin_user_with_error:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_admin_user: //button[span='Save User']
+            save_admin_user: //button[@data-ui-id='adminhtml-user-edit-save-button']
         messages: *adminUserMessages
 
 # 'Roles' page
@@ -190,7 +190,7 @@ new_role:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_role: //button[span='Save Role']
+            save_role: //button[@data-ui-id='adminhtml-user-role-buttons-savebutton']
         messages: *adminUserMessages
 
 # 'Edit Role' page
@@ -249,7 +249,7 @@ edit_role:
             back: //button[span='Back']
             reset: //button[span='Reset']
             delete_role: //button[span='Delete Role']
-            save_role: //button[span='Save Role']
+            save_role: //button[@data-ui-id='adminhtml-user-role-buttons-savebutton']
         messages:  *adminUserMessages
 
 # 'My Account' page
@@ -271,6 +271,6 @@ my_account:
                             new_password: //input[@id='password']
                             password_confirmation: //input[@id='user_confirmation']
         buttons:
-            save_account: //button[span='Save Account']
+            save_account: //button[@data-ui-id='system-account-edit-save-button']
             reset_filter: //button[span='Reset Filter']
         messages: *adminUserMessages

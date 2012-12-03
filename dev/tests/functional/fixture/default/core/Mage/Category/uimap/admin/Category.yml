@@ -126,7 +126,7 @@ manage_categories:
                                         category_products_position: %productXpath%//input[@name='position']
         buttons:
             reset: //button[span='Reset']
-            save_category: //button[span='Save Category']
+            save_category: //button[@data-ui-id='category-edit-form-save-button']
             delete_category: //button[span='Delete Category']
         messages:
             empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"

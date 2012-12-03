@@ -145,9 +145,9 @@ add_new_rule:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_and_apply: //button[span='Save and Apply']
-            save_rule: //button[span='Save Rule' or span='Save']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save_and_apply: //button[@data-ui-id='promo-catalog-edit-save-apply-button']
+            save_rule: //button[@data-ui-id='promo-catalog-edit-save-button']
+            save_and_continue_edit: //button[@data-ui-id='promo-catalog-edit-save-and-continue-edit-button']
         messages: *catalogPriceRuleMessages
 
 edit_rule_page:
@@ -158,8 +158,8 @@ edit_rule_page:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_and_apply: //button[span='Save and Apply']
-            save_rule: //button[span='Save Rule' or span='Save']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save_and_apply: //button[@data-ui-id='promo-catalog-edit-save-apply-button']
+            save_rule: //button[@data-ui-id='promo-catalog-edit-save-button']
+            save_and_continue_edit: //button[@data-ui-id='promo-catalog-edit-save-and-continue-edit-button']
             delete_rule: //button[span='Delete Rule' or span='Delete']
         messages: *catalogPriceRuleMessages

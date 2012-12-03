@@ -643,8 +643,8 @@ new_product:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save: //button[span='Save']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save: //button[@data-ui-id='product-edit-save-button']
+            save_and_continue_edit: //button[@data-ui-id='product-edit-save-and-edit-button']
             change_attribute_set: //button[span='Change Attribute Set']
         messages: *productMesssages
 
@@ -779,8 +779,8 @@ edit_product:
             reset: //button[span='Reset']
             delete: //button[span='Delete']
             duplicate: //button[span='Duplicate']
-            save: //button[span='Save']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save: //button[@data-ui-id='product-edit-save-button']
+            save_and_continue_edit: //button[@data-ui-id='product-edit-save-and-edit-button']
             change_attribute_set: //button[span='Change Attribute Set']
         messages: *productMesssages
 
@@ -970,4 +970,4 @@ updating_products:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save: //button[span='Save']
+            save: //button[@data-ui-id='product-edit-save-button']

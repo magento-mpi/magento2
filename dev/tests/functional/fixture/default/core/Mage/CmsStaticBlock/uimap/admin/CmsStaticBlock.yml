@@ -203,8 +203,8 @@ edit_cms_static_block:
             back: //button[span='Back']
             reset: //button[span='Reset']
             delete_block: //button[span='Delete Block']
-            save_block: //button[span='Save Block']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save_block: //button[@data-ui-id='cms-block-edit-save-button']
+            save_and_continue_edit: //button[@data-ui-id='cms-block-edit-saveandcontinue-button']
         messages: *staticBlockMessages
 
 # Default edit page. Opens when an error happens during creating a new block.
@@ -223,8 +223,8 @@ create_cms_static_block:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_block: //button[span='Save Block']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save_block: //button[@data-ui-id='cms-block-edit-save-button']
+            save_and_continue_edit: //button[@data-ui-id='cms-block-edit-saveandcontinue-button']
         messages: *staticBlockMessages
 
 create_cms_static_block_updated:

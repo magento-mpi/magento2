@@ -143,8 +143,8 @@ create_customer:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_customer: //button[span='Save Customer']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save_customer: //button[@data-ui-id='customer-edit-save-button']
+            save_and_continue_edit: //button[@data-ui-id='customer-edit-save-and-continue-button']
         messages: *customerMessages
 
 # 'Edit Customer' Page
@@ -327,8 +327,8 @@ edit_customer:
             reset: //button[span='Reset']
             create_order: //button[span='Create Order']
             delete_customer: //button[span='Delete Customer']
-            save_customer: //button[span='Save Customer']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save_customer: //button[@data-ui-id='customer-edit-save-button']
+            save_and_continue_edit: //button[@data-ui-id='customer-edit-save-and-continue-button']
         pageelements:
             customer_header: //div[@data-ui-id='customer-edit-content-header']/h3
         messages: *customerMessages

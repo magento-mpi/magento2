@@ -65,7 +65,7 @@ new_rating:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_rating: //button[span='Save Rating']
+            save_rating: //button[@data-ui-id='rating-edit-save-button']
         messages: *ratingMessages
 
 new_edit_rating:
@@ -81,7 +81,7 @@ edit_rating:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_rating: //button[span='Save Rating']
+            save_rating: //button[@data-ui-id='rating-edit-save-button']
             delete_rating: //button[span='Delete Rating']
         messages: *ratingMessages
 
@@ -187,7 +187,7 @@ add_new_review:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_review: //button[span='Save Review']
+            save_review: //button[@data-ui-id='review-add-save-button']
         messages: *reviewMessages
 
 edit_review:
@@ -214,7 +214,7 @@ edit_review:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_review: //button[span='Save Review']
+            save_review: //button[@data-ui-id='review-add-save-button']
             delete_review: //button[span='Delete Review']
             prev_review: //button[span='Previous']
             prev_save_review: //button[span='Save and Previous']

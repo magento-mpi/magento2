@@ -230,8 +230,8 @@ add_widget_options:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save: //button[span='Save']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save: //button[@data-ui-id='widget-instance-edit-save-button']
+            save_and_continue_edit: //button[@data-ui-id='widget-instance-edit-save-and-edit-button-button']
         messages: *cmsWidgetMessages
 
 edit_cms_widget:
@@ -242,7 +242,7 @@ edit_cms_widget:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save: //button[span='Save']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save: //button[@data-ui-id='widget-instance-edit-save-button']
+            save_and_continue_edit: //button[@data-ui-id='widget-instance-edit-save-and-edit-button-button']
             delete: //button[span='Delete']
         messages: *cmsWidgetMessages

@@ -211,9 +211,8 @@ create_shopping_cart_price_rule:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_and_apply: //button[span='Save and Apply']
-            save_rule: //button[span='Save Rule' or span='Save']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save_rule: //button[@data-ui-id='promo-quote-edit-save-button']
+            save_and_continue_edit: //button[@data-ui-id='promo-quote-edit-save-and-continue-edit-button']
         messages: *ruleMessages
 
 edit_shopping_cart_price_rule:
@@ -278,6 +277,6 @@ edit_shopping_cart_price_rule:
             back: //button[span='Back']
             reset: //button[span='Reset']
             delete_rule: //button[span='Delete Rule' or span='Delete']
-            save_rule: //button[span='Save Rule' or span='Save']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save_rule: //button[@data-ui-id='promo-quote-edit-save-button']
+            save_and_continue_edit: //button[@data-ui-id='promo-quote-edit-save-and-continue-edit-button']
         messages: *ruleMessages

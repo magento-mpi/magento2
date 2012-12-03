@@ -60,7 +60,7 @@ new_order_status:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_status: //button[span='Save Status']
+            save_status: //button[@data-ui-id='sales-order-status-new-container-save-button']
         messages:
             success_saved_status:  //li[normalize-space(@class)='success-msg' and contains(., 'The order status has been saved')]
             order_status_exist: //li[normalize-space(@class)='error-msg' and contains(., 'Order status with the same status code already exist')]
@@ -87,7 +87,7 @@ assign_order_status:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_status_assignment: //button[span='Save Status Assignment']
+            save_status_assignment: //button[@data-ui-id='sales-order-status-assign-container-save-button']
         checkboxes:
             use_order_status_as_default: //input[@id='is_default']
         messages:

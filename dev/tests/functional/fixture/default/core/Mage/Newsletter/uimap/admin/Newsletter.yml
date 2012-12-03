@@ -106,7 +106,7 @@ newsletter_template_new:
             reset: //button[span='Reset']
             convert_to_plain_text: //button[span='Convert to Plain Text']
             preview_template: //button[span='Preview Template']
-            save_template: //button[span='Save Template']
+            save_template: //button[@data-ui-id='template-edit-save-button']
         messages:
             empty_required_field: "%fieldXpath%/following-sibling::*[contains(., 'This is a required field.') and not(contains(@style,'display: none;'))]"
             invalid_email: //div[@id='advice-validate-email-sender_email' and contains(.,'Please enter a valid email address. For example johndoe@domain.com.')]
@@ -122,7 +122,7 @@ edit_news_template:
             reset: //button[span='Reset']
             convert_to_plain_text: //button[span='Convert to Plain Text']
             preview_template: //button[span='Preview Template']
-            save_template: //button[span='Save Template']
+            save_template: //button[@data-ui-id='template-edit-save-button']
             delete_template: //button[@class='scalable delete']
         messages: *newsTemplateMessages
 

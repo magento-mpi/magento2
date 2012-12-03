@@ -89,7 +89,7 @@ new_poll:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_poll: //button[span='Save Poll']
+            save_poll: //button[@data-ui-id='poll-edit-save-button']
         messages: *pollMesssages
 
 # Edit Poll page
@@ -107,5 +107,5 @@ edit_poll:
             back: //button[span='Back']
             reset: //button[span='Reset']
             delete_poll: //button[span='Delete Poll']
-            save_poll: //button[span='Save Poll']
+            save_poll: //button[@data-ui-id='poll-edit-save-button']
         messages: *pollMesssages

@@ -55,7 +55,7 @@ new_theme:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_theme: //button[span='Save']
+            save_theme: //button[@data-ui-id='theme-edit-save-button']
             delete_theme: //button[span='Delete']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save_and_continue_edit: //button[@data-ui-id='theme-edit-save-and-continue-button']
 

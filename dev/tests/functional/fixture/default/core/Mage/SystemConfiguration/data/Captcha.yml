@@ -15,7 +15,7 @@ default_admin_captcha:
     tab_1:
         tab_name: advanced_admin
         configuration:
-            captcha:
+            captcha_admin:
                 captcha_enable_admin: Yes
                 captcha_font: LinLibertine
                 captcha_forms: Admin Forgot Password
@@ -27,7 +27,7 @@ default_admin_captcha:
     tab_2:
         tab_name: advanced_admin
         configuration:
-            captcha:
+            captcha_admin:
                 captcha_enable_admin: No
 
 default_frontend_captcha:
@@ -55,7 +55,7 @@ enable_admin_captcha:
     tab_1:
         tab_name: advanced_admin
         configuration:
-            captcha:
+            captcha_admin:
                 captcha_enable_admin: Yes
                 captcha_forms: Admin Login, Admin Forgot Password
                 captcha_word_length: 4
@@ -68,7 +68,7 @@ choose_admin_forgot_password:
     tab_1:
         tab_name: advanced_admin
         configuration:
-            captcha:
+            captcha_admin:
                 captcha_enable_admin: Yes
                 captcha_forms: Admin Forgot Password
                 captcha_word_length: 4
@@ -81,7 +81,7 @@ choose_login_form:
     tab_1:
          tab_name: advanced_admin
          configuration:
-            captcha:
+            captcha_admin:
                  captcha_enable_admin: Yes
                  captcha_forms: Admin Login
                  captcha_word_length: 4
@@ -94,7 +94,7 @@ admin_captcha_after_attempts_to_login:
     tab_1:
         tab_name: advanced_admin
         configuration:
-           captcha:
+           captcha_admin:
                 captcha_enable_admin: Yes
                 captcha_forms: Admin Login
                 captcha_word_length: 4
@@ -108,7 +108,7 @@ zero_attempts_specified:
     tab_1:
         tab_name: advanced_admin
         configuration:
-           captcha:
+           captcha_admin:
                 captcha_enable_admin: Yes
                 captcha_forms: Admin Login
                 captcha_word_length: 4
@@ -122,7 +122,7 @@ case_sensitive_enable:
     tab_1:
         tab_name: advanced_admin
         configuration:
-            captcha:
+            captcha_admin:
                 captcha_enable_admin: Yes
                 captcha_forms: Admin Login
                 captcha_word_length: 4
@@ -135,7 +135,7 @@ case_sensitive_disable:
     tab_1:
         tab_name: advanced_admin
         configuration:
-            captcha:
+            captcha_admin:
                 captcha_enable_admin: Yes
                 captcha_forms: Admin Login
                 captcha_word_length: 4
@@ -148,7 +148,7 @@ disable_admin_captcha:
     tab_1:
         tab_name: advanced_admin
         configuration:
-            captcha:
+            captcha_admin:
                 captcha_enable_admin: No
 
 enable_front_login_captcha:

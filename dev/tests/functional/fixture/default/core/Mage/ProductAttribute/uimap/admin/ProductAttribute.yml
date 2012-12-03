@@ -129,9 +129,9 @@ new_product_attribute:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_attribute: //button[span='Save Attribute']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
-            save_in_new_attribute_set: //button[span='Save in New Attribute Set']
+            save_attribute: //button[@data-ui-id='attribute-edit-content-save-button']
+            save_and_continue_edit: //button[@data-ui-id='attribute-edit-content-save-and-edit-button-button']
+            save_in_new_attribute_set: //button[@id='save_in_new_set']
             close_window: //button[span='Close Window']
         messages: *productAttributeMessages
 
@@ -179,8 +179,8 @@ edit_product_attribute:
             back: //button[span='Back']
             reset: //button[span='Reset']
             delete_attribute: //button[span='Delete Attribute']
-            save_attribute: //button[span='Save Attribute']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save_attribute: //button[@data-ui-id='attribute-edit-content-save-button']
+            save_and_continue_edit: //button[@data-ui-id='attribute-edit-content-save-and-edit-button-button']
         messages: *productAttributeMessages
 
 edit_product_attribute_save_and_continue:
@@ -196,8 +196,8 @@ product_attribute:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_attribute: //button[span='Save Attribute']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save_attribute: //button[@data-ui-id='attribute-edit-content-save-button']
+            save_and_continue_edit: //button[@data-ui-id='attribute-edit-content-save-and-edit-button-button']
         messages: *productAttributeMessages
 
 # Add New Product Attribute page from Product page
@@ -209,7 +209,7 @@ new_product_attribute_from_product_page:
         buttons:
             close_window: //button[span='Close Window']
             reset: //button[span='Reset']
-            save_attribute: //button[span='Save Attribute']
+            save_attribute: //button[@data-ui-id='attribute-edit-content-save-button']
             save_in_new_attribute_set: //button[@id='save_in_new_set']
         messages: *productAttributeMessages
 
@@ -222,7 +222,7 @@ new_product_attribute_from_saved_product_page:
         buttons:
             close_window: //button[span='Close Window']
             reset: //button[span='Reset']
-            save_attribute: //button[span='Save Attribute']
+            save_attribute: //button[@data-ui-id='attribute-edit-content-save-button']
             save_in_new_attribute_set: //button[@id='save_in_new_set']
         messages: *productAttributeMessages
 

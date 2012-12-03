@@ -8,143 +8,7 @@
 # @license     {license_link}
 #
 ---
-# Customer Tax Class and related pages
-# 'Manage Customers Tax Classes' page
-manage_customer_tax_class:
-    mca: tax_class_customer/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'tax_class_customer')]
-    title: Customer Tax Classes / Tax / Sales / Magento Admin
-    uimap:
-        form: &searchCustomerTaxClassGrid
-            fieldsets:
-                -
-                    manage_tax_customer_class:
-                        xpath: //div[@id='taxClassGrid']
-                        buttons:
-                            reset_filter: //button[span='Reset Filter']
-                            search: //button[span='Search']
-                        fields:
-                            customer_class_name: //input[@id='taxClassGrid_filter_class_name']
-                        pageelements:
-                            grid_head: //*[@id='taxClassGrid_table']/thead/tr[@class='headings']
-        buttons:
-            add_customer_class: //button[span='Add New']
-        messages:
-            success_saved_tax_class: //li[normalize-space(@class)='success-msg' and contains(.,'The tax class has been saved.')]
-            success_deleted_tax_class: //li[normalize-space(@class)='success-msg' and contains(.,'The tax class has been deleted.')]
-
-# 'New Customer Tax Class' Page
-create_customer_tax_class:
-    mca: tax_class_customer/new/
-    title: New Class / Customer Tax Classes / Tax / Sales / Magento Admin
-    uimap:
-        form: &newCustomerTaxClassForm
-            fieldsets:
-                -
-                    customer_tax_class_info:
-                        xpath: //form[@id='edit_form']
-                        fields:
-                            customer_class_name: //input[@id='class_name']
-                        required: [class_name]
-        buttons:
-            back: //button[span='Back']
-            reset: //button[span='Reset']
-            save_customer_class: //button[span='Save Class']
-        messages: &newCustomerTaxClassMsg
-            empty_class_name: "//input[@id='class_name']//following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
-            tax_class_exists: //li[normalize-space(@class)='error-msg' and contains(.,'An error occurred while saving this tax class. A class with the same name already exists.')]
-            error_delete_tax_class: //li[normalize-space(@class)='error-msg' and contains(.,'You cannot delete this tax class as it is used in Tax Rules. You have to delete the rules it is used in first.')]
-            error_delete_tax_class_group: //li[normalize-space(@class)='error-msg' and contains(.,'You cannot delete this tax class as it is used for 1 customer groups.')]
-            confirmation_for_delete: Are you sure you want to do this?
-
-# 'Edit Customer Tax Class' Page
-edit_customer_tax_class:
-    mca: tax_class_customer/edit/id/%id%/
-    title: %elementTitle% / Customer Tax Classes / Tax / Sales / Magento Admin
-    uimap:
-        form: &editCustomerTaxClassForm
-            fieldsets:
-                -
-                    customer_tax_class_info:
-                        xpath: //form[@id='edit_form']
-                        fields:
-                            customer_class_name: //input[@id='class_name']
-                        required: [class_name]
-        buttons:
-            back: //button[span='Back']
-            reset: //button[span='Reset']
-            delete_customer_class: //button[span='Delete Class']
-            save_customer_class: //button[span='Save Class']
-        messages: *newCustomerTaxClassMsg
-
-# Product Tax Class and related pages
-# 'Manage Product Tax Classes' page
-manage_product_tax_class:
-    mca: tax_class_product/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'tax_class_product')]
-    title: Product Tax Classes / Tax / Sales / Magento Admin
-    uimap:
-        form: &searchProductTaxClassGrid
-            fieldsets:
-                -
-                    manage_tax_product_class:
-                        xpath: //div[@id='taxClassGrid']
-                        fields:
-                            product_class_name: //input[@id='taxClassGrid_filter_class_name']
-                        buttons:
-                            reset_filter: //button[span='Reset Filter']
-                            search: //button[span='Search']
-                        pageelements:
-                            grid_head: //*[@id='taxClassGrid_table']/thead/tr[@class='headings']
-        buttons:
-            add_product_class: //button[span='Add New']
-        messages:
-            success_saved_tax_class: //li[normalize-space(@class)='success-msg' and contains(.,'The tax class has been saved.')]
-            success_deleted_tax_class: //li[normalize-space(@class)='success-msg' and contains(.,'The tax class has been deleted.')]
-
-# 'New Product Tax Class' Page
-create_product_tax_class:
-    mca: tax_class_product/new/
-    title: New Class / Product Tax Classes / Tax / Sales / Magento Admin
-    uimap:
-        form: &newProductTaxClassForm
-            fieldsets:
-                -
-                    product_tax_class_info:
-                        xpath:
-                        fields:
-                            product_class_name: //input[@id='class_name']
-                        required: [class_name]
-        buttons:
-            back: //button[span='Back']
-            reset: //button[span='Reset']
-            save_product_class: //button[span='Save Class']
-        messages: &newProductTaxClassMsg
-            empty_class_name: "//input[@id='class_name']//following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
-            tax_class_exists: //li[normalize-space(@class)='error-msg' and contains(.,'An error occurred while saving this tax class. A class with the same name already exists.')]
-            error_delete_tax_class: //li[normalize-space(@class)='error-msg' and contains(.,'You cannot delete this tax class as it is used in Tax Rules. You have to delete the rules it is used in first.')]
-            error_delete_tax_class_product: //li[normalize-space(@class)='error-msg' and contains(.,'You cannot delete this tax class as it is used for 1 products.')]
-            confirmation_for_delete: Are you sure you want to do this?
-
-# 'Edit Product Tax Class' Page
-edit_product_tax_class:
-    mca: tax_class_product/edit/id/%id%/
-    title: %elementTitle% / Product Tax Classes / Tax / Sales / Magento Admin
-    uimap:
-        form: &editProductTaxClassForm
-            fieldsets:
-                -
-                    product_tax_class_info:
-                        xpath:
-                        fields:
-                            product_class_name: //input[@id='class_name']
-                        required: [class_name]
-        buttons:
-            back: //button[span='Back']
-            reset: //button[span='Reset']
-            delete_product_class: //button[span='Delete Class']
-            save_product_class: //button[span='Save Class']
-        messages: *newProductTaxClassMsg
+## Customer Tax Class and related pages
 
 # Manage Tax Rate and related pages
 # 'Manage Tax Zones and Rates' page
@@ -209,7 +73,7 @@ create_tax_rate:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_rate: //button[span='Save Rate']
+            save_rate: //button[@data-ui-id='tax-rate-toolbar-save-savebutton']
         messages: &newTaxRateMessages
             code_already_exists: //li[normalize-space(@class)='error-msg' and contains(.,'Code already exists.')]
             error_delete_tax_rate: //li[normalize-space(@class)='error-msg' and contains(.,'Tax rate cannot be removed. It exists in tax rule')]
@@ -249,7 +113,7 @@ edit_tax_rate:
             back: //button[span='Back']
             reset: //button[span='Reset']
             delete_rate: //button[span='Delete Rate']
-            save_rate: //button[span='Save Rate']
+            save_rate: //button[@data-ui-id='tax-rate-toolbar-save-savebutton']
         messages: *newTaxRateMessages
 
 #Import/Export Tax Rates
@@ -352,8 +216,8 @@ create_tax_rule:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_rule: //button[span='Save Rule']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save_rule: //button[@data-ui-id='content-schedule-block-save-button']
+            save_and_continue_edit: //button[@data-ui-id='content-schedule-block-save-and-continue-button']
         messages: &newTaxRuleMessages
             code_already_exists: //li[normalize-space(@class)='error-msg' and contains(.,'Code already exists.')]
             empty_required_field:  "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
@@ -373,6 +237,6 @@ edit_tax_rule:
             back: //button[span='Back']
             reset: //button[span='Reset']
             delete_rule: //button[span='Delete Rule']
-            save_rule: //button[span='Save Rule']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save_rule: //button[@data-ui-id='content-schedule-block-save-button']
+            save_and_continue_edit: //button[@data-ui-id='content-schedule-block-save-and-continue-button']
         messages: *newTaxRuleMessages

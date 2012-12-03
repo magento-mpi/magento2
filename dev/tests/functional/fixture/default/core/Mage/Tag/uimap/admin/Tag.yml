@@ -135,8 +135,8 @@ edit_tag:
             back: //button[span='Back']
             reset: //button[span='Reset']
             delete_tag: //button[span='Delete Tag']
-            save_tag: //button[span='Save Tag']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save_tag: //button[@data-ui-id='tag-edit-save-button']
+            save_and_continue_edit: //button[@data-ui-id='tag-edit-save-and-edit-button-button']
         messages: *tagsMesssages
 
 # Edit tag '%tagName%' page
@@ -173,8 +173,8 @@ new_tag:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_tag: //button[span='Save Tag']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save_tag: //button[@data-ui-id='tag-edit-save-button']
+            save_and_continue_edit: //button[@data-ui-id='tag-edit-save-and-edit-button-button']
         messages: *tagsMesssages
 
 # Pending Tags page

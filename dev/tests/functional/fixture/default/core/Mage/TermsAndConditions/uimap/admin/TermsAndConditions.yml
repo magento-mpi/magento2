@@ -35,7 +35,7 @@ manage_sales_checkout_terms_conditions:
                             select_terms_in_grid: //table[@id='agreementGrid_table']//td[%columnId%]
         buttons:
             create_new_terms_and_conditions: //button[span='Add New Condition']
-            save_condition: // p[@class='form-buttons']//button[span='Save Condition']
+            save_condition: //button[@data-ui-id='checkout-agreement-edit-save-button']
         messages: &conditionMessages
             condition_saved: //li[normalize-space(@class)='success-msg' and contains(.,'The condition has been saved.')]
             empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
@@ -67,7 +67,7 @@ create_condition:
         buttons:
             back: //p[@class='form-buttons']//button[span='Back']
             reset: //p[@class='form-buttons']//button[span='Reset']
-            save_condition: //p[@class='form-buttons']//button[span='Save Condition']
+            save_condition: //button[@data-ui-id='checkout-agreement-edit-save-button']
         messages: *conditionMessages
 
 edit_condition:
@@ -79,5 +79,5 @@ edit_condition:
             back: //p[@class='form-buttons']//button[span='Back']
             reset: //p[@class='form-buttons']//button[span='Reset']
             delete_condition: //p[@class='form-buttons']//button[span='Delete Condition']
-            save_condition: //p[@class='form-buttons']//button[span='Save Condition']
+            save_condition: //button[@data-ui-id='checkout-agreement-edit-save-button']
         messages: *conditionMessages
