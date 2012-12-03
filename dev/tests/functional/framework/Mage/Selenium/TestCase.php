@@ -2610,7 +2610,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $this->addParameter('tab', $this->getControlAttribute('tab', $tabName, 'id'));
         }
         $this->clickControlAndWaitMessage($controlType, $controlName);
-        $this->waitForElement(self::$_xpathLoadingHolder);
+        $this->waitForElement(self::$_maskXpath);
         if (!is_null($tabUimap)) {
             $this->assertSame($tabName, $this->_getActiveTabUimap()->getTabId(),
                 'Opened wrong tab after Save and Continue Edit action');
@@ -3462,7 +3462,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function pleaseWait($waitDisappear = 30)
     {
         $this->waitForAjax();
-        $this->waitForElement(self::$_xpathLoadingHolder, $waitDisappear);
+        $this->waitForElement(self::$_maskXpath, $waitDisappear);
     }
 
     /**
