@@ -299,8 +299,8 @@ class Core_Mage_Acl_SalesTaxTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_deleted_tax_rate');
         //Delete Customer Tax Class
         $this->navigate('manage_customer_tax_class');
-        $customerClassToDelete['customer_class_name'] = $testData['customer_tax_class'];
-        $this->taxHelper()->deleteTaxItem($customerClassToDelete, 'customer_class');
+        $customerClassDel['customer_class_name'] = $testData['customer_tax_class'];
+        $this->taxHelper()->deleteTaxItem($customerClassDel, 'customer_class');
         $this->assertMessagePresent('success', 'success_deleted_tax_class');
     }
 

@@ -132,17 +132,17 @@ class Core_Mage_Acl_CmsStaticBlocksResourceOneRoleTest extends Mage_Selenium_Tes
         $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('manage_cms_static_blocks');
-        $randomTitleAndIdentifier = array('block_title'      => $this->generate('string', 15),
+        $randomTitleAndId = array('block_title'      => $this->generate('string', 15),
                                           'block_identifier' => $this->generate('string', 15));
         $this->cmsStaticBlocksHelper()->openStaticBlock($searchPageData);
-        $this->fillFieldset($randomTitleAndIdentifier, 'general_information');
+        $this->fillFieldset($randomTitleAndId, 'general_information');
         $this->clickControlAndWaitMessage('button', 'save_and_continue_edit', false);
-        $this->addParameter('blockName', $randomTitleAndIdentifier['block_title']);
+        $this->addParameter('blockName', $randomTitleAndId['block_title']);
         $this->validatePage('edit_cms_static_block');
         $this->assertMessagePresent('success', 'success_saved_block');
 
-        return array('filter_block_title'      => $randomTitleAndIdentifier['block_title'] ,
-                     'filter_block_identifier' => $randomTitleAndIdentifier['block_identifier']);
+        return array('filter_block_title'      => $randomTitleAndId['block_title'] ,
+                     'filter_block_identifier' => $randomTitleAndId['block_identifier']);
     }
 
     /**

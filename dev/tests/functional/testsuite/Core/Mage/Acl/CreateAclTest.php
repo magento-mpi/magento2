@@ -45,14 +45,14 @@ class Core_Mage_Acl_CreateAclTest extends Mage_Selenium_TestCase
      * @param $access
      * @param $page
      * @param $menuElementCount
-     * @param $globalSearchFieldCount
+     * @param $searchFieldCount
      *
      * @test
      * @dataProvider roleResourceAccessDataProvider
      * @TestlinkId TL-MAGE-5586, TL-MAGE-5593, TL-MAGE-5595, TL-MAGE-5598, TL-MAGE-5599
      * @TestlinkId TL-MAGE-5600, TL-MAGE-5601, TL-MAGE-5602, TL-MAGE-5603, TL-MAGE-5604, TL-MAGE-5605
      */
-    public function roleResourceAccess($access, $page, $menuElementCount, $globalSearchFieldCount)
+    public function roleResourceAccess($access, $page, $menuElementCount, $searchFieldCount)
     {
         //Preconditions
         //create specific role with test roleResource
@@ -74,7 +74,7 @@ class Core_Mage_Acl_CreateAclTest extends Mage_Selenium_TestCase
         //Verifying  count of main menu elements
         $this->assertEquals($menuElementCount, $this->getControlCount('pageelement', 'navigation_menu_items'));
         //Verifying that Global Search fieldset is present or not present
-        $this->assertEquals($globalSearchFieldCount, $this->getControlCount('field', 'global_record_search'));
+        $this->assertEquals($searchFieldCount, $this->getControlCount('field', 'global_record_search'));
     }
 
     public function roleResourceAccessDataProvider()
