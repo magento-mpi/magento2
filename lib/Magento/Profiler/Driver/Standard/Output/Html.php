@@ -1,22 +1,20 @@
 <?php
 /**
+ * Class that represents profiler output in HTML format
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Profiler
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Class that represents profiler output in Html format
- */
-class Magento_Profiler_Output_Html extends Magento_Profiler_OutputAbstract
+class Magento_Profiler_Driver_Standard_Output_Html extends Magento_Profiler_Driver_Standard_OutputAbstract
 {
     /**
      * Display profiling results
+     *
+     * @param Magento_Profiler_Driver_Standard_Stat $stat
      */
-    public function display()
+    public function display(Magento_Profiler_Driver_Standard_Stat $stat)
     {
         $out = array();
         $out[] = '<table border="1" cellspacing="0" cellpadding="2">';
@@ -26,10 +24,12 @@ class Magento_Profiler_Output_Html extends Magento_Profiler_OutputAbstract
             $out[] = '<th>' . $columnLabel . '</th>';
         }
         $out[] = '</tr>';
-        foreach ($this->_getTimers() as $timerId) {
+        foreach ($this->_getTimerNames($stat) as $timerName) {
             $out[] = '<tr>';
-            foreach ($this->_getColumns() as $columnId) {
-                $out[] = '<td title="' . $timerId . '">' . $this->_renderColumnValue($timerId, $columnId) . '</td>';
+            foreach ($this->_getColumns() as $key) {
+                $out[] = '<td title="' . $timerName . '">'
+                    . $this->_renderColumnValue($stat->fetch($timerName, $key), $key)
+                    . '</td>';
             }
             $out[] = '</tr>';
         }
@@ -40,14 +40,14 @@ class Magento_Profiler_Output_Html extends Magento_Profiler_OutputAbstract
     }
 
     /**
-     * Render timer id column value
+     * Render timer name column value
      *
-     * @param string $timerId
+     * @param string $timerName
      * @return string
      */
-    protected function _renderTimerId($timerId)
+    protected function _renderTimerName($timerName)
     {
         $nestingSep = preg_quote(Magento_Profiler::NESTING_SEPARATOR, '/');
-        return preg_replace('/.+?' . $nestingSep . '/', '&middot;&nbsp;&nbsp;', $timerId);
+        return preg_replace('/.+?' . $nestingSep . '/', '&middot;&nbsp;&nbsp;', $timerName);
     }
 }
