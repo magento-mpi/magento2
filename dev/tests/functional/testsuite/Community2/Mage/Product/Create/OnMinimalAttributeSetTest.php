@@ -60,7 +60,11 @@ class Community2_Mage_Product_Create_OnMinimalAttributeSetTest extends Mage_Sele
         $this->assertMessagePresent('success', 'success_saved_product');
 
 
-        return array('simple_sku' => $productData['general_sku'], 'attribute' => $attrData['admin_title']);
+        return array(
+            'simple_sku' => $productData['general_sku'],
+            'attribute' => $attrData['admin_title'],
+            'attributeValue' => $attrData['option_1']['admin_option_name']
+        );
     }
 
     // @codingStandardsIgnoreStart
@@ -103,8 +107,12 @@ class Community2_Mage_Product_Create_OnMinimalAttributeSetTest extends Mage_Sele
                 break;
             case 'configurable':
                 $productData = $this->loadDataSet('Product', $productType . '_product_minimal',
-                    array('configurable_attribute_title' => $testData['attribute'],
-                          'associated_search_sku'        => $testData['simple_sku']));
+                    array(
+                        'configurable_attribute_title' => $testData['attribute'],
+                        'associated_search_sku' => $testData['simple_sku'],
+                        'associated_product_attribute_value' => $testData['attributeValue']
+                    )
+                );
                 break;
             case 'fixed_bundle':
             case 'dynamic_bundle':

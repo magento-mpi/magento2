@@ -39,6 +39,11 @@ virtual_product_minimal:
     websites: Main Website
     categories: Default Category
 
+configurable_attributes: &confirurableAttributesValues
+    associated_product_attribute_1:
+        associated_product_attribute_name: %noValue%
+        associated_product_attribute_value: %noValue%
+
 configurable_product_minimal:
     product_attribute_set: Minimal
     configurable_attribute_title: %noValue%
@@ -54,6 +59,7 @@ configurable_product_minimal:
     associated_configurable_data:
         associated_configurable_1:
             associated_search_sku: %associated_1%
+            associated_product_attribute: *confirurableAttributesValues
 
 downloadable_product_minimal:
     product_attribute_set: Minimal

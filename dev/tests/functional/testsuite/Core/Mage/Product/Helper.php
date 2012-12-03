@@ -1216,11 +1216,19 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
                   'categories'                              => $returnCategory['path']));
         $download['general_user_attr']['dropdown'][$attrCode] = $attrData['option_3']['admin_option_name'];
         $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order',
-            array('configurable_attribute_title' => $attrData['admin_title'],
-                  'categories'                   => $returnCategory['path']),
-            array('associated_1' => $simple['general_sku'],
-                  'associated_2' => $virtual['general_sku'],
-                  'associated_3' => $download['general_sku']));
+            array(
+                'configurable_attribute_title' => $attrData['admin_title'],
+                'categories' => $returnCategory['path']
+            ),
+            array(
+                'associated_1' => $simple['general_sku'],
+                'value_1' => $configurableOptions[0],
+                'associated_2' => $virtual['general_sku'],
+                'value_2' => $configurableOptions[1],
+                'associated_3' => $download['general_sku'],
+                'value_3' => $configurableOptions[3]
+            )
+        );
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
         $this->assertMessagePresent('success', 'success_saved_attribute');
