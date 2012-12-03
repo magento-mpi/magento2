@@ -352,4 +352,34 @@ class Magento_ObjectManager_ZendTest extends PHPUnit_Framework_TestCase
 
         $this->_objectManager = new Magento_ObjectManager_Zend(null, $diInstance);
     }
+
+    public function testHasSharedInstance()
+    {
+        $alias = 'Varien_Object_Alias';
+
+        $this->_prepareObjectManagerForHasSharedInstance($alias);
+        $this->_objectManager->hasSharedInstance($alias);
+    }
+
+    /**
+     * Prepare all required mocks for hasSharedInstance
+     *
+     * @param string $classOrAlias
+     */
+    protected function _prepareObjectManagerForHasSharedInstance($classOrAlias)
+    {
+        $diInstance      = $this->getMock('Magento_Di_Zend', array('instanceManager'));
+        $instanceManager = $this->getMock(
+            'Magento_Di_InstanceManager_Zend', array('hasSharedInstance'), array(), '',
+            false
+        );
+        $instanceManager->expects($this->once())
+            ->method('hasSharedInstance')
+            ->with($classOrAlias);
+        $diInstance->expects($this->exactly(2))
+            ->method('instanceManager')
+            ->will($this->returnValue($instanceManager));
+
+        $this->_objectManager = new Magento_ObjectManager_Zend(null, $diInstance);
+    }
 }
