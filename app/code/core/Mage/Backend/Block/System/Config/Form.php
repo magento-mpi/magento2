@@ -250,7 +250,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
             'expanded' => $group->isExpanded()
         );
 
-        $fieldset = $form->addFieldset($section->getId() . '_' . $group->getId(), $fieldsetConfig);
+        $fieldset = $form->addFieldset($this->_generateElementId($group->getPath()), $fieldsetConfig);
         $fieldset->setRenderer($fieldsetRenderer);
         $group->populateFieldset($fieldset);
         $this->_addElementTypes($fieldset);
