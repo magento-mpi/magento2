@@ -51,20 +51,30 @@ class Mage_Adminhtml_Catalog_ProductControllerTest extends PHPUnit_Framework_Tes
             ->setMethods(array('getPost', 'getParam'))->getMock();
         $this->_response = $this->getMockBuilder('Mage_Core_Controller_Response_Http')->getMock();
         $this->_objectManager = $this->getMockBuilder('Magento_ObjectManager')->getMock();
-        $frontController = $this->getMockBuilder('Mage_Core_Controller_Varien_Front')->getMock();
+        $routerFactory = $this->getMockBuilder('Mage_Core_Controller_Varien_Router_Factory')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $frontController = $this->getMockBuilder('Mage_Core_Controller_Varien_Front')
+            ->setConstructorArgs(array($routerFactory, $this->_objectManager))
+            ->getMock();
 
         $helperMock = $this->getMockBuilder('Mage_Backend_Helper_Data')->disableOriginalConstructor()->getMock();
         $this->_sessionMock = $this->getMockBuilder('Mage_Backend_Model_Session')->disableOriginalConstructor()
             ->setMethods(array('addError', 'setProductData'))->getMock();
         $translatorMock = $this->getMockBuilder('Mage_Core_Model_Translate')->getMock();
 
+        $layoutFactory = $this->getMockBuilder('Mage_Core_Model_Layout_Factory')
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->_controller = $this->getMockBuilder('Mage_Adminhtml_Catalog_ProductController')
             ->setMethods(array('loadLayout', '_initProduct', '_initProductSave', '_redirect', '__'))
             ->setConstructorArgs(array(
                 $this->_request,
                 $this->_response,
+                null,
                 $this->_objectManager,
                 $frontController,
+                $layoutFactory,
                 array(
                     'helper' => $helperMock,
                     'session' => $this->_sessionMock,
