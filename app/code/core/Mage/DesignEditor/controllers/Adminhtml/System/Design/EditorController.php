@@ -112,18 +112,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             return;
         }
 
-        /* Redirect to the frontend */
-        $query = array(Mage_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM => urlencode($session->getSessionId()));
         $storeId = (int)$this->getRequest()->getParam('store_id');
-        if (!Mage::app()->isSingleStoreMode() && $storeId) {
-            $storeId = (int)$this->getRequest()->getParam('store_id');
-            $params = array('_store' => $storeId);
-            $store = Mage::app()->getStore($storeId);
-            $query['___store'] = urlencode($store->getCode());
-        }
-        $params['_nosid'] = true;
-        $params['_query'] = $query;
-        $this->_redirectUrl(Mage::getUrl('/', $params));
+        $this->_redirectUrl($session->getPreviewUrl($storeId));
     }
 
     /**
@@ -134,6 +124,21 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         /** @var $session Mage_DesignEditor_Model_Session */
         $session = $this->_objectManager->get('Mage_DesignEditor_Model_Session');
         $session->deactivateDesignEditor();
+        $this->loadLayout();
+        $this->renderLayout();
+    }
+
+    /**
+     * Activate preview mode for selected theme
+     */
+    public function previewAction()
+    {
+        /** @var $session Mage_DesignEditor_Model_Session */
+        $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
+        if (!$session->isDesignPreviewActive()) {
+            $session->activateDesignPreview();
+        }
+
         $this->loadLayout();
         $this->renderLayout();
     }

@@ -28,34 +28,94 @@ class Mage_DesignEditor_Model_Observer
     protected $_wrappingRenderer = null;
 
     /**
+     * Theme Factory
+     *
+     * @var Mage_Core_Model_Theme_Factory
+     */
+    protected $_themeFactory;
+
+    /**
+     * Visual Design Editor session
+     *
+     * @var Mage_DesignEditor_Model_Session
+     */
+    protected $_session;
+
+    /**
+     * System object manager
+     *
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
+     * Module helper
+     *
+     * @var Mage_DesignEditor_Helper_Data
+     */
+    protected $_helper;
+
+    /**
+     * System logger
+     *
+     * @var Mage_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * Initialize dependencies
+     *
+     * @param Mage_Core_Model_Theme_Factory $themeFactory
+     * @param Mage_DesignEditor_Model_Session $session
+     * @param Magento_ObjectManager $objectManager
+     * @param Mage_DesignEditor_Helper_Data $helper
+     * @param Mage_Core_Model_Logger $logger
+     */
+    public function __construct(
+        Mage_Core_Model_Theme_Factory $themeFactory,
+        Mage_DesignEditor_Model_Session $session,
+        Magento_ObjectManager $objectManager,
+        Mage_DesignEditor_Helper_Data $helper,
+        Mage_Core_Model_Logger $logger
+    ) {
+        $this->_themeFactory = $themeFactory;
+        $this->_session = $session;
+        $this->_objectManager = $objectManager;
+        $this->_helper = $helper;
+        $this->_logger = $logger;
+    }
+
+    /**
      * Handler for 'controller_action_predispatch' event
+     *
+     * @throws InvalidArgumentException
      */
     public function preDispatch()
     {
         /* Deactivate the design editor, if the admin session has been already expired */
-        if (!$this->_getSession()->isLoggedIn()) {
-            $this->_getSession()->deactivateDesignEditor();
+        if (!$this->_session->isLoggedIn()) {
+            $this->_session->deactivateDesignEditor();
         }
 
+        $theme = null;
         /* Deactivate the design editor, if the theme cannot be loaded */
-        if ($this->_getSession()->isDesignEditorActive()) {
-            /** @var $theme Mage_Core_Model_Theme */
-            $theme = Mage::getModel('Mage_Core_Model_Theme');
+        if ($this->_session->isDesignEditorActive() || $this->_session->isDesignPreviewActive()) {
             try {
-                $theme->load($this->_getSession()->getThemeId());
+                $theme = $this->_themeFactory->create()->load($this->_session->getThemeId());
                 if (!$theme->getId()) {
-                    Mage::throwException(Mage::helper('Mage_DesignEditor_Helper_Data')->__('The theme was not found.'));
+                    throw new InvalidArgumentException('The theme was not found.');
                 }
                 Mage::register('vde_theme', $theme);
             } catch (Exception $e) {
-                $this->_getSession()->deactivateDesignEditor();
-                Mage::logException($e);
+                $this->_session->deactivateDesignEditor();
+                $this->_session->deactivateDesignPreview();
+                $this->_logger->logException($e);
             }
         }
 
         /* Apply custom design to the current page */
-        if ($this->_getSession()->isDesignEditorActive() && $theme->getThemePath()) {
-            Mage::getDesign()->setDesignTheme($theme->getThemePath());
+        if ($theme) {
+            Mage::getDesign()->setDesignTheme($theme);
         }
     }
 
@@ -66,7 +126,7 @@ class Mage_DesignEditor_Model_Observer
      */
     public function addToolbar(Varien_Event_Observer $observer)
     {
-        if (!$this->_getSession()->isDesignEditorActive()) {
+        if (!$this->_session->isDesignEditorActive()) {
             return;
         }
 
@@ -85,7 +145,7 @@ class Mage_DesignEditor_Model_Observer
      */
     public function disableBlocksOutputCaching()
     {
-        if (!$this->_getSession()->isDesignEditorActive()) {
+        if (!$this->_session->isDesignEditorActive()) {
             return;
         }
         Mage::app()->getCacheInstance()->banUse(Mage_Core_Block_Abstract::CACHE_GROUP);
@@ -98,7 +158,7 @@ class Mage_DesignEditor_Model_Observer
      */
     public function setDesignEditorFlag(Varien_Event_Observer $observer)
     {
-        if (!$this->_getSession()->isDesignEditorActive()) {
+        if (!$this->_session->isDesignEditorActive()) {
             return;
         }
         /** @var $block Mage_Page_Block_Html_Head */
@@ -106,16 +166,6 @@ class Mage_DesignEditor_Model_Observer
         if ($block) {
             $block->setDesignEditorActive(true);
         }
-    }
-
-    /**
-     * Retrieve session instance for the design editor
-     *
-     * @return Mage_DesignEditor_Model_Session
-     */
-    protected function _getSession()
-    {
-        return Mage::getSingleton('Mage_DesignEditor_Model_Session');
     }
 
     /**
@@ -127,14 +177,15 @@ class Mage_DesignEditor_Model_Observer
      */
     public function wrapPageElement(Varien_Event_Observer $observer)
     {
-        if (!$this->_getSession()->isDesignEditorActive()) {
+        if (!$this->_session->isDesignEditorActive()) {
             return;
         }
 
         if (!$this->_wrappingRenderer) {
-            $this->_wrappingRenderer = Mage::getModel('Mage_DesignEditor_Block_Template', array('data' => array(
-                'template' => 'wrapping.phtml'
-            )));
+            $this->_wrappingRenderer = $this->_objectManager->create(
+                'Mage_DesignEditor_Block_Template',
+                array('data' => array('template' => 'wrapping.phtml'))
+            );
         }
 
         $event = $observer->getEvent();
@@ -175,6 +226,6 @@ class Mage_DesignEditor_Model_Observer
      */
     public function adminSessionUserLogout()
     {
-        $this->_getSession()->deactivateDesignEditor();
+        $this->_session->deactivateDesignEditor();
     }
 }

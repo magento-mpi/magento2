@@ -54,6 +54,12 @@
         </container>
     </adminhtml_system_design_editor_loadthemelist>
 
+    <adminhtml_system_design_editor_preview>
+        <reference name="content">
+            <block type="Mage_DesignEditor_Block_Adminhtml_Launcher_Preview" name="design_editor_launcher_preview" template="Mage_DesignEditor::theme/preview.phtml"/>
+        </reference>
+    </adminhtml_system_design_editor_preview>
+
     <adminhtml_system_design_editor_exit>
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Template" name="design_editor_exit" as="exit" template="Mage_DesignEditor::exit.phtml"/>

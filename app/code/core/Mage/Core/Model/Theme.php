@@ -76,11 +76,46 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     protected $_ioFile;
 
     /**
-     * Theme model initialization
+     * @var Magento_ObjectManager
      */
-    protected function _construct()
-    {
-        $this->_init('Mage_Core_Model_Resource_Theme');
+    protected $_objectManager;
+
+    /**
+     * @var Mage_Core_Model_Theme_Factory
+     */
+    protected $_themeFactory;
+
+    /**
+     * @var Mage_Core_Helper_Data
+     */
+    protected $_helper;
+
+    /**
+     * Initialize dependencies
+     *
+     * @param Mage_Core_Model_Event_Manager $eventDispatcher
+     * @param Mage_Core_Model_Cache $cacheManager
+     * @param Magento_ObjectManager $objectManager
+     * @param Mage_Core_Model_Resource_Theme $resource
+     * @param Mage_Core_Model_Resource_Theme_Collection $resourceCollection
+     * @param Mage_Core_Model_Theme_Factory $themeFactory
+     * @param Mage_Core_Helper_Data $helper
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Model_Event_Manager $eventDispatcher,
+        Mage_Core_Model_Cache $cacheManager,
+        Magento_ObjectManager $objectManager,
+        Mage_Core_Model_Resource_Theme $resource,
+        Mage_Core_Model_Resource_Theme_Collection $resourceCollection,
+        Mage_Core_Model_Theme_Factory $themeFactory,
+        Mage_Core_Helper_Data $helper,
+        array $data = array()
+    ) {
+        parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
+        $this->_objectManager = $objectManager;
+        $this->_themeFactory = $themeFactory;
+        $this->_helper = $helper;
     }
 
     /**
@@ -103,20 +138,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function getCollectionFromFilesystem()
     {
-        return Mage::getSingleton('Mage_Core_Model_Theme_Collection');
-    }
-
-    /**
-     * Processing object after load data
-     *
-     * @return Mage_Core_Model_Theme
-     */
-    protected function _afterLoad()
-    {
-        if ($this->getId()) {
-            $this->_updateDefaultParams();
-        }
-        return parent::_afterLoad();
+        return $this->_objectManager->get('Mage_Core_Model_Theme_Collection');
     }
 
     /**
@@ -128,7 +150,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     protected function _validate()
     {
         /** @var $validator Mage_Core_Model_Theme_Validator */
-        $validator = Mage::getModel('Mage_Core_Model_Theme_Validator');
+        $validator = $this->_objectManager->get('Mage_Core_Model_Theme_Validator');
         if (!$validator->validate($this)) {
             $messages = $validator->getErrorMessages();
             Mage::throwException(implode(PHP_EOL, reset($messages)));
@@ -208,7 +230,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     protected function _beforeDelete()
     {
         if (!$this->isDeletable()) {
-            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Current theme isn\'t deletable.'));
+            Mage::throwException($this->_helper->__('Current theme isn\'t deletable.'));
         }
         $this->removePreviewImage();
         return parent::_beforeDelete();
@@ -238,7 +260,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
 
         $theme = null;
         if ($this->getParentId()) {
-            $theme = Mage::getModel('Mage_Core_Model_Theme')->load($this->getParentId());
+            $theme = $this->_themeFactory->create()->load($this->getParentId());
         }
         $this->setParentTheme($theme);
         return $theme;
@@ -352,7 +374,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
             return false;
         }
         if (!$adapter->isValid($scope)) {
-            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Uploaded image is not valid'));
+            Mage::throwException($this->_helper->__('Uploaded image is not valid'));
         }
         $upload = new Varien_File_Uploader($scope);
         $upload->setAllowCreateFolders(true);
@@ -361,7 +383,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         $upload->setFilesDispersion(false);
 
         if (!$upload->save($this->getImagePathOrigin())) {
-            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Image can not be saved.'));
+            Mage::throwException($this->_helper->__('Image can not be saved.'));
         }
 
         $fileName = $this->getImagePathOrigin() . DS . $upload->getUploadedFileName();
@@ -378,7 +400,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function createPreviewImage($imagePath)
     {
-        $adapter = Mage::helper('Mage_Core_Helper_Data')->getImageAdapterType();
+        $adapter = $this->_helper->getImageAdapterType();
         $image = new Varien_Image($imagePath, $adapter);
         $image->keepTransparency(true);
         $image->constrainOnly(true);
@@ -461,18 +483,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Update default params (package_code and theme_code)
-     *
-     * @return Mage_Core_Model_Theme
-     */
-    protected function _updateDefaultParams()
-    {
-        list($packageCode, $themeCode) = $this->getThemePath() ? explode('/', $this->getThemePath()) : null;
-        $this->setPackageCode($packageCode)->setThemeCode($themeCode);
-        return $this;
-    }
-
-    /**
      * Check if the theme is compatible with Magento version
      *
      * @return bool
@@ -498,9 +508,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     public function checkThemeCompatible()
     {
         if (!$this->isThemeCompatible()) {
-            $this->setThemeTitle(
-                Mage::helper('Mage_Core_Helper_Data')->__('%s (incompatible version)', $this->getThemeTitle())
-            );
+            $this->setThemeTitle($this->_helper->__('%s (incompatible version)', $this->getThemeTitle()));
         }
         return $this;
     }
@@ -535,7 +543,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function getLabelsCollectionForSystemConfiguration()
     {
-        return $this->getLabelsCollection(Mage::helper('Mage_Core_Helper_Data')->__('-- No Theme --'));
+        return $this->getLabelsCollection($this->_helper->__('-- No Theme --'));
     }
 
     /**
