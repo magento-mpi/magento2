@@ -66,7 +66,10 @@
             );
         },
         _isScrolledBottom: function() {
-            return (this.element[0].scrollHeight - this.element.scrollTop()) < this.element.outerHeight();
+            if (this.element[0]) {
+                return (this.element[0].scrollHeight - this.element.scrollTop()) < this.element.outerHeight();
+            }
+            return false;
         }
     });
 

@@ -61,7 +61,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         } catch (Exception $e) {
             $this->_getSession()->addError($this->__('Cannot load list of themes.'));
             $this->_redirectUrl($this->_getRefererUrl());
-            Mage::logException($e);
+            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
     }
 
@@ -75,13 +75,13 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         $this->loadLayout();
 
         /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
-        $collection = Mage::getObjectManager()->create('Mage_Core_Model_Resource_Theme_Collection');
+        $collection = $this->_objectManager->create('Mage_Core_Model_Resource_Theme_Collection');
         $collection->addAreaFilter()->setPageSize()->setCurPage($page);
 
         $this->getLayout()->getBlock('available.theme.list')->setCollection($collection)->setNextPage(++$page);
-        $this->getResponse()->setBody(
-            Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array('content' => $this->getLayout()->getOutput()))
-        );
+        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(
+            array('content' => $this->getLayout()->getOutput())
+        ));
     }
 
     /**
@@ -90,15 +90,16 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     public function launchAction()
     {
         /** @var $session Mage_DesignEditor_Model_Session */
-        $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
+        $session = $this->_objectManager->get('Mage_DesignEditor_Model_Session');
 
         $themeId = (int)$this->getRequest()->getParam('theme_id');
         /** @var $theme Mage_Core_Model_Theme */
-        $theme = Mage::getModel('Mage_Core_Model_Theme');
+        $theme = $this->_objectManager->create('Mage_Core_Model_Theme');
         try {
             $theme->load($themeId);
             if (!$theme->getId()) {
-                Mage::throwException($this->__('The theme was not found.'));
+                $this->_objectManager->get('Mage_Core_Model_Logger')
+                    ->throwException($this->__('The theme was not found.'));
             }
             $session->activateDesignEditor();
             $session->setThemeId($theme->getId());
@@ -108,7 +109,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             return;
         } catch (Exception $e) {
             $this->_getSession()->addError($this->__('The theme was not found.'));
-            Mage::logException($e);
+            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
             $this->_redirect('*/*/');
             return;
         }
@@ -133,7 +134,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     public function exitAction()
     {
         /** @var $session Mage_DesignEditor_Model_Session */
-        $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
+        $session = $this->_objectManager->get('Mage_DesignEditor_Model_Session');
         $session->deactivateDesignEditor();
         $this->loadLayout();
         $this->renderLayout();
@@ -146,6 +147,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_DesignEditor::editor');
+        return $this->_objectManager->get('Mage_Core_Model_Authorization')->isAllowed('Mage_DesignEditor::editor');
     }
 }
