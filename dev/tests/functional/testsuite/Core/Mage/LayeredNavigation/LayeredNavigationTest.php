@@ -33,24 +33,24 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
         $anchorSubCategory =
             $this->loadDataSet('Category', 'sub_category_required', array('parent_category' => $anchorCategoryPath));
         $nonAnchorCategory = $this->loadDataSet('Category', 'sub_category_required');
-        $nonAnchorCategoryPath = $nonAnchorCategory['parent_category'] . '/' . $nonAnchorCategory['name'];
+        $nonAnchorCategPath = $nonAnchorCategory['parent_category'] . '/' . $nonAnchorCategory['name'];
         $nonAnchorSubCategory =
-            $this->loadDataSet('Category', 'sub_category_required', array('parent_category' => $nonAnchorCategoryPath));
-        $dropdown = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
-        $multiselect = $this->loadDataSet('ProductAttribute', 'product_attribute_multiselect_with_options');
+            $this->loadDataSet('Category', 'sub_category_required', array('parent_category' => $nonAnchorCategPath));
+        $dropDown = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
+        $multiSelect = $this->loadDataSet('ProductAttribute', 'product_attribute_multiselect_with_options');
         $price = $this->loadDataSet('ProductAttribute', 'product_attribute_price');
-        $attributes = array($dropdown['attribute_code'], $multiselect['attribute_code'], $price['attribute_code']);
+        $attributes = array($dropDown['attribute_code'], $multiSelect['attribute_code'], $price['attribute_code']);
         $attributeSet = $this->loadDataSet('AttributeSet', 'attribute_set',
             array('associated_attributes' => array('General' => $attributes)));
         $simpleWithAttributes = $this->loadDataSet('Product', 'simple_product_visible',
             array('categories'                    => $anchorCategoryPath . '/' . $anchorSubCategory['name'],
                   'product_attribute_set'         => $attributeSet['set_name']));
-        $simpleWithAttributes['general_user_attr']['dropdown'][$dropdown['attribute_code']] =
-            $dropdown['option_1']['admin_option_name'];
+        $simpleWithAttributes['general_user_attr']['dropdown'][$dropDown['attribute_code']] =
+            $dropDown['option_1']['admin_option_name'];
         $simpleWithAttributes['general_user_attr']['field'][$price['attribute_code']] = '999';
-        $simpleWithAttributes['general_user_attr']['multiselect'][$multiselect['attribute_code']] =
-            $multiselect['option_2']['admin_option_name'];
-        $simpleWithoutAttributes =
+        $simpleWithAttributes['general_user_attr']['multiselect'][$multiSelect['attribute_code']] =
+            $multiSelect['option_2']['admin_option_name'];
+        $simpleWithoutAttrs =
             $this->loadDataSet('Product', 'simple_product_visible', array('categories' => $anchorCategoryPath));
         //Steps
         $this->loginAdminUser();
@@ -63,7 +63,7 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
         }
         //Creating attributes
         $this->navigate('manage_attributes');
-        foreach (array($dropdown, $multiselect, $price) as $attribute) {
+        foreach (array($dropDown, $multiSelect, $price) as $attribute) {
             $this->productAttributeHelper()->createAttribute($attribute);
             $this->assertMessagePresent('success', 'success_saved_attribute');
         }
@@ -73,17 +73,17 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
         $this->assertMessagePresent('success', 'success_attribute_set_saved');
         //Creating products
         $this->navigate('manage_products');
-        foreach (array($simpleWithAttributes, $simpleWithoutAttributes) as $product) {
+        foreach (array($simpleWithAttributes, $simpleWithoutAttrs) as $product) {
             $this->productHelper()->createProduct($product);
             $this->assertMessagePresent('success', 'success_saved_product');
         }
 
         return array('simpleAnchor'          => $simpleWithAttributes['general_name'],
-                     'simpleNonAnchor'       => $simpleWithoutAttributes['general_name'],
-                     'multiselectOptionName' => $multiselect['option_2']['store_view_titles']['Default Store View'],
-                     'dropdownOptionName'    => $dropdown['option_1']['store_view_titles']['Default Store View'],
-                     'multiselectCode'       => $multiselect['attribute_code'],
-                     'dropdownCode'          => $dropdown['attribute_code'],
+                     'simpleNonAnchor'       => $simpleWithoutAttrs['general_name'],
+                     'multiselectOptionName' => $multiSelect['option_2']['store_view_titles']['Default Store View'],
+                     'dropdownOptionName'    => $dropDown['option_1']['store_view_titles']['Default Store View'],
+                     'multiselectCode'       => $multiSelect['attribute_code'],
+                     'dropdownCode'          => $dropDown['attribute_code'],
                      'priceCode'             => $price['attribute_code'],
                      'anchorCategory'        => $anchorCategory['name'],
                      'anchorSubCategory'     => $anchorSubCategory['name'],

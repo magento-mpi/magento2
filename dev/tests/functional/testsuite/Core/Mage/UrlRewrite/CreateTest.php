@@ -571,8 +571,8 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->addParameter('subName', $categoryData['name']);
         $this->clickControl('link', 'sub_category', false);
         $this->waitForPageToLoad();
-        $id = $this->defineParameterFromUrl('category', null);
-        $this->addParameter('id', $id);
+        $categoryId = $this->defineParameterFromUrl('category', null);
+        $this->addParameter('id', $categoryId);
         $currentPage = $this->_findCurrentPageFromUrl();
         $this->setCurrentPage($currentPage);
         //Loading data from data file

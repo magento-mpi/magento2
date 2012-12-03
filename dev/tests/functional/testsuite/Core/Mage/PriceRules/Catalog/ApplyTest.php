@@ -93,7 +93,7 @@ class Core_Mage_PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
             array('conditions' => $condition, 'status' => 'Active', 'actions' => $action));
         $override = array('product_name' => $testData['simpleName'], 'category'     => $testData['categoryName']);
         $productPriceLogged = $this->loadDataSet('PriceReview', $ruleType . '_simple_product_logged');
-        $productPriceNotLogged = $this->loadDataSet('PriceReview', $ruleType . '_simple_product_not_logged');
+        $prodPriceNotLogged = $this->loadDataSet('PriceReview', $ruleType . '_simple_product_not_logged');
         $inCategoryLogged = $this->loadDataSet('PriceReview', $ruleType . '_simple_logged_category', $override);
         $inCategoryNotLogged = $this->loadDataSet('PriceReview', $ruleType . '_simple_not_logged_category', $override);
         //Steps
@@ -111,7 +111,7 @@ class Core_Mage_PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
         $this->frontend();
         $this->categoryHelper()->frontOpenCategoryAndValidateProduct($inCategoryNotLogged);
         $this->productHelper()->frontOpenProduct($testData['simpleName']);
-        $this->categoryHelper()->frontVerifyProductPrices($productPriceNotLogged, $testData['simpleName']);
+        $this->categoryHelper()->frontVerifyProductPrices($prodPriceNotLogged, $testData['simpleName']);
         $this->customerHelper()->frontLoginCustomer($testData['customer']);
         $this->categoryHelper()->frontOpenCategoryAndValidateProduct($inCategoryLogged);
         $this->productHelper()->frontOpenProduct($testData['simpleName']);

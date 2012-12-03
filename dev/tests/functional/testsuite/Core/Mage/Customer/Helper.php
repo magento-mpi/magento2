@@ -39,14 +39,14 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_AbstractHelper
         for ($i = $addressCount; $i > 0; $i--) {
             $this->addParameter('index', $i);
             $this->clickControl('pageelement', 'list_customer_address_index', false);
-            $id = $this->getControlAttribute('pageelement', 'list_customer_address_index', 'id');
-            $arrayId = explode('_', $id);
-            $id = end($arrayId);
-            $this->addParameter('address_number', $id);
+            $value = $this->getControlAttribute('pageelement', 'list_customer_address_index', 'id');
+            $arrayId = explode('_', $value);
+            $value = end($arrayId);
+            $this->addParameter('address_number', $value);
             $this->waitForElementVisible($this->_getControlXpath('fieldset', 'edit_address'));
             if ($this->verifyForm($addressData, 'addresses')) {
                 $this->clearMessages('verification');
-                return $id;
+                return $value;
             }
         }
         $this->clearMessages('verification');

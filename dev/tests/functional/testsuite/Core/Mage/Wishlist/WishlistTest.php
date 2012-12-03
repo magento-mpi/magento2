@@ -67,9 +67,9 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
                   'associated_2' => $virtual['general_sku'],
                   'associated_3' => $download['general_sku']));
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $configurableOptionName = $attrData['option_1']['store_view_titles']['Default Store View'];
+        $configurOptName = $attrData['option_1']['store_view_titles']['Default Store View'];
         $customOptions = $this->loadDataSet('Product', 'custom_options_data');
-        $simpleWithCustomOptions =
+        $simpleWithCO =
             $this->loadDataSet('Product', 'simple_product_visible', array('categories'          => $catPath,
                                                                           'custom_options_data' => $customOptions));
         //Steps and Verification
@@ -102,7 +102,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->createProduct($grouped, 'grouped');
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->createProduct($simpleWithCustomOptions);
+        $this->productHelper()->createProduct($simpleWithCO);
         $this->assertMessagePresent('success', 'success_saved_product');
 
         $this->navigate('manage_customers');
@@ -119,7 +119,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
                                                    'grouped'          => $grouped['general_name'],
                                                    'downloadable_opt' => $downloadWithOption['general_name']),
                      'configurableOption' => array('title'                 => $attrData['admin_title'],
-                                                   'custom_option_dropdown'=> $configurableOptionName),
+                                                   'custom_option_dropdown'=> $configurOptName),
                      'groupedOption'      => array('subProduct_1' => $simple['general_name'],
                                                    'subProduct_2' => $virtual['general_name'],
                                                    'subProduct_3' => $download['general_name']),
@@ -129,7 +129,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
                                                    'subProduct_4' => $virtual['general_name']),
                      'user'               => array('email'    => $userData['email'],
                                                    'password' => $userData['password']),
-                     'withCustomOption'   => $simpleWithCustomOptions['general_name'],
+                     'withCustomOption'   => $simpleWithCO['general_name'],
                      'catName'            => $category['name'],
                      'catPath'            => $catPath);
     }

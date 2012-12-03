@@ -94,9 +94,9 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
             $pageName = $rootCat;
         }
         $isCategoriesPage = $this->isCategoriesPage();
-        list($id) = $correctRoot;
-        $this->focusOnElement($this->getElement('id=' . $id));
-        $this->clickOnElement($id);
+        list($categoryId) = $correctRoot;
+        $this->focusOnElement($this->getElement('id=' . $categoryId));
+        $this->clickOnElement($categoryId);
         if ($isCategoriesPage) {
             $this->pleaseWait();
             $openedPageName = $this->getControlAttribute('pageelement', 'category_name_header', 'text');
@@ -313,13 +313,13 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
     {
         $this->frontOpenCategory($category);
         $this->addParameter('productName', $productName);
-        $i = 1;
+        $value = 1;
         for (; ;) {
             if ($this->controlIsPresent('pageelement', 'product_name_header')) {
-                return $i;
+                return $value;
             } elseif ($this->controlIsPresent('link', 'next_page')) {
-                $i++;
-                $this->addParameter('categoryParam', '?p=' . $i);
+                $value++;
+                $this->addParameter('categoryParam', '?p=' . $value);
                 $this->navigate('category_page_index');
             } else {
                 return false;

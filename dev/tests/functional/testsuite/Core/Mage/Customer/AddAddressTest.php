@@ -18,7 +18,7 @@
  */
 class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
 {
-    protected static $_customerTitleParameter = '';
+    protected static $_clientTitleParam = '';
 
     /**
      * <p>Preconditions:</p>
@@ -28,7 +28,7 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('manage_customers');
-        $this->addParameter('elementTitle', self::$_customerTitleParameter);
+        $this->addParameter('elementTitle', self::$_clientTitleParam);
     }
 
     /**
@@ -41,7 +41,7 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
         //Data
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         $searchData = $this->loadDataSet('Customers', 'search_customer', array('email' => $userData['email']));
-        self::$_customerTitleParameter = $userData['first_name'] . ' ' . $userData['last_name'];
+        self::$_clientTitleParam = $userData['first_name'] . ' ' . $userData['last_name'];
         //Steps
         $this->customerHelper()->createCustomer($userData);
         //Verifying
@@ -108,7 +108,6 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
             $fieldXpath .= "/ancestor::div[@class='multi-input']";
         }
         $this->addParameter('fieldXpath', $fieldXpath);
-
         $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }

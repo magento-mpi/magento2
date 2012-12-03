@@ -87,8 +87,8 @@ class Core_Mage_Installation_Helper extends Mage_Selenium_AbstractHelper
         $this->assertMessageNotPresent('error');
         // 'Configuration' page
         $this->validatePage('configuration');
-        $db = (isset($configuration['database_type'])) ? $configuration['database_type'] : '';
-        $this->fillDropdown('database_type', $db);
+        $dataBase = (isset($configuration['database_type'])) ? $configuration['database_type'] : '';
+        $this->fillDropdown('database_type', $dataBase);
         $this->addParameter('dbType',
             strtolower($this->getControlAttribute('dropdown', 'database_type', 'selectedValue')));
         $this->fillForm($configuration);

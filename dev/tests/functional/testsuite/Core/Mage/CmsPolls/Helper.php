@@ -143,15 +143,15 @@ class Core_Mage_CmsPolls_Helper extends Mage_Selenium_AbstractHelper
 
         $answersCount = $this->getControlCount('fieldset', 'assigned_answers_set');
         if (count($answers) == $answersCount) {
-            $i = 1;
+            $param = 1;
             foreach ($answers as $value) {
-                $this->addParameter('index', $i);
+                $this->addParameter('index', $param);
                 $this->addParameter('elementXpath', $this->_getControlXpath('fieldset', 'assigned_answers_set'));
                 $attId = $this->getControlAttribute('pageelement', 'element_index', 'id');
                 $answerId = explode("_", $attId);
                 $this->addParameter('answerId', end($answerId));
                 $this->assertTrue($this->verifyForm($value, 'poll_answers'), $this->getParsedMessages());
-                $i++;
+                $param++;
             }
         } else {
             $this->fail("Unexpected count of answers: " . count($answers) . "!= $answersCount");

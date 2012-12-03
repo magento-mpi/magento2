@@ -300,12 +300,12 @@ class Core_Mage_FlatCatalog_FlatCatalogTest extends Mage_Selenium_TestCase
     public function flatCategoryListMode($listMode, $testData)
     {
         //Data
-        $flatCatalogDataListMode =
+        $flCatalogDataList =
             $this->loadDataSet('FlatCatalog', 'flat_catalog_frontend', array('list_mode' => $listMode));
         $this->addParameter('productName', $testData['simple']);
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($flatCatalogDataListMode);
+        $this->systemConfigurationHelper()->configure($flCatalogDataList);
         $this->goToArea('frontend');
         $this->categoryHelper()->frontOpenCategory($testData['catName']);
         //Verification

@@ -191,9 +191,9 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_AbstractHelper
      * Delete group from attribute set
      *
      * @param array $attributeGroup Array which contains groups to delete
-     * @param bool $isCorrectConfirmation Verification for alert message
+     * @param bool $isCorrectConfirm Verification for alert message
      */
-    public function deleteGroup($attributeGroup, $isCorrectConfirmation = true)
+    public function deleteGroup($attributeGroup, $isCorrectConfirm = true)
     {
         foreach ($attributeGroup as $value) {
             $this->addParameter('folderName', $value);
@@ -203,7 +203,7 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_AbstractHelper
                 if ($this->alertIsPresent()) {
                     $text = $this->alertText();
                     $this->acceptAlert();
-                    if ($isCorrectConfirmation) {
+                    if ($isCorrectConfirm) {
                         if ($text != $this->getCurrentUimapPage()->findMessage('delete_group')) {
                             $this->addVerificationMessage('The alert text is incorrect: ' . $text);
                         }

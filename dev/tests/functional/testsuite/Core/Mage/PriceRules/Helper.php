@@ -132,7 +132,7 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
             }
         }
         $returnOptionsNesting = self::$_optionsNesting;
-        $returnQtyOptionsNesting = self::$_qtyOptionsNesting;
+        $retQtyOptsNesting = self::$_qtyOptionsNesting;
         $returnOptionsQty = self::$_optionsQty;
         if ($fillArray) {
             $this->fillConditionFields($fillArray, $tabId, $isNested);
@@ -144,7 +144,7 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
             }
         }
         self::$_optionsNesting = $returnOptionsNesting;
-        self::$_qtyOptionsNesting = $returnQtyOptionsNesting;
+        self::$_qtyOptionsNesting = $retQtyOptsNesting;
         self::$_optionsQty = $returnOptionsQty;
     }
 

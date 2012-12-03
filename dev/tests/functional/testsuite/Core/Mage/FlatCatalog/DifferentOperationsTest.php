@@ -85,9 +85,9 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
                 'associated_2' => $virtual['general_sku'],
                 'associated_3' => $download['general_sku']));
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $configurableOptionName = $attrData['option_1']['store_view_titles']['Default Store View'];
+        $configurOptionName = $attrData['option_1']['store_view_titles']['Default Store View'];
         $customOptions = $this->loadDataSet('Product', 'custom_options_data');
-        $simpleWithCustomOptions =
+        $simpleWithCO =
             $this->loadDataSet('Product', 'simple_product_visible', array('categories' => $catPath,
                 'custom_options_data' => $customOptions));
         //Steps
@@ -125,7 +125,7 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
-        $this->productHelper()->createProduct($simpleWithCustomOptions);
+        $this->productHelper()->createProduct($simpleWithCO);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->navigate('manage_customers');
@@ -143,7 +143,7 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
             'grouped'      => $grouped['general_name']),
             'configurableOption' => array(
                 'title'                  => $attrData['admin_title'],
-                'custom_option_dropdown' => $configurableOptionName
+                'custom_option_dropdown' => $configurOptionName
             ),
             'groupedOption' => array(
                 'subProduct_1' => $simple['general_name'],
@@ -160,7 +160,7 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
                 'email' => $userData['email'],
                 'password' => $userData['password']
             ),
-            'withCustomOption' => $simpleWithCustomOptions['general_name'],
+            'withCustomOption' => $simpleWithCO['general_name'],
             'catName'          => $category['name'],
             'catPath'          => $catPath
         );

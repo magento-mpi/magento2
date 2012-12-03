@@ -41,21 +41,21 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_AbstractHelper
         }
         $columnQty = $this->getControlCount('pageelement', 'table_column');
         $returnData = array();
-        $y = 1;
+        $dataY = 1;
         for ($i = 1; $i <= $columnQty; $i++) {
             $this->addParameter('index', $i);
             if ($this->controlIsPresent('pageelement', 'table_column_index_colspan')) {
                 $text = $this->getControlAttribute('pageelement', 'table_column_index', 'text');
                 $qtyColspan = $this->getControlAttribute('pageelement', 'table_column_index', 'colspan');
                 if ($isExlAndInclInHead && $qtyColspan == 2) {
-                    $returnData[$y] = $text . self::EXCLTAX;
-                    $returnData[$y + 1] = $text . self::INCLTAX;
+                    $returnData[$dataY] = $text . self::EXCLTAX;
+                    $returnData[$dataY + 1] = $text . self::INCLTAX;
                 } else {
-                    $returnData[$y] = $text;
+                    $returnData[$dataY] = $text;
                 }
-                $y = $y + $qtyColspan;
+                $dataY = $dataY + $qtyColspan;
             } else {
-                $returnData[$y++] = $this->getControlAttribute('pageelement', 'table_column_index', 'text');
+                $returnData[$dataY++] = $this->getControlAttribute('pageelement', 'table_column_index', 'text');
             }
         }
         $returnData = array_diff($returnData, array(''));

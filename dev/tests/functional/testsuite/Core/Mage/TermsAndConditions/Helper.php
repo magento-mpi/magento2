@@ -52,8 +52,8 @@ class Core_Mage_TermsAndConditions_Helper extends Mage_Selenium_AbstractHelper
         }
         $xpathTR = $this->search($searchTerms, 'sales_checkout_terms_and_conditions_grid');
         $this->assertNotEquals(null, $xpathTR, 'Terms is not found');
-        $id = $this->getColumnIdByName('Condition Name');
-        $param = trim($this->getElement($xpathTR . '//td[' . $id . ']')->text());
+        $termId = $this->getColumnIdByName('Condition Name');
+        $param = trim($this->getElement($xpathTR . '//td[' . $termId . ']')->text());
         $this->addParameter('elementTitle', $param);
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
         $this->getElement($xpathTR)->click();
@@ -77,9 +77,9 @@ class Core_Mage_TermsAndConditions_Helper extends Mage_Selenium_AbstractHelper
      */
     public function deleteAllTerms()
     {
-        $id = $this->getColumnIdByName('Condition Name');
+        $termId = $this->getColumnIdByName('Condition Name');
         while (!$this->controlIsPresent('message', 'no_records_found')) {
-            $this->addParameter('columnId', $id);
+            $this->addParameter('columnId', $termId);
             $this->addParameter('elementTitle',
                 $this->getControlAttribute('pageelement', 'select_terms_in_grid', 'text'));
             $this->clickControl('pageelement', 'select_terms_in_grid');

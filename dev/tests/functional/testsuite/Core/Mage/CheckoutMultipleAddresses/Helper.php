@@ -109,12 +109,12 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
         $this->validatePage('checkout_multishipping_success_order');
         if ($this->controlIsPresent('link', 'all_order_number')) {
             $count = $this->getControlCount('link', 'all_order_number');
-            $id = array();
+            $valueId = array();
             for ($i = 1; $i <= $count; $i++) {
                 $this->addParameter('index', $i);
                 $id[] = $this->getControlAttribute('link', 'all_order_number_index', 'text');
             }
-            return $id;
+            return $valueId;
         }
         return $this->formOrderIdsArray($this->getControlAttribute('message', 'message_with_order_ids', 'text'));
     }
@@ -276,13 +276,13 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
         $this->assertMultipleCheckoutPageOpened('shipping_information');
 
         $actualShippingCount = $this->getControlCount('pageelement', 'shipping_methods_forms');
-        $expectedShippingCount = count($shippingData);
-        $this->assertEquals($expectedShippingCount, $actualShippingCount,
-            'Order should contains ' . $expectedShippingCount . ' shipping addresses but contains '
+        $expectShipCount = count($shippingData);
+        $this->assertEquals($expectShipCount, $actualShippingCount,
+            'Order should contains ' . $expectShipCount . ' shipping addresses but contains '
             . $actualShippingCount);
 
         //Get actual addresses for shipping methods and Headers
-        $headerAddresses = $this->defineAddresses('shipping', $expectedShippingCount);
+        $headerAddresses = $this->defineAddresses('shipping', $expectShipCount);
         foreach ($shippingData as $oneAddressData) {
             $address = (isset($oneAddressData['address'])) ? $oneAddressData['address'] : array();
             $shipping = (isset($oneAddressData['shipping'])) ? $oneAddressData['shipping'] : array();
@@ -312,14 +312,14 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
 
     /**
      * @param string $addressType
-     * @param int $expectedShippingCount
+     * @param int $expectShipCount
      *
      * @return array
      */
-    public function defineAddresses($addressType = 'billing', $expectedShippingCount = 1)
+    public function defineAddresses($addressType = 'billing', $expectShipCount = 1)
     {
         $headerAddresses = array();
-        for ($z = 1; $z <= $expectedShippingCount; $z++) {
+        for ($z = 1; $z <= $expectShipCount; $z++) {
             $this->addParameter('number', $z);
             if (!$this->controlIsPresent('pageelement', $addressType . '_method_address')) {
                 continue;
@@ -578,10 +578,10 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
         $this->assertEmptyVerificationErrors();
         //Get Shipping Addresses Data
         $ordersData = array();
-        $i = 1;
+        $value = 1;
         foreach ($orderHeaders as $header) {
             $this->addParameter('addressHeader', $header);
-            $ordersData['address_' . $i++] = $this->getOrderDataForAddress();
+            $ordersData['address_' . $value++] = $this->getOrderDataForAddress();
         }
         if (empty($verifyPrices)) {
             //Remove Prices

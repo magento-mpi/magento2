@@ -638,16 +638,16 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 'Product must be contains ' . $needCount . 'Tier Price(s), but contains ' . $rowQty);
             return false;
         }
-        $i = 0;
+        $identificator = 0;
         foreach ($tierPriceData as $value) {
-            $this->addParameter('tierPriceId', $i);
+            $this->addParameter('tierPriceId', $identificator);
             if (isset($value['prices_tier_price_website'])
                 && !$this->controlIsVisible('dropdown', 'prices_tier_price_website')
             ) {
                 unset($value['prices_tier_price_website']);
             }
             $this->verifyForm($value, 'prices');
-            $i++;
+            $identificator++;
         }
         return true;
     }
@@ -783,13 +783,13 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             return false;
         }
 
-        $i = 0;
+        $identificator = 0;
         foreach ($bundleData as $option => $values) {
             if (is_string($values)) {
                 $this->verifyForm(array($option => $values), 'bundle_items');
             }
             if (is_array($values)) {
-                $this->addParameter('optionId', $i);
+                $this->addParameter('optionId', $identificator);
                 $this->verifyForm($values, 'bundle_items');
                 foreach ($values as $k => $v) {
                     if (preg_match('/^add_product_/', $k) && is_array($v)) {
@@ -807,12 +807,13 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                                 }
                             }
                         }
-                        $k = $i + 1;
+                        $k = $identificator + 1;
                         $this->addParameter('productSku', $productSku);
                         $this->addParameter('index', $k);
                         if (!$this->controlIsPresent('pageelement', 'bundle_item_grid_index_product')) {
                             $this->addVerificationMessage(
-                                "Product with sku(name)'" . $productSku . "' is not assigned to bundle item $i");
+                                "Product with sku(name)'" . $productSku . "
+                                ' is not assigned to bundle item $identificator");
                         } else {
                             if ($selectionSettings) {
                                 $this->addParameter('productSku', $productSku);
@@ -821,7 +822,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                         }
                     }
                 }
-                $i++;
+                $identificator++;
             }
         }
         return true;
@@ -845,11 +846,11 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 'Product must be contains ' . $needCount . ' Downloadable ' . $type . '(s), but contains ' . $rowQty);
             return false;
         }
-        $i = 0;
+        $identificator = 0;
         foreach ($optionsData as $value) {
-            $this->addParameter('rowId', $i);
+            $this->addParameter('rowId', $identificator);
             $this->verifyForm($value, 'downloadable_information');
-            $i++;
+            $identificator++;
         }
         return true;
     }
@@ -1013,28 +1014,38 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $allowedQty = ($allowedQty == null) ? '1' : $allowedQty;
         $this->addParameter('price', $allowedQty);
         $xpathArray['Quantity'] = $this->_getControlXpath('pageelement', 'qty');
-        $i = 0;
+        $identificator = 0;
         foreach ($productData['custom_options_data'] as $value) {
             $title = $value['custom_options_general_title'];
             $optionType = $value['custom_options_general_input_type'];
-            $xpathArray['custom_options']['option_' . $i]['title'] = $title;
-            $xpathArray['custom_options']['option_' . $i]['type'] = $optionType;
+            $xpathArray['custom_options']['option_' . $identificator]['title'] = $title;
+            $xpathArray['custom_options']['option_' . $identificator]['type'] = $optionType;
             $this->addParameter('title', $title);
             if ($value['custom_options_general_input_type'] == 'Drop-down'
                 || $value['custom_options_general_input_type'] == 'Multiple Select'
             ) {
-                $someArr = $this->_formXpathForCustomOptionsRows($value, $priceToCalc, $i, 'custom_option_select');
+                $someArr = $this->_formXpathForCustomOptionsRows(
+                    $value,
+                    $priceToCalc,
+                    $identificator,
+                    'custom_option_select'
+                );
                 $xpathArray = array_merge_recursive($xpathArray, $someArr);
             } elseif ($value['custom_options_general_input_type'] == 'Radio Buttons'
                       || $value['custom_options_general_input_type'] == 'Checkbox'
             ) {
-                $someArr = $this->_formXpathForCustomOptionsRows($value, $priceToCalc, $i, 'custom_option_check');
+                $someArr = $this->_formXpathForCustomOptionsRows(
+                    $value,
+                    $priceToCalc,
+                    $identificator,
+                    'custom_option_check'
+                );
                 $xpathArray = array_merge_recursive($xpathArray, $someArr);
             } else {
-                $someArr = $this->_formXpathesForFieldsArray($value, $i, $priceToCalc);
+                $someArr = $this->_formXpathesForFieldsArray($value, $identificator, $priceToCalc);
                 $xpathArray = array_merge_recursive($xpathArray, $someArr);
             }
-            $i++;
+            $identificator++;
         }
         return $xpathArray;
     }

@@ -81,8 +81,8 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
         // Defining and adding %fieldSetId% for Uimap pages.
         $tabUimap = $this->_getActiveTabUimap();
         list($activeFieldsetName) = $tabUimap->getFieldsetNames();
-        $id = explode('_', $this->getControlAttribute('fieldset', $activeFieldsetName, 'id'));
-        foreach ($id as $value) {
+        $identificator = explode('_', $this->getControlAttribute('fieldset', $activeFieldsetName, 'id'));
+        foreach ($identificator as $value) {
             if (is_numeric($value)) {
                 $fieldSetId = $value;
                 $this->addParameter('tabId', $fieldSetId);
@@ -238,10 +238,10 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
         $this->openTab('manage_labels_options');
         $optionLines = $this->getControlElements('pageelement', 'option_line');
         $optionCount = count($optionLines);
-        $i = 0;
+        $identificator = 0;
         foreach ($attributeData as $key => $value) {
             if ($this->_hasOptions($key, $value, $optionCount)) {
-                $options[$i++] = $value;
+                $options[$identificator++] = $value;
                 $optionCount--;
                 unset($attributeData[$key]);
             }

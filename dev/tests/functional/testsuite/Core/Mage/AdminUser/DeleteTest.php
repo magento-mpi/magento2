@@ -62,17 +62,17 @@ class Core_Mage_AdminUser_DeleteTest extends Mage_Selenium_TestCase
     {
         //Data
         $searchData = $this->loadDataSet('AdminUsers', 'search_admin_user');
-        $searchDataCurrentUser = array();
+        $searchCurrentUser = array();
         //Steps
         $this->navigate('my_account');
         $this->assertTrue($this->checkCurrentPage('my_account'), $this->getParsedMessages());
         foreach ($searchData as $key => $value) {
-            $searchDataCurrentUser[$key] = $this->getControlAttribute('field', $key, 'value');
+            $searchCurrentUser[$key] = $this->getControlAttribute('field', $key, 'value');
         }
         $this->navigate('manage_admin_users');
         $this->addParameter('elementTitle',
-            $searchDataCurrentUser['first_name'] . ' ' . $searchDataCurrentUser['last_name']);
-        $this->searchAndOpen($searchDataCurrentUser, 'permissionsUserGrid');
+            $searchCurrentUser['first_name'] . ' ' . $searchCurrentUser['last_name']);
+        $this->searchAndOpen($searchCurrentUser, 'permissionsUserGrid');
         //Verifying
         $this->clickButtonAndConfirm('delete_user', 'confirmation_for_delete');
         //Verifying

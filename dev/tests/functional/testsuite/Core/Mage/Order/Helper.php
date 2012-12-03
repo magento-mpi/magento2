@@ -149,9 +149,9 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
         //@TODO
         //Remove workaround for getting fails, not skipping tests if payment methods are inaccessible
         $this->paypalHelper()->verifyMagentoPayPalErrors();
-        $id = $this->defineOrderId();
+        $value = $this->defineOrderId();
         $this->validatePage();
-        return $id;
+        return $value;
     }
 
     /**
