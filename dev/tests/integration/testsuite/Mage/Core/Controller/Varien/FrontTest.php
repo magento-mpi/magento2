@@ -12,18 +12,24 @@
 class Mage_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * Test request path for rewrite
+     */
+    const REWRITE_PATH = 'test_rewrite_path';
+
+    /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
      * @var Mage_Core_Controller_Varien_Front
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Mage_Core_Controller_Varien_Front');
-    }
-
-    protected function tearDown()
-    {
-        $this->_model = null;
+        $this->_objectManager = Mage::getObjectManager();
+        $this->_model = $this->_objectManager->create('Mage_Core_Controller_Varien_Front');
     }
 
     public function testSetGetDefault()
@@ -114,17 +120,80 @@ class Mage_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testRewrite()
+    /**
+     * Data provider for testApplyRewrites
+     *
+     * @return array
+     */
+    public function applyRewritesDataProvider()
     {
-        $route      = $this->_model->getRequest()->getRouteName();
-        $controller = $this->_model->getRequest()->getControllerName();
-        $action     = $this->_model->getRequest()->getActionName();
+        return array(
+            'url rewrite' => array(
+                '$sourcePath'   => '/' . self::REWRITE_PATH,
+                '$resultPath'   => null, // result path is set in test
+                '$isUrlRewrite' => true,
+            ),
+            'configuration rewrite' => array(
+                '$sourcePath'   => '/test/url/',
+                '$resultPath'   => '/new_test/url/subdirectory/',
+            ),
+        );
+    }
 
-        $this->_model->rewrite();
+    /**
+     * @param string $sourcePath
+     * @param string $resultPath
+     * @param bool $isUrlRewrite
+     *
+     * @dataProvider applyRewritesDataProvider
+     * @magentoConfigFixture global/rewrite/test_url/from /test\/(\w*)/
+     * @magentoConfigFixture global/rewrite/test_url/to   new_test/$1/subdirectory
+     * @magentoDbIsolation enabled
+     */
+    public function testApplyRewrites($sourcePath, $resultPath, $isUrlRewrite = false)
+    {
+        if ($isUrlRewrite) {
+            $resultPath = $this->_createUrlRewrite();
+            if (!$resultPath) {
+                $this->markTestIncomplete('There must be at least one CMS page');
+            }
+        }
 
-        $this->assertEquals($route, $this->_model->getRequest()->getRouteName());
-        $this->assertEquals($controller, $this->_model->getRequest()->getControllerName());
-        $this->assertEquals($action, $this->_model->getRequest()->getActionName());
-        $this->markTestIncomplete('Requires an URL rewrite fixture.');
+        /** @var $request Mage_Core_Controller_Request_Http */
+        $request = $this->_objectManager->create('Mage_Core_Controller_Request_Http');
+        $request->setPathInfo($sourcePath);
+
+        $this->_model->applyRewrites($request);
+        $this->assertEquals($resultPath, $request->getPathInfo());
+    }
+
+    /**
+     * Creates new URL rewrite for random CMS page and returns rewrite target path
+     *
+     * @return null|string
+     */
+    protected function _createUrlRewrite()
+    {
+        // get random CMS page
+        /** @var $collection Mage_Cms_Model_Resource_Page_Collection */
+        $collection = $this->_objectManager->create('Mage_Cms_Model_Resource_Page_Collection');
+        $collection->getSelect()->limit(1);
+        $items = $collection->getItems();
+        if (!$items) {
+            return null;
+        }
+        /** @var $page Mage_Cms_Model_Page */
+        $page = reset($items);
+
+        // create URL rewrite
+        /** @var $rewrite Mage_Core_Model_Url_Rewrite */
+        $rewrite = $this->_objectManager->create('Mage_Core_Model_Url_Rewrite');
+        $targetPath = 'cms/page/view/page_id/' . $page->getId();
+        $rewrite->setIdPath('cms_page/' . $page->getId())
+            ->setRequestPath(self::REWRITE_PATH)
+            ->setTargetPath($targetPath)
+            ->save();
+
+        return $targetPath;
     }
 }

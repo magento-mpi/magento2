@@ -4,6 +4,7 @@
  *
  * @category    Mage
  * @package     Mage_DesignEditor
+ * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
