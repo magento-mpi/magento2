@@ -29,7 +29,6 @@ class Mage_Selenium_TestConfigurationTest extends Unit_PHPUnit_TestCase
      */
     public function testGetHelper()
     {
-        $this->assertInstanceOf('Mage_Selenium_Helper_Cache', $this->_testConfig->getHelper('cache'));
         $this->assertInstanceOf('Mage_Selenium_Helper_Config', $this->_testConfig->getHelper('config'));
         $this->assertInstanceOf('Mage_Selenium_Helper_Data', $this->_testConfig->getHelper('data'));
         $this->assertInstanceOf('Mage_Selenium_Helper_DataGenerator', $this->_testConfig->getHelper('dataGenerator'));
@@ -37,9 +36,6 @@ class Mage_Selenium_TestConfigurationTest extends Unit_PHPUnit_TestCase
         $this->assertInstanceOf('Mage_Selenium_Helper_Params', $this->_testConfig->getHelper('params'));
         $this->assertInstanceOf('Mage_Selenium_Helper_Uimap', $this->_testConfig->getHelper('uimap'));
         $this->assertInstanceOf('Mage_Selenium_Helper_Uimap', $this->_testConfig->getHelper('Uimap'));
-
-        $sameValue = $this->_testConfig->getHelper('cache');
-        $this->assertEquals($sameValue, $this->_testConfig->getHelper('cache'));
     }
 
     /**

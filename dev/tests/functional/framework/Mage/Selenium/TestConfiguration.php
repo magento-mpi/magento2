@@ -75,12 +75,6 @@ class Mage_Selenium_TestConfiguration
     protected $_dataGeneratorHelper = null;
 
     /**
-     * Cache helper instance
-     * @var Mage_Selenium_Helper_Cache
-     */
-    protected $_cacheHelper = null;
-
-    /**
      * Array of files paths to fixtures
      * @var array
      */
@@ -217,9 +211,9 @@ class Mage_Selenium_TestConfiguration
     /**
      * Get $helperName helper instance
      *
-     * @param string $helperName cache|config|data|dataGenerator|file|params|uimap
+     * @param string $helperName config|data|dataGenerator|file|params|uimap
      *
-     * @return Mage_Selenium_Helper_Uimap|Mage_Selenium_Helper_Params|Mage_Selenium_Helper_File|Mage_Selenium_Helper_DataGenerator|Mage_Selenium_Helper_Data|Mage_Selenium_Helper_Config|Mage_Selenium_Helper_Cache
+     * @return Mage_Selenium_Helper_Uimap|Mage_Selenium_Helper_Params|Mage_Selenium_Helper_File|Mage_Selenium_Helper_DataGenerator|Mage_Selenium_Helper_Data|Mage_Selenium_Helper_Config
      * @throws OutOfRangeException
      */
     //@codingStandardsIgnoreEnd

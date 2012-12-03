@@ -56,17 +56,6 @@ framework:
     load_all_uimaps: true
     load_all_data: false
     browserTimeoutPeriod: 40
-    cache:
-        frontend:
-            name: 'core'
-            options:
-                caching: false
-                cache_id_prefix: 'selenium_'
-                automatic_serialization: true
-        backend:
-            name: 'file'
-            options:
-                cache_dir: 'var/cache'
 ################################################################################
 #                                                                              #
 #                  Applications for running tests                              #
