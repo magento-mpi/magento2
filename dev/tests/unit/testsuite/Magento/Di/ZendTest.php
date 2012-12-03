@@ -600,7 +600,9 @@ class Magento_Di_ZendTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($constructParameters));
 
         $instanceManager = $this->getMock(
-            'Magento_Di_InstanceManager_Zend', array('hasAlias', 'getClassFromAlias', 'hasSharedInstance', 'getSharedInstance')
+            'Magento_Di_InstanceManager_Zend', array('hasAlias', 'getClassFromAlias', 'hasSharedInstance',
+                'getSharedInstance'
+            )
         );
         $instanceManager->expects($this->any())
             ->method('hasAlias')

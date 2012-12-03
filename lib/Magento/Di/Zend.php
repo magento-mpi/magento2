@@ -11,7 +11,9 @@
 use Zend\Di\Exception;
 /**
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
- * @todo Need decrease ExcessiveClassComplexity of this class, it will be implemented in MAGETWO-3861
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @todo Need decrease ExcessiveClassComplexity and CouplingBetweenObjects of this class,
+ * @todo it will be implemented in MAGETWO-3861
  */
 class Magento_Di_Zend extends Zend\Di\Di implements Magento_Di
 {

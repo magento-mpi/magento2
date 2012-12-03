@@ -56,7 +56,7 @@ interface Magento_ObjectManager
     public function removeSharedInstance($classOrAlias);
 
     /**
-     * Check whether instance manager has shared instance of given class (alias)
+     * Check whether object manager has shared instance of given class (alias)
      *
      * @param string $classOrAlias
      * @return bool
