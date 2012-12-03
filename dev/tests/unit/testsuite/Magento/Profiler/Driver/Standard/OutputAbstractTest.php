@@ -38,6 +38,7 @@ class Magento_Profiler_Driver_Standard_OutputAbstractStatTest extends PHPUnit_Fr
         $thresholdKey = Magento_Profiler_Driver_Standard_Stat::TIME;
         $this->_output->setThreshold($thresholdKey, 100);
         $thresholds = PHPUnit_Util_Class::getObjectAttribute($this->_output, '_thresholds');
+        $this->assertArrayHasKey($thresholdKey, $thresholds);
         $this->assertEquals(100, $thresholds[$thresholdKey]);
 
         $this->_output->setThreshold($thresholdKey, null);

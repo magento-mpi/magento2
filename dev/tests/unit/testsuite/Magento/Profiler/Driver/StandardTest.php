@@ -36,7 +36,6 @@ class Magento_Profiler_Driver_StandardTest extends PHPUnit_Framework_TestCase
     public function testConstructor()
     {
         $this->assertAttributeEquals($this->_stat, '_stat', $this->_driver);
-        $this->assertAttributeEquals($this->_stat, '_stat', $this->_driver);
         $this->_driver = new Magento_Profiler_Driver_Standard();
         $this->assertAttributeInstanceOf('Magento_Profiler_Driver_Standard_Stat', '_stat', $this->_driver);
     }
