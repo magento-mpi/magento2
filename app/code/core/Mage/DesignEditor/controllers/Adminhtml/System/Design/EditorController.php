@@ -68,10 +68,20 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     /**
      * Ajax loading available themes
      */
-    public function availableThemesAction()
+    public function loadThemeListAction()
     {
+        $page = $this->getRequest()->getParam('page', false) ?: 1;
+
         $this->loadLayout();
-        $this->renderLayout();
+
+        /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
+        $collection = Mage::getObjectManager()->create('Mage_Core_Model_Resource_Theme_Collection');
+        $collection->addAreaFilter()->setPageSize()->setCurPage($page);
+
+        $this->getLayout()->getBlock('available.theme.list')->setCollection($collection)->setNextPage(++$page);
+        $this->getResponse()->setBody(
+            Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array('content' => $this->getLayout()->getOutput()))
+        );
     }
 
     /**
