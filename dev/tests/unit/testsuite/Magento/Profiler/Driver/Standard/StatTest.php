@@ -29,18 +29,18 @@ class Magento_Profiler_Driver_Standard_StatTest extends PHPUnit_Framework_TestCa
     public function testActions(array $actions, array $expected)
     {
         foreach ($actions as $actionData) {
-            list($action, $timerName, $time, $realMemory, $emallocMemory) = array_values($actionData);
-            $this->_executeTimerAction($action, $timerName, $time, $realMemory, $emallocMemory);
+            list($action, $timerId, $time, $realMemory, $emallocMemory) = array_values($actionData);
+            $this->_executeTimerAction($action, $timerId, $time, $realMemory, $emallocMemory);
         }
 
         if (empty($expected)) {
             $this->fail("\$expected mustn't be empty");
         }
 
-        foreach ($expected as $timerName => $expectedTimer) {
-            $actualTimer = $this->_stat->get($timerName);
-            $this->assertInternalType('array', $actualTimer, "Timer '$timerName' must be an array");
-            $this->assertEquals($expectedTimer, $actualTimer, "Timer '$timerName' has unexpected value");
+        foreach ($expected as $timerId => $expectedTimer) {
+            $actualTimer = $this->_stat->get($timerId);
+            $this->assertInternalType('array', $actualTimer, "Timer '$timerId' must be an array");
+            $this->assertEquals($expectedTimer, $actualTimer, "Timer '$timerId' has unexpected value");
         }
     }
 
@@ -136,59 +136,59 @@ class Magento_Profiler_Driver_Standard_StatTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * Test get method with invalid timer name
+     * Test get method with invalid timer id
      *
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage Timer "unknown_timer" doesn't exist.
      */
-    public function testGetWithInvalidTimerName()
+    public function testGetWithInvalidTimer()
     {
         $this->_stat->get('unknown_timer');
     }
 
     /**
-     * Test stop method with invalid timer name
+     * Test stop method with invalid timer id
      *
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage Timer "unknown_timer" doesn't exist.
      */
-    public function testStopWithInvalidTimerName()
+    public function testStopWithInvalidTimer()
     {
         $this->_stat->stop('unknown_timer', 1, 2, 3);
     }
 
     /**
-     * Test reset method
+     * Test clear method
      */
-    public function testReset()
+    public function testClear()
     {
         $this->_stat->start('timer1', 1, 20, 10);
         $this->_stat->start('timer2', 2, 20, 10);
         $this->_stat->start('timer3', 3, 20, 10);
         $this->assertAttributeCount(3, '_timers', $this->_stat);
 
-        $this->_stat->reset('timer1');
+        $this->_stat->clear('timer1');
         $this->assertAttributeCount(2, '_timers', $this->_stat);
 
-        $this->_stat->reset();
+        $this->_stat->clear();
         $this->assertAttributeEmpty('_timers', $this->_stat);
     }
 
     /**
-     * Test getFilteredTimerNames for sorting
+     * Test getFilteredTimerIds for sorting
      *
      * @dataProvider timersSortingDataProvider
      * @param array $timers
-     * @param array $expectedTimerNames
+     * @param array $expectedTimerIds
      */
-    public function testTimersSorting($timers, $expectedTimerNames)
+    public function testTimersSorting($timers, $expectedTimerIds)
     {
         foreach ($timers as $timerData) {
-            list($action, $timerName) = $timerData;
-            $this->_executeTimerAction($action, $timerName);
+            list($action, $timerId) = $timerData;
+            $this->_executeTimerAction($action, $timerId);
         }
 
-        $this->assertEquals($expectedTimerNames, $this->_stat->getFilteredTimerNames());
+        $this->assertEquals($expectedTimerIds, $this->_stat->getFilteredTimerIds());
     }
 
     /**
@@ -255,22 +255,22 @@ class Magento_Profiler_Driver_Standard_StatTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * Test getFilteredTimerNames for filtering
+     * Test getFilteredTimerIds for filtering
      *
      * @dataProvider timersFilteringDataProvider
      * @param array $timers
      * @param array $thresholds
      * @param string $filterPattern
-     * @param array $expectedTimerNames
+     * @param array $expectedTimerIds
      */
-    public function testTimersFiltering($timers, $thresholds, $filterPattern, $expectedTimerNames)
+    public function testTimersFiltering($timers, $thresholds, $filterPattern, $expectedTimerIds)
     {
         foreach ($timers as $timerData) {
-            list($action, $timerName, $time, $realMemory, $emallocMemory) = array_pad(array_values($timerData), 5, 0);
-            $this->_executeTimerAction($action, $timerName, $time, $realMemory, $emallocMemory);
+            list($action, $timerId, $time, $realMemory, $emallocMemory) = array_pad(array_values($timerData), 5, 0);
+            $this->_executeTimerAction($action, $timerId, $time, $realMemory, $emallocMemory);
         }
 
-        $this->assertEquals($expectedTimerNames, $this->_stat->getFilteredTimerNames($thresholds, $filterPattern));
+        $this->assertEquals($expectedTimerIds, $this->_stat->getFilteredTimerIds($thresholds, $filterPattern));
     }
 
     /**
@@ -324,16 +324,16 @@ class Magento_Profiler_Driver_Standard_StatTest extends PHPUnit_Framework_TestCa
     public function testFetch($timers, $expects)
     {
         foreach ($timers as $timerData) {
-            list($action, $timerName, $time, $realMemory, $emallocMemory) = array_pad(array_values($timerData), 5, 0);
-            $this->_executeTimerAction($action, $timerName, $time, $realMemory, $emallocMemory);
+            list($action, $timerId, $time, $realMemory, $emallocMemory) = array_pad(array_values($timerData), 5, 0);
+            $this->_executeTimerAction($action, $timerId, $time, $realMemory, $emallocMemory);
         }
         foreach ($expects as $expectedData) {
             /** @var bool|int|PHPUnit_Framework_Constraint $expectedValue */
-            list($timerName, $key, $expectedValue) = array_values($expectedData);
+            list($timerId, $key, $expectedValue) = array_values($expectedData);
             if ($expectedValue instanceof PHPUnit_Framework_Constraint) {
-                $expectedValue->evaluate($this->_stat->fetch($timerName, $key));
+                $expectedValue->evaluate($this->_stat->fetch($timerId, $key));
             } else {
-                $this->assertEquals($expectedValue, $this->_stat->fetch($timerName, $key));
+                $this->assertEquals($expectedValue, $this->_stat->fetch($timerId, $key));
             }
         }
     }
@@ -351,22 +351,22 @@ class Magento_Profiler_Driver_Standard_StatTest extends PHPUnit_Framework_TestCa
                 ),
                 'expects' => array(
                     array(
-                        'timerName' => 'root',
+                        'timerId' => 'root',
                         'key' => Magento_Profiler_Driver_Standard_Stat::START,
                         'expectedValue' => false
                     ),
                     array(
-                        'timerName' => 'root',
+                        'timerId' => 'root',
                         'key' => Magento_Profiler_Driver_Standard_Stat::TIME,
                         'expectedValue' => 1000
                     ),
                     array(
-                        'timerName' => 'root',
+                        'timerId' => 'root',
                         'key' => Magento_Profiler_Driver_Standard_Stat::REALMEM,
                         'expectedValue' => 500
                     ),
                     array(
-                        'timerName' => 'root',
+                        'timerId' => 'root',
                         'key' => Magento_Profiler_Driver_Standard_Stat::EMALLOC,
                         'expectedValue' => 10
                     ),
@@ -380,7 +380,7 @@ class Magento_Profiler_Driver_Standard_StatTest extends PHPUnit_Framework_TestCa
                     array('stop', 'root', 'time' => 30),
                 ),
                 'expects' => array(array(
-                    'timerName' => 'root',
+                    'timerId' => 'root',
                     'key' => Magento_Profiler_Driver_Standard_Stat::AVG,
                     'expectedValue' => 10
                 ))
@@ -390,12 +390,12 @@ class Magento_Profiler_Driver_Standard_StatTest extends PHPUnit_Framework_TestCa
                     array('start', 'root', 'time' => 0),
                 ),
                 'expects' => array(array(
-                    'timerName' => 'root',
+                    'timerId' => 'root',
                     'key' => Magento_Profiler_Driver_Standard_Stat::TIME,
                     'expectedValue' => $this->greaterThan(microtime(true))
                 ), array(
-                    'timerName' => 'root',
-                    'key' => Magento_Profiler_Driver_Standard_Stat::NAME,
+                    'timerId' => 'root',
+                    'key' => Magento_Profiler_Driver_Standard_Stat::ID,
                     'expectedValue' => 'root'
                 ))
             ),
@@ -406,7 +406,7 @@ class Magento_Profiler_Driver_Standard_StatTest extends PHPUnit_Framework_TestCa
      * @expectedException InvalidArgumentException
      * @expectedMessage Timer "foo" doesn't exist.
      */
-    public function testFetchInvalidTimerName()
+    public function testFetchInvalidTimer()
     {
         $this->_stat->fetch('foo', 'bar');
     }
@@ -425,19 +425,19 @@ class Magento_Profiler_Driver_Standard_StatTest extends PHPUnit_Framework_TestCa
      * Executes stop or start methods on $_stat object
      *
      * @param string $action
-     * @param string $timerName
+     * @param string $timerId
      * @param int $time
      * @param int $realMemory
      * @param int $emallocMemory
      */
-    protected function _executeTimerAction($action, $timerName, $time = 0, $realMemory = 0, $emallocMemory = 0)
+    protected function _executeTimerAction($action, $timerId, $time = 0, $realMemory = 0, $emallocMemory = 0)
     {
         switch ($action) {
             case 'start':
-                $this->_stat->start($timerName, $time, $realMemory, $emallocMemory);
+                $this->_stat->start($timerId, $time, $realMemory, $emallocMemory);
                 break;
             case 'stop':
-                $this->_stat->stop($timerName, $time, $realMemory, $emallocMemory);
+                $this->_stat->stop($timerId, $time, $realMemory, $emallocMemory);
                 break;
             default:
                 $this->fail("Unexpected action '$action'");

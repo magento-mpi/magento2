@@ -11,7 +11,7 @@ abstract class Magento_Profiler_Driver_Standard_OutputAbstract
     implements Magento_Profiler_Driver_Standard_OutputInterface
 {
     /**
-     * PCRE Regular Expression for filter timer by name
+     * PCRE Regular Expression for filter timer by id
      *
      * @var null|string
      */
@@ -26,6 +26,20 @@ abstract class Magento_Profiler_Driver_Standard_OutputAbstract
         Magento_Profiler_Driver_Standard_Stat::TIME => 0.001,
         Magento_Profiler_Driver_Standard_Stat::COUNT => 10,
         Magento_Profiler_Driver_Standard_Stat::EMALLOC => 10000,
+    );
+
+    /**
+     * List of columns to output
+     *
+     * @var array
+     */
+    protected $_columns = array(
+        'Timer Id' => Magento_Profiler_Driver_Standard_Stat::ID,
+        'Time'     => Magento_Profiler_Driver_Standard_Stat::TIME,
+        'Avg'      => Magento_Profiler_Driver_Standard_Stat::AVG,
+        'Cnt'      => Magento_Profiler_Driver_Standard_Stat::COUNT,
+        'Emalloc'  => Magento_Profiler_Driver_Standard_Stat::EMALLOC,
+        'RealMem'  => Magento_Profiler_Driver_Standard_Stat::REALMEM,
     );
 
     /**
@@ -56,23 +70,6 @@ abstract class Magento_Profiler_Driver_Standard_OutputAbstract
     }
 
     /**
-     * Retrieve the list of (column_label; column_id) pairs
-     *
-     * @return array
-     */
-    protected function _getColumns()
-    {
-        return array(
-            'Timer Id' => Magento_Profiler_Driver_Standard_Stat::NAME,
-            'Time'     => Magento_Profiler_Driver_Standard_Stat::TIME,
-            'Avg'      => Magento_Profiler_Driver_Standard_Stat::AVG,
-            'Cnt'      => Magento_Profiler_Driver_Standard_Stat::COUNT,
-            'Emalloc'  => Magento_Profiler_Driver_Standard_Stat::EMALLOC,
-            'RealMem'  => Magento_Profiler_Driver_Standard_Stat::REALMEM,
-        );
-    }
-
-    /**
      * Render statistics column value for specified timer
      *
      * @param mixed $value
@@ -82,8 +79,8 @@ abstract class Magento_Profiler_Driver_Standard_OutputAbstract
     protected function _renderColumnValue($value, $columnKey)
     {
         switch ($columnKey) {
-            case Magento_Profiler_Driver_Standard_Stat::NAME:
-                $result = $this->_renderTimerName($value);
+            case Magento_Profiler_Driver_Standard_Stat::ID:
+                $result = $this->_renderTimerId($value);
                 break;
             case Magento_Profiler_Driver_Standard_Stat::TIME:
             case Magento_Profiler_Driver_Standard_Stat::AVG:
@@ -96,27 +93,14 @@ abstract class Magento_Profiler_Driver_Standard_OutputAbstract
     }
 
     /**
-     * Render timer name
+     * Render timer id
      *
-     * @param string $timerName
+     * @param string $timerId
      * @return string
      */
-    protected function _renderTimerName($timerName)
+    protected function _renderTimerId($timerId)
     {
-        return $timerName;
-    }
-
-    /**
-     * Retrieve the list of timer names from timer statistics object.
-     *
-     * Timer names will be ordered and filtered by thresholds and name filter pattern.
-     *
-     * @param Magento_Profiler_Driver_Standard_Stat $stat
-     * @return array
-     */
-    protected function _getTimerNames(Magento_Profiler_Driver_Standard_Stat $stat)
-    {
-        return $stat->getFilteredTimerNames($this->_thresholds, $this->_filterPattern);
+        return $timerId;
     }
 
     /**
@@ -131,5 +115,18 @@ abstract class Magento_Profiler_Driver_Standard_OutputAbstract
             memory_get_usage(true),
             memory_get_usage()
         );
+    }
+
+    /**
+     * Retrieve the list of timer ids from timer statistics object.
+     *
+     * Timer ids will be ordered and filtered by thresholds and filter pattern.
+     *
+     * @param Magento_Profiler_Driver_Standard_Stat $stat
+     * @return array
+     */
+    protected function _getTimerIds(Magento_Profiler_Driver_Standard_Stat $stat)
+    {
+        return $stat->getFilteredTimerIds($this->_thresholds, $this->_filterPattern);
     }
 }

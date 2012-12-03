@@ -2,7 +2,10 @@
 /**
  * Pinba profiler driver.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Magento_Profiler_Driver_Pinba implements Magento_Profiler_DriverInterface
 {
@@ -53,17 +56,17 @@ class Magento_Profiler_Driver_Pinba implements Magento_Profiler_DriverInterface
     }
 
     /**
-     * Reset collected statistics for specified timer or for whole profiler if timer name is omitted.
+     * Clear collected statistics for specified timer or for whole profiler if timer id is omitted.
      *
      * @param string|null $timerId
      *
      * @return mixed
      */
-    public function reset($timerId = null)
+    public function clear($timerId = null)
     {
         if (is_null($timerId)) {
             foreach (array_keys($this->_startedTimers) as $startedTimerId) {
-                $this->reset($startedTimerId);
+                $this->clear($startedTimerId);
             }
         } elseif (isset($this->_startedTimers[$timerId])) {
             pinba_timer_delete($this->_startedTimers[$timerId]);

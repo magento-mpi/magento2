@@ -38,36 +38,36 @@ class Magento_Profiler_Driver_Standard implements Magento_Profiler_DriverInterfa
     }
 
     /**
-     * Reset collected statistics for specified timer or for whole profiler if timer name is omitted
+     * Clear collected statistics for specified timer or for whole profiler if timer id is omitted
      *
-     * @param string|null $timerName
+     * @param string|null $timerId
      */
-    public function reset($timerName = null)
+    public function clear($timerId = null)
     {
-        $this->_stat->reset($timerName);
+        $this->_stat->clear($timerId);
     }
 
     /**
      * Start collecting statistics for specified timer
      *
-     * @param string $timerName
+     * @param string $timerId
      * @param array|null $tags
      * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function start($timerName, array $tags = null)
+    public function start($timerId, array $tags = null)
     {
-        $this->_stat->start($timerName, microtime(true), memory_get_usage(true), memory_get_usage());
+        $this->_stat->start($timerId, microtime(true), memory_get_usage(true), memory_get_usage());
     }
 
     /**
      * Stop recording statistics for specified timer.
      *
-     * @param string $timerName
+     * @param string $timerId
      */
-    public function stop($timerName)
+    public function stop($timerId)
     {
-        $this->_stat->stop($timerName, microtime(true), memory_get_usage(true), memory_get_usage());
+        $this->_stat->stop($timerId, microtime(true), memory_get_usage(true), memory_get_usage());
     }
 
     /**

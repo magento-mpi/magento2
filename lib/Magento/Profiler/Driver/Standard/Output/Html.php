@@ -20,15 +20,15 @@ class Magento_Profiler_Driver_Standard_Output_Html extends Magento_Profiler_Driv
         $out[] = '<table border="1" cellspacing="0" cellpadding="2">';
         $out[] = '<caption>' . $this->_renderCaption() . '</caption>';
         $out[] = '<tr>';
-        foreach (array_keys($this->_getColumns()) as $columnLabel) {
+        foreach (array_keys($this->_columns) as $columnLabel) {
             $out[] = '<th>' . $columnLabel . '</th>';
         }
         $out[] = '</tr>';
-        foreach ($this->_getTimerNames($stat) as $timerName) {
+        foreach ($this->_getTimerIds($stat) as $timerId) {
             $out[] = '<tr>';
-            foreach ($this->_getColumns() as $key) {
-                $out[] = '<td title="' . $timerName . '">'
-                    . $this->_renderColumnValue($stat->fetch($timerName, $key), $key)
+            foreach ($this->_columns as $column) {
+                $out[] = '<td title="' . $timerId . '">'
+                    . $this->_renderColumnValue($stat->fetch($timerId, $column), $column)
                     . '</td>';
             }
             $out[] = '</tr>';
@@ -40,14 +40,14 @@ class Magento_Profiler_Driver_Standard_Output_Html extends Magento_Profiler_Driv
     }
 
     /**
-     * Render timer name column value
+     * Render timer id column value
      *
-     * @param string $timerName
+     * @param string $timerId
      * @return string
      */
-    protected function _renderTimerName($timerName)
+    protected function _renderTimerId($timerId)
     {
         $nestingSep = preg_quote(Magento_Profiler::NESTING_SEPARATOR, '/');
-        return preg_replace('/.+?' . $nestingSep . '/', '&middot;&nbsp;&nbsp;', $timerName);
+        return preg_replace('/.+?' . $nestingSep . '/', '&middot;&nbsp;&nbsp;', $timerId);
     }
 }

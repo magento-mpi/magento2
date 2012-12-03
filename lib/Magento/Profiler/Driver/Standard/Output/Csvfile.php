@@ -57,7 +57,7 @@ class Magento_Profiler_Driver_Standard_Output_Csvfile extends Magento_Profiler_D
         while ($lockRequired && !$isLocked) {
             $isLocked = flock($fileHandle, LOCK_EX);
         }
-        $this->_writeFileContent($stat, $fileHandle);
+        $this->_writeFileContent($fileHandle, $stat);
         if ($isLocked) {
             flock($fileHandle, LOCK_UN);
         }
@@ -67,15 +67,15 @@ class Magento_Profiler_Driver_Standard_Output_Csvfile extends Magento_Profiler_D
     /**
      * Write content into an opened file handle
      *
-     * @param Magento_Profiler_Driver_Standard_Stat $stat
      * @param resource $fileHandle
+     * @param Magento_Profiler_Driver_Standard_Stat $stat
      */
-    protected function _writeFileContent(Magento_Profiler_Driver_Standard_Stat $stat, $fileHandle)
+    protected function _writeFileContent($fileHandle, Magento_Profiler_Driver_Standard_Stat $stat)
     {
-        foreach ($this->_getTimerNames($stat) as $timerName) {
+        foreach ($this->_getTimerIds($stat) as $timerName) {
             $row = array();
-            foreach ($this->_getColumns() as $key) {
-                $row[] = $this->_renderColumnValue($stat->fetch($timerName, $key), $key);
+            foreach ($this->_columns as $column) {
+                $row[] = $this->_renderColumnValue($stat->fetch($timerName, $column), $column);
             }
             fputcsv($fileHandle, $row, $this->_delimiter, $this->_enclosure);
         }

@@ -2,7 +2,10 @@
 /**
  * Unit Test for Pinba profiler driver.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Magento_Profiler_Driver_PinbaTest extends PHPUnit_Framework_TestCase
 {
@@ -41,23 +44,23 @@ class Magento_Profiler_Driver_PinbaTest extends PHPUnit_Framework_TestCase
         $this->assertAttributeCount(0, '_startedTimers', $this->_driver);
     }
 
-    public function testResetSingle()
+    public function testClearSingle()
     {
         $this->_driver->start('timer1');
         $this->_driver->start('timer2');
         $this->assertAttributeCount(2, '_startedTimers', $this->_driver);
 
-        $this->_driver->reset('timer1');
+        $this->_driver->clear('timer1');
         $this->assertAttributeCount(1, '_startedTimers', $this->_driver);
     }
 
-    public function testResetAll()
+    public function testClearAll()
     {
         $this->_driver->start('timer1');
         $this->_driver->start('timer2');
         $this->assertAttributeCount(2, '_startedTimers', $this->_driver);
 
-        $this->_driver->reset();
+        $this->_driver->clear();
         $this->assertAttributeCount(0, '_startedTimers', $this->_driver);
     }
 }
