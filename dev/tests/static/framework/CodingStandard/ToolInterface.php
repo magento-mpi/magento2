@@ -28,7 +28,7 @@ interface CodingStandard_ToolInterface
      * @param array $blackList Files/directories to be excluded from the inspection
      * @param array $extensions Array of alphanumeric strings, for example: 'php', 'xml', 'phtml', 'css'...
      *
-     * @return bool
+     * @return int
      */
     public function run(array $whiteList, array $blackList = array(), array $extensions = array());
 }
