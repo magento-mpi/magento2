@@ -96,34 +96,19 @@ class Mage_Backend_Block_System_Config_Tabs extends Mage_Backend_Block_Widget
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
-        Varien_Data_Collection_Factory $collectionFactory,
-        Varien_Object_Factory $objectFactory,
         Mage_Backend_Model_Config_Structure $configStructure,
         array $data = array()
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
             $session, $storeConfig, $frontController, $helperFactory, $data
         );
-        $this->_collectionFactory = $collectionFactory;
-        $this->_objectFactory = $objectFactory;
-
         $this->_tabs = $configStructure->getTabs();
 
         $this->setId('system_config_tabs');
         $this->setTitle($this->helper('Mage_Backend_Helper_Data')->__('Configuration'));
-    }
-
-    /**
-     * Init block before rendering
-     *
-     * @return Mage_Core_Block_Abstract|void
-     */
-    protected function _beforeToHtml()
-    {
         $this->_currentSectionId = $this->getRequest()->getParam('section');
 
         $this->helper('Mage_Backend_Helper_Data')->addPageHelpUrl($this->getRequest()->getParam('section') . '/');
-        return $this;
     }
 
     /**
