@@ -11,7 +11,7 @@
 
 require __DIR__ . '/../../Catalog/_files/product_simple_xss.php';
 
-$review = new Mage_Review_Model_Review();
+$review = Mage::getModel('Mage_Review_Model_Review');
 $review->setEntityId($review->getEntityIdByCode(Mage_Review_Model_Review::ENTITY_PRODUCT_CODE))
     ->setEntityPkValue(1) // the last product from the fixture file included above
     ->setStatusId(Mage_Review_Model_Review::STATUS_PENDING)
