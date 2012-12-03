@@ -42,6 +42,7 @@ class Mage_Webapi_Controller_Response_RestTest extends PHPUnit_Framework_TestCas
             $helperMock,
             $this->_appMock
         );
+        $this->_responseRest->headersSentThrowsException = false;
         parent::setUp();
     }
 
@@ -129,9 +130,9 @@ class Mage_Webapi_Controller_Response_RestTest extends PHPUnit_Framework_TestCas
         /** Start output buffering. */
         ob_start();
         $this->_responseRest->sendResponse();
-        /** Get output buffer and stop output buffering. */
-        $actualResponse = ob_get_contents();
+        /** Clear output buffering. */
         ob_end_clean();
+        $actualResponse = $this->_responseRest->getBody();
         $this->assertEquals($expectedResult, $actualResponse, $assertMessage);
     }
 
@@ -165,9 +166,9 @@ class Mage_Webapi_Controller_Response_RestTest extends PHPUnit_Framework_TestCas
         /** Start output buffering. */
         ob_start();
         $this->_responseRest->sendResponse();
-        /** Get output buffer and stop output buffering. */
-        $actualResponse = ob_get_contents();
+        /** Clear output buffering. */
         ob_end_clean();
+        $actualResponse = $this->_responseRest->getBody();
         $this->assertStringStartsWith($expectedResult, $actualResponse, $assertMessage);
     }
 
