@@ -70,7 +70,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
      */
     public function loadThemeListAction()
     {
-        $page = $this->getRequest()->getParam('page', false) ?: 1;
+        $page = $this->getRequest()->getParam('page', 1);
 
         $this->loadLayout();
 
@@ -98,8 +98,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         try {
             $theme->load($themeId);
             if (!$theme->getId()) {
-                $this->_objectManager->get('Mage_Core_Model_Logger')
-                    ->throwException($this->__('The theme was not found.'));
+                Mage::throwException($this->__('The theme was not found.'));
             }
             $session->activateDesignEditor();
             $session->setThemeId($theme->getId());

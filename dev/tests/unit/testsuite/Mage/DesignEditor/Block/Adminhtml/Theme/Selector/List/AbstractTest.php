@@ -39,8 +39,8 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_AbstractTest
     public function getSampleCollection()
     {
         return array(array(array(
-                array('first_item'),
-                array('second_item')
+            array('first_item'),
+            array('second_item')
         )));
     }
 }
