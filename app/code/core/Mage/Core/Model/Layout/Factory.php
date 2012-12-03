@@ -36,16 +36,15 @@ class Mage_Core_Model_Layout_Factory
         // the only way how we can replace default layout object with custom one is to save instance of custom layout
         // to instance manager storage using default layout class name as alias
         $createLayout = true;
-
-        if ($this->_objectManager->hasSharedInstance(self::CLASS_NAME)) {
-            /** @var $layout Mage_Core_Model_Layout */
-            $layout = $this->_objectManager->get(self::CLASS_NAME);
-            if ((isset($arguments['area']) && $arguments['area'] != $layout->getArea())
-                || $className != get_class($layout)
-            ) {
-                $this->_objectManager->removeSharedInstance(self::CLASS_NAME);
-            } else {
-                $createLayout = false;
+        if (isset($arguments['area'])) {
+            if ($this->_objectManager->hasSharedInstance(self::CLASS_NAME)) {
+                /** @var $layout Mage_Core_Model_Layout */
+                $layout = $this->_objectManager->get(self::CLASS_NAME);
+                if ($arguments['area'] != $layout->getArea()) {
+                    $this->_objectManager->removeSharedInstance(self::CLASS_NAME);
+                } else {
+                    $createLayout = false;
+                }
             }
         }
         if ($createLayout) {

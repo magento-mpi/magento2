@@ -98,12 +98,7 @@ class Mage_Core_Model_Layout_FactoryTest extends PHPUnit_Framework_TestCase
 
     public function testCreateLayoutNew()
     {
-        $this->_objectManager->expects($this->once())
-            ->method('hasSharedInstance')
-            ->with(self::CLASS_NAME)
-            ->will($this->returnValue(false));
-
-        $modelLayout = $this->getMock(self::CLASS_NAME, array('getArea'), array(), '', false);
+        $modelLayout = $this->getMock(self::CLASS_NAME, array(), array(), '', false);
 
         $this->_objectManager->expects($this->once())
             ->method('create')
@@ -114,7 +109,7 @@ class Mage_Core_Model_Layout_FactoryTest extends PHPUnit_Framework_TestCase
             ->method('addSharedInstance')
             ->with($modelLayout, self::CLASS_NAME);
 
-        $this->_objectManager->expects($this->at(3))
+        $this->_objectManager->expects($this->at(2))
             ->method('get')
             ->with(self::CLASS_NAME)
             ->will($this->returnValue($modelLayout));
@@ -156,6 +151,6 @@ class Mage_Core_Model_Layout_FactoryTest extends PHPUnit_Framework_TestCase
             ->with(self::CLASS_NAME)
             ->will($this->returnValue($modelLayout));
 
-        $this->assertEquals($modelLayout, $this->_model->createLayout($this->_arguments, get_class($modelLayout)));
+        $this->assertEquals($modelLayout, $this->_model->createLayout($this->_arguments));
     }
 }
