@@ -165,6 +165,9 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
      */
     public function isVisible()
     {
+        if (!$this->isAllowed()) {
+            return false;
+        }
         if ($this->_application->isSingleStoreMode()) {
             return !(isset($this->_data['hide_in_single_store_mode']) && $this->_data['hide_in_single_store_mode']);
         }

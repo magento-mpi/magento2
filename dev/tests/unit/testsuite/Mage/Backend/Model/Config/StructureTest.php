@@ -112,6 +112,19 @@ class Mage_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($elementMock, $this->_model->getElement('section_1/group_level_1/field_3'));
     }
 
+    public function testGetFirstSectionReturnsFirstAllowedSection()
+    {
+        $tabMock = $this->getMock(
+            'Mage_Backend_Model_Config_Structure_Element_Tab', array('current', 'getChildren', 'rewind'), array(), '', false
+        );
+        $tabMock->expects($this->any())->method('getChildren')->will($this->returnSelf());
+        $tabMock->expects($this->once())->method('rewind');
+        $tabMock->expects($this->once())->method('current')->will($this->returnValue('currentSection'));
+        $this->_tabIteratorMock->expects($this->once())->method('rewind');
+        $this->_tabIteratorMock->expects($this->once())->method('current')->will($this->returnValue($tabMock));
+        $this->assertEquals('currentSection', $this->_model->getFirstSection());
+    }
+
     public function testGetElementReturnsProperElementByPathCachesObject()
     {
         $elementMock = $this->getMock('Mage_Backend_Model_Config_Structure_Element_Field', array(), array(), '', false);

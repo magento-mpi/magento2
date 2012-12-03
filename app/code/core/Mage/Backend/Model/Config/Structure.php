@@ -99,6 +99,21 @@ class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_S
     }
 
     /**
+     * Retrieve first available section in config structure
+     *
+     * @return Mage_Backend_Model_Config_Structure_ElementInterface
+     */
+    public function getFirstSection()
+    {
+        $tabs = $this->getTabs();
+        $tabs->rewind();
+        /** @var $tab Mage_Backend_Model_Config_Structure_Element_Tab */
+        $tab = $tabs->current();
+        $tab->getChildren()->rewind();
+        return $tab->getChildren()->current();
+    }
+
+    /**
      * Find element by path parts
      *
      * @param array $pathParts

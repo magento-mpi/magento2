@@ -111,16 +111,24 @@ class Mage_Backend_Model_Config_Structure_ElementAbstractTest extends PHPUnit_Fr
         $this->assertTrue($this->_model->isAllowed());
     }
 
+    public function testIsVisibleReturnsFalseIfElementIsNotAllowed()
+    {
+        $this->assertFalse($this->_model->isVisible());
+    }
+
     public function testIsVisibleReturnsTrueInSingleStoreModeForNonHiddenElements()
     {
+        $this->_authorizationMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
         $this->_applicationMock->expects($this->once())->method('isSingleStoreMode')->will($this->returnValue(true));
+        $this->_model->setData(array('resource' => 'Mage_Adminhtml::all'), 'scope');
         $this->assertTrue($this->_model->isVisible());
     }
 
     public function testIsVisibleReturnsFalseInSingleStoreModeForHiddenElements()
     {
+        $this->_authorizationMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
         $this->_applicationMock->expects($this->once())->method('isSingleStoreMode')->will($this->returnValue(true));
-        $this->_model->setData(array('hide_in_single_store_mode' => 1), 'scope');
+        $this->_model->setData(array('hide_in_single_store_mode' => 1, 'resource' => 'Mage_Adminhtml::all'), 'scope');
         $this->assertFalse($this->_model->isVisible());
     }
 
@@ -131,6 +139,7 @@ class Mage_Backend_Model_Config_Structure_ElementAbstractTest extends PHPUnit_Fr
      */
     public function testIsVisibleReturnsTrueForProperScopes($settings, $scope)
     {
+        $this->_authorizationMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
         $this->_model->setData($settings, $scope);
         $this->assertTrue($this->_model->isVisible());
     }
@@ -139,15 +148,15 @@ class Mage_Backend_Model_Config_Structure_ElementAbstractTest extends PHPUnit_Fr
     {
         return array(
             array(
-                array('showInDefault' => 1, 'showInStore' => 0, 'showInWebsite' => 0),
+                array('showInDefault' => 1, 'showInStore' => 0, 'showInWebsite' => 0, 'resource' => 'all'),
                 Mage_Backend_Model_Config_ScopeDefiner::SCOPE_DEFAULT
             ),
             array(
-                array('showInDefault' => 0, 'showInStore' => 1, 'showInWebsite' => 0),
+                array('showInDefault' => 0, 'showInStore' => 1, 'showInWebsite' => 0, 'resource' => 'all'),
                 Mage_Backend_Model_Config_ScopeDefiner::SCOPE_STORE
             ),
             array(
-                array('showInDefault' => 0, 'showInStore' => 0, 'showInWebsite' => 1),
+                array('showInDefault' => 0, 'showInStore' => 0, 'showInWebsite' => 1, 'resource' => 'all'),
                 Mage_Backend_Model_Config_ScopeDefiner::SCOPE_WEBSITE
             ),
         );
@@ -160,6 +169,7 @@ class Mage_Backend_Model_Config_Structure_ElementAbstractTest extends PHPUnit_Fr
      */
     public function testIsVisibleReturnsFalseForNonProperScopes($settings, $scope)
     {
+        $this->_authorizationMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
         $this->_model->setData($settings, $scope);
         $this->assertFalse($this->_model->isVisible());
     }
@@ -168,15 +178,15 @@ class Mage_Backend_Model_Config_Structure_ElementAbstractTest extends PHPUnit_Fr
     {
         return array(
             array(
-                array('showInDefault' => 0, 'showInStore' => 1, 'showInWebsite' => 1),
+                array('showInDefault' => 0, 'showInStore' => 1, 'showInWebsite' => 1, 'resource' => 'all'),
                 Mage_Backend_Model_Config_ScopeDefiner::SCOPE_DEFAULT
             ),
             array(
-                array('showInDefault' => 1, 'showInStore' => 0, 'showInWebsite' => 1),
+                array('showInDefault' => 1, 'showInStore' => 0, 'showInWebsite' => 1, 'resource' => 'all'),
                 Mage_Backend_Model_Config_ScopeDefiner::SCOPE_STORE
             ),
             array(
-                array('showInDefault' => 1, 'showInStore' => 1, 'showInWebsite' => 0),
+                array('showInDefault' => 1, 'showInStore' => 1, 'showInWebsite' => 0, 'resource' => 'all'),
                 Mage_Backend_Model_Config_ScopeDefiner::SCOPE_WEBSITE
             ),
         );
