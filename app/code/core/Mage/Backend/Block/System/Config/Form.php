@@ -366,7 +366,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
             $data = $backendModel->getValue();
         }
 
-        foreach ($field->getDependencies($fieldPrefix) as $dependentId => $dependentValue) {
+        foreach ($field->getDependencies($fieldPrefix, $this->getStoreCode()) as $dependentId => $dependentValue) {
             $fieldNameFrom = $this->_generateElementName($dependentId, null, '_');
             $this->_getDependence()
                 ->addFieldMap($elementId, $elementName)

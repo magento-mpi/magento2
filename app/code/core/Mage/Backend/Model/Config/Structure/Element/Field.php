@@ -323,10 +323,11 @@ class Mage_Backend_Model_Config_Structure_Element_Field
     /**
      * Retrieve field dependencies
      *
-     * @param string $fieldPrefix
+     * @param $fieldPrefix
+     * @param $storeCode
      * @return array
      */
-    public function getDependencies($fieldPrefix)
+    public function getDependencies($fieldPrefix, $storeCode)
     {
         $dependencies = array();
         if (false == isset($this->_data['depends']['fields'])) {
@@ -356,9 +357,9 @@ class Mage_Backend_Model_Config_Structure_Element_Field
             * based on not shown field (not rendered field)
             */
             if (false == $dependentField->isVisible()) {
-                $dependentValueInStore = Mage::getStoreConfig(
-                    $dependentField->getPath($fieldPrefix), $this->getStoreCode()
-                );
+                $dependentValueInStore = $this->_application
+                    ->getStore($storeCode)
+                    ->getConfig($dependentField->getPath($fieldPrefix));
                 if (is_array($dependentValue)) {
                     $shouldBeAddedDependence = !in_array($dependentValueInStore, $dependentValue);
                 } else {

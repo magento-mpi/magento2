@@ -61,6 +61,51 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
      */
     protected $_iteratorMock;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_dependentMock1;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_dependentMock2;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_storeMock;
+
+    /**
+     * Test data
+     *
+     * @var array
+     */
+    protected $_testData = array(
+        'depends' => array(
+            'fields' => array(
+                'field_4' => array(
+                    'id' => 'section_2/group_3/field_4',
+                    'value' => 'someValue',
+                    'dependPath' => array(
+                        'section_2',
+                        'group_3',
+                        'field_4'
+                    )
+                ),
+                'field_1' => array(
+                    'id' => 'section_1/group_3/field_1',
+                    'value' => 'someValue',
+                    'dependPath' => array(
+                        'section_1',
+                        'group_3',
+                        'field_1'
+                    )
+                )
+            )
+        )
+    );
+
     public function setUp()
     {
         $this->_iteratorMock = $this->getMock(
@@ -90,6 +135,15 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
         $this->_structureMock = $this->getMock(
             'Mage_Backend_Model_Config_Structure', array(), array(), '', false
         );
+        $this->_dependentMock1 = $this->getMock(
+            'Mage_Backend_Model_Config_Structure_Element_Field', array(), array(), '', false
+        );
+        $this->_dependentMock2 = $this->getMock(
+            'Mage_Backend_Model_Config_Structure_Element_Field', array(), array(), '', false
+        );
+        $this->_storeMock = $this->getMock(
+            'Mage_Core_Model_Store', array(), array(), '', false
+        );
 
         $this->_model = new Mage_Backend_Model_Config_Structure_Element_Field(
             $this->_factoryHelperMock,
@@ -114,6 +168,10 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
         unset($this->_structureMock);
         unset($this->_factoryHelperMock);
         unset($this->_model);
+        unset($this->_dependentMock1);
+        unset($this->_dependentMock2);
+        unset($this->_storeMock);
+        unset($this->_blockFactoryMock);
     }
 
     public function testGetLabelTranslatesLabelAndPrefix()
@@ -340,5 +398,161 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
             array('subvar1' => 'subval1')
         );
         $this->assertEquals($expected, $this->_model->getOptions());
+    }
+
+    public function testGetDependenciesIsVisibleTrue()
+    {
+        $this->_model->setData($this->_testData, 'default');
+        $this->_dependentMock1->expects($this->any())
+            ->method('isVisible')
+            ->will($this->returnValue(true));
+
+        $dependsValueMap = array(
+            array('section_2/group_3/field_4', $this->_dependentMock1),
+            array('section_1/group_3/field_1', $this->_dependentMock1),
+        );
+        $this->_structureMock->expects($this->any())
+            ->method('getElement')
+            ->will($this->returnValueMap($dependsValueMap));
+
+        $expected = array(
+            'section_2_group_3_field_4' => 'someValue',
+            'section_1_group_3_field_1' => 'someValue',
+        );
+        $this->assertEquals($expected, $this->_model->getDependencies('',''));
+    }
+
+    public function testGetDependenciesIsVisibleFalseValueEqualsToDependentValue()
+    {
+        $this->_model->setData($this->_testData, 'default');
+
+        $dependsValueMap = array(
+            array('section_2/group_3/field_4', $this->_dependentMock1),
+            array('section_1/group_3/field_1', $this->_dependentMock2),
+        );
+        $this->_structureMock->expects($this->any())
+            ->method('getElement')
+            ->will($this->returnValueMap($dependsValueMap));
+
+        $this->_dependentMock1->expects($this->once())
+            ->method('isVisible')
+            ->will($this->returnValue(false));
+        $this->_dependentMock1->expects($this->once())
+            ->method('getPath')
+            ->will($this->returnValue('section_2/group_3/field_4'));
+
+        $this->_dependentMock2->expects($this->once())
+            ->method('isVisible')
+            ->will($this->returnValue(false));
+        $this->_dependentMock2->expects($this->once())
+            ->method('getPath')
+            ->will($this->returnValue('section_1/group_3/field_1'));
+
+        $dependentInStoreValueMap = array(
+            array('section_2/group_3/field_4', 'someValue'),
+            array('section_1/group_3/field_1', 'someValue'),
+        );
+        $this->_storeMock->expects($this->any())
+            ->method('getConfig')
+            ->will($this->returnValueMap($dependentInStoreValueMap));
+
+        $this->_applicationMock->expects($this->any())
+            ->method('getStore')
+            ->will($this->returnValue($this->_storeMock));
+
+        $expected = array();
+
+        $this->assertEquals($expected, $this->_model->getDependencies('',1));
+    }
+
+    public function testGetDependenciesIsVisibleFalseValueNotEqualsToDependentValue()
+    {
+        $this->_model->setData($this->_testData, 'default');
+
+        $dependsValueMap = array(
+            array('section_2/group_3/field_4', $this->_dependentMock1),
+            array('section_1/group_3/field_1', $this->_dependentMock2),
+        );
+        $this->_structureMock->expects($this->any())
+            ->method('getElement')
+            ->will($this->returnValueMap($dependsValueMap));
+
+        $this->_dependentMock1->expects($this->once())
+            ->method('isVisible')
+            ->will($this->returnValue(false));
+        $this->_dependentMock1->expects($this->once())
+            ->method('getPath')
+            ->will($this->returnValue('section_2/group_3/field_4'));
+
+        $this->_dependentMock2->expects($this->once())
+            ->method('isVisible')
+            ->will($this->returnValue(false));
+        $this->_dependentMock2->expects($this->once())
+            ->method('getPath')
+            ->will($this->returnValue('section_1/group_3/field_1'));
+
+        $dependentInStoreValueMap = array(
+            array('section_2/group_3/field_4', 'some_Value'),
+            array('section_1/group_3/field_1', '_someValue'),
+        );
+        $this->_storeMock->expects($this->any())
+            ->method('getConfig')
+            ->will($this->returnValueMap($dependentInStoreValueMap));
+
+        $this->_applicationMock->expects($this->any())
+            ->method('getStore')
+            ->will($this->returnValue($this->_storeMock));
+
+        $expected = array(
+            'section_2_group_3_field_4' => 'someValue',
+            'section_1_group_3_field_1' => 'someValue',
+        );
+
+        $this->assertEquals($expected, $this->_model->getDependencies('',1));
+    }
+
+    public function testGetDependenciesIsVisibleFalseFirstValueEqualsSecondValueNotEqualsToDependentValue()
+    {
+        $this->_model->setData($this->_testData, 'default');
+
+        $dependsValueMap = array(
+            array('section_2/group_3/field_4', $this->_dependentMock1),
+            array('section_1/group_3/field_1', $this->_dependentMock2),
+        );
+        $this->_structureMock->expects($this->any())
+            ->method('getElement')
+            ->will($this->returnValueMap($dependsValueMap));
+
+        $this->_dependentMock1->expects($this->once())
+            ->method('isVisible')
+            ->will($this->returnValue(false));
+        $this->_dependentMock1->expects($this->once())
+            ->method('getPath')
+            ->will($this->returnValue('section_2/group_3/field_4'));
+
+        $this->_dependentMock2->expects($this->once())
+            ->method('isVisible')
+            ->will($this->returnValue(false));
+        $this->_dependentMock2->expects($this->once())
+            ->method('getPath')
+            ->will($this->returnValue('section_1/group_3/field_1'));
+
+        $dependentInStoreValueMap = array(
+            array('section_2/group_3/field_4', 'someValue'),
+            array('section_1/group_3/field_1', '_someValue'),
+        );
+        $this->_storeMock->expects($this->any())
+            ->method('getConfig')
+            ->will($this->returnValueMap($dependentInStoreValueMap));
+
+        $this->_applicationMock->expects($this->any())
+            ->method('getStore')
+            ->will($this->returnValue($this->_storeMock));
+
+        $expected = array(
+            'section_1_group_3_field_1' => 'someValue',
+        );
+
+        $this->assertEquals($expected, $this->_model->getDependencies('',1));
     }
 }
