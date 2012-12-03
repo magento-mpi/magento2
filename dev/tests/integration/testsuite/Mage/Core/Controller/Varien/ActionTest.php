@@ -277,7 +277,12 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
     {
         Mage::getConfig()->setCurrentAreaCode($expectedArea);
         /** @var $controller Mage_Core_Controller_Varien_Action */
-        $controller = Mage::getObjectManager()->create($controllerClass, array('areaCode' => $expectedArea));
+        $controller = Mage::getObjectManager()->create($controllerClass,
+            array(
+                'areaCode' => $expectedArea,
+                'response' => new Magento_Test_Response(),
+            )
+        );
         $controller->preDispatch();
 
         $this->assertEquals($expectedArea, Mage::getDesign()->getArea());
