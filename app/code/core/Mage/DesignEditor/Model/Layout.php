@@ -11,8 +11,22 @@
 /**
  * Model for manipulating layout for purpose of design editor
  */
-class Mage_DesignEditor_Model_Layout
+class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
 {
+    /**
+     * Flag that keeps true in case when we need to sanitize layout blocks
+     *
+     * @var bool
+     */
+    protected $_isSanitizeBlocks = false;
+
+    /**
+     * Is block wrapping enabled flag
+     *
+     * @var bool
+     */
+    protected $_enabledWrapping = false;
+
     /**
      * List of block types considered as "safe"
      *
@@ -57,6 +71,43 @@ class Mage_DesignEditor_Model_Layout
         'root', 'head', 'after_body_start', 'header', 'footer', 'before_body_end',
         'top.links', 'top.menu',
     );
+
+    /**
+     * Block that wrap page elements when wrapping enabled
+     *
+     * @var Mage_DesignEditor_Block_Template
+     */
+    protected $_wrapperBlock;
+
+    /**
+     * Class constructor
+     *
+     * @param Mage_Core_Model_BlockFactory $blockFactory
+     * @param Magento_Data_Structure $structure
+     * @param Mage_Core_Model_Layout_Argument_Processor $argumentProcessor
+     * @param Mage_Core_Model_Layout_Translator $translator
+     * @param Mage_Core_Model_Layout_ScheduledStructure $scheduledStructure
+     * @param Mage_DesignEditor_Block_Template $wrapperBlock
+     * @param string $area
+     * @param bool $isSanitizeBlocks
+     * @param bool $enableWrapping
+     */
+    public function __construct(
+        Mage_Core_Model_BlockFactory $blockFactory,
+        Magento_Data_Structure $structure,
+        Mage_Core_Model_Layout_Argument_Processor $argumentProcessor,
+        Mage_Core_Model_Layout_Translator $translator,
+        Mage_Core_Model_Layout_ScheduledStructure $scheduledStructure,
+        Mage_DesignEditor_Block_Template $wrapperBlock,
+        $area = Mage_Core_Model_Design_Package::DEFAULT_AREA,
+        $isSanitizeBlocks = false,
+        $enableWrapping = false
+    ) {
+        $this->_wrapperBlock     = $wrapperBlock;
+        $this->_isSanitizeBlocks = $isSanitizeBlocks;
+        $this->_enabledWrapping  = $enableWrapping;
+        parent::__construct($blockFactory, $structure, $argumentProcessor, $translator, $scheduledStructure, $area);
+    }
 
     /**
      * Replace all potentially dangerous blocks in layout into stubs
@@ -208,5 +259,79 @@ class Mage_DesignEditor_Model_Layout
             }
             break;
         }
+    }
+
+    /**
+     * Create structure of elements from the loaded XML configuration
+     */
+    public function generateElements()
+    {
+        if ($this->_isSanitizeBlocks) {
+            $this->sanitizeLayout($this->getNode());
+        }
+
+        parent::generateElements();
+    }
+
+    /**
+     * Gets HTML of block element
+     *
+     * @param string $name
+     * @return string
+     * @throws Magento_Exception
+     */
+    protected function _renderBlock($name)
+    {
+        $result = parent::_renderBlock($name);
+
+        if ($this->_enabledWrapping) {
+            $block = $this->getBlock($name);
+            $isManipulationAllowed = $this->isManipulationAllowed($name)
+                && strpos(get_class($block), 'Mage_DesignEditor_Block_') === 0;
+
+            $result = $this->_wrapElement($result, $name, false, $isManipulationAllowed);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Gets HTML of container element
+     *
+     * @param string $name
+     * @return string
+     */
+    protected function _renderContainer($name)
+    {
+        $result = parent::_renderContainer($name);
+
+        if ($this->_enabledWrapping) {
+            $result = $this->_wrapElement($result, $name, true);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Wrap layout element
+     *
+     * @param string $elementContent
+     * @param string $elementName
+     * @param bool $isContainer
+     * @param bool $isManipulationAllowed
+     * @return string
+     */
+    protected function _wrapElement($elementContent, $elementName, $isContainer = false, $isManipulationAllowed = false)
+    {
+        $elementId = 'vde_element_' . rtrim(strtr(base64_encode($elementName), '+/', '-_'), '=');
+        $this->_wrapperBlock->setData(array(
+            'element_id'              => $elementId,
+            'element_title'           => $this->getElementProperty($elementName, 'label') ?: $elementName,
+            'element_html'            => $elementContent,
+            'is_manipulation_allowed' => $isManipulationAllowed,
+            'is_container'            => $isContainer,
+            'element_name'            => $elementName,
+        ));
+        return $this->_wrapperBlock->toHtml();
     }
 }

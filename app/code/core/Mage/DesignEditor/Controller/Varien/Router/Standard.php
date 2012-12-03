@@ -11,6 +11,11 @@
 class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Controller_Varien_Router_Base
 {
     /**
+     * Name of layout class that will be used as main layout
+     */
+    const LAYOUT_CLASS_NAME = 'Mage_DesignEditor_Model_Layout';
+
+    /**
      * @var Mage_Backend_Model_Auth_Session
      */
     protected $_backendSession;
@@ -28,12 +33,20 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
     protected $_excludedRouters = array('admin', 'vde', 'default');
 
     /**
+     * Layout factory
+     *
+     * @var Mage_Core_Model_Layout_Factory
+     */
+    protected $_layoutFactory;
+
+    /**
      * @param Mage_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Magento_ObjectManager $objectManager
      * @param string $areaCode
      * @param string $baseController
      * @param Mage_Backend_Model_Auth_Session $backendSession
      * @param Mage_DesignEditor_Helper_Data $helper
+     * @param Mage_Core_Model_Layout_Factory $layoutFactory
      */
     public function __construct(
         Mage_Core_Controller_Varien_Action_Factory $controllerFactory,
@@ -41,12 +54,14 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
         $areaCode,
         $baseController,
         Mage_Backend_Model_Auth_Session $backendSession,
-        Mage_DesignEditor_Helper_Data $helper
+        Mage_DesignEditor_Helper_Data $helper,
+        Mage_Core_Model_Layout_Factory $layoutFactory
     ) {
         parent::__construct($controllerFactory, $objectManager, $areaCode, $baseController);
 
         $this->_backendSession = $backendSession;
         $this->_helper         = $helper;
+        $this->_layoutFactory  = $layoutFactory;
     }
 
     /**
@@ -78,8 +93,16 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
         $routers = $this->_getMatchedRouters();
         /** @var $router Mage_Core_Controller_Varien_Router_Abstract */
         foreach ($routers as $router) {
+            /** @var $controller Mage_Core_Controller_Front_Action */
             $controller = $router->match($request);
             if ($controller) {
+                /**
+                 * Create layout instance that will be used as main layout for whole system
+                 */
+                $this->_layoutFactory->createLayout(
+                    array('area' => $this->_areaCode),
+                    self::LAYOUT_CLASS_NAME
+                );
                 break;
             }
         }

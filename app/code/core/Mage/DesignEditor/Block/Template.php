@@ -21,6 +21,13 @@
 class Mage_DesignEditor_Block_Template extends Mage_Core_Block_Template
 {
     /**
+     * Path to template file in theme.
+     *
+     * @var string
+     */
+    protected $_template = 'wrapping.phtml';
+
+    /**
      * Check whether highlighting of elements is disabled or not
      *
      * @return bool
