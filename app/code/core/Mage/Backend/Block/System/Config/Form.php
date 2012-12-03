@@ -233,7 +233,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
      */
     protected function _initGroup(Mage_Backend_Model_Config_Structure_Element_Group $group,
         Mage_Backend_Model_Config_Structure_Element_Section $section,
-        Varien_Data_Form $form
+        Varien_Data_Form_Abstract $form
     ) {
         $frontendModelClass = $group->getFrontendModel();
         $fieldsetRenderer = $frontendModelClass ?
@@ -310,17 +310,21 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         // Extends for config data
         $configDataAdditionalGroups = array();
 
-        /** @var $field Mage_Backend_Model_Config_Structure_Element_Field */
-        foreach ($group->getChildren() as $field) {
-            $path = $field->getPath($fieldPrefix);
-            if ($field->getSectionId() != $section->getId()) {
-                $groupPath = $field->getGroupPath();
-                if (!isset($configDataAdditionalGroups[$groupPath])) {
-                    $this->_configData = $this->_configDataObject->extendConfig($groupPath, false, $this->_configData);
-                    $configDataAdditionalGroups[$groupPath] = true;
+        /** @var $element Mage_Backend_Model_Config_Structure_Element_Field */
+        foreach ($group->getChildren() as $element) {
+            if ($element instanceof Mage_Backend_Model_Config_Structure_Element_Group) {
+                $this->_initGroup($element, $section, $fieldset);
+            } else {
+                $path = $element->getPath($fieldPrefix);
+                if ($element->getSectionId() != $section->getId()) {
+                    $groupPath = $element->getGroupPath();
+                    if (!isset($configDataAdditionalGroups[$groupPath])) {
+                        $this->_configData = $this->_configDataObject->extendConfig($groupPath, false, $this->_configData);
+                        $configDataAdditionalGroups[$groupPath] = true;
+                    }
                 }
+                $this->_initElement($element, $fieldset, $path, $fieldPrefix, $labelPrefix);
             }
-            $this->_initElement($field, $fieldset, $path, $fieldPrefix, $labelPrefix);
         }
         return $this;
     }

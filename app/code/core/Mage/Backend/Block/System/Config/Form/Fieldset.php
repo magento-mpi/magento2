@@ -32,7 +32,11 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
         $html = $this->_getHeaderHtml($element);
 
         foreach ($element->getSortedElements() as $field) {
-            $html .= $field->toHtml();
+            if ($field instanceof Varien_Data_Form_Element_Fieldset) {
+                $html .= '<tr><td colspan="4">' . $field->toHtml() . '</td></tr>';
+            } else {
+                $html .= $field->toHtml();
+            }
         }
 
         $html .= $this->_getFooterHtml($element);
