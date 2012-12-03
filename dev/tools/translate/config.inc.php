@@ -536,11 +536,6 @@ $CONFIG['translates'] = array(
         '!app/design/adminhtml/default/default/layout/enterprise/', // ! = exclude
         '!app/design/adminhtml/default/default/template/enterprise/', // ! = exclude
     ),
-    'Mage_Api' => array(
-        'app/code/core/Mage/Api/',
-        'app/design/adminhtml/default/default/template/',
-        '!app/design/adminhtml/default/default/template/enterprise/', // ! = exclude
-    ),
     'Mage_Webapi' => array(
         'app/code/core/Mage/Webapi/',
         'app/design/adminhtml/default/default/template/webapi/',
@@ -568,7 +563,6 @@ $CONFIG['translates'] = array(
 $CONFIG['helpers']  = array(
     'adminhtml'         => 'Mage_Adminhtml',
     'adminnotification' => 'Mage_AdminNotification',
-    'api'               => 'Mage_Api',
     'webapi'              => 'Mage_Webapi',
     'oauth'             => 'Mage_Oauth',
     'importexport'      => 'Mage_ImportExport',
