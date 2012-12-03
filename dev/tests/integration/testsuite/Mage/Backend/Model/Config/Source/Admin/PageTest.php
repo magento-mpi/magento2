@@ -25,7 +25,7 @@ class Mage_Backend_Model_Config_Source_Admin_PageTest extends Mage_Adminhtml_Uti
         $options = $select->getElementsByTagName('option');
         $optionsCount = $options->length;
 
-        $this->assertGreaterThan(97, $optionsCount, 'Paucity count of menu items in the list');
+        $this->assertGreaterThan(0, $optionsCount, 'There must be present menu items at the admin backend');
 
         $this->assertEquals('Dashboard', $options->item(0)->nodeValue, 'First element is not Dashboard');
         $this->assertContains('Configuration', $options->item($optionsCount - 1)->nodeValue);
