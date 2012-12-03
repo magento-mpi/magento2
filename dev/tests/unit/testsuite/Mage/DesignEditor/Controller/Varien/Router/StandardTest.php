@@ -17,6 +17,11 @@ class Mage_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Fr
     const TEST_CONTROLLER = 'test controller instance';
 
     /**
+     * Test area code
+     */
+    const AREA_CODE = 'frontend';
+
+    /**
      * @var Mage_DesignEditor_Controller_Varien_Router_Standard
      */
     protected $_model;
@@ -166,6 +171,7 @@ class Mage_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Fr
         $frontController = $this->getMock('Mage_Core_Controller_Varien_Front',
             array('applyRewrites', 'getRouters'), array(), '', false
         );
+
         if ($isVde && $isLoggedIn) {
             $frontController->expects($this->once())
                 ->method('applyRewrites')
@@ -175,8 +181,18 @@ class Mage_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Fr
                 ->will($this->returnValue($routers));
         }
 
+        $layoutFactory = $this->getMock('Mage_Core_Model_Layout_Factory', array('createLayout'), array(), '', false);
+        if (array_key_exists('matched', $routers)) {
+            $layoutFactory->expects($this->once())
+                ->method('createLayout')
+                ->with(
+                    array('area' => self::AREA_CODE),
+                    Mage_DesignEditor_Controller_Varien_Router_Standard::LAYOUT_CLASS_NAME
+                );
+        }
+
         $router =  new Mage_DesignEditor_Controller_Varien_Router_Standard(
-            $controllerFactory, $objectManager, $testArea, $testBaseController, $backendSession, $helper
+            $controllerFactory, $objectManager, $testArea, $testBaseController, $backendSession, $helper, $layoutFactory
         );
         $router->setFront($frontController);
         return $router;
