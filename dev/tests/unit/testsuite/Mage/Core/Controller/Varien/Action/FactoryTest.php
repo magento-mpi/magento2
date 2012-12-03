@@ -14,21 +14,24 @@
  */
 class Mage_Core_Controller_Varien_Action_FactoryTest extends PHPUnit_Framework_TestCase
 {
-    /**#@+
+    /*
     * Test controller class name
     */
     const CONTROLLER_NAME  = 'TestController';
-    /**#@-*/
 
     /**
-     * @var Magento_ObjectManager
+     * ObjectManager mock for tests
+     *
+     * @var Magento_ObjectManager_Zend
      */
     protected $_objectManager;
 
     /**
+     * Test class instance
+     *
      * @var Mage_Core_Controller_Varien_Action_Factory
      */
-    protected $_actionFactory;
+    protected $_model;
 
     protected function setUp()
     {
@@ -37,18 +40,18 @@ class Mage_Core_Controller_Varien_Action_FactoryTest extends PHPUnit_Framework_T
 
     public function testConstruct()
     {
-        $this->_actionFactory = new Mage_Core_Controller_Varien_Action_Factory($this->_objectManager);
-        $this->assertAttributeInstanceOf('Magento_ObjectManager', '_objectManager', $this->_actionFactory);
+        $this->_model = new Mage_Core_Controller_Varien_Action_Factory($this->_objectManager);
+        $this->assertAttributeInstanceOf('Magento_ObjectManager', '_objectManager', $this->_model);
     }
 
     public function testCreateController()
     {
         $this->_objectManager->expects($this->once())
             ->method('create')
-            ->with($this->equalTo(self::CONTROLLER_NAME), array())
+            ->with(self::CONTROLLER_NAME, array())
             ->will($this->returnValue('TestControllerInstance'));
 
-        $this->_actionFactory = new Mage_Core_Controller_Varien_Action_Factory($this->_objectManager);
-        $this->assertEquals('TestControllerInstance', $this->_actionFactory->createController(self::CONTROLLER_NAME));
+        $this->_model = new Mage_Core_Controller_Varien_Action_Factory($this->_objectManager);
+        $this->assertEquals('TestControllerInstance', $this->_model->createController(self::CONTROLLER_NAME));
     }
 }

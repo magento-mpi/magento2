@@ -23,34 +23,38 @@ class Mage_Core_Controller_Varien_Router_FactoryTest extends PHPUnit_Framework_T
     /**#@-*/
 
     /**
-     * @var Magento_ObjectManager
+     * ObjectManager mock for tests
+     *
+     * @var Magento_ObjectManager_Zend
      */
     protected $_objectManager;
 
     /**
+     * Test class instance
+     *
      * @var Mage_Core_Controller_Varien_Router_Factory
      */
-    protected $_routerFactory;
+    protected $_controller;
 
     protected function setUp()
     {
         $this->_objectManager = $this->getMock('Magento_ObjectManager_Zend', array('get'), array(), '', false);
-        $this->_routerFactory = new Mage_Core_Controller_Varien_Router_Factory($this->_objectManager);
+        $this->_controller = new Mage_Core_Controller_Varien_Router_Factory($this->_objectManager);
     }
 
     public function testConstruct()
     {
-        $this->assertAttributeInstanceOf('Magento_ObjectManager', '_objectManager', $this->_routerFactory);
+        $this->assertAttributeInstanceOf('Magento_ObjectManager', '_objectManager', $this->_controller);
     }
 
     public function testCreateRouterNoArguments()
     {
         $this->_objectManager->expects($this->once())
             ->method('get')
-            ->with($this->equalTo(self::CLASS_NAME))
+            ->with(self::CLASS_NAME)
             ->will($this->returnValue('TestRouterInstance'));
 
-        $this->assertEquals('TestRouterInstance', $this->_routerFactory->createRouter(self::CLASS_NAME));
+        $this->assertEquals('TestRouterInstance', $this->_controller->createRouter(self::CLASS_NAME));
     }
 
     public function testCreateRouterWithArguments()
@@ -67,9 +71,9 @@ class Mage_Core_Controller_Varien_Router_FactoryTest extends PHPUnit_Framework_T
 
         $this->_objectManager->expects($this->once())
             ->method('get')
-            ->with($this->equalTo(self::CLASS_NAME), $arguments)
+            ->with(self::CLASS_NAME, $arguments)
             ->will($this->returnValue('TestRouterInstance'));
 
-        $this->assertEquals('TestRouterInstance', $this->_routerFactory->createRouter(self::CLASS_NAME, $routerInfo));
+        $this->assertEquals('TestRouterInstance', $this->_controller->createRouter(self::CLASS_NAME, $routerInfo));
     }
 }
