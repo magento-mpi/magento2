@@ -29,11 +29,15 @@ app/code/core/Mage/CatalogInventory/Block/Adminhtml/Form/Field/Stock.php
 app/code/core/Mage/Core/Block/Abstract.php
 app/code/core/Mage/Core/data
 app/code/core/Mage/Centinel/Model/State/Jcb.php
+app/code/core/Mage/Core/Controller/Varien/ActionAbstract.php
+app/code/core/Mage/Core/Controller/Varien/Action/Factory.php
+app/code/core/Mage/Core/Controller/Varien/Router/Factory.php
 app/code/core/Mage/Core/Model/Config/Module.php
 app/code/core/Mage/Core/Model/Design.php
 app/code/core/Mage/Core/Model/Design/Source/Design.php
 app/code/core/Mage/Core/Model/ShellAbstract.php
 app/code/core/Mage/Core/Model/Layout.php
+app/code/core/Mage/Core/Model/Layout/Factory.php
 app/code/core/Mage/Core/Model/Layout/Update.php
 app/code/core/Mage/Core/Model/Design/Fallback
 app/code/core/Mage/Core/Model/Design/Fallback.php
