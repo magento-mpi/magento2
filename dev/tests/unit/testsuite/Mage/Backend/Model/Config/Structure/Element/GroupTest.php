@@ -29,11 +29,6 @@ class Mage_Backend_Model_Config_Structure_Element_GroupTest extends PHPUnit_Fram
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_authorizationMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_cloneFactoryMock;
 
     /**
@@ -48,14 +43,12 @@ class Mage_Backend_Model_Config_Structure_Element_GroupTest extends PHPUnit_Fram
         );
         $this->_factoryHelperMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
         $this->_applicationMock = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
-        $this->_authorizationMock = $this->getMock('Mage_Core_Model_Authorization', array(), array(), '', false);
         $this->_cloneFactoryMock = $this->getMock(
             'Mage_Backend_Model_Config_Clone_Factory', array(), array(), '', false
         );
 
         $this->_model = new Mage_Backend_Model_Config_Structure_Element_Group(
-            $this->_factoryHelperMock, $this->_applicationMock, $this->_authorizationMock,
-            $this->_iteratorMock, $this->_cloneFactoryMock
+            $this->_factoryHelperMock, $this->_applicationMock, $this->_iteratorMock, $this->_cloneFactoryMock
         );
     }
 
@@ -65,7 +58,6 @@ class Mage_Backend_Model_Config_Structure_Element_GroupTest extends PHPUnit_Fram
         unset($this->_iteratorMock);
         unset($this->_factoryHelperMock);
         unset($this->_applicationMock);
-        unset($this->_authorizationMock);
         unset($this->_cloneFactoryMock);
     }
 

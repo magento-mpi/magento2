@@ -29,11 +29,6 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_authorizationMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_backendFactoryMock;
 
     /**
@@ -119,7 +114,6 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
         $this->_factoryHelperMock->expects($this->any())->method('get')->with('Mage_Module_Helper_Data')
             ->will($this->returnValue($helperMock));
         $this->_applicationMock = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
-        $this->_authorizationMock = $this->getMock('Mage_Core_Model_Authorization', array(), array(), '', false);
         $this->_backendFactoryMock = $this->getMock(
             'Mage_Backend_Model_Config_BackendFactory', array(), array(), '', false
         );
@@ -148,7 +142,6 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
         $this->_model = new Mage_Backend_Model_Config_Structure_Element_Field(
             $this->_factoryHelperMock,
             $this->_applicationMock,
-            $this->_authorizationMock,
             $this->_backendFactoryMock,
             $this->_sourceFactoryMock,
             $this->_commentFactoryMock,
@@ -161,7 +154,6 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
     {
         unset($this->_iteratorMock);
         unset($this->_applicationMock);
-        unset($this->_authorizationMock);
         unset($this->_backendFactoryMock);
         unset($this->_sourceFactoryMock);
         unset($this->_commentFactoryMock);

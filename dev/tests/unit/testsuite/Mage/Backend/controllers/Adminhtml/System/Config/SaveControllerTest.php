@@ -87,14 +87,8 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
             array('getUser'), array(), '', false, false
         );
 
-        $this->_sectionMock = $this->getMockForAbstractClass(
-            'Mage_Backend_Model_Config_Structure_ElementAbstract',
-            array(),
-            '',
-            false,
-            false,
-            true,
-            array('isAllowed')
+        $this->_sectionMock = $this->getMock(
+            'Mage_Backend_Model_Config_Structure_Element_Section', array(), array(), '', false
         );
 
         $configStructureMock->expects($this->any())->method('getElement')

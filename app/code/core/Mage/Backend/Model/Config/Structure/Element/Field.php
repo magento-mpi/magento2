@@ -48,7 +48,6 @@ class Mage_Backend_Model_Config_Structure_Element_Field
     /**
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Core_Model_App $application
-     * @param Mage_Core_Model_Authorization $authorization
      * @param Mage_Backend_Model_Config_BackendFactory $backendFactory
      * @param Mage_Backend_Model_Config_SourceFactory $sourceFactory
      * @param Mage_Backend_Model_Config_CommentFactory $commentFactory
@@ -58,14 +57,13 @@ class Mage_Backend_Model_Config_Structure_Element_Field
     public function __construct(
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_App $application,
-        Mage_Core_Model_Authorization $authorization,
         Mage_Backend_Model_Config_BackendFactory $backendFactory,
         Mage_Backend_Model_Config_SourceFactory $sourceFactory,
         Mage_Backend_Model_Config_CommentFactory $commentFactory,
         Mage_Core_Model_BlockFactory $blockFactory,
         Mage_Backend_Model_Config_Structure_SearchInterface $fieldLocator
     ) {
-        parent::__construct($helperFactory, $application, $authorization);
+        parent::__construct($helperFactory, $application);
         $this->_backendFactory = $backendFactory;
         $this->_sourceFactory = $sourceFactory;
         $this->_commentFactory = $commentFactory;
@@ -261,6 +259,16 @@ class Mage_Backend_Model_Config_Structure_Element_Field
     public function hasValidation()
     {
         return isset($this->_data['validate']);
+    }
+
+    /**
+     * Retrieve field validation class
+     *
+     * @return string
+     */
+    public function getValidation()
+    {
+        return $this->_data['validate'];
     }
 
     /**

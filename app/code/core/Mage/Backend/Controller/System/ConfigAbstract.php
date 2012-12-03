@@ -30,13 +30,6 @@ abstract class Mage_Backend_Controller_System_ConfigAbstract extends Mage_Backen
     protected $_configStructure;
 
     /**
-     * Whether current section is allowed
-     *
-     * @var bool
-     */
-    protected $_isSectionAllowed = true;
-
-    /**
      * Constructor
      *
      * @param Zend_Controller_Request_Abstract $request
@@ -71,10 +64,12 @@ abstract class Mage_Backend_Controller_System_ConfigAbstract extends Mage_Backen
     {
         parent::preDispatch();
 
+        $section = null;
         if (!$this->getRequest()->getParam('section')) {
-            $this->getRequest()->setParam('section', $this->_configStructure->getFirstSection()->getId());
+            $section = $this->_configStructure->getFirstSection();
+            $this->getRequest()->setParam('section', $section->getId());
         } else {
-            $this->_isSectionAllowed = $this->_isSectionAllowed($this->getRequest()->getParam('section'));
+            $this->_isSectionAllowed($this->getRequest()->getParam('section'));
         }
         return $this;
     }
@@ -101,9 +96,7 @@ abstract class Mage_Backend_Controller_System_ConfigAbstract extends Mage_Backen
     protected function _isSectionAllowed($sectionId)
     {
         try {
-            /** @var Mage_Backend_Model_Config_Structure_ElementAbstract $element  */
-            $element = $this->_configStructure->getElement($sectionId);
-            if (false == $element->isAllowed()) {
+            if (false == $this->_configStructure->getElement($sectionId)->isAllowed()) {
                 throw new Exception('');
             }
             return true;
