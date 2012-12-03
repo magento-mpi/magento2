@@ -27,6 +27,7 @@ interface Magento_Translate_AdapterInterface
      * Translate string
      *
      * @return string
+     * @SuppressWarnings(PHPMD.ShortMethodName)
      */
     public function __();
 }
