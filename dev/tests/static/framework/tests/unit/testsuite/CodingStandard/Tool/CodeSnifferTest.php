@@ -21,7 +21,14 @@ class CodingStandard_Tool_CodeSnifferTest extends PHPUnit_Framework_TestCase
      */
     protected $_wrapper;
 
+    /**
+     * Rule set directory
+     */
     const RULE_SET = 'some/ruleset/directory';
+
+    /**
+     * Report file
+     */
     const REPORT_FILE = 'some/report/file.xml';
 
     protected function setUp()

@@ -31,7 +31,7 @@ class CodingStandard_Tool_CodeSniffer implements CodingStandard_ToolInterface
     /**
      * PHPCS cli tool wrapper
      *
-     * @var PHP_CodeSniffer_CLI
+     * @var CodingStandard_Tool_CodeSniffer_Wrapper
      */
     protected $_wrapper;
 
@@ -41,11 +41,11 @@ class CodingStandard_Tool_CodeSniffer implements CodingStandard_ToolInterface
      * @param string $rulesetDir Directory that locates the inspection rules
      * @param string $reportFile Destination file to write inspection report to
      */
-    public function __construct($rulesetDir, $reportFile, PHP_CodeSniffer_CLI $toolWrapper)
+    public function __construct($rulesetDir, $reportFile, CodingStandard_Tool_CodeSniffer_Wrapper $wrapper)
     {
         $this->_reportFile = $reportFile;
         $this->_rulesetDir = $rulesetDir;
-        $this->_wrapper = $toolWrapper;
+        $this->_wrapper = $wrapper;
     }
 
     /**

@@ -41,8 +41,8 @@ class Php_LiveCodeTest extends PHPUnit_Framework_TestCase
     public function testCodeStyle()
     {
         $reportFile = self::$_reportDir . '/phpcs_report.xml';
-        $tool = new CodingStandard_Tool_CodeSniffer_Wrapper();
-        $cs = new CodingStandard_Tool_CodeSniffer(realpath(__DIR__ . '/_files/phpcs'), $reportFile, $tool);
+        $wrapper = new CodingStandard_Tool_CodeSniffer_Wrapper();
+        $cs = new CodingStandard_Tool_CodeSniffer(realpath(__DIR__ . '/_files/phpcs'), $reportFile, $wrapper);
         if (!$cs->canRun()) {
             $this->markTestSkipped('PHP Code Sniffer is not installed.');
         }
