@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-interface Magento_Di
+interface Magento_Di extends Zend\Di\LocatorInterface
 {
     /**
      * Get instance manager object
@@ -26,13 +26,4 @@ interface Magento_Di
      * @return null|object
      */
     public function newInstance($name, array $parameters = array(), $isShared = true);
-
-    /**
-     * Get object of given class
-     *
-     * @param  string $name   Class name or service alias
-     * @param  null|array  $params Parameters to pass to the constructor
-     * @return object|null
-     */
-    public function get($name, array $params = array());
 }
