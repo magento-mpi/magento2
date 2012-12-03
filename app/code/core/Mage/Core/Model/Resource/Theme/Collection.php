@@ -129,7 +129,8 @@ class Mage_Core_Model_Resource_Theme_Collection extends Mage_Core_Model_Resource
      * @param int $size
      * @return Mage_Core_Model_Resource_Theme_Collection
      */
-    public function setPageSize($size = self::DEFAULT_PAGE_SIZE) {
+    public function setPageSize($size = self::DEFAULT_PAGE_SIZE)
+    {
         return parent::setPageSize($size);
     }
 }
