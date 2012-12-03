@@ -341,8 +341,11 @@ class Mage_Backend_Model_Config_Structure_Element_Field
         if (false == isset($this->_data['depends']['fields'])) {
             return $dependencies;
         }
-        $this->_dependencyMapper->getDependencies($this->_data['depends']['fields'], $storeCode, $fieldPrefix);
-
+        $dependencies = $this->_dependencyMapper->getDependencies(
+            $this->_data['depends']['fields'],
+            $storeCode,
+            $fieldPrefix
+        );
         return $dependencies;
     }
 }

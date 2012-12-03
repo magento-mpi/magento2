@@ -36,6 +36,11 @@ class Mage_Backend_Model_Config_Structure_Element_GroupTest extends PHPUnit_Fram
      */
     protected $_iteratorMock;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_dependencyMapperMock;
+
     protected function setUp()
     {
         $this->_iteratorMock = $this->getMock(
@@ -46,9 +51,15 @@ class Mage_Backend_Model_Config_Structure_Element_GroupTest extends PHPUnit_Fram
         $this->_cloneFactoryMock = $this->getMock(
             'Mage_Backend_Model_Config_Clone_Factory', array(), array(), '', false
         );
+        $this->_dependencyMapperMock = $this->getMock(
+            'Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper', array(), array(), '', false
+        );
 
         $this->_model = new Mage_Backend_Model_Config_Structure_Element_Group(
-            $this->_factoryHelperMock, $this->_applicationMock, $this->_iteratorMock, $this->_cloneFactoryMock
+            $this->_factoryHelperMock,
+            $this->_applicationMock,
+            $this->_iteratorMock, $this->_cloneFactoryMock,
+            $this->_dependencyMapperMock
         );
     }
 
@@ -59,6 +70,7 @@ class Mage_Backend_Model_Config_Structure_Element_GroupTest extends PHPUnit_Fram
         unset($this->_factoryHelperMock);
         unset($this->_applicationMock);
         unset($this->_cloneFactoryMock);
+        unset($this->_dependencyMapperMock);
     }
 
     public function testShouldCloneFields()
@@ -83,6 +95,9 @@ class Mage_Backend_Model_Config_Structure_Element_GroupTest extends PHPUnit_Fram
     public function testGetCloneModelCreatesCloneModel()
     {
         $cloneModel = $this->getMock('Mage_Core_Model_Config_Data', array(), array(), '', false);
+        $this->_dependencyMapperMock = $this->getMock(
+            'Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper', array(), array(), '', false
+        );
         $this->_cloneFactoryMock->expects($this->once())->method('create')
             ->with('clone_model_name')
             ->will($this->returnValue($cloneModel));
@@ -120,5 +135,31 @@ class Mage_Backend_Model_Config_Structure_Element_GroupTest extends PHPUnit_Fram
         $this->assertEquals('', $this->_model->getFieldsetCss());
         $this->_model->setData(array('fieldset_css' => 'some_css'), 'scope');
         $this->assertEquals('some_css', $this->_model->getFieldsetCss());
+    }
+
+    public function testGetDependenciesWithoutDependencies()
+    {
+        $this->_dependencyMapperMock->expects($this->never())->method('getDependencies');
+    }
+
+    public function testGetDependenciesWithDependencies()
+    {
+        $fields = array(
+            'field_4' => array(
+                'id' => 'section_2/group_3/field_4',
+                'value' => 'someValue',
+                'dependPath' => array(
+                    'section_2',
+                    'group_3',
+                    'field_4'
+                ),
+            ),
+        );
+        $this->_model->setData(array('depends' => array('fields' => $fields)), 0);
+        $this->_dependencyMapperMock->expects($this->once())
+            ->method('getDependencies')->with($fields, 'test_scope')
+            ->will($this->returnArgument(0));
+
+        $this->assertEquals($fields, $this->_model->getDependencies('test_scope'));
     }
 }

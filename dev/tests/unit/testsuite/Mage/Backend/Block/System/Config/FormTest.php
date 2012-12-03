@@ -164,18 +164,20 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
             array(), array(), '', false, false
         );
         $groupMock->expects($this->once())->method('getFrontendModel')->will($this->returnValue(false));
-        $groupMock->expects($this->any())->method('getId')->will($this->returnValue('group_id'));
+        $groupMock->expects($this->any())->method('getPath')->will($this->returnValue('section_id_group_id'));
         $groupMock->expects($this->once())->method('getLabel')->will($this->returnValue('label'));
         $groupMock->expects($this->once())->method('getComment')->will($this->returnValue('comment'));
         $groupMock->expects($this->once())->method('isExpanded')->will($this->returnValue(false));
         $groupMock->expects($this->once())->method('populateFieldset');
         $groupMock->expects($this->once())->method('shouldCloneFields')->will($this->returnValue(true));
         $groupMock->expects($this->once())->method('getCloneModel')->will($this->returnValue($cloneModelMock));
+        $groupMock->expects($this->once())
+            ->method('getDependencies')->with('store_code')->will($this->returnValue(array()));
 
         $sectionMock = $this->getMock('Mage_Backend_Model_Config_Structure_Element_Section',
             array(), array(), '', false, false
         );
-        $sectionMock->expects($this->once())->method('getId')->will($this->returnValue('section_id'));
+
         $sectionMock->expects($this->once())->method('isVisible')->will($this->returnValue(true));
         $sectionMock->expects($this->once())->method('getChildren')->will($this->returnValue(array($groupMock)));
 
