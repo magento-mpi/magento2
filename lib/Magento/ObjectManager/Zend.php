@@ -109,8 +109,7 @@ class Magento_ObjectManager_Zend implements Magento_ObjectManager
      *
      * @param object $instance
      * @param string $classOrAlias
-     * @return Magento_Test_ObjectManager
-     * @throws Zend\Di\Exception\InvalidArgumentException
+     * @return Magento_ObjectManager_Zend
      */
     public function addSharedInstance($instance, $classOrAlias)
     {
@@ -123,7 +122,7 @@ class Magento_ObjectManager_Zend implements Magento_ObjectManager
      * Remove shared instance
      *
      * @param string $classOrAlias
-     * @return Magento_Test_ObjectManager
+     * @return Magento_ObjectManager_Zend
      */
     public function removeSharedInstance($classOrAlias)
     {
