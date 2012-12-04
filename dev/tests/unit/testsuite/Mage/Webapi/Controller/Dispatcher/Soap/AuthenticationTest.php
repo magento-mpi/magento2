@@ -19,7 +19,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_AuthenticationTest extends PHPUnit_
     protected $_roleLocatorMock;
 
     /** @var Mage_Webapi_Controller_Dispatcher_Soap_Authentication */
-    protected $_soapDispatcher;
+    protected $_soapAuthentication;
 
     /** @var stdClass */
     protected $_usernameToken;
@@ -57,14 +57,9 @@ class Mage_Webapi_Controller_Dispatcher_Soap_AuthenticationTest extends PHPUnit_
             ->setMethods(array('setRoleId'))
             ->disableOriginalConstructor()
             ->getMock();
-        $helperFactoryMock = $this->getMockBuilder('Mage_Core_Model_Factory_Helper')
-            ->setMethods(array('get'))
-            ->disableOriginalConstructor()
-            ->getMock();
-        $helperFactoryMock->expects($this->once())->method('get')->will($this->returnValue($this->_helperMock));
         /** Initialize SUT. */
-        $this->_soapDispatcher = new Mage_Webapi_Controller_Dispatcher_Soap_Authentication(
-            $helperFactoryMock,
+        $this->_soapAuthentication = new Mage_Webapi_Controller_Dispatcher_Soap_Authentication(
+            $this->_helperMock,
             $this->_tokenFactoryMock,
             $this->_roleLocatorMock
         );
@@ -94,7 +89,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_AuthenticationTest extends PHPUnit_
             ->will($this->returnValue($this->_tokenMock));
         $this->_roleLocatorMock->expects($this->once())->method('setRoleId')->with($roleId);
         /** Execute SUT. */
-        $this->_soapDispatcher->authenticate($this->_usernameToken);
+        $this->_soapAuthentication->authenticate($this->_usernameToken);
     }
 
     /**
@@ -118,7 +113,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_AuthenticationTest extends PHPUnit_
             Mage_Webapi_Exception::HTTP_BAD_REQUEST
         );
         /** Execute SUT. */
-        $this->_soapDispatcher->authenticate($this->_usernameToken);
+        $this->_soapAuthentication->authenticate($this->_usernameToken);
     }
 
     /**

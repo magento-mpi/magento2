@@ -16,7 +16,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest_AuthenticationTest extends PHPUnit_
     protected $_oauthServerMock;
 
     /** @var Mage_Webapi_Controller_Dispatcher_Rest_Authentication */
-    protected $_restDispatcher;
+    protected $_restAuthentication;
 
     protected function setUp()
     {
@@ -30,7 +30,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest_AuthenticationTest extends PHPUnit_
             ->disableOriginalConstructor()
             ->getMock();
         /** Initialize SUT. */
-        $this->_restDispatcher = new Mage_Webapi_Controller_Dispatcher_Rest_Authentication(
+        $this->_restAuthentication = new Mage_Webapi_Controller_Dispatcher_Rest_Authentication(
             $this->_oauthServerMock,
             $this->_roleLocatorMock
         );
@@ -40,7 +40,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest_AuthenticationTest extends PHPUnit_
     protected function tearDown()
     {
         unset($this->_oauthServerMock);
-        unset($this->_restDispatcher);
+        unset($this->_restAuthentication);
         unset($this->_roleLocatorMock);
         parent::tearDown();
     }
@@ -60,7 +60,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest_AuthenticationTest extends PHPUnit_
             ->method('authenticateTwoLegged')
             ->will($this->returnValue($consumerMock));
         /** Execute SUT. */
-        $this->_restDispatcher->authenticate();
+        $this->_restAuthentication->authenticate();
     }
 
     public function testAuthenticateMageWebapiException()
@@ -69,8 +69,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest_AuthenticationTest extends PHPUnit_
         $this->_oauthServerMock
             ->expects($this->once())
             ->method('authenticateTwoLegged')
-            ->will(
-            $this->throwException(
+            ->will($this->throwException(
                 Mage::exception('Mage_Oauth', 'Exception message.', Mage_Oauth_Model_Server::HTTP_BAD_REQUEST)
             ));
         $this->setExpectedException(
@@ -83,6 +82,6 @@ class Mage_Webapi_Controller_Dispatcher_Rest_AuthenticationTest extends PHPUnit_
             ->method('reportProblem')
             ->will($this->returnValue('Exception message.'));
         /** Execute SUT. */
-        $this->_restDispatcher->authenticate();
+        $this->_restAuthentication->authenticate();
     }
 }
