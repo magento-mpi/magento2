@@ -23,6 +23,7 @@ class Community2_Mage_Vde_RouterTest extends Mage_Selenium_TestCase
     /**
      * @test
      * @TestlinkId TL-MAGE-6499
+     * @author roman.grebenchul
      */
     public function rewriteRouterTest()
     {
@@ -41,6 +42,7 @@ class Community2_Mage_Vde_RouterTest extends Mage_Selenium_TestCase
     /**
      * @test
      * @TestlinkId TL-MAGE-6498
+     * @author roman.grebenchul
      */
     public function defaultRouterTest()
     {
@@ -62,6 +64,7 @@ class Community2_Mage_Vde_RouterTest extends Mage_Selenium_TestCase
     /**
      * @test
      * @TestlinkId TL-MAGE-6500
+     * @author roman.grebenchul
      */
     public function cmsRouterTest()
     {

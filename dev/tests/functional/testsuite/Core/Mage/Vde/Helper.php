@@ -10,6 +10,12 @@
  */
 class Core_Mage_Vde_Helper extends Mage_Selenium_TestCase
 {
+    /**
+     * Verify url Vde prefix
+     *
+     * @param string $url
+     * @return bool
+     */
     public function isVdeRouter($url)
     {
         $urlPrefix = $this->getUrlPrefix();
