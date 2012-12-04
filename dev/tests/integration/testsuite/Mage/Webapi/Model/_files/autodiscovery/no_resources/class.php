@@ -2,7 +2,10 @@
 /**
  * Tests fixture for Auto Discovery functionality.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
 class Invalid_Resource_Name

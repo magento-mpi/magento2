@@ -42,6 +42,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit extends Mage_Ad
         $editMode = Mage::registry('edit_mode');
         if ($editMode == 'edit') {
             $this->_updateButton('save', 'onclick', 'formType.save(false)');
+            $this->_updateButton('save', 'data_attr', null);
             $this->_addButton('save_and_edit_button', array(
                 'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Save and Continue Edit'),
                 'onclick'   => 'formType.save(true)',

@@ -2,7 +2,10 @@
 /**
  * Unit Test for Magento_Validator_Config
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
 {

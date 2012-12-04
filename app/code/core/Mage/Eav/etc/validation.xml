@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Eav
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
 <validation>
     <entity name="eav_entity">
         <rules>

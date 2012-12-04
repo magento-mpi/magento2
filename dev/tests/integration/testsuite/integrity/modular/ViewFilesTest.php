@@ -21,8 +21,9 @@ class Integrity_Modular_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbs
      */
     public function testViewFilesFromModulesView($application, $file)
     {
-        Mage::getDesign()->setArea($application);
-        $this->assertFileExists(Mage::getDesign()->getViewFile($file));
+        Mage::getDesign()->setArea($application)->setDefaultDesignTheme();
+        $params = $application == 'frontend' ? array('theme' => false) : array();
+        $this->assertFileExists(Mage::getDesign()->getViewFile($file, $params));
     }
 
     /**
@@ -111,8 +112,9 @@ class Integrity_Modular_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbs
      */
     public function testViewFilesFromModulesCode($application, $file)
     {
-        Mage::getDesign()->setArea($application);
-        $this->assertFileExists(Mage::getDesign()->getViewFile($file));
+        Mage::getDesign()->setArea($application)->setDefaultDesignTheme();
+        $params = $application == 'frontend' ? array('theme' => false) : array();
+        $this->assertFileExists(Mage::getDesign()->getViewFile($file, $params));
     }
 
     /**
@@ -138,19 +140,6 @@ class Integrity_Modular_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbs
             array('adminhtml', 'Mage_Cms::images/wysiwyg_skin_image.png'),
             array('adminhtml', 'Mage_Core::fam_book_open.png'),
             array('adminhtml', 'Mage_Page::favicon.ico'),
-            array('adminhtml', 'Mage_XmlConnect::images/tab_account.png'),
-            array('adminhtml', 'Mage_XmlConnect::images/tab_account_android.png'),
-            array('adminhtml', 'Mage_XmlConnect::images/tab_account_ipad.png'),
-            array('adminhtml', 'Mage_XmlConnect::images/tab_cart.png'),
-            array('adminhtml', 'Mage_XmlConnect::images/tab_cart_android.png'),
-            array('adminhtml', 'Mage_XmlConnect::images/tab_home.png'),
-            array('adminhtml', 'Mage_XmlConnect::images/tab_home_android.png'),
-            array('adminhtml', 'Mage_XmlConnect::images/tab_info_android.png'),
-            array('adminhtml', 'Mage_XmlConnect::images/tab_more.png'),
-            array('adminhtml', 'Mage_XmlConnect::images/tab_page.png'),
-            array('adminhtml', 'Mage_XmlConnect::images/tab_search.png'),
-            array('adminhtml', 'Mage_XmlConnect::images/tab_search_android.png'),
-            array('adminhtml', 'Mage_XmlConnect::images/tab_shop_android.png'),
             array('frontend', 'Mage_Cms::images/about_us_img.jpg'),
             array('frontend', 'Mage_Core::calendar.gif'),
             array('frontend', 'Mage_Core::fam_book_open.png'),

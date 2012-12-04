@@ -2,7 +2,10 @@
 /**
  * REST specific API config reader.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Model_Config_Reader_Rest extends Mage_Webapi_Model_Config_ReaderAbstract
 {

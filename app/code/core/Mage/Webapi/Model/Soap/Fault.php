@@ -2,7 +2,10 @@
 /**
  * Magento-specific SOAP fault.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Model_Soap_Fault extends RuntimeException
 {

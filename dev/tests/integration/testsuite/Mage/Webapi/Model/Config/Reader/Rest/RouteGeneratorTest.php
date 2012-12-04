@@ -2,7 +2,10 @@
 /**
  * File with unit tests for REST routes generator class: Mage_Webapi_Model_Config_Reader_Rest_RouteGenerator
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 /**#@+

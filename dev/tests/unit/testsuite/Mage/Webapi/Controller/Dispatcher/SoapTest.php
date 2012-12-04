@@ -2,7 +2,10 @@
 /**
  * Test SOAP dispatcher class.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Controller_Dispatcher_SoapTest extends PHPUnit_Framework_TestCase
 {

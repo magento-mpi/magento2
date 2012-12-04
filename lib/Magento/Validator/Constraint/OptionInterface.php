@@ -2,7 +2,10 @@
 /**
  * Validator Constraint Option interface
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 interface Magento_Validator_Constraint_OptionInterface
 {

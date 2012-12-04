@@ -130,9 +130,6 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
      */
     public function testHandleDeclaration($file)
     {
-        if (strpos($file, 'Mage/XmlConnect')) {
-            $this->markTestSkipped('Mage_XmlConnect module support is abandoned.');
-        }
         $issues = array();
         $xml = simplexml_load_file($file);
         $handles = $xml->xpath('/layout/*');

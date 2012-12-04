@@ -2,7 +2,10 @@
 /**
  * File with unit tests for API configuration class: Mage_Webapi_Model_Config_Rest
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 /**#@+

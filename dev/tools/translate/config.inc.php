@@ -114,9 +114,6 @@ $CONFIG['translates'] = array(
         'app/code/core/Mage/Cybersource/',
         'app/design/frontend/base/default/template/cybersource/',
     ),
-    'Mage_Dataflow' => array(
-        'app/code/core/Mage/Dataflow/',
-    ),
     'Mage_Directory' => array(
         'app/code/core/Mage/Directory/',
         'app/design/frontend/base/default/template/directory/',
@@ -344,12 +341,6 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/layout/widget.xml',
         'app/design/adminhtml/default/default/template/widget/',
     ),
-    'Mage_XmlConnect' => array(
-        'app/code/core/Mage/XmlConnect/',
-        'app/design/adminhtml/default/default/layout/xmlconnect.xml',
-        'app/design/adminhtml/default/default/template/xmlconnect/',
-        'app/design/frontend/base/default/layout/xmlconnect.xml'
-    ),
     'translate' => array(
         'app/design/frontend/base/default/template/callouts/',
     ),
@@ -519,11 +510,6 @@ $CONFIG['translates'] = array(
     'Enterprise_Search' => array(
         'app/code/core/Enterprise/Search/'
     ),
-    'Enterprise_Staging' => array(
-        'app/code/core/Enterprise/Staging/',
-        'app/design/adminhtml/default/default/layout/enterprise/staging.xml',
-        'app/design/adminhtml/default/default/template/enterprise/staging/',
-    ),
     'Enterprise_TargetRule' => array(
         'app/code/core/Enterprise/TargetRule/',
         'app/design/adminhtml/default/default/layout/enterprise/targetrule.xml',
@@ -548,11 +534,6 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/layout/',
         'app/design/adminhtml/default/default/template/',
         '!app/design/adminhtml/default/default/layout/enterprise/', // ! = exclude
-        '!app/design/adminhtml/default/default/template/enterprise/', // ! = exclude
-    ),
-    'Mage_Api' => array(
-        'app/code/core/Mage/Api/',
-        'app/design/adminhtml/default/default/template/',
         '!app/design/adminhtml/default/default/template/enterprise/', // ! = exclude
     ),
     'Mage_Webapi' => array(
@@ -582,7 +563,6 @@ $CONFIG['translates'] = array(
 $CONFIG['helpers']  = array(
     'adminhtml'         => 'Mage_Adminhtml',
     'adminnotification' => 'Mage_AdminNotification',
-    'api'               => 'Mage_Api',
     'webapi'              => 'Mage_Webapi',
     'oauth'             => 'Mage_Oauth',
     'importexport'      => 'Mage_ImportExport',
@@ -604,7 +584,6 @@ $CONFIG['helpers']  = array(
     'customer'          => 'Mage_Customer',
     'cybermut'          => 'Mage_Cybermut',
     'cybersource'       => 'Mage_Cybersource',
-    'dataflow'          => 'Mage_Dataflow',
     'directory'         => 'Mage_Directory',
     'downloadable'      => 'Mage_Downloadable',
     'eav'               => 'Mage_Eav',
@@ -652,7 +631,6 @@ $CONFIG['helpers']  = array(
     'weee'              => 'Mage_Weee',
     'wishlist'          => 'Mage_Wishlist',
     'widget'            => 'Mage_Widget',
-    'xmlconnect'        => 'Mage_XmlConnect',
     'moneybookers'      => 'Phoenix_Moneybookers',
     'enterprise_admingws'           => 'Enterprise_AdminGws',
     'enterprise_banner'             => 'Enterprise_Banner',
@@ -684,7 +662,6 @@ $CONFIG['helpers']  = array(
     'enterprise_rma'                => 'Enterprise_Rma',
     'enterprise_salesarchive'       => 'Enterprise_SalesArchive',
     'enterprise_search'             => 'Enterprise_Search',
-    'enterprise_staging'            => 'Enterprise_Staging',
     'enterprise_targetrule'         => 'Enterprise_TargetRule',
     'enterprise_websiterestriction' => 'Enterprise_WebsiteRestriction',
     'enterprise_wishlist'           => 'Enterprise_Wishlist',

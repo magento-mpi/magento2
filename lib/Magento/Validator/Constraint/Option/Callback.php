@@ -2,7 +2,10 @@
 /**
  * Constraint callback option
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Magento_Validator_Constraint_Option_Callback implements Magento_Validator_Constraint_OptionInterface
 {
@@ -62,7 +65,7 @@ class Magento_Validator_Constraint_Option_Callback implements Magento_Validator_
         $callable = $this->_callable;
 
         if (is_array($callable) && isset($callable[0]) && is_string($callable[0])) {
-            if (!Magento_Autoload::getInstance()->classExists($callable[0])) {
+            if (!class_exists($callable[0])) {
                 throw new InvalidArgumentException(sprintf('Class "%s" was not found', $callable[0]));
             }
             if ($this->_createInstance) {

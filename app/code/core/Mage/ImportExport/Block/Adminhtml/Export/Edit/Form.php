@@ -39,7 +39,7 @@ class Mage_ImportExport_Block_Adminhtml_Export_Edit_Form extends Mage_Backend_Bl
             'title'    => $helper->__('Entity Type'),
             'label'    => $helper->__('Entity Type'),
             'required' => false,
-            'onchange' => 'editForm.getFilter();',
+            'onchange' => 'varienExport.getFilter();',
             'values'   => $entitySourceModel->toOptionArray()
         ));
         /** @var $formatSourceModel Mage_ImportExport_Model_Source_Export_Format */

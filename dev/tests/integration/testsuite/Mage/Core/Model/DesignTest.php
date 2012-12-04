@@ -41,7 +41,7 @@ class Mage_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
         $storeId = Mage::app()->getAnyStoreView()->getId(); // fixture design_change
         $design = Mage::getModel('Mage_Core_Model_Design');
         $design->loadChange($storeId)->changeDesign($designPackage);
-        $this->assertEquals('default/modern', $designPackage->getDesignTheme());
+        $this->assertEquals('default/modern', $designPackage->getDesignTheme()->getThemePath());
     }
 
     public function testCRUD()

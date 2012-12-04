@@ -2,7 +2,10 @@
 /**
  * Test class for Mage_Webapi_Block_Adminhtml_Role_Edit
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Block_Adminhtml_Role_EditTest extends PHPUnit_Framework_TestCase
 {

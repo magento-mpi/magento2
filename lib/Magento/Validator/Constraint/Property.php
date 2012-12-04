@@ -2,7 +2,10 @@
 /**
  * Validator constraint delegates validation of value's property to wrapped validator.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Magento_Validator_Constraint_Property extends Magento_Validator_Constraint
 {

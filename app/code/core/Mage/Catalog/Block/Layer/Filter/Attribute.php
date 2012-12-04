@@ -22,7 +22,7 @@ class Mage_Catalog_Block_Layer_Filter_Attribute extends Mage_Catalog_Block_Layer
         parent::_construct();
         $this->_filterModelName = 'Mage_Catalog_Model_Layer_Filter_Attribute';
     }
-    
+
     protected function _prepareFilter()
     {
         $this->_filter->setAttributeModel($this->getAttributeModel());

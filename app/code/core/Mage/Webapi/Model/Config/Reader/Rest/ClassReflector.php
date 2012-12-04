@@ -4,7 +4,10 @@ use Zend\Server\Reflection\ReflectionMethod;
 /**
  * REST API specific class reflector.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Model_Config_Reader_Rest_ClassReflector extends Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract
 {

@@ -2,7 +2,10 @@
 /**
  * String length validator
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Magento_Validator_StringLength extends Zend_Validate_StringLength implements Magento_Validator_ValidatorInterface
 {

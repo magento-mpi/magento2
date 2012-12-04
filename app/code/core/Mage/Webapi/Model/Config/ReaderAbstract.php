@@ -2,7 +2,10 @@
 /**
  * Abstract config data reader.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 abstract class Mage_Webapi_Model_Config_ReaderAbstract
 {

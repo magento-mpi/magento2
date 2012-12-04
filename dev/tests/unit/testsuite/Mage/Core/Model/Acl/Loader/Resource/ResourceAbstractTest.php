@@ -2,7 +2,10 @@
 /**
  * Test for Mage_Core_Model_Acl_Loader_Resource_ResourceAbstract
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Core_Model_Acl_Loader_Resource_ResourceAbstractTest extends PHPUnit_Framework_TestCase
 {

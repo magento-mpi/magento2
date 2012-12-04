@@ -2,7 +2,10 @@
 /**
  * Integration test for Mage_Core_Model_Config
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 /**

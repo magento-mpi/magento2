@@ -2,7 +2,10 @@
 /**
  * Test Webapi Error Processor.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Controller_Dispatcher_ErrorProcessorTest extends PHPUnit_Framework_TestCase
 {

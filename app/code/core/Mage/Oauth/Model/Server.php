@@ -534,7 +534,7 @@ class Mage_Oauth_Model_Server
         );
 
         if ($calculatedSign != $this->_protocolParams['oauth_signature']) {
-            $this->_throwException($calculatedSign, self::ERR_SIGNATURE_INVALID);
+            $this->_throwException('Invalid signature.', self::ERR_SIGNATURE_INVALID);
         }
     }
 
@@ -679,8 +679,6 @@ class Mage_Oauth_Model_Server
             }
             if (self::ERR_PARAMETER_ABSENT == $eCode) {
                 $errorMsg .= '&oauth_parameters_absent=' . $eMsg;
-            } elseif (self::ERR_SIGNATURE_INVALID == $eCode) {
-                $errorMsg .= '&debug_sbs=' . $eMsg;
             } elseif ($eMsg) {
                 $errorMsg .= '&message=' . $eMsg;
             }

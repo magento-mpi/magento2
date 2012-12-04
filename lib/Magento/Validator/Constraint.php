@@ -2,7 +2,10 @@
 /**
  * Validator constraint delegates validation to wrapped validator.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Magento_Validator_Constraint extends Magento_Validator_ValidatorAbstract
 {

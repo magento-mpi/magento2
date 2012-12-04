@@ -2,7 +2,10 @@
 /**
  * JSON interpreter of REST request content.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Controller_Request_Rest_Interpreter_Json implements
     Mage_Webapi_Controller_Request_Rest_InterpreterInterface

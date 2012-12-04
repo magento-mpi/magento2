@@ -2,7 +2,10 @@
 /**
  * Abstract Service Layer
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 abstract class Mage_Core_Service_ServiceAbstract
 {

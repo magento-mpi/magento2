@@ -2,7 +2,10 @@
 /**
  * Web API Role edit form.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Block_Adminhtml_Role_Edit_Form extends Mage_Backend_Block_Widget_Form
 {

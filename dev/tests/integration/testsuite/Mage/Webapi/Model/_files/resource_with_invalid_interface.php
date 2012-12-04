@@ -4,7 +4,10 @@
  *
  * Fake resource controller with invalid interface.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
 class Vendor_Module_Controller_Webapi_Invalid_Interface

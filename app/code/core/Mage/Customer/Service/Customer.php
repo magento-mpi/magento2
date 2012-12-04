@@ -2,7 +2,10 @@
 /**
  * Customer service is responsible for customer business workflow encapsulation
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
 {

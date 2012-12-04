@@ -192,7 +192,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
             $this->_getSession()->addSuccess(
                 Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Event has been saved.')
             );
-            if ($this->getRequest()->getParam('_continue')) {
+            if ($this->getRequest()->getParam('back') == 'edit') {
                 $this->_redirect('*/*/edit', array('_current' => true, 'id' => $event->getId()));
             } else {
                 $this->_redirect('*/*/');

@@ -2,7 +2,10 @@
 /**
  * Two-legged OAuth server.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Model_Rest_Oauth_Server extends Mage_Oauth_Model_Server
 {

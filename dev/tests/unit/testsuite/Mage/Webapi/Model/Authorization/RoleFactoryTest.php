@@ -2,7 +2,10 @@
 /**
  * Test class for Mage_Webapi_Model_Authorization_Role_Factory
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Model_Authorization_Role_FactoryTest extends PHPUnit_Framework_TestCase
 {

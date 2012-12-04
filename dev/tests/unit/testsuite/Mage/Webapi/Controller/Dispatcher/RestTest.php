@@ -2,7 +2,10 @@
 /**
  * Test Rest controller dispatcher.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestCase
 {

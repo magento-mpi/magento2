@@ -2,7 +2,10 @@
 /**
  * Generic action controller for all resources available via web API.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 abstract class Mage_Webapi_Controller_ActionAbstract
 {

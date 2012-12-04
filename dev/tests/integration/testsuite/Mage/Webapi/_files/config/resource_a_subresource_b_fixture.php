@@ -3,7 +3,10 @@
  * Fixture of processed API action controller for resource config.
  * Controller files is at _files/controllers/Webapi/ResourceAController.php
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 return array(
     'methods' => array(

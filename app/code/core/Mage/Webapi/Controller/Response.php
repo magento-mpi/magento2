@@ -2,7 +2,10 @@
 /**
  * Web API response.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Controller_Response extends Zend_Controller_Response_Http
 {

@@ -2,7 +2,10 @@
 /**
  * Interface of REST request content interpreter.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 interface Mage_Webapi_Controller_Request_Rest_InterpreterInterface
 {

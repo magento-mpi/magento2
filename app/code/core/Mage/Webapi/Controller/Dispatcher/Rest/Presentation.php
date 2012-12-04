@@ -2,7 +2,10 @@
 /**
  * Helper for data processing according to REST presentation.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Controller_Dispatcher_Rest_Presentation
 {

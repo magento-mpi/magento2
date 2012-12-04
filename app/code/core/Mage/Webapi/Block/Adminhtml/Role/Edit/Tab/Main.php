@@ -2,7 +2,10 @@
 /**
  * Web API Role tab with main information.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  *
  * @method Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main setApiRole() setApiRole(Mage_Webapi_Model_Acl_Role $role)
  * @method Mage_Webapi_Model_Acl_Role getApiRole() getApiRole()

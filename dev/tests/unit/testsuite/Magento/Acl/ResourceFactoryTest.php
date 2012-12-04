@@ -2,7 +2,10 @@
 /**
  * Test class for Magento_Acl_ResourceFactory
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Magento_Acl_ResourceFactoryTest extends PHPUnit_Framework_TestCase
 {

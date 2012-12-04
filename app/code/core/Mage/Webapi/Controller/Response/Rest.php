@@ -2,7 +2,10 @@
 /**
  * Web API REST response.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Controller_Response_Rest extends Mage_Webapi_Controller_Response
 {

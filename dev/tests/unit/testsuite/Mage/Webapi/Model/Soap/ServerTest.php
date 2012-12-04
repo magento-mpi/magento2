@@ -2,7 +2,10 @@
 /**
  * Test SOAP server model.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
 {
@@ -12,14 +15,14 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Core_Model_App */
     protected $_applicationMock;
 
+    /** @var Mage_Core_Model_Store */
+    protected $_storeMock;
+
     /** @var Mage_Webapi_Controller_Request_Soap */
     protected $_requestMock;
 
     /** @var Magento_DomDocument_Factory */
     protected $_domDocumentFactory;
-
-    /** @var Mage_Core_Model_Store */
-    protected $_storeMock;
 
     protected function setUp()
     {

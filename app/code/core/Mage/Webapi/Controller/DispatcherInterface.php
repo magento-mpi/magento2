@@ -2,7 +2,10 @@
 /**
  * Abstract dispatcher for web API requests.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 interface Mage_Webapi_Controller_DispatcherInterface
 {

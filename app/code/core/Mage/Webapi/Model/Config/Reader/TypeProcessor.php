@@ -4,15 +4,15 @@ use Zend\Code\Reflection\ClassReflection;
 /**
  * Type processor of config reader properties
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Model_Config_Reader_TypeProcessor
 {
     /** @var Mage_Webapi_Helper_Config */
     protected $_helper;
-
-    /** @var Magento_Autoload */
-    protected $_autoload;
 
     /**
      * Array of types data.
@@ -36,7 +36,6 @@ class Mage_Webapi_Model_Config_Reader_TypeProcessor
     public function __construct(Mage_Webapi_Helper_Config $helper)
     {
         $this->_helper = $helper;
-        $this->_autoload = Magento_Autoload::getInstance();
     }
 
     /**
@@ -97,7 +96,7 @@ class Mage_Webapi_Model_Config_Reader_TypeProcessor
         if ($this->_helper->isArrayType($class)) {
             $this->process($this->_helper->getArrayItemType($class));
         } else {
-            if (!$this->_autoload->classExists($class)) {
+            if (!class_exists($class)) {
                 throw new InvalidArgumentException(sprintf('Could not load the "%s" class as parameter type.', $class));
             }
             $reflection = new ClassReflection($class);

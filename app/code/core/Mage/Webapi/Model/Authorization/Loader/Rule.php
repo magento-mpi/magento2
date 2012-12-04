@@ -2,7 +2,10 @@
 /**
  * API ACL Rule Loader
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Model_Authorization_Loader_Rule implements Magento_Acl_Loader
 {

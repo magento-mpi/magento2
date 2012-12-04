@@ -2,7 +2,10 @@
 /**
  * Soap API request.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Controller_Request_Soap extends Mage_Webapi_Controller_Request
 {

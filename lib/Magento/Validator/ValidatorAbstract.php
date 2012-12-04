@@ -2,7 +2,10 @@
 /**
  * Abstract validator class.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 abstract class Magento_Validator_ValidatorAbstract implements Magento_Validator_ValidatorInterface
 {

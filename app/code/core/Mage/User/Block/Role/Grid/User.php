@@ -1,15 +1,3 @@
-    /**
-     * Constructor.
-    /**
-     * Add column to filter.
-    /**
-     * Prepare grid collection.
-    /**
-     * Prepare grid columns.
-    /**
-     * Get grid url.
-    /**
-     * Users list accessor.
 <?php
 /**
  * {license_notice}

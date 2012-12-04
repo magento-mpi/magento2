@@ -2,7 +2,10 @@
 /**
  * Test for Mage_Webapi_Block_Adminhtml_User_Edit_Tabs block
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Block_Adminhtml_User_Edit_TabsTest extends PHPUnit_Framework_TestCase
 {

@@ -2,11 +2,14 @@
 /**
  * Soap API Request Test.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestCase
 {
-    /** @var PHPUnit_Framework_MockObject_MockObject|Mage_Webapi_Helper_Data */
+    /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_helperMock;
 
     /** @var Mage_Webapi_Controller_Request_Soap */
@@ -20,9 +23,7 @@ class Mage_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         /** Initialize SUT. */
-        $this->_soapRequest = new Mage_Webapi_Controller_Request_Soap(
-            $this->_helperMock
-        );
+        $this->_soapRequest = new Mage_Webapi_Controller_Request_Soap($this->_helperMock);
         parent::setUp();
     }
 
@@ -89,7 +90,7 @@ class Mage_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestCase
         $requestParams = array(
             Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL => true,
             Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_RESOURCES => $resources,
-            Mage_Webapi_Controller_Router_Route_Webapi::PARAM_API_TYPE => true
+            Mage_Webapi_Controller_Router_Route_Webapi::PARAM_API_TYPE => 'soap'
         );
         $this->_soapRequest->setParams($requestParams);
         /** Execute SUT. */

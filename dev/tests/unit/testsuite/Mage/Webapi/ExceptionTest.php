@@ -2,7 +2,10 @@
 /**
  * Test Webapi module exception.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_ExceptionTest extends PHPUnit_Framework_TestCase
 {

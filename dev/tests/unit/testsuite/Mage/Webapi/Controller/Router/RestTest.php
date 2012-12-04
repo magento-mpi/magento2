@@ -68,9 +68,8 @@ class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
             ->method('match')
             ->with($this->_request)
             ->will($this->returnValue(array()));
-        $router = new Mage_Webapi_Controller_Router_Rest($this->_helperMock, $this->_apiConfigMock);
 
-        $matchedRoute = $router->match($this->_request);
+        $matchedRoute = $this->_router->match($this->_request);
         $this->assertEquals($this->_routeMock, $matchedRoute);
     }
 
@@ -87,15 +86,14 @@ class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
             ->method('match')
             ->with($this->_request)
             ->will($this->returnValue(false));
-        $router = new Mage_Webapi_Controller_Router_Rest($this->_helperMock, $this->_apiConfigMock);
 
-        $router->match($this->_request);
+        $this->_router->match($this->_request);
     }
 
     public function testCheckRoute()
     {
         /** Prepare mocks for SUT constructor. */
-        $checkRouteData = $this->prepareMockDataForCheckRouteTest();
+        $checkRouteData = $this->_prepareMockDataForCheckRouteTest();
         $this->_routeMock->expects($this->once())
             ->method('match')
             ->with($checkRouteData['request'])
@@ -112,7 +110,7 @@ class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
     public function testCheckRouteException()
     {
         /** Prepare mocks for SUT constructor. */
-        $checkRouteData = $this->prepareMockDataForCheckRouteTest();
+        $checkRouteData = $this->_prepareMockDataForCheckRouteTest();
         $this->_routeMock->expects($this->once())
             ->method('match')
             ->with($checkRouteData['request'])
@@ -135,7 +133,7 @@ class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function prepareMockDataForCheckRouteTest()
+    protected function _prepareMockDataForCheckRouteTest()
     {
         $methodName = 'foo';
         $version = 'bar';

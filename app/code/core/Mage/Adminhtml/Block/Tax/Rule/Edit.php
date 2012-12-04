@@ -34,11 +34,11 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit extends Mage_Adminhtml_Block_Widget_For
 
         $this->_addButton('save_and_continue', array(
             'label'     => Mage::helper('Mage_Tax_Helper_Data')->__('Save and Continue Edit'),
-            'onclick'   => 'saveAndContinueEdit()',
-            'class' => 'save'
+            'class' => 'save',
+            'data_attr'  => array(
+                'widget-button' => array('event' => 'saveAndContinueEdit', 'related' => '#edit_form'),
+            ),
         ), 10);
-
-        $this->_formScripts[] = " function saveAndContinueEdit(){ editForm.submit($('edit_form').action + 'back/edit/') } ";
     }
 
     /**

@@ -3,7 +3,10 @@
 /**
  * Layout of Webapi module for Magento admin panel.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 -->
 <layout>

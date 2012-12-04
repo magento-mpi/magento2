@@ -2,7 +2,10 @@
 /**
  * Test for Mage_Webapi_Model_Resource_Acl_Rule
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  *
  * @magentoDataFixture Mage/Webapi/_files/role_with_rule.php
  */

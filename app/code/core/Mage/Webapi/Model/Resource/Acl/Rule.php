@@ -2,7 +2,10 @@
 /**
  * Resource model for ACL rule.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  *
  * @method array getResources() getResources()
  * @method Mage_Webapi_Model_Resource_Acl_Rule setResources() setResources(array $resourcesList)

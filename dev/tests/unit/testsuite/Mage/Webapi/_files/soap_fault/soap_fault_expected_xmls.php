@@ -2,7 +2,10 @@
 /**
  * The list of all expected soap fault XMLs.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 return array(
     'expectedResultArrayDataDetails' =>

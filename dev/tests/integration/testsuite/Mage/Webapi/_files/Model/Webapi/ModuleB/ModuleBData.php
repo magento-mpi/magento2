@@ -2,7 +2,10 @@
 /**
  * Data structure fixture.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Vendor_ModuleB_Model_Webapi_ModuleBData
 {

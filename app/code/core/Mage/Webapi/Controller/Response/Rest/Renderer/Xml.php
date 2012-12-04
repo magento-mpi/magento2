@@ -2,7 +2,10 @@
 /**
  *  XML Renderer allows to format array or object as valid XML document.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Controller_Response_Rest_Renderer_Xml implements
     Mage_Webapi_Controller_Response_Rest_RendererInterface

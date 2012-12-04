@@ -2,7 +2,10 @@
 /**
  * Role item model.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Model_Acl_Role extends Mage_Core_Model_Abstract
 {

@@ -4,7 +4,10 @@ use Zend\Soap\Wsdl;
 /**
  * Auto discovery tool for WSDL generation from Magento web API configuration.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Model_Soap_AutoDiscover
 {

@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Mage_Core>
-            <version>1.6.0.5</version>
+            <version>1.6.0.6</version>
             <active>true</active>
             <codePool>core</codePool>
         </Mage_Core>
@@ -66,11 +66,6 @@
         <request>
             <direct_front_name/>
         </request>
-        <log>
-            <core>
-                <writer_model>Zend_Log_Writer_Stream</writer_model>
-            </core>
-        </log>
         <dev>
             <page_type>
                 <render_inherited>0</render_inherited>

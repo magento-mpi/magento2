@@ -2,7 +2,10 @@
 /**
  * Test Webapi Request model
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
 {
@@ -68,7 +71,7 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
     public function testGetBodyParams()
     {
         $params = array('a' => 123, 'b' => 145);
-        $this->prepareSutForGetBodyParamsTest($params);
+        $this->_prepareSutForGetBodyParamsTest($params);
         $this->assertEquals(
             $params,
             $this->_request->getBodyParams(),
@@ -81,7 +84,7 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
      *
      * @param array $params
      */
-    protected function prepareSutForGetBodyParamsTest($params)
+    protected function _prepareSutForGetBodyParamsTest($params)
     {
         $rawBody = 'rawBody';
         $this->_request->expects($this->once())
@@ -418,8 +421,8 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
     public function testGetOperationNameWithCreateMethod()
     {
         /** Prepare mocks for SUT constructor. */
-        $this->prepareSutForGetOperationNameWithCreateMethod();
-        $this->prepareSutForGetBodyParamsTest(array('key_1' => 'value', 'key_2' => 'value'));
+        $this->_prepareSutForGetOperationNameWithCreateMethod();
+        $this->_prepareSutForGetBodyParamsTest(array('key_1' => 'value', 'key_2' => 'value'));
 
         /** Initialize SUT. */
         $this->assertEquals(
@@ -432,12 +435,12 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
     public function testGetOperationNameWithMultiCreateMethod()
     {
         /** Prepare mocks for SUT constructor. */
-        $this->prepareSutForGetOperationNameWithCreateMethod();
+        $this->_prepareSutForGetOperationNameWithCreateMethod();
         $params = array(
             array('key_1' => 'value 1'),
             array('key_2' => 'value 2'),
         );
-        $this->prepareSutForGetBodyParamsTest($params);
+        $this->_prepareSutForGetBodyParamsTest($params);
 
         /** Initialize SUT. */
         $this->assertEquals(
@@ -450,7 +453,7 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
     /**
      * Prepare SUT for GetOperationName() with create action.
      */
-    protected function prepareSutForGetOperationNameWithCreateMethod()
+    protected function _prepareSutForGetOperationNameWithCreateMethod()
     {
         $this->_request->setResourceType(Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_COLLECTION);
         $this->_request->expects($this->once())->method('isPost')->will($this->returnValue(true));

@@ -2,7 +2,10 @@
 /**
  * Test for Mage_Webapi_Block_Adminhtml_User_Edit block
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Block_Adminhtml_User_EditTest extends PHPUnit_Framework_TestCase
 {

@@ -2,7 +2,10 @@
 /**
  * Web API ACL Rules.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  *
  * @method int getRoleId() getRoleId()
  * @method Mage_Webapi_Model_Acl_Rule setRoleId() setRoleId(int $value)

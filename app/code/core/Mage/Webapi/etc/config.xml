@@ -3,7 +3,10 @@
 /**
  * Webapi module configuration.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 -->
 <config>
@@ -24,6 +27,8 @@
             <webapi>
                 <frontName>api</frontName>
                 <front_controller>Mage_Webapi_Controller_Front</front_controller>
+                <!--TODO: Utilize base action controller from config, not constant-->
+                <base_controller>Mage_Webapi_Controller_ActionAbstract</base_controller>
                 <acl>
                     <policy>Magento_Authorization_Policy_Acl</policy>
                     <resourceLoader>Mage_Webapi_Model_Authorization_Loader_Resource</resourceLoader>

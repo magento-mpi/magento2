@@ -6,7 +6,10 @@ use Zend\Soap\Wsdl\ComplexTypeStrategy\AbstractComplexTypeStrategy,
 /**
  * Magento-specific Complex type strategy for WSDL auto discovery.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends AbstractComplexTypeStrategy
 {

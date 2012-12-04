@@ -2,7 +2,10 @@
 /**
  * Factory of WSDL builders.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Model_Soap_Wsdl_Factory
 {
