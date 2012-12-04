@@ -22,17 +22,16 @@ interface Mage_Launcher_Model_Tile_StateResolver
     /**
      * Resolve state
      *
-     * @return int identified state
+     * @return bool
      */
-    public function resolve();
+    public function isTileComplete();
 
     /**
      * Handle System Configuration change (handle related event) and return new state
      *
-     * @param Mage_Core_Model_Config $config
      * @param string $sectionName
      * @param int $currentState current state of the tile
      * @return int result state
      */
-    public function handleSystemConfigChange(Mage_Core_Model_Config $config, $sectionName, $currentState);
+    public function handleSystemConfigChange($sectionName, $currentState);
 }

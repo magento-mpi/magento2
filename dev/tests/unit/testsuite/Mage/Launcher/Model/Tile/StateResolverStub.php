@@ -10,30 +10,29 @@
  */
 
 /**
-* Concrete state resolver stub
-*/
+ * Concrete state resolver stub
+ */
 class Mage_Launcher_Model_Tile_StateResolverStub implements Mage_Launcher_Model_Tile_StateResolver
 {
-   /**
-    * Resolve state
-    *
-    * @return int identified state
-    */
-    public function resolve()
+    /**
+     * Resolve state
+     *
+     * @return bool
+     */
+    public function isTileComplete()
     {
-        return Mage_Launcher_Model_Tile::STATE_COMPLETE;
+        return true;
     }
 
-   /**
-    * Handle System Configuration change (handle related event) and return new state
-    *
-    * @param Mage_Core_Model_Config $config
-    * @param string $sectionName
-    * @param int $currentState current state of the tile
-    * @return int result state
-    * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-    */
-    public function handleSystemConfigChange(Mage_Core_Model_Config $config, $sectionName, $currentState)
+    /**
+     * Handle System Configuration change (handle related event) and return new state
+     *
+     * @param string $sectionName
+     * @param int $currentState current state of the tile
+     * @return int result state
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function handleSystemConfigChange($sectionName, $currentState)
     {
         return Mage_Launcher_Model_Tile::STATE_COMPLETE;
     }

@@ -58,5 +58,12 @@
                 </observers>
             </admin_system_config_section_save_after>
         </events>
+        <launcher>
+            <tiles>
+                <business_info>
+                    <state_resolver>Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolver</state_resolver>
+                </business_info>
+            </tiles>
+        </launcher>
     </adminhtml>
 </config>

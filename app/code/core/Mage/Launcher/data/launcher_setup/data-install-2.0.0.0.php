@@ -21,16 +21,3 @@ $tile->setCode('business_info');
 $tile->setPageId(1);
 $tile->setState(0);
 $tile->save();
-
-$tile = Mage::getModel('Mage_Launcher_Model_Tile');
-$tile->setCode('shipping');
-$tile->setPageId(1);
-$tile->setState(0);
-$tile->save();
-
-
-$tile = Mage::getModel('Mage_Launcher_Model_Tile');
-$tile->setCode('tax');
-$tile->setPageId(1);
-$tile->setState(0);
-$tile->save();

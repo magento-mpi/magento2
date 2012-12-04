@@ -56,4 +56,16 @@ class Mage_Launcher_Model_Resource_Page_Collection extends Mage_Core_Model_Resou
     {
         return $this->_pageFactory->create();
     }
+
+    /**
+     * Redeclare after load method for specifying collection items original data
+     *
+     * @return Mage_Launcher_Model_Resource_Page_Collection
+     */
+    protected function _afterLoad()
+    {
+        parent::_afterLoad();
+        $this->walk('afterLoad');
+        return $this;
+    }
 }

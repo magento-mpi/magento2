@@ -56,4 +56,16 @@ class Mage_Launcher_Model_Resource_Tile_Collection extends Mage_Core_Model_Resou
     {
         return $this->_tileFactory->create();
     }
+
+    /**
+     * Redeclare after load method for specifying collection items original data
+     *
+     * @return Mage_Launcher_Model_Resource_Tile_Collection
+     */
+    protected function _afterLoad()
+    {
+        parent::_afterLoad();
+        $this->walk('afterLoad');
+        return $this;
+    }
 }

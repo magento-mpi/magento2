@@ -51,7 +51,7 @@ class Mage_Launcher_Model_SystemConfigObserver
         foreach ($this->_pageCollection as $page) {
             foreach ($page->getTiles() as $tile) {
                 $resolvedState = $tile->getStateResolver()
-                    ->handleSystemConfigChange($this->_applicationConfig, $sectionName, $tile->getState());
+                    ->handleSystemConfigChange($sectionName, $tile->getState());
                 /** @var $tile Mage_Launcher_Model_Tile */
                 $tile->setState($resolvedState);
                 $tile->save();
