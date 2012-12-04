@@ -41,6 +41,8 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_ApiTest extends PHPUnit_Fr
     }
 
     /**
+     * @param string $method
+     * @param string $action
      * @dataProvider profilingDataProvider
      */
     public function testProfiling($method, $action)
