@@ -90,6 +90,7 @@
          */
         destroy: function() {
             this.loader.remove();
+            this.element.off('ajaxComplete ajaxError processStop');
             return $.Widget.prototype.destroy.call(this);
         }
     });

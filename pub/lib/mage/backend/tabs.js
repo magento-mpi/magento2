@@ -79,7 +79,7 @@
          * Get panel for tab. If panel no exist in tabs container, then find panel in destination element
          * @protected
          * @override
-         * @param {string|Element} tab - tab id or DOM-element
+         * @param {Element} tab - tab "li" DOM-element
          * @return {Element}
          */
         _getPanelForTab: function(tab) {
@@ -126,7 +126,7 @@
             ajaxOptions: {
                 data: {
                     isAjax: true,
-                    form_key: FORM_KEY
+                    form_key: typeof FORM_KEY !== 'undefined' ? FORM_KEY : null
                 }
             },
 
@@ -251,16 +251,18 @@
                 shadowTabs = this.options.shadowTabs,
                 tabs = this.tabs;
 
-            anchors.each($.proxy(function(i, anchor) {
-                var anchorId = $(anchor).prop('id');
-                if (shadowTabs[anchorId]) {
-                    $(anchor).parents('li').on('click', $.proxy(function(e) {
-                        $.each(shadowTabs[anchorId], $.proxy(function(i, id) {
-                            this.load($(tabs).index($('#' + id).parents('li')), {});
+            if (shadowTabs) {
+                anchors.each($.proxy(function(i, anchor) {
+                    var anchorId = $(anchor).prop('id');
+                    if (shadowTabs[anchorId]) {
+                        $(anchor).parents('li').on('click', $.proxy(function(e) {
+                            $.each(shadowTabs[anchorId], $.proxy(function(i, id) {
+                                this.load($(tabs).index($('#' + id).parents('li')), {});
+                            }, this));
                         }, this));
-                    }, this));
-                }
-            }, this));
+                    }
+                }, this));
+            }
         }
     });
 })(jQuery);
