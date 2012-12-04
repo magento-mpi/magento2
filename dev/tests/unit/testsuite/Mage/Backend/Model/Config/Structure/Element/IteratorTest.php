@@ -73,14 +73,14 @@ class Mage_Backend_Model_Config_Structure_Element_IteratorTest extends PHPUnit_F
     }
 
     /**
-     * @param string $id
+     * @param string $elementId
      * @param bool $result
      * @dataProvider isLastDataProvider
      */
-    public function testIsLast($id, $result)
+    public function testIsLast($elementId, $result)
     {
         $elementMock = $this->getMock('Mage_Backend_Model_Config_Structure_Element_Field', array(), array(), '', false);
-        $elementMock->expects($this->once())->method('getId')->will($this->returnValue($id));
+        $elementMock->expects($this->once())->method('getId')->will($this->returnValue($elementId));
         $this->assertEquals($result, $this->_model->isLast($elementMock));
     }
 

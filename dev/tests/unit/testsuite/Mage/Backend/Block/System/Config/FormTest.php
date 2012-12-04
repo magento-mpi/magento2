@@ -34,7 +34,7 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_urlGeneratorMock;
+    protected $_urlModelMock;
     
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -77,11 +77,10 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
         $layoutMock->expects($this->any())->method('helper')->will($this->returnValue($helperMock));
         $helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
 
-        $urlModelMock = $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false, false);
+        $this->_urlModelMock = $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false, false);
         $configFactoryMock = $this->getMock('Mage_Backend_Model_Config_Factory', array(), array(), '', false, false);
-        $this->_urlGeneratorMock = $this->getMock('Mage_Core_Model_Url_Generator', array(), array(), '', false, false);
         $this->_formFactoryMock = $this->getMock('Varien_Data_Form_Factory', array(), array(), '', false, false);
-        $cloneModelFactoryMock = $this->getMock('Mage_Backend_Model_Config_Clone_Factory',
+        $cloneFactoryMock = $this->getMock('Mage_Backend_Model_Config_Clone_Factory',
             array(), array(), '', false, false
         );
         $this->_fieldsetFactoryMock = $this->getMock('Mage_Backend_Block_System_Config_Form_Fieldset_Factory',
@@ -111,15 +110,14 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
         $data = array(
             'request' => $requestMock,
             'layout' => $layoutMock,
-            'urlBuilder' => $urlModelMock,
+            'urlBuilder' => $this->_urlModelMock,
             'configStructure' => $this->_systemConfigMock,
             'configFactory' => $configFactoryMock,
             'formFactory' => $this->_formFactoryMock,
-            'cloneModelFactory' => $cloneModelFactoryMock,
+            'cloneModelFactory' => $cloneFactoryMock,
             'fieldsetFactory' => $this->_fieldsetFactoryMock,
             'fieldFactory' => $this->_fieldFactoryMock,
             'coreConfig' => $coreConfigMock,
-            'urlGenerator' => $this->_urlGeneratorMock,
         );
 
         $helper = new Magento_Test_Helper_ObjectManager($this);
@@ -132,7 +130,7 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
         $this->_formFactoryMock->expects($this->any())->method('create')->will($this->returnValue($this->_formMock));
         $this->_formMock->expects($this->once())->method('setParent')->with($this->_object);
         $this->_formMock->expects($this->once())->method('setBaseUrl')->with('base_url');
-        $this->_urlGeneratorMock->expects($this->any())->method('getBaseUrl')->will($this->returnValue('base_url'));
+        $this->_urlModelMock->expects($this->any())->method('getBaseUrl')->will($this->returnValue('base_url'));
 
         $this->_systemConfigMock->expects($this->once())->method('getElement')
             ->with('section_code')->will($this->returnValue(null));
@@ -146,7 +144,7 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
         $this->_formFactoryMock->expects($this->any())->method('create')->will($this->returnValue($this->_formMock));
         $this->_formMock->expects($this->once())->method('setParent')->with($this->_object);
         $this->_formMock->expects($this->once())->method('setBaseUrl')->with('base_url');
-        $this->_urlGeneratorMock->expects($this->any())->method('getBaseUrl')->will($this->returnValue('base_url'));
+        $this->_urlModelMock->expects($this->any())->method('getBaseUrl')->will($this->returnValue('base_url'));
 
         $fieldsetRendererMock = $this->getMock('Mage_Backend_Block_System_Config_Form_Fieldset',
             array(), array(), '', false, false

@@ -126,7 +126,6 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param Mage_Core_Model_Url_Generator $urlGenerator
      * @param Mage_Backend_Model_Config_Factory $configFactory
      * @param Varien_Data_Form_Factory $formFactory
      * @param Mage_Backend_Model_Config_Clone_Factory $cloneModelFactory
@@ -150,7 +149,6 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
-        Mage_Core_Model_Url_Generator $urlGenerator,
         Mage_Backend_Model_Config_Factory $configFactory,
         Varien_Data_Form_Factory $formFactory,
         Mage_Backend_Model_Config_Clone_Factory $cloneModelFactory,
@@ -161,7 +159,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         array $data = array()
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $urlGenerator, $data
+            $session, $storeConfig, $frontController, $helperFactory, $data
         );
         $this->_configFactory = $configFactory;
         $this->_formFactory = $formFactory;

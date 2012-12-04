@@ -39,7 +39,7 @@ class Mage_Backend_Model_Config_Structure_Element_GroupTest extends PHPUnit_Fram
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_dependencyMapperMock;
+    protected $_depMapperMock;
 
     protected function setUp()
     {
@@ -51,7 +51,7 @@ class Mage_Backend_Model_Config_Structure_Element_GroupTest extends PHPUnit_Fram
         $this->_cloneFactoryMock = $this->getMock(
             'Mage_Backend_Model_Config_Clone_Factory', array(), array(), '', false
         );
-        $this->_dependencyMapperMock = $this->getMock(
+        $this->_depMapperMock = $this->getMock(
             'Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper', array(), array(), '', false
         );
 
@@ -59,7 +59,7 @@ class Mage_Backend_Model_Config_Structure_Element_GroupTest extends PHPUnit_Fram
             $this->_factoryHelperMock,
             $this->_applicationMock,
             $this->_iteratorMock, $this->_cloneFactoryMock,
-            $this->_dependencyMapperMock
+            $this->_depMapperMock
         );
     }
 
@@ -70,7 +70,7 @@ class Mage_Backend_Model_Config_Structure_Element_GroupTest extends PHPUnit_Fram
         unset($this->_factoryHelperMock);
         unset($this->_applicationMock);
         unset($this->_cloneFactoryMock);
-        unset($this->_dependencyMapperMock);
+        unset($this->_depMapperMock);
     }
 
     public function testShouldCloneFields()
@@ -95,7 +95,7 @@ class Mage_Backend_Model_Config_Structure_Element_GroupTest extends PHPUnit_Fram
     public function testGetCloneModelCreatesCloneModel()
     {
         $cloneModel = $this->getMock('Mage_Core_Model_Config_Data', array(), array(), '', false);
-        $this->_dependencyMapperMock = $this->getMock(
+        $this->_depMapperMock = $this->getMock(
             'Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper', array(), array(), '', false
         );
         $this->_cloneFactoryMock->expects($this->once())->method('create')
@@ -139,7 +139,7 @@ class Mage_Backend_Model_Config_Structure_Element_GroupTest extends PHPUnit_Fram
 
     public function testGetDependenciesWithoutDependencies()
     {
-        $this->_dependencyMapperMock->expects($this->never())->method('getDependencies');
+        $this->_depMapperMock->expects($this->never())->method('getDependencies');
     }
 
     public function testGetDependenciesWithDependencies()
@@ -156,7 +156,7 @@ class Mage_Backend_Model_Config_Structure_Element_GroupTest extends PHPUnit_Fram
             ),
         );
         $this->_model->setData(array('depends' => array('fields' => $fields)), 0);
-        $this->_dependencyMapperMock->expects($this->once())
+        $this->_depMapperMock->expects($this->once())
             ->method('getDependencies')->with($fields, 'test_scope')
             ->will($this->returnArgument(0));
 

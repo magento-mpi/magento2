@@ -58,7 +58,7 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
      */
     protected function _getTranslationModule()
     {
-        return (isset($this->_data['module']) ? $this->_data['module'] : 'Mage_Core') . '_Helper_Data';
+        return (isset($this->_data['module']) ? $this->_data['module'] : 'Mage_Backend') . '_Helper_Data';
     }
 
     /**
