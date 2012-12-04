@@ -71,7 +71,7 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Varien_Exception
+     * @expectedException InvalidArgumentException
      * @expectedExceptionMessage Timer name must not contain a nesting separator.
      */
     public function testStartException()
@@ -134,7 +134,7 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Varien_Exception
+     * @expectedException InvalidArgumentException
      * @expectedExceptionMessage Timer "unknown" has not been started.
      */
     public function testStopExceptionUnknown()
@@ -145,7 +145,7 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Varien_Exception
+     * @expectedException InvalidArgumentException
      * @expectedExceptionMessage Timer "timer2" should be stopped before "timer1".
      */
     public function testStopExceptionOrder()
@@ -154,6 +154,22 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
         Magento_Profiler::start('timer1');
         Magento_Profiler::start('timer2');
         Magento_Profiler::stop('timer1');
+    }
+
+    public function testStopLatest()
+    {
+        $driver = $this->_getDriverMock();
+        $driver->expects($this->at(0))
+            ->method('start')
+            ->with('root_level_timer', null);
+
+        $driver->expects($this->at(1))
+            ->method('stop')
+            ->with('root_level_timer');
+
+        Magento_Profiler::add($driver);
+        Magento_Profiler::start('root_level_timer');
+        Magento_Profiler::stop();
     }
 
     public function testTags()
@@ -181,6 +197,16 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
 
         Magento_Profiler::add($driver);
         Magento_Profiler::clear('timer');
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Timer name must not contain a nesting separator.
+     */
+    public function testClearException()
+    {
+        Magento_Profiler::enable();
+        Magento_Profiler::clear('timer ' . Magento_Profiler::NESTING_SEPARATOR . ' name');
     }
 
     public function testResetProfiler()

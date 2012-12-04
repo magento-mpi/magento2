@@ -177,12 +177,12 @@ class Magento_Profiler
      * Clear collected statistics for specified timer or for whole profiler if timer id is omitted
      *
      * @param string|null $timerName
-     * @throws Varien_Exception
+     * @throws InvalidArgumentException
      */
     public static function clear($timerName = null)
     {
         if (strpos($timerName, self::NESTING_SEPARATOR) !== false) {
-            throw new Varien_Exception('Timer name must not contain a nesting separator.');
+            throw new InvalidArgumentException('Timer name must not contain a nesting separator.');
         }
         $timerId = self::_getTimerId($timerName);
         /** @var Magento_Profiler_DriverInterface $driver */
@@ -210,7 +210,7 @@ class Magento_Profiler
      *
      * @param string $timerName
      * @param array|null $tags
-     * @throws Varien_Exception
+     * @throws InvalidArgumentException
      */
     public static function start($timerName, array $tags = null)
     {
@@ -224,7 +224,7 @@ class Magento_Profiler
         }
 
         if (strpos($timerName, self::NESTING_SEPARATOR) !== false) {
-            throw new Varien_Exception('Timer name must not contain a nesting separator.');
+            throw new InvalidArgumentException('Timer name must not contain a nesting separator.');
         }
 
         $timerId = self::_getTimerId($timerName);
@@ -243,7 +243,7 @@ class Magento_Profiler
      * Only the latest started timer can be stopped.
      *
      * @param string|null $timerName
-     * @throws Varien_Exception
+     * @throws InvalidArgumentException
      */
     public static function stop($timerName = null)
     {
@@ -258,7 +258,7 @@ class Magento_Profiler
             } else {
                 $exceptionMsg = sprintf('Timer "%s" has not been started.', $timerName);
             }
-            throw new Varien_Exception($exceptionMsg);
+            throw new InvalidArgumentException($exceptionMsg);
         }
 
         $timerId = self::_getTimerId();
