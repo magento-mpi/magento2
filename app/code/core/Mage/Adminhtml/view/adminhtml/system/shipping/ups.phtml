@@ -95,8 +95,7 @@ if (!$storeCode && $websiteCode) {
             this.setFormValues();
             Event.observe($(this.carriersUpsTypeId), 'change', this.setFormValues.bind(this));
         },
-        updateAllowedMethods: function(originShipmentTitle)
-        {
+        updateAllowedMethods:function (originShipmentTitle) {
             var allowedMethods = $(this.allowedMethodsId), // multiselect
                 freeMethod = $(this.freeShipmentId), // single-choice select
                 originShipment = this.originShipmentObj[originShipmentTitle];
@@ -108,7 +107,8 @@ if (!$storeCode && $websiteCode) {
             while (freeMethod.length > 0) {
                 freeMethod.remove(0);
             }
-
+        <?php
+        print "freeMethodNoneOptionName=' " . Mage::helper('shipping')->__('None') . "'";  ?>
             freeMethod.insert(new Element('option', {value:''}).update('None'));
 
             var code, option;
