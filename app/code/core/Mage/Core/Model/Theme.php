@@ -96,26 +96,36 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      * @param Mage_Core_Model_Event_Manager $eventDispatcher
      * @param Mage_Core_Model_Cache $cacheManager
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Model_Resource_Theme $resource
-     * @param Mage_Core_Model_Resource_Theme_Collection $resourceCollection
      * @param Mage_Core_Model_Theme_Factory $themeFactory
      * @param Mage_Core_Helper_Data $helper
+     * @param Mage_Core_Model_Resource_Theme $resource
+     * @param Mage_Core_Model_Resource_Theme_Collection $resourceCollection
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Mage_Core_Model_Event_Manager $eventDispatcher,
         Mage_Core_Model_Cache $cacheManager,
         Magento_ObjectManager $objectManager,
-        Mage_Core_Model_Resource_Theme $resource,
-        Mage_Core_Model_Resource_Theme_Collection $resourceCollection,
         Mage_Core_Model_Theme_Factory $themeFactory,
         Mage_Core_Helper_Data $helper,
+        Mage_Core_Model_Resource_Theme $resource,
+        Mage_Core_Model_Resource_Theme_Collection $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
         $this->_objectManager = $objectManager;
         $this->_themeFactory = $themeFactory;
         $this->_helper = $helper;
+    }
+
+    /**
+     * Theme model initialization
+     */
+    protected function _construct()
+    {
+        $this->_init('Mage_Core_Model_Resource_Theme');
     }
 
     /**
