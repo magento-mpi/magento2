@@ -488,18 +488,18 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
         $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_website_price_scope');
         //Data
         $productGiftOptions = $this->loadDataSet('GiftWrapping', 'gift_options_custom_wrapping_price');
-        $productGiftOptionsSite = $this->loadDataSet('GiftWrapping',
+        $productGOSite = $this->loadDataSet('GiftWrapping',
             'gift_options_custom_wrapping_price_on_store_view');
         $vrfGiftWrapping = $this->loadDataSet('OnePageCheckout', 'verify_wrapping_data', null,
             array('gift_wrapping_design'    => $giftWrappingData['gift_wrapping_design'],
                   'sku_product_1'           => $products[0]['general_sku'],
                   'sku_product_2'           => $products[1]['general_sku'],
                   'price_order'             => '$' . $giftWrappingData['gift_wrapping_price'],
-                  'price_product_1'         => '$' . $productGiftOptionsSite['gift_options_price_for_gift_wrapping'],
+                  'price_product_1'         => '$' . $productGOSite['gift_options_price_for_gift_wrapping'],
                   'price_product_2'         => '$' . $giftWrappingData['gift_wrapping_price']));
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'gift_wrapping_custom_price_on_site',
             array('gift_wrapping_for_order' => '$' . $giftWrappingData['gift_wrapping_price'],
-                  'gift_wrapping_for_items' => '$' . ($productGiftOptionsSite['gift_options_price_for_gift_wrapping'] +
+                  'gift_wrapping_for_items' => '$' . ($productGOSite['gift_options_price_for_gift_wrapping'] +
                                                       $giftWrappingData['gift_wrapping_price'])),
             array('product_1'               => $products[0]['general_name'],
                   'product_2'               => $products[1]['general_name'],
@@ -522,7 +522,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
         $this->selectStoreScope('dropdown', 'choose_store_view', $scope);
         $this->acceptAlert();
         $this->waitForPageToLoad();
-        $this->productHelper()->fillTab($productGiftOptionsSite, 'gift_options');
+        $this->productHelper()->fillTab($productGOSite, 'gift_options');
         $this->clickButton('save');
         $this->assertMessagePresent('success', 'success_saved_product');
         $newFrontendUrl = $this->stagingWebsiteHelper()->buildFrontendUrl(

@@ -73,6 +73,7 @@ class Enterprise_Mage_Order_Helper extends Core_Mage_Order_Helper
      * Fails test if any of the gift options is available.
      *
      * @param array $orderData
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function verifyGiftOptionsDisabled($orderData)
     {

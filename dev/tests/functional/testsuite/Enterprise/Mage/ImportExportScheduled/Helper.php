@@ -344,7 +344,7 @@ class Enterprise_Mage_ImportExportScheduled_Helper extends Mage_Selenium_Abstrac
     public function searchImportExport(array $data, $fieldSetName = null)
     {
         $xpath = '';
-        $xpathContainer = null;
+        //$xpathContainer = null;
         if ($fieldSetName) {
             $xpath = $this->_getControlXpath('fieldset', $fieldSetName);
         }

@@ -27,19 +27,19 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
     public function addProductShoppingCart(array $nextProduct, $pressButton = true)
     {
         if (!empty($nextProduct)) {
-            $i = 0;
+            $identificator = 0;
             foreach ($nextProduct as $value) {
-                if ($i > 0) {
+                if ($identificator > 0) {
                     $this->clickButton('add_sku', false);
                     $this->waitForAjax();
                 }
-                $this->addParameter('itemId', $i);
+                $this->addParameter('itemId', $identificator);
                 if (is_array($value)) {
                     $this->fillFieldset($value, 'add_to_shopping_cart');
                 } else {
                     $this->fail('Got incorrect parameter');
                 }
-                $i++;
+                $identificator++;
             }
             if ($pressButton) {
                 $this->clickButton('add_selected_products_to_shopping_cart', false);

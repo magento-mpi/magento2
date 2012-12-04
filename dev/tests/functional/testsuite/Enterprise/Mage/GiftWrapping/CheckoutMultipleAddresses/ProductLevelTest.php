@@ -412,10 +412,10 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
     {
         //Data
         $productGiftSettings = $this->loadDataSet('GiftWrapping', 'gift_options_custom_wrapping_price');
-        $productGiftSettingsOnStoreView = $this->loadDataSet('GiftWrapping',
+        $productGSOnSView = $this->loadDataSet('GiftWrapping',
             'gift_options_custom_wrapping_price_on_store_view');
         $this->assertNotEquals($productGiftSettings['gift_options_price_for_gift_wrapping'],
-            $productGiftSettingsOnStoreView['gift_options_price_for_gift_wrapping']);
+            $productGSOnSView['gift_options_price_for_gift_wrapping']);
         $this->assertNotEquals($productGiftSettings['gift_options_price_for_gift_wrapping'],
             $testData['wrapping']['gift_wrapping_price']);
         $website = $testData['website'];
@@ -454,7 +454,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
         $storeView = $website['staging_website_name']. '/Main Website Store/Default Store View';
         $this->selectStoreScope('dropdown', 'choose_store_view', $storeView);
         $this->acceptAlert();
-        $this->productHelper()->fillTab($productGiftSettingsOnStoreView, 'gift_options');
+        $this->productHelper()->fillTab($productGSOnSView, 'gift_options');
         $this->clickButton('save');
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps

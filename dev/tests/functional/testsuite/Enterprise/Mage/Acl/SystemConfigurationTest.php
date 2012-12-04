@@ -33,6 +33,7 @@ class Enterprise_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
      * @dataProvider systemConfigurationOneTabDataProvider
      * @test
      * @TestlinkId TL-MAGE-6016
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function systemConfigurationOneTab($resourceCheckbox, $tabName)
     {
@@ -58,7 +59,7 @@ class Enterprise_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
         $this->assertEquals(1, count($this->getElements($xpath)),
             'Not only "' . $tabName . '" is presented on page.');
         //verify that this tab equal to resource from ACL tree
-        foreach ($tabElement[$tabName] as $fieldset=> $fieldsetName) {
+        foreach ($tabElement[$tabName] as $fieldset => $fieldsetName) {
             if (!$this->controlIsPresent('fieldset', $fieldset)) {
                 $this->addVerificationMessage(
                     'The fieldset "' . $fieldset . '" does not present on tab "' . $tabName . '"');
@@ -111,6 +112,7 @@ class Enterprise_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
      *
      * @test
      * @TestlinkId TL-MAGE-6006
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function systemConfigurationForWebsite($testData)
     {

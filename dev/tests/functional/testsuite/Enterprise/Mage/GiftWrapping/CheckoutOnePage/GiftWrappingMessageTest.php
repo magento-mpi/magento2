@@ -764,15 +764,15 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
     public function checkoutWithGiftWrappingAndMessageWebsiteScope($customerData, $productData, $website)
     {
         //Preconditions
-        $gWrappingEnableWebsite = $this->loadDataSet('GiftMessage', 'gift_wrapping_all_enable_on_website',
+        $gWrappingEnabSite = $this->loadDataSet('GiftMessage', 'gift_wrapping_all_enable_on_website',
             array('configuration_scope' => $website['general_information']['staging_website_name']));
-        $gMessagesEnableWebsite = $this->loadDataSet('GiftMessage', 'gift_message_all_enable_on_website',
+        $gMessagesEnabSite = $this->loadDataSet('GiftMessage', 'gift_message_all_enable_on_website',
             array('configuration_scope' => $website['general_information']['staging_website_name']));
         $this->navigate('system_configuration');
         //        $this->systemConfigurationHelper()->configure('GiftMessage/gift_message_all_disable');
         //        $this->systemConfigurationHelper()->configure('GiftMessage/gift_wrapping_all_disable');
-        $this->systemConfigurationHelper()->configure($gWrappingEnableWebsite);
-        $this->systemConfigurationHelper()->configure($gMessagesEnableWebsite);
+        $this->systemConfigurationHelper()->configure($gWrappingEnabSite);
+        $this->systemConfigurationHelper()->configure($gMessagesEnabSite);
 
         $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image',
             array('gift_wrapping_websites' => $website['general_information']['staging_website_name']));
@@ -816,15 +816,15 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
     public function possibilityToAddGiftAttributesToOrder($customerData, $productData, $website)
     {
         //Preconditions
-        $gWrappingEnableWebsite = $this->loadDataSet('GiftMessage', 'gift_wrapping_all_disable_on_website',
+        $gWrappingEnabSite = $this->loadDataSet('GiftMessage', 'gift_wrapping_all_disable_on_website',
             array('configuration_scope' => $website['general_information']['staging_website_name']));
-        $gMessagesEnableWebsite = $this->loadDataSet('GiftMessage', 'gift_message_all_disable_on_website',
+        $gMessagesEnabSite = $this->loadDataSet('GiftMessage', 'gift_message_all_disable_on_website',
             array('configuration_scope' => $website['general_information']['staging_website_name']));
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('GiftMessage/gift_message_all_enable');
         $this->systemConfigurationHelper()->configure('GiftMessage/gift_wrapping_all_enable');
-        $this->systemConfigurationHelper()->configure($gWrappingEnableWebsite);
-        $this->systemConfigurationHelper()->configure($gMessagesEnableWebsite);
+        $this->systemConfigurationHelper()->configure($gWrappingEnabSite);
+        $this->systemConfigurationHelper()->configure($gMessagesEnabSite);
         //Data
         $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
         $individualItemsMsg = $this->loadDataSet('OnePageCheckout', 'gift_message_for_individual_items_one_page', null,

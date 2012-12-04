@@ -103,11 +103,11 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
                 'Product must contain ' . $needCount . ' gift card amount(s), but contains ' . $rowQty);
             return false;
         }
-        $i = $rowQty - 1;
+        $index = $rowQty - 1;
         foreach ($giftCardData as $value) {
-            $this->addParameter('giftCardId', $i);
+            $this->addParameter('giftCardId', $index);
             $this->verifyForm($value, 'prices');
-            --$i;
+            --$index;
         }
         return true;
     }
@@ -206,28 +206,28 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
         $allowedQty = ($allowedQty == null) ? '1' : $allowedQty;
         $this->addParameter('price', $allowedQty);
         $xpathArray['Quantity'] = $this->_getControlXpath('pageelement', 'qty');
-        $i = 0;
+        $index = 0;
         foreach ($productData['custom_options_data'] as $value) {
             $title = $value['custom_options_general_title'];
             $optionType = $value['custom_options_general_input_type'];
-            $xpathArray['custom_options']['option_' . $i]['title'] = $title;
-            $xpathArray['custom_options']['option_' . $i]['type'] = $optionType;
+            $xpathArray['custom_options']['option_' . $index]['title'] = $title;
+            $xpathArray['custom_options']['option_' . $index]['type'] = $optionType;
             $this->addParameter('title', $title);
             if ($value['custom_options_general_input_type'] == 'Drop-down'
                 || $value['custom_options_general_input_type'] == 'Multiple Select'
             ) {
-                $someArr = $this->_formXpathForCustomOptionsRows($value, $priceToCalc, $i, 'custom_option_select');
+                $someArr = $this->_formXpathForCustomOptionsRows($value, $priceToCalc, $index, 'custom_option_select');
                 $xpathArray = array_merge_recursive($xpathArray, $someArr);
             } elseif ($value['custom_options_general_input_type'] == 'Radio Buttons'
                       || $value['custom_options_general_input_type'] == 'Checkbox'
             ) {
-                $someArr = $this->_formXpathForCustomOptionsRows($value, $priceToCalc, $i, 'custom_option_check');
+                $someArr = $this->_formXpathForCustomOptionsRows($value, $priceToCalc, $index, 'custom_option_check');
                 $xpathArray = array_merge_recursive($xpathArray, $someArr);
             } else {
-                $someArr = $this->_formXpathesForFieldsArray($value, $i, $priceToCalc);
+                $someArr = $this->_formXpathesForFieldsArray($value, $index, $priceToCalc);
                 $xpathArray = array_merge_recursive($xpathArray, $someArr);
             }
-            $i++;
+            $index++;
         }
         return $xpathArray;
     }

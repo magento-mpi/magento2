@@ -138,8 +138,8 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
     {
         $this->loginAdminUser();
         //Custom options
-        $customOptionsRequired = $this->loadDataSet('Product', 'custom_options_dropdown');
-        $customOptionsNotRequired = $this->loadDataSet('Product', 'custom_options_dropdown',
+        $customOptionsReq = $this->loadDataSet('Product', 'custom_options_dropdown');
+        $customOptionsNReq = $this->loadDataSet('Product', 'custom_options_dropdown',
             array('custom_options_general_is_required' => 'No'));
         //Simple products
         $simpleProducts = array();
@@ -162,11 +162,11 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
             array('general_visibility' => 'Not Visible Individually'));
         $simpleProducts['simpleNotVisibleCustom'] = $this->loadDataSet('SkuProducts', 'simple_sku',
             array('general_visibility' => 'Not Visible Individually'));
-        $simpleProducts['simpleNotVisibleCustom']['custom_options_data'][] = $customOptionsRequired;
+        $simpleProducts['simpleNotVisibleCustom']['custom_options_data'][] = $customOptionsReq;
         $simpleProducts['simpleNotRequiredCustom'] = $this->loadDataSet('SkuProducts', 'simple_sku');
-        $simpleProducts['simpleNotRequiredCustom']['custom_options_data'][] = $customOptionsNotRequired;
+        $simpleProducts['simpleNotRequiredCustom']['custom_options_data'][] = $customOptionsNReq;
         $simpleProducts['simpleRequiredCustom'] = $this->loadDataSet('SkuProducts', 'simple_sku');
-        $simpleProducts['simpleRequiredCustom']['custom_options_data'][] = $customOptionsRequired;
+        $simpleProducts['simpleRequiredCustom']['custom_options_data'][] = $customOptionsReq;
         $simpleProducts['simple_min'] = $this->loadDataSet('SkuProducts', 'simple_sku',
             array('inventory_min_allowed_qty_default' => 'No', 'inventory_min_allowed_qty' => '5'));
         $simpleProducts['simple_max'] = $this->loadDataSet('SkuProducts', 'simple_sku',
@@ -200,10 +200,10 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
                   'associated_2' => $simpleProducts['simpleWithBackorders']));
         $this->productHelper()->createProduct($grouped, 'grouped');
         $this->assertMessagePresent('success', 'success_saved_product');
-        $groupedVisibleIndividual = $this->loadDataSet('SalesOrder', 'grouped_product_for_order', null,
+        $groupedVisibleInd = $this->loadDataSet('SalesOrder', 'grouped_product_for_order', null,
             array('associated_1' => $simpleProducts['simple']['general_sku'],
                   'associated_2' => $simpleProducts['simple_not_visible']['general_sku']));
-        $this->productHelper()->createProduct($groupedVisibleIndividual, 'grouped');
+        $this->productHelper()->createProduct($groupedVisibleInd, 'grouped');
         $this->assertMessagePresent('success', 'success_saved_product');
         //Bundle products
         $bundleNotAvailable = $this->loadDataSet('Product', 'fixed_bundle_visible');
@@ -259,9 +259,9 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
                                               'sku' => $simpleProducts['simpleRequiredCustom']['general_sku'],
                                               'qty' => 1,
                                               'Options' => array('option_1'=> array('parameters' => array (
-                                              'title' => $customOptionsRequired['custom_options_general_title']),
+                                              'title' => $customOptionsReq['custom_options_general_title']),
                                               'options_to_choose' => array ('custom_option_dropdown' =>
-                                              $customOptionsRequired['custom_option_row_1']['custom_options_title'])))),
+                                              $customOptionsReq['custom_option_row_1']['custom_options_title'])))),
             'simpleNotEnoughtQty'=> array('product_name' => $simpleProducts['simple']['general_name'],
                                           'sku' => $simpleProducts['simple']['general_sku'],
                                           'qty' => $simpleProducts['simple']['inventory_qty'] + 1),
@@ -295,8 +295,8 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
                                      'Options'      => array ('option_1' => array ('parameters' => array (
                                      'subproductName' => $simpleProducts['simple']['general_name']),
                                      'options_to_choose' => array ('grouped_subproduct_qty' => '1')))),
-            'groupedVisibleIndividual'  => array('product_name' => $groupedVisibleIndividual['general_name'],
-                                             'sku'          => $groupedVisibleIndividual['general_sku'],
+            'groupedVisibleIndividual'  => array('product_name' => $groupedVisibleInd['general_name'],
+                                             'sku'          => $groupedVisibleInd['general_sku'],
                                              'qty'          => 1,
                                              'Options'      => array ('option_1' => array ('parameters' => array (
                                              'subproductName' => $simpleProducts['simple_not_visible']['general_name']),
