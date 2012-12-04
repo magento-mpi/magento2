@@ -78,7 +78,7 @@ class Mage_Backend_Model_Config_Structure_Element_Iterator_FieldTest extends PHP
             ->with(array('_elementType' => 'field', 'id' => 'someField_2'), 'scope');
         $this->_fieldMock->expects($this->any())->method('isVisible')->will($this->returnValue(true));
 
-       $items = array();
+        $items = array();
         foreach ($this->_model as $item) {
             $items[] = $item;
         }

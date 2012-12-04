@@ -319,7 +319,8 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
                 if ($element->getSectionId() != $section->getId()) {
                     $groupPath = $element->getGroupPath();
                     if (!isset($configDataAdditionalGroups[$groupPath])) {
-                        $this->_configData = $this->_configDataObject->extendConfig($groupPath, false, $this->_configData);
+                        $this->_configData = $this->_configDataObject
+                            ->extendConfig($groupPath, false, $this->_configData);
                         $configDataAdditionalGroups[$groupPath] = true;
                     }
                 }

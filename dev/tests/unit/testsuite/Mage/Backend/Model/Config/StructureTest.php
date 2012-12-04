@@ -115,7 +115,8 @@ class Mage_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestCase
     public function testGetFirstSectionReturnsFirstAllowedSection()
     {
         $tabMock = $this->getMock(
-            'Mage_Backend_Model_Config_Structure_Element_Tab', array('current', 'getChildren', 'rewind'), array(), '', false
+            'Mage_Backend_Model_Config_Structure_Element_Tab',
+            array('current', 'getChildren', 'rewind'), array(), '', false
         );
         $tabMock->expects($this->any())->method('getChildren')->will($this->returnSelf());
         $tabMock->expects($this->once())->method('rewind');

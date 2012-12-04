@@ -193,7 +193,7 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
             ->with('Mage_Model_Name')
             ->will($this->returnValue('backend_model_object'));
         $this->_model->setData(array('backend_model' => 'Mage_Model_Name'), 'scope');
-        $this->assertEquals('backend_model_object',$this->_model->getBackendModel() );
+        $this->assertEquals('backend_model_object', $this->_model->getBackendModel());
     }
 
     public function testGetSectionId()

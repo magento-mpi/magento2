@@ -347,17 +347,6 @@ class Mage_Backend_Model_Config extends Varien_Object
     }
 
     /**
-     * Return formatted config data for specified path prefix
-     *
-     * @param string $path Config path prefix
-     * @param bool $full Simple config structure or not
-     * @return array
-     */
-    protected function _getPathConfig($path, $full = true)
-    {
-   }
-
-    /**
      * Set correct scope if isSingleStoreMode = true
      *
      * @param Mage_Backend_Model_Config_Structure_Element_Field $fieldConfig

@@ -55,8 +55,7 @@ class Mage_Backend_Block_Widget_Form extends Mage_Backend_Block_Widget
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Url_Generator $urlGenerator,
         array $data = array()
-    )
-    {
+    ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
             $session, $storeConfig, $frontController, $helperFactory, $data
         );
