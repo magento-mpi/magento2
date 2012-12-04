@@ -10,66 +10,107 @@
 ( function ( $ ) {
 
     $.widget('vde.infinite_scroll', {
+        _locked: false,
         options: {
-            url: '',
-            locked: false
+            url: ''
         },
+
+        /**
+         * Load data
+         * @public
+         */
         loadData: function() {
-            var self = this;
             if (this._isLocked()) {
                 return
             }
             this._setLocked(true)
 
             $.ajax({
-                url: self._getUrl(),
+                url: this._getUrl(),
                 type: 'GET',
                 dataType: 'JSON',
-                success: function(data) {
+                success: $.proxy(function(data) {
                     if (data.content) {
-                        self.element.find('ul').append(data.content);
-                        self._setLocked(false);
+                        this.element.find('ul').append(data.content);
+                        this._setLocked(false);
                     }
-                },
-                error: function() {
-                    self._setUrl('');
+                }, this),
+                error: $.proxy(function() {
+                    this._setUrl('');
                     throw Error($.mage.__('Some problem with theme loading'));
-                }
+                }, this)
             });
         },
+
+        /**
+         * Infinite scroll creation
+         * @protected
+         */
         _create: function() {
             this._bind();
         },
+
+        /**
+         * Get is locked
+         * @return {boolean}
+         * @protected
+         */
         _isLocked: function() {
-            return this.options.locked;
+            return this._locked;
         },
+
+        /**
+         * Set is locked
+         * @param {boolean} status locked status
+         * @protected
+         */
         _setLocked: function(status) {
-            this.options.locked = status;
+            this._locked = status;
         },
+
+        /**
+         * Set url
+         * @param {string} url next page url
+         * @protected
+         */
         _setUrl: function(url) {
             this.options.url = url;
         },
-        _getUrl: function(url) {
+
+        /**
+         * Get url
+         * @return {string}
+         * @protected
+         */
+        _getUrl: function() {
             return this.options.url;
         },
+
+        /**
+         * Bind handlers
+         * @protected
+         */
         _bind: function() {
-            var self = this;
-            $(document).ready(function() {
-                self.loadData();
-            });
+            $(document).ready(
+                $.proxy(this.loadData, this)
+            );
+
             this.element.scroll(
-                function(event) {
-                    if (self._isScrolledBottom() && self._getUrl()) {
-                        self.loadData();
+                $.proxy(function(event) {
+                    if (this._isScrolledBottom() && this._getUrl()) {
+                        this.loadData();
                     }
-                }
+                }, this)
             );
         },
+
+        /**
+         * Check is scrolled bottom
+         * @return {boolean}
+         * @protected
+         */
         _isScrolledBottom: function() {
-            if (this.element[0]) {
-                return (this.element[0].scrollHeight - this.element.scrollTop()) < this.element.outerHeight();
-            }
-            return false;
+            return (this.element[0].scrollHeight - this.element.scrollTop()) < this.element.outerHeight();
         }
     });
 
