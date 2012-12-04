@@ -77,4 +77,25 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_ApiTest extends PHPUnit_Fr
             array('doVoid', 'void'),
         );
     }
+
+    public function testValidateTokenProfiling()
+    {
+        $profilerDriver = $this->_getProfilerDriverMock();
+        $profilerDriver->expects($this->once())
+            ->method('start')
+            ->with('pbridge_validate_token', array(
+                'group' => 'pbridge',
+                'operation' => 'pbridge:validate_token'
+            ));
+        $profilerDriver->expects($this->once())
+            ->method('stop')
+            ->with('pbridge_validate_token');
+        Magento_Profiler::add($profilerDriver);
+
+        $api = $this->_getApiMock(array(
+            'client_identifier' => 10,
+            'payment_action' => 'validate_token'
+        ));
+        $api->validateToken(10);
+    }
 }
