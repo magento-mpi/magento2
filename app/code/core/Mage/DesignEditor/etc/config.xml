@@ -32,15 +32,6 @@
             </routers>
         </web>
     </default>
-    <global>
-        <di>
-            <Mage_DesignEditor_Model_Layout>
-                <parameters>
-                    <wrapperBlock>Mage_DesignEditor_Block_Template_Proxy</wrapperBlock>
-                </parameters>
-            </Mage_DesignEditor_Model_Layout>
-        </di>
-    </global>
     <frontend>
         <layout>
             <updates>
