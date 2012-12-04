@@ -26,7 +26,7 @@
             this._setLocked(true)
 
             $.ajax({
-                url: this._getUrl(),
+                url: this.options.url,
                 type: 'GET',
                 dataType: 'JSON',
                 success: $.proxy(function(data) {
@@ -36,7 +36,7 @@
                     }
                 }, this),
                 error: $.proxy(function() {
-                    this._setUrl('');
+                    this.options.url = '';
                     throw Error($.mage.__('Some problem with theme loading'));
                 }, this)
             });
@@ -69,24 +69,6 @@
         },
 
         /**
-         * Set url
-         * @param {string} url next page url
-         * @protected
-         */
-        _setUrl: function(url) {
-            this.options.url = url;
-        },
-
-        /**
-         * Get url
-         * @return {string}
-         * @protected
-         */
-        _getUrl: function() {
-            return this.options.url;
-        },
-
-        /**
          * Bind handlers
          * @protected
          */
@@ -97,7 +79,7 @@
 
             this.element.scroll(
                 $.proxy(function(event) {
-                    if (this._isScrolledBottom() && this._getUrl()) {
+                    if (this._isScrolledBottom() && this.options.url) {
                         this.loadData();
                     }
                 }, this)
