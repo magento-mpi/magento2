@@ -19,9 +19,9 @@ class Community2_Mage_Vde_UiValidationTest extends Mage_Selenium_TestCase
 
     protected function tearDownAfterTest()
     {
-        $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('Advanced/enable_secret_key');
+        $this->logoutAdminUser();
     }
 
     /**
