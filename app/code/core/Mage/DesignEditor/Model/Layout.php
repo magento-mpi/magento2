@@ -337,17 +337,17 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
      * @param string $elementContent
      * @param string $elementName
      * @param bool $isContainer
-     * @param bool $isManipulationAllowed
+     * @param bool $canManipulate
      * @return string
      */
-    protected function _wrapElement($elementContent, $elementName, $isContainer = false, $isManipulationAllowed = false)
+    protected function _wrapElement($elementContent, $elementName, $isContainer = false, $canManipulate = false)
     {
         $elementId = 'vde_element_' . rtrim(strtr(base64_encode($elementName), '+/', '-_'), '=');
         $this->_wrapperBlock->setData(array(
             'element_id'              => $elementId,
             'element_title'           => $this->getElementProperty($elementName, 'label') ?: $elementName,
             'element_html'            => $elementContent,
-            'is_manipulation_allowed' => $isManipulationAllowed,
+            'is_manipulation_allowed' => $canManipulate,
             'is_container'            => $isContainer,
             'element_name'            => $elementName,
         ));
