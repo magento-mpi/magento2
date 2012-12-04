@@ -19,6 +19,19 @@ class Magento_Profiler_Driver_Pinba implements Magento_Profiler_DriverInterface
     protected $_startedTimers = array();
 
     /**
+     * @var int
+     */
+    protected $_separatorLength = 0;
+
+    /**
+     * Initialize separator length
+     */
+    public function __construct()
+    {
+        $this->_separatorLength = strlen(Magento_Profiler::NESTING_SEPARATOR);
+    }
+
+    /**
      * Get tags with timer id included.
      *
      * @param string $timerId
@@ -27,7 +40,11 @@ class Magento_Profiler_Driver_Pinba implements Magento_Profiler_DriverInterface
      */
     protected function _getTagsWithTimerId($timerId, array $tags = null)
     {
-        return array_merge(array(self::TIMER_NAME_TAG => $timerId), (array)$tags);
+        $pos = strrpos($timerId, Magento_Profiler::NESTING_SEPARATOR);
+        if ($pos !== false) {
+            $timerId = substr($timerId, $pos + $this->_separatorLength);
+        }
+        return array(self::TIMER_NAME_TAG => $timerId) + (array)$tags;
     }
 
     /**

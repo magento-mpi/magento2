@@ -34,13 +34,13 @@ class Magento_Profiler_Driver_PinbaTest extends PHPUnit_Framework_TestCase
         $this->_driver->start('timer1');
         $this->assertAttributeCount(1, '_startedTimers', $this->_driver);
 
-        $this->_driver->start('timer2');
+        $this->_driver->start('timer1->timer2');
         $this->assertAttributeCount(2, '_startedTimers', $this->_driver);
 
-        $this->_driver->stop('timer1');
+        $this->_driver->stop('timer1->timer2');
         $this->assertAttributeCount(1, '_startedTimers', $this->_driver);
 
-        $this->_driver->stop('timer2');
+        $this->_driver->stop('timer1');
         $this->assertAttributeCount(0, '_startedTimers', $this->_driver);
     }
 

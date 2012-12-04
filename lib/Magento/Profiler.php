@@ -177,6 +177,7 @@ class Magento_Profiler
      * Clear collected statistics for specified timer or for whole profiler if timer id is omitted
      *
      * @param string|null $timerName
+     * @throws Varien_Exception
      */
     public static function clear($timerName = null)
     {
