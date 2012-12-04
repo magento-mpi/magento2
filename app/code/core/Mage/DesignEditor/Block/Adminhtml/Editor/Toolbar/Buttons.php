@@ -20,7 +20,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons extends Mage_Back
      */
     public function getExitUrl()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('adminhtml/system_design_editor/exit');
+        return Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('adminhtml/system_design_editor');
     }
 
     /**

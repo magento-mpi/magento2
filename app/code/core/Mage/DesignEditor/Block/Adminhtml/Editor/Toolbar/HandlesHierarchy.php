@@ -68,10 +68,11 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy extends 
     public function getSelectedHandle()
     {
         if ($this->_selectedHandle === null) {
-            $this->_selectedHandle = false;
             $pageHandles = $this->getHierarchy();
             $defaultHandle = reset($pageHandles);
-            $this->_selectedHandle = $defaultHandle['name'];
+            if ($defaultHandle !== false) {
+                $this->_selectedHandle = $defaultHandle['name'];
+            }
         }
         return $this->_selectedHandle;
     }
