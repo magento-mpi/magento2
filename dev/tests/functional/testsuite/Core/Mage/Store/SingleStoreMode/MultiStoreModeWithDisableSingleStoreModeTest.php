@@ -181,6 +181,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-6255
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function systemConfigurationVerificationHints()
     {

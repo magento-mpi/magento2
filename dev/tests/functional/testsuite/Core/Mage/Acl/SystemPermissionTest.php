@@ -67,6 +67,7 @@ class Core_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
      *
      * @test
      * @TestlinkId TL-MAGE-6071
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function systemPermissions($testData)
     {
@@ -90,7 +91,7 @@ class Core_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
             'Count of child Navigation Menu not equal 2, should be equal 2');
         $tabElement = $this->loadDataSet('SystemConfigurationMenu', 'configuration_menu_default');
         //verify that this tab equal to resource from ACL tree
-        foreach ($tabElement as $tab=> $tabName) {
+        foreach ($tabElement as $tab => $tabName) {
             $this->systemConfigurationHelper()->openConfigurationTab($tab);
         }
     }

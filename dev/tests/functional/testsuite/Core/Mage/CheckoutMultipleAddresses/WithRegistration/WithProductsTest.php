@@ -122,6 +122,7 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_WithProductsTest exte
      * @test
      * @dataProvider withBundleProductDataProvider
      * @depends preconditionsForTests
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function withBundleProduct($productType, $dateSet, $products)
     {

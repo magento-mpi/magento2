@@ -57,6 +57,7 @@ class Core_Mage_AdminUser_DeleteTest extends Mage_Selenium_TestCase
      *
      * @test
      * @TestlinkId TL-MAGE-5228
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function deleteAdminUserCurrent()
     {

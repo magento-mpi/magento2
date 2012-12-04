@@ -130,6 +130,7 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      *
      * @TestlinkId TL-MAGE-3379
      * @test
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function invalidSortOrderInCustomOption($invalidData)
     {

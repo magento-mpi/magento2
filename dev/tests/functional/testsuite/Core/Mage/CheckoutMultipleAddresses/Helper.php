@@ -112,7 +112,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
             $valueId = array();
             for ($i = 1; $i <= $count; $i++) {
                 $this->addParameter('index', $i);
-                $id[] = $this->getControlAttribute('link', 'all_order_number_index', 'text');
+                $valueId[] = $this->getControlAttribute('link', 'all_order_number_index', 'text');
             }
             return $valueId;
         }

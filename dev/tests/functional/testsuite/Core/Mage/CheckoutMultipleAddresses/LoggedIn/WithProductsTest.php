@@ -135,6 +135,7 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_WithProductsTest extends Mage
      * @test
      * @dataProvider withBundleProductDataProvider
      * @depends preconditionsForTests
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function withBundleProduct($productType, $dateSet, $testData)
     {

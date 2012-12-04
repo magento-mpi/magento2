@@ -177,6 +177,7 @@ class Core_Mage_TransactionalEmails_TransactionalEmailsTest extends Mage_Seleniu
      * <p>Test content buttons('Back', 'Reset', 'Convert to Plain Text') </p>
      *
      * @test
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function contentButton()
     {

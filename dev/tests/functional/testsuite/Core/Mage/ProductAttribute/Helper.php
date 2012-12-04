@@ -173,6 +173,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
      *
      * @param array $attrData
      * @param string $action
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function attributeOptions($attrData, $action = 'fill')
     {

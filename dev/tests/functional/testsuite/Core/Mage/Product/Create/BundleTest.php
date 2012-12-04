@@ -354,6 +354,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      * @dataProvider invalidNumericFieldDataProvider
      * @depends requiredFieldsForDynamicSmoke
      * @TestlinkId TL-MAGE-3356
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function invalidTierPriceInBundle($invalidTierData)
     {

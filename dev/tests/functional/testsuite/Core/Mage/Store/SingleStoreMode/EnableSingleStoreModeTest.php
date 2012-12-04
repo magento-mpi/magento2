@@ -130,6 +130,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-6185
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function systemConfigurationVerificationHints()
     {

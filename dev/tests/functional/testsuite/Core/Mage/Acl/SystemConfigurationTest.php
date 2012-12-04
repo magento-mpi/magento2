@@ -33,6 +33,7 @@ class Core_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
      * @dataProvider systemConfigurationOneTabDataProvider
      * @test
      * @TestlinkId TL-MAGE-6016
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function systemConfigurationOneTab($resourceCheckbox, $tabName)
     {
@@ -140,6 +141,7 @@ class Core_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
      *
      * @test
      * @TestlinkId TL-MAGE-6005
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function systemConfiguration($testData)
     {
@@ -172,6 +174,7 @@ class Core_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
      *
      * @test
      * @TestlinkId TL-MAGE-6005
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function systemConfigurationForWebsite($testData)
     {

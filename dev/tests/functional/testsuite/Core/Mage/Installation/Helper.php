@@ -45,7 +45,7 @@ class Core_Mage_Installation_Helper extends Mage_Selenium_AbstractHelper
                     unlink($dir . DIRECTORY_SEPARATOR . $object);
                 }
             }
-            reset($objects);
+            reset($object);
             rmdir($dir);
         } else {
             unlink($dir);

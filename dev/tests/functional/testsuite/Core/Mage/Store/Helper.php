@@ -45,6 +45,7 @@ class Core_Mage_Store_Helper extends Mage_Selenium_AbstractHelper
      * @param array $storeData
      *
      * @return boolean
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function deleteStore(array $storeData)
     {

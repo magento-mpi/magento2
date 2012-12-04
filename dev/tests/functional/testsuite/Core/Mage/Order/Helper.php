@@ -332,6 +332,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
      * Configuring product when placing to order.
      *
      * @param array $configureData Product in array to add to order. Function should be called for each product to add
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function configureProduct(array $configureData)
     {

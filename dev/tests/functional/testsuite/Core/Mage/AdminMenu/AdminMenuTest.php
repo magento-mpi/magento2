@@ -50,6 +50,7 @@ class Core_Mage_AdminMenu_AdminMenuTest extends Mage_Selenium_TestCase
      * Retrieve menu items with their top level parents
      *
      * @return array $items
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function menuItemsWithParentsDataProvider()
     {

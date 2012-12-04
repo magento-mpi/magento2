@@ -111,6 +111,7 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
      * Fill in Category information
      *
      * @param array $categoryData
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function fillCategoryInfo(array $categoryData)
     {

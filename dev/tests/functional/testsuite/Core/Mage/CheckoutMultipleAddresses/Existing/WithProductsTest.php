@@ -135,6 +135,7 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage
      * @dataProvider withBundleProductDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-5237
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function withBundleProduct($productType, $dateSet, $testData)
     {

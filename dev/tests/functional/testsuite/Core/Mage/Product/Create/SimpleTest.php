@@ -330,6 +330,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
      *
      * @TestlinkId TL-MAGE-3419
      * @test
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function invalidTierPriceInSimple($invalidTierData)
     {
