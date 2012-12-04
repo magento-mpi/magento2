@@ -1,0 +1,31 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Magento
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+# Visual Design Editor page
+vde_design:
+    mca: system_design_editor/run
+    title: Editor / Design / System / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    vde_toolbar:
+                        xpath: //div[@id='vde_toolbar_row']
+                        buttons:
+                            view_layout: //a[@class='vde_button view-layout']
+                            compact_log: //a[@class='vde_button compact-log']
+                            quit: //a[@class='vde_button']
+                        dropdowns:
+                            page_selector: //div[@id='vde_handles_hierarchy']
+                            theme_selector: //div[@id='theme_selector']
+                            view_options: //div[@class='vde_toolbar_cell']
+                -
+                    iframe:
+                        xpath: //iframe[@class='vde_container_frame']
