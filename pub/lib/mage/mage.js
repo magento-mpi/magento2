@@ -7,7 +7,6 @@
  * @license     {license_link}
  */
 /*jshint eqnull:true browser:true jquery:true*/
-/*global head:true */
 (function ($) {
     $.extend(true, $, {
         mage: {
