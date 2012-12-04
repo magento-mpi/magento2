@@ -155,6 +155,28 @@ class Varien_Data_Collection_DbTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test that field is quoted when added to SQL via addFieldToFilter()
+     */
+    public function testAddFieldToFilterFieldIsQuoted()
+    {
+        $adapter = $this->getMock('Zend_Db_Adapter_Pdo_Mysql',
+            array('quoteIdentifier', 'prepareSqlCondition'), array(), '', false);
+        $adapter->expects($this->once())
+            ->method('quoteIdentifier')
+            ->with('email')
+            ->will($this->returnValue('`email`'));
+        $adapter->expects($this->any())
+            ->method('prepareSqlCondition')
+            ->with($this->stringContains('`email`'), $this->anything())
+            ->will($this->returnValue('`email` = "foo@example.com"'));
+        $this->_collection->setConnection($adapter);
+        $select = $this->_collection->getSelect()->from('test');
+
+        $this->_collection->addFieldToFilter('email', array('eq' => 'foo@example.com'));
+        $this->assertEquals('SELECT `test`.* FROM `test` WHERE (`email` = "foo@example.com")', $select->assemble());
+    }
+
+    /**
      * Test that after cloning collection $this->_select in initial and cloned collections
      * do not reference the same object
      *
