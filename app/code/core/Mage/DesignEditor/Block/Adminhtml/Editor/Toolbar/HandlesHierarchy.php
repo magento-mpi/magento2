@@ -40,7 +40,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy extends 
                 ? ' class="vde_option_fragment"'
                 : '';
             $result .= '<li rel="' . $name . '"' . $class . '>';
-            $result .= '<a href="' . $this->getUrl('design/editor/page', array('handle' => $name)) . '">';
+            $result .= '<a href="/vde/design/page/type/handle/' . $name. '">';
             $result .= $this->escapeHtml($info['label']);
             $result .= '</a>';
             $result .= $this->_renderHierarchy($info['children']);
@@ -69,18 +69,9 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy extends 
     {
         if ($this->_selectedHandle === null) {
             $this->_selectedHandle = false;
-            $layoutUpdate = $this->getLayout()->getUpdate();
-            $pageHandles = $layoutUpdate->getPageHandles();
-            if ($pageHandles) {
-                $this->_selectedHandle = end($pageHandles);
-            } else {
-                foreach (array_reverse($layoutUpdate->getHandles()) as $handle) {
-                    if ($layoutUpdate->pageHandleExists($handle)) {
-                        $this->_selectedHandle = $handle;
-                        break;
-                    }
-                }
-            }
+            $pageHandles = $this->getHierarchy();
+            $defaultHandle = reset($pageHandles);
+            $this->_selectedHandle = $defaultHandle['name'];
         }
         return $this->_selectedHandle;
     }

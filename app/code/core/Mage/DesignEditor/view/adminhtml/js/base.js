@@ -13,6 +13,7 @@
      */
     $.widget('vde.vde_tree', {
         options: {
+            container_frame: '.vde_container_frame',
             ui: {
                 select_limit: 1,
                 selected_parent_close: false
@@ -39,7 +40,7 @@
                     var link = $(data.rslt.obj).find('a:first');
                     $(this).trigger('link_selected.' + self.widgetName, [link]);
                     if (data.rslt.e) { // User clicked the link, not just tree initialization
-                        window.location = link.attr('href');
+                        $(self.options.container_frame).attr('src', link.attr('href'));
                     }
                 });
         }
@@ -86,6 +87,7 @@
                 })
                 .on('link_selected.vde_tree', function(e, link) {
                     titleText.text(link.text());
+                    self.hide(e);
                 })
                 .find(this.options.titleSelector)
                 .on('click.' + self.widgetName, function(e) {

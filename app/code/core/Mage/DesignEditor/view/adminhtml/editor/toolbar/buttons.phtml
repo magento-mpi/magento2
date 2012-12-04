@@ -9,7 +9,7 @@
  */
 ?>
 <?php /** @var $this Mage_DesignEditor_Block_Toolbar_Buttons */ ?>
-<div id="vde_toolbar_buttons">
+<div id="vde_toolbar_buttons" <?php echo $this->getUiId()?>>
     <a href="<?php echo $this->getViewLayoutUrl(); ?>" title="<?php echo $this->__('View Layout'); ?>" class="vde_button view-layout">
         <?php echo $this->__('View Layout'); ?>
     </a>

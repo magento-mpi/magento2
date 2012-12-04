@@ -14,5 +14,22 @@
     <?php echo $this->getHeaderHtml() ?>
 </div>
 <?php echo $this->getChildHtml(); ?>
-<iframe class="vde_container_frame" src="<?php echo $this->getFrameUrl(); ?>">
-</iframe>
+<iframe name="vde_container_frame" class="vde_container_frame" src="<?php echo $this->getFrameUrl(); ?>"></iframe>
+<script type="text/javascript">
+        (function ($) {
+            $( document ).ready(function( ){
+                function doResizing() {
+                    $( '.vde_container_frame' ).height( $( '#anchor-content' ).height() );
+                };
+
+                var resizeTimer;
+                $( window ).resize(function() {
+                    clearTimeout(resizeTimer);
+                    resizeTimer = setTimeout(doResizing, 100);
+                });
+
+                $( window ).resize();
+            });
+})(jQuery);
+</script>
+

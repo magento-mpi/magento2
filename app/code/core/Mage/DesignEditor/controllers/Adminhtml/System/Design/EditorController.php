@@ -102,7 +102,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
 
         /** @var $editorBlock Mage_DesignEditor_Block_Adminhtml_Editor_Container */
         $editorBlock = $this->getLayout()->getBlock('design_editor');
-        $editorBlock->setFrameUrl(Mage::getUrl('/'));
+        $editorBlock->setFrameUrl('/vde');
 
         $this->renderLayout();
     }

@@ -9,7 +9,7 @@
  */
 ?>
 <?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Editor_Template */ ?>
-<div class="vde_toolbar_cell">
+<div id="vde_view_options" class="vde_toolbar_cell" <?php echo $this->getUiId()?>>
     <div class="vde_toolbar_cell_title"><?php echo $this->__('View Options'); ?></div>
     <div class="vde_toolbar_cell_content">
             <div id="vde_highlighting" class="vde_cell_list_item<?php if (!$this->isHighlightingDisabled()) echo ' checked'; ?>">
