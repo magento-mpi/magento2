@@ -32,7 +32,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid extends Mage_Ad
     /**
      * Prepare grid collection object
      *
-     * @return Enterprice_Customer_Block_Adminhtml_Customer_Formtype_Grid
+     * @return Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid
      */
     protected function _prepareCollection()
     {
@@ -46,7 +46,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid extends Mage_Ad
     /**
      * Prepare Grid columns
      *
-     * @return Enterprice_Customer_Block_Adminhtml_Customer_Formtype_Grid
+     * @return Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid
      */
     protected function _prepareColumns()
     {
@@ -66,7 +66,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid extends Mage_Ad
             'type'      => 'store'
         ));
 
-        $design = Mage::getModel('Mage_Core_Model_Design_Source_Design')->getAllOptions(false);
+        $design = Mage::getModel('Mage_Core_Model_Theme')->getLabelsCollection();
         array_unshift($design, array(
             'value' => 'all',
             'label' => Mage::helper('Enterprise_Customer_Helper_Data')->__('All Themes')

@@ -11,6 +11,9 @@
 
 /**
  * Layout integration tests
+ *
+ * @magentoDbIsolation enabled
+ * @group module::Mage_Layout_Merge
  */
 class Mage_Core_Model_LayoutTest extends Mage_Core_Model_LayoutTestBase
 {
@@ -66,13 +69,15 @@ class Mage_Core_Model_LayoutTest extends Mage_Core_Model_LayoutTestBase
      * @covers Mage_Core_Model_Layout::getAllBlocks
      * @covers Mage_Core_Model_Layout::generateBlocks
      * @covers Mage_Core_Model_Layout::getBlock
+     * @magentoConfigFixture default_store design/theme/full_name test/default
      */
     public function testGenerateXmlAndElements()
     {
         $this->_layout->generateXml();
-        /* Generate fixture
-        file_put_contents(dirname(__FILE__) . '/_files/_layout_update.xml', $this->_model->getNode()->asNiceXml());
-        */
+        /**
+         * Generate fixture
+         * file_put_contents(dirname(__FILE__) . '/_files/_layout_update.xml', $this->_model->getNode()->asNiceXml());
+         */
         $this->assertXmlStringEqualsXmlFile(__DIR__ . '/_files/_layout_update.xml', $this->_layout->getXmlString());
 
         $this->assertEquals(array(), $this->_layout->getAllBlocks());
@@ -110,6 +115,9 @@ class Mage_Core_Model_LayoutTest extends Mage_Core_Model_LayoutTestBase
         $this->assertFalse($this->_layout->getBlock('test.nonexisting.block'));
     }
 
+    /**
+     * @magentoConfigFixture default_store design/theme/full_name test/default
+     */
     public function testLayoutDirectives()
     {
         /**
@@ -174,6 +182,7 @@ class Mage_Core_Model_LayoutTest extends Mage_Core_Model_LayoutTestBase
     }
 
     /**
+     * @magentoConfigFixture default_store design/theme/full_name test/default
      * @expectedException Magento_Exception
      */
     public function testLayoutMoveDirectiveBroken()
@@ -184,6 +193,7 @@ class Mage_Core_Model_LayoutTest extends Mage_Core_Model_LayoutTestBase
     }
 
     /**
+     * @magentoConfigFixture default_store design/theme/full_name test/default
      * @expectedException Magento_Exception
      */
     public function testLayoutMoveAliasBroken()
@@ -194,6 +204,7 @@ class Mage_Core_Model_LayoutTest extends Mage_Core_Model_LayoutTestBase
     }
 
     /**
+     * @magentoConfigFixture default_store design/theme/full_name test/default
      * @expectedException Magento_Exception
      */
     public function testGenerateElementsBroken()

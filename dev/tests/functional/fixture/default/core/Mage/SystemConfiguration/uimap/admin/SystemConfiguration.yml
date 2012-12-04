@@ -4090,7 +4090,6 @@ system_configuration:
                                         mage_customer: //select[@name='groups[modules_disable_output][fields][Mage_Customer][value]']
                                         mage_cybermut: //select[@name='groups[modules_disable_output][fields][Mage_Cybermut][value]']
                                         mage_cybersource: //select[@name='groups[modules_disable_output][fields][Mage_Cybersource][value]']
-                                        mage_dataflow: //select[@name='groups[modules_disable_output][fields][Mage_Dataflow][value]']
                                         mage_directory: //select[@name='groups[modules_disable_output][fields][Mage_Directory][value]']
                                         mage_downloadable: //select[@name='groups[modules_disable_output][fields][Mage_Downloadable][value]']
                                         mage_eav: //select[@name='groups[modules_disable_output][fields][Mage_Eav][value]']
@@ -4139,7 +4138,6 @@ system_configuration:
                                         mage_weee: //select[@name='groups[modules_disable_output][fields][Mage_Weee][value]']
                                         mage_widget: //select[@name='groups[modules_disable_output][fields][Mage_Widget][value]']
                                         mage_wishlist: //select[@name='groups[modules_disable_output][fields][Mage_Wishlist][value]']
-                                        mage_xmlconnect: //select[@name='groups[modules_disable_output][fields][Mage_XmlConnect][value]']
                                         phoenix_moneybookers: //select[@name='groups[modules_disable_output][fields][Phoenix_Moneybookers][value]']
                                     checkboxes:
                                         enterprise_admingws_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_AdminGws][inherit]']
@@ -4200,7 +4198,6 @@ system_configuration:
                                         mage_customer_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Customer][inherit]']
                                         mage_cybermut_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Cybermut][inherit]']
                                         mage_cybersource_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Cybersource][inherit]']
-                                        mage_dataflow_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Dataflow][inherit]']
                                         mage_directory_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Directory][inherit]']
                                         mage_downloadable_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Downloadable][inherit]']
                                         mage_eav_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Eav][inherit]']
@@ -4248,7 +4245,6 @@ system_configuration:
                                         mage_weee_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Weee][inherit]']
                                         mage_widget_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Widget][inherit]']
                                         mage_wishlist_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Wishlist][inherit]']
-                                        mage_xmlconnect_use_default: //input[@name='groups[modules_disable_output][fields][Mage_XmlConnect][inherit]']
                                         phoenix_moneybookers_use_default: //input[@name='groups[modules_disable_output][fields][Phoenix_Moneybookers][inherit]']
                 -
                     advanced_developer:
@@ -4327,7 +4323,7 @@ system_configuration:
                                     checkboxes:
                                         merge_css_files_use_default: //input[@name='groups[css][fields][merge_css_files][inherit]']
         buttons:
-            save_config: //button[span='Save Config']
+            save_config: //button[@data-ui-id="system-config-edit-save-button"]
         messages:
             success_saved_config: //li[normalize-space(@class)='success-msg' and contains(.,'The configuration has been saved.')]
 

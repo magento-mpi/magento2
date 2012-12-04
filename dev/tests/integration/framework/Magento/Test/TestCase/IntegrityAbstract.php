@@ -62,15 +62,8 @@ abstract class Magento_Test_TestCase_IntegrityAbstract extends PHPUnit_Framework
      */
     protected function _getDesignThemes()
     {
-        $result = array();
-        foreach (array('adminhtml', 'frontend', 'install') as $area) {
-            $entities = Mage::getDesign()->getDesignEntitiesStructure($area);
-            foreach ($entities as $package => $themes) {
-                foreach ($themes as $theme) {
-                    $result[] = "{$area}/{$package}/{$theme}";
-                }
-            }
-        }
-        return $result;
+        /** @var $theme Mage_Core_Model_Theme */
+        $theme = Mage::getModel('Mage_Core_Model_Theme');
+        return $theme->getCollection()->getItems();
     }
 }

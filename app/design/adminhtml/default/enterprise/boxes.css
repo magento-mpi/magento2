@@ -277,21 +277,6 @@ ul.tabs-horiz li a              { display:block; background:#e2e2e2; border:1px 
 ul.tabs-horiz li a.notloaded    { /* not used for now */ }
 ul.tabs-horiz li a.active       { border-bottom:1px solid #fff; background:#fff; }
 
-.mm_ctrl .m-arrows { width:42px; height:17px; text-indent:-2000em; background:url(images/r-arrow.gif) no-repeat 0 0; border:0; float:left; cursor:pointer; }
-.mm_ctrl .l-arrow { background:url(images/l-arrow.gif) no-repeat 0 0; margin:0 0 0 5px; }
-.mm_ctrl .full-arrow { width:84px; background:url(images/full-arrow.gif) no-repeat 0 0; margin:0 0 0 5px; }
-.mm_name span { border:1px solid #bdbdbd; display:block; padding:2px 0; text-align:center; margin:0 7px 5px 7px; }
-.mm_img { background: url(images/xmlconnect_tab.png) 50% 50% no-repeat; width: 84px; height: 60px; text-align: center; vertical-align: middle }
-.mm-edit-form { border:1px solid red; }
-.mm-box-blue { border:1px solid #cadcdc; background:#e6eef0; padding:10px 20px; }
-.mm-pager { margin:10px 0 0 50px; }
-.mm-pager ul, .mm-pager strong, .mm-pager ul li { float:left; }
-.mm-pager ul li a { float:left; margin:0 0 0 5px; text-decoration:none; display:block; padding:0 5px; color:#303030; border:1px solid #aaa; }
-.mm-pager ul li a.active { border:1px solid #6c8991; background:#6c8991; color:#fff; }
-#fieldTabs { padding:0 !important; }
-#fieldTabs .mm-tabs-title { background:#ececec; padding:4px 10px; margin:0 -10px 15px; font-weight:bold; }
-#fieldTabs table { width:500px !important; margin:0 10px 20px 10px; }
-
 /* MESSAGES
 *******************************************************************************/
 .notification-global { padding:5px 27px 5px 47px; background:#fff9e9 url(Mage_Adminhtml::images/error_msg_icon.gif) 27px 5px no-repeat; border-bottom:1px solid #eee2be; border-top:1px solid #eee2be; font-size:11px; line-height:16px; margin:0 0 -3px; color:#444; position:relative; }
@@ -317,8 +302,6 @@ label.mage-error {width: auto !important; display: block;}
 .warning-msg { border:1px solid #666e73 !important; background:#e6e6e6 url(Mage_Adminhtml::images/warning_msg_icon.gif) no-repeat 10px 10px !important; color:#000000 !important; }
 .validation-advice,
 label.mage-error { clear:both; min-height:15px; margin:3px 0 0 9px; background:url(images/validation_advice_bg.gif) no-repeat 2px 1px; padding-left:16px; font-size:.95em; font-weight:bold; line-height:1.25em; }
-.staging-datetime-advice .validation-advice,
-.staging-datetime-advice label.mage-error { background-position:right center; padding:0 16px 0 0; }
 input.validation-failed, textarea.validation-failed { background:#fef0ed; border:1px dashed #d6340e; }
 
 /* Noscript Notice */
@@ -410,6 +393,7 @@ select.multiselect option       { padding:3px 4px; border-bottom:1px solid #ddd;
 .fieldset-wide .form-list td.value { width:auto !important; }
 .fieldset-wide .form-list td.value input.input-text,
 .fieldset-wide .form-list td.value textarea { width:98% !important; }
+#weight {width: 110px !important; }
 /*.fieldset-wide .form-list td.value select { display:block; }*/
 .fieldset-wide .form-list td.scope-label { white-space:nowrap; width:1px; }
 .fieldset-wide .form-list td.note { width:120px; }
@@ -866,7 +850,7 @@ div.autocomplete ul li { padding:.5em .7em; min-height:32px; cursor:pointer; tex
 .left-col-block { width:200px; }
 
 /* Floating Content Header */ /* Used to make action buttons always within reach */
-.content-header-floating { display:none; position:fixed; left:0; top:0; width:100%; border-bottom:solid 1px #988753; z-index:100; background:#fdfaa4; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=85)"/* IE8 */; opacity:.85; }
+.content-header-floating { display:none; position:fixed; left:0; top:0; width:100%; border-bottom:solid 1px #988753; z-index:100; z-index:auto\9; background:#fdfaa4; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=85)"/* IE8 */; opacity:.85; }
 .content-header-floating .content-header { padding:6px 8px 4px 8px; margin-bottom:0; border:0; }
 .content-header-floating td     { padding-right:20px; }
 .content-header-floating button { margin-top:3px; }

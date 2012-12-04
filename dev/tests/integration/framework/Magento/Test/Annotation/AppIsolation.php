@@ -46,7 +46,6 @@ class Magento_Test_Annotation_AppIsolation
      */
     protected static $_classesToSkip = array(
         'Mage',
-        'Magento_Autoload',
         'Magento_Test_Bootstrap',
         'Magento_Test_Event_Magento',
         'Magento_Test_Event_PhpUnit',

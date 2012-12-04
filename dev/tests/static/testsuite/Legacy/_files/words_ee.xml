@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    tests
+ * @package     static
+ * @subpackage  Legacy
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<!-- These are the settings for legacy testing of Magento 2 EE (in addition to Magento 2 Core) -->
+<config>
+    <words>
+        <!-- Enterprise_Staging -->
+        <word>staging</word>
+    </words>
+    <whitelist>
+        <item>
+            <path>app/code/core/Enterprise/Enterprise/data/enterprise_enterprise_setup/data-upgrade-1.11.0.0-1.11.0.1.php</path>
+            <word>staging</word>
+        </item>
+        <item>
+            <path>app/code/core/Enterprise/Enterprise/sql/enterprise_enterprise_setup/upgrade-1.11.0.1-1.11.0.2.php</path>
+            <word>staging</word>
+        </item>
+    </whitelist>
+</config>
