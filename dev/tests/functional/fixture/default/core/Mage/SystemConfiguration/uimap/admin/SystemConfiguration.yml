@@ -4323,7 +4323,7 @@ system_configuration:
                                     checkboxes:
                                         merge_css_files_use_default: //input[@name='groups[css][fields][merge_css_files][inherit]']
         buttons:
-            save_config: //button[span='Save Config']
+            save_config: //button[@data-ui-id="system-config-edit-save-button"]
         messages:
             success_saved_config: //li[normalize-space(@class)='success-msg' and contains(.,'The configuration has been saved.')]
 

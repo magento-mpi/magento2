@@ -95,7 +95,7 @@ system_configuration:
                                     checkboxes:
                                         display_demo_store_notice_use_default: //input[@name='groups[head][fields][demonotice][inherit]']
                                     buttons:
-                                        reset_to_default_robots: //button[span='Reset to Default']
+                                        reset_to_default_robots: //button[@data-ui-id='widget-button']
                 -
                     catalog_google_sitemap:
                         fieldsets:
