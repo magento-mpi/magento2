@@ -110,6 +110,26 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
     }
 
     /**
+     * Set sanitizing flag
+     *
+     * @param bool $flag
+     */
+    public function setSanitizing($flag)
+    {
+        $this->_isSanitizeBlocks = $flag;
+    }
+
+    /**
+     * Set wrapping flag
+     *
+     * @param bool $flag
+     */
+    public function setWrapping($flag)
+    {
+        $this->_enabledWrapping = $flag;
+    }
+
+    /**
      * Replace all potentially dangerous blocks in layout into stubs
      *
      * It is important to sanitize the references first, because they refer to blocks to check whether they are safe.

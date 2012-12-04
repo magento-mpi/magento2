@@ -41,4 +41,10 @@
             <block type="Mage_DesignEditor_Block_Container" name="after_body_start" template="container.phtml"/>
         </reference>
     </design_editor_page>
+
+    <designeditor_page_type>
+        <reference name="head">
+            <action method="addCss"><file>Mage_DesignEditor::css/design.css</file></action>
+        </reference>
+    </designeditor_page_type>
 </layout>
