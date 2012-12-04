@@ -314,7 +314,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
                 $before = $this->getMessagesOnPage();
                 $this->configureProduct($configure);
                 $uimap = $this->_findUimapElement('fieldset', 'product_composite_configure_form');
-                $this->click($this->_getControlXpath('button', 'ok', $uimap));
+                $this->click($this->_getControlXpath('button', 'composite_configure_ok', $uimap));
                 $after = $this->getMessagesOnPage();
                 $result = array();
                 foreach ($after as $key => $value) {
