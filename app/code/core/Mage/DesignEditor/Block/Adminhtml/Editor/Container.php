@@ -21,6 +21,20 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Container extends Mage_Backend_Bl
     protected $_frameUrl;
 
     /**
+     * Add elements in layout
+     */
+    protected function _prepareLayout()
+    {
+        $this->addButton('back_button', array(
+            'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Back'),
+            'onclick'   => 'setLocation(\'' . $this->getUrl('*/*') . '\')',
+            'class' => 'back'
+        ));
+
+        parent::_prepareLayout();
+    }
+
+    /**
      * Get header text
      *
      * @return string

@@ -14,16 +14,6 @@
 class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons extends Mage_Backend_Block_Template
 {
     /**
-     * Get exit editor URL
-     *
-     * @return string
-     */
-    public function getExitUrl()
-    {
-        return Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('adminhtml/system_design_editor');
-    }
-
-    /**
      * Get "View Layout" button URL
      *
      * @return string

@@ -10,10 +10,7 @@
 ?>
 <?php /** @var $this Mage_Core_Block_Template */ ?>
 <div id="vde_toolbar_row">
-    <?php $layout = $this->getLayout(); ?>
-    <?php foreach ($this->getChildNames() as $name): ?>
-        <?php echo $layout->renderElement($name) ?>
-    <?php endforeach; ?>
+    <?php echo $this->getChildHtml(); ?>
 </div>
 <script type="text/javascript">
 (function ($) {
