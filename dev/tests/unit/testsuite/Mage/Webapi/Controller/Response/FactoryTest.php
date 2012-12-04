@@ -2,7 +2,10 @@
 /**
  * Test Response factory.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Webapi_Controller_Response_FactoryTest extends PHPUnit_Framework_TestCase
 {

@@ -2,7 +2,10 @@
 /**
  * Test class Enterprise2_Mage_ApiUsers_CreateTest
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Enterprise2_Mage_ApiUsers_CreateTest extends Mage_Selenium_TestCase
 {
