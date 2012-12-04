@@ -248,9 +248,4 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
             'custom' => array(realpath(__DIR__ . '/Bootstrap/_files/local-custom.xml'), 'mssql'),
         );
     }
-
-    public function testGetTmpDir()
-    {
-        $this->assertEquals(self::$_tmpDir, $this->_bootstrap->getTmpDir());
-    }
 }

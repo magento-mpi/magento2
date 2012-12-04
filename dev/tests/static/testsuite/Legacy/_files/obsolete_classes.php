@@ -525,6 +525,8 @@ return array(
     $this->_getClassRule('Mage_Catalog_Model_Resource_Product_Attribute_Frontend_Tierprice'),
     $this->_getClassRule('Mage_Core_Block_Flush'),
     $this->_getClassRule('Mage_Core_Block_Template_Facade'),
+    $this->_getClassRule('Mage_Core_Block_Template_Smarty'),
+    $this->_getClassRule('Mage_Core_Block_Template_Zend'),
     $this->_getClassRule('Mage_Core_Controller_Varien_Router_Admin', 'Mage_Backend_Controller_Router_Default'),
     $this->_getClassRule('Mage_Core_Model_Convert'),
     $this->_getClassRule('Mage_Core_Model_Config_System'),

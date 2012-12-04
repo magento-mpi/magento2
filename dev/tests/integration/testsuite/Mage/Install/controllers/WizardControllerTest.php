@@ -24,7 +24,7 @@ class Mage_Install_WizardControllerTest extends Magento_Test_TestCase_Controller
     public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
-        self::$_tmpMediaDir = realpath(Magento_Test_Bootstrap::getInstance()->getTmpDir())
+        self::$_tmpMediaDir = realpath(Magento_Test_Bootstrap::getInstance()->getInstallDir())
             . DIRECTORY_SEPARATOR . 'media';
         self::$_tmpThemeDir = self::$_tmpMediaDir . DIRECTORY_SEPARATOR . 'theme';
     }
@@ -33,7 +33,7 @@ class Mage_Install_WizardControllerTest extends Magento_Test_TestCase_Controller
     {
         parent::setUp();
         // emulate non-installed application
-        $this->_runOptions[Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_DATA]
+        $this->_runOptions[Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA]
             = sprintf(Mage_Core_Model_Config::CONFIG_TEMPLATE_INSTALL_DATE, 'invalid');
     }
 

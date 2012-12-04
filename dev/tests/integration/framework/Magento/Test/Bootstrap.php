@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-require_once __DIR__ . '/../../../../../../lib/Varien/Simplexml/Element.php';
 
 /**
  * Tests entry point. Implements application installation, initialization and uninstall
@@ -81,13 +80,6 @@ class Magento_Test_Bootstrap
      * @var string
      */
     protected $_installEtcDir;
-
-    /**
-     * Temporary directory
-     *
-     * @var string
-     */
-    protected $_tmpDir;
 
     /**
      * Application initialization parameters
@@ -177,10 +169,8 @@ class Magento_Test_Bootstrap
         $this->_globalEtcFiles = $this->_exposeFiles($globalEtcFiles);
         $this->_moduleEtcFiles = $this->_exposeFiles($moduleEtcFiles);
         $this->_customXmlFile = $customXmlFile;
-        $this->_tmpDir = $tmpDir;
-
         $this->_readLocalXml();
-        $this->_verifyDirectories();
+        $this->_verifyDirectories($tmpDir);
 
         $sandboxUniqueId = md5(sha1_file($this->_localXmlFile) . '_' . $globalEtcFiles . '_' . $moduleEtcFiles);
         $installDir = "{$tmpDir}/sandbox-{$this->_dbVendorName}-{$sandboxUniqueId}";
@@ -229,6 +219,14 @@ class Magento_Test_Bootstrap
     }
 
     /**
+     * Get directory path with application instance custom data (cache, temporary directory, etc...)
+     */
+    public function getInstallDir()
+    {
+        return $this->_installDir;
+    }
+
+    /**
      * Get DB vendor name
      *
      * @return string
@@ -261,9 +259,9 @@ class Magento_Test_Bootstrap
     /**
      * Run application normally, but with encapsulated initialization options
      */
-    public function runApp()
+    public function runApp(array $additionalParams)
     {
-        Mage::run($this->_initParams);
+        Mage::run(array_merge($additionalParams, $this->_initParams));
     }
 
     /**
@@ -329,17 +327,18 @@ class Magento_Test_Bootstrap
     /**
      * Check all required directories contents and permissions
      *
+     * @param string $tmpDir
      * @throws Magento_Exception when any of required directories is not eligible
      */
-    protected function _verifyDirectories()
+    protected function _verifyDirectories($tmpDir)
     {
         /* Magento application dir */
         if (!is_file($this->_magentoDir . '/app/bootstrap.php')) {
             throw new Magento_Exception('Unable to locate Magento root folder and bootstrap.php.');
         }
         /* Temporary directory */
-        if (!is_dir($this->_tmpDir) || !is_writable($this->_tmpDir)) {
-            throw new Magento_Exception("The '{$this->_tmpDir}' is not a directory or not writable.");
+        if (!is_dir($tmpDir) || !is_writable($tmpDir)) {
+            throw new Magento_Exception("The '{$tmpDir}' is not a directory or not writable.");
         }
     }
 
@@ -553,15 +552,5 @@ class Magento_Test_Bootstrap
             'role_name'  => $user->getFirstname(),
         ));
         $roleUser->save();
-    }
-
-    /**
-     * Returns path to framework's temporary directory
-     *
-     * @return string
-     */
-    public function getTmpDir()
-    {
-        return $this->_tmpDir;
     }
 }
