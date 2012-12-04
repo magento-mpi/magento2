@@ -11,7 +11,7 @@
 
 <?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Theme_Item */?>
 
-<li style="height:400px; width:380px; margin:20px; float:left;">
+<li id="theme-id-<?php echo $this->getTheme()->getId() ?>" style="height:400px; width:380px; margin:20px; float:left;">
     <?php echo $this->getThemeHtml() ?>
     <div style="margin:5px 20px;">
         <h4><?php echo $this->getTheme()->getThemeTitle()?></h4>

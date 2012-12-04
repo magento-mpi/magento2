@@ -1,0 +1,23 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_DesignEditor
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+# Available Theme page
+available_theme_list:
+    mca: system_design_editor/
+    click_xpath: //div[@class='nav-bar']//li[a[span='System']]//li[a[span='Design']]//a[span='Editor']
+    title: Editor / Design / System / Magento Admin
+    uimap: &availableThemeList
+        from: &availableThemeList
+            fieldsets:
+                -
+                    theme_list:
+                        xpath: //div[@class='infinite_scroll']
+        pageelements:
+            theme_list_elements: //div[@class='infinite_scroll']//ul//li
