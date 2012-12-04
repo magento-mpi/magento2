@@ -42,4 +42,14 @@ class Mage_Catalog_Block_Product_Configurable_AttributeSelector extends Mage_Bac
         }
         return $result;
     }
+
+    /**
+     * Configurable attribute suggestion action URL
+     *
+     * @return string
+     */
+    public function getSuggestUrl()
+    {
+        return $this->getUrl('*/catalog_product_attribute/suggestConfigurableAttributes');
+    }
 }

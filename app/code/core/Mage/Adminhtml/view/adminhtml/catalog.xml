@@ -46,17 +46,18 @@
                 <container name="product-type-tabs" label="Tabs">
                 </container>
             </block>
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_AttributeSet" name="attribute-set-info" template="Mage_Adminhtml::catalog/product/edit/attribute_set.phtml"></block>
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_AttributeSet" name="attribute-set-info" template="Mage_Adminhtml::catalog/product/edit/attribute_set.phtml"/>
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory" name="new-category" template="Mage_Adminhtml::catalog/product/edit/category/new/form.phtml"/>
         </reference>
         <reference name="left">
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs" name="product_tabs"></block>
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs" name="product_tabs"/>
         </reference>
         <reference name="js">
             <block type="Mage_Core_Block_Template" name="change-attribute-set" template="Mage_Adminhtml::catalog/product/change_attribute_set_widget.phtml"/>
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory" name="new-category-js" template="Mage_Adminhtml::catalog/product/edit/category/new/js.phtml"/>
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Js" template="catalog/product/js.phtml" name="catalog_product_js"/>
             <block type="Mage_Core_Block_Template" template="Mage_Adminhtml::catalog/wysiwyg/js.phtml"/>
+            <block type="Mage_Catalog_Block_Product_Configurable_AttributeSelector" name="configurable-attribute-selector-js" template="Mage_Catalog::product/configurable/attribute-selector/js.phtml"/>
         </reference>
     </adminhtml_catalog_product_new>
 
@@ -82,18 +83,19 @@
                 <container name="product-type-tabs" label="Tabs">
                 </container>
             </block>
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_AttributeSet" name="attribute-set-info" template="Mage_Adminhtml::catalog/product/edit/attribute_set.phtml"></block>
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_AttributeSet" name="attribute-set-info" template="Mage_Adminhtml::catalog/product/edit/attribute_set.phtml"/>
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory" name="new-category" template="Mage_Adminhtml::catalog/product/edit/category/new/form.phtml"/>
         </reference>
         <reference name="left">
-            <block type="Mage_Backend_Block_Store_Switcher" name="store_switcher" before="-"></block>
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs" name="product_tabs"></block>
+            <block type="Mage_Backend_Block_Store_Switcher" name="store_switcher" before="-"/>
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs" name="product_tabs"/>
         </reference>
         <reference name="js">
             <block type="Mage_Core_Block_Template" name="change-attribute-set" template="Mage_Adminhtml::catalog/product/change_attribute_set_widget.phtml"/>
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory" name="new-category-js" template="Mage_Adminhtml::catalog/product/edit/category/new/js.phtml"/>
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Js" template="catalog/product/js.phtml" name="catalog_product_js"/>
             <block type="Mage_Core_Block_Template" template="Mage_Adminhtml::catalog/wysiwyg/js.phtml"/>
+            <block type="Mage_Catalog_Block_Product_Configurable_AttributeSelector" name="configurable-attribute-selector-js" template="Mage_Catalog::product/configurable/attribute-selector/js.phtml"/>
         </reference>
     </adminhtml_catalog_product_edit>
 
