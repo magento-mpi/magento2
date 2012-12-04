@@ -8,16 +8,19 @@
 # @license     {license_link}
 #
 ---
-# Available Theme page
-available_theme_list:
+# Design editor theme selector page
+design_editor_selector:
     mca: system_design_editor/
     click_xpath: //div[@class='nav-bar']//li[a[span='System']]//li[a[span='Design']]//a[span='Editor']
     title: Editor / Design / System / Magento Admin
-    uimap: &availableThemeList
-        from: &availableThemeList
-            fieldsets:
-                -
-                    theme_list:
-                        xpath: //div[@class='infinite_scroll']
+    uimap: &designEditorSelector
         pageelements:
+            header_available_themes: //h3[contains(.,'Choose a theme to start with.')]
+            theme_list: //div[@class='infinite_scroll']
+            selector_tabs_container: //ul[@id='theme_selector_tabs']
+            available_themes_tab_content: //div[@id='theme_selector_tabs_available_themes_content']
+            customized_themes_tab_content: //div[@id='theme_selector_tabs_customizations_content']
             theme_list_elements: //div[@class='infinite_scroll']//ul//li
+        links:
+            available_themes_tab: //a[@id='theme_selector_tabs_available_themes']
+            customized_themes_tab: //a[@id='theme_selector_tabs_customizations']

@@ -71,6 +71,7 @@
  * @method Community2_Mage_BatchUpdates_Products_Helper productsHelper() //@TODO need to remove
  * @method Enterprise2_Mage_Grid_Helper                                                                     gridHelper()
  * @method Enterprise2_Mage_Invitation_Helper                                                               invitationHelper()
+ * @method Core_Mage_Theme_Helper                                                                           themeHelper()
  */
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 {
