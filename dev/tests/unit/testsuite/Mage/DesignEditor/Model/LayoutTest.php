@@ -14,7 +14,7 @@ class Mage_DesignEditor_Model_LayoutTest extends PHPUnit_Framework_TestCase
     /**#@+
      * Layout property names
      */
-    const PROPERTY_SANITIZING = '_isSanitizeBlocks';
+    const PROPERTY_SANITIZING = '_sanitationEnabled';
     const PROPERTY_WRAPPING   = '_enabledWrapping';
     /**#@-*/
 

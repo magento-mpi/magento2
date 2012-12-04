@@ -111,12 +111,12 @@ class Mage_DesignEditor_PageControllerTest extends Mage_Adminhtml_Utility_Contro
         $handles = $layout->getUpdate()->getHandles();
         $this->assertContains($this->_testHandles['correct'], $handles);
         $this->assertContains('designeditor_page_type', $handles);
-        $this->assertAttributeSame(true, '_isSanitizeBlocks', $layout);
+        $this->assertAttributeSame(true, '_sanitationEnabled', $layout);
         $this->assertAttributeSame(true, '_enabledWrapping', $layout);
 
         // assert response body
         $responseBody = $this->getResponse()->getBody();
-        $this->assertContains('class="vde_element_wrapper"', $responseBody); // enabled wrapper
+        $this->assertContains('class="vde_element_wrapper', $responseBody); // enabled wrapper
         $this->assertContains('/css/design.css', $responseBody);             // included wrapper CSS
     }
 }
