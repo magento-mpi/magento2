@@ -10,8 +10,7 @@
  */
 
 /**
- *
- * Theme grid tests for Backend
+ * Test theme list
  *
  * @package     selenium
  * @subpackage  tests
@@ -22,10 +21,10 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
     /**
      * @test
      */
-    public function openGridPage()
+    public function openAvailableThemePage()
     {
         $this->loginAdminUser();
-        $this->navigate('available_theme_list');
+        $this->navigate('design_editor_selector');
         $this->waitForAjax();
         $this->isElementPresent('infinite_scroll');
 
@@ -44,4 +43,3 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
         $this->assertEquals(8, $this->getXpathCount($xpath));
     }
 }
-
