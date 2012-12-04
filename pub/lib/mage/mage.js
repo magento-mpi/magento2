@@ -7,14 +7,9 @@
  * @license     {license_link}
  */
 /*jshint eqnull:true browser:true jquery:true*/
-(function ($) {
+(function($) {
     $.extend(true, $, {
         mage: {
-            language: {
-                cookieKey: 'language',
-                en: 'en',
-                code: 'en'
-            },
             constant: {
                 KEY_BACKSPACE: 8,
                 KEY_TAB: 9,

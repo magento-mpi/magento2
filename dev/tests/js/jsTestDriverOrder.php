@@ -13,7 +13,6 @@
  * @return array
  */
 return array(
-    '/pub/lib/globalize/globalize.js',
     '/pub/lib/jquery/jquery-1.8.2.min.js',
     '/pub/lib/jquery/jquery.cookie.js',
     '/pub/lib/jquery/head.load.min.js',
