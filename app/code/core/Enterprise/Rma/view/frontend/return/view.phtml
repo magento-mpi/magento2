@@ -118,7 +118,7 @@
         jQuery(function() {
             head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
                 "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
-                "<?php echo $this->getViewFileUrl('jquery/jquery.hook.js')?>",
+                "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
                 "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
                 "<?php echo $this->getViewFileUrl('jquery/jquery.popupwindow.js')?>",
                 "<?php echo $this->getViewFileUrl('mage/popup-window.js')?>",
@@ -271,17 +271,9 @@
     (function($) {
         head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
             "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
-            "<?php echo $this->getViewFileUrl('jquery/jquery.hook.js')?>",
+            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>", function() {
                 $('#rma_comment').validation();
-                /**
-                 * Add focus on first form field
-                 * TODO : Not the ideal approach. Need to move below logic to a widget that
-                 * captures VarienForm's overall functionality.
-                 */
-                $(function() {
-                    $("#rma_comment :input:visible:enabled:first").focus();
-                });
             });
     })(jQuery);
 </script>

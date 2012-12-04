@@ -34,7 +34,7 @@
         _showPassword: function() {
             $(this.options.currentPasswordId).attr('data-validate', '{required:true}')
                 .parents(this.options.passwordContainer).show();
-            $(this.options.passwordId).attr('data-validate', '{required:true, validatePassword:true}');
+            $(this.options.passwordId).attr('data-validate', "{required:true, 'validate-password':true}");
             $(this.options.confirmationId).attr('data-validate',
                 '{required:true, equalTo:"' + this.options.passwordId + '"}');
         }

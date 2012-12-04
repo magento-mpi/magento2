@@ -20,6 +20,5 @@ return array(
     '/pub/lib/mage/mage.js',
     '/pub/lib/mage/decorate.js',
     '/pub/lib/jquery/jquery.validate.js',
-    '/pub/lib/jquery/jquery.metadata.js',
-    '/pub/lib/jquery/jquery.hook.js'
+    '/pub/lib/jquery/jquery.metadata.js'
 );
