@@ -26,7 +26,7 @@ class Mage_Core_Controller_Varien_Router_Factory
     /**
      * @param string $className
      * @param array $routerInfo
-     * @return mixed
+     * @return Mage_Core_Controller_Varien_Router_Abstract
      */
     public function createRouter($className, array $routerInfo = array())
     {
