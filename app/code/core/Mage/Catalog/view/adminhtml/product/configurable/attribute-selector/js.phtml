@@ -17,7 +17,6 @@
         var self = $('#attribute-selector')
             .bind('ajaxSend ajaxComplete', function(e) {
                 e.stopPropagation();
-                $(this).toggleClass('ajax-spinner-active', e.type === 'ajaxSend');
             })
             .autocomplete({
                 source: function(request, response) {

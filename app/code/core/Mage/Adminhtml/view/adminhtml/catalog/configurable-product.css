@@ -12,7 +12,7 @@
     display: none;
 }
 
-input.ajax-spinner-active {
+input.ui-autocomplete-loading {
     background:#fff url('images/spinner.gif') no-repeat 100%;
     background:url('images/spinner.gif') no-repeat 100%, -webkit-gradient(linear, left bottom, left top, color-stop(0.85, white), color-stop(0.99, #eeeeee));
     background:url('images/spinner.gif') no-repeat 100%, -webkit-linear-gradient(center bottom, white 85%, #eeeeee 99%);
