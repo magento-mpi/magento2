@@ -64,15 +64,13 @@ class Magento_Validator
                     /** @var Zend_Validate_Interface $constraint */
                     $value = isset($data[$field]) ? $data[$field] : null;
                     if (!$constraint->isValid($value)) {
-                        foreach ($constraint->getMessages() as $error) {
-                            $this->_messages[$field][] = $error;
-                        }
+                        $this->_saveValidatorErrorMessages($constraint, $field);
                         $isValid = false;
                     }
                 } else {
                     /** @var Magento_Validator_ConstraintAbstract $constraint */
                     if (!$constraint->isValidData($data, $field)) {
-                        $this->_populateErrorMessages($constraint);
+                        $this->_saveConstraintErrorMessages($constraint);
                         $isValid = false;
                     }
                 }
@@ -83,22 +81,27 @@ class Magento_Validator
     }
 
     /**
-     * Get validation messages.
+     * Get error messages from Validator and save them into messages array
      *
-     * @return array
+     * @param Zend_Validate_Interface $constraint
+     * @param string $field
+     * @return Magento_Validator
      */
-    public function getMessages()
+    protected function _saveValidatorErrorMessages(Zend_Validate_Interface $constraint, $field)
     {
-        return $this->_messages;
+        foreach ($constraint->getMessages() as $error) {
+            $this->_messages[$field][] = $error;
+        }
+        return $this;
     }
 
     /**
-     * Save error messages into messages array
+     * Get error messages from Validator Constraint and save them into messages array
      *
      * @param Magento_Validator_ConstraintAbstract $constraint
      * @return Magento_Validator
      */
-    protected function _populateErrorMessages($constraint)
+    protected function _saveConstraintErrorMessages(Magento_Validator_ConstraintAbstract $constraint)
     {
         foreach ($constraint->getErrors() as $errorFieldName => $errors) {
             foreach ($errors as $error) {
@@ -106,5 +109,15 @@ class Magento_Validator
             }
         }
         return $this;
+    }
+
+    /**
+     * Get validation messages.
+     *
+     * @return array
+     */
+    public function getMessages()
+    {
+        return $this->_messages;
     }
 }

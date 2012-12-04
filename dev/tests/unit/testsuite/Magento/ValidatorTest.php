@@ -105,7 +105,7 @@ class Magento_ValidatorTest extends PHPUnit_Framework_TestCase
         );
 
         $zendConstraintMock = $this->getMock('Zend_Validate_Alnum', array('isValid', 'getMessages'));
-        $mageConstraintMock = $this->getMock('Magento_Validator_Constraint', array('isValidData', 'getErrors'));
+        $mageConstraintMock = $this->getMock('Magento_Validator_ConstraintAbstract', array('isValidData', 'getErrors'));
         $validationRules = array(
             'test_rule' => array(
                 array(
