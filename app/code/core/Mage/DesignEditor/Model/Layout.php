@@ -18,7 +18,7 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
      *
      * @var bool
      */
-    protected $_isSanitizeBlocks = false;
+    protected $_sanitationEnabled = false;
 
     /**
      * Is block wrapping enabled flag
@@ -104,7 +104,7 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
         $enableWrapping = false
     ) {
         $this->_wrapperBlock     = $wrapperBlock;
-        $this->_isSanitizeBlocks = $isSanitizeBlocks;
+        $this->_sanitationEnabled = $isSanitizeBlocks;
         $this->_enabledWrapping  = $enableWrapping;
         parent::__construct($blockFactory, $structure, $argumentProcessor, $translator, $scheduledStructure, $area);
     }
@@ -116,7 +116,7 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
      */
     public function setSanitizing($flag)
     {
-        $this->_isSanitizeBlocks = $flag;
+        $this->_sanitationEnabled = $flag;
     }
 
     /**
@@ -286,7 +286,7 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
      */
     public function generateElements()
     {
-        if ($this->_isSanitizeBlocks) {
+        if ($this->_sanitationEnabled) {
             $this->sanitizeLayout($this->getNode());
         }
 
