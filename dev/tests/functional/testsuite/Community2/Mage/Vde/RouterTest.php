@@ -8,6 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/**
+ * @method Core_Mage_Vde_Helper vdeHelper() vdeHelper()
+ */
 class Community2_Mage_Vde_RouterTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
@@ -32,6 +35,7 @@ class Community2_Mage_Vde_RouterTest extends Mage_Selenium_TestCase
         $this->reindexInvalidedData();
         $this->clearInvalidedCache();
         $this->productHelper()->frontOpenProduct($productData['general_name']);
+        $this->assertTrue($this->vdeHelper()->isVdeRouter($this->getLocation()));
     }
 
     /**
@@ -52,6 +56,7 @@ class Community2_Mage_Vde_RouterTest extends Mage_Selenium_TestCase
         $this->reindexInvalidedData();
         $this->clearInvalidedCache();
         $this->productHelper()->frontOpenProductById($productId, $productData['general_name']);
+        $this->assertTrue($this->vdeHelper()->isVdeRouter($this->getLocation()));
     }
 
     /**
@@ -61,5 +66,6 @@ class Community2_Mage_Vde_RouterTest extends Mage_Selenium_TestCase
     public function cmsRouterTest()
     {
         $this->frontend('about_us');
+        $this->assertTrue($this->vdeHelper()->isVdeRouter($this->getLocation()));
     }
 }
