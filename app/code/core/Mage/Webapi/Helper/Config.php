@@ -169,7 +169,7 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
      *
      * Examples of input/output pairs: <br/>
      * - 'Mage_Customer_Controller_Webapi_Customer_Address' => array('Customer', 'Address') <br/>
-     * - 'Enterprise_Customer_Controller_Webapi_Customer_Address' => array('EnterpriseCustomer', 'Address') <br/>
+     * - 'Vendor_Customer_Controller_Webapi_Customer_Address' => array('VendorCustomer', 'Address') <br/>
      * - 'Mage_Catalog_Controller_Webapi_Product' => array('Catalog', 'Product')
      *
      * @param string $className
