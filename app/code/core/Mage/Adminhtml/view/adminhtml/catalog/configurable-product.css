@@ -1,0 +1,12 @@
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Adminhtml
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+#configurable_associated_products_grid .filter-actions,
+#configurable_associated_products_grid .filter {
+    display: none;
+}

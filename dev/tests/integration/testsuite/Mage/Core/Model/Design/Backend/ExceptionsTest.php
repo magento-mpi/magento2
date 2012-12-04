@@ -148,10 +148,6 @@ class Mage_Core_Model_Design_Backend_ExceptionsTest extends PHPUnit_Framework_Te
                 '2' => array('search' => '/Opera/', 'value' => 'default/blank'),
             )),
             array(array(
-                '1' => array('search' => '/Firefox/', 'value' => 'default/blank'),
-                '2' => array('search' => '/Opera/', 'value' => 'invalid_design'),
-            )),
-            array(array(
                 '1' => array('search' => '/Firefox/'),
                 '2' => array('search' => '/Opera/', 'value' => 'default/blank'),
             )),

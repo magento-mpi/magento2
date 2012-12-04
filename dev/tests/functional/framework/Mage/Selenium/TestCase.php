@@ -57,8 +57,6 @@
  * @method Enterprise_Mage_Rollback_Helper                                                                  rollbackHelper()
  * @method Community2_Mage_RssFeeds_Helper|Enterprise2_Mage_RssFeeds_Helper                                 rssFeedsHelper()
  * @method Core_Mage_ShoppingCart_Helper|Community2_Mage_ShoppingCart_Helper|Enterprise_Mage_ShoppingCart_Helper|Enterprise2_Mage_ShoppingCart_Helper shoppingCartHelper()
- * @method Enterprise_Mage_StagingLog_Helper                                                                stagingLogHelper()
- * @method Enterprise_Mage_StagingWebsite_Helper                                                            stagingWebsiteHelper()
  * @method Core_Mage_Store_Helper|Community2_Mage_Store_Helper|Enterprise2_Mage_Store_Helper                storeHelper()
  * @method Core_Mage_SystemConfiguration_Helper|Community1701_Mage_SystemConfiguration_Helper               systemConfigurationHelper()
  * @method Core_Mage_Tags_Helper                                                                            tagsHelper()
@@ -71,6 +69,8 @@
  * @method Community2_Mage_XmlSitemap_Helper|Enterprise2_Mage_XmlSitemap_Helper                             xmlSitemapHelper()
  * @method Community2_Mage_BatchUpdates_Orders_Helper ordersHelper() //@TODO need to remove
  * @method Community2_Mage_BatchUpdates_Products_Helper productsHelper() //@TODO need to remove
+ * @method Enterprise2_Mage_Grid_Helper                                                                     gridHelper()
+ * @method Enterprise2_Mage_Invitation_Helper                                                               invitationHelper()
  */
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 {
@@ -175,40 +175,24 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected $_error = false;
 
     /**
-     * Type of uimap elements
-     * @var string
+     * Types of uimap elements
      */
+    const FIELD_TYPE_CHECKBOX    = 'checkbox';
+    const FIELD_TYPE_DROPDOWN    = 'dropdown';
+    const FIELD_TYPE_INPUT       = 'field';
+    const FIELD_TYPE_FIELDSET    = 'fieldset';
+    const FIELD_TYPE_LINK        = 'link';
+    const FIELD_TYPE_MESSAGE     = 'message';
     const FIELD_TYPE_MULTISELECT = 'multiselect';
-
-    /**
-     * Type of uimap elements
-     * @var string
-     */
-    const FIELD_TYPE_DROPDOWN = 'dropdown';
-
-    /**
-     * Type of uimap elements
-     * @var string
-     */
-    const FIELD_TYPE_CHECKBOX = 'checkbox';
-
-    /**
-     * Type of uimap elements
-     * @var string
-     */
+    const FIELD_TYPE_PAGEELEMENT = 'pageelement';
     const FIELD_TYPE_RADIOBUTTON = 'radiobutton';
 
     /**
-     * Type of uimap elements
-     * @var string
+     * Message types
      */
-    const FIELD_TYPE_INPUT = 'field';
-
-    /**
-     * Type of uimap elements
-     * @var string
-     */
-    const FIELD_TYPE_PAGEELEMENT = 'pageelement';
+    const MESSAGE_TYPE_ERROR      = 'error';
+    const MESSAGE_TYPE_SUCCESS    = 'success';
+    const MESSAGE_TYPE_VALIDATION = 'validation';
 
     ################################################################################
     #                      Selenium variables(do not rename)                       #
@@ -235,7 +219,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Loading holder XPath
      * @staticvar string
      */
-    protected static $xpathLoadingHolder = "//div[@id='loading-mask'][not(contains(@style,'display:') and contains(@style,'none'))]";
+    protected static $xpathLoadingHolder
+        = "//div[@id='loading-mask'][not(contains(@style,'display:') and contains(@style,'none'))]";
 
     /**
      * Constructs a test case with the given name and browser to test execution
@@ -1775,19 +1760,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected static function _getMcaFromCurrentUrl($areasConfig, $currentUrl)
     {
         $mca = '';
-        $currentArea = '';
-        $baseUrl = '';
+        $currentArea = self::_getAreaFromCurrentUrl($areasConfig, $currentUrl);
+        $baseUrl = preg_replace('|^www\.|', '', preg_replace('|^http([s]{0,1})://|', '',
+            preg_replace('|/index.php/?|', '/', $areasConfig[$currentArea]['url'])));
         $currentUrl = preg_replace('|^www\.|', '',
             preg_replace('|^http([s]{0,1})://|', '', preg_replace('|/index.php/?|', '/', $currentUrl)));
-        foreach ($areasConfig as $area => $areaConfig) {
-            $areaUrl = preg_replace('|^www\.|', '',
-                preg_replace('|^http([s]{0,1})://|', '', preg_replace('|/index.php/?|', '/', $areaConfig['url'])));
-            if (strpos($currentUrl, $areaUrl) === 0) {
-                $baseUrl = $areaUrl;
-                $currentArea = $area;
-                break;
-            }
-        }
+
         if (strpos($currentUrl, $baseUrl) !== false) {
             $mca = trim(substr($currentUrl, strlen($baseUrl)), " /\\");
         }
@@ -1796,20 +1774,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $mca = '/' . $mca;
         }
 
-        if ($currentArea == 'admin') {
-            //Removes part of url that appears after pressing "Reset Filter" or "Search" button in grid
-            //(when not using ajax to reload the page)
-            $mca = preg_replace('|/filter/((\S)+)?/form_key/[A-Za-z0-9]+/?|', '/', $mca);
-            //Delete secret key from url
-            $mca = preg_replace('|/(index/)?key/[A-Za-z0-9]+/?|', '/', $mca);
-            //Delete store view part of mca
-            $mca = preg_replace('|/store/[A-Za-z0-9]+/?|', '/', $mca);
-            //Delete action part of mca if it's index
-            $mca = preg_replace('|/index/?$|', '/', $mca);
-        } elseif ($currentArea == 'frontend') {
-            //Delete action part of mca if it's index
-            $mca = preg_replace('|/index/?$|', '/', $mca);
-        }
+        //Removes part of url that appears after pressing "Reset Filter" or "Search" button in grid
+        //(when not using ajax to reload the page)
+        $mca = preg_replace('|/filter/((\S)+)?/form_key/[A-Za-z0-9]+/?|', '/', $mca);
+        //Delete secret key from url
+        $mca = preg_replace('|/(index/)?key/[A-Za-z0-9]+/?|', '/', $mca);
+        //Delete action part of mca if it's index
+        $mca = preg_replace('|/index/?$|', '/', $mca);
+        //Delete action part of mca if it's ?SID=
+        $mca = preg_replace('|(\?)?SID=([a-zA-Z\d]+)?|', '', $mca);
+        //@TODO Temporary fix for magento2
+        $mca = preg_replace('/^(\/)?(admin|backend)(\/)?/', '',$mca);
+
         return preg_replace('|^/|', '', $mca);
     }
 
@@ -3501,7 +3477,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             . "Problem with dropdown field '$name' and xpath '$xpath':\n";
         if ($this->isElementPresent($xpath)) {
             if ($this->isEditable($xpath)) {
-                if (trim($this->getSelectedValue($xpath), chr(0xC2) . chr(0xA0)) != trim($value, chr(0xC2) . chr(0xA0))) {
+                $trimmedCharacters = chr(0xC2) . chr(0xA0);
+                if (trim($this->getSelectedValue($xpath), $trimmedCharacters) != trim($value, $trimmedCharacters)) {
                     if ($this->isElementPresent($xpath . "//option[text()='" . $value . "']")) {
                         $this->select($xpath, 'label=' . $value);
                     } else {

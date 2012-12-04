@@ -271,14 +271,13 @@
                 : '<?php echo $this->getNodeFieldsetLegend()?>';
 
             // prepare preview link
-            Validation.add('IsEmpty', '', function(v) {
-                return  (v == '' || (v == null) || (v.length == 0) || /^\s+$/.test(v));
-            });
-
+            // Temporary solution will be removed after refactoring hierarchyNodes and validation functionality
+            jQuery('#node_id').addClass('is-empty');
             var nodeValue = $('node_id').value,
-                isNodeSaved = Validation.get('IsEmpty').test(nodeValue)
+                isNodeSaved = jQuery('#edit_form').validate({errorClass: 'mage-error'}).element('#node_id')
                     || (!isNaN(parseNumber(nodeValue)) && !/^\s+$/.test(parseNumber(nodeValue))),
                 isStoreViewLevel = $('store') && $('store').value;
+            jQuery('#node_id').removeClass('is-empty');
 
             var isNodePreviewAvailable = <?php echo (int)$this->isNodePreviewAvailable(); ?>;
 
@@ -426,7 +425,8 @@
             this.collectChilds(this.treeRoot);
             $('nodes_data').value = Object.toJSON(this.treeData);
             $('removed_nodes').value = this.removedNodes.join(',');
-            editForm.submit();
+            // Temporary solution will be removed after refactoring hierarchyNodes and validation functionality
+            jQuery('#edit_form').triggerHandler('save');
         },
 
         nodePropValidate: function(){
@@ -435,7 +435,8 @@
 
             var isValid = true;
             $('node_properties_fieldset').select('input').each(function(el){
-                isValid = Validation.validate(el) && isValid;
+                // Temporary solution will be removed after refactoring hierarchyNodes and validation functionality
+                isValid = jQuery('#edit_form').validate({errorClass: 'mage-error'}).element('#' + el.id) && isValid;
             });
 
             $('node_label').removeClassName('required-entry');
@@ -718,7 +719,8 @@
             if (!$('node_id').value) {
                 this.saveButton(true, true);
             }
-            editForm.validator.validate();
+            // Temporary solution will be removed after refactoring hierarchyNodes and validation functionality
+            jQuery('#edit_form').valid();
         },
 
         // Navigation Menu Options List Type onChange callback

@@ -72,8 +72,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
 
             $this->addChild('save_button', 'Mage_Adminhtml_Block_Widget_Button', array(
                 'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Save'),
-                'onclick'   => 'productForm.submit()',
-                'class' => 'save'
+                'class' => 'save',
+                'data_attr'  => array(
+                    'widget-button' => array('event' => 'save', 'related' => '#product-edit-form')
+                )
             ));
         }
 
@@ -81,7 +83,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
             if (!$this->getProduct()->isReadonly()) {
                 $this->addChild('save_and_edit_button', 'Mage_Adminhtml_Block_Widget_Button', array(
                     'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Save and Continue Edit'),
-                    'onclick'   => 'saveAndContinueEdit(\''.$this->getSaveAndContinueUrl().'\')',
+                    'data_attr'  => array(
+                        'widget-button' => array('event' => 'saveAndContinueEdit', 'related' => '#product-edit-form')
+                    ),
                     'class' => 'save'
                 ));
             }
@@ -197,11 +201,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
 
     public function getHeader()
     {
-        $header = '';
         if ($this->getProduct()->getId()) {
             $header = $this->escapeHtml($this->getProduct()->getName());
-        }
-        else {
+        } else {
             $header = Mage::helper('Mage_Catalog_Helper_Data')->__('New Product');
         }
         if ($setName = $this->getAttributeSetName()) {
@@ -256,5 +258,38 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     public function getAttributesAllowedForAutogeneration()
     {
         return $this->helper('Mage_Catalog_Helper_Product')->getAttributesAllowedForAutogeneration();
+    }
+
+    /**
+     * Get data for JS (product type transition)
+     *
+     * @return string
+     */
+    public function getTypeSwitcherData()
+    {
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
+            'tab_id' => 'product_info_tabs_downloadable_items',
+            'is_virtual_id' => Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer::VIRTUAL_FIELD_HTML_ID,
+            'weight_id' => 'weight',
+            'current_type' => $this->getProduct()->getTypeId(),
+            'attributes' => $this->_getAttributes(),
+        ));
+    }
+
+    /**
+     * Get formed array with attribute codes and Apply To property
+     *
+     * @return array
+     */
+    protected function _getAttributes()
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->getProduct();
+        $attributes = array();
+
+        foreach ($product->getAttributes() as $key => $attribute) {
+            $attributes[$key] = $attribute->getApplyTo();
+        }
+        return $attributes;
     }
 }

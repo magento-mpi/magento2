@@ -114,7 +114,7 @@ new_website:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_website: //button[span='Save Website']
+            save_website: //button[@data-ui-id='system-store-edit-save-button']
         messages:
             wrong_website_code: //li[normalize-space(@class)='error-msg' and contains(., 'Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter')]
             website_code_exist: //li[normalize-space(@class)='error-msg' and contains(., 'Website with the same code already exists.')]
@@ -143,7 +143,7 @@ edit_website:
             back: //button[span='Back']
             reset: //button[span='Reset']
             delete_website: //button[span='Delete Website']
-            save_website: //button[span='Save Website']
+            save_website: //button[@data-ui-id='system-store-edit-save-button']
         messages:
             wrong_website_code: //li[normalize-space(@class)='error-msg' and contains(., 'Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter')]
             website_code_exist: //li[normalize-space(@class)='error-msg' and contains(., 'Website with the same code already exists.')]

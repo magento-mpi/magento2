@@ -27,6 +27,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        Mage::getDesign()->setDefaultDesignTheme();
         $this->_block = $this->getMockForAbstractClass('Mage_Core_Block_Abstract',
             $this->_getBlockDependencies()
         );
@@ -465,6 +466,13 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     {
         $this->assertStringStartsWith('http://localhost/pub/media/theme/frontend/', $this->_block->getViewFileUrl());
         $this->assertStringEndsWith('css/styles.css', $this->_block->getViewFileUrl('css/styles.css'));
+
+        /**
+         * File is not exist
+         */
+        $this->assertStringEndsWith(
+            '/core/index/notfound', $this->_block->getViewFileUrl('not_exist_folder/wrong_bad_file.xyz')
+        );
     }
 
     public function testGetSetMessagesBlock()
@@ -615,11 +623,16 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
      * App isolation is enabled, because config options object is affected
      *
      * @magentoAppIsolation enabled
+     * @magentoDbIsolation enabled
      */
     public function testGetVar()
     {
-        Mage::getConfig()->getOptions()->setDesignDir(dirname(__DIR__) . '/Model/_files/design');
-        Mage::getDesign()->setDesignTheme('test/default');
+        /** @var $themeUtility Mage_Core_Utility_Theme */
+        $themeUtility = Mage::getModel('Mage_Core_Utility_Theme', array(
+            dirname(__DIR__) . '/Model/_files/design/'
+        ));
+        $themeUtility->registerThemes()->setDesignTheme('test/default', 'frontend');
+
         $this->assertEquals('Core Value1', $this->_block->getVar('var1'));
         $this->assertEquals('value1', $this->_block->getVar('var1', 'Namespace_Module'));
         $this->_block->setModuleName('Namespace_Module');

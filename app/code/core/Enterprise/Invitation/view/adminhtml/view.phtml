@@ -21,12 +21,10 @@
         <?php echo $this->getButtonsHtml(); ?>
     </p>
 </div>
-<form id="invitation_elements" action="<?php echo $this->getSaveMessageUrl(); ?>" method="POST">
+<form id="invitation-elements" action="<?php echo $this->getSaveMessageUrl(); ?>" method="POST">
 <?php echo $this->getBlockHtml('formkey')?>
 </form>
 
 <script type="text/javascript">
-//<![CDATA[
-    var invitationForm = new varienForm('invitation_elements');
-//]]>
+    jQuery('#invitation-elements').form().validation();
 </script>

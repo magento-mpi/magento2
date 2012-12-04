@@ -90,7 +90,7 @@
          */
         _destroy: function(){
             this.element[this._picker()]('destroy');
-            $.Widget.prototype.destroy.call(this);
+            this._super();
         }
     });
 
@@ -190,14 +190,14 @@
         /**
          * destroy two instances of datetimepicker
          */
-        destroy: function(){
+        _destroy: function(){
             if(this.options.from) {
                 this.element.find('#' + this.options.from.id)[this._picker()]('destroy');
             }
             if(this.options.to) {
                 this.element.find('#' + this.options.to.id)[this._picker()]('destroy');
             }
-            $.Widget.prototype.destroy.call(this);
+            this._super();
         }
     });
 })(jQuery);

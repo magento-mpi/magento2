@@ -82,10 +82,10 @@ new_product_attribute:
                                         titles_by_store_name: //td[contains(input/@name,'option[value][option_%fieldOptionNumber%]')][%storeViewNumber%]/input
                                     required: [admin_option]
         buttons:
-            back: //button[span='Back']
-            reset: //button[span='Reset']
-            save_attribute: //button[span='Save Attribute']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            back: //*[@id='back']
+            reset: //*[@id='reset']
+            save_attribute: //*[@id='save']
+            save_and_continue_edit: //*[@id='save_and_edit_button']
             save_in_new_attribute_set: //button[span='Save in New Attribute Set']
             close_window: //button[span='Close Window']
 
