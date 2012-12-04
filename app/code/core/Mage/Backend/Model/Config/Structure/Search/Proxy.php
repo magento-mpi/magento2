@@ -22,11 +22,11 @@ class Mage_Backend_Model_Config_Structure_Search_Proxy implements Mage_Backend_M
     protected $_subject;
 
     /**
-     * @param Magento_ObjectManager $objectManger
+     * @param Magento_ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManger)
+    public function __construct(Magento_ObjectManager $objectManager)
     {
-        $this->_objectManager = $objectManger;
+        $this->_objectManager = $objectManager;
     }
 
     /**
