@@ -86,7 +86,7 @@ class Varien_Db_Profiler extends Zend_Db_Profiler
      */
     public function queryEndLast()
     {
-        if ($this->_lastQueryId) {
+        if ($this->_lastQueryId !== null) {
             return $this->queryEnd($this->_lastQueryId);
         }
 
