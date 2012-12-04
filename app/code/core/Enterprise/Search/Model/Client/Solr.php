@@ -175,7 +175,7 @@ class Enterprise_Search_Model_Client_Solr extends Apache_Solr_Service
         $this->_setAuthHeader($this->_postContext);
         Magento_Profiler::start('solr_send_raw_post', array(
             'group' => 'solr',
-            'operation' => 'solr:_sendRawGet',
+            'operation' => 'solr:_sendRawPost',
             'host' => $this->getHost()
         ));
         $response = parent::_sendRawPost($url, $rawPost, $timeout, $contentType);
