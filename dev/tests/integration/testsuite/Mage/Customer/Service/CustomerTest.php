@@ -395,13 +395,13 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     /**
      * @param array $addressesData
      * @dataProvider customerAddressDataProvider
-     * TODO: Restore data fixtures initialization after fix for MSSQL
+     * TODO: Restore data fixtures initialization after MAGETWO-5881 fix
      * magentoDataFixture Mage/Customer/_files/customer.php
      * magentoDataFixture Mage/Customer/_files/customer_two_addresses.php
      */
     public function testCustomerAddressManipulation($addressesData)
     {
-        $this->markTestSkipped('Skipped due to problems with MSSQL client.');
+        $this->markTestSkipped('MAGETWO-5881');
         /** @var Mage_Customer_Model_Customer $customer */
         $customer = $this->_customerFactory->create()
             ->load(1);
