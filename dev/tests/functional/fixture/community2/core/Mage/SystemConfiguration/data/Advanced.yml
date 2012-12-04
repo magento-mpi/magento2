@@ -18,7 +18,7 @@ disable_secret_key:
             add_secret_key_to_urls: No
 
 enable_secret_key:
-configuration_scope: Default Config
+    configuration_scope: Default Config
     tab_1:
         tab_name: advanced_admin
         configuration:
