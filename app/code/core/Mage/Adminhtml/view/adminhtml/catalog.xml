@@ -158,7 +158,7 @@
                         </params>
                     </grid_url>
                 </arguments>
-                <block type="Mage_Catalog_Block_Product_Grid_ColumnSet" as="grid.columnSet"
+                <block type="Mage_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_ColumnSet" as="grid.columnSet"
                        name="admin.product.edit.tab.super.config.grid.columnSet">
                     <arguments>
                         <id>super_product_links</id>

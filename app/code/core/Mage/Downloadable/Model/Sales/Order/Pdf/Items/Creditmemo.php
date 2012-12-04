@@ -20,6 +20,34 @@ class Mage_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo
     extends Mage_Downloadable_Model_Sales_Order_Pdf_Items_Abstract
 {
     /**
+     * @var Mage_Core_Helper_String
+     */
+    protected $_stringHelper;
+
+    /**
+     * Retrieve string helper instance
+     *
+     * @return Mage_Core_Helper_String
+     */
+    protected function _getStringHelper()
+    {
+        if (!$this->_stringHelper) {
+            $this->_stringHelper = Mage::helper('Mage_Core_Helper_String');
+        }
+        return $this->_stringHelper;
+    }
+
+    /**
+     * Assign string helper instance
+     * 
+     * @param Mage_Core_Helper_String $helperInstance
+     */
+    public function setStringHelper(Mage_Core_Helper_String $helperInstance)
+    {
+        $this->_stringHelper = $helperInstance;
+    }
+
+    /**
      * Draw item line
      *
      */
@@ -32,15 +60,14 @@ class Mage_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo
         $lines  = array();
 
         // draw Product name
-        $stringHelper = Mage::helper('Mage_Core_Helper_String');
         $lines[0] = array(array(
-            'text' => Mage::helper('Mage_Core_Helper_String')->str_split($item->getName(), 35, true, true),
+            'text' => $this->_getStringHelper()->str_split($item->getName(), 35, true, true),
             'feed' => 35,
         ));
 
         // draw SKU
         $lines[0][] = array(
-            'text'  => Mage::helper('Mage_Core_Helper_String')->str_split($this->getSku($item), 17),
+            'text'  => $this->_getStringHelper()->str_split($this->getSku($item), 17),
             'feed'  => 255,
             'align' => 'right'
         );
@@ -93,7 +120,7 @@ class Mage_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo
             foreach ($options as $option) {
                 // draw options label
                 $lines[][] = array(
-                    'text' => Mage::helper('Mage_Core_Helper_String')->str_split(strip_tags($option['label']), 70, true, true),
+                    'text' => $this->_getStringHelper()->str_split(strip_tags($option['label']), 40, true, true),
                     'font' => 'italic',
                     'feed' => 35
                 );
@@ -101,8 +128,8 @@ class Mage_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo
                 // draw options value
                 $_printValue = isset($option['print_value']) ? $option['print_value'] : strip_tags($option['value']);
                 $lines[][] = array(
-                    'text' => Mage::helper('Mage_Core_Helper_String')->str_split($_printValue, 50, true, true),
-                    'feed' => $leftBound + 5
+                    'text' => $this->_getStringHelper()->str_split($_printValue, 30, true, true),
+                    'feed' => 40
                 );
             }
         }
@@ -112,7 +139,7 @@ class Mage_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo
 
         // draw Links title
         $lines[][] = array(
-            'text' => $stringHelper->str_split($this->getLinksTitle(), 70, true, true),
+            'text' => $this->_getStringHelper()->str_split($this->getLinksTitle(), 70, true, true),
             'font' => 'italic',
             'feed' => 35
         );
@@ -120,7 +147,7 @@ class Mage_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo
         // draw Links
         foreach ($_purchasedItems as $_link) {
             $lines[][] = array(
-                'text' => $stringHelper->str_split($_link->getLinkTitle(), 50, true, true),
+                'text' => $this->_getStringHelper()->str_split($_link->getLinkTitle(), 50, true, true),
                 'feed' => 40
             );
         }

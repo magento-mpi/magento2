@@ -18,15 +18,11 @@ realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARA
 define('SELENIUM_TESTS_LOGS',
 realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'logs'));
 
-set_include_path(implode(PATH_SEPARATOR, array(
+require __DIR__ . '/../../../../app/autoload.php';
+Magento_Autoload_IncludePath::addIncludePath(array(
     realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'framework'),
-    realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'testsuite'), //To allow load tests helper files
-    get_include_path(),
-)));
-
-require_once 'Mage/Selenium/Autoloader.php';
-Mage_Selenium_Autoloader::register();
-
+    realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'testsuite'),
+));
 require_once 'functions.php';
 
 if (defined('SELENIUM_TESTS_INSTALLATION') && SELENIUM_TESTS_INSTALLATION === 'enabled') {

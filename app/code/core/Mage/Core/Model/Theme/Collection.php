@@ -55,7 +55,7 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
         if ($this->isLoaded() && $this->_baseDir) {
             $this->clearTargetPatterns()->clear();
         }
-        $this->_baseDir = rtrim($path, DS);
+        $this->_baseDir = rtrim($path, DIRECTORY_SEPARATOR);
         return $this;
     }
 
@@ -80,7 +80,7 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
      */
     public function addDefaultPattern($area = Mage_Core_Model_App_Area::AREA_FRONTEND)
     {
-        $this->addTargetPattern(implode(DS, array($area, '*', '*', 'theme.xml')));
+        $this->addTargetPattern(implode(DIRECTORY_SEPARATOR, array($area, '*', '*', 'theme.xml')));
         return $this;
     }
 
@@ -142,7 +142,7 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
         foreach ($this->getTargetPatterns() as $directoryPath) {
             $pathsToThemeConfig = array_merge(
                 $pathsToThemeConfig,
-                glob($this->getBaseDir() . DS . $directoryPath, GLOB_NOSORT)
+                glob($this->getBaseDir() . DIRECTORY_SEPARATOR . $directoryPath, GLOB_NOSORT)
             );
         }
 
@@ -204,8 +204,8 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
     protected function _preparePathData($configPath)
     {
         $themeDirectory = dirname($configPath);
-        $fullPath = trim(substr($themeDirectory, strlen($this->getBaseDir())), DS);
-        $pathPieces = explode(DS, $fullPath);
+        $fullPath = trim(substr($themeDirectory, strlen($this->getBaseDir())), DIRECTORY_SEPARATOR);
+        $pathPieces = explode(DIRECTORY_SEPARATOR, $fullPath);
         $area = array_shift($pathPieces);
         $themePath = implode(Mage_Core_Model_Theme::PATH_SEPARATOR, $pathPieces);
         return array('area' => $area, 'theme_path' => $themePath, 'theme_directory' => $themeDirectory);
@@ -254,7 +254,7 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
         /** @var $theme Mage_Core_Model_Theme */
         foreach ($this->getItems() as $itemKey => $theme) {
             $removeItem = false;
-            foreach($filters as $filter) {
+            foreach ($filters as $filter) {
                 if ($filter['type'] == 'and' && $theme->getDataUsingMethod($filter['field']) != $filter['value']) {
                     $removeItem = true;
                 }
@@ -297,5 +297,17 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
     protected function _getItemId(Varien_Object $item)
     {
         return $item->getFullPath();
+    }
+
+    /**
+     * Return array for select field
+     *
+     * @param bool $addEmptyField
+     * @return array
+     */
+    public function toOptionArray($addEmptyField = false)
+    {
+        $optionArray = $addEmptyField ? array('' => '') : array();
+        return $optionArray + $this->_toOptionArray('theme_id', 'theme_title');
     }
 }
