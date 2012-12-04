@@ -306,10 +306,9 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
 
         if ($this->_enabledWrapping) {
             $block = $this->getBlock($name);
-            $isManipulationAllowed = $this->isManipulationAllowed($name)
-                && strpos(get_class($block), 'Mage_DesignEditor_Block_') === 0;
-
-            $result = $this->_wrapElement($result, $name, false, $isManipulationAllowed);
+            if (strpos(get_class($block), 'Mage_DesignEditor_Block_') !== 0 && $this->isManipulationAllowed($name)) {
+                $result = $this->_wrapElement($result, $name, false, true);
+            }
         }
 
         return $result;

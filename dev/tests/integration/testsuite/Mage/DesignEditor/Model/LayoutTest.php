@@ -62,30 +62,31 @@ class Mage_DesignEditor_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $blockName = 'safe.block';
         $containerName = 'content';
 
+        $blockWrapper = 'class="vde_element_wrapper vde_draggable vde_removable" data-name="' . $blockName . '"';
+        $blockTitle = '<div class="vde_element_title">' . $blockName . '</div>';
+        $containerWrapper = 'class="vde_element_wrapper vde_container" data-name="' . $containerName . '"';
+        $containerTitle = '<div class="vde_element_title">' . ucfirst($containerName) . '</div>';
+
         $layout = $this->_getLayoutWithTestUpdate();
         $layout->generateElements();
 
         $actualContent = $layout->renderElement($blockName);
-        $this->assertContains('class="vde_element_wrapper" data-name="' . $blockName . '"', $actualContent);
-        $this->assertContains('<div class="vde_element_title">' . $blockName . '</div>', $actualContent);
+        $this->assertContains($blockWrapper, $actualContent);
+        $this->assertContains($blockTitle, $actualContent);
 
         $actualContent = $layout->renderElement($containerName);
-        $this->assertContains('class="vde_element_wrapper vde_container" data-name="' . $containerName . '"',
-            $actualContent
-        );
-        $this->assertContains('<div class="vde_element_title">' . ucfirst($containerName) . '</div>', $actualContent);
+        $this->assertContains($containerWrapper, $actualContent);
+        $this->assertContains($containerTitle, $actualContent);
 
         $layout = $this->_getLayoutWithTestUpdate(true, false);
         $layout->generateElements();
 
         $actualContent = $layout->renderElement($blockName);
-        $this->assertNotContains('class="vde_element_wrapper" data-name="' . $blockName . '"', $actualContent);
-        $this->assertNotContains('<div class="vde_element_title">' . $blockName . '</div>', $actualContent);
+        $this->assertNotContains($blockWrapper, $actualContent);
+        $this->assertNotContains($blockTitle, $actualContent);
 
         $actualContent = $layout->renderElement($containerName);
-        $this->assertNotContains('class="vde_element_wrapper vde_container" data-name="' . $containerName . '"',
-            $actualContent
-        );
-        $this->assertNotContains('<div class="vde_element_title">' . ucfirst($containerName) . '</div>', $actualContent);
+        $this->assertNotContains($containerWrapper, $actualContent);
+        $this->assertNotContains($containerTitle, $actualContent);
     }
 }

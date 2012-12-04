@@ -13,7 +13,9 @@
     <block name="head" type="Mage_Page_Block_Html_Head">
         <action method="addJs"><arg>1</arg></action>
     </block>
-    <block name="safe.block" type="Mage_Page_Block_Html_Header"/>
+    <container name="header" label="Header">
+        <block name="safe.block" type="Mage_Page_Block_Html_Header"/>
+    </container>
     <container name="content" label="Content">
         <block name="custom.not_safe" type="Namespace_Module_Block_NotSafe">
             <action method="setTemplate"><arg>some_template.phtml</arg></action>
