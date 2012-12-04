@@ -24,7 +24,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy extends 
     protected $_selectedHandle;
 
     /**
-     * Recursively render each level of the page handles hierarchy as an HTML list
+     * Recursively render each level of the page handles hierarchy
      *
      * @param array $hierarchy
      * @return string
