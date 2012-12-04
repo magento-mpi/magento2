@@ -48,7 +48,9 @@ class Mage_Webapi_Controller_Request_Factory
     {
         $apiType = $this->_apiFrontController->determineApiType();
         if (!isset($this->_apiTypeToRequestMap[$apiType])) {
-            throw new LogicException('There is no corresponding request class for the "%s" API type.', $apiType);
+            throw new LogicException(
+                sprintf('There is no corresponding request class for the "%s" API type.', $apiType)
+            );
         }
         $requestClass = $this->_apiTypeToRequestMap[$apiType];
         return $this->_objectManager->get($requestClass);

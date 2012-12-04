@@ -13,7 +13,7 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_FactoryTest extends PHPUnit_
     protected $_requestMock;
 
     /** @var Mage_Core_Model_Config */
-    protected $_applicationConfigMock;
+    protected $_applicationMock;
 
     /** @var Magento_ObjectManager */
     protected $_objectManagerMock;
@@ -23,7 +23,7 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_FactoryTest extends PHPUnit_
         /** Init dependencies for SUT. */
         $this->_objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')->disableOriginalConstructor()
             ->getMock();
-        $this->_applicationConfigMock = $this->getMockBuilder('Mage_Core_Model_Config')->disableOriginalConstructor()
+        $this->_applicationMock = $this->getMockBuilder('Mage_Core_Model_Config')->disableOriginalConstructor()
             ->getMock();
         $helperDataMock = $this->getMockBuilder('Mage_Webapi_Helper_Data')->disableOriginalConstructor()->getMock();
         $helperDataMock->expects($this->any())->method('__')->will($this->returnArgument(0));
@@ -35,7 +35,7 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_FactoryTest extends PHPUnit_
         /** Init SUT. */
         $this->_factory = new Mage_Webapi_Controller_Response_Rest_Renderer_Factory(
             $this->_objectManagerMock,
-            $this->_applicationConfigMock,
+            $this->_applicationMock,
             $helperFactoryMock,
             $this->_requestMock
         );
@@ -46,7 +46,7 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_FactoryTest extends PHPUnit_
     {
         unset($this->_factory);
         unset($this->_requestMock);
-        unset($this->_applicationConfigMock);
+        unset($this->_applicationMock);
         unset($this->_objectManagerMock);
         parent::tearDown();
     }
@@ -59,7 +59,7 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_FactoryTest extends PHPUnit_
         $acceptTypes = array('application/json');
         $availableRenders = $this->_createConfigElementForRenders();
         /** Mock application config getNode method to return the list of renders. */
-        $this->_applicationConfigMock->expects($this->once())->method('getNode')->will(
+        $this->_applicationMock->expects($this->once())->method('getNode')->will(
             $this->returnValue($availableRenders)
         );
         /** Mock request getAcceptTypes method to return specified value. */
@@ -117,7 +117,7 @@ XML;
         $acceptTypes = array('application/json');
         $availableRenders = $this->_createConfigElementForRenders();
         /** Mock application config getNode method to return the list of renders. */
-        $this->_applicationConfigMock->expects($this->once())->method('getNode')->will(
+        $this->_applicationMock->expects($this->once())->method('getNode')->will(
             $this->returnValue($availableRenders)
         );
         /** Mock request getAcceptTypes method to return specified value. */
