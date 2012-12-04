@@ -413,8 +413,8 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
      * Populate dependencies block
      *
      * @param array $dependencies
-     * @param $elementId
-     * @param $elementName
+     * @param string $elementId
+     * @param string $elementName
      */
     protected function _populateDependenciesBlock(array $dependencies, $elementId, $elementName)
     {

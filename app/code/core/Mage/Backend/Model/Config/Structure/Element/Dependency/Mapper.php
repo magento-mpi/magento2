@@ -11,6 +11,7 @@
 class Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper
 {
     /**
+     * Field locator model
      *
      * @var Mage_Backend_Model_Config_Structure_SearchInterface
      */
