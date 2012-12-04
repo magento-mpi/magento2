@@ -13,15 +13,27 @@ class Community2_Mage_Vde_UiValidationTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/disable_secret_key');
+    }
+
+    protected function tearDownAfterTest()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/enable_secret_key');
     }
 
     /**
      * @test
      * @TestlinkId TL-MAGE-6501
+     * @author iuliia.babenko
      */
     public function uiValidationTest()
     {
+        //Step
         $this->admin('vde_design');
+        //Verifying
         $this->assertTrue($this->controlIsPresent('dropdown', 'page_selector'),
             'Page selector is not present on the page');
         $this->assertTrue($this->controlIsPresent('dropdown', 'view_options'),
