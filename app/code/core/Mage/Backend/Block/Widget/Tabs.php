@@ -50,6 +50,12 @@ class Mage_Backend_Block_Widget_Tabs extends Mage_Backend_Block_Widget
         return $this->_destElementId;
     }
 
+    /**
+     * Set destination element id
+     *
+     * @param string $elementId
+     * @return Mage_Backend_Block_Widget_Tabs
+     */
     public function setDestElementId($elementId)
     {
         $this->_destElementId = $elementId;
@@ -87,20 +93,7 @@ class Mage_Backend_Block_Widget_Tabs extends Mage_Backend_Block_Widget
                 $this->_tabs[$tabId]->setTabId($tabId);
             }
         } elseif (is_string($tab)) {
-            if (strpos($tab, '_Block_')) {
-                $this->_tabs[$tabId] = $this->getLayout()->createBlock(
-                    $tab,
-                    $this->getNameInLayout() . '_tab_' . $tabId
-                );
-            } elseif ($this->getChildBlock($tab)) {
-                $this->_tabs[$tabId] = $this->getChildBlock($tab);
-            } else {
-                $this->_tabs[$tabId] = null;
-            }
-
-            if (!($this->_tabs[$tabId] instanceof Mage_Backend_Block_Widget_Tab_Interface)) {
-                throw new Exception(Mage::helper('Mage_Backend_Helper_Data')->__('Wrong tab configuration.'));
-            }
+            $this->_addTabByName($tab, $tabId);
         } else {
             throw new Exception(Mage::helper('Mage_Backend_Helper_Data')->__('Wrong tab configuration.'));
         }
@@ -124,6 +117,31 @@ class Mage_Backend_Block_Widget_Tabs extends Mage_Backend_Block_Widget
         }
 
         return $this;
+    }
+
+    /**
+     * Add tab by tab block name
+     *
+     * @param string $tab
+     * @param string $tabId
+     * @throws Exception
+     */
+    protected function _addTabByName($tab, $tabId)
+    {
+        if (strpos($tab, '_Block_')) {
+            $this->_tabs[$tabId] = $this->getLayout()->createBlock(
+                $tab,
+                $this->getNameInLayout() . '_tab_' . $tabId
+            );
+        } elseif ($this->getChildBlock($tab)) {
+            $this->_tabs[$tabId] = $this->getChildBlock($tab);
+        } else {
+            $this->_tabs[$tabId] = null;
+        }
+
+        if (!($this->_tabs[$tabId] instanceof Mage_Backend_Block_Widget_Tab_Interface)) {
+            throw new Exception(Mage::helper('Mage_Backend_Helper_Data')->__('Wrong tab configuration.'));
+        }
     }
 
     public function getActiveTabId()

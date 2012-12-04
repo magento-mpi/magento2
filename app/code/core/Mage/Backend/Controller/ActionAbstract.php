@@ -178,6 +178,48 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
 
         Mage::dispatchEvent('adminhtml_controller_action_predispatch_start', array());
         parent::preDispatch();
+        if (!$this->_processUrlKeys()) {
+            return $this;
+        }
+
+        if ($this->getRequest()->isDispatched()
+            && $this->getRequest()->getActionName() !== 'denied'
+            && !$this->_isAllowed()) {
+            $this->_forward('denied');
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            return $this;
+        }
+
+        if ($this->_isUrlChecked()) {
+            $this->setFlag('', self::FLAG_IS_URLS_CHECKED, true);
+        }
+        if (is_null(Mage::getSingleton('Mage_Backend_Model_Session')->getLocale())) {
+            Mage::getSingleton('Mage_Backend_Model_Session')->setLocale(Mage::app()->getLocale()->getLocaleCode());
+        }
+
+        return $this;
+    }
+
+    /**
+     * Check whether url is checked
+     *
+     * @return bool
+     */
+    protected function _isUrlChecked()
+    {
+        return !$this->getFlag('', self::FLAG_IS_URLS_CHECKED)
+            && !$this->getRequest()->getParam('forwarded')
+            && !$this->_getSession()->getIsUrlNotice(true)
+            && !Mage::getConfig()->getNode('global/can_use_base_url');
+    }
+
+    /**
+     * Check url keys. If non valid - redirect
+     *
+     * @return bool
+     */
+    public function _processUrlKeys()
+    {
         $_isValidFormKey = true;
         $_isValidSecretKey = true;
         $_keyErrorMsg = '';
@@ -203,28 +245,9 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
             } else {
                 $this->_redirect(Mage::getSingleton('Mage_Backend_Model_Url')->getStartupPageUrl());
             }
-            return $this;
+            return false;
         }
-
-        if ($this->getRequest()->isDispatched()
-            && $this->getRequest()->getActionName() !== 'denied'
-            && !$this->_isAllowed()) {
-            $this->_forward('denied');
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-            return $this;
-        }
-
-        if (!$this->getFlag('', self::FLAG_IS_URLS_CHECKED)
-            && !$this->getRequest()->getParam('forwarded')
-            && !$this->_getSession()->getIsUrlNotice(true)
-            && !Mage::getConfig()->getNode('global/can_use_base_url')) {
-            $this->setFlag('', self::FLAG_IS_URLS_CHECKED, true);
-        }
-        if (is_null(Mage::getSingleton('Mage_Backend_Model_Session')->getLocale())) {
-            Mage::getSingleton('Mage_Backend_Model_Session')->setLocale(Mage::app()->getLocale()->getLocaleCode());
-        }
-
-        return $this;
+        return true;
     }
 
     /**
@@ -265,33 +288,43 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
                 $auth->getUser()->reload();
             }
             if (!$auth->isLoggedIn()) {
-                $isRedirectNeeded = false;
-                if ($request->getPost('login') && $this->_performLogin()) {
-                    $isRedirectNeeded = $this->_redirectIfNeededAfterLogin();
-                }
-                if (!$isRedirectNeeded && !$request->getParam('forwarded')) {
-                    if ($request->getParam('isIframe')) {
-                        $request->setParam('forwarded', true)
-                            ->setControllerName('auth')
-                            ->setActionName('deniedIframe')
-                            ->setDispatched(false);
-                    } else if ($request->getParam('isAjax')) {
-                        $request->setParam('forwarded', true)
-                            ->setControllerName('auth')
-                            ->setActionName('deniedJson')
-                            ->setDispatched(false);
-                    } else {
-                        $request->setParam('forwarded', true)
-                            ->setRouteName('adminhtml')
-                            ->setControllerName('auth')
-                            ->setActionName('login')
-                            ->setDispatched(false);
-                    }
-                }
+                $this->_processNotLoggedInUser($request);
             }
         }
         $auth->getAuthStorage()->refreshAcl();
         return $this;
+    }
+
+    /**
+     * Process not logged in user data
+     *
+     * @param Mage_Core_Controller_Request_Http $request
+     */
+    protected function _processNotLoggedInUser(Mage_Core_Controller_Request_Http $request)
+    {
+        $isRedirectNeeded = false;
+        if ($request->getPost('login') && $this->_performLogin()) {
+            $isRedirectNeeded = $this->_redirectIfNeededAfterLogin();
+        }
+        if (!$isRedirectNeeded && !$request->getParam('forwarded')) {
+            if ($request->getParam('isIframe')) {
+                $request->setParam('forwarded', true)
+                    ->setControllerName('auth')
+                    ->setActionName('deniedIframe')
+                    ->setDispatched(false);
+            } else if ($request->getParam('isAjax')) {
+                $request->setParam('forwarded', true)
+                    ->setControllerName('auth')
+                    ->setActionName('deniedJson')
+                    ->setDispatched(false);
+            } else {
+                $request->setParam('forwarded', true)
+                    ->setRouteName('adminhtml')
+                    ->setControllerName('auth')
+                    ->setActionName('login')
+                    ->setDispatched(false);
+            }
+        }
     }
 
     /**
@@ -378,6 +411,12 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
         return $this;
     }
 
+    /**
+     * No route action
+     *
+     * @param null $coreRoute
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     public function norouteAction($coreRoute = null)
     {
         $this->getResponse()->setHeader('HTTP/1.1', '404 Not Found');
@@ -455,6 +494,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
      * Translate a phrase
      *
      * @return string
+     * @SuppressWarnings(PHPMD.ShortMethodName)
      */
     public function __()
     {

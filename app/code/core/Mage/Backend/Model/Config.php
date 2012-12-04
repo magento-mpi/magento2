@@ -69,12 +69,20 @@ class Mage_Backend_Model_Config extends Varien_Object
     protected $_configLoader;
 
     /**
+     * Config data factory
+     *
+     * @var Mage_Backend_Model_Config_Loader
+     */
+    protected $_configDataFactory;
+
+    /**
      * @param Mage_Core_Model_App $application
      * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Event_Manager $eventManager
      * @param Mage_Backend_Model_Config_Structure $configStructure
      * @param Mage_Core_Model_Resource_Transaction_Factory $transactionFactory
      * @param Mage_Backend_Model_Config_Loader $configLoader
+     * @param Mage_Core_Model_Config_Data_Factory $configDataFactory
      * @param array $data
      */
     public function __construct(
@@ -84,6 +92,7 @@ class Mage_Backend_Model_Config extends Varien_Object
         Mage_Backend_Model_Config_Structure $configStructure,
         Mage_Core_Model_Resource_Transaction_Factory $transactionFactory,
         Mage_Backend_Model_Config_Loader $configLoader,
+        Mage_Core_Model_Config_Data_Factory $configDataFactory,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -92,6 +101,7 @@ class Mage_Backend_Model_Config extends Varien_Object
         $this->_appConfig = $config;
         $this->_application = $application;
         $this->_configLoader = $configLoader;
+        $this->_configDataFactory = $configDataFactory;
         parent::__construct($data);
     }
 
@@ -127,7 +137,7 @@ class Mage_Backend_Model_Config extends Varien_Object
         /* @var $saveTransaction Mage_Core_Model_Resource_Transaction */
 
         // Extends for old config data
-        $oldConfigAdditionalGroups = array();
+        $extraOldGroups = array();
         $mappedFields = array();
 
         foreach ($groups as $groupId => $groupData) {
@@ -198,9 +208,9 @@ class Mage_Backend_Model_Config extends Varien_Object
                     if (!empty($configPath) && strrpos($configPath, '/') > 0) {
                         // Extend old data with specified section group
                         $groupPath = substr($configPath, 0, strrpos($configPath, '/'));
-                        if (!isset($oldConfigAdditionalGroups[$groupPath])) {
+                        if (!isset($extraOldGroups[$groupPath])) {
                             $oldConfig = $this->extendConfig($groupPath, true, $oldConfig);
-                            $oldConfigAdditionalGroups[$groupPath] = true;
+                            $extraOldGroups[$groupPath] = true;
                         }
                         $path = $configPath;
                     }

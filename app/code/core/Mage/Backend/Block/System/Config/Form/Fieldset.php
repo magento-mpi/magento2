@@ -59,7 +59,7 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
             . '-head" href="#" onclick="Fieldset.toggleCollapse(\'' . $element->getHtmlId() . '\', \''
             . $this->getUrl('*/*/state') . '\'); return false;">' . $element->getLegend() . '</a></div>';
         $html .= '<input id="'.$element->getHtmlId() . '-state" name="config_state[' . $element->getId()
-            . ']" type="hidden" value="' . (int)$this->_getCollapseState($element) . '" />';
+            . ']" type="hidden" value="' . (int)$this->_isCollapseState($element) . '" />';
         $html .= '<fieldset class="' . $this->_getFieldsetCss() . '" id="' . $element->getHtmlId() . '">';
         $html .= '<legend>' . $element->getLegend() . '</legend>';
 
@@ -124,11 +124,11 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
      */
     protected function _getExtraJs($element, $tooltipsExist = false)
     {
-        $id = $element->getHtmlId();
-        $js = "Fieldset.applyCollapse('{$id}');";
+        $htmlId = $element->getHtmlId();
+        $output = "Fieldset.applyCollapse('{$htmlId}');";
         if ($tooltipsExist) {
-            $js.= "$$('#{$id} table')[0].addClassName('system-tooltip-wrap');
-                   $$('#{$id} table tbody tr').each(function(tr) {
+            $output.= "$$('#{$htmlId} table')[0].addClassName('system-tooltip-wrap');
+                   $$('#{$htmlId} table tbody tr').each(function(tr) {
                        Event.observe(tr, 'mouseover', function (event) {
                            var relatedTarget = $(event.relatedTarget || event.fromElement);
                            if (relatedTarget && (relatedTarget == this || relatedTarget.descendantOf(this))) {
@@ -144,7 +144,7 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
                            hideTooltip(event);
                        });
                    });
-                   $$('#{$id} table')[0].select('input','select').each(function(field) {
+                   $$('#{$htmlId} table')[0].select('input','select').each(function(field) {
                        Event.observe(field, 'focus', function (event) {
                            showTooltip(event);
                        });
@@ -174,7 +174,7 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
                        }
                    };";
         }
-        return $this->helper('Mage_Core_Helper_Js')->getScript($js);
+        return $this->helper('Mage_Core_Helper_Js')->getScript($output);
     }
 
     /**
@@ -183,7 +183,7 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
      * @param Varien_Data_Form_Element_Abstract $element
      * @return bool
      */
-    protected function _getCollapseState($element)
+    protected function _isCollapseState($element)
     {
         if ($element->getExpanded() !== null) {
             return 1;

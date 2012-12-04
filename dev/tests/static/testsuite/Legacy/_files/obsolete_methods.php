@@ -237,6 +237,8 @@ return array(
     $this->_getRule('getRowId', 'Mage_Adminhtml_Block_Widget_Grid'),
     $this->_getRule('getSaveTemplateFlag', 'Mage_Newsletter_Model_Queue'),
     $this->_getRule('getSelectionFinalPrice', 'Mage_Bundle_Model_Product_Price'),
+    $this->_getRule('getSecure', 'Mage_Core_Model_Url', 'isSecure'),
+    $this->_getRule('getSecure', 'Mage_Backend_Model_Url', 'isSecure'),
     $this->_getRule('getShipId', 'Mage_Shipping_Block_Tracking_Popup'),
     $this->_getRule('getSortedChildren', null, 'getChildNames'),
     $this->_getRule('getSortedChildBlocks', null, 'getChildNames() + $this->getLayout()->getBlock($name)'),

@@ -56,7 +56,7 @@ class Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper
             $depend['dependPath'][] = $fieldId;
             $dependentId = implode('_', $depend['dependPath']);
 
-            $shouldBeAddedDependence = true;
+            $shouldAddDependency = true;
 
             $dependentValue = $depend['value'];
 
@@ -73,16 +73,16 @@ class Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper
             * based on not shown field (not rendered field)
             */
             if (false == $dependentField->isVisible()) {
-                $dependentValueInStore = $this->_application
+                $valueInStore = $this->_application
                     ->getStore($storeCode)
                     ->getConfig($dependentField->getPath($fieldPrefix));
                 if (is_array($dependentValue)) {
-                    $shouldBeAddedDependence = !in_array($dependentValueInStore, $dependentValue);
+                    $shouldAddDependency = !in_array($valueInStore, $dependentValue);
                 } else {
-                    $shouldBeAddedDependence = $dependentValue != $dependentValueInStore;
+                    $shouldAddDependency = $dependentValue != $valueInStore;
                 }
             }
-            if ($shouldBeAddedDependence) {
+            if ($shouldAddDependency) {
                 $output[$dependentId] = $dependentValue;
             }
         }

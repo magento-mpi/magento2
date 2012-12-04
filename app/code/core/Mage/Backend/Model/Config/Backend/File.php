@@ -95,8 +95,8 @@ class Mage_Backend_Model_Config_Backend_File extends Mage_Core_Model_Config_Data
     protected function _addWhetherScopeInfo()
     {
         $fieldConfig = $this->getFieldConfig();
-        $el = array_key_exists('upload_dir', $fieldConfig) ? $fieldConfig['upload_dir'] : array();
-        return (is_array($el) && array_key_exists('scope_info', $el) && $el['scope_info']);
+        $dirParams = array_key_exists('upload_dir', $fieldConfig) ? $fieldConfig['upload_dir'] : array();
+        return (is_array($dirParams) && array_key_exists('scope_info', $dirParams) && $dirParams['scope_info']);
     }
 
     /**
@@ -140,6 +140,7 @@ class Mage_Backend_Model_Config_Backend_File extends Mage_Core_Model_Config_Data
      *
      * @var string
      * @return string
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _getUploadRoot($token)
     {

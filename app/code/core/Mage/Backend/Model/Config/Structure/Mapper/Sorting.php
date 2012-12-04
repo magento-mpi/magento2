@@ -48,8 +48,14 @@ class Mage_Backend_Model_Config_Structure_Mapper_Sorting extends Mage_Backend_Mo
      */
     protected function _cmp($elementA, $elementB)
     {
-        $sortIndexA = $this->_hasValue('sortOrder', $elementA) ? intval($elementA['sortOrder']) : 0;
-        $sortIndexB = $this->_hasValue('sortOrder', $elementB) ? intval($elementB['sortOrder']) : 0;
+        $sortIndexA = 0;
+        if ($this->_hasValue('sortOrder', $elementA)) {
+            $sortIndexA = intval($elementA['sortOrder']);
+        }
+        $sortIndexB = 0;
+        if ($this->_hasValue('sortOrder', $elementB)) {
+            $sortIndexB = intval($elementB['sortOrder']);
+        }
 
         if ($sortIndexA == $sortIndexB) {
             return 0;

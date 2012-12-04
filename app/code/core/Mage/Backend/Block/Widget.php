@@ -66,10 +66,10 @@ class Mage_Backend_Block_Widget extends Mage_Backend_Block_Template
      * @param string $label
      * @param string $onclick
      * @param string $class
-     * @param string $id
+     * @param string $buttonId
      * @return string
      */
-    public function getButtonHtml($label, $onclick, $class='', $id=null)
+    public function getButtonHtml($label, $onclick, $class = '', $buttonId = null)
     {
         return $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')
             ->setData(array(
@@ -77,7 +77,7 @@ class Mage_Backend_Block_Widget extends Mage_Backend_Block_Template
                 'onclick'   => $onclick,
                 'class'     => $class,
                 'type'      => 'button',
-                'id'        => $id,
+                'id'        => $buttonId,
             ))
             ->toHtml();
     }

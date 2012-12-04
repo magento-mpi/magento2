@@ -27,7 +27,7 @@ class Mage_Backend_Model_Auth_Session
      *
      * @var boolean
      */
-    protected $_isFirstPageAfterLogin;
+    protected $_isFirstAfterLogin;
 
     /**
      * Access Control List builder
@@ -158,10 +158,10 @@ class Mage_Backend_Model_Auth_Session
      */
     public function isFirstPageAfterLogin()
     {
-        if (is_null($this->_isFirstPageAfterLogin)) {
-            $this->_isFirstPageAfterLogin = $this->getData('is_first_visit', true);
+        if (is_null($this->_isFirstAfterLogin)) {
+            $this->_isFirstAfterLogin = $this->getData('is_first_visit', true);
         }
-        return $this->_isFirstPageAfterLogin;
+        return $this->_isFirstAfterLogin;
     }
 
     /**
@@ -172,8 +172,8 @@ class Mage_Backend_Model_Auth_Session
      */
     public function setIsFirstPageAfterLogin($value)
     {
-        $this->_isFirstPageAfterLogin = (bool)$value;
-        return $this->setIsFirstVisit($this->_isFirstPageAfterLogin);
+        $this->_isFirstAfterLogin = (bool)$value;
+        return $this->setIsFirstVisit($this->_isFirstAfterLogin);
     }
 
     /**

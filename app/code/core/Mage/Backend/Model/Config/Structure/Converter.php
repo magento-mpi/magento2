@@ -122,11 +122,7 @@ class Mage_Backend_Model_Config_Structure_Converter
             }
 
             if (in_array($childName, $processedSubLists)) {
-                if (is_array($convertedChild) && array_key_exists('id', $convertedChild)) {
-                    $result[$childName][$convertedChild['id']] = $convertedChild;
-                } else {
-                    $result[$childName][] = $convertedChild;
-                }
+                $result = $this->_addProcessedNode($convertedChild, $result, $childName);
             } else if (array_key_exists($childName, $result)) {
                 $result[$childName] = array($result[$childName], $convertedChild);
                 $processedSubLists[] = $childName;
@@ -139,6 +135,25 @@ class Mage_Backend_Model_Config_Structure_Converter
             $result = $result['value'];
         }
 
+        return $result;
+    }
+
+    /**
+     * Add converted child with processed name
+     *
+     * @param array $convertedChild
+     * @param array $result
+     * @param string $childName
+     *
+     * @return mixed
+     */
+    protected function _addProcessedNode($convertedChild, $result, $childName)
+    {
+        if (is_array($convertedChild) && array_key_exists('id', $convertedChild)) {
+            $result[$childName][$convertedChild['id']] = $convertedChild;
+        } else {
+            $result[$childName][] = $convertedChild;
+        }
         return $result;
     }
 
@@ -163,19 +178,5 @@ class Mage_Backend_Model_Config_Structure_Converter
             return $result;
         }
         return $result;
-    }
-
-    /**
-     * Sort sections/tabs
-     *
-     * @param mixed $a
-     * @param mixed $b
-     * @return int
-     */
-    protected function _sort($a, $b)
-    {
-        $aSortOrder = isset($a['sortOrder']) ? (int)$a['sortOrder'] : 0;
-        $bSortOrder = isset($b['sortOrder']) ? (int)$b['sortOrder'] : 0;
-        return $aSortOrder < $bSortOrder ? -1 : ($aSortOrder > $bSortOrder ? 1 : 0);
     }
 }

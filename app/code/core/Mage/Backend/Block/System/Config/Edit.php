@@ -14,6 +14,7 @@
  * @category   Mage
  * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Backend_Block_System_Config_Edit extends Mage_Backend_Block_Widget
 {

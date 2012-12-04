@@ -90,7 +90,6 @@ class Mage_Adminhtml_Block_System_Email_Template_EditTest extends PHPUnit_Framew
         $sectionMock = $this->getMock('Mage_Backend_Model_Config_Structure_Element_Section',
             array(), array(), '', false, false
         );
-
         $groupMock1 = $this->getMock('Mage_Backend_Model_Config_Structure_Element_Group',
             array(), array(), '', false, false
         );
@@ -100,11 +99,9 @@ class Mage_Adminhtml_Block_System_Email_Template_EditTest extends PHPUnit_Framew
         $groupMock3 = $this->getMock('Mage_Backend_Model_Config_Structure_Element_Group',
             array(), array(), '', false, false
         );
-
         $filedMock = $this->getMock('Mage_Backend_Model_Config_Structure_Element_Field',
             array(), array(), '', false, false
         );
-
         $map = array(
             array(array('section1', 'group1'), $groupMock1),
             array(array('section1', 'group1', 'group2'), $groupMock2),
@@ -128,73 +125,28 @@ class Mage_Adminhtml_Block_System_Email_Template_EditTest extends PHPUnit_Framew
         $actual = $this->_block->getUsedCurrentlyForPaths(false);
         $expected = array(
             array(
-                array(
-                    'title' => 'Title',
-                ),
-                array(
-                    'title' => 'Title',
-                    'url' => 'adminhtml/system_config/',
-                ),
-                array(
-                    'title' => 'Section_1_Label',
-                    'url' => 'adminhtml/system_config/edit',
-                ),
-                array(
-                    'title' => 'Group_1_Label',
-                ),
-                array(
-                    'title' => 'Field_1_Label',
-                    'scope' => 'GLOBAL',
-                ),
+                array('title' => 'Title',),
+                array('title' => 'Title', 'url' => 'adminhtml/system_config/',),
+                array('title' => 'Section_1_Label', 'url' => 'adminhtml/system_config/edit',),
+                array('title' => 'Group_1_Label',),
+                array('title' => 'Field_1_Label', 'scope' => 'GLOBAL',),
             ),
             array(
-                array(
-                    'title' => 'Title',
-                ),
-                array(
-                    'title' => 'Title',
-                    'url'   => 'adminhtml/system_config/',
-                ),
-                array(
-                    'title' => 'Section_1_Label',
-                    'url'   => 'adminhtml/system_config/edit',
-                ),
-                array(
-                    'title' => 'Group_1_Label',
-                ),
-                array(
-                    'title' => 'Group_2_Label',
-                ),
-                array(
-                    'title' => 'Field_1_Label',
-                    'scope' => 'GLOBAL',
-                ),
+                array('title' => 'Title',),
+                array('title' => 'Title', 'url' => 'adminhtml/system_config/',),
+                array('title' => 'Section_1_Label', 'url'   => 'adminhtml/system_config/edit',),
+                array('title' => 'Group_1_Label',),
+                array('title' => 'Group_2_Label',),
+                array('title' => 'Field_1_Label', 'scope' => 'GLOBAL',),
             ),
             array(
-                array(
-                    'title' => 'Title',
-                ),
-                array(
-                    'title' => 'Title',
-                    'url'   => 'adminhtml/system_config/',
-                ),
-                array(
-                    'title' => 'Section_1_Label',
-                    'url'   => 'adminhtml/system_config/edit',
-                ),
-                array(
-                    'title' => 'Group_1_Label',
-                ),
-                array(
-                    'title' => 'Group_2_Label',
-                ),
-                array(
-                    'title' => 'Group_3_Label',
-                ),
-                array(
-                    'title' => 'Field_1_Label',
-                    'scope' => 'GLOBAL',
-                ),
+                array('title' => 'Title',),
+                array('title' => 'Title', 'url' => 'adminhtml/system_config/',),
+                array('title' => 'Section_1_Label', 'url' => 'adminhtml/system_config/edit',),
+                array('title' => 'Group_1_Label',),
+                array('title' => 'Group_2_Label',),
+                array('title' => 'Group_3_Label',),
+                array('title' => 'Field_1_Label', 'scope' => 'GLOBAL',),
             )
         );
         $this->assertEquals($expected, $actual);

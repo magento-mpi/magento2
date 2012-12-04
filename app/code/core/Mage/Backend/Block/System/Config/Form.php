@@ -15,6 +15,8 @@
  * @category   Mage
  * @package    Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Form
 {
@@ -38,25 +40,25 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     protected $_configDataObject;
 
     /**
-     * Enter description here...
+     * System configuration root node
      *
      * @var Varien_Simplexml_Element
      */
     protected $_configRoot;
 
     /**
-     * Enter description here...
+     * Default fieldset rendering block
      *
      * @var Mage_Backend_Block_System_Config_Form_Fieldset
      */
-    protected $_defaultFieldsetRenderer;
+    protected $_fieldsetRenderer;
 
     /**
-     * Enter description here...
+     * Default field rendering block
      *
      * @var Mage_Backend_Block_System_Config_Form_Field
      */
-    protected $_defaultFieldRenderer;
+    protected $_fieldRenderer;
 
     /**
      * List of fieldset
@@ -194,8 +196,8 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         );
 
         $this->_configData = $this->_configDataObject->load();
-        $this->_defaultFieldsetRenderer = $this->_fieldsetFactory->create();
-        $this->_defaultFieldRenderer = $this->_fieldFactory->create();
+        $this->_fieldsetRenderer = $this->_fieldsetFactory->create();
+        $this->_fieldRenderer = $this->_fieldFactory->create();
         return $this;
     }
 
@@ -236,7 +238,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         $frontendModelClass = $group->getFrontendModel();
         $fieldsetRenderer = $frontendModelClass ?
             Mage::getBlockSingleton($frontendModelClass) :
-            $this->_defaultFieldsetRenderer;
+            $this->_fieldsetRenderer;
 
         $fieldsetRenderer->setForm($this);
         $fieldsetRenderer->setConfigData($this->_configData);
@@ -306,7 +308,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         }
 
         // Extends for config data
-        $configDataAdditionalGroups = array();
+        $extraConfigGroups = array();
 
         /** @var $element Mage_Backend_Model_Config_Structure_Element_Field */
         foreach ($group->getChildren() as $element) {
@@ -316,10 +318,10 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
                 $path = $element->getPath($fieldPrefix);
                 if ($element->getSectionId() != $section->getId()) {
                     $groupPath = $element->getGroupPath();
-                    if (!isset($configDataAdditionalGroups[$groupPath])) {
+                    if (!isset($extraConfigGroups[$groupPath])) {
                         $this->_configData = $this->_configDataObject
                             ->extendConfig($groupPath, false, $this->_configData);
-                        $configDataAdditionalGroups[$groupPath] = true;
+                        $extraConfigGroups[$groupPath] = true;
                     }
                 }
                 $this->_initElement($element, $fieldset, $path, $fieldPrefix, $labelPrefix);
@@ -356,7 +358,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         if ($fieldRendererClass) {
             $fieldRenderer = Mage::getBlockSingleton($fieldRendererClass);
         } else {
-            $fieldRenderer = $this->_defaultFieldRenderer;
+            $fieldRenderer = $this->_fieldRenderer;
         }
 
         $fieldRenderer->setForm($this);
@@ -524,46 +526,6 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
             return true;
         }
         return false;
-    }
-
-    /**
-     * Checking field visibility
-     *
-     * @param   array $field
-     * @return  bool
-     */
-    protected function _canShowField($field)
-    {
-        $ifModuleEnabled = isset($field['if_module_enabled']) ?  trim($field['if_module_enabled']) : false;
-
-        if ($ifModuleEnabled &&
-            false == $this->helper('Mage_Core_Helper_Data')->isModuleEnabled($ifModuleEnabled)) {
-            return false;
-        }
-        $showInDefault = isset($field['showInDefault']) ? (bool)$field['showInDefault'] : false;
-        $showInWebsite = isset($field['showInWebsite']) ? (bool)$field['showInWebsite'] : false;
-        $showInStore = isset($field['showInStore']) ? (bool)$field['showInStore'] : false;
-        $hideIfSingleStore = isset($field['hide_in_single_store_mode']) ? (int)$field['hide_in_single_store_mode'] : 0;
-
-        $fieldIsDisplayable = $showInDefault || $showInWebsite || $showInStore;
-
-        if (Mage::app()->isSingleStoreMode() && $fieldIsDisplayable) {
-            return !$hideIfSingleStore;
-        }
-
-        $result = true;
-        switch ($this->getScope()) {
-            case self::SCOPE_DEFAULT:
-                $result = (int)$showInDefault;
-                break;
-            case self::SCOPE_WEBSITES:
-                $result = (int)$showInWebsite;
-                break;
-            case self::SCOPE_STORES:
-                $result = (int)$showInStore;
-                break;
-        }
-        return $result;
     }
 
     /**

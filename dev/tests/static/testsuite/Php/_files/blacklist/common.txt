@@ -2,6 +2,10 @@
 # Glob patterns are supported
 # Overrides the white list
 #
+app/code/core/Mage/Backend/Model/Config.php
+app/code/core/Mage/Backend/Model/Config/Structure/Converter.php
+app/code/core/Mage/Backend/Model/Menu/Config.php
+app/code/core/Mage/Backend/Block/Widget/Grid
 app/code/core/Mage/DesignEditor/view
 app/code/core/Mage/Core/data/core_setup/data-upgrade-1.6.0.4-1.6.0.5.php
 app/code/core/Mage/Theme/Helper/Data.php
@@ -17,6 +21,7 @@ lib/Magento/Shell.php
 lib/Magento/Validator.php
 dev/tests/integration/testsuite/integrity/modular/TemplateFilesTest.php
 dev/tests/integration/testsuite/integrity/theme/TemplateFilesTest.php
+dev/tests/integration/testsuite/Mage/Backend/Block/System/Config/FormStub.php
 dev/tests/integration/testsuite/Mage/Core/Block/_files
 dev/tests/integration/tmp
 dev/tests/static/testsuite/Php/Exemplar/_files/phpcs/input
