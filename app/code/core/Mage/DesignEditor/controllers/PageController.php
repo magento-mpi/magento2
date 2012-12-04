@@ -21,11 +21,6 @@ class Mage_DesignEditor_PageController extends Mage_Core_Controller_Front_Action
     protected $_fullActionName = '';
 
     /**
-     * @var Mage_Backend_Model_Auth_Session
-     */
-    protected $_backendSession;
-
-    /**
      * Check backend session
      */
     public function preDispatch()
@@ -36,7 +31,9 @@ class Mage_DesignEditor_PageController extends Mage_Core_Controller_Front_Action
         /** @var $backendSession Mage_Backend_Model_Auth_Session */
         $backendSession = $this->_objectManager->get('Mage_Backend_Model_Auth_Session');
         if (!$backendSession->isLoggedIn()) {
-            $this->_forward('noRoute');
+            if ($this->getRequest()->getActionName() != 'noroute') {
+                $this->_forward('noroute');
+            }
         }
     }
 
@@ -47,39 +44,44 @@ class Mage_DesignEditor_PageController extends Mage_Core_Controller_Front_Action
      */
     public function typeAction()
     {
-        $handle = $this->getRequest()->getParam('handle');
+        try {
+            $handle = $this->getRequest()->getParam('handle');
 
-        // check page type format
-        if (!$handle || !preg_match('/^[a-z][a-z\d]*(_[a-z][a-z\d]*)*$/i', $handle)) {
-            throw new InvalidArgumentException($this->__('Invalid page handle specified.'));
+            // check page type format
+            if (!$handle || !preg_match('/^[a-z][a-z\d]*(_[a-z][a-z\d]*)*$/i', $handle)) {
+                throw new InvalidArgumentException($this->__('Invalid page handle specified.'));
+            }
+
+            /** @var $layout Mage_DesignEditor_Model_Layout */
+            $layout = $this->getLayout();
+            $layoutClassName = Mage_DesignEditor_Controller_Varien_Router_Standard::LAYOUT_CLASS_NAME;
+            if (!($layout instanceof $layoutClassName)) {
+                throw new InvalidArgumentException($this->__('Incorrect Design Editor layout.'));
+            }
+
+            // whether such page type exists
+            if (!$this->getLayout()->getUpdate()->pageHandleExists($handle)) {
+                throw new InvalidArgumentException(
+                    $this->__('Specified page type or page fragment type doesn\'t exist: "%s".', $handle)
+                );
+            }
+
+            // required layout handle
+            $this->_fullActionName = $handle;
+
+            // current action layout handle
+            $layout->getUpdate()->addHandle(parent::getFullActionName());
+
+            // set sanitize and wrapping flags
+            $layout->setSanitizing(true);
+            $layout->setWrapping(true);
+
+            $this->loadLayout();
+            $this->renderLayout();
+        } catch (Exception $e) {
+            $this->getResponse()->setBody($e->getMessage());
+            $this->getResponse()->setHeader('Content-Type', 'text/plain; charset=UTF-8')->setHttpResponseCode(503);
         }
-
-        /** @var $layout Mage_DesignEditor_Model_Layout */
-        $layout = $this->getLayout();
-        $layoutClassName = Mage_DesignEditor_Controller_Varien_Router_Standard::LAYOUT_CLASS_NAME;
-        if (!($layout instanceof $layoutClassName)) {
-            throw new InvalidArgumentException($this->__('Invalid Design Editor layout.'));
-        }
-
-        // whether such page type exists
-        if (!$this->getLayout()->getUpdate()->pageHandleExists($handle)) {
-            throw new InvalidArgumentException(
-                $this->__('Specified page type or page fragment type doesn\'t exist: "%s".', $handle)
-            );
-        }
-
-        // required layout handle
-        $this->_fullActionName = $handle;
-
-        // current action layout handle
-        $layout->getUpdate()->addHandle(parent::getFullActionName());
-
-        // set sanitize and wrapping flags
-        $layout->setSanitizing(true);
-        $layout->setWrapping(true);
-
-        $this->loadLayout();
-        $this->renderLayout();
     }
 
     /**
