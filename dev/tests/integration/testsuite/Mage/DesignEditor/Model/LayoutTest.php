@@ -24,9 +24,8 @@ class Mage_DesignEditor_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $layout = $this->_getLayoutWithTestUpdate();
         $layout->generateElements();
 
-        $this->assertStringMatchesFormatFile(__DIR__ . '/_files/expected_layout_update.xml',
-            $layout->getNode()->asNiceXml()
-        );
+        $expectedXml = new Varien_Simplexml_Element(file_get_contents(__DIR__ . '/_files/expected_layout_update.xml'));
+        $this->assertStringMatchesFormat($expectedXml->asNiceXml(), $layout->getNode()->asNiceXml());
 
         $layout = $this->_getLayoutWithTestUpdate(false);
         $layout->generateElements();
@@ -36,12 +35,14 @@ class Mage_DesignEditor_Model_LayoutTest extends PHPUnit_Framework_TestCase
      * Retrieve test layout with test layout update
      *
      * @param bool $isSanitizeBlocks
+     * @param bool $enableWrapping
      * @return Mage_DesignEditor_Model_Layout
      */
-    protected function _getLayoutWithTestUpdate($isSanitizeBlocks = true)
+    protected function _getLayoutWithTestUpdate($isSanitizeBlocks = true, $enableWrapping = true)
     {
         $arguments = array(
-            'isSanitizeBlocks' => $isSanitizeBlocks
+            'isSanitizeBlocks' => $isSanitizeBlocks,
+            'enableWrapping'   => $enableWrapping
         );
         /** @var $layout Mage_DesignEditor_Model_Layout */
         $layout = Mage::getObjectManager()->create('Mage_DesignEditor_Model_Layout', $arguments);
@@ -49,5 +50,42 @@ class Mage_DesignEditor_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $layout->generateXml();
 
         return $layout;
+    }
+
+    /**
+     * @covers Mage_DesignEditor_Model_Layout::_renderBlock
+     * @covers Mage_DesignEditor_Model_Layout::_renderContainer
+     * @covers Mage_DesignEditor_Model_Layout::_wrapElement
+     */
+    public function testRenderElement()
+    {
+        $blockName = 'safe.block';
+        $containerName = 'content';
+
+        $layout = $this->_getLayoutWithTestUpdate();
+        $layout->generateElements();
+
+        $actualContent = $layout->renderElement($blockName);
+        $this->assertContains('class="vde_element_wrapper" data-name="' . $blockName . '"', $actualContent);
+        $this->assertContains('<div class="vde_element_title">' . $blockName . '</div>', $actualContent);
+
+        $actualContent = $layout->renderElement($containerName);
+        $this->assertContains('class="vde_element_wrapper vde_container" data-name="' . $containerName . '"',
+            $actualContent
+        );
+        $this->assertContains('<div class="vde_element_title">' . ucfirst($containerName) . '</div>', $actualContent);
+
+        $layout = $this->_getLayoutWithTestUpdate(true, false);
+        $layout->generateElements();
+
+        $actualContent = $layout->renderElement($blockName);
+        $this->assertNotContains('class="vde_element_wrapper" data-name="' . $blockName . '"', $actualContent);
+        $this->assertNotContains('<div class="vde_element_title">' . $blockName . '</div>', $actualContent);
+
+        $actualContent = $layout->renderElement($containerName);
+        $this->assertNotContains('class="vde_element_wrapper vde_container" data-name="' . $containerName . '"',
+            $actualContent
+        );
+        $this->assertNotContains('<div class="vde_element_title">' . ucfirst($containerName) . '</div>', $actualContent);
     }
 }
