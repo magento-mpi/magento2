@@ -63,7 +63,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
             $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false),
             $this->getMock('Mage_Core_Model_Event_Manager'),
             $this->getMock('Mage_Core_Model_Url'),
-            $this->getMock('Mage_Core_Model_Translate', $design),
+            $this->getMock('Mage_Core_Model_Translate', array(), array($design)),
             $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false),
             $design,
             $this->getMock('Mage_Core_Model_Session'),
