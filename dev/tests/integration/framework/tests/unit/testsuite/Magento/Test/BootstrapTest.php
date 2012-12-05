@@ -62,7 +62,8 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
         $this->_bootstrap = $this->getMock(
             'Magento_Test_Bootstrap',
             array(
-                'initialize',
+                '_initialize',
+                '_resetApp',
                 '_verifyDirectories',
                 '_instantiateDb',
                 '_isInstalled',
@@ -184,7 +185,7 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
         ;
         $this->_bootstrap
             ->expects($this->once())
-            ->method('initialize')
+            ->method('_initialize')
         ;
         $this->_callBootstrapConstructor();
     }
@@ -246,6 +247,50 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
         return array(
             'mysql'  => array(self::$_localXmlFile, 'mysql'),
             'custom' => array(realpath(__DIR__ . '/Bootstrap/_files/local-custom.xml'), 'mssql'),
+        );
+    }
+
+    /**
+     * @param $origParams
+     * @param $customParams
+     * @param $expectedResult
+     * @dataProvider reinitializeDataProvider
+     */
+    public function testReinitialize($origParams, $customParams, $expectedResult)
+    {
+
+        $property = new ReflectionProperty(get_class($this->_bootstrap), '_initParams');
+        $property->setAccessible(true);
+        $property->setValue($this->_bootstrap, $origParams);
+
+        $this->_bootstrap->expects($this->once())->method('_resetApp');
+        $this->_bootstrap->expects($this->once())->method('_initialize')->with($expectedResult);
+
+        $this->_bootstrap->reinitialize($customParams);
+    }
+
+    /**
+     * @return array
+     */
+    public function reinitializeDataProvider()
+    {
+        $origParams = array('one' => array('two' => 'three'));
+        return array(
+            array(
+                $origParams,
+                array(),
+                $origParams
+            ),
+            array(
+                $origParams,
+                array('one' => array('four' => 'five')),
+                array('one' => array('two' => 'three', 'four' => 'five'))
+            ),
+            array(
+                $origParams,
+                array('one' => array('two' => 'five')),
+                array('one' => array('two' => 'five'))
+            ),
         );
     }
 }

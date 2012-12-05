@@ -212,7 +212,7 @@ class Magento_Test_Bootstrap
         $this->_emulateEnvironment();
 
         if ($this->_isInstalled()) {
-            $this->initialize();
+            $this->_initialize($this->_initParams);
         } else {
             $this->_install();
         }
@@ -238,30 +238,46 @@ class Magento_Test_Bootstrap
 
     /**
      * Initialize an already installed Magento application
+     *
+     * @param array $initParams
      */
-    public function initialize()
+    protected function _initialize($initParams)
     {
         Mage::setIsDeveloperMode($this->_isDeveloperMode);
-        Mage_Core_Utility_Theme::registerDesignMock();
         Mage::$headersSentThrowsException = false;
-        Mage::app($this->_initParams);
+        Mage::app($initParams);
     }
 
     /**
      * Initialize an already installed Magento application
+     *
+     * @param array $additionalParams
      */
-    public function reinitialize()
+    public function reinitialize(array $additionalParams = array())
     {
         $this->_resetApp();
-        $this->initialize();
+        $this->_initialize($this->_customizeParams($additionalParams));
     }
 
     /**
      * Run application normally, but with encapsulated initialization options
+     *
+     * @param array $additionalParams
      */
     public function runApp(array $additionalParams)
     {
-        Mage::run(array_merge($additionalParams, $this->_initParams));
+        Mage::run($this->_customizeParams($additionalParams));
+    }
+
+    /**
+     * Sub-routine for merging custom parameters with the ones defined in object state
+     *
+     * @param array $params
+     * @return array
+     */
+    private function _customizeParams($params)
+    {
+        return array_replace_recursive($this->_initParams, $params);
     }
 
     /**
@@ -470,7 +486,7 @@ class Magento_Test_Bootstrap
         $this->_localXml->asNiceXml($targetLocalXml);
 
         /* Initialize an application in non-installed mode */
-        $this->initialize();
+        $this->_initialize($this->_initParams);
 
         /* Run all install and data-install scripts */
         Mage_Core_Model_Resource_Setup::applyAllUpdates();
@@ -491,7 +507,7 @@ class Magento_Test_Bootstrap
         $this->_createAdminUser();
 
         /* Switch an application to installed mode */
-        $this->initialize();
+        $this->_initialize($this->_initParams);
     }
 
     /**
