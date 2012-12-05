@@ -23,8 +23,6 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        Mage_Core_Utility_Theme::registerDesignMock();
-        Mage::getDesign()->setDefaultDesignTheme();
         $this->_mail = $this->getMock(
             'Zend_Mail', array('send', 'addTo', 'addBcc', 'setReturnPath', 'setReplyTo'), array('utf-8')
         );
@@ -60,15 +58,8 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
         $this->assertSame($filter, $this->_model->getTemplateFilter());
     }
 
-    /**
-     * @magentoAppIsolation enabled
-     */
     public function testLoadDefault()
     {
-        Mage::app()->getConfig()->getOptions()
-            ->setLocaleDir(dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'locale')
-        ;
-
         $this->_model->loadDefault('customer_create_account_email_template');
         $this->assertNotEmpty($this->_model->getTemplateText());
         $this->assertNotEmpty($this->_model->getTemplateSubject());

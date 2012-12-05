@@ -174,7 +174,6 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
      * Load default email template
      *
      * @param string $templateId
-     * @param string $locale
      */
     public function loadDefault($templateId)
     {
