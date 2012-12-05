@@ -50,7 +50,7 @@ class Mage_Backend_Block_System_Config_EditTest extends PHPUnit_Framework_TestCa
         $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http',
             array(), array(), '', false, false
         );
-        $this->_requestMock->expects($this->once())
+        $this->_requestMock->expects($this->any())
             ->method('getParam')
             ->with('section')
             ->will($this->returnValue('test_section'));
@@ -64,7 +64,7 @@ class Mage_Backend_Block_System_Config_EditTest extends PHPUnit_Framework_TestCa
         $this->_sectionMock = $this->getMock(
             'Mage_Backend_Model_Config_Structure_Element_Section', array(), array(), '', false
         );
-        $this->_systemConfigMock->expects($this->once())
+        $this->_systemConfigMock->expects($this->any())
             ->method('getElement')
             ->with('test_section')
             ->will($this->returnValue($this->_sectionMock));

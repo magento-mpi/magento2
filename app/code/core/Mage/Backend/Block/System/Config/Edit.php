@@ -35,6 +35,13 @@ class Mage_Backend_Block_System_Config_Edit extends Mage_Backend_Block_Widget
     protected $_template = 'Mage_Backend::system/config/edit.phtml';
 
     /**
+     * Configuration structure
+     *
+     * @var Mage_Backend_Model_Config_Structure
+     */
+    protected $_configStructure;
+
+    /**
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Model_Layout $layout
      * @param Mage_Core_Model_Event_Manager $eventManager
@@ -69,16 +76,7 @@ class Mage_Backend_Block_System_Config_Edit extends Mage_Backend_Block_Widget
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
             $session, $storeConfig, $frontController, $helperFactory, $data
         );
-
-        /** @var $section Mage_Backend_Model_Config_Structure_Element_Section */
-        $section = $configStructure->getElement($this->getRequest()->getParam('section'));
-        $this->_formBlockName = $section->getFrontendModel();
-        if (empty($this->_formBlockName)) {
-            $this->_formBlockName = self::DEFAULT_SECTION_BLOCK;
-        }
-
-        $this->setTitle($section->getLabel());
-        $this->setHeaderCss($section->getHeaderCss());
+        $this->_configStructure = $configStructure;
     }
 
     /**
@@ -88,6 +86,15 @@ class Mage_Backend_Block_System_Config_Edit extends Mage_Backend_Block_Widget
      */
     protected function _prepareLayout()
     {
+        /** @var $section Mage_Backend_Model_Config_Structure_Element_Section */
+        $section = $this->_configStructure->getElement($this->getRequest()->getParam('section'));
+        $this->_formBlockName = $section->getFrontendModel();
+        if (empty($this->_formBlockName)) {
+            $this->_formBlockName = self::DEFAULT_SECTION_BLOCK;
+        }
+        $this->setTitle($section->getLabel());
+        $this->setHeaderCss($section->getHeaderCss());
+
         $this->addChild('save_button', 'Mage_Backend_Block_Widget_Button', array(
             'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Save Config'),
             'class' => 'save',
