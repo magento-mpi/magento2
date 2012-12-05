@@ -74,7 +74,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     }
 
     /**
-     * @TODO: temporary action, code from this action will be moved to launch action in next sprint
+     * @TODO: temporary action, code from this action will be moved to launch action in MAGETWO-5573
      */
     public function runAction()
     {
@@ -102,7 +102,10 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
 
         /** @var $editorBlock Mage_DesignEditor_Block_Adminhtml_Editor_Container */
         $editorBlock = $this->getLayout()->getBlock('design_editor');
-        $editorBlock->setFrameUrl('/vde/design/page/type/handle/default');
+
+        /** @var $vdeUrlModel Mage_DesignEditor_Model_Url */
+        $vdeUrlModel = $this->_objectManager->get('Mage_DesignEditor_Model_Url');
+        $editorBlock->setFrameUrl($vdeUrlModel->getUrl('design/page/type', array('handle' => 'default')));
 
         $this->renderLayout();
     }
