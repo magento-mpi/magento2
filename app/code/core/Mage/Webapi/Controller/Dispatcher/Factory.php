@@ -46,7 +46,9 @@ class Mage_Webapi_Controller_Dispatcher_Factory
     public function get($apiType)
     {
         if (!isset($this->_apiDispatcherMap[$apiType])) {
-            throw new LogicException('There is no corresponding dispatcher class for the "%s" API type.', $apiType);
+            throw new LogicException(
+                sprintf('There is no corresponding dispatcher class for the "%s" API type.', $apiType)
+            );
         }
         $dispatcherClass = $this->_apiDispatcherMap[$apiType];
         return $this->_objectManager->get($dispatcherClass);

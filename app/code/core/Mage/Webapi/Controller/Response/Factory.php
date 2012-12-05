@@ -52,7 +52,7 @@ class Mage_Webapi_Controller_Response_Factory
         $apiType = $this->_apiFrontController->determineApiType();
         if (!isset($this->_apiResponseMap[$apiType])) {
             throw new LogicException(
-                printf('There is no corresponding response class for the "%s" API type.', $apiType)
+                sprintf('There is no corresponding response class for the "%s" API type.', $apiType)
             );
         }
         $requestClass = $this->_apiResponseMap[$apiType];
