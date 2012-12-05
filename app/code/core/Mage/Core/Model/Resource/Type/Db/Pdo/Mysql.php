@@ -2,11 +2,16 @@
 /**
  * {license_notice}
  *
+ * @category    Mage
+ * @package     Mage_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+
 class Mage_Core_Model_Resource_Type_Db_Pdo_Mysql extends Mage_Core_Model_Resource_Type_Db
 {
+
     /**
      * Get connection
      *
@@ -15,18 +20,13 @@ class Mage_Core_Model_Resource_Type_Db_Pdo_Mysql extends Mage_Core_Model_Resourc
      */
     public function getConnection($config)
     {
-        $conn = $this->_getDbAdapterInstance($config);
+        $configArr = (array)$config;
+        $configArr['profiler'] = !empty($configArr['profiler']) && $configArr['profiler']!=='false';
 
-        $profiler = $conn->getProfiler();
-        if ($profiler instanceof Varien_Db_Profiler) {
-            /** @var Varien_Db_Profiler $profiler */
-            $host = !empty($config['host']) ? $config['host'] : '';
-            $profiler->setHost($host);
-            $profiler->setType('pdo_mysql');
-        }
+        $conn = $this->_getDbAdapterInstance($configArr);
 
-        if (!empty($config['initStatements']) && $conn) {
-            $conn->query($config['initStatements']);
+        if (!empty($configArr['initStatements']) && $conn) {
+            $conn->query($configArr['initStatements']);
         }
 
         return $conn;

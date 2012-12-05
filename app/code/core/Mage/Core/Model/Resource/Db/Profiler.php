@@ -117,9 +117,9 @@ class Mage_Core_Model_Resource_Db_Profiler extends Varien_Db_Profiler
         $result = parent::queryEnd($queryId);
 
         if ($result != self::IGNORED) {
-            /** @var Zend_Db_Profiler_Query $qp */
-            $qp = $this->_queryProfiles[$queryId];
-            $queryTypeParsed = $this->_parseQueryType($qp->getQuery());
+            /** @var Zend_Db_Profiler_Query $queryProfile */
+            $queryProfile = $this->_queryProfiles[$queryId];
+            $queryTypeParsed = $this->_parseQueryType($queryProfile->getQuery());
             $timerName = $this->_getTimerName($queryTypeParsed);
 
             Magento_Profiler::stop($timerName);
