@@ -51,10 +51,16 @@ new_product:
                             -
                                 product_variations:
                                     xpath: //*[@id='config_super_product']/fieldset
+                                    fields:
+                                        attribute_selector: //*[@id='attribute-selector']
                                     checkboxes:
                                         configurable_attribute_title: //input[@type='checkbox' and @title='%attributeTitle%']
                                     buttons:
                                         generate_variations: //*[@data-ui-id='admin-product-edit-tab-super-config-grid-container-super-settings-continue-button']
+                                    links:
+                                        suggested_attribute: /..//*[contains(concat(' ', normalize-space(@class), ' '), ' ui-menu-item ')]/*[text()='%attributeName%']
+                                    pageelements:
+                                        suggested_attribute_list: /..//*[contains(concat(' ', normalize-space(@class), ' '), ' ui-autocomplete ')]
                             -
                                 variations_matrix:
                                     xpath: //*[@id='product-variations-matrix']
@@ -200,10 +206,6 @@ new_product:
             new_category: //button[span='New Category']
             save: //*[@data-ui-id='product-edit-save-button']
             save_and_continue_edit: //*[@data-ui-id='product-edit-save-and-edit-button']
-
-new_configurable_product:
-    mca: catalog_product/new/attributes/%attributesUrl%/set/%setId%/type/%productType%/&active_tab=configurable/
-    uimap: *newProduct
 
 new_product_after_changed_attribute_set:
     uimap: *newProduct
