@@ -22,30 +22,49 @@ class Mage_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Fr
     const AREA_CODE = 'frontend';
 
     /**
+     * Test VDE front name prefix
+     */
+    const VDE_FRONT_NAME = 'test_front_name';
+
+    /**#@+
+     * Test path and host
+     */
+    const TEST_PATH = '/customer/account';
+    const TEST_HOST = 'http://test.domain';
+    /**#@-*/
+
+    /**
      * @var Mage_DesignEditor_Controller_Varien_Router_Standard
      */
     protected $_model;
 
-    /**
-     * Test host for requests
-     *
-     * @var string
-     */
-    protected $_testHost = 'http://test.domain';
-
-    /**
-     * Test URLs to test VDE prefix check
-     *
-     * @var array
-     */
-    protected $_testPath = array(
-        'vde'     => '/vde/customer/account',
-        'not_vde' => '/customer/account',
-    );
-
     public function tearDown()
     {
         unset($this->_model);
+    }
+
+    /**
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param bool $isVde
+     * @param bool $isLoggedIn
+     * @param array $routers
+     * @param string|null $matchedValue
+     *
+     * @dataProvider matchDataProvider
+     */
+    public function testMatch(
+        Mage_Core_Controller_Request_Http $request,
+        $isVde,
+        $isLoggedIn,
+        array $routers = array(),
+        $matchedValue = null
+    ) {
+        $this->_model = $this->_prepareMocksForTestMatch($request, $isVde, $isLoggedIn, $routers);
+
+        $this->assertEquals($matchedValue, $this->_model->match($request));
+        if ($isVde && $isLoggedIn) {
+            $this->assertEquals(self::TEST_PATH, $request->getPathInfo());
+        }
     }
 
     /**
@@ -55,14 +74,13 @@ class Mage_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Fr
      */
     public function matchDataProvider()
     {
-        $vdeUrl    = $this->_testHost . $this->_testPath['vde'];
-        $notVdeUrl = $this->_testHost . $this->_testPath['not_vde'];
+        $vdeUrl    = self::TEST_HOST . '/' . self::VDE_FRONT_NAME . self::TEST_PATH;
+        $notVdeUrl = self::TEST_HOST . self::TEST_PATH;
 
         $silencedMethods = array('_canBeStoreCodeInUrl');
         $excludedRouters = array(
-            'admin'   => 'admin router',
-            'vde'     => 'vde router',
-            'default' => 'default router',
+            'admin' => 'admin router',
+            'vde'   => 'vde router',
         );
 
         // test data to verify routers match logic
@@ -99,7 +117,7 @@ class Mage_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Fr
             ),
             'not logged as admin' => array(
                 '$request'    => $this->getMock(
-                    'Mage_Core_Controller_Request_Http', $silencedMethods, array($notVdeUrl)
+                    'Mage_Core_Controller_Request_Http', $silencedMethods, array($vdeUrl)
                 ),
                 '$isVde'      => true,
                 '$isLoggedIn' => false
@@ -127,28 +145,6 @@ class Mage_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Fr
      * @param bool $isVde
      * @param bool $isLoggedIn
      * @param array $routers
-     * @param string|null $matchedValue
-     *
-     * @dataProvider matchDataProvider
-     */
-    public function testMatch(
-        Mage_Core_Controller_Request_Http $request,
-        $isVde,
-        $isLoggedIn,
-        array $routers = array(),
-        $matchedValue = null
-    ) {
-        $this->_model = $this->_prepareMocksForTestMatch($request, $isVde, $isLoggedIn, $routers);
-
-        $this->assertEquals($matchedValue, $this->_model->match($request));
-        $this->assertEquals($this->_testPath['not_vde'], $request->getPathInfo());
-    }
-
-    /**
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param bool $isVde
-     * @param bool $isLoggedIn
-     * @param array $routers
      * @return Mage_DesignEditor_Controller_Varien_Router_Standard
      */
     protected function _prepareMocksForTestMatch(
@@ -163,10 +159,10 @@ class Mage_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Fr
         $testArea           = 'frontend';
         $testBaseController = 'Mage_Core_Controller_Varien_Action';
 
-        $helper = $this->getMock('Mage_DesignEditor_Helper_Data', array('isVdeRequest'), array(), '', false);
-        $helper->expects($this->once())
-            ->method('isVdeRequest')
-            ->will($this->returnValue($isVde));
+        $helper = $this->getMock('Mage_DesignEditor_Helper_Data', array('getFrontName'), array(), '', false);
+        $helper->expects($this->atLeastOnce())
+            ->method('getFrontName')
+            ->will($this->returnValue(self::VDE_FRONT_NAME));
 
         $backendSession = $this->getMock('Mage_Backend_Model_Auth_Session', array('isLoggedIn'), array(), '', false);
         $backendSession->expects($isVde ? $this->once() : $this->never())
@@ -196,7 +192,7 @@ class Mage_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Fr
                 );
         }
 
-        $router =  new Mage_DesignEditor_Controller_Varien_Router_Standard(
+        $router = new Mage_DesignEditor_Controller_Varien_Router_Standard(
             $controllerFactory, $objectManager, $testArea, $testBaseController, $backendSession, $helper, $layoutFactory
         );
         $router->setFront($frontController);

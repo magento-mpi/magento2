@@ -20,6 +20,11 @@ class Mage_DesignEditor_PageControllerTest extends Mage_Adminhtml_Utility_Contro
     const PAGE_TYPE_URL = 'design/page/type';
 
     /**
+     * VDE front name prefix
+     */
+    const VDE_FRONT_NAME = 'vde_front_name';
+
+    /**
      * @var Magento_ObjectManager
      */
     protected $_objectManager;
@@ -62,6 +67,7 @@ class Mage_DesignEditor_PageControllerTest extends Mage_Adminhtml_Utility_Contro
      * @param string $expectedMessage
      *
      * @dataProvider typeActionErrorsDataProvider
+     * @magentoConfigFixture frontend/vde/frontName vde_front_name
      */
     public function testTypeActionErrors($url, $handle, $expectedMessage)
     {
@@ -92,7 +98,7 @@ class Mage_DesignEditor_PageControllerTest extends Mage_Adminhtml_Utility_Contro
                 '$expectedMessage' => 'Incorrect Design Editor layout.',
             ),
             'not_existing_handle' => array(
-                '$url'             => Mage_DesignEditor_Helper_Data::FRONT_NAME . '/' . self::PAGE_TYPE_URL,
+                '$url'             => self::VDE_FRONT_NAME . '/' . self::PAGE_TYPE_URL,
                 '$handle'          => $this->_testHandles['not_existing'],
                 '$expectedMessage' => 'Specified page type or page fragment type doesn\'t exist: "'
                     . $this->_testHandles['not_existing'] . '".',
@@ -100,10 +106,13 @@ class Mage_DesignEditor_PageControllerTest extends Mage_Adminhtml_Utility_Contro
         );
     }
 
+    /**
+     * @magentoConfigFixture frontend/vde/frontName vde_front_name
+     */
     public function testTypeAction()
     {
         $this->getRequest()->setParam('handle', $this->_testHandles['correct']);
-        $this->dispatch(Mage_DesignEditor_Helper_Data::FRONT_NAME . '/' . self::PAGE_TYPE_URL);
+        $this->dispatch(self::VDE_FRONT_NAME . '/' . self::PAGE_TYPE_URL);
 
         // assert layout data
         /** @var $layout Mage_Core_Model_Layout */
@@ -117,6 +126,6 @@ class Mage_DesignEditor_PageControllerTest extends Mage_Adminhtml_Utility_Contro
         // assert response body
         $responseBody = $this->getResponse()->getBody();
         $this->assertContains('class="vde_element_wrapper', $responseBody); // enabled wrapper
-        $this->assertContains('/css/design.css', $responseBody);             // included wrapper CSS
+        $this->assertContains('/css/design.css', $responseBody);            // included wrapper CSS
     }
 }

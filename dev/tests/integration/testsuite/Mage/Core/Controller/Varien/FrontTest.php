@@ -12,11 +12,6 @@
 class Mage_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Test request path for rewrite
-     */
-    const REWRITE_PATH = 'test_rewrite_path';
-
-    /**
      * @var Magento_ObjectManager
      */
     protected $_objectManager;
@@ -121,44 +116,17 @@ class Mage_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Data provider for testApplyRewrites
-     *
-     * @return array
-     */
-    public function applyRewritesDataProvider()
-    {
-        return array(
-            'url rewrite' => array(
-                '$sourcePath'   => '/' . self::REWRITE_PATH,
-                '$resultPath'   => null, // result path is set in test
-                '$isUrlRewrite' => true,
-            ),
-            'configuration rewrite' => array(
-                '$sourcePath'   => '/test/url/',
-                '$resultPath'   => '/new_test/url/subdirectory/',
-            ),
-        );
-    }
-
-    /**
      * @param string $sourcePath
      * @param string $resultPath
-     * @param bool $isUrlRewrite
      *
      * @dataProvider applyRewritesDataProvider
      * @magentoConfigFixture global/rewrite/test_url/from /test\/(\w*)/
      * @magentoConfigFixture global/rewrite/test_url/to   new_test/$1/subdirectory
+     * @magentoDataFixture Mage/Core/_files/url_rewrite.php
      * @magentoDbIsolation enabled
      */
-    public function testApplyRewrites($sourcePath, $resultPath, $isUrlRewrite = false)
+    public function testApplyRewrites($sourcePath, $resultPath)
     {
-        if ($isUrlRewrite) {
-            $resultPath = $this->_createUrlRewrite();
-            if (!$resultPath) {
-                $this->markTestIncomplete('There must be at least one CMS page');
-            }
-        }
-
         /** @var $request Mage_Core_Controller_Request_Http */
         $request = $this->_objectManager->create('Mage_Core_Controller_Request_Http');
         $request->setPathInfo($sourcePath);
@@ -168,32 +136,21 @@ class Mage_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Creates new URL rewrite for random CMS page and returns rewrite target path
+     * Data provider for testApplyRewrites
      *
-     * @return null|string
+     * @return array
      */
-    protected function _createUrlRewrite()
+    public function applyRewritesDataProvider()
     {
-        // get random CMS page
-        /** @var $collection Mage_Cms_Model_Resource_Page_Collection */
-        $collection = $this->_objectManager->create('Mage_Cms_Model_Resource_Page_Collection');
-        $collection->getSelect()->limit(1);
-        $items = $collection->getItems();
-        if (!$items) {
-            return null;
-        }
-        /** @var $page Mage_Cms_Model_Page */
-        $page = reset($items);
-
-        // create URL rewrite
-        /** @var $rewrite Mage_Core_Model_Url_Rewrite */
-        $rewrite = $this->_objectManager->create('Mage_Core_Model_Url_Rewrite');
-        $targetPath = 'cms/page/view/page_id/' . $page->getId();
-        $rewrite->setIdPath('cms_page/' . $page->getId())
-            ->setRequestPath(self::REWRITE_PATH)
-            ->setTargetPath($targetPath)
-            ->save();
-
-        return $targetPath;
+        return array(
+            'url rewrite' => array(
+                '$sourcePath' => '/test_rewrite_path',      // data from fixture
+                '$resultPath' => 'cms/page/view/page_id/1', // data from fixture
+            ),
+            'configuration rewrite' => array(
+                '$sourcePath' => '/test/url/',
+                '$resultPath' => '/new_test/url/subdirectory/',
+            ),
+        );
     }
 }

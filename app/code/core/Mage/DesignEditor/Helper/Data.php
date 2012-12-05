@@ -14,19 +14,30 @@
 class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
-     * VDE front name prefix
+     * XML path to VDE front name prefix
      */
-    const FRONT_NAME = 'vde';
+    const XML_PATH_FRONT_NAME = 'frontend/vde/frontName';
 
     /**
-     * Check if URL has vde prefix
-     *
-     * @param Mage_Core_Controller_Request_Http $request
-     * @return bool
+     * @var Mage_Core_Model_Config
      */
-    public function isVdeRequest(Mage_Core_Controller_Request_Http $request)
+    protected $_configuration;
+
+    /**
+     * @param Mage_Core_Model_Config $configuration
+     */
+    public function __construct(Mage_Core_Model_Config $configuration)
     {
-        $url = trim($request->getOriginalPathInfo(), '/');
-        return $url == self::FRONT_NAME || strpos($url, self::FRONT_NAME . '/') === 0;
+        $this->_configuration = $configuration;
+    }
+
+    /**
+     * Get VDE front name prefix
+     *
+     * @return string
+     */
+    public function getFrontName()
+    {
+        return (string)$this->_configuration->getNode(self::XML_PATH_FRONT_NAME);
     }
 }

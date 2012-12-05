@@ -92,6 +92,9 @@
                 </observers>
             </core_layout_render_element>
         </events>
+        <vde>
+            <frontName>vde</frontName>
+        </vde>
     </frontend>
     <adminhtml>
         <layout>

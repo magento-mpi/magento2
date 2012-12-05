@@ -30,7 +30,7 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
      *
      * @var array
      */
-    protected $_excludedRouters = array('admin', 'vde', 'default');
+    protected $_excludedRouters = array('admin', 'vde');
 
     /**
      * Layout factory
@@ -73,7 +73,7 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
     public function match(Mage_Core_Controller_Request_Http $request)
     {
         // if URL has VDE prefix
-        if (!$this->_helper->isVdeRequest($request)) {
+        if (!$this->_isVdeRequest($request)) {
             return null;
         }
 
@@ -111,6 +111,19 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
     }
 
     /**
+     * Check if URL has vde prefix
+     *
+     * @param Mage_Core_Controller_Request_Http $request
+     * @return bool
+     */
+    protected function _isVdeRequest(Mage_Core_Controller_Request_Http $request)
+    {
+        $url = trim($request->getOriginalPathInfo(), '/');
+        $vdeFrontName = $this->_helper->getFrontName();
+        return $url == $vdeFrontName || strpos($url, $vdeFrontName . '/') === 0;
+    }
+
+    /**
      * Modify request path to imitate basic request
      *
      * @param Mage_Core_Controller_Request_Http $request
@@ -118,7 +131,8 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
      */
     protected function _prepareVdeRequest(Mage_Core_Controller_Request_Http $request)
     {
-        $noVdePath = substr($request->getPathInfo(), strlen(Mage_DesignEditor_Helper_Data::FRONT_NAME) + 1) ?: '/';
+        $vdeFrontName = $this->_helper->getFrontName();
+        $noVdePath = substr($request->getPathInfo(), strlen($vdeFrontName) + 1) ?: '/';
         $request->setPathInfo($noVdePath);
         return $this;
     }

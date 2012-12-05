@@ -8,20 +8,19 @@
  * @license     {license_link}
  */
 
-
 class Mage_Core_Controller_Varien_Front extends Varien_Object
 {
     const XML_STORE_ROUTERS_PATH = 'web/routers';
 
     /**
-     * @var Magento_ObjectManager
-     */
-    protected $_objectManager;
-
-    /**
      * @var Mage_Core_Controller_Varien_Router_Factory
      */
     protected $_routerFactory;
+
+    /**
+     * @var Mage_Core_Model_Url_RewriteFactory
+     */
+    protected $_rewriteFactory;
 
     /**
      * @var array
@@ -37,13 +36,13 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
 
     public function __construct(
         Mage_Core_Controller_Varien_Router_Factory $routerFactory,
-        Magento_ObjectManager $objectManager,
+        Mage_Core_Model_Url_RewriteFactory $rewriteFactory,
         array $data = array()
     ) {
-        $this->_objectManager = $objectManager;
-        $this->_routerFactory = $routerFactory;
-
         parent::__construct($data);
+
+        $this->_routerFactory  = $routerFactory;
+        $this->_rewriteFactory = $rewriteFactory;
     }
 
     public function setDefault($key, $value=null)
@@ -218,7 +217,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
         if (!$request->isStraight()) {
             Magento_Profiler::start('db_url_rewrite');
             /** @var $urlRewrite Mage_Core_Model_Url_Rewrite */
-            $urlRewrite = $this->_objectManager->create('Mage_Core_Model_Url_Rewrite');
+            $urlRewrite = $this->_rewriteFactory->createFromArray();
             $urlRewrite->rewrite($request);
             Magento_Profiler::stop('db_url_rewrite');
         }
