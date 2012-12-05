@@ -173,6 +173,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
                 }
             }
         }
+        return $products;
     }
 
     /*
@@ -217,6 +218,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
             }
             $filledProducts[$productName] = 1;
         }
+        return $filledProducts;
     }
     /**
      * @param array $shippingData
