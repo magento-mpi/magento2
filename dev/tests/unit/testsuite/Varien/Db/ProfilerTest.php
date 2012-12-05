@@ -46,7 +46,7 @@ class Varien_Db_ProfilerTest extends PHPUnit_Framework_TestCase
         $lastQueryId = $this->_profiler->queryStart('SELECT * FROM table');
         $endResult = $this->_profiler->queryEnd($lastQueryId);
         $this->assertAttributeEquals(null, '_lastQueryId', $this->_profiler);
-        $this->assertEquals(Zend_Db_Profiler::STORED, $endResult);
+        $this->assertEquals(Varien_Db_Profiler::STORED, $endResult);
     }
 
     public function testQueryEndLast()
@@ -54,9 +54,9 @@ class Varien_Db_ProfilerTest extends PHPUnit_Framework_TestCase
         $this->_profiler->queryStart('SELECT * FROM table');
         $endResult = $this->_profiler->queryEndLast();
         $this->assertAttributeEquals(null, '_lastQueryId', $this->_profiler);
-        $this->assertEquals(Zend_Db_Profiler::STORED, $endResult);
+        $this->assertEquals(Varien_Db_Profiler::STORED, $endResult);
 
         $endResult = $this->_profiler->queryEndLast();
-        $this->assertEquals(Zend_Db_Profiler::IGNORED, $endResult);
+        $this->assertEquals(Varien_Db_Profiler::IGNORED, $endResult);
     }
 }

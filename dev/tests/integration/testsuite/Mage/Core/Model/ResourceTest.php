@@ -49,13 +49,13 @@ class Mage_Core_Model_ResourceTest extends PHPUnit_Framework_TestCase
         $profilerConfig->addChild('class', 'Mage_Core_Model_Resource_Db_Profiler');
         $profilerConfig->addChild('enabled', 'true');
 
-        /** @var Magento_Test_Db_Adapter_Mysql $connection */
+        /** @var Zend_Db_Adapter_Abstract $connection */
         $connection = $this->_model->getConnection('core_read');
         /** @var Mage_Core_Model_Resource_Db_Profiler $profiler */
         $profiler = $connection->getProfiler();
 
         $this->assertInstanceOf('Mage_Core_Model_Resource_Db_Profiler', $profiler);
-        $this->assertEquals(true, $profiler->getEnabled());
+        $this->assertTrue($profiler->getEnabled());
         $this->assertAttributeEquals((string)$connReadConfig->host, '_host', $profiler);
         $this->assertAttributeEquals((string)$connReadConfig->type, '_type', $profiler);
     }

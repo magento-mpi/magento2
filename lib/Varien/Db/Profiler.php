@@ -58,7 +58,7 @@ class Varien_Db_Profiler extends Zend_Db_Profiler
      * Starts a query. Creates a new query profile object (Zend_Db_Profiler_Query)
      *
      * @param string $queryText SQL statement
-     * @param integer $queryType OPTIONAL Type of query, one of the Zend_Db_Profiler::* constants
+     * @param integer|null $queryType OPTIONAL Type of query, one of the Zend_Db_Profiler::* constants
      * @return integer|null
      */
     public function queryStart($queryText, $queryType = null)
