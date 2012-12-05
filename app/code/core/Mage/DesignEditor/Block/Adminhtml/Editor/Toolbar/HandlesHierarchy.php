@@ -13,6 +13,8 @@
  *
  * @method array getHierarchy() getHierarchy()
  * @method Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy setHierarchy() setHierarchy(array $data)
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy extends Mage_Backend_Block_Template
 {
