@@ -9,17 +9,25 @@
  */
 
 /**
- * Base Tile Block
+ * Base Drawer Block
  *
  * @method Mage_Launcher_Model_Tile getTile()
- * @method Mage_Launcher_Block_Adminhtml_Tile setTile(Mage_Launcher_Model_Tile $value)
+ * @method Mage_Launcher_Block_Adminhtml_Drawer setTile(Mage_Launcher_Model_Tile $value)
  *
  * @category   Mage
  * @package    Mage_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Block_Adminhtml_Tile extends Mage_Backend_Block_Abstract
+class Mage_Launcher_Block_Adminhtml_Drawer extends Mage_Backend_Block_Widget_Form
 {
+    /**
+     * Path to template file
+     *
+     * @todo Default template specified, but it should be changed to custom one
+     * @var string
+     */
+    protected $_template = 'Mage_Backend::widget/form.phtml';
+
     /**
      * Get Tile Code
      *

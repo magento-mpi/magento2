@@ -27,5 +27,5 @@ interface Mage_Launcher_Controller_Drawer
     /**
      * Retrieve Drawer Content Action
      */
-    public function getContentAction();
+    public function loadAction();
 }

@@ -25,23 +25,21 @@
 
 
 <div id="drawer" class="drawer">
-    <section class="drawer-content" id="store-config">
+    <section class="drawer-content">
         <header>
             <div class="header-inner">
                 <div class="drawer-header-content">
-                    <div id="drawer-item-1-header">
-                        <h1>Store Info</h1>
-                    </div>
+                    <h1 id="drawer-item-header"></h1>
                 </div>
-                <span class="btn-close">Back to Store Launcher</span>
+                <span class="btn-close"><?php echo $this->__('Back to Store Launcher'); ?></span>
             </div>
         </header>
         <div class="content">
         </div>
         <footer>
             <div class="footer-inner">
-                <div id="drawer-item-1-footer">
-                    <button class="button button-special button-save-settins">Save My Settings</button>
+                <div id="drawer-item-footer">
+                    <button class="button button-special button-save-settins" save-url=""><?php echo $this->__('Save My Settings'); ?></button>
                 </div>
             </div>
         </footer>

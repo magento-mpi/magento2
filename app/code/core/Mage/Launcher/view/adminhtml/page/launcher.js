@@ -10,7 +10,7 @@
     $(document).ready(function () {
         'use strict';
 
-        var Drawer = (function(opts){
+        var Drawer = (function(opts) {
 
             var options = $.extend({
                 drawer : $('#drawer'),
@@ -20,8 +20,8 @@
                 storeLauncher : $('#store-launcher'),
                 btnOpenDrawer : $('.drawer-open'),
                 btnCloseDrawer : $('.header-inner .btn-close'),
-                btnSaveDrawer :  $('.footer-inner .button-save-settins')
-            },opts||{});
+                btnSaveDrawer : $('.footer-inner .button-save-settins')
+            }, opts || {});
 
             var methods = {
                 drawerMinHeight: function () {
@@ -34,7 +34,7 @@
                             newMinHeight = bodyHeight+windowOffsetTop - 200;
                         if (editFormHeight < newMinHeight) {
                             options.drawer.css({
-                                'min-height':newMinHeight + 'px'
+                                'min-height': newMinHeight + 'px'
                             });
                         }
                     }, 1);
@@ -53,39 +53,39 @@
                     }
                 },
 
-                drawerOpen: function(drawerToOpenID){
-                    var bodyHeight = $('body').outerHeight()+500;
+                drawerOpen: function(tileCode){
+                    var bodyHeight = $('body').outerHeight() + 500;
 
                     methods.drawerMinHeight();
 
-                    $('#drawer-'+drawerToOpenID)
-                        .add('#drawer-'+drawerToOpenID+'-header')
-                        .add('#drawer-'+drawerToOpenID+'-footer')
+                    $('#drawer-' + tileCode)
+                        .add('#drawer-' + tileCode + '-header')
+                        .add('#drawer-' + tileCode + '-footer')
                         .removeClass('hidden')
                         .siblings()
                         .addClass('hidden');
 
                     options.drawer
-                        .css('top',''+bodyHeight+'px')
+                        .css('top', '' + bodyHeight + 'px')
                         .show(1, function () {
                             options.drawer.animate({
-                                top:'157px'
+                                top: '157px'
                             }, 1000, function () {
                                 methods.drawerFixedHeader();
                                 options.storeLauncher.hide();
                                 options.drawerFooter.animate({
                                     bottom: 0
-                                },100);
+                                }, 100);
                             })
                         });
                 },
 
-                drawerClose: function(){
+                drawerClose: function() {
                     var bodyHeight = $('body').outerHeight();
 
                     options.drawerFooter.animate({
                         bottom: '-51px'
-                    },100);
+                    }, 100);
 
                     options.storeLauncher.show();
 
@@ -96,7 +96,7 @@
                         });
                         options.drawer.removeClass('fixed');
                         options.drawer.animate({
-                            top: bodyHeight+'px'
+                            top: bodyHeight + 'px'
                         }, 1000, function () {
                             options.drawer.hide();
                         });
@@ -104,10 +104,35 @@
                     else {
                         var deltaTop = $(window).scrollTop();
                         options.drawer.animate({
-                            top: deltaTop + bodyHeight+'px'
+                            top: deltaTop + bodyHeight + 'px'
                         }, 1000, function () {
                             options.drawer.hide();
                         });
+                    }
+                    $('#drawer-item-header').text('');
+                    $('.footer-inner .button-save-settins').attr('save-url', '');
+                    $('.drawer-content > .content').html('');
+                },
+
+                drawerLoad: function(result, status) {
+                    if (result.success) {
+                        $('#drawer-item-header').text(result.tileHeader);
+                        methods.drawerOpen(result.tileCode);
+                        $('.drawer-content > .content').html(result.tileContent);
+                    } else {
+                        alert(result.error_message);
+                    }
+                },
+
+                drawerSaved: function(result, status) {
+                    if (result.success) {
+                        //Complete class should be added by condition for specified tile
+                        //.addClass('sl-step-complete');
+
+                        isAllStepsCompleted();
+                        methods.drawerClose();
+                    } else {
+                        alert(result.error_message);
                     }
                 }
             };
@@ -115,12 +140,24 @@
             options.btnOpenDrawer
                 .on('click.openDrawer', function () {
                     var elem = $(this),
-                        drawerToOpenID = elem
+                        tileCode = elem
                             .attr('data-drawer')
-                            .replace('open-drawer-','');
+                            .replace('open-drawer-', '');
 
-                    methods.drawerOpen(drawerToOpenID);
+                    var postData = {
+                        form_key: FORM_KEY,
+                        tileCode: tileCode
+                    };
+                    var ajaxOptions = {
+                        type: 'POST',
+                        data: postData,
+                        dataType: 'json',
+                        url: elem.attr('load-url'),
+                        success: methods.drawerLoad
+                    };
+                    $.ajax(ajaxOptions);
 
+                    $('.footer-inner .button-save-settins').attr('save-url', elem.attr('save-url'));
                     return false;
                 });
 
@@ -131,14 +168,20 @@
 
             options.btnSaveDrawer
                 .on('click.saveSettings', function () {
-                    var id  = $('.drawer-item:not(:hidden)').attr('id');
 
-                    $('[data-drawer="open-'+id+'"]')
-                        .closest('.sl-step')
-                        .addClass('sl-step-complete');
+                    var postData = {
+                        form_key: FORM_KEY
+                    };
+                    var ajaxOptions = {
+                        type: 'POST',
+                        data: postData,
+                        dataType: 'json',
+                        url: $('.footer-inner .button-save-settins').attr('save-url'),
+                        success: methods.drawerSaved
+                    };
+                    $.ajax(ajaxOptions);
 
-                    isAllStepsCompleted();
-                    methods.drawerClose();
+                    return true;
                 });
 
             $(window).scroll(function () {
@@ -158,12 +201,10 @@
                 storeAction = $('.btn-launch-store');
 
             if (completedSteps == 6) {
-                storeAction
-                    .removeClass('hidden');
+                storeAction.removeClass('hidden');
             }
             else {
-                storeAction
-                    .addClass('hidden');
+                storeAction.addClass('hidden');
             }
         }
 
