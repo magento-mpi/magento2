@@ -42,7 +42,7 @@ class Mage_Core_Model_Resource_Store_CollectionTest extends PHPUnit_Framework_Te
         $this->_collection->setWithoutDefaultFilter();
         $quote = $this->_getQuoteIdentifierSymbol();
 
-        $this->assertContains("{$quote}store_id{$quote} IN", (string)$this->_collection->getSelect());
+        $this->assertContains("{$quote}store_id{$quote} > 0", (string)$this->_collection->getSelect());
     }
 
     /**
