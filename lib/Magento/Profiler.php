@@ -251,23 +251,25 @@ class Magento_Profiler
             return;
         }
 
-        $latestTimerName = end(self::$_currentPath);
-        if ($timerName !== null && $timerName !== $latestTimerName) {
-            if (in_array($timerName, self::$_currentPath)) {
-                $exceptionMsg = sprintf('Timer "%s" should be stopped before "%s".', $latestTimerName, $timerName);
-            } else {
-                $exceptionMsg = sprintf('Timer "%s" has not been started.', $timerName);
+        if ($timerName === null) {
+            $timersToStop = 1;
+        } else {
+            $path = array_reverse(self::$_currentPath);
+            $timerPosition = array_search($timerName, $path);
+            if ($timerPosition === false) {
+                throw new InvalidArgumentException(sprintf('Timer "%s" has not been started.', $timerName));
             }
-            throw new InvalidArgumentException($exceptionMsg);
+            $timersToStop = count(array_slice(self::$_currentPath, count($path) - 1 - $timerPosition));
         }
 
-        $timerId = self::_getTimerId();
-        /** @var Magento_Profiler_DriverInterface $driver */
-        foreach (self::$_drivers as $driver) {
-            $driver->stop($timerId);
+        for ($i = 0; $i < $timersToStop; $i++) {
+            $timerId = self::_getTimerId();
+            /** @var Magento_Profiler_DriverInterface $driver */
+            foreach (self::$_drivers as $driver) {
+                $driver->stop($timerId);
+            }
+            /* Move one level up in timers nesting tree */
+            array_pop(self::$_currentPath);
         }
-
-        /* Move one level up in timers nesting tree */
-        array_pop(self::$_currentPath);
     }
 }
