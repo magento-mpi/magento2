@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class Enterprise2_Mage_Customer_CreateTest
+ * Test class Enterprise2_Mage_XmlSitemap_CreateTest
  *
  * @copyright {}
  */
@@ -9,8 +9,6 @@ class Enterprise2_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
     /**
      * <p>Preconditions:</p>
      * <p>1. Login to Admin page</p>
-     * <p>2. Disable Http only</p>
-     * <p>3. Disable Secret key</p>
      */
     protected function assertPreConditions()
     {
@@ -149,7 +147,7 @@ class Enterprise2_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
         $fieldData = $this->loadDataSet('XmlSitemap', 'admin_xml_sitemap');
 
         //Create url in format [base url]/robots.txt an read the file
-        $uri = 'robots'.'.'.'txt';
+        $uri = 'robots' . '.' . 'txt';
         $robotsUrl = $this->xmlSitemapHelper()->getFileUrl($uri);
         $order   = array("\r\n", "\n", "\r");
         $actualRobots = str_replace($order, '', $this->xmlSitemapHelper()->getFile($robotsUrl));
