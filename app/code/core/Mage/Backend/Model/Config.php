@@ -167,17 +167,19 @@ class Mage_Backend_Model_Config extends Varien_Object
             }
 
             foreach ($groupData['fields'] as $fieldId => $fieldData) {
+                $originalFieldId = $fieldId;
+                if ($group->shouldCloneFields() && isset($mappedFields[$fieldId])) {
+                    $originalFieldId = $mappedFields[$fieldId];
+                }
                 /** @var $field Mage_Backend_Model_Config_Structure_Element_Field */
-                $field = $this->_configStructure->getElementByPathParts(array($sectionId, $group->getId(), $fieldId));
+                $field = $this->_configStructure->getElementByPathParts(
+                    array($sectionId, $group->getId(), $originalFieldId)
+                );
 
                 /** @var Mage_Core_Model_Config_Data $backendModel  */
-                $backendModel = $this->_getBackendModel($field, $group, $mappedFields, $fieldId, $sectionId);
-
-                if ($group->shouldCloneFields() && isset($mappedFields[$fieldId])) {
-                    $field = $this->_configStructure->getElementByPathParts(
-                        array($sectionId, $group->getId(), $mappedFields[$fieldId])
-                    );
-                }
+                $backendModel = $field->hasBackendModel() ?
+                    $field->getBackendModel() :
+                    $this->_configDataFactory->create();
 
                 $data = array(
                     'field' => $fieldId,
@@ -191,7 +193,6 @@ class Mage_Backend_Model_Config extends Varien_Object
                     'fieldset_data' => $fieldsetData,
                 );
                 $backendModel->addData($data);
-                    
 
                 $this->_checkSingleStoreMode($field, $backendModel);
 
@@ -199,7 +200,7 @@ class Mage_Backend_Model_Config extends Varien_Object
                     $fieldData['value'] = null;
                 }
 
-                $path = $field->getPath();
+                $path = $field->getGroupPath() . '/' . $fieldId;
                 /**
                  * Look for custom defined field path
                  */
@@ -218,8 +219,7 @@ class Mage_Backend_Model_Config extends Varien_Object
 
                 $inherit = !empty($fieldData['inherit']);
 
-                $backendModel->setPath($path)
-                    ->setValue($fieldData['value']);
+                $backendModel->setPath($path)->setValue($fieldData['value']);
 
                 if (isset($oldConfig[$path])) {
                     $backendModel->setConfigId($oldConfig[$path]['config_id']);
@@ -244,36 +244,6 @@ class Mage_Backend_Model_Config extends Varien_Object
         $saveTransaction->save();
 
         return $this;
-    }
-
-    /**
-     * Get Backend model
-     *
-     * @param Mage_Backend_Model_Config_Structure_Element_Field $field
-     * @param Mage_Backend_Model_Config_Structure_Element_Group $group
-     * @param array $mappedFields
-     * @param string $fieldId
-     * @param string $sectionId
-     * @return Mage_Core_Model_Abstract|Mage_Core_Model_Config_Data
-     */
-    protected function _getBackendModel(Mage_Backend_Model_Config_Structure_Element_Field $field,
-        Mage_Backend_Model_Config_Structure_Element_Group $group,
-        array $mappedFields,
-        $fieldId,
-        $sectionId
-    ) {
-        if ($field && $field->hasBackendModel()) {
-            return $field->getBackendModel();
-        } elseif ($group->shouldCloneFields() && isset($mappedFields[$fieldId])) {
-            /** @var Mage_Backend_Model_Config_Structure_Element_Field $clonedField  */
-            $clonedField = $this->_configStructure->getElementByPathParts(
-                array($sectionId, $group->getId(), $mappedFields[$fieldId])
-            );
-            if ($clonedField && $clonedField->hasBackendModel()) {
-                return $clonedField->getBackendModel();
-            }
-        }
-        return $this->_configDataFactory->create();
     }
 
     /**

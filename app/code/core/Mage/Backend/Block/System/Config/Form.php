@@ -390,7 +390,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
             'value' => $data,
             'inherit' => $inherit,
             'class' => $field->getFrontendClass(),
-            'field_config' => $field,
+            'field_config' => $field->getData(),
             'scope' => $this->getScope(),
             'scope_id' => $this->getScopeId(),
             'scope_label' => $this->getScopeLabel($field),

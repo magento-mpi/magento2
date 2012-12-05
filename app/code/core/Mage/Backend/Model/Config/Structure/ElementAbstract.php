@@ -88,6 +88,16 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
     }
 
     /**
+     * Retrieve flyweight data
+     *
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->_data;
+    }
+
+    /**
      * Retrieve element id
      *
      * @return string
