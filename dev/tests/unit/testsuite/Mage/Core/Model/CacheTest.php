@@ -97,7 +97,6 @@ XML
             'Zend_Cache_Core', array('load', 'test', 'save', 'remove', 'clean', '_getHelper')
         );
         $this->_requestProcessor = $this->getMock('stdClass', array('extractContent'));
-        $dirs = new Mage_Core_Model_App_Dir(TESTS_TEMP_DIR);
         $this->_model = new Mage_Core_Model_Cache(
             $this->_app, self::$_dirs,
             array(
