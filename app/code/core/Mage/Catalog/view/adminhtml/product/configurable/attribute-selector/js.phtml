@@ -19,6 +19,8 @@
                 e.stopPropagation();
             })
             .autocomplete({
+                minLength: 0,
+                appendTo: '#config_super_product',
                 source: function(request, response) {
                     $.ajax({
                         url: '<?php echo $this->getSuggestUrl()?>',
@@ -39,7 +41,6 @@
                         response(list);
                     });
                 },
-                minLength: 0,
                 focus: function(event, ui) {
                     return false;
                 },
