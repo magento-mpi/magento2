@@ -30,14 +30,20 @@ abstract class Mage_Backend_Controller_System_ConfigAbstract extends Mage_Backen
     protected $_configStructure;
 
     /**
-     * Constructor
+     * Authentication session
      *
+     * @var Mage_Backend_Model_Auth_StorageInterface
+     */
+    protected $_authSession;
+
+    /**
      * @param Zend_Controller_Request_Abstract $request
      * @param Zend_Controller_Response_Abstract $response
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Authorization $authorization
      * @param Mage_Backend_Model_Config_Structure $configStructure
+     * @param Mage_Backend_Model_Auth_StorageInterface $authSession
      * @param array $invokeArgs
      */
     public function __construct(Zend_Controller_Request_Abstract $request,
@@ -46,12 +52,14 @@ abstract class Mage_Backend_Controller_System_ConfigAbstract extends Mage_Backen
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Authorization $authorization,
         Mage_Backend_Model_Config_Structure $configStructure,
+        Mage_Backend_Model_Auth_StorageInterface $authSession,
         array $invokeArgs = array()
     ) {
         parent::__construct($request, $response, $objectManager, $frontController, $invokeArgs);
 
         $this->_authorization = $authorization;
         $this->_configStructure = $configStructure;
+        $this->_authSession = $authSession;
     }
 
     /**
@@ -109,5 +117,30 @@ abstract class Mage_Backend_Controller_System_ConfigAbstract extends Mage_Backen
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return false;
         }
+    }
+
+    /**
+     * Save state of configuration field sets
+     *
+     * @param array $configState
+     * @return bool
+     */
+    protected function _saveState($configState = array())
+    {
+        $adminUser = $this->_authSession->getUser();
+        if (is_array($configState)) {
+            $extra = $adminUser->getExtra();
+            if (!is_array($extra)) {
+                $extra = array();
+            }
+            if (!isset($extra['configState'])) {
+                $extra['configState'] = array();
+            }
+            foreach ($configState as $fieldset => $state) {
+                $extra['configState'][$fieldset] = $state;
+            }
+            $adminUser->saveExtra($extra);
+        }
+        return true;
     }
 }

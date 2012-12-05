@@ -48,13 +48,6 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
     protected $_app;
 
     /**
-     * Authentication session
-     *
-     * @var Mage_Backend_Model_Auth_StorageInterface
-     */
-    protected $_authSession;
-
-    /**
      * Constructor
      *
      * @param Zend_Controller_Request_Abstract $request
@@ -86,7 +79,7 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
         array $invokeArgs = array()
     ) {
         parent::__construct($request, $response, $objectManager, $frontController,
-            $authorization, $configStructure, $invokeArgs
+            $authorization, $configStructure, $authSession, $invokeArgs
         );
 
         $this->_authorization = $authorization;
@@ -95,7 +88,6 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
         $this->_eventManager = $eventManager;
         $this->_app = $app;
         $this->_configModel = $configModel;
-        $this->_authSession = $authSession;
     }
 
     /**
@@ -226,28 +218,5 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
         $this->_app->cleanCache(array('layout', Mage_Core_Model_Layout_Merge::LAYOUT_GENERAL_CACHE_TAG));
     }
 
-    /**
-     * Save state of configuration field sets
-     *
-     * @param array $configState
-     * @return bool
-     */
-    protected function _saveState($configState = array())
-    {
-        $adminUser = $this->_authSession->getUser();
-        if (is_array($configState)) {
-            $extra = $adminUser->getExtra();
-            if (!is_array($extra)) {
-                $extra = array();
-            }
-            if (!isset($extra['configState'])) {
-                $extra['configState'] = array();
-            }
-            foreach ($configState as $fieldset => $state) {
-                $extra['configState'][$fieldset] = $state;
-            }
-            $adminUser->saveExtra($extra);
-        }
-        return true;
-    }
+
 }

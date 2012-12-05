@@ -65,7 +65,7 @@ class Mage_Backend_Adminhtml_System_ConfigController extends Mage_Backend_Contro
      */
     public function stateAction()
     {
-        if ($this->getRequest()->getParam('isAjax') == 1 && $this->getRequest()->getParam('container') != ''
+        if ($this->getRequest()->getParam('isAjax') && $this->getRequest()->getParam('container') != ''
             && $this->getRequest()->getParam('value') != ''
         ) {
             $configState = array(

@@ -185,7 +185,7 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
      */
     protected function _isCollapseState($element)
     {
-        if ($element->getExpanded() !== null) {
+        if ($element->getExpanded()) {
             return 1;
         }
         $extra = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getExtra();

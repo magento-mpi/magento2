@@ -348,4 +348,14 @@ class Mage_Backend_Model_Config_Structure_Element_Field
         );
         return $dependencies;
     }
+
+    /**
+     * Check whether element should be displayed for advanced users
+     *
+     * @return bool
+     */
+    public function isAdvanced()
+    {
+        return isset($this->_data['advanced']) && $this->_data['advanced'];
+    }
 }

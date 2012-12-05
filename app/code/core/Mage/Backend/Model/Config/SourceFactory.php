@@ -33,7 +33,7 @@ class Mage_Backend_Model_Config_SourceFactory
      */
     public function create($modelName)
     {
-        $model = $this->_objectManager->create($modelName);
+        $model = $this->_objectManager->get($modelName);
         return $model;
     }
 }
