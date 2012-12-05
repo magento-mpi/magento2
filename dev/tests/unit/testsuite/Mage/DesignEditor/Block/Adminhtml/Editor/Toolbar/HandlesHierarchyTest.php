@@ -120,6 +120,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchyTest exte
 
     /**
      * Data provider for getSelectedHandle method
+     *
+     * @return array
      */
     public function getSelectedHandleData()
     {
@@ -133,10 +135,10 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchyTest exte
                 'selected handle' => null,
                 'hierarchy'       => array(
                     'first_page_test'  => array(
-                        'name'     => 'first_page_name',
+                        'name' => 'first_page_name',
                     ),
                     'second_page_test' => array(
-                        'name'     => 'second_page_name',
+                        'name' => 'second_page_name',
                     ),
                 ),
                 'expected result' => 'first_page_name'
@@ -151,6 +153,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchyTest exte
 
     /**
      * Data provider for renderHierarchy method
+     *
+     * @return array
      */
     public function renderHierarchyData()
     {
