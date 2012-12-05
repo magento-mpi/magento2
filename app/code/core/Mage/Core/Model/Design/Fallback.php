@@ -54,7 +54,7 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
         if (!array_key_exists('area', $params) || !array_key_exists('themeModel', $params)
             || !array_key_exists('locale', $params)
         ) {
-            throw new InvalidArgumentException("Missing one of the param keys: 'area', 'package', 'theme', 'locale'.");
+            throw new InvalidArgumentException("Missing one of the param keys: 'area', 'themeModel', 'locale'.");
         }
         $this->_area = $params['area'];
         $this->_theme = $params['themeModel'];

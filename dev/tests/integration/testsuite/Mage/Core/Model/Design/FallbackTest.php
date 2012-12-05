@@ -16,7 +16,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructException()
     {
-        $dirs = new Mage_Core_Model_App_Dir(TESTS_TEMP_DIR);
+        $dirs = new Mage_Core_Model_App_Dir(__DIR__);
         new Mage_Core_Model_Design_Fallback($dirs, array());
     }
 
@@ -28,19 +28,23 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      */
     public function testGetters()
     {
-        $dirs = new Mage_Core_Model_App_Dir(TESTS_TEMP_DIR);
+        $theme = 't';
+        $themeModel = $this->getMock('Mage_Core_Model_Theme', array('getThemeCode'), array(), '', false);
+        $themeModel->expects($this->any())
+            ->method('getThemeCode')
+            ->will($this->returnValue($theme));
+
+        $dirs = new Mage_Core_Model_App_Dir(__DIR__);
         $stub = array(
             'appConfig' => 'stub',
             'themeConfig' => 'stub',
             'area' => 'a',
-            'package' => 'p',
-            'theme' => 't',
+            'themeModel' => $themeModel,
             'locale' => 'l',
         );
         $model = new Mage_Core_Model_Design_Fallback($dirs, $stub);
         $this->assertEquals('a', $model->getArea());
-        $this->assertEquals('p', $model->getPackage());
-        $this->assertEquals('t', $model->getTheme());
+        $this->assertEquals($theme, $model->getTheme());
         $this->assertEquals('l', $model->getLocale());
     }
 
@@ -55,12 +59,12 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
     protected function _buildModel($area, $themePath, $locale)
     {
         // Prepare config with directories
-        $dirs = new Mage_Core_Model_App_Dir(__DIR__ . '/_files', array(Mage_Core_Model_App_Dir::VIEW => 'design'));
-        $config = $this->getMock('Mage_Core_Model_Config', array('getModuleDir'), array(), '', false);
+        $baseDir = dirname(__DIR__) . DIRECTORY_SEPARATOR .  '_files' . DIRECTORY_SEPARATOR . 'fallback';
+        $dirs = new Mage_Core_Model_App_Dir($baseDir, array(Mage_Core_Model_App_Dir::VIEW => 'design'));
 
         /** @var $collection Mage_Core_Model_Theme_Collection */
         $collection = Mage::getModel('Mage_Core_Model_Theme_Collection');
-        $themeModel = $collection->setBaseDir($testDir . DIRECTORY_SEPARATOR .  'design')
+        $themeModel = $collection->setBaseDir($baseDir . DIRECTORY_SEPARATOR . 'design')
             ->addDefaultPattern()
             ->addFilter('theme_path', $themePath)
             ->addFilter('area', $area)
