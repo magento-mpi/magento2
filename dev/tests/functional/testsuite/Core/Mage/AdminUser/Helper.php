@@ -78,9 +78,6 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
      */
     public function createRole(array $roleData, $separator = '/')
     {
-        if (empty($roleData)) {
-            $this->fail('$roleData parameter is empty');
-        }
         $roleInfo = (isset($roleData['role_info_tab'])) ? $roleData['role_info_tab'] : array();
         $roleResources = (isset($roleData['role_resources_tab'])) ? $roleData['role_resources_tab'] : array();
         $this->clickButton('add_new_role');

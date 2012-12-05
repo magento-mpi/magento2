@@ -157,16 +157,10 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
         }
     }
 
-    /**
-     * @param array $shippingData
-     */
-    public function selectShippingAddresses(array $shippingData)
-    {
-        $this->assertMultipleCheckoutPageOpened('select_addresses');
-        $this->assertMessageNotPresent('validation');
-        $this->assertTrue($this->controlIsPresent('fieldset', 'checkout_multishipping_form'),
-            'Ship to Multiple Addresses page is not opened');
-        //Define Product(s) qty in order
+    /*
+    * @param $shippingData
+    */
+    protected function _inputAddressData($shippingData) {
         $products = array();
         foreach ($shippingData as $oneAddressData) {
             foreach ($oneAddressData['products'] as $product) {
@@ -179,7 +173,13 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
                 }
             }
         }
-        //Verify Product(s) qty in order
+    }
+
+    /*
+    * @param $products
+    */
+    protected function _filledProducts($products)
+    {
         $filledProducts = array();
         foreach ($products as $productName => $qty) {
             $this->addParameter('productName', $productName);
@@ -217,6 +217,20 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
             }
             $filledProducts[$productName] = 1;
         }
+    }
+    /**
+     * @param array $shippingData
+     */
+    public function selectShippingAddresses(array $shippingData)
+    {
+        $this->assertMultipleCheckoutPageOpened('select_addresses');
+        $this->assertMessageNotPresent('validation');
+        $this->assertTrue($this->controlIsPresent('fieldset', 'checkout_multishipping_form'),
+            'Ship to Multiple Addresses page is not opened');
+        //Define Product(s) qty in order
+        $products = $this->_inputAddressData($shippingData);
+        //Verify Product(s) qty in order
+        $filledProducts = $this->_filledProducts($products);
         $this->assertMessageNotPresent('error', 'shopping_cart_is_empty');
         //Add address if not exist
         $fillData = array();
