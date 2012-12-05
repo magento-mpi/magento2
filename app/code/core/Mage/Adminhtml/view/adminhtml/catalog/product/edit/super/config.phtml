@@ -280,7 +280,8 @@ jQuery(function($) {
         });
 
         grid.rowClickCallback = function(grid, event) {
-            if (!this.rows || !this.rows.length) {
+            if (!this.rows || !this.rows.length || $(this.rows).find('td').is('.empty-text')) {
+                $gridDialog.dialog('close');
                 return;
             }
             var $matrixRow = $button.parents('tr');
