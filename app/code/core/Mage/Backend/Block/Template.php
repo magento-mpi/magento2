@@ -18,6 +18,8 @@
 class Mage_Backend_Block_Template extends Mage_Core_Block_Template
 {
     /**
+     * Constructor
+     *
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Model_Layout $layout
      * @param Mage_Core_Model_Event_Manager $eventManager
@@ -29,6 +31,8 @@ class Mage_Backend_Block_Template extends Mage_Core_Block_Template
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_App_Dir $dirs
+     * @param Mage_Core_Model_Logger $logger
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -45,10 +49,12 @@ class Mage_Backend_Block_Template extends Mage_Core_Block_Template
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Core_Model_App_Dir $dirs,
+        Mage_Core_Model_Logger $logger,
         array $data = array()
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $data
+            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $data
         );
     }
 

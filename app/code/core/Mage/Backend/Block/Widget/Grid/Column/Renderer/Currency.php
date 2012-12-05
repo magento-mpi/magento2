@@ -46,6 +46,8 @@ class Mage_Backend_Block_Widget_Grid_Column_Renderer_Currency
     protected $_currencyLocator;
 
     /**
+     * Constructor
+     *
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Model_Layout $layout
      * @param Mage_Core_Model_Event_Manager $eventManager
@@ -57,7 +59,9 @@ class Mage_Backend_Block_Widget_Grid_Column_Renderer_Currency
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param Mage_Core_MOdel_App $app
+     * @param Mage_Core_Model_App_Dir $dirs
+     * @param Mage_Core_Model_Logger $logger
+     * @param Mage_Core_Model_App $app
      * @param Mage_Core_Model_Locale $locale
      * @param Mage_Directory_Model_Currency_DefaultLocator $currencyLocator
      * @param array $data
@@ -76,13 +80,15 @@ class Mage_Backend_Block_Widget_Grid_Column_Renderer_Currency
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
-        Mage_Core_MOdel_App $app,
+        Mage_Core_Model_App_Dir $dirs,
+        Mage_Core_Model_Logger $logger,
+        Mage_Core_Model_App $app,
         Mage_Core_Model_Locale $locale,
         Mage_Directory_Model_Currency_DefaultLocator $currencyLocator,
         array $data = array()
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $data
+            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $data
         );
         $this->_app = $app;
         $this->_locale = $locale;

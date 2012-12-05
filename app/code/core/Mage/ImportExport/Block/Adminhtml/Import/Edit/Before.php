@@ -32,6 +32,8 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit_Before extends Mage_Backend_
     protected $_importModel;
 
     /**
+     * Constructor
+     *
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Model_Layout $layout
      * @param Mage_Core_Model_Event_Manager $eventManager
@@ -43,6 +45,8 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit_Before extends Mage_Backend_
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_App_Dir $dirs
+     * @param Mage_Core_Model_Logger $logger
      * @param Mage_Core_Helper_Data $coreHelper
      * @param Mage_ImportExport_Model_Import $importModel
      * @param array $data
@@ -60,12 +64,14 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit_Before extends Mage_Backend_
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Core_Model_App_Dir $dirs,
+        Mage_Core_Model_Logger $logger,
         Mage_Core_Helper_Data $coreHelper,
         Mage_ImportExport_Model_Import $importModel,
         array $data = array()
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $data
+            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $data
         );
         $this->_coreHelper = $coreHelper;
         $this->_importModel = $importModel;

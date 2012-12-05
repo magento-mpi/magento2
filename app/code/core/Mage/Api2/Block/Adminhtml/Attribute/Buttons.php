@@ -20,9 +20,9 @@ class Mage_Api2_Block_Adminhtml_Attribute_Buttons extends Mage_Adminhtml_Block_T
     /**
      * Construct
      */
-    public function __construct()
+    public function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setTemplate('api2/attribute/buttons.phtml');
     }
 

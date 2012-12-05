@@ -60,6 +60,24 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      */
     protected $_template;
 
+    /**
+     * Constructor
+     *
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param Mage_Core_Model_Layout $layout
+     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Mage_Core_Model_Url $urlBuilder
+     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Session $session
+     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Mage_Core_Controller_Varien_Front $frontController
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_App_Dir $dirs
+     * @param Mage_Core_Model_Logger $logger
+     * @param array $data
+     */
     public function __construct(
         Mage_Core_Controller_Request_Http $request,
         Mage_Core_Model_Layout $layout,
@@ -75,8 +93,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         Mage_Core_Model_App_Dir $dirs,
         Mage_Core_Model_Logger $logger,
         array $data = array()
-    )
-    {
+    ) {
         $this->_dirs = $dirs;
         $this->_logger = $logger;
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
