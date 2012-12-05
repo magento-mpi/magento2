@@ -21,10 +21,6 @@
             }
         },
 
-        _create: function() {
-            this._super();
-        },
-
         /**
          * Check if form pass validation rules without submit
          * @return boolean

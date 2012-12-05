@@ -15,8 +15,6 @@
 return array(
     'server' => 'http://localhost:9876',
     'load' => array(
-        '/pub/lib/globalize',
-        '/pub/lib/mage/localization',
         '/pub/lib/jquery/jquery-ui-1.9.2.custom.min.js',
         '/pub/lib/jquery/jquery-ui-timepicker-addon.js',
         '/pub/lib/jquery/jquery.tmpl.min.js',

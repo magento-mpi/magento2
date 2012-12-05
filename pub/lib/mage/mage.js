@@ -6,8 +6,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/*jshint eqnull:true browser:true jquery:true*/
+/*jshint jquery:true*/
 (function($) {
+    "use strict";
     $.extend(true, $, {
         mage: {
             constant: {
