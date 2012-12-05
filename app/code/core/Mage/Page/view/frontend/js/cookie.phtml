@@ -19,13 +19,15 @@
 <script type="text/javascript">
     //<![CDATA[
     (function($) {
-        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.cookie.js') ?>", function() {
-            $.extend($.cookie.defaults, {
+        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.cookie.js') ?>",
+            "<?php echo $this->getViewFileUrl('mage/cookies.js') ?>", function() {
+            $.extend($.mage.cookies.defaults, {
                 expires: null,
                 path: '<?php echo $this->getPath()?>',
                 domain: '<?php echo $this->getDomain()?>',
                 secure: false
             });
+            $.extend($.cookie.defaults, $.mage.cookies.defaults);
         });
     })(jQuery);
     //]]>

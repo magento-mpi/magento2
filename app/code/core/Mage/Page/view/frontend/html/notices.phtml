@@ -40,8 +40,7 @@
     <script type="text/javascript">
         // <![CDATA[
         (function($) {
-            head.js("<?php echo $this->getViewFileUrl('jquery/jquery.cookie.js')?>",
-                "<?php echo $this->getViewFileUrl('mage/cookies.js')?>",
+            head.js("<?php echo $this->getViewFileUrl('mage/cookies.js')?>",
                 "<?php echo $this->getViewFileUrl('Mage_Page::js/notices.js')?>", function() {
                     $('#notice-cookie-block').cookieBlock({
                         cookieAllowButtonSelector: '#btn-cookie-allow',
