@@ -99,7 +99,7 @@ class Mage_Core_Model_Translate
     /**
      * @var Mage_Core_Model_Design_Package
      */
-    protected $designPackage;
+    protected $_designPackage;
 
     /**
      * Initialize translate model

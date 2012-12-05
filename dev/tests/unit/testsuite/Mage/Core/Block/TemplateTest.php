@@ -21,7 +21,7 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
             $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false),
             $this->getMock('Mage_Core_Model_Event_Manager'),
             $this->getMock('Mage_Core_Model_Url'),
-            $this->getMock('Mage_Core_Model_Translate'),
+            $this->getMock('Mage_Core_Model_Translate', $design),
             $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false),
             $design,
             $this->getMock('Mage_Core_Model_Session'),
@@ -46,12 +46,13 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
     public function testFetchView($filename, $expectedOutput)
     {
         $layout = $this->getMock('Mage_Core_Model_Layout', array('isDirectOutput'), array(), '', false);
+        $design = $this->getMock('Mage_Core_Model_Design_Package');
         $block = $this->getMock('Mage_Core_Block_Template', array('getShowTemplateHints'), array(
             $this->getMock('Mage_Core_Controller_Request_Http'),
             $layout,
             $this->getMock('Mage_Core_Model_Event_Manager'),
             $this->getMock('Mage_Core_Model_Url'),
-            $this->getMock('Mage_Core_Model_Translate'),
+            $this->getMock('Mage_Core_Model_Translate', $design),
             $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false),
             $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false),
             $this->getMock('Mage_Core_Model_Session'),
