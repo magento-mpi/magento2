@@ -8,19 +8,20 @@
  * @license     {license_link}
  */
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Mage_DesignEditor_Block_Adminhtml_Launcher_Preview extends Mage_Core_Block_Template
 {
-    /**#@+
-     * Preview modes
-     */
-    const TYPE_DEFAULT = 'default';
-    const TYPE_DEMO    = 'demo';
-    /**#@-*/
-
     /**
      * Theme parameter name
      */
     const PARAM_THEME_ID = 'theme_id';
+
+    /**
+     * Preview type parameter name
+     */
+    const PARAM_PREVIEW = 'preview_type';
 
     /**
      * Theme factory
@@ -37,11 +38,11 @@ class Mage_DesignEditor_Block_Adminhtml_Launcher_Preview extends Mage_Core_Block
     protected $_theme;
 
     /**
-     * Design session
+     * Preview Factory
      *
-     * @var Mage_DesignEditor_Model_Session
+     * @var Mage_DesignEditor_Model_Theme_PreviewFactory
      */
-    protected $_designSession;
+    protected $_previewFactory;
 
     /**
      * Initialize dependencies
@@ -58,7 +59,7 @@ class Mage_DesignEditor_Block_Adminhtml_Launcher_Preview extends Mage_Core_Block
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Core_Model_Theme_Factory $themeFactory
-     * @param Mage_DesignEditor_Model_Session $designSession
+     * @param Mage_DesignEditor_Model_Theme_PreviewFactory $previewFactory
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -76,14 +77,13 @@ class Mage_DesignEditor_Block_Adminhtml_Launcher_Preview extends Mage_Core_Block
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Theme_Factory $themeFactory,
-        Mage_DesignEditor_Model_Session $designSession,
+        Mage_DesignEditor_Model_Theme_PreviewFactory $previewFactory,
         array $data = array()
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $data
-        );
+            $session, $storeConfig, $frontController, $helperFactory, $data);
         $this->_themeFactory = $themeFactory;
-        $this->_designSession = $designSession;
+        $this->_previewFactory = $previewFactory;
     }
 
     /**
@@ -107,26 +107,25 @@ class Mage_DesignEditor_Block_Adminhtml_Launcher_Preview extends Mage_Core_Block
     }
 
     /**
+     * Get current preview type
+     *
+     * @return string
+     */
+    public function getPreviewType()
+    {
+        $previewType = $this->getRequest()->getParam(self::PARAM_PREVIEW);
+        return empty($previewType) ? Mage_DesignEditor_Model_Theme_PreviewFactory::TYPE_DEFAULT : $previewType;
+    }
+
+    /**
      * Return preview store url
      *
-     * @param string $type
      * @return string
-     * @throws Magento_Exception
      */
-    public function getPreviewUrl($type = self::TYPE_DEFAULT)
+    public function getPreviewUrl()
     {
-        switch ($type) {
-            case self::TYPE_DEFAULT:
-                $url = $this->_designSession->setThemeId($this->getTheme()->getId())->getPreviewUrl();
-                break;
-            case self::TYPE_DEMO:
-                $url = '';
-                break;
-            default:
-                throw new Magento_Exception($this->__('Undefined Preview Type'));
-                break;
-        }
-
-        return $url;
+        return $this->_previewFactory->create($this->getPreviewType())
+            ->setTheme($this->getTheme())
+            ->getPreviewUrl();
     }
 }
