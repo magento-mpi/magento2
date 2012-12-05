@@ -324,7 +324,7 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
     {
         $result = parent::_renderContainer($name);
 
-        if ($this->_enabledWrapping) {
+        if ($this->_enabledWrapping && $this->hasElement($name)) {
             $result = $this->_wrapElement($result, $name, true);
         }
 
