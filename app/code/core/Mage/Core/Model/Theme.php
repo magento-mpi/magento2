@@ -25,6 +25,8 @@
  * @method Mage_Core_Model_Theme setPackageCode(string $packageCode)
  * @method Mage_Core_Model_Theme setThemeCode(string $themeCode)
  * @method Mage_Core_Model_Theme setPreviewImage(string $previewImage)
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
 {
