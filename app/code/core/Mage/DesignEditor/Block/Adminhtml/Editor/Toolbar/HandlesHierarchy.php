@@ -19,7 +19,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy extends 
     /**
      * Page handle currently selected
      *
-     * @var string|bool
+     * @var string
      */
     protected $_selectedHandle;
 
@@ -63,7 +63,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy extends 
     /**
      * Retrieve the name of the currently selected page handle
      *
-     * @return string|false
+     * @return string|null
      */
     public function getSelectedHandle()
     {
@@ -80,7 +80,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy extends 
     /**
      * Retrieve label for the currently selected page handle
      *
-     * @return string|false
+     * @return string|null
      */
     public function getSelectedHandleLabel()
     {

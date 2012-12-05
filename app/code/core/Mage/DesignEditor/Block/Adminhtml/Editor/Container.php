@@ -26,9 +26,9 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Container extends Mage_Backend_Bl
     protected function _prepareLayout()
     {
         $this->addButton('back_button', array(
-            'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Back'),
-            'onclick'   => 'setLocation(\'' . $this->getUrl('*/*') . '\')',
-            'class' => 'back'
+            'label'   => $this->_helperFactory->get('Mage_Catalog_Helper_Data')->__('Back'),
+            'onclick' => 'setLocation(\'' . $this->getUrl('*/*') . '\')',
+            'class'   => 'back'
         ));
 
         parent::_prepareLayout();
@@ -41,9 +41,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Container extends Mage_Backend_Bl
      */
     public function getHeaderText()
     {
-        /** @var $helper Mage_DesignEditor_Helper_Data */
-        $helper = $this->_helperFactory->get('Mage_DesignEditor_Helper_Data');
-        return $helper->__('Visual Design Editor');
+        return $this->_helperFactory->get('Mage_DesignEditor_Helper_Data')->__('Visual Design Editor');
     }
 
     /**
