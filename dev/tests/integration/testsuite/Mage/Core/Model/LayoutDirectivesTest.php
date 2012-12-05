@@ -9,6 +9,47 @@
  */
 class Mage_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * Test scheduled operations in the rendering of elements
+     *
+     * Expected behavior:
+     * 1) block1 was not declared at the moment when "1" invocation declared. The operation is scheduled
+     * 2) block1 creation directive schedules adding "2" as well
+     * 3) block2 is generated with "3"
+     * 4) yet another action schedules replacing value of block2 into "4"
+     * 5) when entire layout is read, all scheduled operations are executed in the same order as declared
+     *    (blocks are instantiated first, of course)
+     * The end result can be observed in container1
+     */
+    public function testRenderElement()
+    {
+        $layout = $this->_getLayoutModel('render.xml');
+        $this->assertEmpty($layout->renderElement('nonexisting_element'));
+        $this->assertEquals('124', $layout->renderElement('container1'));
+        $this->assertEquals('12', $layout->renderElement('block1'));
+    }
+
+    /**
+     * Invoke getBlock() while layout is being generated
+     *
+     * Assertions in this test are pure formalism. The point is to emulate situation where block refers to other block
+     * while the latter hasn't been generated yet, and assure that there is no crash
+     */
+    public function testGetBlockUnscheduled()
+    {
+        $layout = $this->_getLayoutModel('get_block.xml');
+        $this->assertInstanceOf('Mage_Core_Block_Text', $layout->getBlock('block1'));
+        $this->assertInstanceOf('Mage_Core_Block_Text', $layout->getBlock('block2'));
+    }
+
+    /**
+     * @expectedException Magento_Exception
+     */
+    public function testGetBlockUnscheduledException()
+    {
+        $this->_getLayoutModel('get_block_exception.xml');
+    }
+
     public function testLayoutArgumentsDirective()
     {
         $layout = $this->_getLayoutModel('arguments.xml');
@@ -138,6 +179,31 @@ class Mage_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
     {
         $this->_getLayoutModel('remove_broken.xml');
     }
+
+    /**
+     * @param string $case
+     * @param string $expectedResult
+     * @dataProvider sortSpecialCasesDataProvider
+     */
+    public function testSortSpecialCases($case, $expectedResult)
+    {
+        $layout = $this->_getLayoutModel($case);
+        $this->assertEquals($expectedResult, $layout->renderElement('root'));
+    }
+
+    /**
+     * @return array
+     */
+    public function sortSpecialCasesDataProvider()
+    {
+        return array(
+            'Before element which is after' => array('sort_before_after.xml', '312'),
+            'Before element which is previous' => array('sort_before_before.xml', '213'),
+            'After element which is after' => array('sort_after_after.xml', '312'),
+            'After element which is previous' => array('sort_after_previous.xml', '321'),
+        );
+    }
+
 
     /**
      * Prepare a layout model with pre-loaded fixture of an update XML
