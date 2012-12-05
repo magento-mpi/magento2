@@ -15,11 +15,6 @@
 class Mage_Index_Model_Lock_StorageTest extends PHPUnit_Framework_TestCase
 {
     /**
-    * Test var directory
-    */
-    const VAR_DIRECTORY = 'test';
-
-    /**
      * Locks storage model
      *
      * @var Mage_Index_Model_Lock_Storage
@@ -35,10 +30,12 @@ class Mage_Index_Model_Lock_StorageTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $config = $this->getMock('Mage_Core_Model_Config', array('getVarDir'), array(), '', false);
-        $config->expects($this->exactly(2))
-            ->method('getVarDir')
-            ->will($this->returnValue(self::VAR_DIRECTORY));
+        $basePath = 'base';
+        $varDirectory = 'test';
+        $dirs = new Mage_Core_Model_App_Dir(
+            $basePath,
+            array(Mage_Core_Model_App_Dir::VAR_DIR => $varDirectory)
+        );
 
         $fileModel = $this->getMock('Mage_Index_Model_Process_File',
             array(
@@ -54,7 +51,7 @@ class Mage_Index_Model_Lock_StorageTest extends PHPUnit_Framework_TestCase
             ->with(true);
         $fileModel->expects($this->exactly(2))
             ->method('open')
-            ->with(array('path' => self::VAR_DIRECTORY));
+            ->with(array('path' => $basePath . DIRECTORY_SEPARATOR . $varDirectory . DIRECTORY_SEPARATOR . 'locks'));
         $fileModel->expects($this->exactly(2))
             ->method('streamOpen')
             ->will($this->returnCallback(array($this, 'checkFilenameCallback')));
@@ -69,7 +66,7 @@ class Mage_Index_Model_Lock_StorageTest extends PHPUnit_Framework_TestCase
             ->method('createFromArray')
             ->will($this->returnValue($fileModel));
 
-        $this->_storage = new Mage_Index_Model_Lock_Storage($config, $fileFactory);
+        $this->_storage = new Mage_Index_Model_Lock_Storage($dirs, $fileFactory);
     }
 
     public function testGetFile()

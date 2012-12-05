@@ -77,7 +77,7 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
             __DIR__,
             true
         );
-        $expectedFile = $this->_tmpDir . DIRECTORY_SEPARATOR . $suffix . DIRECTORY_SEPARATOR . 'a_p_t_l.ser';
+        $expectedFile = $this->_tmpDir . DIRECTORY_SEPARATOR . $suffix . DIRECTORY_SEPARATOR . 'a_t_l.ser';
         $model->getFile('does not matter');
         $this->assertFileNotExists($expectedFile);
         unset($model);

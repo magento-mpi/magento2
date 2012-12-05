@@ -23,8 +23,6 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
      */
     protected function _getThemeModel($designDir, $targetPath)
     {
-        Mage::getConfig()->getOptions()->setData('design_dir', $designDir);
-
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         /** @var $themeMock Mage_Core_Model_Theme */
         $arguments = $objectManagerHelper->getConstructArguments(Magento_Test_Helper_ObjectManager::MODEL_ENTITY);
