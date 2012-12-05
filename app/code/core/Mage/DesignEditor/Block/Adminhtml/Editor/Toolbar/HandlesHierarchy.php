@@ -24,6 +24,52 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy extends 
     protected $_selectedHandle;
 
     /**
+     * VDE url model
+     *
+     * @var Mage_DesignEditor_Model_Url
+     */
+    protected $_vdeUrlBuilder;
+
+    /**
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param Mage_Core_Model_Layout $layout
+     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Mage_Backend_Model_Url $urlBuilder
+     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Session $session
+     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Mage_Core_Controller_Varien_Front $frontController
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_DesignEditor_Model_Url $vdeUrlBuilder
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        Mage_Core_Controller_Request_Http $request,
+        Mage_Core_Model_Layout $layout,
+        Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Backend_Model_Url $urlBuilder,
+        Mage_Core_Model_Translate $translator,
+        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_Session $session,
+        Mage_Core_Model_Store_Config $storeConfig,
+        Mage_Core_Controller_Varien_Front $frontController,
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_DesignEditor_Model_Url $vdeUrlBuilder,
+        array $data = array()
+    ) {
+        $this->_vdeUrlBuilder = $vdeUrlBuilder;
+
+        parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
+            $session, $storeConfig, $frontController, $helperFactory, $data
+        );
+    }
+
+    /**
      * Recursively render each level of the page handles hierarchy
      *
      * @param array $hierarchy
@@ -36,11 +82,12 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy extends 
         }
         $result = '<ul>';
         foreach ($hierarchy as $name => $info) {
+            $linkUrl = $this->_vdeUrlBuilder->getUrl('design/page/type', array('handle' => $name));
             $class = $info['type'] == Mage_Core_Model_Layout_Merge::TYPE_FRAGMENT
                 ? ' class="vde_option_fragment"'
                 : '';
             $result .= '<li rel="' . $name . '"' . $class . '>';
-            $result .= '<a href="/vde/design/page/type/handle/' . $name. '">';
+            $result .= '<a href="' . $linkUrl. '">';
             $result .= $this->escapeHtml($info['label']);
             $result .= '</a>';
             $result .= $this->_renderHierarchy($info['children']);
