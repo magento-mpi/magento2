@@ -20,6 +20,7 @@ $customerAddress->setCustomerId(1)
         'street' => 'Green str, 67',
         'lastname' => 'Smith',
         'firstname' => 'John',
-        'parent_id' => 1
+        'parent_id' => 1,
+        'created_at' => date('YYY-MM-DD hh:mm:ss')
     ));
 $customerAddress->save();

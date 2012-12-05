@@ -304,6 +304,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         $actualData = $this->_customerFactory->create()
             ->load($expected->getId())->getData();
         $expectedData = array_merge($updatedCustomer->toArray(array_keys($actualData)), $customerData);
+        unset($expectedData['updated_at'], $actualData['updated_at']);
         if (isset($expectedData['password'])) {
             // TODO Add assertions for password if needed
             unset($expectedData['password'], $actualData['password']);
@@ -395,13 +396,11 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     /**
      * @param array $addressesData
      * @dataProvider customerAddressDataProvider
-     * TODO: Restore data fixtures initialization after MAGETWO-5881 fix
-     * magentoDataFixture Mage/Customer/_files/customer.php
-     * magentoDataFixture Mage/Customer/_files/customer_two_addresses.php
+     * @magentoDataFixture Mage/Customer/_files/customer.php
+     * @magentoDataFixture Mage/Customer/_files/customer_two_addresses.php
      */
     public function testCustomerAddressManipulation($addressesData)
     {
-        $this->markTestSkipped('MAGETWO-5881');
         /** @var Mage_Customer_Model_Customer $customer */
         $customer = $this->_customerFactory->create()
             ->load(1);

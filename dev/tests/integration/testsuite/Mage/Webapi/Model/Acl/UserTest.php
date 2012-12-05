@@ -52,6 +52,8 @@ class Mage_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
 
         $this->_model
             ->setApiKey('Test User Name')
+            ->setContactEmail('null@null.com')
+            ->setSecret('null@null.com')
             ->setRoleId($role->getId());
 
         $crud = new Magento_Test_Entity($this->_model, array('api_key' => '_User_Name_'));

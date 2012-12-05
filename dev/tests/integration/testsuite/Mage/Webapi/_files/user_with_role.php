@@ -19,6 +19,7 @@ $user = Mage::getModel('Mage_Webapi_Model_Acl_User');
 $user->setData(array(
     'api_key' => 'test_username',
     'secret' => '123123qa',
+    'contact_email' => 'null@null.com',
     'role_id' => $role->getRoleId()
 ));
 $user->save();

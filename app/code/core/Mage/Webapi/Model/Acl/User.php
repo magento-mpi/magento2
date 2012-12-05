@@ -13,6 +13,7 @@
  * @method string getApiKey() getApiKey()
  * @method Mage_Webapi_Model_Acl_User setContactEmail() setContactEmail(string $contactEmail)
  * @method string getContactEmail() getContactEmail()
+ * @method Mage_Webapi_Model_Acl_User setSecret() setSecret(string $secret)
  * @method Mage_Webapi_Model_Acl_User setCompanyName() setCompanyName(string $companyName)
  * @method string getCompanyName() getCompanyName()
  */
