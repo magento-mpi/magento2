@@ -786,6 +786,36 @@
                 return !element.hasClass('validate-ajax-error');
             },
             ''
+        ],
+        "validate-optional-datetime": [
+            function(v, elm, param) {
+                var dateTimeParts =$('.datetime-picker[id^="options_' + param + '"]'),
+                    hasWithValue = false, hasWithNoValue = false,
+                    pattern = /day_part$/i;
+                for (var i=0; i < dateTimeParts.length; i++) {
+                    if (! pattern.test($(dateTimeParts[i]).attr('id'))) {
+                        if ($(dateTimeParts[i]).val() === "") {
+                            hasWithValue = true;
+                        } else {
+                            hasWithNoValue = true;
+                        }
+                    }
+                }
+                return hasWithValue ^ hasWithNoValue;
+            },
+            'Field is not complete'
+        ],
+        "validate-required-datetime": [
+            function(v, elm, param) {
+                var dateTimeParts = $('.datetime-picker[id^="options_' + param + '"]');
+                for (var i = 0; i < dateTimeParts.length; i++) {
+                    if (dateTimeParts[i].value === "") {
+                        return false;
+                    }
+                }
+                return true;
+            },
+            'This field is required'
         ]
     };
 

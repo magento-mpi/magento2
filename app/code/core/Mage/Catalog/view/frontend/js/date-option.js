@@ -10,38 +10,25 @@
 (function($) {
     $.widget('mage.dateOption', {
         _create: function() {
-            $(this.options.datepickerFieldSelector).on('change', $.proxy(function() {
-                this.options.priceOptionInstance.reloadPrice();
-            }, this));
-            $(this.options.monthSelector).on('change', $.proxy(function(event) {
-                this._reloadMonth(event);
-            }, this));
-            $(this.options.yearSelector).on('change', $.proxy(function(event) {
-                this._reloadMonth(event);
-            }, this));
+            $(this.options.datepickerFieldSelector)
+                .on('change', $.proxy(this.options.priceOptionInstance.reloadPrice, this));
+            $(this.options.monthSelector)
+                .on('change', $.proxy(function(event) {this._reloadMonth(event);}, this));
+            $(this.options.yearSelector)
+                .on('change', $.proxy(function(event) {this._reloadMonth(event);}, this));
         },
 
         /**
          * Calculates the total number of days in the specified month in the specified year.
          * Can be between 1-31 depending on the month (e.g. usually 28, 29, 30, or 31).
          * @private
-         * @param month Numerical value of the month (e.g. 1-31)
+         * @param month Numerical value of the month (e.g. 1-12)
          * @param year Numerical value of the year (e.g. 2012)
          * @return {Number} The number of days in the month of the year (e.g. 1-31)
          */
         _getDaysInMonth: function(month, year)
         {
-            var curDate = new Date();
-            if (!month) {
-                month = curDate.getMonth();
-            }
-            if (2 === month && !year) {
-                return 29;
-            }
-            if (!year) {
-                year = curDate.getFullYear();
-            }
-            return 32 - new Date(year, month - 1, 32).getDate();
+            return new Date(year, month, 0).getDate();
         },
 
         /**
