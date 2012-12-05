@@ -123,6 +123,23 @@ class Enterprise_Mage_StagingWebsite_Helper extends Mage_Selenium_AbstractHelper
             $this->fillTab($generalInfo, 'general_information');
         }
         $this->clickButton('merge');
+        $this->_fillMergeConfig($mergeConfig);
+        if ($scheduleMerge) {
+            $this->fillFieldset($scheduleMerge, 'schedule');
+            $this->saveForm('schedule_merge');
+        } else {
+            $this->saveForm('merge_now');
+        }
+
+    }
+
+    /**
+     * Fills merge config
+     *
+     * @param $mergeConfig
+     */
+    protected function _fillMergeConfig($mergeConfig)
+    {
         if ($mergeConfig) {
             $this->fillForm($mergeConfig);
             if (isset($mergeConfig['merge_to'])) {
@@ -146,13 +163,6 @@ class Enterprise_Mage_StagingWebsite_Helper extends Mage_Selenium_AbstractHelper
                 }
             }
         }
-        if ($scheduleMerge) {
-            $this->fillFieldset($scheduleMerge, 'schedule');
-            $this->saveForm('schedule_merge');
-        } else {
-            $this->saveForm('merge_now');
-        }
-
     }
 
     /**

@@ -41,12 +41,23 @@ class Enterprise_Mage_Category_Helper extends Core_Mage_Category_Helper
                 $this->addNewCategoryPermissions($categoryData['category_permissions']);
                 continue;
             }
-            $arrayKey = $tab . '_data';
-            if (array_key_exists($arrayKey, $categoryData) && is_array($categoryData[$arrayKey])) {
-                $this->openTab($tab);
-                foreach ($categoryData[$arrayKey] as $value) {
-                    $this->productHelper()->assignProduct($value, $tab);
-                }
+            $this->_assignProducts($categoryData, $tab);
+        }
+    }
+
+    /**
+     * Assign products for category
+     *
+     * @param $categoryData
+     * @param $tab
+     */
+    protected function _assignProducts($categoryData, $tab)
+    {
+        $arrayKey = $tab . '_data';
+        if (array_key_exists($arrayKey, $categoryData) && is_array($categoryData[$arrayKey])) {
+            $this->openTab($tab);
+            foreach ($categoryData[$arrayKey] as $value) {
+                $this->productHelper()->assignProduct($value, $tab);
             }
         }
     }

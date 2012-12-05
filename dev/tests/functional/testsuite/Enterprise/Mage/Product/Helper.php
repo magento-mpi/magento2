@@ -129,10 +129,7 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
             } else {
                 foreach ($data as $optionData) {
                     if (is_string($optionData)) {
-                        if (!$this->elementIsPresent($optionData)) {
-                            $this->addVerificationMessage(
-                                'Could not find gift card amount ' . $this->getElement($optionData)->value() . '$');
-                        }
+                        $this->_verifySingleElement($optionData);
                     } else {
                         foreach ($optionData as $x => $y) {
                             if (!preg_match('/xpath/', $x)) {
@@ -148,6 +145,25 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
                 }
             }
         }
+        $this->_verifyGiftCardForProductInStock($productData);
+        $this->assertEmptyVerificationErrors();
+    }
+
+    protected function _verifySingleElement($option)
+    {
+        if (!$this->elementIsPresent($option)) {
+            $this->addVerificationMessage(
+                'Could not find gift card amount ' . $this->getElement($option)->value() . '$');
+        }
+    }
+
+    /**
+     * Verifies gift card for products in stock
+     *
+     * @param $productData
+     */
+    protected function _verifyGiftCardForProductInStock($productData)
+    {
         if ($productData['inventory_stock_availability'] == 'In Stock') {
             if ($productData['prices_gift_card_allow_open_amount'] == 'Yes') {
                 $this->assertTrue($this->controlIsPresent('field', 'gift_card_open_amount'),
@@ -164,7 +180,6 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
             $this->assertTrue($this->controlIsPresent('field', 'gift_card_message'),
                 'There is no message field on the ' . $productData['general_name'] . 'page');
         }
-        $this->assertEmptyVerificationErrors();
     }
 
     /**
@@ -197,12 +212,31 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
             $this->addParameter('longDescription', $longDescription);
             $xpathArray['Description'] = $this->_getControlXpath('pageelement', 'description');
         }
+        $this->_defineAvailability($xpathArray, $avail);
+        $xpathArray = $this->_formXpathForCustomOptions($productData, $allowedQty, $priceToCalc);
+        return $xpathArray;
+    }
+
+    protected function _defineAvailability($xpathArray, $avail)
+    {
         $avail = ($avail == 'In Stock') ? 'In stock' : 'Out of stock';
         if ($avail == 'Out of stock') {
             $this->addParameter('avail', $avail);
             $xpathArray['Availability'] = $this->_getControlXpath('pageelement', 'availability_param');
             return $xpathArray;
         }
+    }
+
+    /**
+     * Form xpath array for custom options with gift cards
+     *
+     * @param $productData
+     * @param $allowedQty
+     * @param $priceToCalc
+     * @return array
+     */
+    protected function _formXpathForCustomOptions($productData, $allowedQty, $priceToCalc)
+    {
         $allowedQty = ($allowedQty == null) ? '1' : $allowedQty;
         $this->addParameter('price', $allowedQty);
         $xpathArray['Quantity'] = $this->_getControlXpath('pageelement', 'qty');
@@ -219,7 +253,7 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
                 $someArr = $this->_formXpathForCustomOptionsRows($value, $priceToCalc, $index, 'custom_option_select');
                 $xpathArray = array_merge_recursive($xpathArray, $someArr);
             } elseif ($value['custom_options_general_input_type'] == 'Radio Buttons'
-                      || $value['custom_options_general_input_type'] == 'Checkbox'
+                || $value['custom_options_general_input_type'] == 'Checkbox'
             ) {
                 $someArr = $this->_formXpathForCustomOptionsRows($value, $priceToCalc, $index, 'custom_option_check');
                 $xpathArray = array_merge_recursive($xpathArray, $someArr);

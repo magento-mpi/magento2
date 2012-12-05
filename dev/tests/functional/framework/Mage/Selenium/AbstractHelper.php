@@ -281,11 +281,19 @@ class Mage_Selenium_AbstractHelper
     }
 
     /**
-     * Return config
+     * Return Test Instance
      * @return Mage_Selenium_TestCase
      */
-    public function getConfig()
+    public function getTestInstance()
     {
         return $this->_testInstance;
+    }
+
+    /**
+     * Set Test Instance
+     */
+    public function setTestInstance(Mage_Selenium_TestCase $testInstance)
+    {
+        $this->_testInstance = $testInstance;
     }
 }

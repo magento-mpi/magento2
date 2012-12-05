@@ -55,6 +55,10 @@ edit_admin_user_role_name:
         role_name: %roleName%
     role_info_tab:
         role_name: %newRoleName%
+    role_resources_tab:
+        role_resources:
+            resource_access: %noValue%
+            resource_1: %noValue%
 
 delete_admin_user_role:
     search_role:
@@ -95,4 +99,3 @@ role_promotions_shopping_cart_rights:
         role_resources:
             resource_access : Custom
             resource_1: Promotions/Shopping Cart Price Rules
-

@@ -1,17 +1,21 @@
 <?php
 /**
- * Magento
- *
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_ACL
+ * @package     Mage_Acl
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
- *
  */
 
+/**
+ * ACL tests
+ *
+ * @package     selenium
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 class Core_Mage_Acl_BugVerifications_CmsPageTest extends Mage_Selenium_TestCase
 {
     /**
@@ -20,7 +24,7 @@ class Core_Mage_Acl_BugVerifications_CmsPageTest extends Mage_Selenium_TestCase
      * @test
      * @TestlinkId TL-MAGE-6080
      */
-    public function CmsPageButton()
+    public function cmsPageButton()
     {
         //Preconditions
         $this->loginAdminUser();
@@ -36,7 +40,7 @@ class Core_Mage_Acl_BugVerifications_CmsPageTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->logoutAdminUser();
         //Steps
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->navigate('manage_cms_pages');
         $this->clickButton('add_new_page');

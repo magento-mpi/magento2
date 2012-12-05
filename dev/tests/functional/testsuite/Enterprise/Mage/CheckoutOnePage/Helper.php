@@ -37,6 +37,17 @@ class Enterprise_Mage_CheckoutOnePage_Helper extends Core_Mage_CheckoutOnePage_H
         if (isset($giftOptions['add_printed_card'])) {
             $this->fillCheckbox('add_printed_card', $giftOptions['add_printed_card']);
         }
+        $this->_addGiftOptionsForItems($forItems);
+        $this->_addGiftOptionsForOrder($forOrder);
+    }
+
+    /**
+     * Add gift options for items
+     *
+     * @param $forItems
+     */
+    protected function _addGiftOptionsForItems($forItems)
+    {
         foreach ($forItems as $data) {
             $productName = (isset($data['product_name'])) ? $data['product_name'] : '';
             $this->addParameter('productName', $productName);
@@ -51,6 +62,14 @@ class Enterprise_Mage_CheckoutOnePage_Helper extends Core_Mage_CheckoutOnePage_H
                 $this->fillFieldset($giftMessage, 'shipping_method');
             }
         }
+    }
+
+    /**
+     * Add gift options for order
+     * @param $forOrder
+     */
+    protected function _addGiftOptionsForOrder($forOrder)
+    {
         if ($forOrder) {
             $this->fillCheckbox('gift_option_for_order', 'Yes');
             $giftWrapping =

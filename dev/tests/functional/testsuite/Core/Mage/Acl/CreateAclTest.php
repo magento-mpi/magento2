@@ -1,19 +1,16 @@
 <?php
 /**
- * Magento
- *
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_AdminUser
+ * @package     Mage_Acl
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
- *
  */
 
 /**
- * Creating Admin User
+ * ACL tests
  *
  * @package     selenium
  * @subpackage  tests
@@ -58,17 +55,17 @@ class Core_Mage_Acl_CreateAclTest extends Mage_Selenium_TestCase
         //create specific role with test roleResource
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-                                          array('resource_1' => $access));
+            array('resource_1' => $access));
         $this->adminUserHelper()->createRole($roleSource);
         //create admin user with specific role
         $this->navigate('manage_admin_users');
         $testAdminUser = $this->loadDataSet('AdminUsers', 'generic_admin_user',
-                                             array('role_name' => $roleSource['role_info_tab']['role_name']));
+            array('role_name' => $roleSource['role_info_tab']['role_name']));
         $this->adminUserHelper()->createAdminUser($testAdminUser);
         $this->logoutAdminUser();
         //Steps
         //login as admin user with specific(test) role
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage($page);
         //Verifying  count of main menu elements
@@ -90,7 +87,7 @@ class Core_Mage_Acl_CreateAclTest extends Mage_Selenium_TestCase
             array('Reports', 'reports_sales_sales', 1 ,0),
             array('System', 'my_account', 1 ,0),
             array('External Page Cache', 'access_denied', 0 ,0),
-            array('Global Search', 'access_denied', 0 ,1),
+            array('Global Search', 'access_denied', 0 ,1)
         );
     }
 }

@@ -13,7 +13,7 @@
 wishlist_search_widget:
     settings:
         type: Wishlist Search
-        design_package_theme: %design_package_theme%
+        design_package_theme: %design_theme%
     frontend_properties:
         assign_to_store_views: All Store Views
         widget_instance_title: %randomize% Wishlist Search
@@ -95,7 +95,7 @@ wishlist_search_widget:
 giftregistry_search_widget:
     settings:
         type: Gift Registry Search
-        design_package_theme: %design_package_theme%
+        design_package_theme: %design_theme%
     frontend_properties:
         assign_to_store_views: All Store Views
         widget_instance_title: %randomize% Gift Registry Search
@@ -108,7 +108,7 @@ giftregistry_search_widget:
 catalog_events_carousel_widget:
     settings:
         type: Catalog Events Carousel
-        design_package_theme: %design_package_theme%
+        design_package_theme: %design_theme%
     frontend_properties:
         assign_to_store_views: All Store Views
         widget_instance_title: %randomize% Catalog Events Carousel
@@ -123,7 +123,7 @@ catalog_events_carousel_widget:
 banner_rotator_widget:
     settings:
         type: Banner Rotator
-        design_package_theme: %design_package_theme%
+        design_package_theme: %design_theme%
     frontend_properties:
         assign_to_store_views: All Store Views
         widget_instance_title: Banner_rotator_%randomize%
@@ -142,7 +142,7 @@ banner_rotator_widget:
 banner_rotator_widget_req:
     settings:
         type: Banner Rotator
-        design_package_theme: %design_package_theme%
+        design_package_theme: %design_theme%
     frontend_properties:
         assign_to_store_views: All Store Views
         widget_instance_title: Banner_rotator_%randomize%
@@ -157,7 +157,7 @@ banner_rotator_widget_req:
 wishlist_search_widget_req:
     settings:
         type: Wishlist Search
-        design_package_theme: %design_package_theme%
+        design_package_theme: %design_theme%
     frontend_properties:
         assign_to_store_views: All Store Views
         widget_instance_title: %randomize% Wishlist Search
@@ -172,7 +172,7 @@ wishlist_search_widget_req:
 giftregistry_search_widget_req:
     settings:
         type: Gift Registry Search
-        design_package_theme: %design_package_theme%
+        design_package_theme: %design_theme%
     frontend_properties:
         assign_to_store_views: All Store Views
         widget_instance_title: %randomize% Gift Registry Search
@@ -187,7 +187,7 @@ giftregistry_search_widget_req:
 catalog_events_carousel_widget_req:
     settings:
         type: Catalog Events Carousel
-        design_package_theme: %design_package_theme%
+        design_package_theme: %design_theme%
     frontend_properties:
         assign_to_store_views: All Store Views
         widget_instance_title: %randomize% Catalog Events Carousel
@@ -203,82 +203,82 @@ catalog_events_carousel_widget_req:
 banner_rotator_settings:
     settings:
         type: Banner Rotator
-        design_package_theme: %design_package_theme%
+        design_package_theme: %design_theme%
 
 #<--------------------------CMS Hierarchy Node Link Settings------------------>
 cms_hierarchy_node_link_settings:
     settings:
         type: CMS Hierarchy Node Link
-        design_package_theme: %design_package_theme%
+        design_package_theme: %design_theme%
 
 #<--------------------------CMS Page Link Settings---------------------------->
 cms_page_link_settings:
     settings:
         type: CMS Page Link
-        design_package_theme: %design_package_theme%
+        design_package_theme: %design_theme%
 
 #<--------------------------Banner Rotator Settings--------------------------->
 cms_static_block_settings:
     settings:
         type: CMS Static Block
-        design_package_theme: %design_package_theme%
+        design_package_theme: %design_theme%
 
 #<--------------------------Catalog Category Link Settings-------------------->
 catalog_category_link_settings:
     settings:
         type: Catalog Category Link
-        design_package_theme: %design_package_theme%
+        design_package_theme: %design_theme%
 
 #<--------------------------Catalog Events Carousel Settings------------------>
 catalog_events_carousel_settings:
     settings:
         type: Catalog Events Carousel
-        design_package_theme: %design_package_theme%
+        design_package_theme: %design_theme%
 
 #<--------------------------Catalog New Products List Settings---------------->
 catalog_new_products_list_settings:
     settings:
         type: Catalog New Products List
-        design_package_theme: %design_package_theme%
+        design_package_theme: %design_theme%
 
 #<--------------------------Catalog Product Link Settings--------------------->
 catalog_product_link_settings:
     settings:
         type: Catalog Product Link
-        design_package_theme: %design_package_theme%
+        design_package_theme: %design_theme%
 
 #<--------------------------Gift Registry Search Settings--------------------->
 gift_registry_search_settings:
     settings:
         type: Gift Registry Search
-        design_package_theme: %design_package_theme%
+        design_package_theme: %design_theme%
 
 #<--------------------------Order By Sku Settings----------------------------->
 order_by_sku_settings:
     settings:
         type: Order by SKU
-        design_package_theme: %design_package_theme%
+        design_package_theme: %design_theme%
 
 #<--------------------------Order and Return Settings------------------------->
 orders_and_returns_settings:
     settings:
         type: Orders and Returns
-        design_package_theme: %design_package_theme%
+        design_package_theme: %design_theme%
 
 #<--------------------------Recently Compared Products Settings--------------->
 recently_compared_products_settings:
     settings:
         type: Recently Compared Products
-        design_package_theme: %design_package_theme%
+        design_package_theme: %design_theme%
 
 #<--------------------------Recently Viewed Products Settings----------------->
 recently_viewed_products_settings:
     settings:
         type: Recently Viewed Products
-        design_package_theme: %design_package_theme%
+        design_package_theme: %design_theme%
 
 #<--------------------------Wishlist Search Settings-------------------------->
 wishlist_search_settings:
     settings:
         type: Wishlist Search
-        design_package_theme: %design_package_theme%
+        design_package_theme: %design_theme%

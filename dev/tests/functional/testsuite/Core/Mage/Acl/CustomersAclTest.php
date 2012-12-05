@@ -1,16 +1,16 @@
 <?php
-# Magento
-#
-# {license_notice}
-#
-# @category    Magento
-# @package     Mage_ACL
-# @subpackage  functional_tests
-# @copyright   {copyright}
-# @license     {license_link}
-#
 /**
- * Creating Admin User
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_Acl
+ * @subpackage  functional_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * ACL tests
  *
  * @package     selenium
  * @subpackage  tests
@@ -18,6 +18,13 @@
  */
 class Core_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
 {
+    public function assertPreConditions()
+    {
+        $this->admin('log_in_to_admin', false);
+        $this->logoutAdminUser();
+        $this->loginAdminUser();
+    }
+
     /**
      * <p>Post conditions:</p>
      * <p>Log out from Backend.</p>
@@ -35,9 +42,6 @@ class Core_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
      */
     public function roleResourceAccessManageCustomer()
     {
-        $this->admin('log_in_to_admin', false);
-        $this->logoutAdminUser();
-        $this->loginAdminUser();
         //Preconditions
         //create specific role with test roleResource
         $this->navigate('manage_roles');
@@ -52,7 +56,7 @@ class Core_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
         $this->logoutAdminUser();
         //Steps
         //login as admin user with specific(test) role
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('manage_customers');
         //Verifying  count of main menu elements
@@ -129,9 +133,6 @@ class Core_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
      */
     public function roleResourceAccessCustomerGroups()
     {
-        $this->admin('log_in_to_admin', false);
-        $this->logoutAdminUser();
-        $this->loginAdminUser();
         //Preconditions
         //create specific role with test roleResource
         $this->navigate('manage_roles');
@@ -146,7 +147,7 @@ class Core_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
         $this->logoutAdminUser();
         //Steps
         //login as admin user with specific(test) role
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('manage_customer_groups');
         //Verifying  count of main menu elements
@@ -180,9 +181,6 @@ class Core_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
      */
     public function roleResourceAccessOnlineCustomers()
     {
-        $this->admin('log_in_to_admin', false);
-        $this->logoutAdminUser();
-        $this->loginAdminUser();
         //Preconditions
         //create specific role with test roleResource
         $this->navigate('manage_roles');
@@ -197,7 +195,7 @@ class Core_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
         $this->logoutAdminUser();
         //Steps
         //login as admin user with specific(test) role
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('online_customers');
         //Verifying  count of main menu elements

@@ -1,7 +1,5 @@
 <?php
 /**
- * Magento
- *
  * {license_notice}
  *
  * @category    Magento
@@ -9,9 +7,15 @@
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
- *
  */
 
+/**
+ * ACL tests
+ *
+ * @package     selenium
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 class Core_Mage_Acl_CmsStaticBlocksResourceOneRoleTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
@@ -44,7 +48,7 @@ class Core_Mage_Acl_CmsStaticBlocksResourceOneRoleTest extends Mage_Selenium_Tes
         $this->loginAdminUser();
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-                                       array('resource_1' => 'CMS/Static Blocks'));
+            array('resource_1' => 'CMS/Static Blocks'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         $this->navigate('manage_admin_users');
@@ -53,7 +57,7 @@ class Core_Mage_Acl_CmsStaticBlocksResourceOneRoleTest extends Mage_Selenium_Tes
         $this->adminUserHelper()->createAdminUser($testAdminUser);
         $this->assertMessagePresent('success', 'success_saved_user');
 
-        return  array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
+        return array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
     }
 
     /**
@@ -61,8 +65,8 @@ class Core_Mage_Acl_CmsStaticBlocksResourceOneRoleTest extends Mage_Selenium_Tes
      * <p>All necessary elements are presented</p>
      *
      * @param $loginData
-     * @depends preconditionsForTestCreateAdminUser
      *
+     * @depends preconditionsForTestCreateAdminUser
      * @test
      * @TestlinkId TL-MAGE-6138
      */
@@ -77,7 +81,7 @@ class Core_Mage_Acl_CmsStaticBlocksResourceOneRoleTest extends Mage_Selenium_Tes
         $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
             'Count of Top Navigation Menu elements not equal 1, should be equal');
         // Verify  that necessary elements are present on page
-        $elements= $this->loadDataSet('CmsStaticBlockPageElements', 'manage_cms_static_blocks_page_elements');
+        $elements = $this->loadDataSet('CmsStaticBlockPageElements', 'manage_cms_static_blocks_page_elements');
         $resultElementsArray = array();
         foreach ($elements as $key => $value) {
             $resultElementsArray = array_merge($resultElementsArray, (array_fill_keys(array_keys($value), $key)));
@@ -95,6 +99,7 @@ class Core_Mage_Acl_CmsStaticBlocksResourceOneRoleTest extends Mage_Selenium_Tes
      * <p>Admin with Resource: CMS/Static Blocks can create new block with all fielded fields and conditions</p>
      *
      * @param $loginData
+     *
      * @depends preconditionsForTestCreateAdminUser
      * @return array
      *
@@ -110,7 +115,7 @@ class Core_Mage_Acl_CmsStaticBlocksResourceOneRoleTest extends Mage_Selenium_Tes
         unset($setData['content']['variables']);
         $this->cmsStaticBlocksHelper()->createStaticBlock($setData);
         $this->assertMessagePresent('success', 'success_saved_block');
-        return array('filter_block_title'      => $setData['block_title'] ,
+        return array('filter_block_title'      => $setData['block_title'],
                      'filter_block_identifier' => $setData['block_identifier']);
     }
 
@@ -132,16 +137,16 @@ class Core_Mage_Acl_CmsStaticBlocksResourceOneRoleTest extends Mage_Selenium_Tes
         $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('manage_cms_static_blocks');
-        $randomTitleAndId = array('block_title'      => $this->generate('string', 15),
-                                          'block_identifier' => $this->generate('string', 15));
+        $randomTitleAndId = array('block_title' => $this->generate('string', 15),
+                                  'block_identifier' => $this->generate('string', 15));
         $this->cmsStaticBlocksHelper()->openStaticBlock($searchPageData);
         $this->fillFieldset($randomTitleAndId, 'general_information');
-        $this->clickControlAndWaitMessage('button', 'save_and_continue_edit', false);
-        $this->addParameter('blockName', $randomTitleAndId['block_title']);
+        $this->addParameter('elementTitle', $randomTitleAndId['block_title']);
+        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
         $this->validatePage('edit_cms_static_block');
         $this->assertMessagePresent('success', 'success_saved_block');
 
-        return array('filter_block_title'      => $randomTitleAndId['block_title'] ,
+        return array('filter_block_title'      => $randomTitleAndId['block_title'],
                      'filter_block_identifier' => $randomTitleAndId['block_identifier']);
     }
 

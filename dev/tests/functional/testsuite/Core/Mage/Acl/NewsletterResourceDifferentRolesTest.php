@@ -1,15 +1,20 @@
 <?php
 /**
- * Magento
- *
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_ACL
+ * @package     Mage_Acl
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
+ */
+
+/**
+ * ACL tests
  *
+ * @package     selenium
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_TestCase
 {
@@ -46,7 +51,7 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->logoutAdminUser();
         //Steps
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('newsletter_templates');
         $newsData = $this->loadDataSet('Newsletter', 'generic_newsletter_data');
@@ -87,7 +92,7 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->logoutAdminUser();
         //Steps
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('newsletter_templates');
         $newNewsletterData = $this->loadDataSet('Newsletter', 'edit_newsletter');
@@ -128,7 +133,7 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->logoutAdminUser();
         //Steps
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('newsletter_templates');
         $newData = $this->loadDataSet('Newsletter', 'edit_newsletter_before_queue',
@@ -136,7 +141,7 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
         $this->newsletterHelper()->putNewsToQueue($newNewsletterData, $newData);
         $this->validatePage('newsletter_queue');
         //$this->assertMessagePresent('success', 'success_put_in_queue_newsletter');
-        $this->assertNotNull($this->search(array('filter_queue_subject'=> $newData['newsletter_template_subject']),
+        $this->assertNotNull($this->search(array('filter_queue_subject' => $newData['newsletter_template_subject']),
                 'newsletter_templates_grid'),
             'Template (Subject:' . $newData['newsletter_template_subject'] . ') is not presented in queue grid');
     }
@@ -169,7 +174,7 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->logoutAdminUser();
         //Steps
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('newsletter_templates');
         $this->newsletterHelper()->deleteNewsletter($newNewsletterData);
@@ -180,11 +185,10 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
             'Template(Name:' . $newNewsletterData['newsletter_template_subject']
             . ') is presented in grid, should be deleted');
         $this->navigate('newsletter_queue');
-        $this->assertNull($this->search(array(
-                'filter_queue_subject' => $newNewsletterData['newsletter_template_subject']
-            ), 'newsletter_queue_grid'), 'Template (Subject:' . $newNewsletterData['newsletter_template_subject'] . ')
-             is presented in queue grid, should be deleted'
-        );
+        $result = $this->search(array('filter_queue_subject' => $newNewsletterData['newsletter_template_subject']),
+            'newsletter_queue_grid');
+        $this->assertNull($result, 'Template (Subject:' . $newNewsletterData['newsletter_template_subject']
+                                   . ') is presented in queue grid, should be deleted');
     }
 
     /**
@@ -218,7 +222,7 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
         $this->assertTrue($this->newsletterHelper()->checkStatus('subscribed', $search),
             'Incorrect status for ' . $search['filter_email'] . ' email');
 
-        return array('filter_email'=> $search['filter_email']);
+        return array('filter_email' => $search['filter_email']);
     }
 
     /**
@@ -246,7 +250,7 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->logoutAdminUser();
         //Steps
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('newsletter_subscribers');
         //Verify that subscriber is present in grid and has status 'subscribed'(For Full newsletter ACL resources admin)
@@ -261,7 +265,7 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
         //Delete customers from subscribers list
         $this->newsletterHelper()->massAction('delete', array($subscriberEmail));
         $this->assertMessagePresent('success', 'success_delete');
-        $this->assertNull($this->search($subscriberEmail, 'newsletter_templates_grid'),
+        $this->assertNull($this->search($subscriberEmail, 'subscribers_grid'),
             'Subscriber ' . $subscriberEmail['filter_email'] . ' still presented in grid, should be deleted');
     }
 }

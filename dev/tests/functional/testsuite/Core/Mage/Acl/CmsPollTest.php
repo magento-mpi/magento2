@@ -1,15 +1,20 @@
 <?php
 /**
- * Magento
- *
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_ACL
+ * @package     Mage_Acl
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
+ */
+
+/**
+ * ACL tests
  *
+ * @package     selenium
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class Core_Mage_Acl_CmsPollTest extends Mage_Selenium_TestCase
 {
@@ -38,13 +43,13 @@ class Core_Mage_Acl_CmsPollTest extends Mage_Selenium_TestCase
     {
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-                                          array('resource_1' => 'CMS/Polls'));
+            array('resource_1' => 'CMS/Polls'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with specific role
         $this->navigate('manage_admin_users');
         $testAdminUser = $this->loadDataSet('AdminUsers', 'generic_admin_user',
-                                array('role_name' => $roleSource['role_info_tab']['role_name']));
+            array('role_name' => $roleSource['role_info_tab']['role_name']));
         $this->adminUserHelper()->createAdminUser($testAdminUser);
         $this->assertMessagePresent('success', 'success_saved_user');
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
@@ -168,4 +173,3 @@ class Core_Mage_Acl_CmsPollTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_deleted_poll');
     }
 }
-

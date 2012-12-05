@@ -35,6 +35,17 @@ class Enterprise_Mage_CheckoutMultipleAddresses_Helper extends Core_Mage_Checkou
         if (isset($giftOptions['add_printed_card'])) {
             $this->fillCheckbox('add_printed_card', $giftOptions['add_printed_card']);
         }
+        $this->_addGiftOptionsForItems($forItems);
+        $this->_addGiftOptionsForOrder($forOrder);
+    }
+
+    /**
+     * Add gift options for items
+     *
+     * @param $forItems
+     */
+    protected function _addGiftOptionsForItems($forItems)
+    {
         foreach ($forItems as $data) {
             $productName = (isset($data['product_name'])) ? $data['product_name'] : '';
             $this->addParameter('productName', $productName);
@@ -49,6 +60,14 @@ class Enterprise_Mage_CheckoutMultipleAddresses_Helper extends Core_Mage_Checkou
                 $this->fillFieldset($giftMessage, 'shipping_method_form');
             }
         }
+    }
+
+    /**
+     * Add gift options for order
+     * @param $forOrder
+     */
+    protected function _addGiftOptionsForOrder($forOrder)
+    {
         if ($forOrder) {
             $this->fillCheckbox('gift_option_for_the_entire_order', 'Yes');
             $giftWrapping = (isset($forOrder['gift_wrapping_for_order'])) ? $forOrder['gift_wrapping_for_order'] : '';
@@ -61,13 +80,6 @@ class Enterprise_Mage_CheckoutMultipleAddresses_Helper extends Core_Mage_Checkou
                 $this->fillFieldset($giftMessage, 'shipping_method_form');
             }
         }
-    }
-
-    /**
-     * @param array $shippingData
-     */
-    public function verifyGiftOptions(array $shippingData)
-    {
     }
 
     /**
@@ -98,6 +110,16 @@ class Enterprise_Mage_CheckoutMultipleAddresses_Helper extends Core_Mage_Checkou
         //For Individual Items
         $this->verifyControlAvailability('checkbox', 'gift_option_for_individual_items', $forItems,
             'add gift options to Individual Items');
+        $this->_verifyGiftOptionsForItems($forItemsData);
+        $this->assertEmptyVerificationErrors();
+    }
+
+    /**
+     * Verifies gift options for items
+     * @param $forItemsData
+     */
+    protected function _verifyGiftOptionsForItems($forItemsData)
+    {
         foreach ($forItemsData as $data) {
             $productName = (isset($data['product_name'])) ? $data['product_name'] : '';
             $this->addParameter('productName', $productName);
@@ -108,7 +130,6 @@ class Enterprise_Mage_CheckoutMultipleAddresses_Helper extends Core_Mage_Checkou
             $this->verifyControlAvailability('dropdown', 'gift_wrapping_for_item', $forItemWrapping,
                 'add gift wrapping to ' . $productName);
         }
-        $this->assertEmptyVerificationErrors();
     }
 
     /**

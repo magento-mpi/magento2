@@ -64,49 +64,84 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
         $skipFields = array('move_to_wishlist','remove')
     ) {
         $productValues = array();
-
         $tableRowNames = $this->shoppingCartHelper()->getColumnNamesAndNumbers($tableHeadName);
         $productLine = $this->_getControlXpath('pageelement', $productTableLine);
 
         $productCount = count($this->getElements($productLine));
-        for ($i = 1; $i <= $productCount; $i++) {
+        for ($index = 1; $index <= $productCount; $index++) {
             foreach ($tableRowNames as $key => $value) {
                 if (in_array($key, $skipFields)) {
                     continue;
                 }
-                $xpathValue = $productLine . "[$i]//td[$value]";
+                $xpathValue = $productLine . "[$index]//td[$value]";
                 if ($key == 'qty') {
-                    $productValues['product_' . $i][$key] = $this->getElement($xpathValue . '/input')->value();
+                    $productValues['product_' . $index][$key] = $this->getElement($xpathValue . '/input')->value();
                 } else {
-                    $text = $this->getElement($xpathValue)->attribute('text');
-                    if (preg_match('/Excl. Tax/', $text)) {
-                        $text = preg_replace("/ \\n/", ':', $text);
-                        $values = explode(':', $text);
-                        $values = array_map('trim', $values);
-                        foreach ($values as $k => $v) {
-                            if ($v == 'Excl. Tax' && isset($values[$k + 1])) {
-                                $productValues['product_' . $i][$key . '_excl_tax'] = $values[$k + 1];
-                            }
-                            if ($v == 'Incl. Tax' && isset($values[$k + 1])) {
-                                $productValues['product_' . $i][$key . '_incl_tax'] = $values[$k + 1];
-                            }
-                        }
-                    } elseif (preg_match('/Ordered/', $text)) {
-                        $values = explode(' ', $text);
-                        $values = array_map('trim', $values);
-                        foreach ($values as $k => $v) {
-                            if ($k % 2 != 0 && isset($values[$k - 1])) {
-                                $productValues['product_' . $i][
-                                $key . '_' . strtolower(preg_replace('#[^0-9a-z]+#i', '', $values[$k - 1]))] = $v;
-                            }
-                        }
-                    } else {
-                        $productValues['product_' . $i][$key] = trim($text);
-                    }
+                    $productValues = $this->_defineProductValues($productValues, $xpathValue, $index, $key);
                 }
             }
         }
 
+        $productValues = $this->_defineSkuValues($productValues);
+
+        return $productValues;
+    }
+
+    /**
+     * Defines product values without qty
+     *
+     * @param $productValues
+     * @param $xpathValue
+     * @param $index
+     * @param $key
+     * @return mixed
+     */
+    protected function _defineProductValues($productValues, $xpathValue, $index, $key)
+    {
+        $text = $this->getElement($xpathValue)->attribute('text');
+        if (preg_match('/Excl. Tax/', $text)) {
+            $productValues = $this->_defineExclTax($productValues, $text, $index, $key);
+        } elseif (preg_match('/Ordered/', $text)) {
+            $values = explode(' ', $text);
+            $values = array_map('trim', $values);
+            foreach ($values as $k => $v) {
+                if ($k % 2 != 0 && isset($values[$k - 1])) {
+                    $productValues['product_' . $index][
+                    $key . '_' . strtolower(preg_replace('#[^0-9a-z]+#i', '', $values[$k - 1]))] = $v;
+                }
+            }
+        } else {
+            $productValues['product_' . $index][$key] = trim($text);
+        }
+
+        return $productValues;
+    }
+
+    protected function _defineExclTax($productValues, $text, $index, $key)
+    {
+        $text = preg_replace("/ \\n/", ':', $text);
+        $values = explode(':', $text);
+        $values = array_map('trim', $values);
+        foreach ($values as $k => $v) {
+            if ($v == 'Excl. Tax' && isset($values[$k + 1])) {
+                $productValues['product_' . $index][$key . '_excl_tax'] = $values[$k + 1];
+            }
+            if ($v == 'Incl. Tax' && isset($values[$k + 1])) {
+                $productValues['product_' . $index][$key . '_incl_tax'] = $values[$k + 1];
+            }
+        }
+
+        return $productValues;
+    }
+
+    /**
+     * Returns sku values
+     *
+     * @param $productValues
+     * @return mixed
+     */
+    protected function _defineSkuValues($productValues)
+    {
         foreach ($productValues as &$productData) {
             $productData = array_diff($productData, array(''));
             foreach ($productData as &$fieldValue) {
@@ -144,10 +179,10 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
     public function getProductInfoInErrorTable()
     {
         $productValues = $this->getProductInfoInTable('product_table_head_error', 'product_line_error');
-        for ($i = 1; $i <= count($productValues); $i++) {
-            $index = 'product_' . $i;
-            unset($productValues[$index]['product_name']);
-            $productValues[$index]['sku'] = str_replace('SKU not found in catalog.', '', $productValues[$index]['sku']);
+        for ($index = 1; $index <= count($productValues); $index++) {
+            $count = 'product_' . $index;
+            unset($productValues[$count]['product_name']);
+            $productValues[$count]['sku'] = str_replace('SKU not found in catalog.', '', $productValues[$count]['sku']);
         }
         return $productValues;
     }
@@ -355,9 +390,6 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
                         $this->addParameter('productName',
                             $product['Options']['option_1']['parameters']['subproductName']);
                     }
-                    break;
-                case 'out_of_stock':
-                    $this->frontCheckFields($product, true, false);
                     break;
                 default:
                     $this->frontCheckFields($product, false, false);

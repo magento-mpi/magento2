@@ -166,6 +166,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     protected static $_lastTestNameInClass = null;
 
     /**
+     * Array of Test Helper instances
+     * @var array
+     */
+    protected static $_testHelpers = array();
+
+    /**
      * @var    array
      */
     public static $browsers = array();
@@ -396,16 +402,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if (empty($testScope)) {
             throw new UnexpectedValueException('Helper name can\'t be empty');
         }
-
-        $helpers = $this->_testConfig->getTestHelperClassNames();
-
-        if (!isset($helpers[ucwords($testScope)])) {
-            throw new UnexpectedValueException('Cannot load helper "' . $testScope . '"');
+        $helperClassNames = $this->_testConfig->getTestHelperClassNames();
+        $helperName = ucwords($testScope);
+        if (!isset($helperClassNames[$helperName])) {
+            throw new UnexpectedValueException('Cannot load helper "' . $helperName . '"');
         }
-
-        $helperClassName = $helpers[ucwords($testScope)];
-
-        return new $helperClassName($this);
+        $helperClassName = $helperClassNames[$helperName];
+        if (isset(self::$_testHelpers[$helperClassName])) {
+            /** @var $helper Mage_Selenium_AbstractHelper */
+            $helper = self::$_testHelpers[$helperClassName];
+            $helper->setTestInstance($this);
+            return $helper;
+        }
+        self::$_testHelpers[$helperClassName] = new $helperClassName($this);
+        return self::$_testHelpers[$helperClassName];
     }
 
     /**
@@ -421,8 +431,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if (strpos($className, '_Helper') === false) {
             $className .= '_Helper';
         }
+        if (isset(self::$_testHelpers[$className])) {
+            /** @var $helper Mage_Selenium_AbstractHelper */
+            $helper = self::$_testHelpers[$className];
+            $helper->setTestInstance($this);
+            return $helper;
+        }
 
-        return new $className($this);
+        self::$_testHelpers[$className] = new $className($this);
+        return self::$_testHelpers[$className];
     }
 
     /**

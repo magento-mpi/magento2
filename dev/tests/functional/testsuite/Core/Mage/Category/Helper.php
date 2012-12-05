@@ -75,6 +75,9 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
         $rootCat = array_shift($nodes);
 
         $correctRoot = $this->defineCorrectCategory($rootCat, null, $fieldsetName);
+        if (empty($correctRoot)) {
+            $this->fail("'$rootCat' root category could not be selected.");
+        }
 
         foreach ($nodes as $value) {
             $correctSubCat = array();

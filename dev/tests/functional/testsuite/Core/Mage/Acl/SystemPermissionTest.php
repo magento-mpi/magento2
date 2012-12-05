@@ -1,17 +1,21 @@
 <?php
 /**
- * Magento
- *
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_ACL
+ * @package     Mage_Acl
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
- *
  */
 
+/**
+ * ACL tests
+ *
+ * @package     selenium
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 class Core_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
 {
     public function setUpBeforeTests()
@@ -79,9 +83,8 @@ class Core_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
         $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
             'Count of child Navigation Menu not equal 1, should be equal 1');
         $this->navigate('manage_roles');
-        $editedRole = $this->loadDataSet('AdminUserRole', 'edit_admin_user_role_name', null,
-            array('roleName' => $testData['role_name']));
-        $editedRole['role_resources_tab']['role_resources']['resource_2'] = 'System/Configuration';
+        $editedRole = $this->loadDataSet('AdminUserRole', 'edit_admin_user_role_name',
+            array('resource_1' => 'System/Configuration'), array('roleName' => $testData['role_name']));
         //Data
         $this->adminUserHelper()->editRole($editedRole);
         //Verifying
@@ -121,12 +124,12 @@ class Core_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->navigate('manage_roles');
         $dataForDelete = $this->loadDataSet('AdminUserRole', 'edit_admin_user_role_name', null,
-            array('roleName'=> $roleSource['role_info_tab']['role_name']));
+            array('roleName' => $roleSource['role_info_tab']['role_name']));
         $this->adminUserHelper()->deleteRole($dataForDelete);
         $this->assertMessagePresent('success', 'success_deleted_role');
         $this->navigate('manage_roles');
         $dataForDeleteOwnRole = $this->loadDataSet('AdminUserRole', 'edit_admin_user_role_name', null,
-            array('roleName'=> $testData['role_name']));
+            array('roleName' => $testData['role_name']));
         $this->adminUserHelper()->deleteRole($dataForDeleteOwnRole);
         $this->assertMessagePresent('error', 'delete_self_assigned_role');
     }

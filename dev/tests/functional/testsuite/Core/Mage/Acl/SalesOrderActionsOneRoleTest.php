@@ -1,17 +1,21 @@
 <?php
 /**
- * Magento
- *
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_ACL
+ * @package     Mage_Acl
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
- *
  */
 
+/**
+ * ACL tests
+ *
+ * @package     selenium
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
 {
     protected function tearDownAfterTest()
@@ -45,7 +49,7 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_customer');
 
-        return array('sku'   => $simple['general_name'], 'email' => $userData['email']);
+        return array('sku' => $simple['general_name'], 'email' => $userData['email']);
     }
 
     /**
@@ -136,7 +140,7 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->loginAdmin($testAdminUser);
         $this->navigate('manage_sales_orders');
         $orderCreationData = $this->loadDataSet('SalesOrderActions', 'order_data',
-            array('filter_sku' => $orderData['sku'], 'email'      => $orderData['email']));
+            array('filter_sku' => $orderData['sku'], 'email' => $orderData['email']));
         $this->orderHelper()->createOrder($orderCreationData);
         $this->assertMessagePresent('success', 'success_created_order');
         $this->validatePage('view_order');
@@ -161,7 +165,7 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
     {
         $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testAdminUser);
-        $this->searchAndOpen(array('filter_order_id'=> $orderId), 'sales_order_grid');
+        $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
     }
 
@@ -181,7 +185,7 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
     {
         $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testAdminUser);
-        $this->searchAndOpen(array('filter_order_id'=> $orderId), 'sales_order_grid');
+        $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
         $this->saveForm('hold');
         $this->assertMessagePresent('success', 'success_hold_order');
     }
@@ -203,7 +207,7 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
     {
         $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testAdminUser);
-        $this->searchAndOpen(array('filter_order_id'=> $orderId), 'sales_order_grid');
+        $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
         $this->saveForm('unhold');
         $this->assertMessagePresent('success', 'success_unhold_order');
     }
@@ -225,7 +229,7 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
     {
         $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testAdminUser);
-        $this->searchAndOpen(array('filter_order_id'=> $orderId), 'sales_order_grid');
+        $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
         $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
     }
 
@@ -246,7 +250,7 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
     {
         $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testAdminUser);
-        $this->searchAndOpen(array('filter_order_id'=> $orderId), 'sales_order_grid');
+        $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
     }
 
@@ -269,7 +273,7 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
     {
         $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testAdminUser);
-        $this->searchAndOpen(array('filter_order_id'=> $orderId), 'sales_order_grid');
+        $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
         $this->clickButton('reorder');
         $this->orderHelper()->submitOrder();
         $orderId = $this->orderHelper()->defineOrderId();
@@ -296,7 +300,7 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
     {
         $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testAdminUser);
-        $this->searchAndOpen(array('filter_order_id'=> $orderId), 'sales_order_grid');
+        $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
         $this->clickButtonAndConfirm('edit', 'confirmation_for_edit');
         $this->orderHelper()->submitOrder();
         $orderId = $this->orderHelper()->defineOrderId();
@@ -321,7 +325,7 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
     {
         $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testAdminUser);
-        $this->searchAndOpen(array('filter_order_id'=> $orderId), 'sales_order_grid');
+        $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
         $this->assertMessagePresent('success', 'success_canceled_order');
     }

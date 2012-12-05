@@ -1,18 +1,21 @@
 <?php
 /**
- * Magento
- *
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_ACL
+ * @package     Mage_Acl
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
- *
  */
 
-class Core_Mage_Acl_CmsPageResourceOneRoleTest extends Mage_Selenium_TestCase
+/**
+ * ACL tests
+ *
+ * @package     selenium
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */class Core_Mage_Acl_CmsPageResourceOneRoleTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {
@@ -59,8 +62,7 @@ class Core_Mage_Acl_CmsPageResourceOneRoleTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return array('category_path' => $product['categories'],
-                     'filter_sku'    => $product['general_sku'],);
+        return array('category_path' => $product['categories'], 'filter_sku' => $product['general_sku']);
     }
 
     /**
@@ -82,7 +84,7 @@ class Core_Mage_Acl_CmsPageResourceOneRoleTest extends Mage_Selenium_TestCase
             array('role_name' => $roleSource['role_info_tab']['role_name']));
         $this->adminUserHelper()->createAdminUser($testAdminUser);
         $this->assertMessagePresent('success', 'success_saved_user');
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
 
         return $loginData;
     }
@@ -107,7 +109,7 @@ class Core_Mage_Acl_CmsPageResourceOneRoleTest extends Mage_Selenium_TestCase
         $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
             'Count of Top Navigation Menu elements not equal 1, should be equal');
         // Verify  that necessary elements are present on page
-        $elements= $this->loadDataSet('CmsPageElements', 'manage_cms_pages_elements');
+        $elements = $this->loadDataSet('CmsPageElements', 'manage_cms_pages_elements');
         $resultElementsArray = array();
         foreach ($elements as $key => $value) {
             $resultElementsArray = array_merge($resultElementsArray, (array_fill_keys(array_keys($value), $key)));
@@ -147,8 +149,8 @@ class Core_Mage_Acl_CmsPageResourceOneRoleTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_cms_page');
         $this->cmsPagesHelper()->frontValidatePage($pageData);
 
-        return array('filter_title'    => $pageData['page_information']['page_title'],
-                      'filter_url_key' => $pageData['page_information']['url_key']);
+        return array('filter_title'   => $pageData['page_information']['page_title'],
+                     'filter_url_key' => $pageData['page_information']['url_key']);
     }
 
     /**
@@ -156,11 +158,11 @@ class Core_Mage_Acl_CmsPageResourceOneRoleTest extends Mage_Selenium_TestCase
      *
      * @param $loginData
      * @param $searchPageData
+     * @return array
+     *
      * @depends preconditionsForTestCreateAdminUser
      * @depends createCmsPageOneRoleResource
      * @depends verifyScopeCmsPageOneRoleResource
-     *
-     * @return array
      * @test
      * @TestlinkId TL-MAGE-6132
      */

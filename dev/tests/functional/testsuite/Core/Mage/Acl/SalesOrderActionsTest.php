@@ -1,17 +1,21 @@
 <?php
 /**
- * Magento
- *
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_ACL
+ * @package     Mage_Acl
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
- *
  */
 
+/**
+ * ACL tests
+ *
+ * @package     selenium
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
@@ -48,7 +52,7 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_customer');
 
-        return array('sku'   => $simple['general_name'], 'email' => $userData['email']);
+        return array('sku' => $simple['general_name'], 'email' => $userData['email']);
     }
 
     /**
@@ -76,11 +80,11 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->createAdminUser($testAdminUser);
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->logoutAdminUser();
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         //Data
         $orderData = $this->loadDataSet('SalesOrderActions', 'order_data',
-            array('filter_sku' => $testData['sku'], 'email'      => $testData['email']));
+            array('filter_sku' => $testData['sku'], 'email' => $testData['email']));
         //Steps And Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -116,7 +120,7 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
     public function createOrderForTest($testData)
     {
         $orderData = $this->loadDataSet('SalesOrderActions', 'order_data',
-            array('filter_sku' => $testData['sku'], 'email'      => $testData['email']));
+            array('filter_sku' => $testData['sku'], 'email' => $testData['email']));
         //Steps And Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -153,9 +157,9 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->createAdminUser($testAdminUser);
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->logoutAdminUser();
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
-        $this->searchAndOpen(array('filter_order_id'=> $orderId), 'sales_order_grid');
+        $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
         $buttonsFalse =
             array('edit', 'cancel', 'send_email', 'hold', 'unhold', 'credit_memo', 'ship', 'reorder', 'void');
         $buttonsTrue = array('back', 'invoice');
@@ -198,10 +202,10 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->createAdminUser($testAdminUser);
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->logoutAdminUser();
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         //Steps And Verifying
-        $this->searchAndOpen(array('filter_order_id'=> $orderId), 'sales_order_grid');
+        $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
         $buttonsFalse =
             array('edit', 'cancel', 'send_email', 'ship', 'unhold', 'credit_memo', 'invoice', 'reorder', 'void');
         $buttonsTrue = array('back', 'hold');
@@ -247,9 +251,9 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->createAdminUser($testAdminUser);
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->logoutAdminUser();
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
-        $this->searchAndOpen(array('filter_order_id'=> $orderId), 'sales_order_grid');
+        $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
         $buttonsFalse =
             array('edit', 'cancel', 'send_email', 'ship', 'hold', 'credit_memo', 'invoice', 'reorder', 'void');
         $buttonsTrue = array('back', 'unhold');
@@ -295,10 +299,10 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->createAdminUser($testAdminUser);
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->logoutAdminUser();
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         //Steps And Verifying
-        $this->searchAndOpen(array('filter_order_id'=> $orderId), 'sales_order_grid');
+        $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
         $buttonsFalse =
             array('edit', 'cancel', 'send_email', 'hold', 'unhold', 'credit_memo', 'invoice', 'reorder', 'void');
         $buttonsTrue = array('back', 'ship');
@@ -344,10 +348,10 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->createAdminUser($testAdminUser);
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->logoutAdminUser();
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         ////Steps And Verifying
-        $this->searchAndOpen(array('filter_order_id'=> $orderId), 'sales_order_grid');
+        $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
         $buttonsFalse = array('edit', 'cancel', 'send_email', 'hold', 'unhold', 'ship', 'invoice', 'reorder', 'void');
         $buttonsTrue = array('back', 'credit_memo');
         foreach ($buttonsFalse as $button) {
@@ -393,10 +397,10 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->createAdminUser($testAdminUser);
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->logoutAdminUser();
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         ////Steps And Verifying
-        $this->searchAndOpen(array('filter_order_id'=> $orderId), 'sales_order_grid');
+        $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
         $buttonsFalse =
             array('edit', 'cancel', 'send_email', 'hold', 'unhold', 'ship', 'invoice', 'credit_memo', 'void');
         $buttonsTrue = array('back', 'reorder');
@@ -446,10 +450,10 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->createAdminUser($testAdminUser);
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->logoutAdminUser();
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         ////Steps And Verifying
-        $this->searchAndOpen(array('filter_order_id'=> $orderId), 'sales_order_grid');
+        $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
         $buttonsFalse =
             array('reorder', 'cancel', 'send_email', 'hold', 'unhold', 'ship', 'invoice', 'credit_memo', 'void');
         $buttonsTrue = array('back', 'edit');
@@ -496,10 +500,10 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->createAdminUser($testAdminUser);
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->logoutAdminUser();
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         ////Steps And Verifying
-        $this->searchAndOpen(array('filter_order_id'=> $orderId), 'sales_order_grid');
+        $this->orderHelper()->openOrder(array('filter_order_id' => $orderId));
         $buttonsFalse =
             array('reorder', 'edit', 'send_email', 'hold', 'unhold', 'ship', 'invoice', 'credit_memo', 'void');
         $buttonsTrue = array('back', 'cancel');

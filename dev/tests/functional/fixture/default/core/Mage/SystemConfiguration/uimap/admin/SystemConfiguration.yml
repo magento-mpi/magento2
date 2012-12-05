@@ -2006,6 +2006,11 @@ system_configuration:
                                         fedex_allowed_methods_use_default: //input[@name='groups[fedex][fields][allowed_methods][inherit]']
                                         fedex_ship_to_specific_countries_use_default: //input[@name='groups[fedex][fields][specificcountry][inherit]']
                             -
+                                dhl_deprecated:
+                                    xpath: //fieldset[@id='carriers_dhl']
+                                    links:
+                                        dhl_deprecated_link: //parent::div//a[@id='carriers_dhl-head']
+                            -
                                 dhl:
                                     xpath: //fieldset[@id='carriers_dhlint']
                                     links:

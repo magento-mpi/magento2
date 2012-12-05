@@ -156,8 +156,8 @@ configuration_menu_default:
         ups:
         usps:
         fedex:
+        dhl_deprecated:
         dhl:
-        dhl_new:
     sales_payment_methods:
         saved_cc:
         cash_on_delivery_payment:
@@ -356,8 +356,8 @@ configuration_menu_website:
         ups:
         usps:
         fedex:
+        dhl_deprecated:
         dhl:
-        dhl_new:
     sales_payment_methods:
         saved_cc:
         cash_on_delivery_payment:

@@ -1,17 +1,21 @@
 <?php
 /**
- * Magento
- *
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_ACL
+ * @package     Mage_Acl
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
- *
  */
 
+/**
+ * ACL tests
+ *
+ * @package     selenium
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 class Core_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
 {
     public function setUpBeforeTests()
@@ -59,7 +63,7 @@ class Core_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
             'Not only "' . $tabName . '" is presented on page.');
         $tabElement = $this->loadDataSet('SystemConfigurationMenu', 'configuration_menu_default');
         //verify that this tab equal to resource from ACL tree
-        foreach ($tabElement[$tabName] as $fieldset=> $fieldsetName) {
+        foreach ($tabElement[$tabName] as $fieldset => $fieldsetName) {
             if (!$this->controlIsPresent('fieldset', $fieldset)) {
                 $this->addVerificationMessage(
                     'The fieldset "' . $fieldset . '" does not present on tab "' . $tabName . '"');
@@ -70,42 +74,43 @@ class Core_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
 
     public function systemConfigurationOneTabDataProvider()
     {
-        return array(array('Contacts Section', 'general_contacts'),
-                     array('Payment Services', 'sales_payment_services'),
-                     array('Payment Methods Section', 'sales_payment_methods'),
-                     array('Catalog Section', 'catalog_catalog'),
-                     array('Inventory Section', 'catalog_inventory'),
-                     array('Wishlist Section', 'customers_wishlist'),
-                     array('Google API', 'sales_google_api'),
-                     array('Shipping Methods Section', 'sales_shipping_methods'),
-                     array('Content Management', 'general_content_management'),
-                     array('Shipping Settings Section', 'sales_shipping_settings'),
-                     array('Newsletter Section', 'customers_newsletter'),
-                     array('Moneybookers Settings', 'sales_moneybookers'),
-                     array('XML Sitemap Section', 'catalog_google_sitemap'),
-                     array('Magento Core API Section', 'services_magento_core_api'),
-                     array('Persistent Shopping Cart', 'customers_persistent_shopping_cart'),
-                     array('Reports', 'general_reports'),
-                     array('OAuth', 'services_oauth'),
-                     array('General Section', 'general_general'),
-                     array('Web Section', 'general_web'),
-                     array('Design Section', 'general_design'),
-                     array('Customers Section', 'customers_customer_configuration'),
-                     array('Tax Section', 'sales_tax'),
-                     array('Sales Section', 'sales_sales'),
-                     array('Sales Emails Section', 'sales_sales_emails'),
-                     array('PDF Print-outs', 'sales_pdf_print_outs'),
-                     array('Checkout Section', 'sales_checkout'),
-                     array('Facebook Section', 'social_facebook'),
-                     array('System Section', 'advanced_system'),
-                     array('Advanced Section', 'advanced_advanced'),
-                     array('Store Email Addresses Section', 'general_store_email_addresses'),
-                     array('Advanced Admin Section', 'advanced_admin'),
-                     array('Developer Section', 'advanced_developer'),
-                     array('Currency Setup Section', 'general_currency_setup'),
-                     array('RSS Feeds Section', 'catalog_rss_feeds'),
-                     array('Email to a Friend', 'catalog_email_to_a_friend'),
-                     array('Promotion','customers_promotions'),
+        return array(
+            array('Contacts Section', 'general_contacts'),
+            array('Payment Services', 'sales_payment_services'),
+            array('Payment Methods Section', 'sales_payment_methods'),
+            array('Catalog Section', 'catalog_catalog'),
+            array('Inventory Section', 'catalog_inventory'),
+            array('Wishlist Section', 'customers_wishlist'),
+            array('Google API', 'sales_google_api'),
+            array('Shipping Methods Section', 'sales_shipping_methods'),
+            array('Content Management', 'general_content_management'),
+            array('Shipping Settings Section', 'sales_shipping_settings'),
+            array('Newsletter Section', 'customers_newsletter'),
+            array('Moneybookers Settings', 'sales_moneybookers'),
+            array('XML Sitemap Section', 'catalog_google_sitemap'),
+            array('Magento Core API Section', 'services_magento_core_api'),
+            array('Persistent Shopping Cart', 'customers_persistent_shopping_cart'),
+            array('Reports', 'general_reports'),
+            array('OAuth', 'services_oauth'),
+            array('General Section', 'general_general'),
+            array('Web Section', 'general_web'),
+            array('Design Section', 'general_design'),
+            array('Customers Section', 'customers_customer_configuration'),
+            array('Tax Section', 'sales_tax'),
+            array('Sales Section', 'sales_sales'),
+            array('Sales Emails Section', 'sales_sales_emails'),
+            array('PDF Print-outs', 'sales_pdf_print_outs'),
+            array('Checkout Section', 'sales_checkout'),
+            array('Facebook Section', 'social_facebook'),
+            array('System Section', 'advanced_system'),
+            array('Advanced Section', 'advanced_advanced'),
+            array('Store Email Addresses Section', 'general_store_email_addresses'),
+            array('Advanced Admin Section', 'advanced_admin'),
+            array('Developer Section', 'advanced_developer'),
+            array('Currency Setup Section', 'general_currency_setup'),
+            array('RSS Feeds Section', 'catalog_rss_feeds'),
+            array('Email to a Friend', 'catalog_email_to_a_friend'),
+            array('Promotion','customers_promotions'),
         );
     }
 

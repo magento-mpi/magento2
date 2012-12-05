@@ -1,14 +1,20 @@
 <?php
 /**
- * Magento
- *
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_ACL
+ * @package     Mage_Acl
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
+ */
+
+/**
+ * ACL tests
+ *
+ * @package     selenium
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
 {
@@ -42,7 +48,7 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
             array('role_name' => $roleSource['role_info_tab']['role_name']));
         $this->adminUserHelper()->createAdminUser($testAdminUser);
         $this->assertMessagePresent('success', 'success_saved_user');
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
 
         return $loginData;
     }
@@ -153,7 +159,7 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
         $this->newsletterHelper()->putNewsToQueue($newNewsletterData, $newData);
         $this->validatePage('newsletter_queue');
         //$this->assertMessagePresent('success', 'success_put_in_queue_newsletter');
-        $this->assertNotNull($this->search(array('filter_queue_subject'=> $newData['newsletter_template_subject']),
+        $this->assertNotNull($this->search(array('filter_queue_subject' => $newData['newsletter_template_subject']),
                 'newsletter_templates_grid'),
             'Template (Subject:' . $newData['newsletter_template_subject'] . ') is not presented in queue grid');
     }
@@ -162,7 +168,7 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
      * <p>Admin with Resource: Newsletter can delete newsletter template</p>
      *
      * @param array $loginData
-     * @param array  $newNewsletterData
+     * @param array  $newNewsletter
      *
      * @depends createAdminUser
      * @depends editNewsletterResourceOneRole
@@ -171,24 +177,22 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
      * @test
      * @TestlinkId TL-MAGE-6038
      */
-    public function deleteNewsletterOneRole($loginData, $newNewsletterData)
+    public function deleteNewsletterOneRole($loginData, $newNewsletter)
     {
         $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
-        $this->newsletterHelper()->deleteNewsletter($newNewsletterData);
+        $this->newsletterHelper()->deleteNewsletter($newNewsletter);
         $this->validatePage('newsletter_templates');
         //$this->assertMessagePresent('success', 'success_delete_newsletter');
-        $searchData = $this->newsletterHelper()->convertToFilter($newNewsletterData);
+        $searchData = $this->newsletterHelper()->convertToFilter($newNewsletter);
         $this->assertNull($this->search($searchData, 'newsletter_templates_grid'),
-            'Template(Name:' . $newNewsletterData['newsletter_template_subject']
+            'Template(Name:' . $newNewsletter['newsletter_template_subject']
             . ') is presented in grid, should be deleted');
         $this->navigate('newsletter_queue');
-        $this->assertNull($this->search(array(
-                'filter_queue_subject' => $newNewsletterData['newsletter_template_subject']),
-                'newsletter_templates_grid'
-            ), 'Template (Subject:' . $newNewsletterData['newsletter_template_subject'] . ')
-             is presented in queue grid, should be deleted'
-        );
+        $result = $this->search(array('filter_queue_subject' => $newNewsletter['newsletter_template_subject']),
+            'newsletter_templates_grid');
+        $this->assertNull($result, 'Template (Subject:' . $newNewsletter['newsletter_template_subject']
+                                   . ') is presented in queue grid, should be deleted');
     }
 
     /**
@@ -223,7 +227,7 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->newsletterHelper()->checkStatus('subscribed', $search),
             'Incorrect status for ' . $search['filter_email'] . ' email');
 
-        return array('filter_email'=> $search['filter_email']);
+        return array('filter_email' => $search['filter_email']);
     }
 
     /**
@@ -255,7 +259,7 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
         //Delete customers from subscribers list
         $this->newsletterHelper()->massAction('delete', array($subscriberEmail));
         $this->assertMessagePresent('success', 'success_delete');
-        $this->assertNull($this->search($subscriberEmail, 'newsletter_templates_grid'),
+        $this->assertNull($this->search($subscriberEmail, 'subscribers_grid'),
             'Subscriber ' . $subscriberEmail['filter_email'] . ' still presented in grid, should be deleted');
     }
 }

@@ -1,17 +1,21 @@
 <?php
 /**
- * Magento
- *
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_ACL
+ * @package     Mage_Acl
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
- *
  */
 
+/**
+ * ACL tests
+ *
+ * @package     selenium
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 class Core_Mage_Acl_CatalogManageProductTest extends Mage_Selenium_TestCase
 {
     /**
@@ -58,7 +62,7 @@ class Core_Mage_Acl_CatalogManageProductTest extends Mage_Selenium_TestCase
         $this->logoutAdminUser();
         //Steps
         //return array $loginData
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         return $loginData;
     }
 
@@ -103,4 +107,3 @@ class Core_Mage_Acl_CatalogManageProductTest extends Mage_Selenium_TestCase
         );
     }
 }
-

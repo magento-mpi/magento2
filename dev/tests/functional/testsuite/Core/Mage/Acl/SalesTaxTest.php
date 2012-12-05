@@ -1,17 +1,21 @@
 <?php
 /**
- * Magento
- *
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_ACL
+ * @package     Mage_Acl
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
- *
  */
 
+/**
+ * ACL tests
+ *
+ * @package     selenium
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 class Core_Mage_Acl_SalesTaxTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
@@ -47,7 +51,7 @@ class Core_Mage_Acl_SalesTaxTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->logoutAdminUser();
         //Login as test admin user
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('manage_customer_tax_class');
         //Create Customer Tax Class
@@ -86,7 +90,7 @@ class Core_Mage_Acl_SalesTaxTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->logoutAdminUser();
         //Login as test admin user
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('manage_product_tax_class');
         //Create new Product Tax Class
@@ -124,7 +128,7 @@ class Core_Mage_Acl_SalesTaxTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->logoutAdminUser();
         //Login as test admin user
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('manage_tax_zones_and_rates');
         //Create new Tax Rate
@@ -170,15 +174,15 @@ class Core_Mage_Acl_SalesTaxTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->logoutAdminUser();
         //Login as test admin user
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('manage_tax_rule');
         //Create new Tax Rule
         //Data
         $taxRuleData = $this->loadDataSet('Tax', 'new_tax_rule_required',
-            array('customer_tax_class'=> $customerTaxClassData['customer_class_name'],
-                  'product_tax_class' => $productTaxClassData['product_class_name'],
-                  'tax_rate'          => $rate['tax_identifier']));
+            array('customer_tax_class' => $customerTaxClassData['customer_class_name'],
+                  'product_tax_class'  => $productTaxClassData['product_class_name'],
+                  'tax_rate'           => $rate['tax_identifier']));
         $searchTaxRuleData = $this->loadDataSet('Tax', 'search_tax_rule', array('filter_name' => $taxRuleData['name']));
         //Steps
         $this->taxHelper()->createTaxItem($taxRuleData, 'rule');
@@ -214,7 +218,7 @@ class Core_Mage_Acl_SalesTaxTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->logoutAdminUser();
         //Login as test admin user
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('manage_tax_rule');
         //Create tax rate, product tax class,
@@ -236,9 +240,9 @@ class Core_Mage_Acl_SalesTaxTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_tax_class');
         $this->taxHelper()->openTaxItem($customerTaxClassData, 'customer_class');
         //Create Tax Rule
-        $testData = array('tax_rate'          => $taxRateData['tax_identifier'],
-                          'product_tax_class' => $productTaxClassData['product_class_name'],
-                          'customer_tax_class'=> $customerTaxClassData['customer_class_name']);
+        $testData = array('tax_rate'           => $taxRateData['tax_identifier'],
+                          'product_tax_class'  => $productTaxClassData['product_class_name'],
+                          'customer_tax_class' => $customerTaxClassData['customer_class_name']);
         $taxRuleData = $this->loadDataSet('Tax', 'new_tax_rule_required', $testData);
         $searchTaxRuleData = $this->loadDataSet('Tax', 'search_tax_rule', array('filter_name' => $taxRuleData['name']));
         $this->navigate('manage_tax_rule');
@@ -257,8 +261,8 @@ class Core_Mage_Acl_SalesTaxTest extends Mage_Selenium_TestCase
      * <p>"Product Tax Class","Tax Rate", "Tax Rule"</p>
      *
      * @param $testData
-     * @depends permissionFullFlowTaxRuleCreation
      *
+     * @depends permissionFullFlowTaxRuleCreation
      * @test
      * @TestlinkId TL-MAGE-5962
      */
@@ -267,8 +271,7 @@ class Core_Mage_Acl_SalesTaxTest extends Mage_Selenium_TestCase
         $this->navigate('manage_roles');
         //Create new role with specific Resource
         $roleSource =
-            $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-                array('resource_1' => 'Sales/Tax'));
+            $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom', array('resource_1' => 'Sales/Tax'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //Create admin user with specific role
@@ -279,8 +282,7 @@ class Core_Mage_Acl_SalesTaxTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->logoutAdminUser();
         //Login as test admin user
-        $loginData =
-            array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('manage_tax_rule');
         //Delete Tax Rule
@@ -326,7 +328,7 @@ class Core_Mage_Acl_SalesTaxTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->logoutAdminUser();
         //Login as test admin user
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('manage_tax_rule');
         //Steps

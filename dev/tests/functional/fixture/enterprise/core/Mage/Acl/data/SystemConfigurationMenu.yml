@@ -182,8 +182,8 @@ configuration_menu_default:
         ups:
         usps:
         fedex:
+        dhl_deprecated:
         dhl:
-        dhl_new:
     sales_payment_methods:
         authorize_net_payment_bridge:
         payment_bridge:
@@ -417,8 +417,8 @@ configuration_menu_website:
         ups:
         usps:
         fedex:
+        dhl_deprecated:
         dhl:
-        dhl_new:
     sales_payment_methods:
         authorize_net_payment_bridge:
         payment_bridge:

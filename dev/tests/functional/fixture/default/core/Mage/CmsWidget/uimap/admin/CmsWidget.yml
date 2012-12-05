@@ -25,7 +25,7 @@ manage_cms_widgets:
                         dropdowns:
                             view_per_page: //select[@name='limit']
                             filter_type: //select[@name='type']
-                            filter_design_package_theme: //select[@name='package_theme']
+                            filter_design_package_theme: //select[@name='theme_id']
                         fields:
                             page: //input[@name='page']
                             filter_widget_id: //input[@name='instance_id']

@@ -1,15 +1,20 @@
 <?php
 /**
- * Magento
- *
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_ACL
+ * @package     Mage_Acl
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
+ */
+
+/**
+ * ACL tests
  *
+ * @package     selenium
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class Core_Mage_Acl_CmsWidgetTest extends Mage_Selenium_TestCase
 {
@@ -70,15 +75,15 @@ class Core_Mage_Acl_CmsWidgetTest extends Mage_Selenium_TestCase
         $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
             'Count of Top Navigation Menu elements not equal 1, should be equal');
         // Verify  that necessary elements are present on page
-        $elements= $this->loadDataSet('CmsWidgetElements', 'manage_cms_widget_elements');
+        $elements = $this->loadDataSet('CmsWidgetElements', 'manage_cms_widget_elements');
         $resultElementsArray = array();
         foreach ($elements as $key => $value) {
             $resultElementsArray = array_merge($resultElementsArray, (array_fill_keys(array_keys($value), $key)));
         }
         foreach ($resultElementsArray as $elementName => $elementType) {
             if (!$this->controlIsVisible($elementType, $elementName)) {
-                $this->addVerificationMessage("Element type = '$elementType'
-                                                       name = '$elementName' is not present on the page");
+                $this->addVerificationMessage("Element type = '$elementType' name = '" . $elementName
+                                              . "' is not present on the page");
             }
         }
         $this->assertEmptyVerificationErrors();
@@ -108,7 +113,7 @@ class Core_Mage_Acl_CmsWidgetTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('manage_cms_widgets');
         $widgetData = $this->loadDataSet('CmsWidget', 'cms_page_link_widget_req');
-        $widgetToDelete = array('filter_type' => $widgetData['settings']['type'],
+        $widgetToDelete = array('filter_type'  => $widgetData['settings']['type'],
                                 'filter_title' => $widgetData['frontend_properties']['widget_instance_title']);
         $this->navigate('manage_cms_widgets');
         $this->cmsWidgetsHelper()->createWidget($widgetData);
@@ -182,4 +187,3 @@ class Core_Mage_Acl_CmsWidgetTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'successfully_deleted_widget');
     }
 }
-

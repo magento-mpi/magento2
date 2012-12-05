@@ -668,3 +668,4 @@ edit_order:
     title: Edit Order / Orders / Sales / Magento Admin
     uimap:
         form: *newOrderForExistCustomerForm
+        messages: *orderMessages
