@@ -169,9 +169,6 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
      */
     public function editRole(array $roleData, $separator = '/')
     {
-        if (empty($roleData)) {
-            $this->fail('$roleData parameter is empty');
-        }
         $searchUserRole = (isset($roleData['search_role'])) ? $roleData['search_role'] : array();
         $roleInfo = (isset($roleData['role_info_tab'])) ? $roleData['role_info_tab'] : array();
         $roleResources = (isset($roleData['role_resources_tab'])) ? $roleData['role_resources_tab'] : array();
