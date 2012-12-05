@@ -1,0 +1,23 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     Mage_DesignEditor
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract */?>
+
+<div>
+    <h3><?php echo $this->getTabTitle() ?></h3>
+    <ul>
+        <?php $themeItems = $this->getListItems(); ?>
+        <?php if ($themeItems): ?>
+            <?php echo join("\n", $themeItems) ?>
+        <?php else: ?>
+            <li><?php echo $this->__('There are no items here') ?></li>
+        <?php endif; ?>
+    </ul>
+</div>

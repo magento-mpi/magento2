@@ -17,11 +17,23 @@
         <reference name="content">
             <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Selector_Tabs" name="theme.selector.tabs">
                 <action method="addTab"><name>available_themes</name><block>available.themes.tab</block></action>
-                <action method="addTab"><name>customizations</name><block>Mage_DesignEditor_Block_Adminhtml_Theme_Selector_Tab_Customizations</block></action>
+                <action method="addTab"><name>customizations</name><block>customizations.themes.tab</block></action>
                 <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Selector_Tab_Available" name="available.themes.tab">
                     <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available" name="available.theme.list" template="Mage_DesignEditor::theme/list/available.phtml">
-                        <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Item" name="design.editor.theme.item" as="item" template="Mage_DesignEditor::theme/item.phtml">
-                            <block type="Mage_Backend_Block_Template" name="design.editor.theme" as="theme" template="Mage_DesignEditor::theme.phtml" />
+                        <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Item" name="available.theme.item" as="item" template="Mage_DesignEditor::theme/item.phtml">
+                            <block type="Mage_Backend_Block_Template" name="available.theme" as="theme" template="Mage_DesignEditor::theme.phtml" />
+                        </block>
+                    </block>
+                </block>
+                <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Selector_Tab_Customizations" name="customizations.themes.tab" template="Mage_DesignEditor::theme/selector/myCustomizationsTab.phtml">
+                    <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Assigned" name="assigned.theme.list" template="Mage_DesignEditor::theme/list/customized.phtml">
+                        <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Item" name="assigned.theme.item" as="item" template="Mage_DesignEditor::theme/item.phtml">
+                            <block type="Mage_Backend_Block_Template" name="assigned.theme" as="theme" template="Mage_DesignEditor::theme.phtml" />
+                        </block>
+                    </block>
+                    <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Unassigned" name="unassigned.theme.list" template="Mage_DesignEditor::theme/list/customized.phtml">
+                        <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Item" name="unassigned.theme.item" as="item" template="Mage_DesignEditor::theme/item.phtml">
+                            <block type="Mage_Backend_Block_Template" name="unassigned.theme" as="theme" template="Mage_DesignEditor::theme.phtml" />
                         </block>
                     </block>
                 </block>
