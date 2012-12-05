@@ -42,11 +42,11 @@ class Php_LiveCodeTest extends PHPUnit_Framework_TestCase
     {
         $reportFile = self::$_reportDir . '/phpcs_report.xml';
         $wrapper = new CodingStandard_Tool_CodeSniffer_Wrapper();
-        $cs = new CodingStandard_Tool_CodeSniffer(realpath(__DIR__ . '/_files/phpcs'), $reportFile, $wrapper);
-        if (!$cs->canRun()) {
+        $codeSniffer = new CodingStandard_Tool_CodeSniffer(realpath(__DIR__ . '/_files/phpcs'), $reportFile, $wrapper);
+        if (!$codeSniffer->canRun()) {
             $this->markTestSkipped('PHP Code Sniffer is not installed.');
         }
-        $result = $cs->run(self::$_whiteList, self::$_blackList, array('php', 'phtml'));
+        $result = $codeSniffer->run(self::$_whiteList, self::$_blackList, array('php', 'phtml'));
         $this->assertEquals(0, $result,
             "PHP Code Sniffer has found $result error(s): See detailed report in $reportFile"
         );
