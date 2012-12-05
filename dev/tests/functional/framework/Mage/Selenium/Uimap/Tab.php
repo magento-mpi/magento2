@@ -31,7 +31,7 @@ class Mage_Selenium_Uimap_Tab extends Mage_Selenium_Uimap_Abstract
      * @param string $tabId Tab's ID
      * @param array $tabContainer Array of data that contains the specific tab
      */
-    public function  __construct($tabId, array &$tabContainer)
+    public function __construct($tabId, array &$tabContainer)
     {
         $this->_tabId = $tabId;
         $this->_xPath = isset($tabContainer['xpath'])

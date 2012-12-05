@@ -70,7 +70,7 @@ class Core_Mage_Acl_SalesTaxTest extends Mage_Selenium_TestCase
      * @return array
      * @TestlinkId TL-MAGE-5958
      */
-    public function  permissionProductTaxClass()
+    public function permissionProductTaxClass()
     {
         $this->navigate('manage_roles');
         //Create new role with specific Resource
@@ -198,7 +198,7 @@ class Core_Mage_Acl_SalesTaxTest extends Mage_Selenium_TestCase
      * @return array
      * @TestlinkId TL-MAGE-5961
      */
-    public function  permissionFullFlowTaxRuleCreation()
+    public function permissionFullFlowTaxRuleCreation()
     {
         $this->navigate('manage_roles');
         //Create new role with specific Resource

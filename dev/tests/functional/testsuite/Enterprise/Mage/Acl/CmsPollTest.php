@@ -104,7 +104,7 @@ class Enterprise_Mage_Acl_CmsPollTest extends Mage_Selenium_TestCase
      * @test
      * @TestlinkId TL-MAGE-6155
      */
-    public function  createNewPollForOneWebsite($loginData)
+    public function createNewPollForOneWebsite($loginData)
     {
         $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);

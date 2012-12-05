@@ -247,7 +247,7 @@ class Mage_Selenium_AbstractHelper
      *
      * @param  Mage_Selenium_TestCase $testObject
      */
-    public function  __construct(Mage_Selenium_TestCase $testObject)
+    public function __construct(Mage_Selenium_TestCase $testObject)
     {
         $this->_testInstance = $testObject;
         $this->_init();

@@ -177,7 +177,7 @@ class Core_Mage_DifferentPricesForCustomerGroups_GroupPriceForDifferentProductsT
         }
     }
 
-    public function  verifyingPriceOnFrontEndDataProvider()
+    public function verifyingPriceOnFrontEndDataProvider()
     {
         return array(
             array('simple'),

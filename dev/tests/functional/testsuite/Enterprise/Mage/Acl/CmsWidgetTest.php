@@ -95,7 +95,7 @@ class Enterprise_Mage_Acl_CmsWidgetTest extends Mage_Selenium_TestCase
      * @test
      * @TestlinkId TL-MAGE-6156
      */
-    public function  createNewWidgetOneWebsite($loginData)
+    public function createNewWidgetOneWebsite($loginData)
     {
         //Steps
         $this->admin('log_in_to_admin', false);
@@ -125,7 +125,7 @@ class Enterprise_Mage_Acl_CmsWidgetTest extends Mage_Selenium_TestCase
      * @test
      * @TestlinkId TL-MAGE-6158
      */
-    public function  editWidget($loginData, $widgetToDelete)
+    public function editWidget($loginData, $widgetToDelete)
     {
         //Steps
         $this->admin('log_in_to_admin', false);

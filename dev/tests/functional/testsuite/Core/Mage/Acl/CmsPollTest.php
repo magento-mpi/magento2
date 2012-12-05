@@ -97,7 +97,7 @@ class Core_Mage_Acl_CmsPollTest extends Mage_Selenium_TestCase
      * @test
      * @TestlinkId TL-MAGE-6135
      */
-    public function  createNewPoll($loginData)
+    public function createNewPoll($loginData)
     {
         $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
@@ -128,7 +128,7 @@ class Core_Mage_Acl_CmsPollTest extends Mage_Selenium_TestCase
      * @test
      * @TestlinkId TL-MAGE-6136
      */
-    public function  editPoll($loginData, $pollData)
+    public function editPoll($loginData, $pollData)
     {
         $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
