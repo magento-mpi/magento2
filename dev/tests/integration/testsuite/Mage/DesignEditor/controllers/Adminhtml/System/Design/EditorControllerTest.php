@@ -156,4 +156,14 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
             $this->getResponse()->getBody()
         );
     }
+
+    public function testRunAction()
+    {
+        $this->dispatch('backend/admin/system_design_editor/run');
+
+        $this->assertSelectCount('div#vde_toolbar_row', true, $this->getResponse()->getBody());
+        $this->assertSelectCount('div#vde_handles_hierarchy', true, $this->getResponse()->getBody());
+        $this->assertSelectCount('div#vde_toolbar_buttons', true, $this->getResponse()->getBody());
+        $this->assertSelectCount('iframe.vde_container_frame', true, $this->getResponse()->getBody());
+    }
 }

@@ -27,7 +27,7 @@ class Mage_Cms_Controller_Router extends Mage_Core_Controller_Varien_Router_Abst
      * @param Mage_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Mage_Core_Model_Event_Manager $eventManager
      */
-    public function  __construct(
+    public function __construct(
         Mage_Core_Controller_Varien_Action_Factory $controllerFactory,
         Mage_Core_Model_Event_Manager $eventManager
     ) {

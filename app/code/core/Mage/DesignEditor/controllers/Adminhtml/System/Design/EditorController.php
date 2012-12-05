@@ -74,7 +74,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     }
 
     /**
-     * @TODO: temporary action
+     * @TODO: temporary action, code from this action will be moved to launch action in next sprint
      */
     public function runAction()
     {
