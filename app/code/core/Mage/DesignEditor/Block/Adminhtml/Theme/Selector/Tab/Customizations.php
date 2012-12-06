@@ -16,17 +16,6 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_Tab_Customizations
     implements Mage_Backend_Block_Widget_Tab_Interface
 {
     /**
-     * TODO Remove this method after implementing
-     * Temporary tab content
-     *
-     * @return string
-     */
-    protected function _toHtml()
-    {
-        return $this->getTabTitle();
-    }
-
-    /**
      * Initialize tab block
      */
     protected function _construct()

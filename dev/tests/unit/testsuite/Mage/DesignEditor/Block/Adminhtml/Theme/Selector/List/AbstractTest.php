@@ -22,7 +22,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_AbstractTest
             array('getChildBlock')
         );
 
-        $itemBlock =  $this->getMock('Mage_DesignEditor_Block_Adminhtml_Theme_Item', array(), array(), '', false);
+        $itemBlock =  $this->getMock('Mage_DesignEditor_Block_Adminhtml_Theme', array(), array(), '', false);
 
         $listAbstractBlock->setCollection($collection);
 
