@@ -38,8 +38,8 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
     /*
      * @param array $checkout
      */
-    protected function _defineMultiCheckVars(array $checkout){
-        $result = array();
+    protected function _getMultipleCheckoutData(array $checkout)
+    {
         $result['products'] = (isset($checkout['products_to_add'])) ? $checkout['products_to_add'] : array();
         $result['customer'] = (isset($checkout['checkout_as_customer'])) ? $checkout['checkout_as_customer'] : array();
         $result['generalCustomerData'] =
@@ -50,13 +50,12 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
     }
 
     /**
-     * doMultipleCheckoutSteps Identify variables
      * @param array $checkout
      */
     public function doMultipleCheckoutSteps(array $checkout)
     {
         //Data
-        $result = $this->_defineMultiCheckVars($checkout);
+        $result = $this->_getMultipleCheckoutData($checkout);
         //Add Product(s)
         foreach ($result['products'] as $data) {
             $options = (isset($data['options'])) ? $data['options'] : array();
@@ -167,10 +166,14 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
         }
     }
 
-    /*
-    * @param $shippingData
-    */
-    protected function _inputAddressData($shippingData) {
+    /**
+     * Define Product(s) qty in order
+     *
+     * @param array $shippingData
+     * @return array
+     */
+    protected function _getProductQtyForOrder(array $shippingData)
+    {
         $products = array();
         foreach ($shippingData as $oneAddressData) {
             foreach ($oneAddressData['products'] as $product) {
@@ -186,10 +189,14 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
         return $products;
     }
 
-    /*
-    * @param $products
-    */
-    protected function _filledProducts($products)
+    /**
+     * Verify Product(s) qty in order
+     *
+     * @param array $products
+     *
+     * @return array
+     */
+    protected function _setProductQtyInOrder(array $products)
     {
         $filledProducts = array();
         foreach ($products as $productName => $qty) {
@@ -234,8 +241,9 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
     /*
      * @param array $shippingData
      */
-    protected function _fillData(array $shippingData) {
-    $fillData = array();
+    protected function _getAddressDataForSelect(array $shippingData)
+    {
+        $fillData = array();
         foreach ($shippingData as $oneAddressData) {
             $address = (isset($oneAddressData['address'])) ? $oneAddressData['address'] : array();
             $products = (isset($oneAddressData['products'])) ? $oneAddressData['products'] : array();
@@ -263,9 +271,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
                     $isAddressAdded = $this->orderHelper()->defineAddressToChoose($address, '');
                 }
                 $qty = (isset($product['product_qty'])) ? $product['product_qty'] : 1;
-                $arr = array('product' => $product['product_name'],
-                             'qty'     => $qty,
-                             'address' => $isAddressAdded);
+                $arr = array('product' => $product['product_name'], 'qty' => $qty, 'address' => $isAddressAdded);
                 $fillData[] = $arr;
             }
         }
@@ -282,12 +288,12 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
         $this->assertTrue($this->controlIsPresent('fieldset', 'checkout_multishipping_form'),
             'Ship to Multiple Addresses page is not opened');
         //Define Product(s) qty in order
-        $products = $this->_inputAddressData($shippingData);
+        $productsQty = $this->_getProductQtyForOrder($shippingData);
         //Verify Product(s) qty in order
-        $filledProducts = $this->_filledProducts($products);
+        $filledProducts = $this->_setProductQtyInOrder($productsQty);
         $this->assertMessageNotPresent('error', 'shopping_cart_is_empty');
         //Add address if not exist
-        $fillData = $this->_fillData($shippingData);
+        $fillData = $this->_getAddressDataForSelect($shippingData);
         //Select shipping address for each product
         foreach ($fillData as $data) {
             $this->addParameter('productName', $data['product']);
@@ -313,8 +319,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
         $actualShippingCount = $this->getControlCount('pageelement', 'shipping_methods_forms');
         $expectShipCount = count($shippingData);
         $this->assertEquals($expectShipCount, $actualShippingCount,
-            'Order should contains ' . $expectShipCount . ' shipping addresses but contains '
-            . $actualShippingCount);
+            'Order should contains ' . $expectShipCount . ' shipping addresses but contains ' . $actualShippingCount);
 
         //Get actual addresses for shipping methods and Headers
         $headerAddresses = $this->defineAddresses('shipping', $expectShipCount);
@@ -336,7 +341,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
                 }
             }
         }
-        $setXpath = $this->_getControlXpath('pageelement', 'billing_information'). self::$_activeTab;
+        $setXpath = $this->_getControlXpath('pageelement', 'billing_information') . self::$_activeTab;
         $errorMessageXpath = $this->getBasicXpathMessagesExcludeCurrent('error');
         $waitCondition = array($this->_getMessageXpath('general_validation'), $errorMessageXpath, $setXpath);
         $this->clickButton('continue_to_billing_information', false);
@@ -386,39 +391,26 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
      */
     public function selectShippingMethod(array $shipMethod)
     {
-        if (!empty($shipMethod['shipping_service']) || !empty($shipMethod['shipping_method'])) {
+        if (empty($shipMethod['shipping_service']) || empty($shipMethod['shipping_method'])) {
             $this->addVerificationMessage('Shipping Service(or Shipping Method) is not set');
         } else {
-            $this->addParameter('shipService', $shipMethod['shipping_service']);
-            $this->addParameter('shipMethod', $shipMethod['shipping_method']);
+            $service = $shipMethod['shipping_service'];
+            $method = $shipMethod['shipping_method'];
+            $this->addParameter('shipService', $service);
+            $this->addParameter('shipMethod', $method);
             if ($this->controlIsPresent('message', 'ship_method_unavailable')
                 || $this->controlIsPresent('message', 'no_shipping')
             ) {
-                //@TODO
-                //Remove workaround for getting fails, not skipping tests if shipping methods are not available
-                $this->skipTestWithScreenshot(
-                    'Shipping Service "'
-                    . $shipMethod['shipping_service']
-                    . '" is currently unavailable.'
-                );
-                //$this->addVerificationMessage('Shipping Service "' . $service . '" is currently unavailable.');
+                $this->skipTestWithScreenshot('Shipping Service "' . $service . '" is currently unavailable.');
             } elseif ($this->controlIsPresent('field', 'ship_service_name')) {
                 if ($this->controlIsPresent('radiobutton', 'ship_method')) {
                     $this->fillRadiobutton('ship_method', 'Yes');
                 } elseif (!$this->controlIsPresent('radiobutton', 'one_method_selected')) {
                     $this->addVerificationMessage(
-                        'Shipping Method "'
-                        . $shipMethod['shipping_method']
-                        . '" for "'
-                        . $shipMethod['shipping_service']
-                        . '" is currently unavailable'
-                    );
+                        'Shipping Method "' . $method . '" for "' . $service . '" is currently unavailable');
                 }
             } else {
-                //@TODO
-                //Remove workaround for getting fails, not skipping tests if shipping methods are not available
-                $this->skipTestWithScreenshot($shipMethod['shipping_service'] . ': This shipping method is currently not displayed');
-                //$this->addVerificationMessage($service . ': This shipping method is currently not displayed');
+                $this->skipTestWithScreenshot($service . ': This shipping method is currently not displayed');
             }
         }
         $this->assertEmptyVerificationErrors();
@@ -572,9 +564,8 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
     /*
      * @param array checkout
      */
-    protected function _defineOrderReviewVars(array $checkout)
+    protected function _getOrderReviewData(array $checkout)
     {
-        $result = array();
         $result['paymentData'] = (isset($checkout['payment_data'])) ? $checkout['payment_data'] : array();
         $result['billing'] = (isset($paymentData['billing_address'])) ? $paymentData['billing_address'] : array();
         $result['shippings'] = (isset($checkout['shipping_data'])) ? $checkout['shipping_data'] : array();
@@ -584,49 +575,61 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
         return $result;
     }
 
-    /*
-     * @param array $ordersData
+    /**
+     * @param array $orderHeaders
+     * @param array $shippings
      */
-    protected function _withoutPrices(array $ordersData)
+    protected function _verifyDataForEachAddress(array $orderHeaders, array $shippings)
     {
-        $withoutPrices = array();
-        foreach ($ordersData as $k => $addressData) {
-            if (isset($addressData['shipping'])) {
-                $shipping = $addressData['shipping'];
-                unset($shipping['price']);
-                $withoutPrices[$k]['shipping'] = $shipping;
-            }
-            $products = $addressData['products'];
-            foreach ($products as $key => $product) {
-                $temp['product_name'] = $product['product_name'];
-                $temp['product_qty'] = $product['product_qty'];
-                $withoutPrices[$k]['products'][$key] = $temp;
-            }
+        //Get Shipping Addresses Data
+        $ordersData = array();
+        $value = 1;
+        foreach ($orderHeaders as $header) {
+            $this->addParameter('addressHeader', $header);
+            $ordersData['address_' . $value++] = $this->getOrderDataForAddress();
         }
-        return $withoutPrices;
+        if (empty($verifyPrices)) {
+            //Remove Prices
+            $withoutPrices = array();
+            foreach ($ordersData as $k => $addressData) {
+                if (isset($addressData['shipping'])) {
+                    $shipping = $addressData['shipping'];
+                    unset($shipping['price']);
+                    $withoutPrices[$k]['shipping'] = $shipping;
+                }
+                $products = $addressData['products'];
+                foreach ($products as $key => $product) {
+                    $temp['product_name'] = $product['product_name'];
+                    $temp['product_qty'] = $product['product_qty'];
+                    $withoutPrices[$k]['products'][$key] = $temp;
+                }
+            }
+            //Verify data without Prices
+            $expected = array();
+            foreach ($shippings as $key => $shipping) {
+                $k = str_replace('_data', '', $key);
+                if (isset($shipping['shipping'])) {
+                    $expected[$k]['shipping'] = $shipping['shipping'];
+                }
+                $expected[$k]['products'] = $shipping['products'];
+            }
+            $this->assertEquals($expected, $withoutPrices);
+        } else {
+            $ordersData['grand_total'] = $this->getControlAttribute('pageelement', 'grand_total', 'text');
+            $this->assertEquals($verifyPrices, $ordersData);
+        }
     }
 
-    /*
-     * Checking for button presence
+    /**
+     *
      */
-    protected function _frontOrderReviewIf()
+    protected function _validateMultipleCheckout3dSecure()
     {
+        $this->addParameter('elementXpath', $this->_getControlXpath('fieldset', '3d_secure_card_validation'));
         if ($this->controlIsPresent('pageelement', '3d_secure_header')) {
             $this->waitForElement($this->_getControlXpath('pageelement', 'element_not_disabled_style'));
             $this->checkoutOnePageHelper()->frontValidate3dSecure();
             $this->waitForElement($this->_getControlXpath('button', 'place_order'));
-        }
-    }
-
-    /*
-     * Verify selected Billing address for orders
-     * @param array $result
-     */
-    protected function _verifySelectedBillAddress($result)
-    {
-        if (is_null($this->getAddressId($result['billing'], $this->defineAddresses()))) {
-            $this->addVerificationMessage(
-                'Billing Address is wrong for orders. [must be : ' . implode(',', $result['billing']) . ']');
         }
     }
 
@@ -636,10 +639,9 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
     public function frontOrderReview(array $checkout)
     {
         $this->assertMultipleCheckoutPageOpened('place_order');
-        $this->addParameter('elementXpath', $this->_getControlXpath('fieldset', '3d_secure_card_validation'));
-        $this->_frontOrderReviewIf();
+        $this->_validateMultipleCheckout3dSecure();
         //Data
-        $result = $this->_defineOrderReviewVars($checkout);
+        $result = $this->_getOrderReviewData($checkout);
         //Verify quantity orders
         $actualQty = $this->getControlCount('pageelement', 'shipping_method_products');
         $this->assertEquals(count($result['shippings']), $actualQty, 'orders quantity is wrong');
@@ -647,7 +649,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
         $orderHeaders = array();
         $actualShippings = $this->defineAddresses('shipping', $actualQty);
         foreach ($result['shippings'] as $shipping) {
-            if (!empty($shipping['address'])) {
+            if (empty($shipping['address'])) {
                 $orderHeaders[] = $this->getControlAttribute('pageelement', 'virtual_item_head', 'text');
                 continue;
             }
@@ -658,40 +660,19 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
             }
             $orderHeaders[] = $header;
         }
-        $this->_verifySelectedBillAddress($result);
+        //Verify selected Billing address for orders
+        if (is_null($this->getAddressId($result['billing'], $this->defineAddresses()))) {
+            $this->addVerificationMessage(
+                'Billing Address is wrong for orders. [must be : ' . implode(',', $result['billing']) . ']');
+        }
         //Verify selected Payment Method for orders
         $actualPayment = $this->getControlAttribute('pageelement', 'payment_method', 'text');
         if ($actualPayment !== $result['expectedPayment']) {
-            $this->addVerificationMessage(
-                'Payment Method is wrong. [' . $actualPayment . ' selected, but must be : '
-                . $result['expectedPayment'] . ']'
-            );
+            $this->addVerificationMessage('Payment Method is wrong. [' . $actualPayment . ' selected, but must be : '
+                                          . $result['expectedPayment'] . ']');
         }
         $this->assertEmptyVerificationErrors();
-        //Get Shipping Addresses Data
-        $ordersData = array();
-        $value = 1;
-        foreach ($orderHeaders as $header) {
-            $this->addParameter('addressHeader', $header);
-            $ordersData['address_' . $value++] = $this->getOrderDataForAddress();
-        }
-        if (empty($result['verifyPrices'])) {
-            //Remove Prices
-            $getWithoutPrices = $this->_withoutPrices($ordersData);
-            //Verify data without Prices
-            $expected = array();
-            foreach ($result['shippings'] as $key => $shipping) {
-                $k = str_replace('_data', '', $key);
-                if (isset($shipping['shipping'])) {
-                    $expected[$k]['shipping'] = $shipping['shipping'];
-                }
-                $expected[$k]['products'] = $shipping['products'];
-            }
-            $this->assertEquals($expected, $getWithoutPrices);
-        } else {
-            $ordersData['grand_total'] = $this->getControlAttribute('pageelement', 'grand_total', 'text');
-            $this->assertEquals($result['verifyPrices'], $ordersData);
-        }
+        $this->_verifyDataForEachAddress($orderHeaders, $result['shippings']);
     }
 
     /**
