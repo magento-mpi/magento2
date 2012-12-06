@@ -9,11 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- *
- * @magentoAppIsolation enabled
- * @magentoDbIsolation enabled
- */
 class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -29,8 +24,10 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
     public static function setUpBeforeClass()
     {
         /* Point application to predefined layout fixtures */
-        Mage::getConfig()->setOptions(array(
-            'design_dir' => realpath( __DIR__ . '/../../_files/design'),
+        Magento_Test_Bootstrap::getInstance()->reinitialize(array(
+            Mage_Core_Model_App::INIT_OPTION_DIR_PATHS => array(
+                Mage_Core_Model_App_Dir::VIEW => realpath( __DIR__ . '/../../_files/design')
+            )
         ));
 
         /** @var $themeRegistration Mage_Core_Model_Theme_Registration */
@@ -76,22 +73,22 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
         $this->assertFalse($blockEmpty->isAvailable());
     }
 
-    public function testJavascript()
+    public function testGetJavaScript()
     {
         $javascript = $this->_block->getJavaScript();
 
         $expectedItemFirst = '#"option_id1":{"label":"Option One",'
-            . '"url":"http:\\\/\\\/localhost\\\/index\.php\\\/key\\\/([\w\d]+)\\\/",'
+            . '"url":"http:\\\/\\\/localhost\\\/index\.php\\\/(?:key\\\/([\w\d]+)\\\/)?",'
             . '"complete":"Test","id":"option_id1"}#';
         $this->assertRegExp($expectedItemFirst, $javascript);
 
         $expectedItemSecond = '#"option_id2":{"label":"Option Two",'
-            . '"url":"http:\\\/\\\/localhost\\\/index\.php\\\/key\\\/([\w\d]+)\\\/",'
+            . '"url":"http:\\\/\\\/localhost\\\/index\.php\\\/(?:key\\\/([\w\d]+)\\\/)?",'
             . '"confirm":"Are you sure\?","id":"option_id2"}#';
         $this->assertRegExp($expectedItemSecond, $javascript);
     }
 
-    public function testJavascriptWithAddedItem()
+    public function testGetJavaScriptWithAddedItem()
     {
         $input = array(
             'id' => 'option_id3',
@@ -100,27 +97,27 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
             'block_name' => 'admin.test.grid.massaction.option3'
         );
         $expected = '#"option_id3":{"id":"option_id3","label":"Option Three",'
-            . '"url":"http:\\\/\\\/localhost\\\/index\.php\\\/key\\\/([\w\d]+)\\\/",'
+            . '"url":"http:\\\/\\\/localhost\\\/index\.php\\\/(?:key\\\/([\w\d]+)\\\/)?",'
             . '"block_name":"admin.test.grid.massaction.option3"}#';
 
         $this->_block->addItem($input['id'], $input);
         $this->assertRegExp($expected, $this->_block->getJavaScript());
     }
 
-    public function testItemsCount()
+    public function testGetCount()
     {
-        $this->assertEquals(2, count($this->_block->getItems()));
         $this->assertEquals(2, $this->_block->getCount());
     }
 
     /**
      * @param $itemId
      * @param $expectedItem
-     * @dataProvider itemsDataProvider
+     * @dataProvider getItemsDataProvider
      */
-    public function testItems($itemId, $expectedItem)
+    public function testGetItems($itemId, $expectedItem)
     {
         $items = $this->_block->getItems();
+        $this->assertCount(2, $items);
         $this->assertArrayHasKey($itemId, $items);
 
         $actualItem = $items[$itemId];
@@ -134,7 +131,7 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
     /**
      * @return array
      */
-    public function itemsDataProvider()
+    public function getItemsDataProvider()
     {
         return array(
             array(
@@ -142,7 +139,7 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
                 array(
                     'id' => 'option_id1',
                     'label' => 'Option One',
-                    'url' => '#http:\/\/localhost\/index\.php\/key\/([\w\d]+)\/#',
+                    'url' => '#http:\/\/localhost\/index\.php\/(?:key\/([\w\d]+)\/)?#',
                     'selected' => false,
                     'blockname' => ''
                 )
@@ -152,7 +149,7 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
                 array(
                     'id' => 'option_id2',
                     'label' => 'Option Two',
-                    'url' => '#http:\/\/localhost\/index\.php\/key\/([\w\d]+)\/#',
+                    'url' => '#http:\/\/localhost\/index\.php\/(?:key\/([\w\d]+)\/)?#',
                     'selected' => false,
                     'blockname' => ''
                 )
@@ -167,11 +164,11 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
         $gridMassactionColumn = $this->_layout->getBlock('admin.test.grid')
             ->getColumnSet()
             ->getChildBlock('massaction');
-        $this->assertNotNull($gridMassactionColumn, 'Massaction column is not existed in grid column set');
+        $this->assertNotNull($gridMassactionColumn, 'Massaction column does not exist in the grid column set');
         $this->assertInstanceOf(
             'Mage_Backend_Block_Widget_Grid_Column',
             $gridMassactionColumn,
-            'Massaction column is not instance of Mage_Backend_Block_Widget_Column'
+            'Massaction column is not an instance of Mage_Backend_Block_Widget_Column'
         );
     }
 }
