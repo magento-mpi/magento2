@@ -69,14 +69,14 @@ class Mage_DesignEditor_PageController extends Mage_Core_Controller_Front_Action
             // required layout handle
             $this->_fullActionName = $handle;
 
-            // current action layout handle
-            $layout->getUpdate()->addHandle(parent::getFullActionName());
-
             // set sanitize and wrapping flags
             $layout->setSanitizing(true);
             $layout->setWrapping(true);
 
-            $this->loadLayout();
+            $this->loadLayout(array(
+                'default',
+                parent::getFullActionName() // current action layout handle
+            ));
             $this->renderLayout();
         } catch (Exception $e) {
             $this->getResponse()->setBody($e->getMessage());
