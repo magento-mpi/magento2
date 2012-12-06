@@ -26,6 +26,8 @@ class Core_Mage_Vde_Helper extends Mage_Selenium_TestCase
     }
 
     /**
+     * Select specific Page Type
+     *
      * @param string $pageType
      */
     public function selectPageHandle($pageType)
