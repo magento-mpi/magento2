@@ -189,7 +189,7 @@ class Mage_Backend_Model_Config extends Varien_Object
                     'website_code' => $website,
                     'scope' => $scope,
                     'scope_id' => $scopeId,
-                    'field_config' => $field,
+                    'field_config' => $field->getData(),
                     'fieldset_data' => $fieldsetData,
                 );
                 $backendModel->addData($data);

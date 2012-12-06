@@ -132,9 +132,9 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
             $this->_session->addSuccess($this->_getHelper()->__('The configuration has been saved.'));
         } catch (Mage_Core_Exception $e) {
             $messages = explode("\n", $e->getMessage());
-            array_walk($messages, create_function(
-                '$message', '$this->_session->addError($message);'
-            ));
+            foreach ($messages as $message) {
+                $this->_session->addError($message);
+            }
         } catch (Exception $e) {
             $this->_session->addException($e,
                 $this->_getHelper()->__('An error occurred while saving this configuration:') . ' ' . $e->getMessage());
