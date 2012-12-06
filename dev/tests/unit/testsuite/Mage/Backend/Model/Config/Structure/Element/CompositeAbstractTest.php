@@ -74,6 +74,13 @@ class Mage_Backend_Model_Config_Structure_Element_CompositeAbstractTest extends 
         $this->_model->setData($this->_testData, 'scope');
     }
 
+    public function testSetDataInitializesChildIteratorWithEmptyArrayIfNoChildrenArePresent()
+    {
+        $this->_iteratorMock->expects($this->once())->method('setElements')
+            ->with(array(), 'scope');
+        $this->_model->setData(array(), 'scope');
+    }
+
     public function testHasChildrenReturnsFalseIfThereAreNoChildren()
     {
         $this->assertFalse($this->_model->hasChildren());
@@ -84,5 +91,19 @@ class Mage_Backend_Model_Config_Structure_Element_CompositeAbstractTest extends 
         $this->_iteratorMock->expects($this->once())->method('current')->will($this->returnValue(true));
         $this->_iteratorMock->expects($this->once())->method('valid')->will($this->returnValue(true));
         $this->assertTrue($this->_model->hasChildren());
+    }
+
+    public function testIsVisibleReturnsTrueIfElementIsVisibleAndHasChildren()
+    {
+        $this->_applicationMock->expects($this->any())->method('isSingleStoreMode')->will($this->returnValue(true));
+        $this->_iteratorMock->expects($this->once())->method('current')->will($this->returnValue(true));
+        $this->_iteratorMock->expects($this->once())->method('valid')->will($this->returnValue(true));
+        $this->assertTrue($this->_model->isVisible());
+    }
+
+    public function testIsVisibleReturnsFalseIfElementIsVisibleAndHasNoChildren()
+    {
+        $this->_applicationMock->expects($this->any())->method('isSingleStoreMode')->will($this->returnValue(true));
+        $this->assertFalse($this->_model->isVisible());
     }
 }

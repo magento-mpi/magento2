@@ -171,6 +171,24 @@ return array(
                             ),
                             '_elementType' => 'group',
                         ),
+                        'group_4' => array(
+                            'id' => 'group_4',
+                            'label' => 'Group 4',
+                            'type' => 'text',
+                            'showInDefault' => 1,
+                            'showInStore' => 1,
+                            'showInWebsite' => 1,
+                            'depends' => array(
+                                'fields' => array(
+                                    'section_2/group_3/field_5' => array(
+                                        'id' => 'section_2/group_3/field_5',
+                                        'value' => 1,
+                                        '_elementType' => 'field'
+                                    ),
+                                )
+                            ),
+                            '_elementType' => 'group',
+                        )
                     ),
                     '_elementType' => 'section',
                 ),

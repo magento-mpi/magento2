@@ -81,6 +81,12 @@
                     <label></label>
                 </field>
             </group>
+            <group id="group_4" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Group 4</label>
+                <depends>
+                    <field id="section_2/group_3/field_5">1</field>
+                </depends>
+            </group>
         </section>
     </system>
 </config>

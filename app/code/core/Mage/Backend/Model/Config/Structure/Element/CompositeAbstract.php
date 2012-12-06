@@ -41,9 +41,10 @@ abstract class Mage_Backend_Model_Config_Structure_Element_CompositeAbstract
     public function setData(array $data, $scope)
     {
         parent::setData($data, $scope);
-        if (isset($this->_data['children'])) {
-            $this->_childrenIterator->setElements($this->_data['children'], $scope);
-        }
+        $children = array_key_exists('children', $this->_data) && is_array($this->_data['children']) ?
+            $this->_data['children'] :
+            array();
+        $this->_childrenIterator->setElements($children, $scope);
     }
 
     /**
@@ -67,6 +68,16 @@ abstract class Mage_Backend_Model_Config_Structure_Element_CompositeAbstract
     public function getChildren()
     {
         return $this->_childrenIterator;
+    }
+
+    /**
+     * Check whether element should be displayed
+     *
+     * @return bool
+     */
+    public function isVisible()
+    {
+        return parent::isVisible() && $this->hasChildren();
     }
 }
 

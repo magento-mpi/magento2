@@ -87,7 +87,7 @@ class Mage_Backend_Model_Config_Structure_Element_SectionTest extends PHPUnit_Fr
         $this->_authorizationMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
         $this->_applicationMock->expects($this->once())->method('isSingleStoreMode')->will($this->returnValue(true));
         $this->_model->setData(array('resource' => 'Mage_Adminhtml::all'), 'scope');
-        $this->assertTrue($this->_model->isVisible());
+        $this->_model->isVisible();
     }
 }
 
