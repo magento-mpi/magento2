@@ -15,7 +15,7 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Catalog_Product_Edit_AttributeSet extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Adminhtml_Block_Catalog_Product_Edit_AttributeSet extends Mage_Backend_Block_Widget_Form
 {
     protected function _prepareForm()
     {
@@ -38,6 +38,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_AttributeSet extends Mage_Adminh
                 ->toOptionArray()
         ));
 
+        $fieldset->addField(
+            'type_id',
+            'hidden',
+            array(
+                'name' => 'type_id',
+                'value' => Mage::registry('product')->getTypeId(),
+            )
+        );
         $this->setForm($form);
     }
 }

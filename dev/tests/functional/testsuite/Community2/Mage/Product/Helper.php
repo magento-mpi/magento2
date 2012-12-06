@@ -129,9 +129,12 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
      */
     public function createProduct(array $productData, $productType = 'simple', $isSave = true)
     {
-        $this->selectTypeProduct($productData, $productType);
-        if ($productData['product_attribute_set'] != 'Default') {
+        $this->selectTypeProduct($productType);
+        if (isset($productData['product_attribute_set']) && $productData['product_attribute_set'] != 'Default') {
             $this->changeAttributeSet($productData['product_attribute_set']);
+        }
+        if ($productType == 'configurable') {
+            $this->fillConfigurableSettings($productData);
         }
         $this->fillProductInfo($productData, $productType);
         if ($isSave) {
@@ -142,10 +145,9 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
     /**
      * Select product type
      *
-     * @param array $productData
      * @param string $productType
      */
-    public function selectTypeProduct(array $productData, $productType)
+    public function selectTypeProduct($productType)
     {
         $this->clickButton('add_new_product_split_select', false);
         $this->addParameter('productType', $productType);
@@ -153,9 +155,6 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
         $this->addParameter('setId', $this->defineParameterFromUrl('set'));
         $this->validatePage();
-        if ($productType == 'configurable') {
-            $this->fillConfigurableSettings($productData);
-        }
     }
 
     /**
@@ -165,7 +164,7 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
      */
     public function fillConfigurableSettings(array $productData)
     {
-        $this->openTab('associated');
+        $this->openTab('general');
         parent::fillConfigurableSettings($productData);
     }
 
@@ -459,7 +458,9 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
             $categoryName = end(explode('/', $value));
             $this->addParameter('categoryName', $categoryName);
             if (!$this->controlIsVisible('pageelement', 'category_name')) {
-                $this->fail('Category with name ' . $this->_getControlXpath('pageelement', 'category_name') . ' was not found');
+                $this->fail(
+                    'Category with name ' . $this->_getControlXpath('pageelement', 'category_name') . ' was not found'
+                );
             }
         }
     }
@@ -609,5 +610,100 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
         else {
             $this->fail('data for websites tab is absent');
         }
+    }
+
+    /**
+     * Delete Samples/Links rows on Downloadable Information tab
+     */
+    public function deleteDownloadableInformation($type)
+    {
+        $this->openTab('downloadable_information');
+        $fieldSetXpath = $this->_getControlXpath('fieldset', 'downloadable_' . $type);
+        $fieldSetLinkXpath = $this->_getControlXpath('link', 'downloadable_' . $type);
+        if (!$this->isElementPresent($fieldSetLinkXpath . "/parent::*[normalize-space(@class)='open']")) {
+            $this->clickControl('link', 'downloadable_' . $type, false);
+        }
+        $rowQty = $this->getXpathCount($fieldSetXpath . "//*[@id='" . $type . "_items_body']/tr");
+        if ($rowQty > 0) {
+            while ($rowQty > 0) {
+                $this->addParameter('rowId', $rowQty);
+                $this->clickButton('delete_' . $type, false);
+                $rowQty--;
+            }
+        }
+    }
+
+    /**
+     * Unassign all associated products in configurable product
+     */
+    public function unassignAllAssociatedProducts()
+    {
+        $this->openTab('general');
+        if ($this->controlIsVisible('fieldset', 'associated')) {
+            $checkboxXpath = $this->_getControlXpath('fieldset', 'associated') . "//*[@class='checkbox']";
+            $rowNumber = $this->getXpathCount($checkboxXpath) - 1;
+            while ($rowNumber > 0) {
+                $this->addParameter('rowNum', $rowNumber);
+                if ($this->controlIsVisible('checkbox', 'associated_product_select')
+                    && $this->isChecked($this->_getControlXpath('checkbox', 'associated_product_select'))
+                ) {
+                    $this->clickControl('checkbox', 'associated_product_select', false);
+                }
+                $rowNumber--;
+            }
+        }
+    }
+
+    /**
+     * Get product type by it's sku from Manage Products grid
+     *
+     * @param $productData
+     *
+     * @return string
+     */
+    public function getProductType($productData)
+    {
+        $column = $this->getColumnIdByName('Type');
+        $productLocator = $this->formSearchXpath(array('sku' => $productData['general_sku']));
+
+        return trim($this->getText($productLocator . "//td[$column]"));
+    }
+
+    /**
+     * Check variation matrix combinations
+     *
+     * @param array $matrixData
+     */
+    public function checkGeneratedMatrix(array $matrixData)
+    {
+        $columnShift = 5; //number of columns before configurable attributes
+        $checkboxXpath = $this->_getControlXpath('fieldset', 'variations_matrix') . "//*[@type='checkbox']";
+        $rowNumber = $this->getXpathCount($checkboxXpath);
+        if ($rowNumber == count($matrixData)){
+            while ($rowNumber > 0) {
+                $this->addParameter('rowNum', $rowNumber);
+                if ($this->isChecked($this->_getControlXpath('checkbox', 'include_variation'))) {
+                     $this->addVerificationMessage('Checkbox in ' . $rowNumber . ' is selected by default');
+                }
+                $attributeColumn = 1;
+                foreach ($matrixData[$rowNumber] as $value) {
+                    $variationData = $this->getText($this->_getControlXpath('pageelement', 'variation_line')
+                        . "/td[$columnShift+$attributeColumn]");
+                    $attributeColumn++;
+                    if ($value != $variationData) {
+                        $this->addVerificationMessage('Checkbox in ' . $rowNumber . ' is selected by default');
+                        $this->addVerificationMessage(
+                            'Row: ' . $rowNumber  .
+                            '\nExpected attribute option: = ' . $value .
+                            '\nActual attribute option: ' . $variationData
+                        );
+                    }
+                }
+                $rowNumber--;
+            }
+        } else {
+            $this->fail('Not all variations are represented in variation matrix');
+        }
+        $this->assertEmptyVerificationErrors();
     }
 }

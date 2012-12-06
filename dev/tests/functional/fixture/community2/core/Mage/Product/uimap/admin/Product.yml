@@ -3,7 +3,7 @@
 # {license_notice}
 #
 # @category    Magento
-# @package     Mage_AdminUser
+# @package     Mage_Product
 # @subpackage  uimaps
 # @copyright   {copyright}
 # @license     {license_link}
@@ -29,6 +29,9 @@ new_product:
                                         general_min_price: //input[@id='price' and not(@disabled)]
                                         general_qty: //input[@name='product[quantity_and_stock_status][qty]']
                                         categories: //*[@data-ui-id='category-selector-input']
+                                        general_weight_disabled: //input[@id='weight' and (@disabled)]
+                                    checkboxes:
+                                        weight_and_type_switcher: //input[@id='weight_and_type_switcher']
                                 category_search:
                                     xpath: //*[@id='html-body']/ul
                                     links:
@@ -42,8 +45,24 @@ new_product:
                                     links:
                                         delete_category: //*[@class='category-selector-search-choice-close']
                                     pageelements:
-                                        category_name: //*[contains(., '%categoryName%')]
-                -
+                                        category_name: //*[text()='%categoryName%']
+                            -
+                                product_variations:
+                                    xpath: //*[@id='config_super_product']/fieldset
+                                    checkboxes:
+                                        configurable_attribute_title: //input[@type='checkbox' and @title='%attributeTitle%']
+                                        associated_product_select: //tbody/tr[%rowNum%]//*[@class='checkbox']
+                                    buttons:
+                                        continue: //*[@data-ui-id='admin-product-edit-tab-super-config-grid-container-super-settings-continue-button']
+                            -
+                                variations_matrix:
+                                    xpath: //*[@id='product-variations-matrix']
+                                    checkboxes:
+                                        include_variation: //tbody/tr[%rowNum%]//*[@type='checkbox']
+                                    pageelements:
+                                        variation_line: //table/tbody/tr[%rowNum%]
+                        checkboxes:
+                            is_configurable: //*[@id='config_super_product-checkbox']
                     prices:
                         fieldsets:
                             -
@@ -102,14 +121,7 @@ new_product:
                                         product_qty_to: //*[@id='productGrid_product_filter_qty_to']
                 -
                     associated:
-                        fieldsets:
-                            -
-                                select_configurable_attributes:
-                                    xpath: //div[contains(div/div/h4,'Select Configurable Attributes')]
-                                    buttons:
-                                        continue: //button[span='Continue']
-                                    checkboxes:
-                                        configurable_attribute_title: //input[@type='checkbox' and @title='%attributeTitle%']
+                        xpath: //a[@title='General']/span
             fieldsets:
                 -
                     product_information:
@@ -119,15 +131,35 @@ new_product:
                             product_name: //*[@class='icon-head head-products' and contains(.,'%productName% (%attributeSet%)')]
                 -
                     change_attribute_set:
-                        xpath: //div[@class='ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable']
+                        xpath: //*[@id='attribute-set-info']/ancestor::*[contains(concat(' ', normalize-space(@class), ' '), ' ui-dialog ')]
                         dropdowns:
                             choose_attribute_set: //*[@id='attribute_set_id']
                         buttons:
                             close: //*[@id='change-attribute-set-close-button']
                             apply: //*[@id='change-attribute-set-apply-button']
+                -
+                    new_category_form:
+                        xpath: //*[@id='new-category']/ancestor::*[contains(concat(' ', normalize-space(@class), ' '), ' ui-dialog ')]
+                        fields:
+                            name: //input[@id='new_category_name']
+                            parent_category: //input[@id='new_category_parent']
+                        buttons:
+                            new_category_save: //button[@id='new-category-js-save-button']
+                            new_category_cancel: //button[@id='new-category-js-close-button']
+                        messages:
+                            category_name_required: //*[@id='advice-required-entry-new_category_name']
+                            parent_name_required: //*[@id='advice-required-entry-new_category_parent']
+                            parent_name_existent: //*[@id='advice-validate-parent-category-new_category_parent']
+                -
+                    parent_category_autocomplete:
+                        xpath: //*[contains(concat(' ', normalize-space(@class), ' '), ' ui-autocomplete ')]
+                        links:
+                            suggested_category_name: /*[contains(concat(' ', normalize-space(@class), ' '), ' ui-menu-item ')]/*[text()='%categoryName%']
         buttons:
-            change_attribute_set: //button[span='Change Attribute Set']
-            save: //button[span='Save']
+            change_attribute_set: //*[@data-ui-id='product-edit-change-attribute-set-button']
+            new_category: //button[span='New Category']
+            save: //*[@data-ui-id='product-edit-save-button']
+            save_and_continue_edit: //*[@data-ui-id='product-edit-save-and-edit-button']
 
 new_configurable_product:
     mca: catalog_product/new/attributes/%attributesUrl%/set/%setId%/type/%productType%/&active_tab=configurable/
