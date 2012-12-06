@@ -353,8 +353,8 @@ class Mage_Core_Model_Cache
      */
     protected function _generateProfilerTags($operation, $frontendType = '', $backendType = '')
     {
-        $profilerTags = array('group' => 'mage_cache',
-            'operation' => 'mage_cache:' . $operation);
+        $profilerTags = array('group' => 'cache',
+            'operation' => 'cache:' . $operation);
 
         if (!empty($this->_requestProcessors)) {
             $profilerTags['request_processors'] = implode('|', $this->_requestProcessors);
