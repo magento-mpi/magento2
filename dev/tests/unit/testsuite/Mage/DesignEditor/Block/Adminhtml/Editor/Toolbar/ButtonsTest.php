@@ -37,11 +37,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_ButtonsTest extends PHPUn
 
     public function testGetViewLayoutUrl()
     {
-        $this->assertEquals('design/editor/getLayoutUpdate', $this->_block->getViewLayoutUrl());
-    }
-
-    public function testGetCompactLogUrl()
-    {
-        $this->assertEquals('design/editor/compactHistory', $this->_block->getCompactLogUrl());
+        $this->assertEquals('*/*/getLayoutUpdate', $this->_block->getViewLayoutUrl());
     }
 }

@@ -131,4 +131,50 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     {
         return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_DesignEditor::editor');
     }
+
+    /**
+     * Compact history
+     *
+     * @param array $historyData
+     * @return Mage_DesignEditor_Model_History
+     */
+    protected function _compactHistory($historyData)
+    {
+        /** @var $historyModel Mage_DesignEditor_Model_History */
+        $historyModel = Mage::getModel('Mage_DesignEditor_Model_History');
+        /** @var $historyCompactModel Mage_DesignEditor_Model_History_Compact */
+        $historyCompactModel = Mage::getModel('Mage_DesignEditor_Model_History_Compact');
+        /** @var $collection Mage_DesignEditor_Model_Change_Collection */
+        $collection = $historyModel->setChanges($historyData)->getChanges();
+        $historyCompactModel->compact($collection);
+        return $historyModel;
+    }
+
+    /**
+     * Get layout xml
+     */
+    public function getLayoutUpdateAction()
+    {
+        $historyData = Mage::app()->getRequest()->getPost('historyData');
+        if (!$historyData) {
+            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
+                array(Mage_Core_Model_Message::ERROR => array($this->__('Invalid post data')))
+            ));
+            return;
+        }
+
+        try {
+            $historyModel = $this->_compactHistory($historyData);
+            /** @var $layoutRenderer Mage_DesignEditor_Model_History_Renderer_LayoutUpdate */
+            $layoutRenderer = Mage::getModel('Mage_DesignEditor_Model_History_Renderer_LayoutUpdate');
+            $layoutUpdate = $historyModel->output($layoutRenderer);
+            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
+                Mage_Core_Model_Message::SUCCESS => array($layoutUpdate)
+            )));
+        } catch (Mage_Core_Exception $e) {
+            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
+                array(Mage_Core_Model_Message::ERROR => array($e->getMessage()))
+            ));
+        }
+    }
 }

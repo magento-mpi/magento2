@@ -21,10 +21,14 @@
         options: {
             cellSelector: '.vde_toolbar_cell',
             handlesHierarchySelector: '#vde_handles_hierarchy',
-            treeSelector: '#vde_handles_tree'
+            treeSelector: '#vde_handles_tree',
+            viewLayoutButtonSelector: '.view-layout',
+            viewLayoutUrl: null,
+            editorFrameSelector: null
         },
         _create: function() {
             this._initCells();
+            this._initViewLayoutButton();
         },
         _initCells : function() {
             var self = this;
@@ -34,6 +38,61 @@
                     $( this ).vde_menu();
             });
             this.element.find( this.options.cellSelector ).vde_menu();
+        },
+        _initViewLayoutButton: function() {
+            var button = $(this.options.viewLayoutButtonSelector);
+            this.options.viewLayoutUrl = button.attr('href');
+            button.bind(
+                'click', $.proxy(this._onViewLayoutButtonClick, this)
+            );
+        },
+        _onViewLayoutButtonClick: function(e) {
+            try {
+                var historyObject = $(this.options.editorFrameSelector).get(0).contentWindow.vdeHistoryObject;
+                if (historyObject.getItems().length == 0) {
+                    /** @todo temporary report */
+                    alert($.mage.__('No changes found.'));
+                    return false;
+                }
+                var data = this._preparePostItems(historyObject.getItems());
+                var compactXml = this._post(this.options.viewLayoutUrl, data);
+                alert(compactXml);
+            } catch (e) {
+                alert(e.message);
+            } finally {
+                return false;
+            }
+
+        },
+        _preparePostItems: function(items) {
+            var postData = {};
+            $.each(items, function(index, item){
+                postData[index] = item.getPostData();
+            });
+            return postData;
+        },
+        _post: function(action, data) {
+            var url = action;
+            var postResult;
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'JSON',
+                data: {historyData: data},
+                async: false,
+                success: function(data) {
+                    if (data.error) {
+                        /** @todo add error validator */
+                        throw Error($.mage.__('Some problem with save action'));
+                        return;
+                    }
+                    postResult = data.success;
+                },
+                error: function(data) {
+                    throw Error($.mage.__('Some problem with save action'));
+                }
+            });
+            return postResult;
         },
         _destroy: function() {
             this.element.find( this.options.cellSelector ).each( function(i, element) {
@@ -50,15 +109,12 @@
         options: {
             frameSelector: 'iframe#vde_container_frame',
             containerSelector: '.vde_element_wrapper.vde_container',
-            panelSelector: '#vde_toolbar',
+            panelSelector: '#vde_toolbar_row',
             highlightElementSelector: '.vde_element_wrapper',
             highlightElementTitleSelector: '.vde_element_title',
             highlightCheckboxSelector: '#vde_highlighting',
             cookieHighlightingName: 'vde_highlighting',
-            historyToolbarSelector: '.vde_history_toolbar',
-            baseUrl: null,
-            compactLogUrl: null,
-            viewLayoutUrl: null
+            historyToolbarSelector: '.vde_history_toolbar'
         },
         editorFrame: null,
         _create: function () {
@@ -69,7 +125,7 @@
             });
         },
         _initPanel: function () {
-            $(this.options.panelSelector).vde_panel();
+            $(this.options.panelSelector).vde_panel({editorFrameSelector: this.options.frameSelector})
         }
     });
 

@@ -125,35 +125,6 @@
     }));
 
     /**
-     * Widget panel
-     */
-    $.widget('vde.vde_panel', {
-        options: {
-            cellSelector: '.vde_toolbar_cell',
-            handlesHierarchySelector: '#vde_handles_hierarchy',
-            treeSelector: '#vde_handles_tree'
-        },
-        _create: function() {
-            this._initCells();
-        },
-        _initCells : function() {
-            var self = this;
-            this.element.find( this.options.cellSelector ).each( function(){
-                $( this ).is( self.options.handlesHierarchySelector ) ?
-                    $( this ).vde_menu( {treeSelector : self.options.treeSelector, slimScroll:true } ) :
-                    $( this ).vde_menu();
-            });
-            this.element.find( this.options.cellSelector ).vde_menu();
-        },
-        _destroy: function() {
-            this.element.find( this.options.cellSelector ).each( function(i, element) {
-                $(element).data('vde_menu').destroy();
-            });
-            this._super();
-        }
-    });
-
-    /**
      * Widget history
      *
      * @TODO can we make this not a widget but global object?
@@ -188,28 +159,12 @@
      * @todo move out from history toolbar send POST data functionality
      */
     $.widget( "vde.vde_historyToolbar" , {
-        options:{
-            compactLogButtonSelector: '.compact-log',
-            viewLayoutButtonSelector: '.view-layout',
-            baseUrl: null,
-            compactLogUrl: null,
-            viewLayoutUrl: null
-        },
+        options: {},
         _history: null,
         _create: function() {
             this._initToolbar();
-            this._initButtons();
         },
         _initToolbar : function() {},
-        _initButtons : function() {
-            $(this.options.compactLogButtonSelector).bind(
-                'click', $.proxy(this._onCompactLogButtonClick, this)
-            );
-
-            $(this.options.viewLayoutButtonSelector).bind(
-                'click', $.proxy(this._onViewLayoutButtonClick, this)
-            );
-        },
         _initEventObservers: function() {
             this._history.element.bind(
                 this._history.getEventName('add'),
@@ -219,45 +174,9 @@
         _onHistoryAddItem: function(e, change) {
             this.addItem(change);
         },
-        _onCompactLogButtonClick: function(e) {
-            try {
-                if (this._history.getItems().length == 0) {
-                    /** @todo temporary report */
-                    alert($.mage.__('No changes found.'));
-                    return false;
-                }
-                var data = this._preparePostItems(this._history.getItems());
-                var items = this._post(this.options.compactLogUrl, data);
-                this._compactLogToHistory(items);
-            } catch (e) {
-                alert(e.message);
-            } finally {
-                return false;
-            }
-        },
-        _onViewLayoutButtonClick: function(e) {
-            try {
-                if (this._history.getItems().length == 0) {
-                    /** @todo temporary report */
-                    alert($.mage.__('No changes found.'));
-                    return false;
-                }
-                var data = this._preparePostItems(this._history.getItems());
-                var compactXml = this._post(this.options.viewLayoutUrl, data);
-                alert(compactXml);
-            } catch (e) {
-                alert(e.message);
-            } finally {
-                return false;
-            }
-
-        },
         setHistory: function(history) {
             this._history = history;
             this._initEventObservers();
-        },
-        setBaseUrl: function(baseUrl) {
-            this.option('baseUrl', baseUrl);
         },
         setItems: function(items) {
             //this.deleteItems();
@@ -268,16 +187,6 @@
         },
         addItem: function(change) {
             this.element.find('ul').append('<li>' + change.getTitle() + '</li>');
-        },
-        _compactLogToHistory: function(items) {
-            this._history.deleteItems();
-            this.deleteItems();
-            var self = this;
-            $.each(items[0], function(index, item) {
-                var change = $.fn.changeFactory.getInstance('layout');
-                change.setActionData(item);
-                self._history.addItem(change);
-            });
         },
         _preparePostItems: function(items) {
             var postData = {};
@@ -322,116 +231,16 @@
             highlightElementTitleSelector: '.vde_element_title',
             highlightCheckboxSelector: '#vde_highlighting',
             cookieHighlightingName: 'vde_highlighting',
-            historyToolbarSelector: '.vde_history_toolbar',
-            baseUrl: null,
-            compactLogUrl: null,
-            viewLayoutUrl: null
+            historyToolbarSelector: '.vde_history_toolbar'
         },
         _create: function () {
             this._initContainers();
-            this._initPanel();
         },
         _initContainers: function () {
             $(this.options.containerSelector)
                 .vde_container().disableSelection();
-        },
-        _initPanel: function () {
-            $(this.options.panelSelector).vde_panel();
         }
     });
-
-    /**
-     * Widget page highlight functionality
-     */
-    var pageBasePrototype = $.vde.vde_page.prototype;
-    $.widget('vde.vde_page', $.extend({}, pageBasePrototype, {
-        _create: function () {
-            pageBasePrototype._create.apply(this, arguments);
-            if (this.options.highlightElementSelector) {
-                this._initHighlighting();
-                this._bind();
-            }
-        },
-        _bind: function () {
-            var self = this;
-            this.element
-                .on('checked.vde_checkbox', function () {
-                    self._highlight();
-                })
-                .on('unchecked.vde_checkbox', function () {
-                    self._unhighlight();
-                });
-        },
-        _initHighlighting: function () {
-            if (this.options.highlightCheckboxSelector) {
-                $(this.options.highlightCheckboxSelector)
-                    .vde_checkbox();
-            }
-            this.highlightBlocks = {};
-            if ($.mage.cookies.get(this.options.cookieHighlightingName) == 'off') {
-                this._processMarkers();
-            }
-
-        },
-        _highlight: function () {
-            $.mage.cookies.clear(this.options.cookieHighlightingName);
-            var self = this;
-            $(this.options.highlightElementSelector).each(function () {
-                $(this)
-                    .append(self._getChildren($(this).attr('id')))
-                    .show()
-                    .children(self.options.highlightElementTitleSelector).slideDown('fast');
-            });
-            this.highlightBlocks = {};
-        },
-        _unhighlight: function () {
-            $.mage.cookies.set(this.options.cookieHighlightingName, 'off');
-            var self = this;
-            $(this.options.highlightElementSelector).each(function () {
-                var elem = $(this);
-                elem.children(self.options.highlightElementTitleSelector).slideUp('fast', function () {
-                    var children = elem.contents(':not(' + self.options.highlightElementTitleSelector + ')');
-                    var parentId = elem.attr('id');
-                    children.each(function () {
-                        self._storeChild(parentId, this);
-                    });
-                    elem.after(children).hide();
-                });
-            });
-        },
-        _processMarkers: function () {
-            var self = this,
-                parentsIdsStack = [],
-                currentParentId;
-            $('*').contents().each(function () {
-                if (this.nodeType == Node.COMMENT_NODE) {
-                    if (this.data.substr(0, 9) == 'start_vde') {
-                        currentParentId = this.data.substr(6, this.data.length);
-                        parentsIdsStack.push(currentParentId);
-                        this.parentNode.removeChild(this);
-                    } else if (this.data.substr(0, 7) == 'end_vde') {
-                        if (this.data.substr(4, this.data.length) !== currentParentId) {
-                            throw "Could not find closing element for opened '" + currentParentId + "' element";
-                        }
-                        parentsIdsStack.pop();
-                        currentParentId = parentsIdsStack[parentsIdsStack.length - 1];
-                        this.parentNode.removeChild(this);
-                    }
-                } else if (currentParentId) {
-                    self._storeChild(currentParentId, this);
-                }
-            })
-        },
-        _storeChild: function(parentId, child) {
-            if (!this.highlightBlocks[parentId]) {
-                this.highlightBlocks[parentId] = [];
-            }
-            this.highlightBlocks[parentId].push(child);
-        },
-        _getChildren: function(parentId) {
-            return (!this.highlightBlocks[parentId]) ? [] : this.highlightBlocks[parentId];
-        }
-    }));
 
     /**
      * Widget page history init
@@ -447,7 +256,8 @@
         },
         _initHistory: function() {
             // @TODO can we make this not a widget but global object?
-            return $( window ).vde_history().data('vde_history');
+            window.vdeHistoryObject = $( window ).vde_history().data('vde_history');
+            return window.vdeHistoryObject;
         },
         _initHistoryToolbar: function(history) {
             if (!history) {
@@ -457,9 +267,6 @@
                 var toolbar = $( this.options.historyToolbarSelector).vde_historyToolbar().data('vde_historyToolbar');
                 if (toolbar) {
                     toolbar.setHistory(history);
-                    toolbar.option('baseUrl', this.options.baseUrl);
-                    toolbar.option('compactLogUrl', this.options.compactLogUrl);
-                    toolbar.option('viewLayoutUrl', this.options.viewLayoutUrl);
                 }
             }
         },
@@ -534,6 +341,10 @@
         remove: function () {
             this.element.remove();
         }
+    });
+
+    $(document).ready(function( ){
+        $(window).vde_page();
     });
 
 })( jQuery );
