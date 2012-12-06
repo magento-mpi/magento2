@@ -565,4 +565,12 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     {
         $this->unsetData()->setOrigData();
     }
+
+    /**
+     * Clear data for clone
+     */
+    public function __clone()
+    {
+        $this->unsetData()->setOrigData();
+    }
 }

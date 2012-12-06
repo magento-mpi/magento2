@@ -43,10 +43,8 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
 
     protected function setUp()
     {
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-
         $store = $this->getMock('Mage_Core_Model_Store', array('getCurrentCurrencyRate'), array(), '', false);
-        $store->expects($this->once())->method('getCurrentCurrencyRate')->will($this->returnValue(1));
+        $store->expects($this->any())->method('getCurrentCurrencyRate')->will($this->returnValue(1));
 
         $helpers = array(
             'Enterprise_GiftCard_Helper_Data'        => $this->getMock('Enterprise_GiftCard_Helper_Data'),
@@ -70,7 +68,10 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
                 'locale'    => $locale,
             ))
         );
+    }
 
+    protected function _preConditions()
+    {
         $this->_productResource = $this->getMock('Mage_Catalog_Model_Resource_Product', array(), array(), '', false);
         $this->_optionResource = $this->getMock('Mage_Catalog_Model_Resource_Product_Option', array(), array(),
             '', false);
@@ -78,6 +79,8 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
         $productCollection = $this->getMock('Mage_Catalog_Model_Resource_Product_Collection', array(), array(), '',
             false
         );
+
+        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $arguments = $objectManagerHelper->getConstructArguments(
             Magento_Test_Helper_ObjectManager::MODEL_ENTITY, 'Mage_Catalog_Model_Product',
             array('resource' => $this->_productResource, 'resourceCollection' => $productCollection)
@@ -115,6 +118,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
 
     public function testValidateEmptyFields()
     {
+        $this->_preConditions();
         $this->_quoteItemOption->expects($this->any())->method('getValue')
             ->will($this->returnValue(serialize(array())));
         $this->_setGetGiftcardAmountsReturnEmpty();
@@ -126,6 +130,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
 
     public function testValidateEmptyAmount()
     {
+        $this->_preConditions();
         $this->_quoteItemOption->expects($this->any())->method('getValue')
             ->will($this->returnValue(serialize(array(
                 'giftcard_recipient_name'   => 'name',
@@ -141,6 +146,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
 
     public function testValidateMaxAmount()
     {
+        $this->_preConditions();
         $this->_product->expects($this->once())->method('getOpenAmountMax')->will($this->returnValue(10));
         $this->_product->expects($this->once())->method('getOpenAmountMin')->will($this->returnValue(3));
         $this->_quoteItemOption->expects($this->any())->method('getValue')
@@ -159,6 +165,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
 
     public function testValidateMinAmount()
     {
+        $this->_preConditions();
         $this->_product->expects($this->once())->method('getOpenAmountMax')->will($this->returnValue(10));
         $this->_product->expects($this->once())->method('getOpenAmountMin')->will($this->returnValue(3));
         $this->_quoteItemOption->expects($this->any())->method('getValue')
@@ -177,6 +184,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
 
     public function testValidateNoAllowedAmount()
     {
+        $this->_preConditions();
         $this->_quoteItemOption->expects($this->any())->method('getValue')
             ->will($this->returnValue(serialize(array(
                 'giftcard_recipient_name'   => 'name',
@@ -193,6 +201,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
 
     public function testValidateRecipientName()
     {
+        $this->_preConditions();
         $this->_quoteItemOption->expects($this->any())->method('getValue')
             ->will($this->returnValue(serialize(array(
                 'giftcard_sender_name'      => 'name',
@@ -208,6 +217,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
 
     public function testValidateSenderName()
     {
+        $this->_preConditions();
         $this->_quoteItemOption->expects($this->any())->method('getValue')
             ->will($this->returnValue(serialize(array(
                 'giftcard_recipient_name'   => 'name',
@@ -223,6 +233,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
 
     public function testValidateRecipientEmail()
     {
+        $this->_preConditions();
         $this->_quoteItemOption->expects($this->any())->method('getValue')
             ->will($this->returnValue(serialize(array(
                 'giftcard_recipient_name'   => 'name',
@@ -238,6 +249,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
 
     public function testValidateSenderEmail()
     {
+        $this->_preConditions();
         $this->_quoteItemOption->expects($this->any())->method('getValue')
             ->will($this->returnValue(serialize(array(
                 'giftcard_recipient_name'   => 'name',
@@ -253,6 +265,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
 
     public function testValidate()
     {
+        $this->_preConditions();
         $this->_quoteItemOption->expects($this->any())->method('getValue')
             ->will($this->returnValue(serialize(array())));
         $this->_setGetGiftcardAmountsReturnEmpty();
@@ -304,5 +317,10 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
     protected function _setStrictProcessMode($mode)
     {
         $this->_model->expects($this->once())->method('_isStrictProcessMode')->will($this->returnValue((bool)$mode));
+    }
+
+    public function testHasWeightTrue()
+    {
+        $this->assertTrue($this->_model->hasWeight(), 'This product has not weight, but it should');
     }
 }
