@@ -93,9 +93,11 @@ class Mage_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_TestCas
         );
     }
 
+    /**
+     * Test correct event starting and stopping in magento profile during SQL query fail
+     */
     public function testProfilerDuringSqlException()
     {
-        $connReadConfig = $this->_getConnectionReadConfig();
         /** @var Magento_Test_Db_Adapter_Mysql $connection */
         $connection = $this->_model->getConnection('core_read');
 
@@ -108,11 +110,13 @@ class Mage_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_TestCas
             $this->fail("Expected exception didn't thrown!");
         }
 
+        $connection->query('SELECT * FROM core_resource');
+
         /** @var Mage_Core_Model_Resource_Db_Profiler $profiler */
         $profiler = $connection->getProfiler();
         $this->assertInstanceOf('Mage_Core_Model_Resource_Db_Profiler', $profiler);
 
         $queryProfiles = $profiler->getQueryProfiles(Varien_Db_Profiler::SELECT);
-        $this->assertCount(1, $queryProfiles);
+        $this->assertCount(2, $queryProfiles);
     }
 }
