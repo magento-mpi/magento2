@@ -93,10 +93,36 @@ class Mage_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($this->_tabIteratorMock, $model->getTabs());
     }
 
-    public function testGetElementReturnsNullIfNotExistingElementIsRequested()
+    /**
+     * @param string $path
+     * @param string $expectedType
+     * @param string $expectedId
+     * @param string $expectedPath
+     * @dataProvider emptyElementDataProvider
+     */
+    public function testGetElementReturnsEmptyElementIfNotExistingElementIsRequested(
+        $path, $expectedType, $expectedId, $expectedPath
+    ) {
+        $expectedConfig = array(
+            'id' => $expectedId,
+            'path' => $expectedPath,
+            '_elementType' => $expectedType
+        );
+        $elementMock = $this->getMock('Mage_Backend_Model_Config_Structure_ElementInterface');
+        $elementMock->expects($this->once())->method('setData')->with($expectedConfig);
+        $this->_flyweightFactory->expects($this->once())->method('create')->with($expectedType)
+            ->will($this->returnValue($elementMock));
+        $this->assertEquals($elementMock, $this->_model->getElement($path));
+    }
+
+    public function emptyElementDataProvider()
     {
-        $this->_flyweightFactory->expects($this->never())->method('create');
-        $this->assertNull($this->_model->getElement('section_1/group_2/nonexisting_field'));
+        return array(
+            array('someSection/group_1/nonexisting_field', 'field', 'nonexisting_field', 'someSection/group_1'),
+            array('section_1/group_1/nonexisting_field', 'field', 'nonexisting_field', 'section_1/group_1'),
+            array('section_1/nonexisting_group', 'group', 'nonexisting_group', 'section_1'),
+            array('nonexisting_section', 'section', 'nonexisting_section', ''),
+        );
     }
 
     public function testGetElementReturnsProperElementByPath()

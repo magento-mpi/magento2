@@ -19,6 +19,13 @@ interface Mage_Backend_Model_Config_Structure_ElementInterface
     public function setData(array $data, $scope);
 
     /**
+     * Retrieve element configuration
+     *
+     * @return array
+     */
+    public function getData();
+
+    /**
      * Retrieve element id
      *
      * @return string

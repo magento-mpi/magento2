@@ -132,12 +132,35 @@ class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_S
                 $child = $children[$id];
                 $children = array_key_exists('children', $child) ? $child['children'] : array();
             } else {
-                return null;
+                $child = $this->_createEmptyElement($pathParts);
+                break;
             }
         }
         $this->_elements[$path] = $this->_flyweightFactory->create($child['_elementType']);
         $this->_elements[$path]->setData($child, $this->_scopeDefiner->getScope());
         return $this->_elements[$path];
+    }
+
+    /**
+     * Create empty element data
+     *
+     * @param array $pathParts
+     * @return array
+     */
+    protected function _createEmptyElement(array $pathParts)
+    {
+        switch (count($pathParts)) {
+            case 1:
+                $elementType = 'section';
+                break;
+            case 2:
+                $elementType = 'group';
+                break;
+            default:
+                $elementType = 'field';
+        }
+        $id = array_pop($pathParts);
+        return array('id' => $id, 'path' => implode('/', $pathParts), '_elementType' => $elementType);
     }
 
     /**

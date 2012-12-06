@@ -56,8 +56,10 @@ class Mage_Backend_Model_Config_Structure_Element_Iterator implements Iterator
     {
         $this->_elements = $elements;
         $this->_scope = $scope;
-        $lastElement = end($elements);
-        $this->_lastId = $lastElement['id'];
+        if (count($elements)) {
+            $lastElement = end($elements);
+            $this->_lastId = $lastElement['id'];
+        }
     }
 
     /**
