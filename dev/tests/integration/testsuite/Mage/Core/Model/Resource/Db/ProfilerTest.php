@@ -22,13 +22,18 @@ class Mage_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_TestCas
     public static function setUpBeforeClass()
     {
         self::$_testResourceName = 'testtest_' . mt_rand(1000, 9999) . '_setup';
+
+        Magento_Profiler::enable();
+    }
+
+    public static function tearDownAfterClass()
+    {
+        Magento_Profiler::disable();
     }
 
     public function setUp()
     {
         $this->_model = Mage::getModel('Mage_Core_Model_Resource');
-
-        Magento_Profiler::enable();
     }
 
     /**
@@ -57,6 +62,9 @@ class Mage_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_TestCas
         /** @var Magento_Test_Db_Adapter_Mysql $connection */
         $connection = $this->_model->getConnection('core_read');
 
+        $testTableName = $connection->getTableName('core_resource');
+        $selectQuery = sprintf($selectQuery, $testTableName);
+
         $result = $connection->query($selectQuery);
         if ($queryType == Zend_Db_Profiler::SELECT) {
             $result->fetchAll();
@@ -83,12 +91,12 @@ class Mage_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_TestCas
     public function profileQueryDataProvider()
     {
         return array(
-            array("SELECT * FROM core_resource", Varien_Db_Profiler::SELECT),
-            array("INSERT INTO core_resource (code, version, data_version) "
+            array("SELECT * FROM %s", Varien_Db_Profiler::SELECT),
+            array("INSERT INTO %s (code, version, data_version) "
                 . "VALUES ('" . self::$_testResourceName . "', '1.1', '1.1')", Varien_Db_Profiler::INSERT),
-            array("UPDATE core_resource SET version = '1.2' WHERE code = '" . self::$_testResourceName . "'",
+            array("UPDATE %s SET version = '1.2' WHERE code = '" . self::$_testResourceName . "'",
                 Varien_Db_Profiler::UPDATE),
-            array("DELETE FROM core_resource WHERE code = '" . self::$_testResourceName . "'",
+            array("DELETE FROM %s WHERE code = '" . self::$_testResourceName . "'",
                 Varien_Db_Profiler::DELETE),
         );
     }
@@ -98,7 +106,7 @@ class Mage_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_TestCas
      */
     public function testProfilerDuringSqlException()
     {
-        /** @var Magento_Test_Db_Adapter_Mysql $connection */
+        /** @var Zend_Db_Adapter_Pdo_Abstract $connection */
         $connection = $this->_model->getConnection('core_read');
 
         try {
@@ -110,7 +118,8 @@ class Mage_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_TestCas
             $this->fail("Expected exception didn't thrown!");
         }
 
-        $connection->query('SELECT * FROM core_resource');
+        $testTableName = $connection->getTableName('core_resource');
+        $connection->query('SELECT * FROM ' . $testTableName);
 
         /** @var Mage_Core_Model_Resource_Db_Profiler $profiler */
         $profiler = $connection->getProfiler();
