@@ -19,6 +19,17 @@ class Mage_Core_Model_Theme_Service
     protected $_theme;
 
     /**
+     * @var Mage_Core_Model_Design_Package
+     */
+    protected $_design;
+
+    /**
+     * @var Mage_Core_Model_Config
+     */
+    protected $_config;
+
+
+    /**
      * Whether is present customized themes
      *
      * @var bool
@@ -29,10 +40,39 @@ class Mage_Core_Model_Theme_Service
      * Initialize service model
      *
      * @param Mage_Core_Model_Theme $theme
+     * @param Mage_Core_Model_Design_Package $design
+     * @param Mage_Core_Model_Config $config
      */
-    public function __construct(Mage_Core_Model_Theme $theme)
-    {
+    public function __construct(Mage_Core_Model_Theme $theme, Mage_Core_Model_Design_Package $design,
+        Mage_Core_Model_Config $config
+    ) {
         $this->_theme = $theme;
+        $this->_design = $design;
+        $this->_config = $config;
+    }
+
+    /**
+     * Assign theme to the stores
+     *
+     * @param int $themeId
+     * @param array $stores
+     * @param string $scope
+     * @param string $area
+     * @return Mage_Core_Model_Theme_Service
+     * @throws UnexpectedValueException
+     */
+    public function assignThemeToStores($themeId, $stores = array(), $scope = Mage_Core_Model_Config::SCOPE_STORES,
+        $area = Mage_Core_Model_Design_Package::DEFAULT_AREA
+    ) {
+        if (!$this->_theme->load($themeId)->getId()) {
+            throw new UnexpectedValueException('Theme doesn\'t recognized. Requested id: ' . $themeId);
+        }
+        foreach ($stores as $storeId) {
+            $this->_config->saveConfig(
+                $this->_design->getConfigPathByArea($area), $this->_theme->getId(), $scope, $storeId
+            );
+        }
+        return $this;
     }
 
     /**
