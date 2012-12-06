@@ -8,6 +8,9 @@
  * @license     {license_link}
  */
 
+/**
+ * Abstract class for preview modes
+ */
 abstract class Mage_DesignEditor_Model_Theme_Preview_Abstract
 {
     /**
