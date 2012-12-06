@@ -356,10 +356,6 @@ class Mage_Core_Model_Cache
         $profilerTags = array('group' => 'cache',
             'operation' => 'cache:' . $operation);
 
-        if (!empty($this->_requestProcessors)) {
-            $profilerTags['request_processors'] = implode('|', $this->_requestProcessors);
-        }
-
         if (!empty($frontendType)) {
             $profilerTags['frontend_type'] = $frontendType;
         } elseif ($this->_frontend) {
