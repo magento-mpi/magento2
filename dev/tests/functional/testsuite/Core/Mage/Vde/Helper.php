@@ -36,7 +36,8 @@ class Core_Mage_Vde_Helper extends Mage_Selenium_TestCase
         $this->clickControl('field','page_type_selector', false);
         $this->waitForFrameToLoad('vde_container_frame');
     }
-}    /**
+
+    /**
      * Check if highlight option is enabled
      *
      * @return bool
