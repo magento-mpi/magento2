@@ -35,13 +35,13 @@ class Mage_Core_Model_App_Dir
     /**#@-*/
 
     /**
-     * Key-values of registered directories
+     * Default values for directories
      *
      * Format: array(<code> => <relative_path>)
      *
      * @var array
      */
-    private $_dirs = array(
+    private static $_defaults = array(
         self::ROOT    => '',
         self::APP     => 'app',
         self::CODE    => 'app/code',
@@ -60,6 +60,11 @@ class Mage_Core_Model_App_Dir
         self::UPLOAD  => 'pub/media/upload',
         self::EXPORT  => 'var/export',
     );
+
+    /**
+     * @var array
+     */
+    private $_dirs = array();
 
     /**
      * @var array
@@ -85,15 +90,17 @@ class Mage_Core_Model_App_Dir
      */
     public function __construct($basePath, array $customDirs = array(), array $customPaths = array())
     {
+        $this->_dirs = self::$_defaults;
         foreach ($customDirs as $code => $relative) {
             $this->_set($code, $relative);
         }
-        foreach ($this->_dirs as $code => $relative) {
+        foreach (array_keys($this->_dirs) as $code) {
             if (isset($customPaths[$code])) {
-                $this->_setPath($code, $customPaths[$code]);
+                $path = $customPaths[$code];
             } else {
-                $this->_setPath($code, $basePath . ($relative ? DIRECTORY_SEPARATOR . $relative : ''));
+                $path = $this->_getDefaultPath($basePath, $code);
             }
+            $this->_setPath($code, $path);
         }
     }
 
@@ -139,6 +146,57 @@ class Mage_Core_Model_App_Dir
     public function getPath($code)
     {
         return isset($this->_paths[$code]) ? $this->_paths[$code] : false;
+    }
+
+    /**
+     * Build a path to directory based on default values
+     *
+     * @param string $basePath
+     * @param string $code
+     * @return string
+     */
+    private function _getDefaultPath($basePath, $code)
+    {
+        $parentCode = $this->_getDefaultParent($code);
+        if ($parentCode) {
+            $path = $this->_paths[$parentCode];
+            $relative = substr(self::$_defaults[$code], strlen(self::$_defaults[$parentCode]));
+            $relative = ltrim($relative, '/');
+        } else {
+            $path = $basePath;
+            $relative = $this->_dirs[$code];
+        }
+        return $path . ($relative ? DIRECTORY_SEPARATOR . $relative : '');
+    }
+
+    /**
+     * Get code of an item defined as parent by default for the specified code
+     *
+     * @param $code
+     * @return string|bool
+     */
+    private static function _getDefaultParent($code)
+    {
+        switch ($code) {
+            case self::CODE:
+            case self::VIEW:
+            case self::CONFIG:
+            case self::LOCALE:
+                return self::APP;
+            case self::PUB_LIB:
+            case self::MEDIA:
+                return self::PUB;
+            case self::UPLOAD:
+                return self::MEDIA;
+            case self::TMP:
+            case self::CACHE:
+            case self::LOG:
+            case self::SESSION:
+            case self::EXPORT:
+                return self::VAR_DIR;
+            default:
+                return false;
+        }
     }
 
     /**

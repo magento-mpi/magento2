@@ -187,17 +187,11 @@ class Magento_Test_Bootstrap
                 Mage_Core_Model_App_Dir::LOG => 'log',             // var/log
                 Mage_Core_Model_App_Dir::SESSION => 'session',     // var/session
                 Mage_Core_Model_App_Dir::MEDIA => 'media',         // pub/media
-                Mage_Core_Model_App_Dir::UPLOAD => 'media/upload', // pub/media/upload
             ),
             Mage_Core_Model_App::INIT_OPTION_DIR_PATHS => array(
                 Mage_Core_Model_App_Dir::CONFIG => $this->_installEtcDir,
                 Mage_Core_Model_App_Dir::VAR_DIR => $installDir,
-                Mage_Core_Model_App_Dir::TMP => "{$installDir}/tmp",
-                Mage_Core_Model_App_Dir::CACHE => "{$installDir}/cache",
-                Mage_Core_Model_App_Dir::LOG => "{$installDir}/log",
-                Mage_Core_Model_App_Dir::SESSION => "{$installDir}/session",
                 Mage_Core_Model_App_Dir::MEDIA => "{$installDir}/media",
-                Mage_Core_Model_App_Dir::UPLOAD => "{$installDir}/media/upload",
             ),
         );
 
