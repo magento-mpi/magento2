@@ -129,7 +129,7 @@ class Mage_Core_Model_App_Dir
      */
     private function _set($code, $relativePath)
     {
-        if (!preg_match('/^([a-z0-9]+[a-z0-9\.]*(\/[a-z0-9]+[a-z0-9\.]*)*)?$/', $relativePath)) {
+        if (!preg_match('/^([a-z0-9_]+[a-z0-9\._]*(\/[a-z0-9_]+[a-z0-9\._]*)*)?$/', $relativePath)) {
             throw new InvalidArgumentException(
                 "Must be relative directory path in lowercase with '/' directory separator: '{$relativePath}'"
             );

@@ -49,9 +49,17 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testLoadBaseLocalConfig($etcDir, array $configOptions, $expectedNode, $expectedValue)
     {
-        $configOptions['etc_dir'] = __DIR__ . "/_files/local_config/{$etcDir}";
-        /** @var $model Mage_Core_Model_Config */
-        $model = Mage::getModel('Mage_Core_Model_Config');
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Mage::getObjectManager();
+        $model = $this->_createModelWithApp($objectManager, $configOptions);
+        /** @var $dirs Mage_Core_Model_App_Dir */
+        $dirs = new Mage_Core_Model_App_Dir(
+            __DIR__,
+            array(),
+            array(Mage_Core_Model_App_Dir::CONFIG => __DIR__ . "/_files/local_config/{$etcDir}")
+        );
+        $objectManager->addSharedInstance($dirs, 'Mage_Core_Model_App_Dir');
+
         $model->loadBase();
         $this->assertInstanceOf('Varien_Simplexml_Element', $model->getNode($expectedNode));
         $this->assertEquals($expectedValue, (string)$model->getNode($expectedNode));
@@ -119,45 +127,61 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         if (date_default_timezone_get() != 'UTC') {
             $this->markTestSkipped('Test requires "UTC" to be the default timezone.');
         }
-        /** @var $model Mage_Core_Model_Config */
-        $model = Mage::getModel('Mage_Core_Model_Config');
-        $model->setOptions(array(
+
+        $options = array(
             Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA
-                => sprintf(Mage_Core_Model_Config::CONFIG_TEMPLATE_INSTALL_DATE, 'Fri, 21 Dec 2012 00:00:00 +0000')
-        ));
+            => sprintf(Mage_Core_Model_Config::CONFIG_TEMPLATE_INSTALL_DATE, 'Fri, 21 Dec 2012 00:00:00 +0000')
+        );
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Mage::getObjectManager();
+        $model = $this->_createModelWithApp($objectManager, $options);
+
         $model->loadBase();
         $this->assertEquals(1356048000, $model->getInstallDate());
     }
 
     public function testLoadBaseInstallDateInvalid()
     {
-        /** @var $model Mage_Core_Model_Config */
-        $model = Mage::getModel('Mage_Core_Model_Config');
-        $model->setOptions(array(
+        $options = array(
             Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA
-                => sprintf(Mage_Core_Model_Config::CONFIG_TEMPLATE_INSTALL_DATE, 'invalid')
-        ));
+            => sprintf(Mage_Core_Model_Config::CONFIG_TEMPLATE_INSTALL_DATE, 'invalid')
+        );
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Mage::getObjectManager();
+        $model = $this->_createModelWithApp($objectManager, $options);
+
         $model->loadBase();
         $this->assertEmpty($model->getInstallDate());
     }
 
     public function testLoadLocales()
     {
-        $model = Mage::getModel('Mage_Core_Model_Config');
-        $model->init(array(
-            'locale_dir' => dirname(__FILE__) . '/_files/locale'
-        ));
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Mage::getObjectManager();
+        $model = $this->_createModelWithApp($objectManager);
+        /** @var $dirs Mage_Core_Model_App_Dir */
+        $dirs = new Mage_Core_Model_App_Dir(
+            __DIR__,
+            array(),
+            array(Mage_Core_Model_App_Dir::LOCALE => __DIR__ . "/_files/locale")
+        );
+        $objectManager->addSharedInstance($dirs, 'Mage_Core_Model_App_Dir');
+
+        $model->loadBase();
         $model->loadLocales();
         $this->assertInstanceOf('Mage_Core_Model_Config_Element', $model->getNode('global/locale'));
     }
 
     public function testLoadModulesCache()
     {
-        $model = $this->_createModel();
-        $model->setOptions(array(
+        $options = array(
             Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA
-                => sprintf(Mage_Core_Model_Config::CONFIG_TEMPLATE_INSTALL_DATE, 'Wed, 21 Nov 2012 03:26:00 +0000')
-        ));
+            => sprintf(Mage_Core_Model_Config::CONFIG_TEMPLATE_INSTALL_DATE, 'Wed, 21 Nov 2012 03:26:00 +0000')
+        );
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Mage::getObjectManager();
+        $model = $this->_createModelWithApp($objectManager, $options);
+
         $model->loadBase();
         $this->assertTrue($model->loadModulesCache());
         $this->assertInstanceOf('Mage_Core_Model_Config_Element', $model->getNode());
@@ -166,7 +190,6 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     public function testLoadModules()
     {
         $model = $this->_createModel();
-        $model->setOptions(self::$_options);
         $model->loadBase();
         $this->assertFalse($model->getNode('modules'));
         $model->loadModules();
@@ -177,11 +200,14 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testLoadModulesLocalConfigPrevails()
     {
-        $model = $this->_createModel();
-        $model->setOptions(array(
+        $options = array(
             Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA
-                => '<config><modules><Mage_Core><active>false</active></Mage_Core></modules></config>'
-        ));
+            => '<config><modules><Mage_Core><active>false</active></Mage_Core></modules></config>'
+        );
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Mage::getObjectManager();
+        $model = $this->_createModelWithApp($objectManager, $options);
+
         $model->loadBase();
         $model->loadModules();
 
@@ -194,7 +220,6 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $model = $this->_createModel();
         $this->assertFalse($model->isLocalConfigLoaded());
-        $model->setOptions(self::$_options);
         $model->loadBase();
         $this->assertTrue($model->isLocalConfigLoaded());
     }
@@ -209,7 +234,6 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
         try {
             $model = $this->_createModel();
-            $model->setOptions(self::$_options);
             $model->loadBase();
             $model->loadModules();
 
@@ -225,14 +249,21 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testReinitBaseConfig()
     {
-        $model = $this->_createModel();
         $options[Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA] = '<config><test>old_value</test></config>';
-        $model->setOptions($options);
+
+        /** @var $objectManager Magento_Test_ObjectManager */
+        $objectManager = Mage::getObjectManager();
+        $model = $this->_createModelWithApp($objectManager, $options);
+
+        /** @var $app Mage_Core_Model_App */
+        $app = $objectManager->get('Mage_Core_Model_App');
+
         $model->loadBase();
         $this->assertEquals('old_value', $model->getNode('test'));
 
         $options[Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA] = '<config><test>new_value</test></config>';
-        $model->setOptions($options);
+        $app->init($options);
+
         $model->reinit();
         $this->assertEquals('new_value', $model->getNode('test'));
     }
@@ -271,7 +302,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $model = $this->_createModel();
         $this->assertFalse($model->getNode());
-        $model->init(self::$_options);
+        $model->init();
         $this->assertInstanceOf('Mage_Core_Model_Config_Element', $model->getNode());
         $this->assertInstanceOf('Mage_Core_Model_Config_Element', $model->getNode(null, 'store', 1));
         $this->assertInstanceOf('Mage_Core_Model_Config_Element', $model->getNode(null, 'website', 1));
@@ -279,8 +310,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testSetNode()
     {
-        $model = $this->_createModel();
-        $model->init(self::$_options);
+        $model = $this->_createModel(true);
         /* some existing node should be used */
         $model->setNode('admin/routers/adminhtml/use', 'test');
         $this->assertEquals('test', (string) $model->getNode('admin/routers/adminhtml/use'));
@@ -310,7 +340,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $_SERVER['SCRIPT_NAME'] = __FILE__;
         $_SERVER['HTTP_HOST'] = 'example.com';
-        $this->assertEquals('http://example.com/', $this->_createModel()->testGetDistroBaseUrl());
+        $this->assertEquals('http://example.com/', $this->_createModel()->getDistroBaseUrl());
     }
 
     public function testGetModuleConfig()
@@ -458,6 +488,23 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Creates Mage_Core_Model_Config model with initialized Mage_Core_Model_App
+     *
+     * @param Magento_Test_ObjectManager $objectManager
+     * @param array $appOptions
+     * @return bool|Mage_Core_Model_Config
+     */
+    protected function _createModelWithApp(Magento_Test_ObjectManager $objectManager, array $appOptions = array())
+    {
+        /** @var $app Mage_Core_Model_App */
+        $app = Mage::getModel('Mage_Core_Model_App', array(new Mage_Core_Controller_Varien_Front, $objectManager));
+        $app->init($appOptions);
+        $objectManager->addSharedInstance($app, 'Mage_Core_Model_App');
+
+        return Mage::getModel('Mage_Core_Model_Config', $objectManager);
+    }
+
+    /**
      * Instantiate Mage_Core_Model_Config and initialize (load configuration) if needed
      *
      * @param bool $initialize
@@ -465,9 +512,10 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     protected function _createModel($initialize = false)
     {
+        /** @var $model Mage_Core_Model_Config */
         $model = Mage::getModel('Mage_Core_Model_Config');
         if ($initialize) {
-            $model->init(self::$_options);
+            $model->init();
         }
         return $model;
     }
