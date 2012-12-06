@@ -65,6 +65,7 @@ class Core_Mage_CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_T
      * @dataProvider differentPaymentMethodsWithout3DDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-3191
+     * @SuppressWarnings("unused")
      */
     public function differentPaymentMethodsWithout3D($payment, $testData)
     {

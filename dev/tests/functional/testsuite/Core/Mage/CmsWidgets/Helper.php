@@ -19,6 +19,26 @@
 class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
+     * @param $layoutUpdates
+     */
+    public function _layoutUpdates($layoutUpdates)
+    {
+        if ($layoutUpdates) {
+            $this->fillLayoutUpdates($layoutUpdates);
+        }
+    }
+
+    /**
+     * @param $widgetOptions
+     */
+    protected function _widgetOptions($widgetOptions)
+    {
+        if ($widgetOptions) {
+            $this->fillWidgetOptions($widgetOptions);
+        }
+    }
+
+    /**
      * Creates widget
      *
      * @param string|array $widgetData
@@ -43,12 +63,8 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
             unset($frontProperties['assign_to_store_views']);
         }
         $this->fillFieldset($frontProperties, 'frontend_properties_fieldset');
-        if ($layoutUpdates) {
-            $this->fillLayoutUpdates($layoutUpdates);
-        }
-        if ($widgetOptions) {
-            $this->fillWidgetOptions($widgetOptions);
-        }
+        $this->_layoutUpdates($layoutUpdates);
+        $this->_widgetOptions($widgetOptions);
         $this->saveForm('save');
     }
 

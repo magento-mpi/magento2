@@ -19,6 +19,27 @@
 class Core_Mage_CmsStaticBlocks_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
+     * @param $content
+     */
+    protected function _content($content)
+    {
+        if ($content) {
+            $widgetsData = (isset($content['widgets'])) ? $content['widgets'] : array();
+            $variableData = (isset($content['variables'])) ? $content['variables'] : array();
+
+            foreach ($widgetsData as $widget) {
+                if (!$this->cmsPagesHelper()->insertWidget($widget)) {
+                    //skip next steps, because widget insertion pop-up is opened
+                    return;
+                }
+            }
+            foreach ($variableData as $variable) {
+                $this->cmsPagesHelper()->insertVariable($variable);
+            }
+        }
+    }
+
+    /**
      * Create a new static block.
      * Uses a simple editor only.
      *
@@ -37,20 +58,7 @@ class Core_Mage_CmsStaticBlocks_Helper extends Mage_Selenium_AbstractHelper
             unset($blockData['store_view']);
         }
         $this->fillForm($blockData);
-        if ($content) {
-            $widgetsData = (isset($content['widgets'])) ? $content['widgets'] : array();
-            $variableData = (isset($content['variables'])) ? $content['variables'] : array();
-
-            foreach ($widgetsData as $widget) {
-                if (!$this->cmsPagesHelper()->insertWidget($widget)) {
-                    //skip next steps, because widget insertion pop-up is opened
-                    return;
-                }
-            }
-            foreach ($variableData as $variable) {
-                $this->cmsPagesHelper()->insertVariable($variable);
-            }
-        }
+        $this->_content($content);
         $this->saveForm('save_block');
     }
 

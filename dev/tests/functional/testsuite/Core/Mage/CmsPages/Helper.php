@@ -19,6 +19,30 @@
 class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
+     * @param $pageData
+     * @return array
+     */
+    protected function _verifyCmsPageVars($pageData)
+    {
+        $cmsVars = array();
+        $cmsVars['pageInfo'] = (isset($pageData['page_information'])) ? $pageData['page_information'] : array();
+        $cmsVars['content'] = (isset($pageData['content'])) ? $pageData['content'] : array();
+        $cmsVars['design'] = (isset($pageData['design'])) ? $pageData['design'] : array();
+        $cmsVars['metaData'] = (isset($pageData['meta_data'])) ? $pageData['meta_data'] : array();
+        return $cmsVars;
+    }
+
+    /**
+     * @param $cmsVars
+     */
+    protected function _cmsFillTab($cmsVars)
+    {
+        if (isset($cmsVars['metaData'])) {
+            $this->fillTab($cmsVars['metaData'], 'meta_data');
+        }
+    }
+
+    /**
      * Creates page
      *
      * @param string|array $pageData
@@ -30,32 +54,25 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
             $fileName = (count($elements) > 1) ? array_shift($elements) : '';
             $pageData = $this->loadDataSet($fileName, implode('/', $elements));
         }
-
-        $pageInfo = (isset($pageData['page_information'])) ? $pageData['page_information'] : array();
-        $content = (isset($pageData['content'])) ? $pageData['content'] : array();
-        $design = (isset($pageData['design'])) ? $pageData['design'] : array();
-        $metaData = (isset($pageData['meta_data'])) ? $pageData['meta_data'] : array();
-
+        $cmsVars = $this->_verifyCmsPageVars($pageData);
         $this->clickButton('add_new_page');
-
-        if ($pageInfo) {
-            if (array_key_exists('store_view', $pageInfo) && !$this->controlIsPresent('multiselect', 'store_view')) {
-                unset($pageInfo['store_view']);
+        if ($cmsVars['pageInfo']) {
+            if (array_key_exists('store_view', $cmsVars['pageInfo'])
+                && !$this->controlIsPresent('multiselect', 'store_view')) {
+                unset($cmsVars['pageInfo']['store_view']);
             }
-            $this->fillTab($pageInfo, 'page_information');
+            $this->fillTab($cmsVars['pageInfo'], 'page_information');
         }
-        if ($content) {
-            if (!$this->fillContent($content)) {
+        if ($cmsVars['content']) {
+            if (!$this->fillContent($cmsVars['content'])) {
                 //skip next steps, because widget insertion pop-up is opened
                 return;
             }
         }
-        if ($design) {
-            $this->fillTab($design, 'design');
+        if ($cmsVars['design']) {
+            $this->fillTab($cmsVars['design'], 'design');
         }
-        if ($metaData) {
-            $this->fillTab($metaData, 'meta_data');
-        }
+        $this->_cmsFillTab($cmsVars['metaData']);
         $this->saveForm('save_page');
     }
 

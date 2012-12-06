@@ -78,35 +78,52 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
         return preg_replace('/[^0-9]/', '', $this->getControlAttribute('message', 'success_checkout_guest', 'text'));
     }
 
+    /*
+     * @param array $checkoutData
+     * @return array
+     */
+    protected function _onePageStepsVars($checkoutData)
+    {
+        $onePageStepsData = array();
+        $onePageStepsData['products'] =
+            (isset($checkoutData['products_to_add'])) ? $checkoutData['products_to_add'] : array();
+        $onePageStepsData['customer'] =
+            (isset($checkoutData['checkout_as_customer'])) ? $checkoutData['checkout_as_customer'] : array();
+        $onePageStepsData['billing'] =
+            (isset($checkoutData['billing_address_data'])) ? $checkoutData['billing_address_data'] : array();
+        $onePageStepsData['shipping'] =
+            (isset($checkoutData['shipping_address_data'])) ? $checkoutData['shipping_address_data'] : array();
+        $onePageStepsData['shipMethod'] =
+            (isset($checkoutData['shipping_data'])) ? $checkoutData['shipping_data'] : array();
+        $onePageStepsData['payMethod'] =
+            (isset($checkoutData['payment_data'])) ? $checkoutData['payment_data'] : array();
+        return $onePageStepsData;
+    }
+
     /**
      * @param array $checkoutData
      */
     public function doOnePageCheckoutSteps($checkoutData)
     {
-        $products = (isset($checkoutData['products_to_add'])) ? $checkoutData['products_to_add'] : array();
-        $customer = (isset($checkoutData['checkout_as_customer'])) ? $checkoutData['checkout_as_customer'] : array();
-        $billing = (isset($checkoutData['billing_address_data'])) ? $checkoutData['billing_address_data'] : array();
-        $shipping = (isset($checkoutData['shipping_address_data'])) ? $checkoutData['shipping_address_data'] : array();
-        $shipMethod = (isset($checkoutData['shipping_data'])) ? $checkoutData['shipping_data'] : array();
-        $payMethod = (isset($checkoutData['payment_data'])) ? $checkoutData['payment_data'] : array();
+        $onePageStepsData = $this->_onePageStepsVars($checkoutData);
 
-        foreach ($products as $data) {
+        foreach ($onePageStepsData['products'] as $data) {
             $this->productHelper()->frontOpenProduct($data['general_name']);
             $this->productHelper()->frontAddProductToCart();
         }
         $this->assertTrue($this->checkCurrentPage('shopping_cart'), $this->getParsedMessages());
         $this->clickButton('proceed_to_checkout');
         if ($this->controlIsPresent('fieldset', 'checkout_method')) {
-            $this->frontSelectCheckoutMethod($customer);
+            $this->frontSelectCheckoutMethod($onePageStepsData['customer']);
         }
-        $fillShipping = $this->frontFillOnePageBillingAddress($billing);
+        $fillShipping = $this->frontFillOnePageBillingAddress($onePageStepsData['billing']);
         if ($fillShipping) {
-            $this->frontFillOnePageShippingAddress($shipping);
+            $this->frontFillOnePageShippingAddress($onePageStepsData['shipping']);
         }
         if ($this->controlIsPresent('fieldset', 'shipping_method')) {
-            $this->frontSelectShippingMethod($shipMethod);
+            $this->frontSelectShippingMethod($onePageStepsData['shipMethod']);
         }
-        $this->frontSelectPaymentMethod($payMethod);
+        $this->frontSelectPaymentMethod($onePageStepsData['payMethod']);
     }
 
     /**
@@ -193,6 +210,20 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
+     * @param @method
+     * @param @service
+     */
+    protected function _shipsUnavailable($method, $service)
+    {
+        if ($this->controlIsPresent('radiobutton', 'ship_method')) {
+            $this->fillRadiobutton('ship_method', 'Yes');
+        } elseif (!$this->controlIsPresent('radiobutton', 'one_method_selected')) {
+            $this->addVerificationMessage(
+                'Shipping Method "' . $method . '" for "' . $service . '" is currently unavailable');
+        }
+    }
+
+    /**
      * The way to ship the order
      *
      * @param array $shipMethod
@@ -217,12 +248,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
                     $this->skipTestWithScreenshot('Shipping Service "' . $service . '" is currently unavailable.');
                     //$this->addVerificationMessage('Shipping Service "' . $service . '" is currently unavailable.');
                 } elseif ($this->controlIsPresent('field', 'ship_service_name')) {
-                    if ($this->controlIsPresent('radiobutton', 'ship_method')) {
-                        $this->fillRadiobutton('ship_method', 'Yes');
-                    } elseif (!$this->controlIsPresent('radiobutton', 'one_method_selected')) {
-                        $this->addVerificationMessage(
-                            'Shipping Method "' . $method . '" for "' . $service . '" is currently unavailable');
-                    }
+                    $this->_shipsUnavailable($method, $service);
                 } else {
                     //@TODO
                     //Remove workaround for getting fails, not skipping tests if shipping methods are not available
@@ -395,6 +421,101 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
+     * Checks product in Order
+     * @param $products
+     */
+    protected function _productsCheck($products)
+    {
+        foreach ($products as $data) {
+            $name = $data['general_name'];
+            $this->addParameter('productName', $name);
+            if (!$this->controlIsPresent('field', 'product_name')) {
+                $this->addVerificationMessage($name . ' product is not in order.');
+            }
+        }
+    }
+
+    /**
+     * @param $billing
+     * @param $shipping
+     */
+    protected function _billingShipping($billing, $shipping)
+    {
+        if ($billing) {
+            $skipBilling =
+                array('billing_address_choice', 'billing_email', 'ship_to_this_address', 'billing_street_address_2',
+                      'ship_to_different_address', 'billing_password', 'billing_confirm_password');
+            if (isset($shipping['use_billing_address']) && $shipping['use_billing_address'] == 'Yes') {
+                foreach ($billing as $key => $value) {
+                    if (!in_array($key, $skipBilling)) {
+                        $shipping[preg_replace('/^billing_/', 'shipping_', $key)] = $value;
+                    }
+                }
+            }
+            $this->frontVerifyTypedAddress($billing, $skipBilling, 'billing');
+        }
+    }
+
+    /**
+     * @param shipping
+     */
+    protected function _shipping($shipping)
+    {
+        if ($shipping) {
+            $skipShipping =
+                array('shipping_street_address_2', 'shipping_address_choice', 'shipping_save_in_address_book',
+                      'use_billing_address');
+            $this->frontVerifyTypedAddress($shipping, $skipShipping, 'shipping');
+        }
+    }
+
+    /**
+     * @param $shipMethod
+     */
+    protected function _shipMethod($shipMethod)
+    {
+        if ($shipMethod && isset($shipMethod['shipping_service']) && isset($shipMethod['shipping_method'])) {
+            $text = $this->getControlAttribute('field', 'shipping_method_checkout', 'text');
+            $price = $this->getControlAttribute('field', 'shipping_method_checkout_price', 'text');
+            $text = trim(preg_replace('/' . preg_quote($price) . '/', '', $text));
+            $text = trim(preg_replace('/\(\w+\. Tax \$[0-9\.]+\)/', '', $text));
+            $expectedMethod = $shipMethod['shipping_service'] . ' - ' . $shipMethod['shipping_method'];
+            if (strcmp($expectedMethod, $text) != 0) {
+                $this->addVerificationMessage('Shipping method should be: ' . $expectedMethod . ' but now ' . $text);
+            }
+        }
+    }
+
+    /**
+     * @param $payMethod
+     */
+    protected function _payMethod($payMethod)
+    {
+        if ($payMethod && isset($payMethod['payment_method'])) {
+            if ($this->controlIsPresent('field', 'payment_method_checkout_credit_card')) {
+                $text = $this->getControlAttribute('field', 'payment_method_checkout_credit_card', 'text');
+            } else {
+                $text = $this->getControlAttribute('field', 'payment_method_checkout', 'text');
+            }
+            if (strcmp($text, $payMethod['payment_method']) != 0) {
+                $this->addVerificationMessage(
+                    'Payment method should be: ' . $payMethod['payment_method'] . ' but now ' . $text);
+            }
+        }
+    }
+
+    /**
+     * @param $checkProd
+     * @param $checkTotal
+     */
+    protected function _checkProdAndTotal($checkProd, $checkTotal)
+    {
+        if ($checkProd && $checkTotal) {
+            $this->shoppingCartHelper()->verifyPricesDataOnPage($checkProd, $checkTotal);
+        }
+    }
+
+    /**
      * Order review
      *
      * @param array $checkoutData
@@ -412,62 +533,12 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
         $checkProd = (isset($checkoutData['validate_prod_data'])) ? $checkoutData['validate_prod_data'] : array();
         $checkTotal = (isset($checkoutData['validate_total_data'])) ? $checkoutData['validate_total_data'] : array();
 
-        foreach ($products as $data) {
-            $name = $data['general_name'];
-            $this->addParameter('productName', $name);
-            if (!$this->controlIsPresent('field', 'product_name')) {
-                $this->addVerificationMessage($name . ' product is not in order.');
-            }
-        }
-
-        if ($billing) {
-            $skipBilling =
-                array('billing_address_choice', 'billing_email', 'ship_to_this_address', 'billing_street_address_2',
-                      'ship_to_different_address', 'billing_password', 'billing_confirm_password');
-            if (isset($shipping['use_billing_address']) && $shipping['use_billing_address'] == 'Yes') {
-                foreach ($billing as $key => $value) {
-                    if (!in_array($key, $skipBilling)) {
-                        $shipping[preg_replace('/^billing_/', 'shipping_', $key)] = $value;
-                    }
-                }
-            }
-            $this->frontVerifyTypedAddress($billing, $skipBilling, 'billing');
-        }
-
-        if ($shipping) {
-            $skipShipping =
-                array('shipping_street_address_2', 'shipping_address_choice', 'shipping_save_in_address_book',
-                      'use_billing_address');
-            $this->frontVerifyTypedAddress($shipping, $skipShipping, 'shipping');
-        }
-
-        if ($shipMethod && isset($shipMethod['shipping_service']) && isset($shipMethod['shipping_method'])) {
-            $text = $this->getControlAttribute('field', 'shipping_method_checkout', 'text');
-            $price = $this->getControlAttribute('field', 'shipping_method_checkout_price', 'text');
-            $text = trim(preg_replace('/' . preg_quote($price) . '/', '', $text));
-            $text = trim(preg_replace('/\(\w+\. Tax \$[0-9\.]+\)/', '', $text));
-            $expectedMethod = $shipMethod['shipping_service'] . ' - ' . $shipMethod['shipping_method'];
-            if (strcmp($expectedMethod, $text) != 0) {
-                $this->addVerificationMessage('Shipping method should be: ' . $expectedMethod . ' but now ' . $text);
-            }
-        }
-
-        if ($payMethod && isset($payMethod['payment_method'])) {
-            if ($this->controlIsPresent('field', 'payment_method_checkout_credit_card')) {
-                $text = $this->getControlAttribute('field', 'payment_method_checkout_credit_card', 'text');
-            } else {
-                $text = $this->getControlAttribute('field', 'payment_method_checkout', 'text');
-            }
-            if (strcmp($text, $payMethod['payment_method']) != 0) {
-                $this->addVerificationMessage(
-                    'Payment method should be: ' . $payMethod['payment_method'] . ' but now ' . $text);
-            }
-        }
-
-        if ($checkProd && $checkTotal) {
-            $this->shoppingCartHelper()->verifyPricesDataOnPage($checkProd, $checkTotal);
-        }
-
+        $this->_productsCheck($products);
+        $this->_billingShipping($billing, $shipping);
+        $this->_shipping($shipping);
+        $this->_shipMethod($shipMethod);
+        $this->_payMethod($payMethod);
+        $this->_checkProdAndTotal($checkProd, $checkTotal);
         $this->assertEmptyVerificationErrors();
     }
 
