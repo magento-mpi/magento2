@@ -167,8 +167,27 @@
                 "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
                 "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
                 "<?php echo $this->getViewFileUrl('Mage_Checkout::js/region-updater.js') ?>",
+                <?php if ($_dob->isEnabled()): ?>
+                "<?php echo $this->getViewFileUrl('mage/validation/dob-rule.js') ?>",
+                <?php endif ?>
                 function() {
-                    var dataForm = $('#form-validate').validation();
+                    var dataForm = $('#form-validate').validation({
+                        <?php if ($_dob->isEnabled()): ?>
+                        errorPlacement: function(error, element) {
+                            if (element.prop('id') === 'dob') {
+                                var dobElement = $('.customer-dob'),
+                                    errorClass = error.prop('class');
+                                error.insertAfter(element.parent());
+                                dobElement.find('.validate-custom').addClass(errorClass)
+                                    .after('<div class="' + errorClass + '"></div>');
+                            }
+                            else {
+                                error.insertAfter(element);
+                            }
+                        },
+                        ignore: ':hidden:not(#dob)'
+                        <?php endif ?>
+                    });
                     <?php if($this->getShowAddressFields()): ?>
                     $('#country').regionUpdater({
                         regionListId: '#region_id',
