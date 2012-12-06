@@ -10,14 +10,14 @@
  */
 class Community2_Mage_Vde_UiValidationTest extends Mage_Selenium_TestCase
 {
-    protected function assertPreConditions()
+    public function setUpBeforeTests()
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('Advanced/disable_secret_key');
     }
 
-    protected function tearDownAfterTest()
+    public function tearDownAfterTestClass()
     {
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('Advanced/enable_secret_key');
