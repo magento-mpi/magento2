@@ -24,4 +24,46 @@ class Core_Mage_Vde_Helper extends Mage_Selenium_TestCase
         $result = strpos($url, $baseUrl) !== false;
         return $result;
     }
+    /**
+     * Check if highlight option is enabled
+     *
+     * @return bool
+     */
+    public function isHighlightEnabled()
+    {
+        $this->assertEquals('vde_design', $this->getCurrentPage());
+
+        $highlightStates = array(
+            '' => false,
+            ' checked' => true
+        );
+        foreach ($highlightStates as $classParam => $isEnabled){
+            $this->addParameter('isChecked', $classParam);
+            if ($this->controlIsPresent('checkbox', 'highlight')) {
+                return $isEnabled;
+            }
+        }
+    }
+
+    /**
+     * Enable highlight option in VDE toolbar
+     */
+    public function enableHighlight()
+    {
+        if (!$this->isHighlightEnabled()) {
+            $this->clickControl('dropdown', 'view_options', false);
+            $this->clickControl('checkbox', 'highlight', false);
+        }
+    }
+
+    /**
+     * Disable highlight option in VDE toolbar
+     */
+    public function disableHighlight()
+    {
+        if ($this->isHighlightEnabled()) {
+            $this->clickControl('dropdown', 'view_options', false);
+            $this->clickControl('checkbox', 'highlight', false);
+        }
+    }
 }

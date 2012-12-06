@@ -21,11 +21,13 @@ vde_design:
                         buttons:
                             view_layout: //a[@class='vde_button view-layout']
                             compact_log: //a[@class='vde_button compact-log']
-                            quit: //a[@class='vde_button']
                         dropdowns:
                             page_selector: //div[@id='vde_handles_hierarchy']
-                            theme_selector: //div[@id='theme_selector']
-                            view_options: //div[@class='vde_toolbar_cell']
+                            view_options: //div[contains(text(), 'View Options')]
+                        checkboxes:
+                            highlight: //div[@id='vde_highlighting' and @class='vde_cell_list_item%isChecked%']
                 -
                     iframe:
                         xpath: //iframe[@class='vde_container_frame']
+        buttons:
+            back: //button[@id='back_button']
