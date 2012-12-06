@@ -57,6 +57,14 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $this->_title($this->__('System'))->_title($this->__('Design'))->_title($this->__('Editor'));
             $this->loadLayout();
             $this->_setActiveMenu('Mage_DesignEditor::system_design_editor');
+            if (!$this->_isFirstEntrance()) {
+                /** @var $themeService Mage_Core_Model_Theme_Service */
+                $themeService = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
+                $this->getLayout()->getBlock('assigned.theme.list')->setCollection($themeService->getAssignedThemes());
+                $this->getLayout()->getBlock('unassigned.theme.list')->setCollection(
+                    $themeService->getUnassignedThemes()
+                );
+            }
             $this->renderLayout();
         } catch (Exception $e) {
             $this->_getSession()->addError($this->__('Cannot load list of themes.'));
@@ -71,11 +79,14 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     public function loadThemeListAction()
     {
         $page = $this->getRequest()->getParam('page', 1);
+        $pageSize = $this->getRequest()
+            ->getParam('page_size', Mage_Core_Model_Resource_Theme_Collection::DEFAULT_PAGE_SIZE);
 
         $this->loadLayout();
 
         /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
-        $collection = $this->_objectManager->get('Mage_Core_Model_Theme_Service')->getNotCustomizedFrontThemes($page);
+        $collection = $this->_objectManager->get('Mage_Core_Model_Theme_Service')
+            ->getNotCustomizedFrontThemes($page, $pageSize);
 
         $this->getLayout()->getBlock('available.theme.list')->setCollection($collection)->setNextPage(++$page);
         $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(

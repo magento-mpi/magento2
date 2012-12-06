@@ -61,9 +61,14 @@ class Mage_Core_Model_Theme_EditorControllerTest extends PHPUnit_Framework_TestC
         $themeService = $this->getMock('Mage_Core_Model_Theme_Service',
             array('isPresentCustomizedThemes'), array(), '', false);
         $themeService
-            ->expects($this->once())
+            ->expects($this->at(0))
             ->method('isPresentCustomizedThemes')
             ->will($this->returnValue($hasCustomizedThemes));
+
+        $themeService
+            ->expects($this->any())
+            ->method('isPresentCustomizedThemes')
+            ->will($this->returnValue(false));
         return $themeService;
     }
 
