@@ -35,11 +35,6 @@ class Mage_Core_Model_Theme_Service
     protected $_app;
 
     /**
-     * @var Mage_Core_Model_Store_Config
-     */
-    protected $_storeConfig;
-
-    /**
      * Whether is present customized themes
      *
      * @var bool
@@ -67,20 +62,17 @@ class Mage_Core_Model_Theme_Service
      * @param Mage_Core_Model_Design_Package $design
      * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_App $app
-     * @param Mage_Core_Model_Store_Config $storeConfig
      */
     public function __construct(
         Mage_Core_Model_Theme $theme,
         Mage_Core_Model_Design_Package $design,
         Mage_Core_Model_Config $config,
-        Mage_Core_Model_App $app,
-        Mage_Core_Model_Store_Config $storeConfig
+        Mage_Core_Model_App $app
     ) {
         $this->_theme = $theme;
         $this->_design = $design;
         $this->_config = $config;
         $this->_app = $app;
-        $this->_storeConfig = $storeConfig;
     }
 
     /**
@@ -216,7 +208,7 @@ class Mage_Core_Model_Theme_Service
         $assignedTheme = array();
         $stores = $this->_app->getStores();
         foreach ($stores as $store) {
-            $themeId = $this->_storeConfig->getConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME_ID, $store);
+            $themeId = $store->getConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME_ID, $store);
             if (!isset($assignedTheme[$themeId])) {
                 $assignedTheme[$themeId] = array();
             }
