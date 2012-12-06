@@ -236,6 +236,18 @@
             },
             'Please select one of the above options.'
         ],
+        // validate-not-negative-number should be replaced in all places with this one and then removed
+        "validate-zero-or-greater": [
+            function(v) {
+                if ($.mage.isEmptyNoTrim(v)) {
+                    return true;
+                }
+                v = $.mage.parseNumber(v);
+                return !isNaN(v) && v >= 0;
+
+            },
+            'Please enter a number 0 or greater in this field.'
+        ],
         "validate-greater-than-zero": [
             function(v) {
                 if ($.mage.isEmptyNoTrim(v)) {
