@@ -134,6 +134,9 @@ class Mage_Backend_Model_Config_Structure_Converter
         if (count($result) == 1 && array_key_exists('value', $result)) {
             $result = $result['value'];
         }
+        if ($result == array()) {
+            $result = null;
+        }
 
         return $result;
     }

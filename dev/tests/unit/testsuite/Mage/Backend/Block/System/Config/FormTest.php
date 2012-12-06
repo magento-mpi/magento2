@@ -241,7 +241,7 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
         $fieldMock->expects($this->once())->method('getFrontendClass')->will($this->returnValue('frontClass'));
         $fieldMock->expects($this->once())->method('showInDefault')->will($this->returnValue(false));
         $fieldMock->expects($this->any())->method('showInWebsite')->will($this->returnValue(false));
-
+        $fieldMock->expects($this->once())->method('getData')->will($this->returnValue('fieldData'));
 
 
         $fields = array($fieldMock);
@@ -262,7 +262,7 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
             'value' => 'some_value',
             'inherit' => false,
             'class' => 'frontClass',
-            'field_config' => $fieldMock,
+            'field_config' => 'fieldData',
             'scope' => 'stores',
             'scope_id' => 1,
             'scope_label' => '[GLOBAL]',

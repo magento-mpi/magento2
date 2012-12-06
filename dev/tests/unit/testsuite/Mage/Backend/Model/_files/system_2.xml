@@ -77,6 +77,9 @@
                         <field id="field_3">0</field>
                     </depends>
                 </field>
+                <field id="field_5" translate="label" showInWebsite="1" type="text">
+                    <label></label>
+                </field>
             </group>
         </section>
     </system>
