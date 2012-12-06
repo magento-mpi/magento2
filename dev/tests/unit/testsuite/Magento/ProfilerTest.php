@@ -144,15 +144,63 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
         Magento_Profiler::stop('unknown');
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Timer "timer2" should be stopped before "timer1".
-     */
-    public function testStopExceptionOrder()
+    public function testStopOrder()
     {
-        Magento_Profiler::enable();
+        $driver = $this->_getDriverMock();
+        $driver->expects($this->at(0))
+            ->method('start')
+            ->with('timer1', null);
+        $driver->expects($this->at(1))
+            ->method('start')
+            ->with('timer1->timer2', null);
+        $driver->expects($this->at(2))
+            ->method('start')
+            ->with('timer1->timer2->timer1', null);
+        $driver->expects($this->at(3))
+            ->method('start')
+            ->with('timer1->timer2->timer1->timer3', null);
+
+        $driver->expects($this->at(4))
+            ->method('stop')
+            ->with('timer1->timer2->timer1->timer3');
+        $driver->expects($this->at(5))
+            ->method('stop')
+            ->with('timer1->timer2->timer1');
+
+        $driver->expects($this->exactly(4))
+            ->method('start');
+        $driver->expects($this->exactly(2))
+            ->method('stop');
+
+        Magento_Profiler::add($driver);
         Magento_Profiler::start('timer1');
         Magento_Profiler::start('timer2');
+        Magento_Profiler::start('timer1');
+        Magento_Profiler::start('timer3');
+        Magento_Profiler::stop('timer1');
+    }
+
+    public function testStopSameName()
+    {
+        $driver = $this->_getDriverMock();
+        $driver->expects($this->at(0))
+            ->method('start')
+            ->with('timer1', null);
+        $driver->expects($this->at(1))
+            ->method('start')
+            ->with('timer1->timer1', null);
+
+        $driver->expects($this->at(2))
+            ->method('stop')
+            ->with('timer1->timer1');
+        $driver->expects($this->at(3))
+            ->method('stop')
+            ->with('timer1');
+
+        Magento_Profiler::add($driver);
+        Magento_Profiler::start('timer1');
+        Magento_Profiler::start('timer1');
+        Magento_Profiler::stop('timer1');
         Magento_Profiler::stop('timer1');
     }
 

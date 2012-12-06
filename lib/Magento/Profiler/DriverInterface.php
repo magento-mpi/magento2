@@ -4,7 +4,10 @@
  *
  * Implementation of this interface is responsible for logic of profiling.
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 interface Magento_Profiler_DriverInterface
 {

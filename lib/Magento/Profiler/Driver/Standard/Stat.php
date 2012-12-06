@@ -110,7 +110,7 @@ class Magento_Profiler_Driver_Standard_Stat
         if (empty($this->_timers[$timerId])) {
             throw new InvalidArgumentException(sprintf('Timer "%s" doesn\'t exist.', $timerId));
         }
-        /* FETCH_AVG = FETCH_TIME / FETCH_COUNT */
+        /* AVG = TIME / COUNT */
         $isAvg = ($key == self::AVG);
         if ($isAvg) {
             $key = self::TIME;
