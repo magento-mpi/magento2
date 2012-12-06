@@ -2,7 +2,10 @@
 /**
  * Static class that represents profiling tool
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Magento_Profiler
 {

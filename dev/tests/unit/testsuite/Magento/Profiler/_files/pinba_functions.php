@@ -2,7 +2,10 @@
 /**
  * Pinba functions emulation
  *
- * @copyright {}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 if (!extension_loaded('pinba') || !function_exists('pinba_timer_start')) {
     /**
