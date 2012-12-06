@@ -1,11 +1,10 @@
-
 # Magento
 #
 # {license_notice}
 #
 # @category    Magento
 # @package     Mage_Product
-# @subpackage  functional_tests
+# @subpackage  uimaps
 # @copyright   {copyright}
 # @license     {license_link}
 #
@@ -33,6 +32,7 @@ new_product:
                                         general_weight_disabled: //input[@id='weight' and (@disabled)]
                                     checkboxes:
                                         weight_and_type_switcher: //input[@id='weight_and_type_switcher']
+                            -
                                 category_search:
                                     xpath: //*[@id='html-body']/ul
                                     links:
@@ -41,6 +41,7 @@ new_product:
                                     pageelements:
                                         category_list: //*[@class='ui-menu-item']
                                         all_categories: //*[contains(@data-ui-id, 'category-selector')]
+                            -
                                 chosen_category:
                                     xpath: //*[@class='category-selector-search-choice button']
                                     links:
@@ -57,11 +58,11 @@ new_product:
                                         continue: //*[@data-ui-id='admin-product-edit-tab-super-config-grid-container-super-settings-continue-button']
                             -
                                 variations_matrix:
-                                     xpath: //*[@id='product-variations-matrix']
-                                     checkboxes:
-                                         include_variation: //tbody/tr[%rowNum%]//*[@type='checkbox']
-                                     pageelements:
-                                         variation_line: //table/tbody/tr[%rowNum%]
+                                    xpath: //*[@id='product-variations-matrix']
+                                    checkboxes:
+                                        include_variation: //tbody/tr[%rowNum%]//*[@type='checkbox']
+                                    pageelements:
+                                        variation_line: //table/tbody/tr[%rowNum%]
                         checkboxes:
                             is_configurable: //*[@id='config_super_product-checkbox']
                 -
