@@ -69,15 +69,5 @@ abstract class Mage_Backend_Model_Config_Structure_Element_CompositeAbstract
     {
         return $this->_childrenIterator;
     }
-
-    /**
-     * Check whether element should be displayed
-     *
-     * @return bool
-     */
-    public function isVisible()
-    {
-        return parent::isVisible() && $this->hasChildren();
-    }
 }
 
