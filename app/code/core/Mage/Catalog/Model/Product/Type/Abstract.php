@@ -216,14 +216,17 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     /**
      * Retrieve product attribute by identifier
      *
-     * @param   int $attributeId
-     * @return  Mage_Eav_Model_Entity_Attribute_Abstract
+     * @param  int $attributeId
+     * @param  Mage_Catalog_Model_Product $product
+     * @return Mage_Catalog_Model_Resource_Eav_Attribute|null
      */
     public function getAttributeById($attributeId, $product)
     {
-        foreach ($this->getSetAttributes($product) as $attribute) {
-            if ($attribute->getId() == $attributeId) {
-                return $attribute;
+        if ($attributeId) {
+            foreach ($this->getSetAttributes($product) as $attribute) {
+                if ($attribute->getId() == $attributeId) {
+                    return $attribute;
+                }
             }
         }
         return null;

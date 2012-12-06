@@ -353,10 +353,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
         $variationalAttributes = array();
         $usedProductAttributes = $this->getSelectedAttributes();
         foreach ($usedProductAttributes as $attribute) {
+            $values = $attribute->getSource()->getAllOptions(false);
+            if (!$values) {
+                return array();
+            }
             /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
             $variationalAttributes[] = array(
                 'id' => $attribute->getId(),
-                'values' => $attribute->getSource()->getAllOptions(false),
+                'values' => $values,
             );
             $attributesCount++;
         }

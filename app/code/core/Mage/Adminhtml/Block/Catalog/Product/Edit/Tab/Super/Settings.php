@@ -63,17 +63,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Mage_
         ));
 
         $product = $this->_getProduct();
-        $attributes = $product->getTypeInstance()->getSetAttributes($product);
-        $usedAttributes = $product->isConfigurable()
-            ? $product->getTypeInstance()->getUsedProductAttributeIds($product)
-            : array();
         /** @var $configurableType Mage_Catalog_Model_Product_Type_Configurable */
         $configurableType = Mage::getSingleton('Mage_Catalog_Model_Product_Type_Configurable');
-        foreach ($attributes as $attribute) {
+        $usedAttributes = $product->isConfigurable()
+            ? $configurableType->getUsedProductAttributes($product)
+            : array();
+        foreach ($usedAttributes as $attribute) {
             /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-            if ($configurableType->canUseAttribute($attribute, $product)
-                && in_array($attribute->getAttributeId(), $usedAttributes)
-            ) {
+            if ($configurableType->canUseAttribute($attribute, $product)) {
                 $fieldset->addField('attribute_' . $attribute->getAttributeId(), 'checkbox', array(
                     'label' => $attribute->getFrontendLabel(),
                     'title' => $attribute->getFrontendLabel(),

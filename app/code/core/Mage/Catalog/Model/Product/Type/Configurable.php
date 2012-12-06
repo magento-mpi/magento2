@@ -122,16 +122,15 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     /**
      * Check attribute availability for super product creation
      *
-     * @param   Mage_Eav_Model_Entity_Attribute $attribute
-     * @return  bool
+     * @param  Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @return bool
      */
-    public function canUseAttribute(Mage_Eav_Model_Entity_Attribute $attribute)
+    public function canUseAttribute(Mage_Catalog_Model_Resource_Eav_Attribute $attribute)
     {
         return $attribute->getIsGlobal() == Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL
             && $attribute->getIsVisible()
             && $attribute->getIsConfigurable()
-            && $attribute->usesSource()
-            && $attribute->getIsUserDefined();
+            && $attribute->usesSource();
     }
 
     /**
@@ -452,7 +451,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
 
     /**
      * Retrieve used product by attribute values
-     *  $attrbutesInfo = array(
+     *  $attributesInfo = array(
      *      $attributeId => $attributeValue
      *  )
      *
@@ -858,5 +857,19 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
         /** @var $configurableAttribute Mage_Catalog_Model_Product_Type_Configurable_Attribute */
         $configurableAttribute = Mage::getModel('Mage_Catalog_Model_Product_Type_Configurable_Attribute');
         $configurableAttribute->deleteByProduct($product);
+    }
+
+    /**
+     * Retrieve product attribute by identifier
+     * Difference from abstract: any attribute is available, not just the ones from $product's attribute set
+     *
+     * @param  int $attributeId
+     * @param  Mage_Catalog_Model_Product $product
+     * @return Mage_Catalog_Model_Resource_Eav_Attribute
+     */
+    public function getAttributeById($attributeId, $product)
+    {
+        $attribute = parent::getAttributeById($attributeId, $product);
+        return $attribute ?: Mage::getModel('Mage_Catalog_Model_Resource_Eav_Attribute')->load($attributeId);
     }
 }
