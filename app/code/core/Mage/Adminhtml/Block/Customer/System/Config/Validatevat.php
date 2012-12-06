@@ -18,6 +18,83 @@
 class Mage_Adminhtml_Block_Customer_System_Config_Validatevat extends Mage_Backend_Block_System_Config_Form_Field
 {
     /**
+     * Merchant Country Field Name
+     *
+     * @var string
+     */
+    protected $_merchantCountry = 'general_store_information_merchant_country';
+
+    /**
+     * Merchant VAT Number Field
+     *
+     * @var string
+     */
+    protected $_merchantVatNumber = 'general_store_information_merchant_vat_number';
+
+    /**
+     * Validate VAT Button Label
+     *
+     * @var string
+     */
+    protected $_vatButtonLabel = 'Validate VAT Number';
+
+    /**
+     * Set Merchant Country Field Name
+     *
+     * @param string $countryField
+     * @return Mage_Adminhtml_Block_Customer_System_Config_Validatevat
+     */
+    public function setMerchantCountryField($countryField)
+    {
+        $this->_merchantCountry = $countryField;
+        return $this;
+    }
+
+    /**
+     * Get Merchant Country Field Name
+     *
+     * @return string
+     */
+    public function getMerchantCountryField()
+    {
+        return $this->_merchantCountry;
+    }
+
+    /**
+     * Set Merchant VAT Number Field
+     *
+     * @param string $vatNumberField
+     * @return Mage_Adminhtml_Block_Customer_System_Config_Validatevat
+     */
+    public function setMerchantVatNumberField($vatNumberField)
+    {
+        $this->_merchantVatNumber = $vatNumberField;
+        return $this;
+    }
+
+    /**
+     * Get Merchant VAT Number Field
+     *
+     * @return string
+     */
+    public function getMerchantVatNumberField()
+    {
+        return $this->_merchantVatNumber;
+    }
+
+    /**
+     * Set Validate VAT Button Label
+     *
+     * @param string $vatButtonLabel
+     * @return Mage_Adminhtml_Block_Customer_System_Config_Validatevat
+     */
+    public function setVatButtonLabel($vatButtonLabel)
+    {
+        $this->_vatButtonLabel = $vatButtonLabel;
+        return $this;
+    }
+
+    /**
      * Set template to itself
      *
      * @return Mage_Adminhtml_Block_Customer_System_Config_Validatevat
@@ -52,11 +129,12 @@ class Mage_Adminhtml_Block_Customer_System_Config_Validatevat extends Mage_Backe
     protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
         $originalData = $element->getOriginalData();
+        $buttonLabel = !empty($originalData['button_label']) ? $originalData['button_label'] : $this->_vatButtonLabel;
         $this->addData(array(
-            'button_label' => Mage::helper('Mage_Customer_Helper_Data')->__($originalData['button_label']),
+            'button_label' => Mage::helper('Mage_Customer_Helper_Data')->__($buttonLabel),
             'html_id' => $element->getHtmlId(),
             'ajax_url' => Mage::getSingleton('Mage_Backend_Model_Url')
-                ->getUrl('*/customer_system_config_validatevat/validate')
+                ->getUrl('adminhtml/customer_system_config_validatevat/validate')
         ));
 
         return $this->_toHtml();

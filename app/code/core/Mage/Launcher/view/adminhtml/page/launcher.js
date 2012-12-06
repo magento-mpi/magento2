@@ -109,22 +109,19 @@
                             options.drawer.hide();
                         });
                     }
-                    $('#drawer-item-header').text('');
-                    $('.footer-inner .button-save-settins').attr('save-url', '');
-                    $('.drawer-content > .content').html('');
                 },
 
-                drawerLoad: function(result, status) {
+                drawerAfterLoad: function(result, status) {
                     if (result.success) {
-                        $('#drawer-item-header').text(result.tileHeader);
-                        methods.drawerOpen(result.tileCode);
-                        $('.drawer-content > .content').html(result.tileContent);
+                        $('#drawer-item-header').text(result.tile_header);
+                        methods.drawerOpen(result.tile_code);
+                        $('.drawer-content > .content').html(result.tile_content);
                     } else {
                         alert(result.error_message);
                     }
                 },
 
-                drawerSaved: function(result, status) {
+                drawerAfterSave: function(result, status) {
                     if (result.success) {
                         //Complete class should be added by condition for specified tile
                         //.addClass('sl-step-complete');
@@ -153,7 +150,7 @@
                         data: postData,
                         dataType: 'json',
                         url: elem.attr('load-url'),
-                        success: methods.drawerLoad
+                        success: methods.drawerAfterLoad
                     };
                     $.ajax(ajaxOptions);
 
@@ -177,7 +174,7 @@
                         data: postData,
                         dataType: 'json',
                         url: $('.footer-inner .button-save-settins').attr('save-url'),
-                        success: methods.drawerSaved
+                        success: methods.drawerAfterSave
                     };
                     $.ajax(ajaxOptions);
 

@@ -31,12 +31,12 @@ class Mage_Launcher_Adminhtml_Storelauncher_Businessinfo_DrawerController extend
         try {
             //TODO: Implement save handling logic here
 
-            $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
+            $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(
                 'success' => true,
                 'error_message' => ''
             ));
         } catch (Exception $e) {
-            $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
+            $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(
                 'success' => false,
                 'error_message' => Mage::helper('Mage_Tax_Helper_Data') ->__($e->getMessage())
             ));
@@ -57,17 +57,17 @@ class Mage_Launcher_Adminhtml_Storelauncher_Businessinfo_DrawerController extend
                 ->createBlock('Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer');
             $drawerBlock->setTile($tileModel);
 
-            $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
+            $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(
                 'success' => true,
                 'error_message' => '',
-                'tileCode' => $drawerBlock->getTileCode(),
-                'tileContent' => $drawerBlock->toHtml(),
-                'tileHeader' => Mage::helper('Mage_Core_Helper_Data')->__(self::TILE_HEADER)
+                'tile_code' => $drawerBlock->getTileCode(),
+                'tile_content' => $drawerBlock->toHtml(),
+                'tile_header' => Mage::helper('Mage_Launcher_Helper_Data')->__(self::TILE_HEADER)
             ));
         } catch (Exception $e) {
-            $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
+            $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(
                 'success' => false,
-                'error_message' => Mage::helper('Mage_Tax_Helper_Data') ->__($e->getMessage())
+                'error_message' => Mage::helper('Mage_Launcher_Helper_Data') ->__($e->getMessage())
             ));
         }
         $this->getResponse()->setBody($responseContent);
