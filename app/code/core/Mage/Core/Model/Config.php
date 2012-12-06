@@ -674,7 +674,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getNode($path = null, $scope = '', $scopeCode = null)
     {
-        $path = $this->_getPathInScope($scope, $scopeCode);
+        $path = $this->_getPathInScope($path, $scope, $scopeCode);
 
         /**
          * Check path cache loading
@@ -805,7 +805,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     /**
      * Add module(s) to allowed list
      *
-     * @param  strung|array $module
+     * @param  string|array $module
      * @return Mage_Core_Model_Config
      */
     public function addAllowedModules($module)
@@ -954,7 +954,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
         $modules = $this->getNode('modules')->children();
         foreach ($modules as $modName => $module) {
-            if ($module->is('active')) {
+            if (!$module->is('active')) {
                 continue;
             }
             if (!is_array($fileName)) {
@@ -1021,13 +1021,13 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
             if (isset($_SERVER['SCRIPT_NAME']) && isset($_SERVER['HTTP_HOST'])) {
                 $secure = (!empty($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] != 'off'))
-                        || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443');
+                    || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443');
                 $scheme = ($secure ? 'https' : 'http') . '://' ;
 
                 $hostArr = explode(':', $_SERVER['HTTP_HOST']);
                 $host = $hostArr[0];
                 $port = isset(
-                    $hostArr[1]) && (!$secure && $hostArr[1] != 80 || $secure && $hostArr[1] != 443
+                $hostArr[1]) && (!$secure && $hostArr[1] != 80 || $secure && $hostArr[1] != 443
                 ) ? ':' . $hostArr[1] : '';
                 $path = Mage::app()->getRequest()->getBasePath();
 
