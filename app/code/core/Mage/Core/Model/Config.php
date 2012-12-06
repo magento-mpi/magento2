@@ -1,21 +1,15 @@
 <?php
 /**
+ * Core configuration class
+ *
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 
 /**
- * Core configuration class
- *
- * @category    Mage
- * @package     Mage_Core
- * @author      Magento Core Team <core@magentocommerce.com>
- *
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
@@ -87,7 +81,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     /**
      * Storage for generated block class names
      *
-     * @var unknown_type
+     * @var array
      */
     protected $_blockClassNameCache = array();
 
@@ -191,7 +185,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     protected $_moduleDirs = array();
 
-    /*
+    /**
      * Cache for declared modules to prevent loading modules' config twice
      *
      * @var array
@@ -1611,20 +1605,18 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             foreach ($nodeAreas->asArray() as $areaCode => $areaInfo) {
                 if (empty($areaCode)
                     || (!isset($areaInfo['base_controller']) || empty($areaInfo['base_controller']))
-                    || (!isset($areaInfo['routers']) || !is_array($areaInfo['routers']))
                 ) {
                     continue;
                 }
+                /**
+                 * TODO: Check of 'routers' nodes existance is excessive:
+                 * TODO: 'routers' check is moved Mage_Core_Model_Config::getRouters()
+                 */
 
-                foreach ($areaInfo['routers'] as $routerKey => $routerInfo) {
-                    if (empty($routerKey) || !isset($routerInfo['class'])) {
-                        unset($areaInfo[$routerKey]);
-                    }
-                }
-                if (empty($areaInfo['routers'])) {
-                    continue;
-                }
-
+                /**
+                 * TODO: Routers are not required in API.
+                 * TODO: That is why Check for empty router class moved to Mage_Core_Model_Config::getRouters()
+                 */
                 $this->_allowedAreas[$areaCode] = $areaInfo;
             }
         }
@@ -1641,11 +1633,16 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         $routers = array();
         foreach ($this->getAreas() as $areaCode => $areaInfo) {
-            foreach ($areaInfo['routers'] as $routerKey => $routerInfo ) {
-                $routerInfo = array_merge($routerInfo, $areaInfo);
-                unset($routerInfo['routers']);
-                $routerInfo['area'] = $areaCode;
-                $routers[$routerKey] = $routerInfo;
+            if (isset($areaInfo['routers']) && is_array($areaInfo['routers'])) {
+                foreach ($areaInfo['routers'] as $routerKey => $routerInfo ) {
+                    if (!isset($routerInfo['class']) || empty($routerInfo['class'])) {
+                        continue;
+                    }
+                    $routerInfo = array_merge($routerInfo, $areaInfo);
+                    unset($routerInfo['routers']);
+                    $routerInfo['area'] = $areaCode;
+                    $routers[$routerKey] = $routerInfo;
+                }
             }
         }
         return $routers;
