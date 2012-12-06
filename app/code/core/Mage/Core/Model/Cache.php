@@ -475,7 +475,9 @@ class Mage_Core_Model_Cache
      */
     public function flush()
     {
+        Magento_Profiler::start('mage_cache_flush', $this->_generateProfilerTags('flush'));
         $res = $this->_frontend->clean();
+        Magento_Profiler::stop('mage_cache_flush');
         return $res;
     }
 
