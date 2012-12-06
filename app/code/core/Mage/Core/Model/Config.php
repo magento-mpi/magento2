@@ -15,6 +15,8 @@
  * @category    Mage
  * @package     Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -695,6 +697,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     /**
      * Get path for scope
      *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      * @param null $path
      * @param string $scope
      * @param string|int $scopeCode
@@ -938,6 +941,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * Iterate all active modules "etc" folders and combine data from
      * specified xml file name to one object
      *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      * @param   string $fileName
      * @param   null|Mage_Core_Model_Config_Base $mergeToObject
      * @param   null|Mage_Core_Model_Config_Base $mergeModel
@@ -1013,6 +1018,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     /**
      * Get default server variables values
      *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @return array
      */
     public function getDistroServerVars()
@@ -1594,6 +1600,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     /**
      * Load allowed areas from config
      *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @return Mage_Core_Model_Config
      */
     protected function _loadAreas()

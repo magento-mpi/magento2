@@ -47,14 +47,14 @@ class Mage_Core_Model_Theme_Service
     protected $_hasCustomizedThemes;
 
     /**
-     * Customized themes which are assigned to storeviews or as default
+     * Customized themes which are assigned to store views or as default
      *
      * @var array
      */
     protected $_assignedThemes;
 
     /**
-     * Customized themes which are not assigned to storeviews or as default
+     * Customized themes which are not assigned to store views or as default
      *
      * @var array
      */
@@ -70,7 +70,7 @@ class Mage_Core_Model_Theme_Service
      * @param Mage_Core_Model_Store_Config $storeConfig
      */
     public function __construct(
-        Mage_Core_Model_Theme $theme, 
+        Mage_Core_Model_Theme $theme,
         Mage_Core_Model_Design_Package $design,
         Mage_Core_Model_Config $config,
         Mage_Core_Model_App $app,
@@ -144,7 +144,7 @@ class Mage_Core_Model_Theme_Service
     }
 
     /**
-     * Return customized themes which are assigned to storeviews or as default
+     * Return customized themes which are assigned to store views or as default
      *
      * @return array
      */
@@ -157,7 +157,7 @@ class Mage_Core_Model_Theme_Service
     }
 
     /**
-     * Return customized themes which are not assigned to storeviews or as default
+     * Return customized themes which are not assigned to store views or as default
      *
      * @return array
      */
