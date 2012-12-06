@@ -133,7 +133,7 @@ try {
             'cleanup_database'           => true,
         );
         $command = 'php -f %s --';
-        $arguments = array($workingDir . '/dev/shell/install.php');
+        $arguments = array("{$deployDir}/dev/shell/install.php");
         foreach ($options as $key => $value) {
             $command .= ' --%s %s';
             $arguments[] = $key;
@@ -143,7 +143,7 @@ try {
         // hack to get the local.xml out of the code base (entire installer requires refactoring to make it clean)
         $tenantConfigFile = $deployParent . '/' . sprintf(LOCAL_XML_PATTERN, $tenantId);
         $shell->output("Moving 'app/etc/local.xml' out of the code base to '{$tenantConfigFile}'");
-        rename("{$workingDir}/app/etc/local.xml", $tenantConfigFile);
+        rename("{$deployDir}/app/etc/local.xml", $tenantConfigFile);
     }
 
     // copy fresh index.build.php into the deployment dir and hack the .htaccess to not impose index.php

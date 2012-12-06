@@ -13,6 +13,13 @@
  */
 class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_Abstract
 {
+    /**#@+
+     * Installation options for application initialization
+     */
+    const DIR_VAR   = 'install_option_dir_var';
+    const DIR_MEDIA = 'install_option_dir_media';
+    /**#@-  */
+
     /**
      * Available installation options
      *
@@ -57,12 +64,27 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
     protected $_dataModel;
 
     /**
-     * Constructor
+     * Initialize application and "data model"
+     *
+     * @param array $installArgs
      */
-    public function __construct()
+    public function __construct(array $installArgs)
     {
-        Mage::app();
+        $params = $this->_buildInitParams($installArgs);
+        Mage::app($params);
         $this->_getInstaller()->setDataModel($this->_getDataModel());
+    }
+
+    protected function _buildInitParams($args)
+    {
+        $result = array();
+        if (!empty($args[self::DIR_VAR])) {
+            $result[Mage_Core_Model_App::INIT_OPTION_DIRS][Mage_Core_Model_App_Dir::VAR_DIR] = $args[self::DIR_VAR];
+        }
+        if (!empty($args[self::DIR_MEDIA])) {
+            $result[Mage_Core_Model_App::INIT_OPTION_DIRS][Mage_Core_Model_App_Dir::MEDIA] = $args[self::DIR_MEDIA];
+        }
+        return $result;
     }
 
     /**

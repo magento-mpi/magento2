@@ -26,11 +26,11 @@ try {
 
 // Determine application configuration string for a tenant
 $appConfigString = serialize(array(
-    'base_config' => $localXml,
-    'options' => array(
-        'var_dir' => __DIR__ . '/var.' . $tenantId,
-        'media_dir' => __DIR__ . '/pub/media.' . $tenantId,
-    )
+    'MAGE_CONFIG_DATA' => $localXml,
+    'app_dirs' => array(
+        'media'  => "pub/media.{$tenantId}",
+        'var'    => "var.{$tenantId}",
+    ),
 ));
 // Locate the application entry point
 /** @var $appEntryPoint callable */
