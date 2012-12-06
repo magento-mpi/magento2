@@ -19,8 +19,7 @@ class Community2_Mage_Vde_PageTypeTest extends Mage_Selenium_TestCase
 
     public function tearDownAfterTestClass()
     {
-        $this->selectWindow('null');
-        $this->navigate('system_configuration');
+        $this->admin('system_configuration');
         $this->systemConfigurationHelper()->configure('Advanced/enable_secret_key');
         $this->logoutAdminUser();
     }

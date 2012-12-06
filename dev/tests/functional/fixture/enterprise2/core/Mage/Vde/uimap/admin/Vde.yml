@@ -20,7 +20,6 @@ vde_design:
                         xpath: //div[@id='vde_toolbar_row']
                         buttons:
                             view_layout: //a[@class='vde_button view-layout']
-                            compact_log: //a[@class='vde_button compact-log']
                         dropdowns:
                             page_selector: //div[@data-ui-id='design-editor-toolbar-handles-hierarchy']/div[@class='vde_toolbar_cell_title']
                             view_options: //div[@data-ui-id='design-editor-toolbar-highlighting']

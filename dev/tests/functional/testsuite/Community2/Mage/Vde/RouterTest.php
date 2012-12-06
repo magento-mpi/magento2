@@ -13,6 +13,20 @@
  */
 class Community2_Mage_Vde_RouterTest extends Mage_Selenium_TestCase
 {
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/disable_secret_key');
+    }
+
+    public function tearDownAfterTestClass()
+    {
+        $this->admin('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/enable_secret_key');
+        $this->logoutAdminUser();
+    }
+
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
