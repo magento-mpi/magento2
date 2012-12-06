@@ -16,8 +16,10 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
 {
     public function testGetNotCustomizedFrontThemes()
     {
+        /** @var $themeService Mage_Core_Model_Theme_Service */
         $themeService = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Service');
-        $collection = $themeService->getNotCustomizedFrontThemes(1);
+        $collection = $themeService->getNotCustomizedFrontThemes(1,
+            Mage_Core_Model_Resource_Theme_Collection::DEFAULT_PAGE_SIZE);
 
         $this->assertLessThanOrEqual(
             Mage_Core_Model_Resource_Theme_Collection::DEFAULT_PAGE_SIZE, $collection->count()

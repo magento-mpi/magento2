@@ -64,7 +64,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
         $this->dispatch('backend/admin/system_design_editor/index');
         $content = $this->getResponse()->getBody();
 
-        $this->assertContains('Choose a theme to start with.', $content);
+        $this->assertContains('Choose a theme to start with', $content);
         $this->assertContains('<div class="entry-edit">', $content);
         $this->assertContains("jQuery('.infinite_scroll').infinite_scroll", $content);
     }

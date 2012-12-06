@@ -178,7 +178,7 @@ class Mage_Core_Model_Theme_Service
     {
         /** @var $customizedThemes Mage_Core_Model_Resource_Theme_Collection */
         $customizedThemes = $this->_getCustomizedFrontThemes();
-        $assignedThemes = $this->_getAssignedThemes();
+        $assignedThemes = $this->_getStoresByThemes();
 
         $this->_assignedThemes = array();
         $this->_unassignedThemes = array();
@@ -207,11 +207,11 @@ class Mage_Core_Model_Theme_Service
     }
 
     /**
-     * Return theme ids which are assigned to storeviews or as default
+     * Return stores grouped by assigned themes
      *
      * @return array
      */
-    protected function _getAssignedThemes()
+    protected function _getStoresByThemes()
     {
         $assignedTheme = array();
         $stores = $this->_app->getStores();
