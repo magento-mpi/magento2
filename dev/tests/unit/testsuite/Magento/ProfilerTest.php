@@ -180,6 +180,30 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
         Magento_Profiler::stop('timer1');
     }
 
+    public function testStopSameName()
+    {
+        $driver = $this->_getDriverMock();
+        $driver->expects($this->at(0))
+            ->method('start')
+            ->with('timer1', null);
+        $driver->expects($this->at(1))
+            ->method('start')
+            ->with('timer1->timer1', null);
+
+        $driver->expects($this->at(2))
+            ->method('stop')
+            ->with('timer1->timer1');
+        $driver->expects($this->at(3))
+            ->method('stop')
+            ->with('timer1');
+
+        Magento_Profiler::add($driver);
+        Magento_Profiler::start('timer1');
+        Magento_Profiler::start('timer1');
+        Magento_Profiler::stop('timer1');
+        Magento_Profiler::stop('timer1');
+    }
+
     public function testStopLatest()
     {
         $driver = $this->_getDriverMock();

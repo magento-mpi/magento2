@@ -26,6 +26,20 @@ class Magento_Profiler
     static private $_currentPath = array();
 
     /**
+     * Count of elements in $_currentPath
+     *
+     * @var int
+     */
+    static private $_pathCount = 0;
+
+    /**
+     * Index for counting of $_pathCount for timer names
+     *
+     * @var array
+     */
+    static private $_pathIndex = array();
+
+    /**
      * Collection for profiler drivers.
      *
      * @var array
@@ -121,11 +135,13 @@ class Magento_Profiler
      */
     private static function _getTimerId($timerName = null)
     {
-        $currentPath = self::$_currentPath;
-        if ($timerName) {
-            $currentPath[] = $timerName;
+        if (!self::$_currentPath) {
+            return (string)$timerName;
+        } elseif ($timerName) {
+            return implode(self::NESTING_SEPARATOR, self::$_currentPath) . self::NESTING_SEPARATOR . $timerName;
+        } else {
+            return implode(self::NESTING_SEPARATOR, self::$_currentPath);
         }
-        return implode(self::NESTING_SEPARATOR, $currentPath);
     }
 
     /**
@@ -137,7 +153,7 @@ class Magento_Profiler
     private static function _getTags(array $tags = null)
     {
         if (self::$_defaultTags) {
-            return array_merge((array)$tags, self::$_defaultTags);
+            return (array)$tags + self::$_defaultTags;
         } else {
             return $tags;
         }
@@ -234,6 +250,8 @@ class Magento_Profiler
         }
         /* Continue collecting timers statistics under the latest started one */
         self::$_currentPath[] = $timerName;
+        self::$_pathCount++;
+        self::$_pathIndex[$timerName][] = self::$_pathCount;
     }
 
     /**
@@ -254,12 +272,17 @@ class Magento_Profiler
         if ($timerName === null) {
             $timersToStop = 1;
         } else {
-            $path = array_reverse(self::$_currentPath);
-            $timerPosition = array_search($timerName, $path);
+            $timerPosition = false;
+            if (!empty(self::$_pathIndex[$timerName])) {
+                $timerPosition = array_pop(self::$_pathIndex[$timerName]);
+            }
             if ($timerPosition === false) {
                 throw new InvalidArgumentException(sprintf('Timer "%s" has not been started.', $timerName));
+            } elseif ($timerPosition === 1) {
+                $timersToStop = 1;
+            } else {
+                $timersToStop = self::$_pathCount + 1 - $timerPosition;
             }
-            $timersToStop = count(array_slice(self::$_currentPath, count($path) - 1 - $timerPosition));
         }
 
         for ($i = 0; $i < $timersToStop; $i++) {
@@ -270,6 +293,7 @@ class Magento_Profiler
             }
             /* Move one level up in timers nesting tree */
             array_pop(self::$_currentPath);
+            self::$_pathCount--;
         }
     }
 }
