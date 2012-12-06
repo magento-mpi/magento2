@@ -56,7 +56,8 @@ class Mage_Core_Model_Theme_Service
      * @param Mage_Core_Model_App $app
      * @param Mage_Core_Model_Store_Config $storeConfig
      */
-    public function __construct(Mage_Core_Model_Theme $theme,
+    public function __construct(
+        Mage_Core_Model_Theme $theme,
         Mage_Core_Model_App $app,
         Mage_Core_Model_Store_Config $storeConfig
     ) {
@@ -89,14 +90,15 @@ class Mage_Core_Model_Theme_Service
      * Return not customized theme collection by page
      *
      * @param int $page
+     * @param int $pageSize
      * @return Mage_Core_Model_Resource_Theme_Collection
      */
-    public function getNotCustomizedFrontThemes($page)
+    public function getNotCustomizedFrontThemes($page, $pageSize)
     {
         return $this->_theme->getCollection()
             ->addAreaFilter()
             ->addFilter('theme_path', "NOT ISNULL(theme_path)", 'string')
-            ->setPageSize()
+            ->setPageSize($pageSize)
             ->setCurPage($page);
     }
 

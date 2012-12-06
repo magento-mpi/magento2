@@ -79,11 +79,14 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     public function loadThemeListAction()
     {
         $page = $this->getRequest()->getParam('page', 1);
+        $pageSize = $this->getRequest()
+            ->getParam('page_size', Mage_Core_Model_Resource_Theme_Collection::DEFAULT_PAGE_SIZE);
 
         $this->loadLayout();
 
         /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
-        $collection = $this->_objectManager->get('Mage_Core_Model_Theme_Service')->getNotCustomizedFrontThemes($page);
+        $collection = $this->_objectManager->get('Mage_Core_Model_Theme_Service')
+            ->getNotCustomizedFrontThemes($page, $pageSize);
 
         $this->getLayout()->getBlock('available.theme.list')->setCollection($collection)->setNextPage(++$page);
         $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(

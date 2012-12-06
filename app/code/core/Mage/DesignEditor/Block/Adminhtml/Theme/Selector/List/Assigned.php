@@ -23,4 +23,17 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Assigned
     {
         return $this->__('Themes Assigned to Storeviews');
     }
+
+    /**
+     * Add theme buttons
+     *
+     * @param Mage_DesignEditor_Block_Adminhtml_Theme $themeBlock
+     * @return Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Assigned
+     */
+    protected function _addThemeButtons($themeBlock)
+    {
+        parent::_addThemeButtons($themeBlock);
+        $this->_addPreviewButtonHtml($themeBlock)->_addAssignButtonHtml($themeBlock)->_addEditButtonHtml($themeBlock);
+        return $this;
+    }
 }

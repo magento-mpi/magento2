@@ -11,6 +11,10 @@
 
     $.widget('vde.infinite_scroll', {
         _locked: false,
+        _container: '.theme-container',
+        _defaultElementSize: 400,
+        _elementsInRow: 2,
+        _pageSize: 4,
         options: {
             url: ''
         },
@@ -29,9 +33,10 @@
                 url: this.options.url,
                 type: 'GET',
                 dataType: 'JSON',
+                data: { 'page_size': this._pageSize },
                 success: $.proxy(function(data) {
                     if (data.content) {
-                        this.element.find('ul').append(data.content);
+                        this.element.find(this._container).append(data.content);
                         this._setLocked(false);
                     }
                 }, this),
@@ -47,7 +52,21 @@
          * @protected
          */
         _create: function() {
+            if (this.element.find(this._container).children().length == 0) {
+                this._pageSize = this._calculatePagesSize();
+            }
             this._bind();
+        },
+
+        /**
+         * Calculate default pages count
+         *
+         * @return {number}
+         * @protected
+         */
+        _calculatePagesSize: function() {
+            elementsCount = Math.ceil($(window).height() / this._defaultElementSize) * this._elementsInRow;
+            return (elementsCount % 2) ? elementsCount++ : elementsCount;
         },
 
         /**
@@ -77,7 +96,15 @@
                 $.proxy(this.loadData, this)
             );
 
-            this.element.scroll(
+            $(window).resize(
+                $.proxy(function(event) {
+                    if (this._isScrolledBottom() && this.options.url) {
+                        this.loadData();
+                    }
+                }, this)
+            );
+
+            $(window).scroll(
                 $.proxy(function(event) {
                     if (this._isScrolledBottom() && this.options.url) {
                         this.loadData();
@@ -92,7 +119,9 @@
          * @protected
          */
         _isScrolledBottom: function() {
-            return (this.element[0].scrollHeight - this.element.scrollTop()) < this.element.outerHeight();
+            console.log($(window).scrollTop() + $(window).height());
+            console.log($(document).height() - this._defaultElementSize);
+            return ($(window).scrollTop() + $(window).height() >= $(document).height() - this._defaultElementSize)
         }
     });
 
