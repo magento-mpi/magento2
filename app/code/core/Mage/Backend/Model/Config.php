@@ -119,12 +119,7 @@ class Mage_Backend_Model_Config extends Varien_Object
         $this->_eventManager->dispatch('model_config_data_save_before', array('object' => $this));
 
         $sectionId = $this->getSection();
-        $website = $this->getWebsite();
-        $store   = $this->getStore();
         $groups  = $this->getGroups();
-        $scope   = $this->getScope();
-        $scopeId = $this->getScopeId();
-
         if (empty($groups)) {
             return $this;
         }
@@ -138,15 +133,57 @@ class Mage_Backend_Model_Config extends Varien_Object
 
         // Extends for old config data
         $extraOldGroups = array();
-        $mappedFields = array();
 
         foreach ($groups as $groupId => $groupData) {
-            /**
-             * Map field names if they were cloned
-             */
-            /** @var $group Mage_Backend_Model_Config_Structure_Element_Group */
-            $group = $this->_configStructure->getElementByPathParts(array($sectionId, $groupId));
+            $this->_processGroup(
+                $groupId, $groupData, $groups, $sectionId, $extraOldGroups, $oldConfig,
+                $saveTransaction, $deleteTransaction
+            );
+        }
 
+        $deleteTransaction->delete();
+        $saveTransaction->save();
+
+        return $this;
+    }
+
+    /**
+     * @param string $groupId
+     * @param array $groupData
+     * @param array $groups
+     * @param string $path
+     * @param array $extraOldGroups
+     * @param array $oldConfig
+     * @param Mage_Core_Model_Resource_Transaction $saveTransaction
+     * @param Mage_Core_Model_Resource_Transaction $deleteTransaction
+     */
+    public function _processGroup(
+        $groupId,
+        array $groupData,
+        array $groups,
+        $path,
+        array &$extraOldGroups,
+        array &$oldConfig,
+        Mage_Core_Model_Resource_Transaction $saveTransaction,
+        Mage_Core_Model_Resource_Transaction $deleteTransaction
+    ) {
+        $groupPath = $path . '/' . $groupId;
+        $website = $this->getWebsite();
+        $store = $this->getStore();
+        $scope = $this->getScope();
+        $scopeId = $this->getScopeId();
+        /**
+         *
+         * Map field names if they were cloned
+         */
+        /** @var $group Mage_Backend_Model_Config_Structure_Element_Group */
+        $group = $this->_configStructure->getElement($groupPath);
+
+
+        // set value for group field entry by fieldname
+        // use extra memory
+        $fieldsetData = array();
+        if (isset($groupData['fields'])) {
             if ($group->shouldCloneFields()) {
                 $cloneModel = $group->getCloneModel();
                 $mappedFields = array();
@@ -158,9 +195,6 @@ class Mage_Backend_Model_Config extends Varien_Object
                     }
                 }
             }
-            // set value for group field entry by fieldname
-            // use extra memory
-            $fieldsetData = array();
             foreach ($groupData['fields'] as $fieldId => $fieldData) {
                 $fieldsetData[$fieldId] = (is_array($fieldData) && isset($fieldData['value']))
                     ? $fieldData['value'] : null;
@@ -172,11 +206,9 @@ class Mage_Backend_Model_Config extends Varien_Object
                     $originalFieldId = $mappedFields[$fieldId];
                 }
                 /** @var $field Mage_Backend_Model_Config_Structure_Element_Field */
-                $field = $this->_configStructure->getElementByPathParts(
-                    array($sectionId, $group->getId(), $originalFieldId)
-                );
+                $field = $this->_configStructure->getElement($groupPath . '/' . $originalFieldId);
 
-                /** @var Mage_Core_Model_Config_Data $backendModel  */
+                /** @var Mage_Core_Model_Config_Data $backendModel */
                 $backendModel = $field->hasBackendModel() ?
                     $field->getBackendModel() :
                     $this->_configDataFactory->create();
@@ -237,13 +269,16 @@ class Mage_Backend_Model_Config extends Varien_Object
                     $saveTransaction->addObject($backendModel);
                 }
             }
-
         }
 
-        $deleteTransaction->delete();
-        $saveTransaction->save();
-
-        return $this;
+        if (isset($groupData['groups'])) {
+            foreach ($groupData['groups'] as $subGroupId => $subGroupData) {
+                $this->_processGroup(
+                    $subGroupId, $subGroupData, $groups, $groupPath, $extraOldGroups,
+                    $oldConfig, $saveTransaction, $deleteTransaction
+                );
+            }
+        }
     }
 
     /**
