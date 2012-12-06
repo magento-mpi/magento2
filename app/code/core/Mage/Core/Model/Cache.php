@@ -113,12 +113,34 @@ class Mage_Core_Model_Cache
             $this->_idPrefix = substr(md5($this->_config->getOptions()->getEtcDir()), 0, 3).'_';
         }
 
-        $backend    = $this->_getBackendOptions($options);
-        $frontend   = $this->_getFrontendOptions($options);
+        $backend = $this->_getBackendOptions($options);
+        $frontend = $this->_getFrontendOptions($options);
 
+        // Start profiling
+        $profilerTags = array('group' => 'mage_cache',
+            'operation' => 'mage_cache:frontend_create');
+
+        if (isset($options['request_processors'])) {
+            $profilerTags['request_processors'] = implode('|', $options['request_processors']);
+        }
+
+        if (isset($backend['type'])) {
+            $profilerTags['backend_type'] = $backend['type'];
+        }
+
+        if (isset($frontend['type'])) {
+            $profilerTags['frontend_type'] = $frontend['type'];
+        }
+
+        Magento_Profiler::start('mage_cache_frontend_create', $profilerTags);
+
+        // create cache
         $this->_frontend = Zend_Cache::factory($frontend['type'], $backend['type'], $frontend, $backend['options'],
             true, true, true
         );
+
+        // stop profiling
+        Magento_Profiler::stop('mage_cache_frontend_create');
 
         if (isset($options['request_processors'])) {
             $this->_requestProcessors = $options['request_processors'];
@@ -335,6 +357,24 @@ class Mage_Core_Model_Cache
     }
 
     /**
+     * Generate Magento Profiler tags
+     *
+     * @param string $operation
+     * @return array
+     */
+    protected function _generateProfilerTags($operation)
+    {
+        $profilerTags = array('group' => 'mage_cache',
+            'operation' => 'mage_cache:' . $operation);
+
+        if (!empty($this->_requestProcessors)) {
+            $profilerTags['request_processors'] = implode('|', $this->_requestProcessors);
+        }
+
+        return $profilerTags;
+    }
+
+    /**
      * Get cache frontend API object
      *
      * @return Zend_Cache_Core
@@ -352,7 +392,11 @@ class Mage_Core_Model_Cache
      */
     public function load($id)
     {
-        return $this->_frontend->load($this->_id($id));
+        Magento_Profiler::start('mage_cache_load', $this->_generateProfilerTags('load'));
+        $result = $this->_frontend->load($this->_id($id));
+        Magento_Profiler::stop('mage_cache_load');
+
+        return $result;
     }
 
     /**
@@ -375,28 +419,39 @@ class Mage_Core_Model_Cache
         if ($this->_disallowSave) {
             return true;
         }
-        return $this->_frontend->save((string)$data, $this->_id($id), $this->_tags($tags), $lifeTime);
+
+        Magento_Profiler::start('mage_cache_save', $this->_generateProfilerTags('save'));
+        $result = $this->_frontend->save((string)$data, $this->_id($id), $this->_tags($tags), $lifeTime);
+        Magento_Profiler::stop('mage_cache_save');
+
+        return $result;
     }
 
     /**
      * Remove cached data by identifier
      *
-     * @param   string $id
-     * @return  bool
+     * @param string $id
+     * @return bool
      */
     public function remove($id)
     {
-        return $this->_frontend->remove($this->_id($id));
+        Magento_Profiler::start('mage_cache_remove', $this->_generateProfilerTags('remove'));
+        $result = $this->_frontend->remove($this->_id($id));
+        Magento_Profiler::stop('mage_cache_remove');
+
+        return $result;
     }
 
     /**
      * Clean cached data by specific tag
      *
-     * @param   array $tags
-     * @return  bool
+     * @param array $tags
+     * @return bool
      */
-    public function clean($tags=array())
+    public function clean($tags = array())
     {
+        Magento_Profiler::start('mage_cache_clean', $this->_generateProfilerTags('clean'));
+
         $mode = Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG;
         if (!empty($tags)) {
             if (!is_array($tags)) {
@@ -407,17 +462,22 @@ class Mage_Core_Model_Cache
             $res = $this->_frontend->clean($mode, array(Mage_Core_Model_App::CACHE_TAG));
             $res = $res && $this->_frontend->clean($mode, array(Mage_Core_Model_Config::CACHE_TAG));
         }
+
+        Magento_Profiler::stop('mage_cache_clean');
+
         return $res;
     }
 
     /**
      * Clean cached data by specific tag
      *
-     * @return  bool
+     * @return bool
      */
     public function flush()
     {
+        Magento_Profiler::start('mage_cache_flush', $this->_generateProfilerTags('flush'));
         $res = $this->_frontend->clean();
+        Magento_Profiler::stop('mage_cache_flush');
         return $res;
     }
 
