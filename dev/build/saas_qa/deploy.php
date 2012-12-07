@@ -97,11 +97,12 @@ try {
         $pdo->query("CREATE DATABASE `{$tenantDb}`");
 
         // recreate file system
-        $tenantVarDir = $deployDir . '/var.' . $tenantId;
+        $tenantVarDir = "{$deployDir}/var.{$tenantId}";
         rmDirRecursive($tenantVarDir, $shell);
         $shell->output("Creating var directory: '{$tenantVarDir}'");
         mkdir($tenantVarDir);
-        $tenantMediaDir = $deployDir . '/pub/media.' . $tenantId;
+        $tenantMediaUri = "pub/media.{$tenantId}";
+        $tenantMediaDir = "{$deployDir}/{$tenantMediaUri}";
         $shell->output("Creating media directory: '{$tenantMediaDir}'");
         mkdir($tenantMediaDir);
 
@@ -131,6 +132,10 @@ try {
             'secure_base_url'            => $tenantUrl,
             'session_save'               => 'db',
             'cleanup_database'           => true,
+            'install_option_uris'        => base64_encode(serialize(array('media' => $tenantMediaUri))),
+            'install_option_dirs'        => base64_encode(serialize(array(
+                'var' => $tenantVarDir, 'media' => $tenantMediaDir
+            ))),
         );
         $command = 'php -f %s --';
         $arguments = array("{$deployDir}/dev/shell/install.php");
@@ -170,6 +175,12 @@ try {
     exit(1);
 }
 
+/**
+ * Remove a directory using shell command
+ *
+ * @param string $dir
+ * @param Magento_Shell $shell
+ */
 function rmDirRecursive($dir, Magento_Shell $shell)
 {
     $isWindows = '\\' == DIRECTORY_SEPARATOR;

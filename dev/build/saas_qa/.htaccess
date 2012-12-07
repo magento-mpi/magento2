@@ -156,7 +156,7 @@
 ############################################
 ## rewrite everything else to index.php
 
-    RewriteRule .* index.php [L]
+    RewriteRule .* index.build.php [L]
 
 </IfModule>
 

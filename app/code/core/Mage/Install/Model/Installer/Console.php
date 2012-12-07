@@ -16,9 +16,9 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
     /**#@+
      * Installation options for application initialization
      */
-    const DIR_VAR   = 'install_option_dir_var';
-    const DIR_MEDIA = 'install_option_dir_media';
-    /**#@-  */
+    const OPTION_URIS = 'install_option_uris';
+    const OPTION_DIRS = 'install_option_dirs';
+    /**#@- */
 
     /**
      * Available installation options
@@ -78,11 +78,11 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
     protected function _buildInitParams($args)
     {
         $result = array();
-        if (!empty($args[self::DIR_VAR])) {
-            $result[Mage_Core_Model_App::INIT_OPTION_URIS][Mage_Core_Model_Dir::VAR_DIR] = $args[self::DIR_VAR];
+        if (!empty($args[self::OPTION_URIS])) {
+            $result[Mage_Core_Model_App::INIT_OPTION_URIS] = unserialize(base64_decode($args[self::OPTION_URIS]));
         }
-        if (!empty($args[self::DIR_MEDIA])) {
-            $result[Mage_Core_Model_App::INIT_OPTION_URIS][Mage_Core_Model_Dir::MEDIA] = $args[self::DIR_MEDIA];
+        if (!empty($args[self::OPTION_DIRS])) {
+            $result[Mage_Core_Model_App::INIT_OPTION_DIRS] = unserialize(base64_decode($args[self::OPTION_DIRS]));
         }
         return $result;
     }
