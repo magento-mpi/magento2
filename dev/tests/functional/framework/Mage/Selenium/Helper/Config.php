@@ -284,6 +284,19 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
     }
 
     /**
+     * @return array
+     */
+    public function getConfigAreasUimapFolders()
+    {
+        $uimapFolders = array();
+        $configAreas = $this->getConfigAreas();
+        foreach ($configAreas as $areaName => $areaConfig) {
+            $uimapFolders[$areaName] = $areaConfig['uimap_path'];
+        }
+        return $uimapFolders;
+    }
+
+    /**
      * Return current application config
      * @return array
      * @throws OutOfRangeException

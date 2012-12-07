@@ -75,10 +75,22 @@ class Mage_Selenium_TestConfiguration
     protected $_dataGeneratorHelper = null;
 
     /**
-     * Array of files paths to fixtures
+     * Array of files paths to data fixtures
      * @var array
      */
-    protected $_configFixtures = array();
+    protected $_configData = array();
+
+    /**
+     * Array of files paths to Uimap fixtures
+     * @var array
+     */
+    protected $_configUimap = array();
+
+    /**
+     * Array of files paths to Uimap Include fixtures
+     * @var array
+     */
+    protected $_configUimapInclude = array();
 
     /**
      * Array of class names for test Helper files
@@ -96,7 +108,9 @@ class Mage_Selenium_TestConfiguration
      * Get test configuration instance
      *
      * @static
+     *
      * @param null|array $options
+     *
      * @return Mage_Selenium_TestConfiguration|null
      * @throws RuntimeException
      */
@@ -120,6 +134,7 @@ class Mage_Selenium_TestConfiguration
      * Set instance
      *
      * @static
+     *
      * @param Mage_Selenium_TestConfiguration|null $_instance
      */
     public static function setInstance(Mage_Selenium_TestConfiguration $_instance = null)
@@ -131,6 +146,7 @@ class Mage_Selenium_TestConfiguration
      * Set initial options
      *
      * @param array $options
+     *
      * @return Mage_Selenium_TestConfiguration
      */
     public function setInitialOptions(array $options)
@@ -182,7 +198,28 @@ class Mage_Selenium_TestConfiguration
      */
     protected function _initFixturesPaths()
     {
-        $this->getConfigFixtures();
+        //Get initial path to fixtures
+        $frameworkConfig = $this->_configHelper->getConfigFramework();
+        $initialPath = $this->getInitialPath() . $frameworkConfig['fixture_base_path'];
+        //Get fixtures sequence
+        $fallbackOrderFixture = $this->_configHelper->getFixturesFallbackOrder();
+
+        $initialOptions = $this->getInitialOptions();
+        if (isset($initialOptions['fallbackOrderFixture'])) {
+            $fallbackOrderFixture = $initialOptions['fallbackOrderFixture'];
+        }
+
+        $facade = new File_Iterator_Facade();
+        foreach ($fallbackOrderFixture as $codePoolName) {
+            $projectPath = $initialPath . DIRECTORY_SEPARATOR . $codePoolName;
+            if (!is_dir($projectPath)) {
+                continue;
+            }
+            $files = $facade->getFilesAsArray($projectPath, '.yml');
+            $this->setConfigData($files);
+            $this->setConfigUimap($files, $codePoolName);
+            $this->setConfigUimapInclude($files);
+        }
         return $this;
     }
 
@@ -238,6 +275,7 @@ class Mage_Selenium_TestConfiguration
      * Set initial path
      *
      * @param string $path
+     *
      * @return Mage_Selenium_TestConfiguration
      */
     public function setInitialPath($path)
@@ -257,63 +295,81 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Get all paths to fixture files and all paths to include uimap elements
-     * @return array
+     * @param array $files
      */
-    public function getConfigFixtures()
+    public function setConfigData(array $files)
     {
-        if (!empty($this->_configFixtures)) {
-            return $this->_configFixtures;
-        }
-        //Get initial path to fixtures
-        $frameworkConfig = $this->_configHelper->getConfigFramework();
-        $initialPath = $this->getInitialPath() . $frameworkConfig['fixture_base_path'];
-        //Get fixtures sequence
-        $fallbackOrderFixture = $this->_configHelper->getFixturesFallbackOrder();
-
-        $initialOptions = $this->getInitialOptions();
-        if (isset($initialOptions['fallbackOrderFixture'])) {
-            $fallbackOrderFixture = $initialOptions['fallbackOrderFixture'];
-        }
-
-        //Get folder names where uimaps are stored for specified area
-        $uimapFolders = array();
-        $configAreas = $this->_configHelper->getConfigAreas();
-        foreach ($configAreas as $areaName => $areaConfig) {
-            $uimapFolders[$areaName] = $areaConfig['uimap_path'];
-        }
         $separator = preg_quote(DIRECTORY_SEPARATOR);
+        foreach ($files as $file) {
+            if (preg_match('|' . $separator . 'data' . $separator . '|', $file)) {
+                $this->_configData[] = $file;
+            }
+        }
+    }
 
-        $facade = new File_Iterator_Facade();
-        foreach ($fallbackOrderFixture as $codePoolName) {
-            $projectPath = $initialPath . DIRECTORY_SEPARATOR . $codePoolName;
-            if (!is_dir($projectPath)) {
+    /**
+     * @param array $files
+     */
+    public function setConfigUimapInclude(array $files)
+    {
+        $uimapFolders = $this->_configHelper->getConfigAreasUimapFolders();
+        $separator = preg_quote(DIRECTORY_SEPARATOR);
+        foreach ($files as $file) {
+            if (!preg_match('|' . $separator . self::UIMAP_INCLUDE_FOLDER . $separator . '|', $file)) {
                 continue;
             }
-            $files = $facade->getFilesAsArray($projectPath, '.yml');
-            foreach ($files as $file) {
-                if (preg_match('|' . $separator . 'data' . $separator . '|', $file)) {
-                    $this->_configFixtures[$codePoolName]['data'][] = $file;
-                }
-                if (preg_match('|' . $separator . 'uimap' . $separator . '|', $file)) {
-                    foreach ($uimapFolders as $areaName => $uimapFolder) {
-                        $pattern = implode($separator, array('', 'uimap', $uimapFolder, ''));
-                        if (preg_match('|' . $pattern . '|', $file)) {
-                            $this->_configFixtures[$codePoolName]['uimap'][$areaName][] = $file;
-                        }
-                    }
-                }
-                if (preg_match('|' . $separator . self::UIMAP_INCLUDE_FOLDER . $separator . '|', $file)) {
-                    foreach ($uimapFolders as $areaName => $uimapFolder) {
-                        $pattern = implode($separator, array('', self::UIMAP_INCLUDE_FOLDER, $uimapFolder)) . '\.yml';
-                        if (preg_match('|' . $pattern . '|', $file)) {
-                            $this->_configFixtures['uimapInclude'][$areaName][] = $file;
-                        }
-                    }
+            foreach ($uimapFolders as $areaName => $uimapFolder) {
+                $pattern = implode($separator, array('', self::UIMAP_INCLUDE_FOLDER, $uimapFolder)) . '\.yml';
+                if (preg_match('|' . $pattern . '|', $file)) {
+                    $this->_configUimapInclude[$areaName][] = $file;
                 }
             }
         }
-        return $this->_configFixtures;
+    }
+
+    /**
+     * @param array $files
+     * @param $codePoolName
+     */
+    public function setConfigUimap(array $files, $codePoolName)
+    {
+        $uimapFolders = $this->_configHelper->getConfigAreasUimapFolders();
+        $separator = preg_quote(DIRECTORY_SEPARATOR);
+        foreach ($files as $file) {
+            if (!preg_match('|' . $separator . 'uimap' . $separator . '|', $file)) {
+                continue;
+            }
+            foreach ($uimapFolders as $areaName => $uimapFolder) {
+                $pattern = implode($separator, array('', 'uimap', $uimapFolder, ''));
+                if (preg_match('|' . $pattern . '|', $file)) {
+                    $this->_configUimap[$codePoolName][$areaName][] = $file;
+                }
+            }
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getConfigUimap()
+    {
+        return $this->_configUimap;
+    }
+
+    /**
+     * @return array
+     */
+    public function getConfigUimapInclude()
+    {
+        return $this->_configUimapInclude;
+    }
+
+    /**
+     * @return array
+     */
+    public function getConfigData()
+    {
+        return $this->_configData;
     }
 
     /**

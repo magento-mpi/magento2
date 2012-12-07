@@ -402,7 +402,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if (empty($testScope)) {
             throw new UnexpectedValueException('Helper name can\'t be empty');
         }
-        $helperClassNames = $this->_testConfig->getTestHelperClassNames();
+        $helperClassNames = $this->_testConfig->getTestHelperClasses();
         $helperName = ucwords($testScope);
         if (!isset($helperClassNames[$helperName])) {
             throw new UnexpectedValueException('Cannot load helper "' . $helperName . '"');
