@@ -50,11 +50,7 @@ class Core_Mage_TransactionalEmails_TransactionalEmailsTest extends Mage_Seleniu
                                                                               'template_information')
         );
         $dropdownTrue = array('template');
-        foreach ($dropdownTrue as $dropdown) {
-            if (!$this->controlIsPresent('dropdown', $dropdown)) {
-                $this->addVerificationMessage("Dropdown $dropdown is not present on the page");
-            }
-        }
+        $this->transactionalEmailsHelper()->checkControlsPresence('dropdown', $dropdownTrue);
         $this->transactionalEmailsHelper()->checkControlsPresence(
             'field',
             array('template_name', 'template_subject', 'template_content', 'template_styles')
