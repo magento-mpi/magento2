@@ -80,6 +80,7 @@ app/code/core/Mage/Cms/Controller/Router.php
 app/code/core/Mage/DesignEditor/Controller/Varien/Router/Standard.php
 app/code/core/Mage/DesignEditor/Helper/Data.php
 app/code/core/Mage/Page/Helper/Robots.php
+app/code/core/Mage/Webapi
 dev/shell
 dev/tests/integration
 dev/tests/js

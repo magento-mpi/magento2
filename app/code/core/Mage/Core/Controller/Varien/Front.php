@@ -8,7 +8,8 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Controller_Varien_Front extends Varien_Object
+
+class Mage_Core_Controller_Varien_Front extends Varien_Object implements Mage_Core_Controller_FrontInterface
 {
     const XML_STORE_ROUTERS_PATH = 'web/routers';
 
