@@ -294,8 +294,7 @@ jQuery(function($) {
         });
 
         grid.rowClickCallback = function(grid, event) {
-            if (!this.rows || !this.rows.length || $(this.rows).find('td').is('.empty-text')) {
-                $gridDialog.dialog('close');
+            if (!this.rows || !this.rows.length) {
                 return;
             }
             var $matrixRow = $button.parents('tr');
@@ -304,14 +303,15 @@ jQuery(function($) {
             var associatedClass = '.associated-product-';
             var productFields = ['name', 'price', 'sku', 'qty', 'weight', 'id'];
 
-            $.each(productFields, function() {
-                var target = $matrixRow.find(matrixClass + this),
-                    value = $.trim($gridRow.find(associatedClass + this).text()),
-                    button = target.find('button.choose-product');
-
-                target[target.is('input[type=checkbox]') ? 'val' : 'html'](value).append(button);
-            });
-            $matrixRow.find(matrixClass + 'id').attr('checked', true).removeAttr('disabled');
+            if ($gridRow.find(associatedClass + 'id').length) {
+                $.each(productFields, function () {
+                    var target = $matrixRow.find(matrixClass + this),
+                        value = $.trim($gridRow.find(associatedClass + this).text()),
+                        button = target.find('button.choose-product');
+                    target[target.is('input[type=checkbox]') ? 'val' : 'html'](value).append(button);
+                });
+                $matrixRow.find(matrixClass + 'id').attr('checked', true).removeAttr('disabled');
+            }
             $gridDialog.dialog('close');
         };
     });
