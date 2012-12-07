@@ -12,53 +12,39 @@
 /**
  * Tests for the view layer fallback mechanism
  *
- * @magentoDbIsolation enabled
+ * @magentoAppIsolation enabled
+ * @magentoDataFixture Mage/Core/Model/_files/design/test_default_theme.php
  */
 class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @var Mage_Core_Model_Design_Package
-     */
-    protected $_model;
-
-    protected function setUp()
-    {
-        /** @var $themeUtility Mage_Core_Utility_Theme */
-        $themeUtility = Mage::getModel('Mage_Core_Utility_Theme', array(
-            dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'design',
-            Mage::getModel('Mage_Core_Model_Design_Package')
-        ));
-        $themeUtility->registerThemes()->setDesignTheme('test/default', 'frontend');;
-        $this->_model = $themeUtility->getDesign();
-    }
-
-    protected function tearDown()
-    {
-        $this->_model = null;
-    }
-
     public function testGetFilename()
     {
+        $model = Mage::getDesign();
+
         $expected = '%s/frontend/test/default/Mage_Catalog/theme_template.phtml';
-        $actual = $this->_model->getFilename('Mage_Catalog::theme_template.phtml', array());
+        $actual = $model->getFilename('Mage_Catalog::theme_template.phtml', array());
         $this->_testExpectedVersusActualFilename($expected, $actual);
     }
 
     public function testGetLocaleFileName()
     {
+        $model = Mage::getDesign();
+
         $expected = '%s/frontend/test/default/locale/en_US/translate.csv';
-        $actual = $this->_model->getLocaleFileName('translate.csv', array());
+        $actual = $model->getLocaleFileName('translate.csv', array());
         $this->_testExpectedVersusActualFilename($expected, $actual);
     }
 
     public function testGetViewFile()
     {
+        $model = Mage::getDesign();
+
         $expected = '%s/frontend/package/custom_theme/Fixture_Module/fixture_script.js';
         $params = array(
             'package' => 'package',
             'theme' => 'custom_theme'
         );
-        $actual = $this->_model->getViewFile('Fixture_Module::fixture_script.js', $params);
+        $actual = $model->getViewFile('Fixture_Module::fixture_script.js', $params);
         $this->_testExpectedVersusActualFilename($expected, $actual);
     }
 
