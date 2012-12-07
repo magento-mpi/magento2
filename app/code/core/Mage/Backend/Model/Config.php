@@ -148,6 +148,8 @@ class Mage_Backend_Model_Config extends Varien_Object
     }
 
     /**
+     * Process group data
+     *
      * @param string $groupId
      * @param array $groupData
      * @param array $groups

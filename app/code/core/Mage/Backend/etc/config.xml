@@ -99,6 +99,9 @@
                 </parameters>
                 <shared>0</shared>
             </Mage_Backend_Model_Config_Structure_Element_Group>
+            <Mage_Backend_Model_Config_Structure_Element_Group_Proxy>
+                <shared>0</shared>
+            </Mage_Backend_Model_Config_Structure_Element_Group_Proxy>
         </di>
     </global>
     <admin>

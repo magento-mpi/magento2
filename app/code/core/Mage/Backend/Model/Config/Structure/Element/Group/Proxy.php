@@ -185,4 +185,57 @@ class Mage_Backend_Model_Config_Structure_Element_Group_Proxy
     {
         $this->_getSubject()->populateFieldset($fieldset);
     }
+
+    /**
+     * Retrieve element data
+     *
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->_getSubject()->getData();
+    }
+
+    /**
+     * Retrieve element path
+     *
+     * @param string $fieldPrefix
+     * @return string
+     */
+    public function getPath($fieldPrefix = '')
+    {
+        return $this->_getSubject()->getPath($fieldPrefix);
+    }
+
+    /**
+     * Check whether element should be expanded
+     *
+     * @return bool
+     */
+    public function isExpanded()
+    {
+        return $this->_getSubject()->isExpanded();
+    }
+
+    /**
+     * Retrieve fieldset css
+     *
+     * @return string
+     */
+    public function getFieldsetCss()
+    {
+        return $this->_getSubject()->getFieldsetCss();
+    }
+
+    /**
+     * Retrieve element dependencies
+     *
+     * @param string $storeCode
+     * @return array
+     */
+    public function getDependencies($storeCode)
+    {
+        return $this->_getSubject()->getDependencies($storeCode);
+    }
 }
+
