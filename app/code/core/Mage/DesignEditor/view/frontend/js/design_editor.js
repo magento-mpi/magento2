@@ -8,7 +8,6 @@
  */
 
 (function($) {
-
     /**
      * Widget block
      */
@@ -34,9 +33,9 @@
             this.element.data('sortable', this);
             self.options =  $.extend({}, self.options, {
                 start: function( event, ui ) {
-                    ui.placeholder.css( { height: $( ui.helper ).outerHeight( true ) } );
-                    self.element.vde_container('option', 'connectWith', $(self.options.connectWithSelector).not(ui.item))
-                        .vde_container('refresh');
+                    ui.placeholder.css({ height: $(ui.helper).outerHeight(true) });
+                    self.element.vde_container('option', 'connectWith', $(self.options.connectWithSelector)
+                        .not(ui.item)).vde_container('refresh');
                 },
                 over: function(event, ui) {
                     self.element.addClass(self.options.hoverClass);
@@ -196,10 +195,9 @@
             return postData;
         },
         _post: function(action, data) {
-            var url = action;
             var postResult;
             $.ajax({
-                url: url,
+                url: action,
                 type: 'POST',
                 dataType: 'JSON',
                 data: data,
@@ -208,11 +206,10 @@
                     if (data.error) {
                         /** @todo add error validator */
                         throw Error($.mage.__('Some problem with save action'));
-                        return;
                     }
                     postResult = data.success;
                 },
-                error: function(data) {
+                error: function() {
                     throw Error($.mage.__('Some problem with save action'));
                 }
             });
@@ -226,11 +223,9 @@
     $.widget('vde.vde_connector', {
         options: {
             containerSelector: '.vde_element_wrapper.vde_container',
-            panelSelector: '#vde_toolbar',
             highlightElementSelector: '.vde_element_wrapper',
             highlightElementTitleSelector: '.vde_element_title',
             highlightCheckboxSelector: '#vde_highlighting',
-            cookieHighlightingName: 'vde_highlighting',
             historyToolbarSelector: '.vde_history_toolbar'
         },
         _create: function () {
@@ -248,7 +243,7 @@
     var pagePrototype = $.vde.vde_connector.prototype;
     $.widget( "vde.vde_connector", $.extend({}, pagePrototype, {
         _create: function() {
-            pagePrototype._create.apply( this, arguments );
+            pagePrototype._create.apply(this, arguments);
             var history = this._initHistory();
             this._initHistoryToolbar(history);
             this._initRemoveOperation(history);
@@ -284,10 +279,6 @@
         },
         _destroy: function() {
             //DOM structure can be missed when test executed
-            var panelContainer = $(this.options.panelSelector);
-            if (panelContainer.size()) {
-                panelContainer.vde_panel('destroy');
-            }
             var toolbarContainer = $(this.options.historyToolbarSelector);
             if (toolbarContainer.length) {
                 toolbarContainer.vde_historyToolbar('destroy');
@@ -322,9 +313,8 @@
                 .css('display', 'block')
                 .find('a').bind('click', $.proxy(self._onRemoveButtonClick, self));
         },
-        _onRemoveButtonClick: function(e) {
+        _onRemoveButtonClick: function() {
             var change = $.fn.changeFactory.getInstance('layout');
-            var block = this.element;
             change.setData({
                 action: 'remove',
                 block: this.element.data('name'),
@@ -346,5 +336,4 @@
     $(document).ready(function( ){
         $(window).vde_connector();
     });
-
 })( jQuery );

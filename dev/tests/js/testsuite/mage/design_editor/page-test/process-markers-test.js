@@ -32,17 +32,20 @@ PageTestProcessMarkers.prototype.testProcessMarkers = function() {
          </div>
      */
     var page = jQuery(window).vde_page();
-    jQuery(page.vde_page('option', 'frameSelector')).triggerHandler('load');
-    jQuery(page.vde_page('option', 'frameSelector')).contents().find("body:first").html(this.iframeContent);
+    var frameSelector = page.vde_page('option', 'frameSelector');
+    jQuery(frameSelector).triggerHandler('load');
+    jQuery(frameSelector).contents().find("body:first").html(this.iframeContent);
     page.vde_page('destroy');
-    var commentsExist = false;
-    jQuery('*').contents().each(function () {
+    var commentsExist = null;
+    jQuery(frameSelector).contents().find('*').contents().each(function () {
         if (this.nodeType == Node.COMMENT_NODE) {
             if (this.data.substr(0, 9) == 'start_vde') {
                 commentsExist = true;
-            } else if (this.data.substr(0, 7) == 'end_vde') {
-                commentsExist = true;
+            } else {
+                commentsExist = this.data.substr(0, 7) == 'end_vde';
             }
+        } else {
+            commentsExist = false;
         }
     });
     assertEquals(false, commentsExist);
