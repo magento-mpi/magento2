@@ -192,8 +192,16 @@ class Mage_Core_Model_Dir
         foreach ($source as $parentCode => $parent) {
             foreach ($this->_getChildren($parentCode) as $childCode) {
                 if (!isset($source[$childCode])) {
-                    $fragment = str_replace(self::$_defaults[$parentCode], '', self::$_defaults[$childCode]);
-                    $result[$childCode] = $parent ? $parent . $fragment : $parent . ltrim($fragment, '/');
+                    if (empty(self::$_defaults[$parentCode])) {
+                        $fragment = self::$_defaults[$childCode];
+                    } else {
+                        $fragment = str_replace(self::$_defaults[$parentCode], '', self::$_defaults[$childCode]);
+                    }
+                    $fragment = ltrim($fragment, '/');
+                    if (!empty($parent)) {
+                        $fragment = '/' . $fragment;
+                    }
+                    $result[$childCode] = $parent . $fragment;
                 }
             }
         }
@@ -209,10 +217,17 @@ class Mage_Core_Model_Dir
     private function _getChildren($code)
     {
         $result = array();
+        if (!isset(self::$_defaults[$code])) {
+            return $result;
+        }
         $parent = self::$_defaults[$code];
         foreach (self::$_defaults as $childCode => $child) {
-            if ($parent && $child && ($parent != $child) && 0 === strpos($child, $parent)) {
-                $result[] = $childCode;
+            if ($code != $childCode) {
+                if ($parent && $child && 0 === strpos($child, $parent)) {
+                    $result[] = $childCode;
+                } elseif (empty($parent)) {
+                    $result[] = $childCode;
+                }
             }
         }
         return $result;
