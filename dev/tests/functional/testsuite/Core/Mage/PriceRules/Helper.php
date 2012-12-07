@@ -54,11 +54,7 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
      */
     public function fillTabs($ruleData)
     {
-        if (is_string($ruleData)) {
-            $elements = explode('/', $ruleData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $ruleData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $ruleData = $this->testDataToArray($ruleData);
         $ruleVars = $this->_ruleData($ruleData);
         if (array_key_exists('websites', $ruleVars['ruleInfo'])
             && !$this->controlIsPresent('multiselect', 'websites')) {
@@ -275,27 +271,13 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * @param $ruleData
-     *
-     * @return array $ruleData
-     */
-    protected function _ifIsString($ruleData)
-    {
-        if (is_string($ruleData)) {
-            $elements = explode('/', $ruleData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $ruleData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
-        return $ruleData;
-    }
-    /**
      * Verify Rule Data
      *
      * @param array|string $ruleData
      */
     public function verifyRuleData($ruleData)
     {
-        $ruleData = $this->_ifIsString($ruleData);
+        $ruleData = $this->testDataToArray($ruleData);
         foreach ($ruleData as $tabName => $tabData) {
             switch ($tabName) {
                 case 'info':

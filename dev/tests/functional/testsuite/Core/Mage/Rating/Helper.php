@@ -68,11 +68,7 @@ class Core_Mage_Rating_Helper extends Mage_Selenium_AbstractHelper
      */
     public function fillTabs($ratingData)
     {
-        if (is_string($ratingData)) {
-            $elements = explode('/', $ratingData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $ratingData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $ratingData = $this->testDataToArray($ratingData);
         $this->fillForm($ratingData);
         if (isset($ratingData['store_view_titles'])) {
             $this->fillRatingTitles($ratingData['store_view_titles']);
@@ -114,11 +110,7 @@ class Core_Mage_Rating_Helper extends Mage_Selenium_AbstractHelper
      */
     public function verifyRatingData($ratingData)
     {
-        if (is_string($ratingData)) {
-            $elements = explode('/', $ratingData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $ratingData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $ratingData = $this->testDataToArray($ratingData);
         $titles = (isset($ratingData['store_view_titles'])) ? $ratingData['store_view_titles'] : array();
         $this->verifyForm($ratingData);
 

@@ -196,16 +196,7 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_AbstractHelper
      */
     public function verifyPricesDataOnPage($productData, $orderPriceData)
     {
-        if (is_string($productData)) {
-            $elements = explode('/', $productData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $productData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
-        if (is_string($orderPriceData)) {
-            $elements = explode('/', $orderPriceData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $orderPriceData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $productData = $this->testDataToArray($productData);
         //Get Products data and order prices data
         $actualProductData = $this->getProductInfoInTable();
         $actualOrderPriceData = $this->getOrderPriceData();
@@ -279,11 +270,7 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_AbstractHelper
      */
     public function frontEstimateShipping($shippingAddress, $shippingMethod, $validate = true)
     {
-        if (is_string($shippingAddress)) {
-            $elements = explode('/', $shippingAddress);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $shippingAddress = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $shippingAddress = $this->testDataToArray($shippingAddress);
         $this->fillForm($shippingAddress);
         $this->clickButton('get_quote');
         $this->chooseShipping($shippingMethod, $validate);
@@ -296,11 +283,7 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_AbstractHelper
      */
     public function chooseShipping($shippingMethod)
     {
-        if (is_string($shippingMethod)) {
-            $elements = explode('/', $shippingMethod);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $shippingMethod = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $shippingMethod = $this->testDataToArray($shippingMethod);
         $shipService = (isset($shippingMethod['shipping_service'])) ? $shippingMethod['shipping_service'] : null;
         $shipMethod = (isset($shippingMethod['shipping_method'])) ? $shippingMethod['shipping_method'] : null;
         if (!$shipService or !$shipMethod) {

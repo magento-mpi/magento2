@@ -25,11 +25,7 @@ class Core_Mage_TermsAndConditions_Helper extends Mage_Selenium_AbstractHelper
      */
     public function createTermsAndConditions($termsData)
     {
-        if (is_string($termsData)) {
-            $elements = explode('/', $termsData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $termsData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $termsData = $this->testDataToArray($termsData);
         $this->clickButton('create_new_terms_and_conditions');
         if (array_key_exists('store_view', $termsData) && !$this->controlIsPresent('multiselect', 'store_view')) {
             unset($termsData['store_view']);
@@ -95,11 +91,7 @@ class Core_Mage_TermsAndConditions_Helper extends Mage_Selenium_AbstractHelper
      */
     public function verifyTermsAndConditions($termsData)
     {
-        if (is_string($termsData)) {
-            $elements = explode('/', $termsData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $termsData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $termsData = $this->testDataToArray($termsData);
         if (array_key_exists('store_view', $termsData) && !$this->controlIsPresent('multiselect', 'store_view')) {
             unset($termsData['store_view']);
         }

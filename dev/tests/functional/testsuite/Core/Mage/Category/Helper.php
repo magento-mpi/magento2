@@ -143,11 +143,7 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
      */
     public function createCategory($categoryData)
     {
-        if (is_string($categoryData)) {
-            $elements = explode('/', $categoryData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $categoryData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $categoryData = $this->testDataToArray($categoryData);
         if (array_key_exists('parent_category', $categoryData)) {
             $this->selectCategory($categoryData['parent_category']);
             $this->clickButton('add_sub_category', false);
@@ -227,11 +223,7 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
      */
     public function frontOpenCategoryAndValidateProduct($productsInfo)
     {
-        if (is_string($productsInfo)) {
-            $elements = explode('/', $productsInfo);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $productsInfo = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $productsInfo = $this->testDataToArray($productsInfo);
         $category = (isset($productsInfo['category'])) ? $productsInfo['category'] : null;
         $productName = (isset($productsInfo['product_name'])) ? $productsInfo['product_name'] : null;
         $verificationData = (isset($productsInfo['verification'])) ? $productsInfo['verification'] : array();

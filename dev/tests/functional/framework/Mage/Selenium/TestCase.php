@@ -692,6 +692,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * @param array|string $testData
+     * @return array
+     */
+    public function testDataToArray($testData)
+    {
+        if (is_string($testData)) {
+            $elements = explode('/', $testData);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $testData = $this->loadDataSet($fileName, implode('/', $elements));
+        }
+        return $testData;
+    }
+
+    /**
      * Override data in array.
      *
      * @param array $dataForOverride

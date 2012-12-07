@@ -96,11 +96,7 @@ class Enterprise_Mage_GiftRegistry_Helper extends Mage_Selenium_AbstractHelper
      */
     public function verifyGiftRegistry($giftRegistryData)
     {
-        if (is_string($giftRegistryData)) {
-            $elements = explode('/', $giftRegistryData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $giftRegistryData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $giftRegistryData = $this->testDataToArray($giftRegistryData);
         $this->verifyForm($giftRegistryData);
         $this->assertEmptyVerificationErrors();
     }

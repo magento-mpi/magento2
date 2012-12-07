@@ -163,11 +163,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
      */
     public function fillOrderAddress($addressData, $addressChoice = 'new', $addressType = 'billing')
     {
-        if (is_string($addressData)) {
-            $elements = explode('/', $addressData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $addressData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $addressData = $this->testDataToArray($addressData);
 
         if ($addressChoice == 'sameAsBilling') {
             $this->fillCheckbox('shipping_same_as_billing_address', 'Yes');
@@ -371,11 +367,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
      */
     public function selectPaymentMethod($paymentMethod, $validate = true)
     {
-        if (is_string($paymentMethod)) {
-            $elements = explode('/', $paymentMethod);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $paymentMethod = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $paymentMethod = $this->testDataToArray($paymentMethod);
         $payment = (isset($paymentMethod['payment_method'])) ? $paymentMethod['payment_method'] : null;
         $card = (isset($paymentMethod['payment_info'])) ? $paymentMethod['payment_info'] : array();
         if (is_null($payment)) {
@@ -442,11 +434,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
      */
     public function selectShippingMethod($shippingMethod, $validate = true)
     {
-        if (is_string($shippingMethod)) {
-            $elements = explode('/', $shippingMethod);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $shippingMethod = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $shippingMethod = $this->testDataToArray($shippingMethod);
         $shipService = (isset($shippingMethod['shipping_service'])) ? $shippingMethod['shipping_service'] : null;
         $shipMethod = (isset($shippingMethod['shipping_method'])) ? $shippingMethod['shipping_method'] : null;
         if (!$shipService or !$shipMethod) {
@@ -497,11 +485,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
             $this->clickButton('create_new_customer', false);
             $this->pleaseWait();
         } else {
-            if (is_string($customerData)) {
-                $elements = explode('/', $customerData);
-                $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-                $customerData = $this->loadDataSet($fileName, implode('/', $elements));
-            }
+            $customerData = $this->testDataToArray($customerData);
             $this->searchAndOpen($customerData, 'order_customer_grid', false);
         }
 

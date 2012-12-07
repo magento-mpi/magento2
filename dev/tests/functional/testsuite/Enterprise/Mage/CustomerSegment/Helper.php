@@ -35,16 +35,13 @@ class Enterprise_Mage_CustomerSegment_Helper extends Mage_Selenium_AbstractHelpe
     /**
      * Filling tabs
      *
-     * @param string|array $segmData
+     * @param string|array $segmentData
      */
-    public function fillTabs($segmData)
+    public function fillTabs($segmentData)
     {
-        if (is_string($segmData)) {
-            $elements = explode('/', $segmData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $segmData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
-        $generalPropertiesTab = (isset($segmData['general_properties'])) ? $segmData['general_properties'] : array();
+        $segmentData = $this->testDataToArray($segmentData);
+        $generalPropertiesTab =
+            (isset($segmentData['general_properties'])) ? $segmentData['general_properties'] : array();
         $this->fillTab($generalPropertiesTab, 'general_properties');
     }
 

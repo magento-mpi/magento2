@@ -67,11 +67,7 @@ class Core_Mage_Newsletter_Helper extends Mage_Selenium_AbstractHelper
      */
     public function createNewsletterTemplate($newsletterData)
     {
-        if (is_string($newsletterData)) {
-            $elements = explode('/', $newsletterData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $newsletterData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $newsletterData = $this->testDataToArray($newsletterData);
         if (empty($newsletterData)) {
             $this->fail('$newsletterData parameter is empty');
         }

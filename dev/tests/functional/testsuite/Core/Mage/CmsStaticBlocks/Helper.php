@@ -40,20 +40,6 @@ class Core_Mage_CmsStaticBlocks_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * @param $blockData
-     * @return array $blockData
-     */
-    protected function _ifIsString($blockData)
-    {
-        if (is_string($blockData)) {
-            $elements = explode('/', $blockData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $blockData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
-        return $blockData;
-    }
-
-    /**
      * Create a new static block.
      * Uses a simple editor only.
      *
@@ -61,7 +47,7 @@ class Core_Mage_CmsStaticBlocks_Helper extends Mage_Selenium_AbstractHelper
      */
     public function createStaticBlock(array $blockData)
     {
-        $blockData = $this->_ifIsString($blockData);
+        $blockData = $this->testDataToArray($blockData);
         $content = (isset($blockData['content'])) ? $blockData['content'] : array();
         $this->clickButton('add_new_block');
         if (array_key_exists('store_view', $blockData) && !$this->controlIsPresent('multiselect', 'store_view')) {

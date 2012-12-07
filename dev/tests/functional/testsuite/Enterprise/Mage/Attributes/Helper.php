@@ -39,11 +39,7 @@ class Enterprise_Mage_Attributes_Helper extends Mage_Selenium_AbstractHelper
      */
     public function fillTabs($attrData)
     {
-        if (is_string($attrData)) {
-            $elements = explode('/', $attrData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $attrData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $attrData = $this->testDataToArray($attrData);
         $propertiesTab = (isset($attrData['properties'])) ? $attrData['properties'] : array();
         $optionsTab = (isset($attrData['manage_labels_options'])) ? $attrData['manage_labels_options'] : array();
 

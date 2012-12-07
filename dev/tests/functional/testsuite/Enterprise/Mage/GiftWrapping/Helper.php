@@ -26,11 +26,7 @@ class Enterprise_Mage_GiftWrapping_Helper extends Mage_Selenium_AbstractHelper
      */
     public function createGiftWrapping($inputData, $save = true)
     {
-        if (is_string($inputData)) {
-            $elements = explode('/', $inputData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $inputData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $inputData = $this->testDataToArray($inputData);
         $this->clickButton('add_gift_wrapping');
         $this->fillGiftWrappingForm($inputData, $save);
     }
@@ -74,11 +70,7 @@ class Enterprise_Mage_GiftWrapping_Helper extends Mage_Selenium_AbstractHelper
      */
     public function openGiftWrapping($wrappingSearch)
     {
-        if (is_string($wrappingSearch)) {
-            $elements = explode('/', $wrappingSearch);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $wrappingSearch = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $wrappingSearch = $this->testDataToArray($wrappingSearch);
         if (array_key_exists('filter_websites', $wrappingSearch)
             && !$this->controlIsPresent('dropdown', 'filter_websites')
         ) {

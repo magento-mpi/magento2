@@ -27,11 +27,7 @@ class Community1701_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
      */
     public function configurePaypal($parameters)
     {
-        if (is_string($parameters)) {
-            $elements = explode('/', $parameters);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $parameters = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $parameters = $this->testDataToArray($parameters);
         $chooseScope = (isset($parameters['configuration_scope'])) ? $parameters['configuration_scope'] : null;
         $country = (isset($parameters['merchant_country'])) ? $parameters['merchant_country'] : null;
         $configuration = (isset($parameters['configuration'])) ? $parameters['configuration'] : array();

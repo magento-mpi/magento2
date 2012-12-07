@@ -37,11 +37,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
      */
     public function frontCreateCheckout($checkoutData)
     {
-        if (is_string($checkoutData)) {
-            $elements = explode('/', $checkoutData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $checkoutData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $checkoutData = $this->testDataToArray($checkoutData);
         $this->doOnePageCheckoutSteps($checkoutData);
         $this->frontOrderReview($checkoutData);
         $this->selectTermsAndConditions($checkoutData);

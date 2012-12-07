@@ -284,11 +284,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
      */
     public function paypalSandboxLogin($parameters)
     {
-        if (is_string($parameters)) {
-            $elements = explode('/', $parameters);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $parameters = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $parameters = $this->testDataToArray($parameters);
         if ($this->controlIsPresent('button', 'button_login')) {
             $this->addParameter('elementTitle', $parameters['page_title']);
             $this->validatePage();
@@ -306,11 +302,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
      */
     public function paypalSandboxConfigure($parameters)
     {
-        if (is_string($parameters)) {
-            $elements = explode('/', $parameters);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $parameters = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $parameters = $this->testDataToArray($parameters);
         $this->addParameter('elementTitle', $parameters['page_title']);
         $this->validatePage();
         $this->fillForm($parameters['credentials']);
@@ -327,11 +319,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
      */
     public function paypalPayOrder($parameters)
     {
-        if (is_string($parameters)) {
-            $elements = explode('/', $parameters);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $parameters = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $parameters = $this->testDataToArray($parameters);
         if (!$this->controlIsPresent('button', 'button_login')) {
             $this->addParameter('elementTitle', $parameters['page_title_pay_with']);
             $this->validatePage();

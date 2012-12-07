@@ -46,11 +46,7 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_AbstractHelper
      */
     public function createTaxItem($taxItemData, $type)
     {
-        if (is_string($taxItemData)) {
-            $elements = explode('/', $taxItemData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $taxItemData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $taxItemData = $this->testDataToArray($taxItemData);
         $this->clickButton('add_' . $type);
         $this->fillForm($taxItemData);
 

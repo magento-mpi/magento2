@@ -43,28 +43,13 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * @param $pageData
-     *
-     * @return array $pageData
-     */
-    protected function _ifIsString($pageData)
-    {
-        if (is_string($pageData)) {
-            $elements = explode('/', $pageData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $pageData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
-        return $pageData;
-    }
-
-    /**
      * Creates page
      *
      * @param string|array $pageData
      */
     public function createCmsPage($pageData)
     {
-        $pageData = $this->_ifIsString($pageData);
+        $pageData = $this->testDataToArray($pageData);
         $cmsVars = $this->_verifyCmsPageVars($pageData);
         $this->clickButton('add_new_page');
         if ($cmsVars['pageInfo']) {

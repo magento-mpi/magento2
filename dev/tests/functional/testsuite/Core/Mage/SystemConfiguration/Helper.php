@@ -19,27 +19,13 @@
 class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
-     * @param $parameters
-     * @return array $parameters
-     */
-    protected function _ifIsString($parameters)
-    {
-        if (is_string($parameters)) {
-            $elements = explode('/', $parameters);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $parameters = $this->loadDataSet($fileName, implode('/', $elements));
-        }
-        return $parameters;
-    }
-
-    /**
      * System Configuration
      *
      * @param array|string $parameters
      */
     public function configure($parameters)
     {
-        $parameters = $this->_ifIsString($parameters);
+        $parameters = $this->testDataToArray($parameters);
         if (isset($parameters['configuration_scope'])) {
             $this->selectStoreScope('dropdown', 'current_configuration_scope', $parameters['configuration_scope']);
         }

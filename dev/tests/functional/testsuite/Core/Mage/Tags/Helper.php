@@ -143,11 +143,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_AbstractHelper
      */
     public function fillTagSettings($tagData)
     {
-        if (is_string($tagData)) {
-            $elements = explode('/', $tagData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $tagData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $tagData = $this->testDataToArray($tagData);
         // Select store view if available
         if (array_key_exists('switch_store', $tagData)) {
             if ($this->controlIsPresent('dropdown', 'switch_store')) {
@@ -195,11 +191,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_AbstractHelper
      */
     public function openTag($searchData)
     {
-        if (is_string($searchData)) {
-            $elements = explode('/', $searchData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $searchData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $searchData = $this->testDataToArray($searchData);
         // Check if store views are available
         $key = 'filter_store_view';
         if (array_key_exists($key, $searchData) && !$this->controlIsPresent('dropdown', 'store_view')) {

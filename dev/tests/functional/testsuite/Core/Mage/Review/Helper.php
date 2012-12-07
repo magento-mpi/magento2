@@ -25,11 +25,7 @@ class Core_Mage_Review_Helper extends Mage_Selenium_AbstractHelper
      */
     public function createReview($reviewData)
     {
-        if (is_string($reviewData)) {
-            $elements = explode('/', $reviewData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $reviewData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $reviewData = $this->testDataToArray($reviewData);
         $this->clickButton('add_new_review');
         $product = (isset($reviewData['product_to_review'])) ? $reviewData['product_to_review'] : array();
         if (!$product) {
@@ -123,11 +119,7 @@ class Core_Mage_Review_Helper extends Mage_Selenium_AbstractHelper
      */
     public function verifyReviewData($reviewData, $skipFields = array())
     {
-        if (is_string($reviewData)) {
-            $elements = explode('/', $reviewData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $reviewData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $reviewData = $this->testDataToArray($reviewData);
         if (isset($reviewData['visible_in']) && !$this->controlIsPresent('multiselect', 'visible_in')) {
             $skipFields = array_merge($skipFields, array('visible_in'));
         }
@@ -154,11 +146,7 @@ class Core_Mage_Review_Helper extends Mage_Selenium_AbstractHelper
      */
     public function frontendAddReview($reviewData, $validateRating = true)
     {
-        if (is_string($reviewData)) {
-            $elements = explode('/', $reviewData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $reviewData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $reviewData = $this->testDataToArray($reviewData);
         $linkName = ($this->controlIsPresent('link', 'add_your_review')) ? 'add_your_review' : 'first_review';
         $this->defineCorrectParam($linkName);
         $this->clickControl('link', $linkName);
@@ -177,11 +165,7 @@ class Core_Mage_Review_Helper extends Mage_Selenium_AbstractHelper
      */
     public function frontendAddRating($ratingData, $validateRating = true)
     {
-        if (is_string($ratingData)) {
-            $elements = explode('/', $ratingData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $ratingData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $ratingData = $this->testDataToArray($ratingData);
         foreach ($ratingData as $value) {
             $this->addParameter('rateName', $value['rating_name']);
             $this->addParameter('rateId', $value['stars']);
