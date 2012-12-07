@@ -38,7 +38,6 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
 
         $themeService = new Mage_Core_Model_Theme_Service($themeMock,
             $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Config', array(), array(), '', false),
             $this->getMock('Mage_Core_Model_App', array(), array(), '', false)
         );
         $this->assertEquals($expectedResult, $themeService->isPresentCustomizedThemes());
@@ -75,7 +74,6 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
 
         $themeService = new Mage_Core_Model_Theme_Service($themeMock,
             $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Config', array(), array(), '', false),
             $this->getMock('Mage_Core_Model_App', array(), array(), '', false)
         );
         $themeService->assignThemeToStores(-1, array());
@@ -106,15 +104,16 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo($area))
             ->will($this->returnValue($area));
 
-        $configMock = $this->getMock('Mage_Core_Model_Config', array('saveConfig'), array(), '', false);
-        $configMock->expects($this->any())
+        $appMock = $this->getMock('Mage_Core_Model_App', array('getConfig', 'saveConfig'), array(), '', false);
+        $appMock->expects($this->any())
+            ->method('getConfig')
+            ->will($this->returnValue($appMock));
+
+        $appMock->expects($this->any())
             ->method('saveConfig')
             ->with($this->equalTo($area), $this->equalTo($themeId), $this->equalTo($scope), $this->anything());
 
-        Mage_Core_Model_Design_Package::DEFAULT_AREA;
-        $themeService = new Mage_Core_Model_Theme_Service($themeMock, $designMock, $configMock,
-            $this->getMock('Mage_Core_Model_App', array(), array(), '', false)
-        );
+        $themeService = new Mage_Core_Model_Theme_Service($themeMock, $designMock, $appMock);
         $this->assertInstanceOf('Mage_Core_Model_Theme_Service',
             $themeService->assignThemeToStores($themeId, $stores, $scope, $area));
     }
@@ -170,11 +169,10 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
         }
 
         $designMock = $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false);
-        $configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
 
         $themeService = $this->getMock('Mage_Core_Model_Theme_Service', array(
             '_getCustomizedFrontThemes'
-        ), array($themeMock, $designMock, $configMock, $appMock));
+        ), array($themeMock, $designMock, $appMock));
         $themeService->expects($this->once())
             ->method('_getCustomizedFrontThemes')
             ->will($this->returnValue($themesMock));

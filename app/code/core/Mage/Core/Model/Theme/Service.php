@@ -24,12 +24,6 @@ class Mage_Core_Model_Theme_Service
     protected $_design;
 
     /**
-     * @var Mage_Core_Model_Config
-     */
-    protected $_config;
-
-
-    /**
      * @var Mage_Core_Model_App
      */
     protected $_app;
@@ -60,18 +54,15 @@ class Mage_Core_Model_Theme_Service
      *
      * @param Mage_Core_Model_Theme $theme
      * @param Mage_Core_Model_Design_Package $design
-     * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_App $app
      */
     public function __construct(
         Mage_Core_Model_Theme $theme,
         Mage_Core_Model_Design_Package $design,
-        Mage_Core_Model_Config $config,
         Mage_Core_Model_App $app
     ) {
         $this->_theme = $theme;
         $this->_design = $design;
-        $this->_config = $config;
         $this->_app = $app;
     }
 
@@ -92,7 +83,7 @@ class Mage_Core_Model_Theme_Service
             throw new UnexpectedValueException('Theme doesn\'t recognized. Requested id: ' . $themeId);
         }
         foreach ($stores as $storeId) {
-            $this->_config->saveConfig(
+            $this->_app->getConfig()->saveConfig(
                 $this->_design->getConfigPathByArea($area), $this->_theme->getId(), $scope, $storeId
             );
         }
