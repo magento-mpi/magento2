@@ -181,7 +181,7 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
                     $this->mouseOver($attributeXpath);
                     $this->clickControl(self::FIELD_TYPE_LINK, 'suggested_attribute', false);
                 } else {
-                    $this->fail('Attribute ' . $attributeTitle . 'can not be found');
+                    $this->fail('Attribute ' . $attributeTitle . 'can not be found in suggestion list.');
                 }
             }
             $this->clickButton('generate_variations');
