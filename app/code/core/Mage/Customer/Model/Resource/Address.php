@@ -1,25 +1,33 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Mage
- * @package     Mage_Customer
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-
-/**
  * Customer address entity resource model
  *
- * @category    Mage
- * @package     Mage_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Customer_Model_Resource_Address extends Mage_Eav_Model_Entity_Abstract
 {
     /**
-     * Resource initialization
+     * @var Mage_Core_Model_Validator_Factory
+     */
+    protected $_validatorFactory;
+
+    /**
+     * Initialize object dependencies
+     *
+     * @param Mage_Core_Model_Validator_Factory $validatorFactory
+     * @param array $data
+     */
+    public function __construct(Mage_Core_Model_Validator_Factory $validatorFactory, $data = array())
+    {
+        $this->_validatorFactory = $validatorFactory;
+        parent::__construct($data);
+    }
+
+    /**
+     * Resource initialization.
      */
     protected function _construct()
     {
@@ -54,5 +62,35 @@ class Mage_Customer_Model_Resource_Address extends Mage_Eav_Model_Entity_Abstrac
             $customer->save();
         }
         return $this;
+    }
+
+    /**
+     * Check customer address before saving
+     *
+     * @param Varien_Object $address
+     * @return Mage_Customer_Model_Resource_Address
+     */
+    protected function _beforeSave(Varien_Object $address)
+    {
+        parent::_beforeSave($address);
+
+        $this->_validate($address);
+
+        return $this;
+    }
+
+    /**
+     * Validate customer address entity
+     *
+     * @param Mage_Customer_Model_Customer $address
+     * @throws Magento_Validator_Exception when validation failed
+     */
+    protected function _validate($address)
+    {
+        $validator = $this->_validatorFactory->createValidator('customer_address', 'save');
+
+        if (!$validator->isValid($address)) {
+            throw new Magento_Validator_Exception($validator->getMessages());
+        }
     }
 }

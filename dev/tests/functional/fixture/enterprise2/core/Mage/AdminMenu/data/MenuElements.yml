@@ -139,8 +139,6 @@ menu:
            web_services:
                api_user:
                api_role:
-               api2_role:
-               api2_attribute:
                oauth_consumer:
                oauth_authorizedTokens:
                oauth_admin_token:

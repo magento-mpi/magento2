@@ -1,28 +1,27 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Mage
- * @package     Mage_Customer
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-
-/**
  * Customer entity resource model
  *
- * @category    Mage
- * @package     Mage_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstract
 {
     /**
-     * Resource initialization
+     * @var Mage_Core_Model_Validator_Factory
      */
-    public function __construct()
+    protected $_validatorFactory;
+
+    /**
+     * Resource initialization
+     *
+     * @param Mage_Core_Model_Validator_Factory $validatorFactory
+     */
+    public function __construct(Mage_Core_Model_Validator_Factory $validatorFactory)
     {
+        $this->_validatorFactory = $validatorFactory;
         $this->setType('customer');
         $this->setConnection('customer_read', 'customer_write');
     }
@@ -48,16 +47,19 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
     /**
      * Check customer scope, email and confirmation key before saving
      *
-     * @param Mage_Customer_Model_Customer $customer
+     * @param Varien_Object $customer
      * @throws Mage_Customer_Exception
+     * @throws Mage_Core_Exception
      * @return Mage_Customer_Model_Resource_Customer
      */
     protected function _beforeSave(Varien_Object $customer)
     {
+        /** @var Mage_Customer_Model_Customer $customer */
         parent::_beforeSave($customer);
 
         if (!$customer->getEmail()) {
-            throw Mage::exception('Mage_Customer', Mage::helper('Mage_Customer_Helper_Data')->__('Customer email is required'));
+            throw Mage::exception('Mage_Customer',
+                Mage::helper('Mage_Customer_Helper_Data')->__('Customer email is required'));
         }
 
         $adapter = $this->_getWriteAdapter();
@@ -78,7 +80,8 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
         $result = $adapter->fetchOne($select, $bind);
         if ($result) {
             throw Mage::exception(
-                'Mage_Customer', Mage::helper('Mage_Customer_Helper_Data')->__('This customer email already exists'),
+                'Mage_Customer',
+                Mage::helper('Mage_Customer_Helper_Data')->__('Customer with the same email already exists.'),
                 Mage_Customer_Model_Customer::EXCEPTION_EMAIL_EXISTS
             );
         }
@@ -94,7 +97,24 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
             $customer->setConfirmation(null);
         }
 
+        $this->_validate($customer);
+
         return $this;
+    }
+
+    /**
+     * Validate customer entity
+     *
+     * @param Mage_Customer_Model_Customer $customer
+     * @throws Magento_Validator_Exception when validation failed
+     */
+    protected function _validate($customer)
+    {
+        $validator = $this->_validatorFactory->createValidator('customer', 'save');
+
+        if (!$validator->isValid($customer)) {
+            throw new Magento_Validator_Exception($validator->getMessages());
+        }
     }
 
     /**
@@ -119,6 +139,7 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
     {
         $defaultBillingId   = $customer->getData('default_billing');
         $defaultShippingId  = $customer->getData('default_shipping');
+        /** @var Mage_Customer_Model_Address $address */
         foreach ($customer->getAddresses() as $address) {
             if ($address->getData('_deleted')) {
                 if ($address->getId() == $defaultBillingId) {
@@ -127,7 +148,10 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
                 if ($address->getId() == $defaultShippingId) {
                     $customer->setData('default_shipping', null);
                 }
+                $removedAddressId = $address->getId();
                 $address->delete();
+                // Remove deleted address from customer address collection
+                $customer->getAddressesCollection()->removeItemByKey($removedAddressId);
             } else {
                 $address->setParentId($customer->getId())
                     ->setStoreId($customer->getStoreId())
@@ -192,9 +216,8 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
 
         if ($customer->getSharingConfig()->isWebsiteScope()) {
             if (!$customer->hasData('website_id')) {
-                Mage::throwException(
-                    Mage::helper('Mage_Customer_Helper_Data')->__('Customer website ID must be specified when using the website scope')
-                );
+                Mage::throwException(Mage::helper('Mage_Customer_Helper_Data')
+                    ->__('Customer website ID must be specified when using the website scope'));
             }
             $bind['website_id'] = (int)$customer->getWebsiteId();
             $select->where('website_id = :website_id');
@@ -306,7 +329,8 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
      * @param string $newResetPasswordLinkToken
      * @return Mage_Customer_Model_Resource_Customer
      */
-    public function changeResetPasswordLinkToken(Mage_Customer_Model_Customer $customer, $newResetPasswordLinkToken) {
+    public function changeResetPasswordLinkToken(Mage_Customer_Model_Customer $customer, $newResetPasswordLinkToken)
+    {
         if (is_string($newResetPasswordLinkToken) && !empty($newResetPasswordLinkToken)) {
             $customer->setRpToken($newResetPasswordLinkToken);
             $currentDate = Varien_Date::now();

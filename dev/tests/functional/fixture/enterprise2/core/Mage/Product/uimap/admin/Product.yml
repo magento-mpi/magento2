@@ -67,6 +67,7 @@ new_product:
                                     checkboxes:
                                         associated_product_select: //tbody/tr[%attributeSearch%]//*[@type='checkbox']
                                         assigned_product: //table/tbody/tr[contains(., '%productSku%') and %attributeSearch%]//input[@checked='checked']
+                                        include_variation: //tbody/tr[%rowNum%]//*[@type='checkbox']
                                     pageelements:
                                         attribute_header: //table/thead/tr/th[contains(.,'%attributeTitle%')]
                                         variation_line: //table/tbody/tr[%rowNum%]
