@@ -22,14 +22,23 @@ class Mage_Launcher_Adminhtml_Storelauncher_Businessinfo_DrawerController extend
 
     /**
      * Drawer Save Action
-     *
-     * @todo Implement save handling logic here
      */
     public function saveAction()
     {
-        $responseContent = '';
         try {
-            //TODO: Implement save handling logic here
+            $data = $this->getRequest()->getParams();
+            /** @var $config Mage_Backend_Model_Config */
+            $config = Mage::getModel('Mage_Backend_Model_Config');
+            $sections = array('general', 'trans_email', 'shipping');
+            $sectionData = $this->_prepareData($data);
+
+            foreach ($sections as $section) {
+                if (!empty($sectionData[$section])) {
+                    $config->setSection($section)
+                        ->setGroups($sectionData[$section])
+                        ->save();
+                }
+            }
 
             $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(
                 'success' => true,
@@ -38,7 +47,7 @@ class Mage_Launcher_Adminhtml_Storelauncher_Businessinfo_DrawerController extend
         } catch (Exception $e) {
             $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(
                 'success' => false,
-                'error_message' => Mage::helper('Mage_Tax_Helper_Data') ->__($e->getMessage())
+                'error_message' => Mage::helper('Mage_Launcher_Helper_Data')->__($e->getMessage())
             ));
         }
         $this->getResponse()->setBody($responseContent);
@@ -49,7 +58,6 @@ class Mage_Launcher_Adminhtml_Storelauncher_Businessinfo_DrawerController extend
      */
     public function loadAction()
     {
-        $responseContent = '';
         try {
             $tileCode = $this->getRequest()->getParam('tileCode');
             $tileModel = Mage::getModel('Mage_Launcher_Model_Tile')->loadByCode($tileCode);

@@ -165,10 +165,10 @@
 
             options.btnSaveDrawer
                 .on('click.saveSettings', function () {
+                    var drawerForm = $("#drawer-form"),
+                        postData;
 
-                    var postData = {
-                        form_key: FORM_KEY
-                    };
+                    postData = drawerForm.serialize();
                     var ajaxOptions = {
                         type: 'POST',
                         data: postData,
