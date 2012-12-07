@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Validator
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<validation>
+    <entity name="catalog_product">
+        <rules>
+            <rule name="name_sku_and_price">
+                <property_constraints>
+                    <property name="name">
+                        <constraint alias="some_validator" class="Magento_Validator_StringLenght">
+                            <method name="setOptions">
+                                <argument>
+                                    <!-- attribute class is required for callback element -->
+                                    <callback method="getSomeValue"/>
+                                </argument>
+                            </method>
+                        </constraint>
+                    </property>
+                </property_constraints>
+            </rule>
+        </rules>
+        <groups>
+            <group name="create">
+                <uses>
+                    <use rule="name_sku_and_price"/>
+                </uses>
+            </group>
+        </groups>
+    </entity>
+</validation>
