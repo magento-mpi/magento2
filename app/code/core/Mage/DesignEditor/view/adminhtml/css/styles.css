@@ -44,3 +44,15 @@
     width: 900px;
     position: relative;
 }
+
+div.theme-preview-actions .theme-preview-back,
+div.theme-preview-actions .theme-preview-about {
+    float: left;
+    display: none;
+}
+div.theme-preview-actions .btn-apply-theme {
+    float: right;
+}
+div.theme-preview-actions .theme-preview-window {
+    margin: 0 10px;
+}

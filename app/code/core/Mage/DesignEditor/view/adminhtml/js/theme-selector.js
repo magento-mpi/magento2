@@ -10,8 +10,9 @@
 (function($) {
     $.widget("mage.themeSelector", {
         options: {
-            assignEvent: 'assign',
-            loadEvent:   'loaded',
+            assignEvent:  'assign',
+            previewEvent: 'preview',
+            loadEvent:    'loaded',
             storeView: {
                 windowSelector: '#store-view-window',
                 assignSaveButtonRelativeSelector: 'button'
@@ -69,6 +70,7 @@
          */
         _bind: function() {
             this.element.on(this.options.assignEvent, $.proxy(this._onAssign, this));
+            this.element.on(this.options.previewEvent, $.proxy(this._onPreview, this));
 
             $('body').on(this.options.loadEvent, function() {
                 $('*[data-widget-button]').button();
@@ -77,6 +79,14 @@
             var window = $(this.options.storeView.windowSelector)
                 .find(this.options.storeView.assignSaveButtonRelativeSelector)
                 .on('click', $.proxy(this._onAssignSave, this));
+        },
+
+        /**
+         * Preview action
+         * @protected
+         */
+        _onPreview: function(event, data) {
+            document.location = data.preview_url;
         },
 
         /**
