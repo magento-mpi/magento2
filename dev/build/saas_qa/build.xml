@@ -9,11 +9,11 @@
 -->
 <project name="SaaS QA Builds" basedir="../../../" default="multitenant_deployment">
     <target name="multitenant_deployment" description="Basic multi-tenant environment QA setup">
-        <fail unless="${env.db_host}" message="'db_host' must be defined"/>
-        <fail unless="${env.db_user}" message="'db_user' must be defined"/>
-        <fail unless="${env.db_password}" message="'db_password' must be defined"/>
-        <fail unless="${env.multitenant_deployment_dir}" message="'multitenant_deployment_dir' must be defined"/>
-        <fail unless="${env.multitenant_url_pattern}" message="'multitenant_deployment_dir' must be defined"/>
+        <fail unless="env.db_host" message="'db_host' must be defined"/>
+        <fail unless="env.db_user" message="'db_user' must be defined"/>
+        <fail unless="env.db_password" message="'db_password' must be defined"/>
+        <fail unless="env.multitenant_deployment_dir" message="'multitenant_deployment_dir' must be defined"/>
+        <fail unless="env.multitenant_url_pattern" message="'multitenant_deployment_dir' must be defined"/>
         <condition property="env.bamboo_tenant_ids" value="">
             <not><isset property="env.bamboo_tenant_ids"/></not>
         </condition>
