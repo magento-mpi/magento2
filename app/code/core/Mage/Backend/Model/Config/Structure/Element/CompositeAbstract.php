@@ -69,5 +69,13 @@ abstract class Mage_Backend_Model_Config_Structure_Element_CompositeAbstract
     {
         return $this->_childrenIterator;
     }
+
+    public function isVisible()
+    {
+        if (parent::isVisible()) {
+            return $this->hasChildren() || $this->getFrontendModel();
+        }
+        return false;
+    }
 }
 
