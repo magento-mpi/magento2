@@ -14,7 +14,7 @@
 /**
  * Products creation tests with ability to change attribute set during creation and editing products
  */
-class Community2_Mage_Product_Create_ConfigurableWithVariations extends Mage_Selenium_TestCase
+class Community2_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
