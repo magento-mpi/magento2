@@ -33,7 +33,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param Mage_Core_Model_App_Dir $dirs
+     * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Logger $logger
      * @param Mage_Core_Model_App $app
      * @param array $data
@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
-        Mage_Core_Model_App_Dir $dirs,
+        Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Logger $logger,
         Mage_Core_Model_App $app,
         array $data = array()

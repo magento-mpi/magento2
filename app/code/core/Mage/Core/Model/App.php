@@ -32,12 +32,12 @@ class Mage_Core_Model_App
     /**
      * Custom directory paths initialization option
      */
-    const INIT_OPTION_DIRS = 'app_dirs';
+    const INIT_OPTION_URIS = 'app_uris';
 
     /**
      * Custom directory absolute paths initialization option
      */
-    const INIT_OPTION_DIR_PATHS = 'app_dir_paths';
+    const INIT_OPTION_DIRS = 'app_dirs';
 
     /**#@+
      * Available scope types
@@ -457,12 +457,12 @@ class Mage_Core_Model_App
      */
     protected function _initFileSystem()
     {
-        $customDirs = $this->getInitParam(self::INIT_OPTION_DIRS) ?: array();
-        $customPaths = $this->getInitParam(self::INIT_OPTION_DIR_PATHS) ?: array();
-        $dirs = new Mage_Core_Model_App_Dir(BP, $customDirs, $customPaths);
-        $this->_objectManager->addSharedInstance($dirs, 'Mage_Core_Model_App_Dir');
-        foreach (Mage_Core_Model_App_Dir::getWritableDirs() as $code) {
-            $path = $dirs->getPath($code);
+        $customDirs = $this->getInitParam(self::INIT_OPTION_URIS) ?: array();
+        $customPaths = $this->getInitParam(self::INIT_OPTION_DIRS) ?: array();
+        $dirs = new Mage_Core_Model_Dir(BP, $customDirs, $customPaths);
+        $this->_objectManager->addSharedInstance($dirs, 'Mage_Core_Model_Dir');
+        foreach (Mage_Core_Model_Dir::getWritableDirCodes() as $code) {
+            $path = $dirs->getDir($code);
             if ($path && !is_dir($path)) {
                 mkdir($path);
             }

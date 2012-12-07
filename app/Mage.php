@@ -307,11 +307,11 @@ final class Mage
      * @param string $type
      * @return string
      */
-    public static function getBaseDir($type = Mage_Core_Model_App_Dir::ROOT)
+    public static function getBaseDir($type = Mage_Core_Model_Dir::ROOT)
     {
-        /** @var $dirs Mage_Core_Model_App_Dir */
-        $dirs = self::$_objectManager->get('Mage_Core_Model_App_Dir');
-        return $dirs->getPath($type);
+        /** @var $dirs Mage_Core_Model_Dir */
+        $dirs = self::$_objectManager->get('Mage_Core_Model_Dir');
+        return $dirs->getDir($type);
     }
 
     /**
@@ -681,7 +681,7 @@ final class Mage
             header('Location: ' . self::getBaseUrl());
             die;
         } catch (Mage_Core_Model_Store_Exception $e) {
-            require_once(self::getBaseDir(Mage_Core_Model_App_Dir::PUB) . DS . 'errors' . DS . '404.php');
+            require_once(self::getBaseDir(Mage_Core_Model_Dir::PUB) . DS . 'errors' . DS . '404.php');
             die;
         } catch (Exception $e) {
             self::printException($e);
@@ -839,7 +839,7 @@ final class Mage
             } catch (Exception $e) {
             }
 
-            require_once(self::getBaseDir(Mage_Core_Model_App_Dir::PUB) . DS . 'errors' . DS . 'report.php');
+            require_once(self::getBaseDir(Mage_Core_Model_Dir::PUB) . DS . 'errors' . DS . 'report.php');
         }
 
         die();

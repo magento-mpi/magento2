@@ -28,7 +28,7 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
             $this->getMock('Mage_Core_Model_Store_Config'),
             $this->getMock('Mage_Core_Controller_Varien_Front'),
             $this->getMock('Mage_Core_Model_Factory_Helper'),
-            $this->getMock('Mage_Core_Model_App_Dir', array(), array(), '', false),
+            $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false),
             $this->getMock('Mage_Core_Model_Logger', array(), array(), '', false),
             array('template' => $template, 'area' => $area)
         );
@@ -59,10 +59,10 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
             $this->getMock('Mage_Core_Model_Store_Config'),
             $this->getMock('Mage_Core_Controller_Varien_Front'),
             $this->getMock('Mage_Core_Model_Factory_Helper'),
-            new Mage_Core_Model_App_Dir(
+            new Mage_Core_Model_Dir(
                 __DIR__ . '/_files',
-                array(Mage_Core_Model_App_Dir::APP => ''),
-                array(Mage_Core_Model_App_Dir::APP => __DIR__)
+                array(Mage_Core_Model_Dir::APP => ''),
+                array(Mage_Core_Model_Dir::APP => __DIR__)
             ),
             $this->getMock('Mage_Core_Model_Logger', array('log'), array(), '', false)
         ));

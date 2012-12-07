@@ -64,7 +64,7 @@ class Enterprise_ImportExport_Model_Observer
         }
 
         try {
-            $logPath = Mage::getBaseDir(Mage_Core_Model_App_Dir::LOG)
+            $logPath = Mage::getBaseDir(Mage_Core_Model_Dir::LOG)
                 . DS . Enterprise_ImportExport_Model_Scheduled_Operation::LOG_DIRECTORY;
 
             if (!file_exists($logPath) || !is_dir($logPath)) {

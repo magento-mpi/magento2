@@ -45,7 +45,7 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit_Before extends Mage_Backend_
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param Mage_Core_Model_App_Dir $dirs
+     * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Logger $logger
      * @param Mage_Core_Helper_Data $coreHelper
      * @param Mage_ImportExport_Model_Import $importModel
@@ -64,7 +64,7 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit_Before extends Mage_Backend_
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
-        Mage_Core_Model_App_Dir $dirs,
+        Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Logger $logger,
         Mage_Core_Helper_Data $coreHelper,
         Mage_ImportExport_Model_Import $importModel,

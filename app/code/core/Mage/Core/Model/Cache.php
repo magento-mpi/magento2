@@ -100,15 +100,15 @@ class Mage_Core_Model_Cache
      * Class constructor. Initialize cache instance based on options
      *
      * @param Mage_Core_Model_App $app
-     * @param Mage_Core_Model_App_Dir $dirs
+     * @param Mage_Core_Model_Dir $dirs
      * @param array $options
      */
-    public function __construct(Mage_Core_Model_App $app, Mage_Core_Model_App_Dir $dirs, array $options = array())
+    public function __construct(Mage_Core_Model_App $app, Mage_Core_Model_Dir $dirs, array $options = array())
     {
         $this->_app = $app;
         $this->_helper = isset($options['helper']) ? $options['helper'] : Mage::helper('Mage_Core_Helper_Data');
 
-        $this->_defaultBackendOptions['cache_dir'] = $dirs->getPath(Mage_Core_Model_App_Dir::CACHE);
+        $this->_defaultBackendOptions['cache_dir'] = $dirs->getDir(Mage_Core_Model_Dir::CACHE);
         /**
          * Initialize id prefix
          */
@@ -117,7 +117,7 @@ class Mage_Core_Model_Cache
             $this->_idPrefix = $options['prefix'];
         }
         if (empty($this->_idPrefix)) {
-            $this->_idPrefix = substr(md5($dirs->getPath(Mage_Core_Model_App_Dir::CONFIG)), 0, 3) . '_';
+            $this->_idPrefix = substr(md5($dirs->getDir(Mage_Core_Model_Dir::CONFIG)), 0, 3) . '_';
         }
 
         $backend    = $this->_getBackendOptions($options);

@@ -292,7 +292,7 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
     public function createPackage()
     {
         $pear = Varien_Pear::getInstance();
-        $dir = Mage::getBaseDir(Mage_Core_Model_App_Dir::VAR_DIR) . DS . 'pear';
+        $dir = Mage::getBaseDir(Mage_Core_Model_Dir::VAR_DIR) . DS . 'pear';
         if (!is_dir($dir)) {
             if (mkdir($dir)) {
                 return false;

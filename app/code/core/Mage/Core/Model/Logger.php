@@ -26,11 +26,11 @@ class Mage_Core_Model_Logger
     protected $_loggers = array();
 
     /**
-     * @var Mage_Core_Model_App_Dir
+     * @var Mage_Core_Model_Dir
      */
     protected $_dirs = null;
 
-    public function __construct(Mage_Core_Model_App_Dir $dirs)
+    public function __construct(Mage_Core_Model_Dir $dirs)
     {
         $this->_dirs = $dirs;
     }
@@ -50,7 +50,7 @@ class Mage_Core_Model_Logger
     {
         $file = $fileOrWrapper ?: "{$loggerKey}.log";
         if (!preg_match('#^[a-z][a-z0-9+.-]*\://#i', $file)) {
-            $logDir = $this->_dirs->getPath(Mage_Core_Model_App_Dir::LOG);
+            $logDir = $this->_dirs->getDir(Mage_Core_Model_Dir::LOG);
             $file = $logDir . DIRECTORY_SEPARATOR . $file;
         }
         if (!$writerClass || !is_subclass_of($writerClass, 'Zend_Log_Writer_Stream')) {

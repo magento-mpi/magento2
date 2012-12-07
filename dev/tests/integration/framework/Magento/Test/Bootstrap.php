@@ -180,17 +180,9 @@ class Magento_Test_Bootstrap
 
         $this->_initParams = array(
             Mage_Core_Model_App::INIT_OPTION_DIRS => array(
-                Mage_Core_Model_App_Dir::CONFIG => 'etc',          // compare to default app/etc
-                Mage_Core_Model_App_Dir::VAR_DIR => '',            // var
-                Mage_Core_Model_App_Dir::TMP => 'tmp',             // var/tmp
-                Mage_Core_Model_App_Dir::CACHE => 'cache',         // var/cache
-                Mage_Core_Model_App_Dir::LOG => 'log',             // var/log
-                Mage_Core_Model_App_Dir::SESSION => 'session',     // var/session
-            ),
-            Mage_Core_Model_App::INIT_OPTION_DIR_PATHS => array(
-                Mage_Core_Model_App_Dir::CONFIG => $this->_installEtcDir,
-                Mage_Core_Model_App_Dir::VAR_DIR => $installDir,
-                Mage_Core_Model_App_Dir::MEDIA => "{$installDir}/media",
+                Mage_Core_Model_Dir::CONFIG => $this->_installEtcDir,
+                Mage_Core_Model_Dir::VAR_DIR => $installDir,
+                Mage_Core_Model_Dir::MEDIA => "{$installDir}/media",
             ),
         );
 

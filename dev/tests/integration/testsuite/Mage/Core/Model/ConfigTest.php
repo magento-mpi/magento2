@@ -52,13 +52,13 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         /** @var $objectManager Magento_Test_ObjectManager */
         $objectManager = Mage::getObjectManager();
         $model = $this->_createModelWithApp($objectManager, $configOptions);
-        /** @var $dirs Mage_Core_Model_App_Dir */
-        $dirs = new Mage_Core_Model_App_Dir(
+        /** @var $dirs Mage_Core_Model_Dir */
+        $dirs = new Mage_Core_Model_Dir(
             __DIR__,
             array(),
-            array(Mage_Core_Model_App_Dir::CONFIG => __DIR__ . "/_files/local_config/{$etcDir}")
+            array(Mage_Core_Model_Dir::CONFIG => __DIR__ . "/_files/local_config/{$etcDir}")
         );
-        $objectManager->addSharedInstance($dirs, 'Mage_Core_Model_App_Dir');
+        $objectManager->addSharedInstance($dirs, 'Mage_Core_Model_Dir');
 
         $model->loadBase();
         $this->assertInstanceOf('Varien_Simplexml_Element', $model->getNode($expectedNode));
@@ -159,13 +159,13 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         /** @var $objectManager Magento_Test_ObjectManager */
         $objectManager = Mage::getObjectManager();
         $model = $this->_createModelWithApp($objectManager);
-        /** @var $dirs Mage_Core_Model_App_Dir */
-        $dirs = new Mage_Core_Model_App_Dir(
+        /** @var $dirs Mage_Core_Model_Dir */
+        $dirs = new Mage_Core_Model_Dir(
             __DIR__,
             array(),
-            array(Mage_Core_Model_App_Dir::LOCALE => __DIR__ . "/_files/locale")
+            array(Mage_Core_Model_Dir::LOCALE => __DIR__ . "/_files/locale")
         );
-        $objectManager->addSharedInstance($dirs, 'Mage_Core_Model_App_Dir');
+        $objectManager->addSharedInstance($dirs, 'Mage_Core_Model_Dir');
 
         $model->loadBase();
         $model->loadLocales();

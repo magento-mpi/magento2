@@ -50,12 +50,12 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
     {
         $data = $this->getConfigData();
 
-        /** @var $dirs Mage_Core_Model_App_Dir */
-        $dirs = Mage::getObjectManager()->get('Mage_Core_Model_App_Dir');
+        /** @var $dirs Mage_Core_Model_Dir */
+        $dirs = Mage::getObjectManager()->get('Mage_Core_Model_Dir');
         $defaults = array(
-            'root_dir' => $dirs->getPath(Mage_Core_Model_App_Dir::ROOT),
-            'app_dir'  => $dirs->getPath(Mage_Core_Model_App_Dir::APP),
-            'var_dir'  => $dirs->getPath(Mage_Core_Model_App_Dir::VAR_DIR),
+            'root_dir' => $dirs->getDir(Mage_Core_Model_Dir::ROOT),
+            'app_dir'  => $dirs->getDir(Mage_Core_Model_Dir::APP),
+            'var_dir'  => $dirs->getDir(Mage_Core_Model_Dir::VAR_DIR),
             'base_url' => Mage::getModel('Mage_Core_Model_Config')->getDistroBaseUrl(),
         );
         foreach ($defaults as $index => $value) {

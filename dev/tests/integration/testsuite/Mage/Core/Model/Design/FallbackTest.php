@@ -16,7 +16,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructException()
     {
-        $dirs = new Mage_Core_Model_App_Dir(__DIR__);
+        $dirs = new Mage_Core_Model_Dir(__DIR__);
         new Mage_Core_Model_Design_Fallback($dirs, array());
     }
 
@@ -34,7 +34,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
             ->method('getThemeCode')
             ->will($this->returnValue($theme));
 
-        $dirs = new Mage_Core_Model_App_Dir(__DIR__);
+        $dirs = new Mage_Core_Model_Dir(__DIR__);
         $stub = array(
             'appConfig' => 'stub',
             'themeConfig' => 'stub',
@@ -60,7 +60,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
     {
         // Prepare config with directories
         $baseDir = dirname(__DIR__) . DIRECTORY_SEPARATOR .  '_files' . DIRECTORY_SEPARATOR . 'fallback';
-        $dirs = new Mage_Core_Model_App_Dir($baseDir, array(Mage_Core_Model_App_Dir::VIEW => 'design'));
+        $dirs = new Mage_Core_Model_Dir($baseDir, array(Mage_Core_Model_Dir::VIEW => 'design'));
 
         /** @var $collection Mage_Core_Model_Theme_Collection */
         $collection = Mage::getModel('Mage_Core_Model_Theme_Collection');

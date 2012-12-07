@@ -118,7 +118,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param Mage_Core_Model_App_Dir $dirs
+     * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Logger $logger
      * @param Mage_Backend_Helper_Data $helper
      * @param Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory $generatorFactory
@@ -141,7 +141,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
-        Mage_Core_Model_App_Dir $dirs,
+        Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Logger $logger,
         Mage_Backend_Helper_Data $helper,
         Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory $generatorFactory,

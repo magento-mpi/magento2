@@ -257,9 +257,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function loadBase()
     {
-        /** @var $dirs Mage_Core_Model_App_Dir */
-        $dirs = $this->_objectManager->get('Mage_Core_Model_App_Dir');
-        $etcDir = $dirs->getPath(Mage_Core_Model_App_Dir::CONFIG);
+        /** @var $dirs Mage_Core_Model_Dir */
+        $dirs = $this->_objectManager->get('Mage_Core_Model_Dir');
+        $etcDir = $dirs->getDir(Mage_Core_Model_Dir::CONFIG);
         if (!$this->getNode()) {
             $this->loadString('<config/>');
         }
@@ -287,9 +287,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         /** @var $app Mage_Core_Model_App */
         $app = $this->_objectManager->get('Mage_Core_Model_App');
-        /** @var $dirs Mage_Core_Model_App_Dir */
-        $dirs = $this->_objectManager->get('Mage_Core_Model_App_Dir');
-        $etcDir = $dirs->getPath(Mage_Core_Model_App_Dir::CONFIG);
+        /** @var $dirs Mage_Core_Model_Dir */
+        $dirs = $this->_objectManager->get('Mage_Core_Model_Dir');
+        $etcDir = $dirs->getDir(Mage_Core_Model_Dir::CONFIG);
         $localConfigParts = array();
 
         $localConfigFile = $etcDir . DIRECTORY_SEPARATOR . self::LOCAL_CONFIG_FILE;
@@ -354,9 +354,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function loadLocales()
     {
-        /** @var $dirs Mage_Core_Model_App_Dir */
-        $dirs = $this->_objectManager->get('Mage_Core_Model_App_Dir');
-        $localeDir = $dirs->getPath(Mage_Core_Model_App_Dir::LOCALE);
+        /** @var $dirs Mage_Core_Model_Dir */
+        $dirs = $this->_objectManager->get('Mage_Core_Model_Dir');
+        $localeDir = $dirs->getDir(Mage_Core_Model_Dir::LOCALE);
         $files = glob($localeDir . DS . '*' . DS . 'config.xml');
 
         if (is_array($files) && !empty($files)) {
@@ -748,9 +748,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     protected function _getDeclaredModuleFiles()
     {
-        /** @var $dirs Mage_Core_Model_App_Dir */
-        $dirs = $this->_objectManager->get('Mage_Core_Model_App_Dir');
-        $codeDir = $dirs->getPath(Mage_Core_Model_App_Dir::CODE);
+        /** @var $dirs Mage_Core_Model_Dir */
+        $dirs = $this->_objectManager->get('Mage_Core_Model_Dir');
+        $codeDir = $dirs->getDir(Mage_Core_Model_Dir::CODE);
         $moduleFiles = glob($codeDir . DS . '*' . DS . '*' . DS . '*' . DS . 'etc' . DS . 'config.xml');
 
         if (!$moduleFiles) {
@@ -774,7 +774,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             }
         }
 
-        $etcDir = $dirs->getPath(Mage_Core_Model_App_Dir::CONFIG);
+        $etcDir = $dirs->getDir(Mage_Core_Model_Dir::CONFIG);
         $additionalFiles = glob($etcDir . DS . 'modules' . DS . '*.xml');
 
         foreach ($additionalFiles as $v) {
@@ -1053,9 +1053,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         }
 
         $codePool = (string)$this->getModuleConfig($moduleName)->codePool;
-        /** @var $dirs Mage_Core_Model_App_Dir */
-        $dirs = $this->_objectManager->get('Mage_Core_Model_App_Dir');
-        $dir = $dirs->getPath(Mage_Core_Model_App_Dir::CODE) . DS . $codePool . DS . uc_words($moduleName, DS);
+        /** @var $dirs Mage_Core_Model_Dir */
+        $dirs = $this->_objectManager->get('Mage_Core_Model_Dir');
+        $dir = $dirs->getDir(Mage_Core_Model_Dir::CODE) . DS . $codePool . DS . uc_words($moduleName, DS);
 
         switch ($type) {
             case 'etc':

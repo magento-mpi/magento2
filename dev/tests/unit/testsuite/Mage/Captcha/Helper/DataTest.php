@@ -83,12 +83,12 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testSetDirs()
     {
-        $this->assertSame($this->_object, $this->_object->setDirs(new Mage_Core_Model_App_Dir(TESTS_TEMP_DIR)));
+        $this->assertSame($this->_object, $this->_object->setDirs(new Mage_Core_Model_Dir(TESTS_TEMP_DIR)));
     }
 
     public function testGetFonts()
     {
-        $this->_object->setDirs(new Mage_Core_Model_App_Dir(TESTS_TEMP_DIR));
+        $this->_object->setDirs(new Mage_Core_Model_Dir(TESTS_TEMP_DIR));
         $fonts = $this->_object->getFonts();
         $this->assertArrayHasKey('font_code', $fonts); // fixture
         $this->assertArrayHasKey('label', $fonts['font_code']);
@@ -104,7 +104,7 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testGetImgDir()
     {
-        $this->_object->setDirs(new Mage_Core_Model_App_Dir(TESTS_TEMP_DIR));
+        $this->_object->setDirs(new Mage_Core_Model_Dir(TESTS_TEMP_DIR));
         $this->assertFileNotExists(TESTS_TEMP_DIR . '/captcha');
         $result = $this->_object->getImgDir();
         $this->assertFileExists($result);

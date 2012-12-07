@@ -541,7 +541,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
      */
     protected function _getHistoryDirPath()
     {
-        $dirPath = Mage::getBaseDir(Mage_Core_Model_App_Dir::LOG) . DS . self::LOG_DIRECTORY
+        $dirPath = Mage::getBaseDir(Mage_Core_Model_Dir::LOG) . DS . self::LOG_DIRECTORY
             . date('Y' . DS . 'm' . DS . 'd') . DS . self::FILE_HISTORY_DIRECTORY . DS;
 
         if (!is_dir($dirPath)) {

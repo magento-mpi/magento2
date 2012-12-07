@@ -17,8 +17,8 @@ $registration->register(
 );
 
 Magento_Test_Bootstrap::getInstance()->reinitialize(array(
-    Mage_Core_Model_App::INIT_OPTION_DIR_PATHS => array(
-        Mage_Core_Model_App_Dir::VIEW => __DIR__
+    Mage_Core_Model_App::INIT_OPTION_DIRS => array(
+        Mage_Core_Model_Dir::VIEW => __DIR__
     )
 ));
 Mage::getDesign()->setDesignTheme('test/default');

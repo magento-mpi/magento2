@@ -64,7 +64,7 @@ class Mage_Backend_Block_System_Config_Tabs extends Mage_Backend_Block_Widget
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param Mage_Core_Model_App_Dir $dirs
+     * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Logger $logger
      * @param Varien_Data_Collection_Factory $collectionFactory
      * @param Varien_Object_Factory $objectFactory
@@ -84,7 +84,7 @@ class Mage_Backend_Block_System_Config_Tabs extends Mage_Backend_Block_Widget
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
-        Mage_Core_Model_App_Dir $dirs,
+        Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Logger $logger,
         Varien_Data_Collection_Factory $collectionFactory,
         Varien_Object_Factory $objectFactory,

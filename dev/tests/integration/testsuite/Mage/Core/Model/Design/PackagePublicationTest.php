@@ -35,9 +35,9 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
 
     public static function setUpBeforeClass()
     {
-        /** @var $dirs Mage_Core_Model_App_Dir */
-        $dirs = Mage::getObjectManager()->get('Mage_Core_Model_App_Dir');
-        self::$_themePublicDir = $dirs->getPath(Mage_Core_Model_App_Dir::MEDIA . '/theme');
+        /** @var $dirs Mage_Core_Model_Dir */
+        $dirs = Mage::getObjectManager()->get('Mage_Core_Model_Dir');
+        self::$_themePublicDir = $dirs->getDir(Mage_Core_Model_Dir::MEDIA . '/theme');
         self::$_fixtureTmpDir = Magento_Test_Bootstrap::getInstance()->getInstallDir() . '/' . __CLASS__;
     }
 

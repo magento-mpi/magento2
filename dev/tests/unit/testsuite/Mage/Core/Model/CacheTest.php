@@ -12,7 +12,7 @@
 class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_App_Dir
+     * @var Mage_Core_Model_Dir
      */
     protected static $_dirs;
 
@@ -43,8 +43,8 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$_dirs = new Mage_Core_Model_App_Dir(TESTS_TEMP_DIR);
-        mkdir(self::$_dirs->getPath(Mage_Core_Model_App_Dir::CACHE), 0777, true);
+        self::$_dirs = new Mage_Core_Model_Dir(TESTS_TEMP_DIR);
+        mkdir(self::$_dirs->getDir(Mage_Core_Model_Dir::CACHE), 0777, true);
     }
 
     public static function tearDownAfterClass()

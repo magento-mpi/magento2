@@ -32,9 +32,9 @@ class Mage_Index_Model_Lock_StorageTest extends PHPUnit_Framework_TestCase
     {
         $basePath = 'base';
         $varDirectory = 'test';
-        $dirs = new Mage_Core_Model_App_Dir(
+        $dirs = new Mage_Core_Model_Dir(
             $basePath,
-            array(Mage_Core_Model_App_Dir::VAR_DIR => $varDirectory)
+            array(Mage_Core_Model_Dir::VAR_DIR => $varDirectory)
         );
 
         $fileModel = $this->getMock('Mage_Index_Model_Process_File',

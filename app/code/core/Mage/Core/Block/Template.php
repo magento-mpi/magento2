@@ -44,7 +44,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     protected static $_showTemplateHintsBlocks;
 
     /**
-     * @var Mage_Core_Model_App_Dir
+     * @var Mage_Core_Model_Dir
      */
     protected $_dirs;
 
@@ -74,7 +74,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param Mage_Core_Model_App_Dir $dirs
+     * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Logger $logger
      * @param array $data
      */
@@ -90,7 +90,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
-        Mage_Core_Model_App_Dir $dirs,
+        Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Logger $logger,
         array $data = array()
     ) {
@@ -252,8 +252,8 @@ HTML;
         try {
             $templateFile = realpath($fileName);
             if ($templateFile && (
-                strpos($templateFile, $this->_dirs->getPath(Mage_Core_Model_App_Dir::APP)) === 0
-                || strpos($templateFile, $this->_dirs->getPath(Mage_Core_Model_App_Dir::VIEW)) === 0
+                strpos($templateFile, $this->_dirs->getDir(Mage_Core_Model_Dir::APP)) === 0
+                || strpos($templateFile, $this->_dirs->getDir(Mage_Core_Model_Dir::VIEW)) === 0
                 || $this->_getAllowSymlinks())
             ) {
                 include $templateFile;

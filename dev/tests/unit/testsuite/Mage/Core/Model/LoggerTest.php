@@ -19,11 +19,11 @@ class Mage_Core_Model_LoggerTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $dirs = new Mage_Core_Model_App_Dir(TESTS_TEMP_DIR);
+        $dirs = new Mage_Core_Model_Dir(TESTS_TEMP_DIR);
         $this->_model = new Mage_Core_Model_Logger($dirs);
         $this->_loggersProperty = new ReflectionProperty($this->_model, '_loggers');
         $this->_loggersProperty->setAccessible(true);
-        $logDir = $dirs->getPath(Mage_Core_Model_App_Dir::LOG);
+        $logDir = $dirs->getDir(Mage_Core_Model_Dir::LOG);
         if (!is_dir($logDir)) {
             mkdir($logDir, 0777, true);
         }

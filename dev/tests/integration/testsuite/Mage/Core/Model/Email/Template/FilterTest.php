@@ -98,8 +98,8 @@ class Mage_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCa
     public function testLayoutDirective($area, $directiveParams, $expectedOutput)
     {
         Magento_Test_Bootstrap::getInstance()->reinitialize(array(
-            Mage_Core_Model_App::INIT_OPTION_DIR_PATHS => array(
-                Mage_Core_Model_App_Dir::VIEW => dirname(__DIR__) . '/_files/design'
+            Mage_Core_Model_App::INIT_OPTION_DIRS => array(
+                Mage_Core_Model_Dir::VIEW => dirname(__DIR__) . '/_files/design'
             )
         ));
         /** @var $layout Mage_Core_Model_Layout */

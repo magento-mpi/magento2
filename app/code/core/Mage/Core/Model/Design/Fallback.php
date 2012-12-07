@@ -34,7 +34,7 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
     protected $_appConfig;
 
     /**
-     * @var Mage_Core_Model_App_Dir
+     * @var Mage_Core_Model_Dir
      */
     protected $_dirs = null;
 
@@ -44,11 +44,11 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
      * 'themeConfig' may contain application config and theme config, respectively. If these these entries are not
      * present or null, then they will be retrieved from global application instance.
      *
-     * @param Mage_Core_Model_App_Dir $dirs
+     * @param Mage_Core_Model_Dir $dirs
      * @param array $params
      * @throws InvalidArgumentException
      */
-    public function __construct(Mage_Core_Model_App_Dir $dirs, $params)
+    public function __construct(Mage_Core_Model_Dir $dirs, $params)
     {
         $this->_dirs = $dirs;
         if (!array_key_exists('area', $params) || !array_key_exists('themeModel', $params)
@@ -101,7 +101,7 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
      */
     public function getFile($file, $module = null)
     {
-        $dir = $this->_dirs->getPath(Mage_Core_Model_App_Dir::VIEW);
+        $dir = $this->_dirs->getDir(Mage_Core_Model_Dir::VIEW);
         $dirs = array();
         $themeModel = $this->_theme;
         while ($themeModel) {
@@ -122,7 +122,7 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
      */
     public function getLocaleFile($file)
     {
-        $dir = $this->_dirs->getPath(Mage_Core_Model_App_Dir::VIEW);
+        $dir = $this->_dirs->getDir(Mage_Core_Model_Dir::VIEW);
         $dirs = array();
         $themeModel = $this->_theme;
         while ($themeModel) {
@@ -143,7 +143,7 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
      */
     public function getViewFile($file, $module = null)
     {
-        $dir = $this->_dirs->getPath(Mage_Core_Model_App_Dir::VIEW);
+        $dir = $this->_dirs->getDir(Mage_Core_Model_Dir::VIEW);
         $moduleDir = $module ? $this->_appConfig->getModuleDir('view', $module) : '';
 
         $dirs = array();
@@ -160,7 +160,7 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
             $dirs,
             $module,
             array("{$moduleDir}/{$this->_area}/locale/{$this->_locale}", "{$moduleDir}/{$this->_area}"),
-            array($this->_dirs->getPath(Mage_Core_Model_App_Dir::PUB_LIB))
+            array($this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB))
         );
     }
 

@@ -25,8 +25,8 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
     {
         /* Point application to predefined layout fixtures */
         Magento_Test_Bootstrap::getInstance()->reinitialize(array(
-            Mage_Core_Model_App::INIT_OPTION_DIR_PATHS => array(
-                Mage_Core_Model_App_Dir::VIEW => realpath( __DIR__ . '/../../_files/design')
+            Mage_Core_Model_App::INIT_OPTION_DIRS => array(
+                Mage_Core_Model_Dir::VIEW => realpath( __DIR__ . '/../../_files/design')
             )
         ));
 

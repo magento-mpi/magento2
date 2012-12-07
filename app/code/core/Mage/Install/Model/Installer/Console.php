@@ -79,10 +79,10 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
     {
         $result = array();
         if (!empty($args[self::DIR_VAR])) {
-            $result[Mage_Core_Model_App::INIT_OPTION_DIRS][Mage_Core_Model_App_Dir::VAR_DIR] = $args[self::DIR_VAR];
+            $result[Mage_Core_Model_App::INIT_OPTION_URIS][Mage_Core_Model_Dir::VAR_DIR] = $args[self::DIR_VAR];
         }
         if (!empty($args[self::DIR_MEDIA])) {
-            $result[Mage_Core_Model_App::INIT_OPTION_DIRS][Mage_Core_Model_App_Dir::MEDIA] = $args[self::DIR_MEDIA];
+            $result[Mage_Core_Model_App::INIT_OPTION_URIS][Mage_Core_Model_Dir::MEDIA] = $args[self::DIR_MEDIA];
         }
         return $result;
     }
@@ -389,10 +389,10 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
         $this->_cleanUpDatabase();
 
         /* Remove temporary directories and local.xml */
-        foreach (glob(Mage::getBaseDir(Mage_Core_Model_App_Dir::VAR_DIR) . '/*', GLOB_ONLYDIR) as $dir) {
+        foreach (glob(Mage::getBaseDir(Mage_Core_Model_Dir::VAR_DIR) . '/*', GLOB_ONLYDIR) as $dir) {
             Varien_Io_File::rmdirRecursive($dir);
         }
-        unlink(Mage::getBaseDir(Mage_Core_Model_App_Dir::CONFIG) . DIRECTORY_SEPARATOR . '/local.xml');
+        unlink(Mage::getBaseDir(Mage_Core_Model_Dir::CONFIG) . DIRECTORY_SEPARATOR . '/local.xml');
         return true;
     }
 

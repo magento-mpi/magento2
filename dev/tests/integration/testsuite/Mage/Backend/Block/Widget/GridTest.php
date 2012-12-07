@@ -76,7 +76,7 @@ class Mage_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
             Mage::getModel('Mage_Core_Model_Store_Config'),
             Mage::getModel('Mage_Core_Controller_Varien_Front'),
             Mage::getModel('Mage_Core_Model_Factory_Helper'),
-            new Mage_Core_Model_App_Dir(__DIR__),
+            new Mage_Core_Model_Dir(__DIR__),
             Mage::getModel('Mage_Core_Model_Logger'),
             Mage::getModel('Mage_Backend_Helper_Data'),
             Mage::getModel('Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory'),

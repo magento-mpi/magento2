@@ -401,12 +401,12 @@ class Mage_Core_Model_Design_Package
             if ($this->_isDeveloperMode()) {
                 $this->_fallback[$cacheKey] = $fallback;
             } else {
-                /** @var $dirs Mage_Core_Model_App_Dir */
-                $dirs = Mage::getObjectManager()->get('Mage_Core_Model_App_Dir');
+                /** @var $dirs Mage_Core_Model_Dir */
+                $dirs = Mage::getObjectManager()->get('Mage_Core_Model_Dir');
                 $proxy = new Mage_Core_Model_Design_Fallback_CachingProxy(
                     $fallback,
-                    $dirs->getPath(Mage_Core_Model_App_Dir::VAR_DIR) . DIRECTORY_SEPARATOR . self::FALLBACK_MAP_DIR,
-                    $dirs->getPath(Mage_Core_Model_App_Dir::ROOT),
+                    $dirs->getDir(Mage_Core_Model_Dir::VAR_DIR) . DIRECTORY_SEPARATOR . self::FALLBACK_MAP_DIR,
+                    $dirs->getDir(Mage_Core_Model_Dir::ROOT),
                     (bool)(string)Mage::app()->getConfig()->getNode(self::XML_PATH_ALLOW_MAP_UPDATE)
                 );
                 $this->_fallback[$cacheKey] = $proxy;
@@ -502,8 +502,8 @@ class Mage_Core_Model_Design_Package
     protected function _getPublicFileUrl($file, $isSecure = null)
     {
         foreach (array(
-            Mage_Core_Model_Store::URL_TYPE_LIB => Mage_Core_Model_App_Dir::PUB_LIB,
-            Mage_Core_Model_Store::URL_TYPE_MEDIA => Mage_Core_Model_App_Dir::MEDIA
+            Mage_Core_Model_Store::URL_TYPE_LIB => Mage_Core_Model_Dir::PUB_LIB,
+            Mage_Core_Model_Store::URL_TYPE_MEDIA => Mage_Core_Model_Dir::MEDIA
         ) as $urlType => $dirType) {
             $dir = Mage::getBaseDir($dirType);
             if (strpos($file, $dir) === 0) {
@@ -660,7 +660,7 @@ class Mage_Core_Model_Design_Package
      */
     protected function _needToProcessFile($filePath)
     {
-        $jsPath = Mage::getBaseDir(Mage_Core_Model_App_Dir::PUB_LIB) . DS;
+        $jsPath = Mage::getBaseDir(Mage_Core_Model_Dir::PUB_LIB) . DS;
         if (strncmp($filePath, $jsPath, strlen($jsPath)) === 0) {
             return false;
         }
@@ -880,7 +880,7 @@ class Mage_Core_Model_Design_Package
     {
         $filesToMerge = array();
         $mergedFile = array();
-        $jsDir = Mage::getBaseDir(Mage_Core_Model_App_Dir::PUB_LIB);
+        $jsDir = Mage::getBaseDir(Mage_Core_Model_Dir::PUB_LIB);
         $publicDir = $this->_buildPublicViewFilename('');
         foreach ($files as $file) {
             $params = array();

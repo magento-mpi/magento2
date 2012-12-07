@@ -38,7 +38,7 @@ class Mage_Backend_Block_Widget_Grid_Column_Multistore extends Mage_Backend_Bloc
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param Mage_Core_Model_App_Dir $dirs
+     * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Logger $logger
      * @param Mage_Core_Model_App $application
      * @param array $data
@@ -57,7 +57,7 @@ class Mage_Backend_Block_Widget_Grid_Column_Multistore extends Mage_Backend_Bloc
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
-        Mage_Core_Model_App_Dir $dirs,
+        Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Logger $logger,
         Mage_Core_Model_App $application,
         array $data = array()

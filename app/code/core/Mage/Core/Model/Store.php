@@ -504,8 +504,8 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     {
         $cacheKey = $type . '/' . (is_null($secure) ? 'null' : ($secure ? 'true' : 'false'));
         $secure = is_null($secure) ? $this->isCurrentlySecure() : (bool)$secure;
-        /** @var $dirs Mage_Core_Model_App_Dir */
-        $dirs = Mage::getObjectManager()->get('Mage_Core_Model_App_Dir');
+        /** @var $dirs Mage_Core_Model_Dir */
+        $dirs = Mage::getObjectManager()->get('Mage_Core_Model_Dir');
         if (!isset($this->_baseUrlCache[$cacheKey])) {
             switch ($type) {
                 case self::URL_TYPE_WEB:
@@ -531,7 +531,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
                     $url = $this->getConfig($path);
                     if (!$url) {
                         $url = $this->getBaseUrl(self::URL_TYPE_WEB, $secure)
-                            . $dirs->get(Mage_Core_Model_App_Dir::PUB_LIB);
+                            . $dirs->getUri(Mage_Core_Model_Dir::PUB_LIB);
                     }
                     break;
 
@@ -542,7 +542,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
                         $url = $this->getConfig($path);
                         if (!$url) {
                             $url = $this->getBaseUrl(self::URL_TYPE_WEB, $secure)
-                                . $dirs->get(Mage_Core_Model_App_Dir::MEDIA);
+                                . $dirs->getUri(Mage_Core_Model_Dir::MEDIA);
                         }
                     }
                     break;
@@ -600,16 +600,16 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      * If we use Database file storage and server doesn't support rewrites (.htaccess in media folder)
      * we have to put name of fetching media script exactly into URL
      *
-     * @param Mage_Core_Model_App_Dir $dirs
+     * @param Mage_Core_Model_Dir $dirs
      * @param bool $secure
      * @return string|bool
      */
-    protected function _getMediaScriptUrl(Mage_Core_Model_App_Dir $dirs, $secure)
+    protected function _getMediaScriptUrl(Mage_Core_Model_Dir $dirs, $secure)
     {
         if (!$this->getConfig(self::XML_PATH_USE_REWRITES)
             && Mage::helper('Mage_Core_Helper_File_Storage_Database')->checkDbUsage()
         ) {
-            return $this->getBaseUrl(self::URL_TYPE_WEB, $secure) . $dirs->get(Mage_Core_Model_App_Dir::PUB)
+            return $this->getBaseUrl(self::URL_TYPE_WEB, $secure) . $dirs->getUri(Mage_Core_Model_Dir::PUB)
                 . '/' . self::MEDIA_REWRITE_SCRIPT;
         }
         return false;

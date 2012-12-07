@@ -44,7 +44,7 @@ class Enterprise_PageCache_Model_Cache
 
             foreach (array('backend_options', 'slow_backend_options') as $tag) {
                 if (!empty($options[$tag]['cache_dir'])) {
-                    $dir = Mage::getBaseDir(Mage_Core_Model_App_Dir::VAR_DIR) . DS . $options[$tag]['cache_dir'];
+                    $dir = Mage::getBaseDir(Mage_Core_Model_Dir::VAR_DIR) . DS . $options[$tag]['cache_dir'];
                     if (!is_dir($dir)) {
                         mkdir($dir);
                     }
