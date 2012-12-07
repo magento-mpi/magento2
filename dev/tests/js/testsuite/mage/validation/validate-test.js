@@ -283,3 +283,21 @@ MageValidationTest.prototype.testValidateData = function () {
     assertEquals(true, $.validator.methods['validate-data'].call(this, "abc123"));
     assertEquals(false, $.validator.methods['validate-data'].call(this, "abc-123"));
 };
+
+MageValidationTest.prototype.testValidateOneRequiredByName = function () {
+    /*:DOC += <input type="radio" name="radio" id="radio"/> */
+    /*:DOC += <input type="radio" name="radio"/> */
+    assertFalse(false, $.validator.methods['validate-one-required-by-name'].call(this,
+        null, document.getElementById('radio')));
+    /*:DOC += <input type="radio" name="radio" checked/> */
+    assertTrue(false, $.validator.methods['validate-one-required-by-name'].call(this,
+        null, document.getElementById('radio')));
+
+    /*:DOC += <input type="checkbox" name="checkbox" id="checkbox"/> */
+    /*:DOC += <input type="checkbox" name="checkbox"/> */
+    assertFalse(false, $.validator.methods['validate-one-required-by-name'].call(this,
+        null, document.getElementById('checkbox')));
+    /*:DOC += <input type="checkbox" name="checkbox" checked/> */
+    assertTrue(false, $.validator.methods['validate-one-required-by-name'].call(this,
+        null, document.getElementById('checkbox')));
+};

@@ -21,7 +21,7 @@
          */
         _reloadPrice: function() {
             var price = 0;
-            $(this.options.linkElement + ':checked').each($.proxy(function(index, element) {
+            this.element.find(this.options.linkElement + ':checked').each($.proxy(function(index, element) {
                 price += this.options.config[$(element).val()];
             }, this));
             this.options.priceOptionInstance.changePrice('config', {'price': price});

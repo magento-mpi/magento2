@@ -9,18 +9,33 @@
 /*jshint jquery:true*/
 (function($) {
     "use strict";
-    $.widget("mage.validation", $.mage.validation, {
-        options: {
-            errorPlacement: function(error, element) {
-                if (element.hasClass("validate-one-required-by-name")) {
-                    error.appendTo('#links-advice-container');
-                }
-                else {
-                    error.insertAfter(element);
-                }
+
+    $.validator.addMethod(
+        "validate-one-checkbox-required-by-name",
+        function(value, element, params) {
+            var checkedCount = 0;
+            if (element.type === 'checkbox') {
+                $('[name="' + element.name + '"]').each(function() {
+                    if ($(this).is(':checked')) {
+                        checkedCount += 1;
+                        return false;
+                    }
+                });
+            }
+            var container = '#' + params;
+            if (checkedCount > 0) {
+                $(container).removeClass('validation-failed');
+                $(container).addClass('validation-passed');
+                return true;
+            } else {
+                $(container).addClass('validation-failed');
+                $(container).removeClass('validation-passed');
+                return false;
             }
         },
-
+        'Please select one of the options.'
+    );
+    $.widget("mage.validation", $.mage.validation, {
         /**
          * Check if form pass validation rules without submit
          * @return boolean

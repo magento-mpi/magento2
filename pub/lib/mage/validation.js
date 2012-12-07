@@ -736,21 +736,6 @@
                 }).length > 0;
             }
         ],
-        "validate-one-required-by-name": [
-            function(value, element) {
-                var checkedCount = 0;
-                if (element.type === 'checkbox') {
-                    $('[name="' + element.name + '"]').each(function() {
-                        if ($(this).is(':checked')) {
-                            checkedCount += 1;
-                            return false;
-                        }
-                    });
-                }
-                return checkedCount > 0;
-            },
-            'Please select one of the options.'
-        ],
         "validate-state": [
             function(v) {
                 return (v !== 0 || v === '');
@@ -816,6 +801,18 @@
                 return true;
             },
             'This field is required'
+        ],
+        "validate-one-required-by-name": [
+            function (v,elm) {
+                var result = false;
+                $('input[name="' + elm.name.replace(/([\\"])/g, '\\$1') + '"]:checked').each(function() {
+                    if($.inArray($(this).prop('type'), ['checkbox', 'radio'] >= 0)) {
+                        result = true;
+                    }
+                });
+                return result;
+            },
+            'Please select one of the options.'
         ]
     };
 
