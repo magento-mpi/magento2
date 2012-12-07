@@ -87,11 +87,6 @@ edit_gift_wrapping:
         form: &editGiftWrappingForm
             fieldsets:
                 -
-                    store_selector:
-                        xpath: //*[@id='page:main-container']/p
-                        dropdowns:
-                            choose_store_view: //select[@id='store_switcher']
-                -
                     gift_wrapping_info: *giftWrappingInfo
         buttons: &editGiftWrappingButtons
             back: //button[span='Back']

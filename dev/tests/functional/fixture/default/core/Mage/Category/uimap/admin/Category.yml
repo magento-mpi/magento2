@@ -34,8 +34,6 @@ manage_categories:
                             select_category_category_text: %categoryXpath%/div/a/span
                             select_category_category_index_text: %categoryXpath%[%index%]/div/a/span
                             select_category_category_index_link: %categoryXpath%[%index%]/div/a
-                        dropdowns:
-                            choose_store_view: //select[@id='store_switcher']
                 -
                     category_container:
                         xpath: //*[@id='category-edit-container']

@@ -73,20 +73,7 @@ system_configuration:
                                     links:
                                         general_cms_versioning_link: //parent::div//a[@id='cms_content-head']
                 -
-                    services_oauth:
-                        xpath: //a[contains(@href, 'edit/section/oauth/')]
-                        fieldsets:
-                            -
-                                email:
-                                    links:
-                                        email_link: //parent::div//a[@id='oauth_email-head']
-                            -
-                                cleanup_settings:
-                                    links:
-                                        cleanup_settings_link: //parent::div//a[@id='oauth_cleanup-head']
-                -
                     catalog_catalog:
-                        xpath: //a[contains(@href, 'edit/section/catalog/')]
                         fieldsets:
                             -
                                 category_permissions:
@@ -380,14 +367,6 @@ system_configuration:
                                     xpath: //fieldset[@id='payment_dibs']
                                     links:
                                         dibs_link: //parent::div//a[@id='payment_dibs-head']
-                -
-                    social_facebook:
-                        xpath: //a[contains(@href, 'edit/section/facebook/')]
-                        fieldsets:
-                            -
-                                facebook_config:
-                                    links:
-                                        facebook_config_link: //parent::div//a[@id='facebook_config-head']
                 -
                     sales_sales_emails:
                         fieldsets:

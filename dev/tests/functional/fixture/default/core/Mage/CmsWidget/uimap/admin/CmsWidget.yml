@@ -56,7 +56,7 @@ create_cms_widget:
                                     xpath: //div[@id='base_fieldset']
                                     dropdowns:
                                         type: //select[@name='type']
-                                        design_package_theme: //select[@name='package_theme']
+                                        design_package_theme: //select[@id='theme_id']
                                     buttons:
                                         continue: //button[span='Continue']
 
@@ -65,7 +65,7 @@ create_cms_widget:
             reset: //button[span='Reset']
 
 add_widget_options:
-    mca: widget_instance/edit/type/%type%/package_theme/%package_theme%/
+    mca: widget_instance/edit/type/%type%/theme_id/%theme_id%/
     title: New Instance / Widgets / CMS / Magento Admin
     uimap:
         form: &addWidgetOptions
@@ -236,6 +236,19 @@ add_widget_options:
 
 edit_cms_widget:
     mca: widget_instance/edit/instance_id/%id%/
+    title: %elementTitle% / Widgets / CMS / Magento Admin
+    uimap:
+        form: *addWidgetOptions
+        buttons:
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            save: //button[@data-ui-id='widget-instance-edit-save-button']
+            save_and_continue_edit: //button[@data-ui-id='widget-instance-edit-save-and-edit-button-button']
+            delete: //button[span='Delete']
+        messages: *cmsWidgetMessages
+
+save_and_continue_edit_cms_widget:
+    mca: widget_instance/edit/instance_id/%id%/back/edit/tab/%tab%
     title: %elementTitle% / Widgets / CMS / Magento Admin
     uimap:
         form: *addWidgetOptions

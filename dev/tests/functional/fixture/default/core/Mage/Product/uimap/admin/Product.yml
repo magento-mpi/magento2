@@ -66,7 +66,6 @@ manage_products:
             existing_sku: //div[@class='validation-advice' and contains(text(),'The value of attribute "SKU" must be unique')]
             select_type_of_option: //div[@id='advice-required-option-select-product_option_%optionId%_type']
             confirmation_for_delete: Are you sure?
-            no_records_found: //td[text()='No records found.']
             sku_autoincremented: //*[normalize-space(@class)='notice-msg' and contains(.,'SKU for product %productName% has been changed to %productSku%')]
             success_updated_products_status_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyUpdatedProducts% record(s) have been updated.')]
             success_updated_products_attributes_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyUpdatedAtrProducts% record(s) were updated')]
@@ -84,10 +83,6 @@ new_product:
     uimap: &newProduct
         form: &newProductCreationForm
             fieldsets: &new_product_fieldsets
-                -
-                    websites:
-                        dropdowns:
-                             choose_store_view: //select[@id='store_switcher']
                 -
                     product_information:
                         xpath: //div[@class='content-header']

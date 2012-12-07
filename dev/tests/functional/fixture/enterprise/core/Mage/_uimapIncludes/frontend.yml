@@ -16,13 +16,8 @@ enterprice_frontend_header:
                     global_header:
                         xpath: //div[@class='header-container']
                         links:
-                            my_account: //a[@title='My Account']
-                            my_wishlist: //a[contains(@title,'My Wishlist')]
                             my_cart: //strong[@id='cartHeader']
                             empty_my_cart: //strong[@id='cartHeader'][.='My Cart (0)']
-                            checkout: //a[@title='Checkout']
-                            log_in: //a[@title='Log In']
-                            log_out: //a[@title='Log Out']
                             your_language: //ul[@id='popId-languageSelect']//a[text()='%storeView%']
                         pageelements:
                             change_store_view: //div[@id='languageSelect']//span[text()='Change']

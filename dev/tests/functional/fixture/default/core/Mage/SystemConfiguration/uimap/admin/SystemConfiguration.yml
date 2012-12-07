@@ -967,6 +967,8 @@ system_configuration:
                             -
                                 facebook_config:
                                     xpath: //fieldset[@id='facebook_config']
+                                    links:
+                                        facebook_config_link: //parent::div//a[@id='facebook_config-head']
                 -
                     customers_newsletter:
                         xpath: //a[contains(@href, 'edit/section/newsletter/')]
@@ -4025,9 +4027,13 @@ system_configuration:
                             -
                                 email:
                                     xpath: //fieldset[@id='oauth_email']
+                                    links:
+                                        email_link: //parent::div//a[@id='oauth_email-head']
                             -
                                 cleanup_settings:
                                     xpath: //fieldset[@id='oauth_cleanup']
+                                    links:
+                                        cleanup_settings_link: //parent::div//a[@id='oauth_cleanup-head']
                 -
                     advanced_admin:
                         xpath: //a[contains(@href, 'edit/section/admin/')]

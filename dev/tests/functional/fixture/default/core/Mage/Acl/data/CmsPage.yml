@@ -27,6 +27,4 @@ generic_admin_user_role_for_bug:
             resource_8: CMS
             resource_9: Reports
             resource_10: System
-            resource_11: Mobile
-            resource_12: Global Search
-
+            resource_11: Global Search

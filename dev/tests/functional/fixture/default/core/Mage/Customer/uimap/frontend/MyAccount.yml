@@ -30,7 +30,6 @@ customer_account:
                         pageelements:
                             product_review_rating: //div[h3='%productName%']//div[@class='rating']
         messages: &myAccountMessages
-            success_registration: //li[normalize-space(@class)='success-msg' and contains(.,'Thank you for registering with')]
             success_saved: //li[normalize-space(@class)='success-msg' and contains(.,'The account information has been saved.')]
             confirmation_for_delete: Are you sure you want to delete this tag?
             success_deleted_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been deleted.')]
