@@ -47,7 +47,6 @@ class Community2_Mage_Vde_PageTypeTest extends Mage_Selenium_TestCase
         $this->addParameter('wrappedPage', 'oauth-authorize-index');
         $this->selectFrame('vde_container_frame');
         $this->assertTrue($this->controlIsPresent('field', 'body'));
-        $this->selectWindow('null');
     }
 
     /**
@@ -69,6 +68,5 @@ class Community2_Mage_Vde_PageTypeTest extends Mage_Selenium_TestCase
         $this->selectFrame('vde_container_frame');
         $this->assertFalse($this->vdeHelper()->areHighlightBlocksShown(),
             'Blocks are still highlighted after disable highlight');
-        $this->selectWindow('null');
     }
 }
