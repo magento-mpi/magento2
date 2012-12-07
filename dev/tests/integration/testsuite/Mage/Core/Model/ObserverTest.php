@@ -17,6 +17,7 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
     /**
      * Theme registration test
      *
+     * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
      */
     public function testThemeRegistration()

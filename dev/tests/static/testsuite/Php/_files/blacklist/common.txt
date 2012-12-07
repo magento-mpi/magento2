@@ -3,6 +3,7 @@
 # Overrides the white list
 #
 app/code/core/Mage/DesignEditor/view
+app/code/core/Mage/Webapi/view
 app/code/core/Mage/Core/data/core_setup/data-upgrade-1.6.0.4-1.6.0.5.php
 app/code/core/Mage/Theme/Helper/Data.php
 app/code/core/Mage/Theme/Block/Adminhtml/System/Design/Theme/Edit/Tab/General.php

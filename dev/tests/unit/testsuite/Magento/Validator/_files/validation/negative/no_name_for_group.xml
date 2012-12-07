@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Validator
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<validation>
+    <entity name="test_entity">
+        <rules>
+            <rule name="test_rule_entity">
+                <property_constraints>
+                    <property name="sku">
+                        <constraint class="Magento_Validator_Test_NotEmpty"/>
+                    </property>
+                </property_constraints>
+            </rule>
+        </rules>
+        <groups>
+            <!-- attribute name is required for group element -->
+            <group>
+                <uses>
+                    <use rule="test_rule_entity"/>
+                </uses>
+            </group>
+        </groups>
+    </entity>
+</validation>

@@ -158,38 +158,35 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
     }
 
     /**
-     * Select Dropdown Attribute(s) for configurable product creation
+     * Select configurable attribute from searchable control for configurable product creation
      *
      * @param array $productData
      */
     public function fillConfigurableSettings(array $productData)
     {
-        $this->openTab('general');
         $attributes = (isset($productData['configurable_attribute_title']))
             ? explode(',', $productData['configurable_attribute_title'])
             : null;
 
         if (!empty($attributes)) {
-            $attributesId = array();
             $attributes = array_map('trim', $attributes);
-
             foreach ($attributes as $attributeTitle) {
-                $this->addParameter('attributeTitle', $attributeTitle);
-                $xpath = $this->_getControlXpath('checkbox', 'configurable_attribute_title');
-                if ($this->isElementPresent($xpath)) {
-                    $attributesId[] = $this->getAttribute($xpath . '/@value');
-                    $this->click($xpath);
+                $this->fillField('attribute_selector', $attributeTitle);
+                $this->typeKeys($this->_getControlXpath(self::FIELD_TYPE_INPUT, 'attribute_selector'), "\b");
+                $this->addParameter('attributeName', $attributeTitle);
+                $attributeXpath = $this->_getControlXpath(self::FIELD_TYPE_LINK, 'suggested_attribute');
+                $suggestedMenu = $this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'suggested_attribute_list');
+                $this->assertTrue($this->waitForElementVisible($suggestedMenu));
+                if ($this->controlIsVisible(self::FIELD_TYPE_LINK, 'suggested_attribute')) {
+                    $this->mouseOver($attributeXpath);
+                    $this->clickControl(self::FIELD_TYPE_LINK, 'suggested_attribute', false);
                 } else {
-                    $this->fail("Dropdown attribute with title '$attributeTitle' is not present on the page");
+                    $this->fail('Attribute ' . $attributeTitle . 'can not be found in suggestion list.');
                 }
             }
-
-            $attributesUrl = urlencode(base64_encode(implode(',', $attributesId)));
-            $this->addParameter('attributesUrl', $attributesUrl);
-
             $this->clickButton('generate_variations');
         } else {
-            $this->fail('Dropdown attribute for configurable product creation is not set');
+            $this->fail('Attribute for configurable product creation is not set');
         }
         $this->unassignAllAssociatedProducts();
     }

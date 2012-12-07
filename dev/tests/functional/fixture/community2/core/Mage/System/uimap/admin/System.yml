@@ -33,18 +33,6 @@ api_role:
     click_xpath: //ul[@id='nav']//a[contains(@href, 'api_role/')]
     title: Roles / Web Services / System / Magento Admin
 
-# Web Services: REST Roles page
-api2_role:
-    mca: api2_role/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'api2_role/')]
-    title: REST Roles / Web Services / System / Magento Admin
-
-# Web Services: REST Attributes page
-api2_attribute:
-    mca: api2_attribute/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'api2_attribute/')]
-    title: REST Attributes / Web Services / System / Magento Admin
-
 # Web Services: OAuth Consumers page
 oauth_consumer:
     mca: oauth_consumer/
@@ -104,41 +92,6 @@ system_design_editor:
                         xpath: //div[@id='base_fieldset']
                         dropdowns:
                             store_view: //select[@name='store_id']
-
-# Import/Export: Profiles page
-system_convert_gui:
-    mca: system_convert_gui/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_convert_gui/')]
-    title: Profiles / Import and Export / System / Magento Admin
-    uimap:
-        form:
-            fieldsets:
-                -
-                    convert_profile_grid:
-                        xpath: //div[@id='convertProfileGrid']
-                        dropdowns:
-                            store: //select[@name='store_id']
-        buttons:
-            add_new_profile: //button[span='Add New Profile']
-
-# Add New Profile page
-new_system_convert_gui:
-    mca: system_convert_gui/new/
-    title: New Profile / Profiles / Import and Export / System / Magento Admin
-    uimap:
-        form:
-            fieldsets:
-                -
-                    profile_information:
-                        xpath: //div[@id='profile-generator']/fieldset[1]
-                        dropdowns:
-                            store: //select[@name='store_id']
-
-# Import/Export: Advanced Profiles page
-system_convert_profile:
-    mca: system_convert_profile/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_convert_profile/')]
-    title: Advanced Profiles / Import and Export / System / Magento Admin
 
 # Manage Currency:
 system_currency:

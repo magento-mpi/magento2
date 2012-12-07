@@ -3,78 +3,17 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Catalog
+ * @package     Mage_Catalog
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test class for Mage_Catalog_Product_CompareController.
- *
  * @magentoDataFixture Mage/Catalog/controllers/_files/products.php
  */
 class Mage_Catalog_Product_CompareControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
-    protected function _requireVisitorWithNoProducts()
-    {
-        /** @var $visitor Mage_Log_Model_Visitor */
-        $visitor = Mage::getModel('Mage_Log_Model_Visitor');
-        $visitor->setSessionId(md5(time()) . md5(microtime()))
-            ->setLastVisitAt(now())
-            ->save();
-
-        Mage::getSingleton('Mage_Log_Model_Visitor')->load($visitor->getId());
-
-        $this->_assertCompareListEquals(array());
-    }
-
-    protected function _requireVisitorWithTwoProducts()
-    {
-        /** @var $visitor Mage_Log_Model_Visitor */
-        $visitor = Mage::getModel('Mage_Log_Model_Visitor');
-        $visitor->setSessionId(md5(time()) . md5(microtime()))
-            ->setLastVisitAt(now())
-            ->save();
-
-        /** @var $item Mage_Catalog_Model_Product_Compare_Item */
-        $item = Mage::getModel('Mage_Catalog_Model_Product_Compare_Item');
-        $item->setVisitorId($visitor->getId())
-            ->setProductId(1)
-            ->save();
-
-        /** @var $item Mage_Catalog_Model_Product_Compare_Item */
-        $item = Mage::getModel('Mage_Catalog_Model_Product_Compare_Item');
-        $item->setVisitorId($visitor->getId())
-            ->setProductId(2)
-            ->save();
-
-        Mage::getSingleton('Mage_Log_Model_Visitor')->load($visitor->getId());
-
-        $this->_assertCompareListEquals(array(1, 2));
-    }
-
-    /**
-     * Assert that current visitor has exactly expected products in compare list
-     *
-     * @param array $expectedProductIds
-     */
-    protected function _assertCompareListEquals(array $expectedProductIds)
-    {
-        /** @var $compareItems Mage_Catalog_Model_Resource_Product_Compare_Item_Collection */
-        $compareItems = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Compare_Item_Collection');
-        $compareItems->useProductItem(true); // important
-        $compareItems->setVisitorId(
-            Mage::getSingleton('Mage_Log_Model_Visitor')->getId()
-        );
-        $actualProductIds = array();
-        foreach ($compareItems as $compareItem) {
-            /** @var $compareItem Mage_Catalog_Model_Product_Compare_Item */
-            $actualProductIds[] = $compareItem->getProductId();
-        }
-        $this->assertEquals($expectedProductIds, $actualProductIds, "Products in current visitor's compare list.");
-    }
-
     public function testAddAction()
     {
         $this->_requireVisitorWithNoProducts();
@@ -154,5 +93,97 @@ class Mage_Catalog_Product_CompareControllerTest extends Magento_Test_TestCase_C
         $this->assertRedirect();
 
         $this->_assertCompareListEquals(array());
+    }
+
+    /**
+     * @magentoDataFixture Mage/Catalog/_files/product_simple_xss.php
+     */
+    public function testRemoveActionProductNameXss()
+    {
+        $this->_prepareCompareListWithProductNameXss();
+        $this->dispatch('catalog/product_compare/remove/product/1?nocookie=1');
+        $messages = Mage::getSingleton('Mage_Catalog_Model_Session')->getMessages()->getItems();
+        $isProductNamePresent = false;
+        foreach ($messages as $message) {
+            if (strpos($message->getCode(), '&lt;script&gt;alert(&quot;xss&quot;);&lt;/script&gt;') !== false) {
+                $isProductNamePresent = true;
+            }
+            $this->assertNotContains('<script>alert("xss");</script>', $message->getCode());
+        }
+        $this->assertTrue($isProductNamePresent, 'Product name was not found in session messages');
+    }
+
+    protected function _prepareCompareListWithProductNameXss()
+    {
+        /** @var $visitor Mage_Log_Model_Visitor */
+        $visitor = Mage::getModel('Mage_Log_Model_Visitor');
+        $visitor->setSessionId(md5(time()) . md5(microtime()))
+            ->setLastVisitAt(now())
+            ->save();
+        /** @var $item Mage_Catalog_Model_Product_Compare_Item */
+        $item = Mage::getModel('Mage_Catalog_Model_Product_Compare_Item');
+        $item->setVisitorId($visitor->getId())
+            ->setProductId(1)
+            ->save();
+        Mage::getSingleton('Mage_Log_Model_Visitor')->load($visitor->getId());
+    }
+
+    protected function _requireVisitorWithNoProducts()
+    {
+        /** @var $visitor Mage_Log_Model_Visitor */
+        $visitor = Mage::getModel('Mage_Log_Model_Visitor');
+        $visitor->setSessionId(md5(time()) . md5(microtime()))
+            ->setLastVisitAt(now())
+            ->save();
+
+        Mage::getSingleton('Mage_Log_Model_Visitor')->load($visitor->getId());
+
+        $this->_assertCompareListEquals(array());
+    }
+
+    protected function _requireVisitorWithTwoProducts()
+    {
+        /** @var $visitor Mage_Log_Model_Visitor */
+        $visitor = Mage::getModel('Mage_Log_Model_Visitor');
+        $visitor->setSessionId(md5(time()) . md5(microtime()))
+            ->setLastVisitAt(now())
+            ->save();
+
+        /** @var $item Mage_Catalog_Model_Product_Compare_Item */
+        $item = Mage::getModel('Mage_Catalog_Model_Product_Compare_Item');
+        $item->setVisitorId($visitor->getId())
+            ->setProductId(1)
+            ->save();
+
+        /** @var $item Mage_Catalog_Model_Product_Compare_Item */
+        $item = Mage::getModel('Mage_Catalog_Model_Product_Compare_Item');
+        $item->setVisitorId($visitor->getId())
+            ->setProductId(2)
+            ->save();
+
+        Mage::getSingleton('Mage_Log_Model_Visitor')->load($visitor->getId());
+
+        $this->_assertCompareListEquals(array(1, 2));
+    }
+
+    /**
+     * Assert that current visitor has exactly expected products in compare list
+     *
+     * @param array $expectedProductIds
+     */
+    protected function _assertCompareListEquals(array $expectedProductIds)
+    {
+        /** @var $compareItems Mage_Catalog_Model_Resource_Product_Compare_Item_Collection */
+        $compareItems = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Compare_Item_Collection');
+        $compareItems->useProductItem(true); // important
+        $compareItems->setVisitorId(
+            Mage::getSingleton('Mage_Log_Model_Visitor')->getId()
+        );
+        $actualProductIds = array();
+        foreach ($compareItems as $compareItem) {
+            /** @var $compareItem Mage_Catalog_Model_Product_Compare_Item */
+            $actualProductIds[] = $compareItem->getProductId();
+        }
+        $this->assertEquals($expectedProductIds, $actualProductIds, "Products in current visitor's compare list.");
     }
 }

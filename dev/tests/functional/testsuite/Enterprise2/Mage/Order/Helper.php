@@ -36,23 +36,24 @@ class Enterprise2_Mage_Order_Helper extends Core_Mage_Order_Helper
         if ($this->controlIsPresent('message', 'zero_payment')) {
             return;
         }
-        if ($payment) {
-            $this->addParameter('paymentTitle', $payment);
-            $xpath = $this->_getControlXpath('radiobutton', 'check_payment_method');
-            if (!$this->isElementPresent($xpath)) {
-                if ($validate) {
-                    $this->fail('Payment Method "' . $payment . '" is currently unavailable.');
-                }
-            } else {
-                $this->click($xpath);
-                $this->pleaseWait();
-                if ($card) {
-                    $paymentId = $this->getAttribute($xpath . '/@value');
-                    $this->addParameter('paymentId', $paymentId);
-                    $this->fillForm($card);
-                    $this->validate3dSecure();
-                }
+        if (is_null($payment)) {
+            return;
+        }
+        $this->addParameter('paymentTitle', $payment);
+        if ($this->controlIsPresent('radiobutton', 'check_payment_method')) {
+            $this->fillRadiobutton('check_payment_method', 'Yes');
+            $this->pleaseWait();
+        } elseif (!$this->controlIsPresent('pageelement', 'selected_one_payment')) {
+            if ($validate) {
+                $this->fail('Payment Method "' . $payment . '" is currently unavailable.');
             }
+            return;
+        }
+        if ($card) {
+            $paymentId = $this->getControlAttribute('radiobutton', 'check_payment_method', 'value');
+            $this->addParameter('paymentId', $paymentId);
+            $this->fillFieldset($card, 'order_payment_method');
+            $this->validate3dSecure();
         }
     }
 }

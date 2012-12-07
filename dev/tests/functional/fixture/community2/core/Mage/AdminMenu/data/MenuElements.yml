@@ -115,8 +115,6 @@ menu:
         web_services:
             api_user:
             api_role:
-            api2_role:
-            api2_attribute:
             oauth_consumer:
             oauth_authorizedTokens:
             oauth_admin_token:
@@ -126,8 +124,6 @@ menu:
         import_export:
             import:
             export:
-            system_convert_gui:
-            system_convert_profile:
         manage_currency:
             system_currency:
             system_currencysymbol:
