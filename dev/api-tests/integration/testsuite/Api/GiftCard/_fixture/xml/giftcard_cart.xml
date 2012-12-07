@@ -1,0 +1,27 @@
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_Core
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<root>
+    <invalid_create>
+        <giftcardAccountCode>invalid-code</giftcardAccountCode>
+        <quoteId>invalid-quote</quoteId>
+        <storeId>1</storeId>
+    </invalid_create>
+    <invalid_list>
+        <quoteId>invalid-quote</quoteId>
+        <storeId>1</storeId>
+    </invalid_list>
+    <invalid_remove>
+        <giftcardAccountCode>invalid-code</giftcardAccountCode>
+        <quoteId>invalid-quote</quoteId>
+        <storeId>1</storeId>
+    </invalid_remove>
+</root>

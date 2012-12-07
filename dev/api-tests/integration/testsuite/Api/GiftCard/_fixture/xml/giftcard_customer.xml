@@ -1,0 +1,20 @@
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_Core
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<root>
+    <invalid_info>
+        <code>invalid-code</code>
+    </invalid_info>
+    <invalid_redeem>
+        <code>invalid-quote</code>
+        <customerId>invalid-customer</customerId>
+    </invalid_redeem>
+</root>

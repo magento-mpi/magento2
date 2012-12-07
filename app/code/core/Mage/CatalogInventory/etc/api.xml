@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_CatalogInventory
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <api>
+        <resources>
+            <cataloginventory_stock_item translate="title" module="Mage_CatalogInventory">
+                <model>Mage_CatalogInventory_Model_Stock_Item_Api</model>
+                <title>Inventory API</title>
+                <acl>cataloginventory</acl>
+                <methods>
+                    <list translate="title" module="Mage_CatalogInventory">
+                        <title>Retrieve stock data by product ids</title>
+                        <method>items</method>
+                        <acl>cataloginventory/info</acl>
+                    </list>
+                    <update translate="title" module="Mage_CatalogInventory">
+                        <title>Update product stock data</title>
+                        <acl>cataloginventory/update</acl>
+                    </update>
+                </methods>
+                <faults module="Mage_CatalogInventory">
+                    <not_exists>
+                        <code>101</code>
+                        <message>Product not exists.</message>
+                    </not_exists>
+                    <not_updated>
+                        <code>102</code>
+                        <message>Product inventory not updated. Details in error message.</message>
+                    </not_updated>
+                </faults>
+            </cataloginventory_stock_item>
+        </resources>
+        <resources_alias>
+            <product_stock>cataloginventory_stock_item</product_stock>
+        </resources_alias>
+        <v2>
+            <resources_function_prefix>
+                <product_stock>catalogInventoryStockItem</product_stock>
+            </resources_function_prefix>
+        </v2>
+        <acl>
+            <resources>
+                <cataloginventory translate="title" module="Mage_CatalogInventory">
+                    <title>Catalog Inventory</title>
+                    <sort_order>4</sort_order>
+                    <update translate="title" module="Mage_CatalogInventory">
+                        <title>Update</title>
+                    </update>
+                    <info translate="title" module="Mage_CatalogInventory">
+                        <title>Retrieve stock data</title>
+                    </info>
+                </cataloginventory>
+            </resources>
+        </acl>
+    </api>
+</config>
