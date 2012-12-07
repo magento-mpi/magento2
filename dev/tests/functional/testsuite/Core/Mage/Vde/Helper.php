@@ -69,6 +69,7 @@ class Core_Mage_Vde_Helper extends Mage_Selenium_TestCase
             $this->clickControl('dropdown', 'view_options', false);
             $this->clickControl('checkbox', 'highlight', false);
         }
+        sleep(1);
     }
 
     /**
@@ -79,6 +80,27 @@ class Core_Mage_Vde_Helper extends Mage_Selenium_TestCase
         if ($this->isHighlightEnabled()) {
             $this->clickControl('dropdown', 'view_options', false);
             $this->clickControl('checkbox', 'highlight', false);
+        }
+        sleep(1);
+    }
+
+    /**
+     * Are highlight blocks shown in iframe
+     */
+    public function areHighlightBlocksShown()
+    {
+        $this->assertEquals('vde_design', $this->getCurrentPage());
+
+        $classStyle = array(
+            ' and @style="display: block;"' => true,
+            ' and @style="display: none;"' => false,
+            '' => true
+        );
+        foreach ($classStyle as $classParam => $areShown){
+            $this->addParameter('displayStyle', $classParam);
+            if ($this->controlIsPresent('pageelement', 'highlight_containers')) {
+                return $areShown;
+            }
         }
     }
 }

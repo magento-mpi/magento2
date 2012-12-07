@@ -49,4 +49,26 @@ class Community2_Mage_Vde_PageTypeTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->controlIsPresent('field', 'body'));
         $this->selectWindow('null');
     }
+
+    /**
+     * @test
+     * @TestlinkId TL-MAGE-5652
+     * @author iuliia.babenko
+     */
+    public function highlightTest()
+    {
+        $this->admin('vde_design');
+        // Verify that highlight is enabled and applied by default
+        $this->assertTrue($this->vdeHelper()->isHighlightEnabled(), 'Highlight is not enabled by default');
+        $this->selectFrame('vde_container_frame');
+        $this->assertTrue($this->vdeHelper()->areHighlightBlocksShown(), 'Blocks are not highlighted');
+        $this->selectWindow('null');
+
+        $this->vdeHelper()->disableHighlight();
+        // Verify that containers are not highlighted
+        $this->selectFrame('vde_container_frame');
+        $this->assertFalse($this->vdeHelper()->areHighlightBlocksShown(),
+            'Blocks are still highlighted after disable highlight');
+        $this->selectWindow('null');
+    }
 }

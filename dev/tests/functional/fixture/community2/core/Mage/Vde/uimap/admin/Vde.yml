@@ -20,14 +20,21 @@ vde_design:
                         xpath: //div[@id='vde_toolbar_row']
                         buttons:
                             view_layout: //a[@class='vde_button view-layout']
-                            compact_log: //a[@class='vde_button compact-log']
                         dropdowns:
-                            page_selector: //div[@id='vde_handles_hierarchy']
+                            page_selector: //div[@data-ui-id='design-editor-toolbar-handles-hierarchy']/div[@class='vde_toolbar_cell_title']
                             view_options: //div[contains(text(), 'View Options')]
                         checkboxes:
                             highlight: //div[@id='vde_highlighting' and @class='vde_cell_list_item%isChecked%']
+                        fields:
+                            page_type_selector: //a[contains(., '%pageType%')]
                 -
                     iframe:
-                        xpath: //iframe[@class='vde_container_frame']
+                        xpath: //iframe[@id='vde_container_frame']
+                -
+                    page_frame:
+                        fields:
+                            body: //body[contains(@class, '%wrappedPage%')]
+                        pageelements:
+                            highlight_containers: //div[@class="vde_element_wrapper vde_draggable vde_removable"%displayStyle%]
         buttons:
             back: //button[@id='back_button']
