@@ -82,16 +82,21 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         $pageSize = $this->getRequest()
             ->getParam('page_size', Mage_Core_Model_Resource_Theme_Collection::DEFAULT_PAGE_SIZE);
 
-        $this->loadLayout();
-
-        /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
-        $collection = $this->_objectManager->get('Mage_Core_Model_Theme_Service')
-            ->getNotCustomizedFrontThemes($page, $pageSize);
-
-        $this->getLayout()->getBlock('available.theme.list')->setCollection($collection)->setNextPage(++$page);
-        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(
-            array('content' => $this->getLayout()->getOutput())
-        ));
+        try {
+            $this->loadLayout();
+            /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
+            $collection = $this->_objectManager->get('Mage_Core_Model_Theme_Service')
+                ->getNotCustomizedFrontThemes($page, $pageSize);
+            $this->getLayout()->getBlock('available.theme.list')->setCollection($collection)->setNextPage(++$page);
+            $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(
+                array('content' => $this->getLayout()->getOutput())
+            ));
+        } catch (Exception $e) {
+            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(
+                array('error' => $this->_helper->__('Theme list can not be loaded')))
+            );
+        }
     }
 
     /**
@@ -155,11 +160,29 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     }
 
     /**
-     * Mock for assign theme to store action
+     * Assign theme to list of store views
      */
-    public function assignAction()
+    public function assignThemeToStore()
     {
-        echo '[]';
+        $themeId = (int)$this->getRequest()->getParam('theme_id');
+        $stores = (int)$this->getRequest()->getParam('stores');
+        try {
+            if (!is_numeric($themeId) || empty($stores)) {
+                throw new InvalidArgumentException('Theme id or store list is not valid');
+            }
+
+            /** @var $themeService Mage_Core_Model_Theme_Service */
+            $this->_objectManager->get('Mage_Core_Model_Theme_Service')->assignThemeToStores($themeId, $stores);
+            $this->getResponse()->setBody($this->_helper->jsonEncode(
+                array('success' => $this->_objectManager->get('Mage_Core_Helper_Data')
+                    ->__('Theme successfully assigned'))
+            ));
+        } catch (Exception $e) {
+            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(
+                array('error' => $this->_helper->__('Theme is not assigned')))
+            );
+        }
     }
 
     /**

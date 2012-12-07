@@ -67,6 +67,24 @@ class Mage_Core_Model_Theme_Service
     }
 
     /**
+     * @return Mage_Core_Model_Theme_Service
+     */
+    protected function _createPhysicalThemeCopy()
+    {
+        if ($this->_theme->isVirtual()) {
+            return $this;
+        }
+        $this->_theme->setParentId($this->_theme->getId())->setThemePath(null)
+            ->setThemeTitle($this->_theme->getThemeTitle() . ' - Copy');
+        $originalData = $this->_theme->getData();
+        unset($originalData[$this->_theme->getIdFieldName()]);
+        $this->_theme = clone $this->_theme;
+        $this->_theme->addData($originalData);
+        $this->_theme->save();
+        return $this;
+    }
+
+    /**
      * Assign theme to the stores
      *
      * @param int $themeId
@@ -77,15 +95,15 @@ class Mage_Core_Model_Theme_Service
      * @throws UnexpectedValueException
      */
     public function assignThemeToStores($themeId, $stores = array(), $scope = Mage_Core_Model_Config::SCOPE_STORES,
-        $area = Mage_Core_Model_Design_Package::DEFAULT_AREA
+        $area = Mage_Core_Model_App_Area::AREA_FRONTEND
     ) {
         if (!$this->_theme->load($themeId)->getId()) {
-            throw new UnexpectedValueException('Theme doesn\'t recognized. Requested id: ' . $themeId);
+            throw new UnexpectedValueException('Theme is not recognized. Requested id: ' . $themeId);
         }
+        $this->_createPhysicalThemeCopy();
+        $configPath = $this->_design->getConfigPathByArea($area);
         foreach ($stores as $storeId) {
-            $this->_app->getConfig()->saveConfig(
-                $this->_design->getConfigPathByArea($area), $this->_theme->getId(), $scope, $storeId
-            );
+            $this->_app->getConfig()->saveConfig($configPath, $this->_theme->getId(), $scope, $storeId);
         }
         return $this;
     }
@@ -120,10 +138,11 @@ class Mage_Core_Model_Theme_Service
     public function getNotCustomizedFrontThemes($page, $pageSize)
     {
         /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
-        $collection = $this->_theme->getCollection()->addAreaFilter();
-        $collection->getSelect()->where('theme_path IS NOT NULL');
-        return $collection->setPageSize($pageSize)
-            ->setCurPage($page);
+        $collection = $this->_theme->getCollection();
+        $collection->addAreaFilter(Mage_Core_Model_App_Area::AREA_FRONTEND)
+            ->addFilter('theme_path', 'theme_path IS NOT NULL', 'string')
+            ->setPageSize($pageSize);
+        return $collection->setCurPage($page);
     }
 
     /**
@@ -185,8 +204,9 @@ class Mage_Core_Model_Theme_Service
     protected function _getCustomizedFrontThemes()
     {
         /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
-        $collection = $this->_theme->getCollection()->addAreaFilter();
-        $collection->getSelect()->where('theme_path IS NULL');
+        $collection = $this->_theme->getCollection();
+        $collection->addAreaFilter(Mage_Core_Model_App_Area::AREA_FRONTEND)
+            ->addFilter('theme_path', 'theme_path IS NULL', 'string');
         return $collection;
     }
 

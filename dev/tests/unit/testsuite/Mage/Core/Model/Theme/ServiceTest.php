@@ -57,7 +57,7 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
     /**
      * @covers Mage_Core_Model_Theme_Service::isPresentCustomizedThemes
      * @expectedException UnexpectedValueException
-     * @expectedExceptionMessage Theme doesn't recognized. Requested id: -1
+     * @expectedExceptionMessage Theme is not recognized. Requested id: -1
      */
     public function testAssignThemeToStoresWrongThemeId()
     {
@@ -86,7 +86,7 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
     public function testAssignThemeToStores($themeId, $stores, $scope, $area)
     {
         /** @var $themeMock Mage_Core_Model_Theme */
-        $themeMock = $this->getMock('Mage_Core_Model_Theme', array('load', 'getId'), array(), '', false);
+        $themeMock = $this->getMock('Mage_Core_Model_Theme', array('load', 'getId', 'isVirtual'), array(), '', false);
         $themeMock->expects($this->once())
             ->method('load')
             ->with($this->equalTo($themeId))
@@ -96,10 +96,14 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
             ->method('getId')
             ->will($this->returnValue($themeId));
 
+        $themeMock->expects($this->any())
+            ->method('isVirtual')
+            ->will($this->returnValue(true));
+
         $designMock = $this->getMock(
             'Mage_Core_Model_Design_Package', array('getConfigPathByArea'), array(), '', false
         );
-        $designMock->expects($this->any())
+        $designMock->expects($this->once())
             ->method('getConfigPathByArea')
             ->with($this->equalTo($area))
             ->will($this->returnValue($area));

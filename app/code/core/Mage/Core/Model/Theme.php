@@ -310,7 +310,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     protected function _getPreviewImagePublishedRootDir()
     {
-        $dirPath = Mage::getBaseDir('media') . DS . self::THEME_DIR;
+        $dirPath = Mage::getBaseDir('media') . DIRECTORY_SEPARATOR . self::THEME_DIR;
         $this->_getIoFile()->checkAndCreateFolder($dirPath);
         return $dirPath;
     }
@@ -322,7 +322,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function getImagePathOrigin()
     {
-        return $this->_getPreviewImagePublishedRootDir() . DS . self::IMAGE_DIR_ORIGIN;
+        return $this->_getPreviewImagePublishedRootDir() . DIRECTORY_SEPARATOR . self::IMAGE_DIR_ORIGIN;
     }
 
     /**
@@ -332,7 +332,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     protected function _getImagePathPreview()
     {
-        return $this->_getPreviewImagePublishedRootDir() . DS . self::IMAGE_DIR_PREVIEW;
+        return $this->_getPreviewImagePublishedRootDir() . DIRECTORY_SEPARATOR . self::IMAGE_DIR_PREVIEW;
     }
 
     /**
@@ -429,6 +429,14 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         return $imageName;
     }
 
+//    public function createImageCopy()
+//    {
+//        $this->_getIoFile()->cp(
+//            $this->_getImagePathPreview() . DIRECTORY_SEPARATOR . $this->getPreviewImage(),
+//            $this->_getImagePathPreview() . DIRECTORY_SEPARATOR . $this->getPreviewImage()
+//        );
+//    }
+
     /**
      * Delete preview image
      *
@@ -439,7 +447,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         $previewImage = $this->getPreviewImage();
         $this->setPreviewImage('');
         if ($previewImage) {
-            $this->_getIoFile()->rm($this->_getImagePathPreview() . DS . $previewImage);
+            $this->_getIoFile()->rm($this->_getImagePathPreview() . DIRECTORY_SEPARATOR . $previewImage);
         }
         return $this;
     }

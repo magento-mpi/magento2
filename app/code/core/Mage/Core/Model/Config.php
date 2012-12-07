@@ -964,8 +964,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                     $mergeToObject->extend($this->_modulesCache[$modName], true);
                     //Prevent overriding <active> node of module if it was redefined in etc/modules
                     $mergeToObject->extend(new Mage_Core_Model_Config_Base(
-                            "<config><modules><{$modName}><active>true</active></{$modName}></modules></config>"),
-                        true);
+                        "<config><modules><{$modName}><active>true</active></{$modName}></modules></config>"), true);
                 } else {
                     $configFilePath = $this->getModuleDir('etc', $modName) . DS . $configFile;
                     if ($mergeModel->loadFile($configFilePath)) {
@@ -1026,9 +1025,10 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
                 $hostArr = explode(':', $_SERVER['HTTP_HOST']);
                 $host = $hostArr[0];
-                $port = isset(
-                $hostArr[1]) && (!$secure && $hostArr[1] != 80 || $secure && $hostArr[1] != 443
-                ) ? ':' . $hostArr[1] : '';
+                $port = '';
+                if (isset($hostArr[1]) && (!$secure && $hostArr[1] != 80 || $secure && $hostArr[1] != 443)) {
+                    $port = ':' . $hostArr[1];
+                }
                 $path = Mage::app()->getRequest()->getBasePath();
 
                 $baseUrl = $scheme . $host . $port . rtrim($path, '/') . '/';

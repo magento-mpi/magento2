@@ -296,8 +296,8 @@ class Mage_Core_Model_Resource_Setup
 
         // Module is installed
         if ($dbVer !== false) {
-             $status = version_compare($configVer, $dbVer);
-             switch ($status) {
+            $status = version_compare($configVer, $dbVer);
+            switch ($status) {
                 case self::VERSION_COMPARE_LOWER:
                     $this->_rollbackResourceDb($configVer, $dbVer);
                     break;
@@ -307,7 +307,7 @@ class Mage_Core_Model_Resource_Setup
                 default:
                     return true;
                     break;
-             }
+            }
         } elseif ($configVer) {
             $this->_installResourceDb($configVer);
         }
@@ -693,6 +693,8 @@ class Mage_Core_Model_Resource_Setup
                 break;
 
             case self::TYPE_DB_UNINSTALL:
+                break;
+            default:
                 break;
         }
         return $arrRes;
