@@ -162,7 +162,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     /**
      * Assign theme to list of store views
      */
-    public function assignThemeToStore()
+    public function assignThemeToStoreAction()
     {
         $themeId = (int)$this->getRequest()->getParam('theme_id');
         $stores = (int)$this->getRequest()->getParam('stores');
@@ -172,11 +172,10 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             }
 
             /** @var $themeService Mage_Core_Model_Theme_Service */
-            $this->_objectManager->get('Mage_Core_Model_Theme_Service')->assignThemeToStores($themeId, $stores);
-            $this->getResponse()->setBody($this->_helper->jsonEncode(
-                array('success' => $this->_objectManager->get('Mage_Core_Helper_Data')
-                    ->__('Theme successfully assigned'))
-            ));
+            $themeService = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
+            $themeService->assignThemeToStores($themeId, $stores);
+            $message = $this->_objectManager->get('Mage_Core_Helper_Data')->__('Theme successfully assigned');
+            $this->getResponse()->setBody($this->_helper->jsonEncode(array('success' => $message)));
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
             $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(

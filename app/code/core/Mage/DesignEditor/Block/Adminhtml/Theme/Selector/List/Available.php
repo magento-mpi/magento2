@@ -150,10 +150,14 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
      */
     public function getStoresByThemes()
     {
-        //TODO This is just a mock
-        $storesByThemes = array(
-            4 => array(1)
-        );
+        $storesByThemes = array();
+        foreach ($this->_getServiceModel()->getStoresByThemes() as $themeId => $stores) {
+            $storesByThemes[$themeId] = array();
+            /** @var $store Mage_Core_Model_Store */
+            foreach ($stores as $store) {
+                $storesByThemes[$themeId][] = (int)$store->getId();
+            }
+        }
 
         return $storesByThemes;
     }
@@ -162,7 +166,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
     {
         $options = array();
         $options['storesByThemes'] = $this->getStoresByThemes();
-        $options['url'] = $this->getUrl('*/*/assign');
+        $options['url'] = $this->getUrl('*/*/assignThemeToStore');
 
         /** @var $helper Mage_Core_Helper_Data */
         $helper = Mage::helper('Mage_Core_Helper_Data');

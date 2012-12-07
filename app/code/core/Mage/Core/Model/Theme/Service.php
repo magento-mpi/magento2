@@ -180,7 +180,7 @@ class Mage_Core_Model_Theme_Service
     {
         /** @var $customizedThemes Mage_Core_Model_Resource_Theme_Collection */
         $customizedThemes = $this->_getCustomizedFrontThemes();
-        $assignedThemes = $this->_getStoresByThemes();
+        $assignedThemes = $this->getStoresByThemes();
 
         $this->_assignedThemes = array();
         $this->_unassignedThemes = array();
@@ -215,7 +215,7 @@ class Mage_Core_Model_Theme_Service
      *
      * @return array
      */
-    protected function _getStoresByThemes()
+    public function getStoresByThemes()
     {
         $assignedTheme = array();
         $stores = $this->_app->getStores();

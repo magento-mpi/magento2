@@ -122,8 +122,6 @@
          * @protected
          */
         _isScrolledBottom: function() {
-            console.log($(window).scrollTop() + $(window).height());
-            console.log($(document).height() - this._defaultElementSize);
             return ($(window).scrollTop() + $(window).height() >= $(document).height() - this._defaultElementSize)
         }
     });

@@ -17,7 +17,8 @@
                 assignSaveButtonRelativeSelector: 'button'
             },
             url: null,
-            storesByThemes: {}
+            storesByThemes: {},
+            isMultipleStoreMode: null
         },
 
         /**
@@ -33,6 +34,33 @@
          */
         _create: function() {
             this._bind();
+
+            this.options.isMultipleStoreMode = this._getIsMultipleStoreMode()
+        },
+
+        /**
+         * Get if there are multiple store-views
+         * @protected
+         */
+        _getIsMultipleStoreMode: function() {
+            var isMultipleStoreMode = false;
+            var tmpStore = null;
+
+            $.each(this.options.storesByThemes, function(themeId, stores) {
+                for (var i = 0, length = stores.length; i<length; i++) {
+                    var store = stores[i];
+                    if (tmpStore) {
+                        if (store != tmpStore) {
+                            isMultipleStoreMode = true;
+                            return;
+                        }
+                    } else {
+                        tmpStore = store
+                    }
+                }
+            });
+
+            return isMultipleStoreMode;
         },
 
         /**
@@ -56,15 +84,13 @@
          * @protected
          */
         _onAssign: function(event, data) {
-            //TODO This is just a mock
-            this.options.isMultipleStoreMode = true;
             if (this.options.isMultipleStoreMode) {
                 this.showStoreViews(data.theme_id);
             } else {
-                if (!this._confirm('You are about to change this theme for your live store, are you sure want to do this?')) {
+                if (!this._confirm($.mage.__('You are about to change this theme for your live store, are you sure want to do this?'))) {
                     return;
                 }
-                this.assignTheme(data.theme_id, null);
+                this.assignSaveTheme(data.theme_id, null);
             }
         },
 
@@ -126,9 +152,13 @@
                 message = 'stores: "' + stores.join(', ') + '"';
             }
             if (!this.options.url) {
-                throw Error('Url to assign themes to store is not defined');
+                throw Error($.mage.__('Url to assign themes to store is not defined'));
             }
-            $.post(this.options.url, stores, function(data) {
+            var data = {
+                theme_id: themeId,
+                stores:   stores
+            };
+            $.post(this.options.url, data, function(data) {
                 alert('Theme "' + themeId + '" successfully assigned to ' + message);
             });
             this.options.storesByThemes[themeId] = stores;
