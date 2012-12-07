@@ -62,7 +62,9 @@ class Mage_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_TestCas
         /** @var Magento_Test_Db_Adapter_Mysql $connection */
         $connection = $this->_model->getConnection('core_read');
 
-        $testTableName = $connection->getTableName('core_resource');
+        /** @var Mage_Core_Model_Resource $resource */
+        $resource = Mage::getSingleton('Mage_Core_Model_Resource');
+        $testTableName = $resource->getTableName('core_resource');
         $selectQuery = sprintf($selectQuery, $testTableName);
 
         $result = $connection->query($selectQuery);
@@ -118,7 +120,9 @@ class Mage_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_TestCas
             $this->fail("Expected exception didn't thrown!");
         }
 
-        $testTableName = $connection->getTableName('core_resource');
+        /** @var Mage_Core_Model_Resource $resource */
+        $resource = Mage::getSingleton('Mage_Core_Model_Resource');
+        $testTableName = $resource->getTableName('core_resource');
         $connection->query('SELECT * FROM ' . $testTableName);
 
         /** @var Mage_Core_Model_Resource_Db_Profiler $profiler */

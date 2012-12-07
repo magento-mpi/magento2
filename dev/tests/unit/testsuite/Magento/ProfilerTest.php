@@ -272,6 +272,8 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
         $this->assertAttributeEquals(array(), '_defaultTags', 'Magento_Profiler');
         $this->assertAttributeEquals(array(), '_drivers', 'Magento_Profiler');
         $this->assertAttributeEquals(false, '_hasTagFilters', 'Magento_Profiler');
+        $this->assertAttributeEquals(0, '_pathCount', 'Magento_Profiler');
+        $this->assertAttributeEquals(array(), '_pathIndex', 'Magento_Profiler');
     }
 
     /**
