@@ -35,6 +35,19 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
+     * @param $ruleData
+     * @return array
+     */
+    protected function _ruleData($ruleData)
+    {
+        $ruleVars = array();
+        $ruleVars['ruleInfo'] = (isset($ruleData['info'])) ? $ruleData['info'] : array();
+        $ruleVars['Conditions'] = (isset($ruleData['conditions'])) ? $ruleData['conditions'] : array();
+        $ruleVars['ruleActions'] = (isset($ruleData['actions'])) ? $ruleData['actions'] : array();
+        $ruleVars['ruleLabels'] = (isset($ruleData['labels'])) ? $ruleData['labels'] : array();
+        return $ruleVars;
+    }
+    /**
      * Filling tabs
      *
      * @param string|array $ruleData
@@ -46,22 +59,20 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
             $fileName = (count($elements) > 1) ? array_shift($elements) : '';
             $ruleData = $this->loadDataSet($fileName, implode('/', $elements));
         }
-        $ruleInfo = (isset($ruleData['info'])) ? $ruleData['info'] : array();
-        $ruleConditions = (isset($ruleData['conditions'])) ? $ruleData['conditions'] : array();
-        $ruleActions = (isset($ruleData['actions'])) ? $ruleData['actions'] : array();
-        $ruleLabels = (isset($ruleData['labels'])) ? $ruleData['labels'] : array();
-        if (array_key_exists('websites', $ruleInfo) && !$this->controlIsPresent('multiselect', 'websites')) {
-            unset($ruleInfo['websites']);
+        $ruleVars = $this->_ruleData($ruleData);
+        if (array_key_exists('websites', $ruleVars['ruleInfo'])
+            && !$this->controlIsPresent('multiselect', 'websites')) {
+            unset($ruleVars['ruleInfo']['websites']);
         }
-        $this->fillTab($ruleInfo, 'rule_information');
-        if ($ruleConditions) {
-            $this->fillConditionsTab($ruleConditions);
+        $this->fillTab($ruleVars['ruleInfo'], 'rule_information');
+        if ($ruleVars['Conditions']) {
+            $this->fillConditionsTab($ruleVars['Conditions']);
         }
-        if ($ruleActions) {
-            $this->fillActionsTab($ruleActions);
+        if ($ruleVars['ruleActions']) {
+            $this->fillActionsTab($ruleVars['ruleActions']);
         }
-        if ($ruleLabels) {
-            $this->fillLabelsTab($ruleLabels);
+        if ($ruleVars['ruleLabels']) {
+            $this->fillLabelsTab($ruleVars['ruleLabels']);
         }
     }
 
@@ -264,17 +275,27 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * Verify Rule Data
+     * @param $ruleData
      *
-     * @param array|string $ruleData
+     * @return array $ruleData
      */
-    public function verifyRuleData($ruleData)
+    protected function _ifIsString($ruleData)
     {
         if (is_string($ruleData)) {
             $elements = explode('/', $ruleData);
             $fileName = (count($elements) > 1) ? array_shift($elements) : '';
             $ruleData = $this->loadDataSet($fileName, implode('/', $elements));
         }
+        return $ruleData;
+    }
+    /**
+     * Verify Rule Data
+     *
+     * @param array|string $ruleData
+     */
+    public function verifyRuleData($ruleData)
+    {
+        $ruleData = $this->_ifIsString($ruleData);
         foreach ($ruleData as $tabName => $tabData) {
             switch ($tabName) {
                 case 'info':

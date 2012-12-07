@@ -39,18 +39,40 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * Creates widget
+     * @param $widgetData
      *
-     * @param string|array $widgetData
+     * @return array $widgetData
      */
-    public function createWidget($widgetData)
+    protected function _ifIsString($widgetData)
     {
         if (is_string($widgetData)) {
             $elements = explode('/', $widgetData);
             $fileName = (count($elements) > 1) ? array_shift($elements) : '';
             $widgetData = $this->loadDataSet($fileName, implode('/', $elements));
         }
-        $settings = (isset($widgetData['settings'])) ? $widgetData['settings'] : array();
+        return $widgetData;
+    }
+
+    /**
+     * @param $widgetData
+     * @return array $settings
+     */
+    protected function _widgetSettings($widgetData)
+    {
+        $settings = array();
+        $settings['settings'] = (isset($widgetData['settings'])) ? $widgetData['settings'] : array();
+        return $settings;
+    }
+
+    /**
+     * Creates widget
+     *
+     * @param string|array $widgetData
+     */
+    public function createWidget($widgetData)
+    {
+
+        $settings = $this->_widgetSettings($widgetData);
         $frontProperties = (isset($widgetData['frontend_properties'])) ? $widgetData['frontend_properties'] : array();
         $layoutUpdates = (isset($widgetData['layout_updates'])) ? $widgetData['layout_updates'] : array();
         $widgetOptions = (isset($widgetData['widget_options'])) ? $widgetData['widget_options'] : array();
