@@ -27,10 +27,10 @@
                 </block>
                 <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Selector_Tab_Customizations" name="customizations.themes.tab" template="Mage_DesignEditor::theme/selector/myCustomizationsTab.phtml">
                     <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Assigned" name="assigned.theme.list" template="Mage_DesignEditor::theme/list/customized.phtml">
-                        <block type="Mage_DesignEditor_Block_Adminhtml_Theme" name="assigned.theme" as="theme" template="Mage_DesignEditor::theme.phtml"/>
+                        <block type="Mage_DesignEditor_Block_Adminhtml_Theme" name="assigned.theme" as="theme" template="Mage_DesignEditor::theme_customizations.phtml"/>
                     </block>
                     <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Unassigned" name="unassigned.theme.list" template="Mage_DesignEditor::theme/list/customized.phtml">
-                        <block type="Mage_DesignEditor_Block_Adminhtml_Theme" name="unassigned.theme" as="theme" template="Mage_DesignEditor::theme.phtml" />
+                        <block type="Mage_DesignEditor_Block_Adminhtml_Theme" name="unassigned.theme" as="theme" template="Mage_DesignEditor::theme_customizations.phtml" />
                     </block>
                 </block>
             </block>

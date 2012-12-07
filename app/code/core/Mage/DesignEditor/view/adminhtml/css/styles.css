@@ -56,3 +56,25 @@ div.theme-preview-actions .btn-apply-theme {
 div.theme-preview-actions .theme-preview-window {
     margin: 0 10px;
 }
+
+.theme-element-customizations{
+    width:351px;
+}
+
+
+.theme-header .theme-title{
+    color: black;
+}
+.theme-front-customizations{
+    position: relative;
+    height:351px;
+    width:351px;
+}
+.theme-front-customizations .theme-buttons{
+    padding: 30px;
+    margin-top: -100px;
+    display: block;
+    position: absolute;
+    z-index: 1;
+    background-color: #424242;
+}
