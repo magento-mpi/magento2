@@ -119,10 +119,10 @@ class Mage_Core_Model_Theme_Service
      */
     public function getNotCustomizedFrontThemes($page, $pageSize)
     {
-        return $this->_theme->getCollection()
-            ->addAreaFilter()
-            ->addFilter('theme_path', "NOT ISNULL(theme_path)", 'string')
-            ->setPageSize($pageSize)
+        /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
+        $collection = $this->_theme->getCollection()->addAreaFilter();
+        $collection->getSelect()->where('theme_path IS NOT NULL');
+        return $collection->setPageSize($pageSize)
             ->setCurPage($page);
     }
 
@@ -184,9 +184,10 @@ class Mage_Core_Model_Theme_Service
      */
     protected function _getCustomizedFrontThemes()
     {
-        return $this->_theme->getCollection()
-            ->addAreaFilter()
-            ->addFilter('theme_path', 'ISNULL(theme_path)', 'string');
+        /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
+        $collection = $this->_theme->getCollection()->addAreaFilter();
+        $collection->getSelect()->where('theme_path IS NULL');
+        return $collection;
     }
 
     /**
