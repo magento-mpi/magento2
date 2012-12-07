@@ -101,7 +101,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
         $previewButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
         $previewButton->setData(array(
             'label'     => $this->__('Preview Theme'),
-            'class'     => 'add',
+            'class'     => 'preview-default',
             'data_attr' => array(
                 'widget-button' => array(
                     'event' => 'preview',

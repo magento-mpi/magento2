@@ -20,7 +20,9 @@ design_editor_selector:
             selector_tabs_container: //ul[@id='theme_selector_tabs']
             available_themes_tab_content: //div[@id='theme_selector_tabs_available_themes_content']
             customized_themes_tab_content: //div[@id='theme_selector_tabs_customizations_content']
-            theme_list_elements: //div[@class='infinite_scroll']//ul//li
+            theme_list_elements: //div[@class='infinite_scroll']/ul/li
+            preview_demo_link: //button[contains(@class, 'preview-demo') and position() = 1]
+            preview_default_link: //button[contains(@class, 'preview-default') and position() = 1]
         links:
             available_themes_tab: //a[@id='theme_selector_tabs_available_themes']
             customized_themes_tab: //a[@id='theme_selector_tabs_customizations']
