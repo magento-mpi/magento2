@@ -127,9 +127,9 @@ class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_S
         }
         $children = $this->_data['sections'];
         $child = array();
-        foreach ($pathParts as $id) {
-            if (array_key_exists($id, $children)) {
-                $child = $children[$id];
+        foreach ($pathParts as $pathPart) {
+            if (array_key_exists($pathPart, $children)) {
+                $child = $children[$pathPart];
                 $children = array_key_exists('children', $child) ? $child['children'] : array();
             } else {
                 $child = $this->_createEmptyElement($pathParts);
@@ -159,8 +159,8 @@ class Mage_Backend_Model_Config_Structure implements Mage_Backend_Model_Config_S
             default:
                 $elementType = 'field';
         }
-        $id = array_pop($pathParts);
-        return array('id' => $id, 'path' => implode('/', $pathParts), '_elementType' => $elementType);
+        $elementId = array_pop($pathParts);
+        return array('id' => $elementId, 'path' => implode('/', $pathParts), '_elementType' => $elementType);
     }
 
     /**

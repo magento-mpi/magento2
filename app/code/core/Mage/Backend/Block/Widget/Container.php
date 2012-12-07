@@ -312,7 +312,7 @@ class Mage_Backend_Block_Widget_Container extends Mage_Backend_Block_Template
      */
     protected function _toHtml()
     {
-        Mage::dispatchEvent('adminhtml_widget_container_html_before', array('block' => $this));
+        $this->_eventManager->dispatch('adminhtml_widget_container_html_before', array('block' => $this));
         return parent::_toHtml();
     }
 }

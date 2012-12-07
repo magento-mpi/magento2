@@ -66,6 +66,7 @@ app/code/core/Mage/Core/Controller/Varien/Router/Standard.php
 app/code/core/Mage/Core/Controller/Varien/Router/Abstract.php
 app/code/core/Mage/Cms/Controller/Router.php
 app/code/core/Mage/Page/Helper/Robots.php
+app/code/core/Mage/Webapi
 dev/shell
 dev/tests/integration
 dev/tests/js

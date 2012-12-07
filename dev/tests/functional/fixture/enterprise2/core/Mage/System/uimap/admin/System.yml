@@ -106,18 +106,6 @@ api_role:
     click_xpath: //ul[@id='nav']//a[contains(@href, 'api_role/')]
     title: Roles / Web Services / System / Magento Admin
 
-# Web Services: REST Roles page
-api2_role:
-    mca: api2_role/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'api2_role/')]
-    title: REST Roles / Web Services / System / Magento Admin
-
-# Web Services: REST Attributes page
-api2_attribute:
-    mca: api2_attribute/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'api2_attribute/')]
-    title: REST Attributes / Web Services / System / Magento Admin
-
 # Web Services: OAuth Consumers page
 oauth_consumer:
     mca: oauth_consumer/

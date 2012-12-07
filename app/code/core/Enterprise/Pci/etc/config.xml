@@ -18,7 +18,6 @@
             <depends>
                 <Mage_Adminhtml/>
                 <Mage_Customer/>
-                <Mage_Api/>
             </depends>
         </Enterprise_Pci>
     </modules>
@@ -72,14 +71,6 @@
                     </enterprise_pci>
                 </observers>
             </admin_user_authenticate_after>
-            <api_user_authenticated>
-                <observers>
-                    <enterprise_pci>
-                        <class>Enterprise_Pci_Model_Observer</class>
-                        <method>upgradeApiKey</method>
-                    </enterprise_pci>
-                </observers>
-            </api_user_authenticated>
             <controller_action_predispatch>
                 <observers>
                     <enterprise_pci>
