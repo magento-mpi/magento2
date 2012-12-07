@@ -37,7 +37,7 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
         $productData = $this->loadDataSet('Product', $changedProduct . '_product_visible');
         //Steps
         $this->productHelper()->selectTypeProduct('simple');
-        $this->fillCheckbox('weight_and_type_switcher', 'yes');
+        $this->fillCheckbox('general_weight_and_type_switcher', 'yes');
         $this->productHelper()->fillProductInfo($productData, $changedProduct);
         $this->saveForm('save');
         //Verifying
@@ -83,10 +83,10 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
         $this->productHelper()->selectTypeProduct($initialProduct);
         $this->assertTrue($this->controlIsVisible('field', 'general_weight_disabled'),
             'Weight field is editable or is not visible');
-        $this->assertTrue($this->isChecked($this->_getControlXpath('checkbox', 'weight_and_type_switcher')),
+        $this->assertTrue($this->isChecked($this->_getControlXpath('checkbox', 'general_weight_and_type_switcher')),
             'Weight checkbox is not selected');
         if ($changedProduct == 'simple') {
-            $this->fillCheckbox('weight_and_type_switcher', 'no');
+            $this->fillCheckbox('general_weight_and_type_switcher', 'no');
         }
         $this->productHelper()->fillProductInfo($productData, $changedProduct);
         $this->saveForm('save');
@@ -141,7 +141,7 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
         $this->productHelper()->createProduct($simpleProduct);
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('sku' => $simpleProduct['general_sku']));
-        $this->fillCheckbox('weight_and_type_switcher', 'yes');
+        $this->fillCheckbox('general_weight_and_type_switcher', 'yes');
         $this->productHelper()->fillProductInfo($productData, $changedProduct);
         $this->saveForm('save');
         //Verifying
@@ -177,7 +177,7 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('sku' => $initialProductData['general_sku']));
         if ($changedProduct == 'simple') {
-            $this->fillCheckbox('weight_and_type_switcher', 'no');
+            $this->fillCheckbox('general_weight_and_type_switcher', 'no');
         } else {
             if ($changedProduct == 'virtual') {
                 $this->productHelper()->deleteDownloadableInformation('sample');
@@ -227,12 +227,12 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
         //Verification (grouped and configurable products)
         if ($isWeightDisabled == null) {
             $this->assertFalse($this->isElementPresent('field', 'general_weight'));
-            $this->assertFalse($this->isElementPresent('checkbox', 'weight_and_type_switcher'));
+            $this->assertFalse($this->isElementPresent('checkbox', 'general_weight_and_type_switcher'));
         }
         //Verification for Bundle product (Dynamic and Fixed)
         else {
             $this->assertEquals($isWeightDisabled, $this->isChecked(
-                $this->_getControlXpath('checkbox', 'weight_and_type_switcher')));
+                $this->_getControlXpath('checkbox', 'general_weight_and_type_switcher')));
             $this->assertFalse($this->isEditable('field', 'general_weight'));
             $this->fillDropdown('general_weight_type', 'Fixed');
             $this->assertTrue($this->isEditable('field', 'general_weight'));
@@ -372,7 +372,7 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
         $this->fillCheckbox('is_configurable', 'no');
         $this->assertFalse($this->controlIsVisible('fieldset', 'product_variations'),
             'Product variation block is present');
-        $this->fillCheckbox('weight_and_type_switcher', 'no');
+        $this->fillCheckbox('general_weight_and_type_switcher', 'no');
         $this->productHelper()->fillProductInfo($simpleProduct);
         $this->saveForm('save');
         //Verifying
@@ -415,7 +415,7 @@ class Community2_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCa
         $this->fillCheckbox('is_configurable', 'no');
         $this->assertFalse($this->controlIsVisible('fieldset', 'product_variations'),
             'Product variation block is present');
-        $this->fillCheckbox('weight_and_type_switcher', 'no');
+        $this->fillCheckbox('general_weight_and_type_switcher', 'no');
         $this->productHelper()->fillProductInfo($simpleProduct, 'simple');
         $this->saveForm('save');
         //Verifying

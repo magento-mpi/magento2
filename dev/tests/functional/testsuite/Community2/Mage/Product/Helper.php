@@ -789,6 +789,7 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
     public function verifyProductVariations(array $productVariations, $attributeTitles)
     {
         $this->openTab('general');
+        $this->fillCheckbox('is_configurable', 'yes');
         $attributes = array_map('trim', explode(',', $attributeTitles));
         foreach ($attributes as $value) {
             $this->addParameter('attributeTitle', $value);
@@ -811,22 +812,26 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
      * Include product by it's configurable attribute's values
      *
      * @param array $productAttributes
+     * @param array $fillFields
      * @param bool $isChecked - if false than exclude product
      */
-    public function includeAssociatedProduct(array $productAttributes, $isChecked = true)
+    public function includeAssociatedProduct(array $productAttributes, array $fillFields = null, $isChecked = true)
     {
         $this->_formAssociatedProductXpath($productAttributes);
         if ($isChecked) {
-            if (!$this->isChecked($this->_getControlXpath(self::FIELD_TYPE_CHECKBOX, 'associated_product_select')) &&
-                $this->controlIsVisible(self::FIELD_TYPE_CHECKBOX, 'associated_product_select')
+            if (!$this->isChecked($this->_getControlXpath('checkbox', 'associated_product_select')) &&
+                $this->controlIsVisible('checkbox', 'associated_product_select')
             ) {
-                $this->clickControl(self::FIELD_TYPE_CHECKBOX, 'associated_product_select', false);
+                $this->clickControl('checkbox', 'associated_product_select', false);
+                if(isset($fillFields)) {
+                    $this->fillFieldset($fillFields, 'variations_matrix');
+                }
             }
         } else {
-            if ($this->isChecked($this->_getControlXpath(self::FIELD_TYPE_CHECKBOX, 'associated_product_select')) &&
-                $this->controlIsVisible(self::FIELD_TYPE_CHECKBOX, 'associated_product_select')
+            if ($this->isChecked($this->_getControlXpath('checkbox', 'associated_product_select')) &&
+                $this->controlIsVisible('checkbox', 'associated_product_select')
             ) {
-                $this->clickControl(self::FIELD_TYPE_CHECKBOX, 'associated_product_select', false);
+                $this->clickControl('checkbox', 'associated_product_select', false);
             }
         }
     }

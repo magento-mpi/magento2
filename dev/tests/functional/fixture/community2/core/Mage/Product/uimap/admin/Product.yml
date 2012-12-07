@@ -31,7 +31,7 @@ new_product:
                                         categories: //*[@data-ui-id='category-selector-input']
                                         general_weight_disabled: //input[@id='weight' and (@disabled)]
                                     checkboxes:
-                                        weight_and_type_switcher: //input[@id='weight_and_type_switcher']
+                                        general_weight_and_type_switcher: //input[@id='weight_and_type_switcher']
                             -
                                 category_search:
                                     xpath: //*[@id='html-body']/ul
@@ -66,6 +66,14 @@ new_product:
                                         variation_line: //table/tbody/tr[%rowNum%]
                                     buttons:
                                         choose: //tr[%attributeSearch%]//button
+                                    fields:
+                                        variation_name: //tbody/tr[%attributeSearch%]//td[@class='associated-matrix-product-name']/input
+                                        variation_price: //tbody/tr[%attributeSearch%]//td[@class='associated-matrix-product-price']/input
+                                        variation_sku: //tbody/tr[%attributeSearch%]//td[@class='associated-matrix-product-sku']/input
+                                        variation_qty: //tbody/tr[%attributeSearch%]//td[@class='associated-matrix-product-qty']/input
+                                        variation_weight: //tbody/tr[%attributeSearch%]//td[@class='associated-matrix-product-weight']/input
+                                    messages:
+                                        required_field: //*[contains(@for,'create_matrix_product') and contains(@for,'%field%')]
                         checkboxes:
                             is_configurable: //*[@id='config_super_product-checkbox']
                     prices:
