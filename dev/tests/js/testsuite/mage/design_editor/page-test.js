@@ -15,7 +15,7 @@ PageTest.prototype.testInit = function() {
 PageTest.prototype.testDefaultOptions = function() {
     var page = jQuery('body').vde_page();
     assertEquals('.vde_element_wrapper.vde_container', page.vde_page('option', 'containerSelector'));
-    assertEquals('#vde_toolbar', page.vde_page('option', 'panelSelector'));
+    assertEquals('#vde_toolbar_row', page.vde_page('option', 'panelSelector'));
     assertEquals('.vde_element_wrapper', page.vde_page('option', 'highlightElementSelector'));
     assertEquals('.vde_element_title', page.vde_page('option', 'highlightElementTitleSelector'));
     assertEquals('#vde_highlighting', page.vde_page('option', 'highlightCheckboxSelector'));

@@ -223,7 +223,7 @@
     /**
      * Widget page
      */
-    $.widget('vde.vde_page', {
+    $.widget('vde.vde_connector', {
         options: {
             containerSelector: '.vde_element_wrapper.vde_container',
             panelSelector: '#vde_toolbar',
@@ -245,8 +245,8 @@
     /**
      * Widget page history init
      */
-    var pagePrototype = $.vde.vde_page.prototype;
-    $.widget( "vde.vde_page", $.extend({}, pagePrototype, {
+    var pagePrototype = $.vde.vde_connector.prototype;
+    $.widget( "vde.vde_connector", $.extend({}, pagePrototype, {
         _create: function() {
             pagePrototype._create.apply( this, arguments );
             var history = this._initHistory();
@@ -344,7 +344,7 @@
     });
 
     $(document).ready(function( ){
-        $(window).vde_page();
+        $(window).vde_connector();
     });
 
 })( jQuery );
