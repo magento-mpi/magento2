@@ -222,6 +222,8 @@ class Magento_Profiler
         self::$_defaultTags = array();
         self::$_hasTagFilters = false;
         self::$_drivers = array();
+        self::$_pathCount = 0;
+        self::$_pathIndex = array();
     }
 
     /**
