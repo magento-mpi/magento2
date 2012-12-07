@@ -19,18 +19,60 @@
 class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
-     * Creates widget
-     *
-     * @param string|array $widgetData
+     * @param $layoutUpdates
      */
-    public function createWidget($widgetData)
+    public function _layoutUpdates($layoutUpdates)
+    {
+        if ($layoutUpdates) {
+            $this->fillLayoutUpdates($layoutUpdates);
+        }
+    }
+
+    /**
+     * @param $widgetOptions
+     */
+    protected function _widgetOptions($widgetOptions)
+    {
+        if ($widgetOptions) {
+            $this->fillWidgetOptions($widgetOptions);
+        }
+    }
+
+    /**
+     * @param $widgetData
+     *
+     * @return array $widgetData
+     */
+    protected function _ifIsString($widgetData)
     {
         if (is_string($widgetData)) {
             $elements = explode('/', $widgetData);
             $fileName = (count($elements) > 1) ? array_shift($elements) : '';
             $widgetData = $this->loadDataSet($fileName, implode('/', $elements));
         }
-        $settings = (isset($widgetData['settings'])) ? $widgetData['settings'] : array();
+        return $widgetData;
+    }
+
+    /**
+     * @param $widgetData
+     * @return array $settings
+     */
+    protected function _widgetSettings($widgetData)
+    {
+        $settings = array();
+        $settings['settings'] = (isset($widgetData['settings'])) ? $widgetData['settings'] : array();
+        return $settings;
+    }
+
+    /**
+     * Creates widget
+     *
+     * @param string|array $widgetData
+     */
+    public function createWidget($widgetData)
+    {
+
+        $settings = $this->_widgetSettings($widgetData);
         $frontProperties = (isset($widgetData['frontend_properties'])) ? $widgetData['frontend_properties'] : array();
         $layoutUpdates = (isset($widgetData['layout_updates'])) ? $widgetData['layout_updates'] : array();
         $widgetOptions = (isset($widgetData['widget_options'])) ? $widgetData['widget_options'] : array();
@@ -43,12 +85,8 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
             unset($frontProperties['assign_to_store_views']);
         }
         $this->fillFieldset($frontProperties, 'frontend_properties_fieldset');
-        if ($layoutUpdates) {
-            $this->fillLayoutUpdates($layoutUpdates);
-        }
-        if ($widgetOptions) {
-            $this->fillWidgetOptions($widgetOptions);
-        }
+        $this->_layoutUpdates($layoutUpdates);
+        $this->_widgetOptions($widgetOptions);
         $this->saveForm('save');
     }
 

@@ -75,6 +75,7 @@ class Core_Mage_CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Seleniu
      * @dataProvider differentPaymentMethodsWithout3DDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-3186
+     * @SuppressWarnings("unused")
      */
     public function differentPaymentMethodsWithout3D($payment, $testData)
     {

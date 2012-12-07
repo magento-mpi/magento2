@@ -19,24 +19,10 @@
 class Core_Mage_CmsStaticBlocks_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
-     * Create a new static block.
-     * Uses a simple editor only.
-     *
-     * @param array|string $blockData
+     * @param $content
      */
-    public function createStaticBlock(array $blockData)
+    protected function _content($content)
     {
-        if (is_string($blockData)) {
-            $elements = explode('/', $blockData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $blockData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
-        $content = (isset($blockData['content'])) ? $blockData['content'] : array();
-        $this->clickButton('add_new_block');
-        if (array_key_exists('store_view', $blockData) && !$this->controlIsPresent('multiselect', 'store_view')) {
-            unset($blockData['store_view']);
-        }
-        $this->fillForm($blockData);
         if ($content) {
             $widgetsData = (isset($content['widgets'])) ? $content['widgets'] : array();
             $variableData = (isset($content['variables'])) ? $content['variables'] : array();
@@ -51,6 +37,38 @@ class Core_Mage_CmsStaticBlocks_Helper extends Mage_Selenium_AbstractHelper
                 $this->cmsPagesHelper()->insertVariable($variable);
             }
         }
+    }
+
+    /**
+     * @param $blockData
+     * @return array $blockData
+     */
+    protected function _ifIsString($blockData)
+    {
+        if (is_string($blockData)) {
+            $elements = explode('/', $blockData);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $blockData = $this->loadDataSet($fileName, implode('/', $elements));
+        }
+        return $blockData;
+    }
+
+    /**
+     * Create a new static block.
+     * Uses a simple editor only.
+     *
+     * @param array|string $blockData
+     */
+    public function createStaticBlock(array $blockData)
+    {
+        $blockData = $this->_ifIsString($blockData);
+        $content = (isset($blockData['content'])) ? $blockData['content'] : array();
+        $this->clickButton('add_new_block');
+        if (array_key_exists('store_view', $blockData) && !$this->controlIsPresent('multiselect', 'store_view')) {
+            unset($blockData['store_view']);
+        }
+        $this->fillForm($blockData);
+        $this->_content($content);
         $this->saveForm('save_block');
     }
 

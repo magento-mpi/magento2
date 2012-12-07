@@ -197,6 +197,17 @@ class Core_Mage_Review_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
+     * @param $verifyData
+     * @return array $ratingData
+     */
+    protected function _ratingData($verifyData)
+    {
+        $ratingData = array();
+        $ratingData['rating'] = (isset($verifyData['product_rating'])) ? $verifyData['product_rating'] : array();
+        return $ratingData;
+    }
+
+    /**
      * Review verification after approve
      * (@TODO doesn't work for several reviews posted by one nickname)
      *
@@ -210,10 +221,10 @@ class Core_Mage_Review_Helper extends Mage_Selenium_AbstractHelper
         $review = (isset($verifyData['review'])) ? $verifyData['review'] : '';
         $nickname = (isset($verifyData['nickname'])) ? $verifyData['nickname'] : '';
         $summary = (isset($verifyData['summary_of_review'])) ? $verifyData['summary_of_review'] : '';
-        $rating = (isset($verifyData['product_rating'])) ? $verifyData['product_rating'] : array();
+        $ratingData = $this->_ratingData($verifyData);
         $ratingNames = array();
         $actualRatings = array();
-        foreach ($rating as $value) {
+        foreach ($ratingData as $value) {
             $ratingNames[] = $value['rating_name'];
         }
         if ($this->controlIsPresent('link', 'reviews')) {

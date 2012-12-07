@@ -78,9 +78,6 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
      */
     public function createRole(array $roleData, $separator = '/')
     {
-        if (empty($roleData)) {
-            $this->fail('$roleData parameter is empty');
-        }
         $roleInfo = (isset($roleData['role_info_tab'])) ? $roleData['role_info_tab'] : array();
         $roleResources = (isset($roleData['role_resources_tab'])) ? $roleData['role_resources_tab'] : array();
         $this->clickButton('add_new_role');
@@ -164,6 +161,20 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
         $this->clickControl('pageelement', 'table_line_cell_index');
     }
 
+    /*
+     * EditRole identify variables
+     * @param array $roleData
+     */
+    protected function _editRoleVars(array $roleData)
+    {
+        $result = array();
+        $result['searchUserRole'] = (isset($roleData['search_role'])) ? $roleData['search_role'] : array();
+        $result['roleInfo'] = (isset($roleData['role_info_tab'])) ? $roleData['role_info_tab'] : array();
+        $result['roleResources'] = (isset($roleData['role_resources_tab'])) ? $roleData['role_resources_tab'] : array();
+        $result['roleUsers'] = (isset($roleData['role_users_tab'])) ? $roleData['role_users_tab'] : array();
+        return $result;
+    }
+
     /**
      * Edit Role
      *
@@ -172,18 +183,11 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
      */
     public function editRole(array $roleData, $separator = '/')
     {
-        if (empty($roleData)) {
-            $this->fail('$roleData parameter is empty');
-        }
-        $searchUserRole = (isset($roleData['search_role'])) ? $roleData['search_role'] : array();
-        $roleInfo = (isset($roleData['role_info_tab'])) ? $roleData['role_info_tab'] : array();
-        $roleResources = (isset($roleData['role_resources_tab'])) ? $roleData['role_resources_tab'] : array();
-        $roleUsers = (isset($roleData['role_users_tab'])) ? $roleData['role_users_tab'] : array();
-
+        $result = $this->_editRoleVars($roleData);
         if (!empty($searchUserRole)) {
             $this->openRole($searchUserRole);
         }
-        $this->fillTab($roleInfo, 'role_info');
+        $this->fillTab($result['roleInfo'], 'role_info');
         if (!empty($roleResources)) {
             $this->fillRolesResources($roleResources, $separator);
         }

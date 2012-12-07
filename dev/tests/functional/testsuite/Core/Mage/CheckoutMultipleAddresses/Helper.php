@@ -35,20 +35,29 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
         return $this->submitMultipleCheckoutSteps();
     }
 
+    /*
+     * @param array $checkout
+     */
+    protected function _getMultipleCheckoutData(array $checkout)
+    {
+        $result['products'] = (isset($checkout['products_to_add'])) ? $checkout['products_to_add'] : array();
+        $result['customer'] = (isset($checkout['checkout_as_customer'])) ? $checkout['checkout_as_customer'] : array();
+        $result['generalCustomerData'] =
+            (isset($checkout['general_customer_data'])) ? $checkout['general_customer_data'] : array();
+        $result['shippingData'] = (isset($checkout['shipping_data'])) ? $checkout['shipping_data'] : array();
+        $result['paymentData'] = (isset($checkout['payment_data'])) ? $checkout['payment_data'] : array();
+        return $result;
+    }
+
     /**
      * @param array $checkout
      */
     public function doMultipleCheckoutSteps(array $checkout)
     {
         //Data
-        $products = (isset($checkout['products_to_add'])) ? $checkout['products_to_add'] : array();
-        $customer = (isset($checkout['checkout_as_customer'])) ? $checkout['checkout_as_customer'] : array();
-        $generalCustomerData =
-            (isset($checkout['general_customer_data'])) ? $checkout['general_customer_data'] : array();
-        $shippingData = (isset($checkout['shipping_data'])) ? $checkout['shipping_data'] : array();
-        $paymentData = (isset($checkout['payment_data'])) ? $checkout['payment_data'] : array();
+        $result = $this->_getMultipleCheckoutData($checkout);
         //Add Product(s)
-        foreach ($products as $data) {
+        foreach ($result['products'] as $data) {
             $options = (isset($data['options'])) ? $data['options'] : array();
             $this->productHelper()->frontOpenProduct($data['product_name']);
             $this->productHelper()->frontAddProductToCart($options);
@@ -60,11 +69,11 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
         if ($currentPage == 'checkout_multishipping_login'
             || $currentPage == 'checkout_multishipping_login_with_params'
         ) {
-            $this->frontSelectCheckoutMethod($customer);
+            $this->frontSelectCheckoutMethod($result['customer']);
         }
         //If Create an Account
         if ($this->getCurrentPage() == 'checkout_multishipping_register') {
-            $this->fillFieldset($generalCustomerData, 'account_info');
+            $this->fillFieldset($result['generalCustomerData'], 'account_info');
             $uimapPage = $this->getUimapPage('frontend', 'checkout_multishipping_addresses');
             $setXpath = $this->_getControlXpath('fieldset', 'checkout_multishipping_form', $uimapPage);
             $this->clickButton('submit', false);
@@ -75,7 +84,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
         }
         //If customer without address
         if ($this->getCurrentPage() == 'checkout_multishipping_new_shipping') {
-            $this->fillFieldset($generalCustomerData, 'create_shipping_address');
+            $this->fillFieldset($result['generalCustomerData'], 'create_shipping_address');
             $uimapPage = $this->getUimapPage('frontend', 'checkout_multishipping_addresses');
             $setXpath = $this->_getControlXpath('fieldset', 'checkout_multishipping_form', $uimapPage);
             $this->clickButton('save_address', false);
@@ -84,11 +93,11 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
             $this->validatePage();
         }
         //Select addresses for each product
-        $this->selectShippingAddresses($shippingData);
+        $this->selectShippingAddresses($result['shippingData']);
         //Select shipping method for each address
-        $this->defineAndSelectShippingMethods($shippingData);
+        $this->defineAndSelectShippingMethods($result['shippingData']);
         //Select payment method and billing address
-        $this->fillBillingInfo($paymentData);
+        $this->fillBillingInfo($result['paymentData']);
         $this->frontOrderReview($checkout);
     }
 
@@ -158,15 +167,13 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
     }
 
     /**
+     * Define Product(s) qty in order
+     *
      * @param array $shippingData
+     * @return array
      */
-    public function selectShippingAddresses(array $shippingData)
+    protected function _getProductQtyForOrder(array $shippingData)
     {
-        $this->assertMultipleCheckoutPageOpened('select_addresses');
-        $this->assertMessageNotPresent('validation');
-        $this->assertTrue($this->controlIsPresent('fieldset', 'checkout_multishipping_form'),
-            'Ship to Multiple Addresses page is not opened');
-        //Define Product(s) qty in order
         $products = array();
         foreach ($shippingData as $oneAddressData) {
             foreach ($oneAddressData['products'] as $product) {
@@ -179,7 +186,18 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
                 }
             }
         }
-        //Verify Product(s) qty in order
+        return $products;
+    }
+
+    /**
+     * Verify Product(s) qty in order
+     *
+     * @param array $products
+     *
+     * @return array
+     */
+    protected function _setProductQtyInOrder(array $products)
+    {
         $filledProducts = array();
         foreach ($products as $productName => $qty) {
             $this->addParameter('productName', $productName);
@@ -217,8 +235,14 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
             }
             $filledProducts[$productName] = 1;
         }
-        $this->assertMessageNotPresent('error', 'shopping_cart_is_empty');
-        //Add address if not exist
+        return $filledProducts;
+    }
+
+    /*
+     * @param array $shippingData
+     */
+    protected function _getAddressDataForSelect(array $shippingData)
+    {
         $fillData = array();
         foreach ($shippingData as $oneAddressData) {
             $address = (isset($oneAddressData['address'])) ? $oneAddressData['address'] : array();
@@ -247,12 +271,29 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
                     $isAddressAdded = $this->orderHelper()->defineAddressToChoose($address, '');
                 }
                 $qty = (isset($product['product_qty'])) ? $product['product_qty'] : 1;
-                $arr = array('product' => $product['product_name'],
-                             'qty'     => $qty,
-                             'address' => $isAddressAdded);
+                $arr = array('product' => $product['product_name'], 'qty' => $qty, 'address' => $isAddressAdded);
                 $fillData[] = $arr;
             }
         }
+        return $fillData;
+    }
+
+    /**
+     * @param array $shippingData
+     */
+    public function selectShippingAddresses(array $shippingData)
+    {
+        $this->assertMultipleCheckoutPageOpened('select_addresses');
+        $this->assertMessageNotPresent('validation');
+        $this->assertTrue($this->controlIsPresent('fieldset', 'checkout_multishipping_form'),
+            'Ship to Multiple Addresses page is not opened');
+        //Define Product(s) qty in order
+        $productsQty = $this->_getProductQtyForOrder($shippingData);
+        //Verify Product(s) qty in order
+        $filledProducts = $this->_setProductQtyInOrder($productsQty);
+        $this->assertMessageNotPresent('error', 'shopping_cart_is_empty');
+        //Add address if not exist
+        $fillData = $this->_getAddressDataForSelect($shippingData);
         //Select shipping address for each product
         foreach ($fillData as $data) {
             $this->addParameter('productName', $data['product']);
@@ -278,8 +319,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
         $actualShippingCount = $this->getControlCount('pageelement', 'shipping_methods_forms');
         $expectShipCount = count($shippingData);
         $this->assertEquals($expectShipCount, $actualShippingCount,
-            'Order should contains ' . $expectShipCount . ' shipping addresses but contains '
-            . $actualShippingCount);
+            'Order should contains ' . $expectShipCount . ' shipping addresses but contains ' . $actualShippingCount);
 
         //Get actual addresses for shipping methods and Headers
         $headerAddresses = $this->defineAddresses('shipping', $expectShipCount);
@@ -301,7 +341,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
                 }
             }
         }
-        $setXpath = $this->_getControlXpath('pageelement', 'billing_information'). self::$_activeTab;
+        $setXpath = $this->_getControlXpath('pageelement', 'billing_information') . self::$_activeTab;
         $errorMessageXpath = $this->getBasicXpathMessagesExcludeCurrent('error');
         $waitCondition = array($this->_getMessageXpath('general_validation'), $errorMessageXpath, $setXpath);
         $this->clickButton('continue_to_billing_information', false);
@@ -351,21 +391,17 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
      */
     public function selectShippingMethod(array $shipMethod)
     {
-        $service = (isset($shipMethod['shipping_service'])) ? $shipMethod['shipping_service'] : null;
-        $method = (isset($shipMethod['shipping_method'])) ? $shipMethod['shipping_method'] : null;
-
-        if (!$service or !$method) {
+        if (empty($shipMethod['shipping_service']) || empty($shipMethod['shipping_method'])) {
             $this->addVerificationMessage('Shipping Service(or Shipping Method) is not set');
         } else {
+            $service = $shipMethod['shipping_service'];
+            $method = $shipMethod['shipping_method'];
             $this->addParameter('shipService', $service);
             $this->addParameter('shipMethod', $method);
             if ($this->controlIsPresent('message', 'ship_method_unavailable')
                 || $this->controlIsPresent('message', 'no_shipping')
             ) {
-                //@TODO
-                //Remove workaround for getting fails, not skipping tests if shipping methods are not available
                 $this->skipTestWithScreenshot('Shipping Service "' . $service . '" is currently unavailable.');
-                //$this->addVerificationMessage('Shipping Service "' . $service . '" is currently unavailable.');
             } elseif ($this->controlIsPresent('field', 'ship_service_name')) {
                 if ($this->controlIsPresent('radiobutton', 'ship_method')) {
                     $this->fillRadiobutton('ship_method', 'Yes');
@@ -374,10 +410,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
                         'Shipping Method "' . $method . '" for "' . $service . '" is currently unavailable');
                 }
             } else {
-                //@TODO
-                //Remove workaround for getting fails, not skipping tests if shipping methods are not available
                 $this->skipTestWithScreenshot($service . ': This shipping method is currently not displayed');
-                //$this->addVerificationMessage($service . ': This shipping method is currently not displayed');
             }
         }
         $this->assertEmptyVerificationErrors();
@@ -410,6 +443,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
      * @param string $header
      *
      * @TODO
+     * @SuppressWarnings("unused")
      */
     public function addGiftOptions(array $giftOptions, $header)
     {
@@ -419,6 +453,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
      * @param array $shippingData
      *
      * @TODO
+     * @SuppressWarnings("unused")
      */
     public function verifyGiftOptions(array $shippingData)
     {
@@ -526,56 +561,26 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
         return $orderIds;
     }
 
-    /**
-     * @param array $checkout
+    /*
+     * @param array checkout
      */
-    public function frontOrderReview(array $checkout)
+    protected function _getOrderReviewData(array $checkout)
     {
-        $this->assertMultipleCheckoutPageOpened('place_order');
-        $this->addParameter('elementXpath', $this->_getControlXpath('fieldset', '3d_secure_card_validation'));
-        if ($this->controlIsPresent('pageelement', '3d_secure_header')) {
-            $this->waitForElement($this->_getControlXpath('pageelement', 'element_not_disabled_style'));
-            $this->checkoutOnePageHelper()->frontValidate3dSecure();
-            $this->waitForElement($this->_getControlXpath('button', 'place_order'));
-        }
-        //Data
-        $paymentData = (isset($checkout['payment_data'])) ? $checkout['payment_data'] : array();
-        $billing = (isset($paymentData['billing_address'])) ? $paymentData['billing_address'] : array();
-        $shippings = (isset($checkout['shipping_data'])) ? $checkout['shipping_data'] : array();
-        $expectedPayment =
+        $result['paymentData'] = (isset($checkout['payment_data'])) ? $checkout['payment_data'] : array();
+        $result['billing'] = (isset($paymentData['billing_address'])) ? $paymentData['billing_address'] : array();
+        $result['shippings'] = (isset($checkout['shipping_data'])) ? $checkout['shipping_data'] : array();
+        $result['expectedPayment'] =
             (isset($paymentData['payment']['payment_method'])) ? $paymentData['payment']['payment_method'] : array();
-        $verifyPrices = (isset($checkout['verify_prices'])) ? $checkout['verify_prices'] : array();
-        //Verify quantity orders
-        $actualQty = $this->getControlCount('pageelement', 'shipping_method_products');
-        $this->assertEquals(count($shippings), $actualQty, 'orders quantity is wrong');
-        //Verify selected Shipping addresses for orders
-        $orderHeaders = array();
-        $actualShippings = $this->defineAddresses('shipping', $actualQty);
-        foreach ($shippings as $shipping) {
-            $address = (isset($shipping['address'])) ? $shipping['address'] : array();
-            if (empty($address)) {
-                $orderHeaders[] = $this->getControlAttribute('pageelement', 'virtual_item_head', 'text');
-                continue;
-            }
-            $header = $this->getAddressId($address, $actualShippings);
-            if (is_null($header)) {
-                $this->addVerificationMessage(
-                    'Shipping Address is wrong for one order. [must be : ' . implode(',', $address) . ']');
-            }
-            $orderHeaders[] = $header;
-        }
-        //Verify selected Billing address for orders
-        if (is_null($this->getAddressId($billing, $this->defineAddresses()))) {
-            $this->addVerificationMessage(
-                'Billing Address is wrong for orders. [must be : ' . implode(',', $billing) . ']');
-        }
-        //Verify selected Payment Method for orders
-        $actualPayment = $this->getControlAttribute('pageelement', 'payment_method', 'text');
-        if ($actualPayment !== $expectedPayment) {
-            $this->addVerificationMessage(
-                'Payment Method is wrong. [' . $actualPayment . ' selected, but must be : ' . $expectedPayment . ']');
-        }
-        $this->assertEmptyVerificationErrors();
+        $result['verifyPrices'] = (isset($checkout['verify_prices'])) ? $checkout['verify_prices'] : array();
+        return $result;
+    }
+
+    /**
+     * @param array $orderHeaders
+     * @param array $shippings
+     */
+    protected function _verifyDataForEachAddress(array $orderHeaders, array $shippings)
+    {
         //Get Shipping Addresses Data
         $ordersData = array();
         $value = 1;
@@ -613,6 +618,61 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
             $ordersData['grand_total'] = $this->getControlAttribute('pageelement', 'grand_total', 'text');
             $this->assertEquals($verifyPrices, $ordersData);
         }
+    }
+
+    /**
+     *
+     */
+    protected function _validateMultipleCheckout3dSecure()
+    {
+        $this->addParameter('elementXpath', $this->_getControlXpath('fieldset', '3d_secure_card_validation'));
+        if ($this->controlIsPresent('pageelement', '3d_secure_header')) {
+            $this->waitForElement($this->_getControlXpath('pageelement', 'element_not_disabled_style'));
+            $this->checkoutOnePageHelper()->frontValidate3dSecure();
+            $this->waitForElement($this->_getControlXpath('button', 'place_order'));
+        }
+    }
+
+    /**
+     * @param array $checkout
+     */
+    public function frontOrderReview(array $checkout)
+    {
+        $this->assertMultipleCheckoutPageOpened('place_order');
+        $this->_validateMultipleCheckout3dSecure();
+        //Data
+        $result = $this->_getOrderReviewData($checkout);
+        //Verify quantity orders
+        $actualQty = $this->getControlCount('pageelement', 'shipping_method_products');
+        $this->assertEquals(count($result['shippings']), $actualQty, 'orders quantity is wrong');
+        //Verify selected Shipping addresses for orders
+        $orderHeaders = array();
+        $actualShippings = $this->defineAddresses('shipping', $actualQty);
+        foreach ($result['shippings'] as $shipping) {
+            if (empty($shipping['address'])) {
+                $orderHeaders[] = $this->getControlAttribute('pageelement', 'virtual_item_head', 'text');
+                continue;
+            }
+            $header = $this->getAddressId($shipping['address'], $actualShippings);
+            if (is_null($header)) {
+                $this->addVerificationMessage(
+                    'Shipping Address is wrong for one order. [must be : ' . implode(',', $shipping['address']) . ']');
+            }
+            $orderHeaders[] = $header;
+        }
+        //Verify selected Billing address for orders
+        if (is_null($this->getAddressId($result['billing'], $this->defineAddresses()))) {
+            $this->addVerificationMessage(
+                'Billing Address is wrong for orders. [must be : ' . implode(',', $result['billing']) . ']');
+        }
+        //Verify selected Payment Method for orders
+        $actualPayment = $this->getControlAttribute('pageelement', 'payment_method', 'text');
+        if ($actualPayment !== $result['expectedPayment']) {
+            $this->addVerificationMessage('Payment Method is wrong. [' . $actualPayment . ' selected, but must be : '
+                                          . $result['expectedPayment'] . ']');
+        }
+        $this->assertEmptyVerificationErrors();
+        $this->_verifyDataForEachAddress($orderHeaders, $result['shippings']);
     }
 
     /**

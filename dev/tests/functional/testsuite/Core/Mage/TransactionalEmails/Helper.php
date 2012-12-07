@@ -107,4 +107,18 @@ class Core_Mage_TransactionalEmails_Helper extends Mage_Selenium_AbstractHelper
         $this->fillTemplateForm($newTemplateData, 'template_information');
         $this->clickButton('save_template');
     }
+
+    /*
+     * Check control presence
+     * @param $controlType
+     * @param $controls
+     */
+    public function checkControlsPresence($controlType, $controls)
+    {
+        foreach ($controls as $control) {
+            if (!$this->controlIsPresent($controlType, $control)) {
+                $this->addVerificationMessage("Control $control of type $controlType is not present on the page");
+            }
+        }
+    }
 }

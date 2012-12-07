@@ -19,36 +19,44 @@
 class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
-     * System Configuration
-     *
-     * @param array|string $parameters
+     * @param $parameters
+     * @return array $parameters
      */
-    public function configure($parameters)
+    protected function _ifIsString($parameters)
     {
         if (is_string($parameters)) {
             $elements = explode('/', $parameters);
             $fileName = (count($elements) > 1) ? array_shift($elements) : '';
             $parameters = $this->loadDataSet($fileName, implode('/', $elements));
         }
-        $chooseScope = (isset($parameters['configuration_scope'])) ? $parameters['configuration_scope'] : null;
-        if ($chooseScope) {
-            $this->selectStoreScope('dropdown', 'current_configuration_scope', $chooseScope);
+        return $parameters;
+    }
+
+    /**
+     * System Configuration
+     *
+     * @param array|string $parameters
+     */
+    public function configure($parameters)
+    {
+        $parameters = $this->_ifIsString($parameters);
+        if (isset($parameters['configuration_scope'])) {
+            $this->selectStoreScope('dropdown', 'current_configuration_scope', $parameters['configuration_scope']);
         }
         foreach ($parameters as $value) {
             if (!is_array($value)) {
                 continue;
             }
-            $tab = (isset($value['tab_name'])) ? $value['tab_name'] : null;
             $settings = (isset($value['configuration'])) ? $value['configuration'] : array();
-            if ($tab) {
-                $this->openConfigurationTab($tab);
+            if (!empty($value['tab_name'])) {
+                $this->openConfigurationTab($value['tab_name']);
                 foreach ($settings as $fieldsetName => $fieldsetData) {
                     $this->expandFieldSet($fieldsetName);
                     $this->fillFieldset($fieldsetData, $fieldsetName);
                 }
                 $this->saveForm('save_config');
                 $this->assertMessagePresent('success', 'success_saved_config');
-                $this->verifyConfigurationOptions($settings, $tab);
+                $this->verifyConfigurationOptions($settings, $value['tab_name']);
             }
         }
     }

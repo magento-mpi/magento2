@@ -45,24 +45,16 @@ class Core_Mage_TransactionalEmails_TransactionalEmailsTest extends Mage_Seleniu
                 $this->addVerificationMessage("Button $button is not present on the page");
             }
         }
-        $fieldSetTrue = array('load_default_template', 'template_information');
-        foreach ($fieldSetTrue as $fieldSet) {
-            if (!$this->controlIsPresent('fieldset', $fieldSet)) {
-                $this->addVerificationMessage("Fieldset $fieldSet is not present on the page");
-            }
-        }
+        $this->transactionalEmailsHelper()->checkControlsPresence('fieldset', array(
+                                                                              'load_default_template',
+                                                                              'template_information')
+        );
         $dropdownTrue = array('template');
-        foreach ($dropdownTrue as $dropdown) {
-            if (!$this->controlIsPresent('dropdown', $dropdown)) {
-                $this->addVerificationMessage("Dropdown $dropdown is not present on the page");
-            }
-        }
-        $fieldsTrue = array('template_name', 'template_subject', 'template_content', 'template_styles');
-        foreach ($fieldsTrue as $field) {
-            if (!$this->controlIsPresent('field', $field)) {
-                $this->addVerificationMessage("Field $field is not present on the page");
-            }
-        }
+        $this->transactionalEmailsHelper()->checkControlsPresence('dropdown', $dropdownTrue);
+        $this->transactionalEmailsHelper()->checkControlsPresence(
+            'field',
+            array('template_name', 'template_subject', 'template_content', 'template_styles')
+        );
         $this->assertEmptyVerificationErrors();
     }
 

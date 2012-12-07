@@ -96,33 +96,12 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * Get available product details from the Compare Products pop-up
-     *
-     * Preconditions: Compare Products pop-up is opened
-     *
-     * @return array $productData Product details from Compare Products pop-up
+     * Get Field Names
+     * @param $names
+     * @return array $arrayNames
      */
-    public function getProductDetailsOnComparePage()
+    protected function _getFieldNames($names)
     {
-        $data = array();
-        $names = array();
-        $table = $this->getControlElement('fieldset', 'compare_products');
-        /**
-         * @var PHPUnit_Extensions_Selenium2TestCase_Element $cellData
-         */
-        $nameCells = $this->getChildElements($table, '//th');
-        $productCount = count($this->getChildElements($table, 'tbody[1]/tr/*')) - 1;
-        foreach ($nameCells as $cellData) {
-            $names[] = trim($cellData->text());
-        }
-        for ($i = 1; $i <= $productCount; $i++) {
-            $columnData = $this->getChildElements($table, "//td[$i]");
-            foreach ($columnData as $cellData) {
-                $data[$i][] = $cellData->text();
-            }
-
-        }
-        //Get Field Names
         $arrayNames = array();
         foreach ($names as $key => $value) {
             if ($value == null) {
@@ -140,15 +119,14 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_AbstractHelper
                 $arrayNames[$key] = $value;
             }
         }
+        return $arrayNames;
+    }
 
-        //Generate correct array
-        $returnArray = array();
-        foreach ($data as $number => $productData) {
-            foreach ($productData as $key => $value) {
-                $returnArray['product_' . ($number)][$arrayNames[$key]] = $value;
-            }
-            unset($data[$number]);
-        }
+    /**
+     * @param $returnArray
+     */
+    protected function _returnArray($returnArray)
+    {
         foreach ($returnArray as &$value) {
             if (isset($value['remove'])) {
                 unset($value['remove']);
@@ -182,8 +160,47 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_AbstractHelper
                 }
             }
         }
+    }
 
-        return $returnArray;
+    /**
+     * Get available product details from the Compare Products pop-up
+     *
+     * Preconditions: Compare Products pop-up is opened
+     *
+     * @return array $productData Product details from Compare Products pop-up
+     */
+    public function getProductDetailsOnComparePage()
+    {
+        $data = array();
+        $names = array();
+        $table = $this->getControlElement('fieldset', 'compare_products');
+        /**
+         * @var PHPUnit_Extensions_Selenium2TestCase_Element $cellData
+         */
+        $nameCells = $this->getChildElements($table, '//th');
+        $productCount = count($this->getChildElements($table, 'tbody[1]/tr/*')) - 1;
+        foreach ($nameCells as $cellData) {
+            $names[] = trim($cellData->text());
+        }
+        for ($i = 1; $i <= $productCount; $i++) {
+            $columnData = $this->getChildElements($table, "//td[$i]");
+            foreach ($columnData as $cellData) {
+                $data[$i][] = $cellData->text();
+            }
+
+        }
+        $arrayNames = $this->_getFieldNames($names);
+
+        //Generate correct array
+        $returnArray = array();
+        foreach ($data as $number => $productData) {
+            foreach ($productData as $key => $value) {
+                $returnArray['product_' . ($number)][$arrayNames[$key]] = $value;
+            }
+            unset($data[$number]);
+        }
+
+        return $this->_returnArray($returnArray);
     }
 
     /**
