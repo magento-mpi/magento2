@@ -90,12 +90,20 @@
          * @param {Object} The jQuery XMLHttpRequest object returned by $.ajax()
          */
         _onSuccess: function(response) {
+            var validate = this.validate,
+                attributes = response.attributes || {};
             if (response.attribute) {
-                $('#' + response.attribute)
-                    .addClass('validate-ajax-error')
-                    .data('msg-validate-ajax-error', response.message);
-                this.validate.element( "#" + response.attribute);
+                attributes[response.attribute] = response.message;
             }
+
+            $.each(attributes, function (attribute, message) {
+                if (attribute) {
+                    $('#' + attribute)
+                        .addClass('validate-ajax-error')
+                        .data('msg-validate-ajax-error', message);
+                    validate.element("#" + attribute);
+                }
+            });
             if (!response.error) {
                 this.element[0].submit();
             }

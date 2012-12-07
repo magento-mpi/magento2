@@ -501,7 +501,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $attributes = $product->getAttributes();
             foreach ($attributes as $attrKey => $attribute) {
                 if ($attribute->getBackend()->getType() == 'datetime') {
-                    if (array_key_exists($attrKey, $productData) && $productData[$attrKey] != ''){
+                    if (array_key_exists($attrKey, $productData) && $productData[$attrKey] != '') {
                         $dateFields[] = $attrKey;
                     }
                 }
@@ -518,6 +518,15 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $resource->getAttribute('custom_design_from')
                 ->setMaxValue($product->getCustomDesignTo());
 
+            if ($products = $this->getRequest()->getPost('create_matrix_product')) {
+                $validationResult = $this->_validateProductsToGenerate($product, $products);
+                if (!empty($validationResult)) {
+                    $response->setError(true);
+                    $response->setMessage(Mage::helper('Mage_Catalog_Helper_Data')
+                        ->__('Matrix attributes are invalid'));
+                    $response->setAttributes($validationResult);
+                }
+            }
             $product->validate();
             /**
              * @todo implement full validation process with errors returning which are ignoring now
@@ -548,6 +557,43 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         }
 
         $this->getResponse()->setBody($response->toJson());
+    }
+
+    /**
+     * Products to generate backend validation
+     *
+     * @param Mage_Catalog_Model_Product $parentProduct
+     * @param array $products
+     *
+     * @return array
+     */
+    protected function _validateProductsToGenerate($parentProduct, $products)
+    {
+        if (!is_array($products)) {
+            return false;
+        }
+        $validationResult = array();
+        foreach ($products as $productData) {
+            $product = Mage::getModel('Mage_Catalog_Model_Product');
+            $product->setData('_edit_mode', true);
+            if ($storeId = $this->getRequest()->getParam('store')) {
+                $product->setStoreId($storeId);
+            }
+            $product->setAttributeSetId($parentProduct->getAttributeSetId());
+
+            $product->addData($productData);
+            $product->setCollectExceptionMessages(true);
+            $configurableAttribute = Mage::helper('Mage_Core_Helper_Data')
+                ->jsonDecode($productData['configurable_attribute']);
+            $configurableAttribute = implode('-', $configurableAttribute);
+            foreach ($product->validate() as $attributeCode => $result) {
+                if (is_string($result)) {
+                    $validationResult[$attributeCode . '-matrix-' . $configurableAttribute] = $result;
+                }
+            }
+        }
+
+        return $validationResult;
     }
 
     /**
