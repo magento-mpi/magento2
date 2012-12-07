@@ -97,14 +97,22 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
      */
     protected function _addPreviewButtonHtml($themeBlock)
     {
-        $themeId = $themeBlock->getTheme()->getId();
         /** @var $previewButton Mage_Backend_Block_Widget_Button */
         $previewButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
-
         $previewButton->setData(array(
             'label'     => $this->__('Preview Theme'),
-            'onclick'   => "alert('Preview Theme id: $themeId')",
             'class'     => 'add',
+            'data_attr' => array(
+                'widget-button' => array(
+                    'event' => 'preview',
+                    'related' => 'body',
+                    'eventData' => array(
+                        'preview_url' => $this->_getPreviewUrl(
+                            Mage_DesignEditor_Model_Theme_PreviewFactory::TYPE_DEFAULT, $themeBlock->getTheme()->getId()
+                        )
+                    )
+                ),
+            )
         ));
 
         $themeBlock->addButton($previewButton);
@@ -131,5 +139,20 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
 
         $themeBlock->addButton($editButton);
         return $this;
+    }
+
+    /**
+     * Get preview url for selected theme
+     *
+     * @param string $previewType
+     * @param int $themeId
+     * @return string
+     */
+    protected function _getPreviewUrl($previewType, $themeId)
+    {
+        return $this->getUrl('*/*/preview', array(
+            Mage_DesignEditor_Block_Adminhtml_Theme_Preview::PARAM_THEME_ID => $themeId,
+            Mage_DesignEditor_Block_Adminhtml_Theme_Preview::PARAM_PREVIEW  => $previewType
+        ));
     }
 }

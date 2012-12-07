@@ -101,18 +101,22 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
      */
     protected function _addDemoButtonHtml($themeBlock)
     {
-        if (!$themeBlock->getTheme()->getDemoUrl()) {
-            return $this;
-        }
-
-        $themeId = $themeBlock->getTheme()->getId();
         /** @var $demoButton Mage_Backend_Block_Widget_Button */
         $demoButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
-
         $demoButton->setData(array(
             'label'     => $this->__('Theme Demo'),
-            'onclick'   => "alert('Theme Demo id: $themeId')",
             'class'     => 'add',
+            'data_attr' => array(
+                'widget-button' => array(
+                    'event' => 'preview',
+                    'related' => 'body',
+                    'eventData' => array(
+                        'preview_url' => $this->_getPreviewUrl(
+                            Mage_DesignEditor_Model_Theme_PreviewFactory::TYPE_DEMO, $themeBlock->getTheme()->getId()
+                        )
+                    )
+                ),
+            )
         ));
 
         $themeBlock->addButton($demoButton);

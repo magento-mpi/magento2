@@ -11,7 +11,7 @@
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Mage_DesignEditor_Block_Adminhtml_Launcher_Preview extends Mage_Core_Block_Template
+class Mage_DesignEditor_Block_Adminhtml_Theme_Preview extends Mage_Core_Block_Template
 {
     /**
      * Theme parameter name
