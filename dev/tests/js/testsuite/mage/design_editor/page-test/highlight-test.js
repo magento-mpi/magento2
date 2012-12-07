@@ -13,11 +13,11 @@ PageTestHighlight.prototype.testHighlight = function() {
     */
     /*:DOC iframeContent =
         <div>
-            <div id="vde_element_1" class="vde_element_wrapper vde_container vde_wrapper_hidden">
+            <div id="vde_element_1" class="vde_element_wrapper vde_container">
                 <div class="vde_element_title">Title 1</div>
             </div>
             <!--start_vde_element_1-->
-            <div id="vde_element_2" class="vde_element_wrapper vde_draggable vde_wrapper_hidden">
+            <div id="vde_element_2" class="vde_element_wrapper vde_draggable">
                 <div class="vde_element_title">Title 2</div>
             </div>
             <!--start_vde_element_2-->
@@ -30,7 +30,7 @@ PageTestHighlight.prototype.testHighlight = function() {
                 </div>
             </div>
             <!--end_vde_element_2-->
-            <div id="vde_element_3" class="vde_element_wrapper vde_draggable vde_wrapper_hidden">
+            <div id="vde_element_3" class="vde_element_wrapper vde_draggable">
                 <div class="vde_element_title">Title 3</div>
             </div>
             <!--end_vde_element_1-->
@@ -56,14 +56,18 @@ PageTestHighlight.prototype.testHighlight = function() {
         })
     });
     assertEquals(true, hierarchyIsCorrect);
-    assertEquals(true, jQuery(frameSelector).contents().find('.vde_wrapper_hidden').size() > 0);
-    jQuery(frameSelector).contents().find('.vde_wrapper_hidden').each(function() {
+
+    var highlightElementSelector = page.vde_page('option', 'highlightElementSelector');
+    assertEquals(true, jQuery(frameSelector).contents().find(highlightElementSelector).size() > 0);
+    jQuery(frameSelector).contents().find(highlightElementSelector).each(function() {
         assertEquals(true, $(this).is(':visible'));
     });
+
+    var highlightElementTitleSelector = page.vde_page('option', 'highlightElementTitleSelector');
     assertEquals(true,
-        jQuery(frameSelector).contents().find(page.vde_page('option', 'highlightElementTitleSelector')).size() > 0
+        jQuery(frameSelector).contents().find(highlightElementTitleSelector).size() > 0
     );
-    jQuery(frameSelector).contents().find(page.vde_page('option', 'highlightElementTitleSelector')).each(function() {
+    jQuery(frameSelector).contents().find(highlightElementTitleSelector).each(function() {
         assertEquals(true, $(this).is(':visible'));
     });
 

@@ -55,8 +55,19 @@ PageTestUnhighlight.prototype.testUnhighlight = function() {
         })
     });
     assertEquals(true, hierarchyIsCorrect);
-    assertEquals(false, jQuery('.vde_wrapper_hidden').is(':visible'));
-    assertEquals(false, jQuery(highlightElementTitleSelector).is(':visible'));
+
+    assertEquals(true, jQuery(frameSelector).contents().find(highlightElementSelector).size() > 0);
+    jQuery(frameSelector).contents().find(highlightElementSelector).each(function() {
+        assertEquals(false, $(this).is(':visible'));
+    });
+
+    assertEquals(true,
+        jQuery(frameSelector).contents().find(highlightElementTitleSelector).size() > 0
+    );
+    jQuery(frameSelector).contents().find(highlightElementTitleSelector).each(function() {
+        assertEquals(false, $(this).is(':visible'));
+    });
+
     page.vde_page('destroy');
     jQuery.fx.off = false;
 };
