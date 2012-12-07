@@ -50,38 +50,50 @@ class Mage_Core_Model_Theme_Service
     protected $_unassignedThemes;
 
     /**
+     * @var Mage_Core_Helper_Data
+     */
+    protected $_helper;
+
+    /**
      * Initialize service model
      *
      * @param Mage_Core_Model_Theme $theme
      * @param Mage_Core_Model_Design_Package $design
      * @param Mage_Core_Model_App $app
+     * @param Mage_Core_Helper_Data $helper
      */
     public function __construct(
         Mage_Core_Model_Theme $theme,
         Mage_Core_Model_Design_Package $design,
-        Mage_Core_Model_App $app
+        Mage_Core_Model_App $app,
+        Mage_Core_Helper_Data $helper
     ) {
         $this->_theme = $theme;
         $this->_design = $design;
         $this->_app = $app;
+        $this->_helper = $helper;
     }
 
     /**
-     * @return Mage_Core_Model_Theme_Service
+     * @return Mage_Core_Model_Theme
      */
     protected function _createPhysicalThemeCopy()
     {
         if ($this->_theme->isVirtual()) {
-            return $this;
+            return $this->_theme;
         }
+
+        $themeCopyCount = $this->_getCustomizedFrontThemes()->addFilter('parent_id', $this->_theme->getId())->count();
         $this->_theme->setParentId($this->_theme->getId())->setThemePath(null)
-            ->setThemeTitle($this->_theme->getThemeTitle() . ' - Copy');
+            ->setThemeTitle(
+                $this->_theme->getThemeTitle() . ' - ' . $this->_helper->__('Copy') . ' #' . ++$themeCopyCount
+            )->createPreviewImageCopy();
+
         $originalData = $this->_theme->getData();
         unset($originalData[$this->_theme->getIdFieldName()]);
         $this->_theme = clone $this->_theme;
         $this->_theme->addData($originalData);
-        $this->_theme->save();
-        return $this;
+        return $this->_theme->save();
     }
 
     /**
@@ -100,12 +112,34 @@ class Mage_Core_Model_Theme_Service
         if (!$this->_theme->load($themeId)->getId()) {
             throw new UnexpectedValueException('Theme is not recognized. Requested id: ' . $themeId);
         }
-        $this->_createPhysicalThemeCopy();
+        $this->_theme = $this->_createPhysicalThemeCopy();
         $configPath = $this->_design->getConfigPathByArea($area);
+
+        foreach ($this->_getAssignedScopesCollection($themeId, $scope) as $config) {
+            if (!in_array($config->getScopeId(), $stores)) {
+                $this->_app->getConfig()->deleteConfig($configPath, $scope, $config->getScopeId());
+            }
+        }
+
         foreach ($stores as $storeId) {
             $this->_app->getConfig()->saveConfig($configPath, $this->_theme->getId(), $scope, $storeId);
         }
         return $this;
+    }
+
+    /**
+     * Get assigned scopes collection of a theme
+     *
+     * @param int $themeId
+     * @param string $scope
+     * @return Mage_Core_Model_Resource_Config_Data_Collection
+     */
+    protected function _getAssignedScopesCollection($themeId, $scope)
+    {
+        return $this->_app->getConfig()->getConfigDataModel()->getCollection()
+            ->addFieldToSelect(array('scope_id'))
+            ->addFieldToFilter('scope', $scope)
+            ->addFieldToFilter('value', $themeId);
     }
 
     /**

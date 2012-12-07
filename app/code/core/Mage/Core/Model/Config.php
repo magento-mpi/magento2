@@ -115,6 +115,13 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     protected $_resourceModel;
 
     /**
+     * Configuration data model
+     *
+     * @var Mage_Core_Model_Config_Data
+     */
+    protected $_configDataModel;
+
+    /**
      * Configuration for events by area
      *
      * @var array
@@ -237,6 +244,19 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             $this->_resourceModel = Mage::getResourceModel('Mage_Core_Model_Resource_Config');
         }
         return $this->_resourceModel;
+    }
+
+    /**
+     * Get configuration data model
+     *
+     * @return Mage_Core_Model_Config_Data
+     */
+    public function getConfigDataModel()
+    {
+        if ($this->_configDataModel === null) {
+            $this->_configDataModel = Mage::getModel('Mage_Core_Model_Config_Data');
+        }
+        return $this->_configDataModel;
     }
 
     /**
@@ -1648,6 +1668,12 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         return $routers;
     }
 
+    /**
+     * Is module enabled
+     *
+     * @param string $moduleName
+     * @return bool
+     */
     public function isModuleEnabled($moduleName)
     {
         if (!$this->getNode('modules/' . $moduleName)) {

@@ -429,13 +429,22 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         return $imageName;
     }
 
-//    public function createImageCopy()
-//    {
-//        $this->_getIoFile()->cp(
-//            $this->_getImagePathPreview() . DIRECTORY_SEPARATOR . $this->getPreviewImage(),
-//            $this->_getImagePathPreview() . DIRECTORY_SEPARATOR . $this->getPreviewImage()
-//        );
-//    }
+    /**
+     * Create preview image copy
+     *
+     * @return Mage_Core_Model_Theme
+     */
+    public function createPreviewImageCopy()
+    {
+        $filePath = $this->_getImagePathPreview() . DIRECTORY_SEPARATOR . $this->getPreviewImage();
+        $destinationFileName = Varien_File_Uploader::getNewFileName($filePath);
+        $this->_getIoFile()->cp(
+            $this->_getImagePathPreview() . DIRECTORY_SEPARATOR . $this->getPreviewImage(),
+            $this->_getImagePathPreview() . DIRECTORY_SEPARATOR . $destinationFileName
+        );
+        $this->setPreviewImage($destinationFileName);
+        return $this;
+    }
 
     /**
      * Delete preview image
