@@ -75,28 +75,6 @@ class Mage_Core_Model_Theme_Service
     }
 
     /**
-     * @return Mage_Core_Model_Theme
-     */
-    protected function _createPhysicalThemeCopy()
-    {
-        if ($this->_theme->isVirtual()) {
-            return $this->_theme;
-        }
-
-        $themeCopyCount = $this->_getCustomizedFrontThemes()->addFilter('parent_id', $this->_theme->getId())->count();
-        $this->_theme->setParentId($this->_theme->getId())->setThemePath(null)
-            ->setThemeTitle(
-                $this->_theme->getThemeTitle() . ' - ' . $this->_helper->__('Copy') . ' #' . ++$themeCopyCount
-            )->createPreviewImageCopy();
-
-        $originalData = $this->_theme->getData();
-        unset($originalData[$this->_theme->getIdFieldName()]);
-        $this->_theme = clone $this->_theme;
-        $this->_theme->addData($originalData);
-        return $this->_theme->save();
-    }
-
-    /**
      * Assign theme to the stores
      *
      * @param int $themeId
@@ -125,6 +103,30 @@ class Mage_Core_Model_Theme_Service
             $this->_app->getConfig()->saveConfig($configPath, $this->_theme->getId(), $scope, $storeId);
         }
         return $this;
+    }
+
+    /**
+     * Create virtual theme from physical
+     *
+     * @return Mage_Core_Model_Theme
+     */
+    protected function _createPhysicalThemeCopy()
+    {
+        if ($this->_theme->isVirtual()) {
+            return $this->_theme;
+        }
+
+        $themeCopyCount = $this->_getCustomizedFrontThemes()->addFilter('parent_id', $this->_theme->getId())->count();
+        $this->_theme->setParentId($this->_theme->getId())->setThemePath(null)
+            ->setThemeTitle(
+            $this->_theme->getThemeTitle() . ' - ' . $this->_helper->__('Copy') . ' #' . ++$themeCopyCount
+        )->createPreviewImageCopy();
+
+        $originalData = $this->_theme->getData();
+        unset($originalData[$this->_theme->getIdFieldName()]);
+        $this->_theme = clone $this->_theme;
+        $this->_theme->addData($originalData);
+        return $this->_theme->save();
     }
 
     /**

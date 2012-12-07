@@ -94,7 +94,7 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
         /* Mock assigned themeId to each store */
         $storeConfigMock = $this->getMock('Mage_Core_Model_Store', array('getConfig'), array(), '', false);
         $storeMockCollection = array();
-        foreach ($stores as $store => $thisId) {
+        foreach ($stores as $thisId) {
             $storeConfigMock->expects($this->at($index++))
                 ->method('getConfig')
                 ->with(Mage_Core_Model_Design_Package::XML_PATH_THEME_ID)
