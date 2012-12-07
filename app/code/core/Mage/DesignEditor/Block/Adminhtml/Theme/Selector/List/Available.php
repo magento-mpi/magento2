@@ -137,4 +137,36 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
 
         return $this;
     }
+
+    /**
+     * Get an array of stores grouped by theme it uses
+     *
+     * The structure is the following:
+     *   array(
+     *      theme_id => array(store_id)
+     *   )
+     *
+     * @return array
+     */
+    public function getStoresByThemes()
+    {
+        //TODO This is just a mock
+        $storesByThemes = array(
+            4 => array(1)
+        );
+
+        return $storesByThemes;
+    }
+
+    public function getOptionsJson()
+    {
+        $options = array();
+        $options['storesByThemes'] = $this->getStoresByThemes();
+        $options['url'] = $this->getUrl('*/*/assign');
+
+        /** @var $helper Mage_Core_Helper_Data */
+        $helper = Mage::helper('Mage_Core_Helper_Data');
+
+        return $helper->jsonEncode($options);
+    }
 }

@@ -155,6 +155,14 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     }
 
     /**
+     * Mock for assign theme to store action
+     */
+    public function assignAction()
+    {
+        echo '[]';
+    }
+
+    /**
      * Whether the current user has enough permissions to execute an action
      *
      * @return bool

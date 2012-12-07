@@ -70,11 +70,19 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
         $themeId = $themeBlock->getTheme()->getId();
         /** @var $assignButton Mage_Backend_Block_Widget_Button */
         $assignButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
-
         $assignButton->setData(array(
-            'label'     => $this->__('Assign to a Storeview'),
-            'onclick'   => "alert('Assign to a Storeview id: $themeId')",
-            'class'     => 'add',
+            'label'   => $this->__('Assign to a Storeview'),
+            'data_attr'  => array(
+                'widget-button' => array(
+                    'event' => 'assign',
+                    'related' => 'body',
+                    'eventData' => array(
+                        'theme_id' => $themeId
+                    )
+                ),
+            ),
+            'class'   => 'save',
+            'target'  => '_blank'
         ));
 
         $themeBlock->addButton($assignButton);

@@ -18,4 +18,9 @@
 
 <script type="text/javascript">
     jQuery('.infinite_scroll').infinite_scroll({url :'<?php echo $this->getUrl('*/*/loadthemelist') ?>'});
+    (function ($) {
+        $( document ).ready(function( ) {
+            $( 'body' ).themeSelector(<?php echo $this->getOptionsJson(); ?>);
+        });
+    })(jQuery);
 </script>

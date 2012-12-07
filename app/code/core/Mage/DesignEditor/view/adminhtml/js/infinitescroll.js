@@ -39,6 +39,9 @@
                         this.element.find(this._container).append(data.content);
                         this._setLocked(false);
                     }
+
+                    var eventData = {};
+                    this.element.trigger('loaded', eventData);
                 }, this),
                 error: $.proxy(function() {
                     this.options.url = '';
