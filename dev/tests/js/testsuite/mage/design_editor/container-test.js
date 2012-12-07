@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-ContainerTest = TestCase('ContainerTest');
+ContainerTest = TestCase('DesignEditor_ContainerTest');
 ContainerTest.prototype.testInit = function() {
     /*:DOC += <div class="vde_element_wrapper vde_container" id="container"></div> */
     var container = jQuery('#container').vde_container();

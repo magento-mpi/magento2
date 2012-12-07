@@ -94,16 +94,16 @@
                     self.element.hasClass(self.options.activeClass) ?
                         self.hide(e):
                         self.show(e);
-                })
+                });
             $('body').on('click', function(e) {
                 var widgetInstancesSelector = ':' + self.namespace + '-' + self.widgetName;
                 $(widgetInstancesSelector).not($(e.target).parents(widgetInstancesSelector)).vde_menu('hide');
             })
         },
-        show: function(e) {
+        show: function() {
             this.element.addClass(this.options.activeClass).trigger('activate_toolbar_cell.' + this.widgetName);
         },
-        hide: function(e) {
+        hide: function() {
             this.element.removeClass(this.options.activeClass);
         }
     });
