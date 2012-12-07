@@ -11,6 +11,7 @@
 (function ($, undefined) {
     $.widget('mage.configurable', {
         options: {
+            superSelector: '.super-attribute-select',
             state: {}
         },
 
@@ -41,8 +42,8 @@
         _initializeOptions: function() {
             this.options.taxConfig = this.options.spConfig.taxConfig;
             this.options.settings = (this.options.spConfig.containerId) ?
-                $(this.options.spConfig.containerId).find(".super-attribute-select") :
-                $('.super-attribute-select');
+                $(this.options.spConfig.containerId).find(this.options.superSelector) :
+                $(this.options.superSelector);
             this.options.values = this.options.spConfig.defaultValues || {};
         },
 
