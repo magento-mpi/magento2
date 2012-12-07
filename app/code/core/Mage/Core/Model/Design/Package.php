@@ -501,19 +501,16 @@ class Mage_Core_Model_Design_Package
      */
     protected function _getPublicFileUrl($file, $isSecure = null)
     {
-        $publicDirUrlTypes = array(
-            Mage_Core_Model_Store::URL_TYPE_THEME   => Mage::getBaseDir(Mage_Core_Model_App_Dir::MEDIA) . DS . 'theme',
-            Mage_Core_Model_Store::URL_TYPE_JS      => Mage::getBaseDir(Mage_Core_Model_App_Dir::PUB_LIB),
-        );
-        foreach ($publicDirUrlTypes as $publicUrlType => $publicDir) {
-            $publicDir .= DS;
-            if (strpos($file, $publicDir) !== 0) {
-                continue;
+        foreach (array(
+            Mage_Core_Model_Store::URL_TYPE_LIB => Mage_Core_Model_App_Dir::PUB_LIB,
+            Mage_Core_Model_Store::URL_TYPE_MEDIA => Mage_Core_Model_App_Dir::MEDIA
+        ) as $urlType => $dirType) {
+            $dir = Mage::getBaseDir($dirType);
+            if (strpos($file, $dir) === 0) {
+                $relativePath = ltrim(substr($file, strlen($dir)), DIRECTORY_SEPARATOR);
+                $relativePath = str_replace(DIRECTORY_SEPARATOR, '/', $relativePath);
+                return Mage::getBaseUrl($urlType, $isSecure) . $relativePath;
             }
-            $url = str_replace($publicDir, '', $file);
-            $url = str_replace(DS, '/', $url);
-            $url = Mage::getBaseUrl($publicUrlType, $isSecure) . $url;
-            return $url;
         }
         throw new Magento_Exception(
             "Cannot build URL for the file '$file' because it does not reside in a public directory."

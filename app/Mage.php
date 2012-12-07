@@ -681,7 +681,7 @@ final class Mage
             header('Location: ' . self::getBaseUrl());
             die;
         } catch (Mage_Core_Model_Store_Exception $e) {
-            require_once(self::getBaseDir() . DS . 'pub' . DS . 'errors' . DS . '404.php');
+            require_once(self::getBaseDir(Mage_Core_Model_App_Dir::PUB) . DS . 'errors' . DS . '404.php');
             die;
         } catch (Exception $e) {
             self::printException($e);
@@ -839,7 +839,7 @@ final class Mage
             } catch (Exception $e) {
             }
 
-            require_once(self::getBaseDir() . DS . 'pub' . DS . 'errors' . DS . 'report.php');
+            require_once(self::getBaseDir(Mage_Core_Model_App_Dir::PUB) . DS . 'errors' . DS . 'report.php');
         }
 
         die();

@@ -186,7 +186,6 @@ class Magento_Test_Bootstrap
                 Mage_Core_Model_App_Dir::CACHE => 'cache',         // var/cache
                 Mage_Core_Model_App_Dir::LOG => 'log',             // var/log
                 Mage_Core_Model_App_Dir::SESSION => 'session',     // var/session
-                Mage_Core_Model_App_Dir::MEDIA => 'media',         // pub/media
             ),
             Mage_Core_Model_App::INIT_OPTION_DIR_PATHS => array(
                 Mage_Core_Model_App_Dir::CONFIG => $this->_installEtcDir,

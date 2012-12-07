@@ -10,4 +10,7 @@
  * @license    {license_link}
  */
 
-require __DIR__ . '/../index.php';
+require __DIR__ . '/../app/bootstrap.php';
+$params = $_SERVER;
+$params[Mage_Core_Model_App::INIT_OPTION_DIRS][Mage_Core_Model_App_Dir::PUB] = '';
+Mage::run($params);

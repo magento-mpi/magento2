@@ -275,15 +275,11 @@
                 <base_url>{{base_url}}</base_url>
                 <base_web_url>{{unsecure_base_url}}</base_web_url>
                 <base_link_url>{{unsecure_base_url}}</base_link_url>
-                <base_public_url>{{unsecure_public_url}}</base_public_url>
-                <base_media_url>{{unsecure_public_url}}media/</base_media_url>
             </unsecure>
             <secure>
                 <base_url>{{base_url}}</base_url>
                 <base_web_url>{{secure_base_url}}</base_web_url>
                 <base_link_url>{{secure_base_url}}</base_link_url>
-                <base_public_url>{{secure_public_url}}</base_public_url>
-                <base_media_url>{{secure_public_url}}media/</base_media_url>
                 <use_in_frontend>0</use_in_frontend>
                 <use_in_adminhtml>0</use_in_adminhtml>
                 <offloader_header>SSL_OFFLOADED</offloader_header>

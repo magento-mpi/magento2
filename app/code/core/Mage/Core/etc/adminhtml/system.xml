@@ -483,21 +483,22 @@
             </group>
             <group id="unsecure" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Unsecure</label>
-                <field id="base_url" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="base_url" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Base URL</label>
                     <backend_model>Mage_Backend_Model_Config_Backend_Baseurl</backend_model>
+                    <comment>Make sure that base URL ends with '/' (slash), e.g. http://example.com/magento/</comment>
                 </field>
                 <field id="base_link_url" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Base Link URL</label>
                     <backend_model>Mage_Backend_Model_Config_Backend_Baseurl</backend_model>
                 </field>
-                <field id="base_public_url" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Base URL for Public Static Files</label>
+                <field id="base_lib_url" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Base URL for Library Files</label>
                     <backend_model>Mage_Backend_Model_Config_Backend_Baseurl</backend_model>
                     <comment>&lt;strong style="color:red"&gt;Warning!&lt;/strong&gt; When using CDN, in some cases JavaScript may not run properly if CDN is not in your subdomain</comment>
                 </field>
                 <field id="base_media_url" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Base Media URL</label>
+                    <label>Base URL for Media Files</label>
                     <backend_model>Mage_Backend_Model_Config_Backend_Baseurl</backend_model>
                 </field>
             </group>
@@ -508,18 +509,17 @@
                     <backend_model>Mage_Backend_Model_Config_Backend_Baseurl</backend_model>
                     <comment>Make sure that base URL ends with '/' (slash), e.g. http://yourdomain/magento/</comment>
                 </field>
-                <field id="base_link_url" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="base_link_url" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Base Link URL</label>
                     <backend_model>Mage_Backend_Model_Config_Backend_Baseurl</backend_model>
-                    <comment>Make sure that base URL ends with '/' (slash), e.g. http://yourdomain/magento/</comment>
                 </field>
-                <field id="base_public_url" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Base URL for Public Static Files</label>
+                <field id="base_lib_url" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Base URL for Library Files</label>
                     <backend_model>Mage_Backend_Model_Config_Backend_Baseurl</backend_model>
                     <comment>&lt;strong style="color:red"&gt;Warning!&lt;/strong&gt; When using CDN, in some cases JavaScript may not run properly if CDN is not in your subdomain</comment>
                 </field>
                 <field id="base_media_url" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Base Media URL</label>
+                    <label>Base URL for Media Files</label>
                     <backend_model>Mage_Backend_Model_Config_Backend_Baseurl</backend_model>
                 </field>
                 <field id="use_in_frontend" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">

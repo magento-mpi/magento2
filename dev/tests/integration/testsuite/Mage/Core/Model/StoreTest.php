@@ -107,29 +107,30 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
             array(Mage_Core_Model_Store::URL_TYPE_DIRECT_LINK, false, true,  'http://localhost/index.php/'),
             array(Mage_Core_Model_Store::URL_TYPE_DIRECT_LINK, true,  false, 'http://localhost/'),
             array(Mage_Core_Model_Store::URL_TYPE_DIRECT_LINK, true,  true,  'http://localhost/'),
-            array(Mage_Core_Model_Store::URL_TYPE_JS, false, false, 'http://localhost/pub/lib/'),
-            array(Mage_Core_Model_Store::URL_TYPE_JS, false, true,  'http://localhost/pub/lib/'),
-            array(Mage_Core_Model_Store::URL_TYPE_JS, true,  false, 'http://localhost/pub/lib/'),
-            array(Mage_Core_Model_Store::URL_TYPE_JS, true,  true,  'http://localhost/pub/lib/'),
+            array(Mage_Core_Model_Store::URL_TYPE_LIB, false, false, 'http://localhost/pub/lib/'),
+            array(Mage_Core_Model_Store::URL_TYPE_LIB, false, true,  'http://localhost/pub/lib/'),
+            array(Mage_Core_Model_Store::URL_TYPE_LIB, true,  false, 'http://localhost/pub/lib/'),
+            array(Mage_Core_Model_Store::URL_TYPE_LIB, true,  true,  'http://localhost/pub/lib/'),
             array(Mage_Core_Model_Store::URL_TYPE_MEDIA, false, false, 'http://localhost/pub/media/'),
             array(Mage_Core_Model_Store::URL_TYPE_MEDIA, false, true,  'http://localhost/pub/media/'),
             array(Mage_Core_Model_Store::URL_TYPE_MEDIA, true,  false, 'http://localhost/pub/media/'),
             array(Mage_Core_Model_Store::URL_TYPE_MEDIA, true,  true,  'http://localhost/pub/media/'),
-            array(Mage_Core_Model_Store::URL_TYPE_THEME, false, false, 'http://localhost/pub/media/theme/'),
-            array(Mage_Core_Model_Store::URL_TYPE_THEME, false, true,  'http://localhost/pub/media/theme/'),
-            array(Mage_Core_Model_Store::URL_TYPE_THEME, true,  false, 'http://localhost/pub/media/theme/'),
-            array(Mage_Core_Model_Store::URL_TYPE_THEME, true,  true,  'http://localhost/pub/media/theme/')
         );
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testGetBaseUrlInPub()
     {
+        Magento_Test_Bootstrap::getInstance()->reinitialize(array(
+            Mage_Core_Model_App::INIT_OPTION_DIRS => array(Mage_Core_Model_App_Dir::PUB => '')
+        ));
         $this->_model->load('default');
-        $_SERVER['SCRIPT_FILENAME'] = 'test/pub/index.php';
 
         $this->assertEquals(
             'http://localhost/lib/',
-            $this->_model->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_JS)
+            $this->_model->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LIB)
         );
         $this->assertEquals(
             'http://localhost/media/',
