@@ -892,7 +892,6 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
             $this->_fillProductData(
                 $newSimpleProduct, $parentProduct, array_merge($simpeProductData, $configurableAttribute)
             );
-            $newSimpleProduct->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE);
             $newSimpleProduct->save();
 
             $generatedProductIds[] = $newSimpleProduct->getId();
@@ -932,8 +931,12 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
             );
         }
 
+        if (!isset($postData['stock_data']['use_config_manage_stock'])) {
+            $postData['stock_data']['use_config_manage_stock'] = 0;
+        }
         $product->addData($postData);
         $product->setWebsiteIds($parentProduct->getWebsiteIds());
         $product->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
+        $product->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE);
     }
 }
