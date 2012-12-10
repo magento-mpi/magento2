@@ -13,10 +13,10 @@
     <menu>
         <add id="Mage_Api::system_legacy_api" title="Legacy Web Services" module="Mage_Api"
              sortOrder="25" parent="Mage_Adminhtml::system" resource="Mage_Api::system_legacy_api" />
-        <add id="Mage_Api::system_legacy_api_users" title="SOAP/XML-RPC - Users" module="Mage_Api"
+        <add id="Mage_Api::system_legacy_api_users" title="SOAP Users" module="Mage_Api"
              sortOrder="10" parent="Mage_Api::system_legacy_api" action="adminhtml/api_user"
              resource = "Mage_Api::system_legacy_api_users" />
-        <add id="Mage_Api::system_legacy_api_roles" title="SOAP/XML-RPC - Roles" module="Mage_Api"
+        <add id="Mage_Api::system_legacy_api_roles" title="SOAP Roles" module="Mage_Api"
              sortOrder="20" parent="Mage_Api::system_legacy_api" action="adminhtml/api_role"
              resource ="Mage_Api::system_legacy_api_users" />
     </menu>
