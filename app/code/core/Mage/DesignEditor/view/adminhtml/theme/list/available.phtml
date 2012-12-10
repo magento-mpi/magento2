@@ -20,19 +20,20 @@
 </div>
 <script type="text/javascript">
     (function ($) {
-        <?php if ($this->getTabId()): ?>
-            $('a[name="<?php echo $this->getTabId() ?>"]').on("click", function(event) {
+        $( document ).ready(function( ) {
+            <?php if ($this->getTabId()): ?>
                 $('.infinite_scroll').infinite_scroll({
                     url : '<?php echo $this->getUrl('*/*/loadthemelist') ?>',
-                    clean : true,
                     loadDataOnCreate : false
                 });
-                $('.infinite_scroll').infinite_scroll('clearOldData');
-                $('.infinite_scroll').infinite_scroll('loadData');
-            });
-        <?php endif; ?>
+                $('.infinite_scroll').infinite_scroll('setLocked', true);
 
-        $( document ).ready(function( ) {
+                $('a[name="<?php echo $this->getTabId() ?>"]').on("click", function(event) {
+                    $('.infinite_scroll').infinite_scroll('setLocked', false);
+                    $('.infinite_scroll').infinite_scroll('loadDataIsContainerEmpty');
+                });
+            <?php endif; ?>
+
             $( 'body' ).themeSelector(<?php echo $this->getOptionsJson(); ?>);
         });
     })(jQuery);

@@ -18,7 +18,7 @@
     <?php if ($this->getTabId()): ?>
         (function ($) {
             $('a[name="<?php echo $this->getTabId() ?>"]').on("click", function(event) {
-                $('.infinite_scroll').infinite_scroll({ url : '' })
+                $('.infinite_scroll').infinite_scroll('setLocked', true)
             })
         })(jQuery);
     <?php endif; ?>

@@ -18,7 +18,6 @@
         _pageSize: 4,
         options: {
             url: '',
-            clear: false,
             loadDataOnCreate: true
         },
 
@@ -30,7 +29,7 @@
             if (this._isLocked()) {
                 return
             }
-            this._setLocked(true)
+            this.setLocked(true);
 
             $.ajax({
                 url: this.options.url,
@@ -41,11 +40,11 @@
                 success: $.proxy(function(data) {
                     if (data.content) {
                         if (this.options.url === '') {
-                            this._setLocked(false);
+                            this.setLocked(false);
                             return;
                         }
                         this.element.find(this._container).append(data.content);
-                        this._setLocked(false);
+                        this.setLocked(false);
                     }
 
                     var eventData = {};
@@ -59,6 +58,26 @@
         },
 
         /**
+         * Set is locked
+         * @param {boolean} status locked status
+         * @protected
+         */
+        setLocked: function(status) {
+            (status) ? $(this._loader).show() : $(this._loader).hide();
+            this._locked = status;
+        },
+
+        /**
+         * Load data is container empty
+         * @public
+         */
+        loadDataIsContainerEmpty: function() {
+            if ($(this._container).children().length == 0) {
+                this.loadData();
+            }
+        },
+
+        /**
          * Infinite scroll creation
          * @protected
          */
@@ -67,19 +86,7 @@
                 this._pageSize = this._calculatePagesSize();
             }
 
-            if (this.options.clear) {
-                this.clearOldData();
-            }
             this._bind();
-        },
-
-        /**
-         * Clear old data
-         * @protected
-         */
-        clearOldData: function() {
-            this.options.clear = false;
-            $(this._container).empty();
         },
 
         /**
@@ -100,16 +107,6 @@
          */
         _isLocked: function() {
             return this._locked;
-        },
-
-        /**
-         * Set is locked
-         * @param {boolean} status locked status
-         * @protected
-         */
-        _setLocked: function(status) {
-            (status) ? $(this._loader).show() : $(this._loader).hide();
-            this._locked = status;
         },
 
         /**
