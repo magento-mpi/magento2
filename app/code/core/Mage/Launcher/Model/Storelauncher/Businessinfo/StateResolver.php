@@ -23,13 +23,21 @@ class Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolver implements Ma
     protected $_app;
 
     /**
+     * @var Mage_Core_Model_Config
+     */
+    protected $_config;
+
+    /**
      * Constructor
      *
      * @param Mage_Core_Model_App $app
      */
-    function __construct(Mage_Core_Model_App $app)
-    {
+    function __construct(
+        Mage_Core_Model_App $app,
+        Mage_Core_Model_Config $config
+    ) {
         $this->_app = $app;
+        $this->_config = $config;
     }
 
     /**
@@ -39,7 +47,9 @@ class Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolver implements Ma
      */
     public function isTileComplete()
     {
-        return $this->_app->getStore()->getConfig('trans_email/ident_general/email') != null;
+        $this->_config->reinit();
+        $email = $this->_app->getStore()->getConfig('trans_email/ident_general/email');
+        return isset($email) && ($email != 'owner@example.com');
     }
 
     /**
@@ -51,8 +61,13 @@ class Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolver implements Ma
      */
     public function handleSystemConfigChange($sectionName, $currentState)
     {
-        if (in_array($sectionName, array('trans_email')) && $this->isTileComplete()) {
-            return Mage_Launcher_Model_Tile::STATE_COMPLETE;
+        if (in_array($sectionName, array('trans_email'))) {
+            if ($this->isTileComplete()) {
+                return Mage_Launcher_Model_Tile::STATE_COMPLETE;
+            }
+            if ($currentState == Mage_Launcher_Model_Tile::STATE_COMPLETE) {
+                return Mage_Launcher_Model_Tile::STATE_TODO;
+            }
         }
         return $currentState;
     }

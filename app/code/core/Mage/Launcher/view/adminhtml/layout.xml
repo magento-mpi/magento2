@@ -11,7 +11,7 @@
 -->
 <layout>
     <launcher_index>
-        <block type="Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile" name="business_info.tile" template="page/storelauncher/tile/businessinfo.phtml"/>
+        <block type="Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile" name="business_info.tile"/>
         <block type="Mage_Launcher_Block_Adminhtml_Tile" name="shipping.tile" template="page/storelauncher/tile/shipping.phtml"/>
         <block type="Mage_Launcher_Block_Adminhtml_Tile" name="tax.tile" template="page/storelauncher/tile/tax.phtml"/>
     </launcher_index>

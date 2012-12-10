@@ -25,13 +25,19 @@ class Mage_Launcher_Adminhtml_Storelauncher_Businessinfo_DrawerController extend
      */
     public function saveAction()
     {
+        $responseContent = '';
         try {
             $data = $this->getRequest()->getParams();
+            $tileCode = $data['tileCode'];
+            $tileBlock = $this->getLayout()
+                ->createBlock('Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile');
+
             /** @var $config Mage_Backend_Model_Config */
             $config = Mage::getModel('Mage_Backend_Model_Config');
             $sections = array('general', 'trans_email', 'shipping');
-            $sectionData = $this->_prepareData($data);
+            $sectionData = $tileBlock->prepareAddressData($data);
 
+            //Write all config data on the GLOBAL scope
             foreach ($sections as $section) {
                 if (!empty($sectionData[$section])) {
                     $config->setSection($section)
@@ -40,9 +46,28 @@ class Mage_Launcher_Adminhtml_Storelauncher_Businessinfo_DrawerController extend
                 }
             }
 
+            //@TODO: Code below has to be moved to Model level
+            // Load Tile when Data were saved and Tile possibly has changed it's state
+            $tileModel = Mage::getModel('Mage_Launcher_Model_Tile')->loadByCode($tileCode);
+            $tileStateResolver = $tileModel->getStateResolver();
+            if (empty($tileStateResolver)) {
+                throw new Mage_Launcher_Exception('There is no State Resolver for Tile "' . $tileCode . '".');
+            }
+            $tileState = $tileStateResolver->isTileComplete()
+                ? Mage_Launcher_Model_Tile::STATE_COMPLETE
+                : Mage_Launcher_Model_Tile::STATE_TODO;
+            $tileModel->setState($tileState);
+            $tileModel->save();
+            $tileBlock->setTile($tileModel);
+
+            //@TODO: Code below has to be moved to Block level
+            $tileContent = $tileBlock->toHtml();
             $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(
                 'success' => true,
-                'error_message' => ''
+                'error_message' => '',
+                'tile_code' => $tileCode,
+                'tile_state' => $tileBlock->getTileState(),
+                'tile_content' => $tileContent
             ));
         } catch (Exception $e) {
             $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(
@@ -58,6 +83,7 @@ class Mage_Launcher_Adminhtml_Storelauncher_Businessinfo_DrawerController extend
      */
     public function loadAction()
     {
+        $responseContent = '';
         try {
             $tileCode = $this->getRequest()->getParam('tileCode');
             $tileModel = Mage::getModel('Mage_Launcher_Model_Tile')->loadByCode($tileCode);

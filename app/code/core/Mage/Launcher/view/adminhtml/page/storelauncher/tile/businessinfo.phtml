@@ -10,7 +10,7 @@
 
 /** @var $this Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile */
 ?>
-<article class="sl-step sl-step-store">
+<article class="sl-step <?php echo $this->getTileStateStyle(); ?>" id="article-<?php echo $this->getTileCode()?>">
     <h2><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Store Info') ?></h2>
     <div class="create">
         <p>
@@ -24,12 +24,16 @@
     </div>
 
     <div class="completed">
-        <strong><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Business Address') ?></strong>
-         <?php echo $this->getAddress() ?>
+        <?php if ($this->getTileState() == Mage_Launcher_Model_Tile::STATE_COMPLETE) :?>
+        <p><strong><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Business Address') ?></strong></p>
+        <?php foreach ($this->getAddress() as $addressValue): ?>
+            <p><?php echo $addressValue; ?></p>
+        <?php endforeach; ?>
         <button class="button drawer-open" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
             save-url="<?php echo $this->getUrl('*/storelauncher_businessinfo_drawer/save') ?>"
             load-url="<?php echo $this->getUrl('*/storelauncher_businessinfo_drawer/load') ?>">
             <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Edit Store Info') ?>
         </button>
+        <?php endif;?>
     </div>
 </article>

@@ -109,7 +109,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
      */
     protected function _prepareForm()
     {
-        $addressData = $this->_helper->getAddressData($this->_storeConfig);
+        $addressData = $this->getAddressData();
 
         $form = new Varien_Data_Form(array(
             'method' => 'post',
@@ -125,9 +125,10 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
         ));
 
         $fieldset->addField('store_email', 'text', array(
-            'name' => 'groups[general][store_information][fields][email][value]',
+            'name' => 'groups[trans_email][ident_general][fields][email][value]',
             'label' => $this->_helper->__('Store Contact Email'),
             'required' => false,
+            'class' => 'validate-email',
             'value' => $this->_storeConfig->getConfig('trans_email/ident_general/email')
         ));
 
@@ -248,6 +249,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
             'name' => 'groups[trans_email][ident_sales][fields][email][value]',
             'label' => $this->_helper->__('Sender Email'),
             'required' => false,
+            'class' => 'validate-email',
             'value' => $this->_storeConfig->getConfig('trans_email/ident_sales/email')
         ), false, true);
 
@@ -268,6 +270,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
             'name' => 'groups[trans_email][ident_support][fields][email][value]',
             'label' => $this->_helper->__('Sender Email'),
             'required' => false,
+            'class' => 'validate-email',
             'value' => $this->_storeConfig->getConfig('trans_email/ident_support/email')
         ), false, true);
 
@@ -288,6 +291,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
             'name' => 'groups[trans_email][ident_custom1][fields][email][value]',
             'label' => $this->_helper->__('Sender Email'),
             'required' => false,
+            'class' => 'validate-email',
             'value' => $this->_storeConfig->getConfig('trans_email/ident_custom1/email')
         ), false, true);
 
@@ -308,11 +312,62 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
             'name' => 'groups[trans_email][ident_custom2][fields][email][value]',
             'label' => $this->_helper->__('Sender Email'),
             'required' => false,
+            'class' => 'validate-email',
             'value' => $this->_storeConfig->getConfig('trans_email/ident_custom2/email')
         ), false, true);
 
         $form->setUseContainer(true);
         $this->setForm($form);
         return parent::_prepareForm();
+    }
+
+    /**
+     * Get address data from system configuration
+     *
+     * @todo This function would be refactored when System->Cinfiguration->General->Store Information
+     * "Store Contact Address" format would be changed
+     *
+     * @return array
+     */
+    public function getAddressData()
+    {
+        $addressData = array(
+            'street_line1',
+            'street_line2',
+            'city',
+            'postcode',
+            'region_id'
+        );
+        $useForShipping = false;
+
+        $address = $this->_storeConfig->getConfig('general/store_information/address');
+        $addressValues = explode("\n", $address);
+        $addressPresent = count($addressValues) == 5;
+
+        if ($addressPresent) {
+            $addressData = array_combine(array_values($addressData), $addressValues);
+        }
+
+        $addressData['country_id'] = $this->_storeConfig->getConfig('general/store_information/merchant_country');
+
+        if ($addressPresent) {
+            $regionId = $this->_regionModel
+                ->loadByName($addressData['region_id'], $addressData['country_id'])
+                ->getRegionId();
+            $addressData['region_id'] = !empty($regionId) ? $regionId : 0;
+
+            $useForShipping = true;
+
+            foreach ($addressData as $key => $val) {
+                if ($val != $this->_storeConfig->getConfig('shipping/origin/' . $key)) {
+                    $useForShipping = false;
+                    break;
+                }
+            }
+        }
+
+        $addressData['use_for_shipping'] = $useForShipping;
+
+        return $addressData;
     }
 }

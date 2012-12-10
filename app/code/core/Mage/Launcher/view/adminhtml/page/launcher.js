@@ -40,7 +40,7 @@
                     }, 1);
                 },
 
-                drawerFixedHeader: function(){
+                drawerFixedHeader: function() {
                     var headerOffsetTop = options.drawerContent.offset().top,
                         windowOffsetTop = $(window).scrollTop(),
                         headerPositionTop = headerOffsetTop - windowOffsetTop;
@@ -53,23 +53,15 @@
                     }
                 },
 
-                drawerOpen: function(tileCode){
+                drawerOpen: function(tileCode) {
                     var bodyHeight = $('body').outerHeight() + 500;
-
                     methods.drawerMinHeight();
-
-                    $('#drawer-' + tileCode)
-                        .add('#drawer-' + tileCode + '-header')
-                        .add('#drawer-' + tileCode + '-footer')
-                        .removeClass('hidden')
-                        .siblings()
-                        .addClass('hidden');
 
                     options.drawer
                         .css('top', '' + bodyHeight + 'px')
                         .show(1, function () {
                             options.drawer.animate({
-                                top: '157px'
+                                top: '57px'
                             }, 1000, function () {
                                 methods.drawerFixedHeader();
                                 options.storeLauncher.hide();
@@ -124,18 +116,17 @@
                 drawerAfterSave: function(result, status) {
                     if (result.success) {
                         //Complete class should be added by condition for specified tile
-                        //.addClass('sl-step-complete');
-
+                        $('#article-' + result.tile_code).before(result.tile_content).remove();
+                        $('.drawer-open')
+                            .on('click', methods.setButtonHandler);
                         isAllStepsCompleted();
                         methods.drawerClose();
                     } else {
                         alert(result.error_message);
                     }
-                }
-            };
+                },
 
-            options.btnOpenDrawer
-                .on('click.openDrawer', function () {
+                setButtonHandler: function() {
                     var elem = $(this),
                         tileCode = elem
                             .attr('data-drawer')
@@ -154,14 +145,17 @@
                     };
                     $.ajax(ajaxOptions);
 
+                    $('.footer-inner .button-save-settins').attr('tile-code', tileCode);
                     $('.footer-inner .button-save-settins').attr('save-url', elem.attr('save-url'));
                     return false;
-                });
+                }
+            };
+
+            options.btnOpenDrawer
+                .on('click.openDrawer', methods.setButtonHandler);
 
             options.btnCloseDrawer
-                .on('click.closeDrawer', function () {
-                    methods.drawerClose();
-                });
+                .on('click.closeDrawer', methods.drawerClose);
 
             options.btnSaveDrawer
                 .on('click.saveSettings', function () {
@@ -169,6 +163,7 @@
                         postData;
 
                     postData = drawerForm.serialize();
+                    postData += '&tileCode=' + $('.footer-inner .button-save-settins').attr('tile-code');
                     var ajaxOptions = {
                         type: 'POST',
                         data: postData,
