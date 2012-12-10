@@ -224,12 +224,10 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     *
-     * @param array $actualArray
-     * @param array $expectedArray
-     * @param string $productName
+     * @param $actualArray
+     * @param $expectedArray
      */
-    public function compareArrays($actualArray, $expectedArray, $productName = '')
+    protected function _unsetArrays(&$actualArray, &$expectedArray)
     {
         foreach ($actualArray as $key => $value) {
             if (array_key_exists($key, $expectedArray) && (strcmp($expectedArray[$key], trim($value)) == 0)) {
@@ -237,7 +235,17 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_AbstractHelper
                 unset($actualArray[$key]);
             }
         }
+    }
 
+    /**
+     *
+     * @param array $actualArray
+     * @param array $expectedArray
+     * @param string $productName
+     */
+    public function compareArrays($actualArray, $expectedArray, $productName = '')
+    {
+        $this->_unsetArrays($actualArray, $expectedArray);
         if ($productName) {
             $productName = $productName . ': ';
         }
