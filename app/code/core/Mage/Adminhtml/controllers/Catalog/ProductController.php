@@ -681,7 +681,12 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 $product
             );
 
-            $this->_generateSimpleProducts($product);
+            $associatedProductIds = $this->getRequest()->getPost('associated_product_ids', array());
+
+            $generatedProductIds = $this->_objectManager->get('Mage_Catalog_Model_Product_Type_Configurable')
+                ->generateSimpleProducts($product, $this->getRequest()->getPost('variations-matrix', array()));
+
+            $product->setAssociatedProductIds(array_filter(array_merge($associatedProductIds, $generatedProductIds)));
 
             $data = $this->getRequest()->getPost('configurable_attributes_data');
             if ($data) {
@@ -963,178 +968,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 );
             }
         }
-    }
-
-    /**
-     * Generate simple products linked with configurable
-     *
-     * @param Mage_Catalog_Model_Product $parentProduct
-     */
-    protected function _generateSimpleProducts(Mage_Catalog_Model_Product $parentProduct)
-    {
-        $associatedProductIds = $this->getRequest()->getPost('associated_product_ids', array());
-
-        foreach ($this->getRequest()->getPost('variations-matrix', array()) as $simpeProductData) {
-            $newSimpleProduct = $this->_objectManager->create('Mage_Catalog_Model_Product');
-            $configurableAttribute = Mage::helper('Mage_Core_Helper_Data')
-                ->jsonDecode($simpeProductData['configurable_attribute']);
-            unset($simpeProductData['configurable_attribute']);
-            $this->_filterStockData($simpeProductData['stock_data']);
-
-            $this->_quickCreateFillProductData(
-                $newSimpleProduct, $parentProduct, array_merge($simpeProductData, $configurableAttribute)
-            );
-            $newSimpleProduct->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE);
-            $newSimpleProduct->save();
-
-            $associatedProductIds[] = $newSimpleProduct->getId();
-        }
-
-        $parentProduct->setAssociatedProductIds(array_filter($associatedProductIds));
-    }
-
-    /**
-     * Fill simple product data during quick creation
-     *
-     * @param Mage_Catalog_Model_Product $product
-     * @param Mage_Catalog_Model_Product $parentProduct
-     * @param array $postData
-     * @return void
-     */
-    protected function _quickCreateFillProductData($product, $parentProduct, $postData)
-    {
-        $product->setStoreId(0)
-            ->setTypeId($parentProduct->hasData('is_virtual')
-                ? Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL
-                : Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
-            ->setAttributeSetId($parentProduct->getAttributeSetId());
-
-
-        foreach ($product->getTypeInstance()->getEditableAttributes($product) as $attribute) {
-            if ($attribute->getIsUnique()
-                || $attribute->getAttributeCode() == 'url_key'
-                || $attribute->getFrontend()->getInputType() == 'gallery'
-                || $attribute->getFrontend()->getInputType() == 'media_image'
-                || !$attribute->getIsVisible()) {
-                continue;
-            }
-
-            $product->setData(
-                $attribute->getAttributeCode(),
-                $parentProduct->getData($attribute->getAttributeCode())
-            );
-        }
-
-        $product->addData($postData);
-        $product->setWebsiteIds($parentProduct->getWebsiteIds());
-    }
-
-    public function quickCreateAction()
-    {
-        $result = array();
-
-        /* @var $configurableProduct Mage_Catalog_Model_Product */
-        $configurableProduct = Mage::getModel('Mage_Catalog_Model_Product')
-            ->setStoreId(Mage_Core_Model_App::ADMIN_STORE_ID)
-            ->load($this->getRequest()->getParam('product'));
-
-        if (!$configurableProduct->isConfigurable()) {
-            // If invalid parent product
-            $this->_redirect('*/*/');
-            return;
-        }
-
-        /* @var $product Mage_Catalog_Model_Product */
-
-        $product = Mage::getModel('Mage_Catalog_Model_Product');
-
-        $this->_quickCreateFillProductData(
-            $product, $configurableProduct, $this->getRequest()->getParam('simple_product', array())
-        );
-
-        $autogenerateOptions = array();
-        $result['attributes'] = array();
-
-        $configurableAttributes = $configurableProduct->getTypeInstance()
-            ->getConfigurableAttributes($configurableProduct);
-        foreach ($configurableAttributes as $attribute) {
-            $value = $product->getAttributeText($attribute->getProductAttribute()->getAttributeCode());
-            $autogenerateOptions[] = $value;
-            $result['attributes'][] = array(
-                'label'         => $value,
-                'value_index'   => $product->getData($attribute->getProductAttribute()->getAttributeCode()),
-                'attribute_id'  => $attribute->getProductAttribute()->getId()
-            );
-        }
-
-        if ($product->getNameAutogenerate()) {
-            $product->setName($configurableProduct->getName() . '-' . implode('-', $autogenerateOptions));
-        }
-
-        if ($product->getSkuAutogenerate()) {
-            $product->setSku($configurableProduct->getSku() . '-' . implode('-', $autogenerateOptions));
-        }
-
-        if (is_array($product->getPricing())) {
-            $result['pricing'] = $product->getPricing();
-            $additionalPrice = 0;
-            foreach ($product->getPricing() as $pricing) {
-                if (empty($pricing['value'])) {
-                    continue;
-                }
-
-                if (!empty($pricing['is_percent'])) {
-                    $pricing['value'] = ($pricing['value']/100)*$product->getPrice();
-                }
-
-                $additionalPrice += $pricing['value'];
-            }
-
-            $product->setPrice($product->getPrice() + $additionalPrice);
-            $product->unsPricing();
-        }
-
-        try {
-            /**
-             * @todo implement full validation process with errors returning which are ignoring now
-             */
-//            if (is_array($errors = $product->validate())) {
-//                $strErrors = array();
-//                foreach($errors as $code=>$error) {
-//                    $codeLabel = $product->getResource()->getAttribute($code)->getFrontend()->getLabel();
-//                    $strErrors[] = ($error === true) ?
-//                    Mage::helper('Mage_Catalog_Helper_Data')->__('Value for "%s" is invalid.', $codeLabel) :
-//                    Mage::helper('Mage_Catalog_Helper_Data')->__('Value for "%s" is invalid: %s', $codeLabel, $error);
-//                }
-//                Mage::throwException('data_invalid', implode("\n", $strErrors));
-//            }
-            if (isset($requestData[$product->getIdFieldName()])) {
-                throw new Mage_Core_Exception($this->__('Unable to create product'));
-            }
-
-            $product->validate();
-            $product->save();
-            $result['product_id'] = $product->getId();
-            $this->_getSession()->addSuccess(
-                Mage::helper('Mage_Catalog_Helper_Data')->__('The product has been created.'));
-            $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
-            $result['messages']  = $this->getLayout()->getMessagesBlock()->getGroupedHtml();
-        } catch (Mage_Core_Exception $e) {
-            $result['error'] = array(
-                'message' =>  $e->getMessage(),
-                'fields'  => array(
-                    'sku'  =>  $product->getSku()
-                )
-            );
-
-        } catch (Exception $e) {
-            Mage::logException($e);
-            $result['error'] = array(
-                'message'   =>  $this->__('An error occurred while saving the product. ') . $e->getMessage()
-             );
-        }
-
-        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
     }
 
     /**

@@ -260,11 +260,7 @@ jQuery(function($) {
     });
 
     $('input.associated-matrix-product-id').on('click', function () {
-        if ($(this).is(':checked')) {
-            $(this).closest('tr').find('input').removeAttr('disabled');
-        } else {
-            $(this).closest('tr').find('input[type!=checkbox]').attr('disabled', 'disabled');
-        }
+        $(this).closest('tr').find('input[type!=checkbox]').prop('disabled', !$(this).is(':checked'));
     });
 
     $.each($('#product-variations-matrix input[type!="checkbox"][type!="hidden"]'), function(key, input) {

@@ -872,4 +872,67 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
         $attribute = parent::getAttributeById($attributeId, $product);
         return $attribute ?: Mage::getModel('Mage_Catalog_Model_Resource_Eav_Attribute')->load($attributeId);
     }
+
+    /**
+     * Generate simple products to link with configurable
+     *
+     * @param $parentProduct
+     * @param $productsData
+     * @return array
+     */
+    public function generateSimpleProducts($parentProduct, $productsData)
+    {
+        $generatedProductIds = array();
+        foreach ($productsData as $simpeProductData) {
+            $newSimpleProduct = Mage::getModel('Mage_Catalog_Model_Product');
+            $configurableAttribute = Mage::helper('Mage_Core_Helper_Data')
+                ->jsonDecode($simpeProductData['configurable_attribute']);
+            unset($simpeProductData['configurable_attribute']);
+
+            $this->_fillProductData(
+                $newSimpleProduct, $parentProduct, array_merge($simpeProductData, $configurableAttribute)
+            );
+            $newSimpleProduct->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE);
+            $newSimpleProduct->save();
+
+            $generatedProductIds[] = $newSimpleProduct->getId();
+        }
+        return $generatedProductIds;
+    }
+
+    /**
+     * Fill simple product data during generation
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param Mage_Catalog_Model_Product $parentProduct
+     * @param array $postData
+     * @return void
+     */
+    protected function _fillProductData($product, $parentProduct, $postData)
+    {
+        $product->setStoreId(Mage_Core_Model_App::ADMIN_STORE_ID)
+            ->setTypeId($parentProduct->hasData('is_virtual')
+                ? Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL
+                : Mage_Catalog_Model_Product_Type::TYPE_SIMPLE
+            )->setAttributeSetId($parentProduct->getAttributeSetId());
+
+
+        foreach ($product->getTypeInstance()->getEditableAttributes($product) as $attribute) {
+            if ($attribute->getIsUnique()
+                || $attribute->getAttributeCode() == 'url_key'
+                || $attribute->getFrontend()->getInputType() == 'gallery'
+                || $attribute->getFrontend()->getInputType() == 'media_image'
+                || !$attribute->getIsVisible()) {
+                continue;
+            }
+
+            $product->setData(
+                $attribute->getAttributeCode(),
+                $parentProduct->getData($attribute->getAttributeCode())
+            );
+        }
+
+        $product->addData($postData);
+        $product->setWebsiteIds($parentProduct->getWebsiteIds());
+    }
 }
