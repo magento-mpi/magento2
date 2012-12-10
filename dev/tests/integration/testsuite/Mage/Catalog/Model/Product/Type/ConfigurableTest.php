@@ -385,6 +385,55 @@ class Mage_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framework
     }
 
     /**
+     * @param array $productsData
+     * @dataProvider generateSimpleProductsDataProvider
+     */
+    public function testGenerateSimpleProducts($productsData)
+    {
+        $generatedProducts = $this->_model->generateSimpleProducts($this->_product, $productsData);
+        $this->assertEquals(3, count($generatedProducts));
+        foreach ($generatedProducts as $productId) {
+            $product = Mage::getModel('Mage_Catalog_Model_Product');
+            $product->load($productId);
+            $this->assertNotNull($product->getName());
+            $this->assertNotNull($product->getSku());
+            $this->assertNotNull($product->getPrice());
+            $this->assertNotNull($product->getWeight());
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public static function generateSimpleProductsDataProvider()
+    {
+        return array(array(array(
+            25 => array(
+                'name' => '1-aaa',
+                'configurable_attribute' => '{"configurable_attribute":"25"}',
+                'price' => '3',
+                'sku' => '1-aaa',
+                'quantity_and_stock_status' => array('qty' => '5'),
+                'weight' => '6'),
+            24 => array(
+                'name' => '1-bbb',
+                'configurable_attribute' => '{"configurable_attribute":"24"}',
+                'price' => '3',
+                'sku' => '1-bbb',
+                'quantity_and_stock_status' => array('qty' => '5'),
+                'weight' => '6'),
+            23 => array(
+                'name' => '1-ccc',
+                'configurable_attribute' => '{"configurable_attribute":"23"}',
+                'price' => '3',
+                'sku' => '1-ccc',
+                'quantity_and_stock_status' => array('qty' => '5'),
+                'weight' => '6'
+            ),
+        )));
+    }
+
+    /**
      * Find and instantiate a catalog attribute model by attribute code
      *
      * @param string $code
