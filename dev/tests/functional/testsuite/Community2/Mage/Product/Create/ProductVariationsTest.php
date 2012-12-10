@@ -259,6 +259,231 @@ class Community2_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium
     }
 
     /**
+     * <p>Create simple product via product variation in configurable product</p>
+     *
+     * @param array $defaultData
+     *
+     * @test
+     * @depends setConfigurableAttributesToDefault
+     * @TestlinkId
+     */
+    public function createSimpleViaVariation($defaultData)
+    {
+        //Data
+        $productData = $this->loadDataSet('Product', 'configurable_product_visible',
+            array('configurable_attribute_title' => $defaultData['attribute1']));
+        $productData['general_weight_and_type_switcher'] = 'no';
+        $productData['general_weight'] = 12;
+        $fillVariation = $this->loadDataSet('Product', 'product_variation',
+            array('variation_qty' => 12,'variation_weight' => 12));
+        //Steps
+        $this->productHelper()->createProduct($productData, 'configurable', false);
+        $fillVariation = $this->loadDataSet('Product', 'product_variation',
+            array('variation_qty' => 12,'variation_weight' => 12));
+        $this->productHelper()->includeAssociatedProduct(
+            array('product_1' => array('associated_product_attribute_value' => $defaultData['matrix'][1][1])),
+            $fillVariation
+        );
+        $this->clickButton('save');
+        $this->assertMessagePresent('success', 'success_saved_product');
+        //Verify configurable
+        $productData['associated_configurable_data'] = $this->loadDataSet('Product', 'associated_configurable_data',
+            array(
+            'associated_search_sku' => $fillVariation['variation_sku'],
+            'associated_product_attribute_value' => $defaultData['matrix'][1][1]
+            )
+        );
+        $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
+        $this->productHelper()->verifyProductInfo($productData, array(
+            'configurable_attribute_title',
+            'general_weight',
+            'general_weight_disabled',
+            'general_weight_and_type_switcher'
+        ));
+        //$Verify simple
+        $verifySimple = $this->loadDataSet('Product', 'simple_product_required', array(
+        'general_name' => $fillVariation['variation_name'],
+        'general_sku' => $fillVariation['variation_sku'],
+        'general_weight' => $fillVariation['variation_weight'],
+        'prices_price' => $fillVariation['variation_price'],
+        'inventory_qty' => $fillVariation['variation_qty']
+        ));
+        $this->navigate('manage_products');
+        $this->assertEquals('Simple Product', $this->productHelper()->getProductType($verifySimple),
+            'Incorrect product type has been created');
+        $this->productHelper()->openProduct(array('product_sku' => $fillVariation['variation_sku']));
+        $this->productHelper()->verifyProductInfo($verifySimple, array(
+            'general_description',
+            'general_short_description',
+            'general_visibility'
+        ));
+    }
+    /**
+     * <p>Create virtual product via product variation in configurable product</p>
+     *
+     * @param array $defaultData
+     *
+     * @test
+     * @depends setConfigurableAttributesToDefault
+     * @TestlinkId
+     */
+    public function createVirtualViaVariation($defaultData)
+    {
+        //Data
+        $productData = $this->loadDataSet('Product', 'configurable_product_visible',
+            array('configurable_attribute_title' => $defaultData['attribute1']));
+        //Steps
+        $this->productHelper()->createProduct($productData, 'configurable', false);
+        $fillVariation = $this->loadDataSet('Product', 'product_variation', array('variation_qty' => 12));
+        $this->productHelper()->includeAssociatedProduct(
+            array('product_1' => array('associated_product_attribute_value' => $defaultData['matrix'][1][1])),
+            $fillVariation
+        );
+        $this->clickButton('save');
+        $this->assertMessagePresent('success', 'success_saved_product');
+        //Verify configurable
+        $productData['associated_configurable_data'] = $this->loadDataSet('Product', 'associated_configurable_data',
+            array(
+            'associated_search_sku' => $fillVariation['variation_sku'],
+            'associated_product_attribute_value' => $defaultData['matrix'][1][1]
+            )
+        );
+        $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
+        $this->productHelper()->verifyProductInfo($productData, array(
+            'configurable_attribute_title',
+            'general_weight',
+            'general_weight_disabled',
+            'general_weight_and_type_switcher'
+        ));
+        //$Verify virtual
+        $verifyVirtual = $this->loadDataSet('Product', 'virtual_product_required', array(
+            'general_name' => $fillVariation['variation_name'],
+            'general_sku' => $fillVariation['variation_sku'],
+            'prices_price' => $fillVariation['variation_price'],
+            'inventory_qty' => $fillVariation['variation_qty']
+        ));
+        $this->navigate('manage_products');
+        $this->assertEquals('Virtual Product', $this->productHelper()->getProductType($verifyVirtual),
+            'Incorrect product type has been created');
+        $this->productHelper()->openProduct(array('product_sku' => $fillVariation['variation_sku']));
+        $this->productHelper()->verifyProductInfo($verifyVirtual, array(
+            'general_description',
+            'general_short_description',
+            'general_weight',
+            'general_visibility'
+        ));
+    }
+
+    /**
+     * <p>Verify Manage Stock in virtual product created via product variation in configurable product</p>
+     *
+     * @param array $defaultData
+     *
+     * @test
+     * @depends setConfigurableAttributesToDefault
+     * @TestlinkId
+     */
+    public function verifyManageStock($defaultData)
+    {
+        //Data
+        $productData = $this->loadDataSet('Product', 'configurable_product_visible',
+            array('configurable_attribute_title' => $defaultData['attribute1']));
+        $fillInStock = $this->loadDataSet('Product', 'product_variation', array('variation_qty' => 12));
+        $fillOutOfStock = $this->loadDataSet('Product', 'product_variation');
+        //Steps
+        $this->productHelper()->createProduct($productData, 'configurable', false);
+        $this->productHelper()->includeAssociatedProduct(
+            array('product_1' => array('associated_product_attribute_value' => $defaultData['matrix'][1][1])),
+            $fillInStock
+        );
+        $this->productHelper()->includeAssociatedProduct(
+            array('product_1' => array('associated_product_attribute_value' => $defaultData['matrix'][4][1])),
+            $fillOutOfStock
+        );
+        $this->clickButton('save');
+        $this->assertMessagePresent('success', 'success_saved_product');
+        //Verify virtual with Manage Stock - Yes
+        $this->productHelper()->openProduct(array('product_sku' => $fillInStock['variation_sku']));
+        $this->productHelper()->verifyProductInfo(array(
+            'inventory_qty' => $fillInStock['variation_qty'], 'inventory_manage_stock' => 'Yes'));
+        //Verify virtual with Manage Stock - No
+        $this->navigate('manage_products');
+        $this->productHelper()->openProduct(array('product_sku' => $fillOutOfStock['variation_sku']));
+        $this->productHelper()->verifyProductInfo(array('inventory_manage_stock' => 'No'));
+    }
+    /**
+     * <p>Verify virtual product with empty required fields via variation matrix</p>
+     *
+     *
+     * @param string $emptyField
+     * @param array $defaultData
+     *
+     * @test
+     * @dataProvider withRequiredFieldsEmptyDataProvider
+     * @depends setConfigurableAttributesToDefault
+     * @TestlinkId TL-MAGE-
+     */
+    public function withRequiredFieldsEmpty($emptyField, $defaultData)
+    {
+        //Data
+        $overrideData = array($emptyField => '');
+        $productData = $this->loadDataSet('Product', 'configurable_product_visible',
+            array('configurable_attribute_title' => $defaultData['attribute1']));
+        //Steps
+        $this->productHelper()->createProduct($productData, 'configurable', false);
+        $this->productHelper()->includeAssociatedProduct(
+            array('product_1' => array('associated_product_attribute_value' => $defaultData['matrix'][1][1])));
+        preg_match('/\w+\_(\w+)/', $emptyField, $result);
+        $field = $result[1];
+        $this->fillField($emptyField, $overrideData[$emptyField]);
+        $this->addParameter('field', $field);
+        $this->saveForm('save', false);
+        //Verifying
+        $this->assertMessagePresent('validation', 'required_field');
+    }
+
+    public function withRequiredFieldsEmptyDataProvider()
+    {
+        return array(
+            array('variation_name'),
+            array('variation_price'),
+            array('variation_sku')
+        );
+    }
+    /**
+     * <p>Verification fields of variation in configurable product</p>
+     *
+     * @param array $defaultData
+     *
+     * @test
+     * @depends setConfigurableAttributesToDefault
+     * @TestlinkId
+     */
+    public function verificationFieldsVariation($defaultData)
+    {
+        //Data
+        $productData = $this->loadDataSet('Product', 'configurable_product_visible',
+            array('configurable_attribute_title' => $defaultData['attribute1']));
+        $productData['general_weight_and_type_switcher'] = 'no';
+        $productData['general_weight'] = 12;
+        $verifyData = array(
+            'variation_name' => $productData['general_name'] . '-' . $defaultData['matrix'][1][1],
+            'variation_price'=> $productData['prices_price'],
+            'variation_sku' => $productData['general_sku'] . '-' . $defaultData['matrix'][1][1],
+            'variation_weight'=> $productData['general_weight']
+        );
+        //Steps
+        $this->productHelper()->selectTypeProduct('configurable');
+        $this->productHelper()->fillProductInfo($productData, 'configurable');
+        $this->productHelper()->fillConfigurableSettings($productData);
+        //Verifying
+        $this->assertEquals($verifyData['variation_name'], $this->getValue($this->_getControlXpath('field', 'variation_name')));
+        $this->assertEquals($verifyData['variation_price'], $this->getValue($this->_getControlXpath('field', 'variation_price')));
+        $this->assertEquals($verifyData['variation_sku'], $this->getValue($this->_getControlXpath('field', 'variation_sku')));
+        $this->assertEquals($verifyData['variation_weight'], $this->getValue($this->_getControlXpath('field', 'variation_weight')));
+    }
+
+    /**
      * <p>Unselect configurable attribute while editing configurable product</p>
      *
      * @param array $data
