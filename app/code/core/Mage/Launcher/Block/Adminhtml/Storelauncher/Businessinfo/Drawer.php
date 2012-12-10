@@ -182,7 +182,8 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
             'value' => $addressData['country_id']
         ));
 
-        $regionCollection = $this->_regionModel->getCollection()->addCountryFilter('US');
+        $countryId = isset($addressData['country_id']) ? $addressData['country_id'] : 'US';
+        $regionCollection = $this->_regionModel->getCollection()->addCountryFilter($countryId);
 
         $regions = $regionCollection->toOptionArray();
         if ($regions) {
@@ -324,8 +325,8 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
     /**
      * Get address data from system configuration
      *
-     * @todo This function would be refactored when System->Cinfiguration->General->Store Information
-     * "Store Contact Address" format would be changed
+     * @todo This function will be refactored when System->Configuration->General->Store Information
+     * "Store Contact Address" format is changed
      *
      * @return array
      */

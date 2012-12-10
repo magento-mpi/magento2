@@ -82,6 +82,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile extends Mage
     public function prepareAddressData($data)
     {
         $groups = $data['groups'];
+        $data['region_id'] = isset($data['region_id']) ? $data['region_id'] : 0;
         $region = $this->_regionModel->load($data['region_id'])->getName();
         $groups['general']['store_information']['fields']['address']['value'] =
             sprintf("%s\n%s\n%s\n%s\n%s",

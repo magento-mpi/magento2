@@ -50,9 +50,6 @@ class Mage_Launcher_Adminhtml_Storelauncher_Businessinfo_DrawerController extend
             // Load Tile when Data were saved and Tile possibly has changed it's state
             $tileModel = Mage::getModel('Mage_Launcher_Model_Tile')->loadByCode($tileCode);
             $tileStateResolver = $tileModel->getStateResolver();
-            if (empty($tileStateResolver)) {
-                throw new Mage_Launcher_Exception('There is no State Resolver for Tile "' . $tileCode . '".');
-            }
             $tileState = $tileStateResolver->isTileComplete()
                 ? Mage_Launcher_Model_Tile::STATE_COMPLETE
                 : Mage_Launcher_Model_Tile::STATE_TODO;

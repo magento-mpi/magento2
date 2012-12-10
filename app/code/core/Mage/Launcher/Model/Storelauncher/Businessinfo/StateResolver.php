@@ -31,6 +31,7 @@ class Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolver implements Ma
      * Constructor
      *
      * @param Mage_Core_Model_App $app
+     * @param Mage_Core_Model_Config $config
      */
     function __construct(
         Mage_Core_Model_App $app,
