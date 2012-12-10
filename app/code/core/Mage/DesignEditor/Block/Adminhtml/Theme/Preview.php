@@ -128,4 +128,32 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Preview extends Mage_Core_Block_Te
             ->setTheme($this->getTheme())
             ->getPreviewUrl();
     }
+
+    /**
+     * Get assign to storeview button
+     *
+     * @return string
+     */
+    public function getAssignButtonHtml()
+    {
+        $themeId = $this->getTheme()->getId();
+        /** @var $assignButton Mage_Backend_Block_Widget_Button */
+        $assignButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
+        $assignButton->setData(array(
+            'label'   => $this->__('Choose This Theme'),
+            'data_attr'  => array(
+                'widget-button' => array(
+                    'event' => 'assign',
+                    'related' => 'body',
+                    'eventData' => array(
+                        'theme_id' => $themeId
+                    )
+                ),
+            ),
+            'class'   => 'save action-theme-assign',
+            'target'  => '_blank'
+        ));
+
+        return $assignButton->toHtml();
+    }
 }

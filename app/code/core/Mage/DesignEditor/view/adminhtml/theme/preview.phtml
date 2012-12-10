@@ -16,5 +16,7 @@
     <span class="theme-preview-back"></span>
     <span class="theme-preview-about"><?php echo $this->__('About this Theme'); ?></span>
     <a href="<?php echo $this->getPreviewUrl(); ?>" target="_blank" class="theme-preview-window"><?php echo $this->__('Preview in a Separate Window') ?></a>
-    <button class="button button-special btn-apply-theme"><?php echo $this->__('Choose This Theme') ?></button>
+    <div style="text-align:right; padding:10px;">
+        <?php echo $this->getAssignButtonHtml(); ?>
+    </div>
 </div>

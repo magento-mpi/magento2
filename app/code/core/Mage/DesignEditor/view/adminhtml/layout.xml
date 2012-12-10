@@ -64,10 +64,12 @@
 
     <adminhtml_system_design_editor_preview>
         <reference name="head">
+            <action method="addJs"><file>Mage_DesignEditor::js/theme-selector.js</file></action>
             <action method="addCss"><file>Mage_DesignEditor::css/styles.css</file></action>
         </reference>
         <reference name="content">
             <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Preview" name="design_editor_launcher_preview" template="Mage_DesignEditor::theme/preview.phtml"/>
+            <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView" name="theme.selector.storeview" template="Mage_DesignEditor::theme/selector/storeview.phtml" />
         </reference>
     </adminhtml_system_design_editor_preview>
 
