@@ -18,11 +18,38 @@
 class Mage_Backend_Model_Config_Backend_File extends Mage_Core_Model_Config_Data
 {
     /**
+     * @var Mage_Backend_Model_Config_Backend_File_RequestData
+     */
+    protected $_requestData;
+
+    /**
      * Upload max file size in kilobytes
      *
      * @var int
      */
     protected $_maxFileSize = 0;
+
+    /**
+     * @param Mage_Core_Model_Event_Manager $eventDispatcher
+     * @param Mage_Core_Model_Cache $cacheManager
+     * @param Mage_Backend_Model_Config_Backend_File_RequestData $requestData
+     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Model_Event_Manager $eventDispatcher,
+        Mage_Core_Model_Cache $cacheManager,
+        Mage_Backend_Model_Config_Backend_File_RequestData $requestData,
+        Mage_Core_Model_Resource_Abstract $resource = null,
+        Varien_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
+        $this->_requestData = $requestData;
+    }
+
+
 
     /**
      * Save uploaded file before saving config value
@@ -32,16 +59,14 @@ class Mage_Backend_Model_Config_Backend_File extends Mage_Core_Model_Config_Data
     protected function _beforeSave()
     {
         $value = $this->getValue();
-        if ($_FILES['groups']['tmp_name'][$this->getGroupId()]['fields'][$this->getField()]['value']) {
 
+        $tmpName = $this->_requestData->getTmpName($this->getPath());
+        if ($tmpName) {
             $uploadDir = $this->_getUploadDir();
-
             try {
                 $file = array();
-                $tmpName = $_FILES['groups']['tmp_name'];
-                $file['tmp_name'] = $tmpName[$this->getGroupId()]['fields'][$this->getField()]['value'];
-                $name = $_FILES['groups']['name'];
-                $file['name'] = $name[$this->getGroupId()]['fields'][$this->getField()]['value'];
+                $file['tmp_name'] = $tmpName;
+                $file['name'] = $this->_requestData->getName($this->getPath());
                 $uploader = new Mage_Core_Model_File_Uploader($file);
                 $uploader->setAllowedExtensions($this->_getAllowedExtensions());
                 $uploader->setAllowRenameFiles(true);
