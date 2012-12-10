@@ -25,14 +25,24 @@ require_once __DIR__ . '/../_files/resource_with_invalid_name.php';
  */
 class Mage_Webapi_Model_Config_RestTest extends PHPUnit_Framework_TestCase
 {
+    const WEBAPI_AREA_FRONT_NAME = 'webapi';
+
     /**
      * @var Mage_Webapi_Model_Config_Rest
      */
     protected static $_apiConfig;
 
+    /**
+     * App mock clone usage helps to improve performance. It is required because mock will be removed in tear down.
+     *
+     * @var Mage_Core_Model_App
+     */
+    protected static $_appClone;
+
     public static function tearDownAfterClass()
     {
         self::$_apiConfig = null;
+        self::$_appClone = null;
         parent::tearDownAfterClass();
     }
 
@@ -145,12 +155,22 @@ class Mage_Webapi_Model_Config_RestTest extends PHPUnit_Framework_TestCase
         /** Prepare arguments for SUT constructor. */
         /** @var Mage_Core_Model_Cache $cache */
         $cache = $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock();
+        $configMock = $this->getMockBuilder('Mage_Core_Model_Config')->disableOriginalConstructor()->getMock();
+        $configMock->expects($this->any())->method('getAreaFrontName')->will(
+            $this->returnValue(self::WEBAPI_AREA_FRONT_NAME)
+        );
+        $appMock = $this->getMockBuilder('Mage_Core_Model_App')->disableOriginalConstructor()->getMock();
+        $appMock->expects($this->any())->method('getConfig')->will($this->returnValue($configMock));
+        self::$_appClone = clone $appMock;
         /** @var Mage_Webapi_Model_Config_Reader_Rest $reader */
         $reader = $objectManager->get('Mage_Webapi_Model_Config_Reader_Rest', array('cache' => $cache));
         $reader->setDirectoryScanner(new Zend\Code\Scanner\DirectoryScanner($pathToResources));
 
         /** Initialize SUT. */
-        $apiConfig = $objectManager->create('Mage_Webapi_Model_Config_Rest', array('reader' => $reader));
+        $apiConfig = $objectManager->create(
+            'Mage_Webapi_Model_Config_Rest',
+            array('reader' => $reader, 'application' => self::$_appClone)
+        );
         return $apiConfig;
     }
 

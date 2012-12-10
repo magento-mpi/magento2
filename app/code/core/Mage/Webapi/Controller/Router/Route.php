@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class Mage_Webapi_Controller_Router_RouteAbstract extends Zend_Controller_Router_Route
+class Mage_Webapi_Controller_Router_Route extends Zend_Controller_Router_Route
 {
     /**
      * Matches a Request with parts defined by a map. Assigns and

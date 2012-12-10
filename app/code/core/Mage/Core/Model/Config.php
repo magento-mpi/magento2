@@ -1509,6 +1509,26 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     }
 
     /**
+     * Identify front name of the requested area. Return current area front name if area code is not specified.
+     *
+     * @param string|null $areaCode
+     * @return string
+     * @throws LogicException If front name is not defined.
+     */
+    public function getAreaFrontName($areaCode = null)
+    {
+        $areaCode = empty($areaCode) ? $this->getCurrentAreaCode() : $areaCode;
+        $areaConfig = $this->getAreaConfig($areaCode);
+        if (!isset($areaConfig['frontName'])) {
+            throw new LogicException(sprintf(
+                'Area "%s" must have front name defined in the application config.',
+                $areaCode
+            ));
+        }
+        return $areaConfig['frontName'];
+    }
+
+    /**
      * Load allowed areas from config
      *
      * @return Mage_Core_Model_Config
@@ -1525,7 +1545,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                     continue;
                 }
                 /**
-                 * TODO: Check of 'routers' nodes existance is excessive:
+                 * TODO: Check of 'routers' nodes existence is excessive:
                  * TODO: 'routers' check is moved Mage_Core_Model_Config::getRouters()
                  */
 

@@ -9,6 +9,8 @@
  */
 class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
 {
+    const WEBAPI_AREA_FRONT_NAME = 'webapi';
+
     /** @var Mage_Webapi_Controller_Front */
     protected $_frontControllerMock;
 
@@ -21,6 +23,9 @@ class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Webapi_Controller_Dispatcher_ErrorProcessor. */
     protected $_errorProcessorMock;
 
+    /** @var Mage_Core_Model_Config */
+    protected $_configMock;
+
     protected function setUp()
     {
         /** Prepare mocks for SUT constructor. */
@@ -32,9 +37,16 @@ class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
         $helperFactory = $this->getMock('Mage_Core_Model_Factory_Helper');
         $helperFactory->expects($this->any())->method('get')->will($this->returnValue($helper));
 
+        $this->_configMock = $this->getMockBuilder('Mage_Core_Model_Config')->disableOriginalConstructor()->getMock();
+        $this->_configMock->expects($this->any())->method('getAreaFrontName')->will(
+            $this->returnValue(self::WEBAPI_AREA_FRONT_NAME)
+        );
+
         $this->_dispatcherFactory = $this->getMockBuilder('Mage_Webapi_Controller_Dispatcher_Factory')
             ->disableOriginalConstructor()->getMock();
         $application = $this->getMockBuilder('Mage_Core_Model_App')->disableOriginalConstructor()->getMock();
+        $application->expects($this->any())->method('getConfig')->will($this->returnValue($this->_configMock));
+
         $this->_routeFactoryMock = $this->getMockBuilder('Magento_Controller_Router_Route_Factory')
             ->disableOriginalConstructor()->getMock();
         $this->_errorProcessorMock = $this->getMockBuilder('Mage_Webapi_Controller_Dispatcher_ErrorProcessor')
@@ -154,7 +166,7 @@ class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
      */
     protected function _createMockForApiRouteAndFactory($apiType)
     {
-        $apiRouteMock = $this->getMockBuilder('Mage_Webapi_Controller_Router_Route_Webapi')
+        $apiRouteMock = $this->getMockBuilder('Mage_Webapi_Controller_Router_Route')
             ->disableOriginalConstructor()->getMock();
         $apiRouteMock->expects($this->any())->method('match')->will($this->returnValue($apiType));
         $this->_routeFactoryMock->expects($this->any())->method('createRoute')->will(

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Controller_Router_Route_Rest extends Mage_Webapi_Controller_Router_RouteAbstract
+class Mage_Webapi_Controller_Router_Route_Rest extends Mage_Webapi_Controller_Router_Route
 {
     /**#@+
      * Names of special parameters in routes.

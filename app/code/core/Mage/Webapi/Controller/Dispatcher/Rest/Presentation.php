@@ -30,6 +30,9 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation
     /** @var Mage_Webapi_Controller_Response_Rest_RendererInterface */
     protected $_renderer;
 
+    /** @var Mage_Core_Model_Config */
+    protected $_applicationConfig;
+
     /**
      * Initialize dependencies.
      *
@@ -40,6 +43,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation
      * @param Mage_Webapi_Controller_Response_Rest $response
      * @param Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory
      * @param Magento_Controller_Router_Route_Factory $routeFactory
+     * @param Mage_Core_Model_Config $applicationConfig
      */
     public function __construct(
         Mage_Webapi_Model_Config_Rest $apiConfig,
@@ -48,7 +52,8 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation
         Mage_Webapi_Controller_Request_Factory $requestFactory,
         Mage_Webapi_Controller_Response_Rest $response,
         Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory,
-        Magento_Controller_Router_Route_Factory $routeFactory
+        Magento_Controller_Router_Route_Factory $routeFactory,
+        Mage_Core_Model_Config $applicationConfig
     ) {
         $this->_apiConfig = $apiConfig;
         $this->_apiHelper = $helper;
@@ -57,6 +62,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation
         $this->_response = $response;
         $this->_routeFactory = $routeFactory;
         $this->_renderer = $rendererFactory->get();
+        $this->_applicationConfig = $applicationConfig;
     }
 
     /**
@@ -148,8 +154,8 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation
     protected function _getCreatedItemLocation($createdItem)
     {
         $apiTypeRoute = $this->_routeFactory->createRoute(
-            'Mage_Webapi_Controller_Router_Route_Webapi',
-            Mage_Webapi_Controller_Router_Route_Webapi::getApiRoute()
+            'Mage_Webapi_Controller_Router_Route',
+            $this->_applicationConfig->getAreaFrontName() . '/:' . Mage_Webapi_Controller_Request::PARAM_API_TYPE
         );
         $resourceName = $this->_request->getResourceName();
         $routeToItem = $this->_routeFactory->createRoute(
@@ -158,7 +164,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation
         );
         $chain = $apiTypeRoute->chain($routeToItem);
         $params = array(
-            Mage_Webapi_Controller_Router_Route_Webapi::PARAM_API_TYPE => $this->_request->getApiType(),
+            Mage_Webapi_Controller_Request::PARAM_API_TYPE => $this->_request->getApiType(),
             Mage_Webapi_Controller_Router_Route_Rest::PARAM_ID => $createdItem->getId(),
             Mage_Webapi_Controller_Router_Route_Rest::PARAM_VERSION => $this->_request->getResourceVersion()
         );
