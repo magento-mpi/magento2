@@ -57,11 +57,10 @@ new_product:
                                         configurable_attribute_title: //input[@type='checkbox' and @title='%attributeTitle%']
                                     buttons:
                                         generate_variations: //*[@data-ui-id='admin-product-edit-tab-super-config-grid-container-super-settings-continue-button']
-                                        generate_variations: //*[@data-ui-id='admin-product-edit-tab-super-config-grid-container-super-settings-continue-button']
                                     links:
                                         suggested_attribute: /..//*[contains(concat(' ', normalize-space(@class), ' '), ' ui-menu-item ')]/*[text()='%attributeName%']
                                     pageelements:
-                                        suggested_attribute_list: /..//*[contains(concat(' ', normalize-space(@class), ' '), ' ui-autocomplete ')]
+                                        suggested_attribute_list: "/..//*[contains(concat(' ', normalize-space(@class), ' '), ' ui-autocomplete ') and not(contains(@style,'display: none;'))]"
                             -
                                 variations_matrix:
                                     xpath: //*[@id='product-variations-matrix']

@@ -171,24 +171,34 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
         if (!empty($attributes)) {
             $attributes = array_map('trim', $attributes);
             foreach ($attributes as $attributeTitle) {
-                $this->fillField('attribute_selector', $attributeTitle);
-                $this->typeKeys($this->_getControlXpath(self::FIELD_TYPE_INPUT, 'attribute_selector'), "\b");
-                $this->addParameter('attributeName', $attributeTitle);
-                $attributeXpath = $this->_getControlXpath(self::FIELD_TYPE_LINK, 'suggested_attribute');
-                $suggestedMenu = $this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'suggested_attribute_list');
-                $this->assertTrue($this->waitForElementVisible($suggestedMenu));
-                if ($this->controlIsVisible(self::FIELD_TYPE_LINK, 'suggested_attribute')) {
-                    $this->mouseOver($attributeXpath);
-                    $this->clickControl(self::FIELD_TYPE_LINK, 'suggested_attribute', false);
-                } else {
-                    $this->fail('Attribute ' . $attributeTitle . 'can not be found in suggestion list.');
-                }
+                $this->selectConfigurableAttribute($attributeTitle);
             }
             $this->clickButton('generate_variations');
         } else {
             $this->fail('Attribute for configurable product creation is not set');
         }
         $this->unassignAllAssociatedProducts();
+    }
+
+    /**
+     * Select configurable attribute on Product page using searchable attribute selector control
+     *
+     * @param $attributeTitle
+     */
+    public function selectConfigurableAttribute($attributeTitle)
+    {
+        $this->fillField('attribute_selector', $attributeTitle);
+        $this->typeKeys($this->_getControlXpath(self::FIELD_TYPE_INPUT, 'attribute_selector'), "\b");
+        $this->addParameter('attributeName', $attributeTitle);
+        $attributeXpath = $this->_getControlXpath(self::FIELD_TYPE_LINK, 'suggested_attribute');
+        $suggestedMenu = $this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'suggested_attribute_list');
+        $this->assertTrue($this->waitForElementVisible($suggestedMenu));
+        if ($this->controlIsVisible(self::FIELD_TYPE_LINK, 'suggested_attribute')) {
+            $this->mouseOver($attributeXpath);
+            $this->clickControl(self::FIELD_TYPE_LINK, 'suggested_attribute', false);
+        } else {
+            $this->fail('Attribute ' . $attributeTitle . 'can not be found in suggestion list.');
+        }
     }
 
     /**
