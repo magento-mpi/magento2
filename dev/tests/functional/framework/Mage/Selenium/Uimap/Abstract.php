@@ -226,7 +226,7 @@ class Mage_Selenium_Uimap_Abstract
      * @param $cache
      * @param $paramsDecorator
      */
-    protected function _defineCache($elementsCollection, $elKey, $elValue, &$cache, $paramsDecorator)
+    protected function _defineCache($elementsCollection, $elKey, &$elValue, &$cache, $paramsDecorator)
     {
         if (($elementsCollection == 'tabs'
             && $elementsCollection == $elKey
