@@ -38,7 +38,12 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
             ->method('getCollection')
             ->will($this->returnValue($themeCollectionMock));
 
-        $themeService = new Mage_Core_Model_Theme_Service($themeMock,
+        $themeFactoryMock = $this->getMock('Mage_Core_Model_Theme_Factory', array('create'), array(), '', false);
+        $themeFactoryMock->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($themeMock));
+
+        $themeService = new Mage_Core_Model_Theme_Service($themeFactoryMock,
             $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false),
             $this->getMock('Mage_Core_Model_App', array(), array(), '', false),
             $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false)
@@ -74,70 +79,17 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
         $themeMock->expects($this->once())
             ->method('getId')
             ->will($this->returnValue(false));
+        $themeFactoryMock = $this->getMock('Mage_Core_Model_Theme_Factory', array('create'), array(), '', false);
+        $themeFactoryMock->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($themeMock));
 
-        $themeService = new Mage_Core_Model_Theme_Service($themeMock,
+        $themeService = new Mage_Core_Model_Theme_Service($themeFactoryMock,
             $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false),
             $this->getMock('Mage_Core_Model_App', array(), array(), '', false),
             $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false)
         );
         $themeService->assignThemeToStores(-1, array());
-    }
-
-    /**
-     * @covers Mage_Core_Model_Theme_Service::isPresentCustomizedThemes
-     * @dataProvider assignThemeToStoresDataProvider
-     */
-    public function testAssignThemeToStores($themeId, $stores, $scope, $area)
-    {
-        /** @var $themeMock Mage_Core_Model_Theme */
-        $themeMock = $this->getMock('Mage_Core_Model_Theme', array('load', 'getId', 'isVirtual'), array(), '', false);
-        $themeMock->expects($this->once())
-            ->method('load')
-            ->with($this->equalTo($themeId))
-            ->will($this->returnValue($themeMock));
-
-        $themeMock->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue($themeId));
-
-        $themeMock->expects($this->any())
-            ->method('isVirtual')
-            ->will($this->returnValue(true));
-
-        $designMock = $this->getMock(
-            'Mage_Core_Model_Design_Package', array('getConfigPathByArea'), array(), '', false
-        );
-        $designMock->expects($this->once())
-            ->method('getConfigPathByArea')
-            ->with($this->equalTo($area))
-            ->will($this->returnValue($area));
-
-        $appMock = $this->getMock('Mage_Core_Model_App', array('getConfig', 'saveConfig'), array(), '', false);
-        $appMock->expects($this->any())
-            ->method('getConfig')
-            ->will($this->returnValue($appMock));
-
-        $appMock->expects($this->any())
-            ->method('saveConfig')
-            ->with($this->equalTo($area), $this->equalTo($themeId), $this->equalTo($scope), $this->anything());
-
-        $themeService = new Mage_Core_Model_Theme_Service($themeMock, $designMock, $appMock);
-        $this->assertInstanceOf('Mage_Core_Model_Theme_Service',
-            $themeService->assignThemeToStores($themeId, $stores, $scope, $area));
-    }
-
-    /**
-     * @return array
-     */
-    public function assignThemeToStoresDataProvider()
-    {
-        return array(
-            array(1, array(1,2,3,4,5), 'stores', 'frontend'),
-            array(2, array(1,2,3), 'websites', 'frontend'),
-            array(3, array(1,2), 'default', 'adminhtml'),
-            array(4, array(), 'stores', 'adminhtml'),
-            array(5, array(1,2,3,4), 'stores', 'api'),
-        );
     }
 
     /**
@@ -151,8 +103,6 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
      */
     public function testGetAssignedAndUnassignedThemes($stores, $themes, $expAssignedThemes, $expUnassignedThemes)
     {
-        $themeMock = $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false);
-
         $index = 0;
         /* Mock assigned themeId to each store */
         $storeConfigMock = $this->getMock('Mage_Core_Model_Store', array('getId'), array(), '', false);
@@ -182,18 +132,24 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
 
         $designMock = $this->getMock('Mage_Core_Model_Design_Package', array('getConfigurationDesignTheme'),
             array(), '', false);
-        $helperMock = $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false);
         $designMock->expects($this->any())
             ->method('getConfigurationDesignTheme')
             ->with($this->anything(), $this->arrayHasKey('store'))
-            ->will($this->returnCallback(function($area, $params) {
-                return $params['store']->getId();
-            }));
+            ->will($this->returnCallback(
+                function($area, $params) {
+                    return $params['store']->getId();
+                }
+            ));
+        $helperMock = $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false);
+
+        $themeFactoryMock = $this->getMock('Mage_Core_Model_Theme_Factory', array('create'), array(), '', false);
+        $themeFactoryMock->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($this->getMock('Mage_Core_Model_Theme', array(), array(), '', false)));
 
         /** @var $themeService Mage_Core_Model_Theme_Service */
-        $themeService = $this->getMock('Mage_Core_Model_Theme_Service', array(
-            '_getThemeCustomizations'
-        ), array($themeMock, $designMock, $appMock));
+        $themeService = $this->getMock('Mage_Core_Model_Theme_Service', array('_getThemeCustomizations'),
+            array($themeFactoryMock, $designMock, $appMock, $helperMock));
         $themeService->expects($this->once())
             ->method('_getThemeCustomizations')
             ->will($this->returnValue($themesMock));

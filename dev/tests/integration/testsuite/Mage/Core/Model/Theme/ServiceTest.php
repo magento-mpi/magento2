@@ -14,12 +14,14 @@
  */
 class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
 {
-    public function getThemes()
+    /**
+     * @covers Mage_Core_Model_Theme_Service::getThemes
+     */
+    public function testGetThemes()
     {
         /** @var $themeService Mage_Core_Model_Theme_Service */
         $themeService = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Service');
-        $collection = $themeService->getNotCustomizedFrontThemes(1,
-            Mage_Core_Model_Resource_Theme_Collection::DEFAULT_PAGE_SIZE);
+        $collection = $themeService->getThemes(1, Mage_Core_Model_Resource_Theme_Collection::DEFAULT_PAGE_SIZE);
 
         $this->assertLessThanOrEqual(
             Mage_Core_Model_Resource_Theme_Collection::DEFAULT_PAGE_SIZE, $collection->count()
@@ -37,19 +39,19 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
      * @magentoDbIsolation enabled
      * @covers Mage_Core_Model_Theme_Service::assignThemeToStores
      */
-    public function testAssignThemeToStores($themeId, $stores, $scope, $area)
+    public function testAssignThemeToStores()
     {
         $originalCount = $this->_getThemeCollection()->count();
 
         /** @var $themeService Mage_Core_Model_Theme_Service */
         $themeService = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Service');
         /** @var $physicalTheme Mage_Core_Model_Theme_Service */
-        $physicalTheme = $themeService->getNotCustomizedFrontThemes(1, 1)->fetchItem();
+        $physicalTheme = $themeService->getThemes(1, 1)->fetchItem();
         $this->assertTrue((bool)$physicalTheme->getId(), 'Physical theme is not loaded');
 
         $storeView = Mage::app()->getAnyStoreView()->getId();
         $themeService->assignThemeToStores($physicalTheme->getId(), array($storeView));
-        $this->assertEquals(++$originalCount, $this->_getThemeCollection()->count());
+        $this->assertEquals($originalCount + 1, $this->_getThemeCollection()->count());
 
         $configItem = Mage::app()->getConfig()->getConfigDataModel()->getCollection()
             ->addFieldToSelect(array('value'))
@@ -58,6 +60,7 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
             ->fetchItem();
         $themeId = $this->_getThemeCollection()->setOrder('theme_id', Varien_Data_Collection_Db::SORT_ORDER_ASC)
             ->getLastItem()->getId();
+
         $this->assertEquals($configItem->getValue(), $themeId);
     }
 

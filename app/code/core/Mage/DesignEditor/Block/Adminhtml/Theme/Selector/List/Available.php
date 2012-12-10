@@ -13,6 +13,8 @@
  *
  * @method int getNextPage()
  * @method Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available setNextPage(int $page)
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
     extends Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
@@ -155,7 +157,9 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
     protected function _getStoresByThemes()
     {
         $assignedThemeIds = array_map(
-            function($theme) {return $theme->getId();},
+            function($theme) {
+                return $theme->getId();
+            },
             $this->_getServiceModel()->getAssignedThemeCustomizations()
         );
 

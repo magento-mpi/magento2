@@ -121,13 +121,14 @@ class Mage_Core_Model_Theme_Service
      */
     protected function _createThemeCustomization($theme)
     {
-        $themeCopyCount = $this->_getCustomizedFrontThemes()->addFilter('parent_id', $theme->getId())->count();
+        $themeCopyCount = $this->_getThemeCustomizations()->addFilter('parent_id', $theme->getId())->count();
 
         $themeData = $theme->getData();
         $themeData['parent_id'] = $theme->getId();
+        $themeData['theme_id'] = null;
         $themeData['theme_path'] = null;
         $themeData['theme_title'] = $theme->getThemeTitle() . ' - ' . $this->_helper->__('Copy') . ' #'
-            . $themeCopyCount + 1;
+            . ($themeCopyCount + 1);
 
         /** @var $themeCustomization Mage_Core_Model_Theme */
         $themeCustomization = $this->_themeFactory->create()->setData($themeData);
