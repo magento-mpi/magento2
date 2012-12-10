@@ -287,17 +287,63 @@ MageValidationTest.prototype.testValidateData = function () {
 MageValidationTest.prototype.testValidateOneRequiredByName = function () {
     /*:DOC += <input type="radio" name="radio" id="radio"/> */
     /*:DOC += <input type="radio" name="radio"/> */
-    assertFalse(false, $.validator.methods['validate-one-required-by-name'].call(this,
+    assertFalse($.validator.methods['validate-one-required-by-name'].call(this,
         null, document.getElementById('radio')));
     /*:DOC += <input type="radio" name="radio" checked/> */
-    assertTrue(false, $.validator.methods['validate-one-required-by-name'].call(this,
+    assertTrue($.validator.methods['validate-one-required-by-name'].call(this,
         null, document.getElementById('radio')));
 
     /*:DOC += <input type="checkbox" name="checkbox" id="checkbox"/> */
     /*:DOC += <input type="checkbox" name="checkbox"/> */
-    assertFalse(false, $.validator.methods['validate-one-required-by-name'].call(this,
+    assertFalse($.validator.methods['validate-one-required-by-name'].call(this,
         null, document.getElementById('checkbox')));
     /*:DOC += <input type="checkbox" name="checkbox" checked/> */
-    assertTrue(false, $.validator.methods['validate-one-required-by-name'].call(this,
+    assertTrue($.validator.methods['validate-one-required-by-name'].call(this,
         null, document.getElementById('checkbox')));
+};
+
+MageValidationTest.prototype.testLessThanEqualsTo = function () {
+    /*:DOC += <input type="text" value=6  id="element1" />*/
+    /*:DOC += <input type="text" value=5 id="element2" />*/
+    var element1 = document.getElementById('element1');
+    assertFalse($.validator.methods['less-than-equals-to'].call(this, element1.value,
+        element1, '#element2'));
+    element1.value = 4;
+    assertTrue($.validator.methods['less-than-equals-to'].call(this, element1.value,
+        element1, '#element2'));
+
+    /*:DOC += <input type="text" id="element3" />*/
+    /*:DOC += <input type="text" value=5 id="element4" />*/
+    var element3 = document.getElementById('element3');
+    assertTrue($.validator.methods['less-than-equals-to'].call(this, element3.value,
+        element3, '#element4'));
+
+    /*:DOC += <input type="text" value=6  id="element5" />*/
+    /*:DOC += <input type="text" id="element6" />*/
+    var element5 = document.getElementById('element5');
+    assertTrue($.validator.methods['less-than-equals-to'].call(this, element5.value,
+        element5, '#element6'));
+};
+
+MageValidationTest.prototype.testGreaterThanEqualsTo = function () {
+    /*:DOC += <input type="text" value=6  id="element1" />*/
+    /*:DOC += <input type="text" value=7 id="element2" />*/
+    var element1 = document.getElementById('element1');
+    assertFalse($.validator.methods['greater-than-equals-to'].call(this, element1.value,
+        element1, '#element2'));
+    element1.value = 9;
+    assertTrue($.validator.methods['greater-than-equals-to'].call(this, element1.value,
+        element1, '#element2'));
+
+    /*:DOC += <input type="text" id="element3" />*/
+    /*:DOC += <input type="text" value=5 id="element4" />*/
+    var element3 = document.getElementById('element3');
+    assertTrue($.validator.methods['greater-than-equals-to'].call(this, element3.value,
+        element3, '#element4'));
+
+    /*:DOC += <input type="text" value=6  id="element5" />*/
+    /*:DOC += <input type="text" id="element6" />*/
+    var element5 = document.getElementById('element5');
+    assertTrue($.validator.methods['greater-than-equals-to'].call(this, element5.value,
+        element5, '#element6'));
 };

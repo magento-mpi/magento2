@@ -806,7 +806,7 @@
             function (v,elm) {
                 var result = false;
                 $('input[name="' + elm.name.replace(/([\\"])/g, '\\$1') + '"]:checked').each(function() {
-                    if($.inArray($(this).prop('type'), ['checkbox', 'radio'] >= 0)) {
+                    if($.inArray($(this).prop('type'), ['checkbox', 'radio']) >= 0) {
                         result = true;
                     }
                 });

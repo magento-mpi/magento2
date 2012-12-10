@@ -37,21 +37,21 @@
                     errorPlacement: function (error, element) {
                         if (element.hasClass("validate-one-checkbox-required-by-name")) {
                             error.appendTo('#links-advice-container');
-                        } else if (element.is(':radio') || element.is(':checkbox')) {
+                        } else if (element.is(':radio, :checkbox')) {
                             element.closest('ul').after(error);
                         } else {
                             element.after(error);
                         }
                     },
                     highlight: function (element, errorClass) {
-                        if ($(element).is(':radio') || $(element).is(':checkbox')) {
+                        if ($(element).is(':radio, :checkbox')) {
                             $(element).closest('ul').addClass(errorClass);
                         } else {
                             $(element).addClass(errorClass);
                         }
                     },
                     unhighlight: function (element, errorClass) {
-                        if ($(element).is(':radio') || $(element).is(':checkbox')) {
+                        if ($(element).is(':radio, :checkbox')) {
                             $(element).closest('ul').removeClass(errorClass);
                         } else {
                             $(element).removeClass(errorClass);
