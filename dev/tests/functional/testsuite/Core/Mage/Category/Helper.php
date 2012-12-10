@@ -240,6 +240,36 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
+     * Determine category mca parameters
+     * @param $mca
+     */
+    protected function _determineMcaParams(&$mca)
+    {
+        if (preg_match('/\.html$/', $mca)) {
+            if (preg_match('|/|', $mca)) {
+                $mcaNodes = explode('/', $mca);
+                if (count($mcaNodes) > 2) {
+                    $this->fail('@TODO not work with nested categories, more then 2');
+                }
+                $this->addParameter('rotCategoryUrl', $mcaNodes[0]);
+                $this->addParameter('categoryUrl', preg_replace('/\.html$/', '', $mcaNodes[1]));
+            } else {
+                $this->addParameter('categoryUrl', preg_replace('/\.html$/', '', $mca));
+            }
+        } else {
+            $mcaNodes = explode('/', $mca);
+            foreach ($mcaNodes as $key => $value) {
+                if ($value == 'id' && isset($mcaNodes[$key + 1])) {
+                    $this->addParameter('id', $mcaNodes[$key + 1]);
+                }
+                if ($value == 's' && isset($mcaNodes[$key + 1])) {
+                    $this->addParameter('categoryUrl', $mcaNodes[$key + 1]);
+                }
+            }
+        }
+    }
+
+    /**
      * OpenCategory
      *
      * @param string $categoryPath
@@ -269,28 +299,7 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
         }
         //Determine category mca parameters
         $mca = $this->getMcaFromUrl($availableElement->attribute('href'));
-        if (preg_match('/\.html$/', $mca)) {
-            if (preg_match('|/|', $mca)) {
-                $mcaNodes = explode('/', $mca);
-                if (count($mcaNodes) > 2) {
-                    $this->fail('@TODO not work with nested categories, more then 2');
-                }
-                $this->addParameter('rotCategoryUrl', $mcaNodes[0]);
-                $this->addParameter('categoryUrl', preg_replace('/\.html$/', '', $mcaNodes[1]));
-            } else {
-                $this->addParameter('categoryUrl', preg_replace('/\.html$/', '', $mca));
-            }
-        } else {
-            $mcaNodes = explode('/', $mca);
-            foreach ($mcaNodes as $key => $value) {
-                if ($value == 'id' && isset($mcaNodes[$key + 1])) {
-                    $this->addParameter('id', $mcaNodes[$key + 1]);
-                }
-                if ($value == 's' && isset($mcaNodes[$key + 1])) {
-                    $this->addParameter('categoryUrl', $mcaNodes[$key + 1]);
-                }
-            }
-        }
+        $this->_determineMcaParams($mca);
         $availableElement->click();
         $this->waitForPageToLoad();
         $this->validatePage();
