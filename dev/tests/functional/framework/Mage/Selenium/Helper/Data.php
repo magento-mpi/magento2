@@ -121,17 +121,7 @@ class Mage_Selenium_Helper_Data extends Mage_Selenium_Helper_Abstract
         $fileName = preg_replace('|\.yml$|', '', $fileName);
 
         if (!array_key_exists($fileName, $this->_loadedTestData)) {
-            foreach ($this->_configDataFiles as $file) {
-                if (!preg_match('|' . $condition . '|', $file)) {
-                    continue;
-                }
-                $dataSets = $this->getConfig()->getHelper('file')->loadYamlFile($file);
-                foreach ($dataSets as $dataSetKey => $content) {
-                    if ($content) {
-                        $this->_loadedTestData[$fileName][$dataSetKey] = $content;
-                    }
-                }
-            }
+            $this->_loadTestDataSetFromFiles($condition, $fileName);
         } elseif (array_key_exists($dataSetName, $this->_testData)) {
             return $this->_testData[$dataSetName];
         }
@@ -144,5 +134,25 @@ class Mage_Selenium_Helper_Data extends Mage_Selenium_Helper_Abstract
         }
         throw new RuntimeException(
             'DataSet with name "' . $dataSetName . '" is not present in "' . $dataFile . '" file.');
+    }
+
+    /**
+     * Loads data from files
+     * @param $condition
+     * @param $fileName
+     */
+    protected function _loadTestDataSetFromFiles($condition, $fileName)
+    {
+        foreach ($this->_configDataFiles as $file) {
+            if (!preg_match('|' . $condition . '|', $file)) {
+                continue;
+            }
+            $dataSets = $this->getConfig()->getHelper('file')->loadYamlFile($file);
+            foreach ($dataSets as $dataSetKey => $content) {
+                if ($content) {
+                    $this->_loadedTestData[$fileName][$dataSetKey] = $content;
+                }
+            }
+        }
     }
 }

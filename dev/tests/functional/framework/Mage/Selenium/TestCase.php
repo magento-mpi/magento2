@@ -123,12 +123,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * Saves HTML content of the current page if the test failed
      * @var bool
      */
-    protected $_saveHtmlPageOnFailure = false;
+    protected $_saveHtmlOnFailure = false;
 
     /**
      * @var bool
      */
-    protected $_saveScreenshotOnFailure = false;
+    protected $_saveScreenOnFail = false;
 
     /**
      * @var null
@@ -139,13 +139,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * Timeout in seconds
      * @var int
      */
-    protected $_browserTimeoutPeriod = 45;
+    protected $_browserTimeout = 45;
 
     /**
      * Name of the first page after logging into the back-end
      * @var string
      */
-    protected $_firstPageAfterAdminLogin = 'dashboard';
+    protected $_pageAfterAdminLogin = 'dashboard';
 
     /**
      * Array of messages on page
@@ -222,11 +222,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         parent::__construct($name, $data, $dataName);
 
         $this->_screenshotPath = $this->getDefaultScreenshotPath();
-        $this->_saveScreenshotOnFailure = $this->frameworkConfig['saveScreenshotOnFailure'];
-        $this->_saveHtmlPageOnFailure = $this->frameworkConfig['saveHtmlPageOnFailure'];
-        $this->_browserTimeoutPeriod = (isset($this->frameworkConfig['browserTimeoutPeriod']))
+        $this->_saveScreenOnFail = $this->frameworkConfig['saveScreenshotOnFailure'];
+        $this->_saveHtmlOnFailure = $this->frameworkConfig['saveHtmlPageOnFailure'];
+        $this->_browserTimeout = (isset($this->frameworkConfig['browserTimeoutPeriod']))
             ? $this->frameworkConfig['browserTimeoutPeriod']
-            : $this->_browserTimeoutPeriod;
+            : $this->_browserTimeout;
     }
 
     /**
@@ -257,23 +257,23 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     private function setUpBeforeTestClass()
     {
         $currentTestClass = get_class($this);
-        static $setUpBeforeTestsError = null;
+        static $beforeTestsError = null;
         if (self::$testClass != $currentTestClass) {
             self::$testClass = $currentTestClass;
             $this->setLastTestNameInClass();
             try {
-                $setUpBeforeTestsError = null;
+                $beforeTestsError = null;
                 $this->setUpBeforeTests();
             } catch (Exception $e) {
-                $setUpBeforeTestsError =
+                $beforeTestsError =
                     "\nError in setUpBeforeTests method for '" . $currentTestClass . "' class:\n" . $e->getMessage();
             }
             if (isset($e)) {
                 throw $e;
             }
         }
-        if ($setUpBeforeTestsError !== null) {
-            $this->markTestSkipped($setUpBeforeTestsError);
+        if ($beforeTestsError !== null) {
+            $this->markTestSkipped($beforeTestsError);
         }
     }
 
@@ -339,10 +339,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public final function tearDown()
     {
         if ($this->hasFailed()) {
-            if ($this->_saveHtmlPageOnFailure) {
+            if ($this->_saveHtmlOnFailure) {
                 $this->saveHtmlPage();
             }
-            if ($this->_saveScreenshotOnFailure) {
+            if ($this->_saveScreenOnFail) {
                 $this->takeScreenshot();
             }
         } elseif (is_null($this->getExpectedException())) {
@@ -368,10 +368,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
 
         if (isset($e) && !$this->hasFailed()) {
-            if ($this->_saveHtmlPageOnFailure) {
+            if ($this->_saveHtmlOnFailure) {
                 $this->saveHtmlPage();
             }
-            if ($this->_saveScreenshotOnFailure) {
+            if ($this->_saveScreenOnFail) {
                 $this->takeScreenshot();
             }
         }
@@ -589,12 +589,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function defineIdFromTitle($locator)
     {
-        $urlFromTitleAttribute = $this->getElement($locator)->attribute('title');
-        if (is_numeric($urlFromTitleAttribute)) {
-            return $urlFromTitleAttribute;
+        $urlFromTitleAttr = $this->getElement($locator)->attribute('title');
+        if (is_numeric($urlFromTitleAttr)) {
+            return $urlFromTitleAttr;
         }
 
-        return $this->defineIdFromUrl($urlFromTitleAttribute);
+        return $this->defineIdFromUrl($urlFromTitleAttr);
     }
 
     /**
@@ -2466,7 +2466,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function waitForElement($locator, $timeout = null)
     {
         if (is_null($timeout)) {
-            $timeout = $this->_browserTimeoutPeriod;
+            $timeout = $this->_browserTimeout;
         }
         if (is_array($locator)) {
             $output = "\nNone of the elements are not present on the page. \nLocators: \n" . implode("\n", $locator);
@@ -2498,7 +2498,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function waitForElementOrAlert($locator, $timeout = null)
     {
         if (is_null($timeout)) {
-            $timeout = $this->_browserTimeoutPeriod;
+            $timeout = $this->_browserTimeout;
         }
         if (is_array($locator)) {
             $output = "\nNone of the elements(or alert) are not present on the page. \nLocators: \n" . implode("\n",
@@ -2533,7 +2533,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function waitForElementVisible($locator, $timeout = null)
     {
         if (is_null($timeout)) {
-            $timeout = $this->_browserTimeoutPeriod;
+            $timeout = $this->_browserTimeout;
         }
         if (is_array($locator)) {
             $output = "\nNone of the elements are not visible or not present on the page. \nLocators: \n"
@@ -2574,7 +2574,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function waitForElementEditable($locator, $timeout = null)
     {
         if (is_null($timeout)) {
-            $timeout = $this->_browserTimeoutPeriod;
+            $timeout = $this->_browserTimeout;
         }
         if (is_array($locator)) {
             $output = "\nNone of the elements are not editable. \nLocators: \n" . implode("\n", $locator);
@@ -2611,7 +2611,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function waitForAjax($timeout = null)
     {
         if (is_null($timeout)) {
-            $timeout = $this->_browserTimeoutPeriod;
+            $timeout = $this->_browserTimeout;
         }
         $ajax = 'var c = function() {'
                 . 'if (typeof window.Ajax != "undefined") {return window.Ajax.activeRequestCount;};'
@@ -2860,20 +2860,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @param array $data
      * @param string $fieldsetId
-     * @param bool $failIfFieldsWithoutXpath
+     * @param bool $failXpathNotFound
      *
      * @return bool
      */
-    public function fillFieldset(array $data, $fieldsetId, $failIfFieldsWithoutXpath = true)
+    public function fillFieldset(array $data, $fieldsetId, $failXpathNotFound = true)
     {
         $this->assertNotEmpty($data);
         $fillData = $this->getDataMapForFill($data, 'fieldset', $fieldsetId);
 
-        if (!isset($fillData['isPresent']) && !$failIfFieldsWithoutXpath) {
+        if (!isset($fillData['isPresent']) && !$failXpathNotFound) {
             return false;
         }
 
-        if (isset($fillData['isNotPresent']) && $failIfFieldsWithoutXpath) {
+        if (isset($fillData['isNotPresent']) && $failXpathNotFound) {
             $message = $this->locationToString() . "There are no fields in '" . $fieldsetId . "' fieldset:\n" .
                        implode("\n", array_keys($fillData['isNotPresent']));
             $this->fail($message);
@@ -2892,20 +2892,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @param array $data
      * @param string $tabId
-     * @param bool $failIfFieldsWithoutXpath
+     * @param bool $failXpathNotFound
      *
      * @return bool
      */
-    public function fillTab(array $data, $tabId, $failIfFieldsWithoutXpath = true)
+    public function fillTab(array $data, $tabId, $failXpathNotFound = true)
     {
         $this->assertNotEmpty($data);
         $fillData = $this->getDataMapForFill($data, 'tab', $tabId);
 
-        if (!isset($fillData['isPresent']) && !$failIfFieldsWithoutXpath) {
+        if (!isset($fillData['isPresent']) && !$failXpathNotFound) {
             return false;
         }
 
-        if (isset($fillData['isNotPresent']) && $failIfFieldsWithoutXpath) {
+        if (isset($fillData['isNotPresent']) && $failXpathNotFound) {
             $message = $this->locationToString() . "There are no fields in '" . $tabId . "' tab:\n" .
                        implode("\n", array_keys($fillData['isNotPresent']));
             $this->fail($message);
@@ -3337,10 +3337,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         //Add new Options
         if ($isNeedAdd) {
             $saveValueWithoutForm = "//span[@title='Add']";
-            $newValueButtonLocator = '//footer/span';
+            $newButtonLocator = '//footer/span';
             $newValueLocator = "//input[@title='Enter new option']";
             //Define filling in type
-            $this->getChildElement($generalElement, $newValueButtonLocator)->click();
+            $this->getChildElement($generalElement, $newButtonLocator)->click();
             $newValueField = $this->elementIsPresent($locator . $newValueLocator);
             //Add new options
             if ($newValueField && $newValueField->enabled() && $newValueField->displayed()) {
@@ -3352,7 +3352,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                     //@TODO remove sleep() when locator //div[@class='loading-mask'] will be removed after save action;
                     sleep(3);
                     if (isset($isNeedAdd[$key + 1])) {
-                        $this->getChildElement($generalElement, $newValueButtonLocator)->click();
+                        $this->getChildElement($generalElement, $newButtonLocator)->click();
                     }
                 }
             } else {
@@ -3505,7 +3505,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $this->admin('log_in_to_admin', false);
         $loginData = array('user_name' => $this->_configHelper->getDefaultLogin(),
                            'password'  => $this->_configHelper->getDefaultPassword());
-        if ($this->_findCurrentPageFromUrl() != $this->_firstPageAfterAdminLogin) {
+        if ($this->_findCurrentPageFromUrl() != $this->_pageAfterAdminLogin) {
             $this->validatePage('log_in_to_admin');
             $this->fillFieldset($loginData, 'log_in');
             $this->clickButton('login', false);
@@ -3516,7 +3516,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 $this->clickControl('button', 'close', false);
             }
         }
-        $this->validatePage($this->_firstPageAfterAdminLogin);
+        $this->validatePage($this->_pageAfterAdminLogin);
         return $this;
     }
 
@@ -3639,7 +3639,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 $notLoaded = false;
             } catch (RuntimeException $e) {
                 if ($retries == 10) {
-                    throw new RuntimeException('Timed out after ' . ($this->_browserTimeoutPeriod * 10) . ' seconds.');
+                    throw new RuntimeException('Timed out after ' . ($this->_browserTimeout * 10) . ' seconds.');
                 }
             }
         }
@@ -3914,7 +3914,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function waitForPageToLoad($timeout = NULL)
     {
         if (is_null($timeout)) {
-            $timeout = $this->_browserTimeoutPeriod;
+            $timeout = $this->_browserTimeout;
         }
         $jsCondition = "return document['readyState']";
         $iStartTime = time();
@@ -3967,7 +3967,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function waitForTextPresent($pageText, $timeout = null)
     {
         if (is_null($timeout)) {
-            $timeout = $this->_browserTimeoutPeriod;
+            $timeout = $this->_browserTimeout;
         }
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
@@ -3988,7 +3988,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function waitForTextNotPresent($pageText, $timeout = null)
     {
         if (is_null($timeout)) {
-            $timeout = $this->_browserTimeoutPeriod;
+            $timeout = $this->_browserTimeout;
         }
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {

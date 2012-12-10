@@ -96,7 +96,7 @@ class Mage_Selenium_TestConfiguration
      * Array of class names for test Helper files
      * @var array
      */
-    protected $_testHelperClassNames = array();
+    protected $_testHelperNames = array();
 
     /**
      * Uimap include folder name
@@ -229,7 +229,7 @@ class Mage_Selenium_TestConfiguration
      */
     protected function _initTestHelperClassNames()
     {
-        $this->getTestHelperClassNames();
+        $this->getTestHelperNames();
         return $this;
     }
 
@@ -376,10 +376,10 @@ class Mage_Selenium_TestConfiguration
      * Get all test helper class names
      * @return array
      */
-    public function getTestHelperClassNames()
+    public function getTestHelperNames()
     {
-        if (!empty($this->_testHelperClassNames)) {
-            return $this->_testHelperClassNames;
+        if (!empty($this->_testHelperNames)) {
+            return $this->_testHelperNames;
         }
         //Get initial path to test helpers
         $frameworkConfig = $this->_configHelper->getConfigFramework();
@@ -399,10 +399,10 @@ class Mage_Selenium_TestConfiguration
                 $className = str_replace(DIRECTORY_SEPARATOR, '_', str_replace('.php', '', $className));
                 $array = explode('_', str_replace('_Helper', '', $className));
                 $helperName = end($array);
-                $this->_testHelperClassNames[$helperName] = $className;
+                $this->_testHelperNames[$helperName] = $className;
             }
         }
-        return $this->_testHelperClassNames;
+        return $this->_testHelperNames;
     }
 
     /**

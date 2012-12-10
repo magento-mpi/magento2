@@ -21,7 +21,7 @@ class Core_Mage_Captcha_EnableTest extends Mage_Selenium_TestCase
     public function assertPreConditions()
     {
         $this->admin('log_in_to_admin', false);
-        if ($this->getCurrentPage() != $this->_firstPageAfterAdminLogin) {
+        if ($this->getCurrentPage() != $this->_pageAfterAdminLogin) {
             if ($this->controlIsPresent('field', 'captcha')) {
                 $loginData = array('user_name' => $this->getConfigHelper()->getDefaultLogin(),
                                    'password'  => $this->getConfigHelper()->getDefaultPassword(), 'captcha' => 1111);
@@ -38,7 +38,7 @@ class Core_Mage_Captcha_EnableTest extends Mage_Selenium_TestCase
     public function tearDownAfterTestClass()
     {
         $this->admin('log_in_to_admin', false);
-        if ($this->getCurrentPage() != $this->_firstPageAfterAdminLogin) {
+        if ($this->getCurrentPage() != $this->_pageAfterAdminLogin) {
             if ($this->controlIsPresent('field', 'captcha')) {
                 $loginData = array('user_name' => $this->getConfigHelper()->getDefaultLogin(),
                                    'password'  => $this->getConfigHelper()->getDefaultPassword(), 'captcha' => 1111);

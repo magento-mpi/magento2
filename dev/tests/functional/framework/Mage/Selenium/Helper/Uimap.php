@@ -168,8 +168,10 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
                     } else {
                         list($keyFrom) = array_keys($value);
                         $keysTo = array();
-                        foreach ($replaceArrayTo as $number => $content) {
-                            foreach ($replaceArrayTo[$number] as $name => $contentTo) {
+                        $replaceArrayToKeys = array_keys($replaceArrayTo);
+                        foreach ($replaceArrayToKeys as $number) {
+                            $replaceArrayToNumber = array_keys($replaceArrayTo[$number]);
+                            foreach ($replaceArrayToNumber as $name) {
                                 $keysTo[$number] = $name;
                             }
                         }

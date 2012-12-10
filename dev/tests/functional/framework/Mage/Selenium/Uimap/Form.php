@@ -31,14 +31,14 @@ class Mage_Selenium_Uimap_Form extends Mage_Selenium_Uimap_Abstract
     /**
      * Get tab defined on the current form
      *
-     * @param string $id Tab's Identifier
+     * @param string $tabId Tab's Identifier
      *
      * @return Mage_Selenium_Uimap_Tab|null
      */
-    public function getTab($id)
+    public function getTab($tabId)
     {
         return isset($this->_elements['tabs'])
-                ? $this->_elements['tabs']->getTab($id)
+                ? $this->_elements['tabs']->getTab($tabId)
                 : null;
     }
 
