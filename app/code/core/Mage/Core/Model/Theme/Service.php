@@ -107,6 +107,9 @@ class Mage_Core_Model_Theme_Service
 
         foreach ($stores as $storeId) {
             $this->_app->getConfig()->saveConfig($configPath, $themeCustomization->getId(), $scope, $storeId);
+        }
+
+        if ($stores === null || count($stores) > 0) {
             $this->_app->cleanCache(Mage_Core_Model_Config::CACHE_TAG);
         }
 

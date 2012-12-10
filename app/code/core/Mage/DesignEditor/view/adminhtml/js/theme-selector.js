@@ -18,7 +18,8 @@
             storeView: {
                 windowSelector: '#store-view-window'
             },
-            url: null,
+            assignSaveUrl: null,
+            afterAssignSaveUrl: null,
             storesByThemes: {},
             isMultipleStoreViewMode: null
         },
@@ -98,9 +99,6 @@
          * @protected
          */
         _onAssignSave: function(event, data) {
-            var popUp = $(this.options.storeView.windowSelector);
-            popUp.hide();
-
             var stores = [];
             var checkedValue = 1;
             $(this.options.storeView.windowSelector).find('form').serializeArray().each(function(object, index) {
@@ -109,8 +107,30 @@
                 }
             });
 
+            if (!this._isStoreChanged(this.themeId, stores)) {
+                alert($.mage.__('No stores were reassigned.'));
+                return;
+            }
+
+            var popUp = $(this.options.storeView.windowSelector);
+            popUp.hide();
+
             this.assignSaveTheme(this.themeId, stores);
             this.themeId = null;
+        },
+
+        /**
+         * Check if the stores changed
+         * @protected
+         */
+        _isStoreChanged: function(themeId, storesToAssign) {
+            var assignedStores = this.options.storesByThemes[themeId] || [] ;
+            var isChanged = !(
+                storesToAssign.length == assignedStores.length
+                && $(storesToAssign).not(assignedStores).length == 0
+            );
+
+            return isChanged;
         },
 
         /**
@@ -146,22 +166,32 @@
          * @public
          */
         assignSaveTheme: function(themeId, stores) {
-            var message = 'current store';
-            if (stores !== null) {
-                message = 'stores: "' + stores.join(', ') + '"';
-            }
-            if (!this.options.url) {
+            if (!this.options.assignSaveUrl) {
                 throw Error($.mage.__('Url to assign themes to store is not defined'));
             }
+
             var data = {
                 theme_id: themeId,
                 stores:   stores
             };
-            $.post(this.options.url, data, function(data) {
-                alert('Theme "' + themeId + '" successfully assigned to ' + message);
-            });
-            this.options.storesByThemes[themeId] = stores;
+            var afterAssignSaveUrl = this.options.afterAssignSaveUrl;
+            $.post(this.options.assignSaveUrl, data, function(data) {
+                if (data.error) {
+                    alert($.mage.__('Error') + ': "' + data.error + '".');
+                } else {
+                    var defaultStore = 0;
+                    var url = [
+                        afterAssignSaveUrl + 'store_id',
+                        stores ? stores[0] : defaultStore,
+                        'theme_id',
+                        themeId
+                    ].join('/');
+                    document.location = url;
+                }
 
+            }).error(function() {
+                alert($.mage.__('Error: unknown error.'));
+            });
         }
     });
 })(jQuery);

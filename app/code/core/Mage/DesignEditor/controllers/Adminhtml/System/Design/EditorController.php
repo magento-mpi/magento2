@@ -170,13 +170,24 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     {
         $themeId = (int)$this->getRequest()->getParam('theme_id');
         $stores = $this->getRequest()->getParam('stores');
+
         /** @var $coreHelper Mage_Core_Helper_Data */
         $coreHelper = $this->_objectManager->get('Mage_Core_Helper_Data');
 
         try {
-            if (!is_numeric($themeId) || empty($stores)) {
-                throw new InvalidArgumentException('Theme id or store list is not valid');
+            if (!is_numeric($themeId)) {
+                throw new InvalidArgumentException('Theme id is not valid');
             }
+
+            if ($stores === '') {
+                $ids = array_keys(Mage::app()->getStores());
+                $stores = array(array_shift($ids));
+            }
+
+            if (!is_array($stores) || empty($stores)) {
+                throw new InvalidArgumentException('Param "stores" is not valid');
+            }
+
             /** @var $themeService Mage_Core_Model_Theme_Service */
             $themeService = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
             $themeService->assignThemeToStores($themeId, $stores);
