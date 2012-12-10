@@ -9,6 +9,7 @@
  */
 class Enterprise_SalesArchive_Model_System_Config_Backend_Active
     extends Mage_Backend_Model_Config_Backend_Cache
+    implements Mage_Backend_Model_Config_CommentInterface
 {
     /**
      * Cache tags to clean
@@ -38,7 +39,7 @@ class Enterprise_SalesArchive_Model_System_Config_Backend_Active
      * @param string $currentValue
      * @return string
      */
-    public function getCommentText($element, $currentValue)
+    public function getCommentText($currentValue)
     {
         if ($currentValue) {
             $ordersCount = Mage::getResourceSingleton('Enterprise_SalesArchive_Model_Resource_Order_Collection')
