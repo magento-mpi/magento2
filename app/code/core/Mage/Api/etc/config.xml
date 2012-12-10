@@ -29,7 +29,7 @@
         <cache>
             <types>
                 <config_api translate="label,description" module="Mage_Api">
-                    <label>Web Services Configuration</label>
+                    <label>Legacy API Configuration</label>
                     <description>Web Services definition files (api.xml).</description>
                     <tags>CONFIG_API</tags>
                 </config_api>
