@@ -518,13 +518,12 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $resource->getAttribute('custom_design_from')
                 ->setMaxValue($product->getCustomDesignTo());
 
-            if ($products = $this->getRequest()->getPost('create_matrix_product')) {
-                $validationResult = $this->_validateProductsToGenerate($product, $products);
+            if ($products = $this->getRequest()->getPost('variations-matrix')) {
+                $validationResult = $this->_validateProductsVariations($product, $products);
                 if (!empty($validationResult)) {
-                    $response->setError(true);
-                    $response->setMessage(Mage::helper('Mage_Catalog_Helper_Data')
-                        ->__('Matrix attributes are invalid'));
-                    $response->setAttributes($validationResult);
+                    $response->setError(true)
+                        ->setMessage(Mage::helper('Mage_Catalog_Helper_Data')->__('Some product variations fields are not valid.'))
+                        ->setAttributes($validationResult);
                 }
             }
             $product->validate();
@@ -560,21 +559,18 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     }
 
     /**
-     * Products to generate backend validation
+     * Products variations attributes validation
      *
      * @param Mage_Catalog_Model_Product $parentProduct
      * @param array $products
      *
      * @return array
      */
-    protected function _validateProductsToGenerate($parentProduct, $products)
+    protected function _validateProductsVariations($parentProduct, $products)
     {
-        if (!is_array($products)) {
-            return false;
-        }
         $validationResult = array();
         foreach ($products as $productData) {
-            $product = Mage::getModel('Mage_Catalog_Model_Product');
+            $product = $this->_objectManager->create('Mage_Catalog_Model_Product');
             $product->setData('_edit_mode', true);
             if ($storeId = $this->getRequest()->getParam('store')) {
                 $product->setStoreId($storeId);
@@ -588,7 +584,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $configurableAttribute = implode('-', $configurableAttribute);
             foreach ($product->validate() as $attributeCode => $result) {
                 if (is_string($result)) {
-                    $validationResult[$attributeCode . '-matrix-' . $configurableAttribute] = $result;
+                    $validationResult['variations-matrix-' . $configurableAttribute . '-' . $attributeCode] = $result;
                 }
             }
         }
@@ -978,7 +974,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     {
         $associatedProductIds = $this->getRequest()->getPost('associated_product_ids', array());
 
-        foreach ($this->getRequest()->getPost('create_matrix_product', array()) as $simpeProductData) {
+        foreach ($this->getRequest()->getPost('variations-matrix', array()) as $simpeProductData) {
             $newSimpleProduct = $this->_objectManager->create('Mage_Catalog_Model_Product');
             $configurableAttribute = Mage::helper('Mage_Core_Helper_Data')
                 ->jsonDecode($simpeProductData['configurable_attribute']);
