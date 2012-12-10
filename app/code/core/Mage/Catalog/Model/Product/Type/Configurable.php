@@ -911,9 +911,9 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     protected function _fillProductData($product, $parentProduct, $postData)
     {
         $product->setStoreId(Mage_Core_Model_App::ADMIN_STORE_ID)
-            ->setTypeId($parentProduct->hasData('is_virtual')
-                ? Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL
-                : Mage_Catalog_Model_Product_Type::TYPE_SIMPLE
+            ->setTypeId($postData['weight']
+                ? Mage_Catalog_Model_Product_Type::TYPE_SIMPLE
+                : Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL
             )->setAttributeSetId($parentProduct->getAttributeSetId());
 
 
@@ -934,5 +934,6 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
 
         $product->addData($postData);
         $product->setWebsiteIds($parentProduct->getWebsiteIds());
+        $product->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
     }
 }
