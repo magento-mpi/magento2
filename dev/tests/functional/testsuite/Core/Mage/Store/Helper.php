@@ -36,22 +36,33 @@ class Core_Mage_Store_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * Delete Website|Store|Store View
+     * Determination of element name
      *
      * @param array $storeData
-     *
-     * @return boolean
+     * @return string $elementName
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
-    public function deleteStore(array $storeData)
+    protected function _determineElementName($storeData)
     {
-        //Determination of element name
         $elementName = '';
         foreach ($storeData as $fieldName => $fieldValue) {
             if (preg_match('/_name$/', $fieldName)) {
                 $elementName = $fieldName;
             }
         }
+        return $elementName;
+    }
+
+    /**
+     * Delete Website|Store|Store View
+     *
+     * @param array $storeData
+     *
+     * @return boolean
+     */
+    public function deleteStore(array $storeData)
+    {
+        $elementName = $this->_determineElementName($storeData);
         $element = preg_replace('/_name$/', '', $elementName);
         if ($elementName == '') {
             $this->fail('It is impossible to determine what needs to be deleted');
