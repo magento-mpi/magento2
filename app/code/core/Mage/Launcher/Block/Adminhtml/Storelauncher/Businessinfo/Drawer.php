@@ -332,11 +332,11 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
     public function getAddressData()
     {
         $addressData = array(
-            'street_line1',
-            'street_line2',
-            'city',
-            'postcode',
-            'region_id'
+            'street_line1' => '',
+            'street_line2' => '',
+            'city' => '',
+            'postcode' => '',
+            'region_id' => ''
         );
         $useForShipping = false;
 
@@ -345,7 +345,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
         $addressPresent = count($addressValues) == 5;
 
         if ($addressPresent) {
-            $addressData = array_combine(array_values($addressData), $addressValues);
+            $addressData = array_combine(array_keys($addressData), $addressValues);
         }
 
         $addressData['country_id'] = $this->_storeConfig->getConfig('general/store_information/merchant_country');
