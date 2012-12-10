@@ -591,6 +591,57 @@ class Translate {
                 }
             }
     }
+
+    /**
+     * Parsing Zend/Validate files for message templates.
+     *
+     * @param string $file - file to parse
+     * @param array $dataArr - array of data
+     * @param $modName - name of module
+     * @return void
+     */
+    static public function parseZendValidateMessageTemplates($file, &$dataArr, $modName)
+    {
+        $lineNum = 0;
+        $f = @fopen($file, 'r');
+        if (!$f) {
+            self::_error('file ' . $file . ' not found');
+        }
+
+        $messageTemplateFound = false;
+        while (!feof($f)) {
+            $line = fgets($f, 4096);
+            $lineNum++;
+
+            if (!$messageTemplateFound && strpos($line, 'protected $_messageTemplates') !== false) {
+                $messageTemplateFound = true;
+                continue;
+            }
+
+            if ($messageTemplateFound && strpos($line, '=>') !== false) {
+                $message = explode('=>', $line);
+                if ($message && count($message) == 2) {
+                    $message = $message[1];
+                    $message = trim($message);
+                    $message = trim($message, ',');
+                    $message = trim($message, '"');
+
+                    $dataArr[] = array(
+                        'value' => $message,
+                        'line' => $lineNum,
+                        'file' => $file,
+                        'mod_name' => $modName
+                    );
+                }
+            }
+
+            if ($messageTemplateFound && strpos($line, ');') !== false) {
+                @fclose($f);
+                break;
+            }
+        }
+    }
+
     /**
      *Parsering files on keywords
      *
@@ -603,6 +654,8 @@ class Translate {
     {
         if(Varien_File_Object::getExt($file)==='xml'){
             self::parseXml($file,&$data_arr,$mod_name);
+        } elseif (stripos($file, 'Zend' . DS . 'Validate') !== false) {
+            self::parseZendValidateMessageTemplates($file, &$data_arr, $mod_name);
         } else {
             self::parseTranslatingFiles($file,&$data_arr,$mod_name);
         }
