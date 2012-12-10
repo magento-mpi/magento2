@@ -220,6 +220,17 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
+     * @param $shipMethod
+     */
+    protected function _shipFormAndGiftMessage($shipMethod)
+    {
+        if (array_key_exists('add_gift_options', $shipMethod)) {
+            $this->fillForm($shipMethod['add_gift_options']);
+            $this->frontAddGiftMessage($shipMethod['add_gift_options']);
+        }
+    }
+
+    /**
      * The way to ship the order
      *
      * @param array $shipMethod
@@ -252,12 +263,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
                     //$this->addVerificationMessage($service . ': This shipping method is currently not displayed');
                 }
             }
-
-            if (array_key_exists('add_gift_options', $shipMethod)) {
-                $this->fillForm($shipMethod['add_gift_options']);
-                $this->frontAddGiftMessage($shipMethod['add_gift_options']);
-            }
-
+            $this->_shipFormAndGiftMessage($shipMethod);
         }
         $this->goToNextOnePageCheckoutStep('shipping_method');
     }
