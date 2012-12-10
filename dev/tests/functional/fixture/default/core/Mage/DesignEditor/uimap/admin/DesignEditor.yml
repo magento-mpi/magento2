@@ -15,14 +15,21 @@ design_editor_selector:
     title: Editor / Design / System / Magento Admin
     uimap: &designEditorSelector
         pageelements:
-            header_available_themes: //h3[contains(.,'Choose a theme to start with.')]
+            header_available_themes: //h3[contains(.,'Choose a theme to start with')]
             theme_list: //div[@class='infinite_scroll']
             selector_tabs_container: //ul[@id='theme_selector_tabs']
             available_themes_tab_content: //div[@id='theme_selector_tabs_available_themes_content']
             customized_themes_tab_content: //div[@id='theme_selector_tabs_customizations_content']
             theme_list_elements: //div[@class='infinite_scroll']/ul/li
-            preview_demo_link: //button[contains(@class, 'preview-demo') and position() = 1]
-            preview_default_link: //button[contains(@class, 'preview-default') and position() = 1]
         links:
             available_themes_tab: //a[@id='theme_selector_tabs_available_themes']
             customized_themes_tab: //a[@id='theme_selector_tabs_customizations']
+        messages:
+            confirmation_for_delete: Are you sure you want to do this?
+            success_deleted_theme: //li[normalize-space(@class)='success-msg' and contains(.,'The theme has been deleted.')]
+        buttons:
+            assign_theme_button: //button[contains(@class, 'assign-theme') and position() = 2]
+            edit_theme_button: //button[contains(@class, 'edit-theme') and position() = 3]
+            delete_theme_button: //button[contains(@class, 'delete-theme') and position() = 4]
+            preview_demo_button: //button[contains(@class, 'preview-demo') and position() = 1]
+            preview_default_button: //button[contains(@class, 'preview-default') and position() = 1]

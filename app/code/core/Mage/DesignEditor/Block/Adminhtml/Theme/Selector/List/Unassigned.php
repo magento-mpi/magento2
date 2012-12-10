@@ -47,7 +47,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Unassigned
                     )
                 ),
             ),
-            'class'   => 'save',
+            'class'   => 'save delete-theme',
             'target'  => '_blank'
         ));
 

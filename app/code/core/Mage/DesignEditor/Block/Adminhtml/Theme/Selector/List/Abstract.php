@@ -81,7 +81,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
                     )
                 ),
             ),
-            'class'   => 'save',
+            'class'   => 'save assign-theme',
             'target'  => '_blank'
         ));
 
@@ -134,7 +134,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
         $editButton->setData(array(
             'label'     => $this->__('Edit Button'),
             'onclick'   => "alert('Edit Button id: $themeId')",
-            'class'     => 'add',
+            'class'     => 'add edit-theme',
         ));
 
         $themeBlock->addButton($editButton);
