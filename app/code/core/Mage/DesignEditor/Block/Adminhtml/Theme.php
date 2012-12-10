@@ -69,8 +69,9 @@ class Mage_DesignEditor_Block_Adminhtml_Theme extends Mage_Backend_Block_Templat
     public function getStoresTitles()
     {
         $storesTitles = array();
+        /** @var $store Mage_Core_Model_Store */
         foreach ($this->getTheme()->getAssignedStores() as $store) {
-            $storesTitles[] = $store->getFrontendName();
+            $storesTitles[] = $store->getName();
         }
         return $storesTitles;
     }

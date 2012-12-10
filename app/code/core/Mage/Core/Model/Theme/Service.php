@@ -214,7 +214,8 @@ class Mage_Core_Model_Theme_Service
     }
 
     /**
-     * Fetch theme customization and sort them out to arrays "_assignedThemeCustomizations" and "_unassignedThemeCustomizations".
+     * Fetch theme customization and sort them out to arrays:
+     * self::_assignedThemeCustomizations and self::_unassignedThemeCustomizations.
      *
      * NOTE: To get into "assigned" list theme customization not necessary should be assigned to store-view directly.
      * It can be set to website or as default theme and be used by store-view via config fallback mechanism.
@@ -266,7 +267,10 @@ class Mage_Core_Model_Theme_Service
         $stores = $this->_app->getStores();
         /** @var $store Mage_Core_Model_Store */
         foreach ($stores as $store) {
-            $themeId = $this->_design->getConfigurationDesignTheme(null, array('store' => $store));
+            $themeId = $this->_design->getConfigurationDesignTheme(
+                Mage_Core_Model_App_Area::AREA_FRONTEND,
+                array('store' => $store)
+            );
             if (!isset($storesByThemes[$themeId])) {
                 $storesByThemes[$themeId] = array();
             }
