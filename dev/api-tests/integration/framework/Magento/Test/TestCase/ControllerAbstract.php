@@ -9,7 +9,13 @@
  * @license     {license_link}
  */
 
-abstract class Magento_Test_ControllerTestCaseAbstract extends Magento_TestCase
+/**
+ * Abstract class for the controller tests
+ *
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
+ * @SuppressWarnings(PHPMD.numberOfChildren)
+ */
+abstract class Magento_Test_TestCase_ControllerAbstract extends Magento_TestCase
 {
     protected $_runCode     = '';
     protected $_runScope    = 'store';
@@ -28,14 +34,12 @@ abstract class Magento_Test_ControllerTestCaseAbstract extends Magento_TestCase
     }
 
     /**
-     * Bootstrap application before any test
+     * Bootstrap application before eny test
      *
      * @return void
      */
     protected function setUp()
     {
-        parent::setUp();
-
         /**
          * Use run options from bootstrap
          */
@@ -48,19 +52,9 @@ abstract class Magento_Test_ControllerTestCaseAbstract extends Magento_TestCase
      * Run request
      *
      * @param string $uri
-     * @return void
      */
     public function dispatch($uri)
     {
-        //Unregister previously registered controller
-        Mage::unregister('controller');
-
-        // strip base URL if detected
-        $baseUrl = rtrim(Mage::getBaseUrl(), '/');
-
-        if (strpos($uri, $baseUrl) === 0) {
-            $uri = substr($uri, strlen($baseUrl));
-        }
         $this->getRequest()->setRequestUri($uri);
         Mage::run($this->_runCode, $this->_runScope, $this->_runOptions);
     }
@@ -98,40 +92,23 @@ abstract class Magento_Test_ControllerTestCaseAbstract extends Magento_TestCase
     {
         $this->assertEquals('noRoute', $this->getRequest()->getActionName());
         $this->assertContains('404 Not Found', $this->getResponse()->getBody());
-        $this->assertContains(
-            '<h3>We are sorry, but the page you are looking for cannot be found.</h3>',
-            $this->getResponse()->getBody()
-        );
     }
 
     /**
-     * Assert that there is a redirect to expected URL
-     *
+     * Assert that there is a redirect to expected URL.
      * Omit expected URL to check that redirect to wherever has been occurred.
      *
-     * @param string|null $expectedUrl      Expected URL on redirect
-     * @param string $message               Custom error message
+     * @param string|null $expectedUrl
      */
-    public function assertRedirect($expectedUrl = null, $message = '')
+    public function assertRedirect($expectedUrl = null)
     {
-        $messageAssert = $message ? $message : 'Response is not contain redirect header.';
-        $this->assertTrue($this->getResponse()->isRedirect(), $messageAssert);
+        $this->assertTrue($this->getResponse()->isRedirect());
         if ($expectedUrl) {
-            $redirectedUrl = null;
-            foreach ($this->getResponse()->getHeaders() as $header) {
-                if ('Location' != $header['name'] || true != $header['replace']) {
-                    continue;
-                }
-                $redirectedUrl = $header['value'];
-                if ($redirectedUrl != $expectedUrl) {
-                    $messageAssert = $message ? $message :
-                    sprintf('Expected redirecting to URL "%s", but redirected to "%s".',
-                                    $expectedUrl, $redirectedUrl);
-                    $this->assertEquals($redirectedUrl, $expectedUrl, $messageAssert);
-                    break;
-                }
-            }
-
+            $this->assertContains(array(
+                'name'    => 'Location',
+                'value'   => $expectedUrl,
+                'replace' => true,
+            ), $this->getResponse()->getHeaders());
         }
     }
 
@@ -188,6 +165,9 @@ abstract class Magento_Test_ControllerTestCaseAbstract extends Magento_TestCase
             if ($user->getId()) {
                 $session->setIsFirstPageAfterLogin(true);
                 $session->setUser($user);
+                /** @var $acl Mage_Admin_Model_Resource_Acl */
+                $acl = Mage::getResourceModel('Mage_Admin_Model_Resource_Acl');
+                $session->setAcl($acl->loadAcl());
             }
 
             if (!$session->isLoggedIn()) {
@@ -209,7 +189,7 @@ abstract class Magento_Test_ControllerTestCaseAbstract extends Magento_TestCase
     public function loginToFrontend($email = null, $password = null)
     {
         /** @var $session Mage_Customer_Model_Session */
-        $session = Mage::getSingleton('customer/session');
+        $session = Mage::getSingleton('Mage_Customer_Model_Session');
         if (null === $email) {
             $email = TESTS_CUSTOMER_EMAIL;
         }
@@ -234,5 +214,23 @@ abstract class Magento_Test_ControllerTestCaseAbstract extends Magento_TestCase
             }
         }
         return $this;
+    }
+
+    /**
+     * Retrieve URI with admin secret key
+     *
+     * @param string $urlPath
+     * @return string
+     */
+    protected function _getUrlPathWithSecretKey($urlPath)
+    {
+        $uri = Mage::getModel('Mage_Adminhtml_Model_Url')->getUrl($urlPath);
+        // strip base URL if detected
+        $baseUrl = rtrim(Mage::getBaseUrl(), '/');
+        if (strpos($uri, $baseUrl) === 0) {
+            $uri = substr($uri, strlen($baseUrl));
+            return $uri;
+        }
+        return $uri;
     }
 }
