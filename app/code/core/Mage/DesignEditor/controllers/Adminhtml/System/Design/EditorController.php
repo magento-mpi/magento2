@@ -167,7 +167,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     public function assignThemeToStoreAction()
     {
         $themeId = (int)$this->getRequest()->getParam('theme_id');
-        $stores = (int)$this->getRequest()->getParam('stores');
+        $stores = $this->getRequest()->getParam('stores');
         try {
             if (!is_numeric($themeId) || empty($stores)) {
                 throw new InvalidArgumentException('Theme id or store list is not valid');

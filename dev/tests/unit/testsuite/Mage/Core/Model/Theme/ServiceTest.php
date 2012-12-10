@@ -17,6 +17,8 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
     /**
      * @covers Mage_Core_Model_Theme_Service::isPresentCustomizedThemes
      * @dataProvider isIsCustomizationsExistDataProvider
+     * @param array $availableIsVirtual
+     * @param bool $expectedResult
      */
     public function testIsCustomizationsExist($availableIsVirtual, $expectedResult)
     {
@@ -142,6 +144,10 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
      * @covers Mage_Core_Model_Theme_Service::getAssignedThemeCustomizations
      * @covers Mage_Core_Model_Theme_Service::getUnassignedThemeCustomizations
      * @dataProvider getAssignedUnassignedThemesDataProvider
+     * @param array $stores
+     * @param array $themes
+     * @param array $expAssignedThemes
+     * @param array $expUnassignedThemes
      */
     public function testGetAssignedAndUnassignedThemes($stores, $themes, $expAssignedThemes, $expUnassignedThemes)
     {
@@ -149,12 +155,11 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
 
         $index = 0;
         /* Mock assigned themeId to each store */
-        $storeConfigMock = $this->getMock('Mage_Core_Model_Store', array('getConfig'), array(), '', false);
+        $storeConfigMock = $this->getMock('Mage_Core_Model_Store', array('getId'), array(), '', false);
         $storeMockCollection = array();
         foreach ($stores as $thisId) {
             $storeConfigMock->expects($this->at($index++))
-                ->method('getConfig')
-                ->with(Mage_Core_Model_Design_Package::XML_PATH_THEME_ID)
+                ->method('getId')
                 ->will($this->returnValue($thisId));
 
             $storeMockCollection[] = $storeConfigMock;
@@ -175,8 +180,15 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
             $themesMock[] = $theme;
         }
 
-        $designMock = $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false);
+        $designMock = $this->getMock('Mage_Core_Model_Design_Package', array('getConfigurationDesignTheme'),
+            array(), '', false);
         $helperMock = $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false);
+        $designMock->expects($this->any())
+            ->method('getConfigurationDesignTheme')
+            ->with($this->anything(), $this->arrayHasKey('store'))
+            ->will($this->returnCallback(function($area, $params) {
+                return $params['store']->getId();
+            }));
 
         /** @var $themeService Mage_Core_Model_Theme_Service */
         $themeService = $this->getMock('Mage_Core_Model_Theme_Service', array(
