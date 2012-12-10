@@ -11,25 +11,9 @@
 -->
 <config>
     <api>
-        <adapter_aliases>
-            <v2_soap>
-                <suggest_class>Mage_Api_Helper_Data</suggest_class>
-                <suggest_method>getV2AdapterCode</suggest_method>
-            </v2_soap>
-        </adapter_aliases>
         <adapters>
-            <soap>
-                <model>Mage_Api_Model_Server_Adapter_Soap</model>
-                <handler>default</handler>
-                <active>1</active>
-                <required>
-                    <extensions>
-                        <soap />
-                    </extensions>
-                </required>
-            </soap>
             <soap_v2>
-                <model>Mage_Api_Model_Server_V2_Adapter_Soap</model>
+                <model>Mage_Api_Model_Server_Adapter_Soap</model>
                 <handler>soap_v2</handler>
                 <active>1</active>
                 <required>
@@ -39,7 +23,7 @@
                 </required>
             </soap_v2>
             <soap_wsi>
-                <model>Mage_Api_Model_Server_Wsi_Adapter_Soap</model>
+                <model>Mage_Api_Model_Server_Adapter_Soap_Wsi</model>
                 <handler>soap_wsi</handler>
                 <active>1</active>
                 <required>
@@ -48,24 +32,13 @@
                     </extensions>
                 </required>
             </soap_wsi>
-            <xmlrpc>
-                <model>Mage_Api_Model_Server_Adapter_Xmlrpc</model>
-                <handler>default</handler>
-                <active>1</active>
-            </xmlrpc>
-            <default>
-                <use>soap</use>
-            </default>
         </adapters>
         <handlers>
-            <default>
-                <model>Mage_Api_Model_Server_Handler</model>
-            </default>
             <soap_v2>
-                <model>Mage_Api_Model_Server_V2_Handler</model>
+                <model>Mage_Api_Model_Server_Handler_Soap</model>
             </soap_v2>
             <soap_wsi>
-                <model>Mage_Api_Model_Server_Wsi_Handler</model>
+                <model>Mage_Api_Model_Server_Handler_Soap_Wsi</model>
             </soap_wsi>
         </handlers>
         <resources>

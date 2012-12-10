@@ -9,7 +9,7 @@
  */
 
 /**
- * Webservice main controller
+ * SOAP API controller.
  *
  * @category   Mage
  * @package    Mage_Api
@@ -19,8 +19,8 @@ class Mage_Api_SoapController extends Mage_Api_Controller_Action
 {
     public function indexAction()
     {
+        $handlerName = 'soap_v2';
         /* @var $server Mage_Api_Model_Server */
-        $this->_getServer()->init($this, 'soap')
-            ->run();
+        $this->_getServer()->init($this, $handlerName, $handlerName)->run();
     }
-} // Class Mage_Api_IndexController End
+}

@@ -17,7 +17,7 @@
  */
 class Mage_Api_Model_Wsdl_Config_Element extends Varien_Simplexml_Element
 {
-    public function extend($source, $overwrite=false)
+    public function extend($source, $overwrite = false)
     {
         if (!$source instanceof Varien_Simplexml_Element) {
             return $this;
@@ -39,7 +39,7 @@ class Mage_Api_Model_Wsdl_Config_Element extends Varien_Simplexml_Element
      * @param boolean $overwrite
      * @return Varien_Simplexml_Element
      */
-    public function extendChild($source, $overwrite=false, $elmNamespace = '')
+    public function extendChild($source, $overwrite = false, $elmNamespace = '')
     {
         // this will be our new target node
         $targetChild = null;
@@ -158,7 +158,9 @@ class Mage_Api_Model_Wsdl_Config_Element extends Varien_Simplexml_Element
         $children = array();
         $namespaces = $source->getNamespaces(true);
 
-        $isWsi = Mage::helper('Mage_Api_Helper_Data')->isComplianceWSI();
+        /** @var Mage_Api_Helper_Data $helper */
+        $helper = Mage::helper('Mage_Api_Helper_Data');
+        $isWsi = $helper->isWsiCompliant();
 
         foreach ($namespaces as $key => $value) {
             if ($key == '' || (!$isWsi && $key == 'wsdl')) {
@@ -216,7 +218,11 @@ class Mage_Api_Model_Wsdl_Config_Element extends Varien_Simplexml_Element
 //                        }
 //                    }
                     foreach ($attributes as $key => $value) {
-                        if (is_null($child->getAttribute($key, $namespace)) || $child->getAttribute($key, $namespace) != $value) {
+                        if (is_null($child->getAttribute($key, $namespace)) || $child->getAttribute(
+                            $key,
+                            $namespace
+                        ) != $value
+                        ) {
                             $elm = false;
                         }
                     }
@@ -241,7 +247,8 @@ class Mage_Api_Model_Wsdl_Config_Element extends Varien_Simplexml_Element
      *
      * @return string
      */
-    public function getAttribute($name, $namespace = ''){
+    public function getAttribute($name, $namespace = '')
+    {
         $attrs = $this->attributes($namespace);
         return isset($attrs[$name]) ? (string)$attrs[$name] : null;
     }

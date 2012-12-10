@@ -9,18 +9,18 @@
  */
 
 /**
- * Webservice main controller
+ * SOAP WS-I compatible API controller.
  *
  * @category   Mage
  * @package    Mage_Api
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api_IndexController extends Mage_Api_Controller_Action
+class Mage_Api_Soap_WsiController extends Mage_Api_Controller_Action
 {
     public function indexAction()
     {
+        $handlerName = 'soap_wsi';
         /* @var $server Mage_Api_Model_Server */
-        $this->_getServer()->init($this)
-            ->run();
+        $this->_getServer()->init($this, $handlerName, $handlerName)->run();
     }
-} // Class Mage_Api_IndexController End
+}

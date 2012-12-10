@@ -17,26 +17,6 @@
  */
 class Mage_Api_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    const XML_PATH_API_WSI = 'api/config/compliance_wsi';
-
-    /**
-     * Method to find adapter code depending on WS-I compatibility setting
-     *
-     * @return string
-     */
-    public function getV2AdapterCode()
-    {
-        return $this->isComplianceWSI() ? 'soap_wsi' : 'soap_v2';
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isComplianceWSI()
-    {
-        return Mage::getStoreConfig(self::XML_PATH_API_WSI);
-    }
-
     /**
      * Go thru a WSI args array and turns it to correct state.
      *
@@ -191,7 +171,7 @@ class Mage_Api_Helper_Data extends Mage_Core_Helper_Abstract
             if ($isDigit) {
                 $mixed = $this->packArrayToObjec($mixed);
             } else {
-                $mixed = (object) $mixed;
+                $mixed = (object)$mixed;
             }
         }
         if (is_object($mixed) && isset($mixed->complexObjectArray)) {
@@ -259,7 +239,7 @@ class Mage_Api_Helper_Data extends Mage_Core_Helper_Abstract
             }
             // parse complex filter
             if (isset($filters->complex_filter) && is_array($filters->complex_filter)) {
-                if ($this->isComplianceWSI()) {
+                if ($this->isWsiCompliant()) {
                     // WS-I compliance mode
                     foreach ($filters->complex_filter as $fieldName => $condition) {
                         if (is_object($condition) && isset($condition->key) && isset($condition->value)) {
@@ -300,6 +280,24 @@ class Mage_Api_Helper_Data extends Mage_Core_Helper_Abstract
             }
         }
         return $filters;
+    }
+
+    /**
+     * Check if API is working in SOAP WS-I compliant mode.
+     *
+     * @return bool
+     */
+    public function isWsiCompliant()
+    {
+        $pathInfo = Mage::app()->getRequest()->getPathInfo();
+        $pathParts = explode('/', trim($pathInfo, '/'));
+        $controllerPosition = 1;
+        if (isset($pathParts[$controllerPosition]) && $pathParts[$controllerPosition] == 'soap_wsi') {
+            $isWsiCompliant = true;
+        } else {
+            $isWsiCompliant = false;
+        }
+        return $isWsiCompliant;
     }
 
     /**

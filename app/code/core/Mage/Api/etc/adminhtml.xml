@@ -21,11 +21,11 @@
                                 <sort_order>0</sort_order>
                                 <children>
                                     <users translate="title">
-                                        <title>SOAP/XML-RPC - Users</title>
+                                        <title>SOAP - Users</title>
                                         <sort_order>10</sort_order>
                                     </users>
                                     <roles translate="title">
-                                        <title>SOAP/XML-RPC - Roles</title>
+                                        <title>SOAP - Roles</title>
                                         <sort_order>20</sort_order>
                                     </roles>
                                 </children>

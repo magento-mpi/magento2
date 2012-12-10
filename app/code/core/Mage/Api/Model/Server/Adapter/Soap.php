@@ -9,15 +9,13 @@
  */
 
 /**
- * Webservice soap adapter
+ * SOAP adapter.
  *
  * @category   Mage
  * @package    Mage_Api
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api_Model_Server_Adapter_Soap
-    extends Varien_Object
-    implements Mage_Api_Model_Server_Adapter_Interface
+class Mage_Api_Model_Server_Adapter_Soap extends Varien_Object
 {
     /**
      * Soap server
@@ -56,8 +54,8 @@ class Mage_Api_Model_Server_Adapter_Soap
      */
     public function setController(Mage_Api_Controller_Action $controller)
     {
-         $this->setData('controller', $controller);
-         return $this;
+        $this->setData('controller', $controller);
+        return $this;
     }
 
     /**
@@ -79,65 +77,42 @@ class Mage_Api_Model_Server_Adapter_Soap
         return $controller;
     }
 
-    /**
-     * Run webservice
-     *
-     * @param Mage_Api_Controller_Action $controller
-     * @return Mage_Api_Model_Server_Adapter_Soap
-     */
     public function run()
     {
         $apiConfigCharset = Mage::getStoreConfig("api/config/charset");
 
         if ($this->getController()->getRequest()->getParam('wsdl') !== null) {
-            // Generating wsdl content from template
-            $io = new Varien_Io_File();
-            $io->open(array('path'=>Mage::getModuleDir('etc', 'Mage_Api')));
-
-            $wsdlContent = $io->read('wsdl.xml');
-
-            $template = Mage::getModel('Mage_Core_Model_Email_Template_Filter');
-
-            $wsdlConfig = new Varien_Object();
-            $queryParams = $this->getController()->getRequest()->getQuery();
-            if (isset($queryParams['wsdl'])) {
-                unset($queryParams['wsdl']);
-            }
-
-            $wsdlConfig->setUrl(htmlspecialchars(Mage::getUrl('*/*/*', array('_query'=>$queryParams))));
-            $wsdlConfig->setName('Magento');
-            $wsdlConfig->setHandler($this->getHandler());
-
-            $template->setVariables(array('wsdl' => $wsdlConfig));
-
+            $wsdlConfig = Mage::getModel('Mage_Api_Model_Wsdl_Config');
+            $wsdlConfig->setHandler($this->getHandler())
+                ->init();
             $this->getController()->getResponse()
                 ->clearHeaders()
-                ->setHeader('Content-Type','text/xml; charset='.$apiConfigCharset)
+                ->setHeader('Content-Type', 'text/xml; charset=' . $apiConfigCharset)
                 ->setBody(
-                    preg_replace(
-                        '/<\?xml version="([^\"]+)"([^\>]+)>/i',
-                        '<?xml version="$1" encoding="'.$apiConfigCharset.'"?>',
-                        $template->filter($wsdlContent)
-                    )
-                );
+                preg_replace(
+                    '/<\?xml version="([^\"]+)"([^\>]+)>/i',
+                    '<?xml version="$1" encoding="' . $apiConfigCharset . '"?>',
+                    $wsdlConfig->getWsdlContent()
+                )
+            );
         } else {
             try {
                 $this->_instantiateServer();
 
                 $this->getController()->getResponse()
                     ->clearHeaders()
-                    ->setHeader('Content-Type','text/xml; charset='.$apiConfigCharset)
+                    ->setHeader('Content-Type', 'text/xml; charset=' . $apiConfigCharset)
                     ->setBody(
-                            preg_replace(
-                                '/<\?xml version="([^\"]+)"([^\>]+)>/i',
-                                '<?xml version="$1" encoding="'.$apiConfigCharset.'"?>',
-                                $this->_soap->handle()
-                            )
-                    );
-            } catch( Zend_Soap_Server_Exception $e ) {
-                $this->fault( $e->getCode(), $e->getMessage() );
-            } catch( Exception $e ) {
-                $this->fault( $e->getCode(), $e->getMessage() );
+                    preg_replace(
+                        '/<\?xml version="([^\"]+)"([^\>]+)>/i',
+                        '<?xml version="$1" encoding="' . $apiConfigCharset . '"?>',
+                        $this->_soap->handle()
+                    )
+                );
+            } catch (Zend_Soap_Server_Exception $e) {
+                $this->fault($e->getCode(), $e->getMessage());
+            } catch (Exception $e) {
+                $this->fault($e->getCode(), $e->getMessage());
             }
         }
 
@@ -192,12 +167,12 @@ class Mage_Api_Model_Server_Adapter_Soap
             ? $urlModel->getUrl('*/*/*', array('_current' => true, '_query' => $params))
             : $urlModel->getUrl('*/*/*');
 
-        if( $withAuth ) {
+        if ($withAuth) {
             $phpAuthUser = $this->getController()->getRequest()->getServer('PHP_AUTH_USER', false);
             $phpAuthPw = $this->getController()->getRequest()->getServer('PHP_AUTH_PW', false);
 
             if ($phpAuthUser && $phpAuthPw) {
-                $wsdlUrl = sprintf("http://%s:%s@%s", $phpAuthUser, $phpAuthPw, str_replace('http://', '', $wsdlUrl ));
+                $wsdlUrl = sprintf("http://%s:%s@%s", $phpAuthUser, $phpAuthPw, str_replace('http://', '', $wsdlUrl));
             }
         }
 
@@ -213,7 +188,7 @@ class Mage_Api_Model_Server_Adapter_Soap
     protected function _instantiateServer()
     {
         $apiConfigCharset = Mage::getStoreConfig('api/config/charset');
-        $wsdlCacheEnabled = (bool) Mage::getStoreConfig('api/config/wsdl_cache_enabled');
+        $wsdlCacheEnabled = (bool)Mage::getStoreConfig('api/config/wsdl_cache_enabled');
 
         if ($wsdlCacheEnabled) {
             ini_set('soap.wsdl_cache_enabled', '1');
@@ -228,8 +203,10 @@ class Mage_Api_Model_Server_Adapter_Soap
                 $this->_soap = new Zend_Soap_Server($this->getWsdlUrl(array("wsdl" => 1)),
                     array('encoding' => $apiConfigCharset));
             } catch (SoapFault $e) {
-                if (false !== strpos($e->getMessage(),
-                    "can't import schema from 'http://schemas.xmlsoap.org/soap/encoding/'")
+                if (false !== strpos(
+                    $e->getMessage(),
+                    "can't import schema from 'http://schemas.xmlsoap.org/soap/encoding/'"
+                )
                 ) {
                     $retry = true;
                     sleep(1);
