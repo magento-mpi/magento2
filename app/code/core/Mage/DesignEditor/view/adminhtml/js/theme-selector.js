@@ -12,6 +12,7 @@
         options: {
             assignEvent:  'assign',
             previewEvent: 'preview',
+            deleteEvent:  'delete',
             loadEvent:    'loaded',
             storeView: {
                 windowSelector: '#store-view-window',
@@ -71,6 +72,7 @@
         _bind: function() {
             this.element.on(this.options.assignEvent, $.proxy(this._onAssign, this));
             this.element.on(this.options.previewEvent, $.proxy(this._onPreview, this));
+            this.element.on(this.options.deleteEvent, $.proxy(this._onDelete, this));
 
             $('body').on(this.options.loadEvent, function() {
                 $('*[data-widget-button]').button();
@@ -87,6 +89,14 @@
          */
         _onPreview: function(event, data) {
             document.location = data.preview_url;
+        },
+
+        /**
+         * Delete action
+         * @protected
+         */
+        _onDelete: function(event, data) {
+            deleteConfirm($.mage.__('Are you sure you want to do this?'), data['url']);
         },
 
         /**

@@ -22,6 +22,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_Tab_Available
      */
     protected function _toHtml()
     {
+        $this->getChildBlock('available.theme.list')->setTabId($this->getId());
         return $this->getChildHtml('available.theme.list');
     }
 
