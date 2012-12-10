@@ -8,7 +8,7 @@
  */
 /*jshint jquery:true*/
 (function($) {
-    $.widget("mage.themeSelector", {
+    $.widget("vde.themeSelector", {
         options: {
             assignEvent:  'assign',
             previewEvent: 'preview',
@@ -19,7 +19,7 @@
             },
             url: null,
             storesByThemes: {},
-            isMultipleStoreMode: null
+            isMultipleStoreViewMode: null
         },
 
         /**
@@ -36,15 +36,15 @@
         _create: function() {
             this._bind();
 
-            this.options.isMultipleStoreMode = this._getIsMultipleStoreMode()
+            //this.options.isMultipleStoreViewMode = this._getIsMultipleStoreViewMode()
         },
 
         /**
          * Get if there are multiple store-views
          * @protected
          */
-        _getIsMultipleStoreMode: function() {
-            var isMultipleStoreMode = false;
+        _getIsMultipleStoreViewMode: function() {
+            var isMultipleStoreViewMode = false;
             var tmpStore = null;
 
             $.each(this.options.storesByThemes, function(themeId, stores) {
@@ -52,7 +52,7 @@
                     var store = stores[i];
                     if (tmpStore) {
                         if (store != tmpStore) {
-                            isMultipleStoreMode = true;
+                            isMultipleStoreViewMode = true;
                             return;
                         }
                     } else {
@@ -61,7 +61,7 @@
                 }
             });
 
-            return isMultipleStoreMode;
+            return isMultipleStoreViewMode;
         },
 
         /**
@@ -94,7 +94,7 @@
          * @protected
          */
         _onAssign: function(event, data) {
-            if (this.options.isMultipleStoreMode) {
+            if (this.options.isMultipleStoreViewMode) {
                 this.showStoreViews(data.theme_id);
             } else {
                 if (!this._confirm($.mage.__('You are about to change this theme for your live store, are you sure want to do this?'))) {

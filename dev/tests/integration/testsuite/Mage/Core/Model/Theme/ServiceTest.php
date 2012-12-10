@@ -14,7 +14,7 @@
  */
 class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
 {
-    public function testGetNotCustomizedFrontThemes()
+    public function getThemes()
     {
         /** @var $themeService Mage_Core_Model_Theme_Service */
         $themeService = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Service');

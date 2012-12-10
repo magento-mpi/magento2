@@ -38,7 +38,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     {
         /** @var $themeService Mage_Core_Model_Theme_Service */
         $themeService = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
-        return !$themeService->isPresentCustomizedThemes();
+        return !$themeService->isCustomizationsExist();
     }
 
     /**
@@ -60,9 +60,9 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             if (!$this->_isFirstEntrance()) {
                 /** @var $themeService Mage_Core_Model_Theme_Service */
                 $themeService = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
-                $this->getLayout()->getBlock('assigned.theme.list')->setCollection($themeService->getAssignedThemes());
+                $this->getLayout()->getBlock('assigned.theme.list')->setCollection($themeService->getAssignedThemeCustomizations());
                 $this->getLayout()->getBlock('unassigned.theme.list')->setCollection(
-                    $themeService->getUnassignedThemes()
+                    $themeService->getUnassignedThemeCustomizations()
                 );
             }
             $this->renderLayout();
@@ -84,9 +84,11 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
 
         try {
             $this->loadLayout();
+            /** @var $service Mage_Core_Model_Theme_Service */
+            $service = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
+
             /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
-            $collection = $this->_objectManager->get('Mage_Core_Model_Theme_Service')
-                ->getNotCustomizedFrontThemes($page, $pageSize);
+            $collection = $service->getThemes($page, $pageSize);
             $this->getLayout()->getBlock('available.theme.list')->setCollection($collection)->setNextPage(++$page);
             $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(
                 array('content' => $this->getLayout()->getOutput())

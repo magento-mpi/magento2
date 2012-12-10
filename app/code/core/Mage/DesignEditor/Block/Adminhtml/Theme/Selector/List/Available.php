@@ -135,7 +135,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
 
         $this->_addDemoButtonHtml($themeBlock)->_addAssignButtonHtml($themeBlock);
 
-        if ($this->_getServiceModel()->isPresentCustomizedThemes()) {
+        if ($this->_getServiceModel()->isCustomizationsExist()) {
             $this->_addEditButtonHtml($themeBlock);
         }
 
@@ -143,7 +143,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
     }
 
     /**
-     * Get an array of stores grouped by theme it uses
+     * Get an array of stores grouped by theme customization it uses.
      *
      * The structure is the following:
      *   array(
@@ -152,10 +152,24 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
      *
      * @return array
      */
-    public function getStoresByThemes()
+    protected function _getStoresByThemes()
     {
+        $assignedThemeIds = array_map(
+            function($theme) {return $theme->getId();},
+            $this->_getServiceModel()->getAssignedThemeCustomizations()
+        );
+
         $storesByThemes = array();
         foreach ($this->_getServiceModel()->getStoresByThemes() as $themeId => $stores) {
+            /* NOTE
+                We filter out themes not included to $assignedThemeIds array so we only get actually "assigned"
+                themes. So if theme is assigned to store or website and used by store-view only via config fall-back
+                mechanism it will not get to the resulting $storesByThemes array.
+            */
+            if (!in_array($themeId, $assignedThemeIds)) {
+                continue;
+            }
+
             $storesByThemes[$themeId] = array();
             /** @var $store Mage_Core_Model_Store */
             foreach ($stores as $store) {
@@ -166,11 +180,38 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
         return $storesByThemes;
     }
 
+    /**
+     * Get the flag if there are multiple store-views in Magento
+     */
+    protected function _getIsMultipleStoreViewMode()
+    {
+        $isMultipleStoreViewMode = false;
+        $tmpStore = null;
+        foreach ($this->_getServiceModel()->getStoresByThemes() as $stores) {
+            foreach ($stores as $store) {
+                if ($tmpStore === null) {
+                    $tmpStore = $store->getId();
+                } elseif ($tmpStore != $store->getId()) {
+                    $isMultipleStoreViewMode = true;
+                    break(2);
+                }
+            }
+        }
+
+        return $isMultipleStoreViewMode;
+    }
+
+    /**
+     * Get options for JS widget vde.themeSelector
+     *
+     * @return string
+     */
     public function getOptionsJson()
     {
         $options = array();
-        $options['storesByThemes'] = $this->getStoresByThemes();
+        $options['storesByThemes'] = $this->_getStoresByThemes();
         $options['url'] = $this->getUrl('*/*/assignThemeToStore');
+        $options['isMultipleStoreViewMode'] = $this->_getIsMultipleStoreViewMode();
 
         /** @var $helper Mage_Core_Helper_Data */
         $helper = Mage::helper('Mage_Core_Helper_Data');

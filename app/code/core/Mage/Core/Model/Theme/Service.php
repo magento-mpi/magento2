@@ -29,25 +29,27 @@ class Mage_Core_Model_Theme_Service
     protected $_app;
 
     /**
-     * Whether is present customized themes
+     * Flag that shows if theme customizations exist in Magento
      *
      * @var bool
      */
-    protected $_hasCustomizedThemes;
+    protected $_isCustomizationsExist;
 
     /**
-     * Customized themes which are assigned to store views or as default
+     * Theme customizations which are assigned to store views or as default
      *
+     * @see self::_prepareThemeCustomizations()
      * @var array
      */
-    protected $_assignedThemes;
+    protected $_assignedThemeCustomizations;
 
     /**
-     * Customized themes which are not assigned to store views or as default
+     * Theme customizations which are not assigned to store views or as default
      *
+     * @see self::_prepareThemeCustomizations()
      * @var array
      */
-    protected $_unassignedThemes;
+    protected $_unassignedThemeCustomizations;
 
     /**
      * @var Mage_Core_Helper_Data
@@ -90,7 +92,7 @@ class Mage_Core_Model_Theme_Service
         if (!$this->_theme->load($themeId)->getId()) {
             throw new UnexpectedValueException('Theme is not recognized. Requested id: ' . $themeId);
         }
-        $this->_theme = $this->_createPhysicalThemeCopy();
+        $this->_theme = $this->_createThemeCustomization();
         $configPath = $this->_design->getConfigPathByArea($area);
 
         foreach ($this->_getAssignedScopesCollection($themeId, $scope) as $config) {
@@ -106,11 +108,11 @@ class Mage_Core_Model_Theme_Service
     }
 
     /**
-     * Create virtual theme from physical
+     * Create theme customization
      *
      * @return Mage_Core_Model_Theme
      */
-    protected function _createPhysicalThemeCopy()
+    protected function _createThemeCustomization()
     {
         if ($this->_theme->isVirtual()) {
             return $this->_theme;
@@ -145,33 +147,33 @@ class Mage_Core_Model_Theme_Service
     }
 
     /**
-     * Check whether is present customized themes
+     * Check whether theme customizations exist in Magento
      *
      * @return bool
      */
-    public function isPresentCustomizedThemes()
+    public function isCustomizationsExist()
     {
-        if (is_null($this->_hasCustomizedThemes)) {
-            $this->_hasCustomizedThemes = false;
+        if (is_null($this->_isCustomizationsExist)) {
+            $this->_isCustomizationsExist = false;
             /** @var $theme Mage_Core_Model_Theme */
             foreach ($this->_theme->getCollection() as $theme) {
                 if ($theme->isVirtual()) {
-                    $this->_hasCustomizedThemes = true;
+                    $this->_isCustomizationsExist = true;
                     break;
                 }
             }
         }
-        return $this->_hasCustomizedThemes;
+        return $this->_isCustomizationsExist;
     }
 
     /**
-     * Return not customized theme collection by page
+     * Return frontend theme collection by page. Theme customizations are not included, only phisical themes.
      *
      * @param int $page
      * @param int $pageSize
      * @return Mage_Core_Model_Resource_Theme_Collection
      */
-    public function getNotCustomizedFrontThemes($page, $pageSize)
+    public function getThemes($page, $pageSize)
     {
         /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
         $collection = $this->_theme->getCollection();
@@ -182,62 +184,67 @@ class Mage_Core_Model_Theme_Service
     }
 
     /**
-     * Return customized themes which are assigned to store views or as default
+     * Return theme customizations which are assigned to store views
      *
+     * @see self::_prepareThemeCustomizations()
      * @return array
      */
-    public function getAssignedThemes()
+    public function getAssignedThemeCustomizations()
     {
-        if (is_null($this->_assignedThemes)) {
-            $this->_prepareCustomizedThemes();
+        if (is_null($this->_assignedThemeCustomizations)) {
+            $this->_prepareThemeCustomizations();
         }
-        return $this->_assignedThemes;
+        return $this->_assignedThemeCustomizations;
     }
 
     /**
-     * Return customized themes which are not assigned to store views or as default
+     * Return theme customizations which are not assigned to store views.
      *
+     * @see self::_prepareThemeCustomizations()
      * @return array
      */
-    public function getUnassignedThemes()
+    public function getUnassignedThemeCustomizations()
     {
-        if (is_null($this->_unassignedThemes)) {
-            $this->_prepareCustomizedThemes();
+        if (is_null($this->_unassignedThemeCustomizations)) {
+            $this->_prepareThemeCustomizations();
         }
-        return $this->_unassignedThemes;
+        return $this->_unassignedThemeCustomizations;
     }
 
     /**
-     * Check customized themes and select assigned and unassigned
+     * Fetch theme customization and sort them out to arrays "_assignedThemeCustomizations" and "_unassignedThemeCustomizations".
+     *
+     * NOTE: To get into "assigned" list theme customization not necessary should be assigned to store-view directly.
+     * It can be set to website or as default theme and be used by store-view via config fallback mechanism.
      *
      * @return Mage_Core_Model_Theme_Service
      */
-    protected function _prepareCustomizedThemes()
+    protected function _prepareThemeCustomizations()
     {
-        /** @var $customizedThemes Mage_Core_Model_Resource_Theme_Collection */
-        $customizedThemes = $this->_getCustomizedFrontThemes();
+        /** @var $themeCustomizations Mage_Core_Model_Resource_Theme_Collection */
+        $themeCustomizations = $this->_getThemeCustomizations();
         $assignedThemes = $this->getStoresByThemes();
 
-        $this->_assignedThemes = array();
-        $this->_unassignedThemes = array();
+        $this->_assignedThemeCustomizations = array();
+        $this->_unassignedThemeCustomizations = array();
         /** @var $theme Mage_Core_Model_Theme */
-        foreach ($customizedThemes as $theme) {
+        foreach ($themeCustomizations as $theme) {
             if (isset($assignedThemes[$theme->getId()])) {
                 $theme->setAssignedStores($assignedThemes[$theme->getId()]);
-                $this->_assignedThemes[] = $theme;
+                $this->_assignedThemeCustomizations[] = $theme;
             } else {
-                $this->_unassignedThemes[] = $theme;
+                $this->_unassignedThemeCustomizations[] = $theme;
             }
         }
         return $this;
     }
 
     /**
-     * Return  customized theme collection
+     * Return theme customizations collection
      *
      * @return Mage_Core_Model_Resource_Theme_Collection
      */
-    protected function _getCustomizedFrontThemes()
+    protected function _getThemeCustomizations()
     {
         /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
         $collection = $this->_theme->getCollection();
@@ -253,15 +260,18 @@ class Mage_Core_Model_Theme_Service
      */
     public function getStoresByThemes()
     {
-        $assignedTheme = array();
+        $storesByThemes = array();
         $stores = $this->_app->getStores();
+        /** @var $store Mage_Core_Model_Store */
         foreach ($stores as $store) {
-            $themeId = $store->getConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME_ID, $store);
-            if (!isset($assignedTheme[$themeId])) {
-                $assignedTheme[$themeId] = array();
+            $themeId = (int)$store->getConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME_ID);
+
+            if (!isset($storesByThemes[$themeId])) {
+                $storesByThemes[$themeId] = array();
             }
-            $assignedTheme[$themeId][] = $store;
+            $storesByThemes[$themeId][] = $store;
         }
-        return $assignedTheme;
+
+        return $storesByThemes;
     }
 }
