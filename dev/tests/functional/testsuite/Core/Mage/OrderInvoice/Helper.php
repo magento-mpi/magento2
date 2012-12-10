@@ -19,12 +19,10 @@
 class Core_Mage_OrderInvoice_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
-     * Provides partial or full invoice
-     *
-     * @param string $captureType
-     * @param array $invoiceData
+     * @param $invoiceData
+     * @return array $verify
      */
-    public function createInvoiceAndVerifyProductQty($captureType = null, $invoiceData = array())
+    protected function _invoiceData($invoiceData)
     {
         $verify = array();
         $this->clickButton('invoice');
@@ -39,6 +37,17 @@ class Core_Mage_OrderInvoice_Helper extends Mage_Selenium_AbstractHelper
                 }
             }
         }
+        return $verify;
+    }
+    /**
+     * Provides partial or full invoice
+     *
+     * @param string $captureType
+     * @param array $invoiceData
+     */
+    public function createInvoiceAndVerifyProductQty($captureType = null, $invoiceData = array())
+    {
+        $verify = $this->_invoiceData($invoiceData);
         if ($captureType) {
             $this->fillDropdown('amount', $captureType);
         }

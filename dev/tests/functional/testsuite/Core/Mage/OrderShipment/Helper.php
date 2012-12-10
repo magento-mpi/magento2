@@ -19,14 +19,12 @@
 class Core_Mage_OrderShipment_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
-     * Provides partial or fill shipment
-     *
      * @param array $shipmentData
+     * @return array $verify
      */
-    public function createShipmentAndVerifyProductQty(array $shipmentData = array())
+    protected function _doShipping(array $shipmentData)
     {
         $verify = array();
-
         $this->clickButton('ship');
         foreach ($shipmentData as $options) {
             if (is_array($options)) {
@@ -39,6 +37,16 @@ class Core_Mage_OrderShipment_Helper extends Mage_Selenium_AbstractHelper
                 }
             }
         }
+        return $verify;
+    }
+    /**
+     * Provides partial or fill shipment
+     *
+     * @param array $shipmentData
+     */
+    public function createShipmentAndVerifyProductQty(array $shipmentData = array())
+    {
+        $verify = $this->_doShipping($shipmentData);
         if (!$verify) {
             $productCount = $this->getControlCount('fieldset', 'product_line_to_ship');
             for ($i = 1; $i <= $productCount; $i++) {
