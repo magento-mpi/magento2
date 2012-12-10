@@ -16,8 +16,7 @@
             deleteEvent:      'delete',
             loadEvent:        'loaded',
             storeView: {
-                windowSelector: '#store-view-window',
-                assignSaveButtonRelativeSelector: 'button'
+                windowSelector: '#store-view-window'
             },
             url: null,
             storesByThemes: {},
@@ -37,33 +36,6 @@
          */
         _create: function() {
             this._bind();
-
-            //this.options.isMultipleStoreViewMode = this._getIsMultipleStoreViewMode()
-        },
-
-        /**
-         * Get if there are multiple store-views
-         * @protected
-         */
-        _getIsMultipleStoreViewMode: function() {
-            var isMultipleStoreViewMode = false;
-            var tmpStore = null;
-
-            $.each(this.options.storesByThemes, function(themeId, stores) {
-                for (var i = 0, length = stores.length; i<length; i++) {
-                    var store = stores[i];
-                    if (tmpStore) {
-                        if (store != tmpStore) {
-                            isMultipleStoreViewMode = true;
-                            return;
-                        }
-                    } else {
-                        tmpStore = store
-                    }
-                }
-            });
-
-            return isMultipleStoreViewMode;
         },
 
         /**
@@ -88,9 +60,6 @@
             $('body').on(this.options.loadEvent, function() {
                 $('*[data-widget-button]').button();
             });
-
-            /*$(this.options.storeView.windowSelector).find(this.options.storeView.assignSaveButtonRelativeSelector)
-                .on('click', $.proxy(this._onAssignSave, this));*/
         },
 
         /**

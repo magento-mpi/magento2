@@ -60,7 +60,9 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             if (!$this->_isFirstEntrance()) {
                 /** @var $themeService Mage_Core_Model_Theme_Service */
                 $themeService = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
-                $this->getLayout()->getBlock('assigned.theme.list')->setCollection($themeService->getAssignedThemeCustomizations());
+                $this->getLayout()->getBlock('assigned.theme.list')->setCollection(
+                    $themeService->getAssignedThemeCustomizations()
+                );
                 $this->getLayout()->getBlock('unassigned.theme.list')->setCollection(
                     $themeService->getUnassignedThemeCustomizations()
                 );

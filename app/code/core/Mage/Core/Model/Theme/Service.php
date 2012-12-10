@@ -80,13 +80,13 @@ class Mage_Core_Model_Theme_Service
      * Assign theme to the stores
      *
      * @param int $themeId
-     * @param array $stores
+     * @param array|null $stores
      * @param string $scope
      * @param string $area
      * @return Mage_Core_Model_Theme_Service
      * @throws UnexpectedValueException
      */
-    public function assignThemeToStores($themeId, $stores = array(), $scope = Mage_Core_Model_Config::SCOPE_STORES,
+    public function assignThemeToStores($themeId, $stores, $scope = Mage_Core_Model_Config::SCOPE_STORES,
         $area = Mage_Core_Model_App_Area::AREA_FRONTEND
     ) {
         /** @var $theme Mage_Core_Model_Theme */
@@ -107,7 +107,9 @@ class Mage_Core_Model_Theme_Service
 
         foreach ($stores as $storeId) {
             $this->_app->getConfig()->saveConfig($configPath, $themeCustomization->getId(), $scope, $storeId);
+            $this->_app->cleanCache(Mage_Core_Model_Config::CACHE_TAG);
         }
+
         return $this;
     }
 
