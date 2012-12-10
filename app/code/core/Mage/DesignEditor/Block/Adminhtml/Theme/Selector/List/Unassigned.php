@@ -38,8 +38,17 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Unassigned
 
         $removeButton->setData(array(
             'label'     => $this->__('Remove Button'),
-            'onclick'   => "alert('Remove Button id: $themeId')",
-            'class'     => 'add',
+            'data_attr'  => array(
+                'widget-button' => array(
+                    'event' => 'delete',
+                    'related' => 'body',
+                    'eventData' => array(
+                        'url' => $this->getUrl('*/system_design_theme/delete/', array('id' => $themeId, 'back' => true))
+                    )
+                ),
+            ),
+            'class'   => 'save',
+            'target'  => '_blank'
         ));
 
         $themeBlock->addButton($removeButton);

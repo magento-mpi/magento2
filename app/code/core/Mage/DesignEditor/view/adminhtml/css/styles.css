@@ -78,3 +78,13 @@ div.theme-preview-actions .theme-preview-window {
     z-index: 1;
     background-color: #424242;
 }
+
+.theme-loader {
+    display: none;
+    position: relative;
+    float: left;
+}
+
+.theme-container {
+    float: left;
+}

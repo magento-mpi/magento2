@@ -1,4 +1,4 @@
-/**
+    /**
  * {license_notice}
  *
  * @category    Mage
@@ -11,12 +11,15 @@
 
     $.widget('vde.infinite_scroll', {
         _locked: false,
+        _loader: '.theme-loader',
         _container: '.theme-container',
         _defaultElementSize: 400,
         _elementsInRow: 2,
         _pageSize: 4,
         options: {
-            url: ''
+            url: '',
+            clear: false,
+            loadDataOnCreate: true
         },
 
         /**
@@ -34,8 +37,13 @@
                 type: 'GET',
                 dataType: 'JSON',
                 data: { 'page_size': this._pageSize },
+                context: $(this),
                 success: $.proxy(function(data) {
                     if (data.content) {
+                        if (this.options.url === '') {
+                            this._setLocked(false);
+                            return;
+                        }
                         this.element.find(this._container).append(data.content);
                         this._setLocked(false);
                     }
@@ -58,7 +66,20 @@
             if (this.element.find(this._container).children().length == 0) {
                 this._pageSize = this._calculatePagesSize();
             }
+
+            if (this.options.clear) {
+                this.clearOldData();
+            }
             this._bind();
+        },
+
+        /**
+         * Clear old data
+         * @protected
+         */
+        clearOldData: function() {
+            this.options.clear = false;
+            $(this._container).empty();
         },
 
         /**
@@ -87,6 +108,7 @@
          * @protected
          */
         _setLocked: function(status) {
+            (status) ? $(this._loader).show() : $(this._loader).hide();
             this._locked = status;
         },
 
@@ -95,9 +117,11 @@
          * @protected
          */
         _bind: function() {
-            $(document).ready(
-                $.proxy(this.loadData, this)
-            );
+            if (this.options.loadDataOnCreate) {
+                $(document).ready(
+                    $.proxy(this.loadData, this)
+                );
+            }
 
             $(window).resize(
                 $.proxy(function(event) {
