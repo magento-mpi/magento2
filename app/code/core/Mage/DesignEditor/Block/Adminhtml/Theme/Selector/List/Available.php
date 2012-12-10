@@ -185,20 +185,20 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
      */
     protected function _getIsMultipleStoreViewMode()
     {
-        $isMultipleStoreViewMode = false;
+        $isMultipleMode = false;
         $tmpStore = null;
         foreach ($this->_getServiceModel()->getStoresByThemes() as $stores) {
             foreach ($stores as $store) {
                 if ($tmpStore === null) {
                     $tmpStore = $store->getId();
                 } elseif ($tmpStore != $store->getId()) {
-                    $isMultipleStoreViewMode = true;
+                    $isMultipleMode = true;
                     break(2);
                 }
             }
         }
 
-        return $isMultipleStoreViewMode;
+        return $isMultipleMode;
     }
 
     /**
@@ -214,7 +214,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
         $options['isMultipleStoreViewMode'] = $this->_getIsMultipleStoreViewMode();
 
         /** @var $helper Mage_Core_Helper_Data */
-        $helper = Mage::helper('Mage_Core_Helper_Data');
+        $helper = $this->helper('Mage_Core_Helper_Data');
 
         return $helper->jsonEncode($options);
     }

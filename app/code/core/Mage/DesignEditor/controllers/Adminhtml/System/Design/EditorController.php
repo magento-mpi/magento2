@@ -168,19 +168,21 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     {
         $themeId = (int)$this->getRequest()->getParam('theme_id');
         $stores = $this->getRequest()->getParam('stores');
+        /** @var $coreHelper Mage_Core_Helper_Data */
+        $coreHelper = $this->_objectManager->get('Mage_Core_Helper_Data');
+
         try {
             if (!is_numeric($themeId) || empty($stores)) {
                 throw new InvalidArgumentException('Theme id or store list is not valid');
             }
-
             /** @var $themeService Mage_Core_Model_Theme_Service */
             $themeService = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
             $themeService->assignThemeToStores($themeId, $stores);
-            $message = $this->_objectManager->get('Mage_Core_Helper_Data')->__('Theme successfully assigned');
-            $this->getResponse()->setBody($this->_helper->jsonEncode(array('success' => $message)));
+            $message = $coreHelper->__('Theme successfully assigned');
+            $this->getResponse()->setBody($coreHelper->jsonEncode(array('success' => $message)));
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
-            $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(
+            $this->getResponse()->setBody($coreHelper->jsonEncode(
                 array('error' => $this->_helper->__('Theme is not assigned')))
             );
         }

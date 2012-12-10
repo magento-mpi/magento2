@@ -96,4 +96,23 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
 
         return $structure;
     }
+
+    public function getAssignSaveButtonHtml()
+    {
+        /** @var $assignSaveButton Mage_Backend_Block_Widget_Button */
+        $assignSaveButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
+        $assignSaveButton->setData(array(
+            'label'     => $this->__('Done'),
+            'class'     => 'store-assign-done save',
+            'data_attr' => array(
+                'widget-button' => array(
+                    'event' => 'assign-save',
+                    'related' => 'body',
+                    'eventData' => array()
+                ),
+            )
+        ));
+
+        return $assignSaveButton->toHtml();
+    }
 }

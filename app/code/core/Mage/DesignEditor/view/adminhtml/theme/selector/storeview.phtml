@@ -49,11 +49,7 @@
         <?php endforeach; ?>
         </ul>
         <div style="text-align:right; padding:10px;">
-            <button class="scalable save ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" type="button" title="Done" role="button" aria-disabled="false">
-                <span class="ui-button-text">
-                    <span><span><span>Done</span></span></span>
-                </span>
-            </button>
+            <?php echo $this->getAssignSaveButtonHtml(); ?>
         </div>
         </form>
     </div>

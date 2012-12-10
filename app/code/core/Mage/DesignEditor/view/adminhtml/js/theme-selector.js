@@ -10,10 +10,11 @@
 (function($) {
     $.widget("vde.themeSelector", {
         options: {
-            assignEvent:  'assign',
-            previewEvent: 'preview',
-            deleteEvent:  'delete',
-            loadEvent:    'loaded',
+            assignEvent:      'assign',
+            assignSaveEvent:  'assign-save',
+            previewEvent:     'preview',
+            deleteEvent:      'delete',
+            loadEvent:        'loaded',
             storeView: {
                 windowSelector: '#store-view-window',
                 assignSaveButtonRelativeSelector: 'button'
@@ -70,17 +71,26 @@
          * @protected
          */
         _bind: function() {
+            //this.element is <body>
             this.element.on(this.options.assignEvent, $.proxy(this._onAssign, this));
+            this.element.on(this.options.assignSaveEvent, $.proxy(this._onAssignSave, this));
             this.element.on(this.options.previewEvent, $.proxy(this._onPreview, this));
             this.element.on(this.options.deleteEvent, $.proxy(this._onDelete, this));
+            this.element.on('keyup', $.proxy(function(e) {
+                //ESC button
+                if (e.keyCode == 27) {
+                    var popUp = $(this.options.storeView.windowSelector);
+                    popUp.hide();
+                    this.themeId = null;
+                }
+            }, this));
 
             $('body').on(this.options.loadEvent, function() {
                 $('*[data-widget-button]').button();
             });
 
-            var window = $(this.options.storeView.windowSelector)
-                .find(this.options.storeView.assignSaveButtonRelativeSelector)
-                .on('click', $.proxy(this._onAssignSave, this));
+            /*$(this.options.storeView.windowSelector).find(this.options.storeView.assignSaveButtonRelativeSelector)
+                .on('click', $.proxy(this._onAssignSave, this));*/
         },
 
         /**
@@ -119,8 +129,8 @@
          * @protected
          */
         _onAssignSave: function(event, data) {
-            var window = $(this.options.storeView.windowSelector);
-            window.hide();
+            var popUp = $(this.options.storeView.windowSelector);
+            popUp.hide();
 
             var stores = [];
             var checkedValue = 1;
