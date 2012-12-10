@@ -200,7 +200,8 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
     {
         $options = array();
         $options['storesByThemes'] = $this->_getStoresByThemes();
-        $options['url'] = $this->getUrl('*/*/assignThemeToStore');
+        $options['assignSaveUrl'] = $this->getUrl('*/*/assignThemeToStore');
+        $options['afterAssignSaveUrl'] = $this->getUrl('*/*/launch');
         $options['isMultipleStoreViewMode'] = $this->_getIsMultipleStoreViewMode();
 
         /** @var $helper Mage_Core_Helper_Data */
