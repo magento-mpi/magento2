@@ -164,7 +164,7 @@ if (count($this->getSelectedAttributes())) {
 ?>
         <tr class="<?php echo $isEven ? 'even' : '' ?>">
             <td class="associated-matrix-product-name"><?php echo $product->getName()?></td>
-            <td class="associated-matrix-product-price"><?php echo $product->getPrice()?></td>
+            <td class="associated-matrix-product-price"><?php echo $product->getFormatedPrice()?></td>
             <td><span class="associated-matrix-product-sku"><?php echo $product->getSku()?></span>
                 <button class="choose-product"
                     data-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"
