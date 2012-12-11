@@ -8,7 +8,7 @@
  */
 /*jshint browser:true jquery:true*/
 (function($, window) {
-
+    "use strict";
     $.widget('mage.rmaTrackInfo', {
 
         /**

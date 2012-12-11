@@ -110,8 +110,6 @@
          * @private
          */
         _addRegistrant: function () {
-
-            var li = this._setUpTemplate(this.options.liIndex, this.options.templateRegistrant, this.options.registrantOptions);
             this._showBundle(this.options.liIndex, this.options.firstItemId);
             this._showQuantity(this.options.productType, this.options.liIndex, this.options.availableQuantity);
             //Increment after rows are added
