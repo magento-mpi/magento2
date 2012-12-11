@@ -51,7 +51,7 @@
                 if (!extendingAttributes.length) {
                     return; // all selected configurable attributes belong to current attribute set
                 }
-                if (!$('.associated-matrix-product-id:checked').closest('tr').has('input[id^=name-matrix-]').length) {
+                if (!$('.associated-matrix-product-id:checked').closest('tr').has('input[name$="\[name\]"]').length) {
                     return; // no new simple products to save from matrix: uniting attribute set is not needed
                 }
 
