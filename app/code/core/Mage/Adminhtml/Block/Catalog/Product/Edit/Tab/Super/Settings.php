@@ -61,6 +61,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Mage_
             'label' => 'Select Attribute',
             'title' => 'Select Attribute',
         ));
+        $fieldset->addField('new-variations-attribute-set-id', 'hidden', array(
+            'name' => 'new-variations-attribute-set-id',
+        ));
 
         $product = $this->_getProduct();
         /** @var $configurableType Mage_Catalog_Model_Product_Type_Configurable */

@@ -681,15 +681,13 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 $product
             );
 
+            $product->setNewVariationsAttributeSetId($this->getRequest()->getPost('new-variations-attribute-set-id'));
             $associatedProductIds = $this->getRequest()->getPost('associated_product_ids', array());
-
             $generatedProductIds = $this->_objectManager->get('Mage_Catalog_Model_Product_Type_Configurable')
                 ->generateSimpleProducts($product, $this->getRequest()->getPost('variations-matrix', array()));
-
             $product->setAssociatedProductIds(array_filter(array_merge($associatedProductIds, $generatedProductIds)));
 
-            $data = $this->getRequest()->getPost('configurable_attributes_data');
-            if ($data) {
+            if ($data = $this->getRequest()->getPost('configurable_attributes_data')) {
                 $product->setConfigurableAttributesData(Mage::helper('Mage_Core_Helper_Data')->jsonDecode($data));
             }
 

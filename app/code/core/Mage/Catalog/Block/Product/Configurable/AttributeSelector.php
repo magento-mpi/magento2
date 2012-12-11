@@ -45,4 +45,14 @@ class Mage_Catalog_Block_Product_Configurable_AttributeSelector extends Mage_Bac
     {
         return $this->getUrl('*/catalog_product_attribute/suggestConfigurableAttributes');
     }
+
+    /**
+     * Attribute set creation action URL
+     *
+     * @return string
+     */
+    public function getAttributeSetCreationUrl()
+    {
+        return $this->getUrl('*/catalog_product_set/add');
+    }
 }

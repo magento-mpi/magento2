@@ -48,7 +48,7 @@
             </block>
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_AttributeSet" name="attribute-set-info" template="Mage_Adminhtml::catalog/product/edit/attribute_set.phtml"/>
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory" name="new-category" template="Mage_Adminhtml::catalog/product/edit/category/new/form.phtml"/>
-            <block type="Mage_Core_Block_Template" template="Mage_Catalog::product/configurable/affected-attribute-set-selector/form.phtml"/>
+            <block type="Mage_Core_Block_Template" name="affected-attribute-set-form" template="Mage_Catalog::product/configurable/affected-attribute-set-selector/form.phtml"/>
         </reference>
         <reference name="left">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs" name="product_tabs"/>
