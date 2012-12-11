@@ -194,6 +194,8 @@
                         themeId
                     ].join('/');
                     this.options.storesByThemes[themeId] = stores;
+
+                    setTimeout(function() {$('body').loader('show');}, 500);
                     document.location = url;
                 }
             }, this)).error(function() {
