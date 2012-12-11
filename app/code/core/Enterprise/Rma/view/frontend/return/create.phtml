@@ -175,12 +175,12 @@
     <script type="text/javascript">
 
         (function ($) {
-            head.js("<?php echo $this->getViewFileUrl('Enterprise_Rma::rma-create.js') ?>",
-                "<?php echo $this->getViewFileUrl('jquery/jquery.tmpl.min.js')?>",
+            head.js("<?php echo $this->getViewFileUrl('jquery/jquery.tmpl.min.js')?>",
                 "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
                 "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
                 "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-                "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>", function () {
+                "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
+                "<?php echo $this->getViewFileUrl('Enterprise_Rma::rma-create.js') ?>",function () {
 
                 var formDataPost;
                 <?php $i = 0; ?>
@@ -192,21 +192,21 @@
                     <?php endif; ?>
 
                 $('#rma_create_form').rmaCreate({formDataPost: formDataPost,
-                    template_registrant: '#template-registrant',
-                    registrant_options: '#registrant-options',
-                    add_item_to_return: 'add-item-to-return',
-                    btn_remove: 'btn-remove',
-                    qty_requested_block: '#qty_requested_block',
-                    remaining_quantity_block: '#remaining_quantity_block',
-                    remaining_quantity: '#remaining_quantity',
-                    reason_other: '#reason_other',
-                    items_reason_other: '#items:reason_other',
+                    templateRegistrant: '#template-registrant',
+                    registrantOptions: '#registrant-options',
+                    addItemToReturn: 'add-item-to-return',
+                    btnRemove: 'btn-remove',
                     row: '#row',
-                    add_row: 'add-row',
-                    radio_item: '#radio:item',
-                    order_item_id: '#item:order_item_id',
-                    items_item: 'items:item',
-                    items_reason: 'items:reason',
+                    addRow: 'add-row',
+                    qtyReqBlock: '#qty_requested_block',
+                    remQtyBlock: '#remaining_quantity_block',
+                    remQty: '#remaining_quantity',
+                    reasonOtherRow: '#reason_other',
+                    reasonOtherInput: '#items:reason_other',
+                    radioItem: '#radio:item',
+                    orderItemId: '#item:order_item_id',
+                    itemsItem: 'items:item',
+                    itemsReason: 'items:reason',
                     firstItemId: '<?php echo $firstItemId; ?>',
                     productType: '<?php echo $productType?>',
                     availableQuantity: '<?php echo ($availableQty) ? $availableQty : 0?>',
