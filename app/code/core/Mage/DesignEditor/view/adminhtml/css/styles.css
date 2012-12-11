@@ -45,7 +45,6 @@
     position: relative;
 }
 
-div.theme-preview-actions .theme-preview-back,
 div.theme-preview-actions .theme-preview-about {
     float: left;
     display: none;
@@ -55,6 +54,16 @@ div.theme-preview-actions .btn-apply-theme {
 }
 div.theme-preview-actions .theme-preview-window {
     margin: 0 10px;
+    display: none;
+}
+div.theme-preview-actions .theme-preview-back,
+span.back-to-selected-theme {
+    float: left;
+    cursor: pointer;
+    margin: 0 20px 0 0;
+    width: 28px;
+    height: 29px;
+    background: url(../images/theme-preview-back.png) 0 0 no-repeat;
 }
 
 .theme-element-customizations{
