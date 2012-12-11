@@ -60,7 +60,7 @@ new_product:
                                     links:
                                         suggested_attribute: /..//*[contains(concat(' ', normalize-space(@class), ' '), ' ui-menu-item ')]/*[text()='%attributeName%']
                                     pageelements:
-                                        suggested_attribute_list: "/..//*[contains(concat(' ', normalize-space(@class), ' '), ' ui-autocomplete ') and not(contains(@style,'display: none;'))]"
+                                        suggested_attribute_list: /..//*[contains(concat(' ', normalize-space(@class), ' '), ' ui-autocomplete ') and not(contains(@style,'display: none;'))]
                             -
                                 variations_matrix:
                                     xpath: //*[@id='product-variations-matrix']

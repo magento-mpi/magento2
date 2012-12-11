@@ -183,7 +183,7 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
     /**
      * Select configurable attribute on Product page using searchable attribute selector control
      *
-     * @param $attributeTitle
+     * @param string $attributeTitle
      */
     public function selectConfigurableAttribute($attributeTitle)
     {

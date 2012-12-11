@@ -177,6 +177,7 @@ class Community2_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium
             ),
         );
     }
+
     /**
      * <p> Create Configurable attributes with special values: xss injection ans special characters</p>
      *
@@ -477,10 +478,14 @@ class Community2_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium
         $this->productHelper()->fillProductInfo($productData, 'configurable');
         $this->productHelper()->fillConfigurableSettings($productData);
         //Verifying
-        $this->assertEquals($verifyData['variation_name'], $this->getValue($this->_getControlXpath('field', 'variation_name')));
-        $this->assertEquals($verifyData['variation_price'], $this->getValue($this->_getControlXpath('field', 'variation_price')));
-        $this->assertEquals($verifyData['variation_sku'], $this->getValue($this->_getControlXpath('field', 'variation_sku')));
-        $this->assertEquals($verifyData['variation_weight'], $this->getValue($this->_getControlXpath('field', 'variation_weight')));
+        $this->assertEquals($verifyData['variation_name'],
+            $this->getValue($this->_getControlXpath('field', 'variation_name')));
+        $this->assertEquals($verifyData['variation_price'],
+            $this->getValue($this->_getControlXpath('field', 'variation_price')));
+        $this->assertEquals($verifyData['variation_sku'],
+            $this->getValue($this->_getControlXpath('field', 'variation_sku')));
+        $this->assertEquals($verifyData['variation_weight'],
+            $this->getValue($this->_getControlXpath('field', 'variation_weight')));
     }
 
     /**
