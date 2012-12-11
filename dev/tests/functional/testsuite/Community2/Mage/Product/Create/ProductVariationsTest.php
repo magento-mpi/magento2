@@ -264,7 +264,8 @@ class Community2_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium
                 'general_sku' => $fillVariation['variation_sku'],
                 'general_weight' => $fillVariation['variation_weight'],
                 'inventory_qty' => $fillVariation['variation_qty'],
-                'prices_price' => $fillVariation['variation_price']
+                'prices_price' => $fillVariation['variation_price'],
+                'general_visibility' => 'Not Visible Individually'
             )
         );
         //Steps
@@ -284,7 +285,7 @@ class Community2_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium
         $this->assertEquals('Simple Product', $this->productHelper()->getProductType($verifySimple),
             'Incorrect product type has been created');
         $this->productHelper()->openProduct(array('product_sku' => $verifySimple['general_sku']));
-        $this->productHelper()->verifyProductInfo($verifySimple, array('general_visibility'));
+        $this->productHelper()->verifyProductInfo($verifySimple);
     }
     /**
      * <p>Create virtual product via product variation grid in configurable product</p>
@@ -314,7 +315,8 @@ class Community2_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium
                 'general_name' => $fillVariation['variation_name'],
                 'general_sku' => $fillVariation['variation_sku'],
                 'prices_price' => $fillVariation['variation_price'],
-                'inventory_qty' => $fillVariation['variation_qty']
+                'inventory_qty' => $fillVariation['variation_qty'],
+                'general_visibility' => 'Not Visible Individually'
             )
         );
         //Steps
@@ -334,7 +336,7 @@ class Community2_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium
         $this->assertEquals('Virtual Product', $this->productHelper()->getProductType($verifyVirtual),
             'Incorrect product type has been created');
         $this->productHelper()->openProduct(array('product_sku' => $verifyVirtual['general_sku']));
-        $this->productHelper()->verifyProductInfo($verifyVirtual, array('general_visibility'));
+        $this->productHelper()->verifyProductInfo($verifyVirtual);
     }
 
     /**
@@ -397,7 +399,8 @@ class Community2_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium
         $this->productHelper()->createProduct($productData, 'configurable', false);
         $this->productHelper()->includeAssociatedProduct(
             array('product_1' => array('associated_product_attribute_value' => $defaultData['matrix'][1][1])),
-            $associatedProductData);
+            $associatedProductData
+        );
         $this->addParameter('field', $field);
         $this->saveForm('save', false);
         //Verifying
