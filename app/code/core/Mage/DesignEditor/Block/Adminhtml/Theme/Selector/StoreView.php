@@ -171,6 +171,8 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
 
     /**
      * Get the flag if there are multiple store-views in Magento
+     *
+     * @return bool
      */
     protected function _getIsMultipleStoreViewMode()
     {
