@@ -383,6 +383,7 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
             ->setCollectExceptionMessages(true)
         ;
         $validationResult = $this->_model->validate();
+        $this->assertNotEmpty($validationResult);
         $this->assertEquals('SKU length should be 64 characters maximum.', $validationResult['sku']);
         unset($validationResult['sku']);
         foreach($validationResult as $error) {

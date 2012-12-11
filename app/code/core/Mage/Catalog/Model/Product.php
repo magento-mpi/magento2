@@ -162,7 +162,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      *
      * @todo implement full validation process with errors returning which are ignoring now
      *
-     * @return Mage_Catalog_Model_Product
+     * @return array
      */
     public function validate()
     {
