@@ -25,3 +25,4 @@ dev/tests/integration/tmp
 dev/tests/static/testsuite/Php/Exemplar/_files/phpcs/input
 dev/tests/static/testsuite/Php/Exemplar/_files/phpmd/input
 app/code/core/Mage/Backend/view
+dev/tests/functional
