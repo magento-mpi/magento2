@@ -14,10 +14,7 @@
 (function($) {
     'use strict';
     $(function() {
-        var self = $('#attribute-selector')
-            .bind('ajaxSend ajaxComplete', function(e) {
-                e.stopPropagation();
-            })
+        $('#attribute-selector')
             .autocomplete({
                 minLength: 0,
                 appendTo: '#config_super_product',
@@ -26,14 +23,14 @@
                         url: '<?php echo $this->getSuggestUrl()?>',
                         data: {label_part: request.term},
                         dataType: 'json',
-                        context: self
+                        context: '<div>'
                     })
                     .success(function(data) {
                         var list = [];
                         $.each(data, function(id, item) {
                             if (!$('#attribute_' + id + '.configurable-attribute-checkbox').length) {
                                 list.push({
-                                    label: item.label,
+                                    label: item.frontend_label,
                                     value: id
                                 });
                             }
@@ -63,7 +60,7 @@
                         id: ui.item.value,
                         label: ui.item.label
                     }));
-                    $(this).val('');
+                    $(this).val('').blur();
 
                     return false;
                 }

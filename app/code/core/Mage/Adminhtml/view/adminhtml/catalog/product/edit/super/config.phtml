@@ -231,7 +231,7 @@ if (count($this->getSelectedAttributes())) {
 </div>
 <script type="text/javascript">
 jQuery(function($) {
-    var usedAttributes = jQuery('#associated-products-container').data('usedAttributes') || [];
+    var usedAttributes = $('#associated-products-container').data('usedAttributes') || [];
     $("#<?php echo $this->getId()?>-checkbox").on('click change', function() {
         var $fieldset = $("#<?php echo $this->getId()?> > fieldset");
         if ($(this).is(':checked')) {

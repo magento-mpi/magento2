@@ -1,0 +1,63 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/* @var $this Mage_Core_Block_Template */
+?>
+<script type="text/javascript">
+(function($) {
+    'use strict';
+    $(function() {
+        $('#affected-attribute-set-form')
+            .dialog({
+                title: '<?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Choose Affected Attribute Set'); ?>',
+                autoOpen: false,
+                id: '<?php echo $this->getJsId() ?>',
+                minWidth: 700,
+                modal: true,
+                resizable: false,
+                buttons: [{
+                    text: '<?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Cancel'); ?>',
+                    id: '<?php echo $this->getJsId('close-button') ?>',
+                    click: function() {
+                        $(this).dialog('close');
+                    }
+                }, {
+                    text: '<?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Confirm'); ?>',
+                    id: '<?php echo $this->getJsId('confirm-button') ?>',
+                    click: function() {
+                        return false;
+                    }
+                }]
+            })
+            .find('input[name=affected-attribute-set]').change(function() {
+                $('#affected-attribute-set-new-name-container')[$(this).val() === 'new' ? 'show' : 'hide']();
+            });
+
+        $('button[data-ui-id=product-edit-save-button],button[data-ui-id=product-edit-save-and-continue-button]')
+            .on('click', function(event) {
+                var usedAttributes = $('#associated-products-container').data('usedAttributes') || [],
+                    extendingAttributes = [];
+                for (var i = 0, length = usedAttributes.length; i < length; i++) {
+                    if (!$('#attribute-' + usedAttributes[i].attribute_code + '-container').length) {
+                        extendingAttributes.push(usedAttributes[i].attribute_id);
+                    }
+                }
+                if (!extendingAttributes.length) {
+                    return; // all selected configurable attributes belong to current attribute set
+                }
+                if (!$('.associated-matrix-product-id:checked').closest('tr').has('input[id^=name-matrix-]').length) {
+                    return; // no new simple products to save from matrix: uniting attribute set is not needed
+                }
+
+                event.stopImmediatePropagation();
+                $('#affected-attribute-set-form').dialog('open');
+            });
+    });
+})(jQuery);
+</script>

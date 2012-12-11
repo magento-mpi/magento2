@@ -21,7 +21,7 @@ class Mage_Catalog_Block_Product_Configurable_AttributeSelector extends Mage_Bac
      * Retrieve list of attributes with admin store label containing $labelPart
      *
      * @param string $labelPart
-     * @return array
+     * @return Mage_Catalog_Model_Resource_Product_Attribute_Collection
      */
     public function getSuggestedAttributes($labelPart)
     {
@@ -33,14 +33,7 @@ class Mage_Catalog_Block_Product_Configurable_AttributeSelector extends Mage_Bac
             ->addFieldToFilter('is_configurable', 1)
             ->addFieldToFilter('is_global', Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL);
 
-        $result = array();
-        foreach ($collection->getItems() as $id => $attribute) {
-            /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-            $result[$id] = array(
-                'label' => $attribute->getFrontendLabel(),
-            );
-        }
-        return $result;
+        return $collection;
     }
 
     /**

@@ -391,10 +391,16 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
      */
     public function suggestConfigurableAttributesAction()
     {
-        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(
-            $this->getLayout()->createBlock('Mage_Catalog_Block_Product_Configurable_AttributeSelector')
-                ->getSuggestedAttributes($this->getRequest()->getParam('label_part'))
-        ));
+        /** @var $collection Mage_Catalog_Model_Resource_Product_Attribute_Collection */
+        $collection = $this->getLayout()->createBlock('Mage_Catalog_Block_Product_Configurable_AttributeSelector')
+            ->getSuggestedAttributes($this->getRequest()->getParam('label_part'));
+        $result = array();
+        foreach ($collection->getItems() as $id => $attribute) {
+            /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+            $result[$id] = $attribute->getData();
+        }
+
+        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
     }
 
     /**

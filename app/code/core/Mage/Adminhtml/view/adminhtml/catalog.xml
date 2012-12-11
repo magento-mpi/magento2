@@ -48,6 +48,7 @@
             </block>
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_AttributeSet" name="attribute-set-info" template="Mage_Adminhtml::catalog/product/edit/attribute_set.phtml"/>
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory" name="new-category" template="Mage_Adminhtml::catalog/product/edit/category/new/form.phtml"/>
+            <block type="Mage_Core_Block_Template" template="Mage_Catalog::product/configurable/affected-attribute-set-selector/form.phtml"/>
         </reference>
         <reference name="left">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs" name="product_tabs"/>
@@ -57,7 +58,8 @@
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory" name="new-category-js" template="Mage_Adminhtml::catalog/product/edit/category/new/js.phtml"/>
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Js" template="catalog/product/js.phtml" name="catalog_product_js"/>
             <block type="Mage_Core_Block_Template" template="Mage_Adminhtml::catalog/wysiwyg/js.phtml"/>
-            <block type="Mage_Catalog_Block_Product_Configurable_AttributeSelector" name="configurable-attribute-selector-js" template="Mage_Catalog::product/configurable/attribute-selector/js.phtml"/>
+            <block type="Mage_Catalog_Block_Product_Configurable_AttributeSelector" template="Mage_Catalog::product/configurable/attribute-selector/js.phtml"/>
+            <block type="Mage_Core_Block_Template" template="Mage_Catalog::product/configurable/affected-attribute-set-selector/js.phtml"/>
         </reference>
     </adminhtml_catalog_product_new>
 
@@ -85,6 +87,7 @@
             </block>
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_AttributeSet" name="attribute-set-info" template="Mage_Adminhtml::catalog/product/edit/attribute_set.phtml"/>
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory" name="new-category" template="Mage_Adminhtml::catalog/product/edit/category/new/form.phtml"/>
+            <block type="Mage_Core_Block_Template" name="affected-attribute-set-form" template="Mage_Catalog::product/configurable/affected-attribute-set-selector/form.phtml"/>
         </reference>
         <reference name="left">
             <block type="Mage_Backend_Block_Store_Switcher" name="store_switcher" before="-"/>
@@ -95,7 +98,8 @@
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory" name="new-category-js" template="Mage_Adminhtml::catalog/product/edit/category/new/js.phtml"/>
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Js" template="catalog/product/js.phtml" name="catalog_product_js"/>
             <block type="Mage_Core_Block_Template" template="Mage_Adminhtml::catalog/wysiwyg/js.phtml"/>
-            <block type="Mage_Catalog_Block_Product_Configurable_AttributeSelector" name="configurable-attribute-selector-js" template="Mage_Catalog::product/configurable/attribute-selector/js.phtml"/>
+            <block type="Mage_Catalog_Block_Product_Configurable_AttributeSelector" template="Mage_Catalog::product/configurable/attribute-selector/js.phtml"/>
+            <block type="Mage_Core_Block_Template" template="Mage_Catalog::product/configurable/affected-attribute-set-selector/js.phtml"/>
         </reference>
     </adminhtml_catalog_product_edit>
 
