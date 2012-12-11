@@ -179,20 +179,27 @@ class Community2_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium
     }
 
     /**
-     * <p> Create Configurable attributes with special values: xss injection ans special characters</p>
+     * <p>Create Configurable attributes with special values: xss injection ans special characters</p>
      *
      * @return array
+     *
      * @test
      */
     public function createConfigurableAttribute()
     {
         $xssAttribute = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options',
-            array('attribute_code' => 'xss_%randomize%',
+            array(
+                'attribute_code' => 'xss_%randomize%',
                 'admin_title' => 'XSS',
-                'option_1' => array('admin_option_name' => "<script>alert('xss option');</script>")));
+                'option_1' => array('admin_option_name' => "<script>alert('xss option');</script>")
+            )
+        );
         $specialCharacters = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options',
-            array('attribute_code' => 'special_characters_%randomize%',
-                'admin_title' => str_replace(array(',', '"', "'"), '?', $this->generate('string', 30, ':punct:'))));
+            array(
+                'attribute_code' => 'special_characters_%randomize%',
+                'admin_title' => str_replace(array(',', '"', "'"), '?', $this->generate('string', 30, ':punct:'))
+            )
+        );
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($xssAttribute);
         $this->assertMessagePresent('success', 'success_saved_attribute');
@@ -500,9 +507,13 @@ class Community2_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium
     public function checkGeneratedMatrixAfterUnselectionAttribute($data)
     {
         //Data
-        $configurable = $this->loadDataSet('Product', 'configurable_product_visible', array(
-            'configurable_attribute_title' =>  $data['attribute1'] . ', ' . $data['attribute2'],
-            'product_attribute_set' => $data['attributeSet']));
+        $configurable = $this->loadDataSet('Product', 'configurable_product_visible',
+            array(
+                'configurable_attribute_title' =>  $data['attribute1'] . ', ' . $data['attribute2'],
+                'product_attribute_set' => $data['attributeSet']
+            )
+        );
+        $attributeUnselected = array($data['matrix']['1']['2'], $data['matrix']['2']['2'], $data['matrix']['3']['2']);
         //Steps
         $this->productHelper()->createProduct($configurable, 'configurable');
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -511,7 +522,6 @@ class Community2_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium
         $this->addParameter('attributeTitle', $data['attribute2']);
         $this->fillCheckbox('configurable_attribute_title', 'no');
         $this->clickButton('generate_variations');
-        $attributeUnselected = array($data['matrix']['1']['2'], $data['matrix']['2']['2'], $data['matrix']['3']['2']);
         //Verifying
         foreach ($attributeUnselected as $value) {
             $this->addParameter('attributeSearch', "contains(.,'$value')");
@@ -519,31 +529,33 @@ class Community2_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium
                 "Matrix contains unselected attribute's data, but should not");
         }
     }
+
     /**
      * <p>Search non-existed in suggestion list configurable attribute</p>
      *
-     * @param $type
-     * @param $data
+     * @param string $type
+     * @param array $data
      *
+     * @test
      * @dataProvider attributeTitleFailDataProvider
      * @depends setConfigurableAttributesToNewSet
-     *
      * @testLinkId TL-MAGE-6516
-     * @test
      */
     public function selectNonExistedInListAttribute($type, $data)
     {
         //Data
         $configurable = $this->loadDataSet('Product', 'configurable_product_visible',
-            array('product_attribute_set' => $data['attributeSet'],
-                'configurable_attribute_title' => $data['attribute1']));
-        $absentAttributeTitle = array('selected' => $data['attribute1'],
-            'non-existed' => $this->generate('string', 255, ':alnum:'));
+            array(
+                'product_attribute_set' => $data['attributeSet'],
+                'configurable_attribute_title' => $data['attribute1']
+            )
+        );
+        $absentAttribute = ($type == 'selected') ? $data['attribute1'] : $this->generate('string', 255, ':alnum:');
         //Steps
         $this->productHelper()->createProduct($configurable, 'configurable');
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $configurable['general_sku']));
-        $this->fillField('attribute_selector', $absentAttributeTitle[$type]);
+        $this->fillField('attribute_selector', $absentAttribute);
         $this->typeKeys($this->_getControlXpath('field', 'attribute_selector'), "\b");
         $this->waitForElementVisible($this->_getControlXpath('field', 'attribute_selector')
             . "[contains(@class, 'ui-autocomplete-loading')]");
@@ -564,16 +576,15 @@ class Community2_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium
     /**
      * <p>Verify search results (special characters, xss injection)</p>
      *
-     * @param $attributeTitle
-     * @param $data
-     *
-     * @dataProvider attributeTitleSuccessDataProvider
-     * @depends createConfigurableAttribute
+     * @param string $attributeTitle
+     * @param array $data
      *
      * @test
+     * @dataProvider attributeTitleSuccessDataProvider
+     * @depends createConfigurableAttribute
      * @testLinkId TL-MAGE-6518
      */
-    public function selectAttributeSuccessfullySpecialData($attributeTitle, $data)
+    public function selectAttributeWithSpecialData($attributeTitle, $data)
     {
         $this->markTestIncomplete('Skipped due to bugs MAGETWO-5884 and MAGETWO-6028');
         //Data
