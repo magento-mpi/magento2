@@ -168,6 +168,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
      */
     public function assignThemeToStoreAction()
     {
+
         $themeId = (int)$this->getRequest()->getParam('theme_id');
         $stores = $this->getRequest()->getParam('stores');
 
@@ -179,12 +180,17 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
                 throw new InvalidArgumentException('Theme id is not valid');
             }
 
-            if ($stores === '') {
+            //TODO used until we find a way to convert array to JSON on JS side
+            $defaultStore = -1;
+            $emptyStores = -2;
+            if ($stores == $defaultStore) {
                 $ids = array_keys(Mage::app()->getStores());
                 $stores = array(array_shift($ids));
+            } elseif ($stores == $emptyStores) {
+                $stores = array();
             }
 
-            if (!is_array($stores) || empty($stores)) {
+            if (!is_array($stores)) {
                 throw new InvalidArgumentException('Param "stores" is not valid');
             }
 

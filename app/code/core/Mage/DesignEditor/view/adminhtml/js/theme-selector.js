@@ -174,22 +174,29 @@
                 theme_id: themeId,
                 stores:   stores
             };
-            var afterAssignSaveUrl = this.options.afterAssignSaveUrl;
-            $.post(this.options.assignSaveUrl, data, function(data) {
-                if (data.error) {
-                    alert($.mage.__('Error') + ': "' + data.error + '".');
+            //TODO since we can't convert data to JSON string we use magic numbers
+            var DEFAULT_STORE = '-1';
+            var EMPTY_STORES = '-2';
+            if (data.stores === null) {
+                data.stores = DEFAULT_STORE;
+            } else if (data.stores.length == 0) {
+                data.stores = EMPTY_STORES;
+            }
+            $.post(this.options.assignSaveUrl, data, $.proxy(function(response) {
+                if (response.error) {
+                    alert($.mage.__('Error') + ': "' + response.error + '".');
                 } else {
                     var defaultStore = 0;
                     var url = [
-                        afterAssignSaveUrl + 'store_id',
+                        this.options.afterAssignSaveUrl + 'store_id',
                         stores ? stores[0] : defaultStore,
                         'theme_id',
                         themeId
                     ].join('/');
+                    this.options.storesByThemes[themeId] = stores;
                     document.location = url;
                 }
-
-            }).error(function() {
+            }, this)).error(function() {
                 alert($.mage.__('Error: unknown error.'));
             });
         }
