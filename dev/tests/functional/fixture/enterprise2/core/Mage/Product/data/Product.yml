@@ -599,3 +599,11 @@ simple_product_sync_inventory:
     websites: Main Website
     categories: Default Category
     custom_options_data: %noValue%
+
+# Dataset for Product in product variation grid
+product_variation:
+    variation_name: Product Sync(%randomize%)
+    variation_price: 12
+    variation_sku: sku_%randomize%
+    variation_qty: %noValue%
+    variation_weight: %noValue%

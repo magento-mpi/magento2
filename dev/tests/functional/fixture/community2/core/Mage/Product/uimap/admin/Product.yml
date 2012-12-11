@@ -80,7 +80,7 @@ new_product:
                                         variation_qty: //tbody/tr[%attributeSearch%]//td[@class='associated-matrix-product-qty']/input
                                         variation_weight: //tbody/tr[%attributeSearch%]//td[@class='associated-matrix-product-weight']/input
                                     messages:
-                                        required_field: //*[contains(@for,'create_matrix_product') and contains(@for,'%field%')]
+                                        required_field: //*[@class='mage-error' and contains(@for,'variations-matrix') and contains(@for,'%field%')]
                         checkboxes:
                             is_configurable: //*[@id='config_super_product-checkbox']
                     prices:
