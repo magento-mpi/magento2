@@ -15,12 +15,6 @@ manage_encryption_key:
     click_xpath: //ul[@id='nav']//a[contains(@href, 'crypt_key/')]
     title: Manage Encription Key / System / Magento Admin
 
-# Admin Actions Log Report page
-admin_action_log_archive:
-    mca: logging/archive/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'logging/archive/')]
-    title: Archive / Admin Actions Logs / System / Magento Admin
-
 # Permissions Locked administrators page
 permissions_locked_users:
     mca: locks/
@@ -44,9 +38,3 @@ permissions_locked_users:
                             unlock: /input[@name='unlock']
         messages:
             user_unlocked: //li[normalize-space(@class)='success-msg' and contains(.,'Unlocked %unLockedUser% user(s).')]
-
-# Import/Export Scheduled Import/Export page
-import_export_scheduled:
-    mca: scheduled_operation/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'scheduled_operation/')]
-    title: Scheduled Imports/Exports / Magento Admin

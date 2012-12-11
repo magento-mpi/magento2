@@ -668,24 +668,6 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithEnableSingleStoreModeTes
     }
 
     /**
-     * <p>All references to Website-Store-Store View are displayed in the Import Export-Dataflow-Profiles area.</p>
-     *
-     * @test
-     * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6314
-     */
-    public function verificationImportExportDataflowProfiles()
-    {
-        $this->navigate('system_convert_gui');
-        $this->assertTrue($this->controlIsPresent('dropdown', 'store'), 'There is no "Store" column on the page');
-        $this->assertTrue($this->controlIsPresent('button', 'add_new_profile'),
-            'There is no "Add New Profile" button on the page');
-        $this->clickButton('add_new_profile');
-        $this->assertTrue($this->controlIsPresent('dropdown', 'store'),
-            'There is no "Store" multi selector on the page');
-    }
-
-    /**
      * <p>There is "Store View Specific Labels" field set is displayed in the Order Statuses area.</p>
      *
      * @test

@@ -65,7 +65,7 @@ class Mage_Selenium_TestConfigurationTest extends Unit_PHPUnit_TestCase
      */
     public function testGetTestHelperClassNames()
     {
-        $helperClassNames = $this->_testConfig->getTestHelperClasses();
+        $helperClassNames = $this->_testConfig->getTestHelperNames();
         $this->assertInternalType('array', $helperClassNames);
         $this->assertGreaterThan(0, count($helperClassNames));
         foreach ($helperClassNames as $name) {

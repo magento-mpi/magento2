@@ -160,6 +160,7 @@ report_product_sold:
                             refresh: //button[span='Refresh']
                         pageelements:
                             product_sold_grid: //table[@id='gridProductsSold_table']
+                            product_sold_grid_line: //table[@id='gridProductsSold_table']/tfoot/tr
                 -
                     store_switcher:
                         xpath: //div/p[@class='switcher']
@@ -300,6 +301,7 @@ report_customer_orders:
                              refresh: //button[span='Refresh']
                         pageelements:
                              customer_orders_grid: //table[@id='gridOrdersCustomer_table']
+                             customer_orders_grid_line: //table[@id='gridOrdersCustomer_table']/tfoot/tr
                 -
                     store_switcher:
                         xpath: //div/p[@class='switcher']

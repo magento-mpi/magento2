@@ -124,7 +124,7 @@ new_product:
                                         general_status: //select[@id='status']
                                         general_visibility: //select[@id='visibility']
                                         general_country_manufacture: //select[@id='country_of_manufacture']
-                                        general_stock_availability: //select[@id='quantity_and_stock_status']
+                                        general_stock_availability: //select[@name='product[quantity_and_stock_status][is_in_stock]']
                                         general_user_attr_dropdown: //select[@id='%attributeCodeDropdown%']
                                         general_min_price_type: //select[@id='price_type']
                                         general_min_tax_class: //select[@id='tax_class_id']
@@ -142,6 +142,10 @@ new_product:
                                         general_qty: //input[@name='product[quantity_and_stock_status][qty]']
                                         general_user_attr_field: //input[@id='%attributeCodeField%']
                                         general_min_price: //input[@id='price' and not(@disabled)]
+                                        general_weight_disabled: //input[@id='weight' and (@disabled)]
+                                    checkboxes:
+                                        weight_and_type_switcher: //input[@id='weight_and_type_switcher']
+                                        is_configurable: //*[@id='config_super_product-checkbox']
                                     multiselects:
                                         general_user_attr_multiselect: //select[@id='%attributeCodeMultiselect%']
                             -
@@ -178,6 +182,21 @@ new_product:
                                     xpath: //*[contains(concat(' ', normalize-space(@class), ' '), ' ui-autocomplete ')]
                                     links:
                                         suggested_category_name: /*[contains(concat(' ', normalize-space(@class), ' '), ' ui-menu-item ')]/*[text()='%categoryName%']
+                            -
+                                product_variations:
+                                    xpath: //*[@id='config_super_product']/fieldset
+                                    checkboxes:
+                                        configurable_attribute_title: //input[@type='checkbox' and @title='%attributeTitle%']
+                                        associated_product_select: //tbody/tr[%rowNum%]//*[@class='checkbox']
+                                    buttons:
+                                        continue: //*[@data-ui-id='admin-product-edit-tab-super-config-grid-container-super-settings-continue-button']
+                            -
+                                variations_matrix:
+                                    xpath: //*[@id='product-variations-matrix']
+                                    checkboxes:
+                                        include_variation: //tbody/tr[%rowNum%]//*[@type='checkbox']
+                                    pageelements:
+                                        variation_line: //table/tbody/tr[%rowNum%]
                 -
                     prices: &pricesTab
                         xpath: //a[@title='Prices']
@@ -986,3 +1005,4 @@ updating_products:
             back: //button[span='Back']
             reset: //button[span='Reset']
             save: //button[@data-ui-id='product-edit-save-button']
+        messages: *productMesssages

@@ -1726,4 +1726,97 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->clickButton('add_group_price', false);
         $this->fillForm($groupPriceData, 'prices');
     }
+
+    /**
+     * Delete Samples/Links rows on Downloadable Information tab
+     */
+    public function deleteDownloadableInformation($type)
+    {
+        $this->openTab('downloadable_information');
+        if (!$this->controlIsPresent('pageelement', 'opened_downloadable_' . $type)) {
+            $this->clickControl('link', 'downloadable_' . $type, false);
+        }
+        $rowQty = $this->getControlCount('pageelement', 'added_downloadable_' . $type);
+        if ($rowQty > 0) {
+            while ($rowQty > 0) {
+                $this->addParameter('rowId', $rowQty);
+                $this->clickButton('delete_' . $type, false);
+                $rowQty--;
+            }
+        }
+    }
+
+    /**
+     * Unassign all associated products in configurable product
+     */
+    public function unassignAllAssociatedProducts()
+    {
+        $this->openTab('general');
+        if ($this->controlIsVisible('fieldset', 'associated')) {
+            $checkboxElements =
+                $this->getChildElements($this->getControlElement('fieldset', 'associated'), "//*[@class='checkbox']",
+                    false);
+            $rowNumber = count($checkboxElements) - 1;
+            while ($rowNumber > 0) {
+                $this->addParameter('rowNum', $rowNumber);
+                if ($this->controlIsVisible('checkbox', 'associated_product_select')
+                    && $this->getControlElement('checkbox', 'associated_product_select')->selected()
+                ) {
+                    $this->clickControl('checkbox', 'associated_product_select', false);
+                }
+                $rowNumber--;
+            }
+        }
+    }
+
+    /**
+     * Get product type by it's sku from Manage Products grid
+     *
+     * @param $productData
+     *
+     * @return string
+     */
+    public function getProductType($productData)
+    {
+        $column = $this->getColumnIdByName('Type');
+        $productLocator = $this->formSearchXpath(array('sku' => $productData['general_sku']));
+
+        return trim($this->getElement($productLocator . "//td[$column]")->text());
+    }
+
+    /**
+     * Check variation matrix combinations
+     *
+     * @param array $matrixData
+     */
+    public function checkGeneratedMatrix(array $matrixData)
+    {
+        $columnShift = 5; //number of columns before configurable attributes
+        $rowNumber = count($this->getChildElements($this->getControlElement('fieldset', 'variations_matrix'),
+            "//*[@type='checkbox']", false));
+        if ($rowNumber == count($matrixData)) {
+            while ($rowNumber > 0) {
+                $this->addParameter('rowNum', $rowNumber);
+                if ($this->getControlElement('checkbox', 'include_variation')->selected()) {
+                    $this->addVerificationMessage('Checkbox in ' . $rowNumber . ' is selected by default');
+                }
+                $attributeColumn = 1;
+                $variationElement = $this->getElement('pageelement', 'variation_line');
+                foreach ($matrixData[$rowNumber] as $value) {
+                    $number = $columnShift + $attributeColumn;
+                    $variationData = $this->getChildElement($variationElement, 'td[' . $number . ']')->text();
+                    $attributeColumn++;
+                    if ($value != $variationData) {
+                        $this->addVerificationMessage('Checkbox in ' . $rowNumber . ' is selected by default');
+                        $this->addVerificationMessage('Row: ' . $rowNumber . '\nExpected attribute option: = ' . $value
+                                                      . '\nActual attribute option: ' . $variationData);
+                    }
+                }
+                $rowNumber--;
+            }
+        } else {
+            $this->fail('Not all variations are represented in variation matrix');
+        }
+        $this->assertEmptyVerificationErrors();
+    }
 }

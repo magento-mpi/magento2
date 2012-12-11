@@ -45,6 +45,7 @@ class Mage_Selenium_TestSuite extends PHPUnit_Framework_TestSuite
     /**
      * Get test skip filter
      *
+     * @throws RuntimeException
      * @return Mage_Test_SkipFilter|null
      */
     public function getTestFilter()
@@ -73,7 +74,10 @@ class Mage_Selenium_TestSuite extends PHPUnit_Framework_TestSuite
      * Adds the tests from the given class to the suite.
      *
      * @param  mixed $testClass
+     *
      * @throws InvalidArgumentException
+     * @throws PHPUnit_Framework_Exception
+     * @return void
      */
     public function addTestSuite($testClass)
     {
@@ -135,6 +139,9 @@ class Mage_Selenium_TestSuite extends PHPUnit_Framework_TestSuite
      *
      * @param string $filename
      * @param array $phptOptions
+     *
+     * @throws PHPUnit_Framework_Exception
+     * @return void
      */
     public function addTestFile($filename, $phptOptions = array())
     {

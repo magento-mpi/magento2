@@ -53,10 +53,10 @@ api_roles_management:
             success_saved_role: //li[normalize-space(@class)='success-msg' and contains(.,'The API role has been saved.')]
             success_deleted_role: //li[normalize-space(@class)='success-msg' and contains(.,'The API role has been deleted.')]
             role_exist: //li[normalize-space(@class)='error-msg' and contains(.,'Role name is already in use')]
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This field is required.' and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure you want to do this?
 
-new_api_role:
+new_role:
     mca: webapi_role/edit/
     title: New API Role / API Roles / Web Api / System / Magento Admin
     uimap:
@@ -86,12 +86,12 @@ new_api_role:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save: //button[span='Save API Role']
+            save: //button[@data-ui-id='webapi-role-edit-save-button']
             delete: //button[span='Delete API Role']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save_and_continue_edit: //button[@data-ui-id='webapi-role-edit-save-and-continue-button']
         messages: *pageMessages
 
-edit_api_role:
+edit_role:
     mca: webapi_role/edit/role_id/%id%/
     title: Edit API Role / API Roles / Web Api / System / Magento Admin
     uimap:
@@ -138,7 +138,7 @@ edit_api_role:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save: //button[span='Save API Role']
+            save: //button[@data-ui-id='webapi-role-edit-save-button']
             delete: //button[span='Delete API Role']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save_and_continue_edit: //button[@data-ui-id='webapi-role-edit-save-and-continue-button']
         messages: *pageMessages

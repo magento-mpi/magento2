@@ -227,14 +227,3 @@ adding_new_address_book:
                         buttons:
                             save_address: //button[span='Save Address']
         messages: *myAccountMessages
-        
-my_credit_cards:
-    mca: enterprise_pbridge/payment_profile/
-    title: Magento Enterprise Edition
-    uimap:
-        form:
-            fieldsets:
-                -
-                    general_elements:
-                        pageelements:
-                            account_title: //div[@class='page-title' and contains(., 'My Credit Card profiles')]

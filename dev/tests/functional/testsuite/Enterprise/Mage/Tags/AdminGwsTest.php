@@ -297,8 +297,7 @@ class Enterprise_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
             'base_popularity' => 'field'
         );
         foreach ($fieldListForCheck as $fieldName => $fieldType) {
-            $xpath = $this->_getControlXpath($fieldType, $fieldName);
-            $this->assertFalse($this->getElement($xpath)->enabled());
+            $this->assertFalse($this->controlIsEditable($fieldType, $fieldName));
         }
 
         $this->logoutAdminUser();

@@ -125,7 +125,7 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_AbstractHelper
     /**
      * @param $returnArray
      */
-    protected function _returnArray($returnArray)
+    protected function _formDataForVerifying($returnArray)
     {
         foreach ($returnArray as &$value) {
             if (isset($value['remove'])) {
@@ -160,6 +160,7 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_AbstractHelper
                 }
             }
         }
+        return $returnArray;
     }
 
     /**
@@ -200,7 +201,7 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_AbstractHelper
             unset($data[$number]);
         }
 
-        return $this->_returnArray($returnArray);
+        return $this->_formDataForVerifying($returnArray);
     }
 
     /**

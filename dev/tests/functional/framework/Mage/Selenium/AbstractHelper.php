@@ -199,7 +199,6 @@
  * @method Core_Mage_ValidationVatNumber_Helper                                                        validationVatNumberHelper()
  * @method Core_Mage_Wishlist_Helper|Enterprise_Mage_Wishlist_Helper                                   wishlistHelper()
  * @method Core_Mage_XmlSitemap_Helper                                                                 xmlSitemapHelper()
- * @method Core_Mage_Grid_Helper                                                                       gridHelper()
  * @method Enterprise_Mage_AddBySku_Helper                                                             addBySkuHelper()
  * @method Enterprise_Mage_Attributes_Helper                                                           attributesHelper()
  * @method Enterprise_Mage_CacheStorageManagement_Helper                                               cacheStorageManagementHelper()
@@ -243,6 +242,27 @@ class Mage_Selenium_AbstractHelper
      * @var Mage_Selenium_TestCase
      */
     protected $_testInstance;
+
+    /**
+     * Types of uimap elements
+     */
+    const FIELD_TYPE_COMPOSITE_MULTISELECT = 'composite_multiselect';
+    const FIELD_TYPE_CHECKBOX = 'checkbox';
+    const FIELD_TYPE_DROPDOWN = 'dropdown';
+    const FIELD_TYPE_INPUT = 'field';
+    const FIELD_TYPE_LINK = 'link';
+    const FIELD_TYPE_MULTISELECT = 'multiselect';
+    const FIELD_TYPE_PAGEELEMENT = 'pageelement';
+    const FIELD_TYPE_RADIOBUTTON = 'radiobutton';
+
+    const UIMAP_TYPE_FIELDSET = 'fieldset';
+    const UIMAP_TYPE_MESSAGE = 'message';
+    /**
+     * Message types
+     */
+    const MESSAGE_TYPE_ERROR = 'error';
+    const MESSAGE_TYPE_SUCCESS = 'success';
+    const MESSAGE_TYPE_VALIDATION = 'validation';
 
     /**
      * Constructor expects global test object

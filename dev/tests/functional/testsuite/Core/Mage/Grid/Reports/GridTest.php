@@ -118,10 +118,9 @@ class Core_Mage_Grid_Reports_GridTest extends Mage_Selenium_TestCase
         $this->navigate('report_product_sold');
         $this->gridHelper()->fillDateFromTo();
         $this->clickButton('refresh');
-        $setXpath = $this->_getControlXpath('pageelement', 'product_sold_grid') . '/tfoot' . '/tr';
-        $count = count($this->getElements($setXpath));
-        $element = $this->getElement($setXpath . "[$count]/*[3]");
-        $totalBefore = $element->text();
+        $lineLocator = $this->_getControlXpath('pageelement', 'product_sold_grid_line');
+        $count = $this->getControlCount('pageelement', 'product_sold_grid_line');
+        $totalBefore = $this->getElement($lineLocator . "[$count]/*[3]")->text();
         // Create Product
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
         $this->navigate('manage_products');
@@ -138,10 +137,8 @@ class Core_Mage_Grid_Reports_GridTest extends Mage_Selenium_TestCase
         $this->gridHelper()->fillDateFromTo();
         $this->clickButton('refresh');
         //Check Quantity Ordered after  new order created
-        $setXpath = $this->_getControlXpath('pageelement', 'product_sold_grid') . '/tfoot' . '/tr';
-        $count = count($this->getElements($setXpath));
-        $element = $this->getElement($setXpath . "[$count]/*[3]");
-        $totalAfter = $element->text();
+        $count = $this->getControlCount('pageelement', 'product_sold_grid_line');
+        $totalAfter = $this->getElement($lineLocator . "[$count]/*[3]")->text();
         $this->assertEquals($totalBefore + 1, $totalAfter);
     }
 
@@ -166,10 +163,9 @@ class Core_Mage_Grid_Reports_GridTest extends Mage_Selenium_TestCase
         $this->navigate('report_customer_orders');
         $this->gridHelper()->fillDateFromTo();
         $this->clickButton('refresh');
-        $setXpath = $this->_getControlXpath('pageelement', 'customer_orders_grid') . '/tfoot' . '/tr';
-        $count = count($this->getElements($setXpath));
-        $element = $this->getElement($setXpath . "[$count]/*[3]");
-        $totalBefore = $element->text();
+        $lineLocator = $this->_getControlXpath('pageelement', 'customer_orders_grid_line');
+        $count = $this->getControlCount('pageelement', 'customer_orders_grid_line');
+        $totalBefore = $this->getElement($lineLocator . "[$count]/*[3]")->text();
         // Create Product
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
         $this->navigate('manage_products');
@@ -186,10 +182,8 @@ class Core_Mage_Grid_Reports_GridTest extends Mage_Selenium_TestCase
         $this->gridHelper()->fillDateFromTo();
         $this->clickButton('refresh');
         //Check Quantity Ordered after  new order created
-        $setXpath = $this->_getControlXpath('pageelement', 'customer_orders_grid') . '/tfoot' . '/tr';
-        $count = count($this->getElements($setXpath));
-        $element = $this->getElement($setXpath . "[$count]/*[3]");
-        $totalAfter = $element->text();
+        $count = $this->getControlCount('pageelement', 'customer_orders_grid_line');
+        $totalAfter = $this->getElement($lineLocator . "[$count]/*[3]")->text();
         $this->assertEquals($totalBefore + 1, $totalAfter);
     }
 }

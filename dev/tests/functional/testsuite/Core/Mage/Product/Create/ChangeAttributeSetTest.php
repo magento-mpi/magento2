@@ -16,10 +16,6 @@
  */
 class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to Catalog - Manage Products</p>
-     */
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -27,10 +23,6 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
     }
 
     /**
-     * <p>Preconditions for tests</p>
-     * <p>1. Custom attribute set based on "Default" set is created</p>
-     * <p>2. A new attribute is created and added to custom attribute set</p>
-     *
      * @test
      *
      * @return array
@@ -38,14 +30,8 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
     public function preconditionsForTests()
     {
         //Data
-        $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
-        $testData = $this->loadDataSet('AttributeSet', 'attribute_set',
-            array('General' => $attrData['attribute_code']));
-        $setName = $testData['set_name'];
-        //Steps
-        $attributeSet = $this->loadDataSet('AttributeSet', 'attribute_set');
-        $attributeData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
-        $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
+        $attributeData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');        
+        $attributeSet = $this->loadDataSet('AttributeSet', 'attribute_set',
             array('General' => $attributeData['attribute_code']));
         $simpleProduct = $this->loadDataSet('Product', 'simple_product_visible',
             array('product_attribute_set' => $attributeSet['set_name']));
@@ -57,13 +43,7 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Create attribute set
         $this->navigate('manage_attribute_sets');
-        $this->attributeSetHelper()->createAttributeSet($testData);
-        //Verifying
         $this->attributeSetHelper()->createAttributeSet($attributeSet);
-        $this->assertMessagePresent('success', 'success_attribute_set_saved');
-        $this->attributeSetHelper()->openAttributeSet($attributeSet['set_name']);
-        $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
-        $this->saveForm('save_attribute_set');
         $this->assertMessagePresent('success', 'success_attribute_set_saved');
         //Create simple product for configurable product
         $this->navigate('manage_products');

@@ -256,7 +256,8 @@ class Core_Mage_FlatCatalog_FlatCatalogTest extends Mage_Selenium_TestCase
         //Verification
         $val = explode(',',
             $flatCatalogData['tab_1']['configuration']['frontend']['products_per_page_on_list_allowed_values']);
-        $actual = $this->select($this->getControlElement('dropdown', ''))->selectOptionLabels();
+        $actual = $this->select($this->getControlElement('dropdown', 'products_per_page_on_list_allowed_values'))
+            ->selectOptionLabels();
         $this->assertEquals($val, $actual);
     }
 
@@ -282,7 +283,8 @@ class Core_Mage_FlatCatalog_FlatCatalogTest extends Mage_Selenium_TestCase
         //Verification
         $val = explode(',',
             $flatCatalogData['tab_1']['configuration']['frontend']['products_per_page_on_grid_allowed_values']);
-        $actual = $this->select($this->getControlElement('dropdown', ''))->selectOptionLabels();
+        $actual = $this->select($this->getControlElement('dropdown', 'products_per_page_on_list_allowed_values'))
+            ->selectOptionLabels();
         $this->assertEquals($val, $actual);
     }
 

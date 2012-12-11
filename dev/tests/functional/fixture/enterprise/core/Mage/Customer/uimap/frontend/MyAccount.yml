@@ -129,3 +129,32 @@ my_credit_cards:
                         pageelements:
                             account_title: //div[@class='page-title' and contains(., 'My Credit Card profiles')]
 
+my_invitations:
+    mca: invitation/
+    title: My Invitations
+    uimap:
+        form:
+            fieldsets:
+                -
+                    my_invitation:
+                        xpath: //div[@class="my-account"]
+                        buttons:
+                            send_invitation: //a[@class='button' and contains(.,'Send Invitations')]
+        messages:
+            success_send: //li[normalize-space(@class)='success-msg' and contains(.,'Invitation for %email% has been sent.')]
+            failed_send: //li[normalize-space(@class)='error-msg' and contains(.,'Failed to send email to %email%.')]
+
+my_invitations_send:
+    mca: invitation/index/send/
+    title: Send Invitations
+    uimap:
+        form:
+            fieldsets:
+                -
+                    send_invitations:
+                        xpath: //div[@class="my-account"]
+                        fields:
+                            email: //input[@id='email_%num%']
+                            message_textarea: //textarea[@id='message']
+        buttons:
+            send_invitation: //button[span='Send Invitations']

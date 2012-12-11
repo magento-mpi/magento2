@@ -36,6 +36,7 @@ class Core_Mage_ProductAttribute_SystemAttributeTest extends Mage_Selenium_TestC
      * @test
      * @dataProvider systemAttributesDataProvider
      * @TestLinkId TL-MAGE-6423
+     * @author Maryna_Ilnytska
      */
     public function checkApplyProductTypeOptionDisabled($attributeCode, $applyTo, $types)
     {
@@ -43,30 +44,27 @@ class Core_Mage_ProductAttribute_SystemAttributeTest extends Mage_Selenium_TestC
         $this->addParameter('attribute_code', $attributeCode);
         switch ($attributeCode) {
             case 'price':
-                $this->searchAndOpen(array('attribute_code'=> 'price',
-                                           'used_in_layered_navigation' => 'Filterable (with results)'),
-                                     'attributes_grid');
+                $search = array('attribute_code' => 'price',
+                                'used_in_layered_navigation' => 'Filterable (with results)');
                 break;
             case 'status':
-                $this->searchAndOpen(array('attribute_label' => 'Status'), 'attributes_grid');
+                $search = array('attribute_label' => 'Status');
                 break;
             default:
-                $this->searchAndOpen(array('attribute_code' => $attributeCode), 'attributes_grid');
+                $search = array('attribute_code' => $attributeCode);
                 break;
         }
+        $this->searchAndOpen($search, 'attributes_grid');
         //Verifying
-        $dropdownXpath = $this->_getControlXpath('dropdown', 'apply_to');
-        $this->assertTrue($this->elementIsPresent($dropdownXpath . "[@disabled = 'disabled']"));
+        $this->assertTrue($this->getControlElement('dropdown', 'apply_to')->enabled());
         if ($applyTo == 'All Product Types') {
-            $this->assertFalse($this->elementIsPresent('apply_product_types'));
-        }
-        else {
+            $this->assertFalse($this->controlIsPresent('multiselect', 'apply_product_types'));
+        } else {
             $this->assertTrue($this->controlIsPresent('multiselect', 'apply_product_types'),
                 'Apply To multiselect is absent');
-            $this->assertFalse($this->controlIsEditable('multiselect', 'apply_product_types'),
-                'Apply To multiselect is enabled');
-            $selected = (array)($this->getControlAttribute('multiselect', 'apply_product_types', 'selectedValue'));
-            $this->assertEmpty(array_diff($selected, $types));
+            $element = $this->getControlElement('multiselect', 'apply_product_types');
+            $this->assertFalse($element->enabled(), 'Apply To multiselect is enabled');
+            $this->assertEquals($types, $this->select($element)->selectedLabels());
         }
     }
 

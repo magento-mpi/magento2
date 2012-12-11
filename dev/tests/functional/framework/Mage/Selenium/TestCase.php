@@ -34,6 +34,7 @@
  * @method Core_Mage_Customer_Helper|Enterprise_Mage_Customer_Helper                                   customerHelper()
  * @method Core_Mage_ImportExport_Helper|Enterprise_Mage_ImportExport_Helper                           importExportHelper()
  * @method Core_Mage_Installation_Helper                                                               installationHelper()
+ * @method Enterprise_Mage_Invitation_Helper                                                           invitationHelper()
  * @method Core_Mage_LayeredNavigation_Helper                                                          layeredNavigationHelper()
  * @method Core_Mage_Newsletter_Helper                                                                 newsletterHelper()
  * @method Core_Mage_OrderCreditMemo_Helper                                                            orderCreditMemoHelper()
@@ -70,6 +71,7 @@
  * @method Enterprise_Mage_Rollback_Helper                                                             rollbackHelper()
  * @method Enterprise_Mage_StagingWebsite_Helper                                                       stagingWebsiteHelper()
  * @method Enterprise_Mage_WebsiteRestrictions_Helper                                                  websiteRestrictionsHelper()
+ * @method Core_Mage_Grid_Helper                                                                       gridHelper()
  */
 //@codingStandardsIgnoreEnd
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
@@ -185,24 +187,24 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     /**
      * Types of uimap elements
      */
-    const FIELD_TYPE_CHECKBOX    = 'checkbox';
-    const FIELD_TYPE_DROPDOWN    = 'dropdown';
-    const FIELD_TYPE_INPUT       = 'field';
-    const FIELD_TYPE_FIELDSET    = 'fieldset';
-    const FIELD_TYPE_LINK        = 'link';
-    const FIELD_TYPE_MESSAGE     = 'message';
+    const FIELD_TYPE_COMPOSITE_MULTISELECT = 'composite_multiselect';
+    const FIELD_TYPE_CHECKBOX = 'checkbox';
+    const FIELD_TYPE_DROPDOWN = 'dropdown';
+    const FIELD_TYPE_INPUT = 'field';
+    const FIELD_TYPE_LINK = 'link';
     const FIELD_TYPE_MULTISELECT = 'multiselect';
     const FIELD_TYPE_PAGEELEMENT = 'pageelement';
     const FIELD_TYPE_RADIOBUTTON = 'radiobutton';
-    const FIELD_TYPE_COMPOSITE_MULTISELECT = 'composite_multiselect';
 
+    const UIMAP_TYPE_FIELDSET = 'fieldset';
+    const UIMAP_TYPE_MESSAGE = 'message';
     /**
      * Message types
      */
-    const MESSAGE_TYPE_ERROR      = 'error';
-    const MESSAGE_TYPE_SUCCESS    = 'success';
+    const MESSAGE_TYPE_ERROR = 'error';
+    const MESSAGE_TYPE_SUCCESS = 'success';
     const MESSAGE_TYPE_VALIDATION = 'validation';
-    
+
     ################################################################################
     #                             Else variables                                   #
     ################################################################################
@@ -487,6 +489,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     {
         return $this->_uimapHelper;
     }
+
     ################################################################################
     #                                                                              #
     #                               Assertions Methods                             #
@@ -1211,6 +1214,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         return "\nCurrent url: '" . $this->url() . "'\nCurrent page: '" . $this->getCurrentPage() . "'\nCurrent area: '"
                . $this->getArea() . "'\n";
     }
+
     ################################################################################
     #                                                                              #
     #                               Navigation helper methods                      #
@@ -1618,11 +1622,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         //Delete action part of mca if it's ?SID=
         $mca = preg_replace('|(\?)?SID=([a-zA-Z\d]+)?|', '', $mca);
 
-        //@TODO Temporary fix for magento2
-        //$value = preg_quote('?ajax=true&isAjax=true');
-        //$mca = preg_replace('/' . $value . '(\/)?/', '', $mca);
-        //$mca = preg_replace('/\&set=[0-9]+/', '', $mca);
-
         return preg_replace('|^/|', '', $mca);
     }
 
@@ -1881,8 +1880,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             foreach ($fieldsetsElements as $fieldsetContent) {
                 foreach ($fieldsetContent as $fieldsType => $fieldsData) {
                     if (array_key_exists($dataFieldName, $fieldsData)) {
-                        $dataMap[$dataFieldName] = array('type'  => $fieldsType, 'value' => $dataFieldValue,
-                                                         'path'  => $fieldsData[$dataFieldName],);
+                        $dataMap[$dataFieldName] = array('type' => $fieldsType, 'value' => $dataFieldValue,
+                                                         'path' => $fieldsData[$dataFieldName],);
                         break 2;
                     }
                 }
@@ -2443,7 +2442,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public static function combineLocatorsToOne(array $locators)
     {
         $values = array_values($locators);
-        $locatorDeterminants = array('//' => '|', 'css='=> ', ');
+        $locatorDeterminants = array('//' => '|', 'css=' => ', ');
         $implodeParameter = '';
         foreach ($locatorDeterminants as $matchValue => $implodeValue) {
             $isOneType = true;
@@ -2782,10 +2781,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @return array
      */
-    public function _prepareDataForSearch(
-        array $data,
-        array $checkFields = array(self::FIELD_TYPE_DROPDOWN => 'website')
-    ) {
+    public function _prepareDataForSearch(array $data, $checkFields = array(self::FIELD_TYPE_DROPDOWN => 'website'))
+    {
         foreach ($checkFields as $fieldType => $fieldName) {
             if (array_key_exists($fieldName, $data) && !$this->controlIsPresent($fieldType, $fieldName)) {
                 unset($data[$fieldName]);
@@ -3708,13 +3705,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @throws OutOfRangeException
      * @return bool
      */
-    public function selectStoreScope(
-        $controlType,
-        $controlName,
-        $scopePath = null,
-        $confirmation = false,
-        $scopeType = 'storeView'
-    ) {
+    public function selectStoreScope($controlType, $controlName, $scopePath = null,
+                                     $confirmation = false, $scopeType = 'storeView')
+    {
         if (is_null($scopePath)) {
             $scopePath = 'Main Website/Main Website Store/Default Store View';
         }
@@ -3828,11 +3821,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @return array
      */
-    public function getChildElements(
-        PHPUnit_Extensions_Selenium2TestCase_Element $parentElement,
-        $childLocator,
-        $failIfEmpty = true
-    ) {
+    public function getChildElements(PHPUnit_Extensions_Selenium2TestCase_Element $parentElement, $childLocator,
+                                     $failIfEmpty = true)
+    {
         if (preg_match('|^//|', $childLocator)) {
             $childLocator = '.' . $childLocator;
         }
@@ -4034,7 +4025,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         } else {
             return;
         }
-        $this->execute(array('script' => $script, 'args'   => array()));
+        $this->execute(array('script' => $script, 'args' => array()));
     }
 
     /**
@@ -4077,5 +4068,5 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $suite = new Mage_Selenium_TestSuite($class, '', $filter);
         }
         return $suite;
-    }    
+    }
 }

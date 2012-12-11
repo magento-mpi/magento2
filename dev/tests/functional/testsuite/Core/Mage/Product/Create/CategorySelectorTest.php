@@ -68,7 +68,6 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
      * @test
      * @dataProvider categoryNameDataProvider
      * @TestlinkId TL-MAGE-6348
-     * @author Dmytro_Aponasenko
      */
     public function selectCategory($categoryName)
     {
@@ -95,7 +94,6 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-6357
-     * @author Dmytro_Aponasenko
      */
     public function selectCategoryWithSubcategories($categories)
     {
@@ -122,7 +120,6 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-6356
-     * @author Dmytro_Aponasenko
      */
     public function selectSameCategoryTwice($categories)
     {
@@ -147,7 +144,6 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-6350
-     * @author Dmytro_Aponasenko
      */
     public function selectTwoDifferentCategories($categories)
     {
@@ -169,7 +165,6 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-6351
-     * @author Dmytro_Aponasenko
      */
     public function selectTwoCategoriesWithSameNameInOneRootCategory($categories)
     {
@@ -191,7 +186,6 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-6349
-     * @author Dmytro_Aponasenko
      */
     public function selectTwoCategoriesWithSameNameInDifferentRootCategories($categories)
     {
@@ -211,7 +205,6 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
      * @test
      * @depends selectCategory
      * @TestlinkId TL-MAGE-6353
-     * @author Dmytro_Aponasenko
      */
     public function searchForNonexistentCategory()
     {
@@ -234,7 +227,6 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-6352
-     * @author Dmytro_Aponasenko
      */
     public function deleteSelectedCategory($categories)
     {
@@ -250,7 +242,7 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         //Verifying
         $this->assertMessagePresent(self::MESSAGE_TYPE_SUCCESS, 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
-        $this->assertEquals('', $this->getControlAttribute('field', 'categories', 'text'),
+        $this->assertEquals('', $this->getControlAttribute('field', 'categories', 'value'),
             'Category was not unassigned from product.');
     }
 
@@ -260,7 +252,6 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-6354
-     * @author Dmytro_Aponasenko
      * @todo move these checks to "duplicate product" test case
      */
     public function duplicateProduct($categories)
@@ -286,7 +277,6 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-6355
-     * @author Dmytro_Aponasenko
      * @todo move these checks to "change attribute set" test case
      */
     public function changeAttributeSet($categories)
@@ -321,23 +311,20 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $this->openTab('general');
 
         // manual check of message by xpath is needed because assertMessageNotPresent fails on invisible messages
-        $messageCategoryNameRequired = $this->_getControlXpath(self::FIELD_TYPE_MESSAGE, 'category_name_required');
-        $messageParentNameRequired = $this->_getControlXpath(self::FIELD_TYPE_MESSAGE, 'parent_name_required');
-        $messageParentNameExistent = $this->_getControlXpath(self::FIELD_TYPE_MESSAGE, 'parent_name_existent');
-        $newCategoryForm = $this->_getControlXpath(self::FIELD_TYPE_FIELDSET, 'new_category_form');
+        $newCategoryForm = $this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'new_category_form');
 
         $this->clickButton('new_category', false);
-        $this->assertTrue($this->waitForElementVisible($newCategoryForm));
+        $this->waitForElementVisible($newCategoryForm);
         // no validation messages displayed
-        $this->assertFalse($this->elementIsPresent($messageCategoryNameRequired));
-        $this->assertFalse($this->elementIsPresent($messageParentNameRequired));
-        $this->assertFalse($this->elementIsPresent($messageParentNameExistent));
+        $this->assertFalse($this->controlIsPresent(self::UIMAP_TYPE_MESSAGE, 'category_name_required'));
+        $this->assertFalse($this->controlIsPresent(self::UIMAP_TYPE_MESSAGE, 'parent_name_required'));
+        $this->assertFalse($this->controlIsPresent(self::UIMAP_TYPE_MESSAGE, 'parent_name_existent'));
 
         $this->clickButton('new_category_save', false);
         // required fields validation messages shown after save attempt without data entering
-        $this->assertTrue($this->controlIsVisible(self::FIELD_TYPE_MESSAGE, 'category_name_required'));
-        $this->assertTrue($this->controlIsVisible(self::FIELD_TYPE_MESSAGE, 'parent_name_required'));
-        $this->assertFalse($this->elementIsPresent($messageParentNameExistent));
+        $this->assertTrue($this->controlIsVisible(self::UIMAP_TYPE_MESSAGE, 'category_name_required'));
+        $this->assertTrue($this->controlIsVisible(self::UIMAP_TYPE_MESSAGE, 'parent_name_required'));
+        $this->assertFalse($this->controlIsPresent(self::UIMAP_TYPE_MESSAGE, 'parent_name_existent'));
 
         $this->fillFieldset(array(
             'name' => $this->generate('string', 256, ':alnum:'),
@@ -347,22 +334,21 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         sleep(1); // giving time for messages to disappear with animation, waitForElementNotVisible would do the job
 
         // only "Choose existing category" validation message is displayed
-        $this->assertFalse($this->controlIsVisible(self::FIELD_TYPE_MESSAGE, 'category_name_required'));
-        $this->assertFalse($this->controlIsVisible(self::FIELD_TYPE_MESSAGE, 'parent_name_required'));
-        $this->assertTrue($this->controlIsVisible(self::FIELD_TYPE_MESSAGE, 'parent_name_existent'));
+        $this->assertFalse($this->controlIsVisible(self::UIMAP_TYPE_MESSAGE, 'category_name_required'));
+        $this->assertFalse($this->controlIsVisible(self::UIMAP_TYPE_MESSAGE, 'parent_name_required'));
+        $this->assertTrue($this->controlIsVisible(self::UIMAP_TYPE_MESSAGE, 'parent_name_existent'));
 
         $this->clickButton('new_category_cancel', false);
-        $this->assertFalse($this->controlIsVisible(self::FIELD_TYPE_FIELDSET, 'new_category_form'));
+        $this->assertFalse($this->controlIsVisible(self::UIMAP_TYPE_MESSAGE, 'parent_name_existent'));
 
         $this->clickButton('new_category', false);
-        $this->assertTrue($this->waitForElementVisible($newCategoryForm));
+        $this->waitForElementVisible($newCategoryForm);
         // fields are cleared, no validation messages displayed
-        $this->assertEmpty($this->getElement($this->_getControlXpath(self::FIELD_TYPE_INPUT, 'name'))->text(), 'value');
-        $this->assertEmpty($this->getElement(
-            $this->_getControlXpath(self::FIELD_TYPE_INPUT, 'parent_category'))->text(), 'value');
-        $this->assertFalse($this->controlIsVisible(self::FIELD_TYPE_MESSAGE, 'category_name_required'));
-        $this->assertFalse($this->controlIsVisible(self::FIELD_TYPE_MESSAGE, 'parent_name_required'));
-        $this->assertFalse($this->controlIsVisible(self::FIELD_TYPE_MESSAGE, 'parent_name_existent'));
+        $this->assertEmpty($this->getControlAttribute(self::FIELD_TYPE_INPUT, 'name', 'value'));
+        $this->assertEmpty($this->getControlAttribute(self::FIELD_TYPE_INPUT, 'parent_category', 'value'));
+        $this->assertFalse($this->controlIsVisible(self::UIMAP_TYPE_MESSAGE, 'category_name_required'));
+        $this->assertFalse($this->controlIsVisible(self::UIMAP_TYPE_MESSAGE, 'parent_name_required'));
+        $this->assertFalse($this->controlIsVisible(self::UIMAP_TYPE_MESSAGE, 'parent_name_existent'));
     }
 
     /**
@@ -388,12 +374,10 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $this->fillField('categories', $newCategoryNameBeginning);
 
         $this->clickButton('new_category', false);
-        $this->assertTrue(
-            $this->waitForElementVisible($this->_getControlXpath(self::FIELD_TYPE_FIELDSET, 'new_category_form'))
-        );
+        $this->waitForElementVisible($this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'new_category_form'));
         // check new category name pre-population
         $this->assertEquals($newCategoryNameBeginning,
-            $this->getElement($this->_getControlXpath(self::FIELD_TYPE_INPUT, 'name'))->text(), 'value');
+            $this->getControlAttribute(self::FIELD_TYPE_INPUT, 'name', 'value'));
 
         $this->fillField('name', $newCategoryName);
         $this->_chooseParentCategory($parentCategory);
@@ -401,10 +385,8 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $this->clickButton('new_category_save', false);
         // wait for new category to appear in selected categories list
         $this->addParameter('categoryName', $expectedCategoryNameAfterSave);
-        $this->assertTrue(
-            $this->waitForElementVisible($this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'category_name'))
-        );
-        $this->assertFalse($this->controlIsVisible(self::FIELD_TYPE_FIELDSET, 'new_category_form'));
+        $this->waitForElementVisible($this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'category_name'));
+        $this->assertFalse($this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'new_category_form'));
         // save the product and verify saved data
         $this->clickButton('save', true);
         $this->assertMessagePresent(self::MESSAGE_TYPE_SUCCESS, 'success_saved_product');
@@ -416,10 +398,8 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $this->categoryHelper()->selectCategory($newCategoryPath);
         $this->openTab('general_information');
         $this->assertEquals($expectedCategoryNameAfterSave,
-            $this->getElement($this->_getControlXpath(self::FIELD_TYPE_INPUT, 'name'))->text(), 'value');
-        $this->assertEquals('Yes',
-            $this->getControlAttribute(self::FIELD_TYPE_DROPDOWN, 'is_active', 'selectedLabel')
-        );
+            $this->getControlAttribute(self::FIELD_TYPE_INPUT, 'name', 'value'));
+        $this->assertEquals('Yes', $this->getControlAttribute(self::FIELD_TYPE_DROPDOWN, 'is_active', 'selectedLabel'));
     }
 
     /**
@@ -450,7 +430,7 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $this->typeKeys($this->_getControlXpath(self::FIELD_TYPE_INPUT, 'parent_category'), "\b");
         $this->addParameter('categoryName', $parentCategory);
         $parentCategoryInDropdown = $this->_getControlXpath(self::FIELD_TYPE_LINK, 'suggested_category_name');
-        $this->assertTrue($this->waitForElementVisible($parentCategoryInDropdown));
+        $this->waitForElementVisible($parentCategoryInDropdown);
         $this->mouseOver($parentCategoryInDropdown);
         $this->clickControl(self::FIELD_TYPE_LINK, 'suggested_category_name', false);
     }

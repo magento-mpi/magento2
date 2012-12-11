@@ -52,8 +52,8 @@ add_new_attribute_set:
                         dropdowns:
                             based_on: //select[@name='skeleton_set']
         buttons:
-            save_attribute_set: //button[@data-ui-id='catalog-product-attribute-set-toolbar-add-save-button']
-            back: //button[span='Back']
+            save_attribute_set: //*[@data-ui-id='catalog-product-attribute-set-toolbar-add-save-button']
+            back: //*[@data-ui-id='catalog-product-attribute-set-toolbar-add-back-button']
         messages: *messages
 
 
@@ -89,10 +89,10 @@ edit_attribute_set:
                         pageelements:
                             node_icon: //img[@class="x-tree-node-icon"]
         buttons: &editAttributeButtons
-            save_attribute_set: //button[@data-ui-id='catalog-product-attribute-set-toolbar-add-save-button']
-            delete_attribute_set: //button[span='Delete Attribute Set']
-            reset: //button[span='Reset']
-            back: //button[span='Back']
+            save_attribute_set: //*[@data-ui-id='catalog-product-attribute-set-main-save-button']
+            delete_attribute_set: //*[@data-ui-id='catalog-product-attribute-set-main-delete-button']
+            reset: //*[@data-ui-id='catalog-product-attribute-set-main-reset-button']
+            back: //*[@data-ui-id='catalog-product-attribute-set-main-back-button']
         messages: *messages
 
 edit_attribute_set_with_sharp:

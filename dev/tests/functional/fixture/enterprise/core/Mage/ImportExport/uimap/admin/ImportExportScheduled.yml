@@ -59,13 +59,6 @@ scheduled_import_export:
             delete_confirmation: Are you sure you want to delete the selected scheduled imports/exports?
             success_update_status: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyUpdatedRecords% record(s) have been updated')]
 
-
-#scheduled_import_export_index:
-#    mca: scheduled_operation/
-#    click_xpath: //div[@class='nav-bar']//a[span='Scheduled Import/Export']
-#    title: Scheduled Imports/Exports / Magento Admin
-#    uimap: &scheduledImportExport
-
 scheduled_importexport_add:
     mca: scheduled_operation/new/type/%type%/
     title: New Scheduled %elementTitle% / Scheduled Imports/Exports / Magento Admin

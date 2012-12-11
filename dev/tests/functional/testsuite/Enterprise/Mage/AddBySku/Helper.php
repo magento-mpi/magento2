@@ -311,9 +311,9 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
         $this->assertEquals($this->getControlAttribute('field', 'qty', 'value'), $product['qty'],
             'Entered qty is not correspond to added qty');
         if ($qtyIsEnabled) {
-            $this->assertTrue($this->getControlElement('field', 'qty')->enabled(), 'Qty field is disabled. ');
+            $this->assertTrue($this->controlIsEditable('field', 'qty'), 'Qty field is disabled. ');
         } else {
-            $this->assertFalse($this->getControlElement('field', 'qty')->enabled(),
+            $this->assertFalse($this->controlIsEditable('field', 'qty'),
                 'Qty field available for editing. ');
         }
     }

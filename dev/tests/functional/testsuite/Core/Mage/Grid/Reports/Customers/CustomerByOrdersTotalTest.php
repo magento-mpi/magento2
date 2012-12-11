@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_Grid_Reports_Customers_CustomerByOrdersTotalTest extends Mage_Selenium_TestCase
+class Core_Mage_Grid_Report_Customers_CustomerByOrdersTotalTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {
@@ -33,18 +33,16 @@ class Core_Mage_Grid_Reports_Customers_CustomerByOrdersTotalTest extends Mage_Se
         $this->gridHelper()->fillDateFromTo();
         $this->clickButton('refresh');
         //get TOP  "Total Order Amount" from first row in grid
-        if($this->controlIsPresent('pageelement', 'top_order_amount')) {
-            $topOrderAmountData = preg_replace("/[^\d.]/", "",
-                $this->getControlAttribute('pageelement', 'top_order_amount', 'text'));
+        if ($this->controlIsPresent('pageelement', 'top_order_amount')) {
+            $topOrderAmountData =
+                preg_replace("/[^\d.]/", "", $this->getControlAttribute('pageelement', 'top_order_amount', 'text'));
             //get TOP "Customer Name" from first row in grid
             $topCustomerNameData = $this->getControlAttribute('pageelement', 'top_customer_name', 'text');
             //get "Number of Orders" from first row in grid
             $topNumberOfOrderData = $this->getControlAttribute('pageelement', 'top_number_of_order', 'text');
 
-            return array('customer_name'    => $topCustomerNameData,
-                         'order_amount'     => $topOrderAmountData,
-                         'number_of_orders' => $topNumberOfOrderData
-            );
+            return array('customer_name'    => $topCustomerNameData, 'order_amount' => $topOrderAmountData,
+                         'number_of_orders' => $topNumberOfOrderData);
         }
 
         return null;
@@ -170,8 +168,7 @@ class Core_Mage_Grid_Reports_Customers_CustomerByOrdersTotalTest extends Mage_Se
         $this->clickButton('refresh');
         $this->pleaseWait();
         $gridXpath = $this->_getControlXpath('pageelement', 'report_customer_accounts_table') . '/tfoot/tr/th[2]';
-        $element = $this->getElement($gridXpath);
-        $count = $element->text();
+        $count = count($this->getElements($gridXpath, false));
         //Steps
         $userData = $this->loadDataSet('Customers', 'customer_account_register');
         $this->frontend();
@@ -185,8 +182,7 @@ class Core_Mage_Grid_Reports_Customers_CustomerByOrdersTotalTest extends Mage_Se
         $this->clickButton('refresh');
         $this->pleaseWait();
         //Verifying
-        $element = $this->getElement($gridXpath);
-        $this->assertEquals($count + 1, $$element->text(),
+        $this->assertEquals($count + 1, count($this->getElements($gridXpath, false)),
             'Wrong records number in grid report_customer_accounts_table');
     }
 }

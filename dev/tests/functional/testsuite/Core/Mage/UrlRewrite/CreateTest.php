@@ -143,10 +143,10 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->validatePage();
 
         //Check fields id_path & target path isn't editable
-        if ($this->byId('id_path')->enabled()) {
+        if ($this->controlIsEditable('field', 'id_path')) {
             throw new PHPUnit_Framework_Exception('ID Path field is editable!');
         }
-        if ($this->byId('target_path')->enabled()) {
+        if ($this->controlIsEditable('field', 'target_path')) {
             throw new PHPUnit_Framework_Exception('Target Path field is editable!');
         }
     }
@@ -183,10 +183,10 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->validatePage('edit_urlrewrite_category');
 
         //Check fields id_path & target path isn't editable
-        if ($this->byId('id_path')->enabled()) {
+        if ($this->controlIsEditable('field', 'id_path')) {
             throw new PHPUnit_Framework_Exception('ID Path field is editable!');
         }
-        if ($this->byId('target_path')->enabled()) {
+        if ($this->controlIsEditable('field', 'target_path')) {
             throw new PHPUnit_Framework_Exception('Target Path field is editable!');
         }
     }
@@ -207,10 +207,10 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->validatePage();
 
         // Check fields "id_path" & "target path" is editable
-        if (!$this->byId('id_path')->enabled()) {
+        if (!$this->controlIsEditable('field', 'id_path')) {
             throw new PHPUnit_Framework_Exception('ID Path field is not editable!');
         }
-        if (!$this->byId('target_path')->enabled()) {
+        if (!$this->controlIsEditable('field', 'target_path')) {
             throw new PHPUnit_Framework_Exception('Target Path field is not editable!');
         }
     }

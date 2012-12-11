@@ -62,17 +62,18 @@ class Core_Mage_ProductAttribute_Create_ApplyToTest extends Mage_Selenium_TestCa
     {
         //Steps
         $this->clickButton('add_new_attribute');
-        $dropdownXpath = $this->_getControlXpath('dropdown', 'apply_to');
         //Verifying
-        $this->assertTrue($this->elementIsPresent($dropdownXpath), 'Apply To dropdown is absent');
-        $this->assertTrue($this->isEditable($dropdownXpath), 'Apply To dropdown is disabled');
-        $this->assertFalse($this->isElementPresent('apply_product_types'));
-        $this->assertEquals('All Product Types', $this->getSelectedLabel($dropdownXpath));
+        $this->assertTrue($this->controlIsPresent('dropdown', 'apply_to'), 'Apply To dropdown is absent');
+        $this->assertFalse($this->controlIsPresent('multiselect', 'apply_product_types'));
+        $element = $this->getControlElement('dropdown', 'apply_to');
+        $this->assertTrue($element->enabled(), 'Apply To dropdown is disabled');
+        $this->assertEquals('All Product Types', $this->select($element)->selectedLabel());
         //Steps
         $this->fillDropdown('apply_to', 'Selected Product Types');
-        $multiselectXpath = $this->_getControlXpath('multiselect', 'apply_product_types');
-        $this->assertTrue($this->isElementPresent($multiselectXpath), 'Apply To multiselect is absent');
-        $this->assertTrue($this->isEditable($multiselectXpath), 'Apply To multiselect is disabled');
+        $this->assertTrue($this->controlIsPresent('multiselect', 'apply_product_types'),
+            'Apply To multiselect is absent');
+        $this->assertTrue($this->getControlElement('multiselect', 'apply_product_types')->enabled(),
+            'Apply To multiselect is disabled');
     }
 
     /**

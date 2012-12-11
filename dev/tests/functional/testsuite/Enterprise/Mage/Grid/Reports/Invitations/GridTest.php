@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise_Mage_Grid_Reports_Invitations_GridTest extends Mage_Selenium_TestCase
+class Enterprise_Mage_Grid_Report_Invitation_GridTest extends Mage_Selenium_TestCase
 {
 
     /**
@@ -56,16 +56,15 @@ class Enterprise_Mage_Grid_Reports_Invitations_GridTest extends Mage_Selenium_Te
         $this->navigate('report_invitations_customers');
         $this->gridHelper()->fillDateFromTo();
         $this->clickButton('refresh');
-        $gridXpath = $this->_getControlXpath('pageelement', 'report_invitations_customers_grid');
         //Count qty of rows
-        $count = $this->getElementsByXpath($gridXpath . '/tbody/tr');
+        $count = $this->getControlCount('pageelement', 'report_invitations_customers_grid_line');
         $this->invitationHelper()->sendInvitationWithNewlyCreatedCustomer(1);
         $this->loginAdminUser();
         $this->navigate('report_invitations_customers');
         $this->gridHelper()->fillDateFromTo();
         $this->clickButton('refresh');
         //Verifying
-        $this->assertCount(count($count) + 1, $this->getElementsByXpath($gridXpath . '/tbody/tr'),
+        $this->assertCount($count + 1, $this->getControlCount('pageelement', 'report_invitations_customers_grid_line'),
             'Wrong records number in grid report_invitations_customers');
     }
 
@@ -98,13 +97,13 @@ class Enterprise_Mage_Grid_Reports_Invitations_GridTest extends Mage_Selenium_Te
         $this->clickButton('refresh');
         $gridXpath = $this->_getControlXpath('pageelement', 'report_invitations_general_grid') . '/tbody/tr/td[2]';
         //See qty in Sent column
-        $count = $this->getText($gridXpath);
+        $count = $this->getElement($gridXpath)->text();
         $this->invitationHelper()->sendInvitationWithNewlyCreatedCustomer(1);
         $this->loginAdminUser();
         $this->navigate('report_invitations_general');
         $this->gridHelper()->fillDateFromTo();
         $this->clickButton('refresh');
-        $newCount = $this->getText($gridXpath);
+        $newCount = $this->getElement($gridXpath)->text();
         //Verifying
         $this->assertEquals($count + 1, $newCount, 'Wrong records number in grid report_invitations_customers');
     }

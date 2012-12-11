@@ -63,3 +63,9 @@ admin_action_log_report:
 admin_action_log_view:
     mca: logging/details/event_id/%id%/
     title: View Entry / Report / Admin Actions Logs / System / Magento Admin
+
+# Admin Actions Log Report page
+admin_action_log_archive:
+    mca: logging/archive/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'logging/archive/')]
+    title: Archive / Admin Actions Logs / System / Magento Admin

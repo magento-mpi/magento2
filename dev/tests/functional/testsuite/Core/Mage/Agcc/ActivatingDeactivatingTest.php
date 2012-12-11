@@ -48,7 +48,7 @@ class Core_Mage_Agcc_ActivatingDeactivatingTest extends Mage_Selenium_TestCase
         //Steps
         $this->openTab('manage_coupon_codes');
         //Verification
-        if ($this->getControlElement('field', 'coupon_qty')->enabled()) {
+        if ($this->controlIsEditable('field', 'coupon_qty')) {
             $this->fail('Manage Coupon Codes tab is active');
         }
     }
@@ -76,7 +76,7 @@ class Core_Mage_Agcc_ActivatingDeactivatingTest extends Mage_Selenium_TestCase
         //Steps
         $this->openTab('manage_coupon_codes');
         //Verification
-        if (!$this->getControlElement('field', 'coupon_qty')->enabled()) {
+        if (!$this->controlIsEditable('field', 'coupon_qty')) {
             $this->fail('Manage Coupon Codes tab is not active');
         }
     }
@@ -105,7 +105,7 @@ class Core_Mage_Agcc_ActivatingDeactivatingTest extends Mage_Selenium_TestCase
         //Steps
         $this->openTab('manage_coupon_codes');
         //Verification
-        if (!$this->getControlElement('field', 'coupon_qty')->enabled()) {
+        if (!$this->controlIsEditable('field', 'coupon_qty')) {
             $this->fail('Manage Coupon Codes tab is not active');
         }
     }
@@ -149,7 +149,7 @@ class Core_Mage_Agcc_ActivatingDeactivatingTest extends Mage_Selenium_TestCase
         //Steps
         $this->openTab('manage_coupon_codes');
         //Verification
-        if ($this->getControlElement('field', 'coupon_qty')->enabled()) {
+        if ($this->controlIsEditable('field', 'coupon_qty')) {
             //Data
             $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_deactivate_agcc');
             //Steps
@@ -160,7 +160,7 @@ class Core_Mage_Agcc_ActivatingDeactivatingTest extends Mage_Selenium_TestCase
             //Steps
             $this->openTab('manage_coupon_codes');
             //Verification
-            if ($this->getControlElement('field', 'coupon_qty')->enabled()) {
+            if ($this->controlIsEditable('field', 'coupon_qty')) {
                 $this->fail('Manage Coupon Codes tab is active');
             }
         } else {
