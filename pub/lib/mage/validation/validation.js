@@ -36,28 +36,6 @@
         'Please select one of the options.'
     );
 
-    $.validator.addMethod(
-        "less-than-equals-to",
-        function(value, element, params) {
-            if ($.isNumeric($(params).val()) && $.isNumeric(value)) {
-                return value <= $(params).val();
-            }
-            return true;
-        },
-        'Please enter a valid price range.'
-    );
-
-    $.validator.addMethod(
-        "greater-than-equals-to",
-        function(value, element, params) {
-            if ($.isNumeric($(params).val()) && $.isNumeric(value)) {
-                return value >= $(params).val();
-            }
-            return true;
-        },
-        'Please enter a valid price range.'
-    );
-
     $.widget("mage.validation", $.mage.validation, {
         /**
          * Check if form pass validation rules without submit

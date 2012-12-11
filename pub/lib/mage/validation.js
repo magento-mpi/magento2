@@ -813,6 +813,30 @@
                 return result;
             },
             'Please select one of the options.'
+        ],
+        "less-than-equals-to": [
+            function(value, element, params) {
+                if ($.isNumeric($(params).val()) && $.isNumeric(value)) {
+                    this.lteToVal = $(params).val();
+                    return value <= $(params).val();
+                }
+                return true;
+            },
+            function() {
+                return $.mage.__('Please enter a value less than or equal to %s').replace('%s', this.lteToVal);
+            }
+        ],
+        "greater-than-equals-to": [
+            function(value, element, params) {
+                if ($.isNumeric($(params).val()) && $.isNumeric(value)) {
+                    this.gteToVal = $(params).val();
+                    return value >= $(params).val();
+                }
+                return true;
+            },
+            function() {
+                return $.mage.__('Please enter a value greater than or equal to %s').replace('%s', this.gteToVal);
+            }
         ]
     };
 
