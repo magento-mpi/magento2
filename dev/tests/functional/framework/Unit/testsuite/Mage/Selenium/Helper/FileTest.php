@@ -42,8 +42,8 @@ class Mage_Selenium_Helper_FileTest extends Unit_PHPUnit_TestCase
         $this->assertArrayHasKey('unit_test_load_data_set_simple', $customers);
         $this->assertArrayHasKey('unit_test_load_data_set_recursive', $customers);
 
-        $this->assertFalse($this->_fileHelper->loadYamlFile(''));
-        $this->assertFalse($this->_fileHelper->loadYamlFile('some_file.yml'));
+        $this->assertEmpty($this->_fileHelper->loadYamlFile(''));
+        $this->assertEmpty($this->_fileHelper->loadYamlFile('some_file.yml'));
     }
 
     /**

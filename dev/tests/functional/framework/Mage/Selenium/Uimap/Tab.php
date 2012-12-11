@@ -75,9 +75,9 @@ class Mage_Selenium_Uimap_Tab extends Mage_Selenium_Uimap_Abstract
             return array();
         }
         $names = array();
-        $fieldsetNameKeys = array_keys($this->_elements['fieldsets']);
-        foreach ($fieldsetNameKeys as $fieldsetName) {
+        foreach ($this->_elements['fieldsets'] as $fieldsetName => $value) {
             $names[] = $fieldsetName;
+            $this->_elements['fieldsets'][$fieldsetName] = $value;
         }
         return $names;
     }

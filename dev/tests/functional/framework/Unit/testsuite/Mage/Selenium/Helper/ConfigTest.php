@@ -121,7 +121,7 @@ class Mage_Selenium_Helper_ConfigTest extends Unit_PHPUnit_TestCase
      */
     public function testGetBasePath()
     {
-        $this->_configHelper->setApplication('mage');
+        $this->_configHelper->setApplication('magento2community');
         $this->_configHelper->setArea('admin');
         $uimapPath = $this->_configHelper->getBasePath();
         $this->assertInternalType('string', $uimapPath);
@@ -133,14 +133,14 @@ class Mage_Selenium_Helper_ConfigTest extends Unit_PHPUnit_TestCase
      */
     public function testGetFixturesFallbackOrder()
     {
-        $this->_configHelper->setApplication('mage');
+        $this->_configHelper->setApplication('magento2community');
         $fallbackOrder = $this->_configHelper->getFixturesFallbackOrder();
         $this->assertInternalType('array', $fallbackOrder);
         $this->assertSame($fallbackOrder, array('default'));
         $this->_configHelper->setApplication('magento2enterprise');
         $fallbackOrder = $this->_configHelper->getFixturesFallbackOrder();
         $this->assertInternalType('array', $fallbackOrder);
-        $this->assertSame($fallbackOrder, array('default', 'enterprise', 'enterprise2'));
+        $this->assertSame($fallbackOrder, array('default', 'enterprise'));
     }
 
     /**
@@ -148,14 +148,14 @@ class Mage_Selenium_Helper_ConfigTest extends Unit_PHPUnit_TestCase
      */
     public function testGetHelpersFallbackOrder()
     {
-        $this->_configHelper->setApplication('mage');
+        $this->_configHelper->setApplication('magento2community');
         $fallbackOrder = $this->_configHelper->getHelpersFallbackOrder();
         $this->assertInternalType('array', $fallbackOrder);
         $this->assertSame($fallbackOrder, array('Core'));
         $this->_configHelper->setApplication('magento2enterprise');
         $fallbackOrder = $this->_configHelper->getHelpersFallbackOrder();
         $this->assertInternalType('array', $fallbackOrder);
-        $this->assertSame($fallbackOrder, array('Core', 'Enterprise', 'Enterprise2'));
+        $this->assertSame($fallbackOrder, array('Core', 'Enterprise'));
     }
 
     /**
@@ -180,16 +180,6 @@ class Mage_Selenium_Helper_ConfigTest extends Unit_PHPUnit_TestCase
         //Cleanup
         rmdir($dirName);
         rmdir($parentDir);
-    }
-
-    /**
-     * @covers Mage_Selenium_Helper_Config::setScreenshotDir
-     * @depends testGetSetScreenshotDir
-     */
-    public function testSetScreenshotDirInvalidPathException()
-    {
-        $this->setExpectedException('PHPUnit_Framework_Error_Warning', 'mkdir():');
-        $this->_configHelper->setScreenshotDir('!#$@%*^&:?');
     }
 
     /**
@@ -222,16 +212,6 @@ class Mage_Selenium_Helper_ConfigTest extends Unit_PHPUnit_TestCase
         $this->assertEquals($dirName, $this->_configHelper->getLogDir());
         //Cleanup
         rmdir($dirName);
-    }
-
-    /**
-     * @covers Mage_Selenium_Helper_Config::setLogDir
-     * @depends testGetSetLogDir
-     */
-    public function testSetLogDirInvalidPathException()
-    {
-        $this->setExpectedException('PHPUnit_Framework_Error_Warning', 'mkdir():');
-        $this->_configHelper->setLogDir('!#$@%*^&:?');
     }
 
     /**

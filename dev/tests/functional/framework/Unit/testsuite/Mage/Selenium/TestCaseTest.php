@@ -286,40 +286,6 @@ class Mage_Selenium_TestCaseTest extends Unit_PHPUnit_TestCase
     }
 
     /**
-     * @covers Mage_Selenium_TestCase::setScreenshotPath
-     * @covers Mage_Selenium_TestCase::getScreenshotPath
-     */
-    public function testSetGetScreenshotPath()
-    {
-        $inst = new Mage_Selenium_TestCase();
-        $inst->setScreenshotPath('d:\Temp');
-        $path = $inst->getScreenshotPath();
-        $this->assertEquals('d:\Temp\\', $path);
-        $this->assertInternalType('string', $path);
-
-        $inst->setScreenshotPath('d:\Temp\\');
-        $path = $inst->getScreenshotPath();
-        $this->assertEquals('d:\Temp\\', $path);
-    }
-
-    /**
-     * @covers Mage_Selenium_TestCase::setDefaultScreenshotPath
-     * @covers Mage_Selenium_TestCase::getDefaultScreenshotPath
-     */
-    public function testSetGetDefaultScreenshotPath()
-    {
-        $inst = new Mage_Selenium_TestCase();
-        $inst->setDefaultScreenshotPath('d:\Temp');
-        $path = $inst->getDefaultScreenshotPath();
-        $this->assertEquals('d:\Temp', $path);
-        $this->assertInternalType('string', $path);
-
-        $inst->setDefaultScreenshotPath('d:\Temp\\');
-        $path = $inst->getDefaultScreenshotPath();
-        $this->assertEquals('d:\Temp\\', $path);
-    }
-
-    /**
      * @covers Mage_Selenium_TestCase::getHttpResponse
      */
     public function testGetHttpResponse()

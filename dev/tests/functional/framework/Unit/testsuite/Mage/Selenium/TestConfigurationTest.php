@@ -19,7 +19,8 @@ class Mage_Selenium_TestConfigurationTest extends Unit_PHPUnit_TestCase
         $this->assertInstanceOf('Mage_Selenium_TestConfiguration', $this->_testConfig);
         $this->assertEquals($this->_testConfig, Mage_Selenium_TestConfiguration::getInstance());
         $this->assertAttributeInstanceOf('Mage_Selenium_Helper_Config', '_configHelper', $this->_testConfig);
-        $this->assertAttributeInternalType('array', '_configFixtures', $this->_testConfig);
+        $this->assertAttributeInternalType('array', '_configUimap', $this->_testConfig);
+        $this->assertAttributeInternalType('array', '_configData', $this->_testConfig);
         $this->assertAttributeInstanceOf('Mage_Selenium_Helper_Uimap', '_uimapHelper', $this->_testConfig);
         $this->assertAttributeInstanceOf('Mage_Selenium_Helper_Data', '_dataHelper', $this->_testConfig);
     }
@@ -48,12 +49,12 @@ class Mage_Selenium_TestConfigurationTest extends Unit_PHPUnit_TestCase
     }
 
     /**
-     * @covers Mage_Selenium_TestConfiguration::getConfigFixtures
+     * @covers Mage_Selenium_TestConfiguration::getConfigUimap
      */
-    public function testGetConfigFixtures()
+    public function testGetConfigUimap()
     {
-        $sameValue = $this->_testConfig->getConfigFixtures();
-        $this->assertEquals($sameValue, $this->_testConfig->getConfigFixtures());
+        $sameValue = $this->_testConfig->getConfigUimap();
+        $this->assertEquals($sameValue, $this->_testConfig->getConfigUimap());
         $this->assertInternalType('array', $sameValue);
         $this->assertNotEmpty($sameValue);
         $this->assertInternalType('array', current($sameValue));
@@ -61,9 +62,21 @@ class Mage_Selenium_TestConfigurationTest extends Unit_PHPUnit_TestCase
     }
 
     /**
+     * @covers Mage_Selenium_TestConfiguration::getConfigData
+     */
+    public function testGetConfigData()
+    {
+        $sameValue = $this->_testConfig->getConfigData();
+        $this->assertEquals($sameValue, $this->_testConfig->getConfigData());
+        $this->assertInternalType('array', $sameValue);
+        $this->assertNotEmpty($sameValue);
+        $this->assertNotEmpty(current($sameValue));
+    }
+
+    /**
      * @covers Mage_Selenium_TestConfiguration::getTestHelperClassNames
      */
-    public function testGetTestHelperClassNames()
+    public function testGetTestHelperNames()
     {
         $helperClassNames = $this->_testConfig->getTestHelperNames();
         $this->assertInternalType('array', $helperClassNames);
@@ -86,33 +99,5 @@ class Mage_Selenium_TestConfigurationTest extends Unit_PHPUnit_TestCase
     public function testGetInstanceWithInitializedInstanceAndOptionsThrowsException()
     {
         Mage_Selenium_TestConfiguration::getInstance(array('sample_data' => 'example'));
-    }
-
-    /**
-     * Test will be marked as success only if in specified theme will be at least one YAML file
-     *
-     * @dataProvider fallbackOrderFixturesDataProvider
-     */
-    public function testGetConfigFixturesWithCustomFallbackOrderFixturesReturnsSuccess(array $fallbackOrderFixtures)
-    {
-        Mage_Selenium_TestConfiguration::setInstance();
-        $config = Mage_Selenium_TestConfiguration::getInstance(array('fallbackOrderFixture' => $fallbackOrderFixtures));
-        $config->setInitialPath(realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR);
-        $keysExists = true;
-        foreach ($fallbackOrderFixtures as $fixturesPath) {
-            $keysExists = array_key_exists($fixturesPath, $config->getConfigFixtures());
-            if (false === $keysExists) {
-                break;
-            }
-        }
-
-        $this->assertTrue($keysExists);
-    }
-
-    public function fallbackOrderFixturesDataProvider()
-    {
-        $defaultThemePath = implode(DIRECTORY_SEPARATOR, array('themes', 'frontend', 'default', 'default'));
-        $modernThemePath = implode(DIRECTORY_SEPARATOR, array('themes', 'frontend', 'default', 'modern'));
-        return array(array(array($defaultThemePath, $modernThemePath)));
     }
 }

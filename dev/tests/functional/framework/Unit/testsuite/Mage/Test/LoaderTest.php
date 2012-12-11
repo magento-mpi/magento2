@@ -42,10 +42,11 @@ class Mage_Test_LoaderTest extends Unit_PHPUnit_TestCase
 
     /**
      * @expectedException PHPUnit_Framework_Exception
-     * @expectedExceptionMessage Cannot open file "not\exists\class.php".
      */
     public function testLoadNotExists()
     {
+        $this->setExpectedException('PHPUnit_Framework_Exception',
+            'not' . DIRECTORY_SEPARATOR . 'exists' . DIRECTORY_SEPARATOR . 'class.php');
         $this->_loader->load('not_exists_class');
     }
 }

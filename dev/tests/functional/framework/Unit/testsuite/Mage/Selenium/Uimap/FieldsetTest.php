@@ -17,7 +17,11 @@ class Mage_Selenium_Uimap_FieldsetTest extends Unit_PHPUnit_TestCase
     {
         $fileHelper = new Mage_Selenium_Helper_File($this->_testConfig);
         $dataArray = $fileHelper->loadYamlFile
-                (SELENIUM_TESTS_BASEDIR . '\fixture\default\core\Mage\UnitTest\data\UimapTests.yml');
+                (SELENIUM_TESTS_BASEDIR
+                . DIRECTORY_SEPARATOR . 'fixture' . DIRECTORY_SEPARATOR . 'default'
+                . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'Mage'
+                . DIRECTORY_SEPARATOR . 'UnitTest' . DIRECTORY_SEPARATOR . 'data'
+                . DIRECTORY_SEPARATOR . 'UimapTests.yml');
         $fieldsetContainer = $dataArray['fieldset'];
         $instance = new Mage_Selenium_Uimap_Fieldset('fieldsetId', $fieldsetContainer);
         $this->assertInstanceOf('Mage_Selenium_Uimap_Fieldset', $instance);
@@ -31,7 +35,11 @@ class Mage_Selenium_Uimap_FieldsetTest extends Unit_PHPUnit_TestCase
     {
         $fileHelper = new Mage_Selenium_Helper_File($this->_testConfig);
         $dataArray = $fileHelper->loadYamlFile
-                (SELENIUM_TESTS_BASEDIR . '\fixture\default\core\Mage\UnitTest\data\UimapTests.yml');
+                (SELENIUM_TESTS_BASEDIR
+                . DIRECTORY_SEPARATOR . 'fixture' . DIRECTORY_SEPARATOR . 'default'
+                . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'Mage'
+                . DIRECTORY_SEPARATOR . 'UnitTest' . DIRECTORY_SEPARATOR . 'data'
+                . DIRECTORY_SEPARATOR . 'UimapTests.yml');
         $fieldsetContainer = $dataArray['fieldset'];
         $instance = new Mage_Selenium_Uimap_Fieldset('fieldsetId', $fieldsetContainer);
         $elements = $instance->getFieldsetElements();
