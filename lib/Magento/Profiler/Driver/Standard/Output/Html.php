@@ -1,35 +1,35 @@
 <?php
 /**
+ * Class that represents profiler output in HTML format
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Profiler
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Class that represents profiler output in Html format
- */
-class Magento_Profiler_Output_Html extends Magento_Profiler_OutputAbstract
+class Magento_Profiler_Driver_Standard_Output_Html extends Magento_Profiler_Driver_Standard_OutputAbstract
 {
     /**
      * Display profiling results
+     *
+     * @param Magento_Profiler_Driver_Standard_Stat $stat
      */
-    public function display()
+    public function display(Magento_Profiler_Driver_Standard_Stat $stat)
     {
         $out = array();
         $out[] = '<table border="1" cellspacing="0" cellpadding="2">';
         $out[] = '<caption>' . $this->_renderCaption() . '</caption>';
         $out[] = '<tr>';
-        foreach (array_keys($this->_getColumns()) as $columnLabel) {
+        foreach (array_keys($this->_columns) as $columnLabel) {
             $out[] = '<th>' . $columnLabel . '</th>';
         }
         $out[] = '</tr>';
-        foreach ($this->_getTimers() as $timerId) {
+        foreach ($this->_getTimerIds($stat) as $timerId) {
             $out[] = '<tr>';
-            foreach ($this->_getColumns() as $columnId) {
-                $out[] = '<td title="' . $timerId . '">' . $this->_renderColumnValue($timerId, $columnId) . '</td>';
+            foreach ($this->_columns as $column) {
+                $out[] = '<td title="' . $timerId . '">'
+                    . $this->_renderColumnValue($stat->fetch($timerId, $column), $column)
+                    . '</td>';
             }
             $out[] = '</tr>';
         }
