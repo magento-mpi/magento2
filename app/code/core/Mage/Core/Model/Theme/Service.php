@@ -99,8 +99,8 @@ class Mage_Core_Model_Theme_Service
 
         $configPath = $this->_design->getConfigPathByArea($area);
 
-        foreach ($this->_getAssignedScopesCollection($themeId, $scope) as $config) {
-            if (!in_array($config->getScopeId(), $stores)) {
+        foreach ($this->_getAssignedScopesCollection($scope, $configPath) as $config) {
+            if ($config->getValue() == $themeId && !in_array($config->getScopeId(), $stores)) {
                 $this->_app->getConfig()->deleteConfig($configPath, $scope, $config->getScopeId());
             }
         }
@@ -142,16 +142,15 @@ class Mage_Core_Model_Theme_Service
     /**
      * Get assigned scopes collection of a theme
      *
-     * @param int $themeId
      * @param string $scope
+     * @param string $configPath
      * @return Mage_Core_Model_Resource_Config_Data_Collection
      */
-    protected function _getAssignedScopesCollection($themeId, $scope)
+    protected function _getAssignedScopesCollection($scope, $configPath)
     {
         return $this->_app->getConfig()->getConfigDataModel()->getCollection()
-            ->addFieldToSelect(array('scope_id'))
             ->addFieldToFilter('scope', $scope)
-            ->addFieldToFilter('value', $themeId);
+            ->addFieldToFilter('path', $configPath);
     }
 
     /**
