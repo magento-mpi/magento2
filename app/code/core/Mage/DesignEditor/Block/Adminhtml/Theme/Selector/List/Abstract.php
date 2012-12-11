@@ -81,7 +81,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
                     )
                 ),
             ),
-            'class'   => 'save assign-theme',
+            'class'   => 'save action-theme-assign',
             'target'  => '_blank'
         ));
 

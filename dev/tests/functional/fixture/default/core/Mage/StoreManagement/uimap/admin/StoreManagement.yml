@@ -62,7 +62,7 @@ new_store_view:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_store_view: //button[span='Save Store View']
+            save_store_view: //button[normalize-space(span)='Save Store View']
         messages:
             wrong_store_view_code: //li[normalize-space(@class)='error-msg' and contains(., 'The store code may contain only letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter')]
             store_view_code_exist: //li[normalize-space(@class)='error-msg' and contains(., 'Store with the same code already exists')]
@@ -89,8 +89,8 @@ edit_store_view:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            delete_store_view: //button[span='Delete Store View']
-            save_store_view: //button[span='Save Store View']
+            delete_store_view: //button[normalize-space(span)='Delete Store View']
+            save_store_view: //button[normalize-space(span)='Save Store View']
         messages:
             wrong_store_view_code: //li[normalize-space(@class)='error-msg' and contains(., 'The store code may contain only letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter')]
             store_view_code_exist: //li[normalize-space(@class)='error-msg' and contains(., 'Store with the same code already exists')]
@@ -247,6 +247,6 @@ detele_store_view:
                             create_backup: //select[@id='store_create_backup']
                         buttons:
                             reset: //button[span='Cancel']
-                            delete_store_view: //button[span='Delete Store View']
+                            delete_store_view: //button[normalize-space(span)='Delete Store View']
         buttons:
             back: //button[span='Back']

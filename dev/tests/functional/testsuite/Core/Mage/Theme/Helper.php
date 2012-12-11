@@ -19,9 +19,9 @@
 class Core_Mage_Theme_Helper extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Delete all customized themes</p>
+     * <p>Delete all virtual themes</p>
      */
-    public function deleteAllCustomizedTheme()
+    public function deleteAllVirtualThemes()
     {
         $this->navigate('theme_list');
         $this->isElementPresent('theme_grid');
@@ -69,5 +69,22 @@ class Core_Mage_Theme_Helper extends Mage_Selenium_TestCase
 
         $this->clickButton('save_theme');
         $this->assertMessagePresent('success', 'success_saved_theme');
+    }
+
+    /**
+     * Define parameter theme_id by theme title
+     *
+     * @param string $title
+     * @return string
+     */
+    public function getThemeIdByTitle($title)
+    {
+        $this->navigate('theme_list');
+        $this->isElementPresent('theme_grid');
+        $xpath = $this->_getControlXpath('pageelement', 'theme_grid_theme_row_by_title');
+        $xpath = sprintf($xpath, $title);
+        $urlFromTitleAttribute = $this->getAttribute($xpath . '@title');
+        $id = $this->defineIdFromUrl($urlFromTitleAttribute);
+        return $id;
     }
 }

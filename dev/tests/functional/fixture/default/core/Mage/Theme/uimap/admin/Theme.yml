@@ -31,8 +31,9 @@ theme_list:
                             magento_version_from: //input[@id='theme_grid_filter_magento_version_from']
                             magento_version_to: //input[@id='theme_grid_filter_magento_version_to']
                         pageelements:
-                             theme_grid: //table[@id='theme_grid_table']
-                             theme_grid_theme_path_empty_column: //table[@id='theme_grid_table']/tbody/tr/td[normalize-space(@class)='theme-path' and not(contains(., '/'))]
+                            theme_grid: //table[@id='theme_grid_table']
+                            theme_grid_theme_path_empty_column: //table[@id='theme_grid_table']/tbody/tr/td[normalize-space(@class)='theme-path' and not(contains(., '/'))]
+                            theme_grid_theme_row_by_title: //table[@id='theme_grid_table']/tbody/tr[td[normalize-space(@class)='theme-title' and normalize-space(text())='%s']]
         buttons:
             add_new_theme: //button[span='Add New Theme']
         messages:

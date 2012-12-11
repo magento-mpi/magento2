@@ -21,9 +21,15 @@ design_editor_selector:
             available_themes_tab_content: //div[@id='theme_selector_tabs_available_themes_content']
             customized_themes_tab_content: //div[@id='theme_selector_tabs_customizations_content']
             theme_list_elements: //div[@class='infinite_scroll']/ul/li
+            store_view_window: //div[@id='store-view-window']
+            store_view_label_by_title: //div[@id='store-view-window']//label[contains(., '%s')]
+            store_view_input_by_id: //div[@id='store-view-window']//input[@id='%s']
+            theme_assigned_storeview: //li[@id='theme-id-%s']//*[@class='theme-assigned-to-storeview' and contains(.,'%s')]
         links:
             available_themes_tab: //a[@id='theme_selector_tabs_available_themes']
             customized_themes_tab: //a[@id='theme_selector_tabs_customizations']
+            assign_theme: //li[@id='theme-id-%s']//*[contains(@class, 'action-theme-assign')]
+            store_assign_done: //div[@id='store-view-window']//*[contains(@class, 'store-assign-done')]
         messages:
             confirmation_for_delete: Are you sure you want to do this?
             success_deleted_theme: //li[normalize-space(@class)='success-msg' and contains(.,'The theme has been deleted.')]
