@@ -248,21 +248,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
     }
 
     /**
-     * Retrieve Quick create product URL
-     *
-     * @return string
-     */
-    public function getQuickCreationUrl()
-    {
-        return $this->getUrl(
-            '*/*/quickCreate',
-            array(
-                'product'  => $this->_getProduct()->getId()
-            )
-        );
-    }
-
-    /**
      * Retrieve Required attributes Ids (comma separated)
      *
      * @return string

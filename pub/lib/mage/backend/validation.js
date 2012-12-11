@@ -96,14 +96,14 @@
                 attributes[response.attribute] = response.message;
             }
 
-            $.each(attributes, function (attribute, message) {
-                if (attribute) {
-                    $('#' + attribute)
+            for (var attributeCode in attributes) {
+                if (attributes.hasOwnProperty(attributeCode)) {
+                    $('#' + attributeCode)
                         .addClass('validate-ajax-error')
-                        .data('msg-validate-ajax-error', message);
-                    validate.element("#" + attribute);
+                        .data('msg-validate-ajax-error', attributes[attributeCode]);
+                    validate.element("#" + attributeCode);
                 }
-            });
+            }
             if (!response.error) {
                 this.element[0].submit();
             }
