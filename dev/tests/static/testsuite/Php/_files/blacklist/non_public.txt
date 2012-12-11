@@ -3,5 +3,4 @@
 # This file will not be published, too
 #
 dev/build/core_dev/performance/config*.php
-dev/tests/functional/framework/behat
-dev/tests/functional/framework/Unit
+dev/tests/functional
