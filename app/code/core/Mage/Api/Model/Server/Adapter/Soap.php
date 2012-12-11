@@ -84,6 +84,7 @@ class Mage_Api_Model_Server_Adapter_Soap extends Varien_Object
         if ($this->getController()->getRequest()->getParam('wsdl') !== null) {
             $wsdlConfig = Mage::getModel('Mage_Api_Model_Wsdl_Config');
             $wsdlConfig->setHandler($this->getHandler())
+                ->setCacheId('wsdl_config_global_soap')
                 ->init();
             $this->getController()->getResponse()
                 ->clearHeaders()
