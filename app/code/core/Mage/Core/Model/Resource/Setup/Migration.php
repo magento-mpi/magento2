@@ -146,12 +146,6 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
             $this->_initConfigs($data);
         }
 
-        if (isset($data['autoload'])) {
-            $this->_autoload = $data['autoload'];
-        } else {
-            $this->_autoload = Magento_Autoload::getInstance();
-        }
-
         if (isset($data['core_helper'])) {
             $this->_coreHelper = $data['core_helper'];
         } else {
@@ -527,7 +521,7 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
     {
         $className = implode('_', array_map('ucfirst', explode('_', $module . '_' . $type . '_' . $name)));
 
-        if (Magento_Autoload::getInstance()->classExists($className)) {
+        if (class_exists($className)) {
             return $className;
         }
 
@@ -738,7 +732,6 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
             'paypaluk'          => 'Mage_PaypalUk',
             'productalert'      => 'Mage_ProductAlert',
             'salesrule'         => 'Mage_SalesRule',
-            'xmlconnect'        => 'Mage_XmlConnect',
         );
     }
 }

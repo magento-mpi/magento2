@@ -43,7 +43,7 @@ xml_sitemap:
             success_deleted_xml_sitemap: //li[normalize-space(@class)='success-msg' and contains(.,'The sitemap has been deleted.')]
             success_sitemap_generate: //li[normalize-space(@class)='success-msg' and contains(.,'The sitemap "%fileName%" has been generated.')]
             success_sitemap_save_and_generate: //li[normalize-space(@class)='success-msg']/ul/li[contains(.,'The sitemap "%fileName%" has been generated.')]
-            xml_sitemap_empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+            xml_sitemap_empty_required_field: "%fieldXpath%/following-sibling::*[text()='This field is required.' and not(contains(@style,'display: none;'))]"
             filename_exist_: //li[normalize-space(@class)='error-msg' and contains(.,'Path "%fileName%" is not available and cannot be used.')]
 
 add_new_xml_sitemap:

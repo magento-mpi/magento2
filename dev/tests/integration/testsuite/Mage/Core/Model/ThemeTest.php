@@ -32,7 +32,7 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
      */
     public function testLoadFromConfiguration()
     {
-        $designPath = dirname(__FILE__) . '/_files/design';
+        $designPath = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'design';
         /** @var $themeUtility Mage_Core_Utility_Theme */
         $themeUtility = Mage::getModel('Mage_Core_Utility_Theme', array($designPath));
         $themeUtility->registerThemes()->setDesignTheme('default/default', 'frontend');

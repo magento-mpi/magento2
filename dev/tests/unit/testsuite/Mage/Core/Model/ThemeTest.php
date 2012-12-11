@@ -46,8 +46,8 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
      */
     public function testLoadFromConfiguration()
     {
-        $targetPath = implode(DS, array('frontend', 'default', 'iphone', 'theme.xml'));
-        $designDir = implode(DS, array(__DIR__, '_files'));
+        $targetPath = implode(DIRECTORY_SEPARATOR, array('frontend', 'default', 'iphone', 'theme.xml'));
+        $designDir = implode(DIRECTORY_SEPARATOR, array(__DIR__, '_files'));
 
         $this->assertEquals(
             $this->_expectedThemeDataFromConfiguration(),
@@ -63,8 +63,8 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
      */
     public function testLoadInvalidConfiguration()
     {
-        $targetPath = implode(DS, array('frontend', 'default', 'iphone', 'theme_invalid.xml'));
-        $designDir = implode(DS, array(__DIR__, '_files'));
+        $targetPath = implode(DIRECTORY_SEPARATOR, array('frontend', 'default', 'iphone', 'theme_invalid.xml'));
+        $designDir = implode(DIRECTORY_SEPARATOR, array(__DIR__, '_files'));
 
         $this->assertEquals(
             $this->_expectedThemeDataFromConfiguration(),
@@ -88,7 +88,8 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
             'magento_version_from' => '2.0.0.1-dev1',
             'magento_version_to'   => '*',
             'is_featured'          => true,
-            'theme_directory'      => implode(DS, array(__DIR__, '_files', 'frontend', 'default', 'iphone')),
+            'theme_directory'      => implode(DIRECTORY_SEPARATOR,
+                array(__DIR__, '_files', 'frontend', 'default', 'iphone')),
             'parent_theme_path'    => null,
             'area'                 => 'frontend',
         );

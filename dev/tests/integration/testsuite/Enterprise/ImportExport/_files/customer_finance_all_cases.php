@@ -15,6 +15,10 @@ $helper = Mage::helper('Enterprise_ImportExport_Helper_Data');
 // customer with reward points and customer balance
 /** @var $customer Mage_Customer_Model_Customer */
 $customer = Mage::getModel('Mage_Customer_Model_Customer');
+$customer->addData(array(
+    'firstname' => 'Test',
+    'lastname' => 'User'
+));
 $customerEmail = 'customer_finance_test_rp_cb@test.com';
 $registerKey = 'customer_finance_email_rp_cb';
 Mage::unregister($registerKey);
@@ -40,6 +44,10 @@ $rewardPoints->save();
 // customer with reward points and without customer balance
 /** @var $customer Mage_Customer_Model_Customer */
 $customer = Mage::getModel('Mage_Customer_Model_Customer');
+$customer->addData(array(
+    'firstname' => 'Test',
+    'lastname' => 'User'
+));
 $customerEmail = 'customer_finance_test_rp@test.com';
 $registerKey = 'customer_finance_email_rp';
 Mage::unregister($registerKey);
@@ -58,6 +66,10 @@ $rewardPoints->save();
 // customer without reward points and with customer balance
 /** @var $customer Mage_Customer_Model_Customer */
 $customer = Mage::getModel('Mage_Customer_Model_Customer');
+$customer->addData(array(
+    'firstname' => 'Test',
+    'lastname' => 'User'
+));
 $customerEmail = 'customer_finance_test_cb@test.com';
 $registerKey = 'customer_finance_email_cb';
 Mage::unregister($registerKey);
@@ -76,6 +88,10 @@ $customerBalance->save();
 // customer without reward points and customer balance
 /** @var $customer Mage_Customer_Model_Customer */
 $customer = Mage::getModel('Mage_Customer_Model_Customer');
+$customer->addData(array(
+    'firstname' => 'Test',
+    'lastname' => 'User'
+));
 $customerEmail = 'customer_finance_test@test.com';
 $registerKey = 'customer_finance_email';
 Mage::unregister($registerKey);

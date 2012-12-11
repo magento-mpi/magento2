@@ -199,6 +199,7 @@
  * @method Core_Mage_ValidationVatNumber_Helper                                                        validationVatNumberHelper()
  * @method Core_Mage_Wishlist_Helper|Enterprise_Mage_Wishlist_Helper                                   wishlistHelper()
  * @method Core_Mage_XmlSitemap_Helper                                                                 xmlSitemapHelper()
+ * @method Core_Mage_Grid_Helper                                                                       gridHelper()
  * @method Enterprise_Mage_AddBySku_Helper                                                             addBySkuHelper()
  * @method Enterprise_Mage_Attributes_Helper                                                           attributesHelper()
  * @method Enterprise_Mage_CacheStorageManagement_Helper                                               cacheStorageManagementHelper()

@@ -185,14 +185,24 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     /**
      * Types of uimap elements
      */
+    const FIELD_TYPE_CHECKBOX    = 'checkbox';
+    const FIELD_TYPE_DROPDOWN    = 'dropdown';
+    const FIELD_TYPE_INPUT       = 'field';
+    const FIELD_TYPE_FIELDSET    = 'fieldset';
+    const FIELD_TYPE_LINK        = 'link';
+    const FIELD_TYPE_MESSAGE     = 'message';
     const FIELD_TYPE_MULTISELECT = 'multiselect';
-    const FIELD_TYPE_DROPDOWN = 'dropdown';
-    const FIELD_TYPE_CHECKBOX = 'checkbox';
-    const FIELD_TYPE_RADIOBUTTON = 'radiobutton';
-    const FIELD_TYPE_INPUT = 'field';
     const FIELD_TYPE_PAGEELEMENT = 'pageelement';
+    const FIELD_TYPE_RADIOBUTTON = 'radiobutton';
     const FIELD_TYPE_COMPOSITE_MULTISELECT = 'composite_multiselect';
 
+    /**
+     * Message types
+     */
+    const MESSAGE_TYPE_ERROR      = 'error';
+    const MESSAGE_TYPE_SUCCESS    = 'success';
+    const MESSAGE_TYPE_VALIDATION = 'validation';
+    
     ################################################################################
     #                             Else variables                                   #
     ################################################################################

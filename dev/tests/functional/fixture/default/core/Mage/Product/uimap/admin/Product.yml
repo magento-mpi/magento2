@@ -160,6 +160,24 @@ new_product:
                                         delete_category: "[div='%categoryName%']//*[@class='category-selector-search-choice-close']"
                                     pageelements:
                                         category_name: /div
+                            -
+                                new_category_form:
+                                    xpath: //*[@id='new-category']/ancestor::*[contains(concat(' ', normalize-space(@class), ' '), ' ui-dialog ')]
+                                    fields:
+                                        name: //input[@id='new_category_name']
+                                        parent_category: //input[@id='new_category_parent']
+                                    buttons:
+                                        new_category_save: //button[@id='new-category-js-save-button']
+                                        new_category_cancel: //button[@id='new-category-js-close-button']
+                                    messages:
+                                        category_name_required: //*[@id='advice-required-entry-new_category_name']
+                                        parent_name_required: //*[@id='advice-required-entry-new_category_parent']
+                                        parent_name_existent: //*[@id='advice-validate-parent-category-new_category_parent']
+                            -
+                                parent_category_autocomplete:
+                                    xpath: //*[contains(concat(' ', normalize-space(@class), ' '), ' ui-autocomplete ')]
+                                    links:
+                                        suggested_category_name: /*[contains(concat(' ', normalize-space(@class), ' '), ' ui-menu-item ')]/*[text()='%categoryName%']
                 -
                     prices: &pricesTab
                         xpath: //a[@title='Prices']
@@ -599,6 +617,7 @@ new_product:
                                     buttons:
                                         downloadable_sample_add_new_row: //*[@id='dd-samples']/div//button[span='Add New Row']
                                         downloadable_sample_upload_files: //*[@id='dd-samples']/div//button[span='Upload Files']
+                                        delete_sample: //*[@id='sample_items_body']/tr[%rowId%]//button[span='Delete']
                                     fields:
                                         downloadable_samples_title: //input[@name='product[samples_title]']
                                         downloadable_sample_row_title: //input[@name='downloadable[sample][%rowId%][title]']
@@ -616,6 +635,7 @@ new_product:
                                     buttons:
                                         downloadable_link_add_new_row: //*[@id='dd-links']/div//button[span='Add New Row']
                                         downloadable_link_upload_files: //*[@id='dd-links']/div//button[span='Upload Files']
+                                        delete_link: //*[@id='link_items_body']/tr[%rowId%]//button[span='Delete']
                                     checkboxes:
                                         downloadable_link_row_unlimited_downloads: //*[@id='downloadable_link_0_is_unlimited']
                                     dropdowns:

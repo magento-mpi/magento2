@@ -82,9 +82,7 @@ class Enterprise_PageCache_Model_Crawler extends Mage_Core_Model_Abstract
         $baseUrls = array();
         foreach (Mage::app()->getStores() as $store) {
             $website               = Mage::app()->getWebsite($store->getWebsiteId());
-            if ($website->getIsStaging()
-                || Mage::helper('Enterprise_WebsiteRestriction_Helper_Data')->getIsRestrictionEnabled($store)
-            ) {
+            if (Mage::helper('Enterprise_WebsiteRestriction_Helper_Data')->getIsRestrictionEnabled($store)) {
                 continue;
             }
             $baseUrl               = Mage::app()->getStore($store)->getBaseUrl();

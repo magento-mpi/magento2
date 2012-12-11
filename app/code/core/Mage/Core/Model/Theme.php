@@ -29,6 +29,11 @@
 class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
 {
     /**
+     * Cache tag for empty theme
+     */
+    const CACHE_TAG_NO_THEME = 'NO_THEME';
+
+    /**
      * Separator between theme_path elements
      */
     const PATH_SEPARATOR = '/';
@@ -435,6 +440,10 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function getCacheKey()
     {
+        if (!$this->getId()) {
+            return self::CACHE_TAG_NO_THEME . $this->getThemePath();
+        }
+
         return $this->getId() . $this->getThemePath();
     }
 
@@ -527,5 +536,13 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     public function getLabelsCollectionForSystemConfiguration()
     {
         return $this->getLabelsCollection(Mage::helper('Mage_Core_Helper_Data')->__('-- No Theme --'));
+    }
+
+    /**
+     * Clear data for clone
+     */
+    public function __clone()
+    {
+        $this->unsetData()->setOrigData();
     }
 }

@@ -51,10 +51,10 @@ class Magento_Test_Event_Magento
     }
 
     /**
-     * Handler for 'controller_front_init_before' event, that converts it into 'initFrontControllerBefore'
+     * Handler for 'core_app_init_current_store_after' event, that converts it into 'initStoreAfter'
      */
-    public function initFrontControllerBefore()
+    public function initStoreAfter()
     {
-        $this->_eventManager->fireEvent('initFrontControllerBefore');
+        $this->_eventManager->fireEvent('initStoreAfter');
     }
 }

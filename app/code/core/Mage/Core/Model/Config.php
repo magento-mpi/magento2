@@ -1,20 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Mage
- * @package     Mage_Core
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-
-/**
  * Core configuration class
  *
- * @category    Mage
- * @package     Mage_Core
- * @author      Magento Core Team <core@magentocommerce.com>
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 {
@@ -143,13 +134,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * @var bool
      */
     protected $_isLocalConfigLoaded = false;
-
-    /**
-     * Flag which allow to use modules from local code pool
-     *
-     * @var bool
-     */
-    protected $_canUseLocalModules = null;
 
     /**
      * Active modules array per namespace
@@ -429,40 +413,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $this->_allowCacheForInit = false;
         $this->_useCache = false;
         return $this->init($options);
-    }
-
-    /**
-     * Check local modules enable/disable flag
-     * If local modules are disbled remove local modules path from include dirs
-     *
-     * return true if local modules enabled and false if disabled
-     *
-     * @return bool
-     */
-    protected function _canUseLocalModules()
-    {
-        if ($this->_canUseLocalModules !== null) {
-            return $this->_canUseLocalModules;
-        }
-
-        $disableLocalModules = (string)$this->getNode('global/disable_local_modules');
-        if (!empty($disableLocalModules)) {
-            $disableLocalModules = (('true' === $disableLocalModules) || ('1' === $disableLocalModules));
-        } else {
-            $disableLocalModules = false;
-        }
-
-        if ($disableLocalModules) {
-            set_include_path(
-                // excluded '/app/code/local'
-                BP . DS . 'app' . DS . 'code' . DS . 'community' . PS .
-                BP . DS . 'app' . DS . 'code' . DS . 'core' . PS .
-                BP . DS . 'lib' . PS .
-                Mage::registry('original_include_path')
-            );
-        }
-        $this->_canUseLocalModules = !$disableLocalModules;
-        return $this->_canUseLocalModules;
     }
 
     /**
@@ -927,8 +877,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function loadModulesConfiguration($fileName, $mergeToObject = null, $mergeModel=null)
     {
-        $disableLocalModules = !$this->_canUseLocalModules();
-
         if ($mergeToObject === null) {
             $mergeToObject = clone $this->_prototype;
             $mergeToObject->loadString('<config/>');
@@ -939,9 +887,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $modules = $this->getNode('modules')->children();
         foreach ($modules as $modName=>$module) {
             if ($module->is('active')) {
-                if ($disableLocalModules && ('local' === (string)$module->codePool)) {
-                    continue;
-                }
                 if (!is_array($fileName)) {
                     $fileName = array($fileName);
                 }
@@ -975,10 +920,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     public function getModuleConfigurationFiles($filename)
     {
         $result = array();
-        $disableLocalModules = !$this->_canUseLocalModules();
         $modules = $this->getNode('modules')->children();
         foreach ($modules as $moduleName => $module) {
-            if ((!$module->is('active')) || $disableLocalModules && ('local' === (string)$module->codePool)) {
+            if ((!$module->is('active'))) {
                 continue;
             }
             $file = $this->getModuleDir('etc', $moduleName) . DIRECTORY_SEPARATOR . $filename;
@@ -1577,20 +1521,18 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             foreach ($nodeAreas->asArray() as $areaCode => $areaInfo) {
                 if (empty($areaCode)
                     || (!isset($areaInfo['base_controller']) || empty($areaInfo['base_controller']))
-                    || (!isset($areaInfo['routers']) || !is_array($areaInfo['routers']))
                 ) {
                     continue;
                 }
+                /**
+                 * TODO: Check of 'routers' nodes existance is excessive:
+                 * TODO: 'routers' check is moved Mage_Core_Model_Config::getRouters()
+                 */
 
-                foreach ($areaInfo['routers'] as $routerKey => $routerInfo) {
-                    if (empty($routerKey) || !isset($routerInfo['class'])) {
-                        unset($areaInfo[$routerKey]);
-                    }
-                }
-                if (empty($areaInfo['routers'])) {
-                    continue;
-                }
-
+                /**
+                 * TODO: Routers are not required in API.
+                 * TODO: That is why Check for empty router class moved to Mage_Core_Model_Config::getRouters()
+                 */
                 $this->_allowedAreas[$areaCode] = $areaInfo;
             }
         }
@@ -1607,11 +1549,16 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         $routers = array();
         foreach ($this->getAreas() as $areaCode => $areaInfo) {
-            foreach ($areaInfo['routers'] as $routerKey => $routerInfo ) {
-                $routerInfo = array_merge($routerInfo, $areaInfo);
-                unset($routerInfo['routers']);
-                $routerInfo['area'] = $areaCode;
-                $routers[$routerKey] = $routerInfo;
+            if (isset($areaInfo['routers']) && is_array($areaInfo['routers'])) {
+                foreach ($areaInfo['routers'] as $routerKey => $routerInfo ) {
+                    if (!isset($routerInfo['class']) || empty($routerInfo['class'])) {
+                        continue;
+                    }
+                    $routerInfo = array_merge($routerInfo, $areaInfo);
+                    unset($routerInfo['routers']);
+                    $routerInfo['area'] = $areaCode;
+                    $routers[$routerKey] = $routerInfo;
+                }
             }
         }
         return $routers;
