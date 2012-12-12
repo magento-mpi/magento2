@@ -10,6 +10,8 @@
 
 /**
  * Theme selectors tabs container
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Backend_Block_Template
 {
@@ -174,7 +176,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
      *
      * @return bool
      */
-    protected function _getIsMultipleStoreViewMode()
+    protected function _isMultipleStoreViewMode()
     {
         $isMultipleMode = false;
         $tmpStore = null;
@@ -204,7 +206,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
         $options['storesByThemes'] = $this->_getStoresByThemes();
         $options['assignSaveUrl'] = $this->getUrl('*/*/assignThemeToStore');
         $options['afterAssignSaveUrl'] = $this->getUrl('*/*/launch');
-        $options['isMultipleStoreViewMode'] = $this->_getIsMultipleStoreViewMode();
+        $options['isMultipleStoreViewMode'] = $this->_isMultipleStoreViewMode();
 
         /** @var $helper Mage_Core_Helper_Data */
         $helper = $this->helper('Mage_Core_Helper_Data');
