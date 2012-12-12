@@ -1,0 +1,29 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_AdminUser
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#Test data for Admin User grid ui elements verification
+grid:
+    manage_admin_users:
+        button:
+            reset_filter:
+            search:
+            add_new_admin_user:
+        dropdown:
+            status:
+            view:
+        field:
+            id:
+            user_name:
+            first_name:
+            last_name:
+            email:
+            page:
+        fieldset:
+            permissionsUserGrid:

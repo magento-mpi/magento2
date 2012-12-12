@@ -26,12 +26,14 @@ manage_admin_users:
                             search: //button[span='Search']
                         dropdowns:
                             status: //select[@name='is_active']
+                            view: //select[@name='limit']
                         fields:
                             id: //input[@name='user_id']
                             user_name: //input[@name='username']
                             first_name: //input[@name='firstname']
                             last_name: //input[@name='lastname']
                             email: //input[@name='email']
+                            page: //input[@name='page']
                         links:
                             select_by_user_name: //table[@id="permissionsUserGrid_table"]//td[normalize-space(text())="%userName%"]
         buttons:
