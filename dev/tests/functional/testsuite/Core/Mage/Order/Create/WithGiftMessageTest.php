@@ -49,15 +49,6 @@ class Core_Mage_Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating order with gift messages for order</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Orders" page;</p>
-     * <p>2. Create new order for new customer;</p>
-     * <p>3. Select products and add them to the order;</p>
-     * <p>4. Add gift message for the products;</p>
-     * <p>5. Fill in all required information</p>
-     * <p>6. Click "Submit Order" button;</p>
-     * <p>Expected result:</p>
-     * <p>Order is created, no error messages appear, gift message added for the order;</p>
      *
      * @param string $simpleSku
      *
@@ -84,15 +75,6 @@ class Core_Mage_Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating order with gift messages for products</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Orders" page;</p>
-     * <p>2. Create new order for new customer;</p>
-     * <p>3. Select products and add them to the order;</p>
-     * <p>4. Add gift message for the products;</p>
-     * <p>5. Fill in all required information</p>
-     * <p>6. Click "Submit Order" button;</p>
-     * <p>Expected result:</p>
-     * <p>Order is created, no error messages appear, gift message added for the products;</p>
      *
      * @param string $simpleSku
      *
@@ -119,15 +101,6 @@ class Core_Mage_Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating order with gift messages for products, but with empty fields in message</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Orders" page;</p>
-     * <p>2. Create new order for new customer;</p>
-     * <p>3. Select products and add them to the order;</p>
-     * <p>4. Add gift message for the products. Do not fill in any fields in message;</p>
-     * <p>5. Fill in all required information</p>
-     * <p>6. Click "Submit Order" button;</p>
-     * <p>Expected result:</p>
-     * <p>Order is created, no error messages appear;</p>
      *
      * @param string $simpleSku
      *

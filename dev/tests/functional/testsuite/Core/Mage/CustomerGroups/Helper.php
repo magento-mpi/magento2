@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_CustomerGroups_Helper extends Mage_Selenium_TestCase
+class Core_Mage_CustomerGroups_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Create new Customer Group
@@ -25,11 +25,7 @@ class Core_Mage_CustomerGroups_Helper extends Mage_Selenium_TestCase
      */
     public function createCustomerGroup($customerGroupData)
     {
-        if (is_string($customerGroupData)) {
-            $elements = explode('/', $customerGroupData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $customerGroupData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $customerGroupData = $this->testDataToArray($customerGroupData);
         $this->clickButton('add_new_customer_group');
         $this->fillForm($customerGroupData);
         $this->saveForm('save_customer_group');
@@ -42,19 +38,16 @@ class Core_Mage_CustomerGroups_Helper extends Mage_Selenium_TestCase
      */
     public function openCustomerGroup($searchData)
     {
-        if (is_string($searchData)) {
-            $elements = explode('/', $searchData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $searchData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $searchData = $this->testDataToArray($searchData);
         $xpathTR = $this->search($searchData, 'customer_group_grid');
         $this->assertNotNull($xpathTR, 'Customer Group is not found');
         $cellId = $this->getColumnIdByName('Group Name');
-        $this->addParameter('elementTitle', $this->getText($xpathTR . '//td[' . $cellId . ']'));
+        $this->addParameter('tableLineXpath', $xpathTR);
+        $this->addParameter('cellIndex', $cellId);
+        $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
+        $this->addParameter('elementTitle', $param);
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->click($xpathTR . '//td[' . $cellId . ']');
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        $this->validatePage();
+        $this->clickControl('pageelement', 'table_line_cell_index');
     }
 
     /**

@@ -11,10 +11,10 @@
 # Manage Product page
 manage_products:
     mca: catalog_product/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'catalog_product/')]
+    click_xpath: //div[@class='nav-bar']//a[contains(@href, '/catalog_product/')]
     title: Manage Products / Catalog / Magento Admin
     uimap: &manageProductsUimap
-        form: &searchProductGrid
+        form:
             fieldsets:
                 -
                     product_grid:
@@ -45,8 +45,12 @@ manage_products:
                             product_qty_to: //input[@name='qty[to]']
                         pageelements:
                             product_grid_head: //div[@id='productGrid']//thead/tr[@class='headings']
+                            product_grid_columns_price: //span[@class='sort-title' and text()='Price']
         buttons:
             add_new_product: //button[span='Add Product']
+            add_new_product_split: //*[@id='add_new_product_main_control']
+            add_new_product_split_select: //*[@class='button btn-toggle']
+            add_product_by_type: //*[@id='add_new_product']//*[contains(@onclick,'%productType%')]
         messages: &productMesssages
             success_deleted_products_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedProducts% record(s) have been deleted.')]
             enter_greater_than_zero: "//div[@id='advice-validate-greater-than-zero-%fieldId%' and not(contains(@style,'display: none;'))]"
@@ -62,45 +66,41 @@ manage_products:
             existing_sku: //div[@class='validation-advice' and contains(text(),'The value of attribute "SKU" must be unique')]
             select_type_of_option: //div[@id='advice-required-option-select-product_option_%optionId%_type']
             confirmation_for_delete: Are you sure?
-            no_records_found: //td[text()='No records found.']
             sku_autoincremented: //*[normalize-space(@class)='notice-msg' and contains(.,'SKU for product %productName% has been changed to %productSku%')]
+            success_updated_products_status_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyUpdatedProducts% record(s) have been updated.')]
+            success_updated_products_attributes_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyUpdatedAtrProducts% record(s) were updated')]
 
 manage_products_store:
     mca: catalog_product/index/store/%storeId%/
-    click_xpath: //div[@class='nav-bar']//a[span='Manage Products']
+    click_xpath: //div[@class='nav-bar']//a[contains(@href, '/catalog_product/')]
     title: Manage Products / Catalog / Magento Admin
     uimap: *manageProductsUimap
 
-# Settings for New Product creation
-new_product_settings:
-    mca: catalog_product/new/
-    title: New Product / Manage Products / Catalog / Magento Admin
-    uimap:
-        form: &newProductSettingsForm
-            tabs:
-                -
-                    settings: &settingsTab
-                        xpath: //a[@title='Settings']/span
-                        fieldsets:
-                            -
-                                product_settings:
-                                    xpath: //div[contains(div/div/h4,'Create Product Settings')]
-                                    buttons:
-                                        continue: //button[span='Continue']
-                                    dropdowns:
-                                        product_attribute_set: //select[@id='attribute_set_id']
-                                        product_type: //select[@id='product_type']
 # Add New Product page
 new_product:
-#    mca: catalog_product/new/%productParameters%
     mca: catalog_product/new/set/%setId%/type/%productType%/
     title: New Product / Manage Products / Catalog / Magento Admin
     uimap: &newProduct
         form: &newProductCreationForm
+            fieldsets: &new_product_fieldsets
+                -
+                    product_information:
+                        xpath: //div[@class='content-header']
+                        pageelements:
+                            product_page_title: /*[@class='icon-head head-products']
+                            product_name: //*[@class='icon-head head-products' and contains(.,'%productName% (%attributeSet%)')]
+                -
+                    change_attribute_set:
+                        xpath: //div[@class='ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable']
+                        dropdowns:
+                            choose_attribute_set: //*[@id='attribute_set_id']
+                        buttons:
+                            close: //*[@id='change-attribute-set-close-button']
+                            apply: //*[@id='change-attribute-set-apply-button']
             tabs:
                 -
                     configurable_product_settings: &configurableProductsettings
-                        xpath: //a[@title='Configurable Product Settings']/span
+                        xpath: //a[@title='Configurable Product Settings']
                         fieldsets:
                             -
                                 select_configurable_attributes:
@@ -111,7 +111,7 @@ new_product:
                                         configurable_attribute_title: //input[@type='checkbox' and @title='%attributeTitle%']
                 -
                     general: &generalTab
-                        xpath: //a[@title='General']/span
+                        xpath: //a[@title='General']
                         fieldsets:
                             -
                                 product_general:
@@ -123,29 +123,89 @@ new_product:
                                         general_weight_type: //select[@id='weight_type']
                                         general_status: //select[@id='status']
                                         general_visibility: //select[@id='visibility']
-                                        general_in_feed: //select[@id='is_imported']
                                         general_country_manufacture: //select[@id='country_of_manufacture']
+                                        general_stock_availability: //select[@name='product[quantity_and_stock_status][is_in_stock]']
                                         general_user_attr_dropdown: //select[@id='%attributeCodeDropdown%']
+                                        general_min_price_type: //select[@id='price_type']
+                                        general_min_tax_class: //select[@id='tax_class_id']
+                                        general_min_price_view_bundle: //select[@id='price_view']
                                     fields:
                                         general_name: //input[@id='name']
+                                        general_sku: //input[@id='sku']
                                         general_description: //textarea[@id='description']
                                         general_short_description: //textarea[@id='short_description']
-                                        general_sku: //input[@id='sku']
                                         general_weight: //input[@id='weight' and not(@disabled)]
                                         general_news_from: //input[@id='news_from_date']
                                         general_news_to: //input[@id='news_to_date']
                                         general_url_key: //input[@id='url_key']
+                                        categories: //*[@data-ui-id='category-selector-input']
+                                        general_qty: //input[@name='product[quantity_and_stock_status][qty]']
                                         general_user_attr_field: //input[@id='%attributeCodeField%']
+                                        general_min_price: //input[@id='price' and not(@disabled)]
+                                        general_weight_disabled: //input[@id='weight' and (@disabled)]
+                                    checkboxes:
+                                        weight_and_type_switcher: //input[@id='weight_and_type_switcher']
+                                        is_configurable: //*[@id='config_super_product-checkbox']
                                     multiselects:
                                         general_user_attr_multiselect: //select[@id='%attributeCodeMultiselect%']
+                            -
+                                category_search:
+                                    xpath: //*[@id='html-body']/ul
+                                    links:
+                                        category: //*[@class='ui-menu-item']/*[@title='%categoryPath%']
+                                        selected_category: //*[@class='category-selected ui-menu-item']/*[@title='%categoryPath%']
+                                    pageelements:
+                                        category_list: //*[@class='ui-menu-item']
+                                        all_categories: //*[contains(@data-ui-id, 'category-selector')]
+                            -
+                                chosen_category:
+                                    xpath: //*[@class='category-selector-search-choice button']
+                                    links:
+                                        delete_category: "[div='%categoryName%']//*[@class='category-selector-search-choice-close']"
+                                    pageelements:
+                                        category_name: /div
+                            -
+                                new_category_form:
+                                    xpath: //*[@id='new-category']/ancestor::*[contains(concat(' ', normalize-space(@class), ' '), ' ui-dialog ')]
+                                    fields:
+                                        name: //input[@id='new_category_name']
+                                        parent_category: //input[@id='new_category_parent']
+                                    buttons:
+                                        new_category_save: //button[@id='new-category-js-save-button']
+                                        new_category_cancel: //button[@id='new-category-js-close-button']
+                                    messages:
+                                        category_name_required: //*[@id='advice-required-entry-new_category_name']
+                                        parent_name_required: //*[@id='advice-required-entry-new_category_parent']
+                                        parent_name_existent: //*[@id='advice-validate-parent-category-new_category_parent']
+                            -
+                                parent_category_autocomplete:
+                                    xpath: //*[contains(concat(' ', normalize-space(@class), ' '), ' ui-autocomplete ')]
+                                    links:
+                                        suggested_category_name: /*[contains(concat(' ', normalize-space(@class), ' '), ' ui-menu-item ')]/*[text()='%categoryName%']
+                            -
+                                product_variations:
+                                    xpath: //*[@id='config_super_product']/fieldset
+                                    checkboxes:
+                                        configurable_attribute_title: //input[@type='checkbox' and @title='%attributeTitle%']
+                                        associated_product_select: //tbody/tr[%rowNum%]//*[@class='checkbox']
+                                    buttons:
+                                        continue: //*[@data-ui-id='admin-product-edit-tab-super-config-grid-container-super-settings-continue-button']
+                            -
+                                variations_matrix:
+                                    xpath: //*[@id='product-variations-matrix']
+                                    checkboxes:
+                                        include_variation: //tbody/tr[%rowNum%]//*[@type='checkbox']
+                                    pageelements:
+                                        variation_line: //table/tbody/tr[%rowNum%]
                 -
                     prices: &pricesTab
-                        xpath: //a[@title='Prices']/span
+                        xpath: //a[@title='Prices']
                         fieldsets:
                             -
                                 product_prices:
                                     xpath: //div[contains(div/div/h4,'Prices')]
                                     buttons:
+                                        prices_group_add_group_price: //button[span='Add Group Price']
                                         create_new_attribute: //button[span='Create New Attribute']
                                         add_tier_price: //button[span='Add Tier']
                                         delete_tier_price: //button[@id='tier_price_row_%tierPriceId%_delete_button']
@@ -162,6 +222,11 @@ new_product:
                                         prices_special_price_from: //input[@id='special_from_date']
                                         prices_special_price_to: //input[@id='special_to_date']
                                         prices_manu_suggested_retail_price: //input[@id='msrp']
+                                    pageelements:
+                                        prices_group_price_grid_head: //table[@id="group_prices_table"]/thead
+                                        prices_group_price_grid_table: //table[@id="group_prices_table"]/tbody
+                                        prices_tier_price_grid_head: //table[@id="tiers_table"]/thead
+                                        prices_tier_price_grid_table: //table[@id="tiers_table"]/tbody
                             -
                                 tier_price_row:
                                     xpath: //tbody[@id='tier_price_container']/tr
@@ -173,7 +238,7 @@ new_product:
                                         prices_tier_price_price: //input[@id='tier_price_row_%tierPriceId%_price']
                 -
                     meta_information: &metaInformationTab
-                        xpath: //a[@title='Meta Information']/span
+                        xpath: //a[@title='Meta Information']
                         fieldsets:
                             -
                                 product_meta_information:
@@ -184,16 +249,17 @@ new_product:
                                         meta_information_meta_title: //input[@id='meta_title']
                                         meta_information_meta_keywords: //textarea[@id='meta_keyword']
                                         meta_information_meta_description: //textarea[@id='meta_description']
+                                        meta_information_user_attr_field: //input[@id='%attributeCodeField%']
                 -
                     images: &imagesTab
-                        xpath: //a[@title='Images']/span
+                        xpath: //a[@title='Images']
                         fieldsets:
                             -
                                 product_images:
                                     xpath: //div[contains(div/div/h4,'Images')]
                 -
                     recurring_profile: &recurringProfileTab
-                        xpath: //a[@title='Recurring Profile']/span
+                        xpath: //a[@title='Recurring Profile']
                         fieldsets:
                             -
                                 product_recurring_profile:
@@ -218,7 +284,7 @@ new_product:
                                         recurring_profile_initial_fee: //input[@id='recurring_profileinit_amount']
                 -
                     design: &designTab
-                        xpath: //a[@title='Design']/span
+                        xpath: //a[@title='Design']
                         fieldsets:
                             -
                                 product_design:
@@ -235,7 +301,7 @@ new_product:
                                         design_custom_layout_update: //textarea[@id='custom_layout_update']
                 -
                     gift_options: &giftOptionsTab
-                        xpath: //a[@title='Gift Options']/span
+                        xpath: //a[@title='Gift Options']
                         fieldsets:
                             -
                                 product_gift_options:
@@ -248,7 +314,7 @@ new_product:
                                         gift_options_allow_gift_message: //select[@id='gift_message_available']
                 -
                     inventory: &inventoryTab
-                        xpath: //a[@title='Inventory']/span
+                        xpath: //a[@title='Inventory']
                         fieldsets:
                             -
                                 product_inventory:
@@ -277,27 +343,33 @@ new_product:
                                         inventory_qty_increments: //input[@id='inventory_qty_increments' and not(@disabled)]
                 -
                     websites: &websitesTab
-                        xpath: //a[@title='Websites']/span
+                        xpath: //a[@title='Websites']
                         fieldsets:
                             -
                                 product_websites:
                                     xpath: //div[contains(div/div/h4,'Product In Websites')]
                                     checkboxes:
                                         websites: //div[@class='website-name'][.//text()='%websiteName%']/input[@type='checkbox']
-                -
-                    categories: &categoriesTab
-                        xpath: //a[@title='Categories']/span
-                        fieldsets:
-                            -
-                                select_category:
-                                    xpath: //div[contains(div/div/h4,'Product Categories')]
-                                    links:
-                                        root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
-                                        sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
-                                        expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+#                -
+#                    categories: &categoriesTab
+#                        xpath: //a[@title='Categories']
+#                        fieldsets:
+#                            -
+#                                select_category:
+#                                    xpath: //div[contains(div/div/h4,'Product Categories')]
+#                                    checkboxes:
+#                                        category_by_id: //div[*/@id='%categoryId%']/input
+#                                    links:
+#                                        select_category_root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
+#                                        select_category_sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+#                                        select_category_expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+#                                    pageelements:
+#                                        select_category_category_text: %categoryXpath%/div/a/span
+#                                        select_category_category_index_text: %categoryXpath%[%index%]/div/a/span
+#                                        select_category_category_index_link: %categoryXpath%[%index%]/div/a
                 -
                     related: &relatedProductsTab
-                        xpath: //a[@title='Related Products']/span
+                        xpath: //a[@title='Related Products']
                         fieldsets:
                             -
                                 related:
@@ -325,7 +397,7 @@ new_product:
                                         selected_related_product: //tbody/tr%index%//input[@checked='checked']
                 -
                     up_sells: &upSellsProductsTab
-                        xpath: //a[@title='Up-sells']/span
+                        xpath: //a[@title='Up-sells']
                         fieldsets:
                             -
                                 up_sells:
@@ -353,7 +425,7 @@ new_product:
                                         selected_up_sells_product: //tbody/tr%index%//input[@checked='checked']
                 -
                     cross_sells: &crossSellsProductsTab
-                        xpath: //a[@title='Cross-sells']/span
+                        xpath: //a[@title='Cross-sells']
                         fieldsets:
                             -
                                 cross_sells:
@@ -381,19 +453,20 @@ new_product:
                                         selected_cross_sells_product: //tbody/tr%index%//input[@checked='checked']
                 -
                     custom_options: &customOptionsTab
-                        xpath: //a[@title='Custom Options']/span
+                        xpath: //a[@title='Custom Options']
                         fieldsets:
                             -
                                 custom_options:
                                     xpath: //div[contains(div/div/h4,'Custom Options')]
                                     buttons:
                                         add_option: //button[span='Add New Option']
+                                        import_options: //*[@id='import_new_defined_option']
                             -
                                 custom_option_set:
                                     xpath: //div[@class='option-box']
                                     buttons:
-                                        delete_option: //button[span='Delete Option' and ancestor::div[@id ='option_%optionId%']]
                                         delete_custom_option: //button[span='Delete Option']
+                                        delete_option: //div[@id='option_%optionId%']//button[span='Delete Option']
                                         add_row: //button[span='Add New Row']
                                         delete_row: //tr[@id='product_option_%optionId%_select_%rowId%']//button[span='Delete Row']
                                     dropdowns:
@@ -414,9 +487,40 @@ new_product:
                                         custom_options_rows: //tbody[@id='select_option_type_row_%optionId%']/tr
                                     checkboxes:
                                         custom_options_default_value: //input[@id='product_option_%optionId%_title_use_default']
+                                    pageelements:
+                                        custom_option_row: //tr[contains(@id,'product_option_')][not(@style)]
+                            -
+                                select_product_custom_option:
+                                    xpath: //*[@class='ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable']
+                                    buttons:
+                                        close: //*[@id='import-custom-options-close-button']
+                                        import: //*[@id='import-custom-options-apply-button']
+                            -
+                                select_product_custom_option_grid:
+                                    xpath: //*[@id='import-container']
+                                    buttons:
+                                        reset_filter: //button[span='Reset Filter']
+                                        search: //button[span='Search']
+                                        submit: //button[span='Submit']
+                                    dropdowns:
+                                        product_massaction: //*[@id='productGrid_massaction-select']
+                                        filter_massaction: //*[@id='productGrid_product_filter_massaction']
+                                        product_type: //*[@id='productGrid_product_filter_type']
+                                        product_attribute_set_name: //*[@id='productGrid_product_filter_set_name']
+                                        product_price_currency: //*[@id='productGrid_product_filter_price_currency']
+                                        website: //*[@id='productGrid_product_filter_websites']
+                                    fields:
+                                        product_id_from: //*[@id='productGrid_product_filter_entity_id_from']
+                                        product_id_to: //*[@id='productGrid_product_filter_entity_id_to']
+                                        product_name: //*[@id='productGrid_product_filter_name']
+                                        product_sku: //*[@id='productGrid_product_filter_sku']
+                                        product_price_from: //*[@id='productGrid_product_filter_price_from']
+                                        product_price_to: //*[@id='productGrid_product_filter_price_to']
+                                        product_qty_from: //*[@id='productGrid_product_filter_qty_from']
+                                        product_qty_to: //*[@id='productGrid_product_filter_qty_to']
                 -
                     bundle_items: &bundleItemsTab
-                        xpath: //a[@title='Bundle Items']/span
+                        xpath: //a[@title='Bundle Items']
                         fieldsets:
                             -
                                 shipment:
@@ -428,6 +532,10 @@ new_product:
                                     xpath: //div[contains(div/h4,'Bundle Items')]
                                     buttons:
                                         add_new_option: //button[@id='add_new_option']
+                                    pageelements:
+                                        bundle_item_grid: //div[@class='option-box']
+                                        bundle_item_grid_index_product: //div[@class='option-box'][%index%]//tr[@class='selection' and contains(.,'%productSku%')]
+                                        bundle_item_row: //div[@class='option-box']
                             -
                                 new_bundle_option:
                                     xpath: //div[@id='bundle_option_%optionId%']
@@ -467,7 +575,7 @@ new_product:
                                         bundle_items_qty_to_add: //input[@name='qty']
                 -
                     associated: &associatedProductsTab
-                        xpath: //a[@title='Associated Products']/span
+                        xpath: //a[@title='Associated Products']
                         fieldsets:
                             -
                                 create_simple_assosiated_product:
@@ -507,9 +615,11 @@ new_product:
                                         associated_search_position_to: //input[@name='position[to]']
                                         associated_product_position: %productXpath%//input[@name='position']
                                         associated_product_default_qty: %productXpath%//input[@name='qty']
+                                    pageelements:
+                                        associated_table: //table[@id]
                 -
                     downloadable_information: &downloadableInformationTab
-                        xpath: //a[@title='Downloadable Information']/span
+                        xpath: //a[@title='Downloadable Information']
                         fieldsets:
                             -
                                 downloadable_info:
@@ -517,6 +627,9 @@ new_product:
                                     links:
                                         downloadable_sample: //*[@id='dt-samples']/a
                                         downloadable_link: //*[@id='dt-links']/a
+                                    pageelements:
+                                        opened_downloadable_sample: //*[@id='dt-samples'][normalize-space(@class)='open']
+                                        opened_downloadable_link: //*[@id='dt-links'][normalize-space(@class)='open']
                             -
                                 downloadable_sample:
                                     xpath: //*[@id='dd-samples']/div
@@ -532,6 +645,9 @@ new_product:
                                     radiobuttons:
                                         downloadable_sample_row_url_radiobutton: //input[@id='downloadable_sample_%rowId%_url_type']
                                         downloadable_sample_row_file_radiobutton: //input[@id='downloadable_sample_%rowId%_file_type']
+                                    pageelements:
+                                        added_downloadable_sample: //*[@id='sample_items_body']/tr
+                                        downloadable_sample_row: //*[@id='sample_items_body']/tr
                             -
                                 downloadable_link:
                                     xpath: //*[@id='dd-links']/div
@@ -555,15 +671,24 @@ new_product:
                                     radiobuttons:
                                         downloadable_link_row_sample_url_radiobutton: //input[@id='downloadable_link_%rowId%_sample_url_type']
                                         downloadable_link_row_url_radiobutton: //input[@id='downloadable_link_%rowId%_url_type']
+                                    pageelements:
+                                        added_downloadable_link: //*[@id='link_items_body']/tr
+                                        downloadable_link_row: //*[@id='link_items_body']/tr
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save: //button[@data-ui-id="product-edit-save-button"]
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save: //button[@data-ui-id='product-edit-save-button']
+            save_and_continue_edit: //button[@data-ui-id='product-edit-save-and-edit-button']
+            change_attribute_set: //button[span='Change Attribute Set']
         messages: *productMesssages
 
 new_configurable_product:
     mca: catalog_product/new/attributes/%attributesUrl%/set/%setId%/type/%productType%/
+    title: New Product / Manage Products / Catalog / Magento Admin
+    uimap: *newProduct
+
+new_configurable_product_after_changed_attribute_set:
+    mca: catalog_product/new/attributes/%attributesUrl%/type/%productType%/?set=%setId%
     title: New Product / Manage Products / Catalog / Magento Admin
     uimap: *newProduct
 
@@ -575,14 +700,10 @@ duplicated_configurable_product:
 # Edit Product page
 edit_product:
     mca: catalog_product/edit/id/%id%/
-    title: %productName% / Manage Products / Catalog / Magento Admin
+    title: %elementTitle% / Manage Products / Catalog / Magento Admin
     uimap: &editProduct
         form:
-            fieldsets:
-                -
-                    websites:
-                        dropdowns:
-                             choose_store_view: //select[@id='store_switcher']
+            fieldsets: *new_product_fieldsets
             tabs:
                 -
                     configurable_product_settings: *configurableProductsettings
@@ -604,8 +725,8 @@ edit_product:
                     inventory: *inventoryTab
                 -
                     websites: *websitesTab
-                -
-                    categories: *categoriesTab
+#                -
+#                    categories: *categoriesTab
                 -
                     related: *relatedProductsTab
                 -
@@ -613,8 +734,14 @@ edit_product:
                 -
                     cross_sells: *crossSellsProductsTab
                 -
+                    custom_options: *customOptionsTab
+                -
+                    bundle_items: *bundleItemsTab
+                -
+                    downloadable_information: *downloadableInformationTab
+                -
                     product_tags:
-                        xpath: //a[@title='Product Tags']/span
+                        xpath: //a[@title='Product Tags']
                         fieldsets:
                             -
                                 product_tags:
@@ -633,7 +760,7 @@ edit_product:
                                         tags_grid: //table[@id='tag_grid_table']
                 -
                     customer_tags:
-                        xpath: //a[@title='Customers Tagged Product']/span
+                        xpath: //a[@title='Customers Tagged Product']
                         fieldsets:
                             -
                                 customer_tags:
@@ -650,12 +777,8 @@ edit_product:
                                         tags_grid_head: //table[@id='tag_customers_grid_table']//thead/tr[@class='headings']
                                         tags_grid: //table[@id='tag_customers_grid_table']
                 -
-                    custom_options: *customOptionsTab
-                -
-                    bundle_items: *bundleItemsTab
-                -
                     associated:
-                        xpath: //a[@title='Associated Products']/span
+                        xpath: //a[@title='Associated Products']
                         fieldsets:
                             -
                                 create_simple_assosiated_product:
@@ -685,35 +808,34 @@ edit_product:
                                 super_products_attribute_configuration: *superProductsAttributeconfiguration
                             -
                                 associated: *associatedProductsFieldSet
-                -
-                    downloadable_information: *downloadableInformationTab
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
             delete: //button[span='Delete']
             duplicate: //button[span='Duplicate']
-            save: //button[span='Save']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save: //button[@data-ui-id='product-edit-save-button']
+            save_and_continue_edit: //button[@data-ui-id='product-edit-save-and-edit-button']
+            change_attribute_set: //button[span='Change Attribute Set']
         messages: *productMesssages
 
 edit_saved_product:
     mca: catalog_product/edit/id/%id%/back/edit/tab/%tab%
-    title: %productName% / Manage Products / Catalog / Magento Admin
+    title: %elementTitle% / Manage Products / Catalog / Magento Admin
     uimap: *editProduct
 
 edit_product_save_and_continue:
     mca: catalog_product/edit/id/%id%/back/edit/tab/product_info_tabs_group_%tabId%/
-    title: %productName% / Manage Products / Catalog / Magento Admin
+    title: %elementTitle% / Manage Products / Catalog / Magento Admin
     uimap: *editProduct
 
 edit_new_product_save_and_continue:
     mca: catalog_product/edit/id/%id%/back/edit/tab/product_info_tabs_group_%tab%/set/%setId%/type/%productType%/
-    title: %productName% / Manage Products / Catalog / Magento Admin
+    title: %elementTitle% / Manage Products / Catalog / Magento Admin
     uimap: *editProduct
 
 edit_new_configurable_save_and_continue:
     mca: catalog_product/edit/id/%id%/back/edit/tab/product_info_tabs_group_%tab%/attributes/%attributeTitle%/set/%setId%/type/%productType%/
-    title: %productName% / Manage Products / Catalog / Magento Admin
+    title: %elementTitle% / Manage Products / Catalog / Magento Admin
     uimap: *editProduct
 
 create_empty_simple_from_configurable:
@@ -751,5 +873,136 @@ new_product_after_changed_attribute_set:
 
 edit_saved_product_after_changed_attribute_set:
     mca: catalog_product/edit/id/%id%/?set=%setId%
-    title: %productName% / Manage Products / Catalog / Magento Admin
+    title: %elementTitle% / Manage Products / Catalog / Magento Admin
     uimap: *newProduct
+
+updating_products:
+    mca: catalog_product_action_attribute/edit/
+    title: Magento Admin
+    uimap:
+        form:
+            tabs:
+                -
+                    attributes:
+                        xpath: //a[@title='Attributes']
+                        fieldsets:
+                            -
+                                attributes:
+                                    xpath: //div[contains(div/div/h4,'Attributes')]
+                                    checkboxes:
+                                        attributes_change_name: //*[@id='name-checkbox']
+                                        attributes_change_description: //*[@id='description-checkbox']
+                                        attributes_change_short_description: //*[@id='short_description-checkbox']
+                                        attributes_change_price: //*[@id='price-checkbox']
+                                        attributes_change_special_price: //*[@id='special_price-checkbox']
+                                        attributes_change_news_from: //*[@id='special_from_date-checkbox']
+                                        attributes_change_news_to: //*[@id='special_to_date-checkbox']
+                                        attributes_change_weight: //*[@id='weight-checkbox']
+                                        attributes_change_meta_title: //*[@id='meta_title-checkbox']
+                                        attributes_change_meta_keywords: //*[@id='meta_keyword-checkbox']
+                                        attributes_change_meta_description: //*[@id='meta_description-checkbox']
+                                        attributes_change_set_product_as_new_from_date: //*[@id='news_from_date-checkbox']
+                                        attributes_change_set_product_as_new_to_date: //*[@id='news_to_date-checkbox']
+                                        attributes_change_status: //*[@id='status-checkbox']
+                                        attributes_change_enable_recurring_profile: //*[@id='is_recurring-checkbox']
+                                        attributes_change_visibility: //*[@id='visibility-checkbox']
+                                        attributes_change_custom_design: //*[@id='custom_design-checkbox']
+                                        attributes_change_active_from: //*[@id='custom_design_from-checkbox']
+                                        attributes_change_active_to: //*[@id='custom_design_to-checkbox']
+                                        attributes_change_custom_layout_update: //*[@id='custom_layout_update-checkbox']
+                                        attributes_change_page_layaout: //*[@id='page_layout-checkbox']
+                                        attributes_change_display_product_options_in: //*[@id='options_container-checkbox']
+                                        attributes_change_country_of_manufacture: //*[@id='country_of_manufacture-checkbox']
+                                        attributes_change_apply_map: //*[@id='msrp_enabled-checkbox']
+                                        attributes_change_display_actual_price: //*[@id='msrp_display_actual_price_type-checkbox']
+                                        attributes_change_manufacturer's_suggested_retail_price: //*[@id='msrp-checkbox']
+                                        attributes_change_allow_gift_message: //*[@id='gift_message_available-checkbox']
+                                        attributes_ucs_allow_gift_message: //*[@id='use_config_gift_message_available']
+                                        attributes_change_tax_class: //*[@id='tax_class_id-checkbox']
+                                        attributes_change_is_product_available_for_purchase_with_google_checkout: //*[@id='enable_googlecheckout-checkbox']
+                                    dropdowns:
+                                        attributes_status: //*[@id='status']
+                                        attributes_enable_recurring_profile: //*[@id='is_recurring']
+                                        attributes_visibility: //*[@id='visibility']
+                                        attributes_custom_design: //*[@id='custom_design']
+                                        attributes_page_layaout: //*[@id='page_layout']
+                                        attributes_display_product_options_in: //*[@id='options_container']
+                                        attributes_country_of_manufacture: //*[@id='country_of_manufacture']
+                                        attributes_apply_map: //*[@id='msrp_enabled']
+                                        attributes_display_actual_price: //*[@id='msrp_display_actual_price_type']
+                                        attributes_allow_gift_message: //*[@id='gift_message_available']
+                                        attributes_tax_class: //*[@id='tax_class_id']
+                                        attributes_is_product_available_for_purchase_with_google_checkout: //*[@id='enable_googlecheckout']
+                                    fields:
+                                        attributes_name: //input[@id='name']
+                                        attributes_description: //textarea[@id='description']
+                                        attributes_short_description: //textarea[@id='short_description']
+                                        attributes_price: //*[@id='price']
+                                        attributes_special_price: //*[@id='special_price']
+                                        attributes_news_from: //*[@id='special_from_date']
+                                        attributes_news_to: //*[@id='special_to_date']
+                                        attributes_weight: //*[@id='weight']
+                                        attributes_meta_title: //*[@id='meta_title']
+                                        attributes_meta_keywords: //*[@id='meta_keyword']
+                                        attributes_meta_description: //*[@id='meta_description']
+                                        attributes_set_product_as_new_from_date: //*[@id='news_from_date']
+                                        attributes_set_product_as_new_to_date: //*[@id='news_to_date']
+                                        attributes_active_from: //*[@id='custom_design_from']
+                                        attributes_active_to: //*[@id='custom_design_to']
+                                        attributes_custom_layout_update: //*[@id='custom_layout_update']
+                                        attributes_manufacturer's_suggested_retail_price: //*[@id='msrp']
+                -
+                    inventory:
+                        xpath: //a[@title='Inventory']
+                        fieldsets:
+                            -
+                                inventory:
+                                    xpath: //div[contains(div/div/h4,'Inventory')]
+                                    checkboxes:
+                                        inventory_change_manage_stock: //*[@id='inventory_manage_stock_checkbox']
+                                        inventory_ucs_manage_stock: //*[@id='inventory_use_config_manage_stock']
+                                        inventory_change_qty: //*[@id='inventory_qty_checkbox']
+                                        inventory_change_minimum_qty_for_item's_status_to_be_out_of_stock: //*[@id='inventory_min_qty_checkbox']
+                                        inventory_ucs_minimum_qty_for_item's_status_to_be_out_of_stock: //*[@id='inventory_use_config_min_qty']
+                                        inventory_change_minimum_qty_allowed_in_shopping_cart: //*[@id='inventory_min_sale_qty_checkbox']
+                                        inventory_ucs_minimum_qty_allowed_in_shopping_cart: //*[@id='inventory_use_config_min_sale_qty']
+                                        inventory_change_maximum_qty_allowed_in_shopping_cart: //*[@id='inventory_max_sale_checkbox']
+                                        inventory_ucs_maximum_qty_allowed_in_shopping_cart: //*[@id='inventory_use_config_max_sale_qty']
+                                        inventory_change_qty_uses_decimals: //*[@id='inventory_is_qty_decimal_checkbox']
+                                        inventory_change_backorders: //*[@id='inventory_backorders_checkbox']
+                                        inventory_ucs_backorders: //*[@id='inventory_use_config_backorders']
+                                        inventory_change_notify_for_quantity_below: //*[@id='inventory_notify_stock_qty_checkbox']
+                                        inventory_ucs_notify_for_quantity_below: //*[@id='inventory_use_config_notify_stock_qty']
+                                        inventory_change_enable_qty_increments: //*[@id='inventory_enable_qty_increments_checkbox']
+                                        inventory_ucs_enable_qty_increments: //*[@id='inventory_use_config_enable_qty_increments']
+                                        inventory_change_qty_increments: //*[@id='inventory_qty_increments_checkbox']
+                                        inventory_ucs_qty_increments: //*[@id='inventory_use_config_qty_increments']
+                                        inventory_change_stock_availability: //*[@id='inventory_stock_availability_checkbox']
+                                    dropdowns:
+                                        inventory_manage_stock: //*[@id='inventory_manage_stock']
+                                        inventory_qty_uses_decimals: //*[@id='inventory_is_qty_decimal']
+                                        inventory_backorders: //*[@id='inventory_backorders']
+                                        inventory_enable_qty_increments: //*[@id='inventory_enable_qty_increments']
+                                        inventory_stock_availability: //*[@id='inventory_stock_availability']
+                                    fields:
+                                        inventory_qty: //*[@id='inventory_qty']
+                                        inventory_minimum_qty_for_item's_status_to_be_out_of_stock: //*[@id='inventory_min_qty']
+                                        inventory_minimum_qty_allowed_in_shopping_cart: //*[@id='inventory_min_sale_qty']
+                                        inventory_maximum_qty_allowed_in_shopping_cart: //*[@id='inventory_max_sale_qty']
+                                        inventory_notify_for_quantity_below: //*[@id='inventory_notify_stock_qty']
+                                        inventory_qty_increments: //*[@id='inventory_qty_increments']
+                -
+                    websites:
+                        xpath: //a[@title='Websites']
+                        fieldsets:
+                            -
+                                add_product:
+                                    xpath: //div[@id='attributes_update_tabs_websites_content']
+                                    checkboxes:
+                                        websites_add_to_main_website: //input[@id='add_product_website_1']
+                                        websites_remove_from_main_website: //input[@id='remove_product_website_1']
+        buttons:
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            save: //button[@data-ui-id='product-edit-save-button']
+        messages: *productMesssages

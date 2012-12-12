@@ -43,7 +43,7 @@ home_page:
 
 test_page:
     mca: %url_key%
-    title: %page_title%
+    title: %elementTitle%
     uimap:
         form:
             fieldsets:
@@ -61,5 +61,4 @@ test_page:
 home_storeview:
     mca: ?___store=%storeViewCode%/
     title: Home page
-    uimap:
-        form: *homePage
+    uimap: *homePage

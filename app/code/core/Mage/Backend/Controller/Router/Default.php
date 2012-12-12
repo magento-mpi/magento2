@@ -56,20 +56,32 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
      */
     public function fetchDefault()
     {
-        $defaultModuleFrontName = (string) Mage::getConfig()->getNode('admin/routers/adminhtml/args/frontName');
+        $moduleFrontName = (string) Mage::getConfig()->getNode('admin/routers/adminhtml/args/frontName');
         // set defaults
-        $d = explode('/', $this->_getDefaultPath());
+        $pathParts = explode('/', $this->_getDefaultPath());
         $this->getFront()->setDefault(array(
-            'area'       => !empty($d[0]) ? $d[0] : '',
-            'module'     => !empty($d[1]) ? $d[1] : $defaultModuleFrontName,
-            'controller' => !empty($d[2]) ? $d[2] : 'index',
-            'action'     => !empty($d[3]) ? $d[3] : 'index'
+            'area'       => $this->_getParamWithDefaultValue($pathParts, 0, ''),
+            'module'     => $this->_getParamWithDefaultValue($pathParts, 1, $moduleFrontName),
+            'controller' => $this->_getParamWithDefaultValue($pathParts, 2, 'index'),
+            'action'     => $this->_getParamWithDefaultValue($pathParts, 3, 'index'),
         ));
     }
 
     /**
-     * Get router default request path
+     * Retrieve array param by key, or default value
      *
+     * @param array $array
+     * @param string $key
+     * @param mixed $defaultValue
+     * @return mixed
+     */
+    protected function _getParamWithDefaultValue($array, $key, $defaultValue)
+    {
+        return !empty($array[$key]) ? $array[$key] : $defaultValue;
+    }
+
+    /**
+     * Get router default request path
      * @return string
      */
     protected function _getDefaultPath()
@@ -91,6 +103,7 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
      * checking if we installed or not and doing redirect
      *
      * @return bool
+     * @SuppressWarnings(PHPMD.ExitExpression)
      */
     protected function _afterModuleMatch()
     {
@@ -119,6 +132,7 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
      *
      * @param string $path
      * @return bool
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _shouldBeSecure($path)
     {
@@ -144,6 +158,7 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
      *
      * @param string $configArea
      * @param bool $useRouterName
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function collectRoutes($configArea, $useRouterName)
     {

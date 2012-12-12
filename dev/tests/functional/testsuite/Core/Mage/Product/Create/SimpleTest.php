@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
+class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
@@ -30,24 +30,11 @@ class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
 
     protected function tearDownAfterTest()
     {
-        $windowQty = $this->getAllWindowNames();
-        if (count($windowQty) > 1 && end($windowQty) != 'null') {
-            $this->selectWindow("name=" . end($windowQty));
-            $this->close();
-            $this->selectWindow(null);
-        }
+        $this->closeLastWindow();
     }
 
     /**
      * <p>Creating product with required fields only</p>
-     * <p>Steps:</p>
-     * <p>1. Click "Add product" button;</p>
-     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields;</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
      *
      * @return array $productData
      *
@@ -68,14 +55,6 @@ class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating product with all fields</p>
-     * <p>Steps:</p>
-     * <p>1. Click "Add product" button;</p>
-     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill all fields;</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
      *
      * @depends onlyRequiredFieldsInSimple
      *
@@ -100,15 +79,6 @@ class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating product with existing SKU</p>
-     * <p>Steps:</p>
-     * <p>1. Click "Add product" button;</p>
-     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields using exist SKU;</p>
-     * <p>5. Click 'Save and Continue Edit' button;</p>
-     * <p>Expected result:</p>
-     * <p>1. Product is saved, confirmation message appears;</p>
-     * <p>2. Auto-increment is added to SKU;</p>
      *
      * @param $productData
      *
@@ -121,28 +91,20 @@ class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
     {
         //Steps
         $this->productHelper()->createProduct($productData, 'simple', false);
-        $this->addParameter('productSku', $this->productHelper()->getGeneratedSku($productData['general_sku']));
-        $this->addParameter('productName', $productData['general_name']);
+        $this->addParameter('elementTitle', $productData['general_name']);
         $this->saveAndContinueEdit('button', 'save_and_continue_edit');
         //Verifying
+        $newSku = $this->productHelper()->getGeneratedSku($productData['general_sku']);
+        $this->addParameter('productSku', $newSku);
+        $this->addParameter('productName', $productData['general_name']);
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertMessagePresent('success', 'sku_autoincremented');
-        $this->productHelper()->verifyProductInfo(array('general_sku' => $this->productHelper()->getGeneratedSku(
-            $productData['general_sku'])));
+        $productData['general_sku'] = $newSku;
+        $this->productHelper()->verifyProductInfo($productData);
     }
 
     /**
      * <p>Creating product with empty required fields</p>
-     * <p>Steps:</p>
-     * <p>1. Click "Add product" button;</p>
-     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Leave one required field empty and fill in the rest of fields;</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>6. Verify error message;</p>
-     * <p>7. Repeat scenario for all required fields for both tabs;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
      *
      * @param $emptyField
      * @param $fieldType
@@ -156,20 +118,12 @@ class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
     public function withRequiredFieldsEmpty($emptyField, $fieldType)
     {
         //Data
-        if ($emptyField == 'general_visibility') {
-            $overrideData = array($emptyField => '-- Please Select --');
-        } elseif ($emptyField == 'inventory_qty') {
-            $overrideData = array($emptyField => '');
-        } elseif ($emptyField == 'general_sku') {
-            $overrideData = array($emptyField => ' ');
-        } else {
-            $overrideData = array($emptyField => '%noValue%');
-        }
-        $productData = $this->loadDataSet('Product', 'simple_product_required', $overrideData);
+        $field = key($emptyField);
+        $product = $this->loadDataSet('Product', 'simple_product_required', $emptyField);
         //Steps
-        $this->productHelper()->createProduct($productData);
+        $this->productHelper()->createProduct($product);
         //Verifying
-        $this->addFieldIdToMessage($fieldType, $emptyField);
+        $this->addFieldIdToMessage($fieldType, $field);
         $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
@@ -177,29 +131,21 @@ class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
     public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
-            array('general_name', 'field'),
-            array('general_description', 'field'),
-            array('general_short_description', 'field'),
-            array('general_sku', 'field'),
-            array('general_weight', 'field'),
-            array('general_status', 'dropdown'),
-            array('general_visibility', 'dropdown'),
-            array('prices_price', 'field'),
-            array('prices_tax_class', 'dropdown'),
-            array('inventory_qty', 'field')
+            array(array('general_name' => '%noValue%'), 'field'),
+            array(array('general_description' => '%noValue%'), 'field'),
+            array(array('general_short_description' => '%noValue%'), 'field'),
+            array(array('general_sku' => ''), 'field'),
+            array(array('general_weight' => '%noValue%'), 'field'),
+            array(array('general_status' => '-- Please Select --'), 'dropdown'),
+            array(array('general_visibility' => '-- Please Select --'), 'dropdown'),
+            array(array('prices_price' => '%noValue%'), 'field'),
+            array(array('prices_tax_class' => '-- Please Select --'), 'dropdown'),
+            array(array('inventory_qty' => ''), 'field')
         );
     }
 
     /**
      * <p>Creating product with special characters into required fields</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields with special symbols ("General" tab), rest - with normal data;
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product created, confirmation message appears</p>
      *
      * @depends onlyRequiredFieldsInSimple
      *
@@ -228,14 +174,6 @@ class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating product with long values from required fields</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields with long values ("General" tab), rest - with normal data;
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product created, confirmation message appears</p>
      *
      * @depends onlyRequiredFieldsInSimple
      *
@@ -265,14 +203,6 @@ class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating product with SKU length more than 64 characters.</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields, use for sku string with length more than 64 characters</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
      *
      * @depends onlyRequiredFieldsInSimple
      *
@@ -294,14 +224,6 @@ class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
     /**
      * Fails due to MAGE-5658
      * <p>Creating product with invalid weight</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in "Weight" field with special characters, the rest - with normal data;</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product created, confirmation message appears, Weight=0;</p>
      *
      * @TestlinkId TL-MAGE-3420
      * @test
@@ -320,14 +242,6 @@ class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating product with invalid price</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in "Price" field with special characters, the rest fields - with normal data;</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
      *
      * @param $invalidPrice
      *
@@ -351,14 +265,6 @@ class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating product with invalid special price</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in field "Special Price" with invalid data, the rest fields - with correct data;
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:<p>
-     * <p>Product is not created, error message appears;</p>
      *
      * @param $invalidValue
      *
@@ -383,15 +289,6 @@ class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating product with empty tier price</p>
-     * <p>Steps<p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields with correct data;</p>
-     * <p>5. Click "Add Tier" button and leave fields in current fieldset empty;</p>
-     * <p>6. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
      *
      * @param $emptyTierPrice
      *
@@ -419,21 +316,12 @@ class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
     {
         return array(
             array('prices_tier_price_qty'),
-            array('prices_tier_price_price'),
+            array('prices_tier_price_price')
         );
     }
 
     /**
      * <p>Creating product with invalid Tier Price Data</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields with correct data;</p>
-     * <p>5. Click "Add Tier" button and fill in fields in current fieldset with incorrect data;</p>
-     * <p>6. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
      *
      * @param $invalidTierData
      *
@@ -442,12 +330,12 @@ class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
      *
      * @TestlinkId TL-MAGE-3419
      * @test
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function invalidTierPriceInSimple($invalidTierData)
     {
         //Data
-        $tierData = array('prices_tier_price_qty'   => $invalidTierData,
-                          'prices_tier_price_price' => $invalidTierData);
+        $tierData = array('prices_tier_price_qty' => $invalidTierData, 'prices_tier_price_price' => $invalidTierData);
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         $productData['prices_tier_price_data'][] = $this->loadDataSet('Product', 'prices_tier_price_1', $tierData);
         //Steps
@@ -462,14 +350,6 @@ class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating product with invalid Qty</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields with correct data, "Qty" field - with special characters;</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
      *
      * @param $invalidQty
      *
@@ -555,8 +435,7 @@ class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_created_product');
 
-        return array('search' => $productSearch,
-                     'attr'   => $attrData);
+        return array('search' => $productSearch, 'attr' => $attrData);
     }
 
     /**
@@ -581,22 +460,16 @@ class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
         $this->addParameter('attrId', $attrId);
         //2.Define attribute set ID that used in product
         $this->navigate('manage_products');
-        $productXpath = $this->search($data['search']);
-        $this->assertNotEquals(null, $productXpath);
-        $columnId = $this->getColumnIdByName('Attrib. Set Name');
-        $value = $this->getText($productXpath . "/td[$columnId]");
-        $setId = $this->getValue("//tr[@class='filter']/th[$columnId]//option[text()='$value']");
+        $setId = $this->productHelper()->defineAttributeSetUsedInProduct($data['search']);
         $this->addParameter('setId', $setId);
         //3. Open product and create simple product
         $this->productHelper()->openProduct($data['search']);
         $this->openTab('associated');
         $this->clickButton('create_empty', false);
-        $names = $this->getAllWindowNames();
-        $this->waitForPopUp(end($names), '30000');
-        $this->selectWindow("name=" . end($names));
+        $this->selectLastWindow();
         $this->productHelper()->fillProductInfo($simpleEmpty);
         $this->saveForm('save', false);
-        $this->selectWindow(null);
+        $this->window('');
         $this->waitForAjax();
         $xpath = $this->search(array('associated_search_sku' => $simpleEmpty['general_sku']), 'associated');
         $this->assertNotEquals(null, $xpath, 'Product is not found');
@@ -615,8 +488,7 @@ class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
         //Data
         $searchAttr = $this->loadDataSet('ProductAttribute', 'attribute_search_data',
             array('attribute_code' => $data['attr']['attribute_code']));
-        $simple = array('general_weight' => '3.21',
-                        'general_sku'    => $this->generate('string', 15, ':alnum:'));
+        $simple = array('general_weight' => '3.21', 'general_sku' => $this->generate('string', 15, ':alnum:'));
         $simple['general_user_attr']['dropdown'][$data['attr']['attribute_code']] =
             $data['attr']['option_3']['admin_option_name'];
         //Steps
@@ -625,23 +497,17 @@ class Community2_Mage_MinimalAttributeSet extends Mage_Selenium_TestCase
         $this->addParameter('attrId', $attrId);
         //2.Define attribute set ID that used in product
         $this->navigate('manage_products');
-        $productXpath = $this->search($data['search']);
-        $this->assertNotEquals(null, $productXpath);
-        $columnId = $this->getColumnIdByName('Attrib. Set Name');
-        $value = $this->getText($productXpath . "/td[$columnId]");
-        $setId = $this->getValue("//tr[@class='filter']/th[$columnId]//option[text()='$value']");
+        $setId = $this->productHelper()->defineAttributeSetUsedInProduct($data['search']);
         $this->addParameter('setId', $setId);
         //3. Open product and create simple product
         $this->productHelper()->openProduct($data['search']);
         $this->addParameter('productId', $this->getParameter('id'));
         $this->openTab('associated');
         $this->clickButton('create_copy_from_configurable', false);
-        $names = $this->getAllWindowNames();
-        $this->waitForPopUp(end($names), '30000');
-        $this->selectWindow("name=" . end($names));
+        $this->selectLastWindow();
         $this->productHelper()->fillProductInfo($simple);
         $this->saveForm('save', false);
-        $this->selectWindow(null);
+        $this->window('');
         $this->waitForAjax();
         $xpath = $this->search(array('associated_search_sku' => $simple['general_sku']), 'associated');
         $this->assertNotEquals(null, $xpath, 'Product is not found');

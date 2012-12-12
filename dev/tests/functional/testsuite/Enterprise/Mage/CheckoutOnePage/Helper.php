@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento
+ * @package     Mage_CheckoutOnePage
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -26,6 +26,8 @@ class Enterprise_Mage_CheckoutOnePage_Helper extends Core_Mage_CheckoutOnePage_H
      */
     public function frontAddGiftMessage(array $giftOptions)
     {
+        $this->assertTrue($this->controlIsPresent('checkbox', 'add_gift_options'),
+            'You can not add gift option for this order');
         $this->fillCheckbox('add_gift_options', 'Yes');
         $forItems = (isset($giftOptions['individual_items'])) ? $giftOptions['individual_items'] : array();
         $forOrder = (isset($giftOptions['entire_order'])) ? $giftOptions['entire_order'] : array();
@@ -35,6 +37,17 @@ class Enterprise_Mage_CheckoutOnePage_Helper extends Core_Mage_CheckoutOnePage_H
         if (isset($giftOptions['add_printed_card'])) {
             $this->fillCheckbox('add_printed_card', $giftOptions['add_printed_card']);
         }
+        $this->_addGiftOptionsForItems($forItems);
+        $this->_addGiftOptionsForOrder($forOrder);
+    }
+
+    /**
+     * Add gift options for items
+     *
+     * @param $forItems
+     */
+    protected function _addGiftOptionsForItems($forItems)
+    {
         foreach ($forItems as $data) {
             $productName = (isset($data['product_name'])) ? $data['product_name'] : '';
             $this->addParameter('productName', $productName);
@@ -49,6 +62,14 @@ class Enterprise_Mage_CheckoutOnePage_Helper extends Core_Mage_CheckoutOnePage_H
                 $this->fillFieldset($giftMessage, 'shipping_method');
             }
         }
+    }
+
+    /**
+     * Add gift options for order
+     * @param $forOrder
+     */
+    protected function _addGiftOptionsForOrder($forOrder)
+    {
         if ($forOrder) {
             $this->fillCheckbox('gift_option_for_order', 'Yes');
             $giftWrapping =
@@ -74,7 +95,7 @@ class Enterprise_Mage_CheckoutOnePage_Helper extends Core_Mage_CheckoutOnePage_H
             $checkoutData['shipping_data']['add_gift_options']['individual_items'] : array();
 
         if ($itemsGiftWrapping) {
-            foreach($itemsGiftWrapping as $productData) {
+            foreach ($itemsGiftWrapping as $productData) {
                 if (isset($productData['product_name']) && isset($productData['item_gift_wrapping_design'])) {
                     $this->addParameter('productName', $productData['product_name']);
                     $this->addParameter('giftWrapping', $productData['item_gift_wrapping_design']);

@@ -33,13 +33,3 @@ unit_test_load_data_set_recursive:
             another_key: another Value
             novalue_key: %noValue%
             some_key: %no Value%
-generic_store:
-    website: Main Website
-    store_name: Generic Store(%randomize%)
-    root_category: Default Category
-
-edit_store:
-    store_name: Main Website Store
-    root_category: Default Category
-    default_store_view: Default Store View
-

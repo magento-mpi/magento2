@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
+class Core_Mage_Store_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Create Website|Store|Store View
@@ -28,17 +28,29 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
      */
     public function createStore($data, $name)
     {
-        if (is_string($data)) {
-            $elements = explode('/', $data);
-            $fileName = (count($elements) > 1)
-                ? array_shift($elements)
-                : '';
-            $data = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $data = $this->testDataToArray($data);
 
         $this->clickButton('create_' . $name);
         $this->fillForm($data);
         $this->saveForm('save_' . $name);
+    }
+
+    /**
+     * Determination of element name
+     *
+     * @param array $storeData
+     * @return string $elementName
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     */
+    protected function _determineElementName($storeData)
+    {
+        $elementName = '';
+        foreach ($storeData as $fieldName => $fieldValue) {
+            if (preg_match('/_name$/', $fieldName)) {
+                $elementName = $fieldName;
+            }
+        }
+        return $elementName;
     }
 
     /**
@@ -50,13 +62,7 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
      */
     public function deleteStore(array $storeData)
     {
-        //Determination of element name
-        $elementName = '';
-        foreach ($storeData as $fieldName => $fieldValue) {
-            if (preg_match('/_name$/', $fieldName)) {
-                $elementName = $fieldName;
-            }
-        }
+        $elementName = $this->_determineElementName($storeData);
         $element = preg_replace('/_name$/', '', $elementName);
         if ($elementName == '') {
             $this->fail('It is impossible to determine what needs to be deleted');
@@ -66,9 +72,9 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
         $this->fillField($elementName, $storeData[$elementName]);
         $this->clickButton('search');
         //Determination of found items amount
-        $fieldsetXpath = $this->_getControlXpath('fieldset', 'manage_stores');
-        $qtyElementsInTable = $this->_getControlXpath('pageelement', 'qtyElementsInTable');
-        $foundItems = $this->getText($fieldsetXpath . $qtyElementsInTable);
+        $fieldsetLocator = $this->_getControlXpath('fieldset', 'manage_stores');
+        list(, , $foundItems) = explode('|', $this->getElement($fieldsetLocator . "//td[@class='pager']")->text());
+        $foundItems = trim(preg_replace('/[A-Za-z]+/', '', $foundItems));
         if ($foundItems == 0) {
             $this->fail('No records found.');
         }
@@ -77,21 +83,21 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
         foreach ($names as $key => $value) {
             $names[$key] = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '_', $value)), '_');
         }
-        $number = (in_array($elementName, $names))
-            ? array_search($elementName, $names) + 1
-            : 0;
+        $number = (in_array($elementName, $names)) ? array_search($elementName, $names) + 1 : 0;
         //Deletion
         $error = false;
         $this->addParameter('elementTitle', $storeData[$elementName]);
         for ($i = 1; $i <= $foundItems; $i++) {
             //Definition element url
-            $xpath = $fieldsetXpath . '//table[@id]/tbody' . '/tr[' . $i . ']/td[' . $number . ']/a';
-            $url = $this->getAttribute($xpath . '@href');
+            $this->addParameter('rowIndex', $i);
+            $this->addParameter('cellIndex', $number);
+            $url = $this->getControlAttribute('pageelement', 'cell_store_link', 'href');
             //Open element
             $this->addParameter('id', $this->defineIdFromUrl($url));
-            $this->openWindow($url, 'edit');
-            $this->selectWindow('name=edit');
-            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+            $this->execute(array('script' => "window.open()", 'args' => array()));
+            $windows = $this->windowHandles();
+            $this->window(end($windows));
+            $this->url($url);
             $this->validatePage('edit_' . $element);
             //Searching a necessary element
             if ($this->verifyForm($storeData)) {
@@ -100,18 +106,18 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
                     $this->fillDropdown('create_backup', 'No');
                     $this->clickButton('delete_' . $element);
                     $this->assertMessagePresent('success', 'success_deleted_' . $element);
-                    $this->close();
-                    $this->selectWindow(null);
+                    $this->closeWindow();
+                    $this->window('');
 
                     return true;
                 } else {
                     $error = true;
-                    $this->close();
-                    $this->selectWindow(null);
+                    $this->closeWindow();
+                    $this->window('');
                 }
             } else {
-                $this->close();
-                $this->selectWindow(null);
+                $this->closeWindow();
+                $this->window('');
             }
         }
 
@@ -123,45 +129,64 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * Selects a store view from 'Choose Store View' drop-down in backend
+     * Create Status Order
+     * Preconditions: 'New Order Status' page is opened.
      *
-     * @param string $controlName Name of the dropdown from UIMaps
-     * @param string $website Default = 'Main Website'
-     * @param string $store Default = 'Main Website Store'
-     * @param string $storeView Default = 'Default Store View'
-     *
-     * @throws PHPUnit_Framework_Exception
+     * @param array|string $data
      */
-    public function selectStoreView($controlName, $website = 'Main Website', $store = 'Main Website Store', $storeView = 'Default Store View')
+    public function createStatus($data)
     {
-        $fieldXpath = $this->_getControlXpath('dropdown', $controlName);
-        $storeViewXpath = $fieldXpath . "/optgroup[normalize-space(@label) = '$website']"
-                          . "/following-sibling::optgroup[contains(@label,'$store')][1]"
-                          . "/option[contains(text(),'$storeView')]";
-        if (!$this->isElementPresent($storeViewXpath)) {
-            throw new PHPUnit_Framework_Exception('Cannot find option ' . $storeViewXpath);
-        }
-        $optionValue = $this->getValue($storeViewXpath);
-        //Try to select by value first, since there may be options with equal labels.
-        if (isset($optionValue)) {
-            $this->select($fieldXpath, 'value=' . $optionValue);
-        } else {
-            $this->select($fieldXpath, 'label=' . 'regexp:^\s+' . preg_quote($storeView));
-        }
-        $this->getConfirmation();
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-    }
-    /**
-     * Selects a default store view from 'Choose Store View' drop-down in backend
-     *
-     * @throws PHPUnit_Framework_Exception
-     */
-    public function defaultStoreView($controlName, $defaultStore = 'All Store Views')
-    {
-        if (!$this->controlIsPresent('dropdown', $controlName)) {
-            throw new PHPUnit_Framework_Exception('Cannot find option ' . $storeViewXpath);
-        }
-        $this->fillDropdown($controlName, $defaultStore);
+        $data = $this->testDataToArray($data);
+
+        $this->clickButton('create_new_status');
+        $this->fillFieldSet($data, 'order_status_info');
+        $this->saveForm('save_status');
     }
 
+    /**
+     * Assign Order Status new state values
+     * Preconditions: 'Order statuses' page is opened.
+     *
+     * @param array|string $data
+     */
+    public function assignStatus($data)
+    {
+        $data = $this->testDataToArray($data);
+        $this->clickButton('assign_status_to_state');
+        $this->fillFieldSet($data, 'assignment_information');
+        $this->saveForm('save_status_assignment');
+    }
+
+    /**
+     * Delete all Store Views except specified in $excludeList
+     *
+     * @param array $excludeList
+     */
+    public function deleteStoreViewsExceptSpecified(array $excludeList = array('Default Store View'))
+    {
+        $excludeList[] = '';
+        $fieldsetLocator = $this->_getControlXpath('fieldset', 'manage_stores');
+        list(, , $totalCount) = explode('|', $this->getElement($fieldsetLocator . "//td[@class='pager']")->text());
+        $totalCount = trim(preg_replace('/[A-Za-z]+/', '', $totalCount));
+        if ($totalCount > 20) {
+            $this->addParameter('limit', 200);
+            $this->fillDropdown('items_per_page', 200);
+            $this->waitForPageToLoad();
+            $this->validatePage('manage_stores_items_per_page');
+        }
+        $columnId = $this->getColumnIdByName('Store View Name');
+        $storeViews = array();
+        $this->addParameter('tableHeadXpath', $this->_getControlXpath('pageelement', 'stores_table'));
+        $elements = $this->getControlElements('pageelement', 'table_line');
+        /**
+         * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
+         */
+        foreach ($elements as $key => $element) {
+            $storeViews[$key] = trim($this->getChildElement($element, "td[$columnId]")->text());
+        }
+        $storeViews = array_diff($storeViews, $excludeList);
+        foreach ($storeViews as $storeView) {
+            $this->deleteStore(array('store_view_name' => $storeView));
+        }
+    }
 }

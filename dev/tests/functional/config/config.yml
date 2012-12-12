@@ -15,23 +15,32 @@
 ################################################################################
 browsers:
     googlechrome: &googlechrome
-         name: 'Google Chrome'
-         browser: '*googlechrome'
+         browser: 'Google Chrome'
+         browserName: 'chrome'
          host: 'localhost'
          port: 4444
-         timeout: 60
+         seleniumServerRequestsTimeout: 90
+         sessionStrategy: shared
+         desiredCapabilities:
+            platform: ANY
     firefox: &firefox
-         name: 'Firefox'
-         browser: '*chrome'
+         browser: 'Firefox'
+         browserName: 'firefox'
          host: 'localhost'
          port: 4444
-         timeout: 60
+         seleniumServerRequestsTimeout: 90
+         sessionStrategy: shared
+         desiredCapabilities:
+            platform: ANY
     iexplorer: &iexplorer
-         name: 'Internet Explorer'
-         browser: '*iexplore'
+         browser: 'Internet Explorer'
+         browserName: 'iexplore'
          host: 'localhost'
          port: 4444
-         timeout: 60
+         seleniumServerRequestsTimeout: 90
+         sessionStrategy: shared
+         desiredCapabilities:
+            platform: ANY
     default: *firefox
 ################################################################################
 #                                                                              #
@@ -41,34 +50,22 @@ browsers:
 framework:
     fixture_base_path: 'fixture'
     testsuite_base_path: 'testsuite'
-    #work only if tests are run for single browser
-    shareSession: true
     coverageScriptUrl: ''
-    #captureScreenshotOnFailure works only for browsers that support it: Firefox/Chrome, IE with snapsIE tool
-    captureScreenshotOnFailure: true
+    saveScreenshotOnFailure: true
     saveHtmlPageOnFailure: false
     load_all_uimaps: true
     load_all_data: false
-    cache:
-        frontend:
-            name: 'core'
-            options:
-                caching: false
-                cache_id_prefix: 'selenium_'
-                automatic_serialization: true
-        backend:
-            name: 'file'
-            options:
-                cache_dir: 'var/cache'
+    browserTimeoutPeriod: 40
 ################################################################################
 #                                                                              #
 #                  Applications for running tests                              #
 #                                                                              #
 ################################################################################
 applications:
-    mage: &mage
+    magento2community: &m2ce
         fallbackOrderFixture: 'default'
         fallbackOrderHelper: 'Core'
+        design_theme: Default/Magento Demo
         ftp: &ftp
             url: 'localhost'
             base_dir: ''
@@ -76,13 +73,13 @@ applications:
             password: '123123q'
         areas:
             admin:
-                url: 'http://www.localhost.com/magento/admin/'
+                url: 'http://www.localhost.com/magento2_community/backend/backend/'
                 base_page_uimap: 'log_in_to_admin'
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
             frontend:
-                url: 'http://www.localhost.com/magento/'
+                url: 'http://www.localhost.com/magento2_community/'
                 base_page_uimap: 'home_page'
                 uimap_path: 'frontend'
             paypal_sandbox: &paypalSandbox
@@ -97,106 +94,22 @@ applications:
                 uimap_path: 'paypal_developer'
                 login: 'paypal_developer_login'
                 password: 'paypal_developer_password'
-    community17: &ce17
-         fallbackOrderFixture: 'community17, default'
-         fallbackOrderHelper: 'Community17, Core'
-         ftp: *ftp
-         areas:
-            admin:
-                url: 'http://www.localhost.com/magento17_community/control/'
-                base_page_uimap: 'log_in_to_admin'
-                uimap_path: 'admin'
-                login: 'admin'
-                password: '123123q'
-            frontend:
-                url: 'http://www.localhost.com/magento17_community/'
-                base_page_uimap: 'home_page'
-                uimap_path: 'frontend'
-            paypal_sandbox: *paypalSandbox
-            paypal_developer: *paypalDeveloper
-    community1701: &ce1701
-        fallbackOrderFixture: 'community1701, community17, default'
-        fallbackOrderHelper: 'Community1701, Community17, Core'
-        ftp: *ftp
-        areas:
-            admin:
-                url: 'http://www.localhost.com/magento_community1701/control/'
-                base_page_uimap: 'log_in_to_admin'
-                uimap_path: 'admin'
-                login: 'admin'
-                password: '123123q'
-            frontend:
-                url: 'http://www.localhost.com/magento_community1701/'
-                base_page_uimap: 'home_page'
-                uimap_path: 'frontend'
-            paypal_sandbox: *paypalSandbox
-            paypal_developer: *paypalDeveloper
-    enterprise112: &ee112
+    magento2enterprise: &m2ee
         fallbackOrderFixture: 'enterprise, default'
         fallbackOrderHelper: 'Enterprise, Core'
+        design_theme: Enterprise/Magento Fixed Design
         ftp: *ftp
         areas:
             admin:
-                url: 'http://www.localhost.com/magento_enterprise1200/control/'
+                url: 'http://www.localhost.com/magento2_enterprise/backend/backend/'
                 base_page_uimap: 'log_in_to_admin'
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
             frontend:
-                url: 'http://www.localhost.com/magento_enterprise1200/'
+                url: 'http://www.localhost.com/magento2_enterprise/'
                 base_page_uimap: 'home_page'
                 uimap_path: 'frontend'
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
-    enterprise11201: &ee11201
-        fallbackOrderFixture: 'enterprise11201, enterprise, default'
-        fallbackOrderHelper: 'Enterprise11201, Enterprise, Core'
-        ftp: *ftp
-        areas:
-            admin:
-                url: 'http://www.localhost.com/magento_enterprise1201/control/'
-                base_page_uimap: 'log_in_to_admin'
-                uimap_path: 'admin'
-                login: 'admin'
-                password: '123123q'
-            frontend:
-                url: 'http://www.localhost.com/magento_enterprise1201/'
-                base_page_uimap: 'home_page'
-                uimap_path: 'frontend'
-            paypal_sandbox: *paypalSandbox
-            paypal_developer: *paypalDeveloper
-    magento2community: &m2ce
-        fallbackOrderFixture: 'community2, community17, default'
-        fallbackOrderHelper: 'Community2, Community17, Core'
-        ftp: *ftp
-        areas:
-            admin:
-                url: 'http://www.localhost.com/magento2_community/control/'
-                base_page_uimap: 'log_in_to_admin'
-                uimap_path: 'admin'
-                login: 'admin'
-                password: '123123q'
-            frontend:
-                url: 'http://www.localhost.com/magento2_community/'
-                base_page_uimap: 'home_page'
-                uimap_path: 'frontend'
-            paypal_sandbox: *paypalSandbox
-            paypal_developer: *paypalDeveloper
-    magento2enterprise: &m2ee
-        fallbackOrderFixture: 'enterprise2, enterprise, default'
-        fallbackOrderHelper: 'Enterprise2, Enterprise, Core'
-        ftp: *ftp
-        areas:
-            admin:
-                url: 'http://www.localhost.com/magento_2enterprise/control/'
-                base_page_uimap: 'log_in_to_admin'
-                uimap_path: 'admin'
-                login: 'admin'
-                password: '123123q'
-            frontend:
-                url: 'http://www.localhost.com/magento_2enterprise/control/'
-                base_page_uimap: 'home_page'
-                uimap_path: 'frontend'
-            paypal_sandbox: *paypalSandbox
-            paypal_developer: *paypalDeveloper
-    default: *m2ee
+    default: *m2ce
