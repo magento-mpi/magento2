@@ -12,7 +12,7 @@
 # 'Manage Customer Groups' page
 manage_customer_groups:
     mca: customer_group/
-    click_xpath: //div[@class='nav-bar']//a[span='Customer Groups']
+    click_xpath: //div[@class='nav-bar']//a[contains(@href, '/customer_group/')]
     title: Customer Groups / Customers / Magento Admin
     uimap:
         form: &searchCustomerGroupsGrid
@@ -57,7 +57,7 @@ create_customer_group:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_customer_group: //button[span='Save Customer Group']
+            save_customer_group: //button[@data-ui-id='group-save-button']
         messages: *customerGroupsMessages
 
 # 'Edit Customer Group' Page
@@ -70,5 +70,5 @@ edit_customer_group:
             back: //button[span='Back']
             reset: //button[span='Reset']
             delete_customer_group: //button[span='Delete Customer Group']
-            save_customer_group: //button[span='Save Customer Group']
+            save_customer_group: //button[@data-ui-id='group-save-button']
         messages: *customerGroupsMessages

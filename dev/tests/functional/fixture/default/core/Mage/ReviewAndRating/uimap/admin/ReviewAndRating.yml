@@ -1,4 +1,3 @@
-# Magento
 #
 # {license_notice}
 #
@@ -44,11 +43,11 @@ new_rating:
     mca: rating/new/
     title: New Rating / Manage Ratings / Reviews and Ratings / Catalog / Magento Admin
     uimap: &newRating
-        form:
+        form: &new_rating-form
             tabs:
                 -
                     rating_information:
-                        xpath: //a[@title='Rating Information']/span
+                        xpath: //a[@title='Rating Information']
                         fieldsets:
                             -
                                 rating_title:
@@ -61,10 +60,12 @@ new_rating:
                                     xpath: //div[@id='visibility_form']
                                     multiselects:
                                         visible_in: //select[@name='stores[]']
+                                    checkboxes:
+                                        is_active: //input[@id='is_active']
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_rating: //button[span='Save Rating']
+            save_rating: //button[@data-ui-id='rating-edit-save-button']
         messages: *ratingMessages
 
 new_edit_rating:
@@ -76,11 +77,11 @@ edit_rating:
     mca: rating/edit/id/%id%/
     title: %elementTitle% / Manage Ratings / Reviews and Ratings / Catalog / Magento Admin
     uimap:
-        form: *newRating
+        form: *new_rating-form
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_rating: //button[span='Save Rating']
+            save_rating: //button[@data-ui-id='rating-edit-save-button']
             delete_rating: //button[span='Delete Rating']
         messages: *ratingMessages
 
@@ -186,7 +187,7 @@ add_new_review:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_review: //button[span='Save Review']
+            save_review: //button[@data-ui-id='review-add-save-button']
         messages: *reviewMessages
 
 edit_review:
@@ -213,7 +214,7 @@ edit_review:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_review: //button[span='Save Review']
+            save_review: //button[@data-ui-id='review-add-save-button']
             delete_review: //button[span='Delete Review']
             prev_review: //button[span='Previous']
             prev_save_review: //button[span='Save and Previous']

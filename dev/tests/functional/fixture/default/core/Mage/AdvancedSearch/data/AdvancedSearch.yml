@@ -1,0 +1,51 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Magento
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#Test data for Advanced Search
+generic_product_advanced_search:
+    name: %noValue%
+    description: %noValue%
+    short_description: %noValue%
+    sku: %noValue%
+
+generic_product_advanced_search_with_price:
+    name: %noValue%
+    description: %noValue%
+    short_description: %noValue%
+    sku: %noValue%
+    price_from: 1
+    price_to: 100
+
+#Data for create a simple product
+product_create:
+    product_attribute_set: Default
+    general_name: Simple Product(%randomize%)
+    general_description: Description for Simple Product
+    general_short_description: Short Description for Simple Product
+    general_sku: simple_sku_%randomize%
+    general_weight: 2.56
+    general_news_from: %currentDate%
+    general_news_to: %currentDate%
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 4.95
+    prices_special_price: 3.99
+    prices_special_price_from: %currentDate%
+    prices_special_price_to: %currentDate%
+    prices_tax_class: None
+    inventory_manage_stock_default: No
+    inventory_manage_stock: Yes
+    inventory_qty: 120
+    inventory_notify_for_qty_below_default: No
+    inventory_notify_for_qty_below: 12
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: Default Category

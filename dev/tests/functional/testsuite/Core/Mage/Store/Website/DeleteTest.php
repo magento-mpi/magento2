@@ -30,16 +30,6 @@ class Core_Mage_Store_Website_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete Website without Store</p>
-     * <p>Preconditions:</p>
-     * <p>Website created without Store;</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "System->Manage Stores";</p>
-     * <p>2. Select created Website from the grid and open it;</p>
-     * <p>3. Click "Delete Website" button;</p>
-     * <p>4. Select "No" on Backup Options page;</p>
-     * <p>5. Click "Delete Website" button;</p>
-     * <p>Expected result:</p>
-     * <p>Success message appears - "The website has been deleted."</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3491
@@ -58,16 +48,6 @@ class Core_Mage_Store_Website_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete Website with Store</p>
-     * <p>Preconditions:</p>
-     * <p>Website created with Store;</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "System->Manage Stores";</p>
-     * <p>2. Select created Website from the grid and open it;</p>
-     * <p>3. Click "Delete Website" button;</p>
-     * <p>4. Select "No" on Backup Options page;</p>
-     * <p>5. Click "Delete Website" button;</p>
-     * <p>Expected result:</p>
-     * <p>Success message appears - "The website has been deleted."</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3492
@@ -89,16 +69,6 @@ class Core_Mage_Store_Website_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete Website with Store and Store View</p>
-     * <p>Preconditions:</p>
-     * <p>Website created with Store and Store View;</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "System->Manage Stores";</p>
-     * <p>2. Select created Website from the grid and open it;</p>
-     * <p>3. Click "Delete Website" button;</p>
-     * <p>4. Select "No" on Backup Options page;</p>
-     * <p>5. Click "Delete Website" button;</p>
-     * <p>Expected result:</p>
-     * <p>Success message appears - "The website has been deleted."</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3493
@@ -124,16 +94,6 @@ class Core_Mage_Store_Website_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete Website with assigned product</p>
-     * <p>Preconditions:</p>
-     * <p>Create product and assign it to created Website</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "System->Manage Stores";</p>
-     * <p>2. Select created Website from the grid and open it;</p>
-     * <p>3. Click "Delete Website" button;</p>
-     * <p>4. Select "No" on Backup Options page;</p>
-     * <p>5. Click "Delete Website" button;</p>
-     * <p>Expected result:</p>
-     * <p>Success message appears - "The website has been deleted."</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3490

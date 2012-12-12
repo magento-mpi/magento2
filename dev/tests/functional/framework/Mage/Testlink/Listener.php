@@ -106,7 +106,7 @@ class Mage_Testlink_Listener implements PHPUnit_Framework_TestListener
     {
         //Initialize Testlink credentials
         if (isset($url)) {
-            Mage_Testlink_Connector::$SERVER_URL = $url;
+            Mage_Testlink_Connector::$serverURL = $url;
         }
         Mage_Testlink_Connector::$devKey = $devkey;
         $this->_project = $project;

@@ -48,13 +48,6 @@ class Core_Mage_Rating_CreateTest extends Mage_Selenium_TestCase
     /**
      * <p>Creating Rating with required fields only</p>
      *
-     * <p>Steps:</p>
-     * <p>1. Click "Add New Rating" button;</p>
-     * <p>2. Fill in required fields by regular data;</p>
-     * <p>3. Click "Save Rating" button;</p>
-     * <p>Expected result:</p>
-     * <p>Success message appears - rating saved</p>
-     *
      * @return array
      * @test
      * @depends preconditionsForTests
@@ -76,13 +69,6 @@ class Core_Mage_Rating_CreateTest extends Mage_Selenium_TestCase
     /**
      * <p>Creating Rating with empty required fields</p>
      *
-     * <p>Steps:</p>
-     * <p>1. Click "Add New Rating" button;</p>
-     * <p>2. Leave required fields empty;</p>
-     * <p>3. Click "Save Rating" button;</p>
-     * <p>Expected result:</p>
-     * <p>Error message appears - "This is a required field";</p>
-     *
      * @test
      * @TestlinkId TL-MAGE-3470
      */
@@ -103,13 +89,6 @@ class Core_Mage_Rating_CreateTest extends Mage_Selenium_TestCase
     /**
      * <p>Creating Rating with existing name(default value)</p>
      *
-     * <p>Steps:</p>
-     * <p>1. Click "Add New Rating" button;</p>
-     * <p>2. Fill in "Default Value" with existing value;</p>
-     * <p>3. Click "Save Rating" button;</p>
-     * <p>Expected result:</p>
-     * <p>Rating is not saved, Message appears "already exists."</p>
-     *
      * @param $ratingData
      *
      * @test
@@ -127,15 +106,6 @@ class Core_Mage_Rating_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Rating with filling Fields</p>
-     *
-     * <p>Preconditions:</p>
-     * <p>Store View created</p>
-     * <p>Steps:</p>
-     * <p>1. Click "Add New Rating" button;</p>
-     * <p>2. Fill in all fields by regular data;</p>
-     * <p>3. Click "Save Rating" button;</p>
-     * <p>Expected result:</p>
-     * <p>Success message appears - rating saved</p>
      *
      * @param $storeView
      *
@@ -160,12 +130,6 @@ class Core_Mage_Rating_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating a new rating with long values into required fields</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Rating"</p>
-     * <p>2. Fill in fields in Rating Details area by long values</p>
-     * <p>4. Click button "Save Rating"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the rating has been saved.</p>
      *
      * @param $storeView
      *
@@ -190,12 +154,6 @@ class Core_Mage_Rating_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating a new rating with special characters into required fields</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Rating"</p>
-     * <p>2. Fill in fields in Review Details area by special characters</p>
-     * <p>3. Click button "Save Rating"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the rating has been saved.</p>
      *
      * @param $storeView
      *

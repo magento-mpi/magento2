@@ -64,8 +64,8 @@ add_staging_website:
                                         source_website: //select[@name='master_website_id']
                                     buttons:
                                         continue: //button[span='Continue']
-                        buttons:
-                            back: //button[span='Back']
+        buttons:
+            back: //button[span='Back']
 
 edit_master_staging_website:
     mca: staging_manage/edit/master_website_id/%id%/type/website/

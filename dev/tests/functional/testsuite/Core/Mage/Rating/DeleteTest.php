@@ -54,14 +54,6 @@ class Core_Mage_Rating_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete rating that is used in Review</p>
-     * <p>Preconditions:</p>
-     * <p>Rating created</p>
-     * <p>Review created using Rating</p>
-     * <p>Steps:</p>
-     * <p>1. Open created rating;</p>
-     * <p>2. Click "Delete" button;</p>
-     * <p>Expected result:</p>
-     * <p>Success message appears - Rating removed from the list</p>
      *
      * @param $data
      *
@@ -105,13 +97,6 @@ class Core_Mage_Rating_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete rating</p>
-     * <p>Preconditions:</p>
-     * <p>Rating created</p>
-     * <p>Steps:</p>
-     * <p>1. Open created rating;</p>
-     * <p>2. Click "Delete" button;</p>
-     * <p>Expected result:</p>
-     * <p>Success message appears - Rating removed from the list</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3477

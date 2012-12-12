@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_AttributeSet_Helper extends Mage_Selenium_TestCase
+class Core_Mage_AttributeSet_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Create Attribute Set
@@ -30,13 +30,19 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_TestCase
 
         $this->clickButton('add_new_set');
         $this->fillForm($attrSet);
-        $this->addParameter('attributeName', $attrSet['set_name']);
+        $this->addParameter('elementTitle', $attrSet['set_name']);
         $this->saveForm('save_attribute_set');
 
         $this->addNewGroup($groups);
         $this->addAttributeToSet($associatedAttr);
         if ($groups || $associatedAttr) {
-            $this->saveForm('save_attribute_set');
+            $waitCondition =
+                array($this->_getMessageXpath('general_error'), $this->_getMessageXpath('general_validation'),
+                      $this->_getControlXpath('fieldset', 'attribute_sets_grid',
+                          $this->getUimapPage('admin', 'manage_attribute_sets')));
+            $this->clickButton('save_attribute_set', false);
+            $this->waitForElement($waitCondition);
+            $this->validatePage();
         }
     }
 
@@ -54,11 +60,10 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_TestCase
         }
         foreach ($attrGroup as $value) {
             $this->addParameter('folderName', $value);
-            $groupXpath = $this->_getControlXpath('link', 'group_folder');
-            if (!$this->isElementPresent($groupXpath)) {
-                $this->answerOnNextPrompt($value);
+            if (!$this->controlIsPresent('link', 'group_folder')) {
                 $this->clickButton('add_group', false);
-                $this->getPrompt();
+                $this->alertText($value);
+                $this->acceptAlert();
             }
         }
     }
@@ -79,23 +84,30 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_TestCase
                 $attributeCode = array_map('trim', $attributeCode);
             }
             $this->addParameter('folderName', $groupName);
+            if (!$this->controlIsPresent('link', 'group_folder')) {
+                $this->addNewGroup($groupName);
+            }
+            $moveToElement = $this->getControlElement('link', 'group_folder');
+            $moveToElement->click();
             foreach ($attributeCode as $value) {
                 $this->addParameter('attributeName', $value);
-                $elFrom = $this->_getControlXpath('link', 'unassigned_attribute');
-                $elTo = $this->_getControlXpath('link', 'group_folder');
-                if (!$this->isElementPresent($elTo)) {
-                    $this->addNewGroup($groupName);
-                }
-                if (!$this->isElementPresent($elFrom)) {
+                if (!$this->controlIsPresent('link', 'unassigned_attribute')) {
                     $this->fail("Attribute with title '$value' does not exist");
                 }
-                $this->moveElementOverTree('link', 'unassigned_attribute', 'fieldset', 'unassigned_attributes');
-                $this->moveElementOverTree('link', 'group_folder', 'fieldset', 'groups_content');
-                $this->clickAt($elFrom, '1,1');
-                $this->clickAt($elTo, '1,1');
-                $this->mouseDownAt($elFrom, '1,1');
-                $this->mouseMoveAt($elTo, '1,1');
-                $this->mouseUpAt($elTo, '10,10');
+                $moveElement = $this->getControlElement('link', 'unassigned_attribute');
+                $moveElement->click();
+                $this->moveto($moveElement);
+                $this->buttondown();
+                $this->moveto($moveToElement);
+                $availableElement = $this->elementIsPresent("//li[div[./a/span='$groupName']]//li/div");
+                if ($availableElement) {
+                    $this->moveto($availableElement);
+                } else {
+                    $this->moveto($this->getElement("//*[a/span='$groupName']"));
+                }
+                $this->buttonup();
+                $this->assertTrue($this->controlIsPresent('link', 'attribute_in_group'),
+                    'Attribute "' . $value . '" is not assigned to group "' . $groupName . '"');
             }
         }
     }
@@ -110,12 +122,97 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_TestCase
         if (is_array($setName) and isset($setName['set_name'])) {
             $setName = $setName['set_name'];
         }
-        $this->addParameter('attributeName', $setName);
+        $this->addParameter('elementTitle', $setName);
         $searchData = $this->loadDataSet('AttributeSet', 'search_attribute_set', array('set_name' => $setName));
 
         if ($this->getCurrentPage() !== 'manage_attribute_sets') {
             $this->navigate('manage_attribute_sets');
         }
-        $this->searchAndOpen($searchData);
+        $this->searchAndOpen($searchData, 'attribute_sets_grid');
+    }
+
+    /**
+     * Verifies attributes are assigned or not to attribute set
+     *
+     * @param array $attributes
+     * @param bool $isAssigned
+     */
+    public function verifyAttributeAssignment(array $attributes, $isAssigned = true)
+    {
+        if (empty($attributes)) {
+            $this->fail('Array with attributes is empty');
+        }
+        foreach ($attributes as $attribute) {
+            $this->addParameter('attributeName', $attribute);
+            if ($isAssigned) {
+                if (!$this->controlIsPresent('link', 'group_attribute')) {
+                    $this->addVerificationMessage("Attribute with title '$attribute' is not assigned to attribute set");
+                }
+            } else {
+                if (!$this->controlIsPresent('link', 'unassigned_attribute')) {
+                    $this->addVerificationMessage("Attribute with title '$attribute' is assigned to attribute set");
+                }
+            }
+        }
+        $this->assertEmptyVerificationErrors();
+    }
+
+    /**
+     * Delete attribute from attribute Set
+     *
+     * @param array $attributes Array which contains attributes for unassignment
+     * @param bool $isVerifyConfirmation Verification for alert message
+     */
+    public function unassignAttributeFromSet(array $attributes, $isVerifyConfirmation = false)
+    {
+        foreach ($attributes as $attributeCode) {
+            $this->addParameter('attributeName', $attributeCode);
+            $this->clickControl('link', 'group_attribute', false);
+            $this->moveto($this->getControlElement('link', 'group_attribute'));
+            $this->buttondown();
+            $this->moveto($this->getControlElement('pageelement', 'node_icon'));
+            $this->buttonup();
+            if ($this->alertIsPresent()) {
+                $text = $this->alertText();
+                $this->acceptAlert();
+                $this->assertFalse($this->controlIsPresent('link', 'unassigned_attribute'));
+                if ($isVerifyConfirmation
+                    && $text != $this->getCurrentUimapPage()->findMessage('remove_system_attribute')
+                ) {
+                    $this->addVerificationMessage('The alert text is incorrect: ' . $text);
+                }
+            } else {
+                $this->assertTrue($this->controlIsPresent('link', 'unassigned_attribute'));
+            }
+        }
+    }
+
+    /**
+     * Delete group from attribute set
+     *
+     * @param array $attributeGroup Array which contains groups to delete
+     * @param bool $isCorrectConfirm Verification for alert message
+     */
+    public function deleteGroup($attributeGroup, $isCorrectConfirm = true)
+    {
+        foreach ($attributeGroup as $value) {
+            $this->addParameter('folderName', $value);
+            if ($this->controlIsPresent('link', 'group_folder')) {
+                $this->clickControl('link', 'group_folder', false);
+                $this->clickButton('delete_group', false);
+                if ($this->alertIsPresent()) {
+                    $text = $this->alertText();
+                    $this->acceptAlert();
+                    if ($isCorrectConfirm) {
+                        if ($text != $this->getCurrentUimapPage()->findMessage('delete_group')) {
+                            $this->addVerificationMessage('The alert text is incorrect: ' . $text);
+                        }
+                    }
+                }
+            } else {
+                $this->addVerificationMessage('Group ' . $value . 'does not exist');
+            }
+        }
+        $this->assertEmptyVerificationErrors();
     }
 }

@@ -1,0 +1,95 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Magento
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+# Invitations General page
+reports_invitations_general:
+    mca: report_invitation/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_invitation/') and (span='General')]
+    title: General / Invitations / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    report_invitations_general:
+                        xpath: //div[@id='page:main-container']
+                        buttons: &reportInvitationsButtons
+                            refresh: //button[span='Refresh']
+                            export: //button[span='Export']
+                        dropdowns: &reportInvitationsDropdowns
+                            show_by: //select[@name='report_period']
+                            export_to: //td[@class="export a-right"]/select
+                            filter_show_report_for: //select[@id='store_switcher']
+                        fields: &reportInvitationsFields
+                            filter_from: //input[@name='report_from']
+                            filter_to: //input[@name='report_to']
+                        links:
+                            invitations_sent: //a[@name='sent']
+                            invitation_accepted: //a[@name='accepted']
+                            invitation_discarded: //a[@name='canceled']
+                            invitation_accepted_rate: //a[@name='accepted_rate']
+                            invitation_date: //a[@name='canceled_rate']
+                        pageelements:
+                            report_invitations_general_grid: //table[@class='data']
+
+#Invitations Customers page
+reports_invitations_customers:
+    mca: report_invitation/customer/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_invitation/customer/')]
+    title: Customers / Invitations / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    report_invitations_customers:
+                        xpath: //div[@id='page:main-container']
+                        buttons: *reportInvitationsButtons
+                        dropdowns: *reportInvitationsDropdowns
+                        fields: *reportInvitationsFields
+                        links:
+                            id:  //a[@name='id']
+                            name: //a[@name='name']
+                            email: //a[@name='email']
+                            group: //a[@name='group']
+                            invitations_sent: //a[@name='sent']
+                            invitation_accepted: //a[@name='accepted']
+                        pageelements:
+                            report_invitations_customers_grid: //table[@class='data']
+                            report_invitations_customers_grid_line: //table[@class='data']/tbody/tr
+
+# Invitations Order Conversion Rate page
+invitations_order_conversion_rate:
+    mca: report_invitation/order/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_invitation/order/')]
+    title: Order Conversion Rate / Invitations / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    invitations_order_conversion_rate:
+                        xpath: //div[@id='page:main-container']
+                        fields: *reportInvitationsFields
+                        dropdowns: *reportInvitationsDropdowns
+                        buttons: *reportInvitationsButtons
+                        pageelements:
+                            invitations_order_conversion_rate_grid: //table[@class='data']
+                            invitations_order_conversion_rate_line: //table[@class='data']'/tbody/tr
+
+# Customer Segment Report page
+customer_segment_report:
+    mca: report_customer_customersegment/segment/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_customer_customersegment/segment/')]
+    title: Customer Segments / Customers / Reports / Magento Admin
+
+# Customer's Wishlist Report page
+customer_wishlist_report:
+    mca: report_customer_wishlist/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_customer_wishlist/')]
+    title: Customer's wishlists / Customers / Reports / Magento Admin

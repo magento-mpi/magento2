@@ -29,8 +29,6 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Preconditions:</p>
-     * <p>Navigate to CMS -> Polls</p>
-     * <p>Close all opened Polls</p>
      */
     protected function assertPreConditions()
     {
@@ -41,13 +39,6 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating a new Poll</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Poll"</p>
-     * <p>2. Fill in the fields</p>
-     * <p>3. Click button "Save Poll"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the Poll has been saved.</p>
-     * <p>Poll is displayed on About Us page</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3217
@@ -71,12 +62,6 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating a new poll with empty required fields.</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Poll"</p>
-     * <p>2. Fill in the fields, but leave one required field empty;</p>
-     * <p>3. Click button "Save Poll".</p>
-     * <p>Expected result:</p>
-     * <p>Received error message "This is a required field."</p>
      *
      * @param string $emptyField
      * @param string $fieldType
@@ -115,12 +100,6 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating a new poll without answers</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Poll"</p>
-     * <p>2. Fill in the fields, but don't add any answer;</p>
-     * <p>3. Click button "Save Poll".</p>
-     * <p>Expected result:</p>
-     * <p>Received error message "Please, add some answers to this poll first."</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3221
@@ -137,12 +116,6 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating a new poll with few identical answers</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Poll"</p>
-     * <p>2. Fill in the fields, but add few identical answers;</p>
-     * <p>3. Click button "Save Poll".</p>
-     * <p>Expected result:</p>
-     * <p>Received error message "Your answers contain duplicates."</p>
      *
      * @test
      * @depends createNew
@@ -160,13 +133,6 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Closed poll is not displayed</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Poll".</p>
-     * <p>2. Fill in the fields, set state to "Close".</p>
-     * <p>3. Click button "Save Poll".</p>
-     * <p>4. Check poll on About Us page.</p>
-     * <p>Expected result:</p>
-     * <p>Poll should not be displayed.</p>
      *
      * @test
      * @depends createNew
@@ -186,7 +152,7 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
         $this->frontend('about_us');
         $this->assertTrue($this->cmsPollsHelper()->frontCheckPoll($name), 'There is no ' . $name . ' poll on the page');
         //Steps
-        $this->admin();
+        $this->loginAdminUser();
         $this->navigate('poll_manager');
         $this->cmsPollsHelper()->setPollState($searchPollData, 'Closed');
         //Verifying
@@ -198,14 +164,6 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Vote a poll</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Poll"</p>
-     * <p>2. Fill in the fields.</p>
-     * <p>3. Click button "Save Poll".</p>
-     * <p>4. Vote a poll on About Us page.</p>
-     * <p>5. Re-open About Us page.</p>
-     * <p>Expected result:</p>
-     * <p>Poll should not be available for vote</p>
      *
      * @test
      * @depends createNew

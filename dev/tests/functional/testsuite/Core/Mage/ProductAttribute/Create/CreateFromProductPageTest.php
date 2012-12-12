@@ -30,30 +30,11 @@ class Core_Mage_ProductAttribute_Create_CreateFromProductPageTest extends Mage_S
 
     protected function tearDownAfterTest()
     {
-        $windowQty = $this->getAllWindowNames();
-        if (count($windowQty) > 1 && end($windowQty) != 'null') {
-            $this->selectWindow("name=" . end($windowQty));
-            $this->close();
-            $this->selectWindow(null);
-        }
+        $this->closeLastWindow();
     }
 
     /**
      * <p>Checking of attributes creation functionality during product creation process</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Catalog->Manage Products</p>
-     * <p>2.Click on "Add Product" button</p>
-     * <p>3.Specify settings for product creation</p>
-     * <p>3.1.Select "Attribute Set"</p>
-     * <p>3.2.Select "Product Type"</p>
-     * <p>4.Click on "Continue" button</p>
-     * <p>5.Click on "Create New Attribute" button in the top of "General" fieldset under "General" tab</p>
-     * <p>6.Choose attribute type in 'Catalog Input Type for Store Owner' dropdown</p>
-     * <p>7.Fill all required fields.</p>
-     * <p>8.Click on "Save Attribute" button</p>
-     * <p>Expected result:</p>
-     * <p>New attribute successfully created.
-     * Success message: 'The product attribute has been saved.' is displayed.</p>
      *
      * @param $attributeType
      *
@@ -64,14 +45,16 @@ class Core_Mage_ProductAttribute_Create_CreateFromProductPageTest extends Mage_S
     public function onProductPageWithRequiredFieldsOnly($attributeType)
     {
         //Data
-        $productData = $this->loadDataSet('Product', 'simple_product_required');
-        $attrData = $this->loadDataSet('ProductAttribute', $attributeType, null);
+        $attrData = $this->loadDataSet('ProductAttribute', $attributeType);
         //Steps
-        $this->productHelper()->createProduct($productData, 'simple', false);
-        $this->productAttributeHelper()->createAttributeOnGeneralTab($attrData);
+        $this->productHelper()->selectTypeProduct('simple');
+        $this->productAttributeHelper()->createAttributeOnProductTab($attrData);
         //Verifying
-        $this->selectWindow(null);
-        $this->assertElementPresent("//*[contains(@id,'" . $attrData['attribute_code'] . "')]");
+        $code = ($attributeType != 'product_attribute_fpt')
+            ? $attrData['attribute_code']
+            : $attrData['attribute_code'] . '_table';
+        $this->addParameter('elementId', $code);
+        $this->assertTrue($this->controlIsPresent('pageelement', 'element_by_id'));
     }
 
     public function onProductPageWithRequiredFieldsOnlyDataProvider()

@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Core_Mage_Installation_Helper extends Mage_Selenium_TestCase
+class Core_Mage_Installation_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Delete installation files
@@ -18,7 +18,7 @@ class Core_Mage_Installation_Helper extends Mage_Selenium_TestCase
      */
     public function removeInstallData()
     {
-        $basePath = $this->_configHelper->getBaseUrl();
+        $basePath = $this->getConfigHelper()->getBaseUrl();
         $localXml = rtrim($basePath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'etc'
                     . DIRECTORY_SEPARATOR . 'local.xml';
         $cacheDir = rtrim($basePath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'cache';
@@ -45,7 +45,7 @@ class Core_Mage_Installation_Helper extends Mage_Selenium_TestCase
                     unlink($dir . DIRECTORY_SEPARATOR . $object);
                 }
             }
-            reset($objects);
+            reset($object);
             rmdir($dir);
         } else {
             unlink($dir);
@@ -75,8 +75,7 @@ class Core_Mage_Installation_Helper extends Mage_Selenium_TestCase
         $fields = array('locale', 'timezone', 'currency');
         $config = '?';
         foreach ($fields as $number => $field) {
-            $xpath = $this->_getControlXpath('dropdown', $field);
-            $selected = $this->getSelectedValue($xpath);
+            $selected = $this->getControlAttribute('dropdown', $field, 'selectedValue');
             $config .= 'config[' . $field . ']=' . $selected;
             if (array_key_exists($number + 1, $fields)) {
                 $config .= '&';
@@ -88,10 +87,10 @@ class Core_Mage_Installation_Helper extends Mage_Selenium_TestCase
         $this->assertMessageNotPresent('error');
         // 'Configuration' page
         $this->validatePage('configuration');
-        $db = (isset($configuration['database_type'])) ? $configuration['database_type'] : '';
-        $xpath = $this->_getControlXpath('dropdown', 'database_type');
-        $this->fillDropdown('database_type', $db, $xpath);
-        $this->addParameter('dbType', strtolower($this->getSelectedValue($xpath)));
+        $dataBase = (isset($configuration['database_type'])) ? $configuration['database_type'] : '';
+        $this->fillDropdown('database_type', $dataBase);
+        $this->addParameter('dbType',
+            strtolower($this->getControlAttribute('dropdown', 'database_type', 'selectedValue')));
         $this->fillForm($configuration);
         $this->clickButton('continue', false);
         $this->assertMessageNotPresent('validation');

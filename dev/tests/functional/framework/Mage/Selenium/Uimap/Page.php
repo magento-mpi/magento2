@@ -54,7 +54,7 @@ class Mage_Selenium_Uimap_Page extends Mage_Selenium_Uimap_Abstract
      *
      * @throws UnexpectedValueException
      */
-    public function  __construct($pageId, array &$pageContainer)
+    public function __construct($pageId, array &$pageContainer)
     {
         $this->_pageId = $pageId;
 

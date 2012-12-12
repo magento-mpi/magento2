@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-require_once('SymfonyComponents/YAML/sfYamlParser.php');
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * File helper class
@@ -25,16 +25,15 @@ class Mage_Selenium_Helper_File extends Mage_Selenium_Helper_Abstract
      *
      * @param string $fullFileName Full file name (including path)
      *
-     * @return array|bool
+     * @return array
      */
     public function loadYamlFile($fullFileName)
     {
-        $data = false;
+        $data = array();
         if ($fullFileName && file_exists($fullFileName)) {
-            $yaml = new sfYamlParser();
-            $data = $yaml->parse(file_get_contents($fullFileName));
+            $data = Yaml::parse($fullFileName);
         }
-        return $data;
+        return ($data) ? $data : array();
     }
 
     /**
@@ -51,7 +50,7 @@ class Mage_Selenium_Helper_File extends Mage_Selenium_Helper_Abstract
         if (!empty($files)) {
             foreach ($files as $file) {
                 $fileData = $this->loadYamlFile($file);
-                if ($fileData) {
+                if (!empty($fileData)) {
                     $data = array_replace_recursive($data, $fileData);
                 }
             }

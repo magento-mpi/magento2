@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_Rating_Helper extends Mage_Selenium_TestCase
+class Core_Mage_Rating_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Creates rating
@@ -52,12 +52,13 @@ class Core_Mage_Rating_Helper extends Mage_Selenium_TestCase
     {
         $xpathTR = $this->search($ratingSearch, 'manage_ratings_grid');
         $this->assertNotEquals(null, $xpathTR, 'Rating is not found');
-        $param = $this->getText($xpathTR . '/td[' . $this->getColumnIdByName('Rating Name') . ']');
+        $cellId = $this->getColumnIdByName('Rating Name');
+        $this->addParameter('tableLineXpath', $xpathTR);
+        $this->addParameter('cellIndex', $cellId);
+        $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
         $this->addParameter('elementTitle', $param);
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->click($xpathTR);
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        $this->validatePage();
+        $this->clickControl('pageelement', 'table_line_cell_index');
     }
 
     /**
@@ -67,11 +68,7 @@ class Core_Mage_Rating_Helper extends Mage_Selenium_TestCase
      */
     public function fillTabs($ratingData)
     {
-        if (is_string($ratingData)) {
-            $elements = explode('/', $ratingData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $ratingData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $ratingData = $this->testDataToArray($ratingData);
         $this->fillForm($ratingData);
         if (isset($ratingData['store_view_titles'])) {
             $this->fillRatingTitles($ratingData['store_view_titles']);
@@ -113,11 +110,7 @@ class Core_Mage_Rating_Helper extends Mage_Selenium_TestCase
      */
     public function verifyRatingData($ratingData)
     {
-        if (is_string($ratingData)) {
-            $elements = explode('/', $ratingData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $ratingData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
+        $ratingData = $this->testDataToArray($ratingData);
         $titles = (isset($ratingData['store_view_titles'])) ? $ratingData['store_view_titles'] : array();
         $this->verifyForm($ratingData);
 

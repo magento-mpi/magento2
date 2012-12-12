@@ -25,10 +25,16 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * @return array
+     *
      * @test
      */
     public function preconditionsForTests()
     {
+        $category = $this->loadDataSet('Category', 'sub_category_required', array('is_anchor' => 'Yes'));
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
+        $this->categoryHelper()->createCategory($category);
+        $this->assertMessagePresent('success', 'success_saved_category');
         $productData = $this->productHelper()->createConfigurableProduct(true);
         $categoryPath = $productData['category']['path'];
         $bundle = $this->loadDataSet('SalesOrder', 'fixed_bundle_for_order', array('categories' => $categoryPath),
@@ -43,22 +49,19 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($grouped, 'grouped');
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return array('category' => array('category_path' => $productData['category']['path']),
-                     'products' => array('product_1' => $productData['simple']['product_sku'],
-                                         'product_2' => $grouped['general_sku'],
-                                         'product_3' => $productData['configurable']['product_sku'],
-                                         'product_4' => $productData['virtual']['product_sku'],
-                                         'product_5' => $bundle['general_sku'],
-                                         'product_6' => $productData['downloadable']['product_sku']));
+        return array('anchor'     => $category['parent_category'] . '/' . $category['name'],
+                     'not_anchor' => $productData['category']['path'],
+                     'product_3'  => $productData['configurable']['product_sku'],
+                     'product_6'  => $productData['downloadable']['product_sku'],
+                     'product_1'  => $productData['simple']['product_sku'],
+                     'product_4'  => $productData['virtual']['product_sku'], 'product_2'  => $grouped['general_sku'],
+                     'product_5'  => $bundle['general_sku']
+
+        );
     }
 
     /**
      * <p>Creates All Types of widgets</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Widgets page</p>
-     * <p>2. Create all types of widgets with all fields filled</p>
-     * <p>Expected result</p>
-     * <p>Widgets are created successfully</p>
      *
      * @param string $dataWidgetType
      * @param array $testData
@@ -71,8 +74,7 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
     public function createAllTypesOfWidgetsAllFields($dataWidgetType, $testData)
     {
         //Data
-        $widgetData =
-            $this->loadDataSet('CmsWidget', $dataWidgetType . '_widget', $testData['category'], $testData['products']);
+        $widgetData = $this->loadDataSet('CmsWidget', $dataWidgetType . '_widget', null, $testData);
         //Steps
         $this->navigate('manage_cms_widgets');
         $this->cmsWidgetsHelper()->createWidget($widgetData);
@@ -96,11 +98,6 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creates All Types of widgets with required fields only</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Widgets page</p>
-     * <p>2. Create all types of widgets with required fields filled</p>
-     * <p>Expected result</p>
-     * <p>Widgets are created successfully</p>
      *
      * @param string $dataWidgetType
      * @param array $testData
@@ -115,10 +112,9 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
         //Data
         $override = array();
         if ($dataWidgetType == 'catalog_product_link') {
-            $override = array('filter_sku'    => $testData['products']['product_3'],
-                              'category_path' => $testData['category']['category_path']);
+            $override = array('filter_sku' => $testData['product_3'], 'category_path' => $testData['not_anchor']);
         } elseif ($dataWidgetType == 'catalog_category_link') {
-            $override = array('category_path' => $testData['category']['category_path']);
+            $override = array('category_path' => $testData['not_anchor']);
         }
         $widgetData = $this->loadDataSet('CmsWidget', $dataWidgetType . '_widget_req', $override);
         //Steps
@@ -130,11 +126,6 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creates All Types of widgets with required fields empty</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Widgets page</p>
-     * <p>2. Create all types of widgets with required fields empty</p>
-     * <p>Expected result</p>
-     * <p>Widgets are not created. Message about required field empty appears.</p>
      *
      * @param string $dataWidgetType
      * @param string $emptyField
@@ -151,10 +142,9 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
         //Data
         $override = array();
         if ($dataWidgetType == 'catalog_product_link') {
-            $override = array('filter_sku'    => $testData['products']['product_3'],
-                              'category_path' => $testData['category']['category_path']);
+            $override = array('filter_sku' => $testData['product_3'], 'category_path' => $testData['not_anchor']);
         } elseif ($dataWidgetType == 'catalog_category_link') {
-            $override = array('category_path' => $testData['category']['category_path']);
+            $override = array('category_path' => $testData['not_anchor']);
         }
         if ($fieldType == 'field') {
             $override[$emptyField] = ' ';
