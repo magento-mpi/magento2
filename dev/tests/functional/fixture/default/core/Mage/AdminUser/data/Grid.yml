@@ -93,3 +93,15 @@ grid:
             4: Subject
             5: Template Type
             6: Action
+    system_design:
+            fieldset:
+                design_grid: tablename
+            dropdown:
+                store:
+            button:
+                add_design_change:
+            headers:
+                0: Store
+                1: Design
+                2: Date From
+                3: Date To
