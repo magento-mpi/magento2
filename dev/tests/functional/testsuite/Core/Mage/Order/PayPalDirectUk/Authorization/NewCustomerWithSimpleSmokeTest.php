@@ -113,22 +113,6 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
 
     /**
      * <p>PaypalUKDirect. Full Invoice With different types of Capture</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders.</p>
-     * <p>2.Press "Create New Order" button.</p>
-     * <p>3.Press "Create New Customer" button.</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
-     * <p>5.Fill all fields.</p>
-     * <p>6.Press 'Add Products' button.</p>
-     * <p>7.Add first two products.</p>
-     * <p>8.Choose shipping address the same as billing.</p>
-     * <p>9.Check payment method 'PayPalUkDirect'</p>
-     * <p>10.Fill in all required fields.</p>
-     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
-     * <p>12.Submit order.</p>
-     * <p>13.Create Invoice.</p>
-     * <p>Expected result:</p>
-     * <p>New customer is created. Order is created for the new customer. Invoice is created</p>
      *
      * @param string $captureType
      * @param array $orderData
@@ -187,23 +171,6 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
 
     /**
      * <p>PayPalUK Direct. Full Refund</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders.</p>
-     * <p>2.Press "Create New Order" button.</p>
-     * <p>3.Press "Create New Customer" button.</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
-     * <p>5.Fill all fields.</p>
-     * <p>6.Press 'Add Products' button.</p>
-     * <p>7.Add first two products.</p>
-     * <p>8.Choose shipping address the same as billing.</p>
-     * <p>9.Check payment method 'PayPalUkDirect - Visa'</p>
-     * <p>10. Fill in all required fields.</p>
-     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
-     * <p>12.Submit order.</p>
-     * <p>13.Invoice order.</p>
-     * <p>14.Make refund online.</p>
-     * <p>Expected result:</p>
-     * <p>New customer is created. Order is created for the new customer. Refund Online is successful</p>
      *
      * @param string $captureType
      * @param string $refundType
@@ -268,24 +235,6 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
 
     /**
      * <p>Shipment for order</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders;</p>
-     * <p>2.Press "Create New Order" button;</p>
-     * <p>3.Press "Create New Customer" button;</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists;</p>
-     * <p>5.Fill all required fields;</p>
-     * <p>6.Press 'Add Products' button;</p>
-     * <p>7.Add products;</p>
-     * <p>8.Choose shipping address the same as billing;</p>
-     * <p>9.Check payment method 'Paypal Direct Uk';</p>
-     * <p>10.Choose any from 'Get shipping methods and rates';</p>
-     * <p>11. Submit order;</p>
-     * <p>12. Invoice order;</p>
-     * <p>13. Ship order;</p>
-     * <p>Expected result:</p>
-     * <p>New customer successfully created. Order is created for the new customer;</p>
-     * <p>Message "The order has been created." is displayed.</p>
-     * <p>Order is invoiced and shipped successfully</p>
      *
      * @param array $orderData
      *
@@ -347,30 +296,12 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
         $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
+        $this->paypalHelper()->verifyMagentoPayPalErrors();
         $this->assertMessagePresent('success', 'success_canceled_order');
     }
 
     /**
      * <p>Reorder.</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders;</p>
-     * <p>2.Press "Create New Order" button;</p>
-     * <p>3.Press "Create New Customer" button;</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists;</p>
-     * <p>5.Fill all required fields;</p>
-     * <p>6.Press 'Add Products' button;</p>
-     * <p>7.Add products;</p>
-     * <p>8.Choose shipping address the same as billing;</p>
-     * <p>9.Check payment method 'Credit Card';</p>
-     * <p>10.Choose any from 'Get shipping methods and rates';</p>
-     * <p>11. Submit order;</p>
-     * <p>12. Edit order (add products and change billing address);</p>
-     * <p>13. Submit order;</p>
-     * <p>Expected results:</p>
-     * <p>New customer successfully created. Order is created for the new customer;</p>
-     * <p>Message "The order has been created." is displayed.</p>
-     * <p>New order during reorder is created.</p>
-     * <p>Message "The order has been created." is displayed.</p>
      *
      * @param array $orderData
      *
@@ -399,22 +330,6 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
 
     /**
      * <p>Void order.</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders.</p>
-     * <p>2.Press "Create New Order" button.</p>
-     * <p>3.Press "Create New Customer" button.</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
-     * <p>5.Fill all fields.</p>
-     * <p>6.Press 'Add Products' button.</p>
-     * <p>7.Add first two products.</p>
-     * <p>8.Choose shipping address the same as billing.</p>
-     * <p>9.Check payment method 'PayPal Direct - Visa'</p>
-     * <p>10. Fill in all required fields.</p>
-     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
-     * <p>12.Submit order.</p>
-     * <p>13.Void Order.</p>
-     * <p>Expected result:</p>
-     * <p>New customer is created. Order is created for the new customer. Void successful</p>
      *
      * @param array $orderData
      *
@@ -438,21 +353,6 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
 
     /**
      * <p>Create Orders using paypal direct uk payment method with 3DSecure</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders.</p>
-     * <p>2.Press "Create New Order" button.</p>
-     * <p>3.Press "Create New Customer" button.</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
-     * <p>5.Press 'Add Products' button.</p>
-     * <p>6.Add simple product.</p>
-     * <p>7.Fill all required fields in billing address form.</p>
-     * <p>8.Choose shipping address the same as billing.</p>
-     * <p>9.Check shipping method</p>
-     * <p>10.Check payment method</p>
-     * <p>11.Validate card with 3D secure</p>
-     * <p>12.Submit order.</p>
-     * <p>Expected result:</p>
-     * <p>New customer is created. Order is created for the new customer.</p>
      *
      * @param string $card
      * @param bool $needSetUp

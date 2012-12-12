@@ -28,19 +28,6 @@ class Core_Mage_Order_Create_WithProductWithWarningTest extends Mage_Selenium_Te
 
     /**
      * <p>Order creation with product that contains validation message</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders.</p>
-     * <p>2.Press "Create New Order" button.</p>
-     * <p>3.Press "Create New Customer" button.</p>
-     * <p>4.Choose Store.</p>
-     * <p>5.Press 'Add Products' button.</p>
-     * <p>6.Add product</p>
-     * <p>7.Fill in billing and shipping addresses.</p>
-     * <p>8.Choose shipping method.</p>
-     * <p>9.Choose payment method.</p>
-     * <p>10.Submit order.</p>
-     * <p>Expected result:</p>
-     * <p>Warning message appears before submitting order. Order is created</p>
      *
      * @param string $productData
      * @param string $message

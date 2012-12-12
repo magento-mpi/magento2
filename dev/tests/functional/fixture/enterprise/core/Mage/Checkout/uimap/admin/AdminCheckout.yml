@@ -1,4 +1,3 @@
-# Magento
 #
 # {license_notice}
 #
@@ -34,20 +33,16 @@ view_order:
                                       gift_wrapping: //div[@class='gift-wrapping-design']/span
                            -
                               order_totals:
-                                  xpath: //div[@class='order-totals']
                                   pageelements:
                                       total_printed_card_price: //tr[normalize-space(td)='Printed Card']/td/span
 
 # 'New Order' page
 create_order_for_new_customer:
-    mca: sales_order_create/
-    title: New Order / Orders / Sales / Magento Admin
     uimap:
         form:
             fieldsets: &newOrderForNewCustomerFieldsets
                 -
                     gift_options: &giftMessage
-                        xpath: //div[div/h4[contains(text(),'Gift Options for')]]
                         dropdowns:
                             product_gift_wrapping_design: //select[@id='giftwrapping_design_item']
                         pageelements:
@@ -63,6 +58,28 @@ create_order_for_new_customer:
                         pageelements:
                             printed_card_price: //div[@id='card-price-box']//span[@id='card-price']
                             order_gift_wrapping_block: //div[@id='orderCreateGiftWrapping' and contains(., 'Gift Wrapping for the Entire Order')]
+                -
+                    sku_options: &addSkuForOrder
+                        buttons:
+                            add_products_by_sku: //button[span='Add Products By SKU']
+                            submit_sku_form: //button[span='Add to Order']
+                -
+                    order_items_ordered: &orderItemsOrdered
+                        pageelements:
+                            sku_product_added: //*[@id='order-items_grid' and contains(.,'%skuProduct%')]
+                -
+                    order_items_ordered_sku: &addItemsBySku
+                        buttons:
+                            add_by_sku_add: //*[@id='sku_container']//button[@class='scalable add']
+                            add_by_sku_del: //*[@id='sku_container']//button[@class='scalable delete']
+                            reset_upload: //button[@class='button btn-reset']
+                        fields:
+                            sku: //*[@id='sku_%row%']
+                            qty_sku: //*[@id='sku_qty_%row%']
+                            sku_upload: //*[@id='sku_upload']
+                        pageelements:
+                            note_csv: //*[@class='note']
+                            add_by_sku_fieldset: //*[@id='order-additional_area' and (@style = '')]
 
 edit_order:
     uimap:
@@ -78,6 +95,44 @@ edit_order:
                           add_printed_card: //input[@id='add-printed-card']
                -
                   gift_options:
-                      xpath: //div[div/h4[contains(text(),'Gift Options for')]]
                       dropdowns:
                           product_gift_wrapping_design: //select[@id='giftwrapping_design_item']
+
+create_order_for_new_customer_sku:
+    mca: sales_order_create/processData/
+    title: New Order / Orders / Sales / Magento Admin
+    uimap:
+        form:
+            fieldsets: &newOrderForNewCustomerFieldsets
+                -
+                    order_items_ordered: &orderItemsOrdered
+                        pageelements:
+                            sku_product_added: //*[@id='order-items_grid' and contains(.,'%skuProduct%')]
+                -
+                    order_items_attention: &orderItemsAttention
+                        pageelements:
+                            sku_required_grid: //*[@id='sku_errors']
+                            sku_product_required: //*[@id='sku_errors_table' and contains(.,'%skuProduct%')]
+                            qty_invalid_qty: //*[@id='sku_%skuProduct%']/*[@class='notice']//div[contains(.,'Please enter a valid number in the "Qty" field.')]
+                            required_product_message: //*[@id='order-errors']//*[@class='icon-head'][contains(.,'%lastRow% product(s) require attention')]
+                            add_by_sku_fieldset: //*[@id='order-additional_area' and (@style = '')]
+                        buttons:
+                            remove_all_invalid: //*[@id='order-errors']//*[contains(.,'Remove All')]/button
+                            remove_one_invalid: //*[@id='sku_errors_table']//tr[%row%]//button[@class='scalable delete']
+                            submit_sku_configured_form: //button[span='Add Products to Order']
+                        fields:
+                            required_qty_enabled: //*[@id='sku_errors_table']//*[@name='qty' and not(@disabled)]
+                            required_qty: //*[@id='sku_errors_table']//*[@name='qty']
+
+                -
+                    order_items_ordered_sku: &addItemsBySku
+                         buttons:
+                             add_by_sku_add: //*[@id='sku_container']//button[@class='scalable add']
+                             add_by_sku_del: //*[@id='sku_container']//button[@class='scalable delete']
+                             reset_upload: //button[@class='button btn-reset']
+                             add_products_by_sku: //button[span='Add Products By SKU']
+                             submit_sku_form: //button[span='Add to Order']
+                         fields:
+                             sku: //*[@id='sku_%row%']
+                             qty_sku: //*[@id='sku_qty_%row%']
+                             sku_upload: //*[@id='sku_upload'

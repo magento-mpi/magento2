@@ -1,0 +1,18 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Magento
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+disable_http_only:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: general_web
+        configuration:
+            session_cookie_management:
+                use_http_only: No

@@ -21,9 +21,6 @@ class Core_Mage_Theme_GridTest extends Mage_Selenium_TestCase
     /**
      * <p>Bug Cover<p/>
      * <p>Verification of MAGETWO-4638:</p>
-     * <p>Navigate to System -> Design -> Themes</p>
-     * <p>Expected result:</p>
-     * <p>Theme grid is present on page.</p>
      *
      * @test
      */
@@ -31,15 +28,12 @@ class Core_Mage_Theme_GridTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('theme_list');
-        $this->isElementPresent('theme_grid');
+        $this->assertTrue($this->controlIsPresent('pageelement', 'theme_grid'), 'Theme grid table is not present');
     }
 
     /**
      * <p>Bug Cover<p/>
      * <p>Verification of MAGETWO-4638:</p>
-     * <p>Click "Delete" button</p>
-     * <p>Expected result:</p>
-     * <p>New Theme form is present on page.</p>
      *
      * @depends openGridPage
      * @test
@@ -47,6 +41,6 @@ class Core_Mage_Theme_GridTest extends Mage_Selenium_TestCase
     public function openNewThemePage()
     {
         $this->clickButton('add_new_theme');
-        $this->isElementPresent('theme_form');
+        $this->assertTrue($this->controlIsPresent('fieldset', 'theme_form'), 'Theme form fieldset is not present');
     }
 }

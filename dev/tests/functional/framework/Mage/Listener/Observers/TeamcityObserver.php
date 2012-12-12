@@ -152,7 +152,8 @@ class Mage_Listener_Observers_TeamcityObserver extends PHPUnit_Util_Printer
             }
             //Comparing number of actual not implemented tests and previously not implemented tests
             if ($incompleteCount > $this->_incompleteCount) {
-                //Getting last not implemented test message if actual number of not implemented tests is greater than previous
+                //Getting last not implemented test message if actual number of not implemented tests
+                //is greater than previous
                 $notImplemented = $test->getTestResultObject()->notImplemented();
                 $notImpl = end($notImplemented);
                 $message .= $notImpl->exceptionMessage();

@@ -9,9 +9,14 @@
 #
 ---
 dashboard:
-    mca: dashboard
+    mca: dashboard/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'dashboard')]
     title: "Dashboard / Magento Admin"
     uimap:
         form:
-        messages:
+            fieldsets:
+                -
+                    store_switcher:
+                        xpath: //div/p[@class='switcher']
+                        dropdowns:
+                            store_switcher: //select[@id='store_switcher']

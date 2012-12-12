@@ -36,12 +36,6 @@ class Core_Mage_PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create a new catalog price rule</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add New Rule"</p>
-     * <p>2. Fill in only required fields in all tabs</p>
-     * <p>3. Click "Save Rule" button</p>
-     * <p>Expected result:</p>
-     * <p>New rule is created. Success message appears.</p>
      *
      * @return array
      * @test
@@ -61,11 +55,6 @@ class Core_Mage_PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Validation of empty required fields</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add New Rule"</p>
-     * <p>2. Leave required fields empty</p>
-     * <p>3. Click "Save Rule" button</p>
-     * <p>Expected result: Validation message appears</p>
      *
      * @param string $emptyField
      * @param string $fieldType
@@ -98,12 +87,6 @@ class Core_Mage_PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Validation of Discount Amount field</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add New Rule"</p>
-     * <p>2. Fill in "General Information" tab</p>
-     * <p>3. Specify "Conditions"</p>
-     * <p>4. Enter invalid data into "Discount Amount" and "Sub Discount Amount" fields</p>
-     * <p>Expected result: Validation messages appears</p>
      *
      * @param string $invalidDiscountData
      *
@@ -137,12 +120,6 @@ class Core_Mage_PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Catalog price rule with long values into required fields.</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Promotions - Catalog Price Rules</p>
-     * <p>2. Fill form for Catalog Price Rule, but one field should be filled with long Values</p>
-     * <p>3. Click "Save Rule" button</p>
-     * <p>Expected result:</p>
-     * <p>Rule created, confirmation message appears</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3312
@@ -166,12 +143,6 @@ class Core_Mage_PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Catalog price rule with long values into required fields.</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Promotions - Catalog Price Rules</p>
-     * <p>2. Fill form for Catalog Price Rule, but one field should be filled with long Values</p>
-     * <p>3. Click "Save Rule" button</p>
-     * <p>Expected result:</p>
-     * <p>Rule created, confirmation message appears</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3310

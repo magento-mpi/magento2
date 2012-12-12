@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento
+ * @package     Mage_Order
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -73,6 +73,7 @@ class Enterprise_Mage_Order_Helper extends Core_Mage_Order_Helper
      * Fails test if any of the gift options is available.
      *
      * @param array $orderData
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function verifyGiftOptionsDisabled($orderData)
     {
@@ -89,8 +90,8 @@ class Enterprise_Mage_Order_Helper extends Core_Mage_Order_Helper
         }
 
         $fieldSetElements = $this->_findUimapElement('fieldset', 'gift_options_for_order')->getFieldsetElements();
-        foreach($fieldSetElements as $controlType => $elements) {
-            foreach($elements as $element => $elementXpath) {
+        foreach ($fieldSetElements as $controlType => $elements) {
+            foreach ($elements as $element => $elementXpath) {
                 if ($this->controlIsPresent($controlType, $element)) {
                     $this->addVerificationMessage("Gift options($element) is available for the order");
                 }
@@ -132,17 +133,17 @@ class Enterprise_Mage_Order_Helper extends Core_Mage_Order_Helper
     public function verifyPageelement($elementName, $expectedValue)
     {
         $resultFlag = true;
-        $elementXpath = $this->_getControlXpath('pageelement',$elementName);
-        if ($this->isElementPresent($elementXpath)) {
-            $val = $this->getElementByXpath($elementXpath);
+        if ($this->controlIsPresent('pageelement', $elementName)) {
+            $val = $this->getControlElement('pageelement', $elementName)->text();
             if ($val != $expectedValue) {
                 $this->addVerificationMessage(
-                    $elementName . ": The stored value is not equal to specified: (" . $expectedValue
-                    . "' != '" . $val . "')");
+                    $elementName . ": The stored value is not equal to specified: ('" . $expectedValue . "' != '"
+                    . $val . "')");
                 $resultFlag = false;
             }
         } else {
-            $this->addVerificationMessage('Can not find field (xpath:' . $elementXpath . ')');
+            $this->addVerificationMessage(
+                'Can not find field (xpath:' . $this->_getControlXpath('pageelement', $elementName) . ')');
             $resultFlag = false;
         }
         return $resultFlag;

@@ -2,9 +2,8 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 /* PHP version validation */
@@ -81,15 +80,22 @@ if (file_exists($definitionsFile)) {
     Mage::initializeObjectManager($definitionsFile);
 }
 
+$output = null;
 if (isset($_SERVER['MAGE_PROFILER'])) {
     switch ($_SERVER['MAGE_PROFILER']) {
         case 'firebug':
-            Magento_Profiler::registerOutput(new Magento_Profiler_Output_Firebug());
+            $output = new Magento_Profiler_Driver_Standard_Output_Firebug();
             break;
         case 'csv':
-            Magento_Profiler::registerOutput(new Magento_Profiler_Output_Csvfile(__DIR__ . '/../var/log/profiler.csv'));
+            $output = new Magento_Profiler_Driver_Standard_Output_Csvfile(__DIR__ . '/../var/log/profiler.csv');
             break;
         default:
-            Magento_Profiler::registerOutput(new Magento_Profiler_Output_Html());
+            $output = new Magento_Profiler_Driver_Standard_Output_Html();
     }
+}
+
+if ($output) {
+    $driver = new Magento_Profiler_Driver_Standard();
+    $driver->registerOutput($output);
+    Magento_Profiler::add($driver);
 }

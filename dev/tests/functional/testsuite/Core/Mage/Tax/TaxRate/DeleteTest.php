@@ -46,12 +46,6 @@ class Core_Mage_Tax_TaxRate_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete a Tax Rate</p>
-     * <p>Steps:</p>
-     * <p>1. Create a new Tax Rate</p>
-     * <p>2. Open the Tax Rate</p>
-     * <p>3. Delete the Tax Rate</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the Tax Rate has been deleted.</p>
      *
      * @test
      */
@@ -72,13 +66,6 @@ class Core_Mage_Tax_TaxRate_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete a Tax Rate that used</p>
-     * <p>Steps:</p>
-     * <p>1. Create a new Tax Rate</p>
-     * <p>2. Create a new Tax Rule that use Tax Rate from previous step</p>
-     * <p>2. Open the Tax Rate</p>
-     * <p>3. Delete the Tax Rate</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the Tax Rate could not be deleted.</p>
      *
      * @test
      */
