@@ -22,4 +22,14 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons extends Mage_Back
     {
         return $this->getUrl('*/*/getLayoutUpdate');
     }
+
+    /**
+     * Get "Back" button URL
+     *
+     * @return string
+     */
+    public function getBackUrl()
+    {
+        return $this->getUrl('*/*/');
+    }
 }
