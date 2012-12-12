@@ -75,7 +75,6 @@ Wishlist pages
                         </action>
                         <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Options" name="customer.wishlist.item.options" />
                     </block>
-                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column_Remove" name="customer.wishlist.item.remove" template="item/column/remove.phtml" />
                 </block>
                 <container name="customer.wishlist.buttons" as="control_buttons" label="Customer Wishlist Buttons">
                     <block type="Mage_Wishlist_Block_Customer_Wishlist_Button" name="customer.wishlist.button.share" template="button/share.phtml" />
