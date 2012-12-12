@@ -1,6 +1,6 @@
 <?php
 /**
- * Test for Mage_Webapi_Model_Resource_Acl_Role
+ * Test for Mage_Webapi_Model_Resource_Acl_Role.
  *
  * {license_notice}
  *
@@ -10,7 +10,7 @@
 class Mage_Webapi_Model_Resource_Acl_RoleTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Test for Mage_Webapi_Model_Resource_Acl_Role::getRolesIds()
+     * Test for Mage_Webapi_Model_Resource_Acl_Role::getRolesIds().
      *
      * @magentoDataFixture Mage/Webapi/_files/role.php
      * @magentoDataFixture Mage/Webapi/_files/role_with_rule.php
@@ -31,7 +31,7 @@ class Mage_Webapi_Model_Resource_Acl_RoleTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for Mage_Webapi_Model_Resource_Acl_Role::getRolesList()
+     * Test for Mage_Webapi_Model_Resource_Acl_Role::getRolesList().
      *
      * @magentoDataFixture Mage/Webapi/_files/role.php
      * @magentoDataFixture Mage/Webapi/_files/role_with_rule.php
@@ -50,7 +50,7 @@ class Mage_Webapi_Model_Resource_Acl_RoleTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for Mage_Webapi_Model_Resource_Acl_Role::_initUniqueFields()
+     * Test for Mage_Webapi_Model_Resource_Acl_Role::_initUniqueFields().
      *
      * @expectedException Mage_Core_Exception
      * @expectedExceptionMessage Role Name already exists.
@@ -75,7 +75,7 @@ class Mage_Webapi_Model_Resource_Acl_RoleTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for Mage_Webapi_Model_Resource_Acl_Role::delete()
+     * Test for Mage_Webapi_Model_Resource_Acl_Role::delete().
      *
      * @magentoDataFixture Mage/Webapi/_files/user_with_role.php
      */

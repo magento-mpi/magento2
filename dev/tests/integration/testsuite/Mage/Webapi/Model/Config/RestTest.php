@@ -1,6 +1,6 @@
 <?php
 /**
- * File with unit tests for API configuration class: Mage_Webapi_Model_Config_Rest
+ * File with unit tests for API configuration class: Mage_Webapi_Model_Config_Rest.
  *
  * {license_notice}
  *
@@ -21,7 +21,7 @@ require_once __DIR__ . '/../_files/resource_with_invalid_name.php';
 
 
 /**
- * Test of API configuration class: Mage_Webapi_Model_Config
+ * Test of API configuration class: Mage_Webapi_Model_Config.
  */
 class Mage_Webapi_Model_Config_RestTest extends PHPUnit_Framework_TestCase
 {
@@ -90,9 +90,9 @@ class Mage_Webapi_Model_Config_RestTest extends PHPUnit_Framework_TestCase
         /**
          * Vendor_Module_Controller_Webapi_Resource fixture contains two methods getV2 and deleteV3 that have
          * different names of ID param.
-         * If there will be two different routes generated for these methods with different ID param names,
+         * If there are two different routes generated for these methods with different ID param names,
          * it will be impossible to identify which route should be used as they both will match the same requests.
-         * E.g. DELETE /resource/:deleteId and GET /resource/:getId will match same requests.
+         * E.g. DELETE /resource/:deleteId and GET /resource/:getId will match the same requests.
          */
         $this->assertNotCount(
             $expectedRoutesCount + 1,
@@ -100,7 +100,7 @@ class Mage_Webapi_Model_Config_RestTest extends PHPUnit_Framework_TestCase
             "Some resource methods seem to have different routes, in case when should have the same ones."
         );
 
-        $this->assertCount($expectedRoutesCount, $actualRoutes, "Routes quantity does not equal to expected one.");
+        $this->assertCount($expectedRoutesCount, $actualRoutes, "Routes quantity is not equal to expected one.");
         /** @var $actualRoute Mage_Webapi_Controller_Router_Route_Rest */
         foreach ($actualRoutes as $actualRoute) {
             $this->assertInstanceOf('Mage_Webapi_Controller_Router_Route_Rest', $actualRoute);

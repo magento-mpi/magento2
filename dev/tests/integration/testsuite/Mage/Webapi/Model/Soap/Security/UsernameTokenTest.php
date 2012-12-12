@@ -41,7 +41,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
     }
 
     /**
-     * Test positive authenticate with text password type.
+     * Test positive authentication with text password type.
      */
     public function testAuthenticatePasswordText()
     {
@@ -59,7 +59,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
     }
 
     /**
-     * Test positive authenticate with digest password type
+     * Test positive authentication with digest password type.
      */
     public function testAuthenticatePasswordDigest()
     {
@@ -94,7 +94,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
         $nonce = base64_encode($nonce);
         $authenticatedUser = $usernameToken->authenticate($user->getApiKey(), $password, $created, $nonce);
         $this->assertEquals($user, $authenticatedUser);
-        // Try to authenticate with the same nonce and timestamp
+        // Try to authenticate with the same nonce and timestamp.
         $usernameToken->authenticate($user->getApiKey(), $password, $created, $nonce);
     }
 }

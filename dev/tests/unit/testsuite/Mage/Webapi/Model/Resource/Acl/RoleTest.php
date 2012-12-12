@@ -10,7 +10,7 @@
 class Mage_Webapi_Model_Resource_Acl_RoleTest extends Mage_Webapi_Model_Resource_Acl_TestAbstract
 {
     /**
-     * Create resource model
+     * Create resource model.
      *
      * @param Varien_Db_Select $selectMock
      * @return Mage_Webapi_Model_Resource_Acl_Role
@@ -64,7 +64,7 @@ class Mage_Webapi_Model_Resource_Acl_RoleTest extends Mage_Webapi_Model_Resource
     }
 
     /**
-     * Test constructor
+     * Test constructor.
      */
     public function testConstructor()
     {
@@ -75,7 +75,7 @@ class Mage_Webapi_Model_Resource_Acl_RoleTest extends Mage_Webapi_Model_Resource
     }
 
     /**
-     * Test _initUniqueFields()
+     * Test _initUniqueFields().
      */
     public function testGetUniqueFields()
     {
@@ -86,7 +86,7 @@ class Mage_Webapi_Model_Resource_Acl_RoleTest extends Mage_Webapi_Model_Resource
     }
 
     /**
-     * Test getRolesList()
+     * Test getRolesList().
      */
     public function testGetRolesList()
     {
@@ -111,7 +111,7 @@ class Mage_Webapi_Model_Resource_Acl_RoleTest extends Mage_Webapi_Model_Resource
     }
 
     /**
-     * Test getRolesIds()
+     * Test getRolesIds().
      */
     public function testGetRolesIds()
     {

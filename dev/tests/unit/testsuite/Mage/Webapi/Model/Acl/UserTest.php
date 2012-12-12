@@ -50,7 +50,7 @@ class Mage_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Create User model
+     * Create User model.
      *
      * @param Mage_Webapi_Model_Resource_Acl_User $userResource
      * @param Mage_Webapi_Model_Resource_Acl_User_Collection $resourceCollection
@@ -67,7 +67,7 @@ class Mage_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test constructor
+     * Test constructor.
      */
     public function testConstructor()
     {
@@ -78,7 +78,7 @@ class Mage_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test method getRoleUsers()
+     * Test getRoleUsers() method.
      */
     public function testGetRoleUsers()
     {
@@ -95,7 +95,7 @@ class Mage_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test method loadByKey()
+     * Test loadByKey() method.
      */
     public function testLoadByKey()
     {
@@ -111,7 +111,7 @@ class Mage_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test public getters
+     * Test public getters.
      */
     public function testPublicGetters()
     {
@@ -124,7 +124,7 @@ class Mage_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test get collection and _construct
+     * Test GET collection and _construct
      */
     public function testGetCollection()
     {

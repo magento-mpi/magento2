@@ -103,7 +103,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
     }
 
     /**
-     * Data provider for testConstructNewUsernameToken
+     * Data provider for testConstructNewUsernameToken.
      *
      * @return array
      */
@@ -138,7 +138,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
     }
 
     /**
-     * Data provider for testConstructNewUsernameTokenWithInvalidCreatedDate
+     * Data provider for testConstructNewUsernameTokenWithInvalidCreatedDate.
      *
      * @return array
      */

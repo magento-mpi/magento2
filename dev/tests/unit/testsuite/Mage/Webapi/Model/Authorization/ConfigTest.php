@@ -30,7 +30,7 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
     protected $_config;
 
     /**
-     * Set up before test
+     * Set up before test.
      */
     protected function setUp()
     {
@@ -66,7 +66,7 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
     }
 
     /**
-     * Test for Mage_Webapi_Model_Authorization_Config::getAclResources()
+     * Test for Mage_Webapi_Model_Authorization_Config::getAclResources().
      */
     public function testGetAclResources()
     {
@@ -95,7 +95,7 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
     }
 
     /**
-     * Get resources array recursively
+     * Get resources array recursively.
      *
      * @param DOMNodeList $resources
      * @return array
@@ -117,7 +117,7 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
     }
 
     /**
-     * Test for Mage_Webapi_Model_Authorization_Config::getAclVirtualResources
+     * Test for Mage_Webapi_Model_Authorization_Config::getAclVirtualResources.
      */
     public function testGetAclVirtualResources()
     {
@@ -151,7 +151,7 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
     }
 
     /**
-     * Test for Mage_Webapi_Model_Authorization_Config::getAclResourcesAsArray
+     * Test for Mage_Webapi_Model_Authorization_Config::getAclResourcesAsArray.
      *
      * @dataProvider aclResourcesDataProvider
      * @param string $actualXmlFile
@@ -228,7 +228,7 @@ class Mage_Webapi_Model_Authorization_ConfigTest extends PHPUnit_Framework_TestC
     }
 
     /**
-     * Test for method _getSortedBySortOrder
+     * Test for _getSortedBySortOrder method.
      *
      * @dataProvider getSortedBySortOrderDataProvider
      * @param array $originArray

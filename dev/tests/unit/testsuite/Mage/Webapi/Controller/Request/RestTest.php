@@ -1,6 +1,6 @@
 <?php
 /**
- * Test Webapi Request model
+ * Test Webapi Request model.
  *
  * {license_notice}
  *
@@ -10,7 +10,7 @@
 class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Request mock
+     * Request mock.
      *
      * @var PHPUnit_Framework_MockObject_MockObject
      */
@@ -48,7 +48,7 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for getAcceptTypes() method
+     * Test for getAcceptTypes() method.
      *
      * @dataProvider providerAcceptType
      * @param string $acceptHeader Value of Accept HTTP header
@@ -111,7 +111,7 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for getContentType() method
+     * Test for getContentType() method.
      *
      * @dataProvider providerContentType
      * @param string $contentTypeHeader 'Content-Type' header value
@@ -133,20 +133,20 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
                 $this->assertEquals(
                     $exceptionMessage,
                     $e->getMessage(),
-                    'Exception message does not match expected one'
+                    'Exception message does not match the expected one.'
                 );
                 return;
             } else {
-                $this->fail('Exception thrown on valid header: ' . $e->getMessage());
+                $this->fail('Exception is thrown on valid header: ' . $e->getMessage());
             }
         }
         if ($exceptionMessage) {
-            $this->fail('Expected exception was not raised');
+            $this->fail('Expected exception was not raised.');
         }
     }
 
     /**
-     * Test for getOperation() method
+     * Test for getOperation() method.
      *
      * @dataProvider providerRequestMethod
      * @param string $requestMethod Request method
@@ -184,20 +184,20 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
                 $this->assertEquals(
                     $exceptionMessage,
                     $e->getMessage(),
-                    'Exception message does not match expected one'
+                    'Exception message does not match the expected one.'
                 );
                 return;
             } else {
-                $this->fail('Exception thrown on valid header: ' . $e->getMessage());
+                $this->fail('Exception is thrown on valid header: ' . $e->getMessage());
             }
         }
         if ($exceptionMessage) {
-            $this->fail('Expected exception was not raised');
+            $this->fail('Expected exception was not raised.');
         }
     }
 
     /**
-     * Test for getResourceType() method
+     * Test for getResourceType() method.
      *
      */
     public function testGetResourceType()
@@ -209,7 +209,7 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Data provider for testGetAcceptTypes()
+     * Data provider for testGetAcceptTypes().
      *
      * @return array
      */
@@ -245,7 +245,7 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Data provider for testGetContentType()
+     * Data provider for testGetContentType().
      *
      * @return array
      */
@@ -254,19 +254,19 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
         return array(
             // Each element is: array(Content-Type header value, content-type part[, expected exception message])
             array('', null, 'Content-Type header is empty'),
-            array('_?', null, 'Invalid Content-Type header'),
+            array('_?', null, 'Content-Type header is invalid'),
             array('application/x-www-form-urlencoded; charset=UTF-8', 'application/x-www-form-urlencoded'),
             array('application/x-www-form-urlencoded; charset=utf-8', 'application/x-www-form-urlencoded'),
             array('text/html; charset=uTf-8', 'text/html'),
-            array('text/html; charset=', null, 'Invalid Content-Type header'),
-            array('text/html;', null, 'Invalid Content-Type header'),
+            array('text/html; charset=', null, 'Content-Type header is invalid'),
+            array('text/html;', null, 'Content-Type header is invalid'),
             array('application/dialog.dot-info7+xml', 'application/dialog.dot-info7+xml'),
             array('application/x-www-form-urlencoded; charset=cp1251', null, 'UTF-8 is the only supported charset')
         );
     }
 
     /**
-     * Data provider for testGetOperation()
+     * Data provider for testGetOperation().
      *
      * @return array
      */
@@ -378,7 +378,7 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Success getOperationName() method data provider
+     * Success getOperationName() method data provider.
      *
      * @return array
      */
@@ -428,7 +428,7 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             'resourceNameCreate',
             $this->_request->getOperationName(),
-            'Invalid resource name for create method.'
+            'Resource name for create method is invalid.'
         );
     }
 
@@ -446,7 +446,7 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             'resourceNameMultiCreate',
             $this->_request->getOperationName(),
-            'Invalid resource name for multi create method.'
+            'Resource name for multi create method is invalid.'
         );
     }
 

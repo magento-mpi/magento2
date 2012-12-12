@@ -1,6 +1,6 @@
 <?php
 /**
- * Test Webapi Json Interpreter Request Rest Controller
+ * Test Webapi Json Interpreter Request Rest Controller.
  *
  * {license_notice}
  *

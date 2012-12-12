@@ -50,7 +50,7 @@ class Mage_Webapi_Model_Acl_RoleTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Create Role model
+     * Create Role model.
      *
      * @param Mage_Webapi_Model_Resource_Acl_Role $roleResource
      * @param Mage_Webapi_Model_Resource_Acl_Role_Collection $resourceCollection
@@ -67,7 +67,7 @@ class Mage_Webapi_Model_Acl_RoleTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test constructor
+     * Test constructor.
      */
     public function testConstructor()
     {
@@ -78,7 +78,7 @@ class Mage_Webapi_Model_Acl_RoleTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test get collection and _construct
+     * Test GET collection and _construct
      */
     public function testGetCollection()
     {

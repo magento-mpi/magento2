@@ -70,7 +70,7 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
     public function testGetApiCharset()
     {
         $this->_storeMock->expects($this->once())->method('getConfig')->will($this->returnValue('Windows-1251'));
-        $this->assertEquals('Windows-1251', $this->_soapServer->getApiCharset(), 'Wrong API charset encoding getting.');
+        $this->assertEquals('Windows-1251', $this->_soapServer->getApiCharset(), 'API charset encoding getting is invalid.');
     }
 
     /**
@@ -82,7 +82,7 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             Mage_Webapi_Model_Soap_Server::SOAP_DEFAULT_ENCODING,
             $this->_soapServer->getApiCharset(),
-            'Wrong default API charset encoding getting.'
+            'Default API charset encoding getting is invalid.'
         );
     }
 
@@ -99,7 +99,7 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
         );
         $actualResult = $this->_soapServer->generateUri();
         $expectedResult = 'http://magento.com/' . self::WEBAPI_AREA_FRONT_NAME . '/soap?resources%5Bres%5D=v1';
-        $this->assertEquals($expectedResult, $actualResult, 'Wrong URI generation with default parameter.');
+        $this->assertEquals($expectedResult, $actualResult, 'URI generation with default parameter is invalid.');
     }
 
     /**
@@ -130,7 +130,7 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
         $expectedResult = 'http://magento.com/' . self::WEBAPI_AREA_FRONT_NAME . '/'
             . Mage_Webapi_Controller_Front::API_TYPE_SOAP;
         $actualResult = $this->_soapServer->getEndpointUri();
-        $this->assertEquals($expectedResult, $actualResult, 'Wrong endpoint URI building.');
+        $this->assertEquals($expectedResult, $actualResult, 'Endpoint URI building is invalid.');
     }
 
     /**
@@ -141,7 +141,7 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
         /** Init Exception. */
         $exception = new Exception();
         $faultResult = $this->_soapServer->fault($exception);
-        /** Assert returned object is instance of SoapFault class. */
+        /** Assert that returned object is instance of SoapFault class. */
         $this->assertInstanceOf('SoapFault', $faultResult, 'SoapFault was not returned.');
     }
 
@@ -152,7 +152,7 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
     {
         /** Mock Webapi Soap fault. */
         $apiFault = $this->getMockBuilder('Mage_Webapi_Model_Soap_Fault')->disableOriginalConstructor()->getMock();
-        /** Assert mocked fault toXml method will be executed once. */
+        /** Assert that mocked fault toXml method will be executed once. */
         $apiFault->expects($this->once())->method('toXml');
         $this->_soapServer->fault($apiFault);
     }
@@ -169,19 +169,19 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
                 false,
                 array('customer' => 'v1', 'product' => 'v2'),
                 "http://magento.com/$webapiFrontName/soap?resources%5Bcustomer%5D=v1&resources%5Bproduct%5D=v2",
-                'Wrong URI generation with several resources.'
+                'URI generation with several resources is invalid.'
             ),
             'Several resources with WSDL' => array(
                 true,
                 array('customer' => 'v1', 'product' => 'v2'),
                 "http://magento.com/$webapiFrontName/soap?resources%5Bcustomer%5D=v1&resources%5Bproduct%5D=v2&wsdl=1",
-                'Wrong URI generation with several resources and WSDL.'
+                'URI generation with several resources and WSDL is invalid.'
             ),
             'Empty resources list' => array(
                 true,
                 array(),
                 "http://magento.com/$webapiFrontName/soap?wsdl=1",
-                'Wrong URI generation without resources.'
+                'URI generation without resources is invalid.'
             ),
         );
     }

@@ -42,7 +42,7 @@ class Mage_Webapi_Model_Authorization_Loader_RuleTest extends PHPUnit_Framework_
     }
 
     /**
-     * Test for Mage_Webapi_Model_Authorization_Loader_Rule::populateAcl
+     * Test for Mage_Webapi_Model_Authorization_Loader_Rule::populateAcl.
      */
     public function testPopulateAcl()
     {
@@ -81,7 +81,7 @@ class Mage_Webapi_Model_Authorization_Loader_RuleTest extends PHPUnit_Framework_
     }
 
     /**
-     * Test for Mage_Webapi_Model_Authorization_Loader_Rule::populateAcl without rules
+     * Test for Mage_Webapi_Model_Authorization_Loader_Rule::populateAcl without rules.
      */
     public function testPopulateAclWithoutRules()
     {

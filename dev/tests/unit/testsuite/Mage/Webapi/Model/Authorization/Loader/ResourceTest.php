@@ -30,7 +30,7 @@ class Mage_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Framew
     protected $_config;
 
     /**
-     * Set up before test
+     * Set up before test.
      */
     protected function setUp()
     {
@@ -61,7 +61,7 @@ class Mage_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Framew
     }
 
     /**
-     * Test for Mage_Webapi_Model_Authorization_Loader_Resource::populateAcl
+     * Test for Mage_Webapi_Model_Authorization_Loader_Resource::populateAcl.
      */
     public function testPopulateAcl()
     {
@@ -89,7 +89,7 @@ class Mage_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Framew
     }
 
     /**
-     * Test for Mage_Webapi_Model_Authorization_Loader_Resource::populateAcl with invalid Virtual resources DOM
+     * Test for Mage_Webapi_Model_Authorization_Loader_Resource::populateAcl with invalid Virtual resources DOM.
      */
     public function testPopulateAclWithInvalidDOM()
     {
@@ -108,7 +108,7 @@ class Mage_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Framew
     }
 
     /**
-     * Get Resources DOMXPath from fixture
+     * Get Resources DOMXPath from fixture.
      *
      * @return DOMXPath
      */

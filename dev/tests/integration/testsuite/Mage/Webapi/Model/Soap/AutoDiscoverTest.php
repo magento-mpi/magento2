@@ -61,7 +61,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     protected $_xpath;
 
     /**
-     * Set up config with fixture controllers directory scanner
+     * Set up config with fixture controllers directory scanner.
      */
     protected function setUp()
     {
@@ -100,7 +100,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
      * Test WSDL operations Generation.
      * Generate WSDL XML using AutoDiscover and prepared config.
      * Walk through all methods from "vendorModuleB resource" (_files/controllers/AutoDiscover/ModuleBController.php)
-     * Assert that service, portType and binding has been generated correctly for resource.
+     * Assert that service, portType and binding have been generated correctly for resource.
      * Assert that each method from controller has generated operations in portType and binding nodes.
      * Assert that each method has input and output messages and complexTypes generated correctly.
      */
@@ -258,7 +258,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Assert docInstructions appinfo node and it's subnodes.
+     * Assert docInstructions appinfo node and its subnodes.
      *
      * @param DOMElement $appInfoNode
      * @param array $appInfoData
@@ -281,7 +281,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Assert 'seeLink' annotation node and it's subnodes.
+     * Assert 'seeLink' annotation node and its subnodes.
      *
      * @param DOMElement $appInfoNode
      * @param array $appInfoData
@@ -308,7 +308,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Assert 'callInfo' annotation node and it's subnodes.
+     * Assert 'callInfo' annotation node and its subnodes.
      *
      * @param DOMElement $appInfoNode
      * @param array $appInfoData
@@ -344,7 +344,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
             $conditionNode = $this->_xpath->query("{$infNs}:{$direction}[text()='{$condition}']", $callNode->parentNode)
                 ->item(0);
             $this->assertNotNull($conditionNode,
-                sprintf('"%s" node with value "%s" not found for callName "%s" in element "%s"', $direction,
+                sprintf('"%s" node with value "%s" was not found for callName "%s" in element "%s"', $direction,
                     $condition, $callName, $elementName));
         }
     }
@@ -368,7 +368,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Assert operation message (input/output) and that message node is present in WSDL
+     * Assert operation message (input/output) and that message node is present in WSDL.
      *
      * @param DOMElement $operationMessage
      * @param $methodName
@@ -396,16 +396,16 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         /** @var DOMElement $message */
         $expression = "//{$wsdlNs}:message[@name='{$messageName}']";
         $message = $this->_xpath->query($expression)->item(0);
-        $this->assertNotNull($message, sprintf('Message "%s" not found in WSDL.', $messageName));
+        $this->assertNotNull($message, sprintf('Message "%s" is not found in WSDL.', $messageName));
         $partXpath = "{$wsdlNs}:part[@element='{$tns}:{$messageName}']";
         $messagePart = $this->_xpath->query($partXpath, $message)->item(0);
-        $this->assertNotNull($messagePart, sprintf('Message part not found in "%s".', $messageName));
+        $this->assertNotNull($messagePart, sprintf('Message part is not found in "%s".', $messageName));
 
         return $messageComplexType;
     }
 
     /**
-     * Assert operation is present in portType node and return it.
+     * Assert that operation is present in portType node and return it.
      *
      * @param $operationName
      * @param DOMElement $portType
@@ -422,7 +422,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Assert operation is present in binding node.
+     * Assert that operation is present in binding node.
      *
      * @param string $operationName
      * @param DOMElement $binding
@@ -437,7 +437,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Assert binding node is present and return it.
+     * Assert that binding node is present and return it.
      *
      * @return DOMElement
      */
@@ -457,7 +457,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         /** @var DOMElement $soapBinding */
         $soapBinding = $binding->getElementsByTagNameNS(Wsdl::SOAP_12_NS_URI, 'binding')
             ->item(0);
-        $this->assertNotNull($soapBinding, sprintf('Missing soap binding in "%s"', $bindingName));
+        $this->assertNotNull($soapBinding, sprintf('SOAP binding in "%s" is missing', $bindingName));
         $this->assertTrue($soapBinding->hasAttribute('style'));
         $this->assertEquals('document', $soapBinding->getAttribute('style'));
 
@@ -465,7 +465,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Assert port type node is present and return it.
+     * Assert that portType node is present and return it.
      *
      * @return DOMElement
      */
@@ -483,7 +483,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Assert port node is present within service node.
+     * Assert that port node is present within service node.
      *
      * @param DOMElement $service
      */
@@ -491,7 +491,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     {
         /** @var DOMElement $port */
         $port = $service->getElementsByTagName('port')->item(0);
-        $this->assertNotNull($port, 'port node not found within service node.');
+        $this->assertNotNull($port, 'port node is not found within service node.');
         $this->assertTrue($port->hasAttribute('name'));
         $this->assertEquals($this->_autoDiscover->getPortName($this->_resourceName), $port->getAttribute('name'));
         $bindingName = $this->_autoDiscover->getBindingName($this->_resourceName);
@@ -499,7 +499,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Assert service node is present in xml.
+     * Assert that service node is present in XML.
      *
      * @return DOMElement
      */
@@ -507,7 +507,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     {
         /** @var DOMElement $service */
         $service = $this->_dom->getElementsByTagNameNS(Wsdl::WSDL_NS_URI, 'service')->item(0);
-        $this->assertNotNull($service, 'service node not found in WSDL.');
+        $this->assertNotNull($service, 'service node is not found in WSDL.');
         $this->assertTrue($service->hasAttribute('name'));
         $this->assertEquals($this->_autoDiscover->getServiceName($this->_resourceName), $service->getAttribute('name'));
 

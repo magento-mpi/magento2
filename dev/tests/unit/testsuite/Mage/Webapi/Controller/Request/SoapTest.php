@@ -1,6 +1,6 @@
 <?php
 /**
- * Soap API Request Test.
+ * SOAP API Request Test.
  *
  * {license_notice}
  *

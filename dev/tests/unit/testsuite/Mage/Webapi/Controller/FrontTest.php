@@ -101,7 +101,7 @@ class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
         $restDispatcherMock = $this->getMockBuilder('Mage_Webapi_Controller_Dispatcher_Rest')
             ->disableOriginalConstructor()
             ->getMock();
-        /** Assert handle method in mocked object will be executed only once. */
+        /** Assert that handle method in mocked object will be executed only once. */
         $restDispatcherMock->expects($this->once())->method('dispatch');
         $this->_dispatcherFactory->expects($this->any())->method('get')
             ->will($this->returnValue($restDispatcherMock));
@@ -122,7 +122,7 @@ class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
         /** Mock dispatcher to throw Logical exception. */
         $restDispatcherMock->expects($this->any())->method('dispatch')->will($this->throwException($logicalException));
         $this->_dispatcherFactory->expects($this->any())->method('get')->will($this->returnValue($restDispatcherMock));
-        /** Assert error processor renderException method will be executed with Logical Exception. */
+        /** Assert that error processor renderException method will be executed with Logical Exception. */
         $this->_errorProcessorMock->expects($this->once())->method('renderException')->with(
             $this->equalTo($logicalException)
         );
@@ -177,7 +177,7 @@ class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
     public function testDeterminateApiTypeApiIsSet()
     {
         $this->_createMockForApiRouteAndFactory(array('api_type' => Mage_Webapi_Controller_Front::API_TYPE_SOAP));
-        /** Assert createRoute method will be executed only once */
+        /** Assert that createRoute method will be executed only once */
         $this->_routeFactoryMock->expects($this->once())->method('createRoute');
         /** The first method call will set apiType property using createRoute method. */
         $this->_frontControllerMock->determineApiType();
