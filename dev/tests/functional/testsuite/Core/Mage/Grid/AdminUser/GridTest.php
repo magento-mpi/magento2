@@ -45,6 +45,10 @@ class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
     {
         $this->navigate($pageName);
         $page = $this->loadDataSet('Grid', 'grid');
+        if(array_key_exists('headers', $page[$pageName]))
+        {
+            unset($page[$pageName]['headers']);
+        }
         foreach ($page[$pageName] as $control => $type) {
             foreach ($type as $typeName => $name) {
                 if (!$this->controlIsPresent($control, $typeName)) {
@@ -56,10 +60,34 @@ class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
         $this->assertEmptyVerificationErrors();
     }
 
+    /**
+     * Need to verify that all columns in table are present in the correct order
+     * @test
+     * @dataProvider uiElementsTestDataProvider
+     *
+     */
+    public function gridHeaderNamesTest($pageName)
+    {
+        $this->navigate($pageName);
+        $testData = $this->loadDataSet('Grid', 'grid');
+        // 'tablename' value is required for identify grid(table) xPath
+        $tableNameValue = array_search('tablename', $testData[$pageName]['fieldset']);
+        if ($tableNameValue) {
+            $tableXpath = $this->_getControlXpath('fieldset', $tableNameValue);
+            $actualHeadersName = $this->getTableHeadRowNames($tableXpath);
+        } else {
+            $this->fail('Should be at least one key in field section with value "tablename" ');
+        }
+        $expectedHeadersName = $testData[$pageName]['headers'];
+        $this->assertNotNull($expectedHeadersName, 'Array(dataset) with header names is not defined');
+        $this->assertEquals($actualHeadersName, $expectedHeadersName);
+    }
+
     public function uiElementsTestDataProvider()
     {
-        return array(array('manage_admin_users')
-
+        return array(
+            array('manage_roles'),
+            array('manage_admin_users'),
         );
     }
 

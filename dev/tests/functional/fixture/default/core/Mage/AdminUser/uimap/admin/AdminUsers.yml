@@ -140,7 +140,10 @@ manage_roles:
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
+                        dropdowns:
+                            view_per_page: //select[@name='limit']
                         fields:
+                            page: //input[@name='page']
                             id: //input[@name='role_id']
                             role_name: //input[@name='role_name']
                         links:
