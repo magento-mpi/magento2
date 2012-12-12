@@ -35,6 +35,7 @@ return array(
         '/pub/lib/mage/edit-trigger.js',
         '/pub/lib/mage/translate-inline.js',
         '/pub/lib/mage/backend/form.js',
+        '/pub/lib/mage/backend/button.js',
     ),
     'test' => array('/dev/tests/js/testsuite'),
     'serve' => array('/pub/lib/mage/calendar'),

@@ -32,7 +32,7 @@
         var name = arguments[0],
             args = Array.prototype.slice.call(arguments, 1);
         return this.each(function(){
-            var inits = $(this).data('mage-init') || {};
+            var inits = _getInitData(this);
             if (name) {
                 inits[name] = args;
             }
@@ -73,6 +73,10 @@
         };
         // Through event-listener 3-rd party developer can modify options and list of resources
         $($.mage).trigger($.Event(name + 'init', {target: this}), init);
+        // Component name was deleted, so there's nothing else to do
+        if (!init.name) {
+            return;
+        }
         // Build an initialization handler
         var handler = $.proxy(function() {
             this[init.name].apply(this, init.args);
@@ -84,15 +88,50 @@
         }
     }
 
+    /**
+     * Define init-data from an element,
+     *     if JSON is not well-formed then evaluate init-data by manually
+     * @param {Element} elem
+     * @return {Object}
+     * @private
+     */
+    function _getInitData(elem) {
+        /*jshint eval: true */
+        var inits = $(elem).data('mage-init') || {};
+        // in case it's not well-formed JSON inside data attribute, evaluate it manually
+        if (typeof inits === 'string') {
+            try {
+                inits = eval('(' + inits + ')');
+            } catch (e) {
+                inits = {};
+            }
+        }
+        return inits;
+    }
+
+    /**
+     * Find all elements with data attribute and initialize them
+     * @param {Element} elem - context 
+     * @private
+     */
+    function _init(elem) {
+        $('[data-mage-init]', elem).mage();
+    }
+
     $.extend($.mage, {
         /**
-         * Handler of components declared through data attribute
-         * @param {(null|Element)} context
-         * @return {(null|Element)}
+         * Handle all components declared via data attribute
+         * @return {Object} $.mage
          */
-        init: function(context) {
-            $('[data-mage-init]', context || document).mage();
-            return context;
+        init: function() {
+            _init(document);
+            /**
+             * Init components inside of dynamically updated elements
+             */
+            $('body').on('contentUpdated', function(e){
+                _init(e.target);
+            });
+            return this;
         },
 
         /**
@@ -133,7 +172,7 @@
          * Helper allows easily bind handler with component's initialisation
          * @param {string} component - name of a component
          *      which initialization shold be customized
-         * @param {(string|Function)} selector - filter of component's elements
+         * @param {(string|Function)} selector [optional]- filter of component's elements
          *      or a handler function if selector is not defined
          * @param {Function} handler - handler function
          * @return {Object} $.mage

@@ -63,6 +63,7 @@ jQuery(function ($) {
     var bootstrap = function() {
         /**
          * Init all components defined via data-mage-init attribute
+         * and subscribe init action on contentUpdated event
          */
         $.mage.init();
 
