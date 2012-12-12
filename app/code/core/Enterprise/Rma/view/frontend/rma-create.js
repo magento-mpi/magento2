@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-(function ($) {
+(function($) {
     "use strict";
     $.widget('mage.rmaCreate', {
 
@@ -45,8 +45,8 @@
         /**
          * Initialize rma create form
          * @private
-        */
-        _create: function () {
+         */
+        _create: function() {
             //On document ready related tasks
             $($.proxy(this._ready, this));
         },
@@ -56,7 +56,7 @@
          * For first time this will add a default row without remove icon/button
          * @private
          */
-        _ready: function () {
+        _ready: function() {
             this._processFormDataArr(this.options.formDataPost);
             //If no form data , then add default row for Return Item
             if (this.options.liIndex === 0) {
@@ -69,7 +69,7 @@
          * @private
          * @param {Object} formDataArr
          */
-        _processFormDataArr: function (formDataArr) {
+        _processFormDataArr: function(formDataArr) {
             if (formDataArr) {
                 var formDataArrlen = formDataArr.length;
                 for (var i = 0; i < formDataArrlen; i++) {
@@ -109,7 +109,8 @@
          * Add new return item information row using the template
          * @private
          */
-        _addRegistrant: function () {
+        _addRegistrant: function() {
+            this._setUpTemplate(this.options.liIndex, this.options.templateRegistrant, this.options.registrantOptions);
             this._showBundle(this.options.liIndex, this.options.firstItemId);
             this._showQuantity(this.options.productType, this.options.liIndex, this.options.availableQuantity);
             //Increment after rows are added
@@ -122,7 +123,7 @@
          * @param {string} liIndex - return item information row index
          * @return {boolean}
          */
-        _removeRegistrant: function (liIndex) {
+        _removeRegistrant: function(liIndex) {
             $(this.options.row + liIndex).remove();
             return false;
         },
@@ -134,8 +135,8 @@
          * @param {string} itemId - bundle item id
          * @return {boolean}
          */
-        _showBundle: function (index, itemId) {
-            $('div[id^="radio\\:item' + index + '_"]').each(function () {
+        _showBundle: function(index, itemId) {
+            $('div[id^="radio\\:item' + index + '_"]').each(function() {
                 var $this = $(this);
                 if ($this.attr('id')) {
                     $this.parent().hide();
@@ -144,17 +145,17 @@
 
             $('input[id^="items[' + index + ']"]').prop('disabled', true);
 
-            var rItem = this._esc(this.options.radioItem) + index + '_' + itemId,
-                rOrderItemId = this._esc(this.options.orderItemId) + index + '_' + itemId;
+            var rItem = $(this._esc(this.options.radioItem) + index + '_' + itemId),
+                rOrderItemId = $(this._esc(this.options.orderItemId) + index + '_' + itemId);
 
-            if ($(rItem).length) {
-                $(rItem).parent().show();
+            if (rItem.length) {
+                rItem.parent().show();
                 this._enableBundle(index, itemId);
             }
 
-            if ($(rOrderItemId).length) {
-                var typeQty = $(rOrderItemId).attr('rel');
-                var position = typeQty.lastIndexOf('_');
+            if (rOrderItemId.length) {
+                var typeQty = rOrderItemId.attr('rel'),
+                    position = typeQty.lastIndexOf('_');
                 this._showQuantity(typeQty.substring(0, position), index, typeQty.substr(position + 1));
             }
         },
@@ -166,7 +167,7 @@
          * @param {string} index - return item information row index
          * @param {string} qty - quantity of item specified
          */
-        _showQuantity: function (type, index, qty) {
+        _showQuantity: function(type, index, qty) {
             var qtyReqBlock = $(this.options.qtyReqBlock + '_' + index),
                 remQtyBlock = $(this.options.remQtyBlock + '_' + index),
                 remQty = $(this.options.remQty + '_' + index);
@@ -197,9 +198,9 @@
          * @param {string} index - return item information row index
          * @param {string} bid - bundle type id
          */
-        _enableBundle: function (index, bid) {
+        _enableBundle: function(index, bid) {
             $('input[id^="items[' + index + '][' + bid + '][checkbox][item]["]').prop('disabled', false);
-            $('input[id^="items[' + index + '][' + bid + '][checkbox][qty]["]').prop('disabled', function () {
+            $('input[id^="items[' + index + '][' + bid + '][checkbox][qty]["]').prop('disabled', function() {
                 return !this.value;
             });
         },
@@ -210,7 +211,7 @@
          * @param {string} domId
          * @param {string} value
          */
-        _setFieldById: function (domId, value) {
+        _setFieldById: function(domId, value) {
             var x = $('#' + this._esc(domId));
             if (x.length) {
                 if (x.is(':checkbox')) {
@@ -230,7 +231,7 @@
          * @param bundleID {string}
          * @param index {string} - return item information row index
          */
-        _setBundleFieldById: function (id, bundleID, index) {
+        _setBundleFieldById: function(id, bundleID, index) {
             this._showBundle(index, bundleID);
             this._showBundleInput(id, bundleID, index);
             this._showQuantity('bundle', index, 0);
@@ -242,7 +243,7 @@
          * @param value
          * @param index - return item information row index
          */
-        _showOtherOption: function (value, index) {
+        _showOtherOption: function(value, index) {
             var resOtherRow = this.options.reasonOtherRow,
                 resOtherInput = this._esc(this.options.reasonOtherInput);
             if (value === 'other') {
@@ -261,7 +262,7 @@
          * @param {string} index - return item information row index
          * @private
          */
-        _showBundleInput: function (id, bid, index) {
+        _showBundleInput: function(id, bid, index) {
             var qty = this._esc('#items[' + index + '][' + bid + '][checkbox][qty][' + id + ']');
             if ($(this._esc('#items[' + index + '][' + bid + '][checkbox][item][' + id + ']')).is(':checked')) {
                 $(qty).show().attr('disabled', false);
@@ -279,7 +280,7 @@
          * @param {string} containerId - container where the template will be injected
          * @return {*}
          */
-        _setUpTemplate: function (index, templateId, containerId) {
+        _setUpTemplate: function(index, templateId, containerId) {
             var li = $('<li></li>');
             li.addClass('fields').attr('id', 'row' + index);
             $(templateId).tmpl([{_index_: index}]).appendTo(li);
@@ -292,7 +293,7 @@
                 $('#' + this.options.btnRemove + '0').hide();
             }
             //Binding template-wide events handlers
-            this.element.on('click', 'a,input:checkbox', $.proxy(this._handleClick, this))
+            this.element.on('click', 'a, input:checkbox', $.proxy(this._handleClick, this))
                 .on('change', 'select', $.proxy(this._handleChange, this));
 
             return li;
@@ -304,7 +305,7 @@
          * @param {Object} e - Native event object
          * @return {(null|boolean)}
          */
-        _handleClick: function (e) {
+        _handleClick: function(e) {
             var currElem = $(e.currentTarget);
 
             if (currElem.attr('id') === this.options.addItemToReturn) {
@@ -332,7 +333,7 @@
          * @private
          * @param {Object} e - Native event object
          */
-        _handleChange: function (e) {
+        _handleChange: function(e) {
             var currElem = $(e.currentTarget),
                 currId = currElem.attr('id'),
                 args = currElem.data("args");
@@ -352,11 +353,10 @@
          * @param str - string to be processed
          * @return {string}
          */
-        _esc: function (str) {
+        _esc: function(str) {
             if (str) {
                 return str.replace(/([ ;&,.+*~\':"!\^$\[\]()=>|\/@])/g, '\\$1');
-            }
-            else {
+            } else {
                 return str;
             }
         }
