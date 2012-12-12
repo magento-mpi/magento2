@@ -27,3 +27,22 @@ grid:
             page:
         fieldset:
             permissionsUserGrid:
+    role_users:
+        button:
+            reset_filter:
+            search:
+        dropdown:
+            status:
+            filter_in_role_users:
+            view:
+        field:
+            user_id:
+            user_name:
+            first_name:
+            last_name:
+            email:
+            page:
+        checkbox:
+            select_all:
+        pageelement:
+          role_user_grid:

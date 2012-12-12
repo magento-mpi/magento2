@@ -36,7 +36,7 @@ class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Need to verify that all elements is presented on invitation report_invitations_customers page
+     * Need to verify that all elements is presented on invitation on page
      * @test
      * @dataProvider uiElementsTestDataProvider
      *
@@ -61,5 +61,25 @@ class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
         return array(array('manage_admin_users')
 
         );
+    }
+
+    /**
+     * Need to verify that all ui elements are presented in grid
+     * @test
+     */
+    public function uiElementForRoleUsers()
+    {
+        $this->navigate('manage_roles');
+        $role = array('Administrator');
+        $this->adminUserHelper()->openRole($role);
+        $this->openTab('role_users');
+        $page = $this->loadDataSet('Grid', 'grid');
+        foreach ($page['role_users'] as $control => $type) {
+            foreach ($type as $typeName => $name) {
+                if (!$this->controlIsPresent($control, $typeName)) {
+                    $this->addVerificationMessage("The $control $typeName is not present on page role_users");
+                }
+            }
+        }
     }
 }

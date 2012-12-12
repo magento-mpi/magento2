@@ -196,7 +196,7 @@ new_role:
         messages: *adminUserMessages
 
 # 'Edit Role' page
-edit_role:
+admin_edit_role:
     mca: user_role/editrole/rid/%id%/
     title: %elementTitle% / Roles / Permissions / System / Magento Admin
     uimap:
@@ -233,20 +233,25 @@ edit_role:
                             -
                                 role_users:
                                     xpath: //div[@id='role_info_tabs_roles_content']
+                                    pageelements:
+                                        role_user_grid: //table[@id='roleUserGrid_table']
                                     buttons:
                                         reset_filter: //button[span='Reset Filter']
                                         search: //button[span='Search']
                                     checkboxes:
                                         select_by_user_name: //td[normalize-space(text())='%userName%']/ancestor::tr//input[@class='checkbox']
+                                        select_all: //input[@title='Select All']
                                     dropdowns:
                                         filter_in_role_users: //select[@name='in_role_users']
                                         status: //select[@name='role_user_is_active']
+                                        view: //select[@name='limit']
                                     fields:
                                         user_id: //input[@name='role_user_id']
                                         user_name: //input[@name='role_user_username']
                                         first_name: //input[@name='role_user_firstname']
                                         last_name: //input[@name='role_user_lastname']
                                         email: //input[@name='role_user_email']
+                                        page: //input[@name='page']
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
