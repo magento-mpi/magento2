@@ -17,7 +17,7 @@ class Mage_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_TestCas
     /**
      * @var string
      */
-    protected static $_testResourceName;
+    protected static $_testResourceName = 'testtest_0000_setup';
 
     public static function setUpBeforeClass()
     {
