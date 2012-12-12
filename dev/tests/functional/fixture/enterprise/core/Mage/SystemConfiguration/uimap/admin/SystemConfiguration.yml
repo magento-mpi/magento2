@@ -227,13 +227,13 @@ system_configuration:
                                         default_price_for_printed_card_use_default: //input[@name='groups[gift_options][fields][printed_card_price][inherit]']
                             -
                                 order_by_sku:
-                                    xpath: //fieldset[@id='sales_product_sku']
+                                    xpath: //*[@id='sales_product_sku']
                                     links:
-                                        order_by_sku_link: //parent::div//a[@id='sales_product_sku-head']
+                                        sku_link: //*[@id='sales_product_sku-head']
                                     dropdowns:
-                                        sku_my_account_enable: //select[@name='groups[product_sku][fields][my_account_enable][value]']
+                                        sku_my_account_enable: //*[@id='sales_product_sku_my_account_enable']
                                     multiselects:
-                                        sku_allowed_groups: //select[@name='groups[product_sku][fields][allowed_groups][value][]']
+                                        sku_allowed_groups: //*[@id='sales_product_sku_allowed_groups']
                             -
                                 orders_invoices_shipments_archiving:
                                     xpath: //fieldset[@id='sales_enterprise_salesarchive']

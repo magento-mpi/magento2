@@ -8,7 +8,7 @@
 # @license     {license_link}
 #
 ---
-#
+# Frontend Product page
 product_page:
     uimap:
         form:

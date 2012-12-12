@@ -1,3 +1,14 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_AddBySku
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
 add_by_sku_valid:
     sku: avr_simple
     sku_qty: 1
@@ -65,10 +76,3 @@ data_to_check_test_remove_invalid:
     product_3:
         sku: %product_3%
         qty: 3
-
-
-
-
-
-
-

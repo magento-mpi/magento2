@@ -59,14 +59,32 @@ create_order_for_new_customer:
                             printed_card_price: //div[@id='card-price-box']//span[@id='card-price']
                             order_gift_wrapping_block: //div[@id='orderCreateGiftWrapping' and contains(., 'Gift Wrapping for the Entire Order')]
                 -
-                    sku_options: &addSkuForOrder
+                    sku_options:
+                        buttons:
+                            add_products_by_sku: //button[span='Add Products By SKU']
+                            submit_sku_form: //button[span='Add to Order']
+                -
+                    add_to_order_sku:
+                        xpath: //*[@id='order-additional_area' and (@style = '')]
+                        buttons:
+                            add_row: //*[@id='sku_container']//button[@class='scalable add']
+                            remove_row: //*[@id='sku_container']//button[@class='scalable delete']
+                            reset_file: //button[@class='button btn-reset']
+                        fields:
+                            sku: //*[@id='sku_%itemId%']
+                            sku_qty: //*[@id='sku_qty_%itemId%']
+                            sku_upload: //*[@id='sku_upload']
+                        pageelements:
+                            note_csv: //*[@class='note']
+                -
+                    sku_options:
                         buttons:
                             add_products_by_sku: //button[span='Add Products By SKU']
                             submit_sku_form: //button[span='Add to Order']
                 -
                     order_items_ordered: &orderItemsOrdered
                         pageelements:
-                            sku_product_added: //*[@id='order-items_grid' and contains(.,'%skuProduct%')]
+                            sku_product_added: //*[@id='order-items_grid' and contains(.,'%productData%')]
                 -
                     order_items_ordered_sku: &addItemsBySku
                         buttons:
@@ -74,8 +92,8 @@ create_order_for_new_customer:
                             add_by_sku_del: //*[@id='sku_container']//button[@class='scalable delete']
                             reset_upload: //button[@class='button btn-reset']
                         fields:
-                            sku: //*[@id='sku_%row%']
-                            qty_sku: //*[@id='sku_qty_%row%']
+                            sku: //*[@id='sku_%itemId%']
+                            qty_sku: //*[@id='sku_qty_%itemId%']
                             sku_upload: //*[@id='sku_upload']
                         pageelements:
                             note_csv: //*[@class='note']
@@ -106,24 +124,49 @@ create_order_for_new_customer_sku:
             fieldsets: &newOrderForNewCustomerFieldsets
                 -
                     order_items_ordered: &orderItemsOrdered
+                        xpath: //*[@id='order-items_grid']
                         pageelements:
-                            sku_product_added: //*[@id='order-items_grid' and contains(.,'%skuProduct%')]
+                            product_table_head: /table/thead
+                            product_table_tfoot: /table/tfoot
+                            product_line: /table/tbody
+                        buttons:
+                            configure_order_item: //tr[td/@class='first'][contains(.,'%sku%')]//button[span='Configure']
+                -
+                    sku_order_fieldset: *newOrderForNewCustomerFieldsets
+                -
+                    order_error_table: &orderItemsAttention
+                        xpath: //*[@id='order-errors']
+                        buttons:
+                            remove_all: //button[@title='Remove All']
+                            add_to_order_from_error: //button[span='Add Products to Order']
+                -
+                    sku_error_table:
+                        xpath: //*[@id='order-errors']//*[@id='sku_errors']
+                        fields:
+                            qty: //tr[%rowIndex%]//*[@name='qty']
+                        buttons:
+                            configure_item: //*[@id='sku_%sku%']//*[@class='sku-configure-button']/button
+                            remove_item: //tr[%rowIndex%]//*[@class='scalable delete']
+                        pageelements:
+                            price_in_error_table: //tr[%rowIndex]//*[@class='price']
+                            error_table_grid: //table[@id='sku_errors_table']/tbody/tr
+                            error_table_head: //*[@id='sku_errors_table']/thead
+                            error_table_line: //*[@id='sku_errors_table']/tbody/tr
                 -
                     order_items_attention: &orderItemsAttention
                         pageelements:
                             sku_required_grid: //*[@id='sku_errors']
-                            sku_product_required: //*[@id='sku_errors_table' and contains(.,'%skuProduct%')]
-                            qty_invalid_qty: //*[@id='sku_%skuProduct%']/*[@class='notice']//div[contains(.,'Please enter a valid number in the "Qty" field.')]
+                            sku_product_required: //*[@id='sku_errors_table' and contains(.,'%productData%')]
+                            qty_invalid_qty: //*[@id='sku_%productData%']/*[@class='notice']//div[contains(.,'Please enter a valid number in the "Qty" field.')]
                             required_product_message: //*[@id='order-errors']//*[@class='icon-head'][contains(.,'%lastRow% product(s) require attention')]
                             add_by_sku_fieldset: //*[@id='order-additional_area' and (@style = '')]
                         buttons:
                             remove_all_invalid: //*[@id='order-errors']//*[contains(.,'Remove All')]/button
-                            remove_one_invalid: //*[@id='sku_errors_table']//tr[%row%]//button[@class='scalable delete']
+                            remove_one_invalid: //*[@id='sku_errors_table']//tr[%itemId%]//button[@class='scalable delete']
                             submit_sku_configured_form: //button[span='Add Products to Order']
                         fields:
                             required_qty_enabled: //*[@id='sku_errors_table']//*[@name='qty' and not(@disabled)]
                             required_qty: //*[@id='sku_errors_table']//*[@name='qty']
-
                 -
                     order_items_ordered_sku: &addItemsBySku
                          buttons:
@@ -133,6 +176,40 @@ create_order_for_new_customer_sku:
                              add_products_by_sku: //button[span='Add Products By SKU']
                              submit_sku_form: //button[span='Add to Order']
                          fields:
-                             sku: //*[@id='sku_%row%']
-                             qty_sku: //*[@id='sku_qty_%row%']
-                             sku_upload: //*[@id='sku_upload'
+                             sku: //*[@id='sku_%itemId%']
+                             qty_sku: //*[@id='sku_qty_%itemId%']
+                             sku_upload: //*[@id='sku_upload']
+                -
+                    product_composite_configure_form: &productCompositeConfigureForm
+                        xpath: //*[@id='product_composite_configure']
+                        checkboxes:
+                            option_checkbox: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//li[contains(span/label,'%optionParameter%')]//input[@type='checkbox']
+                        fields:
+                            option_field_1: //dt[contains(label,'%optionTitle%')][contains(.,'%optionParameter%')]//input[@type='text']
+                            option_field_2: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//input[@type='text']
+                            option_field_3: //dt[contains(label,'%optionTitle%')]//input[@type='text']
+                            option_field_4: //tr[td='%optionParameter%']//input[@type='text']
+                            option_field_5: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//textarea
+                            option_field_6: //tr[td='Qty']//input[@type='text']
+                        dropdowns:
+                            option_dropdown_1: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//select[contains(@name,'%optionParameter%')]
+                            option_dropdown_2: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//select
+                        multiselects:
+                            option_multiselect: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//select[contains(@class,'multiselect')]
+                        radiobuttons:
+                            option_radio: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//li[contains(span/label,'%optionParameter%')]//input[@type='radio']
+                        buttons:
+                            ok: //button[contains(span, 'OK')]
+                            cancel: //button[span[contains(text(),'Cancel')]]
+        messages:
+            qty_sku_invalid_number: //*[@class='notice']//div[contains(.,'Please enter a valid number in the "Qty" field.')]
+            sku_assigned_another_website: //*[@class='notice']//div[contains(.,'The product is assigned to another website.')]
+            sku_not_found: //*[@class='notice']//div[contains(.,'SKU not found in catalog.')]
+            specify_option: //*[@class='notice']//div[contains(.,"Please specify the product's options.")]
+            required_attention_product: //*[@class='icon-head'][contains(.,'%number% product(s) require attention')]
+            disabled_product: //*[@class='error']//div[contains(.,'This product is currently disabled.')]
+            out_of_stock: //*[@class='error']//div[contains(.,'This product is currently out of stock.')]
+            qty_increment: //*[@class='error' and contains(.,'This product is available for purchase in increments of %qty% only.')]
+            qty_not_available: //*[@class='notice' and contains(.,'The requested quantity for "%productName%" is not available.')]
+            max_qty: //*[@class='error' and contains(.,'The maximum quantity allowed for purchase is %qty%.')]
+            min_qty: //*[@class='error' and contains(.,'The minimum quantity allowed for purchase is %qty%.')]

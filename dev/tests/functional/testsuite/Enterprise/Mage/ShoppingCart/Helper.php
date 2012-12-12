@@ -11,21 +11,31 @@
 
 /**
  * Helper class
- *
- * @package     selenium
- * @subpackage  tests
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class Enterprise_Mage_ShoppingCart_Helper extends Core_Mage_ShoppingCart_Helper
 {
     /**
-     * Moves products to the wishlist from Shopping Cart
+     * Verifies if the product(s) are in the Shopping Cart
      *
-     * @param string $productName
+     * @param string|array $productNameSet Product name (string) or array of product names to check
+     * @param string $controlType, default value = 'link'
+     *
+     * @return bool|array True if the products are all present.
+     *                    Otherwise returns an array of product names that are absent.
      */
-    public function frontMoveToWishlist($productName)
+    public function frontShoppingCartHasProducts($productNameSet, $controlType = 'link')
     {
-        $this->addParameter('productName', $productName);
-        $this->clickControl('link', 'move_to_wishlist');
+        if (is_string($productNameSet)) {
+            $productNameSet = array($productNameSet);
+        }
+        $absentProducts = array();
+        foreach ($productNameSet as $productName) {
+            $this->addParameter('productName', $productName);
+            if (!$this->controlIsPresent($controlType, 'product_name')) {
+                $absentProducts[] = $productName;
+            }
+        }
+
+        return $absentProducts ?: true;
     }
 }
