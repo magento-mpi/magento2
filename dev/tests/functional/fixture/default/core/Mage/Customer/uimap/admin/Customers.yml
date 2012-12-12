@@ -12,7 +12,7 @@
 # 'Manage Customers' page
 manage_customers:
     mca: customer/
-    click_xpath: //div[@class='nav-bar']//a[span='Manage Customers']
+    click_xpath: //div[@class='nav-bar']//a[normalize-space(span)='Manage Customers']
     title: Manage Customers / Customers / Magento Admin
     uimap:
         form: &searchCustomerGrid
@@ -40,14 +40,13 @@ manage_customers:
                             state: //input[@name='billing_region']
                         links:
                             open_customer_by_value:
-                            select_all: //*[@data-ui-id='customer-grid-massaction-select-all-link']
                         pageelements:
                             customer_grid_head: //table[@id='customerGrid_table']/thead/tr[@class='headings']
         buttons:
             add_new_customer: //button[span='Add New Customer' or span='Add New']
         messages: &customerMessages
             success_deleted_customer_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedCustomers% record(s) were deleted.')]
-            success_suscribe_unsuscribe_customer_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtySubscribeCustomers% record(s) were updated.')]
+            success_subscribe_unsubscribe_customer_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtySubscribeCustomers% record(s) were updated.')]
             wrong_data_of_birth: //li[normalize-space(@class)='error-msg' and contains(.,'"Date Of Birth" does not fit the entered date format.')]
             empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             customer_email_exist: //li[normalize-space(@class)='error-msg' and contains(.,'Customer with the same email already exists.')]
@@ -70,18 +69,19 @@ create_customer:
             tabs:
                 -
                     account_information:
-                        xpath: //a[@id='customer_info_tabs_account']/span
+                        xpath: //a[@id='customer_info_tabs_account']
                         fieldsets:
                             -
                                 account_info:
                                     xpath: //div[@id='_accountbase_fieldset']
                                     checkboxes:
-                                        send_welcome_email: //input[@id='_accountsendemail' and not(@disabled)]
+                                        send_welcome_email: //input[@id='_accountsendemail']
+                                        disable_automatic_group_change: //input[@id='disable_auto_group_change']
                                     dropdowns:
                                         associate_to_website: //select[@id='_accountwebsite_id']
                                         group: //select[@id='_accountgroup_id']
                                         gender: //select[@id='_accountgender']
-                                        send_from: //select[@id='_accountsendemail_store_id' and not(@disabled)]
+                                        send_from: //select[@id='_accountsendemail_store_id']
                                     fields:
                                         prefix: //input[@id='_accountprefix']
                                         first_name: //input[@id='_accountfirstname']
@@ -91,6 +91,7 @@ create_customer:
                                         email: //input[@id='_accountemail']
                                         date_of_birth: //input[@id='_accountdob']
                                         tax_vat_number: //input[@id='_accounttaxvat']
+                                        custom_attribute: //input[@id='_account%attribute_name%']
                                     required: [associate_to_website, group, first_name, last_name, email]
                             -
                                 password:
@@ -114,6 +115,9 @@ create_customer:
                                     radiobuttons:
                                         default_billing_address: //input[@id='address_item_billing_item%address_number%']
                                         default_shipping_address: //input[@id='address_item_shipping_item%address_number%']
+                                    pageelements:
+                                        list_customer_address: //li
+                                        list_customer_address_index: //li[%index%]
                             -
                                 edit_address:
                                     xpath: //div[@id='_item%address_number%address_fieldset']
@@ -129,34 +133,48 @@ create_customer:
                                         company: //input[@id='_item%address_number%company']
                                         street_address_line_1: //input[@id='_item%address_number%street0']
                                         street_address_line_2: //input[@id='_item%address_number%street1']
-                                        state: //input[@id='_item%address_number%region'][@type='text']
                                         city: //input[@id='_item%address_number%city']
                                         region: //input[@id='_item%address_number%region' and not(@type='hidden')]
                                         zip_code: //input[@id='_item%address_number%postcode']
                                         telephone: //input[@id='_item%address_number%telephone']
                                         fax: //input[@id='_item%address_number%fax']
+                                        billing_vat_number: //input[@id='_item%address_number%vat_id']
                                     required: [first_name, last_name, street_address_line_1, city, country, state, zip_code, telephone]
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_customer: //button[span='Save Customer']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save_customer: //button[@data-ui-id='customer-edit-save-button']
+            save_and_continue_edit: //button[@data-ui-id='customer-edit-save-and-continue-button']
         messages: *customerMessages
 
 # 'Edit Customer' Page
 edit_customer:
     mca: customer/edit/id/%id%/
-    title: %customer_first_last_name% / Manage Customers / Customers / Magento Admin
-    uimap:
+    title: %elementTitle% / Manage Customers / Customers / Magento Admin
+    uimap: &edit_customer-uimap
         form: &editCustomerForm
             tabs:
                 -
                     customer_view:
-                        xpath: //a[@id='customer_info_tabs_customer_edit_tab_view']/span
-                        # need to edit
+                        xpath: //a[@id='customer_info_tabs_customer_edit_tab_view']
+                        fieldsets:
+                            -
+                                sales_statistics:
+                                    xpath: //div[div/h4='Sales Statistics']
+                                    pageelements:
+                                        sales_statistics_head: //table/thead
+                            -
+                                content_customer_view:
+                                    xpath: //*[@id='tab_content_customerViewAccordion']
+                                    links:
+                                        view_recent_orders: //*[@id='dt-lastOrders']/a
+                                        view_shopping_cart: //*[@id='dt-shopingCart%websiteId%']/a
+                                        view_wishlist: //*[@id='dt-wishlist']/a
+                                    pageelements:
+                                        products_in_shoping_cart_grid: //*[@id='dd-shopingCart%websiteId%']//tbody[//*[contains(text(),'%productName%')]]
                 -
                     account_information:
-                        xpath: //a[@id='customer_info_tabs_account']/span
+                        xpath: //a[@id='customer_info_tabs_account']
                         fieldsets:
                             -
                                 account_info:
@@ -186,7 +204,7 @@ edit_customer:
                                     required: [new_password]
                 -
                     addresses:
-                        xpath: //a[@id='customer_info_tabs_addresses']/span
+                        xpath: //a[@id='customer_info_tabs_addresses']
                         fieldsets:
                             -
                                 list_customer_addresses:
@@ -198,6 +216,9 @@ edit_customer:
                                     radiobuttons:
                                         default_billing_address: //input[@id='address_item_billing%address_number%' or @id='address_item_billing_item%address_number%']
                                         default_shipping_address: //input[@id='address_item_shipping%address_number%' or @id='address_item_shipping_item%address_number%']
+                                    pageelements:
+                                        list_customer_address: //li
+                                        list_customer_address_index: //li[%index%]
                             -
                                 edit_address:
                                     xpath:  //div[@id='_item%address_number%address_fieldset']
@@ -218,38 +239,80 @@ edit_customer:
                                         zip_code: //input[@id='_item%address_number%postcode']
                                         telephone: //input[@id='_item%address_number%telephone']
                                         fax: //input[@id='_item%address_number%fax']
+                                        billing_vat_number: //input[@id='_item%address_number%vat_id']
                                     required: [first_name, last_name, street_address_line_1, city, country, zip_code, telephone]
                 -
                     orders:
-                        xpath: //a[@id='customer_info_tabs_orders']/span
-                        # need to edit
+                        xpath: //a[@id='customer_info_tabs_orders']
+                        fieldsets:
+                            -
+                                product_review_grid:
+                                    xpath: //div[@id='customer_orders_grid']
+                                    buttons:
+                                        reset_filter: //button[span='Reset Filter']
+                                        search: //button[span='Search']
+                                    dropdowns:
+                                        filter_bought_from: //select[@name='store_id']
                 -
                     billing_agremnts:
-                        xpath: //a[@id='customer_info_tabs_customer_edit_tab_agreements']/span
+                        xpath: //a[@id='customer_info_tabs_customer_edit_tab_agreements']
                         # need to edit
                 -
                     recuring_profiles:
-                        xpath: //a[@id='customer_info_tabs_customer_edit_tab_recurring_profile']/span
-                        # need to edit
+                        xpath: //a[@id='customer_info_tabs_customer_edit_tab_recurring_profile']
+                        fieldsets:
+                            -
+                                product_review_grid:
+                                    xpath: //div[@id='customer_edit_tab_recurring_profile']
+                                    buttons:
+                                        reset_filter: //button[span='Reset Filter']
+                                        search: //button[span='Search']
+                                    dropdowns:
+                                        filter_store: //select[@name='store_id']
                 -
                     shopping_cart:
-                        xpath: //a[@id='customer_info_tabs_cart']/span
+                        xpath: //a[@id='customer_info_tabs_cart']
                         # need to edit
                 -
                     wishlist:
-                        xpath: //a[@id='customer_info_tabs_wishlist']/span
-                        # need to edit
+                        xpath: //a[@id='customer_info_tabs_wishlist']
+                        fieldsets:
+                            -
+                                wishlist_grid:
+                                    xpath: //div[@id='wishlistGrid']
+                                    buttons:
+                                        reset_filter: //button[span='Reset Filter']
+                                        search: //button[span='Search']
+                                    fields:
+                                        filter_product_name: //input[@id='wishlistGrid_filter_product_name']
+                                        filter_description: //input[@id='wishlistGrid_filter_description']
+                                        filter_qty_from: //input[@id='wishlistGrid_filter_qty_from']
+                                        filter_qty_to: //input[@id='wishlistGrid_filter_qty_to']
+                                        filter_date_from: //input[@name='added_at[from]']
+                                        filter_date_to: //input[@name='added_at[to]']
+                                        filter_days_from: //input[@id='wishlistGrid_filter_days_from']
+                                        filter_days_to: //input[@id='wishlistGrid_filter_days_to']
+                                    dropdowns:
+                                        filter_added_from: //select[@name='store']
                 -
                     newsletters:
-                        xpath: //a[@id='customer_info_tabs_newsletter']/span
+                        xpath: //a[@id='customer_info_tabs_newsletter']
                         # need to edit
                 -
                     product_review:
-                        xpath: //a[@id='customer_info_tabs_reviews']/span
-                        # need to edit
+                        xpath: //a[@id='customer_info_tabs_reviews']
+                        fieldsets:
+                            -
+                                product_review_grid:
+                                    xpath: //div[@id='reviwGrid']
+                                    buttons:
+                                        reset_filter: //button[span='Reset Filter']
+                                        search: //button[span='Search']
+                                    dropdowns:
+                                        filter_visible_in: //select[@name='visible_in']
                 -
                     product_tags:
-                        xpath: //a[@id='customer_info_tabs_tags']/span
+                        xpath: //a[@id='customer_info_tabs_tags']
                         fieldsets:
                             -
                                 product_tags:
@@ -264,6 +327,43 @@ edit_customer:
             reset: //button[span='Reset']
             create_order: //button[span='Create Order']
             delete_customer: //button[span='Delete Customer']
-            save_customer: //button[span='Save Customer']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save_customer: //button[@data-ui-id='customer-edit-save-button']
+            save_and_continue_edit: //button[@data-ui-id='customer-edit-save-and-continue-button']
+        pageelements:
+            customer_header: //div[@data-ui-id='customer-edit-content-header']/h3
         messages: *customerMessages
+
+edit_customer_save_and_continue:
+    mca: customer/edit/id/%id%/back/edit/tab/%tab%/
+    title: %elementTitle% / Manage Customers / Customers / Magento Admin
+    uimap: *edit_customer-uimap
+
+# 'Online Customers' Page
+online_customers:
+    mca: customer_online/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'customer_online/')]
+    title: Online Customers / Customers / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    online_customer_grid:
+                        xpath: //div[@id='onlineGrid']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                        dropdowns:
+                            type: //select[@id='onlineGrid_filter_type']
+                        fields:
+                            id_from: //input[@name='entity_id_from']
+                            id_to: //input[@name='entity_id_to']
+                            firstname: //input[@name='firstname']
+                            lastname: //input[@name='lastname']
+                            email: //input[@name='email']
+                            session_start_time_from: //input[@name='session_start_time_from']
+                            session_start_time_to: //input[@name='session_start_time_to']
+                            last_activity_from: //input[@name='last_activity_from']
+                            last_activity_to: //input[@name='last_activity_to']
+                            last_url: //input[@name='last_url']
+                        pageelements:
+                            online_grid_head:  //table[@id='onlineGrid_table']/thead/tr[@class='headings']

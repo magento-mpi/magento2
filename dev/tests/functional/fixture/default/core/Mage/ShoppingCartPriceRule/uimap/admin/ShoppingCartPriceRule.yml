@@ -36,6 +36,7 @@ manage_shopping_cart_price_rules:
                         dropdowns:
                             filter_status: //select[@name='is_active']
                             view_per_page: //select[@name='limit']
+                            filter_website: //select[@name='rule_website']
                         pageelements:
                             grid_head: //table[@id='promo_quote_grid_table']//tr[@class='headings']
         buttons:
@@ -48,6 +49,15 @@ manage_shopping_cart_price_rules:
             enter_valid_number: "//div[@id='advice-validate-not-negative-number-%fieldId%' and not(contains(@style,'display: none;'))]"
             generic_validation_error: "//div[contains(@id, 'advice-') and contains(@id, '-%fieldId%') and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure you want to do this?
+            success_generated_coupons: //li[normalize-space(@class)='success-msg' and contains(.,'%qtyGeneratedCoupons% Coupon(s) have been generated')]
+            confirmation_for_delete_coupons: Are you sure you want to delete the selected coupon(s)?
+            select_coupons_for_delete: Please select items.
+            validation_for_field_coupon_qty: //div[@id='advice-required-entry-coupons_qty']
+            validation_for_field_coupon_qty_negative: //div[@id='advice-validate-digits-coupons_qty']
+            validation_for_field_coupon_qty_zero: //div[@id='advice-validate-greater-than-zero-coupons_qty']
+            validation_for_field_code_length: //div[@id='advice-required-entry-coupons_length']
+            validation_for_field_code_length_negative: //div[@id='advice-validate-digits-coupons_length']
+            validation_for_field_dash_every_x_characters_negative: //div[@id='advice-validate-digits-coupons_dash']
 
 create_shopping_cart_price_rule:
     mca: promo_quote/new/
@@ -56,8 +66,8 @@ create_shopping_cart_price_rule:
         form: &createNewRule
             tabs:
                 -
-                    rule_information:
-                        xpath: //a[@title='Rule Information']/span
+                    rule_information: &rule_information
+                        xpath: //a[@title='Rule Information']
                         fieldsets:
                             -
                                 general_information:
@@ -78,9 +88,11 @@ create_shopping_cart_price_rule:
                                     multiselects:
                                         customer_groups: //select[@name='customer_group_ids[]']
                                         websites: //select[@id='rule_website_ids']
+                                    checkboxes:
+                                        use_auto_generation: //input[@id='rule_use_auto_generation']
                 -
-                    rule_conditions:
-                        xpath: //a[@title='Conditions']/span
+                    rule_conditions: &rule_conditions
+                        xpath: //a[@title='Conditions']
                         fieldsets:
                             -
                                 apply_for_rule_condition:
@@ -91,6 +103,8 @@ create_shopping_cart_price_rule:
                                     dropdowns:
                                         select_conditions_aggregator: //select[@name='rule[conditions][1][aggregator]']
                                         select_conditions_value: //select[@name='rule[conditions][1][value]']
+                                    pageelements:
+                                        apply_for_rule_condition_row: /ul/li
                             -
                                 rule_condition_item:
                                     xpath: //ul[@id='conditions__%condition%__children']
@@ -100,11 +114,16 @@ create_shopping_cart_price_rule:
                                         condition_value: //ul[@id='conditions__%condition%__children']/li[%key%]/span[contains(.//@name,'value')]/a
                                         condition_aggregator: //ul[@id='conditions__%condition%__children']/li[%key%]/span[.//select[contains(@name,'aggregator')]]/a
                                         condition_attribute: //ul[@id='conditions__%condition%__children']/li[%key%]/span[.//select[contains(@name,'attribute')]]/a
-                                        open_chosser: //ul[@id='conditions__%condition%__children']/li[%key%]//img[contains(@src,'rule_chooser_trigger')]
+                                        open_chooser: //ul[@id='conditions__%condition%__children']/li[%key%]//img[contains(@src,'rule_chooser_trigger')]
                                         confirm_choice: //ul[@id='conditions__%condition%__children']/li[%key%]//img[contains(@src,'rule_component_apply')]
-                                        root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
-                                        sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
-                                        expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+                                        rule_condition_item_root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
+                                        rule_condition_item_sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                                        rule_condition_item_expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+                                    pageelements:
+                                        rule_condition_item_category_text: %categoryXpath%/div/a/span
+                                        rule_condition_item_category_index_text: %categoryXpath%[%index%]/div/a/span
+                                        rule_condition_item_category_index_link: %categoryXpath%[%index%]/div/a
+                                        rule_condition_item_row: /li
                                     dropdowns:
                                         select_condition_new_child: /li[%key%]//span[contains(.//@src,'rule_component_add')]//select
                                         select_condition_operator: /li[%key%]/span[contains(.//@name,'operator')]//select
@@ -118,8 +137,8 @@ create_shopping_cart_price_rule:
                                     checkboxes:
                                         category: //div[contains(a/span,'%categoryName%')]//input
                 -
-                    rule_actions:
-                        xpath: //a[@title='Actions']/span
+                    rule_actions: &rule_actions
+                        xpath: //a[@title='Actions']
                         fieldsets:
                             -
                                 update_prices_using_the_following_information:
@@ -142,6 +161,8 @@ create_shopping_cart_price_rule:
                                     dropdowns:
                                         select_actions_aggregator: //select[@name='rule[actions][1][aggregator]']
                                         select_actions_value: //select[@name='rule[actions][1][value]']
+                                    pageelements:
+                                        apply_for_rule_action_row: /ul/li
                             -
                                 rule_action_item:
                                     xpath: //ul[@id='actions__%condition%__children']
@@ -151,11 +172,16 @@ create_shopping_cart_price_rule:
                                         action_value: //ul[@id='actions__%condition%__children']/li[%key%]/span[contains(.//@name,'value')]/a
                                         action_aggregator: //ul[@id='actions__%condition%__children']/li[%key%]/span[.//select[contains(@name,'aggregator')]]/a
                                         action_attribute: //ul[@id='actions__%condition%__children']/li[%key%]/span[.//select[contains(@name,'attribute')]]/a
-                                        open_chosser: //ul[@id='actions__%condition%__children']/li[%key%]//img[contains(@src,'rule_chooser_trigger')]
+                                        open_chooser: //ul[@id='actions__%condition%__children']/li[%key%]//img[contains(@src,'rule_chooser_trigger')]
                                         confirm_choice: //ul[@id='actions__%condition%__children']/li[%key%]//img[contains(@src,'rule_component_apply')]
-                                        root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
-                                        sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
-                                        expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+                                        rule_action_item_root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
+                                        rule_action_item_sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                                        rule_action_item_expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+                                    pageelements:
+                                        rule_action_item_category_text: %categoryXpath%/div/a/span
+                                        rule_action_item_category_index_text: %categoryXpath%[%index%]/div/a/span
+                                        rule_action_item_category_index_link: %categoryXpath%[%index%]/div/a
+                                        rule_action_item_row: /li
                                     dropdowns:
                                         select_action_new_child: /li[%key%]//span[contains(.//@src,'rule_component_add')]//select
                                         select_action_operator: /li[%key%]/span[contains(.//@name,'operator')]//select
@@ -169,8 +195,8 @@ create_shopping_cart_price_rule:
                                     checkboxes:
                                         category: //div[contains(a/span,'%categoryName%')]//input
                 -
-                    rule_labels:
-                        xpath: //a[@title='Labels']/span
+                    rule_labels: &rule_labels
+                        xpath: //a[@title='Labels']
                         fieldsets:
                             -
                                 default_label:
@@ -185,19 +211,72 @@ create_shopping_cart_price_rule:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_rule: //button[span='Save Rule' or span='Save']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save_rule: //button[@data-ui-id='promo-quote-edit-save-button']
+            save_and_continue_edit: //button[@data-ui-id='promo-quote-edit-save-and-continue-edit-button']
         messages: *ruleMessages
 
 edit_shopping_cart_price_rule:
     mca: promo_quote/edit/id/%id%/
     title: %elementTitle% / Magento Admin
     uimap:
-        form: *createNewRule
+        form:
+            tabs:
+                -
+                    rule_information: *rule_information
+                -
+                    rule_conditions: *rule_conditions
+                -
+                    rule_actions: *rule_actions
+                -
+                    rule_labels: *rule_labels
+                -
+                    manage_coupon_codes:
+                        xpath: //a[@title='Manage Coupon Codes']
+                        fieldsets:
+                            -
+                                coupons_information:
+                                    xpath: //div[@id='coupons_information_fieldset']
+                                    fields:
+                                        coupon_qty: //input[@id='coupons_qty']
+                                        code_length: //input[@id='coupons_length']
+                                        code_prefix: //input[@id='coupons_prefix']
+                                        code_suffix: //input[@id='coupons_suffix']
+                                        dash_every_x_characters: //input[@id='coupons_dash']
+                                    dropdowns:
+                                        code_format: //select[@id='coupons_format']
+                                    buttons:
+                                        generate: //button[span='Generate']
+                                    pageelements:
+                                        default_code_length: //input[@id='coupons_length' and @value='%defaultValue%']
+                                        default_code_format: //select[@id='coupons_format']//option[@selected='selected' and @value='%defaultValue%']
+                                        default_code_prefix: //input[@id='coupons_prefix' and @value='%defaultValue%']
+                                        default_code_suffix: //input[@id='coupons_suffix' and @value='%defaultValue%']
+                                        default_dash_every_x_characters: //input[@id='coupons_dash' and @value='%defaultValue%']
+                            -
+                                manage_coupons_grid:
+                                    xpath: //div[@id='couponCodesGrid']
+                                    buttons:
+                                        reset_filter: //button[span='Reset Filter']
+                                        search: //button[span='Search']
+                                        submit: //button[span='Submit']
+                                        export: //button[span='Export']
+                                    fields:
+                                        filter_coupon_code: //input[@name='code']
+                                        filter_created_on_from: //input[@name='created_at[from]']
+                                        filter_created_on_to: //input[@name='created_at[to]']
+                                        filter_times_used_from: //input[@name='times_used[from]']
+                                        filter_times_used_to: //input[@name='times_used[to]']
+                                        page: //input[@name='page']
+                                    dropdowns:
+                                        export_to: //select[@id='couponCodesGrid_export']
+                                        filter_used: //select[@id='couponCodesGrid_filter_used']
+                                        actions: //select[@id='couponCodesGrid_massaction-select']
+                                    pageelements:
+                                        grid_head: //div[@id='couponCodesGrid_massaction']
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
             delete_rule: //button[span='Delete Rule' or span='Delete']
-            save_rule: //button[span='Save Rule' or span='Save']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save_rule: //button[@data-ui-id='promo-quote-edit-save-button']
+            save_and_continue_edit: //button[@data-ui-id='promo-quote-edit-save-and-continue-edit-button']
         messages: *ruleMessages

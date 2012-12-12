@@ -20,7 +20,6 @@ class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
-     * <p>Navigate to Catalog -> Manage Categories</p>
      */
     protected function assertPreConditions()
     {
@@ -31,12 +30,6 @@ class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Subcategory with required fields</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Subcategory" button </p>
-     * <p>2. Fill in required fields</p>
-     * <p>3. Click "Save Category" button</p>
-     * <p>Expected Result:</p>
-     * <p>Subcategory created, success message appears</p>
      *
      * @return string
      * @test
@@ -57,12 +50,6 @@ class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Subcategory with all fields filling</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Subcategory" button </p>
-     * <p>2. Fill in required fields</p>
-     * <p>3. Click "Save Category" button</p>
-     * <p>Expected Result:</p>
-     * <p>Subcategory created, success message appears</p>
      *
      * @param string $rooCat
      *
@@ -83,12 +70,6 @@ class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Subcategory with required fields empty</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Subcategory" button </p>
-     * <p>2. Fill in necessary fields, leave required fields empty</p>
-     * <p>3. Click "Save Category" button</p>
-     * <p>Expected Result:</p>
-     * <p>Subcategory not created, error message appears</p>
      *
      * @param string $emptyField
      * @param string $fieldType
@@ -120,12 +101,6 @@ class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Subcategory with special characters</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Subcategory" button </p>
-     * <p>2. Fill in required fields with special characters</p>
-     * <p>3. Click "Save Category" button</p>
-     * <p>Expected Result:</p>
-     * <p>Subcategory created, success message appears</p>
      *
      * @param string $rooCat
      *
@@ -148,12 +123,6 @@ class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Subcategory with long values in required fields</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Subcategory" button </p>
-     * <p>2. Fill in required fields</p>
-     * <p>3. Click "Save Category" button</p>
-     * <p>Expected Result:</p>
-     * <p>Subcategory created, success message appears</p>
      *
      * @param string $rooCat
      *
@@ -176,13 +145,6 @@ class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating nested Subcategory with required fields</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Subcategory" button </p>
-     * <p>2.Select existing "Category Path"</p>
-     * <p>3. Fill in required fields</p>
-     * <p>4. Click "Save Category" button</p>
-     * <p>Expected Result:</p>
-     * <p>Subcategory created, success message appears</p>
      *
      * @param string $rooCat
      *

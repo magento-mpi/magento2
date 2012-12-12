@@ -218,7 +218,7 @@ class Enterprise_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCa
 
         $this->_objectFactory->expects($this->exactly(1))
             ->method('getModelInstance')->will($this->returnValue($modelMock));
-        
+
         $this->_requestMock->expects($this->once())->method('getActionName')->will($this->returnValue('denied'));
 
         $this->assertEmpty($this->_model->validateRuleEntityAction($this->_controllerMock));

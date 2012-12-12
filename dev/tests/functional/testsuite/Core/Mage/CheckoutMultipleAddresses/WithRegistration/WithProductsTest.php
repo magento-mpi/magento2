@@ -18,7 +18,7 @@
  */
 class Core_Mage_CheckoutMultipleAddresses_WithRegistration_WithProductsTest extends Mage_Selenium_TestCase
 {
-    private static $productTypes = array('simple', 'virtual', 'downloadable',
+    private static $_productTypes = array('simple', 'virtual', 'downloadable',
                                          'bundle', 'configurable', 'grouped');
 
     protected function assertPreconditions()
@@ -41,7 +41,7 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_WithProductsTest exte
     public function preconditionsForTests()
     {
         $products = array();
-        foreach (self::$productTypes as $type) {
+        foreach (self::$_productTypes as $type) {
             $method = 'create' . ucfirst($type) . 'Product';
             $products[$type] = $this->productHelper()->$method();
         }
@@ -50,21 +50,6 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_WithProductsTest exte
 
     /**
      * <p>Checkout with multiple addresses simple and virtual/downloadable products</p>
-     * <p>Preconditions:</p>
-     * <p>1.Products are created.</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Checkout with Multiple Addresses".</p>
-     * <p>4. Select Checkout Method with log in</p>
-     * <p>5. Fill in Select Addresses page.</p>
-     * <p>6. Click "Continue to Shipping Information" button;</p>
-     * <p>7. Fill in Shipping Information tab and click "Continue to Billing Information";</p>
-     * <p>8. Fill in Billing Information tab and click "Continue to Review Your Order";</p>
-     * <p>9. Verify information into "Order Review" tab;</p>
-     * <p>10. Place order;</p>
-     * <p>Expected result:</p>
-     * <p>Checkout is successful;</p>
      *
      * @param string $productType
      * @param array $products
@@ -97,21 +82,6 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_WithProductsTest exte
 
     /**
      * <p>Checkout with multiple addresses grouped products</p>
-     * <p>Preconditions:</p>
-     * <p>1.Product is created.</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Checkout with Multiple Addresses".</p>
-     * <p>4. Select Checkout Method with log in</p>
-     * <p>5. Fill in Select Addresses page.</p>
-     * <p>6. Click "Continue to Shipping Information" button;</p>
-     * <p>7. Fill in Shipping Information tab and click "Continue to Billing Information";</p>
-     * <p>8. Fill in Billing Information tab and click "Continue to Review Your Order";</p>
-     * <p>9. Verify information into "Order Review" tab;</p>
-     * <p>10. Place order;</p>
-     * <p>Expected result:</p>
-     * <p>Checkout is successful;</p>
      *
      * @param string $productType
      * @param string $dateSet
@@ -144,21 +114,6 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_WithProductsTest exte
 
     /**
      * <p>Checkout with multiple addresses bundle products</p>
-     * <p>Preconditions:</p>
-     * <p>1.Product is created.</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Checkout with Multiple Addresses".</p>
-     * <p>4. Select Checkout Method with log in</p>
-     * <p>5. Fill in Select Addresses page.</p>
-     * <p>6. Click "Continue to Shipping Information" button;</p>
-     * <p>7. Fill in Shipping Information tab and click "Continue to Billing Information";</p>
-     * <p>8. Fill in Billing Information tab and click "Continue to Review Your Order";</p>
-     * <p>9. Verify information into "Order Review" tab;</p>
-     * <p>10. Place order;</p>
-     * <p>Expected result:</p>
-     * <p>Checkout is successful;</p>
      *
      * @param string $productType
      * @param string $dateSet
@@ -167,6 +122,7 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_WithProductsTest exte
      * @test
      * @dataProvider withBundleProductDataProvider
      * @depends preconditionsForTests
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function withBundleProduct($productType, $dateSet, $products)
     {
@@ -190,21 +146,6 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_WithProductsTest exte
 
     /**
      * <p>Checkout with multiple addresses configurable product with associated products</p>
-     * <p>Preconditions:</p>
-     * <p>1.Product is created.</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Checkout with Multiple Addresses".</p>
-     * <p>4. Select Checkout Method with log in</p>
-     * <p>5. Fill in Select Addresses page.</p>
-     * <p>6. Click "Continue to Shipping Information" button;</p>
-     * <p>7. Fill in Shipping Information tab and click "Continue to Billing Information";</p>
-     * <p>8. Fill in Billing Information tab and click "Continue to Review Your Order";</p>
-     * <p>9. Verify information into "Order Review" tab;</p>
-     * <p>10. Place order;</p>
-     * <p>Expected result:</p>
-     * <p>Checkout is successful;</p>
      *
      * @param string $productType
      * @param string $dateSet
@@ -234,21 +175,6 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_WithProductsTest exte
 
     /**
      * <p>Checkout with multiple addresses Downloadable product with associated links</p>
-     * <p>Preconditions:</p>
-     * <p>1.Product is created.</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Checkout with Multiple Addresses".</p>
-     * <p>4. Select Checkout Method with log in</p>
-     * <p>5. Fill in Select Addresses page.</p>
-     * <p>6. Click "Continue to Shipping Information" button;</p>
-     * <p>7. Fill in Shipping Information tab and click "Continue to Billing Information";</p>
-     * <p>8. Fill in Billing Information tab and click "Continue to Review Your Order";</p>
-     * <p>9. Verify information into "Order Review" tab;</p>
-     * <p>10. Place order;</p>
-     * <p>Expected result:</p>
-     * <p>Checkout is successful;</p>
      *
      * @param array $products
      *
@@ -291,21 +217,6 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_WithProductsTest exte
 
     /**
      * <p>Checkout with multiple addresses products with custom options</p>
-     * <p>Preconditions:</p>
-     * <p>1.Product is created.</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Checkout with Multiple Addresses".</p>
-     * <p>4. Select Checkout Method with log in</p>
-     * <p>5. Fill in Select Addresses page.</p>
-     * <p>6. Click "Continue to Shipping Information" button;</p>
-     * <p>7. Fill in Shipping Information tab and click "Continue to Billing Information";</p>
-     * <p>8. Fill in Billing Information tab and click "Continue to Review Your Order";</p>
-     * <p>9. Verify information into "Order Review" tab;</p>
-     * <p>10. Place order;</p>
-     * <p>Expected result:</p>
-     * <p>Checkout is successful;</p>
      *
      * @param string $productType
      * @param string $dataSet

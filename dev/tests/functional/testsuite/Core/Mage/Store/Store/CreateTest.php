@@ -30,12 +30,6 @@ class Core_Mage_Store_Store_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Test navigation.</p>
-     * <p>Steps:</p>
-     * <p>1. Verify that 'Create Store' button is present and click her.</p>
-     * <p>2. Verify that the create store page is opened.</p>
-     * <p>3. Verify that 'Back' button is present.</p>
-     * <p>4. Verify that 'Save Store' button is present.</p>
-     * <p>5. Verify that 'Reset' button is present.</p>
      *
      * @test
      */
@@ -51,13 +45,6 @@ class Core_Mage_Store_Store_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Store. Fill in only required fields.</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Create Store' button.</p>
-     * <p>2. Fill in required fields.</p>
-     * <p>3. Click 'Save Store' button.</p>
-     * <p>Expected result:</p>
-     * <p>Store is created.</p>
-     * <p>Success Message is displayed</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3618
@@ -72,13 +59,6 @@ class Core_Mage_Store_Store_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Store. Fill in required fields except one field.</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Create Store' button.</p>
-     * <p>2. Fill in fields except one required field.</p>
-     * <p>3. Click 'Save Store' button.</p>
-     * <p>Expected result:</p>
-     * <p>Store is not created.</p>
-     * <p>Error Message is displayed.</p>
      *
      * @param $emptyField
      * @param $fieldType
@@ -115,13 +95,6 @@ class Core_Mage_Store_Store_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Store. Fill in only required fields. Use max long values for field 'Name'</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Create Store' button.</p>
-     * <p>2. Fill in required fields by long value alpha-numeric data.</p>
-     * <p>3. Click 'Save Store' button.</p>
-     * <p>Expected result:<p>
-     * <p>Store is created. Success Message is displayed.</p>
-     * <p>Length of field "Name" is 255 characters.</p>
      *
      * @test
      * @depends withRequiredFieldsOnly
@@ -140,14 +113,6 @@ class Core_Mage_Store_Store_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Store. Fill in field 'Name' by using special characters.</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Create Store' button.</p>
-     * <p>2. Fill in 'Name' field by special characters.</p>
-     * <p>3. Fill other required fields by regular data.</p>
-     * <p>4. Click 'Save Store' button.</p>
-     * <p>Expected result:</p>
-     * <p>Store is created.</p>
-     * <p>Success Message is displayed</p>
      *
      * @test
      * @depends withRequiredFieldsOnly

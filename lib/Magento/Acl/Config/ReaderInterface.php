@@ -21,6 +21,7 @@ interface Magento_Acl_Config_ReaderInterface
 {
     /**
      * Retrieve ACL resources
+     *
      * @abstract
      * @return mixed
      */

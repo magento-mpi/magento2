@@ -30,12 +30,6 @@ class Core_Mage_AttributeSet_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Attribute Set creation - based on Default</p>
-     * <p>Steps</p>
-     * <p>1. Click button "Add New Set"</p>
-     * <p>2. Fill in fields</p>
-     * <p>3. Click button "Save Attribute Set"</p>
-     * <p>Expected result</p>
-     * <p>Received the message on successful completion of the attribute set creation</p>
      *
      * @return string
      * @test
@@ -54,14 +48,6 @@ class Core_Mage_AttributeSet_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Attribute Set creation - existing name</p>
-     * <p>Preconditions:</p>
-     * <p>Attribute set created based on default</p>
-     * <p>Steps</p>
-     * <p>1. Click button "Add New Set"</p>
-     * <p>2. Fill in fields - type existing Attribute Set name in "Name" field</p>
-     * <p>3. Click button "Save Attribute Set"</p>
-     * <p>Expected result</p>
-     * <p>Received error message "Attribute set with the "attrSet_name" name already exists."</p>
      *
      * @param string $attributeSetName
      *
@@ -82,11 +68,6 @@ class Core_Mage_AttributeSet_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Attribute Set creation - empty name</p>
-     * <p>Steps</p>
-     * <p>1. Click button "Add New Set"</p>
-     * <p>2. Click button "Save Attribute Set"</p>
-     * <p>Expected result</p>
-     * <p>Received error message "This is a required field."</p>
      *
      * @test
      * @depends basedOnDefault
@@ -106,12 +87,6 @@ class Core_Mage_AttributeSet_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Attribute Set with long values in required fields</p>
-     * <p>Steps</p>
-     * <p>1. Click button "Add New Set"</p>
-     * <p>2. Fill in "Name" field by long values;</p>
-     * <p>3. Click button "Save Attribute Set"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message on successful completion of the attribute set creation</p>
      *
      * @test
      * @depends basedOnDefault
@@ -134,12 +109,6 @@ class Core_Mage_AttributeSet_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Attribute Set using special characters for set name</p>
-     * <p>Steps</p>
-     * <p>1. Click button "Add New Set"</p>
-     * <p>2. Fill in "Name" field using special characters;</p>
-     * <p>3. Click button "Save Attribute Set"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message on successful completion of the attribute set creation</p>
      *
      * @test
      * @depends basedOnDefault
@@ -163,17 +132,6 @@ class Core_Mage_AttributeSet_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Add user product attributes</p>
-     * <p>Preconditions</p>
-     * <p>Product Attribute created</p>
-     * <p>Steps</p>
-     * <p>1. Click button "Add New Set"</p>
-     * <p>2. Fill in "Name" field</p>
-     * <p>3. Click button "Add New" in Groups</p>
-     * <p>4. Fill in "Name" field</p>
-     * <p>5. Assign user product  Attributes* to "User Attributes' group</p>
-     * <p>6. Click button "Save Attribute Set"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message on successful completion of the attribute set creation</p>
      *
      * @return array
      * @test
@@ -210,14 +168,6 @@ class Core_Mage_AttributeSet_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Attribute Set creation - based on Custom</p>
-     * <p>Preconditions:</p>
-     * <p>Attribute set created based on default</p>
-     * <p>Steps</p>
-     * <p>1. Click button "Add New Set"</p>
-     * <p>2. Fill in fields - choose existing Attribute Set in "Based On" field</p>
-     * <p>3. Click button "Save Attribute Set"</p>
-     * <p>Expected result</p>
-     * <p>Received the message on successful completion of the attribute set creation</p>
      *
      * @param array $setData
      *

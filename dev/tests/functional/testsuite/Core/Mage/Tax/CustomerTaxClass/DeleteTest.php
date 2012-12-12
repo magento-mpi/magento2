@@ -45,12 +45,6 @@ class Core_Mage_Tax_CustomerTaxClass_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete a Customer Tax Class</p>
-     * <p>Steps:</p>
-     * <p>1. Create a new Customer Tax Class</p>
-     * <p>2. Open the Customer Tax Class</p>
-     * <p>3. Delete the Customer Tax Class</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the Customer Tax class Core_Mage_has been deleted.</p>
      *
      * @test
      */
@@ -71,13 +65,6 @@ class Core_Mage_Tax_CustomerTaxClass_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete a Customer Tax class Core_Mage_that used</p>
-     * <p>Steps:</p>
-     * <p>1. Create a new Customer Tax Class</p>
-     * <p>2. Create a new Tax Rule that use Customer Tax class Core_Mage_from previous step</p>
-     * <p>2. Open the Customer Tax Class</p>
-     * <p>3. Delete the Customer Tax Class</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the Customer Tax class Core_Mage_could not be deleted.</p>
      *
      * @test
      */
@@ -114,14 +101,6 @@ class Core_Mage_Tax_CustomerTaxClass_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete a Customer Tax class Core_Mage_that used in Customer Group</p>
-     * <p>Steps:</p>
-     * <p>1. Create a new Customer Tax Class</p>
-     * <p>2. Create a new Product that use Customer Tax class Core_Mage_from previous step</p>
-     * <p>2. Open the Customer Tax Class</p>
-     * <p>3. Delete the Customer Tax Class</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the Customer Tax class Core_Mage_could not be deleted.</p>
-     * <p>Error message: You cannot delete this tax class Core_Mage_as it is used for 1 customer groups.</p>
      *
      * @test
      */

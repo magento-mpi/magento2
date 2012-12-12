@@ -130,7 +130,7 @@ final class Mage
     {
         $i = self::getVersionInfo();
         return trim("{$i['major']}.{$i['minor']}.{$i['revision']}" . ($i['patch'] != '' ? ".{$i['patch']}" : "")
-                        . "-{$i['stability']}{$i['number']}", '.-');
+            . "-{$i['stability']}{$i['number']}", '.-');
     }
 
     /**
@@ -147,7 +147,7 @@ final class Mage
             'revision'  => '0',
             'patch'     => '0',
             'stability' => 'dev',
-            'number'    => '32',
+            'number'    => '34',
         );
     }
 
@@ -795,6 +795,7 @@ final class Mage
      * Display exception
      *
      * @param Exception $e
+     * @param string $extra
      */
     public static function printException(Exception $e, $extra = '')
     {

@@ -49,15 +49,6 @@ class Core_Mage_Order_Create_WithCouponTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating order with coupon. Coupon amount should be less than Grand Total.</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Orders" page;</p>
-     * <p>2. Create new order and select customer coupon can be applied for;</p>
-     * <p>3. Select products and add them to the order;</p>
-     * <p>4. Apply coupon;</p>
-     * <p>5. Fill in all required information</p>
-     * <p>6. Click "Submit Order" button;</p>
-     * <p>Expected result:</p>
-     * <p>Order is created, no error messages appear;</p>
      *
      * @param string $simpleSku
      *
@@ -83,15 +74,6 @@ class Core_Mage_Order_Create_WithCouponTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating order with coupon. Coupon amount should be greater than Grand Total.</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Orders" page;</p>
-     * <p>2. Create new order and select customer coupon can be applied for;</p>
-     * <p>3. Select products and add them to the order;</p>
-     * <p>4. Apply coupon;</p>
-     * <p>5. Fill in all required information</p>
-     * <p>6. Click "Submit Order" button;</p>
-     * <p>Expected result:</p>
-     * <p>Order is created, no error messages appear;</p>
      *
      * @param string $simpleSku
      *
@@ -118,13 +100,6 @@ class Core_Mage_Order_Create_WithCouponTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating order with coupon. Coupon code is invalid.</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Orders" page;</p>
-     * <p>2. Create new order and select customer coupon can be applied for;</p>
-     * <p>3. Select products and add them to the order;</p>
-     * <p>4. Apply invalid coupon code;</p>
-     * <p>Expected result:</p>
-     * <p>Message with error appears;</p>
      *
      * @param string $simpleSku
      *

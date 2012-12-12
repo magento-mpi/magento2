@@ -14,7 +14,6 @@ app/design/adminhtml/default/pro
 app/design/frontend/pro
 app/design/install/default/pro
 app/etc/config.{oracle,mssql}.xml
-dev/api-tests
 dev/tests/functional
 dev/tests/integration/etc/local-{oracle,mssql}.xml.dist
 dev/tests/integration/framework/Magento/Test/Db/cleanup_database.{oracle,mssql}.sql

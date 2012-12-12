@@ -23,7 +23,7 @@ all_tags:
 
 tags_products:
     mca: tag/product/list/tagId/%id%/
-    title: Products tagged with '%tagName%'
+    title: Products tagged with '%elementTitle%'
     uimap:
         form:
             fieldsets:
