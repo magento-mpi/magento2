@@ -88,6 +88,7 @@ class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
         return array(
             array('manage_roles'),
             array('manage_admin_users'),
+            array('system_email_template'),
         );
     }
 

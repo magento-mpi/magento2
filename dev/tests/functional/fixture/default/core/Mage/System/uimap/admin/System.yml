@@ -126,7 +126,7 @@ system_email_template:
                             filter_date_added_from: //input[@name='added_at[from]']
                             filter_date_added_to: //input[@name='added_at[to]']
                             filter_date_updated_from: //input[@name='modified_at[from]']
-                            filter_date_updated_to: //input[@name='modified_at[ti]']
+                            filter_date_updated_to: //input[@name='modified_at[to]']
                             filter_subject: //input[@name='subject']
                         dropdowns:
                             filter_template_type: //select[@name='type']

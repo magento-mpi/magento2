@@ -68,4 +68,28 @@ grid:
             role_list: tablename
         headers:
             0: ID
-            1: Role Name  
+            1: Role Name
+    system_email_template:
+        fieldset:
+            system_email_template_grid: tablename
+        button:
+            reset_filter:
+            search:
+        field:
+            filter_template_id:
+            filter_template_name:
+            filter_date_added_from:
+            filter_date_added_to:
+            filter_date_updated_from:
+            filter_date_updated_to:
+            filter_subject:
+        dropdown:
+            filter_template_type:
+        headers:
+            0: ID
+            1: Template Name
+            2: Date Added
+            3: Date Updated
+            4: Subject
+            5: Template Type
+            6: Action
