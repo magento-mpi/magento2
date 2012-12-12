@@ -67,27 +67,27 @@
                 <faults module="Mage_Catalog">
                     <store_not_exists>
                         <code>100</code>
-                        <message>Requested store view not found.</message>
+                        <message>Requested store view is not found.</message>
                     </store_not_exists>
                     <website_not_exists>
                         <code>101</code>
-                        <message>Requested website not found.</message>
+                        <message>Requested website is not found.</message>
                     </website_not_exists>
                     <not_exists>
                         <code>102</code>
-                        <message>Category not exists.</message>
+                        <message>Category does not exist.</message>
                     </not_exists>
                     <data_invalid>
                         <code>103</code>
-                        <message>Invalid data given. Details in error message.</message>
+                        <message>Provided data is invalid. Details are in error message.</message>
                     </data_invalid>
                     <not_moved>
                         <code>104</code>
-                        <message>Category not moved. Details in error message.</message>
+                        <message>Category is not moved. Details are in error message.</message>
                     </not_moved>
                     <not_deleted>
                         <code>105</code>
-                        <message>Category not deleted. Details in error message.</message>
+                        <message>Category is not deleted. Details are in error message.</message>
                     </not_deleted>
                     <product_not_assigned>
                         <code>106</code>
@@ -114,11 +114,11 @@
                 <faults module="Mage_Catalog">
                     <store_not_exists>
                         <code>100</code>
-                        <message>Requested store view not found.</message>
+                        <message>Requested store view is not found.</message>
                     </store_not_exists>
                     <not_exists>
                         <code>101</code>
-                        <message>Requested attribute not found.</message>
+                        <message>Requested attribute is not found.</message>
                     </not_exists>
                 </faults>
             </catalog_category_attribute>
@@ -162,31 +162,31 @@
                 <faults module="Mage_Catalog">
                     <store_not_exists>
                         <code>100</code>
-                        <message>Requested store view not found.</message>
+                        <message>Requested store view is not found.</message>
                     </store_not_exists>
                     <not_exists>
                         <code>101</code>
-                        <message>Product not exists.</message>
+                        <message>Product does not exist.</message>
                     </not_exists>
                     <data_invalid>
                         <code>102</code>
-                        <message>Invalid data given. Details in error message.</message>
+                        <message>Provided data is invalid. Details are in error message.</message>
                     </data_invalid>
                     <not_deleted>
                         <code>103</code>
-                        <message>Product not deleted. Details in error message.</message>
+                        <message>Product is not deleted. Details are in error message.</message>
                     </not_deleted>
                     <product_type_not_exists>
                         <code>104</code>
-                        <message>Product type is not in allowed types.</message>
+                        <message>Product type is not in range of allowed types.</message>
                     </product_type_not_exists>
                     <product_attribute_set_not_exists>
                         <code>105</code>
-                        <message>Product attribute set is not existed</message>
+                        <message>Product attribute set does not exist.</message>
                     </product_attribute_set_not_exists>
                     <product_attribute_set_not_valid>
                         <code>106</code>
-                        <message>Product attribute set is not belong catalog product entity type</message>
+                        <message>Product attribute set does not belong to catalog product entity type.</message>
                     </product_attribute_set_not_valid>
                 </faults>
             </catalog_product>
@@ -240,23 +240,23 @@
                 <faults module="Mage_Catalog">
                     <store_not_exists>
                         <code>100</code>
-                        <message>Requested store view not found.</message>
+                        <message>Requested store view is not found.</message>
                     </store_not_exists>
                     <not_exists>
                         <code>101</code>
-                        <message>Requested attribute not found.</message>
+                        <message>Requested attribute is not found.</message>
                     </not_exists>
                     <invalid_parameters>
                        <code>102</code>
-                       <message>Invalid request parameters.</message>
+                       <message>Provided request parameters are invalid.</message>
                    </invalid_parameters>
                    <invalid_code>
                        <code>103</code>
-                       <message>Attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.</message>
+                       <message>Attribute code is invalid. Please use only letters (a-z), numbers (0-9), or underscore(_) in this field. First character should be a letter.</message>
                    </invalid_code>
                    <invalid_frontend_input>
                        <code>104</code>
-                       <message>Incorrect attribute type.</message>
+                       <message>Attribute type is invalid.</message>
                    </invalid_frontend_input>
                    <unable_to_save>
                        <code>105</code>
@@ -322,39 +322,39 @@
                 <faults module="Mage_Catalog">
                     <invalid_skeleton_set_id>
                         <code>100</code>
-                        <message>Attribute set with requested id does not exist.</message>
+                        <message>Attribute set with requested ID does not exist.</message>
                     </invalid_skeleton_set_id>
                     <invalid_data>
                         <code>101</code>
-                        <message>Invalid data given.</message>
+                        <message>Provided data is invalid.</message>
                     </invalid_data>
                     <create_attribute_set_error>
                         <code>102</code>
-                        <message>Error while creating attribute set. Details in error message.</message>
+                        <message>Error occurred while creating attribute set. Details are in error message.</message>
                     </create_attribute_set_error>
                     <remove_attribute_set_error>
                         <code>103</code>
-                        <message>Error while removing attribute set. Details in error message.</message>
+                        <message>Error occurred while removing attribute set. Details are in error message.</message>
                     </remove_attribute_set_error>
                     <invalid_attribute_set_id>
                         <code>104</code>
-                        <message>Attribute set with requested id does not exist.</message>
+                        <message>Attribute set with requested ID does not exist.</message>
                     </invalid_attribute_set_id>
                     <attribute_set_has_related_products>
                         <code>105</code>
-                        <message>Unable to remove attribute set as it has related goods. Use forceProductsRemove parameter to remove attribute set with all goods.</message>
+                        <message>Unable to remove attribute set as it has related items. Use forceProductsRemove parameter to remove attribute set with all items.</message>
                     </attribute_set_has_related_products>
                     <invalid_attribute_id>
                         <code>106</code>
-                        <message>Attribute with requested id does not exist.</message>
+                        <message>Attribute with requested ID does not exist.</message>
                     </invalid_attribute_id>
                     <add_attribute_error>
                         <code>107</code>
-                        <message>Error while adding attribute to attribute set. Details in error message.</message>
+                        <message>Error occurred while adding attribute to attribute set. Details are in error message.</message>
                     </add_attribute_error>
                     <invalid_attribute_group_id>
                         <code>108</code>
-                        <message>Attribute group with requested id does not exist.</message>
+                        <message>Attribute group with requested ID does not exist.</message>
                     </invalid_attribute_group_id>
                     <attribute_is_already_in_set>
                         <code>109</code>
@@ -362,7 +362,7 @@
                     </attribute_is_already_in_set>
                     <remove_attribute_error>
                         <code>110</code>
-                        <message>Error while removing attribute from attribute set. Details in error message.</message>
+                        <message>Error occurred while removing attribute from attribute set. Details are in error message.</message>
                     </remove_attribute_error>
                     <attribute_is_not_in_set>
                         <code>111</code>
@@ -370,27 +370,27 @@
                     </attribute_is_not_in_set>
                     <group_already_exists>
                         <code>112</code>
-                        <message>Requested group exist already in requested attribute set.</message>
+                        <message>Requested group is already in requested attribute set.</message>
                     </group_already_exists>
                     <group_add_error>
                         <code>113</code>
-                        <message>Error while adding group to attribute set. Details in error message.</message>
+                        <message>Error occurred while adding group to attribute set. Details are in error message.</message>
                     </group_add_error>
                     <group_rename_error>
                         <code>114</code>
-                        <message>Error while renaming group. Details in error message.</message>
+                        <message>Error occurred while renaming group. Details are in error message.</message>
                     </group_rename_error>
                     <group_remove_error>
                         <code>115</code>
-                        <message>Error while removing group from attribute set. Details in error message.</message>
+                        <message>Error occurred while removing group from attribute set. Details are in error message.</message>
                     </group_remove_error>
                     <group_has_system_attributes>
                         <code>116</code>
-                        <message>Group can not be removed as it contains system attributes.</message>
+                        <message>Group cannot be removed as it contains system attributes.</message>
                     </group_has_system_attributes>
                     <group_has_configurable_attributes>
                         <code>117</code>
-                        <message>Group can not be removed as it contains attributes, used in configurable products.</message>
+                        <message>Group cannot be removed as it contains attributes used in configurable products.</message>
                     </group_has_configurable_attributes>
                 </faults>
             </catalog_product_attribute_set>
@@ -441,35 +441,35 @@
                 <faults module="Mage_Catalog">
                     <store_not_exists>
                         <code>100</code>
-                        <message>Requested store view not found.</message>
+                        <message>Requested store view is not found.</message>
                     </store_not_exists>
                     <product_not_exists>
                         <code>101</code>
-                        <message>Product not exists.</message>
+                        <message>Product does not exist.</message>
                     </product_not_exists>
                     <data_invalid>
                         <code>102</code>
-                        <message>Invalid data given. Details in error message.</message>
+                        <message>Provided data is invalid. Details are in error message.</message>
                     </data_invalid>
                     <not_exists>
                         <code>103</code>
-                        <message>Requested image not exists in product images' gallery.</message>
+                        <message>Requested image does not exist in product images' gallery.</message>
                     </not_exists>
                     <not_created>
                         <code>104</code>
-                        <message>Image creation failed. Details in error message.</message>
+                        <message>Image creation failed. Details are in error message.</message>
                     </not_created>
                     <not_updated>
                         <code>105</code>
-                        <message>Image not updated. Details in error message.</message>
+                        <message>Image is not updated. Details are in error message.</message>
                     </not_updated>
                     <not_removed>
                         <code>106</code>
-                        <message>Image not removed. Details in error message.</message>
+                        <message>Image is not removed. Details are in error message.</message>
                     </not_removed>
                     <not_media>
                         <code>107</code>
-                        <message>Requested product doesn't support images</message>
+                        <message>Requested product doesn't support images.</message>
                     </not_media>
                 </faults>
             </catalog_product_attribute_media>
@@ -489,15 +489,15 @@
                 <faults module="Mage_Catalog">
                     <product_not_exists>
                         <code>100</code>
-                        <message>Product not exists.</message>
+                        <message>Product does not exist.</message>
                     </product_not_exists>
                     <data_invalid>
                         <code>101</code>
-                        <message>Invalid data given. Details in error message.</message>
+                        <message>Provided data is invalid. Details are in error message.</message>
                     </data_invalid>
                     <not_updated>
                         <code>102</code>
-                        <message>Tier prices not updated. Details in error message.</message>
+                        <message>Tier prices are not updated. Details are in error message.</message>
                     </not_updated>
                 </faults>
             </catalog_product_attribute_tier_price>
@@ -532,19 +532,19 @@
                 <faults module="Mage_Catalog">
                     <type_not_exists>
                         <code>100</code>
-                        <message>Given invalid link type.</message>
+                        <message>Provided link type is invalid.</message>
                     </type_not_exists>
                     <product_not_exists>
                         <code>101</code>
-                        <message>Product not exists.</message>
+                        <message>Product does not exist.</message>
                     </product_not_exists>
                     <data_invalid>
                         <code>102</code>
-                        <message>Invalid data given. Details in error message.</message>
+                        <message>Provided data is invalid. Details are in error message.</message>
                     </data_invalid>
                     <not_removed>
                         <code>104</code>
-                        <message>Product link not removed.</message>
+                        <message>Product link is not removed.</message>
                     </not_removed>
                 </faults>
             </catalog_product_link>
@@ -582,7 +582,7 @@
                 <faults module="Mage_Catalog">
                     <product_not_exists>
                         <code>101</code>
-                        <message>Product with requested id does not exist.</message>
+                        <message>Product with requested ID does not exist.</message>
                     </product_not_exists>
                     <invalid_data>
                         <code>102</code>
@@ -590,23 +590,23 @@
                     </invalid_data>
                     <save_option_error>
                         <code>103</code>
-                        <message>Error while saving an option. Details are in the error message.</message>
+                        <message>Error occurred while saving an option. Details are in error message.</message>
                     </save_option_error>
                     <store_not_exists>
                         <code>104</code>
-                        <message>Store with requested code/id does not exist.</message>
+                        <message>Store with requested code or ID does not exist.</message>
                     </store_not_exists>
                     <option_not_exists>
                         <code>105</code>
-                        <message>Option with requested id does not exist.</message>
+                        <message>Option with requested ID does not exist.</message>
                     </option_not_exists>
                     <invalid_type>
                         <code>106</code>
-                        <message>Invalid option type provided. Call 'types' to get list of allowed option types.</message>
+                        <message>Provided option type is invalid. Call 'types' to get list of allowed option types.</message>
                     </invalid_type>
                     <delete_option_error>
                         <code>107</code>
-                        <message>Error while deleting an option. Details are in the error message.</message>
+                        <message>Error occurred while deleting an option. Details are in error message.</message>
                     </delete_option_error>
                 </faults>
             </catalog_product_custom_option>
@@ -640,31 +640,31 @@
                 <faults module="Mage_Catalog">
                     <value_not_exists>
                         <code>101</code>
-                        <message>Option value with requested id does not exist.</message>
+                        <message>Option value with requested ID does not exist.</message>
                     </value_not_exists>
                     <add_option_value_error>
                         <code>102</code>
-                        <message>Error while adding an option value. Details are in the error message.</message>
+                        <message>Error occurred while adding an option value. Details are in error message.</message>
                     </add_option_value_error>
                     <option_not_exists>
                         <code>103</code>
-                        <message>Option with requested id does not exist.</message>
+                        <message>Option with requested ID does not exist.</message>
                     </option_not_exists>
                     <invalid_option_type>
                         <code>104</code>
-                        <message>Invalid option type.</message>
+                        <message>Provided option type is invalid.</message>
                     </invalid_option_type>
                     <store_not_exists>
                         <code>105</code>
-                        <message>Store with requested code/id does not exist.</message>
+                        <message>Store with requested code or ID does not exist.</message>
                     </store_not_exists>
                     <can_not_delete>
                         <code>106</code>
-                        <message>Can not delete option.</message>
+                        <message>Cannot delete option.</message>
                     </can_not_delete>
                     <update_option_value_error>
                         <code>107</code>
-                        <message>Error while updating an option value. Details are in the error message.</message>
+                        <message>Error occurred while updating an option value. Details are in error message.</message>
                     </update_option_value_error>
                     <option_value_title_required>
                         <code>108</code>
@@ -672,7 +672,7 @@
                     </option_value_title_required>
                     <cant_delete_last_value>
                         <code>109</code>
-                        <message>Option should have at least one value. Can not delete last value.</message>
+                        <message>Option should have at least one value. Cannot delete last value.</message>
                     </cant_delete_last_value>
                 </faults>
             </catalog_product_custom_option_value>

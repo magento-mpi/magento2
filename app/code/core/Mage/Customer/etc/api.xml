@@ -42,19 +42,19 @@
                 <faults module="Mage_Customer">
                     <data_invalid>
                         <code>100</code>
-                        <message>Invalid customer data. Details in error message.</message>
+                        <message>Provided customer data is invalid. Details are in error message.</message>
                     </data_invalid>
                     <filters_invalid>
                         <code>101</code>
-                        <message>Invalid filters specified. Details in error message.</message>
+                        <message>Specified filters are invalid. Details are in error message.</message>
                     </filters_invalid>
                     <not_exists>
                         <code>102</code>
-                        <message>Customer not exists.</message>
+                        <message>Customer does not exist.</message>
                     </not_exists>
                     <not_deleted>
                         <code>103</code>
-                        <message>Customer not deleted. Details in error message.</message>
+                        <message>Customer is not deleted. Details are in error message.</message>
                     </not_deleted>
                 </faults>
             </customer>
@@ -99,19 +99,19 @@
                 <faults module="Mage_Customer">
                     <data_invalid>
                         <code>100</code>
-                        <message>Invalid address data. Details in error message.</message>
+                        <message>Provided address data is invalid. Details are in error message.</message>
                     </data_invalid>
                     <customer_not_exists>
                         <code>101</code>
-                        <message>Customer not exists.</message>
+                        <message>Customer does not exist.</message>
                     </customer_not_exists>
                     <not_exists>
                         <code>102</code>
-                        <message>Address not exists.</message>
+                        <message>Address does not exist.</message>
                     </not_exists>
                     <not_deleted>
                         <code>103</code>
-                        <message>Address not deleted. Details in error message.</message>
+                        <message>Address is not deleted. Details are in error message.</message>
                     </not_deleted>
                 </faults>
             </customer_address>

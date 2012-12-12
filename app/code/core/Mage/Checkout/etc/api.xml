@@ -51,23 +51,23 @@
                 <faults module="Mage_Checkout">
                     <store_not_exists>
                         <code>1001</code>
-                        <message>Can not make operation because store is not exists</message>
+                        <message>Cannot perform operation because store does not exist.</message>
                     </store_not_exists>
                     <quote_not_exists>
                         <code>1002</code>
-                        <message>Can not make operation because quote is not exists</message>
+                        <message>Cannot perform operation because quote does not exist.</message>
                     </quote_not_exists>
                     <quote_create_fault>
                         <code>1003</code>
-                        <message>Can not create a quote. </message>
+                        <message>Cannot create a quote. </message>
                     </quote_create_fault>
                     <quote_already_exists>
                         <code>1004</code>
-                        <message>Can not create a quote because quote with such identifier is already exists</message>
+                        <message>Cannot create a quote because quote with such ID already exists.</message>
                     </quote_already_exists>
                     <required_agreements_are_not_all>
                         <code>1005</code>
-                        <message>You did not set all required agreements</message>
+                        <message>Not all required agreements are set.</message>
                     </required_agreements_are_not_all>
                     <invalid_checkout_type>
                         <code>1006</code>
@@ -75,11 +75,11 @@
                     </invalid_checkout_type>
                     <guest_checkout_is_not_enabled>
                         <code>1007</code>
-                        <message>Checkout is not available for guest</message>
+                        <message>Checkout is not available for guest.</message>
                     </guest_checkout_is_not_enabled>
                     <create_order_fault>
                         <code>1008</code>
-                        <message>Can not create an order. </message>
+                        <message>Cannot create an order. </message>
                     </create_order_fault>
                     <payment_method_empty>
                         <code>1071</code>
@@ -137,15 +137,15 @@
                 <faults module="Mage_Checkout">
                     <store_not_exists>
                         <code>1001</code>
-                        <message>Can not make operation because store is not exists</message>
+                        <message>Cannot perform operation because store does not exist.</message>
                     </store_not_exists>
                     <quote_not_exists>
                         <code>1002</code>
-                        <message>Can not make operation because quote is not exists</message>
+                        <message>Cannot perform operation because quote does not exist.</message>
                     </quote_not_exists>
                     <invalid_product_data>
                         <code>1021</code>
-                        <message>Product's data is not valid.</message>
+                        <message>Product data is not valid.</message>
                     </invalid_product_data>
                     <add_product_fault>
                         <code>1022</code>
@@ -177,7 +177,7 @@
                     </customer_not_set_for_quote>
                     <customer_quote_not_exist>
                         <code>1029</code>
-                        <message>Customer's quote is not existed.</message>
+                        <message>Customer quote does not exist.</message>
                     </customer_quote_not_exist>
                     <quotes_are_similar>
                         <code>1030</code>
@@ -189,7 +189,7 @@
                     </unable_to_move_all_products>
                     <product_move_quote_save_fault>
                         <code>1032</code>
-                        <message>One of quote could not be saved during moving product(s) operation.</message>
+                        <message>One of quotes could not be saved during moving product(s) operation.</message>
                     </product_move_quote_save_fault>
                 </faults>
             </cart_product>
@@ -212,11 +212,11 @@
                 <faults module="Mage_Checkout">
                     <store_not_exists>
                         <code>1001</code>
-                        <message>Can not make operation because store is not exists</message>
+                        <message>Cannot perform operation because store does not exist.</message>
                     </store_not_exists>
                     <quote_not_exists>
                         <code>1002</code>
-                        <message>Can not make operation because quote is not exists</message>
+                        <message>Cannot perform operation because quote does not exist.</message>
                     </quote_not_exists>
                     <customer_not_set>
                         <code>1041</code>
@@ -224,7 +224,7 @@
                     </customer_not_set>
                     <customer_not_exists>
                         <code>1042</code>
-                        <message>The customer's identifier is not valid or customer is not existed</message>
+                        <message>The customer ID is not valid or customer does not exist.</message>
                     </customer_not_exists>
                     <customer_not_created>
                         <code>1043</code>
@@ -236,7 +236,7 @@
                     </customer_data_invalid>
                     <customer_mode_is_unknown>
                         <code>1045</code>
-                        <message>Customer's mode is unknown</message>
+                        <message>Customer mode is unknown</message>
                     </customer_mode_is_unknown>
                     <customer_address_data_empty>
                         <code>1051</code>
@@ -244,11 +244,11 @@
                     </customer_address_data_empty>
                     <customer_address_invalid>
                         <code>1052</code>
-                        <message>Customer's address data is not valid.</message>
+                        <message>Customer address data is not valid.</message>
                     </customer_address_invalid>
                     <invalid_address_id>
                         <code>1053</code>
-                        <message>The customer's address identifier is not valid</message>
+                        <message>The customer address ID is not valid</message>
                     </invalid_address_id>
                     <address_is_not_set>
                         <code>1054</code>
@@ -256,7 +256,7 @@
                     </address_is_not_set>
                     <address_not_belong_customer>
                         <code>1055</code>
-                        <message>Customer address identifier do not belong customer, which set in quote</message>
+                        <message>Customer address ID does not belong to customer which is set in quote.</message>
                     </address_not_belong_customer>
                 </faults>
             </cart_customer>
@@ -279,27 +279,27 @@
                 <faults module="Mage_Checkout">
                     <store_not_exists>
                         <code>1001</code>
-                        <message>Can not make operation because store is not exists</message>
+                        <message>Cannot perform operation because store does not exist.</message>
                     </store_not_exists>
                     <quote_not_exists>
                         <code>1002</code>
-                        <message>Can not make operation because quote is not exists</message>
+                        <message>Cannot perform operation because quote does not exist.</message>
                     </quote_not_exists>
                     <shipping_address_is_not_set>
                         <code>1061</code>
-                        <message>Can not make operation because of customer shipping address is not set</message>
+                        <message>Cannot perform operation because customer shipping address is not set.</message>
                     </shipping_address_is_not_set>
                     <shipping_method_is_not_available>
                         <code>1062</code>
-                        <message>Shipping method is not available</message>
+                        <message>Shipping method is not available.</message>
                     </shipping_method_is_not_available>
                     <shipping_method_is_not_set>
                         <code>1063</code>
-                        <message>Can not set shipping method. </message>
+                        <message>Cannot set shipping method. </message>
                     </shipping_method_is_not_set>
                     <shipping_methods_list_could_not_be_retrived>
                         <code>1064</code>
-                        <message>Can not receive list of shipping methods. </message>
+                        <message>Cannot receive the list of shipping methods. </message>
                     </shipping_methods_list_could_not_be_retrived>
                 </faults>
             </cart_shipping>
@@ -322,11 +322,11 @@
                 <faults module="Mage_Checkout">
                     <store_not_exists>
                         <code>1001</code>
-                        <message>Can not make operation because store is not exists</message>
+                        <message>Cannot perform operation because store does not exist.</message>
                     </store_not_exists>
                     <quote_not_exists>
                         <code>1002</code>
-                        <message>Can not make operation because quote is not exists</message>
+                        <message>Cannot perform operation because quote does not exist.</message>
                     </quote_not_exists>
                     <payment_method_empty>
                         <code>1071</code>
@@ -334,15 +334,15 @@
                     </payment_method_empty>
                     <billing_address_is_not_set>
                         <code>1072</code>
-                        <message>Customer's billing address is not set. Required for payment method data.</message>
+                        <message>Customer billing address is not set. It is required for payment method data.</message>
                     </billing_address_is_not_set>
                     <shipping_address_is_not_set>
                         <code>1073</code>
-                        <message>Customer's shipping address is not set. Required for payment method data.</message>
+                        <message>Customer shipping address is not set. It is required for payment method data.</message>
                     </shipping_address_is_not_set>
                     <method_not_allowed>
                         <code>1074</code>
-                        <message>Payment method is not allowed</message>
+                        <message>Payment method is not allowed.</message>
                     </method_not_allowed>
                     <payment_method_is_not_set>
                         <code>1075</code>
@@ -369,11 +369,11 @@
                 <faults module="Mage_Checkout">
                     <store_not_exists>
                         <code>1001</code>
-                        <message>Can not make operation because store is not exists</message>
+                        <message>Cannot perform operation because store does not exist.</message>
                     </store_not_exists>
                     <quote_not_exists>
                         <code>1002</code>
-                        <message>Can not make operation because quote is not exists</message>
+                        <message>Cannot perform operation because quote does not exist.</message>
                     </quote_not_exists>
                     <quote_is_empty>
                         <code>1081</code>

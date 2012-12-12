@@ -46,19 +46,19 @@
                 <faults module="Mage_Sales">
                     <not_exists>
                         <code>100</code>
-                        <message>Requested order not exists.</message>
+                        <message>Requested order does not exist.</message>
                     </not_exists>
                     <filters_invalid>
                         <code>101</code>
-                        <message>Invalid filters given. Details in error message.</message>
+                        <message>Provided filters are invalid. Details are in error message.</message>
                     </filters_invalid>
                     <data_invalid>
                         <code>102</code>
-                        <message>Invalid data given. Details in error message.</message>
+                        <message>Provided data is invalid. Details are in error message.</message>
                     </data_invalid>
                     <status_not_changed>
                         <code>103</code>
-                        <message>Order status not changed. Details in error message.</message>
+                        <message>Order status is not changed. Details are in error message.</message>
                     </status_not_changed>
                 </faults>
             </sales_order>
@@ -103,27 +103,27 @@
                 <faults module="Mage_Sales">
                     <not_exists>
                         <code>100</code>
-                        <message>Requested shipment not exists.</message>
+                        <message>Requested shipment does not exist.</message>
                     </not_exists>
                     <filters_invalid>
                         <code>101</code>
-                        <message>Invalid filters given. Details in error message.</message>
+                        <message>Provided filters are invalid. Details are in error message.</message>
                     </filters_invalid>
                     <data_invalid>
                         <code>102</code>
-                        <message>Invalid data given. Details in error message.</message>
+                        <message>Provided data is invalid. Details are in error message.</message>
                     </data_invalid>
                     <order_not_exists>
                         <code>103</code>
-                        <message>Requested order not exists.</message>
+                        <message>Requested order does not exist.</message>
                     </order_not_exists>
                     <track_not_exists>
                         <code>104</code>
-                        <message>Requested tracking not exists.</message>
+                        <message>Requested tracking does not exist.</message>
                     </track_not_exists>
                     <track_not_deleted>
                         <code>105</code>
-                        <message>Tracking not deleted. Details in error message.</message>
+                        <message>Tracking is not deleted. Details are in error message.</message>
                     </track_not_deleted>
                 </faults>
             </sales_order_shipment>
@@ -169,19 +169,19 @@
                     </not_exists>
                     <invalid_filter>
                         <code>101</code>
-                        <message>Invalid filter given. Details in error message.</message>
+                        <message>Provided filter is invalid. Details are in error message.</message>
                     </invalid_filter>
                     <data_invalid>
                         <code>102</code>
-                        <message>Invalid data given. Details in error message.</message>
+                        <message>Provided data is invalid. Details are in error message.</message>
                     </data_invalid>
                     <order_not_exists>
                         <code>103</code>
-                        <message>Requested order not exists.</message>
+                        <message>Requested order does not exist.</message>
                     </order_not_exists>
                     <status_not_changed>
                         <code>104</code>
-                        <message>Invoice status not changed</message>
+                        <message>Invoice status is not changed</message>
                     </status_not_changed>
                 </faults>
            </sales_order_invoice>
@@ -215,31 +215,31 @@
                 <faults module="Mage_Sales">
                     <not_exists>
                         <code>100</code>
-                        <message>Requested credit memo does not exist</message>
+                        <message>Requested credit memo does not exist.</message>
                     </not_exists>
                     <invalid_filter>
                         <code>101</code>
-                        <message>Invalid filter given. Details in error message</message>
+                        <message>Provided filter is invalid. Details are in error message</message>
                     </invalid_filter>
                     <data_invalid>
                         <code>102</code>
-                        <message>Invalid data given. Details in error message</message>
+                        <message>Provided data is invalid. Details are in error message</message>
                     </data_invalid>
                     <order_not_exists>
                         <code>103</code>
-                        <message>Requested order does not exist</message>
+                        <message>Requested order does not exist.</message>
                     </order_not_exists>
                     <status_not_changed>
                         <code>104</code>
-                        <message>Credit memo status not changed</message>
+                        <message>Credit memo status is not changed.</message>
                     </status_not_changed>
                     <cannot_refund_to_storecredit>
                         <code>105</code>
-                        <message>Money can not be refunded to the store credit account as order was created by guest</message>
+                        <message>Money cannot be refunded to the store credit account as order was created by guest.</message>
                     </cannot_refund_to_storecredit>
                     <cannot_create_creditmemo>
                         <code>106</code>
-                        <message>Credit memo for requested order can not be created.</message>
+                        <message>Credit memo for requested order cannot be created.</message>
                     </cannot_create_creditmemo>
                 </faults>
             </sales_order_creditmemo>

@@ -30,11 +30,11 @@
                 <faults module="Mage_CatalogInventory">
                     <not_exists>
                         <code>101</code>
-                        <message>Product not exists.</message>
+                        <message>Product does not exist.</message>
                     </not_exists>
                     <not_updated>
                         <code>102</code>
-                        <message>Product inventory not updated. Details in error message.</message>
+                        <message>Product inventory is not updated. Details are in error message.</message>
                     </not_updated>
                 </faults>
             </cataloginventory_stock_item>

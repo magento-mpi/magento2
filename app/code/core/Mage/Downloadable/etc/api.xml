@@ -35,15 +35,15 @@
                 <faults module="Mage_Downloadable">
                     <store_not_exists>
                         <code>100</code>
-                        <message>Store with requested code/id does not exist.</message>
+                        <message>Store with requested code or ID does not exist.</message>
                     </store_not_exists>
                     <product_not_exists>
                         <code>101</code>
-                        <message>Product with requested id does not exist.</message>
+                        <message>Product with requested ID does not exist.</message>
                     </product_not_exists>
                     <links_and_samples_allowed>
                         <code>401</code>
-                        <message>Incorrect resourceType, only "links" and "samples" allowed.</message>
+                        <message>The resourceType value is invalid, only "links" and "samples" are allowed.</message>
                     </links_and_samples_allowed>
                     <empty_url>
                         <code>402</code>
@@ -51,7 +51,7 @@
                     </empty_url>
                     <no_filename>
                         <code>403</code>
-                        <message>Filename was omitted, or contains unallowed characters.</message>
+                        <message>Filename is omitted or contains not allowed characters.</message>
                     </no_filename>
                     <no_file_base64_content>
                         <code>404</code>
@@ -63,15 +63,15 @@
                     </no_title>
                     <unknown_resource_type>
                         <code>406</code>
-                        <message>Incorrect content type only "link", "link_samples" and "sample" allowed.</message>
+                        <message>Content type is invalid, only "link", "link_samples", and "sample" are allowed.</message>
                     </unknown_resource_type>
                     <product_not_downloadable>
                         <code>408</code>
-                        <message>Incorrect product type. Downloadable content, can be added only to "downloadable" products.</message>
+                        <message>Product type is invalid. Downloadable content can be added only to "downloadable" products.</message>
                     </product_not_downloadable>
                     <incorect_file_extension>
                         <code>409</code>
-                        <message>Incorrect extension of filename.</message>
+                        <message>Filename extension is invalid.</message>
                     </incorect_file_extension>
                     <file_size_is_to_big>
                         <code>410</code>
@@ -79,7 +79,7 @@
                     </file_size_is_to_big>
                     <tmp_dir_is_not_writeable>
                         <code>411</code>
-                        <message>Has no permissions for writing to temporary folder.</message>
+                        <message>There are no permissions for writing to temporary folder.</message>
                     </tmp_dir_is_not_writeable>
                     <can_not_create_sub_tmp_folder>
                         <code>411</code>
@@ -91,11 +91,11 @@
                     </link_was_not_found>
                     <incorrect_resource_type>
                         <code>413</code>
-                        <message>An allowed resource type values for remove method is: "links" and "samples".</message>
+                        <message>Allowed resource type values for remove method are "links" and "samples".</message>
                     </incorrect_resource_type>
                     <save_error>
                         <code>414</code>
-                        <message>Unable to save action. Details in error message.</message>
+                        <message>Unable to save action. Details are in error message.</message>
                     </save_error>
                     <validation_error>
                         <code>415</code>
@@ -103,7 +103,7 @@
                     </validation_error>
                     <remove_error>
                         <code>416</code>
-                        <message>Unable to remove link. Details in error message.</message>
+                        <message>Unable to remove link. Details are in error message.</message>
                     </remove_error>
                 </faults>
             </catalog_product_downloadable_link>

@@ -30,7 +30,7 @@
                 <faults module="Mage_Core">
                     <store_not_exists>
                         <code>100</code>
-                        <message>Requested store view not found.</message>
+                        <message>Requested store view is not found.</message>
                     </store_not_exists>
                 </faults>
             </core_store>

@@ -33,11 +33,11 @@
                     </data_invalid>
                     <balance_not_found>
                         <code>101</code>
-                        <message>No balance found with requested parameters.</message>
+                        <message>Balance with requested parameters is not found.</message>
                     </balance_not_found>
                     <history_not_found>
                         <code>102</code>
-                        <message>No history found with requested parameters.</message>
+                        <message>History with requested parameters is not found.</message>
                     </history_not_found>
                 </faults>
             </enterprise_customerbalance>
@@ -62,15 +62,15 @@
                     </data_invalid>
                     <quote_not_exists>
                         <code>103</code>
-                        <message>No quote found with requested id.</message>
+                        <message>Quote with requested ID is not found.</message>
                     </quote_not_exists>
                     <guest_quote>
                         <code>104</code>
-                        <message>Store credit can not be used for quote created by guest.</message>
+                        <message>Store credit cannot be used for quote created by guest.</message>
                     </guest_quote>
                     <store_not_exists>
                         <code>105</code>
-                        <message>No store found with requested id or code.</message>
+                        <message>Store with requested ID or code is not found.</message>
                     </store_not_exists>
                 </faults>
             </enterprise_customerbalance_quote>

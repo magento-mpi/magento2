@@ -36,7 +36,7 @@
                 <faults module="Mage_Directory">
                     <country_not_exists>
                         <code>101</code>
-                        <message>Country not exists.</message>
+                        <message>Country does not exist.</message>
                     </country_not_exists>
                 </faults>
             </directory_region>

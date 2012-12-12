@@ -63,11 +63,11 @@
             </internal>
             <access_denied>
                 <code>2</code>
-                <message>Access denied.</message>
+                <message>Access is denied.</message>
             </access_denied>
             <resource_path_invalid>
                 <code>3</code>
-                <message>Invalid api path.</message>
+                <message>API path is invalid.</message>
             </resource_path_invalid>
             <resource_path_not_callable>
                 <code>4</code>
