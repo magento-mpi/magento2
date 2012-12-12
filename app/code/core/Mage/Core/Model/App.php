@@ -374,6 +374,28 @@ class Mage_Core_Model_App
     }
 
     /**
+     * Whether the application has been installed or not
+     *
+     * @return bool
+     */
+    public function isInstalled()
+    {
+        return (bool)$this->_config->getInstallDate();
+    }
+
+    /**
+     * Throw an exception, if the application has not been installed yet
+     *
+     * @throws Magento_Exception
+     */
+    public function requireInstalledInstance()
+    {
+        if (!$this->isInstalled()) {
+            throw new Magento_Exception('Application is not installed yet, please complete the installation first.');
+        }
+    }
+
+    /**
      * Initialize PHP environment
      *
      * @return Mage_Core_Model_App
