@@ -253,15 +253,15 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
     {
         return array(
             // Each element is: array(Content-Type header value, content-type part[, expected exception message])
-            array('', null, 'Content-Type header is empty'),
-            array('_?', null, 'Content-Type header is invalid'),
+            array('', null, 'Content-Type header is empty.'),
+            array('_?', null, 'Content-Type header is invalid.'),
             array('application/x-www-form-urlencoded; charset=UTF-8', 'application/x-www-form-urlencoded'),
             array('application/x-www-form-urlencoded; charset=utf-8', 'application/x-www-form-urlencoded'),
             array('text/html; charset=uTf-8', 'text/html'),
-            array('text/html; charset=', null, 'Content-Type header is invalid'),
-            array('text/html;', null, 'Content-Type header is invalid'),
+            array('text/html; charset=', null, 'Content-Type header is invalid.'),
+            array('text/html;', null, 'Content-Type header is invalid.'),
             array('application/dialog.dot-info7+xml', 'application/dialog.dot-info7+xml'),
-            array('application/x-www-form-urlencoded; charset=cp1251', null, 'UTF-8 is the only supported charset')
+            array('application/x-www-form-urlencoded; charset=cp1251', null, 'UTF-8 is the only supported charset.')
         );
     }
 
@@ -274,7 +274,7 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
     {
         return array(
             // Each element is: array(Request method, CRUD operation name[, expected exception message])
-            array('INVALID_METHOD', null, 'Invalid request method'),
+            array('INVALID_METHOD', null, 'Request method is invalid.'),
             array('GET', Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_GET),
             array('POST', Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_CREATE),
             array('PUT', Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_UPDATE),
