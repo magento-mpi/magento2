@@ -105,3 +105,28 @@ grid:
                 1: Design
                 2: Date From
                 3: Date To
+    xml_sitemap:
+        fieldset:
+            xml_sitemap_grid: tablename
+        button:
+            reset_filter:
+            search:
+        dropdown:
+            view_per_page:
+            filter_store_view:
+        field:
+            page:
+            filter_xml_sitemap_id:
+            filter_xml_sitemap_filename:
+            filter_xml_sitemap_path:
+            filter_xml_sitemap_google_link:
+            filter_xml_sitemap_create_date_from:
+            filter_xml_sitemap_create_date_to:
+        headers:
+            0: ID
+            1: Filename
+            2: Path
+            3: Link for Google
+            4: Last Time Generated
+            5: Store View
+            6: Action

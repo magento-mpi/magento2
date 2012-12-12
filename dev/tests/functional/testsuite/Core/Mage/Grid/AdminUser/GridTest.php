@@ -86,6 +86,7 @@ class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
     public function uiElementsTestDataProvider()
     {
         return array(
+            array('xml_sitemap'),
             array('system_design'),
             array('manage_roles'),
             array('manage_admin_users'),
