@@ -52,6 +52,7 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
      *
      * @param Zend_Controller_Request_Abstract $request
      * @param Zend_Controller_Response_Abstract $response
+     * @param string $areaCode
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Authorization $authorization
@@ -61,12 +62,15 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
      * @param Mage_Core_Model_Event_Manager $eventManager
      * @param Mage_Core_Model_App $app
      * @param Mage_Backend_Model_Auth_StorageInterface $authSession
+     * @param Mage_Core_Model_Layout_Factory $layoutFactory
      * @param array $invokeArgs
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
-    public function __construct(Zend_Controller_Request_Abstract $request,
+    public function __construct(
+        Zend_Controller_Request_Abstract $request,
         Zend_Controller_Response_Abstract $response,
+        $areaCode = null,
         Magento_ObjectManager $objectManager,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Authorization $authorization,
@@ -76,10 +80,11 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
         Mage_Core_Model_Event_Manager $eventManager,
         Mage_Core_Model_App $app,
         Mage_Backend_Model_Auth_StorageInterface $authSession,
+        Mage_Core_Model_Layout_Factory $layoutFactory,
         array $invokeArgs = array()
     ) {
-        parent::__construct($request, $response, $objectManager, $frontController,
-            $authorization, $configStructure, $authSession, $invokeArgs
+        parent::__construct($request, $response, $areaCode, $objectManager, $frontController,
+            $authorization, $configStructure, $authSession, $layoutFactory, $invokeArgs
         );
 
         $this->_authorization = $authorization;
