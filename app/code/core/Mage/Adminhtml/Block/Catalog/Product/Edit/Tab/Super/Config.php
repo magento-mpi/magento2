@@ -336,15 +336,27 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
     {
         $attributesCount = 0;
         $variationalAttributes = array();
-        $usedProductAttributes = $this->getSelectedAttributes();
-        foreach ($usedProductAttributes as $attribute) {
-            $values = $attribute->getSource()->getAllOptions(false);
+        //$usedProductAttributes = $this->getSelectedAttributes();
+        $configurableAttributes = $this->_getProductType()->getConfigurableAttributes($this->_getProduct());
+        foreach ($configurableAttributes as $attribute) {
+            /** @var $attribute Mage_Catalog_Model_Product_Type_Configurable_Attribute  */
+            $productAttribute = $attribute->getProductAttribute();
+            $values = $productAttribute->getSource()->getAllOptions(false);
             if (!$values) {
                 return array();
             }
+            foreach ($values as &$valueInfo) {
+                foreach ((array)$attribute->getPrices() as $priceData) {
+                    if ($priceData['value_index'] == $valueInfo['value']) {
+                        $valueInfo['price'] = $priceData;
+                    }
+                }
+            }
+
+
             /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
             $variationalAttributes[] = array(
-                'id' => $attribute->getId(),
+                'id' => $productAttribute->getId(),
                 'values' => $values,
             );
             $attributesCount++;

@@ -46,19 +46,19 @@ if (count($this->getSelectedAttributes())) {
 
         <div id="attributes-container">
         <?php foreach ($this->getAttributes() as $attribute) {  //Zend_Debug::dump($attribute); ?>
-            <div class="entry-edit attribute-container">
+            <div class="entry-edit attribute-container" <?php echo $this->getUiId('attrribute-container', $attribute['attribute_code']) ?>>
                 <div class="entry-edit-head" style="cursor: move;">
                     <span class="ui-icon ui-icon-arrowthick-2-n-s" style="float:left;"></span>
                     <h4 class="icon-head head-edit-form fieldset-legend">
                         <input value="<?php echo $attribute['label']; ?>"
-                           name="attr[<?php echo $attribute['attribute_id']?>][store_label]"
+                           name="product[configurable_attributes][<?php echo $attribute['attribute_id']?>][store_label]"
                            data-store-label="<?php echo $attribute['label']; ?>"
                            style="background: #6F8992; border: none"
                            class="required-entry"/>
                         <label for="attribute-<?php echo $attribute['attribute_id']?>">
                             <input value="1"
                                type="checkbox"
-                               name="attr[<?php echo $attribute['attribute_id']?>][is_default]"
+                               name="product[configurable_attributes][<?php echo $attribute['attribute_id']?>][is_default]"
                                id="attribute-<?php echo $attribute['attribute_id']?>" />
                             <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Use default')?>
                             ('<?php echo $attribute['store_label'] ?>')</label>
@@ -79,7 +79,10 @@ if (count($this->getSelectedAttributes())) {
                         </tr>
                         </thead>
                         <tbody>
-                        <?php foreach ($attribute['oprions'] as $option) { ?>
+                        <?php
+                            $namePrefix = 'product[configurable_attributes][' . $attribute['attribute_id'] .'][options]';
+                            foreach ($attribute['oprions'] as $option) {
+                        ?>
                             <tr>
                                 <td><?php echo $option['label'] ?></td>
                                 <td>
@@ -93,8 +96,8 @@ if (count($this->getSelectedAttributes())) {
                                         }
                                     }
                                     ?>
-                                    <input type="text" name="attr[<?php echo $option['value'] ?>][price_value]" value="<?php echo $price_value; ?>">
-                                    <select name="attr[<?php echo $option['value'] ?>][is_percent]">
+                                    <input type="text" name="<?php echo $namePrefix ?>[<?php echo $option['value'] ?>][price_value]" value="<?php echo $price_value; ?>">
+                                    <select name="<?php echo $namePrefix ?>[<?php echo $option['value'] ?>][is_percent]">
                                         <option value="0"
                                             <?php echo !$is_percent ?'selected="selected"':'' ?>
                                             >Fixed</option>
@@ -103,7 +106,7 @@ if (count($this->getSelectedAttributes())) {
                                             >Percentage</option>
                                     </select>
                                 </td>
-                                <td><input type="checkbox" name="attr[<?php echo $option['value'] ?>][price]" checked="checked" /></td>
+                                <td><input type="checkbox" name="<?php echo $namePrefix ?>[<?php echo $option['value'] ?>][include]"  value="1" checked="checked" /></td>
                             </tr>
                         <?php } ?>
                         </tbody>
@@ -210,7 +213,7 @@ if (count($this->getSelectedAttributes())) {
         <tbody>
 <?php
     $isEven = true;
-
+    $productPrice = (float)$this->_getProduct()->getPrice();
     $productByUsedAttributes = array();
     foreach ($this->_getProduct()->getTypeInstance()->getUsedProducts($this->_getProduct()) as $product) {
        $keys = array();
@@ -224,10 +227,15 @@ if (count($this->getSelectedAttributes())) {
     foreach ($variations as $variation) {
         $attributeValues = array();
         $attributeLabels = array();
+        $price = $productPrice;
         foreach ($usedProductAttributes as $attribute) {
             /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
             $attributeValues[$attribute->getAttributeCode()] = $variation[$attribute->getId()]['value'];
             $attributeLabels[$attribute->getAttributeCode()] = $variation[$attribute->getId()]['label'];
+            if (isset($variation[$attribute->getId()]['price'])) {
+                $priceInfo = $variation[$attribute->getId()]['price'];
+                $price += ($priceInfo['is_percent'] ?  $productPrice / 100.0 : 1.0) * $priceInfo['pricing_value'];
+            }
         }
         $key = implode('-', $attributeValues);
         if (isset($productByUsedAttributes[$key])) {
@@ -235,7 +243,7 @@ if (count($this->getSelectedAttributes())) {
 ?>
         <tr class="<?php echo $isEven ? 'even' : '' ?>">
             <td class="associated-matrix-product-name"><?php echo $product->getName()?></td>
-            <td class="associated-matrix-product-price"><?php echo $product->getFormatedPrice()?></td>
+            <td class="associated-matrix-product-price"><?php echo $price ?></td>
             <td><span class="associated-matrix-product-sku"><?php echo $product->getSku()?></span>
                 <button class="choose-product"
                     data-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"
@@ -256,10 +264,11 @@ if (count($this->getSelectedAttributes())) {
         <tr class="<?php echo $isEven ? 'even' : '' ?>">
             <td class="associated-matrix-product-name">
                 <input id="variations-matrix-<?php echo $key?>-name" name="variations-matrix[<?php echo $key?>][name]" value="<?php echo $this->_getProduct()->getName(), '-', implode('-', $attributeLabels)?>" class="required-entry"<?php echo $disabled?>/>
-                <input type="hidden" name="variations-matrix[<?php echo $key?>][configurable_attribute]" value="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"<?php echo $disabled?>/>
+                <input type="hidden" name="variations-matrix[<?php echo $key?>][configurable_attribute]" value="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>" disabled="disabled"/>
             </td>
             <td class="associated-matrix-product-price">
-                <input id="variations-matrix-<?php echo $key?>-price" name="variations-matrix[<?php echo $key?>][price]" value="<?php echo $this->_getProduct()->getPrice()?>" class="required-entry"<?php echo $disabled?>/>
+                <?php echo $price ?>
+                <input type="hidden" id="variations-matrix-<?php echo $key?>-price" name="variations-matrix[<?php echo $key?>][price]" value="<?php echo $price ?>" class="required-entry"<?php echo $disabled?>/>
             </td>
             <td class="associated-matrix-product-sku">
                 <input id="variations-matrix-<?php echo $key?>-sku" name="variations-matrix[<?php echo $key?>][sku]" value="<?php echo $this->_getProduct()->getSku(), '-', implode('-', $attributeLabels)?>" class="required-entry"<?php echo $disabled?>/>
