@@ -21,13 +21,12 @@ $options = $this->getChildBlock('customer.wishlist.item.options')
     <div class="add-to-cart-alt">
         <?php if ($item->canHaveQty() && $item->getProduct()->isVisibleInSiteVisibility()): ?>
         <input type="text" class="input-text qty" data-validate="{'validate-greater-than-zero':true}" name="qty[<?php echo $item->getId() ?>]"
-               value="<?php echo $this->getAddToCartQty($item) * 1 ?>"/>
+            value="<?php echo $this->getAddToCartQty($item) * 1 ?>"/>
         <?php endif; ?>
         <?php if ($product->isSaleable()): ?>
-        <button type="button" title="<?php echo $this->__('Add to Cart') ?>" data-item-id="<?php echo $item->getId()?>"
-                class="button btn-cart"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+        <button type="button" title="<?php echo $this->__('Add to Cart') ?>" data-item-id="<?php echo $item->getId()?>" class="button btn-cart"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
         <?php else: ?>
-        <?php if ($product->getIsSalable()): ?>
+            <?php if ($product->getIsSalable()): ?>
             <p class="availability in-stock"><span><?php echo $this->__('In stock') ?></span></p>
             <?php else: ?>
             <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
@@ -51,9 +50,9 @@ $options = $this->getChildBlock('customer.wishlist.item.options')
             "<?php echo $this->getViewFileUrl('Mage_Wishlist::cart.js')?>", function() {
             $.mage.addWishListToCart({
                 addToCartUrl: '<?php echo $this->getItemAddToCartUrl('%item%');?>' ,
-                confirmRemMsg: '<?php echo $this->__('Are you sure you want to remove this product from your wishlist?') ?>',
+                confirmRemoveMessage: '<?php echo $this->__('Are you sure you want to remove this product from your wishlist?') ?>',
                 addAllToCartUrl : '<?php echo $this->getUrl('*/*/allcart', array('wishlist_id' => $this->getWishlistInstance()->getId())) ?>',
-                commentStr : '<?php echo $this->helper('Mage_Wishlist_Helper_Data')->defaultCommentString()?>'
+                commentString : '<?php echo $this->helper('Mage_Wishlist_Helper_Data')->defaultCommentString()?>'
             });
         });
     })(jQuery);
