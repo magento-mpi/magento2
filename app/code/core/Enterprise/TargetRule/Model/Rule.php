@@ -332,7 +332,7 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Abstract
                 if (1 === $actionArgsIndex) {
                     continue;
                 }
-                if (!Magento_Autoload::getInstance()->classExists($actionArgs['type'])) {
+                if (!class_exists($actionArgs['type'])) {
                     Mage::throwException(
                         Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Model class name for attribute is invalid')
                     );

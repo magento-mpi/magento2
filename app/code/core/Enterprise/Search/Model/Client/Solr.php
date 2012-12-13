@@ -145,15 +145,20 @@ class Enterprise_Search_Model_Client_Solr extends Apache_Solr_Service
      * Central method for making a get operation against this Solr Server
      *
      * @param string $url
-     * @param float $timeout Read timeout in seconds
+     * @param bool|float $timeout Read timeout in seconds
      * @return Apache_Solr_Response
-     *
-     * @throws Exception If a non 200 response status is returned
      */
     protected function _sendRawGet($url, $timeout = FALSE)
     {
-        stream_context_set_option($this->_getContext, 'http', 'header', "Authorization: Basic " . base64_encode($this->getUserLogin() . ':' . $this->getPassword()));
-        return parent::_sendRawGet($url, $timeout);
+        $this->_setAuthHeader($this->_getContext);
+        Magento_Profiler::start('solr_send_raw_get', array(
+            'group' => 'solr',
+            'operation' => 'solr:_sendRawGet',
+            'host' => $this->getHost()
+        ));
+        $response = parent::_sendRawGet($url, $timeout);
+        Magento_Profiler::stop('solr_send_raw_get');
+        return $response;
     }
 
     /**
@@ -161,16 +166,32 @@ class Enterprise_Search_Model_Client_Solr extends Apache_Solr_Service
      *
      * @param string $url
      * @param string $rawPost
-     * @param float $timeout Read timeout in seconds
+     * @param bool|float $timeout Read timeout in seconds
      * @param string $contentType
      * @return Apache_Solr_Response
-     *
-     * @throws Exception If a non 200 response status is returned
      */
     protected function _sendRawPost($url, $rawPost, $timeout = FALSE, $contentType = 'text/xml; charset=UTF-8')
     {
-        stream_context_set_option($this->_postContext, 'http', 'header', "Authorization: Basic " . base64_encode($this->getUserLogin() . ':' . $this->getPassword()));
-        return parent::_sendRawPost($url, $rawPost, $timeout, $contentType);
+        $this->_setAuthHeader($this->_postContext);
+        Magento_Profiler::start('solr_send_raw_post', array(
+            'group' => 'solr',
+            'operation' => 'solr:_sendRawPost',
+            'host' => $this->getHost()
+        ));
+        $response = parent::_sendRawPost($url, $rawPost, $timeout, $contentType);
+        Magento_Profiler::stop('solr_send_raw_post');
+        return $response;
+    }
+
+    /**
+     * Set Authorization header to stream context.
+     *
+     * @param resource $context
+     */
+    protected function _setAuthHeader($context)
+    {
+        stream_context_set_option($context, 'http', 'header',
+            'Authorization: Basic ' . base64_encode($this->getUserLogin() . ':' . $this->getPassword()));
     }
 
     /**

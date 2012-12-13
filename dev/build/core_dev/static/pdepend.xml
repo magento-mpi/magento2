@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * PHP Depend configuration
+ * @link http://pdepend.org/documentation/handbook/configuration/index.html
+ *
+ * {license_notice}
+ *
+ * @category    tests
+ * @package     static
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<configuration>
+    <cache>
+        <driver>memory</driver>
+    </cache>
+</configuration>

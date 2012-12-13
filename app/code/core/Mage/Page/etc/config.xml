@@ -121,7 +121,6 @@ Disallow: /lib/
 Disallow: /*.php$
 Disallow: /pkginfo/
 Disallow: /report/
-Disallow: /skin/
 Disallow: /var/
 Disallow: /catalog/
 Disallow: /customer/
@@ -132,7 +131,6 @@ Disallow: /*SID=
                 </default_custom_instructions>
             </search_engine_robots>
             <header translate="welcome" module="Mage_Page">
-                <logo_src>images/logo.gif</logo_src>
                 <logo_alt>Magento Commerce</logo_alt>
                 <welcome>Default welcome msg!</welcome>
             </header>

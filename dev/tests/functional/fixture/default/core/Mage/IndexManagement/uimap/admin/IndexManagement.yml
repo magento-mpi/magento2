@@ -1,4 +1,3 @@
-# Magento
 #
 # {license_notice}
 #
@@ -32,6 +31,8 @@ index_management:
                             select_visible: //a[text()='Select Visible']
                             unselect_visible: //a[text()='Unselect Visible']
                             reindex_index: //tr[td[normalize-space(text())='%indexName%']]//a[text()='Reindex Data']
+                            reindex_required_index: //tr[normalize-space(td/span)='Reindex Required']//a[text()='Reindex Data']
+                            update_required_index: //tr[normalize-space(td/span)='Yes']//a[text()='Reindex Data']
                         pageelements:
                             selected_items: //strong[@id='indexer_processes_grid_massaction-count']
                             reindex_required: //tr[normalize-space(td/span)='Reindex Required']
@@ -40,5 +41,3 @@ index_management:
         messages:
             success_reindex: //li[normalize-space(@class)='success-msg' and contains(.,'%indexName% index was rebuilt.')]
             massaction_success_reindex: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtySelected% index(es) have reindexed data.')]
-        page_specific_errors:
-            - There was a problem with reindexing process.

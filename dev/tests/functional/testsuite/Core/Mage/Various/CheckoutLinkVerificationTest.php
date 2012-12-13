@@ -20,14 +20,6 @@ class Core_Mage_Various_CheckoutLinkVerificationTest extends Mage_Selenium_TestC
 {
     /**
      * <p>Creating product with required fields only and customer</p>
-     * <p>Steps:</p>
-     * <p>1. Click "Add product" button;</p>
-     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields;</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
      *
      * @return array
      * @test
@@ -52,19 +44,6 @@ class Core_Mage_Various_CheckoutLinkVerificationTest extends Mage_Selenium_TestC
 
     /**
      * <p>"CHECKOUT" link verification on frontend</p>
-     * <p>Preconditions:</p>
-     * <p>1.Product is created;</p>
-     * <p>2.Customer without address is created and Logged In;</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page;</p>
-     * <p>2. Add product to Shopping Cart;</p>
-     * <p>3. Click on "CHECKOUT" link;</p>
-     * <p>4. Log Out Customer;</p>
-     * <p>5. Open product page;</p>
-     * <p>6. Add product to Shopping Cart;</p>
-     * <p>7. Click on "CHECKOUT" link;</p>
-     * <p>Expected result:</p>
-     * <p>User is redirected to OnePageCheckout after steps 3 and 7;</p>
      *
      * @param array $testData
      *

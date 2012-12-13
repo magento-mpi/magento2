@@ -1,0 +1,35 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Magento
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+# 'Create an Account' page
+register_account:
+    uimap:
+        messages: &customerMessages
+            empty_captcha: //input[@id='captcha_user_create']/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]
+
+#'Login or Create an Account' page
+customer_login:
+    uimap:
+        form:
+            fieldsets:
+                -
+                    log_in_customer:
+                        links:
+                            what_is_this: //li[@id='remember-me-box']//a[contains(., concat("What", "'s this?"))]
+        buttons:
+            close: //div[@class='popup-block block popup-remember-tip active']//button[span='Close']
+        pageelements:
+            checking: //div[@class='popup-block block popup-remember-tip active']
+        messages: *customerMessages
+
+#'Success LogOut page
+customer_logout:
+    title: Magento Enterprise Edition

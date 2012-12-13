@@ -41,8 +41,9 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_List extends Mage_Backend_Block_Wi
         /** @var $itemBlock Mage_DesignEditor_Block_Adminhtml_Theme_Item */
         $itemBlock = $this->getChildBlock('item');
 
-        /** @var $model Mage_Core_Model_Resource_Theme_Collection */
+        /** @var $themeCollection Mage_Core_Model_Resource_Theme_Collection */
         $themeCollection = Mage::getResourceModel('Mage_Core_Model_Resource_Theme_Collection');
+        $themeCollection->addAreaFilter(Mage_Core_Model_App_Area::AREA_FRONTEND);
 
         $items = array();
         /** @var $theme Mage_Core_Model_Theme */

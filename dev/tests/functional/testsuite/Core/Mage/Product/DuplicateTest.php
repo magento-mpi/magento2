@@ -33,7 +33,6 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @return array $attrData
-     * @group preConditions
      */
     public function createConfigurableAttribute()
     {
@@ -65,7 +64,6 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      * @return array $productData
      * @test
      * @depends createConfigurableAttribute
-     * @group preConditions
      */
     public function createProducts($attrData)
     {
@@ -98,12 +96,6 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating duplicated simple product</p>
-     * <p>Steps:</p>
-     * <p>1. Open created product;</p>
-     * <p>2. Click "Duplicate" button;</p>
-     * <p>3. Verify that all fields has the same data except SKU and Status(fields empty)</p>
-     * <p>Expected result:</p>
-     * <p>Product is duplicated, confirmation message appears;</p>
      *
      * @param array $attrData
      * @param array $assignData
@@ -135,12 +127,6 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating duplicated virtual product</p>
-     * <p>Steps:</p>
-     * <p>1. Open created product;</p>
-     * <p>2. Click "Duplicate" button;</p>
-     * <p>3. Verify that all fields has the same data except SKU and Status(fields empty)</p>
-     * <p>Expected result:</p>
-     * <p>Product is duplicated, confirmation message appears;</p>
      *
      * @param array $attrData
      * @param array $assignData
@@ -174,12 +160,6 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      * <p>Creating duplicated downloadable product</p>
      *  <p>$linkStatus - Yes, if Links can be purchased separately</p>
      *  <p>$linkStatus - No, if Links can not be purchased separately</p>
-     * <p>Steps:</p>
-     * <p>1. Open created product;</p>
-     * <p>2. Click "Duplicate" button;</p>
-     * <p>3. Verify that all fields has the same data except SKU and Status(fields empty)</p>
-     * <p>Expected result:</p>
-     * <p>Product is duplicated, confirmation message appears;</p>
      *
      * @param array $attrData
      * @param array $assignData
@@ -227,17 +207,6 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating grouped product with associated products</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add product' button;</p>
-     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in required fields;</p>
-     * <p>5. Click 'Save' button;</p>
-     * <p>6. Open created product;</p>
-     * <p>7. Click "Duplicate" button;</p>
-     * <p>8. Verify required fields has the same data except SKU (field empty)</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
      *
      * @param array $assignData
      *
@@ -268,17 +237,6 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating duplicated Bundle Product</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add product' button;</p>
-     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in required fields;</p>
-     * <p>5. Click 'Save' button;</p>
-     * <p>6. Open created product;</p>
-     * <p>7. Click "Duplicate" button;</p>
-     * <p>8. Verify required fields has the same data except SKU (field empty)</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
      *
      * @param $data
      * @param array $assignData
@@ -318,22 +276,6 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Duplicate Configurable product with associated products</p>
-     * <p>Preconditions</p>
-     * <p>Attribute Set created</p>
-     * <p>Virtual product created</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add product' button;</p>
-     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in all required fields;</p>
-     * <p>5. Goto "Associated products" tab;</p>
-     * <p>6. Select created Virtual product;</p>
-     * <p>5. Click 'Save' button;</p>
-     * <p>6. Open created product;</p>
-     * <p>7. Click "Duplicate" button;</p>
-     * <p>8. Verify required fields has the same data except SKU (field empty)</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
      *
      * @param array $attrData
      * @param array $assignData

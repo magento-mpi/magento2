@@ -12,6 +12,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_TabsTest extends PHPUnit_Framewo
 {
     /**
      * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Mage/Core/_files/init_adminhtml_design.php
      * @magentoAppIsolation enabled
      */
     public function testPrepareLayout()

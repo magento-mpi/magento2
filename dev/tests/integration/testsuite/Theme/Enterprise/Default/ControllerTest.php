@@ -14,14 +14,6 @@
  */
 class Theme_Enterprise_Default_ControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
-    protected function assertPreConditions()
-    {
-        $availableThemes = Mage::getDesign()->getThemeList();
-        if (!isset($availableThemes['enterprise']) || !in_array('default', $availableThemes['enterprise'])) {
-            $this->markTestSkipped('Test requires "enterprise/default" theme to be available in the system.');
-        }
-    }
-
     /**
      * Assert that a page content contains references to both jQuery and jQzoom JavaScript libraries
      *
@@ -35,7 +27,7 @@ class Theme_Enterprise_Default_ControllerTest extends Magento_Test_TestCase_Cont
     }
 
     /**
-     * @magentoConfigFixture current_store design/theme/full_name enterprise/default
+     * @magentoConfigFixture current_store design/theme/full_name enterprise/fixed
      */
     public function testCatalogProductView()
     {
@@ -44,7 +36,7 @@ class Theme_Enterprise_Default_ControllerTest extends Magento_Test_TestCase_Cont
     }
 
     /**
-     * @magentoConfigFixture current_store design/theme/full_name enterprise/default
+     * @magentoConfigFixture current_store design/theme/full_name enterprise/fixed
      */
     public function testReviewProductList()
     {

@@ -27,6 +27,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        Mage::getDesign()->setDefaultDesignTheme();
         $this->_block = $this->getMockForAbstractClass('Mage_Core_Block_Abstract',
             $this->_getBlockDependencies()
         );
@@ -293,7 +294,9 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     public function testGetBlockHtml()
     {
         // Without layout
-        $block1 = Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text');
+        /** @var $blockFactory Mage_Core_Model_BlockFactory */
+        $blockFactory = Mage::getObjectManager()->get('Mage_Core_Model_BlockFactory');
+        $block1 = $blockFactory->createBlock('Mage_Core_Block_Text');
         $block1->setText('Block text');
         $block1->setNameInLayout('block');
         $html = $this->_block->getBlockHtml('block');
@@ -622,11 +625,16 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
      * App isolation is enabled, because config options object is affected
      *
      * @magentoAppIsolation enabled
+     * @magentoDbIsolation enabled
      */
     public function testGetVar()
     {
-        Mage::getConfig()->getOptions()->setDesignDir(dirname(__DIR__) . '/Model/_files/design');
-        Mage::getDesign()->setDesignTheme('test/default');
+        /** @var $themeUtility Mage_Core_Utility_Theme */
+        $themeUtility = Mage::getModel('Mage_Core_Utility_Theme', array(
+            dirname(__DIR__) . '/Model/_files/design/'
+        ));
+        $themeUtility->registerThemes()->setDesignTheme('test/default', 'frontend');
+
         $this->assertEquals('Core Value1', $this->_block->getVar('var1'));
         $this->assertEquals('value1', $this->_block->getVar('var1', 'Namespace_Module'));
         $this->_block->setModuleName('Namespace_Module');

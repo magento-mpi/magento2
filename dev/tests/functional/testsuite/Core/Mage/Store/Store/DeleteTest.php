@@ -30,16 +30,6 @@ class Core_Mage_Store_Store_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete Store without Store View</p>
-     * <p>Preconditions:</p>
-     * <p>Store created without Store View;</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "System->Manage Stores";</p>
-     * <p>2. Select created Store from the grid and open it;</p>
-     * <p>3. Click "Delete Store" button;</p>
-     * <p>4. Select "No" on Backup Options page;</p>
-     * <p>5. Click "Delete Store" button;</p>
-     * <p>Expected result:</p>
-     * <p>Success message appears - "The store has been deleted."</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3489
@@ -58,16 +48,6 @@ class Core_Mage_Store_Store_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete Store with Store View</p>
-     * <p>Preconditions:</p>
-     * <p>Store with Store View created;</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "System->Manage Stores";</p>
-     * <p>2. Select created Store from the grid and open it;</p>
-     * <p>3. Click "Delete Store" button;</p>
-     * <p>4. Select "No" on Backup Options page;</p>
-     * <p>5. Click "Delete Store" button;</p>
-     * <p>Expected result:</p>
-     * <p>Success message appears - "The store has been deleted."</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3488

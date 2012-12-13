@@ -19,10 +19,10 @@
 class Mage_Selenium_Helper_Data extends Mage_Selenium_Helper_Abstract
 {
     /**
-     * Array of files paths to fixtures
+     * Array of files paths to data fixtures
      * @var array
      */
-    protected $_configFixtures = array();
+    protected $_configDataFiles = array();
 
     /**
      * Test data array used in tests
@@ -41,7 +41,7 @@ class Mage_Selenium_Helper_Data extends Mage_Selenium_Helper_Abstract
      */
     protected function _init()
     {
-        $this->_configFixtures = $this->getConfig()->getConfigFixtures();
+        $this->_configDataFiles = $this->getConfig()->getConfigData();
         $config = $this->getConfig()->getHelper('config')->getConfigFramework();
         if ($config['load_all_data']) {
             $this->_loadTestData();
@@ -52,24 +52,19 @@ class Mage_Selenium_Helper_Data extends Mage_Selenium_Helper_Abstract
      * Loads and merges DataSet files
      * @return Mage_Selenium_Helper_Data
      */
-    protected function _loadTestData()
+    private function _loadTestData()
     {
         if ($this->_testData) {
             return $this;
         }
-        foreach ($this->_configFixtures as $codePoolData) {
-            if (!array_key_exists('data', $codePoolData)) {
+        foreach ($this->_configDataFiles as $file) {
+            $dataSets = $this->getConfig()->getHelper('file')->loadYamlFile($file);
+            if (!$dataSets) {
                 continue;
             }
-            foreach ($codePoolData['data'] as $file) {
-                $dataSets = $this->getConfig()->getHelper('file')->loadYamlFile($file);
-                if (!$dataSets) {
-                    continue;
-                }
-                foreach ($dataSets as $dataSetKey => $content) {
-                    if ($content) {
-                        $this->_testData[$dataSetKey] = $content;
-                    }
+            foreach ($dataSets as $dataSetKey => $content) {
+                if ($content) {
+                    $this->_testData[$dataSetKey] = $content;
                 }
             }
         }
@@ -126,25 +121,7 @@ class Mage_Selenium_Helper_Data extends Mage_Selenium_Helper_Abstract
         $fileName = preg_replace('|\.yml$|', '', $fileName);
 
         if (!array_key_exists($fileName, $this->_loadedTestData)) {
-            foreach ($this->_configFixtures as $codePoolData) {
-                if (!array_key_exists('data', $codePoolData)) {
-                    continue;
-                }
-                foreach ($codePoolData['data'] as $file) {
-                    if (!preg_match('|' . $condition . '|', $file)) {
-                        continue;
-                    }
-                    $dataSets = $this->getConfig()->getHelper('file')->loadYamlFile($file);
-                    if (!$dataSets) {
-                        throw new RuntimeException($dataFile . ' file is empty');
-                    }
-                    foreach ($dataSets as $dataSetKey => $content) {
-                        if ($content) {
-                            $this->_loadedTestData[$fileName][$dataSetKey] = $content;
-                        }
-                    }
-                }
-            }
+            $this->_loadTestDataSetFromFiles($condition, $fileName);
         } elseif (array_key_exists($dataSetName, $this->_testData)) {
             return $this->_testData[$dataSetName];
         }
@@ -157,5 +134,25 @@ class Mage_Selenium_Helper_Data extends Mage_Selenium_Helper_Abstract
         }
         throw new RuntimeException(
             'DataSet with name "' . $dataSetName . '" is not present in "' . $dataFile . '" file.');
+    }
+
+    /**
+     * Loads data from files
+     * @param $condition
+     * @param $fileName
+     */
+    protected function _loadTestDataSetFromFiles($condition, $fileName)
+    {
+        foreach ($this->_configDataFiles as $file) {
+            if (!preg_match('|' . $condition . '|', $file)) {
+                continue;
+            }
+            $dataSets = $this->getConfig()->getHelper('file')->loadYamlFile($file);
+            foreach ($dataSets as $dataSetKey => $content) {
+                if ($content) {
+                    $this->_loadedTestData[$fileName][$dataSetKey] = $content;
+                }
+            }
+        }
     }
 }

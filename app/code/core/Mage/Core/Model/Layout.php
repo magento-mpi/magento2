@@ -1318,11 +1318,11 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      * @param array $attributes
      * @return Mage_Core_Block_Abstract
      */
-    protected function _getBlockInstance($block, array $attributes=array())
+    protected function _getBlockInstance($block, array $attributes = array())
     {
         if ($block && is_string($block)) {
             $block = Mage::getConfig()->getBlockClassName($block);
-            if (Magento_Autoload::getInstance()->classExists($block)) {
+            if (class_exists($block)) {
                 $block = $this->_blockFactory->createBlock($block, $attributes);
             }
         }

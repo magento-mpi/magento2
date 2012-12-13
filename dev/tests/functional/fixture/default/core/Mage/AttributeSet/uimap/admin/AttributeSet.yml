@@ -52,14 +52,14 @@ add_new_attribute_set:
                         dropdowns:
                             based_on: //select[@name='skeleton_set']
         buttons:
-            save_attribute_set: //button[span='Save Attribute Set']
-            back: //button[span='Back']
+            save_attribute_set: //*[@data-ui-id='catalog-product-attribute-set-toolbar-add-save-button']
+            back: //*[@data-ui-id='catalog-product-attribute-set-toolbar-add-back-button']
         messages: *messages
 
 
 edit_attribute_set:
     mca: catalog_product_set/edit/id/%id%/
-    title: %attributeName% / Manage Attribute Sets / Attributes / Catalog / Magento Admin
+    title: %elementTitle% / Manage Attribute Sets / Attributes / Catalog / Magento Admin
     uimap:
         form: &editAttributeSet
             fieldsets:
@@ -80,6 +80,7 @@ edit_attribute_set:
                         links:
                             group_folder: //div[contains(@class,'x-tree-node-el folder')]//span[text()='%folderName%']
                             group_attribute: //ul[contains(@class,'x-tree-node-ct')]//span[text()='%attributeName%']
+                            attribute_in_group: //li[.//span='%folderName%']//li[.//span='%attributeName%']//span[@id]
                 -
                     unassigned_attributes:
                         xpath:  //div[@id='tree-div2']
@@ -88,15 +89,15 @@ edit_attribute_set:
                         pageelements:
                             node_icon: //img[@class="x-tree-node-icon"]
         buttons: &editAttributeButtons
-            save_attribute_set: //button[span='Save Attribute Set']
-            delete_attribute_set: //button[span='Delete Attribute Set']
-            reset: //button[span='Reset']
-            back: //button[span='Back']
+            save_attribute_set: //*[@data-ui-id='catalog-product-attribute-set-main-save-button']
+            delete_attribute_set: //*[@data-ui-id='catalog-product-attribute-set-main-delete-button']
+            reset: //*[@data-ui-id='catalog-product-attribute-set-main-reset-button']
+            back: //*[@data-ui-id='catalog-product-attribute-set-main-back-button']
         messages: *messages
 
 edit_attribute_set_with_sharp:
     mca: catalog_product_set/edit/id/%id%/#
-    title: %attributeName% / Manage Attribute Sets / Attributes / Catalog / Magento Admin
+    title: %elementTitle% / Manage Attribute Sets / Attributes / Catalog / Magento Admin
     uimap:
         form: *editAttributeSet
         buttons: *editAttributeButtons

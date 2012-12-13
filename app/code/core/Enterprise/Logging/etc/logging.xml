@@ -1229,53 +1229,47 @@
         </actions>
     </sales_agreement>
 
-    <api_roles translate="label">
+    <webapi_acl_role translate="label">
         <label>Web Services API Roles</label>
         <expected_models>
-            <Mage_Api_Model_Roles/>
+            <Mage_Webapi_Model_Acl_Role/>
         </expected_models>
         <actions>
-            <adminhtml_api_role_editrole>
-                <action>view</action>
-            </adminhtml_api_role_editrole>
-
-            <adminhtml_api_role_saverole>
+            <adminhtml_webapi_role_save>
                 <action>save</action>
                 <skip_on_back>
-                    <adminhtml_api_role_editrole/>
+                    <adminhtml_webapi_role_edit />
                 </skip_on_back>
-            </adminhtml_api_role_saverole>
-
-            <adminhtml_api_role_delete>
+            </adminhtml_webapi_role_save>
+            <adminhtml_webapi_role_edit>
+                <action>edit</action>
+            </adminhtml_webapi_role_edit>
+            <adminhtml_webapi_role_delete>
                 <action>delete</action>
-            </adminhtml_api_role_delete>
+            </adminhtml_webapi_role_delete>
         </actions>
-    </api_roles>
+    </webapi_acl_role>
 
-    <api_users translate="label">
+    <webapi_acl_user translate="label">
         <label>Web Services API Users</label>
         <expected_models>
-            <Mage_Api_Model_User>
-                <skip_data>
-                    <api_key/>
-                    <api_key_confirmation/>
-                </skip_data>
-            </Mage_Api_Model_User>
+            <Mage_Webapi_Model_Acl_User/>
         </expected_models>
         <actions>
-            <adminhtml_api_user_edit>
-                <action>view</action>
-            </adminhtml_api_user_edit>
-
-            <adminhtml_api_user_save>
+            <adminhtml_webapi_user_save>
                 <action>save</action>
-            </adminhtml_api_user_save>
-
-            <adminhtml_api_user_delete>
+                <skip_on_back>
+                    <adminhtml_webapi_user_edit />
+                </skip_on_back>
+            </adminhtml_webapi_user_save>
+            <adminhtml_webapi_user_edit>
+                <action>edit</action>
+            </adminhtml_webapi_user_edit>
+            <adminhtml_webapi_user_delete>
                 <action>delete</action>
-            </adminhtml_api_user_delete>
+            </adminhtml_webapi_user_delete>
         </actions>
-    </api_users>
+    </webapi_acl_user>
 
     <adminhtml_permission_roles translate="label">
         <label>Admin Permission Roles</label>
@@ -1397,31 +1391,6 @@
             </adminhtml_system_design_delete>
         </actions>
     </adminhtml_system_design>
-
-    <adminhtml_system_convert_gui translate="label">
-        <label>Import/Export Profiles</label>
-        <expected_models>
-            <Mage_Dataflow_Model_Profile/>
-        </expected_models>
-        <actions>
-            <adminhtml_system_convert_gui_save>
-                <action>save</action>
-            </adminhtml_system_convert_gui_save>
-
-            <adminhtml_system_convert_gui_edit>
-                <action>edit</action>
-            </adminhtml_system_convert_gui_edit>
-
-            <adminhtml_system_convert_gui_delete>
-                <action>delete</action>
-            </adminhtml_system_convert_gui_delete>
-
-            <adminhtml_system_convert_gui_run>
-                <action>run</action>
-                <post_dispatch>postDispatchSystemImportExportRun</post_dispatch>
-            </adminhtml_system_convert_gui_run>
-        </actions>
-    </adminhtml_system_convert_gui>
 
     <adminhtml_system_currency translate="label">
         <label>Manage Currency Rates</label>

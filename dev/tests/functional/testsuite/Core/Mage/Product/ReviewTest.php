@@ -26,13 +26,6 @@ class Core_Mage_Product_ReviewTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Review product on frontend.</p>
-     * <p>Steps:</p>
-     * <p>1. Create simple and virtual products in stock and out of stock;</p>
-     * <p>2. Fill custom options for each product;</p>
-     * <p>3. Navigate to frontend;</p>
-     * <p>4. Validate the product details;</p>
-     * <p>Expected result:</p>
-     * <p>Products are created, Custom options are available for in stock product and disabled for out of stock;</p>
      *
      * @param string $productType
      * @param string $availability

@@ -150,9 +150,9 @@ class Magento_Test_Annotation_ConfigFixture
     }
 
     /**
-     * Handler for 'initFrontControllerBefore' event
+     * Reassign configuration data whenever application is reset
      */
-    public function initFrontControllerBefore()
+    public function initStoreAfter()
     {
         /* process events triggered from within a test only */
         if ($this->_currentTest) {

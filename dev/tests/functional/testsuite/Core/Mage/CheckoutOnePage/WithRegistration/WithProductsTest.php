@@ -70,7 +70,7 @@ class Core_Mage_CheckoutOnePage_WithRegistration_WithProductsTest extends Mage_S
      */
     public function withSimpleProduct($data)
     {
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney',
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_usa',
                                            array('general_name' => $data['simple']));
         //Steps
         $this->logoutCustomer();

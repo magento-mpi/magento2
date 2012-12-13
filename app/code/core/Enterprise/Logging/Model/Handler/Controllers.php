@@ -19,7 +19,6 @@
  */
 class Enterprise_Logging_Model_Handler_Controllers
 {
-
     /**
      * Generic Action handler
      *
@@ -86,12 +85,17 @@ class Enterprise_Logging_Model_Handler_Controllers
         $change = Mage::getModel('Enterprise_Logging_Model_Event_Changes');
 
         //Collect skip encrypted fields
-        $encryptedNodeEntriesPaths = Mage::getSingleton('Mage_Backend_Model_Config_Structure_Reader')
-            ->getConfiguration()
-            ->getEncryptedNodeEntriesPaths(true);
+        /** @var Mage_Backend_Model_Config_Structure $configStructure  */
+        $configStructure = Mage::getSingleton('Mage_Backend_Model_Config_Structure');
+
+        $encryptedNodeEntriesPaths = $configStructure->getFieldPathsByAttribute(
+            'backend_model',
+            'Mage_Backend_Model_Config_Backend_Encrypted'
+        );
+
         $skipEncrypted = array();
-        foreach ($encryptedNodeEntriesPaths as $fieldName) {
-            $skipEncrypted[] = $fieldName['field'];
+        foreach ($encryptedNodeEntriesPaths as $path) {
+            $skipEncrypted[] = basename($path);
         }
 
         //For each group of current section creating separated event change
@@ -532,27 +536,6 @@ class Enterprise_Logging_Model_Handler_Controllers
             return false;
         }
         return $eventModel->setInfo(is_array($processIds) ? implode(', ', $processIds) : (int)$processIds);
-    }
-
-    /**
-     * Custom handler for run Import/Export Profile
-     *
-     * @param Varien_Simplexml_Element $config
-     * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event
-     */
-    public function postDispatchSystemImportExportRun($config, $eventModel)
-    {
-        $profile = Mage::registry('current_convert_profile');
-        if (!$profile) {
-            return false;
-        }
-        $success = true;
-        $messages = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
-        if ($messages) {
-            $success = 'error' != $messages->getType();
-        }
-        return $eventModel->setIsSuccess($success)->setInfo($profile->getName() .  ': #' . $profile->getId());
     }
 
     /**

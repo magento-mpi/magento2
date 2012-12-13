@@ -45,7 +45,7 @@ class Mage_Backend_Model_Menu_Director_DomTest extends PHPUnit_Framework_TestCas
         $factory = $this->getMock('Magento_ObjectManager_Zend', array(), array(), '', false);
         $factory->expects($this->any())->method('create')->will($this->returnValue($mockCommand));
 
-        $this->_loggerMock = $this->getMock('Mage_Backend_Model_Menu_Logger', array('log'));
+        $this->_loggerMock = $this->getMock('Mage_Core_Model_Logger', array('log'), array(), '', false);
 
         $this->_model = new Mage_Backend_Model_Menu_Director_Dom(
             $domDocument,

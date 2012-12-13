@@ -71,16 +71,16 @@ class Mage_Selenium_Uimap_ElementsCollection extends ArrayObject
     /**
      * Get element by ID
      *
-     * @param string $id Element ID
+     * @param string $elementId Element ID
      * @param Mage_Selenium_Helper_Params|null $paramsDecorator Parameters decorator instance (by default = null)
      *
      * @return string|null
      */
-    public function get($id, $paramsDecorator = null)
+    public function get($elementId, $paramsDecorator = null)
     {
         $val = null;
-        if (isset($this[$id])) {
-            $val = $this[$id];
+        if (isset($this[$elementId])) {
+            $val = $this[$elementId];
 
             if (!$paramsDecorator && $this->_params) {
                 $paramsDecorator = $this->_params;
