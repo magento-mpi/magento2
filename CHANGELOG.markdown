@@ -1,3 +1,26 @@
+2.0.0.0-dev35
+=============
+* Enhancements of System Configuration:
+  ** Introduced new items that can be configured in the similar to Magento 1.x way, using xml files: nested groups in System Configuration form, group dependencies, intersected dependencies
+  ** Enhanced application of field dependencies, required fields functionality
+  ** Changed Configuration structure to be represented as an object model
+  ** Improved performance of configuration rendering
+  ** Updated configuration migration tools
+* Added Ids to base elements in Backend
+* Minor Improvements:
+  ** Added an ability to choose the image for logo and upload it from backend web-interface
+  ** Added notification in backend in case of product SKU change
+* Bug fixes:
+  ** Fixed bug in `Mage_Adminhtml_Sales_Order_CreditmemoController` that changed item’s stock status after each comment
+  ** Added `-- Please Select --` option for system attribute `tax_class_id` in `Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Options`
+  ** Removed `Debug` section in `System -> Configuration -> Advanced -> Developer` for default configuration scope
+  ** Fixed bug in `Mage_Tax_Model_Resource_Calculation` that prevented placing order with two tax rules having the same rate
+  ** Fixed addresses template for backend customer creation for correct scope overriding of State\Province field
+  ** Removed `Url Options` section in `System -> Configuration -> General -> Web` for website and store configuration scope
+  ** Changed backend template for UPS shipping provider to fix translation issue
+  ** Fixed integration test `Mage_Backend_Model_Config_DataTest`
+* Fixed security issue - set `CURLOPT_SSL_VERIFYPEER` to `true` by default in cUrl calls
+
 2.0.0.0-dev34
 =============
 * Test Framework:
