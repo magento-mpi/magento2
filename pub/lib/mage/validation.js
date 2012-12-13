@@ -9,7 +9,7 @@
 /*jshint regexdash:true eqnull:true browser:true jquery:true*/
 (function ($) {
     $.extend(true, $, {
-        //@TODO: Move methods 'isEmpty', 'isEmptyNoTrim', 'parseNumber' in file with utility functions
+        // @TODO: Move methods 'isEmpty', 'isEmptyNoTrim', 'parseNumber' in file with utility functions
         mage: {
             /**
              * Check if string is empty with trim
