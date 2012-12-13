@@ -23,21 +23,31 @@ class Mage_Launcher_Block_Adminhtml_Tile extends Mage_Backend_Block_Abstract
     /**
      * Get Tile Code
      *
+     * @throws Mage_Launcher_Exception
      * @return string
      */
     public function getTileCode()
     {
-        return $this->getTile()->getCode();
+        $tile = $this->getTile();
+        if (!isset($tile)) {
+            throw new Mage_Launcher_Exception('Tile was not set.');
+        }
+        return $tile->getCode();
     }
 
     /**
      * Get Tile State
      *
+     * @throws Mage_Launcher_Exception
      * @return int
      */
     public function getTileState()
     {
-        return $this->getTile()->getState();
+        $tile = $this->getTile();
+        if (!isset($tile)) {
+            throw new Mage_Launcher_Exception('Tile was not set.');
+        }
+        return $tile->getState();
     }
 
     /**
@@ -65,5 +75,22 @@ class Mage_Launcher_Block_Adminhtml_Tile extends Mage_Backend_Block_Abstract
                 $tileStyle = 'sl-step-todo';
         }
         return $tileStyle;
+    }
+
+    /**
+     * Get Response Content
+     *
+     * @return array
+     */
+    public function getResponseContent()
+    {
+        $responseContent = array(
+            'success' => true,
+            'error_message' => '',
+            'tile_code' => $this->getTileCode(),
+            'tile_state' => $this->getTileState(),
+            'tile_content' => $this->toHtml()
+        );
+        return $responseContent;
     }
 }

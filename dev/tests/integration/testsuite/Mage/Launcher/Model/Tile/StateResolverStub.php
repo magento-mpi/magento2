@@ -36,4 +36,14 @@ class Mage_Launcher_Model_Tile_StateResolverStub implements Mage_Launcher_Model_
     {
         return Mage_Launcher_Model_Tile::STATE_COMPLETE;
     }
+
+    /**
+     * Get Persistent State of the Tile
+     *
+     * @return int
+     */
+    public function getPersistentState()
+    {
+        return Mage_Launcher_Model_Tile::STATE_COMPLETE;
+    }
 }

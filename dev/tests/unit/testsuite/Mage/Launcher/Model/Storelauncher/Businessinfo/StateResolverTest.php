@@ -15,9 +15,82 @@ class Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolverTest extends P
      * @covers Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolver::isTileComplete
      * @param string $email
      * @param int $expectedState
-     * @dataProvider getHandleSystemConfigChangeData
+     * @dataProvider getTestDataIsTileComplete
+     */
+    public function testIsTileComplete($email, $expectedState)
+    {
+        $stateResolver = $this->_getStateResolverWithEmail($email);
+        $this->assertEquals(
+            $expectedState,
+            $stateResolver->isTileComplete()
+        );
+    }
+
+    /**
+     * @covers Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolver::getPersistentState
+     * @param string $email
+     * @param int $expectedState
+     * @dataProvider getTestData
+     */
+    public function testGetPersistentState($email, $expectedState)
+    {
+        $stateResolver = $this->_getStateResolverWithEmail($email);
+        $this->assertEquals(
+            $expectedState,
+            $stateResolver->getPersistentState()
+        );
+    }
+
+    /**
+     * @covers Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolver::isTileComplete
+     * @param string $email
+     * @param int $expectedState
+     * @dataProvider getTestData
      */
     public function testHandleSystemConfigChange($email, $expectedState)
+    {
+        $stateResolver = $this->_getStateResolverWithEmail($email);
+        $this->assertEquals(
+            $expectedState,
+            $stateResolver->handleSystemConfigChange('trans_email', Mage_Launcher_Model_Tile::STATE_TODO)
+        );
+    }
+
+    /**
+     * Data provider for State Resolver
+     *
+     * @return array
+     */
+    public function getTestData()
+    {
+        return array(
+            array('owner@example.com', Mage_Launcher_Model_Tile::STATE_TODO),
+            array('test@example.com', Mage_Launcher_Model_Tile::STATE_COMPLETE),
+            array(null, Mage_Launcher_Model_Tile::STATE_TODO),
+        );
+    }
+
+    /**
+     * Data provider for State Resolver isComplete method
+     *
+     * @return array
+     */
+    public function getTestDataIsTileComplete()
+    {
+        return array(
+            array('owner@example.com', false),
+            array('test@example.com', true),
+            array(null, false),
+        );
+    }
+
+    /**
+     * Get State Resolver with specified General email
+     *
+     * @param string $email
+     * @return Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolver
+     */
+    protected function _getStateResolverWithEmail($email)
     {
         $store = $this->getMock('Mage_Core_Model_Store', array('getConfig'), array(), '', false);
 
@@ -38,24 +111,6 @@ class Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolverTest extends P
             ->method('reinit')
             ->will($this->returnValue(true));
 
-        $model = new Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolver($app, $config);
-        $this->assertEquals(
-            $expectedState,
-            $model->handleSystemConfigChange('trans_email', Mage_Launcher_Model_Tile::STATE_TODO)
-        );
-    }
-
-    /**
-     * Get handle system config change data
-     *
-     * @return array
-     */
-    public function getHandleSystemConfigChangeData()
-    {
-        return array(
-            array('owner@example.com', Mage_Launcher_Model_Tile::STATE_TODO),
-            array('test@example.com', Mage_Launcher_Model_Tile::STATE_COMPLETE),
-            array(null, Mage_Launcher_Model_Tile::STATE_TODO),
-        );
+        return new Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolver($app, $config);
     }
 }

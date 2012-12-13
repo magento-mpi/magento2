@@ -12,7 +12,7 @@
 /**
  * @magentoDataFixture Mage/Launcher/_files/config_bootstrap.php
  */
-class Mage_PageCache_Helper_TileTest extends PHPUnit_Framework_TestCase
+class Mage_Launcher_Helper_TileTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Launcher_Helper_Tile
@@ -32,10 +32,27 @@ class Mage_PageCache_Helper_TileTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException Mage_Launcher_Exception
+     * @expectedExceptionMessage State Resolver is not defined for tile with code "tile_100".
      */
     public function testGetStateResolverClassNameByTileCodeThrowsExceptionWhenClassNameIsNotDefined()
     {
         // tile_100 configuration has not been defined by fixture
         $this->_helper->getStateResolverClassNameByTileCode('tile_100');
+    }
+
+    public function testGetSaveHandlerClassNameByTileCode()
+    {
+        $className = $this->_helper->getSaveHandlerClassNameByTileCode('tile_1');
+        $this->assertEquals('Mage_Launcher_Model_Tile_SaveHandlerStub', $className);
+    }
+
+    /**
+     * @expectedException Mage_Launcher_Exception
+     * @expectedExceptionMessage Save Handler is not defined for tile with code "tile_100".
+     */
+    public function testGetSaveHandlerClassNameByTileCodeThrowsExceptionWhenClassNameIsNotDefined()
+    {
+        // tile_100 configuration has not been defined by fixture
+        $this->_helper->getSaveHandlerClassNameByTileCode('tile_100');
     }
 }

@@ -15,11 +15,10 @@
  * @package     Mage_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Adminhtml_Storelauncher_Businessinfo_DrawerController extends Mage_Backend_Controller_ActionAbstract
+class Mage_Launcher_Adminhtml_Storelauncher_Businessinfo_DrawerController
+    extends Mage_Backend_Controller_ActionAbstract
     implements Mage_Launcher_Controller_Drawer
 {
-    const TILE_HEADER = 'Store Info';
-
     /**
      * Drawer Save Action
      */
@@ -28,44 +27,18 @@ class Mage_Launcher_Adminhtml_Storelauncher_Businessinfo_DrawerController extend
         $responseContent = '';
         try {
             $data = $this->getRequest()->getParams();
-            $tileCode = $data['tileCode'];
+            /** @var $tileModel Mage_Launcher_Model_Tile */
+            $tileModel = Mage::getModel('Mage_Launcher_Model_Tile')->loadByCode($data['tileCode']);
+            $tileModel->refreshState($data);
+
+            /** @var $tileBlock Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile */
             $tileBlock = $this->getLayout()
                 ->createBlock('Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile');
-
-            /** @var $config Mage_Backend_Model_Config */
-            $config = Mage::getModel('Mage_Backend_Model_Config');
-            $sections = array('general', 'trans_email', 'shipping');
-            $sectionData = $tileBlock->prepareAddressData($data);
-
-            //Write all config data on the GLOBAL scope
-            foreach ($sections as $section) {
-                if (!empty($sectionData[$section])) {
-                    $config->setSection($section)
-                        ->setGroups($sectionData[$section])
-                        ->save();
-                }
-            }
-
-            //@TODO: Code below has to be moved to Model level
-            // Load Tile when Data were saved and Tile possibly has changed it's state
-            $tileModel = Mage::getModel('Mage_Launcher_Model_Tile')->loadByCode($tileCode);
-            $tileStateResolver = $tileModel->getStateResolver();
-            $tileState = $tileStateResolver->isTileComplete()
-                ? Mage_Launcher_Model_Tile::STATE_COMPLETE
-                : Mage_Launcher_Model_Tile::STATE_TODO;
-            $tileModel->setState($tileState);
-            $tileModel->save();
             $tileBlock->setTile($tileModel);
 
-            //@TODO: Code below has to be moved to Block level
-            $tileContent = $tileBlock->toHtml();
-            $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(
-                'success' => true,
-                'error_message' => '',
-                'tile_code' => $tileCode,
-                'tile_state' => $tileBlock->getTileState(),
-                'tile_content' => $tileContent
-            ));
+            $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(
+                $tileBlock->getResponseContent()
+            );
         } catch (Exception $e) {
             $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(
                 'success' => false,
@@ -88,13 +61,9 @@ class Mage_Launcher_Adminhtml_Storelauncher_Businessinfo_DrawerController extend
                 ->createBlock('Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer');
             $drawerBlock->setTile($tileModel);
 
-            $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(
-                'success' => true,
-                'error_message' => '',
-                'tile_code' => $drawerBlock->getTileCode(),
-                'tile_content' => $drawerBlock->toHtml(),
-                'tile_header' => Mage::helper('Mage_Launcher_Helper_Data')->__(self::TILE_HEADER)
-            ));
+            $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(
+                $drawerBlock->getResponseContent()
+            );
         } catch (Exception $e) {
             $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(
                 'success' => false,

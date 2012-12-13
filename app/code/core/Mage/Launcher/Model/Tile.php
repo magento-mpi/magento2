@@ -40,6 +40,13 @@ class Mage_Launcher_Model_Tile extends Mage_Core_Model_Abstract
     protected $_stateResolver;
 
     /**
+     * Save handler associated with current tile
+     *
+     * @var Mage_Launcher_Model_Tile_SaveHandler|null
+     */
+    protected $_saveHandler;
+
+    /**
      * Class constructor
      *
      * @param Mage_Core_Model_Event_Manager $eventDispatcher
@@ -122,4 +129,43 @@ class Mage_Launcher_Model_Tile extends Mage_Core_Model_Abstract
     {
         return $this->_stateResolver;
     }
+
+    /**
+     * Set save handler associated with the current tile
+     *
+     * @param Mage_Launcher_Model_Tile_SaveHandler|null $saveHandler
+     * @return Mage_Launcher_Model_Tile
+     */
+    public function setSaveHandler(Mage_Launcher_Model_Tile_SaveHandler $saveHandler)
+    {
+        $this->_saveHandler = $saveHandler;
+        return $this;
+    }
+
+    /**
+     * Retrieve save handler associated with the current tile
+     *
+     * @return Mage_Launcher_Model_Tile_SaveHandler|null
+     */
+    public function getSaveHandler()
+    {
+        return $this->_saveHandler;
+    }
+
+    /**
+     * Refresh Tile State
+     *
+     * @param array $data
+     * @return bool
+     */
+    public function refreshState(array $data = array())
+    {
+        if (!empty($data)) {
+            $this->getSaveHandler()->save($data);
+        }
+        $freshState = $this->getStateResolver()->getPersistentState();
+        $this->setState($freshState);
+        $this->save();
+    }
 }
+

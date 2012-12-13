@@ -15,9 +15,11 @@
             <tiles>
                 <tile_1>
                     <state_resolver>Mage_Launcher_Model_Tile_StateResolverStub</state_resolver>
+                    <save_handler>Mage_Launcher_Model_Tile_SaveHandlerStub</save_handler>
                 </tile_1>
                 <tile_2>
                     <state_resolver>Mage_Launcher_Model_Tile_StateResolverStub</state_resolver>
+                    <save_handler>Mage_Launcher_Model_Tile_SaveHandlerStub</save_handler>
                 </tile_2>
             </tiles>
         </launcher>

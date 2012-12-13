@@ -31,20 +31,60 @@ class Mage_Launcher_Block_Adminhtml_Drawer extends Mage_Backend_Block_Widget_For
     /**
      * Get Tile Code
      *
+     * @throws Mage_Launcher_Exception
      * @return string
      */
     public function getTileCode()
     {
-        return $this->getTile()->getCode();
+        $tile = $this->getTile();
+        if (!isset($tile)) {
+            throw new Mage_Launcher_Exception('Tile was not set.');
+        }
+        return $tile->getCode();
     }
 
     /**
      * Get Tile State
      *
+     * @throws Mage_Launcher_Exception
      * @return int
      */
     public function getTileState()
     {
-        return $this->getTile()->getState();
+        $tile = $this->getTile();
+        if (!isset($tile)) {
+            throw new Mage_Launcher_Exception('Tile was not set.');
+        }
+        return $tile->getState();
+    }
+
+    /**
+     * Get Translated Tile Header
+     *
+     * @todo This function should get data from Tile model
+     * @return string
+     */
+    public function getTileHeader()
+    {
+        //@TODO: This function should get data from Tile model
+        return '';
+    }
+
+    /**
+     * Get Response Content
+     *
+     * @return array
+     */
+    public function getResponseContent()
+    {
+        $responseContent = array(
+            'success' => true,
+            'error_message' => '',
+            'tile_code' => $this->getTileCode(),
+            'tile_state' => $this->getTileState(),
+            'tile_content' => $this->toHtml(),
+            'tile_header' => $this->getTileHeader(),
+        );
+        return $responseContent;
     }
 }

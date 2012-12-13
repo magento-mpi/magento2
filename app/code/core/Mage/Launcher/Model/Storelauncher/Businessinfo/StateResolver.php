@@ -72,4 +72,17 @@ class Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolver implements Ma
         }
         return $currentState;
     }
+
+    /**
+     * Get Persistent State of the Tile
+     *
+     * @return int
+     */
+    public function getPersistentState()
+    {
+        if ($this->isTileComplete()) {
+            return Mage_Launcher_Model_Tile::STATE_COMPLETE;
+        }
+        return Mage_Launcher_Model_Tile::STATE_TODO;
+    }
 }

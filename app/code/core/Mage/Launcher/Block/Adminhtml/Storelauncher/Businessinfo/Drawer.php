@@ -32,20 +32,6 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
     protected $_regionModel;
 
     /**
-     * Region Helper
-     *
-     * @var Mage_Directory_Helper_Data
-     */
-    protected $_regionHelper;
-
-    /**
-     * Launcher Data helper
-     *
-     * @var Mage_Launcher_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * Validate VAT Number
      *
      * @var Mage_Adminhtml_Block_Customer_System_Config_Validatevat
@@ -66,8 +52,6 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Directory_Model_Config_Source_Country $countryModel
      * @param Mage_Directory_Model_Region $regionModel
-     * @param Mage_Launcher_Helper_Data $dataHelper
-     * @param Mage_Directory_Helper_Data $regionHelper
      * @param Mage_Adminhtml_Block_Customer_System_Config_ValidatevatFactory $validateVat
      * @param array $data
      *
@@ -87,8 +71,6 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Directory_Model_Config_Source_Country $countryModel,
         Mage_Directory_Model_Region $regionModel,
-        Mage_Launcher_Helper_Data $dataHelper,
-        Mage_Directory_Helper_Data $regionHelper,
         Mage_Adminhtml_Block_Customer_System_Config_ValidatevatFactory $validateVat,
         array $data = array()
     ) {
@@ -97,8 +79,6 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
         );
         $this->_countryModel = $countryModel;
         $this->_regionModel = $regionModel;
-        $this->_regionHelper = $regionHelper;
-        $this->_helper = $dataHelper;
         $this->_validateVatBlock = $validateVat->createVatValidator();
     }
 
@@ -116,17 +96,18 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
             'id' => 'drawer-form'
         ));
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend' => $this->_helper->__('Store Info')));
+        $helper = $this->helper('Mage_Launcher_Helper_Data');
+        $fieldset = $form->addFieldset('base_fieldset', array('legend' => $helper->__('Store Info')));
         $fieldset->addField('store_name', 'text', array(
             'name' => 'groups[general][store_information][fields][name][value]',
-            'label' => $this->_helper->__('Store Name'),
+            'label' => $helper->__('Store Name'),
             'required' => false,
             'value' => $this->_storeConfig->getConfig('general/store_information/name')
         ));
 
         $fieldset->addField('store_email', 'text', array(
             'name' => 'groups[trans_email][ident_general][fields][email][value]',
-            'label' => $this->_helper->__('Store Contact Email'),
+            'label' => $helper->__('Store Contact Email'),
             'required' => true,
             'class' => 'validate-email',
             'value' => $this->_storeConfig->getConfig('trans_email/ident_general/email')
@@ -134,41 +115,41 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
 
         $fieldset->addField('store_phone', 'text', array(
             'name' => 'groups[general][store_information][fields][phone][value]',
-            'label' => $this->_helper->__('Store Contact Phone Number'),
+            'label' => $helper->__('Store Contact Phone Number'),
             'required' => false,
             'value' => $this->_storeConfig->getConfig('general/store_information/phone')
         ));
 
         $fieldset->addField('busisness_address', 'label', array(
             'name' => 'busisness_address',
-            'label' => $this->_helper->__('Business Address'),
+            'label' => $helper->__('Business Address'),
             'required' => false
         ));
 
         $fieldset->addField('street_line1', 'text', array(
             'name' => 'street_line1',
-            'label' => $this->_helper->__('Street Address 1'),
+            'label' => $helper->__('Street Address 1'),
             'required' => false,
             'value' => $addressData['street_line1']
         ));
 
         $fieldset->addField('street_line2', 'text', array(
             'name' => 'street_line2',
-            'label' => $this->_helper->__('Street Address 2'),
+            'label' => $helper->__('Street Address 2'),
             'required' => false,
             'value' => $addressData['street_line2']
         ));
 
         $fieldset->addField('city', 'text', array(
             'name' => 'city',
-            'label' => $this->_helper->__('City'),
+            'label' => $helper->__('City'),
             'required' => false,
             'value' => $addressData['city']
         ));
 
         $fieldset->addField('postcode', 'text', array(
             'name' => 'postcode',
-            'label' => $this->_helper->__('ZIP/Postal Code'),
+            'label' => $helper->__('ZIP/Postal Code'),
             'required' => false,
             'value' => $addressData['postcode']
         ));
@@ -176,7 +157,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
         $countries = $this->_countryModel->toOptionArray();
         $fieldset->addField('country_id', 'select', array(
             'name' => 'groups[general][store_information][fields][merchant_country][value]',
-            'label' => $this->_helper->__('Country'),
+            'label' => $helper->__('Country'),
             'required' => true,
             'values' => $countries,
             'value' => $addressData['country_id']
@@ -191,21 +172,22 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
         } else {
             $regions = array(array('value' => '', 'label' => '*'));
         }
+        $regionHelper = $this->helper('Mage_Directory_Helper_Data');
         $fieldset->addField('region_id', 'select', array(
             'name' => 'region_id',
-            'label' => $this->_helper->__('State/Region'),
+            'label' => $helper->__('State/Region'),
             'values' => $regions,
             'value' => $addressData['region_id'],
             'after_element_html' => '<script type="text/javascript">'
                 . 'var updater = new RegionUpdater("country_id", "", "region_id", '
-                . $this->_regionHelper->getRegionJson() . ', "disable");'
+                . $regionHelper->getRegionJson() . ', "disable");'
                 . 'updater.update();'
                 . '</script>',
         ));
 
         $fieldset->addField('vat_number', 'text', array(
             'name' => 'groups[general][store_information][fields][merchant_vat_number][value]',
-            'label' => $this->_helper->__('VAT Number (United Kingdom only)'),
+            'label' => $helper->__('VAT Number (United Kingdom only)'),
             'required' => false,
             'value' => $this->_storeConfig->getConfig('general/store_information/merchant_vat_number')
         ));
@@ -213,7 +195,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
         $fieldset->addField('validate_vat_number', 'button', array(
             'name' => 'validate_vat_number',
             'required' => false,
-            'value' => $this->_helper->__('Validate VAT Number')
+            'value' => $helper->__('Validate VAT Number')
         ));
 
         // Set custom renderer for VAT field
@@ -224,30 +206,30 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
 
         $fieldset->addField('use_for_shipping', 'checkbox', array(
             'name' => 'use_for_shipping',
-            'label' => $this->_helper->__('Use this address as the point of origin for shipping'),
+            'label' => $helper->__('Use this address as the point of origin for shipping'),
             'required' => false,
             'value' => 0,
             'checked' => $addressData['use_for_shipping']
         ));
 
-        $fieldset->setAdvancedLabel($this->_helper->__('Add Store Email Addresses'));
+        $fieldset->setAdvancedLabel($helper->__('Add Store Email Addresses'));
 
         $fieldset->addField('sales_representative', 'label', array(
             'name' => 'sales_representative',
-            'label' => $this->_helper->__('Sales Representative'),
+            'label' => $helper->__('Sales Representative'),
             'required' => false
         ), false, true);
 
         $fieldset->addField('sender_name_representative', 'text', array(
             'name' => 'groups[trans_email][ident_sales][fields][name][value]',
-            'label' => $this->_helper->__('Sender Name'),
+            'label' => $helper->__('Sender Name'),
             'required' => false,
             'value' => $this->_storeConfig->getConfig('trans_email/ident_sales/name')
         ), false, true);
 
         $fieldset->addField('sender_email_representative', 'text', array(
             'name' => 'groups[trans_email][ident_sales][fields][email][value]',
-            'label' => $this->_helper->__('Sender Email'),
+            'label' => $helper->__('Sender Email'),
             'required' => true,
             'class' => 'validate-email',
             'value' => $this->_storeConfig->getConfig('trans_email/ident_sales/email')
@@ -255,20 +237,20 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
 
         $fieldset->addField('customer_support', 'label', array(
             'name' => 'customer_support',
-            'label' => $this->_helper->__('Customer Support'),
+            'label' => $helper->__('Customer Support'),
             'required' => false
         ), false, true);
 
         $fieldset->addField('sender_name_support', 'text', array(
             'name' => 'groups[trans_email][ident_support][fields][name][value]',
-            'label' => $this->_helper->__('Sender Name'),
+            'label' => $helper->__('Sender Name'),
             'required' => false,
             'value' => $this->_storeConfig->getConfig('trans_email/ident_support/name')
         ), false, true);
 
         $fieldset->addField('sender_email_support', 'text', array(
             'name' => 'groups[trans_email][ident_support][fields][email][value]',
-            'label' => $this->_helper->__('Sender Email'),
+            'label' => $helper->__('Sender Email'),
             'required' => true,
             'class' => 'validate-email',
             'value' => $this->_storeConfig->getConfig('trans_email/ident_support/email')
@@ -276,20 +258,20 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
 
         $fieldset->addField('custom_email1', 'label', array(
             'name' => 'custom_email1',
-            'label' => $this->_helper->__('Custom Email 1'),
+            'label' => $helper->__('Custom Email 1'),
             'required' => false
         ), false, true);
 
         $fieldset->addField('sender_name_custom1', 'text', array(
             'name' => 'groups[trans_email][ident_custom1][fields][name][value]',
-            'label' => $this->_helper->__('Sender Name'),
+            'label' => $helper->__('Sender Name'),
             'required' => false,
             'value' => $this->_storeConfig->getConfig('trans_email/ident_custom1/name')
         ), false, true);
 
         $fieldset->addField('sender_email_custom1', 'text', array(
             'name' => 'groups[trans_email][ident_custom1][fields][email][value]',
-            'label' => $this->_helper->__('Sender Email'),
+            'label' => $helper->__('Sender Email'),
             'required' => true,
             'class' => 'validate-email',
             'value' => $this->_storeConfig->getConfig('trans_email/ident_custom1/email')
@@ -297,20 +279,20 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
 
         $fieldset->addField('custom_email2', 'label', array(
             'name' => 'custom_email2',
-            'label' => $this->_helper->__('Custom Email 2'),
+            'label' => $helper->__('Custom Email 2'),
             'required' => false
         ), false, true);
 
         $fieldset->addField('sender_name_custom2', 'text', array(
             'name' => 'groups[trans_email][ident_custom2][fields][name][value]',
-            'label' => $this->_helper->__('Sender Name'),
+            'label' => $helper->__('Sender Name'),
             'required' => false,
             'value' => $this->_storeConfig->getConfig('trans_email/ident_custom2/name')
         ), false, true);
 
         $fieldset->addField('sender_email_custom2', 'text', array(
             'name' => 'groups[trans_email][ident_custom2][fields][email][value]',
-            'label' => $this->_helper->__('Sender Email'),
+            'label' => $helper->__('Sender Email'),
             'required' => true,
             'class' => 'validate-email',
             'value' => $this->_storeConfig->getConfig('trans_email/ident_custom2/email')
@@ -369,5 +351,15 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
         $addressData['use_for_shipping'] = $useForShipping;
 
         return $addressData;
+    }
+
+    /**
+     * Get Translated Tile Header
+     *
+     * @return string
+     */
+    public function getTileHeader()
+    {
+        return $this->helper('Mage_Launcher_Helper_Data')->__('Store Info');
     }
 }

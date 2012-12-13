@@ -34,4 +34,11 @@ interface Mage_Launcher_Model_Tile_StateResolver
      * @return int result state
      */
     public function handleSystemConfigChange($sectionName, $currentState);
+
+    /**
+     * Get Persistent State
+     *
+     * @return int
+     */
+    public function getPersistentState();
 }
