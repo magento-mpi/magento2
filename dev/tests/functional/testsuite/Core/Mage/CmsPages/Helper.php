@@ -49,7 +49,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
      */
     public function createCmsPage($pageData)
     {
-        $pageData = $this->testDataToArray($pageData);
+        $pageData = $this->fixtureDataToArray($pageData);
         $cmsVars = $this->_verifyCmsPageVars($pageData);
         $this->clickButton('add_new_page');
         if ($cmsVars['pageInfo']) {

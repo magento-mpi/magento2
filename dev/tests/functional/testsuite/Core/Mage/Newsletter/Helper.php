@@ -67,7 +67,7 @@ class Core_Mage_Newsletter_Helper extends Mage_Selenium_AbstractHelper
      */
     public function createNewsletterTemplate($newsletterData)
     {
-        $newsletterData = $this->testDataToArray($newsletterData);
+        $newsletterData = $this->fixtureDataToArray($newsletterData);
         if (empty($newsletterData)) {
             $this->fail('$newsletterData parameter is empty');
         }

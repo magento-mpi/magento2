@@ -73,6 +73,26 @@
         </reference>
     </adminhtml_system_design_editor_preview>
 
+    <adminhtml_system_design_editor_run>
+        <reference name="head">
+            <action method="addJs"><file>Mage_DesignEditor::js/base.js</file></action>
+            <action method="addJs"><file>Mage_DesignEditor::js/design_editor.js</file></action>
+            <action method="addJs"><file>jquery/jquery.iframe-auto-height.plugin.1.9.0.js</file></action>
+            <action method="addJs"><file>jquery/jstree/jquery.jstree.js</file></action>
+            <action method="addJs"><file>jquery/slimScroll/slimScroll.min.js</file></action>
+            <action method="addCss"><file>Mage_DesignEditor::css/styles.css</file></action>
+        </reference>
+        <reference name="content">
+            <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Container" name="design_editor" template="Mage_DesignEditor::editor/container.phtml">
+                <block type="Mage_Backend_Block_Template" name="design_editor_toolbar" template="Mage_DesignEditor::editor/toolbar.phtml">
+                    <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy" name="design_editor_toolbar_handles_hierarchy" template="Mage_DesignEditor::editor/toolbar/handles_hierarchy.phtml" />
+                    <block type="Mage_Backend_Block_Template" name="design_editor_toolbar_highlighting" template="Mage_DesignEditor::editor/toolbar/highlighting.phtml" />
+                    <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons" name="design_editor_toolbar_buttons" template="Mage_DesignEditor::editor/toolbar/buttons.phtml" />
+                </block>
+            </block>
+        </reference>
+    </adminhtml_system_design_editor_run>
+
     <adminhtml_system_design_editor_exit>
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Template" name="design_editor_exit" as="exit" template="Mage_DesignEditor::exit.phtml"/>
