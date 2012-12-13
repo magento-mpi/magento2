@@ -195,7 +195,7 @@
 
 
 
-(function($) {
+/*(function($) {
 
     var _syncQueue = [];
     var _asyncQueue = [];
@@ -306,4 +306,4 @@
 
     $(window).on('load', _loadScript);
 
-})(jQuery);
+})(jQuery);*/
