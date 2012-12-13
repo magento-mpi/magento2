@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento
+ * @package     Mage_StagingWebsite
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -15,7 +15,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise_Mage_StagingWebsite_Helper extends Mage_Selenium_TestCase
+class Enterprise_Mage_StagingWebsite_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * <p>Creates staging for website</p>
@@ -56,10 +56,9 @@ class Enterprise_Mage_StagingWebsite_Helper extends Mage_Selenium_TestCase
     public function fillSettings(array $settings)
     {
         if ($settings) {
-            $xpath = $this->_getControlXpath('dropdown', 'source_website');
-            $websiteId = $this->getValue($xpath . '/option[text()="' . $settings['source_website'] . '"]');
-            $this->addParameter('id', $websiteId);
             $this->fillFieldset($settings, 'staging_website');
+            $websiteId = $this->getControlAttribute('dropdown', 'source_website', 'selectedValue');
+            $this->addParameter('id', $websiteId);
         }
         $this->clickButton('continue');
     }
@@ -90,7 +89,7 @@ class Enterprise_Mage_StagingWebsite_Helper extends Mage_Selenium_TestCase
             if (isset($searchWebsiteData['filter_website_name'])) {
                 $this->addParameter('elementTitle', $searchWebsiteData['filter_website_name']);
             }
-            $this->searchAndOpen($searchWebsiteData);
+            $this->searchAndOpen($searchWebsiteData, 'staging_websites_grid');
         }
     }
 
@@ -124,29 +123,7 @@ class Enterprise_Mage_StagingWebsite_Helper extends Mage_Selenium_TestCase
             $this->fillTab($generalInfo, 'general_information');
         }
         $this->clickButton('merge');
-        if ($mergeConfig) {
-            $this->fillForm($mergeConfig);
-            if (isset($mergeConfig['merge_to'])) {
-                $xpathTo = $this->_getControlXpath('dropdown', 'merge_to');
-                $websiteToId = $this->getValue($xpathTo . '/option[text()="' . $mergeConfig['merge_to'] . '"]');
-                $this->addParameter('websiteToId', $websiteToId);
-                if (isset($mergeConfig['define_stores'])) {
-                    $xpathFrom = $this->_getControlXpath('pageelement', 'merge_from');
-                    $websiteFromId = $this->getValue($xpathFrom);
-                    $this->addParameter('websiteFromId', $websiteFromId);
-                    $i = 3;
-                    foreach ($mergeConfig['define_stores'] as $storeViews) {
-                        $this->addParameter('ind', $i++);
-                        $this->clickButton('add_new_store_view_map', false);
-                        $this->waitForAjax();
-                        $this->fillFieldset($storeViews, 'merge_configuration');
-                        if ($this->isAlertPresent()) {
-                            $this->fail($this->getAlert());
-                        }
-                    }
-                }
-            }
-        }
+        $this->_fillMergeConfig($mergeConfig);
         if ($scheduleMerge) {
             $this->fillFieldset($scheduleMerge, 'schedule');
             $this->saveForm('schedule_merge');
@@ -154,6 +131,38 @@ class Enterprise_Mage_StagingWebsite_Helper extends Mage_Selenium_TestCase
             $this->saveForm('merge_now');
         }
 
+    }
+
+    /**
+     * Fills merge config
+     *
+     * @param $mergeConfig
+     */
+    protected function _fillMergeConfig($mergeConfig)
+    {
+        if ($mergeConfig) {
+            $this->fillForm($mergeConfig);
+            if (isset($mergeConfig['merge_to'])) {
+                $this->addParameter('dropdownXpath', $this->_getControlXpath('dropdown', 'merge_to'));
+                $this->addParameter('optionText', $mergeConfig['merge_to']);
+                $websiteToId = $this->getControlAttribute('pageelement', 'dropdown_option_text', 'value');
+                $this->addParameter('websiteToId', $websiteToId);
+                if (isset($mergeConfig['define_stores'])) {
+                    $websiteFromId = $this->getControlAttribute('pageelement', 'merge_from', 'value');;
+                    $this->addParameter('websiteFromId', $websiteFromId);
+                    $storeIndex = 3;
+                    foreach ($mergeConfig['define_stores'] as $storeViews) {
+                        $this->addParameter('ind', $storeIndex++);
+                        $this->clickButton('add_new_store_view_map', false);
+                        $this->waitForAjax();
+                        $this->fillFieldset($storeViews, 'merge_configuration');
+                        if ($this->alertIsPresent()) {
+                            $this->fail($this->alertText());
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -165,7 +174,7 @@ class Enterprise_Mage_StagingWebsite_Helper extends Mage_Selenium_TestCase
      */
     public function buildFrontendUrl($stagingWebsiteCode)
     {
-        $oldFrontendUrl = $this->_configHelper->getAreaBaseUrl('frontend');
+        $oldFrontendUrl = $this->getConfigHelper()->getAreaBaseUrl('frontend');
         if (preg_match('/index.php/', $oldFrontendUrl)) {
             $nodes = explode('index.php', $oldFrontendUrl);
             $frontendUrl = $nodes[0] . 'staging/' . $stagingWebsiteCode . '/index.php/';

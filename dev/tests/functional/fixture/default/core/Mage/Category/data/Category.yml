@@ -18,14 +18,10 @@ product_1: &product1
     category_products_search_position_to: %noValue%
     category_products_position: %noValue%
 
-category_all:
-    #General Information
-    parent_category: Default Category
-    name: Category(%randomize%)
-
 root_category_required:
     name: Root Category Required(%randomize%)
     is_active: Yes
+    is_anchor: %noValue%
     available_product_listing_config: No
     available_product_listing: Best Value, Name, Price
 
@@ -33,6 +29,7 @@ sub_category_required:
     parent_category: Default Category
     name: Sub Category Required(%randomize%)
     is_active: Yes
+    is_anchor: %noValue%
     available_product_listing_config: No
     available_product_listing: Best Value, Name, Price
 
@@ -61,7 +58,7 @@ root_category_all: &categoryAll
     #Custom Design
     use_parent_category_settings: No
     apply_to_products: Yes
-    custom_design: default
+    custom_design: %design_theme%
     active_from: %currentDate%
     active_to: %currentDate%
     page_layout: 3 columns
@@ -70,22 +67,12 @@ root_category_all: &categoryAll
     category_products_data:
         product_1: *product1
 
-sub_category_required:
-    parent_category: Default Category
-    name: Sub Category Required(%randomize%)
-    is_active: Yes
-    available_product_listing_config: No
-    available_product_listing: Best Value, Name, Price
-
-root_category_required:
-    name: Root Category Required(%randomize%)
-    is_active: Yes
-    available_product_listing_config: No
-    available_product_listing: Best Value, Name, Price
-
-default_category:
-    name: Default Category
-
 sub_category_all:
     <<: *categoryAll
     parent_category: Default Category
+
+sub_category_required_url_rewrite:
+    parent_category: Default Category
+    name: Sub Category Required(%randomize%)
+    url_key: %noValue%
+    is_active: Yes

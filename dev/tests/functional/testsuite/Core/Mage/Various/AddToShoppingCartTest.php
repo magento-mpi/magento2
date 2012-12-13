@@ -32,12 +32,6 @@ class Core_Mage_Various_AddToShoppingCartTest extends Mage_Selenium_TestCase
     /**
      * <p>Adding Bundle product with Simple product to cart (Price Type = Percent)</p>
      * <p>Verification of MAGE-5495</p>
-     * <p>Steps:</p>
-     * <p>1. Go to Backend.</p>
-     * <p>2. Create bundle fixed product. Add sub-product with Price Type = Percent.</p>
-     * <p>3. Add configured bundle fixed product to the cart.</p>
-     * <p>Expected Result:</p>
-     * <p>Product added to the cart.</p>
      *
      * @test
      */
@@ -72,6 +66,6 @@ class Core_Mage_Various_AddToShoppingCartTest extends Mage_Selenium_TestCase
         $this->productHelper()->frontAddProductToCart($options);
         //Verifying
         $this->validatePage('shopping_cart');
-        $this->assertFalse($this->isTextPresent('Internal server error', 'HTTP Error 500 Internal server error'));
+        $this->assertFalse($this->textIsPresent('Internal server error'), 'HTTP Error 500 Internal server error');
     }
 }

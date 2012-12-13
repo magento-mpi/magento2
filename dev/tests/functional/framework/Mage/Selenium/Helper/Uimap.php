@@ -19,43 +19,38 @@
 class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
 {
     /**
-     * Array of files paths to fixtures
-     * @var array
-     */
-    protected $_configFixtures = array();
-
-    /**
      * Uimap data
      * @var array
      */
     protected $_uimapData = array();
+    protected $_uimapIncludeData = array();
+    protected $_uimapFilesData = array();
+    protected $_uimapPagesMca = array();
 
     /**
      * Initialize process
      */
     protected function _init()
     {
-        $this->_configFixtures = $this->getConfig()->getConfigFixtures();
         $config = $this->getConfig()->getHelper('config')->getConfigFramework();
+        $this->_loadUimapIncludeData();
+        $this->_loadUimapFilesData(
+            $this->getConfig()->getHelper('config')->getFixturesFallbackOrder(),
+            $this->getConfig()->getConfigUimap()
+        );
         if ($config['load_all_uimaps']) {
             $this->_loadUimapData();
         }
     }
 
     /**
-     * Load and merge data files
      * @return Mage_Selenium_Helper_Uimap
      */
-    protected function _loadUimapData()
+    private function _loadUimapIncludeData()
     {
-        if ($this->_uimapData) {
-            return $this;
-        }
-        //Form include elements array
-        $uimapInclude =
-            (isset($this->_configFixtures['uimapInclude'])) ? $this->_configFixtures['uimapInclude'] : array();
         $includeElements = array();
-        foreach ($uimapInclude as $area => $files) {
+        //Form include elements array
+        foreach ($this->getConfig()->getConfigUimapInclude() as $area => $files) {
             $includeElements[$area] = array();
             foreach ($files as $file) {
                 $pages = $this->getConfig()->getHelper('file')->loadYamlFile($file);
@@ -72,90 +67,87 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
                 }
             }
         }
-        //Form uimap files array
-        $uimapFiles = array();
-        foreach ($this->_configFixtures as $codePoolName => $codePoolData) {
-            if ($codePoolName == 'uimapInclude') {
-                continue;
-            }
-            foreach ($codePoolData as $type => $dataFiles) {
-                if ($type == 'uimap') {
-                    $uimapFiles[$codePoolName] = $dataFiles;
-                }
-            }
-        }
-        $this->loadAndMergeUimaps($uimapFiles, $includeElements);
+        $this->_uimapIncludeData = $includeElements;
         return $this;
     }
 
     /**
-     * @param array $uimapFiles
-     * @param array $includeElements
+     * @param array $codePoolNames
+     * @param array $configUimap
      *
-     * @return void
+     * @return Mage_Selenium_Helper_Uimap
      */
-    public function loadAndMergeUimaps(array $uimapFiles, $includeElements)
+    private function _loadUimapFilesData(array $codePoolNames, array $configUimap)
     {
-        //Uimaps loading for first project
-        $codePoolNames = array_keys($uimapFiles);
         $baseCodePoolName = array_shift($codePoolNames);
-        $baseUimapFiles = array_shift($uimapFiles);
-
-        foreach ((array)$baseUimapFiles as $area => $files) {
-            foreach ($files as $file) {
-                $pages = $this->getConfig()->getHelper('file')->loadYamlFile($file);
+        foreach ($configUimap[$baseCodePoolName] as $area => $areaFiles) {
+            foreach ($areaFiles as $file) {
+                $explode = explode(DIRECTORY_SEPARATOR, $file);
+                $fileName = trim(end($explode), '.yml');
+                $this->_uimapFilesData[$area][$fileName][] = $file;
                 foreach ($codePoolNames as $codePoolName) {
-                    $loadedUimaps = array();
-                    //Skip if area is not exist for current project
-                    if (!isset($uimapFiles[$codePoolName][$area])) {
-                        continue;
-                    }
                     $additionalFile = str_replace($baseCodePoolName, $codePoolName, $file);
-                    //Skip if file is not exist for current project
-                    if (!in_array($additionalFile, $uimapFiles[$codePoolName][$area])) {
-                        continue;
+                    if (isset($configUimap[$codePoolName][$area])
+                        && in_array($additionalFile, $configUimap[$codePoolName][$area])
+                    ) {
+                        $keyToDelete = array_search($additionalFile, $configUimap[$codePoolName][$area]);
+                        $this->_uimapFilesData[$area][$fileName][] = $additionalFile;
+                        unset($configUimap[$codePoolName][$area][$keyToDelete]);
                     }
-                    $additionalPages = $this->getConfig()->getHelper('file')->loadYamlFile($additionalFile);
-                    $loadedUimaps[] = $additionalFile;
-                    //Skip if file is empty for current project
-                    if (!$additionalPages) {
-                        continue;
-                    }
-                    if ($pages) {
-                        foreach ($additionalPages as $pageName => $content) {
-                            //Skip if page content is empty for current project
-                            if (!$content) {
-                                continue;
-                            }
-                            if (isset($pages[$pageName])) {
-                                $this->_mergeUimapIncludes($pages[$pageName], $content);
-                            } else {
-                                $pages[$pageName] = $content;
-                            }
-                        }
-                    } else {
-                        $pages = $additionalPages;
-                    }
-                    $uimapFiles[$codePoolName][$area] = array_diff($uimapFiles[$codePoolName][$area], $loadedUimaps);
                 }
-                if (!$pages) {
-                    continue;
+            }
+        }
+        unset($configUimap[$baseCodePoolName]);
+        if (!empty($configUimap)) {
+            $this->_loadUimapFilesData($codePoolNames, $configUimap);
+        }
+        return $this;
+    }
+
+    /**
+     * Load and merge data files
+     * @return Mage_Selenium_Helper_Uimap
+     */
+    private function _loadUimapData()
+    {
+        foreach ($this->_uimapFilesData as $area => $areaFiles) {
+            foreach ($areaFiles as $files) {
+                $baseFile = array_shift($files);
+                $pages = $this->getConfig()->getHelper('file')->loadYamlFile($baseFile);
+                foreach ($files as $file) {
+                    $additionalPages = $this->getConfig()->getHelper('file')->loadYamlFile($file);
+                    $pages = $this->_mergeUimapPages($pages, $additionalPages);
                 }
                 foreach ($pages as $pageKey => $content) {
                     //Skip if page content is empty
                     if (!$content) {
                         continue;
                     }
-                    if (isset($includeElements[$area])) {
-                        $this->_mergeUimapIncludes($content, $includeElements[$area]);
+                    if (isset($this->_uimapIncludeData[$area])) {
+                        $this->_mergeUimapIncludes($content, $this->_uimapIncludeData[$area]);
                     }
                     $this->_uimapData[$area][$pageKey] = new Mage_Selenium_Uimap_Page($pageKey, $content);
+                    $this->_uimapPagesMca[$area][$pageKey] = $content['mca'];
                 }
             }
         }
-        if (!empty($uimapFiles)) {
-            $this->loadAndMergeUimaps($uimapFiles, $includeElements);
+        return $this;
+    }
+
+    private function _mergeUimapPages(array $pageMergeTo, array $pageMergeFrom)
+    {
+        foreach ($pageMergeFrom as $pageName => $content) {
+            //Skip if page content is empty for current project
+            if (!$content) {
+                continue;
+            }
+            if (isset($pageMergeTo[$pageName])) {
+                $this->_mergeUimapIncludes($pageMergeTo[$pageName], $content);
+            } else {
+                $pageMergeTo[$pageName] = $content;
+            }
         }
+        return $pageMergeTo;
     }
 
     /**
@@ -166,18 +158,20 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
      *
      * @return array
      */
-    protected function _mergeUimapIncludes(array &$replaceArrayTo, array $replaceArrayFrom)
+    private function _mergeUimapIncludes(array &$replaceArrayTo, array $replaceArrayFrom)
     {
         foreach ($replaceArrayFrom as $key => $value) {
             if (is_array($value)) {
-                if (array_key_exists($key, $replaceArrayTo) && $replaceArrayTo[$key] != null) {
+                if (!empty($replaceArrayTo[$key])) {
                     if (is_string($key)) {
                         $this->_mergeUimapIncludes($replaceArrayTo[$key], $value);
                     } else {
                         list($keyFrom) = array_keys($value);
                         $keysTo = array();
-                        foreach ($replaceArrayTo as $number => $content) {
-                            foreach ($replaceArrayTo[$number] as $name => $contentTo) {
+                        $replaceArrayToKeys = array_keys($replaceArrayTo);
+                        foreach ($replaceArrayToKeys as $number) {
+                            $replaceArrayToNumber = array_keys($replaceArrayTo[$number]);
+                            foreach ($replaceArrayToNumber as $name) {
                                 $keysTo[$number] = $name;
                             }
                         }
@@ -234,6 +228,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
         if (!array_key_exists($pageKey, $areaUimaps)) {
             throw new OutOfRangeException('Cannot find page "' . $pageKey . '" in area "' . $area . '"');
         }
+        /** @var $page Mage_Selenium_Uimap_Page */
         $page = $areaUimaps[$pageKey];
         if ($paramsDecorator) {
             $page->assignParams($paramsDecorator);
@@ -255,61 +250,30 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
     {
         $mca = trim($mca, ' /\\');
         $appropriatePages = array();
-        foreach ($this->_uimapData[$area] as $page) {
-            //Get mca without any modifications
-            $pageMca = trim($page->getMca(new Mage_Selenium_Helper_Params()), ' /\\');
-            if ($pageMca === false || $pageMca === null) {
-                continue;
-            }
-            $pageMca = preg_quote($pageMca);
+        foreach ($this->_uimapPagesMca[$area] as $pageName => $pageMca) {
+            $pageMca = preg_quote(trim($pageMca, ' /\\'));
             if ($paramsDecorator) {
                 $pageMca = $paramsDecorator->replaceParametersWithRegexp($pageMca);
             }
             if (preg_match(';^' . $pageMca . '$;', $mca)) {
-                $appropriatePages[] = $page;
+                $appropriatePages[] = $pageName;
             }
         }
-        if (!empty($appropriatePages)) {
-            if (count($appropriatePages) == 1) {
-                return array_shift($appropriatePages);
-            }
-            foreach ($appropriatePages as $page) {
-                //Get mca with actual modifications
-                $pageMca = trim($page->getMca($paramsDecorator), ' /\\');
-                if ($pageMca === $mca) {
-                    $page->assignParams($paramsDecorator);
-                    return $page;
-                }
+        if (count($appropriatePages) == 1) {
+            $pageName = array_shift($appropriatePages);
+            return $this->_uimapData[$area][$pageName];
+        }
+        //Get mca with actual modifications if count($appropriatePages) > 1
+        foreach ($appropriatePages as $pageName) {
+            /** @var $page Mage_Selenium_Uimap_Page */
+            $page = $this->_uimapData[$area][$pageName];
+            $pageMca = trim($page->getMca($paramsDecorator), ' /\\');
+            if ($pageMca === $mca) {
+                $page->assignParams($paramsDecorator);
+                return $page;
             }
         }
         throw new OutOfRangeException('Cannot find page with mca "' . $mca . '" in "' . $area . '" area');
-    }
-
-    /**
-     * Compares mca from current url and from area mca array
-     *
-     * @param string $mca
-     * @param string $page_mca
-     *
-     * @deprecated
-     *
-     * @return bool
-     */
-    protected function _compareMcaAndPageMca($mca, $page_mca)
-    {
-        if (parse_url($page_mca, PHP_URL_PATH) == parse_url($mca, PHP_URL_HOST) . parse_url($mca, PHP_URL_PATH)) {
-            parse_str(parse_url($mca, PHP_URL_QUERY), $mca_params);
-            parse_str(parse_url($page_mca, PHP_URL_QUERY), $page_mca_params);
-            if (array_keys($mca_params) == array_keys($page_mca_params)) {
-                foreach ($page_mca_params as $key => $value) {
-                    if ($mca_params[$key] != $value && $value != '%anyValue%') {
-                        return false;
-                    }
-                }
-                return true;
-            }
-        }
-        return false;
     }
 
     /**

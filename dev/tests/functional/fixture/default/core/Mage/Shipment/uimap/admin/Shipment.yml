@@ -1,4 +1,3 @@
-# Magento
 #
 # {license_notice}
 #
@@ -14,7 +13,7 @@
 # Sales Shipments page
 manage_sales_shipments:
     mca: sales_shipment/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'sales_shipment/')]
+    click_xpath: //ul[@id='nav']//a[contains(@href, '/sales_shipment/')]
     title: Shipments / Sales / Magento Admin
     uimap:
         form: &salesShipments

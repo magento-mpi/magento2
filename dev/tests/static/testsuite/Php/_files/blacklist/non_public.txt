@@ -3,4 +3,4 @@
 # This file will not be published, too
 #
 dev/build/core_dev/performance/config*.php
-dev/tools/translate
+dev/tests/functional

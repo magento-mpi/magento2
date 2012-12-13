@@ -1,4 +1,3 @@
-# Magento
 #
 # {license_notice}
 #
@@ -41,6 +40,7 @@ manage_gift_wrapping:
             reset_filter: //button[span='Reset Filter']
         messages: &giftWrappingMessages
             confirmation_for_delete: Are you sure you want to delete this gift wrapping?
+            massaction_confirmation_for_delete: Are you sure you want to delete the selected gift wrappings?
             confirmation_for_choose_store_view: Please confirm site switching. All data that hasn't been saved will be lost.
             enter_not_negative_number: "//div[@id='advice-validate-not-negative-number-%fieldId%' and not(contains(@style,'display: none;'))]"
             enter_greater_zero: "//div[@id='advice-validate-not-negative-number-%fieldId%' and not(contains(@style,'display: none;'))]"
@@ -87,11 +87,6 @@ edit_gift_wrapping:
         form: &editGiftWrappingForm
             fieldsets:
                 -
-                    store_selector:
-                        xpath: //*[@id='page:main-container']/p
-                        dropdowns:
-                            choose_store_view: //select[@id='store_switcher']
-                -
                     gift_wrapping_info: *giftWrappingInfo
         buttons: &editGiftWrappingButtons
             back: //button[span='Back']
@@ -101,7 +96,7 @@ edit_gift_wrapping:
         messages: *giftWrappingMessages
 
 edit_gift_wrapping_after_save_and_continue:
-    mca: giftwrapping/edit/id/%id%/store/%storeId%/
+    mca: giftwrapping/edit/id/%id%/store/%store%/
     title: Edit Gift Wrapping "%elementTitle%" / Manage Gift Wrapping / Sales / Magento Admin
     uimap:
         form: *editGiftWrappingForm

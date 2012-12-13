@@ -30,12 +30,6 @@ class Core_Mage_Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Customer Tax class Core_Mage_with required field</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add New" button </p>
-     * <p>2. Fill in required fields</p>
-     * <p>3. Click "Save Class" button</p>
-     * <p>Expected Result:</p>
-     * <p>Customer Tax class Core_Mage_created, success message appears</p>
      *
      * @return array $customerTaxClassData
      * @test
@@ -58,12 +52,6 @@ class Core_Mage_Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Customer Tax class Core_Mage_with name that exists</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add New" button </p>
-     * <p>2. Fill in class Core_Mage_Name with name that exists</p>
-     * <p>3. Click "Save Class" button</p>
-     * <p>Expected Result:</p>
-     * <p>Customer Tax class Core_Mage_should not be created, error message appears</p>
      *
      * @param array $customerTaxClassData
      *
@@ -80,12 +68,6 @@ class Core_Mage_Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Customer Tax class Core_Mage_with empty name</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add New" button </p>
-     * <p>2. Leave class Core_Mage_Name empty</p>
-     * <p>3. Click "Save Class" button</p>
-     * <p>Expected Result:</p>
-     * <p>Customer Tax class Core_Mage_should not be created, error message appears</p>
      *
      * @test
      * @depends withRequiredFieldsOnly
@@ -103,13 +85,6 @@ class Core_Mage_Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
     /**
      * Fails because of MAGE-5237
      * <p>Creating a new Customer Tax class Core_Mage_with special values (long, special chars).</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New"</p>
-     * <p>2. Fill in the fields</p>
-     * <p>3. Click button "Save Class"</p>
-     * <p>4. Open the Tax Class</p>
-     * <p>Expected result:</p>
-     * <p>All fields has the same values.</p>
      *
      * @param string $specialValue
      *

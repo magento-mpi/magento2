@@ -8,23 +8,6 @@
 # @license     {license_link}
 #
 ---
-#<------------Billing Address Required------------>
-billing_address_req_usa: &billingReqUsa
-    address_choice: new
-    billing_first_name: 'billing_Steven'
-    billing_last_name: 'billing_Stevenson'
-    billing_street_address_1: '11832 W. Pico Blvd'
-    billing_city: 'Los Angeles'
-    billing_country: 'United States'
-    billing_state: California
-    billing_region: %noValue%
-    billing_zip_code: '90064'
-    billing_telephone: '(310) 954-8012'
-
-#<------------Shipping Address ALL------------>
-shipping_address_same_as_blling: &shippingSameAsBilling
-    address_choice: sameAsBilling
-
 #<------------New Customer, Check/Money, FlatRate, ShippingSameAsBilling------------>
 order_gift_options_full:
     store_view: Default Store View
@@ -42,8 +25,19 @@ order_gift_options_full:
             product_qty: %noValue%
     coupons:
         coupon_1: %noValue%
-    billing_addr_data: *billingReqUsa
-    shipping_addr_data: *shippingSameAsBilling
+    billing_addr_data:
+        address_choice: new
+        billing_first_name: 'billing_Steven'
+        billing_last_name: 'billing_Stevenson'
+        billing_street_address_1: '11832 W. Pico Blvd'
+        billing_city: 'Los Angeles'
+        billing_country: 'United States'
+        billing_state: California
+        billing_region: %noValue%
+        billing_zip_code: '90064'
+        billing_telephone: '(310) 954-8012'
+    shipping_addr_data:
+        address_choice: sameAsBilling
     payment_data:
         payment_method: Check / Money order
     shipping_data:

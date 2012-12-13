@@ -47,24 +47,6 @@ class Core_Mage_CheckoutOnePage_Existing_WithProductsTest extends Mage_Selenium_
 
     /**
      * <p>Checkout with simple product.</p>
-     * <p>Preconditions:</p>
-     * <p>1.Product is created.</p>
-     * <p>2.Customer without address is created.</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Proceed to Checkout".</p>
-     * <p>4. Fill in Billing Information tab.</p>
-     * <p>5. Select "Ship to this address" option.</p>
-     * <p>6. Click 'Continue' button.</p>
-     * <p>7. Select Shipping Method.</p>
-     * <p>8. Click 'Continue' button.</p>
-     * <p>9. Select Payment Method.</p>
-     * <p>10. Click 'Continue' button.</p>
-     * <p>11. Verify information into "Order Review" tab</p>
-     * <p>12. Place order.</p>
-     * <p>Expected result:</p>
-     * <p>Checkout is successful.</p>
      *
      * @param array $data
      *
@@ -75,7 +57,7 @@ class Core_Mage_CheckoutOnePage_Existing_WithProductsTest extends Mage_Selenium_
     public function withSimpleProductAndCustomerWithoutAddress($data)
     {
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney',
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney_usa',
             array('general_name'   => $data['simple'],
                   'email_address'  => $userData['email']));
         //Steps
@@ -91,21 +73,6 @@ class Core_Mage_CheckoutOnePage_Existing_WithProductsTest extends Mage_Selenium_
 
     /**
      * <p>Checkout with virtual product.</p>
-     * <p>Preconditions:</p>
-     * <p>1.Product is created.</p>
-     * <p>2.Customer without address is created.</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Proceed to Checkout".</p>
-     * <p>4. Fill in Billing Information tab.</p>
-     * <p>5. Click 'Continue' button.</p>
-     * <p>6. Select Payment Method.</p>
-     * <p>7. Click 'Continue' button.</p>
-     * <p>8. Verify information into "Order Review" tab</p>
-     * <p>9. Place order.</p>
-     * <p>Expected result:</p>
-     * <p>Checkout is successful.</p>
      *
      * @param array $data
      *

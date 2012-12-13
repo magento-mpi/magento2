@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento
+ * @package     Mage_CmsWidgets
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -19,23 +19,26 @@
 class Enterprise_Mage_CmsWidgets_Helper extends Core_Mage_CmsWidgets_Helper
 {
     /**
-     * Fills settings for creating widget
+     * Opens widget
      *
-     * @param array $settings
+     * @param array $searchWidget
      */
-    public function fillWidgetSettings(array $settings)
+    public function openWidget(array $searchWidget)
     {
-        if ($settings) {
-            $xpath = $this->_getControlXpath('dropdown', 'type');
-            $type = $this->getValue($xpath . '/option[text()="' . $settings['type'] . '"]');
-            $this->addParameter('type', str_replace('/', '-', $type));
-            $packageTheme = array_map('trim', (explode('/', $settings['design_package_theme'])));
-            $this->addParameter('package', $packageTheme[0]);
-            $this->addParameter('theme', $packageTheme[1]);
-            $this->fillFieldset($settings, 'settings_fieldset');
-        }
-        $this->clickButton('continue', false);
+        parent::openWidget($searchWidget);
         $this->pleaseWait();
-        $this->validatePage('add_widget_options');
+    }
+
+    /**
+     * Fills "Widget Options" tab
+     *
+     * @param array $widgetOptions
+     */
+    public function fillWidgetOptions(array $widgetOptions)
+    {
+        if (array_key_exists('banner_name', $widgetOptions)) {
+            $this->searchAndChoose(array('filter_banner_name' => $widgetOptions['banner_name']), 'specify_banner_grid');
+        }
+        parent::fillWidgetOptions($widgetOptions);
     }
 }

@@ -27,4 +27,4 @@ class Mage_Listener_Observers_EmptyObserver
     {
         $listener->getCurrentTest();
     }
- }
+}

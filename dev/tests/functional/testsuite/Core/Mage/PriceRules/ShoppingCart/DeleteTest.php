@@ -30,13 +30,6 @@ class Core_Mage_PriceRules_ShoppingCart_DeleteTest extends Mage_Selenium_TestCas
 
     /**
      * <p>Delete Shopping cart price rule.</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Promotions - Shopping Cart Price Rules;</p>
-     * <p>2. Create properly configured price rule (inactive) for shopping cart;</p>
-     * <p>3. Open newly created shopping cart price rule;</p>
-     * <p>4. Delete newly created shopping cart price rule;</p>
-     * <p>Expected results:</p>
-     * <p>Shopping Cart Price Rule successfully created and deleted;</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3321
