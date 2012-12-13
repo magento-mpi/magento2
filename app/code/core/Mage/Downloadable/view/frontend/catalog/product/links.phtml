@@ -21,8 +21,7 @@
             <li>
                 <?php if ($_linksPurchasedSeparately): ?>
                 <input type="checkbox" <?php if ($_isRequired): ?>data-validate="{'validate-one-checkbox-required-by-name':'downloadable-links-list'}" <?php endif; ?>
-                       class="checkbox <?php if ($_isRequired): ?> validate-one-checkbox-required-by-name<?php endif; ?> "
-                       name="links[]" id="links_<?php echo $_link->getId() ?>"
+                       class="checkbox" name="links[]" id="links_<?php echo $_link->getId() ?>"
                        value="<?php echo $_link->getId(); ?>" <?php echo $this->getLinkCheckedValue($_link); ?> />
                 <?php endif; ?>
                 <span class="label">
