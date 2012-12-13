@@ -3,14 +3,14 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_GiftRegistry
+ * @package     Mage_Grid_AdminUser
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Gift Registry creation into backend
+ * Verification grids into backend
  *
  * @package     selenium
  * @subpackage  tests
@@ -18,9 +18,6 @@
  */
 class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
 {
-    /**
-     *
-     */
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -36,7 +33,7 @@ class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Need to verify that all elements is presented on invitation on page
+     * Need to verify that all grid elements is presented on page
      * @test
      * @dataProvider uiElementsTestDataProvider
      *
@@ -45,8 +42,7 @@ class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
     {
         $this->navigate($pageName);
         $page = $this->loadDataSet('Grid', 'grid');
-        if(array_key_exists('headers', $page[$pageName]))
-        {
+        if (array_key_exists('headers', $page[$pageName])) {
             unset($page[$pageName]['headers']);
         }
         foreach ($page[$pageName] as $control => $type) {
@@ -55,7 +51,6 @@ class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
                     $this->addVerificationMessage("The $control $typeName is not present on page $pageName");
                 }
             }
-
         }
         $this->assertEmptyVerificationErrors();
     }
