@@ -55,6 +55,11 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
+    protected $_layoutMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
     protected $_appMock;
 
     /**
@@ -66,7 +71,7 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
     {
         $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false, false);
         $responseMock = $this->getMock('Mage_Core_Controller_Response_Http', array(), array(), '', false, false);
-        $objectManagerMock = $this->getMock('Magento_ObjectManager', array(), array(), '', false, false);
+        $objectManagerMock = $this->getMock('Magento_ObjectManager_Zend', array(), array(), '', false, false);
         $frontControllerMock = $this->getMock('Mage_Core_Controller_Varien_Front', array(), array(), '', false, false);
         $authorizationMock = $this->getMock('Mage_Core_Model_Authorization', array(), array(), '', false, false);
         $this->_configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false, false);
@@ -87,6 +92,10 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
             array('getUser'), array(), '', false, false
         );
 
+        $this->_layoutMock = $this->getMock('Mage_Core_Model_Layout_Factory',
+            array(), array(), '', false, false
+        );
+
         $this->_sectionMock = $this->getMock(
             'Mage_Backend_Model_Config_Structure_Element_Section', array(), array(), '', false
         );
@@ -100,6 +109,7 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
 
         $this->_controller = new Mage_Backend_Adminhtml_System_Config_SaveController($this->_requestMock,
             $responseMock,
+            null,
             $objectManagerMock,
             $frontControllerMock,
             $authorizationMock,
@@ -109,6 +119,7 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
             $this->_eventManagerMock,
             $this->_appMock,
             $this->_authMock,
+            $this->_layoutMock,
             array(
                 'helper' => $helperMock,
                 'session' => $this->_sessionMock,

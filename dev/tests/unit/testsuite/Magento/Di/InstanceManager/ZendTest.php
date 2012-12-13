@@ -10,9 +10,9 @@
  */
 
 /**
- * Test class for Magento_Test_Di_InstanceManager
+ * Test class for Magento_Di_InstanceManager_Zend
  */
-class Magento_Test_Di_InstanceManagerTest extends PHPUnit_Framework_TestCase
+class Magento_Di_InstanceManager_ZendTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test object alias
@@ -26,7 +26,7 @@ class Magento_Test_Di_InstanceManagerTest extends PHPUnit_Framework_TestCase
 
     public function testRemoveSharedInstance()
     {
-        $instanceManager = new Magento_Test_Di_InstanceManager();
+        $instanceManager = new Magento_Di_InstanceManager_Zend();
         $this->assertAttributeEmpty(self::SHARED_ATTRIBUTE, $instanceManager);
 
         $testObject = new Varien_Object();
