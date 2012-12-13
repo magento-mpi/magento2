@@ -33,10 +33,12 @@ class Mage_Core_Model_Theme_EditorControllerTest extends PHPUnit_Framework_TestC
         $this->_model = $this->getMock('Mage_DesignEditor_Adminhtml_System_Design_EditorController',
             array('_forward', '_title', '__', 'loadLayout', '_setActiveMenu', 'renderLayout'),
             array(
-                $this->getMock('Zend_Controller_Request_Abstract', array(), array(), '', false),
-                $this->getMock('Zend_Controller_Response_Abstract', array(), array(), '', false),
+                $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false),
+                $this->getMock('Mage_Core_Controller_Response_Http', array(), array(), '', false),
+                null,
                 $this->_objectManagerMock,
                 $this->getMock('Mage_Core_Controller_Varien_Front', array(), array(), '', false),
+                $this->getMock('Mage_Core_Model_Layout_Factory', array(), array(), '', false),
                 array(
                     'translator' => 'translator',
                     'helper'     => 'helper',

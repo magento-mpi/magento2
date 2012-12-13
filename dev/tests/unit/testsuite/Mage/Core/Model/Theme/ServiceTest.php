@@ -100,6 +100,8 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
      * @param array $themes
      * @param array $expAssignedThemes
      * @param array $expUnassignedThemes
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function testGetAssignedAndUnassignedThemes($stores, $themes, $expAssignedThemes, $expUnassignedThemes)
     {
