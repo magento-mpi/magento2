@@ -679,4 +679,5 @@ return array(
     $this->_getClassRule('Varien_Convert_Validator_Interface'),
     $this->_getClassRule('Varien_File_Uploader_Image'),
     $this->_getClassRule('Varien_Profiler', 'Magento_Profiler'),
+    $this->_getClassRule('Mage_User_Block_User_Grid'),
 );
