@@ -34,12 +34,33 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons extends Mage_Back
     }
 
     /**
-     * Get "Switch Mode" button URL
+     * Get "Navigation Mode" button URL
      *
      * @return string
      */
-    public function getSwitchModeUrl()
+    public function getNavigationModeUrl()
     {
-        //TODO add url
+        //TODO implement
+    }
+
+    /**
+     * Get "Design Mode" button URL
+     *
+     * @return string
+     */
+    public function getDesignModeUrl()
+    {
+        //TODO implement
+    }
+
+    /**
+     * Check if visual editor is in navigation mode
+     *
+     * @return bool
+     */
+    public function isNavigationMode()
+    {
+        //TODO implement
+        return false;
     }
 }

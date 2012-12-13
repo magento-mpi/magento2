@@ -8,10 +8,16 @@
  * @license     {license_link}
  */
 ?>
+<?php if ($this->isNavigationMode()): ?>
+    <?php $mode = 'Design Mode'; ?>
+<?php else: ?>
+    <?php $mode = 'Navigation Mode'; ?>
+<?php endif; ?>
+<?php $getUrlMethodName = 'get' . str_replace(' ', '', $mode). 'Url'; ?>
 <?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons */ ?>
 <div id="vde_toolbar_buttons" <?php echo $this->getUiId()?>>
-    <a href="<?php echo $this->getSwitchModeUrl(); ?>" title="<?php echo $this->__('Switch Mode'); ?>" class="vde_button switch-mode">
-        <?php echo $this->__('Switch Mode'); ?>
+    <a href="<?php echo $this->$getUrlMethodName(); ?>" title="<?php echo $this->__($mode); ?>" class="vde_button switch-mode">
+        <?php echo $this->__($mode); ?>
     </a>
     <a href="<?php echo $this->getViewLayoutUrl(); ?>" title="<?php echo $this->__('View Layout'); ?>" class="vde_button view-layout">
         <?php echo $this->__('View Layout'); ?>
