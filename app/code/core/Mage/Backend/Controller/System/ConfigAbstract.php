@@ -47,6 +47,8 @@ abstract class Mage_Backend_Controller_System_ConfigAbstract extends Mage_Backen
      * @param Mage_Backend_Model_Auth_StorageInterface $authSession
      * @param Mage_Core_Model_Layout_Factory $layoutFactory
      * @param array $invokeArgs
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Mage_Core_Controller_Request_Http $request,
