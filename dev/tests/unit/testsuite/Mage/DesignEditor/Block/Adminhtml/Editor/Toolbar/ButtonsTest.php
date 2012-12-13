@@ -39,9 +39,4 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_ButtonsTest extends PHPUn
     {
         $this->assertEquals('*/*/getLayoutUpdate', $this->_block->getViewLayoutUrl());
     }
-
-    public function testGetBackUrl()
-    {
-        $this->assertEquals('*/*/', $this->_block->getBackUrl());
-    }
 }

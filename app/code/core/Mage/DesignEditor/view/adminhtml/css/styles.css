@@ -17,7 +17,7 @@
     box-shadow:0 0 4pt 1pt #cbcbcb;
 }
 .vde_breadcrumbs, #vde_toolbar_row {
-    padding:0 0 0 1em;
+    padding:0 3em;
     height:26pt;
     line-height:26pt;
     vertical-align:middle;
@@ -32,6 +32,7 @@
     border-top:1pt solid #dddcd8;
     border-bottom:1pt solid #dddcd8;
     position:relative;
+    margin-top: -10px;
 }
 
 #vde_toolbar_row .vde_toolbar_cell {

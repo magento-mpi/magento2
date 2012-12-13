@@ -10,6 +10,10 @@
 ?>
 
 <?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Editor_Container */ ?>
+<div class="content-header">
+    <?php echo $this->getHeaderHtml() ?>
+    <p class="content-buttons"><?php echo $this->getButtonsHtml(); ?></p>
+</div>
 <?php echo $this->getChildHtml('design_editor_toolbar'); ?>
 <iframe name="vde_container_frame" id="vde_container_frame" class="vde_container_frame" src="<?php echo $this->getFrameUrl(); ?>"></iframe>
 <script type="text/javascript">
