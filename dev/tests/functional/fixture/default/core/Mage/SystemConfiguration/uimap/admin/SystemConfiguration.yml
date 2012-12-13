@@ -4079,7 +4079,7 @@ system_configuration:
                                     fields:
                                         session_lifetime_seconds: //input[@name='groups[security][fields][session_cookie_lifetime][value]']
                                     dropdowns:
-                                        add_secret_key_to_urls: //select[@name='groups[security][fields][use_form_key][value]']
+                                        add_secret_key_to_urls: //select[@data-ui-id='select-groups-security-fields-use-form-key-value']
                                         login_is_case_sensitive: //select[@name='groups[security][fields][use_case_sensitive_login][value]']
                             -
                                 dashboard_admin:
