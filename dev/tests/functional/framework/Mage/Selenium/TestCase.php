@@ -180,9 +180,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     protected $_urlPrefix = array();
 
     /**
-     * Testcase error
-     * @var boolean
-     * @deprecated
+     * @var array
      */
     public static $browsers = array();
 
