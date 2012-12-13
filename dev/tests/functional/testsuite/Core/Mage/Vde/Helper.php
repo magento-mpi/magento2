@@ -19,7 +19,7 @@ class Core_Mage_Vde_Helper extends Mage_Selenium_TestCase
     public function isVdeRouter($url)
     {
         $urlPrefix = $this->getUrlPrefix();
-        $baseUrl = $this->_configHelper->getBaseUrl();
+        $baseUrl = $this->getConfigHelper()->getBaseUrl();
         $baseUrl = $baseUrl . $urlPrefix;
         $result = strpos($url, $baseUrl) !== false;
         return $result;

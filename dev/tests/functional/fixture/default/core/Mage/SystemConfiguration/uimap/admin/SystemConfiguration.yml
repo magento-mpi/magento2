@@ -4501,7 +4501,7 @@ system_configuration:
                                     checkboxes:
                                         merge_css_files_use_default: //input[@name='groups[css][fields][merge_css_files][inherit]']
         buttons:
-            save_config: //button[@data-ui-id='system-config-edit-save-button']
+            save_config: //button[@data-ui-id='content-schedule-block-save-button']
         messages:
             success_saved_config: //li[normalize-space(@class)='success-msg' and contains(.,'The configuration has been saved.')]
             validation_for_field_code_length: //div[@id='advice-validate-digits-promo_auto_generated_coupon_codes_length']
