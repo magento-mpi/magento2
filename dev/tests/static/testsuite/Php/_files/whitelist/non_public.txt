@@ -10,7 +10,6 @@ dev/tests/functional/testsuite/Enterprise/Mage/AddBySku/FrontendSkuTabValidation
 dev/tests/functional/testsuite/Enterprise/Mage/AddBySku/FrontendSkuWidgetTest.php
 dev/tests/functional/testsuite/Enterprise/Mage/AddBySku/Helper.php
 dev/tests/functional/testsuite/Enterprise/Mage/Attributes/CustomerAddressAttribute/Create/AttachmentFileTest.php
-#dev/tests/functional/testsuite/Enterprise/Mage/StagingWebsite/SystemConfigurationTest.php
 dev/tests/functional/testsuite/Enterprise/Mage/Store/SingleStoreMode/EnableSingleStoreModeTest.php
 dev/tests/functional/testsuite/Enterprise/Mage/Tags/RewardPointsTest.php
 dev/tests/functional/testsuite/Enterprise/Mage/Various/ChangingStoreViewOnFrontend.php
