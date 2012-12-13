@@ -45,10 +45,4 @@
             </block>
         </reference>
     </adminhtml_system_design_editor_run>
-
-    <adminhtml_system_design_editor_exit>
-        <reference name="content">
-            <block type="Mage_Adminhtml_Block_Template" name="design_editor_exit" as="exit" template="Mage_DesignEditor::exit.phtml"/>
-        </reference>
-    </adminhtml_system_design_editor_exit>
 </layout>

@@ -49,49 +49,6 @@
                 </args>
             </designeditor>
         </routers>
-        <events>
-            <controller_action_predispatch>
-                <observers>
-                    <designeditor>
-                        <class>Mage_DesignEditor_Model_Observer</class>
-                        <method>preDispatch</method>
-                    </designeditor>
-                </observers>
-            </controller_action_predispatch>
-            <controller_action_layout_generate_blocks_before>
-                <observers>
-                    <designeditor>
-                        <class>Mage_DesignEditor_Model_Observer</class>
-                        <method>disableBlocksOutputCaching</method>
-                    </designeditor>
-                </observers>
-            </controller_action_layout_generate_blocks_before>
-            <controller_action_layout_load_before>
-                <observers>
-                    <designeditor>
-                        <class>Mage_DesignEditor_Model_Observer</class>
-                        <method>addToolbar</method>
-                    </designeditor>
-                </observers>
-            </controller_action_layout_load_before>
-            <controller_action_layout_generate_blocks_after>
-                <observers>
-                    <designeditor>
-                        <class>Mage_DesignEditor_Model_Observer</class>
-                        <method>setDesignEditorFlag</method>
-                    </designeditor>
-                </observers>
-            </controller_action_layout_generate_blocks_after>
-            <core_layout_render_element>
-                <observers>
-                    <designeditor>
-                        <type>singleton</type>
-                        <class>Mage_DesignEditor_Model_Observer</class>
-                        <method>wrapPageElement</method>
-                    </designeditor>
-                </observers>
-            </core_layout_render_element>
-        </events>
         <vde>
             <frontName>vde</frontName>
         </vde>
@@ -104,16 +61,6 @@
                 </designeditor>
             </updates>
         </layout>
-        <events>
-            <backend_auth_user_logout>
-                <observers>
-                    <designeditor>
-                        <class>Mage_DesignEditor_Model_Observer</class>
-                        <method>adminSessionUserLogout</method>
-                    </designeditor>
-                </observers>
-            </backend_auth_user_logout>
-        </events>
     </adminhtml>
     <admin>
         <routers>

@@ -103,9 +103,9 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
         $isSanitizeBlocks = false,
         $enableWrapping = false
     ) {
-        $this->_wrapperBlock     = $wrapperBlock;
+        $this->_wrapperBlock      = $wrapperBlock;
         $this->_sanitationEnabled = $isSanitizeBlocks;
-        $this->_enabledWrapping  = $enableWrapping;
+        $this->_enabledWrapping   = $enableWrapping;
         parent::__construct($blockFactory, $structure, $argumentProcessor, $translator, $scheduledStructure, $area);
     }
 
@@ -272,6 +272,7 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
         $attributes = $node->attributes();
         $name = $attributes['name'];
         $result = $node->xpath("//block[@name='{$name}']") ?: array();
+        /** @var $block Varien_Simplexml_Element */
         foreach ($result as $block) {
             $isTypeSafe = self::_isTypeSafe($block->getAttribute('type'));
             if (!$isTypeSafe || !self::_isParentSafe($block)) {

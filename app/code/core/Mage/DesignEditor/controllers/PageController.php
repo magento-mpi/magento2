@@ -98,4 +98,3 @@ class Mage_DesignEditor_PageController extends Mage_Core_Controller_Front_Action
         return parent::getFullActionName($delimiter);
     }
 }
-

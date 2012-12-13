@@ -35,9 +35,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
      */
     public function launchAction()
     {
-        /** @var $session Mage_DesignEditor_Model_Session */
-        $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
-
         $themeId = (int)$this->getRequest()->getParam('theme_id');
         /** @var $theme Mage_Core_Model_Theme */
         $theme = Mage::getModel('Mage_Core_Model_Theme');
@@ -46,8 +43,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             if (!$theme->getId()) {
                 Mage::throwException($this->__('The theme was not found.'));
             }
-            $session->activateDesignEditor();
-            $session->setThemeId($theme->getId());
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/');
@@ -60,7 +55,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         }
 
         /* Redirect to the frontend */
-        $query = array(Mage_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM => urlencode($session->getSessionId()));
+        $query = array();
         $storeId = (int)$this->getRequest()->getParam('store_id');
         if (!Mage::app()->isSingleStoreMode() && $storeId) {
             $storeId = (int)$this->getRequest()->getParam('store_id');
@@ -106,18 +101,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         $vdeUrlModel = $this->_objectManager->get('Mage_DesignEditor_Model_Url');
         $editorBlock->setFrameUrl($vdeUrlModel->getUrl('design/page/type', array('handle' => 'default')));
 
-        $this->renderLayout();
-    }
-
-    /**
-     * Exit design editor
-     */
-    public function exitAction()
-    {
-        /** @var $session Mage_DesignEditor_Model_Session */
-        $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
-        $session->deactivateDesignEditor();
-        $this->loadLayout();
         $this->renderLayout();
     }
 

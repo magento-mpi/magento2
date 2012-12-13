@@ -104,68 +104,14 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
         $this->assertContains('Fixture Store</option>', $responseBody);
     }
 
-    /**
-     * @magentoDataFixture prepareTheme
-     */
-    public function testLaunchActionSingleStore()
-    {
-        $session = Mage::getModel('Mage_DesignEditor_Model_Session');
-        $this->assertFalse($session->isDesignEditorActive());
-        $this->getRequest()->setParam('theme_id', self::$_themeId);
-        $this->dispatch('backend/admin/system_design_editor/launch');
-        $this->assertTrue($session->isDesignEditorActive());
-
-        $this->_requireSessionId();
-        $this->assertRedirect($this->equalTo('http://localhost/index.php/?SID=' . $this->_session->getSessionId()));
-    }
-
     public function testLaunchActionSingleStoreWrongThemeId()
     {
-        $session = Mage::getObjectManager()->create('Mage_DesignEditor_Model_Session');
-        $this->assertFalse($session->isDesignEditorActive());
         $this->getRequest()->setParam('theme_id', 999);
         $this->dispatch('backend/admin/system_design_editor/launch');
-        $this->assertFalse($session->isDesignEditorActive());
 
         $this->_requireSessionId();
         $expected = 'http://localhost/index.php/backend/admin/system_design_editor/index/';
         $this->assertRedirect($this->stringStartsWith($expected));
-    }
-
-    /**
-     * @magentoDataFixture prepareTheme
-     * @magentoDataFixture Mage/Core/_files/store.php
-     * @magentoConfigFixture fixturestore_store web/unsecure/base_link_url http://example.com/
-     */
-    public function testLaunchActionMultipleStores()
-    {
-        $this->getRequest()->setParam('store_id', Mage::app()->getStore('fixturestore')->getId());
-
-        $session = Mage::getModel('Mage_DesignEditor_Model_Session');
-        $this->assertFalse($session->isDesignEditorActive());
-        $this->getRequest()->setParam('theme_id', self::$_themeId);
-        $this->dispatch('backend/admin/system_design_editor/launch');
-        $this->assertTrue($session->isDesignEditorActive());
-
-        $this->_requireSessionId();
-        $expected = 'http://example.com/index.php/?SID=' . $this->_session->getSessionId() . '&___store=fixturestore';
-        $this->assertRedirect($this->equalTo($expected));
-    }
-
-    /**
-     * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
-     */
-    public function testExitAction()
-    {
-        $session = Mage::getModel('Mage_DesignEditor_Model_Session');
-        $this->assertTrue($session->isDesignEditorActive());
-        $this->dispatch('backend/admin/system_design_editor/exit');
-
-        $this->assertFalse($session->isDesignEditorActive());
-        $this->assertContains(
-            '<script type="text/javascript">window.close();</script>',
-            $this->getResponse()->getBody()
-        );
     }
 
     public function testRunAction()
