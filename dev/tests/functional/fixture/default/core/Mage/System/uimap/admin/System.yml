@@ -64,6 +64,17 @@ system_design:
                         xpath: //div[@id='designGrid']
                         dropdowns:
                             store: //select[@name='store_id']
+                            view_per_page: //select[@name='limit']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                        fields:
+                            page: //input[@name='page']
+                            design_filter: //input[@id='designGrid_filter_package']
+                            date_from_filter_from: //input[@name='date_from[from]']
+                            date_from_filter_to: //input[@name='date_from[to]']
+                            date_to_filter_from: //input[@name='date_to[from]']
+                            date_to_filter_to: //input[@name='date_to[to]']
         buttons:
             add_design_change: //button[span='Add Design Change']
 
@@ -121,6 +132,7 @@ system_email_template:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
                         fields:
+                            page: //input[@name='page']
                             filter_template_id: //input[@name='template_id']
                             filter_template_name: //input[@name='code']
                             filter_date_added_from: //input[@name='added_at[from]']
@@ -130,6 +142,7 @@ system_email_template:
                             filter_subject: //input[@name='subject']
                         dropdowns:
                             filter_template_type: //select[@name='type']
+                            view_per_page: //select[@name='limit']
         buttons:
             add_new_template:  //button[span='Add New Template']
         messages: &templateMessages
