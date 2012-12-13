@@ -143,3 +143,19 @@ grid:
             4: Last Time Generated
             5: Store View
             6: Action
+    user_role:
+        fieldset:
+            permissions_user_roles: tablename
+        button:
+            reset_filter:
+            search:
+            back:
+            reset:
+            save_admin_user:
+        dropdown:
+            assigned:
+        field:
+            role_name:
+        headers:
+            0: Assigned
+            1: Role Name

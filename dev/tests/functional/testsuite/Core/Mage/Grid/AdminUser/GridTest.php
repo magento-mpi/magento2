@@ -33,6 +33,25 @@ class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * Method that goes thru test data array and adds Verification Messages
+     * @param string $pageName
+     */
+    protected function _verifyControlsOnGridPage($pageName)
+    {
+        $page = $this->loadDataSet('Grid', 'grid');
+        if (array_key_exists('headers', $page['user_role'])) {
+            unset($page[$pageName]['headers']);
+        }
+        foreach ($page[$pageName] as $control => $type) {
+            foreach ($type as $typeName => $name) {
+                if (!$this->controlIsPresent($control, $typeName)) {
+                    $this->addVerificationMessage("The $control $typeName is not present on page role_users");
+                }
+            }
+        }
+    }
+
+    /**
      * Need to verify that all grid elements is presented on page
      * @test
      * @dataProvider uiElementsTestDataProvider
@@ -41,17 +60,7 @@ class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
     public function uiElementsTest($pageName)
     {
         $this->navigate($pageName);
-        $page = $this->loadDataSet('Grid', 'grid');
-        if (array_key_exists('headers', $page[$pageName])) {
-            unset($page[$pageName]['headers']);
-        }
-        foreach ($page[$pageName] as $control => $type) {
-            foreach ($type as $typeName => $name) {
-                if (!$this->controlIsPresent($control, $typeName)) {
-                    $this->addVerificationMessage("The $control $typeName is not present on page $pageName");
-                }
-            }
-        }
+        $this->_verifyControlsOnGridPage($pageName);
         $this->assertEmptyVerificationErrors();
     }
 
@@ -99,13 +108,49 @@ class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
         $role = array('Administrator');
         $this->adminUserHelper()->openRole($role);
         $this->openTab('role_users');
-        $page = $this->loadDataSet('Grid', 'grid');
-        foreach ($page['role_users'] as $control => $type) {
-            foreach ($type as $typeName => $name) {
-                if (!$this->controlIsPresent($control, $typeName)) {
-                    $this->addVerificationMessage("The $control $typeName is not present on page role_users");
-                }
-            }
-        }
+        $this->_verifyControlsOnGridPage('role_users');
+    }
+
+    /**
+     * Need to verify that all ui elements are presented in  grid
+     * @return array
+     * @test
+     */
+    public function uiElementForUsersRole()
+    {
+        $this->navigate('manage_admin_users');
+        $testAdminUser = $this->loadDataSet('AdminUsers', 'generic_admin_user');
+        $this->adminUserHelper()->createAdminUser($testAdminUser);
+        unset($testAdminUser['password']);
+        unset($testAdminUser['password_confirmation']);
+        $this->assertMessagePresent('success', 'success_saved_user');
+        $this->searchAndOpen($testAdminUser, 'permissionsUserGrid');
+        $this->openTab('user_role');
+        $this->_verifyControlsOnGridPage('user_role');
+        $this->assertEmptyVerificationErrors();
+
+       return $testAdminUser;
+    }
+
+    /**
+     * Need to verify all header names and order in grid
+     *
+     * @depends uiElementForUsersRole
+     * @param $testAdminUser
+     *
+     * @test
+     */
+    public function headersForUserRole($testAdminUser)
+    {
+        $testData = $this->loadDataSet('Grid', 'grid');
+        $tableNameValue = array_search('tablename', $testData['user_role']['fieldset']);
+        $expectedHeadersName = $testData['user_role']['headers'];
+
+        $this->navigate('manage_admin_users');
+        $this->searchAndOpen($testAdminUser, 'permissionsUserGrid');
+        $this->openTab('user_role');
+        $tableXpath = $this->_getControlXpath('fieldset', $tableNameValue);
+        $actualHeadersName = $this->getTableHeadRowNames($tableXpath);
+        $this->assertEquals($actualHeadersName, $expectedHeadersName);
     }
 }

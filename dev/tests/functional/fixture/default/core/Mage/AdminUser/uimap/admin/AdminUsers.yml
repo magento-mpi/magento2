@@ -91,7 +91,7 @@ new_admin_user:
                                     checkboxes:
                                     #must be implemented
                                     dropdowns:
-                                        assigned: //input[@name='assigned_user_role']
+                                        assigned: //select[@id='permissionsUserRolesGrid_filter_assigned_user_role']
                                     fields:
                                         role_name: //input[@name='role_name']
                                     radiobuttons:
