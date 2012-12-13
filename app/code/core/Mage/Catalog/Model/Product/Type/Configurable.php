@@ -239,6 +239,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
                 'attribute_code' => $attribute->getProductAttribute()->getAttributeCode(),
                 'frontend_label' => $attribute->getProductAttribute()->getFrontend()->getLabel(),
                 'store_label'    => $attribute->getProductAttribute()->getStoreLabel(),
+                'oprions'        => $attribute->getProductAttribute()->getSource()->getAllOptions(false),
             );
         }
         return $res;
