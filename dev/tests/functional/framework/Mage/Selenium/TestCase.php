@@ -69,7 +69,6 @@
  * @method Enterprise_Mage_ImportExportScheduled_Helper                                                importExportScheduledHelper()
  * @method Enterprise_Mage_Rma_Helper                                                                  rmaHelper()
  * @method Enterprise_Mage_Rollback_Helper                                                             rollbackHelper()
- * @method Enterprise_Mage_StagingWebsite_Helper                                                       stagingWebsiteHelper()
  * @method Enterprise_Mage_WebsiteRestrictions_Helper                                                  websiteRestrictionsHelper()
  * @method Core_Mage_Grid_Helper                                                                       gridHelper()
  */
