@@ -27,7 +27,7 @@ class Community1701_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
      */
     public function configurePaypal($parameters)
     {
-        $parameters = $this->testDataToArray($parameters);
+        $parameters = $this->fixtureDataToArray($parameters);
         $chooseScope = (isset($parameters['configuration_scope'])) ? $parameters['configuration_scope'] : null;
         $country = (isset($parameters['merchant_country'])) ? $parameters['merchant_country'] : null;
         $configuration = (isset($parameters['configuration'])) ? $parameters['configuration'] : array();

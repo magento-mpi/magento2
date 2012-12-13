@@ -707,7 +707,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @param array|string $testData
      * @return array
      */
-    public function testDataToArray($testData)
+    public function fixtureDataToArray($testData)
     {
         if (is_string($testData)) {
             $elements = explode('/', $testData);

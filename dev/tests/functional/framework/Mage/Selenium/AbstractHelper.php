@@ -143,7 +143,7 @@
  * @method array                    successMessage(string $message = null)
  * @method string                   takeScreenshot(string $fileName = null)
  * @method bool                     textIsPresent(string $pageText)
- * @method array                    testDataToArray($testData)
+ * @method array                    fixtureDataToArray($testData)
  * @method void                     validatePage(string $page = '')
  * @method array                    validationMessage(string $message = null)
  * @method bool                     verifyForm(array $data, string $tabId = '', array $skipElements = array('password', 'password_confirmation'))
