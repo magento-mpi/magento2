@@ -32,4 +32,14 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons extends Mage_Back
     {
         return $this->getUrl('*/*/');
     }
+
+    /**
+     * Get "Switch Mode" button URL
+     *
+     * @return string
+     */
+    public function getSwitchModeUrl()
+    {
+        //TODO add url
+    }
 }
