@@ -163,7 +163,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
      */
     public function fillOrderAddress($addressData, $addressChoice = 'new', $addressType = 'billing')
     {
-        $addressData = $this->testDataToArray($addressData);
+        $addressData = $this->fixtureDataToArray($addressData);
 
         if ($addressChoice == 'sameAsBilling') {
             $this->fillCheckbox('shipping_same_as_billing_address', 'Yes');
@@ -367,7 +367,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
      */
     public function selectPaymentMethod($paymentMethod, $validate = true)
     {
-        $paymentMethod = $this->testDataToArray($paymentMethod);
+        $paymentMethod = $this->fixtureDataToArray($paymentMethod);
         $payment = (isset($paymentMethod['payment_method'])) ? $paymentMethod['payment_method'] : null;
         $card = (isset($paymentMethod['payment_info'])) ? $paymentMethod['payment_info'] : array();
         if (is_null($payment)) {
@@ -434,7 +434,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
      */
     public function selectShippingMethod($shippingMethod, $validate = true)
     {
-        $shippingMethod = $this->testDataToArray($shippingMethod);
+        $shippingMethod = $this->fixtureDataToArray($shippingMethod);
         $shipService = (isset($shippingMethod['shipping_service'])) ? $shippingMethod['shipping_service'] : null;
         $shipMethod = (isset($shippingMethod['shipping_method'])) ? $shippingMethod['shipping_method'] : null;
         if (!$shipService or !$shipMethod) {
@@ -485,7 +485,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
             $this->clickButton('create_new_customer', false);
             $this->pleaseWait();
         } else {
-            $customerData = $this->testDataToArray($customerData);
+            $customerData = $this->fixtureDataToArray($customerData);
             $this->searchAndOpen($customerData, 'order_customer_grid', false);
         }
 

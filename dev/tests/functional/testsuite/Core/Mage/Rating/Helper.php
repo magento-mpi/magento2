@@ -68,7 +68,7 @@ class Core_Mage_Rating_Helper extends Mage_Selenium_AbstractHelper
      */
     public function fillTabs($ratingData)
     {
-        $ratingData = $this->testDataToArray($ratingData);
+        $ratingData = $this->fixtureDataToArray($ratingData);
         $this->fillForm($ratingData);
         if (isset($ratingData['store_view_titles'])) {
             $this->fillRatingTitles($ratingData['store_view_titles']);
@@ -110,7 +110,7 @@ class Core_Mage_Rating_Helper extends Mage_Selenium_AbstractHelper
      */
     public function verifyRatingData($ratingData)
     {
-        $ratingData = $this->testDataToArray($ratingData);
+        $ratingData = $this->fixtureDataToArray($ratingData);
         $titles = (isset($ratingData['store_view_titles'])) ? $ratingData['store_view_titles'] : array();
         $this->verifyForm($ratingData);
 
