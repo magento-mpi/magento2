@@ -77,16 +77,4 @@ class Mage_Launcher_Model_Resource_Tile extends Mage_Core_Model_Resource_Db_Abst
 
         return $this;
     }
-
-    /**
-     * Load landing page tile by its code
-     *
-     * @param Mage_Launcher_Model_Tile $tile
-     * @param string $code
-     * @return Mage_Launcher_Model_Resource_Tile
-     */
-    public function loadByCode($tile, $code)
-    {
-        return $this->load($tile, $code, 'code');
-    }
 }

@@ -81,7 +81,6 @@ class Mage_Launcher_Model_Page extends Mage_Core_Model_Abstract
      */
     public function loadByCode($code)
     {
-        $this->_getResource()->loadByCode($this, $code);
-        return $this;
+        return $this->load($code, 'code');
     }
 }

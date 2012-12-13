@@ -66,16 +66,4 @@ class Mage_Launcher_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abst
 
         return $this;
     }
-
-    /**
-     * Load landing page by its code
-     *
-     * @param Mage_Launcher_Model_Page $page
-     * @param string $code
-     * @return Mage_Launcher_Model_Resource_Page
-     */
-    public function loadByCode($page, $code)
-    {
-        return $this->load($page, $code, 'code');
-    }
 }
