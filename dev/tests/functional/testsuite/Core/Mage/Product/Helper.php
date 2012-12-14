@@ -43,7 +43,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * Select Dropdown Attribute(s) for configurable product creation
+     * Select configurable attribute from searchable control for configurable product creation
      *
      * @param array $productData
      */
@@ -54,25 +54,34 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             : null;
 
         if (!empty($attributes)) {
-            $attributesId = array();
             $attributes = array_map('trim', $attributes);
-
             foreach ($attributes as $attributeTitle) {
-                $this->addParameter('attributeTitle', $attributeTitle);
-                if ($this->controlIsPresent('checkbox', 'configurable_attribute_title')) {
-                    $attributesId[] = $this->getControlAttribute('checkbox', 'configurable_attribute_title', 'value');
-                    $this->fillCheckbox('configurable_attribute_title', 'Yes');
-                } else {
-                    $this->fail("Dropdown attribute with title '$attributeTitle' is not present on the page");
-                }
+                $this->selectConfigurableAttribute($attributeTitle);
             }
-
-            $attributesUrl = urlencode(base64_encode(implode(',', $attributesId)));
-            $this->addParameter('attributesUrl', $attributesUrl);
-
-            $this->clickButton('continue');
+            $this->clickButton('generate_variations');
         } else {
-            $this->fail('Dropdown attribute for configurable product creation is not set');
+            $this->fail('Attribute for configurable product creation is not set');
+        }
+        $this->unassignAllAssociatedProducts();
+    }
+
+    /**
+     * Select configurable attribute on Product page using searchable attribute selector control
+     *
+     * @param string $attributeTitle
+     */
+    public function selectConfigurableAttribute($attributeTitle)
+    {
+        $this->fillField('attribute_selector', $attributeTitle);
+        $this->addParameter('attributeName', $attributeTitle);
+        $attributeXpath = $this->_getControlXpath(self::FIELD_TYPE_LINK, 'suggested_attribute');
+        $suggestedMenu = $this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'suggested_attribute_list');
+        $this->waitForElementVisible($suggestedMenu);
+        if ($this->controlIsVisible(self::FIELD_TYPE_LINK, 'suggested_attribute')) {
+            $this->mouseOver($attributeXpath);
+            $this->clickControl(self::FIELD_TYPE_LINK, 'suggested_attribute', false);
+        } else {
+            $this->fail('Attribute ' . $attributeTitle . 'can not be found in suggestion list.');
         }
     }
 
@@ -169,24 +178,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 break;
             case 'associated':
                 $arrayKey = $tabName . '_grouped_data';
-                $arrayKey1 = $tabName . '_configurable_data';
                 if (array_key_exists($arrayKey, $tabData) && is_array($tabData[$arrayKey])) {
                     foreach ($tabData[$arrayKey] as $value) {
                         $this->assignProduct($value, $tabName);
-                    }
-                } elseif (array_key_exists($arrayKey1, $tabData) && is_array($tabData[$arrayKey1])) {
-                    $attributeTitle = (isset($productData['configurable_attribute_title']))
-                        ? $productData['configurable_attribute_title']
-                        : null;
-                    if (!$attributeTitle) {
-                        $this->fail('Attribute Title for configurable product is not set');
-                    }
-                    $this->addParameter('attributeTitle', $attributeTitle);
-                    $this->fillForm($tabData[$arrayKey1], $tabName);
-                    foreach ($tabData[$arrayKey1] as $value) {
-                        if (is_array($value)) {
-                            $this->assignProduct($value, $tabName, $attributeTitle);
-                        }
                     }
                 }
                 break;
@@ -411,7 +405,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     public function createProduct(array $productData, $productType = 'simple', $isSave = true)
     {
         $this->selectTypeProduct($productType);
-        if ($productData['product_attribute_set'] != 'Default') {
+        if (isset($productData['product_attribute_set']) && $productData['product_attribute_set'] != 'Default') {
             $this->changeAttributeSet($productData['product_attribute_set']);
         }
         if ($productType == 'configurable') {
@@ -435,7 +429,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->fillProductTab($productData, 'categories');
         $this->fillProductTab($productData, 'prices');
         $this->fillProductTab($productData, 'meta_information');
-        //@TODO Fill in Images Tab
         if ($productType == 'simple' || $productType == 'virtual') {
             $this->fillProductTab($productData, 'recurring_profile');
         }
@@ -447,7 +440,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->fillProductTab($productData, 'up_sells');
         $this->fillProductTab($productData, 'cross_sells');
         $this->fillProductTab($productData, 'custom_options');
-        if ($productType == 'grouped' || $productType == 'configurable') {
+        if ($productType == 'configurable') {
+            $this->assignAssociatedProduct($productData);
+        }
+        if ($productType == 'grouped') {
             $this->fillProductTab($productData, 'associated');
         }
         if ($productType == 'bundle') {
@@ -578,20 +574,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             }
         }
         if (array_key_exists('associated_configurable_data', $nestedArrays)) {
-            $this->openTab('associated');
-            $attributeTitle = (isset($productData['configurable_attribute_title']))
-                ? $productData['configurable_attribute_title']
-                : null;
-            if (!$attributeTitle) {
-                $this->fail('Attribute Title for configurable product is not set');
-            }
-            $this->addParameter('attributeTitle', $attributeTitle);
-            $this->verifyForm($nestedArrays['associated_configurable_data'], 'associated');
-            foreach ($nestedArrays['associated_configurable_data'] as $value) {
-                if (is_array($value)) {
-                    $this->isAssignedProduct($value, 'associated', $attributeTitle);
-                }
-            }
+            $this->verifyProductVariations($nestedArrays['associated_configurable_data'],
+                $productData['configurable_attribute_title']);
         }
         if (array_key_exists('custom_options_data', $nestedArrays)) {
             $this->verifyCustomOption($nestedArrays['custom_options_data']);
@@ -1204,10 +1188,19 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                   'categories'                              => $returnCategory['path']));
         $download['general_user_attr']['dropdown'][$attrCode] = $attrData['option_3']['admin_option_name'];
         $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order',
-            array('configurable_attribute_title' => $attrData['admin_title'],
-                  'categories'                   => $returnCategory['path']),
-            array('associated_1' => $simple['general_sku'], 'associated_2' => $virtual['general_sku'],
-                  'associated_3' => $download['general_sku']));
+            array(
+                'configurable_attribute_title' => $attrData['admin_title'],
+                'categories' => $returnCategory['path']
+            ),
+            array(
+                'associated_1' => $simple['general_sku'],
+                'value_1' => $configurableOptions[0],
+                'associated_2' => $virtual['general_sku'],
+                'value_2' => $configurableOptions[1],
+                'associated_3' => $download['general_sku'],
+                'value_3' => $configurableOptions[3]
+            )
+        );
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
         $this->assertMessagePresent('success', 'success_saved_attribute');
@@ -1748,21 +1741,31 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
 
     /**
      * Unassign all associated products in configurable product
+     *
+     * @param bool $isUnchecked - if true than check all associated product
      */
-    public function unassignAllAssociatedProducts()
+    public function unassignAllAssociatedProducts($isUnchecked = true)
     {
         $this->openTab('general');
-        if ($this->controlIsVisible('fieldset', 'associated')) {
+        if ($this->controlIsVisible('fieldset', 'variations_matrix')) {
             $checkboxElements =
                 $this->getChildElements($this->getControlElement('fieldset', 'associated'), "//*[@class='checkbox']",
                     false);
             $rowNumber = count($checkboxElements) - 1;
             while ($rowNumber > 0) {
                 $this->addParameter('rowNum', $rowNumber);
-                if ($this->controlIsVisible('checkbox', 'associated_product_select')
-                    && $this->getControlElement('checkbox', 'associated_product_select')->selected()
-                ) {
-                    $this->clickControl('checkbox', 'associated_product_select', false);
+                if ($isUnchecked) {
+                    if ($this->controlIsVisible('checkbox', 'associated_product_select')
+                        && $this->getControlElement('checkbox', 'associated_product_select')->selected()
+                    ) {
+                        $this->clickControl('checkbox', 'associated_product_select', false);
+                    }
+                } else {
+                    if (!$this->controlIsVisible('checkbox', 'associated_product_select')
+                        && $this->getControlElement('checkbox', 'associated_product_select')->selected()
+                    ) {
+                        $this->clickControl('checkbox', 'associated_product_select', false);
+                    }
                 }
                 $rowNumber--;
             }
@@ -1770,16 +1773,17 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * Get product type by it's sku from Manage Products grid
+     * Get product data Manage Products grid from column by it's sku
      *
-     * @param $productData
+     * @param string $productSku
+     * @param string $column
      *
      * @return string
      */
-    public function getProductType($productData)
+    public function getProductDataFromGrid($productSku, $column)
     {
-        $column = $this->getColumnIdByName('Type');
-        $productLocator = $this->formSearchXpath(array('sku' => $productData['general_sku']));
+        $column = $this->getColumnIdByName($column);
+        $productLocator = $this->formSearchXpath(array('sku' => $productSku));
 
         return trim($this->getElement($productLocator . "//td[$column]")->text());
     }
@@ -1818,5 +1822,124 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $this->fail('Not all variations are represented in variation matrix');
         }
         $this->assertEmptyVerificationErrors();
+    }
+
+    /**
+     * Assign associated products to configurable product
+     *
+     * @param array $productData
+     *
+     * @return bool
+     */
+    public function assignAssociatedProduct(array $productData)
+    {
+        $this->openTab('general');
+        $tabData = array();
+        foreach ($productData as $key => $value) {
+            if (preg_match('/^' . 'associated' . '/', $key)) {
+                $tabData[$key] = $value;
+            }
+        }
+        if (empty($tabData)) {
+            return false;
+        }
+        $arrayKey = 'associated_configurable_data';
+        if (array_key_exists($arrayKey, $tabData) && is_array($tabData[$arrayKey])) {
+            $attributeTitle = (isset($productData['configurable_attribute_title']))
+                ? $productData['configurable_attribute_title']
+                : null;
+            if (!$attributeTitle) {
+                $this->fail('Attribute Title for configurable product is not set');
+            }
+        }
+        foreach ($tabData[$arrayKey] as $associatedProduct) {
+            if (isset($associatedProduct['associated_product_attribute'])) {
+                $this->_formAssociatedProductXpath($associatedProduct['associated_product_attribute']);
+            } else {
+                $this->fail('Attribute option name is not specify for associated product');
+            }
+            $this->clickButton('choose', false);
+            $this->waitForElementVisible($this->_getControlXpath('fieldset', 'select_associated_product'));
+            $this->addParameter('productSku', $associatedProduct['associated_search_sku']);
+
+            $this->controlIsPresent(self::FIELD_TYPE_PAGEELEMENT, 'sku_cell');
+            if ($this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'sku_cell')) {
+                $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'sku_cell', false);
+            } else {
+                $this->fail('The product with sku: ' . $associatedProduct['associated_search_sku'] . ' was not found');
+            }
+        }
+    }
+
+    /**
+     * Form xpath for variation according to selected configurable attributes options
+     *
+     * @param array $productAttribute
+     */
+    protected function _formAssociatedProductXpath(array $productAttribute)
+    {
+        $attributeValues = '';
+        foreach ($productAttribute as $attribute) {
+            $attributeValues .= trim($attribute['associated_product_attribute_value']);
+        }
+        $this->addParameter('attributeSearch', "contains(., '$attributeValues')");
+    }
+
+    /**
+     * Verify assigned associated products to configurable product
+     *
+     * @param array $productVariations
+     * @param string $attributeTitles
+     *
+     * @TODO Implement price verification when attribute blocks will be developed
+     */
+    public function verifyProductVariations(array $productVariations, $attributeTitles)
+    {
+        $this->openTab('general');
+        $this->fillCheckbox('is_configurable', 'yes');
+        $attributes = array_map('trim', explode(',', $attributeTitles));
+        foreach ($attributes as $value) {
+            $this->addParameter('attributeTitle', $value);
+            if (!$this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'attribute_header')) {
+                $this->addVerificationMessage('Attribute ' . $value . ' is not present in variation matrix.');
+            }
+        }
+        foreach ($productVariations as $product) {
+            $this->_formAssociatedProductXpath($product['associated_product_attribute']);
+            $this->addParameter('productSku', $product['associated_search_sku']);
+            if (!$this->controlIsVisible(self::FIELD_TYPE_CHECKBOX, 'assigned_product')) {
+                $this->addVerificationMessage(
+                    'Product with SKU ' . $product['associated_search_sku'] . ' was not assigned.'
+                );
+            }
+        }
+    }
+
+    /**
+     * Include product by it's configurable attribute's values
+     *
+     * @param array $productAttributes
+     * @param array $fillFields
+     * @param bool $isChecked - if false than exclude product
+     */
+    public function includeAssociatedProduct(array $productAttributes, array $fillFields = null, $isChecked = true)
+    {
+        $this->_formAssociatedProductXpath($productAttributes);
+        if ($isChecked) {
+            if (!$this->isChecked($this->_getControlXpath('checkbox', 'associated_product_select')) &&
+                $this->controlIsVisible('checkbox', 'associated_product_select')
+            ) {
+                $this->clickControl('checkbox', 'associated_product_select', false);
+                if(isset($fillFields)) {
+                    $this->fillFieldset($fillFields, 'variations_matrix');
+                }
+            }
+        } else {
+            if ($this->isChecked($this->_getControlXpath('checkbox', 'associated_product_select')) &&
+                $this->controlIsVisible('checkbox', 'associated_product_select')
+            ) {
+                $this->clickControl('checkbox', 'associated_product_select', false);
+            }
+        }
     }
 }

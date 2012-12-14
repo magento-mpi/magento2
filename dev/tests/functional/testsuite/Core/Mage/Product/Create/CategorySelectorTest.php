@@ -131,7 +131,6 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $this->productHelper()->createProduct($productData, 'simple', false);
         $this->openTab('general');
         $this->fillField('categories', $categories['newRoot']['category']);
-        $this->keyDown($this->_getControlXpath('field', 'categories'), ' ');
         $this->waitForElementVisible($this->_getControlXpath('fieldset', 'category_search'));
         //Verifying
         $this->assertTrue($this->controlIsPresent('link', 'selected_category'),
@@ -209,13 +208,11 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
     public function searchForNonexistentCategory()
     {
         //Data
-        $productData = $this->loadDataSet('Product', 'simple_product_required');
         $selectedCategory = $this->generate('string', 20, ':alnum:');
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->selectTypeProduct($productData, 'simple');
+        $this->productHelper()->selectTypeProduct('simple');
         $this->fillField('categories', $selectedCategory);
-        $this->keyDown($this->_getControlXpath('field', 'categories'), ' ');
         $this->waitForAjax();
         //Verifying
         $this->assertFalse($this->controlIsVisible('fieldset', 'category_search'), 'Category list is not empty.');
@@ -426,13 +423,23 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
      */
     protected function _chooseParentCategory($parentCategory)
     {
-        $this->fillField('parent_category', $parentCategory);
-        $this->typeKeys($this->_getControlXpath(self::FIELD_TYPE_INPUT, 'parent_category'), "\b");
-        $this->addParameter('categoryName', $parentCategory);
-        $parentCategoryInDropdown = $this->_getControlXpath(self::FIELD_TYPE_LINK, 'suggested_category_name');
-        $this->waitForElementVisible($parentCategoryInDropdown);
-        $this->mouseOver($parentCategoryInDropdown);
-        $this->clickControl(self::FIELD_TYPE_LINK, 'suggested_category_name', false);
+        $locator = $this->_getControlXpath('field', 'parent_category');
+        $element = $this->waitForElementEditable($locator, 10);
+        $selectedNames = array();
+        $isSelected = $this->elementIsPresent($this->_getControlXpath('fieldset', 'new_category_form'));
+        if ($isSelected) {
+            foreach ($this->getChildElements($isSelected, 'div') as $element) {
+                /** @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
+                $selectedNames[] = trim($element->text());
+            }
+        }
+        if (!in_array($parentCategory, $selectedNames)) {
+            $this->addParameter('categoryName', $parentCategory);
+            $element->value($parentCategory);
+            $this->waitForElementEditable($this->_getControlXpath('link', 'category'))->click();
+        } else {
+            $this->fail('Parent category can not be selected.');
+        }
     }
 
     /**

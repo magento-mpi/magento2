@@ -436,10 +436,19 @@ configurable_product_for_order:
     associated_configurable_data:
         associated_configurable_1:
             associated_search_sku: %associated_1%
+            associated_product_attribute:
+                associated_product_attribute_1:
+                    associated_product_attribute_value: %value_1%
         associated_configurable_2:
             associated_search_sku: %associated_2%
+            associated_product_attribute:
+                associated_product_attribute_1:
+                    associated_product_attribute_value: %value_2%
         associated_configurable_3:
             associated_search_sku: %associated_3%
+            associated_product_attribute:
+                associated_product_attribute_1:
+                    associated_product_attribute_value: %value_3%
 #*********************************************
 #*      ConfigurableOptions For Products     *
 #*********************************************

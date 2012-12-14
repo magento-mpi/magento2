@@ -361,7 +361,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Verifying
         foreach ($tierData as $key => $value) {
             $this->addFieldIdToMessage('field', $key);
-            $this->assertMessagePresent('validation', 'enter_greater_than_zero');
+            $this->assertMessagePresent('validation', 'enter_zero_or_greater');
         }
         $this->assertTrue($this->verifyMessagesCount(2), $this->getParsedMessages());
     }
@@ -394,7 +394,11 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $configurable = $this->loadDataSet('Product', 'configurable_product_required',
             array('configurable_attribute_title' => $attrData['admin_title']));
         $configurable['associated_configurable_data'] = $this->loadDataSet('Product', 'associated_configurable_data',
-            array('associated_search_sku' => $simple['general_sku']));
+            array(
+                'associated_search_sku' => $simple['general_sku'],
+                'associated_product_attribute_value' => $attrData['option_1']['admin_option_name']
+            )
+        );
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $configurable['general_sku']));
         //Steps
@@ -429,7 +433,11 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $configurable = $this->loadDataSet('Product', 'configurable_product_required',
             array('configurable_attribute_title' => $attrData['admin_title']));
         $configurable['associated_configurable_data'] = $this->loadDataSet('Product', 'associated_configurable_data',
-            array('associated_search_sku' => $virtual['general_sku']));
+            array(
+                'associated_search_sku' => $virtual['general_sku'],
+                'associated_product_attribute_value' => $attrData['option_2']['admin_option_name']
+            )
+        );
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $configurable['general_sku']));
         //Steps
@@ -464,7 +472,11 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $configurable = $this->loadDataSet('Product', 'configurable_product_required',
             array('configurable_attribute_title' => $attrData['admin_title']));
         $configurable['associated_configurable_data'] = $this->loadDataSet('Product', 'associated_configurable_data',
-            array('associated_search_sku' => $download['general_sku']));
+            array(
+                'associated_search_sku' => $download['general_sku'],
+                'associated_product_attribute_value' => $attrData['option_3']['admin_option_name']
+            )
+        );
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $configurable['general_sku']));
         //Steps

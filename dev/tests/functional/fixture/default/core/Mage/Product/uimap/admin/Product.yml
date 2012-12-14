@@ -53,16 +53,15 @@ manage_products:
             add_product_by_type: //*[@id='add_new_product']//*[contains(@onclick,'%productType%')]
         messages: &productMesssages
             success_deleted_products_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedProducts% record(s) have been deleted.')]
-            enter_greater_than_zero: "//div[@id='advice-validate-greater-than-zero-%fieldId%' and not(contains(@style,'display: none;'))]"
             success_deleted_product: //li[normalize-space(@class)='success-msg' and contains(.,'The product has been deleted.')]
             success_duplicated_product: //li[normalize-space(@class)='success-msg' and contains(.,'The product has been duplicated.')]
             success_created_product: //li[normalize-space(@class)='success-msg' and contains(.,'The product has been created.')]
             success_saved_product: //li[normalize-space(@class)='success-msg' and contains(.,'The product has been saved.')]
             specify_url: "//div[@id='advice-validate-downloadable-url-%fieldId%' and not(contains(@style,'display: none;'))]"
-            incorrect_sku_length: //div[@class='validation-advice' and text()='SKU length should be 64 characters maximum.']
-            empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
+            incorrect_sku_length: //*[@class='mage-error' and text()='SKU length should be 64 characters maximum.']
+            empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and text()='This field is required.' and not(contains(@style,'display: none;'))]
             enter_valid_number: "//div[@id='advice-validate-number-%fieldId%' and not(contains(@style,'display: none;'))]"
-            enter_zero_or_greater: "//div[@id='advice-validate-zero-or-greater-%fieldId%' and not(contains(@style,'display: none;'))]"
+            enter_zero_or_greater: //*[@class='mage-error' and @for='%fieldId%' and text()='Please enter a number 0 or greater in this field.' and not(contains(@style,'display: none;'))]
             existing_sku: //div[@class='validation-advice' and contains(text(),'The value of attribute "SKU" must be unique')]
             select_type_of_option: //div[@id='advice-required-option-select-product_option_%optionId%_type']
             confirmation_for_delete: Are you sure?
@@ -87,16 +86,16 @@ new_product:
                     product_information:
                         xpath: //div[@class='content-header']
                         pageelements:
-                            product_page_title: /*[@class='icon-head head-products']
-                            product_name: //*[@class='icon-head head-products' and contains(.,'%productName% (%attributeSet%)')]
+                            product_page_title: //h3[@class='icon-head head-products']
+                            product_name: //h3[@class='icon-head head-products'][text()='%productName% (%attributeSet%)']
                 -
                     change_attribute_set:
-                        xpath: //div[@class='ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable']
+                        xpath: //div[div/span='Select Attribute Set']
                         dropdowns:
-                            choose_attribute_set: //*[@id='attribute_set_id']
+                            choose_attribute_set: //select[@id='attribute_set_id']
                         buttons:
-                            close: //*[@id='change-attribute-set-close-button']
-                            apply: //*[@id='change-attribute-set-apply-button']
+                            close: //button[@id='change-attribute-set-close-button']
+                            apply: //button[@id='change-attribute-set-apply-button']
             tabs:
                 -
                     configurable_product_settings: &configurableProductsettings
@@ -118,6 +117,7 @@ new_product:
                                     xpath: //div[contains(div/div/h4,'General')]
                                     buttons:
                                         create_new_attribute: //button[span='Create New Attribute']
+                                        new_category: //button[span='New Category']
                                     dropdowns:
                                         general_sku_type: //select[@id='sku_type']
                                         general_weight_type: //select[@id='weight_type']
@@ -144,8 +144,7 @@ new_product:
                                         general_min_price: //input[@id='price' and not(@disabled)]
                                         general_weight_disabled: //input[@id='weight' and (@disabled)]
                                     checkboxes:
-                                        weight_and_type_switcher: //input[@id='weight_and_type_switcher']
-                                        is_configurable: //*[@id='config_super_product-checkbox']
+                                        general_weight_and_type_switcher: //input[@id='weight_and_type_switcher']
                                     multiselects:
                                         general_user_attr_multiselect: //select[@id='%attributeCodeMultiselect%']
                             -
@@ -183,20 +182,47 @@ new_product:
                                     links:
                                         suggested_category_name: /*[contains(concat(' ', normalize-space(@class), ' '), ' ui-menu-item ')]/*[text()='%categoryName%']
                             -
+                                select_associated_product:
+                                    xpath: //*[@id='associated-products-container']/ancestor::*[contains(concat(' ', normalize-space(@class), ' '), ' ui-dialog ')]
+                                    pageelements:
+                                        sku_cell: //*[contains(@class, 'associated-product-sku') and contains(.,'%productSku%')]
+                            -
                                 product_variations:
                                     xpath: //*[@id='config_super_product']/fieldset
+                                    fields:
+                                        attribute_selector: //*[@id='attribute-selector']
                                     checkboxes:
                                         configurable_attribute_title: //input[@type='checkbox' and @title='%attributeTitle%']
-                                        associated_product_select: //tbody/tr[%rowNum%]//*[@class='checkbox']
                                     buttons:
-                                        continue: //*[@data-ui-id='admin-product-edit-tab-super-config-grid-container-super-settings-continue-button']
+                                        generate_variations: //*[@data-ui-id='admin-product-edit-tab-super-config-grid-container-super-settings-continue-button']
+                                    links:
+                                        suggested_attribute: /..//*[contains(concat(' ', normalize-space(@class), ' '), ' ui-menu-item ')]/*[text()='%attributeName%']
+                                    pageelements:
+                                        suggested_attribute_list: /..//*[contains(concat(' ', normalize-space(@class), ' '), ' ui-autocomplete ')]
                             -
                                 variations_matrix:
                                     xpath: //*[@id='product-variations-matrix']
                                     checkboxes:
-                                        include_variation: //tbody/tr[%rowNum%]//*[@type='checkbox']
+                                        associated_product_select: //tbody/tr[%attributeSearch%]//*[@type='checkbox']
+                                        assigned_product: //table/tbody/tr[contains(., '%productSku%') and %attributeSearch%]//input[@checked='checked']
                                     pageelements:
+                                        attribute_header: //table/thead/tr/th[contains(.,'%attributeTitle%')]
                                         variation_line: //table/tbody/tr[%rowNum%]
+                                    buttons:
+                                        choose: //tr[%attributeSearch%]//button
+                                    fields:
+                                        variation_name: //tbody/tr[%attributeSearch%]//td[@class='associated-matrix-product-name']/input
+                                        variation_price: //tbody/tr[%attributeSearch%]//td[@class='associated-matrix-product-price']/input
+                                        variation_sku: //tbody/tr[%attributeSearch%]//td[@class='associated-matrix-product-sku']/input
+                                        variation_qty: //tbody/tr[%attributeSearch%]//td[@class='associated-matrix-product-qty']/input
+                                        variation_weight: //tbody/tr[%attributeSearch%]//td[@class='associated-matrix-product-weight']/input
+                                    messages:
+                                        required_field: //*[contains(@for,'create_matrix_product') and contains(@for,'%field%')]
+                            -
+                                select_configurable_attributes:
+                                    xpath: //div[@id='config_super_product']
+                                    checkboxes:
+                                        is_configurable: //*[@id='config_super_product-checkbox']
                 -
                     prices: &pricesTab
                         xpath: //a[@title='Prices']
@@ -350,23 +376,6 @@ new_product:
                                     xpath: //div[contains(div/div/h4,'Product In Websites')]
                                     checkboxes:
                                         websites: //div[@class='website-name'][.//text()='%websiteName%']/input[@type='checkbox']
-#                -
-#                    categories: &categoriesTab
-#                        xpath: //a[@title='Categories']
-#                        fieldsets:
-#                            -
-#                                select_category:
-#                                    xpath: //div[contains(div/div/h4,'Product Categories')]
-#                                    checkboxes:
-#                                        category_by_id: //div[*/@id='%categoryId%']/input
-#                                    links:
-#                                        select_category_root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
-#                                        select_category_sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
-#                                        select_category_expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
-#                                    pageelements:
-#                                        select_category_category_text: %categoryXpath%/div/a/span
-#                                        select_category_category_index_text: %categoryXpath%[%index%]/div/a/span
-#                                        select_category_category_index_link: %categoryXpath%[%index%]/div/a
                 -
                     related: &relatedProductsTab
                         xpath: //a[@title='Related Products']
@@ -578,11 +587,6 @@ new_product:
                         xpath: //a[@title='Associated Products']
                         fieldsets:
                             -
-                                create_simple_assosiated_product:
-                                    xpath: //div[contains(div/h4,'Create Simple Associated Product')]
-                                    buttons:
-                                        create_empty: //button[span='Create Empty']
-                            -
                                 super_products_attribute_configuration: &superProductsAttributeconfiguration
                                     xpath: //li[contains(div/text(),'%attributeTitle%')]
                                     checkboxes:
@@ -725,8 +729,6 @@ edit_product:
                     inventory: *inventoryTab
                 -
                     websites: *websitesTab
-#                -
-#                    categories: *categoriesTab
                 -
                     related: *relatedProductsTab
                 -
@@ -781,30 +783,6 @@ edit_product:
                         xpath: //a[@title='Associated Products']
                         fieldsets:
                             -
-                                create_simple_assosiated_product:
-                                    xpath: //div[contains(div/h4,'Create Simple Associated Product')]
-                                    buttons:
-                                        create_empty: //button[span='Create Empty']
-                                        create_copy_from_configurable: //button[span='Copy From Configurable']
-                            -
-                                quick_simple_product_creation:
-                                    xpath: //div[contains(div/h4,'Quick simple product creation')]
-                                    buttons:
-                                        quick_create: //button[span='Quick Create']
-                                    checkboxes:
-                                        quick_simple_product_name_use_default: //input[@id='simple_product_name_autogenerate']
-                                        quick_simple_product_sku_use_default: //input[@id='simple_product_sku_autogenerate']
-                                    dropdowns:
-                                        quick_simple_product_status: //select[@id='simple_product_status']
-                                        quick_simple_product_visibility: //select[@id='simple_product_visibility']
-                                        quick_simple_product_attribute_value: //select[@id='simple_product_%attributeCode%']
-                                        quick_simple_product_stock_availability: //select[@id='simple_product_inventory_is_in_stock']
-                                    fields:
-                                        quick_simple_product_name: //input[@id='simple_product_name']
-                                        quick_simple_product_sku: //input[@id='simple_product_sku']
-                                        quick_simple_product_weight: //input[@id='simple_product_weight']
-                                        quick_simple_product_qty: //input[@id='simple_product_inventory_qty']
-                            -
                                 super_products_attribute_configuration: *superProductsAttributeconfiguration
                             -
                                 associated: *associatedProductsFieldSet
@@ -824,12 +802,7 @@ edit_saved_product:
     uimap: *editProduct
 
 edit_product_save_and_continue:
-    mca: catalog_product/edit/id/%id%/back/edit/tab/product_info_tabs_group_%tabId%/
-    title: %elementTitle% / Manage Products / Catalog / Magento Admin
-    uimap: *editProduct
-
-edit_new_product_save_and_continue:
-    mca: catalog_product/edit/id/%id%/back/edit/tab/product_info_tabs_group_%tab%/set/%setId%/type/%productType%/
+    mca: catalog_product/edit/id/%id%/set/%setId%/type/%productType%/back/edit
     title: %elementTitle% / Manage Products / Catalog / Magento Admin
     uimap: *editProduct
 

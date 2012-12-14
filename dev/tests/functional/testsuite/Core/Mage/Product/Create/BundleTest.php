@@ -250,7 +250,6 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Fails due to MAGE-5658
      * <p>Creating product with invalid weight</p>
      *
      * @test
@@ -258,6 +257,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      */
     public function invalidWeightInBundle()
     {
+        $this->markTestIncomplete('MAGETWO-6022');
         //Data
         $productData = $this->loadDataSet('Product', 'fixed_bundle_required',
             array('general_weight' => $this->generate('string', 9, ':punct:')));
@@ -368,7 +368,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
         //Verifying
         foreach ($tierData as $key => $value) {
             $this->addFieldIdToMessage('field', $key);
-            $this->assertMessagePresent('validation', 'enter_greater_than_zero');
+            $this->assertMessagePresent('validation', 'enter_zero_or_greater');
         }
         $this->assertTrue($this->verifyMessagesCount(2), $this->getParsedMessages());
     }

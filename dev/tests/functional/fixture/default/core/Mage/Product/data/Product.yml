@@ -272,6 +272,11 @@ associated_grouped_data: &associatedProductsGroupedData
 #* Associated Products Data for Configurable Product *
 #*****************************************************
 
+configurable_attributes: &confirurableAttributesValues
+    associated_product_attribute_1:
+        associated_product_attribute_name: %noValue%
+        associated_product_attribute_value: %noValue%
+
 associated_configurable: &configurableAssociatedProduct1
     # Data to search
     associated_search_id: %noValue%
@@ -285,6 +290,7 @@ associated_configurable: &configurableAssociatedProduct1
     # Data to fill in
     associated_product_price: %noValue%
     associated_product_price_type: %noValue%
+    associated_product_attribute: *confirurableAttributesValues
 
 associated_configurable_data: &associatedProductsConfigurableData
     associated_products_attribute_name_default: %noValue%
@@ -397,19 +403,6 @@ downloadable_information_data: &downloadableData
 #*********************************************
 #*         Simple Product Data               *
 #*********************************************
-
-quick_simple_product:
-    quick_simple_product_name_use_default: No
-    quick_simple_product_name: Quick_Simple(%randomize%)
-    quick_simple_product_sku_use_default: No
-    quick_simple_product_sku: quick_simple_sku_%randomize%
-    quick_simple_product_weight: 6.31
-    quick_simple_product_status: Enabled
-    quick_simple_product_visibility: Catalog, Search
-    quick_simple_product_attribute_value: %noValue%
-    quick_simple_product_qty: 100
-    quick_simple_product_stock_availability: In Stock
-
 simple_product_required:
     product_attribute_set: Default
     general_name: Simple Product Required(%randomize%)
@@ -1565,6 +1558,7 @@ configurable_product_related: &configurable_product_related
         associated_products_attribute_name: attribute_name_%randomize%
         associated_configurable_1:
             associated_search_sku: %noValue%
+            associated_product_attribute: *confirurableAttributesValues
 
 grouped_product_related: &grouped_product_related
     product_attribute_set: Default
@@ -2306,6 +2300,7 @@ configurable_product_minimal:
     associated_configurable_data:
         associated_configurable_1:
             associated_search_sku: %associated_1%
+            associated_product_attribute: *confirurableAttributesValues
 
 downloadable_product_minimal:
     product_attribute_set: Minimal

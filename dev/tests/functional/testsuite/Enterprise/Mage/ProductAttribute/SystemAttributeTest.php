@@ -35,7 +35,6 @@ class Enterprise_Mage_ProductAttribute_SystemAttributeTest extends Core_Mage_Pro
      * @test
      * @dataProvider systemAttributesDataProvider
      * @TestLinkId TL-MAGE-6423
-     * @author Maryna_Ilnytska
      */
     public function checkApplyProductTypeOptionDisabled($attributeCode, $applyTo, $types)
     {

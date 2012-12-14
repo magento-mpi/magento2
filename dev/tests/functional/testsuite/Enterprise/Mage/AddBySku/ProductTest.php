@@ -276,8 +276,13 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
         //Configurable products
         $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order',
             array('configurable_attribute_title' => $attrData['admin_title']),
-            array('associated_1' => $simpleProducts['simple']['general_sku'],
-                  'associated_2' => $simpleProducts['simpleWithBackorders']['general_sku']));
+            array(
+                'associated_1' => $simpleProducts['simple']['general_sku'],
+                'value_1' => $attrData['option_1']['admin_option_name'],
+                'associated_2' => $simpleProducts['simpleWithBackorders']['general_sku'],
+                'value_2' => $attrData['option_2']['admin_option_name']
+            )
+        );
         $this->productHelper()->createProduct($configurable, 'configurable');
         $this->assertMessagePresent('success', 'success_saved_product');
         //Grouped products

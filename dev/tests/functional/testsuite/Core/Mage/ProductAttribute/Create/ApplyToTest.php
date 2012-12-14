@@ -56,7 +56,6 @@ class Core_Mage_ProductAttribute_Create_ApplyToTest extends Mage_Selenium_TestCa
      *
      * @test
      * @TestLinkId TL-MAGE-6424
-     * @author Maryna_Ilnytska
      */
     public function checkApplyToEnabledForUserDefined()
     {
@@ -84,7 +83,6 @@ class Core_Mage_ProductAttribute_Create_ApplyToTest extends Mage_Selenium_TestCa
      * @test
      * @depends createAttribute
      * @TestLinkId TL-MAGE-6425
-     * @author Maryna_Ilnytska
      */
     public function verifyDisplayingOnProductPage($attribute)
     {

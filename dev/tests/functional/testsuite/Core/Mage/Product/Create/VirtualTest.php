@@ -129,8 +129,7 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
             array(array('general_status' => '-- Please Select --'), 'dropdown'),
             array(array('general_visibility' => '-- Please Select --'), 'dropdown'),
             array(array('prices_price' => '%noValue%'), 'field'),
-            array(array('prices_tax_class' => '-- Please Select --'), 'dropdown'),
-            array(array('inventory_qty' => ''), 'field')
+            array(array('prices_tax_class' => '-- Please Select --'), 'dropdown')
         );
     }
 
@@ -307,7 +306,7 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
         //Verifying
         foreach ($tierData as $key => $value) {
             $this->addFieldIdToMessage('field', $key);
-            $this->assertMessagePresent('validation', 'enter_greater_than_zero');
+            $this->assertMessagePresent('validation', 'enter_zero_or_greater');
         }
         $this->assertTrue($this->verifyMessagesCount(2), $this->getParsedMessages());
     }
