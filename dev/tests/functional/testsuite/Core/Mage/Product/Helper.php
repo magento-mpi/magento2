@@ -21,28 +21,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     public static $arrayToReturn = array();
 
     /**
-     * Fill in Product Settings tab
-     *
-     * @param array $productData
-     * @param string $productType Value - simple|virtual|bundle|configurable|downloadable|grouped
-     */
-    public function fillProductSettings($productData, $productType = 'simple')
-    {
-        $attributeSet = (isset($productData['product_attribute_set'])) ? $productData['product_attribute_set'] : null;
-
-        if (!empty($attributeSet)) {
-            $this->fillDropdown('product_attribute_set', $attributeSet);
-        }
-        $this->fillDropdown('product_type', $productType);
-
-        $attributeSetID = $this->getControlAttribute('dropdown', 'product_attribute_set', 'selectedValue');
-        $this->addParameter('setId', $attributeSetID);
-        $this->addParameter('productType', $productType);
-
-        $this->clickButton('continue');
-    }
-
-    /**
      * Select configurable attribute from searchable control for configurable product creation
      *
      * @param array $productData
@@ -72,17 +50,11 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function selectConfigurableAttribute($attributeTitle)
     {
-        $this->fillField('attribute_selector', $attributeTitle);
+        $locator = $this->_getControlXpath('field', 'attribute_selector');
+        $element = $this->waitForElementEditable($locator, 10);
+        $element->value($attributeTitle);
         $this->addParameter('attributeName', $attributeTitle);
-        $attributeXpath = $this->_getControlXpath(self::FIELD_TYPE_LINK, 'suggested_attribute');
-        $suggestedMenu = $this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'suggested_attribute_list');
-        $this->waitForElementVisible($suggestedMenu);
-        if ($this->controlIsVisible(self::FIELD_TYPE_LINK, 'suggested_attribute')) {
-            $this->mouseOver($attributeXpath);
-            $this->clickControl(self::FIELD_TYPE_LINK, 'suggested_attribute', false);
-        } else {
-            $this->fail('Attribute ' . $attributeTitle . 'can not be found in suggestion list.');
-        }
+        $this->waitForElementEditable($this->_getControlXpath('link', 'suggested_attribute'))->click();
     }
 
     /**
@@ -1470,17 +1442,14 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function changeAttributeSet($newAttributeSet)
     {
-        $actualTitle = $this->getControlAttribute('pageelement', 'product_page_title', 'text');
         $this->clickButton('change_attribute_set', false);
         $this->waitForElementEditable($this->_getControlXpath('dropdown', 'choose_attribute_set'));
-        $currentSetName = $this->getControlAttribute('dropdown', 'choose_attribute_set', 'selectedLabel');
         $this->fillDropdown('choose_attribute_set', $newAttributeSet);
-        $newTitle = str_replace($currentSetName, $newAttributeSet, $actualTitle);
         $param = $this->getControlAttribute('dropdown', 'choose_attribute_set', 'selectedValue');
         $this->addParameter('setId', $param);
         $this->clickButton('apply');
-        $this->assertSame($newTitle, $this->getControlAttribute('pageelement', 'product_page_title', 'text'),
-            "Attribute set in title should be $newAttributeSet, but now it's $currentSetName");
+        $this->addParameter('attributeSet', $newAttributeSet);
+        $this->waitForElement($this->_getControlXpath('pageelement', 'product_attribute_set'));
     }
 
     /**
@@ -1593,47 +1562,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     public function getGeneratedSku($productSku)
     {
         return $productSku . '-1';
-    }
-
-    /**
-     * Creating product using fields autogeneration with variables on General tab
-     *
-     * @param array $productData
-     * @param bool $isSave
-     * @param array $skipFieldFillIn
-     * @param string $productType
-     */
-    public function createProductWithAutoGeneration(
-        array $productData,
-        $isSave = false,
-        $skipFieldFillIn = array(),
-        $productType = 'simple'
-    ) {
-        if (!empty($skipFieldFillIn)) {
-            foreach ($skipFieldFillIn as $value) {
-                unset($productData[$value]);
-            }
-        }
-        $this->createProduct($productData, $productType, $isSave);
-    }
-
-    /**
-     * Form mask's value replacing variable in mask with variable field's value on General tab
-     *
-     * @param string $mask
-     * @param array $placeholders
-     *
-     * @return string
-     */
-    public function formFieldValueFromMask($mask, array $placeholders)
-    {
-        $this->openTab('general');
-        foreach ($placeholders as $value) {
-            $productField = 'general_' . str_replace(array('{{', '}}'), '', $value);
-            $maskData = $this->getControlAttribute('field', $productField, 'value');
-            $mask = str_replace($value, $maskData, $mask);
-        }
-        return $mask;
     }
 
     /**
@@ -1947,18 +1875,14 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     {
         $this->_formAssociatedProductXpath($productAttributes);
         if ($isChecked) {
-            if (!$this->isChecked($this->_getControlXpath('checkbox', 'associated_product_select')) &&
-                $this->controlIsVisible('checkbox', 'associated_product_select')
-            ) {
+            if (!$this->getControlElement('checkbox', 'associated_product_select')->selected()) {
                 $this->clickControl('checkbox', 'associated_product_select', false);
                 if(isset($fillFields)) {
                     $this->fillFieldset($fillFields, 'variations_matrix');
                 }
             }
         } else {
-            if ($this->isChecked($this->_getControlXpath('checkbox', 'associated_product_select')) &&
-                $this->controlIsVisible('checkbox', 'associated_product_select')
-            ) {
+            if ($this->getControlElement('checkbox', 'associated_product_select')->selected()) {
                 $this->clickControl('checkbox', 'associated_product_select', false);
             }
         }

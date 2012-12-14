@@ -257,12 +257,10 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
     public function prepareConfigurableData()
     {
         //Data
-        $attributeSet = $this->loadDataSet('AttributeSet', 'attribute_set');
         $attributeData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
             array('General' => $attributeData['attribute_code']));
-        $simpleProduct = $this->loadDataSet('Product', 'simple_product_visible',
-            array('product_attribute_set' => $attributeSet['set_name']));
+        $simpleProduct = $this->loadDataSet('Product', 'simple_product_visible');
         $simpleProduct['general_user_attr']['dropdown'][$attributeData['attribute_code']] =
             $attributeData['option_1']['admin_option_name'];
         //Create attribute
@@ -271,9 +269,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Create attribute set
         $this->navigate('manage_attribute_sets');
-        $this->attributeSetHelper()->createAttributeSet($attributeSet);
-        $this->assertMessagePresent('success', 'success_attribute_set_saved');
-        $this->attributeSetHelper()->openAttributeSet($attributeSet['set_name']);
+        $this->attributeSetHelper()->openAttributeSet('Default');
         $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
         $this->saveForm('save_attribute_set');
         $this->assertMessagePresent('success', 'success_attribute_set_saved');
@@ -283,7 +279,6 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_product');
 
         return array(
-            'attributeSet' => $attributeSet['set_name'],
             'attributeName' => $attributeData['admin_title'],
             'productSku' => $simpleProduct['general_sku'],
             'attributeValue' => $attributeData['option_1']['admin_option_name']
@@ -306,7 +301,6 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         //Data
         $configurableProduct = $this->loadDataSet('Product', 'configurable_product_visible',
             array(
-                'product_attribute_set' => $data['attributeSet'],
                 'configurable_attribute_title' => $data['attributeName'],
                 'associated_configurable_data' => $this->loadDataSet('Product', 'associated_configurable_data',
                     array(
@@ -318,8 +312,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         );
         //Steps and Verifying
         $this->productHelper()->selectTypeProduct($initialType);
-        $this->productHelper()->changeAttributeSet($data['attributeSet']);
-        $this->assertTrue($this->getControlElement('checkbox', 'is_configurable')->selected(),
+        $this->assertTrue($this->getControlElement('checkbox', 'general_weight_and_type_switcher')->selected(),
             'Weight checkbox is not selected');
         $this->assertFalse($this->controlIsVisible('fieldset', 'product_variations'),
             'Product variation block is present');
@@ -400,7 +393,6 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $simpleProduct = $this->loadDataSet('Product', 'simple_product_visible');
         $configurableProduct = $this->loadDataSet('Product', 'configurable_product_visible',
             array(
-                'product_attribute_set' => $data['attributeSet'],
                 'configurable_attribute_title' => $data['attributeName'],
                 'associated_configurable_data' => $this->loadDataSet('Product', 'associated_configurable_data',
                     array(
@@ -447,7 +439,6 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $initialProduct = $this->loadDataSet('Product', $initialType . '_product_visible');
         $configurableProduct = $this->loadDataSet('Product', 'configurable_product_visible',
             array(
-                'product_attribute_set' => $data['attributeSet'],
                 'configurable_attribute_title' => $data['attributeName'],
                 'associated_configurable_data' => $this->loadDataSet('Product', 'associated_configurable_data',
                     array(
@@ -464,7 +455,6 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->fillCheckbox('is_configurable', 'yes');
         $this->assertTrue($this->controlIsVisible('fieldset', 'product_variations'),
             'Product variation block is absent');
-        $this->productHelper()->changeAttributeSet($data['attributeSet']);
         $this->productHelper()->fillConfigurableSettings($configurableProduct);
         $this->productHelper()->fillProductInfo($configurableProduct, 'configurable');
         $this->saveForm('save');
@@ -496,7 +486,6 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         //Data
         $configurableProduct = $this->loadDataSet('Product', 'configurable_product_visible',
             array(
-                'product_attribute_set' => $data['attributeSet'],
                 'configurable_attribute_title' => $data['attributeName'],
                 'associated_configurable_data' => $this->loadDataSet('Product', 'associated_configurable_data',
                     array(

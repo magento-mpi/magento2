@@ -542,6 +542,8 @@ system_configuration:
                             -
                                 product_creation:
                                     xpath: //fieldset[@id='catalog_fields_masks']
+                                    links:
+                                        product_creation_link: //parent::div//a[@id='catalog_fields_masks-head']
                                     fields:
                                         sku_mask: //*[@id='catalog_fields_masks_sku']
                                         meta_title_mask: //*[@id='catalog_fields_masks_meta_title']

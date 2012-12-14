@@ -60,7 +60,7 @@ manage_products:
             specify_url: "//div[@id='advice-validate-downloadable-url-%fieldId%' and not(contains(@style,'display: none;'))]"
             incorrect_sku_length: //*[@class='mage-error' and text()='SKU length should be 64 characters maximum.']
             empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and text()='This field is required.' and not(contains(@style,'display: none;'))]
-            enter_valid_number: "//div[@id='advice-validate-number-%fieldId%' and not(contains(@style,'display: none;'))]"
+            enter_valid_number: //*[@class='mage-error' and @for='%fieldId%' and text()='Please enter a valid number in this field.' and not(contains(@style,'display: none;'))]
             enter_zero_or_greater: //*[@class='mage-error' and @for='%fieldId%' and text()='Please enter a number 0 or greater in this field.' and not(contains(@style,'display: none;'))]
             existing_sku: //div[@class='validation-advice' and contains(text(),'The value of attribute "SKU" must be unique')]
             select_type_of_option: //div[@id='advice-required-option-select-product_option_%optionId%_type']
@@ -86,7 +86,7 @@ new_product:
                     product_information:
                         xpath: //div[@class='content-header']
                         pageelements:
-                            product_page_title: //h3[@class='icon-head head-products']
+                            product_attribute_set: //h3[@class='icon-head head-products' and contains(.,'%attributeSet%')]
                             product_name: //h3[@class='icon-head head-products'][text()='%productName% (%attributeSet%)']
                 -
                     change_attribute_set:
