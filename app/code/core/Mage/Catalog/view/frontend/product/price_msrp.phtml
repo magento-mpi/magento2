@@ -44,7 +44,8 @@
                         priceElementId: '<?php echo $priceElementId ?>',
                         closeButtonId: '#map-popup-close',
                         popupCartButtonId: "#map-popup-button",
-                        addToCartUrl: "<?php echo $this->getAddToCartUrl($_product) ?>"
+                        addToCartUrl: "<?php echo $this->getAddToCartUrl($_product) ?>",
+                        clickUpdate: true
                     });
                 <?php else: ?>
                     $('#<?php echo($popupId);?>').addToCart({
