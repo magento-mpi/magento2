@@ -22,7 +22,7 @@ class Mage_Adminhtml_Block_Customer_System_Config_Validatevat extends Mage_Backe
      *
      * @var string
      */
-    protected $_merchantCountry = 'general_store_information_merchant_country';
+    protected $_merchantCountry = 'general_store_information_country_id';
 
     /**
      * Merchant VAT Number Field

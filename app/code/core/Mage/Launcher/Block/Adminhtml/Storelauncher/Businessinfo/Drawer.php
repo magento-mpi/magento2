@@ -130,37 +130,37 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
             'name' => 'street_line1',
             'label' => $helper->__('Street Address 1'),
             'required' => false,
-            'value' => $addressData['street_line1']
+            'value' => $this->_storeConfig->getConfig('general/store_information/street_line1')
         ));
 
         $fieldset->addField('street_line2', 'text', array(
             'name' => 'street_line2',
             'label' => $helper->__('Street Address 2'),
             'required' => false,
-            'value' => $addressData['street_line2']
+            'value' => $this->_storeConfig->getConfig('general/store_information/street_line2')
         ));
 
         $fieldset->addField('city', 'text', array(
             'name' => 'city',
             'label' => $helper->__('City'),
             'required' => false,
-            'value' => $addressData['city']
+            'value' => $this->_storeConfig->getConfig('general/store_information/city')
         ));
 
         $fieldset->addField('postcode', 'text', array(
             'name' => 'postcode',
             'label' => $helper->__('ZIP/Postal Code'),
             'required' => false,
-            'value' => $addressData['postcode']
+            'value' => $this->_storeConfig->getConfig('general/store_information/postcode')
         ));
 
         $countries = $this->_countryModel->toOptionArray();
         $fieldset->addField('country_id', 'select', array(
-            'name' => 'groups[general][store_information][fields][merchant_country][value]',
-            'label' => $helper->__('Country'),
+            'name' => 'groups[general][store_information][fields][country_id][value]',
+            'label' => $this->_helper->__('Country'),
             'required' => true,
             'values' => $countries,
-            'value' => $addressData['country_id']
+            'value' => $this->_storeConfig->getConfig('general/store_information/country_id')
         ));
 
         $countryId = isset($addressData['country_id']) ? $addressData['country_id'] : 'US';
@@ -177,7 +177,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
             'name' => 'region_id',
             'label' => $helper->__('State/Region'),
             'values' => $regions,
-            'value' => $addressData['region_id'],
+            'value' => $this->_storeConfig->getConfig('general/store_information/region_id'),
             'after_element_html' => '<script type="text/javascript">'
                 . 'var updater = new RegionUpdater("country_id", "", "region_id", '
                 . $regionHelper->getRegionJson() . ', "disable");'
@@ -322,22 +322,14 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
         );
         $useForShipping = false;
 
-        $address = $this->_storeConfig->getConfig('general/store_information/address');
-        $addressValues = explode("\n", $address);
-        $addressPresent = count($addressValues) == 5;
-
+        $addressData['street_line1'] = $this->_storeConfig->getConfig('general/store_information/street_line1');
+        $addressData['street_line2'] = $this->_storeConfig->getConfig('general/store_information/street_line2');
+        $addressData['city'] = $this->_storeConfig->getConfig('general/store_information/city');
+        $addressData['postcode'] = $this->_storeConfig->getConfig('general/store_information/postcode');
+        $addressData['country_id'] = $this->_storeConfig->getConfig('general/store_information/country_id');
+        $addressData['region_id'] = $this->_storeConfig->getConfig('general/store_information/region_id');
+        $addressPresent = count($addressData) == 6;
         if ($addressPresent) {
-            $addressData = array_combine(array_keys($addressData), $addressValues);
-        }
-
-        $addressData['country_id'] = $this->_storeConfig->getConfig('general/store_information/merchant_country');
-
-        if ($addressPresent) {
-            $regionId = $this->_regionModel
-                ->loadByName($addressData['region_id'], $addressData['country_id'])
-                ->getRegionId();
-            $addressData['region_id'] = !empty($regionId) ? $regionId : 0;
-
             $useForShipping = true;
 
             foreach ($addressData as $key => $val) {
