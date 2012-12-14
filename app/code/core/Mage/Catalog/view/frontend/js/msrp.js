@@ -15,19 +15,19 @@
                 this._addToCartSubmit();
             }, this));
 
-            $(this.options.popupId).on('click', $.proxy(function(e) {
+            $('#map-popup-heading').text(this.options.productName);
+            if (!$('#map-popup-price').html() && this.options.realPrice){
+                $('#map-popup-price').html($(this.options.realPrice));
+            }
+            $('#map-popup-msrp').html(this.options.msrpPrice);
 
+            $(this.options.popupId).on('click', $.proxy(function(e) {
                 if (this.options.submitUrl) {
                     location.href = this.options.submitUrl;
                 } else {
                     $(this.options.popupCartButtonId).on('click', $.proxy(function() {
                         this._addToCartSubmit();
                     }, this));
-
-                    $('#map-popup-heading').text(this.options.productName);
-                    $('#map-popup-price').html($(this.options.realPrice));
-                    $('#map-popup-msrp').html(this.options.msrpPrice);
-
                     var width = $('#map-popup').width();
                     var offsetX = e.pageX - (width / 2) + "px";
                     $('#map-popup').css({left: offsetX, top: e.pageY}).show();

@@ -12,6 +12,7 @@
     $.widget('mage.priceOption', {
         options: {
             productCustomSelector: '.product-custom-option',
+            mapPopupPrice: '#map-popup-price',
             prices: {}
         },
         _create: function () {
@@ -181,11 +182,13 @@
                         }
 
                         price = price + getOptionPrices[0];
-                        priceElement.html("<span class='price'>" + this._formatCurrency(price, this.options.priceConfig.priceFormat) + "</span>");
+                        var priceHtml = "<span class='price'>" + this._formatCurrency(price, this.options.priceConfig.priceFormat) + "</span>"
+                        priceElement.html(priceHtml);
                         // If clone exists, update clone price as well
                         if (!isClone && clone.length === 1) {
-                            clone.html("<span class='price'>" + this._formatCurrency(price, this.options.priceConfig.priceFormat) + "</span>");
+                            clone.html(priceHtml);
                         }
+                        $(this.options.mapPopupPrice).find(value).html(priceHtml);
                     }
                 }, this));
             }
