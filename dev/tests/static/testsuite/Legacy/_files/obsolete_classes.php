@@ -643,6 +643,7 @@ return array(
     $this->_getClassRule('Mage_Sales_Model_Entity_Setup'),
     $this->_getClassRule('Mage_Shipping_ShippingController'),
     $this->_getClassRule('Mage_Tag_Block_Customer_Edit'),
+    $this->_getClassRule('Mage_User_Block_User_Grid'),
     $this->_getClassRule('Mage_User_Model_Roles'),
     $this->_getClassRule('Mage_User_Model_Resource_Roles'),
     $this->_getClassRule('Mage_User_Model_Resource_Roles_Collection'),
@@ -679,5 +680,4 @@ return array(
     $this->_getClassRule('Varien_Convert_Validator_Interface'),
     $this->_getClassRule('Varien_File_Uploader_Image'),
     $this->_getClassRule('Varien_Profiler', 'Magento_Profiler'),
-    $this->_getClassRule('Mage_User_Block_User_Grid'),
 );

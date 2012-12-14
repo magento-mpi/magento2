@@ -81,6 +81,7 @@
     </adminhtml_user_role_grid_block>
 
     <adminhtml_user_role_index>
+        <update handle="formkey"/>
         <update handle="adminhtml_user_role_grid_block"/>
         <reference name="content">
             <block type="Mage_User_Block_Role" name="adminhtml.user.role.container" />
@@ -137,10 +138,9 @@
     </adminhtml_user_edit>
 
     <adminhtml_user_rolegrid>
+        <update handle="formkey"/>
         <update handle="adminhtml_user_grid_block"/>
-        <container name="root" label="Root" output="1">
-            <container label='Admin User Container' name="adminhtml.user.grid.container"/>
-        </container>
+        <container label='Admin User Container' name="adminhtml.user.grid.container" output="1"/>
     </adminhtml_user_rolegrid>
 
     <adminhtml_user_rolesgrid>
@@ -160,9 +160,6 @@
                     <default_dir>asc</default_dir>
                     <grid_url type="url">
                         <path>*/*/roleGrid</path>
-                        <params>
-                            <_current>1</_current>
-                        </params>
                     </grid_url>
                 </arguments>
                 <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="permission.user.grid.columnSet">
@@ -219,7 +216,7 @@
                         <arguments>
                             <header translate="true" module="Mage_User_Helper_Data">Status</header>
                             <type>options</type>
-                            <options type="options">Mage_User_Model_Resource_User_StatusesArray</options>
+                            <options type="options">Mage_User_Model_Statuses</options>
                             <index>is_active</index>
                         </arguments>
                     </block>
