@@ -71,7 +71,7 @@
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='modified_at'>
                         <arguments>
-                            <header translate='true' module='Mage_Adminhtml'>Date Added</header>
+                            <header translate='true' module='Mage_Adminhtml'>Date Updated</header>
                             <index>modified_at</index>
                             <gmtoffset>1</gmtoffset>
                             <type>datetime</type>
