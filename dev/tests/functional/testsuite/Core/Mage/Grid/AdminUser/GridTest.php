@@ -45,7 +45,7 @@ class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
         foreach ($page[$pageName] as $control => $type) {
             foreach ($type as $typeName => $name) {
                 if (!$this->controlIsPresent($control, $typeName)) {
-                    $this->addVerificationMessage("The $control $typeName is not present on page role_users");
+                    $this->addVerificationMessage("The $control $typeName is not present on page $pageName");
                 }
             }
         }
@@ -84,7 +84,7 @@ class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
         }
         $expectedHeadersName = $testData[$pageName]['headers'];
         $this->assertNotNull($expectedHeadersName, 'Array(dataset) with header names is not defined');
-        $this->assertEquals($actualHeadersName, $expectedHeadersName);
+        $this->assertEquals($expectedHeadersName, $actualHeadersName);
     }
 
     public function uiElementsTestDataProvider()
