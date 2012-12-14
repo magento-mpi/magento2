@@ -48,8 +48,10 @@ class Mage_DesignEditor_Block_Toolbar_BreadcrumbsTest extends PHPUnit_Framework_
             array(
                 new Magento_Test_Request(),
                 new Magento_Test_Response(),
+                'frontend',
                 Mage::getObjectManager(),
-                Mage::app()->getFrontController()
+                Mage::getObjectManager()->get('Mage_Core_Controller_Varien_Front'),
+                Mage::getObjectManager()->get('Mage_Core_Model_Layout_Factory'),
             )
         );
         /* Note: controller action instance registers itself within the front controller immediately after creation */

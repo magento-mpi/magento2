@@ -74,6 +74,43 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     }
 
     /**
+     * @TODO: temporary action, code from this action will be moved to launch action in MAGETWO-5573
+     */
+    public function runAction()
+    {
+        /** @var $eventDispatcher Mage_Core_Model_Event_Manager */
+        $eventDispatcher = $this->_objectManager->get('Mage_Core_Model_Event_Manager');
+        $eventDispatcher->dispatch('design_editor_activate');
+
+        $customLayoutParams = array('area' => Mage_Core_Model_App_Area::AREA_FRONTEND);
+
+        /** @var $customFrontLayout Mage_Core_Model_Layout_Merge */
+        $customFrontLayout = $this->_objectManager->create('Mage_Core_Model_Layout_Merge',
+            array('arguments' => $customLayoutParams)
+        );
+        $pageTypes = $customFrontLayout->getPageHandlesHierarchy();
+
+        $this->_title($this->__('System'))->_title($this->__('Design'))->_title($this->__('Editor'));
+        $this->loadLayout();
+        $this->_setActiveMenu('Mage_DesignEditor::system_design_editor');
+
+        /** @var $hierarchyBlock Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy */
+        $hierarchyBlock = $this->getLayout()->getBlock('design_editor_toolbar_handles_hierarchy');
+        if ($hierarchyBlock) {
+            $hierarchyBlock->setHierarchy($pageTypes);
+        }
+
+        /** @var $editorBlock Mage_DesignEditor_Block_Adminhtml_Editor_Container */
+        $editorBlock = $this->getLayout()->getBlock('design_editor');
+
+        /** @var $vdeUrlModel Mage_DesignEditor_Model_Url */
+        $vdeUrlModel = $this->_objectManager->get('Mage_DesignEditor_Model_Url');
+        $editorBlock->setFrameUrl($vdeUrlModel->getUrl('design/page/type', array('handle' => 'default')));
+
+        $this->renderLayout();
+    }
+
+    /**
      * Exit design editor
      */
     public function exitAction()
@@ -93,5 +130,51 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     protected function _isAllowed()
     {
         return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_DesignEditor::editor');
+    }
+
+    /**
+     * Compact history
+     *
+     * @param array $historyData
+     * @return Mage_DesignEditor_Model_History
+     */
+    protected function _compactHistory($historyData)
+    {
+        /** @var $historyModel Mage_DesignEditor_Model_History */
+        $historyModel = Mage::getModel('Mage_DesignEditor_Model_History');
+        /** @var $historyCompactModel Mage_DesignEditor_Model_History_Compact */
+        $historyCompactModel = Mage::getModel('Mage_DesignEditor_Model_History_Compact');
+        /** @var $collection Mage_DesignEditor_Model_Change_Collection */
+        $collection = $historyModel->setChanges($historyData)->getChanges();
+        $historyCompactModel->compact($collection);
+        return $historyModel;
+    }
+
+    /**
+     * Get layout xml
+     */
+    public function getLayoutUpdateAction()
+    {
+        $historyData = Mage::app()->getRequest()->getPost('historyData');
+        if (!$historyData) {
+            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
+                array(Mage_Core_Model_Message::ERROR => array($this->__('Invalid post data')))
+            ));
+            return;
+        }
+
+        try {
+            $historyModel = $this->_compactHistory($historyData);
+            /** @var $layoutRenderer Mage_DesignEditor_Model_History_Renderer_LayoutUpdate */
+            $layoutRenderer = Mage::getModel('Mage_DesignEditor_Model_History_Renderer_LayoutUpdate');
+            $layoutUpdate = $historyModel->output($layoutRenderer);
+            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
+                Mage_Core_Model_Message::SUCCESS => array($layoutUpdate)
+            )));
+        } catch (Mage_Core_Exception $e) {
+            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
+                array(Mage_Core_Model_Message::ERROR => array($e->getMessage()))
+            ));
+        }
     }
 }

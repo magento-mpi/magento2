@@ -4077,7 +4077,7 @@ system_configuration:
                                     fields:
                                         session_lifetime_seconds: //input[@name='groups[security][fields][session_cookie_lifetime][value]']
                                     dropdowns:
-                                        add_secret_key_to_urls: //select[@name='groups[security][fields][use_form_key][value]']
+                                        add_secret_key_to_urls: //select[@data-ui-id='select-groups-security-fields-use-form-key-value']
                                         login_is_case_sensitive: //select[@name='groups[security][fields][use_case_sensitive_login][value]']
                             -
                                 dashboard_admin:
@@ -4228,7 +4228,6 @@ system_configuration:
                                         enterprise_salesarchive: //select[@name='groups[modules_disable_output][fields][Enterprise_SalesArchive][value]']
                                         enterprise_salespool: //select[@name='groups[modules_disable_output][fields][Enterprise_SalesPool][value]']
                                         enterprise_search: //select[@name='groups[modules_disable_output][fields][Enterprise_Search][value]']
-                                        enterprise_staging: //select[@name='groups[modules_disable_output][fields][Enterprise_Staging][value]']
                                         enterprise_targetrule: //select[@name='groups[modules_disable_output][fields][Enterprise_TargetRule][value]']
                                         enterprise_websiterestriction: //select[@name='groups[modules_disable_output][fields][Enterprise_WebsiteRestriction][value]']
                                         find_feed: //select[@name='groups[modules_disable_output][fields][Find_Feed][value]']
@@ -4338,7 +4337,6 @@ system_configuration:
                                         enterprise_rma_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Rma][inherit]']
                                         enterprise_salesarchive_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_SalesArchive][inherit]']
                                         enterprise_search_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Search][inherit]']
-                                        enterprise_staging_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Staging][inherit]']
                                         enterprise_targetrule_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_TargetRule][inherit]']
                                         enterprise_websiterestriction_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_WebsiteRestriction][inherit]']
                                         find_feed_use_default: //input[@name='groups[modules_disable_output][fields][Find_Feed][inherit]']

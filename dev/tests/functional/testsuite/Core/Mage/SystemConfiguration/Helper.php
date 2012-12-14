@@ -25,7 +25,7 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
      */
     public function configure($parameters)
     {
-        $parameters = $this->testDataToArray($parameters);
+        $parameters = $this->fixtureDataToArray($parameters);
         if (isset($parameters['configuration_scope'])) {
             $this->selectStoreScope('dropdown', 'current_configuration_scope', $parameters['configuration_scope']);
         }

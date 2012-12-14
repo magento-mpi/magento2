@@ -143,7 +143,7 @@
  * @method array                    successMessage(string $message = null)
  * @method string                   takeScreenshot(string $fileName = null)
  * @method bool                     textIsPresent(string $pageText)
- * @method array                    testDataToArray($testData)
+ * @method array                    fixtureDataToArray($testData)
  * @method void                     validatePage(string $page = '')
  * @method array                    validationMessage(string $message = null)
  * @method bool                     verifyForm(array $data, string $tabId = '', array $skipElements = array('password', 'password_confirmation'))
@@ -209,7 +209,6 @@
  * @method Enterprise_Mage_ImportExportScheduled_Helper                                                importExportScheduledHelper()
  * @method Enterprise_Mage_Rma_Helper                                                                  rmaHelper()
  * @method Enterprise_Mage_Rollback_Helper                                                             rollbackHelper()
- * @method Enterprise_Mage_StagingWebsite_Helper                                                       stagingWebsiteHelper()
  * @method Enterprise_Mage_WebsiteRestrictions_Helper                                                  websiteRestrictionsHelper()
  *
  * @method fail($message)
