@@ -145,7 +145,6 @@ class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
         $testData = $this->loadDataSet('Grid', 'grid');
         $tableNameValue = array_search('tablename', $testData['user_role']['fieldset']);
         $expectedHeadersName = $testData['user_role']['headers'];
-
         $this->navigate('manage_admin_users');
         $this->searchAndOpen($testAdminUser, 'permissionsUserGrid');
         $this->openTab('user_role');
