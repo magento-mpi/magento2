@@ -36,7 +36,8 @@
   * Removed `Url Options` section in `System -> Configuration -> General -> Web` for website and store configuration scope
   * Changed backend template for UPS shipping provider to fix translation issue
 * Fixed security issue - set `CURLOPT_SSL_VERIFYPEER` to `true` by default in cUrl calls
-* Added `Zend/Escaper`, `Zend/I18`, `Zend/Validator` libraries
+* Added `Zend/Escaper`, `Zend/I18`, `Zend/Validator` ZF2 libraries
+* Updated `Zend/Server` and `Zend/Soap` libraries to ZF2 versions
 
 2.0.0.0-dev34
 =============
