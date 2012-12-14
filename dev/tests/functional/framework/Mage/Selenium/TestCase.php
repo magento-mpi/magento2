@@ -1242,10 +1242,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function getUrlPostfix()
     {
-        if (is_null($this->_urlPostfix)) {
-            return '';
+        if (!is_null($this->_urlPostfix)) {
+            return $this->_urlPostfix;
         }
-        return $this->_urlPrefix;
+        return '';
     }
 
     /**
@@ -1311,8 +1311,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if ($availableElement) {
             $this->url($availableElement->attribute('href'));
         } else {
-            $url = $this->_uimapHelper->getPageUrl($area, $page, $this->_paramsHelper);
-            $url = isset($this->_urlPostfix) ? $url . $this->_urlPostfix : $url;
+            $url = $this->_uimapHelper->getPageMca($area, $page, $this->_paramsHelper);
+            $baseUrl = $this->_configHelper->getBaseUrl();
+            $url = $baseUrl . $this->getUrlPrefix($area) . $url . $this->getUrlPostfix();
             $this->url($url);
         }
         $this->waitForAjax();
@@ -1506,6 +1507,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     {
         $areasConfig = $this->_configHelper->getConfigAreas();
         $currentUrl = $this->url();
+        $currentUrl = str_replace($this->getUrlPrefix(), '', $currentUrl);
         $mca = self::_getMcaFromCurrentUrl($areasConfig, $currentUrl);
         $area = self::_getAreaFromCurrentUrl($areasConfig, $currentUrl);
         return $this->_uimapHelper->getUimapPageByMca($area, $mca, $this->_paramsHelper);
@@ -1548,7 +1550,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function _findCurrentPageFromUrl($url = null)
     {
         if (is_null($url)) {
-            $url = str_replace($this->_urlPostfix, '', $this->url());
+            $url = $this->url();
+            $url = str_replace(
+                array(
+                    $this->getUrlPostfix(),
+                    $this->getUrlPrefix()
+                ), '', $url
+            );
         }
         $areasConfig = $this->_configHelper->getConfigAreas();
         $mca = self::_getMcaFromCurrentUrl($areasConfig, $url);

@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Core_Mage_Vde_Helper extends Mage_Selenium_TestCase
+class Core_Mage_Vde_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Verify url Vde prefix

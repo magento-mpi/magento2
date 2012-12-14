@@ -11,7 +11,7 @@
 /**
  * @method Core_Mage_Vde_Helper vdeHelper() vdeHelper()
  */
-class Community2_Mage_Vde_RouterTest extends Mage_Selenium_TestCase
+class Core_Mage_Vde_RouterTest extends Mage_Selenium_TestCase
 {
     public function setUpBeforeTests()
     {
@@ -35,7 +35,7 @@ class Community2_Mage_Vde_RouterTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * test
+     * @test
      * @TestlinkId TL-MAGE-6499
      * @author roman.grebenchuk
      */
