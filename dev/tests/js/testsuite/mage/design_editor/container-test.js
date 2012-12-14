@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-ContainerTest = TestCase('ContainerTest');
+ContainerTest = TestCase('DesignEditor_ContainerTest');
 ContainerTest.prototype.testInit = function() {
     /*:DOC += <div class="vde_element_wrapper vde_container" id="container"></div> */
     var container = jQuery('#container').vde_container();
@@ -39,14 +39,14 @@ ContainerTest.prototype.testStartCallback = function() {
         placeholder: jQuery('<div style="height:0px;"></div>'),
         helper: jQuery('<div style="height:100px;"></div>'),
         item: container
-    }
+    };
     var startCallback = container.vde_container('option', 'start');
     startCallback('start', uiMock);
     assertEquals(false, 0 == uiMock.placeholder.outerHeight());
     var connectedWithOtherContainers = container.vde_container('option', 'connectWith').size() > 0;
     assertEquals(true, connectedWithOtherContainers);
     containers.vde_container('destroy');
-}
+};
 ContainerTest.prototype.testOverCallback = function() {
     /*:DOC += <div class="vde_element_wrapper vde_container" id="container" /> */
     var container = jQuery("#container").vde_container();
@@ -55,7 +55,7 @@ ContainerTest.prototype.testOverCallback = function() {
     overCallback('over', {});
     assertEquals(true, container.hasClass(hoverClass));
     container.vde_container('destroy');
-}
+};
 ContainerTest.prototype.testOutCallback = function() {
     /*:DOC += <div class="vde_element_wrapper vde_container" id="container" /> */
     var container = jQuery("#container").vde_container();
@@ -64,4 +64,4 @@ ContainerTest.prototype.testOutCallback = function() {
     outCallback('out', {});
     assertEquals(false, container.hasClass(hoverClass));
     container.vde_container('destroy');
-}
+};

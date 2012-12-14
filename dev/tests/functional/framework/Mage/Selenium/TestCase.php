@@ -69,7 +69,6 @@
  * @method Enterprise_Mage_ImportExportScheduled_Helper                                                importExportScheduledHelper()
  * @method Enterprise_Mage_Rma_Helper                                                                  rmaHelper()
  * @method Enterprise_Mage_Rollback_Helper                                                             rollbackHelper()
- * @method Enterprise_Mage_StagingWebsite_Helper                                                       stagingWebsiteHelper()
  * @method Enterprise_Mage_WebsiteRestrictions_Helper                                                  websiteRestrictionsHelper()
  * @method Core_Mage_Grid_Helper                                                                       gridHelper()
  */
@@ -174,7 +173,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     protected static $_testHelpers = array();
 
     /**
-     * @var    array
+     * Additional prefix for navigation URL
+     * @var string
+     */
+    protected $_urlPrefix = array();
+
+    /**
+     * Testcase error
+     * @var boolean
+     * @deprecated
      */
     public static $browsers = array();
 
@@ -708,7 +715,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @param array|string $testData
      * @return array
      */
-    public function testDataToArray($testData)
+    public function fixtureDataToArray($testData)
     {
         if (is_string($testData)) {
             $elements = explode('/', $testData);
@@ -1228,6 +1235,44 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function setUrlPostfix($params)
     {
         $this->_urlPostfix = $params;
+    }
+
+    /**
+     * Get additional prefix for navigation
+     *
+     * @return string
+     */
+    public function getUrlPostfix()
+    {
+        if (is_null($this->_urlPostfix)) {
+            return '';
+        }
+        return $this->_urlPrefix;
+    }
+
+    /**
+     * Set additional prefix for navigation
+     *
+     * @param string $area
+     * @param string $urlPrefix your params to add to URL (exp: /vde/frontPage)
+     */
+    public function setUrlPrefix($area, $urlPrefix)
+    {
+        $this->_urlPrefix[$area] = $urlPrefix;
+    }
+
+    /**
+     * Get additional prefix for navigation
+     *
+     * @param string $area
+     * @return string
+     */
+    public function getUrlPrefix($area = 'frontend')
+    {
+        if (isset($this->_urlPrefix[$area]) && !is_null($this->_urlPrefix[$area])) {
+            return $this->_urlPrefix[$area];
+        }
+        return '';
     }
 
     /**

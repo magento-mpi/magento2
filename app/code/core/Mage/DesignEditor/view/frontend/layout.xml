@@ -41,4 +41,15 @@
             <block type="Mage_DesignEditor_Block_Container" name="after_body_start" template="container.phtml"/>
         </reference>
     </design_editor_page>
+
+    <designeditor_page_type>
+        <reference name="head">
+            <action method="addJs"><file>Mage_DesignEditor::js/design_editor.js</file></action>
+            <action method="addJs"><file>Mage_DesignEditor::js/change/layout.js</file></action>
+            <action method="addCss"><file>Mage_DesignEditor::css/design.css</file></action>
+        </reference>
+        <reference name="before_body_end">
+            <block type="Mage_DesignEditor_Block_Toolbar_History" name="design_editor_toolbar_history" template="toolbar/history.phtml"/>
+        </reference>
+    </designeditor_page_type>
 </layout>

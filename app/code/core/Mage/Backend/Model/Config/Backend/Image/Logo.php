@@ -60,7 +60,8 @@ class Mage_Backend_Model_Config_Backend_Image_Logo extends Mage_Backend_Model_Co
      * @param  $token
      * @return string
      */
-    protected function _getUploadRoot($token) {
+    protected function _getUploadRoot($token)
+    {
         return Mage::getBaseDir($token);
     }
 }
