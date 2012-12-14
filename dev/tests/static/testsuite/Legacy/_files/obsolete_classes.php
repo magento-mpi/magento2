@@ -644,6 +644,7 @@ return array(
     $this->_getClassRule('Mage_Sales_Model_Entity_Setup'),
     $this->_getClassRule('Mage_Shipping_ShippingController'),
     $this->_getClassRule('Mage_Tag_Block_Customer_Edit'),
+    $this->_getClassRule('Mage_User_Block_Role_Grid'),
     $this->_getClassRule('Mage_User_Block_User_Grid'),
     $this->_getClassRule('Mage_User_Model_Roles'),
     $this->_getClassRule('Mage_User_Model_Resource_Roles'),

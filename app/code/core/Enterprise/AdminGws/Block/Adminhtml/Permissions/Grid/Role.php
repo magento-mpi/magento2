@@ -12,7 +12,7 @@
  * Admin roles grid
  *
  */
-class Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role extends Mage_User_Block_Role_Grid
+class Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role extends Mage_Backend_Block_Widget_Grid_Column
 {
     /**
      * Add allowed websites/stores column

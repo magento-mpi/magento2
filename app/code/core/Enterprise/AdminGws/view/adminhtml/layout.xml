@@ -18,8 +18,8 @@
         </reference>
     </adminhtml_user_role_editrole>
 
-    <!-- override roles grid to add website/store columns -->
-    <adminhtml_user_role_index>
+     <!--override roles grid to add website/store columns -->
+    <adminhtml_user_role_website_column>
         <reference name="permission.role.grid.columnSet">
             <block type="Mage_Backend_Block_Widget_Grid_Column" as="gws">
                 <arguments>
@@ -31,12 +31,15 @@
                 </arguments>
             </block>
         </reference>
-    </adminhtml_user_role_index>
+    </adminhtml_user_role_website_column>
 
-    <!-- override roles grid to add website/store columns -->
-    <!--<adminhtml_user_role_rolegrid>-->
-        <!--<block type="Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role" name="adminhtml.user.role.grid" as="grid" output="1"/>-->
-    <!--</adminhtml_user_role_rolegrid>-->
+    <adminhtml_user_role_index>
+        <update handle="adminhtml_user_role_website_column" />
+    </adminhtml_user_role_index>
+    
+    <adminhtml_user_role_rolegrid>
+        <update handle="adminhtml_user_role_website_column" />
+    </adminhtml_user_role_rolegrid>
 
     <adminhtml_user_role_editrolegrid>
         <block type="Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role" name="adminhtml.user.role.grid"/>
