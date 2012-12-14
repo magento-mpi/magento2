@@ -55,10 +55,7 @@ $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElemen
     //<![CDATA[
     (function ($) {
         head.js("<?php echo $this->getViewFileUrl('Mage_Catalog::js/msrp.js') ?>",
-            "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
-            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>", function () {
+            function () {
             <?php if ($this->helper('Mage_Catalog_Helper_Data')->isShowPriceOnGesture($_product)): ?>
                 $('#<?php echo($popupId);?>').addToCart({
                     cartForm: "#product_addtocart_form",
@@ -69,7 +66,7 @@ $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElemen
                     priceElementId: '<?php echo $priceElementId ?>',
                     closeButtonId: '#map-popup-close',
                     popupCartButtonId: "#map-popup-button"
-                }).validation();
+                });
             <?php endif; ?>
                 $("#<?php echo($helpLinkId);?>").addToCart({
                     helpLinkId: "#<?php echo($helpLinkId);?>",
