@@ -47,7 +47,7 @@ class Core_Mage_CmsStaticBlocks_Helper extends Mage_Selenium_AbstractHelper
      */
     public function createStaticBlock(array $blockData)
     {
-        $blockData = $this->testDataToArray($blockData);
+        $blockData = $this->fixtureDataToArray($blockData);
         $content = (isset($blockData['content'])) ? $blockData['content'] : array();
         $this->clickButton('add_new_block');
         if (array_key_exists('store_view', $blockData) && !$this->controlIsPresent('multiselect', 'store_view')) {
