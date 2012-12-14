@@ -182,7 +182,7 @@
                         }
 
                         price = price + getOptionPrices[0];
-                        var priceHtml = "<span class='price'>" + this._formatCurrency(price, this.options.priceConfig.priceFormat) + "</span>"
+                        var priceHtml = "<span class='price'>" + this._formatCurrency(price, this.options.priceConfig.priceFormat) + "</span>";
                         priceElement.html(priceHtml);
                         // If clone exists, update clone price as well
                         if (!isClone && clone.length === 1) {
