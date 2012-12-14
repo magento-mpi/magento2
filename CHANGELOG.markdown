@@ -5,6 +5,27 @@
   * Enhanced handling of field dependencies, required fields functionality
   * Changed Configuration structure to be represented as an object model
   * Improved performance of configuration rendering
+* Removed `Mage_Api` and `Mage_Api2` modules as obsolete API implementation
+* Implemented new API in `Mage_Webapi` module
+  * Added support of REST and SOAP 1.2 [WS-I 2.0](http://ws-i.org/Profiles/BasicProfile-2.0-2010-11-09.html) APIs
+  * Introduced versioning per API resource. Upgrade of the application will not fail API requests and allow to use old version of API instead
+  * Unified implementation for all API types
+  * Significantly simplified coverage of new API resources
+  * Added two-legged `OAuth` 1.0 for REST authentication
+  * Added WS-Security for SOAP authentication
+  * Added automatic generation of REST routes and SOAP WSDL on the basis of API class interface and annotations
+  * Introduced generation of API reference from annotated WSDL (for SOAP API)
+* Introduced service layer:
+  * Business logic is implemented on service layer to be utilized from different types of controller (e.g., general or API)
+  * Implemented abstract service layer class - `Mage_Core_Service_ServiceAbstract`
+  * Implemented concrete service layers for customers, orders and quotes. Appropriate duplicate logic has been eliminated from controllers and API
+* Improved validation approach:
+  * Added support of describing validation rules in a moudle's configuration file - `validation.xml` in the moudle's `etc` directory
+  * Added `Mage_Core_Model_Validator_Factory`
+  * Added new validators to Magento Validator library
+  * New approach is utilized in `Mage_Customer`, `Mage_Eav` and `Mage_Webapi` modules
+* Added `Magento_Translate_Adapter`
+* Added profiling of DB and cache requests
 * Minor Improvements:
   * Added an ability to choose the image for logo and upload it from backend web-interface
   * Added notification in backend in case of product SKU change
@@ -15,6 +36,7 @@
   * Removed `Url Options` section in `System -> Configuration -> General -> Web` for website and store configuration scope
   * Changed backend template for UPS shipping provider to fix translation issue
 * Fixed security issue - set `CURLOPT_SSL_VERIFYPEER` to `true` by default in cUrl calls
+* Added `Zend/Escaper`, `Zend/I18`, `Zend/Validator` libraries
 
 2.0.0.0-dev34
 =============
