@@ -127,7 +127,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
         $fieldset->addField('store_email', 'text', array(
             'name' => 'groups[trans_email][ident_general][fields][email][value]',
             'label' => $this->_helper->__('Store Contact Email'),
-            'required' => false,
+            'required' => true,
             'class' => 'validate-email',
             'value' => $this->_storeConfig->getConfig('trans_email/ident_general/email')
         ));
@@ -212,7 +212,6 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
 
         $fieldset->addField('validate_vat_number', 'button', array(
             'name' => 'validate_vat_number',
-            'label' => $this->_helper->__('Validate VAT Number'),
             'required' => false,
             'value' => $this->_helper->__('Validate VAT Number')
         ));
@@ -249,7 +248,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
         $fieldset->addField('sender_email_representative', 'text', array(
             'name' => 'groups[trans_email][ident_sales][fields][email][value]',
             'label' => $this->_helper->__('Sender Email'),
-            'required' => false,
+            'required' => true,
             'class' => 'validate-email',
             'value' => $this->_storeConfig->getConfig('trans_email/ident_sales/email')
         ), false, true);
@@ -270,7 +269,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
         $fieldset->addField('sender_email_support', 'text', array(
             'name' => 'groups[trans_email][ident_support][fields][email][value]',
             'label' => $this->_helper->__('Sender Email'),
-            'required' => false,
+            'required' => true,
             'class' => 'validate-email',
             'value' => $this->_storeConfig->getConfig('trans_email/ident_support/email')
         ), false, true);
@@ -291,7 +290,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
         $fieldset->addField('sender_email_custom1', 'text', array(
             'name' => 'groups[trans_email][ident_custom1][fields][email][value]',
             'label' => $this->_helper->__('Sender Email'),
-            'required' => false,
+            'required' => true,
             'class' => 'validate-email',
             'value' => $this->_storeConfig->getConfig('trans_email/ident_custom1/email')
         ), false, true);
@@ -312,7 +311,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
         $fieldset->addField('sender_email_custom2', 'text', array(
             'name' => 'groups[trans_email][ident_custom2][fields][email][value]',
             'label' => $this->_helper->__('Sender Email'),
-            'required' => false,
+            'required' => true,
             'class' => 'validate-email',
             'value' => $this->_storeConfig->getConfig('trans_email/ident_custom2/email')
         ), false, true);

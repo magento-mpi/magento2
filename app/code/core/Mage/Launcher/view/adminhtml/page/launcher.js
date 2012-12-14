@@ -159,8 +159,11 @@
 
             options.btnSaveDrawer
                 .on('click.saveSettings', function () {
-                    var drawerForm = $("#drawer-form"),
+                    var drawerForm = $("#drawer-form").validation(),
                         postData;
+                    if (!drawerForm.valid()) {
+                        return false;
+                    }
 
                     postData = drawerForm.serialize();
                     postData += '&tileCode=' + $('.footer-inner .button-save-settins').attr('tile-code');
