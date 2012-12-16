@@ -133,7 +133,7 @@ system_email_template:
                             search: //button[span='Search']
                         fields:
                             page: //input[@name='page']
-                            filter_template_id: //input[@name='template_id']
+                            filter_template_id: //input[@id='systemEmailTemplateGrid_filter_id']
                             filter_template_name: //input[@name='code']
                             filter_date_added_from: //input[@name='added_at[from]']
                             filter_date_added_to: //input[@name='added_at[to]']
