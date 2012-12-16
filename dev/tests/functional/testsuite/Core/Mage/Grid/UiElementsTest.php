@@ -33,25 +33,6 @@ class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Method that goes thru test data array and adds Verification Messages
-     * @param string $pageName
-     */
-    protected function _verifyControlsOnGridPage($pageName)
-    {
-        $page = $this->loadDataSet('Grid', 'grid');
-        if (array_key_exists('headers', $page['user_role'])) {
-            unset($page[$pageName]['headers']);
-        }
-        foreach ($page[$pageName] as $control => $type) {
-            foreach ($type as $typeName => $name) {
-                if (!$this->controlIsPresent($control, $typeName)) {
-                    $this->addVerificationMessage("The $control $typeName is not present on page $pageName");
-                }
-            }
-        }
-    }
-
-    /**
      * Need to verify that all grid elements is presented on page
      * @test
      * @dataProvider uiElementsTestDataProvider
@@ -60,7 +41,8 @@ class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
     public function uiElementsTest($pageName)
     {
         $this->navigate($pageName);
-        $this->_verifyControlsOnGridPage($pageName);
+        $testData = $this->loadDataSet('UiElements', 'grid');
+        $this->gridHelper()->prepareData($testData, $pageName);
         $this->assertEmptyVerificationErrors();
     }
 
@@ -73,16 +55,9 @@ class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
     public function gridHeaderNamesTest($pageName)
     {
         $this->navigate($pageName);
-        $testData = $this->loadDataSet('Grid', 'grid');
-        // 'tablename' value is required for identify grid(table) xPath
-        $tableNameValue = array_search('tablename', $testData[$pageName]['fieldset']);
-        if ($tableNameValue) {
-            $tableXpath = $this->_getControlXpath('fieldset', $tableNameValue);
-            $actualHeadersName = $this->getTableHeadRowNames($tableXpath);
-        } else {
-            $this->fail('Should be at least one key in field section with value "tablename" ');
-        }
-        $expectedHeadersName = $testData[$pageName]['headers'];
+        $testData = $this->loadDataSet('UiElements', 'grid');
+        $actualHeadersName = $this->gridHelper()->getGridHeaders($testData[$pageName]);
+        $expectedHeadersName = $this->gridHelper()->prepareData($testData, $pageName);;
         $this->assertNotNull($expectedHeadersName, 'Array(dataset) with header names is not defined');
         $this->assertEquals($expectedHeadersName, $actualHeadersName);
     }
@@ -108,7 +83,8 @@ class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
         $role = array('Administrator');
         $this->adminUserHelper()->openRole($role);
         $this->openTab('role_users');
-        $this->_verifyControlsOnGridPage('role_users');
+        $testData = $this->loadDataSet('UiElements', 'grid');
+        $this->gridHelper()->prepareData($testData, 'role_users');
     }
 
     /**
@@ -126,7 +102,8 @@ class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->searchAndOpen($testAdminUser, 'permissionsUserGrid');
         $this->openTab('user_role');
-        $this->_verifyControlsOnGridPage('user_role');
+        $testData = $this->loadDataSet('UiElements', 'grid');
+        $this->gridHelper()->prepareData($testData, 'user_role');
         $this->assertEmptyVerificationErrors();
 
        return $testAdminUser;
@@ -142,14 +119,12 @@ class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
      */
     public function headersForUserRole($testAdminUser)
     {
-        $testData = $this->loadDataSet('Grid', 'grid');
-        $tableNameValue = array_search('tablename', $testData['user_role']['fieldset']);
+        $testData = $this->loadDataSet('UiElements', 'grid');
         $expectedHeadersName = $testData['user_role']['headers'];
         $this->navigate('manage_admin_users');
         $this->searchAndOpen($testAdminUser, 'permissionsUserGrid');
         $this->openTab('user_role');
-        $tableXpath = $this->_getControlXpath('fieldset', $tableNameValue);
-        $actualHeadersName = $this->getTableHeadRowNames($tableXpath);
+        $actualHeadersName = $this->gridHelper()->getGridHeaders($testData['user_role']);
         $this->assertEquals($actualHeadersName, $expectedHeadersName);
     }
 }

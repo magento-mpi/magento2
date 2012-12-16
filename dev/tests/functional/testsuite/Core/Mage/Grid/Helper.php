@@ -36,4 +36,43 @@ class Core_Mage_Grid_Helper extends Mage_Selenium_AbstractHelper
         $this->fillField('filter_from', $dateFrom);
         $this->fillField('filter_to', $dateTo);
     }
+
+    /**
+     *  Method that goes through test data array and adds Verification Messages
+     *
+     * @param $data
+     * @param $testChildDataName
+     * @param string $exclude
+     *
+     * @return mixed
+     */
+    public function prepareData($data, $testChildDataName, $exclude = 'headers')
+    {
+        if (array_key_exists($exclude, $data[$testChildDataName])) {
+            $headers = $data[$testChildDataName][$exclude];
+            unset($data[$testChildDataName][$exclude]);
+
+            return $headers;
+        }
+        foreach ($data[$testChildDataName] as $control => $type) {
+            foreach ($type as $typeName => $name) {
+                if (!$this->controlIsPresent($control, $typeName)) {
+                    $this->addVerificationMessage("The $control $typeName is not present on page $testChildDataName");
+                }
+            }
+        }
+    }
+
+    public function getGridHeaders($data, $fieldsetFlag = 'tablename')
+    {
+        $tableNameValue = array_search($fieldsetFlag, $data['fieldset']);
+        if ($tableNameValue) {
+            $tableXpath = $this->_getControlXpath('fieldset', $tableNameValue);
+            $actualHeadersName = $this->getTableHeadRowNames($tableXpath);
+            return $actualHeadersName;
+
+        } else {
+            $this->fail("Should be at least one key in field section with value $fieldsetFlag");
+        }
+    }
 }
