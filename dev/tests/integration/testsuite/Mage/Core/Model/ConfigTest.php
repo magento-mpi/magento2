@@ -19,6 +19,11 @@
  */
 class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 {
+    protected function setUp()
+    {
+        Mage::app()->getCacheInstance()->banUse('config');
+    }
+
     public function testGetResourceModel()
     {
         $this->assertInstanceOf('Mage_Core_Model_Resource_Config', $this->_createModel(true)->getResourceModel());
@@ -46,6 +51,8 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
      * @param string $expectedNode
      * @param string $expectedValue
      * @dataProvider loadBaseLocalConfigDataProvider
+     *
+     * @magentoAppIsolation enabled
      */
     public function testLoadBaseLocalConfig($etcDir, array $configOptions, $expectedNode, $expectedValue)
     {
@@ -122,6 +129,9 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testLoadBaseInstallDate()
     {
         if (date_default_timezone_get() != 'UTC') {
@@ -140,6 +150,9 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(1356048000, $model->getInstallDate());
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testLoadBaseInstallDateInvalid()
     {
         $options = array(
@@ -154,6 +167,9 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertEmpty($model->getInstallDate());
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testLoadLocales()
     {
         /** @var $objectManager Magento_Test_ObjectManager */
@@ -172,8 +188,13 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mage_Core_Model_Config_Element', $model->getNode('global/locale'));
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testLoadModulesCache()
     {
+        Mage::app()->getCacheInstance()->allowUse('config');
+
         $options = array(
             Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA
             => sprintf(Mage_Core_Model_Config::CONFIG_TEMPLATE_INSTALL_DATE, 'Wed, 21 Nov 2012 03:26:00 +0000')
@@ -198,6 +219,9 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($moduleNode->is('active'));
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testLoadModulesLocalConfigPrevails()
     {
         $options = array(
@@ -247,6 +271,9 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testReinitBaseConfig()
     {
         $options[Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA] = '<config><test>old_value</test></config>';
@@ -273,8 +300,13 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Varien_Cache_Core', $this->_createModel()->getCache());
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testSaveCache()
     {
+        Mage::app()->getCacheInstance()->allowUse('config');
+
         $model = $this->_createModel(true);
         $model->removeCache();
         $this->assertFalse($model->loadCache());
@@ -284,8 +316,13 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mage_Core_Model_Config_Element', $model->getNode());
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testRemoveCache()
     {
+        Mage::app()->getCacheInstance()->allowUse('config');
+
         $model = $this->_createModel();
         $model->removeCache();
         $this->assertFalse($model->loadCache());
@@ -293,6 +330,8 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testGetSectionNode()
     {
+        Mage::app()->getCacheInstance()->allowUse('config');
+
         $this->assertInstanceOf(
             'Mage_Core_Model_Config_Element', $this->_createModel(true)->getSectionNode(array('admin'))
         );
@@ -508,12 +547,13 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
      * Instantiate Mage_Core_Model_Config and initialize (load configuration) if needed
      *
      * @param bool $initialize
+     * @param array $arguments
      * @return Mage_Core_Model_Config
      */
-    protected function _createModel($initialize = false)
+    protected function _createModel($initialize = false, array $arguments = array())
     {
         /** @var $model Mage_Core_Model_Config */
-        $model = Mage::getModel('Mage_Core_Model_Config');
+        $model = Mage::getModel('Mage_Core_Model_Config', $arguments);
         if ($initialize) {
             $model->init();
         }
@@ -531,13 +571,12 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     /**
      * Check if areas loaded correctly from configuration
-     *
-     * @magentoAppIsolation enabled
-     * @magentoDataFixture Mage/Core/_files/load_configuration.php
      */
     public function testGetAreas()
     {
-        $allowedAreas = Mage::app()->getConfig()->getAreas();
+        $model = $this->_createModel(true, array('sourceData' => __DIR__ . '/../_files/etc/config.xml'));
+
+        $allowedAreas = $model->getAreas();
         $this->assertNotEmpty($allowedAreas, 'Areas are not initialized');
 
         $this->assertArrayHasKey('test_area1', $allowedAreas, 'Test area #1 is not loaded');
@@ -564,13 +603,12 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     /**
      * Check if routers loaded correctly from configuration
-     *
-     * @magentoAppIsolation enabled
-     * @magentoDataFixture Mage/Core/_files/load_configuration.php
      */
     public function testGetRouters()
     {
-        $loadedRouters = Mage::app()->getConfig()->getRouters();
+        $model = $this->_createModel(true, array('sourceData' => __DIR__ . '/../_files/etc/config.xml'));
+
+        $loadedRouters = $model->getRouters();
         $this->assertArrayHasKey('test_router1', $loadedRouters, 'Test router #1 is not initialized in test area.');
         $this->assertArrayHasKey('test_router2', $loadedRouters, 'Test router #2 is not initialized in test area.');
 
