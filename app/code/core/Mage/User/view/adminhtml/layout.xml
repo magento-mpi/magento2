@@ -53,7 +53,6 @@
                     <arguments>
                         <id>roleGrid</id>
                         <rowUrl>
-                            <generatorClass>Mage_Backend_Model_Widget_Grid_Row_UrlGenerator</generatorClass>
                             <path>*/*/editrole</path>
                             <extraParamsTemplate>
                                 <rid>getId</rid>
