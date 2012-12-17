@@ -138,7 +138,7 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
         $simpleProducts['simpleDisabled'] = $this->loadDataSet('SkuProducts', 'simple_sku',
             array('general_status' => 'Disabled'));
         $simpleProducts['simpleCategory'] = $this->loadDataSet('SkuProducts', 'simple_sku',
-            array('categories' => $category));
+            array('general_categories' => $category));
         $simpleProducts['simpleWebsite'] = $this->loadDataSet('SkuProducts', 'simple_sku',
             array('websites' => $website));
         $simpleProducts['simpleOutOfStock'] = $this->loadDataSet('SkuProducts', 'simple_sku',
@@ -275,7 +275,7 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
         $download = $this->_createDownloadableProduct();
         //Configurable products
         $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order',
-            array('configurable_attribute_title' => $attrData['admin_title']),
+            array('general_configurable_attribute_title' => $attrData['admin_title']),
             array(
                 'associated_1' => $simpleProducts['simple']['general_sku'],
                 'value_1' => $attrData['option_1']['admin_option_name'],

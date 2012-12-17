@@ -419,7 +419,7 @@ fixed_bundle_for_order:
 #<------------CONFIGURABLE------------>
 configurable_product_for_order:
     product_attribute_set: Default
-    configurable_attribute_title: %noValue%
+    general_configurable_attribute_title: %noValue%
     general_name: Configurable Product For Order(%randomize%)
     general_description: Description for Configurable Product
     general_short_description: Short Description for Configurable Product
@@ -433,7 +433,7 @@ configurable_product_for_order:
     inventory_stock_availability: In Stock
     categories: %noValue%
     websites: Main Website
-    associated_configurable_data:
+    general_configurable_data:
         associated_configurable_1:
             associated_search_sku: %associated_1%
             associated_product_attribute:

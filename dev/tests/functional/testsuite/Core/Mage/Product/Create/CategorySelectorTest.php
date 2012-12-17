@@ -78,7 +78,7 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $this->navigate('manage_categories');
         $this->categoryHelper()->createCategory($categoryData);
         $this->assertMessagePresent(self::MESSAGE_TYPE_SUCCESS, 'success_saved_category');
-        $productData['categories'] = $categoryData['parent_category']
+        $productData['general_categories'] = $categoryData['parent_category']
             . '/' . $this->_getExpectedCategoryNameAfterSave($categoryData['name']);
         //Steps
         $this->navigate('manage_products');
@@ -101,7 +101,7 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $categoryData = $this->loadDataSet('Category', 'sub_category_required',
             array('parent_category'=> $categories['newRoot']['parent'] . '/' . $categories['newRoot']['category']));
         $productData = $this->loadDataSet('Product', 'simple_product_required');
-        $productData['categories'] = $categories['newRoot']['parent'] . '/' . $categories['newRoot']['category'];
+        $productData['general_categories'] = $categories['newRoot']['parent'] . '/' . $categories['newRoot']['category'];
         //Preconditions
         $this->navigate('manage_categories');
         $this->categoryHelper()->createCategory($categoryData);
@@ -125,12 +125,12 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
     {
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required');
-        $productData['categories'] = $categories['newRoot']['parent'] . '/' . $categories['newRoot']['category'];
+        $productData['general_categories'] = $categories['newRoot']['parent'] . '/' . $categories['newRoot']['category'];
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData, 'simple', false);
         $this->openTab('general');
-        $this->fillField('categories', $categories['newRoot']['category']);
+        $this->fillField('general_categories', $categories['newRoot']['category']);
         $this->waitForElementVisible($this->_getControlXpath('fieldset', 'category_search'));
         //Verifying
         $this->assertTrue($this->controlIsPresent('link', 'selected_category'),
@@ -148,7 +148,7 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
     {
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required');
-        $productData['categories'] = $categories['default']['parent'] . '/' . $categories['default']['category'] . ', '
+        $productData['general_categories'] = $categories['default']['parent'] . '/' . $categories['default']['category'] . ', '
             . $categories['additionalDefault']['parent'] . '/' . $categories['additionalDefault']['category'];
         //Steps
         $this->navigate('manage_products');
@@ -169,7 +169,7 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
     {
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required');
-        $productData['categories'] = $categories['default']['parent'] . '/' . $categories['default']['category'] . ', '
+        $productData['general_categories'] = $categories['default']['parent'] . '/' . $categories['default']['category'] . ', '
             . $categories['default']['parent'] . '/' . $categories['default']['category'];
         //Steps
         $this->navigate('manage_products');
@@ -190,7 +190,7 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
     {
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required');
-        $productData['categories'] = $categories['default']['parent'] . '/' . $categories['default']['category'] . ', '
+        $productData['general_categories'] = $categories['default']['parent'] . '/' . $categories['default']['category'] . ', '
             . $categories['newRoot']['parent'] . '/' . $categories['newRoot']['category'];
         //Steps
         $this->navigate('manage_products');
@@ -212,7 +212,7 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->selectTypeProduct('simple');
-        $this->fillField('categories', $selectedCategory);
+        $this->fillField('general_categories', $selectedCategory);
         $this->waitForAjax();
         //Verifying
         $this->assertFalse($this->controlIsVisible('fieldset', 'category_search'), 'Category list is not empty.');
@@ -229,7 +229,7 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
     {
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required');
-        $productData['categories'] = $categories['default']['parent'] . '/' . $categories['default']['category'];
+        $productData['general_categories'] = $categories['default']['parent'] . '/' . $categories['default']['category'];
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData, 'simple', false);
@@ -239,7 +239,7 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         //Verifying
         $this->assertMessagePresent(self::MESSAGE_TYPE_SUCCESS, 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
-        $this->assertEquals('', $this->getControlAttribute('field', 'categories', 'value'),
+        $this->assertEquals('', $this->getControlAttribute('field', 'general_categories', 'value'),
             'Category was not unassigned from product.');
     }
 
@@ -255,7 +255,7 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
     {
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required');
-        $productData['categories'] = $categories['default']['parent'] . '/' . $categories['default']['category'];
+        $productData['general_categories'] = $categories['default']['parent'] . '/' . $categories['default']['category'];
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
@@ -281,7 +281,7 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         //Data
         $attributeSet = $this->loadDataSet('AttributeSet', 'attribute_set');
         $productData = $this->loadDataSet('Product', 'simple_product_required');
-        $productData['categories'] = $categories['default']['parent'] . '/' . $categories['default']['category'];
+        $productData['general_categories'] = $categories['default']['parent'] . '/' . $categories['default']['category'];
         $newAttributeSet = 'Default';
         //Preconditions
         $this->navigate('manage_attribute_sets');
@@ -368,7 +368,7 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData, 'simple', false);
         $this->openTab('general');
-        $this->fillField('categories', $newCategoryNameBeginning);
+        $this->fillField('general_categories', $newCategoryNameBeginning);
 
         $this->clickButton('new_category', false);
         $this->waitForElementVisible($this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'new_category_form'));

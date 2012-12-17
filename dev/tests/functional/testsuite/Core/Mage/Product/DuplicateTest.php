@@ -290,7 +290,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         $this->markTestSkipped('Skipped due to MAGETWO-4105 bug');
 
         //Data
-        $assign = array_merge($assignData, array('configurable_attribute_title' => $attrData['admin_title']));
+        $assign = array_merge($assignData, array('general_configurable_attribute_title' => $attrData['admin_title']));
         $configurable = $this->loadDataSet('Product', 'duplicate_configurable', $assign);
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $configurable['general_sku']));
         //Steps
@@ -307,6 +307,6 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         //Verifying
         $configurable['general_sku'] = $this->productHelper()->getGeneratedSku($configurable['general_sku']);
         $this->productHelper()->verifyProductInfo($configurable,
-            array('general_status', 'configurable_attribute_title'));
+            array('general_status', 'general_configurable_attribute_title'));
     }
 }

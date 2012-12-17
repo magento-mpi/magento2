@@ -99,9 +99,9 @@ class Core_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_TestCase
             $productData = $this->loadDataSet('Product', $type . '_product_required');
         } else {
             $productWithOptions = $this->loadDataSet('Product', $type . '_product_required',
-                array('configurable_attribute_title' => $attrData['admin_title']));
+                array('general_configurable_attribute_title' => $attrData['admin_title']));
             $productData = $this->loadDataSet('Product', $type . '_product_required',
-                array('configurable_attribute_title' => $attrData['admin_title']));
+                array('general_configurable_attribute_title' => $attrData['admin_title']));
         }
         $productWithOptions['custom_options_data'] = $this->loadDataSet('Product', 'custom_options_data');
         $selectProduct = array('product_sku' => $productWithOptions['general_sku']);
@@ -114,7 +114,7 @@ class Core_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_TestCase
         $this->saveForm('save');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         //Verifying
-        $this->productHelper()->verifyCustomOption($productWithOptions['custom_options_data']);
+        $this->productHelper()->verifyCustomOptions($productWithOptions['custom_options_data']);
     }
 
     /**
@@ -159,7 +159,7 @@ class Core_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_TestCase
         //Verifying
         $customOptionsData['custom_options_field_1'] = $simpleField['custom_options_data']['custom_options_field'];
         $customOptionsData['custom_options_field_2'] = $simpleField['custom_options_data']['custom_options_field'];
-        $this->productHelper()->verifyCustomOption($customOptionsData);
+        $this->productHelper()->verifyCustomOptions($customOptionsData);
     }
 
     /**
@@ -189,7 +189,7 @@ class Core_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_TestCase
         //Verifying
         $customOptionsData['custom_options_field'] = $simpleField['custom_options_data']['custom_options_field'];
         $customOptionsData['custom_options_date'] = $simpleDate['custom_options_data']['custom_options_date'];
-        $this->productHelper()->verifyCustomOption($customOptionsData);
+        $this->productHelper()->verifyCustomOptions($customOptionsData);
     }
 
     /**
@@ -245,6 +245,6 @@ class Core_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_TestCase
         //Verifying
         $customOptionsData['custom_options_field'] = $simpleField['custom_options_data']['custom_options_field'];
         $customOptionsData['custom_options_date'] = $simpleDate['custom_options_data']['custom_options_date'];
-        $this->productHelper()->verifyCustomOption($customOptionsData);
+        $this->productHelper()->verifyCustomOptions($customOptionsData);
     }
 }

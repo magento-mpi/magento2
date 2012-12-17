@@ -58,7 +58,7 @@ class Core_Mage_DifferentPricesForCustomerGroups_GroupPriceForDifferentProductsT
         $this->saveForm('save_attribute_set');
         //Verifying
         $this->assertMessagePresent('success', 'success_attribute_set_saved');
-        $processedGroupNames['configurable_attribute_title'] = $attrData['admin_title'];
+        $processedGroupNames['general_configurable_attribute_title'] = $attrData['admin_title'];
 
         return $processedGroupNames;
     }
@@ -146,12 +146,12 @@ class Core_Mage_DifferentPricesForCustomerGroups_GroupPriceForDifferentProductsT
                 'group_3' => $processedGroupNames['retailer_group']));
         //Steps. Creating product with Grouped Price
         if ($productType == 'configurable') {
-            $productData['configurable_attribute_title'] = $processedGroupNames['configurable_attribute_title'];
+            $productData['general_configurable_attribute_title'] = $processedGroupNames['general_configurable_attribute_title'];
         }
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData, $productType);
         $this->assertMessagePresent('success', 'success_saved_product');
-        unset($processedGroupNames['configurable_attribute_title']);
+        unset($processedGroupNames['general_configurable_attribute_title']);
         //Creating Customers
         $this->navigate('manage_customers');
         $userEmails = array();

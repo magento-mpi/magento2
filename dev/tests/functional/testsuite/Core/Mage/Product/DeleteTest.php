@@ -78,7 +78,7 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
         $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
             array('General' => $attrData['attribute_code']));
         $productData = $this->loadDataSet('Product', 'configurable_product_required',
-            array('configurable_attribute_title' => $attrData['admin_title']));
+            array('general_configurable_attribute_title' => $attrData['admin_title']));
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->navigate('manage_attributes');
@@ -123,8 +123,8 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
         $associated['general_user_attr']['dropdown'][$attrData['attribute_code']] =
             $attrData['option_1']['admin_option_name'];
         $configPr = $this->loadDataSet('Product', 'configurable_product_required',
-            array('configurable_attribute_title' => $attrData['admin_title']));
-        $configPr['associated_configurable_data'] = $this->loadDataSet('Product', 'associated_configurable_data',
+            array('general_configurable_attribute_title' => $attrData['admin_title']));
+        $configPr['general_configurable_data'] = $this->loadDataSet('Product', 'general_configurable_data',
             array(
                 'associated_search_sku' => $associated['general_sku'],
                 'associated_product_attribute_value' => $attrData['option_1']['admin_option_name']

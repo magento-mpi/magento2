@@ -49,7 +49,7 @@
         //Data
         $category = $this->loadDataSet('Category', 'sub_category_required');
         $product = $this->loadDataSet('Product', 'simple_product_visible',
-            array('categories' => $category['parent_category'] . '/' . $category['name']));
+            array('general_categories' => $category['parent_category'] . '/' . $category['name']));
         //Steps
         $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
@@ -62,7 +62,7 @@
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return array('category_path' => $product['categories'], 'filter_sku' => $product['general_sku']);
+        return array('category_path' => $product['general_categories'], 'filter_sku' => $product['general_sku']);
     }
 
     /**

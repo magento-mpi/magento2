@@ -47,7 +47,7 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
         //Data
         $category = $this->loadDataSet('Category', 'sub_category_required');
         $catPath = $category['parent_category'] . '/' . $category['name'];
-        $simple = $this->loadDataSet('Product', 'simple_product_visible', array('categories' => $catPath));
+        $simple = $this->loadDataSet('Product', 'simple_product_visible', array('general_categories' => $catPath));
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         //Steps
         $this->navigate('manage_categories');

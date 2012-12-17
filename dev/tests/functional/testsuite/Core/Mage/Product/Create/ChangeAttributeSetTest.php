@@ -209,8 +209,8 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         //Data
         $configurableProduct = $this->loadDataSet('Product', 'configurable_product_visible', array(
                 'product_attribute_set' => $customSetData['product_attribute_set'],
-                'configurable_attribute_title' => $customSetData['attributeName'],
-                'associated_configurable_data' => $this->loadDataSet('Product', 'associated_configurable_data',
+                'general_configurable_attribute_title' => $customSetData['attributeName'],
+                'general_configurable_data' => $this->loadDataSet('Product', 'general_configurable_data',
                     array(
                         'associated_search_sku' => $customSetData['productSku'],
                         'associated_product_attribute_value' => $customSetData['attributeValue']

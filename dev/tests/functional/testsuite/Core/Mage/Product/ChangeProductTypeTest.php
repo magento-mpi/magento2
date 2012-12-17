@@ -35,6 +35,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadDataSet('Product', $changedProduct . '_product_visible');
+        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->selectTypeProduct('simple');
         $this->fillCheckbox('general_weight_and_type_switcher', 'yes');
@@ -42,8 +43,8 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->saveForm('save');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->assertEquals($changedType, $this->productHelper()->
-            getProductDataFromGrid($productData['general_sku'], 'Type'), 'Incorrect product type has been created');
+        $this->assertEquals($changedType, $this->productHelper()->getProductDataFromGrid($search, 'Type'),
+            'Incorrect product type has been created');
         $this->productHelper()->openProduct(array('sku' => $productData['general_sku']));
         $this->assertTrue($this->controlIsVisible('field', 'general_weight_disabled'),
             'Weight field is editable or is not visible');
@@ -304,11 +305,11 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
     public function toConfigurableDuringCreation($initialType, $data)
     {
         //Data
-        $configurableProduct = $this->loadDataSet('Product', 'configurable_product_visible',
+        $configurable = $this->loadDataSet('Product', 'configurable_product_visible',
             array(
                 'product_attribute_set' => $data['attributeSet'],
-                'configurable_attribute_title' => $data['attributeName'],
-                'associated_configurable_data' => $this->loadDataSet('Product', 'associated_configurable_data',
+                'general_configurable_attribute_title' => $data['attributeName'],
+                'general_configurable_data' => $this->loadDataSet('Product', 'general_configurable_data',
                     array(
                         'associated_search_sku' => $data['productSku'],
                         'associated_product_attribute_value' => $data['attributeValue']
@@ -316,6 +317,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
                 )
             )
         );
+        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $configurable['general_sku']));
         //Steps and Verifying
         $this->productHelper()->selectTypeProduct($initialType);
         $this->productHelper()->changeAttributeSet($data['attributeSet']);
@@ -326,17 +328,14 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->fillCheckbox('is_configurable', 'yes');
         $this->assertTrue($this->controlIsVisible('fieldset', 'product_variations'),
             'Product variation block is absent');
-        $this->productHelper()->fillConfigurableSettings($configurableProduct);
-        $this->productHelper()->fillProductInfo($configurableProduct, 'configurable');
+        $this->productHelper()->fillConfigurableSettings($configurable);
+        $this->productHelper()->fillProductInfo($configurable, 'configurable');
         $this->saveForm('save');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->assertEquals(
-            'Configurable Product',
-            $this->productHelper()->getProductDataFromGrid($configurableProduct['general_sku'], 'Type'),
-            'Incorrect product type has been created'
-        );
-        $this->productHelper()->openProduct(array('sku' => $configurableProduct['general_sku']));
+        $this->assertEquals('Configurable Product', $this->productHelper()->getProductDataFromGrid($search, 'Type'),
+            'Incorrect product type has been created');
+        $this->productHelper()->openProduct(array('sku' => $configurable['general_sku']));
         $this->assertTrue($this->getControlElement('checkbox', 'is_configurable')->selected(),
             'Product variation checkbox is not checked');
         $this->assertTrue($this->controlIsVisible('fieldset', 'product_variations'),
@@ -401,8 +400,8 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $configurableProduct = $this->loadDataSet('Product', 'configurable_product_visible',
             array(
                 'product_attribute_set' => $data['attributeSet'],
-                'configurable_attribute_title' => $data['attributeName'],
-                'associated_configurable_data' => $this->loadDataSet('Product', 'associated_configurable_data',
+                'general_configurable_attribute_title' => $data['attributeName'],
+                'general_configurable_data' => $this->loadDataSet('Product', 'general_configurable_data',
                     array(
                         'associated_search_sku' => $data['productSku'],
                         'associated_product_attribute_value' => $data['attributeValue']
@@ -445,11 +444,11 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
     {
         //Data
         $initialProduct = $this->loadDataSet('Product', $initialType . '_product_visible');
-        $configurableProduct = $this->loadDataSet('Product', 'configurable_product_visible',
+        $configurable = $this->loadDataSet('Product', 'configurable_product_visible',
             array(
                 'product_attribute_set' => $data['attributeSet'],
-                'configurable_attribute_title' => $data['attributeName'],
-                'associated_configurable_data' => $this->loadDataSet('Product', 'associated_configurable_data',
+                'general_configurable_attribute_title' => $data['attributeName'],
+                'general_configurable_data' => $this->loadDataSet('Product', 'general_configurable_data',
                     array(
                         'associated_search_sku' => $data['productSku'],
                         'associated_product_attribute_value' => $data['attributeValue']
@@ -457,6 +456,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
                 )
             )
         );
+        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $configurable['general_sku']));
         //Steps
         $this->productHelper()->createProduct($initialProduct, $initialType);
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -465,17 +465,14 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->controlIsVisible('fieldset', 'product_variations'),
             'Product variation block is absent');
         $this->productHelper()->changeAttributeSet($data['attributeSet']);
-        $this->productHelper()->fillConfigurableSettings($configurableProduct);
-        $this->productHelper()->fillProductInfo($configurableProduct, 'configurable');
+        $this->productHelper()->fillConfigurableSettings($configurable);
+        $this->productHelper()->fillProductInfo($configurable, 'configurable');
         $this->saveForm('save');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->assertEquals(
-            'Configurable Product',
-            $this->productHelper()->getProductDataFromGrid($configurableProduct['general_sku'], 'Type'),
-            'Incorrect product type has been created'
-        );
-        $this->productHelper()->openProduct(array('sku' => $configurableProduct['general_sku']));
+        $this->assertEquals('Configurable Product', $this->productHelper()->getProductDataFromGrid($search, 'Type'),
+            'Incorrect product type has been created');
+        $this->productHelper()->openProduct(array('sku' => $configurable['general_sku']));
         $this->assertTrue($this->getControlElement('checkbox', 'is_configurable')->selected(),
             'Product variation checkbox is not checked');
         $this->assertTrue($this->controlIsVisible('fieldset', 'product_variations'),
@@ -494,11 +491,11 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
     public function editingConfigurable($data)
     {
         //Data
-        $configurableProduct = $this->loadDataSet('Product', 'configurable_product_visible',
+        $configurable = $this->loadDataSet('Product', 'configurable_product_visible',
             array(
                 'product_attribute_set' => $data['attributeSet'],
-                'configurable_attribute_title' => $data['attributeName'],
-                'associated_configurable_data' => $this->loadDataSet('Product', 'associated_configurable_data',
+                'general_configurable_attribute_title' => $data['attributeName'],
+                'general_configurable_data' => $this->loadDataSet('Product', 'general_configurable_data',
                     array(
                         'associated_search_sku' => $data['productSku'],
                         'associated_product_attribute_value' => $data['attributeValue']
@@ -506,24 +503,22 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
                 )
             )
         );
+        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $configurable['general_sku']));
         //Steps
-        $this->productHelper()->createProduct($configurableProduct, 'configurable');
+        $this->productHelper()->createProduct($configurable, 'configurable');
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->openProduct(array('sku' => $configurableProduct['general_sku']));
+        $this->productHelper()->openProduct(array('sku' => $configurable['general_sku']));
         $this->assertTrue($this->getControlElement('checkbox', 'is_configurable')->selected(),
             'Product variation checkbox is not checked');
         $this->assertTrue($this->controlIsVisible('fieldset', 'product_variations'),
             'Product variation block is absent');
-        $this->productHelper()->unassignAllAssociatedProducts();
+        $this->productHelper()->unassignAllConfigurableVariations();
         $this->saveForm('save');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->assertEquals(
-            'Configurable Product',
-            $this->productHelper()->getProductDataFromGrid($configurableProduct['general_sku'], 'Type'),
-            'Incorrect product type has been created'
-        );
-        $this->productHelper()->openProduct(array('sku' => $configurableProduct['general_sku']));
+        $this->assertEquals('Configurable Product', $this->productHelper()->getProductDataFromGrid($search, 'Type'),
+            'Incorrect product type has been created');
+        $this->productHelper()->openProduct(array('sku' => $configurable['general_sku']));
         $this->assertTrue($this->getControlElement('checkbox', 'is_configurable')->selected(),
             'Product variation checkbox is not checked');
         $this->assertTrue($this->controlIsVisible('fieldset', 'product_variations'),

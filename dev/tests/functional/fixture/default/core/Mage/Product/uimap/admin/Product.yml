@@ -98,17 +98,6 @@ new_product:
                             apply: //button[@id='change-attribute-set-apply-button']
             tabs:
                 -
-                    configurable_product_settings: &configurableProductsettings
-                        xpath: //a[@title='Configurable Product Settings']
-                        fieldsets:
-                            -
-                                select_configurable_attributes:
-                                    xpath: //div[contains(div/div/h4,'Select Configurable Attributes')]
-                                    buttons:
-                                        continue: //button[span='Continue']
-                                    checkboxes:
-                                        configurable_attribute_title: //input[@type='checkbox' and @title='%attributeTitle%']
-                -
                     general: &generalTab
                         xpath: //a[@title='General']
                         fieldsets:
@@ -138,7 +127,7 @@ new_product:
                                         general_news_from: //input[@id='news_from_date']
                                         general_news_to: //input[@id='news_to_date']
                                         general_url_key: //input[@id='url_key']
-                                        categories: //*[@data-ui-id='category-selector-input']
+                                        general_categories: //*[@data-ui-id='category-selector-input']
                                         general_qty: //input[@name='product[quantity_and_stock_status][qty]']
                                         general_user_attr_field: //input[@id='%attributeCodeField%']
                                         general_min_price: //input[@id='price' and not(@disabled)]
@@ -182,34 +171,28 @@ new_product:
                                     links:
                                         suggested_category_name: /*[contains(concat(' ', normalize-space(@class), ' '), ' ui-menu-item ')]/*[text()='%categoryName%']
                             -
-                                select_associated_product:
-                                    xpath: //*[@id='associated-products-container']/ancestor::*[contains(concat(' ', normalize-space(@class), ' '), ' ui-dialog ')]
-                                    pageelements:
-                                        sku_cell: //*[contains(@class, 'associated-product-sku') and contains(.,'%productSku%')]
-                            -
                                 product_variations:
-                                    xpath: //*[@id='config_super_product']/fieldset
-                                    fields:
-                                        attribute_selector: //*[@id='attribute-selector']
+                                    xpath: //div[@id='config_super_product']
                                     checkboxes:
-                                        configurable_attribute_title: //input[@type='checkbox' and @title='%attributeTitle%']
+                                        general_configurable_attribute_title: //input[@type='checkbox' and @title='%attributeTitle%']
+                                        is_configurable: //input[@id='config_super_product-checkbox']
                                     buttons:
-                                        generate_variations: //*[@data-ui-id='admin-product-edit-tab-super-config-grid-container-super-settings-continue-button']
+                                        generate_product_variations: //button[@data-ui-id='admin-product-edit-tab-super-config-grid-container-super-settings-continue-button']
                                     links:
                                         suggested_attribute: /..//*[contains(concat(' ', normalize-space(@class), ' '), ' ui-menu-item ')]/*[text()='%attributeName%']
                                     pageelements:
                                         suggested_attribute_list: /..//*[contains(concat(' ', normalize-space(@class), ' '), ' ui-autocomplete ')]
                             -
-                                variations_matrix:
-                                    xpath: //*[@id='product-variations-matrix']
+                                variations_matrix_grid:
+                                    xpath: //div[@id='product-variations-matrix']
                                     checkboxes:
-                                        associated_product_select: //tbody/tr[%attributeSearch%]//*[@type='checkbox']
-                                        assigned_product: //table/tbody/tr[contains(., '%productSku%') and %attributeSearch%]//input[@checked='checked']
+                                        include_variation: //tbody/tr[%rowNum%]//input[@name='associated_product_ids[]']
+                                        assigned_product: //tbody/tr[contains(., '%productSku%') and %attributeSearch%]//input[@checked='checked']
                                     pageelements:
-                                        attribute_header: //table/thead/tr/th[contains(.,'%attributeTitle%')]
-                                        variation_line: //table/tbody/tr[%rowNum%]
+                                        variation_line: //tbody/tr
+                                        attribute_header: //thead//th[text()='%attributeTitle%')]
                                     buttons:
-                                        choose: //tr[%attributeSearch%]//button
+                                        choose: //tbody/tr[%rowNum%]//button[@class='choose-product']
                                     fields:
                                         variation_name: //tbody/tr[%attributeSearch%]//td[@class='associated-matrix-product-name']/input
                                         variation_price: //tbody/tr[%attributeSearch%]//td[@class='associated-matrix-product-price']/input
@@ -219,10 +202,10 @@ new_product:
                                     messages:
                                         required_field: //*[contains(@for,'create_matrix_product') and contains(@for,'%field%')]
                             -
-                                select_configurable_attributes:
-                                    xpath: //div[@id='config_super_product']
-                                    checkboxes:
-                                        is_configurable: //*[@id='config_super_product-checkbox']
+                                select_associated_product:
+                                    xpath: //div[div/span='Select Associated Product']
+                                    pageelements:
+                                        sku_cell: //td[@class='associated-product-sku'][normalize-space(text())='%productSku%']
                 -
                     prices: &pricesTab
                         xpath: //a[@title='Prices']
@@ -587,18 +570,8 @@ new_product:
                         xpath: //a[@title='Associated Products']
                         fieldsets:
                             -
-                                super_products_attribute_configuration: &superProductsAttributeconfiguration
-                                    xpath: //li[contains(div/text(),'%attributeTitle%')]
-                                    checkboxes:
-                                        associated_products_attribute_name_default: //input[@class='attribute-use-default-label']
-                                    dropdowns:
-                                        associated_product_price_type: //li[div/strong='%attributeValue%']//select[contains(@class,'price-type')]
-                                    fields:
-                                        associated_product_price: //li[div/strong='%attributeValue%']//input[contains(@class,'attribute-price')]
-                                        associated_products_attribute_name: //input[contains(@class,'attribute-label')]
-                            -
-                                associated: &associatedProductsFieldSet
-                                    xpath: //div[@id='super_product_grid' or @id='super_product_links']
+                                associated:
+                                    xpath: //div[@id='super_product_grid']
                                     buttons:
                                         reset_filter: //button[span='Reset Filter']
                                         search: //button[span='Search']
@@ -710,8 +683,6 @@ edit_product:
             fieldsets: *new_product_fieldsets
             tabs:
                 -
-                    configurable_product_settings: *configurableProductsettings
-                -
                     general: *generalTab
                 -
                     prices: *pricesTab
@@ -741,6 +712,8 @@ edit_product:
                     bundle_items: *bundleItemsTab
                 -
                     downloadable_information: *downloadableInformationTab
+                -
+                    associated: *associatedProductsTab
                 -
                     product_tags:
                         xpath: //a[@title='Product Tags']
@@ -778,14 +751,6 @@ edit_product:
                                     pageelements:
                                         tags_grid_head: //table[@id='tag_customers_grid_table']//thead/tr[@class='headings']
                                         tags_grid: //table[@id='tag_customers_grid_table']
-                -
-                    associated:
-                        xpath: //a[@title='Associated Products']
-                        fieldsets:
-                            -
-                                super_products_attribute_configuration: *superProductsAttributeconfiguration
-                            -
-                                associated: *associatedProductsFieldSet
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']

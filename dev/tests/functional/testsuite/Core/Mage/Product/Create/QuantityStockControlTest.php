@@ -153,7 +153,7 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         //Data
         if ($productType == 'configurable') {
             $productData = $this->loadDataSet('Product', 'configurable_product_visible',
-                array('configurable_attribute_title' => $attributeData['attribute']));
+                array('general_configurable_attribute_title' => $attributeData['attribute']));
         } else {
             $productData = $this->loadDataSet('Product', 'grouped_product_visible');
         }

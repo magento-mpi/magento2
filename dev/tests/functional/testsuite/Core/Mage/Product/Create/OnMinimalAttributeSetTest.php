@@ -98,7 +98,7 @@ class Core_Mage_Product_Create_OnMinimalAttributeSetTest extends Mage_Selenium_T
             case 'configurable':
                 $productData = $this->loadDataSet('Product', $productType . '_product_minimal',
                     array(
-                        'configurable_attribute_title' => $testData['attribute'],
+                        'general_configurable_attribute_title' => $testData['attribute'],
                         'associated_search_sku' => $testData['simple_sku'],
                         'associated_product_attribute_value' => $testData['attributeValue']
                     )
