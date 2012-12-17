@@ -201,7 +201,7 @@ class Mage_Api_Model_Server_Adapter_Soap extends Varien_Object
         do {
             $retry = false;
             try {
-                $this->_soap = new Zend_Soap_Server($this->getWsdlUrl(array("wsdl" => 1)),
+                $this->_soap = new \Zend\Soap\Server($this->getWsdlUrl(array("wsdl" => 1)),
                     array('encoding' => $apiConfigCharset));
             } catch (SoapFault $e) {
                 if (false !== strpos(
