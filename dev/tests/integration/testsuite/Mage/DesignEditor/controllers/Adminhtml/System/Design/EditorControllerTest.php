@@ -61,19 +61,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
     }
 
     /**
-     * Assert that a page content contains the design editor form
-     *
-     * @param string $content
-     */
-    protected function _assertContainsDesignEditor($content)
-    {
-        $expectedFormAction = 'http://localhost/index.php/backend/admin/system_design_editor/launch/';
-        $this->assertContains('Visual Design Editor', $content);
-        $this->assertContains('<form id="edit_form" action="' . $expectedFormAction, $content);
-        $this->assertContains("jQuery('#edit_form').form()", $content);
-    }
-
-    /**
      * Skip the current test, if session identifier is not defined in the environment
      */
     public function _requireSessionId()
@@ -83,25 +70,14 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
         }
     }
 
-    public function testIndexActionSingleStore()
+    public function testIndexAction()
     {
         $this->dispatch('backend/admin/system_design_editor/index');
-        $this->_assertContainsDesignEditor($this->getResponse()->getBody());
-    }
+        $content = $this->getResponse()->getBody();
 
-    /**
-     * @magentoDataFixture Mage/Core/_files/store.php
-     * @magentoConfigFixture fixturestore_store web/unsecure/base_link_url http://example.com/
-     */
-    public function testIndexActionMultipleStores()
-    {
-        $this->dispatch('backend/admin/system_design_editor/index');
-        $responseBody = $this->getResponse()->getBody();
-        $this->_assertContainsDesignEditor($responseBody);
-        $this->assertContains('id="store_id" name="store_id"', $responseBody);
-        $this->assertContains('for="store_id"', $responseBody);
-        $this->assertContains('Store View', $responseBody);
-        $this->assertContains('Fixture Store</option>', $responseBody);
+        $this->assertContains('Choose a theme to start with', $content);
+        $this->assertContains('<div class="entry-edit">', $content);
+        $this->assertContains("jQuery('.infinite_scroll').infinite_scroll", $content);
     }
 
     /**
