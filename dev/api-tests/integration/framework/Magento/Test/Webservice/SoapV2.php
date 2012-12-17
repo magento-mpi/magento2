@@ -23,7 +23,7 @@ class Magento_Test_Webservice_SoapV2 extends Magento_Test_Webservice_Abstract
      *
      * @var string
      */
-    protected $_urlPath = '/api/v2_soap?wsdl=1';
+    protected $_urlPath = '/api/soap?wsdl=1';
 
     /**
      * Function prefixes
@@ -42,7 +42,7 @@ class Magento_Test_Webservice_SoapV2 extends Magento_Test_Webservice_Abstract
     /**
      * SOAP client adapter
      *
-     * @var Zend_Soap_Client
+     * @var Zend\Soap\Client
      */
     protected $_client;
 
@@ -70,7 +70,7 @@ class Magento_Test_Webservice_SoapV2 extends Magento_Test_Webservice_Abstract
         // force to not use WSDL cache it helps to avoid clean WSDL cache every time WS-I - not WS-I mode changes
         $options['cache_wsdl'] = WSDL_CACHE_NONE;
 
-        $this->_client = new Zend_Soap_Client($this->getClientUrl($options));
+        $this->_client = new Zend\Soap\Client($this->getClientUrl($options));
         $this->_client->setSoapVersion(SOAP_1_1);
 
         $this->_configFunction = Mage::getSingleton('Mage_Api_Model_Config')->getNode('v2/resources_function_prefix')->children();

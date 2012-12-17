@@ -39,7 +39,7 @@ class Api_Catalog_Category_FrontendTest extends Magento_Test_Webservice
         self::$_categoryId = $categoryId;
 
         //create
-        $categoryCreated = new Mage_Catalog_Model_Category();
+        $categoryCreated = Mage::getModel('Mage_Catalog_Model_Category');
         $categoryCreated->load($categoryId);
 
         //test
@@ -58,7 +58,7 @@ class Api_Catalog_Category_FrontendTest extends Magento_Test_Webservice
         $resultUpdated = $this->call('category.update', $data);
 
         $this->assertTrue($resultUpdated);
-        $categoryUpdated = new Mage_Catalog_Model_Category();
+        $categoryUpdated = Mage::getModel('Mage_Catalog_Model_Category');
         $categoryUpdated->load($categoryId);
 
         //flush helper internal cache that doesn't concern
@@ -81,7 +81,7 @@ class Api_Catalog_Category_FrontendTest extends Magento_Test_Webservice
      */
     protected function _getBlockOutput()
     {
-        $block = new Mage_Catalog_Block_Navigation();
+        $block = Mage::getModel('Mage_Catalog_Block_Navigation');
         $block->setTemplate('catalog/navigation/top.phtml');
         $html = $block->toHtml();
 
@@ -97,7 +97,7 @@ class Api_Catalog_Category_FrontendTest extends Magento_Test_Webservice
     {
         $categoryId = self::$_categoryId;
 
-        $categoryUpdated = new Mage_Catalog_Model_Category();
+        $categoryUpdated = Mage::getModel('Mage_Catalog_Model_Category');
         $categoryUpdated->load($categoryId);
 
         return $categoryUpdated;
@@ -169,7 +169,7 @@ class Api_Catalog_Category_FrontendTest extends Magento_Test_Webservice
         $categoryDelete = $this->call('category.delete', array('categoryId' => $categoryId));
 
         $this->assertTrue($categoryDelete);
-        $categoryCreated = new Mage_Catalog_Model_Category();
+        $categoryCreated = Mage::getModel('Mage_Catalog_Model_Category');
         $categoryCreated->load($categoryId);
         $this->assertEmpty($categoryCreated->getData());
     }

@@ -40,7 +40,7 @@ $models = array();
 $helper = Mage::helper('Mage_Oauth_Helper_Data');
 
 foreach ($data as $item) {
-    $consumer = new Mage_Oauth_Model_Consumer();
+    $consumer = Mage::getModel('Mage_Oauth_Model_Consumer');
     $consumerData = require 'consumer_data.php';
     $consumer->setData($consumerData['create']);
     $consumer->save();
@@ -48,7 +48,7 @@ foreach ($data as $item) {
     $models['consumer'][] = $consumer;
 
     //customer
-    $token = new Mage_Oauth_Model_Token();
+    $token = Mage::getModel('Mage_Oauth_Model_Token');
     $tokenData = require 'token_data.php';
     $tokenData = $tokenData['create'];
     $tokenData['consumer_id'] = $consumer->getId();
@@ -61,7 +61,7 @@ foreach ($data as $item) {
 
     //admin
     unset($tokenData['customer_id']);
-    $token = new Mage_Oauth_Model_Token();
+    $token = Mage::getModel('Mage_Oauth_Model_Token');
     $tokenData['admin_id'] = $adminId;
     $tokenData['token']    = $helper->generateToken(); //must be unique
     $tokenData = array_merge($tokenData, $item['token']);

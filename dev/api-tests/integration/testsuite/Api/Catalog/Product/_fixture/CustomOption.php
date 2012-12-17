@@ -16,6 +16,6 @@ $productData = Magento_Test_Webservice::simpleXmlToArray($fixture->fixtureProduc
 $productData['sku'] = $productData['sku'] . mt_rand(1000, 9999);
 $productData['name'] = $productData['name'] . ' ' . mt_rand(1000, 9999);
 
-$product = new Mage_Catalog_Model_Product();
+$product = Mage::getModel('Mage_Catalog_Model_Product');
 $product->setData($productData)->setStoreId(1)->save();
 Magento_Test_Webservice::setFixture('productData', $product, Magento_Test_Webservice::AUTO_TEAR_DOWN_AFTER_CLASS);

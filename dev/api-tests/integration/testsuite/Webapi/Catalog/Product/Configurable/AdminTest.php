@@ -123,7 +123,7 @@ class Webapi_Catalog_Product_Configurable_AdminTest extends Webapi_Catalog_Produ
             false);
         // Validate outcome
         unset($productData['configurable_attributes']);
-        $expected = new Mage_Catalog_Model_Product();
+        $expected = Mage::getModel('Mage_Catalog_Model_Product');
         $expected->setData($productData);
         $this->assertProductEquals($expected, $actual);
     }
@@ -348,7 +348,7 @@ class Webapi_Catalog_Product_Configurable_AdminTest extends Webapi_Catalog_Produ
             'Exisiting simple product was not found in configurable assigned products.');
         $this->assertNotNull($newSimpleProduct,
             'Created simple product was not found in configurable assigned products.');
-        $expectedProduct = new Mage_Catalog_Model_Product();
+        $expectedProduct = Mage::getModel('Mage_Catalog_Model_Product');
         $expectedProduct->setData($newSimpleProductData);
         $this->assertProductEquals($expectedProduct, $newSimpleProduct);
     }

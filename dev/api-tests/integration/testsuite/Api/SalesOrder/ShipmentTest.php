@@ -21,7 +21,7 @@ class Api_SalesOrder_ShipmentTest extends Magento_Test_Webservice
      */
     protected function tearDown()
     {
-        $shipment = new Mage_Sales_Model_Order_Shipment();
+        $shipment = Mage::getModel('Mage_Sales_Model_Order_Shipment');
         $shipment->loadByIncrementId(self::getFixture('shipmentIncrementId'));
         $this->callModelDelete($shipment, true);
 

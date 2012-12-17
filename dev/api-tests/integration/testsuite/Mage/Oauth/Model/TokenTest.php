@@ -146,7 +146,7 @@ class Mage_Oauth_Model_TokenTest extends Magento_TestCase
 
         $customerId = $this->getDefaultCustomer()->getId();
 
-        $model = new Mage_Oauth_Model_Token();
+        $model = Mage::getModel('Mage_Oauth_Model_Token');
         $this->addModelToDelete($model);
         $data = $this->_getFixtureTokenData();
         $data['create']['consumer_id'] = $consumerId;
@@ -163,7 +163,7 @@ class Mage_Oauth_Model_TokenTest extends Magento_TestCase
          * Test read
          */
         $id = $model->getId();
-        $model = new Mage_Oauth_Model_Token();
+        $model = Mage::getModel('Mage_Oauth_Model_Token');
         $dataCreated = $data['create'];
         $dataCreated['entity_id'] = $id;
         $model->load($id);

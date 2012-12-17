@@ -215,11 +215,11 @@ class Api_LoginTest extends Magento_Test_Webservice
         );
         $resource = array('all');
 
-        $user1 = new Mage_Api_Model_User;
-        $role1 = new Mage_Api_Model_Roles;
+        $user1 = Mage::getModel('Mage_Api_Model_User');
+        $role1 = Mage::getModel('Mage_Api_Model_Roles');
         $this->addModelToDelete($user1, true)
             ->addModelToDelete($role1, true);
-        $relation1 = new Mage_Api_Model_Rules;
+        $relation1 = Mage::getModel('Mage_Api_Model_Rules');
         $role1->setData($roles[0])->save();
         $user1->setData($users[0])
                 ->save();
@@ -229,11 +229,11 @@ class Api_LoginTest extends Magento_Test_Webservice
                 ->setResources($resource)
                 ->saveRel();
 
-        $user2 = new Mage_Api_Model_User;
-        $role2 = new Mage_Api_Model_Roles;
+        $user2 = Mage::getModel('Mage_Api_Model_User');
+        $role2 = Mage::getModel('Mage_Api_Model_Roles');
         $this->addModelToDelete($user2, true)
             ->addModelToDelete($role2, true);
-        $relation2 = new Mage_Api_Model_Rules;
+        $relation2 = Mage::getModel('Mage_Api_Model_Rules');
         $role2->setData($roles[1])->save();
         $user2->setData($users[1])->save();
         $user2->setRoleIds(array($role2->getId()))

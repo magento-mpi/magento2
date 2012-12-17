@@ -12,7 +12,7 @@
 require_once 'customer.php';
 $customer = Magento_Test_Webservice::getFixture('creditmemo/customer');
 
-$customerAddress = new Mage_Customer_Model_Address();
+$customerAddress = Mage::getModel('Mage_Customer_Model_Address');
 $customerAddress->setData(array(
     'city'                => 'New York',
     'country_id'          => 'US',

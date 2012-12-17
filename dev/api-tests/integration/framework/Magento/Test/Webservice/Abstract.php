@@ -111,7 +111,7 @@ abstract class Magento_Test_Webservice_Abstract
     /**
      * Get Soap Client adapter
      *
-     * @return null|Zend_Soap_Client
+     * @return null|Zend\Soap\Client
      */
     public function getClient()
     {

@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$customer = new Mage_Customer_Model_Customer();
+$customer = Mage::getModel('Mage_Customer_Model_Customer');
 $customer->setStoreId(1)
     ->setCreatedIn('Default Store View')
     ->setDefaultBilling(1)
@@ -24,7 +24,7 @@ $customer->setStoreId(1)
     ->save();
 Magento_Test_Webservice::setFixture('customer', $customer, Magento_Test_Webservice::AUTO_TEAR_DOWN_DISABLED);
 
-$customerAddress = new Mage_Customer_Model_Address();
+$customerAddress = Mage::getModel('Mage_Customer_Model_Address');
 $customerAddress->setData(array(
     'city'                => 'New York',
     'country_id'          => 'US',

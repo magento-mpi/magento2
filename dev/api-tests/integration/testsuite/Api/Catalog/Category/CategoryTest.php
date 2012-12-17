@@ -63,7 +63,7 @@ class Api_Catalog_Category_CategoryTest extends Magento_Test_Webservice
         /**
          * Test create
          */
-        $category = new Mage_Catalog_Model_Category();
+        $category = Mage::getModel('Mage_Catalog_Model_Category');
         $category->load($categoryId);
 
         try {
@@ -107,7 +107,7 @@ class Api_Catalog_Category_CategoryTest extends Magento_Test_Webservice
             $resultUpdated = $this->call('category.update', $categoryFixture['update']);
             $this->assertTrue($resultUpdated);
 
-            $category = new Mage_Catalog_Model_Category();
+            $category = Mage::getModel('Mage_Catalog_Model_Category');
             $category->load($categoryId);
 
             //check updated data
@@ -155,7 +155,7 @@ class Api_Catalog_Category_CategoryTest extends Magento_Test_Webservice
             $categoryDelete = $this->call('category.delete', array('categoryId' => $categoryId));
             $this->assertTrue($categoryDelete);
 
-            $category = new Mage_Catalog_Model_Category();
+            $category = Mage::getModel('Mage_Catalog_Model_Category');
             $category->load($categoryId);
             $this->assertEmpty($category->getId());
         } catch (Exception $e) {
@@ -185,7 +185,7 @@ class Api_Catalog_Category_CategoryTest extends Magento_Test_Webservice
             'Category cannot created with vulnerability in is_active field'
         );
 
-        $category = new Mage_Catalog_Model_Category();
+        $category = Mage::getModel('Mage_Catalog_Model_Category');
         $category->load($categoryId);
 
         try {
@@ -283,7 +283,7 @@ class Api_Catalog_Category_CategoryTest extends Magento_Test_Webservice
         $this->assertEquals('Cannot remove the system category.', $result['faultstring'],
             'Exception message is not right.');
 
-        $category = new Mage_Catalog_Model_Category();
+        $category = Mage::getModel('Mage_Catalog_Model_Category');
         $this->assertNotNull($category->load(Mage_Catalog_Model_Category::TREE_ROOT_ID)->getId());
     }
 }

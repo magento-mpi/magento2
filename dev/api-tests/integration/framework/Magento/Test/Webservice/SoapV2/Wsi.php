@@ -12,6 +12,13 @@
 class Magento_Test_Webservice_SoapV2_Wsi extends Magento_Test_Webservice_SoapV2
 {
     /**
+     * URL path
+     *
+     * @var string
+     */
+    protected $_urlPath = '/api/soap_wsi?wsdl=1';
+
+    /**
      * Prepare parameters to be used in WS-I call
      *
      * @param mixed $params

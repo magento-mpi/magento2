@@ -77,7 +77,7 @@ class Api_CustomerBalance_QuoteTest extends Magento_Test_Webservice
 
         $this->assertTrue($this->call('storecredit_quote.removeAmount', $data['input'], 'Remove used amount fail'));
 
-        $quote = new Mage_Sales_Model_Quote();
+        $quote = Mage::getModel('Mage_Sales_Model_Quote');
         $quote->load(self::$quote->getId());
         $this->assertEquals(0, $quote->getCustomerBalanceAmountUsed(), 'Used amount must be deleted');
     }
@@ -108,7 +108,7 @@ class Api_CustomerBalance_QuoteTest extends Magento_Test_Webservice
         $input = array('quoteId' => self::$quote->getId());
         $this->assertTrue($this->call('storecredit_quote.removeAmount', $input, 'Remove used amount fail'));
 
-        $quote = new Mage_Sales_Model_Quote();
+        $quote = Mage::getModel('Mage_Sales_Model_Quote');
         $quote->load(self::$quote->getId());
         $this->assertEquals(0, $quote->getCustomerBalanceAmountUsed(), 'Used amount must be deleted');
     }
@@ -145,7 +145,7 @@ class Api_CustomerBalance_QuoteTest extends Magento_Test_Webservice
 
         $this->assertTrue($this->call('storecredit_quote.removeAmount', $data['input'], 'Remove used amount fail'));
 
-        $quote = new Mage_Sales_Model_Quote();
+        $quote = Mage::getModel('Mage_Sales_Model_Quote');
         $quote->load(self::$quote->getId());
         $this->assertEquals(0, $quote->getCustomerBalanceAmountUsed(), 'Used amount must be deleted');
     }

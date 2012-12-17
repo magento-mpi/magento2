@@ -42,7 +42,7 @@ class Api_Catalog_Product_ConfigurableTest extends Api_Catalog_ProductAbstract
         $this->_getHelper()->checkConfigurableAttributesData($actual, $productData['configurable_attributes'],
             false);
         unset($productData['configurable_attributes']);
-        $expected = new Mage_Catalog_Model_Product();
+        $expected = Mage::getModel('Mage_Catalog_Model_Product');
         $expected->setData($productData);
         $this->assertProductEquals($expected, $actual);
     }

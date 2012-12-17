@@ -10,7 +10,7 @@
  */
 
 //Add customer
-$customer = new Mage_Customer_Model_Customer();
+$customer = Mage::getModel('Mage_Customer_Model_Customer');
 $customer->setStoreId(1)
     ->setCreatedIn('Default Store View')
     ->setDefaultBilling(1)

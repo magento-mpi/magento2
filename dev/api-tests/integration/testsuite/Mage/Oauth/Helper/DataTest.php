@@ -26,7 +26,7 @@ class Mage_Oauth_Helper_DataTest extends Magento_TestCase
      */
     protected function setUp()
     {
-        $this->_helper = new Mage_Oauth_Helper_Data;
+        $this->_helper = Mage::helper('Mage_Oauth_Helper_Data');
         parent::setUp();
     }
 

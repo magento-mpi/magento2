@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$product = new Mage_Catalog_Model_Product();
+$product = Mage::getModel('Mage_Catalog_Model_Product');
 $product->setTypeId('virtual')
     ->setAttributeSetId(4)
     ->setStoreId(0)

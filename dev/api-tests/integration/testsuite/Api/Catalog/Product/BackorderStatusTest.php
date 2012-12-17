@@ -25,7 +25,7 @@ class Api_Catalog_Product_BackorderStatusTest extends Magento_Test_Webservice
     protected function setUp()
     {
         $productData = require dirname(__FILE__) . '/_fixture/ProductData.php';
-        $product     = new Mage_Catalog_Model_Product;
+        $product     = Mage::getModel('Mage_Catalog_Model_Product');
 
         $product->setData($productData['create_full_fledged']);
         $product->save();

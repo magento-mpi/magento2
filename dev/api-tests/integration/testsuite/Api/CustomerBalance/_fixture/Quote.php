@@ -10,7 +10,7 @@
  */
 
 //Add customer
-$customer = new Mage_Customer_Model_Customer();
+$customer = Mage::getModel('Mage_Customer_Model_Customer');
 $customer->setStoreId(1)
     ->setCreatedIn('Default Store View')
     ->setDefaultBilling(1)
@@ -35,7 +35,7 @@ $customerBalance->setCustomerId($customer->getId())
 Api_CustomerBalance_QuoteTest::$customer = $customer;
 
 //Create new simple product to add it to shopping cart
-$product = new Mage_Catalog_Model_Product();
+$product = Mage::getModel('Mage_Catalog_Model_Product');
 $product->setTypeId('simple')
     ->setAttributeSetId(4)
     ->setName('Simple Product')
@@ -62,7 +62,7 @@ $product->setTypeId('simple')
 Api_CustomerBalance_QuoteTest::$product = $product;
 
 //Create shopping cart
-$quote = new Mage_Sales_Model_Quote();
+$quote = Mage::getModel('Mage_Sales_Model_Quote');
 $quote->setStoreId(1)
         ->setIsActive(false)
         ->setIsMultiShipping(false);
@@ -78,7 +78,7 @@ $quote->setCustomer($customer)
     ->setPasswordHash($customer->encryptPassword($customer->getPassword()));
 
 //Create billing/shipping address
-$address = new Mage_Sales_Model_Quote_Address();
+$address = Mage::getModel('Mage_Sales_Model_Quote_Address');
 $address->setData(array(
     'city'                => 'New York',
     'country_id'          => 'US',
@@ -108,7 +108,7 @@ $quote->collectTotals()
 Api_CustomerBalance_QuoteTest::$quote = $quote;
 
 //Create shopping cart by guest
-$guestQuote = new Mage_Sales_Model_Quote();
+$guestQuote = Mage::getModel('Mage_Sales_Model_Quote');
 $guestQuote->setStoreId(1)
     ->setIsActive(false)
     ->setIsMultiShipping(false)

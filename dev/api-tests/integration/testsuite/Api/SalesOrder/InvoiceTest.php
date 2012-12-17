@@ -28,7 +28,7 @@ class Api_SalesOrder_InvoiceTest extends Magento_Test_Webservice
         $this->deleteFixture('customer_address', true);
         $this->deleteFixture('customer', true);
 
-        $invoice = new Mage_Sales_Model_Order_Invoice();
+        $invoice = Mage::getModel('Mage_Sales_Model_Order_Invoice');
         $invoice->loadByIncrementId(self::getFixture('invoiceIncrementId'));
         $this->callModelDelete($invoice, true);
         $entityStoreModel = self::getFixture('entity_store_model');

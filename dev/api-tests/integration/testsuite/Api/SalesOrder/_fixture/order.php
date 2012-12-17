@@ -20,7 +20,7 @@ require 'product_virtual.php';
 $product = Magento_Test_Webservice::getFixture('product_virtual');
 
 //Create quote
-$quote = new Mage_Sales_Model_Quote();
+$quote = Mage::getModel('Mage_Sales_Model_Quote');
 $quote->setStoreId(1)
     ->setIsActive(false)
     ->setIsMultiShipping(false)
@@ -43,7 +43,7 @@ $order->save();
 Magento_Test_Webservice::setFixture('order', $order, Magento_Test_Webservice::AUTO_TEAR_DOWN_DISABLED);
 
 //Create order
-$quote2 = new Mage_Sales_Model_Quote();
+$quote2 = Mage::getModel('Mage_Sales_Model_Quote');
 $quote2->setStoreId(1)
     ->setIsActive(false)
     ->setIsMultiShipping(false)

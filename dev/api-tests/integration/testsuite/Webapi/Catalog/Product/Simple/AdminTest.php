@@ -124,11 +124,11 @@ class Webapi_Catalog_Product_Simple_AdminTest extends Webapi_Catalog_Product_Adm
         $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_data');
         $productId = $this->_createProductWithApi($productData);
 
-        $actualProduct = new Mage_Catalog_Model_Product();
+        $actualProduct = Mage::getModel('Mage_Catalog_Model_Product');
         $actualProduct->load($productId);
         $this->assertNotNull($actualProduct->getId());
         $this->addModelToDelete($actualProduct, true);
-        $expectedProduct = new Mage_Catalog_Model_Product();
+        $expectedProduct = Mage::getModel('Mage_Catalog_Model_Product');
         $expectedProduct->setData($productData);
 
         $this->assertProductEquals($expectedProduct, $actualProduct);
@@ -145,7 +145,7 @@ class Webapi_Catalog_Product_Simple_AdminTest extends Webapi_Catalog_Product_Adm
     {
         $productId = $this->_createProductWithApi($productData);
 
-        $product = new Mage_Catalog_Model_Product();
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load($productId);
         $this->assertNotNull($product->getId());
         $this->addModelToDelete($product, true);
@@ -346,7 +346,7 @@ class Webapi_Catalog_Product_Simple_AdminTest extends Webapi_Catalog_Product_Adm
         $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_inventory_use_config');
         $productId = $this->_createProductWithApi($productData);
 
-        $product = new Mage_Catalog_Model_Product();
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load($productId);
         $this->assertNotNull($product->getId());
         $this->addModelToDelete($product, true);
@@ -366,7 +366,7 @@ class Webapi_Catalog_Product_Simple_AdminTest extends Webapi_Catalog_Product_Adm
         $this->_updateAppConfig('cataloginventory/item_options/manage_stock', 0, true, true);
 
         $productId = $this->_createProductWithApi($productData);
-        $product = new Mage_Catalog_Model_Product();
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load($productId);
         $this->assertNotNull($product->getId());
         $this->addModelToDelete($product, true);
@@ -386,7 +386,7 @@ class Webapi_Catalog_Product_Simple_AdminTest extends Webapi_Catalog_Product_Adm
         $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_manage_stock_no');
 
         $productId = $this->_createProductWithApi($productData);
-        $product = new Mage_Catalog_Model_Product();
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load($productId);
         $this->assertNotNull($product->getId());
         $this->addModelToDelete($product, true);
@@ -407,7 +407,7 @@ class Webapi_Catalog_Product_Simple_AdminTest extends Webapi_Catalog_Product_Adm
         $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_gift_options_use_config');
 
         $productId = $this->_createProductWithApi($productData);
-        $product = new Mage_Catalog_Model_Product();
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load($productId);
         $this->assertNotNull($product->getId());
         $this->addModelToDelete($product, true);

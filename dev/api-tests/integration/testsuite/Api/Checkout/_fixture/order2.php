@@ -37,7 +37,7 @@ $customer->setDefaultBilling($customerAddress->getId());
 $customer->save();
 
 //Create quote
-$quote = new Mage_Sales_Model_Quote();
+$quote = Mage::getModel('Mage_Sales_Model_Quote');
 $quote->setStoreId(1)
     ->setIsActive(false)
     ->setIsMultiShipping(false)

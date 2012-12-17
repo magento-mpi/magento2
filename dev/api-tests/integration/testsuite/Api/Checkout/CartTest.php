@@ -40,7 +40,7 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
     protected function setUp()
     {
         // create product for test
-        $this->_product = new Mage_Catalog_Model_Product;
+        $this->_product = Mage::getModel('Mage_Catalog_Model_Product');
 
         $this->_product->setData(array(
             'sku'               => 'simple' . uniqid(),
@@ -61,7 +61,7 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
         Mage::$headersSentThrowsException = false;
 
         // create quote for test
-        $this->_quote = new Mage_Sales_Model_Quote();
+        $this->_quote = Mage::getModel('Mage_Sales_Model_Quote');
 
         $this->_quote->setData(array(
             'store_id'          => 1,
@@ -210,7 +210,7 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
     public function testCartCouponAdd()
     {
         // create sales rule coupon
-        $this->_salesRule = new Mage_SalesRule_Model_Rule();
+        $this->_salesRule = Mage::getModel('Mage_SalesRule_Model_Rule');
         $discount = 10;
         $data = array(
             'name' => 'Test Coupon',

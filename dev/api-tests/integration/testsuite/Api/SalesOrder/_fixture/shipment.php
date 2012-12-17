@@ -29,7 +29,7 @@ $product = Magento_Test_Webservice::getFixture('product_simple');
 
 
 //Create quote
-$quote = new Mage_Sales_Model_Quote();
+$quote = Mage::getModel('Mage_Sales_Model_Quote');
 $quote->setStoreId(1)
     ->setIsActive(false)
     ->setIsMultiShipping(false)

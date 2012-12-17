@@ -28,7 +28,7 @@ class Magento_Test_Webservice_SoapV1 extends Magento_Test_Webservice_Abstract
     /**
      * SOAP client adapter
      *
-     * @var Zend_Soap_Client
+     * @var Zend\Soap\Client
      */
     protected $_client;
 
@@ -52,7 +52,7 @@ class Magento_Test_Webservice_SoapV1 extends Magento_Test_Webservice_Abstract
      */
     public function init($options = null)
     {
-        $this->_client = new Zend_Soap_Client($this->getClientUrl($options));
+        $this->_client = new Zend\Soap\Client($this->getClientUrl($options));
         $apiUser = isset($options['api_user']) ? $options['api_user'] : TESTS_WEBSERVICE_USER;
         $apiKey  = isset($options['api_key']) ? $options['api_key'] : TESTS_WEBSERVICE_APIKEY;
         $this->setSession($this->login($apiKey, $apiUser));
