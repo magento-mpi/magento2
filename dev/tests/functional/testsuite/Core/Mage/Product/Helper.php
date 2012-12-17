@@ -18,11 +18,15 @@
  */
 class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
 {
+    public $productTabs = array('general', 'prices', 'meta_information', 'images', 'recurring_profile', 'design',
+                                'gift_options', 'inventory', 'websites', 'related', 'up_sells', 'cross_sells',
+                                'custom_options', 'bundle_items', 'associated', 'downloadable_information');
+
     #**************************************************************************************
     #*                                                    Frontend Helper Methods         *
     #**************************************************************************************
     /**
-     * Open product on FrontEnd
+     * Open product on FrontEnd by product name
      *
      * @param string $productName
      */
@@ -42,7 +46,13 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             "Product with name '$openedProductName' is opened, but should be '$productName'");
     }
 
-    public function frontOpenProductById($productId, $productName = '')
+    /**
+     * Open product on FrontEnd by product Id
+     *
+     * @param string $productId
+     * @param string $productName
+     */
+    public function frontOpenProductById($productId, $productName)
     {
         if (!is_string($productId)) {
             $this->fail('Wrong data to open a product');
@@ -97,28 +107,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function frontVerifyProductInfo(array $productData)
     {
+        $this->markTestIncomplete('@TODO - implement frontVerifyProductInfo');
         $this->frontOpenProduct($productData['general_name']);
-        $xpathArray = $this->frontGetProductInfo();
-        foreach ($xpathArray as $fieldName => $data) {
-            if (is_string($data)) {
-                if (!$this->elementIsPresent($data)) {
-                    $this->addVerificationMessage('Could not find element ' . $fieldName);
-                }
-            } else {
-                foreach ($data as $optionData) {
-                    foreach ($optionData as $x => $y) {
-                        if (!preg_match('/xpath/', $x)) {
-                            continue;
-                        }
-                        if (!$this->elementIsPresent($y)) {
-                            $this->addVerificationMessage(
-                                'Could not find element type "' . $optionData['type'] . '" and title "'
-                                . $optionData['title'] . '"');
-                        }
-                    }
-                }
-            }
-        }
+        $actualProduct = $this->frontGetProductInfo();
         $this->assertEmptyVerificationErrors();
     }
 
@@ -222,71 +213,65 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         if (isset($productData['product_attribute_set']) && $productData['product_attribute_set'] != 'Default') {
             $this->changeAttributeSet($productData['product_attribute_set']);
         }
-        $this->fillProductInfo($productData, $productType);
+        $this->fillProductInfo($productData);
         if ($isSave) {
             $this->saveForm('save');
         }
     }
 
     /**
+     * Form product data array for filling in/verifying
+     *
+     * @param array $productData
+     * @param array $skipElements
+     *
+     * @return array
+     */
+    public function formProductData(array $productData, $skipElements = array())
+    {
+        $data = array();
+        foreach ($this->productTabs as $tabName) {
+            foreach ($productData as $key => $value) {
+                if (in_array($key, $skipElements)) {
+                    unset($productData[$key]);
+                    continue;
+                }
+                if (preg_match('/^' . $tabName . '/', $key)) {
+                    $data[$tabName][$key] = $value;
+                    unset($productData[$key]);
+                }
+            }
+        }
+        if (!empty($productData)) {
+            $this->fail('There are data that will not be filled not on one tab');
+        }
+        return $data;
+    }
+
+    /**
      * Fill Product info
      *
      * @param array $productData
-     * @param string $productType
      */
-    public function fillProductInfo(array $productData, $productType = 'simple')
+    public function fillProductInfo(array $productData)
     {
-        $this->fillProductTab($productData);
-        $this->fillProductTab($productData, 'prices');
-        $this->fillProductTab($productData, 'meta_information');
-        //@TODO Fill in Images Tab
-        if ($productType == 'simple' || $productType == 'virtual') {
-            $this->fillProductTab($productData, 'recurring_profile');
-        }
-        $this->fillProductTab($productData, 'design');
-        $this->fillProductTab($productData, 'gift_options');
-        $this->fillProductTab($productData, 'inventory');
-        $this->fillProductTab($productData, 'websites');
-        $this->fillProductTab($productData, 'related');
-        $this->fillProductTab($productData, 'up_sells');
-        $this->fillProductTab($productData, 'cross_sells');
-        $this->fillProductTab($productData, 'custom_options');
-        if ($productType == 'grouped') {
-            $this->fillProductTab($productData, 'associated');
-        }
-        if ($productType == 'bundle') {
-            $this->fillProductTab($productData, 'bundle_items');
-        }
-        if ($productType == 'downloadable') {
-            $this->fillProductTab($productData, 'downloadable_information');
+        $data = $this->formProductData($productData);
+        foreach ($data as $tabName => $tabData) {
+            $this->fillProductTab($tabData, $tabName);
         }
     }
 
-    public function verifyProductInfo(array $productData, $skipElements = array(), $productType = 'simple')
+    /**
+     * Verify Product Info
+     *
+     * @param array $productData
+     * @param array $skipElements
+     */
+    public function verifyProductInfo(array $productData, $skipElements = array())
     {
-        $this->verifyPricesTab($productData);
-        $this->verifyPricesTab($productData, 'prices');
-        $this->verifyPricesTab($productData, 'meta_information');
-        //@TODO Fill in Images Tab
-        if ($productType == 'simple' || $productType == 'virtual') {
-            $this->verifyPricesTab($productData, 'recurring_profile');
-        }
-        $this->verifyPricesTab($productData, 'design');
-        $this->verifyPricesTab($productData, 'gift_options');
-        $this->verifyPricesTab($productData, 'inventory');
-        $this->verifyPricesTab($productData, 'websites');
-        $this->verifyPricesTab($productData, 'related');
-        $this->verifyPricesTab($productData, 'up_sells');
-        $this->verifyPricesTab($productData, 'cross_sells');
-        $this->verifyPricesTab($productData, 'custom_options');
-        if ($productType == 'grouped') {
-            $this->verifyPricesTab($productData, 'associated');
-        }
-        if ($productType == 'bundle') {
-            $this->verifyPricesTab($productData, 'bundle_items');
-        }
-        if ($productType == 'downloadable') {
-            $this->verifyPricesTab($productData, 'downloadable_information');
+        $data = $this->formProductData($productData, $skipElements);
+        foreach ($data as $tabName => $tabData) {
+            $this->verifyProductTab($tabData, $tabName);
         }
         $this->assertEmptyVerificationErrors();
     }
@@ -360,25 +345,15 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Fill Product Tab
      *
-     * @param array $productData
+     * @param array $tabData
      * @param string $tabName Value - general|prices|meta_information|images|recurring_profile
      * |design|gift_options|inventory|websites|related|up_sells
      * |cross_sells|custom_options|bundle_items|associated|downloadable_information
      *
      * @return bool
      */
-    public function fillProductTab(array $productData, $tabName = 'general')
+    public function fillProductTab(array $tabData, $tabName = 'general')
     {
-        $tabData = array();
-        foreach ($productData as $key => $value) {
-            if (preg_match('/^' . $tabName . '/', $key)) {
-                $tabData[$key] = $value;
-            }
-        }
-        if (empty($tabData)) {
-            return;
-        }
-
         switch ($tabName) {
             case 'general':
                 $this->fillGeneralTab($tabData);
@@ -421,21 +396,11 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Verify product info
      *
-     * @param array $productData
+     * @param array $tabData
      * @param string $tabName
      */
-    public function verifyProductTab(array $productData, $tabName = 'general')
+    public function verifyProductTab(array $tabData, $tabName = 'general')
     {
-        $tabData = array();
-        foreach ($productData as $key => $value) {
-            if (preg_match('/^' . $tabName . '/', $key)) {
-                $tabData[$key] = $value;
-            }
-        }
-        if (empty($tabData)) {
-            return;
-        }
-
         switch ($tabName) {
             case 'general':
                 $this->verifyGeneralTab($tabData);
@@ -468,7 +433,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             default:
                 $this->openTab($tabName);
                 $this->verifyForm($tabData, $tabName);
-                $this->fillUserAttributesOnTab($tabData, $tabName);
                 break;
         }
     }
@@ -476,7 +440,12 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     #*********************************************************************************
     #*                                               General Tab Helper Methods      *
     #*********************************************************************************
-    public function fillGeneralTab($generalTab)
+    /**
+     * Fill data on General Tab
+     *
+     * @param array $generalTab
+     */
+    public function fillGeneralTab(array $generalTab)
     {
         $this->openTab('general');
         if (isset($generalTab['general_configurable_attribute_title'])) {
@@ -495,7 +464,12 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->fillUserAttributesOnTab($generalTab, 'general');
     }
 
-    public function verifyGeneralTab($generalTab)
+    /**
+     * Verify data on General Tab
+     *
+     * @param array $generalTab
+     */
+    public function verifyGeneralTab(array $generalTab)
     {
         $this->openTab('general');
         if (isset($generalTab['general_categories'])) {
@@ -506,6 +480,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
+     * Select Product Categories on general tab
+     *
      * @param string|array $categoryPath
      */
     public function selectProductCategories($categoryPath)
@@ -611,14 +587,19 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->waitForElementEditable($this->_getControlXpath('link', 'suggested_attribute'))->click();
     }
 
-    public function assignConfigurableVariations()
+    /**
+     * Assign Configurable Variations
+     *
+     * @param array $assignData
+     */
+    public function assignConfigurableVariations(array $assignData)
     {
+        $this->markTestIncomplete('@TODO - implement assignConfigurableVariations');
         if (!$this->controlIsPresent('checkbox', 'is_configurable')
             || !$this->getControlAttribute('checkbox', 'is_configurable', 'selectedValue')
         ) {
 
         }
-        //@TODO
     }
 
     /**
@@ -672,7 +653,12 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     #*********************************************************************************
     #*                                               Prices Tab Helper Methods       *
     #*********************************************************************************
-    public function fillPricesTab($pricesTab)
+    /**
+     * Fill data on Prices Tab
+     *
+     * @param array $pricesTab
+     */
+    public function fillPricesTab(array $pricesTab)
     {
         $this->openTab('prices');
         if (isset($pricesTab['prices_tier_price_data'])) {
@@ -691,6 +677,11 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->fillUserAttributesOnTab($pricesTab, 'prices');
     }
 
+    /**
+     * Verify data on Prices Tab
+     *
+     * @param array $pricesTab
+     */
     public function verifyPricesTab($pricesTab)
     {
         $this->openTab('prices');
@@ -766,14 +757,24 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->fillForm($groupPriceData, 'prices');
     }
 
+    /**
+     * Verify Group Price
+     *
+     * @param array $groupPriceData
+     */
     public function verifyGroupPrices(array $groupPriceData)
     {
-        //@TODO
+        $this->markTestIncomplete('@TODO - implement verifyGroupPrices');
     }
 
     #*********************************************************************************
     #*                          Websites Tab Helper Methods                          *
     #*********************************************************************************
+    /**
+     * Fill data on Websites Tab
+     *
+     * @param array|string $websiteData
+     */
     public function fillWebsitesTab($websiteData)
     {
         if (!$this->controlIsPresent('tab', 'websites') && $websiteData == 'Main Website') {
@@ -790,6 +791,11 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
     }
 
+    /**
+     * Verify data on Websites Tab
+     *
+     * @param array|string $websiteData
+     */
     public function verifyWebsitesTab($websiteData)
     {
         if (!$this->controlIsPresent('tab', 'websites') && $websiteData == 'Main Website') {
@@ -885,11 +891,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     #*********************************************************************************
     #*                      Custom Options' Tab Helper Methods                       *
     #*********************************************************************************
-    public function fillCustomOptionsTab($customOptionsTab)
-    {
-
-    }
-
     /**
      * Add Custom Option
      *
@@ -1044,7 +1045,11 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     #*********************************************************************************
     #*                  Downloadable Option Tab Helper Methods                       *
     #*********************************************************************************
-
+    /**
+     * Fill data on Downloadable Information Tab
+     *
+     * @param array $downloadableData
+     */
     public function fillDownloadableInformationTab(array $downloadableData)
     {
         $this->openTab('downloadable_information');
@@ -1067,6 +1072,11 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->fillTab($downloadableData, 'downloadable_information');
     }
 
+    /**
+     * Verify data on Downloadable Information Tab
+     *
+     * @param array $downloadableData
+     */
     public function verifyDownloadableInformationTab(array $downloadableData)
     {
         $this->openTab('downloadable_information');
@@ -1153,7 +1163,12 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     #*                         Bundle Items Tab Helper Methods                       *
     #*********************************************************************************
 
-    public function fillBundleItemsTab($bundleItems)
+    /**
+     * Fill data on Bundle Items Tab
+     *
+     * @param array $bundleItems
+     */
+    public function fillBundleItemsTab(array $bundleItems)
     {
         $this->openTab('bundle_items');
         if (isset($bundleItems['ship_bundle_items'])) {
@@ -1270,6 +1285,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         return true;
     }
 
+    #*********************************************************************************
+    #*                         Test  Methods for creating product                    *
+    #*********************************************************************************
     /**
      * Create Configurable product
      *
@@ -1309,7 +1327,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $download['general_user_attr']['dropdown'][$attrCode] = $attrData['option_3']['admin_option_name'];
         $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order',
             array('general_configurable_attribute_title' => $attrData['admin_title'],
-                  'general_categories'                           => $returnCategory['path']),
+                  'general_categories'                   => $returnCategory['path']),
             array('associated_1' => $simple['general_sku'], 'associated_2' => $virtual['general_sku'],
                   'associated_3' => $download['general_sku']));
         $this->navigate('manage_attributes');
