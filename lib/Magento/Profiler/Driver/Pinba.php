@@ -44,7 +44,7 @@ class Magento_Profiler_Driver_Pinba implements Magento_Profiler_DriverInterface
         if ($pos !== false) {
             $timerId = substr($timerId, $pos + $this->_separatorLength);
         }
-        return array(self::TIMER_NAME_TAG => $timerId) + (array)$tags;
+        return array(self::TIMER_NAME_TAG => substr($timerId, 0, 64)) + (array)$tags;
     }
 
     /**
