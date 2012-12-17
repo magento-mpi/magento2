@@ -114,6 +114,9 @@
                 <customer module="Mage_Adminhtml">
                     <file>customer.xml</file>
                 </customer>
+                <design module="Mage_Adminhtml">
+                    <file>system/design/design.xml</file>
+                </design>
                 <newsletter module="Mage_Adminhtml">
                     <file>newsletter.xml</file>
                 </newsletter>

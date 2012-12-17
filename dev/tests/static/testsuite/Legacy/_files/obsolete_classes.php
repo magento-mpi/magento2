@@ -138,6 +138,7 @@ return array(
     ),
     $this->_getClassRule('Mage_Adminhtml_Block_System_Config_Dwstree', 'Mage_Backend_Block_System_Config_Dwstree'),
     $this->_getClassRule('Mage_Adminhtml_Block_System_Config_Switcher', 'Mage_Backend_Block_System_Config_Switcher'),
+    $this->_getClassRule('Mage_Adminhtml_Block_System_Design_Grid'),
     $this->_getClassRule('Mage_Adminhtml_Block_System_Email_Template_Grid'),
     $this->_getClassRule('Mage_Adminhtml_Block_Store_Switcher', 'Mage_Backend_Block_Store_Switcher'),
     $this->_getClassRule('Mage_Adminhtml_Block_Store_Switcher_Form_Renderer_Fieldset',
