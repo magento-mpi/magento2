@@ -7,9 +7,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-error_reporting(E_ALL | E_STRICT | E_NOTICE);
-ini_set('display_errors', 1);
- 
+
 require_once 'app/bootstrap.php';
 
 /* Store or website code */
