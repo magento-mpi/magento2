@@ -229,24 +229,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * Creating product using fields autogeneration with variables on General tab
-     *
-     * @param array $productData
-     * @param bool $isSave
-     * @param array $skipFieldFillIn
-     * @param string $productType
-     */
-    public function createProductWithAutoGeneration(array $productData, $isSave = false, $skipFieldFillIn = array(), $productType = 'simple')
-    {
-        if (!empty($skipFieldFillIn)) {
-            foreach ($skipFieldFillIn as $value) {
-                unset($productData[$value]);
-            }
-        }
-        $this->createProduct($productData, $productType, $isSave);
-    }
-
-    /**
      * Fill Product info
      *
      * @param array $productData
@@ -376,25 +358,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 }
             }
         }
-    }
-
-    /**
-     * Form mask's value replacing variable in mask with variable field's value on General tab
-     *
-     * @param string $mask
-     * @param array $placeholders
-     *
-     * @return string
-     */
-    public function formFieldValueFromMask($mask, array $placeholders)
-    {
-        $this->openTab('general');
-        foreach ($placeholders as $value) {
-            $productField = 'general_' . str_replace(array('{{', '}}'), '', $value);
-            $maskData = $this->getControlAttribute('field', $productField, 'value');
-            $mask = str_replace($value, $maskData, $mask);
-        }
-        return $mask;
     }
 
     /**

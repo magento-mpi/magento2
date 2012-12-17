@@ -196,6 +196,7 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
 
     public function emptyGeneralQuantity($defaultValue)
     {
+        $this->markTestIncomplete('MAGETWO-6266');
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         //Steps
@@ -266,7 +267,7 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $this->assertEquals($productData['inventory_qty'], $this->getControlAttribute('field', 'general_qty', 'value'));
         $this->assertEquals($productData['inventory_stock_availability'],
-            $this->getControlAttribute('dropdown', 'inventory_stock_availability', 'selectedLabel'));
+            $this->getControlAttribute('dropdown', 'general_stock_availability', 'selectedLabel'));
         $this->openTab('inventory');
         $this->assertEquals($productData['inventory_qty'],
             $this->getControlAttribute('field', 'inventory_qty', 'value'));
@@ -358,7 +359,7 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         $productData = $this->loadDataSet('Product', 'simple_product_visible');
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData, 'simple', false);
+        $this->productHelper()->createProduct($productData);
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $this->productHelper()->changeAttributeSet($attributeSet['set_name']);
