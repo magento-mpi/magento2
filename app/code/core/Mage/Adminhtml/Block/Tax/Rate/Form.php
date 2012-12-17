@@ -19,7 +19,7 @@
 class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_Form
 {
     const FORM_ELEMENT_ID = 'rate-form';
-    
+
     protected $_titles = null;
 
     protected $_template = 'tax/rate/form.phtml';
@@ -132,7 +132,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
             'class'    => 'validate-not-negative-number'
         ));
 
-        $form->setAction($this->getUrl('*/tax_rate/save'));
+        $form->setAction($this->getUrl('adminhtml/tax_rate/save'));
         $form->setUseContainer(true);
         $form->setId(self::FORM_ELEMENT_ID);
         $form->setMethod('post');

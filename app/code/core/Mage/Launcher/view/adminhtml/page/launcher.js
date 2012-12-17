@@ -13,14 +13,14 @@
         var Drawer = (function(opts) {
 
             var options = $.extend({
-                drawer : $('#drawer'),
-                drawerHeader : $('.drawer-content > header'),
-                drawerContent : $('.drawer-content > .content'),
-                drawerFooter : $('.drawer-content > footer'),
-                storeLauncher : $('#store-launcher'),
-                btnOpenDrawer : $('.drawer-open'),
-                btnCloseDrawer : $('.header-inner .btn-close'),
-                btnSaveDrawer : $('.footer-inner .button-save-settins')
+                drawer: $('#drawer'),
+                drawerHeader: $('.drawer-content > header'),
+                drawerContent: $('.drawer-content > .content'),
+                drawerFooter: $('.drawer-content > footer'),
+                storeLauncher: $('#store-launcher'),
+                btnOpenDrawer: $('.drawer-open'),
+                btnCloseDrawer: $('.header-inner .btn-close'),
+                btnSaveDrawer: $('.footer-inner .button-save-settins')
             }, opts || {});
 
             var methods = {
@@ -31,7 +31,7 @@
                         var bodyHeight = $('body').outerHeight(),
                             editFormHeight = $('#drawer').outerHeight(),
                             windowOffsetTop = $(window).scrollTop(),
-                            newMinHeight = bodyHeight+windowOffsetTop - 200;
+                            newMinHeight = bodyHeight + windowOffsetTop - 200;
                         if (editFormHeight < newMinHeight) {
                             options.drawer.css({
                                 'min-height': newMinHeight + 'px'
@@ -47,8 +47,7 @@
 
                     if (headerPositionTop < 50 && options.drawerHeader.is(":visible")) {
                         options.drawer.addClass('fixed');
-                    }
-                    else {
+                    } else {
                         options.drawer.removeClass('fixed');
                     }
                 },
@@ -92,8 +91,7 @@
                         }, 1000, function () {
                             options.drawer.hide();
                         });
-                    }
-                    else {
+                    } else {
                         var deltaTop = $(window).scrollTop();
                         options.drawer.animate({
                             top: deltaTop + bodyHeight + 'px'
@@ -122,7 +120,9 @@
                         isAllStepsCompleted();
                         methods.drawerClose();
                     } else {
-                        alert(result.error_message);
+                        if (result && result.error_message) {
+                            alert(result.error_message);
+                        }
                     }
                 },
 
@@ -147,6 +147,7 @@
 
                     $('.footer-inner .button-save-settins').attr('tile-code', tileCode);
                     $('.footer-inner .button-save-settins').attr('data-save-url', elem.attr('data-save-url'));
+
                     return false;
                 }
             };
@@ -160,18 +161,19 @@
             options.btnSaveDrawer
                 .on('click.saveSettings', function () {
                     var drawerForm = $("#drawer-form").validation(),
+                        buttonSave = $('.footer-inner .button-save-settins'),
                         postData;
                     if (!drawerForm.valid()) {
                         return false;
                     }
 
                     postData = drawerForm.serialize();
-                    postData += '&tileCode=' + $('.footer-inner .button-save-settins').attr('tile-code');
+                    postData += '&tileCode=' + buttonSave.attr('tile-code');
                     var ajaxOptions = {
                         type: 'POST',
                         data: postData,
                         dataType: 'json',
-                        url: $('.footer-inner .button-save-settins').attr('data-save-url'),
+                        url: buttonSave.attr('data-save-url'),
                         success: methods.drawerAfterSave
                     };
                     $.ajax(ajaxOptions);
@@ -185,8 +187,8 @@
 
             return {
                 options: options,
-                open : methods.drawerOpen,
-                close : methods.drawerClose
+                open: methods.drawerOpen,
+                close: methods.drawerClose
             }
 
         })();

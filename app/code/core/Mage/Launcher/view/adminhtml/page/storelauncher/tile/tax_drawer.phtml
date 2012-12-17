@@ -1,0 +1,62 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Launcher
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var $this Mage_Launcher_Block_Adminhtml_Storelauncher_Tax_Drawer */
+?>
+<form action="" id="drawer-form" method="post">
+    <?php echo $this->getBlockHtml('formkey')?>
+    <fieldset class="fieldset active">
+
+        <div id="field-radio-1" class="field choice">
+            <input id="radio-1" name="radio" type="radio">
+            <label class="label" for="radio-1"><span>Manage Tax Rules</span></label>
+        </div>
+
+        <?php echo $this->getChildHtml('tax-rule-edit');?>
+        <?php echo $this->getChildBlock('tax-rule-form')->setUseContainer(false)->toHtml();?>
+
+        <div id="field-import-tax-rates" class="field choice">
+            <input id="import-tax-rates" type="checkbox">
+            <label class="label" for="import-tax-rates"><span>I want to upload an existing file with Tax rates (CSV Format)</span></label>
+        </div>
+
+        <?php echo $this->getChildBlock('tax-rate-importExport')->setUseContainer(false)->toHtml();?>
+
+    </fieldset>
+
+    <fieldset class="fieldset">
+        <div class="tax-rule">
+            <div id="field-radio-2" class="field choice">
+                <input id="radio-2" name="radio" checked="" type="radio">
+                <label class="label" for="radio-1"><span>No Tax</span></label>
+            </div>
+        </div>
+        <div class="tax-rules-config">
+            <p>I don't require tax rules. (Consult your local laws regarding taxes)</p>
+        </div>
+    </fieldset>
+</form>
+
+<?php echo $this->getChildHtml('tax-rate-form');?>
+
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function () {
+            'use strict';
+            var importForm = $('#import-tax-rates')
+                .on('click.importTaxRates', function () {
+                    var elem = $(this),
+                        importForm = elem.parent().next();
+                    elem.is(':checked') ? importForm.fadeIn(200) : importForm.fadeOut(200);
+                });
+            importForm.is(':checked') ? importForm.parent().next().show() : importForm.parent().next().hide();
+        });
+    })(window.jQuery);
+</script>

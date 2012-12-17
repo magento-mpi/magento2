@@ -12,8 +12,7 @@
 <layout>
     <launcher_index>
         <block type="Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile" name="business_info.tile"/>
-        <block type="Mage_Launcher_Block_Adminhtml_Tile" name="shipping.tile" template="page/storelauncher/tile/shipping.phtml"/>
-        <block type="Mage_Launcher_Block_Adminhtml_Tile" name="tax.tile" template="page/storelauncher/tile/tax.phtml"/>
+        <block type="Mage_Launcher_Block_Adminhtml_Storelauncher_Tax_Tile" name="tax.tile" template="page/storelauncher/tile/tax.phtml"/>
     </launcher_index>
 
     <launcher_storelauncher_index_index>
@@ -21,6 +20,13 @@
         <reference name="head">
             <action method="addCss"><file>Mage_Launcher::page/launcher.css</file></action>
             <action method="addJs"><file>Mage_Launcher::page/launcher.js</file></action>
+
+            <!--Tax Tile-->
+            <action method="addJs"><file>jquery/editableMultiselect/js/jquery.editable.js</file></action>
+            <action method="addJs"><file>jquery/editableMultiselect/js/jquery.multiselect.js</file></action>
+            <action method="addJs"><file>mage/backend/editablemultiselect.js</file></action>
+            <action method="addCss"><file>jquery/editableMultiselect/css/jquery.multiselect.css</file></action>
+            <action method="addCss"><file>Mage_Core::prototype/magento.css</file></action>
         </reference>
         <reference name="js">
             <block type="Mage_Backend_Block_Template" template="system/config/js.phtml"/>
@@ -29,6 +35,15 @@
             <block type="Mage_Launcher_Block_Adminhtml_Storelauncher_Page" name="landing.page" template="page/storelauncher/storelauncher.phtml" />
         </reference>
     </launcher_storelauncher_index_index>
+
+    <launcher_storelauncher_tax_drawer_load>
+        <block type="Mage_Launcher_Block_Adminhtml_Storelauncher_Tax_Drawer" name="tax_drawer" template="page/storelauncher/tile/tax_drawer.phtml">
+            <block type="Mage_Adminhtml_Block_Tax_Rule_Edit_Form" name="tax-rule-edit" template="Mage_Adminhtml::tax/rule/edit.phtml"/>
+            <block type="Mage_Adminhtml_Block_Tax_Rule_Edit_Form" name="tax-rule-form"/>
+            <block type="Mage_Adminhtml_Block_Tax_Rate_Form" name="tax-rate-form" template="Mage_Adminhtml::tax/rule/rate/form.phtml"/>
+            <block type="Mage_Adminhtml_Block_Tax_Rate_ImportExport" name="tax-rate-importExport" template="Mage_Adminhtml::tax/importExport.phtml"/>
+        </block>
+    </launcher_storelauncher_tax_drawer_load>
 
     <promotestore_index>
         <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Contentpages_Tile" name="content_pages.tile"/>

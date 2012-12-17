@@ -177,7 +177,7 @@
     margin: 0;
 }
 
-.sl-step footer {
+.sl-step footer.drawer-footer {
     right: 0;
     bottom: 0;
     left: 0;
@@ -201,9 +201,9 @@
     border-radius: 15px;
 }
 
-.store-launcher-alternative .sl-step footer,
+.store-launcher-alternative .sl-step footer.drawer-footer,
 .store-launcher-alternative .sl-step .alternative-action,
-.sl-step:hover footer,
+.sl-step:hover footer.drawer-footer,
 .sl-step:hover .alternative-action {
     position: absolute;
 }
@@ -514,7 +514,7 @@
     margin-top: 2px;
 }
 
-.drawer footer {
+.drawer footer.drawer-footer {
     position: fixed;
     height: 48px;
     bottom: -51px;
@@ -527,14 +527,14 @@
     box-shadow: -1px 0 1px 1px #31302b;
 }
 
-.drawer footer .footer-inner {
+.drawer footer.drawer-footer .footer-inner {
     margin: 0 auto;
     width: 1024px;
     padding: 9px;
     text-align: right;
 }
 
-.drawer footer .footer-inner span {
+.drawer footer.drawer-footer .footer-inner span {
     color: #fff;
     margin-right: 30px;
     font-size: 14px;
