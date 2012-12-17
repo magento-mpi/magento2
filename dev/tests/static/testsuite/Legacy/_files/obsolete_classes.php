@@ -147,6 +147,7 @@ return array(
     $this->_getClassRule('Mage_Adminhtml_Block_Store_Switcher_Form_Renderer_Fieldset_Element',
         'Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element'
     ),
+    $this->_getClassRule('Mage_Adminhtml_Block_Sitemap_Grid'),
     $this->_getClassRule('Mage_Adminhtml_Block_Tag_Tag_Edit'),
     $this->_getClassRule('Mage_Adminhtml_Block_Tag_Tag_Edit_Form'),
     $this->_getClassRule('Mage_Adminhtml_Block_Tree'),
