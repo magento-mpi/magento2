@@ -179,7 +179,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $dirs = new Mage_Core_Model_Dir(
             __DIR__,
             array(),
-            array(Mage_Core_Model_Dir::LOCALE => __DIR__ . "/_files/locale")
+            array(Mage_Core_Model_Dir::CONFIG => __DIR__, Mage_Core_Model_Dir::LOCALE => __DIR__ . '/_files/locale')
         );
         $objectManager->addSharedInstance($dirs, 'Mage_Core_Model_Dir');
 
