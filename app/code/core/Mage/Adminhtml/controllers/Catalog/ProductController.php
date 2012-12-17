@@ -688,11 +688,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
             $product->setAssociatedProductIds(array_filter(array_merge($associatedProductIds, $generatedProductIds)));
 
-            $data = $this->getRequest()->getPost('configurable_attributes_data');
-            if ($data) {
-                $product->setConfigurableAttributesData(Mage::helper('Mage_Core_Helper_Data')->jsonDecode($data));
-            }
-
             $product->setCanSaveConfigurableAttributes(
                 (bool)$this->getRequest()->getPost('affect_configurable_product_attributes')
             );

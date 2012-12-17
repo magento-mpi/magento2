@@ -135,6 +135,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
     public function getAttributes()
     {
         $attributes = (array)$this->_getProductType()->getConfigurableAttributesAsArray($this->_getProduct());
+        $productData = (array)$this->getRequest()->getParam('product');
+        if (isset($productData['configurable_attributes_data'])) {
+            foreach (array_values($productData['configurable_attributes_data']) as $key => $attributeData) {
+                if (isset($attributes[$key]['values'])) {
+                    $attributes[$key]['values'] = array_merge($attributes[$key]['values'], $attributeData['values']);
+                }
+            }
+        }
+
         foreach ($attributes as &$attribute) {
             if (isset($attribute['values']) && is_array($attribute['values'])) {
                 foreach ($attribute['values'] as &$attributeValue) {

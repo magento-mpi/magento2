@@ -30,35 +30,28 @@ if (count($this->getSelectedAttributes())) {
         <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Super product attributes configuration') ?></h4>
     </div>
     <fieldset id="<?php echo $this->getHtmlId() ?>">
-        <legend><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Super product attributes configuration') ?></legend>
-        <input type="hidden" id="<?php echo $this->getHtmlId() ?>_save_attributes" name="configurable_attributes_data" />
-
-        <ul class="messages">
-            <li class="notice-msg">
-                <ul><li><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Price values for options should be specified in system base currency.')?></li></ul>
-                <ul><li><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute names can be specified per store.')?></li></ul>
-            </li>
-        </ul>
-        <ul id="<?php echo $this->getHtmlId() ?>_attributes" class="super-attributes">
-        </ul>
-
-    <br />
-
         <div id="attributes-container">
-        <?php foreach ($this->getAttributes() as $attribute) {  //Zend_Debug::dump($attribute); ?>
+        <?php foreach ($this->getAttributes() as $attribute) { ?>
             <div class="entry-edit attribute-container" <?php echo $this->getUiId('attrribute-container', $attribute['attribute_code']) ?>>
+                <input value="<?php echo $attribute['id']; ?>" type="hidden"
+                       name="product[configurable_attributes_data][<?php echo $attribute['attribute_id']?>][id]" />
+                <input value="<?php echo $attribute['attribute_id']; ?>" type="hidden"
+                       name="product[configurable_attributes_data][<?php echo $attribute['attribute_id']?>][attribute_id]"/>
+                <input value="<?php echo $attribute['position']; ?>" type="hidden" class="attribute-position"
+                       name="product[configurable_attributes_data][<?php echo $attribute['attribute_id']?>][position]"/>
+
                 <div class="entry-edit-head" style="cursor: move;">
                     <span class="ui-icon ui-icon-arrowthick-2-n-s" style="float:left;"></span>
                     <h4 class="icon-head head-edit-form fieldset-legend">
                         <input value="<?php echo $attribute['label']; ?>"
-                           name="product[configurable_attributes][<?php echo $attribute['attribute_id']?>][store_label]"
+                           name="product[configurable_attributes_data][<?php echo $attribute['attribute_id']?>][label]"
                            data-store-label="<?php echo $attribute['label']; ?>"
                            style="background: #6F8992; border: none"
                            class="required-entry"/>
                         <label for="attribute-<?php echo $attribute['attribute_id']?>">
                             <input value="1"
                                type="checkbox"
-                               name="product[configurable_attributes][<?php echo $attribute['attribute_id']?>][is_default]"
+                               name="product[configurable_attributes_data][<?php echo $attribute['attribute_id']?>][use_default]"
                                id="attribute-<?php echo $attribute['attribute_id']?>" />
                             <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Use default')?>
                             ('<?php echo $attribute['store_label'] ?>')</label>
@@ -80,7 +73,7 @@ if (count($this->getSelectedAttributes())) {
                         </thead>
                         <tbody>
                         <?php
-                            $namePrefix = 'product[configurable_attributes][' . $attribute['attribute_id'] .'][options]';
+                            $namePrefix = 'product[configurable_attributes_data][' . $attribute['attribute_id'] .'][values]';
                             foreach ($attribute['oprions'] as $option) {
                         ?>
                             <tr>
@@ -89,14 +82,23 @@ if (count($this->getSelectedAttributes())) {
                                     <?php
                                     $price_value = '';
                                     $is_percent = false;
+                                    $include = false;
                                     foreach ($attribute['values'] as $priceValue) {
                                         if ($option['value'] == $priceValue['value_index']) {
                                             $price_value = $priceValue['pricing_value'];
                                             $is_percent = (bool)$priceValue['is_percent'];
+                                            $include = true;
+                                            if (isset($priceValue['include'])) {
+                                                $include = $include && (bool)$priceValue['include'];
+                                            }
+                                            break;
                                         }
                                     }
                                     ?>
-                                    <input type="text" name="<?php echo $namePrefix ?>[<?php echo $option['value'] ?>][price_value]" value="<?php echo $price_value; ?>">
+                                    <input type="hidden"
+                                           name="<?php echo $namePrefix ?>[<?php echo $option['value'] ?>][value_index]"
+                                           value="<?php echo $option['value']; ?>">
+                                    <input type="text" name="<?php echo $namePrefix ?>[<?php echo $option['value'] ?>][pricing_value]" value="<?php echo $price_value; ?>">
                                     <select name="<?php echo $namePrefix ?>[<?php echo $option['value'] ?>][is_percent]">
                                         <option value="0"
                                             <?php echo !$is_percent ?'selected="selected"':'' ?>
@@ -106,7 +108,14 @@ if (count($this->getSelectedAttributes())) {
                                             >Percentage</option>
                                     </select>
                                 </td>
-                                <td><input type="checkbox" name="<?php echo $namePrefix ?>[<?php echo $option['value'] ?>][include]"  value="1" checked="checked" /></td>
+                                <td>
+                                    <input type="hidden"
+                                       name="<?php echo $namePrefix ?>[<?php echo $option['value'] ?>][include]"
+                                       value="0" />
+                                    <input type="checkbox"
+                                       name="<?php echo $namePrefix ?>[<?php echo $option['value'] ?>][include]"
+                                       value="1" <?php echo $include ? 'checked="checked"' : ''; ?> />
+                                </td>
                             </tr>
                         <?php } ?>
                         </tbody>
@@ -116,76 +125,6 @@ if (count($this->getSelectedAttributes())) {
         <?php } ?>
         </div>
     </fieldset>
-</div>
-<div class="no-display" id="<?php echo $this->getHtmlId() ?>_attribute_template">
-    <div class="<?php if (!$this->isReadonly()):?>attribute-name-container <?php endif;?>left">
-        '{{frontend_label}}'
-    </div>
-    <div class="values-container right">
-        <label for="__id___label" class="bold"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute Name:') ?></label>
-        <input id="__id___label" type="text" <?php if ($this->isAttributesConfigurationReadonly()): ?> disabled="disabled" <?php endif;?> class="input-text attribute-label required-entry template no-display" value="'{{label}}'" readonly="label" />
-        <input id="__id___label_use_default" type="checkbox" value="1" " checked="use_default" class="attribute-use-default-label">
-        <label for="__id___label_use_default"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Use default')?> ('{{store_label}}')</label>
-        <ul class="attribute-values">
-        </ul>
-    </div>
-</div>
-<div class="no-display" id="<?php echo $this->getHtmlId() ?>_value_template">
-    <div class="attribute-value-label-container left">
-    <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Option:') ?> <strong>'{{label}}'</strong>
-</div>
-<?php if ($this->getCanReadPrice() !== false) : ?>
-<div class="attribute-values-container-main">
-    <div class="attribute-values-container left">
-    <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Price:') ?>
-    <input id="__id___pricing" type="text" <?php if ($this->isAttributesPricesReadonly() || $this->getCanEditPrice() === false): ?> disabled="disabled" <?php endif;?> class="input-text attribute-price validate-number template no-display" value="'{{pricing_value}}'"/>
-</div>
-<div class="attribute-values-container left">
-    &nbsp;<select class="attribute-price-type" id="__id___price_type" <?php if ($this->isAttributesPricesReadonly() || $this->getCanEditPrice() === false): ?> disabled="disabled" <?php endif;?>>
-        <option value="0"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Fixed') ?></option>
-        <option value="1"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Percentage') ?></option>
-    </select>
-</div>
-<?php if ($this->getShowUseDefaultPrice()):?>
-<div class="attribute-values-container">
-    &nbsp;<input id="__id___default" type="checkbox" <?php if ($this->isAttributesPricesReadonly() || $this->getCanEditPrice() === false): ?> disabled="disabled" <?php endif;?> class="attribute-use-default-value"> <label for="__id___default" class="normal"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Use Default Value') ?></label>
-</div>
-<?php endif;?>
-<?php else : ?>
-<div class="attribute-values-container-main">
-    <div class="attribute-values-container left">
-    <input id="__id___pricing" type="hidden"  class="attribute-price template no-display" value="0" />
-</div>
-<div class="attribute-values-container left">
-    <input type="hidden" class="attribute-price-type" id="__id___price_type" value="0" />
-</div>
-<?php if ($this->getShowUseDefaultPrice()) : ?>
-<div class="attribute-values-container no-display">
-    <input id="__id___default" type="checkbox" <?php if ($this->isReadonly() || $this->getCanEditPrice() === false):?> disabled="disabled" <?php endif;?> class="attribute-use-default-value">
-</div>
-<?php endif; ?>
-<?php endif; ?>
-</div>
-</div>
-<div class="template no-display" id="<?php echo $this->getHtmlId() ?>_simple_pricing">
-    <?php if ($this->getCanReadPrice() !== false) : ?>
-        <div class="attribute-values-container left v-middle">
-            &nbsp;<?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Price:') ?>
-            <input type="text" class="input-text attribute-price validate-number"<?php if ($this->getCanEditPrice() === false) : ?> disabled="disabled" <?php endif; ?>/>
-        </div>
-        <div class="attribute-values-container left v-middle">
-            &nbsp;<select class="attribute-price-type"<?php if ($this->getCanEditPrice() === false) : ?> disabled="disabled" <?php endif; ?>>
-                <option value="0"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Fixed') ?></option>
-                <option value="1"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Percentage') ?></option>
-            </select>
-        </div>
-    <?php else : ?>
-        <input type="hidden" class="attribute-price" />
-        <input type="hidden" class="attribute-price-type" />
-    <?php endif; ?>
-</div>
-<div class="template no-display" id="<?php echo $this->getHtmlId() ?>_simple_pricing_view">
-    &nbsp;<?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Price') ?> <strong>'{{value}}'</strong>
 </div>
 
 <div id="product-variations-matrix" class="grid" style="margin:20px 0">
@@ -264,7 +203,7 @@ if (count($this->getSelectedAttributes())) {
         <tr class="<?php echo $isEven ? 'even' : '' ?>">
             <td class="associated-matrix-product-name">
                 <input id="variations-matrix-<?php echo $key?>-name" name="variations-matrix[<?php echo $key?>][name]" value="<?php echo $this->_getProduct()->getName(), '-', implode('-', $attributeLabels)?>" class="required-entry"<?php echo $disabled?>/>
-                <input type="hidden" name="variations-matrix[<?php echo $key?>][configurable_attribute]" value="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>" disabled="disabled"/>
+                <input type="hidden" name="variations-matrix[<?php echo $key?>][configurable_attribute]" value="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"<?php echo $disabled?>/>
             </td>
             <td class="associated-matrix-product-price">
                 <?php echo $price ?>
@@ -301,9 +240,6 @@ if (count($this->getSelectedAttributes())) {
 <div id="associated-products-container"  data-used-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getAttributes())); ?>" style="display: none;">
     <?php echo $this->getGridHtml(); ?>
 </div>
-<script type="text/javascript">
-    var superProduct = new Product.Configurable(jQuery('#associated-products-container').data('usedAttributes'), <?php echo $this->getLinksJson() ?>,'<?php echo $this->getHtmlId() ?>_',<?php echo $this->getGridJsObject() ?>, <?php echo ( $this->isReadonly() ? 'true' : 'false'); ?>);
-</script>
 
 <div><input type="hidden" name="affect_configurable_product_attributes" value="1" /></div>
 <?php } ?>
@@ -314,7 +250,13 @@ jQuery(function($) {
     var usedAttributes = jQuery('#associated-products-container').data('usedAttributes') || [];
     $('#attributes-container').sortable({
         axis: "y",
-        handle: '.entry-edit-head'
+        handle: '.entry-edit-head',
+        containment: "parent",
+        update: function (event, ui) {
+            $(this).find('.attribute-position').each(function(index){
+                $(this).val(index)
+            })
+        }
     });
 
     $("#<?php echo $this->getId()?>-checkbox").on('click change', function() {
