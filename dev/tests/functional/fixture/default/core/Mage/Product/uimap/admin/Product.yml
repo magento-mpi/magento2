@@ -86,7 +86,8 @@ new_product:
                     product_information:
                         xpath: //div[@class='content-header']
                         pageelements:
-                            product_attribute_set: //h3[@class='icon-head head-products' and contains(.,'%attributeSet%')]
+                            product_attribute_set: //h3[@class='icon-head head-products' and contains(text(),'%attributeSet%')]
+                            product_page_title: //h3[@class='icon-head head-products']
                             product_name: //h3[@class='icon-head head-products'][text()='%productName% (%attributeSet%)']
                 -
                     change_attribute_set:
