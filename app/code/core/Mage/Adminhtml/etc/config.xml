@@ -135,6 +135,9 @@
                 <tax module="Mage_Adminhtml">
                     <file>tax.xml</file>
                 </tax>
+                <urlrewrite module="Mage_Adminhtml">
+                    <file>urlrewrite.xml</file>
+                </urlrewrite>
             </updates>
         </layout>
         <sales>
