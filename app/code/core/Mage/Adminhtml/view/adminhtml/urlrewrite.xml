@@ -18,11 +18,11 @@
                     <arguments>
                         <id>gridUrlRewrite</id>
                         <dataSource type="object">Mage_Core_Model_Resource_Url_Rewrite_Collection</dataSource>
+                        <default_sort>id</default_sort>
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.urlrewrite.grid.columnSet">
                         <arguments>
                             <rowUrl>
-                                <generatorClass>Mage_Backend_Model_Widget_Grid_Row_UrlGenerator</generatorClass>
                                 <path>*/*/edit</path>
                                 <extraParamsTemplate>
                                     <id>getId</id>
