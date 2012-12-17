@@ -100,10 +100,11 @@
         _movePanelsInDestination: function(panels) {
             if (this.options.destination && !panels.parents(this.options.destination).length) {
                 panels
-                    .appendTo(this.options.destination)
+                    .find('script').remove();
+                panels.appendTo(this.options.destination)
                     .each($.proxy(function(i, panel) {
-                    $(panel).trigger('move.tabs', this.anchors.eq(i));
-                }, this));
+                        $(panel).trigger('move.tabs', this.anchors.eq(i));
+                    }, this));
             }
         },
 
