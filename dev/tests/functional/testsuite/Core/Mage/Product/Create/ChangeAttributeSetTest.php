@@ -73,7 +73,7 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
     public function fromDefaultToCustomCreate($productType, $customSetData)
     {
         //Data
-        $productDataInitial = $this->loadDataSet('Product', $productType . '_product_required');
+        $productDataInitial = $this->loadDataSet('Product', $productType . '_product_visible');
         $assignedAttribute = $customSetData['assigned_attribute'];
         $newAttributeSet = $customSetData['product_attribute_set'];
         //Steps
@@ -102,7 +102,7 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
     public function fromCustomToDefaultDuringCreation($productType, $customSetData)
     {
         //Data
-        $productDataInitial = $this->loadDataSet('Product', $productType . '_product_required',
+        $productDataInitial = $this->loadDataSet('Product', $productType . '_product_visible',
             array('product_attribute_set' => $customSetData['product_attribute_set']));
         $newAttributeSet = 'Default';
         $assignedAttribute = $customSetData['assigned_attribute'];
@@ -132,7 +132,7 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
     public function fromDefaultToCustomDuringEditing($productType, $customSetData)
     {
         //Data
-        $productDataInitial = $this->loadDataSet('Product', $productType . '_product_required');
+        $productDataInitial = $this->loadDataSet('Product', $productType . '_product_visible');
         $assignedAttribute = $customSetData['assigned_attribute'];
         $newAttributeSet = $customSetData['product_attribute_set'];
         //Steps
@@ -163,7 +163,7 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
     public function fromCustomToDefaultDuringEditing($productType, $customSetData)
     {
         //Data
-        $productDataInitial = $this->loadDataSet('Product', $productType . '_product_required',
+        $productDataInitial = $this->loadDataSet('Product', $productType . '_product_visible',
             array('product_attribute_set' => $customSetData['product_attribute_set']));
         $newAttributeSet = 'Default';
         $assignedAttribute = $customSetData['assigned_attribute'];

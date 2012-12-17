@@ -59,6 +59,7 @@ class Core_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_TestCase
      */
     public function preconditionsForTests()
     {
+        $this->markTestIncomplete('MAGETWO-6271');
         //Data
         $productDataField = $this->loadDataSet('Product', 'simple_product_visible');
         $productDataField['custom_options_data']['custom_options_field'] =
@@ -93,6 +94,7 @@ class Core_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_TestCase
      */
     public function withDifferentProductTypes($type, $attrData)
     {
+        $this->markTestIncomplete('MAGETWO-6271');
         //Data
         if ($type != 'configurable') {
             $productWithOptions = $this->loadDataSet('Product', $type . '_product_required');

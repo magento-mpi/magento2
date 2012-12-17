@@ -135,7 +135,7 @@ class Core_Mage_Product_Create_OnMinimalAttributeSetTest extends Mage_Selenium_T
             array('downloadable'),
             array('configurable'),
             array('fixed_bundle'),
-            array('dynamic_bundle'),
+//            array('dynamic_bundle'), MAGETWO-6269
             array('grouped'));
     }
 

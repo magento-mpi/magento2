@@ -90,6 +90,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      */
     public function allFieldsInConfigurable($attrData)
     {
+        $this->markTestIncomplete('MAGETWO-4321');
         //Data
         $productData = $this->loadDataSet('Product', 'configurable_product',
             array('general_configurable_attribute_title' => $attrData['admin_title']));

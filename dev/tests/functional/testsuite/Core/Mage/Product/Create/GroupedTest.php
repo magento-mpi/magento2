@@ -57,6 +57,7 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
      */
     public function allFieldsInGrouped()
     {
+        $this->markTestIncomplete('MAGETWO-4321');
         //Data
         $productData = $this->loadDataSet('Product', 'grouped_product');
         $productSearch =

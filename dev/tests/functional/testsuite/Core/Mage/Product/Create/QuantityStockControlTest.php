@@ -101,6 +101,7 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
      */
     public function createAttributeSet()
     {
+        $this->markTestIncomplete('MAGETWO-6268');
         //Data
         $setData = $this->loadDataSet('AttributeSet', 'mini_attribute_set');
         //Steps
@@ -356,6 +357,7 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
      */
     public function syncDataAfterChangeAttributeSet($attributeSet)
     {
+        $this->markTestIncomplete('MAGETWO-6268');
         $productData = $this->loadDataSet('Product', 'simple_product_visible');
         //Steps
         $this->navigate('manage_products');

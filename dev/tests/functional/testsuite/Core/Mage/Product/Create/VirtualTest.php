@@ -57,6 +57,7 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
      */
     public function allFieldsInVirtual()
     {
+        $this->markTestIncomplete('MAGETWO-4321');
         //Data
         $product = $this->loadDataSet('Product', 'virtual_product');
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $product['general_sku']));

@@ -244,60 +244,6 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
     }
 
     /**
-     * @param array $categories
-     *
-     * @test
-     * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6354
-     * @todo move these checks to "duplicate product" test case
-     */
-    public function duplicateProduct($categories)
-    {
-        //Data
-        $productData = $this->loadDataSet('Product', 'simple_product_required');
-        $productData['general_categories'] = $categories['default']['parent'] . '/' . $categories['default']['category'];
-        //Steps
-        $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData);
-        $this->assertMessagePresent(self::MESSAGE_TYPE_SUCCESS, 'success_saved_product');
-        $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
-        $this->clickButton('duplicate');
-        //Verifying
-        $this->assertMessagePresent(self::MESSAGE_TYPE_SUCCESS, 'success_duplicated_product');
-        $productData['general_sku'] = $this->productHelper()->getGeneratedSku($productData['general_sku']);
-        $this->productHelper()->verifyProductInfo($productData, array('general_status'));
-    }
-
-    /**
-     * @param array $categories
-     *
-     * @test
-     * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6355
-     * @todo move these checks to "change attribute set" test case
-     */
-    public function changeAttributeSet($categories)
-    {
-        //Data
-        $attributeSet = $this->loadDataSet('AttributeSet', 'attribute_set');
-        $productData = $this->loadDataSet('Product', 'simple_product_required');
-        $productData['general_categories'] = $categories['default']['parent'] . '/' . $categories['default']['category'];
-        $newAttributeSet = 'Default';
-        //Preconditions
-        $this->navigate('manage_attribute_sets');
-        $this->attributeSetHelper()->createAttributeSet($attributeSet);
-        $this->saveForm('save_attribute_set');
-        $this->assertMessagePresent(self::MESSAGE_TYPE_SUCCESS, 'success_attribute_set_saved');
-        $productData['product_attribute_set'] = $attributeSet['set_name'];
-        //Steps
-        $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData, 'simple', false);
-        $this->productHelper()->changeAttributeSet($newAttributeSet);
-        //Verifying
-        $this->productHelper()->verifyProductInfo($productData);
-    }
-
-    /**
      * @test
      * @TestlinkId TL-MAGE-6448
      */

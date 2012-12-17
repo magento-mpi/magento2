@@ -312,17 +312,14 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function changeAttributeSet($newAttributeSet)
     {
-        $actualTitle = $this->getControlAttribute('pageelement', 'product_page_title', 'text');
         $this->clickButton('change_attribute_set', false);
         $this->waitForElementEditable($this->_getControlXpath('dropdown', 'choose_attribute_set'));
-        $currentSetName = $this->getControlAttribute('dropdown', 'choose_attribute_set', 'selectedLabel');
         $this->fillDropdown('choose_attribute_set', $newAttributeSet);
-        $newTitle = str_replace($currentSetName, $newAttributeSet, $actualTitle);
         $param = $this->getControlAttribute('dropdown', 'choose_attribute_set', 'selectedValue');
         $this->addParameter('setId', $param);
         $this->clickButton('apply');
-        $this->assertSame($newTitle, $this->getControlAttribute('pageelement', 'product_page_title', 'text'),
-            "Attribute set in title should be $newAttributeSet, but now it's $currentSetName");
+        $this->addParameter('attributeSet', $newAttributeSet);
+        $this->waitForElement($this->_getControlXpath('pageelement', 'product_attribute_set'));
     }
 
     /**
@@ -580,7 +577,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * Select Dropdown Attribute(s) for configurable product creation
+     * Select configurable attribute from searchable control for configurable product creation
      *
      * @param string|array $attributes
      */
@@ -593,18 +590,25 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         $attributesId = array();
         foreach ($attributes as $attributeTitle) {
-            $this->addParameter('attributeTitle', $attributeTitle);
-            if ($this->controlIsPresent('checkbox', 'general_configurable_attribute_title')) {
-                $attributesId[] =
-                    $this->getControlAttribute('checkbox', 'general_configurable_attribute_title', 'value');
-                $this->fillCheckbox('general_configurable_attribute_title', 'Yes');
-            } else {
-                $this->fail("Dropdown attribute with title '$attributeTitle' is not present on the page");
-            }
+            $this->selectConfigurableAttribute($attributeTitle);
         }
         $attributesUrl = urlencode(base64_encode(implode(',', $attributesId)));
         $this->addParameter('attributesUrl', $attributesUrl);
         $this->clickButton('generate_product_variations');
+    }
+
+    /**
+     * Select configurable attribute on Product page using searchable attribute selector control
+     *
+     * @param string $attributeTitle
+     */
+    public function selectConfigurableAttribute($attributeTitle)
+    {
+        $locator = $this->_getControlXpath('field', 'attribute_selector');
+        $element = $this->waitForElementEditable($locator, 10);
+        $element->value($attributeTitle);
+        $this->addParameter('attributeName', $attributeTitle);
+        $this->waitForElementEditable($this->_getControlXpath('link', 'suggested_attribute'))->click();
     }
 
     public function assignConfigurableVariations()

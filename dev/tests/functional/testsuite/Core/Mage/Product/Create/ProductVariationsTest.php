@@ -159,9 +159,9 @@ class Core_Mage_Product_Create_ConfigurableWithVariations extends Mage_Selenium_
         $this->assertTrue($this->controlIsVisible('fieldset', 'product_variations'));
         $this->fillCheckbox('is_configurable', 'yes');
         $this->assertTrue($this->getControlAttribute('checkbox', 'is_configurable', 'selectedValue'));
+        $this->productHelper()->fillConfigurableSettings($data['attribute']);
         $this->productHelper()->changeAttributeSet($data['attributeSet']);
         $this->assertTrue($this->getControlAttribute('checkbox', 'is_configurable', 'selectedValue'));
-        $this->productHelper()->fillConfigurableSettings($data['attribute']);
         //Verifying
         $this->assertTrue($this->controlIsVisible('fieldset', 'variations_matrix_grid'));
         $this->productHelper()->verifyConfigurableVariations($data['matrix']);

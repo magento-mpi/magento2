@@ -57,6 +57,7 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      */
     public function allFieldsInDownloadable()
     {
+        $this->markTestIncomplete('MAGETWO-4321');
         //Data
         $productData = $this->loadDataSet('Product', 'downloadable_product');
         $productSearch =
