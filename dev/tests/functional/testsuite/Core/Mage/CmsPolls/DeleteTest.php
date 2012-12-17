@@ -30,12 +30,6 @@ class Core_Mage_CmsPolls_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete a Poll</p>
-     * <p>Steps:</p>
-     * <p>1. Create a Poll</p>
-     * <p>2. Open the Poll</p>
-     * <p>3. Delete the Poll</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the Poll has been deleted.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3222

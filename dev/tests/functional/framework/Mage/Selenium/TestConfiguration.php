@@ -22,7 +22,7 @@ class Mage_Selenium_TestConfiguration
      * Configuration object instance
      * @var Mage_Selenium_TestConfiguration|null
      */
-    private static $instance = null;
+    private static $_instance = null;
 
     /**
      * Initial options
@@ -75,28 +75,28 @@ class Mage_Selenium_TestConfiguration
     protected $_dataGeneratorHelper = null;
 
     /**
-     * Cache helper instance
-     * @var Mage_Selenium_Helper_Cache
-     */
-    protected $_cacheHelper = null;
-
-    /**
-     * Array of files paths to fixtures
+     * Array of files paths to data fixtures
      * @var array
      */
-    protected $_configFixtures = array();
+    protected $_configData = array();
+
+    /**
+     * Array of files paths to Uimap fixtures
+     * @var array
+     */
+    protected $_configUimap = array();
+
+    /**
+     * Array of files paths to Uimap Include fixtures
+     * @var array
+     */
+    protected $_configUimapInclude = array();
 
     /**
      * Array of class names for test Helper files
      * @var array
      */
-    protected $_testHelperClassNames = array();
-
-    /**
-     * Handle to log file
-     * @var null|resource
-     */
-    protected $_logFile = null;
+    protected $_testHelperNames = array();
 
     /**
      * Uimap include folder name
@@ -108,41 +108,45 @@ class Mage_Selenium_TestConfiguration
      * Get test configuration instance
      *
      * @static
+     *
      * @param null|array $options
+     *
      * @return Mage_Selenium_TestConfiguration|null
      * @throws RuntimeException
      */
     public static function getInstance($options = null)
     {
-        if (is_null(static::$instance)) {
-            static::$instance = new static();
+        if (is_null(static::$_instance)) {
+            static::$_instance = new static();
             if (is_array($options)) {
-                static::$instance->setInitialOptions($options);
+                static::$_instance->setInitialOptions($options);
             }
-            static::$instance->init();
+            static::$_instance->init();
         } else {
             if (!is_null($options)) {
                 throw new RuntimeException('Cannot redeclare initial options on existed instance.');
             }
         }
-        return static::$instance;
+        return static::$_instance;
     }
 
     /**
      * Set instance
      *
      * @static
-     * @param Mage_Selenium_TestConfiguration|null $instance
+     *
+     * @param Mage_Selenium_TestConfiguration|null $_instance
      */
-    public static function setInstance(Mage_Selenium_TestConfiguration $instance = null)
+    public static function setInstance(Mage_Selenium_TestConfiguration $_instance = null)
     {
-        static::$instance = $instance;
+        static::$_instance = $_instance;
     }
 
     /**
      * Set initial options
      *
      * @param array $options
+     *
      * @return Mage_Selenium_TestConfiguration
      */
     public function setInitialOptions(array $options)
@@ -173,7 +177,6 @@ class Mage_Selenium_TestConfiguration
     {
         $this->setInitialPath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR);
         $this->_initConfig();
-        $this->_initLogFile($this->getHelper('config')->getLogDir());
         $this->_initFixturesPaths();
         $this->_initTestHelperClassNames();
         $this->_initFixtures();
@@ -190,28 +193,33 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Initialize log file
-     *
-     * @param string $dirPath
-     *
-     * @return Mage_Selenium_TestConfiguration
-     */
-    protected function _initLogFile($dirPath)
-    {
-        if (is_null($this->_logFile)) {
-            $this->_logFile = fopen($dirPath . DIRECTORY_SEPARATOR
-                                        . 'selenium-rc-' . date('d-m-Y-H-i-s') . '.log', 'a+');
-        }
-        return $this;
-    }
-
-    /**
      * Initialize all paths to fixture files
      * @return Mage_Selenium_TestConfiguration
      */
     protected function _initFixturesPaths()
     {
-        $this->getConfigFixtures();
+        //Get initial path to fixtures
+        $frameworkConfig = $this->_configHelper->getConfigFramework();
+        $initialPath = $this->getInitialPath() . $frameworkConfig['fixture_base_path'];
+        //Get fixtures sequence
+        $fallbackOrderFixture = $this->_configHelper->getFixturesFallbackOrder();
+
+        $initialOptions = $this->getInitialOptions();
+        if (isset($initialOptions['fallbackOrderFixture'])) {
+            $fallbackOrderFixture = $initialOptions['fallbackOrderFixture'];
+        }
+
+        $facade = new File_Iterator_Facade();
+        foreach ($fallbackOrderFixture as $codePoolName) {
+            $projectPath = $initialPath . DIRECTORY_SEPARATOR . $codePoolName;
+            if (!is_dir($projectPath)) {
+                continue;
+            }
+            $files = $facade->getFilesAsArray($projectPath, '.yml');
+            $this->setConfigData($files);
+            $this->setConfigUimap($files, $codePoolName);
+            $this->setConfigUimapInclude($files);
+        }
         return $this;
     }
 
@@ -221,7 +229,7 @@ class Mage_Selenium_TestConfiguration
      */
     protected function _initTestHelperClassNames()
     {
-        $this->getTestHelperClassNames();
+        $this->getTestHelperNames();
         return $this;
     }
 
@@ -236,26 +244,16 @@ class Mage_Selenium_TestConfiguration
         return $this;
     }
 
-    /**
-     * Get log file
-     * @return null|resource
-     */
-    public function getLogFile()
-    {
-        if (empty($this->_logFile)) {
-            $this->_initLogFile($this->getHelper('config')->getLogDir());
-        }
-        return $this->_logFile;
-    }
-
+    //@codingStandardsIgnoreStart
     /**
      * Get $helperName helper instance
      *
-     * @param string $helperName cache|config|data|dataGenerator|file|params|uimap
+     * @param string $helperName config|data|dataGenerator|file|params|uimap
      *
-     * @return Mage_Selenium_Helper_Uimap|Mage_Selenium_Helper_Params|Mage_Selenium_Helper_File|Mage_Selenium_Helper_DataGenerator|Mage_Selenium_Helper_Data|Mage_Selenium_Helper_Config|Mage_Selenium_Helper_Cache
+     * @return Mage_Selenium_Helper_Uimap|Mage_Selenium_Helper_Params|Mage_Selenium_Helper_File|Mage_Selenium_Helper_DataGenerator|Mage_Selenium_Helper_Data|Mage_Selenium_Helper_Config
      * @throws OutOfRangeException
      */
+    //@codingStandardsIgnoreEnd
     public function getHelper($helperName)
     {
         $class = 'Mage_Selenium_Helper_' . ucfirst($helperName);
@@ -277,6 +275,7 @@ class Mage_Selenium_TestConfiguration
      * Set initial path
      *
      * @param string $path
+     *
      * @return Mage_Selenium_TestConfiguration
      */
     public function setInitialPath($path)
@@ -296,73 +295,91 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Get all paths to fixture files and all paths to include uimap elements
-     * @return array
+     * @param array $files
      */
-    public function getConfigFixtures()
+    public function setConfigData(array $files)
     {
-        if (!empty($this->_configFixtures)) {
-            return $this->_configFixtures;
-        }
-        //Get initial path to fixtures
-        $frameworkConfig = $this->_configHelper->getConfigFramework();
-        $initialPath = $this->getInitialPath() . $frameworkConfig['fixture_base_path'];
-        //Get fixtures sequence
-        $fallbackOrderFixture = $this->_configHelper->getFixturesFallbackOrder();
-
-        $initialOptions = $this->getInitialOptions();
-        if (isset($initialOptions['fallbackOrderFixture'])) {
-            $fallbackOrderFixture = $initialOptions['fallbackOrderFixture'];
-        }
-
-        //Get folder names where uimaps are stored for specified area
-        $uimapFolders = array();
-        $configAreas = $this->_configHelper->getConfigAreas();
-        foreach ($configAreas as $areaName => $areaConfig) {
-            $uimapFolders[$areaName] = $areaConfig['uimap_path'];
-        }
         $separator = preg_quote(DIRECTORY_SEPARATOR);
+        foreach ($files as $file) {
+            if (preg_match('|' . $separator . 'data' . $separator . '|', $file)) {
+                $this->_configData[] = $file;
+            }
+        }
+    }
 
-        $facade = new File_Iterator_Facade();
-        foreach ($fallbackOrderFixture as $codePoolName) {
-            $projectPath = $initialPath . DIRECTORY_SEPARATOR . $codePoolName;
-            if (!is_dir($projectPath)) {
+    /**
+     * @param array $files
+     */
+    public function setConfigUimapInclude(array $files)
+    {
+        $uimapFolders = $this->_configHelper->getConfigAreasUimapFolders();
+        $separator = preg_quote(DIRECTORY_SEPARATOR);
+        foreach ($files as $file) {
+            if (!preg_match('|' . $separator . self::UIMAP_INCLUDE_FOLDER . $separator . '|', $file)) {
                 continue;
             }
-            $files = $facade->getFilesAsArray($projectPath, '.yml');
-            foreach ($files as $file) {
-                if (preg_match('|' . $separator . 'data' . $separator . '|', $file)) {
-                    $this->_configFixtures[$codePoolName]['data'][] = $file;
-                }
-                if (preg_match('|' . $separator . 'uimap' . $separator . '|', $file)) {
-                    foreach ($uimapFolders as $areaName => $uimapFolder) {
-                        $pattern = implode($separator, array('', 'uimap', $uimapFolder, ''));
-                        if (preg_match('|' . $pattern . '|', $file)) {
-                            $this->_configFixtures[$codePoolName]['uimap'][$areaName][] = $file;
-                        }
-                    }
-                }
-                if (preg_match('|' . $separator . self::UIMAP_INCLUDE_FOLDER . $separator . '|', $file)) {
-                    foreach ($uimapFolders as $areaName => $uimapFolder) {
-                        $pattern = implode($separator, array('', self::UIMAP_INCLUDE_FOLDER, $uimapFolder)) . '\.yml';
-                        if (preg_match('|' . $pattern . '|', $file)) {
-                            $this->_configFixtures['uimapInclude'][$areaName][] = $file;
-                        }
-                    }
+            foreach ($uimapFolders as $areaName => $uimapFolder) {
+                $pattern = implode($separator, array('', self::UIMAP_INCLUDE_FOLDER, $uimapFolder)) . '\.yml';
+                if (preg_match('|' . $pattern . '|', $file)) {
+                    $this->_configUimapInclude[$areaName][] = $file;
                 }
             }
         }
-        return $this->_configFixtures;
+    }
+
+    /**
+     * @param array $files
+     * @param $codePoolName
+     */
+    public function setConfigUimap(array $files, $codePoolName)
+    {
+        $uimapFolders = $this->_configHelper->getConfigAreasUimapFolders();
+        $separator = preg_quote(DIRECTORY_SEPARATOR);
+        foreach ($files as $file) {
+            if (!preg_match('|' . $separator . 'uimap' . $separator . '|', $file)) {
+                continue;
+            }
+            foreach ($uimapFolders as $areaName => $uimapFolder) {
+                $pattern = implode($separator, array('', 'uimap', $uimapFolder, ''));
+                if (preg_match('|' . $pattern . '|', $file)) {
+                    $this->_configUimap[$codePoolName][$areaName][] = $file;
+                }
+            }
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getConfigUimap()
+    {
+        return $this->_configUimap;
+    }
+
+    /**
+     * @return array
+     */
+    public function getConfigUimapInclude()
+    {
+        return $this->_configUimapInclude;
+    }
+
+    /**
+     * @return array
+     */
+    public function getConfigData()
+    {
+        return $this->_configData;
     }
 
     /**
      * Get all test helper class names
      * @return array
      */
-    public function getTestHelperClassNames()
+    public function getTestHelperNames()
     {
-        if (!empty($this->_testHelperClassNames)) {
-            return $this->_testHelperClassNames;
+        if (!empty($this->_testHelperNames)) {
+            return $this->_testHelperNames;
         }
         //Get initial path to test helpers
         $frameworkConfig = $this->_configHelper->getConfigFramework();
@@ -382,10 +399,10 @@ class Mage_Selenium_TestConfiguration
                 $className = str_replace(DIRECTORY_SEPARATOR, '_', str_replace('.php', '', $className));
                 $array = explode('_', str_replace('_Helper', '', $className));
                 $helperName = end($array);
-                $this->_testHelperClassNames[$helperName] = $className;
+                $this->_testHelperNames[$helperName] = $className;
             }
         }
-        return $this->_testHelperClassNames;
+        return $this->_testHelperNames;
     }
 
     /**

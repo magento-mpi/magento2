@@ -59,13 +59,13 @@ billing_exist_signedin_req_physical_withshipping:
 
 billing_new_signedin_long_values: &newBillingSignedInLongValues
     billing_address_choice: New Address
+    billing_country: Ukraine
     billing_first_name: %longValue255%
     billing_last_name: %longValue255%
     billing_company: %longValue255%
     billing_street_address_1: %longValue255%
     billing_street_address_2: %longValue255%
     billing_city: %longValue255%
-    billing_country: Ukraine
     billing_region: %longValue255%
     billing_zip_code: %longValue255%
     billing_telephone: %longValue255%
@@ -76,13 +76,13 @@ billing_new_signedin_long_values: &newBillingSignedInLongValues
 
 billing_new_signedin_special_values: &newBillingSignedInSpecialValues
     billing_address_choice: New Address
+    billing_country: Ukraine
     billing_first_name: %specialValue32%
     billing_last_name: %specialValue32%
     billing_company: %specialValue32%
     billing_street_address_1: %specialValue32%
     billing_street_address_2: %specialValue32%
     billing_city: %specialValue32%
-    billing_country: Ukraine
     billing_region: %specialValue32%
     billing_zip_code: %specialValue32%
     billing_telephone: %specialValue32%
@@ -162,26 +162,6 @@ billing_new_signedin_req_physical_withshipping_france: &newBillingSignedInReqWit
     ship_to_different_address: %noValue%
 
 #<--------------With Registration---------------->
-billing_with_register_req_physical_withshipping: &billingWithRegisterReqWithShipping
-    billing_address_choice: New Address
-    billing_first_name: Steven(billing.req)
-    billing_last_name: Stevenson(billing.req)
-    billing_email: onepage_checkout_%randomize%@unknown-domain.com
-    billing_company: %noValue%
-    billing_street_address_1: street address 1(billing.req)
-    billing_street_address_2: %noValue%
-    billing_city: Los Angeles
-    billing_country: United States
-    billing_state: California
-    billing_region: %noValue%
-    billing_zip_code: 90064
-    billing_telephone: (091)019-019(billing.req)
-    billing_fax: %noValue%
-    billing_password: 123123q
-    billing_confirm_password: 123123q
-    ship_to_this_address: Yes
-    ship_to_different_address: %noValue%
-
 billing_with_register_req_physical: &billingWithRegisterReq
     billing_address_choice: New Address
     billing_first_name: Steven(billing.req)
@@ -222,6 +202,7 @@ billing_with_register_req_virtual: &billingWithRegisterReqVirtual
 
 billing_with_register_long_values: &billingWithRegisterLongValues
     billing_address_choice: New Address
+    billing_country: Ukraine
     billing_first_name: %longValue255%
     billing_last_name: %longValue255%
     billing_company: %longValue255%
@@ -229,7 +210,6 @@ billing_with_register_long_values: &billingWithRegisterLongValues
     billing_street_address_1: %longValue255%
     billing_street_address_2: %longValue255%
     billing_city: %longValue255%
-    billing_country: Ukraine
     billing_region: %longValue255%
     billing_zip_code: %longValue255%
     billing_telephone: %longValue255%
@@ -241,6 +221,7 @@ billing_with_register_long_values: &billingWithRegisterLongValues
 
 billing_with_register_long_values: &billingWithRegisterSpecialValues
     billing_address_choice: New Address
+    billing_country: Ukraine
     billing_first_name: %specialValue32%
     billing_last_name: %specialValue32%
     billing_company: %specialValue32%
@@ -248,7 +229,6 @@ billing_with_register_long_values: &billingWithRegisterSpecialValues
     billing_street_address_1: %specialValue32%
     billing_street_address_2: %specialValue32%
     billing_city: %specialValue32%
-    billing_country: Ukraine
     billing_region: %specialValue32%
     billing_zip_code: %specialValue32%
     billing_telephone: %specialValue32%
@@ -315,24 +295,6 @@ billing_guest_req_virtual: &billingGuestReqVirtual
     billing_telephone: (091)019-019(billing.req)
     billing_fax: %noValue%
 
-billing_guest_req_physical_withshipping: &guestBillingReqWithShipping
-    billing_address_choice: New Address
-    billing_first_name: Steven(billing.req)
-    billing_last_name: Stevenson(billing.req)
-    billing_email: onepage_checkout_%randomize%@unknown-domain.com
-    billing_company: %noValue%
-    billing_street_address_1: street address 1(billing.req)
-    billing_street_address_2: %noValue%
-    billing_city: Los Angeles
-    billing_country: United States
-    billing_state: California
-    billing_region: %noValue%
-    billing_zip_code: 90064
-    billing_telephone: (091)019-019(billing.req)
-    billing_fax: %noValue%
-    ship_to_this_address: Yes
-    ship_to_different_address: %noValue%
-
 billing_guest_withshipping_usa: &guestBillingWithShippingUsa
     billing_address_choice: New Address
     billing_first_name: Steven(billing.req)
@@ -394,13 +356,13 @@ shipping_new_signedin_req: &newShippingSignedInReq
 
 shipping_new_signedin_long_values: &newShippingSignedInLongValues
     shipping_address_choice: New Address
+    shipping_country: Ukraine
     shipping_first_name: %longValue255%
     shipping_last_name: %longValue255%
     shipping_company: %longValue255%
     shipping_street_address_1: %longValue255%
     shipping_street_address_2: %longValue255%
     shipping_city: %longValue255%
-    shipping_country: Ukraine
     shipping_region: %longValue255%
     shipping_zip_code: %longValue255%
     shipping_telephone: %longValue255%
@@ -410,13 +372,13 @@ shipping_new_signedin_long_values: &newShippingSignedInLongValues
 
 shipping_new_signedin_special_values: &newShippingSignedInSpecialValues
     shipping_address_choice: New Address
+    shipping_country: Ukraine
     shipping_first_name: %specialValue32%
     shipping_last_name: %specialValue32%
     shipping_company: %specialValue32%
     shipping_street_address_1: %specialValue32%
     shipping_street_address_2: %specialValue32%
     shipping_city: %specialValue32%
-    shipping_country: Ukraine
     shipping_region: %specialValue32%
     shipping_zip_code: %specialValue32%
     shipping_telephone: %specialValue32%
@@ -427,13 +389,13 @@ shipping_new_signedin_special_values: &newShippingSignedInSpecialValues
 #<--------------With Registration---------------->
 shipping_with_register_long_values: &shippingWithRegisterLongValues
     shipping_address_choice: New Address
+    shipping_country: Ukraine
     shipping_first_name: %longValue255%
     shipping_last_name: %longValue255%
     shipping_company: %longValue255%
     shipping_street_address_1: %longValue255%
     shipping_street_address_2: %longValue255%
     shipping_city: %longValue255%
-    shipping_country: Ukraine
     shipping_region: %longValue255%
     shipping_zip_code: %longValue255%
     shipping_telephone: %longValue255%
@@ -442,13 +404,13 @@ shipping_with_register_long_values: &shippingWithRegisterLongValues
 
 shipping_with_register_long_values: &shippingWithRegisterSpecialValues
     shipping_address_choice: New Address
+    shipping_country: Ukraine
     shipping_first_name: %specialValue32%
     shipping_last_name: %specialValue32%
     shipping_company: %specialValue32%
     shipping_street_address_1: %specialValue32%
     shipping_street_address_2: %specialValue32%
     shipping_city: %specialValue32%
-    shipping_country: Ukraine
     shipping_region: %specialValue32%
     shipping_zip_code: %specialValue32%
     shipping_telephone: %specialValue32%
@@ -564,25 +526,29 @@ with_register_flatrate_checkmoney_virtual:
     payment_data:
         payment_method: Check / Money order
 
-with_register_flatrate_checkmoney: &withRegisterFlatrateCheck
+with_register_flatrate_checkmoney_usa:
     products_to_add:
         product_1:
             general_name: %noValue%
     checkout_as_customer: *register
-    billing_address_data: *billingWithRegisterReqWithShipping
+    billing_address_data: *billingWithRegisterWithShippingUsa
     shipping_data:
         shipping_service: Flat Rate
         shipping_method: Fixed
     payment_data:
         payment_method: Check / Money order
 
-with_register_flatrate_checkmoney_usa:
-    <<: *withRegisterFlatrateCheck
-    billing_address_data: *billingWithRegisterWithShippingUsa
-
 with_register_flatrate_checkmoney_france:
-    <<: *withRegisterFlatrateCheck
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *register
     billing_address_data: *billingWithRegisterWithShippingFrance
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+    payment_data:
+        payment_method: Check / Money order
 
 with_register_flatrate_checkmoney_different_address:
     products_to_add:
@@ -627,25 +593,29 @@ with_register_flatrate_checkmoney_special_address:
 #                           Order Data for Guest                               #
 #                                                                              #
 ################################################################################
-guest_flatrate_checkmoney: &guestFlatrateCheck
+guest_flatrate_checkmoney_usa:
     products_to_add:
         product_1:
             general_name: %noValue%
     checkout_as_customer: *guest
-    billing_address_data: *guestBillingReqWithShipping
+    billing_address_data: *guestBillingWithShippingUsa
     shipping_data:
         shipping_service: Flat Rate
         shipping_method: Fixed
     payment_data:
         payment_method: Check / Money order
 
-guest_flatrate_checkmoney_usa:
-    <<: *guestFlatrateCheck
-    billing_address_data: *guestBillingWithShippingUsa
-
 guest_flatrate_checkmoney_france:
-    <<: *guestFlatrateCheck
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *guest
     billing_address_data: *guestBillingWithShippingFrance
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+    payment_data:
+        payment_method: Check / Money order
 
 guest_flatrate_checkmoney_virtual:
     products_to_add:
@@ -670,7 +640,7 @@ exist_flatrate_checkmoney_virtual:
     payment_data:
         payment_method: Check / Money order
 
-exist_flatrate_checkmoney: &existFlatrateCheck
+exist_flatrate_checkmoney_usa:
     products_to_add:
         product_1:
             general_name: %noValue%
@@ -682,10 +652,14 @@ exist_flatrate_checkmoney: &existFlatrateCheck
     payment_data:
         payment_method: Check / Money order
 
-exist_flatrate_checkmoney_usa:
-    <<: *existFlatrateCheck
-    billing_address_data: *newBillingSignedInReqWithShippingUsa
-
 exist_flatrate_checkmoney_france:
-    <<: *existFlatrateCheck
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *login
     billing_address_data: *newBillingSignedInReqWithShippingFrance
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+    payment_data:
+        payment_method: Check / Money order

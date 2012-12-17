@@ -30,14 +30,6 @@ class Core_Mage_AdminUser_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Admin User (all required fields are filled).</p>
-     * <p>Steps:</p>
-     * <p>1.Press "Add New User" button.</p>
-     * <p>2.Fill all required fields.</p>
-     * <p>3.Press "Save User" button.</p>
-     * <p>4.Press "Delete User" button.</p>
-     * <p>Expected result:</p>
-     * <p>User successfully deleted.</p>
-     * <p>Message "The user has been deleted." is displayed.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3149
@@ -53,7 +45,7 @@ class Core_Mage_AdminUser_DeleteTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->navigate('manage_admin_users');
-        $this->searchAndOpen($search);
+        $this->searchAndOpen($search, 'permissionsUserGrid');
         //Steps
         $this->clickButtonAndConfirm('delete_user', 'confirmation_for_delete');
         //Verifying
@@ -65,27 +57,23 @@ class Core_Mage_AdminUser_DeleteTest extends Mage_Selenium_TestCase
      *
      * @test
      * @TestlinkId TL-MAGE-5228
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function deleteAdminUserCurrent()
     {
         //Data
         $searchData = $this->loadDataSet('AdminUsers', 'search_admin_user');
-        $searchDataCurrentUser = array();
+        $searchCurrentUser = array();
         //Steps
         $this->navigate('my_account');
         $this->assertTrue($this->checkCurrentPage('my_account'), $this->getParsedMessages());
         foreach ($searchData as $key => $value) {
-            if ($value != '%noValue%') {
-                $xpath = $this->_getControlXpath('field', $key);
-                $searchDataCurrentUser[$key] = $this->getValue($xpath);
-            } else {
-                $searchDataCurrentUser[$key] = $value;
-            }
+            $searchCurrentUser[$key] = $this->getControlAttribute('field', $key, 'value');
         }
         $this->navigate('manage_admin_users');
-        $this->addParameter('user_first_last_name',
-            $searchDataCurrentUser['first_name'] . ' ' . $searchDataCurrentUser['last_name']);
-        $this->searchAndOpen($searchDataCurrentUser);
+        $this->addParameter('elementTitle',
+            $searchCurrentUser['first_name'] . ' ' . $searchCurrentUser['last_name']);
+        $this->searchAndOpen($searchCurrentUser, 'permissionsUserGrid');
         //Verifying
         $this->clickButtonAndConfirm('delete_user', 'confirmation_for_delete');
         //Verifying

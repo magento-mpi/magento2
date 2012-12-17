@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_CmsPolls_Helper extends Mage_Selenium_TestCase
+class Core_Mage_CmsPolls_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Add answers to Poll
@@ -30,6 +30,8 @@ class Core_Mage_CmsPolls_Helper extends Mage_Selenium_TestCase
         foreach ($answersSet as $value) {
             $this->clickButton('add_new_answer', false);
             $this->addParameter('answerId', '-' . $answerId++);
+            $this->assertTrue($this->controlIsPresent('pageelement', 'assigned_answers_block'),
+                'New Assigned Answers block is not added');
             $this->fillForm($value, 'poll_answers');
         }
     }
@@ -63,12 +65,13 @@ class Core_Mage_CmsPolls_Helper extends Mage_Selenium_TestCase
         }
         $xpathTR = $this->search($searchPollData, 'poll_grid');
         $this->assertNotEquals(null, $xpathTR, 'Poll is not found');
-        $id = $this->getColumnIdByName('Poll Question');
-        $this->addParameter('pollName', $this->getText($xpathTR . "//td[$id]"));
+        $cellId = $this->getColumnIdByName('Poll Question');
+        $this->addParameter('tableLineXpath', $xpathTR);
+        $this->addParameter('cellIndex', $cellId);
+        $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
+        $this->addParameter('elementTitle', $param);
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->click($xpathTR);
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        $this->validatePage();
+        $this->clickControl('pageelement', 'table_line_cell_index');
     }
 
     /**
@@ -108,14 +111,17 @@ class Core_Mage_CmsPolls_Helper extends Mage_Selenium_TestCase
      */
     public function closeAllPolls()
     {
-        $xpathTR = $this->search(array('filter_status' => 'Open'));
-        $id = $this->getColumnIdByName('Poll Question');
-        while ($this->isElementPresent($xpathTR)) {
-            $this->addParameter('pollName', $this->getText($xpathTR . "//td[$id]"));
+        $this->fillDropdown('filter_status', 'Open');
+        $this->clickButton('search');
+        $xpathTR = $this->formSearchXpath(array('filter_status' => 'Open'));
+        $cellId = $this->getColumnIdByName('Poll Question');
+        $this->addParameter('tableLineXpath', $xpathTR);
+        $this->addParameter('cellIndex', $cellId);
+        while ($this->controlIsPresent('pageelement', 'table_line_cell_index')) {
+            $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
+            $this->addParameter('elementTitle', $param);
             $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-            $this->click($xpathTR);
-            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-            $this->validatePage();
+            $this->clickControl('pageelement', 'table_line_cell_index');
             $this->fillDropdown('poll_status', 'Closed');
             $this->saveForm('save_poll');
         }
@@ -135,16 +141,17 @@ class Core_Mage_CmsPolls_Helper extends Mage_Selenium_TestCase
 
         $this->assertTrue($this->verifyForm($pollData, 'poll_information'), $this->getParsedMessages());
 
-        $answersXpath = $this->_getControlXpath('fieldset', 'assigned_answers_set');
-        $answersCount = $this->getXpathCount($answersXpath);
+        $answersCount = $this->getControlCount('fieldset', 'assigned_answers_set');
         if (count($answers) == $answersCount) {
-            $i = 1;
+            $param = 1;
             foreach ($answers as $value) {
-                $attId = $this->getAttribute($answersXpath . "[$i]@id");
+                $this->addParameter('index', $param);
+                $this->addParameter('elementXpath', $this->_getControlXpath('fieldset', 'assigned_answers_set'));
+                $attId = $this->getControlAttribute('pageelement', 'element_index', 'id');
                 $answerId = explode("_", $attId);
                 $this->addParameter('answerId', end($answerId));
                 $this->assertTrue($this->verifyForm($value, 'poll_answers'), $this->getParsedMessages());
-                $i++;
+                $param++;
             }
         } else {
             $this->fail("Unexpected count of answers: " . count($answers) . "!= $answersCount");

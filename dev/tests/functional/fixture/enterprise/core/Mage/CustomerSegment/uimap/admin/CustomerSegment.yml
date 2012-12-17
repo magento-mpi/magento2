@@ -1,0 +1,90 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_CustomerSegment
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#Customer Segments page
+manage_customer_segments:
+    mca: customersegment/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'customersegment/')]
+    title: Customer Segments / Customers / Magento Admin
+    uimap:
+        form: &searchCustomerSegmentGrid
+            fieldsets:
+                -
+                    customer_segment_grid:
+                        xpath:  //div[@id='customersegmentGrid']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                        fields:
+                            filter_segment_id: //input[@id='customersegmentGrid_filter_grid_segment_id']
+                            filter_segment_name: //input[@id='customersegmentGrid_filter_grid_segment_name']
+                        dropdowns:
+                            filter_status: //select[@id='customersegmentGrid_filter_grid_segment_is_active']
+                            filter_website: //select[@name='grid_segment_website']
+                        pageelements:
+                            customer_segment_grid_head: //div[@id='customersegmentGrid']//thead/tr[@class='headings']
+        buttons:
+            add_new_segment: //button[span='Add Segment']
+        messages: &customerSegmentMessages
+            success_saved_segment: //li[normalize-space(@class)='success-msg' and contains(.,'The segment has been saved.')]
+            segment_name_required_field: //div[@id='advice-required-entry-segment_name']
+            note_apply_to: //p[@id='note_apply_to']
+            segment_empty_required_field: //div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]
+            confirmation_for_delete: Are you sure you want to do this?
+            success_deleted_segment: //li[normalize-space(@class)='success-msg' and contains(.,'The segment has been deleted.')]
+
+# Add New Customer Segment page
+new_customer_segment:
+    mca: customersegment/new/
+    title: New Segment / Customer Segments / Customers / Magento Admin
+    uimap:
+        form: &newCustomerSegmentForm
+            tabs:
+                -
+                    general_properties: &customerSegmentProperties
+                        xpath: //a[@id='enterprise_customersegment_segment_tabs_general_section']
+                        fieldsets:
+                            -
+                                segment_properties:
+                                    xpath: //div[@id='segment_base_fieldset']
+                                    dropdowns:
+                                        status: //select[@id='segment_is_active']
+                                        apply_to: //select[@id='segment_apply_to']
+                                    fields:
+                                        segment_name: //input[@id='segment_name']
+                                        description: //textarea[@id='segment_description']
+                                    multiselects:
+                                        assigned_to_website: //select[@id='segment_website_ids']
+                                    required: [segment_name, assigned_to_website]
+        buttons:
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            save_segment: //button[span='Save']
+            save_and_continue_edit: //button[span='Save and Continue Edit']
+        messages: *customerSegmentMessages
+
+# Edit Customer Segment page
+edit_customer_segment:
+    mca: customersegment/edit/id/%id%/
+    title: %elementTitle% / Customer Segments / Customers / Magento Admin
+    uimap:
+        form: &editCustomerSegmentForm
+            tabs:
+                -
+                    general_properties: *customerSegmentProperties
+        buttons:
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            refresh_segment_data: //button[span='Refresh Segment Data']
+            delete: //button[span='Delete']
+            save_segment: //button[span='Save']
+            save_and_continue_edit: //button[span='Save and Continue Edit']
+        messages: *customerSegmentMessages
