@@ -175,14 +175,20 @@ new_product:
                                 product_variations:
                                     xpath: //div[@id='config_super_product']
                                     checkboxes:
-                                        general_configurable_attribute_title: //input[@type='checkbox' and @title='%attributeTitle%']
                                         is_configurable: //input[@id='config_super_product-checkbox']
+                                    links:
+                                        suggested_attribute: //ul[contains(concat(' ', normalize-space(@class), ' '), ' ui-menu-item ')]/a[text()='%attributeName%']
+                                    pageelements:
+                                        suggested_attribute_list: //ul[contains(concat(' ', normalize-space(@class), ' '), ' ui-autocomplete ')]
+                            -
+                                select_configurable_attributes:
+                                    xpath: //div[div/h4='Select Configurable Attributes']
+                                    fields:
+                                       general_configurable_attribute_title: //input[@id='attribute-selector']
+                                    checkboxes:
+                                        general_configurable_attribute_title: //input[@type='checkbox' and @title='%attributeTitle%']
                                     buttons:
                                         generate_product_variations: //button[@data-ui-id='admin-product-edit-tab-super-config-grid-container-super-settings-continue-button']
-                                    links:
-                                        suggested_attribute: /..//*[contains(concat(' ', normalize-space(@class), ' '), ' ui-menu-item ')]/*[text()='%attributeName%']
-                                    pageelements:
-                                        suggested_attribute_list: /..//*[contains(concat(' ', normalize-space(@class), ' '), ' ui-autocomplete ')]
                             -
                                 variations_matrix_grid:
                                     xpath: //div[@id='product-variations-matrix']

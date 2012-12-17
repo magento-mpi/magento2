@@ -115,7 +115,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
 
     public function frontGetProductInfo()
     {
-        //@TODO
+        $this->markTestIncomplete('@TODO - implement frontGetProductInfo');
         return array();
     }
 
@@ -476,7 +476,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $this->isSelectedCategory($generalTab['general_categories']);
             unset($generalTab['general_categories']);
         }
-        //@TODO
+        $this->markTestIncomplete('@TODO - implement verifyGeneralTab');
     }
 
     /**
@@ -580,11 +580,12 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function selectConfigurableAttribute($attributeTitle)
     {
-        $locator = $this->_getControlXpath('field', 'attribute_selector');
-        $element = $this->waitForElementEditable($locator, 10);
-        $element->value($attributeTitle);
         $this->addParameter('attributeName', $attributeTitle);
-        $this->waitForElementEditable($this->_getControlXpath('link', 'suggested_attribute'))->click();
+        $element = $this->waitForControlEditable(self::FIELD_TYPE_INPUT,
+            'general_configurable_attribute_title', 10);
+        $this->focusOnElement($element);
+        $element->value($attributeTitle);
+        $this->waitForControlEditable('link', 'suggested_attribute')->click();
     }
 
     /**

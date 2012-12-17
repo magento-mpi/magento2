@@ -2541,6 +2541,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
+     * @param string $controlName Name of a control from UIMap
+     * @param int|null $timeout
+     * @return PHPUnit_Extensions_Selenium2TestCase_Element
+     */
+    public function waitForControl($controlType, $controlName, $timeout = null)
+    {
+        $locator = $this->_getControlXpath($controlType, $controlName);
+        return $this->waitForElement($locator, $timeout);
+    }
+
+    /**
      * Waits for the element(alert) to appear
      *
      * @param string|array $locator
@@ -2617,6 +2629,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
+     * @param string $controlName Name of a control from UIMap
+     * @param int|null $timeout
+     * @return PHPUnit_Extensions_Selenium2TestCase_Element
+     */
+    public function waitForControlVisible($controlType, $controlName, $timeout = null)
+    {
+        $locator = $this->_getControlXpath($controlType, $controlName);
+        return $this->waitForElementVisible($locator, $timeout);
+    }
+
+    /**
      * Waits for the element(s) to be visible
      *
      * @param string|array $locator XPath locator or array of locator's
@@ -2654,6 +2678,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $this->assertEmptyPageErrors();
         throw new RuntimeException($this->locationToString() . 'Timeout after ' . $timeout . ' seconds' . $output);
+    }
+
+    /**
+     * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
+     * @param string $controlName Name of a control from UIMap
+     * @param int|null $timeout
+     * @return PHPUnit_Extensions_Selenium2TestCase_Element
+     */
+    public function waitForControlEditable($controlType, $controlName, $timeout = null)
+    {
+        $locator = $this->_getControlXpath($controlType, $controlName);
+        return $this->waitForElementEditable($locator, $timeout);
     }
 
     /**
