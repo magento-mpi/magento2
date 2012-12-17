@@ -37,6 +37,10 @@
                     <name>general_section</name>
                     <block>Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General</block>
                 </action>
+                <action method="addTab">
+                    <name>css_tab</name>
+                    <block>Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css</block>
+                </action>
             </block>
         </reference>
     </adminhtml_system_design_theme_edit>
