@@ -81,26 +81,27 @@
         </div>
         <div class="product-collateral">
             <?php if ($detailedInfoGroup = $this->getGroupChildNames('detailed_info', 'getChildHtml')):?>
-                <dl id="collateral-tabs" class="collateral-tabs">
-                <?php $layout = $this->getLayout(); ?>
-                <?php foreach ($detailedInfoGroup as $name):?>
-                    <?php $html = $layout->renderElement($name); ?>
-                    <?php if (!$html) continue; ?>
-                    <?php $alias = $layout->getElementAlias($name); ?>
-                    <dt class="tab"><span><?php echo $this->escapeHtml($this->getChildData($alias, 'title')) ?></span></dt>
-                    <dd class="tab-container">
-                       <div class="tab-content"><?php echo $html ?></div>
-                    </dd>
-                <?php endforeach;?>
-                </dl>
-                <script type="text/javascript">
-                //<![CDATA[
-                    var collateralTabs = new Enterprise.Tabs('collateral-tabs');
-                    Event.observe(window, 'load', function() {
-                        collateralTabs.select();
-                    });
-                //]]>
-                </script>
+                <div class="c pr" role="tabs">
+                    <?php $layout = $this->getLayout(); ?>
+                    <ul>
+                        <?php foreach ($detailedInfoGroup as $name):?>
+                            <?php
+                                $html = $layout->renderElement($name);
+                                if (!$html) continue;
+                                $alias = $layout->getElementAlias($name);
+                                $label = $this->escapeHtml($this->getChildData($alias, 'title'));
+                            ?>
+                            <li><a href="#<?php echo $name; ?>"><?php echo $label; ?></a></li>
+                        <?php endforeach;?>
+                    </ul>
+                    <?php foreach ($detailedInfoGroup as $name):?>
+                        <?php
+                            $html = $layout->renderElement($name);
+                            if (!$html) continue;
+                        ?>
+                        <div id="<?php echo $name; ?>"><?php echo $html; ?></div>
+                    <?php endforeach;?>
+                </div>
             <?php endif; ?>
             <?php if ($this->canEmailToFriend()): ?>
                 <p class="emailto-link"><a href="<?php echo $this->helper('Mage_Catalog_Helper_Product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a></p>
