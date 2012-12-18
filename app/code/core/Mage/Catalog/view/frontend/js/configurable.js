@@ -101,6 +101,34 @@
                 this._resetChildren(element);
             }
             this._reloadPrice();
+            this._changeProductImage();
+        },
+        _changeProductImage: function () {
+            var images = this.options.spConfig.images,
+                imagesArray = [];
+            $.each(this.options.setings, function (k, v) {
+                var selectValue = parseInt(v.value),
+                    attributeId = v.id.replace(/[a-z]*/, '');
+                if (selectValue > 0 && attributeId) {
+                    if (imagesArray.length === 0) {
+                        imagesArray = images[attributeId][selectValue];
+                    } else {
+                        var intersectedArray = [];
+                        $.each(imagesArray, function (productId, imageSrc) {
+                            if (images[attributeId][selectValue][productId]) {
+                                intersectedArray.push(images[attributeId][selectValue][productId]);
+                            }
+                        });
+                        imagesArray = intersectedArray;
+                    }
+                }
+            });
+
+            //Convert object to array for proper items count
+            var result = !Array.isArray(imagesArray) ? Object.values(imagesArray) : imagesArray;
+            if (result.length === 1) {
+                $('#image').attr('src', result.pop());
+            }
         },
         _reloadOptionLabels: function (element) {
             var selectedPrice = 0;

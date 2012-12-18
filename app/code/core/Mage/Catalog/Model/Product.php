@@ -1950,4 +1950,15 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         return $this->getStatus() == Mage_Catalog_Model_Product_Status::STATUS_DISABLED;
     }
+
+    /**
+     * Sets product image from it's child if possible
+     *
+     * @return string
+     */
+    public function getImage()
+    {
+        $this->getTypeInstance()->setImageFromChildProduct($this);
+        return parent::getImage();
+    }
 }

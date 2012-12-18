@@ -859,4 +859,23 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
         $configurableAttribute = Mage::getModel('Mage_Catalog_Model_Product_Type_Configurable_Attribute');
         $configurableAttribute->deleteByProduct($product);
     }
+
+    /**
+     * Set image for product without image if possible
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return Mage_Catalog_Model_Product_Type_Configurable
+     */
+    public function setImageFromChildProduct(Mage_Catalog_Model_Product $product)
+    {
+        if (!$product->getData('image') || $product->getData('image') === 'no_selection') {
+            foreach ($this->getUsedProducts($product) as $childProduct) {
+                if ($childProduct->getData('image') && $childProduct->getData('image') !== 'no_selection') {
+                    $product->setImage($childProduct->getData('image'));
+                    break;
+                }
+            }
+        }
+        return parent::setImageFromChildProduct($product);
+    }
 }
