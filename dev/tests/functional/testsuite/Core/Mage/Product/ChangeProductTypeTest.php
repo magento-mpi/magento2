@@ -305,11 +305,11 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         //Data
         $configurable = $this->loadDataSet('Product', 'configurable_product_visible',
             array(
-                'configurable_attribute_title' => $data['attributeName'],
-                'associated_configurable_data' => $this->loadDataSet('Product', 'associated_configurable_data',
+                'general_configurable_attribute_title' => $data['attributeName'],
+                'general_configurable_data' => $this->loadDataSet('Product', 'general_configurable_data',
                     array(
-                        'associated_search_sku' => $data['productSku'],
-                        'associated_product_attribute_value' => $data['attributeValue']
+                        'general_search_sku' => $data['productSku'],
+                        'general_product_attribute_value' => $data['attributeValue']
                     )
                 )
             )
@@ -317,14 +317,17 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $configurable['general_sku']));
         //Steps and Verifying
         $this->productHelper()->selectTypeProduct($initialType);
+        if ($initialType == 'simple') {
+            $this->fillCheckbox('general_weight_and_type_switcher', 'yes');
+        }
         $this->assertTrue($this->getControlElement('checkbox', 'general_weight_and_type_switcher')->selected(),
             'Weight checkbox is not selected');
-        $this->assertFalse($this->controlIsVisible('fieldset', 'product_variations'),
+        $this->assertFalse($this->controlIsVisible('pageelement', 'product_variations_fieldset'),
             'Product variation block is present');
         $this->fillCheckbox('is_configurable', 'yes');
-        $this->assertTrue($this->controlIsVisible('fieldset', 'product_variations'),
+        $this->assertTrue($this->controlIsVisible('pageelement', 'product_variations_fieldset'),
             'Product variation block is absent');
-        $this->productHelper()->fillConfigurableSettings($configurable);
+        $this->productHelper()->fillConfigurableSettings($configurable['general_configurable_attribute_title']);
         $this->productHelper()->fillProductInfo($configurable);
         $this->saveForm('save');
         //Verifying
@@ -334,7 +337,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct($search);
         $this->assertTrue($this->getControlElement('checkbox', 'is_configurable')->selected(),
             'Product variation checkbox is not checked');
-        $this->assertTrue($this->controlIsVisible('fieldset', 'product_variations'),
+        $this->assertTrue($this->controlIsVisible('pageelement', 'product_variations_fieldset'),
             'Product variation block is absent');
     }
 
@@ -362,10 +365,10 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->productHelper()->selectTypeProduct('configurable');
         $this->assertTrue($this->getControlElement('checkbox', 'is_configurable')->selected(),
             'Product variation checkbox is not checked');
-        $this->assertTrue($this->controlIsVisible('fieldset', 'product_variations'),
+        $this->assertTrue($this->controlIsVisible('pageelement', 'product_variations_fieldset'),
             'Product variation block is absent');
         $this->fillCheckbox('is_configurable', 'no');
-        $this->assertFalse($this->controlIsVisible('fieldset', 'product_variations'),
+        $this->assertFalse($this->controlIsVisible('pageelement', 'product_variations_fieldset'),
             'Product variation block is present');
         $this->fillCheckbox('general_weight_and_type_switcher', 'no');
         $this->productHelper()->fillProductInfo($simple);
@@ -377,7 +380,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct($search);
         $this->assertFalse($this->getControlElement('checkbox', 'is_configurable')->selected(),
             'Product variation checkbox is selected');
-        $this->assertFalse($this->controlIsVisible('fieldset', 'product_variations'),
+        $this->assertFalse($this->controlIsVisible('pageelement', 'product_variations_fieldset'),
             'Product variation block is present');
     }
 
@@ -396,11 +399,11 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
         $configurableProduct = $this->loadDataSet('Product', 'configurable_product_visible',
             array(
-                'configurable_attribute_title' => $data['attributeName'],
-                'associated_configurable_data' => $this->loadDataSet('Product', 'associated_configurable_data',
+                'general_configurable_attribute_title' => $data['attributeName'],
+                'general_configurable_data' => $this->loadDataSet('Product', 'general_configurable_data',
                     array(
-                        'associated_search_sku' => $data['productSku'],
-                        'associated_product_attribute_value' => $data['attributeValue']
+                        'general_search_sku' => $data['productSku'],
+                        'general_product_attribute_value' => $data['attributeValue']
                     )
                 )
             )
@@ -410,7 +413,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($configurableProduct, 'configurable', false);
         $this->openTab('general');
         $this->fillCheckbox('is_configurable', 'no');
-        $this->assertFalse($this->controlIsVisible('fieldset', 'product_variations'),
+        $this->assertFalse($this->controlIsVisible('pageelement', 'product_variations_fieldset'),
             'Product variation block is present');
         $this->fillCheckbox('general_weight_and_type_switcher', 'no');
         $this->productHelper()->fillProductInfo($simple);
@@ -422,7 +425,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct($search);
         $this->assertFalse($this->getControlElement('checkbox', 'is_configurable')->selected(),
             'Product variation checkbox is selected');
-        $this->assertFalse($this->controlIsVisible('fieldset', 'product_variations'),
+        $this->assertFalse($this->controlIsVisible('pageelement', 'product_variations_fieldset'),
             'Product variation block is present');
     }
 
@@ -443,11 +446,11 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $initialProduct = $this->loadDataSet('Product', $initialType . '_product_visible');
         $configurable = $this->loadDataSet('Product', 'configurable_product_visible',
             array(
-                'configurable_attribute_title' => $data['attributeName'],
-                'associated_configurable_data' => $this->loadDataSet('Product', 'associated_configurable_data',
+                'general_configurable_attribute_title' => $data['attributeName'],
+                'general_configurable_data' => $this->loadDataSet('Product', 'general_configurable_data',
                     array(
-                        'associated_search_sku' => $data['productSku'],
-                        'associated_product_attribute_value' => $data['attributeValue']
+                        'general_search_sku' => $data['productSku'],
+                        'general_product_attribute_value' => $data['attributeValue']
                     )
                 )
             )
@@ -458,9 +461,9 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('sku' => $initialProduct['general_sku']));
         $this->fillCheckbox('is_configurable', 'yes');
-        $this->assertTrue($this->controlIsVisible('fieldset', 'product_variations'),
+        $this->assertTrue($this->controlIsVisible('pageelement', 'product_variations_fieldset'),
             'Product variation block is absent');
-        $this->productHelper()->fillConfigurableSettings($configurable);
+        $this->productHelper()->fillConfigurableSettings($configurable['general_configurable_attribute_title']);
         $this->productHelper()->fillProductInfo($configurable);
         $this->saveForm('save');
         //Verifying
@@ -470,7 +473,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct($search);
         $this->assertTrue($this->getControlElement('checkbox', 'is_configurable')->selected(),
             'Product variation checkbox is not checked');
-        $this->assertTrue($this->controlIsVisible('fieldset', 'product_variations'),
+        $this->assertTrue($this->controlIsVisible('pageelement', 'product_variations_fieldset'),
             'Product variation block is absent');
     }
 
@@ -488,11 +491,11 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         //Data
         $configurable = $this->loadDataSet('Product', 'configurable_product_visible',
             array(
-                'configurable_attribute_title' => $data['attributeName'],
-                'associated_configurable_data' => $this->loadDataSet('Product', 'associated_configurable_data',
+                'general_configurable_attribute_title' => $data['attributeName'],
+                'general_configurable_data' => $this->loadDataSet('Product', 'general_configurable_data',
                     array(
-                        'associated_search_sku' => $data['productSku'],
-                        'associated_product_attribute_value' => $data['attributeValue']
+                        'general_search_sku' => $data['productSku'],
+                        'general_product_attribute_value' => $data['attributeValue']
                     )
                 )
             )
@@ -504,7 +507,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct(array('sku' => $configurable['general_sku']));
         $this->assertTrue($this->getControlElement('checkbox', 'is_configurable')->selected(),
             'Product variation checkbox is not checked');
-        $this->assertTrue($this->controlIsVisible('fieldset', 'product_variations'),
+        $this->assertTrue($this->controlIsVisible('pageelement', 'product_variations_fieldset'),
             'Product variation block is absent');
         $this->productHelper()->unassignAllConfigurableVariations();
         $this->saveForm('save');
@@ -515,7 +518,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct($search);
         $this->assertTrue($this->getControlElement('checkbox', 'is_configurable')->selected(),
             'Product variation checkbox is not checked');
-        $this->assertTrue($this->controlIsVisible('fieldset', 'product_variations'),
+        $this->assertTrue($this->controlIsVisible('pageelement', 'product_variations_fieldset'),
             'Product variation block is absent');
     }
 }

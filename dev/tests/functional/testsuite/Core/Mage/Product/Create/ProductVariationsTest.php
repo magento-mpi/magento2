@@ -134,7 +134,7 @@ class Core_Mage_Product_Create_ConfigurableWithVariations extends Mage_Selenium_
     {
         //Data
         $this->productHelper()->selectTypeProduct('configurable');
-        $this->assertTrue($this->controlIsVisible('fieldset', 'product_variations'));
+        $this->assertTrue($this->controlIsVisible('pageelement', 'product_variations_fieldset'));
         $this->fillCheckbox('is_configurable', 'yes');
         $this->assertTrue($this->getControlAttribute('checkbox', 'is_configurable', 'selectedValue'));
         $this->productHelper()->fillConfigurableSettings($data['attribute']);
@@ -156,7 +156,7 @@ class Core_Mage_Product_Create_ConfigurableWithVariations extends Mage_Selenium_
     {
         //Steps
         $this->productHelper()->selectTypeProduct('configurable');
-        $this->assertTrue($this->controlIsVisible('fieldset', 'product_variations'));
+        $this->assertTrue($this->controlIsVisible('pageelement', 'product_variations_fieldset'));
         $this->fillCheckbox('is_configurable', 'yes');
         $this->assertTrue($this->getControlAttribute('checkbox', 'is_configurable', 'selectedValue'));
         $this->productHelper()->fillConfigurableSettings($data['attribute']);

@@ -126,8 +126,8 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
             array('general_configurable_attribute_title' => $attrData['admin_title']));
         $configPr['general_configurable_data'] = $this->loadDataSet('Product', 'general_configurable_data',
             array(
-                'associated_search_sku' => $associated['general_sku'],
-                'associated_product_attribute_value' => $attrData['option_1']['admin_option_name']
+                'general_search_sku' => $associated['general_sku'],
+                'general_product_attribute_value' => $attrData['option_1']['admin_option_name']
             )
         );
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $associated['general_sku']));

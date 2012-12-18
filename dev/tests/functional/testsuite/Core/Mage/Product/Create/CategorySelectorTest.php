@@ -131,10 +131,8 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $this->productHelper()->createProduct($productData, 'simple', false);
         $this->openTab('general');
         $this->fillField('general_categories', $categories['newRoot']['category']);
-        $this->waitForElementVisible($this->_getControlXpath('fieldset', 'category_search'));
         //Verifying
-        $this->assertTrue($this->controlIsPresent('link', 'selected_category'),
-            'Selected category is not highlighted.');
+        $this->waitForElementEditable($this->_getControlXpath('link', 'selected_category'));
     }
 
     /**

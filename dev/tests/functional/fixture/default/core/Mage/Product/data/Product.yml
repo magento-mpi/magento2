@@ -273,30 +273,30 @@ associated_grouped_data: &associatedProductsGroupedData
 #*****************************************************
 
 configurable_attributes: &confirurableAttributesValues
-    associated_product_attribute_1:
-        associated_product_attribute_name: %noValue%
-        associated_product_attribute_value: %noValue%
+    general_product_attribute_1:
+        general_product_attribute_name: %noValue%
+        general_product_attribute_value: %noValue%
 
-associated_configurable: &configurableAssociatedProduct1
+general_configurable: &configurableAssociatedProduct1
     # Data to search
-    associated_search_id: %noValue%
-    associated_search_name: %noValue%
-    associated_search_attribute_set: %noValue%
-    associated_search_sku: %noValue%
-    associated_search_price_from: %noValue%
-    associated_search_price_to: %noValue%
-    associated_search_inventory: %noValue%
-    associated_search_by_attribute_value: %noValue%
+    general_search_id: %noValue%
+    general_search_name: %noValue%
+    general_search_attribute_set: %noValue%
+    general_search_sku: %noValue%
+    general_search_price_from: %noValue%
+    general_search_price_to: %noValue%
+    general_search_inventory: %noValue%
+    general_search_by_attribute_value: %noValue%
     # Data to fill in
-    associated_product_price: %noValue%
-    associated_product_price_type: %noValue%
-    associated_product_attribute: *confirurableAttributesValues
+    general_product_price: %noValue%
+    general_product_price_type: %noValue%
+    general_product_attribute: *confirurableAttributesValues
 
 general_configurable_data: &associatedProductsConfigurableData
-    associated_products_attribute_name_default: %noValue%
-    associated_products_attribute_name: %noValue%
-    associated_configurable_1: *configurableAssociatedProduct1
-    associated_configurable_2: %noValue%
+    general_products_attribute_name_default: %noValue%
+    general_products_attribute_name: %noValue%
+    general_configurable_1: *configurableAssociatedProduct1
+    general_configurable_2: %noValue%
 
 #*********************************************
 #*         Bundle Items Data                 *
@@ -1554,11 +1554,11 @@ configurable_product_related: &configurable_product_related
     websites: Main Website
     general_categories: Default Category
     general_configurable_data:
-        associated_products_attribute_name_default: No
-        associated_products_attribute_name: attribute_name_%randomize%
-        associated_configurable_1:
-            associated_search_sku: %noValue%
-            associated_product_attribute: *confirurableAttributesValues
+        general_products_attribute_name_default: No
+        general_products_attribute_name: attribute_name_%randomize%
+        general_configurable_1:
+            general_search_sku: %noValue%
+            general_product_attribute: *confirurableAttributesValues
 
 grouped_product_related: &grouped_product_related
     product_attribute_set: Default
@@ -1573,7 +1573,7 @@ grouped_product_related: &grouped_product_related
     general_categories: Default Category
     associated_grouped_data:
         associated_grouped_1:
-            associated_search_sku: %noValue%
+            general_search_sku: %noValue%
             associated_product_default_qty: 1
 
 #<--------------------------------------------Base products for linking to--------------------------------------------->
@@ -2129,11 +2129,11 @@ configurable_multi_checkout:
     websites: Main Website
     general_categories: Default Category
     general_configurable_data:
-        associated_products_attribute_name_default: %noValue%
-        associated_products_attribute_name: %noValue%
-        associated_configurable_1: *configurableAssociatedProduct1
-        associated_configurable_2: *configurableAssociatedProduct1
-        associated_configurable_3: *configurableAssociatedProduct1
+        general_products_attribute_name_default: %noValue%
+        general_products_attribute_name: %noValue%
+        general_configurable_1: *configurableAssociatedProduct1
+        general_configurable_2: *configurableAssociatedProduct1
+        general_configurable_3: *configurableAssociatedProduct1
 
 configurable_multi_checkout_options:
     product_attribute_set: Default
@@ -2151,11 +2151,11 @@ configurable_multi_checkout_options:
     general_categories: Default Category
     custom_options_data: *customOptionsData
     general_configurable_data:
-        associated_products_attribute_name_default: %noValue%
-        associated_products_attribute_name: %noValue%
-        associated_configurable_1: *configurableAssociatedProduct1
-        associated_configurable_2: *configurableAssociatedProduct1
-        associated_configurable_3: *configurableAssociatedProduct1
+        general_products_attribute_name_default: %noValue%
+        general_products_attribute_name: %noValue%
+        general_configurable_1: *configurableAssociatedProduct1
+        general_configurable_2: *configurableAssociatedProduct1
+        general_configurable_3: *configurableAssociatedProduct1
 #*********************************************
 #*         Product Updating Data              *
 #*********************************************
@@ -2298,9 +2298,9 @@ configurable_product_minimal:
     general_min_tax_class: None
     general_categories: Default Category
     general_configurable_data:
-        associated_configurable_1:
-            associated_search_sku: %associated_1%
-            associated_product_attribute: *confirurableAttributesValues
+        general_configurable_1:
+            general_search_sku: %associated_1%
+            general_product_attribute: *confirurableAttributesValues
 
 downloadable_product_minimal:
     product_attribute_set: Minimal

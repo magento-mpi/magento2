@@ -180,6 +180,7 @@ new_product:
                                         suggested_attribute: //ul[contains(concat(' ', normalize-space(@class), ' '), ' ui-menu-item ')]/a[text()='%attributeName%']
                                     pageelements:
                                         suggested_attribute_list: //ul[contains(concat(' ', normalize-space(@class), ' '), ' ui-autocomplete ')]
+                                        product_variations_fieldset: /fieldset
                             -
                                 select_configurable_attributes:
                                     xpath: //div[div/h4='Select Configurable Attributes']
