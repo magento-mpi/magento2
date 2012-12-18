@@ -20,7 +20,7 @@ url_rewrite_management:
             fieldsets:
                 -
                     url_rewrite_grid:
-                        xpath: //div[@id='urlrewriteGrid']
+                        xpath: //div[@id='gridUrlRewrite']
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
@@ -37,7 +37,7 @@ url_rewrite_management:
                             filter_options: //input[@name='options']
                         pageelements:
                             page_grid_head: //div[@id='urlrewriteGrid']//thead/tr[@class='headings']
-                            page_grid: //table[@id='urlrewriteGrid_table']
+                            page_grid: //table[@id='gridUrlRewrite_table']
         buttons:
             add_new_rewrite: //button[span='Add URL Rewrite']
         messages: &pageMessages
@@ -56,15 +56,18 @@ add_new_urlrewrite_category:
             fieldsets:
                 -
                     category_rewrite:
+                        xpath: //div[@id='base_fieldset']
+                        fields:
+                            request_path: //input[@id='request_path']
+                -
+                    select_category:
                         xpath: //*[@id='page:main-container']/div/fieldset
                         links:
                             root_category: //ul/div/li/div/a[contains(span,'%rootName%')]
-#                            Don't delete this xpath
-#                            sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+#                           Don't delete this xpath
+#                           sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
                             sub_category: //ul[@class='x-tree-node-ct']/li/div/a[contains(span,'%subName%')]
                             expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
-                        fields:
-                            request_path: //input[@id='request_path']
         dropdowns:
             create_url_rewrite_dropdown: //select[@class='select']
         buttons:
