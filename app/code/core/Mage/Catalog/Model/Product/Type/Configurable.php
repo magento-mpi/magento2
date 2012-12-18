@@ -402,6 +402,17 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
                    ->setProductId($product->getId())
                    ->save();
             }
+            /** @var $configurableAttributesCollection Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection  */
+            $configurableAttributesCollection = Mage::getResourceModel(
+                'Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection'
+            );
+            $configurableAttributesCollection->setProductFilter($product);
+            $configurableAttributesCollection->addFieldToFilter(
+                'attribute_id',
+                array('nin'=> $this->getUsedProductAttributeIds($product))
+            );
+            $configurableAttributesCollection->walk('delete');
+
         }
 
         /* Save product relations */
