@@ -32,10 +32,7 @@
                         var list = [];
                         $.each(data, function(id, item) {
                             if (!$('#attribute_' + id + '.configurable-attribute-checkbox').length) {
-                                list.push({
-                                    label: item.label,
-                                    value: id
-                                });
+                                list.push(item);
                             }
                         });
                         response(list);
@@ -45,30 +42,12 @@
                     return false;
                 },
                 select: function(event, ui) {
-                    var rowTemplate =
-                        '<tr id="attribute-attribute_${id}-container">' +
-                            '<td class="label">' +
-                                '<label for="attribute_${id}">${label}</label>' +
-                            '</td>' +
-                            '<td class="value">' +
-                                '<input id="attribute_${id}" name="attributes[]" value="${id}" title="${label}" ' +
-                                    'class="configurable-attribute-checkbox" checked="checked" type="checkbox">' +
-                            '</td>' +
-                            '<td class="scope-label">' +
-                                '<span class="nobr"></span>' +
-                            '</td>' +
-                        '</tr>';
-
-                    $('tr:has(#continue_button)').before($.tmpl(rowTemplate, {
-                        id: ui.item.value,
-                        label: ui.item.label
-                    }));
+                    $('#attribute-template').tmpl({attribute: ui.item}).appendTo('#attributes-container');
                     $(this).val('');
-
                     return false;
                 }
             })
-            .focus(function () {
+            .on('click focus', function () {
                 $(this).autocomplete('search');
             });
     });

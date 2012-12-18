@@ -10,35 +10,114 @@
  /** @var $this Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config */
 ?>
 
-<div id="<?php echo $this->getId()?>">
-<input type="checkbox" id="<?php echo $this->getId()?>-checkbox" name="attributes"
-       value=""
-<?php if ($this->_getProduct()->isConfigurable() || $this->getRequest()->has('attributes')) {
-    echo ' checked="checked" ';
-}?>
-/>
-<label for="<?php echo $this->getId()?>-checkbox">
-    <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Does this product have variations?') ?>
-</label>
-<fieldset>
-<?php
-echo $this->getChildHtml('super_settings');
-if (count($this->getSelectedAttributes())) {
-?>
-<div class="entry-edit">
+<div class="entry-edit" id="<?php echo $this->getId() ?>">
     <div class="entry-edit-head">
-        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Super product attributes configuration') ?></h4>
+        <h4 class="icon-head head-edit-form fieldset-legend">
+
+        <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Product Variation') ?>
+        </h4>
+        <div style="float:right">
+            <input type="checkbox" id="<?php echo $this->getId()?>-checkbox" name="attributes"
+                value=""
+                <?php if ($this->_getProduct()->isConfigurable() || $this->getRequest()->has('attributes')) {
+                echo ' checked="checked" ';
+            }?>
+                />
+            <label for="<?php echo $this->getId()?>-checkbox">
+                <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Does this product have variations?') ?>
+            </label>
+        </div>
     </div>
-    <fieldset id="<?php echo $this->getHtmlId() ?>">
+    <fieldset>
+        <input id="attribute-selector"
+            placeholder="start typing to search attribute"
+            title="Select Attribute" type="text"
+            style="width: 100%; margin: 0px 0px 20px; padding: 5px; box-sizing: border-box; font-size: 1.5em;"
+            class="input-text" autocomplete="off">
         <div id="attributes-container">
+        <script id="attribute-template" type="text/x-jquery-tmpl">
+            <div>
+                <input name="attributes[]"
+                    value="${attribute.id}" type="hidden">
+                <input value="new" type="hidden"
+                    name="product[configurable_attributes_data][${attribute.id}]][id]"/>
+                <input value="${attribute.id}" type="hidden"
+                    name="product[configurable_attributes_data][${attribute.id}][attribute_id]"/>
+                <input value="" type="hidden" class="attribute-position"
+                    name="product[configurable_attributes_data][${attribute.id}][position]"/>
+
+                <div class="entry-edit-head" style="cursor: move;">
+                    <span class="ui-icon ui-icon-arrowthick-2-n-s" style="float:left;"></span>
+                    <h4 class="icon-head head-edit-form fieldset-legend">
+                        <input value="${attribute.label}"
+                            name="product[configurable_attributes_data][${attribute.id}][label]"
+                            data-store-label="${attribute.label}"
+                            style="background: #6F8992; border: none"
+                            class="required-entry"/>
+                        <label for="attribute-${attribute.id}">
+                            <input value="1"
+                                type="checkbox"
+                                name="product[configurable_attributes_data][${attribute.id}][use_default]"
+                                id="attribute-${attribute.id}"/>
+                            <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Use default')?>
+                    </h4>
+                    <span class="ui-icon ui-icon-circle-close" style="float:right"
+                        onclick="jQuery(this).parents('.attribute-container:eq(0)').remove();"></span>
+                    <span class="ui-icon ui-icon-circle-triangle-s"
+                        style="float:right"
+                        onclick="jQuery(this).parent().next('fieldset').toggle();"></span>
+                </div>
+                <fieldset>
+                    <table style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>Option Value</th>
+                            <th>Change Price</th>
+                            <th>Include</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {{each(index, option) attribute.options}}
+                            <tr>
+                                <td>${option.label}</td>
+                                <td>
+                                    <input type="hidden"
+                                        name="product[configurable_attributes_data][${attribute.id}][values][${option.value}][value_index]"
+                                        value="${option.value}">
+                                    <input type="text"
+                                        name="product[configurable_attributes_data][${attribute.id}][values][${option.value}][pricing_value]"
+                                        value="">
+                                    <select
+                                        name="product[configurable_attributes_data][${attribute.id}][values][${option.value}][is_percent]">
+                                        <option value="0">Fixed</option>
+                                        <option value="1">Percentage</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="hidden"
+                                        name="product[configurable_attributes_data][${attribute.id}][values][${option.value}][include]"
+                                        value="0" />
+                                    <input type="checkbox"
+                                        name="product[configurable_attributes_data][${attribute.id}][values][${option.value}][include]"
+                                        value="1" checked="checked" />
+                                </td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </fieldset>
+            </div>
+        </script>
         <?php foreach ($this->getAttributes() as $attribute) { ?>
             <div class="entry-edit attribute-container" <?php echo $this->getUiId('attrribute-container', $attribute['attribute_code']) ?>>
+                <input name="attributes[]"
+                    value="<?php echo $attribute['attribute_id']; ?>" type="hidden">
                 <input value="<?php echo $attribute['id']; ?>" type="hidden"
-                       name="product[configurable_attributes_data][<?php echo $attribute['attribute_id']?>][id]" />
+                    name="product[configurable_attributes_data][<?php echo $attribute['attribute_id']?>][id]" />
                 <input value="<?php echo $attribute['attribute_id']; ?>" type="hidden"
-                       name="product[configurable_attributes_data][<?php echo $attribute['attribute_id']?>][attribute_id]"/>
+                    name="product[configurable_attributes_data][<?php echo $attribute['attribute_id']?>][attribute_id]"/>
                 <input value="<?php echo $attribute['position']; ?>" type="hidden" class="attribute-position"
-                       name="product[configurable_attributes_data][<?php echo $attribute['attribute_id']?>][position]"/>
+                    name="product[configurable_attributes_data][<?php echo $attribute['attribute_id']?>][position]"/>
 
                 <div class="entry-edit-head" style="cursor: move;">
                     <span class="ui-icon ui-icon-arrowthick-2-n-s" style="float:left;"></span>
@@ -124,9 +203,11 @@ if (count($this->getSelectedAttributes())) {
             </div>
         <?php } ?>
         </div>
-    </fieldset>
-</div>
-
+        <?php  echo $this->getChildHtml('generate'); ?>
+<?php
+//echo $this->getChildHtml('super_settings');
+if (count($this->getSelectedAttributes())) {
+?>
 <div id="product-variations-matrix" class="grid" style="margin:20px 0">
 <?php
     $variations = $this->getVariations();
@@ -243,8 +324,9 @@ if (count($this->getSelectedAttributes())) {
 
 <div><input type="hidden" name="affect_configurable_product_attributes" value="1" /></div>
 <?php } ?>
+
 </fieldset>
-</div>
+
 <script type="text/javascript">
 jQuery(function($) {
     var usedAttributes = jQuery('#associated-products-container').data('usedAttributes') || [];
@@ -340,3 +422,4 @@ jQuery(function($) {
     });
 });
 </script>
+</div>

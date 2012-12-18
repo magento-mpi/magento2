@@ -228,18 +228,19 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     {
         $res = array();
         foreach ($this->getConfigurableAttributes($product) as $attribute) {
+            $eavAttribute = $attribute->getProductAttribute();
             /* @var $attribute Mage_Catalog_Model_Product_Type_Configurable_Attribute */
-            $res[] = array(
+            $res[$eavAttribute->getId()] = array(
                 'id'             => $attribute->getId(),
                 'label'          => $attribute->getLabel(),
                 'use_default'    => $attribute->getUseDefault(),
                 'position'       => $attribute->getPosition(),
                 'values'         => $attribute->getPrices() ? $attribute->getPrices() : array(),
-                'attribute_id'   => $attribute->getProductAttribute()->getId(),
-                'attribute_code' => $attribute->getProductAttribute()->getAttributeCode(),
-                'frontend_label' => $attribute->getProductAttribute()->getFrontend()->getLabel(),
-                'store_label'    => $attribute->getProductAttribute()->getStoreLabel(),
-                'oprions'        => $attribute->getProductAttribute()->getSource()->getAllOptions(false),
+                'attribute_id'   => $eavAttribute->getId(),
+                'attribute_code' => $eavAttribute->getAttributeCode(),
+                'frontend_label' => $eavAttribute->getFrontend()->getLabel(),
+                'store_label'    => $eavAttribute->getStoreLabel(),
+                'oprions'        => $eavAttribute->getSource()->getAllOptions(false),
             );
         }
         return $res;
@@ -386,12 +387,12 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
             foreach ($data as $attributeData) {
                 /** @var $configurableAttribute Mage_Catalog_Model_Product_Type_Configurable_Attribute */
                 $configurableAttribute = Mage::getModel('Mage_Catalog_Model_Product_Type_Configurable_Attribute');
-                if (isset($attributeData['id'])) {
+                if (!empty($attributeData['id'])) {
                     $configurableAttribute->load($attributeData['id']);
                 } else {
                     $configurableAttribute->loadByProductAndAttribute(
                         $product,
-                        $product->getTypeInstance()->getAttributeById($attributeData['attribute_id'], $product)
+                        $this->getAttributeById($attributeData['attribute_id'], $product)
                     );
                 }
                 unset($attributeData['id']);

@@ -16,7 +16,7 @@
  * @method Mage_Catalog_Model_Product setHasError(bool $value)
  * @method null|bool getHasError()
  * @method Mage_Catalog_Model_Product setTypeId(string $typeId)
- * @method string getTypeId()
+ * @method string Mage_Catalog_Model_Product getTypeId()
  * @method Mage_Catalog_Model_Product setAssociatedProductIds(array $productIds)
  * @method array getAssociatedProductIds()
  *

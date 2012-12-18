@@ -114,6 +114,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
             ));
         }
 
+        $onclick = "jQuery('#product-edit-form').attr('action', "
+            . $this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getContinueUrl())
+            . ").addClass('ignore-validate').submit();";
+        $this->addChild('generate', 'Mage_Backend_Block_Widget_Button', array(
+            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Generate Variations'),
+            'onclick' => $onclick,
+            'class' => 'save',
+        ));
+
+
         return parent::_prepareLayout();
     }
 
@@ -137,9 +147,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
         $attributes = (array)$this->_getProductType()->getConfigurableAttributesAsArray($this->_getProduct());
         $productData = (array)$this->getRequest()->getParam('product');
         if (isset($productData['configurable_attributes_data'])) {
-            foreach (array_values($productData['configurable_attributes_data']) as $key => $attributeData) {
-                if (isset($attributes[$key]['values'])) {
-                    $attributes[$key]['values'] = array_merge($attributes[$key]['values'], $attributeData['values']);
+            $configurableData = $productData['configurable_attributes_data'];
+            foreach ($attributes as $key => &$attribute) {
+                if (isset($configurableData[$key])) {
+                    $attribute['values'] = array_merge(
+                        isset($attribute['values']) ? $attribute['values'] : array(),
+                        isset($configurableData[$key]['values']) ? $configurableData[$key]['values'] : array()
+                    );
                 }
             }
         }

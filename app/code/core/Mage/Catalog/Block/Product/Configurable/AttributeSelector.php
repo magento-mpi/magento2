@@ -37,7 +37,9 @@ class Mage_Catalog_Block_Product_Configurable_AttributeSelector extends Mage_Bac
         foreach ($collection->getItems() as $id => $attribute) {
             /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
             $result[$id] = array(
+                'id' => $attribute->getId(),
                 'label' => $attribute->getFrontendLabel(),
+                'options' => $attribute->getSource()->getAllOptions(false)
             );
         }
         return $result;
