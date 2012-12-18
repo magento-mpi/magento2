@@ -3,24 +3,22 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_DesignEditor
+ * @package     Mage_Core
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-class Mage_DesignEditor_Model_Url_NavigationModeTest extends PHPUnit_Framework_TestCase
+class Mage_DesignEditor_Model_Url_HandleTest extends PHPUnit_Framework_TestCase
 {
     /**#@+
      * Test route params
      */
     const FRONT_NAME = 'vde';
     const ROUTE_PATH = 'design';
-    const VALID_URL = 'http://test.com';
     /**#@-*/
 
     /**
-     * @var Mage_DesignEditor_Model_Url_NavigationMode
+     * @var Mage_DesignEditor_Model_Url_Handle
      */
     protected $_model;
 
@@ -37,7 +35,7 @@ class Mage_DesignEditor_Model_Url_NavigationModeTest extends PHPUnit_Framework_T
     public function setUp()
     {
         $this->_helper = $this->getMock('Mage_DesignEditor_Helper_Data', array('getFrontName'), array(), '', false);
-        $this->_model = new Mage_DesignEditor_Model_Url_NavigationMode($this->_helper, $this->_testData);
+        $this->_model = new Mage_DesignEditor_Model_Url_Handle($this->_helper, $this->_testData);
     }
 
     public function testConstruct()
@@ -54,10 +52,5 @@ class Mage_DesignEditor_Model_Url_NavigationModeTest extends PHPUnit_Framework_T
 
         $this->_model->setData('route_path', self::ROUTE_PATH);
         $this->assertEquals(self::FRONT_NAME . '/' . self::ROUTE_PATH, $this->_model->getRoutePath());
-    }
-
-    public function testGetRouteUrl()
-    {
-        $this->assertEquals(self::VALID_URL, $this->_model->getRouteUrl(self::VALID_URL));
     }
 }
