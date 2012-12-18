@@ -11,8 +11,6 @@
 
 /**
  * Test for customer export model
- *
- * @group module:Mage_ImportExport
  */
 class Mage_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_Framework_TestCase
 {
