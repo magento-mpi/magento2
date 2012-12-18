@@ -68,7 +68,7 @@
                             <type>datetime</type>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="Store View">
+                    <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="store_id">
                         <arguments>
                             <header translate="true" module="Mage_Sitemap">Store View</header>
                             <type>store</type>
