@@ -57,7 +57,6 @@
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='link'>
                         <arguments>
                             <header translate='true' module='Mage_Sitemap'>Link for Google</header>
-                            <!--<index></index>-->
                             <renderer>Mage_Adminhtml_Block_Sitemap_Grid_Renderer_Link</renderer>
                         </arguments>
                     </block>
