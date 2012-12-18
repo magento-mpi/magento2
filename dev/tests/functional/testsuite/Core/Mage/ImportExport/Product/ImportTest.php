@@ -111,7 +111,7 @@ class Core_Mage_ImportExport_Product_ImportTest extends Mage_Selenium_TestCase
         $productSearch = $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
         //Steps
         $this->productHelper()->openProduct($productSearch);
-        $this->productHelper()->deleteCustomOptions();
+        $this->productHelper()->deleteAllCustomOptions();
         $this->productHelper()->saveForm('save');
         //Import csv file with custom options
         $this->navigate('import');
@@ -222,7 +222,7 @@ class Core_Mage_ImportExport_Product_ImportTest extends Mage_Selenium_TestCase
         $productSearch = $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
         //Steps
         $this->productHelper()->openProduct($productSearch);
-        $this->productHelper()->deleteCustomOptions();
+        $this->productHelper()->deleteAllCustomOptions();
         $this->productHelper()->saveForm('save');
         //Import csv file with custom options
         $this->navigate('import');

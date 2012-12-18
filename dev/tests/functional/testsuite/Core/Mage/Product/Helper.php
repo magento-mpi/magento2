@@ -116,6 +116,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     public function frontGetProductInfo()
     {
         $this->markTestIncomplete('@TODO - implement frontGetProductInfo');
+
         return array();
     }
 
@@ -137,6 +138,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $productLocator = $this->search($productSearch, 'product_grid');
         $this->assertNotNull($productLocator, 'Product is not found');
         $column = $this->getColumnIdByName($columnName);
+
         return trim($this->getElement($productLocator . '//td[' . $column . ']')->text());
     }
 
@@ -163,6 +165,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     {
         $this->_prepareDataForSearch($productSearchData);
         $productXpath = $this->search($productSearchData, 'product_grid');
+
         return !is_null($productXpath);
     }
 
@@ -245,6 +248,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         if (!empty($productData)) {
             $this->fail('There are data that will not be filled not on one tab:' . print_r($productData, true));
         }
+
         return $data;
     }
 
@@ -421,11 +425,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 }
                 break;
             case 'custom_options':
-                $this->openTab($tabName);
                 $this->verifyCustomOptions($tabData['custom_options_data']);
                 break;
             case 'bundle_items':
-                $this->verifyBundleOptions($tabData);
+                $this->verifyBundleItemsTab($tabData);
                 break;
             case 'downloadable_information':
                 $this->verifyDownloadableInformationTab($tabData);
@@ -614,10 +617,16 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     public function assignConfigurableVariations(array $assignData)
     {
         $this->markTestIncomplete('@TODO - implement assignConfigurableVariations');
-        if (!$this->controlIsPresent('checkbox', 'is_configurable')
-            || !$this->getControlAttribute('checkbox', 'is_configurable', 'selectedValue')
-        ) {
+        if (!$this->controlIsVisible('fieldset', 'variations_matrix_grid')) {
+            $this->fail('Product variations grid is not present on the page');
+        }
+        $attributes = $this->getConfigurableVariationsData();
+        foreach ($assignData as $variation) {
+            if (isset($variation['associated_attributes'])) {
+                foreach ($variation['associated_attributes'] as $attribute) {
 
+                }
+            }
         }
     }
 
@@ -626,9 +635,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function unassignAllConfigurableVariations()
     {
-        if (!$this->controlIsPresent('checkbox', 'is_configurable')
-            || !$this->getControlElement('checkbox', 'is_configurable')->selected()
-        ) {
+        if (!$this->controlIsVisible('fieldset', 'variations_matrix_grid')) {
             return;
         }
         $variationsCount = $this->getControlCount('pageelement', 'variation_line');
@@ -667,6 +674,24 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         $this->assertEquals($matrixData, $data);
         $this->assertEmptyVerificationErrors();
+    }
+
+    public function getConfigurableVariationsData()
+    {
+        $rowElements = $this->getControlElements('pageelement', 'variation_line');
+        /** @var $rowElement PHPUnit_Extensions_Selenium2TestCase_Element */
+        /** @var $tdElement PHPUnit_Extensions_Selenium2TestCase_Element */
+        $data = array();
+        foreach ($rowElements as $key => $rowElement) {
+            $this->addParameter('rowNum', $key + 1);
+            $tdElements = $this->getChildElements($rowElement, 'td');
+            foreach ($tdElements as $keyTd => $tdElement) {
+                $data[$key + 1][$keyTd + 1] = trim(str_replace('Choose', '', $tdElement->text()));
+            }
+            $data[$key + 1] = array_diff($data[$key + 1], array(''));
+        }
+
+        return $data;
     }
 
     #*********************************************************************************
@@ -747,6 +772,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         if ($needCount != $rowQty) {
             $this->addVerificationMessage(
                 'Product must be contains ' . $needCount . 'Tier Price(s), but contains ' . $rowQty);
+
             return false;
         }
         $identifier = 0;
@@ -760,6 +786,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $this->verifyForm($value, 'prices');
             $identifier++;
         }
+
         return true;
     }
 
@@ -773,6 +800,11 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $rowNumber = $this->getControlCount('fieldset', 'group_price_row');
         $this->addParameter('groupPriceId', $rowNumber);
         $this->clickButton('add_group_price', false);
+        if (isset($groupPriceData['prices_group_price_website'])
+            && !$this->controlIsVisible('dropdown', 'prices_group_price_website')
+        ) {
+            unset($groupPriceData['prices_group_price_website']);
+        }
         $this->fillForm($groupPriceData, 'prices');
     }
 
@@ -780,10 +812,32 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      * Verify Group Price
      *
      * @param array $groupPriceData
+     *
+     * @return bool
      */
     public function verifyGroupPrices(array $groupPriceData)
     {
-        $this->markTestIncomplete('@TODO - implement verifyGroupPrices');
+        $rowQty = $this->getControlCount('fieldset', 'group_price_row');
+        $needCount = count($groupPriceData);
+        if ($needCount != $rowQty) {
+            $this->addVerificationMessage(
+                'Product must be contains ' . $needCount . 'Group Price(s), but contains ' . $rowQty);
+
+            return false;
+        }
+        $identifier = 0;
+        foreach ($groupPriceData as $value) {
+            $this->addParameter('groupPriceId', $identifier);
+            if (isset($groupPriceData['prices_group_price_website'])
+                && !$this->controlIsVisible('dropdown', 'prices_group_price_website')
+            ) {
+                unset($groupPriceData['prices_group_price_website']);
+            }
+            $this->verifyForm($value, 'prices');
+            $identifier++;
+        }
+
+        return true;
     }
 
     #*********************************************************************************
@@ -946,6 +1000,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         if ($needCount != $optionsQty) {
             $this->addVerificationMessage(
                 'Product must be contains ' . $needCount . ' Custom Option(s), but contains ' . $optionsQty);
+
             return false;
         }
         $numRow = 1;
@@ -957,6 +1012,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 $numRow++;
             }
         }
+
         return true;
     }
 
@@ -979,6 +1035,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 return $value;
             }
         }
+
         return null;
     }
 
@@ -1004,6 +1061,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 }
             }
         }
+
         return null;
     }
 
@@ -1035,29 +1093,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 $this->locationToString() . "Problem with 'Delete Option' button.\n"
                 . 'Control is not present on the page');
             $this->clickButton('delete_custom_option', false);
-        }
-    }
-
-    /**
-     * Delete all Custom Options
-     *
-     * @return void
-     */
-    public function deleteCustomOptions()
-    {
-        $this->openTab('custom_options');
-        $customOptions = $this->getControlElements('fieldset', 'custom_option_set');
-        /** @var PHPUnit_Extensions_Selenium2TestCase_Element $customOption */
-        foreach ($customOptions as $customOption) {
-            $optionId = '';
-            $elementId = explode('_', $customOption->attribute('id'));
-            foreach ($elementId as $id) {
-                if (is_numeric($id)) {
-                    $optionId = $id;
-                }
-            }
-            $this->addParameter('optionId', $optionId);
-            $this->clickButton('delete_option', false);
         }
     }
 
@@ -1148,6 +1183,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         if ($needCount != $rowQty) {
             $this->addVerificationMessage(
                 'Product must be contains ' . $needCount . ' Downloadable ' . $type . '(s), but contains ' . $rowQty);
+
             return false;
         }
         $identifier = 0;
@@ -1156,7 +1192,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $this->verifyForm($value, 'downloadable_information');
             $identifier++;
         }
-        return true;
+
+        return ($this->getParsedMessages('verification') == null);
     }
 
     /**
@@ -1200,6 +1237,57 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
+     * Verify data on Bundle Items Tab
+     *
+     * @param array $bundleItems
+     */
+    public function verifyBundleItemsTab(array $bundleItems)
+    {
+        $this->openTab('bundle_items');
+        if (isset($bundleItems['ship_bundle_items'])) {
+            $selectedValue = $this->getControlAttribute('dropdown', 'ship_bundle_items', 'selectedLabel');
+            if ($selectedValue != $bundleItems['ship_bundle_items']) {
+                $this->addVerificationMessage("ship_bundle_items: The stored value is not equal to specified: ('"
+                                              . $bundleItems['ship_bundle_items'] . "' != '" . $selectedValue . "')");
+            }
+            unset($bundleItems['ship_bundle_items']);
+        }
+        $this->verifyBundleOptions($bundleItems);
+    }
+
+    /**
+     * Form Bundle Item data array for filling in/verifying
+     *
+     * @param array $itemData
+     *
+     * @return array
+     */
+    public function formBundleItemData(array $itemData)
+    {
+        $data = array('general' => array(), 'items' => array());
+        foreach ($itemData as $key => $dataValue) {
+            if (is_array($dataValue)) {
+                foreach ($dataValue as $itemKey => $itemData) {
+                    if ($itemKey == 'bundle_items_search_name' || $itemKey == 'bundle_items_search_sku') {
+                        $data['items'][$key]['param'] = $itemData;
+                    }
+                    if (preg_match('/^bundle_items_search_/', $itemKey)) {
+                        $data['items'][$key]['search'][$itemKey] = $itemData;
+                    } elseif ($itemKey == 'bundle_items_qty_to_add') {
+                        $data['items'][$key]['fill']['selection_item_default_qty'] = $itemData;
+                    } elseif (preg_match('/^selection_item_/', $itemKey)) {
+                        $data['items'][$key]['fill'][$itemKey] = $itemData;
+                    }
+                }
+            } else {
+                $data['general'][$key] = $dataValue;
+            }
+        }
+
+        return $data;
+    }
+
+    /**
      * Add Bundle Option
      *
      * @param array $bundleOptionData
@@ -1209,99 +1297,55 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $optionsCount = $this->getControlCount('pageelement', 'bundle_item_row');
         $this->addParameter('optionId', $optionsCount);
         $this->clickButton('add_new_option', false);
-        $this->fillForm($bundleOptionData, 'bundle_items');
-        foreach ($bundleOptionData as $value) {
-            $productSearch = array();
-            $selectionSettings = array();
-            if (is_array($value)) {
-                foreach ($value as $k => $v) {
-                    if ($k == 'bundle_items_search_name' or $k == 'bundle_items_search_sku') {
-                        $this->addParameter('productSku', $v);
-                    }
-                    if (preg_match('/^bundle_items_search_/', $k)) {
-                        $productSearch[$k] = $v;
-                    } elseif ($k == 'bundle_items_qty_to_add') {
-                        $selectionSettings['selection_item_default_qty'] = $v;
-                    } elseif (preg_match('/^selection_item_/', $k)) {
-                        $selectionSettings[$k] = $v;
-                    }
-                }
-                if ($productSearch) {
-                    $this->clickButton('add_selection', false);
-                    $this->pleaseWait();
-                    $this->searchAndChoose($productSearch, 'select_product_to_bundle_option');
-                    $this->clickButton('add_selected_products', false);
-                    if ($selectionSettings) {
-                        $this->fillForm($selectionSettings);
-                    }
-                }
+        $data = $this->formBundleItemData($bundleOptionData);
+        $this->fillFieldset($data['general'], 'new_bundle_option');
+        foreach ($data['items'] as $item) {
+            if (!isset($item['search'])) {
+                continue;
+            }
+            $this->clickButton('add_selection', false);
+            $this->pleaseWait();
+            $this->searchAndChoose($item['search'], 'select_product_to_bundle_option');
+            if (isset($item['fill']) && isset($item['param'])) {
+                $this->addParameter('productSku', $item['param']);
+                $this->fillForm($item['fill']);
             }
         }
     }
 
     /**
-     * verify Bundle Options
+     * Verify Bundle Options
      *
-     * @param array $bundleData
+     * @param array $bundleItemsData
      *
-     * @return boolean
+     * @return bool
      */
-    public function verifyBundleOptions(array $bundleData)
+    public function verifyBundleOptions(array $bundleItemsData)
     {
-        $this->openTab('bundle_items');
         $optionsCount = $this->getControlCount('pageelement', 'bundle_item_grid');
-        $needCount = count($bundleData);
-        if (array_key_exists('ship_bundle_items', $bundleData)) {
-            $needCount = $needCount - 1;
-        }
+        $needCount = count($bundleItemsData);
         if ($needCount != $optionsCount) {
             $this->addVerificationMessage(
                 'Product must be contains ' . $needCount . 'Bundle Item(s), but contains ' . $optionsCount);
+
             return false;
         }
-
+        $data = $this->formBundleItemData($bundleItemsData);
+        $this->fillForm($data['general'], 'bundle_items');
         $identifier = 0;
-        foreach ($bundleData as $option => $values) {
-            if (is_string($values)) {
-                $this->verifyForm(array($option => $values), 'bundle_items');
-            }
-            if (is_array($values)) {
-                $this->addParameter('optionId', $identifier);
-                $this->verifyForm($values, 'bundle_items');
-                foreach ($values as $k => $v) {
-                    if (preg_match('/^add_product_/', $k) && is_array($v)) {
-                        $selectionSettings = array();
-                        $productSku = '';
-                        foreach ($v as $field => $data) {
-                            if ($field == 'bundle_items_search_name' or $field == 'bundle_items_search_sku') {
-                                $productSku = $data;
-                            }
-                            if (!preg_match('/^bundle_items_search/', $field)) {
-                                if ($field == 'bundle_items_qty_to_add') {
-                                    $selectionSettings['selection_item_default_qty'] = $data;
-                                } else {
-                                    $selectionSettings[$field] = $data;
-                                }
-                            }
-                        }
-                        $k = $identifier + 1;
-                        $this->addParameter('productSku', $productSku);
-                        $this->addParameter('index', $k);
-                        if (!$this->controlIsPresent('pageelement', 'bundle_item_grid_index_product')) {
-                            $this->addVerificationMessage("Product with sku(name)'" . $productSku . "
-                                ' is not assigned to bundle item $identifier");
-                        } else {
-                            if ($selectionSettings) {
-                                $this->addParameter('productSku', $productSku);
-                                $this->verifyForm($selectionSettings, 'bundle_items');
-                            }
-                        }
-                    }
-                }
-                $identifier++;
+        foreach ($data['items'] as $item) {
+            $productSku = (isset($item['param'])) ? $item['param'] : '';
+            $this->addParameter('productSku', $productSku);
+            $this->addParameter('index', $identifier + 1);
+            if (!$this->controlIsPresent('pageelement', 'bundle_item_grid_index_product')) {
+                $this->addVerificationMessage(
+                    "Product with sku(name) '" . $productSku . "' is not assigned to bundle item " . $identifier++);
+            } elseif (isset($item['fill'])) {
+                $this->verifyForm($item['fill'], 'bundle_items');
             }
         }
-        return true;
+
+        return ($this->getParsedMessages('verification') == null);
     }
 
     #*********************************************************************************
@@ -1335,8 +1379,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                                      $attrData['option_2']['store_view_titles']['Default Store View'],
                                      $attrData['option_3']['store_view_titles']['Default Store View']);
         $attrCode = $attrData['attribute_code'];
-        $associatedAttributes =
-            $this->loadDataSet('AttributeSet', 'associated_attributes', array('General' => $attrCode));
+        $attrTitle = $attrData['admin_title'];
+        $associatedAttr = $this->loadDataSet('AttributeSet', 'associated_attributes', array('General' => $attrCode));
         $simple = $this->loadDataSet('Product', 'simple_product_visible', $productCat);
         $simple['general_user_attr']['dropdown'][$attrCode] = $attrData['option_1']['admin_option_name'];
         $virtual = $this->loadDataSet('Product', 'virtual_product_visible', $productCat);
@@ -1345,16 +1389,19 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             array('downloadable_links_purchased_separately' => 'No', 'general_categories' => $returnCategory['path']));
         $download['general_user_attr']['dropdown'][$attrCode] = $attrData['option_3']['admin_option_name'];
         $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order',
-            array('general_configurable_attribute_title' => $attrData['admin_title'],
+            array('general_configurable_attribute_title' => $attrTitle,
                   'general_categories'                   => $returnCategory['path']),
-            array('associated_1' => $simple['general_sku'], 'associated_2' => $virtual['general_sku'],
-                  'associated_3' => $download['general_sku']));
+            array('associated_1'      => $simple['general_sku'], 'attribute_name_1' => $attrTitle,
+                  'attribute_value_1' => $configurableOptions[0], 'associated_2' => $virtual['general_sku'],
+                  'attribute_name_2'  => $attrTitle, 'attribute_value_2' => $configurableOptions[1],
+                  'associated_3'      => $download['general_sku'], 'attribute_name_3' => $attrTitle,
+                  'attribute_value_3' => $configurableOptions[2]));
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
         $this->assertMessagePresent('success', 'success_saved_attribute');
         $this->navigate('manage_attribute_sets');
         $this->attributeSetHelper()->openAttributeSet();
-        $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
+        $this->attributeSetHelper()->addAttributeToSet($associatedAttr);
         $this->saveForm('save_attribute_set');
         $this->assertMessagePresent('success', 'success_attribute_set_saved');
         $this->navigate('manage_products');
@@ -1518,6 +1565,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->navigate('manage_products');
         $this->createProduct($downloadable, 'downloadable');
         $this->assertMessagePresent('success', 'success_saved_product');
+
         return array('downloadable' => array('product_name' => $downloadable['general_name'],
                                              'product_sku'  => $downloadable['general_sku']),
                      'downloadableOption' => array('title' => $linksTitle, 'optionTitle' => $link),
@@ -1551,6 +1599,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->navigate('manage_products');
         $this->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
+
         return array('simple' => array('product_name' => $simple['general_name'],
                                        'product_sku'  => $simple['general_sku']), 'category' => $returnCategory);
     }
@@ -1582,6 +1631,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->navigate('manage_products');
         $this->createProduct($virtual, 'virtual');
         $this->assertMessagePresent('success', 'success_saved_product');
+
         return array('virtual' => array('product_name' => $virtual['general_name'],
                                         'product_sku'  => $virtual['general_sku']), 'category' => $returnCategory);
     }
