@@ -132,6 +132,13 @@
                 this.element.addClass(this.options.checkedClass);
                 this.element.trigger('checked.' + this.widgetName);
             }
+        },
+        changeState: function() {
+            if (this.element.hasClass(this.options.checkedClass)) {
+                this.element.removeClass(this.options.checkedClass);
+            } else {
+                this.element.addClass(this.options.checkedClass);
+            }
         }
     });
 })(jQuery);
