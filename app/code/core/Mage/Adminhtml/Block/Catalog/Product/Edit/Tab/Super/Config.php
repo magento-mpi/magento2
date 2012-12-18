@@ -144,33 +144,36 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
      */
     public function getAttributes()
     {
-        $attributes = (array)$this->_getProductType()->getConfigurableAttributesAsArray($this->_getProduct());
-        $productData = (array)$this->getRequest()->getParam('product');
-        if (isset($productData['configurable_attributes_data'])) {
-            $configurableData = $productData['configurable_attributes_data'];
-            foreach ($attributes as $key => &$attribute) {
-                if (isset($configurableData[$key])) {
-                    $attribute['values'] = array_merge(
-                        isset($attribute['values']) ? $attribute['values'] : array(),
-                        isset($configurableData[$key]['values']) ? $configurableData[$key]['values'] : array()
-                    );
-                }
-            }
-        }
-
-        foreach ($attributes as &$attribute) {
-            if (isset($attribute['values']) && is_array($attribute['values'])) {
-                foreach ($attribute['values'] as &$attributeValue) {
-                    if (!$this->getCanReadPrice()) {
-                        $attributeValue['pricing_value'] = '';
-                        $attributeValue['is_percent'] = 0;
+        if (!$this->hasData('attributes')) {
+            $attributes = (array)$this->_getProductType()->getConfigurableAttributesAsArray($this->_getProduct());
+            $productData = (array)$this->getRequest()->getParam('product');
+            if (isset($productData['configurable_attributes_data'])) {
+                $configurableData = $productData['configurable_attributes_data'];
+                foreach ($attributes as $key => &$attribute) {
+                    if (isset($configurableData[$key])) {
+                        $attribute['values'] = array_merge(
+                            isset($attribute['values']) ? $attribute['values'] : array(),
+                            isset($configurableData[$key]['values']) ? array_filter($configurableData[$key]['values']) : array()
+                        );
                     }
-                    $attributeValue['can_edit_price'] = $this->getCanEditPrice();
-                    $attributeValue['can_read_price'] = $this->getCanReadPrice();
                 }
             }
+
+            foreach ($attributes as &$attribute) {
+                if (isset($attribute['values']) && is_array($attribute['values'])) {
+                    foreach ($attribute['values'] as &$attributeValue) {
+                        if (!$this->getCanReadPrice()) {
+                            $attributeValue['pricing_value'] = '';
+                            $attributeValue['is_percent'] = 0;
+                        }
+                        $attributeValue['can_edit_price'] = $this->getCanEditPrice();
+                        $attributeValue['can_read_price'] = $this->getCanReadPrice();
+                    }
+                }
+            }
+            $this->setData('attributes', $attributes);
         }
-        return $attributes;
+        return $this->getData('attributes');
     }
 
     /**
@@ -357,33 +360,28 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
      */
     public function getVariations()
     {
-        $attributesCount = 0;
         $variationalAttributes = array();
-        //$usedProductAttributes = $this->getSelectedAttributes();
-        $configurableAttributes = $this->_getProductType()->getConfigurableAttributes($this->_getProduct());
-        foreach ($configurableAttributes as $attribute) {
-            /** @var $attribute Mage_Catalog_Model_Product_Type_Configurable_Attribute  */
-            $productAttribute = $attribute->getProductAttribute();
-            $values = $productAttribute->getSource()->getAllOptions(false);
-            if (!$values) {
-                return array();
-            }
-            foreach ($values as &$valueInfo) {
-                foreach ((array)$attribute->getPrices() as $priceData) {
-                    if ($priceData['value_index'] == $valueInfo['value']) {
-                        $valueInfo['price'] = $priceData;
+        $usedProductAttributes = $this->getAttributes();
+        foreach ($usedProductAttributes as &$attribute) {
+            $options = array();
+            foreach ($attribute['options'] as $key => $valueInfo) {
+                foreach ($attribute['values'] as $priceData) {
+                    if ($priceData['value_index'] == $valueInfo['value']
+                        && (!isset($priceData['include']) || $priceData['include'])
+                    ) {
+                        $options[$key] = $valueInfo;
+                        $options[$key]['price'] = $priceData;
                     }
                 }
             }
-
-
             /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
             $variationalAttributes[] = array(
-                'id' => $productAttribute->getId(),
-                'values' => $values,
+                'id' => $attribute['attribute_id'],
+                'values' => $options,
             );
-            $attributesCount++;
+
         }
+        $attributesCount = count($variationalAttributes);
 
         $variations = array();
         $currentVariation = array_fill(0, $attributesCount, 0);

@@ -37,7 +37,7 @@
         <div id="attributes-container">
         <script id="attribute-template" type="text/x-jquery-tmpl">
             <div>
-                <input name="attributes[]"
+                <input name="attributes[]" id="configurable_attribute_${attribute.id}"
                     value="${attribute.id}" type="hidden">
                 <input value="new" type="hidden"
                     name="product[configurable_attributes_data][${attribute.id}]][id]"/>
@@ -110,7 +110,7 @@
         </script>
         <?php foreach ($this->getAttributes() as $attribute) { ?>
             <div class="entry-edit attribute-container" <?php echo $this->getUiId('attrribute-container', $attribute['attribute_code']) ?>>
-                <input name="attributes[]"
+                <input name="attributes[]" id="configurable_attribute_<?php echo $attribute['attribute_id']?>"
                     value="<?php echo $attribute['attribute_id']; ?>" type="hidden">
                 <input value="<?php echo $attribute['id']; ?>" type="hidden"
                     name="product[configurable_attributes_data][<?php echo $attribute['attribute_id']?>][id]" />
@@ -153,7 +153,7 @@
                         <tbody>
                         <?php
                             $namePrefix = 'product[configurable_attributes_data][' . $attribute['attribute_id'] .'][values]';
-                            foreach ($attribute['oprions'] as $option) {
+                            foreach ($attribute['options'] as $option) {
                         ?>
                             <tr>
                                 <td><?php echo $option['label'] ?></td>

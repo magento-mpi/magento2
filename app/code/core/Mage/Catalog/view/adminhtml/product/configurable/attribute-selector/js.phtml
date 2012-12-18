@@ -31,7 +31,7 @@
                     .success(function(data) {
                         var list = [];
                         $.each(data, function(id, item) {
-                            if (!$('#attribute_' + id + '.configurable-attribute-checkbox').length) {
+                            if (!$('#configurable_attribute_' + id ).length) {
                                 list.push(item);
                             }
                         });
@@ -42,7 +42,11 @@
                     return false;
                 },
                 select: function(event, ui) {
-                    $('#attribute-template').tmpl({attribute: ui.item}).appendTo('#attributes-container');
+                    var attribute = ui.item;
+                    if (attribute.id) {
+                        $('#attribute-template').tmpl({attribute: attribute}).appendTo('#attributes-container');
+                    }
+
                     $(this).val('');
                     return false;
                 }

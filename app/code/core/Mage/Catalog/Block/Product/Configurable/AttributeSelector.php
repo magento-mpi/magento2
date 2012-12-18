@@ -34,13 +34,20 @@ class Mage_Catalog_Block_Product_Configurable_AttributeSelector extends Mage_Bac
             ->addFieldToFilter('is_global', Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL);
 
         $result = array();
+        $types = array(
+            Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
+            Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL,
+            Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE,
+        );
         foreach ($collection->getItems() as $id => $attribute) {
             /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-            $result[$id] = array(
-                'id' => $attribute->getId(),
-                'label' => $attribute->getFrontendLabel(),
-                'options' => $attribute->getSource()->getAllOptions(false)
-            );
+            if (!$attribute->getApplyTo()  || count(array_diff($types, $attribute->getApplyTo())) === 0) {
+                $result[$id] = array(
+                    'id' => $attribute->getId(),
+                    'label' => $attribute->getFrontendLabel(),
+                    'options' => $attribute->getSource()->getAllOptions(false)
+                );
+            }
         }
         return $result;
     }

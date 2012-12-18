@@ -240,7 +240,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
                 'attribute_code' => $eavAttribute->getAttributeCode(),
                 'frontend_label' => $eavAttribute->getFrontend()->getLabel(),
                 'store_label'    => $eavAttribute->getStoreLabel(),
-                'oprions'        => $eavAttribute->getSource()->getAllOptions(false),
+                'options'        => $eavAttribute->getSource()->getAllOptions(false),
             );
         }
         return $res;
