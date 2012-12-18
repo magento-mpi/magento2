@@ -44,10 +44,9 @@ class Mage_Adminhtml_Block_Tax_Rate_ImportExport extends Mage_Adminhtml_Block_Wi
         array $data = array()
     )
     {
-        $this->setUseContainer(true);
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache,
             $designPackage, $session, $storeConfig, $frontController, $helperFactory, $data);
-
+        $this->setUseContainer(true);
     }
 
 

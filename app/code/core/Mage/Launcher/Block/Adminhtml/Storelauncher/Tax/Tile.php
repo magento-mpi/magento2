@@ -18,7 +18,7 @@
 class Mage_Launcher_Block_Adminhtml_Storelauncher_Tax_Tile extends Mage_Launcher_Block_Adminhtml_Tile
 {
     /**
-     * Template for Businessinfo Tile Block
+     * Template for Tax Tile Block
      *
      * @var string
      */
