@@ -330,7 +330,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testGetSectionNode()
     {
-        Mage::app()->getCacheInstance()->allowUse('config');
+        //Mage::app()->getCacheInstance()->allowUse('config');
 
         $this->assertInstanceOf(
             'Mage_Core_Model_Config_Element', $this->_createModel(true)->getSectionNode(array('admin'))
