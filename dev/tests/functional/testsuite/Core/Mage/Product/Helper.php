@@ -476,7 +476,16 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $this->isSelectedCategory($generalTab['general_categories']);
             unset($generalTab['general_categories']);
         }
-        $this->markTestIncomplete('@TODO - implement verifyGeneralTab');
+        if (isset($generalTab['general_configurable_attribute_title'])) {
+            $this->verifyConfigurableSettings($generalTab['general_configurable_attribute_title']);
+            unset($generalTab['general_configurable_attribute_title']);
+        }
+        if (isset($generalTab['general_configurable_data'])) {
+            $this->verifyConfigurableVariations($generalTab['general_configurable_data']);
+            unset($generalTab['general_configurable_data']);
+        }
+        $this->verifyForm($generalTab, 'general');
+        $this->assertEmptyVerificationErrors();
     }
 
     /**
@@ -574,6 +583,16 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
+     * Verify configurable attribute
+     *
+     * @param string|array $attributes
+     */
+    public function verifyConfigurableSettings($attributes)
+    {
+        $this->markTestIncomplete('@TODO - implement verifyConfigurableSettings');
+    }
+
+    /**
      * Select configurable attribute on Product page using searchable attribute selector control
      *
      * @param string $attributeTitle
@@ -581,8 +600,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     public function selectConfigurableAttribute($attributeTitle)
     {
         $this->addParameter('attributeName', $attributeTitle);
-        $element = $this->waitForControlEditable(self::FIELD_TYPE_INPUT,
-            'general_configurable_attribute_title', 10);
+        $element = $this->waitForControlEditable(self::FIELD_TYPE_INPUT, 'general_configurable_attribute_title', 10);
         $this->focusOnElement($element);
         $element->value($attributeTitle);
         $this->waitForControlEditable('link', 'suggested_attribute')->click();
