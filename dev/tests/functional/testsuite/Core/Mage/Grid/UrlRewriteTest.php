@@ -3,14 +3,14 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_GiftRegistry
+ * @package     Mage_Grid
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Gift Registry creation into backend
+ * URL Rewrite Grid Tests
  *
  * @package     selenium
  * @subpackage  tests
@@ -19,7 +19,8 @@
 class Enterprise_Mage_Grid_UrlRewriteTest extends Mage_Selenium_TestCase
 {
     /**
-     *
+     * <p>PreConditions:</p>
+     * <p>Log in to Backend </p>
      */
     protected function assertPreConditions()
     {
@@ -43,6 +44,7 @@ class Enterprise_Mage_Grid_UrlRewriteTest extends Mage_Selenium_TestCase
      * <p>Count Rows in URL Rewrite Grid</p>
      * <p>Click 'Add New Rewrite' button</p>
      * <p>At Create URL rewrite dropdown fill request path</p>
+     * <p>Varifications:</p>
      * <p>Check that Category URL was successfull added to grid list</p>
      *
      * @test
@@ -78,6 +80,6 @@ class Enterprise_Mage_Grid_UrlRewriteTest extends Mage_Selenium_TestCase
         $gridElement2 = $this->getControlElement('pageelement', 'page_grid');
         $after = count($this->getChildElements($gridElement2, 'tbody/tr', false));
         // Check that Category URL was successfull added to grid list
-        $this->assertEquals($before+1,$after,'Category URL was wrong add to grid list ');
+        $this->assertEquals($before + 1, $after, 'Category URL was wrong add to grid list ');
     }
 }
