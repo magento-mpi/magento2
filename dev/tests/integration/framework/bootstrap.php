@@ -87,7 +87,7 @@ Magento_Test_Bootstrap::setInstance(new Magento_Test_Bootstrap(
     $localXmlFile,
     $globalEtcFiles,
     $moduleEtcFiles,
-    'etc/integration-tests-config.xml',
+    $testsBaseDir . DIRECTORY_SEPARATOR . 'etc/integration-tests-config.xml',
     $testsTmpDir,
     new Magento_Shell(),
     $isCleanupEnabled,
