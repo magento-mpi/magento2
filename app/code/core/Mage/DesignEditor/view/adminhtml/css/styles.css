@@ -373,7 +373,6 @@ span.back-to-selected-theme {
 }
 .vde_container_frame {
     border: none;
-    border-top: none;
     margin-top: 0px;
     width: 100%;
 }
