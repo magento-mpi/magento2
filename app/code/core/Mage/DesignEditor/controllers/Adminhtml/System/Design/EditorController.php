@@ -168,22 +168,17 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
 
     /**
      * Activate preview mode for selected theme
+     * 
+     * @todo used until VDE router implemented
      */
     public function previewAction()
     {
-    //        /** @var $session Mage_DesignEditor_Model_Session */
-    //        $session = Mage::getSingleton('Mage_DesignEditor_Model_Session');
-    //        if (!$session->isDesignPreviewActive()) {
-    //            $session->activateDesignPreview();
-    //        }
-
         $this->loadLayout();
         $this->renderLayout();
     }
 
     /**
      * Assign theme to list of store views
-     * //TODO used until VDE router implemented
      */
     public function assignThemeToStoreAction()
     {
