@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$customerAddress = new Mage_Customer_Model_Address();
+$customerAddress = Mage::getModel('Mage_Customer_Model_Address');
 $customerAddress->setData(array(
     'city'                => 'New York',
     'country_id'          => 'US',

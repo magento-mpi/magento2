@@ -59,7 +59,7 @@ class Api_GiftCard_CustomerTest extends Magento_Test_Webservice
         $this->assertTrue($result);
 
         //Test giftcard redeemed to customer balance
-        $customerBalance = new Enterprise_CustomerBalance_Model_Balance();
+        $customerBalance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance');
         $customerBalance->setCustomerId($customer->getId());
         $customerBalance->loadByCustomer();
         $this->assertEquals($giftcardAccount->getBalance(), $customerBalance->getAmount());

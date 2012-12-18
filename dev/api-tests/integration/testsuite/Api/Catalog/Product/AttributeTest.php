@@ -40,13 +40,12 @@ class Api_Catalog_Product_AttributeTest extends Magento_Test_Webservice
             $this->fail('Exception with message like "invalid attribute code" expected but not thrown');
         } catch (Exception $e) {
             if (TESTS_WEBSERVICE_TYPE == Magento_Test_Webservice::TYPE_SOAPV2
-                || TESTS_WEBSERVICE_TYPE == Magento_Test_Webservice::TYPE_SOAPV1
                 || TESTS_WEBSERVICE_TYPE == Magento_Test_Webservice::TYPE_SOAPV2_WSI) {
                 $this->assertEquals(103, $e->faultcode, 'Unexpected fault code');
             }
             $this->assertEquals(
-                'Attribute code is invalid. Please use only letters (a-z), numbers (0-9) or'
-                . ' underscore(_) in this field, first character should be a letter.',
+                'Attribute code is invalid. Please use only letters (a-z), numbers (0-9), '
+                    . 'or underscore(_) in this field. First character should be a letter.',
                 $e->getMessage(),
                 'Unexpected exception messsage'
             );

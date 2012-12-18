@@ -15,7 +15,7 @@ class Mage_Api_Model_SessionTest extends Mage_PHPUnit_TestCase
      */
     public function testSessionStartVulnerability()
     {
-        $model = new Mage_Api_Model_Session();
+        $model = Mage::getModel('Mage_Api_Model_Session');
         //call start with empty session name
         $model->start();
         //try assert equals session id by old algorithm with real session id

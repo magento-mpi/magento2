@@ -10,7 +10,7 @@
  */
 
 
-$rule = new Mage_CatalogRule_Model_Rule;
+$rule = Mage::getModel('Mage_CatalogRule_Model_Rule');
 $rule->setName('Test Catalog Rule 50$ off')
     ->setIsActive(1)
     ->setWebsiteIds(array(Mage::app()->getDefaultStoreView()->getWebsiteId()))

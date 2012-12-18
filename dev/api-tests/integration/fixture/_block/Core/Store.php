@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$store = new Mage_Core_Model_Store();
+$store = Mage::getModel('Mage_Core_Model_Store');
 $store->setData(array(
     'name' => 'Test Store View' . uniqid(),
     'code' => 'store_' . uniqid(),

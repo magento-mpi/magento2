@@ -336,10 +336,7 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
             $this->fail('Expected error exception was not raised.');
         } catch (SoapFault $e) {
             $this->_assertError($errorCode, $errorMessage, $e->faultcode, $e->faultstring);
-        } catch (Zend_XmlRpc_Client_FaultException $e) {
-            $this->_assertError($errorCode, $errorMessage, $e->getCode(), $e->getMessage());
         }
-
     }
 
     /**
@@ -362,8 +359,6 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
             $this->fail('Expected error exception was not raised.');
         } catch (SoapFault $e) {
             $this->_assertError($errorCode, $errorMessage, $e->faultcode, $e->faultstring);
-        } catch (Zend_XmlRpc_Client_FaultException $e) {
-            $this->_assertError($errorCode, $errorMessage, $e->getCode(), $e->getMessage());
         }
     }
 
@@ -396,8 +391,6 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
             $this->fail('Expected error exception was not raised.');
         } catch (SoapFault $e) {
             $this->_assertError($errorCode, $errorMessage, $e->faultcode, $e->faultstring);
-        } catch (Zend_XmlRpc_Client_FaultException $e) {
-            $this->_assertError($errorCode, $errorMessage, $e->getCode(), $e->getMessage());
         }
     }
 

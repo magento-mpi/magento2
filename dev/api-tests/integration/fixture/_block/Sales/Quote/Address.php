@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$address = new Mage_Sales_Model_Quote_Address();
+$address = Mage::getModel('Mage_Sales_Model_Quote_Address');
 $address->setData(array(
     'city'                => 'New York',
     'country_id'          => 'US',

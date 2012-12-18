@@ -22,7 +22,7 @@
     <php>
         <ini name="date.timezone" value="America/Los_Angeles"/>
 
-        <!-- WebSerivice Type. Possible values: soapv1, soapv2, soapv2_wsi, xmlrpc-->
+        <!-- WebSerivice Type. Possible values: soapv2, soapv2_wsi-->
         <const name="TESTS_WEBSERVICE_TYPE" value="soapv2"/>
         <!-- Enable/Disable transactions in fixtures. Possible values: on (default), off (req for WS tests) -->
         <const name="TESTS_FIXTURE_TRANSACTION" value="off"/>

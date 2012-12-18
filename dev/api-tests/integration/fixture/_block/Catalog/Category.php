@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$category = new Mage_Catalog_Model_Category();
+$category = Mage::getModel('Mage_Catalog_Model_Category');
 $category->setData(array(
     'name' => 'Category Test' . uniqid(),
     'is_active' => 1,

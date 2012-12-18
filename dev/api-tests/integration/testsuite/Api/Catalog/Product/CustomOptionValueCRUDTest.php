@@ -154,7 +154,7 @@ class Api_Catalog_Product_CustomOptionValueCRUDTest extends Magento_Test_Webserv
         $this->assertTrue((bool)$removeOptionValueResult);
 
         // Delete exception test
-        $this->setExpectedException(self::DEFAULT_EXCEPTION, 'Option value with requested id does not exist.');
+        $this->setExpectedException(self::DEFAULT_EXCEPTION, 'Option value with requested ID does not exist.');
         $this->call('product_custom_option_value.remove', array('valueId' => self::$_lastAddedOption['value_id']));
     }
 }

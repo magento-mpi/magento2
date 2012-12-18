@@ -76,7 +76,7 @@ class Mage_Core_Model_Input_FilterTest extends Mage_PHPUnit_TestCase
      */
     public function testFilter()
     {
-        $filter = new Mage_Core_Model_Input_Filter;
+        $filter = Mage::getModel('Mage_Core_Model_Input_Filter');
         $filter->setFilters($this->_filters);
 
         $filter->addFilter('name2', new Zend_Filter_Alnum());

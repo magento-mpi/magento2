@@ -17,7 +17,7 @@ $consumerData = array(
     'rejected_callback_url' => 'http://example.com/oauth_model/?rejected=1',
 );
 
-$consumer = new Mage_Oauth_Model_Consumer();
+$consumer = Mage::getModel('Mage_Oauth_Model_Consumer');
 $consumer->setData($consumerData);
 $consumer->save();
 

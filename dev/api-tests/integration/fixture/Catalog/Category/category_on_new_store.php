@@ -10,7 +10,7 @@
  */
 if (!Magento_Test_Webservice::getFixture('store')) {
 
-    $category = new Mage_Catalog_Model_Category();
+    $category = Mage::getModel('Mage_Catalog_Model_Category');
     $category->setData(array(
         'name' => 'Category Test Created ' . uniqid(),
         'is_active' => 1,
@@ -42,7 +42,7 @@ if (!Magento_Test_Webservice::getFixture('store')) {
     Magento_Test_Webservice::setFixture('category', $category, Magento_Test_Webservice::AUTO_TEAR_DOWN_DISABLED);
 
 
-    $website = new Mage_Core_Model_Website();
+    $website = Mage::getModel('Mage_Core_Model_Website');
     $website->setData(
         array(
             'code' => 'test_' . uniqid(),
@@ -52,7 +52,7 @@ if (!Magento_Test_Webservice::getFixture('store')) {
     $website->save();
     Magento_Test_Webservice::setFixture('website', $website, Magento_Test_Webservice::AUTO_TEAR_DOWN_DISABLED);
 
-    $storeGroup = new Mage_Core_Model_Store_Group();
+    $storeGroup = Mage::getModel('Mage_Core_Model_Store_Group');
     $storeGroup->setData(array(
         'website_id' => $website->getId(),
         'name' => 'Test Store' . uniqid(),
@@ -62,7 +62,7 @@ if (!Magento_Test_Webservice::getFixture('store')) {
     Magento_Test_Webservice::setFixture('store_group', $storeGroup, Magento_Test_Webservice::AUTO_TEAR_DOWN_DISABLED);
 
 
-    $store = new Mage_Core_Model_Store();
+    $store = Mage::getModel('Mage_Core_Model_Store');
     $store->setData(array(
         'group_id' => $storeGroup->getId(),
         'name' => 'Test Store View' . uniqid(),

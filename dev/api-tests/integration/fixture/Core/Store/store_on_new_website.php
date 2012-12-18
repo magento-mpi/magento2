@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 if (!Magento_Test_Webservice::getFixture('website')) {
-    $website = new Mage_Core_Model_Website();
+    $website = Mage::getModel('Mage_Core_Model_Website');
     $website->setData(
         array(
             'code' => 'test_' . uniqid(),
@@ -23,7 +23,7 @@ if (!Magento_Test_Webservice::getFixture('website')) {
 
 if (!Magento_Test_Webservice::getFixture('store_group')) {
     $defaultCategoryId = 2;
-    $storeGroup = new Mage_Core_Model_Store_Group();
+    $storeGroup = Mage::getModel('Mage_Core_Model_Store_Group');
     $storeGroup->setData(array(
         'website_id' => Magento_Test_Webservice::getFixture('website')->getId(),
         'name' => 'Test Store' . uniqid(),
@@ -35,7 +35,7 @@ if (!Magento_Test_Webservice::getFixture('store_group')) {
 }
 
 if (!Magento_Test_Webservice::getFixture('store_on_new_website')) {
-    $store = new Mage_Core_Model_Store();
+    $store = Mage::getModel('Mage_Core_Model_Store');
     $store->setData(array(
         'group_id' => Magento_Test_Webservice::getFixture('store_group')->getId(),
         'name' => 'Test Store View',

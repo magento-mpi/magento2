@@ -20,7 +20,7 @@ class Api_GiftCard_AccountTest extends Magento_Test_Webservice
      */
     public function testCRUD()
     {
-        $testModel = new Enterprise_GiftCardAccount_Model_Giftcardaccount();
+        $testModel = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount');
         $giftcardAccountFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_account.xml');
 
         //Test create

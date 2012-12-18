@@ -205,12 +205,6 @@ class Api_Catalog_Category_CategoryTest extends Magento_Test_Webservice
                     'faultcode' => $e->faultcode,
                     'faultstring' => $e->faultstring
                 );
-            } catch (Zend_XmlRpc_Client_FaultException $e) {
-                //make result like in response
-                $result = array(
-                    'faultcode' => $e->getCode(),
-                    'faultstring' => $e->getMessage()
-                );
             }
 
             $category->load($categoryId);
@@ -238,12 +232,6 @@ class Api_Catalog_Category_CategoryTest extends Magento_Test_Webservice
                     'faultcode' => $e->faultcode,
                     'faultstring' => $e->faultstring
                 );
-            } catch (Zend_XmlRpc_Client_FaultException $e) {
-                //make result like in response
-                $result = array(
-                    'faultcode' => $e->getCode(),
-                    'faultstring' => $e->getMessage()
-                );
             }
             $category->load($categoryId);
 
@@ -270,11 +258,6 @@ class Api_Catalog_Category_CategoryTest extends Magento_Test_Webservice
             $result = array(
                 'faultcode' => $e->faultcode,
                 'faultstring' => $e->faultstring
-            );
-        } catch (Zend_XmlRpc_Client_FaultException $e) {
-            $result = array(
-                'faultcode' => $e->getCode(),
-                'faultstring' => $e->getMessage()
             );
         }
 

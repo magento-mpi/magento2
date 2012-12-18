@@ -12,7 +12,7 @@
 /* @var $addressFixture Mage_Sales_Model_Quote_Address */
 $addressFixture = require TEST_FIXTURE_DIR . '/_block/Sales/Quote/Address.php';
 
-$quote = new Mage_Sales_Model_Quote();
+$quote = Mage::getModel('Mage_Sales_Model_Quote');
 $quote->setStoreId(Mage_CatalogInventory_Model_Stock::DEFAULT_STOCK_ID)
     ->setIsMultiShipping(false)
     ->setShippingAddress(clone $addressFixture)

@@ -32,7 +32,7 @@ class Mage_Core_Model_Url_ValidatorTest extends Mage_PHPUnit_TestCase
      */
     public function testValidationFailure($url)
     {
-        $validator = new Mage_Core_Model_Url_Validator();
+        $validator = Mage::getModel('Mage_Core_Model_Url_Validator');
         $this->assertFalse(
             $validator->isValid($url),
             'Expected fail validation.');
@@ -62,7 +62,7 @@ class Mage_Core_Model_Url_ValidatorTest extends Mage_PHPUnit_TestCase
      */
     public function testValidationSuccess($url)
     {
-        $validator = new Mage_Core_Model_Url_Validator();
+        $validator = Mage::getModel('Mage_Core_Model_Url_Validator');
         $this->assertTrue(
             $validator->isValid($url),
             'Expected success validation but got following errors:' . PHP_EOL .

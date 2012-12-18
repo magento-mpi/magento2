@@ -25,7 +25,7 @@ $customer->setStoreId(1)
     ->save();
 
 //Change customer balance several times to create balance with history
-$customerBalance = new Enterprise_CustomerBalance_Model_Balance();
+$customerBalance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance');
 $customerBalance->setCustomerId($customer->getId())
     ->setWebsiteId(1)
     ->setAmountDelta(1000)
@@ -43,7 +43,7 @@ $customerBalance->setCustomerId($customer->getId())
 Api_CustomerBalance_CustomerBalanceTest::$customer = $customer;
 
 //Add customer without balance
-$customerWithoutBalance = new Mage_Customer_Model_Customer();
+$customerWithoutBalance = Mage::getModel('Mage_Customer_Model_Customer');
 $customerWithoutBalance->setStoreId(1)
     ->setCreatedIn('Default Store View')
     ->setDefaultBilling(1)

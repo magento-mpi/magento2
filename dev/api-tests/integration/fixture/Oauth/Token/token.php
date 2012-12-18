@@ -24,7 +24,7 @@ $tokenData = array(
     'revoked'           => '0',
 );
 
-$token = new Mage_Oauth_Model_Token();
+$token = Mage::getModel('Mage_Oauth_Model_Token');
 $token->setData($tokenData);
 $token->save();
 

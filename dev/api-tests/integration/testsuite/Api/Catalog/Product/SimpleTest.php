@@ -409,11 +409,6 @@ class Api_Catalog_Product_SimpleTest extends Api_Catalog_ProductAbstract
 
         try {
             switch (TESTS_WEBSERVICE_TYPE) {
-                case self::TYPE_SOAPV1:
-                case self::TYPE_XMLRPC:
-                    $this->_testSoapV1($optionValueApi, $optionValueInstaller, $data);
-                    break;
-
                 case self::TYPE_SOAPV2:
                     $this->_testSoapV2($optionValueApi, $optionValueInstaller, $data);
                     break;
@@ -429,39 +424,6 @@ class Api_Catalog_Product_SimpleTest extends Api_Catalog_ProductAbstract
             throw $e;
         }
 
-    }
-
-    /**
-     * Test for SOAPV1 and XMLRPC
-     *
-     * Help CRUD method
-     *
-     * @param int $optionValueApi
-     * @param int $optionValueInstaller
-     * @param array $data
-     * @return void
-     */
-    protected function _testSoapV1($optionValueApi, $optionValueInstaller, $data)
-    {
-        $attributes = &$data['create_with_attributes_soap']['productData']['additional_attributes'];
-        $attributes['single_data']['a_select_api'] = $optionValueApi;
-        $attributes['single_data']['a_select_ins'] = $optionValueInstaller;
-
-        // create product for test
-        $productId = $this->call('catalog_product.create', $data['create_with_attributes_soap']);
-        $this->setFixture('productId', $productId);
-
-        $product = Mage::getModel('Mage_Catalog_Model_Product');
-        $product->load($productId);
-
-        // test new product id returned
-        $this->assertGreaterThan(0, $productId);
-
-        //test new product attributes
-        $this->assertEquals($attributes['single_data']['a_text_api'], $product->getData('a_text_api'));
-        $this->assertEquals($attributes['single_data']['a_select_api'], $product->getData('a_select_api'));
-        $this->assertEquals($attributes['single_data']['a_text_ins'], $product->getData('a_text_ins'));
-        $this->assertEquals($attributes['single_data']['a_select_ins'], $product->getData('a_select_ins'));
     }
 
     /**

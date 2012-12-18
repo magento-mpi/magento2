@@ -12,7 +12,7 @@
 /* @var $stockItemFixture Mage_CatalogInventory_Model_Stock_Item */
 $stockItemFixture = require TEST_FIXTURE_DIR . '/_block/CatalogInventory/Stock/Item.php';
 
-$product = new Mage_Catalog_Model_Product;
+$product = Mage::getModel('Mage_Catalog_Model_Product');
 $product->setTypeId('simple')
     ->setAttributeSetId(4)
     ->setName('Simple Product')

@@ -25,7 +25,7 @@ $customer->setStoreId(1)
     ->save();
 
 //Change customer balance several times to create balance with history
-$customerBalance = new Enterprise_CustomerBalance_Model_Balance();
+$customerBalance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance');
 $customerBalance->setCustomerId($customer->getId())
     ->setWebsiteId(1)
     ->setAmountDelta(1000)

@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$storeGroup = new Mage_Core_Model_Store_Group();
+$storeGroup = Mage::getModel('Mage_Core_Model_Store_Group');
 $storeGroup->setData(array(
     'name' => 'Test Store' . uniqid(),
     'code' => 'store_group_' . uniqid(),

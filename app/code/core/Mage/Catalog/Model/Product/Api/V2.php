@@ -113,11 +113,6 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
 
         $this->_prepareDataForSave($product, $productData);
 
-        // TODO: Temporary validation solution before global architectural changes
-        $validator = Mage_Catalog_Model_Webapi_Product_Validator_ProductAbstract::getValidatorByProductType($type);
-        if (!$validator->isValidForCreate($product, $this->_prepareDataForValidator($product, $productData))) {
-            $this->_processValidationErrors($validator);
-        }
         try {
             $product->save();
         } catch (Mage_Core_Exception $e) {
@@ -294,53 +289,5 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
                 )
             )
         );
-    }
-
-    /**
-     * Fetch validation errors from validator object and set them to rest response
-     *
-     * @param Mage_Webapi_Model_Resource_Validator $validator
-     */
-    protected function _processValidationErrors(Mage_Webapi_Model_Resource_Validator $validator)
-    {
-        $errors = $validator->getErrors();
-        $this->_fault('data_invalid', implode("\n", $errors));
-    }
-
-    /**
-     * Prepare data for validation
-     * TODO: Temporary validation solution before global architectural changes
-     *
-     * @param Mage_Catalog_Model_Product $product
-     * @param object $productData
-     * @return array
-     */
-    protected function _prepareDataForValidator($product, $productData)
-    {
-        /** @var $helper Mage_Api_Helper_Data */
-        $helper = Mage::helper('Mage_Api_Helper_Data');
-        $helper->v2AssociativeArrayUnpacker($productData);
-        $helper->toArray($productData);
-        $data = $productData;
-        $data['type_id'] = $product->getTypeId();
-        $data['sku'] = $product->getSku();
-        $data['attribute_set_id'] = $product->getAttributeSetId();
-
-        $tierPriceMap = array(
-            'website' => 'website_id',
-            'customer_group_id' => 'cust_group',
-            'qty'  => 'price_qty'
-        );
-        if ($data['tier_price'] && is_array($data['tier_price'])) {
-            foreach ($data['tier_price'] as &$tierPrice) {
-                foreach ($tierPriceMap as $arrayKey => $keyMapValue) {
-                    if (isset($tierPrice[$arrayKey])) {
-                        $tierPrice[$keyMapValue] = $tierPrice[$arrayKey];
-                        unset($tierPrice[$arrayKey]);
-                    }
-                }
-            }
-        }
-        return $data;
     }
 }

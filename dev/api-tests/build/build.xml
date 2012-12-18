@@ -41,11 +41,8 @@
     <property name="file.magento.backup.sql" value="${dir.magento}/magento_apia_backup.sql"/>
 
 
-    <property name="file.tests.integration.config.soap" value="${dir.tests}/integration/phpunit-soap.xml"/>
     <property name="file.tests.integration.config.soap.v2" value="${dir.tests}/integration/phpunit-soapv2.xml"/>
     <property name="file.tests.integration.config.soap.wsi" value="${dir.tests}/integration/phpunit-soapv2-wsi.xml"/>
-    <property name="file.tests.integration.config.xmlrpc" value="${dir.tests}/integration/phpunit-xmlrpc.xml"/>
-    <property name="file.tests.integration.config.rest" value="${dir.tests}/integration/phpunit-rest.xml"/>
 
     <property name="file.tests.integration.config.dist" value="${dir.tests}/integration/phpunit.xml.dist"/>
     <property name="file.tests.integration.config" value="${dir.tests}/integration/phpunit.xml"/>
@@ -122,19 +119,11 @@
 
         <replace file="${file.tests.integration.config}" token="tests.host" value="${build_host}"/>
 
-        <replace file="${file.tests.integration.config.soap}" token="tests.host" value="${build_host}"/>
-        <replace file="${file.tests.integration.config.soap}" token="tests.url" value="${build_url}"/>
-
         <replace file="${file.tests.integration.config.soap.v2}" token="tests.host" value="${build_host}"/>
         <replace file="${file.tests.integration.config.soap.v2}" token="tests.url" value="${build_url}"/>
 
         <replace file="${file.tests.integration.config.soap.wsi}" token="tests.host" value="${build_host}"/>
         <replace file="${file.tests.integration.config.soap.wsi}" token="tests.url" value="${build_url}"/>
-
-        <replace file="${file.tests.integration.config.xmlrpc}" token="tests.host" value="${build_host}"/>
-        <replace file="${file.tests.integration.config.xmlrpc}" token="tests.url" value="${build_url}"/>
-
-        <replace file="${file.tests.integration.config.rest}" token="tests.url" value="${build_url}"/>
     </target>
 
     <target name="prepareIntegrationTestsCache">
@@ -188,17 +177,6 @@
         </exec>
     </target>
 
-    <target name="runSoapTests" depends="initIntegrationTests">
-        <property name="file.reports.integration.junit.soap" value="${dir.reports}/integration-phpunit-soap.xml"/>
-        <property name="file.reports.integration.log.soap" value="${dir.reports}/integration-phpunit-soap.txt"/>
-
-        <exec executable="phpunit" failonerror="false" dir="${dir.tests}/integration/" output="${file.reports.integration.log.soap}">
-            <arg line="--configuration ${file.tests.integration.config.soap}"/>
-            <arg line="--log-junit ${file.reports.integration.junit.soap}"/>
-            <arg line="--debug"/>
-        </exec>
-    </target>
-
     <target name="runSoapV2Tests" depends="initIntegrationTests">
         <property name="file.reports.integration.junit.soap.v2" value="${dir.reports}/integration-phpunit-soapv2.xml"/>
         <property name="file.reports.integration.log.soap.v2" value="${dir.reports}/integration-phpunit-soapv2.txt"/>
@@ -210,17 +188,6 @@
         </exec>
     </target>
 
-    <target name="runXmlRpcTests" depends="initIntegrationTests">
-        <property name="file.reports.integration.junit.xmlrpc" value="${dir.reports}/integration-phpunit-xmlrpc.xml"/>
-        <property name="file.reports.integration.log.xmlrpc" value="${dir.reports}/integration-phpunit-xmlrpc.txt"/>
-
-        <exec executable="phpunit" failonerror="false" dir="${dir.tests}/integration/" output="${file.reports.integration.log.xmlrpc}">
-            <arg line="--configuration ${file.tests.integration.config.xmlrpc}"/>
-            <arg line="--log-junit ${file.reports.integration.junit.xmlrpc}"/>
-            <arg line="--debug"/>
-        </exec>
-    </target>
-
     <target name="runSoapV2WSITests" depends="initIntegrationTests">
         <property name="file.reports.integration.junit.soap.wsi" value="${dir.reports}/integration-phpunit-soapv2-wsi.xml"/>
         <property name="file.reports.integration.log.soap.wsi" value="${dir.reports}/integration-phpunit-soapv2-wsi.txt"/>
@@ -228,18 +195,6 @@
         <exec executable="phpunit" failonerror="false" dir="${dir.tests}/integration/" output="${file.reports.integration.log.soap.wsi}">
             <arg line="--configuration ${file.tests.integration.config.soap.wsi}"/>
             <arg line="--log-junit ${file.reports.integration.junit.soap.wsi}"/>
-            <arg line="--debug"/>
-        </exec>
-    </target>
-
-    <target name="runRestTests" depends="initIntegrationTests">
-        <property name="file.reports.integration.junit.rest" value="${dir.reports}/integration-phpunit-rest.xml"/>
-        <property name="file.reports.integration.log.rest" value="${dir.reports}/integration-phpunit-rest.txt"/>
-
-        <exec executable="sudo" failonerror="false" dir="${dir.tests}/integration/" output="${file.reports.integration.log.rest}">
-            <arg line="phpunit"/>
-            <arg line="--configuration ${file.tests.integration.config.rest}"/>
-            <arg line="--log-junit ${file.reports.integration.junit.rest}"/>
             <arg line="--debug"/>
         </exec>
     </target>

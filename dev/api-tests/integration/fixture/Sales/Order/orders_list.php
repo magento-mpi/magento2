@@ -15,7 +15,7 @@ $ordersList = array();
 for ($i = 0; $i < COUNT_ORDERS_LIST; $i++) {
     /* @var $order Mage_Sales_Model_Order */
     $order = Mage::getModel('Mage_Sales_Model_Order')
-        ->setBillingAddress(new Mage_Sales_Model_Order_Address());
+        ->setBillingAddress(Mage::getModel('Mage_Sales_Model_Order_Address'));
 
     /* @var $payment Mage_Sales_Model_Order_Payment */
     $payment = Mage::getModel('Mage_Sales_Model_Order_Payment')

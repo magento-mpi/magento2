@@ -545,7 +545,7 @@ class Magento_Test_Bootstrap
      */
     protected function _createAdminUser()
     {
-        $user = new Mage_User_Model_User();
+        $user = Mage::getModel('Mage_User_Model_User');
         $user->loadByUsername(self::ADMIN_NAME);
         if ($user->getId()) {
             return;
@@ -560,10 +560,10 @@ class Magento_Test_Bootstrap
         ));
         $user->save();
 
-        $roleAdmin = new Mage_User_Model_Role();
+        $roleAdmin = Mage::getModel('Mage_User_Model_Role');
         $roleAdmin->load('Administrators', 'role_name');
 
-        $roleUser = new Mage_User_Model_Role();
+        $roleUser = Mage::getModel('Mage_User_Model_Role');
         $roleUser->setData(array(
             'parent_id'  => $roleAdmin->getId(),
             'tree_level' => $roleAdmin->getTreeLevel() + 1,
