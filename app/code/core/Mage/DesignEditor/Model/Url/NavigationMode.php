@@ -62,9 +62,9 @@ class Mage_DesignEditor_Model_Url_NavigationMode extends Mage_Core_Model_Url
     /**
      * Build url by requested path and parameters
      *
-     * @param   string|null $routePath
-     * @param   array|null $routeParams
-     * @return  string
+     * @param string|null $routePath
+     * @param array|null $routeParams
+     * @return string
      */
     public function getUrl($routePath = null, $routeParams = null)
     {

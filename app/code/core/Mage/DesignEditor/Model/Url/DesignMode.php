@@ -14,16 +14,6 @@
 class Mage_DesignEditor_Model_Url_DesignMode extends Mage_Core_Model_Url
 {
     /**
-     * Constructor
-     *
-     * @param array $data
-     */
-    public function __construct(array $data = array())
-    {
-        parent::__construct($data);
-    }
-
-    /**
      * Retrieve route path
      *
      * @param array $routeParams
@@ -31,6 +21,32 @@ class Mage_DesignEditor_Model_Url_DesignMode extends Mage_Core_Model_Url
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getRoutePath($routeParams = array())
+    {
+        return '#';
+    }
+
+    /**
+     * Retrieve route URL
+     *
+     * @param string $routePath
+     * @param array $routeParams
+     * @return string
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function getRouteUrl($routePath = null, $routeParams = null)
+    {
+        return '#';
+    }
+
+    /**
+     * Build url by requested path and parameters
+     *
+     * @param string|null $routePath
+     * @param array|null $routeParams
+     * @return string
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function getUrl($routePath = null, $routeParams = null)
     {
         return '#';
     }
