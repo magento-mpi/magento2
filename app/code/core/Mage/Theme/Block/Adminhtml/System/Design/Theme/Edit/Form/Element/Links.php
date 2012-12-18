@@ -53,11 +53,15 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Links ext
      */
     protected function _optionToHtml(array $option)
     {
-        $html = '<a href="'.$this->_escape($option['href']).'"';
-        $html .= isset($option['target']) ? 'target="' . $this->_escape($option['target']) . '"' : '';
-        $html .= isset($option['title']) ? 'title="' . $this->_escape($option['title']) . '"' : '';
-        $html .= isset($option['style']) ? 'style="' . $option['style'] . '"' : '';
-        $html .= '>';
+        $allowedAttribute = array('href', 'target', 'title', 'style');
+        $attributes = array();
+        foreach ($option as $title => $value) {
+            if (!in_array($title, $allowedAttribute)) {
+                continue;
+            }
+            $attributes[] = $title . '="' . $this->_escape($value) . '"';
+        }
+        $html = '<a ' . implode(' ', $attributes) . '>';
         $html .= $this->_escape($option['label']);
         $html .= '</a>';
         $html .= isset($option['delimiter']) ? $option['delimiter'] : '';
