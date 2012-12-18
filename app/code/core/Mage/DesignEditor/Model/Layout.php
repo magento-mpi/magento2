@@ -130,6 +130,23 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
     }
 
     /**
+     * Replace all inline JavaScript
+     *
+     * @return string
+     */
+    public function getOutput()
+    {
+        $output = parent::getOutput();
+        if (preg_match('/<body\s*[^>]*>.*<\/body>/is', $output, $body)) {
+            $oldBody = $body[0];
+            $newBody = preg_replace('/<script\s*[^>]*>.*?<\/script>/is', '', $oldBody);
+            $newBody = preg_replace('/href\s*=\s*([\'"])javascript:/is', 'href-data=$1', $newBody);
+            $output = str_replace($oldBody, $newBody, $output);
+        }
+        return $output;
+    }
+
+    /**
      * Replace all potentially dangerous blocks in layout into stubs
      *
      * It is important to sanitize the references first, because they refer to blocks to check whether they are safe.
