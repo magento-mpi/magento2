@@ -11,11 +11,25 @@
 -->
 <layout>
     <designeditor_page_type>
-        <reference name="head">
+        <reference name="root">
+            <block type="Mage_DesignEditor_Block_Page_Html_Head" name="head" as="head" />
+            <block type="Mage_DesignEditor_Block_Page_Html_Head_Vde" name="vde_head" as="vde_head" />
+        </reference>
+
+        <reference name="vde_head">
+            <action method="addJs"><file>jquery/jquery-1.7.1.min.js</file></action>
+            <action method="addJs"><file>mage/jquery-no-conflict.js</file></action>
+            <action method="addJs"><file>jquery/head.js</file></action>
+            <action method="addJs"><file>mage/mage.js</file></action>
+            <action method="addJs"><file>mage/decorate.js</file></action>
+            <action method="addJs"><file>mage/translate.js</file></action>
+            <action method="addJs"><file>jquery/ui/jquery-ui.js</file></action>
+            <action method="addJs"><file>jquery/jquery.tmpl.min.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/design_editor.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/change/layout.js</file></action>
             <action method="addCss"><file>Mage_DesignEditor::css/design.css</file></action>
         </reference>
+
         <reference name="before_body_end">
             <block type="Mage_DesignEditor_Block_Toolbar_History" name="design_editor_toolbar_history" template="toolbar/history.phtml"/>
         </reference>
