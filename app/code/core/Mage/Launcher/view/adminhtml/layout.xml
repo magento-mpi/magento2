@@ -26,4 +26,19 @@
             <block type="Mage_Launcher_Block_Adminhtml_Storelauncher_Page" name="landing.page" template="page/storelauncher/storelauncher.phtml" />
         </reference>
     </launcher_storelauncher_index_index>
+
+    <promotestore_index>
+
+    </promotestore_index>
+
+    <launcher_promotestore_index_index>
+        <update handle="promotestore_index"/>
+        <reference name="head">
+            <action method="addCss"><file>Mage_Launcher::page/launcher.css</file></action>
+            <action method="addJs"><file>Mage_Launcher::page/launcher.js</file></action>
+        </reference>
+        <reference name="content">
+            <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Page" name="promotestore.page" template="page/promotestore/promotestore.phtml" />
+        </reference>
+    </launcher_promotestore_index_index>
 </layout>

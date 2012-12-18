@@ -1,0 +1,46 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<div class="page-title">
+    <h1 class="title">Promote Your Store </h1>
+</div>
+
+
+<section id="promote-store" class="store-launcher store-launcher-alternative">
+
+<?php foreach($this->getTileBlocks() as $tile):?>
+    <?php echo $tile->toHtml() ?>
+<?php endforeach;?>
+
+</section>
+
+
+<div id="drawer" class="drawer">
+    <section class="drawer-content">
+        <header>
+            <div class="header-inner">
+                <div class="drawer-header-content">
+                    <h1 id="drawer-item-header"></h1>
+                </div>
+                <span class="btn-close"><?php echo $this->__('Back to Promote Your Store'); ?></span>
+            </div>
+        </header>
+        <div class="content">
+        </div>
+        <footer>
+            <div class="footer-inner">
+                <div id="drawer-item-footer">
+                    <button class="button button-special button-save-settins" save-url=""><?php echo $this->__('Done'); ?></button>
+                </div>
+            </div>
+        </footer>
+    </section>
+</div>

@@ -21,3 +21,9 @@ $tile->setCode('business_info');
 $tile->setPageId(1);
 $tile->setState(0);
 $tile->save();
+
+
+Mage::getModel('Mage_Launcher_Model_Page')
+    ->load(2)
+    ->setCode('promote_store')
+    ->save();
