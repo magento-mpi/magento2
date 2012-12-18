@@ -6,6 +6,97 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+.theme-element {
+    position: relative;
+    height:351px;
+    width:351px;
+}
+
+.theme-front {
+    position: absolute;
+}
+
+.theme-back {
+    background-color: #424242;
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    opacity: 0;
+
+    transition: opacity .25s ease-in-out;
+    -moz-transition: opacity .25s ease-in-out;
+    -webkit-transition: opacity .25s ease-in-out;
+}
+
+.theme-title {
+    color: white;
+    font-size: 20px;
+}
+
+.theme-back:hover {
+    opacity: 1;
+}
+
+.infinite_scroll {
+    height:100%;
+    width: 900px;
+    position: relative;
+}
+
+div.theme-preview-actions .theme-preview-about {
+    float: left;
+    display: none;
+}
+div.theme-preview-actions .btn-apply-theme {
+    float: right;
+}
+div.theme-preview-actions .theme-preview-window {
+    margin: 0 10px;
+    display: none;
+}
+div.theme-preview-actions .theme-preview-back,
+span.back-to-selected-theme {
+    float: left;
+    cursor: pointer;
+    margin: 0 20px 0 0;
+    width: 28px;
+    height: 29px;
+    background: url(../images/theme-preview-back.png) 0 0 no-repeat;
+}
+
+.theme-element-customizations{
+    width:351px;
+}
+
+.theme-assigned-to-storeview .theme-title{
+    color: black;
+}
+.theme-front-customizations{
+    position: relative;
+    height:351px;
+    width:351px;
+}
+.theme-front-customizations .theme-buttons{
+    padding: 30px;
+    margin-top: -100px;
+    display: block;
+    position: absolute;
+    z-index: 1;
+    background-color: #424242;
+}
+
+.theme-loader {
+    display: none;
+    position: relative;
+    float: left;
+}
+
+.theme-container {
+    float: left;
+}
+
 #vde_toolbar {
     position: fixed;
     margin-top: -54pt;

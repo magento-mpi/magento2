@@ -71,6 +71,7 @@
  * @method Enterprise_Mage_Rollback_Helper                                                             rollbackHelper()
  * @method Enterprise_Mage_WebsiteRestrictions_Helper                                                  websiteRestrictionsHelper()
  * @method Core_Mage_Grid_Helper                                                                       gridHelper()
+ * @method Core_Mage_Theme_Helper                                                                      themeHelper()
  */
 //@codingStandardsIgnoreEnd
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
