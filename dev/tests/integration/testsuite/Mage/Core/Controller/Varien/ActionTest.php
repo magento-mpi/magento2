@@ -260,10 +260,8 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoConfigFixture               install/design/theme/full_name   default/basic
-     * @magentoConfigFixture               adminhtml/design/theme/full_name default/basic
-     * @magentoConfigFixture current_store design/theme/full_name           default/demo
-     * @magentoAppIsolation  enabled
+     * @magentoConfigFixture install/design/theme/full_name default/basic
+     * @magentoAppIsolation enabled
      *
      * @dataProvider controllerAreaDesignDataProvider
      *
@@ -276,6 +274,13 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
     public function testPreDispatch($controllerClass, $expectedArea, $expectedStore, $expectedDesign)
     {
         Mage::getConfig()->setCurrentAreaCode($expectedArea);
+
+        $themeId = Mage_Core_Utility_Theme::getTheme('default/demo', 'frontend')->getId();
+        Mage::app()->getStore('default')->setConfig('design/theme/theme_id', $themeId);
+
+        $themeId = Mage_Core_Utility_Theme::getTheme('default/basic', 'adminhtml')->getId();
+        Mage::app()->getStore('admin')->setConfig('adminhtml/design/theme/theme_id', $themeId);
+
         /** @var $controller Mage_Core_Controller_Varien_Action */
         $controller = new $controllerClass(
             new Magento_Test_Request(),
