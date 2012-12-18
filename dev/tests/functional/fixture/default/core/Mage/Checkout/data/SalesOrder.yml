@@ -311,7 +311,7 @@ downloadable_product_for_order:
     inventory_manage_stock: Yes
     inventory_qty: 120
     inventory_stock_availability: In Stock
-    categories: %noValue%
+    general_categories: %noValue%
     websites: Main Website
     custom_options_data: %noValue%
     downloadable_information_data:
@@ -340,7 +340,7 @@ grouped_product_for_order:
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
     inventory_stock_availability: In Stock
-    categories: %noValue%
+    general_categories: %noValue%
     websites: Main Website
     associated_grouped_data:
         associated_grouped_1:
@@ -367,7 +367,7 @@ fixed_bundle_for_order:
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
     inventory_stock_availability: In Stock
-    categories: %noValue%
+    general_categories: %noValue%
     websites: Main Website
     bundle_items_data:
         ship_bundle_items: Separately
@@ -431,7 +431,7 @@ configurable_product_for_order:
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
     inventory_stock_availability: In Stock
-    categories: %noValue%
+    general_categories: %noValue%
     websites: Main Website
     general_configurable_data:
         associated_configurable_1:

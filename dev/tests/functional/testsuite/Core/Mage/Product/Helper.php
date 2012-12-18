@@ -227,7 +227,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      *
      * @return array
      */
-    public function formProductData(array $productData, $skipElements = array())
+    public function formProductData(array $productData, $skipElements = array('product_attribute_set'))
     {
         $data = array();
         foreach ($this->productTabs as $tabName) {
@@ -243,7 +243,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             }
         }
         if (!empty($productData)) {
-            $this->fail('There are data that will not be filled not on one tab');
+            $this->fail('There are data that will not be filled not on one tab:' . print_r($productData, true));
         }
         return $data;
     }
@@ -267,7 +267,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      * @param array $productData
      * @param array $skipElements
      */
-    public function verifyProductInfo(array $productData, $skipElements = array())
+    public function verifyProductInfo(array $productData, $skipElements = array('product_attribute_set'))
     {
         $data = $this->formProductData($productData, $skipElements);
         foreach ($data as $tabName => $tabData) {
