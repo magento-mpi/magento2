@@ -63,7 +63,7 @@
                         <arguments>
                             <header translate="true" module="Mage_User">ID</header>
                             <width>50px</width>
-                            <allign>right</allign>
+                            <align>right</align>
                             <index>role_id</index>
                         </arguments>
                     </block>
@@ -173,7 +173,7 @@
                         <arguments>
                             <header translate="true" module="Mage_User">ID</header>
                             <width>5px</width>
-                            <allign>right</allign>
+                            <align>right</align>
                             <sortable>true</sortable>
                             <index>user_id</index>
                         </arguments>
