@@ -11,6 +11,35 @@
     "use strict";
 
     $.validator.addMethod(
+        "validate-grouped-qty",
+        function(value, element, params) {
+            var result = false;
+            var total = 0;
+            $(params).find('input:text').each(function(i, e) {
+                var _e = $(e);
+                if (_e.data('validate').substring('validate-grouped-qty')) {
+                    var val = _e.val();
+                    if (val && val.length > 0) {
+                        result = true;
+                        var valInt = parseInt(val, 10) || 0;
+                        if (valInt >= 0) {
+                            total += valInt;
+                        } else {
+                            result = false;
+                            return result;
+                        }
+                    }
+                }
+            });
+            if (result && total > 0) {
+                return true;
+            }
+            return false;
+        },
+        'Please specify the quantity of product(s).'
+    );
+
+    $.validator.addMethod(
         "validate-one-checkbox-required-by-name",
         function(value, element, params) {
             var checkedCount = 0;
