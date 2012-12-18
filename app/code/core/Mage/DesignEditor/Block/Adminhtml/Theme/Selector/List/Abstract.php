@@ -18,6 +18,51 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
     extends Mage_Backend_Block_Abstract
 {
     /**
+     * Application model
+     *
+     * @var Mage_Core_Model_App
+     */
+    protected $_app;
+
+    /**
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param Mage_Core_Model_Layout $layout
+     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Mage_Backend_Model_Url $urlBuilder
+     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Session $session
+     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Mage_Core_Controller_Varien_Front $frontController
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_App $app
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        Mage_Core_Controller_Request_Http $request,
+        Mage_Core_Model_Layout $layout,
+        Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Backend_Model_Url $urlBuilder,
+        Mage_Core_Model_Translate $translator,
+        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_Session $session,
+        Mage_Core_Model_Store_Config $storeConfig,
+        Mage_Core_Controller_Varien_Front $frontController,
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Core_Model_App $app,
+        array $data = array()
+    ) {
+        $this->_app = $app;
+        parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
+            $session, $storeConfig, $frontController, $helperFactory, $data
+        );
+    }
+
+    /**
      * Get tab title
      *
      * @return string
@@ -127,14 +172,21 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
      */
     protected function _addEditButtonHtml($themeBlock)
     {
-        $themeId = $themeBlock->getTheme()->getId();
         /** @var $editButton Mage_Backend_Block_Widget_Button */
         $editButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
 
         $editButton->setData(array(
             'label'     => $this->__('Edit Button'),
-            'onclick'   => "alert('Edit Button id: $themeId')",
             'class'     => 'add edit-theme',
+            'data_attr' => array(
+                'widget-button' => array(
+                    'event' => 'edit',
+                    'related' => 'body',
+                    'eventData' => array(
+                        'edit_url' => $this->_getEditUrl($themeBlock->getTheme())
+                    )
+                ),
+            ),
         ));
 
         $themeBlock->addButton($editButton);
@@ -153,6 +205,24 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
         return $this->getUrl('*/*/preview', array(
             Mage_DesignEditor_Block_Adminhtml_Theme_Preview::PARAM_THEME_ID => $themeId,
             Mage_DesignEditor_Block_Adminhtml_Theme_Preview::PARAM_PREVIEW  => $previewType
+        ));
+    }
+
+    /**
+     * Get edit theme url
+     *
+     * @param Mage_Core_Model_Theme $theme
+     * @return string
+     */
+    protected function _getEditUrl($theme)
+    {
+        /** @var $store Mage_Core_Model_Store */
+        $defaultStore = reset($theme->getAssignedStores());
+        $defaultStore = $defaultStore ? $defaultStore : $this->_app->getDefaultStoreView();
+
+        return $this->getUrl('*/*/run', array(
+            'theme_id' => $theme->getId(),
+            'store_id' => $defaultStore->getId(),
         ));
     }
 }
