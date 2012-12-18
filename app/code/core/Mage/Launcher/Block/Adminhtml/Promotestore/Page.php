@@ -9,7 +9,7 @@
  */
 
 /**
- * Store Launcher Landing Page Block
+ * Promote Store Landing Page Block
  *
  * @category   Mage
  * @package    Mage_Launcher

@@ -9,7 +9,7 @@
  */
 
 /**
- * Launcher controller
+ * Promote Your Store controller
  *
  * @category    Mage
  * @package     Mage_Launcher
