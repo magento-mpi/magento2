@@ -19,11 +19,6 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    /**
-     * @var Mage_Core_Utility_Theme
-     */
-    protected $_themeUtility;
-
     protected function setUp()
     {
         /* Disable loading and saving layout cache */
