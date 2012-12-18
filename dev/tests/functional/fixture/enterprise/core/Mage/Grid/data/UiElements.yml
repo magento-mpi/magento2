@@ -9,154 +9,21 @@
 #
 ---
 #Test data for verification  ui elements in grids
-grid:
-    manage_admin_users:
-        button:
-            reset_filter:
-            search:
-            add_new_admin_user:
-        dropdown:
-            status:
-            view:
-        field:
-            id:
-            user_name:
-            first_name:
-            last_name:
-            email:
-            page:
-        fieldset:
-            permissionsUserGrid: tablename
-        headers:
-            0: ID
-            1: User Name
-            2: First Name
-            3: Last Name
-            4: Email
-            5: Status
-    role_users:
-        button:
-            reset_filter:
-            search:
-        dropdown:
-            status:
-            filter_in_role_users:
-            view:
-        field:
-            user_id:
-            user_name:
-            first_name:
-            last_name:
-            email:
-            page:
-        checkbox:
-            select_all:
-        pageelement:
-            role_user_grid:
-    manage_roles:
-        button:
-            reset_filter:
-            search:
-            add_new_role:
-        dropdown:
-            view_per_page:
-        field:
-            page:
-            id:
-            role_name:
-        fieldset:
-            role_list: tablename
-        headers:
-            0: ID
-            1: Role Name
-            2: Allowed Scopes
-    system_email_template:
-        fieldset:
-            system_email_template_grid: tablename
-        button:
-            reset_filter:
-            search:
-        field:
-            page:
-            filter_template_id:
-            filter_template_name:
-            filter_date_added_from:
-            filter_date_added_to:
-            filter_date_updated_from:
-            filter_date_updated_to:
-            filter_subject:
-        dropdown:
-            filter_template_type:
-            view_per_page:
-        headers:
-            0: ID
-            1: Template Name
-            2: Date Added
-            3: Date Updated
-            4: Subject
-            5: Template Type
-            6: Action
-    system_design:
-        fieldset:
-            design_grid: tablename
-        dropdown:
-            view_per_page:
-            store:
-        button:
-            add_design_change:
-            reset_filter:
-            search:
-        field:
-            page:
-            design_filter:
-            date_from_filter_from:
-            date_from_filter_to:
-            date_to_filter_from:
-            date_to_filter_to:
-        headers:
-            0: Store
-            1: Design
-            2: Date From
-            3: Date To
-    xml_sitemap:
-        fieldset:
-            xml_sitemap_grid: tablename
-        button:
-            reset_filter:
-            search:
-            add_sitemap:
-        dropdown:
-            view_per_page:
-            filter_store_view:
-        field:
-            page:
-            filter_xml_sitemap_id:
-            filter_xml_sitemap_filename:
-            filter_xml_sitemap_path:
-            filter_xml_sitemap_google_link:
-            filter_xml_sitemap_create_date_from:
-            filter_xml_sitemap_create_date_to:
-        headers:
-            0: ID
-            1: Filename
-            2: Path
-            3: Link for Google
-            4: Last Time Generated
-            5: Store View
-            6: Action
-    user_role:
-        fieldset:
-            permissions_user_roles: tablename
-        button:
-            reset_filter:
-            search:
-            back:
-            reset:
-            save_admin_user:
-        dropdown:
-            assigned:
-        field:
-            role_name:
-        headers:
-            0: Assigned
-            1: Role Name
+
+manage_roles:
+    button:
+        reset_filter:
+        search:
+        add_new_role:
+    dropdown:
+        view_per_page:
+    field:
+        page:
+        id:
+        role_name:
+    fieldset:
+        role_list: tablename
+    headers:
+        0: ID
+        1: Role Name
+        2: Allowed Scopes

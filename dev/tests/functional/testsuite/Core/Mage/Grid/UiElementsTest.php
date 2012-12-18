@@ -33,16 +33,15 @@ class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Need to verify that all grid elements is presented on page
+     * Need to verify that all grid elements are presented on page
      * @test
      * @dataProvider uiElementsTestDataProvider
-     *
      */
     public function uiElementsTest($pageName)
     {
         $this->navigate($pageName);
-        $testData = $this->loadDataSet('UiElements', 'grid');
-        $this->gridHelper()->prepareData($testData, $pageName);
+        $testData = $this->loadDataSet('UiElements', $pageName);
+        $this->gridHelper()->prepareData($testData);
         $this->assertEmptyVerificationErrors();
     }
 
@@ -50,26 +49,25 @@ class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
      * Need to verify that all columns in table are present in the correct order
      * @test
      * @dataProvider uiElementsTestDataProvider
-     *
      */
     public function gridHeaderNamesTest($pageName)
     {
         $this->navigate($pageName);
-        $testData = $this->loadDataSet('UiElements', 'grid');
-        $actualHeadersName = $this->gridHelper()->getGridHeaders($testData[$pageName]);
-        $expectedHeadersName = $this->gridHelper()->prepareData($testData, $pageName);;
-        $this->assertNotNull($expectedHeadersName, 'Array(dataset) with header names is not defined');
+        $testData = $this->loadDataSet('UiElements', $pageName);
+        $actualHeadersName = $this->gridHelper()->getGridHeaders($testData);
+        $expectedHeadersName = $testData['headers'];
         $this->assertEquals($expectedHeadersName, $actualHeadersName);
     }
 
     public function uiElementsTestDataProvider()
     {
         return array(
-            array('xml_sitemap'),
-            array('system_design'),
-            array('manage_roles'),
             array('manage_admin_users'),
+            array('manage_roles'),
             array('system_email_template'),
+            array('system_design'),
+            array('xml_sitemap'),
+            array('url_rewrite_management'),
         );
     }
 
@@ -83,8 +81,9 @@ class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
         $role = array('Administrator');
         $this->adminUserHelper()->openRole($role);
         $this->openTab('role_users');
-        $testData = $this->loadDataSet('UiElements', 'grid');
-        $this->gridHelper()->prepareData($testData, 'role_users');
+        $testData = $this->loadDataSet('UiElements', 'role_users');
+        $this->gridHelper()->prepareData($testData);
+        $this->assertEmptyVerificationErrors();
     }
 
     /**
@@ -102,8 +101,8 @@ class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->searchAndOpen($testAdminUser, 'permissionsUserGrid');
         $this->openTab('user_role');
-        $testData = $this->loadDataSet('UiElements', 'grid');
-        $this->gridHelper()->prepareData($testData, 'user_role');
+        $testData = $this->loadDataSet('UiElements', 'user_role');
+        $this->gridHelper()->prepareData($testData);
         $this->assertEmptyVerificationErrors();
 
        return $testAdminUser;
@@ -114,17 +113,16 @@ class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
      *
      * @depends uiElementForUsersRole
      * @param $testAdminUser
-     *
      * @test
      */
     public function headersForUserRole($testAdminUser)
     {
-        $testData = $this->loadDataSet('UiElements', 'grid');
-        $expectedHeadersName = $testData['user_role']['headers'];
+        $testData = $this->loadDataSet('UiElements', 'user_role');
+        $expectedHeadersName = $testData['headers'];
         $this->navigate('manage_admin_users');
         $this->searchAndOpen($testAdminUser, 'permissionsUserGrid');
         $this->openTab('user_role');
-        $actualHeadersName = $this->gridHelper()->getGridHeaders($testData['user_role']);
+        $actualHeadersName = $this->gridHelper()->getGridHeaders($testData);
         $this->assertEquals($actualHeadersName, $expectedHeadersName);
     }
 }

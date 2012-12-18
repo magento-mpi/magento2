@@ -37,26 +37,21 @@ class Core_Mage_Grid_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     *  Method that goes through test data array and adds Verification Messages
+     *  Method that goes through test data array and adds verification Messages
      *
-     * @param $data
-     * @param $testChildDataName
+     * @param array $data
      * @param string $exclude
-     *
      * @return mixed
      */
-    public function prepareData($data, $testChildDataName, $exclude = 'headers')
+    public function prepareData(array $data, $exclude = 'headers')
     {
-        if (array_key_exists($exclude, $data[$testChildDataName])) {
-            $headers = $data[$testChildDataName][$exclude];
-            unset($data[$testChildDataName][$exclude]);
-
-            return $headers;
+        if (array_key_exists($exclude, $data)) {
+            unset($data[$exclude]);
         }
-        foreach ($data[$testChildDataName] as $control => $type) {
+        foreach ($data as $control => $type) {
             foreach ($type as $typeName => $name) {
                 if (!$this->controlIsPresent($control, $typeName)) {
-                    $this->addVerificationMessage("The $control $typeName is not present on page $testChildDataName");
+                    $this->addVerificationMessage("The $control $typeName is not present on page");
                 }
             }
         }
@@ -65,19 +60,17 @@ class Core_Mage_Grid_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Get Header names from grid and
      *
-     * @param $data
+     * @param array $data
      * @param string $fieldsetFlag
-     *
      * @return array
      */
-    public function getGridHeaders($data, $fieldsetFlag = 'tablename')
+    public function getGridHeaders(array $data, $fieldsetFlag = 'tablename')
     {
         $tableNameValue = array_search($fieldsetFlag, $data['fieldset']);
         if ($tableNameValue) {
             $tableXpath = $this->_getControlXpath('fieldset', $tableNameValue);
             $actualHeadersName = $this->getTableHeadRowNames($tableXpath);
             return $actualHeadersName;
-
         } else {
             $this->fail("Should be at least one key in field section with value $fieldsetFlag");
         }
