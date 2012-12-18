@@ -28,7 +28,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy extends 
     /**
      * VDE url model
      *
-     * @var Mage_DesignEditor_Model_Url
+     * @var Mage_DesignEditor_Model_Url_Handle
      */
     protected $_vdeUrlBuilder;
 
@@ -44,7 +44,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy extends 
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param Mage_DesignEditor_Model_Url $vdeUrlBuilder
+     * @param Mage_DesignEditor_Model_Url_Handle $vdeUrlBuilder
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -61,7 +61,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy extends 
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
-        Mage_DesignEditor_Model_Url $vdeUrlBuilder,
+        Mage_DesignEditor_Model_Url_Handle $vdeUrlBuilder,
         array $data = array()
     ) {
         $this->_vdeUrlBuilder = $vdeUrlBuilder;

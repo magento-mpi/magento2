@@ -27,4 +27,26 @@ class Magento_Di_DefinitionList_Zend extends Zend\Di\DefinitionList
         }
         return array();
     }
+
+    /**
+     * Fix bug in ZF2
+     * {@inheritDoc}
+     */
+    public function hasMethod($class, $method)
+    {
+        /** @var $definition Zend\Di\Definition\DefinitionInterface */
+        foreach ($this as $definition) {
+            if ($definition->hasClass($class)) {
+                if ($definition->hasMethods($class) === false
+                    && $definition instanceof Zend\Di\Definition\PartialMarker
+                ) {
+                    continue;
+                } else {
+                    return $definition->hasMethod($class, $method);
+                }
+            }
+        }
+
+        return false;
+    }
 }

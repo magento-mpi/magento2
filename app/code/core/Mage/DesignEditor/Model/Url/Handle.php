@@ -9,9 +9,9 @@
  */
 
 /**
- * Design editor url model
+ * Design editor url model for navigation by page types (handles)
  */
-class Mage_DesignEditor_Model_Url extends Mage_Core_Model_Url
+class Mage_DesignEditor_Model_Url_Handle extends Mage_Core_Model_Url
 {
     /**
      * VDE helper

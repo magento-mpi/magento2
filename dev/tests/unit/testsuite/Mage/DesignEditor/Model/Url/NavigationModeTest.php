@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_DesignEditor_Model_UrlTest extends PHPUnit_Framework_TestCase
+class Mage_DesignEditor_Model_Url_NavigationModeTest extends PHPUnit_Framework_TestCase
 {
     /**#@+
      * Test route params
@@ -25,7 +25,7 @@ class Mage_DesignEditor_Model_UrlTest extends PHPUnit_Framework_TestCase
             ->method('getFrontName')
             ->will($this->returnValue(self::FRONT_NAME));
 
-        $urlModel = new Mage_DesignEditor_Model_Url($helper, array('route_path' => self::ROUTE_PATH));
+        $urlModel = new Mage_DesignEditor_Model_Url_NavigationMode($helper, array('route_path' => self::ROUTE_PATH));
         $this->assertEquals(self::FRONT_NAME . '/' . self::ROUTE_PATH, $urlModel->getRoutePath());
     }
 }

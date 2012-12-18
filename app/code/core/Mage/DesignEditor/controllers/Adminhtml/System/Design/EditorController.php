@@ -97,8 +97,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         /** @var $editorBlock Mage_DesignEditor_Block_Adminhtml_Editor_Container */
         $editorBlock = $this->getLayout()->getBlock('design_editor');
 
-        /** @var $vdeUrlModel Mage_DesignEditor_Model_Url */
-        $vdeUrlModel = $this->_objectManager->get('Mage_DesignEditor_Model_Url');
+        /** @var $vdeUrlModel Mage_DesignEditor_Model_Url_NavigationMode */
+        $vdeUrlModel = $this->_objectManager->get('Mage_DesignEditor_Model_Url_NavigationMode');
         $editorBlock->setFrameUrl($vdeUrlModel->getUrl('design/page/type', array('handle' => 'default')));
 
         $this->renderLayout();

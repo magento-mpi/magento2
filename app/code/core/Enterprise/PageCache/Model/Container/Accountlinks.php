@@ -43,6 +43,7 @@ class Enterprise_PageCache_Model_Container_Accountlinks extends Enterprise_PageC
      */
     protected function _renderBlock()
     {
+        /** @var $block Mage_Page_Block_Template_Links */
         $block = $this->_getPlaceHolderBlock();
         $block->setNameInLayout($this->_placeholder->getAttribute('name'));
 
@@ -53,9 +54,9 @@ class Enterprise_PageCache_Model_Container_Accountlinks extends Enterprise_PageC
             if ($links) {
                 $links = unserialize(base64_decode($links));
                 foreach ($links as $position => $linkInfo) {
-                    $block->addLink($linkInfo['label'], $linkInfo['url'], $linkInfo['title'], false, array(), $position,
-                            $linkInfo['li_params'], $linkInfo['a_params'], $linkInfo['before_text'],
-                            $linkInfo['after_text']);
+                    $block->addLink($linkInfo['label'], $linkInfo['url'], $linkInfo['title'], true, array(), $position,
+                        $linkInfo['li_params'], $linkInfo['a_params'], $linkInfo['before_text'], $linkInfo['after_text']
+                    );
                 }
             }
         } else {

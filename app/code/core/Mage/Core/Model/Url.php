@@ -454,7 +454,7 @@ class Mage_Core_Model_Url extends Varien_Object
     /**
      * Retrieve route path
      *
-     * @param array $routParams
+     * @param array $routeParams
      * @return string
      */
     public function getRoutePath($routeParams = array())
@@ -709,7 +709,6 @@ class Mage_Core_Model_Url extends Varien_Object
      *
      * @param string $routePath
      * @param array $routeParams
-     *
      * @return string
      */
     public function getRouteUrl($routePath = null, $routeParams = null)

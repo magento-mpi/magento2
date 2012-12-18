@@ -54,7 +54,7 @@ class Mage_DesignEditor_PageController extends Mage_Core_Controller_Front_Action
 
             /** @var $layout Mage_DesignEditor_Model_Layout */
             $layout = $this->getLayout();
-            $layoutClassName = Mage_DesignEditor_Controller_Varien_Router_Standard::LAYOUT_CLASS_NAME;
+            $layoutClassName = Mage_DesignEditor_Model_State::LAYOUT_CLASS_NAME;
             if (!($layout instanceof $layoutClassName)) {
                 throw new InvalidArgumentException($this->__('Incorrect Design Editor layout.'));
             }
