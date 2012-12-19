@@ -27,7 +27,9 @@ class Mage_Adminhtml_Block_Widget_Form_ContainerTest extends PHPUnit_Framework_T
         'Mage_Core_Model_Session',
         'Mage_Core_Model_Store_Config',
         'Mage_Core_Controller_Varien_Front',
-        'Mage_Core_Model_Factory_Helper'
+        'Mage_Core_Model_Factory_Helper',
+        'Mage_Core_Model_Dir',
+        'Mage_Core_Model_Logger',
     );
     
     public function testGetFormHtml()
@@ -58,7 +60,7 @@ class Mage_Adminhtml_Block_Widget_Form_ContainerTest extends PHPUnit_Framework_T
     {
         $arguments = array();
         foreach ($this->_blockInjections as $injectionClass) {
-            $arguments[] = Mage::getModel($injectionClass);
+            $arguments[] = Mage::getObjectManager()->get($injectionClass);
         }
         return $arguments;
     }

@@ -37,7 +37,9 @@ class Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_AbstractTest
             Mage::getObjectManager()->get('Mage_Core_Model_Session'),
             Mage::getObjectManager()->get('Mage_Core_Model_Store_Config'),
             Mage::getObjectManager()->get('Mage_Core_Controller_Varien_Front'),
-            Mage::getObjectManager()->get('Mage_Core_Model_Factory_Helper')
+            Mage::getObjectManager()->get('Mage_Core_Model_Factory_Helper'),
+            Mage::getObjectManager()->get('Mage_Core_Model_Dir'),
+            Mage::getObjectManager()->get('Mage_Core_Model_Logger'),
         );
         $block = $this->getMockForAbstractClass('Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract', $arguments)
             ->setLayout(Mage::getObjectManager()->create('Mage_Core_Model_Layout'));

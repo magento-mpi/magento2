@@ -30,7 +30,11 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         /** @var $objectManager Magento_Test_ObjectManager */
         $objectManager = Mage::getObjectManager();
-        $themeRegistration = $this->getMock('Mage_Core_Model_Theme_Registration', array('register'));
+        $themeRegistration = $this->getMock(
+            'Mage_Core_Model_Theme_Registration',
+            array('register'),
+            array($objectManager->create('Mage_Core_Model_Theme'))
+        );
         $themeRegistration->expects($this->any())
             ->method('register')
             ->with($baseDir, $pattern);

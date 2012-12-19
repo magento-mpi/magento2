@@ -406,14 +406,19 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     public function testGetChildData()
     {
         $parent = $this->_createBlockWithLayout('parent', 'parent');
-        $block = $this->_createBlockWithLayout('block', 'block', 'Mage_Core_Block_Template');
-        $block->setSomeValue('value');
+        $block = $this->_createBlockWithLayout('block', 'block');
+        $block->setSomeProperty('some_value');
         $parent->setChild('block1', $block);
-        $this->assertEquals(
-            array('type' => 'Mage_Core_Block_TemplateMock', 'some_value' => 'value'),
-            $parent->getChildData('block1')
-        );
-        $this->assertEquals('value', $parent->getChildData('block1', 'some_value'));
+
+        // all child data
+        $actualChildData = $parent->getChildData('block1');
+        $this->assertArrayHasKey('some_property', $actualChildData);
+        $this->assertEquals('some_value', $actualChildData['some_property']);
+
+        // specific child data key
+        $this->assertEquals('some_value', $parent->getChildData('block1', 'some_property'));
+
+        // non-existing child block
         $this->assertNull($parent->getChildData('unknown_block'));
     }
 

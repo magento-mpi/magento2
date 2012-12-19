@@ -32,7 +32,9 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_AbstractTest
             Mage::getObjectManager()->get('Mage_Core_Model_Session'),
             Mage::getObjectManager()->get('Mage_Core_Model_Store_Config'),
             Mage::getObjectManager()->get('Mage_Core_Controller_Varien_Front'),
-            Mage::getObjectManager()->get('Mage_Core_Model_Factory_Helper')
+            Mage::getObjectManager()->get('Mage_Core_Model_Factory_Helper'),
+            Mage::getObjectManager()->get('Mage_Core_Model_Dir'),
+            Mage::getObjectManager()->get('Mage_Core_Model_Logger'),
         );
         /** @var $block Mage_Adminhtml_Block_Sales_Order_Create_Form_Abstract */
         $block = $this->getMockForAbstractClass('Mage_Adminhtml_Block_Sales_Order_Create_Form_Abstract', $arguments);

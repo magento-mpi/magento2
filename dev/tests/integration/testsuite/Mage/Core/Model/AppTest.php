@@ -46,7 +46,7 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
     public function testInit()
     {
         $this->assertNull($this->_model->getConfig());
-        $this->_model->init('');
+        $this->_model->init(array());
         $this->assertInstanceOf('Mage_Core_Model_Config', $this->_model->getConfig());
         $this->assertNotEmpty($this->_model->getConfig()->getNode());
         $this->assertContains(Mage_Core_Model_App::ADMIN_STORE_ID, array_keys($this->_model->getStores(true)));
