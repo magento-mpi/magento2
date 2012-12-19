@@ -18,7 +18,7 @@
  */
 class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_TestCase
 {
-    private static $productTypes = array('simple', 'virtual', 'downloadable',
+    private static $_productTypes = array('simple', 'virtual', 'downloadable',
                                          'bundle', 'configurable', 'grouped');
 
     protected function assertPreconditions()
@@ -36,7 +36,7 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
     {
         $forLinking = array();
         $linking = $this->productHelper()->createConfigurableProduct();
-        foreach (self::$productTypes as $product) {
+        foreach (self::$_productTypes as $product) {
             $method = 'create' . ucfirst($product) . 'Product';
             $forLinking[$product] = $this->productHelper()->$method();
         }
@@ -46,15 +46,6 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
 
     /**
      * <p>Review Related products(inStock) on frontend assigned to Configurable product.</p>
-     * <p>Preconditions:</p>
-     * <p>Created All Types of products (in stock) and realized next test for all of them;</p>
-     * <p>Steps:</p>
-     * <p>1. Open product in stock; Attach all types of products to the product as Related products</p>
-     * <p>2. Navigate to frontend;</p>
-     * <p>3. Open product details page;</p>
-     * <p>4. Validate names of Related products in "Related products block";</p>
-     * <p>Expected result:</p>
-     * <p>The product contains block with Related products; Names of Related products are correct</p>
      *
      * @param array $testData
      * @param string $linkingType
@@ -97,15 +88,6 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
 
     /**
      * Review Cross-sell products(inStock) on frontend assigned to configurable product.</p>
-     * <p>Preconditions:</p>
-     * <p>Created All Types of products (in stock) and realized next test for all of them;</p>
-     * <p>Steps:</p>
-     * <p>1. Open product in stock; Attach all types of products to the product as Cross-sell products</p>
-     * <p>2. Navigate to frontend;</p>
-     * <p>3. Open product details page;</p>
-     * <p>4. Validate names of Cross-sell products in "Cross-sell products block";</p>
-     * <p>Expected result:</p>
-     * <p>The product contains block with Cross-sell products; Names of Cross-sell products are correct</p>
      *
      * @param array $testData
      * @param string $linkingType
@@ -153,15 +135,6 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
 
     /**
      * Review Up-sell products(inStock) on frontend assigned to configurable product.</p>
-     * <p>Preconditions:</p>
-     * <p>Created All Types of products (in stock) and realized next test for all of them;</p>
-     * <p>Steps:</p>
-     * <p>1. Open product in stock; Attach all types of products to the product as Up-sell products</p>
-     * <p>2. Navigate to frontend;</p>
-     * <p>3. Open product details page;</p>
-     * <p>4. Validate names of Up-sell products in "Up-sell products block";</p>
-     * <p>Expected result:</p>
-     * <p>The product contains block with Up-sell products; Names of Up-sell products are correct</p>
      *
      * @param array $testData
      * @param string $linkingType
@@ -204,14 +177,6 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
 
     /**
      * <p>Review Related products(OutStock) on frontend assigned to configurable product.</p>
-     * <p>Preconditions:</p>
-     * <p>Created All Types of products (in stock) and realized next test for all of them;</p>
-     * <p>Steps:</p>
-     * <p>1. Open product in stock; Attach all types of products to the product as Related products</p>
-     * <p>2. Navigate to frontend;</p>
-     * <p>3. Open product details page;</p>
-     * <p>Expected result:</p>
-     * <p>The product does not contain block with Related products</p>
      *
      * @param array $testData
      * @param string $linkingType
@@ -263,14 +228,6 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
 
     /**
      * Review Cross-sell products(OutStock) on frontend assigned to configurable product.</p>
-     * <p>Preconditions:</p>
-     * <p>Created All Types of products (in stock) and realized next test for all of them;</p>
-     * <p>Steps:</p>
-     * <p>1. Open product in stock; Attach all types of products to the product as Cross-sell products</p>
-     * <p>2. Navigate to frontend;</p>
-     * <p>3. Open product details page;</p>
-     * <p>Expected result:</p>
-     * <p>The product does not contain block with Cross-sell products</p>
      *
      * @param array $testData
      * @param string $linkingType
@@ -327,14 +284,6 @@ class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_Te
 
     /**
      * Review Up-sell products(OutStock) on frontend assigned to configurable product.</p>
-     * <p>Preconditions:</p>
-     * <p>Created All Types of products (in stock) and realized next test for all of them;</p>
-     * <p>Steps:</p>
-     * <p>1. Open product in stock; Attach all types of products to the product as Up-sell products</p>
-     * <p>2. Navigate to frontend;</p>
-     * <p>3. Open product details page;</p>
-     * <p>Expected result:</p>
-     * <p>The product does not contain block with Up-sell products</p>
      *
      * @param array $testData
      * @param string $linkingType

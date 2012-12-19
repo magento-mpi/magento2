@@ -20,7 +20,6 @@ class Core_Mage_Category_MoveTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
-     * <p>Navigate to Catalog -> Manage Categories</p>
      */
     protected function assertPreConditions()
     {
@@ -31,12 +30,6 @@ class Core_Mage_Category_MoveTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Move Root Category to Root category.</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Manage Categories;</p>
-     * <p>2.Create 2 root categories;</p>
-     * <p>3.Move first root category to second one;</p>
-     * <p>Expected result:</p>
-     * <p>Category is moved successfully</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3173
@@ -62,12 +55,6 @@ class Core_Mage_Category_MoveTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Move Root with Sub Category to Root category.</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Manage Categories;</p>
-     * <p>2.Create 2 root categories and 1 sub category;</p>
-     * <p>3.Move first root category with sub to second root;</p>
-     * <p>Expected result:</p>
-     * <p>Category is moved successfully</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3174
@@ -94,12 +81,6 @@ class Core_Mage_Category_MoveTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Move Sub Category to Sub category.</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Manage Categories;</p>
-     * <p>2.Create 2 root categories and 2 sub category;</p>
-     * <p>3.Move first sub category to second sub;</p>
-     * <p>Expected result:</p>
-     * <p>Category is moved successfully</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3175
@@ -129,15 +110,6 @@ class Core_Mage_Category_MoveTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Move Root Category assigned to store to Root category.</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Manage Categories;</p>
-     * <p>2.Create 1 root category;</p>
-     * <p>3.Create website with store;</p>
-     * <p>4.Assign created root category to store</p>
-     * <p>4.Create another root category</p>
-     * <p>3.Move first root category assigned to store to second root;</p>
-     * <p>Expected result:</p>
-     * <p>Category is not moved</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3172

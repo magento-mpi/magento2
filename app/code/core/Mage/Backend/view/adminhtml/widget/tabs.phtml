@@ -13,7 +13,7 @@
 <?php endif ?>
 <?php if(!empty($tabs)): ?>
 <div id="<?php echo $this->getId() ?>">
-<ul <?php echo $this->getUiId('tab', $this->getId()) ?> class="tabs">
+<ul <?php echo $this->getUiId('tab', $this->getId()) ?> class="<?php echo $this->getIsHoriz() ? 'tabs-horiz' : 'tabs' ?>">
 <?php foreach ($tabs as $_tab): ?>
 <?php if (!$this->canShowTab($_tab)): continue;  endif; ?>
     <?php $_tabClass = 'tab-item-link ' . $this->getTabClass($_tab) . ' ' . (preg_match('/\s?ajax\s?/', $_tab->getClass()) ? 'notloaded' : '') ?>

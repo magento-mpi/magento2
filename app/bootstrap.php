@@ -2,9 +2,8 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 /* PHP version validation */
@@ -53,24 +52,26 @@ umask(0);
 /**
  * Require necessary files
  */
-require_once BP . '/lib/Magento/Autoload.php';
 require_once BP . '/app/code/core/Mage/Core/functions.php';
 require_once BP . '/app/Mage.php';
 
 if (isset($_SERVER['MAGE_IS_DEVELOPER_MODE'])) {
     Mage::setIsDeveloperMode(true);
 }
-Mage::register('original_include_path', get_include_path());
 
-$paths[] = BP . DS . 'app' . DS . 'code' . DS . 'local';
-$paths[] = BP . DS . 'app' . DS . 'code' . DS . 'community';
-$paths[] = BP . DS . 'app' . DS . 'code' . DS . 'core';
-$paths[] = BP . DS . 'lib';
-Magento_Autoload::getInstance()->addIncludePath($paths);
-
+require_once __DIR__ . '/autoload.php';
+Magento_Autoload_IncludePath::addIncludePath(array(
+    BP . DS . 'app' . DS . 'code' . DS . 'local',
+    BP . DS . 'app' . DS . 'code' . DS . 'community',
+    BP . DS . 'app' . DS . 'code' . DS . 'core',
+    BP . DS . 'lib',
+));
 $classMapPath = BP . DS . 'var/classmap.ser';
 if (file_exists($classMapPath)) {
-    Magento_Autoload::getInstance()->addFilesMap($classMapPath);
+    require_once BP . '/lib/Magento/Autoload/ClassMap.php';
+    $classMap = new Magento_Autoload_ClassMap(BP);
+    $classMap->addMap(unserialize(file_get_contents($classMapPath)));
+    spl_autoload_register(array($classMap, 'load'));
 }
 
 $definitionsFile = BP . DS . 'var/di/definitions.php';
@@ -79,15 +80,22 @@ if (file_exists($definitionsFile)) {
     Mage::initializeObjectManager($definitionsFile);
 }
 
+$output = null;
 if (isset($_SERVER['MAGE_PROFILER'])) {
     switch ($_SERVER['MAGE_PROFILER']) {
         case 'firebug':
-            Magento_Profiler::registerOutput(new Magento_Profiler_Output_Firebug());
+            $output = new Magento_Profiler_Driver_Standard_Output_Firebug();
             break;
         case 'csv':
-            Magento_Profiler::registerOutput(new Magento_Profiler_Output_Csvfile(__DIR__ . '/../var/log/profiler.csv'));
+            $output = new Magento_Profiler_Driver_Standard_Output_Csvfile(__DIR__ . '/../var/log/profiler.csv');
             break;
         default:
-            Magento_Profiler::registerOutput(new Magento_Profiler_Output_Html());
+            $output = new Magento_Profiler_Driver_Standard_Output_Html();
     }
+}
+
+if ($output) {
+    $driver = new Magento_Profiler_Driver_Standard();
+    $driver->registerOutput($output);
+    Magento_Profiler::add($driver);
 }

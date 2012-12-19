@@ -21,6 +21,7 @@
         <word>petervarien</word>
         <word>sqlsrv</word>
         <word>ukpromerchant</word>
+        <word>pinba</word>
     </words>
     <whitelist>
         <item>
@@ -48,38 +49,6 @@
         <item>
             <word>mssql</word>
             <path>dev/tests/integration/framework/tests/unit/testsuite/Magento/Test/BootstrapTest.php</path>
-        </item>
-        <item>
-            <word>enterprise</word>
-            <path>app/code/core/Mage/XmlConnect/</path>
-        </item>
-        <item>
-            <word>enterprise</word>
-            <path>app/locale/de_DE/Mage_XmlConnect.csv</path>
-        </item>
-        <item>
-            <word>enterprise</word>
-            <path>app/locale/en_US/Mage_XmlConnect.csv</path>
-        </item>
-        <item>
-            <word>enterprise</word>
-            <path>app/locale/es_ES/Mage_XmlConnect.csv</path>
-        </item>
-        <item>
-            <word>enterprise</word>
-            <path>app/locale/fr_FR/Mage_XmlConnect.csv</path>
-        </item>
-        <item>
-            <word>enterprise</word>
-            <path>app/locale/nl_NL/Mage_XmlConnect.csv</path>
-        </item>
-        <item>
-            <word>enterprise</word>
-            <path>app/locale/pt_BR/Mage_XmlConnect.csv</path>
-        </item>
-        <item>
-            <word>enterprise</word>
-            <path>app/locale/zh_CN/Mage_XmlConnect.csv</path>
         </item>
         <item>
             <word>enterprise</word>

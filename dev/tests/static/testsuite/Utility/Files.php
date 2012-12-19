@@ -280,6 +280,45 @@ class Utility_Files
     }
 
     /**
+     * Return list of all files. The list excludes tool-specific files
+     * (e.g. Git, IDE) or temp files (e.g. in "var/").
+     *
+     * @return array
+     */
+    public function getAllFiles()
+    {
+        $key = __METHOD__ . $this->_path;
+        if (isset(self::$_cache[$key])) {
+            return self::$_cache[$key];
+        }
+
+        $subFiles = self::_getFiles(
+            array(
+                $this->_path . '/app',
+                $this->_path . '/dev',
+                $this->_path . '/downloader',
+                $this->_path . '/lib',
+                $this->_path . '/pub',
+            ),
+            '*'
+        );
+
+        $rootFiles = glob($this->_path . '/*', GLOB_NOSORT);
+        $rootFiles = array_filter(
+            $rootFiles,
+            function ($file) {
+                return is_file($file);
+            }
+        );
+
+        $result = array_merge($rootFiles, $subFiles);
+        $result = self::composeDataSets($result);
+
+        self::$_cache[$key] = $result;
+        return $result;
+    }
+
+    /**
      * Retrieve all files in folders and sub-folders that match pattern (glob syntax)
      *
      * @param array $dirPatterns
@@ -290,8 +329,10 @@ class Utility_Files
     {
         $result = array();
         foreach ($dirPatterns as $oneDirPattern) {
-            $filesInDir = glob("$oneDirPattern/$fileNamePattern", GLOB_NOSORT | GLOB_BRACE);
+            $entriesInDir = glob("$oneDirPattern/$fileNamePattern", GLOB_NOSORT | GLOB_BRACE);
             $subDirs = glob("$oneDirPattern/*", GLOB_ONLYDIR | GLOB_NOSORT | GLOB_BRACE);
+            $filesInDir = array_diff($entriesInDir, $subDirs);
+
             $filesInSubDir = self::_getFiles($subDirs, $fileNamePattern);
             $result = array_merge($result, $filesInDir, $filesInSubDir);
         }

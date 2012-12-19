@@ -629,12 +629,12 @@ class Enterprise_PageCache_Model_Observer
     }
 
     /**
-     * Temporary disabling full page caching if Design Editor was launched.
+     * Disabling full page caching using no-cache cookie
      *
      * @param Varien_Event_Observer $observer
      * @return Enterprise_PageCache_Model_Observer
      */
-    public function designEditorSessionActivate(Varien_Event_Observer $observer)
+    public function setNoCacheCookie(Varien_Event_Observer $observer)
     {
         if (!$this->isCacheEnabled()) {
             return $this;
@@ -644,12 +644,12 @@ class Enterprise_PageCache_Model_Observer
     }
 
     /**
-     * Activating full page cache after Design Editor was deactivated
+     * Activating full page cache by deleting no-cache cookie
      *
      * @param Varien_Event_Observer $observer
      * @return Enterprise_PageCache_Model_Observer
      */
-    public function designEditorSessionDeactivate(Varien_Event_Observer $observer)
+    public function deleteNoCacheCookie(Varien_Event_Observer $observer)
     {
         if (!$this->isCacheEnabled()) {
             return $this;

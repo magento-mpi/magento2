@@ -114,9 +114,6 @@
                 <customer module="Mage_Adminhtml">
                     <file>customer.xml</file>
                 </customer>
-                <dataflow module="Mage_Adminhtml">
-                    <file>dataflow.xml</file>
-                </dataflow>
                 <newsletter module="Mage_Adminhtml">
                     <file>newsletter.xml</file>
                 </newsletter>

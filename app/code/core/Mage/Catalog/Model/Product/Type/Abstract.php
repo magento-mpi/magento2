@@ -96,6 +96,13 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     const OPTION_PREFIX = 'option_';
 
     /**
+     * Delete data specific for this product type
+     *
+     * @param Mage_Catalog_Model_Product $product
+     */
+    abstract public function deleteTypeSpecificData(Mage_Catalog_Model_Product $product);
+
+    /**
      * Initialize data
      *
      * @param array $data
@@ -199,11 +206,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         if (!$product->hasData($cacheKey)) {
             $editableAttributes = array();
             foreach ($this->getSetAttributes($product) as $attributeCode => $attribute) {
-                if (!is_array($attribute->getApplyTo())
-                    || count($attribute->getApplyTo())==0
-                    || in_array($product->getTypeId(), $attribute->getApplyTo())) {
-                    $editableAttributes[$attributeCode] = $attribute;
-                }
+                $editableAttributes[$attributeCode] = $attribute;
             }
             $product->setData($cacheKey, $editableAttributes);
         }
@@ -323,7 +326,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     }
 
     /**
-     * Process product configuaration
+     * Process product configuration
      *
      * @param Varien_Object $buyRequest
      * @param Mage_Catalog_Model_Product $product
@@ -577,6 +580,13 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      */
     public function save($product)
     {
+        if ($product->dataHasChangedFor('type_id') && $product->getOrigData('type_id')) {
+            $oldTypeProduct = clone $product;
+            $oldTypeInstance = Mage::getSingleton('Mage_Catalog_Model_Product_Type')
+                ->factory($oldTypeProduct->setTypeId($product->getOrigData('type_id')));
+            $oldTypeProduct->setTypeInstance($oldTypeInstance);
+            $oldTypeInstance->deleteTypeSpecificData($oldTypeProduct);
+        }
         return $this;
     }
 
@@ -757,7 +767,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     }
 
     /**
-     * Retrive store filter for associated products
+     * Retrieve store filter for associated products
      *
      * @return int|Mage_Core_Model_Store
      */
@@ -782,7 +792,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     }
 
     /**
-     * Allow for updates of chidren qty's
+     * Allow for updates of children qty's
      * (applicable for complicated product types. As default returns false)
      *
      * @param Mage_Catalog_Model_Product $product
@@ -942,5 +952,15 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     protected function _helper($name)
     {
         return isset($this->_helpers[$name]) ? $this->_helpers[$name] : Mage::helper($name);
+    }
+
+    /**
+     * Determine presence of weight for product type
+     *
+     * @return bool
+     */
+    public function hasWeight()
+    {
+        return true;
     }
 }

@@ -176,7 +176,11 @@
                     .on('highlight.validate', {index: i}, $.proxy(this._onInvalid, this))
                     .on('focusin', {index: i}, $.proxy(this._onFocus, this));
             }, this));
-            $(this.options.destination).on('beforeSubmit', $.proxy(this._onBeforeSubmit, this));
+
+            ($(this.options.destination).is('form') ?
+                $(this.options.destination) :
+                $(this.options.destination).closest('form'))
+                    .on('beforeSubmit', $.proxy(this._onBeforeSubmit, this));
         },
 
         /**

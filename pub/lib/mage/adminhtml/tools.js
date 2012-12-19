@@ -307,7 +307,9 @@ var toolbarToggle = {
 
         // Create copy of header, that will serve as floating toolbar docked to top of window
         this.headerCopy = $(document.createElement('div'));
-        this.headerCopy.appendChild(this.header.cloneNode(true));
+        var clone = this.header.clone(true);
+        clone.select('script').invoke('remove');
+        this.headerCopy.appendChild(clone);
         document.body.insertBefore(this.headerCopy, document.body.lastChild)
         this.headerCopy.addClassName('content-header-floating');
 

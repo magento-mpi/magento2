@@ -1,0 +1,22 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     Mage_DesignEditor
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Theme_Preview */ ?>
+
+<iframe id="preview-theme" src="<?php echo $this->getPreviewUrl(); ?>" frameborder="0" width="100%" height="800"></iframe>
+
+<div class="theme-preview-actions">
+    <a class="theme-preview-back" href="<?php echo $this->getUrl('*/system_design_editor') ?>"></a>
+    <span class="theme-preview-about"><?php echo $this->__('About this Theme'); ?></span>
+    <a href="<?php echo $this->getPreviewUrl(); ?>" target="_blank" class="theme-preview-window"><?php echo $this->__('Preview in a Separate Window') ?></a>
+    <div style="text-align:right; padding:10px;">
+        <?php echo $this->getAssignButtonHtml(); ?>
+    </div>
+</div>

@@ -343,7 +343,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
         $dbConfig = Mage::getConfig()->getResourceConnectionConfig(Mage_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
         $modelName = 'Mage_Install_Model_Installer_Db_' . ucfirst($dbConfig->model);
 
-        if (!Magento_Autoload::getInstance()->classExists($modelName)) {
+        if (!class_exists($modelName)) {
             $this->addError('Database uninstall is not supported for the ' . ucfirst($dbConfig->model) . '.');
             return false;
         }

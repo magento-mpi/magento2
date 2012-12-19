@@ -22,7 +22,7 @@
             var uri = document.location.href.replace(/(\/|&|\?)?\bset(\/|=)\d+/g, '').replace('#', '');
             uri += /\?/.test(uri) ? '&' : '?';
             uri += 'set=' + window.encodeURIComponent(attributeSetId);
-            $form.attr('action', uri).submit();
+            $form.attr('action', uri).addClass('ignore-validate').submit();
         });
         $('#attribute-set-info').dialog({
             title: '<?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Select Attribute Set'); ?>',

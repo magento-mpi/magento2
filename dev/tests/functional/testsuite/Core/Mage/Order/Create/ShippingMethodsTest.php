@@ -64,16 +64,6 @@ class Core_Mage_Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating order with different shipment methods</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Orders" page;</p>
-     * <p>2. Create new order for new customer;</p>
-     * <p>3. Select simple product and add it to the order;</p>
-     * <p>4. Fill in all required information;</p>
-     * <p>5. Choose shipping method;</p>
-     * <p>6. Choose payment method;</p>
-     * <p>6. Click "Submit Order" button;</p>
-     * <p>Expected result:</p>
-     * <p>Order is created;</p>
      *
      * @param string $shipment
      * @param string $shippingOrigin

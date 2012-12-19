@@ -10,7 +10,6 @@
  * @license     {license_link}
  */
 chdir(__DIR__);
-foreach (glob('testsuite/themes/*/*') as $testSuite)
-{
+foreach (glob('testsuite/themes/*/*') as $testSuite) {
     `phpunit  $testSuite`;
 }

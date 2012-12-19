@@ -35,7 +35,8 @@
 </div>
 <form action="<?php echo $this->getSaveUrl() ?>" method="post" id="product-edit-form" enctype="multipart/form-data">
     <?php echo $this->getBlockHtml('formkey')?>
-    <div style="display:none"></div>
+    <div id="product-edit-form-tabs"></div>
+    <?php echo $this->getChildHtml('product-type-tabs') ?>
 </form>
 <script type="text/javascript">
 //<![CDATA[
@@ -80,6 +81,10 @@ jQuery(function() {
         jQuery('#<?php echo $this->getSelectedTabId() ?>').trigger('click');
     }
     <?php endif; ?>
+    jQuery(window).on('tabsbeforeactivate', function(e, ui){
+        jQuery('#config_super_product')[ui.newTab.index() ? 'hide' : 'show']();
+    }).triggerHandler('tabsbeforeactivate', [{newTab: jQuery('#<?php echo $this->getSelectedTabId() ?>').closest('li')}]);
+
     (function ($) {
 
         var masks = <?php echo $this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getFieldsAutogenerationMasks())?>;
@@ -156,5 +161,11 @@ jQuery(function() {
         new Autogenerator(masks).bindAll();
     })(jQuery);
 });
+
+jQuery(function($) {
+    var data = <?php echo $this->getTypeSwitcherData();?>;
+    new TypeSwitcher(data).bindAll();
+});
+
 //]]>
 </script>

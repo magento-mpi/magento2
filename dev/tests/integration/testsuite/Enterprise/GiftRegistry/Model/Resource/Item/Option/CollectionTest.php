@@ -17,7 +17,7 @@ class Enterprise_GiftRegistry_Model_Resource_Item_Option_CollectionTest extends 
         $product->setId(4);
         $collection->addProductFilter(1)->addProductFilter(array(2, 3))->addProductFilter($product);
         $this->assertStringMatchesFormat(
-            '%AWHERE%S(product_id = %S1%S)%SAND%S(product_id IN(%S2%S,%S3%S))%SAND%S(product_id = %S4%S)%A',
+            '%AWHERE%S(%Aproduct_id%A = %S1%S)%SAND%S(%Aproduct_id%A IN(%S2%S,%S3%S))%SAND%S(%Aproduct_id%A = %S4%S)%A',
             (string)$select
         );
     }

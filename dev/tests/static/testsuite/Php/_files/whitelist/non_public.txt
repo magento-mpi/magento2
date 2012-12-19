@@ -2,4 +2,14 @@
 # These items are mentioned in "extruder" configuration of publication build: dev/build/publication/extruder/common.txt
 # This file will not be published, too
 #
-dev/build
+dev/tests/functional/testsuite/Enterprise/Mage/Acl/CatalogManageCategoryTest.php
+dev/tests/functional/testsuite/Enterprise/Mage/Acl/CmsPollTest.php
+dev/tests/functional/testsuite/Enterprise/Mage/Acl/SystemPermissionTest.php
+dev/tests/functional/testsuite/Enterprise/Mage/AddBySku/BackendAddBySku.php
+dev/tests/functional/testsuite/Enterprise/Mage/AddBySku/FrontendSkuTabValidationTest.php
+dev/tests/functional/testsuite/Enterprise/Mage/AddBySku/FrontendSkuWidgetTest.php
+dev/tests/functional/testsuite/Enterprise/Mage/AddBySku/Helper.php
+dev/tests/functional/testsuite/Enterprise/Mage/Attributes/CustomerAddressAttribute/Create/AttachmentFileTest.php
+dev/tests/functional/testsuite/Enterprise/Mage/Store/SingleStoreMode/EnableSingleStoreModeTest.php
+dev/tests/functional/testsuite/Enterprise/Mage/Tags/RewardPointsTest.php
+dev/tests/functional/testsuite/Enterprise/Mage/Various/ChangingStoreViewOnFrontend.php

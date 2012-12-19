@@ -20,7 +20,6 @@ class Core_Mage_Category_Create_RootCategoryTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
-     * <p>Navigate to Catalog -> Manage Categories</p>
      */
     protected function assertPreConditions()
     {
@@ -31,12 +30,6 @@ class Core_Mage_Category_Create_RootCategoryTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Root Category with required fields</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Root Category" button </p>
-     * <p>2. Fill in required fields</p>
-     * <p>3. Click "Save Category" button</p>
-     * <p>Expected Result:</p>
-     * <p>Root Category created, success message appears</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3640
@@ -54,12 +47,6 @@ class Core_Mage_Category_Create_RootCategoryTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Root Category with all fields filling</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Root Category" button </p>
-     * <p>2. Fill in required fields</p>
-     * <p>3. Click "Save Category" button</p>
-     * <p>Expected Result:</p>
-     * <p>Root Category created, success message appears</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3638
@@ -77,12 +64,6 @@ class Core_Mage_Category_Create_RootCategoryTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Root Category with required fields empty</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Root Category" button </p>
-     * <p>2. Fill in necessary fields, leave required fields empty</p>
-     * <p>3. Click "Save Category" button</p>
-     * <p>Expected Result:</p>
-     * <p>Root Category not created, error message appears</p>
      *
      * @param string $emptyField
      * @param string $fieldType
