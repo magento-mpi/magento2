@@ -1307,6 +1307,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $this->clickButton('add_selection', false);
             $this->pleaseWait();
             $this->searchAndChoose($item['search'], 'select_product_to_bundle_option');
+            $this->clickButton('add_selected_products', false);
             if (isset($item['fill']) && isset($item['param'])) {
                 $this->addParameter('productSku', $item['param']);
                 $this->fillForm($item['fill']);

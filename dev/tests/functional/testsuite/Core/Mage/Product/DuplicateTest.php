@@ -122,7 +122,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
         $simple['general_sku'] = $this->productHelper()->getGeneratedSku($simple['general_sku']);
-        $this->productHelper()->verifyProductInfo($simple, array('general_status'));
+        $this->productHelper()->verifyProductInfo($simple, array('product_attribute_set', 'general_status'));
     }
 
     /**
@@ -153,7 +153,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
         $virtual['general_sku'] = $this->productHelper()->getGeneratedSku($virtual['general_sku']);
-        $this->productHelper()->verifyProductInfo($virtual, array('general_status'));
+        $this->productHelper()->verifyProductInfo($virtual, array('product_attribute_set', 'general_status'));
     }
 
     /**
@@ -174,8 +174,6 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      */
     public function duplicateDownloadable($linksSeparately, $linkPrice, $attrData, $assignData)
     {
-        $this->markTestSkipped('Skipped due to MAGETWO-4103 bug');
-
         //Data
         $downloadable = $this->loadDataSet('Product', 'duplicate_downloadable', $assignData);
         $downloadable['general_user_attr']['dropdown'][$attrData['attribute_code']] =
@@ -194,7 +192,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         $downloadable['general_sku'] = $this->productHelper()->getGeneratedSku($downloadable['general_sku']);
         $downloadable['downloadable_information_data']['downloadable_link_1']['downloadable_link_row_price']
             = $linkPrice;
-        $this->productHelper()->verifyProductInfo($downloadable, array('general_status'));
+        $this->productHelper()->verifyProductInfo($downloadable, array('product_attribute_set', 'general_status'));
     }
 
     public function linkInfoDataProvider()
@@ -232,7 +230,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
         $grouped['general_sku'] = $this->productHelper()->getGeneratedSku($grouped['general_sku']);
-        $this->productHelper()->verifyProductInfo($grouped, array('general_status'));
+        $this->productHelper()->verifyProductInfo($grouped, array('product_attribute_set', 'general_status'));
     }
 
     /**
@@ -263,7 +261,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
         $bundle['general_sku'] = $this->productHelper()->getGeneratedSku($bundle['general_sku']);
-        $this->productHelper()->verifyProductInfo($bundle, array('general_status'));
+        $this->productHelper()->verifyProductInfo($bundle, array('product_attribute_set', 'general_status'));
     }
 
     public function duplicateBundleDataProvider()
@@ -287,8 +285,6 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      */
     public function duplicateConfigurable($attrData, $assignData)
     {
-        $this->markTestSkipped('Skipped due to MAGETWO-4105 bug');
-
         //Data
         $assign = array_merge($assignData, array('general_configurable_attribute_title' => $attrData['admin_title']));
         $configurable = $this->loadDataSet('Product', 'duplicate_configurable', $assign);
@@ -307,6 +303,6 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         //Verifying
         $configurable['general_sku'] = $this->productHelper()->getGeneratedSku($configurable['general_sku']);
         $this->productHelper()->verifyProductInfo($configurable,
-            array('general_status', 'general_configurable_attribute_title'));
+            array('product_attribute_set', 'general_status', 'general_configurable_attribute_title'));
     }
 }

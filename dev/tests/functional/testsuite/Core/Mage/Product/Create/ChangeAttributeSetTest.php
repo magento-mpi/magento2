@@ -190,8 +190,8 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
             array('simple'),
             array('virtual'),
             array('downloadable'),
-            array('grouped'),
-            array('bundle')
+//            array('grouped'), MAGETWO-6340
+//            array('bundle') MAGETWO-6340
         );
     }
 
