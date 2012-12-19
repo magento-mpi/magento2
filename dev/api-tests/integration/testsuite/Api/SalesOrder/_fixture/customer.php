@@ -22,7 +22,7 @@ $customer->setStoreId(1)
     ->setRewardUpdateNotification(1)
     ->setRewardWarningNotification(1)
     ->save();
-Magento_Test_Webservice::setFixture('customer', $customer, Magento_Test_Webservice::AUTO_TEAR_DOWN_DISABLED);
+Magento_Test_Webservice::setFixture('customer', $customer, Magento_Test_Webservice::AUTO_TEAR_DOWN_AFTER_CLASS);
 
 $customerAddress = Mage::getModel('Mage_Customer_Model_Address');
 $customerAddress->setData(array(
@@ -43,7 +43,7 @@ $customerAddress->setData(array(
 $customerAddress->setCustomer($customer);
 $customerAddress->save();
 Magento_Test_Webservice::setFixture('customer_address', $customerAddress,
-    Magento_Test_Webservice::AUTO_TEAR_DOWN_DISABLED);
+    Magento_Test_Webservice::AUTO_TEAR_DOWN_AFTER_CLASS);
 
 //Set customer default shipping and billing address
 $customer->addAddress($customerAddress);

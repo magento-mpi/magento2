@@ -16,18 +16,6 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
      */
     protected function tearDown()
     {
-        $this->deleteFixture('invoice', true);
-        $this->deleteFixture('invoice2', true);
-        $this->deleteFixture('order2', true);
-        $this->deleteFixture('quote2', true);
-        $this->deleteFixture('order', true);
-        $this->deleteFixture('quote', true);
-        $this->deleteFixture('product_virtual', true);
-        $this->deleteFixture('customer_address', true);
-        $this->deleteFixture('customer', true);
-
-        parent::tearDown();
-
         $entityStoreModel = self::getFixture('entity_store_model');
         if ($entityStoreModel instanceof Mage_Eav_Model_Entity_Store) {
             $origIncrementData = self::getFixture('orig_creditmemo_increment_data');
@@ -35,6 +23,7 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
             $entityStoreModel->setIncrementPrefix($origIncrementData['prefix'])
                 ->save();
         }
+        parent::tearDown();
     }
 
     /**
@@ -105,12 +94,11 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
      * Test Exception when refund amount greater than available to refund amount
      *
      * @expectedException SoapFault
-     * magentoDataFixture testsuite/Api/SalesOrder/_fixture/invoice.php
+     * @magentoDataFixture testsuite/Api/SalesOrder/_fixture/invoice.php
      * @magentoAppIsolation enabled
      */
     public function testNegativeRefundException()
     {
-        $this->markTestIncomplete("Fix fatal error in data fixture.");
         /** @var $order Mage_Sales_Model_Order */
         $order = self::getFixture('order');
         $overRefundAmount = $order->getGrandTotal() + 10;
@@ -193,7 +181,6 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
      */
     public function testAutoIncrementType()
     {
-        $this->markTestIncomplete("TODO: Fix fatal in data fixture.");
         // Set creditmemo increment id prefix
         $website = Mage::app()->getWebsite();
         $storeId = $website->getDefaultStore()->getId();
@@ -244,39 +231,31 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
     /**
      * Test order creditmemo list. With filters
      *
-     * magentoDataFixture testsuite/Api/SalesOrder/_fixture/invoice.php
+     * @magentoDataFixture testsuite/Api/SalesOrder/_fixture/invoice.php
      * @magentoAppIsolation enabled
      * @depends testCRUD
      */
     public function testListWithFilters()
     {
-        $this->markTestIncomplete("TODO: Fix fatal in data fixture.");
         $creditmemoInfo = $this->_createCreditmemo();
         list($product, $qtys, $adjustmentPositive, $adjustmentNegative, $creditMemoIncrementId) = $creditmemoInfo;
 
         /** @var $creditmemo Mage_Sales_Model_Order_Creditmemo */
         $creditmemo = Mage::getModel('Mage_Sales_Model_Order_Creditmemo')->load($creditMemoIncrementId, 'increment_id');
 
-        if (self::_isSoapV2()) {
-            $filters = array('filters' => array(
-                'filter' => array(
-                    array('key' => 'state', 'value' => $creditmemo->getData('state')),
-                    array('key' => 'created_at', 'value' => $creditmemo->getData('created_at'))
+        $filters = array('filters' => array(
+            'filter' => array(
+                array('key' => 'state', 'value' => $creditmemo->getData('state')),
+                array('key' => 'created_at', 'value' => $creditmemo->getData('created_at'))
+            ),
+            'complex_filter' => array(
+                array(
+                    'key'   => 'creditmemo_id',
+                    'value' => array('key' => 'in', 'value' => array($creditmemo->getId(), 0))
                 ),
-                'complex_filter' => array(
-                    array(
-                        'key'   => 'creditmemo_id',
-                        'value' => array('key' => 'in', 'value' => array($creditmemo->getId(), 0))
-                    ),
-                )
-            ));
-        } else {
-            $filters = array(array(
-                'state' => array('0', $creditmemo->getData('state')),
-                'created_at' => $creditmemo->getData('created_at'),
-                'creditmemo_id' => array('in' => array($creditmemo->getId(), 0))
-            ));
-        }
+            )
+        ));
+
         $result = $this->call('order_creditmemo.list', $filters);
 
         if (!isset($result[0])) { // workaround for WS-I
@@ -291,16 +270,6 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
             }
             $this->assertEquals($creditmemo->getData($field), $value, "Field '{$field}' has invalid value");
         }
-    }
-
-    /**
-     * Check if SOAP API is testsd
-     *
-     * @return bool
-     */
-    protected static function _isSoapV2()
-    {
-        return TESTS_WEBSERVICE_TYPE == self::TYPE_SOAPV2 || TESTS_WEBSERVICE_TYPE == self::TYPE_SOAPV2_WSI;
     }
 
     /**
@@ -325,7 +294,7 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
         }
 
         $adjustmentPositive = 2;
-        $adjustmentNegative = 1;
+        $adjustmentNegative = 3;
         $data = array(
             'qtys' => $qtys,
             'adjustment_positive' => $adjustmentPositive,
@@ -338,6 +307,12 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
             'creditmemoIncrementId' => $orderIncrementalId,
             'creditmemoData' => $data
         ));
+
+        /** Add creditmemo to fixtures to ensure that it is removed in teardown. */
+        /** @var Mage_Sales_Model_Order_Creditmemo $createdCreditmemo */
+        $createdCreditmemo = Mage::getModel('Mage_Sales_Model_Order_Creditmemo');
+        $createdCreditmemo->load($creditMemoIncrementId, 'increment_id');
+        $this->setFixture('creditmemo', $createdCreditmemo);
 
         $this->assertNotEmpty($creditMemoIncrementId, 'Creditmemo was not created');
         return array($product, $qtys, $adjustmentPositive, $adjustmentNegative, $creditMemoIncrementId);

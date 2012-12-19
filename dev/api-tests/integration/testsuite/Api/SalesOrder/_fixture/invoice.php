@@ -8,8 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-require 'order.php';
+if (!Magento_Test_Webservice::getFixture('order')) {
+    require 'order.php';
+}
 /** @var $order Mage_Sales_Model_Order */
 $order = Magento_Test_Webservice::getFixture('order');
 

@@ -48,7 +48,7 @@ $quote->getShippingAddress()->addShippingRate($rate);
 
 $quote->collectTotals();
 $quote->save();
-Magento_Test_Webservice::setFixture('quote', $quote, Magento_Test_Webservice::AUTO_TEAR_DOWN_DISABLED);
+Magento_Test_Webservice::setFixture('quote', $quote, Magento_Test_Webservice::AUTO_TEAR_DOWN_AFTER_CLASS);
 
 //Create order
 $quoteService = new Mage_Sales_Model_Service_Quote($quote);
@@ -57,4 +57,4 @@ $quoteService->getQuote()->getPayment()->setMethod('checkmo');
 $order = $quoteService->submitOrder();
 $order->place();
 $order->save();
-Magento_Test_Webservice::setFixture('order', $order, Magento_Test_Webservice::AUTO_TEAR_DOWN_DISABLED);
+Magento_Test_Webservice::setFixture('order', $order, Magento_Test_Webservice::AUTO_TEAR_DOWN_AFTER_CLASS);
