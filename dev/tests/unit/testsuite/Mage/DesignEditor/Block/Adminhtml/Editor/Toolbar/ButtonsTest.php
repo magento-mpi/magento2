@@ -67,24 +67,26 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_ButtonsTest extends PHPUn
     public function testGetNavigationModeUrl()
     {
         $this->_block->setThemeId(2);
-
+        $mode = Mage_DesignEditor_Model_State::MODE_NAVIGATION;
         $this->_urlBuilder->expects($this->once())
             ->method('getUrl')
-            ->with('*/*/launch', array('mode' => 1, 'theme_id' => 2))
-            ->will($this->returnValue('*/*/launch/mode/1/theme_id/2/'));
+            ->with('*/*/launch', array('mode' => $mode, 'theme_id' => 2))
+            ->will($this->returnValue("*/*/launch/mode/{$mode}/theme_id/2/"));
 
-        $this->assertEquals('*/*/launch/mode/1/theme_id/2/', $this->_block->getNavigationModeUrl());
+        $this->assertEquals("*/*/launch/mode/{$mode}/theme_id/2/",
+            $this->_block->getNavigationModeUrl()
+        );
     }
 
     public function testGetDesignModeUrl()
     {
         $this->_block->setThemeId(3);
-
+        $mode = Mage_DesignEditor_Model_State::MODE_DESIGN;
         $this->_urlBuilder->expects($this->once())
             ->method('getUrl')
-            ->with('*/*/launch', array('mode' => 0, 'theme_id' => 3))
-            ->will($this->returnValue('*/*/launch/mode/0/theme_id/3/'));
+            ->with('*/*/launch', array('mode' => $mode, 'theme_id' => 3))
+            ->will($this->returnValue("*/*/launch/mode/{$mode}/theme_id/3/"));
 
-        $this->assertEquals('*/*/launch/mode/0/theme_id/3/', $this->_block->getDesignModeUrl());
+        $this->assertEquals("*/*/launch/mode/{$mode}/theme_id/3/", $this->_block->getDesignModeUrl());
     }
 }
