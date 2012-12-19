@@ -33,7 +33,7 @@
             if (!this.element.find(this.options.categoryIdSelector).prop('value')) {
                 return false;
             }
-            //@TODO delete this prototype functional
+            // @TODO delete this prototype functional
             new Ajax.Request(
                 this.options.refreshUrl,
                 {

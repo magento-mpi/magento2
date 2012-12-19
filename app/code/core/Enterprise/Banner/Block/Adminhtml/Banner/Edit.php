@@ -30,7 +30,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit extends Mage_Adminhtml_Block
                 'class'   => 'save',
                 'data_attribute'  => array(
                     'mage-init' => array(
-                        'button' => array('event' => 'saveAndContinueEdit', 'related' => '#edit_form'),
+                        'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'),
                     ),
                 ),
             ), 100

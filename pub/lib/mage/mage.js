@@ -193,6 +193,21 @@
                 }
             });
             return this;
+        },
+
+        /**
+         * Load all resource for certain component or several components
+         * @param {string} component - name of a component
+         *     (several components may be passed also as separate arguments)
+         * @return {Object} $.mage
+         */
+        load: function() {
+            $.each(arguments, function(i, component) {
+                if (_resources[component] && _resources[component].length) {
+                    head.js.apply(head, _resources[component]);
+                }
+            });
+            return this;
         }
     });
 })(jQuery);
