@@ -15,10 +15,3 @@ $registration->register(
     __DIR__,
     implode(DIRECTORY_SEPARATOR, array('*','*', '*', 'theme.xml'))
 );
-
-Magento_Test_Bootstrap::getInstance()->reinitialize(array(
-    Mage_Core_Model_App::INIT_OPTION_DIRS => array(
-        Mage_Core_Model_Dir::VIEW => __DIR__
-    )
-));
-Mage::getDesign()->setDesignTheme('test/default');
