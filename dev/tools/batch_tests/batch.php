@@ -38,7 +38,7 @@ if (isset($arguments['type'])) {
 if (isset($arguments['all'])) {
     unset($commands['legacy']); // the static with "all" option covers it
 } else {
-    unset($commands['integration-integrity']);
+    unset($commands['integration-integrity'], $commands['legacy']);
     if (isset($commands['static'])) {
         $commands['static'][1] = '';
     }
