@@ -45,3 +45,6 @@ lib/Apache
 lib/Magento/Profiler/Driver/Pinba.php
 pub/errors/enterprise
 pub/errors/pro
+app/code/core/Saas
+dev/tests/unit/testsuite/Saas
+dev/tests/functional/testsuite/Saas
