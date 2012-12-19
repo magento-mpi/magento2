@@ -67,7 +67,7 @@ class Mage_DesignEditor_PageControllerTest extends Mage_Adminhtml_Utility_Contro
      * @param string $expectedMessage
      *
      * @dataProvider typeActionErrorsDataProvider
-     * @magentoConfigFixture frontend/vde/frontName vde_front_name
+     * @magentoConfigFixture vde/design_editor/frontName vde_front_name
      */
     public function testTypeActionErrors($url, $handle, $expectedMessage)
     {
@@ -107,7 +107,7 @@ class Mage_DesignEditor_PageControllerTest extends Mage_Adminhtml_Utility_Contro
     }
 
     /**
-     * @magentoConfigFixture frontend/vde/frontName vde_front_name
+     * @magentoConfigFixture vde/design_editor/frontName vde_front_name
      */
     public function testTypeAction()
     {
