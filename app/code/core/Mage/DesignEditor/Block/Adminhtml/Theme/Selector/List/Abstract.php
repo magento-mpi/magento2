@@ -217,12 +217,12 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
     protected function _getEditUrl($theme)
     {
         /** @var $store Mage_Core_Model_Store */
-        $defaultStore = reset($theme->getAssignedStores());
-        $defaultStore = $defaultStore ? $defaultStore : $this->_app->getDefaultStoreView();
+        $stores = $theme->getAssignedStores();
+        $store = $stores ? reset($stores) : $this->_app->getDefaultStoreView();
 
         return $this->getUrl('*/*/run', array(
             'theme_id' => $theme->getId(),
-            'store_id' => $defaultStore->getId(),
+            'store_id' => $store->getId(),
         ));
     }
 }
