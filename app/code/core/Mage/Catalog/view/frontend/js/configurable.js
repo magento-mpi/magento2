@@ -49,6 +49,7 @@
             $.each(this.options.setings, $.proxy(function (index, element) {
                 $(element).on('change', this, this._configure);
             }, this));
+            this.options.parentImage = $('#image').attr('src');
             // fill state
             $.each(this.options.setings, $.proxy(function (index, element) {
                 var attributeId = element.id.replace(/[a-z]*/, '');
@@ -127,7 +128,7 @@
             //Convert object to array for proper items count
             var result = !Array.isArray(imagesArray) ? Object.values(imagesArray) : imagesArray;
             if (result.length === 1) {
-                $('#image').attr('src', result.pop());
+                $('#image').attr('src', result.pop() || this.options.parentImage);
             }
         },
         _reloadOptionLabels: function (element) {
