@@ -9,7 +9,7 @@
  */
 
 /**
- * BusinessInfo Tile Block
+ * Contentpages Tile Block
  *
  * @category   Mage
  * @package    Mage_Launcher

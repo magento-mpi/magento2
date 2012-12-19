@@ -9,7 +9,7 @@
  */
 
 /**
- * BusinessInfo Drawer controller
+ * Contentpages Drawer controller
  *
  * @category    Mage
  * @package     Mage_Launcher
@@ -31,7 +31,7 @@ class Mage_Launcher_Adminhtml_Promotestore_Contentpages_DrawerController
             $tileModel = Mage::getModel('Mage_Launcher_Model_Tile')->loadByCode($data['tileCode']);
             $tileModel->refreshState($data);
 
-            /** @var $tileBlock Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile */
+            /** @var $tileBlock Mage_Launcher_Block_Adminhtml_Promotestore_Contentpages_Tile */
             $tileBlock = $this->getLayout()
                 ->createBlock('Mage_Launcher_Block_Adminhtml_Promotestore_Contentpages_Tile');
             $tileBlock->setTile($tileModel);

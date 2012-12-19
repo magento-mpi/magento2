@@ -20,6 +20,7 @@ class Mage_Launcher_Model_Promotestore_SaveHandler implements Mage_Launcher_Mode
     /**
      * Save function handle the whole Tile save process
      *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function save($data)
     {
@@ -29,10 +30,11 @@ class Mage_Launcher_Model_Promotestore_SaveHandler implements Mage_Launcher_Mode
     /**
      * Prepare Address Data for system configuration
      *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function prepareData($data)
     {
-
+        return $data;
     }
 }
 
