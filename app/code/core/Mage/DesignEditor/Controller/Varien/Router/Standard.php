@@ -160,9 +160,10 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
      */
     protected function _overrideConfiguration()
     {
-        $vdeNode = $this->_configuration->getNode('vde');
+        $vdeNode = $this->_configuration->getNode(Mage_DesignEditor_Model_Area::AREA_VDE);
         if ($vdeNode) {
-            $this->_configuration->getNode('frontend')->extend($vdeNode, true);
+            $this->_configuration->getNode(Mage_Core_Model_App_Area::AREA_FRONTEND)
+                ->extend($vdeNode, true);
         }
     }
 }
