@@ -9,7 +9,6 @@
  */
  /** @var $this Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config */
 ?>
-
 <div class="entry-edit" id="<?php echo $this->getId() ?>">
     <div class="entry-edit-head">
         <h4 class="icon-head head-edit-form fieldset-legend">
@@ -36,7 +35,7 @@
             class="input-text" autocomplete="off">
         <div id="attributes-container">
         <script id="attribute-template" type="text/x-jquery-tmpl">
-            <div>
+            <div class="entry-edit attribute-container">
                 <input name="attributes[]" id="configurable_attribute_${attribute.id}"
                     value="${attribute.id}" type="hidden">
                 <input value="new" type="hidden"
@@ -72,7 +71,7 @@
                         <thead>
                         <tr>
                             <th>Option Value</th>
-                            <th>Change Price</th>
+                            <th class="column-price">Change Price</th>
                             <th>Include</th>
                         </tr>
                         </thead>
@@ -80,7 +79,7 @@
                             {{each(index, option) attribute.options}}
                             <tr>
                                 <td>${option.label}</td>
-                                <td>
+                                <td class="column-price">
                                     <input type="hidden"
                                         name="product[configurable_attributes_data][${attribute.id}][values][${option.value}][value_index]"
                                         value="${option.value}">
@@ -105,35 +104,51 @@
                             {{/each}}
                         </tbody>
                     </table>
+                    <label>
+                        <input type="checkbox" onclick="jQuery(this).closest('.entry-edit')[this.checked ? 'addClass' : 'removeClass']('have-price')" />
+                        Have price variation
+                    </label>
                 </fieldset>
             </div>
         </script>
-        <?php foreach ($this->getAttributes() as $attribute) { ?>
-            <div class="entry-edit attribute-container" <?php echo $this->getUiId('attrribute-container', $attribute['attribute_code']) ?>>
-                <input name="attributes[]" id="configurable_attribute_<?php echo $attribute['attribute_id']?>"
-                    value="<?php echo $attribute['attribute_id']; ?>" type="hidden">
-                <input value="<?php echo $attribute['id']; ?>" type="hidden"
-                    name="product[configurable_attributes_data][<?php echo $attribute['attribute_id']?>][id]" />
-                <input value="<?php echo $attribute['attribute_id']; ?>" type="hidden"
-                    name="product[configurable_attributes_data][<?php echo $attribute['attribute_id']?>][attribute_id]"/>
-                <input value="<?php echo $attribute['position']; ?>" type="hidden" class="attribute-position"
-                    name="product[configurable_attributes_data][<?php echo $attribute['attribute_id']?>][position]"/>
+        <?php
+        foreach ($this->getAttributes() as $attribute) {
+            $havePriceVariation = array_reduce(
+                $attribute['values'],
+                function (&$r, $i) {
+                    return $r || !empty($i['pricing_value']);
+                },
+                false
+            );
+            $id = $this->escapeHtml($attribute['attribute_id']);
+        ?>
+            <div class="entry-edit attribute-container
+            <?php echo $havePriceVariation ? ' have-price' : '' ?>
+            " <?php echo $this->getUiId('attrribute-container', $attribute['attribute_code']) ?>>
+                <input name="attributes[]" id="configurable_attribute_<?php echo $id?>"
+                    value="<?php echo $id; ?>" type="hidden">
+                <input value="<?php echo $this->escapeHtml($attribute['id']); ?>" type="hidden"
+                    name="product[configurable_attributes_data][<?php echo $id?>][id]" />
+                <input value="<?php echo $id; ?>" type="hidden"
+                    name="product[configurable_attributes_data][<?php echo $id?>][attribute_id]"/>
+                <input value="<?php echo $this->escapeHtml($attribute['position']); ?>" type="hidden" class="attribute-position"
+                    name="product[configurable_attributes_data][<?php echo $id?>][position]"/>
 
                 <div class="entry-edit-head" style="cursor: move;">
                     <span class="ui-icon ui-icon-arrowthick-2-n-s" style="float:left;"></span>
                     <h4 class="icon-head head-edit-form fieldset-legend">
-                        <input value="<?php echo $attribute['label']; ?>"
-                           name="product[configurable_attributes_data][<?php echo $attribute['attribute_id']?>][label]"
-                           data-store-label="<?php echo $attribute['label']; ?>"
+                        <input value="<?php echo $this->escapeHtml($attribute['label']); ?>"
+                           name="product[configurable_attributes_data][<?php echo $id?>][label]"
+                           data-store-label="<?php echo $this->escapeHtml($attribute['label']); ?>"
                            style="background: #6F8992; border: none"
                            class="required-entry"/>
-                        <label for="attribute-<?php echo $attribute['attribute_id']?>">
+                        <label for="attribute-<?php echo $id?>">
                             <input value="1"
                                type="checkbox"
-                               name="product[configurable_attributes_data][<?php echo $attribute['attribute_id']?>][use_default]"
-                               id="attribute-<?php echo $attribute['attribute_id']?>" />
+                               name="product[configurable_attributes_data][<?php echo $id?>][use_default]"
+                               id="attribute-<?php echo $id?>" />
                             <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Use default')?>
-                            ('<?php echo $attribute['store_label'] ?>')</label>
+                            ('<?php echo $this->escapeHtml($attribute['store_label']) ?>')</label>
                     </h4>
                     <span class="ui-icon ui-icon-circle-close" style="float:right"
                         onclick="jQuery(this).parents('.attribute-container:eq(0)').remove();"></span>
@@ -146,26 +161,27 @@
                         <thead>
                         <tr>
                             <th>Option Value</th>
-                            <th>Change Price</th>
+                            <th class="column-price">Change Price</th>
                             <th>Include</th>
                         </tr>
                         </thead>
                         <tbody>
                         <?php
-                            $namePrefix = 'product[configurable_attributes_data][' . $attribute['attribute_id'] .'][values]';
+                            $namePrefix = 'product[configurable_attributes_data][' . $id .'][values]';
                             foreach ($attribute['options'] as $option) {
                         ?>
                             <tr>
                                 <td><?php echo $option['label'] ?></td>
-                                <td>
+                                <td class="column-price">
                                     <?php
                                     $price_value = '';
-                                    $is_percent = false;
+                                    $isPercent = false;
                                     $include = false;
+                                    $valueIndex = $option['value'];
                                     foreach ($attribute['values'] as $priceValue) {
-                                        if ($option['value'] == $priceValue['value_index']) {
+                                        if ($valueIndex == $priceValue['value_index']) {
                                             $price_value = $priceValue['pricing_value'];
-                                            $is_percent = (bool)$priceValue['is_percent'];
+                                            $isPercent = (bool)$priceValue['is_percent'];
                                             $include = true;
                                             if (isset($priceValue['include'])) {
                                                 $include = $include && (bool)$priceValue['include'];
@@ -175,30 +191,35 @@
                                     }
                                     ?>
                                     <input type="hidden"
-                                           name="<?php echo $namePrefix ?>[<?php echo $option['value'] ?>][value_index]"
-                                           value="<?php echo $option['value']; ?>">
-                                    <input type="text" name="<?php echo $namePrefix ?>[<?php echo $option['value'] ?>][pricing_value]" value="<?php echo $price_value; ?>">
-                                    <select name="<?php echo $namePrefix ?>[<?php echo $option['value'] ?>][is_percent]">
+                                           name="<?php echo $namePrefix ?>[<?php echo $valueIndex ?>][value_index]"
+                                           value="<?php echo $this->escapeHtml($valueIndex); ?>">
+                                    <input type="text"
+                                        name="<?php echo $namePrefix ?>[<?php echo $valueIndex ?>][pricing_value]"
+                                        value="<?php echo $this->escapeHtml($price_value); ?>">
+                                    <select name="<?php echo $namePrefix ?>[<?php echo $valueIndex ?>][is_percent]">
                                         <option value="0"
-                                            <?php echo !$is_percent ?'selected="selected"':'' ?>
+                                            <?php echo !$isPercent ?'selected="selected"':'' ?>
                                             >Fixed</option>
                                         <option value="1"
-                                            <?php echo $is_percent ? 'selected="selected"' : '' ?>
+                                            <?php echo $isPercent ? 'selected="selected"' : '' ?>
                                             >Percentage</option>
                                     </select>
                                 </td>
                                 <td>
                                     <input type="hidden"
-                                       name="<?php echo $namePrefix ?>[<?php echo $option['value'] ?>][include]"
+                                       name="<?php echo $namePrefix ?>[<?php echo $valueIndex ?>][include]"
                                        value="0" />
                                     <input type="checkbox"
-                                       name="<?php echo $namePrefix ?>[<?php echo $option['value'] ?>][include]"
+                                       name="<?php echo $namePrefix ?>[<?php echo $valueIndex ?>][include]"
                                        value="1" <?php echo $include ? 'checked="checked"' : ''; ?> />
                                 </td>
                             </tr>
                         <?php } ?>
                         </tbody>
                     </table>
+                    <label><input type="checkbox"
+                        <?php echo $havePriceVariation ? 'checked="checked"' : '' ?>
+                        onclick="jQuery(this).closest('.entry-edit')[this.checked ? 'addClass' : 'removeClass']('have-price')"/> Have price variation</label>
                 </fieldset>
             </div>
         <?php } ?>
@@ -368,10 +389,6 @@ jQuery(function($) {
         resizable:true
     });
 
-    $('input.associated-matrix-product-id').on('click', function () {
-        $(this).closest('tr').find('input[type!=checkbox]').prop('disabled', !$(this).is(':checked'));
-    });
-
     $.each($('#product-variations-matrix input[type!="checkbox"][type!="hidden"]'), function(key, input) {
         var $input = $(input),
             name = $input.attr('name'),
@@ -386,13 +403,16 @@ jQuery(function($) {
         }
     });
 
+    $('#product-variations-matrix').on('click', 'input.associated-matrix-product-id', function() {
+        $(this).closest('tr').find('input[type!=checkbox]').prop('disabled', !$(this).is(':checked'));
+    });
     $('#product-variations-matrix').on('click', '.choose-product', function(event) {
         event.preventDefault();
         var grid = window.<?php echo $this->getGridJsObject() ?>;
         var $button = $(this);
         grid.reloadParams = {
             'filter': $button.data('attributes'),
-            'attributes[]': usedAttributes.map(function(el) { return el.attribute_id; })
+            'attributes[]': Object.values(usedAttributes).map(function(el) { return el.attribute_id; })
         };
         grid.reload(null, function() {
             $gridDialog.dialog('open')
