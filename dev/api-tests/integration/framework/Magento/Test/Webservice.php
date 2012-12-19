@@ -18,7 +18,8 @@ class Magento_Test_Webservice extends Magento_TestCase
     const TYPE_SOAPV2_WSI = 'soapv2_wsi';
     /**#@-*/
 
-    const DEFAULT_EXCEPTION = 'DEFAULT_EXCEPTION';
+    const DEFAULT_EXCEPTION = 'SoapFault';
+
     /**
      * Webservice adapter
      *

@@ -70,13 +70,12 @@ class Api_CustomerBalance_QuoteTest extends Magento_Test_Webservice
      */
     public function testCustomerBalanceForQuoteRemoveAmount()
     {
-        $this->markTestIncomplete("TODO: Fix fatal error.");
         $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/CustomerBalanceForQuote.xml');
         $data = self::simpleXmlToArray($quoteFixture);
 
         $data['input']['quoteId'] = self::$quote->getId();
 
-        $this->assertTrue($this->call('storecredit_quote.removeAmount', $data['input'], 'Remove used amount fail'));
+        $this->assertTrue($this->call('storecredit_quote.removeAmount', $data['input']), 'Remove used amount fail');
 
         $quote = Mage::getModel('Mage_Sales_Model_Quote');
         $quote->load(self::$quote->getId());
@@ -106,9 +105,8 @@ class Api_CustomerBalance_QuoteTest extends Magento_Test_Webservice
      */
     public function testCustomerBalanceForQuoteRemoveAmountWithoutStoreId()
     {
-        $this->markTestIncomplete("TODO: Fix fatal error.");
         $input = array('quoteId' => self::$quote->getId());
-        $this->assertTrue($this->call('storecredit_quote.removeAmount', $input, 'Remove used amount fail'));
+        $this->assertTrue($this->call('storecredit_quote.removeAmount', $input), 'Remove used amount fail');
 
         $quote = Mage::getModel('Mage_Sales_Model_Quote');
         $quote->load(self::$quote->getId());
@@ -140,13 +138,12 @@ class Api_CustomerBalance_QuoteTest extends Magento_Test_Webservice
      */
     public function testCustomerBalanceForQuoteRemoveAmountUsingStoreCode()
     {
-        $this->markTestIncomplete("TODO: Fix fatal error.");
         $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/CustomerBalanceForQuoteUsingStoreCode.xml');
         $data = self::simpleXmlToArray($quoteFixture);
 
         $data['input']['quoteId'] = self::$quote->getId();
 
-        $this->assertTrue($this->call('storecredit_quote.removeAmount', $data['input'], 'Remove used amount fail'));
+        $this->assertTrue($this->call('storecredit_quote.removeAmount', $data['input']), 'Remove used amount fail');
 
         $quote = Mage::getModel('Mage_Sales_Model_Quote');
         $quote->load(self::$quote->getId());
@@ -156,7 +153,7 @@ class Api_CustomerBalance_QuoteTest extends Magento_Test_Webservice
     /**
      * Test customer balance set amount to quote using store code exception: No store found with requested id or code.
      *
-     * @expectedException DEFAULT_EXCEPTION
+     * @expectedException SoapFault
      * @return void
      */
     public function testCustomerBalanceForQuoteSetAmountUsingInvalidStoreCodeException()
@@ -174,7 +171,7 @@ class Api_CustomerBalance_QuoteTest extends Magento_Test_Webservice
     /**
      * Test customer balance set amount to quote exception:  No quote found with requested id.
      *
-     * @expectedException DEFAULT_EXCEPTION
+     * @expectedException SoapFault
      * @return void
      */
     public function testCustomerBalanceForQuoteSetAmountExceptionQuoteNotExists()
@@ -188,7 +185,7 @@ class Api_CustomerBalance_QuoteTest extends Magento_Test_Webservice
     /**
      * Test customer balance remove amount from quote exception: No quote found with requested id.
      *
-     * @expectedException DEFAULT_EXCEPTION
+     * @expectedException SoapFault
      * @return void
      */
     public function testCustomerBalanceForQuoteRemoveAmountExceptionQuoteNotExists()
@@ -203,7 +200,7 @@ class Api_CustomerBalance_QuoteTest extends Magento_Test_Webservice
      * Test customer balance set amount to quote exception:
      * Store credit can not be used for quote created by guest.
      *
-     * @expectedException DEFAULT_EXCEPTION
+     * @expectedException SoapFault
      * @return void
      */
     public function testCustomerBalanceForQuoteSetAmountExceptionGuestQuote()
@@ -220,18 +217,17 @@ class Api_CustomerBalance_QuoteTest extends Magento_Test_Webservice
      * Test customer balance remove amount from quote exception:
      * Store credit can not be used for quote created by guest.
      *
-     * @expectedException DEFAULT_EXCEPTION
+     * @expectedException SoapFault
      * @return void
      */
     public function testCustomerBalanceForQuoteRemoveAmountExceptionGuestQuote()
     {
-        $this->markTestIncomplete("TODO: Fix fatal error.");
         $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/CustomerBalanceForGuestQuote.xml');
         $data = self::simpleXmlToArray($quoteFixture);
 
         $data['input']['quoteId'] = self::$guestQuote->getId();
 
-        $this->call('storecredit_quote.removeAmount', $data['input'], 'Remove used amount fail');
+        $this->call('storecredit_quote.removeAmount', $data['input']);
     }
 
     public static function tearDownAfterClass()

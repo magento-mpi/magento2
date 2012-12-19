@@ -74,7 +74,7 @@ class Api_GiftCard_CustomerTest extends Magento_Test_Webservice
     /**
      * Test info throw exception with incorrect data
      *
-     * @expectedException DEFAULT_EXCEPTION
+     * @expectedException SoapFault
      * @return void
      */
     public function testIncorrectDataInfoException()
@@ -87,7 +87,7 @@ class Api_GiftCard_CustomerTest extends Magento_Test_Webservice
     /**
      * Test redeem throw exception with incorrect data
      *
-     * @expectedException DEFAULT_EXCEPTION
+     * @expectedException SoapFault
      * @return void
      */
     public function testIncorrectDataRedeemException()

@@ -21,7 +21,6 @@ class Api_Catalog_Product_TagCRUDTest extends Magento_Test_Webservice
      */
     public function testTagCRUD()
     {
-        $this->markTestSkipped('TODO: Fix fatal error');
         $tagFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/TagCRUD.xml');
         $data = self::simpleXmlToArray($tagFixture->tagData);
         $expected = self::simpleXmlToArray($tagFixture->expected);

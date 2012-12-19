@@ -254,7 +254,7 @@ class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
     /**
      * Test option add with invalid type
      *
-     * @expectedException DEFAULT_EXCEPTION
+     * @expectedException SoapFault
      * @depends testCustomOptionCRUD
      */
     public function testCustomOptionUpdateExceptionInvalidType()
@@ -273,7 +273,7 @@ class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
     /**
      * Test option remove and exception
      *
-     * @expectedException DEFAULT_EXCEPTION
+     * @expectedException SoapFault
      * @depends testCustomOptionUpdateExceptionInvalidType
      */
     public function testCustomOptionRemove()

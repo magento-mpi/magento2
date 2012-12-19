@@ -104,7 +104,7 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
     /**
      * Test Exception when refund amount greater than available to refund amount
      *
-     * @expectedException DEFAULT_EXCEPTION
+     * @expectedException SoapFault
      * magentoDataFixture testsuite/Api/SalesOrder/_fixture/invoice.php
      * @magentoAppIsolation enabled
      */
@@ -142,7 +142,7 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
     /**
      * Test Exception on invalid creditmemo create data
      *
-     * @expectedException DEFAULT_EXCEPTION
+     * @expectedException SoapFault
      */
     public function testCreateInvalidOrderException()
     {
@@ -155,7 +155,7 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
     /**
      * Test Exception on invalid credit memo while adding comment
      *
-     * @expectedException DEFAULT_EXCEPTION
+     * @expectedException SoapFault
      */
     public function testAddCommentInvalidOrderException()
     {
@@ -168,7 +168,7 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
     /**
      * Test Exception on invalid credit memo while getting info
      *
-     * @expectedException DEFAULT_EXCEPTION
+     * @expectedException SoapFault
      */
     public function testInfoInvalidOrderException()
     {
@@ -178,7 +178,7 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
     /**
      * Test exception on invalid credit memo cancel
      *
-     * @expectedException DEFAULT_EXCEPTION
+     * @expectedException SoapFault
      */
     public function testCancelInvalidIdException()
     {

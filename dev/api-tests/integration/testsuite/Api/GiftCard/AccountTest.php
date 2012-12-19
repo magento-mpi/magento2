@@ -71,7 +71,7 @@ class Api_GiftCard_AccountTest extends Magento_Test_Webservice
     /**
      * Test Exception on invalid data
      *
-     * @expectedException DEFAULT_EXCEPTION
+     * @expectedException SoapFault
      * @return void
      */
     public function _testCreateExceptionInvalidData()
@@ -85,7 +85,7 @@ class Api_GiftCard_AccountTest extends Magento_Test_Webservice
     /**
      * Test giftcard account not found exception
      *
-     * @expectedException DEFAULT_EXCEPTION
+     * @expectedException SoapFault
      * @return void
      */
     public function _testExceptionNotFound()

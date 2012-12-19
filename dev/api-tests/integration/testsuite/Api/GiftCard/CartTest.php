@@ -77,7 +77,7 @@ class Api_GiftCard_CartTest extends Magento_Test_Webservice
     /**
      * Test add throw exception with incorrect data
      *
-     * @expectedException DEFAULT_EXCEPTION
+     * @expectedException SoapFault
      * @return void
      */
     public function testIncorrectDataAddException()
@@ -90,7 +90,7 @@ class Api_GiftCard_CartTest extends Magento_Test_Webservice
     /**
      * Test list throw exception with incorrect data
      *
-     * @expectedException DEFAULT_EXCEPTION
+     * @expectedException SoapFault
      * @return void
      */
     public function testIncorrectDataListException()
@@ -103,7 +103,7 @@ class Api_GiftCard_CartTest extends Magento_Test_Webservice
     /**
      * Test remove throw exception with incorrect data
      *
-     * @expectedException DEFAULT_EXCEPTION
+     * @expectedException SoapFault
      * @return void
      */
     public function testIncorrectDataRemoveException()

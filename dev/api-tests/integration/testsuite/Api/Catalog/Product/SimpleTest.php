@@ -584,7 +584,7 @@ class Api_Catalog_Product_SimpleTest extends Api_Catalog_ProductAbstract
             $this->call('catalog_product.create', $productData);
         } catch (Exception $e) {
             $this->assertEquals(
-                'Product attribute set is not belong catalog product entity type',
+                'Product attribute set does not belong to catalog product entity type.',
                 $e->getMessage(),
                 'Invalid exception message'
             );
