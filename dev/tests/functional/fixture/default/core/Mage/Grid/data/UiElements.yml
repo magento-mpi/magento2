@@ -201,3 +201,36 @@ manage_attribute_sets:
         view_on_page:
     headers:
         0: Set Name
+
+#dataset for ui elements in Catalog Search Terms
+search_terms:
+    fieldset:
+        search_terms_info: tablename
+    button:
+        reset_filter:
+        search:
+        submit:
+        add_new_search_term:
+    dropdown:
+        grid_massaction_select:
+        filter_massaction:
+        filter_store:
+        filter_display_in_terms:
+    field:
+        filter_search_query:
+        filter_results_from:
+        filter_results_to:
+        filter_numb_of_uses_from:
+        filter_numb_of_uses_to:
+        filter_synonym_for:
+        filter_redirect:
+    headers:
+        0: ' '
+        1: Search Query
+        2: Store
+        3: Results
+        4: Number of Uses
+        5: Synonym For
+        6: Redirect
+        7: Display in Suggested Terms
+        8: Action

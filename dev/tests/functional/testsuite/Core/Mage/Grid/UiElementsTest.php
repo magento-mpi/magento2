@@ -69,6 +69,7 @@ class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
             array('xml_sitemap'),
             array('url_rewrite_management'),
             array('manage_attribute_sets'),
+            array('search_terms'),
         );
     }
 
