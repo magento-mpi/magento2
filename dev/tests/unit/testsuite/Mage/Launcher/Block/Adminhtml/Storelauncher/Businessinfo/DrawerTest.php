@@ -21,6 +21,13 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_DrawerTest extend
      */
     protected $_drawerBlock;
 
+    /**
+     * Expected data array, used in configCallback method
+     *
+     * @var array
+     */
+    protected $_expectedData;
+
     public function setUp()
     {
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
@@ -29,17 +36,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_DrawerTest extend
             ->method('getConfig')
             ->will($this->returnCallback(array($this, 'configCallback')));
 
-        $regionModel = $this->getMock('Mage_Directory_Model_Region',
-            array('loadByName', 'getRegionId'), array(), '', false
-        );
-
-        $regionModel->expects($this->any())
-            ->method('loadByName')
-            ->will($this->returnValue($regionModel));
-
-        $regionModel->expects($this->any())
-            ->method('getRegionId')
-            ->will($this->returnValue(5));
+        $regionModel = $this->getMock('Mage_Directory_Model_Region', array(), array(), '', false);
 
         $arguments = array(
             'storeConfig' => $config,
@@ -55,11 +52,14 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_DrawerTest extend
             'Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer',
             $arguments
         );
+
+        $this->_expectedData = array();
     }
 
     public function tearDown()
     {
         unset($this->_drawerBlock);
+        unset($this->_expectedData);
     }
 
     /**
@@ -70,52 +70,65 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_DrawerTest extend
      */
     public function configCallback($param)
     {
-        if ($param == 'general/store_information/address') {
-            return "Zoologichna\n5 A\nLos Angeles\n03344\n5";
-        }
-        if ($param == 'general/store_information/merchant_country') {
-            return 'US';
-        }
-        $param = str_replace('shipping/origin/', '', $param);
-        $result = '';
-        switch ($param) {
-            case 'street_line1':
-                $result = 'Zoologichna';
-                break;
-            case 'street_line2':
-                $result = '5 A';
-                break;
-            case 'city':
-                $result = 'Los Angeles';
-                break;
-            case 'postcode':
-                $result = '03344';
-                break;
-            case 'region_id':
-                $result = 5;
-                break;
-            case 'country_id':
-                $result = 'US';
-                break;
+        $configPath = explode('/', $param);
+        $configElement = $configPath[2];
+
+        $result = $this->_expectedData[$configElement];
+        if (!$this->_expectedData['use_for_shipping'] && $configPath[0] == 'shipping') {
+            $result .= 'shipping';
         }
         return $result;
     }
 
-    public function testGetAddressData()
+    /**
+     * @dataProvider testGetAddressDataProvider
+     * @param array $expectedData
+     */
+    public function testGetAddressData($expectedData)
     {
-        $this->assertInstanceOf('Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer', $this->_drawerBlock);
-        $res = $this->_drawerBlock->getAddressData();
+        $this->_expectedData = $expectedData;
+        $result = $this->_drawerBlock->getAddressData();
 
-        $this->assertEquals(
-            $res,
+        $this->assertEquals($result, $expectedData);
+    }
+
+    /**
+     * Data provider for testGetAddressData method
+     *
+     * @return array
+     */
+    public function testGetAddressDataProvider()
+    {
+        return array(
             array(
-                'street_line1' => 'Zoologichna',
-                'street_line2' => '5 A',
-                'city' => 'Los Angeles',
-                'postcode' => '03344',
-                'region_id' => 5,
-                'country_id' => 'US',
-                'use_for_shipping' => 1
+                array(
+                    'street_line1' => 'Zoologichna',
+                    'street_line2' => '5 A',
+                    'city' => 'Los Angeles',
+                    'postcode' => '03344',
+                    'region_id' => 5,
+                    'country_id' => 'US',
+                    'use_for_shipping' => true,
+                    'email' => 'test@example.com',
+                    'name' => 'Store Name',
+                    'phone' => '1234567890',
+                    'merchant_vat_number' => '123456'
+                )
+            ),
+            array(
+                array(
+                    'street_line1' => 'Zoologichna',
+                    'street_line2' => '5 A',
+                    'city' => 'Los Angeles',
+                    'postcode' => '03344',
+                    'region_id' => 5,
+                    'country_id' => 'US',
+                    'use_for_shipping' => false,
+                    'email' => 'test@example.com',
+                    'name' => 'Store Name',
+                    'phone' => '1234567890',
+                    'merchant_vat_number' => '123456'
+                )
             )
         );
     }

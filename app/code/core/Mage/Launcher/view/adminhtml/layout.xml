@@ -22,6 +22,9 @@
             <action method="addCss"><file>Mage_Launcher::page/launcher.css</file></action>
             <action method="addJs"><file>Mage_Launcher::page/launcher.js</file></action>
         </reference>
+        <reference name="js">
+            <block type="Mage_Backend_Block_Template" template="system/config/js.phtml"/>
+        </reference>
         <reference name="content">
             <block type="Mage_Launcher_Block_Adminhtml_Storelauncher_Page" name="landing.page" template="page/storelauncher/storelauncher.phtml" />
         </reference>

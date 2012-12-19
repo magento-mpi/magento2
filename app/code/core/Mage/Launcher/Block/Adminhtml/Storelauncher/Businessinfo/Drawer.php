@@ -102,7 +102,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
             'name' => 'groups[general][store_information][fields][name][value]',
             'label' => $helper->__('Store Name'),
             'required' => false,
-            'value' => $this->_storeConfig->getConfig('general/store_information/name')
+            'value' => $addressData['name']
         ));
 
         $fieldset->addField('store_email', 'text', array(
@@ -110,14 +110,14 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
             'label' => $helper->__('Store Contact Email'),
             'required' => true,
             'class' => 'validate-email',
-            'value' => $this->_storeConfig->getConfig('trans_email/ident_general/email')
+            'value' => $addressData['email']
         ));
 
         $fieldset->addField('store_phone', 'text', array(
             'name' => 'groups[general][store_information][fields][phone][value]',
             'label' => $helper->__('Store Contact Phone Number'),
             'required' => false,
-            'value' => $this->_storeConfig->getConfig('general/store_information/phone')
+            'value' => $addressData['phone']
         ));
 
         $fieldset->addField('busisness_address', 'label', array(
@@ -130,66 +130,66 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
             'name' => 'street_line1',
             'label' => $helper->__('Street Address 1'),
             'required' => false,
-            'value' => $this->_storeConfig->getConfig('general/store_information/street_line1')
+            'value' => $addressData['street_line1']
         ));
 
         $fieldset->addField('street_line2', 'text', array(
             'name' => 'street_line2',
             'label' => $helper->__('Street Address 2'),
             'required' => false,
-            'value' => $this->_storeConfig->getConfig('general/store_information/street_line2')
+            'value' => $addressData['street_line2']
         ));
 
         $fieldset->addField('city', 'text', array(
             'name' => 'city',
             'label' => $helper->__('City'),
             'required' => false,
-            'value' => $this->_storeConfig->getConfig('general/store_information/city')
+            'value' => $addressData['city']
         ));
 
         $fieldset->addField('postcode', 'text', array(
             'name' => 'postcode',
             'label' => $helper->__('ZIP/Postal Code'),
             'required' => false,
-            'value' => $this->_storeConfig->getConfig('general/store_information/postcode')
+            'value' => $addressData['postcode']
         ));
 
         $countries = $this->_countryModel->toOptionArray();
         $fieldset->addField('country_id', 'select', array(
             'name' => 'groups[general][store_information][fields][country_id][value]',
-            'label' => $this->_helper->__('Country'),
+            'label' => $helper->__('Country'),
             'required' => true,
             'values' => $countries,
-            'value' => $this->_storeConfig->getConfig('general/store_information/country_id')
+            'class' => 'countries',
+            'value' => $addressData['country_id'],
+            'after_element_html' => '<script type="text/javascript">'
+                . 'originAddress = new originModel();'
+                . '</script>',
         ));
 
         $countryId = isset($addressData['country_id']) ? $addressData['country_id'] : 'US';
         $regionCollection = $this->_regionModel->getCollection()->addCountryFilter($countryId);
-
         $regions = $regionCollection->toOptionArray();
-        if ($regions) {
-            $regions[0]['label'] = '*';
+        if (!empty($regions)) {
+            $fieldset->addField('region_id', 'select', array(
+                'name' => 'region_id',
+                'label' => $helper->__('State/Region'),
+                'values' => $regions,
+                'value' => $addressData['region_id'],
+            ));
         } else {
-            $regions = array(array('value' => '', 'label' => '*'));
+            $fieldset->addField('region_id', 'text', array(
+                'name' => 'region_id',
+                'label' => $helper->__('State/Region'),
+                'value' => $addressData['region_id']
+            ));
         }
-        $regionHelper = $this->helper('Mage_Directory_Helper_Data');
-        $fieldset->addField('region_id', 'select', array(
-            'name' => 'region_id',
-            'label' => $helper->__('State/Region'),
-            'values' => $regions,
-            'value' => $this->_storeConfig->getConfig('general/store_information/region_id'),
-            'after_element_html' => '<script type="text/javascript">'
-                . 'var updater = new RegionUpdater("country_id", "", "region_id", '
-                . $regionHelper->getRegionJson() . ', "disable");'
-                . 'updater.update();'
-                . '</script>',
-        ));
 
         $fieldset->addField('vat_number', 'text', array(
             'name' => 'groups[general][store_information][fields][merchant_vat_number][value]',
             'label' => $helper->__('VAT Number (United Kingdom only)'),
             'required' => false,
-            'value' => $this->_storeConfig->getConfig('general/store_information/merchant_vat_number')
+            'value' => $addressData['merchant_vat_number']
         ));
 
         $fieldset->addField('validate_vat_number', 'button', array(
@@ -313,35 +313,28 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
      */
     public function getAddressData()
     {
-        $addressData = array(
-            'street_line1' => '',
-            'street_line2' => '',
-            'city' => '',
-            'postcode' => '',
-            'region_id' => ''
-        );
-        $useForShipping = false;
-
+        $addressData = array();
         $addressData['street_line1'] = $this->_storeConfig->getConfig('general/store_information/street_line1');
         $addressData['street_line2'] = $this->_storeConfig->getConfig('general/store_information/street_line2');
         $addressData['city'] = $this->_storeConfig->getConfig('general/store_information/city');
         $addressData['postcode'] = $this->_storeConfig->getConfig('general/store_information/postcode');
         $addressData['country_id'] = $this->_storeConfig->getConfig('general/store_information/country_id');
         $addressData['region_id'] = $this->_storeConfig->getConfig('general/store_information/region_id');
-        $addressPresent = count($addressData) == 6;
-        if ($addressPresent) {
-            $useForShipping = true;
 
-            foreach ($addressData as $key => $val) {
-                if ($val != $this->_storeConfig->getConfig('shipping/origin/' . $key)) {
-                    $useForShipping = false;
-                    break;
-                }
+        $useForShipping = true;
+        foreach ($addressData as $key => $val) {
+            if ($val != $this->_storeConfig->getConfig('shipping/origin/' . $key)) {
+                $useForShipping = false;
+                break;
             }
         }
-
         $addressData['use_for_shipping'] = $useForShipping;
 
+        $addressData['name'] = $this->_storeConfig->getConfig('general/store_information/name');
+        $addressData['phone'] = $this->_storeConfig->getConfig('general/store_information/phone');
+        $addressData['email'] = $this->_storeConfig->getConfig('trans_email/ident_general/email');
+        $addressData['merchant_vat_number'] =
+            $this->_storeConfig->getConfig('general/store_information/merchant_vat_number');
         return $addressData;
     }
 

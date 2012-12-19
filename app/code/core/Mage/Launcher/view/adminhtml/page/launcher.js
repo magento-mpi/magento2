@@ -140,13 +140,13 @@
                         type: 'POST',
                         data: postData,
                         dataType: 'json',
-                        url: elem.attr('load-url'),
+                        url: elem.attr('data-load-url'),
                         success: methods.drawerAfterLoad
                     };
                     $.ajax(ajaxOptions);
 
                     $('.footer-inner .button-save-settins').attr('tile-code', tileCode);
-                    $('.footer-inner .button-save-settins').attr('save-url', elem.attr('save-url'));
+                    $('.footer-inner .button-save-settins').attr('data-save-url', elem.attr('data-save-url'));
                     return false;
                 }
             };
@@ -171,7 +171,7 @@
                         type: 'POST',
                         data: postData,
                         dataType: 'json',
-                        url: $('.footer-inner .button-save-settins').attr('save-url'),
+                        url: $('.footer-inner .button-save-settins').attr('data-save-url'),
                         success: methods.drawerAfterSave
                     };
                     $.ajax(ajaxOptions);

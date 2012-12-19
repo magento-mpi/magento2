@@ -80,16 +80,14 @@ system_configuration:
                                     links:
                                         store_information_link: //parent::div//a[@id='general_store_information-head']
                                     dropdowns:
-                                        store_country: //select[@id='general_store_information_merchant_country']
+                                        store_country: //select[@id='general_store_information_country_id']
                                     fields:
                                         billing_vat_number: //input[@name='groups[store_information][fields][merchant_vat_number][value]']
                                         store_name: //input[@name='groups[store_information][fields][name][value]']
                                         store_contact_telephone: //input[@name='groups[store_information][fields][phone][value]']
-                                        store_contact_address: //textarea[@name='groups[store_information][fields][address][value]']
                                     checkboxes:
                                         store_name_use_default: //input[@name='groups[store_information][fields][name][inherit]']
                                         store_contact_telephone_use_default: //input[@name='groups[store_information][fields][phone][inherit]']
-                                        store_contact_address_use_default: //input[@name='groups[store_information][fields][address][inherit]']
                             -
                                 states_options:
                                     xpath: //fieldset[@id='general_region']

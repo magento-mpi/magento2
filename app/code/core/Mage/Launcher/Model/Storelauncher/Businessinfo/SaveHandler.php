@@ -23,24 +23,14 @@ class Mage_Launcher_Model_Storelauncher_Businessinfo_SaveHandler implements Mage
     protected $_config;
 
     /**
-     * Region Model
-     *
-     * @var Mage_Directory_Model_Region
-     */
-    protected $_regionModel;
-
-    /**
      * Constructor
      *
      * @param Mage_Backend_Model_Config $config
-     * @param Mage_Directory_Model_Region $regionModel
      */
     function __construct(
-        Mage_Backend_Model_Config $config,
-        Mage_Directory_Model_Region $regionModel
+        Mage_Backend_Model_Config $config
     ) {
         $this->_config = $config;
-        $this->_regionModel = $regionModel;
     }
 
     /**
@@ -73,20 +63,15 @@ class Mage_Launcher_Model_Storelauncher_Businessinfo_SaveHandler implements Mage
     {
         $groups = $data['groups'];
         $data['region_id'] = isset($data['region_id']) ? $data['region_id'] : 0;
-        $region = $this->_regionModel->load($data['region_id'])->getName();
-        $groups['general']['store_information']['fields']['address']['value'] = sprintf(
-            "%s\n%s\n%s\n%s\n%s",
-            $data['street_line1'],
-            $data['street_line2'],
-            $data['city'],
-            $data['postcode'],
-            $region
-        );
-
+        $groups['general']['store_information']['fields']['street_line1']['value'] = $data['street_line1'];
+        $groups['general']['store_information']['fields']['street_line2']['value'] = $data['street_line2'];
+        $groups['general']['store_information']['fields']['city']['value'] = $data['city'];
+        $groups['general']['store_information']['fields']['postcode']['value'] = $data['postcode'];
+        $groups['general']['store_information']['fields']['region_id']['value'] = $data['region_id'];
         if (isset($data['use_for_shipping'])) {
             $storeInformation = $groups['general']['store_information']['fields'];
             $shipping = array(
-                'country_id' => $storeInformation['merchant_country'],
+                'country_id' => $storeInformation['country_id'],
                 'region_id' => array('value' => $data['region_id']),
                 'postcode' => array('value' => $data['postcode']),
                 'city' => array('value' => $data['city']),

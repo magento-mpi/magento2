@@ -66,11 +66,8 @@ class Mage_Launcher_Model_Storelauncher_Businessinfo_SaveHandlerTest extends PHP
         $config->expects($this->exactly($timesToCall))
             ->method('save');
 
-        $regionModel = $this->_getRegionMock();
-
         $saveHandler = new Mage_Launcher_Model_Storelauncher_Businessinfo_SaveHandler(
-             $config,
-             $regionModel
+             $config
         );
         $saveHandler->save($data);
     }
@@ -92,42 +89,12 @@ class Mage_Launcher_Model_Storelauncher_Businessinfo_SaveHandlerTest extends PHP
             false
         );
 
-        $regionModel = $this->_getRegionMock();
-
         $saveHandler = new Mage_Launcher_Model_Storelauncher_Businessinfo_SaveHandler(
-             $configStub,
-             $regionModel
+             $configStub
         );
 
         $result = $saveHandler->prepareData($data);
         $this->assertEquals($expectedData, $result);
-    }
-
-    /**
-     * Create Region Mock
-     *
-     * @return Mage_Directory_Model_Region
-     */
-    protected function _getRegionMock()
-    {
-        $regionModel = $this->getMock(
-            'Mage_Directory_Model_Region',
-            array('load', 'getName'),
-            array(),
-            '',
-            false
-        );
-
-        $regionModel->expects($this->once())
-            ->method('load')
-            ->with($this->equalTo(5))
-            ->will($this->returnValue($regionModel));
-
-        $regionModel->expects($this->once())
-            ->method('getName')
-            ->will($this->returnValue('Alaska'));
-
-        return $regionModel;
     }
 
     /**
@@ -185,7 +152,7 @@ class Mage_Launcher_Model_Storelauncher_Businessinfo_SaveHandlerTest extends PHP
                         'fields' => array(
                             'name' => array('value' => 'Store Name 1'),
                             'phone' => array('value' => '123456789'),
-                            'merchant_country' => array('value' => 'US'),
+                            'country_id' => array('value' => 'US'),
                             'merchant_vat_number' => array('value' => '444444444'),
                         ),
                     ),
@@ -250,11 +217,14 @@ class Mage_Launcher_Model_Storelauncher_Businessinfo_SaveHandlerTest extends PHP
                     'fields' => array(
                         'name' => array('value' => 'Store Name 1'),
                         'phone' => array('value' => '123456789'),
-                        'merchant_country' => array('value' => 'US'),
+                        'country_id' => array('value' => 'US'),
                         'merchant_vat_number' => array('value' => '444444444'),
-                        'address' => array(
-                            'value' => "Zoologichna\n5 A\nKiev\n01133\nAlaska"
-                        ),
+                        'country_id' => array('value' => 'US'),
+                        'region_id' => array('value' => 5),
+                        'postcode' => array('value' => '01133'),
+                        'city' => array('value' => 'Kiev'),
+                        'street_line1' => array('value' => 'Zoologichna'),
+                        'street_line2' => array('value' => '5 A'),
                     ),
                 ),
             ),
