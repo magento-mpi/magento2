@@ -15,7 +15,7 @@ class Mage_Index_Model_Lock_StorageTest extends PHPUnit_Framework_TestCase
      *
      * @var integer
      */
-    protected $callbackProcessId;
+    protected $_callbackProcessId;
 
     public function testGetFile()
     {
@@ -57,7 +57,7 @@ class Mage_Index_Model_Lock_StorageTest extends PHPUnit_Framework_TestCase
          */
         $processIdList = array(1, 2, 2);
         foreach ($processIdList as $processId) {
-            $this->callbackProcessId = $processId;
+            $this->_callbackProcessId = $processId;
             $this->assertInstanceOf('Mage_Index_Model_Process_File', $storage->getFile($processId));
         }
         $this->assertAttributeCount(2, '_fileHandlers', $storage);
@@ -70,7 +70,7 @@ class Mage_Index_Model_Lock_StorageTest extends PHPUnit_Framework_TestCase
      */
     public function checkFilenameCallback($filename)
     {
-        $expected = 'index_process_' . $this->callbackProcessId . '.lock';
+        $expected = 'index_process_' . $this->_callbackProcessId . '.lock';
         $this->assertEquals($expected, $filename);
     }
 }
