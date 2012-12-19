@@ -12,8 +12,8 @@
  * Theme form, Css editor tab
  */
 class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
-        extends Mage_Backend_Block_Widget_Form
-        implements Mage_Backend_Block_Widget_Tab_Interface
+    extends Mage_Backend_Block_Widget_Form
+    implements Mage_Backend_Block_Widget_Tab_Interface
 {
 
     /**
