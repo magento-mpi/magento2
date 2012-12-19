@@ -60,16 +60,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
         $theme->load(self::$_themeId)->delete();
     }
 
-    /**
-     * Skip the current test, if session identifier is not defined in the environment
-     */
-    public function _requireSessionId()
-    {
-        if (!$this->_session->getSessionId()) {
-            $this->markTestSkipped('Test requires environment with non-empty session identifier.');
-        }
-    }
-
     public function testIndexAction()
     {
         $this->dispatch('backend/admin/system_design_editor/index');
@@ -85,19 +75,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
         $this->getRequest()->setParam('theme_id', 999);
         $this->dispatch('backend/admin/system_design_editor/launch');
 
-        $this->_requireSessionId();
         $expected = 'http://localhost/index.php/backend/admin/system_design_editor/index/';
         $this->assertRedirect($this->stringStartsWith($expected));
-    }
-
-    public function testRunAction()
-    {
-        $this->dispatch('backend/admin/system_design_editor/run');
-
-        $this->assertSelectCount('div#vde_toolbar_row', true, $this->getResponse()->getBody());
-        $this->assertSelectCount('div#vde_handles_hierarchy', true, $this->getResponse()->getBody());
-        $this->assertSelectCount('div#vde_toolbar_buttons', true, $this->getResponse()->getBody());
-        $this->assertSelectCount('iframe.vde_container_frame', true, $this->getResponse()->getBody());
     }
 
     /**

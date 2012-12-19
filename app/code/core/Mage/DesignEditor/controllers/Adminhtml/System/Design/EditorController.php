@@ -116,7 +116,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         try {
             $theme->load($themeId);
             if (!$theme->getId()) {
-                throw new HttpInvalidParamException($this->__('The theme was not found.'));
+                throw new InvalidArgumentException($this->__('The theme was not found.'));
             }
 
             $this->_getSession()->setData('theme_id', $theme->getId());

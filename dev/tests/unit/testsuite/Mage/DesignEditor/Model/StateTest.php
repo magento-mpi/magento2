@@ -45,18 +45,28 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
      */
     protected $_dataHelper;
 
+    /**
+     * @var array
+     */
+    protected $_cacheTypes = array('type1', 'type2');
+
     public function setUp()
     {
         $this->_backendSession = $this->getMock('Mage_Backend_Model_Session', array('setData'),
-            array(), '', false);
+            array(), '', false
+        );
         $this->_layoutFactory = $this->getMock('Mage_Core_Model_Layout_Factory', array('createLayout'),
-            array(), '', false);
+            array(), '', false
+        );
         $this->_urlModelFactory = $this->getMock('Mage_DesignEditor_Model_Url_Factory', array('replaceClassName'),
-            array(), '', false);
+            array(), '', false
+        );
         $this->_cacheManager = $this->getMock('Mage_Core_Model_Cache', array('banUse', 'cleanType'),
-            array(), '', false);
+            array(), '', false
+        );
         $this->_dataHelper = $this->getMock('Mage_DesignEditor_Helper_Data', array('getDisabledCacheTypes'),
-            array(), '', false);
+            array(), '', false
+        );
         $this->_model = new Mage_DesignEditor_Model_State(
             $this->_backendSession,
             $this->_layoutFactory,
@@ -75,8 +85,33 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         $this->assertAttributeEquals($this->_dataHelper, '_dataHelper', $this->_model);
     }
 
+    protected function _setAdditionalExpectations()
+    {
+        $this->_dataHelper->expects($this->once())
+            ->method('getDisabledCacheTypes')
+            ->will($this->returnValue($this->_cacheTypes));
+
+        $this->_cacheManager->expects($this->at(0))
+            ->method('banUse')
+            ->with('type1')
+            ->will($this->returnSelf());
+        $this->_cacheManager->expects($this->at(1))
+            ->method('cleanType')
+            ->with('type1')
+            ->will($this->returnSelf());
+        $this->_cacheManager->expects($this->at(2))
+            ->method('banUse')
+            ->with('type2')
+            ->will($this->returnSelf());
+        $this->_cacheManager->expects($this->at(3))
+            ->method('cleanType')
+            ->with('type2')
+            ->will($this->returnSelf());
+    }
+
     public function testUpdateDesignMode()
     {
+        $this->_setAdditionalExpectations();
         $request = $this->getMock('Mage_Core_Controller_Request_Http', array('getParam'),
             array(), '', false);
 
@@ -105,6 +140,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
 
     public function testUpdateNavigationMode()
     {
+        $this->_setAdditionalExpectations();
         $request = $this->getMock('Mage_Core_Controller_Request_Http', array('getParam', 'isAjax', 'getPathInfo'),
             array(), '', false);
 
