@@ -24,7 +24,6 @@
         <word>system/convert/profiles</word>
         <word>Mage_Adminhtml::gui</word>
         <word>Mage_Adminhtml::profiles</word>
-        <word>@group module:</word>
     </words>
     <whitelist>
         <item>

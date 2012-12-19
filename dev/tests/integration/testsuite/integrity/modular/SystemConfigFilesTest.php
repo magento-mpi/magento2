@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group integrity
- */
 class Integrity_Modular_SystemConfigFilesTest extends PHPUnit_Framework_TestCase
 {
     public function testConfiguration()

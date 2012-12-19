@@ -15,6 +15,7 @@
 <config>
     <words>
         <word>Magento_Autoload::</word>
+        <word>@group module:</word>
     </words>
     <whitelist>
         <item>
