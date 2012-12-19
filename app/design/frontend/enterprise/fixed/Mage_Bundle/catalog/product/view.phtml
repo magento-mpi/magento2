@@ -66,7 +66,7 @@ $_product = $this->getProduct();
                 <?php $_description = $this->getChildHtml('description') ?>
                 <?php $_additional = $this->getChildHtml('additional') ?>
                 <?php if($_description || $_additional):?>
-                    <div class="c pr" role="tabs">
+                    <div class="c pr" data-mage-init="{tabs: []}">
                         <ul>
                             <?php if($_description):?>
                                 <li><a href="#product.details"><?php echo $this->__('Details') ?></a></li>

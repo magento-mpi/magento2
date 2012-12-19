@@ -14,7 +14,7 @@
  * @see Mage_Catalog_Block_Product_View
  */
 ?>
-<div class="c pr" role="tabs">
+<div class="c pr" data-mage-init="{tabs: []}">
     <ul>
         <?php foreach ($this->getTabs() as $_index => $_tab): ?>
             <?php if($this->getChildHtml($_tab['alias'])): ?>

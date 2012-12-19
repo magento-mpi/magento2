@@ -81,7 +81,7 @@
         </div>
         <div class="product-collateral">
             <?php if ($detailedInfoGroup = $this->getGroupChildNames('detailed_info', 'getChildHtml')):?>
-                <div class="c pr" role="tabs">
+                <div class="c pr" data-mage-init="{tabs: []}">
                     <?php $layout = $this->getLayout(); ?>
                     <ul>
                         <?php foreach ($detailedInfoGroup as $name):?>
