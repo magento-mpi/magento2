@@ -54,6 +54,7 @@
     </launcher_storelauncher_tax_drawer_load>
 
     <promotestore_index>
+        <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Homepage_Tile" name="home_page.tile"/>
         <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Contentpages_Tile" name="content_pages.tile"/>
         <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Reports_Tile" name="reports.tile"/>
         <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Seo_Tile" name="seo.tile"/>

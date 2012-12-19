@@ -35,6 +35,13 @@ Mage::getModel('Mage_Launcher_Model_Page')
 
 /** @var $tile Mage_Launcher_Model_Tile */
 $tile = Mage::getModel('Mage_Launcher_Model_Tile');
+$tile->setCode('home_page');
+$tile->setPageId(2);
+$tile->setState(Mage_Launcher_Model_Tile::STATE_TODO);
+$tile->save();
+
+/** @var $tile Mage_Launcher_Model_Tile */
+$tile = Mage::getModel('Mage_Launcher_Model_Tile');
 $tile->setCode('content_pages');
 $tile->setPageId(2);
 $tile->setState(Mage_Launcher_Model_Tile::STATE_TODO);
