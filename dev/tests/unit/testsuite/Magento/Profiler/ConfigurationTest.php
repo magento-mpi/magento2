@@ -114,4 +114,16 @@ class Magento_Profiler_ConfigurationTest extends PHPUnit_Framework_TestCase
         $this->_configuration->setDriverFactory($driver);
         $this->assertSame($driver, $this->_configuration->getDriverFactory());
     }
+
+    public function testGetDriverFactory()
+    {
+        $this->assertInstanceOf('Magento_Profiler_Driver_Factory', $this->_configuration->getDriverFactory());
+    }
+
+    public function testSetDriverFactory()
+    {
+        $factory = $this->getMock('Magento_Profiler_Driver_Factory');
+        $this->_configuration->setDriverFactory($factory);
+        $this->assertSame($factory, $this->_configuration->getDriverFactory());
+    }
 }
