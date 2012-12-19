@@ -147,6 +147,9 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
      */
     protected function _getPreviewUrl($themeId)
     {
-        return $this->getUrl('*/*/launch', array('theme_id' => $themeId));
+        return $this->getUrl('*/*/launch', array(
+            'theme_id' => $themeId,
+            'mode'     => Mage_DesignEditor_Model_State::MODE_NAVIGATION
+        ));
     }
 }

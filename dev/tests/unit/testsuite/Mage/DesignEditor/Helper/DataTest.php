@@ -17,6 +17,16 @@ class Mage_DesignEditor_Helper_DataTest extends PHPUnit_Framework_TestCase
     const TEST_FRONT_NAME = 'test_front_name';
 
     /**
+     * Test disabled cache types
+     */
+    const TEST_DISABLED_CACHE_TYPES = 'type1, type2 ';
+
+    /**
+     * @var array
+     */
+    protected $_disabledCacheTypes = array('type1', 'type2');
+
+    /**
      * @var Mage_DesignEditor_Helper_Data
      */
     protected $_model;
@@ -38,5 +48,19 @@ class Mage_DesignEditor_Helper_DataTest extends PHPUnit_Framework_TestCase
 
         $this->_model = new Mage_DesignEditor_Helper_Data($configurationMock);
         $this->assertEquals(self::TEST_FRONT_NAME, $this->_model->getFrontName());
+    }
+
+    public function testGetDisabledCacheTypes()
+    {
+        $cacheTypesNode = new Mage_Core_Model_Config_Element('<test>' . self::TEST_DISABLED_CACHE_TYPES . '</test>');
+
+        $configurationMock = $this->getMock('Mage_Core_Model_Config', array('getNode'), array(), '', false);
+        $configurationMock->expects($this->once())
+            ->method('getNode')
+            ->with(Mage_DesignEditor_Helper_Data::XML_PATH_DISABLED_CACHE_TYPES)
+            ->will($this->returnValue($cacheTypesNode));
+
+        $this->_model = new Mage_DesignEditor_Helper_Data($configurationMock);
+        $this->assertEquals($this->_disabledCacheTypes, $this->_model->getDisabledCacheTypes());
     }
 }
