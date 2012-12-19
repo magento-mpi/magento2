@@ -185,3 +185,19 @@ url_rewrite_management:
         5: Target Path
         6: Options
         7: Action
+
+#dataset for ui elements in Manage Attribute Sets grid
+manage_attribute_sets:
+    fieldset:
+        attribute_sets_grid: tablename
+    button:
+        add_new_set:
+        reset_filter:
+        search:
+    field:
+        set_name:
+        page:
+    dropdown:
+        view_on_page:
+    headers:
+        0: Set Name
