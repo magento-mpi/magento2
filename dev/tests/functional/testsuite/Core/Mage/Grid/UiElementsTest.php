@@ -46,7 +46,7 @@ class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Need to verify that all columns in table are present in the correct order
+     * Need to verify that all columns in table are presented in the correct order
      * @test
      * @dataProvider uiElementsTestDataProvider
      */
@@ -56,7 +56,7 @@ class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
         $testData = $this->loadDataSet('UiElements', $pageName);
         $actualHeadersName = $this->gridHelper()->getGridHeaders($testData);
         $expectedHeadersName = $testData['headers'];
-        $this->assertEquals($expectedHeadersName, $actualHeadersName);
+        $this->assertEquals($expectedHeadersName, $actualHeadersName, "Header names are not equal on  $pageName page");
     }
 
     public function uiElementsTestDataProvider()
@@ -87,7 +87,7 @@ class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Need to verify that all ui elements are presented in  grid
+     * Need to verify that all ui elements are presented in grid
      * @return array
      * @test
      */
@@ -123,6 +123,7 @@ class Core_Mage_Grid_AdminUser_GridTest extends Mage_Selenium_TestCase
         $this->searchAndOpen($testAdminUser, 'permissionsUserGrid');
         $this->openTab('user_role');
         $actualHeadersName = $this->gridHelper()->getGridHeaders($testData);
-        $this->assertEquals($actualHeadersName, $expectedHeadersName);
+        $this->assertEquals($expectedHeadersName, $actualHeadersName,
+            'Header names in grid Admin User Role is not equals');
     }
 }
