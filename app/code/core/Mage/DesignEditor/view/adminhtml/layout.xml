@@ -62,22 +62,12 @@
         </container>
     </adminhtml_system_design_editor_loadthemelist>
 
-    <adminhtml_system_design_editor_preview>
-        <reference name="head">
-            <action method="addJs"><file>Mage_DesignEditor::js/theme-selector.js</file></action>
-            <action method="addCss"><file>Mage_DesignEditor::css/styles.css</file></action>
-        </reference>
-        <reference name="content">
-            <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Preview" name="design_editor_launcher_preview" template="Mage_DesignEditor::theme/preview.phtml"/>
-            <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView" name="theme.selector.storeview" template="Mage_DesignEditor::theme/selector/storeview.phtml" />
-        </reference>
-    </adminhtml_system_design_editor_preview>
-
-    <adminhtml_system_design_editor_run>
+    <adminhtml_system_design_editor_launch>
         <reference name="root">
             <action method="setTemplate"><file>Mage_DesignEditor::editor.phtml</file></action>
         </reference>
         <reference name="head">
+            <action method="addJs"><file>Mage_DesignEditor::js/theme-selector.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/base.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/design_editor.js</file></action>
             <action method="addJs"><file>jquery/jquery.iframe-auto-height.plugin.1.9.0.js</file></action>
@@ -92,7 +82,8 @@
                     <block type="Mage_Backend_Block_Template" name="design_editor_toolbar_highlighting" template="Mage_DesignEditor::editor/toolbar/highlighting.phtml" />
                     <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons" name="design_editor_toolbar_buttons" template="Mage_DesignEditor::editor/toolbar/buttons.phtml" />
                 </block>
+                <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView" name="theme.selector.storeview" template="Mage_DesignEditor::theme/selector/storeview.phtml" />
             </block>
         </reference>
-    </adminhtml_system_design_editor_run>
+    </adminhtml_system_design_editor_launch>
 </layout>

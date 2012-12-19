@@ -51,6 +51,7 @@
         </routers>
         <vde>
             <frontName>vde</frontName>
+            <disabledCacheTypes>BLOCK_HTML,LAYOUT_GENERAL_CACHE_TAG,FPC</disabledCacheTypes>
         </vde>
     </frontend>
     <adminhtml>

@@ -33,7 +33,7 @@ class Mage_DesignEditor_Model_State
     /**#@-*/
 
     /**
-     * @var Mage_Backend_Model_Auth_Session
+     * @var Mage_Backend_Model_Session
      */
     protected $_backendSession;
 
@@ -48,18 +48,36 @@ class Mage_DesignEditor_Model_State
     protected $_urlModelFactory;
 
     /**
-     * @param Mage_Backend_Model_Auth_Session $backendSession
+     * Application Cache Manager
+     *
+     * @var Mage_Core_Model_Cache
+     */
+    protected $_cacheManager;
+
+    /**
+     * @var Mage_DesignEditor_Helper_Data
+     */
+    protected $_dataHelper;
+
+    /**
+     * @param Mage_Backend_Model_Session $backendSession
      * @param Mage_Core_Model_Layout_Factory $layoutFactory
      * @param Mage_DesignEditor_Model_Url_Factory $urlModelFactory
+     * @param Mage_Core_Model_Cache $cacheManager
+     * @param Mage_DesignEditor_Helper_Data $dataHelper
      */
     public function __construct(
-        Mage_Backend_Model_Auth_Session $backendSession,
+        Mage_Backend_Model_Session $backendSession,
         Mage_Core_Model_Layout_Factory $layoutFactory,
-        Mage_DesignEditor_Model_Url_Factory $urlModelFactory
+        Mage_DesignEditor_Model_Url_Factory $urlModelFactory,
+        Mage_Core_Model_Cache $cacheManager,
+        Mage_DesignEditor_Helper_Data $dataHelper
     ) {
         $this->_backendSession  = $backendSession;
         $this->_layoutFactory   = $layoutFactory;
         $this->_urlModelFactory = $urlModelFactory;
+        $this->_cacheManager    = $cacheManager;
+        $this->_dataHelper      = $dataHelper;
     }
 
     public function update(
@@ -67,7 +85,6 @@ class Mage_DesignEditor_Model_State
         Mage_Core_Controller_Request_Http $request,
         Mage_Core_Controller_Varien_ActionAbstract $controller
     ) {
-
         $handle = $request->getParam('handle', '');
         if (empty($handle)) {
             $mode = self::MODE_NAVIGATION;
@@ -83,6 +100,7 @@ class Mage_DesignEditor_Model_State
         $this->_backendSession->setData('vde_current_mode', $mode);
         $this->_injectUrlModel($mode);
         $this->_injectLayout($areaCode);
+        $this->_disableCache();
     }
 
     /**
@@ -107,7 +125,18 @@ class Mage_DesignEditor_Model_State
             case self::MODE_NAVIGATION:
             default:
                 $this->_urlModelFactory->replaceClassName(self::URL_MODEL_NAVIGATION_MODE_CLASS_NAME);
-            break;
+                break;
+        }
+    }
+
+    /**
+     * Disable some cache types in VDE mode
+     */
+    protected function _disableCache()
+    {
+        foreach ($this->_dataHelper->getDisabledCacheTypes() as $cacheCode) {
+            $this->_cacheManager->banUse($cacheCode);
+            $this->_cacheManager->cleanType($cacheCode);
         }
     }
 }

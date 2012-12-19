@@ -21,7 +21,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var Mage_Backend_Model_Auth_Session
+     * @var Mage_Backend_Model_Session
      */
     protected $_backendSession;
 
@@ -35,18 +35,34 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
      */
     protected $_urlModelFactory;
 
+    /**
+     * @var Mage_Core_Model_Cache
+     */
+    protected $_cacheManager;
+
+    /**
+     * @var Mage_DesignEditor_Helper_Data
+     */
+    protected $_dataHelper;
+
     public function setUp()
     {
-        $this->_backendSession = $this->getMock('Mage_Backend_Model_Auth_Session', array('setData'),
+        $this->_backendSession = $this->getMock('Mage_Backend_Model_Session', array('setData'),
             array(), '', false);
         $this->_layoutFactory = $this->getMock('Mage_Core_Model_Layout_Factory', array('createLayout'),
             array(), '', false);
         $this->_urlModelFactory = $this->getMock('Mage_DesignEditor_Model_Url_Factory', array('replaceClassName'),
             array(), '', false);
+        $this->_cacheManager = $this->getMock('Mage_Core_Model_Cache', array('banUse', 'cleanType'),
+            array(), '', false);
+        $this->_dataHelper = $this->getMock('Mage_DesignEditor_Helper_Data', array('getDisabledCacheTypes'),
+            array(), '', false);
         $this->_model = new Mage_DesignEditor_Model_State(
             $this->_backendSession,
             $this->_layoutFactory,
-            $this->_urlModelFactory
+            $this->_urlModelFactory,
+            $this->_cacheManager,
+            $this->_dataHelper
         );
     }
 
@@ -55,6 +71,8 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         $this->assertAttributeEquals($this->_backendSession, '_backendSession', $this->_model);
         $this->assertAttributeEquals($this->_layoutFactory, '_layoutFactory', $this->_model);
         $this->assertAttributeEquals($this->_urlModelFactory, '_urlModelFactory', $this->_model);
+        $this->assertAttributeEquals($this->_cacheManager, '_cacheManager', $this->_model);
+        $this->assertAttributeEquals($this->_dataHelper, '_dataHelper', $this->_model);
     }
 
     public function testUpdateDesignMode()

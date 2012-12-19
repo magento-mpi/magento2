@@ -29,7 +29,8 @@ class Magento_Di_DefinitionList_Zend extends Zend\Di\DefinitionList
     }
 
     /**
-     * Fix bug in ZF2
+     * Fix bug for in ZF2: https://github.com/zendframework/zf2/commit/26c8899ddfc4fe2672b2efa9ff3cf3cac600bec3
+     * @todo Delete this method after ZF2 library update
      * {@inheritDoc}
      */
     public function hasMethod($class, $method)

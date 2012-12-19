@@ -108,73 +108,98 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
      */
     public function launchAction()
     {
-        $themeId = (int)$this->getRequest()->getParam('theme_id');
+        $themeId = (int)$this->getRequest()->getParam('theme_id', $this->_getSession()->getData('theme_id'));
+        $mode = (int)$this->getRequest()->getParam('mode', Mage_DesignEditor_Model_State::MODE_DESIGN);
         /** @var $theme Mage_Core_Model_Theme */
         $theme = $this->_objectManager->create('Mage_Core_Model_Theme');
+
         try {
             $theme->load($themeId);
             if (!$theme->getId()) {
-                Mage::throwException($this->__('The theme was not found.'));
+                throw new HttpInvalidParamException($this->__('The theme was not found.'));
             }
+
+            $this->_getSession()->setData('theme_id', $theme->getId());
+
+            /** @var $eventDispatcher Mage_Core_Model_Event_Manager */
+            $eventDispatcher = $this->_objectManager->get('Mage_Core_Model_Event_Manager');
+            $eventDispatcher->dispatch('design_editor_activate');
+
+            $customLayoutParams = array('area' => Mage_Core_Model_App_Area::AREA_FRONTEND);
+
+            /** @var $customFrontLayout Mage_Core_Model_Layout_Merge */
+            $customFrontLayout = $this->_objectManager->create('Mage_Core_Model_Layout_Merge',
+                array('arguments' => $customLayoutParams)
+            );
+            $pageTypes = $customFrontLayout->getPageHandlesHierarchy();
+
+            $this->_title($this->__('System'))->_title($this->__('Design'))->_title($this->__('Editor'));
+            $this->loadLayout();
+
+            /** @var $toolbarBlock Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons */
+            $toolbarBlock = $this->getLayout()->getBlock('design_editor_toolbar_buttons');
+            $toolbarBlock->setThemeId($themeId)
+                ->setMode($mode);
+
+            /** @var $hierarchyBlock Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy */
+            $hierarchyBlock = $this->getLayout()->getBlock('design_editor_toolbar_handles_hierarchy');
+            if ($hierarchyBlock) {
+                $hierarchyBlock->setHierarchy($pageTypes);
+            }
+
+            /** @var $editorBlock Mage_DesignEditor_Block_Adminhtml_Editor_Container */
+            $editorBlock = $this->getLayout()->getBlock('design_editor');
+            if ($mode == Mage_DesignEditor_Model_State::MODE_NAVIGATION) {
+                $currentUrl = $this->_getCurrentUrl();
+            } else {
+                $currentUrl = $this->_getCurrentHandleUrl();
+            }
+            $editorBlock->setFrameUrl($currentUrl);
+
+            $this->renderLayout();
         } catch (Mage_Core_Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->_getSession()->addException($e, $e->getMessage());
             $this->_redirect('*/*/');
             return;
         } catch (Exception $e) {
-            $this->_getSession()->addError($this->__('The theme was not found.'));
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->_getSession()->addException($e, $this->__('The theme was not found.'));
             $this->_redirect('*/*/');
             return;
         }
-
-        $this->_redirectUrl('*/*/');
     }
 
     /**
-     * @TODO: temporary action, code from this action will be moved to launch action in MAGETWO-5573
+     * Get current handle
+     *
+     * @return string
      */
-    public function runAction()
+    protected function _getCurrentHandleUrl()
     {
-        /** @var $eventDispatcher Mage_Core_Model_Event_Manager */
-        $eventDispatcher = $this->_objectManager->get('Mage_Core_Model_Event_Manager');
-        $eventDispatcher->dispatch('design_editor_activate');
-
-        $customLayoutParams = array('area' => Mage_Core_Model_App_Area::AREA_FRONTEND);
-
-        /** @var $customFrontLayout Mage_Core_Model_Layout_Merge */
-        $customFrontLayout = $this->_objectManager->create('Mage_Core_Model_Layout_Merge',
-            array('arguments' => $customLayoutParams)
-        );
-        $pageTypes = $customFrontLayout->getPageHandlesHierarchy();
-
-        $this->_title($this->__('System'))->_title($this->__('Design'))->_title($this->__('Editor'));
-        $this->loadLayout();
-
-        /** @var $hierarchyBlock Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy */
-        $hierarchyBlock = $this->getLayout()->getBlock('design_editor_toolbar_handles_hierarchy');
-        if ($hierarchyBlock) {
-            $hierarchyBlock->setHierarchy($pageTypes);
+        /** @var $vdeUrlModel Mage_DesignEditor_Model_Url_Handle */
+        $vdeUrlModel = $this->_objectManager->get('Mage_DesignEditor_Model_Url_Handle');
+        $handle = $this->_getSession()->getData('vde_current_handle');
+        if (empty($handle)) {
+            $handle = 'default';
         }
 
-        /** @var $editorBlock Mage_DesignEditor_Block_Adminhtml_Editor_Container */
-        $editorBlock = $this->getLayout()->getBlock('design_editor');
-
-        /** @var $vdeUrlModel Mage_DesignEditor_Model_Url_NavigationMode */
-        $vdeUrlModel = $this->_objectManager->get('Mage_DesignEditor_Model_Url_NavigationMode');
-        $editorBlock->setFrameUrl($vdeUrlModel->getUrl('design/page/type', array('handle' => 'default')));
-
-        $this->renderLayout();
+        return $vdeUrlModel->getUrl('design/page/type', array('handle' => $handle));
     }
 
     /**
-     * Activate preview mode for selected theme
-     * 
-     * @todo used until VDE router implemented
+     * Get current url
+     *
+     * @return string
      */
-    public function previewAction()
+    protected function _getCurrentUrl()
     {
-        $this->loadLayout();
-        $this->renderLayout();
+        /** @var $vdeUrlModel Mage_DesignEditor_Model_Url_NavigationMode */
+        $vdeUrlModel = $this->_objectManager->get('Mage_DesignEditor_Model_Url_NavigationMode');
+        $url = $this->_getSession()->getData('vde_current_url');
+        if (empty($url)) {
+            $url = '';
+        }
+
+        return $vdeUrlModel->getUrl(ltrim($url, '/'));
     }
 
     /**
@@ -182,8 +207,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
      */
     public function assignThemeToStoreAction()
     {
-
-        $themeId = (int)$this->getRequest()->getParam('theme_id');
+        $themeId = (int)$this->_getSession()->getData('theme_id');
         $stores = $this->getRequest()->getParam('stores');
 
         /** @var $coreHelper Mage_Core_Helper_Data */

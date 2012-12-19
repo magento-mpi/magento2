@@ -107,9 +107,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
                     'event' => 'preview',
                     'related' => 'body',
                     'eventData' => array(
-                        'preview_url' => $this->_getPreviewUrl(
-                            Mage_DesignEditor_Model_Theme_PreviewFactory::TYPE_DEFAULT, $themeBlock->getTheme()->getId()
-                        )
+                        'preview_url' => $this->_getPreviewUrl($themeBlock->getTheme()->getId())
                     )
                 ),
             )
@@ -144,15 +142,11 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
     /**
      * Get preview url for selected theme
      *
-     * @param string $previewType
      * @param int $themeId
      * @return string
      */
-    protected function _getPreviewUrl($previewType, $themeId)
+    protected function _getPreviewUrl($themeId)
     {
-        return $this->getUrl('*/*/preview', array(
-            Mage_DesignEditor_Block_Adminhtml_Theme_Preview::PARAM_THEME_ID => $themeId,
-            Mage_DesignEditor_Block_Adminhtml_Theme_Preview::PARAM_PREVIEW  => $previewType
-        ));
+        return $this->getUrl('*/*/launch', array('theme_id' => $themeId));
     }
 }

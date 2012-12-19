@@ -13,10 +13,12 @@
  */
 class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    /**
-     * XML path to VDE front name prefix
+    /**#@+
+     * XML paths to VDE settings
      */
-    const XML_PATH_FRONT_NAME = 'frontend/vde/frontName';
+    const XML_PATH_FRONT_NAME           = 'frontend/vde/frontName';
+    const XML_PATH_DISABLED_CACHE_TYPES = 'frontend/vde/disabledCacheTypes';
+    /**#@-*/
 
     /**
      * @var Mage_Core_Model_Config
@@ -39,5 +41,21 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     public function getFrontName()
     {
         return (string)$this->_configuration->getNode(self::XML_PATH_FRONT_NAME);
+    }
+
+    /**
+     * Get disabled cache types in VDE mode
+     *
+     * @return array
+     */
+    public function getDisabledCacheTypes()
+    {
+        $cacheTypes = explode(',', $this->_configuration->getNode(self::XML_PATH_DISABLED_CACHE_TYPES));
+        $resultCacheTypes = array();
+        foreach ($cacheTypes as $cacheType) {
+            $resultCacheTypes[] = trim($cacheType);
+        }
+
+        return $resultCacheTypes;
     }
 }
