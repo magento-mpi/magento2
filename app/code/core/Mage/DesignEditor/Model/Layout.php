@@ -14,6 +14,11 @@
 class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
 {
     /**
+     * @var Mage_Backend_Model_Session
+     */
+    protected $_backendSession;
+
+    /**
      * Flag that keeps true in case when we need to sanitize layout blocks
      *
      * @var bool
@@ -108,6 +113,7 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
      * @param Mage_Core_Model_Layout_Translator $translator
      * @param Mage_Core_Model_Layout_ScheduledStructure $scheduledStructure
      * @param Mage_DesignEditor_Block_Template $wrapperBlock
+     * @param Mage_Backend_Model_Session $backendSession
      * @param string $area
      * @param bool $isSanitizeBlocks
      * @param bool $enableWrapping
@@ -119,10 +125,12 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
         Mage_Core_Model_Layout_Translator $translator,
         Mage_Core_Model_Layout_ScheduledStructure $scheduledStructure,
         Mage_DesignEditor_Block_Template $wrapperBlock,
+        Mage_Backend_Model_Session $backendSession,
         $area = Mage_Core_Model_Design_Package::DEFAULT_AREA,
         $isSanitizeBlocks = false,
         $enableWrapping = false
     ) {
+        $this->_backendSession    = $backendSession;
         $this->_wrapperBlock      = $wrapperBlock;
         $this->_sanitationEnabled = $isSanitizeBlocks;
         $this->_enabledWrapping   = $enableWrapping;
@@ -157,17 +165,20 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
     public function getOutput()
     {
         $output = parent::getOutput();
-        if (preg_match('/<body\s*[^>]*>.*<\/body>/is', $output, $body)) {
-            $oldBody = $body[0];
-            // Replace script tags
-            $newBody = preg_replace('/<script\s*[^>]*>.*?<\/script>/is', '', $oldBody);
-            // Replace JS events
-            foreach ($this->_jsEvents as $event) {
-                $newBody = preg_replace("/(<[^>]+){$event}\\s*=\\s*(['\"])/is", "$1{$event}-vde=$2", $newBody);
+        $mode = $this->_backendSession->getData('vde_current_mode');
+        if ($mode == Mage_DesignEditor_Model_State::MODE_DESIGN) {
+            if (preg_match('/<body\s*[^>]*>.*<\/body>/is', $output, $body)) {
+                $oldBody = $body[0];
+                // Replace script tags
+                $newBody = preg_replace('/<script\s*[^>]*>.*?<\/script>/is', '', $oldBody);
+                // Replace JS events
+                foreach ($this->_jsEvents as $event) {
+                    $newBody = preg_replace("/(<[^>]+){$event}\\s*=\\s*(['\"])/is", "$1{$event}-vde=$2", $newBody);
+                }
+                // Replace href JS
+                $newBody = preg_replace('/(<[^>]+)href\s*=\s*([\'"])javascript:/is', '$1href-vde=$2', $newBody);
+                $output = str_replace($oldBody, $newBody, $output);
             }
-            // Replace href JS
-            $newBody = preg_replace('/(<[^>]+)href\s*=\s*([\'"])javascript:/is', '$1href-vde=$2', $newBody);
-            $output = str_replace($oldBody, $newBody, $output);
         }
         return $output;
     }
