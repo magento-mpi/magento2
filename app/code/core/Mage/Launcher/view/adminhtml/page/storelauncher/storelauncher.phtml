@@ -11,7 +11,7 @@
 
 <div class="page-title">
     <h1 class="title"><?php echo $this->__('Store Launcher'); ?></h1>
-    <button class="button button-special btn-launch-store hidden"><?php echo $this->__('Launch My Store'); ?></button>
+    <button class="button button-special btn-launch-store <?php if(!$this->isAllStepsCompleted()):?>hidden<?php endif; ?>"><?php echo $this->__('Launch My Store'); ?></button>
 </div>
 
 
@@ -45,3 +45,11 @@
         </footer>
     </section>
 </div>
+
+<script type="text/javascript">
+    (function ($) {
+        $('.btn-launch-store').click(function() {
+            document.location.href = "<?php echo $this->getUrl('*/promotestore_index/index'); ?>";
+        });
+    })(window.jQuery);
+</script>

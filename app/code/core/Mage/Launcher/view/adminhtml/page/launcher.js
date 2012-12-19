@@ -197,7 +197,7 @@
             var completedSteps = $('#store-launcher').eq(0).find('.sl-step-complete').length,
                 storeAction = $('.btn-launch-store');
 
-            if (completedSteps == 6) {
+            if (completedSteps == $('#store-launcher article').size()) {
                 storeAction.removeClass('hidden');
             }
             else {
