@@ -84,10 +84,12 @@ jQuery(function ($) {
         /*
          * Show loader on ajax send
          */
-        $('body').on('ajaxSend processStart', function(e) {
-            $(e.target).loader({
-                icon: $('#loading_mask_loader img').attr('src')
-            }).loader('show');
+        $('body').on('ajaxSend processStart', function(e, jqxhr, settings) {
+            if(settings.showLoader) {
+                $(e.target).loader({
+                    icon: $('#loading_mask_loader img').attr('src')
+                }).loader('show');
+            }
         });
 
         /*
