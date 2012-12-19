@@ -13,6 +13,7 @@
             assignEvent:      'assign',
             assignSaveEvent:  'assign-save',
             previewEvent:     'preview',
+            editEvent:        'edit',
             deleteEvent:      'delete',
             loadEvent:        'loaded',
             storeView: {
@@ -48,6 +49,7 @@
             this.element.on(this.options.assignEvent, $.proxy(this._onAssign, this));
             this.element.on(this.options.assignSaveEvent, $.proxy(this._onAssignSave, this));
             this.element.on(this.options.previewEvent, $.proxy(this._onPreview, this));
+            this.element.on(this.options.editEvent, $.proxy(this._onEdit, this));
             this.element.on(this.options.deleteEvent, $.proxy(this._onDelete, this));
             this.element.on('keyup', $.proxy(function(e) {
                 //ESC button
@@ -69,6 +71,14 @@
          */
         _onPreview: function(event, data) {
             document.location = data.preview_url;
+        },
+
+        /**
+         * Edit action
+         * @protected
+         */
+        _onEdit: function(event, data) {
+            document.location = data.edit_url;
         },
 
         /**
