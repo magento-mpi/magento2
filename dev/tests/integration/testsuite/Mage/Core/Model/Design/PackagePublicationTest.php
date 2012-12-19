@@ -9,63 +9,33 @@
  * @license     {license_link}
  */
 
-/**
- * @magentoDbIsolation enabled
- */
 class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * Path to the public directory for view files
-     *
-     * @var string
-     */
-    protected static $_themePublicDir;
-
-    /**
-     * Path for temporary fixture files. Used to test publishing changed files.
-     *
-     * @var string
-     */
-    protected static $_fixtureTmpDir;
-
     /**
      * @var Mage_Core_Model_Design_Package
      */
     protected $_model;
 
-    public static function setUpBeforeClass()
-    {
-        /** @var $dirs Mage_Core_Model_Dir */
-        $dirs = Mage::getObjectManager()->get('Mage_Core_Model_Dir');
-        self::$_themePublicDir = $dirs->getDir(Mage_Core_Model_Dir::MEDIA . '/theme');
-        self::$_fixtureTmpDir = Magento_Test_Bootstrap::getInstance()->getInstallDir() . '/' . __CLASS__;
-    }
-
     protected function setUp()
     {
-        /** @var $themeUtility Mage_Core_Utility_Theme */
-        $themeUtility = Mage::getModel('Mage_Core_Utility_Theme', array(
-            dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'design',
-            Mage::getModel('Mage_Core_Model_Design_Package')
-        ));
-        $themeUtility->registerThemes()->setDesignTheme('test/default', 'frontend');
-        $this->_model = $themeUtility->getDesign();
+        $this->_model = Mage::getModel('Mage_Core_Model_Design_Package');
     }
 
     protected function tearDown()
     {
-        Varien_Io_File::rmdirRecursive(self::$_themePublicDir);
-        Varien_Io_File::rmdirRecursive(self::$_fixtureTmpDir);
+        Varien_Io_File::rmdirRecursive($this->_model->getPublicDir());
         $this->_model = null;
     }
 
     /**
      * @magentoAppIsolation enabled
      */
-    public function testGetPublicThemeDir()
+    public function testGetPublicDir()
     {
-        Mage::app()->getConfig()->getOptions()->setMediaDir(__DIR__);
-        $this->assertEquals(__DIR__ . DIRECTORY_SEPARATOR . 'theme', $this->_model->getPublicDir());
+        /** @var $dirs Mage_Core_Model_Dir */
+        $dirs = Mage::getObjectManager()->get('Mage_Core_Model_Dir');
+        $expectedPublicDir = $dirs->getDir(Mage_Core_Model_Dir::MEDIA) . DIRECTORY_SEPARATOR . 'theme';
+        $this->assertEquals($expectedPublicDir, $this->_model->getPublicDir());
     }
 
     /**
@@ -77,6 +47,8 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
      */
     protected function _testGetViewUrl($file, $expectedUrl, $locale = null)
     {
+        $this->_initTestTheme();
+
         Mage::app()->getLocale()->setLocale($locale);
         $url = $this->_model->getViewFileUrl($file);
         $this->assertStringEndsWith($expectedUrl, $url);
@@ -85,7 +57,9 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     }
 
     /**
+     * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
      * @magentoConfigFixture default/design/theme/allow_view_files_duplication 1
+     * @magentoAppIsolation enabled
      * @dataProvider getViewUrlFilesDuplicationDataProvider
      */
     public function testGetViewUrlFilesDuplication($file, $expectedUrl, $locale = null)
@@ -124,7 +98,9 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     }
 
     /**
+     * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
      * @magentoConfigFixture default/design/theme/allow_view_files_duplication 0
+     * @magentoAppIsolation enabled
      * @dataProvider testGetViewUrlNoFilesDuplicationDataProvider
      */
     public function testGetViewUrlNoFilesDuplication($file, $expectedUrl, $locale = null)
@@ -155,10 +131,14 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     }
 
     /**
+     * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
      * @magentoConfigFixture default/design/theme/allow_view_files_duplication 0
+     * @magentoAppIsolation enabled
      */
     public function testGetViewUrlNoFilesDuplicationWithCaching()
     {
+        $this->_initTestTheme();
+        $this->_model->setDesignTheme('test/default');
         Mage::app()->getLocale()->setLocale('en_US');
         $theme = $this->_model->getDesignTheme();
         $themeDesignParams = array('themeModel' => $theme);
@@ -203,12 +183,16 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
      * Test on vulnerability for protected files
      *
      * @expectedException Magento_Exception
+     * @expectedExceptionMessage because it does not reside in a public directory
+     * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
+     * @magentoAppIsolation enabled
      * @dataProvider getProtectedFiles
      * @param array $designParams
      * @param string $filePath
      */
     public function testTemplatePublicationVulnerability($designParams, $filePath)
     {
+        $this->_initTestTheme();
         $this->_model->getViewFileUrl($filePath, $designParams);
     }
 
@@ -246,11 +230,15 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
      * @param string $file
      * @param $designParams
      * @param string $expectedFile
+     * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
+     * @magentoAppIsolation enabled
      * @dataProvider publishViewFileDataProvider
      */
     public function testPublishViewFile($file, $designParams, $expectedFile)
     {
-        $expectedFile = self::$_themePublicDir . '/' . $expectedFile;
+        $this->_initTestTheme();
+
+        $expectedFile = $this->_model->getPublicDir() . '/' . $expectedFile;
 
         // test doesn't make sense if the original file doesn't exist or the target file already exists
         $originalFile = $this->_model->getViewFile($file, $designParams);
@@ -294,9 +282,12 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
 
     /**
      * Publication of CSS files located in the theme (development mode)
+     * @magentoAppIsolation enabled
+     * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
      */
     public function testPublishCssFileFromTheme()
     {
+        $this->_initTestTheme();
         $expectedFiles = array(
             'css/file.css',
             'recursive.css',
@@ -310,7 +301,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
             'Namespace_Module/absolute_valid_module.gif',
             'Mage_Page/favicon.ico', // non-fixture file from real module
         );
-        $publishedDir = self::$_themePublicDir . '/frontend/package/default/en_US';
+        $publishedDir = $this->_model->getPublicDir() . '/frontend/package/default/en_US';
         $this->assertFileNotExists($publishedDir, 'Please verify isolation from previous test(s).');
         $this->_model->getViewFileUrl('css/file.css', array(
             'package' => 'package',
@@ -325,6 +316,8 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
 
     /**
      * Publication of CSS files located in the module
+     *
+     * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
      * @dataProvider publishCssFileFromModuleDataProvider
      */
     public function testPublishCssFileFromModule(
@@ -332,7 +325,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     ) {
         $this->_model->getViewFileUrl($cssViewFile, $designParams);
 
-        $expectedCssFile = self::$_themePublicDir . '/' . $expectedCssFile;
+        $expectedCssFile = $this->_model->getPublicDir() . '/' . $expectedCssFile;
         $this->assertFileExists($expectedCssFile);
         $actualCssContent = file_get_contents($expectedCssFile);
 
@@ -347,7 +340,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
         }
 
         foreach ($expectedRelatedFiles as $expectedFile) {
-            $expectedFile = self::$_themePublicDir . '/' . $expectedFile;
+            $expectedFile = $this->_model->getPublicDir() . '/' . $expectedFile;
             $this->assertFileExists($expectedFile);
         }
     }
@@ -397,6 +390,8 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
 
     /**
      * Test that modified CSS file and changed resources are re-published in developer mode
+     *
+     * @magentoDataFixture Mage/Core/_files/media_for_change.php
      */
     public function testPublishResourcesAndCssWhenChangedCssDevMode()
     {
@@ -408,6 +403,8 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
 
     /**
      * Test that modified CSS file and changed resources are not re-published in usual mode
+     *
+     * @magentoDataFixture Mage/Core/_files/media_for_change.php
      */
     public function testNotPublishResourcesAndCssWhenChangedCssUsualMode()
     {
@@ -424,11 +421,11 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
      */
     protected function _testPublishResourcesAndCssWhenChangedCss($expectedPublished)
     {
-        $fixtureViewPath = self::$_fixtureTmpDir . '/frontend/test/default/';
-        $publishedPath = self::$_themePublicDir . '/frontend/test/default/en_US/';
+        $this->_model->setDesignTheme('test/default');
+        $themePath = $this->_model->getDesignTheme()->getFullPath();
+        $fixtureViewPath = Magento_Test_Bootstrap::getInstance()->getInstallDir() . "/media_for_change/$themePath/";
+        $publishedPath = $this->_model->getPublicDir() . "/$themePath/en_US/";
 
-        // Prepare temporary fixture directory and publish files from it
-        $this->_copyFixtureViewToTmpDir($fixtureViewPath);
         $this->_model->getViewFileUrl('style.css', array('locale' => 'en_US'));
 
         // Change main file and referenced files - everything changed and referenced must appear
@@ -456,9 +453,10 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
         }
     }
 
-
     /**
      * Test changed resources, referenced in non-modified CSS file, are re-published
+     *
+     * @magentoDataFixture Mage/Core/_files/media_for_change.php
      * @magentoAppIsolation enabled
      */
     public function testPublishChangedResourcesWhenUnchangedCssDevMode()
@@ -472,6 +470,8 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
 
     /**
      * Test changed resources, referenced in non-modified CSS file, are re-published
+     *
+     * @magentoDataFixture Mage/Core/_files/media_for_change.php
      * @magentoAppIsolation enabled
      */
     public function testNotPublishChangedResourcesWhenUnchangedCssUsualMode()
@@ -490,11 +490,11 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
      */
     protected function _testPublishChangedResourcesWhenUnchangedCss($expectedPublished)
     {
-        $fixtureViewPath = self::$_fixtureTmpDir . '/frontend/test/default/';
-        $publishedPath = self::$_themePublicDir . '/frontend/test/default/en_US/';
+        $this->_model->setDesignTheme('test/default');
+        $themePath = $this->_model->getDesignTheme()->getFullPath();
+        $fixtureViewPath = Magento_Test_Bootstrap::getInstance()->getInstallDir() . "/media_for_change/$themePath/";
+        $publishedPath = $this->_model->getPublicDir() . "/$themePath/en_US/";
 
-        // Prepare temporary fixture directory and publish files from it
-        $this->_copyFixtureViewToTmpDir($fixtureViewPath);
         $this->_model->getViewFileUrl('style.css', array('locale' => 'en_US'));
 
         // Change referenced files
@@ -514,22 +514,16 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     }
 
     /**
-     * Prepare design directory with initial css and resources
-     *
-     * @param string $fixtureViewPath
+     * Init the model with a test theme from fixture themes dir
+     * Init application with custom view dir, @magentoAppIsolation required
      */
-    protected function _copyFixtureViewToTmpDir($fixtureViewPath)
+    protected function _initTestTheme()
     {
-        Mage::app()->getConfig()->getOptions()->setDesignDir(self::$_fixtureTmpDir);
-        mkdir($fixtureViewPath . '/images', 0777, true);
-
-        // Copy all files to fixture location
-        $mTime = time() - 10; // To ensure that all files, changed later in test, will be recognized for publication
-        $sourcePath = dirname(__DIR__) . '/_files/design/frontend/test/publication/';
-        $files = array('theme.xml', 'style.css', 'sub.css', 'images/square.gif', 'images/rectangle.gif');
-        foreach ($files as $file) {
-            copy($sourcePath . $file, $fixtureViewPath . $file);
-            touch($fixtureViewPath . $file, $mTime);
-        }
+        Magento_Test_Bootstrap::getInstance()->reinitialize(array(
+            Mage_Core_Model_App::INIT_OPTION_DIRS => array(
+                Mage_Core_Model_Dir::VIEW => dirname(__DIR__) . '/_files/design/'
+            )
+        ));
+        $this->_model->setDesignTheme('test/default');
     }
 }

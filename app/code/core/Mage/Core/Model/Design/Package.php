@@ -708,7 +708,7 @@ class Mage_Core_Model_Design_Package
      */
     public function getPublicDir()
     {
-        return Mage::getBaseDir('media') . DS . 'theme';
+        return Mage::getBaseDir(Mage_Core_Model_Dir::MEDIA) . DS . 'theme';
     }
 
     /**
@@ -743,7 +743,7 @@ class Mage_Core_Model_Design_Package
      */
     protected function _buildPublicViewSufficientFilename($filename, array $params)
     {
-        $designDir = Mage::getBaseDir('design') . DS;
+        $designDir = Mage::getBaseDir(Mage_Core_Model_Dir::VIEW) . DS;
         if (0 === strpos($filename, $designDir)) {
             // theme file
             $publicFile = substr($filename, strlen($designDir));
@@ -813,7 +813,7 @@ class Mage_Core_Model_Design_Package
             $relativeThemeFile = $fileUrl;
         } else {
             /* Check if module file overridden on theme level based on _module property and file path */
-            if ($params['module'] && strpos($parentFilePath, Mage::getBaseDir('design')) === 0) {
+            if ($params['module'] && strpos($parentFilePath, Mage::getBaseDir(Mage_Core_Model_Dir::VIEW)) === 0) {
                 /* Add module directory to relative URL for canonization */
                 $relativeThemeFile = dirname($params['module'] . DS . $parentFileName)
                     . DS . $fileUrl;
