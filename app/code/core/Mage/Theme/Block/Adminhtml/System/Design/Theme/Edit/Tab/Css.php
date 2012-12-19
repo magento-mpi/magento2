@@ -10,6 +10,9 @@
 
 /**
  * Theme form, Css editor tab
+ *
+ * @method Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css setFiles(array $files)
+ * @method array getFiles()
  */
 class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         extends Mage_Backend_Block_Widget_Form
@@ -39,10 +42,11 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         ));
         $this->_addElementTypes($themeFieldset);
         $themeFieldset->addField('theme_css_view', 'links', array(
-            'label'  => $this->__('View theme CSS'),
-            'title'  => $this->__('View theme CSS'),
-            'name'   => 'links',
-            'values' => $this->_getThemeCssList()
+            'label'       => $this->__('View theme CSS'),
+            'title'       => $this->__('View theme CSS'),
+            'name'        => 'links',
+            'values'      => $this->_getThemeCssList(),
+            'value_class' => ''     //remove limit on column width
         ));
     }
 
@@ -53,29 +57,17 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      */
     protected function _getThemeCssList()
     {
-        $files = $this->_getThemeCssFiles();
+        $files = $this->getFiles();
         $data = array();
-        foreach ($files as $file) {
+        foreach ($files as $title => $url) {
             $data[] = array(
-                'href'      => $file['title'],
-                'label'     => $file['title'],
+                'href'      => $url,
+                'label'     => $title,
+                'target'    => '_blank',
                 'delimiter' => '<br />',
             );
         }
         return $data;
-    }
-
-    /**
-     * Return array css files for theme
-     *
-     * @return array
-     */
-    protected function _getThemeCssFiles()
-    {
-        return array(
-            array('title' => 'main.css'),
-            array('title' => 'print.css')
-        );
     }
 
     /**
