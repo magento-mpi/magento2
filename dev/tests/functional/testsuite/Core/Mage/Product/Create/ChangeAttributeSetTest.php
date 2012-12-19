@@ -212,8 +212,8 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
                 'general_configurable_attribute_title' => $customSetData['attributeName'],
                 'general_configurable_data' => $this->loadDataSet('Product', 'general_configurable_data',
                     array(
-                        'general_search_sku' => $customSetData['productSku'],
-                        'general_product_attribute_value' => $customSetData['attributeValue']
+                        'general_sku' => $customSetData['productSku'],
+                        'general_attribute_value' => $customSetData['attributeValue']
                     )
                 )
             )
@@ -222,7 +222,6 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         //Steps
         $this->productHelper()->selectTypeProduct('configurable');
         $this->productHelper()->changeAttributeSet($newAttributeSet);
-        $this->productHelper()->fillConfigurableSettings($configurableProduct);
         $this->productHelper()->fillProductInfo($configurableProduct);
         //Verifying
         $this->assertFalse($this->controlIsVisible('button', 'change_attribute_set'));

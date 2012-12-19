@@ -435,23 +435,23 @@ configurable_product_for_order:
     websites: Main Website
     general_configurable_data:
         configurable_1:
-            associated_product_name: %associated_1%
-            associated_attributes:
+            general_product_name: %associated_1%
+            general_attributes:
                 attribute_1:
-                    associated_attribute_name: %attribute_name_1%
-                    associated_attribute_value: %attribute_value_1%
+                    general_attribute_name: %attribute_name_1%
+                    general_attribute_value: %attribute_value_1%
         configurable_2:
-            associated_product_name: %associated_2%
-            associated_attributes:
+            general_product_name: %associated_2%
+            general_attributes:
                 attribute_1:
-                    associated_attribute_name: %attribute_name_2%
-                    associated_attribute_value: %attribute_value_2%
+                    general_attribute_name: %attribute_name_2%
+                    general_attribute_value: %attribute_value_2%
         configurable_3:
-            associated_product_name: %associated_3%
-            associated_attributes:
+            general_product_name: %associated_3%
+            general_attributes:
                 attribute_1:
-                    associated_attribute_name: %attribute_name_3%
-                    associated_attribute_value: %attribute_value_3%
+                    general_attribute_name: %attribute_name_3%
+                    general_attribute_value: %attribute_value_3%
 #*********************************************
 #*      ConfigurableOptions For Products     *
 #*********************************************

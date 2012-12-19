@@ -62,6 +62,7 @@ manage_products:
             empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and text()='This field is required.' and not(contains(@style,'display: none;'))]
             enter_valid_number: //*[@class='mage-error' and @for='%fieldId%' and text()='Please enter a valid number in this field.' and not(contains(@style,'display: none;'))]
             enter_zero_or_greater: //*[@class='mage-error' and @for='%fieldId%' and text()='Please enter a number 0 or greater in this field.' and not(contains(@style,'display: none;'))]
+            enter_greater_than_zero: //*[@class='mage-error' and @for='tier_price_row_0_price' and text()='Please enter a number greater than 0 in this field' and not(contains(@style,'display: none;'))]
             existing_sku: //div[@class='validation-advice' and contains(text(),'The value of attribute "SKU" must be unique')]
             select_type_of_option: //div[@id='advice-required-option-select-product_option_%optionId%_type']
             confirmation_for_delete: Are you sure?
@@ -177,15 +178,14 @@ new_product:
                                     checkboxes:
                                         is_configurable: //input[@id='config_super_product-checkbox']
                                     links:
-                                        suggested_attribute: //li[normalize-space(@class)='ui-menu-item']/a[text()='%attributeName%']
+                                        suggested_attribute: //ul[contains(concat(' ', normalize-space(@class), ' '), 'ui-menu')]//a[text()='%attributeName%']
                                     pageelements:
-                                        suggested_attribute_list: //ul[normalize-space(li/@class)='ui-menu-item']
                                         product_variations_fieldset: /fieldset
                             -
                                 select_configurable_attributes:
                                     xpath: //div[div/h4='Select Configurable Attributes']
                                     fields:
-                                       general_configurable_attribute_title: //input[@id='attribute-selector']
+                                        general_configurable_attribute_title: //input[@id='attribute-selector']
                                     checkboxes:
                                         general_configurable_attribute_title: //input[@type='checkbox' and @title='%attributeTitle%']
                                     buttons:

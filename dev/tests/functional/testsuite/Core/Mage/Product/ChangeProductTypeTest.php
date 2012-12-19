@@ -247,7 +247,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
     {
         return array(
             array('grouped', null),
-            array('bundle', false),
+//            array('bundle', false), MAGETWO-6269
         );
     }
 
@@ -308,8 +308,8 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
                 'general_configurable_attribute_title' => $data['attributeName'],
                 'general_configurable_data' => $this->loadDataSet('Product', 'general_configurable_data',
                     array(
-                        'general_search_sku' => $data['productSku'],
-                        'general_product_attribute_value' => $data['attributeValue']
+                        'general_sku' => $data['productSku'],
+                        'general_attribute_value' => $data['attributeValue']
                     )
                 )
             )
@@ -324,10 +324,6 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
             'Weight checkbox is not selected');
         $this->assertFalse($this->controlIsVisible('pageelement', 'product_variations_fieldset'),
             'Product variation block is present');
-        $this->fillCheckbox('is_configurable', 'yes');
-        $this->assertTrue($this->controlIsVisible('pageelement', 'product_variations_fieldset'),
-            'Product variation block is absent');
-        $this->productHelper()->fillConfigurableSettings($configurable['general_configurable_attribute_title']);
         $this->productHelper()->fillProductInfo($configurable);
         $this->saveForm('save');
         //Verifying
@@ -402,8 +398,8 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
                 'general_configurable_attribute_title' => $data['attributeName'],
                 'general_configurable_data' => $this->loadDataSet('Product', 'general_configurable_data',
                     array(
-                        'general_search_sku' => $data['productSku'],
-                        'general_product_attribute_value' => $data['attributeValue']
+                        'general_sku' => $data['productSku'],
+                        'general_attribute_value' => $data['attributeValue']
                     )
                 )
             )
@@ -449,8 +445,8 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
                 'general_configurable_attribute_title' => $data['attributeName'],
                 'general_configurable_data' => $this->loadDataSet('Product', 'general_configurable_data',
                     array(
-                        'general_search_sku' => $data['productSku'],
-                        'general_product_attribute_value' => $data['attributeValue']
+                        'general_sku' => $data['productSku'],
+                        'general_attribute_value' => $data['attributeValue']
                     )
                 )
             )
@@ -460,10 +456,6 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($initialProduct, $initialType);
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('sku' => $initialProduct['general_sku']));
-        $this->fillCheckbox('is_configurable', 'yes');
-        $this->assertTrue($this->controlIsVisible('pageelement', 'product_variations_fieldset'),
-            'Product variation block is absent');
-        $this->productHelper()->fillConfigurableSettings($configurable['general_configurable_attribute_title']);
         $this->productHelper()->fillProductInfo($configurable);
         $this->saveForm('save');
         //Verifying
@@ -494,8 +486,8 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
                 'general_configurable_attribute_title' => $data['attributeName'],
                 'general_configurable_data' => $this->loadDataSet('Product', 'general_configurable_data',
                     array(
-                        'general_search_sku' => $data['productSku'],
-                        'general_product_attribute_value' => $data['attributeValue']
+                        'general_sku' => $data['productSku'],
+                        'general_attribute_value' => $data['attributeValue']
                     )
                 )
             )

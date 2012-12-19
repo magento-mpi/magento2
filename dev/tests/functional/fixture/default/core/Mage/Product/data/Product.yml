@@ -271,25 +271,33 @@ associated_grouped_data: &associatedProductsGroupedData
 #*****************************************************
 #* Associated Products Data for Configurable Product *
 #*****************************************************
-associated_attributes: &confirurableAttributesValues
+general_attributes: &confirurableAttributesValues
     attribute_1:
-        associated_attribute_name: %attribute_name_1%
-        associated_attribute_value: %attribute_value_1%
+        general_attribute_name: %attribute_name_1%
+        general_attribute_value: %attribute_value_1%
     attribute_2:
-        associated_attribute_name: %attribute_name_2%
-        associated_attribute_value: %attribute_name_2%
+        general_attribute_name: %attribute_name_2%
+        general_attribute_value: %attribute_name_2%
 
 general_configurable: &configurableAssociatedProduct1
-    associated_product_name: %noValue%
-    associated_price: %noValue%
-    associated_sku: %noValue%
-    associated_quantity: %noValue%
-    associated_weight: %noValue%
-    associated_attributes: *confirurableAttributesValues
+    general_product_name: %noValue%
+    general_price: %noValue%
+    general_sku: %noValue%
+    general_quantity: %noValue%
+    general_weight: %noValue%
+    general_attributes: *confirurableAttributesValues
 
 general_configurable_data: &associatedProductsConfigurableData
     configurable_1: *configurableAssociatedProduct1
     configurable_2: %noValue%
+
+# Dataset for Product in product variation grid
+product_variation:
+    variation_name: Product Sync(%randomize%)
+    variation_price: 12
+    variation_sku: sku_%randomize%
+    variation_qty: %noValue%
+    variation_weight: %noValue%
 
 #*********************************************
 #*         Bundle Items Data                 *
@@ -1562,7 +1570,7 @@ grouped_product_related: &grouped_product_related
     general_categories: Default Category
     associated_grouped_data:
         associated_grouped_1:
-            general_search_sku: %noValue%
+            associated_search_sku: %noValue%
             associated_product_default_qty: 1
 
 #<--------------------------------------------Base products for linking to--------------------------------------------->
