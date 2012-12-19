@@ -119,7 +119,7 @@ class Mage_DesignEditor_Model_State
                 break;
             case self::MODE_NAVIGATION:
             default:
-            $this->_layoutFactory->createLayout(array('area' => $areaCode), self::LAYOUT_NAVIGATION_CLASS_NAME);
+                $this->_layoutFactory->createLayout(array('area' => $areaCode), self::LAYOUT_NAVIGATION_CLASS_NAME);
                 break;
         }
     }
