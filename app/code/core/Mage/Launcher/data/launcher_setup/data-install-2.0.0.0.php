@@ -22,8 +22,14 @@ $tile->setPageId(1);
 $tile->setState(0);
 $tile->save();
 
-
 Mage::getModel('Mage_Launcher_Model_Page')
     ->load(2)
     ->setCode('promote_store')
     ->save();
+
+/** @var $tile Mage_Launcher_Model_Tile */
+$tile = Mage::getModel('Mage_Launcher_Model_Tile');
+$tile->setCode('content_pages');
+$tile->setPageId(2);
+$tile->setState(Mage_Launcher_Model_Tile::STATE_TODO);
+$tile->save();

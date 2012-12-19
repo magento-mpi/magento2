@@ -64,6 +64,10 @@
                     <state_resolver>Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolver</state_resolver>
                     <save_handler>Mage_Launcher_Model_Storelauncher_Businessinfo_SaveHandler</save_handler>
                 </business_info>
+                <content_pages>
+                    <state_resolver>Mage_Launcher_Model_Promotestore_StateResolver</state_resolver>
+                    <save_handler>Mage_Launcher_Model_Promotestore_SaveHandler</save_handler>
+                </content_pages>
             </tiles>
         </launcher>
     </adminhtml>
