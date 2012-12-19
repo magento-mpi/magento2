@@ -16,8 +16,8 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     /**#@+
      * XML paths to VDE settings
      */
-    const XML_PATH_FRONT_NAME           = 'frontend/vde/frontName';
-    const XML_PATH_DISABLED_CACHE_TYPES = 'frontend/vde/disabledCacheTypes';
+    const XML_PATH_FRONT_NAME           = 'vde/design_editor/frontName';
+    const XML_PATH_DISABLED_CACHE_TYPES = 'vde/design_editor/disabledCacheTypes';
     /**#@-*/
 
     /**

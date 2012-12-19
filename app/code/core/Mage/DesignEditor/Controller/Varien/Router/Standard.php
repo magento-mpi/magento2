@@ -35,6 +35,13 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
     protected $_editorState;
 
     /**
+     * Configuration model
+     *
+     * @var Mage_Core_Model_Config
+     */
+    protected $_configuration;
+
+    /**
      * @param Mage_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Magento_ObjectManager $objectManager
      * @param string $areaCode
@@ -42,6 +49,7 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
      * @param Mage_Backend_Model_Auth_Session $backendSession
      * @param Mage_DesignEditor_Helper_Data $helper
      * @param Mage_DesignEditor_Model_State $editorState
+     * @param Mage_Core_Model_Config $configuration
      */
     public function __construct(
         Mage_Core_Controller_Varien_Action_Factory $controllerFactory,
@@ -50,13 +58,15 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
         $baseController,
         Mage_Backend_Model_Auth_Session $backendSession,
         Mage_DesignEditor_Helper_Data $helper,
-        Mage_DesignEditor_Model_State $editorState
+        Mage_DesignEditor_Model_State $editorState,
+        Mage_Core_Model_Config $configuration
     ) {
         parent::__construct($controllerFactory, $objectManager, $areaCode, $baseController);
 
         $this->_backendSession = $backendSession;
         $this->_helper         = $helper;
         $this->_editorState    = $editorState;
+        $this->_configuration  = $configuration;
     }
 
     /**
@@ -76,6 +86,9 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
         if (!$this->_backendSession->isLoggedIn()) {
             return null;
         }
+
+        // override VDE configuration
+        $this->_overrideConfiguration();
 
         // prepare request to imitate
         $this->_prepareVdeRequest($request);
@@ -140,5 +153,16 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
             }
         }
         return $routers;
+    }
+
+    /**
+     * Override frontend configuration with VDE area data
+     */
+    protected function _overrideConfiguration()
+    {
+        $vdeNode = $this->_configuration->getNode('vde');
+        if ($vdeNode) {
+            $this->_configuration->getNode('frontend')->extend($vdeNode, true);
+        }
     }
 }

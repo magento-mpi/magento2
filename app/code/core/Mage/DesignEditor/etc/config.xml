@@ -49,10 +49,6 @@
                 </args>
             </designeditor>
         </routers>
-        <vde>
-            <frontName>vde</frontName>
-            <disabledCacheTypes>BLOCK_HTML,LAYOUT_GENERAL_CACHE_TAG,FPC</disabledCacheTypes>
-        </vde>
     </frontend>
     <adminhtml>
         <layout>
@@ -63,6 +59,22 @@
             </updates>
         </layout>
     </adminhtml>
+    <vde>
+        <design_editor>
+            <frontName>vde</frontName>
+            <disabledCacheTypes>BLOCK_HTML,LAYOUT_GENERAL_CACHE_TAG,FPC</disabledCacheTypes>
+        </design_editor>
+        <events>
+            <controller_action_predispatch>
+                <observers>
+                    <design_editor_theme>
+                        <class>Mage_DesignEditor_Model_Observer</class>
+                        <method>setTheme</method>
+                    </design_editor_theme>
+                </observers>
+            </controller_action_predispatch>
+        </events>
+    </vde>
     <admin>
         <routers>
             <adminhtml>
