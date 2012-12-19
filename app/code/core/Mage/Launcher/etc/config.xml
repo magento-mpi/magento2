@@ -74,6 +74,7 @@
                 </business_info>
                 <tax>
                     <state_resolver>Mage_Launcher_Model_Storelauncher_Tax_StateResolver</state_resolver>
+                    <save_handler>Mage_Launcher_Model_Storelauncher_Tax_SaveHandler</save_handler>
                 </tax>
                 <content_pages>
                     <state_resolver>Mage_Launcher_Model_Promotestore_StateResolver</state_resolver>

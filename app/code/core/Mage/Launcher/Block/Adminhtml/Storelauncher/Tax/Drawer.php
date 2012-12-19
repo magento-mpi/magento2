@@ -17,5 +17,13 @@
  */
 class Mage_Launcher_Block_Adminhtml_Storelauncher_Tax_Drawer extends Mage_Launcher_Block_Adminhtml_Drawer
 {
-
+    /**
+     * Get Translated Tile Header
+     *
+     * @return string
+     */
+    public function getTileHeader()
+    {
+        return $this->helper('Mage_Launcher_Helper_Data')->__('Tax Rules');
+    }
 }

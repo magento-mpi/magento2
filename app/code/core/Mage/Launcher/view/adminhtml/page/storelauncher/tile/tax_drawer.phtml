@@ -15,7 +15,7 @@
     <fieldset class="fieldset active">
 
         <div id="field-mange-tax" class="field choice">
-            <input id="mange-tax" name="use_tax" type="radio" checked="checked">
+            <input id="mange-tax" name="use_tax" type="radio" checked="checked" value="1">
             <label class="label" for="mange-tax"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Manage Tax Rules') ?></span></label>
         </div>
 
@@ -34,7 +34,7 @@
     <fieldset class="fieldset">
         <div class="tax-rule">
             <div id="field-no-tax" class="field choice">
-                <input id="no-tax" name="use_tax" type="radio">
+                <input id="no-tax" name="use_tax" type="radio" value="0">
                 <label class="label" for="no-tax"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('No Tax') ?></span></label>
             </div>
         </div>
@@ -44,7 +44,7 @@
     </fieldset>
 </form>
 
-<?php echo $this->getChildHtml('tax-rate-form');?>
+<?php echo $this->getChildHtml('tax-rate-form'); ?>
 
 <script type="text/javascript">
     (function ($) {
@@ -57,6 +57,15 @@
                     elem.is(':checked') ? importForm.fadeIn(200) : importForm.fadeOut(200);
                 });
             importForm.is(':checked') ? importForm.parent().next().show() : importForm.parent().next().hide();
+            $('form#drawer-form input[name="use_tax"]').on('change.use_tax', function (el) {
+                $('form#drawer-form input[name="use_tax"]:checked').each(function (radio) {
+                    $(radio).parent().parent().parent().removeClass('active');
+                });
+                $(el).parent().parent().parent().addClass('active');
+                if ($('#no-tax').is(':checked')) {
+                    $('form#drawer-form').addClass('ignore-validate');
+                }
+            });
         });
     })(window.jQuery);
 </script>
