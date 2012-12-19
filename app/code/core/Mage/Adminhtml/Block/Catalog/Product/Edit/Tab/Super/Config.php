@@ -369,8 +369,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
                     if ($priceData['value_index'] == $valueInfo['value']
                         && (!isset($priceData['include']) || $priceData['include'])
                     ) {
-                        $options[$key] = $valueInfo;
-                        $options[$key]['price'] = $priceData;
+                        $valueInfo['price'] = $priceData;
+                        $options[] = $valueInfo;
                     }
                 }
             }
