@@ -18,6 +18,48 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     extends Mage_Backend_Block_Widget_Form
     implements Mage_Backend_Block_Widget_Tab_Interface
 {
+    /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param Mage_Core_Model_Layout $layout
+     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Mage_Backend_Model_Url $urlBuilder
+     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Session $session
+     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Mage_Core_Controller_Varien_Front $frontController
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Magento_ObjectManager $objectManager
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        Mage_Core_Controller_Request_Http $request,
+        Mage_Core_Model_Layout $layout,
+        Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Backend_Model_Url $urlBuilder,
+        Mage_Core_Model_Translate $translator,
+        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_Session $session,
+        Mage_Core_Model_Store_Config $storeConfig,
+        Mage_Core_Controller_Varien_Front $frontController,
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        Magento_ObjectManager $objectManager,
+        array $data = array()
+    ) {
+        parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
+            $session, $storeConfig, $frontController, $helperFactory, $data
+        );
+        $this->_objectManager = $objectManager;
+    }
 
     /**
      * Create a form element with necessary controls
@@ -29,6 +71,17 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         $form = new Varien_Data_Form();
         $this->setForm($form);
         $this->_addThemeCssFieldset();
+        $this->_addCustomCssFieldset();
+
+        $formData['custom_css_content'] = $this->_getCurrentTheme()->getCssFile()->getContent();
+        /** @var $session Mage_Backend_Model_Session */
+        $session = $this->_objectManager->get('Mage_Backend_Model_Session');
+        $cssFileContent = $session->getThemeCustomCssData();
+        if ($cssFileContent) {
+            $formData['custom_css_content'] = $cssFileContent;
+            $session->unsThemeCustomCssData();
+        }
+        $form->addValues($formData);
     }
 
     /**
@@ -68,6 +121,23 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             );
         }
         return $data;
+    }
+
+    /**
+     * Set custom css fieldset
+     */
+    protected function _addCustomCssFieldset()
+    {
+        $form = $this->getForm();
+        $themeFieldset = $form->addFieldset('custom_css', array(
+            'legend' => $this->__('Custom CSS'),
+        ));
+        $themeFieldset->addField('custom_css_content', 'textarea', array(
+            'label'  => $this->__('Edit custom.css'),
+            'title'  => $this->__('Edit custom.css'),
+            'name'   => 'custom_css_content',
+            'values' => 'some text'
+        ));
     }
 
     /**

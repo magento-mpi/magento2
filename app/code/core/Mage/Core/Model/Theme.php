@@ -147,6 +147,18 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Return custom css file
+     *
+     * @return Mage_Core_Model_Theme_Files
+     */
+    public function getCssFile()
+    {
+        /** @var $cssFile Mage_Core_Model_Theme_Files_Css */
+        $cssFile = $this->_objectManager->get('Mage_Core_Model_Theme_Files_Css');
+        return $cssFile->getFileByTheme($this);
+    }
+
+    /**
      * Themes collection loaded from file system configurations
      *
      * @return Mage_Core_Model_Theme_Collection
