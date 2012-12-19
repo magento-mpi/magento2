@@ -11,7 +11,8 @@
 /**
  * VDE buttons block
  */
-class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons extends Mage_Backend_Block_Template
+class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
+    extends Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_BlockAbstract
 {
     /**
      * Current theme used for preview
@@ -19,13 +20,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons extends Mage_Back
      * @var int
      */
     protected $_themeId;
-
-    /**
-     * Current VDE mode
-     *
-     * @var int
-     */
-    protected $_mode;
 
     /**
      * Get current theme id
@@ -46,29 +40,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons extends Mage_Back
     public function setThemeId($themeId)
     {
         $this->_themeId = $themeId;
-
-        return $this;
-    }
-
-    /**
-     * Get current VDE mode
-     *
-     * @return int
-     */
-    public function getMode()
-    {
-        return $this->_mode;
-    }
-
-    /**
-     * Get current VDE mode
-     *
-     * @param int $mode
-     * @return Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
-     */
-    public function setMode($mode)
-    {
-        $this->_mode = $mode;
 
         return $this;
     }
@@ -117,16 +88,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons extends Mage_Back
             'mode' => Mage_DesignEditor_Model_State::MODE_DESIGN,
             'theme_id' => $this->getThemeId()
         ));
-    }
-
-    /**
-     * Check if visual editor is in navigation mode
-     *
-     * @return bool
-     */
-    public function isNavigationMode()
-    {
-        return $this->getMode() == Mage_DesignEditor_Model_State::MODE_NAVIGATION;
     }
 
     /**

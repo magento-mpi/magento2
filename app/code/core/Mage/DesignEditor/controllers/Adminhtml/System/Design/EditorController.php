@@ -144,7 +144,14 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             /** @var $hierarchyBlock Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy */
             $hierarchyBlock = $this->getLayout()->getBlock('design_editor_toolbar_handles_hierarchy');
             if ($hierarchyBlock) {
-                $hierarchyBlock->setHierarchy($pageTypes);
+                $hierarchyBlock->setHierarchy($pageTypes)
+                    ->setMode($mode);
+            }
+
+            /** @var $viewOptionsBlock Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_ViewOptions */
+            $viewOptionsBlock = $this->getLayout()->getBlock('design_editor_toolbar_view_options');
+            if ($viewOptionsBlock) {
+                $viewOptionsBlock->setMode($mode);
             }
 
             /** @var $editorBlock Mage_DesignEditor_Block_Adminhtml_Editor_Container */

@@ -16,7 +16,8 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy extends Mage_Backend_Block_Template
+class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy
+    extends Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_BlockAbstract
 {
     /**
      * Page handle currently selected

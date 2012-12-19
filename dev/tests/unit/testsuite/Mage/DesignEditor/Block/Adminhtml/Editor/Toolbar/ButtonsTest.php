@@ -33,7 +33,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_ButtonsTest extends PHPUn
             'urlBuilder' => $this->_urlBuilder
         );
 
-        /** @var $_block Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons */
         $this->_block = $helper->getBlock('Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons', $arguments);
     }
 
@@ -47,18 +46,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_ButtonsTest extends PHPUn
     {
         $this->_block->setThemeId(2);
         $this->assertAttributeEquals(2, '_themeId', $this->_block);
-    }
-
-    public function testGetMode()
-    {
-        $this->_block->setMode(0);
-        $this->assertEquals(0, $this->_block->getMode());
-    }
-
-    public function testSetMode()
-    {
-        $this->_block->setMode(1);
-        $this->assertAttributeEquals(1, '_mode', $this->_block);
     }
 
     public function testGetViewLayoutUrl()
@@ -99,14 +86,5 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_ButtonsTest extends PHPUn
             ->will($this->returnValue('*/*/launch/mode/0/theme_id/3/'));
 
         $this->assertEquals('*/*/launch/mode/0/theme_id/3/', $this->_block->getDesignModeUrl());
-    }
-
-    public function testIsNavigationMode()
-    {
-        $this->_block->setMode(1);
-        $this->assertTrue($this->_block->isNavigationMode());
-
-        $this->_block->setMode(0);
-        $this->assertFalse($this->_block->isNavigationMode());
     }
 }
