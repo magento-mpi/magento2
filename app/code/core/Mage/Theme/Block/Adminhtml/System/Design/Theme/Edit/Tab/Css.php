@@ -127,7 +127,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      */
     public function canShowTab()
     {
-        return true;
+        return $this->_getCurrentTheme()->isVirtual();
     }
 
     /**
