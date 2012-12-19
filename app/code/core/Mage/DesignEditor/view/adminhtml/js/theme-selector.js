@@ -113,7 +113,7 @@
             var checkedValue = 1;
             $(this.options.storeView.windowSelector).find('form').serializeArray().each(function(object, index) {
                 if (object.value == checkedValue) {
-                    stores.push(object.name.match('storeviews\\[(\\d)\\]')[1] * 1);
+                    stores.push(object.name.match('storeviews\\[(\\d+)\\]')[1] * 1);
                 }
             });
 
