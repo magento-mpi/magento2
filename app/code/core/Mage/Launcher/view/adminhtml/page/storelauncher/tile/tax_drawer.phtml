@@ -50,7 +50,8 @@
     (function ($) {
         $(document).ready(function () {
             'use strict';
-            var importForm = $('#import-tax-rates')
+            var drawerForm = $('form#drawer-form'),
+                importForm = $('#import-tax-rates')
                 .on('click.importTaxRates', function () {
                     var elem = $(this),
                         importForm = elem.parent().next();
@@ -63,7 +64,9 @@
                 });
                 $(el).parent().parent().parent().addClass('active');
                 if ($('#no-tax').is(':checked')) {
-                    $('form#drawer-form').addClass('ignore-validate');
+                    drawerForm.addClass('ignore-validate');
+                } else {
+                    drawerForm.removeClass('ignore-validate');
                 }
             });
         });
