@@ -126,7 +126,7 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
     /**
      * Test that, regarding of the current area, page types hierarchy getter retrieves the front-end page types
      *
-     * @magentoDataFixture Mage/Core/Model/_files/design/themes_registration.php
+     * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
      * @magentoAppIsolation enabled
      * @throws Exception
      */
@@ -202,7 +202,7 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture Mage/Core/Model/_files/design/themes_registration.php
+     * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
      * @magentoAppIsolation enabled
      */
     public function testLoad()
@@ -223,7 +223,7 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture Mage/Core/Model/_files/design/themes_registration.php
+     * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
      * @magentoAppIsolation enabled
      */
     public function testLoadCache()
@@ -253,7 +253,7 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture Mage/Core/Model/_files/design/themes_registration.php
+     * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
      * @magentoAppIsolation enabled
      */
     public function testFetchDbLayoutUpdates()
@@ -278,7 +278,7 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture Mage/Core/Model/_files/design/themes_registration.php
+     * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
      * @magentoAppIsolation enabled
      */
     public function testGetFileLayoutUpdatesXmlFromTheme()
@@ -386,7 +386,7 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
     /**
      * @magentoConfigFixture current_store advanced/modules_disable_output/Mage_Catalog true
      * @magentoConfigFixture current_store advanced/modules_disable_output/Mage_Page    true
-     * @magentoDataFixture Mage/Core/Model/_files/design/themes_registration.php
+     * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
      * @magentoAppIsolation enabled
      */
     public function testGetFileLayoutUpdatesXmlDisabledOutput()

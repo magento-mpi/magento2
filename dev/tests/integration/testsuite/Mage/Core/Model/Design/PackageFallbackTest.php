@@ -11,7 +11,7 @@
 
 /**
  * Tests for the view layer fallback mechanism
- * @magentoDataFixture Mage/Core/Model/_files/design/themes_registration.php
+ * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
  */
 class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestCase
 {
@@ -27,7 +27,7 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
                 Mage_Core_Model_Dir::VIEW => dirname(__DIR__) . '/_files/design'
             )
         ));
-        $this->_model = Mage::getDesign();
+        $this->_model = new Mage_Core_Model_Design_Package;
         $this->_model->setDesignTheme('test/default');
     }
 
@@ -36,9 +36,6 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
         $this->_model = null;
     }
 
-    /**
-     * @magentoAppIsolation enabled
-     */
     public function testGetFilename()
     {
         $expected = '%s/frontend/test/default/Mage_Catalog/theme_template.phtml';
@@ -46,9 +43,6 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
         $this->_testExpectedVersusActualFilename($expected, $actual);
     }
 
-    /**
-     * @magentoAppIsolation enabled
-     */
     public function testGetLocaleFileName()
     {
         $expected = '%s/frontend/test/default/locale/en_US/translate.csv';
@@ -56,9 +50,6 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
         $this->_testExpectedVersusActualFilename($expected, $actual);
     }
 
-    /**
-     * @magentoAppIsolation enabled
-     */
     public function testGetViewFile()
     {
         $expected = '%s/frontend/package/custom_theme/Fixture_Module/fixture_script.js';
