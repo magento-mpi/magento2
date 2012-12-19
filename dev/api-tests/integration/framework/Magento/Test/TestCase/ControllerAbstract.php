@@ -224,7 +224,7 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends Magento_TestCase
      */
     protected function _getUrlPathWithSecretKey($urlPath)
     {
-        $uri = Mage::getModel('Mage_Adminhtml_Model_Url')->getUrl($urlPath);
+        $uri = Mage::getModel('Mage_Backend_Model_Url')->getUrl($urlPath);
         // strip base URL if detected
         $baseUrl = rtrim(Mage::getBaseUrl(), '/');
         if (strpos($uri, $baseUrl) === 0) {

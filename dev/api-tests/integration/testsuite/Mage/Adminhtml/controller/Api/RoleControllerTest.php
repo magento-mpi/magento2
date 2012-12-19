@@ -28,8 +28,8 @@ class Mage_Adminhtml_Api_RoleControllerTest extends Magento_Test_TestCase_Contro
         $input = 'testXss <script>alert(1)</script>';
         $model->setName($input)->save();
 
-        /** @var $urlModel Mage_Adminhtml_Model_Url */
-        $urlModel = Mage::getSingleton('Mage_Adminhtml_Model_Url');
+        /** @var $urlModel Mage_Backend_Model_Url */
+        $urlModel = Mage::getSingleton('Mage_Backend_Model_Url');
 
         try {
             //testing
