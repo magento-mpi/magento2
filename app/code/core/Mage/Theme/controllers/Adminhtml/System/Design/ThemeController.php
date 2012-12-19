@@ -56,6 +56,16 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
             Mage::register('current_theme', $theme);
 
             $this->loadLayout();
+
+            /** @var $block Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css */
+            $block = $this->getLayout()->getBlock('theme_edit_tabs_tab_css_tab');
+            if ($block) {
+                /** @var $helper Mage_Theme_Helper_Data */
+                $helper = $this->_objectManager->get('Mage_Theme_Helper_Data');
+
+                $files = $helper->getCssFiles($theme);
+                $block->setFiles($files);
+            }
             $this->_setActiveMenu('Mage_Adminhtml::system_design_theme');
             $this->renderLayout();
         } catch (Mage_Core_Exception $e) {
