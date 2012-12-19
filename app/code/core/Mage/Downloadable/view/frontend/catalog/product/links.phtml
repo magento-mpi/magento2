@@ -49,8 +49,7 @@
             head.js("<?php echo $this->getViewFileUrl('Mage_Downloadable::downloadable.js') ?>", function () {
                 $('#downloadable-links-list').downloadable({
                     linkElement: 'input:checkbox',
-                    config: <?php echo $this->getJsonConfig() ?>,
-                    priceOptionInstance: priceOptionInstance
+                    config: <?php echo $this->getJsonConfig() ?>
                 });
             });
     })(jQuery);

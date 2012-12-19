@@ -11,7 +11,7 @@
     $.widget('mage.dateOption', {
         _create: function() {
             $(this.options.datepickerFieldSelector)
-                .on('change', $.proxy(this.options.priceOptionInstance.reloadPrice, this));
+                .on('change', $.proxy(function() {this.element.trigger('reloadPrice');}, this));
             $(this.options.monthSelector)
                 .on('change', $.proxy(function(event) {this._reloadMonth(event);}, this));
             $(this.options.yearSelector)

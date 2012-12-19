@@ -25,7 +25,6 @@
             (function($) {
                 head.js("<?php echo $this->getViewFileUrl('Mage_Catalog::js/date-option.js') ?>", function() {
                     $.mage.dateOption({
-                        priceOptionInstance: priceOptionInstance,
                         datepickerFieldSelector: 'select.datetime-picker',
                         monthSelector: '#options_<?php echo $_optionId ?>_month',
                         yearSelector: '#options_<?php echo $_optionId ?>_year'

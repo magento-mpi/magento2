@@ -24,8 +24,7 @@
             this.element.find(this.options.linkElement + ':checked').each($.proxy(function(index, element) {
                 price += this.options.config[$(element).val()];
             }, this));
-            this.options.priceOptionInstance.changePrice('config', {'price': price});
-            this.options.priceOptionInstance.reloadPrice();
+            this.element.trigger('changePrice', {'config': 'config', 'price': {'price': price} }).trigger('reloadPrice');
         }
     });
 })(jQuery);
