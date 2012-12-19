@@ -136,7 +136,7 @@
             </arguments>
         </reference>
         <reference name="adminhtml.report.grid.columnSet">
-            <block type="Mage_Backend_Block_Widget_Grid_Column" as="url_rewrite_id">
+            <block type="Mage_Backend_Block_Widget_Grid_Column" as="id">
                 <arguments>
                     <header translate="true" module="Enterprise_Invitation">ID</header>
                     <type>number</type>

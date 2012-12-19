@@ -37,7 +37,7 @@ class Core_Mage_Grid_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     *  Method that goes through test data array and adds verification Messages
+     *  Method that goes through test data array and adds verification messages
      *
      * @param array $data
      * @param string $exclude
@@ -58,7 +58,7 @@ class Core_Mage_Grid_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * Get Header names from grid and
+     * Get header names from grid
      *
      * @param array $data
      * @param string $fieldsetFlag

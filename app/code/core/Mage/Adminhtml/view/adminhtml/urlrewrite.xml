@@ -29,7 +29,7 @@
                                 </extraParamsTemplate>
                             </rowUrl>
                         </arguments>
-                        <block type="Mage_Backend_Block_Widget_Grid_Column" as="id">
+                        <block type="Mage_Backend_Block_Widget_Grid_Column" as="url_rewrite_id">
                             <arguments>
                                 <header translate="true" module="Mage_Adminhtml">ID</header>
                                 <width>50px</width>
