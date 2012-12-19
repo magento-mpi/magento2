@@ -26,15 +26,76 @@ class Magento_Profiler_Driver_Standard implements Magento_Profiler_DriverInterfa
     /**
      * Constructor
      *
-     * @param Magento_Profiler_Driver_Standard_Stat|null $stat
+     * @param Magento_Profiler_Driver_Configuration|null $configuration
      */
-    public function __construct(Magento_Profiler_Driver_Standard_Stat $stat = null)
+    public function __construct(Magento_Profiler_Driver_Configuration $configuration = null)
     {
-        if (!$stat) {
-            $stat = new Magento_Profiler_Driver_Standard_Stat();
-        }
-        $this->_stat = $stat;
+        $this->_initOutputs($configuration);
+        $this->_initStat($configuration);
         register_shutdown_function(array($this, 'display'));
+    }
+
+    /**
+     * Init outputs by configuration
+     *
+     * @param Magento_Profiler_Driver_Configuration|null $configuration
+     */
+    protected function _initOutputs(Magento_Profiler_Driver_Configuration $configuration = null)
+    {
+        if (!$configuration) {
+            return;
+        }
+        $outputs = array();
+        if ($configuration->hasValue('outputs')) {
+            $outputs = $configuration->getArrayValue('outputs');
+        }
+        if ($outputs) {
+            $outputFactory = $this->_getOutputFactory($configuration);
+            foreach ($outputs as $code => $outputConfig) {
+                if (!$outputConfig instanceof Magento_Profiler_Driver_Standard_Output_Configuration) {
+                    $outputConfig = new Magento_Profiler_Driver_Standard_Output_Configuration($outputConfig);
+                }
+                if (!$outputConfig->hasTypeValue()) {
+                    $outputConfig->setTypeValue($code);
+                }
+                if (!$outputConfig->hasBaseDirValue() && $configuration->getBaseDirValue()) {
+                    $outputConfig->setBaseDirValue($configuration->getBaseDirValue());
+                }
+                $this->registerOutput($outputFactory->create($outputConfig));
+            }
+        }
+    }
+
+    /**
+     * Gets output factory from configuration or create new one
+     *
+     * @param Magento_Profiler_Driver_Configuration|null $configuration
+     * @return Magento_Profiler_Driver_Standard_Output_Factory
+     */
+    protected function _getOutputFactory(Magento_Profiler_Driver_Configuration $configuration = null)
+    {
+        if ($configuration
+            && $configuration->getValue('outputFactory') instanceof Magento_Profiler_Driver_Standard_Output_Factory
+        ) {
+            $result = $configuration->getValue('outputFactory');
+        } else {
+            $result = new Magento_Profiler_Driver_Standard_Output_Factory();
+        }
+        return $result;
+    }
+
+    /**
+     * Init timers statistics object from configuration or create new one
+     *
+     * @param Magento_Profiler_Driver_Configuration $configuration|null
+     */
+    protected function _initStat(Magento_Profiler_Driver_Configuration $configuration = null)
+    {
+        if ($configuration && $configuration->getValue('stat') instanceof Magento_Profiler_Driver_Standard_Stat) {
+            $this->_stat = $configuration->getValue('stat');
+        } else {
+            $this->_stat = new Magento_Profiler_Driver_Standard_Stat();
+        }
     }
 
     /**
@@ -52,7 +113,6 @@ class Magento_Profiler_Driver_Standard implements Magento_Profiler_DriverInterfa
      *
      * @param string $timerId
      * @param array|null $tags
-     * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function start($timerId, array $tags = null)

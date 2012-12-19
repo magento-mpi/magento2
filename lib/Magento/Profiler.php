@@ -301,4 +301,23 @@ class Magento_Profiler
             self::$_pathCount--;
         }
     }
+
+    /**
+     * Init profiler
+     *
+     * @param Magento_Profiler_Configuration $config
+     */
+    public static function applyConfig(Magento_Profiler_Configuration $config)
+    {
+        $driverConfigurations = $config->getDriverConfigurations();
+        if ($driverConfigurations) {
+            $driverFactory = $config->getDriverFactory();
+            foreach ($driverConfigurations as $driverConfiguration) {
+                self::add($driverFactory->create($driverConfiguration));
+            }
+        }
+        foreach ($config->getTagFilters() as $tagName => $tagValue) {
+            self::addTagFilter($tagName, $tagValue);
+        }
+    }
 }

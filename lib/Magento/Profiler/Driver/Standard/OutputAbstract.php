@@ -43,6 +43,25 @@ abstract class Magento_Profiler_Driver_Standard_OutputAbstract
     );
 
     /**
+     * Constructor
+     *
+     * @param Magento_Profiler_Driver_Standard_Output_Configuration|null $config
+     */
+    public function __construct(Magento_Profiler_Driver_Standard_Output_Configuration $config = null)
+    {
+        if ($this->_configuration = $config) {
+            if ($config->hasFilterPatternValue()) {
+                $this->setFilterPattern($config->getFilterPatternValue());
+            }
+            if ($config->hasThresholdsValue()) {
+                foreach ($config->getThresholdsValue() as $fetchKey => $minAllowedValue) {
+                    $this->setThreshold($fetchKey, $minAllowedValue);
+                }
+            }
+        }
+    }
+
+    /**
      * Set profiler output with timer identifiers filter.
      *
      * @param string $filterPattern PCRE pattern to filter timers by their identifiers
@@ -50,6 +69,16 @@ abstract class Magento_Profiler_Driver_Standard_OutputAbstract
     public function setFilterPattern($filterPattern)
     {
         $this->_filterPattern = $filterPattern;
+    }
+
+    /**
+     * Get profiler output timer identifiers filter.
+     *
+     * @return string|null
+     */
+    public function getFilterPattern()
+    {
+        return $this->_filterPattern;
     }
 
     /**
@@ -67,6 +96,16 @@ abstract class Magento_Profiler_Driver_Standard_OutputAbstract
         } else {
             $this->_thresholds[$fetchKey] = $minAllowedValue;
         }
+    }
+
+    /**
+     * Get list of thresholds.
+     *
+     * @return array
+     */
+    public function getThresholds()
+    {
+        return $this->_thresholds;
     }
 
     /**

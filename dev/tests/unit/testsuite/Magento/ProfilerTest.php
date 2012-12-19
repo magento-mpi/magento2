@@ -331,4 +331,45 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
             'more than one tag with expected' => array('timer', array('tag' => 'value', 'type' => 'test')),
         );
     }
+
+    public function testApplyConfig()
+    {
+        $mockDriver = $this->getMock('Magento_Profiler_DriverInterface');
+        $mockDriverConfig = $this->getMockBuilder('Magento_Profiler_Driver_Configuration')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $mockDriverFactory = $this->getMockBuilder('Magento_Profiler_Driver_Factory')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $mockConfig = $this->getMockBuilder('Magento_Profiler_Configuration')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $mockConfig->expects($this->once())
+            ->method('getDriverConfigurations')
+            ->will($this->returnValue(array($mockDriverConfig)));
+        $mockConfig->expects($this->once())
+            ->method('getDriverFactory')
+            ->will($this->returnValue($mockDriverFactory));
+        $mockConfig->expects($this->once())
+            ->method('getTagFilters')
+            ->will($this->returnValue(array(
+                'tagName' => 'tagValue'
+            )));
+        $mockDriverFactory->expects($this->once())
+            ->method('create')
+            ->with($mockDriverConfig)
+            ->will($this->returnValue($mockDriver));
+
+        Magento_Profiler::applyConfig($mockConfig);
+        $this->assertAttributeEquals(array(
+            get_class($mockDriver) => $mockDriver
+        ), '_drivers', 'Magento_Profiler');
+        $this->assertAttributeEquals(array(
+            'tagName' => array(
+                'tagValue'
+            )
+        ), '_tagFilters', 'Magento_Profiler');
+        $this->assertAttributeEquals(true, '_enabled', 'Magento_Profiler');
+    }
 }

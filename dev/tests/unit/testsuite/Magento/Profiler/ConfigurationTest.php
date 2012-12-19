@@ -30,11 +30,11 @@ class Magento_Profiler_ConfigurationTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider getDriverConfigurationsDataProvider
+     * @dataProvider driverConfigurationsDataProvider
      * @param mixed $data
      * @param array $expected
      */
-    public function testInitDriverConfigurations(array $data, array $expected)
+    public function testDriverConfigurations(array $data, array $expected)
     {
         $this->_configuration->initDriverConfigurations($data);
         $this->assertEquals($expected, $this->_configuration->getDriverConfigurations());
@@ -43,7 +43,7 @@ class Magento_Profiler_ConfigurationTest extends PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function getDriverConfigurationsDataProvider()
+    public function driverConfigurationsDataProvider()
     {
         return array(
             'Empty configuration' => array(
@@ -97,11 +97,7 @@ class Magento_Profiler_ConfigurationTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @param mixed $data
-     * @param array $expected
-     */
-    public function testGetTagFilters()
+    public function testTagFilters()
     {
         $tagFilters = array(
             'foo' => 'bar',
@@ -109,5 +105,13 @@ class Magento_Profiler_ConfigurationTest extends PHPUnit_Framework_TestCase
         );
         $this->_configuration->setTagFilters($tagFilters);
         $this->assertEquals($tagFilters, $this->_configuration->getTagFilters());
+    }
+
+    public function testDriverFactory()
+    {
+        $this->assertInstanceOf('Magento_Profiler_Driver_Factory', $this->_configuration->getDriverFactory());
+        $driver = new Magento_Profiler_Driver_Factory();
+        $this->_configuration->setDriverFactory($driver);
+        $this->assertSame($driver, $this->_configuration->getDriverFactory());
     }
 }

@@ -25,8 +25,11 @@ class Magento_Profiler_Driver_Pinba implements Magento_Profiler_DriverInterface
 
     /**
      * Initialize separator length
+     *
+     * @param Magento_Profiler_Driver_Configuration|null $configuration
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function __construct()
+    public function __construct(Magento_Profiler_Driver_Configuration $configuration = null)
     {
         $this->_separatorLength = strlen(Magento_Profiler::NESTING_SEPARATOR);
     }

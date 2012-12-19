@@ -13,7 +13,7 @@ class Magento_Profiler_Driver_Configuration
      * @#+
      * Specific configuration option names
      */
-    const DRIVER_TYPE_OPTION = 'type';
+    const TYPE_OPTION = 'type';
     const BASE_DIR_OPTION = 'baseDir';
     /**@#-*/
 
@@ -31,44 +31,45 @@ class Magento_Profiler_Driver_Configuration
     }
 
     /**
-     * Get "driver type" option value
+     * Get "object type" option value
      *
      * @param string $defaultType
      * @return string
      */
-    public function getDriverTypeValue($defaultType)
+    public function getTypeValue($defaultType = null)
     {
-        return $this->getStringValue(self::DRIVER_TYPE_OPTION, $defaultType);
+        return $this->getStringValue(self::TYPE_OPTION, $defaultType);
     }
 
     /**
-     * Set "driver type" option value
+     * Set "object type" option value
      *
      * @param string $driverType
      */
-    public function setDriverTypeValue($driverType)
+    public function setTypeValue($driverType)
     {
-        $this->setValue(self::DRIVER_TYPE_OPTION, $driverType);
+        $this->setValue(self::TYPE_OPTION, $driverType);
     }
 
     /**
-     * Is "driver type" option has a value
+     * Is "object type" option has a value
      *
      * @return bool
      */
-    public function hasDriverTypeValue()
+    public function hasTypeValue()
     {
-        return $this->hasValue(self::DRIVER_TYPE_OPTION);
+        return $this->hasValue(self::TYPE_OPTION);
     }
 
     /**
      * Get "base directory" option value
      *
+     * @param string $defaultBaseDir
      * @return string
      */
-    public function getBaseDirValue()
+    public function getBaseDirValue($defaultBaseDir = null)
     {
-        return $this->getStringValue(self::BASE_DIR_OPTION);
+        return $this->getStringValue(self::BASE_DIR_OPTION, $defaultBaseDir);
     }
 
     /**
@@ -225,18 +226,5 @@ class Magento_Profiler_Driver_Configuration
         } else {
             return $default;
         }
-    }
-
-    /**
-     * Get embedded configuration object using value of $name option, using $defaultEmbeddedData if $name option
-     * value is not defined or not array.
-     *
-     * @param string $name
-     * @param array $defaultEmbeddedData
-     * @return Magento_Profiler_Configuration
-     */
-    public function getConfigurationValue($name, array $defaultEmbeddedData = array())
-    {
-        return new Magento_Profiler_Driver_Configuration($this->getArrayValue($name, $defaultEmbeddedData));
     }
 }

@@ -14,6 +14,11 @@ class Magento_Profiler_Driver_ConfigurationTest extends PHPUnit_Framework_TestCa
      */
     protected $_configuration;
 
+    protected function setUp()
+    {
+        $this->_configuration = new Magento_Profiler_Driver_Configuration();
+    }
+
     /**
      * @dataProvider getValueDataProvider
      * @param string $getterMethod
@@ -85,27 +90,35 @@ class Magento_Profiler_Driver_ConfigurationTest extends PHPUnit_Framework_TestCa
             ),
             'getArrayValue, string' => array(
                 'getArrayValue', array(), 'string', array(),
-            ),
-            'getConfigurationValue' => array(
-                'getConfigurationValue',
-                new Magento_Profiler_Driver_Configuration(array(
-                    'foo' => 'bar'
-                )),
-                array(
-                    'foo' => 'bar'
-                ),
-                array()
-            ),
-            'getConfigurationValue, default value' => array(
-                'getConfigurationValue',
-                new Magento_Profiler_Driver_Configuration(array(
-                    'foo' => 'bar'
-                )),
-                null,
-                array(
-                    'foo' => 'bar'
-                )
             )
         );
+    }
+
+    public function testHasTypeValue()
+    {
+        $this->assertFalse($this->_configuration->hasTypeValue());
+        $this->_configuration->setTypeValue('test');
+        $this->assertTrue($this->_configuration->hasTypeValue());
+    }
+
+    public function testGetAndSetTypeValue()
+    {
+        $this->assertEquals('default', $this->_configuration->getTypeValue('default'));
+        $this->_configuration->setTypeValue('test');
+        $this->assertEquals('test', $this->_configuration->getTypeValue());
+    }
+
+    public function testHasBaseDirValue()
+    {
+        $this->assertFalse($this->_configuration->hasBaseDirValue());
+        $this->_configuration->setBaseDirValue('test');
+        $this->assertTrue($this->_configuration->hasBaseDirValue());
+    }
+
+    public function testGetAndSetBaseDirValue()
+    {
+        $this->assertEquals('default', $this->_configuration->getBaseDirValue('default'));
+        $this->_configuration->setBaseDirValue('test');
+        $this->assertEquals('test', $this->_configuration->getBaseDirValue());
     }
 }

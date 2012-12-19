@@ -13,7 +13,7 @@ class Magento_Profiler_Driver_Standard_Output_Csvfile extends Magento_Profiler_D
      *
      * @var string
      */
-    protected $_filename;
+    protected $_filePath;
 
     /**
      * @var string
@@ -28,15 +28,16 @@ class Magento_Profiler_Driver_Standard_Output_Csvfile extends Magento_Profiler_D
     /**
      * Constructor
      *
-     * @param string $filename Target file to save CSV data
-     * @param string $delimiter Delimiter for CSV format
-     * @param string $enclosure Enclosure for CSV format
+     * @param Magento_Profiler_Driver_Standard_Output_Configuration $config
      */
-    public function __construct($filename, $delimiter = ',', $enclosure = '"')
+    public function __construct(Magento_Profiler_Driver_Standard_Output_Configuration $config)
     {
-        $this->_filename = $filename;
-        $this->_delimiter = $delimiter;
-        $this->_enclosure = $enclosure;
+        parent::__construct($config);
+        $this->_filePath = rtrim($config->getBaseDirValue(), DIRECTORY_SEPARATOR)
+            . DIRECTORY_SEPARATOR
+            . ltrim($config->getStringValue('filePath', 'var/log/profiler.csv'), DIRECTORY_SEPARATOR);
+        $this->_delimiter = $config->getStringValue('delimiter', ',');
+        $this->_enclosure = $config->getStringValue('enclosure', '"');
     }
 
     /**
@@ -47,12 +48,12 @@ class Magento_Profiler_Driver_Standard_Output_Csvfile extends Magento_Profiler_D
      */
     public function display(Magento_Profiler_Driver_Standard_Stat $stat)
     {
-        $fileHandle = fopen($this->_filename, 'w');
+        $fileHandle = fopen($this->_filePath, 'w');
         if (!$fileHandle) {
-            throw new RuntimeException(sprintf('Can not open a file "%s".', $this->_filename));
+            throw new RuntimeException(sprintf('Can not open a file "%s".', $this->_filePath));
         }
 
-        $lockRequired = (strpos($this->_filename, 'php://') !== 0);
+        $lockRequired = (strpos($this->_filePath, 'php://') !== 0);
         $isLocked = false;
         while ($lockRequired && !$isLocked) {
             $isLocked = flock($fileHandle, LOCK_EX);

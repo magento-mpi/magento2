@@ -48,6 +48,16 @@ class Magento_Profiler_Configuration
     }
 
     /**
+     * Get value of base directory
+     *
+     * @return string
+     */
+    public function getBaseDir()
+    {
+        return $this->_baseDir;
+    }
+
+    /**
      * Init list of driver configuration
      *
      * @param array $driversData
@@ -64,8 +74,8 @@ class Magento_Profiler_Configuration
                 }
             }
             $driverConfiguration = new Magento_Profiler_Driver_Configuration($driverData);
-            if (!$driverConfiguration->hasDriverTypeValue()) {
-                $driverConfiguration->setDriverTypeValue($code);
+            if (!$driverConfiguration->hasTypeValue()) {
+                $driverConfiguration->setTypeValue($code);
             }
             if (!$driverConfiguration->hasBaseDirValue()) {
                 $driverConfiguration->setBaseDirValue($this->getBaseDir());
@@ -105,16 +115,6 @@ class Magento_Profiler_Configuration
     }
 
     /**
-     * Get value of base directory
-     *
-     * @return string
-     */
-    public function getBaseDir()
-    {
-        return $this->_baseDir;
-    }
-
-    /**
      * Get driver factory
      *
      * @return Magento_Profiler_Driver_Factory
@@ -130,7 +130,7 @@ class Magento_Profiler_Configuration
     /**
      * Set driver factory
      *
-     * @return Magento_Profiler_Driver_Factory
+     * @param Magento_Profiler_Driver_Factory $driverFactory
      */
     public function setDriverFactory(Magento_Profiler_Driver_Factory $driverFactory)
     {
