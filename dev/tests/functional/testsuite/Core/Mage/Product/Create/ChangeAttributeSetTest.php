@@ -113,7 +113,7 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $this->addParameter('attributeCodeDropdown', $assignedAttribute);
         $this->assertFalse($this->controlIsPresent('dropdown', 'general_user_attr_dropdown'),
             "There is present $assignedAttribute attribute, but shouldn't");
-        $this->productHelper()->verifyProductInfo($productDataInitial, array($customSetData['assigned_attribute']));
+        $this->productHelper()->verifyProductInfo($productDataInitial);
         $this->saveForm('save');
         $this->assertMessagePresent('success', 'success_saved_product');
     }
@@ -176,7 +176,7 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $this->addParameter('attributeCodeDropdown', $assignedAttribute);
         $this->assertFalse($this->controlIsPresent('dropdown', 'general_user_attr_dropdown'),
             "There is present $assignedAttribute attribute, but shouldn't");
-        $this->productHelper()->verifyProductInfo($productDataInitial, array($customSetData['assigned_attribute']));
+        $this->productHelper()->verifyProductInfo($productDataInitial);
         $this->saveForm('save');
         $this->assertMessagePresent('success', 'success_saved_product');
     }
@@ -212,8 +212,8 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
                 'general_configurable_attribute_title' => $customSetData['attributeName'],
                 'general_configurable_data' => $this->loadDataSet('Product', 'general_configurable_data',
                     array(
-                        'general_sku' => $customSetData['productSku'],
-                        'general_attribute_value' => $customSetData['attributeValue']
+                        'associated_sku' => $customSetData['productSku'],
+                        'associated_attribute_value' => $customSetData['attributeValue']
                     )
                 )
             )

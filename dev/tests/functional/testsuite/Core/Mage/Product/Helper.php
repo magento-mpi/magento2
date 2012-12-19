@@ -384,10 +384,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 }
                 break;
             case 'bundle_items':
-                $this->fillBundleItemsTab($tabData);
+                $this->fillBundleItemsTab($tabData['bundle_items_data']);
                 break;
             case 'downloadable_information':
-                $this->fillDownloadableInformationTab($tabData);
+                $this->fillDownloadableInformationTab($tabData['downloadable_information_data']);
                 break;
             default:
                 $this->openTab($tabName);
@@ -583,6 +583,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $attributesUrl = urlencode(base64_encode(implode(',', $attributesId)));
         $this->addParameter('attributesUrl', $attributesUrl);
         $this->clickButton('generate_product_variations');
+        $this->waitForControlVisible('fieldset', 'variations_matrix_grid');
     }
 
     /**

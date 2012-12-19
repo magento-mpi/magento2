@@ -130,7 +130,8 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData, 'simple', false);
         $this->openTab('general');
-        $this->fillField('general_categories', $categories['newRoot']['category']);
+        $element = $this->waitForControlEditable(self::FIELD_TYPE_INPUT, 'general_categories', 10);
+        $element->value($categories['newRoot']['category']);
         //Verifying
         $this->waitForElementEditable($this->_getControlXpath('link', 'selected_category'));
     }

@@ -271,21 +271,21 @@ associated_grouped_data: &associatedProductsGroupedData
 #*****************************************************
 #* Associated Products Data for Configurable Product *
 #*****************************************************
-general_attributes: &confirurableAttributesValues
+associated_attributes: &confirurableAttributesValues
     attribute_1:
-        general_attribute_name: %attribute_name_1%
-        general_attribute_value: %attribute_value_1%
+        associated_attribute_name: %attribute_name_1%
+        associated_attribute_value: %attribute_value_1%
     attribute_2:
-        general_attribute_name: %attribute_name_2%
-        general_attribute_value: %attribute_name_2%
+        associated_attribute_name: %attribute_name_2%
+        associated_attribute_value: %attribute_name_2%
 
 general_configurable: &configurableAssociatedProduct1
-    general_product_name: %noValue%
-    general_price: %noValue%
-    general_sku: %noValue%
-    general_quantity: %noValue%
-    general_weight: %noValue%
-    general_attributes: *confirurableAttributesValues
+    associated_product_name: %noValue%
+    associated_price: %noValue%
+    associated_sku: %noValue%
+    associated_quantity: %noValue%
+    associated_weight: %noValue%
+    associated_attributes: *confirurableAttributesValues
 
 general_configurable_data: &associatedProductsConfigurableData
     configurable_1: *configurableAssociatedProduct1

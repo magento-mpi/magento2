@@ -308,8 +308,8 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
                 'general_configurable_attribute_title' => $data['attributeName'],
                 'general_configurable_data' => $this->loadDataSet('Product', 'general_configurable_data',
                     array(
-                        'general_sku' => $data['productSku'],
-                        'general_attribute_value' => $data['attributeValue']
+                        'associated_sku' => $data['productSku'],
+                        'associated_attribute_value' => $data['attributeValue']
                     )
                 )
             )
@@ -398,8 +398,8 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
                 'general_configurable_attribute_title' => $data['attributeName'],
                 'general_configurable_data' => $this->loadDataSet('Product', 'general_configurable_data',
                     array(
-                        'general_sku' => $data['productSku'],
-                        'general_attribute_value' => $data['attributeValue']
+                        'associated_sku' => $data['productSku'],
+                        'associated_attribute_value' => $data['attributeValue']
                     )
                 )
             )
@@ -445,8 +445,8 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
                 'general_configurable_attribute_title' => $data['attributeName'],
                 'general_configurable_data' => $this->loadDataSet('Product', 'general_configurable_data',
                     array(
-                        'general_sku' => $data['productSku'],
-                        'general_attribute_value' => $data['attributeValue']
+                        'associated_sku' => $data['productSku'],
+                        'associated_attribute_value' => $data['attributeValue']
                     )
                 )
             )
@@ -486,8 +486,8 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
                 'general_configurable_attribute_title' => $data['attributeName'],
                 'general_configurable_data' => $this->loadDataSet('Product', 'general_configurable_data',
                     array(
-                        'general_sku' => $data['productSku'],
-                        'general_attribute_value' => $data['attributeValue']
+                        'associated_sku' => $data['productSku'],
+                        'associated_attribute_value' => $data['attributeValue']
                     )
                 )
             )
