@@ -195,25 +195,33 @@ new_product:
                                     xpath: //div[@id='product-variations-matrix']
                                     checkboxes:
                                         include_variation: //tbody/tr[%rowNum%]//input[@name='associated_product_ids[]']
-                                        assigned_product: //tbody/tr[contains(., '%productSku%') and %attributeSearch%]//input[@checked='checked']
+                                        assigned_product: //tbody/tr[td/text()='%productSku%'][%attributeSearch%]//input[@checked='checked']
                                     pageelements:
                                         variation_line: //tbody/tr
                                         attribute_header: //thead//th[text()='%attributeTitle%')]
                                     buttons:
-                                        choose: //tbody/tr[%rowNum%]//button[@class='choose-product']
+                                        choose: //tbody/tr[%attributeSearch%]//button[@class='choose-product']
                                     fields:
-                                        variation_name: //tbody/tr[%attributeSearch%]//td[@class='associated-matrix-product-name']/input
-                                        variation_price: //tbody/tr[%attributeSearch%]//td[@class='associated-matrix-product-price']/input
-                                        variation_sku: //tbody/tr[%attributeSearch%]//td[@class='associated-matrix-product-sku']/input
-                                        variation_qty: //tbody/tr[%attributeSearch%]//td[@class='associated-matrix-product-qty']/input
-                                        variation_weight: //tbody/tr[%attributeSearch%]//td[@class='associated-matrix-product-weight']/input
+                                        associated_product_name: //tbody/tr[%attributeSearch%]//input[contains(@name,'[name]')]
+                                        associated_price: //tbody/tr[%attributeSearch%]//input[contains(@name,'[price]')]
+                                        associated_sku: //tbody/tr[%attributeSearch%]//input[contains(@name,'[sku]')]
+                                        associated_quantity: //tbody/tr[%attributeSearch%]//input[contains(@name,'[qty]')]
+                                        associated_weight: //tbody/tr[%attributeSearch%]//input[contains(@name,'[weight]')]
                                     messages:
                                         required_field: //*[contains(@for,'create_matrix_product') and contains(@for,'%field%')]
                             -
                                 select_associated_product:
                                     xpath: //div[div/span='Select Associated Product']
+                                    links:
+                                        close_select_associated_product: //a[span='close']
                                     pageelements:
-                                        sku_cell: //td[@class='associated-product-sku'][normalize-space(text())='%productSku%']
+                                        associated_product_id: //td[normalize-space(@class)='associated-product-id']
+                                        associated_product_name: //td[normalize-space(@class)='associated-product-name']
+                                        associated_price: //td[contains(@class,'associated-product-price')]
+                                        associated_sku: //td[normalize-space(@class)='associated-product-sku']
+                                        associated_quantity: //td[normalize-space(@class)='associated-product-qty']
+                                        associated_inventory: //td[6]
+                                        associated_weight: //td[normalize-space(@class)='associated-product-weight']
                 -
                     prices: &pricesTab
                         xpath: //a[@title='Prices']

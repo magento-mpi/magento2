@@ -18,9 +18,9 @@
  */
 class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
 {
-    public $productTabs = array('general', 'prices', 'meta_information', 'images', 'recurring_profile', 'design',
-                                'gift_options', 'inventory', 'websites', 'related', 'up_sells', 'cross_sells',
-                                'custom_options', 'bundle_items', 'associated', 'downloadable_information');
+    public $productTabs = array('prices', 'meta_information', 'images', 'recurring_profile', 'design', 'gift_options',
+                                'inventory', 'websites', 'related', 'up_sells', 'cross_sells', 'custom_options',
+                                'bundle_items', 'associated', 'downloadable_information', 'general');
 
     #**************************************************************************************
     #*                                                    Frontend Helper Methods         *
@@ -451,20 +451,26 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     public function fillGeneralTab(array $generalTab)
     {
         $this->openTab('general');
-        if (isset($generalTab['general_configurable_attribute_title'])) {
-            $this->fillConfigurableSettings($generalTab['general_configurable_attribute_title']);
-            unset($generalTab['general_configurable_attribute_title']);
-        }
-        if (isset($generalTab['general_configurable_data'])) {
-            $this->assignConfigurableVariations($generalTab['general_configurable_data']);
-            unset($generalTab['general_configurable_data']);
-        }
+        $this->fillUserAttributesOnTab($generalTab, 'general');
         if (isset($generalTab['general_categories'])) {
             $this->selectProductCategories($generalTab['general_categories']);
             unset($generalTab['general_categories']);
         }
+        if (isset($generalTab['general_configurable_attribute_title'])) {
+            $attributeTitle = $generalTab['general_configurable_attribute_title'];
+            unset($generalTab['general_configurable_attribute_title']);
+        }
+        if (isset($generalTab['general_configurable_data'])) {
+            $configurableData = $generalTab['general_configurable_data'];
+            unset($generalTab['general_configurable_data']);
+        }
         $this->fillTab($generalTab, 'general');
-        $this->fillUserAttributesOnTab($generalTab, 'general');
+        if (isset($attributeTitle)) {
+            $this->fillConfigurableSettings($attributeTitle);
+        }
+        if (isset($configurableData)) {
+            $this->assignConfigurableVariations($configurableData);
+        }
     }
 
     /**
@@ -617,18 +623,67 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function assignConfigurableVariations(array $assignData)
     {
-        $this->markTestIncomplete('@TODO - implement assignConfigurableVariations');
         if (!$this->controlIsVisible('fieldset', 'variations_matrix_grid')) {
             $this->fail('Product variations grid is not present on the page');
         }
-        $attributes = $this->getConfigurableVariationsData();
-        foreach ($assignData as $variation) {
-            if (isset($variation['associated_attributes'])) {
-                foreach ($variation['associated_attributes'] as $attribute) {
-
-                }
+        $variationTable = $this->_getControlXpath('fieldset', 'variations_matrix_grid');
+        $headRowNames = $this->getTableHeadRowNames($variationTable);
+        foreach ($assignData as $assignProduct) {
+            if (!isset($assignProduct['associated_attributes'])) {
+                $this->fail('Associated attributes data is required for product selection');
+            }
+            $attributeData = $assignProduct['associated_attributes'];
+            unset($assignProduct['associated_attributes']);
+            //Define and add param that clarifies what a line in table will be use
+            $param = $this->formAssignConfigurableParam($attributeData, $headRowNames);
+            $this->addParameter('attributeSearch', $param);
+            $trLocator = $this->formSearchXpath($assignProduct, "//tbody/tr");
+            //If product is selected
+            if ($this->elementIsPresent($variationTable . $trLocator . "[$param]")) {
+                return;
+            }
+            //If product is not selected
+            $productTable = $this->_getControlXpath('fieldset', 'select_associated_product');
+            $this->clickButton('choose', false);
+            $this->waitForElementVisible($productTable);
+            $param = $this->formAssignConfigurableParam($attributeData, $this->getTableHeadRowNames($productTable));
+            $isProductExist = $this->elementIsPresent($productTable . $trLocator . "[$param]");
+            if ($isProductExist) {
+                //if product created
+                $isProductExist->click();
+            } else {
+                //fill data for new product
+                $this->clickControl('link', 'close_select_associated_product', false);
+                $this->fillFieldset($assignProduct, 'variations_matrix_grid');
             }
         }
+    }
+
+    /**
+     * Define parameter that clarifies what a line in table will be use
+     *
+     * @param array $attributesData
+     * @param array $tableHeadNames
+     *
+     * @return string
+     */
+    public function formAssignConfigurableParam(array $attributesData, array $tableHeadNames)
+    {
+        $data = array();
+        foreach ($attributesData as $assignAttribute) {
+            $lineParameter = 'td';
+            if (isset($assignAttribute['associated_attribute_name'])) {
+                $rowId = array_search($assignAttribute['associated_attribute_name'], $tableHeadNames);
+                $lineParameter .= '[' . ($rowId + 1) . ']';
+
+            }
+            if (isset($assignAttribute['associated_attribute_value'])) {
+                $lineParameter .= "[normalize-space(text())='" . $assignAttribute['associated_attribute_value'] . "']";
+            }
+            $data[] = $lineParameter;
+        }
+
+        return implode(' and ', $data);
     }
 
     /**
@@ -1393,11 +1448,17 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order',
             array('general_configurable_attribute_title' => $attrTitle,
                   'general_categories'                   => $returnCategory['path']),
+            //            array('associated_1'      => $simple['general_sku'], 'attribute_name_1' => $attrTitle,
+            //                  'attribute_value_1' => $configurableOptions[0], 'associated_2' => $virtual['general_sku'],
+            //                  'attribute_name_2'  => $attrTitle, 'attribute_value_2' => $configurableOptions[1],
+            //                  'associated_3'      => $download['general_sku'], 'attribute_name_3' => $attrTitle,
+            //                  'attribute_value_3' => $configurableOptions[2]));
             array('associated_1'      => $simple['general_sku'], 'attribute_name_1' => $attrTitle,
-                  'attribute_value_1' => $configurableOptions[0], 'associated_2' => $virtual['general_sku'],
-                  'attribute_name_2'  => $attrTitle, 'attribute_value_2' => $configurableOptions[1],
+                  'attribute_value_1' => $attrData['option_1']['admin_option_name'],
+                  'associated_2'      => $virtual['general_sku'], 'attribute_name_2' => $attrTitle,
+                  'attribute_value_2' => $attrData['option_2']['admin_option_name'],
                   'associated_3'      => $download['general_sku'], 'attribute_name_3' => $attrTitle,
-                  'attribute_value_3' => $configurableOptions[2]));
+                  'attribute_value_3' => $attrData['option_3']['admin_option_name']));
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
         $this->assertMessagePresent('success', 'success_saved_attribute');

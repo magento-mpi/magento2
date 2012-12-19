@@ -392,14 +392,12 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $simple = $this->loadDataSet('Product', 'simple_product_required');
         $simple['general_user_attr']['dropdown'][$attrData['attribute_code']] =
             $attrData['option_1']['admin_option_name'];
+        $associateData = $this->loadDataSet('Product', 'general_configurable_data',
+            array('associated_sku'             => $simple['general_sku'],
+                  'associated_attribute_value' => $attrData['option_1']['admin_option_name']));
         $configurable = $this->loadDataSet('Product', 'configurable_product_required',
-            array('general_configurable_attribute_title' => $attrData['admin_title']));
-        $configurable['general_configurable_data'] = $this->loadDataSet('Product', 'general_configurable_data',
-            array(
-                'associated_sku' => $simple['general_sku'],
-                'associated_attribute_value' => $attrData['option_1']['admin_option_name']
-            )
-        );
+            array('general_configurable_attribute_title' => $attrData['admin_title'],
+                  'general_configurable_data'            => $associateData));
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $configurable['general_sku']));
         //Steps
@@ -431,14 +429,12 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $virtual = $this->loadDataSet('Product', 'virtual_product_required');
         $virtual['general_user_attr']['dropdown'][$attrData['attribute_code']] =
             $attrData['option_2']['admin_option_name'];
+        $associateData = $this->loadDataSet('Product', 'general_configurable_data',
+            array('associated_sku'             => $virtual['general_sku'],
+                  'associated_attribute_value' => $attrData['option_2']['admin_option_name']));
         $configurable = $this->loadDataSet('Product', 'configurable_product_required',
-            array('general_configurable_attribute_title' => $attrData['admin_title']));
-        $configurable['general_configurable_data'] = $this->loadDataSet('Product', 'general_configurable_data',
-            array(
-                'associated_sku' => $virtual['general_sku'],
-                'associated_attribute_value' => $attrData['option_2']['admin_option_name']
-            )
-        );
+            array('general_configurable_attribute_title' => $attrData['admin_title'],
+                  'general_configurable_data'            => $associateData));
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $configurable['general_sku']));
         //Steps
@@ -470,14 +466,12 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $download = $this->loadDataSet('Product', 'downloadable_product_required');
         $download['general_user_attr']['dropdown'][$attrData['attribute_code']] =
             $attrData['option_3']['admin_option_name'];
+        $associateData = $this->loadDataSet('Product', 'general_configurable_data',
+            array('associated_sku'             => $download['general_sku'],
+                  'associated_attribute_value' => $attrData['option_3']['admin_option_name']));
         $configurable = $this->loadDataSet('Product', 'configurable_product_required',
-            array('general_configurable_attribute_title' => $attrData['admin_title']));
-        $configurable['general_configurable_data'] = $this->loadDataSet('Product', 'general_configurable_data',
-            array(
-                'associated_sku' => $download['general_sku'],
-                'associated_attribute_value' => $attrData['option_3']['admin_option_name']
-            )
-        );
+            array('general_configurable_attribute_title' => $attrData['admin_title'],
+                  'general_configurable_data'            => $associateData));
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $configurable['general_sku']));
         //Steps

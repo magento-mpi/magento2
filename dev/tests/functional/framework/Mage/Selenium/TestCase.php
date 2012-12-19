@@ -2866,7 +2866,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function _prepareDataForSearch(array $data, $checkFields = array(self::FIELD_TYPE_DROPDOWN => 'website'))
     {
         foreach ($checkFields as $fieldType => $fieldName) {
-            if (array_key_exists($fieldName, $data) && !$this->controlIsPresent($fieldType, $fieldName)) {
+            if (array_key_exists($fieldName, $data) && !$this->controlIsVisible($fieldType, $fieldName)) {
                 unset($data[$fieldName]);
             }
         }
@@ -2925,12 +2925,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * Forming xpath that contains the data to look up
      *
      * @param array $data Array of data to look up
+     * @param string $trLocator
      *
      * @return string
      */
-    public function formSearchXpath(array $data)
+    public function formSearchXpath(array $data, $trLocator = "//table[@class='data']/tbody/tr")
     {
-        $trLocator = "//table[@class='data']/tbody/tr";
         foreach ($data as $key => $value) {
             if (!preg_match('/_from/', $key) && !preg_match('/_to/', $key) && !is_array($value)) {
                 if (strpos($value, "'")) {
@@ -3994,7 +3994,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @return bool
      * @throws RuntimeException
      */
-    public function waitForPageToLoad($timeout = NULL)
+    public function waitForPageToLoad($timeout = null)
     {
         if (is_null($timeout)) {
             $timeout = $this->_browserTimeout;

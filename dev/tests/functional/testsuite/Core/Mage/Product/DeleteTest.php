@@ -122,21 +122,19 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
         $associated = $this->loadDataSet('Product', $type . '_product_required');
         $associated['general_user_attr']['dropdown'][$attrData['attribute_code']] =
             $attrData['option_1']['admin_option_name'];
-        $configPr = $this->loadDataSet('Product', 'configurable_product_required',
-            array('general_configurable_attribute_title' => $attrData['admin_title']));
-        $configPr['general_configurable_data'] = $this->loadDataSet('Product', 'general_configurable_data',
-            array(
-                'associated_sku' => $associated['general_sku'],
-                'associated_attribute_value' => $attrData['option_1']['admin_option_name']
-            )
-        );
+        $associateData = $this->loadDataSet('Product', 'general_configurable_data',
+            array('associated_sku'             => $associated['general_sku'],
+                  'associated_attribute_value' => $attrData['option_1']['admin_option_name']));
+        $configurable = $this->loadDataSet('Product', 'configurable_product_required',
+            array('general_configurable_attribute_title' => $attrData['admin_title'],
+                  'general_configurable_data'            => $associateData));
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $associated['general_sku']));
         //Steps
         $this->productHelper()->createProduct($associated, $type);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
-        $this->productHelper()->createProduct($configPr, 'configurable');
+        $this->productHelper()->createProduct($configurable, 'configurable');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps

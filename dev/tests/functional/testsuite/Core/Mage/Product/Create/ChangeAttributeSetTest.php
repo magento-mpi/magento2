@@ -207,27 +207,23 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
     public function forConfigurableDuringCreation($customSetData)
     {
         //Data
-        $configurableProduct = $this->loadDataSet('Product', 'configurable_product_visible', array(
-                'product_attribute_set' => $customSetData['product_attribute_set'],
-                'general_configurable_attribute_title' => $customSetData['attributeName'],
-                'general_configurable_data' => $this->loadDataSet('Product', 'general_configurable_data',
-                    array(
-                        'associated_sku' => $customSetData['productSku'],
-                        'associated_attribute_value' => $customSetData['attributeValue']
-                    )
-                )
-            )
-        );
+        $associateData = $this->loadDataSet('Product', 'general_configurable_data',
+            array('associated_sku'             => $customSetData['productSku'],
+                  'associated_attribute_value' => $customSetData['attributeValue']));
+        $configurable = $this->loadDataSet('Product', 'configurable_product_visible',
+            array('product_attribute_set'                => $customSetData['product_attribute_set'],
+                  'general_configurable_attribute_title' => $customSetData['attributeName'],
+                  'general_configurable_data'            => $associateData));
         $newAttributeSet = $customSetData['product_attribute_set'];
         //Steps
         $this->productHelper()->selectTypeProduct('configurable');
         $this->productHelper()->changeAttributeSet($newAttributeSet);
-        $this->productHelper()->fillProductInfo($configurableProduct);
+        $this->productHelper()->fillProductInfo($configurable);
         //Verifying
         $this->assertFalse($this->controlIsVisible('button', 'change_attribute_set'));
         $this->saveForm('save');
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->openProduct(array('sku' => $configurableProduct['general_sku']));
-        $this->productHelper()->verifyProductInfo($configurableProduct);
+        $this->productHelper()->openProduct(array('sku' => $configurable['general_sku']));
+        $this->productHelper()->verifyProductInfo($configurable);
     }
 }

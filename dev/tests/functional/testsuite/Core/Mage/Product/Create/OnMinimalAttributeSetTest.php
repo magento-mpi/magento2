@@ -97,12 +97,9 @@ class Core_Mage_Product_Create_OnMinimalAttributeSetTest extends Mage_Selenium_T
                 break;
             case 'configurable':
                 $productData = $this->loadDataSet('Product', $productType . '_product_minimal',
-                    array(
-                        'general_configurable_attribute_title' => $testData['attribute'],
-                        'associated_sku' => $testData['simple_sku'],
-                        'associated_attribute_value' => $testData['attributeValue']
-                    )
-                );
+                    array('general_configurable_attribute_title' => $testData['attribute'],
+                          'associated_sku'                       => $testData['simple_sku'],
+                          'associated_attribute_value'           => $testData['attributeValue']));
                 break;
             case 'fixed_bundle':
             case 'dynamic_bundle':
