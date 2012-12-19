@@ -13,10 +13,12 @@
  */
 class Mage_DesignEditor_Model_State
 {
-    /**
-     * Name of layout class that will be used as main layout
+    /**#@+
+     * Name of layout classes that will be used as main layout
      */
-    const LAYOUT_CLASS_NAME = 'Mage_DesignEditor_Model_Layout';
+    const LAYOUT_DESIGN_CLASS_NAME = 'Mage_DesignEditor_Model_Layout';
+    const LAYOUT_NAVIGATION_CLASS_NAME = 'Mage_Core_Model_Layout';
+    /**#@-*/
 
     /**#@+
      * Url model classes that will be used instead of Mage_Core_Model_Url in different vde modes
@@ -28,8 +30,8 @@ class Mage_DesignEditor_Model_State
     /**#@+
      * Import behaviors
      */
-    const MODE_DESIGN     = 0;
-    const MODE_NAVIGATION = 1;
+    const MODE_DESIGN     = 'design';
+    const MODE_NAVIGATION = 'navigation';
     /**#@-*/
 
     /**
@@ -99,18 +101,27 @@ class Mage_DesignEditor_Model_State
 
         $this->_backendSession->setData('vde_current_mode', $mode);
         $this->_injectUrlModel($mode);
-        $this->_injectLayout($areaCode);
+        $this->_injectLayout($mode, $areaCode);
         $this->_disableCache();
     }
 
     /**
      * Create layout instance that will be used as main layout for whole system
      *
+     * @param string $mode
      * @param string $areaCode
      */
-    protected function _injectLayout($areaCode)
+    protected function _injectLayout($mode, $areaCode)
     {
-        $this->_layoutFactory->createLayout(array('area' => $areaCode), self::LAYOUT_CLASS_NAME);
+        switch ($mode) {
+            case self::MODE_DESIGN:
+                $this->_layoutFactory->createLayout(array('area' => $areaCode), self::LAYOUT_DESIGN_CLASS_NAME);
+                break;
+            case self::MODE_NAVIGATION:
+            default:
+            $this->_layoutFactory->createLayout(array('area' => $areaCode), self::LAYOUT_NAVIGATION_CLASS_NAME);
+                break;
+        }
     }
 
     /**

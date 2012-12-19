@@ -125,7 +125,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
 
         $this->_backendSession->expects($this->once())
             ->method('setData')
-            ->with('vde_current_mode', 0);
+            ->with('vde_current_mode', Mage_DesignEditor_Model_State::MODE_DESIGN);
 
         $this->_urlModelFactory->expects($this->once())
             ->method('replaceClassName')
@@ -174,7 +174,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
 
         $this->_backendSession->expects($this->at(2))
             ->method('setData')
-            ->with('vde_current_mode', '1');
+            ->with('vde_current_mode', Mage_DesignEditor_Model_State::MODE_NAVIGATION);
 
         $this->_urlModelFactory->expects($this->once())
             ->method('replaceClassName')
@@ -182,7 +182,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
 
         $this->_layoutFactory->expects($this->once())
             ->method('createLayout')
-            ->with(array('area' => self::AREA_CODE), 'Mage_DesignEditor_Model_Layout');
+            ->with(array('area' => self::AREA_CODE), 'Mage_Core_Model_Layout');
 
         $this->_model->update(self::AREA_CODE, $request, $controller);
     }
