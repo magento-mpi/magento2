@@ -137,7 +137,7 @@
         _submit: function(e, data) {
             this._rollback();
             this._beforeSubmit(e.type, data);
-            this.element.triggerHandler('submit');
+            this.element.trigger('submit');
         }
     });
 })(jQuery);

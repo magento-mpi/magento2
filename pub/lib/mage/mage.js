@@ -66,9 +66,14 @@
      */
     function _initComponent(name, args) {
         /*jshint validthis: true */
+        // create a complete copy of arguments
+        args = $.map($.makeArray(args), function(arg) {
+            return $.isArray(arg) ? [arg.slice()] :
+                $.isPlainObject(arg) ? $.extend(true, {}, arg) : arg;
+        });
         var init = {
             name: name,
-            args: $.makeArray(args),
+            args: args,
             resources: (_resources[name] || []).slice()
         };
         // Through event-listener 3-rd party developer can modify options and list of resources
@@ -96,7 +101,7 @@
      * @private
      */
     function _getInitData(elem) {
-        /*jshint eval: true */
+        /*jshint evil:true*/
         var inits = $(elem).data('mage-init') || {};
         // in case it's not well-formed JSON inside data attribute, evaluate it manually
         if (typeof inits === 'string') {
@@ -115,7 +120,7 @@
      * @private
      */
     function _init(elem) {
-        $('[data-mage-init]', elem).mage();
+        $(elem).add('[data-mage-init]', elem).mage();
     }
 
     $.extend($.mage, {
@@ -128,7 +133,7 @@
             /**
              * Init components inside of dynamically updated elements
              */
-            $('body').on('contentUpdated', function(e){
+            $('body').on('contentUpdated', function(e) {
                 _init(e.target);
             });
             return this;
@@ -182,9 +187,9 @@
                 handler = selector;
                 selector = null;
             }
-            $(this).bind(component + 'init', function(e, init) {
+            $(this).on(component + 'init', function(e, init) {
                 if (!selector || $(e.target).is(selector)) {
-                    handler.apply(init, init.args || $.makeArray(init.options));
+                    handler.apply(init, init.args);
                 }
             });
             return this;

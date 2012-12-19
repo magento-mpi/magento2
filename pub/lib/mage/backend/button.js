@@ -30,7 +30,7 @@
         _bind: function() {
             this.element
                 .off('click.button')
-                .on('click.button', $.proxy(function(e) {
+                .on('click.button', $.proxy(function() {
                     $(this.target).trigger(this.event, [this.eventData]);
                 }, this.options));
         }
