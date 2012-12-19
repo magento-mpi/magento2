@@ -8,16 +8,25 @@
  */
 /*jshint evil:true browser:true jquery:true*/
 
-(function ($, undefined) {
+(function($, undefined) {
+    "use strict";
     $.widget('mage.priceOption', {
         options: {
             productCustomSelector: '.product-custom-option',
             mapPopupPrice: '#map-popup-price',
-            prices: {}
+            prices: {},
+            priceTemplate: '<span class="price">${formattedPrice}</span>'
         },
-        _create: function () {
+        _create: function() {
+
+            this.element.on('changePrice', $.proxy(function(e, data) {
+                this.changePrice(data.config, data.price);
+            }, this)).on('reloadPrice', $.proxy(function() {
+                this.reloadPrice();
+            }, this));
+
             $(this.options.productCustomSelector).each(
-                $.proxy(function (key, value) {
+                $.proxy(function(key, value) {
                     var element = $(value),
                         inputs = element.filter(":input"),
                         isNotCheckboxRadio = inputs.is(':not(":checkbox, :radio")');
@@ -25,7 +34,7 @@
                 }, this)
             );
         },
-        _formatCurrency: function (price, format, showPlus) {
+        _formatCurrency: function(price, format, showPlus) {
             var precision = isNaN(format.requiredPrecision = Math.abs(format.requiredPrecision)) ? 2 : format.requiredPrecision,
                 integerRequired = isNaN(format.integerRequired = Math.abs(format.integerRequired)) ? 1 : format.integerRequired,
                 decimalSymbol = format.decimalSymbol === undefined ? "," : format.decimalSymbol,
@@ -57,20 +66,20 @@
                 pattern = format.pattern.indexOf('{sign}') < 0 ? s + format.pattern : format.pattern.replace('{sign}', s);
             return pattern.replace('%s', r).replace(/^\s\s*/, '').replace(/\s\s*$/, '');
         },
-        changePrice: function (key, price) {
+        changePrice: function(key, price) {
             this.options.prices[key] = price;
         },
-        _getOptionPrices: function () {
+        _getOptionPrices: function() {
             var price = 0,
                 oldPrice = 0;
-            $.each(this.options.prices, function (key, pair) {
+            $.each(this.options.prices, function(key, pair) {
                 price += parseFloat(pair.price);
                 oldPrice += parseFloat(pair.oldPrice);
             });
             var result = [price, oldPrice];
             return result;
         },
-        reloadPrice: function () {
+        reloadPrice: function() {
             if (this.options.priceConfig) {
                 var skipIds = [],
                     priceSelectors = [
@@ -86,14 +95,14 @@
                         includeTax: 0,
                         oldPrice: 0,
                         price: 0,
-                        update: function (price, excludeTax, includeTax, oldPrice) {
+                        update: function(price, excludeTax, includeTax, oldPrice) {
                             this.price += price;
                             this.excludeTax += excludeTax;
                             this.includeTax += includeTax;
                             this.oldPrice += oldPrice;
                         }
                     };
-                $(this.options.productCustomSelector).each($.proxy(function (key, elements) {
+                $(this.options.productCustomSelector).each($.proxy(function(key, elements) {
                     var element = $(elements);
                     var optionIdStartIndex, optionIdEndIndex;
                     if (element.is(":file")) {
@@ -128,7 +137,7 @@
                                 skipIds[optionId] = optionId;
                             }
                         } else if (element.is('select')) {
-                            element.find(':selected').each(function () {
+                            element.find(':selected').each(function() {
                                 if (configOptions[$(this).val()]) {
                                     optionPrice.update(configOptions[$(this).val()].price,
                                         configOptions[$(this).val()].excludeTax,
@@ -156,7 +165,7 @@
                     productPrice: optionPrice.price + this.options.priceConfig.productPrice
                 };
                 // Loop through each priceSelector and update price
-                $.each(priceSelectors, $.proxy(function (index, value) {
+                $.each(priceSelectors, $.proxy(function(index, value) {
                     var priceElement = $(value),
                         clone = $(value + this.options.priceConfig.idSuffix);
                     var isClone = false;
@@ -182,11 +191,11 @@
                         }
 
                         price = price + getOptionPrices[0];
-                        var priceHtml = "<span class='price'>" + this._formatCurrency(price, this.options.priceConfig.priceFormat) + "</span>";
-                        priceElement.html(priceHtml);
+                        var priceHtml = $.tmpl(this.options.priceTemplate, {'formattedPrice': this._formatCurrency(price, this.options.priceConfig.priceFormat)});
+                        priceElement.html(priceHtml[0].outerHTML);
                         // If clone exists, update clone price as well
                         if (!isClone && clone.length === 1) {
-                            clone.html(priceHtml);
+                            clone.html(priceHtml[0].outerHTML);
                         }
                         $(this.options.mapPopupPrice).find(value).html(priceHtml);
                     }

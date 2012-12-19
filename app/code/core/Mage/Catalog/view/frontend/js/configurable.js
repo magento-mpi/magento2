@@ -8,14 +8,14 @@
  */
 /*jshint browser:true jquery:true*/
 
-(function ($, undefined) {
+(function($, undefined) {
     $.widget('mage.configurable', {
         options: {
             superSelector: '.super-attribute-select',
             state: {}
         },
 
-        _create: function () {
+        _create: function() {
             // Initial setting of various option values
             this._initializeOptions();
 
@@ -106,7 +106,7 @@
          * @private
          */
         _fillState: function() {
-            $.each(this.options.settings, $.proxy(function (index, element) {
+            $.each(this.options.settings, $.proxy(function(index, element) {
                 var attributeId = element.id.replace(/[a-z]*/, '');
                 if (attributeId && this.options.spConfig.attributes[attributeId]) {
                     element.config = this.options.spConfig.attributes[attributeId];
@@ -145,7 +145,7 @@
          */
         _configureForValues: function() {
             if (this.options.values) {
-                this.options.settings.each($.proxy(function (index, element) {
+                this.options.settings.each($.proxy(function(index, element) {
                     var attributeId = element.attributeId;
                     element.value = (typeof(this.options.values[attributeId]) === 'undefined') ?
                         '' :
@@ -364,8 +364,7 @@
                     oldPrice += parseFloat(selected.config.oldPrice);
                 }
             }
-            this.options.priceOptionInstance.changePrice('config', {'price': price, 'oldPrice': oldPrice});
-            this.options.priceOptionInstance.reloadPrice();
+            this.element.trigger('changePrice', {'config': 'config', 'price': {'price': price, 'oldPrice': oldPrice} }).trigger('reloadPrice');
             return price;
         }
     });
