@@ -10,31 +10,29 @@
 (function($) {
     "use strict";
 
+    /**
+     * Validation rule for grouped product, with multiple qty fields,
+     * only one qty needs to have a positive integer
+     */
     $.validator.addMethod(
         "validate-grouped-qty",
         function(value, element, params) {
             var result = false;
             var total = 0;
-            $(params).find('input:text').each(function(i, e) {
-                var _e = $(e);
-                if (_e.data('validate').substring('validate-grouped-qty')) {
-                    var val = _e.val();
-                    if (val && val.length > 0) {
-                        result = true;
-                        var valInt = parseInt(val, 10) || 0;
-                        if (valInt >= 0) {
-                            total += valInt;
-                        } else {
-                            result = false;
-                            return result;
-                        }
+            $(params).find('input[data-validate*="validate-grouped-qty"]').each(function(i, e) {
+                var val = $(e).val();
+                if (val && val.length > 0) {
+                    result = true;
+                    var valInt = parseInt(val, 10) || 0;
+                    if (valInt >= 0) {
+                        total += valInt;
+                    } else {
+                        result = false;
+                        return result;
                     }
                 }
             });
-            if (result && total > 0) {
-                return true;
-            }
-            return false;
+            return result && total > 0;
         },
         'Please specify the quantity of product(s).'
     );

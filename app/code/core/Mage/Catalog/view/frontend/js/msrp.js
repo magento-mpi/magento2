@@ -10,10 +10,18 @@
 /*jshint evil:true browser:true jquery:true*/
 (function($) {
     $.widget('mage.addToCart', {
+        options: {
+            groupedProductContainer: '.grouped-items-table'
+        },
+
         _create: function() {
             $(this.options.cartButtonId).on('click', $.proxy(function() {
                 this._addToCartSubmit();
             }, this));
+
+            if (this.element.parents(this.options.groupedProductContainer).length > 0) {
+                this.options.clickUpdate = true;
+            }
 
             if (!$('#map-popup-price').html() && this.options.realPrice && !this.options.clickUpdate) {
                 $('#map-popup-price').html($(this.options.realPrice));

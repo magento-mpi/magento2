@@ -6,6 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/*jshint evil:true */
 // Temporary solution, will be replaced when plug-in "mage" will be merged to master
 (function($){
 	"use strict";

@@ -352,30 +352,35 @@ MageValidationTest.prototype.testValidateGroupedQty = function () {
     /*:DOC += <div id="div1">
      <input type="text" data-validate="{'validate-grouped-qty':'#super-product-table'}"/>
      <input type="text" data-validate="{'validate-grouped-qty':'#super-product-table'}"/>
+     <input type="text"/>
      </div>
      */
     assertFalse($.validator.methods['validate-grouped-qty'].call(this, null, null, '#div1'));
     /*:DOC += <div id="div2">
      <input type="text" data-validate="{'validate-grouped-qty':'#super-product-table'}"/>
      <input type="text" value="a" data-validate="{'validate-grouped-qty':'#super-product-table'}"/>
+     <input type="text"/>
      </div>
      */
     assertFalse($.validator.methods['validate-grouped-qty'].call(this, null, null, '#div2'));
     /*:DOC += <div id="div3">
      <input type="text" data-validate="{'validate-grouped-qty':'#super-product-table'}"/>
      <input type="text" value="-6" data-validate="{'validate-grouped-qty':'#super-product-table'}"/>
+     <input type="text"/>
      </div>
      */
     assertFalse($.validator.methods['validate-grouped-qty'].call(this, null, null, '#div3'));
     /*:DOC += <div id="div4">
      <input type="text" data-validate="{'validate-grouped-qty':'#super-product-table'}"/>
      <input type="text" value="6" data-validate="{'validate-grouped-qty':'#super-product-table'}"/>
+     <input type="text"/>
      </div>
      */
     assertTrue($.validator.methods['validate-grouped-qty'].call(this, null, null, '#div4'));
     /*:DOC += <div id="div5">
      <input type="text" value="1" data-validate="{'validate-grouped-qty':'#super-product-table'}"/>
      <input type="text" value="6" data-validate="{'validate-grouped-qty':'#super-product-table'}"/>
+     <input type="text"/>
      </div>
      */
     assertTrue($.validator.methods['validate-grouped-qty'].call(this, null, null, '#div5'));
