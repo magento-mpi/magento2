@@ -13,6 +13,8 @@
  *
  * @method Mage_Core_Model_Resource_Theme_Collection getCollection()
  * @method Mage_Backend_Block_Abstract setCollection(Mage_Core_Model_Resource_Theme_Collection $collection)
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
     extends Mage_Backend_Block_Abstract
