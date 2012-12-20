@@ -264,3 +264,31 @@ newsletter_problem_reports:
         5: Error Code
         6: Error Text
 
+#dataset for ui elements in Backups grid
+system_backup:
+    fieldset:
+        backup_grid: tablename
+    button:
+        reset:
+        search:
+        system_backup:
+        database_and_media_backup:
+        database_backup:
+        reset:
+    dropdown:
+        view:
+        select:
+        type:
+        actions:
+    field:
+        page:
+        time_from:
+        time_to:
+    headers:
+        0: ' '
+        1: Time
+        2: Name
+        3: Size, Bytes
+        4: Type
+        5: Download
+        6: Action

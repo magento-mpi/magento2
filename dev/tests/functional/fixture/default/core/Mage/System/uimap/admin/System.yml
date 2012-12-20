@@ -20,6 +20,29 @@ system_backup:
     mca: system_backup/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'system_backup/')]
     title: Backups / Tools / System / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    backup_grid:
+                        xpath: //div[@id="backupsGrid"]
+                        fields:
+                            page: //input[@name="page"]
+                            time_from: //input[@name="time[from]"]
+                            time_to: //input[@name="time[to]"]
+                        dropdowns:
+                            view: //select[@name="limit"]
+                            select: //select[@id="backupsGrid_filter_massaction"]
+                            type: //select[@id='backupsGrid_filter_type']
+                            actions: //select[@id='backupsGrid_massaction-select']
+                        buttons:
+                            submit: //button[span='Submit']
+                            reset: //button[span='Reset Filter']
+                            search: //button[span='Search']
+        buttons:
+            system_backup: //button[span='System Backup']
+            database_and_media_backup: //button[span='Database and Media Backup']
+            database_backup: //button[span='Database Backup']
 
 # Web Services: Users page
 api_user:
