@@ -10,6 +10,8 @@
  */
 class Saas_UnitPrice_Helper_FakeData extends Saas_UnitPrice_Helper_Data
 {
+    private $_config = array();
+
     /**
      * Delegate method to protected parent method to make unit testing possible
      *
@@ -20,4 +22,30 @@ class Saas_UnitPrice_Helper_FakeData extends Saas_UnitPrice_Helper_Data
     {
         return parent::_loadDefaultUnitPriceValues($product);
     }
+
+    /**
+     * Set fake config value
+     * Used to avoid usage of magento configuration in purposes of unit testing
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return Saas_UnitPrice_Helper_FakeData
+     */
+    public function setConfig($key, $value)
+    {
+        $this->_config[$key] = $value;
+        return $this;
+    }
+
+    /**
+     * Get fake config value
+     * Used to avoid usage of magento configuration in purposes of unit testing
+     *
+     * @return mixed
+     */
+    public function getConfig($key)
+    {
+        return $this->_config[$key];
+    }
 }
+

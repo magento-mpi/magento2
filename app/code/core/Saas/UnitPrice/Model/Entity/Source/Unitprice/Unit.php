@@ -21,40 +21,47 @@ class Saas_UnitPrice_Model_Entity_Source_Unitprice_Unit
 
     protected $_options;
 
+    /**
+     * Get options array
+     *
+     * @return array
+     */
     public function toOptionArray()
     {
         if (!$this->_options) {
-            $this->_options = Mage::getModel('Saas_UnitPrice_Model_Config_Source_Unitprice_Unit')->toOptionArray();
+            $this->_options = $this->_getUnitConfigSourceModel()->toOptionArray();
         }
+
         return $this->_options;
     }
 
+    /**
+     * Get options array
+     *
+     * @return array
+     */
     public function getAllOptions()
     {
         return $this->toOptionArray();
     }
 
+    /**
+     * Get attribute default value from configuration
+     *
+     * @return string
+     */
     public function getDefaultValue()
     {
-        return Mage::helper('Saas_UnitPrice_Helper_Data')
-            ->getConfig('default_' . $this->getAttribute()->getAttributeCode());
+        return $this->_getHelper()->getConfig(
+            'default_' . $this->getAttribute()->getAttributeCode()
+        );
     }
 
     /**
-     * Bugfix for Magento 1.3 - do not return the option array entry, only the label.
+     * Get attribute column settings
      *
-     * @param mixed $value
-     * @return string
+     * @return array
      */
-    public function getOptionText($value)
-    {
-        $option = parent::getOptionText($value);
-        if (is_array($option) && isset($option['label'])) {
-            $option = $option['label'];
-        }
-        return $option;
-    }
-
     public function getFlatColums()
     {
         return array($this->getAttribute()->getAttributeCode() => array(
@@ -93,12 +100,32 @@ class Saas_UnitPrice_Model_Entity_Source_Unitprice_Unit
                 array($attribute->getAttributeCode() => "IFNULL(t2.value, t1.value)")
             )
             ->where("t1.entity_type_id=?", $attribute->getEntityTypeId())
-            ->where("t1.attribute_id=?",   $attribute->getId())
-            ->where("t1.store_id=?",       0);
+            ->where("t1.attribute_id=?", $attribute->getId())
+            ->where("t1.store_id=?", 0);
 
         if ($attribute->getFlatAddChildData()) {
             $select->where("e.is_child=?", 0);
         }
         return $select;
+    }
+
+    /**
+     * Get UnitPrice data helper
+     *
+     * @return Saas_UnitPrice_Helper_Data
+     */
+    protected function _getHelper()
+    {
+        return Mage::helper('Saas_UnitPrice_Helper_Data');
+    }
+
+    /**
+     * Get Unit Configuration source model
+     *
+     * @return Saas_UnitPrice_Model_Config_Source_Unitprice_Unit
+     */
+    protected function _getUnitConfigSourceModel()
+    {
+        return Mage::getModel('Saas_UnitPrice_Model_Config_Source_Unitprice_Unit');
     }
 }
