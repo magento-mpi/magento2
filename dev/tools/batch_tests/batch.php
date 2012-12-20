@@ -15,38 +15,40 @@ $commands = array(
     'unit-static'           => array('../../tests/static/framework/tests/unit', ''),
     'unit-integration'      => array('../../tests/integration/framework/tests/unit', ''),
     'integration'           => array('../../tests/integration', ''),
-    'static'                => array('../../tests/static', ' -c phpunit-all.xml.dist'),
     'integration-integrity' => array('../../tests/integration', ' testsuite/integrity'),
-    'legacy'                => array('../../tests/static', ' testsuite/Legacy'),
+    'static-default'        => array('../../tests/static', ''),
+    'static-legacy'         => array('../../tests/static', ' testsuite/Legacy'),
+    'static-integration'    => array('../../tests/static', ' testsuite/Exemplar'),
 );
 $types = array(
-    'unit'        => array('unit', 'unit-performance', 'unit-static', 'unit-integration'),
-    'integration' => array('integration', 'integration-integrity'),
-    'static'      => array('static'),
-    'integrity'   => array('static', 'integration-integrity'),
-    'legacy'      => array('legacy'),
+    'all'             => array(), // will merge automatically, see below
+    'unit'            => array('unit', 'unit-performance', 'unit-static', 'unit-integration'),
+    'integration'     => array('integration'),
+    'integration-all' => array('integration', 'integration-integrity'),
+    'static'          => array('static-default'),
+    'static-all'      => array('static-default', 'static-legacy', 'static-integration'),
+    'integrity'       => array('static-default', 'static-legacy', 'integration-integrity'),
+    'legacy'          => array('static-legacy'),
+    'default'         => array(
+        'unit', 'unit-performance', 'unit-static', 'unit-integration', 'integration', 'static-default'
+    ),
 );
-$arguments = getopt('', array('all', 'type::'));
-if (isset($arguments['type'])) {
-    $availableTypes = array_keys($commands);
-    foreach ($availableTypes as $type) {
-        if (!in_array($type, $types[$arguments['type']])) {
-            unset($commands[$type]);
-        }
-    }
+foreach ($types as $type) {
+    $types['all'] = array_unique(array_merge($types['all'], $type));
 }
-if (isset($arguments['all'])) {
-    unset($commands['legacy']); // the static with "all" option covers it
-} else {
-    unset($commands['integration-integrity'], $commands['legacy']);
-    if (isset($commands['static'])) {
-        $commands['static'][1] = '';
-    }
+
+$arguments = getopt('', array('type::'));
+if (!isset($arguments['type'])) {
+    $arguments['type'] = 'default';
+} elseif (!isset($types[$arguments['type']])) {
+    echo "Invalid type: '{$arguments['type']}'. Available types: " . implode(', ', array_keys($types)) . "\n\n";
+    exit(1);
 }
 
 $failures = array();
-foreach ($commands as $row) {
-    list($dir, $options) = $row;
+$runCommands = $types[$arguments['type']];
+foreach ($runCommands as $key) {
+    list($dir, $options) = $commands[$key];
     $dirName = realpath(__DIR__ . '/' . $dir);
     chdir($dirName);
     $command = 'phpunit' . $options;
@@ -62,10 +64,10 @@ foreach ($commands as $row) {
 
 echo "\n" , str_repeat('-', 70), "\n";
 if ($failures) {
-    echo "\nFAILED - " . count($failures) . ' of ' . count($commands) . ":\n";
+    echo "\nFAILED - " . count($failures) . ' of ' . count($runCommands) . ":\n";
     foreach ($failures as $message) {
         echo ' - ' . $message . "\n";
     }
 } else {
-    echo "\nPASSED (" . count($commands) . ")\n";
+    echo "\nPASSED (" . count($runCommands) . ")\n";
 }
