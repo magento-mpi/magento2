@@ -179,7 +179,7 @@ class Core_Mage_Product_Create_ConfigurableWithVariations extends Mage_Selenium_
             array('general_configurable_attribute_title' => $defaultData['attribute'][0]));
         $fillVariation = $this->loadDataSet('Product', 'product_variation',
             array('variation_qty' => 12, 'variation_weight' => 12));
-        $associatedProductData = $this->loadDataSet('Product', 'associated_configurable_data',
+        $associatedProductData = $this->loadDataSet('Product', 'general_configurable_data',
             array(
                 'associated_search_sku' => $fillVariation['variation_sku'],
                 'associated_product_attribute_value' => $defaultData['matrix'][1][6]
@@ -205,7 +205,7 @@ class Core_Mage_Product_Create_ConfigurableWithVariations extends Mage_Selenium_
             $fillVariation
         );
         $this->clickButton('save');
-        $productData['associated_configurable_data'] = $associatedProductData;
+        $productData['general_configurable_data'] = $associatedProductData;
         //Verify configurable
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
@@ -232,7 +232,7 @@ class Core_Mage_Product_Create_ConfigurableWithVariations extends Mage_Selenium_
         $productData = $this->loadDataSet('Product', 'configurable_product_visible',
             array('general_configurable_attribute_title' => $defaultData['attribute'][0]));
         $fillVariation = $this->loadDataSet('Product', 'product_variation', array('variation_qty' => 12));
-        $associatedProductData = $this->loadDataSet('Product', 'associated_configurable_data',
+        $associatedProductData = $this->loadDataSet('Product', 'general_configurable_data',
             array(
                 'associated_search_sku' => $fillVariation['variation_sku'],
                 'associated_product_attribute_value' => $defaultData['matrix'][1][6]
@@ -257,7 +257,7 @@ class Core_Mage_Product_Create_ConfigurableWithVariations extends Mage_Selenium_
             $fillVariation
         );
         $this->clickButton('save');
-        $productData['associated_configurable_data'] = $associatedProductData;
+        $productData['general_configurable_data'] = $associatedProductData;
         //Verify configurable
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));

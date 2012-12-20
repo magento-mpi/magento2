@@ -1136,6 +1136,7 @@ configurable_product_required:
     prices_price: 14.95
     prices_special_price: %noValue%
     prices_tax_class: None
+    general_configurable_data: %noValue%
 
 # Product that has all needed fields set to be visible in frontend.
 configurable_product_visible:

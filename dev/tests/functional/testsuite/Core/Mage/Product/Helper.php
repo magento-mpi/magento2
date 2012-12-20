@@ -1081,7 +1081,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function getCustomOptionIdByRow($rowNum)
     {
-        $optionElements = $this->getElements('fieldset', 'custom_option_set');
+        $optionElements = $this->getControlElements('fieldset', 'custom_option_set');
         if (!isset($optionElements[$rowNum - 1])) {
             return null;
         }
