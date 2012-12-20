@@ -30,38 +30,46 @@
     <script type="text/javascript">
     //<![CDATA[
         (function ($) {
-            var importRateFormKey = $('input[name="form_key"]').val();
             $('#import_rates_file').fileupload({
                 dataType: 'json',
                 formData: {
                     isAjax: 'true',
-                    form_key: importRateFormKey
+                    form_key: FORM_KEY
                 },
                 sequentialUploads: false,
                 done: function(e, data) {
-                    var messageContainer = $('#import-rate-errors');
                     if (data.result.success == true) {
-                        messageContainer.parent().hide();
                         updateTaxRateMultiselect(data.result);
-                        return;
                     } else {
-                        messageContainer.text(data.result.error_message);
-                        messageContainer.parent().show();
-                        return;
+                        showTaxRateImportMessage(data.result.error_message);
                     }
+                    return;
                 },
                 fail: function(e, data) {
-                    var messageContainer = $('#import-rate-errors');
-                    messageContainer.text('<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('There was an error processing your request.'); ?>');
-                    messageContainer.parent().show();
+                    showTaxRateImportMessage('<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('There was an error processing your request.'); ?>');
                     return;
                 },
                 add: function(e, data) {
+                    $('#import-rate-errors').parent().hide();
                     $(this).fileupload('process', data).done(function () {
                         data.submit();
                     });
+                    return;
                 }
             });
+
+            /**
+             * Show tax rate import error message
+             *
+             * @param message
+             */
+            var showTaxRateImportMessage = function(message)
+            {
+                var messageContainer = $('#import-rate-errors');
+                messageContainer.text(message);
+                messageContainer.parent().show();
+                return;
+            }
 
             /**
              * Refresh tax Rate Field
@@ -69,29 +77,31 @@
              * @param Array import rates request result
              */
             var updateTaxRateMultiselect = function(result) {
-                var taxRow = $('#tax_rate').parent().parent(),
-                    prev = taxRow.prev();
-                taxRow.remove();
+                var taxSection = $('#tax_rate').parent().parent(),
+                    previousSection = taxSection.prev();
+                taxSection.remove();
                 // Next variable is global for tax rule page and is used in edit tax rate pop-up
                 taxRateCollection = result.tax_rate_collection;
-                prev.after(result.tax_rate_field);
+                previousSection.after(result.tax_rate_field);
                 return;
             }
         }(jQuery));
     //]]>
     </script>
 
-    <?php endif; ?>
+
 
     <!-- Export Tax Rates -->
-    <div class="<?php if ($this->getIsReadonly()): ?>box-left<?php else: ?>box-right<?php endif; ?>">
+    <div class="box-right">
         <div class="entry-edit-head">
             <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Export Tax Rates'); ?></h4>
         </div>
         <fieldset>
             <legend><?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Export Tax Rates'); ?></legend>
-            <a href="<?php echo $this->getUrl('adminhtml/tax_rate/exportPost'); ?>"><?php echo Mage::helper('Mage_Tax_Helper_Data')->__('CSV Format Guidelines'); ?></a>
+            <a href="<?php echo $this->getUrl('adminhtml/tax_rate/exportPost'); ?>"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('CSV Format Guidelines'); ?></a>
         </fieldset>
     </div>
     <div class="clear"></div>
+
+    <?php endif; ?>
 </div>
