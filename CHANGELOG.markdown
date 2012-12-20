@@ -1,3 +1,26 @@
+2.0.0.0-dev36
+=============
+* Visual design editor refactored
+  * VDE controls moved to backend area
+  * VDE actions performed in backend area
+  * Editable region is displayed to IFrame to function as a real frontend page
+  * Inline JavaScript code is disabled in Design Mode
+  * Store selection is performed on saving instead of reviewing the theme. List of all available stores is shown during assigning the theme to a store
+  * `Design -> Edit` page divided into two tabs:
+    * "Available Themes" tab contains all available themes
+    * "My Customizations" tab contains themes customized by the store administrator and consists of area with themes assigned to stores and area with unassigned themes
+  * Added `vde` area code and `Mage_DesignEditor_Controller_Varien_Router_Standard` to handle requests from design editor
+* Added ability to use custom layout instance in controllers
+* JavaScript updates
+  * Replaced `varienTabs` class with an analogous jQuery widget
+  * Displaying of loader during AJAX requests became optional
+* Removed `dev/api-tests' directory added by mistake
+* Bug fixes
+  * Impossible to login to backend with APC enabled. Added call of `session_write_close()` in the session model destructor
+  * "Gender" customer attribute options are duplicated
+  * Unnecessary regions shown when no country is selected in `System -> Sales -> Shipping Settings -> Origin`
+  * Fixed various bugs caused by virtual themes implementation and other themes improvements
+
 2.0.0.0-dev35
 =============
 * Enhancements of System Configuration:
