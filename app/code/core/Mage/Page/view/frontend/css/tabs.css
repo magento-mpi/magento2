@@ -1,4 +1,11 @@
-/* My styles go here */
+/**
+ * {license_notice}
+ *
+ * @category    tabs style
+ * @package     mage
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 div.ui-tabs {
     padding: 0 0 20px 0;
 }
