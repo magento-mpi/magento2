@@ -83,10 +83,10 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
     /**
      * @magentoAppIsolation enabled
      * @magentoDataFixture Mage/Core/_files/store.php
-     * @magentoConfigFixture fixturestore_store design/theme/full_name default/demo_blue
      */
     public function testGetProcessedTemplate()
     {
+        $this->_setBlueThemeForFixtureStore();
         $expectedViewUrl = 'theme/frontend/default/demo_blue/en_US/Mage_Page/favicon.ico';
         $this->_model->setTemplateText('{{view url="Mage_Page::favicon.ico"}}');
         $this->assertStringEndsNotWith($expectedViewUrl, $this->_model->getProcessedTemplate());
@@ -94,6 +94,18 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
             'area' => 'frontend', 'store' => Mage::app()->getStore('fixturestore')->getId()
         ));
         $this->assertStringEndsWith($expectedViewUrl, $this->_model->getProcessedTemplate());
+    }
+
+    /**
+     * Set 'default/demo_blue' for the 'fixturestore' store.
+     * Application isolation is required, if a test uses this method.
+     */
+    protected function _setBlueThemeForFixtureStore()
+    {
+        $theme = Mage::getModel('Mage_Core_Model_Theme');
+        $theme->load('default/demo_blue', 'theme_path');
+        Mage::app()->getStore('fixturestore')
+            ->setConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME_ID, $theme->getId());
     }
 
     /**
@@ -112,10 +124,10 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
     /**
      * @magentoAppIsolation enabled
      * @magentoDataFixture Mage/Core/_files/store.php
-     * @magentoConfigFixture fixturestore_store design/theme/full_name default/demo_blue
      */
     public function testGetProcessedTemplateSubject()
     {
+        $this->_setBlueThemeForFixtureStore();
         $expectedViewUrl = 'theme/frontend/default/demo_blue/en_US/Mage_Page/favicon.ico';
         $this->_model->setTemplateSubject('{{view url="Mage_Page::favicon.ico"}}');
         $this->assertStringEndsNotWith($expectedViewUrl, $this->_model->getProcessedTemplateSubject(array()));
