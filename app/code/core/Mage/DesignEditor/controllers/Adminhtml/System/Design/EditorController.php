@@ -109,7 +109,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     public function launchAction()
     {
         $themeId = (int)$this->getRequest()->getParam('theme_id', $this->_getSession()->getData('theme_id'));
-        $mode = (string) $this->getRequest()->getParam('mode', Mage_DesignEditor_Model_State::MODE_DESIGN);
+        $mode = (string)$this->getRequest()->getParam('mode', Mage_DesignEditor_Model_State::MODE_DESIGN);
         /** @var $theme Mage_Core_Model_Theme */
         $theme = $this->_objectManager->create('Mage_Core_Model_Theme');
 
