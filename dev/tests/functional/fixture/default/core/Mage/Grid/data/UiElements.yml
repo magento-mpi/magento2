@@ -234,3 +234,33 @@ search_terms:
         6: Redirect
         7: Display in Suggested Terms
         8: Action
+
+#dataset for ui elements in Newsletter Problem Reports grid
+newsletter_problem_reports:
+    fieldset:
+        newsletter_problem_reports: tablename
+    button:
+        reset_filter:
+        search:
+    dropdown:
+        view:
+    field:
+        page:
+        id:
+        subscriber:
+        queue_date_start:
+        queue_date_to:
+        queue_subject:
+        error_code_from:
+        qerror_code_to:
+        error_text:
+    checkbox:
+        mass_actions:
+    headers:
+        1: ID
+        2: Subscriber
+        3: Queue Date Start
+        4: Queue Subject
+        5: Error Code
+        6: Error Text
+

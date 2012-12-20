@@ -105,9 +105,6 @@
                 <catalog module="Mage_Adminhtml">
                     <file>catalog.xml</file>
                 </catalog>
-                <catalogsearch module="Mage_Adminhtml">
-                    <file>catalogsearch.xml</file>
-                </catalogsearch>
                 <cms module="Mage_Adminhtml">
                     <file>cms.xml</file>
                 </cms>
