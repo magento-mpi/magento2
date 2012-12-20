@@ -112,4 +112,43 @@ applications:
                 uimap_path: 'frontend'
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
-    default: *m2ce
+    default: &m2ee
+    goext: &goext
+        fallbackOrderFixture: 'Saas, enterprise, default'
+        fallbackOrderHelper: 'Saas, Enterprise, Core'
+        application:
+            adminLogin: admin
+            adminPassword: 123123q
+            storeName: Store 1
+            failures:
+              tries: 2
+              sleep: 30
+            basePath: '***'
+            # overrideRoot (for our server usage only) is a code root as it's seen by browser machine
+            overrideRoot: 'D:'
+            # overrideDS (for our server usage only) is browser-side directory separator.
+            overrideDS: \
+            # download dir as it's seen by browser. We can use it in download-edit-upload sessions
+            browserDownloadDir: '***\var\testdownload'
+            # download dir as it's seen by PHP code
+            downloadDir: '***\var\testdownload'
+        areas:
+            admin:
+                url: 'http://127.0.0.1/index.php/backend/admin'
+                base_page_uimap: 'log_in_to_admin'
+                uimap_path: 'admin'
+                login: 'admin'
+                password: '123123q'
+            frontend:
+                url: 'http://127.0.0.1/index.php'
+                base_page_uimap: 'home_page'
+                uimap_path: 'frontend'
+                login: ''
+                password: ''
+                mca_preg_replace:
+                    replace_1:
+                      pattern: '|(?<=sales/billing_agreement/view/agreement/)([0-9]*)|'
+                      replacement: 'any'
+                    replace_2:
+                      pattern: '|(?<=customer/account/login/)([a-zA-Z\d\-\_\.\?\=]+)|'
+                      replacement: ''
