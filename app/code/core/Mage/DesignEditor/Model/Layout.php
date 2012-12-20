@@ -274,10 +274,6 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
      */
     protected function _isTypeSafe($type)
     {
-        if ($type == 'Namespace_Module_Block_NotSafe') {
-            $a = 5;
-        }
-
         if (in_array($type, $this->_getBlockBlackList())) {
             return false;
         }

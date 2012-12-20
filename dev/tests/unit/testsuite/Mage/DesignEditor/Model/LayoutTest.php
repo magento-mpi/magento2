@@ -23,6 +23,21 @@ class Mage_DesignEditor_Model_LayoutTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
+    /**
+     * Block and container restriction data
+     *
+     * @var array
+     */
+    protected $_restrictionData = array(
+        'block' => array(
+            'white_list' => array('Mage_Page_Block_'),
+            'black_list' => array(),
+        ),
+        'container' => array(
+            'white_list' => array('root'),
+        ),
+    );
+
     protected function setUp()
     {
         $this->_model = $this->_prepareLayoutObject();
@@ -48,6 +63,21 @@ class Mage_DesignEditor_Model_LayoutTest extends PHPUnit_Framework_TestCase
      */
     protected function _prepareLayoutObject()
     {
+        $helper = $this->getMock(
+            'Mage_DesignEditor_Helper_Data',
+            array('getBlockWhiteList', 'getBlockBlackList', 'getContainerWhiteList'),
+            array(), '', false
+        );
+        $helper->expects($this->any())
+            ->method('getBlockWhiteList')
+            ->will($this->returnValue($this->_restrictionData['block']['white_list']));
+        $helper->expects($this->any())
+            ->method('getBlockBlackList')
+            ->will($this->returnValue($this->_restrictionData['block']['black_list']));
+        $helper->expects($this->any())
+            ->method('getContainerWhiteList')
+            ->will($this->returnValue($this->_restrictionData['container']['white_list']));
+
         return new Mage_DesignEditor_Model_Layout(
             $this->getMock('Mage_Core_Model_BlockFactory', array(), array(), '', false),
             $this->getMock('Magento_Data_Structure', array(), array(), '', false),
@@ -55,7 +85,7 @@ class Mage_DesignEditor_Model_LayoutTest extends PHPUnit_Framework_TestCase
             $this->getMock('Mage_Core_Model_Layout_Translator', array(), array(), '', false),
             $this->getMock('Mage_Core_Model_Layout_ScheduledStructure', array(), array(), '', false),
             $this->getMock('Mage_DesignEditor_Block_Template', array(), array(), '', false),
-            $this->getMock('Mage_DesignEditor_Helper_Data', array(), array(), '', false)
+            $helper
         );
     }
 
