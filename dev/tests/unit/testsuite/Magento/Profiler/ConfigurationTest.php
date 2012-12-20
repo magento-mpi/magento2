@@ -37,7 +37,7 @@ class Magento_Profiler_ConfigurationTest extends PHPUnit_Framework_TestCase
     public function testDriverConfigurations(array $data, array $expected)
     {
         $this->_configuration->initDriverConfigurations($data);
-        $this->assertEquals($expected, $this->_configuration->getDriverConfigurations());
+        $this->assertEquals($expected, $this->_configuration->getDriverConfigs());
     }
 
     /**

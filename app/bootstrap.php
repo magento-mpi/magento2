@@ -85,18 +85,18 @@ if (!empty($_SERVER['MAGE_PROFILER'])) {
     $profilerConfig = new Magento_Profiler_Configuration(dirname(__DIR__));
 
     if (is_scalar($profilerConfigData)) {
-        $outputType = is_numeric($profilerConfigData) ? 'html' : $profilerConfigData;
-        $profilerConfig->initDriverConfigurations(array(array(
-            'type' => 'standard',
-            'outputs' => array(
-                $outputType => array()
+        $profilerConfig->initDriverConfigurations(array(
+            'standard' => array(
+                'output' => is_numeric($profilerConfigData) ? 'html' : $profilerConfigData
             )
-        )));
+        ));
     } elseif (is_array($profilerConfigData)) {
-        if (isset($profilerConfigData['drivers']) && is_array($profilerConfigData['drivers'])) {
+        if (!empty($profilerConfigData['drivers']) && is_array($profilerConfigData['drivers'])) {
             $profilerConfig->initDriverConfigurations($profilerConfigData['drivers']);
+        } elseif (!empty($profilerConfigData['driver']) && is_array($profilerConfigData['driver'])) {
+            $profilerConfig->initDriverConfigurations(array($profilerConfigData['driver']));
         }
-        if (isset($profilerConfigData['tagFilters']) && is_array($profilerConfigData['tagFilters'])) {
+        if (!empty($profilerConfigData['tagFilters']) && is_array($profilerConfigData['tagFilters'])) {
             $profilerConfig->setTagFilters($profilerConfigData['tagFilters']);
         }
     }

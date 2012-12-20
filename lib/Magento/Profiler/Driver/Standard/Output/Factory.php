@@ -21,19 +21,19 @@ class Magento_Profiler_Driver_Standard_Output_Factory
      *
      * @var string
      */
-    protected $_defaultOutputClassPrefix;
+    protected $_defaultOutputPrefix;
 
     /**
      * Constructor
      *
-     * @param string $defaultOutputClassPrefix
+     * @param string $defaultOutputPrefix
      * @param string $defaultOutputType
      */
     public function __construct(
-        $defaultOutputClassPrefix = 'Magento_Profiler_Driver_Standard_Output_',
+        $defaultOutputPrefix = 'Magento_Profiler_Driver_Standard_Output_',
         $defaultOutputType = 'html'
     ) {
-        $this->_defaultOutputClassPrefix = $defaultOutputClassPrefix;
+        $this->_defaultOutputPrefix = $defaultOutputPrefix;
         $this->_defaultOutputType = $defaultOutputType;
     }
 
@@ -50,7 +50,7 @@ class Magento_Profiler_Driver_Standard_Output_Factory
         if (class_exists($type)) {
             $class = $type;
         } else {
-            $class = $this->_defaultOutputClassPrefix . ucfirst($type);
+            $class = $this->_defaultOutputPrefix . ucfirst($type);
             if (!class_exists($class)) {
                 throw new InvalidArgumentException(
                     sprintf("Cannot create standard driver output, class \"%s\" doesn't exist.", $class

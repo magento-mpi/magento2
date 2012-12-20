@@ -54,9 +54,7 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue(Magento_Profiler::isEnabled());
 
-        $expected = array(
-            get_class($mock) => $mock
-        );
+        $expected = array($mock);
         $this->assertAttributeEquals($expected, '_drivers', 'Magento_Profiler');
     }
 
@@ -346,7 +344,7 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
             ->getMock();
 
         $mockConfig->expects($this->once())
-            ->method('getDriverConfigurations')
+            ->method('getDriverConfigs')
             ->will($this->returnValue(array($mockDriverConfig)));
         $mockConfig->expects($this->once())
             ->method('getDriverFactory')
@@ -363,7 +361,7 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
 
         Magento_Profiler::applyConfig($mockConfig);
         $this->assertAttributeEquals(array(
-            get_class($mockDriver) => $mockDriver
+            $mockDriver
         ), '_drivers', 'Magento_Profiler');
         $this->assertAttributeEquals(array(
             'tagName' => array(

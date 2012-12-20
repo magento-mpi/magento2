@@ -51,8 +51,8 @@ class Magento_Profiler_Driver_Standard_Output_Configuration extends Magento_Prof
     /**
      * Get "thresholds" option value
      *
-     * @param array|null $default
-     * @return string|null
+     * @param array $default
+     * @return array
      */
     public function getThresholdsValue(array $default = array())
     {

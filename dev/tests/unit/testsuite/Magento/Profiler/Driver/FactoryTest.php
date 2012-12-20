@@ -34,11 +34,14 @@ class Magento_Profiler_Driver_FactoryTest extends PHPUnit_Framework_TestCase
 
     public function testConstructor()
     {
-        $this->assertAttributeEquals($this->_defaultDriverPrefix, '_defaultDriverClassPrefix', $this->_factory);
+        $this->assertAttributeEquals($this->_defaultDriverPrefix, '_defaultDriverPrefix', $this->_factory);
         $this->assertAttributeEquals($this->_defaultDriverType, '_defaultDriverType', $this->_factory);
+    }
 
+    public function testDefaultConstructor()
+    {
         $factory = new Magento_Profiler_Driver_Factory();
-        $this->assertAttributeNotEmpty('_defaultDriverClassPrefix', $factory);
+        $this->assertAttributeNotEmpty('_defaultDriverPrefix', $factory);
         $this->assertAttributeNotEmpty('_defaultDriverType', $factory);
     }
 

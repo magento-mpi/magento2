@@ -48,14 +48,27 @@ class Magento_Profiler_Driver_Standard implements Magento_Profiler_DriverInterfa
         $outputs = array();
         if ($configuration->hasValue('outputs')) {
             $outputs = $configuration->getArrayValue('outputs');
+        } elseif ($configuration->hasValue('output')) {
+            $outputs[] = $configuration->getValue('output');
         }
         if ($outputs) {
             $outputFactory = $this->_getOutputFactory($configuration);
             foreach ($outputs as $code => $outputConfig) {
                 if (!$outputConfig instanceof Magento_Profiler_Driver_Standard_Output_Configuration) {
+                    if (is_numeric($outputConfig) && $outputConfig && !is_numeric($code)) {
+                        $outputConfig = array(
+                            'type' => $code
+                        );
+                    } elseif (!is_numeric($outputConfig) && is_string($outputConfig)) {
+                        $outputConfig = array(
+                            'type' => $outputConfig
+                        );
+                    } elseif (!is_array($outputConfig)) {
+                        continue;
+                    }
                     $outputConfig = new Magento_Profiler_Driver_Standard_Output_Configuration($outputConfig);
                 }
-                if (!$outputConfig->hasTypeValue()) {
+                if (!$outputConfig->hasTypeValue() && !is_numeric($code)) {
                     $outputConfig->setTypeValue($code);
                 }
                 if (!$outputConfig->hasBaseDirValue() && $configuration->getBaseDirValue()) {

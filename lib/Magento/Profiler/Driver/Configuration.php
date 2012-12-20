@@ -195,7 +195,7 @@ class Magento_Profiler_Driver_Configuration
 
     /**
      * Get $name option value as string, using $default if value is undefined or not scalar
-     * and not convertable to string.
+     * and not convertible to string.
      *
      * @param string $name
      * @param mixed $default
@@ -215,7 +215,7 @@ class Magento_Profiler_Driver_Configuration
      * Get $name option value as array, using $default if value is undefined or array.
      *
      * @param string $name
-     * @param mixed $default
+     * @param array $default
      * @return array
      */
     public function getArrayValue($name, array $default = array())

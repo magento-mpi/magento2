@@ -28,7 +28,7 @@ class Magento_Profiler_Configuration
      *
      * @var Magento_Profiler_Driver_Configuration[]
      */
-    protected $_driverConfigurations = array();
+    protected $_driverConfigs = array();
 
     /**
      * List of filters by tag
@@ -64,7 +64,7 @@ class Magento_Profiler_Configuration
      */
     public function initDriverConfigurations(array $driversData)
     {
-        $this->_driverConfigurations = array();
+        $this->_driverConfigs = array();
         foreach ($driversData as $code => $driverData) {
             if (is_scalar($driverData)) {
                 if (!$driverData) {
@@ -74,13 +74,13 @@ class Magento_Profiler_Configuration
                 }
             }
             $driverConfiguration = new Magento_Profiler_Driver_Configuration($driverData);
-            if (!$driverConfiguration->hasTypeValue()) {
+            if (!$driverConfiguration->hasTypeValue() && !is_numeric($code)) {
                 $driverConfiguration->setTypeValue($code);
             }
             if (!$driverConfiguration->hasBaseDirValue()) {
                 $driverConfiguration->setBaseDirValue($this->getBaseDir());
             }
-            $this->_driverConfigurations[] = $driverConfiguration;
+            $this->_driverConfigs[] = $driverConfiguration;
         }
     }
 
@@ -89,9 +89,9 @@ class Magento_Profiler_Configuration
      *
      * @return Magento_Profiler_Driver_Configuration[]
      */
-    public function getDriverConfigurations()
+    public function getDriverConfigs()
     {
-        return $this->_driverConfigurations;
+        return $this->_driverConfigs;
     }
 
     /**

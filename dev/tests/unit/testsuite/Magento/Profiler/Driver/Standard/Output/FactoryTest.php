@@ -34,11 +34,14 @@ class Magento_Profiler_Driver_Standard_Output_FactoryTest extends PHPUnit_Framew
 
     public function testConstructor()
     {
-        $this->assertAttributeEquals($this->_defaultOutputPrefix, '_defaultOutputClassPrefix', $this->_factory);
+        $this->assertAttributeEquals($this->_defaultOutputPrefix, '_defaultOutputPrefix', $this->_factory);
         $this->assertAttributeEquals($this->_defaultOutputType, '_defaultOutputType', $this->_factory);
+    }
 
+    public function testDefaultConstructor()
+    {
         $factory = new Magento_Profiler_Driver_Standard_Output_Factory();
-        $this->assertAttributeNotEmpty('_defaultOutputClassPrefix', $factory);
+        $this->assertAttributeNotEmpty('_defaultOutputPrefix', $factory);
         $this->assertAttributeNotEmpty('_defaultOutputType', $factory);
     }
 

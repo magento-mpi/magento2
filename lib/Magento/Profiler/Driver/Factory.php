@@ -21,17 +21,17 @@ class Magento_Profiler_Driver_Factory
      *
      * @var string
      */
-    protected $_defaultDriverClassPrefix;
+    protected $_defaultDriverPrefix;
 
     /**
      * Constructor
      *
-     * @param string $defaultDriverClassPrefix
+     * @param string $defaultDriverPrefix
      * @param string $defaultDriverType
      */
-    public function __construct($defaultDriverClassPrefix = 'Magento_Profiler_Driver_', $defaultDriverType = 'standard')
+    public function __construct($defaultDriverPrefix = 'Magento_Profiler_Driver_', $defaultDriverType = 'standard')
     {
-        $this->_defaultDriverClassPrefix = $defaultDriverClassPrefix;
+        $this->_defaultDriverPrefix = $defaultDriverPrefix;
         $this->_defaultDriverType = $defaultDriverType;
     }
 
@@ -39,8 +39,8 @@ class Magento_Profiler_Driver_Factory
      * Create instance of profiler driver
      *
      * @param Magento_Profiler_Driver_Configuration $configuration
-     * @throws InvalidArgumentException
      * @return Magento_Profiler_DriverInterface
+     * @throws InvalidArgumentException
      */
     public function create(Magento_Profiler_Driver_Configuration $configuration)
     {
@@ -48,7 +48,7 @@ class Magento_Profiler_Driver_Factory
         if (class_exists($type)) {
             $class = $type;
         } else {
-            $class = $this->_defaultDriverClassPrefix . ucfirst($type);
+            $class = $this->_defaultDriverPrefix . ucfirst($type);
             if (!class_exists($class)) {
                 throw new InvalidArgumentException(
                     sprintf("Cannot create profiler driver, class \"%s\" doesn't exist.", $class

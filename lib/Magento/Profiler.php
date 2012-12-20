@@ -126,7 +126,7 @@ class Magento_Profiler
      */
     public static function add(Magento_Profiler_DriverInterface $driver)
     {
-        self::$_drivers[get_class($driver)] = $driver;
+        self::$_drivers[] = $driver;
         self::enable();
     }
 
@@ -309,7 +309,7 @@ class Magento_Profiler
      */
     public static function applyConfig(Magento_Profiler_Configuration $config)
     {
-        $driverConfigurations = $config->getDriverConfigurations();
+        $driverConfigurations = $config->getDriverConfigs();
         if ($driverConfigurations) {
             $driverFactory = $config->getDriverFactory();
             foreach ($driverConfigurations as $driverConfiguration) {
