@@ -107,9 +107,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
                     'event' => 'preview',
                     'related' => 'body',
                     'eventData' => array(
-                        'preview_url' => $this->_getPreviewUrl(
-                            Mage_DesignEditor_Model_Theme_PreviewFactory::TYPE_DEFAULT, $themeBlock->getTheme()->getId()
-                        )
+                        'preview_url' => $this->_getPreviewUrl($themeBlock->getTheme()->getId())
                     )
                 ),
             )
@@ -127,32 +125,51 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
      */
     protected function _addEditButtonHtml($themeBlock)
     {
-        $themeId = $themeBlock->getTheme()->getId();
-        /** @var $editButton Mage_Backend_Block_Widget_Button */
-        $editButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
-
-        $editButton->setData(array(
-            'label'     => $this->__('Edit Button'),
-            'onclick'   => "alert('Edit Button id: $themeId')",
+        /** @var $previewButton Mage_Backend_Block_Widget_Button */
+        $previewButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
+        $previewButton->setData(array(
+            'label'     => $this->__('Edit Theme'),
             'class'     => 'add edit-theme',
+            'data_attr' => array(
+                'widget-button' => array(
+                    'event' => 'preview',
+                    'related' => 'body',
+                    'eventData' => array(
+                        'preview_url' => $this->_getEditUrl($themeBlock->getTheme()->getId())
+                    )
+                ),
+            )
         ));
 
-        $themeBlock->addButton($editButton);
+        $themeBlock->addButton($previewButton);
         return $this;
     }
 
     /**
      * Get preview url for selected theme
      *
-     * @param string $previewType
      * @param int $themeId
      * @return string
      */
-    protected function _getPreviewUrl($previewType, $themeId)
+    protected function _getPreviewUrl($themeId)
     {
-        return $this->getUrl('*/*/preview', array(
-            Mage_DesignEditor_Block_Adminhtml_Theme_Preview::PARAM_THEME_ID => $themeId,
-            Mage_DesignEditor_Block_Adminhtml_Theme_Preview::PARAM_PREVIEW  => $previewType
+        return $this->getUrl('*/*/launch', array(
+            'theme_id' => $themeId,
+            'mode'     => Mage_DesignEditor_Model_State::MODE_NAVIGATION
+        ));
+    }
+
+    /**
+     * Get edit theme url for selected theme
+     *
+     * @param int $themeId
+     * @return string
+     */
+    protected function _getEditUrl($themeId)
+    {
+        return $this->getUrl('*/*/launch', array(
+            'theme_id' => $themeId,
+            'mode'     => Mage_DesignEditor_Model_State::MODE_DESIGN
         ));
     }
 }
