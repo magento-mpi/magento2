@@ -620,8 +620,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      * Assign Configurable Variations
      *
      * @param array $assignData
+     * @param bool $reassign
+     * @param bool $selectExisted
      */
-    public function assignConfigurableVariations(array $assignData)
+    public function assignConfigurableVariations(array $assignData, $reassign = false, $selectExisted = true)
     {
         if (!$this->controlIsVisible('fieldset', 'variations_matrix_grid')) {
             $this->fail('Product variations grid is not present on the page');
@@ -639,8 +641,13 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $this->addParameter('attributeSearch', $param);
             $trLocator = $this->formSearchXpath($assignProduct, "//tbody/tr");
             //If product is selected
-            if ($this->elementIsPresent($variationTable . $trLocator . "[$param]")) {
+            if ($this->elementIsPresent($variationTable . $trLocator . "[$param]") && !$reassign) {
                 return;
+            } else {
+                if (!$selectExisted) {
+                    $this->fillFieldset($assignProduct, 'variations_matrix_grid');
+                    return;
+                }
             }
             //If product is not selected
             $productTable = $this->_getControlXpath('fieldset', 'select_associated_product');

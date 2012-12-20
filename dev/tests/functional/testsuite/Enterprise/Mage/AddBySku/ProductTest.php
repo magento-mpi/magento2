@@ -260,6 +260,7 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
      * @depends createWebsite
      * @depends createCategory
      * @depends createAttribute
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function preconditionsForTests($website, $category, $attrData)
     {

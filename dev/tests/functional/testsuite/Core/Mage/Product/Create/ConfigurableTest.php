@@ -198,7 +198,8 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
-        $this->productHelper()->verifyProductInfo($productData, array('general_configurable_attribute_title'));
+        $this->productHelper()->verifyProductInfo($productData,
+            array('product_attribute_set', 'general_configurable_attribute_title'));
     }
 
     /**
@@ -228,7 +229,8 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
-        $this->productHelper()->verifyProductInfo($productData, array('general_configurable_attribute_title'));
+        $this->productHelper()->verifyProductInfo($productData,
+            array('product_attribute_set', 'general_configurable_attribute_title'));
     }
 
     /**
@@ -411,7 +413,8 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
-        $this->productHelper()->verifyProductInfo($configurable, array('general_configurable_attribute_title'));
+        $this->productHelper()->verifyProductInfo($configurable,
+            array('product_attribute_set', 'general_configurable_attribute_title'));
     }
 
     /**
@@ -448,7 +451,8 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
-        $this->productHelper()->verifyProductInfo($configurable, array('general_configurable_attribute_title'));
+        $this->productHelper()->verifyProductInfo($configurable,
+            array('product_attribute_set', 'general_configurable_attribute_title'));
     }
 
     /**
@@ -485,6 +489,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
-        $this->productHelper()->verifyProductInfo($configurable, array('general_configurable_attribute_title'));
+        $this->productHelper()->verifyProductInfo($configurable,
+            array('product_attribute_set', 'general_configurable_attribute_title'));
     }
 }

@@ -43,6 +43,7 @@ class Core_Mage_Product_Create_ConfigurableWithVariations extends Mage_Selenium_
         for($i = 1; $i <= $optionNumber1; $i++) {
             for($j = 1; $j <= $optionNumber2; $j++) {
                 $variations[$variation] = array(
+                    '2' => 0,
                     '6' => $attribute1['option_' . $i]['admin_option_name'],
                     '7' => $attribute2['option_' . $j]['admin_option_name']
                 );
@@ -177,41 +178,36 @@ class Core_Mage_Product_Create_ConfigurableWithVariations extends Mage_Selenium_
         //Data
         $productData = $this->loadDataSet('Product', 'configurable_product_visible',
             array('general_configurable_attribute_title' => $defaultData['attribute'][0]));
-        $fillVariation = $this->loadDataSet('Product', 'product_variation',
-            array('variation_qty' => 12, 'variation_weight' => 12));
-        $associatedProductData = $this->loadDataSet('Product', 'general_configurable_data',
-            array(
-                'associated_search_sku' => $fillVariation['variation_sku'],
-                'associated_product_attribute_value' => $defaultData['matrix'][1][6]
-            )
+        $associatedProductData = $this->loadDataSet('Product', 'product_variation',
+            array('associated_quantity' => 12,'associated_weight' => 12),
+            array('attribute_value_1' => $defaultData['matrix'][1][6])
         );
         $verifySimple = $productData;
         unset($verifySimple['general_configurable_attribute_title']);
         $verifySimple = array_replace($verifySimple,
             array(
-                'general_name' => $fillVariation['variation_name'],
-                'general_sku' => $fillVariation['variation_sku'],
-                'general_weight' => $fillVariation['variation_weight'],
-                'inventory_qty' => $fillVariation['variation_qty'],
-                'prices_price' => $fillVariation['variation_price'],
+                'general_name' => $associatedProductData['associated_product_name'],
+                'general_sku' => $associatedProductData['associated_sku'],
+                'general_weight' => $associatedProductData['associated_weight'],
+                'inventory_quantity' => $associatedProductData['associated_quantity'],
                 'general_visibility' => 'Not Visible Individually'
             )
         );
-        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable', false);
-        $this->productHelper()->assignConfigurableVariations(
-            array('product_1' => array('associated_product_attribute_value' => $defaultData['matrix'][1][6])),
-            $fillVariation
-        );
-        $this->clickButton('save');
-        $productData['general_configurable_data'] = $associatedProductData;
+        $this->openTab('general');
+        $this->productHelper()->assignConfigurableVariations(array($associatedProductData), true, false);
+        $this->saveForm('save');
+        $productData['general_configurable_data']['configurable_1'] = $associatedProductData;
         //Verify configurable
+        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
-        $this->productHelper()->verifyProductInfo($productData, array('general_configurable_attribute_title'));
+        $this->productHelper()->verifyProductInfo($productData,
+            array('product_attribute_set', 'general_configurable_attribute_title'));
         $this->navigate('manage_products');
         //Verify simple
+        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $verifySimple['general_sku']));
         $this->assertEquals('Simple Product', $this->productHelper()->getProductDataFromGrid($search, 'Type'),
             'Incorrect product type has been created');
         $this->productHelper()->openProduct(array('product_sku' => $verifySimple['general_sku']));
@@ -231,39 +227,36 @@ class Core_Mage_Product_Create_ConfigurableWithVariations extends Mage_Selenium_
         //Data
         $productData = $this->loadDataSet('Product', 'configurable_product_visible',
             array('general_configurable_attribute_title' => $defaultData['attribute'][0]));
-        $fillVariation = $this->loadDataSet('Product', 'product_variation', array('variation_qty' => 12));
-        $associatedProductData = $this->loadDataSet('Product', 'general_configurable_data',
-            array(
-                'associated_search_sku' => $fillVariation['variation_sku'],
-                'associated_product_attribute_value' => $defaultData['matrix'][1][6]
-            )
+        $associatedProductData = $this->loadDataSet('Product', 'product_variation',
+            array('associated_quantity' => 12),
+            array('attribute_value_1' => $defaultData['matrix'][1][6])
         );
         $verifyVirtual = $productData;
         unset($verifyVirtual['general_configurable_attribute_title']);
         $verifyVirtual = array_replace($verifyVirtual,
             array(
-                'general_name' => $fillVariation['variation_name'],
-                'general_sku' => $fillVariation['variation_sku'],
-                'prices_price' => $fillVariation['variation_price'],
-                'inventory_qty' => $fillVariation['variation_qty'],
+                'general_name' => $associatedProductData['associated_product_name'],
+                'general_sku' => $associatedProductData['associated_sku'],
+                'inventory_quantity' => $associatedProductData['associated_quantity'],
                 'general_visibility' => 'Not Visible Individually'
             )
         );
-        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable', false);
-        $this->productHelper()->assignConfigurableVariations(
-            array('product_1' => array('associated_product_attribute_value' => $defaultData['matrix'][1][6])),
-            $fillVariation
-        );
-        $this->clickButton('save');
-        $productData['general_configurable_data'] = $associatedProductData;
+        $this->openTab('general');
+        $this->productHelper()->assignConfigurableVariations(array($associatedProductData), true, false);
+        $this->saveForm('save');
+        $productData['general_configurable_data']['configurable_1'] = $associatedProductData;
         //Verify configurable
+        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
-        $this->productHelper()->verifyProductInfo($productData, array('general_configurable_attribute_title'));
-        //Verify virtual
+        $this->productHelper()->verifyProductInfo($productData,
+            array('product_attribute_set', 'general_configurable_attribute_title'));
         $this->navigate('manage_products');
+        //Verify virtual
+        $search = $this->loadDataSet('Product', 'product_search',
+            array('product_sku' => $verifyVirtual['general_sku']));
         $this->assertEquals('Virtual Product', $this->productHelper()->getProductDataFromGrid($search, 'Type'),
             'Incorrect product type has been created');
         $this->productHelper()->openProduct(array('product_sku' => $verifyVirtual['general_sku']));
@@ -284,19 +277,18 @@ class Core_Mage_Product_Create_ConfigurableWithVariations extends Mage_Selenium_
         //Data
         $productData = $this->loadDataSet('Product', 'configurable_product_visible',
             array('general_configurable_attribute_title' => $defaultData['attribute'][0]));
-        $fillInStock = $this->loadDataSet('Product', 'product_variation', array('variation_qty' => 12));
-        $fillOutOfStock = $this->loadDataSet('Product', 'product_variation');
+        $fillInStock = $this->loadDataSet('Product', 'product_variation',
+            array('associated_quantity' => 12),
+            array('attribute_value_1' => $defaultData['matrix'][1][6])
+        );
+        $fillOutOfStock = $this->loadDataSet('Product', 'product_variation', array(),
+            array('attribute_value_1' => $defaultData['matrix'][4][6])
+        );
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable', false);
-        $this->productHelper()->assignConfigurableVariations(
-            array('product_1' => array('associated_product_attribute_value' => $defaultData['matrix'][1][6])),
-            $fillInStock
-        );
-        $this->productHelper()->assignConfigurableVariations(
-            array('product_1' => array('associated_product_attribute_value' => $defaultData['matrix'][4][6])),
-            $fillOutOfStock
-        );
-        $this->clickButton('save');
+        $this->productHelper()->assignConfigurableVariations($fillInStock);
+        $this->productHelper()->assignConfigurableVariations($fillOutOfStock);
+        $this->saveForm('save');
         $this->assertMessagePresent('success', 'success_saved_product');
         //Verify virtual with Manage Stock - Yes
         $this->productHelper()->openProduct(array('product_sku' => $fillInStock['variation_sku']));
@@ -323,15 +315,16 @@ class Core_Mage_Product_Create_ConfigurableWithVariations extends Mage_Selenium_
         //Data
         $productData = $this->loadDataSet('Product', 'configurable_product_visible',
             array('general_configurable_attribute_title' => $defaultData['attribute'][0]));
-        $associatedProductData = $this->loadDataSet('Product', 'product_variation', array($emptyField => ''));
+        $associatedProductData = $this->loadDataSet('Product', 'product_variation',
+            array($emptyField => ''),
+            array('attribute_value_1' => $defaultData['matrix'][1][6])
+        );
         preg_match('/\w+\_(\w+)/', $emptyField, $result);
         $field = $result[1];
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable', false);
-        $this->productHelper()->assignConfigurableVariations(
-            array('product_1' => array('associated_product_attribute_value' => $defaultData['matrix'][1][6])),
-            $associatedProductData
-        );
+        $this->openTab('general');
+        $this->productHelper()->assignConfigurableVariations($associatedProductData);
         $this->addParameter('field', $field);
         $this->saveForm('save', false);
         //Verifying
@@ -341,11 +334,11 @@ class Core_Mage_Product_Create_ConfigurableWithVariations extends Mage_Selenium_
     public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
-            array('variation_name'),
-            array('variation_price'),
-            array('variation_sku')
+            array('associated_product_name'),
+            array('associated_sku')
         );
     }
+
     /**
      * <p>Verification variation fields in configurable product</p>
      *
@@ -361,26 +354,23 @@ class Core_Mage_Product_Create_ConfigurableWithVariations extends Mage_Selenium_
         $productData = $this->loadDataSet('Product', 'configurable_product_visible',
             array('general_configurable_attribute_title' => $defaultData['attribute'][0]));
         $productData['general_weight_and_type_switcher'] = 'no';
-        $productData['general_weight'] = 12;
+        $productData['general_weight'] = '12';
         $verifyData = array(
-            'variation_name' => $productData['general_name'] . '-' . $defaultData['matrix'][1][6],
-            'variation_price'=> $productData['prices_price'],
-            'variation_sku' => $productData['general_sku'] . '-' . $defaultData['matrix'][1][6],
-            'variation_weight'=> $productData['general_weight']
+            'associated_product_name' => $productData['general_name'] . '-' . $defaultData['matrix'][1][6],
+            'associated_sku' => $productData['general_sku'] . '-' . $defaultData['matrix'][1][6],
+            'associated_weight'=> $productData['general_weight']
         );
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable', false);
         $this->openTab('general');
         $this->clickButton('generate_product_variations');
         //Verifying
-        $this->assertSame($verifyData['variation_name'],
-            $this->getControlAttribute('field', 'variation_name', 'value'));
-        $this->assertSame($verifyData['variation_price'],
-            $this->getControlAttribute('field', 'variation_price', 'value'));
-        $this->assertSame($verifyData['variation_sku'],
-            $this->getControlAttribute('field', 'variation_sku', 'value'));
-        $this->assertSame($verifyData['variation_weight'],
-            $this->getControlAttribute('field', 'variation_weight', 'value'));
+        $this->assertSame($verifyData['associated_product_name'],
+            $this->getControlAttribute('field', 'associated_product_name', 'value'));
+        $this->assertSame($verifyData['associated_sku'],
+            $this->getControlAttribute('field', 'associated_sku', 'value'));
+        $this->assertSame($verifyData['associated_weight'],
+            $this->getControlAttribute('field', 'associated_weight', 'value'));
     }
 
     /**
@@ -443,9 +433,12 @@ class Core_Mage_Product_Create_ConfigurableWithVariations extends Mage_Selenium_
         $this->productHelper()->createProduct($configurable, 'configurable');
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $configurable['general_sku']));
-        $this->productHelper()->fillConfigurableSettings($absentAttribute);
+        $this->addParameter('attributeName', $absentAttribute);
+        $element = $this->waitForControlEditable(self::FIELD_TYPE_INPUT, 'general_configurable_attribute_title', 10);
+        $this->focusOnElement($element);
+        $element->value($absentAttribute);
         //Verifying
-        $this->assertFalse($this->controlIsVisible('pageelement', 'suggested_attribute_list'));
+        $this->assertFalse($this->controlIsVisible('link', 'suggested_attribute'));
     }
 
     public function attributeTitleFailDataProvider()

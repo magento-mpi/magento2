@@ -177,19 +177,14 @@ new_product:
                                     xpath: //div[@id='config_super_product']
                                     checkboxes:
                                         is_configurable: //input[@id='config_super_product-checkbox']
-                                    links:
-                                        suggested_attribute: //ul[contains(concat(' ', normalize-space(@class), ' '), 'ui-menu')]//a[text()='%attributeName%']
-                                    pageelements:
-                                        product_variations_fieldset: /fieldset
-                            -
-                                select_configurable_attributes:
-                                    xpath: //div[div/h4='Select Configurable Attributes']
                                     fields:
                                         general_configurable_attribute_title: //input[@id='attribute-selector']
-                                    checkboxes:
-                                        general_configurable_attribute_title: //input[@type='checkbox' and @title='%attributeTitle%']
+                                    links:
+                                        suggested_attribute: //ul[contains(concat(' ', normalize-space(@class), ' '), 'ui-menu')]//a[text()='%attributeName%']
                                     buttons:
-                                        generate_product_variations: //button[@data-ui-id='admin-product-edit-tab-super-config-grid-container-super-settings-continue-button']
+                                        generate_product_variations: //button[@data-ui-id='admin-product-edit-tab-super-config-grid-container-generate']
+                                    pageelements:
+                                        product_variations_fieldset: /fieldset
                             -
                                 variations_matrix_grid:
                                     xpath: //div[@id='product-variations-matrix']
@@ -779,6 +774,11 @@ edit_product:
 
 edit_saved_product:
     mca: catalog_product/edit/id/%id%/back/edit/tab/%tab%
+    title: %elementTitle% / Manage Products / Catalog / Magento Admin
+    uimap: *editProduct
+
+edit_saved_product:
+    mca: catalog_product/edit/id/%id%/back/edit/
     title: %elementTitle% / Manage Products / Catalog / Magento Admin
     uimap: *editProduct
 

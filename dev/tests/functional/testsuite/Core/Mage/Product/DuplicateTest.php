@@ -107,6 +107,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      */
     public function duplicateSimple($attrData, $assignData)
     {
+        $this->markTestIncomplete('MAGETWO-4321');
         //Data
         $simple = $this->loadDataSet('Product', 'duplicate_simple', $assignData);
         $simple['general_user_attr']['dropdown'][$attrData['attribute_code']] =
@@ -138,6 +139,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      */
     public function duplicateVirtual($attrData, $assignData)
     {
+        $this->markTestIncomplete('MAGETWO-4321');
         //Data
         $virtual = $this->loadDataSet('Product', 'duplicate_virtual', $assignData);
         $virtual['general_user_attr']['dropdown'][$attrData['attribute_code']] =
@@ -174,6 +176,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      */
     public function duplicateDownloadable($linksSeparately, $linkPrice, $attrData, $assignData)
     {
+        $this->markTestIncomplete('MAGETWO-4321');
         //Data
         $downloadable = $this->loadDataSet('Product', 'duplicate_downloadable', $assignData);
         $downloadable['general_user_attr']['dropdown'][$attrData['attribute_code']] =
@@ -214,6 +217,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      */
     public function duplicateGrouped($assignData)
     {
+        $this->markTestIncomplete('MAGETWO-4321');
         //Data
         $grouped = $this->loadDataSet('Product', 'duplicate_grouped', $assignData,
             array('product_1' => $assignData['related_search_sku'],

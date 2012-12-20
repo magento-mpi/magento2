@@ -29,25 +29,12 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
                 if (!$this->controlIsPresent('pageelement', 'opened_add_to_shopping_cart_by_sku')) {
                     $this->clickControl('link', 'expand_add_to_shopping_cart_by_sku', false);
                     $this->waitForAjax();
-                }}
+                }
+            }
             if (!$isShoppingCart) {
                 $this->clickButton('add_products_by_sku', false);
             }
-            $i = 0;
-            foreach ($productsToAdd as $value) {
-                if ($i > 0) {
-                    $this->clickButton('add_row', false);
-                    $this->waitForAjax();
-                }
-                $this->addParameter('itemId', $i++);
-                if (is_array($value)) {
-                    $this->fillField('sku', $value['sku']);
-                    $this->fillField('sku_qty', $value['qty']);
-                    $this->waitForAjax();
-                } else {
-                    $this->fail('Got incorrect parameter');
-                }
-            }
+            $this->_fillSkuQty($productsToAdd);
             if ($pressButton && $isShoppingCart) {
                 $this->clickButton('add_selected_products_to_shopping_cart', false);
             }
@@ -55,6 +42,30 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
                 $this->clickButton('submit_sku_form');
             }
             $this->pleaseWait();
+        }
+    }
+
+    /**
+     * Get parameter for product in Shopping Cart
+     *
+     * @param array $productsToAdd
+     */
+    protected function _fillSkuQty(array $productsToAdd)
+    {
+        $item = 0;
+        foreach ($productsToAdd as $value) {
+            if ($item > 0) {
+                $this->clickButton('add_row', false);
+                $this->waitForAjax();
+            }
+            $this->addParameter('itemId', $item++);
+            if (is_array($value)) {
+                $this->fillField('sku', $value['sku']);
+                $this->fillField('sku_qty', $value['qty']);
+                $this->waitForAjax();
+            } else {
+                $this->fail('Got incorrect parameter');
+            }
         }
     }
 
@@ -274,14 +285,14 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
         if (!empty($productsToRemove)) {
             if (!$this->isShoppingCartEmpty()) {
                 $productsData = $this->getProductInfoInTable('product_table_head', 'table_row');
-                $i=1;
+                $rowNumber=1;
                 foreach ($productsData as $value) {
                     if(in_array(trim($value['sku']), $productsToRemove)) {
-                        $this->addParameter('rowNumber', $i);
+                        $this->addParameter('rowNumber', $rowNumber);
                         $this->select($this->_getControlXpath('dropdown', 'grid_massaction_select'), 'Remove');
                         $this->pleaseWait();
                     }
-                    $i++;
+                    $rowNumber++;
                 }
             }
             $this->clickButton('update_items_and_qty', false);
@@ -450,10 +461,9 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
                     $this->frontCheckFields($product, false, false);
                     break;
             }
-        } else {
-            if ($productType == 'simpleNotVisible') {
-                $this->addParameter('productName', $product['product_name']);
-            }
+        }
+        if ($productType == 'simpleNotVisible') {
+            $this->addParameter('productName', $product['product_name']);
         }
     }
 }

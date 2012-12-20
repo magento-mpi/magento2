@@ -335,7 +335,7 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
         $this->fillField($metaField, $metaMask);
         $this->saveForm('save');
         //Verifying
-        $productData[$metaCode] = $metaMask;
+        $productData[$metaField] = $metaMask;
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_name']));
         $this->productHelper()->verifyProductInfo($productData);

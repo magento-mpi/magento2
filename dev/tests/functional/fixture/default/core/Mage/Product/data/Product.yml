@@ -293,11 +293,12 @@ general_configurable_data: &associatedProductsConfigurableData
 
 # Dataset for Product in product variation grid
 product_variation:
-    variation_name: Product Sync(%randomize%)
-    variation_price: 12
-    variation_sku: sku_%randomize%
-    variation_qty: %noValue%
-    variation_weight: %noValue%
+    associated_product_name: Product Variation Name (%randomize%)
+    associated_sku: sku_variation_%randomize%
+    associated_quantity: %noValue%
+    associated_weight: %noValue%
+    associated_attribute_value: %noValue%
+    associated_attributes: *confirurableAttributesValues
 
 #*********************************************
 #*         Bundle Items Data                 *
