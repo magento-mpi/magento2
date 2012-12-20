@@ -13,6 +13,8 @@
  *
  * @method Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css setFiles(array $files)
  * @method array getFiles()
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     extends Mage_Backend_Block_Widget_Form
