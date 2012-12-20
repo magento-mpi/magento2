@@ -10,7 +10,7 @@
 class Magento_Profiler_Driver_StandardTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Profiler_Driver_Standard_Stat
+     * @var Magento_Profiler_Driver_Standard_Stat|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_stat;
 
@@ -22,11 +22,9 @@ class Magento_Profiler_Driver_StandardTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_stat = $this->getMock('Magento_Profiler_Driver_Standard_Stat');
-        $this->_driver = new Magento_Profiler_Driver_Standard(
-            new Magento_Profiler_Driver_Configuration(array(
-                'stat' => $this->_stat
-            ))
-        );
+        $this->_driver = new Magento_Profiler_Driver_Standard(array(
+            'stat' => $this->_stat
+        ));
     }
 
     protected function tearDown()
@@ -86,49 +84,41 @@ class Magento_Profiler_Driver_StandardTest extends PHPUnit_Framework_TestCase
     public function testInitOutputs()
     {
         $outputFactory = $this->getMock('Magento_Profiler_Driver_Standard_Output_Factory');
-        $outputConfigTwo = $this->getMock('Magento_Profiler_Driver_Standard_Output_Configuration');
-        $configuration = new Magento_Profiler_Driver_Configuration(array(
+        $config = array(
             'outputs' => array(
                 'outputTypeOne' => array(
                     'baseDir' => '/custom/base/dir'
                 ),
-                $outputConfigTwo,
-                'outputTypeThree' => array(
-                    'type' => 'specificOutputTypeThree'
+                'outputTypeTwo' => array(
+                    'type' => 'specificOutputTypeTwo'
                 ),
             ),
             'baseDir' => '/base/dir',
             'outputFactory' => $outputFactory
-        ));
+        );
 
         $outputOne = $this->getMock('Magento_Profiler_Driver_Standard_OutputInterface');
         $outputTwo = $this->getMock('Magento_Profiler_Driver_Standard_OutputInterface');
-        $outputThree = $this->getMock('Magento_Profiler_Driver_Standard_OutputInterface');
 
         $outputFactory->expects($this->at(0))
             ->method('create')
-            ->with(new Magento_Profiler_Driver_Standard_Output_Configuration(array(
+            ->with(array(
                 'baseDir' => '/custom/base/dir',
                 'type' => 'outputTypeOne'
-            )))
+            ))
             ->will($this->returnValue($outputOne));
 
         $outputFactory->expects($this->at(1))
             ->method('create')
-            ->with($outputConfigTwo)
+            ->with(array(
+                'type' => 'specificOutputTypeTwo',
+                'baseDir' => '/base/dir'
+            ))
             ->will($this->returnValue($outputTwo));
 
-        $outputFactory->expects($this->at(2))
-            ->method('create')
-            ->with(new Magento_Profiler_Driver_Standard_Output_Configuration(array(
-                'type' => 'specificOutputTypeThree',
-                'baseDir' => '/base/dir'
-            )))
-            ->will($this->returnValue($outputThree));
-
-        $driver = new Magento_Profiler_Driver_Standard($configuration);
-        $this->assertAttributeCount(3, '_outputs', $driver);
-        $this->assertEquals(array($outputOne, $outputTwo, $outputThree),
+        $driver = new Magento_Profiler_Driver_Standard($config);
+        $this->assertAttributeCount(2, '_outputs', $driver);
+        $this->assertEquals(array($outputOne, $outputTwo),
             PHPUnit_Util_Class::getObjectAttribute($driver, '_outputs'));
     }
 

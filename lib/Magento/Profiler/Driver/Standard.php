@@ -26,35 +26,35 @@ class Magento_Profiler_Driver_Standard implements Magento_Profiler_DriverInterfa
     /**
      * Constructor
      *
-     * @param Magento_Profiler_Driver_Configuration|null $configuration
+     * @param array|null $config
      */
-    public function __construct(Magento_Profiler_Driver_Configuration $configuration = null)
+    public function __construct(array $config = null)
     {
-        $this->_initOutputs($configuration);
-        $this->_initStat($configuration);
+        $this->_initOutputs($config);
+        $this->_initStat($config);
         register_shutdown_function(array($this, 'display'));
     }
 
     /**
      * Init outputs by configuration
      *
-     * @param Magento_Profiler_Driver_Configuration|null $configuration
+     * @param array|null $config
      */
-    protected function _initOutputs(Magento_Profiler_Driver_Configuration $configuration = null)
+    protected function _initOutputs(array $config = null)
     {
-        if (!$configuration) {
+        if (!$config) {
             return;
         }
         $outputs = array();
-        if ($configuration->hasValue('outputs')) {
-            $outputs = $configuration->getArrayValue('outputs');
-        } elseif ($configuration->hasValue('output')) {
-            $outputs[] = $configuration->getValue('output');
+        if (isset($config['outputs'])) {
+            $outputs = $config['outputs'];
+        } elseif (isset($config['output'])) {
+            $outputs[] = $config['output'];
         }
         if ($outputs) {
-            $outputFactory = $this->_getOutputFactory($configuration);
+            $outputFactory = $this->_getOutputFactory($config);
             foreach ($outputs as $code => $outputConfig) {
-                if (!$outputConfig instanceof Magento_Profiler_Driver_Standard_Output_Configuration) {
+                if (!is_array($outputConfig)) {
                     if (is_numeric($outputConfig) && $outputConfig && !is_numeric($code)) {
                         $outputConfig = array(
                             'type' => $code
@@ -63,16 +63,15 @@ class Magento_Profiler_Driver_Standard implements Magento_Profiler_DriverInterfa
                         $outputConfig = array(
                             'type' => $outputConfig
                         );
-                    } elseif (!is_array($outputConfig)) {
+                    } else {
                         continue;
                     }
-                    $outputConfig = new Magento_Profiler_Driver_Standard_Output_Configuration($outputConfig);
                 }
-                if (!$outputConfig->hasTypeValue() && !is_numeric($code)) {
-                    $outputConfig->setTypeValue($code);
+                if (!isset($outputConfig['type']) && !is_numeric($code)) {
+                    $outputConfig['type'] = $code;
                 }
-                if (!$outputConfig->hasBaseDirValue() && $configuration->getBaseDirValue()) {
-                    $outputConfig->setBaseDirValue($configuration->getBaseDirValue());
+                if (!isset($outputConfig['baseDir']) && isset($config['baseDir'])) {
+                    $outputConfig['baseDir'] = $config['baseDir'];
                 }
                 $this->registerOutput($outputFactory->create($outputConfig));
             }
@@ -82,15 +81,15 @@ class Magento_Profiler_Driver_Standard implements Magento_Profiler_DriverInterfa
     /**
      * Gets output factory from configuration or create new one
      *
-     * @param Magento_Profiler_Driver_Configuration|null $configuration
+     * @param array|null $config
      * @return Magento_Profiler_Driver_Standard_Output_Factory
      */
-    protected function _getOutputFactory(Magento_Profiler_Driver_Configuration $configuration = null)
+    protected function _getOutputFactory(array $config = null)
     {
-        if ($configuration
-            && $configuration->getValue('outputFactory') instanceof Magento_Profiler_Driver_Standard_Output_Factory
+        if (isset($config['outputFactory'])
+            && $config['outputFactory'] instanceof Magento_Profiler_Driver_Standard_Output_Factory
         ) {
-            $result = $configuration->getValue('outputFactory');
+            $result = $config['outputFactory'];
         } else {
             $result = new Magento_Profiler_Driver_Standard_Output_Factory();
         }
@@ -100,12 +99,14 @@ class Magento_Profiler_Driver_Standard implements Magento_Profiler_DriverInterfa
     /**
      * Init timers statistics object from configuration or create new one
      *
-     * @param Magento_Profiler_Driver_Configuration $configuration|null
+     * @param array $config|null
      */
-    protected function _initStat(Magento_Profiler_Driver_Configuration $configuration = null)
+    protected function _initStat(array $config = null)
     {
-        if ($configuration && $configuration->getValue('stat') instanceof Magento_Profiler_Driver_Standard_Stat) {
-            $this->_stat = $configuration->getValue('stat');
+        if (isset($config['stat'])
+            && $config['stat'] instanceof Magento_Profiler_Driver_Standard_Stat
+        ) {
+            $this->_stat = $config['stat'];
         } else {
             $this->_stat = new Magento_Profiler_Driver_Standard_Stat();
         }

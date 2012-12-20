@@ -305,19 +305,95 @@ class Magento_Profiler
     /**
      * Init profiler
      *
-     * @param Magento_Profiler_Configuration $config
+     * @param array $config
      */
-    public static function applyConfig(Magento_Profiler_Configuration $config)
+    public static function applyConfig(array $config)
     {
-        $driverConfigurations = $config->getDriverConfigs();
-        if ($driverConfigurations) {
-            $driverFactory = $config->getDriverFactory();
-            foreach ($driverConfigurations as $driverConfiguration) {
-                self::add($driverFactory->create($driverConfiguration));
+        $config = self::_parseConfig($config);
+        if ($config['driverConfigs']) {
+            foreach ($config['driverConfigs'] as $driverConfig) {
+                self::add($config['driverFactory']->create($driverConfig));
             }
         }
-        foreach ($config->getTagFilters() as $tagName => $tagValue) {
+        foreach ($config['tagFilters'] as $tagName => $tagValue) {
             self::addTagFilter($tagName, $tagValue);
         }
+    }
+
+    /**
+     * Parses config
+     *
+     * @param array $config
+     * @return array
+     */
+    protected static function _parseConfig(array $config)
+    {
+        if (isset($config['drivers']) && is_array($config['drivers'])) {
+            $driverConfigs = $config['drivers'];
+        } elseif (isset($config['driver'])) {
+            $driverConfigs = array($config['driver']);
+        } else {
+            $driverConfigs = array();
+        }
+
+        if (isset($config['driverFactory'])) {
+            $driverFactory = $config['driverFactory'];
+        } else {
+            $driverFactory = new Magento_Profiler_Driver_Factory();
+        }
+
+        if (isset($config['tagFilters'])) {
+            $tagFilters = $config['tagFilters'];
+        } else {
+            $tagFilters = array();
+        }
+
+        if (isset($config['baseDir'])) {
+            $baseDir = $config['baseDir'];
+        } else {
+            $baseDir = null;
+        }
+
+        $result = array(
+            'driverConfigs' => self::_parseDriverConfigs($driverConfigs, $baseDir),
+            'driverFactory' => $driverFactory,
+            'tagFilters' => $tagFilters,
+            'baseDir' => $baseDir
+        );
+        return $result;
+    }
+
+    /**
+     * Parses list of driver configurations
+     *
+     * @param array $driverConfigs
+     * @param string $baseDir
+     * @return array
+     */
+    protected static function _parseDriverConfigs(array $driverConfigs, $baseDir)
+    {
+        $result = array();
+        foreach ($driverConfigs as $code => $driverConfig) {
+            if (!is_array($driverConfig)) {
+                if (!$driverConfig || !is_scalar($driverConfig)) {
+                    continue;
+                }
+                if (is_numeric($driverConfig) || is_bool($driverConfig)) {
+                    $driverConfig = array();
+                } else {
+                    $driverConfig = array(
+                        'type' => $driverConfig
+                    );
+                }
+            }
+            if (!isset($driverConfig['type']) && !is_numeric($code)) {
+                $driverConfig['type'] = $code;
+            }
+            if (!isset($driverConfig['baseDir']) && $baseDir) {
+                $driverConfig['baseDir'] = $baseDir;
+            }
+            $result[] = $driverConfig;
+        }
+        return $result;
     }
 }

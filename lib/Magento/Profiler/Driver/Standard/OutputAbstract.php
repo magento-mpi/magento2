@@ -45,18 +45,16 @@ abstract class Magento_Profiler_Driver_Standard_OutputAbstract
     /**
      * Constructor
      *
-     * @param Magento_Profiler_Driver_Standard_Output_Configuration|null $config
+     * @param array|null $config
      */
-    public function __construct(Magento_Profiler_Driver_Standard_Output_Configuration $config = null)
+    public function __construct(array $config = null)
     {
-        if ($this->_configuration = $config) {
-            if ($config->hasFilterPatternValue()) {
-                $this->setFilterPattern($config->getFilterPatternValue());
-            }
-            if ($config->hasThresholdsValue()) {
-                foreach ($config->getThresholdsValue() as $fetchKey => $minAllowedValue) {
-                    $this->setThreshold($fetchKey, $minAllowedValue);
-                }
+        if (!empty($config['filterPattern'])) {
+            $this->setFilterPattern($config['filterPattern']);
+        }
+        if (!empty($config['thresholds']) && is_array($config['thresholds'])) {
+            foreach ($config['thresholds'] as $fetchKey => $minAllowedValue) {
+                $this->setThreshold($fetchKey, $minAllowedValue);
             }
         }
     }

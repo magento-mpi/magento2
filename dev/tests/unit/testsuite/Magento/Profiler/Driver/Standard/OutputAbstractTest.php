@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Profiler_Driver_Standard_OutputAbstractStatTest extends PHPUnit_Framework_TestCase
+class Magento_Profiler_Driver_Standard_OutputAbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_Profiler_Driver_Standard_OutputAbstract|PHPUnit_Framework_MockObject_MockObject
@@ -50,11 +50,12 @@ class Magento_Profiler_Driver_Standard_OutputAbstractStatTest extends PHPUnit_Fr
      */
     public function testConstructor()
     {
-        $configuration = new Magento_Profiler_Driver_Standard_Output_Configuration();
-        $configuration->setFilterPatternValue('/filter pattern/');
-        $configuration->setThresholdsValue(array(
-            'fetchKey' => 100
-        ));
+        $configuration = array(
+            'filterPattern' => '/filter pattern/',
+            'thresholds' => array(
+                'fetchKey' => 100
+            )
+        );
         /** @var Magento_Profiler_Driver_Standard_OutputAbstract|PHPUnit_Framework_MockObject_MockObject $output  */
         $output = $this->getMockForAbstractClass('Magento_Profiler_Driver_Standard_OutputAbstract', array(
             $configuration

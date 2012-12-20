@@ -22,7 +22,7 @@ class Magento_Profiler_Driver_Standard_Output_Firebug extends Magento_Profiler_D
     /**
      * Start output buffering
      */
-    public function __construct(Magento_Profiler_Driver_Standard_Output_Configuration $config = null)
+    public function __construct(array $config = null)
     {
         parent::__construct($config);
         ob_start();

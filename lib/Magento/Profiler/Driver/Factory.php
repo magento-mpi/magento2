@@ -38,13 +38,13 @@ class Magento_Profiler_Driver_Factory
     /**
      * Create instance of profiler driver
      *
-     * @param Magento_Profiler_Driver_Configuration $configuration
+     * @param array $config|null
      * @return Magento_Profiler_DriverInterface
      * @throws InvalidArgumentException
      */
-    public function create(Magento_Profiler_Driver_Configuration $configuration)
+    public function create(array $config = null)
     {
-        $type = $configuration->getTypeValue($this->_defaultDriverType);
+        $type = isset($config['type']) ? $config['type'] : $this->_defaultDriverType;
         if (class_exists($type)) {
             $class = $type;
         } else {
@@ -55,7 +55,7 @@ class Magento_Profiler_Driver_Factory
                 ));
             }
         }
-        $driver = new $class($configuration);
+        $driver = new $class($config);
         if (!$driver instanceof Magento_Profiler_DriverInterface) {
             throw new InvalidArgumentException(sprintf(
                 "Driver class \"%s\" must implement Magento_Profiler_DriverInterface.", get_class($driver)

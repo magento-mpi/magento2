@@ -11,7 +11,7 @@ class Magento_Profiler_Driver_Standard_Output_CsvfileTest extends PHPUnit_Framew
 {
     /**
      * @dataProvider constructorProvider
-     * @param Magento_Profiler_Driver_Standard_Output_Configuration $config
+     * @param array $config
      * @param string $expectedFilePath
      * @param string $expectedDelimiter
      * @param string $expectedEnclosure
@@ -31,18 +31,18 @@ class Magento_Profiler_Driver_Standard_Output_CsvfileTest extends PHPUnit_Framew
     {
         return array(
             'Default config' => array(
-                'config' => new Magento_Profiler_Driver_Standard_Output_Configuration(),
+                'config' => array(),
                 'filePath' => str_replace('/', DIRECTORY_SEPARATOR, '/var/log/profiler.csv'),
                 'delimiter' => ',',
                 'enclosure' => '"'
             ),
             'Custom config' => array(
-                'config' => new Magento_Profiler_Driver_Standard_Output_Configuration(array(
+                'config' => array(
                     'baseDir' => str_replace('/', DIRECTORY_SEPARATOR, '/var/www/project/'),
                     'filePath' => str_replace('/', DIRECTORY_SEPARATOR, '/log/example.csv'),
                     'delimiter' => "\t",
                     'enclosure' => '"'
-                )),
+                ),
                 'filePath' => str_replace('/', DIRECTORY_SEPARATOR, '/var/www/project/log/example.csv'),
                 'delimiter' => "\t",
                 'enclosure' => '"'

@@ -47,12 +47,12 @@ class Magento_Profiler_Driver_FactoryTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider createDataProvider
-     * @param array $configData
+     * @param array $config
      * @param string $expectedClass
      */
-    public function testCreate($configData, $expectedClass)
+    public function testCreate($config, $expectedClass)
     {
-        $driver = $this->_factory->create(new Magento_Profiler_Driver_Configuration($configData));
+        $driver = $this->_factory->create($config);
         $this->assertInstanceOf($expectedClass, $driver);
         $this->assertInstanceOf('Magento_Profiler_DriverInterface', $driver);
     }
@@ -94,9 +94,9 @@ class Magento_Profiler_Driver_FactoryTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateUndefinedClass()
     {
-        $this->_factory->create(new Magento_Profiler_Driver_Configuration(array(
+        $this->_factory->create(array(
             'type' => 'baz'
-        )));
+        ));
     }
 
     /**
@@ -105,8 +105,8 @@ class Magento_Profiler_Driver_FactoryTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateInvalidClass()
     {
-        $this->_factory->create(new Magento_Profiler_Driver_Configuration(array(
+        $this->_factory->create(array(
             'type' => 'stdClass'
-        )));
+        ));
     }
 }

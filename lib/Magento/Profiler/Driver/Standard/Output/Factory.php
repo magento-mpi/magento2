@@ -40,13 +40,13 @@ class Magento_Profiler_Driver_Standard_Output_Factory
     /**
      * Create instance of standard profiler driver output
      *
-     * @param Magento_Profiler_Driver_Standard_Output_Configuration $config
+     * @param array $config
      * @return Magento_Profiler_Driver_Standard_OutputInterface
      * @throws InvalidArgumentException If driver cannot be created
      */
-    public function create(Magento_Profiler_Driver_Standard_Output_Configuration $config)
+    public function create(array $config)
     {
-        $type = $config->getTypeValue($this->_defaultOutputType);
+        $type = isset($config['type']) ? $config['type'] : $this->_defaultOutputType;
         if (class_exists($type)) {
             $class = $type;
         } else {

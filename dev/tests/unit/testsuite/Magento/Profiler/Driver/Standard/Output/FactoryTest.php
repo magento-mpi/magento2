@@ -52,7 +52,7 @@ class Magento_Profiler_Driver_Standard_Output_FactoryTest extends PHPUnit_Framew
      */
     public function testCreate($configData, $expectedClass)
     {
-        $driver = $this->_factory->create(new Magento_Profiler_Driver_Standard_Output_Configuration($configData));
+        $driver = $this->_factory->create($configData);
         $this->assertInstanceOf($expectedClass, $driver);
         $this->assertInstanceOf('Magento_Profiler_Driver_Standard_OutputInterface', $driver);
     }
@@ -97,9 +97,9 @@ class Magento_Profiler_Driver_Standard_Output_FactoryTest extends PHPUnit_Framew
                 'Magento_Profiler_Driver_Standard_Output_Test_Baz'
             )
         );
-        $this->_factory->create(new Magento_Profiler_Driver_Standard_Output_Configuration(array(
+        $this->_factory->create(array(
             'type' => 'baz'
-        )));
+        ));
     }
 
     public function testCreateInvalidClass()
@@ -108,8 +108,8 @@ class Magento_Profiler_Driver_Standard_Output_FactoryTest extends PHPUnit_Framew
             'InvalidArgumentException',
             'Output class "stdClass" must implement Magento_Profiler_Driver_Standard_OutputInterface.'
         );
-        $this->_factory->create(new Magento_Profiler_Driver_Standard_Output_Configuration(array(
+        $this->_factory->create(array(
             'type' => 'stdClass'
-        )));
+        ));
     }
 }

@@ -9,11 +9,6 @@
  */
 class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @var string
-     */
-    protected $_baseDir = '/some/base/dir';
-
     protected function tearDown()
     {
         Magento_Profiler::reset();
@@ -24,10 +19,8 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
      * @param array $driversConfig
      * @param array $expectedDrivers
      */
-    public function testApplyConfigWithDrivers(array $driversConfig, array $expectedDrivers)
+    public function testApplyConfigWithDrivers(array $config, array $expectedDrivers)
     {
-        $config = new Magento_Profiler_Configuration($this->_baseDir);
-        $config->initDriverConfigurations($driversConfig);
         Magento_Profiler::applyConfig($config);
         $this->assertAttributeEquals($expectedDrivers, '_drivers', 'Magento_Profiler');
     }
@@ -38,91 +31,109 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
     public function applyConfigDataProvider()
     {
         return array(
-            'Empty array creates standard driver' => array(
-                'configs' => array(array()),
-                'drivers' => array(new Magento_Profiler_Driver_Standard())
-            ),
-            'Integer 0 does not create any driver' => array(
-                'configs' => array(0),
+            'Empty config does not create any driver' => array(
+                'config' => array(),
                 'drivers' => array()
             ),
+            'Integer 0 does not create any driver' => array(
+                'config' => array(
+                    'drivers' => array(0)
+                ),
+                'drivers' => array()
+            ),
+            'Integer 1 does creates standard driver' => array(
+                'config' => array(
+                    'drivers' => array(1)
+                ),
+                'drivers' => array(new Magento_Profiler_Driver_Standard())
+            ),
             'Config array key sets driver type' => array(
-                'configs' => array('pinba' => 1),
+                'configs' => array(
+                    'drivers' => array('pinba' => 1)
+                ),
                 'drivers' => array(new Magento_Profiler_Driver_Pinba())
             ),
             'Config array key ignored when type set' => array(
-                'configs' => array('pinba' => array('type' => 'standard')),
+                'config' => array(
+                    'drivers' => array('pinba' => array('type' => 'standard'))
+                ),
                 'drivers' => array(new Magento_Profiler_Driver_Standard())
             ),
             'Config with outputs element as integer 1 creates output' => array(
-                'configs' => array(array('outputs' => array('html' => 1))),
+                'config' => array(
+                    'drivers' => array(
+                        array('outputs' => array('html' => 1))
+                    ),
+                    'baseDir' => '/some/base/dir'
+                ),
                 'drivers' => array(
-                    new Magento_Profiler_Driver_Standard(
-                        new Magento_Profiler_Driver_Configuration(array(
-                            'outputs' => array(array(
-                                'type' => 'html',
-                                'baseDir' => $this->_baseDir
-                            ))
+                    new Magento_Profiler_Driver_Standard(array(
+                        'outputs' => array(array(
+                            'type' => 'html',
+                            'baseDir' => '/some/base/dir'
                         ))
-                    )
+                    ))
                 )
             ),
             'Config with outputs element as integer 0 does not create output' => array(
-                'configs' => array(array('outputs' => array('html' => 0))),
+                'config' => array(
+                    'drivers' => array(
+                        array('outputs' => array('html' => 0))
+                    )
+                ),
                 'drivers' => array(new Magento_Profiler_Driver_Standard())
             ),
             'Config with shortly defined outputs element' => array(
-                'configs' => array(array('outputs' => array('foo' => 'html'))),
-                'drivers' => array(
-                    new Magento_Profiler_Driver_Standard(
-                        new Magento_Profiler_Driver_Configuration(array(
-                            'outputs' => array(array(
-                                'type' => 'html',
-                                'baseDir' => $this->_baseDir
-                            ))
+                'config' => array(
+                    'drivers' => array(
+                        array('outputs' => array('foo' => 'html'))
+                    ),
+                ),
+                'drivers' => array(new Magento_Profiler_Driver_Standard(array(
+                        'outputs' => array(array(
+                            'type' => 'html'
                         ))
-                    )
+                    ))
                 )
             ),
             'Config with fully defined outputs element options' => array(
-                'configs' => array(
-                    array(
-                        'outputs' => array(
-                            'foo' => array(
-                                'type' => 'html',
-                                'filterName' => '/someFilter/',
-                                'thresholds' => array('someKey' => 123),
-                                'baseDir' => '/custom/dir'
+                'config' => array(
+                    'drivers' => array(
+                        array(
+                            'outputs' => array(
+                                'foo' => array(
+                                    'type' => 'html',
+                                    'filterName' => '/someFilter/',
+                                    'thresholds' => array('someKey' => 123),
+                                    'baseDir' => '/custom/dir'
+                                )
                             )
                         )
                     )
                 ),
                 'drivers' => array(
-                    new Magento_Profiler_Driver_Standard(
-                        new Magento_Profiler_Driver_Configuration(array(
-                            'outputs' => array(array(
-                                'type' => 'html',
-                                'filterName' => '/someFilter/',
-                                'thresholds' => array('someKey' => 123),
-                                'baseDir' => '/custom/dir'
-                            ))
+                    new Magento_Profiler_Driver_Standard(array(
+                        'outputs' => array(array(
+                            'type' => 'html',
+                            'filterName' => '/someFilter/',
+                            'thresholds' => array('someKey' => 123),
+                            'baseDir' => '/custom/dir'
                         ))
                     )
-                )
+                ))
             ),
             'Config with shortly defined output' => array(
-                'configs' => array(array('output' => 'html')),
+                'config' => array(
+                    'driver' => array('output' => 'html'),
+                ),
                 'drivers' => array(
-                    new Magento_Profiler_Driver_Standard(
-                        new Magento_Profiler_Driver_Configuration(array(
-                            'outputs' => array(array(
-                                'type' => 'html',
-                                'baseDir' => $this->_baseDir
-                            ))
+                    new Magento_Profiler_Driver_Standard(array(
+                        'outputs' => array(array(
+                            'type' => 'html'
                         ))
-                    )
+                    ))
                 )
-            ),
+            )
         );
     }
 }

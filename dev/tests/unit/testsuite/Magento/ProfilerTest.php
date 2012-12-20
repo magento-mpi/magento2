@@ -333,33 +333,26 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
     public function testApplyConfig()
     {
         $mockDriver = $this->getMock('Magento_Profiler_DriverInterface');
-        $mockDriverConfig = $this->getMockBuilder('Magento_Profiler_Driver_Configuration')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $driverConfig = array(
+            'type' => 'foo'
+        );
         $mockDriverFactory = $this->getMockBuilder('Magento_Profiler_Driver_Factory')
             ->disableOriginalConstructor()
             ->getMock();
-        $mockConfig = $this->getMockBuilder('Magento_Profiler_Configuration')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $mockConfig->expects($this->once())
-            ->method('getDriverConfigs')
-            ->will($this->returnValue(array($mockDriverConfig)));
-        $mockConfig->expects($this->once())
-            ->method('getDriverFactory')
-            ->will($this->returnValue($mockDriverFactory));
-        $mockConfig->expects($this->once())
-            ->method('getTagFilters')
-            ->will($this->returnValue(array(
+        $config = array(
+            'drivers' => array($driverConfig),
+            'driverFactory' => $mockDriverFactory,
+            'tagFilters' => array(
                 'tagName' => 'tagValue'
-            )));
+            )
+        );
+
         $mockDriverFactory->expects($this->once())
             ->method('create')
-            ->with($mockDriverConfig)
+            ->with($driverConfig)
             ->will($this->returnValue($mockDriver));
 
-        Magento_Profiler::applyConfig($mockConfig);
+        Magento_Profiler::applyConfig($config);
         $this->assertAttributeEquals(array(
             $mockDriver
         ), '_drivers', 'Magento_Profiler');
@@ -369,5 +362,103 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
             )
         ), '_tagFilters', 'Magento_Profiler');
         $this->assertAttributeEquals(true, '_enabled', 'Magento_Profiler');
+    }
+
+    /**
+     * @dataProvider parseConfigDataProvider
+     * @param array $data
+     * @param array $expected
+     */
+    public function testParseConfig(array $data, array $expected)
+    {
+        $method = new ReflectionMethod('Magento_Profiler', '_parseConfig');
+        $method->setAccessible(true);
+        $this->assertEquals($expected, $method->invoke(null, $data));
+    }
+
+    /**
+     * @return array
+     */
+    public function parseConfigDataProvider()
+    {
+        $driverFactory = new Magento_Profiler_Driver_Factory();
+        $otherDriverFactory = $this->getMock('Magento_Profiler_Driver_Factory');
+        return array(
+            'Empty configuration' => array(
+                array(),
+                array(
+                    'driverConfigs' => array(),
+                    'driverFactory' => $driverFactory,
+                    'tagFilters' => array(),
+                    'baseDir' => null,
+                )
+            ),
+            'Full configuration' => array(
+                array(
+                    'drivers' => array(
+                        array(
+                            'type' => 'foo'
+                        )
+                    ),
+                    'driverFactory' => $otherDriverFactory,
+                    'tagFilters' => array('key' => 'value'),
+                    'baseDir' => '/custom/base/dir'
+                ),
+                array(
+                    'driverConfigs' => array(
+                        array(
+                            'type' => 'foo',
+                            'baseDir' => '/custom/base/dir'
+                        )
+                    ),
+                    'driverFactory' => $otherDriverFactory,
+                    'tagFilters' => array('key' => 'value'),
+                    'baseDir' => '/custom/base/dir',
+                )
+            ),
+            'Driver configuration with type in index' => array(
+                array(
+                    'drivers' => array(
+                        'foo' => 1
+                    )
+                ),
+                array(
+                    'driverConfigs' => array(array(
+                        'type' => 'foo'
+                    )),
+                    'driverFactory' => $driverFactory,
+                    'tagFilters' => array(),
+                    'baseDir' => null,
+                )
+            ),
+            'Driver configuration with type in value' => array(
+                array(
+                    'drivers' => array(
+                        'foo'
+                    )
+                ),
+                array(
+                    'driverConfigs' => array(array(
+                        'type' => 'foo'
+                    )),
+                    'driverFactory' => $driverFactory,
+                    'tagFilters' => array(),
+                    'baseDir' => null,
+                )
+            ),
+            'Driver ignored configuration' => array(
+                array(
+                    'drivers' => array(
+                        'foo' => 0
+                    )
+                ),
+                array(
+                    'driverConfigs' => array(),
+                    'driverFactory' => $driverFactory,
+                    'tagFilters' => array(),
+                    'baseDir' => null,
+                )
+            )
+        );
     }
 }
