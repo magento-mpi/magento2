@@ -32,45 +32,23 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
      *
      * "Safe" means that they will work with any template (if applicable)
      *
-     * @var array
+     * @var array|null
      */
-    protected static $_blockWhiteList = array(
-        'Mage_Core_Block_Template',
-        'Mage_Page_Block_',
-        'Mage_DesignEditor_Block_',
-        'Mage_Checkout_Block_Onepage_',
-        'Mage_Customer_Block_Account_Navigation',
-        'Mage_Paypal_Block_Express_Review_Details',
-        'Mage_Poll_Block_ActivePoll',
-        'Mage_Sales_Block_Guest_Links',
-        'Mage_Catalog_Block_Product_Compare_Sidebar',
-        'Mage_Checkout_Block_Cart_Sidebar',
-        'Mage_Wishlist_Block_Customer_Sidebar',
-        'Mage_Reports_Block_Product_Viewed',
-        'Mage_Reports_Block_Product_Compared',
-        'Mage_Sales_Block_Reorder_Sidebar',
-        'Mage_Paypal_Block_Express_Shortcut',
-        'Mage_PaypalUk_Block_Express_Shortcut',
-    );
+    protected $_blockWhiteList = null;
 
     /**
      * List of block types considered as "not safe"
      *
-     * @var array
+     * @var array|null
      */
-    protected static $_blockBlackList = array(
-        'Mage_Page_Block_Html_Pager',
-    );
+    protected $_blockBlackList = null;
 
     /**
      * List of layout containers that potentially have "safe" blocks
      *
-     * @var array
+     * @var array|null
      */
-    protected static $_containerWhiteList = array(
-        'root', 'head', 'after_body_start', 'header', 'footer', 'before_body_end',
-        'top.links', 'top.menu',
-    );
+    protected $_containerWhiteList = null;
 
     /**
      * Block that wrap page elements when wrapping enabled
@@ -78,6 +56,11 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
      * @var Mage_DesignEditor_Block_Template
      */
     protected $_wrapperBlock;
+
+    /**
+     * @var Mage_DesignEditor_Helper_Data
+     */
+    protected $_helper;
 
     /**
      * List of JS events not allowed in VDE mode
@@ -100,17 +83,14 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
     );
 
     /**
-     * Class constructor
-     *
      * @param Mage_Core_Model_BlockFactory $blockFactory
      * @param Magento_Data_Structure $structure
      * @param Mage_Core_Model_Layout_Argument_Processor $argumentProcessor
      * @param Mage_Core_Model_Layout_Translator $translator
      * @param Mage_Core_Model_Layout_ScheduledStructure $scheduledStructure
      * @param Mage_DesignEditor_Block_Template $wrapperBlock
+     * @param Mage_DesignEditor_Helper_Data $helper
      * @param string $area
-     * @param bool $isSanitizeBlocks
-     * @param bool $enableWrapping
      */
     public function __construct(
         Mage_Core_Model_BlockFactory $blockFactory,
@@ -119,13 +99,11 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
         Mage_Core_Model_Layout_Translator $translator,
         Mage_Core_Model_Layout_ScheduledStructure $scheduledStructure,
         Mage_DesignEditor_Block_Template $wrapperBlock,
-        $area = Mage_Core_Model_Design_Package::DEFAULT_AREA,
-        $isSanitizeBlocks = false,
-        $enableWrapping = false
+        Mage_DesignEditor_Helper_Data $helper,
+        $area = Mage_Core_Model_Design_Package::DEFAULT_AREA
     ) {
-        $this->_wrapperBlock      = $wrapperBlock;
-        $this->_sanitationEnabled = $isSanitizeBlocks;
-        $this->_enabledWrapping   = $enableWrapping;
+        $this->_wrapperBlock = $wrapperBlock;
+        $this->_helper       = $helper;
         parent::__construct($blockFactory, $structure, $argumentProcessor, $translator, $scheduledStructure, $area);
     }
 
@@ -233,6 +211,19 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
     }
 
     /**
+     * Get list of allowed containers
+     *
+     * @return array
+     */
+    protected function _getContainerWhiteList()
+    {
+        if ($this->_containerWhiteList === null) {
+            $this->_containerWhiteList = $this->_helper->getContainerWhiteList();
+        }
+        return $this->_containerWhiteList;
+    }
+
+    /**
      * Whether parent node of specified node can be considered a safe container
      *
      * @param Varien_Simplexml_Element $node
@@ -242,11 +233,37 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
     {
         $parentAttributes = $node->getParent()->attributes();
         if (isset($parentAttributes['name'])) {
-            if (!in_array($parentAttributes['name'], self::$_containerWhiteList)) {
+            if (!in_array($parentAttributes['name'], $this->_getContainerWhiteList())) {
                 return false;
             }
         }
         return true;
+    }
+
+    /**
+     * Get list of allowed blocks
+     *
+     * @return array
+     */
+    protected function _getBlockWhiteList()
+    {
+        if ($this->_blockWhiteList === null) {
+            $this->_blockWhiteList = $this->_helper->getBlockWhiteList();
+        }
+        return $this->_blockWhiteList;
+    }
+
+    /**
+     * Get list of not allowed blocks
+     *
+     * @return array
+     */
+    protected function _getBlockBlackList()
+    {
+        if ($this->_blockBlackList === null) {
+            $this->_blockBlackList = $this->_helper->getBlockBlackList();
+        }
+        return $this->_blockBlackList;
     }
 
     /**
@@ -257,10 +274,14 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
      */
     protected function _isTypeSafe($type)
     {
-        if (in_array($type, self::$_blockBlackList)) {
+        if ($type == 'Namespace_Module_Block_NotSafe') {
+            $a = 5;
+        }
+
+        if (in_array($type, $this->_getBlockBlackList())) {
             return false;
         }
-        foreach (self::$_blockWhiteList as $safeType) {
+        foreach ($this->_getBlockWhiteList() as $safeType) {
             if ('_' !== substr($safeType, -1, 1)) {
                 if ($type === $safeType) {
                     return true;

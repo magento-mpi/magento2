@@ -18,6 +18,9 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
      */
     const XML_PATH_FRONT_NAME           = 'vde/design_editor/frontName';
     const XML_PATH_DISABLED_CACHE_TYPES = 'vde/design_editor/disabledCacheTypes';
+    const XML_PATH_BLOCK_WHITE_LIST     = 'vde/design_editor/block/white_list';
+    const XML_PATH_BLOCK_BLACK_LIST     = 'vde/design_editor/block/black_list';
+    const XML_PATH_CONTAINER_WHITE_LIST = 'vde/design_editor/container/white_list';
     /**#@-*/
 
     /**
@@ -58,4 +61,51 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
 
         return $resultCacheTypes;
     }
+
+    /**
+     * Get list of configuration element values
+     *
+     * @param string $xmlPath
+     * @return array
+     */
+    protected function _getElementsList($xmlPath)
+    {
+        $elements = array();
+        $node = $this->_configuration->getNode($xmlPath);
+        if ($node) {
+            $elements = array_values($node->asArray());
+        }
+        return $elements;
+    }
+
+    /**
+     * Get list of allowed blocks
+     *
+     * @return array
+     */
+    public function getBlockWhiteList()
+    {
+        return $this->_getElementsList(self::XML_PATH_BLOCK_WHITE_LIST);
+    }
+
+    /**
+     * Get list of not allowed blocks
+     *
+     * @return array
+     */
+    public function getBlockBlackList()
+    {
+        return $this->_getElementsList(self::XML_PATH_BLOCK_BLACK_LIST);
+    }
+
+    /**
+     * Get list of allowed blocks
+     *
+     * @return array
+     */
+    public function getContainerWhiteList()
+    {
+        return $this->_getElementsList(self::XML_PATH_CONTAINER_WHITE_LIST);
+    }
+
 }
