@@ -467,7 +467,8 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
     public function configurableWithDownloadableProduct($attrData)
     {
         //Data
-        $download = $this->loadDataSet('Product', 'downloadable_product_required');
+        $download = $this->loadDataSet('Product', 'downloadable_product_required',
+            array('downloadable_links_purchased_separately' => 'No'));
         $download['general_user_attr']['dropdown'][$attrData['attribute_code']] =
             $attrData['option_3']['admin_option_name'];
         $associateData = $this->loadDataSet('Product', 'general_configurable_data',

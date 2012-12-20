@@ -282,7 +282,8 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
     public function groupedWithDownloadableProduct()
     {
         //Data
-        $downloadableData = $this->loadDataSet('Product', 'downloadable_product_required');
+        $downloadableData = $this->loadDataSet('Product', 'downloadable_product_required',
+            array('downloadable_links_purchased_separately' => 'No'));
         $groupedData = $this->loadDataSet('Product', 'grouped_product_required',
             array('associated_search_sku' => $downloadableData['general_sku']));
         $productSearch =

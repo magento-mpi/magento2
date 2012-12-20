@@ -1277,6 +1277,7 @@ downloadable_product_required:
     prices_special_price: %noValue%
     prices_tax_class: None
     inventory_qty: %noValue%
+    downloadable_information_data: *downloadableData
 
 # Product that has all needed fields set to be visible in frontend.
 downloadable_product_visible:
@@ -2322,7 +2323,7 @@ downloadable_product_minimal:
     websites: Main Website
     general_categories: Default Category
     downloadable_information_data:
-        downloadable_link_1: %noValue%
+        downloadable_link_1: *downloadableData
 
 grouped_product_minimal:
     product_attribute_set: Minimal

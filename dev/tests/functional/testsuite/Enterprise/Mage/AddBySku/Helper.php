@@ -414,6 +414,51 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
+     * Configure product which require specifying link in Required Attention grid
+     *
+     * @param array $product
+     * @param string $productType
+     */
+    protected function _frontSpecifyOptions(array $product, $productType)
+    {
+        if (strlen(strstr($productType, 'grouped')) > 0) {
+            $this->frontCheckFields($product, false, false);
+        } else {
+            $this->frontCheckFields($product, true, true);
+        }
+        $this->clickSpecifyLink($product['product_name']);
+        $this->productHelper()->frontFillBuyInfo($product['Options']);
+        $this->clickButton('update_cart');
+        //Verifying
+        if (strlen(strstr($productType, 'grouped')) > 0) {
+            $this->addParameter('productName',
+                $product['Options']['option_1']['parameters']['subproductName']);
+        }
+    }
+
+    /**
+     * Configure product which require quantity modification in Required Attention grid
+     *
+     * @param array $product
+     * @param $productType
+     * @param array $msgShoppingCart
+     * @param array $msgGrid
+     */
+    protected function _frontRequestedQuantity(array $product, $productType, array $msgShoppingCart, array $msgGrid)
+    {
+        $this->frontCheckFields($product, true, true);
+        if ($productType == 'simpleMin') {
+            $qty = $product['qty'] + 1;
+        } else {
+            $qty = $product['qty'] - 1;
+        }
+        $this->addParameter('qty', $qty);
+        $this->assertMessagePresent($msgShoppingCart['type'], $msgGrid['messageTwo']);
+        $this->fillFieldset(array('qty' => $qty), 'products_requiring_attention');
+        $this->clickButton('add_to_cart');
+    }
+
+    /**
      * Configure product in Required Attention grid and add it to Shopping cart if possible
      *
      * @param array $product
@@ -428,31 +473,10 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
             switch ($msgAttentionGrid['messageOne']) {
                 case 'qty_not_available':
                 case 'requested_qty':
-                    $this->frontCheckFields($product, true, true);
-                    if ($productType == 'simpleMin') {
-                        $qty = $product['qty'] + 1;
-                    } else {
-                        $qty = $product['qty'] - 1;
-                    }
-                    $this->addParameter('qty', $qty);
-                    $this->assertMessagePresent($msgShoppingCart['type'], $msgAttentionGrid['messageTwo']);
-                    $this->fillFieldset(array('qty' => $qty), 'products_requiring_attention');
-                    $this->clickButton('add_to_cart');
+                    $this->_frontRequestedQuantity($product, $productType, $msgShoppingCart, $msgAttentionGrid);
                     break;
                 case 'specify_option':
-                    if (strlen(strstr($productType, 'grouped')) > 0) {
-                        $this->frontCheckFields($product, false, false);
-                    } else {
-                        $this->frontCheckFields($product, true, true);
-                    }
-                    $this->clickSpecifyLink($product['product_name']);
-                    $this->productHelper()->frontFillBuyInfo($product['Options']);
-                    $this->clickButton('update_cart');
-                    //Verifying
-                    if (strlen(strstr($productType, 'grouped')) > 0) {
-                        $this->addParameter('productName',
-                            $product['Options']['option_1']['parameters']['subproductName']);
-                    }
+                    $this->_frontSpecifyOptions($product, $productType);
                     break;
                 case 'out_of_stock':
                     $this->frontCheckFields($product, true, false);
@@ -461,9 +485,10 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
                     $this->frontCheckFields($product, false, false);
                     break;
             }
-        }
-        if ($productType == 'simpleNotVisible') {
-            $this->addParameter('productName', $product['product_name']);
+        } else {
+            if ($productType == 'simpleNotVisible') {
+                $this->addParameter('productName', $product['product_name']);
+            }
         }
     }
 }
