@@ -1540,6 +1540,21 @@
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
+            <xsd:element name="catalogProductAttributeRemoveRequestParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="attribute" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="catalogProductAttributeRemoveResponseParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="xsd:boolean" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
         </xsd:schema>
     </wsdl:types>
     <wsdl:message name="catalogProductCurrentStoreRequest">
@@ -1913,6 +1928,12 @@
     </wsdl:message>
     <wsdl:message name="catalogProductAttributeCreateResponse">
         <wsdl:part name="parameters" element="typens:catalogProductAttributeCreateResponseParam" />
+    </wsdl:message>
+    <wsdl:message name="catalogProductAttributeRemoveRequest">
+        <wsdl:part name="parameters" element="typens:catalogProductAttributeRemoveRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="catalogProductAttributeRemoveResponse">
+        <wsdl:part name="parameters" element="typens:catalogProductAttributeRemoveResponseParam" />
     </wsdl:message>
     <wsdl:portType name="{{var wsdl.handler}}PortType">
         <wsdl:operation name="catalogCategoryCurrentStore">
@@ -2783,6 +2804,15 @@
             </wsdl:output>
         </wsdl:operation>
         <wsdl:operation name="catalogProductAttributeCreate">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="catalogProductAttributeRemove">
             <soap:operation soapAction="" />
             <wsdl:input>
                 <soap:body use="literal" />
