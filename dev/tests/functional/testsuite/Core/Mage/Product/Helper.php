@@ -590,6 +590,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->addParameter('attributesUrl', $attributesUrl);
         $this->clickButton('generate_product_variations');
         $this->waitForControlVisible('fieldset', 'variations_matrix_grid');
+        $this->unassignAllConfigurableVariations();
     }
 
     /**
@@ -620,10 +621,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      * Assign Configurable Variations
      *
      * @param array $assignData
-     * @param bool $reassign
-     * @param bool $selectExisted
      */
-    public function assignConfigurableVariations(array $assignData, $reassign = false, $selectExisted = true)
+    public function assignConfigurableVariations(array $assignData)
     {
         if (!$this->controlIsVisible('fieldset', 'variations_matrix_grid')) {
             $this->fail('Product variations grid is not present on the page');
@@ -639,28 +638,29 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             //Define and add param that clarifies what a line in table will be use
             $param = $this->formAssignConfigurableParam($attributeData, $headRowNames);
             $this->addParameter('attributeSearch', $param);
+            $this->fillCheckbox('include_variation', 'Yes');
             $trLocator = $this->formSearchXpath($assignProduct, "//tbody/tr");
             //If product is selected
-            if ($this->elementIsPresent($variationTable . $trLocator . "[$param]") && !$reassign) {
+            if ($this->elementIsPresent($variationTable . $trLocator . "[$param]")) {
                 return;
-            } else {
-                if (!$selectExisted) {
-                    $this->fillFieldset($assignProduct, 'variations_matrix_grid');
-                    return;
-                }
             }
             //If product is not selected
             $productTable = $this->_getControlXpath('fieldset', 'select_associated_product');
             $this->clickButton('choose', false);
             $this->waitForElementVisible($productTable);
-            $param = $this->formAssignConfigurableParam($attributeData, $this->getTableHeadRowNames($productTable));
-            $isProductExist = $this->elementIsPresent($productTable . $trLocator . "[$param]");
+            $selectParam = $this->formAssignConfigurableParam($attributeData,
+                $this->getTableHeadRowNames($productTable));
+            $isProductExist = $this->elementIsPresent($productTable . $trLocator . "[$selectParam]");
             if ($isProductExist) {
                 //if product created
                 $isProductExist->click();
+                $this->waitForElementVisible($variationTable . $trLocator . "[$param]");
             } else {
                 //fill data for new product
                 $this->clickControl('link', 'close_select_associated_product', false);
+                if (!$this->controlIsPresent('field', 'associated_product_name')) {
+                    $this->fail('Product is not exist and you can not create it(already another product is selected)');
+                }
                 $this->fillFieldset($assignProduct, 'variations_matrix_grid');
             }
         }
@@ -703,7 +703,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         $variationsCount = $this->getControlCount('pageelement', 'variation_line');
         while ($variationsCount > 0) {
-            $this->addParameter('rowNum', $variationsCount--);
+            $this->addParameter('attributeSearch', $variationsCount--);
             $this->fillCheckbox('include_variation', 'No');
         }
     }
@@ -724,7 +724,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         /** @var $tdElement PHPUnit_Extensions_Selenium2TestCase_Element */
         $data = array();
         foreach ($rowElements as $key => $rowElement) {
-            $this->addParameter('rowNum', $key + 1);
+            $this->addParameter('attributeSearch', $key + 1);
             if ($isAssignedData != $this->getControlAttribute('checkbox', 'include_variation', 'selectedValue')) {
                 $this->addVerificationMessage(
                     'Checkbox in ' . $key + 1 . ' field ' . (($isAssignedData) ? 'is not' : 'is') . ' selected');
@@ -746,7 +746,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         /** @var $tdElement PHPUnit_Extensions_Selenium2TestCase_Element */
         $data = array();
         foreach ($rowElements as $key => $rowElement) {
-            $this->addParameter('rowNum', $key + 1);
+            $this->addParameter('attributeSearch', $key + 1);
             $tdElements = $this->getChildElements($rowElement, 'td');
             foreach ($tdElements as $keyTd => $tdElement) {
                 $data[$key + 1][$keyTd + 1] = trim(str_replace('Choose', '', $tdElement->text()));
@@ -1437,7 +1437,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $returnCategory = array('name' => 'Default Category', 'path' => 'Default Category');
         }
         //Create product
-        $productCat = array('general_categories' => $returnCategory['path']);
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $configurableOptions = array($attrData['option_1']['store_view_titles']['Default Store View'],
                                      $attrData['option_2']['store_view_titles']['Default Store View'],
@@ -1445,26 +1444,22 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $attrCode = $attrData['attribute_code'];
         $attrTitle = $attrData['admin_title'];
         $associatedAttr = $this->loadDataSet('AttributeSet', 'associated_attributes', array('General' => $attrCode));
-        $simple = $this->loadDataSet('Product', 'simple_product_visible', $productCat);
-        $simple['general_user_attr']['dropdown'][$attrCode] = $attrData['option_1']['admin_option_name'];
-        $virtual = $this->loadDataSet('Product', 'virtual_product_visible', $productCat);
-        $virtual['general_user_attr']['dropdown'][$attrCode] = $attrData['option_2']['admin_option_name'];
+        $simpleOption = $this->loadDataSet('Product', 'generate_simple_associated', null,
+            array('attribute_name_1'  => $attrTitle,
+                  //'attribute_value_1' => $configurableOptions[0], @TODO when fixed MAGETWO-6343
+                  'attribute_value_1' => $attrData['option_1']['admin_option_name']));
+        $virtualOption = $this->loadDataSet('Product', 'generate_simple_associated', null,
+            array('attribute_name_1'  => $attrTitle,
+                  //'attribute_value_1' => $configurableOptions[1], @TODO when fixed MAGETWO-6343
+                  'attribute_value_1' => $attrData['option_2']['admin_option_name']));
         $download = $this->loadDataSet('SalesOrder', 'downloadable_product_for_order',
             array('downloadable_links_purchased_separately' => 'No', 'general_categories' => $returnCategory['path']));
         $download['general_user_attr']['dropdown'][$attrCode] = $attrData['option_3']['admin_option_name'];
         $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order',
-            array('general_configurable_attribute_title' => $attrTitle,
-                  'general_categories'                   => $returnCategory['path']),
-            //            array('associated_1'      => $simple['general_sku'], 'attribute_name_1' => $attrTitle,
-            //                  'attribute_value_1' => $configurableOptions[0], 'associated_2' => $virtual['general_sku'],
-            //                  'attribute_name_2'  => $attrTitle, 'attribute_value_2' => $configurableOptions[1],
-            //                  'associated_3'      => $download['general_sku'], 'attribute_name_3' => $attrTitle,
-            //                  'attribute_value_3' => $configurableOptions[2]));
-            array('associated_1'      => $simple['general_sku'], 'attribute_name_1' => $attrTitle,
-                  'attribute_value_1' => $attrData['option_1']['admin_option_name'],
-                  'associated_2'      => $virtual['general_sku'], 'attribute_name_2' => $attrTitle,
-                  'attribute_value_2' => $attrData['option_2']['admin_option_name'],
-                  'associated_3'      => $download['general_sku'], 'attribute_name_3' => $attrTitle,
+            array('general_configurable_attribute_title' => $attrTitle, 'general_categories' => $returnCategory['path'],
+                  'configurable_1'                       => $simpleOption, 'configurable_2' => $virtualOption),
+            array('associated_3'      => $download['general_sku'], 'attribute_name_3' => $attrTitle,
+                  //'attribute_value_3' => $configurableOptions[2], @TODO when fixed MAGETWO-6343
                   'attribute_value_3' => $attrData['option_3']['admin_option_name']));
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
@@ -1475,21 +1470,17 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->saveForm('save_attribute_set');
         $this->assertMessagePresent('success', 'success_attribute_set_saved');
         $this->navigate('manage_products');
-        $this->createProduct($simple);
-        $this->assertMessagePresent('success', 'success_saved_product');
-        $this->createProduct($virtual, 'virtual');
-        $this->assertMessagePresent('success', 'success_saved_product');
         $this->createProduct($download, 'downloadable');
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->createProduct($configurable, 'configurable');
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return array('simple' => array('product_name' => $simple['general_name'],
-                                       'product_sku'  => $simple['general_sku']),
+        return array('simple' => array('product_name' => $simpleOption['associated_product_name'],
+                                       'product_sku'  => $simpleOption['associated_product_name']),
                      'downloadable' => array('product_name' => $download['general_name'],
                                              'product_sku'  => $download['general_sku']),
-                     'virtual' => array('product_name' => $virtual['general_name'],
-                                        'product_sku'  => $virtual['general_sku']),
+                     'virtual' => array('product_name' => $virtualOption['associated_product_name'],
+                                        'product_sku'  => $virtualOption['associated_product_name']),
                      'configurable' => array('product_name' => $configurable['general_name'],
                                              'product_sku'  => $configurable['general_sku']),
                      'simpleOption' => array('option'       => $attrData['option_1']['admin_option_name'],

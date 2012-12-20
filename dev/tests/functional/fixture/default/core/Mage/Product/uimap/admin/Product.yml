@@ -182,14 +182,14 @@ new_product:
                                     links:
                                         suggested_attribute: //ul[contains(concat(' ', normalize-space(@class), ' '), 'ui-menu')]//a[text()='%attributeName%']
                                     buttons:
-                                        generate_product_variations: //button[@data-ui-id='admin-product-edit-tab-super-config-grid-container-generate']
+                                        generate_product_variations: //button[span='Generate Variations']
                                     pageelements:
                                         product_variations_fieldset: /fieldset
                             -
                                 variations_matrix_grid:
                                     xpath: //div[@id='product-variations-matrix']
                                     checkboxes:
-                                        include_variation: //tbody/tr[%rowNum%]//input[@name='associated_product_ids[]']
+                                        include_variation: //tbody/tr[%attributeSearch%]//input[@name='associated_product_ids[]']
                                         assigned_product: //tbody/tr[td/text()='%productSku%'][%attributeSearch%]//input[@checked='checked']
                                     pageelements:
                                         variation_line: //tbody/tr
