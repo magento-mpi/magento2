@@ -27,3 +27,32 @@ manage_roles:
         0: ID
         1: Role Name
         2: Allowed Scopes
+
+#dataset for ui elements in Manage Product Rules grid
+manage_product_rules:
+    fieldset:
+          cms_banners_grid: tablename
+    button:
+        reset_filter:
+        search:
+    dropdown:
+        filter_applies_to:
+        filter_status:
+        view_on_page:
+    field:
+         page:
+         filter_id:
+         filter_rule_name:
+         filter_date_start_from:
+         filter_date_start_to:
+         filter_date_expire_from:
+         filter_date_expire_to:
+         filter_priority:
+    headers:
+        0: ID
+        1: Rule Name
+        2: Date Start
+        3: Date Expire
+        4: Priority
+        5: Applies To
+        6: Status
