@@ -27,7 +27,9 @@
          * Bind handlers to events
          */
         _create: function() {
-            $(this.options.wishListFormSelector).on('click', this.options.addToCartSelector, $.proxy(this._addItemsToCart, this))
+            $(this.options.wishListFormSelector)
+                .on('submit', $.proxy(this._addItemsToCart, this))
+                .on('click', this.options.addToCartSelector, $.proxy(this._addItemsToCart, this))
                 .on('click', this.options.btnRemoveSelector, $.proxy(this._confirmRemoveWishlistItem, this))
                 .on('click', this.options.addAllToCartSelector, $.proxy(this._addAllWItemsToCart, this))
                 .on('focusin focusout', this.options.commentInputType, $.proxy(this._focusComment, this));
@@ -44,6 +46,7 @@
                     error.insertAfter(element.next());
                 }
             }).valid()) {
+                $(this.options.wishListFormSelector).prop('action', url);
                 window.location.href = url;
             }
         },
@@ -53,16 +56,19 @@
          * @private
          * @param {event} e
          */
-        _addItemsToCart: function(e) {
-            var btn = $(e.currentTarget),
-                itemId = btn.data(this.options.dataAttribute),
-                url = this.options.addToCartUrl.replace('%item%', itemId),
-                inputName = $.validator.format(this.options.nameFormat, itemId),
-                inputValue = $(this.options.wishListFormSelector).find('[name="' + inputName + '"]').val(),
-                separator = (url.indexOf('?') >= 0) ? '&' : '?';
-            url += separator + inputName + '=' + encodeURIComponent(inputValue);
-
-            this._validateAndRedirect(url);
+        _addItemsToCart: function() {
+            $(this.options.addToCartSelector).each($.proxy(function(index, element) {
+                if ($(element).data(this.options.dataAttribute)) {
+                    var itemId = $(element).data(this.options.dataAttribute),
+                        url = this.options.addToCartUrl.replace('%item%', itemId),
+                        inputName = $.validator.format(this.options.nameFormat, itemId),
+                        inputValue = $(this.options.wishListFormSelector).find('[name="' + inputName + '"]').val(),
+                        separator = (url.indexOf('?') >= 0) ? '&' : '?';
+                    url += separator + inputName + '=' + encodeURIComponent(inputValue);
+                    this._validateAndRedirect(url);
+                    return;
+                }
+            }, this));
         },
 
         /**
