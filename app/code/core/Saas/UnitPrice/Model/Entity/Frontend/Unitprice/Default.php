@@ -28,9 +28,15 @@ class Saas_UnitPrice_Model_Entity_Frontend_Unitprice_Default
     {
         $value = $object->getData($this->getAttribute()->getAttributeCode());
         if (!isset($value) || !$value) {
-            $value = Mage::helper('Saas_UnitPrice_Helper_Data')
-                ->getConfig('default_'.$this->getAttribute()->getAttributeCode());
+            $value = $this->_getHelper()->getConfig(
+                'default_'.$this->getAttribute()->getAttributeCode()
+            );
         }
         return $value;
+    }
+
+    protected function _getHelper()
+    {
+        return Mage::helper('Saas_UnitPrice_Helper_Data');
     }
 }

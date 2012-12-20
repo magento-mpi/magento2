@@ -31,11 +31,11 @@ class Saas_UnitPrice_Model_Entity_Frontend_Unitprice_DefaultTest
         );
 
         $this->_frontend = $this->getMockBuilder('Saas_UnitPrice_Model_Entity_Frontend_Unitprice_Default')
-            ->setMethods(array('getHelper'))
+            ->setMethods(array('_getHelper'))
             ->getMock();
 
         $this->_frontend->expects($this->any())
-            ->method('getHelper')
+            ->method('_getHelper')
             ->will($this->returnValue($helper));
 
         $this->_frontend->setAttribute($attribute);
