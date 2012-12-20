@@ -84,6 +84,10 @@
                     <state_resolver>Mage_Launcher_Model_Promotestore_StateResolver</state_resolver>
                     <save_handler>Mage_Launcher_Model_Promotestore_SaveHandler</save_handler>
                 </reports>
+                <seo>
+                    <state_resolver>Mage_Launcher_Model_Promotestore_StateResolver</state_resolver>
+                    <save_handler>Mage_Launcher_Model_Promotestore_SaveHandler</save_handler>
+                </seo>
             </tiles>
         </launcher>
     </adminhtml>

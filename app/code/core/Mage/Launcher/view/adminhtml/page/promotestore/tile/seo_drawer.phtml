@@ -8,10 +8,10 @@
  * @license     {license_link}
  */
 
-/** @var $this Mage_Launcher_Block_Adminhtml_Promotestore_Contentpages_Drawer */
+/** @var $this Mage_Launcher_Block_Adminhtml_Promotestore_Seo_Drawer */
 ?>
 <div class="drawer-header-content">
-    <form>
+    <form id="drawer-form">
         <h2 class="title"><?php echo $this->__('Guidelines and Best Practices') ?> </h2>
         <article class="entry">
             <p><?php echo $this->__('Lorem ipsum dolor sit amet, consectetur adipiscing elit. In velit libero, dictum a ultrices non, tempor non dui. Ut volutpat blandit nulla, scelerisque mattis libero cursus id. Donec eu leo justo, at tincidunt urna. Duis interdum, velit ut lobortis dignissim, odio enim commodo ante, placerat viverra lectus eros sed diam. Vivamus scelerisque, tellus nec gravida consectetur, orci lacus pretium felis, vel convallis magna neque ultrices leo. In a leo nec lectus scelerisque fringilla sed ut sapien. Integer tincidunt risus in arcu blandit dapibus.') ?> </p>
@@ -19,14 +19,10 @@
         </article>
         <div class="go-do">
             <h2 class="title-checklist"><?php echo $this->__('Go Do') ?> </h2>
-            <p><?php echo $this->__('We recommend that you configure the Homepage on you new site following these steps') ?></p>
-            <ul class="checklist">
-                <li class="uncompleted"><a href="<?php echo $this->getUrl('adminhtml/cms_page/edit', array('page_id' => 3))?>"><?php echo $this->__('Configure About Us') ?> </a></li>
-                <li class="uncompleted"><a href="<?php echo $this->getUrl('adminhtml/cms_page/edit', array('page_id' => 4))?>"><?php echo $this->__('Configure Customer Service') ?> </a></li>
-                <li class="uncompleted"><a href="<?php echo $this->getUrl('adminhtml/cms_page/edit', array('page_id' => 6))?>"><?php echo $this->__('Configure Privacy Policy') ?> </a></li>
-                <li class="uncompleted"><a href="<?php echo $this->getUrl('adminhtml/checkout_agreement/new')?>"><?php echo $this->__('Configure Terms and Conditions') ?> </a></li>
-                <li class="uncompleted"><a href="<?php echo $this->getUrl('adminhtml/cms_page/edit', array('page_id' => 1))?>"><?php echo $this->__('Configure Customer 404') ?> </a></li>
-            </ul>
+            <p><?php echo $this->__('We recommend that you configure SEO on you new site following these steps.'); ?></p>
+            <p><?php echo $this->__('We have configured XML Sitemap for you already. If you want to change please click') ?> <a href ="<?php echo $this->getUrl('adminhtml/system_config/edit/section/sitemap'); ?>"> here</a>.</p>
+            <p><?php echo $this->__('We have configured Categories Path for Product URLs for you already. If you want to change please click') ?> <a href ="<?php echo $this->getUrl('adminhtml/system_config/edit/section/catalog'); ?>"> here</a>.</p>
+            <p><?php echo $this->__('We have configured Auto-Redirect for pages for you already. If you want to change please click') ?> <a href ="<?php echo $this->getUrl('adminhtml/system_config/edit/section/web'); ?>"> here</a>.</p>
         </div>
     </form>
 </div>

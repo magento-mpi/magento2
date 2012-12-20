@@ -12,7 +12,8 @@
 <layout>
     <launcher_index>
         <block type="Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile" name="business_info.tile"/>
-        <block type="Mage_Launcher_Block_Adminhtml_Storelauncher_Tax_Tile" name="tax.tile" template="page/storelauncher/tile/tax.phtml"/>
+        <block type="Mage_Launcher_Block_Adminhtml_Tile" name="shipping.tile" template="page/storelauncher/tile/shipping.phtml"/>
+        <block type="Mage_Launcher_Block_Adminhtml_Tile" name="tax.tile" template="page/storelauncher/tile/tax.phtml"/>
     </launcher_index>
 
     <launcher_storelauncher_index_index>
@@ -55,6 +56,7 @@
     <promotestore_index>
         <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Contentpages_Tile" name="content_pages.tile"/>
         <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Reports_Tile" name="reports.tile"/>
+        <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Seo_Tile" name="seo.tile"/>
     </promotestore_index>
 
     <launcher_promotestore_index_index>
