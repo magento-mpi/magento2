@@ -54,7 +54,7 @@ abstract class Magento_Profiler_Driver_Standard_OutputAbstract
         }
         if (!empty($config['thresholds']) && is_array($config['thresholds'])) {
             foreach ($config['thresholds'] as $fetchKey => $minAllowedValue) {
-                $this->setThreshold($fetchKey, $minAllowedValue);
+                $this->setThreshold($fetchKey, (int)$minAllowedValue);
             }
         }
     }

@@ -16,7 +16,7 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider applyConfigDataProvider
-     * @param array $driversConfig
+     * @param array $config
      * @param array $expectedDrivers
      */
     public function testApplyConfigWithDrivers(array $config, array $expectedDrivers)
@@ -36,21 +36,15 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
                 'drivers' => array()
             ),
             'Integer 0 does not create any driver' => array(
-                'config' => array(
-                    'drivers' => array(0)
-                ),
+                'config' => array('drivers' => array(0)),
                 'drivers' => array()
             ),
             'Integer 1 does creates standard driver' => array(
-                'config' => array(
-                    'drivers' => array(1)
-                ),
+                'config' => array('drivers' => array(1)),
                 'drivers' => array(new Magento_Profiler_Driver_Standard())
             ),
             'Config array key sets driver type' => array(
-                'configs' => array(
-                    'drivers' => array('pinba' => 1)
-                ),
+                'configs' => array('drivers' => array('pinba' => 1)),
                 'drivers' => array(new Magento_Profiler_Driver_Pinba())
             ),
             'Config array key ignored when type set' => array(
@@ -61,9 +55,7 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
             ),
             'Config with outputs element as integer 1 creates output' => array(
                 'config' => array(
-                    'drivers' => array(
-                        array('outputs' => array('html' => 1))
-                    ),
+                    'drivers' => array(array('outputs' => array('html' => 1))),
                     'baseDir' => '/some/base/dir'
                 ),
                 'drivers' => array(
@@ -77,9 +69,7 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
             ),
             'Config with outputs element as integer 0 does not create output' => array(
                 'config' => array(
-                    'drivers' => array(
-                        array('outputs' => array('html' => 0))
-                    )
+                    'drivers' => array(array('outputs' => array('html' => 0)))
                 ),
                 'drivers' => array(new Magento_Profiler_Driver_Standard())
             ),
@@ -90,9 +80,7 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
                     ),
                 ),
                 'drivers' => array(new Magento_Profiler_Driver_Standard(array(
-                        'outputs' => array(array(
-                            'type' => 'html'
-                        ))
+                        'outputs' => array(array('type' => 'html'))
                     ))
                 )
             ),
@@ -123,9 +111,7 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
                 ))
             ),
             'Config with shortly defined output' => array(
-                'config' => array(
-                    'driver' => array('output' => 'html'),
-                ),
+                'config' => array('driver' => array('output' => 'html'),),
                 'drivers' => array(
                     new Magento_Profiler_Driver_Standard(array(
                         'outputs' => array(array(

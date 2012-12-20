@@ -342,7 +342,7 @@ class Magento_Profiler
             $driverFactory = new Magento_Profiler_Driver_Factory();
         }
 
-        if (isset($config['tagFilters'])) {
+        if (isset($config['tagFilters']) && is_array($config['tagFilters'])) {
             $tagFilters = $config['tagFilters'];
         } else {
             $tagFilters = array();
@@ -374,17 +374,9 @@ class Magento_Profiler
     {
         $result = array();
         foreach ($driverConfigs as $code => $driverConfig) {
-            if (!is_array($driverConfig)) {
-                if (!$driverConfig || !is_scalar($driverConfig)) {
-                    continue;
-                }
-                if (is_numeric($driverConfig) || is_bool($driverConfig)) {
-                    $driverConfig = array();
-                } else {
-                    $driverConfig = array(
-                        'type' => $driverConfig
-                    );
-                }
+            $driverConfig = self::_parseDriverConfig($driverConfig);
+            if ($driverConfig === false) {
+                continue;
             }
             if (!isset($driverConfig['type']) && !is_numeric($code)) {
                 $driverConfig['type'] = $code;
@@ -393,6 +385,29 @@ class Magento_Profiler
                 $driverConfig['baseDir'] = $baseDir;
             }
             $result[] = $driverConfig;
+        }
+        return $result;
+    }
+
+    /**
+     * Parses driver config
+     *
+     * @param mixed $driverConfig
+     * @return array|bool
+     */
+    protected static function _parseDriverConfig($driverConfig)
+    {
+        $result = false;
+        if (is_array($driverConfig)) {
+            $result = $driverConfig;
+        } elseif (is_scalar($driverConfig) && $driverConfig) {
+            if (is_numeric($driverConfig)) {
+                $result = array();
+            } else {
+                $result = array(
+                    'type' => $driverConfig
+                );
+            }
         }
         return $result;
     }

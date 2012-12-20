@@ -118,8 +118,7 @@ class Magento_Profiler_Driver_StandardTest extends PHPUnit_Framework_TestCase
 
         $driver = new Magento_Profiler_Driver_Standard($config);
         $this->assertAttributeCount(2, '_outputs', $driver);
-        $this->assertEquals(array($outputOne, $outputTwo),
-            PHPUnit_Util_Class::getObjectAttribute($driver, '_outputs'));
+        $this->assertAttributeEquals(array($outputOne, $outputTwo), '_outputs', $driver);
     }
 
     /**

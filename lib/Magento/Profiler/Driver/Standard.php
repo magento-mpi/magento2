@@ -45,37 +45,51 @@ class Magento_Profiler_Driver_Standard implements Magento_Profiler_DriverInterfa
         if (!$config) {
             return;
         }
-        $outputs = array();
+
+        $outputConfigs = array();
         if (isset($config['outputs'])) {
-            $outputs = $config['outputs'];
+            $outputConfigs = $config['outputs'];
         } elseif (isset($config['output'])) {
-            $outputs[] = $config['output'];
+            $outputConfigs[] = $config['output'];
         }
-        if ($outputs) {
-            $outputFactory = $this->_getOutputFactory($config);
-            foreach ($outputs as $code => $outputConfig) {
-                if (!is_array($outputConfig)) {
-                    if (is_numeric($outputConfig) && $outputConfig && !is_numeric($code)) {
-                        $outputConfig = array(
-                            'type' => $code
-                        );
-                    } elseif (!is_numeric($outputConfig) && is_string($outputConfig)) {
-                        $outputConfig = array(
-                            'type' => $outputConfig
-                        );
-                    } else {
-                        continue;
-                    }
-                }
-                if (!isset($outputConfig['type']) && !is_numeric($code)) {
-                    $outputConfig['type'] = $code;
-                }
-                if (!isset($outputConfig['baseDir']) && isset($config['baseDir'])) {
-                    $outputConfig['baseDir'] = $config['baseDir'];
-                }
-                $this->registerOutput($outputFactory->create($outputConfig));
+
+        $outputFactory = $this->_getOutputFactory($config);
+        foreach ($outputConfigs as $code => $outputConfig) {
+            $outputConfig = $this->_parseOutputConfig($outputConfig);
+            if (false === $outputConfig) {
+                continue;
+            }
+            if (!isset($outputConfig['type']) && !is_numeric($code)) {
+                $outputConfig['type'] = $code;
+            }
+            if (!isset($outputConfig['baseDir']) && isset($config['baseDir'])) {
+                $outputConfig['baseDir'] = $config['baseDir'];
+            }
+            $this->registerOutput($outputFactory->create($outputConfig));
+        }
+    }
+
+    /**
+     * Parses output config
+     *
+     * @param mixed $outputConfig
+     * @return array|bool
+     */
+    protected function _parseOutputConfig($outputConfig)
+    {
+        $result = false;
+        if (is_array($outputConfig)) {
+            $result = $outputConfig;
+        } elseif (is_scalar($outputConfig) && $outputConfig) {
+            if (is_numeric($outputConfig)) {
+                $result = array();
+            } else {
+                $result = array(
+                    'type' => $outputConfig
+                );
             }
         }
+        return $result;
     }
 
     /**

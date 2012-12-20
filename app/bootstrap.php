@@ -85,15 +85,12 @@ if (!empty($_SERVER['MAGE_PROFILER'])) {
 
     $profilerConfig = array(
         'baseDir' => dirname(__DIR__),
-        'drivers' => array(),
         'tagFilters' => array()
     );
 
     if (is_scalar($profilerConfigData)) {
-        $profilerConfig['drivers'][] = array(
-            'standard' => array(
-                'output' => is_numeric($profilerConfigData) ? 'html' : $profilerConfigData
-            )
+        $profilerConfig['driver'] = array(
+            'output' => is_numeric($profilerConfigData) ? 'html' : $profilerConfigData
         );
     } elseif (is_array($profilerConfigData)) {
         $profilerConfig = array_merge($profilerConfig, $profilerConfigData);

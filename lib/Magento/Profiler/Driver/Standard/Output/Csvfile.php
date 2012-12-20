@@ -33,11 +33,22 @@ class Magento_Profiler_Driver_Standard_Output_Csvfile extends Magento_Profiler_D
     public function __construct(array $config = null)
     {
         parent::__construct($config);
-        $this->_filePath = rtrim(isset($config['baseDir']) ? $config['baseDir'] : '', DIRECTORY_SEPARATOR)
-            . DIRECTORY_SEPARATOR
-            . ltrim(isset($config['filePath']) ? $config['filePath'] : 'var/log/profiler.csv', DIRECTORY_SEPARATOR);
+        $this->_filePath = $this->_parseFilePath($config);
         $this->_delimiter = isset($config['delimiter']) ? $config['delimiter'] : ',';
         $this->_enclosure = isset($config['enclosure']) ? $config['enclosure'] : '"';
+    }
+
+    /**
+     * Parses file path
+     *
+     * @param array $config
+     * @return string
+     */
+    protected function _parseFilePath(array $config = null)
+    {
+        return rtrim(isset($config['baseDir']) ? $config['baseDir'] : '', DIRECTORY_SEPARATOR)
+            . DIRECTORY_SEPARATOR
+            . ltrim(isset($config['filePath']) ? $config['filePath'] : 'var/log/profiler.csv', DIRECTORY_SEPARATOR);
     }
 
     /**
