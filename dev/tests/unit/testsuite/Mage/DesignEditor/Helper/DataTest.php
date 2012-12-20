@@ -81,6 +81,9 @@ class Mage_DesignEditor_Helper_DataTest extends PHPUnit_Framework_TestCase
      * @param string $xmlPath
      *
      * @dataProvider getElementsListDataProvider
+     * @covers Mage_DesignEditor_Helper_Data::getBlockWhiteList
+     * @covers Mage_DesignEditor_Helper_Data::getBlockBlackList
+     * @covers Mage_DesignEditor_Helper_Data::getContainerWhiteList
      */
     public function testGetElementsList($method, $xmlPath)
     {

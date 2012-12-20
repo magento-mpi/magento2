@@ -121,7 +121,7 @@ class Mage_DesignEditor_PageControllerTest extends Mage_Adminhtml_Utility_Contro
         $this->assertContains($this->_testHandles['correct'], $handles);
         $this->assertContains('designeditor_page_type', $handles);
         $this->assertAttributeSame(true, '_sanitationEnabled', $layout);
-        $this->assertAttributeSame(true, '_enabledWrapping', $layout);
+        $this->assertAttributeSame(true, '_wrappingEnabled', $layout);
 
         // assert response body
         $responseBody = $this->getResponse()->getBody();

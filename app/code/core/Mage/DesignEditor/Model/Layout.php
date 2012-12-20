@@ -25,7 +25,7 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
      *
      * @var bool
      */
-    protected $_enabledWrapping = false;
+    protected $_wrappingEnabled = false;
 
     /**
      * List of block types considered as "safe"
@@ -124,7 +124,7 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
      */
     public function setWrapping($flag)
     {
-        $this->_enabledWrapping = $flag;
+        $this->_wrappingEnabled = $flag;
     }
 
     /**
@@ -365,7 +365,7 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
     {
         $result = parent::_renderBlock($name);
 
-        if ($this->_enabledWrapping) {
+        if ($this->_wrappingEnabled) {
             $block = $this->getBlock($name);
             if (strpos(get_class($block), 'Mage_DesignEditor_Block_') !== 0 && $this->isManipulationAllowed($name)) {
                 $result = $this->_wrapElement($result, $name, false, true);
@@ -385,7 +385,7 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
     {
         $result = parent::_renderContainer($name);
 
-        if ($this->_enabledWrapping && $this->hasElement($name)) {
+        if ($this->_wrappingEnabled && $this->hasElement($name)) {
             $result = $this->_wrapElement($result, $name, true);
         }
 

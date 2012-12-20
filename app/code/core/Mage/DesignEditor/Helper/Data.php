@@ -73,7 +73,10 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
         $elements = array();
         $node = $this->_configuration->getNode($xmlPath);
         if ($node) {
-            $elements = array_values($node->asArray());
+            $data = $node->asArray();
+            if (is_array($data)) {
+                $elements = array_values($data);
+            }
         }
         return $elements;
     }
