@@ -21,7 +21,7 @@ $commands = array(
     'static-integration'    => array('../../tests/static', ' testsuite/Exemplar'),
 );
 $types = array(
-    'all'             => array(), // will merge automatically, see below
+    'all'             => array_keys($commands),
     'unit'            => array('unit', 'unit-performance', 'unit-static', 'unit-integration'),
     'integration'     => array('integration'),
     'integration-all' => array('integration', 'integration-integrity'),
@@ -33,9 +33,6 @@ $types = array(
         'unit', 'unit-performance', 'unit-static', 'unit-integration', 'integration', 'static-default'
     ),
 );
-foreach ($types as $type) {
-    $types['all'] = array_unique(array_merge($types['all'], $type));
-}
 
 $arguments = getopt('', array('type::'));
 if (!isset($arguments['type'])) {
