@@ -46,15 +46,8 @@ class Magento_Profiler_Driver_Standard implements Magento_Profiler_DriverInterfa
             return;
         }
 
-        $outputConfigs = array();
-        if (isset($config['outputs'])) {
-            $outputConfigs = $config['outputs'];
-        } elseif (isset($config['output'])) {
-            $outputConfigs[] = $config['output'];
-        }
-
         $outputFactory = $this->_getOutputFactory($config);
-        foreach ($outputConfigs as $code => $outputConfig) {
+        foreach ($this->_getOutputConfigs($config) as $code => $outputConfig) {
             $outputConfig = $this->_parseOutputConfig($outputConfig);
             if (false === $outputConfig) {
                 continue;
@@ -88,6 +81,23 @@ class Magento_Profiler_Driver_Standard implements Magento_Profiler_DriverInterfa
                     'type' => $outputConfig
                 );
             }
+        }
+        return $result;
+    }
+
+    /**
+     * Get output configs
+     *
+     * @param array $config
+     * @return array
+     */
+    protected function _getOutputConfigs(array $config = null)
+    {
+        $result = array();
+        if (isset($config['outputs'])) {
+            $result = $config['outputs'];
+        } elseif (isset($config['output'])) {
+            $result[] = $config['output'];
         }
         return $result;
     }
