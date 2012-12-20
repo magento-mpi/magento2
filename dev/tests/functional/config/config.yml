@@ -112,8 +112,7 @@ applications:
                 uimap_path: 'frontend'
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
-    default: &m2ee
-    goext: &goext
+    saas: &saas
         fallbackOrderFixture: 'Saas, enterprise, default'
         fallbackOrderHelper: 'Saas, Enterprise, Core'
         application:
@@ -123,24 +122,24 @@ applications:
             failures:
               tries: 2
               sleep: 30
-            basePath: '***'
+            basePath: ''
             # overrideRoot (for our server usage only) is a code root as it's seen by browser machine
             overrideRoot: 'D:'
             # overrideDS (for our server usage only) is browser-side directory separator.
             overrideDS: \
             # download dir as it's seen by browser. We can use it in download-edit-upload sessions
-            browserDownloadDir: '***\var\testdownload'
+            browserDownloadDir: 'var\testdownload'
             # download dir as it's seen by PHP code
-            downloadDir: '***\var\testdownload'
+            downloadDir: 'var\testdownload'
         areas:
             admin:
-                url: 'http://127.0.0.1/index.php/backend/admin'
+                url: 'http://localhost/Mage2/index.php/backend/admin'
                 base_page_uimap: 'log_in_to_admin'
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
             frontend:
-                url: 'http://127.0.0.1/index.php'
+                url: 'http://localhost/Mage2/index.php'
                 base_page_uimap: 'home_page'
                 uimap_path: 'frontend'
                 login: ''
@@ -152,3 +151,4 @@ applications:
                     replace_2:
                       pattern: '|(?<=customer/account/login/)([a-zA-Z\d\-\_\.\?\=]+)|'
                       replacement: ''
+    default: *m2ee
