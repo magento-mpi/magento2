@@ -713,6 +713,10 @@ class Mage_Core_Model_Url extends Varien_Object
      */
     public function getRouteUrl($routePath = null, $routeParams = null)
     {
+        if (filter_var($routePath, FILTER_VALIDATE_URL)) {
+            return $routePath;
+        }
+
         $this->unsetData('route_params');
 
         if (isset($routeParams['_direct'])) {
@@ -931,6 +935,10 @@ class Mage_Core_Model_Url extends Varien_Object
      */
     public function getUrl($routePath = null, $routeParams = null)
     {
+        if (filter_var($routePath, FILTER_VALIDATE_URL)) {
+            return $routePath;
+        }
+
         $escapeQuery = false;
 
         /**

@@ -42,36 +42,4 @@ class Mage_DesignEditor_Model_Url_NavigationMode extends Mage_Core_Model_Url
     {
         return $this->_helper->getFrontName() . '/' . parent::getRoutePath($routeParams);
     }
-
-    /**
-     * Retrieve route URL
-     *
-     * @param string $routePath
-     * @param array $routeParams
-     * @return string
-     */
-    public function getRouteUrl($routePath = null, $routeParams = null)
-    {
-        if (filter_var($routePath, FILTER_VALIDATE_URL)) {
-            return $routePath;
-        } else {
-            return parent::getRouteUrl($routePath, $routeParams);
-        }
-    }
-
-    /**
-     * Build url by requested path and parameters
-     *
-     * @param string|null $routePath
-     * @param array|null $routeParams
-     * @return string
-     */
-    public function getUrl($routePath = null, $routeParams = null)
-    {
-        if (filter_var($routePath, FILTER_VALIDATE_URL)) {
-            return $routePath;
-        } else {
-            return parent::getRouteUrl($routePath, $routeParams);
-        }
-    }
 }
