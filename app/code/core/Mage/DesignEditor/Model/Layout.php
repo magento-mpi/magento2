@@ -180,10 +180,10 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
      *
      * @param Varien_Simplexml_Element $node
      */
-    public static function sanitizeLayout(Varien_Simplexml_Element $node)
+    public function sanitizeLayout(Varien_Simplexml_Element $node)
     {
-        self::_sanitizeLayout($node, 'reference'); // it is important to sanitize references first
-        self::_sanitizeLayout($node, 'block');
+        $this->_sanitizeLayout($node, 'reference'); // it is important to sanitize references first
+        $this->_sanitizeLayout($node, 'block');
     }
 
     /**
@@ -194,20 +194,20 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
      * @param Varien_Simplexml_Element $node
      * @param string $nodeName
      */
-    protected static function _sanitizeLayout(Varien_Simplexml_Element $node, $nodeName)
+    protected function _sanitizeLayout(Varien_Simplexml_Element $node, $nodeName)
     {
         if ($node->getName() == $nodeName) {
             switch ($nodeName) {
                 case 'block':
-                    self::_sanitizeBlock($node);
+                    $this->_sanitizeBlock($node);
                     break;
                 case 'reference':
-                    self::_sanitizeReference($node);
+                    $this->_sanitizeReference($node);
                     break;
             }
         }
         foreach ($node->children() as $child) {
-            self::_sanitizeLayout($child, $nodeName);
+            $this->_sanitizeLayout($child, $nodeName);
         }
     }
 
@@ -218,18 +218,18 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
      *
      * @param Varien_Simplexml_Element $node
      */
-    protected static function _sanitizeBlock(Varien_Simplexml_Element $node)
+    protected function _sanitizeBlock(Varien_Simplexml_Element $node)
     {
         $type = $node->getAttribute('type');
         if (!$type) {
             return; // we encountered a node with name "block", however it doesn't actually define any block...
         }
-        if (self::_isParentSafe($node) || self::_isTypeSafe($type)) {
+        if ($this->_isParentSafe($node) || $this->_isTypeSafe($type)) {
             return;
         }
-        self::_overrideAttribute($node, 'template', 'Mage_DesignEditor::stub.phtml');
-        self::_overrideAttribute($node, 'type', 'Mage_Core_Block_Template');
-        self::_deleteNodes($node, 'action');
+        $this->_overrideAttribute($node, 'template', 'Mage_DesignEditor::stub.phtml');
+        $this->_overrideAttribute($node, 'type', 'Mage_Core_Block_Template');
+        $this->_deleteNodes($node, 'action');
     }
 
     /**
@@ -238,7 +238,7 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
      * @param Varien_Simplexml_Element $node
      * @return bool
      */
-    protected static function _isParentSafe(Varien_Simplexml_Element $node)
+    protected function _isParentSafe(Varien_Simplexml_Element $node)
     {
         $parentAttributes = $node->getParent()->attributes();
         if (isset($parentAttributes['name'])) {
@@ -255,7 +255,7 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
      * @param string $type
      * @return bool
      */
-    protected static function _isTypeSafe($type)
+    protected function _isTypeSafe($type)
     {
         if (in_array($type, self::$_blockBlackList)) {
             return false;
@@ -279,7 +279,7 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
      * @param string $name
      * @param string $value
      */
-    protected static function _overrideAttribute(Varien_Simplexml_Element $node, $name, $value)
+    protected function _overrideAttribute(Varien_Simplexml_Element $node, $name, $value)
     {
         $attributes = $node->attributes();
         if (isset($attributes[$name])) {
@@ -295,7 +295,7 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
      * @param Varien_Simplexml_Element $node
      * @param string $name
      */
-    protected static function _deleteNodes(Varien_Simplexml_Element $node, $name)
+    protected function _deleteNodes(Varien_Simplexml_Element $node, $name)
     {
         $count = count($node->{$name});
         for ($i = $count; $i >= 0; $i--) {
@@ -310,16 +310,16 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
      *
      * @param Varien_Simplexml_Element $node
      */
-    protected static function _sanitizeReference(Varien_Simplexml_Element $node)
+    protected function _sanitizeReference(Varien_Simplexml_Element $node)
     {
         $attributes = $node->attributes();
         $name = $attributes['name'];
         $result = $node->xpath("//block[@name='{$name}']") ?: array();
         /** @var $block Varien_Simplexml_Element */
         foreach ($result as $block) {
-            $isTypeSafe = self::_isTypeSafe($block->getAttribute('type'));
-            if (!$isTypeSafe || !self::_isParentSafe($block)) {
-                self::_deleteNodes($node, 'action');
+            $isTypeSafe = $this->_isTypeSafe($block->getAttribute('type'));
+            if (!$isTypeSafe || !$this->_isParentSafe($block)) {
+                $this->_deleteNodes($node, 'action');
             }
             break;
         }

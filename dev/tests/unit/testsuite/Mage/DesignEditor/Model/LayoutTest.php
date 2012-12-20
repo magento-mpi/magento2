@@ -23,6 +23,11 @@ class Mage_DesignEditor_Model_LayoutTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
+    protected function setUp()
+    {
+        $this->_model = $this->_prepareLayoutObject();
+    }
+
     protected function tearDown()
     {
         unset($this->_model);
@@ -32,7 +37,7 @@ class Mage_DesignEditor_Model_LayoutTest extends PHPUnit_Framework_TestCase
     {
         $data = file_get_contents(__DIR__ . '/_files/sanitize.xml');
         $xml = new Varien_Simplexml_Element($data);
-        Mage_DesignEditor_Model_Layout::sanitizeLayout($xml);
+        $this->_model->sanitizeLayout($xml);
         $this->assertStringMatchesFormatFile(__DIR__ . '/_files/sanitize_expected.txt', $xml->asNiceXml());
     }
 
