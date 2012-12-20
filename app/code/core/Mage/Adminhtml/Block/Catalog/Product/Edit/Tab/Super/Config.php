@@ -128,6 +128,17 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
     }
 
     /**
+     * Retrieve Continue URL
+     *
+     * @return string
+     */
+    public function getContinueUrl()
+    {
+        return $this->getUrl(($this->_getProduct()->getId() ? '*/*/edit' : '*/*/new'), array(
+            '_current' => true, '_fragment' => 'matrix'));
+    }
+
+    /**
      * Retrieve currently edited product object
      *
      * @return Mage_Catalog_Model_Product

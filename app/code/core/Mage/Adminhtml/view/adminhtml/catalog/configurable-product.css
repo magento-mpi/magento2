@@ -30,3 +30,6 @@ input.ui-autocomplete-loading {
     visibility: visible;
 }
 
+#attributes-container .ui-icon-circle-triangle-s, #attributes-container .ui-icon-circle-close {
+    cursor: pointer;
+}
