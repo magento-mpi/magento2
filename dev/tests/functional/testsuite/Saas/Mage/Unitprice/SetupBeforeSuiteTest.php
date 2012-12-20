@@ -46,10 +46,6 @@ class Saas_Mage_Unitprice_SetupBeforeSuiteTest
         $configData = $this->loadDataSet('ConfigUnitPrice', 'unitprice_default_sysconf');
         $this->systemConfigurationHelper()->configure($configData);
 
-        //Currency configuration
-        $configData = $this->loadDataSet('Currency', 'enable_gbp');
-        $this->systemConfigurationHelper()->configure($configData);
-
         //Create attribute for Configurable Product
         $this->navigate('manage_attributes');
 

@@ -43,7 +43,7 @@
  * @method Core_Mage_Order_Helper|Enterprise_Mage_Order_Helper                                         orderHelper()
  * @method Core_Mage_Paypal_Helper                                                                     paypalHelper()
  * @method Core_Mage_PriceRules_Helper|Enterprise_Mage_PriceRules_Helper                               priceRulesHelper()
- * @method Core_Mage_ProductAttribute_Helper                                                           productAttributeHelper()
+ * @method Core_Mage_ProductAttribute_Helper|Saas_Mage_ProductAttribute_Helper                         productAttributeHelper()
  * @method Core_Mage_Product_Helper|Enterprise_Mage_Product_Helper                                     productHelper()
  * @method Core_Mage_Rating_Helper                                                                     ratingHelper()
  * @method Core_Mage_Reports_Helper                                                                    reportsHelper()
