@@ -29,6 +29,7 @@
 
     <promotestore_index>
         <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Contentpages_Tile" name="content_pages.tile"/>
+        <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Reports_Tile" name="reports.tile"/>
     </promotestore_index>
 
     <launcher_promotestore_index_index>
