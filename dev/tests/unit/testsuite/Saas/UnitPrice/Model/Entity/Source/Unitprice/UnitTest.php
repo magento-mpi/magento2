@@ -74,15 +74,15 @@ class Saas_UnitPrice_Model_Entity_Source_Unitprice_UnitTest
      */
     protected function _prepareUnitConfigSourceModel($options)
     {
-        $unitConfigSourceModel = $this->getMockBuilder('Saas_UnitPrice_Model_Config_Source_Unitprice_Unit')
+        $configSourceModel = $this->getMockBuilder('Saas_UnitPrice_Model_Config_Source_Unitprice_Unit')
             ->setMethods(array('toOptionArray'))
             ->getMock();
 
-        $unitConfigSourceModel->expects($this->once())
+        $configSourceModel->expects($this->once())
             ->method('toOptionArray')
             ->will($this->returnValue($options));
 
-        return $unitConfigSourceModel;
+        return $configSourceModel;
     }
 
     /**
@@ -91,11 +91,11 @@ class Saas_UnitPrice_Model_Entity_Source_Unitprice_UnitTest
     public function testToOptionsArray()
     {
         $options = array('mm' => 'Milims', 'm' => 'Meters');
-        $unitConfigSourceModel = $this->_prepareUnitConfigSourceModel($options);
+        $configSourceModel = $this->_prepareUnitConfigSourceModel($options);
 
         $this->_source->expects($this->once())
             ->method('_getUnitConfigSourceModel')
-            ->will($this->returnValue($unitConfigSourceModel));
+            ->will($this->returnValue($configSourceModel));
 
         // act
         $actualOptions = $this->_source->toOptionArray();
@@ -113,11 +113,11 @@ class Saas_UnitPrice_Model_Entity_Source_Unitprice_UnitTest
     public function testGetAllOptions()
     {
         $options = array('mm' => 'Milims', 'm' => 'Meters');
-        $unitConfigSourceModel = $this->_prepareUnitConfigSourceModel($options);
+        $configSourceModel = $this->_prepareUnitConfigSourceModel($options);
 
         $this->_source->expects($this->once())
             ->method('_getUnitConfigSourceModel')
-            ->will($this->returnValue($unitConfigSourceModel));
+            ->will($this->returnValue($configSourceModel));
 
         // act
         $actualOptions = $this->_source->toOptionArray();
