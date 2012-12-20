@@ -1,0 +1,58 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     Mage_DesignEditor
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php /** @var $this Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css */ ?>
+
+<?php echo $this->getFormHtml(); ?>
+
+<script type="text/javascript">
+    (function ($) {
+
+        $( '#css_file_uploader' ).fileupload({
+            dataType: 'json',
+            replaceFileInput: false,
+            url : '<?php echo $this->getUrl('*/system_design_theme/uploadcss') ?>',
+
+            /**
+             * Add data
+             * @param e
+             * @param data
+             */
+            add: function (e, data) {
+                var uploadButton = $('#css-uploader-button');
+                /** Unbind click event on file change */
+                uploadButton.unbind('click');
+                uploadButton.removeAttr('disabled');
+
+                uploadButton.click(function () {
+                    $('#messages').html('');
+                    $(this).attr('disabled', 'disabled');
+                    data.submit();
+                });
+            },
+
+            /**
+             * On done event
+             * @param e
+             * @param data
+             */
+            done: function (e, data) {
+                $(this).val('');
+                $('#css-uploader-button').attr('disabled', 'disabled');
+
+                if (!data.result.error) {
+                    $('#custom_css_content').append(data.result.content);
+                }
+            }
+        });
+
+    })(jQuery);
+</script>
