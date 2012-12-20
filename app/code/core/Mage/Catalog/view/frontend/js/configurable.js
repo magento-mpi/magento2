@@ -106,7 +106,8 @@
         },
         _changeProductImage: function () {
             var images = this.options.spConfig.images,
-                imagesArray = [];
+                imagesArray = [],
+                $image = $('#image');
             $.each(this.options.setings, function (k, v) {
                 var selectValue = parseInt(v.value),
                     attributeId = v.id.replace(/[a-z]*/, '');
@@ -128,7 +129,9 @@
             //Convert object to array for proper items count
             var result = !Array.isArray(imagesArray) ? Object.values(imagesArray) : imagesArray;
             if (result.length === 1) {
-                $('#image').attr('src', result.pop() || this.options.parentImage);
+                $image.attr('src', result.pop() || this.options.parentImage);
+            } else {
+                $image.attr('src', this.options.parentImage);
             }
         },
         _reloadOptionLabels: function (element) {
