@@ -31,9 +31,9 @@
             "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>", function () {
                 $('#product_addtocart_form').validation({
                     errorPlacement: function (error, element) {
-                        if (element.hasClass("validate-one-checkbox-required-by-name")) {
+                        if (element.data('validate')&& element.data('validate').substring('validate-one-checkbox-required-by-name')) {
                             error.appendTo('#links-advice-container');
-                        } else if (element.data('validate').substring('validate-grouped-qty')) {
+                        } else if (element.data('validate')&& element.data('validate').substring('validate-grouped-qty')) {
                             $('#super-product-table').siblings(this.errorElement + '.' + this.errorClass).remove();
                             $('#super-product-table').after(error);
                         } else if (element.is(':radio, :checkbox')) {
