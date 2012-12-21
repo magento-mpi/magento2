@@ -310,3 +310,32 @@ system_backup:
         4: Type
         5: Download
         6: Action
+
+#dataset for ui elements in Manage Tax Rates grid
+manage_tax_zones_and_rates:
+    fieldset:
+        manage_tax_rate: tablename
+    button:
+        reset_filter:
+        search:
+        add_rate:
+        export:
+    dropdown:
+        view:
+        filter_country:
+        export_to:
+    field:
+        filter_tax_id:
+        filter_state_region:
+        filter_zip_code:
+        filter_rate_from:
+        filter_rate_to:
+        page:
+    pageelement:
+        grid_head:
+    headers:
+        0: Tax Identifier
+        1: Country
+        2: State/Region
+        3: Zip/Post Code
+        4: Rate
