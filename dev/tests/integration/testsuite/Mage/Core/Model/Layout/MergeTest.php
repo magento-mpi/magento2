@@ -209,11 +209,12 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
     {
         $this->_initializeTheme();
 
+        $collection = new Mage_Core_Model_Resource_Theme_Collection;
         $layoutHandle = 'layout_test_handle';
         $expectedText = 'Text declared in the frontend/test/test_theme';
         $model = Mage::getModel('Mage_Core_Model_Layout_Merge', array('arguments' => array(
             'area'       => 'frontend',
-            'themeId'    => Mage_Core_Utility_Theme::getTheme('test/test_theme', 'frontend')->getId()
+            'themeId'    => $collection->getThemeByFullPath('frontend/test/test_theme')->getId()
         )));
         $this->assertNotContains($layoutHandle, $model->getHandles());
         $this->assertNotContains($expectedText, $model->asString());
@@ -235,17 +236,19 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         $expectedTextThemeOne = 'Text declared in the frontend/test/test_theme';
         $expectedTextThemeTwo = 'Text declared in the frontend/test/cache_test_theme';
 
+        $collection = new Mage_Core_Model_Resource_Theme_Collection;
         $model = Mage::getModel('Mage_Core_Model_Layout_Merge', array('arguments' => array(
             'area'    => 'frontend',
-            'themeId' => Mage_Core_Utility_Theme::getTheme('test/test_theme', 'frontend')->getId()
+            'themeId' => $collection->getThemeByFullPath('frontend/test/test_theme')->getId()
         )));
         $model->load($layoutHandle);
         $this->assertContains($expectedTextThemeOne, $model->asString());
         $this->assertNotContains($expectedTextThemeTwo, $model->asString());
 
+        $collection = new Mage_Core_Model_Resource_Theme_Collection;
         $model = Mage::getModel('Mage_Core_Model_Layout_Merge', array('arguments' => array(
             'area'    => 'frontend',
-            'themeId' => Mage_Core_Utility_Theme::getTheme('test/cache_test_theme', 'frontend')->getId()
+            'themeId' => $collection->getThemeByFullPath('frontend/test/cache_test_theme')->getId()
         )));
         $model->load($layoutHandle);
         $this->assertContains($expectedTextThemeTwo, $model->asString());

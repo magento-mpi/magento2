@@ -231,36 +231,29 @@ class Mage_Core_Model_Design_Package
      * @param array $params
      * @return string|int
      */
-    public function getConfigurationDesignTheme($area = null, $params = array())
+    public function getConfigurationDesignTheme($area = null, array $params = array())
     {
         if (!$area) {
             $area = $this->getArea();
         }
-        $useId = isset($params['useId']) ? $params['useId'] : true;
         $store = isset($params['store']) ? $params['store'] : null;
 
-        $designTheme = (string)Mage::getStoreConfig($this->getConfigPathByArea($area, $useId), $store);
-        if (empty($designTheme)) {
-            $designTheme = (string)Mage::getConfig()->getNode($this->getConfigPathByArea($area, $useId));
+        if (self::isThemePerStoveView($area)) {
+            return Mage::getStoreConfig(self::XML_PATH_THEME_ID, $store)
+                ?: (string)Mage::getConfig()->getNode('default/' . self::XML_PATH_THEME);
         }
-        return $designTheme;
+        return (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
     }
 
-
     /**
-     * Get configuration xml path to current theme for area
+     * Whether themes in specified area are supposed to be configured per store view
      *
      * @param string $area
-     * @param bool $useId
-     * @return string
+     * @return bool
      */
-    public function getConfigPathByArea($area, $useId = true)
+    public static function isThemePerStoveView($area)
     {
-        $xmlPath = $useId ? self::XML_PATH_THEME_ID : self::XML_PATH_THEME;
-        if ($area !== self::DEFAULT_AREA) {
-            $xmlPath = $area . '/' . $xmlPath;
-        }
-        return $xmlPath;
+        return $area == self::DEFAULT_AREA;
     }
 
     /**

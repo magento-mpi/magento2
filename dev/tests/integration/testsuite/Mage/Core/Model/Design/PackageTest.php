@@ -81,6 +81,41 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoConfigFixture default/design/theme/full_name f
+     * @magentoConfigFixture install/design/theme/full_name i
+     * @magentoConfigFixture adminhtml/design/theme/full_name b
+     * @magentoConfigFixture current_store design/theme/theme_id 0
+     */
+    public function testGetConfigurationDesignThemeDefaults()
+    {
+        $this->assertEquals('f', $this->_model->getConfigurationDesignTheme());
+        $this->assertEquals('f', $this->_model->getConfigurationDesignTheme('frontend'));
+        $this->assertEquals('f', $this->_model->getConfigurationDesignTheme('frontend', array('store' => 0)));
+        $this->assertEquals('f', $this->_model->getConfigurationDesignTheme('frontend', array('store' => null)));
+        $this->assertEquals('i', $this->_model->getConfigurationDesignTheme('install'));
+        $this->assertEquals('i', $this->_model->getConfigurationDesignTheme('install', array('store' => uniqid())));
+        $this->assertEquals('b', $this->_model->getConfigurationDesignTheme('adminhtml'));
+        $this->assertEquals('b', $this->_model->getConfigurationDesignTheme('adminhtml', array('store' => uniqid())));
+    }
+
+    /**
+     * @magentoConfigFixture current_store design/theme/theme_id one
+     * @magentoConfigFixture fixturestore_store design/theme/theme_id two
+     * @magentoDataFixture Mage/Core/_files/store.php
+     */
+    public function testGetConfigurationDesignThemeStore()
+    {
+        $storeId = Mage::app()->getStore()->getId();
+        $this->assertEquals('one', $this->_model->getConfigurationDesignTheme());
+        $this->assertEquals('one', $this->_model->getConfigurationDesignTheme(null, array('store' => $storeId)));
+        $this->assertEquals('one', $this->_model->getConfigurationDesignTheme('frontend', array('store' => $storeId)));
+        $this->assertEquals('two', $this->_model->getConfigurationDesignTheme(null, array('store' => 'fixturestore')));
+        $this->assertEquals('two', $this->_model->getConfigurationDesignTheme(
+            'frontend', array('store' => 'fixturestore')
+        ));
+    }
+
+    /**
      * @dataProvider getFilenameDataProvider
      * @magentoAppIsolation enabled
      */
