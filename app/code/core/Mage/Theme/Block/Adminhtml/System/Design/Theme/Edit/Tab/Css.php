@@ -97,6 +97,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         $form = $this->getForm();
         $themeFieldset = $form->addFieldset('theme_css', array(
             'legend' => $this->__('Theme CSS'),
+            'class'  => 'fieldset-wide'
         ));
         $this->_addElementTypes($themeFieldset);
         $themeFieldset->addField('theme_css_view', 'links', array(
@@ -104,7 +105,6 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             'title'       => $this->__('View theme CSS'),
             'name'        => 'links',
             'values'      => $this->_getThemeCssList(),
-            'value_class' => ''     //remove limit on column width
         ));
         return $this;
     }
@@ -139,6 +139,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         $form = $this->getForm();
         $themeFieldset = $form->addFieldset('custom_css', array(
             'legend' => $this->__('Custom CSS'),
+            'class'  => 'fieldset-wide'
         ));
 
         $themeFieldset->addField('css_file_uploader', 'file', array(
