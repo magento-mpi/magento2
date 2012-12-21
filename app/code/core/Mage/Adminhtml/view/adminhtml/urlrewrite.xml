@@ -16,7 +16,7 @@
             <block type="Mage_Adminhtml_Block_Urlrewrite" name="adminhtml.block.urlrewrite.grid.container">
                 <block type="Mage_Backend_Block_Widget_Grid" name="adminhtml.block.urlrewrite.grid" as="grid">
                     <arguments>
-                        <id>gridUrlRewrite</id>
+                        <id>urlrewriteGrid</id>
                         <dataSource type="object">Mage_Core_Model_Resource_Url_Rewrite_Collection</dataSource>
                         <default_sort>url_rewrite_id</default_sort>
                     </arguments>
