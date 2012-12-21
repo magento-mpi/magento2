@@ -9,6 +9,7 @@
  * @license     {license_link}
  */
 return array(
+    $this->_getClassRule('Enterprise_Pci_Block_Adminhtml_Locks_Grid'),
     $this->_getClassRule('Mage_Admin_Helper_Data', 'Mage_Backend_Helper_Data'),
     $this->_getClassRule('Mage_Admin_Model_Acl', 'Magento_Acl'),
     $this->_getClassRule('Mage_Admin_Model_Acl_Role'),

@@ -35,9 +35,9 @@ class Enterprise_Pci_Adminhtml_LocksController extends Mage_Adminhtml_Controller
      */
     public function gridAction()
     {
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Enterprise_Pci_Block_Adminhtml_Locks_Grid')->toHtml()
-        );
+        $this->loadLayout(false);
+        $this->renderLayout();
+
     }
 
     /**
