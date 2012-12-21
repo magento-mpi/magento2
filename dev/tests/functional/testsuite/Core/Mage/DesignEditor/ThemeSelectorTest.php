@@ -145,7 +145,7 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
         $this->navigate('design_editor_selector');
         $this->waitForPageToLoad();
         $xpathAssignedStoreviews = $this->_getControlXpath('pageelement', 'theme_assigned_storeview');
-        $this->elementIsPresent(sprintf($xpathAssignedStoreviews, $themeId, 'Default Store View')); //possibly not working!!!!!!!!!!!!!!!!!!!!!!
+        $this->elementIsPresent(sprintf($xpathAssignedStoreviews, $themeId, 'Default Store View'));
         $this->elementIsPresent(sprintf($xpathAssignedStoreviews, $themeId, $dataStoreView['store_view_name']));
 
         $this->navigate('manage_stores');
