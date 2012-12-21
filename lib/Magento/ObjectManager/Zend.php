@@ -145,4 +145,32 @@ class Magento_ObjectManager_Zend implements Magento_ObjectManager
         $instanceManager = $this->_di->instanceManager();
         return $instanceManager->hasSharedInstance($classOrAlias);
     }
+
+    /**
+     * Add alias
+     *
+     * @param  string $alias
+     * @param  string $class
+     * @param  array  $parameters
+     * @return Magento_ObjectManager_Zend
+     * @throws Zend\Di\Exception\InvalidArgumentException
+     */
+    public function addAlias($alias, $class, array $parameters = array())
+    {
+        $this->_di->instanceManager()->addAlias($alias, $class, $parameters);
+
+        return $this;
+    }
+
+    /**
+     * Get class name by alias
+     *
+     * @param string
+     * @return string|bool
+     * @throws Zend\Di\Exception\RuntimeException
+     */
+    public function getClassFromAlias($alias)
+    {
+        return $this->_di->instanceManager()->getClassFromAlias($alias);
+    }
 }
