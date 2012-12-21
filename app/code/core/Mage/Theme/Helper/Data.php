@@ -30,13 +30,13 @@ class Mage_Theme_Helper_Data extends Mage_Core_Helper_Abstract
         );
         /** @var $layoutMerge Mage_Core_Model_Layout_Merge */
         $layoutMerge = Mage::getModel('Mage_Core_Model_Layout_Merge', array('arguments' => $arguments));
-        $layoutMerge->getFileLayoutUpdatesXml();
+        $layoutElement = $layoutMerge->getFileLayoutUpdatesXml();
         
         $xpathRefs = '//reference[@name="head"]/action[@method="addCss" or @method="addCssIe"]/*[1]';
         $xpathBlocks = '//block[@type="Mage_Page_Block_Html_Head"]/action[@method="addCss" or @method="addCssIe"]/*[1]';
         $files = array_merge(
-            $layoutMerge->getFileLayoutUpdatesXml()->xpath($xpathRefs),
-            $layoutMerge->getFileLayoutUpdatesXml()->xpath($xpathBlocks)
+            $layoutElement->xpath($xpathRefs),
+            $layoutElement->xpath($xpathBlocks)
         );
 
         $design = Mage::getDesign();
@@ -46,7 +46,10 @@ class Mage_Theme_Helper_Data extends Mage_Core_Helper_Abstract
         );
         $urls = array();
         foreach ($files as $file) {
-            $urls[(string)$file] = $design->getViewFileUrl($file, $params);
+            $urls[(string)$file] = array(
+                'filename' => $design->getViewFile($file, $params),
+                'url'      => $design->getViewFileUrl($file, $params)
+            );
         }
 
         return $urls;

@@ -100,33 +100,34 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             'class'  => 'fieldset-wide'
         ));
         $this->_addElementTypes($themeFieldset);
-        $themeFieldset->addField('theme_css_view', 'links', array(
-            'label'       => $this->__('View theme CSS'),
-            'title'       => $this->__('View theme CSS'),
-            'name'        => 'links',
-            'values'      => $this->_getThemeCssList(),
-        ));
+        foreach ($this->_getGroupedFiles() as  $groupName => $group) {
+            $themeFieldset->addField('theme_css_view_'.$groupName, 'links', array(
+                'label'       => $groupName,
+                'title'       => $groupName,
+                'name'        => 'links',
+                'values'      => $group,
+            ));
+        }
+
         return $this;
     }
 
     /**
      * Prepare file items for output on page for download
      *
+     * @param string $title
+     * @param array $data
      * @return array
      */
-    protected function _getThemeCssList()
+    protected function _getThemeCss($title, $data)
     {
-        $files = $this->getFiles();
-        $data = array();
-        foreach ($files as $title => $url) {
-            $data[] = array(
-                'href'      => $url,
-                'label'     => $title,
-                'target'    => '_blank',
-                'delimiter' => '<br />',
-            );
-        }
-        return $data;
+        return array(
+            'href'      => $data['url'],
+            'label'     => $title,
+            'title'     => $data['filename'],
+            'target'    => '_blank',
+            'delimiter' => '<br />',
+        );
     }
 
     /**
@@ -184,6 +185,140 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         $element = Mage::getConfig()
             ->getBlockClassName('Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Links');
         return array('links' => $element);
+    }
+
+    /**
+     * Get files by groups
+     *
+     * @return array
+     */
+    protected function _getGroupedFiles()
+    {
+        $options = Mage::getConfig()->getOptions();
+        $designDir = $options->getDesignDir();
+        $jsDir = $options->getJsDir();
+        $codeDir = $options->getCodeDir();
+
+        $groups = array();
+        $themes = array();
+        foreach ($this->getFiles() as $fileTitle => $file) {
+            if (substr($file['filename'], 0, strlen($designDir)) == $designDir) {
+                list(, $area, $package, $theme,) = explode('/', substr($file['filename'], strlen($designDir)), 5);
+                /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
+                $collection = Mage::getModel('Mage_Core_Model_Resource_Theme_Collection');
+                $theme = $collection->getThemeByFullPath(join('/', array($area, $package, $theme)));
+                $themes[$theme->getThemePath()] = $theme;
+
+                $group = $theme->getThemePath();
+                $theme->getParentTheme();
+            } elseif (substr($file['filename'], 0, strlen($jsDir)) == $jsDir) {
+                $group = $jsDir;
+            } elseif (substr($file['filename'], 0, strlen($codeDir)) == $codeDir) {
+                $group = $codeDir;
+            } else {
+                Mage::throwException($this->__('Invalid view file directory "%s"', $file['filename']));
+            }
+
+            if (!isset($groups[$group])) {
+                $groups[$group] = array();
+            }
+            $groups[$group][] = $this->_getThemeCss($fileTitle, $file);
+        }
+
+        //sort themes by inheritance hierarchy
+        usort($themes, function($theme, $theme2) {
+            /** @var $theme Mage_Core_Model_Theme */
+            /** @var $theme2 Mage_Core_Model_Theme */
+            while ($parentTheme = $theme->getParentTheme()) {
+                if ($parentTheme->getId() == $theme2->getId()) {
+                    return -1;
+                }
+            }
+            return 1;
+        });
+
+        $labels = $this->_getGroupLabels($themes);
+        $order = array_merge(array($codeDir, $jsDir), array_map(function ($theme) {
+            /** @var $theme Mage_Core_Model_Theme */
+            return $theme->getThemePath();
+        }, $themes));
+
+        $groups = $this->_sortArrayByArray($groups, $order);
+
+        $groupSortFunction = function ($item1, $item2) {
+            $hasModuleContext = strpos($item1['label'], '::') !== false;
+            $hasModuleContext2 = strpos($item2['label'], '::') !== false;
+
+            if ($hasModuleContext && $hasModuleContext2) {
+                $result = strcmp($item1['label'], $item2['label']);
+            } elseif (!$hasModuleContext && !$hasModuleContext2) {
+                $result = strcmp($item1['label'], $item2['label']);
+            } elseif ($hasModuleContext) {
+                //case when first item has module context and second item doesn't
+                $result = 1;
+            } else {
+                //case when second item has module context and first item doesn't
+                $result = -1;
+            }
+            return $result;
+        };
+        foreach ($groups as $key => $group) {
+            usort($group, $groupSortFunction);
+            $groups[$labels[$key]] = $group;
+            unset($groups[$key]);
+        }
+        return $groups;
+    }
+
+    /**
+     * Get group labels
+     *
+     * @param array $themes
+     * @return array
+     */
+    protected function _getGroupLabels($themes)
+    {
+        $labels = array(
+            Mage::getConfig()->getOptions()->getJsDir()   => $this->__('Library files'),
+            Mage::getConfig()->getOptions()->getCodeDir() => $this->__('Framework files')
+        );
+        foreach ($themes as $theme) {
+            /** @var $theme Mage_Core_Model_Theme */
+            $labels[$theme->getThemePath()] = $this->__('"%s" Theme files', $theme->getThemeTitle());
+        }
+
+        return $labels;
+    }
+
+    /**
+     * Sort one associative array according to another array
+     *
+     * $groups = array(
+     *     b => item2,
+     *     a => item1,
+     *     c => item3,
+     * );
+     * $order = array(a,b,c);
+     * result: array(
+     *     a => item1,
+     *     b => item2,
+     *     c => item3,
+     * )
+     *
+     * @param array $groups
+     * @param array $order
+     * @return array
+     */
+    protected function _sortArrayByArray($groups, $order)
+    {
+        $ordered = array();
+        foreach ($order as $key) {
+            if (array_key_exists($key, $groups)) {
+                $ordered[$key] = $groups[$key];
+                unset($groups[$key]);
+            }
+        }
+        return $ordered + $groups;
     }
 
     /**

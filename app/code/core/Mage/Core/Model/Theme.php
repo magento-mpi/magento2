@@ -20,6 +20,7 @@
  * @method string getThemeDirectory()
  * @method string getParentId()
  * @method string getArea()
+ * @method string getThemeTitle()
  * @method Mage_Core_Model_Theme setAssignedStores(array $stores)
  * @method array getAssignedStores()
  * @method Mage_Core_Model_Theme addData(array $data)
