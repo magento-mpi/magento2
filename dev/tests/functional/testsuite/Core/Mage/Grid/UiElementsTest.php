@@ -72,6 +72,7 @@ class Core_Mage_Grid_UiElementsTest extends Mage_Selenium_TestCase
             array('search_terms'),
             array('newsletter_problem_reports'),
             array('system_backup'),
+            array('permissions_locked_users'),
         );
     }
 

@@ -185,7 +185,25 @@ url_rewrite_management:
         5: Target Path
         6: Options
         7: Action
-
+permissions_locked_users:
+    fieldset:
+        locked_user_grid: tablename
+    button:
+        reset_filter:
+        search:
+        submit:
+    dropdown:
+        locked_actions:
+    field:
+        username:
+    dropdown:
+        unlock:
+    headers:
+        0: ID
+        1: Username
+        2: Last Login
+        3: Failures
+        4: Locked until
 #dataset for ui elements in Manage Attribute Sets grid
 manage_attribute_sets:
     fieldset:
