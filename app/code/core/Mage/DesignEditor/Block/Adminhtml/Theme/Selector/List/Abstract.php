@@ -110,7 +110,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
      * Get assign to storeview button
      *
      * @param Mage_DesignEditor_Block_Adminhtml_Theme $themeBlock
-     * @return string
+     * @return Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
      */
     protected function _addAssignButtonHtml($themeBlock)
     {
@@ -140,7 +140,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
      * Get preview button
      *
      * @param Mage_DesignEditor_Block_Adminhtml_Theme $themeBlock
-     * @return string
+     * @return Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
      */
     protected function _addPreviewButtonHtml($themeBlock)
     {
@@ -170,7 +170,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
      * Get edit button
      *
      * @param Mage_DesignEditor_Block_Adminhtml_Theme $themeBlock
-     * @return string
+     * @return Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
      */
     protected function _addEditButtonHtml($themeBlock)
     {

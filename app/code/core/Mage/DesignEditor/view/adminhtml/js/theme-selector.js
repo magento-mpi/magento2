@@ -8,7 +8,7 @@
  */
 /*jshint jquery:true*/
 (function($) {
-    $.widget("vde.themeSelector", {
+    $.widget('vde.themeSelector', {
         options: {
             assignEvent:      'assign',
             assignSaveEvent:  'assign-save',
@@ -59,8 +59,7 @@
                     this.themeId = null;
                 }
             }, this));
-
-            $('body').on(this.options.loadEvent, function() {
+            this.element.on(this.options.loadEvent, function() {
                 $('*[data-widget-button]').button();
             });
         },
@@ -213,4 +212,117 @@
             });
         }
     });
+
+    /**
+     * Theme quick edit controls
+     */
+    $.widget('vde.themeControl', {
+        options: {
+            themeData: null,
+            saveEventName: 'quickEditSave',
+            isActive: false
+        },
+
+        _init: function() {
+            this.options._control.on('click', $.proxy(this._onEdit, this));
+            this.options._saveControl.on('click', $.proxy(this._onSave, this));
+            this.document.on('click', $.proxy(this._onCancel, this));
+        },
+
+        /**
+         * Widget initialization
+         * @protected
+         */
+        _create: function() {
+            this.options._textControl = this.widget().find('.theme-title.text-field');
+            this.options._inputControl = this.widget().find('.theme-title.input-field');
+            this.options._saveControl = this.widget().find('.save');
+            this.options._control = this.widget().find('.theme-control-title');
+
+            this.options.themeData = this.widget().data('widget-options');
+        },
+
+        /**
+         * Edit event
+         * @protected
+         */
+        _onEdit: function() {
+            if (this.options.isActive) {
+                return;
+            }
+            this.options.isActive = true;
+            this.options._textControl.fadeOut();
+            this.options._inputControl.fadeIn().focus();
+            this._setThemeTitle(this.options.themeData.theme_title);
+        },
+
+        /**
+         * Save changed theme data
+         * @protected
+         */
+        _onSave: function() {
+            if(!this.options.isActive) {
+                return;
+            }
+            var params = {
+                theme_id: this.options.themeData.theme_id,
+                theme_title: this._getThemeTitle()
+            };
+            $.post(this.options.url, params, $.proxy(function(response) {
+                if (response.error) {
+                    this._cancelEdit();
+                    alert($.mage.__('Error') + ': "' + response.error + '".');
+                } else {
+                    this.options.themeData.theme_title = this._getThemeTitle();
+                    this._setThemeTitle(this.options.themeData.theme_title)._cancelEdit();
+                }
+            }, this)).error($.proxy(function() {
+                this._cancelEdit();
+                alert($.mage.__('Error: unknown error.'));
+            }, this));
+        },
+
+        /**
+         * Get the entered value
+         * @return {string}
+         * @protected
+         */
+        _getThemeTitle: function() {
+           return this.options._inputControl.find('input').val();
+        },
+
+        /**
+         * Set the saved value
+         * @param title {string}
+         * @return {*}
+         * @protected
+         */
+        _setThemeTitle: function(title) {
+            this.options._textControl.html(title);
+            this.options._inputControl.find('input').val(title);
+            return this;
+        },
+
+        /**
+         * Cancel saving theme title
+         * @param event {*}
+         * @protected
+         */
+        _onCancel: function(event) {
+            if (this.options.isActive && this.options._control.has($(event.target)).length == 0) {
+                this._cancelEdit();
+            }
+        },
+
+        /**
+         * Cancel editing mode
+         * @protected
+         */
+        _cancelEdit: function() {
+            this.options.isActive = false;
+            this.options._textControl.fadeIn();
+            this.options._inputControl.fadeOut();
+        }
+    });
+
 })(jQuery);
