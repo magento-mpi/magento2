@@ -232,7 +232,15 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         return $groups;
     }
 
-    protected function _sortGroupFiles ($item1, $item2) {
+    /**
+     * Sort files inside group
+     *
+     * @param array $item1
+     * @param array $item2
+     * @return int
+     */
+    protected function _sortGroupFiles ($item1, $item2)
+    {
         $hasModuleContext = strpos($item1['label'], '::') !== false;
         $hasModuleContext2 = strpos($item2['label'], '::') !== false;
 
