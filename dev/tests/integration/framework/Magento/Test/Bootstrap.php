@@ -234,6 +234,9 @@ class Magento_Test_Bootstrap
         Mage_Core_Utility_Theme::registerDesignMock();
         Mage::$headersSentThrowsException = false;
         Mage::app('', 'store', $this->_options);
+        if (defined('TESTS_REINIT_MAGE_CONFIG')) {
+            Mage::getConfig()->reinit();
+        }
     }
 
     /**
@@ -567,5 +570,15 @@ class Magento_Test_Bootstrap
     public function getTmpDir()
     {
         return $this->_tmpDir;
+    }
+
+    /**
+     * Get Magento dir
+     *
+     * @return string
+     */
+    public function getMagentoDir()
+    {
+        return $this->_magentoDir;
     }
 }
