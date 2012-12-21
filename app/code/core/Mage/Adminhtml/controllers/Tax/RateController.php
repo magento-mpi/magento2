@@ -118,7 +118,6 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
                 ->save();
             $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
                 'success' => true,
-                'error' => false,
                 'error_message' => '',
                 'tax_calculation_rate_id' => $rate->getId(),
                 'code' => $rate->getCode(),
@@ -126,7 +125,6 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
         } catch (Mage_Core_Exception $e) {
             $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
-                'error' => true,
                 'error_message' => $e->getMessage(),
                 'tax_calculation_rate_id' => '',
                 'code' => '',
@@ -134,7 +132,6 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
         } catch (Exception $e) {
             $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
-                'error' => true,
                 'error_message' => Mage::helper('Mage_Tax_Helper_Data') ->__('There was an error saving tax rate.'),
                 'tax_calculation_rate_id' => '',
                 'code' => '',
@@ -247,19 +244,16 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
             $rate->delete();
             $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
                 'success' => true,
-                'error' => false,
                 'error_message' => ''
             ));
         } catch (Mage_Core_Exception $e) {
             $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
-                'error' => true,
                 'error_message' => $e->getMessage()
             ));
         } catch (Exception $e) {
             $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
-                'error' => true,
                 'error_message' => Mage::helper('Mage_Tax_Helper_Data')->__('An error occurred while deleting this tax rate.')
             ));
         }

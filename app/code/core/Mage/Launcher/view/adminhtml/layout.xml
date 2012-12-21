@@ -58,6 +58,7 @@
         <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Contentpages_Tile" name="content_pages.tile"/>
         <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Reports_Tile" name="reports.tile"/>
         <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Seo_Tile" name="seo.tile"/>
+        <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Promotion_Tile" name="promotion.tile"/>
     </promotestore_index>
 
     <launcher_promotestore_index_index>

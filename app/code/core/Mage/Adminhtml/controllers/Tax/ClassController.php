@@ -34,7 +34,6 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
                 ->save();
             $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
                 'success' => true,
-                'error' => false,
                 'error_message' => '',
                 'class_id' => $class->getId(),
                 'class_name' => $class->getClassName()
@@ -42,7 +41,6 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
         } catch (Mage_Core_Exception $e) {
             $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
-                'error' => true,
                 'error_message' => $e->getMessage(),
                 'class_id' => '',
                 'class_name' => ''
@@ -50,7 +48,6 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
         } catch (Exception $e) {
             $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
-                'error' => true,
                 'error_message' => Mage::helper('Mage_Tax_Helper_Data') ->__('There was an error saving tax class.'),
                 'class_id' => '',
                 'class_name' => ''
@@ -72,19 +69,16 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
             $classModel->delete();
             $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
                 'success' => true,
-                'error' => false,
                 'error_message' => ''
             ));
         } catch (Mage_Core_Exception $e) {
             $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
-                'error' => true,
                 'error_message' => $e->getMessage()
             ));
         } catch (Exception $e) {
             $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
-                'error' => true,
                 'error_message' => Mage::helper('Mage_Tax_Helper_Data')->__('An error occurred while deleting this tax class.')
             ));
         }
