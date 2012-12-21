@@ -695,10 +695,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
 
     /**
      * Unassign all associated products in configurable product
-     *
-     * @param bool $isAssigned
      */
-    public function unassignAllConfigurableVariations($isAssigned = true)
+    public function unassignAllConfigurableVariations()
     {
         if (!$this->controlIsVisible('fieldset', 'variations_matrix_grid')) {
             return;
@@ -706,7 +704,22 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $variationsCount = $this->getControlCount('pageelement', 'variation_line');
         while ($variationsCount > 0) {
             $this->addParameter('attributeSearch', $variationsCount--);
-            $this->fillCheckbox('include_variation', (($isAssigned) ? 'No' : 'Yes'));
+            $this->fillCheckbox('include_variation', 'No');
+        }
+    }
+
+    /**
+     * Assign all associated products in configurable product
+     */
+    public function assignAllConfigurableVariations()
+    {
+        if (!$this->controlIsVisible('fieldset', 'variations_matrix_grid')) {
+            return;
+        }
+        $variationsCount = $this->getControlCount('pageelement', 'variation_line');
+        while ($variationsCount > 0) {
+            $this->addParameter('attributeSearch', $variationsCount--);
+            $this->fillCheckbox('include_variation', 'Yes');
         }
     }
 

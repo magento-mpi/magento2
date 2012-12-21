@@ -129,7 +129,7 @@ class Core_Mage_Product_Create_ConfigurableWithVariations extends Mage_Selenium_
         $this->fillCheckbox('is_configurable', 'yes');
         $this->assertTrue($this->getControlAttribute('checkbox', 'is_configurable', 'selectedValue'));
         $this->productHelper()->fillConfigurableSettings($data['attribute']);
-        $this->productHelper()->unassignAllConfigurableVariations(false);
+        $this->productHelper()->assignAllConfigurableVariations();
         //Verifying
         $this->productHelper()->verifyConfigurableVariations($data['matrix'], true);
     }
