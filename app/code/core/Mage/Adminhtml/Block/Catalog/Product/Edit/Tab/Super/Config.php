@@ -421,4 +421,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
         } while (1);
         return $variations;
     }
+
+    /**
+     * Get url for product edit
+     *
+     * @param $id
+     *
+     * @return string
+     */
+    public function getEditProductUrl($id)
+    {
+        return $this->getUrl('*/*/edit', array('id' => $id));
+    }
 }

@@ -284,7 +284,7 @@ if (count($this->getSelectedAttributes())) {
             $product = $productByUsedAttributes[$key];
 ?>
         <tr class="<?php echo $isEven ? 'even' : '' ?>">
-            <td class="associated-matrix-product-name"><?php echo $product->getName()?></td>
+            <td class="associated-matrix-product-name"><a href="<?php echo $this->getEditProductUrl($product->getId())?>" target="_blank"><?php echo $product->getName()?></a></td>
             <td class="associated-matrix-product-price"><?php echo $price ?></td>
             <td><span class="associated-matrix-product-sku"><?php echo $product->getSku()?></span>
                 <button class="choose-product"
