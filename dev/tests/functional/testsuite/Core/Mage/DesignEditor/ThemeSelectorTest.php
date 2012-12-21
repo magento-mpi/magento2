@@ -29,9 +29,10 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
         $this->themeHelper()->deleteAllVirtualThemes();
 
         $this->navigate('design_editor_selector');
-        $this->assertElementPresent($this->_getControlXpath('pageelement', 'header_available_themes'));
-        $this->assertElementPresent($this->_getControlXpath('pageelement', 'theme_list'));
-        $this->assertElementNotPresent($this->_getControlXpath('pageelement', 'selector_tabs_container'));
+        $this->waitForAjax();
+        $this->assertTrue($this->controlIsPresent('pageelement', 'header_available_themes'));
+        $this->assertTrue($this->controlIsPresent('pageelement', 'theme_list'), 'Theme list not present');
+        $this->assertFalse($this->controlIsPresent('pageelement', 'selector_tabs_container'), '');
     }
 
     /**
@@ -46,23 +47,19 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
 
         $this->navigate('design_editor_selector');
 
-        $xpathCustomizationContent = $this->_getControlXpath('pageelement', 'customized_themes_tab_content');
-        $xpathAvailableContent = $this->_getControlXpath('pageelement', 'available_themes_tab_content');
-        $xpathThemeList = $this->_getControlXpath('pageelement', 'theme_list');
-
-        $this->assertElementNotPresent($this->_getControlXpath('pageelement', 'header_available_themes'));
-        $this->assertElementPresent($this->_getControlXpath('pageelement', 'selector_tabs_container'));
-        $this->assertElementPresent($xpathCustomizationContent);
-        $this->assertVisible($xpathCustomizationContent);
-        $this->assertElementPresent($xpathAvailableContent);
-        $this->assertNotVisible($xpathAvailableContent);
-        $this->assertNotVisible($xpathThemeList);
+        $this->assertFalse($this->controlIsPresent('pageelement', 'header_available_themes'));
+        $this->assertTrue($this->controlIsPresent('pageelement', 'selector_tabs_container'));
+        $this->assertTrue($this->controlIsPresent('pageelement', 'customized_themes_tab_content'));
+        $this->assertTrue($this->controlIsVisible('pageelement', 'customized_themes_tab_content'));
+        $this->assertTrue($this->controlIsPresent('pageelement', 'available_themes_tab_content'));
+        $this->assertFalse($this->controlIsVisible('pageelement', 'available_themes_tab_content'));
+        $this->assertFalse($this->controlIsVisible('pageelement', 'theme_list'));
 
         $this->clickControl('link', 'available_themes_tab', false);
-        $this->assertVisible($xpathAvailableContent);
-        $this->assertElementPresent($xpathThemeList);
-        $this->assertVisible($xpathThemeList);
-        $this->assertNotVisible($xpathCustomizationContent);
+        $this->assertTrue($this->controlIsVisible('pageelement', 'available_themes_tab_content'));
+        $this->assertTrue($this->controlIsPresent('pageelement', 'theme_list'));
+        $this->assertTrue($this->controlIsVisible('pageelement', 'theme_list'));
+        $this->assertFalse($this->controlIsVisible('pageelement', 'customized_themes_tab_content'));
 
         $this->themeHelper()->deleteAllVirtualThemes();
     }
@@ -80,20 +77,23 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
         $themeId = $this->themeHelper()->getThemeIdByTitle('Magento Demo');
 
         $this->navigate('design_editor_selector');
+        $this->waitForPageToLoad();
         $this->waitForAjax();
 
         $xpathButton = sprintf($this->_getControlXpath('link', 'assign_theme'), $themeId);
-        $this->chooseOkOnNextConfirmation();
-        $this->click($xpathButton);
-        $this->assertConfirmation(
+        $this->waitForElementOrAlert($xpathButton);
+        $this->getElement($xpathButton)->click();
+        $this->alertIsPresent(
             'You are about to change this theme for your live store, are you sure want to do this?'
         );
-        $this->waitForAjax();
+        $this->acceptAlert();
+        $this->waitForPageToLoad();
+        $this->navigate('dashboard');
         $this->navigate('design_editor_selector');
-        $this->waitForAjax();
+        $this->waitForPageToLoad();
         $xpathAssignedStoreviews = $this->_getControlXpath('pageelement', 'theme_assigned_storeview');
         $xpathAssignedStoreviews = sprintf($xpathAssignedStoreviews, $themeId, 'Default Store View');
-        $this->isElementPresent($xpathAssignedStoreviews);
+        $this->elementIsPresent($xpathAssignedStoreviews);
     }
 
     /**
@@ -115,33 +115,38 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
         $this->waitForAjax();
 
         $xpathButton = sprintf($this->_getControlXpath('link', 'assign_theme'), $themeId);
-        $this->click($xpathButton);
+        $this->waitForElementOrAlert($xpathButton);
+        $this->getElement($xpathButton)->click();
 
-        $xpathStoreWindow = $this->_getControlXpath('pageelement', 'store_view_window');
-        $this->assertElementPresent($xpathStoreWindow);
-        $this->assertVisible($xpathStoreWindow);
+        $this->assertTrue($this->controlIsPresent('pageelement', 'store_view_window'));
+        $this->assertTrue($this->controlIsVisible('pageelement', 'store_view_window'));
 
         $xpathStoreView = $this->_getControlXpath('pageelement', 'store_view_label_by_title');
 
-        $xpathStoreView = sprintf($xpathStoreView, $dataStoreView['store_view_name']);
-        $storeViewId = $this->getAttribute($xpathStoreView . '@for');
+        $xpathCustomStoreView = sprintf($xpathStoreView, $dataStoreView['store_view_name']);
+        $storeViewId = $this->getElement($xpathCustomStoreView)->attribute('for');
         $xpathStoreViewInput = $this->_getControlXpath('pageelement', 'store_view_input_by_id');
         $xpathStoreViewInput = sprintf($xpathStoreViewInput, $storeViewId);
-        $this->check($xpathStoreViewInput);
+        $storeViewName = $this->getElement($xpathStoreViewInput)->attribute('name');
+        $this->fillCheckbox($storeViewName, 'Yes', $xpathStoreViewInput);
 
-        $xpathStoreView = sprintf($xpathStoreView, 'Default Store View');
-        $storeViewId = $this->getAttribute($xpathStoreView . '@for');
+
+        $xpathDefaultStoreView = sprintf($xpathStoreView, 'Default Store View');
+
+        $storeViewId = $this->getElement($xpathDefaultStoreView)->attribute('for');
         $xpathStoreViewInput = $this->_getControlXpath('pageelement', 'store_view_input_by_id');
         $xpathStoreViewInput = sprintf($xpathStoreViewInput, $storeViewId);
-        $this->check($xpathStoreViewInput);
+        $storeViewName = $this->getElement($xpathStoreViewInput)->attribute('name');
+        $this->fillCheckbox($storeViewName, 'Yes', $xpathStoreViewInput);
 
-        $this->click($this->_getControlXpath('link', 'store_assign_done'));
-        $this->waitForAjax();
+        $this->clickControl('button', 'store_assign_done');
+        $this->waitForPageToLoad();
+        $this->navigate('dashboard');
         $this->navigate('design_editor_selector');
-        $this->waitForAjax();
+        $this->waitForPageToLoad();
         $xpathAssignedStoreviews = $this->_getControlXpath('pageelement', 'theme_assigned_storeview');
-        $this->isElementPresent(sprintf($xpathAssignedStoreviews, $themeId, 'Default Store View'));
-        $this->isElementPresent(sprintf($xpathAssignedStoreviews, $themeId, $dataStoreView['store_view_name']));
+        $this->elementIsPresent(sprintf($xpathAssignedStoreviews, $themeId, 'Default Store View')); //possibly not working!!!!!!!!!!!!!!!!!!!!!!
+        $this->elementIsPresent(sprintf($xpathAssignedStoreviews, $themeId, $dataStoreView['store_view_name']));
 
         $this->navigate('manage_stores');
         $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));

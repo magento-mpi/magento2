@@ -258,6 +258,6 @@ detele_store_view:
                             create_backup: //select[@id='store_create_backup']
                         buttons:
                             reset: //button[span='Cancel']
-                            delete_store_view: //button[span='Delete Store View']
+                            delete_store_view: //button[@id='delete']
         buttons:
             back: //button[span='Back']
