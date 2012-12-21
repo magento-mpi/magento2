@@ -93,7 +93,7 @@ class Saas_Mage_Unitprice_Helper extends Mage_Selenium_AbstractHelper
 
         if ($isVisible) {
             $text = $this->getElementsValue($this->_getControlXpath('pageelement', 'unit_price_label_by_product_name'), 'text');
-            $this->assertEquals($unitPriceLabel, $text);
+            $this->assertEquals($unitPriceLabel, $text[0]);
         } else {
             $xPath = $this->_getControlXpath('pageelement', 'unit_price_label_by_product_name');
             $this->assertFalse(
