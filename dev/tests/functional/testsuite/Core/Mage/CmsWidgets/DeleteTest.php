@@ -34,13 +34,6 @@ class Core_Mage_CmsWidgets_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creates All Types of widgets with required fields only and delete them</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Widgets page</p>
-     * <p>2. Create all types of widgets with required fields filled</p>
-     * <p>3. Open newly created widget</p>
-     * <p>4. Delete opened widget</p>
-     * <p>Expected result</p>
-     * <p>Widgets are created and deleted successfully</p>
      *
      * @param array $dataWidgetType
      * @param array $testData

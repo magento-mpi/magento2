@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento
+ * @package     Mage_GiftWrapping
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -23,6 +23,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_use_default_per_website');
     }
 
     public function assertPreconditions()
@@ -32,13 +33,14 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
 
     protected function tearDownAfterTest()
     {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_use_default_per_website');
         $this->frontend();
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
         $this->loginAdminUser();
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
-        $this->_configHelper->getConfigAreas(true);
     }
 
     /**
@@ -48,10 +50,10 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
      */
     public function preconditionsForTests()
     {
+        $this->markTestIncomplete("Enterprise_Staging is obsolete. The tests should be refactored.");
         //Data
         $website = $this->loadDataSet('StagingWebsite', 'staging_website');
         $websiteName = $website['general_information']['staging_website_name'];
-        $websiteSettings = $this->loadDataSet('StagingWebsite', 'staging_website_enable_auto_entries');
         $productDefault = $this->loadDataSet('Product', 'simple_product_visible');
         $product = $this->loadDataSet('Product', 'simple_product_visible', array('websites' => $websiteName));
         $userDefault = $this->loadDataSet('Customers', 'generic_customer_account');
@@ -62,7 +64,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
             array('gift_wrapping_websites' => $websiteName));
         //Steps and Verification
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($websiteSettings);
+        $this->systemConfigurationHelper()->configure('StagingWebsite/staging_website_enable_auto_entries');
 
         $this->navigate('manage_staging_websites');
         $this->stagingWebsiteHelper()->createStagingWebsite($website);
@@ -95,36 +97,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
 
     /**
      * <p>Test cases: TL-MAGE-965 and TL-MAGE-961 and TL-MAGE-853 and TL-MAGE-871</p>
-     * <p>Preconditions:</p>
-     * <p>1. Simple product is created;</p>
-     * <p>2. Customer is created;</p>
-     * <p>3. Gift wrapping is created;</p>
-     * <p>4. Gift wrapping and gift messages are allowed for entire order and individual items in system
-     * configuration.</p>
-     * <p>Steps:</p>
-     * <p>1. Log into Frontend;</p>
-     * <p>2. Add one product to shopping cart;</p>
-     * <p>3. Click "Checkout with Multiple Addresses" link;</p>
-     * <p>4. Select a different shipping address for item;</p>
-     * <p>5. Click button "Continue to shipping information";</p>
-     * <p>6. Select "Flat Rate" shipping method for item;</p>
-     * <p>7. Check "Add gift options" checkbox;</p>
-     * <p>8. Check "Add Gift Options for Entire Order" checkbox;</p>
-     * <p>9. Select Gift Wrapping from "Gift Wrapping Design" dropdown;</p>
-     * <p>10. Click "Gift Message" link for entire order;</p>
-     * <p>11. Add gift message for entire order;</p>
-     * <p>12. Check "Add gift options for Individual Items" checkbox in the second item.
-     * <p>13. Select Gift Wrapping from "Gift Wrapping Design" dropdown for item;</p>
-     * <p>14. Click "Gift Message" link for individual item;</p>
-     * <p>15. Add gift message for individual item;<p>
-     * <p>16. Proceed to billing information page;</p>
-     * <p>17. Select "Check/Money Order" payment method;</p>
-     * <p>18. Proceed to review order information;</p>
-     * <p>19. Check presence of gift wrapping for item and entire order in totals;</p>
-     * <p>20. Submit order;</p>
-     * <p>Expected Results:</p>
-     * <p>1. Gift wrapping is mentioned in totals and its price is correct;</p>
-     * <p>2. Order is created;</p>
      *
      * @param array $testData
      *
@@ -165,23 +137,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
 
     /**
      * <p>Test case:</p>
-     * <p>Preconditions:</p>
-     * <p>1. Simple product is created;</p>
-     * <p>2. Customer is created;</p>
-     * <p>3. Gift wrapping is created;</p>
-     * <p>4. Gift wrapping and gift messages are allowed for entire order only.</p>
-     * <p>Steps:</p>
-     * <p>1. Log into Frontend;</p>
-     * <p>2. Add one product to shopping cart;</p>
-     * <p>3. Click "Checkout with Multiple Addresses" link;</p>
-     * <p>4. Select a different shipping address for item;</p>
-     * <p>5. Click button "Continue to shipping information";</p>
-     * <p>6. Select "Flat Rate" shipping method for item;</p>
-     * <p>7. Check "Add gift options" checkbox;</p>
-     * <p>8. Verify "Gift Wrapping Design" dropdown for entire order is present;</p>
-     * <p>9. Verify "Gift Message" for Entire Order is present;</p>
-     * <p>10. Verify "Gift Wrapping Design" dropdown for individual items is not present;</p>
-     * <p>11. Verify "Gift Message" for Individual Items is not present.</p>
      *
      * <p>Expected Results:</p>
      * <p>1. "Add Gift Options for Entire Order" and "Gift Message" for entire order only are present;</p>
@@ -207,7 +162,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
                   'gift_options_address2' => $forProduct2));
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('GiftMessage/order_gift_wrapping_yes_message_yes');
+        $this->systemConfigurationHelper()->configure('GiftMessage/ind_items_gift_wrapping_no_message_no');
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
@@ -215,23 +170,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
 
     /**
      * <p>TL-MAGE-970, TL-MAGE-962: Gift Wrapping for entire Order is not allowed (wrapping-no; message-no)</p>
-     * <p>Preconditions:</p>
-     * <p>1. Simple product is created;</p>
-     * <p>2. Customer is created;</p>
-     * <p>3. Gift wrapping is created;</p>
-     * <p>4. Gift wrapping and gift messages are allowed for individual items only.</p>
-     * <p>Steps:</p>
-     * <p>1. Log into Frontend;</p>
-     * <p>2. Add one product to shopping cart;</p>
-     * <p>3. Click "Checkout with Multiple Addresses" link;</p>
-     * <p>4. Select a different shipping address for item;</p>
-     * <p>5. Click button "Continue to shipping information";</p>
-     * <p>6. Select "Flat Rate" shipping method for item;</p>
-     * <p>7. Check "Add gift options" checkbox;</p>
-     * <p>8. Verify "Gift Wrapping Design" dropdown for entire order is not present;</p>
-     * <p>9. Verify "Gift Message" for Entire Order is not present;</p>
-     * <p>10. Verify "Gift Wrapping Design" dropdown for individual items is present;</p>
-     * <p>11. Verify "Gift Message" for Individual Items is present.</p>
      *
      * <p>Expected Results:</p>
      * <p>1. "Add Gift Options for Individual Items" and "Gift Message" for individual items only are present;</p>
@@ -259,7 +197,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
                   'gift_options_address2' => $forProduct2));
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('GiftMessage/ind_items_gift_wrapping_yes_message_yes');
+        $this->systemConfigurationHelper()->configure('GiftMessage/ind_items_all_yes_order_all_no');
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
@@ -267,23 +205,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
 
     /**
      * <p>TL-MAGE-973:Gift Wrapping for Individual Items is not allowed (wrapping-no; message-yes)</p>
-     * <p>Preconditions:</p>
-     * <p>1. Simple product is created;</p>
-     * <p>2. Customer is created;</p>
-     * <p>3. Gift wrapping is created;</p>
-     * <p>4. In system configuration setting "Allow Gift Messages for Individual Items" is set to "Yes";</p>
-     * <p>5. In system configuration setting "Allow Gift Wrapping for Individual Items" is set to "No".</p>
-     * <p>Steps:</p>
-     * <p>1. Log in to frontend;</p>
-     * <p>2. Add any product to a Cart and proceed to checkout with Multiple Addresses Checkout;</p>
-     * <p>3. Select any different addresses in "select addresses" step and press button "Continue to shopping
-     * information";</p>
-     * <p>4. Select any shipping methods in shipping method tabs;</p>
-     * <p>5. Check the "Add gift options" checkboxes;</p>
-     * <p>6. Check "Add gift options for Individual Items" checkboxes;</p>
-     *
-     * <p>Expected Results:</p>
-     * <p>1. Dropdown "Gift Wrapping Design" for individual items should not be shown.</p>
      *
      * @param array $testData
      *
@@ -314,19 +235,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
 
     /**
      * <p>TL-MAGE-967:Gift Message for Individual Items is not allowed (message-no; wrapping-yes)</p>
-     * <p>Preconditions:</p>
-     * <p>1. Simple product is created;</p>
-     * <p>2. Customer is created;</p>
-     * <p>3. Gift wrapping is created;</p>
-     * <p>4. In system configuration setting "Allow Gift Messages for Individual Items" is set to "No";</p>
-     * <p>5. In system configuration setting "Allow Gift Wrapping for Individual Items" is set to "Yes".</p>
-     * <p>Steps:</p>
-     * <p>1. Log in to frontend;</p>
-     * <p>2. Add any product to a Cart and proceed to checkout with Multiple Addresses Checkout;</p>
-     * <p>3. Select any different addresses in "select addresses" step and press button "Continue to shopping
-     * information";</p>
-     * <p>4. Select any shipping methods in shipping method tabs;</p>
-     * <p>5. Check the "Add gift options" checkbox;</p>
      *
      * <p>Expected Results:</p>
      * <p>1. "Add gift options for Individual Items" checkbox should not be shown.</p>
@@ -362,25 +270,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
 
     /**
      * <p>TL-MAGE-963:Gift Wrapping for entire Order is not allowed (wrapping-no; message-yes)</p>
-     * <p>Preconditions:</p>
-     * <p>1. Simple product is created;</p>
-     * <p>2. Customer is created;</p>
-     * <p>3. Gift wrapping is created;</p>
-     * <p>4. In system configuration setting "Allow Gift Messages On Order Level" is set to "Yes";</p>
-     * <p>5. In system configuration setting "Allow Gift Wrapping On Order Level" is set to "No".</p>
-     * <p>Steps:</p>
-     * <p>1. Log in to frontend;</p>
-     * <p>2. Add any product to a Cart and proceed to checkout with Multiple Addresses Checkout;</p>
-     * <p>3. Select any different addresses in "select addresses" step and press button "Continue to shopping
-     * information";</p>
-     * <p>4. Select any shipping methods in shipping method tabs;</p>
-     * <p>5. Check "Add gift options" checkbox;</p>
-     * <p>6. Verify dropdown "Gift Wrapping Design" is not visible for order;</p>
-     * <p>7. Verify link "Gift Message" is visible for order;</p>
-     *
-     * <p>Expected Results:</p>
-     * <p>1. "Gift Wrapping Design" dropdown is not visible for order;</p>
-     * <p>2. "Gift Message" link is visible for order.</p>
      *
      * @param array $testData
      *
@@ -409,25 +298,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
 
     /**
      * <p>Test Case TL-MAGE-960: Gift Message for entire Order is not allowed (message-no; wrapping-yes)</p>
-     * <p>Preconditions:</p>
-     * <p>1. Simple product is created;</p>
-     * <p>2. Customer is created;</p>
-     * <p>3. Gift wrapping is created;</p>
-     * <p>4. In system configuration setting "Allow Gift Messages On Order Level" is set to "No";</p>
-     * <p>5. In system configuration setting "Allow Gift Wrapping On Order Level" is set to "Yes".</p>
-     * <p>Steps:</p>
-     * <p>1. Log in to frontend;</p>
-     * <p>2. Add any product to a Cart and proceed to checkout with Multiple Addresses Checkout;</p>
-     * <p>3. Select any different addresses in "select addresses" step and press button "Continue to shopping
-     * information";</p>
-     * <p>4. Select any shipping methods in shipping method tabs;</p>
-     * <p>5. Check the "Add gift options" checkbox;</p>
-     * <p>6. Verify dropdown "Gift Wrapping Design" is visible for order;</p>
-     * <p>7. Verify link "Gift Message" is not visible for order;</p>
-     *
-     * <p>Expected Results:</p>
-     * <p>1. "Gift Wrapping Design" dropdown is visible for order;</p>
-     * <p>2. "Gift Message" link is not visible for order.</p>
      *
      * @param array $testData
      *
@@ -458,22 +328,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
 
     /**
      * <p>Test Case TL-MAGE-992: Printed Card to Order is allowed</p>
-     * <p>Preconditions:</p>
-     * <p>1. Simple product is created;</p>
-     * <p>2. Customer is created;</p>
-     * <p>3. In system configuration setting "Allow Printed Card" is set to "Yes";</p>
-     * <p>Steps:</p>
-     * <p>1. Log in to frontend;</p>
-     * <p>2. Add any product to a Cart and proceed to checkout with Multiple Addresses Checkout;</p>
-     * <p>3. Select any different addresses in "select addresses" step and press button "Continue to shopping
-     * information";</p>
-     * <p>4. Select any shipping methods in shipping method tabs;</p>
-     * <p>5. Check "Add gift options" checkbox;</p>
-     * <p>6. Verify checkbox "Add Gift Card" is visible for order.</p>
-     *
-     * <p>Expected Results:</p>
-     * <p>1. Gift Options block of Orders pages should contain information about Printed Card with the price that set
-     * in the system configuration (Default Price for Printed Card).</p>
      *
      * @param array $testData
      *
@@ -501,21 +355,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
 
     /**
      * <p>Test Case TL-MAGE-994: Gift Receipt is allowed</p>
-     * <p>Preconditions:</p>
-     * <p>1. Simple product is created;</p>
-     * <p>2. Customer is created;</p>
-     * <p>3. In system configuration setting "Allow Gift Receipt" is set to "Yes";</p>
-     * <p>Steps:</p>
-     * <p>1. Log in to frontend;</p>
-     * <p>2. Add any product to a Cart and proceed to checkout with Multiple Addresses Checkout;</p>
-     * <p>3. Select any different addresses in "select addresses" step and press button "Continue to shopping
-     * information";</p>
-     * <p>4. Select any shipping methods in shipping method tabs;</p>
-     * <p>5. Check "Add gift options" checkbox;</p>
-     * <p>6. Verify checkbox "Add Gift Receipt" is visible for order.</p>
-     *
-     * <p>Expected Results:</p>
-     * <p>1. Gift Options block of Order page should contain checked checkbox for Gift Receipt.</p>
      *
      * @param array $testData
      *
@@ -535,7 +374,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
                   'gift_options_address2' => array('send_gift_receipt' => 'Yes')));
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('GiftMessage/gift_receipt_enable_yes');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_receipt_enable');
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
@@ -544,38 +383,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
     /**
      * <p>Test Case TL-MAGE-860: Possibility to adding Gift attributes to Order during the process of Multiple Addresses
      * Checkout - Website</p>
-     * <p>Preconditions:</p>
-     * <p>1. Simple product is created;</p>
-     * <p>2. Customer is created;</p>
-     * <p>3. Website is created;</p>
-     * <p>4. Gift wrapping is created for new website;</p>
-     * <p>5. Gift wrapping and gift messages are allowed for entire order and individual items in system configuration
-     * in website scope;</p>
-     * <p>6. Navigate to newly created website URL.</p>
-     * <p>Steps:</p>
-     * <p>1. Log into Frontend;</p>
-     * <p>2. Add one product to shopping cart;</p>
-     * <p>3. Click "Checkout with Multiple Addresses" link;</p>
-     * <p>4. Select a different shipping address for item;</p>
-     * <p>5. Click button "Continue to shipping information";</p>
-     * <p>6. Select "Flat Rate" shipping method for item;</p>
-     * <p>7. Check "Add gift options" checkbox;</p>
-     * <p>8. Check "Add Gift Options for Entire Order" checkbox;</p>
-     * <p>9. Select Gift Wrapping from "Gift Wrapping Design" dropdown;</p>
-     * <p>10. Click "Gift Message" link for entire order;</p>
-     * <p>11. Add gift message for entire order;</p>
-     * <p>12. Check "Add gift options for Individual Items" checkbox in the second item.
-     * <p>13. Select Gift Wrapping from "Gift Wrapping Design" dropdown for item;</p>
-     * <p>14. Click "Gift Message" link for individual item;</p>
-     * <p>15. Add gift message for individual item;<p>
-     * <p>16. Proceed to billing information page;</p>
-     * <p>17. Select "Check/Money Order" payment method;</p>
-     * <p>18. Proceed to review order information;</p>
-     * <p>19. Check presence of gift wrapping for item and entire order in totals;</p>
-     * <p>20. Submit order;</p>
-     * <p>Expected Results:</p>
-     * <p>1. Gift wrapping is mentioned in totals and its price is correct;</p>
-     * <p>2. Order is created;</p>
      *
      * @param array $testData
      *
@@ -606,7 +413,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
         $this->systemConfigurationHelper()->configure($wrappingWebsite);
         $this->systemConfigurationHelper()->configure($giftMessagesWebsite);
         $newFrontendUrl = $this->stagingWebsiteHelper()->buildFrontendUrl($testData['code']);
-        $this->_configHelper->setAreaBaseUrl('frontend', $newFrontendUrl);
+        $this->getConfigHelper()->setAreaBaseUrl('frontend', $newFrontendUrl);
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
@@ -614,33 +421,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
 
     /**
      * <p>Test Case TL-MAGE-937: Recounting Gift Options (Entire Order)</p>
-     * <p>Preconditions:</p>
-     * <p>1. Simple product is created;</p>
-     * <p>2. Customer is created;</p>
-     * <p>3. Gift wrapping is created;</p>
-     * <p>4. Gift wrapping and gift messages are allowed for entire order in system configuration.</p>
-     * <p>Steps:</p>
-     * <p>1. Log into Frontend;</p>
-     * <p>2. Add one product to shopping cart;</p>
-     * <p>3. Click on "Checkout with Multiple Addresses" link;</p>
-     * <p>4. Select a different shipping address for item;</p>
-     * <p>5. Click button "Continue to shipping information";</p>
-     * <p>6. Select shipping method for item "Flat Rate";</p>
-     * <p>7. Check the "Add gift options" checkbox;</p>
-     * <p>8. Check the "Add Gift Options for Entire Order" checkbox;</p>
-     * <p>9. Select Gift Wrapping from "Gift Wrapping Design" dropdown;</p>
-     * <p>10. Click "Gift Message" link for entire order;</p>
-     * <p>11. Add gift message for entire order;</p>
-     * <p>12. Proceed to billing information page;</p>
-     * <p>13. Select payment method "Check/Money Order";</p>
-     * <p>14. Proceed to review order information;</p>
-     * <p>15. Check presence of gift wrapping for entire order in totals;</p>
-     * <p>16. Return back to shipping method selection;</p>
-     * <p>17. Deselect gift options for order;</p>
-     * <p>18. Repeat steps 12-14;</p>
-     * <p>19. Check absence of gift wrapping for item and entire order in totals;</p>
-     * <p>Expected Results:</p>
-     * <p>1. Gift wrapping is absent in totals;</p>
      *
      * @param array $testData
      *
@@ -652,8 +432,8 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
         //Data
         $forProduct1 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_no_order');
         $forProduct2 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_no_order');
-        $reconfigureForProduct1 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_no_order');
-        $reconfigureForProduct2 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_no_order');
+        $reconfigForProduct1 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_no_order');
+        $reconfigForProduct2 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_no_order');
         $productsAdd = $this->loadDataSet('MultipleAddressesCheckout', 'products_to_add_with_qty', null,
             array('product_1' => $testData['simpleDefault'], 'product_2' => $testData['simpleDefault']));
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
@@ -665,8 +445,8 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
             $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login/shipping_data', null,
                 array('product_1'             => $testData['simpleDefault'],
                       'product_2'             => $testData['simpleDefault'],
-                      'gift_options_address1' => $reconfigureForProduct1,
-                      'gift_options_address2' => $reconfigureForProduct2));
+                      'gift_options_address1' => $reconfigForProduct1,
+                      'gift_options_address2' => $reconfigForProduct2));
         $reconfiguredCheckout = $checkoutData;
         $reconfiguredCheckout['shipping_data'] = $reconfigureShipping;
         //Steps
@@ -685,33 +465,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
 
     /**
      * <p>Test Case TL-MAGE-942: Recounting Gift Options (Individual Item)</p>
-     * <p>Preconditions:</p>
-     * <p>1. Simple product is created;</p>
-     * <p>2. Customer is created;</p>
-     * <p>3. Gift wrapping is created;</p>
-     * <p>4. Gift wrapping and gift messages are allowed for individual items in system configuration.</p>
-     * <p>Steps:</p>
-     * <p>1. Log into Frontend;</p>
-     * <p>2. Add one product to shopping cart;</p>
-     * <p>3. Click on "Checkout with Multiple Addresses" link;</p>
-     * <p>4. Select a different shipping address for item;</p>
-     * <p>5. Click button "Continue to shipping information";</p>
-     * <p>6. Select shipping method for item "Flat Rate";</p>
-     * <p>7. Check the "Add gift options" checkbox;</p>
-     * <p>8. Check the "Add Gift Options for Items" checkbox;</p>
-     * <p>9. Select Gift Wrapping from "Gift Wrapping Design" dropdown;</p>
-     * <p>10. Click "Gift Message" link for product;</p>
-     * <p>11. Add gift message for item;</p>
-     * <p>12. Proceed to billing information page;</p>
-     * <p>13. Select payment method "Check/Money Order";</p>
-     * <p>14. Proceed to review order information;</p>
-     * <p>15. Check presence of gift wrapping for item and entire order in totals;</p>
-     * <p>16. Return back to shipping method selection;</p>
-     * <p>17. Deselect gift options for items;</p>
-     * <p>18. Repeat steps 12-14;</p>
-     * <p>19. Check absence of gift wrapping for item and entire order in totals;</p>
-     * <p>Expected Results:</p>
-     * <p>1. Gift wrapping is absent in totals;</p>
      *
      * @param array $testData
      *
@@ -728,10 +481,10 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
         $forProduct2 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_yes_item',
             array('product_name'           => $testData['simpleDefault'],
                   'gift_wrapping_for_item' => $testData['wrappingDefault']));
-        $reconfigureForProduct1 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_yes_item',
+        $reconfigForProduct1 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_yes_item',
             array('product_name'           => $testData['simpleDefault'],
                   'gift_wrapping_for_item' => $wrapping['gift_wrapping_design']));
-        $reconfigureForProduct2 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_yes_item',
+        $reconfigForProduct2 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_yes_item',
             array('product_name'           => $testData['simpleDefault'],
                   'gift_wrapping_for_item' => $wrapping['gift_wrapping_design']));
         $productsAdd = $this->loadDataSet('MultipleAddressesCheckout', 'products_to_add_with_qty', null,
@@ -745,13 +498,13 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
             $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login/shipping_data', null,
                 array('product_1'             => $testData['simpleDefault'],
                       'product_2'             => $testData['simpleDefault'],
-                      'gift_options_address1' => $reconfigureForProduct1,
-                      'gift_options_address2' => $reconfigureForProduct2));
+                      'gift_options_address1' => $reconfigForProduct1,
+                      'gift_options_address2' => $reconfigForProduct2));
         $reconfiguredCheckout = $checkoutData;
         $reconfiguredCheckout['shipping_data'] = $reconfigureShipping;
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('GiftMessage/ind_items_gift_wrapping_yes_message_yes');
+        $this->systemConfigurationHelper()->configure('GiftMessage/ind_items_all_yes_order_all_no');
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->createGiftWrapping($wrapping);
         $this->assertMessagePresent('success', 'success_saved_gift_wrapping');
@@ -769,29 +522,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
 
     /**
      * <p>Test Case TL-MAGE-943: Recounting Gift Options (Printed Card to Order)</p>
-     * <p>Preconditions:</p>
-     * <p>1. Simple product is created;</p>
-     * <p>2. Customer is created;</p>
-     * <p>4. Printed card is allowed in system configuration.</p>
-     * <p>Steps:</p>
-     * <p>1. Log into Frontend;</p>
-     * <p>2. Add one product to shopping cart;</p>
-     * <p>3. Click on "Checkout with Multiple Addresses" link;</p>
-     * <p>4. Select a different shipping address for item;</p>
-     * <p>5. Click button "Continue to shipping information";</p>
-     * <p>6. Select shipping method for item "Flat Rate";</p>
-     * <p>7. Check the "Add gift options" checkbox;</p>
-     * <p>8. Check the "Add Printed Card" checkbox;</p>
-     * <p>9. Proceed to billing information page;</p>
-     * <p>10. Select payment method "Check/Money Order";</p>
-     * <p>11. Proceed to review order information;</p>
-     * <p>12. Check presence of gift card in totals;</p>
-     * <p>13. Return back to shipping method selection;</p>
-     * <p>14. Deselect "Add printed card" checkbox;</p>
-     * <p>18. Repeat steps 9-11;</p>
-     * <p>19. Check absence of gift card in totals;</p>
-     * <p>Expected Results:</p>
-     * <p>1. Gift card price is absent in totals;</p>
      *
      * @param array $testData
      *
@@ -832,22 +562,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
     /**
      * <p>Test Case TL-MAGE-1039: No Gift Wrappings is created</p>
      * <p>Test Case TL-MAGE-858: Disabling Gift Wrapping (Multiple Addresses Checkout)</p>
-     * <p>Preconditions:</p>
-     * <p>1. Simple product is created;</p>
-     * <p>2. Customer is created;</p>
-     * <p>4. Gift Options are allowed in system configuration.</p>
-     * <p>Steps:</p>
-     * <p>1. Log into Frontend;</p>
-     * <p>2. Add one product to shopping cart;</p>
-     * <p>3. Click on "Checkout with Multiple Addresses" link;</p>
-     * <p>4. Select a different shipping address for item;</p>
-     * <p>5. Click button "Continue to shipping information";</p>
-     * <p>6. Select shipping method for item "Flat Rate";</p>
-     * <p>7. Check the "Add gift options" checkbox;</p>
-     * <p>8. Check the "Add Gift Options for Entire Order" checkbox;</p>
-     * <p>9. Verify there is not "Gift Wrapping Design" dropdown on the page.</p>
-     * <p>Expected Results:</p>
-     * <p>1. There is not "Gift Wrapping Design" dropdown on the page.</p>
      *
      * @param array $testData
      *

@@ -350,7 +350,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     public function initConfigCache()
     {
         /**
-         * Funtionality related with config separation
+         * Functionality related with config separation
          */
         if ($this->_configCache === null) {
             $code = $this->getCode();
@@ -461,6 +461,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             } elseif ($placeholder == 'secure_base_url') {
                 $url = $this->getConfig(self::XML_PATH_SECURE_BASE_URL);
             }
+
             if ($url) {
                 $sValue = str_replace('{{' . $placeholder . '}}', $url, $sValue);
             } elseif (strpos($sValue, Mage_Core_Model_Store::BASE_URL_PLACEHOLDER) !== false) {

@@ -319,6 +319,13 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $this->_prepareQuery($sql, $bind);
             $result = parent::query($sql, $bind);
         } catch (Exception $e) {
+            // Finalize broken query
+            $profiler = $this->getProfiler();
+            if ($profiler instanceof Varien_Db_Profiler) {
+                /** @var Varien_Db_Profiler $profiler */
+                $profiler->queryEndLast();
+            }
+
             $this->_debugStat(self::DEBUG_QUERY, $sql, $bind);
             $this->_debugException($e);
         }

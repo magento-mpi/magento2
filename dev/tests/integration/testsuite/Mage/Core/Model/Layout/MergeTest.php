@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module::Mage_Layout_Merge
- */
 class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -211,6 +208,7 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
 
         $layoutHandle = 'layout_test_handle';
         $expectedText = 'Text declared in the frontend/test/test_theme';
+        /** @var $model Mage_Core_Model_Layout_Merge */
         $model = Mage::getModel('Mage_Core_Model_Layout_Merge', array('arguments' => array(
             'area'       => 'frontend',
             'themeId'    => Mage_Core_Utility_Theme::getTheme('test/test_theme', 'frontend')->getId()

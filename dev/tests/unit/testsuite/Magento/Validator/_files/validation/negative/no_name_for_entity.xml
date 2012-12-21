@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Validator
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<validation>
+    <entity>
+        <rules>
+            <rule name="test_rule_b">
+                <!-- constraints element is not allowed here, expected entity_constraints or property_constraints -->
+                <constraints>
+                    <constraint class="Magento_Validator_Test_True"/>
+                </constraints>
+            </rule>
+        </rules>
+        <groups>
+            <group name="test_group_b">
+                <uses>
+                    <use rule="test_rule_b"/>
+                </uses>
+            </group>
+        </groups>
+    </entity>
+</validation>

@@ -30,12 +30,6 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Tax Rate with required fields</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add New Tax Rate" button </p>
-     * <p>2. Fill in required fields</p>
-     * <p>3. Click "Save Rate" button</p>
-     * <p>Expected Result:</p>
-     * <p>Tax Rate created, success message appears</p>
      *
      * @param string $taxRateDataSetName
      *
@@ -69,12 +63,6 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Tax Rate with name that exists</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add New Tax Rate" button </p>
-     * <p>2. Fill in Tax Identifier with value that exists</p>
-     * <p>3. Click "Save Rate" button</p>
-     * <p>Expected Result:</p>
-     * <p>Tax Rate should not be created, error message appears</p>
      *
      * @depends withRequiredFieldsOnly
      * @test
@@ -93,12 +81,6 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating a Tax Rate with empty required fields.</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Tax Rate"</p>
-     * <p>2. Fill in the fields, but leave one required field empty;</p>
-     * <p>3. Click button "Save Rate".</p>
-     * <p>Expected result:</p>
-     * <p>Received error message "This is a required field."</p>
      *
      * @param string $emptyFieldName Name of the field to leave empty
      *
@@ -129,14 +111,6 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * Fails because of MAGE-5237
-     * <p>Creating a new Tax Rate with special values (long, special chars).</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Tax Rate"</p>
-     * <p>2. Fill in the fields</p>
-     * <p>3. Click button "Save Rate"</p>
-     * <p>4. Open the Tax Rate</p>
-     * <p>Expected result:</p>
-     * <p>All fields has the same values.</p>
      *
      * @param array $specialValue
      *
@@ -169,12 +143,6 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating a new Tax Rate with invalid values for Range From\To.</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Tax Rate"</p>
-     * <p>2. Fill in the fields Range From\To with invalid value</p>
-     * <p>3. Click button "Save Rate"</p>
-     * <p>Expected result:</p>
-     * <p>Please use numbers only in this field. Please avoid spaces or other characters such as dots or commas.</p>
      *
      * @param array $specialValue
      *
@@ -209,12 +177,6 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating a new Tax Rate with invalid values for Rate Percent.</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Tax Rate"</p>
-     * <p>2. Fill in the field Rate Percent with invalid value</p>
-     * <p>3. Click button "Save Rate"</p>
-     * <p>Expected result:</p>
-     * <p>Error message: Please enter a valid number in this field.</p>
      *
      * @param array $specialValue
      *
@@ -245,13 +207,6 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating a new Tax Rate with State.</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Tax Rate"</p>
-     * <p>2. Fill in the fields, select value for State</p>
-     * <p>3. Click button "Save Rate"</p>
-     * <p>4. Open the Tax Rate</p>
-     * <p>Expected result:</p>
-     * <p>All fields have the same values.</p>
      *
      * @test
      * @depends withRequiredFieldsOnly
@@ -274,17 +229,6 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating a new Tax Rate with custom store view titles.</p>
-     * <p>Preconditions:</p>
-     * <p>1. Create a new store view</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Tax Rate"</p>
-     * <p>2. Fill in the fields, select title for the default and created store views</p>
-     * <p>3. Click button "Save Rate"</p>
-     * <p>4. Open the Tax Rate</p>
-     * <p>Expected result:</p>
-     * <p>All fields have the same values.</p>
-     * <p>Cleanup:</p>
-     * <p>Delete the created store view.</p>
      *
      * @test
      * @depends withRequiredFieldsOnly

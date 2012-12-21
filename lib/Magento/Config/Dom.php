@@ -95,6 +95,23 @@ class Magento_Config_Dom
     }
 
     /**
+     * Identify node path based on parent path and node attributes
+     *
+     * @param DOMElement $node
+     * @param string $parentPath
+     * @return string
+     */
+    protected function _getNodePathByParent(DOMElement $node, $parentPath)
+    {
+        $path = $parentPath . '/' . $node->tagName;
+        $idAttribute = $this->_findIdAttribute($path);
+        if ($idAttribute && $value = $node->getAttribute($idAttribute)) {
+            $path .= "[@{$idAttribute}='{$value}']";
+        }
+        return $path;
+    }
+
+    /**
      * Determine whether an XPath matches registered identifiable attribute
      *
      * @param string $xPath
@@ -146,6 +163,7 @@ class Magento_Config_Dom
     {
         $dom = new DOMDocument();
         $dom->loadXML($xml);
+        $rr = $dom->saveXML();
         return $dom;
     }
 
@@ -163,22 +181,5 @@ class Magento_Config_Dom
         $errors = libxml_get_errors();
         libxml_use_internal_errors(false);
         return $result;
-    }
-
-    /**
-     * Identify node path based on parent path and node attributes
-     *
-     * @param DOMElement $node
-     * @param string $parentPath
-     * @return string
-     */
-    protected function _getNodePathByParent(DOMElement $node, $parentPath)
-    {
-        $path = $parentPath . '/' . $node->tagName;
-        $idAttribute = $this->_findIdAttribute($path);
-        if ($idAttribute && $value = $node->getAttribute($idAttribute)) {
-            $path .= "[@{$idAttribute}='{$value}']";
-        }
-        return $path;
     }
 }

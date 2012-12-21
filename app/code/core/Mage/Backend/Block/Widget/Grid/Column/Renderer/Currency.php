@@ -160,4 +160,3 @@ class Mage_Backend_Block_Widget_Grid_Column_Renderer_Currency
         return parent::renderCss() . ' a-right';
     }
 }
-

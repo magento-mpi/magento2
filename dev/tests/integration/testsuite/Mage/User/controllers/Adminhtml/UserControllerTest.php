@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_User
- */
 class Mage_User_Adminhtml_UserControllerTest extends Mage_Adminhtml_Utility_Controller
 {
     /**

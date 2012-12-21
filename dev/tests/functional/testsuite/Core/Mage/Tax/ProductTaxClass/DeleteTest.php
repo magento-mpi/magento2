@@ -45,12 +45,6 @@ class Core_Mage_Tax_ProductTaxClass_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete a Product Tax Class</p>
-     * <p>Steps:</p>
-     * <p>1. Create a new Product Tax Class</p>
-     * <p>2. Open the Product Tax Class</p>
-     * <p>3. Delete the Product Tax Class</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the Product Tax class Core_Mage_has been deleted.</p>
      *
      * @test
      */
@@ -71,13 +65,6 @@ class Core_Mage_Tax_ProductTaxClass_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete a Product Tax class Core_Mage_that used in Tax Rule</p>
-     * <p>Steps:</p>
-     * <p>1. Create a new Product Tax Class</p>
-     * <p>2. Create a new Tax Rule that use Product Tax class Core_Mage_from previous step</p>
-     * <p>2. Open the Product Tax Class</p>
-     * <p>3. Delete the Product Tax Class</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the Product Tax class Core_Mage_could not be deleted.</p>
      *
      * @test
      */
@@ -114,14 +101,6 @@ class Core_Mage_Tax_ProductTaxClass_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete a Product Tax class Core_Mage_that used in Product</p>
-     * <p>Steps:</p>
-     * <p>1. Create a new Product Tax Class</p>
-     * <p>2. Create a new Product that use Product Tax class Core_Mage_from previous step</p>
-     * <p>2. Open the Product Tax Class</p>
-     * <p>3. Delete the Product Tax Class</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the Product Tax class Core_Mage_could not be deleted.</p>
-     * <p>Error message: You cannot delete this tax class Core_Mage_as it is used for 1 products.</p>
      *
      * @test
      */

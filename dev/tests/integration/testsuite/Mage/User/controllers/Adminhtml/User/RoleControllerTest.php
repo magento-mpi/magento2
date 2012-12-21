@@ -11,8 +11,6 @@
 
 /**
  * Test class for Mage_User_Adminhtml_User_RoleController.
- *
- * @group module:Mage_User
  */
 class Mage_User_Adminhtml_User_RoleControllerTest extends Mage_Adminhtml_Utility_Controller
 {

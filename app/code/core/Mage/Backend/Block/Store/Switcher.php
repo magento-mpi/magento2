@@ -14,6 +14,7 @@
  * @category   Mage
  * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
 {
@@ -157,7 +158,7 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
     {
         $websites = $this->_application->getWebsites();
         if ($websiteIds = $this->getWebsiteIds()) {
-            foreach ($websites as $websiteId => $website) {
+            foreach (array_keys($websites) as $websiteId) {
                 if (!in_array($websiteId, $websiteIds)) {
                     unset($websites[$websiteId]);
                 }
@@ -222,7 +223,7 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
         }
         $stores = $group->getStores();
         if ($storeIds = $this->getStoreIds()) {
-            foreach ($stores as $storeId => $store) {
+            foreach (array_keys($stores) as $storeId) {
                 if (!in_array($storeId, $storeIds)) {
                     unset($stores[$storeId]);
                 }

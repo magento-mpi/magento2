@@ -30,12 +30,6 @@ class Core_Mage_CmsStaticBlocks_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete a static block</p>
-     * <p>Steps:</p>
-     * <p>1. Create a new block</p>
-     * <p>2. Open the block</p>
-     * <p>3. Delete the block</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the block has been deleted.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3228

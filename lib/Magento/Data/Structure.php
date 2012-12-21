@@ -42,11 +42,11 @@ class Magento_Data_Structure
     public function importElements(array $elements)
     {
         $this->_elements = $elements;
-        foreach ($elements as $elementsId => $element) {
-            if (is_numeric($elementsId)) {
-                throw new Magento_Exception("Element ID must not be numeric: '{$elementsId}'.");
+        foreach ($elements as $elementId => $element) {
+            if (is_numeric($elementId)) {
+                throw new Magento_Exception("Element ID must not be numeric: '{$elementId}'.");
             }
-            $this->_assertParentRelation($elementsId);
+            $this->_assertParentRelation($elementId);
             if (isset($element[self::GROUPS])) {
                 $groups = $element[self::GROUPS];
                 $this->_assertArray($groups);
@@ -55,8 +55,8 @@ class Magento_Data_Structure
                     if ($group !== array_flip($group)) {
                         throw new Magento_Exception("Invalid format of group '{$groupName}': " . var_export($group, 1));
                     }
-                    foreach ($group as $elementId) {
-                        $this->_assertElementExists($elementId);
+                    foreach ($group as $groupElementId) {
+                        $this->_assertElementExists($groupElementId);
                     }
                 }
             }

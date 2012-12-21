@@ -254,7 +254,7 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
         /** @var $theme Mage_Core_Model_Theme */
         foreach ($this->getItems() as $itemKey => $theme) {
             $removeItem = false;
-            foreach($filters as $filter) {
+            foreach ($filters as $filter) {
                 if ($filter['type'] == 'and' && $theme->getDataUsingMethod($filter['field']) != $filter['value']) {
                     $removeItem = true;
                 }
@@ -297,5 +297,17 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
     protected function _getItemId(Varien_Object $item)
     {
         return $item->getFullPath();
+    }
+
+    /**
+     * Return array for select field
+     *
+     * @param bool $addEmptyField
+     * @return array
+     */
+    public function toOptionArray($addEmptyField = false)
+    {
+        $optionArray = $addEmptyField ? array('' => '') : array();
+        return $optionArray + $this->_toOptionArray('theme_id', 'theme_title');
     }
 }

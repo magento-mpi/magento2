@@ -49,6 +49,37 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
     protected $_paragraphDelimiter = "\n";
 
     /**
+     * Flag that shows, whether random generator has been seeded already
+     * @var bool
+     */
+    protected static $_isSeeded = false;
+
+    /**
+     * Init object
+     */
+    public function __construct()
+    {
+        $this->_seedRandomGeneratorOnce();
+    }
+
+    /**
+     * Seeds random generator once during the execution session
+     *
+     * @return Mage_Selenium_Helper_DataGenerator
+     */
+    protected function _seedRandomGeneratorOnce()
+    {
+        if (!self::$_isSeeded) {
+            $upToMillion = (int)(1000000 * (double)microtime());
+            $upTo2100 = (date('i') * 60 + date('s')) % 2100;
+            $seed = $upTo2100 * 1000000 + $upToMillion; // Maximal signed 32-bit integer = 2.1 billion
+            mt_srand($seed);
+            self::$_isSeeded = true;
+        }
+        return $this;
+    }
+
+    /**
      * Generates some random value
      *
      * @param string $type Available types are 'string', 'text', 'email'
@@ -97,10 +128,6 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
             $length = $minLength;
         }
 
-        if (!$validity) {
-            $validity = 'valid';
-        }
-
         $email = $prefix;
 
         //Subtracts 2 characters, as they are needed for '@' and '.'
@@ -108,11 +135,7 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
         $domainPartLength = $length - strlen($this->_emailDomainZone) - strlen($prefix) - $mainLength - 2;
 
         switch ($validity) {
-            case 'valid':
-                $email .= $this->generateRandomString($mainLength);
-                break;
             case 'invalid':
-                mt_srand((double)microtime() * 100000);
                 switch (mt_rand(0, 3)) {
                     case 0:
                         $email .= $this->generateRandomString(ceil($mainLength / 2))
@@ -122,19 +145,19 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
                         $email .= $this->generateRandomString($mainLength - 1, ':alnum:', '.');
                         break;
                     case 2:
-                        $ml = $mainLength - 2;
-                        $email .= $this->generateRandomString(ceil($ml / 2))
-                            . '..' . $this->generateRandomString(floor($ml / 2));
+                        $mLength = $mainLength - 2;
+                        $email .= $this->generateRandomString(ceil($mLength / 2))
+                            . '..' . $this->generateRandomString(floor($mLength / 2));
                         break;
                     case 3:
-                        $ml = $mainLength - 1;
-                        $email .= $this->generateRandomString(ceil($ml / 2))
-                            . '@' . $this->generateRandomString(floor($ml / 2));
+                        $mLength = $mainLength - 1;
+                        $email .= $this->generateRandomString(ceil($mLength / 2))
+                            . '@' . $this->generateRandomString(floor($mLength / 2));
                         break;
                 }
                 break;
             default:
-                $email .= $this->generateRandomString($mainLength, array(':alnum:', 'invalid-email'));
+                $email .= $this->generateRandomString($mainLength);
                 break;
         }
 
@@ -181,7 +204,6 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
         if (!empty($chars)) {
             $charsLength = strlen($chars);
             $chars = str_shuffle($chars);
-            mt_srand((double)microtime() * 100000);
             for ($i = 0; $i < $length; $i++) {
                 $string .= $chars[mt_rand(0, $charsLength - 1)];
             }

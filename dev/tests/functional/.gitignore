@@ -5,5 +5,7 @@ config/local.yml
 config/config.yml
 phpunit.xml
 var/*
+!var/logs
+!var/screenshots
 .idea
 nbproject

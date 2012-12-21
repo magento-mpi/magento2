@@ -21,32 +21,39 @@ log_in_to_admin:
                         xpath: //div[@class='login-container']
                         buttons:
                             login: //input[@title='Login']
+                            captcha_reload: //*[@id='captcha-reload']
                         fields:
                             user_name: //input[@id='username']
                             password: //input[@id='login']
+                            captcha: //input[@id='captcha']
                         links:
                             forgot_password: //a[text()='Forgot your password?']
+                        pageelements:
+                            captcha: //*[@id='backend_login']
         messages: &loginMessages
             empty_user_name: "//input[@id='username']/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             empty_password: "//input[@id='login']/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             wrong_credentials: //li[normalize-space(@class)='error-msg' and (contains(.,'Invalid User Name or Password.') or contains(.,'Invalid Username or Password.'))]
-            access_denied: //li[normalize-space(@class)='error-msg' and contains(.,'Access denied.')]
-            inactive_account: //li[normalize-space(@class)='error-msg' and contains(.,'This account is inactive.')]
+            access_denied: //li[normalize-space(@class)='error-msg' and contains(.,'Invalid User Name or Password.')]
+            inactive_account: //li[normalize-space(@class)='error-msg' and contains(.,'Invalid User Name or Password.')]
             account_locked: //li[normalize-space(@class)='error-msg' and contains(.,'This account is locked.')]
             empty_email: "//input[@id='email']/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             wrong_email: //li[normalize-space(@class)='error-msg' and contains(.,'Cannot find the email address.')]
             password_sent: //li[normalize-space(@class)='success-msg' and contains(.,'A new password was sent to your email address. Please check your email and click Back to Login.')]
             retrieve_password: //li[normalize-space(@class)='success-msg' and contains(.,'If there is an account associated with %adminEmail% you will receive an email with a link to reset your password.')]
-
+            empty_captcha:  "//input[@id='captcha']/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+            incorrect_captcha: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect CAPTCHA.')]
+            forgot_password_invalid_email: //div[@class='validation-advice' and text()='Please enter a valid email address. For example johndoe@domain.com.']
+            success_forgot_password: //li[normalize-space(@class)='success-msg' and contains(.,'If there is an account associated with %adminEmail% you will receive an email with a link to reset your password.')]
 
 log_in_admin_page:
-    mca: index/login/
+    mca: auth/login/
     title: Log into Magento Admin Page
     uimap: *adminUimap
 
 # 'Forgot your user name or password?' page
 forgot_password:
-    mca: index/forgotpassword/
+    mca: auth/forgotpassword/
     title: Log into Magento Admin Page
     uimap:
         form: &forgotPassword
@@ -56,10 +63,12 @@ forgot_password:
                         xpath: //div[@class='login-container']
                         buttons:
                             retrieve_password: //button[span="Retrieve Password"]
+                            captcha_reload: //*[@id='captcha-reload']
                         fields:
                             email: //input[@id='email']
+                            captcha_field: //input[@id='captcha']
                         links:
                             back_to_login: //a[text()='« Back to Login']
                         pageelements:
-                            captcha: //img[@id='backend_forgotpassword']
+                            captcha: //*[@id='backend_forgotpassword']
         messages: *loginMessages

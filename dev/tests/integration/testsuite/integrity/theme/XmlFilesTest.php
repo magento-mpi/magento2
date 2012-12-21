@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group integrity
- */
 class Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCase
 {
     /**

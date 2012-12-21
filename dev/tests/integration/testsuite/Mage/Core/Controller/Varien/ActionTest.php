@@ -269,7 +269,6 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
      * @param string $expectedArea
      * @param string $expectedStore
      * @param string $expectedDesign
-     * @group one
      */
     public function testPreDispatch($controllerClass, $expectedArea, $expectedStore, $expectedDesign)
     {
@@ -303,7 +302,6 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
             'install'  => array('Mage_Install_Controller_Action',    'install',   'default', 'default/basic'),
             'frontend' => array('Mage_Core_Controller_Front_Action', 'frontend',  'default', 'default/demo'),
             'backend'  => array('Mage_Adminhtml_Controller_Action',  'adminhtml', 'admin',   'default/basic'),
-            'api'      => array('Mage_Api_Controller_Action',        'adminhtml', 'admin',   ''),
         );
     }
 

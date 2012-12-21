@@ -185,21 +185,24 @@ class Enterprise_Rma_Model_Resource_Item extends Mage_Eav_Model_Entity_Abstract
     /**
      * Gets order items collection
      *
-     * @param  int $orderId
+     * @param int $orderId
      * @return Mage_Sales_Model_Resource_Order_Item_Collection
      */
     public function getOrderItemsCollection($orderId)
     {
+        $adapter = $this->getReadConnection();
+        $expression = new Zend_Db_Expr('(' . $adapter->quoteIdentifier('qty_shipped') . ' - '
+            . $adapter->quoteIdentifier('qty_returned') . ')');
         return Mage::getModel('Mage_Sales_Model_Order_Item')
             ->getCollection()
             ->addExpressionFieldToSelect(
                 'available_qty',
-                '(qty_shipped - qty_returned)',
+                $expression,
                 array('qty_shipped', 'qty_returned')
             )
             ->addFieldToFilter('order_id', $orderId)
             ->addFieldToFilter('product_type', array("in" => $this->_aviableProductTypes))
-            ->addFieldToFilter('(qty_shipped - qty_returned)', array("gt" => 0));
+            ->addFieldToFilter($expression, array("gt" => 0));
     }
 
     /**

@@ -195,33 +195,21 @@ class Mage_Selenium_Uimap_Abstract
     /**
      * Internal recursive function
      *
-     * @param string $elementsCollectionName UIMap elements collection name
+     * @param string $elementsCollection UIMap elements collection name
      * @param Mage_Selenium_Uimap_ElementsCollection|array $container UIMap container
      * @param array $cache Array with search results
      * @param Mage_Selenium_Helper_Params|null $paramsDecorator Parameters decorator instance
      *
      * @return array
      */
-    protected function _getElementsRecursive($elementsCollectionName, &$container, &$cache, $paramsDecorator = null)
+    protected function _getElementsRecursive($elementsCollection, &$container, &$cache, $paramsDecorator = null)
     {
         foreach ($container as $elKey => $elValue) {
             if ($elValue instanceof ArrayObject) {
-                if (($elementsCollectionName == 'tabs'
-                    && $elementsCollectionName == $elKey
-                    && $elValue instanceof Mage_Selenium_Uimap_TabsCollection)
-                    || ($elementsCollectionName == 'fieldsets'
-                        && $elementsCollectionName == $elKey
-                        && $elValue instanceof Mage_Selenium_Uimap_FieldsetsCollection)
-                    || $elKey == $elementsCollectionName
-                        && $elValue instanceof Mage_Selenium_Uimap_ElementsCollection
-                ) {
-                    $cache = array_merge($cache, $elValue->getArrayCopy());
-                } else {
-                    $this->_getElementsRecursive($elementsCollectionName, $elValue, $cache, $paramsDecorator);
-                }
+                $this->_defineCache($elementsCollection, $elKey, $elValue, $cache, $paramsDecorator);
             } elseif ($elValue instanceof Mage_Selenium_Uimap_Abstract) {
                 $containerUimap = $elValue->getElements();
-                $this->_getElementsRecursive($elementsCollectionName,
+                $this->_getElementsRecursive($elementsCollection,
                                              $containerUimap, $cache, $paramsDecorator);
             }
         }
@@ -230,25 +218,51 @@ class Mage_Selenium_Uimap_Abstract
     }
 
     /**
+     * Defines cache
+     *
+     * @param $elementsCollection
+     * @param $elKey
+     * @param $elValue
+     * @param $cache
+     * @param $paramsDecorator
+     */
+    protected function _defineCache($elementsCollection, $elKey, &$elValue, &$cache, $paramsDecorator)
+    {
+        if (($elementsCollection == 'tabs'
+            && $elementsCollection == $elKey
+            && $elValue instanceof Mage_Selenium_Uimap_TabsCollection)
+            || ($elementsCollection == 'fieldsets'
+                && $elementsCollection == $elKey
+                && $elValue instanceof Mage_Selenium_Uimap_FieldsetsCollection)
+            || $elKey == $elementsCollection
+                && $elValue instanceof Mage_Selenium_Uimap_ElementsCollection
+        ) {
+            $cache = array_merge($cache, $elValue->getArrayCopy());
+        } else {
+            $this->_getElementsRecursive($elementsCollection, $elValue, $cache, $paramsDecorator);
+        }
+    }
+
+    /**
      * Search UIMap element by name on any level from current and deeper
      * This method uses a cache to save search results
      *
-     * @param string $elementsCollectionName UIMap Elements collection name
+     * @param string $elementsCollection UIMap Elements collection name
      * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance (by default = null)
      *
      * @return array
      */
-    public function getAllElements($elementsCollectionName, $paramsDecorator = null)
+    public function getAllElements($elementsCollection, $paramsDecorator = null)
     {
-        if (empty($this->_elementsCache[$elementsCollectionName])) {
+        if (empty($this->_elementsCache[$elementsCollection])) {
             $cache = array();
-            $this->_elementsCache[$elementsCollectionName] = new Mage_Selenium_Uimap_ElementsCollection(
-                $elementsCollectionName,
-                $this->_getElementsRecursive($elementsCollectionName, $this->_elements, $cache, $paramsDecorator),
+            $this->_elementsCache[$elementsCollection] = new Mage_Selenium_Uimap_ElementsCollection(
+                $elementsCollection,
+                $this->_getElementsRecursive($elementsCollection, $this->_elements, $cache, $paramsDecorator),
                 $paramsDecorator);
         }
 
-        return $this->_elementsCache[$elementsCollectionName];
+        return $this->_elementsCache[$elementsCollection];
     }
 
     /**
@@ -275,27 +289,13 @@ class Mage_Selenium_Uimap_Abstract
 
         if (preg_match('|^getAll(\w+)$|', $name)) {
             $elementName = strtolower(substr($name, 6));
-            if (!empty($elementName)) {
-                $returnValue = $this->getAllElements($elementName,
-                                                     $this->_getParams(isset($arguments[1]) ? $arguments[1] : null));
-            }
+            $returnValue = $this->_getAll($elementName, $arguments);
         } elseif (preg_match('|^get(\w+)$|', $name)) {
             $elementName = strtolower(substr($name, 3));
-            if (!empty($elementName) && isset($this->_elements[$elementName])) {
-                $returnValue = $this->_elements[$elementName];
-            }
+            $returnValue = $this->_get($elementName, $arguments);
         } elseif (preg_match('|^find(\w+)$|', $name)) {
-            $elementName = strtolower(substr($name, 4));
-            if ($elementName === 'checkbox') {
-                $elementName .= 'es';
-            } else {
-                $elementName .= 's';
-            }
-            if (!empty($elementName) && !empty($arguments)) {
-                $elementsColl = $this->getAllElements($elementName);
-                $returnValue = $elementsColl->get($arguments[0],
-                                                  $this->_getParams(isset($arguments[1]) ? $arguments[1] : null));
-            }
+            $elementName = $this->_defineElementsSection($name);
+            $returnValue = $this->_find($elementName, $arguments);
         }
         if (!isset($elementName)) {
             throw new Exception('Element name is undefined.');
@@ -303,6 +303,72 @@ class Mage_Selenium_Uimap_Abstract
 
         if (!empty($elementName) && !$returnValue) {
             throw new Exception('Can\'t find element(s) "' . $elementName . '"');
+        }
+
+        return $returnValue;
+    }
+
+    /**
+     * Gets all elements
+     * @param $elementName
+     * @param $arguments
+     * @return array|null
+     */
+    protected function _getAll($elementName, $arguments)
+    {
+        $returnValue = null;
+        if (!empty($elementName)) {
+            $returnValue = $this->getAllElements($elementName,
+                $this->_getParams(isset($arguments[1]) ? $arguments[1] : null));
+        }
+
+        return $returnValue;
+    }
+
+    /**
+     * Get elements
+     * @param $elementName
+     * @return null
+     */
+    protected function _get($elementName)
+    {
+        $returnValue = null;
+        if (!empty($elementName) && isset($this->_elements[$elementName])) {
+            $returnValue = $this->_elements[$elementName];
+        }
+
+        return $returnValue;
+    }
+
+    /**
+     * Defines elements name
+     * @param $name
+     * @return string
+     */
+    protected function _defineElementsSection($name)
+    {
+        $elementName = strtolower(substr($name, 4));
+        if ($elementName === 'checkbox') {
+            $elementName .= 'es';
+        } else {
+            $elementName .= 's';
+        }
+        return $elementName;
+    }
+
+    /**
+     * Finds elements
+     * @param $elementName
+     * @param $arguments
+     * @return null
+     */
+    protected function _find($elementName, $arguments)
+    {
+        $returnValue = null;
+        if (!empty($elementName) && !empty($arguments)) {
+            $elementsColl = $this->getAllElements($elementName);
+            $returnValue = $elementsColl->get($arguments[0],
+                $this->_getParams(isset($arguments[1]) ? $arguments[1] : null));
         }
 
         return $returnValue;

@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module::Mage_Layout_Merge
- */
 class Mage_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCase
 {
     /**

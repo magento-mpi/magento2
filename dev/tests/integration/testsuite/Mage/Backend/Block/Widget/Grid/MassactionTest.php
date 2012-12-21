@@ -21,25 +21,6 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
      */
     protected $_layout;
 
-    public static function setUpBeforeClass()
-    {
-        /* Point application to predefined layout fixtures */
-        Magento_Test_Bootstrap::getInstance()->reinitialize(array(
-            Mage_Core_Model_App::INIT_OPTION_DIRS => array(
-                Mage_Core_Model_Dir::VIEW => realpath( __DIR__ . '/../../_files/design')
-            )
-        ));
-
-        /** @var $themeRegistration Mage_Core_Model_Theme_Registration */
-        $themeRegistration = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Registration');
-        $themeRegistration->register();
-
-        Mage::getDesign()->setDesignTheme('test/default', 'adminhtml');
-
-        /* Disable loading and saving layout cache */
-        Mage::app()->getCacheInstance()->banUse('layout');
-    }
-
     protected function setUp()
     {
         $this->_layout = Mage::getModel('Mage_Core_Model_Layout', array('area' => 'adminhtml'));
@@ -57,10 +38,10 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
     }
 
     /**
-     * @covers getItems
-     * @covers getCount
-     * @covers getItemsJson
-     * @covers isAvailable
+     * @covers Mage_Backend_Block_Widget_Grid_Massaction::getItems
+     * @covers Mage_Backend_Block_Widget_Grid_Massaction::getCount
+     * @covers Mage_Backend_Block_Widget_Grid_Massaction::getItemsJson
+     * @covers Mage_Backend_Block_Widget_Grid_Massaction::isAvailable
      */
     public function testMassactionDefaultValues()
     {
