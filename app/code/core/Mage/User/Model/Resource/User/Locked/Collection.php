@@ -19,13 +19,13 @@
 class Mage_User_Model_Resource_User_Locked_Collection extends Mage_User_Model_Resource_User_Collection
 {
     /**
-     * Collection constructor
+     * Collection Init Select
      *
      * @param Mage_Core_Model_Resource_Db_Abstract $resource
      */
-    public function __construct($resource = null)
+    protected function _initSelect()
     {
-        parent::__construct($resource);
+        parent::_initSelect();
         $this->addFieldToFilter('lock_expires', array('notnull' => true));
     }
 }
