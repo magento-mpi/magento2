@@ -391,6 +391,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     /**
      * Test that modified CSS file and changed resources are re-published in developer mode
      *
+     * @magentoAppIsolation enabled
      * @magentoDataFixture Mage/Core/_files/media_for_change.php
      */
     public function testPublishResourcesAndCssWhenChangedCssDevMode()
@@ -404,6 +405,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     /**
      * Test that modified CSS file and changed resources are not re-published in usual mode
      *
+     * @magentoAppIsolation enabled
      * @magentoDataFixture Mage/Core/_files/media_for_change.php
      */
     public function testNotPublishResourcesAndCssWhenChangedCssUsualMode()
@@ -421,6 +423,11 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
      */
     protected function _testPublishResourcesAndCssWhenChangedCss($expectedPublished)
     {
+        Magento_Test_Bootstrap::getInstance()->reinitialize(array(
+            Mage_Core_Model_App::INIT_OPTION_DIRS => array(
+                Mage_Core_Model_Dir::VIEW => Magento_Test_Bootstrap::getInstance()->getInstallDir() . '/media_for_change'
+            )
+        ));
         $this->_model->setDesignTheme('test/default');
         $themePath = $this->_model->getDesignTheme()->getFullPath();
         $fixtureViewPath = Magento_Test_Bootstrap::getInstance()->getInstallDir() . "/media_for_change/$themePath/";
@@ -490,6 +497,11 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
      */
     protected function _testPublishChangedResourcesWhenUnchangedCss($expectedPublished)
     {
+        Magento_Test_Bootstrap::getInstance()->reinitialize(array(
+            Mage_Core_Model_App::INIT_OPTION_DIRS => array(
+                Mage_Core_Model_Dir::VIEW => Magento_Test_Bootstrap::getInstance()->getInstallDir() . '/media_for_change'
+            )
+        ));
         $this->_model->setDesignTheme('test/default');
         $themePath = $this->_model->getDesignTheme()->getFullPath();
         $fixtureViewPath = Magento_Test_Bootstrap::getInstance()->getInstallDir() . "/media_for_change/$themePath/";
