@@ -56,6 +56,14 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
             'status'            => Mage_Catalog_Model_Product_Status::STATUS_ENABLED
         ));
         $this->_product->save();
+        $this->_product->load($this->_product->getId());
+        $this->_product->setStockData(array(
+            'manage_stock' => 1,
+            'qty' => 10,
+            'backorders' => 1,
+            'is_in_stock' => '1',
+        ));
+        $this->_product->save();
 
         // Disable exceptions to avoid errors in cookie processing
         Mage::$headersSentThrowsException = false;

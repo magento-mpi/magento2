@@ -53,8 +53,10 @@
         <meta_keyword>Simple Product</meta_keyword>
         <meta_description>Simple Product</meta_description>
         <stock_data>
-            <use_config_manage_stock>1</use_config_manage_stock>
             <qty>100</qty>
+            <manage_stock>1</manage_stock>
+            <backorders>1</backorders>
+            <is_in_stock>1</is_in_stock>
         </stock_data>
     </fixtureProduct>
 </root>

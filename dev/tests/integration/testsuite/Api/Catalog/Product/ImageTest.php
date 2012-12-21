@@ -19,6 +19,13 @@
 class Api_Catalog_Product_ImageTest extends Magento_Test_Webservice
 {
     /**
+     * @var Mage_Catalog_Model_Product
+     */
+    protected $_product;
+
+    protected $_requestData;
+
+    /**
      * Sets up the fixture, for example, open a network connection.
      * This method is called before a test is executed.
      */
@@ -30,8 +37,8 @@ class Api_Catalog_Product_ImageTest extends Magento_Test_Webservice
         $product->setData($productFixture['create_full_fledged']);
         $product->save();
 
-        $this->setFixture('product', $product);
-        $this->setFixture('requestData', array(
+        $this->_product = $product;
+        $this->_requestData = array(
             'label'    => 'My Product Image',
             'position' => 2,
             'types'    => array('small_image', 'image', 'thumbnail'),
@@ -42,7 +49,7 @@ class Api_Catalog_Product_ImageTest extends Magento_Test_Webservice
                 'content' => null,
                 'mime'    => 'image/jpeg'
             )
-        ));
+        );
 
         parent::setUp();
     }
@@ -53,8 +60,9 @@ class Api_Catalog_Product_ImageTest extends Magento_Test_Webservice
      */
     protected function tearDown()
     {
-        $this->deleteFixture('product', true);
-        $this->deleteFixture('requestData');
+        self::callModelDelete($this->_product, true);
+        unset($this->_product);
+        unset($this->_requestData);
 
         parent::tearDown();
     }
@@ -68,9 +76,8 @@ class Api_Catalog_Product_ImageTest extends Magento_Test_Webservice
      */
     public function testCreateValidImage($validImgPath)
     {
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = $this->getFixture('product');
-        $requestData = $this->getFixture('requestData');
+        $product = $this->_product;
+        $requestData = $this->_requestData;
 
         // valid JPG image file
         $requestData['file']['content'] = base64_encode(file_get_contents($validImgPath));
@@ -100,9 +107,8 @@ class Api_Catalog_Product_ImageTest extends Magento_Test_Webservice
      */
     public function testCreateNotAnImage()
     {
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = $this->getFixture('product');
-        $requestData = $this->getFixture('requestData');
+        $product = $this->_product;
+        $requestData = $this->_requestData;
 
         // TXT file
         $requestData['file']['content'] = base64_encode(
@@ -133,9 +139,8 @@ class Api_Catalog_Product_ImageTest extends Magento_Test_Webservice
      */
     public function testCreateInvalidImage($invalidImgPath)
     {
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = $this->getFixture('product');
-        $requestData = $this->getFixture('requestData');
+        $product = $this->_product;
+        $requestData = $this->_requestData;
 
         // Not an image file with JPG extension
         $requestData['file']['content'] = base64_encode(file_get_contents($invalidImgPath));

@@ -209,6 +209,7 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
             $this->_fault('guest_checkout_is_not_enabled');
         }
 
+        Mage::getConfig()->setCurrentAreaCode('adminhtml');
         /** @var $customerResource Mage_Checkout_Model_Api_Resource_Customer */
         $customerResource = Mage::getModel("Mage_Checkout_Model_Api_Resource_Customer");
         $isNewCustomer = $customerResource->prepareCustomerForQuote($quote);

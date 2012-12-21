@@ -32,38 +32,11 @@ $customerFixture = require 'API/fixture/_block/Customer/Customer.php';
 $customerAddressFixture = require 'API/fixture/_block/Customer/Address.php';
 $customerFixture->save();
 
-// Get address eav required attributes
-$requiredAttributes = array();
-foreach (Mage::getModel('Mage_Customer_Model_Address')->getAttributes() as $attribute) {
-    if ($attribute->getIsRequired() && $attribute->getIsVisible()) {
-        $requiredAttributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
-    }
-}
-
-$address = clone $customerAddressFixture;
-$address->setCustomer($customerFixture);
-$address->addData(array(
-    'city'                => 'New York',
-    'country_id'          => 'US',
-    'fax'                 => '56-987-987',
-    'firstname'           => 'Jacklin',
-    'lastname'            => 'Sparrow',
-    'middlename'          => 'John',
-    'postcode'            => '10012',
-    'region'              => 'New York',
-    'region_id'           => '43',
-    'street'              => 'Main Street',
-    'telephone'           => '718-452-9207',
-    'is_default_billing'  => true,
-    'is_default_shipping' => true
-));
-$address->save();
-
-$customerFixture->addAddress($address);
-$customerFixture->setDefaultShipping($address->getId());
-$customerFixture->setDefaultBilling($address->getId());
-$customerFixture->save();
-
+//Set customer default shipping and billing address
+$customer->addAddress($customerAddress);
+$customer->setDefaultShipping($customerAddress->getId());
+$customer->setDefaultBilling($customerAddress->getId());
+$customer->save();
 
 Magento_Test_Webservice::setFixture('customer',
     Mage::getModel('Mage_Customer_Model_Customer')->load($customerFixture->getId()),
@@ -81,6 +54,8 @@ $quote->setStoreId(1)
     ->setIsActive(false)
     ->setIsMultiShipping(false)
     ->assignCustomerWithAddressChange($customerFixture)
+    ->setShippingAddress($customerAddress)
+    ->setBillingAddress($customerAddress)
     ->setCheckoutMethod($customerFixture->getMode())
     ->setPasswordHash($customerFixture->encryptPassword($customerFixture->getPassword()))
     ->addProduct($product->load($product->getId()), 2);

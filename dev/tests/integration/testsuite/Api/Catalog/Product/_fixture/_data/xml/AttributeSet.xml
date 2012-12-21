@@ -50,6 +50,12 @@
             <status>1</status>
             <visibility>4</visibility>
             <tax_class_id>2</tax_class_id>
+            <stock_data>
+                <qty>100</qty>
+                <manage_stock>1</manage_stock>
+                <backorders>1</backorders>
+                <is_in_stock>1</is_in_stock>
+            </stock_data>
         </productData>
     </RelatedProduct>
 </root>

@@ -13,6 +13,7 @@ $customerAddress = Mage::getModel('Mage_Customer_Model_Address');
 $customerAddress->setData(array(
     'city'                => 'New York',
     'country_id'          => 'US',
+    'region_id'           => 1,
     'fax'                 => '56-987-987' . uniqid(),
     'firstname'           => 'Jacklin' . uniqid(),
     'lastname'            => 'Sparrow' . uniqid(),

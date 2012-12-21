@@ -24,6 +24,12 @@ return array(
             'visibility' => Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
             'price' => 9.99,
             'tax_class_id' => 2,
+            'stock_data' => array(
+                'manage_stock' => 1,
+                'qty' => 10,
+                'backorders' => 1,
+                'is_in_stock' => '1',
+            )
         )
     ),
     'update'   => array(
@@ -101,6 +107,12 @@ return array(
                     'a_select_ins'  => '__PLACEHOLDER__'
                 ),
                 'multi_data' => array()
+            ),
+            'stock_data'        => array(
+                'manage_stock' => 1,
+                'qty' => 10,
+                'backorders' => 1,
+                'is_in_stock' => '1',
             )
         )
     ),
@@ -116,7 +128,13 @@ return array(
         'tax_class_id'      => 2,
         'visibility'        => Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
         'status'            => Mage_Catalog_Model_Product_Status::STATUS_ENABLED,
-        'special_from_date' => false // to avoid set this attr to '' which leads to unpredictable bugs
+        'special_from_date' => false, // to avoid set this attr to '' which leads to unpredictable bugs
+        'stock_data'        => array(
+            'manage_stock' => 1,
+            'qty' => 10,
+            'backorders' => 1,
+            'is_in_stock' => '1',
+        )
     ),
     'create_full' => array(
         'soap' => array(
@@ -133,6 +151,12 @@ return array(
                 'visibility'        => Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
                 'status'            => Mage_Catalog_Model_Product_Status::STATUS_ENABLED,
                 'weight'            => 1,
+                'stock_data'        => array(
+                    'manage_stock' => 1,
+                    'qty' => 10,
+                    'backorders' => 1,
+                    'is_in_stock' => '1',
+                )
             )
         )
     )
