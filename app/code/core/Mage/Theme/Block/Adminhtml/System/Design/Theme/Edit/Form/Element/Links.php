@@ -40,7 +40,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Links ext
             }
         }
 
-        $html.= '</div>'."\n";
+        $html.= '</div><br />'."\n";
         $html.= $this->getAfterElementHtml();
         return $html;
     }
