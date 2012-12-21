@@ -54,7 +54,7 @@
             this.element.on(this.options.deleteEvent, $.proxy(this._onDelete, this));
             this.element.on('keyup', $.proxy(function(e) {
                 //ESC button
-                if (e.keyCode == 27) {
+                if (e.keyCode === 27) {
                     var popUp = $(this.options.storeView.windowSelector);
                     popUp.hide();
                     this.themeId = null;
@@ -86,7 +86,7 @@
          * @protected
          */
         _onDelete: function(event, data) {
-            deleteConfirm($.mage.__('Are you sure you want to do this?'), data['url']);
+            deleteConfirm($.mage.__('Are you sure you want to do this?'), data.url);
         },
 
         /**
@@ -112,8 +112,8 @@
             var stores = [];
             var checkedValue = 1;
             $(this.options.storeView.windowSelector).find('form').serializeArray().each(function(object, index) {
-                if (object.value == checkedValue) {
-                    stores.push(object.name.match('storeviews\\[(\\d+)\\]')[1] * 1);
+                if (parseInt(object.value, 10) === checkedValue) {
+                    stores.push(parseInt(object.name.match('storeviews\\[(\\d+)\\]')[1], 10));
                 }
             });
 
@@ -135,12 +135,8 @@
          */
         _isStoreChanged: function(themeId, storesToAssign) {
             var assignedStores = this.options.storesByThemes[themeId] || [] ;
-            var isChanged = !(
-                storesToAssign.length == assignedStores.length
-                && $(storesToAssign).not(assignedStores).length == 0
-            );
-
-            return isChanged;
+            return !(storesToAssign.length === assignedStores.length &&
+                $(storesToAssign).not(assignedStores).length === 0);
         },
 
         /**
@@ -160,12 +156,11 @@
             var storesByThemes = this.options.storesByThemes;
             popUp.find('input[type=checkbox]').each(function(index, element) {
                 element = $(element);
-                var storeViewId = element.attr('id').replace('storeview_', '') * 1;
-                var checked = true;
-                if (!storesByThemes[themeId] || storesByThemes[themeId].indexOf(storeViewId) == -1) {
-                    checked = false;
-                }
-                element.attr('checked', checked);
+
+                var storeViewId = parseInt(element.attr('id').replace('storeview_', ''), 10);
+                element.attr('checked',
+                    !(!storesByThemes[themeId] || storesByThemes[themeId].indexOf(storeViewId) === -1));
+
             });
             this.themeId = themeId;
             popUp.show();
@@ -189,7 +184,7 @@
             var EMPTY_STORES = '-2';
             if (data.stores === null) {
                 data.stores = DEFAULT_STORE;
-            } else if (data.stores.length == 0) {
+            } else if (data.stores.length === 0) {
                 data.stores = EMPTY_STORES;
             }
 
@@ -332,7 +327,7 @@
          * @protected
          */
         _onCancel: function(event) {
-            if (this.options.isActive && this.options._control.has($(event.target)).length == 0) {
+            if (this.options.isActive && this.options._control.has($(event.target)).length === 0) {
                 this._cancelEdit();
             }
         },
