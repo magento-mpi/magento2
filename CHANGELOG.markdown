@@ -1,23 +1,21 @@
 2.0.0.0-dev36
 =============
 * Visual design editor refactored
-  * VDE controls moved to backend area
-  * VDE actions performed in backend area
-  * Editable region is displayed to IFrame to function as a real frontend page
+  * VDE controls and VDE actions moved to backend area
+  * Added IFRAME that allows to navigate through frontend pages in Navigation Mode and to modify blocks position in Design Mode
   * Inline JavaScript code is disabled in Design Mode
   * Store selection is performed on saving instead of reviewing the theme. List of all available stores is shown during assigning the theme to a store
-  * `Design -> Edit` page divided into two tabs:
+  * `System -> Design -> Editor` page divided into two tabs:
     * "Available Themes" tab contains all available themes
     * "My Customizations" tab contains themes customized by the store administrator and consists of area with themes assigned to stores and area with unassigned themes
   * Added `vde` area code and `Mage_DesignEditor_Controller_Varien_Router_Standard` to handle requests from design editor
-* Added ability to use custom layout instance in controllers
+  * Added ability to use custom layout instance in controllers to use specific layout, when design editor is launched. `Mage_DesignEditor_Model_Layout` introduced for these purposes
 * JavaScript updates
   * Replaced `varienTabs` class with an analogous jQuery widget
   * Displaying of loader during AJAX requests became optional
-* Removed `dev/api-tests' directory added by mistake
+* Removed `dev/api-tests` directory added by mistake
 * Bug fixes
   * Impossible to login to backend with APC enabled. Added call of `session_write_close()` in the session model destructor
-  * "Gender" customer attribute options are duplicated
   * Unnecessary regions shown when no country is selected in `System -> Sales -> Shipping Settings -> Origin`
   * Fixed various bugs caused by virtual themes implementation and other themes improvements
 
@@ -680,7 +678,7 @@
 =============
 * Implemented a tool for migrating factory table names from 1.x to 2.x. The tool replaces table names by list of names associations
 * Changed Unit tests suite running from usage AllTests.php in each directory to configuration in phpunit.xml.dist. Now all tests in `testsuite` directory are launched, there is no necessity to add new tests to the config
-* Implemented in Visual Desig Editor:
+* Implemented in Visual Design Editor:
   * Containers highlighting
   * Dropping of elements
 * Fixed some issues:
