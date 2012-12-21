@@ -40,7 +40,7 @@
                 </arguments>
                 <block type='Mage_Backend_Block_Widget_Grid_ColumnSet' name='adminhtml.system.email.template.grid.columnSet' as='grid.columnSet'>
                     <arguments>
-                        <id>systemEmailTemplateGrid</id>
+                        <!--<id>systemEmailTemplateGrid</id>-->
                         <rowUrl>
                             <path>*/*/edit</path>
                             <extraParamsTemplate>
@@ -49,7 +49,7 @@
                         </rowUrl>
                         <empty_text translate='true' module='Mage_Adminhtml'>No Templates Found</empty_text>
                     </arguments>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='id'>
+                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='template_id'>
                         <arguments>
                             <header translate='true' module='Mage_Adminhtml'>ID</header>
                             <index>template_id</index>
