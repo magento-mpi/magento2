@@ -133,7 +133,7 @@ span.back-to-selected-theme {
     box-shadow:0 0 4pt 1pt #cbcbcb;
 }
 .vde_breadcrumbs, #vde_toolbar_row {
-    padding:0 3em;
+    padding:0 0 0 1em;
     height:26pt;
     line-height:26pt;
     vertical-align:middle;
@@ -148,7 +148,6 @@ span.back-to-selected-theme {
     border-top:1pt solid #dddcd8;
     border-bottom:1pt solid #dddcd8;
     position:relative;
-    margin-top: -10px;
 }
 
 #vde_toolbar_row .vde_toolbar_cell {
@@ -398,8 +397,7 @@ span.back-to-selected-theme {
     display: none;
 }
 .vde_container_frame {
-    border: 1pt solid #dddcd8;
-    border-top: none;
+    border: none;
     margin-top: 0px;
     width: 100%;
 }

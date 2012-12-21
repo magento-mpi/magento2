@@ -115,9 +115,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
                     'event' => 'preview',
                     'related' => 'body',
                     'eventData' => array(
-                        'preview_url' => $this->_getPreviewUrl(
-                            Mage_DesignEditor_Model_Theme_PreviewFactory::TYPE_DEMO, $themeBlock->getTheme()->getId()
-                        )
+                        'preview_url' => $this->_getPreviewUrl($themeBlock->getTheme()->getId())
                     )
                 ),
             )
