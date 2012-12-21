@@ -116,8 +116,89 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     public function frontGetProductInfo()
     {
         $this->markTestIncomplete('@TODO - implement frontGetProductInfo');
+        $data['custom_options_data'] = $this->getFrontCustomOptionsInfo();
 
-        return array();
+        return $data;
+    }
+
+    /**
+     * Form Custom Options Info data array()
+     *
+     * @return array
+     */
+    public function getFrontCustomOptionsInfo()
+    {
+        $fieldNames = array('title'                             => 'custom_options_general_title',
+                            'price'                             => 'custom_options_price',
+                            'type'                              => 'custom_options_general_input_type',
+                            'required'                          => 'custom_options_general_is_required',
+                            'sortOrder'                         => 'custom_options_general_sort_order',
+                            'maximum_number_of_characters'      => 'custom_options_max_characters',
+                            'allowed_file_extensions_to_upload' => 'custom_options_allowed_file_extension',
+                            'maximum_image_width'               => 'custom_options_image_size_x',
+                            'maximum_image_height'              => 'custom_options_image_size_y',
+                            'option'                            => 'custom_option_row_');
+        $fieldTypes = array('text'     => 'Field', 'file' => 'File', 'radio' => 'Radio Buttons',
+                            'checkbox' => 'Checkbox', 'multiple' => 'Multiple Select', 'select' => 'Drop-down',
+                            'dayTime'  => 'Date & Time', 'day' => 'Date', 'time' => 'Time', 'textarea' => 'Area');
+        $optionFieldset = "//div[@id='product-options-wrapper']//dt";
+        $customOptionsInfo = array();
+        $sortOrder = 1;
+        /** @var PHPUnit_Extensions_Selenium2TestCase_Element $option */
+        $options = $this->getElements($optionFieldset, false);
+        foreach ($options as $option) {
+            $optionTitleLine = $option->text();
+            //Define 'Required' parameter
+            $isRequired = (preg_match('/^\*/', $optionTitleLine)) ? 'Yes' : 'No';
+            //Define 'Price' and 'Title' parameter
+            $optionPrice = '';
+            if (preg_match('/([\d]+\.[\d]+)|([\d]+)/', $optionTitleLine)) {
+                list(, $optionPrice) = explode('+', $optionTitleLine);
+            }
+            $optionTitle = trim(str_replace($optionPrice, '', $optionTitleLine), ' *+');
+            //Define option type
+            $customOptionType = '';
+            $bodyElement = $this->getChildElement($option, "//following-sibling::dd[1]");
+            $inputElements = $this->getChildElements($bodyElement, "//input[not(@type='hidden')]", false);
+            $selectElements = $this->getChildElements($bodyElement, "//select", false);
+            $textareaElements = $this->getChildElements($bodyElement, "//textarea", false);
+            if ($inputElements) {
+                $customOptionType = $fieldTypes[$inputElements[0]->attribute('type')];
+            }
+            if ($textareaElements) {
+                $customOptionType = $fieldTypes[$textareaElements[0]->attribute('type')];
+            }
+            if ($selectElements) {
+                $count = count($selectElements);
+                if ($count == 1) {
+                    $customOptionType = ($selectElements[0]->attribute('multiple'))
+                        ? $fieldTypes['multiple'] : $customOptionType = $fieldTypes['select'];
+                } elseif ($count == 6) {
+                    $customOptionType = $fieldTypes['dayTime'];
+                } elseif (preg_match('/day_part/', $selectElements[0]->attribute('name'))) {
+                    $customOptionType = $fieldTypes['time'];
+                } else {
+                    $customOptionType = $fieldTypes['day'];
+                }
+            }
+            //Form data array
+            $optId = 'custom_options_' . trim(strtolower(preg_replace('#[^0-9a-z]+#i', '_', $customOptionType)), '_');
+            $customOptionsInfo[$optId][$fieldNames['title']] = $optionTitle;
+            $customOptionsInfo[$optId][$fieldNames['type']] = $customOptionType;
+            $customOptionsInfo[$optId][$fieldNames['required']] = $isRequired;
+            $customOptionsInfo[$optId][$fieldNames['sortOrder']] = $sortOrder++;
+            $customOptionsInfo[$optId][$fieldNames['price']] = $optionPrice;
+            //Define additional info
+            $additionalText = $this->getChildElements($bodyElement, '//p', false);
+            foreach ($additionalText as $optionText) {
+                $text = trim($optionText->text());
+                list($key, $value) = explode(':', $text);
+                $key = trim(str_replace(' ', '_', strtolower($key)));
+                $customOptionsInfo[$optId][$fieldNames[$key]] = trim(preg_replace('/ px\.$/', '', $value));
+            }
+        }
+
+        return $customOptionsInfo;
     }
 
     #**************************************************************************************
