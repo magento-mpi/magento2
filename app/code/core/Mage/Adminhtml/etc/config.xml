@@ -102,6 +102,9 @@
                 <adminnotification module="Mage_Adminhtml">
                     <file>adminnotification.xml</file>
                 </adminnotification>
+                <backup module="Mage_Adminhtml">
+                    <file>backup.xml</file>
+                </backup>
                 <catalog module="Mage_Adminhtml">
                     <file>catalog.xml</file>
                 </catalog>

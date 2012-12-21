@@ -42,6 +42,7 @@ return array(
         'Mage_User_Model_Resource_Permissions_Collection'),
     $this->_getClassRule('Mage_Adminhtml_Block_Api_Edituser'),
     $this->_getClassRule('Mage_Adminhtml_Block_Api_Tab_Userroles'),
+    $this->_getClassRule('Mage_Adminhtml_Block_Backup_Grid'),
     $this->_getClassRule('Mage_Adminhtml_Block_Catalog'),
     $this->_getClassRule('Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Grid'),
     $this->_getClassRule('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid'),
