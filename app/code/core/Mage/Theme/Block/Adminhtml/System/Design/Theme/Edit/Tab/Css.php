@@ -195,14 +195,17 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     protected function _getGroupedFiles()
     {
         $options = Mage::getConfig()->getOptions();
-        $designDir = $options->getDesignDir();
         $jsDir = $options->getJsDir();
         $codeDir = $options->getCodeDir();
 
         $groups = array();
         $themes = array();
         foreach ($this->getFiles() as $fileTitle => $file) {
-            $group = $this->_getGroup($file['filename']);
+            /** @var $theme Mage_Core_Model_Theme */
+            list($group, $theme) = $this->_getGroup($file['filename']);
+            if ($theme) {
+                $themes[$theme->getThemeId()] = $theme;
+            }
 
             if (!isset($groups[$group])) {
                 $groups[$group] = array();
@@ -210,11 +213,13 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             $groups[$group][] = $this->_getThemeCss($fileTitle, $file);
         }
 
-        $this->_sortThemes($themes);
+        if (count($themes) > 1) {
+            $this->_sortThemes($themes);
+        }
 
         $order = array_merge(array($codeDir, $jsDir), array_map(function ($theme) {
             /** @var $theme Mage_Core_Model_Theme */
-            return $theme->getThemePath();
+            return $theme->getThemeId();
         }, $themes));
         $groups = $this->_sortArrayByArray($groups, $order);
 
@@ -249,7 +254,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      * Get group by filename
      *
      * @param string $filename
-     * @return string
+     * @return array
      */
     protected function _getGroup($filename)
     {
@@ -258,12 +263,11 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         $jsDir = $options->getJsDir();
         $codeDir = $options->getCodeDir();
 
+        $group = null;
+        $theme = null;
         if (substr($filename, 0, strlen($designDir)) == $designDir) {
             $theme = $this->_getThemeByFilename($filename);
-            $themes[$theme->getThemePath()] = $theme;
-
-            $group = $theme->getThemePath();
-            $theme->getParentTheme();
+            $group = $theme->getThemeId();
         } elseif (substr($filename, 0, strlen($jsDir)) == $jsDir) {
             $group = $jsDir;
         } elseif (substr($filename, 0, strlen($codeDir)) == $codeDir) {
@@ -272,7 +276,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             Mage::throwException($this->__('Invalid view file directory "%s"', $filename));
         }
 
-        return $group;
+        return array($group, $theme);
     }
 
     /**
@@ -281,9 +285,9 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      * @param array $themes
      * @return Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      */
-    protected function _sortThemes($themes)
+    protected function _sortThemes(&$themes)
     {
-        usort($themes, function($theme, $theme2) {
+        uasort($themes, function($theme, $theme2) {
             /** @var $theme Mage_Core_Model_Theme */
             /** @var $theme2 Mage_Core_Model_Theme */
             while ($parentTheme = $theme->getParentTheme()) {
@@ -326,7 +330,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         );
         foreach ($themes as $theme) {
             /** @var $theme Mage_Core_Model_Theme */
-            $labels[$theme->getThemePath()] = $this->__('"%s" Theme files', $theme->getThemeTitle());
+            $labels[$theme->getThemeId()] = $this->__('"%s" Theme files', $theme->getThemeTitle());
         }
 
         return $labels;

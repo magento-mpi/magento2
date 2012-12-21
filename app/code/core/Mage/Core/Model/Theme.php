@@ -12,7 +12,6 @@
  * Theme model class
  *
  * @method Mage_Core_Model_Theme save()
- * @method string getThemeCode()
  * @method string getPackageCode()
  * @method string getThemePath()
  * @method string getParentThemePath()
@@ -21,6 +20,7 @@
  * @method string getParentId()
  * @method string getArea()
  * @method string getThemeTitle()
+ * @method string getThemeId()
  * @method Mage_Core_Model_Theme setAssignedStores(array $stores)
  * @method array getAssignedStores()
  * @method Mage_Core_Model_Theme addData(array $data)
