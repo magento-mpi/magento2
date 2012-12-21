@@ -267,7 +267,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             /** @var $theme Mage_Core_Model_Theme */
             $theme = $this->_objectManager->get('Mage_Core_Model_Theme');
             if (!($themeId && $theme->load($themeId)->getId())) {
-                Mage::throwException($this->__('The theme was not found.'));
+                throw new Mage_Core_Exception('The theme was not found.');
             }
             $theme->setThemeTitle($themeTitle);
             $theme->save();

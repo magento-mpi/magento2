@@ -218,6 +218,10 @@
             isActive: false
         },
 
+        /**
+         * Bind widget events
+         * @protected
+         */
         _init: function() {
             this.options._control.on('click', $.proxy(this._onEdit, this));
             this.options._saveControl.on('click', $.proxy(this._onSave, this));
