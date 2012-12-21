@@ -291,7 +291,6 @@ general_configurable_data: &associatedProductsConfigurableData
     configurable_1: *configurableAssociatedProduct1
     configurable_2: %noValue%
 
-# Dataset for Product in product variation grid
 product_variation:
     associated_product_name: Product Variation Name (%randomize%)
     associated_sku: sku_variation_%randomize%
@@ -302,7 +301,7 @@ product_variation:
 
 generate_simple_associated:
     associated_product_name: simple_associated_%randomize%
-    associated_price: 5.21
+    associated_price: %noValue%
     associated_sku: simple_associated_sku_%randomize%
     associated_quantity: 999
     associated_weight: 18
@@ -310,7 +309,7 @@ generate_simple_associated:
 
 generate_virtual_associated:
     associated_product_name: virtual_associated_%randomize%
-    associated_price: 7.59
+    associated_price: %noValue%
     associated_sku: simple_associated_sku_%randomize%
     associated_quantity: 999
     associated_attributes: *confirurableAttributesValues
@@ -2322,8 +2321,7 @@ downloadable_product_minimal:
     general_min_tax_class: None
     websites: Main Website
     general_categories: Default Category
-    downloadable_information_data:
-        downloadable_link_1: *downloadableData
+    downloadable_information_data: *downloadableData
 
 grouped_product_minimal:
     product_attribute_set: Minimal
