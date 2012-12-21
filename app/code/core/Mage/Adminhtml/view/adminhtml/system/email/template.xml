@@ -40,7 +40,6 @@
                 </arguments>
                 <block type='Mage_Backend_Block_Widget_Grid_ColumnSet' name='adminhtml.system.email.template.grid.columnSet' as='grid.columnSet'>
                     <arguments>
-                        <!--<id>systemEmailTemplateGrid</id>-->
                         <rowUrl>
                             <path>*/*/edit</path>
                             <extraParamsTemplate>
