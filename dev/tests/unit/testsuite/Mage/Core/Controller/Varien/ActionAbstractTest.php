@@ -14,14 +14,63 @@
  */
 class Mage_Core_Controller_Varien_ActionAbstractTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @var Mage_Core_Controller_Varien_ActionAbstract
+     */
+    protected $_actionAbstract;
+
+    /**
+     * @var Mage_Core_Controller_Request_Http
+     */
+    protected $_request;
+
+    /**
+     * @var Mage_Core_Controller_Response_Http
+     */
+    protected $_response;
+
+    public function setUp()
+    {
+        $this->_request = $this->getMock('Mage_Core_Controller_Request_Http',
+            array('getRequestedRouteName', 'getRequestedControllerName', 'getRequestedActionName'), array(), '', false
+        );
+        $this->_response = $this->getMock('Mage_Core_Controller_Response_Http', array(), array(), '', false);
+        $this->_actionAbstract = new Mage_Core_Controller_Varien_Action_Forward($this->_request, $this->_response,
+            'Area'
+        );
+    }
+
     public function testConstruct()
     {
-        $request = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
-        $response = $this->getMock('Mage_Core_Controller_Response_Http', array(), array(), '', false);
-        $actionAbstract = new Mage_Core_Controller_Varien_Action_Forward($request, $response, 'Area');
+        $this->assertAttributeInstanceOf('Mage_Core_Controller_Request_Http', '_request', $this->_actionAbstract);
+        $this->assertAttributeInstanceOf('Mage_Core_Controller_Response_Http', '_response', $this->_actionAbstract);
+        $this->assertAttributeEquals('Area', '_currentArea', $this->_actionAbstract);
+    }
 
-        $this->assertAttributeInstanceOf('Mage_Core_Controller_Request_Http', '_request', $actionAbstract);
-        $this->assertAttributeInstanceOf('Mage_Core_Controller_Response_Http', '_response', $actionAbstract);
-        $this->assertAttributeEquals('Area', '_currentArea', $actionAbstract);
+    public function testGetRequest()
+    {
+        $this->assertEquals($this->_request, $this->_actionAbstract->getRequest());
+    }
+
+    public function testGetResponse()
+    {
+        $this->assertEquals($this->_response, $this->_actionAbstract->getResponse());
+    }
+
+    public function testGetFullActionName()
+    {
+        $this->_request->expects($this->once())
+            ->method('getRequestedRouteName')
+            ->will($this->returnValue('adminhtml'));
+
+        $this->_request->expects($this->once())
+            ->method('getRequestedControllerName')
+            ->will($this->returnValue('index'));
+
+        $this->_request->expects($this->once())
+            ->method('getRequestedActionName')
+            ->will($this->returnValue('index'));
+
+        $this->assertEquals('adminhtml_index_index', $this->_actionAbstract->getFullActionName());
     }
 }

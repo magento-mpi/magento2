@@ -73,6 +73,7 @@ FormTest.prototype.testBind = function() {
     form.on('submit', function(e) {
         submitted = true;
         e.stopImmediatePropagation();
+        e.preventDefault();
     });
     $.each(handlersData, function(key) {
         form.trigger(key);
@@ -174,6 +175,10 @@ FormTest.prototype.testBeforeSubmit = function() {
     form.on('beforeSubmit', function(e, data) {
         jQuery.extend(data, beforeSubmitData);
     });
+    form.on('submit', function(e) {
+        e.stopImmediatePropagation();
+        e.preventDefault();
+    });
     form.data("form")._beforeSubmit('testHandler', eventData);
 
     assertEquals(testForm.prop('action'), form.prop('action'));
@@ -194,6 +199,7 @@ FormTest.prototype.testSubmit = function() {
     form.data("form")._storeAttribute('method');
     form
         .on('submit', function(e) {
+            e.preventDefault();
             e.stopImmediatePropagation();
             formSubmitted = true;
         })

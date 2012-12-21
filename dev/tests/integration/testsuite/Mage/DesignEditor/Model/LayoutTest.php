@@ -40,12 +40,10 @@ class Mage_DesignEditor_Model_LayoutTest extends PHPUnit_Framework_TestCase
      */
     protected function _getLayoutWithTestUpdate($isSanitizeBlocks = true, $enableWrapping = true)
     {
-        $arguments = array(
-            'isSanitizeBlocks' => $isSanitizeBlocks,
-            'enableWrapping'   => $enableWrapping
-        );
         /** @var $layout Mage_DesignEditor_Model_Layout */
-        $layout = Mage::getObjectManager()->create('Mage_DesignEditor_Model_Layout', $arguments);
+        $layout = Mage::getObjectManager()->create('Mage_DesignEditor_Model_Layout');
+        $layout->setSanitizing($isSanitizeBlocks);
+        $layout->setWrapping($enableWrapping);
         $layout->getUpdate()->addUpdate(file_get_contents(__DIR__ . '/_files/layout_update.xml'));
         $layout->generateXml();
 

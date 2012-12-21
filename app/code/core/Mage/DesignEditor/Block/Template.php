@@ -28,16 +28,6 @@ class Mage_DesignEditor_Block_Template extends Mage_Core_Block_Template
     protected $_template = 'wrapping.phtml';
 
     /**
-     * Check whether highlighting of elements is disabled or not
-     *
-     * @return bool
-     */
-    public function isHighlightingDisabled()
-    {
-        return Mage::getSingleton('Mage_DesignEditor_Model_Session')->isHighlightingDisabled();
-    }
-
-    /**
      * Get remove button for block/container wrapper
      *
      * @param string $elementId
