@@ -13,6 +13,8 @@
  *
  * @method Mage_Core_Model_Resource_Theme_Collection getCollection()
  * @method Mage_Backend_Block_Abstract setCollection(Mage_Core_Model_Resource_Theme_Collection $collection)
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
     extends Mage_Backend_Block_Abstract
@@ -108,7 +110,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
      * Get assign to storeview button
      *
      * @param Mage_DesignEditor_Block_Adminhtml_Theme $themeBlock
-     * @return string
+     * @return Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
      */
     protected function _addAssignButtonHtml($themeBlock)
     {
@@ -138,7 +140,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
      * Get preview button
      *
      * @param Mage_DesignEditor_Block_Adminhtml_Theme $themeBlock
-     * @return string
+     * @return Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
      */
     protected function _addPreviewButtonHtml($themeBlock)
     {
@@ -168,7 +170,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
      * Get edit button
      *
      * @param Mage_DesignEditor_Block_Adminhtml_Theme $themeBlock
-     * @return string
+     * @return Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
      */
     protected function _addEditButtonHtml($themeBlock)
     {

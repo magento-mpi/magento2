@@ -13,6 +13,8 @@
  *
  * @method Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css setFiles(array $files)
  * @method array getFiles()
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     extends Mage_Backend_Block_Widget_Form
@@ -64,7 +66,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     /**
      * Create a form element with necessary controls
      *
-     * @return Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General|Mage_Backend_Block_Widget_Form
+     * @return Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      */
     protected function _prepareForm()
     {
@@ -82,16 +84,20 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             $session->unsThemeCustomCssData();
         }
         $form->addValues($formData);
+        return $this;
     }
 
     /**
      * Set theme css fieldset
+     *
+     * @return Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      */
     protected function _addThemeCssFieldset()
     {
         $form = $this->getForm();
         $themeFieldset = $form->addFieldset('theme_css', array(
             'legend' => $this->__('Theme CSS'),
+            'class'  => 'fieldset-wide'
         ));
         $this->_addElementTypes($themeFieldset);
         foreach ($this->_getGroupedFiles() as  $groupName => $group) {
@@ -100,7 +106,6 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
                 'title'       => $groupName,
                 'name'        => 'links',
                 'values'      => $group,
-                'value_class' => ''         //remove limit on column width
             ));
         }
 
@@ -127,19 +132,37 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
 
     /**
      * Set custom css fieldset
+     *
+     * @return Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      */
     protected function _addCustomCssFieldset()
     {
         $form = $this->getForm();
         $themeFieldset = $form->addFieldset('custom_css', array(
             'legend' => $this->__('Custom CSS'),
+            'class'  => 'fieldset-wide'
         ));
+
+        $themeFieldset->addField('css_file_uploader', 'file', array(
+            'name'     => 'css_file_uploader',
+            'label'    => $this->__('Select CSS File to Upload'),
+            'title'    => $this->__('Select CSS File to Upload'),
+        ));
+
+        $themeFieldset->addField('css-uploader-button', 'button', array(
+            'name'     => 'css-uploader-button',
+            'value'    => $this->__('Upload CSS File'),
+            'disabled' => 'disabled',
+        ));
+
         $themeFieldset->addField('custom_css_content', 'textarea', array(
             'label'  => $this->__('Edit custom.css'),
             'title'  => $this->__('Edit custom.css'),
             'name'   => 'custom_css_content',
             'values' => 'some text'
         ));
+
+        return $this;
     }
 
     /**
@@ -336,23 +359,5 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     public function isHidden()
     {
         return false;
-    }
-
-    /**
-     * Sort array basing on another array
-     *
-     * @param $array
-     * @param $orderArray
-     * @return array
-     */
-    protected function sortArrayByArray($array,$orderArray) {
-        $ordered = array();
-        foreach($orderArray as $key) {
-        	if(array_key_exists($key,$array)) {
-        		$ordered[$key] = $array[$key];
-        		unset($array[$key]);
-        	}
-        }
-        return $ordered + $array;
     }
 }

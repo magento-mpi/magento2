@@ -14,11 +14,45 @@
 class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_Controller_Action
 {
     /**
+     * Theme service model
+     *
+     * @var Mage_Theme_Model_Uploader_Service
+     */
+    protected $_serviceModel;
+
+    /**
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param Mage_Core_Controller_Response_Http $response
+     * @param string $areaCode
+     * @param Magento_ObjectManager $objectManager
+     * @param Mage_Core_Controller_Varien_Front $frontController
+     * @param Mage_Core_Model_Layout_Factory $layoutFactory
+     * @param Mage_Theme_Model_Uploader_Service $service
+     * @param array $invokeArgs
+     */
+    public function __construct(
+        Mage_Core_Controller_Request_Http $request,
+        Mage_Core_Controller_Response_Http $response,
+        $areaCode = null,
+        Magento_ObjectManager $objectManager,
+        Mage_Core_Controller_Varien_Front $frontController,
+        Mage_Core_Model_Layout_Factory $layoutFactory,
+        Mage_Theme_Model_Uploader_Service $service,
+        array $invokeArgs = array()
+    ) {
+        $this->_serviceModel = $service;
+
+        parent::__construct($request, $response, $areaCode, $objectManager, $frontController, $layoutFactory,
+            $invokeArgs
+        );
+    }
+
+    /**
      * Index action
      */
     public function indexAction()
     {
-        Mage::dispatchEvent('theme_registration_from_filesystem');
+        $this->_objectManager->get('Mage_Core_Model_Event_Manager')->dispatch('theme_registration_from_filesystem');
         $this->loadLayout();
         $this->_setActiveMenu('Mage_Theme::system_design_theme');
         $this->renderLayout();
@@ -132,6 +166,29 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
          * @todo Temporary solution. Theme module should not know about the existence of editor module.
          */
         $redirectBack ? $this->_redirect('*/system_design_editor/index/') : $this->_redirect('*/*/');
+    }
+
+    /**
+     * Upload css file
+     */
+    public function uploadCssAction()
+    {
+        try {
+            $serviceModel = $this->_serviceModel;
+            $cssFileContent = $serviceModel->uploadCssFile('css_file_uploader')->getFileContent();
+            $serviceModel->removeTemporaryData();
+
+            $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(array(
+                'error'   => false,
+                'content' => $cssFileContent
+            )));
+        } catch (Exception $e) {
+            $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(array(
+                'error'   => true,
+                'message' => $this->__('Cannot upload css file')
+            )));
+            Mage::logException($e);
+        }
     }
 
     /**

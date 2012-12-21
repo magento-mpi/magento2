@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_Theme_Helper extends Mage_Selenium_TestCase
+class Core_Mage_Theme_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * <p>Delete all virtual themes</p>
@@ -24,14 +24,16 @@ class Core_Mage_Theme_Helper extends Mage_Selenium_TestCase
     public function deleteAllVirtualThemes()
     {
         $this->navigate('theme_list');
-        $this->isElementPresent('theme_grid');
+        $this->assertTrue($this->controlIsPresent('pageelement', 'theme_grid'));
 
         $xpath = $this->_getControlXpath('pageelement', 'theme_grid_theme_path_empty_column');
-        while ($this->isElementPresent($xpath)) {
+        while ($this->elementIsPresent($xpath)) {
             $this->clickControl('pageelement', 'theme_grid_theme_path_empty_column');
-            $this->chooseOkOnNextConfirmation();
-            $this->clickButton('delete_theme');
-            $this->assertConfirmation('Are you sure you want to do this?');
+            $this->clickButton('delete_theme', false);
+            $this->assertTrue($this->alertIsPresent());
+            $this->assertEquals('Are you sure you want to do this?', $this->alertText());
+            $this->acceptAlert();
+            $this->waitForPageToLoad();
             $this->assertMessagePresent('success', 'success_deleted_theme');
         }
     }
@@ -45,11 +47,12 @@ class Core_Mage_Theme_Helper extends Mage_Selenium_TestCase
      * - array('theme')
      * - array()
      * @param string|array $themeData
+     * @return array
      */
     public function createTheme($themeData = 'default_new_theme')
     {
         $this->navigate('theme_list');
-        $this->isElementPresent('theme_grid');
+        $this->elementIsPresent('theme_grid');
 
         $this->clickButton('add_new_theme');
 
@@ -69,6 +72,8 @@ class Core_Mage_Theme_Helper extends Mage_Selenium_TestCase
 
         $this->clickButton('save_theme');
         $this->assertMessagePresent('success', 'success_saved_theme');
+
+        return $themeData;
     }
 
     /**
@@ -80,11 +85,11 @@ class Core_Mage_Theme_Helper extends Mage_Selenium_TestCase
     public function getThemeIdByTitle($title)
     {
         $this->navigate('theme_list');
-        $this->isElementPresent('theme_grid');
+        $this->elementIsPresent('theme_grid');
         $xpath = $this->_getControlXpath('pageelement', 'theme_grid_theme_row_by_title');
-        $xpath = sprintf($xpath, $title);
-        $urlFromTitleAttribute = $this->getAttribute($xpath . '@title');
-        $id = $this->defineIdFromUrl($urlFromTitleAttribute);
+        $locator = sprintf($xpath, $title);
+        $element = $this->getElement($locator);
+        $id = $this->defineIdFromUrl($element->attribute('title'));
         return $id;
     }
 }

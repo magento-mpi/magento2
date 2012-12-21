@@ -29,13 +29,27 @@ design_editor_selector:
             available_themes_tab: //a[@id='theme_selector_tabs_available_themes']
             customized_themes_tab: //a[@id='theme_selector_tabs_customizations']
             assign_theme: //li[@id='theme-id-%s']//*[contains(@class, 'action-theme-assign')]
-            store_assign_done: //div[@id='store-view-window']//*[contains(@class, 'store-assign-done')]
         messages:
             confirmation_for_delete: Are you sure you want to do this?
             success_deleted_theme: //li[normalize-space(@class)='success-msg' and contains(.,'The theme has been deleted.')]
         buttons:
-            assign_theme_button: //button[contains(@class, 'assign-theme')][1]
+            assign_theme_button: //button[contains(@class, 'action-theme-assign')][1]
             edit_theme_button: //button[contains(@class, 'edit-theme')][1]
             delete_theme_button: //button[contains(@class, 'delete-theme')][1]
             preview_demo_button: //button[contains(@class, 'preview-demo')][1]
             preview_default_button: //button[contains(@class, 'preview-default')][1]
+            store_assign_done: //div[@id='store-view-window']//*[contains(@class, 'store-assign-done')]
+        dropdowns:
+            locales_switcher: //select[@id='interface_locale']
+
+preview_theme_in_vde:
+    mca: system_design_editor/preview/theme_id/%id%/preview_type/default/
+    title: Magento Admin
+    uimap:
+        buttons:
+            assign_this_theme: //button[contains(@class, 'action-theme-assign')]
+        links:
+            back: //a[contains(@class, 'theme-preview-back')]
+        pageelements:
+            preview_frame: //iframe[@id='preview-theme']
+
