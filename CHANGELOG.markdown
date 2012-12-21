@@ -9,7 +9,7 @@
     * "Available Themes" tab contains all available themes
     * "My Customizations" tab contains themes customized by the store administrator and consists of area with themes assigned to stores and area with unassigned themes
   * Added `vde` area code and `Mage_DesignEditor_Controller_Varien_Router_Standard` to handle requests from design editor
-  * Added ability to use custom layout instance in controllers to use specific layout, when design editor is launched. `Mage_DesignEditor_Model_Layout` introduced for these purposes
+  * Added ability to use custom layout instance in controllers to use specific layout, when design editor is launched
 * JavaScript updates
   * Replaced `varienTabs` class with an analogous jQuery widget
   * Displaying of loader during AJAX requests became optional
