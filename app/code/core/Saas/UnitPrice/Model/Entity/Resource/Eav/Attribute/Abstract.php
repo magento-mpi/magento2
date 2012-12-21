@@ -21,8 +21,9 @@ abstract class Saas_UnitPrice_Model_Entity_Resource_Eav_Attribute_Abstract
 
     public function getDefaultValue()
     {
-        $value = Mage::helper('Saas_UnitPrice_Helper_Data')->getConfig($this->_unitPriceDefaultKey);
-        return $value;
+        $value = Mage::helper('Saas_UnitPrice_Helper_Data')
+            ->getConfig($this->_unitPriceDefaultKey);
 
+        return $value;
     }
 }
