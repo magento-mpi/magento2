@@ -34,7 +34,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Saas_Mage_Unitprice_Helper extends Mage_Selenium_TestCase
+class Saas_Mage_Unitprice_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Edit product and set Unit Price fields
@@ -64,7 +64,7 @@ class Saas_Mage_Unitprice_Helper extends Mage_Selenium_TestCase
 
         $labelXpath = $this->_getControlXpath('pageelement', 'unit_price_label');
         if ($isVisible) {
-            $text = $this->getElementsValue($labelXpath, 'text');
+            $text = implode ($this->getElementsValue($labelXpath, 'text'));
             $this->assertEquals($unitPriceLabel, $text);
         } else {
             $this->assertFalse(

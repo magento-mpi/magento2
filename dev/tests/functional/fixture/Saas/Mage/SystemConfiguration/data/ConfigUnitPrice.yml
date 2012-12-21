@@ -44,4 +44,5 @@ unitprice_disable_sysconf:
     tab_1: &unit_price
         tab_name: catalog_catalog
         configuration:
-            unit_price_active: No
+            unit_price:
+                unit_price_active: No
