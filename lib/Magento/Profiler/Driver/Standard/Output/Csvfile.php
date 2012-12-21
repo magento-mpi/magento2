@@ -9,7 +9,7 @@
  */
 class Magento_Profiler_Driver_Standard_Output_Csvfile extends Magento_Profiler_Driver_Standard_OutputAbstract
 {
-    const DEFAULT_FILEPATH = 'var/log/profiler.csv';
+    const DEFAULT_FILEPATH = '/var/log/profiler.csv';
 
     /**
      *
@@ -48,9 +48,14 @@ class Magento_Profiler_Driver_Standard_Output_Csvfile extends Magento_Profiler_D
      */
     protected function _parseFilePath(array $config = null)
     {
-        return rtrim(isset($config['baseDir']) ? $config['baseDir'] : '', DIRECTORY_SEPARATOR)
-            . DIRECTORY_SEPARATOR
-            . ltrim(isset($config['filePath']) ? $config['filePath'] : self::DEFAULT_FILEPATH, DIRECTORY_SEPARATOR);
+        $result = isset($config['filePath']) ? $config['filePath'] : self::DEFAULT_FILEPATH;
+
+        if (isset($config['baseDir'])) {
+            $result = rtrim($config['baseDir'], DIRECTORY_SEPARATOR)
+                . DIRECTORY_SEPARATOR
+                . ltrim($result, DIRECTORY_SEPARATOR);
+        }
+        return $result;
     }
 
     /**
