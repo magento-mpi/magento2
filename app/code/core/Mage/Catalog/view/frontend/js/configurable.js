@@ -106,19 +106,19 @@
         },
         _changeProductImage: function () {
             var images = this.options.spConfig.images,
-                imagesArray = [],
+                imagesArray,
                 $image = $('#image');
             $.each(this.options.setings, function (k, v) {
                 var selectValue = parseInt(v.value),
                     attributeId = v.id.replace(/[a-z]*/, '');
                 if (selectValue > 0 && attributeId) {
-                    if (imagesArray.length === 0) {
+                    if (!imagesArray) {
                         imagesArray = images[attributeId][selectValue];
                     } else {
-                        var intersectedArray = [];
+                        var intersectedArray = {};
                         $.each(imagesArray, function (productId, imageSrc) {
                             if (images[attributeId][selectValue][productId]) {
-                                intersectedArray.push(images[attributeId][selectValue][productId]);
+                                intersectedArray[productId] = images[attributeId][selectValue][productId];
                             }
                         });
                         imagesArray = intersectedArray;
@@ -126,8 +126,7 @@
                 }
             });
 
-            //Convert object to array for proper items count
-            var result = !Array.isArray(imagesArray) ? Object.values(imagesArray) : imagesArray;
+            var result = Object.values(imagesArray || {});
             if (result.length === 1) {
                 $image.attr('src', result.pop() || this.options.parentImage);
             } else {
