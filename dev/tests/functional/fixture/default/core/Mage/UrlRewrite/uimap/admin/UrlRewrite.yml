@@ -20,7 +20,7 @@ url_rewrite_management:
             fieldsets:
                 -
                     url_rewrite_grid:
-                        xpath: //div[@id='gridUrlRewrite']
+                        xpath: //div[@id='urlrewriteGrid']
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
@@ -37,7 +37,7 @@ url_rewrite_management:
                             filter_options: //input[@name='options']
                         pageelements:
                             page_grid_head: //div[@id='urlrewriteGrid']//thead/tr[@class='headings']
-                            page_grid: //table[@id='gridUrlRewrite_table']
+                            page_grid: //table[@id='urlrewriteGrid_table']
         buttons:
             add_new_rewrite: //button[span='Add URL Rewrite']
         messages: &pageMessages

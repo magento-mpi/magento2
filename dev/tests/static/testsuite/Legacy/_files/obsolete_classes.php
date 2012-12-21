@@ -9,6 +9,7 @@
  * @license     {license_link}
  */
 return array(
+    $this->_getClassRule('Enterprise_Pci_Block_Adminhtml_Locks_Grid'),
     $this->_getClassRule('Mage_Admin_Helper_Data', 'Mage_Backend_Helper_Data'),
     $this->_getClassRule('Mage_Admin_Model_Acl', 'Magento_Acl'),
     $this->_getClassRule('Mage_Admin_Model_Acl_Role'),
@@ -41,6 +42,7 @@ return array(
         'Mage_User_Model_Resource_Permissions_Collection'),
     $this->_getClassRule('Mage_Adminhtml_Block_Api_Edituser'),
     $this->_getClassRule('Mage_Adminhtml_Block_Api_Tab_Userroles'),
+    $this->_getClassRule('Mage_Adminhtml_Block_Backup_Grid'),
     $this->_getClassRule('Mage_Adminhtml_Block_Catalog'),
     $this->_getClassRule('Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Grid'),
     $this->_getClassRule('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid'),
