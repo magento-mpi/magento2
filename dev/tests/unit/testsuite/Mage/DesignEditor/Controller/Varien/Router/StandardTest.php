@@ -12,11 +12,6 @@
 class Mage_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Fake controller instance
-     */
-    const TEST_CONTROLLER = 'test controller instance';
-
-    /**
      * Test area code
      */
     const AREA_CODE = 'frontend';
@@ -25,6 +20,11 @@ class Mage_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Fr
      * Test VDE front name prefix
      */
     const VDE_FRONT_NAME = 'test_front_name';
+
+    /**
+     * Test VDE configuration data
+     */
+    const VDE_CONFIGURATION_DATA = 'vde_config_data';
 
     /**#@+
      * Test path and host
@@ -47,6 +47,7 @@ class Mage_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Fr
      * @param Mage_Core_Controller_Request_Http $request
      * @param bool $isVde
      * @param bool $isLoggedIn
+     * @param bool $isConfiguration
      * @param array $routers
      * @param string|null $matchedValue
      *
@@ -56,10 +57,11 @@ class Mage_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Fr
         Mage_Core_Controller_Request_Http $request,
         $isVde,
         $isLoggedIn,
+        $isConfiguration,
         array $routers = array(),
         $matchedValue = null
     ) {
-        $this->_model = $this->_prepareMocksForTestMatch($request, $isVde, $isLoggedIn, $routers);
+        $this->_model = $this->_prepareMocksForTestMatch($request, $isVde, $isLoggedIn, $isConfiguration, $routers);
 
         $this->assertEquals($matchedValue, $this->_model->match($request));
         if ($isVde && $isLoggedIn) {
@@ -87,6 +89,10 @@ class Mage_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Fr
         $matchedRequest = $this->getMock('Mage_Core_Controller_Request_Http', $silencedMethods, array($vdeUrl));
         $routerMockedMethods = array('match');
 
+        $matchedController = $this->getMockForAbstractClass('Mage_Core_Controller_Varien_ActionAbstract', array(), '',
+            false
+        );
+
         // method "match" will be invoked for this router because it's first in the list
         $matchedRouter = $this->getMock(
             'Mage_Core_Controller_Varien_Router_Base', $routerMockedMethods, array(), '', false
@@ -94,7 +100,7 @@ class Mage_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Fr
         $matchedRouter->expects($this->once())
             ->method('match')
             ->with($matchedRequest)
-            ->will($this->returnValue(self::TEST_CONTROLLER));
+            ->will($this->returnValue($matchedController));
 
         // method "match" will not be invoked for this router because controller will be found by first router
         $notMatchedRouter = $this->getMock(
@@ -109,33 +115,37 @@ class Mage_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Fr
 
         return array(
             'not vde request' => array(
-                '$request'    => $this->getMock(
+                '$request' => $this->getMock(
                     'Mage_Core_Controller_Request_Http', $silencedMethods, array($notVdeUrl)
                 ),
-                '$isVde'      => false,
-                '$isLoggedIn' => true
+                '$isVde'           => false,
+                '$isLoggedIn'      => true,
+                '$isConfiguration' => false,
             ),
             'not logged as admin' => array(
-                '$request'    => $this->getMock(
+                '$request' => $this->getMock(
                     'Mage_Core_Controller_Request_Http', $silencedMethods, array($vdeUrl)
                 ),
-                '$isVde'      => true,
-                '$isLoggedIn' => false
+                '$isVde'           => true,
+                '$isLoggedIn'      => false,
+                '$isConfiguration' => false,
             ),
             'no matched routers' => array(
-                '$request'    => $this->getMock(
+                '$request' => $this->getMock(
                     'Mage_Core_Controller_Request_Http', $silencedMethods, array($vdeUrl)
                 ),
-                '$isVde'      => true,
-                '$isLoggedIn' => true,
-                '$routers'    => $excludedRouters
+                '$isVde'           => true,
+                '$isLoggedIn'      => true,
+                '$isConfiguration' => false,
+                '$routers'         => $excludedRouters
             ),
             'matched routers' => array(
-                '$request'     => $matchedRequest,
-                '$isVde'       => true,
-                '$isLoggedIn'  => true,
-                '$routers'     => $matchedRouters,
-                '$matchedValue' => self::TEST_CONTROLLER,
+                '$request'         => $matchedRequest,
+                '$isVde'           => true,
+                '$isLoggedIn'      => true,
+                '$isConfiguration' => true,
+                '$routers'         => $matchedRouters,
+                '$matchedValue'    => $matchedController,
             ),
         );
     }
@@ -144,6 +154,7 @@ class Mage_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Fr
      * @param Mage_Core_Controller_Request_Http $request
      * @param bool $isVde
      * @param bool $isLoggedIn
+     * @param bool $isConfiguration
      * @param array $routers
      * @return Mage_DesignEditor_Controller_Varien_Router_Standard
      */
@@ -151,6 +162,7 @@ class Mage_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Fr
         Mage_Core_Controller_Request_Http $request,
         $isVde,
         $isLoggedIn,
+        $isConfiguration,
         array $routers
     ) {
         // default mocks - not affected on method functionality
@@ -172,7 +184,6 @@ class Mage_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Fr
         $frontController = $this->getMock('Mage_Core_Controller_Varien_Front',
             array('applyRewrites', 'getRouters'), array(), '', false
         );
-
         if ($isVde && $isLoggedIn) {
             $frontController->expects($this->once())
                 ->method('applyRewrites')
@@ -182,18 +193,46 @@ class Mage_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Fr
                 ->will($this->returnValue($routers));
         }
 
-        $layoutFactory = $this->getMock('Mage_Core_Model_Layout_Factory', array('createLayout'), array(), '', false);
+        $stateModel = $this->getMock('Mage_DesignEditor_Model_State', array('update'), array(), '', false);
         if (array_key_exists('matched', $routers)) {
-            $layoutFactory->expects($this->once())
-                ->method('createLayout')
-                ->with(
-                    array('area' => self::AREA_CODE),
-                    Mage_DesignEditor_Controller_Varien_Router_Standard::LAYOUT_CLASS_NAME
-                );
+            $stateModel->expects($this->once())
+                ->method('update')
+                ->with(self::AREA_CODE);
+        }
+
+        $configuration = $this->getMock('Mage_Core_Model_Config', array('getNode'), array(), '', false);
+        if ($isVde && $isLoggedIn) {
+            $configurationData = null;
+            if ($isConfiguration) {
+                $configurationData = self::VDE_CONFIGURATION_DATA;
+            }
+            $configuration->expects($this->at(0))
+                ->method('getNode')
+                ->with(Mage_DesignEditor_Model_Area::AREA_VDE)
+                ->will($this->returnValue($configurationData));
+
+            if ($isConfiguration) {
+                $elementMock = $this->getMock('stdClass', array('extend'), array(), '', false);
+                $elementMock->expects($this->once())
+                    ->method('extend')
+                    ->with(self::VDE_CONFIGURATION_DATA, true);
+
+                $configuration->expects($this->at(1))
+                    ->method('getNode')
+                    ->with(Mage_Core_Model_App_Area::AREA_FRONTEND)
+                    ->will($this->returnValue($elementMock));
+            }
         }
 
         $router = new Mage_DesignEditor_Controller_Varien_Router_Standard(
-            $controllerFactory, $objectManager, $testArea, $testBaseController, $backendSession, $helper, $layoutFactory
+            $controllerFactory,
+            $objectManager,
+            $testArea,
+            $testBaseController,
+            $backendSession,
+            $helper,
+            $stateModel,
+            $configuration
         );
         $router->setFront($frontController);
         return $router;

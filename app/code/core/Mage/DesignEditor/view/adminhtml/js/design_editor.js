@@ -156,7 +156,17 @@
                 $(this.options.highlightCheckboxSelector)
                     .vde_checkbox();
             }
-            this.highlightBlocks = {};
+
+            this.frameChanged = false;
+            var self = this;
+            $(this.options.frameSelector).load(function() {
+                self.highlightBlocks = {};
+                if (self.frameChanged) {
+                    $(self.options.highlightCheckboxSelector).vde_checkbox('setChecked');
+                } else {
+                    self.frameChanged = true;
+                }
+            });
         },
         _highlight: function () {
             var self = this;
