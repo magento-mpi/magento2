@@ -49,6 +49,11 @@ class Saas_Mage_Unitprice_GeneralConfiguration_EnableUnitPriceTest
         //Extension configuration
         $this->loginAdminUser();
 
+        //Configure Unit Price
+        $this->navigate('system_configuration');
+        $configData = $this->loadDataSet('ConfigUnitPrice', 'unitprice_default_sysconf');
+        $this->systemConfigurationHelper()->configure($configData);
+
         //Create test category
         $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
