@@ -197,7 +197,7 @@ permissions_locked_users:
     field:
         username:
     dropdown:
-        unlock:
+            locked_actions:
     headers:
         0: ID
         1: Username
