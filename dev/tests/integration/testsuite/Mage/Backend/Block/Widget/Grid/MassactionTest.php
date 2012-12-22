@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoDataFixture Mage/Backend/Block/_files/backend_theme.php
+ */
 class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -23,12 +26,31 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
 
     protected function setUp()
     {
+        $this->_setFixtureTheme();
+
         $this->_layout = Mage::getModel('Mage_Core_Model_Layout', array('area' => 'adminhtml'));
         $this->_layout->getUpdate()->load('layout_test_grid_handle');
         $this->_layout->generateXml();
         $this->_layout->generateElements();
 
         $this->_block = $this->_layout->getBlock('admin.test.grid.massaction');
+    }
+
+    /**
+     * Set fixture theme for admin backend area
+     */
+    protected function _setFixtureTheme()
+    {
+        Magento_Test_Bootstrap::getInstance()->reinitialize(array(
+            Mage_Core_Model_App::INIT_OPTION_SCOPE_TYPE => 'store',
+            Mage_Core_Model_App::INIT_OPTION_SCOPE_CODE => 'admin',
+            Mage_Core_Model_App::INIT_OPTION_DIRS => array(
+                Mage_Core_Model_Dir::VIEW => __DIR__ . '/../../_files/design'
+            ),
+        ));
+
+        $themeId = Mage_Core_Utility_Theme::getTheme('test/default', 'adminhtml')->getId();
+        Mage::app()->getStore('admin')->setConfig('adminhtml/design/theme/theme_id', $themeId);
     }
 
     protected function tearDown()

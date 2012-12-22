@@ -20,8 +20,8 @@ class Mage_Adminhtml_Catalog_Product_AttributeControllerTest extends Mage_Adminh
         $this->getRequest()->setPost($postData);
         $this->dispatch('backend/admin/catalog_product_attribute/save');
         $model = new Mage_Catalog_Model_Resource_Eav_Attribute(
-            new Mage_Core_Model_Event_Manager(),
-            new Mage_Core_Model_Cache()
+            Mage::getModel('Mage_Core_Model_Event_Manager'),
+            Mage::getModel('Mage_Core_Model_Cache')
         );
         $model->load($postData['attribute_id']);
         $this->assertNull($model->getData('apply_to'));
@@ -36,8 +36,8 @@ class Mage_Adminhtml_Catalog_Product_AttributeControllerTest extends Mage_Adminh
         $this->getRequest()->setPost($postData);
         $this->dispatch('backend/admin/catalog_product_attribute/save');
         $model = new Mage_Catalog_Model_Resource_Eav_Attribute(
-            new Mage_Core_Model_Event_Manager(),
-            new Mage_Core_Model_Cache()
+            Mage::getModel('Mage_Core_Model_Event_Manager'),
+            Mage::getModel('Mage_Core_Model_Cache')
         );
         $model->load($postData['attribute_id']);
         $this->assertEquals('simple,configurable', $model->getData('apply_to'));
@@ -53,8 +53,8 @@ class Mage_Adminhtml_Catalog_Product_AttributeControllerTest extends Mage_Adminh
         $this->getRequest()->setPost($postData);
         $this->dispatch('backend/admin/catalog_product_attribute/save');
         $model = new Mage_Catalog_Model_Resource_Eav_Attribute(
-            new Mage_Core_Model_Event_Manager(),
-            new Mage_Core_Model_Cache()
+            Mage::getModel('Mage_Core_Model_Event_Manager'),
+            Mage::getModel('Mage_Core_Model_Cache')
         );
         $model->load($postData['attribute_id']);
         $this->assertEquals(array('simple', 'configurable'), $model->getApplyTo());
