@@ -533,7 +533,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     protected function _createModelWithApp(Magento_Test_ObjectManager $objectManager, array $appOptions = array())
     {
         /** @var $app Mage_Core_Model_App */
-        $app = Mage::getModel('Mage_Core_Model_App', array(new Mage_Core_Controller_Varien_Front, $objectManager));
+        $app = Mage::getModel('Mage_Core_Model_App', array($objectManager));
         $app->init($appOptions);
         $objectManager->addSharedInstance($app, 'Mage_Core_Model_App');
 
