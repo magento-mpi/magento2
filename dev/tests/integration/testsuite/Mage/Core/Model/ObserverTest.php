@@ -36,7 +36,7 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
             array('register'),
             array($objectManager->create('Mage_Core_Model_Theme'))
         );
-        $themeRegistration->expects($this->any())
+        $themeRegistration->expects($this->once())
             ->method('register')
             ->with($baseDir, $pattern);
         $objectManager->addSharedInstance($themeRegistration, 'Mage_Core_Model_Theme_Registration');

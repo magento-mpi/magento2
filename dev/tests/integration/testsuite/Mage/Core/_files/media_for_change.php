@@ -27,12 +27,5 @@ foreach ($files as $file) {
 $registration = Mage::getModel('Mage_Core_Model_Theme_Registration');
 $registration->register(
     $designDir,
-    implode(DIRECTORY_SEPARATOR, array('*','*', '*', 'theme.xml'))
+    implode(DIRECTORY_SEPARATOR, array('*', '*', '*', 'theme.xml'))
 );
-
-Magento_Test_Bootstrap::getInstance()->reinitialize(array(
-    Mage_Core_Model_App::INIT_OPTION_DIRS => array(
-        Mage_Core_Model_Dir::VIEW => $designDir
-    )
-));
-Mage::getDesign()->setDesignTheme('test/default');
