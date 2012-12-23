@@ -25,8 +25,8 @@ class Php_Exemplar_CodeStyleTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        $reportFile = __DIR__ . '/../../../tmp/phpcs_report.xml';
         /*
+        $reportFile = __DIR__ . '/../../../tmp/phpcs_report.xml';
         FIXME: MAGETWO-6396
         self::$_cmd = new Inspection_CodeSniffer_Command(realpath(__DIR__ . '/../_files/phpcs'), $reportFile);
         */
