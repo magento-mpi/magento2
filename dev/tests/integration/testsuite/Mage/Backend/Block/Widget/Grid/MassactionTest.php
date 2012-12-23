@@ -49,8 +49,10 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
             ),
         ));
 
-        $themeId = Mage_Core_Utility_Theme::getTheme('test/default', 'adminhtml')->getId();
-        Mage::app()->getStore('admin')->setConfig('adminhtml/design/theme/theme_id', $themeId);
+        Mage::app()->getConfig()->setNode(
+            'adminhtml/' . Mage_Core_Model_Design_Package::XML_PATH_THEME,
+            'test/default'
+        );
     }
 
     protected function tearDown()

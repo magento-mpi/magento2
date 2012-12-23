@@ -293,7 +293,7 @@ class Mage_Core_Model_Design_Package
         }
 
         if (!empty($params['themeId'])) {
-            $params['themeModel'] = $this->_getLoadDesignTheme($params['themeId']);
+            $params['themeModel'] = $this->_getLoadDesignTheme($params['themeId'], $params['area']);
         } elseif (!empty($params['package']) && isset($params['theme'])) {
             $themePath = $params['package'] . '/' . $params['theme'];
             $params['themeModel'] = $this->_getLoadDesignTheme($themePath, $params['area']);
