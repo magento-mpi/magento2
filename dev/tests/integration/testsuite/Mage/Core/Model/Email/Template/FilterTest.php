@@ -100,6 +100,11 @@ class Mage_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCa
                 Mage_Core_Model_Dir::VIEW => dirname(__DIR__) . '/_files/design'
             )
         ));
+
+        $collection = new Mage_Core_Model_Resource_Theme_Collection;
+        $themeId = $collection->getThemeByFullPath('frontend/test/default')->getId();
+        Mage::app()->getStore()->setConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME_ID, $themeId);
+
         /** @var $layout Mage_Core_Model_Layout */
         $layout = Mage::getSingleton('Mage_Core_Model_Layout', array('area' => $area));
         $this->assertEquals($area, $layout->getArea());
