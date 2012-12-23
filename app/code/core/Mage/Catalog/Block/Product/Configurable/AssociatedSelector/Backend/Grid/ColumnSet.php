@@ -80,7 +80,7 @@ class Mage_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_Co
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
             $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger,
-            $helperFactory->get('Mage_Backend_Helper_Data'),  $generatorFactory, $subtotals, $totals, $data);
+            $helperFactory->get('Mage_Backend_Helper_Data'), $generatorFactory, $subtotals, $totals, $data);
 
         $this->_registryManager = $registryManager;
         $this->_productType = $productType;
