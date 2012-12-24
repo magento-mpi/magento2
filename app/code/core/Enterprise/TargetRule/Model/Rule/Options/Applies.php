@@ -19,6 +19,8 @@ class Enterprise_TargetRule_Model_Rule_Options_Applies implements Mage_Core_Mode
 {
 
     /**
+     * Target Rule model
+     *
      * @var Enterprise_TargetRule_Model_Rule
      */
     protected $_targetRuleModel;
@@ -33,6 +35,7 @@ class Enterprise_TargetRule_Model_Rule_Options_Applies implements Mage_Core_Mode
 
     /**
      * Return statuses array
+     * 
      * @return array
      */
     public function toOptionArray()

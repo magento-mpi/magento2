@@ -19,6 +19,8 @@ class Enterprise_TargetRule_Model_Rule_Options_Status implements Mage_Core_Model
 {
 
     /**
+     * Target Rule Helper data
+     *
      * @var Enterprise_TargetRule_Helper_Data
      */
     protected $_helper;
@@ -33,6 +35,7 @@ class Enterprise_TargetRule_Model_Rule_Options_Status implements Mage_Core_Model
 
     /**
      * Return statuses array
+     *
      * @return array
      */
     public function toOptionArray()
