@@ -48,7 +48,6 @@ class Api_LoginTest extends Magento_Test_Webservice
      */
     public function testLoginCleanOldSessionsTimeoutSqlInjection()
     {
-        $this->markTestIncomplete("TODO: Fix fatal error.");
         $table = 'fake_table';
 
         $user = $this->getMock('Mage_Api_Model_User', array('getId'));
@@ -56,7 +55,7 @@ class Api_LoginTest extends Magento_Test_Webservice
 
         $config = array('dbname'=>'fake_db', 'password'=>'fake_password', 'username'=>'fake_username');
 
-        $adapter = $this->getMock('Varien_Db_Adapter_Pdo_Mysql', array('delete'), array((array)$config));
+        $adapter = $this->getMock('Varien_Db_Adapter_Pdo_Mysql', array('delete', 'quote'), array((array)$config));
         $adapter
             ->expects($this->any())
             ->method('delete')
@@ -70,8 +69,12 @@ class Api_LoginTest extends Magento_Test_Webservice
                 )
         );
 
-        $userResource = $this->getMock('Mage_Api_Model_Resource_User', array('getTable', '_getWriteAdapter'));
+        $userResource = $this->getMock(
+            'Mage_Api_Model_Resource_User',
+            array('getTable', '_getWriteAdapter', '_getReadAdapter')
+        );
         $userResource->expects($this->any())->method('_getWriteAdapter')->will($this->returnValue($adapter));
+        $userResource->expects($this->any())->method('_getReadAdapter')->will($this->returnValue($adapter));
         $userResource->expects($this->any())->method('getTable')->will($this->returnValue('fake_table'));
 
         $userResource->cleanOldSessions($user);
