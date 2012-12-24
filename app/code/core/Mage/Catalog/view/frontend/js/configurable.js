@@ -106,8 +106,8 @@
         },
         _changeProductImage: function () {
             var images = this.options.spConfig.images,
-                imagesArray,
-                $image = $('#image');
+                $image = $('#image'),
+                imagesArray;
             $.each(this.options.setings, function (k, v) {
                 var selectValue = parseInt(v.value),
                     attributeId = v.id.replace(/[a-z]*/, '');
@@ -126,11 +126,34 @@
                 }
             });
 
-            var result = Object.values(imagesArray || {});
+            var result = [];
+            $.each(imagesArray || {}, function() { result.push(this); });
             if (result.length === 1) {
                 $image.attr('src', result.pop() || this.options.parentImage);
             } else {
                 $image.attr('src', this.options.parentImage);
+            }
+            this._fitImageToContainer($image);
+        },
+        _fitImageToContainer: function (image) {
+            image.css({"width": "", "height": "", "top": "", "left": ""});
+            var imageWidth = image.width();
+            var imageHeight = image.height();
+            var imageParent = image.parent();
+            var imageParentWidth = imageParent.width();
+            var imageParentHeight = imageParent.height();
+
+            // Image is small than parent container, no need to see full picutre or zoom slider
+            if (imageWidth < imageParentWidth && imageHeight < imageParentHeight) {
+                return;
+            }
+            // Resize Image to fit parent container
+            if (imageWidth > imageHeight) {
+                image.width(imageParentWidth);
+                image.css('top', ((imageParentHeight - image.height()) / 2) + 'px');
+            } else {
+                image.height(imageParentHeight);
+                image.css('left', ((imageParentWidth - image.width()) / 2) + 'px');
             }
         },
         _reloadOptionLabels: function (element) {
