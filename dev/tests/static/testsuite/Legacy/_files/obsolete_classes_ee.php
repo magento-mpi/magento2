@@ -10,6 +10,7 @@
  */
 return array(
     $this->_getClassRule('Enterprise_Search_Model_Resource_Suggestions'),
+    $this->_getClassRule('Enterprise_TargetRule_Block_Adminhtml_Targetrule_Grid'),
     $this->_getClassRule('Enterprise_GiftCard_Block_Email_Generated'),
     $this->_getClassRule('Enterprise_Search_Model_Indexer_Price'),
     $this->_getClassRule('Enterprise_Cms_Model_Resource_Setup'),
