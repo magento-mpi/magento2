@@ -30,18 +30,9 @@ class Mage_Backup_Block_Adminhtml_Grid_Column_Renderer_Download
             ->__('The archive can be uncompressed with <a href="%s">%s</a> on Windows systems', 'http://www.7-zip.org/',
             '7-Zip');
 
-        $format = '<a href="' . $this->getUrl('*/*/download', array('time' => '$time', 'type' => '$type'))
-                  . '">$extension</a> &nbsp; <small>('.$url7zip.')</small>';
-        if (preg_match_all($this->_variablePattern, $format, $matches)) {
-            // Parsing of format string
-            $formattedString = $format;
-            foreach ($matches[0] as $matchIndex=>$match) {
-                $value = $row->getData($matches[1][$matchIndex]);
-                $formattedString = str_replace($match, $value, $formattedString);
-            }
-            return $formattedString;
-        }
+        return '<a href="' . $this->getUrl('*/*/download',
+            array('time' => $row->getData('time'), 'type' => $row->getData('type'))) . '">' . $row->getData('extension')
+               . '</a> &nbsp; <small>(' . $url7zip . ')</small>';
 
-        return '';
     }
 }

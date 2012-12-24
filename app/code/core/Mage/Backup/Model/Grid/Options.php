@@ -9,13 +9,13 @@
  */
 
 /**
- * User statuses option array
+ * Backup types option array
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Model_Backup_Options implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Backup_Model_Grid_Options implements Mage_Core_Model_Option_ArrayInterface
 {
 
     /**
@@ -26,13 +26,13 @@ class Mage_Adminhtml_Model_Backup_Options implements Mage_Core_Model_Option_Arra
     /**
      * @param Mage_Backup_Helper_Data $backupHelper
      */
-public function __construct(Mage_Backup_Helper_Data $backupHelper)
+    public function __construct(Mage_Backup_Helper_Data $backupHelper)
     {
         $this->_helper = $backupHelper;
     }
 
     /**
-     * Return statuses array
+     * Return backup types array
      * @return array
      */
     public function toOptionArray()

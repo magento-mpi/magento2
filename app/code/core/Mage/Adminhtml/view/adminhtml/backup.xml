@@ -83,7 +83,7 @@
                             <header translate='true' module='Mage_Backup'>Type</header>
                             <index>type</index>
                             <type>options</type>
-                            <options type="options">Mage_Adminhtml_Model_Backup_Options</options>
+                            <options type="options">Mage_Backup_Model_Grid_Options</options>
                             <width>300px</width>
                         </arguments>
                     </block>
