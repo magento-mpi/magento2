@@ -39,26 +39,7 @@ class Mage_Launcher_Adminhtml_Storelauncher_Tax_DrawerController
     {
         $ruleModel = Mage::getModel('Mage_Tax_Model_Calculation_Rule');
         Mage::register('tax_rule', $ruleModel);
-
-        try {
-            $tileCode = $this->getRequest()->getParam('tileCode');
-            $tileModel = Mage::getModel('Mage_Launcher_Model_Tile')->loadByCode($tileCode);
-            $layout = $this->loadLayout();
-            /** @var $drawerBlock Mage_Launcher_Block_Adminhtml_Storelauncher_Tax_Drawer */
-            $drawerBlock = $layout->getLayout()
-                ->getBlock('tax_drawer');
-            $drawerBlock->setTile($tileModel);
-
-            $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(
-                $drawerBlock->getResponseContent()
-            );
-        } catch (Exception $e) {
-            $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(
-                'success' => false,
-                'error_message' => Mage::helper('Mage_Launcher_Helper_Data')->__($e->getMessage())
-            ));
-        }
-        $this->getResponse()->setBody($responseContent);
+        parent::loadAction();
     }
 
     /**

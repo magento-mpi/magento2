@@ -19,14 +19,14 @@ class Mage_Launcher_Adminhtml_Promotestore_Seo_DrawerController
     extends Mage_Launcher_Controller_BaseDrawer
 {
     /**
-     * Seo Drawer Block Class Name
+     * SEO Drawer Block Class Name
      *
      * @var string
      */
     protected $_drawerBlockName = 'Mage_Launcher_Block_Adminhtml_Promotestore_Seo_Drawer';
 
     /**
-     * Seo Tile Block Class Name
+     * SEO Tile Block Class Name
      *
      * @var string
      */

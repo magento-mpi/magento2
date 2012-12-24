@@ -36,19 +36,19 @@ class Mage_Launcher_Controller_BaseDrawer
     /**
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Controller_Response_Http $response
-     * @param string $areaCode
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Layout_Factory $layoutFactory
+     * @param string $areaCode
      * @param array $data
      */
     public function __construct(
         Mage_Core_Controller_Request_Http $request,
         Mage_Core_Controller_Response_Http $response,
-        $areaCode = null,
         Magento_ObjectManager $objectManager,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Layout_Factory $layoutFactory,
+        $areaCode = null,
         array $data = array()
     ) {
         parent::__construct($request, $response, $areaCode, $objectManager, $frontController, $layoutFactory, $data);
@@ -67,16 +67,19 @@ class Mage_Launcher_Controller_BaseDrawer
      *
      * @return string
      */
-    public function getDrawerBlockName() {
+    public function getDrawerBlockName()
+    {
         return $this->_drawerBlockName;
     }
 
     /**
      * Set Drawer Block Name
      *
+     * @param string $drawerBlock
      * @return Mage_Launcher_Controller_BaseDrawer
      */
-    public function setDrawerBlockName($drawerBlock) {
+    public function setDrawerBlockName($drawerBlock)
+    {
         $this->_drawerBlockName = $drawerBlock;
         return $this;
     }
@@ -86,16 +89,19 @@ class Mage_Launcher_Controller_BaseDrawer
      *
      * @return string
      */
-    public function getTileBlockName() {
+    public function getTileBlockName()
+    {
         return $this->_tileBlockName;
     }
 
     /**
      * Set Tile Block Name
      *
+     * @param string $tileBlock
      * @return Mage_Launcher_Controller_BaseDrawer
      */
-    public function setTileBlockName($tileBlock) {
+    public function setTileBlockName($tileBlock)
+    {
         $this->_tileBlockName = $tileBlock;
         return $this;
     }
@@ -139,9 +145,14 @@ class Mage_Launcher_Controller_BaseDrawer
             $tileCode = $this->getRequest()->getParam('tileCode');
             $tileModel = Mage::getModel('Mage_Launcher_Model_Tile')->loadByCode($tileCode);
 
+            $layout = $this->loadLayout();
             /** @var $drawerBlock Mage_Launcher_Block_Adminhtml_Drawer */
-            $drawerBlock = $this->getLayout()
-                ->createBlock($this->_drawerBlockName);
+            $drawerBlock = $layout->getLayout()->getBlock($tileCode . '_drawer');
+            if (!$drawerBlock) {
+                /** @var $drawerBlock Mage_Launcher_Block_Adminhtml_Drawer */
+                $drawerBlock = $this->getLayout()->createBlock($this->_drawerBlockName);
+            }
+
             $drawerBlock->setTile($tileModel);
 
             $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(
