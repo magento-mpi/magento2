@@ -59,36 +59,6 @@ class Api_SalesOrder_StatusTest extends Magento_Test_Webservice
     }
 
     /**
-     * Test for sales_order.cancel when order is in 'closed' status
-     *
-     * @return void
-     */
-    public function testCancelClosedOrder()
-    {
-        /** @var $order Mage_Sales_Model_Order */
-        $order = Magento_Test_Webservice::getFixture('order');
-
-        $order->setStatus(Mage_Sales_Model_Order::STATE_CLOSED) // closed order is not allowed to cancel
-            ->save();
-
-        try {
-            $this->getWebService()->call('sales_order.cancel', array(
-                'orderIncrementId' => $order->getIncrementId()
-            ));
-        } catch (Exception $e) {
-            $this->assertEquals(
-                'Order status not changed. Details in error message.', $e->getMessage(), 'Invalid fault message'
-            );
-        }
-        // reload order to obtain new status
-        $order->load($order->getId());
-
-        $this->assertNotEquals(
-            Mage_Sales_Model_Order::STATE_CANCELED, $order->getStatus(), 'Status is changed to CANCELED'
-        );
-    }
-
-    /**
      * Test for sales_order.hold when order is in 'processing' status
      *
      * @return void
@@ -111,33 +81,5 @@ class Api_SalesOrder_StatusTest extends Magento_Test_Webservice
         $order->load($order->getId());
 
         $this->assertEquals(Mage_Sales_Model_Order::STATE_HOLDED, $order->getStatus(), 'Status is not HOLDED');
-    }
-
-    /**
-     * Test for sales_order.hold for cancelled order
-     *
-     * @return void
-     */
-    public function testHoldCanceledOrder()
-    {
-        /** @var $order Mage_Sales_Model_Order */
-        $order = Magento_Test_Webservice::getFixture('order');
-
-        $order->setStatus(Mage_Sales_Model_Order::STATE_CANCELED)
-           ->save();
-
-        try {
-            $this->getWebService()->call('sales_order.hold', array(
-                'orderIncrementId' => $order->getIncrementId()
-            ));
-        } catch (Exception $e) {
-            $this->assertEquals('Hold action is not available.', $e->getMessage(), 'Invalid fault message');
-        }
-        // reload order to obtain new status
-        $order->load($order->getId());
-
-        $this->assertNotEquals(
-            Mage_Sales_Model_Order::STATE_HOLDED, $order->getStatus(), 'Status is changed to HOLDED'
-        );
     }
 }

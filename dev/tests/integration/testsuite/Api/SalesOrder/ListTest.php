@@ -27,30 +27,23 @@ class Api_SalesOrder_ListTest extends Magento_Test_Webservice
         /** @var $order Mage_Sales_Model_Order */
         $order = self::getFixture('order');
 
-        if (TESTS_WEBSERVICE_TYPE == self::TYPE_SOAPV2 || TESTS_WEBSERVICE_TYPE == self::TYPE_SOAPV2_WSI) {
-            $filters = array('filters' => array(
-                'filter' => array(
-                    array('key' => 'status', 'value' => $order->getData('status')),
-                    array('key' => 'created_at', 'value' => $order->getData('created_at'))
+        $filters = array('filters' => array(
+            'filter' => array(
+                array('key' => 'status', 'value' => $order->getData('status')),
+                array('key' => 'created_at', 'value' => $order->getData('created_at'))
+            ),
+            'complex_filter' => array(
+                array(
+                    'key'   => 'order_id',
+                    'value' => array('key' => 'in', 'value' => "{$order->getId()},0")
                 ),
-                'complex_filter' => array(
-                    array(
-                        'key'   => 'order_id',
-                        'value' => array('key' => 'in', 'value' => array($order->getId(), 0))
-                    ),
-                    array(
-                        'key'   => 'protect_code',
-                        'value' => array( 'key' => 'in', 'value' => array($order->getData('protect_code')))
-                    )
+                array(
+                    'key'   => 'protect_code',
+                    'value' => array( 'key' => 'in', 'value' => $order->getData('protect_code'))
                 )
-            ));
-        } else {
-            $filters = array(array(
-                'status' => array('processing', $order->getData('status')),
-                'created_at' => $order->getData('created_at'),
-                'order_id' => array('in' => array($order->getId(), 0))
-            ));
-        }
+            )
+        ));
+
         $result = $this->call('order.list', $filters);
 
         if (!isset($result[0])) { // workaround for WS-I

@@ -176,7 +176,7 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
     /**
      * Test credit memo create API call results
      *
-     * magentoDataFixture testsuite/Api/SalesOrder/_fixture/invoice.php
+     * @magentoApiDataFixture Api/SalesOrder/_fixture/invoice.php
      * @magentoAppIsolation enabled
      */
     public function testAutoIncrementType()
