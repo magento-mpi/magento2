@@ -23,18 +23,18 @@
         <reference name="content">
             <block type="Enterprise_Pci_Block_Adminhtml_Locks" name="pci.locks.container" as="locks_container" template="Mage_Backend::widget/grid/container.phtml"/>
                 <block type="Mage_Backend_Block_Widget_Grid" name="adminhtml.block.locks.grid" as="grid"/>
-                <arguments>
-                    <id>lockedAdminsGrid</id>
-                    <dataSource type="object">Mage_User_Model_Resource_User_Collection</dataSource>
-                    <default_sort>user_id</default_sort>
-                    <use_ajax>1</use_ajax>
-                    <grid_url type="url">
-                        <path>*/*/grid</path>
-                        <params>
-                            <_current>1</_current>
-                        </params>
-                    </grid_url>
-                </arguments>
+                    <arguments>
+                        <id>lockedAdminsGrid</id>
+                        <dataSource type="object">Mage_User_Model_Resource_User_Collection</dataSource>
+                        <default_sort>user_id</default_sort>
+                        <use_ajax>1</use_ajax>
+                        <grid_url type="url">
+                            <path>*/*/grid</path>
+                            <params>
+                                <_current>1</_current>
+                            </params>
+                        </grid_url>
+                    </arguments>
             <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.block.locks.grid.columnSet">
                 <block type="Mage_Backend_Block_Widget_Grid_Column" as="user_id">
                     <arguments>
