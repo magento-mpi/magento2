@@ -15,9 +15,23 @@
  * @package     Mage_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Adminhtml_Storelauncher_Tax_DrawerController extends Mage_Backend_Controller_ActionAbstract
-    implements Mage_Launcher_Controller_Drawer
+class Mage_Launcher_Adminhtml_Storelauncher_Tax_DrawerController
+    extends Mage_Launcher_Controller_BaseDrawer
 {
+    /**
+     * Tax Drawer Block Class Name
+     *
+     * @var string
+     */
+    protected $_drawerBlockName = 'Mage_Launcher_Block_Adminhtml_Storelauncher_Tax_Drawer';
+
+    /**
+     * Tax Tile Block Class Name
+     *
+     * @var string
+     */
+    protected $_tileBlockName = 'Mage_Launcher_Block_Adminhtml_Storelauncher_Tax_Tile';
+
     /**
      * Retrieve Drawer Content Action
      */
@@ -37,34 +51,6 @@ class Mage_Launcher_Adminhtml_Storelauncher_Tax_DrawerController extends Mage_Ba
 
             $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(
                 $drawerBlock->getResponseContent()
-            );
-        } catch (Exception $e) {
-            $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(
-                'success' => false,
-                'error_message' => Mage::helper('Mage_Launcher_Helper_Data')->__($e->getMessage())
-            ));
-        }
-        $this->getResponse()->setBody($responseContent);
-    }
-
-    /**
-     * Drawer Save Action
-     */
-    public function saveAction()
-    {
-        try {
-            $data = $this->getRequest()->getParams();
-            /** @var $tileModel Mage_Launcher_Model_Tile */
-            $tileModel = Mage::getModel('Mage_Launcher_Model_Tile')->loadByCode($data['tileCode']);
-            $tileModel->refreshState($data);
-
-            /** @var $tileBlock Mage_Launcher_Block_Adminhtml_Storelauncher_Tax_Tile */
-            $tileBlock = $this->getLayout()
-                ->createBlock('Mage_Launcher_Block_Adminhtml_Storelauncher_Tax_Tile');
-            $tileBlock->setTile($tileModel);
-
-            $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(
-                $tileBlock->getResponseContent()
             );
         } catch (Exception $e) {
             $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(
@@ -235,6 +221,4 @@ class Mage_Launcher_Adminhtml_Storelauncher_Tax_DrawerController extends Mage_Ba
             Mage::throwException('Invalid file format upload attempt');
         }
     }
-
-
 }
