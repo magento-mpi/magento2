@@ -48,7 +48,7 @@ class Mage_DesignEditor_PageController extends Mage_Core_Controller_Front_Action
             $handle = $this->getRequest()->getParam('handle');
 
             // check page type format
-            if (!$handle || !preg_match('/^[a-z][a-z\d]*(_[a-z][a-z\d]*)*$/i', $handle)) {
+            if (!$handle || !preg_match('/^[a-z][_a-z\d]*$/i', $handle)) {
                 throw new InvalidArgumentException($this->__('Invalid page handle specified.'));
             }
 
