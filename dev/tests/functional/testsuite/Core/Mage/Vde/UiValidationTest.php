@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Community2_Mage_Vde_UiValidationTest extends Mage_Selenium_TestCase
+class Core_Mage_Vde_UiValidationTest extends Mage_Selenium_TestCase
 {
     public function setUpBeforeTests()
     {
@@ -34,6 +34,7 @@ class Community2_Mage_Vde_UiValidationTest extends Mage_Selenium_TestCase
         //Step
         $this->admin('vde_design');
         //Verifying
+        $this->assertFalse($this->controlIsPresent('pageelement', 'navigation_menu_items'));
         $this->assertTrue($this->controlIsPresent('dropdown', 'page_selector'),
             'Page selector is not present on the page');
         $this->assertTrue($this->controlIsPresent('dropdown', 'view_options'),

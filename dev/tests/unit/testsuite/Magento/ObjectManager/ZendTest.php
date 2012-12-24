@@ -382,4 +382,56 @@ class Magento_ObjectManager_ZendTest extends PHPUnit_Framework_TestCase
 
         $this->_objectManager = new Magento_ObjectManager_Zend(null, $diInstance);
     }
+
+    public function testAddAlias()
+    {
+        $alias = 'Varien_Object_Alias';
+
+        $diInstance      = $this->getMock('Magento_Di_Zend', array('instanceManager'));
+        $instanceManager = $this->getMock(
+            'Magento_Di_InstanceManager_Zend', array('addSharedInstance', 'removeSharedInstance', 'addAlias'),
+            array(), '', false
+        );
+
+        $diInstance->expects($this->any())
+            ->method('instanceManager')
+            ->will($this->returnValue($instanceManager));
+        $instanceManager->expects($this->any())
+            ->method('addSharedInstance')
+            ->will($this->returnSelf());
+
+        $this->_objectManager = new Magento_ObjectManager_Zend(null, $diInstance);
+
+        $instanceManager->expects($this->once())
+            ->method('addAlias')
+            ->with($alias, self::CLASS_NAME, array());
+
+        $this->_objectManager->addAlias($alias, self::CLASS_NAME);
+    }
+
+    public function testGetClassFromAlias()
+    {
+        $alias = 'Varien_Object_Alias';
+
+        $diInstance      = $this->getMock('Magento_Di_Zend', array('instanceManager'));
+        $instanceManager = $this->getMock(
+            'Magento_Di_InstanceManager_Zend', array('addSharedInstance', 'removeSharedInstance', 'getClassFromAlias'),
+            array(), '', false
+        );
+
+        $diInstance->expects($this->any())
+            ->method('instanceManager')
+            ->will($this->returnValue($instanceManager));
+        $instanceManager->expects($this->any())
+            ->method('addSharedInstance')
+            ->will($this->returnSelf());
+
+        $this->_objectManager = new Magento_ObjectManager_Zend(null, $diInstance);
+
+        $instanceManager->expects($this->once())
+            ->method('getClassFromAlias')
+            ->with($alias);
+
+        $this->_objectManager->getClassFromAlias($alias);
+    }
 }

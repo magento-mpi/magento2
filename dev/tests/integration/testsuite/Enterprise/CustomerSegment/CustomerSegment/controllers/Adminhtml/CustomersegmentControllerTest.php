@@ -19,7 +19,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentControllerTest extends
         $this->dispatch('backend/admin/customersegment/new/');
         $body = $this->getResponse()->getBody();
         $this->assertSelectCount('form#edit_form', 1, $body);
-        $this->assertSelectCount('ul#enterprise_customersegment_segment_tabs', 1, $body);
+        $this->assertSelectCount('#enterprise_customersegment_segment_tabs', 1, $body);
     }
 
     /**

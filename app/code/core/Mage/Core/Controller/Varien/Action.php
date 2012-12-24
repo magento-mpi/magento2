@@ -173,26 +173,6 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
     }
 
     /**
-     * Retrieve request object
-     *
-     * @return Mage_Core_Controller_Request_Http
-     */
-    public function getRequest()
-    {
-        return $this->_request;
-    }
-
-    /**
-     * Retrieve response object
-     *
-     * @return Mage_Core_Controller_Response_Http
-     */
-    public function getResponse()
-    {
-        return $this->_response;
-    }
-
-    /**
      * Retrieve flag value
      *
      * @param   string $action
@@ -228,20 +208,6 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
         }
         $this->_flags[$action][$flag] = $value;
         return $this;
-    }
-
-    /**
-     * Retrieve full bane of current action current controller and
-     * current module
-     *
-     * @param   string $delimiter
-     * @return  string
-     */
-    public function getFullActionName($delimiter = '_')
-    {
-        return $this->getRequest()->getRequestedRouteName().$delimiter.
-            $this->getRequest()->getRequestedControllerName().$delimiter.
-            $this->getRequest()->getRequestedActionName();
     }
 
     /**
