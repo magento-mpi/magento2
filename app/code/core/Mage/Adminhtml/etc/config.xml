@@ -138,6 +138,9 @@
                 <urlrewrite module="Mage_Adminhtml">
                     <file>urlrewrite.xml</file>
                 </urlrewrite>
+                <system_variable module="Mage_Adminhtml">
+                    <file>variable.xml</file>
+                </system_variable>
             </updates>
         </layout>
         <sales>

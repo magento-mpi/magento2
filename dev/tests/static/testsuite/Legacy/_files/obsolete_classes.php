@@ -157,6 +157,7 @@ return array(
     $this->_getClassRule('Mage_Adminhtml_Block_Tax_Rate_Grid'),
     $this->_getClassRule('Mage_Adminhtml_Block_Tree'),
     $this->_getClassRule('Mage_Adminhtml_Block_Urlrewrite_Grid'),
+    $this->_getClassRule('Mage_Adminhtml_Block_System_Variable_Grid'),
     $this->_getClassRule('Mage_Adminhtml_Helper_Rss'),
     $this->_getClassRule('Mage_Adminhtml_Model_Config', 'Mage_Backend_Model_Config_Structure'),
     $this->_getClassRule('Mage_Adminhtml_Model_Config_Data', 'Mage_Backend_Model_Config'),
