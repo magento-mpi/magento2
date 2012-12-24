@@ -21,12 +21,12 @@ class Mage_Tax_Model_Resource_Calculation_Grid_Collection extends Mage_Tax_Model
     /**
      * Join Region Table
      *
-     * @param Varien_Db_Select $select
      * @return string
      */
-    protected function _prepareSelect(Varien_Db_Select $select)
+    protected function _initSelect()
     {
+        parent::_initSelect();
         $this->joinRegionTable();
-            return parent::_prepareSelect($select);
+        return $this;
     }
 }
