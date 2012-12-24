@@ -100,8 +100,8 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             'class'  => 'fieldset-wide'
         ));
         $this->_addElementTypes($themeFieldset);
-        foreach ($this->_getGroupedFiles() as  $groupName => $group) {
-            $themeFieldset->addField('theme_css_view_'.$groupName, 'links', array(
+        foreach ($this->_getGroupedFiles() as $groupName => $group) {
+            $themeFieldset->addField('theme_css_view_' . $groupName, 'links', array(
                 'label'       => $groupName,
                 'title'       => $groupName,
                 'name'        => 'links',
