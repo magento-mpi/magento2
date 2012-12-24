@@ -119,6 +119,15 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
                 throw new InvalidArgumentException($this->__('The theme was not found.'));
             }
 
+            if (!$theme->isVirtual()) {
+                $customizedTheme = $this->_getThemeCustomization($theme);
+                $this->_redirect('*/*/*/', array(
+                    'theme_id' => $customizedTheme->getId(),
+                    'mode'     => $mode
+                ));
+                return;
+            }
+
             $this->_getSession()->setData('theme_id', $theme->getId());
 
             /** @var $eventDispatcher Mage_Core_Model_Event_Manager */
@@ -336,5 +345,18 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
                 array(Mage_Core_Model_Message::ERROR => array($e->getMessage()))
             ));
         }
+    }
+
+    /**
+     * Get theme customization
+     *
+     * @param Mage_Core_Model_Theme $theme
+     * @return Mage_Core_Model_Theme
+     */
+    protected function _getThemeCustomization($theme)
+    {
+        /** @var $service Mage_Core_Model_Theme_Service */
+        $service = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
+        return $service->createThemeCustomization($theme);
     }
 }
