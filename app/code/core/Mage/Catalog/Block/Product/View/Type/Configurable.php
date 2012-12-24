@@ -139,11 +139,9 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
                     $options[$productAttributeId][$attributeValue] = array();
                 }
                 $options[$productAttributeId][$attributeValue][] = $productId;
-                if (!$product->getImage() || $product->getImage() === 'no_selection') {
-                    $options['images'][$productAttributeId][$attributeValue][$productId] = null;
-                } else {
-                    $options['images'][$productAttributeId][$attributeValue][$productId] = (string)$image;
-                }
+                !$product->getImage() || $product->getImage() === 'no_selection'
+                    ? $options['images'][$productAttributeId][$attributeValue][$productId] = null
+                    : $options['images'][$productAttributeId][$attributeValue][$productId] = (string)$image;
             }
         }
 
