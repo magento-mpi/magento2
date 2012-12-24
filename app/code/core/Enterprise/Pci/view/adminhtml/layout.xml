@@ -23,8 +23,7 @@
         <update handle="formkey"/>
         <update handle="adminhtml_locks_block"/>
         <reference name="content">
-            <block type="Enterprise_Pci_Block_Adminhtml_Locks" name="pci.locks.container" as="locks_container">
-            </block>
+            <block type="Enterprise_Pci_Block_Adminhtml_Locks" name="pci.locks.container" as="locks_container"/>
         </reference>
     </adminhtml_locks_index>
 
