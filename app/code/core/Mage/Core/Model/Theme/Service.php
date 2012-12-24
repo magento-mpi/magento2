@@ -106,7 +106,7 @@ class Mage_Core_Model_Theme_Service
             throw new UnexpectedValueException('Theme is not recognized. Requested id: ' . $themeId);
         }
 
-        $themeCustomization = $theme->isVirtual() ? $theme : $this->_createThemeCustomization($theme);
+        $themeCustomization = $theme->isVirtual() ? $theme : $this->createThemeCustomization($theme);
 
         $configPath = $this->_design->getConfigPathByArea($area);
 
@@ -135,7 +135,7 @@ class Mage_Core_Model_Theme_Service
      * @param Mage_Core_Model_Theme $theme
      * @return Mage_Core_Model_Theme
      */
-    protected function _createThemeCustomization($theme)
+    public function createThemeCustomization($theme)
     {
         $themeCopyCount = $this->_getThemeCustomizations()->addFilter('parent_id', $theme->getId())->count();
 
