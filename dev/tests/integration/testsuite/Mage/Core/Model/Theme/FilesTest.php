@@ -37,7 +37,7 @@ class Mage_Core_Model_Theme_FilesTest extends PHPUnit_Framework_TestCase
             'file_name' => 'main.css',
             'file_type' => 'css',
             'content'   => 'content files',
-            'order'     => null,
+            'order'     => 0,
         );
     }
 
