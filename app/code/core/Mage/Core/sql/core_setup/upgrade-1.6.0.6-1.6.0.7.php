@@ -25,7 +25,7 @@ $table = $installer->getConnection()
         'primary'  => true,
     ), 'Theme files identifier')
     ->addColumn('theme_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'nullable' => true,
+        'nullable' => false,
         'unsigned' => true
     ), 'Theme Id')
     ->addColumn('file_name', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array('nullable' => false), 'File Name')
@@ -33,7 +33,7 @@ $table = $installer->getConnection()
     ->addColumn('content', Varien_Db_Ddl_Table::TYPE_TEXT, Varien_Db_Ddl_Table::MAX_TEXT_SIZE, array(
         'nullable' => false
     ), 'File Content')
-    ->addColumn('order', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array('nullable' => true, 'default'  => 0), 'Order')
+    ->addColumn('order', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array('nullable' => false, 'default'  => 0), 'Order')
     ->addForeignKey(
         $installer->getFkName('core_theme_files', 'theme_id', 'core_theme', 'theme_id'),
         'theme_id',
