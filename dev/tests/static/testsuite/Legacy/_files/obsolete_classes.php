@@ -24,6 +24,7 @@ return array(
     $this->_getClassRule('Mage_Admin_Model_Resource_Acl_Role_Collection'),
     $this->_getClassRule('Mage_Admin_Model_User', 'Mage_User_Model_User'),
     $this->_getClassRule('Mage_Admin_Model_Config'),
+    $this->_getClassRule('Mage_Adminhtml_Block_Report_Review_Customer_Grid'),
     $this->_getClassRule('Mage_Admin_Model_Resource_User', 'Mage_User_Model_Resource_User'),
     $this->_getClassRule('Mage_Admin_Model_Resource_User_Collection', 'Mage_User_Model_Resource_User_Collection'),
     $this->_getClassRule('Mage_Admin_Model_Role', 'Mage_User_Model_Role'),

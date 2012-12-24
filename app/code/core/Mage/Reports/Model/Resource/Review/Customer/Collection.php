@@ -19,11 +19,21 @@
 class Mage_Reports_Model_Resource_Review_Customer_Collection extends Mage_Review_Model_Resource_Review_Collection
 {
     /**
+     * @return Mage_Core_Model_Resource_Db_Collection_Abstract|Mage_Reports_Model_Resource_Review_Customer_Collection|Mage_Review_Model_Resource_Review_Product_Collection|void
+     */
+    protected function _initSelect()
+    {
+        parent::_initSelect();
+        $this->_joinCustomers();
+        return $this;
+    }
+
+    /**
      * Join customers
      *
      * @return Mage_Reports_Model_Resource_Review_Customer_Collection
      */
-    public function joinCustomers()
+    protected function _joinCustomers()
     {
         /**
          * Allow to use analytic function to result select
