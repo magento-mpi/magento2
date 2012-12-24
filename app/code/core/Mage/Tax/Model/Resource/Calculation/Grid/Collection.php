@@ -19,11 +19,14 @@
 class Mage_Tax_Model_Resource_Calculation_Grid_Collection extends Mage_Tax_Model_Resource_Calculation_Rate_Collection
 {
     /**
-     * Resource initialization
+     * Join Region Table
+     *
+     * @param Varien_Db_Select $select
+     * @return string
      */
     protected function _prepareSelect(Varien_Db_Select $select)
     {
         $this->joinRegionTable();
-            return parent::_prepareselect($select);
+            return parent::_prepareSelect($select);
     }
 }

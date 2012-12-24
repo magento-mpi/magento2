@@ -75,7 +75,7 @@
                         <rowUrl>
                             <path>*/*/edit</path>
                             <extraParamsTemplate>
-                                <id>getTaxCalculationRateId</id>
+                                <rate>getTaxCalculationRateId</rate>
                             </extraParamsTemplate>
                         </rowUrl>
                     </arguments>
