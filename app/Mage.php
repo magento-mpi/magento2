@@ -450,7 +450,7 @@ final class Mage
      */
     public static function dispatchEvent($name, array $data = array())
     {
-        Magento_Profiler::start('EVENT:' . $name);
+        Magento_Profiler::start('EVENT:' . $name, array('group' => 'EVENT', 'name' => $name));
         $result = self::app()->dispatchEvent($name, $data);
         Magento_Profiler::stop('EVENT:'.$name);
         return $result;
