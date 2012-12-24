@@ -134,8 +134,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
      */
     public function getContinueUrl()
     {
-        return $this->getUrl(($this->_getProduct()->getId() ? '*/*/edit' : '*/*/new'), array(
-            '_current' => true, '_fragment' => 'matrix'));
+        return $this->getUrl(
+            $this->_getProduct()->getId() ? '*/*/edit' : '*/*/new',
+            array(
+                '_current' => true,
+            )
+        ) . '#product-variations-matrix'; //@todo: use _fragments after fix sharing url model
     }
 
     /**
