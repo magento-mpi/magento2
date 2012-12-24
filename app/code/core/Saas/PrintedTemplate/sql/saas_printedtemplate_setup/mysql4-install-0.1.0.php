@@ -15,7 +15,7 @@ $installer->startSetup();
 $connection = $installer->getConnection();
 
 $templateTable = new Varien_Db_Ddl_Table;
-$templateTable->setName($this->getTable('saas_printedtemplate/template'))
+$templateTable->setName($this->getTable('saas_printed_template'))
     ->addColumn(
         'template_id', Varien_Db_Ddl_Table::TYPE_INTEGER, 10,
         array(
@@ -24,8 +24,8 @@ $templateTable->setName($this->getTable('saas_printedtemplate/template'))
             'primary'  => true
         )
     )
-    ->addColumn('name', Varien_Db_Ddl_Table::TYPE_VARCHAR, 255)
-    ->addColumn('page_size', Varien_Db_Ddl_Table::TYPE_VARCHAR, 40)
+    ->addColumn('name', Varien_Db_Ddl_Table::TYPE_TEXT, 255)
+    ->addColumn('page_size', Varien_Db_Ddl_Table::TYPE_TEXT, 40)
     ->setOption('ENGINE', 'InnoDB')
     ->setOption('DEFAULT CHARSET', 'utf8')
     ->setOption('COMMENT', 'Printed templates');
@@ -63,55 +63,55 @@ $connection->modifyColumn(
     'INT(10) UNSIGNED NOT NULL AUTO_INCREMENT FIRST'
 );
 
-$installer->getConnection()->addColumn(
+$connection->addColumn(
     $templateTable->getName(),
     'header',
     "text COMMENT 'Template header'"
 );
 
-$installer->getConnection()->addColumn(
+$connection->addColumn(
     $templateTable->getName(),
     'footer',
     "text COMMENT 'Template footer'"
 );
 
-$installer->getConnection()->addColumn(
+$connection->addColumn(
     $templateTable->getName(),
     'header_height',
     "DECIMAL(12,4) COMMENT 'header height'"
 );
 
-$installer->getConnection()->addColumn(
+$connection->addColumn(
     $templateTable->getName(),
     'header_height_measurement',
     "VARCHAR(255) COMMENT 'header height measurement'"
 );
 
-$installer->getConnection()->addColumn(
+$connection->addColumn(
     $templateTable->getName(),
     'footer_height',
     "DECIMAL(12,4) COMMENT 'footer height'"
 );
 
-$installer->getConnection()->addColumn(
+$connection->addColumn(
     $templateTable->getName(),
     'footer_height_measurement',
     "text COMMENT 'footer height measurement'"
 );
 
-$installer->getConnection()->addColumn(
+$connection->addColumn(
     $templateTable->getName(),
     'header_auto_height',
     "INT(1) COMMENT 'calculate header height automaticaly or use manual setup'"
 );
 
-$installer->getConnection()->addColumn(
+$connection->addColumn(
     $templateTable->getName(),
     'footer_auto_height',
     "INT(1) COMMENT 'calculate footer height automaticaly or use manual setup'"
 );
 
-$connection->addKey(
+$connection->addIndex(
     $templateTable->getName(),
     'INDEX_SAAS_PRINTED_TEMPLATE_ENTITY_TYPE',
     'entity_type'
@@ -119,9 +119,9 @@ $connection->addKey(
 
 // setup tax order item table
 $itemTaxTable = new Varien_Db_Ddl_Table;
-$itemTaxTable->setName($this->getTable('saas_printedtemplate/tax_order_item'))
-    ->addColumn('code', Varien_Db_Ddl_Table::TYPE_VARCHAR, 255)
-    ->addColumn('title', Varien_Db_Ddl_Table::TYPE_VARCHAR, 255)
+$itemTaxTable->setName($this->getTable('saas_printed_template_order_item_tax'))
+    ->addColumn('code', Varien_Db_Ddl_Table::TYPE_TEXT, 255)
+    ->addColumn('title', Varien_Db_Ddl_Table::TYPE_TEXT, 255)
     ->addColumn('is_tax_after_discount', Varien_Db_Ddl_Table::TYPE_BOOLEAN)
     ->addColumn('is_discount_on_incl_tax', Varien_Db_Ddl_Table::TYPE_BOOLEAN)
     ->addColumn(
@@ -171,10 +171,10 @@ $itemTaxTable->setName($this->getTable('saas_printedtemplate/tax_order_item'))
 // setup tax order shipping table
 $shippingTaxTable = new Varien_Db_Ddl_Table;
 $shippingTaxTable->setName(
-    $this->getTable('saas_printedtemplate/tax_order_shipping')
+    $this->getTable('saas_printed_template_order_shipping_tax')
 )
-    ->addColumn('code', Varien_Db_Ddl_Table::TYPE_VARCHAR, 255)
-    ->addColumn('title', Varien_Db_Ddl_Table::TYPE_VARCHAR, 255)
+    ->addColumn('code', Varien_Db_Ddl_Table::TYPE_TEXT, 255)
+    ->addColumn('title', Varien_Db_Ddl_Table::TYPE_TEXT, 255)
     ->addColumn('is_tax_after_discount', Varien_Db_Ddl_Table::TYPE_BOOLEAN)
     ->addColumn('is_discount_on_incl_tax', Varien_Db_Ddl_Table::TYPE_BOOLEAN)
     ->addColumn(
