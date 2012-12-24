@@ -383,7 +383,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     public function changeAttributeSet($newAttributeSet)
     {
         $this->clickButton('change_attribute_set', false);
-        $this->waitForElementEditable($this->_getControlXpath('dropdown', 'choose_attribute_set'));
+        $this->waitForControlEditable('dropdown', 'choose_attribute_set');
         $this->fillDropdown('choose_attribute_set', $newAttributeSet);
         $param = $this->getControlAttribute('dropdown', 'choose_attribute_set', 'selectedValue');
         $this->addParameter('setId', $param);
@@ -581,15 +581,14 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Select Product Categories on general tab
      *
-     * @param string|array $categoryPath
+     * @param string|array $categoryData
      */
-    public function selectProductCategories($categoryPath)
+    public function selectProductCategories($categoryData)
     {
-        if (is_string($categoryPath)) {
-            $categoryPath = explode(',', $categoryPath);
-            $categoryPath = array_map('trim', $categoryPath);
+        if (is_string($categoryData)) {
+            $categoryData = explode(',', $categoryData);
+            $categoryData = array_map('trim', $categoryData);
         }
-        $selectedNames = array();
         $locator = $this->_getControlXpath('field', 'general_categories');
         $element = $this->waitForElementEditable($locator, 10);
         $script = 'Element.prototype.documentOffsetTop = function()'
@@ -598,24 +597,42 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                   . 'var top = element[0].documentOffsetTop() - (window.innerHeight / 2);'
                   . 'element[0].focus();window.scrollTo( 0, top );';
         $this->execute(array('script' => $script, 'args' => array()));
-        $isSelected = $this->elementIsPresent($this->_getControlXpath('fieldset', 'chosen_category'));
-        if ($isSelected) {
-            foreach ($this->getChildElements($isSelected, 'div') as $el) {
-                /** @var PHPUnit_Extensions_Selenium2TestCase_Element $el */
-                $selectedNames[] = trim($el->text());
-            }
-        }
-        foreach ($categoryPath as $category) {
-            $explodeCategory = explode('/', $category);
+        foreach ($categoryData as $categoryPath) {
+            $explodeCategory = explode('/', $categoryPath);
             $categoryName = end($explodeCategory);
-            if (!in_array($categoryName, $selectedNames)) {
-                $this->addParameter('categoryPath', $category);
-                $element->value($categoryName);
-                $this->waitForElementEditable($this->_getControlXpath('link', 'category'))->click();
+            $this->addParameter('categoryPath', $categoryPath);
+            $element->value($categoryName);
+            //@TODO change wait condition for createNewCategory()
+            $this->waitForControlEditable('fieldset', 'category_search');
+            //If not selected category not exist.
+            $selectCategory = $this->elementIsPresent($this->_getControlXpath('link', 'category'));
+            if (!$selectCategory) {
+                $element->clear();
+                if (!$this->controlIsPresent('link', 'selected_category')) {
+                    $this->createNewCategory($categoryPath);
+                }
+                $this->clearActiveFocus($element);
+                continue;
+            } else {
+                $this->moveto($selectCategory);
+                $selectCategory->click();
             }
             $this->addParameter('categoryName', $categoryName);
             $this->assertTrue($this->controlIsVisible('link', 'delete_category'), 'Category is not selected');
         }
+    }
+
+    /**
+     * @param string $categoryPath
+     */
+    public function createNewCategory($categoryPath)
+    {
+        $this->markTestIncomplete('@TODO - implement createNewCategory');
+        $explodeCategory = explode('/', $categoryPath);
+        $categoryName = array_shift($explodeCategory);
+        $this->clickButton('new_category', false);
+        $this->waitForControlVisible('fieldset', 'new_category_form');
+        $this->fillField('name', $categoryName);
     }
 
     /**
@@ -1233,7 +1250,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     {
         $this->openTab('custom_options');
         $this->clickButton('import_options', false);
-        $this->waitForElementVisible($this->_getControlXpath('fieldset', 'select_product_custom_option'));
+        $this->waitForControlVisible('fieldset', 'select_product_custom_option');
         foreach ($productData as $value) {
             $this->searchAndChoose($value, 'select_product_custom_option_grid');
         }
