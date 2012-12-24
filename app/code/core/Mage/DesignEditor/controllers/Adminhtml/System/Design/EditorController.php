@@ -120,9 +120,9 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             }
 
             if (!$theme->isVirtual()) {
-                $customizedTheme = $this->_getThemeCustomization($theme);
+                $themeCustomization = $this->_getThemeCustomization($theme);
                 $this->_redirect('*/*/*/', array(
-                    'theme_id' => $customizedTheme->getId(),
+                    'theme_id' => $themeCustomization->getId(),
                     'mode'     => $mode
                 ));
                 return;
