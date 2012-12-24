@@ -883,7 +883,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      */
     public function generateSimpleProducts($parentProduct, $productsData)
     {
-        $this->_prepareAttributeSet($parentProduct);
+        $this->_prepareAttributeSetToBeBaseForNewVariations($parentProduct);
         $generatedProductIds = array();
         foreach ($productsData as $simpleProductData) {
             $newSimpleProduct = Mage::getModel('Mage_Catalog_Model_Product');
@@ -904,7 +904,12 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
         return $generatedProductIds;
     }
 
-    protected function _prepareAttributeSet($product)
+    /**
+     * Prepare attribute set comprising all selected configurable attributes
+     *
+     * @param Mage_Catalog_Model_Product $product
+     */
+    protected function _prepareAttributeSetToBeBaseForNewVariations(Mage_Catalog_Model_Product $product)
     {
         $attributes = $this->getUsedProductAttributes($product);
         $attributeSetId = $product->getNewVariationsAttributeSetId();

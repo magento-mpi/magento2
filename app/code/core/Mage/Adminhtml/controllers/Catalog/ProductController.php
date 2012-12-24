@@ -519,7 +519,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 ->setMaxValue($product->getCustomDesignTo());
 
             if ($products = $this->getRequest()->getPost('variations-matrix')) {
-                $validationResult = $this->_validateProductsVariations($product, $products);
+                $validationResult = $this->_validateProductVariations($product, $products);
                 if (!empty($validationResult)) {
                     $response->setError(true)
                         ->setMessage(Mage::helper('Mage_Catalog_Helper_Data')->__('Some product variations fields are not valid.'))
@@ -559,14 +559,14 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     }
 
     /**
-     * Products variations attributes validation
+     * Product variations attributes validation
      *
      * @param Mage_Catalog_Model_Product $parentProduct
      * @param array $products
      *
      * @return array
      */
-    protected function _validateProductsVariations($parentProduct, $products)
+    protected function _validateProductVariations($parentProduct, $products)
     {
         $validationResult = array();
         foreach ($products as $productData) {

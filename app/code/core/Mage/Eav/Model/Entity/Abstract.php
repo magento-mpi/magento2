@@ -360,25 +360,25 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
      */
     public function getAttribute($attribute)
     {
+        /** @var $config Mage_Eav_Model_Config */
+        $config = Mage::getSingleton('Mage_Eav_Model_Config');
         if (is_numeric($attribute)) {
             $attributeId = $attribute;
 
             if (isset($this->_attributesById[$attributeId])) {
                 return $this->_attributesById[$attributeId];
             }
-            $attributeInstance = Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute($this->getEntityType(), $attributeId);
+            $attributeInstance = $config->getAttribute($this->getEntityType(), $attributeId);
             if ($attributeInstance) {
                 $attributeCode = $attributeInstance->getAttributeCode();
             }
-
-        } else if (is_string($attribute)) {
+        } elseif (is_string($attribute)) {
             $attributeCode = $attribute;
 
             if (isset($this->_attributesByCode[$attributeCode])) {
                 return $this->_attributesByCode[$attributeCode];
             }
-            $attributeInstance = Mage::getSingleton('Mage_Eav_Model_Config')
-                ->getAttribute($this->getEntityType(), $attributeCode);
+            $attributeInstance = $config->getAttribute($this->getEntityType(), $attributeCode);
             if (!$attributeInstance->getAttributeCode() && in_array($attribute, $this->getDefaultAttributes())) {
                 $attributeInstance
                     ->setAttributeCode($attribute)
@@ -388,8 +388,7 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
                     ->setEntityType($this->getEntityType())
                     ->setEntityTypeId($this->getEntityType()->getId());
             }
-        } else if ($attribute instanceof Mage_Eav_Model_Entity_Attribute_Abstract) {
-
+        } elseif ($attribute instanceof Mage_Eav_Model_Entity_Attribute_Abstract) {
             $attributeInstance = $attribute;
             $attributeCode = $attributeInstance->getAttributeCode();
             if (isset($this->_attributesByCode[$attributeCode])) {

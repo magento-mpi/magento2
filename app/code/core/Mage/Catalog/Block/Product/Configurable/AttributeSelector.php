@@ -15,7 +15,7 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Block_Product_Configurable_AttributeSelector extends Mage_Backend_Block_Abstract
+class Mage_Catalog_Block_Product_Configurable_AttributeSelector extends Mage_Backend_Block_Template
 {
     /**
      * Retrieve list of attributes with admin store label containing $labelPart
@@ -53,6 +53,6 @@ class Mage_Catalog_Block_Product_Configurable_AttributeSelector extends Mage_Bac
      */
     public function getAttributeSetCreationUrl()
     {
-        return $this->getUrl('*/catalog_product_set/add');
+        return $this->getUrl('*/catalog_product_set/save');
     }
 }
