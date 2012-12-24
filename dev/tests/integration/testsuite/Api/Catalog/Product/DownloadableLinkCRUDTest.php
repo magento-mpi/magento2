@@ -9,16 +9,12 @@
  * @license     {license_link}
  */
 
-/**
- * @magentoApiDataFixture Api/Catalog/Product/_fixture/LinkCRUD.php
- */
 class Api_Catalog_Product_DownloadableLinkCRUDTest extends Magento_Test_Webservice
 {
-    protected static $links = array();
-
     /**
      * Test downloadable link create
      *
+     * @magentoApiDataFixture Api/Catalog/Product/_fixture/LinkCRUD.php
      * @return void
      */
     public function testDownloadableLinkCreate()
@@ -26,7 +22,7 @@ class Api_Catalog_Product_DownloadableLinkCRUDTest extends Magento_Test_Webservi
         $tagFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/LinkCRUD.xml');
         $items = self::simpleXmlToArray($tagFixture->items);
 
-        $product_id = Magento_Test_Webservice::getFixture('productData')->getId();
+        $productId = Magento_Test_Webservice::getFixture('productData')->getId();
 
         foreach ($items as $item) {
             foreach ($item as $key => $value) {
@@ -38,13 +34,13 @@ class Api_Catalog_Product_DownloadableLinkCRUDTest extends Magento_Test_Webservi
                 if ($key == 'link' && $value['sample']['type'] == 'file') {
                     $filePath = dirname(__FILE__) . '/_fixture/_data/files/' . $value['sample']['file']['filename'];
                     $value['sample']['file'] = array(
-                                        'name' => str_replace('/', '_',$value['sample']['file']['filename']
-                                    ),
-                        'base64_content' => base64_encode(file_get_contents($filePath)));
+                        'name' => str_replace('/', '_', $value['sample']['file']['filename']),
+                        'base64_content' => base64_encode(file_get_contents($filePath))
+                    );
                 }
 
                 $resultId = $this->call('product_downloadable_link.add', array(
-                    'productId' => $product_id,
+                    'productId' => $productId,
                     'resource' => $value,
                     'resourceType' => $key));
                 $this->assertGreaterThan(0, $resultId);
@@ -56,54 +52,47 @@ class Api_Catalog_Product_DownloadableLinkCRUDTest extends Magento_Test_Webservi
      * Test get downloadable link items
      *
      * @return void
+     * @magentoApiDataFixture Api/Catalog/Product/_fixture/DownloadableWithLinks.php
      */
     public function testDownloadableLinkItems()
     {
-        $tagFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/LinkCRUD.xml');
-        $fixtureItems = self::simpleXmlToArray($tagFixture->items);
+        /** @var Mage_Catalog_Model_Product $product */
+        $product = Magento_Test_Webservice::getFixture('downloadable');
+        $productId = $product->getId();
 
-        $product_id = Magento_Test_Webservice::getFixture('productData')->getId();
+        $result = $this->call('product_downloadable_link.list', array('productId' => $productId));
+        /** @var Mage_Downloadable_Model_Product_Type $downloadable */
+        $downloadable = $product->getTypeInstance();
+        $links = $downloadable->getLinks($product);
 
-        self::$links = array();
-        $items = $this->call('product_downloadable_link.list', array('productId' => $product_id));
-        foreach ($items as $type => $item) {
-            switch($type) {
-                case "links":
-                    $type = 'link';
-                    break;
-                case "samples":
-                    $type = 'sample';
-                    break;
-                default:
-                    $this->fail('Unknown link type: \''.$type.'\'');
-                    break;
-            }
-            foreach ($item as $itemEntity) {
-                if (isset($itemEntity['link_id'])) {
-                    self::$links[$type][] = $itemEntity['link_id'];
-                }
-                if (isset($itemEntity['sample_id'])) {
-                    self::$links[$type][] = $itemEntity['sample_id'];
+        $this->assertEquals(count($links), count($result['links']));
+        foreach ($result['links'] as $actualLink) {
+            foreach ($links as $expectedLink) {
+                if ($actualLink['link_id'] == $expectedLink) {
+                    $this->assertEquals($expectedLink->getData('title'), $actualLink['title']);
+                    $this->assertEquals($expectedLink->getData('price'), $actualLink['price']);
                 }
             }
         }
-        $this->assertEquals(count($fixtureItems), count(self::$links));
-        $this->assertNotEmpty(self::$links['link']);
     }
 
     /**
      * Remove downloadable link
      *
+     * @magentoApiDataFixture Api/Catalog/Product/_fixture/DownloadableWithLinks.php
      * @return void
      */
     public function testDownloadableLinkRemove()
     {
-        foreach (self::$links as $type => $item) {
-            foreach ($item as $link_id) {
-                $removeResult = $this->call('product_downloadable_link.remove', array(
-                    'linkId' => $link_id, 'resourceType' => $type));
-                $this->assertTrue((bool)$removeResult);
-            }
+        /** @var Mage_Catalog_Model_Product $product */
+        $product = Magento_Test_Webservice::getFixture('downloadable');
+        /** @var Mage_Downloadable_Model_Product_Type $downloadable */
+        $downloadable = $product->getTypeInstance();
+        $links = $downloadable->getLinks($product);
+        foreach ($links as $link) {
+            $removeResult = $this->call('product_downloadable_link.remove', array(
+                'linkId' => $link->getId(), 'resourceType' => 'link'));
+            $this->assertTrue((bool)$removeResult);
         }
     }
 }
