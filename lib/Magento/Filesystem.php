@@ -45,7 +45,7 @@ class Magento_Filesystem implements Magento_Filesystem_AdapterInterface
      */
     public function exists($key)
     {
-        return $this->_adapter->exists($key);
+        return $this->_adapter->exists($this->normalize($key));
     }
 
     /**
@@ -56,7 +56,7 @@ class Magento_Filesystem implements Magento_Filesystem_AdapterInterface
      */
     public function read($key)
     {
-        return $this->_adapter->read($key);
+        return $this->_adapter->read($this->normalize($key));
     }
 
     /**
@@ -68,7 +68,7 @@ class Magento_Filesystem implements Magento_Filesystem_AdapterInterface
      */
     public function write($key, $content)
     {
-        return $this->_adapter->write($key, $content);
+        return $this->_adapter->write($this->normalize($key), $content);
     }
 
     /**
@@ -79,7 +79,7 @@ class Magento_Filesystem implements Magento_Filesystem_AdapterInterface
      */
     public function delete($key)
     {
-        return $this->_adapter->delete($key);
+        return $this->_adapter->delete($this->normalize($key));
     }
 
     /**
@@ -91,7 +91,7 @@ class Magento_Filesystem implements Magento_Filesystem_AdapterInterface
      */
     public function rename($source, $target)
     {
-        return $this->_adapter->rename($source, $target);
+        return $this->_adapter->rename($this->normalize($source), $this->normalize($target));
     }
 
     /**
@@ -102,6 +102,50 @@ class Magento_Filesystem implements Magento_Filesystem_AdapterInterface
      */
     public function isDirectory($key)
     {
-        return $this->_adapter->isDirectory($key);
+        return $this->_adapter->isDirectory($this->normalize($key));
+    }
+
+    /**
+     * Check path isolation
+     *
+     * @param string $key
+     * @throws InvalidArgumentException
+     */
+    protected function _checkPath($key)
+    {
+        if ($this->_workingDirectory) {
+            if (0 !== strpos($key, $this->_workingDirectory)) {
+                throw new InvalidArgumentException('Invalid path');
+            }
+        }
+    }
+
+    /**
+     * Normalize path
+     *
+     * @param string $key
+     * @return string
+     */
+    public function normalize($key)
+    {
+        $key = str_replace('\\', DIRECTORY_SEPARATOR, $key);
+        $path = explode(DIRECTORY_SEPARATOR, $key);
+        $realPath = array();
+        foreach ($path as $dir) {
+            if ('.' == $dir) {
+                continue;
+            }
+            if ('..' == $dir) {
+                if (count($realPath) > 0) {
+                    array_pop($realPath);
+                }
+                continue;
+            }
+            $realPath[] = $dir;
+        }
+        $path = DIRECTORY_SEPARATOR . ltrim(implode(DIRECTORY_SEPARATOR, $realPath), DIRECTORY_SEPARATOR);
+
+        $this->_checkPath($path);
+        return $path;
     }
 }
