@@ -17,8 +17,8 @@
             <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('We recommend that you configure these pages on your new site.') ?>
         </p>
         <button class="button drawer-open" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
-                save-url="<?php echo $this->getUrl('*/promotestore_seo_drawer/save') ?>"
-                load-url="<?php echo $this->getUrl('*/promotestore_seo_drawer/load') ?>">
+                data-save-url="<?php echo $this->getUrl('*/promotestore_seo_drawer/save') ?>"
+                data-load-url="<?php echo $this->getUrl('*/promotestore_seo_drawer/load') ?>">
             <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Confirm Info') ?>
         </button>
     </div>
@@ -27,8 +27,8 @@
         <?php if ($this->getTileState() == Mage_Launcher_Model_Tile::STATE_COMPLETE) :?>
         <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('We recommend that you configure these pages on your new site.') ?></p>
         <button class="button drawer-open" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
-                save-url="<?php echo $this->getUrl('*/promotestore_seo_drawer/save') ?>"
-                load-url="<?php echo $this->getUrl('*/promotestore_seo_drawer/load') ?>">
+                data-save-url="<?php echo $this->getUrl('*/promotestore_seo_drawer/save') ?>"
+                data-load-url="<?php echo $this->getUrl('*/promotestore_seo_drawer/load') ?>">
             <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Edit Content Pages') ?>
         </button>
         <?php endif; ?>

@@ -17,8 +17,8 @@
             <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('We recommend that you configure these pages on your new site.') ?>
         </p>
         <button class="button drawer-open" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
-            save-url="<?php echo $this->getUrl('*/promotestore_homepage_drawer/save') ?>"
-            load-url="<?php echo $this->getUrl('*/promotestore_homepage_drawer/load') ?>">
+            data-save-url="<?php echo $this->getUrl('*/promotestore_homepage_drawer/save') ?>"
+            data-load-url="<?php echo $this->getUrl('*/promotestore_homepage_drawer/load') ?>">
             <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Configure Home Page') ?>
         </button>
     </div>
@@ -29,8 +29,8 @@
             <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Homepage is configured.') ?>
         </p>
         <button class="button drawer-open" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
-            save-url="<?php echo $this->getUrl('*/promotestore_homepage_drawer/save') ?>"
-            load-url="<?php echo $this->getUrl('*/promotestore_homepage_drawer/load') ?>">
+            data-save-url="<?php echo $this->getUrl('*/promotestore_homepage_drawer/save') ?>"
+            data-load-url="<?php echo $this->getUrl('*/promotestore_homepage_drawer/load') ?>">
             <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Edit Home Page') ?>
         </button>
         <?php endif; ?>
