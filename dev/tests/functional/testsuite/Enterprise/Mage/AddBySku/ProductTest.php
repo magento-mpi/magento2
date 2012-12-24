@@ -731,7 +731,7 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
         $this->waitForAjax();
         $this->addBySkuHelper()->addProductsBySkuToShoppingCart(array($product), true);
         //Verifying
-        $this->_verifyProductsInAttentionGrid($msgShoppingCart, $msgAttentionGrid, $rule);
+        $this->_verifyProductsInAttentionGrid($product, $msgShoppingCart, $msgAttentionGrid, $rule);
     }
 
     /**
@@ -843,7 +843,7 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
         $product = $data[$productType];
         $this->addBySkuHelper()->addProductsBySkuToShoppingCart(array($product), true, false);
         //Verifying
-        $this->_verifyProductsInAttentionGrid($msgShoppingCart, $msgAttentionGrid, $rule);
+        $this->_verifyProductsInAttentionGrid($product, $msgShoppingCart, $msgAttentionGrid, $rule);
     }
 
     /**
@@ -1033,11 +1033,12 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
     /**
      * Verify products in attention in backend area
      *
+     * @param array $product
      * @param array $msgShoppingCart
      * @param string $msgAttentionGrid
      * @param string $rule
      */
-    protected function _verifyProductsInAttentionGrid(array $msgShoppingCart, $msgAttentionGrid, $rule)
+    protected function _verifyProductsInAttentionGrid(array $product, array $msgShoppingCart, $msgAttentionGrid, $rule)
     {
         if ($rule === 'attention') {
             $this->addParameter('number', '1');
