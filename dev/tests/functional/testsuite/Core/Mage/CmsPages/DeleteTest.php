@@ -25,13 +25,6 @@ class Core_Mage_CmsPages_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creates and deletes Page with required fields</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Pages page</p>
-     * <p>2. Create page with required fields</p>
-     * <p>3. Open newly created page</p>
-     * <p>4. Delete newly created page</p>
-     * <p>Expected result</p>
-     * <p>Page is created and deleted successfully</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3215

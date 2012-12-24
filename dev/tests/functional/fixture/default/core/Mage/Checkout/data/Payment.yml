@@ -13,12 +13,12 @@
 #*********************************************
 #<------------Saved CC------------>
 saved_empty_all:
-    name_on_card: ' '
-    card_type: ' '
-    card_number: ' '
-    expiration_month: ' '
-    expiration_year: ' '
-    card_verification_number: ' '
+    name_on_card:
+    card_type:
+    card_number:
+    expiration_month: 'Month'
+    expiration_year: 'Year'
+    card_verification_number:
 
 saved_american_express:
     name_on_card: 'Test Account'
@@ -209,6 +209,25 @@ payflowpro_mastercard:
 #*********************************************
 #*              Payment Data                 *
 #*********************************************
+purchase_order: &OrderNumber
+    purchase_order_number: 11111
+
+payment_banktransfer:
+    payment_method: Bank Transfer Payment
+
+payment_cashondelivery:
+    payment_method: Cash On Delivery
+
+payment_purchaseorder:
+    payment_method: Purchase Order
+    payment_info: *OrderNumber
+
+payment_authorizenetdp:
+    payment_method: Credit Card Direct Post (Authorize.net)
+    payment_info: *visaElse
+
+payment_zerosubtotal:
+    payment_method: No Payment Information Required
 
 payment_checkmoney:
     payment_method: Check / Money order

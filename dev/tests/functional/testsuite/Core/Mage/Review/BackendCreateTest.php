@@ -101,15 +101,6 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating a new review without rating</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Review"</p>
-     * <p>2. Select product from the grid</p>
-     * <p>3. Fill in fields in Review Details area</p>
-     * <p>4. Click button "Save Review"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the review has been saved.</p>
-     * <p>5. Go to Frontend</p>
-     * <p>6. Verify review on product page;</p>
      *
      * @param $data
      *
@@ -137,23 +128,6 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating a new review when its visible in other Store View with Rating</p>
-     * <p>Preconditions:</p>
-     * <p>Rating created</p>
-     * <p>Store view created</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Review"</p>
-     * <p>2. Select product from the grid</p>
-     * <p>3. Fill in fields in Review Details area - select desired Store View and specify Rating</p>
-     * <p>4. Click button "Save Review"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the review has been saved.</p>
-     *
-     * <p>Verification:</p>
-     * <p>1. Login to frontend;</p>
-     * <p>2. Verify that review is absent in Category and product Page in Default Store View;</p>
-     * <p>3. Switch to correct store view;</p>
-     * <p>4. Verify review in category;</p>
-     * <p>5. Verify review on product page;</p>
      *
      * @param $data
      *
@@ -187,13 +161,6 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Empty fields validation</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Review"</p>
-     * <p>2. Select product from the grid</p>
-     * <p>3. Leave fields in Review Details area empty</p>
-     * <p>4. Click button "Save Review"</p>
-     * <p>Expected result:</p>
-     * <p>Error message appears</p>
      *
      * @param $emptyField
      * @param $fieldType
@@ -239,13 +206,6 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating a new review with long values into required fields</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Review"</p>
-     * <p>2. Select product from the grid</p>
-     * <p>3. Fill in fields in Review Details area by long values</p>
-     * <p>4. Click button "Save Review"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the review has been saved.</p>
      *
      * @param $data
      *
@@ -274,13 +234,6 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating a new review with special characters into required fields</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Review"</p>
-     * <p>2. Select product from the grid</p>
-     * <p>3. Fill in fields in Review Details area by special characters</p>
-     * <p>4. Click button "Save Review"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the review has been saved.</p>
      *
      * @param $data
      *
@@ -309,17 +262,6 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p> Update review status</p>
-     *
-     * <p>Preconditions:</p>
-     * <p>Review with required fields created and status - "Pending";</p>
-     *
-     * <p>Steps</p>
-     * <p>1. Select created review from the list at "All Reviews" page (by checking checkbox);</p>
-     * <p>2. Select in "Actions" - "Update Status";</p>
-     * <p>3. Update status to "Approved";</p>
-     * <p>4. Click "Submit" button;</p>
-     * <p>Expected result:</p>
-     * <p>Success message appears - status updated</p>
      *
      * @param $data
      *

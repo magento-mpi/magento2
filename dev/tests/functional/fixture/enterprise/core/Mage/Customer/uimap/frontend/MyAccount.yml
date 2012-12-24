@@ -19,8 +19,146 @@ customer_account:
                 -
                     my_recent_reviews:
                         xpath: //div[@class='reviews']
+                -
+                    my_account_links:
+                        xpath: //div[@class="block-content"]
+                        links:
+                            sku_tab: //a[text()='Order by SKU']
+                            my_returns_tab: //a[text()='My Returns']
 
 customer_account_no_cache:
     mca: customer/account/index/?no_cache=
     title: My Account
     uimap: *customerAccount
+
+product_review_details:
+    title: Magento Enterprise Edition
+    uimap:
+        form:
+            fieldsets:
+                -
+                    review_details:
+                        pageelements:
+                            product_name: //h3[@class='product-name']
+                            review_details: //div[@class='details']/p[not(@class)]
+
+my_product_reviews_details:
+    uimap:
+        form:
+            fieldsets:
+                -
+                    review_details:
+                        pageelements:
+                            review_details: //div[@class='details']/p[not(@class)]
+
+view_order:
+    title: 'Order # %elementTitle%'
+    uimap:
+        form:
+            fieldsets:
+                -
+                    order:
+                        links:
+                            return: //a[text()='Return']
+
+order_by_sku:
+    mca: customer_order/sku/
+    title: Order by SKU
+    uimap:
+        form:
+            fieldsets:
+                -
+                    add_by_sku:
+                        xpath: //div[@class='my-account']
+                        fields:
+                            sku: //tr[%number%]//input[contains(@name, '[sku]')]
+                            qty: //tr[%number%]//input[contains(@name, '[qty]')]
+                            sku_upload: //*[@id='customer_sku_csv']
+                        buttons:
+                            add_to_cart: //button[span='Add to Cart']
+                            add_row: //span[@title='Add Row']
+                            remove_row: //tr[%rowIndex%]//*[@class='btn-remove']
+                        pageelements:
+                            note_csv: //*[@class='note']
+        messages:
+            qty_sku_invalid_number: //div[@class='validation-advice' and contains(.,'Please enter a valid number in this field.')]
+            qty_sku_negative_number: //div[@class='validation-advice' and contains(.,'Please enter a number greater than 0 in this field.')]
+            qty_sku_outofrange_number: //div[@class='validation-advice' and contains(.,'The value is not within the specified range.')]
+            qty_sku_required_field: //div[@class='validation-advice' and contains(.,'This is a required field.')]
+
+create_new_return:
+   mca: rma/return/create/order_id/%id%/
+   title: Create New Return
+   uimap:
+       form:
+           fieldsets:
+               -
+                   create_rma:
+                       xpath: //*[@id='rma_create_form']
+                       links:
+                           back: //p[@class='back-link a-left']/a
+                           add_item_to_return: //a[text()='Add Item To Return']
+                       fields:
+                           email: //*[@id='email']
+                           quantity: //*[@id='items:qty_requested%param%']
+                           comment: //*[@id='rma_comment']
+                       dropdowns:
+                           item: //*[@id='items:item%param%']
+                           resolution: //*[@id='items:resolution%param%']
+                           condition: //*[@id='items:condition%param%']
+                           reason: //*[@id='items:reason%param%']
+                       buttons:
+                           submit: //*[@id='submit.save']
+                       pageelements:
+                           custom_items_attribute: //*[@id='items:%attributeCode%%param%']
+       messages:
+           specify_product_quantity: //li[normalize-space(@class)='error-msg' and contains(.,'Quantity of %productName% is greater than you can return.')]
+
+my_returns:
+   mca: rma/return/history/
+   title: My Returns
+   uimap:
+       form:
+       messages:
+           successfully_submitted_return: //li[normalize-space(@class)='success-msg' and contains(.,' has been submitted successfully')]
+
+my_credit_cards:
+    mca: enterprise_pbridge/payment_profile/
+    title: Magento Enterprise Edition
+    uimap:
+        form:
+            fieldsets:
+                -
+                    general_elements:
+                        pageelements:
+                            account_title: //div[@class='page-title' and contains(., 'My Credit Card profiles')]
+
+my_invitations:
+    mca: invitation/
+    title: My Invitations
+    uimap:
+        form:
+            fieldsets:
+                -
+                    my_invitation:
+                        xpath: //div[@class="my-account"]
+                        buttons:
+                            send_invitation: //a[@class='button' and contains(.,'Send Invitations')]
+        messages:
+            success_send: //li[normalize-space(@class)='success-msg' and contains(.,'Invitation for %email% has been sent.')]
+            failed_send: //li[normalize-space(@class)='error-msg' and contains(.,'Failed to send email to %email%.')]
+
+my_invitations_send:
+    mca: invitation/index/send/
+    title: Send Invitations
+    uimap:
+        form:
+            fieldsets:
+                -
+                    send_invitations:
+                        xpath: //div[@class="my-account"]
+                        fields:
+                            email: //input[@id='email_%num%']
+                            message_textarea: //textarea[@id='message']
+        buttons:
+            send_invitation: //button[span='Send Invitations']

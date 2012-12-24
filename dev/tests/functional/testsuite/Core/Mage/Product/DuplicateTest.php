@@ -33,7 +33,6 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @return array $attrData
-     * @group preConditions
      */
     public function createConfigurableAttribute()
     {
@@ -65,7 +64,6 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      * @return array $productData
      * @test
      * @depends createConfigurableAttribute
-     * @group preConditions
      */
     public function createProducts($attrData)
     {
@@ -98,12 +96,6 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating duplicated simple product</p>
-     * <p>Steps:</p>
-     * <p>1. Open created product;</p>
-     * <p>2. Click "Duplicate" button;</p>
-     * <p>3. Verify that all fields has the same data except SKU and Status(fields empty)</p>
-     * <p>Expected result:</p>
-     * <p>Product is duplicated, confirmation message appears;</p>
      *
      * @param array $attrData
      * @param array $assignData
@@ -115,6 +107,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      */
     public function duplicateSimple($attrData, $assignData)
     {
+        $this->markTestIncomplete('MAGETWO-4321');
         //Data
         $simple = $this->loadDataSet('Product', 'duplicate_simple', $assignData);
         $simple['general_user_attr']['dropdown'][$attrData['attribute_code']] =
@@ -130,17 +123,11 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
         $simple['general_sku'] = $this->productHelper()->getGeneratedSku($simple['general_sku']);
-        $this->productHelper()->verifyProductInfo($simple, array('general_status'));
+        $this->productHelper()->verifyProductInfo($simple, array('product_attribute_set', 'general_status'));
     }
 
     /**
      * <p>Creating duplicated virtual product</p>
-     * <p>Steps:</p>
-     * <p>1. Open created product;</p>
-     * <p>2. Click "Duplicate" button;</p>
-     * <p>3. Verify that all fields has the same data except SKU and Status(fields empty)</p>
-     * <p>Expected result:</p>
-     * <p>Product is duplicated, confirmation message appears;</p>
      *
      * @param array $attrData
      * @param array $assignData
@@ -152,6 +139,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      */
     public function duplicateVirtual($attrData, $assignData)
     {
+        $this->markTestIncomplete('MAGETWO-4321');
         //Data
         $virtual = $this->loadDataSet('Product', 'duplicate_virtual', $assignData);
         $virtual['general_user_attr']['dropdown'][$attrData['attribute_code']] =
@@ -167,19 +155,13 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
         $virtual['general_sku'] = $this->productHelper()->getGeneratedSku($virtual['general_sku']);
-        $this->productHelper()->verifyProductInfo($virtual, array('general_status'));
+        $this->productHelper()->verifyProductInfo($virtual, array('product_attribute_set', 'general_status'));
     }
 
     /**
      * <p>Creating duplicated downloadable product</p>
      *  <p>$linkStatus - Yes, if Links can be purchased separately</p>
      *  <p>$linkStatus - No, if Links can not be purchased separately</p>
-     * <p>Steps:</p>
-     * <p>1. Open created product;</p>
-     * <p>2. Click "Duplicate" button;</p>
-     * <p>3. Verify that all fields has the same data except SKU and Status(fields empty)</p>
-     * <p>Expected result:</p>
-     * <p>Product is duplicated, confirmation message appears;</p>
      *
      * @param array $attrData
      * @param array $assignData
@@ -194,8 +176,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      */
     public function duplicateDownloadable($linksSeparately, $linkPrice, $attrData, $assignData)
     {
-        $this->markTestSkipped('Skipped due to MAGETWO-4103 bug');
-
+        $this->markTestIncomplete('MAGETWO-4321');
         //Data
         $downloadable = $this->loadDataSet('Product', 'duplicate_downloadable', $assignData);
         $downloadable['general_user_attr']['dropdown'][$attrData['attribute_code']] =
@@ -214,7 +195,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         $downloadable['general_sku'] = $this->productHelper()->getGeneratedSku($downloadable['general_sku']);
         $downloadable['downloadable_information_data']['downloadable_link_1']['downloadable_link_row_price']
             = $linkPrice;
-        $this->productHelper()->verifyProductInfo($downloadable, array('general_status'));
+        $this->productHelper()->verifyProductInfo($downloadable, array('product_attribute_set', 'general_status'));
     }
 
     public function linkInfoDataProvider()
@@ -227,17 +208,6 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating grouped product with associated products</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add product' button;</p>
-     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in required fields;</p>
-     * <p>5. Click 'Save' button;</p>
-     * <p>6. Open created product;</p>
-     * <p>7. Click "Duplicate" button;</p>
-     * <p>8. Verify required fields has the same data except SKU (field empty)</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
      *
      * @param array $assignData
      *
@@ -247,6 +217,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      */
     public function duplicateGrouped($assignData)
     {
+        $this->markTestIncomplete('MAGETWO-4321');
         //Data
         $grouped = $this->loadDataSet('Product', 'duplicate_grouped', $assignData,
             array('product_1' => $assignData['related_search_sku'],
@@ -263,22 +234,11 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
         $grouped['general_sku'] = $this->productHelper()->getGeneratedSku($grouped['general_sku']);
-        $this->productHelper()->verifyProductInfo($grouped, array('general_status'));
+        $this->productHelper()->verifyProductInfo($grouped, array('product_attribute_set', 'general_status'));
     }
 
     /**
      * <p>Creating duplicated Bundle Product</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add product' button;</p>
-     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in required fields;</p>
-     * <p>5. Click 'Save' button;</p>
-     * <p>6. Open created product;</p>
-     * <p>7. Click "Duplicate" button;</p>
-     * <p>8. Verify required fields has the same data except SKU (field empty)</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
      *
      * @param $data
      * @param array $assignData
@@ -305,7 +265,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
         $bundle['general_sku'] = $this->productHelper()->getGeneratedSku($bundle['general_sku']);
-        $this->productHelper()->verifyProductInfo($bundle, array('general_status'));
+        $this->productHelper()->verifyProductInfo($bundle, array('product_attribute_set', 'general_status'));
     }
 
     public function duplicateBundleDataProvider()
@@ -318,22 +278,6 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Duplicate Configurable product with associated products</p>
-     * <p>Preconditions</p>
-     * <p>Attribute Set created</p>
-     * <p>Virtual product created</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add product' button;</p>
-     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in all required fields;</p>
-     * <p>5. Goto "Associated products" tab;</p>
-     * <p>6. Select created Virtual product;</p>
-     * <p>5. Click 'Save' button;</p>
-     * <p>6. Open created product;</p>
-     * <p>7. Click "Duplicate" button;</p>
-     * <p>8. Verify required fields has the same data except SKU (field empty)</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
      *
      * @param array $attrData
      * @param array $assignData
@@ -345,10 +289,8 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      */
     public function duplicateConfigurable($attrData, $assignData)
     {
-        $this->markTestSkipped('Skipped due to MAGETWO-4105 bug');
-
         //Data
-        $assign = array_merge($assignData, array('configurable_attribute_title' => $attrData['admin_title']));
+        $assign = array_merge($assignData, array('general_configurable_attribute_title' => $attrData['admin_title']));
         $configurable = $this->loadDataSet('Product', 'duplicate_configurable', $assign);
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $configurable['general_sku']));
         //Steps
@@ -365,6 +307,6 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         //Verifying
         $configurable['general_sku'] = $this->productHelper()->getGeneratedSku($configurable['general_sku']);
         $this->productHelper()->verifyProductInfo($configurable,
-            array('general_status', 'configurable_attribute_title'));
+            array('product_attribute_set', 'general_status', 'general_configurable_attribute_title'));
     }
 }

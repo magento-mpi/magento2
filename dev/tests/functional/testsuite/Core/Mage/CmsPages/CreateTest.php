@@ -43,7 +43,7 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
         //Data
         $category = $this->loadDataSet('Category', 'sub_category_required');
         $product = $this->loadDataSet('Product', 'simple_product_visible',
-            array('categories' => $category['parent_category'] . '/' . $category['name']));
+            array('general_categories' => $category['parent_category'] . '/' . $category['name']));
         //Steps
         $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
@@ -56,17 +56,12 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return array('category_path' => $product['categories'],
+        return array('category_path' => $product['general_categories'],
                      'filter_sku'    => $product['general_sku'],);
     }
 
     /**
      * <p>Creates Page with required fields</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Pages page</p>
-     * <p>2. Create page with required fields</p>
-     * <p>Expected result</p>
-     * <p>Page is created successfully</p>
      *
      * @return array
      * @test
@@ -88,11 +83,6 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creates Page with all fields and all types of widgets</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Pages page</p>
-     * <p>2. Create page with all fields filled and all types of widgets</p>
-     * <p>Expected result</p>
-     * <p>Page is created successfully</p>
      *
      * @param array $data
      *
@@ -114,22 +104,16 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creates Page with all fields filled except one empty</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Pages page</p>
-     * <p>2. Create page with all fields filled, but leave one empty</p>
-     * <p>Expected result</p>
-     * <p>Page is not created successfully</p>
      *
      * @param string $fieldName
      * @param string $fieldType
-     * @param int $messCount
      *
      * @test
      * @dataProvider withEmptyRequiredFieldsDataProvider
      * @depends withRequiredFields
      * @TestlinkId TL-MAGE-3211
      */
-    public function withEmptyRequiredFields($fieldName, $fieldType, $messCount)
+    public function withEmptyRequiredFields($fieldName, $fieldType)
     {
         //Data
         $pageData = $this->loadDataSet('CmsPage', 'new_cms_page_req', array($fieldName => '%noValue%'));
@@ -149,29 +133,23 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
             $fieldName = 'chosen_option';
         }
         $this->addFieldIdToMessage($fieldType, $fieldName);
-        $this->assertTrue($this->verifyMessagesCount($messCount), $this->getParsedMessages());
         $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function withEmptyRequiredFieldsDataProvider()
     {
         return array(
-            array('page_title', 'field', 1),
-            array('url_key', 'field', 1),
-            array('content', 'field', 1),
-            array('store_view', 'multiselect', 1),
-            array('widget_type', 'dropdown', 2)
+            array('page_title', 'field'),
+            array('url_key', 'field'),
+            array('content', 'field'),
+            array('store_view', 'multiselect'),
+            array('widget_type', 'dropdown')
         );
     }
 
     /**
      * <p>Creates Pages with same URL Key</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Pages page</p>
-     * <p>2. Create page with required fields</p>
-     * <p>3. Create page with the same URL Key</p>
-     * <p>Expected result</p>
-     * <p>Page with the same URL Key is not created</p>
      *
      * @param array $pageData
      *
@@ -190,11 +168,6 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creates Pages with numbers in URL Key</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Pages page</p>
-     * <p>2. Create page with required fields</p>
-     * <p>Expected result</p>
-     * <p>Page with the numbers in URL Key is not created</p>
      *
      * @param string $urlValue
      * @param string $messageType
@@ -230,11 +203,6 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create CMS Page with special values in required fields</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Manage Pages page</p>
-     * <p>2. Create page with all fields filled</p>
-     * <p>Expected result</p>
-     * <p>Page is created successfully</p>
      *
      * @param array $fieldData
      *

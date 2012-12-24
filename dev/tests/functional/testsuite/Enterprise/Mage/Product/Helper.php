@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento
+ * @package     Mage_Product
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -18,6 +18,14 @@
  */
 class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
 {
+    public $productTabs = array('general', 'prices', 'meta_information', 'images', 'recurring_profile', 'design',
+                                'gift_options', 'inventory', 'websites', 'related', 'up_sells', 'cross_sells',
+                                'custom_options', 'bundle_items', 'associated', 'downloadable_information',
+                                'giftcardinfo');
+
+    #**************************************************************************************
+    #*                                                    Frontend Helper Methods         *
+    #**************************************************************************************
     /**
      * Choose custom options and additional products
      *
@@ -31,67 +39,90 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
             $productInfoFieldset = $this->_getControlXpath('fieldset', 'product_info');
             $this->clickButton('customize_and_add_to_cart', false);
             $this->waitForElementVisible($customizeFieldset);
-            $this->waitForElementPresent($productInfoFieldset . "/parent::*[@style='display: none;']");
+            $this->waitForElement($productInfoFieldset . "/parent::*[@style='display: none;']");
         }
         parent::frontAddProductToCart($dataForBuy);
     }
 
     /**
-     * Select Store View on product page
-     *
-     * @param $storeViewName
-     * @throws PHPUnit_Framework_Exception
-     */
-    public function chooseStoreView($storeViewName)
-    {
-
-        $fieldXpath = $this->_getControlXpath('dropdown', 'choose_store_view');
-        if (!$this->isElementPresent($fieldXpath) || !$this->isEditable($fieldXpath)) {
-            throw new PHPUnit_Framework_Exception($fieldXpath . ' dropdown is either not present or disabled.');
-        }
-        if ($this->getSelectedValue($fieldXpath) == $storeViewName) {
-            return;
-        }
-        $complexValue = explode('/', $storeViewName);
-        $valueToSelect = array_pop($complexValue);
-        $parentXpath = $fieldXpath; //Xpath of the needed option parent element
-        for ($level = 0; $level < count($complexValue); $level++) {
-            $nextNested = "/*[contains(@label,'" . $complexValue[$level] . "')]";
-            $nextSibling = "/following-sibling::*[contains(@label,'" . $complexValue[$level] . "')][1]";
-            if ($this->isElementPresent($parentXpath . $nextNested)) {
-                $parentXpath .= $nextNested;
-            } elseif ($this->isElementPresent($parentXpath . $nextSibling)) {
-                $parentXpath .= $nextSibling;
-            } else {
-                throw new PHPUnit_Framework_Exception(
-                    'Cannot find nested/sibling optgroup/option ' . $complexValue[$level]);
-            }
-        }
-        if ($this->isElementPresent($parentXpath . "//option[contains(text(),'" . $valueToSelect . "')]")) {
-            $optionValue = $this->getValue($parentXpath . "//option[contains(text(),'" . $valueToSelect . "')]");
-            //Try to select by value first, since there may be options with equal labels.
-            if (isset($optionValue)) {
-                $this->select($fieldXpath, 'value=' . $optionValue);
-            } else {
-                $this->select($fieldXpath, 'label=' . $valueToSelect);
-            }
-        } else {
-            $this->select($fieldXpath, 'regexp:' . preg_quote($valueToSelect));
-        }
-
-    }
-
-    /**
-     * Verify product info on frontend
+     * Verify Gift Card info on frontend
      *
      * @param array $productData
      */
-    public function frontVerifyProductInfo(array $productData)
+    public function frontVerifyGiftCardInfo(array $productData)
     {
-        if (isset($productData['general_short_description'])) {
-            unset($productData['general_short_description']);
-        }
+        $this->markTestIncomplete('@TODO - implement frontVerifyGiftCardInfo');
+    }
 
-        parent::frontVerifyProductInfo($productData);
+    #**************************************************************************************
+    #*                                                    Backend Helper Methods          *
+    #**************************************************************************************
+
+    /**
+     * @param array $pricesTab
+     */
+    public function fillPricesTab(array $pricesTab)
+    {
+        $this->openTab('prices');
+        if (isset($pricesTab['prices_gift_card_amounts'])) {
+            foreach ($pricesTab['prices_gift_card_amounts'] as $value) {
+                $this->addGiftCardAmount($value);
+            }
+            unset($pricesTab['prices_gift_card_amounts']);
+        }
+        parent::fillPricesTab($pricesTab);
+    }
+
+    /**
+     * @param array $pricesTab
+     */
+    public function verifyPricesTab($pricesTab)
+    {
+        $this->openTab('prices');
+        if (isset($pricesTab['prices_gift_card_amounts'])) {
+            $this->verifyGiftCardAmounts($pricesTab['prices_gift_card_amounts']);
+            unset($pricesTab['prices_gift_card_amounts']);
+        }
+        parent::fillPricesTab($pricesTab);
+    }
+
+    /**
+     * Add Gift Card Amount
+     *
+     * @param array $giftCardData
+     */
+    public function addGiftCardAmount(array $giftCardData)
+    {
+        $rowNumber = $this->getControlCount('fieldset', 'prices_gift_card_amounts');
+        $this->addParameter('giftCardId', $rowNumber);
+        $this->clickButton('add_gift_card_amount', false);
+        $this->waitForAjax();
+        $this->fillTab($giftCardData, 'prices');
+    }
+
+    /**
+     * Verify GiftCardAmounts
+     *
+     * @param array $giftCardData
+     *
+     * @return boolean
+     */
+    public function verifyGiftCardAmounts(array $giftCardData)
+    {
+        $rowQty = count($this->getControlElements('fieldset', 'prices_gift_card_amounts', null, false));
+        $needCount = count($giftCardData);
+        if ($needCount != $rowQty) {
+            $this->addVerificationMessage(
+                'Product must contain ' . $needCount . ' gift card amount(s), but contains ' . $rowQty);
+            return false;
+        }
+        $index = $rowQty - 1;
+        foreach ($giftCardData as $value) {
+            $this->addParameter('giftCardId', $index);
+            $this->verifyForm($value, 'prices');
+            --$index;
+        }
+        $this->assertEmptyVerificationErrors();
+        return true;
     }
 }

@@ -1,0 +1,38 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_AddBySku
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#<----------------------Product for Order by SKU functionality----------------->
+simple_sku:
+   product_attribute_set: Default
+   general_name: Simple Product (%randomize%)
+   general_description: Description for Simple Product
+   general_short_description: Short Description for Simple Product
+   general_sku: simple_sku_%randomize%
+   general_weight: 1.14
+   general_status: Enabled
+   general_visibility: Catalog, Search
+   prices_price: 12.99
+   prices_tax_class: None
+   inventory_qty: 999
+   inventory_min_allowed_qty_default: %noValue%
+   inventory_min_allowed_qty: %noValue%
+   inventory_max_allowed_qty_default: %noValue%
+   inventory_max_allowed_qty: %noValue%
+   inventory_backorders_default: %noValue%
+   inventory_backorders: %noValue%
+   inventory_enable_qty_increments_default: %noValue%
+   inventory_enable_qty_increments: %noValue%
+   inventory_qty_increments_default: %noValue%
+   inventory_qty_increments: %noValue%
+   inventory_stock_availability: In Stock
+   websites: Main Website
+   general_categories: Default Category
+   custom_options_data: %noValue%

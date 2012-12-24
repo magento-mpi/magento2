@@ -30,14 +30,6 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating product with required fields only</p>
-     * <p>Steps:</p>
-     * <p>1. Click "Add product" button;</p>
-     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields;</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
      *
      * @test
      * @return array
@@ -57,14 +49,6 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating product with all fields</p>
-     * <p>Steps:</p>
-     * <p>1. Click "Add product" button;</p>
-     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill all fields;</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
      *
      * @depends onlyRequiredFieldsInGrouped
      *
@@ -73,6 +57,7 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
      */
     public function allFieldsInGrouped()
     {
+        $this->markTestIncomplete('MAGETWO-4321');
         //Data
         $productData = $this->loadDataSet('Product', 'grouped_product');
         $productSearch =
@@ -87,15 +72,6 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating product with existing SKU</p>
-     * <p>Steps:</p>
-     * <p>1. Click "Add product" button;</p>
-     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields using exist SKU;</p>
-     * <p>5. Click 'Save and Continue Edit' button;</p>
-     * <p>Expected result:</p>
-     * <p>1. Product is saved, confirmation message appears;</p>
-     * <p>2. Auto-increment is added to SKU;</p>
      *
      * @param array $productData
      *
@@ -106,29 +82,21 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
     public function existSkuInGrouped($productData)
     {
         //Steps
-        $this->addParameter('productSku', $this->productHelper()->getGeneratedSku($productData['general_sku']));
-        $this->addParameter('productName', $productData['general_name']);
         $this->productHelper()->createProduct($productData, 'grouped', false);
+        $this->addParameter('elementTitle', $productData['general_name']);
         $this->saveAndContinueEdit('button', 'save_and_continue_edit');
         //Verifying
+        $newSku = $this->productHelper()->getGeneratedSku($productData['general_sku']);
+        $this->addParameter('productSku', $newSku);
+        $this->addParameter('productName', $productData['general_name']);
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertMessagePresent('success', 'sku_autoincremented');
-        $this->productHelper()->verifyProductInfo(array('general_sku' => $this->productHelper()->getGeneratedSku(
-            $productData['general_sku'])));
+        $productData['general_sku'] = $newSku;
+        $this->productHelper()->verifyProductInfo($productData);
     }
 
     /**
      * <p>Creating product with empty required fields</p>
-     * <p>Steps:</p>
-     * <p>1. Click "Add product" button;</p>
-     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Leave one required field empty and fill in the rest of fields;</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>6. Verify error message;</p>
-     * <p>7. Repeat scenario for all required fields for both tabs;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
      *
      * @param string $emptyField
      * @param string $fieldType
@@ -141,18 +109,12 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsEmpty($emptyField, $fieldType)
     {
         //Data
-        if ($emptyField == 'general_visibility') {
-            $overrideData = array($emptyField => '-- Please Select --');
-        } elseif ($emptyField == 'general_sku') {
-            $overrideData = array($emptyField => '');
-        } else {
-            $overrideData = array($emptyField => '%noValue%');
-        }
-        $productData = $this->loadDataSet('Product', 'grouped_product_required', $overrideData);
+        $field = key($emptyField);
+        $product = $this->loadDataSet('Product', 'grouped_product_required', $emptyField);
         //Steps
-        $this->productHelper()->createProduct($productData, 'grouped');
+        $this->productHelper()->createProduct($product, 'grouped');
         //Verifying
-        $this->addFieldIdToMessage($fieldType, $emptyField);
+        $this->addFieldIdToMessage($fieldType, $field);
         $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
@@ -160,25 +122,17 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
-            array('general_name', 'field'),
-            array('general_description', 'field'),
-            array('general_short_description', 'field'),
-            array('general_sku', 'field'),
-            array('general_status', 'dropdown'),
-            array('general_visibility', 'dropdown')
+            array(array('general_name' => '%noValue%'), 'field'),
+            array(array('general_description' => '%noValue%'), 'field'),
+            array(array('general_short_description' => '%noValue%'), 'field'),
+            array(array('general_sku' => ''), 'field'),
+            array(array('general_status' => '-- Please Select --'), 'dropdown'),
+            array(array('general_visibility' => '-- Please Select --'), 'dropdown'),
         );
     }
 
     /**
      * <p>Creating product with special characters into required fields</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields with special symbols ("General" tab), rest - with normal data;
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product created, confirmation message appears</p>
      *
      * @depends onlyRequiredFieldsInGrouped
      *
@@ -207,14 +161,6 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating product with long values from required fields</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields with long values ("General" tab), rest - with normal data;
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product created, confirmation message appears</p>
      *
      * @depends onlyRequiredFieldsInGrouped
      *
@@ -243,14 +189,6 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating product with SKU length more than 64 characters.</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields, use for sku string with length more than 64 characters</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
      *
      * @depends onlyRequiredFieldsInGrouped
      *
@@ -271,18 +209,6 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Grouped product with Simple product</p>
-     * <p>Preconditions</p>
-     * <p>Physical Simple product created</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add product' button;</p>
-     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in all fields;</p>
-     * <p>5. Goto "Associated products" tab;</p>
-     * <p>6. Select created Simple product;</p>
-     * <p>5. Click 'Save' button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
      *
      * @depends onlyRequiredFieldsInGrouped
      *
@@ -315,18 +241,6 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Grouped product with Virtual product</p>
-     * <p>Preconditions</p>
-     * <p>Physical Simple product created</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add product' button;</p>
-     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in all fields;</p>
-     * <p>5. Goto "Associated products" tab;</p>
-     * <p>6. Select created Virtual product;</p>
-     * <p>5. Click 'Save' button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
      *
      * @depends onlyRequiredFieldsInGrouped
      *
@@ -359,18 +273,6 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Grouped product with Downloadable product</p>
-     * <p>Preconditions</p>
-     * <p>Physical Simple product created</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add product' button;</p>
-     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in all fields;</p>
-     * <p>5. Goto "Associated products" tab;</p>
-     * <p>6. Select created Downloadable product;</p>
-     * <p>5. Click 'Save' button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
      *
      * @depends onlyRequiredFieldsInGrouped
      *
@@ -380,7 +282,8 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
     public function groupedWithDownloadableProduct()
     {
         //Data
-        $downloadableData = $this->loadDataSet('Product', 'downloadable_product_required');
+        $downloadableData = $this->loadDataSet('Product', 'downloadable_product_required',
+            array('downloadable_links_purchased_separately' => 'No'));
         $groupedData = $this->loadDataSet('Product', 'grouped_product_required',
             array('associated_search_sku' => $downloadableData['general_sku']));
         $productSearch =
@@ -403,18 +306,6 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating Grouped product with All types of products type</p>
-     * <p>Preconditions</p>
-     * <p>Physical Simple, Virtual, Downloadable products created</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add product' button;</p>
-     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in all fields;</p>
-     * <p>5. Goto "Associated products" tab;</p>
-     * <p>6. Select created products;</p>
-     * <p>5. Click 'Save' button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
      *
      * @param string $simpleSku
      * @param string $virtualSku

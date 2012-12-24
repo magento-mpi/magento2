@@ -45,6 +45,7 @@ class Mage_Webapi_Block_Adminhtml_FormTestAbstract extends PHPUnit_Framework_Tes
     {
         $this->_objectManager = Mage::getObjectManager();
         $this->_urlBuilder = $this->getMockBuilder('Mage_Backend_Model_Url')
+            ->disableOriginalConstructor()
             ->getMock();
         $this->_layout = $this->_objectManager->get('Mage_Core_Model_Layout');
         $this->_blockFactory = $this->_objectManager->get('Mage_Core_Model_BlockFactory');

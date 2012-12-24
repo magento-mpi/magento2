@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Redirect controller
  *
@@ -16,7 +15,7 @@
  * @package    Mage_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_Controller_Varien_Action_Redirect extends Mage_Core_Controller_Varien_Action_RedirectAbstract
+class Mage_Core_Controller_Varien_Action_Redirect extends Mage_Core_Controller_Varien_ActionAbstract
 {
      /**
      * Dispatch controller action

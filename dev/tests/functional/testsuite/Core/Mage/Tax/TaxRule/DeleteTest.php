@@ -47,12 +47,6 @@ class Core_Mage_Tax_TaxRule_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete a Tax Rule</p>
-     * <p>Steps:</p>
-     * <p>1. Create a new Tax Rule</p>
-     * <p>2. Open the Tax Rule</p>
-     * <p>3. Delete the Tax Rule</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the Tax Rule has been deleted.</p>
      *
      * @param array $taxRateData
      *

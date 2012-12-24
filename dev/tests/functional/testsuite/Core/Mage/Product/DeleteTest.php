@@ -30,18 +30,6 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete product.</p>
-     * <p>Steps:</p>
-     * <p>1. Click "Add product" button;</p>
-     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields;</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
-     * <p>6. Open product;</p>
-     * <p>7. Click "Delete" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is deleted, confirmation message appears;</p>
      *
      * @param string $type
      *
@@ -78,18 +66,6 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete configurable product</p>
-     * <p>Steps:</p>
-     * <p>1. Click "Add product" button;</p>
-     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields;</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
-     * <p>6. Open product;</p>
-     * <p>7. Click "Delete" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is deleted, confirmation message appears;</p>
      *
      * @return array
      * @test
@@ -102,7 +78,7 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
         $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
             array('General' => $attrData['attribute_code']));
         $productData = $this->loadDataSet('Product', 'configurable_product_required',
-            array('configurable_attribute_title' => $attrData['admin_title']));
+            array('general_configurable_attribute_title' => $attrData['admin_title']));
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->navigate('manage_attributes');
@@ -146,21 +122,19 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
         $associated = $this->loadDataSet('Product', $type . '_product_required');
         $associated['general_user_attr']['dropdown'][$attrData['attribute_code']] =
             $attrData['option_1']['admin_option_name'];
-        $configPr = $this->loadDataSet('Product', 'configurable_product_required',
-            array('configurable_attribute_title' => $attrData['admin_title']));
-        $configPr['associated_configurable_data'] = $this->loadDataSet('Product', 'associated_configurable_data',
-            array(
-                'associated_search_sku' => $associated['general_sku'],
-                'associated_product_attribute_value' => $attrData['option_1']['admin_option_name']
-            )
-        );
+        $associateData = $this->loadDataSet('Product', 'general_configurable_data',
+            array('associated_sku'             => $associated['general_sku'],
+                  'associated_attribute_value' => $attrData['option_1']['admin_option_name']));
+        $configurable = $this->loadDataSet('Product', 'configurable_product_required',
+            array('general_configurable_attribute_title' => $attrData['admin_title'],
+                  'general_configurable_data'            => $associateData));
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $associated['general_sku']));
         //Steps
         $this->productHelper()->createProduct($associated, $type);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
-        $this->productHelper()->createProduct($configPr, 'configurable');
+        $this->productHelper()->createProduct($configurable, 'configurable');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
@@ -229,14 +203,7 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete several products.</p>
-     * <p>Preconditions: Create several products</p>
-     * <p>Steps:</p>
-     * <p>1. Search and choose several products.</p>
-     * <p>3. Select 'Actions' to 'Delete'.</p>
-     * <p>2. Click 'Submit' button.</p>
-     * <p>Expected result:</p>
-     * <p>Products are deleted.</p>
-     * <p>Success Message is displayed.</p>
+     *
      * @test
      * @TestlinkId TL-MAGE-3426
      */
@@ -254,11 +221,10 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
             $this->assertMessagePresent('success', 'success_saved_product');
         }
         for ($i = 1; $i <= $productQty; $i++) {
-            $this->searchAndChoose(${'searchData' . $i});
+            $this->searchAndChoose(${'searchData' . $i}, 'product_grid');
         }
         $this->addParameter('qtyDeletedProducts', $productQty);
-        $xpath = $this->_getControlXpath('dropdown', 'product_massaction');
-        $this->select($xpath, 'Delete');
+        $this->fillDropdown('product_massaction', 'Delete');
         $this->clickButtonAndConfirm('submit', 'confirmation_for_delete');
         //Verifying
         $this->assertMessagePresent('success', 'success_deleted_products_massaction');

@@ -44,14 +44,14 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         $attrCode = $attrData['attribute_code'];
         $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
             array('General' => $attrData['attribute_code']));
-        $productCat = array('categories' => $catPath);
+        $productCat = array('general_categories' => $catPath);
         $simple = $this->loadDataSet('Product', 'simple_product_visible', $productCat);
         $simple['general_user_attr']['dropdown'][$attrCode] = $attrData['option_1']['admin_option_name'];
         $virtual = $this->loadDataSet('Product', 'virtual_product_visible', $productCat);
         $virtual['general_user_attr']['dropdown'][$attrCode] = $attrData['option_2']['admin_option_name'];
         $download = $this->loadDataSet('SalesOrder', 'downloadable_product_for_order',
             array('downloadable_links_purchased_separately' => 'No',
-                  'categories'                              => $catPath));
+                  'general_categories'                              => $catPath));
         $download['general_user_attr']['dropdown'][$attrCode] = $attrData['option_3']['admin_option_name'];
         $downloadWithOption = $this->loadDataSet('SalesOrder', 'downloadable_product_for_order', $productCat);
         $bundle = $this->loadDataSet('SalesOrder', 'fixed_bundle_for_order', $productCat,
@@ -59,8 +59,8 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
                   'add_product_2' => $virtual['general_sku']));
         $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order',
             array(
-                'configurable_attribute_title' => $attrData['admin_title'],
-                'categories' => $catPath
+                'general_configurable_attribute_title' => $attrData['admin_title'],
+                'general_categories' => $catPath
             ),
             array(
                 'associated_1' => $simple['general_sku'],
@@ -76,10 +76,10 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
                   'associated_2' => $virtual['general_sku'],
                   'associated_3' => $download['general_sku']));
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $configurableOptionName = $attrData['option_1']['store_view_titles']['Default Store View'];
+        $configurOptName = $attrData['option_1']['store_view_titles']['Default Store View'];
         $customOptions = $this->loadDataSet('Product', 'custom_options_data');
-        $simpleWithCustomOptions =
-            $this->loadDataSet('Product', 'simple_product_visible', array('categories'          => $catPath,
+        $simpleWithCO =
+            $this->loadDataSet('Product', 'simple_product_visible', array('general_categories'          => $catPath,
                                                                           'custom_options_data' => $customOptions));
         //Steps and Verification
         $this->loginAdminUser();
@@ -111,7 +111,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->createProduct($grouped, 'grouped');
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->createProduct($simpleWithCustomOptions);
+        $this->productHelper()->createProduct($simpleWithCO);
         $this->assertMessagePresent('success', 'success_saved_product');
 
         $this->navigate('manage_customers');
@@ -128,7 +128,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
                                                    'grouped'          => $grouped['general_name'],
                                                    'downloadable_opt' => $downloadWithOption['general_name']),
                      'configurableOption' => array('title'                 => $attrData['admin_title'],
-                                                   'custom_option_dropdown'=> $configurableOptionName),
+                                                   'custom_option_dropdown'=> $configurOptName),
                      'groupedOption'      => array('subProduct_1' => $simple['general_name'],
                                                    'subProduct_2' => $virtual['general_name'],
                                                    'subProduct_3' => $download['general_name']),
@@ -138,60 +138,13 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
                                                    'subProduct_4' => $virtual['general_name']),
                      'user'               => array('email'    => $userData['email'],
                                                    'password' => $userData['password']),
-                     'withCustomOption'   => $simpleWithCustomOptions['general_name'],
+                     'withCustomOption'   => $simpleWithCO['general_name'],
                      'catName'            => $category['name'],
                      'catPath'            => $catPath);
     }
 
     /**
-     * <p>Verifies that a guest cannot open My Wishlist.</p>
-     * <p>Steps:</p>
-     * <p>1. Logout customer</p>
-     * <p>2. Navigate to My Wishlist</p>
-     * <p>Expected result:</p>
-     * <p>Guest is redirected to login/register page.</p>
-     *
-     * @test
-     */
-    public function guestCannotOpenWishlist()
-    {
-        //Steps
-        $this->logoutCustomer();
-        $this->clickControl('link', 'my_wishlist');
-        //Verify
-        $this->assertTrue($this->checkCurrentPage('customer_login'), $this->getParsedMessages());
-    }
-
-    /**
-     * <p>Verifies that a guest cannot add a product to a wishlist.</p>
-     * <p>Steps:</p>
-     * <p>1. Logout customer</p>
-     * <p>2. Open a product</p>
-     * <p>3. Add products to the wishlist</p>
-     * <p>Expected result:</p>
-     * <p>Guest is redirected to login/register page.</p>
-     *
-     * @param array $testData
-     *
-     * @test
-     * @depends preconditionsForTests
-     */
-    public function guestCannotAddProductToWishlist($testData)
-    {
-        //Steps
-        $this->frontend();
-        $this->wishlistHelper()->frontAddProductToWishlistFromProductPage($testData['productNames']['simple']);
-        //Verify
-        $this->assertTrue($this->checkCurrentPage('customer_login'), $this->getParsedMessages());
-    }
-
-    /**
      * <p>Opens My Wishlist using the link in quick access bar</p>
-     * <p>Steps:</p>
-     * <p>1. Open home page</p>
-     * <p>2. Click "My Wishlist" link</p>
-     * <p>Expected result:</p>
-     * <p>The wishlist is opened.</p>
      *
      * @param array $testData
      *
@@ -209,11 +162,6 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
 
     /**
      * <p>Add products to Wishlist from Product Details page. For all types without additional options.</p>
-     * <p>Steps:</p>
-     * <p>1. Open product</p>
-     * <p>2. Add product to wishlist</p>
-     * <p>Expected result:</p>
-     * <p>Success message is displayed</p>
      *
      * @param array $testData
      *
@@ -239,12 +187,6 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
 
     /**
      * <p>Add products to Wishlist from Category page. For all types without additional options.</p>
-     * <p>Steps:</p>
-     * <p>1. Open category</p>
-     * <p>2. Find product</p>
-     * <p>3. Add product to wishlist</p>
-     * <p>Expected result:</p>
-     * <p>Success message is displayed</p>
      *
      * @param array $testData
      *
@@ -270,15 +212,6 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
 
     /**
      * <p>Removes all products from My Wishlist. For all product types</p>
-     * <p>Steps:</p>
-     * <p>1. Add products to the wishlist</p>
-     * <p>2. Remove one product from the wishlist</p>
-     * <p>Expected result:</p>
-     * <p>The product is no longer in wishlist</p>
-     * <p>3. Repeat for all products until the last one</p>
-     * <p>4. Remove the last product from the wishlist</p>
-     * <p>Expected result:</p>
-     * <p>Message 'You have no items in your wishlist.' is displayed</p>
      *
      * @param array $testData
      *
@@ -316,13 +249,6 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
     /**
      * <p>Adds products to Shopping Cart from Wishlist. For all product types without custom options
      *    (simple, virtual, downloadable)</p>
-     * <p>Steps:</p>
-     * <p>1. Empty the shopping cart</p>
-     * <p>2. Add a product to the wishlist</p>
-     * <p>3. Open the wishlist</p>
-     * <p>4. Click 'Add to Cart' button for each product</p>
-     * <p>Expected result:</p>
-     * <p>The products are in the shopping cart</p>
      *
      * @param array $testData
      *
@@ -355,14 +281,6 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
     /**
      * <p>Adds products to Shopping Cart from Wishlist. For all product types with additional options
      *    (downloadable, configurable, bundle, grouped)</p>
-     * <p>Steps:</p>
-     * <p>1. Empty the shopping cart</p>
-     * <p>2. Add a product to the wishlist</p>
-     * <p>3. Open the wishlist</p>
-     * <p>4. Click 'Add to Cart' button for each product</p>
-     * <p>Expected result:</p>
-     * <p>The products are not in the shopping cart.
-     *    Message 'Please specify the product's option(s) is displayed'</p>
      *
      * @param array $testData
      * @param string $product
@@ -401,14 +319,6 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
     /**
      * <p>Adds products to Shopping Cart from Wishlist. For all product types with additional options
      *    (downloadable, configurable, bundle, grouped)</p>
-     * <p>Steps:</p>
-     * <p>1. Empty the shopping cart</p>
-     * <p>2. Add a product to the wishlist</p>
-     * <p>3. Open the wishlist</p>
-     * <p>4. Click 'Add to Cart' button for each product</p>
-     * <p>Expected result:</p>
-     * <p>The products are not in the shopping cart.
-     *    Message 'Please specify the product's option(s) is displayed'</p>
      *
      * @param array $testData
      * @param string $product
@@ -462,12 +372,6 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
 
     /**
      * <p>Add all types of products to Wishlist from Shopping Cart.</p>
-     * <p>Steps:</p>
-     * <p>1. Add products to the shopping cart</p>
-     * <p>2. Move the products to wishlist</p>
-     * <p>3. Open the wishlist</p>
-     * <p>Expected result:</p>
-     * <p>Products are in the wishlist</p>
      *
      * @param array $testData
      * @param string $product
@@ -517,14 +421,6 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
 
     /**
      * <p>Shares My Wishlist</p>
-     * <p>Steps:</p>
-     * <p>1. Add a product to the wishlist</p>
-     * <p>2. Open My Wishlist</p>
-     * <p>3. Click "Share Wishlist" button</p>
-     * <p>4. Enter a valid email and a message</p>
-     * <p>5. Click "Share Wishlist" button
-     * <p>Expected result:</p>
-     * <p>The success message is displayed</p>
      *
      * @param array $shareData
      * @param array $testData
@@ -556,14 +452,6 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
 
     /**
      * <p>Shares My Wishlist with invalid email(s) provided</p>
-     * <p>Steps:</p>
-     * <p>1. Add a product to the wishlist</p>
-     * <p>2. Open My Wishlist</p>
-     * <p>3. Click "Share Wishlist" button</p>
-     * <p>4. Enter an invalid email and a message</p>
-     * <p>5. Click "Share Wishlist" button
-     * <p>Expected result:</p>
-     * <p>An error message is displayed</p>
      *
      * @param string $emails
      * @param string $errorMessage
@@ -599,14 +487,6 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
 
     /**
      * <p>Shares My Wishlist with empty email provided</p>
-     * <p>Steps:</p>
-     * <p>1. Add a product to the wishlist</p>
-     * <p>2. Open My Wishlist</p>
-     * <p>3. Click "Share Wishlist" button</p>
-     * <p>4. Enter an invalid email and a message</p>
-     * <p>5. Click "Share Wishlist" button
-     * <p>Expected result:</p>
-     * <p>An error message is displayed</p>
      *
      * @param array $testData
      *
@@ -628,11 +508,6 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
 
     /**
      * <p>Adds a product with custom options to Wishlist from Product Details page</p>
-     * <p>Steps:</p>
-     * <p>1. Open product</p>
-     * <p>2. Add product to wishlist</p>
-     * <p>Expected result:</p>
-     * <p>Success message is displayed</p>
      *
      * @param array $testData
      *
@@ -651,13 +526,6 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
 
     /**
      * <p>Adds a product with custom options to Shopping Cart from Wishlist without selected options</p>
-     * <p>Steps:</p>
-     * <p>1. Open product</p>
-     * <p>2. Add product to wishlist</p>
-     * <p>3. Open wishlist</p>
-     * <p>4. Add product to Shopping Cart</p>
-     * <p>Expected result:</p>
-     * <p>Notice message is displayed. Product is not added to Shopping Cart</p>
      *
      * @param array $testData
      *
@@ -679,13 +547,6 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
 
     /**
      * <p>Adds a product with custom options to Shopping Cart from Wishlist without selected options</p>
-     * <p>Steps:</p>
-     * <p>1. Open product</p>
-     * <p>2. Add product to wishlist</p>
-     * <p>3. Open wishlist</p>
-     * <p>4. Add product to Shopping Cart</p>
-     * <p>Expected result:</p>
-     * <p>Success message is displayed. Product is added to Shopping Cart</p>
      *
      * @param array $testData
      *
@@ -709,12 +570,6 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
 
     /**
      * <p>Add simple product with custom options to Wishlist from Shopping Cart.</p>
-     * <p>Steps:</p>
-     * <p>1. Add product to the shopping cart</p>
-     * <p>2. Move the product to wishlist</p>
-     * <p>3. Open the wishlist</p>
-     * <p>Expected result:</p>
-     * <p>Product is in the wishlist</p>
      *
      * @param array $testData
      *
@@ -736,5 +591,38 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         $this->navigate('my_wishlist');
         $this->assertTrue($this->wishlistHelper()->frontWishlistHasProducts($productName),
             'Product ' . $productName . ' is not in the wishlist.');
+    }
+
+    /**
+     * <p>Verifies that a guest cannot open My Wishlist.</p>
+     *
+     * @test
+     */
+    public function guestCannotOpenWishlist()
+    {
+        //Steps
+        $this->logoutCustomer();
+        $this->clickControl('link', 'my_wishlist');
+        //Verify
+        $this->assertTrue($this->checkCurrentPage('customer_login'), $this->getParsedMessages());
+    }
+
+    /**
+     * <p>Verifies that a guest cannot add a product to a wishlist.</p>
+     *
+     * @param array $testData
+     *
+     * @test
+     * @depends preconditionsForTests
+     */
+    public function guestCannotAddProductToWishlist($testData)
+    {
+        //Steps
+        $this->frontend();
+        $this->wishlistHelper()->frontAddProductToWishlistFromProductPage($testData['productNames']['simple']);
+        //Verify
+        $this->assertTrue($this->checkCurrentPage('customer_login'), $this->getParsedMessages());
+        $this->customerHelper()->frontLoginCustomer($testData['user']);
+        $this->assertMessagePresent('success', 'successfully_added_product');
     }
 }

@@ -58,6 +58,8 @@ checkout_multishipping_login:
             short_passwords: //div[@id='advice-validate-password-password']
             email_exists: //li[span='There is already an account with this email address. If you are sure that it is your email address, click here to get your password and access your account.']
             shopping_cart_is_empty: //h1[contains(.,'Shopping Cart is Empty')]
+            message_with_order_ids: //*[contains(text(),'Your order')]
+            zero_payment: //dt[contains(label,'No Payment Information Required')]
 
 checkout_multishipping_login_with_params:
     mca: checkout/multishipping/login/?no_cache=
@@ -125,7 +127,7 @@ checkout_multishipping_addresses:
                             back_to_shopping_cart: //a[contains(text(),'Back to Shopping Cart')]
                             remove_product: //tr[.//a='%productName%']//a[contains(@href, 'removeItem')]
                         dropdowns:
-                            address_choice: //tr[.//a='%productName%'][%index%]//select
+                            address_choice: //tr[.//a='%productName%'][%productIndex%]//select
                             is_any_address_choice: //tr[.//a='%productName%']//select
                         fields:
                             product_qty: //tr[.//a='%productName%']//input[@type='text']
@@ -264,6 +266,7 @@ checkout_multishipping_payment_methods:
                             name_on_card: //input[@id='%paymentId%_cc_owner']
                             card_number: //input[@id='%paymentId%_cc_number']
                             card_verification_number: //input[@id='%paymentId%_cc_cid']
+                            purchase_order_number: //input[@id='po_number']
                         dropdowns:
                             card_type: //select[@id='%paymentId%_cc_type']
                             expiration_month: //select[@id='%paymentId%_expiration']
@@ -391,6 +394,10 @@ checkout_multishipping_review_order:
                             product_table_head: //table/thead
                             product_line: //table/tbody/tr
                             price_totals: //table/tfoot
+                            price_totals_line: //table/tfoot/descendant::tr
+                            price_totals_line_index: //table/tfoot/descendant::tr[%index%]
+                            price_totals_line_index_name: //table/tfoot/descendant::tr[%index%]/*[1]
+                            price_totals_line_index_value: //table/tfoot/descendant::tr[%index%]/*[2]
                 -
                     review_order:
                         xpath: //div[div/h1[contains(text(),'Review Order')]]
@@ -401,6 +408,7 @@ checkout_multishipping_review_order:
                         pageelements:
                             grand_total: //*[@class='grand-total']//span[@class='price']
                             3d_secure_header: //h3[text()='Card Verification']
+                            virtual_item_head: //*[contains(text(), 'Other')]
                 -
                     3d_secure_card_validation: &3DSecureCardValidation
                         xpath: //div[@id='centinel_authenticate_block']
@@ -432,6 +440,7 @@ checkout_multishipping_success_order:
                         xpath: //div[div/h1[text()='Order Success']]
                         links:
                             all_order_number: //a
+                            all_order_number_index: //a[%index%]
                             order_number: //a[text()='%orderId%']
                         buttons:
                             continue_shopping: //button[span='Continue Shopping']

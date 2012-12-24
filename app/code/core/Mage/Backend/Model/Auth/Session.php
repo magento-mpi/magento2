@@ -16,7 +16,9 @@
  * @package     Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Auth_Session extends Mage_Core_Model_Session_Abstract implements Mage_Backend_Model_Auth_StorageInterface
+class Mage_Backend_Model_Auth_Session
+    extends Mage_Core_Model_Session_Abstract
+    implements Mage_Backend_Model_Auth_StorageInterface
 {
     const XML_PATH_SESSION_LIFETIME = 'admin/security/session_lifetime';
 
@@ -25,7 +27,7 @@ class Mage_Backend_Model_Auth_Session extends Mage_Core_Model_Session_Abstract i
      *
      * @var boolean
      */
-    protected $_isFirstPageAfterLogin;
+    protected $_isFirstAfterLogin;
 
     /**
      * Access Control List builder
@@ -119,7 +121,9 @@ class Mage_Backend_Model_Auth_Session extends Mage_Core_Model_Session_Abstract i
                     if (!$acl->has($resource)) {
                         return $acl->isAllowed($user->getAclRole(), null, $privilege);
                     }
-                } catch (Exception $e) { }
+                } catch (Exception $e) {
+
+                }
             }
         }
         return false;
@@ -154,10 +158,10 @@ class Mage_Backend_Model_Auth_Session extends Mage_Core_Model_Session_Abstract i
      */
     public function isFirstPageAfterLogin()
     {
-        if (is_null($this->_isFirstPageAfterLogin)) {
-            $this->_isFirstPageAfterLogin = $this->getData('is_first_visit', true);
+        if (is_null($this->_isFirstAfterLogin)) {
+            $this->_isFirstAfterLogin = $this->getData('is_first_visit', true);
         }
-        return $this->_isFirstPageAfterLogin;
+        return $this->_isFirstAfterLogin;
     }
 
     /**
@@ -168,8 +172,8 @@ class Mage_Backend_Model_Auth_Session extends Mage_Core_Model_Session_Abstract i
      */
     public function setIsFirstPageAfterLogin($value)
     {
-        $this->_isFirstPageAfterLogin = (bool)$value;
-        return $this->setIsFirstVisit($this->_isFirstPageAfterLogin);
+        $this->_isFirstAfterLogin = (bool)$value;
+        return $this->setIsFirstVisit($this->_isFirstAfterLogin);
     }
 
     /**
