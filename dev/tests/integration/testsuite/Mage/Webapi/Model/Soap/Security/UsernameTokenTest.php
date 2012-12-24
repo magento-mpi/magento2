@@ -58,7 +58,8 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
 
         $created = date('c');
         $nonce = base64_encode(mt_rand());
-        $authenticatedUser = $usernameToken->authenticate($this->_user->getApiKey(), $this->_user->getSecret(), $created, $nonce);
+        $authenticatedUser = $usernameToken->authenticate($this->_user->getApiKey(), $this->_user->getSecret(),
+            $created, $nonce);
         $this->assertEquals($this->_user->getRoleId(), $authenticatedUser->getRoleId());
     }
 
