@@ -187,7 +187,42 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
                 'error'   => true,
                 'message' => $this->__('Cannot upload css file')
             )));
-            Mage::logException($e);
+            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+        }
+    }
+
+    /**
+     * Download css file
+     */
+    public function downloadCssAction()
+    {
+        $themeId = $this->getRequest()->getParam('theme_id');
+        $file = $this->getRequest()->getParam('file');
+
+        /** @var $helper Mage_Theme_Helper_Data */
+        $helper = $this->_objectManager->get('Mage_Theme_Helper_Data');
+        $fileName = $helper->urlDecode($file);
+        try {
+            /** @var $theme Mage_Core_Model_Theme */
+            $theme = $this->_objectManager->create('Mage_Core_Model_Theme')->load($themeId);
+            if (!$theme->getId()) {
+                throw new InvalidArgumentException($this->__('Theme with id "%d" is not found.', $themeId));
+            }
+
+            $themeCss = $helper->getCssFiles($theme);
+            if (!isset($themeCss[$fileName])) {
+                throw new InvalidArgumentException(
+                    $this->__('Css file "%s" is not in the theme with id "%d".', $fileName, $themeId)
+                );
+            }
+
+            $this->_prepareDownloadResponse($fileName, array(
+                'type'  => 'filename',
+                'value' => $themeCss[$fileName]
+            ));
+        } catch (Exception $e) {
+            $this->_getSession()->addException($e, $this->__('File "%s" is not found.', $fileName));
+            $this->_redirectUrl($this->_getRefererUrl());
         }
     }
 
