@@ -34,6 +34,7 @@ class Core_Mage_Grid_UiElementsTest extends Mage_Selenium_TestCase
 
     /**
      * Need to verify that all grid elements are presented on page
+     *
      * @test
      * @dataProvider uiElementsTestDataProvider
      */
@@ -47,6 +48,7 @@ class Core_Mage_Grid_UiElementsTest extends Mage_Selenium_TestCase
 
     /**
      * Need to verify that all columns in table are presented in the correct order
+     *
      * @test
      * @dataProvider uiElementsTestDataProvider
      */
@@ -74,11 +76,13 @@ class Core_Mage_Grid_UiElementsTest extends Mage_Selenium_TestCase
             array('system_backup'),
             array('permissions_locked_users'),
             array('manage_tax_zones_and_rates'),
+            array('system_custom_variables'),
         );
     }
 
     /**
      * Need to verify that all ui elements are presented in grid
+     *
      * @test
      */
     public function uiElementForRoleUsers()
@@ -94,6 +98,7 @@ class Core_Mage_Grid_UiElementsTest extends Mage_Selenium_TestCase
 
     /**
      * Need to verify that all ui elements are presented in grid
+     *
      * @return array
      * @test
      */

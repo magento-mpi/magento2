@@ -339,3 +339,24 @@ manage_tax_zones_and_rates:
         2: State/Region
         3: Zip/Post Code
         4: Rate
+
+#dataset for ui elements in Custom Variables grid
+system_custom_variables:
+    fieldset:
+        system_custom_variables_grid: tablename
+    button:
+        reset_filter:
+        search:
+        add_new_variable:
+    dropdown:
+        view:
+    field:
+        page:
+        variable_id:
+        variable_code:
+        variable_name:
+    headers:
+        0: Variable ID
+        1: Variable Code
+        2: Name
+
