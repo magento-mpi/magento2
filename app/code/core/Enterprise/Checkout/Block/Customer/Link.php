@@ -29,6 +29,7 @@ class Enterprise_Checkout_Block_Customer_Link extends Mage_Core_Block_Template
     public function addDashboardLink($block, $name, $path, $label, $urlParams = array())
     {
         if (Mage::helper('Enterprise_Checkout_Helper_Data')->isSkuApplied()) {
+            /** @var $blockInstance Mage_Customer_Block_Account_Navigation */
             $blockInstance = $this->getLayout()->getBlock($block);
             if ($blockInstance) {
                 $blockInstance->addLink($name, $path, $label, $urlParams);

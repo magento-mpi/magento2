@@ -46,4 +46,38 @@ abstract class Mage_Core_Controller_Varien_ActionAbstract implements Mage_Core_C
         $this->_response    = $response;
         $this->_currentArea = $areaCode;
     }
+
+    /**
+     * Retrieve request object
+     *
+     * @return Mage_Core_Controller_Request_Http
+     */
+    public function getRequest()
+    {
+        return $this->_request;
+    }
+
+    /**
+     * Retrieve response object
+     *
+     * @return Mage_Core_Controller_Response_Http
+     */
+    public function getResponse()
+    {
+        return $this->_response;
+    }
+
+    /**
+     * Retrieve full bane of current action current controller and
+     * current module
+     *
+     * @param   string $delimiter
+     * @return  string
+     */
+    public function getFullActionName($delimiter = '_')
+    {
+        return $this->getRequest()->getRequestedRouteName() . $delimiter .
+            $this->getRequest()->getRequestedControllerName() . $delimiter .
+            $this->getRequest()->getRequestedActionName();
+    }
 }

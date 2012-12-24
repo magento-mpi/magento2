@@ -916,7 +916,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->frontend('product_page_id', false);
         $this->setCurrentPage('product_page');
         $this->addParameter('productName', $productName);
-        $openedProductName = $this->getText($this->_getControlXpath('pageelement', 'product_name'));
+        $openedProductName = $this->getElement($this->_getControlXpath('pageelement', 'product_name'))->text();
         $this->assertEquals($productName, $openedProductName,
             "Product with name '$openedProductName' is opened, but should be '$productName'");
     }

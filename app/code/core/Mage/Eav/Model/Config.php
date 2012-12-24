@@ -223,7 +223,7 @@ class Mage_Eav_Model_Config
         if (is_array($this->_entityData)) {
             return $this;
         }
-        Magento_Profiler::start('EAV: '.__METHOD__);
+        Magento_Profiler::start('EAV: '.__METHOD__, array('group' => 'EAV', 'method' => __METHOD__));
 
         /**
          * try load information about entity types from cache
@@ -280,7 +280,7 @@ class Mage_Eav_Model_Config
         if ($code instanceof Mage_Eav_Model_Entity_Type) {
             return $code;
         }
-        Magento_Profiler::start('EAV: '.__METHOD__);
+        Magento_Profiler::start('EAV: '.__METHOD__, array('group' => 'EAV', 'method' => __METHOD__));
 
         if (is_numeric($code)) {
             $entityCode = $this->_getEntityTypeReference($code);
@@ -332,7 +332,7 @@ class Mage_Eav_Model_Config
         if (isset($this->_initializedAttributes[$entityTypeCode])) {
             return $this;
         }
-        Magento_Profiler::start('EAV: '.__METHOD__);
+        Magento_Profiler::start('EAV: '.__METHOD__, array('group' => 'EAV', 'method' => __METHOD__));
 
         $attributesInfo = Mage::getResourceModel($entityType->getEntityAttributeCollection())
             ->setEntityTypeFilter($entityType)
@@ -364,7 +364,7 @@ class Mage_Eav_Model_Config
             return $code;
         }
 
-        Magento_Profiler::start('EAV: '.__METHOD__);
+        Magento_Profiler::start('EAV: '.__METHOD__, array('group' => 'EAV', 'method' => __METHOD__));
 
         $entityTypeCode = $this->getEntityType($entityType)->getEntityTypeCode();
         $entityType     = $this->getEntityType($entityType);
@@ -495,7 +495,8 @@ class Mage_Eav_Model_Config
         if (empty($attributes)) {
             return $this;
         }
-        Magento_Profiler::start('EAV: '.__METHOD__ . ':'.$entityTypeCode);
+        Magento_Profiler::start('EAV: '.__METHOD__ . ':'.$entityTypeCode,
+            array('group' => 'EAV', 'method' => __METHOD__, 'entity_type_code' => $entityTypeCode));
 
         $attributesInfo = Mage::getResourceModel($entityType->getEntityAttributeCollection())
             ->setEntityTypeFilter($entityType)

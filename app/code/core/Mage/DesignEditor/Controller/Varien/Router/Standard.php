@@ -11,11 +11,6 @@
 class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Controller_Varien_Router_Base
 {
     /**
-     * Name of layout class that will be used as main layout
-     */
-    const LAYOUT_CLASS_NAME = 'Mage_DesignEditor_Model_Layout';
-
-    /**
      * @var Mage_Backend_Model_Auth_Session
      */
     protected $_backendSession;
@@ -35,9 +30,16 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
     /**
      * Layout factory
      *
-     * @var Mage_Core_Model_Layout_Factory
+     * @var Mage_DesignEditor_Model_State
      */
-    protected $_layoutFactory;
+    protected $_editorState;
+
+    /**
+     * Configuration model
+     *
+     * @var Mage_Core_Model_Config
+     */
+    protected $_configuration;
 
     /**
      * @param Mage_Core_Controller_Varien_Action_Factory $controllerFactory
@@ -46,7 +48,8 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
      * @param string $baseController
      * @param Mage_Backend_Model_Auth_Session $backendSession
      * @param Mage_DesignEditor_Helper_Data $helper
-     * @param Mage_Core_Model_Layout_Factory $layoutFactory
+     * @param Mage_DesignEditor_Model_State $editorState
+     * @param Mage_Core_Model_Config $configuration
      */
     public function __construct(
         Mage_Core_Controller_Varien_Action_Factory $controllerFactory,
@@ -55,13 +58,15 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
         $baseController,
         Mage_Backend_Model_Auth_Session $backendSession,
         Mage_DesignEditor_Helper_Data $helper,
-        Mage_Core_Model_Layout_Factory $layoutFactory
+        Mage_DesignEditor_Model_State $editorState,
+        Mage_Core_Model_Config $configuration
     ) {
         parent::__construct($controllerFactory, $objectManager, $areaCode, $baseController);
 
         $this->_backendSession = $backendSession;
         $this->_helper         = $helper;
-        $this->_layoutFactory  = $layoutFactory;
+        $this->_editorState    = $editorState;
+        $this->_configuration  = $configuration;
     }
 
     /**
@@ -82,6 +87,9 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
             return null;
         }
 
+        // override VDE configuration
+        $this->_overrideConfiguration();
+
         // prepare request to imitate
         $this->_prepareVdeRequest($request);
 
@@ -93,16 +101,10 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
         $routers = $this->_getMatchedRouters();
         /** @var $router Mage_Core_Controller_Varien_Router_Abstract */
         foreach ($routers as $router) {
-            /** @var $controller Mage_Core_Controller_Front_Action */
+            /** @var $controller Mage_Core_Controller_Varien_ActionAbstract */
             $controller = $router->match($request);
             if ($controller) {
-                /**
-                 * Create layout instance that will be used as main layout for whole system
-                 */
-                $this->_layoutFactory->createLayout(
-                    array('area' => $this->_areaCode),
-                    self::LAYOUT_CLASS_NAME
-                );
+                $this->_editorState->update($this->_areaCode, $request, $controller);
                 break;
             }
         }
@@ -151,5 +153,17 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
             }
         }
         return $routers;
+    }
+
+    /**
+     * Override frontend configuration with VDE area data
+     */
+    protected function _overrideConfiguration()
+    {
+        $vdeNode = $this->_configuration->getNode(Mage_DesignEditor_Model_Area::AREA_VDE);
+        if ($vdeNode) {
+            $this->_configuration->getNode(Mage_Core_Model_App_Area::AREA_FRONTEND)
+                ->extend($vdeNode, true);
+        }
     }
 }
