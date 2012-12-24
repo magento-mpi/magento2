@@ -93,7 +93,7 @@
                             <index>apply_to</index>
                             <align>left</align>
                             <type>options</type>
-                            <options type='options'>Enterprise_TargetRule_Model_Rule_Options_Status</options>
+                            <options type='options'>Enterprise_TargetRule_Model_Rule_Options_Applies</options>
                             <width>150px</width>
                         </arguments>
                     </block>
@@ -103,7 +103,7 @@
                             <index>is_active</index>
                             <align>left</align>
                             <type>options</type>
-                            <options type='options'>Enterprise_TargetRule_Model_Rule_Options_Applies</options>
+                            <options type='options'>Enterprise_TargetRule_Model_Rule_Options_Status</options>
                             <width>1px</width>
                         </arguments>
                     </block>
