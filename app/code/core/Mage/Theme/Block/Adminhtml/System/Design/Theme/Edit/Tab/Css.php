@@ -115,18 +115,20 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     /**
      * Prepare file items for output on page for download
      *
-     * @param string $title
-     * @param array $data
+     * @param string $fileTitle
+     * @param string $filePath
      * @return array
      */
-    protected function _getThemeCss($title, $data)
+    protected function _getThemeCss($fileTitle, $filePath)
     {
         return array(
-            'href'      => $data['url'],
-            'label'     => $title,
-            'title'     => $data['filename'],
-            'target'    => '_blank',
-            'delimiter' => '<br />',
+            'href'      => $this->getUrl('*/*/downloadCss', array(
+                'theme_id' => $this->_getCurrentTheme()->getId(),
+                'file'     => $this->_helperFactory->get('Mage_Theme_Helper_Data')->urlEncode($fileTitle))
+            ),
+            'label'     => $fileTitle,
+            'title'     => $filePath,
+            'delimiter' => '<br />'
         );
     }
 
@@ -200,9 +202,9 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
 
         $groups = array();
         $themes = array();
-        foreach ($this->getFiles() as $fileTitle => $file) {
+        foreach ($this->getFiles() as $fileTitle => $filePath) {
             /** @var $theme Mage_Core_Model_Theme */
-            list($group, $theme) = $this->_getGroup($file['filename']);
+            list($group, $theme) = $this->_getGroup($filePath);
             if ($theme) {
                 $themes[$theme->getThemeId()] = $theme;
             }
@@ -210,7 +212,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             if (!isset($groups[$group])) {
                 $groups[$group] = array();
             }
-            $groups[$group][] = $this->_getThemeCss($fileTitle, $file);
+            $groups[$group][] = $this->_getThemeCss($fileTitle, $filePath);
         }
 
         if (count($themes) > 1) {

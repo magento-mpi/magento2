@@ -17,7 +17,9 @@ class Mage_Theme_Helper_Data extends Mage_Core_Helper_Abstract
      * Get CSS files of a given theme
      *
      * Returned array has a structure
-     * array('Mage_Catalog::widgets.css' => 'http://mage2.com/pub/media/theme/frontend/_theme15/en_US/Mage_Cms/widgets.css')
+     * array(
+     *   'Mage_Catalog::widgets.css' => 'http://mage2.com/pub/media/theme/frontend/_theme15/en_US/Mage_Cms/widgets.css'
+     * )
      *
      * @param Mage_Core_Model_Theme $theme
      * @return array
@@ -46,10 +48,7 @@ class Mage_Theme_Helper_Data extends Mage_Core_Helper_Abstract
         );
         $urls = array();
         foreach ($files as $file) {
-            $urls[(string)$file] = array(
-                'filename' => $design->getViewFile($file, $params),
-                'url'      => $design->getViewFileUrl($file, $params)
-            );
+            $urls[(string)$file] = $design->getViewFile($file, $params);
         }
 
         return $urls;
