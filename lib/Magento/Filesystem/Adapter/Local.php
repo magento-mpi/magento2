@@ -17,7 +17,7 @@ class Magento_Filesystem_Adapter_Local implements Magento_Filesystem_AdapterInte
      */
     public function exists($key)
     {
-        // TODO: Implement exists() method.
+        return file_exists($key);
     }
 
     /**
@@ -28,7 +28,7 @@ class Magento_Filesystem_Adapter_Local implements Magento_Filesystem_AdapterInte
      */
     public function read($key)
     {
-        // TODO: Implement read() method.
+        return file_get_contents($key);
     }
 
     /**
@@ -36,11 +36,11 @@ class Magento_Filesystem_Adapter_Local implements Magento_Filesystem_AdapterInte
      *
      * @param string $key
      * @param string $content
-     * @return int The number of bytes that were written.
+     * @return bool true if write was success
      */
     public function write($key, $content)
     {
-        // TODO: Implement write() method.
+        return (bool)file_put_contents($key, $content);
     }
 
     /**
@@ -51,7 +51,7 @@ class Magento_Filesystem_Adapter_Local implements Magento_Filesystem_AdapterInte
      */
     public function delete($key)
     {
-        // TODO: Implement delete() method.
+        return unlink($key);
     }
 
     /**
@@ -63,17 +63,17 @@ class Magento_Filesystem_Adapter_Local implements Magento_Filesystem_AdapterInte
      */
     public function rename($source, $target)
     {
-        // TODO: Implement rename() method.
+        return rename($source, $target);
     }
 
     /**
-     * Check if key is directory.
+     * Check if key is a directory.
      *
      * @param string $key
      * @return bool
      */
     public function isDirectory($key)
     {
-        // TODO: Implement isDirectory() method.
+        return is_dir($key);
     }
 }

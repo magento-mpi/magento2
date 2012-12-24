@@ -30,7 +30,7 @@ interface Magento_Filesystem_AdapterInterface
      *
      * @param string $key
      * @param string $content
-     * @return int The number of bytes that were written.
+     * @return bool true if write was success
      */
     public function write($key, $content);
 
