@@ -56,3 +56,24 @@ manage_product_rules:
         4: Priority
         5: Applies To
         6: Status
+
+#dataset for ui elements in Manage Reward Exchange Rates grid
+manage_reward_rates:
+    fieldset:
+          reward_point_grid: tablename
+    button:
+        reset_filter:
+        search:
+        add_new_rate:
+    dropdown:
+        website:
+        customer_group:
+        view_on_page:
+    field:
+         page:
+         reward_id:
+    headers:
+        0: ID
+        1: Website
+        2: Customer Group
+        3: Rate

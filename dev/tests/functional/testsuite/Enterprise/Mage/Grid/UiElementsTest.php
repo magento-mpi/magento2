@@ -32,6 +32,7 @@ class Enterprice_Mage_Grid_UiElementsTest extends Core_Mage_Grid_UiElementsTest
             array('search_terms'),
             array('newsletter_problem_reports'),
             array('manage_product_rules'),
+            array('manage_reward_rates'),
         );
     }
 }
