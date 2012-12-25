@@ -1,0 +1,95 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/* @var $this Mage_Core_Block_Template */
+?>
+<script id="attribute-template" type="text/x-jquery-tmpl">
+    <div class="entry-edit attribute-container">
+        <input name="attributes[]" id="configurable_attribute_${attribute.id}"
+            value="${attribute.id}" type="hidden">
+        <input value="new" type="hidden"
+            name="product[configurable_attributes_data][${attribute.id}]][id]"/>
+        <input value="${attribute.id}" type="hidden"
+            name="product[configurable_attributes_data][${attribute.id}][attribute_id]"/>
+        <input value="" type="hidden" class="attribute-position"
+            name="product[configurable_attributes_data][${attribute.id}][position]"/>
+
+        <div class="entry-edit-head" style="cursor: move;">
+            <span class="ui-icon ui-icon-arrowthick-2-n-s" style="float:left;"></span>
+            <h4 class="icon-head head-edit-form fieldset-legend">
+                <input value="${attribute.label}"
+                    name="product[configurable_attributes_data][${attribute.id}][label]"
+                    data-store-label="${attribute.label}"
+                    style="background: #6F8992; border: none"
+                    class="required-entry"/>
+                <label for="attribute-${attribute.id}">
+                    <input value="1"
+                        type="checkbox"
+                        name="product[configurable_attributes_data][${attribute.id}][use_default]"
+                        id="attribute-${attribute.id}"/>
+                    <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Use default')?>
+            </h4>
+            <span class="ui-icon ui-icon-circle-close remove"></span>
+            <span class="ui-icon ui-icon-circle-triangle-s toggle"></span>
+        </div>
+        <fieldset>
+            <table style="width:100%">
+                <thead>
+                <tr>
+                    <th>
+                        <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Option Value')?>
+                    </th>
+                    <th class="column-price">
+                        <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Change Price')?>
+                    </th>
+                    <th>
+                        <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Include')?>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {{each(index, option) attribute.options}}
+                <tr>
+                    <td>${option.label}</td>
+                    <td class="column-price">
+                        <input type="hidden"
+                            name="product[configurable_attributes_data][${attribute.id}][values][${option.value}][value_index]"
+                            value="${option.value}">
+                        <input type="text"
+                            name="product[configurable_attributes_data][${attribute.id}][values][${option.value}][pricing_value]"
+                            value="">
+                        <select
+                            name="product[configurable_attributes_data][${attribute.id}][values][${option.value}][is_percent]">
+                            <option value="0">
+                                <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Fixed')?>
+                            </option>
+                            <option value="1">
+                                <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Percentage')?>
+                            </option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="hidden"
+                            name="product[configurable_attributes_data][${attribute.id}][values][${option.value}][include]"
+                            value="0"/>
+                        <input type="checkbox" class="include"
+                            name="product[configurable_attributes_data][${attribute.id}][values][${option.value}][include]"
+                            value="1" checked="checked"/>
+                    </td>
+                </tr>
+                {{/each}}
+                </tbody>
+            </table>
+            <label>
+                <input type="checkbox" class="price-variation" />
+                <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Have price variations')?>
+            </label>
+        </fieldset>
+    </div>
+</script>

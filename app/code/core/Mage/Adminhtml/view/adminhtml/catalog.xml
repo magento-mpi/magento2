@@ -37,6 +37,7 @@
             <action method="addCss"><file>Mage_Adminhtml::catalog/category-selector.css</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/category-selector.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/type-switcher.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::catalog/product-variation.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/base-image-uploader.js</file></action>
             <action method="addCss"><file>Mage_Adminhtml::catalog/base-image-uploader.css</file></action>
             <action method="addCss"><file>Mage_Adminhtml::catalog/configurable-product.css</file></action>
@@ -74,6 +75,7 @@
             <action method="addCss"><file>Mage_Adminhtml::catalog/category-selector.css</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/category-selector.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/type-switcher.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::catalog/product-variation.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/base-image-uploader.js</file></action>
             <action method="addCss"><file>Mage_Adminhtml::catalog/base-image-uploader.css</file></action>
             <action method="addCss"><file>Mage_Adminhtml::catalog/configurable-product.css</file></action>
@@ -297,7 +299,9 @@ Layout handle for simple products
             <action method="addTab"><name>downloadable_items</name><block>Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable</block></action>
         </reference>
         <reference name="product-type-tabs">
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" name="admin.product.edit.tab.super.config.grid.container"></block>
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" name="admin.product.edit.tab.super.config.grid.container">
+
+            </block>
         </reference>
     </adminhtml_catalog_product_simple>
 <!--
@@ -354,14 +358,34 @@ Layout handle for configurable products
     <adminhtml_catalog_product_configurable_new>
         <update handle="adminhtml_catalog_product_superconfig_config"/>
         <reference name="product-type-tabs">
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" name="admin.product.edit.tab.super.config.grid.container"></block>
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" name="admin.product.edit.tab.super.config.grid.container">
+                <block type="Mage_Core_Block_Template" name="attribute-block-template"
+                       template="Mage_Adminhtml::catalog/product/edit/super/attribute-js-template.phtml"
+                       as="template"/>
+                <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Attribute"
+                       template="Mage_Adminhtml::catalog/product/edit/super/attribute-template.phtml"
+                       as="attribute-renderer"/>
+                <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix"
+                       template="Mage_Adminhtml::catalog/product/edit/super/matrix.phtml"
+                       as="matrix"/>
+            </block>
         </reference>
     </adminhtml_catalog_product_configurable_new>
 
     <adminhtml_catalog_product_configurable>
         <update handle="adminhtml_catalog_product_superconfig_config"/>
         <reference name="product-type-tabs">
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" name="admin.product.edit.tab.super.config.grid.container"></block>
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" name="admin.product.edit.tab.super.config.grid.container">
+                <block type="Mage_Core_Block_Template" name="attribute-block-template"
+                       template="Mage_Adminhtml::catalog/product/edit/super/attribute-js-template.phtml"
+                       as="template"/>
+                <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Attribute"
+                       template="Mage_Adminhtml::catalog/product/edit/super/attribute-template.phtml"
+                       as="attribute-renderer"/>
+                <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix"
+                       template="Mage_Adminhtml::catalog/product/edit/super/matrix.phtml"
+                       as="matrix"/>
+            </block>
         </reference>
     </adminhtml_catalog_product_configurable>
 

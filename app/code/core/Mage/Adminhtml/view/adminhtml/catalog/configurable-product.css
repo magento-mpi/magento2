@@ -22,6 +22,13 @@ input.ui-autocomplete-loading {
     background:url('images/spinner.gif') no-repeat 100%, linear-gradient(top, #ffffff 85%, #eeeeee 99%);
 }
 
+#attributes-container {
+    padding-bottom: 15px;
+}
+
+#attributes-container .entry-edit > fieldset {
+    margin-bottom: none;
+}
 #attributes-container  .column-price {
     visibility: hidden;
 }
@@ -32,4 +39,11 @@ input.ui-autocomplete-loading {
 
 #attributes-container .ui-icon-circle-triangle-s, #attributes-container .ui-icon-circle-close {
     cursor: pointer;
+    float: right;
+    margin-left: 4px;
 }
+
+#attributes-container tr:hover {
+    outline: 1px dotted RGBA(128, 128, 128, 0.2);
+}
+

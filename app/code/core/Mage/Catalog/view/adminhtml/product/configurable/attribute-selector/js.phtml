@@ -44,9 +44,8 @@
                 select: function(event, ui) {
                     var attribute = ui.item;
                     if (attribute.id) {
-                        $('#attribute-template').tmpl({attribute: attribute}).appendTo('#attributes-container');
+                        $('#attributes-container').trigger('add', attribute);
                     }
-
                     $(this).val('');
                     return false;
                 }
