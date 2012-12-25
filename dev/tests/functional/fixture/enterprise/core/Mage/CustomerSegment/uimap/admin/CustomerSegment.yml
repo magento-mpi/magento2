@@ -26,9 +26,11 @@ manage_customer_segments:
                         fields:
                             filter_segment_id: //input[@id='customersegmentGrid_filter_grid_segment_id']
                             filter_segment_name: //input[@id='customersegmentGrid_filter_grid_segment_name']
+                            page: //input[@name='page']
                         dropdowns:
                             filter_status: //select[@id='customersegmentGrid_filter_grid_segment_is_active']
                             filter_website: //select[@name='grid_segment_website']
+                            view_per_page: //select[@name='limit']
                         pageelements:
                             customer_segment_grid_head: //div[@id='customersegmentGrid']//thead/tr[@class='headings']
         buttons:

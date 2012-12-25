@@ -105,3 +105,27 @@ manage_automated_email_reminder_rules:
         3: Date Expire
         4: Status
         5: Website
+
+#dataset for ui elements in Customer segment grid
+manage_customer_segments:
+    fieldset:
+        customer_segment_grid: tablename
+    button:
+        reset_filter:
+        search:
+        add_new_segment:
+    field:
+        filter_segment_id:
+        filter_segment_name:
+        page:
+    dropdown:
+        filter_status:
+        filter_website:
+        view_per_page:
+    pageelement:
+        customer_segment_grid_head:
+    headers:
+        0: ID
+        1: Segment Name
+        2: Status
+        3: Website
