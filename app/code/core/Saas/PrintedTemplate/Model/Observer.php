@@ -1,0 +1,322 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category   Saas
+ * @package    Saas_PrintedTemplate
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+
+/**
+ * Observer model
+ *
+ * @category   Saas
+ * @package    Saas_PrintedTemplate
+ * @subpackage Models
+ */
+class Saas_PrintedTemplate_Model_Observer
+{
+    /**
+     * Array of widget types that should be visible only on printed template edit page
+     *
+     * @var array
+     */
+    protected $_widgetsToSkip = array(
+        'Saas_PrintedTemplate_Block_Widget_ItemsGrid',
+        'Saas_PrintedTemplate_Block_Widget_TaxGrid'
+    );
+
+    /**
+     * Array of widget types that shouldn't be visible on printed template edit page
+     *
+     * @var array
+     */
+    protected $_widgetsToRemove = array(
+        'Mage_Cms_Block_Widget_Page_Link',
+        'Mage_Cms_Block_Widget_Block',
+        'Mage_Catalog_Block_Product_Widget_New',
+        'Mage_Catalog_Block_Product_Widget_Link',
+        'Mage_Catalog_Block_Category_Widget_Link',
+        'Mage_Reports_Block_Product_Widget_Viewed',
+        'Mage_Reports_Block_Product_Widget_Compared',
+        'Mage_Sales_Block_Widget_Guest_Form',
+        'Enterprise_Cms_Block_Widget_Node',
+        'Enterprise_Banner_Block_Widget_Banner',
+    );
+
+    /**
+     * Save order detailed tax information on event sales_order_save_after
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function saveOrderTaxDetails(Varien_Event_Observer $observer)
+    {
+        $order = $observer->getEvent()->getOrder();
+        if (!$order->getConvertingFromQuote() || $order->getAppliedTaxDetailsIsSaved()) {
+            return;
+        }
+
+        $calculation = Mage::getModel('Saas_PrintedTemplate_Model_Tax_Details');
+
+        // Save order items tax details information
+        $itemsTaxDetails = $calculation->calculateItemsTaxInfo($order->getQuote());
+        foreach ($order->getAllItems() as $item) {
+            if (isset($itemsTaxDetails[$item->getQuoteItemId()])) {
+                $rates = $itemsTaxDetails[$item->getQuoteItemId()];
+                foreach ($rates as $rate) {
+                    Mage::getModel('Saas_PrintedTemplate_Model_Tax_Order_Item')
+                        ->setData($rate)
+                        ->setItemId($item->getId())
+                        ->save();
+                }
+            }
+        }
+
+        // Save order shipping tax details information
+        $shippingTaxRates = $calculation->calculateShippingTaxInfo($order->getQuote());
+        foreach ($shippingTaxRates as $rate) {
+            Mage::getModel('Saas_PrintedTemplate_Model_Tax_Order_Shipping')
+                ->setData($rate)
+                ->setOrderId($order->getId())
+                ->save();
+        }
+
+        $order->setAppliedTaxDetailsIsSaved(true);
+
+        return $this;
+    }
+
+    /**
+     * Remove printed template widgets from wysiwyg editors
+     * observes cms_wysiwyg_config_prepare event
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Saas_PrintedTemplate_Model_Observer
+     */
+    public function removeWidgetsFromWysiwyg(Varien_Event_Observer $observer)
+    {
+        $config = $observer->getEvent()->getConfig();
+        $skipPrintedTemplateWidgets = true;
+        if ($config->hasSkipPrintedTemplateWidgets()) {
+            $skipPrintedTemplateWidgets = $config->getSkipPrintedTemplateWidgets();
+        }
+        if ($skipPrintedTemplateWidgets) {
+            $this->_addWidgetsToSkip($this->_widgetsToSkip, $config);
+        } else {
+            $this->_addWidgetsToSkip($this->_widgetsToRemove, $config);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add observer to specific event
+     *
+     * @param type $area
+     * @param type $eventName
+     * @param type $observerName
+     * @param type $observerClass
+     * @param type $observerMethod
+     * @return Saas_PrintedTemplate_Model_Observer
+     */
+    protected function _addObserver($area, $eventName, $observerName, $observerClass, $observerMethod)
+    {
+        $eventConfig = Mage::getConfig()->getEventConfig($area, $eventName);
+        if (!$eventConfig) {
+            $eventConfig = Mage::getConfig()->getNode($area)->events->addChild($eventName);
+        }
+        if (isset($eventConfig->observers)) {
+            $eventObservers = $eventConfig->observers;
+        } else {
+            $eventObservers = $eventConfig->addChild('observers');
+        }
+        $observer = $eventObservers->addChild($observerName);
+        $observer->addChild('class', $observerClass);
+        $observer->addChild('method', $observerMethod);
+
+        return $this;
+    }
+
+    /**
+     * Dynamically add adminhtml_block_html_before event observer for adminhtml_widget_instance_edit action
+     * observes controller_action_predispatch_adminhtml_widget_instance_edit event
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Saas_PrintedTemplate_Model_Observer
+     */
+    public function addWidgetInstanceFormBlockRenderingObserver(Varien_Event_Observer $observer)
+    {
+        $this->_addObserver('adminhtml',
+            'adminhtml_block_html_before',
+            'saas_printedtemplate_remove_widgets_from_widget_instance_form',
+            'Saas_PrintedTemplate_Model_Observer',
+            'removeWidgetsFromWidgetInstanceForm'
+        );
+
+        return $this;
+    }
+
+    /**
+     * Remove printed template widgets from widget instance edit form
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Saas_PrintedTemplate_Model_Observer
+     */
+    public function removeWidgetsFromWidgetInstanceForm(Varien_Event_Observer $observer)
+    {
+        $block = $observer->getEvent()->getBlock();
+        if (!($block instanceof Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
+            || $block instanceof Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main)) {
+            return $this;
+        }
+
+        $form = $block->getForm();
+        if (!$form) {
+            return $this;
+        }
+
+        $fieldset = $form->getElement('base_fieldset');
+        if (!$fieldset) {
+            return $this;
+        }
+
+        foreach ($fieldset->getElements() as $element) {
+            if ($element->getId() == 'type') {
+                $values = $element->getValues();
+                if (is_array($values)) {
+                    foreach ($values as $key => $value) {
+                        if (in_array($value['value'], $this->_widgetsToSkip)) {
+                            unset($values[$key]);
+                        }
+                    }
+                }
+                $element->setValues($values);
+                break;
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Dynamically add adminhtml_block_html_before event observer for adminhtml_widget_instance_index action
+     * observes controller_action_predispatch_adminhtml_widget_instance_index event
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Saas_PrintedTemplate_Model_Observer
+     */
+    public function addWidgetInstanceGridBlockRenderingObserver(Varien_Event_Observer $observer)
+    {
+        $this->_addObserver('adminhtml',
+            'adminhtml_block_html_before',
+            'saas_printedtemplate_remove_widgets_from_widget_instance_grid_filter',
+            'Saas_PrintedTemplate_Model_Observer',
+            'removeWidgetsFromWidgetInstanceGridFilter'
+        );
+
+        return $this;
+    }
+
+    /**
+     * Remove printed template widgets from widget instances grid filter
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Saas_PrintedTemplate_Model_Observer
+     */
+    public function removeWidgetsFromWidgetInstanceGridFilter(Varien_Event_Observer $observer)
+    {
+        $block = $observer->getEvent()->getBlock();
+        if (!($block instanceof Mage_Widget_Block_Adminhtml_Widget_Instance_Grid)) {
+            return $this;
+        }
+
+        $column = $block->getColumn('type');
+        if (!$column) {
+            return $this;
+        }
+
+        $options = $column->getOptions();
+        if (is_array($options)) {
+            foreach ($this->_widgetsToSkip as $widgetType) {
+                if (isset($options[$widgetType])) {
+                    unset($options[$widgetType]);
+                }
+            }
+            $column->setOptions($options);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Replace URL for print invoices massaction
+     * Observe adminhtml_block_html_before event
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Saas_PrintedTemplate_Model_Observer
+     */
+    public function updatePrintInvoiceMassaction(Varien_Event_Observer $observer)
+    {
+        $block = $observer->getEvent()->getBlock();
+
+        if (!Mage::getStoreConfig('sales_pdf/general/enable_printed_templates')) {
+            return $this;
+        }
+
+        if ($block instanceof Mage_Adminhtml_Block_Sales_Order_Grid) {
+            $this->_setMassactionPrintEntitiesUrl($block, 'pdfinvoices_order', 'invoice')
+                ->_setMassactionPrintEntitiesUrl($block, 'pdfcreditmemos_order', 'creditmemo')
+                ->_setMassactionPrintEntitiesUrl($block, 'pdfshipments_order', 'shipment')
+                ->_setMassactionPrintEntitiesUrl($block, 'pdfdocs_order', 'all');
+        } else if ($block instanceof Mage_Adminhtml_Block_Sales_Invoice_Grid) {
+            $this->_setMassactionPrintEntitiesUrl($block, 'pdfinvoices_order', 'invoice');
+        } else if ($block instanceof Mage_Adminhtml_Block_Sales_Creditmemo_Grid) {
+            $this->_setMassactionPrintEntitiesUrl($block, 'pdfcreditmemos_order', 'creditmemo');
+        } else if ($block instanceof Mage_Adminhtml_Block_Sales_Shipment_Grid) {
+            $this->_setMassactionPrintEntitiesUrl($block, 'pdfshipments_order', 'shipment');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Replace massaction item URL in the grid block
+     *
+     * @param Mage_Adminhtml_Block_Widget_Grid $block grid block
+     * @param string $itemName the name of mass action item
+     * @param string $type entity type
+     * @return Saas_PrintedTemplate_Model_Observer
+     */
+    protected function _setMassactionPrintEntitiesUrl(Mage_Adminhtml_Block_Widget_Grid $block, $itemName, $type)
+    {
+        $item = $block->getMassactionBlock()->getItem($itemName);
+        if ($item) {
+            if ($type == 'all') {
+                $item->setUrl(Mage::helper('adminhtml')->getUrl('adminhtml/print/allEntities'));
+            } else {
+                $item->setUrl(Mage::helper('adminhtml')->getUrl('adminhtml/print/entities', array('type' => $type)));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Adds to config array of widgets to skip
+     *
+     * @param array $widgetsToSkip
+     * @param Varien_Object $config
+     */
+    protected function _addWidgetsToSkip(array $widgetsToSkip, $config)
+    {
+        $currentWidgetsToSkip = array();
+        if ($config->hasSkipWidgets()) {
+            $currentWidgetsToSkip = $config->getSkipWidgets();
+        }
+        $config->setSkipWidgets(array_merge($currentWidgetsToSkip, $widgetsToSkip));
+        if ($config->hasWidgetWindowUrl()) {
+            $config->setWidgetWindowUrl(Mage::getModel('Mage_Widget_Model_Widget_Config')->getWidgetWindowUrl($config));
+        }
+    }
+}
