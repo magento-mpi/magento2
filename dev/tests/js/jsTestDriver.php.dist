@@ -26,6 +26,7 @@ return array(
         '/app/code/core/Mage/DesignEditor/view/adminhtml/js/base.js',
         '/app/code/core/Mage/DesignEditor/view/adminhtml/js/design_editor.js',
         '/app/code/core/Mage/DesignEditor/view/frontend/js/design_editor.js',
+        '/app/code/core/Mage/DesignEditor/view/frontend/js/form_deactivation.js',
         '/app/code/core/Mage/DesignEditor/view/adminhtml/js/infinitescroll.js',
         '/pub/lib/jquery/jstree/jquery.jstree.js',
         '/pub/lib/jquery/slimScroll/slimScroll.min.js',
