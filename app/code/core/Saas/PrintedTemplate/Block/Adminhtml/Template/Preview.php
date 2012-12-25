@@ -1,0 +1,82 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Saas
+ * @package     Saas_PrintedTemplate
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Template model
+ *
+ * @category   Saas
+ * @package    Saas_PrintedTemplate
+ * @subpackage  Blocks
+ */
+class Saas_PrintedTemplate_Block_Adminhtml_Template_Preview extends Mage_Adminhtml_Block_Widget
+{
+    /**
+     * Container for HTML preview
+     *
+     * @var Saas_PrintedTemplate_Model_Converter_HtmlInterface
+     */
+    protected $_previewContainer = null;
+
+    /**
+     * Set template
+     */
+    public function _construct()
+    {
+        // Calculate page width for CSS
+        $tpl = $this->_getTemplate();
+        $width = $tpl->getPageOrientation() !=
+            Saas_PrintedTemplate_Model_Converter_PdfAdapter_Interface::PAGE_ORIENTATION_LANDSCAPE
+                ? $tpl->getPageSize()->getWidth()
+                : $tpl->getPageSize()->getHeight();
+        $this->setWidth($width->setType(Zend_Measure_Length::MILLIMETER)->getValue() . 'mm');
+    }
+
+    /**
+     * Get preview convertor to retrieve HTML from it
+     *
+     * @return Saas_PrintedTemplate_Model_Converter_HtmlInterface
+     */
+    public function getPreviewConverter()
+    {
+        if (is_null($this->_previewContainer)) {
+            $model = Mage::getModel(
+                'Saas_PrintedTemplate_Model_Converter_Preview_Mock_' . $this->_getTemplate()->getEntityType(),
+                Mage::getModel('Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order')
+            );
+
+            $this->_previewContainer = Mage::helper('Saas_PrintedTemplate_Helper_Locator')
+                ->getConverter($model, $this->_getTemplate());
+        }
+
+        return $this->_previewContainer;
+    }
+
+    /**
+     * Returns printed template model
+     *
+     * @return Saas_PrintedTemplate_Model_Template
+     */
+    protected function _getTemplate()
+    {
+        return Mage::registry('printed_template');
+    }
+
+    /**
+     * Delete all scripts from output
+     *
+     * @param string $string
+     * @return string
+     */
+    protected function _filterScriptTags($string)
+    {
+        return preg_replace('!<script[^>]*>.*</script>!isU', '', $string);
+    }
+}
+
