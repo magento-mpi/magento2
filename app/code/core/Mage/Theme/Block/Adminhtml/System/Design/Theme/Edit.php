@@ -45,8 +45,10 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit extends Mage_Backend_B
 
             if ($theme->isDeletable()) {
                 if ($theme->hasChildThemes()) {
-                    $message = $this->__('Theme contains child themes. Their parent will be modified.')
-                        . $this->__('Are you sure you want to do this?');
+                    $message = join(' ', array(
+                        $this->__('Theme contains child themes. Their parent will be modified.'),
+                        $this->__('Are you sure you want to do this?')
+                    ));
                     $onClick = sprintf("deleteConfirm('%s', '%s')",
                         $message,
                         $this->getUrl('*/*/delete', array('id' => $theme->getId()))
