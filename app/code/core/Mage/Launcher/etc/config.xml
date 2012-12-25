@@ -100,6 +100,10 @@
                     <state_resolver>Mage_Launcher_Model_Promotestore_StateResolver</state_resolver>
                     <save_handler>Mage_Launcher_Model_Promotestore_SaveHandler</save_handler>
                 </catalog_price_rule>
+                <rss>
+                    <state_resolver>Mage_Launcher_Model_Promotestore_StateResolver</state_resolver>
+                    <save_handler>Mage_Launcher_Model_Promotestore_SaveHandler</save_handler>
+                </rss>
             </tiles>
         </launcher>
     </adminhtml>

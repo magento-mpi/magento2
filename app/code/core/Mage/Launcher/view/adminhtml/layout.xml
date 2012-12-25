@@ -60,6 +60,7 @@
         <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Seo_Tile" name="seo.tile"/>
         <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Promotion_Tile" name="promotion.tile"/>
         <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Catalogpricerule_Tile" name="catalog_price_rule.tile"/>
+        <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Rss_Tile" name="rss.tile"/>
     </promotestore_index>
 
     <launcher_promotestore_seo_drawer_load>
