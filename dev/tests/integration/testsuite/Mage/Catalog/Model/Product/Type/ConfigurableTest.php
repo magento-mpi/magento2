@@ -15,6 +15,8 @@
 class Mage_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * Object under test
+     *
      * @var Mage_Catalog_Model_Product_Type_Configurable
      */
     protected $_model;

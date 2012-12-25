@@ -26,11 +26,6 @@ input.ui-autocomplete-loading {
     margin-top: 10px;
 }
 
-#affected-attribute-set-new-name {
-    width: 100%;
+#affected-attribute-set-new-name-container input {
+    width: 99%;
 }
-
-#affected-attribute-set-new-name-container {
-    display: none;
-}
-

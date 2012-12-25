@@ -1316,7 +1316,7 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
         /**
          * Import variables into the current symbol table from save data array
          *
-         * @see Mage_Eav_Model_Entity_Attribute_Abstract::_collectSaveData()
+         * @see Mage_Eav_Model_Entity_Abstract::_collectSaveData()
          *
          * @var array $entityRow
          * @var Mage_Core_Model_Abstract $newObject

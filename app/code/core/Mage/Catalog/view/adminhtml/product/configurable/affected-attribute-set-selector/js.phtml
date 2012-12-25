@@ -22,6 +22,10 @@
                 minWidth: 700,
                 modal: true,
                 resizable: false,
+                close: function() {
+                    $form.find('.messages .error-msg').hide();
+                    $form.find('form').validation().data('validator').resetForm();
+                },
                 buttons: [{
                     text: '<?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Cancel'); ?>',
                     id: '<?php echo $this->getJsId('close-button') ?>',
@@ -40,6 +44,10 @@
                         }
 
                         $form.find('.messages .error-msg').hide();
+                        if (!$form.find('form').validation().valid()) {
+                            return false;
+                        }
+
                         $.ajax({
                             type: 'POST',
                             url: '<?php echo $this->getAttributeSetCreationUrl()?>',
