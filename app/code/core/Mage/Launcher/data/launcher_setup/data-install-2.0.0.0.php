@@ -67,3 +67,10 @@ $tile->setCode('promotion');
 $tile->setPageId(2);
 $tile->setState(Mage_Launcher_Model_Tile::STATE_TODO);
 $tile->save();
+
+/** @var $tile Mage_Launcher_Model_Tile */
+$tile = Mage::getModel('Mage_Launcher_Model_Tile');
+$tile->setCode('catalog_price_rule');
+$tile->setPageId(2);
+$tile->setState(Mage_Launcher_Model_Tile::STATE_TODO);
+$tile->save();
