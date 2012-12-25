@@ -130,7 +130,8 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
         return $attribute->getIsGlobal() == Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL
             && $attribute->getIsVisible()
             && $attribute->getIsConfigurable()
-            && $attribute->usesSource();
+            && $attribute->usesSource()
+            && $attribute->getIsUserDefined();
     }
 
     /**
@@ -889,21 +890,25 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     /**
      * Generate simple products to link with configurable
      *
-     * @param $parentProduct
-     * @param $productsData
+     * @param Mage_Catalog_Model_Product $parentProduct
+     * @param array $productsData
      * @return array
      */
     public function generateSimpleProducts($parentProduct, $productsData)
     {
+        $this->_prepareAttributeSetToBeBaseForNewVariations($parentProduct);
         $generatedProductIds = array();
-        foreach ($productsData as $simpeProductData) {
+        foreach ($productsData as $simpleProductData) {
             $newSimpleProduct = Mage::getModel('Mage_Catalog_Model_Product');
-            $configurableAttribute = Mage::helper('Mage_Core_Helper_Data')
-                ->jsonDecode($simpeProductData['configurable_attribute']);
-            unset($simpeProductData['configurable_attribute']);
+            $configurableAttribute = Mage::helper('Mage_Core_Helper_Data')->jsonDecode(
+                $simpleProductData['configurable_attribute']
+            );
+            unset($simpleProductData['configurable_attribute']);
 
-            $this->_fillProductData(
-                $newSimpleProduct, $parentProduct, array_merge($simpeProductData, $configurableAttribute)
+            $this->_fillSimpleProductData(
+                $newSimpleProduct,
+                $parentProduct,
+                array_merge($simpleProductData, $configurableAttribute)
             );
             $newSimpleProduct->save();
 
@@ -913,28 +918,55 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     }
 
     /**
+     * Prepare attribute set comprising all selected configurable attributes
+     *
+     * @param Mage_Catalog_Model_Product $product
+     */
+    protected function _prepareAttributeSetToBeBaseForNewVariations(Mage_Catalog_Model_Product $product)
+    {
+        $attributes = $this->getUsedProductAttributes($product);
+        $attributeSetId = $product->getNewVariationsAttributeSetId();
+        /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
+        $attributeSet = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')->load($attributeSetId);
+        $attributeSet->addSetInfo(
+            Mage::getModel('Mage_Eav_Model_Entity')->setType(Mage_Catalog_Model_Product::ENTITY)->getTypeId(),
+            $attributes
+        );
+        foreach ($attributes as $attribute) {
+            /* @var $attribute Mage_Catalog_Model_Entity_Attribute */
+            if (!$attribute->isInSet($attributeSetId)) {
+                $attribute->setAttributeSetId($attributeSetId)
+                    ->setAttributeGroupId($attributeSet->getDefaultGroupId($attributeSetId))
+                    ->save();
+            }
+        }
+    }
+
+    /**
      * Fill simple product data during generation
      *
      * @param Mage_Catalog_Model_Product $product
      * @param Mage_Catalog_Model_Product $parentProduct
      * @param array $postData
-     * @return void
      */
-    protected function _fillProductData($product, $parentProduct, $postData)
-    {
+    protected function _fillSimpleProductData(
+        Mage_Catalog_Model_Product $product,
+        Mage_Catalog_Model_Product $parentProduct,
+        $postData
+    ) {
         $product->setStoreId(Mage_Core_Model_App::ADMIN_STORE_ID)
             ->setTypeId($postData['weight']
                 ? Mage_Catalog_Model_Product_Type::TYPE_SIMPLE
                 : Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL
-            )->setAttributeSetId($parentProduct->getAttributeSetId());
-
+            )->setAttributeSetId($parentProduct->getNewVariationsAttributeSetId());
 
         foreach ($product->getTypeInstance()->getEditableAttributes($product) as $attribute) {
             if ($attribute->getIsUnique()
                 || $attribute->getAttributeCode() == 'url_key'
                 || $attribute->getFrontend()->getInputType() == 'gallery'
                 || $attribute->getFrontend()->getInputType() == 'media_image'
-                || !$attribute->getIsVisible()) {
+                || !$attribute->getIsVisible()
+            ) {
                 continue;
             }
 
@@ -947,9 +979,9 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
         if (!isset($postData['stock_data']['use_config_manage_stock'])) {
             $postData['stock_data']['use_config_manage_stock'] = 0;
         }
-        $product->addData($postData);
-        $product->setWebsiteIds($parentProduct->getWebsiteIds());
-        $product->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
-        $product->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE);
+        $product->addData($postData)
+            ->setWebsiteIds($parentProduct->getWebsiteIds())
+            ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
+            ->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE);
     }
 }

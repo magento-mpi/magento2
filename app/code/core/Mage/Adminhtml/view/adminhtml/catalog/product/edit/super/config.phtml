@@ -60,8 +60,8 @@
 
 <script type="text/javascript">
 jQuery(function($) {
-    var usedAttributes = jQuery('#associated-products-container').data('usedAttributes') || [];
-    $('#attributes-container').configarableAttributes();
+    var usedAttributes = $('#associated-products-container').data('usedAttributes') || [];
+    $('#attributes-container').configurableAttributes();
 
     $("#<?php echo $this->getId()?>-checkbox").on('click change', function() {
         var $fieldset = $("#<?php echo $this->getId()?> > fieldset");

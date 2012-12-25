@@ -27,7 +27,7 @@ input.ui-autocomplete-loading {
 }
 
 #attributes-container .entry-edit > fieldset {
-    margin-bottom: none;
+    margin-bottom: 0;
 }
 #attributes-container  .column-price {
     visibility: hidden;
@@ -44,6 +44,13 @@ input.ui-autocomplete-loading {
 }
 
 #attributes-container tr:hover {
-    outline: 1px dotted RGBA(128, 128, 128, 0.2);
+    outline: 1px dotted rgba(128, 128, 128, 0.2);
 }
 
+#affected-attribute-set-new-container, #affected-attribute-set-new-name-container {
+    margin-top: 10px;
+}
+
+#affected-attribute-set-new-name-container input {
+    width: 99%;
+}

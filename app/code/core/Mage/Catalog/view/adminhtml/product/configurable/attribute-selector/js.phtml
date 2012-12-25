@@ -14,10 +14,7 @@
 (function($) {
     'use strict';
     $(function() {
-        var self = $('#attribute-selector')
-            .bind('ajaxSend ajaxComplete', function(e) {
-                e.stopPropagation();
-            })
+        $('#attribute-selector')
             .autocomplete({
                 minLength: 0,
                 appendTo: '#config_super_product',
@@ -26,7 +23,7 @@
                         url: '<?php echo $this->getSuggestUrl()?>',
                         data: {label_part: request.term},
                         dataType: 'json',
-                        context: self
+                        context: '<div>'
                     })
                     .success(function(data) {
                         var list = [];
