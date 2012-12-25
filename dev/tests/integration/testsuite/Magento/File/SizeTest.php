@@ -9,21 +9,24 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Helper_File_StorageTest extends PHPUnit_Framework_TestCase
+/**
+ * Magento file size test
+ */
+class Magento_File_SizeTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Helper_File_Storage
+     * @var Magento_File_Size
      */
-    protected $_helper;
+    protected $_fileSize;
 
     public function setUp()
     {
-        $this->_helper = Mage::helper('Mage_Core_Helper_File_Storage');
+        $this->_fileSize = Mage::getObjectManager()->get('Magento_File_Size');
     }
 
     protected function tearDown()
     {
-        $this->_helper = null;
+        $this->_fileSize = null;
     }
 
     /**
@@ -32,29 +35,26 @@ class Mage_Core_Helper_File_StorageTest extends PHPUnit_Framework_TestCase
      */
     public function testGetMaxFileSize()
     {
-        $this->assertGreaterThanOrEqual(0, $this->_helper->getMaxFileSize());
-        $this->assertGreaterThanOrEqual(0, $this->_helper->getMaxFileSizeInMb());
+        $this->assertGreaterThanOrEqual(0, $this->_fileSize->getMaxFileSize());
+        $this->assertGreaterThanOrEqual(0, $this->_fileSize->getMaxFileSizeInMb());
     }
 
     /**
      * @covers Mage_Core_Helper_File_Storage::_convertIniToInteger
-     * @dataProvider getConvertIniToIntegerDataProvider
+     * @dataProvider getConvertSizeToIntegerDataProvider
      * @backupStaticAttributes
-     * @param string $arguments
+     * @param string $value
      * @param int $expected
      */
-    public function testConvertIniToInteger($arguments, $expected)
+    public function testConvertSizeToInteger($value, $expected)
     {
-        $class = new ReflectionClass('Mage_Core_Helper_File_Storage');
-        $method = $class->getMethod('_convertIniToInteger');
-        $method->setAccessible(true);
-        $this->assertEquals($expected, $method->invokeArgs($this->_helper, array($arguments)));
+        $this->assertEquals($expected, $this->_fileSize->convertSizeToInteger($value));
     }
 
     /**
      * @return array
      */
-    public function getConvertIniToIntegerDataProvider()
+    public function getConvertSizeToIntegerDataProvider()
     {
         return array(
             array('0K', 0),
