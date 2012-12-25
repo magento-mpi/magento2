@@ -44,12 +44,12 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
                 'drivers' => array(new Magento_Profiler_Driver_Standard())
             ),
             'Config array key sets driver type' => array(
-                'configs' => array('drivers' => array('pinba' => 1)),
-                'drivers' => array(new Magento_Profiler_Driver_Pinba())
+                'configs' => array('drivers' => array('standard' => 1)),
+                'drivers' => array(new Magento_Profiler_Driver_Standard())
             ),
             'Config array key ignored when type set' => array(
                 'config' => array(
-                    'drivers' => array('pinba' => array('type' => 'standard'))
+                    'drivers' => array('custom' => array('type' => 'standard'))
                 ),
                 'drivers' => array(new Magento_Profiler_Driver_Standard())
             ),
