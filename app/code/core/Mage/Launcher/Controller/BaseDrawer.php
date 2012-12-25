@@ -118,9 +118,14 @@ class Mage_Launcher_Controller_BaseDrawer
             $tileModel = Mage::getModel('Mage_Launcher_Model_Tile')->loadByCode($data['tileCode']);
             $tileModel->refreshState($data);
 
+            $layout = $this->loadLayout();
             /** @var $tileBlock Mage_Launcher_Block_Adminhtml_Tile */
-            $tileBlock = $this->getLayout()
-                ->createBlock($this->_tileBlockName);
+            $tileBlock = $layout->getLayout()->getBlock($data['tileCode'] . '.tile');
+            if (empty($tileBlock)) {
+                /** @var $tileBlock Mage_Launcher_Block_Adminhtml_Tile */
+                $tileBlock = $this->getLayout()->createBlock($this->_tileBlockName);
+            }
+
             $tileBlock->setTile($tileModel);
 
             $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(
@@ -147,8 +152,8 @@ class Mage_Launcher_Controller_BaseDrawer
 
             $layout = $this->loadLayout();
             /** @var $drawerBlock Mage_Launcher_Block_Adminhtml_Drawer */
-            $drawerBlock = $layout->getLayout()->getBlock($tileCode . '_drawer');
-            if (!$drawerBlock) {
+            $drawerBlock = $layout->getLayout()->getBlock($tileCode . '.drawer');
+            if (empty($drawerBlock)) {
                 /** @var $drawerBlock Mage_Launcher_Block_Adminhtml_Drawer */
                 $drawerBlock = $this->getLayout()->createBlock($this->_drawerBlockName);
             }
