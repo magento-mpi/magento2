@@ -83,7 +83,7 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
      * Upload css file
      *
      * @param string $type
-     * @return Mage_Theme_Model_Service
+     * @return Mage_Theme_Model_Uploader_Service
      */
     public function uploadCssFile($type)
     {
