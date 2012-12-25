@@ -9,7 +9,7 @@
  */
 
 /**
- * Rendera attribute block
+ * Renderer for attribute block
  *
  * @category   Mage
  * @package    Mage_Adminhtml

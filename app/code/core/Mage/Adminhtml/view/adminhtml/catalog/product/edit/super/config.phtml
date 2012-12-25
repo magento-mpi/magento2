@@ -112,9 +112,13 @@ jQuery(function($) {
         event.preventDefault();
         var grid = window.<?php echo $this->getGridJsObject() ?>;
         var $button = $(this);
+        var attribute_ids = [];
+        $.each(usedAttributes, function() {
+            attribute_ids.push(this.attribute_id);
+        });
         grid.reloadParams = {
             'filter': $button.data('attributes'),
-            'attributes[]': Object.values(usedAttributes).map(function(el) { return el.attribute_id; })
+            'attributes[]': attribute_ids
         };
         grid.reload(null, function() {
             $gridDialog.dialog('open')

@@ -131,28 +131,26 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
                 }
             }
 
-            foreach ($attributes as &$attribute) {
-                if (isset($attribute['values']) && is_array($attribute['values'])) {
-                    foreach ($attribute['values'] as &$attributeValue) {
-                        if (!$this->getCanReadPrice()) {
-                            $attributeValue['pricing_value'] = '';
-                            $attributeValue['is_percent'] = 0;
-                        }
-                        $attributeValue['can_edit_price'] = $this->getCanEditPrice();
-                        $attributeValue['can_read_price'] = $this->getCanReadPrice();
-                    }
-                }
-            }
             $this->setData('attributes', $attributes);
         }
         return $this->getData('attributes');
     }
 
+    /**
+     * Get used product attributes
+     *
+     * @return array
+     */
     public function getUsedAttributes()
     {
         return $this->_getProductType()->getUsedProductAttributes($this->_getProduct());
     }
 
+    /**
+     * Get used products
+     *
+     * @return array
+     */
     public function getUsedProducts()
     {
         $productByUsedAttributes = array();
