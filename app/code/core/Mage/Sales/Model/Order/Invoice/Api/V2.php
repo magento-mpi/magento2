@@ -20,16 +20,16 @@ class Mage_Sales_Model_Order_Invoice_Api_V2 extends Mage_Sales_Model_Order_Invoi
     /**
      * Create new invoice for order
      *
-     * @param string $invoiceIncrementId
+     * @param string $orderIncrementId
      * @param array $itemsQty
      * @param string $comment
      * @param bool $email
      * @param bool $includeComment
      * @return string
      */
-    public function create($invoiceIncrementId, $itemsQty, $comment = null, $email = false, $includeComment = false)
+    public function create($orderIncrementId, $itemsQty, $comment = null, $email = false, $includeComment = false)
     {
-        $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($invoiceIncrementId);
+        $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($orderIncrementId);
         $itemsQty = $this->_prepareItemQtyData($itemsQty);
         /* @var $order Mage_Sales_Model_Order */
         /**
