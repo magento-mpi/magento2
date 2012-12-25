@@ -77,3 +77,31 @@ manage_reward_rates:
         1: Website
         2: Customer Group
         3: Rate
+
+#dataset for ui elements in Automated Email Marketing Reminder Rules grid
+manage_automated_email_reminder_rules:
+    fieldset:
+        rule_search_grid: tablename
+    button:
+        reset_filter:
+        search:
+        add_new_rule:
+    field:
+        filter_id:
+        filter_rule_name:
+        filter_date_start_from:
+        filter_date_start_to:
+        filter_date_expire_from:
+        filter_date_expire_to:
+        page:
+    dropdown:
+        filter_status:
+        filter_website:
+        view_per_page:
+    headers:
+        0: ID
+        1: Rule Name
+        2: Date Start
+        3: Date Expire
+        4: Status
+        5: Website
