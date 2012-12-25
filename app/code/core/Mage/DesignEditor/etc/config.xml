@@ -62,6 +62,7 @@
     <vde>
         <design_editor>
             <frontName>vde</frontName>
+            <defaultHandle>default</defaultHandle>
             <disabledCacheTypes>BLOCK_HTML,LAYOUT_GENERAL_CACHE_TAG,FPC</disabledCacheTypes>
             <block>
                 <white_list>

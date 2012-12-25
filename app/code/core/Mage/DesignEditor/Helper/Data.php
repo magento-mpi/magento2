@@ -17,6 +17,7 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
      * XML paths to VDE settings
      */
     const XML_PATH_FRONT_NAME           = 'vde/design_editor/frontName';
+    const XML_PATH_DEFAULT_HANDLE       = 'vde/design_editor/defaultHandle';
     const XML_PATH_DISABLED_CACHE_TYPES = 'vde/design_editor/disabledCacheTypes';
     const XML_PATH_BLOCK_WHITE_LIST     = 'vde/design_editor/block/white_list';
     const XML_PATH_BLOCK_BLACK_LIST     = 'vde/design_editor/block/black_list';
@@ -44,6 +45,16 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     public function getFrontName()
     {
         return (string)$this->_configuration->getNode(self::XML_PATH_FRONT_NAME);
+    }
+
+    /**
+     * Get VDE default handle name
+     *
+     * @return string
+     */
+    public function getDefaultHandle()
+    {
+        return (string)$this->_configuration->getNode(self::XML_PATH_DEFAULT_HANDLE);
     }
 
     /**

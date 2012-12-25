@@ -17,6 +17,11 @@ class Mage_DesignEditor_Helper_DataTest extends PHPUnit_Framework_TestCase
     const TEST_FRONT_NAME = 'test_front_name';
 
     /**
+     * Test default handle
+     */
+    const TEST_DEFAULT_HANDLE = 'test_default_handle';
+
+    /**
      * Test disabled cache types
      */
     const TEST_DISABLED_CACHE_TYPES = 'type1, type2 ';
@@ -58,6 +63,20 @@ class Mage_DesignEditor_Helper_DataTest extends PHPUnit_Framework_TestCase
 
         $this->_model = new Mage_DesignEditor_Helper_Data($configurationMock);
         $this->assertEquals(self::TEST_FRONT_NAME, $this->_model->getFrontName());
+    }
+
+    public function testGetDefaultHandle()
+    {
+        $defaultHandleNode = new Mage_Core_Model_Config_Element('<test>' . self::TEST_DEFAULT_HANDLE . '</test>');
+
+        $configurationMock = $this->getMock('Mage_Core_Model_Config', array('getNode'), array(), '', false);
+        $configurationMock->expects($this->once())
+            ->method('getNode')
+            ->with(Mage_DesignEditor_Helper_Data::XML_PATH_DEFAULT_HANDLE)
+            ->will($this->returnValue($defaultHandleNode));
+
+        $this->_model = new Mage_DesignEditor_Helper_Data($configurationMock);
+        $this->assertEquals(self::TEST_DEFAULT_HANDLE, $this->_model->getDefaultHandle());
     }
 
     public function testGetDisabledCacheTypes()
