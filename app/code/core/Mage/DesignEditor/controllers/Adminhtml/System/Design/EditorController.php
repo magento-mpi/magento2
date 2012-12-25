@@ -211,6 +211,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
 
     /**
      * Assign theme to list of store views
+     * @throws InvalidArgumentException
      */
     public function assignThemeToStoreAction()
     {
@@ -241,7 +242,30 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
 
             /** @var $themeService Mage_Core_Model_Theme_Service */
             $themeService = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
-            $themeService->assignThemeToStores($themeId, $stores);
+            $theme = $themeService->assignThemeToStores($themeId, $stores);
+            if ($this->getRequest()->has('layoutUpdate')) {
+                $layoutUpdate = $this->getRequest()->getParam('layoutUpdate');
+                $historyModel = $this->_compactHistory($layoutUpdate);
+
+                /** @var $layoutRenderer Mage_DesignEditor_Model_History_Renderer_LayoutUpdate */
+                $layoutRenderer = Mage::getModel('Mage_DesignEditor_Model_History_Renderer_LayoutUpdate');
+                $layoutUpdate = $historyModel->output($layoutRenderer);
+
+                if (empty($stores)) {
+                    $stores = array(Mage_Core_Model_App::ADMIN_STORE_ID);
+                }
+                /** @var $layoutUpdateModel Mage_Core_Model_Layout_Update */
+                $layoutUpdateModel = $this->_objectManager->get('Mage_Core_Model_Layout_Update');
+                foreach ($stores as $storeId) {
+                    $layoutUpdateModel->setData(array(
+                        'store_id' => $storeId,
+                        'theme_id' => $theme->getId(),
+                        'handle'   => 'default',
+                        'xml'      => $layoutUpdate
+                    ));
+                    $layoutUpdateModel->save();
+                }
+            }
             $message = $coreHelper->__('Theme successfully assigned');
             $this->getResponse()->setBody($coreHelper->jsonEncode(array('success' => $message)));
         } catch (Exception $e) {
