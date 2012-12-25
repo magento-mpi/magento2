@@ -19,6 +19,8 @@
 class Mage_Reports_Model_Resource_Review_Customer_Collection extends Mage_Review_Model_Resource_Review_Collection
 {
     /**
+     * Init Select
+     *
      * @return Mage_Reports_Model_Resource_Review_Customer_Collection|Mage_Review_Model_Resource_Review_Product_Collection
      */
     protected function _initSelect()
