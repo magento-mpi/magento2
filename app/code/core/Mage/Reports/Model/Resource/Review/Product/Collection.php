@@ -18,6 +18,16 @@
  */
 class Mage_Reports_Model_Resource_Review_Product_Collection extends Mage_Catalog_Model_Resource_Product_Collection
 {
+    /**
+     * @return Mage_Catalog_Model_Resource_Product_Collection|Mage_Eav_Model_Entity_Collection_Abstract|void
+     */
+    protected function _initSelect()
+    {
+        parent::_initSelect();
+        $this->_joinReview();
+        return $this;
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -28,7 +38,7 @@ class Mage_Reports_Model_Resource_Review_Product_Collection extends Mage_Catalog
      *
      * @return Mage_Reports_Model_Resource_Review_Product_Collection
      */
-    public function joinReview()
+    protected function _joinReview()
     {
         $helper    = Mage::getResourceHelper('Mage_Core');
 

@@ -81,6 +81,7 @@ return array(
     $this->_getClassRule('Mage_Adminhtml_Block_Report_Customer_Totals_Grid'),
     $this->_getClassRule('Mage_Adminhtml_Block_Report_Product_Sold', 'Mage_Reports_Block_Adminhtml_Product_Sold'),
     $this->_getClassRule('Mage_Adminhtml_Block_Report_Product_Sold_Grid'),
+    $this->_getClassRule('Mage_Adminhtml_Block_Report_Review_Product_Grid'),
     $this->_getClassRule('Mage_Adminhtml_Block_Report_Customer_Orders', 'Mage_Reports_Block_Adminhtml_Customer_Orders'),
     $this->_getClassRule('Mage_Adminhtml_Block_Report_Customer_Orders_Grid'),
     $this->_getClassRule('Mage_Adminhtml_Block_Report_Product_Ordered'),
