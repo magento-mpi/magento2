@@ -94,6 +94,6 @@ class Saas_PrintedTemplate_Block_Widget_Item_Renderer_Default extends Mage_Core_
     {
         $blockClass = Mage::getConfig()->getBlockClassName($block);
 
-        return $blockClass && (class_exists($blockClass, false) || mageFindClassFile($blockClass));
+        return $blockClass && class_exists($blockClass);
     }
 }

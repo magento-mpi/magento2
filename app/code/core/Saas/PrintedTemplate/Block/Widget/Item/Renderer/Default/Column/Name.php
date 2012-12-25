@@ -16,7 +16,7 @@
  * @subpackage  Blocks
  */
 class Saas_PrintedTemplate_Block_Widget_Item_Renderer_Default_Column_Name
-    extends Mage_Adminhtml_Block_Abstract
+    extends Mage_Backend_Block_Abstract
     implements Saas_PrintedTemplate_Block_Widget_Item_Renderer_Default_Column_Abstract
 {
     /**
@@ -72,7 +72,7 @@ class Saas_PrintedTemplate_Block_Widget_Item_Renderer_Default_Column_Name
         $result = '<div class="item-name">' . $this->__($this->getItem()->getName()) . '</div>';
         foreach ($this->getItemOptions() as $option) {
             $result .= '<div class="item-option-label"><em>' . $this->__($option['label']) . '</em></div>';
-            foreach($this->getOptionValue($option) as $value) {
+            foreach ($this->getOptionValue($option) as $value) {
                 $result .= '<div class="item-option-value">' . $this->__($value) . '</div>';
             }
         }

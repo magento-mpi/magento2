@@ -20,6 +20,13 @@ class Saas_PrintedTemplate_Block_Widget_Field_Columns
     implements Mage_Widget_Block_Interface
 {
     /**
+     * Rows cache
+     *
+     * @var array|null
+     */
+    private $_arrayRowsCache;
+
+    /**
      * Constructor - initialize colums.
      */
     public function _construct()

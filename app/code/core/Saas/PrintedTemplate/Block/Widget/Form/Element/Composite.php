@@ -99,25 +99,8 @@ class Saas_PrintedTemplate_Block_Widget_Form_Element_Composite
     public function getSortedElements()
     {
         $elements = array();
-        // sort children by value by specified key
-        if ($this->_sortChildrenByKey) {
-            $sortKey = $this->_sortChildrenByKey;
-            $uniqueIncrement = 0; // in case if there are elements with same values
-            foreach ($this->getElements() as $e) {
-                $key = '_' . $uniqueIncrement;
-                if ($e->hasData($sortKey)) {
-                    $key = $e->getDataUsingMethod($sortKey) . $key;
-                }
-                $elements[$key] = $e;
-                $uniqueIncrement++;
-            }
-            ksort($elements, $this->_sortChildrenDirection);
-            $elements = array_values($elements);
-        }
-        else {
-            foreach ($this->getElements() as $element) {
-                $elements[] = $element;
-            }
+        foreach ($this->getElements() as $element) {
+            $elements[] = $element;
         }
         return $elements;
     }

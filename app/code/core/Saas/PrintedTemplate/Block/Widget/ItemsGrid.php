@@ -49,8 +49,8 @@ class Saas_PrintedTemplate_Block_Widget_ItemsGrid extends Saas_PrintedTemplate_B
      * @var array Array with strings
      */
     protected $_renderers = array(
-        'default' => 'saas_printedtemplate/widget_item_renderer_default',
-        'bundle'  => 'saas_printedtemplate/widget_item_renderer_bundle'
+        'default' => 'Saas_PrintedTemplate_Block_Widget_Item_Renderer_Default',
+        'bundle'  => 'Saas_PrintedTemplate_Block_Widget_Item_Renderer_Bundle'
     );
 
     /**
