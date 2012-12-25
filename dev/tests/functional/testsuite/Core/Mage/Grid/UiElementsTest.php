@@ -77,7 +77,8 @@ class Core_Mage_Grid_UiElementsTest extends Mage_Selenium_TestCase
             array('permissions_locked_users'),
             array('manage_tax_zones_and_rates'),
             array('system_custom_variables'),
-            array('report_review_customer'),
+           array('report_review_customer'),
+            array('manage_stores'),
         );
     }
 

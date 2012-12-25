@@ -370,3 +370,27 @@ report_review_customer:
             0: Customer Name
             1: Number Of Reviews
             2: Action
+#dataset for ui elements in Manage Stores grid
+manage_stores:
+    fieldset:
+        manage_stores: tablename
+    button:
+        reset_filter:
+        search:
+        create_website:
+        create_store:
+        create_store_view:
+    dropdown:
+        items_per_page:
+    field:
+        website_name:
+        store_name:
+        store_view_name:
+        page:
+    pageelement:
+        grid_head:
+        stores_table:
+    headers:
+        0: Website Name
+        1: Store Name
+        2: Store View Name
