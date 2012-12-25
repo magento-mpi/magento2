@@ -27,6 +27,10 @@
  * @method Mage_Core_Model_Theme setPackageCode(string $packageCode)
  * @method Mage_Core_Model_Theme setThemeCode(string $themeCode)
  * @method Mage_Core_Model_Theme setPreviewImage(string $previewImage)
+ * @method Mage_Core_Model_Theme setThemePath(string $themePath)
+ * @method Mage_Core_Model_Theme setThemeVersion(string $themeVersion)
+ * @method Mage_Core_Model_Theme setArea(string $area)
+ * @method Mage_Core_Model_Theme setThemeTitle(string $themeTitle)
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */

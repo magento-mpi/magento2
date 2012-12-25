@@ -63,7 +63,7 @@ class Mage_Core_Model_Resource_Layout_Update extends Mage_Core_Model_Resource_Db
     /**
      * Update a "layout update link" if relevant data is provided
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Mage_Core_Model_Layout_Update|Mage_Core_Model_Abstract $object
      * @return Mage_Core_Model_Resource_Layout_Update
      */
     protected function _afterSave(Mage_Core_Model_Abstract $object)
@@ -74,6 +74,7 @@ class Mage_Core_Model_Resource_Layout_Update extends Mage_Core_Model_Resource_Db
                 'store_id'         => $data['store_id'],
                 'theme_id'         => $data['theme_id'],
                 'layout_update_id' => $object->getId(),
+                'is_temporary'     => (int) $object->getIsTemporary(),
             ));
         }
         Mage::app()->cleanCache(array('layout', Mage_Core_Model_Layout_Merge::LAYOUT_GENERAL_CACHE_TAG));
