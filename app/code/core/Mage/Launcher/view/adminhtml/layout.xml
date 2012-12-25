@@ -62,6 +62,7 @@
         <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Catalogpricerule_Tile" name="catalog_price_rule.tile"/>
         <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Rss_Tile" name="rss.tile"/>
         <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Wishlist_Tile" name="wishlist.tile" template="page/promotestore/tile/wishlist.phtml"/>
+        <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Customercommunication_Tile" name="customer_communication.tile"/>
     </promotestore_index>
 
     <launcher_promotestore_seo_drawer_load>

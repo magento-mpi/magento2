@@ -108,6 +108,10 @@
                     <state_resolver>Mage_Launcher_Model_Promotestore_StateResolver</state_resolver>
                     <save_handler>Mage_Launcher_Model_Promotestore_SaveHandler</save_handler>
                 </wishlist>
+                <customer_communication>
+                    <state_resolver>Mage_Launcher_Model_Promotestore_StateResolver</state_resolver>
+                    <save_handler>Mage_Launcher_Model_Promotestore_SaveHandler</save_handler>
+                </customer_communication>
             </tiles>
         </launcher>
     </adminhtml>
