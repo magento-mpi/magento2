@@ -51,6 +51,7 @@ class Mage_Core_Model_Resource_Layout_Update extends Mage_Core_Model_Resource_Db
                     'link.layout_update_id=layout_update.layout_update_id', '')
                 ->where('link.store_id IN (0, :store_id)')
                 ->where('link.theme_id = :theme_id')
+                ->where('link.is_temporary = 0')
                 ->where('layout_update.handle = :layout_update_handle')
                 ->order('layout_update.sort_order ' . Varien_Db_Select::SQL_ASC);
 
