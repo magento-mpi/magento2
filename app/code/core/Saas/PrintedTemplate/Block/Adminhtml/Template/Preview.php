@@ -15,7 +15,7 @@
  * @package    Saas_PrintedTemplate
  * @subpackage  Blocks
  */
-class Saas_PrintedTemplate_Block_Adminhtml_Template_Preview extends Mage_Adminhtml_Block_Widget
+class Saas_PrintedTemplate_Block_Adminhtml_Template_Preview extends Mage_Backend_Block_Widget
 {
     /**
      * Container for HTML preview
@@ -79,4 +79,3 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Preview extends Mage_Adminht
         return preg_replace('!<script[^>]*>.*</script>!isU', '', $string);
     }
 }
-
