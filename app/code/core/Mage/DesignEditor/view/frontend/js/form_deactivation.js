@@ -9,13 +9,13 @@
 
 (function($) {
     /**
-     * Widget Forms disabler
+     * Widget Form Deactivation
      */
-    $.widget('vde.vde_formsDisabler', {
+    $.widget('vde.vde_formDeactivation', {
         _create: function () {
-            this._initFormsDisabler();
+            this._initFormDeactivation();
         },
-        _initFormsDisabler: function () {
+        _initFormDeactivation: function () {
             $('form').submit( function(e){
                 e.preventDefault();
             });
@@ -23,6 +23,6 @@
     });
 
     $(document).ready(function( ){
-        $(window).vde_formsDisabler();
+        $(window).vde_formDeactivation();
     });
 })( jQuery );
