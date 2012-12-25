@@ -112,6 +112,6 @@ class Saas_PrintedTemplate_Block_Widget_Form_Element_Composite
      */
     protected function _getElementRenderer()
     {
-        return Mage::getBlockSingleton('Saas_PrintedTemplate_Widget_Form_Renderer_Fieldset_Composite_Element');
+        return Mage::getBlockSingleton('Saas_PrintedTemplate_Block_Widget_Form_Renderer_Fieldset_Composite_Element');
     }
 }

@@ -34,9 +34,9 @@ class Saas_PrintedTemplate_Model_Wysiwyg_Config extends Mage_Cms_Model_Wysiwyg_C
             'footer_separator' => '<!-- FOOTER SEPARATOR -->',
             'header_separator' => '<!-- HEADER SEPARATOR -->',
             'header_error_message' => Mage::helper('Saas_PrintedTemplate_Helper_Data')
-                ->__("The template can contain only one header separator."),
+                ->__('The template can contain only one header separator.'),
             'footer_error_message' => Mage::helper('Saas_PrintedTemplate_Helper_Data')
-                ->__("The template can contain only one footer separator."),
+                ->__('The template can contain only one footer separator.'),
             'page_break_separator' =>
                 '<div style="height: 0; clear: both; page-break-after: always;"><!-- pagebreak --></div>',
         ));

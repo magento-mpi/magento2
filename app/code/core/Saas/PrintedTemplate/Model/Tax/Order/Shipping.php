@@ -22,6 +22,6 @@ class Saas_PrintedTemplate_Model_Tax_Order_Shipping extends Mage_Core_Model_Abst
      */
     protected function _construct()
     {
-        $this->_init('Saas_PrintedTemplate_Model_Tax_Order_Shipping');
+        $this->_init('Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping');
     }
 }
