@@ -15,7 +15,7 @@
  * @package     Saas_PrintedTemplate
  * @subpackage  Blocks
  */
-class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Backend_Block_Widget_Form
 {
 
     /**
@@ -27,9 +27,9 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Admin
     protected function _prepareLayout()
     {
         if ($head = $this->getLayout()->getBlock('head')) {
-            $head->addItem('js', 'prototype/window.js')
-                ->addItem('js_css', 'prototype/windows/themes/default.css')
-                ->addItem('js_css', 'prototype/windows/themes/magento.css')
+            $head->addJs('prototype/window.js')
+                ->addCss('prototype/windows/themes/default.css')
+                ->addCss('Mage_Core::prototype/magento.css')
                 ->setCanLoadTinyMce(true);
         }
         return parent::_prepareLayout();
@@ -49,9 +49,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Admin
             'legend'    => $this->__('Template Information'),
             'class'     => 'fieldset-wide'
         ));
-        $fieldset->addType(
-            'composite', Mage::getConfig()->getBlockClassName('Saas_PrintedTemplate_Block_Widget_Form_Element_Composite')
-        );
+        $fieldset->addType('composite', 'Saas_PrintedTemplate_Block_Widget_Form_Element_Composite');
 
         $templateId = $this->getPrintedTemplate()->getId();
 
@@ -88,7 +86,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Admin
 
         $configData = array();
         if ($this->getPrintedTemplate()->getEntityType() == Saas_PrintedTemplate_Model_Template::ENTITY_TYPE_SHIPMENT) {
-            $configData['skip_widgets'] = array('saas_printedtemplate/widget_taxGrid');
+            $configData['skip_widgets'] = array('Saas_PrintedTemplate_Block_Widget_TaxGrid');
         }
         $wysiwygConfig = Mage::getSingleton('Saas_PrintedTemplate_Model_Wysiwyg_Config')->getConfig($configData);
 
@@ -131,7 +129,9 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Admin
             ));
         }
 
-        $footerSize = $fieldset->addField('footer_size_composite', 'composite', array('label' => $this->__('Footer Height')));
+        $footerSize = $fieldset->addField('footer_size_composite', 'composite',
+            array('label' => $this->__('Footer Height'))
+        );
         $footerSize->addField('footer_height', 'text', array(
             'name' => 'footer_height',
             'title' => $this->__('Footer Height'),
@@ -170,7 +170,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Admin
                 ->exportContent($this->getPrintedTemplate());
             $form->addValues($formData);
             $dynamicHeightsEnabled = $this->_isDynamicHeightsEnabled();
-            if ($dynamicHeightsEnabled) {            
+            if ($dynamicHeightsEnabled) {
                 $form->getElement('header_auto_height')->setIsChecked($formData['header_auto_height']);
                 $form->getElement('footer_auto_height')->setIsChecked($formData['footer_auto_height']);
             }
@@ -205,9 +205,8 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Admin
     {
         $pathDelimiter = '<span class="path-delimiter">&nbsp;-&gt;&nbsp;</span>';
         $lineDelimiter = '<br />';
-        $systemConfigPathsWhereUsedCurrently = Mage::helper('Saas_PrintedTemplate_Helper_Data')->getSystemConfigPathsParts(
-                $this->getPrintedTemplate()->getSystemConfigPathsWhereUsedCurrently()
-        );
+        $systemConfigPathsWhereUsedCurrently = Mage::helper('Saas_PrintedTemplate_Helper_Data')
+            ->getSystemConfigPathsParts($this->getPrintedTemplate()->getSystemConfigPathsWhereUsedCurrently());
         $result = array();
         foreach ($systemConfigPathsWhereUsedCurrently as $pathArray) {
             $path = array();
@@ -231,7 +230,9 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Admin
     protected function _isDynamicHeightsEnabled()
     {
         try {
-            return Mage::helper('Saas_PrintedTemplate_Helper_Locator')->getPdfRenderer()->canCalculateHeightsDynamically();
+            return Mage::helper('Saas_PrintedTemplate_Helper_Locator')
+                ->getPdfRenderer()
+                ->canCalculateHeightsDynamically();
         } catch (Mage_Core_Exception $e) {
             return false;
         }

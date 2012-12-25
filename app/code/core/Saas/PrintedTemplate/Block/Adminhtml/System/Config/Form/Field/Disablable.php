@@ -54,4 +54,3 @@ class Saas_PrintedTemplate_Block_Adminhtml_System_Config_Form_Field_Disablable
         return $html;
     }
 }
-
