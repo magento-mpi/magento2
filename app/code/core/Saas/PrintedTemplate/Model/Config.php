@@ -103,6 +103,6 @@ class Saas_PrintedTemplate_Model_Config
      */
     public function getTemplateIdByType($templateType, $storeId = null)
     {
-        return Mage::getStoreConfig("sales_pdf/$templateType/printed_template", $storeId);
+        return Mage::getStoreConfig('sales_pdf/' . $templateType . '/printed_template', $storeId);
     }
 }
