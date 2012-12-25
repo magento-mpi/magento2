@@ -13,7 +13,11 @@
 (function($) {
     'use strict';
     $(function() {
-        var $form = $('#affected-attribute-set-form');
+        var $form = $('#affected-attribute-set-form'),
+            resetValidation = function() {
+                $form.find('.messages .error-msg').hide();
+                $form.find('form').validation().data('validator').resetForm();
+            };
         $form
             .dialog({
                 title: '<?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Choose Affected Attribute Set'); ?>',
@@ -22,10 +26,7 @@
                 minWidth: 700,
                 modal: true,
                 resizable: false,
-                close: function() {
-                    $form.find('.messages .error-msg').hide();
-                    $form.find('form').validation().data('validator').resetForm();
-                },
+                close: resetValidation,
                 buttons: [{
                     text: '<?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Cancel'); ?>',
                     id: '<?php echo $this->getJsId('close-button') ?>',
@@ -45,6 +46,7 @@
 
                         $form.find('.messages .error-msg').hide();
                         if (!$form.find('form').validation().valid()) {
+                            $form.find('input[name=new-attribute-set-name]').focus();
                             return false;
                         }
 
@@ -77,6 +79,10 @@
             })
             .find('input[name=affected-attribute-set]').on('change', function() {
                 $('#affected-attribute-set-new-name-container')[$(this).val() == 'new' ? 'show' : 'hide']();
+                resetValidation();
+                if ($(this).val() == 'new') {
+                    $form.find('input[name=new-attribute-set-name]').focus();
+                }
             });
 
         $('button[data-ui-id=product-edit-save-button],button[data-ui-id=product-edit-save-and-edit-button]')
