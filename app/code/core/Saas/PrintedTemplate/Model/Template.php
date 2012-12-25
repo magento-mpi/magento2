@@ -431,27 +431,27 @@ class Saas_PrintedTemplate_Model_Template extends Mage_Core_Model_Template
      */
     public function getTemplateFile($file, $type, $localeCode=null)
     {
-        $moduleDir = Mage::getModuleDir('locale', self::MODULE_NAME);
+        $localeDir = Mage::getModuleDir('locale', self::MODULE_NAME);
         if (is_null($localeCode) || preg_match('/[^a-zA-Z_]/', $localeCode)) {
             $localeCode = Mage::app()->getLocale()->getLocaleCode();
         }
 
-        $filePath = $moduleDir  . DS . $localeCode . DS . 'template' . DS . $type . DS . $file;
+        $filePath = $localeDir  . DS . $localeCode . DS . 'template' . DS . $type . DS . $file;
 
         if (!file_exists($filePath)) { // If no template specified for this locale, use store default
-            $filePath = $moduleDir . DS
+            $filePath = $localeDir . DS
                 . Mage::app()->getLocale()->getDefaultLocale()
                 . DS . 'template' . DS . $type . DS . $file;
         }
 
         if (!file_exists($filePath)) {  // If no template specified as  store default locale, use en_US
-            $filePath = $moduleDir . DS
+            $filePath = $localeDir . DS
                 . Mage_Core_Model_Locale::DEFAULT_LOCALE
                 . DS . 'template' . DS . $type . DS . $file;
         }
 
         $ioAdapter = new Varien_Io_File();
-        $ioAdapter->open(array('path' => Mage::getBaseDir('locale')));
+        $ioAdapter->open();
 
         return (string) $ioAdapter->read($filePath);
     }
