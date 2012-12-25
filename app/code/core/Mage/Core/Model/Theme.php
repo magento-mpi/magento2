@@ -52,11 +52,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     const PATH_SEPARATOR = '/';
 
     /**
-     * Theme directory
-     */
-    const THEME_DIR = 'theme';
-
-    /**
      * Preview image directory
      */
     const IMAGE_DIR_PREVIEW = 'preview';
@@ -159,7 +154,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      *
      * @return Mage_Core_Model_Theme_Files
      */
-    public function getCssFile()
+    public function getCustomCssFile()
     {
         /** @var $cssFile Mage_Core_Model_Theme_Files_Css */
         $cssFile = $this->_objectManager->get('Mage_Core_Model_Theme_Files_Css');
@@ -343,7 +338,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     protected function _getPreviewImagePublishedRootDir()
     {
-        $dirPath = Mage::getBaseDir('media') . DIRECTORY_SEPARATOR . self::THEME_DIR;
+        /** @var $design Mage_Core_Model_Design_Package */
+        $design = $this->_objectManager->get('Mage_Core_Model_Design_Package');
+        $dirPath = $design->getPublicDir();
         $this->_getIoFile()->checkAndCreateFolder($dirPath);
         return $dirPath;
     }
@@ -375,7 +372,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public static function getPreviewImageDirectoryUrl()
     {
-        return Mage::getBaseUrl('media') . self::THEME_DIR . '/' . self::IMAGE_DIR_PREVIEW . '/';
+        return Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_THEME) . self::IMAGE_DIR_PREVIEW . '/';
     }
 
     /**
