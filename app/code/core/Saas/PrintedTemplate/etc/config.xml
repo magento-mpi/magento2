@@ -987,7 +987,7 @@
         <layout>
             <updates>
                 <saas_printedtemplate module="Saas_PrintedTemplate">
-                    <file>printedtemplate.xml</file>
+                    <file>layout.xml</file>
                 </saas_printedtemplate>
             </updates>
         </layout>

@@ -22,7 +22,7 @@ class Saas_PrintedTemplate_Adminhtml_PrintController extends Mage_Adminhtml_Cont
      */
     public function entityAction()
     {
-        $type = $this->getRequest()->getParam('type');
+        $type = uc_words($this->getRequest()->getParam('type'));
         $id = $this->getRequest()->getParam('id');
 
         if (!$id || !$type) {
@@ -64,11 +64,14 @@ class Saas_PrintedTemplate_Adminhtml_PrintController extends Mage_Adminhtml_Cont
      */
     public function entitiesAction()
     {
-        $type = $this->getRequest()->getParam('type');
+        $type = uc_words($this->getRequest()->getParam('type'));
         $ids = $this->getRequest()->getPost($type . '_ids');
         $orderIds = $this->getRequest()->getPost('order_ids');
 
-        if (!($ids || $orderIds) || !$type || !in_array($type, array('invoice', 'creditmemo', 'shipment'))) {
+        if (
+            !($ids || $orderIds) || !$type
+            || !in_array(strtolower($type), array('invoice', 'creditmemo', 'shipment'))
+        ) {
             $this->_getSession()->addError($this->__('Please select entities to print.'));
             $this->_redirectReferer();
             return;
@@ -175,9 +178,7 @@ class Saas_PrintedTemplate_Adminhtml_PrintController extends Mage_Adminhtml_Cont
      */
     protected function _isAllowed()
     {
-        /**
-         * @TODO Fix isAllowed
-         */
-        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/email_template/printed_template/print');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')
+            ->isAllowed('Saas_PrintedTemplate::add_edit');
     }
 }

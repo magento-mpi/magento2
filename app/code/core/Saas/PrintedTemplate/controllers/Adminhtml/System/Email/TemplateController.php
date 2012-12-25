@@ -28,9 +28,7 @@ class Saas_PrintedTemplate_Adminhtml_System_Email_TemplateController
      */
     protected function _isAllowed()
     {
-        /*
-         * @TODO fix isAllowed
-         */
-        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/email_template/email_template');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')
+            ->isAllowed('Saas_PrintedTemplate::printed_template');
     }
 }
