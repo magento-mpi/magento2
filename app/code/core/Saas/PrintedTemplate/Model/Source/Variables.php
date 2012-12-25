@@ -35,12 +35,12 @@ class Saas_PrintedTemplate_Model_Source_Variables
             foreach ($options['fields'] as $fieldName => $variable) {
                 $optionArrayVariables[] = array(
                     'value' => '{{var ' . $entity . '.' . $fieldName . '}}',
-                    'label' => Mage::helper("Saas_PrintedTemplate_Helper_Data")->__($variable['label'])
+                    'label' => Mage::helper('Saas_PrintedTemplate_Helper_Data')->__($variable['label'])
                 );
             }
             $label = isset($options['label']) ? $options['label'] : $entity;
             $optionArray[] = array(
-                'label' => Mage::helper("Saas_PrintedTemplate_Helper_Data")->__($label),
+                'label' => Mage::helper('Saas_PrintedTemplate_Helper_Data')->__($label),
                 'value' => $optionArrayVariables
             );
         }

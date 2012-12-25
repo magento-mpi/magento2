@@ -39,6 +39,6 @@ class Saas_PrintedTemplate_Block_Widget_Field_Heading
      */
     protected function _getRenderer()
     {
-        return Mage::getBlockSingleton('Saas_PrintedTemplate_Widget_Field_Heading_Renderer');
+        return Mage::getBlockSingleton('Saas_PrintedTemplate_Block_Widget_Field_Heading_Renderer');
     }
 }
