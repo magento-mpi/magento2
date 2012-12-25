@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_CustomerSegment_Adminhtml_CustomersegmentControllerTest extends Mage_Adminhtml_Utility_Controller
+class Enterprise_CustomerSegment_Adminhtml_CustomersegmentControllerTest extends Mage_Backend_Utility_Controller
 {
     /**
      * Checks that all important blocks are successfully created and rendered.

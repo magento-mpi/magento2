@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Catalog_CategoryControllerTest extends Mage_Adminhtml_Utility_Controller
+class Mage_Adminhtml_Catalog_CategoryControllerTest extends Mage_Backend_Utility_Controller
 {
     /**
      * @magentoDataFixture Mage/Core/_files/store.php

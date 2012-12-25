@@ -14,7 +14,7 @@
  *
  * @group module:Mage_User
  */
-class Mage_User_Adminhtml_User_RoleControllerTest extends Mage_Adminhtml_Utility_Controller
+class Mage_User_Adminhtml_User_RoleControllerTest extends Mage_Backend_Utility_Controller
 {
     public function testEditRoleAction()
     {
