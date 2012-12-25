@@ -18,21 +18,21 @@
      */
 class Enterprice_Mage_Grid_UiElementsTest extends Core_Mage_Grid_UiElementsTest
 {
-
     public function uiElementsTestDataProvider()
     {
         return array(
+            array('url_rewrite_management'),
             array('manage_admin_users'),
             array('manage_roles'),
             array('system_email_template'),
             array('system_design'),
             array('xml_sitemap'),
-            array('url_rewrite_management'),
             array('manage_attribute_sets'),
             array('search_terms'),
             array('newsletter_problem_reports'),
             array('manage_product_rules'),
             array('manage_reward_rates'),
+            array('manage_automated_email_reminder_rules'),
         );
     }
 }
