@@ -423,6 +423,11 @@ report_review_customer:
     mca: report_review/customer/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_review/customer/')]
     title: Customer Reviews / Reviews / Reports / Magento Admin
+    uimap:
+        buttons:
+            export: //button[span='Export']
+        dropdowns:
+            export_to: //select[@id='customers_grid_export']
 
 # Reviews: Products Reviews
 report_review_product:
