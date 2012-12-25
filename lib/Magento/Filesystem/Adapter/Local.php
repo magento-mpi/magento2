@@ -76,4 +76,26 @@ class Magento_Filesystem_Adapter_Local implements Magento_Filesystem_AdapterInte
     {
         return is_dir($key);
     }
+
+    /**
+     * Creates new directory
+     *
+     * @param string $key
+     * @return bool
+     */
+    public function createDirectory($key)
+    {
+        return mkdir($key);
+    }
+
+    /*
+    * Sets access and modification time of file
+    *
+    * @param string $key
+    * @return bool
+    */
+    public function touch($key)
+    {
+        return touch($key);
+    }
 }

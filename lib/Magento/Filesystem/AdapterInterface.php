@@ -58,4 +58,20 @@ interface Magento_Filesystem_AdapterInterface
      * @return bool
      */
     public function isDirectory($key);
+
+    /**
+     * Creates new directory
+     *
+     * @param string $key
+     * @return bool
+     */
+    public function createDirectory($key);
+
+    /*
+     * Sets access and modification time of file
+     *
+     * @param string $key
+     * @return bool
+     */
+    public function touch($key);
 }

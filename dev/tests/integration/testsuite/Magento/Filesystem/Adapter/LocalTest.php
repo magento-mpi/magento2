@@ -158,4 +158,68 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->_adapter->isDirectory($filesPath));
         $this->assertFalse($this->_adapter->isDirectory($filesPath . 'popup.css'));
     }
+
+    /**
+     * @param string $directoryName
+     * @param bool $success
+     * @dataProvider createDirectoryDataProvider
+     * @throws Exception
+     */
+    public function jtestCreateDirectory($directoryName, $success)
+    {
+        try{
+            if ($success) {
+                $this->assertTrue($this->_adapter->createDirectory($directoryName));
+                $this->assertFileExists($directoryName);
+                $this->assertTrue(is_dir($directoryName));
+                unlink($directoryName);
+            } else {
+                $this->assertFalse($this->_adapter->createDirectory($directoryName));
+                $this->assertFileNotExists($directoryName);
+            }
+        } catch (Exception $e) {
+            unlink($directoryName);
+            throw $e;
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function createDirectoryDataProvider()
+    {
+        return array(
+            'success' => array(__DIR__ . DS . '..' . DS . '_files' . DS . 'new_directory', true),
+            'failure' => array('', false),
+        );
+    }
+
+    public function testTouch($fileName, $success, $delete = false)
+    {
+        try {
+            $this->assertEquals($success, $this->_adapter->touch($fileName));
+            if ($success) {
+                $this->assertFileExists($fileName);
+                $this->assertGreaterThan(microtime(), filemtime($fileName) + 10);
+            }
+            if ($delete) {
+                unlink($fileName);
+            }
+        } catch (Exception $e) {
+            if ($delete) {
+                unlink($fileName);
+            }
+            throw $e;
+        }
+    }
+
+    public function touchDataProvider()
+    {
+        $filesPath = __DIR__ . DS . '..' . DS . '_files' . DS;
+        return array(
+            'update file' => array($filesPath . 'popup.css', true),
+            'create file' => array($filesPath . 'popup2.css', true, true),
+            'wrong file' => array($filesPath, false),
+        );
+    }
 }
