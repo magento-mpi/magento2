@@ -26,7 +26,6 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
      */
     public function testExists($key, $expected)
     {
-        echo $this->_filesPath ;
         $this->assertEquals($expected, $this->_adapter->exists($key));
     }
 
@@ -45,12 +44,12 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     /**
      * @param string $fileName
      * @param string $expectedContent
-     * @param bool $assert
+     * @param bool $success
      * @dataProvider readDataProvider
      */
-    public function testRead($fileName, $expectedContent, $assert)
+    public function testRead($fileName, $expectedContent, $success)
     {
-        if ($assert) {
+        if ($success) {
             $this->assertEquals($expectedContent, $this->_adapter->read($fileName));
         } else {
             $this->assertNotEquals($expectedContent, $this->_adapter->read($fileName));
@@ -68,5 +67,95 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
             'incorrect read' => array($filesPath . 'popup.css', 'var myData = 5; ', false),
             'not existed file' => array($filesPath . 'popup2.css', false, true)
         );
+    }
+
+    /**
+     * @param string $fileName
+     * @param string $fileData
+     * @param bool $success
+     * @dataProvider writeDataProvider
+     * @throws Exception
+     */
+    public function testWrite($fileName, $fileData, $success)
+    {
+        try {
+            $this->_adapter->write($fileName, $fileData);
+            if ($success) {
+                $this->assertFileExists($fileName);
+                $this->assertEquals(file_get_contents($fileName), $fileData);
+            } else {
+                $this->assertFileNotExists($fileName);
+            }
+            unlink($fileName);
+        } catch (Exception $e) {
+            unlink($fileName);
+            throw $e;
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function writeDataProvider()
+    {
+        $filesPath = __DIR__ . DS . '..' . DS . '_files' . DS;
+        return array(
+            'correct file' => array($filesPath . 'tempFile.css', 'temporary data', true),
+            'empty file' => array($filesPath . 'tempFile2.css', '', true),
+            'incorrect path' => array('', 'temporary data', false)
+        );
+    }
+
+    public function testDelete()
+    {
+        $fileName = __DIR__ . DS . '..' . DS . '_files' . DS . 'tempFile3.css';
+        file_put_contents($fileName, 'test data');
+        try {
+            $this->_adapter->delete($fileName);
+            $this->assertFileNotExists($fileName);
+        } catch (Exception $e) {
+            unlink($fileName);
+            throw $e;
+        }
+    }
+
+    /**
+     * @param string $sourceName
+     * @param string $targetName
+     * @throws Exception
+     * @dataProvider renameDaraProvider
+     */
+    public function testRename($sourceName, $targetName)
+    {
+        try {
+            file_put_contents($sourceName, 'test data');
+            $this->_adapter->rename($sourceName, $targetName);
+            $this->assertFileExists($targetName);
+            $this->assertFileNotExists($sourceName);
+            $this->assertEquals(file_get_contents($targetName), 'test data');
+            unlink($targetName);
+        } catch (Exception $e) {
+            unlink($sourceName);
+            unlink($targetName);
+            throw $e;
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function renameDaraProvider()
+    {
+        $filesPath = __DIR__ . DS . '..' . DS . '_files' . DS;
+        return array(
+            'test 1' => array($filesPath . 'file1.js', $filesPath . 'file2.js'),
+        );
+    }
+
+    public function testIsDirectory()
+    {
+        $filesPath = __DIR__ . DS . '..' . DS . '_files' . DS;
+        $this->assertTrue($this->_adapter->isDirectory($filesPath));
+        $this->assertFalse($this->_adapter->isDirectory($filesPath . 'popup.css'));
     }
 }
