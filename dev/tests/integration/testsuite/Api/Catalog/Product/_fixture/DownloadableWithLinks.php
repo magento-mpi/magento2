@@ -15,14 +15,39 @@ $fixture = simplexml_load_file(__DIR__ . '/_data/xml/LinkCRUD.xml');
 $productData = Magento_Test_Webservice::simpleXmlToArray($fixture->product);
 $productData['sku'] = $productData['sku'] . mt_rand(1000, 9999);
 $productData['name'] = $productData['name'] . ' ' . mt_rand(1000, 9999);
-$linkData = Magento_Test_Webservice::simpleXmlToArray($fixture->items->small->link);
-unset($linkData['sample']['file']);
-unset($linkData['file']);
-
+$linksData = array (
+    array (
+        'title' => 'Test Link 1',
+        'price' => '1',
+        'is_unlimited' => '1',
+        'number_of_downloads' => '0',
+        'is_shareable' => '0',
+        'sample' => array (
+            'type' => 'url',
+            'url' => 'http://www.magentocommerce.com/img/logo.gif',
+        ),
+        'type' => 'url',
+        'link_url' => 'http://www.magentocommerce.com/img/logo.gif',
+    ),
+    array (
+        'title' => 'Test Link 2',
+        'price' => '2',
+        'is_unlimited' => '0',
+        'number_of_downloads' => '10',
+        'is_shareable' => '1',
+        'sample' =>
+        array (
+            'type' => 'url',
+            'url' => 'http://www.magentocommerce.com/img/logo.gif',
+        ),
+        'type' => 'url',
+        'link_url' => 'http://www.magentocommerce.com/img/logo.gif',
+    ),
+);
 
 $product = Mage::getModel('Mage_Catalog_Model_Product');
 $product->setData($productData)
     ->setStoreId(0)
-    ->setDownloadableData(array('link' => array($linkData)))
+    ->setDownloadableData(array('link' => $linksData))
     ->save();
 Magento_Test_Webservice::setFixture('downloadable', $product);
