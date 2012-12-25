@@ -419,7 +419,6 @@ fixed_bundle_for_order:
 #<------------CONFIGURABLE------------>
 configurable_product_for_order:
     product_attribute_set: Default
-    general_configurable_attribute_title: %noValue%
     general_name: Configurable Product For Order(%randomize%)
     general_description: Description for Configurable Product
     general_short_description: Short Description for Configurable Product
@@ -433,25 +432,47 @@ configurable_product_for_order:
     inventory_stock_availability: In Stock
     general_categories: %noValue%
     websites: Main Website
-    general_configurable_data:
+    general_configurable_attributes:
+        attribute_1:
+            general_configurable_attribute_title: %general_attribute_1%
+            have_price_variation: Yes
+            option_1:
+                associated_attribute_value: %var1_attr_value1%
+                variation_attribute_price: 1.99
+                variation_attribute_price_type: Fixed
+                include_variation_attribute: Yes
+            option_2:
+                associated_attribute_value: %var1_attr_value2%
+                variation_attribute_price: 50
+                variation_attribute_price_type: Percentage
+                include_variation_attribute: Yes
+            option_3:
+                associated_attribute_value: %var1_attr_value3%
+                include_variation_attribute: Yes
+    general_configurable_variations:
         configurable_1:
-            associated_product_name: %associated_1%
+            associated_product_name: simple_variation_%randomize%
+            associated_sku: simple_variation_sku_%randomize%
+            associated_quantity: 999
+            associated_weight: 18
             associated_attributes:
                 attribute_1:
-                    associated_attribute_name: %attribute_name_1%
-                    associated_attribute_value: %attribute_value_1%
+                    associated_attribute_name: %general_attribute_1%
+                    associated_attribute_value: %var1_attr_value1%
         configurable_2:
-            associated_product_name: %associated_2%
+            associated_product_name: virtual_variation_%randomize%
+            associated_sku: virtual_variation_sku_%randomize%
+            associated_quantity: 999
             associated_attributes:
                 attribute_1:
-                    associated_attribute_name: %attribute_name_2%
-                    associated_attribute_value: %attribute_value_2%
+                    associated_attribute_name: %general_attribute_1%
+                    associated_attribute_value: %var1_attr_value2%
         configurable_3:
             associated_product_name: %associated_3%
             associated_attributes:
                 attribute_1:
-                    associated_attribute_name: %attribute_name_3%
-                    associated_attribute_value: %attribute_value_3%
+                    associated_attribute_name: %general_attribute_1%
+                    associated_attribute_value: %var1_attr_value3%
 #*********************************************
 #*      ConfigurableOptions For Products     *
 #*********************************************

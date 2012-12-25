@@ -69,6 +69,9 @@ manage_products:
             sku_autoincremented: //*[normalize-space(@class)='notice-msg' and contains(.,'SKU for product %productName% has been changed to %productSku%')]
             success_updated_products_status_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyUpdatedProducts% record(s) have been updated.')]
             success_updated_products_attributes_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyUpdatedAtrProducts% record(s) were updated')]
+            category_name_required: //div[@id='advice-required-entry-new_category_name']
+            parent_name_required: //div[@id='advice-required-entry-new_category_parent']
+            parent_name_existent: //div[@id='advice-validate-parent-category-new_category_parent']
 
 manage_products_store:
     mca: catalog_product/index/store/%storeId%/
@@ -129,7 +132,7 @@ new_product:
                                         general_news_from: //input[@id='news_from_date']
                                         general_news_to: //input[@id='news_to_date']
                                         general_url_key: //input[@id='url_key']
-                                        general_categories: //*[@data-ui-id='category-selector-input']
+                                        general_categories: //input[@data-ui-id='category-selector-input']
                                         general_qty: //input[@name='product[quantity_and_stock_status][qty]']
                                         general_user_attr_field: //input[@id='%attributeCodeField%']
                                         general_min_price: //input[@id='price' and not(@disabled)]
@@ -140,13 +143,12 @@ new_product:
                                         general_user_attr_multiselect: //select[@id='%attributeCodeMultiselect%']
                             -
                                 category_search:
-                                    xpath: //*[@id='html-body']/ul
+                                    xpath: //*[@id='html-body']/ul[contains(@class, 'ui-autocomplete')]
                                     links:
                                         category: //*[@class='ui-menu-item']/*[@title='%categoryPath%']
                                         selected_category: //*[@class='category-selected ui-menu-item']/*[@title='%categoryPath%']
                                     pageelements:
                                         category_list: //*[@class='ui-menu-item']
-                                        all_categories: //*[contains(@data-ui-id, 'category-selector')]
                             -
                                 chosen_category:
                                     xpath: //*[@class='category-selector-search-choice button']
@@ -156,22 +158,14 @@ new_product:
                                         category_name: /div
                             -
                                 new_category_form:
-                                    xpath: //*[@id='new-category']/ancestor::*[contains(concat(' ', normalize-space(@class), ' '), ' ui-dialog ')]
+                                    xpath: //div[div/span='Create New Category']
                                     fields:
                                         name: //input[@id='new_category_name']
                                         parent_category: //input[@id='new_category_parent']
                                     buttons:
+                                        new_category_close: //a[span='close']
                                         new_category_save: //button[@id='new-category-js-save-button']
                                         new_category_cancel: //button[@id='new-category-js-close-button']
-                                    messages:
-                                        category_name_required: //*[@id='advice-required-entry-new_category_name']
-                                        parent_name_required: //*[@id='advice-required-entry-new_category_parent']
-                                        parent_name_existent: //*[@id='advice-validate-parent-category-new_category_parent']
-                            -
-                                parent_category_autocomplete:
-                                    xpath: //*[contains(concat(' ', normalize-space(@class), ' '), ' ui-autocomplete ')]
-                                    links:
-                                        suggested_category_name: /*[contains(concat(' ', normalize-space(@class), ' '), ' ui-menu-item ')]/*[text()='%categoryName%']
                             -
                                 product_variations:
                                     xpath: //div[@id='config_super_product']
@@ -180,11 +174,25 @@ new_product:
                                     fields:
                                         general_configurable_attribute_title: //input[@id='attribute-selector']
                                     links:
-                                        suggested_attribute: //ul[contains(concat(' ', normalize-space(@class), ' '), 'ui-menu')]//a[text()='%attributeName%']
+                                        configurable_attribute_select: //ul[contains(@class, 'ui-autocomplete')]//a[text()='%attributeTitle%']
                                     buttons:
                                         generate_product_variations: //button[span='Generate Variations']
                                     pageelements:
                                         product_variations_fieldset: /fieldset
+                            -
+                                product_variation_attribute:
+                                    xpath: //div[div/h4//@data-store-label='%attributeTitle%']
+                                    checkboxes:
+                                        have_price_variation: //label[contains(.,'Have price variation')]/input
+                                        include_variation_attribute: //tr[td='%attributeOption%']//input[contains(@name,'[include]')]
+                                    fields:
+                                        variation_attribute_price: //tr[td='%attributeOption%']//input[contains(@name,'[pricing_value]')]
+                                    dropdowns:
+                                        variation_attribute_price_type: //tr[td='%attributeOption%']//select[contains(@name,'[is_percent]')]
+                                    links:
+                                        delete_product_variation_attribute: //span[@class='ui-icon ui-icon-circle-close']
+                                        move_product_variation_attribute: //span[@class='ui-icon ui-icon-arrowthick-2-n-s']
+                                        expand_product_variation_attribute: //span[@class='ui-icon ui-icon-circle-triangle-s']
                             -
                                 variations_matrix_grid:
                                     xpath: //div[@id='product-variations-matrix']
@@ -671,17 +679,12 @@ new_product:
         messages: *productMesssages
 
 new_configurable_product:
-    mca: catalog_product/new/attributes/%attributesUrl%/set/%setId%/type/%productType%/
+    mca: catalog_product/new/set/%setId%/type/%productType%/#product-variations-matrix
     title: New Product / Manage Products / Catalog / Magento Admin
     uimap: *newProduct
 
 new_configurable_product_after_changed_attribute_set:
-    mca: catalog_product/new/attributes/%attributesUrl%/type/%productType%/?set=%setId%
-    title: New Product / Manage Products / Catalog / Magento Admin
-    uimap: *newProduct
-
-duplicated_configurable_product:
-    mca: catalog_product/new/attributes/%attributesUrl%/id/%id%/
+    mca: catalog_product/new/set/%setId%/type/%productType%/#product-variations-matrix/?set=%setId%
     title: New Product / Manage Products / Catalog / Magento Admin
     uimap: *newProduct
 
