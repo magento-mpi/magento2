@@ -187,11 +187,21 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Check is theme deletable
+     * Check if theme is deletable
      *
      * @return bool
      */
     public function isDeletable()
+    {
+        return $this->isVirtual();
+    }
+
+    /**
+     * Check if theme is editable
+     *
+     * @return bool
+     */
+    public function isEditable()
     {
         return $this->isVirtual();
     }
@@ -245,6 +255,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
+        if (!$this->isEditable()) {
+            Mage::throwException($this->_helper->__('Theme isn\'t editable.'));
+        }
         $this->_validate();
         return parent::_beforeSave();
     }
@@ -258,7 +271,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     protected function _beforeDelete()
     {
         if (!$this->isDeletable()) {
-            Mage::throwException($this->_helper->__('Current theme isn\'t deletable.'));
+            Mage::throwException($this->_helper->__('Theme isn\'t deletable.'));
         }
         $this->removePreviewImage();
         return parent::_beforeDelete();
