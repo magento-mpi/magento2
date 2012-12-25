@@ -31,6 +31,7 @@ class Mage_Catalog_Block_Product_Configurable_AttributeSelector extends Mage_Bac
             ->addFieldToFilter('frontend_input', 'select')
             ->addFieldToFilter('frontend_label', array('like' => $escapedLabelPart))
             ->addFieldToFilter('is_configurable', 1)
+            ->addFieldToFilter('is_user_defined', 1)
             ->addFieldToFilter('is_global', Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL);
 
         return $collection;
