@@ -356,7 +356,7 @@
                         <rowUrl>
                             <path>*/catalog_product_review</path>
                             <extraParamsTemplate>
-                                <id>getId</id>
+                                <customerid>getCustomerId</customerid>
                             </extraParamsTemplate>
                         </rowUrl>
                     </arguments>
@@ -374,7 +374,6 @@
                             <header translate="true" module="Mage_Reports">Number Of Reviews</header>
                             <width>40px</width>
                             <align>right</align>
-                            <is_system>1</is_system>
                             <type>text</type>
                             <index>review_cnt</index>
                         </arguments>
@@ -386,6 +385,7 @@
                             <align>center</align>
                             <filter>0</filter>
                             <sortable>0</sortable>
+                            <is_system>1</is_system>
                             <renderer>Mage_Adminhtml_Block_Report_Grid_Column_Renderer_Customer</renderer>
                             <id>action</id>
                         </arguments>
