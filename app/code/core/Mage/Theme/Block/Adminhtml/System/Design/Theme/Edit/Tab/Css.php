@@ -85,7 +85,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         $this->_addThemeCssFieldset();
         $this->_addCustomCssFieldset();
 
-        $formData['custom_css_content'] = $this->_getCurrentTheme()->getCssFile()->getContent();
+        $formData['custom_css_content'] = $this->_getCurrentTheme()->getCustomCssFile()->getContent();
         /** @var $session Mage_Backend_Model_Session */
         $session = $this->_objectManager->get('Mage_Backend_Model_Session');
         $cssFileContent = $session->getThemeCustomCssData();

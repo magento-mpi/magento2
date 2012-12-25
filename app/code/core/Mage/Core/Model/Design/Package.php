@@ -21,6 +21,16 @@ class Mage_Core_Model_Design_Package
      */
     const SCOPE_SEPARATOR = '::';
 
+    /**
+     * Public directory which constants theme files
+     */
+    const PUBLIC_BASE_THEME_DIR = 'theme';
+
+    /**
+     * Public directory which constants virtual themes files
+     */
+    const PUBLIC_CUSTOMIZATION_THEME_DIR = 'customization';
+
     /**#@+
      * Public directories prefix group
      */
@@ -482,7 +492,7 @@ class Mage_Core_Model_Design_Package
     protected function _getPublicFileUrl($file, $isSecure = null)
     {
         $publicDirUrlTypes = array(
-            Mage_Core_Model_Store::URL_TYPE_THEME  => Mage::getBaseDir('media') . DS . 'theme',
+            Mage_Core_Model_Store::URL_TYPE_THEME  => $this->getPublicDir(),
             Mage_Core_Model_Store::URL_TYPE_JS    => Mage::getBaseDir('js'),
         );
         foreach ($publicDirUrlTypes as $publicUrlType => $publicDir) {
@@ -491,7 +501,7 @@ class Mage_Core_Model_Design_Package
                 continue;
             }
             $url = str_replace($publicDir, '', $file);
-            $url = str_replace(DS, '/' , $url);
+            $url = str_replace(DS, '/', $url);
             $url = Mage::getBaseUrl($publicUrlType, $isSecure) . $url;
             return $url;
         }
@@ -691,7 +701,7 @@ class Mage_Core_Model_Design_Package
      */
     public function getPublicDir()
     {
-        return Mage::getBaseDir('media') . DS . 'theme';
+        return Mage::getBaseDir('media') . DIRECTORY_SEPARATOR . self::PUBLIC_BASE_THEME_DIR;
     }
 
     /**
@@ -705,7 +715,7 @@ class Mage_Core_Model_Design_Package
     {
         if ($params['themeModel']->getThemePath()) {
             $designPath = str_replace('/', DS, $params['themeModel']->getThemePath());
-        } elseif($params['themeModel']->getId()) {
+        } elseif ($params['themeModel']->getId()) {
             $designPath = self::PUBLIC_THEME_DIR . $params['themeModel']->getId();
         } else {
             $designPath = self::PUBLIC_VIEW_DIR;
