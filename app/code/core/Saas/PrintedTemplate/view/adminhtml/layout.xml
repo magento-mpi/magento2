@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Saas
+ * @package     Saas_PrintedTemplate
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+
+<layout>
+
+    <!-- Preview printed template layout-->
+    <saas_printed_template_preview>
+        <reference name="head">
+            <!-- prototype should be replaced by jquery -->
+            <action method="addJs"><file>prototype/prototype.js</file></action>
+            <!-- <action method="addJs"><file>jquery/jquery-1.7.1.min.js</file></action> -->
+        </reference>
+
+        <!-- add jquery to preview page -->
+        <block type="Saas_PrintedTemplate_Block_Adminhtml_Template_Preview"
+            name="root" output="toHtml" template="Saas_PrintedTemplate::preview.phtml"/>
+
+    </saas_printed_template_preview>
+
+    <adminhtml_sales_order_invoice_view>
+        <reference name="sales_invoice_view">
+            <action method="updateButton" ifconfig="sales_pdf/general/enable_printed_templates">
+                <id>print</id>
+                <key>onclick</key>
+                <!-- TODO: helper attribute is not supported in mage it should be refactored -->
+                <data helper="saas_printedtemplate/getPrintButtonOnclick">
+                    <type>invoice</type>
+                </data>
+            </action>
+        </reference>
+    </adminhtml_sales_order_invoice_view>
+
+    <adminhtml_sales_order_creditmemo_view>
+        <reference name="sales_creditmemo_view">
+            <action method="updateButton" ifconfig="sales_pdf/general/enable_printed_templates">
+                <id>print</id>
+                <key>onclick</key>
+                <!-- TODO: helper attribute is not supported in mage it should be refactored -->
+                <data helper="saas_printedtemplate/getPrintButtonOnclick">
+                    <type>creditmemo</type>
+                </data>
+            </action>
+        </reference>
+    </adminhtml_sales_order_creditmemo_view>
+
+    <adminhtml_sales_order_shipment_view>
+        <reference name="sales_shipment_view">
+            <action method="updateButton" ifconfig="sales_pdf/general/enable_printed_templates">
+                <id>print</id>
+                <key>onclick</key>
+                <!-- TODO: helper attribute is not supported in mage it should be refactored -->
+                <data helper="saas_printedtemplate/getPrintButtonOnclick">
+                    <type>shipment</type>
+                </data>
+            </action>
+        </reference>
+    </adminhtml_sales_order_shipment_view>
+
+</layout>
+
