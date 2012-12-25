@@ -40,7 +40,7 @@ class Magento_File_SizeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_Core_Helper_File_Storage::_convertIniToInteger
+     * @covers Mage_Core_Helper_File_Storage::convertSizeToInteger
      * @dataProvider getConvertSizeToIntegerDataProvider
      * @backupStaticAttributes
      * @param string $value

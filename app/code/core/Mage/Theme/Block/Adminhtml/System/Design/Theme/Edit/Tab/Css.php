@@ -162,8 +162,8 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             'note'     => $this->__('Max CSS file size %sM', $this->_uploaderService->getCssUploadMaxSizeInMb()),
         ));
 
-        $themeFieldset->addField('css-uploader-button', 'button', array(
-            'name'     => 'css-uploader-button',
+        $themeFieldset->addField('css_uploader_button', 'button', array(
+            'name'     => 'css_uploader_button',
             'value'    => $this->__('Upload CSS File'),
             'disabled' => 'disabled',
         ));
