@@ -44,4 +44,3 @@ class Saas_PrintedTemplate_Model_Resource_Template
         return parent::_prepareDataForSave($object);
     }
 }
-

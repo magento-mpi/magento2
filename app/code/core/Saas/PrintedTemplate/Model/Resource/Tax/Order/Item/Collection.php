@@ -23,7 +23,10 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection
      */
     protected function _construct()
     {
-        $this->_init('Saas_Printedtemplate_Model_Resource_Tax_Order_Item');
+        $this->_init(
+            'Saas_PrintedTemplate_Model_Tax_Order_Item',
+            'Saas_PrintedTemplate_Model_Resource_Tax_Order_Item'
+        );
     }
 
     /**
@@ -132,4 +135,3 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection
                     ->addFieldToFilter('parent_id', $creditmemo->getId());
     }
 }
-

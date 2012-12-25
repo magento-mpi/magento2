@@ -23,7 +23,10 @@ class Saas_PrintedTemplate_Model_Resource_Template_Collection
      */
     protected function _construct()
     {
-        $this->_init('Saas_Printedtemplate_Model_Resource_Template');
+        $this->_init(
+            'Saas_PrintedTemplate_Model_Template',
+            'Saas_PrintedTemplate_Model_Resource_Template'
+        );
     }
 
     /**
@@ -36,4 +39,3 @@ class Saas_PrintedTemplate_Model_Resource_Template_Collection
         return $this->_toOptionArray('template_id', 'name');
     }
 }
-

@@ -24,7 +24,10 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_Collection
      */
     protected function _construct()
     {
-        $this->_init('Saas_PrintedTemplate_Resource_Tax_Order_Shipping');
+        $this->_init(
+            'Saas_PrintedTemplate_Model_Tax_Order_Shipping',
+            'Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping'
+        );
     }
 
     /**
@@ -147,4 +150,3 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_Collection
         return $this;
     }
 }
-
