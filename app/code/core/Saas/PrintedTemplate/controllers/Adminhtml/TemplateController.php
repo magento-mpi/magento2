@@ -79,7 +79,8 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
         $this->_addContent(
             $this->getLayout()->createBlock(
                 'Saas_PrintedTemplate_Block_Adminhtml_Template_Edit',
-                'template_edit')
+                'template_edit'
+            )
         );
         $this->renderLayout();
     }
@@ -167,7 +168,8 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
             $pdf = Mage::helper('Saas_PrintedTemplate_Helper_Locator')->getConverter($mockModel, $template)->getPdf();
 
             $this->_prepareDownloadResponse(
-                'preview' . Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s') . '.pdf', $pdf, 'application/pdf'
+                'preview' . Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s') . '.pdf',
+                $pdf, 'application/pdf'
             );
         } catch (Mage_Core_Exception $e) {
             // @todo Create AJAX validation to display this error in the 'alert' window
@@ -194,8 +196,10 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
             $this->_redirect('*/*/edit', array('id' => $template->getId()));
             return;
         } catch (Exception $e) {
-            $this->_getSession()->addError($this->__(
-                    'An error occurred while deleting printed template data. Please review log and try again.')
+            $this->_getSession()->addError(
+                $this->__(
+                    'An error occurred while deleting printed template data. Please review log and try again.'
+                )
             );
             Mage::logException($e);
             $this->_redirect('*/*/edit', array('id' => $template->getId()));
@@ -314,10 +318,8 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
      */
     protected function _isAllowed()
     {
-        /**
-         * @TODO Fix isAllowed
-         */
-        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/email_template/printed_template/edit');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')
+            ->isAllowed('Saas_PrintedTemplate::add_edit');
     }
 
     /**
@@ -331,8 +333,11 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
             ->_addBreadcrumb($this->__('New Template'), $this->__('New Printed Template'))
             ->_title($this->__('New Template'))
             ->_addContent(
-            $this->getLayout()->createBlock('Saas_PrintedTemplate_Block_Adminhtml_Template_New', 'template_edit')
-        );
+                $this->getLayout()->createBlock(
+                    'Saas_PrintedTemplate_Block_Adminhtml_Template_New', 'template_edit'
+                )
+            );
+
         $this->renderLayout();
     }
 
