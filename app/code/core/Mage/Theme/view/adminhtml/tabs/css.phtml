@@ -27,7 +27,7 @@
              * @param data
              */
             add: function (e, data) {
-                var uploadButton = $('#css-uploader-button');
+                var uploadButton = $('#css_uploader_button');
                 /** Unbind click event on file change */
                 uploadButton.unbind('click');
                 uploadButton.removeAttr('disabled');
@@ -46,7 +46,7 @@
              */
             done: function (e, data) {
                 $(this).val('');
-                $('#css-uploader-button').attr('disabled', 'disabled');
+                $('#css_uploader_button').attr('disabled', 'disabled');
 
                 if (!data.result.error) {
                     $('#custom_css_content').append(data.result.content);
