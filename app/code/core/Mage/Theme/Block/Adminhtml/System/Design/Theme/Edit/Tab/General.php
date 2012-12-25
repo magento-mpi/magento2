@@ -134,7 +134,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
         ));
 
         if ($this->_isThemeEditable) {
-            $maxImageSize = Mage::helper('Mage_Core_Helper_File_Storage')->getMaxFileSizeInMb();
+            $maxImageSize = Mage::getObjectManager()->get('Magento_File_Size')->getMaxFileSizeInMb();
             if ($maxImageSize) {
                 $previewImageNote = $this->__('Max image size %sM', $maxImageSize);
             } else {

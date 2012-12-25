@@ -182,6 +182,11 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
                 'error'   => false,
                 'content' => $cssFileContent
             )));
+        } catch (Mage_Core_Exception $e) {
+            $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(array(
+                'error'   => true,
+                'message' => $e->getMessage()
+            )));
         } catch (Exception $e) {
             $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(array(
                 'error'   => true,

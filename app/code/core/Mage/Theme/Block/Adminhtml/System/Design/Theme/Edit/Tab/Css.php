@@ -26,6 +26,13 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     protected $_objectManager;
 
     /**
+     * Uploader service
+     *
+     * @var Mage_Theme_Model_Uploader_Service
+     */
+    protected $_uploaderService;
+
+    /**
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Model_Layout $layout
      * @param Mage_Core_Model_Event_Manager $eventManager
@@ -38,6 +45,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Magento_ObjectManager $objectManager
+     * @param Mage_Theme_Model_Uploader_Service $uploaderService
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -55,12 +63,14 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
         Magento_ObjectManager $objectManager,
+        Mage_Theme_Model_Uploader_Service $uploaderService,
         array $data = array()
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
             $session, $storeConfig, $frontController, $helperFactory, $data
         );
         $this->_objectManager = $objectManager;
+        $this->_uploaderService = $uploaderService;
     }
 
     /**
@@ -149,6 +159,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             'name'     => 'css_file_uploader',
             'label'    => $this->__('Select CSS File to Upload'),
             'title'    => $this->__('Select CSS File to Upload'),
+            'note'     => $this->__('Max CSS file size %sM', $this->_uploaderService->getCssUploadMaxSizeInMb()),
         ));
 
         $themeFieldset->addField('css-uploader-button', 'button', array(
@@ -161,7 +172,6 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             'label'  => $this->__('Edit custom.css'),
             'title'  => $this->__('Edit custom.css'),
             'name'   => 'custom_css_content',
-            'values' => 'some text'
         ));
 
         return $this;
