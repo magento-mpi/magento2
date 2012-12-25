@@ -25,6 +25,8 @@ function BaseImageUploader(id, maxFileSize) {
                     if (typeof media_gallery_contentJsObject != 'undefined') {
                         media_gallery_contentJsObject.handleUploadComplete(data.result);
                         media_gallery_contentJsObject.imagesValues.image = data.result.file;
+                        media_gallery_contentJsObject.imagesValues.small_image = data.result.file;
+                        media_gallery_contentJsObject.imagesValues.thumbnail = data.result.file;
                         media_gallery_contentJsObject.updateImages();
                     }
                 } else {
