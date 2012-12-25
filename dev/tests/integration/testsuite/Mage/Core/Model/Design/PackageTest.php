@@ -81,7 +81,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoConfigFixture default/design/theme/full_name f
+     * @magentoConfigFixture frontend/design/theme/full_name f
      * @magentoConfigFixture install/design/theme/full_name i
      * @magentoConfigFixture adminhtml/design/theme/full_name b
      * @magentoConfigFixture current_store design/theme/theme_id 0

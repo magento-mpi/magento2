@@ -58,7 +58,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
 
     /**
      * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
-     * @magentoConfigFixture default/design/theme/allow_view_files_duplication 1
+     * @magentoConfigFixture global/design/theme/allow_view_files_duplication 1
      * @magentoAppIsolation enabled
      * @dataProvider getViewUrlFilesDuplicationDataProvider
      */
@@ -99,7 +99,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
 
     /**
      * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
-     * @magentoConfigFixture default/design/theme/allow_view_files_duplication 0
+     * @magentoConfigFixture global/design/theme/allow_view_files_duplication 0
      * @magentoAppIsolation enabled
      * @dataProvider testGetViewUrlNoFilesDuplicationDataProvider
      */
@@ -132,7 +132,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
 
     /**
      * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
-     * @magentoConfigFixture default/design/theme/allow_view_files_duplication 0
+     * @magentoConfigFixture global/design/theme/allow_view_files_duplication 0
      * @magentoAppIsolation enabled
      */
     public function testGetViewUrlNoFilesDuplicationWithCaching()

@@ -35,6 +35,7 @@ class Legacy_ConfigTest extends PHPUnit_Framework_TestCase
                 'Event has been replaced with "core_layout_render_element"',
             '/config/*/events/catalog_controller_product_delete' => '',
             '/config//observers/*/args' => 'This was an undocumented and unused feature in event subscribers',
+            '/config/default/design/theme' => 'Relocated to /config/<area>/design/theme'
         );
         $xml = simplexml_load_file($file);
         foreach ($obsoleteNodes as $xpath => $suggestion) {

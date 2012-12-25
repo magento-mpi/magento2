@@ -55,6 +55,11 @@
                 </collections>
             </types>
         </cache>
+        <design>
+            <theme>
+                <allow_view_files_duplication>1</allow_view_files_duplication>
+            </theme>
+        </design>
         <session>
             <validation>
                 <http_user_agent_skip>
@@ -94,6 +99,11 @@
         </di>
     </global>
     <frontend>
+        <design>
+            <theme>
+                <full_name>default/demo</full_name>
+            </theme>
+        </design>
         <routers>
             <core>
                 <use>standard</use>
@@ -185,10 +195,6 @@
     </install>
     <default>
         <design>
-            <theme>
-                <full_name>default/demo</full_name>
-                <allow_view_files_duplication>1</allow_view_files_duplication>
-            </theme>
             <pagination>
                 <list_allow_all>1</list_allow_all>
                 <pagination_frame>5</pagination_frame>

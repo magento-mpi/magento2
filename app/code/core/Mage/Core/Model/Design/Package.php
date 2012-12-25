@@ -65,7 +65,7 @@ class Mage_Core_Model_Design_Package
     /**
      * Path to configuration node that indicates how to materialize view files: with or without "duplication"
      */
-    const XML_PATH_ALLOW_DUPLICATION = 'default/design/theme/allow_view_files_duplication';
+    const XML_PATH_ALLOW_DUPLICATION = 'global/design/theme/allow_view_files_duplication';
 
     /**
      * Path to config node that allows automatically updating map files in runtime
@@ -238,9 +238,9 @@ class Mage_Core_Model_Design_Package
         }
         $store = isset($params['store']) ? $params['store'] : null;
 
-        if (self::isThemePerStoveView($area)) {
+        if ($this->_isThemePerStoveView($area)) {
             return Mage::getStoreConfig(self::XML_PATH_THEME_ID, $store)
-                ?: (string)Mage::getConfig()->getNode('default/' . self::XML_PATH_THEME);
+                ?: (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
         }
         return (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
     }
@@ -251,7 +251,7 @@ class Mage_Core_Model_Design_Package
      * @param string $area
      * @return bool
      */
-    public static function isThemePerStoveView($area)
+    private function _isThemePerStoveView($area)
     {
         return $area == self::DEFAULT_AREA;
     }

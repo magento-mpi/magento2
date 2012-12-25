@@ -261,7 +261,7 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoConfigFixture install/design/theme/full_name default/basic
-     * @magentoConfigFixture default/design/theme/full_name default/demo
+     * @magentoConfigFixture frontend/design/theme/full_name default/demo
      * @magentoConfigFixture adminhtml/design/theme/full_name default/basic
      * @magentoAppIsolation enabled
      * @dataProvider controllerAreaDesignDataProvider
