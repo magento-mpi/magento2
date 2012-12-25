@@ -25,6 +25,7 @@ class Magento_Filesystem implements Magento_Filesystem_AdapterInterface
     public function __construct(Magento_Filesystem_AdapterInterface $adapter)
     {
         $this->_adapter = $adapter;
+        $this->setWorkingDirectory(self::getPathFromArray(array(__DIR__, '..', '..')));
     }
 
     /**
@@ -45,7 +46,7 @@ class Magento_Filesystem implements Magento_Filesystem_AdapterInterface
      */
     public function exists($key)
     {
-        return $this->_adapter->exists($this->normalize($key));
+        return $this->_adapter->exists($this->_getCheckedPath($key));
     }
 
     /**
@@ -56,7 +57,7 @@ class Magento_Filesystem implements Magento_Filesystem_AdapterInterface
      */
     public function read($key)
     {
-        return $this->_adapter->read($this->normalize($key));
+        return $this->_adapter->read($this->_getCheckedPath($key));
     }
 
     /**
@@ -68,7 +69,7 @@ class Magento_Filesystem implements Magento_Filesystem_AdapterInterface
      */
     public function write($key, $content)
     {
-        return $this->_adapter->write($this->normalize($key), $content);
+        return $this->_adapter->write($this->_getCheckedPath($key), $content);
     }
 
     /**
@@ -79,7 +80,7 @@ class Magento_Filesystem implements Magento_Filesystem_AdapterInterface
      */
     public function delete($key)
     {
-        return $this->_adapter->delete($this->normalize($key));
+        return $this->_adapter->delete($this->_getCheckedPath($key));
     }
 
     /**
@@ -91,7 +92,7 @@ class Magento_Filesystem implements Magento_Filesystem_AdapterInterface
      */
     public function rename($source, $target)
     {
-        return $this->_adapter->rename($this->normalize($source), $this->normalize($target));
+        return $this->_adapter->rename($this->_getCheckedPath($source), $this->_getCheckedPath($target));
     }
 
     /**
@@ -102,7 +103,7 @@ class Magento_Filesystem implements Magento_Filesystem_AdapterInterface
      */
     public function isDirectory($key)
     {
-        return $this->_adapter->isDirectory($this->normalize($key));
+        return $this->_adapter->isDirectory($this->_getCheckedPath($key));
     }
 
     /**
@@ -121,15 +122,27 @@ class Magento_Filesystem implements Magento_Filesystem_AdapterInterface
     }
 
     /**
-     * Normalize path
+     * Get absolute checked path
      *
      * @param string $key
      * @return string
      */
-    public function normalize($key)
+    protected function _getCheckedPath($key)
     {
-        $key = str_replace('\\', DIRECTORY_SEPARATOR, $key);
-        $path = explode(DIRECTORY_SEPARATOR, $key);
+        $path = self::getAbsolutePath($key);
+        $this->_checkPath($path);
+        return $path;
+    }
+
+    /**
+     * Get absolute path.
+     *
+     * @param string $key
+     * @return string
+     */
+    public static function getAbsolutePath($key)
+    {
+        $path = self::getPathAsArray($key);
         $realPath = array();
         foreach ($path as $dir) {
             if ('.' == $dir) {
@@ -143,9 +156,51 @@ class Magento_Filesystem implements Magento_Filesystem_AdapterInterface
             }
             $realPath[] = $dir;
         }
-        $path = DIRECTORY_SEPARATOR . ltrim(implode(DIRECTORY_SEPARATOR, $realPath), DIRECTORY_SEPARATOR);
+        return self::getPathFromArray($realPath);
+    }
 
-        $this->_checkPath($path);
-        return $path;
+    /**
+     * Get path as string from array.
+     *
+     * @param array $path
+     * @param bool $isAbsolute
+     * @return string
+     * @throws InvalidArgumentException
+     */
+    public static function getPathFromArray(array $path, $isAbsolute = true)
+    {
+        if (!count($path)) {
+            throw new InvalidArgumentException('Path must contain at least one node');
+        }
+        $isWindows = preg_match('/\w:/', $path[0]);
+        $path = implode(DIRECTORY_SEPARATOR, $path);
+        if ($isAbsolute && !$isWindows) {
+            return DIRECTORY_SEPARATOR . ltrim($path, DIRECTORY_SEPARATOR);
+        } else {
+            return $path;
+        }
+    }
+
+    /**
+     * Get path as array
+     *
+     * @param string $path
+     * @return array
+     */
+    public static function getPathAsArray($path)
+    {
+        $path = str_replace('\\', DIRECTORY_SEPARATOR, $path);
+        return explode(DIRECTORY_SEPARATOR, ltrim($path, DIRECTORY_SEPARATOR));
+    }
+
+    /**
+     * Check is path absolute
+     *
+     * @param string $path
+     * @return bool
+     */
+    public static function isAbsolutePath($path)
+    {
+        return $path == self::getAbsolutePath($path);
     }
 }
