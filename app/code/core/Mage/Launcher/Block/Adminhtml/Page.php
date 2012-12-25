@@ -111,24 +111,6 @@ class Mage_Launcher_Block_Adminhtml_Page extends Mage_Backend_Block_Abstract
     }
 
     /**
-     * Check is all steps completed
-     *
-     * @return bool
-     */
-    public function isAllStepsCompleted()
-    {
-        $tiles = $this->getPage()->getTiles();
-        $isComplete = true;
-        foreach ($tiles as $tile) {
-            if (!$tile->isComplete()) {
-                $isComplete = false;
-                break;
-            }
-        }
-        return $isComplete;
-    }
-
-    /**
      * Build Tile Block name by Tile Code
      *
      * @param string $code

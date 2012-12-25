@@ -117,7 +117,7 @@
                         $('#article-' + result.tile_code).before(result.tile_content).remove();
                         $('.drawer-open')
                             .on('click', methods.setButtonHandler);
-                        isAllStepsCompleted();
+                        handleLaunchStoreButton();
                         methods.drawerClose();
                     } else {
                         if (result && result.error_message) {
@@ -193,15 +193,26 @@
 
         })();
 
-        function isAllStepsCompleted() {
-            var completedSteps = $('#store-launcher').eq(0).find('.sl-step-complete').length,
-                storeAction = $('.btn-launch-store');
+        /**
+         * Check if page has been completed (i.e. all related tiles are complete)
+         *
+         * @return boolean
+         */
+        var isPageComplete = function () {
+            var completeSteps = $('#store-launcher').eq(0).find('.sl-step-complete').length;
 
-            if (completedSteps == $('#store-launcher article').size()) {
-                storeAction.removeClass('hidden');
-            }
-            else {
-                storeAction.addClass('hidden');
+            return completeSteps == $('#store-launcher article').size();
+        }
+
+        /**
+         * Show 'Launch Store' button if needed
+         */
+        var handleLaunchStoreButton = function () {
+            var launchStoreButton = $('.btn-launch-store');
+            if (isPageComplete()) {
+                launchStoreButton.removeClass('hidden');
+            } else {
+                launchStoreButton.addClass('hidden');
             }
         }
 

@@ -83,4 +83,21 @@ class Mage_Launcher_Model_Page extends Mage_Core_Model_Abstract
     {
         return $this->load($code, 'code');
     }
+
+    /**
+     * Check if page is complete (i.e. all related tiles are complete)
+     *
+     * @return bool
+     */
+    public function isComplete()
+    {
+        $isComplete = true;
+        foreach ($this->getTiles() as $tile) {
+            if (!$tile->isComplete()) {
+                $isComplete = false;
+                break;
+            }
+        }
+        return $isComplete;
+    }
 }
