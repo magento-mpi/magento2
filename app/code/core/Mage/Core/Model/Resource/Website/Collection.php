@@ -36,17 +36,14 @@ class Mage_Core_Model_Resource_Website_Collection extends Mage_Core_Model_Resour
     }
 
     /**
-     * Prepare collection select
-     *
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
+     * Apply custom filtering
      */
-    protected function  _initSelect()
+    protected function _renderFiltersBefore()
     {
-        parent::_initSelect();
         if (!$this->getLoadDefault()) {
             $this->getSelect()->where('main_table.website_id > ?', 0);
         }
-        return $this;
+        parent::_renderFiltersBefore();
     }
 
     /**
