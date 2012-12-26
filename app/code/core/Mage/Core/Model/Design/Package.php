@@ -22,12 +22,12 @@ class Mage_Core_Model_Design_Package
     const SCOPE_SEPARATOR = '::';
 
     /**
-     * Public directory which constants theme files
+     * Public directory which contain theme files
      */
     const PUBLIC_BASE_THEME_DIR = 'theme';
 
     /**
-     * Public directory which constants virtual themes files
+     * Public directory which contain virtual themes files
      */
     const PUBLIC_CUSTOMIZATION_THEME_DIR = 'customization';
 
