@@ -10,10 +10,10 @@
 
 
 /**
- * Customer segment data grid collection
+ * Customer Segment website option array
  *
  * @category    Enterpise
- * @package     Enterpice_CustomerSegment
+ * @package     Enterpise_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_CustomerSegment_Model_Resource_Grid_Website implements Mage_Core_Model_Option_ArrayInterface

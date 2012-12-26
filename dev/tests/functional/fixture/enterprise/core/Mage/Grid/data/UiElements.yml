@@ -129,3 +129,27 @@ manage_customer_segments:
         1: Segment Name
         2: Status
         3: Website
+
+#dataset for ui elements in Manage Gift Registry Types grid
+manage_gift_registry:
+    fieldset:
+        giftRegistryGrid: tablename
+    button:
+        reset_filter:
+        search:
+        add_new_gift_registry_type:
+    dropdown:
+        status:
+        view_per_page:
+    field:
+        page:
+        id:
+        code:
+        label:
+        sort_order:
+    headers:
+        0: ID
+        1: Code
+        2: Label
+        3: Sort Order
+        4: Is Listed

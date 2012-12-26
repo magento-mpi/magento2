@@ -19,14 +19,14 @@
 class Enterprise_CustomerSegment_Model_Resource_Grid_Collection extends Enterprise_CustomerSegment_Model_Resource_Segment_Collection
 {
     /**
-     * Prepare select for load
+     * Add websites for load
      *
-     * @param Varien_Db_Select $select
      * @return string
      */
-    protected function _prepareSelect(Varien_Db_Select $select)
+    protected function _initSelect()
     {
+        parent::_initSelect();
         $this->addWebsitesToResult();
-        return parent::_prepareSelect($select);
+        return $this;
     }
 }
