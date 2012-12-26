@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mage_Adminhtml_Utility_Controller
+class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mage_Backend_Utility_Controller
 {
     /**
      * Identifier theme
