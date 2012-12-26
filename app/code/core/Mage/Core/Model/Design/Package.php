@@ -392,17 +392,24 @@ class Mage_Core_Model_Design_Package
     {
         $cacheKey = "{$params['area']}|{$params['themeModel']->getCacheKey()}|{$params['locale']}";
         if (!isset($this->_fallback[$cacheKey])) {
-            $params['canSaveMap'] = (bool) (string) Mage::app()->getConfig()
-                ->getNode('global/dev/design_fallback/allow_map_update');
-            $params['mapDir'] = Mage::getConfig()->getTempVarDir() . '/maps/fallback';
-            $params['baseDir'] = Mage::getBaseDir();
-
-            $model = $this->_isDeveloperMode() ?
-                'Mage_Core_Model_Design_Fallback' :
-                'Mage_Core_Model_Design_Fallback_CachingProxy';
-            $this->_fallback[$cacheKey] = Mage::getModel($model, array('data' => $params));
+            $this->_fallback[$cacheKey] = $this->_createFallback($params);
         }
         return $this->_fallback[$cacheKey];
+    }
+
+    protected function _createFallback($params)
+    {
+        $model = 'Mage_Core_Model_Design_Fallback_CachingProxy';
+        if (isset($params['skipProxy']) && $params['skipProxy']) {
+            $model = 'Mage_Core_Model_Design_Fallback';
+        }
+
+        $params['canSaveMap'] = (bool) (string) Mage::app()->getConfig()
+            ->getNode('global/dev/design_fallback/allow_map_update');
+        $params['mapDir'] = Mage::getConfig()->getTempVarDir() . '/maps/fallback';
+        $params['baseDir'] = Mage::getBaseDir();
+
+        return Mage::getModel($model, array('data' => $params));
     }
 
     /**
