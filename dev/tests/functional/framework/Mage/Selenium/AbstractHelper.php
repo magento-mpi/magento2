@@ -147,8 +147,7 @@
  * @method array                    fixtureDataToArray($testData)
  * @method void                     validatePage(string $page = '')
  * @method array                    validationMessage(string $message = null)
- * @method bool                     verifyForm(array $data, string $tabId = '', array $skipElements = array('password',
-'password_confirmation'))
+ * @method bool                     verifyForm(array $data, string $tabId = '', array $skipElements = array('password', 'password_confirmation'))
  * @method bool                     verifyMessagesCount(int $count = 1, string $locator = null)
  * @method void                     waitForAjax(int $timeout = null)
  * @method PHPUnit_Extensions_Selenium2TestCase_Element waitForElement($locator, int $timeout = null)

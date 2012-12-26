@@ -30,7 +30,7 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
     public function preconditionsForTests()
     {
         //Data
-        $attributeData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');        
+        $attributeData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $attributeSet = $this->loadDataSet('AttributeSet', 'attribute_set',
             array('General' => $attributeData['attribute_code']));
         $simpleProduct = $this->loadDataSet('Product', 'simple_product_visible',
@@ -50,13 +50,12 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $this->productHelper()->createProduct($simpleProduct);
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return array(
-            'product_attribute_set' => $attributeSet['set_name'],
-            'assigned_attribute' => $attributeData['attribute_code'],
-            'attributeName' => $attributeData['admin_title'],
-            'productSku' => $simpleProduct['general_sku'],
-            'attributeValue' => $attributeData['option_1']['admin_option_name']
-        );
+        return array('product_attribute_set' => $attributeSet['set_name'],
+                     'assigned_attribute'    => $attributeData['attribute_code'],
+                     'attributeName'         => $attributeData['admin_title'],
+                     'productSku'            => $simpleProduct['general_sku'],
+                     'productName'           => $simpleProduct['general_name'],
+                     'attributeValue'        => $attributeData['option_1']['admin_option_name']);
     }
 
     /**
@@ -207,13 +206,12 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
     public function forConfigurableDuringCreation($customSetData)
     {
         //Data
-        $associateData = $this->loadDataSet('Product', 'general_configurable_data',
-            array('associated_sku'             => $customSetData['productSku'],
-                  'associated_attribute_value' => $customSetData['attributeValue']));
-        $configurable = $this->loadDataSet('Product', 'configurable_product_visible',
-            array('product_attribute_set'                => $customSetData['product_attribute_set'],
-                  'general_configurable_attribute_title' => $customSetData['attributeName'],
-                  'general_configurable_data'            => $associateData));
+        $configurable = $this->loadDataSet('Product', 'configurable_product_required',
+            array('associated_product_name' => $customSetData['productName'],
+                  'associated_sku'          => $customSetData['productSku'],
+                  'product_attribute_set'   => $customSetData['product_attribute_set']),
+            array('var1_attr_value1'    => $customSetData['attributeValue'],
+                  'general_attribute_1' => $customSetData['attributeName']));
         $newAttributeSet = $customSetData['product_attribute_set'];
         //Steps
         $this->productHelper()->selectTypeProduct('configurable');

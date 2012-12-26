@@ -383,7 +383,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     public function changeAttributeSet($newAttributeSet)
     {
         $this->clickButton('change_attribute_set', false);
-        $this->waitForControlEditable(self::FIELD_TYPE_INPUT, 'choose_attribute_set');
+        $this->waitForControlEditable(self::FIELD_TYPE_DROPDOWN, 'choose_attribute_set');
         $this->fillDropdown('choose_attribute_set', $newAttributeSet);
         $param = $this->getControlAttribute(self::FIELD_TYPE_DROPDOWN, 'choose_attribute_set', 'selectedValue');
         $this->addParameter('setId', $param);
@@ -571,7 +571,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             unset($generalTab['general_configurable_attributes']);
         }
         if (isset($generalTab['general_configurable_variations'])) {
-            $this->verifyConfigurableVariations($generalTab['general_configurable_variations']);
+            $this->verifyConfigurableVariations($generalTab['general_configurable_variations'], true);
             unset($generalTab['general_configurable_variations']);
         }
         $this->verifyForm($generalTab, 'general');
@@ -677,14 +677,37 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     public function fillConfigurableSettings(array $attributes)
     {
         $this->fillCheckbox('is_configurable', 'Yes');
-        //$attributesId = array();
         foreach ($attributes as $attributeData) {
             $this->selectConfigurableAttribute($attributeData);
+            $this->unselectConfigurableAttributes($this->_getSelectedAttributeOptions($attributeData),
+                $attributeData['general_configurable_attribute_title']);
         }
-        //$attributesUrl = urlencode(base64_encode(implode(',', $attributesId)));
-        //$this->addParameter('attributesUrl', $attributesUrl);
         $this->clickButton('generate_product_variations');
         $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'variations_matrix_grid');
+    }
+
+    /**
+     * Get option names that was selected
+     *
+     * @param array $attributeData
+     *
+     * @return array
+     */
+    private function _getSelectedAttributeOptions(array $attributeData)
+    {
+        $return = array();
+        foreach ($attributeData as $value) {
+            if (!is_array($value)) {
+                continue;
+            }
+            if (isset($value['associated_attribute_value'])
+                && (isset($value['associated_attribute_value']) && $value['associated_attribute_value'] != 'No')
+            ) {
+                $return[] = $value['associated_attribute_value'];
+            }
+        }
+
+        return $return;
     }
 
     /**
@@ -752,6 +775,25 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 unset($optionData['associated_attribute_value']);
             }
             $this->fillFieldset($optionData, 'product_variation_attribute');
+        }
+    }
+
+    /**
+     * Unselect Configurable Attributes
+     *
+     * @param array $skipOptionNames
+     * @param string $attributeName
+     */
+    public function unselectConfigurableAttributes($skipOptionNames = array(), $attributeName)
+    {
+        $this->addParameter('attributeTitle', $attributeName);
+        $options = $this->getControlElements(self::FIELD_TYPE_PAGEELEMENT, 'option_line');
+        foreach ($options as $option) {
+            $name = $this->getChildElement($option, 'td')->text();
+            if (!in_array($name, $skipOptionNames)) {
+                $this->addParameter('attributeOption', $name);
+                $this->fillCheckbox('include_variation_attribute', 'No');
+            }
         }
     }
 
@@ -936,7 +978,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $attribute = 0;
             foreach ($lineData as $cell => $cellData) {
                 if (in_array($cell, $generalFields)) {
-                    $form[trim(strtolower(str_replace('', '_', $cell)), '_')] = $cellData;
+                    $fieldName = 'associated_' . trim(strtolower(str_replace(' ', '_', $cell)), '_');
+                    $form[$fieldName] = $cellData;
                 } else {
                     $name = 'attribute_' . ++$attribute;
                     $form['associated_attributes'][$name]['associated_attribute_name'] = $cell;

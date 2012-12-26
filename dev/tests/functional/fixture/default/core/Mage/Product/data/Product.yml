@@ -273,40 +273,40 @@ associated_grouped_data: &associatedProductsGroupedData
 #*****************************************************
 #*************************Attributes Data****************************
 general_configurable_attribute_with_price: &general_configurable_attribute_with_price
-    general_configurable_attribute_title: %general_attribute_1%
+    general_configurable_attribute_title: %general_attribute_2%
     have_price_variation: Yes
     option_1:
-        associated_attribute_value: %var1_attr_value1%
+        associated_attribute_value: %var2_attr_value1%
         variation_attribute_price: 1.99
         variation_attribute_price_type: Fixed
         include_variation_attribute: Yes
     option_2:
-        associated_attribute_value: %var1_attr_value2%
+        associated_attribute_value: %var2_attr_value2%
         variation_attribute_price: 15
         variation_attribute_price_type: Percentage
         include_variation_attribute: Yes
     option_3:
-        associated_attribute_value: %var1_attr_value3%
+        associated_attribute_value: %var2_attr_value3%
         variation_attribute_price: 0.25
         variation_attribute_price_type: Fixed
         include_variation_attribute: Yes
 
 general_configurable_attribute_without_price: &general_configurable_attribute_without_price
-    general_configurable_attribute_title: %general_attribute_2%
+    general_configurable_attribute_title: %general_attribute_1%
     have_price_variation: No
     option_1:
-        associated_attribute_value: %var2_attr_value1%
+        associated_attribute_value: %var1_attr_value1%
         include_variation_attribute: Yes
     option_2:
-        associated_attribute_value: %var2_attr_value2%
-        include_variation_attribute: Yes
+        associated_attribute_value: %var1_attr_value2%
+        include_variation_attribute: %var1_attr_include2%
     option_3:
-        associated_attribute_value: %var2_attr_value3%
-        include_variation_attribute: Yes
+        associated_attribute_value: %var1_attr_value3%
+        include_variation_attribute: %var1_attr_include3%
 
 general_configurable_attributes: &general_configurable_attributes
     attribute_1: *general_configurable_attribute_without_price
-    attribute_2: *general_configurable_attribute_with_price
+    attribute_2: %noValue%
 
 #*************************Variations Data****************************
 product_variation: &configurableAssociatedProduct1
@@ -321,7 +321,7 @@ product_variation: &configurableAssociatedProduct1
             associated_attribute_value: %var1_attr_value1%
         attribute_2:
             associated_attribute_name: %general_attribute_2%
-            associated_attribute_value: %var1_attr_value2%
+            associated_attribute_value: %var2_attr_value1%
 
 general_configurable_variations: &associatedProductsConfigurableData
     configurable_1: *configurableAssociatedProduct1

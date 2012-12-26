@@ -282,11 +282,9 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($simpleProduct);
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return array(
-            'attributeName' => $attributeData['admin_title'],
-            'productSku' => $simpleProduct['general_sku'],
-            'attributeValue' => $attributeData['option_1']['admin_option_name']
-        );
+        return array('attributeName'  => $attributeData['admin_title'], 'productSku' => $simpleProduct['general_sku'],
+                     'attributeValue' => $attributeData['option_1']['admin_option_name'],
+                     'productName'    => $simpleProduct['general_name']);
     }
 
     /**
@@ -303,11 +301,9 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
     public function toConfigurableDuringCreation($initialType, $data)
     {
         //Data
-        $associateData = $this->loadDataSet('Product', 'general_configurable_data',
-            array('associated_sku' => $data['productSku'], 'associated_attribute_value' => $data['attributeValue']));
         $configurable = $this->loadDataSet('Product', 'configurable_product_visible',
-            array('general_configurable_attribute_title' => $data['attributeName'],
-                  'general_configurable_data'            => $associateData));
+            array('associated_product_name' => $data['productName'], 'associated_sku' => $data['productSku']),
+            array('var1_attr_value1' => $data['attributeValue'], 'general_attribute_1' => $data['attributeName']));
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $configurable['general_sku']));
         //Steps and Verifying
         $this->productHelper()->selectTypeProduct($initialType);
@@ -387,14 +383,12 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
     {
         //Data
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
-        $associateData = $this->loadDataSet('Product', 'general_configurable_data',
-            array('associated_sku' => $data['productSku'], 'associated_attribute_value' => $data['attributeValue']));
-        $configurableProduct = $this->loadDataSet('Product', 'configurable_product_visible',
-            array('general_configurable_attribute_title' => $data['attributeName'],
-                  'general_configurable_data'            => $associateData));
+        $configurable = $this->loadDataSet('Product', 'configurable_product_visible',
+            array('associated_product_name' => $data['productName'], 'associated_sku' => $data['productSku']),
+            array('var1_attr_value1' => $data['attributeValue'], 'general_attribute_1' => $data['attributeName']));
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $simple['general_sku']));
         //Steps
-        $this->productHelper()->createProduct($configurableProduct, 'configurable', false);
+        $this->productHelper()->createProduct($configurable, 'configurable', false);
         $this->openTab('general');
         $this->fillCheckbox('is_configurable', 'no');
         $this->assertFalse($this->controlIsVisible('pageelement', 'product_variations_fieldset'),
@@ -428,11 +422,9 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
     {
         //Data
         $initialProduct = $this->loadDataSet('Product', $initialType . '_product_visible');
-        $associateData = $this->loadDataSet('Product', 'general_configurable_data',
-            array('associated_sku' => $data['productSku'], 'associated_attribute_value' => $data['attributeValue']));
         $configurable = $this->loadDataSet('Product', 'configurable_product_visible',
-            array('general_configurable_attribute_title' => $data['attributeName'],
-                  'general_configurable_data'            => $associateData));
+            array('associated_product_name' => $data['productName'], 'associated_sku' => $data['productSku']),
+            array('var1_attr_value1' => $data['attributeValue'], 'general_attribute_1' => $data['attributeName']));
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $configurable['general_sku']));
         //Steps
         $this->productHelper()->createProduct($initialProduct, $initialType);
@@ -463,11 +455,9 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
     public function editingConfigurable($data)
     {
         //Data
-        $associateData = $this->loadDataSet('Product', 'general_configurable_data',
-            array('associated_sku' => $data['productSku'], 'associated_attribute_value' => $data['attributeValue']));
         $configurable = $this->loadDataSet('Product', 'configurable_product_visible',
-            array('general_configurable_attribute_title' => $data['attributeName'],
-                  'general_configurable_data'            => $associateData));
+            array('associated_product_name' => $data['productName'], 'associated_sku' => $data['productSku']),
+            array('var1_attr_value1' => $data['attributeValue'], 'general_attribute_1' => $data['attributeName']));
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $configurable['general_sku']));
         //Steps
         $this->productHelper()->createProduct($configurable, 'configurable');

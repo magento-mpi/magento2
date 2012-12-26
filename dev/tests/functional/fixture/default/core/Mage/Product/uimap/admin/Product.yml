@@ -193,6 +193,8 @@ new_product:
                                         delete_product_variation_attribute: //span[@class='ui-icon ui-icon-circle-close']
                                         move_product_variation_attribute: //span[@class='ui-icon ui-icon-arrowthick-2-n-s']
                                         expand_product_variation_attribute: //span[@class='ui-icon ui-icon-circle-triangle-s']
+                                    pageelements:
+                                        option_line: //tbody/tr
                             -
                                 variations_matrix_grid:
                                     xpath: //div[@id='product-variations-matrix']
