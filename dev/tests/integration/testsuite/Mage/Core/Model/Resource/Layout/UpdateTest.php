@@ -29,7 +29,7 @@ class Mage_Core_Model_Resource_Layout_UpdateTest extends PHPUnit_Framework_TestC
     protected function setUp()
     {
         $this->_objectManager = Mage::getObjectManager();
-        $this->_design = Mage::getDesign();
+        $this->_design = $this->_objectManager->get('Mage_Core_Model_Design_Package');
 
         $this->_themeId = $this->_design->getDesignTheme()->getThemeId();
         /** @var $theme Mage_Core_Model_Theme */
