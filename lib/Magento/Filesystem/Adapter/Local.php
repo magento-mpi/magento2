@@ -69,6 +69,20 @@ class Magento_Filesystem_Adapter_Local implements
     }
 
     /**
+     * Changes mode of filesystem key
+     *
+     * @param string $key
+     * @param int $mode
+     * @throws Magento_Filesystem_Exception
+     */
+    public function changeMode($key, $mode)
+    {
+        if (!@chmod($key, $mode, true)) {
+            throw new Magento_Filesystem_Exception(sprintf('Failed to change mode of %s', $key));
+        }
+    }
+
+    /**
      * Check if key is a directory.
      *
      * @param string $key
@@ -80,25 +94,41 @@ class Magento_Filesystem_Adapter_Local implements
     }
 
     /**
-     * Creates new directory
+     * Check if key is a file.
      *
      * @param string $key
      * @return bool
      */
-    public function createDirectory($key)
+    public function isFile($key)
     {
-        return mkdir($key);
+        return is_file($key);
     }
 
-    /*
-    * Sets access and modification time of file
-    *
-    * @param string $key
-    * @return bool
-    */
+    /**
+     * Creates new directory
+     *
+     * @param string $key
+     * @param int $mode
+     * @throws Magento_Filesystem_Exception
+     */
+    public function createDirectory($key, $mode)
+    {
+        if (!@mkdir($key, $mode, true)) {
+            throw new Magento_Filesystem_Exception(sprintf('Failed to create %s', $key));
+        }
+    }
+
+    /**
+     * Touches a file
+     *
+     * @param string $key
+     * @throws Magento_Filesystem_Exception
+     */
     public function touch($key)
     {
-        return touch($key);
+        if (!@touch($key)) {
+            throw new Magento_Filesystem_Exception(sprintf('Failed to touch %s', $key));
+        }
     }
 
     /**

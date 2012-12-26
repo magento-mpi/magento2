@@ -74,8 +74,7 @@ class Magento_Filesystem_Stream_Memory implements Magento_Filesystem_StreamInter
      * Opens the stream in the specified mode
      *
      * @param Magento_Filesystem_Stream_Mode $mode
-     * @return bool
-     * @throws RuntimeException If stream cannot be opened
+     * @throws Magento_Filesystem_Exception
      */
     public function open(Magento_Filesystem_Stream_Mode $mode)
     {
@@ -86,7 +85,7 @@ class Magento_Filesystem_Stream_Memory implements Magento_Filesystem_StreamInter
         if (($exists && !$mode->allowsExistingFileOpening())
             || (!$exists && !$mode->allowsNewFileOpening())
         ) {
-            return false;
+            throw new Magento_Filesystem_Exception('The stream does not allow open.');
         }
 
         if ($mode->impliesExistingContentDeletion()) {
@@ -101,8 +100,6 @@ class Magento_Filesystem_Stream_Memory implements Magento_Filesystem_StreamInter
         $this->_position = $mode->impliesPositioningCursorAtTheEnd() ? $this->_numBytes : 0;
 
         $this->_synchronized = true;
-
-        return true;
     }
 
     /**
@@ -122,6 +119,20 @@ class Magento_Filesystem_Stream_Memory implements Magento_Filesystem_StreamInter
         $this->_position += $this->_getSize($chunk);
 
         return $chunk;
+    }
+
+    /**
+     * Reads one CSV row from the stream
+     *
+     * @param int $count The number of bytes to read
+     * @param string $delimiter
+     * @param string $enclosure
+     * @return array|bool If stream does not allow read.
+     * @throws LogicException
+     */
+    public function readCsv($count = 0, $delimiter = ',', $enclosure = '"')
+    {
+        // TODO Implement this method
     }
 
     /**
@@ -159,6 +170,20 @@ class Magento_Filesystem_Stream_Memory implements Magento_Filesystem_StreamInter
         $this->_synchronized = false;
 
         return $numWrittenBytes;
+    }
+
+    /**
+     * Writes one CSV row to the stream.
+     *
+     * @param array $data
+     * @param string $delimiter
+     * @param string $enclosure
+     * @return integer|bool Returns the length of the written string or FALSE on failure.
+     * @throws LogicException If stream does not allow write.
+     */
+    public function writeCsv(array $data, $delimiter = ',', $enclosure = '"')
+    {
+        // TODO Implement this method
     }
 
     /**
@@ -233,20 +258,6 @@ class Magento_Filesystem_Stream_Memory implements Magento_Filesystem_StreamInter
     public function eof()
     {
         return $this->_position >= $this->_numBytes;
-    }
-
-    /**
-     * Delete a file
-     *
-     * @return bool
-     */
-    public function unlink()
-    {
-        if ($this->_mode && $this->_mode->impliesExistingContentDeletion()) {
-            return $this->_filesystem->delete($this->_key);
-        }
-
-        return false;
     }
 
     /**

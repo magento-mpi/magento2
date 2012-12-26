@@ -197,7 +197,7 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
             } else {
                 $this->assertFileExists($fileName);
             }
-            $this->assertTrue($this->_adapter->touch($fileName));
+            $this->_adapter->touch($fileName);
             if ($newFile) {
                 $this->assertFileExists($fileName);
                 unlink($fileName);

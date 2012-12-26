@@ -20,6 +20,16 @@ class Magento_Filesystem
     protected $_workingDirectory;
 
     /**
+     * @var bool
+     */
+    protected $_isAllowCreateDirectories = false;
+
+    /**
+     * @var int
+     */
+    protected $_newDirectoryMode = 0777;
+
+    /**
      * @param Magento_Filesystem_AdapterInterface $adapter
      */
     public function __construct(Magento_Filesystem_AdapterInterface $adapter)
@@ -32,10 +42,28 @@ class Magento_Filesystem
      * Sets working directory to restrict operations with filesystem.
      *
      * @param string $dir
+     * @return Magento_Filesystem
      */
     public function setWorkingDirectory($dir)
     {
         $this->_workingDirectory = $dir;
+        return $this;
+    }
+
+    /**
+     * Allows to create directories when process operations
+     *
+     * @param bool $allow
+     * @param int $mode
+     * @return Magento_Filesystem
+     */
+    public function setIsAllowCreateDirectories($allow, $mode = null)
+    {
+        $this->_isAllowCreateDirectories = (bool)$allow;
+        if (null !== $mode) {
+            $this->_newDirectoryMode = $mode;
+        }
+        return $this;
     }
 
     /**
@@ -107,6 +135,43 @@ class Magento_Filesystem
     }
 
     /**
+     * Check if key is file.
+     *
+     * @param string $key
+     * @return bool
+     */
+    public function isFile($key)
+    {
+        return $this->_adapter->isFile($this->_getCheckedPath($key));
+    }
+
+    /**
+     * Creates new directory
+     *
+     * @param string $key
+     * @param int $mode
+     */
+    public function createDirectory($key, $mode = 0777)
+    {
+        $this->_adapter->createDirectory($key, $mode);
+    }
+
+    public function ensureDirectoryExists($key, $mode = 0777)
+    {
+        if (!$this->isDirectory($key)) {
+            $this->createDirectory($key, $mode);
+        }
+    }
+
+    public function touch($key)
+    {
+        if (!$this->isDirectory(dirname($key)) && $this->_isAllowCreateDirectories) {
+            $this->createDirectory(dirname($key), $this->_newDirectoryMode);
+        }
+        $this->_adapter->touch($key);
+    }
+
+    /**
      * Creates stream object
      *
      * @param string $key
@@ -118,6 +183,30 @@ class Magento_Filesystem
             return $this->_adapter->createStream($key);
         }
         return new Magento_Filesystem_Stream_Memory($this, $key);
+    }
+
+    /**
+     * Creates stream object and opens it
+     *
+     * @param string $key
+     * @param Magento_Filesystem_Stream_Mode|string $mode
+     * @return Magento_Filesystem_StreamInterface
+     * @throws InvalidArgumentException
+     */
+    public function createAndOpenStream($key, $mode)
+    {
+        if ($this->_adapter instanceof Magento_Filesystem_Stream_FactoryInterface) {
+            $result = $this->_adapter->createStream($key);
+        } else {
+            $result = new Magento_Filesystem_Stream_Memory($this, $key);
+        }
+        if (is_string($mode)) {
+            $mode = new Magento_Filesystem_Stream_Mode($mode);
+        } elseif (!$mode instanceof Magento_Filesystem_Stream_Mode) {
+            throw new InvalidArgumentException('Wrong mode parameter');
+        }
+        $result->open($mode);
+        return $result;
     }
 
     /**

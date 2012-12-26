@@ -52,6 +52,15 @@ interface Magento_Filesystem_AdapterInterface
     public function rename($source, $target);
 
     /**
+     * Changes mode of filesystem key
+     *
+     * @param string $key
+     * @param int $mode
+     * @throws Magento_Filesystem_Exception
+     */
+    public function changeMode($key, $mode);
+
+    /**
      * Check if key is directory.
      *
      * @param string $key
@@ -60,18 +69,27 @@ interface Magento_Filesystem_AdapterInterface
     public function isDirectory($key);
 
     /**
-     * Creates new directory
+     * Check if key is file.
      *
      * @param string $key
      * @return bool
      */
-    public function createDirectory($key);
+    public function isFile($key);
 
-    /*
-     * Sets access and modification time of file
+    /**
+     * Creates new directory
      *
      * @param string $key
-     * @return bool
+     * @param int $mode
+     * @throws Magento_Filesystem_Exception If cannot create directory
+     */
+    public function createDirectory($key, $mode);
+
+    /**
+     * Touches a file
+     *
+     * @param string $key
+     * @throws Magento_Filesystem_Exception
      */
     public function touch($key);
 }
