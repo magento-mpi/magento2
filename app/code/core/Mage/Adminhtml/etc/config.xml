@@ -129,6 +129,9 @@
                 <sales module="Mage_Adminhtml">
                     <file>sales.xml</file>
                 </sales>
+                <store module="Mage_Adminhtml">
+                    <file>system/store/store.xml</file>
+                </store>
                 <system module="Mage_Adminhtml">
                     <file>system/email/template.xml</file>
                 </system>

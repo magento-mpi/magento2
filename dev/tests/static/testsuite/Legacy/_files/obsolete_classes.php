@@ -70,6 +70,7 @@ return array(
     $this->_getClassRule('Mage_Adminhtml_Block_Permissions_Edituser'),
     $this->_getClassRule('Mage_Adminhtml_Block_Permissions_Tab_Userroles'),
     $this->_getClassRule('Mage_Adminhtml_Block_Permissions_Usernroles'),
+    $this->_getClassRule('Mage_Adminhtml_Block_System_Store_Grid'),
     $this->_getClassRule('Mage_Adminhtml_Permissions_UserController'),
     $this->_getClassRule('Mage_Adminhtml_Permissions_RoleController'),
     $this->_getClassRule('Mage_Adminhtml_Block_Report_Grid', 'Mage_Reports_Block_Adminhtml_Grid'),
