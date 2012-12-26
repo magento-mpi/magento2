@@ -187,7 +187,7 @@
 //<![CDATA[
     var printedTemplateType = '<?php echo $printedTemplate->getEntityType() ?>';
 
-    var formPrefix = '<?php echo $this->getChild('form')->getForm()->getHtmlIdPrefix(); ?>';
+    var formPrefix = '<?php echo $this->getChildBlock('form')->getForm()->getHtmlIdPrefix(); ?>';
     var editorFonts = '<?php echo $wysiwygConfig->getFonts(); ?>';
     var editorPageBreakSeparator = '<?php echo $wysiwygConfig->getPageBreakSeparator(); ?>';
     var editorButtonsToRemove = '<?php echo $wysiwygConfig->getButtonsToRemove(); ?>';
