@@ -658,6 +658,11 @@ class Mage_Core_Model_Design_Package
             return false;
         }
 
+        $customizationPath = $this->getCustomizationDir();
+        if (strncmp($filePath, $customizationPath, strlen($customizationPath)) === 0) {
+            return false;
+        }
+
         $protectedExtensions = array(self::CONTENT_TYPE_PHP, self::CONTENT_TYPE_PHTML, self::CONTENT_TYPE_XML);
         if (in_array($this->_getExtension($filePath), $protectedExtensions)) {
             return false;
@@ -702,6 +707,17 @@ class Mage_Core_Model_Design_Package
     public function getPublicDir()
     {
         return Mage::getBaseDir('media') . DIRECTORY_SEPARATOR . self::PUBLIC_BASE_THEME_DIR;
+    }
+
+    /**
+     * Get customization directory
+     *
+     * @return string
+     */
+    public function getCustomizationDir()
+    {
+        return Mage::getBaseDir('media') . DIRECTORY_SEPARATOR . Mage_Core_Model_Design_Package::PUBLIC_BASE_THEME_DIR
+            . DIRECTORY_SEPARATOR . Mage_Core_Model_Design_Package::PUBLIC_CUSTOMIZATION_THEME_DIR;
     }
 
     /**
