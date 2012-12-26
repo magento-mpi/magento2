@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Filesystem implements Magento_Filesystem_AdapterInterface
+class Magento_Filesystem
 {
     /**
      * @var Magento_Filesystem_AdapterInterface
@@ -25,7 +25,7 @@ class Magento_Filesystem implements Magento_Filesystem_AdapterInterface
     public function __construct(Magento_Filesystem_AdapterInterface $adapter)
     {
         $this->_adapter = $adapter;
-        $this->setWorkingDirectory(self::getPathFromArray(array(__DIR__, '..', '..')));
+        $this->setWorkingDirectory(self::getAbsolutePath(self::getPathFromArray(array(__DIR__, '..', '..'))));
     }
 
     /**
@@ -44,7 +44,7 @@ class Magento_Filesystem implements Magento_Filesystem_AdapterInterface
      * @param string $key
      * @return bool
      */
-    public function exists($key)
+    public function has($key)
     {
         return $this->_adapter->exists($this->_getCheckedPath($key));
     }
@@ -107,18 +107,28 @@ class Magento_Filesystem implements Magento_Filesystem_AdapterInterface
     }
 
     /**
-     * Check path isolation
+     * Creates stream object
      *
      * @param string $key
-     * @throws InvalidArgumentException
+     * @return Magento_Filesystem_StreamInterface
      */
-    protected function _checkPath($key)
+    public function createStream($key)
     {
-        if ($this->_workingDirectory) {
-            if (0 !== strpos($key, $this->_workingDirectory)) {
-                throw new InvalidArgumentException('Invalid path');
-            }
+        if ($this->_adapter instanceof Magento_Filesystem_Stream_FactoryInterface) {
+            return $this->_adapter->createStream($key);
         }
+        return new Magento_Filesystem_Stream_Memory($this, $key);
+    }
+
+    /**
+     * Creates file object
+     *
+     * @param string $key
+     * @return Magento_Filesystem_File
+     */
+    public function createFile($key)
+    {
+        return new Magento_Filesystem_File($key, $this);
     }
 
     /**
@@ -132,6 +142,21 @@ class Magento_Filesystem implements Magento_Filesystem_AdapterInterface
         $path = self::getAbsolutePath($key);
         $this->_checkPath($path);
         return $path;
+    }
+
+    /**
+     * Check path isolation
+     *
+     * @param string $key
+     * @throws InvalidArgumentException
+     */
+    protected function _checkPath($key)
+    {
+        if ($this->_workingDirectory) {
+            if (0 !== strpos($key, $this->_workingDirectory)) {
+                throw new InvalidArgumentException('Invalid path');
+            }
+        }
     }
 
     /**

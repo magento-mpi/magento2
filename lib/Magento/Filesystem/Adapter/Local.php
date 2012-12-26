@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Filesystem_Adapter_Local implements Magento_Filesystem_AdapterInterface
+class Magento_Filesystem_Adapter_Local implements
+    Magento_Filesystem_AdapterInterface,
+    Magento_Filesystem_Stream_FactoryInterface
 {
     /**
      * Checks the file existence.
@@ -97,5 +99,16 @@ class Magento_Filesystem_Adapter_Local implements Magento_Filesystem_AdapterInte
     public function touch($key)
     {
         return touch($key);
+    }
+
+    /**
+     * Create stream object
+     *
+     * @param string $path
+     * @return Magento_Filesystem_Stream_Local
+     */
+    public function createStream($path)
+    {
+        return new Magento_Filesystem_Stream_Local($path);
     }
 }

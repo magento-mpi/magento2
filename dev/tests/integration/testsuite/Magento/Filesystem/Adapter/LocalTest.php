@@ -44,16 +44,11 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     /**
      * @param string $fileName
      * @param string $expectedContent
-     * @param bool $success
      * @dataProvider readDataProvider
      */
-    public function testRead($fileName, $expectedContent, $success)
+    public function testRead($fileName, $expectedContent)
     {
-        if ($success) {
-            $this->assertEquals($expectedContent, $this->_adapter->read($fileName));
-        } else {
-            $this->assertNotEquals($expectedContent, $this->_adapter->read($fileName));
-        }
+        $this->assertEquals($expectedContent, $this->_adapter->read($fileName));
     }
 
     /**
@@ -63,9 +58,7 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     {
         $filesPath = __DIR__ . DS . '..' . DS . '_files' . DS;
         return array(
-            'correct read' => array($filesPath . 'popup.css', 'var myData = 5;', true),
-            'incorrect read' => array($filesPath . 'popup.css', 'var myData = 5; ', false),
-            'not existed file' => array($filesPath . 'popup2.css', false, true)
+            'read' => array($filesPath . 'popup.css', 'var myData = 5;'),
         );
     }
 
@@ -76,19 +69,17 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
      * @dataProvider writeDataProvider
      * @throws Exception
      */
-    public function testWrite($fileName, $fileData, $success)
+    public function testWrite($fileName, $fileData)
     {
         try {
             $this->_adapter->write($fileName, $fileData);
-            if ($success) {
-                $this->assertFileExists($fileName);
-                $this->assertEquals(file_get_contents($fileName), $fileData);
-            } else {
-                $this->assertFileNotExists($fileName);
-            }
+            $this->assertFileExists($fileName);
+            $this->assertEquals(file_get_contents($fileName), $fileData);
             unlink($fileName);
         } catch (Exception $e) {
-            unlink($fileName);
+            if (file_exists($fileName)) {
+                unlink($fileName);
+            }
             throw $e;
         }
     }
@@ -100,9 +91,8 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     {
         $filesPath = __DIR__ . DS . '..' . DS . '_files' . DS;
         return array(
-            'correct file' => array($filesPath . 'tempFile.css', 'temporary data', true),
-            'empty file' => array($filesPath . 'tempFile2.css', '', true),
-            'incorrect path' => array('', 'temporary data', false)
+            'correct file' => array($filesPath . 'tempFile.css', 'temporary data'),
+            'empty file' => array($filesPath . 'tempFile2.css', '')
         );
     }
 
@@ -194,32 +184,41 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testTouch($fileName, $success, $delete = false)
+    /**
+     * @dataProvider touchDataProvider
+     * @param string $fileName
+     * @param bool $newFile
+     */
+    public function testTouch($fileName, $newFile = false)
     {
         try {
-            $this->assertEquals($success, $this->_adapter->touch($fileName));
-            if ($success) {
+            if ($newFile) {
+                $this->assertFileNotExists($fileName);
+            } else {
                 $this->assertFileExists($fileName);
-                $this->assertGreaterThan(microtime(), filemtime($fileName) + 10);
             }
-            if ($delete) {
+            $this->assertTrue($this->_adapter->touch($fileName));
+            if ($newFile) {
+                $this->assertFileExists($fileName);
                 unlink($fileName);
             }
         } catch (Exception $e) {
-            if ($delete) {
+            if ($newFile && file_exists($fileName)) {
                 unlink($fileName);
             }
             throw $e;
         }
     }
 
+    /**
+     * @return array
+     */
     public function touchDataProvider()
     {
         $filesPath = __DIR__ . DS . '..' . DS . '_files' . DS;
         return array(
-            'update file' => array($filesPath . 'popup.css', true),
-            'create file' => array($filesPath . 'popup2.css', true, true),
-            'wrong file' => array($filesPath, false),
+            'update file' => array($filesPath . 'popup.css', false),
+            'create file' => array($filesPath . 'popup2.css', true)
         );
     }
 }

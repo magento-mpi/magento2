@@ -29,13 +29,13 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
      * @param string $method
      * @param array|null $params
      */
-    public function testAdapterMethods($method, array $params = null)
+    public function testAdapterMethods($method, $adapterMethod, array $params = null)
     {
         $validPath = '/tmp/path/file.txt';
         $adapterMock = $this->getMockBuilder('Magento_Filesystem_AdapterInterface')
             ->getMock();
         $adapterMock->expects($this->once())
-            ->method($method)
+            ->method($adapterMethod)
             ->with($validPath);
 
         $filesystem = new Magento_Filesystem($adapterMock);
@@ -50,15 +50,16 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
      * @expectedExceptionMessage Invalid path
      * @dataProvider adapterMethods
      * @param string $method
+     * @param string $adapterMethod
      * @param array|null $params
      */
-    public function testIsolationException($method, array $params = null)
+    public function testIsolationException($method, $adapterMethod, array $params = null)
     {
         $invalidPath = '/tmp/../etc/passwd';
         $adapterMock = $this->getMockBuilder('Magento_Filesystem_AdapterInterface')
             ->getMock();
         $adapterMock->expects($this->never())
-            ->method($method);
+            ->method($adapterMethod);
 
         $filesystem = new Magento_Filesystem($adapterMock);
         $filesystem->setWorkingDirectory('/tmp');
@@ -73,11 +74,11 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
     public function adapterMethods()
     {
         return array(
-            'exists' => array('exists'),
-            'read' => array('read'),
-            'delete' => array('delete'),
-            'isDirectory' => array('isDirectory'),
-            'write' => array('write', array('Test string'))
+            'exists' => array('has', 'exists'),
+            'read' => array('read', 'read'),
+            'delete' => array('delete', 'delete'),
+            'isDirectory' => array('isDirectory', 'isDirectory'),
+            'write' => array('write', 'write', array('Test string'))
         );
     }
 

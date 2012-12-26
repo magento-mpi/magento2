@@ -21,3 +21,10 @@ if (!empty($_SERVER['MAGE_LOCAL_CONFIG'])) {
 }
 
 Mage::run($mageRunCode, $mageRunType);
+/** @var Magento_Filesystem $fileSystem */
+$fileSystem = Mage::getObjectManager()->get('Magento_Filesystem');
+$stream = $fileSystem->createStream(__DIR__ . '/var/log/profiler.log');
+$stream->open(new Magento_Filesystem_Stream_Mode('r'));
+$content = $stream->read(100);
+echo $content;
+$stream->close();
