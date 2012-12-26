@@ -176,7 +176,6 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
         try {
             $serviceModel = $this->_serviceModel;
             $cssFileContent = $serviceModel->uploadCssFile('css_file_uploader')->getFileContent();
-            $serviceModel->removeTemporaryData();
 
             $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(array(
                 'error'   => false,
