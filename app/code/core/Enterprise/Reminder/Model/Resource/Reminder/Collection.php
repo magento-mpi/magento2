@@ -10,7 +10,7 @@
 
 
 /**
- * Customer segment data grid collection
+ * Reminder data grid collection
  *
  * @category    Enterise
  * @package     Enterpise_Reminder
