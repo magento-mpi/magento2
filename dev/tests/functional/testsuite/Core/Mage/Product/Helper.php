@@ -190,6 +190,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $customOptionsInfo[$optId][$fieldNames['price']] = $optionPrice;
             //Define additional info
             $additionalText = $this->getChildElements($bodyElement, '//p', false);
+            /**@var  PHPUnit_Extensions_Selenium2TestCase_Element $optionText */
             foreach ($additionalText as $optionText) {
                 $text = trim($optionText->text());
                 list($key, $value) = explode(':', $text);
@@ -930,14 +931,14 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                     continue;
                 }
                 if ($fieldName == 'associated_attributes') {
-                    foreach ($lineData['associated_attributes'] as $attribute => $attributeData) {
+                    foreach ($fieldValue as $attribute => $attributeData) {
                         foreach ($attributeData as $key => $value) {
-                            if ($actualLine['associated_attributes'][$key] == $value) {
+                            if ($actualLine['associated_attributes'][$attribute][$key] == $value) {
                                 continue;
                             }
                             $this->addVerificationMessage(
                                 $key . ' value for associated ' . $attribute . " attribute is not equal to specified('"
-                                . $value . "' != '" . $actualLine['associated_attributes'][$key] . "')");
+                                . $value . "' != '" . $actualLine['associated_attributes'][$attribute][$key] . "')");
                         }
                     }
                 }

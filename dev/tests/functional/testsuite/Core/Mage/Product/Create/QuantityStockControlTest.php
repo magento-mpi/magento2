@@ -66,7 +66,8 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         //Verifying
         $this->assertMessagePresent('success', 'success_attribute_set_saved');
 
-        return array('attribute' => $attributeData['admin_title']);
+        return array('attribute' => $attributeData['admin_title'],
+                     'option'    => $attributeData['option_1']['admin_option_name']);
     }
 
     /**
@@ -148,13 +149,13 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
      * @dataProvider productTypeDataProvider
      * @TestLinkId TL-MAGE-6369
      */
-
     public function verifyUneditabilityForComposite($productType, $attributeData)
     {
         //Data
         if ($productType == 'configurable') {
-            $productData = $this->loadDataSet('Product', 'configurable_product_visible',
-                array('general_configurable_attribute_title' => $attributeData['attribute']));
+            $productData = $this->loadDataSet('Product', 'configurable_product_visible', null,
+                array('var1_attr_value1'    => $attributeData['option'],
+                      'general_attribute_1' => $attributeData['attribute']));
         } else {
             $productData = $this->loadDataSet('Product', 'grouped_product_visible');
         }

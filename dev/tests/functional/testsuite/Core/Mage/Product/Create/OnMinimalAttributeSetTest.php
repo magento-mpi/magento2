@@ -60,11 +60,9 @@ class Core_Mage_Product_Create_OnMinimalAttributeSetTest extends Mage_Selenium_T
         $this->assertMessagePresent('success', 'success_saved_product');
 
 
-        return array(
-            'simple_sku' => $productData['general_sku'],
-            'attribute' => $attrData['admin_title'],
-            'attributeValue' => $attrData['option_1']['admin_option_name']
-        );
+        return array('simple_sku'     => $productData['general_sku'], 'simple_name' => $productData['general_name'],
+                     'attribute'      => $attrData['admin_title'],
+                     'attributeValue' => $attrData['option_1']['admin_option_name']);
     }
 
     /**
@@ -97,9 +95,10 @@ class Core_Mage_Product_Create_OnMinimalAttributeSetTest extends Mage_Selenium_T
                 break;
             case 'configurable':
                 $productData = $this->loadDataSet('Product', $productType . '_product_minimal',
-                    array('general_configurable_attribute_title' => $testData['attribute'],
-                          'associated_sku'                       => $testData['simple_sku'],
-                          'associated_attribute_value'           => $testData['attributeValue']));
+                    array('associated_sku'          => $testData['simple_sku'],
+                          'associated_product_name' => $testData['simple_name']),
+                    array('var1_attr_value1'    => $testData['attributeValue'],
+                          'general_attribute_1' => $testData['attribute']));
                 break;
             case 'fixed_bundle':
             case 'dynamic_bundle':

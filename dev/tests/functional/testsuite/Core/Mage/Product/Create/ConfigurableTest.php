@@ -69,8 +69,9 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
     public function onlyRequiredFieldsInConfigurable($attrData)
     {
         //Data
-        $productData = $this->loadDataSet('Product', 'configurable_product_required',
-            array('general_configurable_attribute_title' => $attrData['admin_title']));
+        $productData = $this->loadDataSet('Product', 'configurable_product_required', null,
+            array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
+                  'general_attribute_1' => $attrData['admin_title']));
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable');
         //Verifying
@@ -92,8 +93,9 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
     {
         $this->markTestIncomplete('MAGETWO-4321');
         //Data
-        $productData = $this->loadDataSet('Product', 'configurable_product',
-            array('general_configurable_attribute_title' => $attrData['admin_title']));
+        $productData = $this->loadDataSet('Product', 'configurable_product_required', null,
+            array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
+                  'general_attribute_1' => $attrData['admin_title']));
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Steps
@@ -103,7 +105,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
-        $this->productHelper()->verifyProductInfo($productData, array('general_configurable_attribute_title'));
+        $this->productHelper()->verifyProductInfo($productData);
     }
 
     /**
@@ -147,8 +149,9 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
     {
         //Data
         $field = key($emptyField);
-        $emptyField['general_configurable_attribute_title'] = $attrData['admin_title'];
-        $product = $this->loadDataSet('Product', 'configurable_product_required', $emptyField);
+        $product = $this->loadDataSet('Product', 'configurable_product_required', $emptyField,
+            array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
+                  'general_attribute_1' => $attrData['admin_title']));
         //Steps
         $this->productHelper()->createProduct($product, 'configurable');
         //Verifying
@@ -184,11 +187,12 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadDataSet('Product', 'configurable_product_required',
-            array('general_configurable_attribute_title' => $attrData['admin_title'],
-                  'general_name'                 => $this->generate('string', 32, ':punct:'),
-                  'general_description'          => $this->generate('string', 32, ':punct:'),
-                  'general_short_description'    => $this->generate('string', 32, ':punct:'),
-                  'general_sku'                  => $this->generate('string', 32, ':punct:')));
+            array('general_name'              => $this->generate('string', 32, ':punct:'),
+                  'general_description'       => $this->generate('string', 32, ':punct:'),
+                  'general_short_description' => $this->generate('string', 32, ':punct:'),
+                  'general_sku'               => $this->generate('string', 32, ':punct:')),
+            array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
+                  'general_attribute_1' => $attrData['admin_title']));
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Steps
@@ -198,8 +202,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
-        $this->productHelper()->verifyProductInfo($productData,
-            array('product_attribute_set', 'general_configurable_attribute_title'));
+        $this->productHelper()->verifyProductInfo($productData);
     }
 
     /**
@@ -215,11 +218,12 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadDataSet('Product', 'configurable_product_required',
-            array('general_configurable_attribute_title' => $attrData['admin_title'],
-                  'general_name'                 => $this->generate('string', 255, ':alnum:'),
-                  'general_description'          => $this->generate('string', 255, ':alnum:'),
-                  'general_short_description'    => $this->generate('string', 255, ':alnum:'),
-                  'general_sku'                  => $this->generate('string', 64, ':alnum:')));
+            array('general_name'              => $this->generate('string', 255, ':alnum:'),
+                  'general_description'       => $this->generate('string', 255, ':alnum:'),
+                  'general_short_description' => $this->generate('string', 255, ':alnum:'),
+                  'general_sku'               => $this->generate('string', 64, ':alnum:')),
+            array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
+                  'general_attribute_1' => $attrData['admin_title']));
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Steps
@@ -229,8 +233,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
-        $this->productHelper()->verifyProductInfo($productData,
-            array('product_attribute_set', 'general_configurable_attribute_title'));
+        $this->productHelper()->verifyProductInfo($productData, array('product_attribute_set'));
     }
 
     /**
@@ -246,8 +249,9 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadDataSet('Product', 'configurable_product_required',
-            array('general_configurable_attribute_title'  => $attrData['admin_title'],
-                  'general_sku'                   => $this->generate('string', 65, ':alnum:')));
+            array('general_sku' => $this->generate('string', 65, ':alnum:')),
+            array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
+                  'general_attribute_1' => $attrData['admin_title']));
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable');
         //Verifying
@@ -270,8 +274,9 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadDataSet('Product', 'configurable_product_required',
-            array('general_configurable_attribute_title' => $attrData['admin_title'],
-                  'prices_price'                 => $invalidPrice));
+            array('prices_price' => $invalidPrice),
+            array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
+                  'general_attribute_1' => $attrData['admin_title']));
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable');
         //Verifying
@@ -295,8 +300,9 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadDataSet('Product', 'configurable_product_required',
-            array('general_configurable_attribute_title' => $attrData['admin_title'],
-                  'prices_special_price'         => $invalidValue));
+            array('prices_special_price' => $invalidValue),
+            array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
+                  'general_attribute_1' => $attrData['admin_title']));
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable');
         //Verifying
@@ -319,8 +325,9 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
     public function emptyTierPriceFieldsInConfigurable($emptyTierPrice, $attrData)
     {
         //Data
-        $productData = $this->loadDataSet('Product', 'configurable_product_required',
-            array('general_configurable_attribute_title' => $attrData['admin_title']));
+        $productData = $this->loadDataSet('Product', 'configurable_product_required', null,
+            array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
+                  'general_attribute_1' => $attrData['admin_title']));
         $productData['prices_tier_price_data'][] =
             $this->loadDataSet('Product', 'prices_tier_price_1', array($emptyTierPrice => '%noValue%'));
         //Steps
@@ -356,8 +363,9 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Data
         $tierData = array('prices_tier_price_qty'   => $invalidTierData,
                           'prices_tier_price_price' => $invalidTierData);
-        $productData = $this->loadDataSet('Product', 'configurable_product_required',
-            array('general_configurable_attribute_title' => $attrData['admin_title']));
+        $productData = $this->loadDataSet('Product', 'configurable_product_required', null,
+            array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
+                  'general_attribute_1' => $attrData['admin_title']));
         $productData['prices_tier_price_data'][] = $this->loadDataSet('Product', 'prices_tier_price_1', $tierData);
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable');
@@ -412,8 +420,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
-        $this->productHelper()->verifyProductInfo($configurable,
-            array('product_attribute_set', 'general_configurable_attribute_title'));
+        $this->productHelper()->verifyProductInfo($configurable);
     }
 
     /**
@@ -449,8 +456,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
-        $this->productHelper()->verifyProductInfo($configurable,
-            array('product_attribute_set', 'general_configurable_attribute_title'));
+        $this->productHelper()->verifyProductInfo($configurable);
     }
 
     /**
@@ -487,7 +493,6 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
-        $this->productHelper()->verifyProductInfo($configurable,
-            array('product_attribute_set', 'general_configurable_attribute_title'));
+        $this->productHelper()->verifyProductInfo($configurable);
     }
 }
