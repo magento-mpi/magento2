@@ -120,6 +120,10 @@
                     <state_resolver>Mage_Launcher_Model_Promotestore_StateResolver</state_resolver>
                     <save_handler>Mage_Launcher_Model_Promotestore_SaveHandler</save_handler>
                 </related_products>
+                <google_analytics>
+                    <state_resolver>Mage_Launcher_Model_Promotestore_Googleanalytics_StateResolver</state_resolver>
+                    <save_handler>Mage_Launcher_Model_Promotestore_Googleanalytics_SaveHandler</save_handler>
+                </google_analytics>
             </tiles>
         </launcher>
     </adminhtml>

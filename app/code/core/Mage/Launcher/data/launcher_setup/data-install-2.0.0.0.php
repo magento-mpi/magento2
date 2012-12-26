@@ -109,3 +109,10 @@ $tile->setCode('related_products');
 $tile->setPageId(2);
 $tile->setState(Mage_Launcher_Model_Tile::STATE_TODO);
 $tile->save();
+
+/** @var $tile Mage_Launcher_Model_Tile */
+$tile = Mage::getModel('Mage_Launcher_Model_Tile');
+$tile->setCode('google_analytics');
+$tile->setPageId(2);
+$tile->setState(Mage_Launcher_Model_Tile::STATE_TODO);
+$tile->save();
