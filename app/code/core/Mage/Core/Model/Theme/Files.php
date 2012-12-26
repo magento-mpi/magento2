@@ -24,11 +24,9 @@ class Mage_Core_Model_Theme_Files extends Mage_Core_Model_Abstract
     protected $_ioFile;
 
     /**
-     * File path in file system
-     *
-     * @var string
+     * @var Mage_Core_Model_Design_Package
      */
-    protected $_filePath;
+    protected $_design;
 
     /**
      * @var Magento_ObjectManager
@@ -57,6 +55,7 @@ class Mage_Core_Model_Theme_Files extends Mage_Core_Model_Abstract
 
         $this->_ioFile = $ioFile;
         $this->_objectManager = $objectManager;
+        $this->_design = $this->_objectManager->get('Mage_Core_Model_Design_Package');
     }
 
     /**
@@ -102,7 +101,11 @@ class Mage_Core_Model_Theme_Files extends Mage_Core_Model_Abstract
      */
     protected function _saveFile()
     {
-        return $this->_ioFile->write($this->getFilePath(), $this->getContent());
+        $filePath = $this->getFilePath(true);
+        $this->_ioFile->checkAndCreateFolder(dirname($filePath));
+        $result = $this->_ioFile->write($filePath, $this->getContent());
+        $this->_design->cleanMergedJsCss();
+        return $result;
     }
 
     /**
@@ -112,39 +115,26 @@ class Mage_Core_Model_Theme_Files extends Mage_Core_Model_Abstract
      */
     protected function _deleteFile()
     {
-        return $this->_ioFile->rm($this->getFilePath());
+        $result = $this->_ioFile->rm($this->getFilePath(true));
+        $this->_design->cleanMergedJsCss();
+        return $result;
     }
 
     /**
      * Return file path in file system
      *
-     * @return string
+     * @param bool $fullPath
+     * @return string|bool
      */
-    public function getFilePath()
+    public function getFilePath($fullPath = false)
     {
-        if ($this->getId() && !$this->_filePath) {
-            $this->_filePath = $this->_getDirectory() . DIRECTORY_SEPARATOR . $this->getFileName();
+        if (!$this->getId()) {
+            return false;
         }
-        return $this->_filePath;
-    }
-
-    /**
-     * Return directory path
-     *
-     * @return string
-     */
-    protected function _getDirectory()
-    {
-        /** @var $design Mage_Core_Model_Design_Package */
-        $design = $this->_objectManager->get('Mage_Core_Model_Design_Package');
-
-        $directory = implode(DIRECTORY_SEPARATOR, array(
-            $design->getPublicDir(),
-            Mage_Core_Model_Design_Package::PUBLIC_CUSTOMIZATION_THEME_DIR,
-            $this->getThemeId()
-        ));
-
-        $this->_ioFile->checkAndCreateFolder($directory);
-        return $directory;
+        $filePath = $this->getThemeId() . DIRECTORY_SEPARATOR . $this->getFileName();
+        if ($fullPath) {
+            $filePath = $this->_design->getCustomizationDir() . DIRECTORY_SEPARATOR . $filePath;
+        }
+        return $filePath;
     }
 }

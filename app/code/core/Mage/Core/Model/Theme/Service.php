@@ -305,12 +305,10 @@ class Mage_Core_Model_Theme_Service
      */
     protected function _addCssCustomization($layout)
     {
-        /** @var $theme Mage_Core_Model_Theme */
-        $theme = $this->_design->getDesignTheme();
-        /** @var $customCssFile Mage_Core_Model_Theme_Files */
-        $customCssFile = $theme->getCustomCssFile();
-        if ($customCssFile->getFileName()) {
-            $layout->getBlock('head')->addCss($theme->getId() . '/' . $customCssFile->getFileName());
+        /** @var $theme Mage_Core_Model_Theme_Files */
+        $customCssFile = $this->_design->getDesignTheme()->getCustomCssFile();
+        if ($customCssFile->getContent()) {
+            $layout->getBlock('head')->addCss($customCssFile->getFilePath());
         }
         return $this;
     }
