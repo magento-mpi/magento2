@@ -173,26 +173,17 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
      */
     public function uploadCssAction()
     {
+        $serviceModel = $this->_serviceModel;
         try {
-            $serviceModel = $this->_serviceModel;
             $cssFileContent = $serviceModel->uploadCssFile('css_file_uploader')->getFileContent();
-
-            $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(array(
-                'error'   => false,
-                'content' => $cssFileContent
-            )));
+            $result = array('error' => false, 'content' => $cssFileContent);
         } catch (Mage_Core_Exception $e) {
-            $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(array(
-                'error'   => true,
-                'message' => $e->getMessage()
-            )));
+            $result = array('error' => true, 'message' => $e->getMessage());
         } catch (Exception $e) {
-            $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(array(
-                'error'   => true,
-                'message' => $this->__('Cannot upload css file')
-            )));
+            $result = array('error' => true, 'message' => $this->__('Cannot upload css file'));
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
+        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
     }
 
     /**
