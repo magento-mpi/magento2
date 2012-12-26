@@ -72,7 +72,6 @@ class Core_Mage_Grid_UiElementsTest extends Mage_Selenium_TestCase
     public function uiElementsTestDataProvider()
     {
         return array(
-            array('manage_gift_registry'),
             array('manage_admin_users'),
             array('manage_roles'),
             array('system_email_template'),
