@@ -19,7 +19,8 @@
 class Mage_Reports_Model_Resource_Review_Product_Collection extends Mage_Catalog_Model_Resource_Product_Collection
 {
     /**
-     * @return Mage_Catalog_Model_Resource_Product_Collection|Mage_Eav_Model_Entity_Collection_Abstract|void
+     * Init Select
+     * @return Mage_Catalog_Model_Resource_Product_Collection
      */
     protected function _initSelect()
     {
