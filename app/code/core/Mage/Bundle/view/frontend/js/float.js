@@ -1,12 +1,12 @@
 /**
  * {license_notice}
  *
- * @category    mage
- * @package     float
+ * @category    frontend bundle product float
+ * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/*jshint browser:true jquery:true*/
+/*jshint browser:true jquery:true expr:true*/
 (function($, window) {
     $.widget('mage.float', {
         options: {
@@ -46,7 +46,7 @@
                 var allowedTop = this.options.top + offset - starTop;
 
                 if (allowedTop < maxTop) {
-                    this.element.css('top', allowedTop + "px");
+                    this.element.css('top', allowedTop);
                 }
             }
         }
