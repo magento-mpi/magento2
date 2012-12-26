@@ -234,10 +234,6 @@ class Magento_Test_Bootstrap
         Mage_Core_Utility_Theme::registerDesignMock();
         Mage::$headersSentThrowsException = false;
         Mage::app('', 'store', $this->_options);
-        // TODO: Try to remove
-        if (defined('TESTS_REINIT_MAGE_CONFIG')) {
-            Mage::getConfig()->reinit();
-        }
     }
 
     /**
@@ -574,11 +570,10 @@ class Magento_Test_Bootstrap
     }
 
     /**
-     * Get Magento dir
+     * Retrieve path to root directory of the Magento source code
      *
      * @return string
      */
-    // TODO: Remove if not used
     public function getMagentoDir()
     {
         return $this->_magentoDir;
