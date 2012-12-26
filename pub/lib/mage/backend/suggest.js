@@ -13,13 +13,11 @@
     $.widget('mage.suggest', {
         options: {
             template: '#menuTemplate',
-            minLength: 1,
-            source:'http://testsuggest.lo/suggest.php'
+            minLength: 1
         },
         _create: function() {
             this._setTemplate();
             this._bind();
-
         },
         _value: function() {
             return this.element[this.element.is( "input,textarea" ) ? "val" : "text"]();
