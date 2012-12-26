@@ -224,6 +224,10 @@
     var templatePreviewForm = jQuery('#printed_template_preview_form').form().validation();
     var templateControl = {
         checkTemplate: function(successHandler) {
+
+            successHandler.call(this);
+            return;
+            // @todo: should be fixed
             var onComplete = function(response) {
                 var responseJson = response.responseText.evalJSON();
                 if (responseJson.error) {
