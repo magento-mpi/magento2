@@ -334,7 +334,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      */
     public function formatDate($value)
     {
-        return $value ? Mage::helper('core')->formatDate($value) : '';
+        return $value ? Mage::helper('Mage_Core_Helper_Data')->formatDate($value) : '';
     }
 
     /**
@@ -345,7 +345,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      */
     public function formatCurrency($value)
     {
-        return ($value !== null) ? Mage::helper('core')->formatCurrency($value) : '';
+        return ($value !== null) ? Mage::helper('Mage_Core_Helper_Data')->formatCurrency($value) : '';
     }
 
     /**

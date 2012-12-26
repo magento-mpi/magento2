@@ -73,7 +73,9 @@ abstract class Saas_PrintedTemplate_Model_Variable_Item_Abstract
                 || (!$parentItem && $item->getOrderItem()->getId() == $parentItemId)
             ) {
                 $children[$item->getOrderItemId()] =
-                    Mage::getModel('Saas_PrintedTemplate_Model_Variable_' . $this->_itemType, $item);
+                    Mage::getModel('Saas_PrintedTemplate_Model_Variable_' . uc_words($this->_itemType),
+                        array('value' => $item)
+                    );
             }
         }
 

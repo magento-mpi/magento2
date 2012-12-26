@@ -289,7 +289,8 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
         $template->setHeaderAutoHeight(!is_null($request->getParam('header_auto_height')));
         if ($template->getHeaderAutoHeight() !== true) {
             $headerHeight = ($request->getParam('header_height_measurement') == $lengthType)
-                ? Mage::getModel('Saas_PrintedTemplate_Model_RelativeLength', $request->getParam('header_height'))
+                ? Mage::getModel('Saas_PrintedTemplate_Model_RelativeLength',
+                    array('percent' => $request->getParam('header_height')))
                 : new Zend_Measure_Length(
                     (float)$request->getParam('header_height'),
                     $request->getParam('header_height_measurement')
@@ -300,7 +301,8 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
         $template->setFooterAutoHeight(!is_null($request->getParam('footer_auto_height')));
         if ($template->getFooterAutoHeight() !== true) {
             $footerHeight = ($request->getParam('footer_height_measurement') == $lengthType)
-                ? Mage::getModel('Saas_PrintedTemplate_Model_RelativeLength', $request->getParam('footer_height'))
+                ? Mage::getModel('Saas_PrintedTemplate_Model_RelativeLength',
+                    array('percent' => $request->getParam('footer_height')))
                 : new Zend_Measure_Length(
                     (float)$request->getParam('footer_height'),
                     $request->getParam('footer_height_measurement')
