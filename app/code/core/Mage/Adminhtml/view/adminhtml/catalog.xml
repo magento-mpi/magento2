@@ -203,6 +203,7 @@
                         <arguments>
                             <header translate="true" module="Mage_Core">Name</header>
                             <type>text</type>
+                            <escape>1</escape>
                             <index>name</index>
                             <id>name</id>
                             <filter>0</filter>
@@ -225,6 +226,7 @@
                         <arguments>
                             <header translate="true" module="Mage_Core">SKU</header>
                             <type>text</type>
+                            <escape>1</escape>
                             <index>sku</index>
                             <id>sku</id>
                             <filter>0</filter>

@@ -11,7 +11,7 @@
         //Set up the widget
         _create: function () {
             this.element.sortable({
-                axis: "y",
+                axis: 'y',
                 handle: '.entry-edit-head',
                 //containment: "parent",
                 update: function (event, ui) {

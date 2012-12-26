@@ -103,8 +103,8 @@ class Mage_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_Co
 
         $product = $this->_getProduct();
         $attributes = $this->_productType->getUsedProductAttributes($product);
-        /** @var $attribute Mage_Catalog_Model_Entity_Attribute */
         foreach ($attributes as $attribute) {
+            /** @var $attribute Mage_Catalog_Model_Entity_Attribute */
             /** @var $block Mage_Backend_Block_Widget_Grid_Column */
             $block = $this->addChild(
                 $attribute->getAttributeCode(),

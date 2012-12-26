@@ -55,6 +55,7 @@ $productByUsedAttributes = $this->getUsedProducts();
                     $price += ($priceInfo['is_percent'] ? $productPrice / 100.0 : 1.0) * $priceInfo['pricing_value'];
                 }
             }
+            $attributeLabels = $this->escapeHtml($attributeLabels);
             $key = implode('-', $attributeValues);
             if (isset($productByUsedAttributes[$key])) {
                 $product = $productByUsedAttributes[$key];
@@ -62,9 +63,9 @@ $productByUsedAttributes = $this->getUsedProducts();
                 <tr class="<?php echo $isEven ? 'even' : '' ?>">
                     <td class="associated-matrix-product-name"><a
                             href="<?php echo $this->getEditProductUrl($product->getId())?>"
-                            target="_blank"><?php echo $product->getName()?></a></td>
+                            target="_blank"><?php echo $this->escapeHtml($product->getName())?></a></td>
                     <td class="associated-matrix-product-price"><?php echo $price ?></td>
-                    <td><span class="associated-matrix-product-sku"><?php echo $product->getSku()?></span>
+                    <td><span class="associated-matrix-product-sku"><?php echo $this->escapeHtml($product->getSku())?></span>
                         <button class="choose-product"
                             data-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"
                             style="float:right">
@@ -87,7 +88,7 @@ $productByUsedAttributes = $this->getUsedProducts();
                     <td class="associated-matrix-product-name">
                         <input id="variations-matrix-<?php echo $key?>-name"
                             name="variations-matrix[<?php echo $key?>][name]"
-                            value="<?php echo $this->_getProduct()->getName(), '-', implode('-', $attributeLabels)?>"
+                            value="<?php echo $this->escapeHtml($this->_getProduct()->getName()), '-', implode('-', $attributeLabels)?>"
                             class="required-entry"<?php echo $disabled?>/>
                         <input type="hidden" name="variations-matrix[<?php echo $key?>][configurable_attribute]"
                             value="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"<?php echo $disabled?>/>
@@ -98,7 +99,7 @@ $productByUsedAttributes = $this->getUsedProducts();
                     <td class="associated-matrix-product-sku">
                         <input id="variations-matrix-<?php echo $key?>-sku"
                             name="variations-matrix[<?php echo $key?>][sku]"
-                            value="<?php echo $this->_getProduct()->getSku(), '-', implode('-', $attributeLabels)?>"
+                            value="<?php echo $this->escapeHtml($this->_getProduct()->getSku()), '-', implode('-', $attributeLabels)?>"
                             class="required-entry"<?php echo $disabled?>/>
                         <button class="choose-product"
                             data-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"
