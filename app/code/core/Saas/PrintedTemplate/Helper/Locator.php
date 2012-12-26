@@ -62,7 +62,7 @@ class Saas_PrintedTemplate_Helper_Locator extends Mage_Core_Helper_Abstract
      */
     public function getPdfRenderer()
     {
-        $modelName = Mage::getConfig()->getNode(self::XML_PATH_LOCATOR . '/pdf_renderer/class');
+        $modelName = (string) Mage::getConfig()->getNode(self::XML_PATH_LOCATOR . '/pdf_renderer/class');
         $renderer = Mage::getModel($modelName);
 
         if (!$renderer) {
@@ -85,7 +85,7 @@ class Saas_PrintedTemplate_Helper_Locator extends Mage_Core_Helper_Abstract
      */
     public function getPdfAggregator()
     {
-        $modelName = Mage::getConfig()->getNode(self::XML_PATH_LOCATOR . '/pdf_aggregator/class');
+        $modelName = (string) Mage::getConfig()->getNode(self::XML_PATH_LOCATOR . '/pdf_aggregator/class');
         $aggregator = Mage::getSingleton($modelName);
 
         if (!$aggregator) {
