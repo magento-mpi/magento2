@@ -57,6 +57,52 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Preconditions for creating configurable product based on attribute from another attribute set.</p>
+     * <p>Create 2 dropdown attributes with 3 options, Global scope and assign it to created Attribute Set</p>
+     *
+     * @return array
+     * @test
+     */
+    public function createConfigurableAttributeOutOfSet()
+    {
+        //Data
+        $attribute1 = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
+        $attribute2 = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
+        $attribute3 = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
+        $associatedAttribute = $this->loadDataSet('AttributeSet', 'associated_attributes',
+            array('General' => array($attribute3['attribute_code'])));
+        $attributeSet = $this->loadDataSet('AttributeSet', 'attribute_set',
+            array('General' => array($attribute1['attribute_code'], $attribute2['attribute_code'])));
+        //Steps (attributes)
+        $this->navigate('manage_attributes');
+        $this->productAttributeHelper()->createAttribute($attribute1);
+        $this->assertMessagePresent('success', 'success_saved_attribute');
+        $this->productAttributeHelper()->createAttribute($attribute2);
+        $this->assertMessagePresent('success', 'success_saved_attribute');
+        $this->productAttributeHelper()->createAttribute($attribute3);
+        $this->assertMessagePresent('success', 'success_saved_attribute');
+        //Steps (attribute set)
+        $this->navigate('manage_attribute_sets');
+        $this->attributeSetHelper()->createAttributeSet($attributeSet);
+        $this->assertMessagePresent('success', 'success_attribute_set_saved');
+        $this->attributeSetHelper()->openAttributeSet('Default');
+        $this->attributeSetHelper()->addAttributeToSet($associatedAttribute);
+        $this->saveForm('save_attribute_set');
+        $this->assertMessagePresent('success', 'success_attribute_set_saved');
+
+        return array(
+            'newSet' => array(
+                'attributeSet' => $attributeSet['set_name'],
+                'attribute1' => $attribute1,
+                'attribute2' => $attribute2
+            ),
+            'default' => array(
+                'attribute1' => $attribute3
+            )
+        );
+    }
+
+    /**
      * <p>Creating product with required fields only</p>
      *
      * @param array $attrData
@@ -494,5 +540,225 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct($productSearch);
         //Verifying
         $this->productHelper()->verifyProductInfo($configurable);
+    }
+
+    /**
+     * <p>Add existed attribute from current product template while editing configurable product</p>
+     *
+     * @param array $defaultAttribute
+     * @param array $attributeData
+     *
+     * @test
+     * @depends createConfigurableAttribute
+     * @depends createConfigurableAttributeOutOfSet
+     * @TestlinkId TL-MAGE-6512
+     */
+    public function addConfigurableAttributeWhileEditing(array $defaultAttribute, array $attributeData)
+    {
+        //Data
+        $configurable = $this->loadDataSet('Product', 'configurable_product_required',
+            array('general_configurable_attribute_title' => $defaultAttribute['admin_title']));
+        $searchConfigurable =
+            $this->loadDataSet('Product', 'product_search', array('product_sku' => $configurable['general_sku']));
+        //Preconditions
+        $this->productHelper()->createProduct($configurable, 'configurable', false);
+        $this->openTab('general');
+        $this->productHelper()->assignAllConfigurableVariations();
+        $this->saveForm('save');
+        $this->assertMessagePresent('success', 'success_saved_product');
+        //Steps
+        $this->productHelper()->openProduct(array('sku' => $configurable['general_sku']));
+        $this->productHelper()->fillConfigurableSettings(
+            array('configurable_attribute_title' => $attributeData['default']['attribute1']['admin_title']));
+        $this->saveForm('save');
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->assertEquals(
+            'Configurable Product',
+            $this->productHelper()->getProductDataFromGrid($searchConfigurable, 'Type'),
+            'Incorrect product type has been saved.'
+        );
+        $this->assertEquals(
+            'Default',
+            $this->productHelper()->getProductDataFromGrid($searchConfigurable, 'Attrib. Set Name'),
+            'Product was saved with incorrect attribute set.'
+        );
+    }
+
+    /**
+     * <p>Add existed external configurable attribute (affect current product template)</p>
+     *
+     * @param array $attributeData
+     *
+     * @test
+     * @depends createConfigurableAttributeOutOfSet
+     * @TestlinkId TL-MAGE-6513
+     */
+    public function addExternalAttributeToCurrentTemplate($attributeData)
+    {
+        //Data
+        $associated = $this->loadDataSet('Product', 'generate_virtual_associated', null,
+            array('attribute_value_1' => $attributeData['newSet']['attribute1']['option_1']['admin_option_name']));
+        $configurable = $this->loadDataSet('Product', 'configurable_product_visible', array(
+            'general_configurable_attribute_title' => $attributeData['newSet']['attribute1']['admin_title'],
+            'configurable_1' => $associated));
+        $searchConfigurable =
+            $this->loadDataSet('Product', 'product_search', array('product_sku' => $configurable['general_sku']));
+        $searchVirtual =
+            $this->loadDataSet('Product', 'product_search', array('product_sku' => $associated['associated_sku']));
+        //Steps
+        $this->productHelper()->createProduct($configurable, 'configurable', false);
+        $this->clickButton('save', false);
+        $this->waitForElementEditable($this->_getControlXpath('radiobutton', 'current_attribute_set'));
+        $this->assertFalse($this->controlIsVisible('field', 'new_attribute_set_name'));
+        $this->saveForm('confirm');
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->assertEquals(
+            'Configurable Product',
+            $this->productHelper()->getProductDataFromGrid($searchConfigurable, 'Type'),
+            'Incorrect product type has been saved.'
+        );
+        $this->assertEquals(
+            'Default',
+            $this->productHelper()->getProductDataFromGrid($searchConfigurable, 'Attrib. Set Name'),
+            'Product was saved with incorrect attribute set.'
+        );
+        $this->assertEquals(
+            'Default',
+            $this->productHelper()->getProductDataFromGrid($searchVirtual, 'Attrib. Set Name'),
+            'Product was saved with incorrect attribute set.'
+        );
+        $this->navigate('manage_attribute_sets');
+        $this->attributeSetHelper()->openAttributeSet('Default');
+        $this->attributeSetHelper()->
+            verifyAttributeAssignment(array($attributeData['newSet']['attribute1']['attribute_code']));
+    }
+
+    /**
+     * <p>Add existed external configurable attribute (save in created inline product template)</p>
+     *
+     * @param array $attributeData
+     *
+     * @test
+     * @depends createConfigurableAttributeOutOfSet
+     * @TestlinkId TL-MAGE-6514, TL-MAGE-6528
+     */
+    public function addExternalAttributeToNewTemplate($attributeData)
+    {
+        //Data
+        $simpleProduct = $this->loadDataSet('Product', 'simple_product_visible',
+            array('product_attribute_set' => $attributeData['newSet']['attributeSet']));
+        $simpleProduct['general_user_attr']['dropdown'][$attributeData['newSet']['attribute2']['attribute_code']] =
+            $attributeData['newSet']['attribute2']['option_1']['admin_option_name'];
+        $associated = $this->loadDataSet('Product', 'generate_virtual_associated',
+            array('associated_sku' => $simpleProduct['general_sku']),
+            array('attribute_value_1' => $attributeData['newSet']['attribute2']['option_1']['admin_option_name']));
+        $configurable = $this->loadDataSet('Product', 'configurable_product_visible', array(
+            'general_configurable_attribute_title' => $attributeData['newSet']['attribute2']['admin_title'],
+            'configurable_1' => $associated));
+        $searchConfigurable =
+            $this->loadDataSet('Product', 'product_search', array('product_sku' => $configurable['general_sku']));
+        $searchVirtual =
+            $this->loadDataSet('Product', 'product_search', array('product_sku' => $associated['associated_sku']));
+        $attributeSetName = $this->generate('string', 30, ':alnum:');
+        //Preconditions
+        $this->productHelper()->createProduct($simpleProduct);
+        $this->assertMessagePresent('success', 'success_saved_product');
+        //Steps
+        $this->productHelper()->createProduct($configurable, 'configurable', false);
+        $this->clickButton('save', false);
+        $this->waitForElementEditable($this->_getControlXpath('radiobutton', 'current_attribute_set'));
+        $this->fillRadiobutton('new_attribute_set', 'Yes');
+        $this->fillField('new_attribute_set_name', $attributeSetName);
+        $this->saveForm('confirm');
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->assertEquals(
+            'Configurable Product',
+            $this->productHelper()->getProductDataFromGrid($searchConfigurable, 'Type'),
+            'Incorrect product type has been saved.'
+        );
+        $this->assertEquals(
+            'Default',
+            $this->productHelper()->getProductDataFromGrid($searchConfigurable, 'Attrib. Set Name'),
+            'Product was saved with incorrect attribute set.'
+        );
+        $this->assertEquals(
+            $attributeSetName,
+            $this->productHelper()->getProductDataFromGrid($searchVirtual, 'Attrib. Set Name'),
+            'Product was saved with incorrect attribute set.'
+        );
+        $this->navigate('manage_attribute_sets');
+        $this->attributeSetHelper()->openAttributeSet($attributeSetName);
+        $this->attributeSetHelper()->
+            verifyAttributeAssignment(array($attributeData['newSet']['attribute2']['attribute_code']));
+    }
+
+    /**
+     * <p>Add existed external configurable attribute (cancel assigning to product template)</p>
+     *
+     * @param array $attributeData
+     *
+     * @test
+     * @depends createConfigurableAttributeOutOfSet
+     * @TestlinkId TL-MAGE-6515
+     */
+    public function addExternalAttributeAndCancel($attributeData)
+    {
+        //Data
+        $configurableProduct = $this->loadDataSet('Product', 'configurable_product_visible',
+            array('general_configurable_attribute_title' => $attributeData['newSet']['attribute2']['admin_title']),
+            array('attribute_name_1' => $attributeData['newSet']['attribute2']['option_1']['admin_option_name']));
+        //Steps
+        $this->productHelper()->createProduct($configurableProduct, 'configurable', false);
+        $this->clickButton('save', false);
+        $this->waitForElementEditable($this->_getControlXpath('radiobutton', 'current_attribute_set'));
+        $this->clickButton('cancel');
+        //Verifying
+        $this->assertEquals('new_configurable_after_generation_matrix', $this->getCurrentPage(),
+            'Pressing the Cancel button is leading to page redirection');
+        $this->navigate('manage_attribute_sets');
+        $this->attributeSetHelper()->openAttributeSet('Default');
+        $this->attributeSetHelper()->
+            verifyAttributeAssignment(array($attributeData['newSet']['attribute2']['attribute_code']), false);
+    }
+
+    /**
+     * <p>Verify attribute set name while creating new attribute set on product save</p>
+     *
+     * @param array $attributeData
+     *
+     * @test
+     * @depends createConfigurableAttributeOutOfSet
+     * @TestlinkId TL-MAGE-6520
+     */
+    public function attributeSetFieldValidation($attributeData)
+    {
+        //Data
+        $configurableProduct = $this->loadDataSet('Product', 'configurable_product_visible',
+            array('general_configurable_attribute_title' => $attributeData['newSet']['attribute2']['admin_title']),
+            array('attribute_name_1' => $attributeData['newSet']['attribute2']['option_1']['admin_option_name']));
+        //Steps
+        $this->productHelper()->createProduct($configurableProduct, 'configurable', false);
+        $this->clickButton('save', false);
+        $this->waitForElementEditable($this->_getControlXpath('radiobutton', 'current_attribute_set'));
+        $this->fillRadiobutton('new_attribute_set', 'Yes');
+        //Verifying empty attribute set name
+        $this->fillField('new_attribute_set_name', '');
+        $this->saveForm('confirm', false);
+        $this->assertMessagePresent('validation', 'attribute_set_required');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        //Verifying empty attribute set name
+        $this->fillField('new_attribute_set_name', "<script>alert('XSS')</script>");
+        $this->saveForm('confirm', false);
+        $this->assertMessagePresent('validation', 'attribute_set_html');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        //Verifying entering existing attribute set name
+        $this->addParameter('attributeSetName', 'Default');
+        $this->fillField('new_attribute_set_name', 'Default');
+        $this->saveForm('confirm', false);
+        $this->assertMessagePresent('error', 'attribute_set_existed');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 }

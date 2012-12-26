@@ -12,7 +12,7 @@
 /**
  * Add by SKU functionality different product configurations on Frontend and Backend
  */
-class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_TestCase
+class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Enable Order by SKU functionality on Frontend</p>

@@ -101,6 +101,21 @@ new_product:
                         buttons:
                             close: //button[@id='change-attribute-set-close-button']
                             apply: //button[@id='change-attribute-set-apply-button']
+                -
+                    choose_affected_attribute_set:
+                        xpath: //*[@id='affected-attribute-set-form']/ancestor::*[contains(concat(' ', normalize-space(@class), ' '), ' ui-dialog ')]
+                        radiobuttons:
+                            current_attribute_set: //*[@name='affected-attribute-set' and @value='current']
+                            new_attribute_set: //*[@name='affected-attribute-set' and @value='new']
+                        fields:
+                            new_attribute_set_name: //*[@name='new-attribute-set-name']
+                        buttons:
+                            cancel: //*[contains(@id,'close-button')]
+                            confirm: //*[contains(@id,'confirm-button')]
+                        messages:
+                            attribute_set_required: //*[@class='mage-error' and @for='new-attribute-set-name' and contains(., 'This field is required.')]
+                            attribute_set_html: //*[@class='mage-error' and @for='new-attribute-set-name' and contains(., 'HTML tags are not allowed')]
+                            attribute_set_existed: //li[normalize-space(@class)='error-msg' and contains(.,'Attribute set with the "%attributeSetName%" name already exists.')]
             tabs:
                 -
                     general: &generalTab
