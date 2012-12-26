@@ -20,7 +20,7 @@ class Mage_Core_Model_Resource_Website_Grid_Collection extends Mage_Core_Model_R
     /**
      * Join website and store names
      *
-     * @return string
+     * @return Mage_Core_Model_Resource_Db_Collection_Abstract|Mage_Core_Model_Resource_Website_Grid_Collection
      */
     protected function  _initSelect()
     {
