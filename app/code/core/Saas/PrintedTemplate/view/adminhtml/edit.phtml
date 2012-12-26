@@ -271,6 +271,7 @@
         },
 
         preview: function(url) {
+
             var successHandler = function() {
                 var formElem = $('printed_template_edit_form');
                 var oldUrl = formElem.action;
@@ -287,7 +288,8 @@
                 url += 'r=' + Math.round(Math.random()*100000);
                 //-------------------------------------------
 
-                templateForm.submit(url);
+                templateForm.attr('action', url);
+                templateForm.submit();
                 formElem.writeAttribute('target', '');
                 $('printedtemplate_name').addClassName('required-entry');
                 $('printedtemplate_content').addClassName('required-entry');
