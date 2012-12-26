@@ -69,9 +69,6 @@ new_product:
 new_configurable_product:
     uimap: *newProduct
 
-duplicated_configurable_product:
-    uimap: *newProduct
-
 edit_product:
     uimap: *newProduct
 

@@ -101,11 +101,13 @@ class Core_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_TestCase
             $productData = $this->loadDataSet('Product', $type . '_product_required');
         } else {
             $productWithOptions = $this->loadDataSet('Product', $type . '_product_required',
-                array('general_configurable_attribute_title' => $attrData['admin_title']));
-            $productData = $this->loadDataSet('Product', $type . '_product_required',
-                array('general_configurable_attribute_title' => $attrData['admin_title']));
+                array('custom_options_data' => $this->loadDataSet('Product', 'custom_options_data')),
+                array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
+                      'general_attribute_1' => $attrData['admin_title']));
+            $productData = $this->loadDataSet('Product', $type . '_product_required', null,
+                array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
+                      'general_attribute_1' => $attrData['admin_title']));
         }
-        $productWithOptions['custom_options_data'] = $this->loadDataSet('Product', 'custom_options_data');
         $selectProduct = array('product_sku' => $productWithOptions['general_sku']);
         //Preconditions
         $this->productHelper()->createProduct($productWithOptions, $type);

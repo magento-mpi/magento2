@@ -271,34 +271,61 @@ associated_grouped_data: &associatedProductsGroupedData
 #*****************************************************
 #* Associated Products Data for Configurable Product *
 #*****************************************************
-associated_attributes: &confirurableAttributesValues
-    attribute_1:
-        associated_attribute_name: %attribute_name_1%
-        associated_attribute_value: %attribute_value_1%
-    attribute_2:
-        associated_attribute_name: %attribute_name_2%
-        associated_attribute_value: %attribute_value_2%
+#*************************Attributes Data****************************
+general_configurable_attribute_with_price: &general_configurable_attribute_with_price
+    general_configurable_attribute_title: %general_attribute_2%
+    have_price_variation: Yes
+    option_1:
+        associated_attribute_value: %var2_attr_value1%
+        variation_attribute_price: 1.99
+        variation_attribute_price_type: Fixed
+        include_variation_attribute: Yes
+    option_2:
+        associated_attribute_value: %var2_attr_value2%
+        variation_attribute_price: 15
+        variation_attribute_price_type: Percentage
+        include_variation_attribute: Yes
+    option_3:
+        associated_attribute_value: %var2_attr_value3%
+        variation_attribute_price: 0.25
+        variation_attribute_price_type: Fixed
+        include_variation_attribute: Yes
 
-general_configurable: &configurableAssociatedProduct1
-    associated_product_name: %noValue%
-    associated_price: %noValue%
-    associated_sku: %noValue%
-    associated_quantity: %noValue%
-    associated_weight: %noValue%
-    associated_attributes: *confirurableAttributesValues
+general_configurable_attribute_without_price: &general_configurable_attribute_without_price
+    general_configurable_attribute_title: %general_attribute_1%
+    have_price_variation: No
+    option_1:
+        associated_attribute_value: %var1_attr_value1%
+        include_variation_attribute: Yes
+    option_2:
+        associated_attribute_value: %var1_attr_value2%
+        include_variation_attribute: %var1_attr_include2%
+    option_3:
+        associated_attribute_value: %var1_attr_value3%
+        include_variation_attribute: %var1_attr_include3%
 
-general_configurable_data: &associatedProductsConfigurableData
-    configurable_1: *configurableAssociatedProduct1
-    configurable_2: %noValue%
-    configurable_3: %noValue%
+general_configurable_attributes: &general_configurable_attributes
+    attribute_1: *general_configurable_attribute_without_price
+    attribute_2: %noValue%
 
-product_variation:
+#*************************Variations Data****************************
+product_variation: &configurableAssociatedProduct1
     associated_product_name: Product Variation Name (%randomize%)
     associated_sku: sku_variation_%randomize%
     associated_quantity: %noValue%
     associated_weight: %noValue%
     associated_attribute_value: %noValue%
-    associated_attributes: *confirurableAttributesValues
+    associated_attributes: &confirurableAttributesValues
+        attribute_1:
+            associated_attribute_name: %general_attribute_1%
+            associated_attribute_value: %var1_attr_value1%
+        attribute_2:
+            associated_attribute_name: %general_attribute_2%
+            associated_attribute_value: %var2_attr_value1%
+
+general_configurable_variations: &associatedProductsConfigurableData
+    configurable_1: *configurableAssociatedProduct1
+    configurable_2: %noValue%
 
 generate_simple_associated:
     associated_product_name: simple_associated_%randomize%
@@ -1142,7 +1169,6 @@ duplicate_grouped:
 
 configurable_product_required:
     product_attribute_set: Default
-    general_configurable_attribute_title: %noValue%
     general_name: Configurable Product Required(%randomize%)
     general_description: Description for Configurable Product Required
     general_short_description: Short Description for Configurable Product Required
@@ -1152,12 +1178,12 @@ configurable_product_required:
     prices_price: 14.95
     prices_special_price: %noValue%
     prices_tax_class: None
-    general_configurable_data: %noValue%
+    general_configurable_attributes: *general_configurable_attributes
+    general_configurable_variations: *associatedProductsConfigurableData
 
 # Product that has all needed fields set to be visible in frontend.
 configurable_product_visible:
     product_attribute_set: Default
-    general_configurable_attribute_title: %noValue%
     general_name: Configurable Product Visible(%randomize%)
     general_description: Description for Configurable Product Visible
     general_short_description: Short Description for Configurable Product Visible
@@ -1169,11 +1195,11 @@ configurable_product_visible:
     inventory_stock_availability: In Stock
     websites: Main Website
     general_categories: Default Category
-    general_configurable_data: *associatedProductsConfigurableData
+    general_configurable_attributes: *general_configurable_attributes
+    general_configurable_variations: *associatedProductsConfigurableData
 
 configurable_product:
     product_attribute_set: Default
-    general_configurable_attribute_title: %noValue%
     general_name: Configurable Product(%randomize%)
     general_description: Description for Configurable Product
     general_short_description: Short Description for Configurable Product
@@ -1217,11 +1243,11 @@ configurable_product:
     related_data: *relatedProductsData
     up_sells_data: *upSellsProductsData
     cross_sells_data: *crossSellsProductsData
-    general_configurable_data: *associatedProductsConfigurableData
+    general_configurable_attributes: *general_configurable_attributes
+    general_configurable_variations: *associatedProductsConfigurableData
 
 duplicate_configurable:
     product_attribute_set: Default
-    general_configurable_attribute_title: %noValue%
     general_name: Duplicate Configurable Product(%randomize%)
     general_description: Description for Configurable Product
     general_short_description: Short Description for Configurable Product
@@ -1259,7 +1285,8 @@ duplicate_configurable:
     up_sells_data: *upSellsDuplicate
     cross_sells_data: *crossSellsDuplicate
     custom_options_data: *customOptionsData
-    general_configurable_data: *associatedProductsConfigurableData
+    general_configurable_attributes: *general_configurable_attributes
+    general_configurable_variations: *associatedProductsConfigurableData
 
 #*********************************************
 #*         Downloadable Product Data         *
@@ -1561,7 +1588,6 @@ bundle_product_related: &bundle_product_related
 
 configurable_product_related: &configurable_product_related
     product_attribute_set: Default
-    general_configurable_attribute_title: %noValue%
     general_name: Linking Configurable Product(%randomize%)
     general_description: Description for Configurable Product
     general_short_description: Short Description for Configurable Product
@@ -1573,7 +1599,8 @@ configurable_product_related: &configurable_product_related
     inventory_stock_availability: In Stock
     websites: Main Website
     general_categories: Default Category
-    general_configurable_data: *associatedProductsConfigurableData
+    general_configurable_attributes: *general_configurable_attributes
+    general_configurable_variations: *associatedProductsConfigurableData
 
 grouped_product_related: &grouped_product_related
     product_attribute_set: Default
@@ -2131,7 +2158,6 @@ dynamic_bundle_multi_checkout_options:
 
 configurable_multi_checkout:
     product_attribute_set: Default
-    general_configurable_attribute_title: %noValue%
     general_name: %randomize%_Configurable Multi Checkout
     general_description: Description for Configurable Product Visible
     general_short_description: Short Description for Configurable Product Visible
@@ -2143,14 +2169,14 @@ configurable_multi_checkout:
     inventory_stock_availability: In Stock
     websites: Main Website
     general_categories: Default Category
-    general_configurable_data:
-        general_configurable_1: *configurableAssociatedProduct1
-        general_configurable_2: *configurableAssociatedProduct1
-        general_configurable_3: *configurableAssociatedProduct1
+    general_configurable_attributes: *general_configurable_attributes
+    general_configurable_variations:
+        configurable_1: *configurableAssociatedProduct1
+        configurable_2: *configurableAssociatedProduct1
+        configurable_3: *configurableAssociatedProduct1
 
 configurable_multi_checkout_options:
     product_attribute_set: Default
-    general_configurable_attribute_title: %noValue%
     general_name: %randomize%_Configurable Multi Checkout Options
     general_description: Description for Configurable Multi Checkout Options
     general_short_description: Short Description for Configurable Multi Checkout Options
@@ -2163,10 +2189,11 @@ configurable_multi_checkout_options:
     websites: Main Website
     general_categories: Default Category
     custom_options_data: *customOptionsData
-    general_configurable_data:
-        general_configurable_1: *configurableAssociatedProduct1
-        general_configurable_2: *configurableAssociatedProduct1
-        general_configurable_3: *configurableAssociatedProduct1
+    general_configurable_attributes: *general_configurable_attributes
+    general_configurable_variations:
+        configurable_1: *configurableAssociatedProduct1
+        configurable_2: *configurableAssociatedProduct1
+        configurable_3: *configurableAssociatedProduct1
 #*********************************************
 #*         Product Updating Data              *
 #*********************************************
@@ -2298,7 +2325,6 @@ virtual_product_minimal:
 
 configurable_product_minimal:
     product_attribute_set: Minimal
-    general_configurable_attribute_title: %noValue%
     general_name: Configurable Product Required(%randomize%)
     general_description: Description for Configurable Product Required
     general_short_description: Short Description for Configurable Product Required
@@ -2308,7 +2334,8 @@ configurable_product_minimal:
     general_min_price: 14.95
     general_min_tax_class: None
     general_categories: Default Category
-    general_configurable_data: *associatedProductsConfigurableData
+    general_configurable_attributes: *general_configurable_attributes
+    general_configurable_variations: *associatedProductsConfigurableData
 
 downloadable_product_minimal:
     product_attribute_set: Minimal

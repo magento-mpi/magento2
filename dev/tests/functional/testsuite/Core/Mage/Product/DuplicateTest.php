@@ -290,8 +290,9 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
     public function duplicateConfigurable($attrData, $assignData)
     {
         //Data
-        $assign = array_merge($assignData, array('general_configurable_attribute_title' => $attrData['admin_title']));
-        $configurable = $this->loadDataSet('Product', 'duplicate_configurable', $assign);
+        $configurable = $this->loadDataSet('Product', 'duplicate_configurable', $assignData,
+            array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
+                  'general_attribute_1' => $attrData['admin_title']));
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $configurable['general_sku']));
         //Steps
         $this->productHelper()->createProduct($configurable, 'configurable');
@@ -306,7 +307,6 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         $this->productHelper()->fillConfigurableSettings($configurable);
         //Verifying
         $configurable['general_sku'] = $this->productHelper()->getGeneratedSku($configurable['general_sku']);
-        $this->productHelper()->verifyProductInfo($configurable,
-            array('product_attribute_set', 'general_status', 'general_configurable_attribute_title'));
+        $this->productHelper()->verifyProductInfo($configurable, array('product_attribute_set', 'general_status'));
     }
 }
