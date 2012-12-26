@@ -362,6 +362,8 @@ system_custom_variables:
         2: Name
 # dataset for ui elements for Report Customers Review grid
 report_review_customer:
+    fieldset:
+        customer_review_grid: tablename
     button:
         export:
     dropdown:
@@ -394,3 +396,19 @@ manage_stores:
         0: Website Name
         1: Store Name
         2: Store View Name
+# dataset for ui elements for Report Product Review grid
+report_review_product:
+    fieldset:
+        product_review_grid: tablename
+    button:
+        export:
+    dropdown:
+        export_to:
+    headers:
+            0: ID
+            1: Product Name
+            2: Number of Reviews
+            3: Avg. Rating
+            4: Avg. Approved Rating
+            5: Last Review
+            6: Action

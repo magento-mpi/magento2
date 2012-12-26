@@ -87,6 +87,7 @@ class Core_Mage_Grid_UiElementsTest extends Mage_Selenium_TestCase
             array('system_custom_variables'),
             array('report_review_customer'),
             array('manage_stores'),
+            array('report_review_product'),
         );
     }
 
