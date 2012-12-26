@@ -159,14 +159,14 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             //Define option type
             $customOptionType = '';
             $bodyElement = $this->getChildElement($option, "//following-sibling::dd[1]");
-            $inputElements = $this->getChildElements($bodyElement, "//input[not(@type='hidden')]", false);
+            $inputElements = $this->childElementIsPresent($bodyElement, "//input[not(@type='hidden')]");
+            $textareaElements = $this->childElementIsPresent($bodyElement, "//textarea");
             $selectElements = $this->getChildElements($bodyElement, "//select", false);
-            $textareaElements = $this->getChildElements($bodyElement, "//textarea", false);
             if ($inputElements) {
-                $customOptionType = $fieldTypes[$inputElements[0]->attribute('type')];
+                $customOptionType = $fieldTypes[$inputElements->attribute('type')];
             }
             if ($textareaElements) {
-                $customOptionType = $fieldTypes[$textareaElements[0]->attribute('type')];
+                $customOptionType = $fieldTypes[$textareaElements->attribute('type')];
             }
             if ($selectElements) {
                 $count = count($selectElements);
@@ -694,7 +694,30 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function verifyConfigurableSettings($attributes)
     {
-        $this->markTestIncomplete('@TODO - implement verifyConfigurableSettings');
+        foreach ($attributes as $attributeData) {
+            if (!isset($attributeData['general_configurable_attribute_title'])) {
+                $this->addVerificationMessage('general_configurable_attribute_title is not set');
+                continue;
+            }
+            $title = $attributeData['general_configurable_attribute_title'];
+            unset($attributeData['general_configurable_attribute_title']);
+            $this->addParameter('attributeTitle', $title);
+            if (!$this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'product_variation_attribute')) {
+                $this->addVerificationMessage('Attribute "' . $title . '" is not selected');
+                continue;
+            }
+            if (isset($attributeData['have_price_variation'])) {
+                $this->verifyForm(array('have_price_variation' => $attributeData['have_price_variation']), 'general');
+                unset($attributeData['have_price_variation']);
+            }
+            foreach ($attributeData as $optionData) {
+                if (isset($optionData['associated_attribute_value'])) {
+                    $this->addParameter('attributeOption', $optionData['associated_attribute_value']);
+                    unset($optionData['associated_attribute_value']);
+                }
+                $this->verifyForm($optionData, 'general');
+            }
+        }
     }
 
     /**
@@ -705,7 +728,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     public function selectConfigurableAttribute(array $attributeData)
     {
         if (!isset($attributeData['general_configurable_attribute_title'])) {
-            $this->fail('');
+            $this->fail('general_configurable_attribute_title is not set');
         }
         $title = $attributeData['general_configurable_attribute_title'];
         unset($attributeData['general_configurable_attribute_title']);
@@ -843,45 +866,84 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      *
      * @param array $matrixData
      * @param bool $isAssignedData
+     *
+     * @return bool
      */
     public function verifyConfigurableVariations(array $matrixData, $isAssignedData = false)
     {
-        $rowElements = $this->getControlElements(self::FIELD_TYPE_PAGEELEMENT, 'variation_line');
-        if (count($rowElements) != count($matrixData)) {
-            $this->fail('Not all variations are represented in variation matrix');
+        $actualData = $this->getConfigurableVariationsData();
+        if (count($actualData) != count($matrixData)) {
+            $this->addVerificationMessage('Not all variations are represented in variation matrix');
+
+            return false;
         }
-        /** @var $rowElement PHPUnit_Extensions_Selenium2TestCase_Element */
-        /** @var $tdElement PHPUnit_Extensions_Selenium2TestCase_Element */
-        $data = array();
-        foreach ($rowElements as $key => $rowElement) {
-            $this->addParameter('attributeSearch', $key + 1);
-            if ($isAssignedData != $this->getControlAttribute('checkbox', 'include_variation', 'selectedValue')) {
-                $this->addVerificationMessage(
-                    'Checkbox in ' . $key + 1 . ' field ' . (($isAssignedData) ? 'is not' : 'is') . ' selected');
+        foreach ($matrixData as $line => $lineData) {
+            $actualLine = $actualData[$line];
+            $lineData['associated_include'] = ($isAssignedData) ? 'Yes' : 'No';
+            foreach ($lineData as $fieldName => $fieldValue) {
+                if ($fieldName != 'associated_attributes' && $actualLine[$fieldName] != $fieldValue) {
+                    $this->addVerificationMessage(
+                        $fieldName . ' value for ' . $line . " variation is not equal to specified('" . $fieldValue
+                        . "' != '" . $actualLine[$fieldName] . "')");
+                    continue;
+                }
+                if ($fieldName == 'associated_attributes') {
+                    foreach ($lineData['associated_attributes'] as $attribute => $attributeData) {
+                        foreach ($attributeData as $key => $value) {
+                            if ($actualLine['associated_attributes'][$key] == $value) {
+                                continue;
+                            }
+                            $this->addVerificationMessage(
+                                $key . ' value for associated ' . $attribute . " attribute is not equal to specified('"
+                                . $value . "' != '" . $actualLine['associated_attributes'][$key] . "')");
+                        }
+                    }
+                }
             }
-            $tdElements = $this->getChildElements($rowElement, 'td');
-            foreach ($tdElements as $keyTd => $tdElement) {
-                $data[$key + 1][$keyTd + 1] = trim(str_replace('Choose', '', $tdElement->text()));
-            }
-            $data[$key + 1] = array_diff($data[$key + 1], array(''));
         }
-        $this->assertEquals($matrixData, $data);
-        $this->assertEmptyVerificationErrors();
+
+        return ($this->getParsedMessages('verification') == null);
     }
 
+    /**
+     * Get Configurable Variations Data in table
+     * @return array
+     */
     public function getConfigurableVariationsData()
     {
-        $rowElements = $this->getControlElements(self::FIELD_TYPE_PAGEELEMENT, 'variation_line');
-        /** @var $rowElement PHPUnit_Extensions_Selenium2TestCase_Element */
-        /** @var $tdElement PHPUnit_Extensions_Selenium2TestCase_Element */
+        $generalFields = array('Product Name', 'Price', 'SKU', 'Quantity', 'Include', 'Weight');
         $data = array();
-        foreach ($rowElements as $key => $rowElement) {
-            $this->addParameter('attributeSearch', $key + 1);
-            $tdElements = $this->getChildElements($rowElement, 'td');
-            foreach ($tdElements as $keyTd => $tdElement) {
-                $data[$key + 1][$keyTd + 1] = trim(str_replace('Choose', '', $tdElement->text()));
+        $option = 0;
+        $lineElements = $this->getControlElements(self::FIELD_TYPE_PAGEELEMENT, 'variation_line');
+        $cellNames =
+            $this->getTableHeadRowNames($this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'variations_matrix_grid'));
+        /**@var  PHPUnit_Extensions_Selenium2TestCase_Element $tdElement */
+        foreach ($lineElements as $rowElement) {
+            $lineData = array();
+            $cellElements = $this->getChildElements($rowElement, 'td');
+            foreach ($cellElements as $key => $tdElement) {
+                $cellName = trim($cellNames[$key], ' *');
+                $inputElement = $this->childElementIsPresent($tdElement, 'input[not(@type="hidden")]');
+                if (!$inputElement) {
+                    $lineData[$cellName] = trim(str_replace('Choose', '', $tdElement->text()));
+                } elseif ($cellName == 'Include') {
+                    $lineData[$cellName] = ($inputElement->selected()) ? 'Yes' : 'No';
+                } else {
+                    $lineData[$cellName] = $inputElement->value();
+                }
             }
-            $data[$key + 1] = array_diff($data[$key + 1], array(''));
+            $form = array();
+            $attribute = 0;
+            foreach ($lineData as $cell => $cellData) {
+                if (in_array($cell, $generalFields)) {
+                    $form[trim(strtolower(str_replace('', '_', $cell)), '_')] = $cellData;
+                } else {
+                    $name = 'attribute_' . ++$attribute;
+                    $form['associated_attributes'][$name]['associated_attribute_name'] = $cell;
+                    $form['associated_attributes'][$name]['associated_attribute_value'] = $cellData;
+                }
+            }
+            $data['configurable_' . ++$option] = $form;
         }
 
         return $data;
@@ -1244,9 +1306,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $optionElements = $this->getElements(self::UIMAP_TYPE_FIELDSET, 'custom_option_set');
         /** @var $optionElement PHPUnit_Extensions_Selenium2TestCase_Element */
         foreach ($optionElements as $optionElement) {
-            $optionTitle = $this->getChildElements($optionElement, "//input[@value='{$optionTitle}']", false);
-            if (!empty($optionTitle)) {
-                $elementId = $optionTitle[0]->attribute('id');
+            $optionTitle = $this->childElementIsPresent($optionElement, "//input[@value='{$optionTitle}']");
+            if ($optionTitle) {
+                $elementId = $optionTitle->attribute('id');
                 foreach (explode('_', $elementId) as $value) {
                     if (is_numeric($value)) {
                         return $value;
@@ -1573,9 +1635,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         //$configurableOptions = array($attrData['option_1']['store_view_titles']['Default Store View'],
         //                             $attrData['option_2']['store_view_titles']['Default Store View'],
         //                             $attrData['option_3']['store_view_titles']['Default Store View']);
-        $configurableOptions = array($attrData['option_1']['admin_option_name'],
-                                     $attrData['option_2']['admin_option_name'],
-                                     $attrData['option_3']['admin_option_name']);
+        $configurableOptions =
+            array($attrData['option_1']['admin_option_name'], $attrData['option_2']['admin_option_name'],
+                  $attrData['option_3']['admin_option_name']);
         $download = $this->loadDataSet('SalesOrder', 'downloadable_product_for_order',
             array('downloadable_links_purchased_separately' => 'No', 'general_categories' => $returnCategory['path']));
         $download['general_user_attr']['dropdown'][$attrCode] = $attrData['option_3']['admin_option_name'];

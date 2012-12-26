@@ -3967,6 +3967,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * @param PHPUnit_Extensions_Selenium2TestCase_Element $parentElement
+     * @param string $childLocator
+     *
+     * @return PHPUnit_Extensions_Selenium2TestCase_Element|bool
+     */
+    public function childElementIsPresent(PHPUnit_Extensions_Selenium2TestCase_Element $parentElement, $childLocator)
+    {
+        $childElements = $this->getChildElements($parentElement, $childLocator, false);
+        return empty($childElements) ? false : array_shift($childElements);
+    }
+
+    /**
      * @param string $locator
      * @param string $getCommand attribute|displayed|enabled|name|selected|size|text|value|location
      * @param null|string $getParameter

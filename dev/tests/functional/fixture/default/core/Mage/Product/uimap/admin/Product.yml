@@ -184,7 +184,7 @@ new_product:
                                     xpath: //div[div/h4//@data-store-label='%attributeTitle%']
                                     checkboxes:
                                         have_price_variation: //label[contains(.,'Have price variation')]/input
-                                        include_variation_attribute: //tr[td='%attributeOption%']//input[contains(@name,'[include]')]
+                                        include_variation_attribute: //tr[td='%attributeOption%']//input[@type='checkbox' and contains(@name,'[include]')]
                                     fields:
                                         variation_attribute_price: //tr[td='%attributeOption%']//input[contains(@name,'[pricing_value]')]
                                     dropdowns:
