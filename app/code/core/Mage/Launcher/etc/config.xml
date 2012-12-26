@@ -116,6 +116,10 @@
                     <state_resolver>Mage_Launcher_Model_Promotestore_StateResolver</state_resolver>
                     <save_handler>Mage_Launcher_Model_Promotestore_SaveHandler</save_handler>
                 </ebay>
+                <related_products>
+                    <state_resolver>Mage_Launcher_Model_Promotestore_StateResolver</state_resolver>
+                    <save_handler>Mage_Launcher_Model_Promotestore_SaveHandler</save_handler>
+                </related_products>
             </tiles>
         </launcher>
     </adminhtml>

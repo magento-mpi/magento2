@@ -1,0 +1,36 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Launcher
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var $this Mage_Launcher_Block_Adminhtml_Promotestore_Relatedproducts_Tile */
+?>
+<article class="sl-step <?php echo $this->getTileStateStyle(); ?>" id="article-<?php echo $this->getTileCode()?>">
+    <h2><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Cross-Sells, Up-Sells, Related Products') ?></h2>
+    <div class="create">
+        <p>
+            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('We recommend that you configure these pages on your new site.') ?>
+        </p>
+        <button class="button drawer-open" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
+                data-save-url="<?php echo $this->getUrl('*/promotestore_relatedproducts_drawer/save') ?>"
+                data-load-url="<?php echo $this->getUrl('*/promotestore_relatedproducts_drawer/load') ?>">
+            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Configure') ?>
+        </button>
+    </div>
+
+    <div class="completed">
+        <?php if ($this->getTileState() == Mage_Launcher_Model_Tile::STATE_COMPLETE) :?>
+        <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Completed.') ?></p>
+        <button class="button drawer-open" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
+                data-save-url="<?php echo $this->getUrl('*/promotestore_relatedproducts_drawer/save') ?>"
+                data-load-url="<?php echo $this->getUrl('*/promotestore_relatedproducts_drawer/load') ?>">
+            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Edit Content Pages') ?>
+        </button>
+        <?php endif; ?>
+    </div>
+</article>

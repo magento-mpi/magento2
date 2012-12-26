@@ -76,6 +76,7 @@
         <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Wishlist_Tile" name="wishlist.tile" template="page/promotestore/tile/wishlist.phtml"/>
         <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Customercommunication_Tile" name="customer_communication.tile"/>
         <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Ebay_Tile" name="ebay.tile" template="page/promotestore/tile/ebay.phtml"/>
+        <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Relatedproducts_Tile" name="related_products.tile" template="page/promotestore/tile/relatedproducts.phtml"/>
     </promotestore_index>
 
     <launcher_promotestore_seo_drawer_load>
@@ -101,6 +102,14 @@
     <launcher_promotestore_ebay_drawer_save>
         <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Ebay_Tile" name="ebay.tile" template="page/promotestore/tile/ebay.phtml"/>
     </launcher_promotestore_ebay_drawer_save>
+
+    <launcher_promotestore_relatedproducts_drawer_load>
+        <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Relatedproducts_Drawer" name="related_products.drawer" template="page/promotestore/tile/relatedproducts_drawer.phtml"/>
+    </launcher_promotestore_relatedproducts_drawer_load>
+
+    <launcher_promotestore_relatedproducts_drawer_save>
+        <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Relatedproducts_Tile" name="related_products.tile" template="page/promotestore/tile/relatedproducts.phtml"/>
+    </launcher_promotestore_relatedproducts_drawer_save>
 
     <launcher_promotestore_index_index>
         <update handle="promotestore_index"/>
