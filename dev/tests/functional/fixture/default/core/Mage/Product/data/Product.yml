@@ -277,7 +277,7 @@ associated_attributes: &confirurableAttributesValues
         associated_attribute_value: %attribute_value_1%
     attribute_2:
         associated_attribute_name: %attribute_name_2%
-        associated_attribute_value: %attribute_name_2%
+        associated_attribute_value: %attribute_value_2%
 
 general_configurable: &configurableAssociatedProduct1
     associated_product_name: %noValue%
@@ -290,6 +290,7 @@ general_configurable: &configurableAssociatedProduct1
 general_configurable_data: &associatedProductsConfigurableData
     configurable_1: *configurableAssociatedProduct1
     configurable_2: %noValue%
+    configurable_3: %noValue%
 
 product_variation:
     associated_product_name: Product Variation Name (%randomize%)
