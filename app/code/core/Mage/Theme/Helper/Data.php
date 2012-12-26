@@ -44,7 +44,8 @@ class Mage_Theme_Helper_Data extends Mage_Core_Helper_Abstract
         $design = Mage::getDesign();
         $params = array(
             'area'       => $theme->getArea(),
-            'themeModel' => $theme
+            'themeModel' => $theme,
+            'skipProxy'  => true
         );
         $urls = array();
         foreach ($files as $file) {
