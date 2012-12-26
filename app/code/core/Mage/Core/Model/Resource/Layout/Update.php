@@ -74,7 +74,7 @@ class Mage_Core_Model_Resource_Layout_Update extends Mage_Core_Model_Resource_Db
                 'store_id'         => $data['store_id'],
                 'theme_id'         => $data['theme_id'],
                 'layout_update_id' => $object->getId(),
-                'is_temporary'     => (int) $object->getIsTemporary(),
+                'is_temporary'     => (int)$object->getIsTemporary(),
             ));
         }
         Mage::app()->cleanCache(array('layout', Mage_Core_Model_Layout_Merge::LAYOUT_GENERAL_CACHE_TAG));

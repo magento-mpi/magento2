@@ -16,18 +16,31 @@ class Mage_Core_Model_Resource_Layout_UpdateTest extends PHPUnit_Framework_TestC
      */
     protected $_themeId;
 
+    /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
+     * @var Mage_Core_Model_Design_Package
+     */
+    protected $_design;
+
     protected function setUp()
     {
-        $this->_themeId = Mage::getDesign()->getDesignTheme()->getThemeId();
+        $this->_objectManager = Mage::getObjectManager();
+        $this->_design = Mage::getDesign();
+
+        $this->_themeId = $this->_design->getDesignTheme()->getThemeId();
         /** @var $theme Mage_Core_Model_Theme */
-        $theme = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
+        $theme = $this->_objectManager->create('Mage_Core_Model_Theme');
         $theme->load('Test Theme', 'theme_title');
-        Mage::getDesign()->getDesignTheme()->setThemeId($theme->getId());
+        $this->_design->getDesignTheme()->setThemeId($theme->getId());
     }
 
     protected function tearDown()
     {
-        Mage::getDesign()->getDesignTheme()->setThemeId($this->_themeId);
+        $this->_design->getDesignTheme()->setThemeId($this->_themeId);
     }
 
     /**
@@ -36,7 +49,7 @@ class Mage_Core_Model_Resource_Layout_UpdateTest extends PHPUnit_Framework_TestC
     public function testFetchUpdatesByHandle()
     {
         /** @var $resourceLayoutUpdate Mage_Core_Model_Resource_Layout_Update */
-        $resourceLayoutUpdate = Mage::getObjectManager()->create('Mage_Core_Model_Resource_Layout_Update');
+        $resourceLayoutUpdate = $this->_objectManager->create('Mage_Core_Model_Resource_Layout_Update');
         $result = $resourceLayoutUpdate->fetchUpdatesByHandle('test_handle');
         $this->assertEquals('not_temporary', $result);
     }

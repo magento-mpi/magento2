@@ -50,7 +50,7 @@ $connection->addIndex($tableCoreLayoutLink,
         array('store_id', 'theme_id', 'layout_update_id', 'is_temporary'),
         Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
     ),
-    array('store_id', 'theme_id', 'layout_update_id'),
+    array('store_id', 'theme_id', 'layout_update_id', 'is_temporary'),
     Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
 );
 
