@@ -29,7 +29,8 @@
                     <host><![CDATA[localhost]]></host>
                     <username><![CDATA[root]]></username>
                     <password><![CDATA[]]></password>
-                    <dbname><![CDATA[magento_integration_tests]]></dbname>
+                    <!--Web API tests require database with minimal set of fixtures, not empty one-->
+                    <dbname><![CDATA[api_functional_tests]]></dbname>
                     <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
                     <model><![CDATA[mysql4]]></model>
                     <type><![CDATA[pdo_mysql]]></type>
