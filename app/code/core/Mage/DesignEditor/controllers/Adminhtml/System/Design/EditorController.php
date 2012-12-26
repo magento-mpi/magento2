@@ -248,25 +248,29 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
                 $historyModel = $this->_compactHistory($layoutUpdate);
 
                 /** @var $layoutRenderer Mage_DesignEditor_Model_History_Renderer_LayoutUpdate */
-                $layoutRenderer = Mage::getModel('Mage_DesignEditor_Model_History_Renderer_LayoutUpdate');
+                $layoutRenderer = $this->_objectManager->get('Mage_DesignEditor_Model_History_Renderer_LayoutUpdate');
                 $layoutUpdate = $historyModel->output($layoutRenderer, 'current_handle');
 
-                /** @var $layoutUpdateModel Mage_Core_Model_Layout_Update */
-                $layoutUpdateModel = $this->_objectManager->get('Mage_Core_Model_Layout_Update');
-
-                /** @var $layoutUpdateCollection Mage_Core_Model_Resource_Layout_Update_Collection */
-                $layoutUpdateCollection = $layoutUpdateModel->getCollection();
-                $layoutUpdateCollection->addStoreFilter(Mage_Core_Model_App::ADMIN_STORE_ID)
+                /** @var $updateCollection Mage_Core_Model_Resource_Layout_Update_Collection */
+                $updateCollection = $this->_objectManager->get('Mage_Core_Model_Resource_Layout_Update_Collection');
+                $updateCollection->addStoreFilter(Mage_Core_Model_App::ADMIN_STORE_ID)
                     ->addThemeFilter($themeId)
-                    ->addFieldToFilter('handle', $this->getRequest()->getParam('handle'));
-                $sql = $layoutUpdateCollection->getSelect()->__toString();
-                $layoutUpdateModel = $layoutUpdateCollection->getFirstItem();
+                    ->addFieldToFilter('handle', $this->getRequest()->getParam('handle'))
+                    ->setOrder('sort_order');
+                /** @var $layoutUpdateModel Mage_Core_Model_Layout_Update */
+                $layoutUpdateModel = $updateCollection->getFirstItem();
 
-                $layoutUpdateModel->addData(array(
-                    'store_id' => Mage_Core_Model_App::ADMIN_STORE_ID,
-                    'theme_id' => $theme->getId(),
-                    'handle'   => $this->getRequest()->getParam('handle'),
-                    'xml'      => $layoutUpdate
+                $sortOrder = 0;
+                if ($layoutUpdateModel->getId()) {
+                    $sortOrder = $layoutUpdateModel->getSortOrder() + 1;
+                }
+
+                $layoutUpdateModel->setData(array(
+                    'store_id'   => Mage_Core_Model_App::ADMIN_STORE_ID,
+                    'theme_id'   => $theme->getId(),
+                    'handle'     => $this->getRequest()->getParam('handle'),
+                    'xml'        => $layoutUpdate,
+                    'sort_order' => $sortOrder
                 ));
                 $layoutUpdateModel->save();
             }
