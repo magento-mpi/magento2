@@ -19,7 +19,12 @@ class Mage_Core_Model_Theme_FilesTest extends PHPUnit_Framework_TestCase
         /** @var $themeModel Mage_Core_Model_Theme_Files */
         $filesModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Files');
         $filesData = $this->_getThemeFilesValidData();
-        $filesData['theme_id'] = Mage::getDesign()->getDesignTheme()->getId();
+
+        /** @var $themeModel Mage_Core_Model_Theme */
+        $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
+        $theme = $themeModel->getCollection()->getFirstItem();
+
+        $filesData['theme_id'] = $theme->getId();
         $filesModel->setData($filesData);
 
         $crud = new Magento_Test_Entity($filesModel, array('file_name' => 'rename.css'));
