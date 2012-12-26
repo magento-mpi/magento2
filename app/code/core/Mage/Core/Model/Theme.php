@@ -31,6 +31,8 @@
  * @method Mage_Core_Model_Theme setThemeVersion(string $themeVersion)
  * @method Mage_Core_Model_Theme setArea(string $area)
  * @method Mage_Core_Model_Theme setThemeTitle(string $themeTitle)
+ * @method Mage_Core_Model_Theme setMagentoVersionFrom(string $versionFrom)
+ * @method Mage_Core_Model_Theme setMagentoVersionTo(string $versionTo)
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */

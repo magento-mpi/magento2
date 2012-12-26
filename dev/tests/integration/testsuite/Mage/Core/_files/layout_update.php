@@ -15,6 +15,8 @@ $theme->setThemePath('test/test')
     ->setThemeVersion('2.0.0.0')
     ->setArea('frontend')
     ->setThemeTitle('Test Theme')
+    ->setMagentoVersionFrom('2.0.0.0')
+    ->setMagentoVersionTo('*')
     ->save();
 
 /** @var $layoutUpdate1 Mage_Core_Model_Layout_Update */
