@@ -12,5 +12,6 @@
 <config>
     <modules>
         <Saas_UnitPrice><active>true</active></Saas_UnitPrice>
+        <Saas_PrintedTemplate><active>true</active></Saas_PrintedTemplate>
     </modules>
 </config>

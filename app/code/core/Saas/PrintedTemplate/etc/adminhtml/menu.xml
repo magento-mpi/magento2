@@ -13,7 +13,7 @@
     <menu>
         <remove id="Mage_Adminhtml::system_email_template"/>
         <add id="Saas_PrintedTemplate::system_template" title="Templates" module="Saas_PrintedTemplate" sortOrder="60" parent="Mage_Adminhtml::system" resource="Mage_Adminhtml::email_template"/>
-        <add id="Mage_Adminhtml::system_email_template" title="Transactional Emails" module="Mage_Adminhtml" sortOrder="61" parent="Saas_PrintedTemplate::system_template" action="adminhtml/system_email_template" resource="Mage_Adminhtml::email_template"/>
-        <add id="Saas_PrintedTemplate::template" title="PDF Print-outs" module="Saas_PrintedTemplate" sortOrder="62" parent="Saas_PrintedTemplate::system_template" action="adminhtml/template" resource="Mage_Adminhtml::email_template/printed_template/edit"/>
+        <add id="Mage_Adminhtml::email_template" title="Transactional Emails" module="Mage_Adminhtml" sortOrder="61" parent="Saas_PrintedTemplate::system_template" action="adminhtml/system_email_template" resource="Mage_Adminhtml::email_template"/>
+        <add id="Saas_PrintedTemplate::template" title="PDF Print-outs" module="Saas_PrintedTemplate" sortOrder="62" parent="Saas_PrintedTemplate::system_template" action="adminhtml/template" resource="Mage_Adminhtml::printed_template"/>
     </menu>
 </config>
