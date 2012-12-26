@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_Cms_Adminhtml_Cms_Page_RevisionControllerTest extends Mage_Adminhtml_Utility_Controller
+class Enterprise_Cms_Adminhtml_Cms_Page_RevisionControllerTest extends Mage_Backend_Utility_Controller
 {
     /**
      * @magentoDataFixture Mage/Cms/_files/pages.php

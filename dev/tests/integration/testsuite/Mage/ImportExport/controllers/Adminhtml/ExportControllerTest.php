@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_ImportExport_Adminhtml_ExportControllerTest extends Mage_Adminhtml_Utility_Controller
+class Mage_ImportExport_Adminhtml_ExportControllerTest extends Mage_Backend_Utility_Controller
 {
     /**
      * Set value of $_SERVER['HTTP_X_REQUESTED_WITH'] parameter here
