@@ -355,7 +355,7 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
             Mage::getSingleton('Saas_PrintedTemplate_Model_Wysiwyg_TemplateParser')->exportContent($template)
         );
 
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($template->getData()));
+        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($template->getData()));
     }
 
     /**

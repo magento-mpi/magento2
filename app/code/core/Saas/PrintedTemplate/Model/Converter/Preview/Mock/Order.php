@@ -113,7 +113,8 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order extends Mage_Sales
             $itemTax->setOrder($this);
         }
 
-        $shippingTaxes = Mage::getModel('Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Tax_ShippingCollection');
+        $shippingTaxes
+            = Mage::getModel('Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Tax_ShippingCollection');
         foreach ($shippingTaxes as $shippingTax) {
             $shippingTax->setOrder($this);
         }
