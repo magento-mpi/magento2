@@ -249,22 +249,26 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
 
                 /** @var $layoutRenderer Mage_DesignEditor_Model_History_Renderer_LayoutUpdate */
                 $layoutRenderer = Mage::getModel('Mage_DesignEditor_Model_History_Renderer_LayoutUpdate');
-                $layoutUpdate = $historyModel->output($layoutRenderer);
+                $layoutUpdate = $historyModel->output($layoutRenderer, 'current_handle');
 
-                if (empty($stores)) {
-                    $stores = array(Mage_Core_Model_App::ADMIN_STORE_ID);
-                }
                 /** @var $layoutUpdateModel Mage_Core_Model_Layout_Update */
                 $layoutUpdateModel = $this->_objectManager->get('Mage_Core_Model_Layout_Update');
-                foreach ($stores as $storeId) {
-                    $layoutUpdateModel->setData(array(
-                        'store_id' => $storeId,
-                        'theme_id' => $theme->getId(),
-                        'handle'   => 'default',
-                        'xml'      => $layoutUpdate
-                    ));
-                    $layoutUpdateModel->save();
-                }
+
+                /** @var $layoutUpdateCollection Mage_Core_Model_Resource_Layout_Update_Collection */
+                $layoutUpdateCollection = $layoutUpdateModel->getCollection();
+                $layoutUpdateCollection->addStoreFilter(Mage_Core_Model_App::ADMIN_STORE_ID)
+                    ->addThemeFilter($themeId)
+                    ->addFieldToFilter('handle', $this->getRequest()->getParam('handle'));
+                $sql = $layoutUpdateCollection->getSelect()->__toString();
+                $layoutUpdateModel = $layoutUpdateCollection->getFirstItem();
+
+                $layoutUpdateModel->addData(array(
+                    'store_id' => Mage_Core_Model_App::ADMIN_STORE_ID,
+                    'theme_id' => $theme->getId(),
+                    'handle'   => $this->getRequest()->getParam('handle'),
+                    'xml'      => $layoutUpdate
+                ));
+                $layoutUpdateModel->save();
             }
             $message = $coreHelper->__('Theme successfully assigned');
             $this->getResponse()->setBody($coreHelper->jsonEncode(array('success' => $message)));
