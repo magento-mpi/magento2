@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Api_SalesOrder_InvoiceTest extends Magento_Test_Webservice
+class Api_SalesOrder_InvoiceTest extends Api_SalesOrder_AbstractTest
 {
     /**
      * Delete used fixtures
@@ -31,17 +31,7 @@ class Api_SalesOrder_InvoiceTest extends Magento_Test_Webservice
         $invoice = Mage::getModel('Mage_Sales_Model_Order_Invoice');
         $invoice->loadByIncrementId(self::getFixture('invoiceIncrementId'));
         $this->callModelDelete($invoice, true);
-        $entityStoreModel = self::getFixture('entity_store_model');
-        if ($entityStoreModel instanceof Mage_Eav_Model_Entity_Store) {
-            $origIncrementData = self::getFixture('orig_invoice_increment_data');
-            $entityStoreModel->loadByEntityStore($entityStoreModel->getEntityTypeId(), $entityStoreModel->getStoreId());
-            $entityStoreModel->setIncrementLastId(
-                $origIncrementData['prefix']
-                    . substr($entityStoreModel->getIncrementLastId(), -8)
-            );
-            $entityStoreModel->setIncrementPrefix($origIncrementData['prefix']);
-            $entityStoreModel->save();
-        }
+        $this->_restoreIncrementIdPrefix();
 
         parent::tearDown();
     }
@@ -96,24 +86,8 @@ class Api_SalesOrder_InvoiceTest extends Magento_Test_Webservice
         $id = $order->getIncrementId();
 
         // Set invoice increment id prefix
-        $website = Mage::app()->getWebsite();
-        $storeId = $website->getDefaultStore()->getId();
-        $entityTypeModel = Mage::getModel('Mage_Eav_Model_Entity_Type')->loadByCode('invoice');
-        $entityStoreModel = Mage::getModel('Mage_Eav_Model_Entity_Store')
-            ->loadByEntityStore($entityTypeModel->getId(), $storeId);
-        $prefix = $entityStoreModel->getIncrementPrefix() == null ? $storeId : $entityStoreModel->getIncrementPrefix();
-        self::setFixture(
-            'orig_invoice_increment_data',
-            array(
-                'prefix' => $prefix,
-                'increment_last_id' => $entityStoreModel->getIncrementLastId()
-            )
-        );
-        $entityStoreModel->setEntityTypeId($entityTypeModel->getId());
-        $entityStoreModel->setStoreId($storeId);
-        $entityStoreModel->setIncrementPrefix('01');
-        $entityStoreModel->save();
-        self::setFixture('entity_store_model', $entityStoreModel);
+        $prefix = '01';
+        $this->_setIncrementIdPrefix('invoice', $prefix);
 
         // Create new invoice
         $newInvoiceId = $this->call(
@@ -128,11 +102,7 @@ class Api_SalesOrder_InvoiceTest extends Magento_Test_Webservice
         );
 
         $this->assertTrue(is_string($newInvoiceId), 'Increment Id is not a string');
-        $this->assertStringStartsWith(
-            $entityStoreModel->getIncrementPrefix(),
-            $newInvoiceId,
-            'Increment Id returned by API is not correct'
-        );
+        $this->assertStringStartsWith($prefix, $newInvoiceId, 'Increment Id returned by API is not correct');
         self::setFixture('invoiceIncrementId', $newInvoiceId);
     }
 

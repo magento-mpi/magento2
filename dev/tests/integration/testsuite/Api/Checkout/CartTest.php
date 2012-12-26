@@ -11,6 +11,12 @@
  */
 class Api_Checkout_CartTest extends Magento_Test_Webservice
 {
+    /** @var Mage_Eav_Model_Entity_Store */
+    protected static $_entityStore;
+
+    /** @var array */
+    protected static $_origData = array();
+
     /**
      * Product for test
      *
@@ -97,13 +103,7 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
 
         Mage::unregister('isSecureArea');
 
-        $entityStoreModel = self::getFixture('entity_store_model');
-        if ($entityStoreModel instanceof Mage_Eav_Model_Entity_Store) {
-            $origIncrementData = self::getFixture('orig_increment_data');
-            $entityStoreModel->loadByEntityStore($entityStoreModel->getEntityTypeId(), $entityStoreModel->getStoreId());
-            $entityStoreModel->setIncrementPrefix($origIncrementData['prefix'])
-                ->save();
-        }
+        $this->_restoreIncrementIdPrefix();
         Magento_Test_Webservice::deleteFixture('customer', true);
         parent::tearDown();
     }
@@ -255,22 +255,9 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
      */
     public function testCreateOrder()
     {
-        // Set creditmemo increment id prefix
-        $website = Mage::app()->getWebsite();
-        $storeId = $website->getDefaultStore()->getId();
-        $entityTypeModel = Mage::getModel('Mage_Eav_Model_Entity_Type')->loadByCode('order');
-        $entityStoreModel = Mage::getModel('Mage_Eav_Model_Entity_Store')
-            ->loadByEntityStore($entityTypeModel->getId(), $storeId);
-        $prefix = $entityStoreModel->getIncrementPrefix() == null ? $storeId : $entityStoreModel->getIncrementPrefix();
-        self::setFixture('orig_increment_data', array(
-            'prefix' => $prefix,
-            'increment_last_id' => $entityStoreModel->getIncrementLastId()
-        ));
-        $entityStoreModel->setEntityTypeId($entityTypeModel->getId());
-        $entityStoreModel->setStoreId($storeId);
-        $entityStoreModel->setIncrementPrefix('01');
-        $entityStoreModel->save();
-        self::setFixture('entity_store_model', $entityStoreModel);
+        // Set order increment id prefix
+        $prefix = '01';
+        $this->_setIncrementIdPrefix('order', $prefix);
 
         $quote = self::getFixture('quote');
 
@@ -279,8 +266,7 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
         ));
 
         $this->assertTrue(is_string($orderIncrementId), 'Increment Id is not a string');
-        $this->assertStringStartsWith($entityStoreModel->getIncrementPrefix(), $orderIncrementId,
-            'Increment Id returned by API is not correct');
+        $this->assertStringStartsWith($prefix, $orderIncrementId, 'Increment Id returned by API is not correct');
     }
 
     /**
@@ -414,5 +400,44 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
     {
         $this->assertEquals($expectedCode, $actualCode);
         $this->assertEquals($expectedMessage, $actualMessage);
+    }
+
+    /**
+     * Restore increment ID prefix in entity model.
+     */
+    protected function _restoreIncrementIdPrefix()
+    {
+        $entityStoreModel = self::$_entityStore;
+        if ($entityStoreModel instanceof Mage_Eav_Model_Entity_Store) {
+            $entityStoreModel->loadByEntityStore($entityStoreModel->getEntityTypeId(), $entityStoreModel->getStoreId());
+            $entityStoreModel->setIncrementPrefix(self::$_origData['increment_prefix'])
+                ->setIncrementLastId(++self::$_origData['increment_last_id'])
+                ->save();
+        }
+    }
+
+    /**
+     * Set increment id prefix in entity model.
+     *
+     * @param string $entityType
+     * @param string $prefix
+     */
+    protected function _setIncrementIdPrefix($entityType, $prefix)
+    {
+        $website = Mage::app()->getWebsite();
+        $storeId = $website->getDefaultStore()->getId();
+        $entityTypeModel = Mage::getModel('Mage_Eav_Model_Entity_Type')->loadByCode($entityType);
+        /** @var Mage_Eav_Model_Entity_Store $entityStore */
+        $entityStore = Mage::getModel('Mage_Eav_Model_Entity_Store')->loadByEntityStore(
+            $entityTypeModel->getId(),
+            $storeId);
+        $origPrefix = $entityStore->getIncrementPrefix() == null ? $storeId : $entityStore->getIncrementPrefix();
+        self::$_origData['increment_prefix'] = $origPrefix;
+        self::$_origData['increment_last_id'] = $entityStore->getIncrementLastId();
+        $entityStore->setEntityTypeId($entityTypeModel->getId());
+        $entityStore->setStoreId($storeId);
+        $entityStore->setIncrementPrefix($prefix);
+        $entityStore->save();
+        self::$_entityStore = $entityStore;
     }
 }

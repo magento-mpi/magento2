@@ -12,7 +12,7 @@
 /**
  * @magentoApiDataFixture Api/SalesOrder/_fixture/shipment.php
  */
-class Api_SalesOrder_ShipmentTest extends Magento_Test_Webservice
+class Api_SalesOrder_ShipmentTest extends Api_SalesOrder_AbstractTest
 {
     /**
      * Clean up shipment and revert changes to entity store model
@@ -25,14 +25,7 @@ class Api_SalesOrder_ShipmentTest extends Magento_Test_Webservice
         $shipment->loadByIncrementId(self::getFixture('shipmentIncrementId'));
         $this->callModelDelete($shipment, true);
 
-        $entityStoreModel = self::getFixture('entity_store_model');
-        if ($entityStoreModel instanceof Mage_Eav_Model_Entity_Store) {
-            $origIncrementData = self::getFixture('orig_shipping_increment_data');
-            $entityStoreModel->loadByEntityStore($entityStoreModel->getEntityTypeId(),$entityStoreModel->getStoreId());
-            $entityStoreModel->setIncrementPrefix($origIncrementData['prefix'])
-                ->save();
-        }
-
+        $this->_restoreIncrementIdPrefix();
         parent::tearDown();
     }
 
@@ -80,21 +73,8 @@ class Api_SalesOrder_ShipmentTest extends Magento_Test_Webservice
         $id = $order->getIncrementId();
 
         // Set shipping increment id prefix
-        $website = Mage::app()->getWebsite();
-        $storeId = $website->getDefaultStore()->getId();
-        $entityTypeModel = Mage::getModel('Mage_Eav_Model_Entity_Type')->loadByCode('shipment');
-        $entityStoreModel = Mage::getModel('Mage_Eav_Model_Entity_Store')
-            ->loadByEntityStore($entityTypeModel->getId(), $storeId);
-        $prefix = $entityStoreModel->getIncrementPrefix() == null ? $storeId : $entityStoreModel->getIncrementPrefix();
-        self::setFixture('orig_shipping_increment_data', array(
-            'prefix' => $prefix,
-            'increment_last_id' => $entityStoreModel->getIncrementLastId()
-        ));
-        $entityStoreModel->setEntityTypeId($entityTypeModel->getId());
-        $entityStoreModel->setStoreId($storeId);
-        $entityStoreModel->setIncrementPrefix('01');
-        $entityStoreModel->save();
-        self::setFixture('entity_store_model', $entityStoreModel);
+        $prefix = '01';
+        $this->_setIncrementIdPrefix('shipment', $prefix);
 
         // Create new shipment
         $newShipmentId = $this->call('order_shipment.create', array(
@@ -107,8 +87,7 @@ class Api_SalesOrder_ShipmentTest extends Magento_Test_Webservice
         self::setFixture('shipmentIncrementId', $newShipmentId);
 
         $this->assertTrue(is_string($newShipmentId), 'Increment Id is not a string');
-        $this->assertStringStartsWith($entityStoreModel->getIncrementPrefix(), $newShipmentId,
-            'Increment Id returned by API is not correct');
+        $this->assertStringStartsWith($prefix, $newShipmentId, 'Increment Id returned by API is not correct');
     }
 
     /**

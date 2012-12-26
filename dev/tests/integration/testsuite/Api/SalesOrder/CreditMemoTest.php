@@ -9,20 +9,14 @@
  * @license     {license_link}
  */
 
-class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
+class Api_SalesOrder_CreditMemoTest extends Api_SalesOrder_AbstractTest
 {
     /**
      * Remove all created models
      */
     protected function tearDown()
     {
-        $entityStoreModel = self::getFixture('entity_store_model');
-        if ($entityStoreModel instanceof Mage_Eav_Model_Entity_Store) {
-            $origIncrementData = self::getFixture('orig_creditmemo_increment_data');
-            $entityStoreModel->loadByEntityStore($entityStoreModel->getEntityTypeId(), $entityStoreModel->getStoreId());
-            $entityStoreModel->setIncrementPrefix($origIncrementData['prefix'])
-                ->save();
-        }
+        $this->_restoreIncrementIdPrefix();
         parent::tearDown();
     }
 
@@ -182,21 +176,8 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
     public function testAutoIncrementType()
     {
         // Set creditmemo increment id prefix
-        $website = Mage::app()->getWebsite();
-        $storeId = $website->getDefaultStore()->getId();
-        $entityTypeModel = Mage::getModel('Mage_Eav_Model_Entity_Type')->loadByCode('creditmemo');
-        $entityStoreModel = Mage::getModel('Mage_Eav_Model_Entity_Store')
-            ->loadByEntityStore($entityTypeModel->getId(), $storeId);
-        $prefix = $entityStoreModel->getIncrementPrefix() == null ? $storeId : $entityStoreModel->getIncrementPrefix();
-        self::setFixture('orig_creditmemo_increment_data', array(
-            'prefix' => $prefix,
-            'increment_last_id' => $entityStoreModel->getIncrementLastId()
-        ));
-        $entityStoreModel->setEntityTypeId($entityTypeModel->getId());
-        $entityStoreModel->setStoreId($storeId);
-        $entityStoreModel->setIncrementPrefix('01');
-        $entityStoreModel->save();
-        self::setFixture('entity_store_model', $entityStoreModel);
+        $prefix = '01';
+        $this->_setIncrementIdPrefix('creditmemo', $prefix);
 
         $order = self::getFixture('order2');
 
@@ -224,7 +205,7 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
         self::setFixture('creditmemoIncrementId', $creditMemoIncrementId);
 
         $this->assertTrue(is_string($creditMemoIncrementId), 'Increment Id is not a string');
-        $this->assertStringStartsWith($entityStoreModel->getIncrementPrefix(), $creditMemoIncrementId,
+        $this->assertStringStartsWith($prefix, $creditMemoIncrementId,
             'Increment Id returned by API is not correct');
     }
 
@@ -263,7 +244,7 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
         }
         $this->assertInternalType('array', $result, "Response has invalid format");
         $this->assertEquals(1, count($result), "Invalid creditmemos quantity received");
-        foreach(reset($result) as $field => $value) {
+        foreach (reset($result) as $field => $value) {
             if ($field == 'creditmemo_id') {
                 // process field mapping
                 $field = 'entity_id';
