@@ -80,6 +80,6 @@ class Saas_PrintedTemplate_Model_Variable_Payment extends Saas_PrintedTemplate_M
      */
     protected function _getPaymentHelper()
     {
-        return Mage::helper('payment');
+        return Mage::helper('Mage_Payment_Helper_Data');
     }
 }

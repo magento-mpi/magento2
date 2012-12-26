@@ -93,7 +93,8 @@ class Saas_PrintedTemplate_Adminhtml_PrintController extends Mage_Adminhtml_Cont
                 Mage::throwException($this->__('There are no printable documents related to selected orders.'));
             }
 
-            $pdf = Mage::getModel('Saas_PrintedTemplate_Model_Converter_Batch', $collection)->getPdf();
+            $pdf = Mage::getModel('Saas_PrintedTemplate_Model_Converter_Batch', array('collection' => $collection))
+                ->getPdf();
         }
         catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -129,7 +130,8 @@ class Saas_PrintedTemplate_Adminhtml_PrintController extends Mage_Adminhtml_Cont
                 Mage::throwException($this->__('There are no printable documents related to selected orders.'));
             }
 
-            $pdf = Mage::getModel('Saas_PrintedTemplate_Model_Converter_Batch', $collection)->getPdf();
+            $pdf = Mage::getModel('Saas_PrintedTemplate_Model_Converter_Batch', array('collection' => $collection))
+                ->getPdf();
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirectReferer();

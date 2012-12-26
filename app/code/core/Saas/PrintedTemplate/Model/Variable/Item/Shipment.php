@@ -52,15 +52,21 @@ class Saas_PrintedTemplate_Model_Variable_Item_Shipment extends Saas_PrintedTemp
             $parentItem = $item->getOrderItem()->getParentItem();
             if ($parentItem && $parentItem->getId() == $parentItemId) {
                 $children[$item->getOrderItemId()] =
-                    Mage::getModel('Saas_PrintedTemplate_Model_Variable_' . $this->_itemType, $item);
+                    Mage::getModel('Saas_PrintedTemplate_Model_Variable_' . uc_words($this->_itemType),
+                        array('value' => $item)
+                    );
             } else if (!$parentItem && $item->getOrderItem()->getId() == $parentItemId) {
                 $children[$item->getOrderItemId()] =
-                    Mage::getModel('Saas_PrintedTemplate_Model_Variable_' . $this->_itemType, $item);
+                    Mage::getModel('Saas_PrintedTemplate_Model_Variable_' . uc_words($this->_itemType),
+                        array('value' => $item)
+                    );
                 if ($item->getOrderItem()->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
                     foreach ($item->getOrderItem()->getChildrenItems() as $orderItem) {
                         $orderItem->setOrderItem($orderItem);
                         $children[$orderItem->getId()] =
-                            Mage::getModel('Saas_PrintedTemplate_Model_Variable_' . $this->_itemType, $orderItem);
+                            Mage::getModel('Saas_PrintedTemplate_Model_Variable_' . uc_words($this->_itemType),
+                                array('value' => $orderItem)
+                            );
                     }
                 }
             }

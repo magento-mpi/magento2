@@ -73,7 +73,9 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_Entity extends Saas_PrintedTe
             if ($item->getOrderItem()->getParentItemId()) {
                 continue;
             }
-            $items[] = Mage::getModel('Saas_PrintedTemplate_Model_Variable_Item_' . $this->_type, $item);
+            $items[] = Mage::getModel('Saas_PrintedTemplate_Model_Variable_Item_' . ucfirst($this->_type),
+                array('value' => $item)
+            );
         }
 
         return $items;
@@ -82,7 +84,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_Entity extends Saas_PrintedTe
     /**
      * Retrive item taxes array
      *
-     * @param Mage_Sales_Model_Order_Invoice_Item|Mage_Sales_Model_Order_Creditmemo_Item|Mage_Sales_Model_Order_Shipment_Item $item
+     * @param Mage_Sales_Model_Order_(Invoice/Creditmemo/Shipping)_Item
      * @return array Of Saas_PrintedTemplate_Model_Tax_Order_Item
      */
     protected function _getItemTaxes($item)
@@ -152,9 +154,9 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_Entity extends Saas_PrintedTe
             }
         }
         foreach ($items as &$item) {
-            $summary = $this->_summarizeTax($item);
-            $item = Mage::getModel('Saas_PrintedTemplate_Model_Variable_Tax', $summary);
-            $item->setOrder($summary->getOrder());
+            $value = $this->_summarizeTax($item);
+            $item = Mage::getModel('Saas_PrintedTemplate_Model_Variable_Tax', array('value' => $value));
+            $item->setOrder($value->getOrder());
         }
 
         return $items;
@@ -222,7 +224,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_Entity extends Saas_PrintedTe
 
         // Wrap with variable
         foreach ($taxes as &$tax) {
-            $tax = Mage::getModel('Saas_PrintedTemplate_Model_Variable_Tax', $tax)
+            $tax = Mage::getModel('Saas_PrintedTemplate_Model_Variable_Tax', array('value' => $tax))
                 ->setOrder($this->_value->getOrder());
         }
 

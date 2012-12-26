@@ -15,7 +15,7 @@
  * @package    Saas_PrintedTemplate
  * @subpackage Models
  */
- class Saas_PrintedTemplate_Model_Variable_Config extends Saas_PrintedTemplate_Model_Variable_Abstract
+class Saas_PrintedTemplate_Model_Variable_Config extends Saas_PrintedTemplate_Model_Variable_Abstract
 {
     /**
      * Tax configuration model
@@ -150,4 +150,4 @@
     {
         return nl2br(Mage::getBlockSingleton('Mage_Page_Block_Html')->getPrintLogoText());
     }
- }
+}
