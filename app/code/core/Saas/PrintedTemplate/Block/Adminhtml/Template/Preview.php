@@ -47,9 +47,8 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Preview extends Mage_Backend
     {
         if (is_null($this->_previewContainer)) {
             $model = Mage::getModel(
-                'Saas_PrintedTemplate_Model_Converter_Preview_Mock_' . $this->_getTemplate()->getEntityType(),
-                Mage::getModel('Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order')
-            );
+                'Saas_PrintedTemplate_Model_Converter_Preview_Mock_' . ucfirst($this->_getTemplate()->getEntityType()))
+                ->setOrder(Mage::getModel('Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order'));
 
             $this->_previewContainer = Mage::helper('Saas_PrintedTemplate_Helper_Locator')
                 ->getConverter($model, $this->_getTemplate());

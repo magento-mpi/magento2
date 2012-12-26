@@ -162,9 +162,8 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
 
         try {
             $mockModel = Mage::getModel(
-                'Saas_PrintedTemplate_Model_Converter_Preview_Mock_' . $template->getEntityType(),
-                Mage::getModel('Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order')
-            );
+                'Saas_PrintedTemplate_Model_Converter_Preview_Mock_' . ucfirst($template->getEntityType()))
+                ->setOrder(Mage::getModel('Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order'));;
             $pdf = Mage::helper('Saas_PrintedTemplate_Helper_Locator')->getConverter($mockModel, $template)->getPdf();
 
             $this->_prepareDownloadResponse(
