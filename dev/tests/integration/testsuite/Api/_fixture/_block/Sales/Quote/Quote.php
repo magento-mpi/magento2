@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 /* @var $addressFixture Mage_Sales_Model_Quote_Address */
-$addressFixture = require 'API/_fixture/_block/Sales/Quote/Address.php';
+$addressFixture = require '_fixture/_block/Sales/Quote/Address.php';
 
 $quote = Mage::getModel('Mage_Sales_Model_Quote');
 $quote->setStoreId(Mage_CatalogInventory_Model_Stock::DEFAULT_STOCK_ID)

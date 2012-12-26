@@ -7,7 +7,7 @@
  */
 
 /* @var $ruleFixture Mage_CatalogRule_Model_Rule */
-$ruleFixture = require 'API/_fixture/_block/CatalogRule/Rule.php';
+$ruleFixture = require '_fixture/_block/CatalogRule/Rule.php';
 
 $rule = clone $ruleFixture;
 // create catalog price rule for configurable options

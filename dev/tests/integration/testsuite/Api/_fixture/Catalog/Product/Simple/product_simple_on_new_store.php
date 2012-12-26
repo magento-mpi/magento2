@@ -5,10 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-require 'API/_fixture/Catalog/Category/category_on_new_store.php';
+require '_fixture/Catalog/Category/category_on_new_store.php';
 
 /* @var $product Mage_Catalog_Model_Product */
-$product = require 'API/_fixture/_block/Catalog/Product.php';
+$product = require '_fixture/_block/Catalog/Product.php';
 $product->setStoreId(0)
     ->setWebsiteIds(array(Mage::app()->getDefaultStoreView()->getWebsiteId()))
     ->save();

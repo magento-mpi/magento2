@@ -9,10 +9,10 @@
 define('COUNT_CUSTOMER_ADDRESES', 3);
 
 /* @var $customerFixture Mage_Customer_Model_Customer */
-$customerFixture = require 'API/_fixture/_block/Customer/Customer.php';
+$customerFixture = require '_fixture/_block/Customer/Customer.php';
 
 /* @var $customerAddressFixture Mage_Customer_Model_Address */
-$customerAddressFixture = require 'API/_fixture/_block/Customer/Address.php';
+$customerAddressFixture = require '_fixture/_block/Customer/Address.php';
 
 // Create customer
 $customerFixture->save();

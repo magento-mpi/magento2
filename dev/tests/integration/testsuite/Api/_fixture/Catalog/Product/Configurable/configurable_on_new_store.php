@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 require "configurable_with_assigned_products.php";
-require 'API/_fixture/Core/Store/store_on_new_website.php';
+require '_fixture/Core/Store/store_on_new_website.php';
 
 /** @var $configurableProduct Mage_Catalog_Model_Product */
 $configurableProduct = Magento_Test_TestCase_ApiAbstract::getFixture('product_configurable');

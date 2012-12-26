@@ -14,7 +14,7 @@ $attributeSet = Magento_Test_TestCase_ApiAbstract::getFixture('attribute_set_wit
 $attribute = Magento_Test_TestCase_ApiAbstract::getFixture('eav_configurable_attribute');
 $attributeSourceOptions = $attribute->getSource()->getAllOptions(false);
 /** @var $simpleProduct Mage_Catalog_Model_Product */
-$simpleProduct = require 'API/_fixture/_block/Catalog/Product.php';
+$simpleProduct = require '_fixture/_block/Catalog/Product.php';
 $simpleProduct->setAttributeSetId($attributeSet->getId())
     ->setData($attribute->getAttributeCode(), $attributeSourceOptions[0]['value'])
     ->save();

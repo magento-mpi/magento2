@@ -9,10 +9,10 @@
 define('COUNT_STOCK_ITEMS_LIST', 3);
 
 /* @var $product Mage_Catalog_Model_Product */
-$productFixture = require 'API/_fixture/_block/Catalog/Product.php';
+$productFixture = require '_fixture/_block/Catalog/Product.php';
 
 /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-$stockItemFixture = require 'API/_fixture/_block/CatalogInventory/Stock/Item.php';
+$stockItemFixture = require '_fixture/_block/CatalogInventory/Stock/Item.php';
 
 $products = array();
 $stockItems = array();

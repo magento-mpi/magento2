@@ -7,7 +7,7 @@
  */
 
 /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
-$attributeSet = require 'API/_fixture/_block/Catalog/Product/Attribute/Set.php';
+$attributeSet = require '_fixture/_block/Catalog/Product/Attribute/Set.php';
 $attributeSet->save();
 /** @var $entityType Mage_Eav_Model_Entity_Type */
 $entityType = Mage::getModel('Mage_Eav_Model_Entity_Type')->loadByCode('catalog_product');
@@ -15,7 +15,7 @@ $attributeSet->initFromSkeleton($entityType->getDefaultAttributeSetId())->save()
 Magento_Test_TestCase_ApiAbstract::setFixture('attribute_set_with_invalid_attribute', $attributeSet);
 
 /** @var $attributeFixture Mage_Catalog_Model_Resource_Eav_Attribute */
-$attributeFixture = require 'API/_fixture/_block/Catalog/Product/Attribute.php';
+$attributeFixture = require '_fixture/_block/Catalog/Product/Attribute.php';
 
 $validAttribute = clone $attributeFixture;
 $validAttribute->setAttributeCode(substr('valid_attribute_' . uniqid(), 0, 30))

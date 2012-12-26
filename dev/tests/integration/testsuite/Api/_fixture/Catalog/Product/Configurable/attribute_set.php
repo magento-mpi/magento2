@@ -11,7 +11,7 @@ if (!Magento_Test_TestCase_ApiAbstract::getFixture('attribute_set_with_configura
     define('ATTRIBUTE_OPTIONS_COUNT', 3);
 
     /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
-    $attributeSet = require 'API/_fixture/_block/Catalog/Product/Attribute/Set.php';
+    $attributeSet = require '_fixture/_block/Catalog/Product/Attribute/Set.php';
     $attributeSet->save();
     /** @var $entityType Mage_Eav_Model_Entity_Type */
     $entityType = Mage::getModel('Mage_Eav_Model_Entity_Type')->loadByCode('catalog_product');
@@ -19,7 +19,7 @@ if (!Magento_Test_TestCase_ApiAbstract::getFixture('attribute_set_with_configura
     Magento_Test_TestCase_ApiAbstract::setFixture('attribute_set_with_configurable', $attributeSet);
 
     /** @var $attributeFixture Mage_Catalog_Model_Resource_Eav_Attribute */
-    $attributeFixture = require 'API/_fixture/_block/Catalog/Product/Attribute.php';
+    $attributeFixture = require '_fixture/_block/Catalog/Product/Attribute.php';
 
     for ($attributeCount = 1; $attributeCount <= ATTRIBUTES_COUNT; $attributeCount++) {
         $attribute = clone $attributeFixture;

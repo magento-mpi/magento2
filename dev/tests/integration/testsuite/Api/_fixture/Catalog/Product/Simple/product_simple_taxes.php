@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-$productData = require 'API/_fixture/_data/Catalog/Product/Simple/simple_product_data.php';
+$productData = require '_fixture/_data/Catalog/Product/Simple/simple_product_data.php';
 $product = Mage::getModel('Mage_Catalog_Model_Product');
 $product->addData($productData)
     ->setStoreId(0)

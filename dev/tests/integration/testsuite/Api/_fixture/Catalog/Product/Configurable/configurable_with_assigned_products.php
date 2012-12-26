@@ -13,7 +13,7 @@ $configurableProduct = Magento_Test_TestCase_ApiAbstract::getFixture('product_co
 $productsToAssignIds = array();
 for ($i = 0; $i < CONFIGURABLE_ASSIGNED_PRODUCTS_COUNT; $i++) {
     /* @var $product Mage_Catalog_Model_Product */
-    $product = require 'API/_fixture/_block/Catalog/Product.php';
+    $product = require '_fixture/_block/Catalog/Product.php';
     $product->setName("Assigned product #$i")
         ->setAttributeSetId($configurableProduct->getAttributeSetId())
         ->setWebsiteIds($configurableProduct->getWebsiteIds());

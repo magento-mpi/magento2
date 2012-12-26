@@ -9,7 +9,7 @@
 include "attribute_set.php";
 /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
 $attributeSet = Magento_Test_TestCase_ApiAbstract::getFixture('attribute_set_with_configurable');
-$giftcard = require 'API/_fixture/_block/Catalog/Product.php';
+$giftcard = require '_fixture/_block/Catalog/Product.php';
 $giftcard->setAttributeSetId($attributeSet->getId())
     ->setName('Giftcard Product')
     ->setSku('giftcard-product-' . microtime())

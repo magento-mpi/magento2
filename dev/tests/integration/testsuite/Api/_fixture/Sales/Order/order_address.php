@@ -7,16 +7,16 @@
  */
 
 /* @var $productFixture Mage_Catalog_Model_Product */
-$productFixture = require 'API/_fixture/_block/Catalog/Product.php';
+$productFixture = require '_fixture/_block/Catalog/Product.php';
 
 /* @var $quote Mage_Sales_Model_Quote */
-$quote = require 'API/_fixture/_block/Sales/Quote/Quote.php';
+$quote = require '_fixture/_block/Sales/Quote/Quote.php';
 
 /* @var $address Mage_Sales_Model_Quote_Address */
-$address = require 'API/_fixture/_block/Sales/Quote/Address.php';
+$address = require '_fixture/_block/Sales/Quote/Address.php';
 
 /* @var $rateFixture Mage_Sales_Model_Quote_Address_Rate */
-$rateFixture = require 'API/_fixture/_block/Sales/Quote/Rate.php';
+$rateFixture = require '_fixture/_block/Sales/Quote/Rate.php';
 
 // Create products
 $product1 = clone $productFixture;

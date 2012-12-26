@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 /* @var $stockItemFixture Mage_CatalogInventory_Model_Stock_Item */
-$stockItemFixture = require 'API/_fixture/_block/CatalogInventory/Stock/Item.php';
+$stockItemFixture = require '_fixture/_block/CatalogInventory/Stock/Item.php';
 
 $product = Mage::getModel('Mage_Catalog_Model_Product');
 $product->setTypeId('simple')

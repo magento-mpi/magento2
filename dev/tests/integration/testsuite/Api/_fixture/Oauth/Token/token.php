@@ -1,7 +1,7 @@
 <?php
 
 /** @var $consumer Mage_Oauth_Model_Consumer */
-$consumer = require 'API/_fixture/Oauth/Consumer/consumer.php';
+$consumer = require '_fixture/Oauth/Consumer/consumer.php';
 
 /**
  * Model data

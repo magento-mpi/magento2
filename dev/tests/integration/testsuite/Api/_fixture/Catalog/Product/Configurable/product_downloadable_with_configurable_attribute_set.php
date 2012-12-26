@@ -9,7 +9,7 @@
 include "attribute_set.php";
 /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
 $attributeSet = Magento_Test_TestCase_ApiAbstract::getFixture('attribute_set_with_configurable');
-$downloadable = require 'API/_fixture/_block/Catalog/Product.php';
+$downloadable = require '_fixture/_block/Catalog/Product.php';
 $downloadable->setAttributeSetId($attributeSet->getId())
     ->setName('Downloadable Product')
     ->setSku('downloadable-product-' . microtime())

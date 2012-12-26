@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-require 'API/_fixture/Core/Store/store_on_new_website.php';
+require '_fixture/Core/Store/store_on_new_website.php';
 $websiteIds = array(Mage::app()->getDefaultStoreView()->getWebsiteId());
 /** @var $testStore Mage_Core_Model_Store */
 $testStore = Magento_Test_TestCase_ApiAbstract::getFixture('store_on_new_website');
@@ -16,7 +16,7 @@ if ($testStore) {
 $products = array();
 for ($i = 1; $i <= 3; $i++) {
     /* @var $product Mage_Catalog_Model_Product */
-    $product = require 'API/_fixture/_block/Catalog/Product.php';
+    $product = require '_fixture/_block/Catalog/Product.php';
     $product->setStoreId(0);
     if ($i == 1) {
         $product->setPrice(99.5);
