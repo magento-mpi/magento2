@@ -1,24 +1,23 @@
 <?php
 /**
+ * Batch tool for running all or some of tests
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     tools
- * @subpackage  batch_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 $commands = array(
-    'unit'                  => array('../../tests/unit', ''),
-    'unit-performance'      => array('../../tests/performance/framework/tests/unit', ''),
-    'unit-static'           => array('../../tests/static/framework/tests/unit', ''),
-    'unit-integration'      => array('../../tests/integration/framework/tests/unit', ''),
-    'integration'           => array('../../tests/integration', ''),
-    'integration-integrity' => array('../../tests/integration', ' testsuite/integrity'),
-    'static-default'        => array('../../tests/static', ''),
-    'static-legacy'         => array('../../tests/static', ' testsuite/Legacy'),
-    'static-integration'    => array('../../tests/static', ' testsuite/Exemplar'),
+    'unit'                  => array('../tests/unit', ''),
+    'unit-performance'      => array('../tests/performance/framework/tests/unit', ''),
+    'unit-static'           => array('../tests/static/framework/tests/unit', ''),
+    'unit-integration'      => array('../tests/integration/framework/tests/unit', ''),
+    'integration'           => array('../tests/integration', ''),
+    'integration-integrity' => array('../tests/integration', ' testsuite/integrity'),
+    'static-default'        => array('../tests/static', ''),
+    'static-legacy'         => array('../tests/static', ' testsuite/Legacy'),
+    'static-integration'    => array('../tests/static', ' testsuite/Exemplar'),
 );
 $types = array(
     'all'             => array_keys($commands),
