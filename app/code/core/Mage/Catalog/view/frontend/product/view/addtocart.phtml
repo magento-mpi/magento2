@@ -31,9 +31,10 @@
             "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>", function () {
                 $('#product_addtocart_form').validation({
                     errorPlacement: function (error, element) {
-                        if (element.attr('data-validate')&& element.attr('data-validate').substring('validate-one-checkbox-required-by-name')) {
+                        if (element.attr('data-validate') && element.attr('data-validate').indexOf('validate-one-checkbox-required-by-name') > 0) {
+                            console.info(element.attr('data-validate').indexOf('validate-one-checkbox-required-by-name'));
                             error.appendTo('#links-advice-container');
-                        } else if (element.attr('data-validate')&& element.attr('data-validate').substring('validate-grouped-qty')) {
+                        } else if (element.attr('data-validate')&& element.attr('data-validate').indexOf('validate-grouped-qty') > 0) {
                             $('#super-product-table').siblings(this.errorElement + '.' + this.errorClass).remove();
                             $('#super-product-table').after(error);
                         } else if (element.is(':radio, :checkbox')) {
@@ -43,14 +44,23 @@
                         }
                     },
                     highlight: function (element, errorClass) {
-                        if ($(element).is(':radio, :checkbox')) {
+                        if ($(element).attr('data-validate') && $(element).attr('data-validate').indexOf('validate-required-datetime') > 0) {
+                            $(element).parent().find('.datetime-picker').each(function() {
+                                $(this).removeClass(errorClass);
+                                if ($(this).val().length === 0) {
+                                    $(this).addClass(errorClass);
+                                }
+                            });
+                        } else if ($(element).is(':radio, :checkbox')) {
                             $(element).closest('ul').addClass(errorClass);
                         } else {
                             $(element).addClass(errorClass);
                         }
                     },
                     unhighlight: function (element, errorClass) {
-                        if ($(element).is(':radio, :checkbox')) {
+                        if ($(element).attr('data-validate') && $(element).attr('data-validate').indexOf('validate-required-datetime') > 0) {
+                            $(element).parent().find('.datetime-picker').removeClass(errorClass);
+                        } else if ($(element).is(':radio, :checkbox')) {
                             $(element).closest('ul').removeClass(errorClass);
                         } else {
                             $(element).removeClass(errorClass);
