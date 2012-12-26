@@ -17,7 +17,7 @@
             <resource>Saas_PrintedTemplate::sales_pdf</resource>
             <group id="general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                 <label>General</label>
-                <field id="active" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="enable_printed_templates" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Enable Printed Templates</label>
                     <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                 </field>

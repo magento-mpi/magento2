@@ -31,8 +31,7 @@
             <action method="updateButton" ifconfig="sales_pdf/general/enable_printed_templates">
                 <id>print</id>
                 <key>onclick</key>
-                <!-- TODO: helper attribute is not supported in mage it should be refactored -->
-                <data helper="saas_printedtemplate/getPrintButtonOnclick">
+                <data helper="Saas_PrintedTemplate_Helper_Data::getPrintButtonOnclick">
                     <type>invoice</type>
                 </data>
             </action>
@@ -44,8 +43,7 @@
             <action method="updateButton" ifconfig="sales_pdf/general/enable_printed_templates">
                 <id>print</id>
                 <key>onclick</key>
-                <!-- TODO: helper attribute is not supported in mage it should be refactored -->
-                <data helper="saas_printedtemplate/getPrintButtonOnclick">
+                <data helper="Saas_PrintedTemplate_Helper_Data::getPrintButtonOnclick">
                     <type>creditmemo</type>
                 </data>
             </action>
@@ -57,8 +55,7 @@
             <action method="updateButton" ifconfig="sales_pdf/general/enable_printed_templates">
                 <id>print</id>
                 <key>onclick</key>
-                <!-- TODO: helper attribute is not supported in mage it should be refactored -->
-                <data helper="saas_printedtemplate/getPrintButtonOnclick">
+                <data helper="Saas_PrintedTemplate_Helper_Data::getPrintButtonOnclick">
                     <type>shipment</type>
                 </data>
             </action>
