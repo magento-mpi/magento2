@@ -31,7 +31,7 @@ class Saas_PrintedTemplate_Model_Variable_Config extends Saas_PrintedTemplate_Mo
      */
     protected function _initVariable()
     {
-        $this->_taxConfig = Mage::helper('tax')->getConfig();
+        $this->_taxConfig = Mage::helper('Mage_Tax_Helper_Data')->getConfig();
     }
 
     /**
