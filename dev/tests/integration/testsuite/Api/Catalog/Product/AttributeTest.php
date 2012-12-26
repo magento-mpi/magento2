@@ -13,7 +13,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Api_Catalog_Product_AttributeTest extends Magento_Test_TestCase_ApiAbstract
+class Catalog_Product_AttributeTest extends Magento_Test_TestCase_ApiAbstract
 {
     /**
      * Tests attribute creation with invalid characters in attribute code (possible SQL injection)

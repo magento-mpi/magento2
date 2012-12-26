@@ -13,7 +13,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Api_LoginTest extends Magento_Test_TestCase_ApiAbstract
+class LoginTest extends Magento_Test_TestCase_ApiAbstract
 {
     /**
      * Restore session to make possible another tests work

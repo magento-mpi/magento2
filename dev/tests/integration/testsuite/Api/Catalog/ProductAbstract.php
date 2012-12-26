@@ -8,7 +8,7 @@
 /**
  * Abstract class for products resource tests
  */
-abstract class Api_Catalog_ProductAbstract extends Magento_Test_TestCase_ApiAbstract
+abstract class Catalog_ProductAbstract extends Magento_Test_TestCase_ApiAbstract
 {
     /**
      * Map common fixtures keys to soap wsdl.

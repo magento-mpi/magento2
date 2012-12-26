@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Api_Catalog_Product_Attribute_TierPriceTest extends Magento_Test_TestCase_ApiAbstract
+class Catalog_Product_Attribute_TierPriceTest extends Magento_Test_TestCase_ApiAbstract
 {
     /**
      * Set up product fixture

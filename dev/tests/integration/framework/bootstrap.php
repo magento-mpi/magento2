@@ -82,7 +82,7 @@ $eventManager = new Magento_Test_EventManager(array(
         new Magento_Test_Annotation_DataFixture("$testsBaseDir/testsuite"),
     ))),
     new Magento_Test_Annotation_ConfigFixture(),
-    new Magento_Test_Annotation_ApiDataFixture("$testsBaseDir/testsuite"),
+    new Magento_Test_Annotation_ApiDataFixture("$testsBaseDir/testsuite/api"),
 ));
 Magento_Test_Event_PhpUnit::setDefaultEventManager($eventManager);
 Magento_Test_Event_Magento::setDefaultEventManager($eventManager);
