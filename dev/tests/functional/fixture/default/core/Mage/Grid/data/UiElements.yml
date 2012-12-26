@@ -8,7 +8,7 @@
 # @license     {license_link}
 #
 ---
-#Test data for verification  ui elements in grids
+#dataset for ui elements in Manage Admin Users grid
 manage_admin_users:
     button:
         reset_filter:
@@ -33,6 +33,8 @@ manage_admin_users:
         3: Last Name
         4: Email
         5: Status
+
+#dataset for ui elements in Admin Users Roles grid
 role_users:
     button:
         reset_filter:
@@ -52,6 +54,8 @@ role_users:
         select_all:
     pageelement:
         role_user_grid:
+
+#dataset for ui elements in Manage Role grid
 manage_roles:
     button:
         reset_filter:
@@ -68,6 +72,8 @@ manage_roles:
     headers:
         0: ID
         1: Role Name
+
+#dataset for ui elements in Transactional Emails grid
 system_email_template:
     fieldset:
         system_email_template_grid: tablename
@@ -94,6 +100,8 @@ system_email_template:
         4: Subject
         5: Template Type
         6: Action
+
+#dataset for ui elements in System Design grid
 system_design:
     fieldset:
         design_grid: tablename
@@ -116,6 +124,8 @@ system_design:
         1: Design
         2: Date From
         3: Date To
+
+#dataset for ui elements in XML Sitemap grid
 xml_sitemap:
     fieldset:
         xml_sitemap_grid: tablename
@@ -142,6 +152,8 @@ xml_sitemap:
         4: Last Time Generated
         5: Store View
         6: Action
+
+#dataset for ui elements in User Role grid
 user_role:
     fieldset:
         permissions_user_roles: tablename
@@ -158,6 +170,8 @@ user_role:
     headers:
         0: Assigned
         1: Role Name
+
+#dataset for ui elements in Url Rewrite Managment
 url_rewrite_management:
     fieldset:
         url_rewrite_grid: tablename
@@ -185,6 +199,8 @@ url_rewrite_management:
         5: Target Path
         6: Options
         7: Action
+
+#dataset for ui elements in Permissions Locked Users
 permissions_locked_users:
     fieldset:
         locked_user_grid: tablename
@@ -202,9 +218,10 @@ permissions_locked_users:
         0: ' '
         1: ID
         2: Username
-        3: Last Login
+        3: Last login
         4: Failures
         5: Locked until
+
 #dataset for ui elements in Manage Attribute Sets grid
 manage_attribute_sets:
     fieldset:
@@ -360,7 +377,7 @@ system_custom_variables:
         0: Variable ID
         1: Variable Code
         2: Name
-# dataset for ui elements for Report Customers Review grid
+#dataset for ui elements for Report Customers Review grid
 report_review_customer:
     fieldset:
         customer_review_grid: tablename
@@ -396,7 +413,8 @@ manage_stores:
         0: Website Name
         1: Store Name
         2: Store View Name
-# dataset for ui elements for Report Product Review grid
+
+#dataset for ui elements for Report Product Review grid
 report_review_product:
     fieldset:
         product_review_grid: tablename

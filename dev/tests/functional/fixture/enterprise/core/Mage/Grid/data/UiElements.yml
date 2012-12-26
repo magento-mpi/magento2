@@ -8,8 +8,7 @@
 # @license     {license_link}
 #
 ---
-#Test data for verification  ui elements in grids
-
+#dataset for ui elements in Manage Admin Users grid
 manage_roles:
     button:
         reset_filter:
