@@ -67,7 +67,7 @@ class Mage_Core_Block_Html_Date_Jquery_Calendar extends Mage_Core_Block_Html_Dat
         }
 
         /* First include jquery-ui. */
-        $jsFiles = '"' . $this->getViewFileUrl("jquery/ui/jquery-ui.js") . '", ';
+        $jsFiles = '"' . $this->getViewFileUrl("jquery/jquery-ui.min.js") . '", ';
 
         /* There are a small handful of localized files that use the 5 character locale. */
         $locale = str_replace('_', '-', Mage::app()->getLocale()->getLocaleCode());

@@ -19,7 +19,7 @@ return array(
         '/pub/lib/globalize',
         '/pub/lib/mage/localization',
         '/pub/lib/mage/validation',
-        '/pub/lib/jquery/jquery-ui-1.9.1.custom.min.js',
+        '/pub/lib/jquery/jquery-ui.min.js',
         '/pub/lib/jquery/ui/i18n',
         '/pub/lib/jquery/jquery-ui-timepicker-addon.js',
         '/pub/lib/jquery/jquery.tmpl.min.js',
