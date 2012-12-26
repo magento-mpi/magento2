@@ -94,6 +94,16 @@
         </di>
     </global>
     <frontend>
+        <events>
+            <controller_action_layout_generate_blocks_after>
+                <observers>
+                    <add_theme_customization>
+                        <class>Mage_Core_Model_Observer</class>
+                        <method>addThemeCustomization</method>
+                    </add_theme_customization>
+                </observers>
+            </controller_action_layout_generate_blocks_after>
+        </events>
         <routers>
             <core>
                 <use>standard</use>

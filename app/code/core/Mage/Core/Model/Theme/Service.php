@@ -284,4 +284,34 @@ class Mage_Core_Model_Theme_Service
 
         return $storesByThemes;
     }
+
+    /**
+     * Add theme customization
+     *
+     * @param Mage_Core_Model_Layout $layout
+     * @return Mage_Core_Model_Theme_Service
+     */
+    public function addThemeCustomization($layout)
+    {
+        $this->_addCssCustomization($layout);
+        return $this;
+    }
+
+    /**
+     * Add css customization
+     *
+     * @param Mage_Core_Model_Layout $layout
+     * @return Mage_Core_Model_Theme_Service
+     */
+    protected function _addCssCustomization($layout)
+    {
+        /** @var $theme Mage_Core_Model_Theme */
+        $theme = $this->_design->getDesignTheme();
+        /** @var $customCssFile Mage_Core_Model_Theme_Files */
+        $customCssFile = $theme->getCustomCssFile();
+        if ($customCssFile->getFileName()) {
+            $layout->getBlock('head')->addCss($theme->getId() . '/' . $customCssFile->getFileName());
+        }
+        return $this;
+    }
 }
