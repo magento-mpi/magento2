@@ -109,7 +109,43 @@ class Core_Mage_Product_Create_ConfigurableWithVariations extends Mage_Selenium_
         $this->assertMessagePresent('success', 'success_attribute_set_saved');
 
         return array('attribute' => array($attributeThird['admin_title'], $attributeForth['admin_title']),
-                     'matrix'    => $this->_getVariationsForTwoAttributes($attributeThird, $attributeForth));
+                     'attributeCode' => array($attributeThird['attribute_code'], $attributeForth['attribute_code']),
+                     'matrix'    => $this->_getVariationsForTwoAttributes($attributeThird, $attributeForth),
+                     );
+    }
+
+    /**
+     * <p>Create Configurable attributes with special values: xss injection ans special characters</p>
+     *
+     * @return array
+     *
+     * @test
+     */
+    public function createConfigurableAttribute()
+    {
+        $xssAttribute = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options',
+            array(
+                'attribute_code' => 'xss_%randomize%',
+                'admin_title' => 'XSS',
+                'option_1' => array('admin_option_name' => "<script>alert('xss option');</script>")
+            )
+        );
+        $specialCharacters = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options',
+            array(
+                'attribute_code' => 'special_characters_%randomize%',
+                'admin_title' => str_replace(array(',', '"', "'"), '?', $this->generate('string', 30, ':punct:'))
+            )
+        );
+        $this->navigate('manage_attributes');
+        $this->productAttributeHelper()->createAttribute($xssAttribute);
+        $this->assertMessagePresent('success', 'success_saved_attribute');
+        $this->productAttributeHelper()->createAttribute($specialCharacters);
+        $this->assertMessagePresent('success', 'success_saved_attribute');
+
+        return array(
+            'attribute_xss' => $xssAttribute['admin_title'],
+            'attribute_spec' => $specialCharacters['admin_title'],
+        );
     }
 
     /**
@@ -449,5 +485,170 @@ class Core_Mage_Product_Create_ConfigurableWithVariations extends Mage_Selenium_
             array('attribute_xss'),
             array('attribute_spec'),
         );
+    }
+
+    /**
+     * <p>Exclude existed configurable attribute’s option from variation matrix</p>
+     *
+     * @param array $data
+     *
+     * @test
+     * @depends setConfigurableAttributesToDefault
+     * @testLinkId TL-MAGE-6531
+     */
+    public function excludeOptionFromMatrix($data)
+    {
+        //Data
+        $configurable = $this->loadDataSet('Product', 'configurable_product_visible',
+            array('general_configurable_attribute_title' => $data['attribute'][0]));
+        $excludedOption = $data['matrix'][7][6];
+        $oneAttributeMatrix = array('1' => array('2' => $configurable['prices_price'], '6' => $data['matrix'][1][6]),
+                                    '2' => array('2' => $configurable['prices_price'], '6' => $data['matrix'][4][6]),
+                                    '3' => array('2' => $configurable['prices_price'], '6' => $data['matrix'][7][6]));
+        //Steps
+        $this->productHelper()->createProduct($configurable, 'configurable', false);
+        $this->productHelper()->verifyConfigurableVariations($oneAttributeMatrix);
+        $this->productHelper()->assignAllConfigurableVariations();
+        $this->saveForm('save');
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->openProduct(array('product_sku' => $configurable['general_sku']));
+        $this->productHelper()->changeAttributeValueSelection($data['attributeCode'][0], $excludedOption, false);
+        //Verifying
+        $this->addParameter('attributeSearch', "contains(.,'$excludedOption')");
+        $this->assertFalse($this->controlIsVisible('checkbox', 'include_variation'),
+            "Matrix contains unselected attribute value's data, but should not");
+    }
+
+    /**
+     * <p>Include new value of existed configurable attribute’s while editing created configurable product</p>
+     *
+     * @param array $data
+     *
+     * @test
+     * @depends setConfigurableAttributesToDefault
+     * @testLinkId TL-MAGE-6534
+     */
+    public function includeNewOption($data)
+    {
+        //Data
+        $configurable = $this->loadDataSet('Product', 'configurable_product_visible',
+            array('general_configurable_attribute_title' => $data['attribute'][0]));
+        $newOption = 'Option_Admin_' . $this->generate('string', 5, ':alnum:');
+        $oneAttributeMatrix = array(
+            '1' => array('2' => $configurable['prices_price'], '6' => $data['matrix'][1][6]),
+            '2' => array('2' => $configurable['prices_price'], '6' => $data['matrix'][4][6]),
+            '3' => array('2' => $configurable['prices_price'], '6' => $data['matrix'][7][6]));
+        //Preconditions. Create product
+        $this->productHelper()->createProduct($configurable, 'configurable', false);
+        $this->productHelper()->verifyConfigurableVariations($oneAttributeMatrix);
+        $this->productHelper()->assignAllConfigurableVariations();
+        $this->saveForm('save');
+        $this->assertMessagePresent('success', 'success_saved_product');
+        //Steps. Add new option to configurable attribute
+        $this->navigate('manage_attributes');
+        $this->productAttributeHelper()->openAttribute(array('attribute_label' => $data['attribute'][0]));
+        $this->openTab('manage_labels_options');
+        $this->clickButton('add_option');
+        $this->addParameter('fieldOptionNumber', 'option_3');
+        $this->fillField('admin_option_name', $newOption);
+        $this->saveForm('save_attribute');
+        $this->assertMessagePresent('success', 'success_saved_attribute');
+        //Steps.
+        $this->navigate('manage_products');
+        $this->productHelper()->openProduct(array('product_sku' => $configurable['general_sku']));
+        $this->productHelper()->changeAttributeValueSelection($data['attributeCode'][0], $newOption);
+        //Verifying
+        $this->addParameter('attributeSearch', "contains(.,'$newOption')");
+        $this->assertTrue($this->controlIsPresent('checkbox', 'include_variation'),
+            "Matrix does not contain selected attribute value's data, but should");
+    }
+
+    /**
+     * <p>Set price rule for value of configurable attribute while assign existed product</p>
+     *
+     * @param string $ruleType
+     * @param string $endPrice
+     * @param array $data
+     *
+     * @test
+     * @dataProvider priceRuleTypeDataProvider
+     * @depends setConfigurableAttributesToDefault
+     * @testLinkId TL-MAGE-6535, TL-MAGE-6536
+     */
+    public function setPriceRuleForVariationWhileCreateVariations($ruleType, $endPrice, $data)
+    {
+        //Data
+        $configurable = $this->loadDataSet('Product', 'configurable_product_visible',
+            array('general_configurable_attribute_title' => $data['attribute'][0]));
+        $ruleOption = $data['matrix'][1][6];
+        //Steps
+        $this->productHelper()->createProduct($configurable, 'configurable', false);
+        $this->openTab('general');
+        $this->addParameter('attributeCode', str_replace(array('_'), '-', $data['attributeCode'][0]));
+        $this->fillCheckbox('have_price_variations', 'Yes');
+        $this->addParameter('optionName', $ruleOption);
+        $this->fillField('option_change_price', '50');
+        $this->fillDropdown('option_price_rule_type', $ruleType);
+        $this->clickButton('generate_product_variations');
+        $this->waitForNewPage();
+        $this->saveForm('save');
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->openProduct(array('product_sku' => $configurable['general_sku']));
+        //Verification. Backend
+        $this->addParameter('attributeSearch', "contains(.,'$ruleOption')");
+        $this->assertEquals($endPrice, $this->getControlAttribute('pageelement', 'variation_price', 'text'));
+    }
+
+    /**
+     * DataProvider for price rule types and appropriate variation price.
+     * Price of configurable product in dataSet = 18.95 and $endPrice depends on it
+     *
+     * @return array
+     */
+    public function priceRuleTypeDataProvider()
+    {
+        return array(
+            array('Fixed', '68.95'),
+            array('Percentage', '28.425'),
+        );
+    }
+
+    /**
+     * <p>Set price rule for value of configurable attribute while assign existed product</p>
+     *
+     * @param string $ruleType
+     * @param string $endPrice
+     * @param array $data
+     *
+     * @test
+     * @dataProvider priceRuleTypeDataProvider
+     * @depends setConfigurableAttributesToDefault
+     * @testLinkId TL-MAGE-6537, TL-MAGE-6538
+     */
+    public function setPriceRuleForVariationWhileAssignExistedProduct($ruleType, $endPrice, $data)
+    {
+        //Data
+        $configurable = $this->loadDataSet('Product', 'configurable_product_visible',
+            array('general_configurable_attribute_title' => $data['attribute'][0]));
+        $ruleOption = $data['matrix'][1][6];
+        //Steps
+        $this->productHelper()->createProduct($configurable, 'configurable', false);
+        $this->productHelper()->assignAllConfigurableVariations();
+        $this->saveForm('save');
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->openProduct(array('product_sku' => $configurable['general_sku']));
+        $this->addParameter('attributeCode', str_replace(array('_'), '-', $data['attributeCode'][0]));
+        $this->fillCheckbox('have_price_variations', 'Yes');
+        $this->addParameter('optionName', $data['matrix'][1][6]);
+        $this->fillField('option_change_price', '50');
+        $this->fillDropdown('option_price_rule_type', $ruleType);
+        $this->clickButton('generate_product_variations');
+        $this->waitForNewPage();
+        $this->saveForm('save');
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->openProduct(array('product_sku' => $configurable['general_sku']));
+        //Verification. Backend
+        $this->addParameter('attributeSearch', "contains(.,'$ruleOption')");
+        $this->assertEquals($endPrice, $this->getControlAttribute('pageelement', 'variation_price', 'text'));
     }
 }

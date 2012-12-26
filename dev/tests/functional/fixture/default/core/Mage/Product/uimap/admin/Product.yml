@@ -194,6 +194,7 @@ new_product:
                                     pageelements:
                                         variation_line: //tbody/tr
                                         attribute_header: //thead//th[text()='%attributeTitle%')]
+                                        variation_price: //tbody/tr[%attributeSearch%]//td[@class='associated-matrix-product-price']
                                     buttons:
                                         choose: //tbody/tr[%attributeSearch%]//button[@class='choose-product']
                                     fields:
@@ -217,6 +218,21 @@ new_product:
                                         associated_quantity: //td[normalize-space(@class)='associated-product-qty']
                                         associated_inventory: //td[6]
                                         associated_weight: //td[normalize-space(@class)='associated-product-weight']
+                            -
+                                attribute_block:
+                                    xpath: //*[@data-ui-id='admin-product-edit-tab-super-config-grid-container-schedule-block-attrribute-container-%attributeCode%']
+                                    pageelements:
+                                        delete_block: //*[@class='ui-icon ui-icon-circle-close remove']
+                                        expand_block: //*[@class='ui-icon ui-icon-circle-triangle-s toggle']
+                                    fields:
+                                        frontend_label: //*[@value='%attributeTitle']
+                                        option_change_price: //tbody//tr[contains(.,'%optionName%')]//*[@name = contains(.,'[price_value]')]/input[@type='text']
+                                    dropdowns:
+                                        option_price_rule_type: //tbody//tr[contains(.,'%optionName%')]//*[@name = contains(.,"[is_percent]")]/select
+                                    checkboxes:
+                                        use_default_label: //*[@class='entry-edit-head']//*[@name=contains(.,'[is_default]')]//*[@type='checkbox']
+                                        option_include: //tbody//tr[contains(.,'%optionName%')]//*[@type='checkbox']
+                                        have_price_variations: //*[@class='price-variation']
                 -
                     prices: &pricesTab
                         xpath: //a[@title='Prices']
@@ -792,33 +808,15 @@ edit_new_configurable_save_and_continue:
     title: %elementTitle% / Manage Products / Catalog / Magento Admin
     uimap: *editProduct
 
-create_empty_simple_from_configurable:
-    mca: catalog_product/new/set/%setId%/type/simple/required/%attrId%/popup/1/
+new_configurable_after_generation_matrix:
+    mca: catalog_product/new/set/%setId%/type/%productType%/#product-variations-matrix/
     title: New Product / Manage Products / Catalog / Magento Admin
     uimap: *newProduct
 
-create_simple_from_configurable:
-    mca: catalog_product/new/set/%setId%/type/simple/required/%attrId%/popup/1/product/%id%/
-    title: New Product / Manage Products / Catalog / Magento Admin
+edit_saved_configurable_after_generation_matrix:
+    mca: catalog_product/edit/id/%id%/#product-variations-matrix/
+    title: %elementTitle% / Manage Products / Catalog / Magento Admin
     uimap: *newProduct
-
-created_simple_from_configurable:
-    mca: catalog_product/created/id/%id%/edit/0/set/%setId%/type/simple/required/%attrId%/popup/1/product/%productId%/
-    title: Magento Admin
-    uimap:
-        form: *newProductCreationForm
-        buttons:
-            close_window: //button[span='Close Window']
-        messages: *productMesssages
-
-created_empty_simple_from_configurable:
-    mca: catalog_product/created/id/%id%/edit/0/set/%setId%/type/simple/required/%attrId%/popup/1/
-    title: Magento Admin
-    uimap:
-        form: *newProductCreationForm
-        buttons:
-            close_window: //button[span='Close Window']
-        messages: *productMesssages
 
 new_product_after_changed_attribute_set:
     mca: catalog_product/new/type/%productType%/?set=%setId%
