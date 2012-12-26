@@ -18,13 +18,21 @@
 class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Mage_Backend_Block_Widget
 {
     /**
+     * Internal constructor, that is called from real constructor
+     */
+    protected function _construct()
+    {
+        parent::_construct();
+        $this->setTemplate('Saas_PrintedTemplate::edit.phtml');
+    }
+
+    /**
      * Prepare buttons and form
      *
      * @return Mage_Core_Block_Abstract
      */
     protected function _prepareLayout()
     {
-        $this->setTemplate('Saas_PrintedTemplate::edit.phtml');
         $this->setChild('back_button',
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(

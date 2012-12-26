@@ -104,10 +104,24 @@ class Saas_PrintedTemplate_Model_Wysiwyg_Config extends Mage_Cms_Model_Wysiwyg_C
      */
     protected function getHeaderFooterPlugin()
     {
+        $designPackage = Mage::getDesign();
+        $designPackage->getViewFileUrl(
+            'Saas_PrintedTemplate::wysiwyg/tiny_mce/plugins/magentoheaderfooter/css/content.css'
+        );
+        $designPackage->getViewFileUrl(
+            'Saas_PrintedTemplate::wysiwyg/tiny_mce/plugins/magentoheaderfooter/img/footer-icon.gif'
+        );
+        $designPackage->getViewFileUrl(
+            'Saas_PrintedTemplate::wysiwyg/tiny_mce/plugins/magentoheaderfooter/img/header-icon.gif'
+        );
+        $designPackage->getViewFileUrl(
+            'Saas_PrintedTemplate::wysiwyg/tiny_mce/plugins/magentoheaderfooter/img/trans.gif'
+        );
         return array(
             array('name' => 'magentofooter',
-                'src' => Mage::getBaseUrl('js')
-                    . 'mage/adminhtml/wysiwyg/tiny_mce/plugins/magentoheaderfooter/editor_plugin.js',
+                'src' => $designPackage->getViewFileUrl(
+                    'Saas_PrintedTemplate::wysiwyg/tiny_mce/plugins/magentoheaderfooter/editor_plugin.js'
+                ),
                 'options' => array(
                     'title'   => Mage::helper('Saas_PrintedTemplate_Helper_Data')->__('Insert Footer Separator'),
                     'onclick' => "tinymce.plugins.MagentoheaderfooterPlugin.insertSeparatorToTextarea(
@@ -118,8 +132,9 @@ class Saas_PrintedTemplate_Model_Wysiwyg_Config extends Mage_Cms_Model_Wysiwyg_C
                 ),
             ),
             array('name' => 'magentoheader',
-                'src' => Mage::getBaseUrl('js')
-                    . 'mage/adminhtml/wysiwyg/tiny_mce/plugins/magentoheaderfooter/editor_plugin.js',
+                'src' => $designPackage->getViewFileUrl(
+                    'Saas_PrintedTemplate::wysiwyg/tiny_mce/plugins/magentoheaderfooter/editor_plugin.js'
+                ),
                 'options' => array(
                     'title'   => Mage::helper('Saas_PrintedTemplate_Helper_Data')->__('Insert Header Separator'),
                     'onclick' => "tinymce.plugins.MagentoheaderfooterPlugin.insertSeparatorToTextarea(
