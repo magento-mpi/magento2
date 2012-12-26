@@ -70,16 +70,6 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Get destination directory
-     *
-     * @return string
-     */
-    protected function _getDestinationDir()
-    {
-        return Mage::getBaseDir('var') . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'theme';
-    }
-
-    /**
      * Upload css file
      *
      * @param string $type
@@ -87,18 +77,16 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
      */
     public function uploadCssFile($type)
     {
-        $this->_validateCssMaxFileSize($type);
-
         /** @var $fileUploader Mage_Core_Model_File_Uploader */
         $fileUploader = Mage::getObjectManager()->get('Mage_Core_Model_File_Uploader', array($type));
         $fileUploader->setAllowedExtensions(array('css'));
         $fileUploader->setAllowRenameFiles(true);
         $fileUploader->setAllowCreateFolders(true);
 
-        $destinationDir = $this->_getDestinationDir();
+        $this->_validateCssMaxFileSize($fileUploader->getFileSize());
 
-        $fileUploader->save($destinationDir);
-        $this->setFilePath($destinationDir . DIRECTORY_SEPARATOR . $fileUploader->getUploadedFileName());
+        $file = $fileUploader->validateFile();
+        $this->setFilePath($file['tmp_name']);
         return $this;
     }
 
@@ -110,16 +98,6 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
     public function getFileContent()
     {
         return $this->_fileIo->read($this->getFilePath());
-    }
-
-    /**
-     * Remove temporary data
-     *
-     * @return bool
-     */
-    public function removeTemporaryData()
-    {
-        return $this->_fileIo->rmdirRecursive($this->_getDestinationDir());
     }
 
     /**
@@ -149,19 +127,14 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
     /**
      * Validate CSS max file size
      *
-     * @param string $type
+     * @param int $fileSize
      * @return Mage_Theme_Model_Uploader_Service
      */
-    protected function _validateCssMaxFileSize($type)
+    protected function _validateCssMaxFileSize($fileSize)
     {
-        if (!isset($_FILES[$type]['size'])) {
-            Mage::throwException('Invalid file type uploaded.');
-        }
-
-        if ($_FILES[$type]['size'] > $this->getCssUploadMaxSize()) {
+        if ($fileSize > $this->getCssUploadMaxSize()) {
             Mage::throwException("File size should be less than {$this->getCssUploadMaxSizeInMb()}M.");
         }
-
         return $this;
     }
 }
