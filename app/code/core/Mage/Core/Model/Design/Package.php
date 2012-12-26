@@ -419,6 +419,21 @@ class Mage_Core_Model_Design_Package
         return $this->_fallback[$cacheKey];
     }
 
+    protected function _createFallback($params)
+    {
+        $model = 'Mage_Core_Model_Design_Fallback_CachingProxy';
+        if (isset($params['skipProxy']) && $params['skipProxy']) {
+            $model = 'Mage_Core_Model_Design_Fallback';
+        }
+
+        $params['canSaveMap'] = (bool) (string) Mage::app()->getConfig()
+            ->getNode('global/dev/design_fallback/allow_map_update');
+        $params['mapDir'] = Mage::getConfig()->getTempVarDir() . '/maps/fallback';
+        $params['baseDir'] = Mage::getBaseDir();
+
+        return Mage::getModel($model, array('data' => $params));
+    }
+
     /**
      * Create fallback model
      *
