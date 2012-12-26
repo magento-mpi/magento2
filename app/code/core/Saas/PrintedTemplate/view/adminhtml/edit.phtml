@@ -220,8 +220,8 @@
         });
     }
 
-    var templateForm = new varienForm('printed_template_edit_form');
-    var templatePreviewForm = new varienForm('printed_template_preview_form');
+    var templateForm = jQuery('#printed_template_edit_form').form().validation();
+    var templatePreviewForm = jQuery('#printed_template_preview_form').form().validation();
     var templateControl = {
         checkTemplate: function(successHandler) {
             var onComplete = function(response) {
