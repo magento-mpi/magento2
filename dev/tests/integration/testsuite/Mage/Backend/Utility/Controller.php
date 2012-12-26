@@ -3,18 +3,18 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Backend
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * A parent class for adminhtml controllers - contains directives for admin user creation and logging in
+ * A parent class for backend controllers - contains directives for admin user creation and authentication
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  * @SuppressWarnings(PHPMD.numberOfChildren)
  */
-class Mage_Adminhtml_Utility_Controller extends Magento_Test_TestCase_ControllerAbstract
+class Mage_Backend_Utility_Controller extends Magento_Test_TestCase_ControllerAbstract
 {
     /**
      * @var Mage_Backend_Model_Auth_Session
