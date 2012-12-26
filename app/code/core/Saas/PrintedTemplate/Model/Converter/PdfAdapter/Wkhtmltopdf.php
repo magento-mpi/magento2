@@ -250,7 +250,7 @@ HTML;
             Mage::throwException('Cannot make temporary directory for html file');
         }
 
-        $tempFileName = Mage::helper('core')->uniqHash($prefix) . '.html';
+        $tempFileName = Mage::helper('Mage_Core_Helper_Data')->uniqHash($prefix) . '.html';
         $htmlFilePath = $tempDir . DS . $tempFileName;
 
         $result = file_put_contents($htmlFilePath, $content);

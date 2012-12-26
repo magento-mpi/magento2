@@ -112,7 +112,7 @@ class Saas_PrintedTemplate_Block_Widget_Field_Columns
             (isset($column['class']) ? $column['class'] : 'select') . ' skip-submit items-grid-field"'.
             (isset($column['style']) ? ' style="'.$column['style'] . '"' : '') . '>';
 
-        $options = Mage::getSingleton('Saas_PrintedTemplate_Config')->getItemPropertiesArray($type);
+        $options = Mage::getSingleton('Saas_PrintedTemplate_Model_Config')->getItemPropertiesArray($type);
         foreach ($options as $name => $params) {
             $html .= '<option value="' . $name . '">' . $this->__($params['label']) . '</option>';
         }
