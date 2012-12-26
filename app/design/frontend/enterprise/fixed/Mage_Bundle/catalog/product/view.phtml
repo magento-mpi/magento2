@@ -116,3 +116,10 @@ $_product = $this->getProduct();
         <?php endif;?>
         Enterprise.Bundle.initialize();
 </script>
+<script type="text/javascript">
+    (function($) {
+        head.js("<?php echo $this->getViewFileUrl('Mage_Bundle::js/slide.js')?>", function() {
+            $('#bundle-product-wrapper').slide();
+        });
+    })(jQuery);
+</script>
