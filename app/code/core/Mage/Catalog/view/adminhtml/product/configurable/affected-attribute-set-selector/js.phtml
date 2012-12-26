@@ -18,6 +18,13 @@
                 $form.find('.messages .error-msg').hide();
                 $form.find('form').validation().data('validator').resetForm();
             };
+
+        $('#product-edit-form').append($('<input>', {
+            type: 'hidden',
+            name: 'new-variations-attribute-set-id',
+            id: 'new-variations-attribute-set-id'
+        }));
+
         $form
             .dialog({
                 title: '<?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Choose Affected Attribute Set'); ?>',
@@ -90,13 +97,12 @@
                 if ($('#new-variations-attribute-set-id').val() != '') {
                     return; // affected attribute set was already chosen
                 }
-                var usedAttributes = $('#associated-products-container').data('usedAttributes') || [],
-                    extendingAttributes = [];
-                for (var i = 0, length = usedAttributes.length; i < length; i++) {
-                    if (!$('#attribute-' + usedAttributes[i].attribute_code + '-container').length) {
-                        extendingAttributes.push(usedAttributes[i].attribute_id);
+                var extendingAttributes = [];
+                $.each($('#associated-products-container').data('usedAttributes') || [], function () {
+                    if (!$('#attribute-' + this.attribute_code + '-container').length) {
+                        extendingAttributes.push(this.attribute_id);
                     }
-                }
+                });
                 if (!extendingAttributes.length) {
                     $('#new-variations-attribute-set-id').val($('#attribute_set_id').val());
                     return; // all selected configurable attributes belong to current attribute set

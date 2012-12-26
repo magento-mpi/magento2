@@ -43,11 +43,11 @@
                     if (attribute.id) {
                         $('#attributes-container').trigger('add', attribute);
                     }
-                    $(this).val('');
+                    $(this).val('').blur();
                     return false;
                 }
             })
-            .on('click focus', function () {
+            .on('focus', function () {
                 $(this).autocomplete('search');
             });
     });
