@@ -16,12 +16,13 @@
  * @package     Enterpise_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_CustomerSegment_Model_Resource_Grid_Collection extends Enterprise_CustomerSegment_Model_Resource_Segment_Collection
+class Enterprise_CustomerSegment_Model_Resource_Grid_Collection
+    extends Enterprise_CustomerSegment_Model_Resource_Segment_Collection
 {
     /**
      * Add websites for load
      *
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
+     * @return Mage_Core_Model_Resource_Db_Collection_Abstract|Enterprise_CustomerSegment_Model_Resource_Grid_Collection
      */
     protected function _initSelect()
     {
