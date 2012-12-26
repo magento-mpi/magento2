@@ -224,6 +224,7 @@ new_product:
                                     pageelements:
                                         delete_block: //*[@class='ui-icon ui-icon-circle-close remove']
                                         expand_block: //*[@class='ui-icon ui-icon-circle-triangle-s toggle']
+                                        drag: //*[@class='ui-icon ui-icon-arrowthick-2-n-s']
                                     fields:
                                         frontend_label: //*[@value='%attributeTitle']
                                         option_change_price: //tbody//tr[contains(.,'%optionName%')]//*[@name = contains(.,'[price_value]')]/input[@type='text']

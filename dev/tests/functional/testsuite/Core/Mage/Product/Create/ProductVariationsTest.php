@@ -651,4 +651,143 @@ class Core_Mage_Product_Create_ConfigurableWithVariations extends Mage_Selenium_
         $this->addParameter('attributeSearch', "contains(.,'$ruleOption')");
         $this->assertEquals($endPrice, $this->getControlAttribute('pageelement', 'variation_price', 'text'));
     }
+
+    /**
+     * @param array $defaultData
+     *
+     * @test
+     * @depends setConfigurableAttributesToDefault
+     * @TestlinkId TL-MAGE-6540
+     */
+    public function moveAttributeBlock($defaultData)
+    {
+        //Data
+        $associated = $this->loadDataSet('Product', 'generate_virtual_associated', null,
+            array('attribute_value_1' => $defaultData['matrix'][1][6]));
+        $productData = $this->loadDataSet('Product', 'configurable_product_visible',
+            array('general_configurable_attribute_title' => $defaultData['attribute'], 'configurable_1'=> $associated));
+        $verifyData = array($defaultData['attribute'][1], $defaultData['attribute'][0]);
+        //Steps
+        $this->productHelper()->createProduct($productData, 'configurable');
+        $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
+        $this->addParameter('attributeCode', $defaultData['attributeCode'][0]);
+        $attributeBlock1 = $this->getControlElement('pageelement', 'drag');
+        $this->addParameter('attributeCode', $defaultData['attributeCode'][1]);
+        $attributeBlock2 = $this->getControlElement('pageelement', 'drag');
+        $helper = $this->productHelper();
+        $helper->moveto($attributeBlock2);
+        $helper->buttondown();
+        $helper->moveto($attributeBlock1);
+        $helper->buttonup();
+        $this->saveForm('save');
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->frontend();
+        $this->productHelper()->frontOpenProduct($productData['general_name']);
+        foreach ($verifyData as $key => $value) {
+            $this->addParameter('rowNumber', $key+1);
+            $this->addParameter('title', $value);
+            $this->assertTrue($this->controlIsVisible('pageelement', 'product_custom_option_head_order'));
+        }
+    }
+
+    /**
+     * @param $defaultData
+     *
+     * @test
+     * @depends setConfigurableAttributesToDefault
+     * @TestlinkId TL-MAGE-6541
+     */
+    public function removeAttributeBlock($defaultData)
+    {
+        //Data
+        $associated = $this->loadDataSet('Product', 'generate_virtual_associated', null,
+            array('attribute_value_1' => $defaultData['matrix'][1][6]));
+        $productData = $this->loadDataSet('Product', 'configurable_product_visible',
+            array('general_configurable_attribute_title' => $defaultData['attribute'], 'configurable_1'=> $associated));
+        //Steps
+        $this->productHelper()->createProduct($productData, 'configurable');
+        $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
+        $this->addParameter('attributeCode', $defaultData['attributeCode'][0]);
+        $helper = $this->productHelper();
+        $helper->clickControl('pageelement', 'delete_block');
+        $this->saveForm('save');
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->frontOpenProduct($productData['general_name']);
+        $this->addParameter('title', $defaultData['attribute'][0]);
+        $this->assertFalse($this->controlIsVisible('pageelement', 'product_custom_option'));
+    }
+
+    /**
+     * @param string $value
+     * @param array $defaultData
+     *
+     * @test
+     * @dataProvider withFilledAttributeLabelDataProvider
+     * @depends setConfigurableAttributesToDefault
+     * @TestlinkId TL-MAGE-6542, TL-MAGE-6544
+     */
+    public function withFilledAttributeLabelField($value, $defaultData)
+    {
+        //Data
+        $associated = $this->loadDataSet('Product', 'generate_virtual_associated', null,
+            array('attribute_value_1' => $defaultData['matrix'][1][6]));
+        $productData = $this->loadDataSet('Product', 'configurable_product_visible',
+            array('general_configurable_attribute_title' => $defaultData['attribute'], 'configurable_1'=> $associated));
+        //Steps
+        $this->productHelper()->createProduct($productData, 'configurable');
+        $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
+        $this->addParameter('attributeCode', $defaultData['attributeCode'][1]);
+        $this->addParameter('attributeTitle', $defaultData['attribute'][1]);
+        $this->fillField('frontend_label', $value);
+        $this->clickButton('save');
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->frontOpenProduct($productData['general_name']);
+        $this->addParameter('title', $value);
+        $this->assertTrue($this->controlIsVisible('pageelement', 'product_custom_option'));
+    }
+
+    public function withFilledAttributeLabelDataProvider()
+    {
+        return array(
+            array($this->generate('string', 255, ':alnum:')),
+            array('<img src=example.com?nonexistent.jpg onerror=alert("xss")>'),
+            array($this->generate('string', 255, ':punct:'))
+        );
+    }
+
+    /**
+     * @param array $defaultData
+     *
+     * @test
+     * @depends setConfigurableAttributesToDefault
+     * @TestlinkId TL-MAGE-6543
+     */
+    public function withEmptyAttributeLabelField($defaultData)
+    {
+        //Data
+        $associated = $this->loadDataSet('Product', 'generate_virtual_associated', null,
+            array('attribute_value_1' => $defaultData['matrix'][1][6]));
+        $productData = $this->loadDataSet('Product', 'configurable_product_visible',
+            array('general_configurable_attribute_title' => $defaultData['attribute'],
+                  'configurable_1'=> $associated));
+        $value = '';
+        //Steps
+        $this->productHelper()->createProduct($productData, 'configurable');
+        $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
+        $this->addParameter('attributeCode', $defaultData['attributeCode'][1]);
+        $this->addParameter('attributeTitle', $defaultData['attribute'][1]);
+        $this->fillField('frontend_label', $value);
+        $this->clickButton('save');
+        $this->assertMessagePresent('validation', 'required_label');
+        $this->fillCheckbox('use_default_label', 'Yes');
+        $this->clickButton('save');
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->frontOpenProduct($productData['general_name']);
+        $this->addParameter('title', $defaultData['attribute'][1]);
+        $this->assertTrue($this->controlIsVisible('pageelement', 'product_custom_option'));
+    }
 }
