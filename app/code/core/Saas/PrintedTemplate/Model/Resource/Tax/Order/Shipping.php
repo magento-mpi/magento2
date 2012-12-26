@@ -23,6 +23,6 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping
      */
     protected function _construct()
     {
-        $this->_init('saas_printedtemplate_tax_order_shipping', 'shipping_tax_id');
+        $this->_init('saas_printed_template_order_shipping_tax', 'shipping_tax_id');
     }
 }

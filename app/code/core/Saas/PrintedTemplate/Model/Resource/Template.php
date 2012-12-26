@@ -24,7 +24,7 @@ class Saas_PrintedTemplate_Model_Resource_Template
      */
     protected function _construct()
     {
-        $this->_init('saas_printedtemplate_template', 'template_id');
+        $this->_init('saas_printed_template', 'template_id');
     }
 
     /**

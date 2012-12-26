@@ -24,6 +24,6 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Item
      */
     protected function _construct()
     {
-        $this->_init('saas_printedtemplate_order_item_tax', 'item_tax_id');
+        $this->_init('saas_printed_template_order_item_tax', 'item_tax_id');
     }
 }
