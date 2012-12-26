@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 /**
  * @magentoApiDataFixture Api/SalesOrder/_fixture/shipment.php
  */
@@ -37,19 +33,25 @@ class Api_SalesOrder_ShipmentTest extends Api_SalesOrder_AbstractTest
         $id = $order->getIncrementId();
 
         // Create new shipment
-        $newShipmentId = $this->call('order_shipment.create', array(
-            'orderIncrementId' => $id,
-            'itemsQty' => array(),
-            'comment' => 'Shipment Created',
-            'email' => true,
-            'includeComment' => true
-        ));
+        $newShipmentId = $this->call(
+            'order_shipment.create',
+            array(
+                'orderIncrementId' => $id,
+                'itemsQty' => array(),
+                'comment' => 'Shipment Created',
+                'email' => true,
+                'includeComment' => true
+            )
+        );
         self::setFixture('shipmentIncrementId', $newShipmentId);
 
         // View new shipment
-        $shipment = $this->call('sales_order_shipment.info', array(
-            'shipmentIncrementId' => $newShipmentId
-        ));
+        $shipment = $this->call(
+            'sales_order_shipment.info',
+            array(
+                'shipmentIncrementId' => $newShipmentId
+            )
+        );
 
         $this->assertEquals($newShipmentId, $shipment['increment_id']);
     }
@@ -77,13 +79,16 @@ class Api_SalesOrder_ShipmentTest extends Api_SalesOrder_AbstractTest
         $this->_setIncrementIdPrefix('shipment', $prefix);
 
         // Create new shipment
-        $newShipmentId = $this->call('order_shipment.create', array(
-            'orderIncrementId' => $id,
-            'itemsQty' => array(),
-            'comment' => 'Shipment Created',
-            'email' => true,
-            'includeComment' => true
-        ));
+        $newShipmentId = $this->call(
+            'order_shipment.create',
+            array(
+                'orderIncrementId' => $id,
+                'itemsQty' => array(),
+                'comment' => 'Shipment Created',
+                'email' => true,
+                'includeComment' => true
+            )
+        );
         self::setFixture('shipmentIncrementId', $newShipmentId);
 
         $this->assertTrue(is_string($newShipmentId), 'Increment Id is not a string');
@@ -109,22 +114,28 @@ class Api_SalesOrder_ShipmentTest extends Api_SalesOrder_AbstractTest
         $id = $order->getIncrementId();
 
         // Create new shipment
-        $newShipmentId = $this->call('order_shipment.create', array(
-            'orderIncrementId' => $id,
-            'itemsQty' => array(),
-            'comment' => 'Shipment Created',
-            'email' => false,
-            'includeComment' => true
-        ));
+        $newShipmentId = $this->call(
+            'order_shipment.create',
+            array(
+                'orderIncrementId' => $id,
+                'itemsQty' => array(),
+                'comment' => 'Shipment Created',
+                'email' => false,
+                'includeComment' => true
+            )
+        );
         $this->assertGreaterThan(0, strlen($newShipmentId));
         self::setFixture('shipmentIncrementId', $newShipmentId);
 
         // Send info
-        $isOk = $this->call('order_shipment.sendInfo', array(
-            'shipmentIncrementId' => $newShipmentId,
-            'comment' => $id
-        ));
+        $isOk = $this->call(
+            'order_shipment.sendInfo',
+            array(
+                'shipmentIncrementId' => $newShipmentId,
+                'comment' => $id
+            )
+        );
 
-        $this->assertTrue((bool) $isOk);
+        $this->assertTrue((bool)$isOk);
     }
 }

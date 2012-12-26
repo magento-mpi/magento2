@@ -1,46 +1,42 @@
 <?php
 /**
+ * Customer balance quote tests.
+ *
  * {license_notice}
  *
- * @category    Paas
- * @package     integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * CustomerBalance tests
- *
- * @category   Paas
- * @package    integration_tests
- * @author     Magento PaaS Team <paas-team@magento.com>
- */
-
-/**
  * @magentoApiDataFixture Api/CustomerBalance/_fixture/Quote.php
  */
-class Api_CustomerBalance_QuoteTest extends Magento_Test_Webservice
+class Api_CustomerBalance_QuoteTest extends Magento_Test_TestCase_ApiAbstract
 {
     /**
      * Customer fixture
+     *
      * @var Mage_Customer_Model_Customer
      */
     public static $customer = null;
 
     /**
      * Product fixture
+     *
      * @var Mage_Catalog_Model_Product
      */
     public static $product = null;
 
     /**
      * Shopping cart fixture
+     *
      * @var Mage_Sales_Model_Quote
      */
     public static $quote = null;
 
     /**
      * Shopping cart created by guest fixture
+     *
      * @var Mage_Sales_Model_Quote
      */
     public static $guestQuote = null;

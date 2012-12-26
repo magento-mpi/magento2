@@ -2,17 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 /**
  * @magentoApiDataFixture Api/Catalog/Product/_fixture/CustomOption.php
  */
-class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
+class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_TestCase_ApiAbstract
 {
     /**
      * @var array
@@ -26,34 +22,44 @@ class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
     {
         $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOption.xml');
         $customOptions = self::simpleXmlToArray($customOptionFixture->CustomOptionsToAdd);
-        $store = (string) $customOptionFixture->store;
-        $fixtureProductId = Magento_Test_Webservice::getFixture('productData')->getId();
+        $store = (string)$customOptionFixture->store;
+        $fixtureProductId = Magento_Test_TestCase_ApiAbstract::getFixture('productData')->getId();
 
-        $createdOptionBefore = $this->call('product_custom_option.list', array(
-            'productId' => $fixtureProductId,
-            'store' => $store
-        ));
+        $createdOptionBefore = $this->call(
+            'product_custom_option.list',
+            array(
+                'productId' => $fixtureProductId,
+                'store' => $store
+            )
+        );
         $this->assertEmpty($createdOptionBefore);
 
         foreach ($customOptions as $option) {
             if (isset($option['additional_fields'])
-                and !is_array(reset($option['additional_fields']))) {
+                and !is_array(reset($option['additional_fields']))
+            ) {
                 $option['additional_fields'] = array($option['additional_fields']);
             }
 
-            $addedOptionResult = $this->call('product_custom_option.add', array(
-                'productId' => $fixtureProductId,
-                'data' => $option,
-                'store' => $store
-            ));
+            $addedOptionResult = $this->call(
+                'product_custom_option.add',
+                array(
+                    'productId' => $fixtureProductId,
+                    'data' => $option,
+                    'store' => $store
+                )
+            );
             $this->assertTrue((bool)$addedOptionResult);
         }
 
         // list
-        self::$createdOptionAfter = $this->call('product_custom_option.list', array(
-            'productId' => $fixtureProductId,
-            'store' => $store
-        ));
+        self::$createdOptionAfter = $this->call(
+            'product_custom_option.list',
+            array(
+                'productId' => $fixtureProductId,
+                'store' => $store
+            )
+        );
 
         $this->assertTrue(is_array(self::$createdOptionAfter));
         $this->assertEquals(count($customOptions), count(self::$createdOptionAfter));
@@ -66,9 +72,12 @@ class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
         $updateCounter = 0;
         $customOptionsToUpdate = self::simpleXmlToArray($customOptionFixture->CustomOptionsToUpdate);
         foreach (self::$createdOptionAfter as $option) {
-            $optionInfo = $this->call('product_custom_option.info', array(
-                'optionId' => $option['option_id']
-            ));
+            $optionInfo = $this->call(
+                'product_custom_option.info',
+                array(
+                    'optionId' => $option['option_id']
+                )
+            );
 
             $this->assertTrue(is_array($optionInfo));
             $this->assertGreaterThan(3, count($optionInfo));
@@ -76,30 +85,37 @@ class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
             if (isset($customOptionsToUpdate[$option['type']])) {
                 $toUpdateValues = $customOptionsToUpdate[$option['type']];
                 if (isset($toUpdateValues['additional_fields'])
-                    and !is_array(reset($toUpdateValues['additional_fields']))) {
+                    and !is_array(reset($toUpdateValues['additional_fields']))
+                ) {
                     $toUpdateValues['additional_fields'] = array($toUpdateValues['additional_fields']);
                 }
 
-                $updateOptionResult = $this->call('product_custom_option.update', array(
-                    'optionId' => $option['option_id'],
-                    'data' => $toUpdateValues
-                ));
+                $updateOptionResult = $this->call(
+                    'product_custom_option.update',
+                    array(
+                        'optionId' => $option['option_id'],
+                        'data' => $toUpdateValues
+                    )
+                );
                 $this->assertTrue((bool)$updateOptionResult);
-                $updateCounter ++;
+                $updateCounter++;
 
-                $optionInfoAfterUpdate = $this->call('product_custom_option.info', array(
-                    'optionId' => $option['option_id']
-                ));
+                $optionInfoAfterUpdate = $this->call(
+                    'product_custom_option.info',
+                    array(
+                        'optionId' => $option['option_id']
+                    )
+                );
 
-                foreach($toUpdateValues as $key => $value) {
-                    if(is_string($value)) {
+                foreach ($toUpdateValues as $key => $value) {
+                    if (is_string($value)) {
                         self::assertEquals($value, $optionInfoAfterUpdate[$key]);
                     }
                 }
 
                 if (isset($toUpdateValues['additional_fields'])) {
                     $updateAdditionalFields = reset($toUpdateValues['additional_fields']);
-                    if (TESTS_WEBSERVICE_TYPE == Magento_Test_Webservice::TYPE_SOAPV2_WSI) {
+                    if (TESTS_WEBSERVICE_TYPE == Magento_Test_TestCase_ApiAbstract::TYPE_SOAP_WSI) {
                         // incorrect in case additional_fields count > 1
                         $actualAdditionalFields = $optionInfoAfterUpdate['additional_fields'];
                     } else {
@@ -143,15 +159,19 @@ class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
     protected function _updateOption($optionId, $option, $store = null)
     {
         if (isset($option['additional_fields'])
-            and !is_array(reset($option['additional_fields']))) {
+            and !is_array(reset($option['additional_fields']))
+        ) {
             $option['additional_fields'] = array($option['additional_fields']);
         }
 
-        return $this->call('product_custom_option.update', array(
-            'optionId' => $optionId,
-            'data' => $option,
-            'store' => $store
-        ));
+        return $this->call(
+            'product_custom_option.update',
+            array(
+                'optionId' => $optionId,
+                'data' => $option,
+                'store' => $store
+            )
+        );
     }
 
     /**
@@ -166,14 +186,18 @@ class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
 
         $option = reset($customOptions);
         if (isset($option['additional_fields'])
-            and !is_array(reset($option['additional_fields']))) {
+            and !is_array(reset($option['additional_fields']))
+        ) {
             $option['additional_fields'] = array($option['additional_fields']);
         }
         $this->setExpectedException(self::DEFAULT_EXCEPTION);
-        $this->call('product_custom_option.add', array(
-            'productId' => 'invalid_id',
-            'data' => $option
-        ));
+        $this->call(
+            'product_custom_option.add',
+            array(
+                'productId' => 'invalid_id',
+                'data' => $option
+            )
+        );
     }
 
     /**
@@ -183,8 +207,8 @@ class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
      */
     public function testCustomOptionAddExceptionAdditionalFieldsNotSet()
     {
-        $fixtureProductId = Magento_Test_Webservice::getFixture('productData')->getId();
-        $customOptionFixture = simplexml_load_file(dirname(__FILE__).'/_fixture/_data/xml/CustomOption.xml');
+        $fixtureProductId = Magento_Test_TestCase_ApiAbstract::getFixture('productData')->getId();
+        $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOption.xml');
         $customOptions = self::simpleXmlToArray($customOptionFixture->CustomOptionsToAdd);
 
         $option = $customOptions['field'];
@@ -201,21 +225,25 @@ class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
      */
     public function testCustomOptionDateTimeAddExceptionStoreNotExist()
     {
-        $fixtureProductId = Magento_Test_Webservice::getFixture('productData')->getId();
+        $fixtureProductId = Magento_Test_TestCase_ApiAbstract::getFixture('productData')->getId();
         $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOption.xml');
         $customOptions = self::simpleXmlToArray($customOptionFixture->CustomOptionsToAdd);
 
         $option = reset($customOptions);
         if (isset($option['additional_fields'])
-            and !is_array(reset($option['additional_fields']))) {
+            and !is_array(reset($option['additional_fields']))
+        ) {
             $option['additional_fields'] = array($option['additional_fields']);
         }
         $this->setExpectedException(self::DEFAULT_EXCEPTION);
-        $this->call('product_custom_option.add', array(
-            'productId' => $fixtureProductId,
-            'data' => $option,
-            'store' => 'some_store_name'
-        ));
+        $this->call(
+            'product_custom_option.add',
+            array(
+                'productId' => $fixtureProductId,
+                'data' => $option,
+                'store' => 'some_store_name'
+            )
+        );
     }
 
     /**
@@ -225,14 +253,17 @@ class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
      */
     public function testCustomOptionListExceptionProductNotExists()
     {
-        $customOptionFixture = simplexml_load_file(dirname(__FILE__).'/_fixture/_data/xml/CustomOption.xml');
-        $store = (string) $customOptionFixture->store;
+        $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOption.xml');
+        $store = (string)$customOptionFixture->store;
 
         $this->setExpectedException(self::DEFAULT_EXCEPTION);
-        $this->call('product_custom_option.list', array(
-            'productId' => 'unknown_id',
-            'store' => $store
-        ));
+        $this->call(
+            'product_custom_option.list',
+            array(
+                'productId' => 'unknown_id',
+                'store' => $store
+            )
+        );
     }
 
     /**
@@ -242,13 +273,16 @@ class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
      */
     public function testCustomOptionListExceptionStoreNotExists()
     {
-        $fixtureProductId = Magento_Test_Webservice::getFixture('productData')->getId();
+        $fixtureProductId = Magento_Test_TestCase_ApiAbstract::getFixture('productData')->getId();
 
         $this->setExpectedException(self::DEFAULT_EXCEPTION);
-        $this->call('product_custom_option.list', array(
-            'productId' => $fixtureProductId,
-            'store' => 'unknown_store_name'
-        ));
+        $this->call(
+            'product_custom_option.list',
+            array(
+                'productId' => $fixtureProductId,
+                'store' => 'unknown_store_name'
+            )
+        );
     }
 
     /**
@@ -280,9 +314,12 @@ class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
     {
         // Remove
         foreach (self::$createdOptionAfter as $option) {
-            $removeOptionResult = $this->call('product_custom_option.remove', array(
-                'optionId' => $option['option_id']
-            ));
+            $removeOptionResult = $this->call(
+                'product_custom_option.remove',
+                array(
+                    'optionId' => $option['option_id']
+                )
+            );
             $this->assertTrue((bool)$removeOptionResult);
         }
 

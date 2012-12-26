@@ -2,14 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-class Api_GiftCard_CustomerTest extends Magento_Test_Webservice
+class Api_GiftCard_CustomerTest extends Magento_Test_TestCase_ApiAbstract
 {
     /**
      * Test giftcard customer info by code
@@ -54,7 +50,8 @@ class Api_GiftCard_CustomerTest extends Magento_Test_Webservice
         $storeId = 1;
 
         $result = $this->call(
-            'giftcard_customer.redeem', array('code' => $code, 'customerId' => $customerId, 'storeId' => $storeId)
+            'giftcard_customer.redeem',
+            array('code' => $code, 'customerId' => $customerId, 'storeId' => $storeId)
         );
         $this->assertTrue($result);
 
@@ -67,7 +64,8 @@ class Api_GiftCard_CustomerTest extends Magento_Test_Webservice
         //Test giftcard already redeemed
         $this->setExpectedException(self::DEFAULT_EXCEPTION);
         $this->call(
-            'giftcard_customer.redeem', array('code' => $code, 'customerId' => $customerId, 'storeId' => $storeId)
+            'giftcard_customer.redeem',
+            array('code' => $code, 'customerId' => $customerId, 'storeId' => $storeId)
         );
     }
 

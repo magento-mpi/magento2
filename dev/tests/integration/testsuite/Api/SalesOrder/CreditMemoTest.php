@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Api_SalesOrder_CreditMemoTest extends Api_SalesOrder_AbstractTest
 {
     /**
@@ -38,15 +34,23 @@ class Api_SalesOrder_CreditMemoTest extends Api_SalesOrder_AbstractTest
 
         //Test add comment
         $commentText = 'Creditmemo comment';
-        $this->assertTrue((bool) $this->call('order_creditmemo.addComment', array(
-            'creditmemoIncrementId' => $creditMemoIncrementId,
-            'comment' => $commentText
-        )));
+        $this->assertTrue(
+            (bool)$this->call(
+                'order_creditmemo.addComment',
+                array(
+                    'creditmemoIncrementId' => $creditMemoIncrementId,
+                    'comment' => $commentText
+                )
+            )
+        );
 
         //Test info
-        $creditmemoInfo = $this->call('order_creditmemo.info', array(
-            'creditmemoIncrementId' => $creditMemoIncrementId
-        ));
+        $creditmemoInfo = $this->call(
+            'order_creditmemo.info',
+            array(
+                'creditmemoIncrementId' => $creditMemoIncrementId
+            )
+        );
 
         $this->assertInternalType('array', $creditmemoInfo);
         $this->assertNotEmpty($creditmemoInfo);
@@ -97,12 +101,15 @@ class Api_SalesOrder_CreditMemoTest extends Api_SalesOrder_AbstractTest
         $order = self::getFixture('order');
         $overRefundAmount = $order->getGrandTotal() + 10;
 
-        $this->call('order_creditmemo.create', array(
-            'creditmemoIncrementId' => $order->getIncrementId(),
-            'creditmemoData' => array(
-                'adjustment_positive' => $overRefundAmount
+        $this->call(
+            'order_creditmemo.create',
+            array(
+                'creditmemoIncrementId' => $order->getIncrementId(),
+                'creditmemoData' => array(
+                    'adjustment_positive' => $overRefundAmount
+                )
             )
-        ));
+        );
     }
 
     /**
@@ -111,7 +118,7 @@ class Api_SalesOrder_CreditMemoTest extends Api_SalesOrder_AbstractTest
     public function testListEmptyFilter()
     {
         $filter = array('order_id' => 'invalid-id');
-        if (self::$_adapterRegistry[self::$_defaultAdapterCode] instanceof Magento_Test_Webservice_SoapV2) {
+        if (self::$_clients[self::$_defaultAdapterCode] instanceof Magento_Test_TestCase_Api_Client_Soap) {
             $filter = array(
                 'filter' => array(array('key' => 'order_id', 'value' => 'invalid-id'))
             );
@@ -128,10 +135,13 @@ class Api_SalesOrder_CreditMemoTest extends Api_SalesOrder_AbstractTest
      */
     public function testCreateInvalidOrderException()
     {
-        $this->call('order_creditmemo.create', array(
-            'creditmemoIncrementId' => 'invalid-id',
-            'creditmemoData' => array()
-        ));
+        $this->call(
+            'order_creditmemo.create',
+            array(
+                'creditmemoIncrementId' => 'invalid-id',
+                'creditmemoData' => array()
+            )
+        );
     }
 
     /**
@@ -141,10 +151,13 @@ class Api_SalesOrder_CreditMemoTest extends Api_SalesOrder_AbstractTest
      */
     public function testAddCommentInvalidOrderException()
     {
-        $this->call('order_creditmemo.addComment', array(
-            'creditmemoIncrementId' => 'invalid-id',
-            'comment' => 'Comment'
-        ));
+        $this->call(
+            'order_creditmemo.addComment',
+            array(
+                'creditmemoIncrementId' => 'invalid-id',
+                'comment' => 'Comment'
+            )
+        );
     }
 
     /**
@@ -191,22 +204,28 @@ class Api_SalesOrder_CreditMemoTest extends Api_SalesOrder_AbstractTest
         $adjustmentPositive = 2;
         $adjustmentNegative = 1;
         $data = array(
-            'qtys'                => $qtys,
+            'qtys' => $qtys,
             'adjustment_positive' => $adjustmentPositive,
             'adjustment_negative' => $adjustmentNegative
         );
         $orderIncrementalId = $order->getIncrementId();
 
         //Test create
-        $creditMemoIncrementId = $this->call('order_creditmemo.create', array(
-            'creditmemoIncrementId' => $orderIncrementalId,
-            'creditmemoData' => $data
-        ));
+        $creditMemoIncrementId = $this->call(
+            'order_creditmemo.create',
+            array(
+                'creditmemoIncrementId' => $orderIncrementalId,
+                'creditmemoData' => $data
+            )
+        );
         self::setFixture('creditmemoIncrementId', $creditMemoIncrementId);
 
         $this->assertTrue(is_string($creditMemoIncrementId), 'Increment Id is not a string');
-        $this->assertStringStartsWith($prefix, $creditMemoIncrementId,
-            'Increment Id returned by API is not correct');
+        $this->assertStringStartsWith(
+            $prefix,
+            $creditMemoIncrementId,
+            'Increment Id returned by API is not correct'
+        );
     }
 
     /**
@@ -224,18 +243,20 @@ class Api_SalesOrder_CreditMemoTest extends Api_SalesOrder_AbstractTest
         /** @var $creditmemo Mage_Sales_Model_Order_Creditmemo */
         $creditmemo = Mage::getModel('Mage_Sales_Model_Order_Creditmemo')->load($creditMemoIncrementId, 'increment_id');
 
-        $filters = array('filters' => array(
-            'filter' => array(
-                array('key' => 'state', 'value' => $creditmemo->getData('state')),
-                array('key' => 'created_at', 'value' => $creditmemo->getData('created_at'))
-            ),
-            'complex_filter' => array(
-                array(
-                    'key'   => 'creditmemo_id',
-                    'value' => array('key' => 'in', 'value' => array($creditmemo->getId(), 0))
+        $filters = array(
+            'filters' => array(
+                'filter' => array(
+                    array('key' => 'state', 'value' => $creditmemo->getData('state')),
+                    array('key' => 'created_at', 'value' => $creditmemo->getData('created_at'))
                 ),
+                'complex_filter' => array(
+                    array(
+                        'key' => 'creditmemo_id',
+                        'value' => array('key' => 'in', 'value' => array($creditmemo->getId(), 0))
+                    ),
+                )
             )
-        ));
+        );
 
         $result = $this->call('order_creditmemo.list', $filters);
 
@@ -284,10 +305,13 @@ class Api_SalesOrder_CreditMemoTest extends Api_SalesOrder_AbstractTest
         $orderIncrementalId = $order->getIncrementId();
 
         //Test create
-        $creditMemoIncrementId = $this->call('order_creditmemo.create', array(
-            'creditmemoIncrementId' => $orderIncrementalId,
-            'creditmemoData' => $data
-        ));
+        $creditMemoIncrementId = $this->call(
+            'order_creditmemo.create',
+            array(
+                'creditmemoIncrementId' => $orderIncrementalId,
+                'creditmemoData' => $data
+            )
+        );
 
         /** Add creditmemo to fixtures to ensure that it is removed in teardown. */
         /** @var Mage_Sales_Model_Order_Creditmemo $createdCreditmemo */

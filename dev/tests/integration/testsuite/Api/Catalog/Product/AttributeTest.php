@@ -2,21 +2,18 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 /**
  * Test API getting orders list method
  *
- * @category    Magento
- * @package     Magento_Test
- * @author      Magento Api Team <api-team@magento.com>
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-class Api_Catalog_Product_AttributeTest extends Magento_Test_Webservice
+class Api_Catalog_Product_AttributeTest extends Magento_Test_TestCase_ApiAbstract
 {
     /**
      * Tests attribute creation with invalid characters in attribute code (possible SQL injection)
@@ -27,7 +24,7 @@ class Api_Catalog_Product_AttributeTest extends Magento_Test_Webservice
     {
         $attributeData = array(
             'attribute_code' => 'mytest1.entity_id = e.entity_id); DROP TABLE aaa_test;',
-            'scope'          => 'global',
+            'scope' => 'global',
             'frontend_input' => 'select',
             'frontend_label' => array(
                 array('store_id' => 0, 'label' => 'My Attribute With SQL Injection')
@@ -39,8 +36,9 @@ class Api_Catalog_Product_AttributeTest extends Magento_Test_Webservice
 
             $this->fail('Exception with message like "invalid attribute code" expected but not thrown');
         } catch (Exception $e) {
-            if (TESTS_WEBSERVICE_TYPE == Magento_Test_Webservice::TYPE_SOAPV2
-                || TESTS_WEBSERVICE_TYPE == Magento_Test_Webservice::TYPE_SOAPV2_WSI) {
+            if (TESTS_WEBSERVICE_TYPE == Magento_Test_TestCase_ApiAbstract::TYPE_SOAP
+                || TESTS_WEBSERVICE_TYPE == Magento_Test_TestCase_ApiAbstract::TYPE_SOAP_WSI
+            ) {
                 $this->assertEquals(103, $e->faultcode, 'Unexpected fault code');
             }
             $this->assertEquals(

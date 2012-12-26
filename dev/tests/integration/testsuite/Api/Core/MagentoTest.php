@@ -1,11 +1,9 @@
 <?php
 /**
+ * Core module API tests.
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  integration_tests
- * @author      Magento PaaS Team <paas-team@magento.com>
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +11,7 @@
 /**
  * Magento info Api tests
  */
-class Api_Core_MagentoTest extends Magento_Test_Webservice
+class Api_Core_MagentoTest extends Magento_Test_TestCase_ApiAbstract
 {
     /**
      * Test magento magento info retrieving

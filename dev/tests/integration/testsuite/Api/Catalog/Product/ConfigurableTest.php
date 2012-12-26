@@ -1,10 +1,9 @@
 <?php
 /**
+ * Configurable product tests.
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Catalog
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +11,7 @@
 /**
  * Test configurable product API
  *
- * @method Helper_Catalog_Product_Configurable _getHelper()
+ * @method Api_Catalog_Product_Helper_Configurable _getHelper()
  */
 class Api_Catalog_Product_ConfigurableTest extends Api_Catalog_ProductAbstract
 {
@@ -21,7 +20,7 @@ class Api_Catalog_Product_ConfigurableTest extends Api_Catalog_ProductAbstract
      *
      * @var string
      */
-    protected $_defaultHelper = 'Helper_Catalog_Product_Configurable';
+    protected $_defaultHelper = 'Api_Catalog_Product_Helper_Configurable';
 
     /**
      * Test successful configurable product create.
@@ -39,8 +38,11 @@ class Api_Catalog_Product_ConfigurableTest extends Api_Catalog_ProductAbstract
         /** @var $actual Mage_Catalog_Model_Product */
         $actual = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
         $this->addModelToDelete($actual, true);
-        $this->_getHelper()->checkConfigurableAttributesData($actual, $productData['configurable_attributes'],
-            false);
+        $this->_getHelper()->checkConfigurableAttributesData(
+            $actual,
+            $productData['configurable_attributes'],
+            false
+        );
         unset($productData['configurable_attributes']);
         $expected = Mage::getModel('Mage_Catalog_Model_Product');
         $expected->setData($productData);
@@ -82,8 +84,10 @@ class Api_Catalog_Product_ConfigurableTest extends Api_Catalog_ProductAbstract
         /** @var $invalidAttribute Mage_Catalog_Model_Resource_Eav_Attribute */
         $invalidAttribute = $this->getFixture('eav_invalid_configurable_attribute');
         $expectedMessages = array(
-            sprintf('The attribute with code "%s" cannot be used to create a configurable product.',
-                $invalidAttribute->getAttributeCode()),
+            sprintf(
+                'The attribute with code "%s" cannot be used to create a configurable product.',
+                $invalidAttribute->getAttributeCode()
+            ),
             'The attribute with code "NOT_EXISTING_ATTRIBUTE" cannot be used to create a configurable product.'
         );
         $this->_createProductWithErrorMessagesCheck($productData, $expectedMessages);
@@ -107,12 +111,18 @@ class Api_Catalog_Product_ConfigurableTest extends Api_Catalog_ProductAbstract
         $attribute = $this->getFixture('eav_configurable_attribute');
         $attributeSourceOptions = $attribute->getSource()->getAllOptions(false);
         $expectedMessages = array(
-            sprintf('The "price" value for the option value "%s" in the "prices" '
+            sprintf(
+                'The "price" value for the option value "%s" in the "prices" '
                     . 'array for the configurable attribute with code "%s" is invalid.',
-                $attributeSourceOptions[0]['value'], $attribute->getAttributeCode()),
-            sprintf('The "price_type" value for the option value "%s" in the '
+                $attributeSourceOptions[0]['value'],
+                $attribute->getAttributeCode()
+            ),
+            sprintf(
+                'The "price_type" value for the option value "%s" in the '
                     . '"prices" array for the configurable attribute with code "%s" is invalid.',
-                $attributeSourceOptions[0]['value'], $attribute->getAttributeCode()),
+                $attributeSourceOptions[0]['value'],
+                $attribute->getAttributeCode()
+            ),
         );
         $this->_createProductWithErrorMessagesCheck($productData, $expectedMessages);
     }
@@ -162,10 +172,16 @@ class Api_Catalog_Product_ConfigurableTest extends Api_Catalog_ProductAbstract
         $attributeTwo = $this->getFixture('eav_configurable_attribute_2');
         // Validate outcome
         $expectedMessages = array(
-            sprintf('The "frontend_label" value for the configurable attribute with code "%s" '
-                . 'is required.', $attributeOne->getAttributeCode()),
-            sprintf('The "frontend_label" value for the configurable attribute with code "%s" '
-                . 'is required.', $attributeTwo->getAttributeCode()),
+            sprintf(
+                'The "frontend_label" value for the configurable attribute with code "%s" '
+                    . 'is required.',
+                $attributeOne->getAttributeCode()
+            ),
+            sprintf(
+                'The "frontend_label" value for the configurable attribute with code "%s" '
+                    . 'is required.',
+                $attributeTwo->getAttributeCode()
+            ),
         );
         $this->_createProductWithErrorMessagesCheck($productData, $expectedMessages);
     }

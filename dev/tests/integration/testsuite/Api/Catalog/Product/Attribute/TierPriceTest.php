@@ -2,14 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-class Api_Catalog_Product_Attribute_TierPriceTest extends Magento_Test_Webservice
+class Api_Catalog_Product_Attribute_TierPriceTest extends Magento_Test_TestCase_ApiAbstract
 {
     /**
      * Set up product fixture
@@ -19,7 +15,7 @@ class Api_Catalog_Product_Attribute_TierPriceTest extends Magento_Test_Webservic
     protected function setUp()
     {
         $productData = require realpath(dirname(__FILE__) . '/../_fixture/ProductData.php');
-        $product     = Mage::getModel('Mage_Catalog_Model_Product');
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
 
         $product->setData($productData['create_full_fledged']);
         $product->save();
@@ -50,23 +46,26 @@ class Api_Catalog_Product_Attribute_TierPriceTest extends Magento_Test_Webservic
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product');
 
-        $result = $this->call('product_tier_price.update', array(
-            'productId' => $product->getId(),
-            'tierPrices' => array(
-                array(
-                    'customer_group_id' => Mage_Customer_Model_Group::CUST_GROUP_ALL,
-                    'qty' => 3,
-                    'price' => 0.88,
+        $result = $this->call(
+            'product_tier_price.update',
+            array(
+                'productId' => $product->getId(),
+                'tierPrices' => array(
+                    array(
+                        'customer_group_id' => Mage_Customer_Model_Group::CUST_GROUP_ALL,
+                        'qty' => 3,
+                        'price' => 0.88,
+                    ),
+                    array(
+                        'customer_group_id' => Mage_Customer_Model_Group::CUST_GROUP_ALL,
+                        'qty' => 5,
+                        'price' => 0.77,
+                    )
                 ),
-                array(
-                    'customer_group_id' => Mage_Customer_Model_Group::CUST_GROUP_ALL,
-                    'qty' => 5,
-                    'price' => 0.77,
-                )
-            ),
-        ));
+            )
+        );
 
-        $this->assertTrue((bool) $result, 'Product tier price attribute update API failed');
+        $this->assertTrue((bool)$result, 'Product tier price attribute update API failed');
         // Reload product to check tier prices were applied
         $product->load($product->getId());
         $this->assertEquals($product->getTierPrice(3), 0.88, 'Product tier price (3) attribute update was not applied');

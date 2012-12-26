@@ -2,21 +2,18 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 /**
  * Test API login method
  *
- * @category    Magento
- * @package     Magento_Test
- * @author      Magento Api Team <api-team@magento.com>
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-class Api_LoginTest extends Magento_Test_Webservice
+class Api_LoginTest extends Magento_Test_TestCase_ApiAbstract
 {
     /**
      * Restore session to make possible another tests work
@@ -53,20 +50,20 @@ class Api_LoginTest extends Magento_Test_Webservice
         $user = $this->getMock('Mage_Api_Model_User', array('getId'));
         $user->expects($this->any())->method('getId')->will($this->returnValue('fake_user'));
 
-        $config = array('dbname'=>'fake_db', 'password'=>'fake_password', 'username'=>'fake_username');
+        $config = array('dbname' => 'fake_db', 'password' => 'fake_password', 'username' => 'fake_username');
 
         $adapter = $this->getMock('Varien_Db_Adapter_Pdo_Mysql', array('delete', 'quote'), array((array)$config));
         $adapter
             ->expects($this->any())
             ->method('delete')
             ->with(
-                $this->equalTo($table),
-                new Magento_Test_Constraint_Array(0,
-                    $this->logicalAnd(
-                        $this->matches('%s3600%s'),
-                        $this->logicalNot($this->matches('%sDROP TABLE bbb%s'))
-                    )
+            $this->equalTo($table),
+            new Magento_Test_Constraint_Array(0,
+                $this->logicalAnd(
+                    $this->matches('%s3600%s'),
+                    $this->logicalNot($this->matches('%sDROP TABLE bbb%s'))
                 )
+            )
         );
 
         $userResource = $this->getMock(
@@ -139,25 +136,25 @@ class Api_LoginTest extends Magento_Test_Webservice
     {
         $users = array(
             array(
-                'username'  => 'test_user_01',
-                'api_key'   => '123123q',
+                'username' => 'test_user_01',
+                'api_key' => '123123q',
                 'is_active' => 1,
             ),
             array(
-                'username'  => 'test_user_02',
-                'api_key'   => '123123q',
+                'username' => 'test_user_02',
+                'api_key' => '123123q',
                 'is_active' => 1,
             ),
         );
         $roles = array(
             array(
                 'name' => 'test_role_01',
-                'pid'       => 0,
+                'pid' => 0,
                 'role_type' => 'G',
             ),
             array(
                 'name' => 'test_role_02',
-                'pid'       => 0,
+                'pid' => 0,
                 'role_type' => 'G',
             ),
         );
@@ -170,12 +167,12 @@ class Api_LoginTest extends Magento_Test_Webservice
         $relation1 = Mage::getModel('Mage_Api_Model_Rules');
         $role1->setData($roles[0])->save();
         $user1->setData($users[0])
-                ->save();
+            ->save();
         $user1->setRoleIds(array($role1->getId()))
-                ->saveRelations();
+            ->saveRelations();
         $relation1->setRoleId($role1->getId())
-                ->setResources($resource)
-                ->saveRel();
+            ->setResources($resource)
+            ->saveRel();
 
         $user2 = Mage::getModel('Mage_Api_Model_User');
         $role2 = Mage::getModel('Mage_Api_Model_Roles');
@@ -185,11 +182,11 @@ class Api_LoginTest extends Magento_Test_Webservice
         $role2->setData($roles[1])->save();
         $user2->setData($users[1])->save();
         $user2->setRoleIds(array($role2->getId()))
-                ->saveRelations();
+            ->saveRelations();
 
         $relation2->setRoleId($role2->getId())
-                ->setResources($resource)
-                ->saveRel();
+            ->setResources($resource)
+            ->saveRel();
 
         $client = $this->getWebService();
         $client->setSession(null);

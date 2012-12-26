@@ -2,21 +2,18 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 /**
  * Test updating product back-order status through API
  *
- * @category    Magento
- * @package     Magento_Test
- * @author      Magento Api Team <api-team@magento.com>
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-class Api_Catalog_Product_BackorderStatusTest extends Magento_Test_Webservice
+class Api_Catalog_Product_BackorderStatusTest extends Magento_Test_TestCase_ApiAbstract
 {
     /**
      * Sets up the fixture, for example, open a network connection.
@@ -25,7 +22,7 @@ class Api_Catalog_Product_BackorderStatusTest extends Magento_Test_Webservice
     protected function setUp()
     {
         $productData = require dirname(__FILE__) . '/_fixture/ProductData.php';
-        $product     = Mage::getModel('Mage_Catalog_Model_Product');
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
 
         $product->setData($productData['create_full_fledged']);
         $product->save();
@@ -70,8 +67,9 @@ class Api_Catalog_Product_BackorderStatusTest extends Magento_Test_Webservice
             )
         );
 
-        if (Magento_Test_Webservice::TYPE_SOAPV2 === TESTS_WEBSERVICE_TYPE
-            || Magento_Test_Webservice::TYPE_SOAPV2_WSI === TESTS_WEBSERVICE_TYPE) {
+        if (Magento_Test_TestCase_ApiAbstract::TYPE_SOAP === TESTS_WEBSERVICE_TYPE
+            || Magento_Test_TestCase_ApiAbstract::TYPE_SOAP_WSI === TESTS_WEBSERVICE_TYPE
+        ) {
             $this->assertEquals(1, $result);
         } else {
             $this->assertTrue($result);

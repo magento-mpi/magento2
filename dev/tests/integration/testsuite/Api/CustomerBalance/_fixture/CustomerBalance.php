@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Paas
- * @package     tests
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,7 +12,7 @@ $customer->setStoreId(1)
     ->setCreatedIn('Default Store View')
     ->setDefaultBilling(1)
     ->setDefaultShipping(1)
-    ->setEmail('mr.test'.uniqid().'@test.com')
+    ->setEmail('mr.test' . uniqid() . '@test.com')
     ->setFirstname('Test')
     ->setLastname('Test')
     ->setMiddlename('Test')
@@ -48,7 +45,7 @@ $customerWithoutBalance->setStoreId(1)
     ->setCreatedIn('Default Store View')
     ->setDefaultBilling(1)
     ->setDefaultShipping(1)
-    ->setEmail('mr.test2'.uniqid().'@test.com')
+    ->setEmail('mr.test2' . uniqid() . '@test.com')
     ->setFirstname('Test 2')
     ->setLastname('Test 2')
     ->setMiddlename('Test 2')

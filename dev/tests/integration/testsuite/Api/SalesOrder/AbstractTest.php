@@ -2,13 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class Api_SalesOrder_AbstractTest extends Magento_Test_Webservice
+abstract class Api_SalesOrder_AbstractTest extends Magento_Test_TestCase_ApiAbstract
 {
     /** @var Mage_Eav_Model_Entity_Store */
     protected static $_entityStore;
@@ -44,7 +41,8 @@ abstract class Api_SalesOrder_AbstractTest extends Magento_Test_Webservice
         /** @var Mage_Eav_Model_Entity_Store $entityStore */
         $entityStore = Mage::getModel('Mage_Eav_Model_Entity_Store')->loadByEntityStore(
             $entityTypeModel->getId(),
-            $storeId);
+            $storeId
+        );
         $origPrefix = $entityStore->getIncrementPrefix() == null ? $storeId : $entityStore->getIncrementPrefix();
         self::$_origData['increment_prefix'] = $origPrefix;
         self::$_origData['increment_last_id'] = $entityStore->getIncrementLastId();

@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 $pool = Mage::getResourceModel('Enterprise_GiftCardAccount_Model_Resource_Pool');
 
 do {
@@ -16,5 +12,8 @@ do {
 } while ($pool->exists($code));
 $pool->saveCode($code);
 
-Magento_Test_Webservice::setFixture('giftcardaccount_pool_code', $code,
-    Magento_Test_Webservice::AUTO_TEAR_DOWN_DISABLED);
+Magento_Test_TestCase_ApiAbstract::setFixture(
+    'giftcardaccount_pool_code',
+    $code,
+    Magento_Test_TestCase_ApiAbstract::AUTO_TEAR_DOWN_DISABLED
+);

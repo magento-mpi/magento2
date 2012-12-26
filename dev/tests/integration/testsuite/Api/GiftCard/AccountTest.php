@@ -2,14 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-class Api_GiftCard_AccountTest extends Magento_Test_Webservice
+class Api_GiftCard_AccountTest extends Magento_Test_TestCase_ApiAbstract
 {
     /**
      * Test create, list, info, update, remove
@@ -47,7 +43,8 @@ class Api_GiftCard_AccountTest extends Magento_Test_Webservice
         //Test update
         $updateData = self::simpleXmlToArray($giftcardAccountFixture->update);
         $updateResult = $this->call(
-            'giftcard_account.update', array('giftcardAccountId' => $id, 'giftcardData' => $updateData)
+            'giftcard_account.update',
+            array('giftcardAccountId' => $id, 'giftcardData' => $updateData)
         );
         $this->assertTrue($updateResult);
 

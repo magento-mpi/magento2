@@ -2,18 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 /**
  * @magentoApiDataFixture Api/GiftCard/_fixture/code_pool.php
  * @magentoApiDataFixture Api/GiftCard/_fixture/giftcard_account.php
  */
-class Api_GiftCard_CartTest extends Magento_Test_Webservice
+class Api_GiftCard_CartTest extends Magento_Test_TestCase_ApiAbstract
 {
     /**
      * Tears down the fixture, for example, close a network connection.
@@ -38,9 +34,14 @@ class Api_GiftCard_CartTest extends Magento_Test_Webservice
         $storeId = 1;
         $quoteId = $this->call('cart.create', array('store' => $storeId));
 
-        $addResult = $this->call('cart_giftcard.add', array(
-            'giftcardAccountCode' => $giftCardAccount->getCode(), 'quoteId' => $quoteId, 'storeId' => $storeId
-        ));
+        $addResult = $this->call(
+            'cart_giftcard.add',
+            array(
+                'giftcardAccountCode' => $giftCardAccount->getCode(),
+                'quoteId' => $quoteId,
+                'storeId' => $storeId
+            )
+        );
         $this->assertTrue($addResult, 'Add giftcard to quote');
 
         //Test list of giftcards added to quote
@@ -55,9 +56,14 @@ class Api_GiftCard_CartTest extends Magento_Test_Webservice
         $this->assertEquals($giftCardAccount->getBalance(), $giftCards[0]['base_amount']);
 
         //Test giftcard removing from quote
-        $removeResult = $this->call('cart_giftcard.remove', array(
-            'giftcardAccountCode' => $giftCardAccount->getCode(), 'quoteId' => $quoteId, 'storeId' => $storeId
-        ));
+        $removeResult = $this->call(
+            'cart_giftcard.remove',
+            array(
+                'giftcardAccountCode' => $giftCardAccount->getCode(),
+                'quoteId' => $quoteId,
+                'storeId' => $storeId
+            )
+        );
         $this->assertTrue($removeResult, 'Remove giftcard from quote');
 
         // remove quote

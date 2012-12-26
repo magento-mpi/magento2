@@ -2,20 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
 //Set up customer address fixture
 require 'customer.php';
 /** @var $customer Mage_Customer_Model_Customer */
-$customer = Magento_Test_Webservice::getFixture('customer');
+$customer = Magento_Test_TestCase_ApiAbstract::getFixture('customer');
 /** @var $customerAddress Mage_Customer_Model_Address */
-$customerAddress = Magento_Test_Webservice::getFixture('customer_address');
+$customerAddress = Magento_Test_TestCase_ApiAbstract::getFixture('customer_address');
 
 /*//$customerAddress->addShippingRate($rate);
 $customerAddress->setShippingMethod('freeshipping_freeshipping');
@@ -25,7 +21,7 @@ $customerAddress->save();*/
 //Set up simple product fixture
 require 'product_simple.php';
 /** @var $product Mage_Catalog_Model_Product */
-$product = Magento_Test_Webservice::getFixture('product_simple');
+$product = Magento_Test_TestCase_ApiAbstract::getFixture('product_simple');
 
 //Create quote
 $quote = Mage::getModel('Mage_Sales_Model_Quote');
@@ -47,7 +43,11 @@ $quote->getShippingAddress()->addShippingRate($rate);
 
 $quote->collectTotals();
 $quote->save();
-Magento_Test_Webservice::setFixture('quote', $quote, Magento_Test_Webservice::AUTO_TEAR_DOWN_AFTER_CLASS);
+Magento_Test_TestCase_ApiAbstract::setFixture(
+    'quote',
+    $quote,
+    Magento_Test_TestCase_ApiAbstract::AUTO_TEAR_DOWN_AFTER_CLASS
+);
 
 //Create order
 $quoteService = new Mage_Sales_Model_Service_Quote($quote);
@@ -56,4 +56,8 @@ $quoteService->getQuote()->getPayment()->setMethod('checkmo');
 $order = $quoteService->submitOrder();
 $order->place();
 $order->save();
-Magento_Test_Webservice::setFixture('order', $order, Magento_Test_Webservice::AUTO_TEAR_DOWN_AFTER_CLASS);
+Magento_Test_TestCase_ApiAbstract::setFixture(
+    'order',
+    $order,
+    Magento_Test_TestCase_ApiAbstract::AUTO_TEAR_DOWN_AFTER_CLASS
+);

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Paas
- * @package     tests
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,7 +12,7 @@ $customer->setStoreId(1)
     ->setCreatedIn('Default Store View')
     ->setDefaultBilling(1)
     ->setDefaultShipping(1)
-    ->setEmail('mr.test'.uniqid().'@test.com')
+    ->setEmail('mr.test' . uniqid() . '@test.com')
     ->setFirstname('Test')
     ->setLastname('Test')
     ->setMiddlename('Test')
@@ -39,7 +36,7 @@ $product = Mage::getModel('Mage_Catalog_Model_Product');
 $product->setTypeId('simple')
     ->setAttributeSetId(4)
     ->setName('Simple Product')
-    ->setSku('simple'.uniqid())
+    ->setSku('simple' . uniqid())
     ->setPrice(10)
     ->setTaxClassId(0)
     ->setMetaTitle('meta title')
@@ -49,13 +46,13 @@ $product->setTypeId('simple')
     ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
     ->setWeight(12)
     ->setStockData(
-        array(
-            'use_config_manage_stock'   => 1,
-            'qty'                       => 100,
-            'is_qty_decimal'            => 0,
-            'is_in_stock'               => 1,
-        )
+    array(
+        'use_config_manage_stock' => 1,
+        'qty' => 100,
+        'is_qty_decimal' => 0,
+        'is_in_stock' => 1,
     )
+)
     ->save();
 
 //Save product fixture
@@ -64,8 +61,8 @@ Api_CustomerBalance_QuoteTest::$product = $product;
 //Create shopping cart
 $quote = Mage::getModel('Mage_Sales_Model_Quote');
 $quote->setStoreId(1)
-        ->setIsActive(false)
-        ->setIsMultiShipping(false);
+    ->setIsActive(false)
+    ->setIsMultiShipping(false);
 
 //Add product to cart
 //To fill stock item for product, which is not valid at this time
@@ -79,22 +76,24 @@ $quote->setCustomer($customer)
 
 //Create billing/shipping address
 $address = Mage::getModel('Mage_Sales_Model_Quote_Address');
-$address->setData(array(
-    'city'                => 'New York',
-    'country_id'          => 'US',
-    'fax'                 => '56-987-987',
-    'firstname'           => 'Jacklin',
-    'lastname'            => 'Sparrow',
-    'middlename'          => 'John',
-    'postcode'            => '10012',
-    'region'              => 'New York',
-    'region_id'           => '43',
-    'street'              => 'Main Street',
-    'telephone'           => '718-452-9207',
-    'is_default_billing'  => true,
-    'is_default_shipping' => true,
-    'use_for_shipping'    => true
-));
+$address->setData(
+    array(
+        'city' => 'New York',
+        'country_id' => 'US',
+        'fax' => '56-987-987',
+        'firstname' => 'Jacklin',
+        'lastname' => 'Sparrow',
+        'middlename' => 'John',
+        'postcode' => '10012',
+        'region' => 'New York',
+        'region_id' => '43',
+        'street' => 'Main Street',
+        'telephone' => '718-452-9207',
+        'is_default_billing' => true,
+        'is_default_shipping' => true,
+        'use_for_shipping' => true
+    )
+);
 //Implode street address (this method is overridden)
 $address->setStreet($address->getData('street'));
 

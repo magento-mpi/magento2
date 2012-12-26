@@ -1,15 +1,13 @@
 <?php
 /**
+ * Checkout tests.
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Checkout
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
- *
  */
-class Api_Checkout_CartTest extends Magento_Test_Webservice
+class Api_Checkout_CartTest extends Magento_Test_TestCase_ApiAbstract
 {
     /** @var Mage_Eav_Model_Entity_Store */
     protected static $_entityStore;
@@ -48,27 +46,31 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
         // create product for test
         $this->_product = Mage::getModel('Mage_Catalog_Model_Product');
 
-        $this->_product->setData(array(
-            'sku'               => 'simple' . uniqid(),
-            'attribute_set_id'  => 4,
-            'type_id'           => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
-            'name'              => 'Simple Product',
-            'website_ids'       => array(Mage::app()->getStore()->getWebsiteId()),
-            'description'       => '...',
-            'short_description' => '...',
-            'price'             => 0.99,
-            'tax_class_id'      => 2,
-            'visibility'        => Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
-            'status'            => Mage_Catalog_Model_Product_Status::STATUS_ENABLED
-        ));
+        $this->_product->setData(
+            array(
+                'sku' => 'simple' . uniqid(),
+                'attribute_set_id' => 4,
+                'type_id' => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
+                'name' => 'Simple Product',
+                'website_ids' => array(Mage::app()->getStore()->getWebsiteId()),
+                'description' => '...',
+                'short_description' => '...',
+                'price' => 0.99,
+                'tax_class_id' => 2,
+                'visibility' => Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
+                'status' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED
+            )
+        );
         $this->_product->save();
         $this->_product->load($this->_product->getId());
-        $this->_product->setStockData(array(
-            'manage_stock' => 1,
-            'qty' => 10,
-            'backorders' => 1,
-            'is_in_stock' => '1',
-        ));
+        $this->_product->setStockData(
+            array(
+                'manage_stock' => 1,
+                'qty' => 10,
+                'backorders' => 1,
+                'is_in_stock' => '1',
+            )
+        );
         $this->_product->save();
 
         // Disable exceptions to avoid errors in cookie processing
@@ -77,11 +79,13 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
         // create quote for test
         $this->_quote = Mage::getModel('Mage_Sales_Model_Quote');
 
-        $this->_quote->setData(array(
-            'store_id'          => 1,
-            'is_active'         => 0,
-            'is_multi_shipping' => 0
-        ));
+        $this->_quote->setData(
+            array(
+                'store_id' => 1,
+                'is_active' => 0,
+                'is_multi_shipping' => 0
+            )
+        );
         $this->_quote->save();
 
         parent::setUp();
@@ -104,7 +108,7 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
         Mage::unregister('isSecureArea');
 
         $this->_restoreIncrementIdPrefix();
-        Magento_Test_Webservice::deleteFixture('customer', true);
+        Magento_Test_TestCase_ApiAbstract::deleteFixture('customer', true);
         parent::tearDown();
     }
 
@@ -113,12 +117,15 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
      */
     public function testProductAddToCart()
     {
-        $soapResult = $this->call('cart_product.add', array(
-            'quoteId'  => $this->_quote->getId(),
-            'productsData' => array(
-                array('sku' => $this->_product->getSku(), 'qty' => 1)
+        $soapResult = $this->call(
+            'cart_product.add',
+            array(
+                'quoteId' => $this->_quote->getId(),
+                'productsData' => array(
+                    array('sku' => $this->_product->getSku(), 'qty' => 1)
+                )
             )
-        ));
+        );
 
         $this->assertTrue($soapResult, 'Error during product add to cart via API call');
     }
@@ -129,14 +136,16 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
     public function testProductWithCustomOptionsAddToCart()
     {
         // Create custom option for product
-        $customOptionId    = null;
+        $customOptionId = null;
         $customOptionTitle = 'My Text ' . uniqid();
         $customOptionValue = 'Hello WORLD';
 
         $this->_product->setCanSaveCustomOptions(true);
-        $this->_product->setProductOptions(array(
-            array('type' => 'field', 'title' => $customOptionTitle, 'is_require' => 0, 'max_characters' => 0)
-        ));
+        $this->_product->setProductOptions(
+            array(
+                array('type' => 'field', 'title' => $customOptionTitle, 'is_require' => 0, 'max_characters' => 0)
+            )
+        );
         $this->_product->save();
 
         // Find ID of created custom option for future use
@@ -154,18 +163,22 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
         }
 
         // Add product with custom option to cart via API
-        if (TESTS_WEBSERVICE_TYPE == Magento_Test_Webservice::TYPE_SOAPV2
-            || TESTS_WEBSERVICE_TYPE == Magento_Test_Webservice::TYPE_SOAPV2_WSI) { // use associative array for SOAP v2
+        if (TESTS_WEBSERVICE_TYPE == Magento_Test_TestCase_ApiAbstract::TYPE_SOAP
+            || TESTS_WEBSERVICE_TYPE == Magento_Test_TestCase_ApiAbstract::TYPE_SOAP_WSI
+        ) { // use associative array for SOAP v2
             $customOptionsData = array(array('key' => $customOptionId, 'value' => $customOptionValue));
         } else { // use numeric array otherwise
             $customOptionsData = array($customOptionId => $customOptionValue);
         }
-        $soapResult = $this->call('cart_product.add', array(
-            'quoteId'  => $this->_quote->getId(),
-            'productsData' => array(
-                array('sku' => $this->_product->getSku(), 'qty' => 1, 'options' => $customOptionsData)
+        $soapResult = $this->call(
+            'cart_product.add',
+            array(
+                'quoteId' => $this->_quote->getId(),
+                'productsData' => array(
+                    array('sku' => $this->_product->getSku(), 'qty' => 1, 'options' => $customOptionsData)
+                )
             )
-        ));
+        );
 
         $this->assertTrue($soapResult, 'Error during product with custom options add to cart via API call');
 
@@ -183,7 +196,9 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
             $this->fail('Custom option value not found in DB after API call');
         }
         $this->assertEquals(
-            $customOptionValue, $itemOptionValue, 'Custom option value in DB does not match value passed by API'
+            $customOptionValue,
+            $itemOptionValue,
+            'Custom option value in DB does not match value passed by API'
         );
     }
 
@@ -223,7 +238,7 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
         $data = array(
             'name' => 'Test Coupon',
             'is_active' => true,
-            'website_ids'       => array(Mage::app()->getStore()->getWebsiteId()),
+            'website_ids' => array(Mage::app()->getStore()->getWebsiteId()),
             'customer_group_ids' => array(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID),
             'coupon_type' => Mage_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC,
             'coupon_code' => uniqid(),
@@ -239,13 +254,21 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
         $this->_quote->addProduct($this->_product);
         $this->_quote->collectTotals()->save();
 
-        $soapResult = $this->call('cart_coupon.add', array('quoteId' => $this->_quote->getId(),
-            'couponCode' => $this->_salesRule->getCouponCode()));
+        $soapResult = $this->call(
+            'cart_coupon.add',
+            array(
+                'quoteId' => $this->_quote->getId(),
+                'couponCode' => $this->_salesRule->getCouponCode()
+            )
+        );
         $this->assertTrue($soapResult, 'Coupon code was not applied');
         $this->_quote->load($this->_quote->getId());
-        $discountedPrice = sprintf('%01.2f', $this->_product->getPrice() * (1 - $discount/100));
-        $this->assertEquals($this->_quote->getSubtotalWithDiscount(), $discountedPrice,
-            'Quote subtotal price does not match discounted item price');
+        $discountedPrice = sprintf('%01.2f', $this->_product->getPrice() * (1 - $discount / 100));
+        $this->assertEquals(
+            $this->_quote->getSubtotalWithDiscount(),
+            $discountedPrice,
+            'Quote subtotal price does not match discounted item price'
+        );
     }
 
     /**
@@ -261,9 +284,12 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
 
         $quote = self::getFixture('quote');
 
-        $orderIncrementId = $this->call('cart.order', array(
-            'quoteId'  => $quote->getId()
-        ));
+        $orderIncrementId = $this->call(
+            'cart.order',
+            array(
+                'quoteId' => $quote->getId()
+            )
+        );
 
         $this->assertTrue(is_string($orderIncrementId), 'Increment Id is not a string');
         $this->assertStringStartsWith($prefix, $orderIncrementId, 'Increment Id returned by API is not correct');
@@ -287,12 +313,15 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
             'cc_cid' => '000',
         );
 
-        $orderIncrementId = $this->call('cart.orderWithPayment', array(
-            'quoteId' => $quote->getId(),
-            'store' => null,
-            'agreements' => null,
-            'paymentData' => $paymentMethod
-        ));
+        $orderIncrementId = $this->call(
+            'cart.orderWithPayment',
+            array(
+                'quoteId' => $quote->getId(),
+                'store' => null,
+                'agreements' => null,
+                'paymentData' => $paymentMethod
+            )
+        );
 
         $this->assertTrue(is_string($orderIncrementId), 'Increment Id is not a string');
         /** @var $order Mage_Sales_Model_Order */
@@ -321,12 +350,15 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
         $errorCode = 1075;
         $errorMessage = 'The requested Payment Method is not available.';
         try {
-            $this->call('cart.orderWithPayment', array(
-                'quoteId' => $quote->getId(),
-                'store' => null,
-                'agreements' => null,
-                'paymentData' => $paymentMethod
-            ));
+            $this->call(
+                'cart.orderWithPayment',
+                array(
+                    'quoteId' => $quote->getId(),
+                    'store' => null,
+                    'agreements' => null,
+                    'paymentData' => $paymentMethod
+                )
+            );
             $this->fail('Expected error exception was not raised.');
         } catch (SoapFault $e) {
             $this->_assertError($errorCode, $errorMessage, $e->faultcode, $e->faultstring);
@@ -344,12 +376,15 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
         $errorCode = 1071;
         $errorMessage = 'Payment method data is empty.';
         try {
-            $this->call('cart.orderWithPayment', array(
-                'quoteId' => $quote->getId(),
-                'store' => null,
-                'agreements' => null,
-                'paymentData' => array()
-            ));
+            $this->call(
+                'cart.orderWithPayment',
+                array(
+                    'quoteId' => $quote->getId(),
+                    'store' => null,
+                    'agreements' => null,
+                    'paymentData' => array()
+                )
+            );
             $this->fail('Expected error exception was not raised.');
         } catch (SoapFault $e) {
             $this->_assertError($errorCode, $errorMessage, $e->faultcode, $e->faultstring);
@@ -376,12 +411,15 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
         $errorCode = 1075;
         $errorMessage = 'Incorrect credit card expiration date.';
         try {
-            $this->call('cart.orderWithPayment', array(
-                'quoteId' => $quote->getId(),
-                'store' => null,
-                'agreements' => null,
-                'paymentData' => $paymentMethod
-            ));
+            $this->call(
+                'cart.orderWithPayment',
+                array(
+                    'quoteId' => $quote->getId(),
+                    'store' => null,
+                    'agreements' => null,
+                    'paymentData' => $paymentMethod
+                )
+            );
             $this->fail('Expected error exception was not raised.');
         } catch (SoapFault $e) {
             $this->_assertError($errorCode, $errorMessage, $e->faultcode, $e->faultstring);
@@ -430,7 +468,8 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
         /** @var Mage_Eav_Model_Entity_Store $entityStore */
         $entityStore = Mage::getModel('Mage_Eav_Model_Entity_Store')->loadByEntityStore(
             $entityTypeModel->getId(),
-            $storeId);
+            $storeId
+        );
         $origPrefix = $entityStore->getIncrementPrefix() == null ? $storeId : $entityStore->getIncrementPrefix();
         self::$_origData['increment_prefix'] = $origPrefix;
         self::$_origData['increment_last_id'] = $entityStore->getIncrementLastId();

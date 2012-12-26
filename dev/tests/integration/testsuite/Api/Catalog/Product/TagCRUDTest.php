@@ -2,17 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 /**
  * @magentoApiDataFixture Api/Catalog/Product/_fixture/TagCRUD.php
  */
-class Api_Catalog_Product_TagCRUDTest extends Magento_Test_Webservice
+class Api_Catalog_Product_TagCRUDTest extends Magento_Test_TestCase_ApiAbstract
 {
     /**
      * Test tag CRUD
@@ -25,8 +21,8 @@ class Api_Catalog_Product_TagCRUDTest extends Magento_Test_Webservice
         $data = self::simpleXmlToArray($tagFixture->tagData);
         $expected = self::simpleXmlToArray($tagFixture->expected);
 
-        $data['product_id'] = Magento_Test_Webservice::getFixture('productData')->getId();
-        $data['customer_id'] = Magento_Test_Webservice::getFixture('customerData')->getId();
+        $data['product_id'] = Magento_Test_TestCase_ApiAbstract::getFixture('productData')->getId();
+        $data['customer_id'] = Magento_Test_TestCase_ApiAbstract::getFixture('customerData')->getId();
 
         // create test
         $createdTags = $this->call('product_tag.add', array('data' => $data));
@@ -44,7 +40,7 @@ class Api_Catalog_Product_TagCRUDTest extends Magento_Test_Webservice
 
         // Invalid customer ID exception test
         try {
-            $data['product_id'] = Magento_Test_Webservice::getFixture('productData')->getId();
+            $data['product_id'] = Magento_Test_TestCase_ApiAbstract::getFixture('productData')->getId();
             $data['customer_id'] = mt_rand(10000, 99999);
             $this->call('product_tag.add', array('data' => $data));
             $this->fail("Didn't receive exception!");
@@ -54,8 +50,8 @@ class Api_Catalog_Product_TagCRUDTest extends Magento_Test_Webservice
 
         // Invalid store ID exception test
         try {
-            $data['product_id'] = Magento_Test_Webservice::getFixture('productData')->getId();
-            $data['customer_id'] = Magento_Test_Webservice::getFixture('customerData')->getId();
+            $data['product_id'] = Magento_Test_TestCase_ApiAbstract::getFixture('productData')->getId();
+            $data['customer_id'] = Magento_Test_TestCase_ApiAbstract::getFixture('customerData')->getId();
             $data['store'] = mt_rand(10000, 99999);
             $this->call('product_tag.add', array('data' => $data));
             $this->fail("Didn't receive exception!");
@@ -64,17 +60,21 @@ class Api_Catalog_Product_TagCRUDTest extends Magento_Test_Webservice
         }
 
         // items list test
-        $tagsList = $this->call('product_tag.list', array(
-            'productId' => Magento_Test_Webservice::getFixture('productData')->getId(), 'store' => 0
-        ));
+        $tagsList = $this->call(
+            'product_tag.list',
+            array(
+                'productId' => Magento_Test_TestCase_ApiAbstract::getFixture('productData')->getId(),
+                'store' => 0
+            )
+        );
         $this->assertInternalType('array', $tagsList);
         $this->assertNotEmpty($tagsList, "Can't find added tag in list");
-        $this->assertCount((int) $expected['created_tags_count'], $tagsList, "Can't find added tag in list");
+        $this->assertCount((int)$expected['created_tags_count'], $tagsList, "Can't find added tag in list");
 
         // delete test
         $tagToDelete = array_shift($tagsList);
         $tagDelete = $this->call('product_tag.remove', array('tagId' => $tagToDelete['tag_id']));
-        $this->assertTrue((bool) $tagDelete, "Can't delete added tag");
+        $this->assertTrue((bool)$tagDelete, "Can't delete added tag");
 
         // Delete exception test
         $this->setExpectedException(self::DEFAULT_EXCEPTION, 'Requested tag does not exist.');

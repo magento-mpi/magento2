@@ -2,22 +2,19 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 /**
  * Test API getting orders list method
  *
- * @category    Magento
- * @package     Magento_Test
- * @author      Magento Api Team <api-team@magento.com>
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  * @magentoApiDataFixture Api/SalesOrder/_fixture/order.php
  */
-class Api_SalesOrder_ListTest extends Magento_Test_Webservice
+class Api_SalesOrder_ListTest extends Magento_Test_TestCase_ApiAbstract
 {
     /**
      * Test getting sales order list in other methods
@@ -27,22 +24,24 @@ class Api_SalesOrder_ListTest extends Magento_Test_Webservice
         /** @var $order Mage_Sales_Model_Order */
         $order = self::getFixture('order');
 
-        $filters = array('filters' => array(
-            'filter' => array(
-                array('key' => 'status', 'value' => $order->getData('status')),
-                array('key' => 'created_at', 'value' => $order->getData('created_at'))
-            ),
-            'complex_filter' => array(
-                array(
-                    'key'   => 'order_id',
-                    'value' => array('key' => 'in', 'value' => "{$order->getId()},0")
+        $filters = array(
+            'filters' => array(
+                'filter' => array(
+                    array('key' => 'status', 'value' => $order->getData('status')),
+                    array('key' => 'created_at', 'value' => $order->getData('created_at'))
                 ),
-                array(
-                    'key'   => 'protect_code',
-                    'value' => array( 'key' => 'in', 'value' => $order->getData('protect_code'))
+                'complex_filter' => array(
+                    array(
+                        'key' => 'order_id',
+                        'value' => array('key' => 'in', 'value' => "{$order->getId()},0")
+                    ),
+                    array(
+                        'key' => 'protect_code',
+                        'value' => array('key' => 'in', 'value' => $order->getData('protect_code'))
+                    )
                 )
             )
-        ));
+        );
 
         $result = $this->call('order.list', $filters);
 

@@ -1,22 +1,13 @@
 <?php
 /**
+ * Category attributes tests.
+ *
  * {license_notice}
  *
- * @category    Paas
- * @package     Mage_Api
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Category attributes tests
- *
- * @category   Paas
- * @package    integration_tests
- * @author     Magento PaaS Team <paas-team@magento.com>
- */
-class Api_Catalog_Category_Attribute_AttributeTest extends Magento_Test_Webservice
+class Api_Catalog_Category_Attribute_AttributeTest extends Magento_Test_TestCase_ApiAbstract
 {
     /** @var SimpleXMLObject|stdClass */
     protected static $_attributeFixture;
@@ -40,7 +31,7 @@ class Api_Catalog_Category_Attribute_AttributeTest extends Magento_Test_Webservi
         parent::setUpBeforeClass();
 
         self::$_attributeFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/attribute.xml');
-        self::$_code = (string) self::$_attributeFixture->code;
+        self::$_code = (string)self::$_attributeFixture->code;
         self::$_data = self::simpleXmlToArray(self::$_attributeFixture->attributeData);
         self::$_expectedData = self::simpleXmlToArray(self::$_attributeFixture->expected);
 
@@ -80,7 +71,7 @@ class Api_Catalog_Category_Attribute_AttributeTest extends Magento_Test_Webservi
 
         foreach ($attributeList as $attribute) {
             if ($attribute['code'] == self::$_code) {
-                foreach (self::$_expectedData as $key => $value ) {
+                foreach (self::$_expectedData as $key => $value) {
                     $this->assertEquals($value, $attribute[$key]);
                 }
                 break;

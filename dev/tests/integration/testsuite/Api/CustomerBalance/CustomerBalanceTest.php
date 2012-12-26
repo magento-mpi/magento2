@@ -1,34 +1,28 @@
 <?php
 /**
+ * Customer balance tests.
+ *
  * {license_notice}
  *
- * @category    Paas
- * @package     integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * CustomerBalance tests
- *
- * @category   Paas
- * @package    integration_tests
- * @author     Magento PaaS Team <paas-team@magento.com>
- */
-
-/**
  * @magentoApiDataFixture Api/CustomerBalance/_fixture/CustomerBalance.php
  */
-class Api_CustomerBalance_CustomerBalanceTest extends Magento_Test_Webservice
+class Api_CustomerBalance_CustomerBalanceTest extends Magento_Test_TestCase_ApiAbstract
 {
     /**
      * Customer fixture
+     *
      * @var Mage_Customer_Model_Customer
      */
     public static $customer = null;
 
     /**
      * Customer without balance fixture
+     *
      * @var Mage_Customer_Model_Customer
      */
     public static $customerWithoutBalance = null;

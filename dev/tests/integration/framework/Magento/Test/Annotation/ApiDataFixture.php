@@ -10,7 +10,11 @@
  */
 
 /**
- * Implementation of the @magentoApiDataFixture DocBlock annotation
+ * Implementation of the magentoApiDataFixture DocBlock annotation.
+ *
+ * The difference of magentoApiDataFixture from magentoDataFixture is
+ * that no transactions should be used for API data fixtures.
+ * Otherwise fixture data will not be accessible to Web API functional tests.
  */
 class Magento_Test_Annotation_ApiDataFixture
 {

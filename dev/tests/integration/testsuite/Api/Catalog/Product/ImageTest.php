@@ -2,21 +2,18 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 /**
  * Test API work with product images
  *
- * @category    Magento
- * @package     Magento_Test
- * @author      Magento Api Team <api-team@magento.com>
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-class Api_Catalog_Product_ImageTest extends Magento_Test_Webservice
+class Api_Catalog_Product_ImageTest extends Magento_Test_TestCase_ApiAbstract
 {
     /**
      * @var Mage_Catalog_Model_Product
@@ -32,22 +29,22 @@ class Api_Catalog_Product_ImageTest extends Magento_Test_Webservice
     protected function setUp()
     {
         $productFixture = require dirname(__FILE__) . '/_fixture/ProductData.php';
-        $product        = Mage::getModel('Mage_Catalog_Model_Product');
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
 
         $product->setData($productFixture['create_full_fledged']);
         $product->save();
 
         $this->_product = $product;
         $this->_requestData = array(
-            'label'    => 'My Product Image',
+            'label' => 'My Product Image',
             'position' => 2,
-            'types'    => array('small_image', 'image', 'thumbnail'),
-            'exclude'  => 1,
-            'remove'   => 0,
-            'file'     => array(
-                'name'    => 'my_image_file',
+            'types' => array('small_image', 'image', 'thumbnail'),
+            'exclude' => 1,
+            'remove' => 0,
+            'file' => array(
+                'name' => 'my_image_file',
                 'content' => null,
-                'mime'    => 'image/jpeg'
+                'mime' => 'image/jpeg'
             )
         );
 
@@ -83,7 +80,8 @@ class Api_Catalog_Product_ImageTest extends Magento_Test_Webservice
         $requestData['file']['content'] = base64_encode(file_get_contents($validImgPath));
 
         $imagePath = $this->getWebService()->call(
-            'product_attribute_media.create', array('productId' => $product->getSku(), 'data' => $requestData)
+            'product_attribute_media.create',
+            array('productId' => $product->getSku(), 'data' => $requestData)
         );
         $this->assertInternalType('string', $imagePath, 'String type of response expected but not received');
 
@@ -91,7 +89,7 @@ class Api_Catalog_Product_ImageTest extends Magento_Test_Webservice
         $product->load($product->getId());
 
         // retrieve saved image
-        $attributes  = $product->getTypeInstance()->getSetAttributes($product);
+        $attributes = $product->getTypeInstance()->getSetAttributes($product);
         $imageParams = $attributes['media_gallery']->getBackend()->getImage($product, $imagePath);
 
         $this->assertInternalType('array', $imageParams, 'Image not found');
@@ -117,7 +115,8 @@ class Api_Catalog_Product_ImageTest extends Magento_Test_Webservice
 
         try {
             $this->getWebService()->call(
-                'product_attribute_media.create', array('productId' => $product->getSku(), 'data' => $requestData)
+                'product_attribute_media.create',
+                array('productId' => $product->getSku(), 'data' => $requestData)
             );
         } catch (Exception $e) {
             $this->assertEquals('Unsupported image format.', $e->getMessage(), 'Invalid exception message');
@@ -147,7 +146,8 @@ class Api_Catalog_Product_ImageTest extends Magento_Test_Webservice
 
         try {
             $this->getWebService()->call(
-                'product_attribute_media.create', array('productId' => $product->getSku(), 'data' => $requestData)
+                'product_attribute_media.create',
+                array('productId' => $product->getSku(), 'data' => $requestData)
             );
         } catch (Exception $e) {
             $this->assertEquals('Unsupported image format.', $e->getMessage(), 'Invalid exception message');

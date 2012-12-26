@@ -2,17 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 /**
  * Test Product CRUD operations
  *
- * @method Helper_Catalog_Product_Simple _getHelper()
+ * @method Api_Catalog_Product_Helper_Simple _getHelper()
  */
 class Api_Catalog_Product_SimpleTest extends Api_Catalog_ProductAbstract
 {
@@ -29,7 +25,7 @@ class Api_Catalog_Product_SimpleTest extends Api_Catalog_ProductAbstract
      *
      * @var string
      */
-    protected $_defaultHelper = 'Helper_Catalog_Product_Simple';
+    protected $_defaultHelper = 'Api_Catalog_Product_Helper_Simple';
 
     /**
      * Tear down
@@ -81,13 +77,29 @@ class Api_Catalog_Product_SimpleTest extends Api_Catalog_ProductAbstract
         $product->load($productId);
         $this->assertNotNull($product->getId());
         $this->addModelToDelete($product, true);
-        $skipAttributes = array('news_from_date', 'news_to_date', 'custom_design_from', 'custom_design_to',
-            'msrp_enabled', 'msrp_display_actual_price_type', 'msrp', 'meta_title', 'meta_keyword', 'meta_description',
-            'page_layout', 'gift_wrapping_available', 'gift_wrapping_price');
+        $skipAttributes = array(
+            'news_from_date',
+            'news_to_date',
+            'custom_design_from',
+            'custom_design_to',
+            'msrp_enabled',
+            'msrp_display_actual_price_type',
+            'msrp',
+            'meta_title',
+            'meta_keyword',
+            'meta_description',
+            'page_layout',
+            'gift_wrapping_available',
+            'gift_wrapping_price'
+        );
         $skipStockItemAttributes = array('min_qty');
 
-        $this->_getHelper()->checkSimpleAttributesData($product, $productData, $skipAttributes,
-            $skipStockItemAttributes);
+        $this->_getHelper()->checkSimpleAttributesData(
+            $product,
+            $productData,
+            $skipAttributes,
+            $skipStockItemAttributes
+        );
     }
 
     /**
@@ -128,14 +140,19 @@ class Api_Catalog_Product_SimpleTest extends Api_Catalog_ProductAbstract
             'Please enter a valid number in the "qty" field in the "stock_data" set.',
             'Please enter a number 0 or greater in the "min_qty" field in the "stock_data" set.',
             'Please use numbers only in the "min_sale_qty" field in the "stock_data" set. '
-            . 'Please avoid spaces or other non numeric characters.',
+                . 'Please avoid spaces or other non numeric characters.',
             'Please use numbers only in the "max_sale_qty" field in the "stock_data" set. '
-            . 'Please avoid spaces or other non numeric characters.',
+                . 'Please avoid spaces or other non numeric characters.',
             'Invalid "backorders" value in the "stock_data" set.',
             'Invalid "is_in_stock" value in the "stock_data" set.',
         );
-        $invalidValueAttributes = array('status', 'visibility', 'tax_class_id', 'custom_design',
-            'gift_message_available');
+        $invalidValueAttributes = array(
+            'status',
+            'visibility',
+            'tax_class_id',
+            'custom_design',
+            'gift_message_available'
+        );
         foreach ($invalidValueAttributes as $attribute) {
             $expectedErrors[] = sprintf('Invalid value "%s" for attribute "%s".', $productData[$attribute], $attribute);
         }
@@ -162,8 +179,10 @@ class Api_Catalog_Product_SimpleTest extends Api_Catalog_ProductAbstract
         $this->markTestSkipped("This test fails due to absence of proper validation in the functionality itself.");
         $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_invalid_qty_uses_decimals');
 
-        $this->_createProductWithErrorMessagesCheck($productData,
-            'Invalid "is_qty_decimal" value in the "stock_data" set.');
+        $this->_createProductWithErrorMessagesCheck(
+            $productData,
+            'Invalid "is_qty_decimal" value in the "stock_data" set.'
+        );
     }
 
     /**
@@ -177,8 +196,10 @@ class Api_Catalog_Product_SimpleTest extends Api_Catalog_ProductAbstract
         $this->markTestSkipped("This test fails due to absence of proper validation in the functionality itself.");
         $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_weight_out_of_range');
 
-        $this->_createProductWithErrorMessagesCheck($productData,
-            'The "weight" value is not within the specified range.');
+        $this->_createProductWithErrorMessagesCheck(
+            $productData,
+            'The "weight" value is not within the specified range.'
+        );
     }
 
     /**
@@ -196,8 +217,10 @@ class Api_Catalog_Product_SimpleTest extends Api_Catalog_ProductAbstract
         $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_data');
         $productData['sku'] = $product->getSku();
 
-        $this->_createProductWithErrorMessagesCheck($productData,
-            'Invalid attribute "sku": The value of attribute "SKU" must be unique');
+        $this->_createProductWithErrorMessagesCheck(
+            $productData,
+            'Invalid attribute "sku": The value of attribute "SKU" must be unique'
+        );
     }
 
     /**
@@ -214,8 +237,12 @@ class Api_Catalog_Product_SimpleTest extends Api_Catalog_ProductAbstract
         $expectedErrors = array(
             'Please enter a valid number in the "qty" field in the "stock_data" set.'
         );
-        $errorFields = array_diff_key($productData, array_flip(
-            array('type_id', 'attribute_set_id', 'sku', 'stock_data')));
+        $errorFields = array_diff_key(
+            $productData,
+            array_flip(
+                array('type_id', 'attribute_set_id', 'sku', 'stock_data')
+            )
+        );
         foreach ($errorFields as $key => $value) {
             $expectedErrors[] = sprintf('Empty value for "%s" in request.', $key);
         }
@@ -285,11 +312,11 @@ class Api_Catalog_Product_SimpleTest extends Api_Catalog_ProductAbstract
      */
     public function testSetSpecialPrice()
     {
-        $productData  = require dirname(__FILE__) . '/_fixture/ProductData.php';
-        $product      = Mage::getModel('Mage_Catalog_Model_Product');
+        $productData = require dirname(__FILE__) . '/_fixture/ProductData.php';
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
         $specialPrice = 1.99;
-        $specialFrom  = '2011-12-22 00:00:00';
-        $specialTo    = '2011-12-25 00:00:00';
+        $specialFrom = '2011-12-22 00:00:00';
+        $specialTo = '2011-12-25 00:00:00';
 
         $product->setData($productData['create_full_fledged']);
         $product->save();
@@ -297,11 +324,11 @@ class Api_Catalog_Product_SimpleTest extends Api_Catalog_ProductAbstract
         $result = $this->getWebService()->call(
             'catalog_product.setSpecialPrice',
             array(
-                'productId'    => $product->getSku(),
+                'productId' => $product->getSku(),
                 'specialPrice' => $specialPrice,
-                'fromDate'     => $specialFrom,
-                'toDate'       => $specialTo,
-                'store'        => Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID
+                'fromDate' => $specialFrom,
+                'toDate' => $specialTo,
+                'store' => Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID
             )
         );
 
@@ -331,8 +358,11 @@ class Api_Catalog_Product_SimpleTest extends Api_Catalog_ProductAbstract
 
         $id = $this->call('catalog_product.create', $data['create']);
 
-        $this->assertEquals($id, (int) $id,
-                'Result of a create method is not an integer.');
+        $this->assertEquals(
+            $id,
+            (int)$id,
+            'Result of a create method is not an integer.'
+        );
 
         //test new product exists in DB
         $product = Mage::getModel('Mage_Catalog_Model_Product');
@@ -340,7 +370,8 @@ class Api_Catalog_Product_SimpleTest extends Api_Catalog_ProductAbstract
         $this->setFixture('productId', $product->getId());
         $this->assertNotNull($product->getId(), 'Tested product not found.');
 
-        $result = $this->call('catalog_product.info',
+        $result = $this->call(
+            'catalog_product.info',
             array(
                 'productId' => $data['create']['sku'],
                 'store' => 0, //default 0
@@ -393,7 +424,7 @@ class Api_Catalog_Product_SimpleTest extends Api_Catalog_ProductAbstract
         $isOk = $this->call('catalog_product.delete', array('productId' => $productId));
 
         //test call response is true
-        $this->assertTrue((bool)$isOk, 'Call returned false');  //in SOAP v2 it's integer:1
+        $this->assertTrue((bool)$isOk, 'Call returned false'); //in SOAP v2 it's integer:1
 
         //test product not exists in DB after delete
         $product = Mage::getModel('Mage_Catalog_Model_Product');
@@ -413,7 +444,7 @@ class Api_Catalog_Product_SimpleTest extends Api_Catalog_ProductAbstract
 
         try {
             switch (TESTS_WEBSERVICE_TYPE) {
-                case self::TYPE_SOAPV2:
+                case self::TYPE_SOAP:
                     $this->_testSoapV2($optionValueApi, $optionValueInstaller, $data);
                     break;
             }
@@ -442,7 +473,7 @@ class Api_Catalog_Product_SimpleTest extends Api_Catalog_ProductAbstract
      */
     protected function _testSoapV2($optionValueApi, $optionValueInstaller, $data)
     {
-        $attributes = &$data['create_with_attributes_soapv2']['productData']['additional_attributes'];
+        $attributes = & $data['create_with_attributes_soapv2']['productData']['additional_attributes'];
         $attributes['single_data'][1]['value'] = $optionValueApi;
         $attributes['single_data'][3]['value'] = $optionValueInstaller;
 
@@ -479,10 +510,16 @@ class Api_Catalog_Product_SimpleTest extends Api_Catalog_ProductAbstract
 
         // add product attributes via installer
         $installer = new Mage_Catalog_Model_Resource_Setup('core_setup');
-        $installer->addAttribute('catalog_product', $data['create_text_installer']['code'],
-            $data['create_text_installer']['attributeData']);
-        $installer->addAttribute('catalog_product', $data['create_select_installer']['code'],
-            $data['create_select_installer']['attributeData']);
+        $installer->addAttribute(
+            'catalog_product',
+            $data['create_text_installer']['code'],
+            $data['create_text_installer']['attributeData']
+        );
+        $installer->addAttribute(
+            'catalog_product',
+            $data['create_select_installer']['code'],
+            $data['create_select_installer']['attributeData']
+        );
 
         //add attributes to default attribute set via installer
         $installer->addAttributeToSet('catalog_product', 4, 'Default', $data['create_text_installer']['code']);
@@ -574,7 +611,7 @@ class Api_Catalog_Product_SimpleTest extends Api_Catalog_ProductAbstract
 
         /** @var $attrSetCollection Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection */
         $attrSetCollection = $attrSet->getCollection();
-        $categoryAtrrSets  = $attrSetCollection->setEntityTypeFilter($entityTypeId)->toOptionHash();
+        $categoryAtrrSets = $attrSetCollection->setEntityTypeFilter($entityTypeId)->toOptionHash();
         $categoryAttrSetId = key($categoryAtrrSets);
 
         $productData['set'] = $categoryAttrSetId;
@@ -600,13 +637,15 @@ class Api_Catalog_Product_SimpleTest extends Api_Catalog_ProductAbstract
         // Create test store view
         $website = Mage::app()->getWebsite();
         $this->_store = Mage::getModel('Mage_Core_Model_Store');
-        $this->_store->setData(array(
-            'group_id' => $website->getDefaultGroupId(),
-            'name' => 'Test Store View',
-            'code' => 'test_store',
-            'is_active' => true,
-            'website_id' => $website->getId()
-        ))->save();
+        $this->_store->setData(
+            array(
+                'group_id' => $website->getDefaultGroupId(),
+                'name' => 'Test Store View',
+                'code' => 'test_store',
+                'is_active' => true,
+                'website_id' => $website->getId()
+            )
+        )->save();
         // We need to reinit stores config as we are going to load product models later in this test
         Mage::app()->reinitStores();
         $this->_getAppCache()->flush();
@@ -627,8 +666,11 @@ class Api_Catalog_Product_SimpleTest extends Api_Catalog_ProductAbstract
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->setStoreId($this->_store->getId())->load($productId);
         $this->assertNotNull($product->getId());
-        $this->assertEquals($data['update_custom_store']['productData']['name'], $product->getName(),
-            'Product name was not updated');
+        $this->assertEquals(
+            $data['update_custom_store']['productData']['name'],
+            $product->getName(),
+            'Product name was not updated'
+        );
 
         // update product attribute in default store
         $data['update_default_store'] = array('productId' => $productId) + $data['update_default_store'];
@@ -638,18 +680,30 @@ class Api_Catalog_Product_SimpleTest extends Api_Catalog_ProductAbstract
         // Load product in default store
         $productDefault = Mage::getModel('Mage_Catalog_Model_Product');
         $productDefault->load($productId);
-        $this->assertEquals($data['update_default_store']['productData']['description'],
-            $productDefault->getDescription(), 'Description attribute was not updated for default store');
-        $this->assertEquals($data['create_full']['soap']['productData']['name'], $productDefault->getName(),
-            'Product name attribute should not have been changed');
+        $this->assertEquals(
+            $data['update_default_store']['productData']['description'],
+            $productDefault->getDescription(),
+            'Description attribute was not updated for default store'
+        );
+        $this->assertEquals(
+            $data['create_full']['soap']['productData']['name'],
+            $productDefault->getName(),
+            'Product name attribute should not have been changed'
+        );
 
         // Load product in test store
         $productTestStore = Mage::getModel('Mage_Catalog_Model_Product');
         $productTestStore->setStoreId($this->_store->getId())->load($productId);
-        $this->assertEquals($data['update_default_store']['productData']['description'],
-            $productTestStore->getDescription(), 'Description attribute was not updated for test store');
-        $this->assertEquals($data['update_custom_store']['productData']['name'], $productTestStore->getName(),
-            'Product name attribute should not have been changed for test store');
+        $this->assertEquals(
+            $data['update_default_store']['productData']['description'],
+            $productTestStore->getDescription(),
+            'Description attribute was not updated for test store'
+        );
+        $this->assertEquals(
+            $data['update_custom_store']['productData']['name'],
+            $productTestStore->getName(),
+            'Product name attribute should not have been changed for test store'
+        );
     }
 
     /**
@@ -675,8 +729,11 @@ class Api_Catalog_Product_SimpleTest extends Api_Catalog_ProductAbstract
         $found = false;
         foreach ($product->getMediaAttributes() as $mediaAttribute) {
             $mediaAttrCode = $mediaAttribute->getAttributeCode();
-            $this->assertEquals($product->getData($mediaAttrCode), 'no_selection',
-                'Attribute "' . $mediaAttrCode . '" has no default value');
+            $this->assertEquals(
+                $product->getData($mediaAttrCode),
+                'no_selection',
+                'Attribute "' . $mediaAttrCode . '" has no default value'
+            );
             $found = true;
         }
         $this->assertTrue($found, 'Media attrributes not found');

@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 $customer = Mage::getModel('Mage_Customer_Model_Customer');
 
 $customer
@@ -24,4 +20,4 @@ $customer
     ->setRewardUpdateNotification(1)
     ->setRewardWarningNotification(1)
     ->save();
-Magento_Test_Webservice::setFixture('giftcard/customer', $customer);
+Magento_Test_TestCase_ApiAbstract::setFixture('giftcard/customer', $customer);

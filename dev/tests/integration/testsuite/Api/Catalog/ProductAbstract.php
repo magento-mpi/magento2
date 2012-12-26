@@ -2,17 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 /**
  * Abstract class for products resource tests
  */
-abstract class Api_Catalog_ProductAbstract extends Magento_Test_Webservice
+abstract class Api_Catalog_ProductAbstract extends Magento_Test_TestCase_ApiAbstract
 {
     /**
      * Map common fixtures keys to soap wsdl.
@@ -23,7 +19,7 @@ abstract class Api_Catalog_ProductAbstract extends Magento_Test_Webservice
         'tier_price' => array(
             'website_id' => 'website',
             'cust_group' => 'customer_group_id',
-            'price_qty'  => 'qty'
+            'price_qty' => 'qty'
         )
     );
 
@@ -51,7 +47,7 @@ abstract class Api_Catalog_ProductAbstract extends Magento_Test_Webservice
      */
     protected function _createProductWithApi($productData)
     {
-        $productId = (int) $this->_tryToCreateProductWithApi($productData);
+        $productId = (int)$this->_tryToCreateProductWithApi($productData);
         $this->assertGreaterThan(0, $productId, 'Response does not contain valid product ID.');
         return $productId;
     }
@@ -79,8 +75,8 @@ abstract class Api_Catalog_ProductAbstract extends Magento_Test_Webservice
     {
         $dataFormattedForRequest = array(
             'type' => $productData['type_id'],
-            'set'  => $productData['attribute_set_id'],
-            'sku'  => $productData['sku'],
+            'set' => $productData['attribute_set_id'],
+            'sku' => $productData['sku'],
             'productData' => array_diff_key($productData, array_flip(array('type_id', 'attribute_set_id', 'sku')))
         );
         foreach ($dataFormattedForRequest['productData'] as $attrCode => &$attrValue) {
