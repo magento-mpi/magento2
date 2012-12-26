@@ -49,7 +49,7 @@
                 $('#css_uploader_button').attr('disabled', 'disabled');
 
                 if (!data.result.error) {
-                    $('#custom_css_content').html(data.result.content);
+                    $('#custom_css_content').val(data.result.content);
                 }
             }
         });
