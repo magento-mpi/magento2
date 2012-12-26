@@ -60,6 +60,11 @@ class Mage_DesignEditor_PageController extends Mage_Core_Controller_Front_Action
                 /** @var $helper Mage_DesignEditor_Helper_Data */
                 $helper = $this->_objectManager->get('Mage_DesignEditor_Helper_Data');
                 $handle = $helper->getDefaultHandle();
+
+                /** @var $backendSession Mage_Backend_Model_Auth_Session */
+                $backendSession = $this->_objectManager->get('Mage_Backend_Model_Auth_Session');
+                $backendSession->unsetData('vde_current_handle');
+                $backendSession->unsetData('vde_current_url');
             }
 
             // required layout handle
