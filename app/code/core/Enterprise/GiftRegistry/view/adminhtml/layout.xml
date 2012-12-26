@@ -102,5 +102,4 @@
             <block type="Enterprise_GiftRegistry_Block_Adminhtml_Customer_Grid" name="adminhtml.giftregistry.customer.grid"/>
         </container>
     </adminhtml_giftregistry_customer_grid>
-
 </layout>
