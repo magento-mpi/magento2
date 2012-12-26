@@ -36,7 +36,7 @@ class Mage_Core_Model_Resource_Website_Collection extends Mage_Core_Model_Resour
     }
 
     /**
-     * Join website and store names
+     * Prepare collection select
      *
      * @return Mage_Core_Model_Resource_Db_Collection_Abstract
      */
