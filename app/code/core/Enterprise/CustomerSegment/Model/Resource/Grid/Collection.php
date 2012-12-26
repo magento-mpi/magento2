@@ -21,7 +21,7 @@ class Enterprise_CustomerSegment_Model_Resource_Grid_Collection extends Enterpri
     /**
      * Add websites for load
      *
-     * @return string
+     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
      */
     protected function _initSelect()
     {

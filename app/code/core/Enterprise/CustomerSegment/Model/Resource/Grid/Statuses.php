@@ -25,8 +25,8 @@ class Enterprise_CustomerSegment_Model_Resource_Grid_Statuses implements Mage_Co
     public function toOptionArray()
     {
         return array(
-          1 => "Active",
-          0 => "Inactive",
+            1 => "Active",
+            0 => "Inactive",
         );
     }
 }
