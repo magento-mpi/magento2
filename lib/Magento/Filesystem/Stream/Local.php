@@ -81,16 +81,24 @@ class Magento_Filesystem_Stream_Local implements Magento_Filesystem_StreamInterf
     /**
      * Reads one CSV row from the stream
      *
-     * @param int $count The number of bytes to read
+     * @param int $count [optional] <p>
+     * Must be greater than the longest line (in characters) to be found in
+     * the CSV file (allowing for trailing line-end characters). It became
+     * optional in PHP 5. Omitting this parameter (or setting it to 0 in PHP
+     * 5.0.4 and later) the maximum line length is not limited, which is
+     * slightly slower.
      * @param string $delimiter
      * @param string $enclosure
-     * @return array
+     * @return array|bool false on end of file
      * @throws Magento_Filesystem_Exception
      */
     public function readCsv($count = 0, $delimiter = ',', $enclosure = '"')
     {
         $this->_assertReadable();
         $result = @fgetcsv($this->_fileHandle, $count);
+        if ($result === false && $this->eof()) {
+            return false;
+        }
         if (!is_array($result)) {
             throw new Magento_Filesystem_Exception('Read of the stream caused an error.');
         }

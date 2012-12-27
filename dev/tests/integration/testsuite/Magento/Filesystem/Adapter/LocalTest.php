@@ -155,16 +155,16 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
      * @dataProvider createDirectoryDataProvider
      * @throws Exception
      */
-    public function jtestCreateDirectory($directoryName, $success)
+    public function testCreateDirectory($directoryName, $success)
     {
         try{
             if ($success) {
-                $this->assertTrue($this->_adapter->createDirectory($directoryName));
+                $this->_adapter->createDirectory($directoryName);
                 $this->assertFileExists($directoryName);
                 $this->assertTrue(is_dir($directoryName));
                 unlink($directoryName);
             } else {
-                $this->assertFalse($this->_adapter->createDirectory($directoryName));
+                $this->_adapter->createDirectory($directoryName);
                 $this->assertFileNotExists($directoryName);
             }
         } catch (Exception $e) {
@@ -188,6 +188,7 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
      * @dataProvider touchDataProvider
      * @param string $fileName
      * @param bool $newFile
+     * @throws Exception
      */
     public function testTouch($fileName, $newFile = false)
     {
