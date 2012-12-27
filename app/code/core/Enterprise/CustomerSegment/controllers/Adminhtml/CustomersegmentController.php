@@ -290,7 +290,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
      */
     public function gridAction()
     {
-        $this->loadLayout();
+        $this->loadLayout(false);
         $this->renderLayout();
     }
 

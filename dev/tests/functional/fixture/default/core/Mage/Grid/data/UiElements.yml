@@ -1,0 +1,432 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Grid
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#dataset for ui elements in Manage Admin Users grid
+manage_admin_users:
+    button:
+        reset_filter:
+        search:
+        add_new_admin_user:
+    dropdown:
+        status:
+        view:
+    field:
+        id:
+        user_name:
+        first_name:
+        last_name:
+        email:
+        page:
+    fieldset:
+        permissionsUserGrid: tablename
+    headers:
+        0: ID
+        1: User Name
+        2: First Name
+        3: Last Name
+        4: Email
+        5: Status
+
+#dataset for ui elements in Admin Users Roles grid
+role_users:
+    button:
+        reset_filter:
+        search:
+    dropdown:
+        status:
+        filter_in_role_users:
+        view:
+    field:
+        user_id:
+        user_name:
+        first_name:
+        last_name:
+        email:
+        page:
+    checkbox:
+        select_all:
+    pageelement:
+        role_user_grid:
+
+#dataset for ui elements in Manage Role grid
+manage_roles:
+    button:
+        reset_filter:
+        search:
+        add_new_role:
+    dropdown:
+        view_per_page:
+    field:
+        page:
+        id:
+        role_name:
+    fieldset:
+        role_list: tablename
+    headers:
+        0: ID
+        1: Role Name
+
+#dataset for ui elements in Transactional Emails grid
+system_email_template:
+    fieldset:
+        system_email_template_grid: tablename
+    button:
+        reset_filter:
+        search:
+    field:
+        page:
+        filter_template_id:
+        filter_template_name:
+        filter_date_added_from:
+        filter_date_added_to:
+        filter_date_updated_from:
+        filter_date_updated_to:
+        filter_subject:
+    dropdown:
+        filter_template_type:
+        view_per_page:
+    headers:
+        0: ID
+        1: Template Name
+        2: Date Added
+        3: Date Updated
+        4: Subject
+        5: Template Type
+        6: Action
+
+#dataset for ui elements in System Design grid
+system_design:
+    fieldset:
+        design_grid: tablename
+    dropdown:
+        view_per_page:
+        store:
+    button:
+        add_design_change:
+        reset_filter:
+        search:
+    field:
+        page:
+        design_filter:
+        date_from_filter_from:
+        date_from_filter_to:
+        date_to_filter_from:
+        date_to_filter_to:
+    headers:
+        0: Store
+        1: Design
+        2: Date From
+        3: Date To
+
+#dataset for ui elements in XML Sitemap grid
+xml_sitemap:
+    fieldset:
+        xml_sitemap_grid: tablename
+    button:
+        reset_filter:
+        search:
+        add_sitemap:
+    dropdown:
+        view_per_page:
+        filter_store_view:
+    field:
+        page:
+        filter_xml_sitemap_id:
+        filter_xml_sitemap_filename:
+        filter_xml_sitemap_path:
+        filter_xml_sitemap_google_link:
+        filter_xml_sitemap_create_date_from:
+        filter_xml_sitemap_create_date_to:
+    headers:
+        0: ID
+        1: Filename
+        2: Path
+        3: Link for Google
+        4: Last Time Generated
+        5: Store View
+        6: Action
+
+#dataset for ui elements in User Role grid
+user_role:
+    fieldset:
+        permissions_user_roles: tablename
+    button:
+        reset_filter:
+        search:
+        back:
+        reset:
+        save_admin_user:
+    dropdown:
+        assigned:
+    field:
+        role_name:
+    headers:
+        0: Assigned
+        1: Role Name
+
+#dataset for ui elements in Url Rewrite Managment
+url_rewrite_management:
+    fieldset:
+        url_rewrite_grid: tablename
+    button:
+        reset_filter:
+        search:
+        add_new_rewrite:
+    dropdown:
+        view_per_page:
+        filter_store_view:
+        filter_status:
+    field:
+        page:
+        filter_url_rewrite_id:
+        filter_id_path:
+        filter_request_path:
+        filter_target_path:
+        filter_options:
+    headers:
+        0: ID
+        1: Store View
+        2: Type
+        3: ID Path
+        4: Request Path
+        5: Target Path
+        6: Options
+        7: Action
+
+#dataset for ui elements in Permissions Locked Users
+permissions_locked_users:
+    fieldset:
+        locked_user_grid: tablename
+    button:
+        reset_filter:
+        search:
+        submit:
+    dropdown:
+        locked_actions:
+    field:
+        username:
+    dropdown:
+            locked_actions:
+    headers:
+        0: ' '
+        1: ID
+        2: Username
+        3: Last login
+        4: Failures
+        5: Locked until
+
+#dataset for ui elements in Manage Attribute Sets grid
+manage_attribute_sets:
+    fieldset:
+        attribute_sets_grid: tablename
+    button:
+        add_new_set:
+        reset_filter:
+        search:
+    field:
+        set_name:
+        page:
+    dropdown:
+        view_on_page:
+    headers:
+        0: Set Name
+
+#dataset for ui elements in Catalog Search Terms
+search_terms:
+    fieldset:
+        search_terms_info: tablename
+    button:
+        reset_filter:
+        search:
+        submit:
+        add_new_search_term:
+    dropdown:
+        grid_massaction_select:
+        filter_massaction:
+        filter_store:
+        filter_display_in_terms:
+    field:
+        filter_search_query:
+        filter_results_from:
+        filter_results_to:
+        filter_numb_of_uses_from:
+        filter_numb_of_uses_to:
+        filter_synonym_for:
+        filter_redirect:
+    headers:
+        0: ' '
+        1: Search Query
+        2: Store
+        3: Results
+        4: Number of Uses
+        5: Synonym For
+        6: Redirect
+        7: Display in Suggested Terms
+        8: Action
+
+#dataset for ui elements in Newsletter Problem Reports grid
+newsletter_problem_reports:
+    fieldset:
+        newsletter_problem_reports: tablename
+    button:
+        reset_filter:
+        search:
+    dropdown:
+        view:
+    field:
+        page:
+        id:
+        subscriber:
+        queue_date_start:
+        queue_date_to:
+        queue_subject:
+        error_code_from:
+        qerror_code_to:
+        error_text:
+    checkbox:
+        mass_actions:
+    headers:
+        1: ID
+        2: Subscriber
+        3: Queue Date Start
+        4: Queue Subject
+        5: Error Code
+        6: Error Text
+
+#dataset for ui elements in Backups grid
+system_backup:
+    fieldset:
+        backup_grid: tablename
+    button:
+        reset:
+        search:
+        system_backup:
+        database_and_media_backup:
+        database_backup:
+        reset:
+    dropdown:
+        view:
+        select:
+        type:
+        actions:
+    field:
+        page:
+        time_from:
+        time_to:
+    headers:
+        0: ' '
+        1: Time
+        2: Name
+        3: Size, Bytes
+        4: Type
+        5: Download
+        6: Action
+
+#dataset for ui elements in Manage Tax Rates grid
+manage_tax_zones_and_rates:
+    fieldset:
+        manage_tax_rate: tablename
+    button:
+        reset_filter:
+        search:
+        add_rate:
+        export:
+    dropdown:
+        view:
+        filter_country:
+        export_to:
+    field:
+        filter_tax_id:
+        filter_state_region:
+        filter_zip_code:
+        filter_rate_from:
+        filter_rate_to:
+        page:
+    pageelement:
+        grid_head:
+    headers:
+        0: Tax Identifier
+        1: Country
+        2: State/Region
+        3: Zip/Post Code
+        4: Rate
+
+#dataset for ui elements in Custom Variables grid
+system_custom_variables:
+    fieldset:
+        system_custom_variables_grid: tablename
+    button:
+        reset_filter:
+        search:
+        add_new_variable:
+    dropdown:
+        view:
+    field:
+        page:
+        variable_id:
+        variable_code:
+        variable_name:
+    headers:
+        0: Variable ID
+        1: Variable Code
+        2: Name
+#dataset for ui elements for Report Customers Review grid
+report_review_customer:
+    fieldset:
+        customer_review_grid: tablename
+    button:
+        export:
+    dropdown:
+        export_to:
+    headers:
+            0: Customer Name
+            1: Number Of Reviews
+            2: Action
+#dataset for ui elements in Manage Stores grid
+manage_stores:
+    fieldset:
+        manage_stores: tablename
+    button:
+        reset_filter:
+        search:
+        create_website:
+        create_store:
+        create_store_view:
+    dropdown:
+        items_per_page:
+    field:
+        website_name:
+        store_name:
+        store_view_name:
+        page:
+    pageelement:
+        grid_head:
+        stores_table:
+    headers:
+        0: Website Name
+        1: Store Name
+        2: Store View Name
+
+#dataset for ui elements for Report Product Review grid
+report_review_product:
+    fieldset:
+        product_review_grid: tablename
+    button:
+        export:
+    dropdown:
+        export_to:
+    headers:
+            0: ID
+            1: Product Name
+            2: Number of Reviews
+            3: Avg. Rating
+            4: Avg. Approved Rating
+            5: Last Review
+            6: Action

@@ -423,12 +423,36 @@ report_review_customer:
     mca: report_review/customer/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_review/customer/')]
     title: Customer Reviews / Reviews / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    customer_review_grid:
+                        xpath: //div[@id='customers_grid']
+                        buttons:
+                            export: //button[span='Export']
+                        dropdowns:
+                            export_to: //select[@id='customers_grid_export']
+                        fields:
+                            input_page: //input[@class='input-text page']
 
 # Reviews: Products Reviews
 report_review_product:
     mca: report_review/product/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_review/product/')]
     title: Product Reviews / Reviews / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    product_review_grid:
+                        xpath: //div[@id='gridProducts']
+                        buttons:
+                            export: //button[span='Export']
+                        dropdowns:
+                            export_to: //select[@id='gridProducts_export']
+                        fields:
+                            input_page: //input[@class='input-text page']
 
 # Search Terms page
 report_search:

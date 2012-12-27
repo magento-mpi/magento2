@@ -26,12 +26,14 @@ manage_admin_users:
                             search: //button[span='Search']
                         dropdowns:
                             status: //select[@name='is_active']
+                            view: //select[@name='limit']
                         fields:
                             id: //input[@name='user_id']
                             user_name: //input[@name='username']
                             first_name: //input[@name='firstname']
                             last_name: //input[@name='lastname']
                             email: //input[@name='email']
+                            page: //input[@name='page']
                         links:
                             select_by_user_name: //table[@id="permissionsUserGrid_table"]//td[normalize-space(text())="%userName%"]
         buttons:
@@ -89,7 +91,7 @@ new_admin_user:
                                     checkboxes:
                                     #must be implemented
                                     dropdowns:
-                                        assigned: //input[@name='assigned_user_role']
+                                        assigned: //select[@id='permissionsUserRolesGrid_filter_assigned_user_role']
                                     fields:
                                         role_name: //input[@name='role_name']
                                     radiobuttons:
@@ -138,7 +140,10 @@ manage_roles:
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
+                        dropdowns:
+                            view_per_page: //select[@name='limit']
                         fields:
+                            page: //input[@name='page']
                             id: //input[@name='role_id']
                             role_name: //input[@name='role_name']
                         links:
@@ -194,7 +199,7 @@ new_role:
         messages: *adminUserMessages
 
 # 'Edit Role' page
-edit_role:
+admin_edit_role:
     mca: user_role/editrole/rid/%id%/
     title: %elementTitle% / Roles / Permissions / System / Magento Admin
     uimap:
@@ -231,20 +236,25 @@ edit_role:
                             -
                                 role_users:
                                     xpath: //div[@id='role_info_tabs_roles_content']
+                                    pageelements:
+                                        role_user_grid: //table[@id='roleUserGrid_table']
                                     buttons:
                                         reset_filter: //button[span='Reset Filter']
                                         search: //button[span='Search']
                                     checkboxes:
                                         select_by_user_name: //td[normalize-space(text())='%userName%']/ancestor::tr//input[@class='checkbox']
+                                        select_all: //input[@title='Select All']
                                     dropdowns:
                                         filter_in_role_users: //select[@name='in_role_users']
                                         status: //select[@name='role_user_is_active']
+                                        view: //select[@name='limit']
                                     fields:
                                         user_id: //input[@name='role_user_id']
                                         user_name: //input[@name='role_user_username']
                                         first_name: //input[@name='role_user_firstname']
                                         last_name: //input[@name='role_user_lastname']
                                         email: //input[@name='role_user_email']
+                                        page: //input[@name='page']
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
