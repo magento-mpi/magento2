@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="apia" basedir="../../../">
+    <property environment="env"/>
+
+    <property name="dir.checkout.build.files" value="${basedir}/dev/build/core_dev/api/customization"/>
+    <property name="dir.www" value="${env.build_www_simlink}"/>
+    <property name="build_host" value="${env.build_host}"/>
+    <property name="build_url" value="${env.build_url}"/>
+    <property name="build_db_name" value="${env.build_mysql_db_name}"/>
+    <property name="build_db_user" value="${env.build_mysql_db_user}"/>
+
+    <property name="dir.magento" value="${basedir}"/>
+    <property name="dir.reports" value="${dir.magento}/reports"/>
+    <property name="dir.magento.media" value="${dir.magento}/pub/media"/>
+    <property name="dir.magento.var" value="${dir.magento}/var"/>
+    <property name="dir.magento.var.cache" value="${dir.magento.var}/cache"/>
+    <property name="dir.magento.var.session" value="${dir.magento.var}/session"/>
+    <property name="dir.magento.app.etc" value="${dir.magento}/app/etc"/>
+    <property name="dir.magento.app.etc.modules" value="${dir.magento}/app/etc/modules"/>
+    <property name="dir.tests" value="${dir.magento}/dev/tests/integration"/>
+
+    <property name="file.magento.enterprise_enabler.xml.dist" value="${dir.magento.app.etc.modules}/XEnterprise_Enabler.xml.dist"/>
+    <property name="file.magento.enterprise_enabler.xml" value="${dir.magento.app.etc.modules}/XEnterprise_Enabler.xml"/>
+
+    <property name="file.magento.local.xml.dist" value="${dir.checkout.build.files}/local.xml"/>
+    <property name="file.magento.local.xml" value="${dir.magento.app.etc}/local.xml"/>
+
+    <property name="file.tests.local-mysql.xml.dist" value="${dir.tests}/etc/api-local-mysql.xml.dist"/>
+    <property name="file.tests.local-mysql.xml" value="${dir.tests}/etc/api-local-mysql.xml"/>
+
+    <property name="mysql.username" value="${build_db_user}"/>
+    <property name="mysql.password" value="${db_password}"/>
+    <property name="mysql.dbname" value="${build_db_name}"/>
+
+    <property name="file.test.dump.sql" value="${dir.checkout.build.files}/api_tests.sql"/>
+    <property name="file.magento.backup.sql" value="${dir.magento}/api_tests_backup.sql"/>
+
+
+    <property name="file.tests.config.soap.dist" value="${dir.tests}/phpunit-soap.xml.dist"/>
+    <property name="file.tests.config.soap" value="${dir.tests}/phpunit-soap.xml"/>
+    <property name="file.tests.config.soap.wsi" value="${dir.tests}/phpunit-soap-wsi.xml"/>
+
+    <target name="initTests">
+        <antcall target="prepareBuild"/>
+        <antcall target="configureTests"/>
+        <antcall target="prepareTestCache"/>
+        <antcall target="prepareTestDB"/>
+    </target>
+
+    <target name="prepareBuild">
+        <copy file="${file.tests.config.soap.dist}" tofile="${file.magento.local.xml}"/>
+        <copy file="${file.magento.local.xml.dist}" tofile="${file.tests.config.soap}"/>
+        <replace file="${file.magento.local.xml}" token="magento_integration_tests" value="${mysql.dbname}"/>
+        <replace file="${file.magento.local.xml}" token="root" value="${mysql.username}"/>
+
+        <copy file="${file.magento.enterprise_enabler.xml.dist}" tofile="${file.magento.enterprise_enabler.xml}"/>
+
+        <exec executable="ln" failonerror="true">
+            <arg line="-s"/>
+            <arg line="-f"/>
+            <arg line="${dir.magento}"/>
+            <arg line="${dir.www}"/>
+        </exec>
+
+        <delete dir="${dir.magento.var.cache}"/>
+        <mkdir dir="${dir.magento.var.cache}"/>
+
+        <delete dir="${dir.magento.var.session}"/>
+        <mkdir dir="${dir.magento.var.session}"/>
+
+        <chmod perm="777">
+            <fileset dir="${dir.magento.media}"/>
+            <dirset dir="${dir.magento.media}"/>
+        </chmod>
+        <chmod perm="777">
+            <fileset dir="${dir.magento.var}"/>
+            <dirset dir="${dir.magento.var}"/>
+        </chmod>
+        <chmod perm="777">
+            <fileset dir="${dir.magento.app.etc}"/>
+            <dirset dir="${dir.magento.app.etc}"/>
+        </chmod>
+
+        <delete dir="${dir.reports}"/>
+        <mkdir dir="${dir.reports}"/>
+        <chmod dir="${dir.reports}" perm="777"/>
+    </target>
+
+    <target name="configureTests">
+        <replace file="${file.test.dump.sql}" token="test-magento-host.loc" value="${build_url}"/>
+
+        <copy file="${file.tests.local-mysql.xml.dist}" tofile="${file.tests.local-mysql.xml}" failonerror="true"/>
+
+        <replace file="${file.tests.local-mysql.xml}" token="magento_integration_tests" value="${mysql.dbname}"/>
+        <replace file="${file.tests.local-mysql.xml}" token="root" value="${mysql.username}"/>
+        <!--TODO: Add password initialization-->
+
+        <replace file="${file.tests.config.soap}" token="tests.url" value="${build_url}"/>
+    </target>
+
+    <target name="prepareTestCache">
+        <property name="dir.tests.tmp" value="${dir.tests}/tmp"/>
+        <delete dir="${dir.tests.tmp}"/>
+        <mkdir dir="${dir.tests.tmp}"/>
+        <chmod dir="${dir.tests.tmp}" perm="777"/>
+    </target>
+
+    <target name="prepareTestDB">
+        <exec executable="mysql" failonerror="true">
+            <arg line="-u${mysql.username}"/>
+            <arg line="-e 'drop database if exists ${mysql.dbname}'"/>
+        </exec>
+        <exec executable="mysql" failonerror="true">
+            <arg line="-u${mysql.username}"/>
+            <arg line="-e 'create database ${mysql.dbname}'"/>
+        </exec>
+        <exec executable="mysql" failonerror="true" input="${file.test.dump.sql}">
+            <arg line="-u${mysql.username}"/>
+            <arg line="${mysql.dbname}"/>
+        </exec>
+    </target>
+
+    <target name="runSoapTests" depends="initTests">
+        <property name="file.reports.integration.junit.soap" value="${dir.reports}/integration-phpunit-soap.xml"/>
+        <property name="file.reports.integration.log.soap" value="${dir.reports}/integration-phpunit-soap.txt"/>
+
+        <exec executable="phpunit" failonerror="false" dir="${dir.tests}" output="${file.reports.integration.log.soap}">
+            <arg line="--configuration ${file.tests.config.soap}"/>
+            <arg line="--log-junit ${file.reports.integration.junit.soap}"/>
+            <arg line="--debug"/>
+        </exec>
+    </target>
+</project>
