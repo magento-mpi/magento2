@@ -15,7 +15,7 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_Data_Form_Element_Hidden
+class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_Data_Form_Element_Abstract
 {
     /**
      * Maximum file size to upload in bytes.
@@ -82,6 +82,18 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
         $this->_maxFileSize = $this->_getFileMaxSize();
     }
 
+    public function getDefaultHtml()
+    {
+        $html = $this->getData('default_html');
+        if (is_null($html)) {
+            $html = ($this->getNoSpan() === true) ? '' : '<span class="field-row">' . "\n";
+            $html .= $this->getLabelHtml();
+            $html .= $this->getElementHtml();
+            $html .= ($this->getNoSpan() === true) ? '' : '</span>' . "\n";
+        }
+        return $html;
+    }
+
     /**
      * Return element html code
      *
@@ -94,11 +106,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
         $uploadUrl = $this->_helperData->escapeHtml($this->_getUploadUrl());
 
         $html = '<input id="' . $htmlId .'_upload" type="file" name="image" '
-                 . 'data-url="' . $uploadUrl . '" style="display: none;" />'
-                 . parent::getElementHtml()
-                 . '<img align="left" src="' . $imageUrl . '" id="' . $htmlId . '_image"'
-                 . ' title="' . $imageUrl . '" alt="' . $imageUrl . '" class="base-image-uploader"'
-                 . ' onclick="jQuery(\'#' . $htmlId . '_upload\').trigger(\'click\')"/>';
+             . 'data-url="' . $uploadUrl . '" style="display: none;" />'
+             . '<input id="' . $htmlId . '" type="hidden" name="image" />'
+             . '<div id="' . $htmlId  . '_container" >';
+        foreach (range(1, 5) as $index) {
+            $html .= '<span><img align="left" src="' . $imageUrl . '" id="' . $htmlId . $index .'_image"'
+             . ' title="Click to select image" alt="image" class="base-image-uploader"'
+             . ' onclick="jQuery(\'#' . $htmlId  . '_upload\').trigger(\'click\'); jQuery(this).data(\'clicked\', + new Date())"/>'
+             . '</span>';
+        }
+        $html .= '</div>';
         $html .= $this->_getJs();
 
         return $html;
