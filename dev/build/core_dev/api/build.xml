@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="apia" basedir="../../../">
+<project name="api" basedir="../../../../">
     <property environment="env"/>
 
     <property name="dir.checkout.build.files" value="${basedir}/dev/build/core_dev/api/customization"/>
