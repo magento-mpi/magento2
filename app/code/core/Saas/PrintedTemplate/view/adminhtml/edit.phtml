@@ -346,11 +346,11 @@
                            $(formPrefix + "footer_height_measurement").value = "<?php echo Zend_Measure_Length::MILLIMETER ?>";
                        }
                        if (fields.content) {
-                           // if (typeof tinyMCE == 'undefined' || !tinyMCE.getInstanceById(formPrefix + 'content')) {
+                           if (typeof tinyMCE == 'undefined' || !tinyMCE.getInstanceById(formPrefix + 'content')) {
                                $(formPrefix + "content").value = fields.content;
-                           // } else {
-                               // tinyMCE.getInstanceById(formPrefix + 'content').setContent(fields.content);
-                           // }
+                           } else {
+                               tinyMCE.getInstanceById(formPrefix + 'content').setContent(fields.content);
+                           }
                        }
                    }
                }

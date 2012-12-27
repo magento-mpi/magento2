@@ -147,7 +147,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Backe
         ));
 
 
-        $fieldset->addField('content', 'textarea', array(
+        $fieldset->addField('content', 'editor', array(
             'name'      => 'content',
             'label'     => $this->__('Template Content'),
             'title'     => $this->__('Template Content'),
