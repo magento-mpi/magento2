@@ -45,11 +45,15 @@
              * @param data
              */
             done: function (e, data) {
+                var contentArea = $('#custom_css_content');
                 $(this).val('');
+
                 $('#css_uploader_button').attr('disabled', 'disabled');
 
                 if (!data.result.error) {
-                    $('#custom_css_content').val(data.result.content);
+                    contentArea.trigger('focusin');
+                    contentArea.val(data.result.content);
+                    contentArea.trigger('focusout');
                 }
             }
         });
