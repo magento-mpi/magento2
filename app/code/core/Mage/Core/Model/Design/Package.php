@@ -392,6 +392,9 @@ class Mage_Core_Model_Design_Package
     {
         $cacheKey = "{$params['area']}|{$params['themeModel']->getCacheKey()}|{$params['locale']}";
         if (!isset($this->_fallback[$cacheKey])) {
+            if (!isset($params['skipProxy']) && Mage::getIsDeveloperMode()) {
+                $params['skipProxy'] = true;
+            }
             $this->_fallback[$cacheKey] = $this->_createFallback($params);
         }
         return $this->_fallback[$cacheKey];
