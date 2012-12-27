@@ -2,4 +2,10 @@
 # See also common.txt and dev_build.txt for items that are not part of any edition
 #
 saas.php
+app/code/core/Saas
+dev/tests/functional/testsuite/Saas
 dev/tests/static/testsuite/Php/_files/{whitelist,blacklist}/saas.txt
+dev/tests/unit/testsuite/Magento/Profiler/Driver/PinbaTest.php
+dev/tests/unit/testsuite/Magento/Profiler/_files/pinba_functions.php
+dev/tests/unit/testsuite/Saas
+lib/Magento/Profiler/Driver/Pinba.php

@@ -13,6 +13,7 @@ app/code/core/Mage/Install/view/install/layout_{oracle,mssql}.xml
 app/design/adminhtml/default/pro
 app/design/frontend/pro
 app/design/install/default/pro
+app/etc/aliases_to_classes_map.json
 app/etc/config.{oracle,mssql}.xml
 dev/tests/functional
 dev/tests/integration/etc/local-{oracle,mssql}.xml.dist

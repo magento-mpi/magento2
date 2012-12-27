@@ -22,10 +22,10 @@
          verbose="true">
     <testsuites>
         <testsuite name="All Tests">
-            <directory suffix="Test.php">testsuite/Core</directory>
-            <directory suffix="Test.php">testsuite/Community17</directory>
-            <directory suffix="Test.php">testsuite/Community1701</directory>
-            <directory suffix="Test.php">testsuite/Community2</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Acl</directory>
+            <!--<directory suffix="Test.php">testsuite/Community17</directory>-->
+            <!--<directory suffix="Test.php">testsuite/Community1701</directory>-->
+            <!--<directory suffix="Test.php">testsuite/Community2</directory>-->
         </testsuite>
     </testsuites>
     <logging>

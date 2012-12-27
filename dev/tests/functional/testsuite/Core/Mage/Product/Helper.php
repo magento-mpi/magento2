@@ -901,6 +901,27 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
+     * Open product on FrontEnd
+     *
+     * @param string $productId
+     * @param string $productName
+     */
+    public function frontOpenProductById($productId, $productName = '')
+    {
+        if (!is_string($productId)) {
+            $this->fail('Wrong data to open a product');
+        }
+        $this->addParameter('id', $productId);
+        $this->addParameter('productTitle', $productName);
+        $this->frontend('product_page_id', false);
+        $this->setCurrentPage('product_page');
+        $this->addParameter('productName', $productName);
+        $openedProductName = $this->getElement($this->_getControlXpath('pageelement', 'product_name'))->text();
+        $this->assertEquals($productName, $openedProductName,
+            "Product with name '$openedProductName' is opened, but should be '$productName'");
+    }
+
+    /**
      * Add product to shopping cart
      *
      * @param array|null $dataForBuy

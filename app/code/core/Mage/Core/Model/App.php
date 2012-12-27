@@ -19,7 +19,6 @@
  */
 class Mage_Core_Model_App
 {
-
     const XML_PATH_INSTALL_DATE = 'global/install/date';
 
     const XML_PATH_SKIP_PROCESS_MODULES_UPDATES = 'global/skip_process_modules_updates';
@@ -51,7 +50,7 @@ class Mage_Core_Model_App
      * Default store code (for install)
      *
      */
-    const DISTRO_STORE_CODE     = 'default';
+    const DISTRO_STORE_CODE     = Mage_Core_Model_Store::DEFAULT_CODE;
 
     /**
      * Admin store Id
@@ -100,13 +99,6 @@ class Mage_Core_Model_App
      * @var Mage_Core_Model_Design_Package
      */
     protected $_design;
-
-    /**
-     * Application layout object
-     *
-     * @var Mage_Core_Model_Layout
-     */
-    protected $_layout;
 
     /**
      * Application configuration object
@@ -244,8 +236,11 @@ class Mage_Core_Model_App
     /**
      * Constructor
      */
-    public function __construct(Magento_ObjectManager $objectManager)
-    {
+    public function __construct(
+        Mage_Core_Controller_Varien_Front $frontController,
+        Magento_ObjectManager $objectManager
+    ) {
+        $this->_frontController = $frontController;
         $this->_objectManager = $objectManager;
     }
 
@@ -1129,14 +1124,7 @@ class Mage_Core_Model_App
      */
     public function getLayout()
     {
-        if (!$this->_layout) {
-            if ($this->getFrontController()->getAction()) {
-                $this->_layout = $this->getFrontController()->getAction()->getLayout();
-            } else {
-                $this->_layout = Mage::getSingleton('Mage_Core_Model_Layout');
-            }
-        }
-        return $this->_layout;
+        return $this->_objectManager->get('Mage_Core_Model_Layout');
     }
 
     /**
@@ -1402,7 +1390,7 @@ class Mage_Core_Model_App
 
             foreach ($events[$eventName]['observers'] as $obsName => $obs) {
                 $observer->setData(array('event' => $event));
-                Magento_Profiler::start('OBSERVER:' . $obsName);
+                Magento_Profiler::start('OBSERVER:' . $obsName, array('group' => 'OBSERVER', 'observer' => $obsName));
                 switch ($obs['type']) {
                     case 'disabled':
                         break;

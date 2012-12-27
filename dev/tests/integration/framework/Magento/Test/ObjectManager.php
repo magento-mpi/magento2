@@ -24,17 +24,6 @@ class Magento_Test_ObjectManager extends Magento_ObjectManager_Zend
     );
 
     /**
-     * @param string $definitionsFile
-     * @param Zend\Di\Di $diInstance
-     */
-    public function __construct($definitionsFile = null, Zend\Di\Di $diInstance = null)
-    {
-        $diInstance = $diInstance ? $diInstance : new Magento_Di();
-        $diInstance->setInstanceManager(new Magento_Test_Di_InstanceManager());
-        parent::__construct($definitionsFile, $diInstance);
-    }
-
-    /**
      * Clear InstanceManager cache
      *
      * @return Magento_Test_ObjectManager
@@ -42,13 +31,15 @@ class Magento_Test_ObjectManager extends Magento_ObjectManager_Zend
     public function clearCache()
     {
         foreach ($this->_classesToDestruct as $className) {
-            if ($this->_di->instanceManager()->hasSharedInstance($className)) {
-                /** @var $object object */
-                $object = $this->_di->instanceManager()->getSharedInstance($className);
-                // force to cleanup circular references
-                $object->__destruct();
+            if ($this->hasSharedInstance($className)) {
+                $object = $this->get($className);
+                if ($object) {
+                    // force to cleanup circular references
+                    $object->__destruct();
+                }
             }
         }
+
         $instanceManagerNew = new Magento_Test_Di_InstanceManager();
         $instanceManagerNew->addSharedInstance($this, 'Magento_ObjectManager');
         if ($this->_di->instanceManager()->hasSharedInstance('Mage_Core_Model_Resource')) {
@@ -56,35 +47,6 @@ class Magento_Test_ObjectManager extends Magento_ObjectManager_Zend
             $instanceManagerNew->addSharedInstance($resource, 'Mage_Core_Model_Resource');
         }
         $this->_di->setInstanceManager($instanceManagerNew);
-        return $this;
-    }
-
-    /**
-     * Add shared instance
-     *
-     * @param object $instance
-     * @param string $classOrAlias
-     * @return Magento_Test_ObjectManager
-     * @throws Zend\Di\Exception\InvalidArgumentException
-     */
-    public function addSharedInstance($instance, $classOrAlias)
-    {
-        $this->_di->instanceManager()->addSharedInstance($instance, $classOrAlias);
-
-        return $this;
-    }
-
-    /**
-     * Remove shared instance
-     *
-     * @param string $classOrAlias
-     * @return Magento_Test_ObjectManager
-     */
-    public function removeSharedInstance($classOrAlias)
-    {
-        /** @var $instanceManager Magento_Test_Di_InstanceManager */
-        $instanceManager = $this->_di->instanceManager();
-        $instanceManager->removeSharedInstance($classOrAlias);
 
         return $this;
     }

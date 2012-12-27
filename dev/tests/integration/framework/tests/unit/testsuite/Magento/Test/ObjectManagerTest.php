@@ -43,7 +43,12 @@ class Magento_Test_ObjectManagerTest extends PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('__destruct')
         ;
-        $resource = new stdClass;
+
+        $resource = $this->getMock('stdClass', array('__destruct'));
+        $object
+            ->expects($this->once())
+            ->method('__destruct')
+        ;
 
         $instanceManager = new Magento_Test_Di_InstanceManager();
         $instanceManager->addSharedInstance($object, 'sharedInstance');
