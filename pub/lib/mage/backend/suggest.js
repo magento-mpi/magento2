@@ -52,34 +52,38 @@
 
         _bind: function() {
             this._on($.extend({
-                    'keydown': function(event) {
-                        var keyCode = $.ui.keyCode;
-                        switch (event.keyCode) {
-                            case keyCode.HOME:
-                            case keyCode.END:
-                            case keyCode.PAGE_UP:
-                            case keyCode.PAGE_DOWN:
-                            case keyCode.ESCAPE:
-                            case keyCode.UP:
-                            case keyCode.DOWN:
-                            case keyCode.LEFT:
-                            case keyCode.RIGHT:
+                'keydown': function(event) {
+                    var keyCode = $.ui.keyCode;
+                    switch (event.keyCode) {
+                        case keyCode.HOME:
+                        case keyCode.END:
+                        case keyCode.PAGE_UP:
+                        case keyCode.PAGE_DOWN:
+                        case keyCode.ESCAPE:
+                        case keyCode.UP:
+                        case keyCode.DOWN:
+                        case keyCode.LEFT:
+                        case keyCode.RIGHT:
+                            this._proxyEvents(event);
+                            break;
+                        case keyCode.ENTER:
+                        case keyCode.NUMPAD_ENTER:
+                            if(this.contentContainer.is(':visible')) {
                                 this._proxyEvents(event);
-                                break;
-                            case keyCode.ENTER:
-                            case keyCode.NUMPAD_ENTER:
+                            } else {
                                 this._submitAction(event);
-                                break;
-                            default:
-                                this.search();
-                        }
+                            }
+                            break;
+                        default:
+                            this.search();
                     }
-                }, this.options.events))
-                ._on(this.contentContainer, {
-                    'menufocus': function(e, ui){
-                        this.element.val(ui.item.text());
-                    }
-                });
+                }
+            }, this.options.events));
+            this._on(this.contentContainer, {
+                menufocus: function(e, ui){
+                    this.element.val(ui.item.text());
+                }
+            });
         },
         _setTemplate: function() {
             this.template = $(this.options.template).length ?
@@ -146,10 +150,37 @@
         }
     });
 
-    /*$.widget('mage.suggest', $.mage.suggest, {
-     options: {
-     showRecent: true
-     },
-     _create: function()
-     });*/
+    $.widget('mage.suggest', $.mage.suggest, {
+        options: {
+            showRecent: true,
+            storageKey: 'suggest'
+        },
+        _create: function() {
+            if(this.options.showRecent && $.mage.isStorageAvailable()) {
+                this.recentData = JSON.parse(localStorage.getItem(this.options.storageKey)) || [];
+            }
+            this._super();
+        },
+        _bind: function() {
+            this._super();
+            this._on({
+                focus: function(){
+                    if(!this._value()) {
+                        this._renderData(this.recentData);
+                    }
+                }
+            });
+            this._on(this.contentContainer, {
+                menuselect: function(e, ui){
+                    this._addRecent(ui.item.text());
+                }
+            });
+        },
+        _addRecent: function(val) {
+            this.recentData.push({label: val, value:val});
+            //localStorage.setItem(this.options.storageKey, null);
+            localStorage.setItem(this.options.storageKey, JSON.stringify(this.recentData));
+        }
+
+    });
 })(jQuery);
