@@ -90,4 +90,3 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Shipment_Item_Configurab
         );
     }
 }
-

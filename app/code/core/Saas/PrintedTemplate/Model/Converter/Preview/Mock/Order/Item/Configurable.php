@@ -247,4 +247,3 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_Configurable 
         );
     }
 }
-

@@ -20,9 +20,9 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Payment extends Ma
     /**
      * Initialize order payment with mock data
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
 
         $this->setData($this->_getMockData());
     }

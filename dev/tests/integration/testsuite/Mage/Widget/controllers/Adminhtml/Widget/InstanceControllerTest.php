@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Widget_Adminhtml_Widget_InstanceControllerTest extends Mage_Adminhtml_Utility_Controller
+class Mage_Widget_Adminhtml_Widget_InstanceControllerTest extends Mage_Backend_Utility_Controller
 {
     protected function setUp()
     {

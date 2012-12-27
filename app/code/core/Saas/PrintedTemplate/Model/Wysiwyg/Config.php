@@ -164,7 +164,10 @@ class Saas_PrintedTemplate_Model_Wysiwyg_Config extends Mage_Cms_Model_Wysiwyg_C
      */
     protected function getWysiwygJsPluginSrc()
     {
-        return Mage::getBaseUrl('js').'mage/adminhtml/wysiwyg/tiny_mce/plugins/magentovariable/editor_plugin.js';
+        $designPackage = Mage::getDesign();
+        return $designPackage->getViewFileUrl(
+            'Saas_PrintedTemplate::wysiwyg/tiny_mce/plugins/magentoheaderfooter/editor_plugin.js'
+        );
     }
 
     /**

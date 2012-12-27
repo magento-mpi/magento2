@@ -224,6 +224,10 @@
     var templatePreviewForm = jQuery('#printed_template_preview_form').form().validation();
     var templateControl = {
         checkTemplate: function(successHandler) {
+
+            successHandler.call(this);
+            return;
+            // @todo: should be fixed
             var onComplete = function(response) {
                 var responseJson = response.responseText.evalJSON();
                 if (responseJson.error) {
@@ -267,6 +271,7 @@
         },
 
         preview: function(url) {
+
             var successHandler = function() {
                 var formElem = $('printed_template_edit_form');
                 var oldUrl = formElem.action;
@@ -283,7 +288,8 @@
                 url += 'r=' + Math.round(Math.random()*100000);
                 //-------------------------------------------
 
-                templateForm.submit(url);
+                templateForm.attr('action', url);
+                templateForm.submit();
                 formElem.writeAttribute('target', '');
                 $('printedtemplate_name').addClassName('required-entry');
                 $('printedtemplate_content').addClassName('required-entry');
@@ -302,16 +308,16 @@
         },
 
         load: function() {
-            var form = new varienForm('printed_template_load_form');
+            var form = jQuery('#printed_template_load_form').form().validation();
 
-            if (!form.validator.validate()) {
+            if (!form.validate()) {
                 return;
             }
 
             this.variables = null;
 
-            new Ajax.Request($('printed_template_load_form').action, {
-               parameters: Form.serialize($('printed_template_load_form'), true),
+            new Ajax.Request(form.attr('action'), {
+               parameters: form.serialize(),
                area: $('printed_template_load_form'),
                onComplete: function (transport) {
                    if (transport.responseText.isJSON()) {
@@ -340,11 +346,11 @@
                            $(formPrefix + "footer_height_measurement").value = "<?php echo Zend_Measure_Length::MILLIMETER ?>";
                        }
                        if (fields.content) {
-                           if (typeof tinyMCE == 'undefined' || !tinyMCE.getInstanceById(formPrefix + 'content')) {
+                           // if (typeof tinyMCE == 'undefined' || !tinyMCE.getInstanceById(formPrefix + 'content')) {
                                $(formPrefix + "content").value = fields.content;
-                           } else {
-                               tinyMCE.getInstanceById(formPrefix + 'content').setContent(fields.content);
-                           }
+                           // } else {
+                               // tinyMCE.getInstanceById(formPrefix + 'content').setContent(fields.content);
+                           // }
                        }
                    }
                }
@@ -357,7 +363,7 @@
                 return false;
             }
 
-            var height = $('printedtemplate_' + type + '_height'); //.up(2);
+            var height = $('printedtemplate_' + type + '_height');
             var heightMeasurement = $('printedtemplate_' + type + '_height_measurement');
             if (autoHeightCheckbox.checked) {
                 height.disable();
