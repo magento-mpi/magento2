@@ -132,6 +132,11 @@
                 this.element.addClass(this.options.checkedClass);
                 this.element.trigger('checked.' + this.widgetName);
             }
+        },
+        setChecked: function() {
+            if (!this.element.hasClass(this.options.checkedClass)) {
+                this.element.addClass(this.options.checkedClass);
+            }
         }
     });
 })(jQuery);

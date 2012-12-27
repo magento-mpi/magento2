@@ -50,7 +50,7 @@ class Mage_Core_Model_App
      * Default store code (for install)
      *
      */
-    const DISTRO_STORE_CODE     = 'default';
+    const DISTRO_STORE_CODE     = Mage_Core_Model_Store::DEFAULT_CODE;
 
     /**
      * Admin store Id
@@ -1368,7 +1368,7 @@ class Mage_Core_Model_App
 
             foreach ($events[$eventName]['observers'] as $obsName => $obs) {
                 $observer->setData(array('event' => $event));
-                Magento_Profiler::start('OBSERVER:' . $obsName);
+                Magento_Profiler::start('OBSERVER:' . $obsName, array('group' => 'OBSERVER', 'observer' => $obsName));
                 switch ($obs['type']) {
                     case 'disabled':
                         break;
