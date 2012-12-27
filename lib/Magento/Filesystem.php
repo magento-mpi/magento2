@@ -22,12 +22,12 @@ class Magento_Filesystem
     /**
      * @var bool
      */
-    protected $_isAllowCreateDirectories = false;
+    protected $_isAllowCreateDirs = false;
 
     /**
      * @var int
      */
-    protected $_newDirectoryMode = 0777;
+    protected $_newDirPermissions = 0777;
 
     /**
      * @param Magento_Filesystem_AdapterInterface $adapter
@@ -54,14 +54,14 @@ class Magento_Filesystem
      * Allows to create directories when process operations
      *
      * @param bool $allow
-     * @param int $mode
+     * @param int $permissions
      * @return Magento_Filesystem
      */
-    public function setIsAllowCreateDirectories($allow, $mode = null)
+    public function setIsAllowCreateDirectories($allow, $permissions = null)
     {
-        $this->_isAllowCreateDirectories = (bool)$allow;
-        if (null !== $mode) {
-            $this->_newDirectoryMode = $mode;
+        $this->_isAllowCreateDirs = (bool)$allow;
+        if (null !== $permissions) {
+            $this->_newDirPermissions = $permissions;
         }
         return $this;
     }
@@ -101,7 +101,7 @@ class Magento_Filesystem
     }
 
     /**
-     * Deletes the file.
+     * Deletes the file or directory recursively.
      *
      * @param string $key
      * @return bool
@@ -146,27 +146,50 @@ class Magento_Filesystem
     }
 
     /**
+     * Check if key exists and is writable
+     *
+     * @param string $key
+     * @return bool
+     */
+    public function isWritable($key)
+    {
+        return $this->_adapter->isWritable($this->_getCheckedPath($key));
+    }
+
+    /**
+     * Change mode of key
+     *
+     * @param string $key
+     * @param int $permissions
+     * @param bool $recursively
+     */
+    public function changePermissions($key, $permissions, $recursively = false)
+    {
+        $this->_adapter->changePermissions($key, $permissions, $recursively);
+    }
+
+    /**
      * Creates new directory
      *
      * @param string $key
-     * @param int $mode
+     * @param int $permissions
      */
-    public function createDirectory($key, $mode = 0777)
+    public function createDirectory($key, $permissions = 0777)
     {
-        $this->_adapter->createDirectory($key, $mode);
+        $this->_adapter->createDirectory($key, $permissions);
     }
 
-    public function ensureDirectoryExists($key, $mode = 0777)
+    public function ensureDirectoryExists($key, $permissions = 0777)
     {
         if (!$this->isDirectory($key)) {
-            $this->createDirectory($key, $mode);
+            $this->createDirectory($key, $permissions);
         }
     }
 
     public function touch($key)
     {
-        if (!$this->isDirectory(dirname($key)) && $this->_isAllowCreateDirectories) {
-            $this->createDirectory(dirname($key), $this->_newDirectoryMode);
+        if (!$this->isDirectory(dirname($key)) && $this->_isAllowCreateDirs) {
+            $this->createDirectory(dirname($key), $this->_newDirPermissions);
         }
         $this->_adapter->touch($key);
     }

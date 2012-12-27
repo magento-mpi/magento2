@@ -46,14 +46,47 @@ class Magento_Filesystem_Adapter_Local implements
     }
 
     /**
-     * Deletes the file.
+     * Deletes the file or directory recursively.
      *
      * @param string $key
-     * @return bool
+     * @throws Magento_Filesystem_Exception
      */
     public function delete($key)
     {
-        return unlink($key);
+        if (!file_exists($key) && !is_link($key)) {
+            return;
+        }
+
+        if (is_file($key) || is_link($key)) {
+            if (true !== @unlink($key)) {
+                throw new Magento_Filesystem_Exception(sprintf('Failed to remove file %s', $key));
+            }
+            return;
+        }
+
+        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($key),
+            RecursiveIteratorIterator::CHILD_FIRST);
+
+        /** @var SplFileInfo $file */
+        foreach ($iterator as $file) {
+            if ($file->getFilename() == '.' || $file->getFilename() == '..') {
+                continue;
+            }
+            if ($file->isDir() && !$file->isLink() && true !== @rmdir($file->getPathname())) {
+                throw new Magento_Filesystem_Exception(sprintf('Failed to remove directory %s', $file));
+            } else {
+                // https://bugs.php.net/bug.php?id=52176
+                if (defined('PHP_WINDOWS_VERSION_MAJOR') && $file->isDir() && true !== @rmdir($file->getPathname())) {
+                    throw new Magento_Filesystem_Exception(sprintf('Failed to remove file %s', $file));
+                } elseif (true !== @unlink($file->getPathname())) {
+                    throw new Magento_Filesystem_Exception(sprintf('Failed to remove file %s', $file));
+                }
+            }
+        }
+
+        if (true !== @rmdir($key)) {
+            throw new Magento_Filesystem_Exception(sprintf('Failed to remove directory %s', $key));
+        }
     }
 
     /**
@@ -69,16 +102,30 @@ class Magento_Filesystem_Adapter_Local implements
     }
 
     /**
-     * Changes mode of filesystem key
+     * Changes permissions of filesystem key
      *
      * @param string $key
-     * @param int $mode
+     * @param int $permissions
+     * @param bool $recursively
      * @throws Magento_Filesystem_Exception
      */
-    public function changeMode($key, $mode)
+    public function changePermissions($key, $permissions, $recursively)
     {
-        if (!@chmod($key, $mode, true)) {
+        if (!@chmod($key, $permissions, true)) {
             throw new Magento_Filesystem_Exception(sprintf('Failed to change mode of %s', $key));
+        }
+
+        if (is_dir($key) && $recursively) {
+            $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($key));
+            /** @var SplFileInfo $file */
+            foreach ($iterator as $file) {
+                if ($file->getFilename() == '.' || $file->getFilename() == '..') {
+                    continue;
+                }
+                if (!@chmod($file, $permissions, true)) {
+                    throw new Magento_Filesystem_Exception(sprintf('Failed to change mode of %s', $key));
+                }
+            }
         }
     }
 
@@ -102,6 +149,17 @@ class Magento_Filesystem_Adapter_Local implements
     public function isFile($key)
     {
         return is_file($key);
+    }
+
+    /**
+     * Check if key exists and is writable
+     *
+     * @param string $key
+     * @return bool
+     */
+    public function isWritable($key)
+    {
+        return is_writable($key);
     }
 
     /**

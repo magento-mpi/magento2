@@ -35,10 +35,10 @@ interface Magento_Filesystem_AdapterInterface
     public function write($key, $content);
 
     /**
-     * Deletes the file.
+     * Deletes the file or directory recursively.
      *
      * @param string $key
-     * @return bool
+     * @throws Magento_Filesystem_Exception
      */
     public function delete($key);
 
@@ -52,13 +52,14 @@ interface Magento_Filesystem_AdapterInterface
     public function rename($source, $target);
 
     /**
-     * Changes mode of filesystem key
+     * Changes permissions of filesystem key
      *
      * @param string $key
-     * @param int $mode
+     * @param int $permissions
+     * @param bool $recursively
      * @throws Magento_Filesystem_Exception
      */
-    public function changeMode($key, $mode);
+    public function changePermissions($key, $permissions, $recursively);
 
     /**
      * Check if key is directory.
@@ -75,6 +76,14 @@ interface Magento_Filesystem_AdapterInterface
      * @return bool
      */
     public function isFile($key);
+
+    /**
+     * Check if file exists and is writable
+     *
+     * @param string $key
+     * @return bool
+     */
+    public function isWritable($key);
 
     /**
      * Creates new directory
