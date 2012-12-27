@@ -19,6 +19,9 @@
             name="product[configurable_attributes_data][${attribute.id}][attribute_id]"/>
         <input value="" type="hidden" class="attribute-position"
             name="product[configurable_attributes_data][${attribute.id}][position]"/>
+        <input value="${attribute.code}" type="hidden"
+            class="attribute-code"
+            name="product[configurable_attributes_data][${attribute.id}][code]"/>
 
         <div class="entry-edit-head" style="cursor: move;">
             <span class="ui-icon ui-icon-arrowthick-2-n-s" style="float:left"></span>
@@ -26,11 +29,11 @@
                 <input value="${attribute.label}"
                     name="product[configurable_attributes_data][${attribute.id}][label]"
                     data-store-label="${attribute.label}"
-                    style="background: #6F8992; border: none"
-                    class="required-entry"/>
+                    class="store-label required-entry"/>
                 <label for="attribute-${attribute.id}">
                     <input value="1"
                         type="checkbox"
+                        class="use-default"
                         name="product[configurable_attributes_data][${attribute.id}][use_default]"
                         id="attribute-${attribute.id}"/>
                     <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Use default')?>

@@ -59,10 +59,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
 
         if (!$this->getProduct()->isReadonly()) {
             if (!$this->getProduct()->isConfigurable() || !$this->getIsConfigured()) {
-                $this->addChild('change_attribute_set_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-                    'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Change Attribute Set'),
-                    'onclick' => "jQuery('#attribute-set-info').dialog('open');"
-                ));
+                $this->addChild(
+                    'change_attribute_set_button',
+                    'Mage_Adminhtml_Block_Widget_Button',
+                    array(
+                        'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Change Attribute Set'),
+                        'onclick' => "jQuery('#attribute-set-info').dialog('open');",
+                        'id' => 'change-attribute-set-button'
+                    )
+                );
             }
 
             $this->addChild('reset_button', 'Mage_Adminhtml_Block_Widget_Button', array(

@@ -114,32 +114,25 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
             ));
         }
 
-        $onclick = "jQuery('#product-edit-form').attr('action', "
-            . $this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getContinueUrl())
-            . ").addClass('ignore-validate').submit();";
-        $this->addChild('generate', 'Mage_Backend_Block_Widget_Button', array(
-            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Generate Variations'),
-            'onclick' => $onclick,
-            'class' => 'save',
-        ));
 
+        $this->addChild(
+            'generate',
+            'Mage_Adminhtml_Block_Widget_Button',
+            array(
+                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Generate Variations'),
+                'data_attr' => array(
+                    'widget-button' => array(
+                        'event' => 'generate',
+                        'related' => '#product-variations-matrix',
+                        'eventData' => array(
+                            'url' => $this->getUrl('*/*/variationMatrix'),
+                        ),
+                    ),
+                ),
+            )
+        );
 
         return parent::_prepareLayout();
-    }
-
-    /**
-     * Retrieve Continue URL
-     *
-     * @return string
-     */
-    public function getContinueUrl()
-    {
-        return $this->getUrl(
-            $this->_getProduct()->getId() ? '*/*/edit' : '*/*/new',
-            array(
-                '_current' => true,
-            )
-        ) . '#product-variations-matrix'; //@todo: use _fragments after fix sharing url model
     }
 
     /**

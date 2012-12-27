@@ -391,6 +391,14 @@ Layout handle for grouped products
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group" name="catalog.product.edit.tab.super.group" />
         </container>
     </adminhtml_catalog_product_supergroupgridonly>
+
+    <adminhtml_catalog_product_variationmatrix>
+        <container name="root" label="Root" output="1">
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix"
+                   template="Mage_Adminhtml::catalog/product/edit/super/matrix.phtml"
+                   as="matrix"/>
+        </container>
+    </adminhtml_catalog_product_variationmatrix>
 <!--
 Layout handle for configurable products
 -->

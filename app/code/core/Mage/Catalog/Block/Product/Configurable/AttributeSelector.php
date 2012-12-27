@@ -46,6 +46,7 @@ class Mage_Catalog_Block_Product_Configurable_AttributeSelector extends Mage_Bac
                 $result[$id] = array(
                     'id' => $attribute->getId(),
                     'label' => $attribute->getFrontendLabel(),
+                    'code' => $attribute->getAttributeCode(),
                     'options' => $attribute->getSource()->getAllOptions(false)
                 );
             }
