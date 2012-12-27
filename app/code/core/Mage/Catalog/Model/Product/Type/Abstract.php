@@ -966,4 +966,15 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     {
         return true;
     }
+
+    /**
+     * Set image for product without image if possible
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return Mage_Catalog_Model_Product_Type_Abstract
+     */
+    public function setImageFromChildProduct(Mage_Catalog_Model_Product $product)
+    {
+        return $this;
+    }
 }
