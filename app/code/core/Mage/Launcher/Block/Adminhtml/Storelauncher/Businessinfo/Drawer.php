@@ -214,6 +214,28 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
 
         $fieldset->setAdvancedLabel($helper->__('Add Store Email Addresses'));
 
+        $fieldset->addField('general_contact', 'label', array(
+            'name' => 'general_contact',
+            'label' => $helper->__('General Contact'),
+            'required' => false
+        ), false, true);
+
+        $fieldset->addField('sender_name_general', 'text', array(
+            'name' => 'groups[trans_email][ident_general][fields][name][value]',
+            'label' => $helper->__('Sender Name'),
+            'required' => false,
+            'value' => $this->_storeConfig->getConfig('trans_email/ident_general/name')
+        ), false, true);
+
+        $fieldset->addField('sender_email_general', 'text', array(
+            'name' => 'groups[trans_email][ident_general][fields][email][value]',
+            'label' => $helper->__('Sender Email'),
+            'required' => true,
+            'class' => 'validate-email',
+            'disabled' => 'disabled',
+            'value' => $this->_storeConfig->getConfig('trans_email/ident_general/email')
+        ), false, true);
+
         $fieldset->addField('sales_representative', 'label', array(
             'name' => 'sales_representative',
             'label' => $helper->__('Sales Representative'),
@@ -301,6 +323,58 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
         $form->setUseContainer(true);
         $this->setForm($form);
         return parent::_prepareForm();
+    }
+
+    /**
+     * Processing block html after rendering.
+     * Add filling emails logic
+     *
+     * @param   string $html
+     * @return  string
+     */
+    protected function _afterToHtml($html)
+    {
+        $html = parent::_afterToHtml($html);
+
+        $html .= '<script type="text/javascript">
+            (function($) {
+                var EmailAddresses = $("input[id^=sender_email]");
+
+                EmailAddresses = $.grep(EmailAddresses, function(elem, index) {
+                    if (elem.value != $("#store_email").val()) {
+                        return false;
+                    }
+                    return true;
+                });
+
+                var emailUpdateHandler = function() {
+                    var elementId = this.id;
+                    EmailAddresses = $.grep(EmailAddresses, function(elem, index) {
+                        if (elem.id == elementId) {
+                            return false;
+                        }
+                        return true;
+                    });
+                }
+
+                var storeEmailHandler = function() {
+                    var element = this;
+                    $.each(EmailAddresses, function() {
+                        this.value = element.value;
+                    });
+                }
+
+                $("#sender_email_general").on("keyup", emailUpdateHandler);
+                $("#sender_email_representative").on("keyup", emailUpdateHandler);
+                $("#sender_email_support").on("keyup", emailUpdateHandler);
+                $("#sender_email_custom1").on("keyup", emailUpdateHandler);
+                $("#sender_email_custom2").on("keyup", emailUpdateHandler);
+
+                $("#store_email").on("keyup", storeEmailHandler);
+                $("#store_email").on("blur", storeEmailHandler);
+            })(jQuery);
+            </script>';
+        return $html;
     }
 
     /**
