@@ -23,22 +23,14 @@
 
             <p><?php echo $this->__('We recommend that you configure these settings:') ?></p>
             <ul class="checklist">
-                <li class="uncompleted"><a href="<?php echo $this->getUrl('adminhtml/system_config/edit', array('section' => 'trans_email'))?>"><?php echo $this->__('Store Email Addresses') ?> </a></li>
-                <li class="uncompleted"><a href="<?php echo $this->getUrl('adminhtml/system_config/edit', array('section' => 'design'))?>"><?php echo $this->__('Logo for Transactional Email from Design') ?> </a></li>
-                <li class="uncompleted"><a href="javascript:void(0);" onclick="$('email_template_preview_form').submit();"><?php echo $this->__('Sales Emails') ?> </a></li>
-                <li class="uncompleted"><a href="<?php echo $this->getUrl('adminhtml/system_email_template')?>"><?php echo $this->__('Transactional Emails') ?> </a></li>
+                <li class="uncompleted"><a href="<?php echo $this->getUrl('adminhtml/system_config/edit', array('section' => 'trans_email')); ?>"><?php echo $this->__('Store Email Addresses'); ?> </a></li>
+                <li class="uncompleted"><a href="<?php echo $this->getUrl('adminhtml/system_config/edit', array('section' => 'design')); ?>"><?php echo $this->__('Logo for Transactional Email'); ?> </a></li>
+                <li class="uncompleted"><a href="<?php echo $this->getUrl('adminhtml/system_config/edit', array('section' => 'sales_email')); ?>"><?php echo $this->__('Sales Emails'); ?> </a></li>
+                <li class="uncompleted"><a href="<?php echo $this->getUrl('adminhtml/system_email_template'); ?>"><?php echo $this->__('Transactional Emails'); ?></a></li>
             </ul>
         </div>
     </form>
 </div>
-<form action="<?php echo $this->getUrl('adminhtml/system_email_template/preview'); ?>" method="post" id="email_template_preview_form" target="_blank">
-    <div><input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('Mage_Core_Model_Session')->getFormKey() ?>"/></div>
-    <div class="no-display">
-        <input type="hidden" id="template_type" name="type" value="<?php echo $this->escapeHtml($this->templateData['template_type'])?>"/>
-        <input type="hidden" id="template_text" name="text" value="<?php echo $this->escapeHtml($this->templateData['template_text'])?>"/>
-        <input type="hidden" id="template_styles" name="styles" value="<?php echo $this->escapeHtml($this->templateData['template_styles'])?>"/>
-    </div>
-</form>
 
 
 
