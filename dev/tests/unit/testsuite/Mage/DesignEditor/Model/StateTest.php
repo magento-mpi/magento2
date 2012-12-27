@@ -10,6 +10,34 @@
  */
 class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
 {
+    /**#@+
+     * Name of layout classes that will be used as main layout
+     */
+    const LAYOUT_DESIGN_CLASS_NAME     = 'Mage_DesignEditor_Model_Layout';
+    const LAYOUT_NAVIGATION_CLASS_NAME = 'Mage_Core_Model_Layout';
+    /**#@-*/
+
+    /**#@+
+     * Url model classes that will be used instead of Mage_Core_Model_Url in different vde modes
+     */
+    const URL_MODEL_NAVIGATION_MODE_CLASS_NAME = 'Mage_DesignEditor_Model_Url_NavigationMode';
+    const URL_MODEL_DESIGN_MODE_CLASS_NAME     = 'Mage_DesignEditor_Model_Url_DesignMode';
+    /**#@-*/
+
+    /**#@+
+     * Layout update resource models
+     */
+    const LAYOUT_UPDATE_RESOURCE_MODEL_CORE_CLASS_NAME = 'Mage_Core_Model_Resource_Layout_Update';
+    const LAYOUT_UPDATE_RESOURCE_MODEL_VDE_CLASS_NAME  = 'Mage_DesignEditor_Model_Resource_Layout_Update';
+    /**#@-*/
+
+    /**#@+
+     * Import behaviors
+     */
+    const MODE_DESIGN     = 'design';
+    const MODE_NAVIGATION = 'navigation';
+    /**#@-*/
+
     /*
      * Test area code
      */
@@ -72,7 +100,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         $this->_dataHelper = $this->getMock('Mage_DesignEditor_Helper_Data', array('getDisabledCacheTypes'),
             array(), '', false
         );
-        $this->_objectManager = $this->getMock('Magento_ObjectManager_Zend', array(),
+        $this->_objectManager = $this->getMock('Magento_ObjectManager_Zend', array('addAlias'),
             array(), '', false
         );
         $this->_model = new Mage_DesignEditor_Model_State(
@@ -92,6 +120,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         $this->assertAttributeEquals($this->_urlModelFactory, '_urlModelFactory', $this->_model);
         $this->assertAttributeEquals($this->_cacheManager, '_cacheManager', $this->_model);
         $this->assertAttributeEquals($this->_dataHelper, '_dataHelper', $this->_model);
+        $this->assertAttributeEquals($this->_objectManager, '_objectManager', $this->_model);
     }
 
     protected function _setAdditionalExpectations()
@@ -138,11 +167,16 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
 
         $this->_urlModelFactory->expects($this->once())
             ->method('replaceClassName')
-            ->with('Mage_DesignEditor_Model_Url_DesignMode');
+            ->with(self::URL_MODEL_DESIGN_MODE_CLASS_NAME);
 
         $this->_layoutFactory->expects($this->once())
             ->method('createLayout')
-            ->with(array('area' => self::AREA_CODE), 'Mage_DesignEditor_Model_Layout');
+            ->with(array('area' => self::AREA_CODE), self::LAYOUT_DESIGN_CLASS_NAME);
+
+        $this->_objectManager->expects($this->once())
+            ->method('addAlias')
+            ->with(self::LAYOUT_UPDATE_RESOURCE_MODEL_CORE_CLASS_NAME,
+            self::LAYOUT_UPDATE_RESOURCE_MODEL_VDE_CLASS_NAME);
 
         $this->_model->update(self::AREA_CODE, $request, $controller);
     }
@@ -187,11 +221,16 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
 
         $this->_urlModelFactory->expects($this->once())
             ->method('replaceClassName')
-            ->with('Mage_DesignEditor_Model_Url_NavigationMode');
+            ->with(self::URL_MODEL_NAVIGATION_MODE_CLASS_NAME);
 
         $this->_layoutFactory->expects($this->once())
             ->method('createLayout')
-            ->with(array('area' => self::AREA_CODE), 'Mage_Core_Model_Layout');
+            ->with(array('area' => self::AREA_CODE), self::LAYOUT_NAVIGATION_CLASS_NAME);
+
+        $this->_objectManager->expects($this->once())
+            ->method('addAlias')
+            ->with(self::LAYOUT_UPDATE_RESOURCE_MODEL_CORE_CLASS_NAME,
+            self::LAYOUT_UPDATE_RESOURCE_MODEL_VDE_CLASS_NAME);
 
         $this->_model->update(self::AREA_CODE, $request, $controller);
     }
