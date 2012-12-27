@@ -710,6 +710,20 @@ system_configuration:
                                         use_canonical_link_meta_tag_for_categories_use_default: //input[@name='groups[seo][fields][category_canonical_tag][inherit]']
                                         use_canonical_link_meta_tag_for_products_use_default: //input[@name='groups[seo][fields][product_canonical_tag][inherit]']
                             -
+                                unit_price:
+                                    xpath: //div/fieldset[legend='Unit Price']
+                                    links:
+                                        unit_price_link: //parent::div//a[text()='Unit Price']
+                                    fields:
+                                        unit_price_frontend_label: //input[@id='catalog_unitprice_frontend_label']
+                                        unit_price_unit_volume: //input[@id='catalog_unitprice_default_unit_price_base_amount']
+                                    dropdowns:
+                                        unit_price_active: //select[@id='catalog_unitprice_enable_ext']
+                                        unit_price_calculation_including_tax: //select[@id='catalog_unitprice_unit_price_incl_tax']
+                                        unit_price_measure_for_base_prod: //select[@id='catalog_unitprice_default_unit_price_unit']
+                                        unit_price_measure_for_unit_prod: //select[@id='catalog_unitprice_default_unit_price_base_unit']
+                                        unit_price_display_on_prod_view: //select[@id='catalog_unitprice_auto_append_unit_price']
+                            -
                                 catalog_search:
                                     xpath: //fieldset[@id='catalog_search']
                                     links:

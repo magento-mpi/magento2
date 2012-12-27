@@ -14,6 +14,7 @@ app/design/install/default/enterprise
 app/design/install/default/pro
 app/etc/enterprise.xml
 app/etc/modules
+app/etc/aliases_to_classes_map.json
 dev/tests/integration/etc/modules/XEnterprise_Enabler.xml
 dev/tests/integration/testsuite/Enterprise
 dev/tests/integration/testsuite/integrity/modular/ViewFilesTest.php
@@ -45,3 +46,5 @@ lib/Apache
 lib/Magento/Profiler/Driver/Pinba.php
 pub/errors/enterprise
 pub/errors/pro
+app/code/core/Saas
+dev/tests/unit/testsuite/Saas
