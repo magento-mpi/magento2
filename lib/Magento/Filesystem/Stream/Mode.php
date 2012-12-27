@@ -67,7 +67,7 @@ class Magento_Filesystem_Stream_Mode
     /**
      * Indicates whether the mode allows to read
      *
-     * @return Boolean
+     * @return bool
      */
     public function allowsRead()
     {
@@ -145,7 +145,7 @@ class Magento_Filesystem_Stream_Mode
     /**
      * Indicates whether the stream is in binary mode
      *
-     * @return Boolean
+     * @return bool
      */
     public function isBinary()
     {
