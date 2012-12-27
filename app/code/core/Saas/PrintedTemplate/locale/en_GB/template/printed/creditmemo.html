@@ -6,7 +6,7 @@
     .printed-creditmemo {font-family: arial,helvetica,sans-serif; font-size: 10pt;}
     .header-footer-separator {margin: 0px; padding: 0px; border: none;}
     .company-info {text-align: right; font-size:6pt;}
-    .company-name {font-size: 10pt; font-weight: bold;}    
+    .company-name {font-size: 10pt; font-weight: bold;}
 -->
 </style>
 
@@ -14,25 +14,25 @@
     <div class="printed-creditmemo ">
         <p class="company-info">
             <span class="company-name">Company Name</span><br/>
-            123 Fake Street<br /> 
-            London<br /> 
+            123 Fake Street<br />
+            London<br />
             WAB CDE<br />
-            <br /> 
-            Phone: +55 (0) 55 5555 5555<br /> 
+            <br />
+            Phone: +55 (0) 55 5555 5555<br />
             Fax: +55 (0) 55 5555 5555<br />
-            <br /> 
-            www.example.com<br /> 
-            Company Number: 1234567<br /> 
+            <br />
+            www.example.com<br />
+            Company Number: 1234567<br />
             VAT Number: AB 123 4567 89
         </p>
     </div>
     <p class="printed-creditmemo">
         CREDIT NOTE<br/>
-        {{var address_billing.prefix}} {{var address_billing.firstname}} {{var address_billing.middlename}} {{var address_billing.lastname}} {{var address_billing.suffix}}<br/> 
+        {{var address_billing.prefix}} {{var address_billing.firstname}} {{var address_billing.middlename}} {{var address_billing.lastname}} {{var address_billing.suffix}}<br/>
         {{depend address_billing.company}}{{var address_billing.company}}<br />{{/depend}}
-        {{var address_billing.street_multiline}}<br/> 
+        {{var address_billing.street_multiline}}<br/>
         {{var address_billing.city}}{{depend address_billing.region}}, {{var address_billing.region}}{{/depend}}<br/>
-        {{var address_billing.country}}<br/> 
+        {{var address_billing.country}}<br/>
         {{var address_billing.postcode}}<br/>
         T: {{var address_billing.telephone}}
         {{depend address_billing.fax}}<br/>F: {{var address_billing.fax}}{{/depend}}
@@ -45,7 +45,7 @@
     </p>
 
     <div class="header_items_grid">
-        {{widget type="saas_printedtemplate/widget_itemsGrid" header_font_family="sans_serif" header_font_size="10" hide_table_body="1" header_font_bold="1" row_font_family="sans_serif" row_font_size="10" columns_editor="cGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjg4ODcwODc2MTBfNjEwJTVEJTVCcHJvcGVydHklNUQ9bmFtZSZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzA4NzYxMF82MTAlNUQlNUJ0aXRsZSU1RD1EZXNjcmlwdGlvbiZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzA4NzYxMF82MTAlNUQlNUJ3aWR0aCU1RD0zMDAmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjg4ODcwODc2MTBfNjEwJTVEJTVCc29ydF9vcmRlciU1RD0yJnBhcmFtZXRlcnMlNUJjb2x1bW5zX2VkaXRvciU1RCU1Ql8xMzI4ODg3MTE1NDk3XzQ5NyU1RCU1QnByb3BlcnR5JTVEPXJvd190b3RhbCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzExNTQ5N180OTclNUQlNUJ0aXRsZSU1RD1PdmVyYWxsJTIwQ29zdCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzExNTQ5N180OTclNUQlNUJ3aWR0aCU1RD03MCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzExNTQ5N180OTclNUQlNUJzb3J0X29yZGVyJTVEPTQmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjg4ODcxMTk1MzZfNTM2JTVEJTVCcHJvcGVydHklNUQ9cm93X3RvdGFsX2luY2xfZGlzY291bnRfYW5kX3RheCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzExOTUzNl81MzYlNUQlNUJ0aXRsZSU1RD1Ub3RhbCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzExOTUzNl81MzYlNUQlNUJ3aWR0aCU1RD03MCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzExOTUzNl81MzYlNUQlNUJzb3J0X29yZGVyJTVEPTcmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkxNDYwODI0ODNfNDgzJTVEJTVCcHJvcGVydHklNUQ9dGF4X2Ftb3VudCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTE0NjA4MjQ4M180ODMlNUQlNUJ0aXRsZSU1RD1WQVQmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkxNDYwODI0ODNfNDgzJTVEJTVCd2lkdGglNUQ9NzAmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkxNDYwODI0ODNfNDgzJTVEJTVCc29ydF9vcmRlciU1RD02JnBhcmFtZXRlcnMlNUJjb2x1bW5zX2VkaXRvciU1RCU1Ql8xMzI5NDExNTM1NzY2Xzc2NiU1RCU1QnByb3BlcnR5JTVEPWRpc2NvdW50X2Ftb3VudCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTQxMTUzNTc2Nl83NjYlNUQlNUJ0aXRsZSU1RD1EaXNjb3VudCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTQxMTUzNTc2Nl83NjYlNUQlNUJ3aWR0aCU1RD03MCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTQxMTUzNTc2Nl83NjYlNUQlNUJzb3J0X29yZGVyJTVEPTUmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjk3NDAwNDYyNzJfMjcyJTVEJTVCcHJvcGVydHklNUQ9cXR5JnBhcmFtZXRlcnMlNUJjb2x1bW5zX2VkaXRvciU1RCU1Ql8xMzI5NzQwMDQ2MjcyXzI3MiU1RCU1QnRpdGxlJTVEPVF0eSZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTc0MDA0NjI3Ml8yNzIlNUQlNUJ3aWR0aCU1RD0yMCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTc0MDA0NjI3Ml8yNzIlNUQlNUJzb3J0X29yZGVyJTVEPTEmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjk3NDAwNjQwMDNfMyU1RCU1QnByb3BlcnR5JTVEPXByaWNlJnBhcmFtZXRlcnMlNUJjb2x1bW5zX2VkaXRvciU1RCU1Ql8xMzI5NzQwMDY0MDAzXzMlNUQlNUJ0aXRsZSU1RD1Db3N0JTJGdW5pdCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTc0MDA2NDAwM18zJTVEJTVCd2lkdGglNUQ9ODAmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjk3NDAwNjQwMDNfMyU1RCU1QnNvcnRfb3JkZXIlNUQ9Mw==" entity="$creditmemo"}}
+        {{widget type="Saas_PrintedTemplate_Block_Widget_ItemsGrid" header_font_family="sans_serif" header_font_size="10" hide_table_body="1" header_font_bold="1" row_font_family="sans_serif" row_font_size="10" columns_editor="cGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjg4ODcwODc2MTBfNjEwJTVEJTVCcHJvcGVydHklNUQ9bmFtZSZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzA4NzYxMF82MTAlNUQlNUJ0aXRsZSU1RD1EZXNjcmlwdGlvbiZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzA4NzYxMF82MTAlNUQlNUJ3aWR0aCU1RD0zMDAmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjg4ODcwODc2MTBfNjEwJTVEJTVCc29ydF9vcmRlciU1RD0yJnBhcmFtZXRlcnMlNUJjb2x1bW5zX2VkaXRvciU1RCU1Ql8xMzI4ODg3MTE1NDk3XzQ5NyU1RCU1QnByb3BlcnR5JTVEPXJvd190b3RhbCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzExNTQ5N180OTclNUQlNUJ0aXRsZSU1RD1PdmVyYWxsJTIwQ29zdCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzExNTQ5N180OTclNUQlNUJ3aWR0aCU1RD03MCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzExNTQ5N180OTclNUQlNUJzb3J0X29yZGVyJTVEPTQmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjg4ODcxMTk1MzZfNTM2JTVEJTVCcHJvcGVydHklNUQ9cm93X3RvdGFsX2luY2xfZGlzY291bnRfYW5kX3RheCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzExOTUzNl81MzYlNUQlNUJ0aXRsZSU1RD1Ub3RhbCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzExOTUzNl81MzYlNUQlNUJ3aWR0aCU1RD03MCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzExOTUzNl81MzYlNUQlNUJzb3J0X29yZGVyJTVEPTcmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkxNDYwODI0ODNfNDgzJTVEJTVCcHJvcGVydHklNUQ9dGF4X2Ftb3VudCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTE0NjA4MjQ4M180ODMlNUQlNUJ0aXRsZSU1RD1WQVQmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkxNDYwODI0ODNfNDgzJTVEJTVCd2lkdGglNUQ9NzAmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkxNDYwODI0ODNfNDgzJTVEJTVCc29ydF9vcmRlciU1RD02JnBhcmFtZXRlcnMlNUJjb2x1bW5zX2VkaXRvciU1RCU1Ql8xMzI5NDExNTM1NzY2Xzc2NiU1RCU1QnByb3BlcnR5JTVEPWRpc2NvdW50X2Ftb3VudCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTQxMTUzNTc2Nl83NjYlNUQlNUJ0aXRsZSU1RD1EaXNjb3VudCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTQxMTUzNTc2Nl83NjYlNUQlNUJ3aWR0aCU1RD03MCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTQxMTUzNTc2Nl83NjYlNUQlNUJzb3J0X29yZGVyJTVEPTUmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjk3NDAwNDYyNzJfMjcyJTVEJTVCcHJvcGVydHklNUQ9cXR5JnBhcmFtZXRlcnMlNUJjb2x1bW5zX2VkaXRvciU1RCU1Ql8xMzI5NzQwMDQ2MjcyXzI3MiU1RCU1QnRpdGxlJTVEPVF0eSZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTc0MDA0NjI3Ml8yNzIlNUQlNUJ3aWR0aCU1RD0yMCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTc0MDA0NjI3Ml8yNzIlNUQlNUJzb3J0X29yZGVyJTVEPTEmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjk3NDAwNjQwMDNfMyU1RCU1QnByb3BlcnR5JTVEPXByaWNlJnBhcmFtZXRlcnMlNUJjb2x1bW5zX2VkaXRvciU1RCU1Ql8xMzI5NzQwMDY0MDAzXzMlNUQlNUJ0aXRsZSU1RD1Db3N0JTJGdW5pdCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTc0MDA2NDAwM18zJTVEJTVCd2lkdGglNUQ9ODAmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjk3NDAwNjQwMDNfMyU1RCU1QnNvcnRfb3JkZXIlNUQ9Mw==" entity="$creditmemo"}}
     </div>
 </div>
 
@@ -56,17 +56,17 @@
     .header_items_grid .widget-items-grid .heading-row{background: none;  border: none; border-bottom: 1px solid black;}
     .header_items_grid .widget-items-grid {width: 100%;}
     .header_items_grid .widget-items-grid .heading-row .column-heading-name {width: auto}
-    .header_items_grid .widget-items-grid .column-heading-row_total,    
+    .header_items_grid .widget-items-grid .column-heading-row_total,
     .header_items_grid .widget-items-grid .column-heading-discount_amount,
     .header_items_grid .widget-items-grid .column-heading-tax_amount,
     .header_items_grid .widget-items-grid .column-heading-row_total_incl_discount_and_tax {text-align: right;}
     .header_items_grid .widget-items-grid .heading-row .column-heading-name {width: auto; padding-right: 0px;}
-    .header_items_grid .widget-items-grid .column-heading-row_total, 
-    .header_items_grid .widget-items-grid .column-heading-price,   
+    .header_items_grid .widget-items-grid .column-heading-row_total,
+    .header_items_grid .widget-items-grid .column-heading-price,
     .header_items_grid .widget-items-grid .column-heading-discount_amount,
     .header_items_grid .widget-items-grid .column-heading-tax_amount,
     .header_items_grid .widget-items-grid .column-heading-row_total_incl_discount_and_tax {
-        text-align: right; 
+        text-align: right;
         padding-right: 0px;
     }
 -->
@@ -76,7 +76,7 @@
 <p class="header-footer-separator"><!-- HEADER SEPARATOR --></p>
 <div style="width: 100%;">
 <div class="printed-creditmemo">
-    {{widget type="saas_printedtemplate/widget_itemsGrid" hide_table_header="1" header_font_family="sans_serif" header_font_size="10" header_font_bold="1" row_font_family="sans_serif" row_font_size="10" columns_editor="cGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjg4ODcwODc2MTBfNjEwJTVEJTVCcHJvcGVydHklNUQ9bmFtZSZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzA4NzYxMF82MTAlNUQlNUJ0aXRsZSU1RD1EZXNjcmlwdGlvbiZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzA4NzYxMF82MTAlNUQlNUJ3aWR0aCU1RD0zMDAmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjg4ODcwODc2MTBfNjEwJTVEJTVCc29ydF9vcmRlciU1RD0yJnBhcmFtZXRlcnMlNUJjb2x1bW5zX2VkaXRvciU1RCU1Ql8xMzI4ODg3MTE1NDk3XzQ5NyU1RCU1QnByb3BlcnR5JTVEPXJvd190b3RhbCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzExNTQ5N180OTclNUQlNUJ0aXRsZSU1RD1PdmVyYWxsJTIwQ29zdCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzExNTQ5N180OTclNUQlNUJ3aWR0aCU1RD03MCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzExNTQ5N180OTclNUQlNUJzb3J0X29yZGVyJTVEPTQmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjg4ODcxMTk1MzZfNTM2JTVEJTVCcHJvcGVydHklNUQ9cm93X3RvdGFsX2luY2xfZGlzY291bnRfYW5kX3RheCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzExOTUzNl81MzYlNUQlNUJ0aXRsZSU1RD1Ub3RhbCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzExOTUzNl81MzYlNUQlNUJ3aWR0aCU1RD03MCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzExOTUzNl81MzYlNUQlNUJzb3J0X29yZGVyJTVEPTcmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkxNDYwODI0ODNfNDgzJTVEJTVCcHJvcGVydHklNUQ9dGF4X2Ftb3VudCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTE0NjA4MjQ4M180ODMlNUQlNUJ0aXRsZSU1RD1WQVQmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkxNDYwODI0ODNfNDgzJTVEJTVCd2lkdGglNUQ9NzAmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkxNDYwODI0ODNfNDgzJTVEJTVCc29ydF9vcmRlciU1RD02JnBhcmFtZXRlcnMlNUJjb2x1bW5zX2VkaXRvciU1RCU1Ql8xMzI5NDExNTM1NzY2Xzc2NiU1RCU1QnByb3BlcnR5JTVEPWRpc2NvdW50X2Ftb3VudCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTQxMTUzNTc2Nl83NjYlNUQlNUJ0aXRsZSU1RD1EaXNjb3VudCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTQxMTUzNTc2Nl83NjYlNUQlNUJ3aWR0aCU1RD03MCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTQxMTUzNTc2Nl83NjYlNUQlNUJzb3J0X29yZGVyJTVEPTUmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjk3NDAwNDYyNzJfMjcyJTVEJTVCcHJvcGVydHklNUQ9cXR5JnBhcmFtZXRlcnMlNUJjb2x1bW5zX2VkaXRvciU1RCU1Ql8xMzI5NzQwMDQ2MjcyXzI3MiU1RCU1QnRpdGxlJTVEPVF0eSZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTc0MDA0NjI3Ml8yNzIlNUQlNUJ3aWR0aCU1RD0yMCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTc0MDA0NjI3Ml8yNzIlNUQlNUJzb3J0X29yZGVyJTVEPTEmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjk3NDAwNjQwMDNfMyU1RCU1QnByb3BlcnR5JTVEPXByaWNlJnBhcmFtZXRlcnMlNUJjb2x1bW5zX2VkaXRvciU1RCU1Ql8xMzI5NzQwMDY0MDAzXzMlNUQlNUJ0aXRsZSU1RD1Db3N0JTJGdW5pdCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTc0MDA2NDAwM18zJTVEJTVCd2lkdGglNUQ9ODAmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjk3NDAwNjQwMDNfMyU1RCU1QnNvcnRfb3JkZXIlNUQ9Mw==" entity="$creditmemo"}}
+    {{widget type="Saas_PrintedTemplate_Block_Widget_ItemsGrid" hide_table_header="1" header_font_family="sans_serif" header_font_size="10" header_font_bold="1" row_font_family="sans_serif" row_font_size="10" columns_editor="cGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjg4ODcwODc2MTBfNjEwJTVEJTVCcHJvcGVydHklNUQ9bmFtZSZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzA4NzYxMF82MTAlNUQlNUJ0aXRsZSU1RD1EZXNjcmlwdGlvbiZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzA4NzYxMF82MTAlNUQlNUJ3aWR0aCU1RD0zMDAmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjg4ODcwODc2MTBfNjEwJTVEJTVCc29ydF9vcmRlciU1RD0yJnBhcmFtZXRlcnMlNUJjb2x1bW5zX2VkaXRvciU1RCU1Ql8xMzI4ODg3MTE1NDk3XzQ5NyU1RCU1QnByb3BlcnR5JTVEPXJvd190b3RhbCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzExNTQ5N180OTclNUQlNUJ0aXRsZSU1RD1PdmVyYWxsJTIwQ29zdCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzExNTQ5N180OTclNUQlNUJ3aWR0aCU1RD03MCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzExNTQ5N180OTclNUQlNUJzb3J0X29yZGVyJTVEPTQmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjg4ODcxMTk1MzZfNTM2JTVEJTVCcHJvcGVydHklNUQ9cm93X3RvdGFsX2luY2xfZGlzY291bnRfYW5kX3RheCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzExOTUzNl81MzYlNUQlNUJ0aXRsZSU1RD1Ub3RhbCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzExOTUzNl81MzYlNUQlNUJ3aWR0aCU1RD03MCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyODg4NzExOTUzNl81MzYlNUQlNUJzb3J0X29yZGVyJTVEPTcmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkxNDYwODI0ODNfNDgzJTVEJTVCcHJvcGVydHklNUQ9dGF4X2Ftb3VudCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTE0NjA4MjQ4M180ODMlNUQlNUJ0aXRsZSU1RD1WQVQmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkxNDYwODI0ODNfNDgzJTVEJTVCd2lkdGglNUQ9NzAmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkxNDYwODI0ODNfNDgzJTVEJTVCc29ydF9vcmRlciU1RD02JnBhcmFtZXRlcnMlNUJjb2x1bW5zX2VkaXRvciU1RCU1Ql8xMzI5NDExNTM1NzY2Xzc2NiU1RCU1QnByb3BlcnR5JTVEPWRpc2NvdW50X2Ftb3VudCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTQxMTUzNTc2Nl83NjYlNUQlNUJ0aXRsZSU1RD1EaXNjb3VudCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTQxMTUzNTc2Nl83NjYlNUQlNUJ3aWR0aCU1RD03MCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTQxMTUzNTc2Nl83NjYlNUQlNUJzb3J0X29yZGVyJTVEPTUmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjk3NDAwNDYyNzJfMjcyJTVEJTVCcHJvcGVydHklNUQ9cXR5JnBhcmFtZXRlcnMlNUJjb2x1bW5zX2VkaXRvciU1RCU1Ql8xMzI5NzQwMDQ2MjcyXzI3MiU1RCU1QnRpdGxlJTVEPVF0eSZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTc0MDA0NjI3Ml8yNzIlNUQlNUJ3aWR0aCU1RD0yMCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTc0MDA0NjI3Ml8yNzIlNUQlNUJzb3J0X29yZGVyJTVEPTEmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjk3NDAwNjQwMDNfMyU1RCU1QnByb3BlcnR5JTVEPXByaWNlJnBhcmFtZXRlcnMlNUJjb2x1bW5zX2VkaXRvciU1RCU1Ql8xMzI5NzQwMDY0MDAzXzMlNUQlNUJ0aXRsZSU1RD1Db3N0JTJGdW5pdCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTc0MDA2NDAwM18zJTVEJTVCd2lkdGglNUQ9ODAmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjk3NDAwNjQwMDNfMyU1RCU1QnNvcnRfb3JkZXIlNUQ9Mw==" entity="$creditmemo"}}
 
     <table class="widget-items-grid shipping-item">
         <tr class="product-row">
@@ -102,8 +102,8 @@
                 <div class="cell-content price-cell">{{var creditmemo.shipping_total}}</div>
             </td>
         </tr>
-    </table>    
-    
+    </table>
+
 </div>
 
 <div class="printed-creditmemo totals-container">
@@ -207,7 +207,7 @@
 -->
 </style>
 <div class="printed-creditmemo pager">
-    Company Number: 1234567<br /> 
+    Company Number: 1234567<br />
     VAT Number: AB 123 4567 89<br />
     Page&nbsp;{{var pagination.page_number}}/{{var pagination.page_total}}
 </div>

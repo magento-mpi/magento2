@@ -27,9 +27,9 @@ class Saas_PrintedTemplate_Model_Wysiwyg_Config extends Mage_Cms_Model_Wysiwyg_C
     /**
      * Initializes config model
      */
-    protected function _construct()
+    public function __construct()
     {
-        $this->addData(array(
+        parent::__construct(array(
             'buttons_to_remove' => 'media',
             'footer_separator' => '<!-- FOOTER SEPARATOR -->',
             'header_separator' => '<!-- HEADER SEPARATOR -->',
