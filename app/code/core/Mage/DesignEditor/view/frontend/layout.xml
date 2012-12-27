@@ -17,7 +17,7 @@
         </reference>
 
         <reference name="vde_head">
-            <action method="addJs"><file>jquery/jquery-1.7.1.min.js</file></action>
+            <action method="addJs"><file>jquery/jquery-ui.min.js</file></action>
             <action method="addJs"><file>mage/jquery-no-conflict.js</file></action>
             <action method="addJs"><file>jquery/head.js</file></action>
             <action method="addJs"><file>mage/mage.js</file></action>
