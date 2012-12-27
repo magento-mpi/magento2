@@ -54,5 +54,9 @@
             }
         });
 
+        $(document).on('beforeSubmit', function() {
+            $('#css_file_uploader').val('');
+        });
+
     })(jQuery);
 </script>
