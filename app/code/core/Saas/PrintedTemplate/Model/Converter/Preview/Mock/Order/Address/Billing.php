@@ -25,7 +25,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Address_Billing ex
     /**
      * Initialize order billing address with mock data
      */
-    protected function _constuct()
+    protected function _construct()
     {
         $this->_helper = Mage::helper('Saas_PrintedTemplate_Helper_Data');
         $this->setData($this->_getMockData());
