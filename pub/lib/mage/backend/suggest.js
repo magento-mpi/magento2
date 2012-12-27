@@ -14,6 +14,9 @@
         options: {
             template: '#menuTemplate',
             minLength: 1,
+            /**
+             * @type {(string|Array)}
+             */
             source: 'http://testsuggest.lo/suggest.php',
             events: {},
             appendTo: 'after',
@@ -21,7 +24,7 @@
         },
 
         /**
-         *
+         * Component's constructor
          * @private
          */
         _create: function() {
@@ -52,7 +55,7 @@
         },
 
         /**
-         *
+         * Handle submit action
          * @param event
          * @private
          */
@@ -61,12 +64,12 @@
         },
 
         /**
-         *
+         * Bind handlers on specific events
          * @private
          */
         _bind: function() {
             this._on($.extend({
-                'keydown': function(event) {
+                keydown: function(event) {
                     var keyCode = $.ui.keyCode;
                     switch (event.keyCode) {
                         case keyCode.HOME:
@@ -82,7 +85,7 @@
                             break;
                         case keyCode.ENTER:
                         case keyCode.NUMPAD_ENTER:
-                            if(this.container.is(':visible')) {
+                            if (this.container.is(':visible')) {
                                 this._proxyEvents(event);
                             } else {
                                 this._submitAction(event);
@@ -93,6 +96,7 @@
                     }
                 }
             }, this.options.events));
+
             this._on(this.container, {
                 menufocus: function(e, ui) {
                     this.element.val(ui.item.text());
@@ -101,7 +105,7 @@
         },
 
         /**
-         *
+         * Acquire content template
          * @private
          */
         _setTemplate: function() {
@@ -111,57 +115,54 @@
         },
 
         /**
-         *
-         * @return {*}
+         * Execute search process
+         * @public
          */
         search: function() {
-            var val = this._value();
-            if(this.term !== val && val.length) {
-                this.term = val;
-                return this._search(val);
+            var term = this._value();
+            if (this.term !== term && term.length) {
+                this.term = term;
+                this._search(term);
             }
         },
 
         /**
-         *
-         * @param value
+         * Actual search method, can be overridden in descendants
+         * @param {string} term - search phrase
          * @private
          */
-        _search: function(value) {
+        _search: function(term) {
             this.element.addClass('ui-autocomplete-loading');
-            this.cancelSearch = false;
-            this._source(value, $.proxy(this._renderData, this));
+//            this.cancelSearch = false; // have not found usages, so commented it
+            this._source(term, $.proxy(this._renderData, this));
         },
 
         /**
-         *
-         * @param data
+         * Render content of suggest's dropdown
+         * @param {Object} data
          * @private
          */
         _renderData: function(data) {
-            if(this.suggestElement) {
-                this.suggestElement.remove();
-            }
-
-            this.suggestElement = $.tmpl(this.template, {data: data}).appendTo(this.container);
-            this.suggestElement.trigger('contentUpdated');
+            $.tmpl(this.template, {data: data}).appendTo(this.container.empty());
+            this.container.trigger('contentUpdated');
         },
 
         /**
-         *
-         * @param value
-         * @param render
+         * Implement search process via spesific source
+         * @param {string} term - search phrase
+         * @param {Function} render - search results handler, display search result
          * @private
          */
-        _source: function(value, render) {
+        _source: function(term, render) {
             if ($.isArray(this.options.source)) {
-                render(this.filter(this.options.source, value));
-            } else if($.type(this.options.source) === 'string') {
+                render(this.filter(this.options.source, term));
+
+            } else if ($.type(this.options.source) === 'string') {
                 $.ajax($.extend({
                     url: this.options.source,
                     type: 'POST',
                     dataType: 'json',
-                    data: {q: value},
+                    data: {q: term},
                     success: render,
                     showLoader: true
                 }, this.options.ajaxOptions || {}));
@@ -169,10 +170,10 @@
         },
 
         /**
-         *
-         * @param data
-         * @param term
-         * @return {*}
+         * Perform filtering in advance loaded data and returns search result
+         * @param {Array} data - all available data
+         * @param {string} term - search phrase
+         * @return {Object}
          */
         filter: function(data, term) {
             var matcher = new RegExp(term, 'i');
@@ -182,18 +183,21 @@
         }
     });
 
+    /**
+     * Implement search delay option
+     */
     $.widget('mage.suggest', $.mage.suggest, {
         options: {
             delay: 500
         },
 
         /**
-         *
+         * @override
          * @private
          */
         _search: function() {
             var args = arguments;
-            if(this.options.delay) {
+            if (this.options.delay) {
                 clearTimeout(this.searchTimeout);
                 var _super = $.proxy(this._superApply, this);
                 this.searchTimeout = this._delay(function() {
@@ -205,6 +209,9 @@
         }
     });
 
+    /**
+     * Implement storing search history and display recent searches
+     */
     $.widget('mage.suggest', $.mage.suggest, {
         options: {
             showRecent: true,
@@ -212,7 +219,7 @@
         },
 
         /**
-         *
+         * @override
          * @private
          */
         _create: function() {
@@ -224,7 +231,7 @@
         },
 
         /**
-         *
+         * @override
          * @private
          */
         _bind: function() {
