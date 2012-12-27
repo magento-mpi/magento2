@@ -276,17 +276,23 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             /** @var $theme Mage_Core_Model_Theme */
             $theme = $this->_objectManager->get('Mage_Core_Model_Theme');
             if (!($themeId && $theme->load($themeId)->getId())) {
-                throw new Mage_Core_Exception('The theme was not found.');
+                throw new Mage_Core_Exception($this->__('The theme was not found.'));
+            }
+            if (!$theme->isVirtual()) {
+                throw new Mage_Core_Exception($this->__('This theme is not editable.'));
             }
             $theme->setThemeTitle($themeTitle);
             $theme->save();
             $this->getResponse()->setBody($coreHelper->jsonEncode(array('success' => true)));
         } catch (Mage_Core_Exception $e) {
-            $this->getResponse()->setBody($coreHelper->jsonEncode(array('error' => $e->getMessage())));
+            $this->getResponse()->setBody($coreHelper->jsonEncode(array(
+                'error' => true,
+                'message' => $e->getMessage()
+            )));
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
             $this->getResponse()->setBody($coreHelper->jsonEncode(
-                array('error' => $this->_helper->__('Theme is not saved')))
+                array('error' => true, 'message' => $this->__('Theme is not saved')))
             );
         }
     }

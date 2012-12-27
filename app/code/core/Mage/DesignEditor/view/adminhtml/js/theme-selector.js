@@ -267,18 +267,25 @@
                 theme_id: this.options.themeData.theme_id,
                 theme_title: this._getThemeTitle()
             };
-            $.post(this.options.url, params, $.proxy(function(response) {
-                if (response.error) {
+            $('#messages').html('');
+            $.ajax({
+                url: this.options.url,
+                type: 'POST',
+                dataType: 'json',
+                data: params,
+                showLoader: true,
+                success: $.proxy(function(response) {
+                    if (response.success) {
+                        this.options.themeData.theme_title = this._getThemeTitle();
+                        this._setThemeTitle(this.options.themeData.theme_title);
+                    }
                     this._cancelEdit();
-                    alert($.mage.__('Error') + ': "' + response.error + '".');
-                } else {
-                    this.options.themeData.theme_title = this._getThemeTitle();
-                    this._setThemeTitle(this.options.themeData.theme_title)._cancelEdit();
-                }
-            }, this)).error($.proxy(function() {
-                this._cancelEdit();
-                alert($.mage.__('Error: unknown error.'));
-            }, this));
+                }, this),
+                error: $.proxy(function() {
+                    this._cancelEdit();
+                    alert($.mage.__('Error: unknown error.'));
+                }, this)
+            });
         },
 
         /**
