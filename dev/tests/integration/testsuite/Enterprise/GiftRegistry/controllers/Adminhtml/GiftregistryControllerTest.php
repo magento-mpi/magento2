@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftRegistry_Adminhtml_GiftregistryControllerTest extends Mage_Adminhtml_Utility_Controller
+class Enterprise_GiftRegistry_Adminhtml_GiftregistryControllerTest extends Mage_Backend_Utility_Controller
 {
     public function testNewAction()
     {
