@@ -40,9 +40,9 @@
         <!-- Webserver URL -->
         <const name="TESTS_WEBSERVICE_URL" value="http://tests.url"/>
         <!-- Webserver API user -->
-        <const name="TESTS_WEBSERVICE_USER" value="api"/>
+        <const name="TESTS_WEBSERVICE_USER" value="admin"/>
         <!-- Webserver API key -->
-        <const name="TESTS_WEBSERVICE_APIKEY" value="apiapi"/>
+        <const name="TESTS_WEBSERVICE_APIKEY" value="123123q"/>
         <!-- Admin User -->
         <const name="TESTS_ADMIN_USERNAME" value="admin"/>
         <!-- Admin Password -->

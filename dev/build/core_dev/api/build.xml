@@ -47,11 +47,6 @@
     </target>
 
     <target name="prepareBuild">
-        <copy file="${file.tests.config.soap.dist}" tofile="${file.tests.config.soap}"/>
-        <copy file="${file.magento.local.xml.dist}" tofile="${file.magento.local.xml}"/>
-        <replace file="${file.magento.local.xml}" token="magento_integration_tests" value="${mysql.dbname}"/>
-        <replace file="${file.magento.local.xml}" token="root" value="${mysql.username}"/>
-
         <copy file="${file.magento.enterprise_enabler.xml.dist}" tofile="${file.magento.enterprise_enabler.xml}"/>
 
         <exec executable="ln" failonerror="true">
@@ -86,15 +81,15 @@
     </target>
 
     <target name="configureTests">
-        <replace file="${file.test.dump.sql}" token="test-magento-host.loc" value="${build_url}"/>
-
-        <copy file="${file.tests.local-mysql.xml.dist}" tofile="${file.tests.local-mysql.xml}" failonerror="true"/>
-
-        <replace file="${file.tests.local-mysql.xml}" token="magento_integration_tests" value="${mysql.dbname}"/>
-        <replace file="${file.tests.local-mysql.xml}" token="root" value="${mysql.username}"/>
-        <!--TODO: Add password initialization-->
-
+        <copy file="${file.tests.config.soap.dist}" tofile="${file.tests.config.soap}" failonerror="true"/>
         <replace file="${file.tests.config.soap}" token="tests.url" value="${build_url}"/>
+
+        <copy file="${file.magento.local.xml.dist}" tofile="${file.magento.local.xml}" failonerror="true"/>
+        <replace file="${file.magento.local.xml}" token="magento_integration_tests" value="${mysql.dbname}"/>
+        <replace file="${file.magento.local.xml}" token="root" value="${mysql.username}"/>
+
+        <replace file="${file.test.dump.sql}" token="test-magento-host.loc" value="${build_url}"/>
+        <!--TODO: Add password initialization-->
     </target>
 
     <target name="prepareTestCache">
@@ -123,7 +118,7 @@
         <property name="file.reports.integration.junit.soap" value="${dir.reports}/integration-phpunit-soap.xml"/>
         <property name="file.reports.integration.log.soap" value="${dir.reports}/integration-phpunit-soap.txt"/>
 
-        <exec executable="phpunit" failonerror="false" dir="${dir.tests}" output="${file.reports.integration.log.soap}">
+        <exec executable="phpunit" failonerror="true" dir="${dir.tests}" output="${file.reports.integration.log.soap}">
             <arg line="--configuration ${file.tests.config.soap}"/>
             <arg line="--log-junit ${file.reports.integration.junit.soap}"/>
             <arg line="--debug"/>
