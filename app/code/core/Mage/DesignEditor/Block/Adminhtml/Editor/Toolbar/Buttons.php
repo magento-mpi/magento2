@@ -100,20 +100,67 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
         /** @var $assignButton Mage_Backend_Block_Widget_Button */
         $assignButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
         $assignButton->setData(array(
-            'label'   => $this->__('Assign this Theme'),
-            'data_attr'  => array(
+            'label'     => $this->__('Assign this Theme'),
+            'data_attr' => array(
                 'widget-button' => array(
-                    'event' => 'assign',
-                    'related' => 'body',
+                    'event'     => 'assign',
+                    'related'   => 'body',
                     'eventData' => array(
                         'theme_id' => $this->getThemeId()
                     )
                 ),
             ),
-            'class'   => 'save action-theme-assign',
-            'target'  => '_blank'
+            'class'     => 'save action-theme-assign',
+            'target'    => '_blank'
         ));
 
         return $assignButton->toHtml();
+    }
+
+    /**
+     * Get switch mode button
+     *
+     * @return string
+     */
+    public function getSwitchModeButtonHtml()
+    {
+        $eventData = array(
+            'theme_id' => $this->getThemeId(),
+        );
+
+        if ($this->isNavigationMode()) {
+            $label                 = $this->__('Design Mode');
+            $eventData['mode_url'] = $this->getDesignModeUrl();
+        } else {
+            $label                         = $this->__('Navigation Mode');
+            $eventData['mode_url']         = $this->getNavigationModeUrl();
+            $eventData['save_changes_url'] = $this->getSaveTemporaryLayoutUpdateUrl();
+        }
+
+        /** @var $switchButton Mage_Backend_Block_Widget_Button */
+        $switchButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
+        $switchButton->setData(array(
+            'label'     => $label,
+            'data_attr' => array(
+                'widget-button' => array(
+                    'event'     => 'switchMode',
+                    'related'   => 'body',
+                    'eventData' => $eventData
+                ),
+            ),
+            'class'     => 'action-switch-mode',
+        ));
+
+        return $switchButton->toHtml();
+    }
+
+    /**
+     * Get save temporary layout changes url
+     *
+     * @return string
+     */
+    public function getSaveTemporaryLayoutUpdateUrl()
+    {
+        return $this->getUrl('*/*/saveTemporaryLayoutUpdate');
     }
 }

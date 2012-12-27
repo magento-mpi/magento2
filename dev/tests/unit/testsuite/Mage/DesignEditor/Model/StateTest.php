@@ -46,6 +46,11 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
     protected $_dataHelper;
 
     /**
+     * @var Magento_ObjectManager_Zend
+     */
+    protected $_objectManager;
+
+    /**
      * @var array
      */
     protected $_cacheTypes = array('type1', 'type2');
@@ -67,12 +72,16 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         $this->_dataHelper = $this->getMock('Mage_DesignEditor_Helper_Data', array('getDisabledCacheTypes'),
             array(), '', false
         );
+        $this->_objectManager = $this->getMock('Magento_ObjectManager_Zend', array(),
+            array(), '', false
+        );
         $this->_model = new Mage_DesignEditor_Model_State(
             $this->_backendSession,
             $this->_layoutFactory,
             $this->_urlModelFactory,
             $this->_cacheManager,
-            $this->_dataHelper
+            $this->_dataHelper,
+            $this->_objectManager
         );
     }
 
