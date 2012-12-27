@@ -46,6 +46,18 @@ class Magento_Filesystem_Adapter_Local implements
     }
 
     /**
+     * Renames the file.
+     *
+     * @param string $source
+     * @param string $target
+     * @return bool
+     */
+    public function rename($source, $target)
+    {
+        return rename($source, $target);
+    }
+
+    /**
      * Deletes the file or directory recursively.
      *
      * @param string $key
@@ -64,22 +76,15 @@ class Magento_Filesystem_Adapter_Local implements
             return;
         }
 
-        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($key),
-            RecursiveIteratorIterator::CHILD_FIRST);
-
-        /** @var SplFileInfo $file */
-        foreach ($iterator as $file) {
-            if ($file->getFilename() == '.' || $file->getFilename() == '..') {
-                continue;
-            }
-            if ($file->isDir() && !$file->isLink() && true !== @rmdir($file->getPathname())) {
-                throw new Magento_Filesystem_Exception(sprintf('Failed to remove directory %s', $file));
+        foreach ($this->getNestedKeys($key) as $nestedKey) {
+            if (is_dir($nestedKey) && !is_link($nestedKey) && true !== @rmdir($nestedKey)) {
+                throw new Magento_Filesystem_Exception(sprintf('Failed to remove directory %s', $nestedKey));
             } else {
                 // https://bugs.php.net/bug.php?id=52176
-                if (defined('PHP_WINDOWS_VERSION_MAJOR') && $file->isDir() && true !== @rmdir($file->getPathname())) {
-                    throw new Magento_Filesystem_Exception(sprintf('Failed to remove file %s', $file));
-                } elseif (true !== @unlink($file->getPathname())) {
-                    throw new Magento_Filesystem_Exception(sprintf('Failed to remove file %s', $file));
+                if (defined('PHP_WINDOWS_VERSION_MAJOR') && is_dir($nestedKey) && true !== @rmdir($nestedKey)) {
+                    throw new Magento_Filesystem_Exception(sprintf('Failed to remove file %s', $nestedKey));
+                } elseif (true !== @unlink($nestedKey)) {
+                    throw new Magento_Filesystem_Exception(sprintf('Failed to remove file %s', $nestedKey));
                 }
             }
         }
@@ -87,18 +92,6 @@ class Magento_Filesystem_Adapter_Local implements
         if (true !== @rmdir($key)) {
             throw new Magento_Filesystem_Exception(sprintf('Failed to remove directory %s', $key));
         }
-    }
-
-    /**
-     * Renames the file.
-     *
-     * @param string $source
-     * @param string $target
-     * @return bool
-     */
-    public function rename($source, $target)
-    {
-        return rename($source, $target);
     }
 
     /**
@@ -111,22 +104,50 @@ class Magento_Filesystem_Adapter_Local implements
      */
     public function changePermissions($key, $permissions, $recursively)
     {
-        if (!@chmod($key, $permissions, true)) {
+        if (!@chmod($key, $permissions)) {
             throw new Magento_Filesystem_Exception(sprintf('Failed to change mode of %s', $key));
         }
 
         if (is_dir($key) && $recursively) {
-            $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($key));
-            /** @var SplFileInfo $file */
-            foreach ($iterator as $file) {
-                if ($file->getFilename() == '.' || $file->getFilename() == '..') {
-                    continue;
-                }
-                if (!@chmod($file, $permissions, true)) {
-                    throw new Magento_Filesystem_Exception(sprintf('Failed to change mode of %s', $key));
+            foreach ($this->getNestedKeys($key) as $nestedKey) {
+                if (!@chmod($nestedKey, $permissions, true)) {
+                    throw new Magento_Filesystem_Exception(sprintf('Failed to change mode of %s', $nestedKey));
                 }
             }
         }
+    }
+
+    /**
+     * Gets list of all nested keys
+     *
+     * @param string $key
+     * @return array
+     * @throws Magento_Filesystem_Exception
+     */
+    public function getNestedKeys($key)
+    {
+        $result = array();
+
+        if (!is_dir($key)) {
+            throw new Magento_Filesystem_Exception(sprintf('The directory "%s" does not exist.', $key));
+        }
+
+        try {
+            $iterator = new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator($key, FilesystemIterator::SKIP_DOTS | FilesystemIterator::UNIX_PATHS),
+                RecursiveIteratorIterator::CHILD_FIRST
+            );
+        } catch (Exception $e) {
+            $iterator = new EmptyIterator;
+        }
+
+
+        /** @var SplFileInfo $file */
+        foreach ($iterator as $file) {
+            $result[] = $file->getPathname();
+        }
+
+        return $result;
     }
 
     /**
@@ -160,6 +181,17 @@ class Magento_Filesystem_Adapter_Local implements
     public function isWritable($key)
     {
         return is_writable($key);
+    }
+
+    /**
+     * Check if key exists and is readable
+     *
+     * @param string $key
+     * @return bool
+     */
+    public function isReadable($key)
+    {
+        return is_readable($key);
     }
 
     /**

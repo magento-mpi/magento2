@@ -101,7 +101,7 @@ class Magento_Filesystem
     }
 
     /**
-     * Deletes the file or directory recursively.
+     * Deletes the key.
      *
      * @param string $key
      * @return bool
@@ -157,7 +157,18 @@ class Magento_Filesystem
     }
 
     /**
-     * Change mode of key
+     * Check if key exists and is readable
+     *
+     * @param string $key
+     * @return bool
+     */
+    public function isReadable($key)
+    {
+        return $this->_adapter->isReadable($this->_getCheckedPath($key));
+    }
+
+    /**
+     * Change permissions of key
      *
      * @param string $key
      * @param int $permissions
@@ -166,6 +177,17 @@ class Magento_Filesystem
     public function changePermissions($key, $permissions, $recursively = false)
     {
         $this->_adapter->changePermissions($key, $permissions, $recursively);
+    }
+
+    /**
+     * Gets list of all nested keys
+     *
+     * @param string $key
+     * @return array
+     */
+    public function getNestedKeys($key)
+    {
+        return $this->_adapter->getNestedKeys($key);
     }
 
     /**
