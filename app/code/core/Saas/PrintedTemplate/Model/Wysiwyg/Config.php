@@ -85,7 +85,8 @@ class Saas_PrintedTemplate_Model_Wysiwyg_Config extends Mage_Cms_Model_Wysiwyg_C
                 . $this->getVariablesWysiwygActionUrl()
                 . '\', \'{{html_id}}\');'
         );
-        $variableWysiwygPlugin = array(array('name' => 'magentovariable',
+        $variableWysiwygPlugin = array(array(
+            'name' => 'magentovariable',
             'src' => $this->getWysiwygJsPluginSrc(),
             'options' => array(
                 'title' => Mage::helper('Saas_PrintedTemplate_Helper_Data')->__('Insert Variable...'),
@@ -94,6 +95,7 @@ class Saas_PrintedTemplate_Model_Wysiwyg_Config extends Mage_Cms_Model_Wysiwyg_C
                 'class'   => 'add-variable plugin'
         )));
         $variableConfig['plugins'] = array_merge($variableWysiwygPlugin, $this->getHeaderFooterPlugin());
+
         return $variableConfig;
     }
 
@@ -164,10 +166,7 @@ class Saas_PrintedTemplate_Model_Wysiwyg_Config extends Mage_Cms_Model_Wysiwyg_C
      */
     protected function getWysiwygJsPluginSrc()
     {
-        $designPackage = Mage::getDesign();
-        return $designPackage->getViewFileUrl(
-            'Saas_PrintedTemplate::wysiwyg/tiny_mce/plugins/magentoheaderfooter/editor_plugin.js'
-        );
+        return Mage::getBaseUrl('js').'mage/adminhtml/wysiwyg/tiny_mce/plugins/magentovariable/editor_plugin.js';
     }
 
     /**
