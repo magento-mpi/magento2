@@ -156,6 +156,8 @@ new_product:
                                         general_weight_and_type_switcher: //input[@id='weight_and_type_switcher']
                                     multiselects:
                                         general_user_attr_multiselect: //select[@id='%attributeCodeMultiselect%']
+                                    pageelements:
+                                        category_search_result: //li[@class='category-selector-search-field']/span[text()]
                             -
                                 category_search:
                                     xpath: //*[@id='html-body']/ul[contains(@class, 'ui-autocomplete')]
@@ -194,6 +196,7 @@ new_product:
                                         generate_product_variations: //button[span='Generate Variations']
                                     pageelements:
                                         product_variations_fieldset: /fieldset
+                                        configurable_attributes_list: //ul[contains(@class, 'ui-autocomplete')]
                             -
                                 product_variation_attribute:
                                     xpath: //div[div/h4//@data-store-label='%attributeTitle%']

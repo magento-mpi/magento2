@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Catalog_ProductControllerTest extends Mage_Adminhtml_Utility_Controller
+class Mage_Adminhtml_Catalog_ProductControllerTest extends Mage_Backend_Utility_Controller
 {
     /**
      * @magentoDataFixture Mage/Catalog/_files/product_configurable.php

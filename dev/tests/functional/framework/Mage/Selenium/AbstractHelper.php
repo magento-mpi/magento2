@@ -154,7 +154,7 @@
  * @method PHPUnit_Extensions_Selenium2TestCase_Element waitForElementEditable($locator, int $timeout = null)
  * @method bool                     waitForElementOrAlert($locator, int $timeout = null)
  * @method PHPUnit_Extensions_Selenium2TestCase_Element waitForElementVisible($locator, int $timeout = null)
- * @method PHPUnit_Extensions_Selenium2TestCase_Element ($controlType, $controlName, $timeout = null)
+ * @method PHPUnit_Extensions_Selenium2TestCase_Element waitForControl($controlType, $controlName, $timeout = null)
  * @method PHPUnit_Extensions_Selenium2TestCase_Element waitForControlEditable($controlType, $controlName, $timeout = null)
  * @method PHPUnit_Extensions_Selenium2TestCase_Element waitForControlVisible($controlType, $controlName, $timeout = null)
  * @method void                     waitForNewPage()

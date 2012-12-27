@@ -23,6 +23,7 @@ app/code/core/Mage/Catalog/Model/Resource/Product/Collection
 app/code/core/Mage/CatalogInventory/Block/Adminhtml/Form/Field/Stock.php
 app/code/core/Mage/Core/Block/Abstract.php
 app/code/core/Mage/Core/data
+app/code/core/Mage/Core/Model/Config.php
 app/code/core/Mage/Centinel/Model/State/Jcb.php
 app/code/core/Mage/Core/Controller/Varien/ActionAbstract.php
 app/code/core/Mage/Core/Controller/Varien/Action/Factory.php

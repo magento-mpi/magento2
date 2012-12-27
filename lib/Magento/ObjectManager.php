@@ -36,7 +36,7 @@ interface Magento_ObjectManager
      *
      * @abstract
      * @param string $areaCode
-     * @return mixed
+     * @return Magento_ObjectManager
      */
     public function loadAreaConfiguration($areaCode = null);
 
@@ -45,6 +45,7 @@ interface Magento_ObjectManager
      *
      * @param object $instance
      * @param string $classOrAlias
+     * @return Magento_ObjectManager
      */
     public function addSharedInstance($instance, $classOrAlias);
 
@@ -52,6 +53,7 @@ interface Magento_ObjectManager
      * Remove shared instance
      *
      * @param string $classOrAlias
+     * @return Magento_ObjectManager
      */
     public function removeSharedInstance($classOrAlias);
 
@@ -62,4 +64,23 @@ interface Magento_ObjectManager
      * @return bool
      */
     public function hasSharedInstance($classOrAlias);
+
+    /**
+     * Add alias
+     *
+     * @param  string $alias
+     * @param  string $class
+     * @param  array  $parameters
+     * @return Magento_ObjectManager
+     * @throws Zend\Di\Exception\InvalidArgumentException
+     */
+    public function addAlias($alias, $class, array $parameters = array());
+
+    /**
+     * Get class name by alias
+     *
+     * @param string
+     * @return string|bool
+     */
+    public function getClassFromAlias($alias);
 }

@@ -10,6 +10,9 @@
 
 class Mage_Core_Model_Layout_Factory
 {
+    /**
+     * Default layout class name
+     */
     const CLASS_NAME = 'Mage_Core_Model_Layout';
 
     /**

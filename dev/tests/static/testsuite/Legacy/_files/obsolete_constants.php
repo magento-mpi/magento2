@@ -47,4 +47,5 @@ return array(
     $this->_getRule('HASH_ALGO'),
     $this->_getRule('SEESION_MAX_COOKIE_LIFETIME'),
     $this->_getRule('URL_TYPE_SKIN'),
+    $this->_getRule('DEFAULT_THEME_NAME', 'Mage_Core_Model_Design_Package'),
 );

@@ -17,7 +17,7 @@
                     <label>Default Product Price</label>
                     <comment>
                         <![CDATA[Defines the default product price]]>
-</comment>
+                    </comment>
                     <backend_model>Enterprise_PricePermissions_Model_System_Config_Backend_Catalog_Product_Price_Default</backend_model>
                     <frontend_model>Enterprise_PricePermissions_Block_Adminhtml_Catalog_Product_Price_Default</frontend_model>
                 </field>

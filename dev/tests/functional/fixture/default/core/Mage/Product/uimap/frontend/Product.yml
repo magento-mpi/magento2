@@ -12,7 +12,7 @@
 product_page:
     mca: %productUrl%.html
     title: %elementTitle%
-    uimap:
+    uimap: &product
         form:
             fieldsets: &productFieldsets
                 -
@@ -296,3 +296,8 @@ product_review_category:
     mca: review/product/list/id/%id%/category/%categoryId%/#review-form/
     title: %elementTitle%
     uimap: *productReview
+
+product_page_id:
+    mca: catalog/product/view/id/%id%
+    title: %productTitle%
+    uimap: *product

@@ -208,7 +208,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      */
     public function getConfigurableAttributes($product)
     {
-        Magento_Profiler::start('CONFIGURABLE:'.__METHOD__);
+        Magento_Profiler::start('CONFIGURABLE:'.__METHOD__, array('group' => 'CONFIGURABLE', 'method' => __METHOD__));
         if (!$product->hasData($this->_configurableAttributes)) {
             $configurableAttributes = $this->getConfigurableAttributeCollection($product)
                 ->orderByPosition()
@@ -287,7 +287,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      */
     public function getUsedProducts($product, $requiredAttributeIds = null)
     {
-        Magento_Profiler::start('CONFIGURABLE:'.__METHOD__);
+        Magento_Profiler::start('CONFIGURABLE:'.__METHOD__, array('group' => 'CONFIGURABLE', 'method' => __METHOD__));
         if (!$product->hasData($this->_usedProducts)) {
             if (is_null($requiredAttributeIds)
                 and is_null($product->getData($this->_configurableAttributes))) {
@@ -510,7 +510,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     public function getSelectedAttributesInfo($product)
     {
         $attributes = array();
-        Magento_Profiler::start('CONFIGURABLE:'.__METHOD__);
+        Magento_Profiler::start('CONFIGURABLE:'.__METHOD__, array('group' => 'CONFIGURABLE', 'method' => __METHOD__));
         if ($attributesOption = $product->getCustomOption('attributes')) {
             $data = unserialize($attributesOption->getValue());
             $this->getUsedProductAttributeIds($product);

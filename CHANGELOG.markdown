@@ -1,3 +1,65 @@
+2.0.0.0-dev36
+=============
+* Visual design editor refactored
+  * VDE controls and VDE actions moved to backend area
+  * Added IFRAME that allows to navigate through frontend pages in Navigation Mode and to modify blocks position in Design Mode
+  * Inline JavaScript code is disabled in Design Mode
+  * Store selection is performed on saving instead of reviewing the theme. List of all available stores is shown during assigning the theme to a store
+  * `System -> Design -> Editor` page divided into two tabs:
+    * "Available Themes" tab contains all available themes
+    * "My Customizations" tab contains themes customized by the store administrator and consists of area with themes assigned to stores and area with unassigned themes
+  * Added `vde` area code and `Mage_DesignEditor_Controller_Varien_Router_Standard` to handle requests from design editor
+  * Added ability to use custom layout instance in controllers to use specific layout, when design editor is launched
+* JavaScript updates
+  * Replaced `varienTabs` class with an analogous jQuery widget
+  * Displaying of loader during AJAX requests became optional
+* Removed `dev/api-tests` directory added by mistake
+* Bug fixes
+  * Impossible to login to backend with APC enabled. Added call of `session_write_close()` in the session model destructor
+  * Unnecessary regions shown when no country is selected in `System -> Sales -> Shipping Settings -> Origin`
+  * Fixed various bugs caused by virtual themes implementation and other themes improvements
+
+2.0.0.0-dev35
+=============
+* Enhancements of System Configuration:
+  * Introduced new items that can be configured in the similar to Magento 1.x way, using xml files: nested groups in System Configuration form, group dependencies, intersected dependencies
+  * Enhanced handling of field dependencies, required fields functionality
+  * Changed Configuration structure to be represented as an object model
+  * Improved performance of configuration rendering
+* Implemented new API in `Mage_Webapi` module
+  * Removed `Mage_Api` and `Mage_Api2` modules as obsolete API implementation
+  * Added support of REST and SOAP 1.2 [WS-I 2.0](http://ws-i.org/Profiles/BasicProfile-2.0-2010-11-09.html) APIs
+  * Introduced versioning per API resource. The application will support old version(s) of API after upgrading to not make old API requests fail
+  * Unified implementation for all API types
+  * Significantly simplified coverage of new API resources
+  * Added two-legged `OAuth` 1.0 for REST authentication
+  * Added WS-Security for SOAP authentication
+  * Added automatic generation of REST routes and SOAP WSDL on the basis of API class interface and annotations
+  * Introduced generation of API reference from annotated WSDL (for SOAP API)
+* Introduced service layer. Business logic should be implemented once on service layer and could be utilized from different types of controller (e.g., general or API)
+  * Business logic is implemented on service layer to be utilized from different types of controller (e.g., general or API)
+  * Implemented abstract service layer class - `Mage_Core_Service_ServiceAbstract`
+  * Implemented concrete service layers for customers, orders and quotes. Appropriate duplicate logic has been eliminated from controllers and API
+* Improved validation approach:
+  * Added support of describing validation rules in a module's configuration file - `validation.xml` in the module's `etc` directory
+  * Added `Mage_Core_Model_Validator_Factory`
+  * Added new validators to Magento Validator library
+  * Added `Magento_Translate_Adapter` as a translator for the validators
+  * New approach is utilized in `Mage_Customer`, `Mage_Eav` and `Mage_Webapi` modules
+* Added profiling of DB and cache requests
+* Minor Improvements:
+  * Added an ability to choose the image for logo and upload it from backend web-interface
+  * Added notification in backend in case of product SKU change
+* Bug fixes:
+  * Fixed bug in `Mage_Adminhtml_Sales_Order_CreditmemoController` that changed item’s stock status after each comment
+  * Removed `Debug` section in `System -> Configuration -> Advanced -> Developer` for default configuration scope
+  * Fixed bug in `Mage_Tax_Model_Resource_Calculation` that prevented placing order with two tax rules having the same rate
+  * Removed `Url Options` section in `System -> Configuration -> General -> Web` for website and store configuration scope
+  * Changed backend template for UPS shipping provider to fix translation issue
+* Fixed security issue - set `CURLOPT_SSL_VERIFYPEER` to `true` by default in cUrl calls
+* Added `Zend/Escaper`, `Zend/I18`, `Zend/Validator` ZF2 libraries
+* Updated `Zend/Server` and `Zend/Soap` libraries to ZF2 versions
+
 2.0.0.0-dev34
 =============
 * Test Framework:
@@ -165,11 +227,10 @@
 
 2.0.0.0-dev29
 =============
-* Added scripts that allow upgrading database from CE 1.7 (EE 1.12) to 2.x
+* Implemented and verified ability to upgrade DB from CE 1.7 (EE 1.12) to 2.x
 * Replaced calendar UI component with jQuery calendar
-* Removed store scope selector from backend customers management
-* Renamed `pub/js` (was known as `js` in Magento 1.x) into `pub/lib`
 * Restored back the public access to `pub/cron.php` entry point (in the previous patch it was denied by mistake)
+* Fixed typo in label of "Catalog Search" index in UI
 
 2.0.0.0-dev28
 =============
@@ -617,7 +678,7 @@
 =============
 * Implemented a tool for migrating factory table names from 1.x to 2.x. The tool replaces table names by list of names associations
 * Changed Unit tests suite running from usage AllTests.php in each directory to configuration in phpunit.xml.dist. Now all tests in `testsuite` directory are launched, there is no necessity to add new tests to the config
-* Implemented in Visual Desig Editor:
+* Implemented in Visual Design Editor:
   * Containers highlighting
   * Dropping of elements
 * Fixed some issues:
@@ -691,10 +752,10 @@
 2.0.0.0-dev02
 =============
 Deprecated code & minor fixes update:
-* eliminated remnants of `htmlescape` implementation
-* eliminated usage of `pub/js/index.php` entry point (used to be `js/index.php`)
-* disbanded the shell root directory: moved scripts into `dev/shell` and classes into app
-* minor refactoring of data fixtures rollback capability in integration testing framework
+* Eliminated remnants of `htmlescape` implementation
+* Eliminated usage of `pub/js/index.php` entry point (used to be `js/index.php`)
+* Disbanded the shell root directory: moved scripts into `dev/shell` and classes into app
+* Minor refactoring of data fixtures rollback capability in integration testing framework
 
 2.0.0.0-dev01
 =============
