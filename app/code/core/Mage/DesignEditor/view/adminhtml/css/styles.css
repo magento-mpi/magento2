@@ -30,9 +30,12 @@
     -webkit-transition: opacity .25s ease-in-out;
 }
 
-.theme-title,
-.theme-title input {
+.theme-title {
     color: white;
+    font-size: 20px;
+    line-height: 24px;
+}
+.theme-title input {
     font-size: 20px;
     line-height: 24px;
 }
