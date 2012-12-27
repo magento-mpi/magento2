@@ -26,7 +26,8 @@
         options: {
             template: '#menuTemplate',
             minLength: 1,
-            source: 'http://testsuggest.lo/suggest.php'
+            source: 'http://testsuggest.lo/suggest.php',
+            events: {}
         },
         _create: function() {
             this._setTemplate();
@@ -37,28 +38,55 @@
         _value: function() {
             return this.element[this.element.is(":input") ? "val" : "text"]();
         },
+
+        _proxyEvents: function(event) {
+            this.contentContainer
+                .find(this.options.contentType)
+                .triggerHandler(event);
+        },
+
+        _submitAction: function(event) {},
+
+        _focus: function(event) {},
+
+        _blur: function(event) {},
+
+        _navigationAction: function(event) {},
+
         _bind: function() {
             this._on($.extend({
-                keydown: function(event) {
-                    var keyCode = $.ui.keyCode;
-                    switch (event.keyCode) {
-                        case keyCode.UP:
-                            this.contentContainer
-                                .find(this.options.contentType)
-                                .triggerHandler(event);
-                            break;
-                        case keyCode.DOWN:
-                            this.contentContainer
-                                .find(this.options.contentType)
-                                .triggerHandler(event);
-                            break;
+                    keydown: function(event) {
+                        var keyCode = $.ui.keyCode;
+                        switch (event.keyCode) {
+                            case keyCode.HOME:
+                            case keyCode.END:
+                            case keyCode.PAGE_UP:
+                            case keyCode.PAGE_DOWN:
+                            case keyCode.ESCAPE:
+                            case keyCode.UP:
+                            case keyCode.DOWN:
+                                this._proxyEvents(event);
+                                break;
+                            case keyCode.ENTER:
+                            case keyCode.NUMPAD_ENTER:
+                                this._submitAction(event);
+                                break;
+                            case keyCode.LEFT:
+                            case keyCode.RIGHT:
+                                this._navigationAction(event);
+                                break;
+                            default:
+                                this.search()
+                        }
+                    },
+                    focus: this._focus,
+                    blur: this._blur
+                }, this.options.events))
+                ._on(this.contentContainer, {
+                    'menufocus': function(e, ui){
+                        this.element.val(ui.item.text());
                     }
-                },
-                keyup: this.search
-            }, this.options.events || {}));
-            this.contentContainer.on('menufocus', $.proxy(function(e, ui){
-                this.element.val(ui.item.text());
-            }, this))
+                });
         },
         _setTemplate: function() {
             this.template = $(this.options.template).length ?
