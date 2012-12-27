@@ -83,7 +83,7 @@ class Saas_PrintedTemplate_Model_Source_PageSize
             $config['height'] = new Zend_Measure_Length($sizeInfo['height'], $unit, 'en_US');
         }
 
-        return Mage::getModel('Saas_PrintedTemplate_Model_PageSize', $config);
+        return Mage::getModel('Saas_PrintedTemplate_Model_PageSize', array('sizeInfo' => $config));
     }
 
     /**
