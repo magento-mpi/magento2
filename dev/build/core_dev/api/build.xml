@@ -35,7 +35,6 @@
     <property name="file.test.dump.sql" value="${dir.checkout.build.files}/api_tests.sql"/>
     <property name="file.magento.backup.sql" value="${dir.magento}/api_tests_backup.sql"/>
 
-
     <property name="file.tests.config.soap.dist" value="${dir.tests}/phpunit-soap.xml.dist"/>
     <property name="file.tests.config.soap" value="${dir.tests}/phpunit-soap.xml"/>
     <property name="file.tests.config.soap.wsi" value="${dir.tests}/phpunit-soap-wsi.xml"/>
@@ -48,8 +47,8 @@
     </target>
 
     <target name="prepareBuild">
-        <copy file="${file.tests.config.soap.dist}" tofile="${file.magento.local.xml}"/>
-        <copy file="${file.magento.local.xml.dist}" tofile="${file.tests.config.soap}"/>
+        <copy file="${file.tests.config.soap.dist}" tofile="${file.tests.config.soap}"/>
+        <copy file="${file.magento.local.xml.dist}" tofile="${file.magento.local.xml}"/>
         <replace file="${file.magento.local.xml}" token="magento_integration_tests" value="${mysql.dbname}"/>
         <replace file="${file.magento.local.xml}" token="root" value="${mysql.username}"/>
 
