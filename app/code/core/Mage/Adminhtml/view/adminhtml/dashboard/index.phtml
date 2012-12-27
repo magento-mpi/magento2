@@ -73,7 +73,9 @@ function toggleCal(id) {
 </script>
 <?php endif; ?>
 
-<div><a href="<?php echo $this->getUrl('launcher/promotestore_index/index')?>"><?php echo $this->__('Promote Your Store'); ?></a></div>
+<div class="head-links">
+    <?php echo $this->getChildBlock('dashboard.head.links')->getChildHtml(); ?>
+</div>
 <!-- TODO: redesign dashboard -->
  <div class="dashboard-container columns col-2-left-layout">
      <div class="columns-content">

@@ -10,6 +10,18 @@
  */
 -->
 <layout>
+    <default>
+        <reference name="header">
+            <block type="Mage_Backend_Block_Template" name="header.front.link" template="Mage_Launcher::header/link.phtml"/>
+        </reference>
+    </default>
+
+    <adminhtml_dashboard_index>
+        <reference name="dashboard.head.links">
+            <block type="Mage_Backend_Block_Template" name="dashboard.store.links" template="Mage_Launcher::dashboard/links.phtml"/>
+        </reference>
+    </adminhtml_dashboard_index>
+
     <launcher_index>
         <block type="Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile" name="business_info.tile"/>
         <block type="Mage_Launcher_Block_Adminhtml_Tile" name="shipping.tile" template="page/storelauncher/tile/shipping.phtml"/>
