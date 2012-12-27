@@ -281,6 +281,9 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             if (!$theme->isVirtual()) {
                 throw new Mage_Core_Exception($this->__('This theme is not editable.'));
             }
+            if (!$theme->isVirtual()) {
+                throw new Mage_Core_Exception('Only virtual theme is possible to edit.');
+            }
             $theme->setThemeTitle($themeTitle);
             $theme->save();
             $this->getResponse()->setBody($coreHelper->jsonEncode(array('success' => true)));

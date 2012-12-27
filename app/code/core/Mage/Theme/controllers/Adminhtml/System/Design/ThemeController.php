@@ -153,7 +153,17 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
         $themeId = $this->getRequest()->getParam('id');
         try {
             if ($themeId) {
-                $this->_objectManager->create('Mage_Core_Model_Theme')->load($themeId)->delete();
+                /** @var $theme Mage_Core_Model_Theme */
+                $theme = $this->_objectManager->create('Mage_Core_Model_Theme')->load($themeId);
+                if (!$theme->getId()) {
+                    throw new InvalidArgumentException($this->__('Theme with id "%d" is not found.', $themeId));
+                }
+                if (!$theme->isVirtual()) {
+                    throw new InvalidArgumentException(
+                        $this->__('Only virtual theme is possible to delete.', $themeId)
+                    );
+                }
+                $theme->delete();
                 $this->_getSession()->addSuccess($this->__('The theme has been deleted.'));
             }
         } catch (Mage_Core_Exception $e) {
