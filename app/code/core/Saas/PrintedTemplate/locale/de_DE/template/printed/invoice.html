@@ -11,17 +11,17 @@
     table.ids {float: right; clear: both; padding-bottom: 2em;}
     table.ids th {text-align: left; font-weight: normal;}
     table.ids td {width: 27mm; text-align: right;}
-    
+
     h1 {clear: both;}
-    
+
     .info {font-size: 120%; margin: 1em; float: left; page-break-inside: avoid;}
-    
-    .totals {margin: 1em 0; float: right; text-align: right; clear: right; page-break-inside: avoid;}    
+
+    .totals {margin: 1em 0; float: right; text-align: right; clear: right; page-break-inside: avoid;}
     .totals th {font-weight: normal;}
     .totals td {width: 27mm;}
 
     .totals .grand {font-size: 120%;}
-    
+
     /* Conditional styles  */
     .totals .subtotal_incl_tax {display: {{if config.display_subtotal_incl_tax}}table-row{{else}}none{{/if}};}
     .totals .subtotal_excl_tax {display: {{if config.display_subtotal_excl_tax}}table-row{{else}}none{{/if}};}
@@ -80,7 +80,7 @@
 
 <h1>Rechnung</h1>
 
-{{widget type="saas_printedtemplate/widget_itemsGrid" header_font_family="sans_serif" header_font_size="10" row_font_family="sans_serif" row_font_size="10" columns_editor="cGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkyNDI4Njg3OTNfNzkzJTVEJTVCcHJvcGVydHklNUQ9cG9zaXRpb24mcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkyNDI4Njg3OTNfNzkzJTVEJTVCdGl0bGUlNUQ9UG9zLiZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTI0Mjg2ODc5M183OTMlNUQlNUJ3aWR0aCU1RD01MCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTI0Mjg2ODc5M183OTMlNUQlNUJzb3J0X29yZGVyJTVEPSZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTI0Mjg4OTU2MV81NjElNUQlNUJwcm9wZXJ0eSU1RD1za3UmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkyNDI4ODk1NjFfNTYxJTVEJTVCdGl0bGUlNUQ9QXJ0aWtlbG5yLiZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTI0Mjg4OTU2MV81NjElNUQlNUJ3aWR0aCU1RD0xMDAmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkyNDI4ODk1NjFfNTYxJTVEJTVCc29ydF9vcmRlciU1RD0mcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkyNDI5MTgxODlfMTg5JTVEJTVCcHJvcGVydHklNUQ9bmFtZSZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTI0MjkxODE4OV8xODklNUQlNUJ0aXRsZSU1RD1BcnRpa2VsYmVzY2hyZWlidW5nJnBhcmFtZXRlcnMlNUJjb2x1bW5zX2VkaXRvciU1RCU1Ql8xMzI5MjQyOTE4MTg5XzE4OSU1RCU1QndpZHRoJTVEPTMwMCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTI0MjkxODE4OV8xODklNUQlNUJzb3J0X29yZGVyJTVEPSZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTI0MjkzNjEwMF8xMDAlNUQlNUJwcm9wZXJ0eSU1RD1wcmljZV9pbmNsX3RheCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTI0MjkzNjEwMF8xMDAlNUQlNUJ0aXRsZSU1RD1QcmVpcyZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTI0MjkzNjEwMF8xMDAlNUQlNUJ3aWR0aCU1RD0xMDAmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkyNDI5MzYxMDBfMTAwJTVEJTVCc29ydF9vcmRlciU1RD0mcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkyNDM0ODE3NDFfNzQxJTVEJTVCcHJvcGVydHklNUQ9cXR5JnBhcmFtZXRlcnMlNUJjb2x1bW5zX2VkaXRvciU1RCU1Ql8xMzI5MjQzNDgxNzQxXzc0MSU1RCU1QnRpdGxlJTVEPU1lbmdlJnBhcmFtZXRlcnMlNUJjb2x1bW5zX2VkaXRvciU1RCU1Ql8xMzI5MjQzNDgxNzQxXzc0MSU1RCU1QndpZHRoJTVEPTEwMCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTI0MzQ4MTc0MV83NDElNUQlNUJzb3J0X29yZGVyJTVEPSZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTI0MzU0NzU3MV81NzElNUQlNUJwcm9wZXJ0eSU1RD10YXhfYW1vdW50JnBhcmFtZXRlcnMlNUJjb2x1bW5zX2VkaXRvciU1RCU1Ql8xMzI5MjQzNTQ3NTcxXzU3MSU1RCU1QnRpdGxlJTVEPVN0ZXVlcmJldHJhZyZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTI0MzU0NzU3MV81NzElNUQlNUJ3aWR0aCU1RD0xMDAmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkyNDM1NDc1NzFfNTcxJTVEJTVCc29ydF9vcmRlciU1RD0mcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkyNDM1NzU3NjhfNzY4JTVEJTVCcHJvcGVydHklNUQ9cm93X3RvdGFsJnBhcmFtZXRlcnMlNUJjb2x1bW5zX2VkaXRvciU1RCU1Ql8xMzI5MjQzNTc1NzY4Xzc2OCU1RCU1QnRpdGxlJTVEPVp3aXNjaGVuc3VtbWUmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkyNDM1NzU3NjhfNzY4JTVEJTVCd2lkdGglNUQ9MTAwJnBhcmFtZXRlcnMlNUJjb2x1bW5zX2VkaXRvciU1RCU1Ql8xMzI5MjQzNTc1NzY4Xzc2OCU1RCU1QnNvcnRfb3JkZXIlNUQ9" entity="$invoice"}}
+{{widget type="Saas_PrintedTemplate_Block_Widget_ItemsGrid" header_font_family="sans_serif" header_font_size="10" row_font_family="sans_serif" row_font_size="10" columns_editor="cGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkyNDI4Njg3OTNfNzkzJTVEJTVCcHJvcGVydHklNUQ9cG9zaXRpb24mcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkyNDI4Njg3OTNfNzkzJTVEJTVCdGl0bGUlNUQ9UG9zLiZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTI0Mjg2ODc5M183OTMlNUQlNUJ3aWR0aCU1RD01MCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTI0Mjg2ODc5M183OTMlNUQlNUJzb3J0X29yZGVyJTVEPSZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTI0Mjg4OTU2MV81NjElNUQlNUJwcm9wZXJ0eSU1RD1za3UmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkyNDI4ODk1NjFfNTYxJTVEJTVCdGl0bGUlNUQ9QXJ0aWtlbG5yLiZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTI0Mjg4OTU2MV81NjElNUQlNUJ3aWR0aCU1RD0xMDAmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkyNDI4ODk1NjFfNTYxJTVEJTVCc29ydF9vcmRlciU1RD0mcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkyNDI5MTgxODlfMTg5JTVEJTVCcHJvcGVydHklNUQ9bmFtZSZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTI0MjkxODE4OV8xODklNUQlNUJ0aXRsZSU1RD1BcnRpa2VsYmVzY2hyZWlidW5nJnBhcmFtZXRlcnMlNUJjb2x1bW5zX2VkaXRvciU1RCU1Ql8xMzI5MjQyOTE4MTg5XzE4OSU1RCU1QndpZHRoJTVEPTMwMCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTI0MjkxODE4OV8xODklNUQlNUJzb3J0X29yZGVyJTVEPSZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTI0MjkzNjEwMF8xMDAlNUQlNUJwcm9wZXJ0eSU1RD1wcmljZV9pbmNsX3RheCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTI0MjkzNjEwMF8xMDAlNUQlNUJ0aXRsZSU1RD1QcmVpcyZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTI0MjkzNjEwMF8xMDAlNUQlNUJ3aWR0aCU1RD0xMDAmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkyNDI5MzYxMDBfMTAwJTVEJTVCc29ydF9vcmRlciU1RD0mcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkyNDM0ODE3NDFfNzQxJTVEJTVCcHJvcGVydHklNUQ9cXR5JnBhcmFtZXRlcnMlNUJjb2x1bW5zX2VkaXRvciU1RCU1Ql8xMzI5MjQzNDgxNzQxXzc0MSU1RCU1QnRpdGxlJTVEPU1lbmdlJnBhcmFtZXRlcnMlNUJjb2x1bW5zX2VkaXRvciU1RCU1Ql8xMzI5MjQzNDgxNzQxXzc0MSU1RCU1QndpZHRoJTVEPTEwMCZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTI0MzQ4MTc0MV83NDElNUQlNUJzb3J0X29yZGVyJTVEPSZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTI0MzU0NzU3MV81NzElNUQlNUJwcm9wZXJ0eSU1RD10YXhfYW1vdW50JnBhcmFtZXRlcnMlNUJjb2x1bW5zX2VkaXRvciU1RCU1Ql8xMzI5MjQzNTQ3NTcxXzU3MSU1RCU1QnRpdGxlJTVEPVN0ZXVlcmJldHJhZyZwYXJhbWV0ZXJzJTVCY29sdW1uc19lZGl0b3IlNUQlNUJfMTMyOTI0MzU0NzU3MV81NzElNUQlNUJ3aWR0aCU1RD0xMDAmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkyNDM1NDc1NzFfNTcxJTVEJTVCc29ydF9vcmRlciU1RD0mcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkyNDM1NzU3NjhfNzY4JTVEJTVCcHJvcGVydHklNUQ9cm93X3RvdGFsJnBhcmFtZXRlcnMlNUJjb2x1bW5zX2VkaXRvciU1RCU1Ql8xMzI5MjQzNTc1NzY4Xzc2OCU1RCU1QnRpdGxlJTVEPVp3aXNjaGVuc3VtbWUmcGFyYW1ldGVycyU1QmNvbHVtbnNfZWRpdG9yJTVEJTVCXzEzMjkyNDM1NzU3NjhfNzY4JTVEJTVCd2lkdGglNUQ9MTAwJnBhcmFtZXRlcnMlNUJjb2x1bW5zX2VkaXRvciU1RCU1Ql8xMzI5MjQzNTc1NzY4Xzc2OCU1RCU1QnNvcnRfb3JkZXIlNUQ9" entity="$invoice"}}
 
 <style type="text/css">
     .widget-items-grid,
@@ -178,14 +178,14 @@
     .footer table {font-size: 60%; clear: both; text-align: left;}
     .footer table th {font-weight: normal;}
     .footer table th,
-    .footer table td {padding-right: 1em}    
+    .footer table td {padding-right: 1em}
 </style>
 
 <div class="footer">
 
     <div class="page">Seite&nbsp;{{var pagination.page_number}} von&nbsp;{{var pagination.page_total}}</div>
-        
-    <table> 
+
+    <table>
         <tr>
             <th>Shop Name:</th>        <td>[Beispielshop]</td>
             <th>Telephone:</th>        <td>[+49 511 123456]</td>
@@ -214,7 +214,7 @@
             <th>Street:</th>           <td>[Musterstr. 1]</td>
             <th>Tax number:</th>       <td>[12/123/123456]</td>
             <th>Account:</th>          <td>[123456789]</td>
-            
+
         </tr>
         <tr>
             <th>City:</th>             <td>[Hannover]</td>
