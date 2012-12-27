@@ -215,113 +215,6 @@ abstract class Magento_Test_TestCase_ApiAbstract extends PHPUnit_Framework_TestC
     }
 
     /**
-     * Replace object which will be returned on Mage::getSingleton() call
-     *
-     * @param string $name
-     * @param object $mock
-     * @return Magento_Test_TestCase_ApiAbstract
-     */
-    protected function _replaceSingleton($name, $mock)
-    {
-        $registryKey = '_singleton/' . $name;
-        Mage::unregister($registryKey);
-        Mage::register($registryKey, $mock);
-
-        return $this;
-    }
-
-    /**
-     * Restore original object which will be returned on Mage::getSingleton() call
-     *
-     * @param string $name
-     * @return Magento_Test_TestCase_ApiAbstract
-     */
-    protected function _restoreSingleton($name)
-    {
-        $registryKey = '_singleton/' . $name;
-        Mage::unregister($registryKey);
-
-        return $this;
-    }
-
-    /**
-     * Replace object which will be returned on Mage::getSingleton() call with mock
-     *
-     * @param string $name
-     * @param array $methods
-     * @return PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function _replaceSingletonWithMock($name, $methods = array())
-    {
-        $class = get_class(Mage::getSingleton($name));
-        $mock = $this->getMock($class, $methods);
-
-        $this->_replaceSingleton($name, $mock);
-
-        return $mock;
-    }
-
-    /**
-     * Replace object which will be returned on Mage::helper() call
-     *
-     * @param string $name
-     * @param object $mock
-     * @return Magento_Test_TestCase_ApiAbstract
-     */
-    protected function _replaceHelper($name, $mock)
-    {
-        if (strpos($name, '/') === false) {
-            $newRegistryKey = '_helper/' . $name;
-            Mage::unregister($newRegistryKey);
-            Mage::register($newRegistryKey, $mock);
-
-            $name .= '/data';
-        }
-
-        $registryKey = '_helper/' . $name;
-        Mage::unregister($registryKey);
-        Mage::register($registryKey, $mock);
-
-        return $this;
-    }
-
-    /**
-     * Restore original object which will be returned on Mage::helper() call
-     *
-     * @param string $name
-     * @return Magento_Test_TestCase_ApiAbstract
-     */
-    protected function _restoreHelper($name)
-    {
-        if (strpos($name, '/') === false) {
-            Mage::unregister('_helper/' . $name);
-            $name .= '/data';
-        }
-
-        $registryKey = '_helper/' . $name;
-        Mage::unregister($registryKey);
-
-        return $this;
-    }
-
-    /**
-     * Replace object which will be returned on Mage::helper() call with mock
-     *
-     * @param string $name
-     * @param array $methods
-     * @return PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function _replaceHelperWithMock($name, $methods = array())
-    {
-        $class = get_class(Mage::helper($name));
-        $mock = $this->getMock($class, $methods);
-
-        $this->_replaceHelper($name, $mock);
-
-        return $mock;
-    }
-
-    /**
      * Enable secure/admin area
      *
      * @param bool $flag
@@ -409,24 +302,6 @@ abstract class Magento_Test_TestCase_ApiAbstract extends PHPUnit_Framework_TestC
     }
 
     /**
-     * Modify config settings on systen been tested for specified webservice type
-     *
-     * @param string $webserviceType Webservice type. One of self::TYPE_... constant
-     */
-    protected function _modifyConfig($webserviceType)
-    {
-        if (self::TYPE_SOAP == $webserviceType) {
-            if (Mage::getStoreConfig('api/config/compliance_wsi')) {
-                $this->_updateAppConfig('api/config/compliance_wsi', 0, true, true);
-            }
-        } elseif (self::TYPE_SOAP_WSI == $webserviceType) {
-            if (!Mage::getStoreConfig('api/config/compliance_wsi')) {
-                $this->_updateAppConfig('api/config/compliance_wsi', 1, true, true);
-            }
-        }
-    }
-
-    /**
      * Get adapter instance
      *
      * @param string $code
@@ -467,7 +342,6 @@ abstract class Magento_Test_TestCase_ApiAbstract extends PHPUnit_Framework_TestC
         }
         if (null === $this->getInstance($code)) {
             $webserviceType = strtolower(TESTS_WEBSERVICE_TYPE);
-            $this->_modifyConfig($webserviceType);
             if (!isset($this->_clientsMap[$webserviceType])) {
                 throw new LogicException(sprintf('Invalid API type specified in configuration: "%s"', $webserviceType));
             }
@@ -554,30 +428,6 @@ abstract class Magento_Test_TestCase_ApiAbstract extends PHPUnit_Framework_TestC
             $result = (string)$xml;
         }
         return $result;
-    }
-
-    /**
-     * @param mixed $exceptionName
-     * @param string $exceptionMessage
-     * @param null $exceptionCode
-     * @throws RuntimeException
-     */
-    // TODO: Try to remove
-    public function setExpectedException($exceptionName, $exceptionMessage = '', $exceptionCode = NULL)
-    {
-        if ($exceptionName == self::DEFAULT_EXCEPTION) {
-
-            switch (TESTS_WEBSERVICE_TYPE) {
-                case self::TYPE_SOAP:
-                case self::TYPE_SOAP_WSI:
-                    $exceptionName = 'SoapFault';
-                    break;
-                default:
-                    throw new RuntimeException('Webservice type is undefined.');
-                    break;
-            }
-        }
-        parent::setExpectedException($exceptionName, $exceptionMessage, $exceptionCode);
     }
 
     /**
