@@ -1,20 +1,20 @@
 <?php
 /**
-* {license_notice}
-*
-* @category    Mage
-* @package     Mage_Backup
-* @copyright   {copyright}
-* @license     {license_link}
-*/
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Backup
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
 /**
-* Grid column block that is displayed only if rollback allowed
-*
-* @category   Mage
-* @package    Mage_Backup
-* @author     Magento Core Team <core@magentocommerce.com>
-*/
+ * Grid column block that is displayed only if rollback allowed
+ *
+ * @category   Mage
+ * @package    Mage_Backup
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Backup_Block_Adminhtml_Grid_Column_Rollback extends Mage_Backend_Block_Widget_Grid_Column
 {
     /**
