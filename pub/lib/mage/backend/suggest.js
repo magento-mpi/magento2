@@ -9,30 +9,31 @@
 /*jshint jquery:true*/
 
 (function($) {
+    "use strict";
+
     $.extend(true, $, {
         mage: {
             isStorageAvailable: function() {
                 try {
-                    return 'localStorage' in window && window['localStorage'] !== null;
+                    return 'localStorage' in window && window.localStorage !== null;
                 } catch (e) {
                     return false;
                 }
             }
         }
     });
-
-    'use strict';
     $.widget('mage.suggest', {
         options: {
             template: '#menuTemplate',
             minLength: 1,
             source: 'http://testsuggest.lo/suggest.php',
-            events: {}
+            events: {},
+            appendTo: 'after'
         },
         _create: function() {
             this._setTemplate();
-            this.contentContainer = $('<div></div>');
-            this.element.after(this.contentContainer);
+            this.contentContainer = $('<div/>');
+            this.element[this.options.appendTo](this.contentContainer);
             this._bind();
         },
         _value: function() {
@@ -45,17 +46,13 @@
                 .triggerHandler(event);
         },
 
-        _submitAction: function(event) {},
-
-        _focus: function(event) {},
-
-        _blur: function(event) {},
-
-        _navigationAction: function(event) {},
+        _submitAction: function(event) {
+            event.preventDefault();
+        },
 
         _bind: function() {
             this._on($.extend({
-                    keydown: function(event) {
+                    'keydown': function(event) {
                         var keyCode = $.ui.keyCode;
                         switch (event.keyCode) {
                             case keyCode.HOME:
@@ -65,22 +62,18 @@
                             case keyCode.ESCAPE:
                             case keyCode.UP:
                             case keyCode.DOWN:
+                            case keyCode.LEFT:
+                            case keyCode.RIGHT:
                                 this._proxyEvents(event);
                                 break;
                             case keyCode.ENTER:
                             case keyCode.NUMPAD_ENTER:
                                 this._submitAction(event);
                                 break;
-                            case keyCode.LEFT:
-                            case keyCode.RIGHT:
-                                this._navigationAction(event);
-                                break;
                             default:
-                                this.search()
+                                this.search();
                         }
-                    },
-                    focus: this._focus,
-                    blur: this._blur
+                    }
                 }, this.options.events))
                 ._on(this.contentContainer, {
                     'menufocus': function(e, ui){
