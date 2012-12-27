@@ -30,36 +30,30 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
     public function preconditionsForTests()
     {
         //Data
-        $categoryDefault = $this->loadDataSet('Category', 'sub_category_required');
-        $additionalCategory = $this->loadDataSet('Category', 'sub_category_required');
-        $rootCategoryData = $this->loadDataSet('Category', 'root_category_required');
-        $categoryNewRoot = $this->loadDataSet('Category', 'sub_category_required', array(
-            'parent_category' => $rootCategoryData['name']
-        ));
+        $default = $this->loadDataSet('Category', 'sub_category_required');
+        $additional = $this->loadDataSet('Category', 'sub_category_required');
+        $newRoot = $this->loadDataSet('Category', 'root_category_required');
+        $subInNew = $this->loadDataSet('Category', 'sub_category_required',
+            array('parent_category' => $newRoot['name']));
         //Create root category
         $this->navigate('manage_categories');
-        $this->categoryHelper()->createCategory($rootCategoryData);
+        $this->categoryHelper()->createCategory($newRoot);
         $this->assertMessagePresent(self::MESSAGE_TYPE_SUCCESS, 'success_saved_category');
         //Create new categories in 'Default Category'
-        $this->categoryHelper()->createCategory($categoryDefault);
+        $this->categoryHelper()->createCategory($default);
         $this->assertMessagePresent(self::MESSAGE_TYPE_SUCCESS, 'success_saved_category');
-        $this->categoryHelper()->createCategory($categoryDefault);
+        $this->categoryHelper()->createCategory($default);
         $this->assertMessagePresent(self::MESSAGE_TYPE_SUCCESS, 'success_saved_category');
         //Create new category in created root category
-        $this->categoryHelper()->createCategory($categoryNewRoot);
+        $this->categoryHelper()->createCategory($subInNew);
         $this->assertMessagePresent(self::MESSAGE_TYPE_SUCCESS, 'success_saved_category');
         //Create additional category in 'Default Category'
-        $this->categoryHelper()->createCategory($additionalCategory);
+        $this->categoryHelper()->createCategory($additional);
         $this->assertMessagePresent(self::MESSAGE_TYPE_SUCCESS, 'success_saved_category');
 
-        return array(
-            'default' => array('parent' => $categoryDefault['parent_category'], 'category' => $categoryDefault['name']),
-            'newRoot' => array('parent' => $categoryNewRoot['parent_category'], 'category' => $categoryNewRoot['name']),
-            'additionalDefault' => array(
-                'parent' => $additionalCategory['parent_category'],
-                'category' => $additionalCategory['name']
-            )
-        );
+        return array('default'    => $default['parent_category'] . '/' . $default['name'],
+                     'newRoot'    => $subInNew['parent_category'] . '/' . $subInNew['name'],
+                     'additional' => $additional['parent_category'] . '/' . $additional['name']);
     }
 
     /**
@@ -72,20 +66,21 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
     public function selectCategory($categoryName)
     {
         //Data
-        $categoryData = $this->loadDataSet('Category', 'sub_category_required', array('name' => $categoryName));
-        $productData = $this->loadDataSet('Product', 'simple_product_required');
+        $category = $this->loadDataSet('Category', 'sub_category_required', array('name' => $categoryName));
+        $afterSave = $this->_getExpectedCategoryNameAfterSave($category['name']);
+        $product = $this->loadDataSet('Product', 'simple_product_visible',
+            array('general_categories' => $category['parent_category'] . '/' . $afterSave));
         //Preconditions
         $this->navigate('manage_categories');
-        $this->categoryHelper()->createCategory($categoryData);
+        $this->categoryHelper()->createCategory($category);
         $this->assertMessagePresent(self::MESSAGE_TYPE_SUCCESS, 'success_saved_category');
-        $productData['general_categories'] = $categoryData['parent_category']
-            . '/' . $this->_getExpectedCategoryNameAfterSave($categoryData['name']);
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData);
+        $this->productHelper()->createProduct($product);
+        $this->assertMessagePresent(self::MESSAGE_TYPE_SUCCESS, 'success_saved_product');
         //Verifying
-        $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
-        $this->productHelper()->verifyProductInfo($productData);
+        $this->productHelper()->openProduct(array('product_sku' => $product['general_sku']));
+        $this->productHelper()->verifyProductInfo($product);
     }
 
     /**
@@ -98,17 +93,18 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
     public function selectCategoryWithSubcategories($categories)
     {
         //Data
-        $categoryData = $this->loadDataSet('Category', 'sub_category_required',
-            array('parent_category'=> $categories['newRoot']['parent'] . '/' . $categories['newRoot']['category']));
-        $productData = $this->loadDataSet('Product', 'simple_product_required');
-        $productData['general_categories'] = $categories['newRoot']['parent'] . '/' . $categories['newRoot']['category'];
+        $category = $this->loadDataSet('Category', 'sub_category_required',
+            array('parent_category' => $categories['newRoot']));
+        $productData = $this->loadDataSet('Product', 'simple_product_visible',
+            array('general_categories' => $categories['newRoot']));
         //Preconditions
         $this->navigate('manage_categories');
-        $this->categoryHelper()->createCategory($categoryData);
+        $this->categoryHelper()->createCategory($category);
         $this->assertMessagePresent(self::MESSAGE_TYPE_SUCCESS, 'success_saved_category');
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
+        $this->assertMessagePresent(self::MESSAGE_TYPE_SUCCESS, 'success_saved_product');
         //Verifying
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $this->productHelper()->verifyProductInfo($productData);
@@ -124,14 +120,13 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
     public function selectSameCategoryTwice($categories)
     {
         //Data
-        $productData = $this->loadDataSet('Product', 'simple_product_required');
-        $productData['general_categories'] = $categories['newRoot']['parent'] . '/' . $categories['newRoot']['category'];
+        $product = $this->loadDataSet('Product', 'simple_product_visible',
+            array('general_categories' => $categories['default']));
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData, 'simple', false);
+        $this->productHelper()->createProduct($product, 'simple', false);
         $this->openTab('general');
-        $element = $this->waitForControlEditable(self::FIELD_TYPE_INPUT, 'general_categories', 10);
-        $element->value($categories['newRoot']['category']);
+        $this->getControlElement(self::FIELD_TYPE_INPUT, 'general_categories')->value($product['general_categories']);
         //Verifying
         $this->waitForElementEditable($this->_getControlXpath('link', 'selected_category'));
     }
@@ -146,12 +141,12 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
     public function selectTwoDifferentCategories($categories)
     {
         //Data
-        $productData = $this->loadDataSet('Product', 'simple_product_required');
-        $productData['general_categories'] = $categories['default']['parent'] . '/' . $categories['default']['category'] . ', '
-            . $categories['additionalDefault']['parent'] . '/' . $categories['additionalDefault']['category'];
+        $productData = $this->loadDataSet('Product', 'simple_product_visible',
+            array('general_categories' => array($categories['default'], $categories['additional'])));
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
+        $this->assertMessagePresent(self::MESSAGE_TYPE_SUCCESS, 'success_saved_product');
         //Verifying
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $this->productHelper()->verifyProductInfo($productData);
@@ -167,12 +162,12 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
     public function selectTwoCategoriesWithSameNameInOneRootCategory($categories)
     {
         //Data
-        $productData = $this->loadDataSet('Product', 'simple_product_required');
-        $productData['general_categories'] = $categories['default']['parent'] . '/' . $categories['default']['category'] . ', '
-            . $categories['default']['parent'] . '/' . $categories['default']['category'];
+        $productData = $this->loadDataSet('Product', 'simple_product_visible',
+            array('general_categories' => array($categories['default'], $categories['default'])));
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
+        $this->assertMessagePresent(self::MESSAGE_TYPE_SUCCESS, 'success_saved_product');
         //Verifying
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $this->productHelper()->verifyProductInfo($productData);
@@ -188,12 +183,12 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
     public function selectTwoCategoriesWithSameNameInDifferentRootCategories($categories)
     {
         //Data
-        $productData = $this->loadDataSet('Product', 'simple_product_required');
-        $productData['general_categories'] = $categories['default']['parent'] . '/' . $categories['default']['category'] . ', '
-            . $categories['newRoot']['parent'] . '/' . $categories['newRoot']['category'];
+        $productData = $this->loadDataSet('Product', 'simple_product_visible',
+            array('general_categories' => array($categories['default'], $categories['newRoot'])));
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
+        $this->assertMessagePresent(self::MESSAGE_TYPE_SUCCESS, 'success_saved_product');
         //Verifying
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $this->productHelper()->verifyProductInfo($productData);
@@ -212,7 +207,7 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $this->navigate('manage_products');
         $this->productHelper()->selectTypeProduct('simple');
         $this->fillField('general_categories', $selectedCategory);
-        $this->waitForAjax();
+        $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'category_search_result');
         //Verifying
         $this->assertFalse($this->controlIsVisible('fieldset', 'category_search'), 'Category list is not empty.');
     }
@@ -227,8 +222,8 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
     public function deleteSelectedCategory($categories)
     {
         //Data
-        $productData = $this->loadDataSet('Product', 'simple_product_required');
-        $productData['general_categories'] = $categories['default']['parent'] . '/' . $categories['default']['category'];
+        $productData = $this->loadDataSet('Product', 'simple_product_visible',
+            array('general_categories' => $categories['default']));
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData, 'simple', false);
@@ -268,10 +263,9 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $this->assertTrue($this->controlIsVisible(self::UIMAP_TYPE_MESSAGE, 'parent_name_required'));
         $this->assertFalse($this->controlIsPresent(self::UIMAP_TYPE_MESSAGE, 'parent_name_existent'));
 
-        $this->fillFieldset(array(
-            'name' => $this->generate('string', 256, ':alnum:'),
-            'parent_category' => $this->generate('string', 256, ':alnum:'),
-        ), 'new_category_form');
+        $this->fillFieldset(array('name'            => $this->generate('string', 256, ':alnum:'),
+                                  'parent_category' => $this->generate('string', 256, ':alnum:'),),
+            'new_category_form');
         $this->clickButton('new_category_save', false);
         sleep(1); // giving time for messages to disappear with animation, waitForElementNotVisible would do the job
 
@@ -304,42 +298,21 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
      */
     public function createNewCategorySuccessfully($newCategoryName, $categories)
     {
-        $productData = $this->loadDataSet('Product', 'simple_product_required');
-        $parentCategory = $categories['default']['category'];
-        $parentCategoryPath = $categories['default']['parent'] . '/' . $parentCategory;
-        $expectedCategoryNameAfterSave = $this->_getExpectedCategoryNameAfterSave($newCategoryName);
-        $newCategoryNameBeginning = substr($newCategoryName, 0, rand(5, strlen($newCategoryName) - 5));
-
+        //Data
+        $path = $categories['default'];
+        $expectedNameAfterSave = $this->_getExpectedCategoryNameAfterSave($newCategoryName);
+        $product = $this->loadDataSet('Product', 'simple_product_visible',
+            array('general_categories' => $path . '/' . $newCategoryName));
+        //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData, 'simple', false);
-        $this->openTab('general');
-        $this->fillField('general_categories', $newCategoryNameBeginning);
-
-        $this->clickButton('new_category', false);
-        $this->waitForElementVisible($this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'new_category_form'));
-        // check new category name pre-population
-        $this->assertEquals($newCategoryNameBeginning,
-            $this->getControlAttribute(self::FIELD_TYPE_INPUT, 'name', 'value'));
-
-        $this->fillField('name', $newCategoryName);
-        $this->_chooseParentCategory($parentCategory);
-
-        $this->clickButton('new_category_save', false);
-        // wait for new category to appear in selected categories list
-        $this->addParameter('categoryName', $expectedCategoryNameAfterSave);
-        $this->waitForElementVisible($this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'category_name'));
-        $this->assertFalse($this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'new_category_form'));
-        // save the product and verify saved data
-        $this->clickButton('save', true);
+        $this->productHelper()->createProduct($product, 'simple');
         $this->assertMessagePresent(self::MESSAGE_TYPE_SUCCESS, 'success_saved_product');
-        $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
-        $this->productHelper()->verifyProductInfo($productData);
-        // check that category is saved with correct name and is active
-        $newCategoryPath = $parentCategoryPath . '/' . $expectedCategoryNameAfterSave;
+        $this->productHelper()->openProduct(array('product_sku' => $product['general_sku']));
+        $this->productHelper()->verifyProductInfo($product);
         $this->navigate('manage_categories');
-        $this->categoryHelper()->selectCategory($newCategoryPath);
+        $this->categoryHelper()->selectCategory($path . '/' . $expectedNameAfterSave);
         $this->openTab('general_information');
-        $this->assertEquals($expectedCategoryNameAfterSave,
+        $this->assertEquals($expectedNameAfterSave,
             $this->getControlAttribute(self::FIELD_TYPE_INPUT, 'name', 'value'));
         $this->assertEquals('Yes', $this->getControlAttribute(self::FIELD_TYPE_DROPDOWN, 'is_active', 'selectedLabel'));
     }
@@ -352,45 +325,18 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
     {
         return array(
             array(str_replace(array('\\', '/', ',', '"'), '?',
-                $this->generate('string', rand(20, 255), ':alnum:,:punct:'))
-            ),
+                $this->generate('string', rand(20, 255), ':alnum:,:punct:'))),
             array(str_replace(array('\\', '/', ',', '"'), '?',
-                $this->generate('string', rand(256, 512), ':alnum:,:punct:'))
-            ),
-            array('<img src=example.com?nonexistent.jpg onerror=alert("xss")>'),
+                $this->generate('string', rand(256, 512), ':alnum:,:punct:'))),
+            array('<img src=example.com?nonexistent.jpg onerror=alert(' . $this->generate('string', 5) . ')>')
         );
-    }
-
-    /**
-     * Choose parent category from suggestions list
-     *
-     * @param string $parentCategory
-     */
-    protected function _chooseParentCategory($parentCategory)
-    {
-        $locator = $this->_getControlXpath('field', 'parent_category');
-        $element = $this->waitForElementEditable($locator, 10);
-        $selectedNames = array();
-        $isSelected = $this->elementIsPresent($this->_getControlXpath('fieldset', 'new_category_form'));
-        if ($isSelected) {
-            foreach ($this->getChildElements($isSelected, 'div') as $element) {
-                /** @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
-                $selectedNames[] = trim($element->text());
-            }
-        }
-        if (!in_array($parentCategory, $selectedNames)) {
-            $this->addParameter('categoryName', $parentCategory);
-            $element->value($parentCategory);
-            $this->waitForElementEditable($this->_getControlXpath('link', 'category'))->click();
-        } else {
-            $this->fail('Parent category can not be selected.');
-        }
     }
 
     /**
      * Currently category name is truncated after 255 characters
      *
      * @param string $categoryNameForSave
+     *
      * @return string
      */
     protected function _getExpectedCategoryNameAfterSave($categoryNameForSave)
