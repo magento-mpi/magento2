@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Mage_Core>
-            <version>1.6.0.7</version>
+            <version>1.6.0.8</version>
             <active>true</active>
             <codePool>core</codePool>
         </Mage_Core>

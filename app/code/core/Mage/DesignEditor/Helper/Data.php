@@ -22,6 +22,7 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_BLOCK_WHITE_LIST     = 'vde/design_editor/block/white_list';
     const XML_PATH_BLOCK_BLACK_LIST     = 'vde/design_editor/block/black_list';
     const XML_PATH_CONTAINER_WHITE_LIST = 'vde/design_editor/container/white_list';
+    const XML_PATH_DAYS_TO_EXPIRE       = 'vde/design_editor/layout_update/days_to_expire';
     /**#@-*/
 
     /**
@@ -122,4 +123,13 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
         return $this->_getElementsList(self::XML_PATH_CONTAINER_WHITE_LIST);
     }
 
+    /**
+     * Get expiration days count
+     *
+     * @return string
+     */
+    public function getDaysToExpire()
+    {
+        return (int)$this->_configuration->getNode(self::XML_PATH_DAYS_TO_EXPIRE);
+    }
 }

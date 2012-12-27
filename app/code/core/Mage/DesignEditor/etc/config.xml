@@ -64,6 +64,9 @@
             <frontName>vde</frontName>
             <defaultHandle>default</defaultHandle>
             <disabledCacheTypes>BLOCK_HTML,LAYOUT_GENERAL_CACHE_TAG,FPC</disabledCacheTypes>
+            <layout_update>
+                <days_to_expire>5</days_to_expire>
+            </layout_update>
             <block>
                 <white_list>
                     <mage_core_block_template>Mage_Core_Block_Template</mage_core_block_template>
@@ -122,4 +125,16 @@
             </adminhtml>
         </routers>
     </admin>
+    <crontab>
+        <jobs>
+            <design_editor_clear_layout_updates>
+                <schedule>
+                    <cron_expr>0 0 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>Mage_DesignEditor_Model_Observer::clearLayoutUpdates</model>
+                </run>
+            </design_editor_clear_layout_updates>
+        </jobs>
+    </crontab>
 </config>
