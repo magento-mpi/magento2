@@ -34,7 +34,7 @@ abstract class Saas_PrintedTemplate_Model_Variable_Item_Abstract
      *
      * @param mixed $value
      */
-    public function __construct($value)
+    public function __construct($value = null)
     {
         parent::__construct($value);
         $this->_setListsFromConfig($this->_itemType);

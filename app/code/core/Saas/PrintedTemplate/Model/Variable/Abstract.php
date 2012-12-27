@@ -56,7 +56,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      *
      * @param object $value
      */
-    public function __construct($value)
+    public function __construct($value = null)
     {
         $this->_value = $value;
         $this->_initVariable();

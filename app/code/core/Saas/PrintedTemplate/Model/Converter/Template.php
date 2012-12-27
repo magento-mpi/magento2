@@ -249,6 +249,8 @@ abstract class Saas_PrintedTemplate_Model_Converter_Template
      */
     protected function _getVariableModel($variableName, $value)
     {
-        return Mage::getModel('Saas_PrintedTemplate_Model_Variable_' . uc_words($variableName), $value);
+        return Mage::getModel('Saas_PrintedTemplate_Model_Variable_' . uc_words($variableName),
+            array('value' => $value)
+        );
     }
 }
