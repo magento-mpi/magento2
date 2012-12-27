@@ -41,7 +41,12 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
                 ->method('setDesignTheme');
         }
 
-        $this->_model = new Mage_DesignEditor_Model_Observer($session, $design);
+        /** @var $objectManager Magento_ObjectManager */
+        $objectManager = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
+        /** @var $helper Mage_DesignEditor_Helper_Data */
+        $helper = $this->getMock('Mage_DesignEditor_Helper_Data', array(), array(), '', false);
+
+        $this->_model = new Mage_DesignEditor_Model_Observer($objectManager, $session, $design, $helper);
         $this->_model->setTheme();
     }
 
