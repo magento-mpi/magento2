@@ -40,7 +40,7 @@ class Magento_Test_ObjectManager extends Magento_ObjectManager_Zend
             }
         }
 
-        $instanceManagerNew = new Magento_Test_Di_InstanceManager();
+        $instanceManagerNew = new Magento_Di_InstanceManager_Zend();
         $instanceManagerNew->addSharedInstance($this, 'Magento_ObjectManager');
         if ($this->_di->instanceManager()->hasSharedInstance('Mage_Core_Model_Resource')) {
             $resource = $this->_di->instanceManager()->getSharedInstance('Mage_Core_Model_Resource');
