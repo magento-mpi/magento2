@@ -13,9 +13,11 @@
 
 <?php if($_product->isSaleable()): ?>
 <script type="text/javascript">
-//<![CDATA[
-    var bundle = new Product.Bundle(<?php echo $this->getJsonConfig() ?>);
-//]]>
+    (function ($) {
+        head.js("<?php echo $this->getViewFileUrl('Mage_Bundle::/bundle.js') ?>", function () {
+            $('#product_addtocart_form').bundleOption({"bundleConfig":<?php echo $this->getJsonConfig() ?>});
+        });
+    })(jQuery);
 </script>
 <?php endif; ?>
 <?php if ($this->displayProductStockStatus()): ?>
