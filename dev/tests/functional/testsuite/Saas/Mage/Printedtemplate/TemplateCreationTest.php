@@ -50,7 +50,7 @@ class Saas_Mage_Printedtemplate_TemplateCreationTest
         //check if template present in configuration drop-down
         $this->fillDropdown($templateDropdown, $templateName);
         $this->logoutAdminUser();
-        }
+    }
 
     /**
      * Data provider for templateCreationTest
