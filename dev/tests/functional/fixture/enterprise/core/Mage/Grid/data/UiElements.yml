@@ -185,3 +185,31 @@ manage_catalog_events:
         6: Display Countdown Ticker On
         7: Sort Order
         8: Action
+
+#dataset for ui elements in Manage Customer Attribute grid
+manage_customer_address_attributes:
+    fieldset:
+        attributes_grid: tablename
+    button:
+        reset_filter:
+        search:
+        add_new_attribute:
+    dropdown:
+        required:
+        system:
+        visible:
+        view_on_page:
+    field:
+        page:
+        attribute_code:
+        attribute_label:
+        sort:
+    pageelement:
+        attributes_grid_head:
+    headers:
+        0: Attribute Code
+        1: Attribute Label
+        2: Required
+        3: System
+        4: Visible on Frontend
+        5: Sort Order
