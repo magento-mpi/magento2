@@ -111,7 +111,16 @@
                             <sortable>0</sortable>
                             <filter>0</filter>
                             <type>action</type>
-                            <renderer>Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid_Column_Renderer_Actions</renderer>
+                            <index>event_id</index>
+                            <actions>
+                                <edit>
+                                    <caption translate="true" module="Enterprise_CatalogEvent">Edit</caption>
+                                    <url>
+                                        <base>*/*/edit</base>
+                                    </url>
+                                    <field>id</field>
+                                </edit>
+                            </actions>
                         </arguments>
                     </block>
                 </block>

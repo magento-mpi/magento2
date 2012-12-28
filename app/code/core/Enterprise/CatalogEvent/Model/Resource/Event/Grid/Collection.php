@@ -16,7 +16,6 @@
  * @package     Enterprise_CatalogEvent
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Enterprise_CatalogEvent_Model_Resource_Event_Grid_Collection
     extends Enterprise_CatalogEvent_Model_Resource_Event_Collection
 {
@@ -26,10 +25,10 @@ class Enterprise_CatalogEvent_Model_Resource_Event_Grid_Collection
      * @return Enterprise_CatalogEvent_Model_Resource_Event_Collection|Enterprise_CatalogEvent_Model_Resource_Event_Grid_Collection
      */
     protected function _initSelect()
-  {
-      parent::_initSelect();
-      $this->addCategoryData();
-      return $this;
-  }
+    {
+        parent::_initSelect();
+        $this->addCategoryData();
+        return $this;
+    }
 }
 
