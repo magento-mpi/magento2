@@ -223,7 +223,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
      */
     public function assignThemeToStoreAction()
     {
-        $themeId = (int)$this->_getSession()->getData('theme_id');
+        $themeId = (int)$this->getRequest()->getParam('theme_id');
         $stores = $this->getRequest()->getParam('stores');
 
         /** @var $coreHelper Mage_Core_Helper_Data */
