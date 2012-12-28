@@ -16,15 +16,22 @@
  * @package     Mage_Report
  * @author      Magento Core Team <core@magentocommerce.com>
  */
+
 class Mage_Reports_Model_Resource_Refresh_Collection extends Varien_Data_Collection
 {
+    /**
+     * Get if updated
+     *
+     * @param $reportCode
+     *
+     * @return string|Zend_Date
+     */
     protected function _getUpdatedAt($reportCode)
     {
         $flag = Mage::getModel('Mage_Reports_Model_Flag')->setReportFlagCode($reportCode)->loadSelf();
         return ($flag->hasData())
-            ? Mage::app()->getLocale()->storeDate(
-                0, new Zend_Date($flag->getLastUpdate(), Varien_Date::DATETIME_INTERNAL_FORMAT), true
-            )
+            ? Mage::app()->getLocale()
+                ->storeDate(0, new Zend_Date($flag->getLastUpdate(), Varien_Date::DATETIME_INTERNAL_FORMAT), true)
             : '';
     }
 
@@ -32,16 +39,14 @@ class Mage_Reports_Model_Resource_Refresh_Collection extends Varien_Data_Collect
      * Load data
      * @return Mage_Reports_Model_Resource_Refresh_Collection|Varien_Data_Collection
      */
-    public function loadData( )
+    public function loadData()
     {
         if (!count($this->_items)) {
             $data = array(
-                array(
-                    'id'            => 'sales',
-                    'report'        => Mage::helper('Mage_Sales_Helper_Data')->__('Orders'),
-                    'comment'       => Mage::helper('Mage_Sales_Helper_Data')->__('Total Ordered Report'),
-                    'updated_at'    => $this->_getUpdatedAt(Mage_Reports_Model_Flag::REPORT_ORDER_FLAG_CODE)
-                ),
+                array('id'            => 'sales',
+                                'report'        => Mage::helper('Mage_Sales_Helper_Data')->__('Orders'),
+                                'comment'       => Mage::helper('Mage_Sales_Helper_Data')->__('Total Ordered Report'),
+                                'updated_at'    => $this->_getUpdatedAt(Mage_Reports_Model_Flag::REPORT_ORDER_FLAG_CODE)),
                 array(
                     'id'            => 'tax',
                     'report'        => Mage::helper('Mage_Sales_Helper_Data')->__('Tax'),
@@ -82,10 +87,8 @@ class Mage_Reports_Model_Resource_Refresh_Collection extends Varien_Data_Collect
                     'id'            => 'viewed',
                     'report'        => Mage::helper('Mage_Sales_Helper_Data')->__('Most Viewed'),
                     'comment'       => Mage::helper('Mage_Sales_Helper_Data')->__('Most Viewed Products Report'),
-                    'updated_at'    => $this->_getUpdatedAt(Mage_Reports_Model_Flag::REPORT_PRODUCT_VIEWED_FLAG_CODE)
-                ),
+                    'updated_at'    => $this->_getUpdatedAt(Mage_Reports_Model_Flag::REPORT_PRODUCT_VIEWED_FLAG_CODE)),
             );
-
             foreach ($data as $value) {
                 $item = new Varien_Object();
                 $item->setData($value);
