@@ -10,7 +10,7 @@
 ---
 # Visual Design Editor page
 vde_design:
-    mca: system_design_editor/launch/theme_id/%themeId%/mode/navigation
+    mca: system_design_editor/launch/mode/design/theme_id/%themeId%
     title: Editor / Design / System / Magento Admin
     uimap:
         form:
@@ -21,6 +21,7 @@ vde_design:
                         buttons:
                             view_layout: //a[@class='vde_button view-layout']
                             back: //a[@class='vde_button' and @title='Back']
+                            navigation_mode: //button[@title='Navigation Mode']
                         dropdowns:
                             page_selector: //div[@data-ui-id='design-editor-toolbar-handles-hierarchy']/div[@class='vde_toolbar_cell_title']
                             view_options: //div[contains(text(), 'View Options')]
@@ -36,4 +37,24 @@ vde_design:
                         fields:
                             body: //body[contains(@class, '%wrappedPage%')]
                         pageelements:
+                            vde_element: //div[@data-name='%dataName%']
                             highlight_containers: //div[@class="vde_element_wrapper vde_draggable vde_removable"%displayStyle%]
+                            draggable_elements: //div[contains(@class, 'vde_draggable')]
+                            removable_elements: //div[contains(@class, 'vde_removable')]
+                            main_container: //div[@class='col-main']/div
+                            left_sidebar: //div[@class='col-left sidebar']/div
+                            right_sidebar: //div[@class='col-right sidebar']/div
+                        links:
+                            remove_vde_element: //div[@data-name='%dataName%']/div[contains(@class, 'vde_element_remove')]/a
+
+vde_navigation:
+    mca: system_design_editor/launch/theme_id/%themeId%/mode/navigation
+    title: Editor / Design / System / Magento Admin
+    uimap:
+            form:
+                fieldsets:
+                    -
+                        vde_toolbar:
+                            xpath: //div[@id='vde_toolbar_row']
+                            buttons:
+                                design_mode: //button[@title='Design Mode']
