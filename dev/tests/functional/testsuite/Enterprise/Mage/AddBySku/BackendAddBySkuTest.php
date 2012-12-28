@@ -50,8 +50,6 @@ class Enterprise_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCas
         $this->customerHelper()->createCustomer($userData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_customer');
-        $param = $userData['first_name'] . ' ' . $userData['last_name'];
-        $this->addParameter('customer_first_last_name', $param);
         self::$customer = array('email' => $userData['email']);
 
         return self::$customer;

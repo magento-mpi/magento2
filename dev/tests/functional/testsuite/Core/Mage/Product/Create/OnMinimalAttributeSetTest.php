@@ -82,6 +82,9 @@ class Core_Mage_Product_Create_OnMinimalAttributeSetTest extends Mage_Selenium_T
     // @codingStandardsIgnoreEnd
     public function createAllProducts($productType, $testData)
     {
+        if ($productType == 'dynamic_bundle') {
+            $this->markTestIncomplete('MAGETWO-6269');
+        }
         //Data
         switch ($productType) {
             case 'simple_custom':
@@ -122,7 +125,6 @@ class Core_Mage_Product_Create_OnMinimalAttributeSetTest extends Mage_Selenium_T
         $this->assertMessagePresent('success', 'success_saved_product');
     }
 
-
     public function productTypesDataProvider()
     {
         return array(
@@ -131,8 +133,9 @@ class Core_Mage_Product_Create_OnMinimalAttributeSetTest extends Mage_Selenium_T
             array('downloadable'),
             array('configurable'),
             array('fixed_bundle'),
-//            array('dynamic_bundle'), MAGETWO-6269
-            array('grouped'));
+            array('dynamic_bundle'),
+            array('grouped')
+        );
     }
 
     /**

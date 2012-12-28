@@ -36,6 +36,6 @@ class Enterprise_Mage_ShoppingCart_Helper extends Core_Mage_ShoppingCart_Helper
             }
         }
 
-        return $absentProducts ?: true;
+        return empty($absentProducts);
     }
 }

@@ -61,6 +61,9 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
      */
     public function fromDefaultToCustomCreate($productType, $customSetData)
     {
+        if ($productType == 'bundle' || $productType == 'grouped') {
+            $this->markTestIncomplete('MAGETWO-6340');
+        }
         //Data
         $productDataInitial = $this->loadDataSet('Product', $productType . '_product_visible');
         $assignedAttribute = $customSetData['assigned_attribute'];
@@ -90,6 +93,9 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
      */
     public function fromCustomToDefaultDuringCreation($productType, $customSetData)
     {
+        if ($productType == 'bundle' || $productType == 'grouped') {
+            $this->markTestIncomplete('MAGETWO-6340');
+        }
         //Data
         $productDataInitial = $this->loadDataSet('Product', $productType . '_product_visible',
             array('product_attribute_set' => $customSetData['product_attribute_set']));
@@ -120,6 +126,9 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
      */
     public function fromDefaultToCustomDuringEditing($productType, $customSetData)
     {
+        if ($productType == 'bundle' || $productType == 'grouped') {
+            $this->markTestIncomplete('MAGETWO-6340');
+        }
         //Data
         $productDataInitial = $this->loadDataSet('Product', $productType . '_product_visible');
         $assignedAttribute = $customSetData['assigned_attribute'];
@@ -151,6 +160,9 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
      */
     public function fromCustomToDefaultDuringEditing($productType, $customSetData)
     {
+        if ($productType == 'bundle' || $productType == 'grouped') {
+            $this->markTestIncomplete('MAGETWO-6340');
+        }
         //Data
         $productDataInitial = $this->loadDataSet('Product', $productType . '_product_visible',
             array('product_attribute_set' => $customSetData['product_attribute_set']));
@@ -179,8 +191,8 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
             array('simple'),
             array('virtual'),
             array('downloadable'),
-//            array('grouped'), MAGETWO-6340
-//            array('bundle') MAGETWO-6340
+            array('grouped'),
+            array('bundle')
         );
     }
 
