@@ -93,15 +93,17 @@ class Saas_Mage_Printedtemplate_Helper extends Mage_Selenium_AbstractHelper
         $this->clickButton('search');
         $this->addParameter('templateName', $templateName);
         $xPath = $this->_getControlXpath('pageelement', 'grid_item');
+        $availableElement = $this->elementIsPresent($xPath);
 
         if ($expectedResult == false) {
-            $this->assertFalse(
-                $this->elementIsPresent($xPath),
-                "Template is present in templates grid, but it shouldn't."
-            );
+            if ($availableElement || $availableElement->displayed()) {
+                $this->fail($this->locationToString() . "Template is present in templates grid, but it shouldn't.");
+            }
         }
         else {
-            $this->assertTrue($this->elementIsPresent($xPath), "Template is not found in templates grid.");
+            if (!$availableElement || !$availableElement->displayed()) {
+                $this->fail($this->locationToString() . "Template is not found in templates grid.");
+            }
         }
     }
 }

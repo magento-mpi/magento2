@@ -29,7 +29,7 @@ class Saas_PrintedTemplate_Block_Widget_Item_Renderer_Bundle_Column_Qty
      */
     public function getHtml()
     {
-        $parentBlock = $this->getParentBlock();
+        $parentBlock = $this->getItemsGridBlock();
         $item = $this->getItem();
 
         $hasQty = $item->getItemType() == 'item_shipment'

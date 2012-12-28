@@ -259,11 +259,10 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
         }
 
         $getterName = 'get' . $this->_camelize($name);
-        $result = (!$raw && is_callable(array($this, $getterName)))
-            ? $this->$getterName()
-            : $this->_value->$name;
 
-        return $this->_format($result, $type);
+        return (!$raw && is_callable(array($this, $getterName)))
+            ? $this->$getterName()
+            : $this->_format($this->_value->$name, $type);
     }
 
     /**

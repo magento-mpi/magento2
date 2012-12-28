@@ -48,7 +48,7 @@
                     <?php $this->setItem($baseItem);?>
                 </div>
             <?php else : ?>
-                <?php if ($this->getParentBlock()->isPriceProperty($column->getProperty())) : ?>
+                <?php if ($this->getItemsGridBlock()->isPriceProperty($column->getProperty())) : ?>
                     <div class="cell-content price-cell"><?php echo $this->renderField($column->getProperty())?></div>
                 <?php else : ?>
                     <div class="cell-content"><?php echo $this->renderField($column->getProperty())?></div>
@@ -86,7 +86,7 @@
             <?php foreach($this->getColumns() as $column):?>
                 <?php $i++; ?>
                 <td class="column-value-<?php echo $this->escapeHtml($column->getProperty())?><?php echo($i == 1 ? ' first' : '') ?><?php echo($i == $this->getColumns()->getSize() ? ' last' : '') ?>">
-                    <?php if ($this->getParentBlock()->isPriceProperty($column->getProperty())) : ?>
+                    <?php if ($this->getItemsGridBlock()->isPriceProperty($column->getProperty())) : ?>
                         <div class="cell-content price-cell"><?php echo $this->renderField($column->getProperty())?></div>
                     <?php else : ?>
                         <div class="cell-content"><?php echo $this->renderField($column->getProperty())?></div>

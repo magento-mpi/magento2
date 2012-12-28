@@ -26,7 +26,6 @@ class Saas_Mage_Printedtemplate_TemplateCreationTest
 
         //create template
         $templateName = $this->printedtemplateHelper()->createTemplateFromSample($templateType);
-
         //search in templates grid
         $this->printedtemplateHelper()->searchTemplateByName($templateName);
 
@@ -48,15 +47,8 @@ class Saas_Mage_Printedtemplate_TemplateCreationTest
                 $templateDropdown = 'shipment_printed_template';
                 break;
         }
-
         //check if template present in configuration drop-down
-        $xPath = $this->_getControlXpath('dropdown', $templateDropdown);
-        $existentTemplates = $this->getElements($xPath);//getElementsByXpath($xPath);
-        $this->assertContains(
-            $templateName, $existentTemplates[0],
-            'Created template is absent in available templates list.'
-        );
-
+        $this->fillDropdown($templateDropdown, $templateName);
         $this->logoutAdminUser();
     }
 
