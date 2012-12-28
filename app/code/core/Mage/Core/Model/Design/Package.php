@@ -414,14 +414,17 @@ class Mage_Core_Model_Design_Package
             $params['skipProxy']
         ));
         if (!isset($this->_fallback[$cacheKey])) {
-            if (!isset($params['skipProxy']) && Mage::getIsDeveloperMode()) {
-                $params['skipProxy'] = true;
-            }
             $this->_fallback[$cacheKey] = $this->_createFallback($params);
         }
         return $this->_fallback[$cacheKey];
     }
 
+    /**
+     * Create fallback model
+     *
+     * @param array $params
+     * @return Mage_Core_Model_Design_Fallback|Mage_Core_Model_Design_Fallback_CachingProxy
+     */
     protected function _createFallback($params)
     {
         $model = 'Mage_Core_Model_Design_Fallback_CachingProxy';
