@@ -61,8 +61,8 @@ class Mage_DesignEditor_PageController extends Mage_Core_Controller_Front_Action
                 $helper = $this->_objectManager->get('Mage_DesignEditor_Helper_Data');
                 $handle = $helper->getDefaultHandle();
 
-                /** @var $backendSession Mage_Backend_Model_Auth_Session */
-                $backendSession = $this->_objectManager->get('Mage_Backend_Model_Auth_Session');
+                /** @var $backendSession Mage_Backend_Model_Session */
+                $backendSession = $this->_objectManager->get('Mage_Backend_Model_Session');
                 $backendSession->unsetData('vde_current_handle');
                 $backendSession->unsetData('vde_current_url');
             }
