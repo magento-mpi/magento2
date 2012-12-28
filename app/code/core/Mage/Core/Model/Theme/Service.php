@@ -83,7 +83,7 @@ class Mage_Core_Model_Theme_Service
      * @param array|null $stores
      * @param string $scope
      * @param string $area
-     * @return Mage_Core_Model_Theme_Service
+     * @return Mage_Core_Model_Theme
      * @throws UnexpectedValueException
      */
     public function assignThemeToStores($themeId, $stores, $scope = Mage_Core_Model_Config::SCOPE_STORES,
@@ -99,6 +99,7 @@ class Mage_Core_Model_Theme_Service
 
         $configPath = $this->_design->getConfigPathByArea($area);
 
+        // Unassign given theme from stores that were unchecked
         foreach ($this->_getAssignedScopesCollection($scope, $configPath) as $config) {
             if ($config->getValue() == $themeId && !in_array($config->getScopeId(), $stores)) {
                 $this->_app->getConfig()->deleteConfig($configPath, $scope, $config->getScopeId());
@@ -113,7 +114,7 @@ class Mage_Core_Model_Theme_Service
             $this->_app->cleanCache(Mage_Core_Model_Config::CACHE_TAG);
         }
 
-        return $this;
+        return $themeCustomization;
     }
 
     /**

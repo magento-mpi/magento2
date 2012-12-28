@@ -250,15 +250,18 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
 
             /** @var $themeService Mage_Core_Model_Theme_Service */
             $themeService = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
-            $themeService->assignThemeToStores($themeId, $stores);
+            /** @var $themeCustomization Mage_Core_Model_Theme */
+            $themeCustomization = $themeService->assignThemeToStores($themeId, $stores);
             $message = $coreHelper->__('Theme successfully assigned');
-            $this->getResponse()->setBody($coreHelper->jsonEncode(array('success' => $message)));
+            $response = array(
+                'success' => $message,
+                'themeId' => $themeCustomization->getId()
+            );
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
-            $this->getResponse()->setBody($coreHelper->jsonEncode(
-                array('error' => $this->_helper->__('Theme is not assigned')))
-            );
+            $response = array('error' => $this->_helper->__('Theme is not assigned'));
         }
+        $this->getResponse()->setBody($coreHelper->jsonEncode($response));
     }
 
     /**

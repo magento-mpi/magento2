@@ -186,24 +186,31 @@
             } else if (data.stores.length === 0) {
                 data.stores = EMPTY_STORES;
             }
-            $.post(this.options.assignSaveUrl, data, $.proxy(function(response) {
-                if (response.error) {
-                    alert($.mage.__('Error') + ': "' + response.error + '".');
-                } else {
-                    var defaultStore = 0;
-                    var url = [
-                        this.options.afterAssignSaveUrl + 'store_id',
-                        stores ? stores[0] : defaultStore,
-                        'theme_id',
-                        themeId
-                    ].join('/');
-                    this.options.storesByThemes[themeId] = stores;
+            $.ajax({
+                type: 'POST',
+                url:  this.options.assignSaveUrl,
+                data: data,
+                dataType: 'json',
+                success: $.proxy(function(response) {
+                    if (response.error) {
+                        alert($.mage.__('Error') + ': "' + response.error + '".');
+                    } else {
+                        var defaultStore = 0;
+                        var url = [
+                            this.options.afterAssignSaveUrl + 'store_id',
+                            stores ? stores[0] : defaultStore,
+                            'theme_id',
+                            response.themeId
+                        ].join('/');
+                        this.options.storesByThemes[themeId] = stores;
 
-                    setTimeout(function() {$('body').loader('show');}, 500);
-                    document.location = url;
+                        setTimeout(function() {$('body').loader('show');}, 500);
+                        document.location = url;
+                    }
+                }, this),
+                error: function() {
+                    alert($.mage.__('Error: unknown error.'));
                 }
-            }, this)).error(function() {
-                alert($.mage.__('Error: unknown error.'));
             });
         }
     });
