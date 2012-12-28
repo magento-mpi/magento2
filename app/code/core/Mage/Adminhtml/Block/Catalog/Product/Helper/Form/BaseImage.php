@@ -104,18 +104,30 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
         $imageUrl = $this->_helperData->escapeHtml($this->_getImageUrl($this->getValue()));
         $htmlId = $this->_helperData->escapeHtml($this->getHtmlId());
         $uploadUrl = $this->_helperData->escapeHtml($this->_getUploadUrl());
-
-        $html = '<input id="' . $htmlId .'_upload" type="file" name="image" '
-             . 'data-url="' . $uploadUrl . '" style="display: none;" />'
-             . '<input id="' . $htmlId . '" type="hidden" name="image" />'
-             . '<div id="' . $htmlId  . '_container" >';
-        foreach (range(1, 5) as $index) {
-            $html .= '<span><img align="left" src="' . $imageUrl . '" id="' . $htmlId . $index .'_image"'
-             . ' title="Click to select image" alt="image" class="base-image-uploader"'
-             . ' onclick="jQuery(\'#' . $htmlId  . '_upload\').trigger(\'click\'); jQuery(this).data(\'clicked\', + new Date())"/>'
-             . '</span>';
-        }
-        $html .= '</div>';
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->getForm()->getDataObject();
+        $html = '<input id="' . $htmlId .'-upload" type="file" name="image" '
+            . 'data-url="' . $uploadUrl . '" style="display: none;" />'
+            . '<input id="' . $htmlId . '" type="hidden" name="'. $this->getName() .'" />'
+            . '<div id="' . $htmlId  . '-container" data-main="'
+            .  $this->getEscapedValue()
+            . '" data-images="'
+            . $this->_escape(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
+                $product->getMediaGalleryImages()->toArray()
+            ))
+            . '">'
+            . '<span id="' . $htmlId . '-upload-placeholder" ></span>'
+            . '<script id="' . $htmlId . '-template" type="text/x-jquery-tmpl" >'
+            . '<span class="container">
+                    <span class="main-tiser">' . $this->_helperData->__('Main') . '</span>
+                    <span class="close">&times;</span>
+                    <img class="base-image-uploader" src="${url}" data-position="${position}" alt="${label}" />
+                    <div class="drag-zone">
+                        <button class="make-main">' . $this->_helperData->__('Set main'). '</button>
+                    </span>
+               </span>'
+            . '</script>'
+            . '</div>';
         $html .= $this->_getJs();
 
         return $html;

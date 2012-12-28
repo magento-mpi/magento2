@@ -31,32 +31,91 @@
     min-height: 3em;
 }
 
-#product-edit-form-tabs #image_container {
+#product-edit-form-tabs #image-container {
     border: 2px dotted #CCC;
     border-radius: 5px;
-    overflow: auto;
     padding: 6px 15px;
     margin-right: 8px;
+    height: 120px;
 }
 
-#product-edit-form-tabs #image_container > span {
+#product-edit-form-tabs #image-container > span.container {
     padding: 3px;
     margin: 3px;
     cursor: move;
     display: inline-block;
+    vertical-align: top;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
 }
 
-#product-edit-form-tabs #image_container > span:hover {
+#product-edit-form-tabs #image-container > span:hover {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
 #product-edit-form-tabs .base-image-uploader {
-    max-height: 165px;
+    max-height: 100px;
     max-width: 100px;
-    min-height: 100px;
+
 }
 
+#product-edit-form-tabs #image-upload-placeholder {
+    width: 100px;
+    height: 100px;
+    background: #fff url('Mage_Adminhtml::images/image-placeholder.png');
+    vertical-align: top;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 3px;
+    margin: 3px;
 
-/*
- $this->_design->getViewFileUrl('Mage_Adminhtml::images/image-placeholder.png');
- */
+}
+
+#product-edit-form-tabs #image-container .container .main-tiser {
+    display:none;
+}
+
+#product-edit-form-tabs #image-container .container.main .main-tiser {
+    color: white;
+    background-color: orange;
+    padding: 0 59px;
+    -moz-transform: rotate(-50deg);
+    -webkit-transform: rotate(-50deg);
+    -o-transform: rotate(-50deg);
+    -ms-transform: rotate(-50deg);
+    transform: rotate(-50deg);
+    display: block;
+    margin-left: -64px;
+}
+
+#product-edit-form-tabs #image-container .container .close {
+    font-size: 20px;
+    line-height: 10px;
+    float: right;
+    cursor: pointer;
+    position: relative;
+    margin-bottom: -20px;
+    z-index: 1;
+    visibility: hidden;
+}
+
+#product-edit-form-tabs #image-container .container.hover .close {
+    visibility: visible;
+}
+
+#product-edit-form-tabs #image-container .container .drag-zone button {
+    display: none;
+}
+
+#product-edit-form-tabs #image-container .container .drag-zone {
+    text-align: center;
+}
+
+#product-edit-form-tabs #image-container .container.hover .drag-zone button {
+    display: inline-block;
+}

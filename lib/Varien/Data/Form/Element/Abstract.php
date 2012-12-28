@@ -20,6 +20,7 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
 {
     protected $_id;
     protected $_type;
+    /** @var Varien_Data_Form */
     protected $_form;
     protected $_elements;
     protected $_renderer;
@@ -84,6 +85,11 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
         return $this->_type;
     }
 
+    /**
+     * Get form
+     *
+     * @return Varien_Data_Form
+     */
     public function getForm()
     {
         return $this->_form;
