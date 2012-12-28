@@ -527,7 +527,7 @@
 
     <adminhtml_report_statistics_index>
         <reference name="content">
-            <block type="Mage_Adminhtml_Block_Report_Refresh_Statistics" name ="adminhtml.block.report.refresh.statistics" >
+            <block type="Mage_Reports_Block_Adminhtml_Refresh_Statistics" name ="adminhtml.block.report.refresh.statistics" >
                 <block type="Mage_Backend_Block_Widget_Grid" name="adminhtml.block.report.refresh.statistics.grid" as='grid'>
                     <arguments>
                         <id>gridRefreshStatistics</id>
