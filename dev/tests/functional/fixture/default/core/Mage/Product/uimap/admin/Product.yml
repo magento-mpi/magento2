@@ -205,10 +205,11 @@ new_product:
                                         include_variation_attribute: //tr[td='%attributeOption%']//input[@type='checkbox' and contains(@name,'[include]')]
                                     fields:
                                         variation_attribute_price: //tr[td='%attributeOption%']//input[contains(@name,'[pricing_value]')]
+                                        frontend_label: //*[@value='%attributeTitle%']
                                     dropdowns:
                                         variation_attribute_price_type: //tr[td='%attributeOption%']//select[contains(@name,'[is_percent]')]
                                     links:
-                                        delete_product_variation_attribute: //span[@class='ui-icon ui-icon-circle-close']
+                                        delete_product_variation_attribute: //span[@class='ui-icon ui-icon-circle-close remove']
                                         move_product_variation_attribute: //span[@class='ui-icon ui-icon-arrowthick-2-n-s']
                                         expand_product_variation_attribute: //span[@class='ui-icon ui-icon-circle-triangle-s']
                                     pageelements:
@@ -254,7 +255,6 @@ new_product:
                                         expand_block: //*[@class='ui-icon ui-icon-circle-triangle-s toggle']
                                         drag: //*[@class='ui-icon ui-icon-arrowthick-2-n-s']
                                     fields:
-                                        frontend_label: //*[@value='%attributeTitle']
                                         option_change_price: //tbody//tr[contains(.,'%optionName%')]//*[@name = contains(.,'[price_value]')]/input[@type='text']
                                     dropdowns:
                                         option_price_rule_type: //tbody//tr[contains(.,'%optionName%')]//*[@name = contains(.,"[is_percent]")]/select

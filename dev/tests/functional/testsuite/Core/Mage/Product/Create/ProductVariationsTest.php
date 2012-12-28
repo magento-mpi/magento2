@@ -108,10 +108,10 @@ class Core_Mage_Product_Create_ConfigurableWithVariations extends Mage_Selenium_
         $this->saveForm('save_attribute_set');
         $this->assertMessagePresent('success', 'success_attribute_set_saved');
 
-        return array('attribute' => array($attributeThird['admin_title'], $attributeForth['admin_title']),
-                     'attributeCode' => array($attributeThird['attribute_code'], $attributeForth['attribute_code']),
-                     'matrix'    => $this->_getVariationsForTwoAttributes($attributeThird, $attributeForth),
-                     );
+        return array(
+                     'attribute1' => $attributeThird,
+                     'attribute2' => $attributeForth,
+        );
     }
 
     /**
@@ -662,18 +662,24 @@ class Core_Mage_Product_Create_ConfigurableWithVariations extends Mage_Selenium_
     public function moveAttributeBlock($defaultData)
     {
         //Data
-        $associated = $this->loadDataSet('Product', 'generate_virtual_associated', null,
-            array('attribute_value_1' => $defaultData['matrix'][1][6]));
-        $productData = $this->loadDataSet('Product', 'configurable_product_visible',
-            array('general_configurable_attribute_title' => $defaultData['attribute'], 'configurable_1'=> $associated));
-        $verifyData = array($defaultData['attribute'][1], $defaultData['attribute'][0]);
+        $productData = $this->loadDataSet('Product', 'configurable_product_visible', null,
+            array('var1_attr_value1'=>$defaultData['attribute1']['option_1']['admin_option_name'],
+                'general_attribute_1' => $defaultData['attribute1']['admin_title']));
+        $productData['general_configurable_attributes']['attribute_2'] =
+            $this->loadDataSet('Product', 'general_configurable_attribute_without_price', null,
+                array('general_attribute_1' => $defaultData['attribute2']['admin_title'],
+                    'var1_attr_value1'=> $defaultData['attribute2']['option_1']['admin_option_name']
+                )
+            );
+        $verifyData = array($defaultData['attribute2']['admin_title'], $defaultData['attribute1']['admin_title']);
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable');
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
-        $this->addParameter('attributeCode', $defaultData['attributeCode'][0]);
-        $attributeBlock1 = $this->getControlElement('pageelement', 'drag');
-        $this->addParameter('attributeCode', $defaultData['attributeCode'][1]);
-        $attributeBlock2 = $this->getControlElement('pageelement', 'drag');
+        $this->addParameter('attributeTitle', $defaultData['attribute1']['admin_title']);
+        $attributeBlock1 = $this->getControlElement('link', 'move_product_variation_attribute');
+        $this->addParameter('attributeTitle', $defaultData['attribute2']['admin_title']);
+        $attributeBlock2 = $this->getControlElement('link', 'move_product_variation_attribute');
         $helper = $this->productHelper();
         $helper->moveto($attributeBlock2);
         $helper->buttondown();
@@ -701,21 +707,21 @@ class Core_Mage_Product_Create_ConfigurableWithVariations extends Mage_Selenium_
     public function removeAttributeBlock($defaultData)
     {
         //Data
-        $associated = $this->loadDataSet('Product', 'generate_virtual_associated', null,
-            array('attribute_value_1' => $defaultData['matrix'][1][6]));
-        $productData = $this->loadDataSet('Product', 'configurable_product_visible',
-            array('general_configurable_attribute_title' => $defaultData['attribute'], 'configurable_1'=> $associated));
+        $productData = $this->loadDataSet('Product', 'configurable_product_visible', null,
+            array('var1_attr_value1'=>$defaultData['attribute1']['option_1']['admin_option_name'],
+                'general_attribute_1' => $defaultData['attribute1']['admin_title']));
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable');
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
-        $this->addParameter('attributeCode', $defaultData['attributeCode'][0]);
+        $this->addParameter('attributeTitle', $defaultData['attribute1']['admin_title']);
         $helper = $this->productHelper();
-        $helper->clickControl('pageelement', 'delete_block');
+        $helper->clickControl('link', 'delete_product_variation_attribute');
         $this->saveForm('save');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->frontOpenProduct($productData['general_name']);
-        $this->addParameter('title', $defaultData['attribute'][0]);
+        $this->addParameter('title', $defaultData['attribute1']['admin_title']);
         $this->assertFalse($this->controlIsVisible('pageelement', 'product_custom_option'));
     }
 
@@ -731,17 +737,16 @@ class Core_Mage_Product_Create_ConfigurableWithVariations extends Mage_Selenium_
     public function withFilledAttributeLabelField($value, $defaultData)
     {
         //Data
-        $associated = $this->loadDataSet('Product', 'generate_virtual_associated', null,
-            array('attribute_value_1' => $defaultData['matrix'][1][6]));
-        $productData = $this->loadDataSet('Product', 'configurable_product_visible',
-            array('general_configurable_attribute_title' => $defaultData['attribute'], 'configurable_1'=> $associated));
+        $productData = $this->loadDataSet('Product', 'configurable_product_visible', null,
+            array('var1_attr_value1'=>$defaultData['attribute1']['option_1']['admin_option_name'],
+                  'general_attribute_1' => $defaultData['attribute1']['admin_title']));
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable');
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
-        $this->addParameter('attributeCode', $defaultData['attributeCode'][1]);
-        $this->addParameter('attributeTitle', $defaultData['attribute'][1]);
+        $this->addParameter('attributeTitle', $defaultData['attribute1']['admin_title']);
         $this->fillField('frontend_label', $value);
-        $this->clickButton('save');
+        $this->saveForm('save');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->frontOpenProduct($productData['general_name']);
@@ -768,26 +773,24 @@ class Core_Mage_Product_Create_ConfigurableWithVariations extends Mage_Selenium_
     public function withEmptyAttributeLabelField($defaultData)
     {
         //Data
-        $associated = $this->loadDataSet('Product', 'generate_virtual_associated', null,
-            array('attribute_value_1' => $defaultData['matrix'][1][6]));
-        $productData = $this->loadDataSet('Product', 'configurable_product_visible',
-            array('general_configurable_attribute_title' => $defaultData['attribute'],
-                  'configurable_1'=> $associated));
+        $productData = $this->loadDataSet('Product', 'configurable_product_visible', null,
+            array('var1_attr_value1'=>$defaultData['attribute1']['option_1']['admin_option_name'],
+                  'general_attribute_1' => $defaultData['attribute1']['admin_title']));
         $value = '';
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable');
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
-        $this->addParameter('attributeCode', $defaultData['attributeCode'][1]);
-        $this->addParameter('attributeTitle', $defaultData['attribute'][1]);
+        $this->addParameter('attributeTitle', $defaultData['attribute1']['admin_title']);
         $this->fillField('frontend_label', $value);
         $this->clickButton('save');
         $this->assertMessagePresent('validation', 'required_label');
         $this->fillCheckbox('use_default_label', 'Yes');
-        $this->clickButton('save');
+        $this->saveForm('save');
         //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->frontOpenProduct($productData['general_name']);
-        $this->addParameter('title', $defaultData['attribute'][1]);
+        $this->addParameter('title', $defaultData['attribute1']['admin_title']);
         $this->assertTrue($this->controlIsVisible('pageelement', 'product_custom_option'));
     }
 }
