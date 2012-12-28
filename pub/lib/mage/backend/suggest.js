@@ -87,7 +87,27 @@
                         case keyCode.NUMPAD_ENTER:
                             if (this.container.is(':visible')) {
                                 this._proxyEvents(event);
-                            } else {
+                                this.container.empty().css("display", "none");
+                            }
+                            break;
+                    }
+                },
+                keyup: function(event) {
+                    var keyCode = $.ui.keyCode;
+                    switch (event.keyCode) {
+                        case keyCode.HOME:
+                        case keyCode.END:
+                        case keyCode.PAGE_UP:
+                        case keyCode.PAGE_DOWN:
+                        case keyCode.ESCAPE:
+                        case keyCode.UP:
+                        case keyCode.DOWN:
+                        case keyCode.LEFT:
+                        case keyCode.RIGHT:
+                            break;
+                        case keyCode.ENTER:
+                        case keyCode.NUMPAD_ENTER:
+                            if (!this.container.is(':visible')) {
                                 this._submitAction(event);
                             }
                             break;
