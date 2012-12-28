@@ -35,8 +35,8 @@ class Saas_PrintedTemplate_Block_Widget_Item_Renderer_Bundle
      */
     public function renderField($property)
     {
-        if (!$this->getParentBlock()->isPriceProperty($property)
-            || ($this->getParentBlock()->isPriceProperty($property) && $this->canShowPriceInfo($this->getItem()))) {
+        if (!$this->getItemsGridBlock()->isPriceProperty($property)
+            || ($this->getItemsGridBlock()->isPriceProperty($property) && $this->canShowPriceInfo($this->getItem()))) {
 
             return parent::renderField($property);
         }

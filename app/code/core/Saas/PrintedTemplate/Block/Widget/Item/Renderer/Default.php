@@ -49,7 +49,7 @@ class Saas_PrintedTemplate_Block_Widget_Item_Renderer_Default extends Mage_Core_
 
         if ($renderer = $this->_getFieldRenderer($productType, $property)) {
             $result = $renderer
-                ->setParentBlock($this)
+                ->setItemsGridBlock($this)
                 ->setItem($item)
                 ->getHtml();
         } else {
@@ -77,7 +77,7 @@ class Saas_PrintedTemplate_Block_Widget_Item_Renderer_Default extends Mage_Core_
             return $this->getLayout()->createBlock($block);
         }
         // Fallback to default
-        if ($productType != 'default') {
+        if ($productType != 'Default') {
             return $this->_getFieldRenderer('default', $property);
         }
 

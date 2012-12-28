@@ -22,6 +22,9 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Grid extends Mage_Backend_Bl
      */
     protected function _construct()
     {
+        parent::_construct();
+
+        $this->setId('templatesGrid');
         $this->setEmptyText($this->__('No Templates Found'));
     }
 
@@ -101,6 +104,5 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Grid extends Mage_Backend_Bl
     {
         return $this->getUrl('*/*/edit', array('id' => $row->getId()));
     }
-
 }
 
