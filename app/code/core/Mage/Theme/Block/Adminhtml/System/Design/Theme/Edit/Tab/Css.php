@@ -160,7 +160,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             'label'    => $this->__('Select CSS File to Upload'),
             'title'    => $this->__('Select CSS File to Upload'),
             'note'     => $this->__('Allowed file types *.css.')
-                . ' ' . $this->__('The file you upload will replace the existing custom.css file (shown below).)')
+                . ' ' . $this->__('The file you upload will replace the existing custom.css file (shown below).')
         ));
 
         $themeFieldset->addField('css_uploader_button', 'button', array(
