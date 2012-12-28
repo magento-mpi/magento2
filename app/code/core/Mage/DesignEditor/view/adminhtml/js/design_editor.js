@@ -106,18 +106,16 @@
                     var data = {
                         theme_id: themeId,
                         layoutUpdate: this._preparePostItems(historyObject.getItems()),
-                        handle: frameUrl.split('handle')[1].replace(/\//g, '')
+                        handle: frameUrl.split('/handle/')[1].replace(/\//g, '')
                     };
-                    $.post(saveChangesUrl, data, $.proxy(function() {
+                    $.post(saveChangesUrl, data, function() {
                         document.location = modeUrl;
-                    }, this));
+                    });
                 } else {
                     document.location = modeUrl;
                 }
             } catch (e) {
                 alert(e.message);
-            } finally {
-                return false;
             }
         },
 
