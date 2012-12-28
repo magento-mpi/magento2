@@ -288,14 +288,15 @@ class Saas_PrintedTemplate_Model_Observer
      * @param string $type entity type
      * @return Saas_PrintedTemplate_Model_Observer
      */
-    protected function _setMassactionPrintEntitiesUrl(Mage_Adminhtml_Block_Widget_Grid $block, $itemName, $type)
+    protected function _setMassactionPrintEntitiesUrl(Mage_Adminhtml_Block_Sales_Order_Grid $block, $itemName, $type)
     {
         $item = $block->getMassactionBlock()->getItem($itemName);
         if ($item) {
             if ($type == 'all') {
-                $item->setUrl(Mage::helper('adminhtml')->getUrl('adminhtml/print/allEntities'));
+                $item->setUrl(Mage::helper('Mage_Backend_Helper_Data')->getUrl('adminhtml/print/allEntities'));
             } else {
-                $item->setUrl(Mage::helper('adminhtml')->getUrl('adminhtml/print/entities', array('type' => $type)));
+                $item->setUrl(Mage::helper('Mage_Backend_Helper_Data')
+                    ->getUrl('adminhtml/print/entities', array('type' => $type)));
             }
         }
 
