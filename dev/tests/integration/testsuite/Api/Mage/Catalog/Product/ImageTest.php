@@ -79,8 +79,8 @@ class Mage_Catalog_Product_ImageTest extends Magento_Test_TestCase_ApiAbstract
         // valid JPG image file
         $requestData['file']['content'] = base64_encode(file_get_contents($validImgPath));
 
-        $imagePath = $this->getWebService()->call(
-            'product_attribute_media.create',
+        $imagePath = $this->call(
+            'catalogProductAttributeMediaCreate',
             array('productId' => $product->getSku(), 'data' => $requestData)
         );
         $this->assertInternalType('string', $imagePath, 'String type of response expected but not received');
@@ -114,8 +114,8 @@ class Mage_Catalog_Product_ImageTest extends Magento_Test_TestCase_ApiAbstract
         );
 
         try {
-            $this->getWebService()->call(
-                'product_attribute_media.create',
+            $this->call(
+                'catalogProductAttributeMediaCreate',
                 array('productId' => $product->getSku(), 'data' => $requestData)
             );
         } catch (Exception $e) {
@@ -145,8 +145,8 @@ class Mage_Catalog_Product_ImageTest extends Magento_Test_TestCase_ApiAbstract
         $requestData['file']['content'] = base64_encode(file_get_contents($invalidImgPath));
 
         try {
-            $this->getWebService()->call(
-                'product_attribute_media.create',
+            $this->call(
+                'catalogProductAttributeMediaCreate',
                 array('productId' => $product->getSku(), 'data' => $requestData)
             );
         } catch (Exception $e) {

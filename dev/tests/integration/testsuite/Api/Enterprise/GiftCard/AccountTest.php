@@ -20,30 +20,30 @@ class Enterprise_GiftCard_AccountTest extends Magento_Test_TestCase_ApiAbstract
         $giftcardAccountFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_account.xml');
 
         //Test create
-        $createData = self::simpleXmlToArray($giftcardAccountFixture->create);
-        $id = $this->call('giftcard_account.create', array('giftcardAccountData' => $createData));
+        $createData = self::simpleXmlToObject($giftcardAccountFixture->create);
+        $id = $this->call('giftcardAccountCreate', array('giftcardAccountData' => $createData));
         $this->assertGreaterThan(0, $id);
 
         $testModel->load($id);
         $this->_testDataCorrect($createData, $testModel);
 
         //Test list
-        $list = $this->call('giftcard_account.list', array('filters' => array()));
+        $list = $this->call('giftcardAccountList', array('filters' => array()));
         $this->assertInternalType('array', $list);
         $this->assertGreaterThan(0, count($list));
 
         //Test info
-        $info = $this->call('giftcard_account.info', array('giftcardAccountId' => $id));
+        $info = $this->call('giftcardAccountInfo', array('giftcardAccountId' => $id));
 
-        unset($createData['status']);
-        unset($createData['website_id']);
+        unset($createData->status);
+        unset($createData->website_id);
         $info['date_expires'] = $info['expire_date'];
         $this->_testDataCorrect($createData, new Varien_Object($info));
 
         //Test update
-        $updateData = self::simpleXmlToArray($giftcardAccountFixture->update);
+        $updateData = self::simpleXmlToObject($giftcardAccountFixture->update);
         $updateResult = $this->call(
-            'giftcard_account.update',
+            'giftcardAccountUpdate',
             array('giftcardAccountId' => $id, 'giftcardData' => $updateData)
         );
         $this->assertTrue($updateResult);
@@ -52,7 +52,7 @@ class Enterprise_GiftCard_AccountTest extends Magento_Test_TestCase_ApiAbstract
         $this->_testDataCorrect($updateData, $testModel);
 
         //Test remove
-        $removeResult = $this->call('giftcard_account.remove', array('giftcardAccountId' => $id));
+        $removeResult = $this->call('giftcardAccountRemove', array('giftcardAccountId' => $id));
         $this->assertTrue($removeResult);
 
         /** @var $pool Enterprise_GiftCardAccount_Model_Pool */
@@ -62,7 +62,7 @@ class Enterprise_GiftCard_AccountTest extends Magento_Test_TestCase_ApiAbstract
 
         //Test item was really removed and fault was Exception thrown
         $this->setExpectedException(self::DEFAULT_EXCEPTION);
-        $this->call('giftcard_account.remove', array('giftcardAccountId' => $id));
+        $this->call('giftcardAccountRemove', array('giftcardAccountId' => $id));
     }
 
     /**
@@ -75,8 +75,8 @@ class Enterprise_GiftCard_AccountTest extends Magento_Test_TestCase_ApiAbstract
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_account.xml');
 
-        $invalidCreateData = self::simpleXmlToArray($fixture->invalid_create);
-        $this->call('giftcard_account.create', array($invalidCreateData));
+        $invalidCreateData = self::simpleXmlToObject($fixture->invalid_create);
+        $this->call('giftcardAccountCreate', array($invalidCreateData));
     }
 
     /**
@@ -89,8 +89,8 @@ class Enterprise_GiftCard_AccountTest extends Magento_Test_TestCase_ApiAbstract
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_account.xml');
 
-        $invalidData = self::simpleXmlToArray($fixture->invalid_info);
-        $this->call('giftcard_account.info', array($invalidData['giftcard_id']));
+        $invalidData = self::simpleXmlToObject($fixture->invalid_info);
+        $this->call('giftcardAccountInfo', array($invalidData['giftcard_id']));
     }
 
     /**

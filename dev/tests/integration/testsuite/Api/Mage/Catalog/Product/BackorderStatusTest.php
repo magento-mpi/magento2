@@ -60,7 +60,7 @@ class Mage_Catalog_Product_BackorderStatusTest extends Magento_Test_TestCase_Api
         $newProductData->backorders = 1;
 
         $result = $this->call(
-            'cataloginventory_stock_item.update',
+            'catalogInventoryStockItemUpdate',
             array(
                 'productId' => $this->getFixture('product')->getSku(),
                 'data' => (array)$newProductData

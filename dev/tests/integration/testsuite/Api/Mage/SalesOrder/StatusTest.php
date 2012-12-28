@@ -31,7 +31,7 @@ class SalesOrder_StatusTest extends Magento_Test_TestCase_ApiAbstract
     }
 
     /**
-     * Test for sales_order.cancel when order is in 'pending' status
+     * Test for salesOrderCancel when order is in 'pending' status
      *
      * @return void
      */
@@ -43,8 +43,8 @@ class SalesOrder_StatusTest extends Magento_Test_TestCase_ApiAbstract
         $order->setStatus('pending')
             ->save();
 
-        $soapResult = $this->getWebService()->call(
-            'sales_order.cancel',
+        $soapResult = $this->call(
+            'salesOrderCancel',
             array(
                 'orderIncrementId' => $order->getIncrementId()
             )
@@ -59,7 +59,7 @@ class SalesOrder_StatusTest extends Magento_Test_TestCase_ApiAbstract
     }
 
     /**
-     * Test for sales_order.hold when order is in 'processing' status
+     * Test for salesOrderHold when order is in 'processing' status
      *
      * @return void
      */
@@ -71,8 +71,8 @@ class SalesOrder_StatusTest extends Magento_Test_TestCase_ApiAbstract
         $order->setState(Mage_Sales_Model_Order::STATE_NEW, 'pending')
             ->save();
 
-        $soapResult = $this->getWebService()->call(
-            'sales_order.hold',
+        $soapResult = $this->call(
+            'salesOrderHold',
             array(
                 'orderIncrementId' => $order->getIncrementId()
             )

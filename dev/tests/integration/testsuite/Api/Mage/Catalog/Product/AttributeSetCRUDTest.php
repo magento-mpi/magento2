@@ -48,22 +48,22 @@ class Mage_Catalog_Product_AttributeSetCRUDTest extends Magento_Test_TestCase_Ap
     public function testAttributeSetCRUD()
     {
         $attributeSetFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/AttributeSet.xml');
-        $data = self::simpleXmlToArray($attributeSetFixture->create);
-        $data['attributeSetName'] = $data['attributeSetName'] . ' ' . mt_rand(1000, 9999);
+        $data = self::simpleXmlToObject($attributeSetFixture->create);
+        $data->attributeSetName = $data->attributeSetName . ' ' . mt_rand(1000, 9999);
 
         // create test
-        $createdAttrSetId = $this->call('product_attribute_set.create', $data);
+        $createdAttrSetId = $this->call('catalogProductAttributeSetCreate', $data);
         $this->assertGreaterThan(0, $createdAttrSetId);
 
         // Duplicate name exception test
         try {
-            $this->call('product_attribute_set.create', $data);
+            $this->call('catalogProductAttributeSetCreate', $data);
             $this->fail("Didn't receive exception!");
         } catch (Exception $e) {
         }
 
         // items list test
-        $attrSetList = $this->call('product_attribute_set.list');
+        $attrSetList = $this->call('catalogProductAttributeSetList');
         $completeFlag = false;
         foreach ($attrSetList as $attrSet) {
             if ($attrSet['set_id'] == $createdAttrSetId) {
@@ -75,10 +75,10 @@ class Mage_Catalog_Product_AttributeSetCRUDTest extends Magento_Test_TestCase_Ap
         $this->assertTrue($completeFlag, "Can't find added attribute set in list");
 
         // Remove AttrSet with related products
-        $productData = self::simpleXmlToArray($attributeSetFixture->RelatedProduct);
+        $productData = self::simpleXmlToObject($attributeSetFixture->RelatedProduct);
         $productData['sku'] = $productData['sku'] . '_' . mt_rand(1000, 9999);
         $productId = $this->call(
-            'product.create',
+            'catalogProductCreate',
             array(
                 'type' => $productData['typeId'],
                 'set' => $createdAttrSetId,
@@ -88,20 +88,20 @@ class Mage_Catalog_Product_AttributeSetCRUDTest extends Magento_Test_TestCase_Ap
         );
 
         try {
-            $this->call('product_attribute_set.remove', array('attributeSetId' => $createdAttrSetId));
+            $this->call('catalogProductAttributeSetRemove', array('attributeSetId' => $createdAttrSetId));
             $this->fail("Didn't receive exception!");
         } catch (Exception $e) {
         }
 
-        $this->call('product.delete', array('productId' => $productId));
+        $this->call('catalogProductDelete', array('productId' => $productId));
 
         // delete test
-        $attributeSetDelete = $this->call('product_attribute_set.remove', array('attributeSetId' => $createdAttrSetId));
+        $attributeSetDelete = $this->call('catalogProductAttributeSetRemove', array('attributeSetId' => $createdAttrSetId));
         $this->assertTrue((bool)$attributeSetDelete, "Can't delete added attribute set");
 
         // Test delete undefined attribute set and check successful delete in previous call
         try {
-            $this->call('product_attribute_set.remove', array('attributeSetId' => $createdAttrSetId));
+            $this->call('catalogProductAttributeSetRemove', array('attributeSetId' => $createdAttrSetId));
             $this->fail("Didn't receive exception!");
         } catch (Exception $e) {
         }
@@ -121,14 +121,14 @@ class Mage_Catalog_Product_AttributeSetCRUDTest extends Magento_Test_TestCase_Ap
 
         // add attribute test
         $addResult = $this->call(
-            'product_attribute_set.attributeAdd',
+            'catalogProductAttributeSetAttributeAdd',
             array('attributeId' => $testAttributeSetAttrIdsArray[0], 'attributeSetId' => $testAttributeSetId)
         );
         $this->assertTrue((bool)$addResult);
 
         // delete attribute test
         $removeResult = $this->call(
-            'product_attribute_set.attributeRemove',
+            'catalogProductAttributeSetAttributeRemove',
             array('attributeId' => $testAttributeSetAttrIdsArray[0], 'attributeSetId' => $testAttributeSetId)
         );
         $this->assertTrue((bool)$removeResult);
@@ -147,29 +147,29 @@ class Mage_Catalog_Product_AttributeSetCRUDTest extends Magento_Test_TestCase_Ap
     {
         $testAttributeSetId = self::getFixture('testAttributeSetId');
         $attributeSetFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/AttributeSet.xml');
-        $data = self::simpleXmlToArray($attributeSetFixture->groupAdd);
+        $data = self::simpleXmlToObject($attributeSetFixture->groupAdd);
 
         // add group test
         $createdAttributeSetGroupId = $this->call(
-            'product_attribute_set.groupAdd',
-            array('attributeSetId' => $testAttributeSetId, 'groupName' => $data['groupName'])
+            'catalogProductAttributeSetGroupAdd',
+            array('attributeSetId' => $testAttributeSetId, 'groupName' => $data->groupName)
         );
         $this->assertGreaterThan(0, $createdAttributeSetGroupId);
 
         // add already exist group exception test
         try {
             $createdAttributeSetGroupId = $this->call(
-                'product_attribute_set.groupAdd',
-                array('attributeSetId' => $testAttributeSetId, 'groupName' => $data['existsGroupName'])
+                'catalogProductAttributeSetGroupAdd',
+                array('attributeSetId' => $testAttributeSetId, 'groupName' => $data->existsGroupName)
             );
             $this->fail("Didn't receive exception!");
         } catch (Exception $e) {
         }
 
         // rename group test
-        $groupName = $data['groupName'] . ' ' . mt_rand(1000, 9999);
+        $groupName = $data->groupName . ' ' . mt_rand(1000, 9999);
         $renameResult = $this->call(
-            'product_attribute_set.groupRename',
+            'catalogProductAttributeSetGroupRename',
             array('groupId' => $createdAttributeSetGroupId, 'groupName' => $groupName)
         );
         $this->assertTrue((bool)$renameResult);
@@ -177,8 +177,8 @@ class Mage_Catalog_Product_AttributeSetCRUDTest extends Magento_Test_TestCase_Ap
         // rename group exception test
         try {
             $this->call(
-                'product_attribute_set.groupRename',
-                array('groupId' => $createdAttributeSetGroupId, 'groupName' => $data['existsGroupName'])
+                'catalogProductAttributeSetGroupRename',
+                array('groupId' => $createdAttributeSetGroupId, 'groupName' => $data->existsGroupName)
             );
             $this->fail("Didn't receive exception!");
         } catch (Exception $e) {
@@ -186,7 +186,7 @@ class Mage_Catalog_Product_AttributeSetCRUDTest extends Magento_Test_TestCase_Ap
 
         // remove group test
         $removeResult = $this->call(
-            'product_attribute_set.groupRemove',
+            'catalogProductAttributeSetGroupRemove',
             array('attributeGroupId' => $createdAttributeSetGroupId)
         );
         $this->assertTrue((bool)$removeResult);
@@ -196,6 +196,6 @@ class Mage_Catalog_Product_AttributeSetCRUDTest extends Magento_Test_TestCase_Ap
 
         // remove undefined group exception test
         $this->setExpectedException(self::DEFAULT_EXCEPTION);
-        $this->call('product_attribute_set.groupRemove', array('attributeGroupId' => $createdAttributeSetGroupId));
+        $this->call('catalogProductAttributeSetGroupRemove', array('attributeGroupId' => $createdAttributeSetGroupId));
     }
 }

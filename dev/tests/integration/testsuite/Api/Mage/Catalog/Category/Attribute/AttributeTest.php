@@ -64,7 +64,7 @@ class Mage_Catalog_Category_Attribute_AttributeTest extends Magento_Test_TestCas
      */
     public function testList()
     {
-        $attributeList = $this->call('catalog_category_attribute.list');
+        $attributeList = $this->call('catalogCategoryAttributeList');
 
         $this->assertInternalType('array', $attributeList);
         $this->assertGreaterThan(0, count($attributeList));
@@ -86,7 +86,7 @@ class Mage_Catalog_Category_Attribute_AttributeTest extends Magento_Test_TestCas
      */
     public function testAttributeOptions()
     {
-        $attributeOptions = $this->call('catalog_category_attribute.options', array('attributeId' => self::$_code));
+        $attributeOptions = $this->call('catalogCategoryAttributeOptions', array('attributeId' => self::$_code));
 
         $this->assertEquals(true, is_array($attributeOptions));
         $this->assertGreaterThan(0, count($attributeOptions));

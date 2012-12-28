@@ -22,7 +22,7 @@ class Enterprise_GiftCard_CustomerTest extends Magento_Test_TestCase_ApiAbstract
         $dateExpires = $giftcardAccount->getData('date_expires');
         $code = $giftcardAccount->getData('code');
 
-        $info = $this->call('giftcard_customer.info', array('code' => $code));
+        $info = $this->call('giftcardCustomerInfo', array('code' => $code));
         $this->assertEquals($balance, $info['balance']);
         $this->assertEquals($dateExpires, $info['expire_date']);
     }
@@ -50,7 +50,7 @@ class Enterprise_GiftCard_CustomerTest extends Magento_Test_TestCase_ApiAbstract
         $storeId = 1;
 
         $result = $this->call(
-            'giftcard_customer.redeem',
+            'giftcardCustomerRedeem',
             array('code' => $code, 'customerId' => $customerId, 'storeId' => $storeId)
         );
         $this->assertTrue($result);
@@ -64,7 +64,7 @@ class Enterprise_GiftCard_CustomerTest extends Magento_Test_TestCase_ApiAbstract
         //Test giftcard already redeemed
         $this->setExpectedException(self::DEFAULT_EXCEPTION);
         $this->call(
-            'giftcard_customer.redeem',
+            'giftcardCustomerRedeem',
             array('code' => $code, 'customerId' => $customerId, 'storeId' => $storeId)
         );
     }
@@ -78,8 +78,8 @@ class Enterprise_GiftCard_CustomerTest extends Magento_Test_TestCase_ApiAbstract
     public function testIncorrectDataInfoException()
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_customer.xml');
-        $invalidData = self::simpleXmlToArray($fixture->invalid_info);
-        $this->call('giftcard_customer.info', $invalidData);
+        $invalidData = self::simpleXmlToObject($fixture->invalid_info);
+        $this->call('giftcardCustomerInfo', $invalidData);
     }
 
     /**
@@ -91,7 +91,7 @@ class Enterprise_GiftCard_CustomerTest extends Magento_Test_TestCase_ApiAbstract
     public function testIncorrectDataRedeemException()
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_customer.xml');
-        $invalidData = self::simpleXmlToArray($fixture->invalid_redeem);
-        $this->call('giftcard_customer.redeem', $invalidData);
+        $invalidData = self::simpleXmlToObject($fixture->invalid_redeem);
+        $this->call('giftcardCustomerRedeem', $invalidData);
     }
 }

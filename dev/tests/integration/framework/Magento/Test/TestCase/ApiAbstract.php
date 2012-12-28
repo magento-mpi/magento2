@@ -367,7 +367,36 @@ abstract class Magento_Test_TestCase_ApiAbstract extends PHPUnit_Framework_TestC
         if (null === $this->getInstance($code)) {
             $this->getWebService($code);
         }
-        return $this->getInstance($code)->call($path, $params);
+        $soapAdapterMock = $this->getMock('Mage_Api_Model_Server_Adapter_Soap', array('fault'));
+        $soapAdapterMock->expects($this->any())->method('fault')->will(
+            $this->returnCallback(array($this, 'soapAdapterFaultCallback'))
+        );
+
+        $serverMock = $this->getMock('Mage_Api_Model_Server', array('getAdapter'));
+        $serverMock->expects($this->any())->method('getAdapter')->will($this->returnValue($soapAdapterMock));
+
+        $apiSessionMock = $this->getMock('Mage_Api_Model_Session', array('isAllowed', 'isLoggedIn'));
+        $apiSessionMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
+        $apiSessionMock->expects($this->any())->method('isLoggedIn')->will($this->returnValue(true));
+
+        $handlerMock = $this->getMock('Mage_Api_Model_Server_Handler_Soap', array('_getServer', '_getSession'));
+        $handlerMock->expects($this->any())->method('_getServer')->will($this->returnValue($serverMock));
+        $handlerMock->expects($this->any())->method('_getSession')->will($this->returnValue($apiSessionMock));
+
+        array_unshift($params, 'sessionId');
+        return call_user_func_array(array($handlerMock, $path), $params);
+    }
+
+    /**
+     * Throw SoapFault exception. Callback for 'fault' method of API.
+     *
+     * @param string $exceptionCode
+     * @param string $exceptionMessage
+     * @throws SoapFault
+     */
+    public function soapAdapterFaultCallback($exceptionCode, $exceptionMessage)
+    {
+        throw new SoapFault($exceptionCode, $exceptionMessage);
     }
 
     /**
@@ -375,7 +404,7 @@ abstract class Magento_Test_TestCase_ApiAbstract extends PHPUnit_Framework_TestC
      *
      * @param SimpleXMLObject $xml
      * @param String $keyTrimmer
-     * @return array
+     * @return object
      *
      * In XML notation we can't have nodes with digital names in other words fallowing XML will be not valid:
      * &lt;24&gt;
@@ -392,7 +421,7 @@ abstract class Magento_Test_TestCase_ApiAbstract extends PHPUnit_Framework_TestC
      *
      * In the other case just don't pass the $keyTrimmer.
      */
-    public static function simpleXmlToArray($xml, $keyTrimmer = null)
+    public static function simpleXmlToObject($xml, $keyTrimmer = null)
     {
         $result = array();
 
@@ -411,11 +440,11 @@ abstract class Magento_Test_TestCase_ApiAbstract extends PHPUnit_Framework_TestC
                     $arrKey = 'Obj' . $arrKey;
                 }
                 if (is_object($node)) {
-                    $result[$arrKey] = Magento_Test_TestCase_ApiAbstract::simpleXmlToArray($node, $keyTrimmer);
+                    $result[$arrKey] = Magento_Test_TestCase_ApiAbstract::simpleXmlToObject($node, $keyTrimmer);
                 } elseif (is_array($node)) {
                     $result[$arrKey] = array();
                     foreach ($node as $nodeValue) {
-                        $result[$arrKey][] = Magento_Test_TestCase_ApiAbstract::simpleXmlToArray(
+                        $result[$arrKey][] = Magento_Test_TestCase_ApiAbstract::simpleXmlToObject(
                             $nodeValue,
                             $keyTrimmer
                         );
@@ -427,7 +456,7 @@ abstract class Magento_Test_TestCase_ApiAbstract extends PHPUnit_Framework_TestC
         } else {
             $result = (string)$xml;
         }
-        return $result;
+        return (object)$result;
     }
 
     /**

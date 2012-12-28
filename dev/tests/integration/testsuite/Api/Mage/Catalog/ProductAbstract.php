@@ -61,7 +61,7 @@ abstract class Mage_Catalog_ProductAbstract extends Magento_Test_TestCase_ApiAbs
     protected function _tryToCreateProductWithApi($productData)
     {
         $dataFormattedForRequest = $this->_prepareProductDataForSoap($productData);
-        $response = $this->call('product.create', $dataFormattedForRequest);
+        $response = $this->call('catalogProductCreate', $dataFormattedForRequest);
         return $response;
     }
 

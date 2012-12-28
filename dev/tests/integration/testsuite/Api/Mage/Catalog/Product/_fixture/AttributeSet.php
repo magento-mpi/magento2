@@ -12,7 +12,7 @@ Magento_Test_TestCase_ApiAbstract::setFixture(
 );
 
 $attributeSetFixture = simplexml_load_file(__DIR__ . '/_data/xml/AttributeSet.xml');
-$data = Magento_Test_TestCase_ApiAbstract::simpleXmlToArray($attributeSetFixture->AttributeEntityToCreate);
+$data = Magento_Test_TestCase_ApiAbstract::simpleXmlToObject($attributeSetFixture->AttributeEntityToCreate);
 $data['attribute_code'] = $data['attribute_code'] . '_' . mt_rand(1000, 9999);
 
 $testAttributeSetAttrIdsArray = array();

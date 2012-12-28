@@ -118,7 +118,7 @@ class Mage_Checkout_CartTest extends Magento_Test_TestCase_ApiAbstract
     public function testProductAddToCart()
     {
         $soapResult = $this->call(
-            'cart_product.add',
+            'shoppingCartProductAdd',
             array(
                 'quoteId' => $this->_quote->getId(),
                 'productsData' => array(
@@ -171,7 +171,7 @@ class Mage_Checkout_CartTest extends Magento_Test_TestCase_ApiAbstract
             $customOptionsData = array($customOptionId => $customOptionValue);
         }
         $soapResult = $this->call(
-            'cart_product.add',
+            'shoppingCartProductAdd',
             array(
                 'quoteId' => $this->_quote->getId(),
                 'productsData' => array(
@@ -214,7 +214,7 @@ class Mage_Checkout_CartTest extends Magento_Test_TestCase_ApiAbstract
         $this->_quote->addProduct($this->_product);
         $this->_quote->collectTotals()->save();
 
-        $soapResult = $this->call('cart_product.list', array('quoteId' => $this->_quote->getId()));
+        $soapResult = $this->call('shoppingCartProductList', array('quoteId' => $this->_quote->getId()));
 
         $this->assertInternalType('array', $soapResult, 'Product List call result is not an array');
 
@@ -255,7 +255,7 @@ class Mage_Checkout_CartTest extends Magento_Test_TestCase_ApiAbstract
         $this->_quote->collectTotals()->save();
 
         $soapResult = $this->call(
-            'cart_coupon.add',
+            'shoppingCartCouponAdd',
             array(
                 'quoteId' => $this->_quote->getId(),
                 'couponCode' => $this->_salesRule->getCouponCode()
@@ -285,7 +285,7 @@ class Mage_Checkout_CartTest extends Magento_Test_TestCase_ApiAbstract
         $quote = self::getFixture('quote');
 
         $orderIncrementId = $this->call(
-            'cart.order',
+            'shoppingCartOrder',
             array(
                 'quoteId' => $quote->getId()
             )
@@ -314,7 +314,7 @@ class Mage_Checkout_CartTest extends Magento_Test_TestCase_ApiAbstract
         );
 
         $orderIncrementId = $this->call(
-            'cart.orderWithPayment',
+            'shoppingCartOrderWithPayment',
             array(
                 'quoteId' => $quote->getId(),
                 'store' => null,
@@ -351,7 +351,7 @@ class Mage_Checkout_CartTest extends Magento_Test_TestCase_ApiAbstract
         $errorMessage = 'The requested Payment Method is not available.';
         try {
             $this->call(
-                'cart.orderWithPayment',
+                'shoppingCartOrderWithPayment',
                 array(
                     'quoteId' => $quote->getId(),
                     'store' => null,
@@ -377,7 +377,7 @@ class Mage_Checkout_CartTest extends Magento_Test_TestCase_ApiAbstract
         $errorMessage = 'Payment method data is empty.';
         try {
             $this->call(
-                'cart.orderWithPayment',
+                'shoppingCartOrderWithPayment',
                 array(
                     'quoteId' => $quote->getId(),
                     'store' => null,
@@ -412,7 +412,7 @@ class Mage_Checkout_CartTest extends Magento_Test_TestCase_ApiAbstract
         $errorMessage = 'Incorrect credit card expiration date.';
         try {
             $this->call(
-                'cart.orderWithPayment',
+                'shoppingCartOrderWithPayment',
                 array(
                     'quoteId' => $quote->getId(),
                     'store' => null,

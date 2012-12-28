@@ -47,7 +47,7 @@ class Mage_Catalog_Product_Attribute_TierPriceTest extends Magento_Test_TestCase
         $product = $this->getFixture('product');
 
         $result = $this->call(
-            'product_tier_price.update',
+            'catalogProductAttributeTierPriceUpdate',
             array(
                 'productId' => $product->getId(),
                 'tierPrices' => array(

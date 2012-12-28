@@ -242,8 +242,8 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
         $expectedData = array();     // array of option data
         $expectedValues = array();   // array of option values data
         foreach ($productData['data'] as $data) {
-            if (!empty($data['_custom_option_type']) && !empty($data['_custom_option_title'])) {
-                $lastOptionKey = $data['_custom_option_type'] . '|' . $data['_custom_option_title'];
+            if (!empty($data->_custom_option_type) && !empty($data->_custom_option_title)) {
+                $lastOptionKey = $data->_custom_option_type . '|' . $data['_custom_option_title'];
                 $expectedOptionId++;
                 $expectedOptions[$expectedOptionId] = $lastOptionKey;
                 $expectedData[$expectedOptionId] = array();
@@ -253,7 +253,7 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
                     }
                 }
             }
-            if (!empty($data['_custom_option_row_title']) && empty($data['_custom_option_store'])) {
+            if (!empty($data->_custom_option_row_title) && empty($data->_custom_option_store)) {
                 $optionData = array();
                 foreach ($this->_assertOptionValues as $assertKey) {
                     $valueKey = Mage_ImportExport_Model_Import_Entity_Product_Option::COLUMN_PREFIX

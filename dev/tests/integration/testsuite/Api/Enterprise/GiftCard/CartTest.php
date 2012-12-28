@@ -32,10 +32,10 @@ class Enterprise_GiftCard_CartTest extends Magento_Test_TestCase_ApiAbstract
         //Test giftcard add to quote
         $giftCardAccount = self::getFixture('giftcard_account');
         $storeId = 1;
-        $quoteId = $this->call('cart.create', array('store' => $storeId));
+        $quoteId = $this->call('shoppingCartCreate', array('store' => $storeId));
 
         $addResult = $this->call(
-            'cart_giftcard.add',
+            'shoppingCartGiftcardAdd',
             array(
                 'giftcardAccountCode' => $giftCardAccount->getCode(),
                 'quoteId' => $quoteId,
@@ -45,7 +45,7 @@ class Enterprise_GiftCard_CartTest extends Magento_Test_TestCase_ApiAbstract
         $this->assertTrue($addResult, 'Add giftcard to quote');
 
         //Test list of giftcards added to quote
-        $giftCards = $this->call('cart_giftcard.list', array('quoteId' => $quoteId, 'storeId' => $storeId));
+        $giftCards = $this->call('shoppingCartGiftcardList', array('quoteId' => $quoteId, 'storeId' => $storeId));
         $this->assertInternalType('array', $giftCards);
         $this->assertGreaterThan(0, count($giftCards));
 
@@ -57,7 +57,7 @@ class Enterprise_GiftCard_CartTest extends Magento_Test_TestCase_ApiAbstract
 
         //Test giftcard removing from quote
         $removeResult = $this->call(
-            'cart_giftcard.remove',
+            'shoppingCartGiftcardRemove',
             array(
                 'giftcardAccountCode' => $giftCardAccount->getCode(),
                 'quoteId' => $quoteId,
@@ -75,7 +75,7 @@ class Enterprise_GiftCard_CartTest extends Magento_Test_TestCase_ApiAbstract
         //Test giftcard removed
         $this->setExpectedException(self::DEFAULT_EXCEPTION);
         $this->call(
-            'cart_giftcard.remove',
+            'shoppingCartGiftcardRemove',
             array('giftcardAccountCode' => $giftCardAccount->getCode(), 'quoteId' => $quoteId, 'storeId' => $storeId)
         );
     }
@@ -89,8 +89,8 @@ class Enterprise_GiftCard_CartTest extends Magento_Test_TestCase_ApiAbstract
     public function testIncorrectDataAddException()
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_cart.xml');
-        $invalidData = self::simpleXmlToArray($fixture->invalid_create);
-        $this->call('cart_giftcard.add', $invalidData);
+        $invalidData = self::simpleXmlToObject($fixture->invalid_create);
+        $this->call('shoppingCartGiftcardAdd', $invalidData);
     }
 
     /**
@@ -102,8 +102,8 @@ class Enterprise_GiftCard_CartTest extends Magento_Test_TestCase_ApiAbstract
     public function testIncorrectDataListException()
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_cart.xml');
-        $invalidData = self::simpleXmlToArray($fixture->invalid_list);
-        $this->call('cart_giftcard.list', $invalidData);
+        $invalidData = self::simpleXmlToObject($fixture->invalid_list);
+        $this->call('shoppingCartGiftcardList', $invalidData);
     }
 
     /**
@@ -115,7 +115,7 @@ class Enterprise_GiftCard_CartTest extends Magento_Test_TestCase_ApiAbstract
     public function testIncorrectDataRemoveException()
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_cart.xml');
-        $invalidData = self::simpleXmlToArray($fixture->invalid_remove);
-        $this->call('cart_giftcard.remove', $invalidData);
+        $invalidData = self::simpleXmlToObject($fixture->invalid_remove);
+        $this->call('shoppingCartGiftcardRemove', $invalidData);
     }
 }

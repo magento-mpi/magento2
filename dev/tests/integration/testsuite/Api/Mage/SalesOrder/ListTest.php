@@ -43,7 +43,7 @@ class SalesOrder_ListTest extends Magento_Test_TestCase_ApiAbstract
             )
         );
 
-        $result = $this->call('order.list', $filters);
+        $result = $this->call('salesOrderList', $filters);
 
         if (!isset($result[0])) { // workaround for WS-I
             $result = array($result);

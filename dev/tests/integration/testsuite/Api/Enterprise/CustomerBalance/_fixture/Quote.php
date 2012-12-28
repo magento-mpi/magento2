@@ -118,5 +118,5 @@ $guestQuote->getShippingAddress()->setSameAsBilling(0);
 $guestQuote->collectTotals()
     ->save();
 
-//Save shopping cart created by guest
+//Save shopping shoppingCartCreated by guest
 Enterprise_CustomerBalance_QuoteTest::$guestQuote = $guestQuote;

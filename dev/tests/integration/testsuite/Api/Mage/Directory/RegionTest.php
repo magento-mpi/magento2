@@ -11,13 +11,13 @@
 class Mage_Directory_RegionTest extends Magento_Test_TestCase_ApiAbstract
 {
     /**
-     * Test region.list API method
+     * Test directoryRegionList API method
      *
      * @return void
      */
     public function testList()
     {
-        $data = $this->call('region.list', array('country' => 'US'));
+        $data = $this->call('directoryRegionList', array('country' => 'US'));
         $this->assertTrue(is_array($data), 'Region list is not array');
         $this->assertNotEmpty($data, 'Region list is empty');
         $region = reset($data);

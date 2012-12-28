@@ -47,7 +47,7 @@ class SalesOrder_InvoiceTest extends SalesOrder_AbstractTest
 
         // Create new invoice
         $newInvoiceId = $this->call(
-            'order_invoice.create',
+            'salesOrderInvoiceCreate',
             array(
                 'orderIncrementId' => $id,
                 'itemsQty' => array(),
@@ -61,7 +61,7 @@ class SalesOrder_InvoiceTest extends SalesOrder_AbstractTest
 
         // View new invoice
         $invoice = $this->call(
-            'sales_order_invoice.info',
+            'sales_salesOrderInvoiceInfo',
             array(
                 'invoiceIncrementId' => $newInvoiceId
             )
@@ -88,7 +88,7 @@ class SalesOrder_InvoiceTest extends SalesOrder_AbstractTest
 
         // Create new invoice
         $newInvoiceId = $this->call(
-            'order_invoice.create',
+            'salesOrderInvoiceCreate',
             array(
                 'orderIncrementId' => $id,
                 'itemsQty' => array(),
@@ -129,7 +129,7 @@ class SalesOrder_InvoiceTest extends SalesOrder_AbstractTest
             )
         );
 
-        $result = $this->call('order_invoice.list', $filters);
+        $result = $this->call('salesOrderInvoiceList', $filters);
 
         if (!isset($result[0])) { // workaround for WS-I
             $result = array($result);

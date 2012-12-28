@@ -34,7 +34,7 @@ class SalesOrder_ShipmentTest extends SalesOrder_AbstractTest
 
         // Create new shipment
         $newShipmentId = $this->call(
-            'order_shipment.create',
+            'salesOrderShipmentCreate',
             array(
                 'orderIncrementId' => $id,
                 'itemsQty' => array(),
@@ -47,7 +47,7 @@ class SalesOrder_ShipmentTest extends SalesOrder_AbstractTest
 
         // View new shipment
         $shipment = $this->call(
-            'sales_order_shipment.info',
+            'sales_salesOrderShipmentInfo',
             array(
                 'shipmentIncrementId' => $newShipmentId
             )
@@ -80,7 +80,7 @@ class SalesOrder_ShipmentTest extends SalesOrder_AbstractTest
 
         // Create new shipment
         $newShipmentId = $this->call(
-            'order_shipment.create',
+            'salesOrderShipmentCreate',
             array(
                 'orderIncrementId' => $id,
                 'itemsQty' => array(),
@@ -115,7 +115,7 @@ class SalesOrder_ShipmentTest extends SalesOrder_AbstractTest
 
         // Create new shipment
         $newShipmentId = $this->call(
-            'order_shipment.create',
+            'salesOrderShipmentCreate',
             array(
                 'orderIncrementId' => $id,
                 'itemsQty' => array(),
@@ -129,7 +129,7 @@ class SalesOrder_ShipmentTest extends SalesOrder_AbstractTest
 
         // Send info
         $isOk = $this->call(
-            'order_shipment.sendInfo',
+            'salesOrderShipmentSendInfo',
             array(
                 'shipmentIncrementId' => $newShipmentId,
                 'comment' => $id

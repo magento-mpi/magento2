@@ -8,7 +8,7 @@
 
 //Add customer
 $fixture = simplexml_load_file(__DIR__ . '/_data/xml/LinkCRUD.xml');
-$customerData = Magento_Test_TestCase_ApiAbstract::simpleXmlToArray($fixture->customer);
+$customerData = Magento_Test_TestCase_ApiAbstract::simpleXmlToObject($fixture->customer);
 $customerData['email'] = mt_rand(1000, 9999) . '.' . $customerData['email'];
 
 $customer = Mage::getModel('Mage_Customer_Model_Customer');
@@ -20,7 +20,7 @@ Magento_Test_TestCase_ApiAbstract::setFixture(
 );
 
 //Create new downloadable product
-$productData = Magento_Test_TestCase_ApiAbstract::simpleXmlToArray($fixture->product);
+$productData = Magento_Test_TestCase_ApiAbstract::simpleXmlToObject($fixture->product);
 $productData['sku'] = $productData['sku'] . mt_rand(1000, 9999);
 $productData['name'] = $productData['name'] . ' ' . mt_rand(1000, 9999);
 

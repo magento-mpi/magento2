@@ -16,7 +16,7 @@ class Mage_Catalog_Product_DownloadableLinkCRUDTest extends Magento_Test_TestCas
     public function testDownloadableLinkCreate()
     {
         $tagFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/LinkCRUD.xml');
-        $items = self::simpleXmlToArray($tagFixture->items);
+        $items = self::simpleXmlToObject($tagFixture->items);
 
         $productId = Magento_Test_TestCase_ApiAbstract::getFixture('productData')->getId();
 
@@ -39,7 +39,7 @@ class Mage_Catalog_Product_DownloadableLinkCRUDTest extends Magento_Test_TestCas
                 }
 
                 $resultId = $this->call(
-                    'product_downloadable_link.add',
+                    'catalogProductDownloadableLinkAdd',
                     array(
                         'productId' => $productId,
                         'resource' => $value,
@@ -63,7 +63,7 @@ class Mage_Catalog_Product_DownloadableLinkCRUDTest extends Magento_Test_TestCas
         $product = Magento_Test_TestCase_ApiAbstract::getFixture('downloadable');
         $productId = $product->getId();
 
-        $result = $this->call('product_downloadable_link.list', array('productId' => $productId));
+        $result = $this->call('catalogProductDownloadableLinkList', array('productId' => $productId));
         /** @var Mage_Downloadable_Model_Product_Type $downloadable */
         $downloadable = $product->getTypeInstance();
         $links = $downloadable->getLinks($product);
@@ -94,7 +94,7 @@ class Mage_Catalog_Product_DownloadableLinkCRUDTest extends Magento_Test_TestCas
         $links = $downloadable->getLinks($product);
         foreach ($links as $link) {
             $removeResult = $this->call(
-                'product_downloadable_link.remove',
+                'catalogProductDownloadableLinkRemove',
                 array(
                     'linkId' => $link->getId(),
                     'resourceType' => 'link'

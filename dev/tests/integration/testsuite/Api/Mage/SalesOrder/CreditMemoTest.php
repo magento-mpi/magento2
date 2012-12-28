@@ -28,7 +28,7 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
         list($product, $qtys, $adjustmentPositive, $adjustmentNegative, $creditMemoIncrementId) = $creditmemoInfo;
 
         //Test list
-        $creditmemoList = $this->call('order_creditmemo.list');
+        $creditmemoList = $this->call('salesOrderCreditmemoList');
         $this->assertInternalType('array', $creditmemoList);
         $this->assertNotEmpty($creditmemoList, 'Creditmemo list is empty');
 
@@ -36,7 +36,7 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
         $commentText = 'Creditmemo comment';
         $this->assertTrue(
             (bool)$this->call(
-                'order_creditmemo.addComment',
+                'salesOrderCreditmemoAddComment',
                 array(
                     'creditmemoIncrementId' => $creditMemoIncrementId,
                     'comment' => $commentText
@@ -46,7 +46,7 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
 
         //Test info
         $creditmemoInfo = $this->call(
-            'order_creditmemo.info',
+            'salesOrderCreditmemoInfo',
             array(
                 'creditmemoIncrementId' => $creditMemoIncrementId
             )
@@ -85,7 +85,7 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
         //Test cancel
         //Situation when creditmemo is possible to cancel was not found
         $this->setExpectedException(self::DEFAULT_EXCEPTION);
-        $this->call('order_creditmemo.cancel', array('creditmemoIncrementId' => $creditMemoIncrementId));
+        $this->call('salesOrderCreditmemoCancel', array('creditmemoIncrementId' => $creditMemoIncrementId));
     }
 
     /**
@@ -102,7 +102,7 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
         $overRefundAmount = $order->getGrandTotal() + 10;
 
         $this->call(
-            'order_creditmemo.create',
+            'salesOrderCreditmemoCreate',
             array(
                 'creditmemoIncrementId' => $order->getIncrementId(),
                 'creditmemoData' => array(
@@ -124,7 +124,7 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
             );
         }
 
-        $creditmemoList = $this->call('order_creditmemo.list', array('filters' => $filter));
+        $creditmemoList = $this->call('salesOrderCreditmemoList', array('filters' => $filter));
         $this->assertEquals(0, count($creditmemoList));
     }
 
@@ -136,7 +136,7 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
     public function testCreateInvalidOrderException()
     {
         $this->call(
-            'order_creditmemo.create',
+            'salesOrderCreditmemoCreate',
             array(
                 'creditmemoIncrementId' => 'invalid-id',
                 'creditmemoData' => array()
@@ -152,7 +152,7 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
     public function testAddCommentInvalidOrderException()
     {
         $this->call(
-            'order_creditmemo.addComment',
+            'salesOrderCreditmemoAddComment',
             array(
                 'creditmemoIncrementId' => 'invalid-id',
                 'comment' => 'Comment'
@@ -167,7 +167,7 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
      */
     public function testInfoInvalidOrderException()
     {
-        $this->call('order_creditmemo.info', array('creditmemoIncrementId' => 'invalid-id'));
+        $this->call('salesOrderCreditmemoInfo', array('creditmemoIncrementId' => 'invalid-id'));
     }
 
     /**
@@ -177,7 +177,7 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
      */
     public function testCancelInvalidIdException()
     {
-        $this->call('order_creditmemo.cancel', array('creditmemoIncrementId' => 'invalid-id'));
+        $this->call('salesOrderCreditmemoCancel', array('creditmemoIncrementId' => 'invalid-id'));
     }
 
     /**
@@ -212,7 +212,7 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
 
         //Test create
         $creditMemoIncrementId = $this->call(
-            'order_creditmemo.create',
+            'salesOrderCreditmemoCreate',
             array(
                 'creditmemoIncrementId' => $orderIncrementalId,
                 'creditmemoData' => $data
@@ -258,7 +258,7 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
             )
         );
 
-        $result = $this->call('order_creditmemo.list', $filters);
+        $result = $this->call('salesOrderCreditmemoList', $filters);
 
         if (!isset($result[0])) { // workaround for WS-I
             $result = array($result);
@@ -306,7 +306,7 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
 
         //Test create
         $creditMemoIncrementId = $this->call(
-            'order_creditmemo.create',
+            'salesOrderCreditmemoCreate',
             array(
                 'creditmemoIncrementId' => $orderIncrementalId,
                 'creditmemoData' => $data

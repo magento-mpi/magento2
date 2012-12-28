@@ -32,7 +32,7 @@ class Mage_Catalog_Product_AttributeTest extends Magento_Test_TestCase_ApiAbstra
         );
 
         try {
-            $this->call('product_attribute.create', array('data' => $attributeData));
+            $this->call('catalogProductAttributeCreate', array('data' => $attributeData));
 
             $this->fail('Exception with message like "invalid attribute code" expected but not thrown');
         } catch (Exception $e) {

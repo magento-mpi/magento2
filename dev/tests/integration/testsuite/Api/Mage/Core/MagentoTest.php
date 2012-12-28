@@ -18,7 +18,7 @@ class Mage_Core_MagentoTest extends Magento_Test_TestCase_ApiAbstract
      */
     public function testInfo()
     {
-        $magentoInfo = $this->call('magento.info');
+        $magentoInfo = $this->call('magentoInfo');
         $this->assertNotEmpty($magentoInfo['magento_version']);
         $this->assertNotEmpty($magentoInfo['magento_edition']);
         $this->assertEquals(Mage::getEdition(), $magentoInfo['magento_edition']);

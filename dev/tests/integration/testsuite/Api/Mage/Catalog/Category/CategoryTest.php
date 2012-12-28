@@ -47,7 +47,7 @@ class Mage_Catalog_Category_CategoryTest extends Magento_Test_TestCase_ApiAbstra
     public function testCategoryCrud()
     {
         $categoryFixture = $this->_getFixtureData();
-        $categoryId = $this->call('category.create', $categoryFixture['create']);
+        $categoryId = $this->call('catalogCategory', $categoryFixture['create']);
 
         $this->assertEquals(
             $categoryId,
@@ -113,7 +113,7 @@ class Mage_Catalog_Category_CategoryTest extends Magento_Test_TestCase_ApiAbstra
              * Test update
              */
             $categoryFixture['update']['categoryId'] = $categoryId;
-            $resultUpdated = $this->call('category.update', $categoryFixture['update']);
+            $resultUpdated = $this->call('catalogCategoryUpdate', $categoryFixture['update']);
             $this->assertTrue($resultUpdated);
 
             $category = Mage::getModel('Mage_Catalog_Model_Category');
@@ -143,7 +143,7 @@ class Mage_Catalog_Category_CategoryTest extends Magento_Test_TestCase_ApiAbstra
              * Test read
              */
             $categoryRead = $this->call(
-                'catalog_category.info',
+                'catalogCategoryInfo',
                 array('categoryId' => $categoryId, $categoryFixture['update']['storeView'])
             );
 
@@ -174,7 +174,7 @@ class Mage_Catalog_Category_CategoryTest extends Magento_Test_TestCase_ApiAbstra
             /**
              * Test delete
              */
-            $categoryDelete = $this->call('category.delete', array('categoryId' => $categoryId));
+            $categoryDelete = $this->call('catalogCategoryDelete', array('categoryId' => $categoryId));
             $this->assertTrue($categoryDelete);
 
             $category = Mage::getModel('Mage_Catalog_Model_Category');
@@ -202,7 +202,7 @@ class Mage_Catalog_Category_CategoryTest extends Magento_Test_TestCase_ApiAbstra
          */
         $params['categoryData']['is_active'] = $categoryFixture['vulnerability']['categoryData']['is_active'];
 
-        $categoryId = $this->call('category.create', $params);
+        $categoryId = $this->call('catalogCategory', $params);
         $this->assertEquals(
             $categoryId,
             (int)$categoryId,
@@ -224,7 +224,7 @@ class Mage_Catalog_Category_CategoryTest extends Magento_Test_TestCase_ApiAbstra
             $params = $categoryFixture['update'];
             $params['categoryId'] = 'invalid_category_id';
             try {
-                $result = $this->call('category.update', $params);
+                $result = $this->call('catalogCategoryUpdate', $params);
             } catch (SoapFault $e) {
                 //make result like in response
                 $result = array(
@@ -251,7 +251,7 @@ class Mage_Catalog_Category_CategoryTest extends Magento_Test_TestCase_ApiAbstra
             $params['categoryData']['custom_layout_update'] =
                 $categoryFixture['vulnerability']['categoryData']['custom_layout_update'];
             try {
-                $result = $this->call('category.update', $params);
+                $result = $this->call('catalogCategoryUpdate', $params);
             } catch (SoapFault $e) {
                 //make result like in response
                 $result = array(
@@ -279,7 +279,7 @@ class Mage_Catalog_Category_CategoryTest extends Magento_Test_TestCase_ApiAbstra
     public function testRootCategoryDelete()
     {
         try {
-            $result = $this->call('category.delete', array('categoryId' => Mage_Catalog_Model_Category::TREE_ROOT_ID));
+            $result = $this->call('catalogCategoryDelete', array('categoryId' => Mage_Catalog_Model_Category::TREE_ROOT_ID));
         } catch (SoapFault $e) {
             $result = array(
                 'faultcode' => $e->faultcode,

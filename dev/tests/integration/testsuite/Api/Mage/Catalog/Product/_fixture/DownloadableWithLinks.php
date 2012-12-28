@@ -9,7 +9,7 @@
 $fixture = simplexml_load_file(__DIR__ . '/_data/xml/LinkCRUD.xml');
 
 //Create new downloadable product
-$productData = Magento_Test_TestCase_ApiAbstract::simpleXmlToArray($fixture->product);
+$productData = Magento_Test_TestCase_ApiAbstract::simpleXmlToObject($fixture->product);
 $productData['sku'] = $productData['sku'] . mt_rand(1000, 9999);
 $productData['name'] = $productData['name'] . ' ' . mt_rand(1000, 9999);
 $linksData = array(
