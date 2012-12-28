@@ -26,6 +26,6 @@
     <php>
         <ini name="date.timezone" value="America/Los_Angeles"/>
         <!-- TESTS_JSHINT_PATH specify the path to wsh.js on Windows and jshint-rhino.js on Linux -->
-        <const name="TESTS_JSHINT_PATH" value="C:\jshint\env\wsh.js"/>
+        <const name="TESTS_JSHINT_PATH" value=""/>
     </php>
 </phpunit>
