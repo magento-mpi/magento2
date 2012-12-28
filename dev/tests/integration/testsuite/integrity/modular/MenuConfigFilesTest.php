@@ -78,6 +78,7 @@ class Integrity_Modular_MenuConfigFilesTest extends PHPUnit_Framework_TestCase
      */
     public function testMenuConfigFile($file)
     {
+        $this->markTestIncomplete('MAGETWO-6608');
         $this->_validateConfigFile($file);
     }
 
