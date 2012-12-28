@@ -47,24 +47,17 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     /**
      * @param string $etcDir
      * @param array $configOptions
-     * @param string $expectedNode
      * @param string $expectedValue
+     * @param string $expectedNode
      * @dataProvider loadBaseLocalConfigDataProvider
-     *
-     * @magentoAppIsolation enabled
      */
-    public function testLoadBaseLocalConfig($etcDir, array $configOptions, $expectedNode, $expectedValue)
-    {
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Mage::getObjectManager();
-        $model = $this->_createModelWithApp($objectManager, $configOptions);
-        /** @var $dirs Mage_Core_Model_Dir */
-        $dirs = new Mage_Core_Model_Dir(
-            __DIR__,
-            array(),
-            array(Mage_Core_Model_Dir::CONFIG => __DIR__ . "/_files/local_config/{$etcDir}")
+    public function testLoadBaseLocalConfig($etcDir, array $configOptions, $expectedValue,
+        $expectedNode = 'global/resources/core_setup/connection/model'
+    ) {
+        $configOptions[Mage_Core_Model_App::INIT_OPTION_DIRS] = array(
+            Mage_Core_Model_Dir::CONFIG => __DIR__ . "/_files/local_config/{$etcDir}",
         );
-        $objectManager->addSharedInstance($dirs, 'Mage_Core_Model_Dir');
+        $model = $this->_createModelWithApp($configOptions);
 
         $model->loadBase();
         $this->assertInstanceOf('Varien_Simplexml_Element', $model->getNode($expectedNode));
@@ -76,61 +69,61 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function loadBaseLocalConfigDataProvider()
     {
+        $extraConfigData = '
+            <root>
+                <global>
+                    <resources>
+                        <core_setup>
+                            <connection>
+                                <model>overridden</model>
+                            </connection>
+                        </core_setup>
+                    </resources>
+                </global>
+            </root>
+        ';
         return array(
             'no local config file & no custom config file' => array(
-                'no_local_config_no_custom_config',
+                'no_local_config',
                 array(Mage_Core_Model_Config::INIT_OPTION_EXTRA_FILE => ''),
-                'a/value',
                 'b',
             ),
             'no local config file & custom config file' => array(
-                'no_local_config_custom_config',
+                'no_local_config',
                 array(Mage_Core_Model_Config::INIT_OPTION_EXTRA_FILE => 'custom/local.xml'),
-                'a',
-                '',
+                'b',
             ),
             'no local config file & custom config data' => array(
-                'no_local_config_no_custom_config',
-                array(
-                    Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA
-                        => '<root><a><value>overridden</value></a></root>'
-                ),
-                'a/value',
+                'no_local_config',
+                array(Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA => $extraConfigData),
                 'overridden',
             ),
             'local config file & no custom config file' => array(
-                'local_config_no_custom_config',
+                'local_config',
                 array(Mage_Core_Model_Config::INIT_OPTION_EXTRA_FILE => ''),
-                'value',
                 'local',
             ),
             'local config file & custom config file' => array(
-                'local_config_custom_config',
+                'local_config',
                 array(Mage_Core_Model_Config::INIT_OPTION_EXTRA_FILE => 'custom/local.xml'),
-                'value',
                 'custom',
             ),
             'local config file & invalid custom config file' => array(
-                'local_config_custom_config',
+                'local_config',
                 array(Mage_Core_Model_Config::INIT_OPTION_EXTRA_FILE => 'custom/invalid.pattern.xml'),
-                'value',
                 'local',
             ),
             'local config file & custom config data' => array(
-                'local_config_custom_config',
+                'local_config',
                 array(
                     Mage_Core_Model_Config::INIT_OPTION_EXTRA_FILE => 'custom/local.xml',
-                    Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA => '<root><value>overridden</value></root>',
+                    Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA => $extraConfigData,
                 ),
-                'value',
                 'overridden',
             ),
         );
     }
 
-    /**
-     * @magentoAppIsolation enabled
-     */
     public function testLoadBaseInstallDate()
     {
         if (date_default_timezone_get() != 'UTC') {
@@ -139,48 +132,34 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
         $options = array(
             Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA
-            => sprintf(Mage_Core_Model_Config::CONFIG_TEMPLATE_INSTALL_DATE, 'Fri, 21 Dec 2012 00:00:00 +0000')
+                => sprintf(Mage_Core_Model_Config::CONFIG_TEMPLATE_INSTALL_DATE, 'Fri, 21 Dec 2012 00:00:00 +0000')
         );
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Mage::getObjectManager();
-        $model = $this->_createModelWithApp($objectManager, $options);
+        $model = $this->_createModelWithApp($options);
 
         $model->loadBase();
         $this->assertEquals(1356048000, $model->getInstallDate());
     }
 
-    /**
-     * @magentoAppIsolation enabled
-     */
     public function testLoadBaseInstallDateInvalid()
     {
         $options = array(
             Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA
-            => sprintf(Mage_Core_Model_Config::CONFIG_TEMPLATE_INSTALL_DATE, 'invalid')
+                => sprintf(Mage_Core_Model_Config::CONFIG_TEMPLATE_INSTALL_DATE, 'invalid')
         );
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Mage::getObjectManager();
-        $model = $this->_createModelWithApp($objectManager, $options);
+        $model = $this->_createModelWithApp($options);
 
         $model->loadBase();
         $this->assertEmpty($model->getInstallDate());
     }
 
-    /**
-     * @magentoAppIsolation enabled
-     */
     public function testLoadLocales()
     {
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Mage::getObjectManager();
-        $model = $this->_createModelWithApp($objectManager);
-        /** @var $dirs Mage_Core_Model_Dir */
-        $dirs = new Mage_Core_Model_Dir(
-            __DIR__,
-            array(),
-            array(Mage_Core_Model_Dir::CONFIG => __DIR__, Mage_Core_Model_Dir::LOCALE => __DIR__ . '/_files/locale')
+        $options = array(
+            Mage_Core_Model_App::INIT_OPTION_DIRS => array(
+                Mage_Core_Model_Dir::LOCALE => __DIR__ . '/_files/locale',
+            )
         );
-        $objectManager->addSharedInstance($dirs, 'Mage_Core_Model_Dir');
+        $model = $this->_createModelWithApp($options);
 
         $model->loadBase();
         $model->loadLocales();
@@ -192,15 +171,13 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testLoadModulesCache()
     {
-        Mage::app()->getCacheInstance()->allowUse('config');
-
         $options = array(
             Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA
-            => sprintf(Mage_Core_Model_Config::CONFIG_TEMPLATE_INSTALL_DATE, 'Wed, 21 Nov 2012 03:26:00 +0000')
+                => sprintf(Mage_Core_Model_Config::CONFIG_TEMPLATE_INSTALL_DATE, 'Wed, 21 Nov 2012 03:26:00 +0000')
         );
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Mage::getObjectManager();
-        $model = $this->_createModelWithApp($objectManager, $options);
+        $model = $this->_createModelWithApp($options);
+
+        Mage::app()->getCacheInstance()->allowUse('config');
 
         $model->loadBase();
         $this->assertTrue($model->loadModulesCache());
@@ -218,18 +195,13 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($moduleNode->is('active'));
     }
 
-    /**
-     * @magentoAppIsolation enabled
-     */
     public function testLoadModulesLocalConfigPrevails()
     {
         $options = array(
             Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA
-            => '<config><modules><Mage_Core><active>false</active></Mage_Core></modules></config>'
+                => '<config><modules><Mage_Core><active>false</active></Mage_Core></modules></config>'
         );
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Mage::getObjectManager();
-        $model = $this->_createModelWithApp($objectManager, $options);
+        $model = $this->_createModelWithApp($options);
 
         $model->loadBase();
         $model->loadModules();
@@ -270,16 +242,12 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * @magentoAppIsolation enabled
-     */
     public function testReinitBaseConfig()
     {
         $options[Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA] = '<config><test>old_value</test></config>';
 
-        /** @var $objectManager Magento_Test_ObjectManager */
-        $objectManager = Mage::getObjectManager();
-        $model = $this->_createModelWithApp($objectManager, $options);
+        $objectManager = new Magento_Test_ObjectManager();
+        $model = $this->_createModelWithApp($options, $objectManager);
 
         /** @var $app Mage_Core_Model_App */
         $app = $objectManager->get('Mage_Core_Model_App');
@@ -526,18 +494,17 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     /**
      * Creates Mage_Core_Model_Config model with initialized Mage_Core_Model_App
      *
-     * @param Magento_Test_ObjectManager $objectManager
      * @param array $appOptions
-     * @return bool|Mage_Core_Model_Config
+     * @param Magento_Test_ObjectManager $objectManager
+     * @return Mage_Core_Model_Config
      */
-    protected function _createModelWithApp(Magento_Test_ObjectManager $objectManager, array $appOptions = array())
+    protected function _createModelWithApp(array $appOptions, Magento_Test_ObjectManager $objectManager = null)
     {
+        $objectManager = $objectManager ?: new Magento_Test_ObjectManager();
         /** @var $app Mage_Core_Model_App */
-        $app = Mage::getModel('Mage_Core_Model_App', array($objectManager));
+        $app = $objectManager->get('Mage_Core_Model_App');
         $app->init($appOptions);
-        $objectManager->addSharedInstance($app, 'Mage_Core_Model_App');
-
-        return Mage::getModel('Mage_Core_Model_Config', $objectManager);
+        return $objectManager->create('Mage_Core_Model_Config');
     }
 
     /**

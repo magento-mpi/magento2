@@ -43,8 +43,12 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         $this->_mageModel = null;
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testInit()
     {
+        Mage::app()->getCacheInstance()->banUse('config');
         $this->assertNull($this->_model->getConfig());
         $this->_model->init(array());
         $this->assertInstanceOf('Mage_Core_Model_Config', $this->_model->getConfig());
@@ -60,11 +64,12 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         if (!Magento_Test_Bootstrap::canTestHeaders()) {
             $this->markTestSkipped('Can\'t test application run without sending headers');
         }
-
-        $_SERVER['HTTP_HOST'] = 'localhost';
-        $this->_mageModel->getRequest()->setRequestUri('core/index/index');
+        Mage::app()->getCacheInstance()->banUse('config');
+        $request = new Magento_Test_Request();
+        $request->setRequestUri('core/index/index');
+        $this->_mageModel->setRequest($request);
         $this->_mageModel->run(array());
-        $this->assertTrue($this->_mageModel->getRequest()->isDispatched());
+        $this->assertTrue($request->isDispatched());
     }
 
     public function testIsInstalled()

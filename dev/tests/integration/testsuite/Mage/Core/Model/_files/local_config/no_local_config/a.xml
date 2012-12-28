@@ -11,5 +11,13 @@
  */
 -->
 <root>
-    <a/>
+    <global>
+        <resources>
+            <core_setup>
+                <connection>
+                    <model>a</model>
+                </connection>
+            </core_setup>
+        </resources>
+    </global>
 </root>

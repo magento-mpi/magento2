@@ -11,5 +11,13 @@
  */
 -->
 <root>
-    <value>custom</value>
+    <global>
+        <resources>
+            <core_setup>
+                <connection>
+                    <model>custom</model>
+                </connection>
+            </core_setup>
+        </resources>
+    </global>
 </root>

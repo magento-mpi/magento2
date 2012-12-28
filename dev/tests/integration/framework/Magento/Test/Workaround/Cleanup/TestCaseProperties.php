@@ -10,9 +10,9 @@
  */
 
 /**
- * Clear test method properties, it isn't needed to unset properties manually in tearDown() anymore
+ * Automatic cleanup of test case's properties, it isn't needed to unset properties manually in tearDown() anymore
  */
-class Magento_Test_ClearProperties
+class Magento_Test_Workaround_Cleanup_TestCaseProperties
 {
     /**
      * Clear test method properties after each test suite

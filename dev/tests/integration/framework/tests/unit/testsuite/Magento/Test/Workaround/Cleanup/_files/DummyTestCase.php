@@ -9,14 +9,16 @@
  * @license     {license_link}
  */
 
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'Stub.php';
-
-class Magento_Test_ClearProperties_DummyTestCase extends PHPUnit_Framework_TestCase
+class Magento_Test_Workaround_Cleanup_DummyTestCase extends PHPUnit_Framework_TestCase
 {
     /**
      * @var string
      */
     public $testPublic;
+
+    /**
+     * @var string
+     */
     private $_testPrivate;
 
     /**
@@ -45,7 +47,7 @@ class Magento_Test_ClearProperties_DummyTestCase extends PHPUnit_Framework_TestC
     protected $_testPropertyArray;
 
     /**
-     * @var mixed
+     * @var object
      */
     protected $_testPropertyObject;
 
@@ -53,7 +55,15 @@ class Magento_Test_ClearProperties_DummyTestCase extends PHPUnit_Framework_TestC
      * @var string
      */
     static public $testPublicStatic;
+
+    /**
+     * @var string
+     */
     static protected $_testProtectedStatic;
+
+    /**
+     * @var string
+     */
     static private $_testPrivateStatic;
 
     public function testDummy()
@@ -65,9 +75,18 @@ class Magento_Test_ClearProperties_DummyTestCase extends PHPUnit_Framework_TestC
         $this->_testPropertyFloat = 1.97;
         $this->_testPropertyString = 'string';
         $this->_testPropertyArray = array('test', 20);
-        $this->_testPropertyObject = new Magento_Test_ClearProperties_Stub();
         self::$testPublicStatic = 'static public';
         self::$_testProtectedStatic = 'static protected';
         self::$_testPrivateStatic = 'static private';
+    }
+
+    /**
+     * Assign value to the object property
+     *
+     * @param object $object
+     */
+    public function setPropertyObject($object)
+    {
+        $this->_testPropertyObject = $object;
     }
 }
