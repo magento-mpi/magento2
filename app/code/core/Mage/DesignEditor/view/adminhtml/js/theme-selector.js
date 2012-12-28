@@ -185,7 +185,7 @@
             }
 
             var historyObject = $(this.options.frameSelector).get(0).contentWindow.vdeHistoryObject;
-            if (historyObject.getItems().length != 0) {
+            if (historyObject && historyObject.getItems().length != 0) {
                 data.layoutUpdate = this._preparePostItems(historyObject.getItems());
                 var frameUrl = $(this.options.frameSelector).attr('src');
                 data.handle = frameUrl.split('handle')[1].replace(/\//g, '');
@@ -204,7 +204,6 @@
                     ].join('/');
                     this.options.storesByThemes[themeId] = stores;
 
-                    setTimeout(function() {$('body').loader('show');}, 500);
                     document.location = url;
                 }
             }, this)).error(function() {

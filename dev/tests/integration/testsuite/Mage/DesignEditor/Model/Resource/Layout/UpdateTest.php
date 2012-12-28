@@ -53,4 +53,24 @@ class Mage_DesignEditor_Model_Resource_Layout_UpdateTest extends PHPUnit_Framewo
         $result = $resourceLayoutUpdate->fetchUpdatesByHandle('test_handle');
         $this->assertEquals('not_temporarytemporary', $result);
     }
+
+    /**
+     * @magentoDataFixture Mage/Core/_files/layout_update.php
+     */
+    public function testMakeTemporaryLayoutUpdatesPermanent()
+    {
+        /** @var $coreLayoutUpdate Mage_Core_Model_Resource_Layout_Update */
+        $coreLayoutUpdate = $this->_objectManager->create('Mage_Core_Model_Resource_Layout_Update');
+        $resultBefore = $coreLayoutUpdate->fetchUpdatesByHandle('test_handle');
+        $this->assertEquals('not_temporary', $resultBefore);
+
+        /** @var $vdeLayoutUpdate Mage_DesignEditor_Model_Resource_Layout_Update */
+        $vdeLayoutUpdate = $this->_objectManager->create('Mage_DesignEditor_Model_Resource_Layout_Update');
+        $vdeLayoutUpdate->makeTemporaryLayoutUpdatesPermanent($this->_design->getDesignTheme()->getThemeId(),
+            array(Mage_Core_Model_App::ADMIN_STORE_ID)
+        );
+
+        $resultAfter = $coreLayoutUpdate->fetchUpdatesByHandle('test_handle');
+        $this->assertEquals('not_temporarytemporary', $resultAfter);
+    }
 }

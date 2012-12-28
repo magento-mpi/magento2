@@ -15,6 +15,7 @@
  * @method string getThemeCode()
  * @method string getPackageCode()
  * @method string getThemePath()
+ * @method string getThemeTitle() getThemeTitle()
  * @method string getParentThemePath()
  * @method string getPreviewImage()
  * @method string getThemeDirectory()
