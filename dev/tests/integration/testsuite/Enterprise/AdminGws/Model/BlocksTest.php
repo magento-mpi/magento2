@@ -82,20 +82,6 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
     /**
      * @magentoDataFixture Enterprise/AdminGws/_files/role_websites_login.php
      */
-    public function testBackendUserRoleIndexContainsGwsBlock()
-    {
-        $this->dispatch('backend/admin/user_role/index');
-
-        $this->assertInstanceOf(
-            'Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role',
-            Mage::app()->getLayout()->getBlock('adminhtml.user.role.grid'),
-            'Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role block is not loaded'
-        );
-    }
-
-    /**
-     * @magentoDataFixture Enterprise/AdminGws/_files/role_websites_login.php
-     */
     public function testBackendUserRoleEditRoleGridContainsGwsBlock()
     {
         $this->dispatch('backend/admin/user_role/editrolegrid');
