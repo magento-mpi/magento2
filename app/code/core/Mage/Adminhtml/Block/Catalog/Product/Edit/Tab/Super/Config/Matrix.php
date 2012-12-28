@@ -175,7 +175,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
      * @param string $code
      * @return string
      */
-    public function getAttributeClases($code)
+    public function getAttributeClassName($code)
     {
         /** @var $config Mage_Catalog_Model_Config */
         $config = Mage::getSingleton('Mage_Catalog_Model_Config');

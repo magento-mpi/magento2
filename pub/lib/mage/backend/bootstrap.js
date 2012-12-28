@@ -52,9 +52,13 @@ jQuery(function ($) {
          */
         complete: function(jqXHR) {
             if (jqXHR.readyState === 4) {
-                var jsonObject = jQuery.parseJSON(jqXHR.responseText);
-                if (jsonObject.ajaxExpired && jsonObject.ajaxRedirect) {
-                    window.location.replace(jsonObject.ajaxRedirect);
+                try {
+                    var jsonObject = jQuery.parseJSON(jqXHR.responseText);
+                    if (jsonObject.ajaxExpired && jsonObject.ajaxRedirect) {
+                        window.location.replace(jsonObject.ajaxRedirect);
+                    }
+                } catch (e) {
+
                 }
             }
         }

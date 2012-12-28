@@ -18,19 +18,19 @@ $productByUsedAttributes = $this->getUsedProducts();
 <table cellspacing="0">
     <thead>
     <tr class="headings">
-        <th width="180" class="name <?php echo $this->getAttributeClases('name'); ?>">
+        <th width="180" class="name <?php echo $this->getAttributeClassName('name'); ?>">
             <?php echo $this->__('Product Name'); ?>
         </th>
         <th width="180">
             <?php echo $this->__('Price'); ?> <span class="required">*</span>
         </th>
-        <th width="220" class="sku <?php echo $this->getAttributeClases('sku'); ?>">
-             <?php echo $this->__('SKU'); ?> <span class="required">*</span>
+        <th width="220" class="sku <?php echo $this->getAttributeClassName('sku'); ?>">
+             <?php echo $this->__('SKU'); ?>
         </th>
-        <th width="180" class="qty <?php echo $this->getAttributeClases('qty'); ?>">
+        <th width="180" class="qty">
             <?php echo $this->__('Quantity'); ?>
         </th>
-        <th width="180" class="weight <?php echo $this->getAttributeClases('weight'); ?>">
+        <th width="180" class="weight <?php echo $this->getAttributeClassName('weight'); ?>">
             <?php echo $this->__('Weight'); ?>
         </th>
         <?php
@@ -101,7 +101,7 @@ $productByUsedAttributes = $this->getUsedProducts();
                     <input id="variations-matrix-<?php echo $key?>-name"
                         name="variations-matrix[<?php echo $key?>][name]"
                         value="<?php echo $this->escapeHtml($this->_getProduct()->getName()), '-', implode('-', $attributeLabels)?>"
-                        class="<?php echo $this->getAttributeClases('name'); ?>"<?php echo $disabled?>/>
+                        class="<?php echo $this->getAttributeClassName('name'); ?>"<?php echo $disabled?>/>
                     <input type="hidden" name="variations-matrix[<?php echo $key?>][configurable_attribute]"
                         value="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"<?php echo $disabled?>/>
                 </td>
@@ -112,7 +112,7 @@ $productByUsedAttributes = $this->getUsedProducts();
                     <input id="variations-matrix-<?php echo $key?>-sku"
                         name="variations-matrix[<?php echo $key?>][sku]"
                         value="<?php echo $this->escapeHtml($this->_getProduct()->getSku()), '-', implode('-', $attributeLabels)?>"
-                        class="<?php echo $this->getAttributeClases('sku'); ?>"<?php echo $disabled?>/>
+                        class="<?php echo $this->getAttributeClassName('sku'); ?>"<?php echo $disabled?>/>
                     <button class="choose-product"
                         data-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"
                         style="float:right">
@@ -128,7 +128,7 @@ $productByUsedAttributes = $this->getUsedProducts();
                 <td class="associated-matrix-product-weight">
                     <input id="variations-matrix-<?php echo $key?>-weight"
                         name="variations-matrix[<?php echo $key?>][weight]"
-                        class="<?php echo $this->getAttributeClases('weight'); ?>"
+                        class="<?php echo $this->getAttributeClassName('weight'); ?>"
                         value="<?php echo $this->_getProduct()->getWeight()?>"<?php echo $disabled?>>
                 </td>
                 <td><?php echo implode('</td><td>', $attributeLabels)?></td>

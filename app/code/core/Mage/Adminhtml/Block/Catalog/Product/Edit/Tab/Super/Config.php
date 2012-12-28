@@ -114,10 +114,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
             ));
         }
 
-
         $this->addChild(
             'generate',
-            'Mage_Adminhtml_Block_Widget_Button',
+            'Mage_Backend_Block_Widget_Button',
             array(
                 'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Generate Variations'),
                 'data_attr' => array(
@@ -125,7 +124,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
                         'event' => 'generate',
                         'related' => '#product-variations-matrix',
                         'eventData' => array(
-                            'url' => $this->getUrl('*/*/variationMatrix'),
+                            'url' => $this->getUrl('*/*/variationsMatrix'),
                         ),
                     ),
                 ),

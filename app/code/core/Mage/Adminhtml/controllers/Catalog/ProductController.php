@@ -323,10 +323,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     }
 
     /**
-     * Get variation matrix block
+     * Get variations matrix block
      *
      */
-    public function variationMatrixAction()
+    public function variationsMatrixAction()
     {
         $this->_initProduct();
         $this->loadLayout();

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 (function($) {
-    $.widget("mage.variationAttributes", {
+    $.widget("mage.variationsAttributes", {
         //Set up the widget
         _create: function () {
             this.element.sortable({
