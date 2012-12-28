@@ -87,7 +87,7 @@
                         case keyCode.NUMPAD_ENTER:
                             if (this.container.is(':visible')) {
                                 this._proxyEvents(event);
-                                this.container.empty().css("display", "none");
+                                this.container.empty().hide();
                             }
                             break;
                     }
@@ -107,11 +107,14 @@
                             break;
                         case keyCode.ENTER:
                         case keyCode.NUMPAD_ENTER:
-                            if (!this.container.is(':visible')) {
+                            if (this.container.is(':hidden')) {
                                 this._submitAction(event);
                             }
                             break;
                         default:
+                            if (this.container.is(':hidden')) {
+                                this.container.show();
+                            }
                             this.search();
                     }
                 }
@@ -235,7 +238,8 @@
     $.widget('mage.suggest', $.mage.suggest, {
         options: {
             showRecent: true,
-            storageKey: 'suggest'
+            storageKey: 'suggest',
+            storageLimit: 10
         },
 
         /**
@@ -244,8 +248,8 @@
          */
         _create: function() {
             if (this.options.showRecent && window.localStorage) {
-                var data = localStorage.getItem(this.options.storageKey);
-                this.recentData = JSON.parse(data) || [];
+                var recentData = JSON.parse(localStorage.getItem(this.options.storageKey));
+                this.recentData = $.isArray(recentData) ? recentData : [];
             }
             this._super();
         },
@@ -265,7 +269,7 @@
             });
             this._on(this.container, {
                 menuselect: function(e, ui) {
-                    this._addRecent(ui.item.text());
+                    this._addRecent(ui.item.data('item-data'));
                 }
             });
         },
@@ -275,9 +279,12 @@
          * @param val
          * @private
          */
-        _addRecent: function(val) {
-            this.recentData.push({label: val, value:val});
-            //localStorage.setItem(this.options.storageKey, null);
+        _addRecent: function(data) {
+            this.recentData = $.grep(this.recentData, function(obj){
+                return obj.value !== data.value;
+            });
+            this.recentData.unshift(data);
+            this.recentData = this.recentData.slice(0, this.options.storageLimit);
             localStorage.setItem(this.options.storageKey, JSON.stringify(this.recentData));
         }
 
