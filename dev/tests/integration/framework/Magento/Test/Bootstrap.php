@@ -48,6 +48,13 @@ class Magento_Test_Bootstrap
     protected $_magentoDir;
 
     /**
+     * Root directory of the Magento integration tests
+     *
+     * @var string
+     */
+    protected $_testsDir;
+
+    /**
      * Application *.xml configuration files
      *
      * @var array
@@ -157,27 +164,31 @@ class Magento_Test_Bootstrap
     /**
      * Initialize DB configuration, db vendor and install dir
      *
-     * @param string $magentoDir
-     * @param string $localXmlFile
-     * @param string $globalEtcFiles
-     * @param string $moduleEtcFiles
-     * @param string $customXmlFile
-     * @param string $tmpDir
+     * @param $magentoDir
+     * @param $testsDir
+     * @param $localXmlFile
+     * @param $globalEtcFiles
+     * @param $moduleEtcFiles
+     * @param $customXmlFile
+     * @param $tmpDir
      * @param Magento_Shell $shell
      * @param bool $isCleanupEnabled
      * @param bool $isDeveloperMode
      * @throws Magento_Exception
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        $magentoDir, $localXmlFile, $globalEtcFiles, $moduleEtcFiles, $customXmlFile, $tmpDir,
+        $magentoDir, $testsDir, $localXmlFile, $globalEtcFiles, $moduleEtcFiles, $customXmlFile, $tmpDir,
         Magento_Shell $shell, $isCleanupEnabled = true, $isDeveloperMode = false
     ) {
-        $this->_magentoDir = $magentoDir;
-        $this->_localXmlFile = $localXmlFile;
+        $this->_magentoDir     = $magentoDir;
+        $this->_testsDir       = $testsDir;
+        $this->_localXmlFile   = $localXmlFile;
         $this->_globalEtcFiles = $this->_exposeFiles($globalEtcFiles);
         $this->_moduleEtcFiles = $this->_exposeFiles($moduleEtcFiles);
-        $this->_customXmlFile = $customXmlFile;
-        $this->_tmpDir = $tmpDir;
+        $this->_customXmlFile  = $customXmlFile;
+        $this->_tmpDir         = $tmpDir;
 
         $this->_readLocalXml();
         $this->_verifyDirectories();
@@ -567,5 +578,15 @@ class Magento_Test_Bootstrap
     public function getTmpDir()
     {
         return $this->_tmpDir;
+    }
+
+    /**
+     * Returns path to integration tests root directory
+     *
+     * @return string
+     */
+    public function getTestsDir()
+    {
+        return $this->_testsDir;
     }
 }

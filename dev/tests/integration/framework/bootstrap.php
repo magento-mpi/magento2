@@ -99,6 +99,7 @@ Mage::initializeObjectManager(null, new Magento_Test_ObjectManager());
 /* Bootstrap the application */
 Magento_Test_Bootstrap::setInstance(new Magento_Test_Bootstrap(
     $magentoBaseDir,
+    $testsBaseDir,
     $localXmlFile,
     $globalEtcFiles,
     $moduleEtcFiles,
