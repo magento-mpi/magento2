@@ -34,10 +34,10 @@ class Mage_Core_Model_Resource_Layout_Link_Collection extends Mage_Core_Model_Re
         if (!$this->getFlag($flagName)) {
             $this->getSelect()
                 ->join(
-                array('update' => 'core_layout_update'),
-                'update.layout_update_id = main_table.layout_update_id',
-                array($fields)
-            );
+                    array('update' => $this->getTable('core_layout_update')),
+                    'update.layout_update_id = main_table.layout_update_id',
+                    array($fields)
+                );
             $this->setFlag($flagName, true);
         }
 
