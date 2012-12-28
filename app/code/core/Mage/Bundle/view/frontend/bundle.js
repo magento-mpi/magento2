@@ -32,10 +32,11 @@
             $(this.options.bundleConfig.defaultValues).each(function(key, ele) {
                 if (this.options.optionConfig.options[ele].isMulti) {
                     var selected = [];
-                    $(config.defaultValues[ele]).each(function(k, e) {
-                        selected.push(this.options.bundleConfig.defaultValues[ele]);
+                    $(this.options.bundleConfig.defaultValues[ele]).each(function(k, e) {
+                        selected.push(this.options.bundleConfig.defaultValues[e]);
                     });
-                    this.options.bundleConfig.selected[option] = selected;
+                    var parts = ele.attr('id').split('-');
+                    this.options.bundleConfig.selected[parts[2]] = selected;
                 } else {
                     this.options.bundleConfig.selected[ele] = [this.options.bundleConfig.defaultValues[ele]];
                 }
@@ -113,13 +114,7 @@
 
         reloadPrice: function() {
             if (this.options.bundleConfig) {
-                var priceSelectors = [
-                        '#product-price-' + this.options.bundleConfig.bundleId,
-                        '#bundle-price-' + this.options.bundleConfig.bundleId,
-                        '#price-including-tax-' + this.options.bundleConfig.bundleId,
-                        '#price-excluding-tax-' + this.options.bundleConfig.bundleId
-                    ],
-                    optionPrice = {
+                var optionPrice = {
                         excludeTax: 0,
                         includeTax: 0,
                         price: 0,
@@ -147,7 +142,7 @@
                 }, this));
 
                 // Loop through each priceSelector and update price
-                $.each(priceSelectors, $.proxy(function(index, value) {
+                $.each(this.options.priceSelectors, $.proxy(function(index, value) {
                     var priceElement = $(value),
                         clone = $(value + "_clone");
                     var isClone = false;
@@ -183,16 +178,16 @@
             var config = this.options.bundleConfig;
             var configOption = config.options[optionId];
             if (configOption.selections[selectionId].customQty == 1 && !configOption.isMulti) {
-                if ($('#bundle-option-' + optionId + '-qty-input')) {
-                    qty = $('#bundle-option-' + optionId + '-qty-input').val();
+                if ($(this.options.bundleOptionQtyPrefix + optionId + this.options.bundleOptionQtySuffix)) {
+                    qty = $(this.options.bundleOptionQtyPrefix + optionId + this.options.bundleOptionQtySuffix).val();
                 } else {
                     qty = 1;
                 }
             } else {
                 qty = configOption.selections[selectionId].qty;
             }
-            var price;
-            var tierPrice;
+            var price, tierPrice;
+            var selection = configOption.selections[selectionId];
             if (config.priceType === '0') {
                 price = configOption.selections[selectionId].price;
                 tierPrice = configOption.selections[selectionId].tierPrice;
@@ -202,7 +197,7 @@
                     }
                 });
             } else {
-                var selection = configOption.selections[selectionId];
+
                 if (selection.priceType === '0') {
                     price = selection.priceValue;
                 } else {
@@ -214,12 +209,9 @@
                 configOption.selections[selectionId].minusDisposition;
 
             if (config.specialPrice) {
-                var newPrice = (price * config.specialPrice) / 100;
-                newPrice = (Math.round(newPrice * 100) / 100).toString();
-                price = Math.min(newPrice, price);
+                price = Math.min((Math.round(price * config.specialPrice) / 100), price);
             }
 
-            var selection = configOption.selections[selectionId];
             var priceInclTax;
 
             if (selection.priceInclTax !== undefined) {
@@ -234,10 +226,9 @@
         },
 
         populateQty: function(optionId, selectionId) {
-            if (selectionId === '' || selectionId === 'none') {
+            if (selectionId === '' || selectionId === 'none' || selectionId === undefined) {
                 this.showQtyInput(optionId, '0', false);
-            }
-            if (this.options.optionConfig.options[optionId].selections[selectionId].customQty === 1) {
+            } else if (this.options.optionConfig.options[optionId].selections[selectionId].customQty === 1) {
                 this.showQtyInput(optionId, this.options.optionConfig.options[optionId].selections[selectionId].qty, true);
             } else {
                 this.showQtyInput(optionId, this.options.optionConfig.options[optionId].selections[selectionId].qty, false);
@@ -247,30 +238,11 @@
         showQtyInput: function(optionId, value, canEdit) {
             var ele = $('#bundle-option-' + optionId + '-qty-input');
             ele.val(value);
-            ele.disabled = !canEdit;
+            ele.attr('disabled', !canEdit);
             if (canEdit) {
                 ele.removeClass('qty-disabled');
             } else {
                 ele.addClass('qty-disabled');
-            }
-        },
-
-        changeOptionQty: function(element, event) {
-            var checkQty = true;
-            if (typeof(event) != 'undefined') {
-                if (event.keyCode == 8 || event.keyCode == 46) {
-                    checkQty = false;
-                }
-            }
-            if (checkQty && (Number(element.value) == 0 || isNaN(Number(element.value)))) {
-                element.value = 1;
-            }
-            var parts = element.attr('id').split('-');
-            var optionId = parts[2];
-            if (!this.options.optionConfig.options[optionId].isMulti) {
-                var selectionId = this.options.optionConfig.options[optionId][0];
-                this.options.optionConfig.options[optionId].selections[selectionId].qty = element.value * 1;
-                this.reloadPrice();
             }
         }
     });
