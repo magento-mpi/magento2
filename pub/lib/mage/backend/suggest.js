@@ -10,6 +10,9 @@
 
 (function($) {
     'use strict';
+    /**
+     * Implement base functionality
+     */
     $.widget('mage.suggest', {
         options: {
             template: '#menuTemplate',
@@ -287,6 +290,20 @@
             this.recentData = this.recentData.slice(0, this.options.storageLimit);
             localStorage.setItem(this.options.storageKey, JSON.stringify(this.recentData));
         }
-
     });
+
+    /**
+     * Implement show all functionality
+     */
+    $.widget('mage.suggest', $.mage.suggest, {
+        _bind: function() {
+            this._super();
+            this._on(this.container, {
+                showAll: function() {
+                    this._search('', this._renderData);
+                }
+            });
+        }
+    });
+
 })(jQuery);
