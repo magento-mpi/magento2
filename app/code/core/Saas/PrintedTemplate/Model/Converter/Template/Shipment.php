@@ -24,7 +24,7 @@ class Saas_PrintedTemplate_Model_Converter_Template_Shipment extends Saas_Printe
      *     Saas_PrintedTemplate_Model_Template $template
      *     Mage_Sales_Model_Order_Shipment $shipment
      */
-    public function __construct(array $args)
+    public function __construct(array $data)
     {
         // Check arguments
         if (isset($data['template']) && $data['template'] instanceof Saas_PrintedTemplate_Model_Template
@@ -33,7 +33,7 @@ class Saas_PrintedTemplate_Model_Converter_Template_Shipment extends Saas_Printe
             $template = $data['template'];
             $shipment = $data['model'];
         } else {
-            throw new InvalidArgumentException('The constructor\'s arguments are incorrect.');
+            throw new InvalidArgumentException("The constructor's arguments are incorrect.");
         }
 
         // Loading data that template can require

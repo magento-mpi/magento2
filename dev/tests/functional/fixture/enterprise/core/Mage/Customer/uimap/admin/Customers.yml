@@ -268,9 +268,11 @@ manage_reward_rates:
                               search: //button[span='Search']
                           fields:
                               reward_id: //input[@id='rewardRatesGrid_filter_rate_id']
+                              page: //input[@name='page']
                           dropdowns:
                               website: //select[@id='rewardRatesGrid_filter_website_id']
                               customer_group: //select[@id='rewardRatesGrid_filter_customer_group_id']
+                              view_on_page: //select[@name='limit']
                           pageelements:
                               reward_point_grid_head: //div[@id='rewardRatesGrid']//thead/tr[@class='headings']
         buttons:

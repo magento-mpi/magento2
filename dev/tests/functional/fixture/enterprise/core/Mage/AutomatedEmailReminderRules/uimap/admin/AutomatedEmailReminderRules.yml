@@ -32,7 +32,8 @@ manage_automated_email_reminder_rules:
                             filter_date_expire_to: //input[@name='to_date[to]']
                             page: //input[@name='page']
                         dropdowns:
-                            filter_status: //*[@id='reminderGrid_filter_is_active']
+                            filter_status: //select[@id='reminderGrid_filter_is_active']
+                            filter_website: //select[@id='reminderGrid_filter_rule_website']
                             view_per_page: //select[@name='limit']
 
         buttons:

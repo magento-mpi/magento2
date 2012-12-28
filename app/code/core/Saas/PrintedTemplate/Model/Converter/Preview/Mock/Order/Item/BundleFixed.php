@@ -27,6 +27,8 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleFixed e
      */
     protected function _construct()
     {
+        parent::_construct();
+
         $this->_helper = Mage::helper('Saas_PrintedTemplate_Helper_Data');
         $this->setData($this->_getMockData());
 
