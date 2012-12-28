@@ -72,6 +72,7 @@
                 },
 
                 drawerClose: function() {
+                    window.location.hash = '';
                     var bodyHeight = $('body').outerHeight();
 
                     options.drawerFooter.animate({
@@ -112,11 +113,11 @@
                 },
 
                 drawerAfterSave: function(result, status) {
+                    window.location.hash = '';
                     if (result.success) {
                         //Complete class should be added by condition for specified tile
                         $('#article-' + result.tile_code).before(result.tile_content).remove();
-                        $('.drawer-open')
-                            .on('click', methods.setButtonHandler);
+                        $('.drawer-open').on('click', methods.setButtonHandler);
                         handleLaunchStoreButton();
                         methods.drawerClose();
                     } else {
@@ -127,36 +128,50 @@
                 },
 
                 setButtonHandler: function() {
-                    var elem = $(this),
-                        tileCode = elem
-                            .attr('data-drawer')
-                            .replace('open-drawer-', '');
+                    try {
+                        var hashString = $(this).parent().parent().attr('id');
+                        window.location.hash = hashString.replace('article-', '');
+                    } catch(err) {
+                        return false;
+                    }
+                    return true;
+                },
 
-                    var postData = {
-                        form_key: FORM_KEY,
-                        tileCode: tileCode
-                    };
-                    var ajaxOptions = {
-                        type: 'POST',
-                        data: postData,
-                        dataType: 'json',
-                        url: elem.attr('data-load-url'),
-                        success: methods.drawerAfterLoad
-                    };
-                    $.ajax(ajaxOptions);
+                handleHash: function() {
+                    if (window.location.hash == '') {
+                        methods.drawerClose();
+                        return false;
+                    }
+                    try {
+                        var hashString = window.location.hash;
+                        hashString = hashString.replace('#', '');
+                        var $elem = $('#article-' + hashString + ' .drawer-open'),
+                            tileCode = $elem.attr('data-drawer').replace('open-drawer-', '');
 
-                    $('.footer-inner .button-save-settins').attr('tile-code', tileCode);
-                    $('.footer-inner .button-save-settins').attr('data-save-url', elem.attr('data-save-url'));
+                        var postData = {
+                            form_key: FORM_KEY,
+                            tileCode: tileCode
+                        };
+                        var ajaxOptions = {
+                            type: 'POST',
+                            data: postData,
+                            dataType: 'json',
+                            url: $elem.attr('data-load-url'),
+                            success: methods.drawerAfterLoad
+                        };
+                        $.ajax(ajaxOptions);
 
-                    return false;
+                        $('.footer-inner .button-save-settins').attr('tile-code', tileCode);
+                        $('.footer-inner .button-save-settins').attr('data-save-url', $elem.attr('data-save-url'));
+                    } catch(err) {
+                        return false;
+                    }
                 }
             };
 
-            options.btnOpenDrawer
-                .on('click.openDrawer', methods.setButtonHandler);
+            options.btnOpenDrawer.on('click.openDrawer', methods.setButtonHandler);
 
-            options.btnCloseDrawer
-                .on('click.closeDrawer', methods.drawerClose);
+            options.btnCloseDrawer.on('click.closeDrawer', methods.drawerClose);
 
             options.btnSaveDrawer
                 .on('click.saveSettings', function () {
@@ -185,6 +200,10 @@
                 methods.drawerFixedHeader();
             });
 
+            $(window).hashchange( methods.handleHash );
+
+            methods.handleHash();
+
             return {
                 options: options,
                 open: methods.drawerOpen,
@@ -200,7 +219,6 @@
          */
         var isPageComplete = function () {
             var completeSteps = $('#store-launcher').eq(0).find('.sl-step-complete').length;
-
             return completeSteps == $('#store-launcher article').size();
         }
 
@@ -215,6 +233,5 @@
                 launchStoreButton.addClass('hidden');
             }
         }
-
     });
 })(window.jQuery);

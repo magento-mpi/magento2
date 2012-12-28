@@ -38,6 +38,7 @@
             <action method="addJs"><file>jquery/editableMultiselect/js/jquery.editable.js</file></action>
             <action method="addJs"><file>jquery/editableMultiselect/js/jquery.multiselect.js</file></action>
             <action method="addJs"><file>mage/backend/editablemultiselect.js</file></action>
+            <action method="addJs"><file>jquery/jquery.ba-hashchange.min.js</file></action>
             <action method="addCss"><file>jquery/editableMultiselect/css/jquery.multiselect.css</file></action>
             <action method="addCss"><file>Mage_Core::prototype/magento.css</file></action>
 
@@ -116,6 +117,7 @@
         <reference name="head">
             <action method="addCss"><file>Mage_Launcher::page/launcher.css</file></action>
             <action method="addJs"><file>Mage_Launcher::page/launcher.js</file></action>
+            <action method="addJs"><file>jquery/jquery.ba-hashchange.min.js</file></action>
         </reference>
         <reference name="content">
             <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Page" name="promotestore.page" template="page/promotestore/promotestore.phtml" />
