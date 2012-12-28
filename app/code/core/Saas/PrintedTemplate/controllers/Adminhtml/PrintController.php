@@ -22,7 +22,7 @@ class Saas_PrintedTemplate_Adminhtml_PrintController extends Mage_Adminhtml_Cont
      */
     public function entityAction()
     {
-        $type = uc_words($this->getRequest()->getParam('type'));
+        $type = $this->getRequest()->getParam('type');
         $id = $this->getRequest()->getParam('id');
 
         if (!$id || !$type) {
@@ -31,7 +31,7 @@ class Saas_PrintedTemplate_Adminhtml_PrintController extends Mage_Adminhtml_Cont
         }
 
         try {
-            $entity = Mage::getModel("Mage_Sales_Model_Order_$type");
+            $entity = Mage::getModel(uc_words("Mage_Sales_Model_Order_$type"));
             if (!$entity) {
                 Mage::throwException($this->__('Cannot load %s entity; please reload page and try again.', $type));
             }
@@ -64,20 +64,20 @@ class Saas_PrintedTemplate_Adminhtml_PrintController extends Mage_Adminhtml_Cont
      */
     public function entitiesAction()
     {
-        $type = uc_words($this->getRequest()->getParam('type'));
+        $type = $this->getRequest()->getParam('type');
         $ids = $this->getRequest()->getPost($type . '_ids');
         $orderIds = $this->getRequest()->getPost('order_ids');
 
         if (
             !($ids || $orderIds) || !$type
-            || !in_array(strtolower($type), array('invoice', 'creditmemo', 'shipment'))
+            || !in_array($type, array('invoice', 'creditmemo', 'shipment'))
         ) {
             $this->_getSession()->addError($this->__('Please select entities to print.'));
             $this->_redirectReferer();
             return;
         }
 
-        $entity = Mage::getModel("Mage_Sales_Model_Order_$type");
+        $entity = Mage::getModel(uc_words("Mage_Sales_Model_Order_$type"));
         if (!$entity) {
             Mage::throwException($this->__('Cannot load %s entity; please reload page and try again.', $type));
         }
