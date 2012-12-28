@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Saas
- * @package     Saas_UnitPrice
+ * @package     Saas_PrintedTemplate
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -70,9 +70,11 @@ class Saas_Mage_Printedtemplate_Helper extends Mage_Selenium_AbstractHelper
             )
         );
         $this->fillForm($templateName);
-        $this->clickButton('save_template');
+        $this->clickButton('save_template',false);
+        $this->waitForAjax();
         $this->waitForPageToLoad();
-        $this->assertMessagePresent('success', 'success_saved_template');
+        $this->setCurrentPage('printed_templates');
+        $this->elementIsPresent('success_saved_template');
 
         return $templateName['template_name'];
     }
@@ -87,19 +89,19 @@ class Saas_Mage_Printedtemplate_Helper extends Mage_Selenium_AbstractHelper
         $this->navigate('printed_templates');
         //search in templates grid
         $searchData = array('filter_template_name' => $templateName);
-        $this->addParameter('templateName', $templateName);
         $this->fillForm($searchData);
         $this->clickButton('search');
+        $this->addParameter('templateName', $templateName);
         $xPath = $this->_getControlXpath('pageelement', 'grid_item');
 
         if ($expectedResult == false) {
             $this->assertFalse(
-                $this->isElementPresent($xPath),
+                $this->elementIsPresent($xPath),
                 "Template is present in templates grid, but it shouldn't."
             );
         }
         else {
-            $this->assertTrue($this->isElementPresent($xPath), "Template is not found in templates grid.");
+            $this->assertTrue($this->elementIsPresent($xPath), "Template is not found in templates grid.");
         }
     }
 }

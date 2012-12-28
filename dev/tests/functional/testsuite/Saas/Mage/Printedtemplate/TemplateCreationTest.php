@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Saas
- * @package     Saas_UnitPrice
+ * @package     Saas_PrintedTemplate
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -69,8 +69,8 @@ class Saas_Mage_Printedtemplate_TemplateCreationTest
     {
         return array(
             array('Invoice'),
-//            array('Credit Memo'),
-//            array('Shipment')
+            array('Credit Memo'),
+            array('Shipment')
         );
     }
 }

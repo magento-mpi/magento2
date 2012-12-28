@@ -35,7 +35,7 @@ printed_templates:
             fieldsets:
                 -
                     templates_grid:
-                        xpath: //div[@id='page:main-container']/div[2]
+                        xpath: //div[@id='page:main-container']
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
