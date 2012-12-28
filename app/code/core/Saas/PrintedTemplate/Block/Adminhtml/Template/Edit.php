@@ -17,13 +17,28 @@
  */
 class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Mage_Backend_Block_Widget
 {
+    const MODULE_NAME = 'Saas_PrintedTemplate';
+
     /**
      * Internal constructor, that is called from real constructor
      */
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('Saas_PrintedTemplate::edit.phtml');
+        $this->setTemplate(self::MODULE_NAME . '::edit.phtml');
+    }
+
+    /**
+     * Get url for file from module view directory
+     *
+     * @param string $path
+     * @return string
+     */
+    protected function _getViewFileUrl($path)
+    {
+        return Mage::getDesign()->getViewFileUrl(
+            sprintf('%s::%s', self::MODULE_NAME, $path)
+        );
     }
 
     /**

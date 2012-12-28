@@ -27,11 +27,13 @@ manage_gift_registry:
                             search: //button[span='Search']
                         dropdowns:
                             status: //select[@id='giftregistryGrid_filter_is_listed']
+                            view_per_page: //select[@name="limit"]
                         fields:
                             id: //input[@id='giftregistryGrid_filter_type_id']
                             code: //input[@id='giftregistryGrid_filter_code']
                             label: //input[@id='giftregistryGrid_filter_label']
                             sort_order: //input[@id='giftregistryGrid_filter_sort_order']
+                            page: //input[@name='page']
                         links:
                             select_by_label: //table[@id="giftregistryGrid_table"]//td[normalize-space(text())='%label%']
         buttons:

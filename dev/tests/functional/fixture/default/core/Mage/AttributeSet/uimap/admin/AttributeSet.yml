@@ -26,6 +26,9 @@ manage_attribute_sets:
                             search: //button[span='Search']
                         fields:
                             set_name: //input[@name='set_name']
+                            page: //input[@name='page']
+                        dropdowns:
+                            view_on_page: //select[@name='limit']
 
         buttons:
             add_new_set: //button[span='Add New Set' or span='Add New']
