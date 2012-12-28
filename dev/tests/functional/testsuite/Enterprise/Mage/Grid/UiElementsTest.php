@@ -42,6 +42,7 @@ class Enterprice_Mage_Grid_UiElementsTest extends Core_Mage_Grid_UiElementsTest
             array('permissions_locked_users'),
             array('manage_stores'),
             array('report_review_product'),
+            array('manage_catalog_events'),
         );
     }
 }
