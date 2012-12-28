@@ -40,7 +40,7 @@ class Saas_PrintedTemplate_Block_Widget_Item_Renderer_Bundle_Column_Name
      */
     public function getValueHtml($item)
     {
-        $parentBlock = $this->getParentBlock();
+        $parentBlock = $this->getItemsGridBlock();
         $result = strip_tags($item->getName());
         if (!$parentBlock->isShipmentSeparately($item)) {
             $attributes = $parentBlock->getSelectionAttributes($item);

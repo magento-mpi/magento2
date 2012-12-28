@@ -174,7 +174,7 @@ class Saas_PrintedTemplate_Block_Widget_ItemsGrid extends Saas_PrintedTemplate_B
     {
         $productType = $item->getOrderItem()->getProductType();
         return $this->_getRenderer($productType)
-            ->setParentBlock($this)
+            ->setItemsGridBlock($this)
             ->setItem($item)
             ->setColumns($this->getColumns())
             ->toHtml();
