@@ -90,7 +90,7 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_Collection
     {
         $this->join(
             'sales_flat_invoice',
-            'main_table.order_id = `sales_invoice`.order_id AND `sales_flat_invoice`.shipping_amount > 0.00001',
+            'main_table.order_id = `sales_flat_invoice`.order_id AND `sales_flat_invoice`.shipping_amount > 0.00001',
             array(
                 'row_total'      => 'shipping_amount',
                 'base_row_total' => 'base_shipping_amount',
@@ -106,7 +106,7 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_Collection
                 'base_discount_amount' => 'base_shipping_discount_amount',
             )
         );
-        $this->addFieldToFilter('`sales_flat_invoice`.entity_id', $invoice->getId());
+        $this->addFieldToFilter('sales_flat_invoice.entity_id', $invoice->getId());
 
         return $this;
     }
