@@ -25,9 +25,11 @@ class Mage_Backend_Model_Config_MenuTest extends PHPUnit_Framework_TestCase
         $this->_configMock->expects($this->any())
             ->method('getModuleDir')
             ->with('etc', 'Mage_Backend')
-            ->will($this->returnValue(
-                realpath(__DIR__ . '../../../../../../../../../../app/code/core/Mage/Backend/etc'))
-        );
+            ->will(
+                $this->returnValue(
+                    realpath(__DIR__ . '/../../../../../../../../../app/code/core/Mage/Backend/etc')
+                )
+            );
     }
 
     protected function tearDown()
