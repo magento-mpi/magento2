@@ -45,7 +45,7 @@ class Mage_Install_Model_Installer extends Varien_Object
     /**
      * Get data model
      *
-     * @return Varien_Object
+     * @return Mage_Install_Model_Session
      */
     public function getDataModel()
     {

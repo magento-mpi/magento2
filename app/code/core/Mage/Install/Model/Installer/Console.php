@@ -75,7 +75,13 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
         $this->_getInstaller()->setDataModel($this->_getDataModel());
     }
 
-    protected function _buildInitParams($args)
+    /**
+     * Customize application init parameters
+     *
+     * @param array $args
+     * @return array
+     */
+    protected function _buildInitParams(array $args)
     {
         $result = array();
         if (!empty($args[self::OPTION_URIS])) {

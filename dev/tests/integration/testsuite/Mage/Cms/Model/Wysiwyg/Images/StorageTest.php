@@ -49,4 +49,13 @@ class Mage_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_TestCa
             return;
         }
     }
+
+    public function testGetThumbsPath()
+    {
+        $model = new Mage_Cms_Model_Wysiwyg_Images_Storage;
+        $this->assertStringStartsWith(
+            realpath(Magento_Test_Bootstrap::getInstance()->getInstallDir()),
+            $model->getThumbsPath()
+        );
+    }
 }

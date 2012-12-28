@@ -31,6 +31,14 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
         $this->_model = null;
     }
 
+    public function testPrepareCacheId()
+    {
+        $this->assertStringStartsWith(
+            Enterprise_PageCache_Model_Processor::REQUEST_ID_PREFIX,
+            $this->_model->prepareCacheId('test')
+        );
+    }
+
     public function testIsAllowedHttps()
     {
         $this->assertTrue($this->_model->isAllowed());

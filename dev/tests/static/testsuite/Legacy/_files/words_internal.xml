@@ -17,6 +17,8 @@
         <word>Magento_Autoload::</word>
         <word>Mage_Core_Utility_Theme</word>
         <word>@group module:</word>
+        <word>base_public_url</word>
+        <word>secure_public_url}}js/</word>
     </words>
     <whitelist>
         <item>

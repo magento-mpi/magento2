@@ -26,11 +26,29 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
      */
     protected $_localConfigFile;
 
+    /**
+     * @var Mage_Core_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * @var Mage_Core_Model_Dir
+     */
+    protected $_dirs;
+
     protected $_configData = array();
 
-    public function __construct()
+    /**
+     * Inject dependencies on config and directories
+     *
+     * @param Mage_Core_Model_Config $config
+     * @param Mage_Core_Model_Dir $dirs
+     */
+    public function __construct(Mage_Core_Model_Config $config, Mage_Core_Model_Dir $dirs)
     {
-        $this->_localConfigFile = Mage::getBaseDir('etc') . DS . 'local.xml';
+        $this->_localConfigFile = $dirs->getDir(Mage_Core_Model_Dir::CONFIG) . DIRECTORY_SEPARATOR . 'local.xml';
+        $this->_dirs = $dirs;
+        $this->_config = $config;
     }
 
     public function setConfigData($data)
@@ -46,17 +64,18 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
         return $this->_configData;
     }
 
+    /**
+     * Generate installation data and record them into local.xml using local.xml.template
+     */
     public function install()
     {
         $data = $this->getConfigData();
 
-        /** @var $dirs Mage_Core_Model_Dir */
-        $dirs = Mage::getObjectManager()->get('Mage_Core_Model_Dir');
         $defaults = array(
-            'root_dir' => $dirs->getDir(Mage_Core_Model_Dir::ROOT),
-            'app_dir'  => $dirs->getDir(Mage_Core_Model_Dir::APP),
-            'var_dir'  => $dirs->getDir(Mage_Core_Model_Dir::VAR_DIR),
-            'base_url' => Mage::getModel('Mage_Core_Model_Config')->getDistroBaseUrl(),
+            'root_dir' => $this->_dirs->getDir(Mage_Core_Model_Dir::ROOT),
+            'app_dir'  => $this->_dirs->getDir(Mage_Core_Model_Dir::APP),
+            'var_dir'  => $this->_dirs->getDir(Mage_Core_Model_Dir::VAR_DIR),
+            'base_url' => $this->_config->getDistroBaseUrl(),
         );
         foreach ($defaults as $index => $value) {
             if (!isset($data[$index])) {
@@ -93,11 +112,12 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
 
         $this->_getInstaller()->getDataModel()->setConfigData($data);
 
-        $template = file_get_contents(Mage::getBaseDir('etc') . DS . 'local.xml.template');
+        $contents = $this->_dirs->getDir(Mage_Core_Model_Dir::CONFIG) . DIRECTORY_SEPARATOR . 'local.xml.template';
+        $contents = file_get_contents($contents);
         foreach ($data as $index => $value) {
-            $template = str_replace('{{' . $index . '}}', '<![CDATA[' . $value . ']]>', $template);
+            $contents = str_replace('{{' . $index . '}}', '<![CDATA[' . $value . ']]>', $contents);
         }
-        file_put_contents($this->_localConfigFile, $template);
+        file_put_contents($this->_localConfigFile, $contents);
         chmod($this->_localConfigFile, 0777);
     }
 
@@ -113,7 +133,7 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
             $baseSecureUrl = $uri->getUri();
         }
 
-        $connectDefault = Mage::getConfig()
+        $connectDefault = $this->_config
                 ->getResourceConnectionConfig(Mage_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
 
         $data = new Varien_Object();

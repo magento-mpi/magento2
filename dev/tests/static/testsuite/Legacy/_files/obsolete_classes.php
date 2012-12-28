@@ -530,6 +530,7 @@ return array(
     $this->_getClassRule('Mage_Core_Block_Template_Zend'),
     $this->_getClassRule('Mage_Core_Controller_Varien_Router_Admin', 'Mage_Backend_Controller_Router_Default'),
     $this->_getClassRule('Mage_Core_Model_Convert'),
+    $this->_getClassRule('Mage_Core_Model_Config_Options'),
     $this->_getClassRule('Mage_Core_Model_Config_System'),
     $this->_getClassRule('Mage_Core_Model_Design_Source_Apply'),
     $this->_getClassRule('Mage_Core_Model_Language'),

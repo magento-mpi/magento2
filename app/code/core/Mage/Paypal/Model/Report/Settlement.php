@@ -178,18 +178,11 @@ class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
      * Goes to specified host/path and fetches reports from there.
      * Save reports to database.
      *
-     * @param array $config SFTP credentials
+     * @param Varien_Io_Sftp $connection
      * @return int Number of report rows that were fetched and saved successfully
      */
-    public function fetchAndSave($config)
+    public function fetchAndSave(Varien_Io_Sftp $connection)
     {
-        $connection = new Varien_Io_Sftp();
-        $connection->open(array(
-            'host'     => $config['hostname'],
-            'username' => $config['username'],
-            'password' => $config['password']
-        ));
-        $connection->cd($config['path']);
         $fetched = 0;
         $listing = $this->_filterReportsList($connection->rawls());
         foreach ($listing as $filename => $attributes) {
@@ -230,6 +223,30 @@ class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
             }
         }
         return $fetched;
+    }
+
+    /**
+     * Connect to an SFTP server using specified configuration
+     *
+     * @param array $config
+     * @return Varien_Io_Sftp
+     * @throws InvalidArgumentException
+     */
+    public static function createConnection(array $config)
+    {
+        if (!isset($config['hostname']) || !isset($config['username'])
+            || !isset($config['password']) || !isset($config['path'])
+        ) {
+            throw new InvalidArgumentException('Required config elements: hostname, username, password, path');
+        }
+        $connection = new Varien_Io_Sftp();
+        $connection->open(array(
+            'host'     => $config['hostname'],
+            'username' => $config['username'],
+            'password' => $config['password']
+        ));
+        $connection->cd($config['path']);
+        return $connection;
     }
 
     /**
