@@ -172,3 +172,26 @@ newsletter_problem_reports:
     mca: newsletter_problem/
     click_xpath: //div[@class='nav-bar']//a[span='Newsletter Problem Reports']
     title: Newsletter Problems / Newsletter / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    newsletter_problem_reports:
+                        xpath: //div[@id="problemGrid"]
+                        fields:
+                            page: //input[@name="page"]
+                            id: //input[@id="problemGrid_filter_problem_id"]
+                            subscriber: //input[@id="problemGrid_filter_subscriber"]
+                            queue_date_start: //input[@name="queue_start[from]"]
+                            queue_date_to: //input[@name="queue_start[to]"]
+                            queue_subject: //input[@name="queue"]
+                            error_code_from: //input[@id="problemGrid_filter_problem_code_from"]
+                            qerror_code_to: //input[@id="problemGrid_filter_problem_code_to"]
+                            error_text: //input[@id="problemGrid_filter_problem_text"]
+                        dropdowns:
+                            view: //select[@name="limit"]
+                        checkboxes:
+                            mass_actions: //thead/tr[2]/th[1]/input
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
