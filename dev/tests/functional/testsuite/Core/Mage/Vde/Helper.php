@@ -103,4 +103,30 @@ class Core_Mage_Vde_Helper extends Mage_Selenium_AbstractHelper
             }
         }
     }
+
+    /**
+     * Open theme demo by theme id. By default opens first theme is the list
+     *
+     * @param int|null $id
+     */
+    public function openThemeDemo($id = null)
+    {
+        $themeContainerXpath = $this->_getControlXpath('pageelement', 'theme_list_elements');
+        $demoButtonXpath = $this->_getControlXpath('button', 'preview_demo_button');
+        if ($id) {
+            $themeContainerXpath .= "[@id='theme-id-" . $id . "']";
+            $demoButtonXpath = "//li[@id='theme-id-" . $id . "']" . $demoButtonXpath;
+        } else {
+            $themeContainerXpath .= '[1]';
+        }
+        $this->waitForElement($themeContainerXpath);
+        $this->getElement($themeContainerXpath)->click();
+        $this->getElement($demoButtonXpath)->click();
+        $this->waitForPageToLoad();
+        if (!$id) {
+            $id = $this->defineIdFromUrl();
+        }
+        $this->addParameter('themeId', $id);
+        $this->validatePage();
+    }
 }
