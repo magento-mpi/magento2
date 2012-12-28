@@ -20,7 +20,7 @@
             /**
              * @type {(string|Array)}
              */
-            source: 'http://testsuggest.lo/suggest.php',
+            source: null,
             events: {},
             appendTo: 'after',
             control: ':ui-menu'
@@ -63,7 +63,15 @@
          * @private
          */
         _submitAction: function(event) {
+            var container = this.container;
             event.preventDefault();
+            if(container.is(':visible')) {
+                this._proxyEvents(event);
+                // To minimize reflow counts - hide first
+                container.hide().empty();
+            } else {
+                this.element.trigger(event.originalEvent);
+            }
         },
 
         /**
@@ -71,9 +79,9 @@
          * @private
          */
         _bind: function() {
+            var keyCode = $.ui.keyCode;
             this._on($.extend({
                 keydown: function(event) {
-                    var keyCode = $.ui.keyCode;
                     switch (event.keyCode) {
                         case keyCode.HOME:
                         case keyCode.END:
@@ -88,31 +96,7 @@
                             break;
                         case keyCode.ENTER:
                         case keyCode.NUMPAD_ENTER:
-                            if (this.container.is(':visible')) {
-                                this._proxyEvents(event);
-                                this.container.empty().hide();
-                            }
-                            break;
-                    }
-                },
-                keyup: function(event) {
-                    var keyCode = $.ui.keyCode;
-                    switch (event.keyCode) {
-                        case keyCode.HOME:
-                        case keyCode.END:
-                        case keyCode.PAGE_UP:
-                        case keyCode.PAGE_DOWN:
-                        case keyCode.ESCAPE:
-                        case keyCode.UP:
-                        case keyCode.DOWN:
-                        case keyCode.LEFT:
-                        case keyCode.RIGHT:
-                            break;
-                        case keyCode.ENTER:
-                        case keyCode.NUMPAD_ENTER:
-                            if (this.container.is(':hidden')) {
-                                this._submitAction(event);
-                            }
+                            this._submitAction(event);
                             break;
                         default:
                             if (this.container.is(':hidden')) {
