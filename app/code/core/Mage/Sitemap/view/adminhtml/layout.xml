@@ -83,7 +83,7 @@
                             <filter>0</filter>
                             <sortable>0</sortable>
                             <width>100px</width>
-                            <type>Mage_Adminhtml_Block_Sitemap_Grid_Renderer_Action</type>
+                            <renderer>Mage_Adminhtml_Block_Sitemap_Grid_Renderer_Action</renderer>
                         </arguments>
                     </block>
                 </block>

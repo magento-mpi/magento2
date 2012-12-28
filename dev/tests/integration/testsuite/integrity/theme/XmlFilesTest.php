@@ -17,7 +17,7 @@ class Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCase
      */
     public function testViewConfigFile($file)
     {
-        $this->_validateConfigFile($file, Mage::getBaseDir('lib') . '/Magento/Config/view.xsd');
+        $this->_validateConfigFile($file, Mage::getBaseDir('lib') . '/Magento/Config/etc/view.xsd');
     }
 
     /**
@@ -59,7 +59,7 @@ class Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCase
      */
     public function testThemeConfigFileSchema($file)
     {
-        $this->_validateConfigFile($file, Mage::getBaseDir('lib') . '/Magento/Config/theme.xsd');
+        $this->_validateConfigFile($file, Mage::getBaseDir('lib') . '/Magento/Config/etc/theme.xsd');
     }
 
     /**

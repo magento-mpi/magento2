@@ -21,7 +21,7 @@ class Magento_Config_View extends Magento_Config_XmlAbstract
      */
     public function getSchemaFile()
     {
-        return __DIR__ . '/view.xsd';
+        return __DIR__ . '/etc/view.xsd';
     }
 
     /**
