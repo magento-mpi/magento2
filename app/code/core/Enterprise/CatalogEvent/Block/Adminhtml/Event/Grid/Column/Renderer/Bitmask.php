@@ -15,7 +15,6 @@
  * @category   Enterprise
  * @package    Enterprise_CatalogEvent
  */
-
 class Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid_Column_Renderer_Bitmask
     extends Mage_Backend_Block_Widget_Grid_Column_Renderer_Text
 {
