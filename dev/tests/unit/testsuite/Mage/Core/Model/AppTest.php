@@ -53,4 +53,17 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         ));
         $this->assertTrue($this->_model->isInstalled());
     }
+
+    /**
+     * @expectedException Magento_Exception
+     * @expectedExceptionMessage Application is not installed yet, please complete the installation first.
+     */
+    public function testRequireInstalledInstance()
+    {
+        $this->_model->baseInit(array(
+            Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA
+                => sprintf(Mage_Core_Model_Config::CONFIG_TEMPLATE_INSTALL_DATE, 'invalid')
+        ));
+        $this->_model->requireInstalledInstance();
+    }
 }

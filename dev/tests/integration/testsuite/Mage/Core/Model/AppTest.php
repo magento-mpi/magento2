@@ -77,20 +77,6 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->_mageModel->isInstalled());
     }
 
-    /**
-     * @magentoAppIsolation enabled
-     * @expectedException Magento_Exception
-     * @expectedExceptionMessage Application is not installed yet, please complete the installation first.
-     */
-    public function testRequireInstalledInstance()
-    {
-        $this->_mageModel->baseInit(array(
-            Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA
-                => sprintf(Mage_Core_Model_Config::CONFIG_TEMPLATE_INSTALL_DATE, 'invalid')
-        ));
-        $this->_mageModel->requireInstalledInstance();
-    }
-
     public function testGetCookie()
     {
         $this->assertInstanceOf('Mage_Core_Model_Cookie', $this->_model->getCookie());
