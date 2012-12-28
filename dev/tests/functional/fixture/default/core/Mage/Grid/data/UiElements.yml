@@ -430,3 +430,35 @@ report_review_product:
             4: Avg. Approved Rating
             5: Last Review
             6: Action
+
+#dataset for ui elements for Newsletter Queue grid
+newsletter_queue:
+    fieldset:
+        newsletter_queue: tablename
+    button:
+         reset_filter:
+         search:
+    field:
+        page:
+        filter_queue_id:
+        filter_queue_start_from:
+        filter_queue_start_to:
+        filter_queue_finish_from:
+        filter_queue_finish_to:
+        filter_queue_subject:
+        filter_queue_processed_from:
+        filter_queue_processed_to:
+        filter_queue_recipients_from:
+        filter_queue_recipients_to:
+    dropdown:
+        view_per_page:
+        queue_status:
+    headers:
+        0: ID
+        1: Queue Start
+        2: Queue Finish
+        3: Subject
+        4: Status
+        5: Processed
+        6: Recipients
+        7: Action
