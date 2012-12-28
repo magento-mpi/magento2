@@ -5,7 +5,8 @@
 * Moved `Mage_Adminhtml_Utility_Controller` to `Backend` and changed all child classes
 * Changes in Profiler system:
   * Created separate component for handling Profiler Driver selection logic
-  * Extended profile start calls with tags as second argument
+  * Extended `Magento_Profiler::start()` calls with tags as second argument
+* Bug fix - Added additional validation into `Mage_Adminhtml_Catalog_CategoryController` to prevent saving new category with any id using firebug
 
 2.0.0.0-dev36
 =============
