@@ -32,8 +32,9 @@
          */
         _create: function() {
             this._setTemplate();
-            this.container = $('<div/>');
-            this.element[this.options.appendTo](this.container);
+            this.element.attr('autocomplete', 'off');
+            this.dropdown = $('<div/>');
+            this.element[this.options.appendTo](this.dropdown);
             this._bind();
         },
 
@@ -52,7 +53,7 @@
          * @private
          */
         _proxyEvents: function(event) {
-            this.container
+            this.dropdown
                 .find(this.options.control)
                 .triggerHandler(event);
         },
@@ -79,19 +80,27 @@
                         case keyCode.END:
                         case keyCode.PAGE_UP:
                         case keyCode.PAGE_DOWN:
-                        case keyCode.ESCAPE:
                         case keyCode.UP:
                         case keyCode.DOWN:
                         case keyCode.LEFT:
                         case keyCode.RIGHT:
                             this._proxyEvents(event);
                             break;
+                        case keyCode.TAB:
+                            if (this.isDropdownShown()) {
+                                this._enterCurrentValue();
+                                event.preventDefault();
+                            }
+                            break;
                         case keyCode.ENTER:
                         case keyCode.NUMPAD_ENTER:
-                            if (this.container.is(':visible')) {
+                            if (this.isDropdownShown()) {
                                 this._proxyEvents(event);
-                                this.container.empty().hide();
+                                event.preventDefault();
                             }
+                            break;
+                        case keyCode.ESCAPE:
+                            this._hideDropdown();
                             break;
                     }
                 },
@@ -110,24 +119,56 @@
                             break;
                         case keyCode.ENTER:
                         case keyCode.NUMPAD_ENTER:
-                            if (this.container.is(':hidden')) {
+                            if (!this.isDropdownShown()) {
                                 this._submitAction(event);
+                            } else {
+                                event.preventDefault();
                             }
                             break;
                         default:
-                            if (this.container.is(':hidden')) {
-                                this.container.show();
-                            }
                             this.search();
                     }
                 }
             }, this.options.events));
 
-            this._on(this.container, {
+            this._on(this.dropdown, {
                 menufocus: function(e, ui) {
                     this.element.val(ui.item.text());
-                }
+                },
+                menuselect: this._enterCurrentValue
             });
+        },
+
+        _enterCurrentValue: function() {
+            this.term = this._value();
+            this._hideDropdown();
+        },
+
+        /**
+         * Check if dropdown is shown
+         * @return {boolean}
+         */
+        isDropdownShown: function() {
+            return this.dropdown.is(':visible');
+        },
+
+        /**
+         * Open dropdown
+         * @private
+         */
+        _showDropdown: function() {
+            if (!this.isDropdownShown()) {
+                this.dropdown.show();
+            }
+        },
+
+        /**
+         * Close and clear dropdown content
+         * @private
+         */
+        _hideDropdown: function() {
+            this.element.val(this.term);
+            this.dropdown.hide().empty();
         },
 
         /**
@@ -169,8 +210,9 @@
          * @private
          */
         _renderData: function(data) {
-            $.tmpl(this.template, {data: data}).appendTo(this.container.empty());
-            this.container.trigger('contentUpdated');
+            this._showDropdown();
+            $.tmpl(this.template, {data: data}).appendTo(this.dropdown.empty());
+            this.dropdown.trigger('contentUpdated');
         },
 
         /**
@@ -270,7 +312,7 @@
                     }
                 }
             });
-            this._on(this.container, {
+            this._on(this.dropdown, {
                 menuselect: function(e, ui) {
                     this._addRecent(ui.item.data('item-data'));
                 }
@@ -298,7 +340,7 @@
     $.widget('mage.suggest', $.mage.suggest, {
         _bind: function() {
             this._super();
-            this._on(this.container, {
+            this._on(this.dropdown, {
                 showAll: function() {
                     this._search('', this._renderData);
                 }
