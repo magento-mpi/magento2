@@ -31,7 +31,7 @@ class Mage_Webapi_Model_Authorization_Config_ReaderTest extends PHPUnit_Framewor
             ->method('getModuleDir')
             ->with('etc', 'Mage_Webapi')
             ->will($this->returnValue(
-                realpath(__DIR__ . '../../../../../../../../../../app/code/core/Mage/Webapi/etc'))
+                realpath(__DIR__ . '/../../../../../../../../../app/code/core/Mage/Webapi/etc'))
         );
 
         $this->_reader = new Mage_Webapi_Model_Authorization_Config_Reader($this->_configMock, array($path));
