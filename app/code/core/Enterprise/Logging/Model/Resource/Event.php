@@ -19,6 +19,24 @@
 class Enterprise_Logging_Model_Resource_Event extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
+     * @var Magento_Filesystem
+     */
+    protected $_filesystem;
+
+    /**
+     * Class constructor
+     *
+     * @param Mage_Core_Model_Resource $resource
+     * @param Magento_Filesystem $filesystem
+     * @throws InvalidArgumentException
+     */
+    public function __construct(Mage_Core_Model_Resource $resource, Magento_Filesystem $filesystem)
+    {
+        parent::__construct($resource);
+        $this->_filesystem = $filesystem;
+    }
+
+    /**
      * Initialize resource
      *
      */
@@ -45,47 +63,45 @@ class Enterprise_Logging_Model_Resource_Event extends Mage_Core_Model_Resource_D
      */
     public function rotate($lifetime)
     {
-//        $this->beginTransaction();
-//        try {
-            $readAdapter  = $this->_getReadAdapter();
-            $writeAdapter = $this->_getWriteAdapter();
-            $table = $this->getTable('enterprise_logging_event');
+        $readAdapter  = $this->_getReadAdapter();
+        $writeAdapter = $this->_getWriteAdapter();
+        $table = $this->getTable('enterprise_logging_event');
 
-            // get the latest log entry required to the moment
-            $clearBefore = $this->formatDate(time() - $lifetime);
+        // get the latest log entry required to the moment
+        $clearBefore = $this->formatDate(time() - $lifetime);
 
+        $select = $readAdapter->select()
+            ->from($this->getMainTable(), 'log_id')
+            ->where('time < ?', $clearBefore)
+            ->order('log_id DESC')
+            ->limit(1);
+        $latestLogEntry = $readAdapter->fetchOne($select);
+        if ($latestLogEntry) {
+            // make sure folder for dump file will exist
+            /** @var Enterprise_Logging_Model_Archive $archive */
+            $archive = Mage::getModel('Enterprise_Logging_Model_Archive');
+            $archive->createNew();
+
+            $expr = Mage::getResourceHelper('Enterprise_Logging')->getInetNtoaExpr('ip');
             $select = $readAdapter->select()
-                ->from($this->getMainTable(), 'log_id')
-                ->where('time < ?', $clearBefore)
-                ->order('log_id DESC')
-                ->limit(1);
-            $latestLogEntry = $readAdapter->fetchOne($select);
-            if ($latestLogEntry) {
-                // make sure folder for dump file will exist
-                $archive = Mage::getModel('Enterprise_Logging_Model_Archive');
-                $archive->createNew();
+                ->from($this->getMainTable())
+                ->where('log_id <= ?', $latestLogEntry)
+                ->columns($expr);
 
-                $expr = Mage::getResourceHelper('Enterprise_Logging')->getInetNtoaExpr('ip');
-                $select = $readAdapter->select()
-                    ->from($this->getMainTable())
-                    ->where('log_id <= ?', $latestLogEntry)
-                    ->columns($expr);
+            $rows = $readAdapter->fetchAll($select);
 
-                $rows = $readAdapter->fetchAll($select);
-
-                // dump all records before this log entry into a CSV-file
-                $csv = fopen($archive->getFilename(), 'w');
-                foreach ($rows as $row) {
-                    fputcsv($csv, $row);
-                }
-                fclose($csv);
-
-                $writeAdapter->delete($this->getMainTable(), array('log_id <= ?' => $latestLogEntry));
-//                $this->commit();
+            $stream = $this->_filesystem->createAndOpenStream($archive->getFilename(), 'w');
+            if (!$stream->open()) {
+                throw Exception();
             }
-//        } catch (Exception $e) {
-//            $this->rollBack();
-//        }
+            // dump all records before this log entry into a CSV-file
+            foreach ($rows as $row) {
+                $stream->writeCsv($row);
+            }
+            $stream->close();
+
+            $writeAdapter->delete($this->getMainTable(), array('log_id <= ?' => $latestLogEntry));
+        }
     }
 
     /**

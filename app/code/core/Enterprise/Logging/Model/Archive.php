@@ -21,6 +21,19 @@ class Enterprise_Logging_Model_Archive extends Varien_Object
     protected $_file = '';
 
     /**
+     * @var Magento_Filesystem
+     */
+    protected $_filesystem;
+
+    /**
+     * @param Magento_Filesystem $fileSystem
+     */
+    public function __construct(Magento_Filesystem $fileSystem)
+    {
+        $this->_filesystem = $fileSystem;
+    }
+
+    /**
      * Storage base path getter
      *
      * @return string
@@ -55,7 +68,7 @@ class Enterprise_Logging_Model_Archive extends Varien_Object
             return $this;
         }
         $filename = $this->generateFilename($baseName);
-        if (!file_exists($filename)) {
+        if (!$this->_filesystem->isFile($filename)) {
             return $this;
         }
         $this->setBaseName($baseName);
@@ -92,7 +105,9 @@ class Enterprise_Logging_Model_Archive extends Varien_Object
     public function getContents()
     {
         if ($this->_file) {
-            return file_get_contents($this->_file);
+            return $this->_filesystem
+                ->setWorkingDirectory($this->getBasePath())
+                ->read($this->_file);
         }
         return '';
     }
@@ -123,13 +138,12 @@ class Enterprise_Logging_Model_Archive extends Varien_Object
             return false;
         }
 
-        $file = new Varien_Io_File();
         $filename = $this->generateFilename($baseName);
-        $file->setAllowCreateFolders(true)->createDestinationDir(dirname($filename));
-        unset($file);
-        if (!touch($filename)) {
-            return false;
-        }
+        $this->_filesystem
+            ->setWorkingDirectory($this->getBasePath())
+            ->setIsAllowCreateDirectories(true, 755)
+            ->touch($filename);
+
         $this->loadByBaseName($baseName);
         return true;
     }
