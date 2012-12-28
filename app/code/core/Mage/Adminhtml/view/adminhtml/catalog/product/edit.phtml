@@ -30,6 +30,7 @@
         <?php echo $this->getChangeAttributeSetButtonHtml() ?>
         <?php echo $this->getSaveButtonHtml() ?>
         <?php echo $this->getSaveAndEditButtonHtml() ?>
+        <?php echo $this->getSaveSplitButtonHtml(); ?>
     <?php endif; ?>
     </p>
 </div>
@@ -167,6 +168,25 @@ jQuery(function() {
 jQuery(function($) {
     var data = <?php echo $this->getTypeSwitcherData();?>;
     new TypeSwitcher(data).bindAll();
+});
+
+jQuery(function($) {
+    var $form = $('#product-edit-form'),
+        fieldSelector = 'input.required-entry:not([disabled]), select.required-entry:not([disabled]), textarea.required-entry:not([disabled])';
+    $form.on('change keyup', fieldSelector, function () {
+        var allowSave = true;
+        $.each($form.find(fieldSelector), function () {
+            if (!$(this).val()) {
+                allowSave = false;
+                return false;
+            }
+        });
+        if (allowSave) {
+            $('.widget-button-save').removeAttr('disabled');
+        } else {
+            $('.widget-button-save').attr('disabled', true);
+        }
+    });
 });
 
 //]]>

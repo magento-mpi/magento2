@@ -12,8 +12,10 @@
 /**
  * Template for Mage_Backend_Block_Widget_Button_Split
  */
+/** @var $_helper Mage_Core_Helper_Data */
+$_helper = $this->helper('Mage_Core_Helper_Data');
 ?>
-<div id="<?php echo $this->getId(); ?>" class="buttons-group widget-button-split">
+<button id="<?php echo $this->getId(); ?>" class="buttons-group widget-button-split <?php echo $this->getButtonClass() ?: '' ?>">
     <div id="<?php echo $this->getId(); ?>_main_control" class="main-control button <?php echo $this->getClass() ?: '' ?>"<?php echo $this->getUiId(); ?>>
         <span><?php echo $this->getLabel(); ?></span>
     </div>
@@ -21,7 +23,7 @@
     <ul class="dropdown-menu" <?php echo $this->getUiId("dropdown-menu"); ?>>
         <?php foreach ($this->getOptions() as $key => $option): ?>
         <li>
-            <span class="item<?php if ($option['default']):?> item-default<?php endif; ?>" onclick="<?php echo $option['onclick']?>", <?php echo $this->getUiId("item", $key)?>>
+            <span class="item<?php if (isset($option['default']) && $option['default']):?> item-default<?php endif; ?>"<?php echo isset($option['onclick']) ? 'onclick="' . $option['onclick'] . '"' : ''?><?php echo $this->getUiId("item", $key)?><?php echo isset($option['data_attr']) ? ' data-widget-button="' . $_helper->escapeHtml($_helper->jsonEncode($option['data_attr'])) . '"' : ''?>">
                 <?php echo $option['label']?>
             </span>
             <?php if (isset($option['hint'])): ?>
@@ -32,7 +34,7 @@
         </li>
         <?php endforeach; ?>
     </ul>
-</div>
+</button>
 <script type="text/javascript">
 (function($, window) {
     $(document).on('click.splitButtonToggle', '.widget-button-split .btn-toggle', function(e) {
