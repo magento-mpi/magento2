@@ -249,6 +249,46 @@ system_configuration:
                                     links:
                                         rma_settings_link: //parent::div//a[@id='sales_enterprise_rma-head']
                 -
+                    sales_pdf_print_outs:
+                        xpath: //a[contains(@href, 'edit/section/sales_pdf/')]
+                        fieldsets:
+                            -
+                                general:
+                                    xpath: //div/fieldset[legend='General']
+                                    links:
+                                        general_link: //a[text()='General']
+                                    dropdowns:
+                                        pdf_print_outs_enable: //select[@name='groups[general][fields][enable_printed_templates][value]']
+                            -
+                                invoice:
+                                    xpath: //div/fieldset[legend='Invoice']
+                                    links:
+                                        invoice_link: //a[text()='Invoice']
+                                    dropdowns:
+                                        invoice_display_order_id_in_header: //div/fieldset[legend='Invoice']//select[@name='groups[invoice][fields][put_order_id][value]' and contains(@class, 'select') and not(contains(@class, 'disabled'))]
+                                        invoice_display_order_id_in_header_disabled: //select[@name='groups[invoice][fields][put_order_id][value]' and @disabled]
+                                        invoice_printed_template: //select[@name='groups[invoice][fields][printed_template][value]']
+                            -
+                                shipment:
+                                    xpath: //div/fieldset[legend='Shipment']
+                                    links:
+                                        shipment_link: //a[text()='Shipment']
+                                    dropdowns:
+                                        shipment_display_order_id_in_header: //select[@name='groups[shipment][fields][put_order_id][value]' and contains(@class, 'select') and not(contains(@class, 'disabled'))]
+                                        shipment_display_order_id_in_header_disabled: //select[@name='groups[shipment][fields][put_order_id][value]' and @disabled]
+                                        shipment_printed_template: //select[@name='groups[shipment][fields][printed_template][value]']
+                            -
+                                credit_memo:
+                                    xpath: //div/fieldset[legend='Credit Memo']
+                                    links:
+                                        credit_memo_link: //a[text()='Credit Memo']
+                                    dropdowns:
+                                        credit_memo_display_order_id_in_header: //select[@name='groups[creditmemo][fields][put_order_id][value]']
+                                        credit_memo_display_order_id_in_header_disabled: //select[@name='groups[creditmemo][fields][put_order_id][value]' and @disabled]
+                                        credit_memo_printed_template: //select[@name='groups[creditmemo][fields][printed_template][value]']
+                                    checkboxes:
+                                        credit_memo_display_order_id_in_header_use_default: //input[@name='groups[creditmemo][fields][put_order_id][inherit]']
+                -
                     sales_tax:
                         fieldsets:
                             -
