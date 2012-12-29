@@ -85,7 +85,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         return array(
             'no local config file & no custom config file' => array(
                 'no_local_config',
-                array(Mage_Core_Model_Config::INIT_OPTION_EXTRA_FILE => ''),
+                array(),
                 'b',
             ),
             'no local config file & custom config file' => array(
@@ -100,7 +100,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
             ),
             'local config file & no custom config file' => array(
                 'local_config',
-                array(Mage_Core_Model_Config::INIT_OPTION_EXTRA_FILE => ''),
+                array(),
                 'local',
             ),
             'local config file & custom config file' => array(
@@ -108,12 +108,17 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
                 array(Mage_Core_Model_Config::INIT_OPTION_EXTRA_FILE => 'custom/local.xml'),
                 'custom',
             ),
-            'local config file & invalid custom config file' => array(
+            'local config file & prohibited custom config file' => array(
                 'local_config',
-                array(Mage_Core_Model_Config::INIT_OPTION_EXTRA_FILE => 'custom/invalid.pattern.xml'),
+                array(Mage_Core_Model_Config::INIT_OPTION_EXTRA_FILE => 'custom/prohibited.filename.xml'),
                 'local',
             ),
             'local config file & custom config data' => array(
+                'local_config',
+                array(Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA => $extraConfigData),
+                'overridden',
+            ),
+            'local config file & custom config file & custom config data' => array(
                 'local_config',
                 array(
                     Mage_Core_Model_Config::INIT_OPTION_EXTRA_FILE => 'custom/local.xml',

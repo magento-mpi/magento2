@@ -12,7 +12,7 @@
 /**
  * Test class for Magento_Test_Workaround_Cleanup_TestCaseProperties.
  */
-class Magento_Test_Workaround_Cleanup_TestPropertiesTest extends PHPUnit_Framework_TestCase
+class Magento_Test_Workaround_Cleanup_TestCasePropertiesTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var array
