@@ -544,11 +544,13 @@ class Saas_PrintedTemplate_Model_Template extends Mage_Core_Model_Template
 
         //$configSections = Mage::getSingleton('adminhtml/config')->getSections();
         $configSections = Mage::getConfig()
-            ->loadModulesConfiguration('system.xml')
+            ->loadModulesConfiguration('adminhtml/system.xml')
             ->applyExtends()
-            ->getNode('sections');
+            ->getNode('system');
 
-        $sysCfgNodes = $configSections->xpath(sprintf(self::XML_PATH_TEMPLATE_SYSTEM_CONFIG, $this->getEntityType()));
+        $sysCfgNodes = $configSections->xpath(
+            sprintf(self::XML_PATH_TEMPLATE_SYSTEM_CONFIG, ucfirst($this->getEntityType()))
+        );
         if (!is_array($sysCfgNodes)) {
             return array();
         }
