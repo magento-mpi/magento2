@@ -58,6 +58,18 @@ class Magento_Filesystem_Adapter_Local implements
     }
 
     /**
+     * Copy the file.
+     *
+     * @param string $source
+     * @param string $target
+     * @return bool
+     */
+    public function copy($source, $target)
+    {
+        return copy($source, $target);
+    }
+
+    /**
      * Deletes the file or directory recursively.
      *
      * @param string $key

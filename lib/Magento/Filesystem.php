@@ -35,7 +35,7 @@ class Magento_Filesystem
     public function __construct(Magento_Filesystem_AdapterInterface $adapter)
     {
         $this->_adapter = $adapter;
-        $this->setWorkingDirectory(self::getAbsolutePath(self::getPathFromArray(array(__DIR__, '..', '..'))));
+        $this->_workingDirectory = self::getAbsolutePath(self::getPathFromArray(array(__DIR__, '..', '..')));
     }
 
     /**
@@ -43,9 +43,13 @@ class Magento_Filesystem
      *
      * @param string $dir
      * @return Magento_Filesystem
+     * @throws InvalidArgumentException
      */
     public function setWorkingDirectory($dir)
     {
+        if (!$this->_adapter->isDirectory($dir)) {
+            throw new InvalidArgumentException(sprintf('Working directory "%s" does not exists', $dir));
+        }
         $this->_workingDirectory = $dir;
         return $this;
     }
@@ -124,6 +128,19 @@ class Magento_Filesystem
     }
 
     /**
+     * Copy the file.
+     *
+     * @param string $source
+     * @param string $target
+     * @return bool
+     */
+    public function copy($source, $target)
+    {
+        return $this->_adapter->copy($this->_getCheckedPath($source), $this->_getCheckedPath($target));
+    }
+
+
+    /**
      * Check if key is directory.
      *
      * @param string $key
@@ -176,7 +193,7 @@ class Magento_Filesystem
      */
     public function changePermissions($key, $permissions, $recursively = false)
     {
-        $this->_adapter->changePermissions($key, $permissions, $recursively);
+        $this->_adapter->changePermissions($this->_getCheckedPath($key), $permissions, $recursively);
     }
 
     /**
@@ -187,7 +204,7 @@ class Magento_Filesystem
      */
     public function getNestedKeys($key)
     {
-        return $this->_adapter->getNestedKeys($key);
+        return $this->_adapter->getNestedKeys($this->_getCheckedPath($key));
     }
 
     /**
@@ -198,9 +215,15 @@ class Magento_Filesystem
      */
     public function createDirectory($key, $permissions = 0777)
     {
-        $this->_adapter->createDirectory($key, $permissions);
+        $this->_adapter->createDirectory($this->_getCheckedPath($key), $permissions);
     }
 
+    /**
+     * Create directory if it does not exists.
+     *
+     * @param string $key
+     * @param int $permissions
+     */
     public function ensureDirectoryExists($key, $permissions = 0777)
     {
         if (!$this->isDirectory($key)) {
@@ -208,10 +231,16 @@ class Magento_Filesystem
         }
     }
 
+    /**
+     * Sets access and modification time of file.
+     *
+     * @param string $key
+     */
     public function touch($key)
     {
-        if (!$this->isDirectory(dirname($key)) && $this->_isAllowCreateDirs) {
-            $this->createDirectory(dirname($key), $this->_newDirPermissions);
+        $key = $this->_getCheckedPath($key);
+        if ($this->_isAllowCreateDirs) {
+            $this->ensureDirectoryExists(dirname($key), $this->_newDirPermissions);
         }
         $this->_adapter->touch($key);
     }
@@ -224,6 +253,7 @@ class Magento_Filesystem
      */
     public function createStream($key)
     {
+        $key = $this->_getCheckedPath($key);
         if ($this->_adapter instanceof Magento_Filesystem_Stream_FactoryInterface) {
             return $this->_adapter->createStream($key);
         }
@@ -240,18 +270,14 @@ class Magento_Filesystem
      */
     public function createAndOpenStream($key, $mode)
     {
-        if ($this->_adapter instanceof Magento_Filesystem_Stream_FactoryInterface) {
-            $result = $this->_adapter->createStream($key);
-        } else {
-            $result = new Magento_Filesystem_Stream_Memory($this, $key);
-        }
+        $stream = $this->createStream($key);
         if (is_string($mode)) {
             $mode = new Magento_Filesystem_Stream_Mode($mode);
         } elseif (!$mode instanceof Magento_Filesystem_Stream_Mode) {
             throw new InvalidArgumentException('Wrong mode parameter');
         }
-        $result->open($mode);
-        return $result;
+        $stream->open($mode);
+        return $stream;
     }
 
     /**
@@ -262,7 +288,7 @@ class Magento_Filesystem
      */
     public function createFile($key)
     {
-        return new Magento_Filesystem_File($key, $this);
+        return new Magento_Filesystem_File($this->_getCheckedPath($key), $this);
     }
 
     /**

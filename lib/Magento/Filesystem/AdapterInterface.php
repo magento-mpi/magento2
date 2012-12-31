@@ -44,6 +44,15 @@ interface Magento_Filesystem_AdapterInterface
     public function rename($source, $target);
 
     /**
+     * Copy the file.
+     *
+     * @param string $source
+     * @param string $target
+     * @return bool
+     */
+    public function copy($source, $target);
+
+    /**
      * Deletes the file or directory recursively.
      *
      * @param string $key
