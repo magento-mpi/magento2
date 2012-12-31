@@ -11,7 +11,6 @@
 
 /**
  * @magentoAppIsolation
- * @group integrity
  */
 class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_IntegrityAbstract
 {

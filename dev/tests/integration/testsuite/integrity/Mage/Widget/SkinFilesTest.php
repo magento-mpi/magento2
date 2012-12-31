@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group integrity
- */
 class Integrity_Mage_Widget_SkinFilesTest extends PHPUnit_Framework_TestCase
 {
     /**

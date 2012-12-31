@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_ImportExport
- */
 class Mage_ImportExport_Model_Export_Entity_ProductTest extends PHPUnit_Framework_TestCase
 {
     /**
