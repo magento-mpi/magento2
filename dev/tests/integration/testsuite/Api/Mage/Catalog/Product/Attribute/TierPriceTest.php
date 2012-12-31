@@ -46,7 +46,8 @@ class Mage_Catalog_Product_Attribute_TierPriceTest extends PHPUnit_Framework_Tes
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product');
 
-        $result = $this->call(
+        $result = Magento_Test_Helper_Api::call(
+            $this,
             'catalogProductAttributeTierPriceUpdate',
             array(
                 'productId' => $product->getId(),

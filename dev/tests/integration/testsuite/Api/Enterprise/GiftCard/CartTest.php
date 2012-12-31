@@ -81,7 +81,7 @@ class Enterprise_GiftCard_CartTest extends PHPUnit_Framework_TestCase
     public function testIncorrectDataAddException()
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_cart.xml');
-        $invalidData = Magento_Test_Helper_Api::simpleXmlToObject($fixture->invalid_create);
+        $invalidData = Magento_Test_Helper_Api::simpleXmlToArray($fixture->invalid_create);
         Magento_Test_Helper_Api::call($this, 'shoppingCartGiftcardAdd', (array)$invalidData);
     }
 
@@ -94,7 +94,7 @@ class Enterprise_GiftCard_CartTest extends PHPUnit_Framework_TestCase
     public function testIncorrectDataListException()
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_cart.xml');
-        $invalidData = Magento_Test_Helper_Api::simpleXmlToObject($fixture->invalid_list);
+        $invalidData = Magento_Test_Helper_Api::simpleXmlToArray($fixture->invalid_list);
         Magento_Test_Helper_Api::call($this, 'shoppingCartGiftcardList', (array)$invalidData);
     }
 
@@ -107,7 +107,7 @@ class Enterprise_GiftCard_CartTest extends PHPUnit_Framework_TestCase
     public function testIncorrectDataRemoveException()
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_cart.xml');
-        $invalidData = Magento_Test_Helper_Api::simpleXmlToObject($fixture->invalid_remove);
+        $invalidData = Magento_Test_Helper_Api::simpleXmlToArray($fixture->invalid_remove);
         Magento_Test_Helper_Api::call($this, 'shoppingCartGiftcardRemove', (array)$invalidData);
     }
 }

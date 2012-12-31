@@ -18,12 +18,13 @@ class Mage_Catalog_Product_CustomOptionValueCRUDTest extends PHPUnit_Framework_T
     public function testCustomOptionValueCRUD()
     {
         $valueFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOptionValue.xml');
-        $customOptionValues = Magento_Test_Helper_Api::simpleXmlToObject($valueFixture->CustomOptionValues);
+        $customOptionValues = Magento_Test_Helper_Api::simpleXmlToArray($valueFixture->CustomOptionValues);
 
         $store = (string)$valueFixture->store;
         $fixtureCustomOptionId = PHPUnit_Framework_TestCase::getFixture('customOptionId');
 
-        $createdOptionValuesBefore = $this->call(
+        $createdOptionValuesBefore = Magento_Test_Helper_Api::call(
+            $this,
             'catalogProductCustomOptionValueList',
             array(
                 'optionId' => $fixtureCustomOptionId
@@ -35,7 +36,8 @@ class Mage_Catalog_Product_CustomOptionValueCRUDTest extends PHPUnit_Framework_T
         // for wsi complexObjectArray
         $customOptionValuesData = array(reset($customOptionValues));
         // Add test
-        $addResult = $this->call(
+        $addResult = Magento_Test_Helper_Api::call(
+            $this,
             'catalogProductCustomOptionValueAdd',
             array(
                 'optionId' => $fixtureCustomOptionId,
@@ -46,7 +48,8 @@ class Mage_Catalog_Product_CustomOptionValueCRUDTest extends PHPUnit_Framework_T
         $this->assertTrue((bool)$addResult);
 
         // Get list test
-        $createdOptionValuesAfter = $this->call(
+        $createdOptionValuesAfter = Magento_Test_Helper_Api::call(
+            $this,
             'catalogProductCustomOptionValueList',
             array(
                 'optionId' => $fixtureCustomOptionId,
@@ -60,10 +63,13 @@ class Mage_Catalog_Product_CustomOptionValueCRUDTest extends PHPUnit_Framework_T
         $this->assertEquals($customOptionValues['value_1']['title'], self::$_lastAddedOption['title']);
 
         // Update & info tests
-        $customOptionValuesToUpdate = Magento_Test_Helper_Api::simpleXmlToObject($valueFixture->CustomOptionValuesToUpdate);
+        $customOptionValuesToUpdate = Magento_Test_Helper_Api::simpleXmlToArray(
+            $valueFixture->CustomOptionValuesToUpdate
+        );
         $toUpdateValues = $customOptionValuesToUpdate['value_1'];
 
-        $updateOptionValueResult = $this->call(
+        $updateOptionValueResult = Magento_Test_Helper_Api::call(
+            $this,
             'catalogProductCustomOptionValueUpdate',
             array(
                 'valueId' => self::$_lastAddedOption['value_id'],
@@ -72,7 +78,8 @@ class Mage_Catalog_Product_CustomOptionValueCRUDTest extends PHPUnit_Framework_T
         );
         $this->assertTrue((bool)$updateOptionValueResult);
 
-        $optionValueInfoAfterUpdate = $this->call(
+        $optionValueInfoAfterUpdate = Magento_Test_Helper_Api::call(
+            $this,
             'catalogProductCustomOptionValueInfo',
             array(
                 'valueId' => self::$_lastAddedOption['value_id']
@@ -95,10 +102,11 @@ class Mage_Catalog_Product_CustomOptionValueCRUDTest extends PHPUnit_Framework_T
     public function testCustomOptionValueAddExceptionInvalidOptionId()
     {
         $valueFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOptionValue.xml');
-        $customOptionValues = Magento_Test_Helper_Api::simpleXmlToObject($valueFixture->CustomOptionValues);
+        $customOptionValues = Magento_Test_Helper_Api::simpleXmlToArray($valueFixture->CustomOptionValues);
         // for wsi complexObjectArray
         $customOptionValuesData = array(reset($customOptionValues));
-        $this->call(
+        Magento_Test_Helper_Api::call(
+            $this,
             'catalogProductCustomOptionValueAdd',
             array(
                 'optionId' => 'invalid_id',
@@ -116,7 +124,7 @@ class Mage_Catalog_Product_CustomOptionValueCRUDTest extends PHPUnit_Framework_T
      */
     public function testCustomOptionValueListExceptionInvalidOptionId()
     {
-        $this->call('catalogProductCustomOptionValueList', array('optionId' => 'invalid_id'));
+        Magento_Test_Helper_Api::call($this, 'catalogProductCustomOptionValueList', array('optionId' => 'invalid_id'));
     }
 
     /**
@@ -128,9 +136,12 @@ class Mage_Catalog_Product_CustomOptionValueCRUDTest extends PHPUnit_Framework_T
     public function testCustomOptionValueUpdateExceptionValueId()
     {
         $valueFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOptionValue.xml');
-        $customOptionValuesToUpdate = Magento_Test_Helper_Api::simpleXmlToObject($valueFixture->CustomOptionValuesToUpdate);
+        $customOptionValuesToUpdate = Magento_Test_Helper_Api::simpleXmlToArray(
+            $valueFixture->CustomOptionValuesToUpdate
+        );
 
-        $this->call(
+        Magento_Test_Helper_Api::call(
+            $this,
             'catalogProductCustomOptionValueUpdate',
             array(
                 'valueId' => 'invalid_id',
@@ -148,10 +159,13 @@ class Mage_Catalog_Product_CustomOptionValueCRUDTest extends PHPUnit_Framework_T
     public function testCustomOptionValueUpdateExceptionTitle()
     {
         $valueFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOptionValue.xml');
-        $customOptionValuesToUpdate = Magento_Test_Helper_Api::simpleXmlToObject($valueFixture->CustomOptionValuesToUpdate);
+        $customOptionValuesToUpdate = Magento_Test_Helper_Api::simpleXmlToArray(
+            $valueFixture->CustomOptionValuesToUpdate
+        );
         $customOptionValuesToUpdate['value_1']['title'] = false;
 
-        $this->call(
+        Magento_Test_Helper_Api::call(
+            $this,
             'catalogProductCustomOptionValueUpdate',
             array(
                 'valueId' => self::$_lastAddedOption['value_id'],
@@ -168,7 +182,8 @@ class Mage_Catalog_Product_CustomOptionValueCRUDTest extends PHPUnit_Framework_T
     public function testCustomOptionValueRemove()
     {
         // Remove
-        $removeOptionValueResult = $this->call(
+        $removeOptionValueResult = Magento_Test_Helper_Api::call(
+            $this,
             'catalogProductCustomOptionValueRemove',
             array(
                 'valueId' => self::$_lastAddedOption['value_id']
@@ -178,6 +193,10 @@ class Mage_Catalog_Product_CustomOptionValueCRUDTest extends PHPUnit_Framework_T
 
         // Delete exception test
         $this->setExpectedException(self::DEFAULT_EXCEPTION, 'Option value with requested ID does not exist.');
-        $this->call('catalogProductCustomOptionValueRemove', array('valueId' => self::$_lastAddedOption['value_id']));
+        Magento_Test_Helper_Api::call(
+            $this,
+            'catalogProductCustomOptionValueRemove',
+            array('valueId' => self::$_lastAddedOption['value_id'])
+        );
     }
 }

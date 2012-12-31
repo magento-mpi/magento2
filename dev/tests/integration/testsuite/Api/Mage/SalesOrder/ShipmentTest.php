@@ -33,7 +33,8 @@ class SalesOrder_ShipmentTest extends SalesOrder_AbstractTest
         $id = $order->getIncrementId();
 
         // Create new shipment
-        $newShipmentId = $this->call(
+        $newShipmentId = Magento_Test_Helper_Api::call(
+            $this,
             'salesOrderShipmentCreate',
             array(
                 'orderIncrementId' => $id,
@@ -46,7 +47,8 @@ class SalesOrder_ShipmentTest extends SalesOrder_AbstractTest
         self::setFixture('shipmentIncrementId', $newShipmentId);
 
         // View new shipment
-        $shipment = $this->call(
+        $shipment = Magento_Test_Helper_Api::call(
+            $this,
             'sales_salesOrderShipmentInfo',
             array(
                 'shipmentIncrementId' => $newShipmentId
@@ -79,7 +81,8 @@ class SalesOrder_ShipmentTest extends SalesOrder_AbstractTest
         $this->_setIncrementIdPrefix('shipment', $prefix);
 
         // Create new shipment
-        $newShipmentId = $this->call(
+        $newShipmentId = Magento_Test_Helper_Api::call(
+            $this,
             'salesOrderShipmentCreate',
             array(
                 'orderIncrementId' => $id,
@@ -114,7 +117,8 @@ class SalesOrder_ShipmentTest extends SalesOrder_AbstractTest
         $id = $order->getIncrementId();
 
         // Create new shipment
-        $newShipmentId = $this->call(
+        $newShipmentId = Magento_Test_Helper_Api::call(
+            $this,
             'salesOrderShipmentCreate',
             array(
                 'orderIncrementId' => $id,
@@ -128,7 +132,8 @@ class SalesOrder_ShipmentTest extends SalesOrder_AbstractTest
         self::setFixture('shipmentIncrementId', $newShipmentId);
 
         // Send info
-        $isOk = $this->call(
+        $isOk = Magento_Test_Helper_Api::call(
+            $this,
             'salesOrderShipmentSendInfo',
             array(
                 'shipmentIncrementId' => $newShipmentId,

@@ -36,7 +36,12 @@ class Magento_Test_Helper_Api
         $handlerMock->expects($testCase->any())->method('_getSession')->will($testCase->returnValue($apiSessionMock));
 
         array_unshift($params, 'sessionId');
-        return call_user_func_array(array($handlerMock, $path), $params);
+        Mage::unregister('isSecureArea');
+        Mage::register('isSecureArea', true);
+        $result = call_user_func_array(array($handlerMock, $path), $params);
+        Mage::unregister('isSecureArea');
+        Mage::register('isSecureArea', false);
+        return $result;
     }
 
     /**
@@ -73,7 +78,7 @@ class Magento_Test_Helper_Api
      *
      * In the other case just don't pass the $keyTrimmer.
      */
-    public static function simpleXmlToObject($xml, $keyTrimmer = null)
+    public static function simpleXmlToArray($xml, $keyTrimmer = null)
     {
         $result = array();
 
@@ -92,11 +97,11 @@ class Magento_Test_Helper_Api
                     $arrKey = 'Obj' . $arrKey;
                 }
                 if (is_object($node)) {
-                    $result[$arrKey] = self::simpleXmlToObject($node, $keyTrimmer);
+                    $result[$arrKey] = self::simpleXmlToArray($node, $keyTrimmer);
                 } elseif (is_array($node)) {
                     $result[$arrKey] = array();
                     foreach ($node as $nodeValue) {
-                        $result[$arrKey][] = self::simpleXmlToObject(
+                        $result[$arrKey][] = self::simpleXmlToArray(
                             $nodeValue,
                             $keyTrimmer
                         );
@@ -108,6 +113,6 @@ class Magento_Test_Helper_Api
         } else {
             $result = (string)$xml;
         }
-        return (object)$result;
+        return $result;
     }
 }

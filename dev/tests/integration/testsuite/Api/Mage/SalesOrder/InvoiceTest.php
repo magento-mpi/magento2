@@ -46,7 +46,8 @@ class SalesOrder_InvoiceTest extends SalesOrder_AbstractTest
         $id = $order->getIncrementId();
 
         // Create new invoice
-        $newInvoiceId = $this->call(
+        $newInvoiceId = Magento_Test_Helper_Api::call(
+            $this,
             'salesOrderInvoiceCreate',
             array(
                 'orderIncrementId' => $id,
@@ -60,7 +61,8 @@ class SalesOrder_InvoiceTest extends SalesOrder_AbstractTest
         self::setFixture('invoiceIncrementId', $newInvoiceId);
 
         // View new invoice
-        $invoice = $this->call(
+        $invoice = Magento_Test_Helper_Api::call(
+            $this,
             'sales_salesOrderInvoiceInfo',
             array(
                 'invoiceIncrementId' => $newInvoiceId
@@ -87,7 +89,8 @@ class SalesOrder_InvoiceTest extends SalesOrder_AbstractTest
         $this->_setIncrementIdPrefix('invoice', $prefix);
 
         // Create new invoice
-        $newInvoiceId = $this->call(
+        $newInvoiceId = Magento_Test_Helper_Api::call(
+            $this,
             'salesOrderInvoiceCreate',
             array(
                 'orderIncrementId' => $id,
@@ -129,7 +132,7 @@ class SalesOrder_InvoiceTest extends SalesOrder_AbstractTest
             )
         );
 
-        $result = $this->call('salesOrderInvoiceList', $filters);
+        $result = Magento_Test_Helper_Api::call($this, 'salesOrderInvoiceList', $filters);
 
         if (!isset($result[0])) { // workaround for WS-I
             $result = array($result);

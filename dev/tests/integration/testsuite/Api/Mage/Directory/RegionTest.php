@@ -17,7 +17,7 @@ class Mage_Directory_RegionTest extends PHPUnit_Framework_TestCase
      */
     public function testList()
     {
-        $data = $this->call('directoryRegionList', array('country' => 'US'));
+        $data = Magento_Test_Helper_Api::call($this, 'directoryRegionList', array('country' => 'US'));
         $this->assertTrue(is_array($data), 'Region list is not array');
         $this->assertNotEmpty($data, 'Region list is empty');
         $region = reset($data);

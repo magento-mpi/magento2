@@ -43,7 +43,8 @@ class SalesOrder_StatusTest extends PHPUnit_Framework_TestCase
         $order->setStatus('pending')
             ->save();
 
-        $soapResult = $this->call(
+        $soapResult = Magento_Test_Helper_Api::call(
+            $this,
             'salesOrderCancel',
             array(
                 'orderIncrementId' => $order->getIncrementId()
@@ -71,7 +72,8 @@ class SalesOrder_StatusTest extends PHPUnit_Framework_TestCase
         $order->setState(Mage_Sales_Model_Order::STATE_NEW, 'pending')
             ->save();
 
-        $soapResult = $this->call(
+        $soapResult = Magento_Test_Helper_Api::call(
+            $this,
             'salesOrderHold',
             array(
                 'orderIncrementId' => $order->getIncrementId()

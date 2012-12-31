@@ -32,8 +32,8 @@ class Mage_Catalog_Category_Attribute_AttributeTest extends PHPUnit_Framework_Te
 
         self::$_attributeFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/attribute.xml');
         self::$_code = (string)self::$_attributeFixture->code;
-        self::$_data = self::simpleXmlToArray(self::$_attributeFixture->attributeData);
-        self::$_expectedData = self::simpleXmlToArray(self::$_attributeFixture->expected);
+        self::$_data = (array)Magento_Test_Helper_Api::simpleXmlToArray(self::$_attributeFixture->attributeData);
+        self::$_expectedData = (array)Magento_Test_Helper_Api::simpleXmlToArray(self::$_attributeFixture->expected);
 
         $installer = new Mage_Catalog_Model_Resource_Setup('core_setup');
         $installer->addAttribute('catalog_category', self::$_code, self::$_data);
@@ -64,7 +64,7 @@ class Mage_Catalog_Category_Attribute_AttributeTest extends PHPUnit_Framework_Te
      */
     public function testList()
     {
-        $attributeList = $this->call('catalogCategoryAttributeList');
+        $attributeList = Magento_Test_Helper_Api::call($this, 'catalogCategoryAttributeList');
 
         $this->assertInternalType('array', $attributeList);
         $this->assertGreaterThan(0, count($attributeList));
@@ -86,7 +86,11 @@ class Mage_Catalog_Category_Attribute_AttributeTest extends PHPUnit_Framework_Te
      */
     public function testAttributeOptions()
     {
-        $attributeOptions = $this->call('catalogCategoryAttributeOptions', array('attributeId' => self::$_code));
+        $attributeOptions = Magento_Test_Helper_Api::call(
+            $this,
+            'catalogCategoryAttributeOptions',
+            array('attributeId' => self::$_code)
+        );
 
         $this->assertEquals(true, is_array($attributeOptions));
         $this->assertGreaterThan(0, count($attributeOptions));

@@ -72,7 +72,7 @@ class Enterprise_GiftCard_CustomerTest extends PHPUnit_Framework_TestCase
     public function testIncorrectDataInfoException()
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_customer.xml');
-        $invalidData = Magento_Test_Helper_Api::simpleXmlToObject($fixture->invalid_info);
+        $invalidData = Magento_Test_Helper_Api::simpleXmlToArray($fixture->invalid_info);
         Magento_Test_Helper_Api::call($this, 'giftcardCustomerInfo', (array)$invalidData);
     }
 
@@ -85,7 +85,7 @@ class Enterprise_GiftCard_CustomerTest extends PHPUnit_Framework_TestCase
     public function testIncorrectDataRedeemException()
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_customer.xml');
-        $invalidData = Magento_Test_Helper_Api::simpleXmlToObject($fixture->invalid_redeem);
+        $invalidData = Magento_Test_Helper_Api::simpleXmlToArray($fixture->invalid_redeem);
         Magento_Test_Helper_Api::call($this, 'giftcardCustomerRedeem', (array)$invalidData);
     }
 }

@@ -11,6 +11,16 @@
 abstract class Mage_Catalog_ProductAbstract extends PHPUnit_Framework_TestCase
 {
     /**
+     * Default helper for current test suite
+     *
+     * @var string
+     */
+    protected $_defaultHelper = 'Helper_Catalog_Product_Simple';
+
+    /** @var array */
+    protected $_helpers = array();
+
+    /**
      * Map common fixtures keys to soap wsdl.
      *
      * @var array
@@ -22,6 +32,25 @@ abstract class Mage_Catalog_ProductAbstract extends PHPUnit_Framework_TestCase
             'price_qty' => 'qty'
         )
     );
+
+    /**
+     * Get current test suite helper if class name not specified.
+     *
+     * @param string|null $helperClass
+     * @return mixed
+     */
+    protected function _getHelper($helperClass = null)
+    {
+        if (is_null($helperClass)) {
+            $helperClass = $this->_defaultHelper;
+        }
+
+        if (!isset($this->_helpers[$helperClass])) {
+            $this->_helpers[$helperClass] = new $helperClass;
+        }
+
+        return $this->_helpers[$helperClass];
+    }
 
     /**
      * Try to create product using API and check received error messages
@@ -61,7 +90,7 @@ abstract class Mage_Catalog_ProductAbstract extends PHPUnit_Framework_TestCase
     protected function _tryToCreateProductWithApi($productData)
     {
         $dataFormattedForRequest = $this->_prepareProductDataForSoap($productData);
-        $response = $this->call('catalogProductCreate', $dataFormattedForRequest);
+        $response = Magento_Test_Helper_Api::call($this, 'catalogProductCreate', $dataFormattedForRequest);
         return $response;
     }
 

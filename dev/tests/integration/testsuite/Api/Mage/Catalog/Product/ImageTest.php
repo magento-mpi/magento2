@@ -79,7 +79,8 @@ class Mage_Catalog_Product_ImageTest extends PHPUnit_Framework_TestCase
         // valid JPG image file
         $requestData['file']['content'] = base64_encode(file_get_contents($validImgPath));
 
-        $imagePath = $this->call(
+        $imagePath = Magento_Test_Helper_Api::call(
+            $this,
             'catalogProductAttributeMediaCreate',
             array('productId' => $product->getSku(), 'data' => $requestData)
         );
@@ -114,7 +115,8 @@ class Mage_Catalog_Product_ImageTest extends PHPUnit_Framework_TestCase
         );
 
         try {
-            $this->call(
+            Magento_Test_Helper_Api::call(
+                $this,
                 'catalogProductAttributeMediaCreate',
                 array('productId' => $product->getSku(), 'data' => $requestData)
             );
@@ -145,7 +147,8 @@ class Mage_Catalog_Product_ImageTest extends PHPUnit_Framework_TestCase
         $requestData['file']['content'] = base64_encode(file_get_contents($invalidImgPath));
 
         try {
-            $this->call(
+            Magento_Test_Helper_Api::call(
+                $this,
                 'catalogProductAttributeMediaCreate',
                 array('productId' => $product->getSku(), 'data' => $requestData)
             );

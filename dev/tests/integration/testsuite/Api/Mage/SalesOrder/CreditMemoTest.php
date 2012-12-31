@@ -28,14 +28,15 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
         list($product, $qtys, $adjustmentPositive, $adjustmentNegative, $creditMemoIncrementId) = $creditmemoInfo;
 
         //Test list
-        $creditmemoList = $this->call('salesOrderCreditmemoList');
+        $creditmemoList = Magento_Test_Helper_Api::call($this, 'salesOrderCreditmemoList');
         $this->assertInternalType('array', $creditmemoList);
         $this->assertNotEmpty($creditmemoList, 'Creditmemo list is empty');
 
         //Test add comment
         $commentText = 'Creditmemo comment';
         $this->assertTrue(
-            (bool)$this->call(
+            (bool)Magento_Test_Helper_Api::call(
+                $this,
                 'salesOrderCreditmemoAddComment',
                 array(
                     'creditmemoIncrementId' => $creditMemoIncrementId,
@@ -45,7 +46,8 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
         );
 
         //Test info
-        $creditmemoInfo = $this->call(
+        $creditmemoInfo = Magento_Test_Helper_Api::call(
+            $this,
             'salesOrderCreditmemoInfo',
             array(
                 'creditmemoIncrementId' => $creditMemoIncrementId
@@ -85,7 +87,11 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
         //Test cancel
         //Situation when creditmemo is possible to cancel was not found
         $this->setExpectedException(self::DEFAULT_EXCEPTION);
-        $this->call('salesOrderCreditmemoCancel', array('creditmemoIncrementId' => $creditMemoIncrementId));
+        Magento_Test_Helper_Api::call(
+            $this,
+            'salesOrderCreditmemoCancel',
+            array('creditmemoIncrementId' => $creditMemoIncrementId)
+        );
     }
 
     /**
@@ -101,7 +107,8 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
         $order = self::getFixture('order');
         $overRefundAmount = $order->getGrandTotal() + 10;
 
-        $this->call(
+        Magento_Test_Helper_Api::call(
+            $this,
             'salesOrderCreditmemoCreate',
             array(
                 'creditmemoIncrementId' => $order->getIncrementId(),
@@ -124,7 +131,7 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
             );
         }
 
-        $creditmemoList = $this->call('salesOrderCreditmemoList', array('filters' => $filter));
+        $creditmemoList = Magento_Test_Helper_Api::call($this, 'salesOrderCreditmemoList', array('filters' => $filter));
         $this->assertEquals(0, count($creditmemoList));
     }
 
@@ -135,7 +142,8 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
      */
     public function testCreateInvalidOrderException()
     {
-        $this->call(
+        Magento_Test_Helper_Api::call(
+            $this,
             'salesOrderCreditmemoCreate',
             array(
                 'creditmemoIncrementId' => 'invalid-id',
@@ -151,7 +159,8 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
      */
     public function testAddCommentInvalidOrderException()
     {
-        $this->call(
+        Magento_Test_Helper_Api::call(
+            $this,
             'salesOrderCreditmemoAddComment',
             array(
                 'creditmemoIncrementId' => 'invalid-id',
@@ -167,7 +176,11 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
      */
     public function testInfoInvalidOrderException()
     {
-        $this->call('salesOrderCreditmemoInfo', array('creditmemoIncrementId' => 'invalid-id'));
+        Magento_Test_Helper_Api::call(
+            $this,
+            'salesOrderCreditmemoInfo',
+            array('creditmemoIncrementId' => 'invalid-id')
+        );
     }
 
     /**
@@ -177,7 +190,11 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
      */
     public function testCancelInvalidIdException()
     {
-        $this->call('salesOrderCreditmemoCancel', array('creditmemoIncrementId' => 'invalid-id'));
+        Magento_Test_Helper_Api::call(
+            $this,
+            'salesOrderCreditmemoCancel',
+            array('creditmemoIncrementId' => 'invalid-id')
+        );
     }
 
     /**
@@ -211,7 +228,8 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
         $orderIncrementalId = $order->getIncrementId();
 
         //Test create
-        $creditMemoIncrementId = $this->call(
+        $creditMemoIncrementId = Magento_Test_Helper_Api::call(
+            $this,
             'salesOrderCreditmemoCreate',
             array(
                 'creditmemoIncrementId' => $orderIncrementalId,
@@ -258,7 +276,7 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
             )
         );
 
-        $result = $this->call('salesOrderCreditmemoList', $filters);
+        $result = Magento_Test_Helper_Api::call($this, 'salesOrderCreditmemoList', $filters);
 
         if (!isset($result[0])) { // workaround for WS-I
             $result = array($result);
@@ -305,7 +323,8 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
         $orderIncrementalId = $order->getIncrementId();
 
         //Test create
-        $creditMemoIncrementId = $this->call(
+        $creditMemoIncrementId = Magento_Test_Helper_Api::call(
+            $this,
             'salesOrderCreditmemoCreate',
             array(
                 'creditmemoIncrementId' => $orderIncrementalId,

@@ -21,11 +21,12 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
     public function testCustomOptionCRUD()
     {
         $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOption.xml');
-        $customOptions = Magento_Test_Helper_Api::simpleXmlToObject($customOptionFixture->CustomOptionsToAdd);
+        $customOptions = Magento_Test_Helper_Api::simpleXmlToArray($customOptionFixture->CustomOptionsToAdd);
         $store = (string)$customOptionFixture->store;
         $fixtureProductId = PHPUnit_Framework_TestCase::getFixture('productData')->getId();
 
-        $createdOptionBefore = $this->call(
+        $createdOptionBefore = Magento_Test_Helper_Api::call(
+            $this,
             'catalogProductCustomOptionList',
             array(
                 'productId' => $fixtureProductId,
@@ -41,7 +42,8 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
                 $option['additional_fields'] = array($option['additional_fields']);
             }
 
-            $addedOptionResult = $this->call(
+            $addedOptionResult = Magento_Test_Helper_Api::call(
+                $this,
                 'catalogProductCustomOptionAdd',
                 array(
                     'productId' => $fixtureProductId,
@@ -53,7 +55,8 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
         }
 
         // list
-        self::$createdOptionAfter = $this->call(
+        self::$createdOptionAfter = Magento_Test_Helper_Api::call(
+            $this,
             'catalogProductCustomOptionList',
             array(
                 'productId' => $fixtureProductId,
@@ -70,9 +73,12 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
 
         // update & info
         $updateCounter = 0;
-        $customOptionsToUpdate = Magento_Test_Helper_Api::simpleXmlToObject($customOptionFixture->CustomOptionsToUpdate);
+        $customOptionsToUpdate = Magento_Test_Helper_Api::simpleXmlToArray(
+            $customOptionFixture->CustomOptionsToUpdate
+        );
         foreach (self::$createdOptionAfter as $option) {
-            $optionInfo = $this->call(
+            $optionInfo = Magento_Test_Helper_Api::call(
+                $this,
                 'catalogProductCustomOptionInfo',
                 array(
                     'optionId' => $option['option_id']
@@ -90,7 +96,8 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
                     $toUpdateValues['additional_fields'] = array($toUpdateValues['additional_fields']);
                 }
 
-                $updateOptionResult = $this->call(
+                $updateOptionResult = Magento_Test_Helper_Api::call(
+                    $this,
                     'catalogProductCustomOptionUpdate',
                     array(
                         'optionId' => $option['option_id'],
@@ -100,7 +107,8 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
                 $this->assertTrue((bool)$updateOptionResult);
                 $updateCounter++;
 
-                $optionInfoAfterUpdate = $this->call(
+                $optionInfoAfterUpdate = Magento_Test_Helper_Api::call(
+                    $this,
                     'catalogProductCustomOptionInfo',
                     array(
                         'optionId' => $option['option_id']
@@ -141,9 +149,9 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
     public function testCustomOptionTypes()
     {
         $attributeSetFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOptionTypes.xml');
-        $customOptionsTypes = Magento_Test_Helper_Api::simpleXmlToObject($attributeSetFixture);
+        $customOptionsTypes = Magento_Test_Helper_Api::simpleXmlToArray($attributeSetFixture);
 
-        $optionTypes = $this->call('catalogProductCustomOptionTypes', array());
+        $optionTypes = Magento_Test_Helper_Api::call($this, 'catalogProductCustomOptionTypes', array());
         $this->assertEquals($customOptionsTypes['customOptionTypes']['types'], $optionTypes);
     }
 
@@ -164,7 +172,8 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
             $option['additional_fields'] = array($option['additional_fields']);
         }
 
-        return $this->call(
+        return Magento_Test_Helper_Api::call(
+            $this,
             'catalogProductCustomOptionUpdate',
             array(
                 'optionId' => $optionId,
@@ -182,7 +191,7 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
     public function testCustomOptionAddExceptionProductNotExists()
     {
         $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOption.xml');
-        $customOptions = Magento_Test_Helper_Api::simpleXmlToObject($customOptionFixture->CustomOptionsToAdd);
+        $customOptions = Magento_Test_Helper_Api::simpleXmlToArray($customOptionFixture->CustomOptionsToAdd);
 
         $option = reset($customOptions);
         if (isset($option['additional_fields'])
@@ -191,7 +200,8 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
             $option['additional_fields'] = array($option['additional_fields']);
         }
         $this->setExpectedException(self::DEFAULT_EXCEPTION);
-        $this->call(
+        Magento_Test_Helper_Api::call(
+            $this,
             'catalogProductCustomOptionAdd',
             array(
                 'productId' => 'invalid_id',
@@ -209,13 +219,17 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
     {
         $fixtureProductId = PHPUnit_Framework_TestCase::getFixture('productData')->getId();
         $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOption.xml');
-        $customOptions = Magento_Test_Helper_Api::simpleXmlToObject($customOptionFixture->CustomOptionsToAdd);
+        $customOptions = Magento_Test_Helper_Api::simpleXmlToArray($customOptionFixture->CustomOptionsToAdd);
 
         $option = $customOptions['field'];
         $option['additional_fields'] = array();
 
         $this->setExpectedException(self::DEFAULT_EXCEPTION, 'Provided data is invalid.');
-        $this->call('catalogProductCustomOptionAdd', array('productId' => $fixtureProductId, 'data' => $option));
+        Magento_Test_Helper_Api::call(
+            $this,
+            'catalogProductCustomOptionAdd',
+            array('productId' => $fixtureProductId, 'data' => $option)
+        );
     }
 
     /**
@@ -227,7 +241,7 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
     {
         $fixtureProductId = PHPUnit_Framework_TestCase::getFixture('productData')->getId();
         $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOption.xml');
-        $customOptions = Magento_Test_Helper_Api::simpleXmlToObject($customOptionFixture->CustomOptionsToAdd);
+        $customOptions = Magento_Test_Helper_Api::simpleXmlToArray($customOptionFixture->CustomOptionsToAdd);
 
         $option = reset($customOptions);
         if (isset($option['additional_fields'])
@@ -236,7 +250,8 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
             $option['additional_fields'] = array($option['additional_fields']);
         }
         $this->setExpectedException(self::DEFAULT_EXCEPTION);
-        $this->call(
+        Magento_Test_Helper_Api::call(
+            $this,
             'catalogProductCustomOptionAdd',
             array(
                 'productId' => $fixtureProductId,
@@ -257,7 +272,8 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
         $store = (string)$customOptionFixture->store;
 
         $this->setExpectedException(self::DEFAULT_EXCEPTION);
-        $this->call(
+        Magento_Test_Helper_Api::call(
+            $this,
             'catalogProductCustomOptionList',
             array(
                 'productId' => 'unknown_id',
@@ -276,7 +292,8 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
         $fixtureProductId = PHPUnit_Framework_TestCase::getFixture('productData')->getId();
 
         $this->setExpectedException(self::DEFAULT_EXCEPTION);
-        $this->call(
+        Magento_Test_Helper_Api::call(
+            $this,
             'catalogProductCustomOptionList',
             array(
                 'productId' => $fixtureProductId,
@@ -295,7 +312,9 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
     {
         $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOption.xml');
 
-        $customOptionsToUpdate = Magento_Test_Helper_Api::simpleXmlToObject($customOptionFixture->CustomOptionsToUpdate);
+        $customOptionsToUpdate = Magento_Test_Helper_Api::simpleXmlToArray(
+            $customOptionFixture->CustomOptionsToUpdate
+        );
         $option = reset(self::$createdOptionAfter);
 
         $toUpdateValues = $customOptionsToUpdate[$option['type']];
@@ -314,7 +333,8 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
     {
         // Remove
         foreach (self::$createdOptionAfter as $option) {
-            $removeOptionResult = $this->call(
+            $removeOptionResult = Magento_Test_Helper_Api::call(
+                $this,
                 'catalogProductCustomOptionRemove',
                 array(
                     'optionId' => $option['option_id']
@@ -324,6 +344,10 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
         }
 
         // Delete exception test
-        $this->call('catalogProductCustomOptionRemove', array('optionId' => mt_rand(99999, 999999)));
+        Magento_Test_Helper_Api::call(
+            $this,
+            'catalogProductCustomOptionRemove',
+            array('optionId' => mt_rand(99999, 999999))
+        );
     }
 }

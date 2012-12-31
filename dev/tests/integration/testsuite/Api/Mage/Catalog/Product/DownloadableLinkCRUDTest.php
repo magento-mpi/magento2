@@ -16,7 +16,7 @@ class Mage_Catalog_Product_DownloadableLinkCRUDTest extends PHPUnit_Framework_Te
     public function testDownloadableLinkCreate()
     {
         $tagFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/LinkCRUD.xml');
-        $items = Magento_Test_Helper_Api::simpleXmlToObject($tagFixture->items);
+        $items = Magento_Test_Helper_Api::simpleXmlToArray($tagFixture->items);
 
         $productId = PHPUnit_Framework_TestCase::getFixture('productData')->getId();
 
@@ -38,7 +38,8 @@ class Mage_Catalog_Product_DownloadableLinkCRUDTest extends PHPUnit_Framework_Te
                     );
                 }
 
-                $resultId = $this->call(
+                $resultId = Magento_Test_Helper_Api::call(
+                    $this,
                     'catalogProductDownloadableLinkAdd',
                     array(
                         'productId' => $productId,
@@ -63,7 +64,11 @@ class Mage_Catalog_Product_DownloadableLinkCRUDTest extends PHPUnit_Framework_Te
         $product = PHPUnit_Framework_TestCase::getFixture('downloadable');
         $productId = $product->getId();
 
-        $result = $this->call('catalogProductDownloadableLinkList', array('productId' => $productId));
+        $result = Magento_Test_Helper_Api::call(
+            $this,
+            'catalogProductDownloadableLinkList',
+            array('productId' => $productId)
+        );
         /** @var Mage_Downloadable_Model_Product_Type $downloadable */
         $downloadable = $product->getTypeInstance();
         $links = $downloadable->getLinks($product);
@@ -93,7 +98,8 @@ class Mage_Catalog_Product_DownloadableLinkCRUDTest extends PHPUnit_Framework_Te
         $downloadable = $product->getTypeInstance();
         $links = $downloadable->getLinks($product);
         foreach ($links as $link) {
-            $removeResult = $this->call(
+            $removeResult = Magento_Test_Helper_Api::call(
+                $this,
                 'catalogProductDownloadableLinkRemove',
                 array(
                     'linkId' => $link->getId(),

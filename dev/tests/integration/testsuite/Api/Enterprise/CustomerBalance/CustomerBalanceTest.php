@@ -27,20 +27,6 @@ class Enterprise_CustomerBalance_CustomerBalanceTest extends PHPUnit_Framework_T
      */
     public static $customerWithoutBalance = null;
 
-    public static function tearDownAfterClass()
-    {
-        Mage::register('isSecureArea', true);
-
-        self::$customer->delete();
-        self::$customerWithoutBalance->delete();
-
-        self::$customer = null;
-        self::$customerWithoutBalance = null;
-
-        Mage::unregister('isSecureArea');
-        parent::tearDownAfterClass();
-    }
-
     /**
      * Test successful customer balance info
      *
@@ -49,12 +35,12 @@ class Enterprise_CustomerBalance_CustomerBalanceTest extends PHPUnit_Framework_T
     public function testCustomerBalanceBalance()
     {
         $customerBalanceFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/CustomerBalance.xml');
-        $data = Magento_Test_Helper_Api::simpleXmlToObject($customerBalanceFixture);
+        $data = Magento_Test_Helper_Api::simpleXmlToArray($customerBalanceFixture);
 
-        $data->input->customerId = self::$customer->getId();
+        $data['input']['customerId'] = self::$customer->getId();
 
-        $result = Magento_Test_Helper_Api::call($this, 'enterpriseCustomerbalanceBalance', (array)$data->input);
-        $this->assertEquals($data->expected->balance, $result, 'This balance value is not expected');
+        $result = Magento_Test_Helper_Api::call($this, 'enterpriseCustomerbalanceBalance', $data['input']);
+        $this->assertEquals($data['expected']['balance'], $result, 'This balance value is not expected');
     }
 
     /**
@@ -79,18 +65,19 @@ class Enterprise_CustomerBalance_CustomerBalanceTest extends PHPUnit_Framework_T
         $customerBalanceHistoryFixture = simplexml_load_file(
             dirname(__FILE__) . '/_fixture/CustomerBalanceHistory.xml'
         );
-        $data = Magento_Test_Helper_Api::simpleXmlToObject($customerBalanceHistoryFixture);
+        $data = Magento_Test_Helper_Api::simpleXmlToArray($customerBalanceHistoryFixture);
 
-        $data->input->customerId = self::$customer->getId();
+        $data['input']['customerId'] = self::$customer->getId();
 
-        $result = Magento_Test_Helper_Api::call($this,
+        $result = Magento_Test_Helper_Api::call(
+            $this,
             'enterpriseCustomerbalanceHistory',
-            array($data->input->customerId, $data->input->websiteId)
+            array($data['input']['customerId'], $data['input']['websiteId'])
         );
 
-        $this->assertEquals(count($data->expected->history_items), count($result), 'History checksum fail');
+        $this->assertEquals(count($data['expected']['history_items']), count($result), 'History checksum fail');
 
-        foreach ($data->expected->history_items as $index => $expectedHistoryItem) {
+        foreach ($data['expected']['history_items'] as $index => $expectedHistoryItem) {
             foreach ($expectedHistoryItem as $key => $value) {
                 $this->assertEquals($value, $result[$index][$key], 'History item value fail');
             }

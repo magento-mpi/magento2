@@ -18,21 +18,21 @@ class Mage_Catalog_Product_TagCRUDTest extends PHPUnit_Framework_TestCase
     public function testTagCRUD()
     {
         $tagFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/TagCRUD.xml');
-        $data = Magento_Test_Helper_Api::simpleXmlToObject($tagFixture->tagData);
-        $expected = Magento_Test_Helper_Api::simpleXmlToObject($tagFixture->expected);
+        $data = Magento_Test_Helper_Api::simpleXmlToArray($tagFixture->tagData);
+        $expected = Magento_Test_Helper_Api::simpleXmlToArray($tagFixture->expected);
 
         $data['product_id'] = PHPUnit_Framework_TestCase::getFixture('productData')->getId();
         $data['customer_id'] = PHPUnit_Framework_TestCase::getFixture('customerData')->getId();
 
         // create test
-        $createdTags = $this->call('catalogProductTagAdd', array('data' => $data));
+        $createdTags = Magento_Test_Helper_Api::call($this, 'catalogProductTagAdd', array('data' => $data));
 
         $this->assertCount(3, $createdTags);
 
         // Invalid product ID exception test
         try {
             $data['product_id'] = mt_rand(10000, 99999);
-            $this->call('catalogProductTagAdd', array('data' => $data));
+            Magento_Test_Helper_Api::call($this, 'catalogProductTagAdd', array('data' => $data));
             $this->fail("Didn't receive exception!");
         } catch (Exception $e) {
             $this->assertEquals('Requested product does not exist.', $e->getMessage());
@@ -42,7 +42,7 @@ class Mage_Catalog_Product_TagCRUDTest extends PHPUnit_Framework_TestCase
         try {
             $data['product_id'] = PHPUnit_Framework_TestCase::getFixture('productData')->getId();
             $data['customer_id'] = mt_rand(10000, 99999);
-            $this->call('catalogProductTagAdd', array('data' => $data));
+            Magento_Test_Helper_Api::call($this, 'catalogProductTagAdd', array('data' => $data));
             $this->fail("Didn't receive exception!");
         } catch (Exception $e) {
             $this->assertEquals('Requested customer does not exist.', $e->getMessage());
@@ -53,14 +53,15 @@ class Mage_Catalog_Product_TagCRUDTest extends PHPUnit_Framework_TestCase
             $data['product_id'] = PHPUnit_Framework_TestCase::getFixture('productData')->getId();
             $data['customer_id'] = PHPUnit_Framework_TestCase::getFixture('customerData')->getId();
             $data->store = mt_rand(10000, 99999);
-            $this->call('catalogProductTagAdd', array('data' => $data));
+            Magento_Test_Helper_Api::call($this, 'catalogProductTagAdd', array('data' => $data));
             $this->fail("Didn't receive exception!");
         } catch (Exception $e) {
             $this->assertEquals('Requested store does not exist.', $e->getMessage());
         }
 
         // items list test
-        $tagsList = $this->call(
+        $tagsList = Magento_Test_Helper_Api::call(
+            $this,
             'catalogProductTagList',
             array(
                 'productId' => PHPUnit_Framework_TestCase::getFixture('productData')->getId(),
@@ -73,11 +74,15 @@ class Mage_Catalog_Product_TagCRUDTest extends PHPUnit_Framework_TestCase
 
         // delete test
         $tagToDelete = array_shift($tagsList);
-        $tagDelete = $this->call('catalogProductTagRemove', array('tagId' => $tagToDelete['tag_id']));
+        $tagDelete = Magento_Test_Helper_Api::call(
+            $this,
+            'catalogProductTagRemove',
+            array('tagId' => $tagToDelete['tag_id'])
+        );
         $this->assertTrue((bool)$tagDelete, "Can't delete added tag");
 
         // Delete exception test
         $this->setExpectedException(self::DEFAULT_EXCEPTION, 'Requested tag does not exist.');
-        $this->call('catalogProductTagRemove', array('tagId' => $tagToDelete['tag_id']));
+        Magento_Test_Helper_Api::call($this, 'catalogProductTagRemove', array('tagId' => $tagToDelete['tag_id']));
     }
 }

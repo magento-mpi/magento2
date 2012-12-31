@@ -7,7 +7,7 @@
 return array(
     'create' => array(
         'parentId' => 2,
-        'categoryData' => array(
+        'categoryData' => (object)array(
             'name' => 'Category Test Created ' . uniqid(),
             'is_active' => 1,
             'is_anchor' => 1,
@@ -17,7 +17,6 @@ return array(
             'default_sort_by' => 'name',
             'available_sort_by' => array('name'),
             'display_mode' => Mage_Catalog_Model_Category::DM_PRODUCT,
-            'landing_page' => 1, //ID of static block
             'include_in_menu' => 1,
             'page_layout' => 'one_column',
             'custom_design' => 'default/default',
@@ -34,11 +33,10 @@ return array(
     ),
     'update' => array(
         'categoryId' => null,
-        'categoryData' => array(
+        'categoryData' => (object)array(
             'name' => 'Category Test updated ' . uniqid(),
             'is_active' => 0,
             'is_anchor' => 0,
-            'landing_page' => 2,
             'position' => 200,
             'description' => 'some description Update',
             'default_sort_by' => 'position',
@@ -65,7 +63,7 @@ return array(
     'create_skip_to_check' => array('custom_design_apply', 'custom_design_from', 'custom_design_to', 'position'),
     'update_skip_to_check' => array('custom_design_apply', 'custom_design_from', 'available_sort_by'),
     'vulnerability' => array(
-        'categoryData' => array(
+        'categoryData' => (object)array(
             'is_active' => '8-1',
             'custom_layout_update' => '<block type="core/text_list" name="contentDdd" output="toHtml">
                         <block type="core/text_tag_debug" name="test111">

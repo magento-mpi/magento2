@@ -59,7 +59,8 @@ class Mage_Catalog_Product_BackorderStatusTest extends PHPUnit_Framework_TestCas
         $newProductData->use_config_backorders = 0;
         $newProductData->backorders = 1;
 
-        $result = $this->call(
+        $result = Magento_Test_Helper_Api::call(
+            $this,
             'catalogInventoryStockItemUpdate',
             array(
                 'productId' => $this->getFixture('product')->getSku(),

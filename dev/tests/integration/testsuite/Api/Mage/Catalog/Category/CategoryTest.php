@@ -47,7 +47,15 @@ class Mage_Catalog_Category_CategoryTest extends PHPUnit_Framework_TestCase
     public function testCategoryCrud()
     {
         $categoryFixture = $this->_getFixtureData();
-        $categoryId = $this->call('catalogCategory', $categoryFixture['create']);
+        $categoryId = Magento_Test_Helper_Api::call(
+            $this,
+            'catalogCategoryCreate',
+            array(
+                $categoryFixture['create']['parentId'],
+                (object)$categoryFixture['create']['categoryData'],
+                $categoryFixture['create']['store']
+            )
+        );
 
         $this->assertEquals(
             $categoryId,
@@ -60,131 +68,130 @@ class Mage_Catalog_Category_CategoryTest extends PHPUnit_Framework_TestCase
         $category = Mage::getModel('Mage_Catalog_Model_Category');
         $category->load($categoryId);
 
-        try {
-            //check created data
+        //check created data
+        $this->assertEquals(
+            $categoryId,
+            $category->getId(),
+            'Category ID is not same like from API result.'
+        );
+
+        $this->assertEquals(
+            $category['custom_design_from'],
+            $this->_formatActiveDesignDate(
+                $categoryFixture['create']['categoryData']->custom_design_from
+            ),
+            'Category active design date is not the same like sent to API on create.'
+        );
+
+        $this->assertEquals(
+            $category['custom_design_to'],
+            $this->_formatActiveDesignDate(
+                $categoryFixture['create']['categoryData']->custom_design_to
+            ),
+            'Category active design date is not the same like sent to API on create.'
+        );
+
+        $this->assertNotEmpty(
+            $category['position'],
+            'Category position is empty.'
+        );
+        $this->assertFalse(
+            array_key_exists('custom_design_apply', $category->getData()),
+            'Category data item "custom_design_apply" is deprecated.'
+        );
+
+        foreach ($categoryFixture['create']['categoryData'] as $name => $value) {
+            if (in_array($name, $categoryFixture['create_skip_to_check'])) {
+                continue;
+            }
             $this->assertEquals(
-                $categoryId,
-                $category->getId(),
-                'Category ID is not same like from API result.'
-            );
-
-            $this->assertEquals(
-                $category['custom_design_from'],
-                $this->_formatActiveDesignDate(
-                    $categoryFixture['create']['categoryData']['custom_design_from']
-                ),
-                'Category active design date is not the same like sent to API on create.'
-            );
-
-            $this->assertEquals(
-                $category['custom_design_to'],
-                $this->_formatActiveDesignDate(
-                    $categoryFixture['create']['categoryData']['custom_design_to']
-                ),
-                'Category active design date is not the same like sent to API on create.'
-            );
-
-            $this->assertNotEmpty(
-                $category['position'],
-                'Category position is empty.'
-            );
-            $this->assertFalse(
-                array_key_exists('custom_design_apply', $category->getData()),
-                'Category data item "custom_design_apply" is deprecated.'
-            );
-
-            foreach ($categoryFixture['create']['categoryData'] as $name => $value) {
-                if (in_array($name, $categoryFixture['create_skip_to_check'])) {
-                    continue;
-                }
-                $this->assertEquals(
-                    $value,
+                $value,
+                $category[$name],
+                sprintf(
+                    'Category "%s" is "%s" and not the same like sent to create "%s".',
+                    $name,
                     $category[$name],
-                    sprintf(
-                        'Category "%s" is "%s" and not the same like sent to create "%s".',
-                        $name,
-                        $category[$name],
-                        $value
-                    )
-                );
-            }
-
-            /**
-             * Test update
-             */
-            $categoryFixture['update']['categoryId'] = $categoryId;
-            $resultUpdated = $this->call('catalogCategoryUpdate', $categoryFixture['update']);
-            $this->assertTrue($resultUpdated);
-
-            $category = Mage::getModel('Mage_Catalog_Model_Category');
-            $category->load($categoryId);
-
-            //check updated data
-            $this->assertEquals(
-                $category['custom_design_from'],
-                $this->_formatActiveDesignDate(
-                    $categoryFixture['update']['categoryData']['custom_design_from']
-                ),
-                'Category active design date is not the same like sent to API on update.'
+                    $value
+                )
             );
-
-            foreach ($categoryFixture['update']['categoryData'] as $name => $value) {
-                if (in_array($name, $categoryFixture['update_skip_to_check'])) {
-                    continue;
-                }
-                $this->assertEquals(
-                    $value,
-                    $category[$name],
-                    sprintf('Category data with name "%s" is not the same like sent to update.', $name)
-                );
-            }
-
-            /**
-             * Test read
-             */
-            $categoryRead = $this->call(
-                'catalogCategoryInfo',
-                array('categoryId' => $categoryId, $categoryFixture['update']['storeView'])
-            );
-
-            $this->assertEquals(
-                $categoryRead['custom_design_from'],
-                $this->_formatActiveDesignDate(
-                    $categoryFixture['update']['categoryData']['custom_design_from']
-                ),
-                'Category active design date is not the same like sent to API on update.'
-            );
-
-            $this->assertFalse(
-                array_key_exists('custom_design_apply', $categoryRead),
-                'Category data item "custom_design_apply" is deprecated.'
-            );
-
-            foreach ($categoryFixture['update']['categoryData'] as $name => $value) {
-                if (in_array($name, $categoryFixture['update_skip_to_check'])) {
-                    continue;
-                }
-                $this->assertEquals(
-                    $value,
-                    $categoryRead[$name],
-                    sprintf('Category data with name "%s" is not the same like sent to update.', $name)
-                );
-            }
-
-            /**
-             * Test delete
-             */
-            $categoryDelete = $this->call('catalogCategoryDelete', array('categoryId' => $categoryId));
-            $this->assertTrue($categoryDelete);
-
-            $category = Mage::getModel('Mage_Catalog_Model_Category');
-            $category->load($categoryId);
-            $this->assertEmpty($category->getId());
-        } catch (Exception $e) {
-            //delete created category
-            $this->callModelDelete($category, true);
-            throw $e;
         }
+
+        /**
+         * Test update
+         */
+        $categoryFixture['update']['categoryId'] = $categoryId;
+        $resultUpdated = Magento_Test_Helper_Api::call($this, 'catalogCategoryUpdate', $categoryFixture['update']);
+        $this->assertTrue($resultUpdated);
+
+        $category = Mage::getModel('Mage_Catalog_Model_Category');
+        $category->load($categoryId);
+
+        //check updated data
+        $this->assertEquals(
+            $category['custom_design_from'],
+            $this->_formatActiveDesignDate(
+                $categoryFixture['update']['categoryData']->custom_design_from
+            ),
+            'Category active design date is not the same like sent to API on update.'
+        );
+
+        foreach ($categoryFixture['update']['categoryData'] as $name => $value) {
+            if (in_array($name, $categoryFixture['update_skip_to_check'])) {
+                continue;
+            }
+            $this->assertEquals(
+                $value,
+                $category[$name],
+                sprintf('Category data with name "%s" is not the same like sent to update.', $name)
+            );
+        }
+
+        /**
+         * Test read
+         */
+        $categoryRead = Magento_Test_Helper_Api::call(
+            $this,
+            'catalogCategoryInfo',
+            array('categoryId' => $categoryId, $categoryFixture['update']['storeView'])
+        );
+
+        $this->assertEquals(
+            $categoryRead['custom_design_from'],
+            $this->_formatActiveDesignDate(
+                $categoryFixture['update']['categoryData']->custom_design_from
+            ),
+            'Category active design date is not the same like sent to API on update.'
+        );
+
+        $this->assertFalse(
+            array_key_exists('custom_design_apply', $categoryRead),
+            'Category data item "custom_design_apply" is deprecated.'
+        );
+
+        foreach ($categoryFixture['update']['categoryData'] as $name => $value) {
+            if (in_array($name, $categoryFixture['update_skip_to_check'])) {
+                continue;
+            }
+            $this->assertEquals(
+                $value,
+                $categoryRead[$name],
+                sprintf('Category data with name "%s" is not the same like sent to update.', $name)
+            );
+        }
+
+        /**
+         * Test delete
+         */
+        $categoryDelete = Magento_Test_Helper_Api::call(
+            $this,
+            'catalogCategoryDelete',
+            array('categoryId' => $categoryId)
+        );
+        $this->assertTrue($categoryDelete);
+
+        $category = Mage::getModel('Mage_Catalog_Model_Category');
+        $category->load($categoryId);
+        $this->assertEmpty($category->getId());
     }
 
     /**
@@ -200,9 +207,9 @@ class Mage_Catalog_Category_CategoryTest extends PHPUnit_Framework_TestCase
         /**
          * Test vulnerability SQL injection in is_active
          */
-        $params['categoryData']['is_active'] = $categoryFixture['vulnerability']['categoryData']['is_active'];
+        $params['categoryData']->is_active = $categoryFixture['vulnerability']['categoryData']->is_active;
 
-        $categoryId = $this->call('catalogCategory', $params);
+        $categoryId = Magento_Test_Helper_Api::call($this, 'catalogCategoryCreate', $params);
         $this->assertEquals(
             $categoryId,
             (int)$categoryId,
@@ -212,65 +219,58 @@ class Mage_Catalog_Category_CategoryTest extends PHPUnit_Framework_TestCase
         $category = Mage::getModel('Mage_Catalog_Model_Category');
         $category->load($categoryId);
 
+        $this->assertEquals(
+            $category['is_active'],
+            (int)$categoryFixture['vulnerability']['categoryData']->is_active
+        );
+
+        /**
+         * Test update with empty category ID
+         */
+        $params = $categoryFixture['update'];
+        $params['categoryId'] = 'invalid_category_id';
         try {
-            $this->assertEquals(
-                $category['is_active'],
-                (int)$categoryFixture['vulnerability']['categoryData']['is_active']
+            $result = Magento_Test_Helper_Api::call($this, 'catalogCategoryUpdate', $params);
+        } catch (SoapFault $e) {
+            //make result like in response
+            $result = array(
+                'faultcode' => $e->faultcode,
+                'faultstring' => $e->faultstring
             );
-
-            /**
-             * Test update with empty category ID
-             */
-            $params = $categoryFixture['update'];
-            $params['categoryId'] = 'invalid_category_id';
-            try {
-                $result = $this->call('catalogCategoryUpdate', $params);
-            } catch (SoapFault $e) {
-                //make result like in response
-                $result = array(
-                    'faultcode' => $e->faultcode,
-                    'faultstring' => $e->faultstring
-                );
-            }
-
-            $category->load($categoryId);
-            //name must has old value
-            $this->assertEquals(
-                $category['name'],
-                $categoryFixture['create']['categoryData']['name'],
-                'Category updated with empty ID.'
-            );
-            //"102" is code error when category is not found on update
-            $this->assertInternalType('array', $result);
-            $this->assertEquals(102, $result['faultcode'], 'Fault code is not right.');
-
-            /**
-             * Test vulnerability with helper usage in custom layout update
-             */
-            $params['categoryId'] = $categoryId;
-            $params['categoryData']['custom_layout_update'] =
-                $categoryFixture['vulnerability']['categoryData']['custom_layout_update'];
-            try {
-                $result = $this->call('catalogCategoryUpdate', $params);
-            } catch (SoapFault $e) {
-                //make result like in response
-                $result = array(
-                    'faultcode' => $e->faultcode,
-                    'faultstring' => $e->faultstring
-                );
-            }
-            $category->load($categoryId);
-
-            //"103" is code error when data validation is not passed
-            $this->assertInternalType('array', $result);
-            $this->assertEquals(103, $result['faultcode'], 'Fault code is not right.');
-        } catch (Exception $e) {
-            //delete created category
-            $this->callModelDelete($category, true);
-            throw $e;
         }
 
-        $this->callModelDelete($category, true);
+        $category->load($categoryId);
+        //name must has old value
+        $this->assertEquals(
+            $category['name'],
+            $categoryFixture['create']['categoryData']->name,
+            'Category updated with empty ID.'
+        );
+        //"102" is code error when category is not found on update
+        $this->assertInternalType('array', $result);
+        $this->assertEquals(102, $result['faultcode'], 'Fault code is not right.');
+
+        /**
+         * Test vulnerability with helper usage in custom layout update
+         */
+        $params['categoryId'] = $categoryId;
+        $params['categoryData']->custom_layout_update =
+            $categoryFixture['vulnerability']['categoryData']->custom_layout_update;
+        try {
+            $result = Magento_Test_Helper_Api::call($this, 'catalogCategoryUpdate', $params);
+        } catch (SoapFault $e) {
+            //make result like in response
+            $result = array(
+                'faultcode' => $e->faultcode,
+                'faultstring' => $e->faultstring
+            );
+        }
+        $category->load($categoryId);
+
+        //"103" is code error when data validation is not passed
+        $this->assertInternalType('array', $result);
+        $this->assertEquals(103, $result['faultcode'], 'Fault code is not right.');
+
     }
 
     /**
@@ -279,7 +279,11 @@ class Mage_Catalog_Category_CategoryTest extends PHPUnit_Framework_TestCase
     public function testRootCategoryDelete()
     {
         try {
-            $result = $this->call('catalogCategoryDelete', array('categoryId' => Mage_Catalog_Model_Category::TREE_ROOT_ID));
+            $result = Magento_Test_Helper_Api::call(
+                $this,
+                'catalogCategoryDelete',
+                array('categoryId' => Mage_Catalog_Model_Category::TREE_ROOT_ID)
+            );
         } catch (SoapFault $e) {
             $result = array(
                 'faultcode' => $e->faultcode,
