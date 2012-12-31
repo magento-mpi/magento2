@@ -73,7 +73,8 @@ class Mage_Core_Model_Resource_Layout_Update_Collection extends Mage_Core_Model_
      */
     protected function _joinWithLink()
     {
-        if (!$this->getFlag('joined_with_link_table')) {
+        $flagName = 'joined_with_link_table';
+        if (!$this->getFlag($flagName)) {
             $this->getSelect()
                 ->join(
                     array('link' => $this->getTable('core_layout_link')),
@@ -81,7 +82,7 @@ class Mage_Core_Model_Resource_Layout_Update_Collection extends Mage_Core_Model_
                     array('store_id', 'theme_id')
                 );
 
-            $this->setFlag('joined_with_link_table', true);
+            $this->setFlag($flagName, true);
         }
 
         return $this;

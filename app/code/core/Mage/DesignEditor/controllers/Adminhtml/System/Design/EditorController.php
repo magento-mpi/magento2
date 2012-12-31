@@ -214,6 +214,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
 
     /**
      * Assign theme to list of store views
+     *
      * @throws InvalidArgumentException
      */
     public function assignThemeToStoreAction()
