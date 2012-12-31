@@ -20,7 +20,7 @@
             /**
              * @type {(string|Array)}
              */
-            source: 'http://testsuggest.lo/suggest.php',
+            source: null,
             events: {},
             appendTo: 'after',
             control: ':ui-menu'
@@ -36,6 +36,16 @@
             this.dropdown = $('<div/>');
             this.element[this.options.appendTo](this.dropdown);
             this._bind();
+        },
+
+        /**
+         * Component's destructor
+         * @private
+         */
+        _destroy: function() {
+            this.element.removeAttr('autocomplete');
+            this.dropdown.remove();
+            this._off("keydown keyup blur");
         },
 
         /**
@@ -56,15 +66,6 @@
             this.dropdown
                 .find(this.options.control)
                 .triggerHandler(event);
-        },
-
-        /**
-         * Handle submit action
-         * @param event
-         * @private
-         */
-        _submitAction: function(event) {
-            event.preventDefault();
         },
 
         /**
@@ -119,26 +120,30 @@
                             break;
                         case keyCode.ENTER:
                         case keyCode.NUMPAD_ENTER:
-                            if (!this.isDropdownShown()) {
-                                this._submitAction(event);
-                            } else {
+                            if (this.isDropdownShown()) {
                                 event.preventDefault();
                             }
                             break;
                         default:
                             this.search();
                     }
-                }
+                },
+                blur: this._hideDropdown
             }, this.options.events));
 
             this._on(this.dropdown, {
                 menufocus: function(e, ui) {
                     this.element.val(ui.item.text());
                 },
-                menuselect: this._enterCurrentValue
+                menuselect: this._enterCurrentValue,
+                click: this._enterCurrentValue
             });
         },
 
+        /**
+         *
+         * @private
+         */
         _enterCurrentValue: function() {
             this.term = this._value();
             this._hideDropdown();
