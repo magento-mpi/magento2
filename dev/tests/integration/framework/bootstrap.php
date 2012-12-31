@@ -16,17 +16,9 @@ $testsBaseDir = dirname(__DIR__);
 $testsTmpDir = "$testsBaseDir/tmp";
 $magentoBaseDir = realpath("$testsBaseDir/../../../");
 
-/*
- * Setup include path for autoload purpose.
- * Include path setup is intentionally moved out from the phpunit.xml to simplify maintenance of CI builds.
- */
-set_include_path(implode(
-    PATH_SEPARATOR,
-    array(
-        "$testsBaseDir/framework",
-        "$testsBaseDir/testsuite",
-        get_include_path()
-    )
+Magento_Autoload_IncludePath::addIncludePath(array(
+    "$testsBaseDir/framework",
+    "$testsBaseDir/testsuite",
 ));
 
 if (defined('TESTS_LOCAL_CONFIG_FILE') && TESTS_LOCAL_CONFIG_FILE) {
@@ -93,7 +85,6 @@ Magento_Test_Event_PhpUnit::setDefaultEventManager($eventManager);
 Magento_Test_Event_Magento::setDefaultEventManager($eventManager);
 
 /* Initialize object manager instance */
-Mage::setRoot();
 Mage::initializeObjectManager(null, new Magento_Test_ObjectManager());
 
 /* Bootstrap the application */

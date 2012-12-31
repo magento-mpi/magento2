@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Adminhtml
- */
 class Mage_Adminhtml_IndexControllerTest extends Mage_Backend_Utility_Controller
 {
     /**
