@@ -15,9 +15,11 @@
  * @package    Mage_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-
 class Mage_Reports_Block_Adminhtml_Refresh_Statistics extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
+    /*
+     * Modify Header and remove button "Add"
+     */
     protected function _construct()
     {
         $this->_controller = 'report_refresh_statistics';

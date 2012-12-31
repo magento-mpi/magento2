@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Grid
+ * @package     Mage_Reports
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,14 +16,12 @@
  * @package     Mage_Report
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Mage_Reports_Model_Resource_Refresh_Collection extends Varien_Data_Collection
 {
     /**
      * Get if updated
      *
      * @param $reportCode
-     *
      * @return string|Zend_Date
      */
     protected function _getUpdatedAt($reportCode)
@@ -43,10 +41,12 @@ class Mage_Reports_Model_Resource_Refresh_Collection extends Varien_Data_Collect
     {
         if (!count($this->_items)) {
             $data = array(
-                array('id'            => 'sales',
-                                'report'        => Mage::helper('Mage_Sales_Helper_Data')->__('Orders'),
-                                'comment'       => Mage::helper('Mage_Sales_Helper_Data')->__('Total Ordered Report'),
-                                'updated_at'    => $this->_getUpdatedAt(Mage_Reports_Model_Flag::REPORT_ORDER_FLAG_CODE)),
+                array(
+                    'id'            => 'sales',
+                    'report'        => Mage::helper('Mage_Sales_Helper_Data')->__('Orders'),
+                    'comment'       => Mage::helper('Mage_Sales_Helper_Data')->__('Total Ordered Report'),
+                    'updated_at'    => $this->_getUpdatedAt(Mage_Reports_Model_Flag::REPORT_ORDER_FLAG_CODE)
+                ),
                 array(
                     'id'            => 'tax',
                     'report'        => Mage::helper('Mage_Sales_Helper_Data')->__('Tax'),
