@@ -9,9 +9,9 @@
  */
 
 /**
- * @magentoDataFixture Api/Enterprise/CustomerBalance/_fixture/Quote.php
+ * @magentoDataFixture Enterprise/CustomerBalance/_files/Quote.php
  */
-class Enterprise_CustomerBalance_QuoteTest extends PHPUnit_Framework_TestCase
+class Enterprise_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Customer fixture
@@ -48,7 +48,7 @@ class Enterprise_CustomerBalance_QuoteTest extends PHPUnit_Framework_TestCase
      */
     public function testCustomerBalanceForQuoteSetAmount()
     {
-        $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/CustomerBalanceForQuote.xml');
+        $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/../../_files/fixture/CustomerBalanceForQuote.xml');
         $data = Magento_Test_Helper_Api::simpleXmlToArray($quoteFixture);
 
         $data['input']['quoteId'] = self::$quote->getId();
@@ -65,7 +65,7 @@ class Enterprise_CustomerBalance_QuoteTest extends PHPUnit_Framework_TestCase
      */
     public function testCustomerBalanceForQuoteRemoveAmount()
     {
-        $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/CustomerBalanceForQuote.xml');
+        $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/../../_files/fixture/CustomerBalanceForQuote.xml');
         $data = Magento_Test_Helper_Api::simpleXmlToArray($quoteFixture);
 
         $data['input']['quoteId'] = self::$quote->getId();
@@ -88,7 +88,7 @@ class Enterprise_CustomerBalance_QuoteTest extends PHPUnit_Framework_TestCase
      */
     public function testCustomerBalanceForQuoteSetAmountWithoutStoreId()
     {
-        $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/CustomerBalanceForQuote.xml');
+        $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/../../_files/fixture/CustomerBalanceForQuote.xml');
         $data = Magento_Test_Helper_Api::simpleXmlToArray($quoteFixture);
 
         $result = Magento_Test_Helper_Api::call($this, 'shoppingCartCustomerbalanceSetAmount',
@@ -121,7 +121,9 @@ class Enterprise_CustomerBalance_QuoteTest extends PHPUnit_Framework_TestCase
      */
     public function testCustomerBalanceForQuoteSetAmountUsingStoreCode()
     {
-        $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/CustomerBalanceForQuoteUsingStoreCode.xml');
+        $quoteFixture = simplexml_load_file(
+            dirname(__FILE__) . '/../../_files/fixture/CustomerBalanceForQuoteUsingStoreCode.xml'
+        );
         $data = Magento_Test_Helper_Api::simpleXmlToArray($quoteFixture);
 
         $data['input']['quoteId'] = self::$quote->getId();
@@ -138,7 +140,9 @@ class Enterprise_CustomerBalance_QuoteTest extends PHPUnit_Framework_TestCase
      */
     public function testCustomerBalanceForQuoteRemoveAmountUsingStoreCode()
     {
-        $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/CustomerBalanceForQuoteUsingStoreCode.xml');
+        $quoteFixture = simplexml_load_file(
+            dirname(__FILE__) . '/../../_files/fixture/CustomerBalanceForQuoteUsingStoreCode.xml'
+        );
         $data = Magento_Test_Helper_Api::simpleXmlToArray($quoteFixture);
 
         $data['input']['quoteId'] = self::$quote->getId();
@@ -162,7 +166,7 @@ class Enterprise_CustomerBalance_QuoteTest extends PHPUnit_Framework_TestCase
     public function testCustomerBalanceForQuoteSetAmountUsingInvalidStoreCodeException()
     {
         $quoteFixture = simplexml_load_file(
-            dirname(__FILE__) . '/_fixture/CustomerBalanceForQuoteUsingInvalidStoreCode.xml'
+            dirname(__FILE__) . '/../../_files/fixture/CustomerBalanceForQuoteUsingInvalidStoreCode.xml'
         );
         $data = Magento_Test_Helper_Api::simpleXmlToArray($quoteFixture);
 
@@ -179,7 +183,7 @@ class Enterprise_CustomerBalance_QuoteTest extends PHPUnit_Framework_TestCase
      */
     public function testCustomerBalanceForQuoteSetAmountExceptionQuoteNotExists()
     {
-        $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/CustomerBalanceForQuote.xml');
+        $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/../../_files/fixture/CustomerBalanceForQuote.xml');
         $data = Magento_Test_Helper_Api::simpleXmlToArray($quoteFixture);
 
         Magento_Test_Helper_Api::call($this, 'shoppingCartCustomerbalanceSetAmount', (array)$data['input']);
@@ -193,7 +197,7 @@ class Enterprise_CustomerBalance_QuoteTest extends PHPUnit_Framework_TestCase
      */
     public function testCustomerBalanceForQuoteRemoveAmountExceptionQuoteNotExists()
     {
-        $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/CustomerBalanceForQuote.xml');
+        $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/../../_files/fixture/CustomerBalanceForQuote.xml');
         $data = Magento_Test_Helper_Api::simpleXmlToArray($quoteFixture);
 
         Magento_Test_Helper_Api::call($this, 'shoppingCartCustomerbalanceRemoveAmount', (array)$data['input']);
@@ -208,7 +212,9 @@ class Enterprise_CustomerBalance_QuoteTest extends PHPUnit_Framework_TestCase
      */
     public function testCustomerBalanceForQuoteSetAmountExceptionGuestQuote()
     {
-        $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/CustomerBalanceForGuestQuote.xml');
+        $quoteFixture = simplexml_load_file(
+            dirname(__FILE__) . '/../../_files/fixture/CustomerBalanceForGuestQuote.xml'
+        );
         $data = Magento_Test_Helper_Api::simpleXmlToArray($quoteFixture);
 
         $data['input']['quoteId'] = self::$guestQuote->getId();
@@ -225,7 +231,9 @@ class Enterprise_CustomerBalance_QuoteTest extends PHPUnit_Framework_TestCase
      */
     public function testCustomerBalanceForQuoteRemoveAmountExceptionGuestQuote()
     {
-        $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/CustomerBalanceForGuestQuote.xml');
+        $quoteFixture = simplexml_load_file(
+            dirname(__FILE__) . '/../../_files/fixture/CustomerBalanceForGuestQuote.xml'
+        );
         $data = Magento_Test_Helper_Api::simpleXmlToArray($quoteFixture);
 
         $data['input']['quoteId'] = self::$guestQuote->getId();

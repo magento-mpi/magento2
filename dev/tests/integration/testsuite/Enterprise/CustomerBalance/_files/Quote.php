@@ -9,6 +9,7 @@
 //Add customer
 $customer = Mage::getModel('Mage_Customer_Model_Customer');
 $customer->setStoreId(1)
+    ->setWebsiteId(1)
     ->setCreatedIn('Default Store View')
     ->setDefaultBilling(1)
     ->setDefaultShipping(1)
@@ -29,11 +30,13 @@ $customerBalance->setCustomerId($customer->getId())
     ->save();
 
 //Save customer fixture
-Enterprise_CustomerBalance_QuoteTest::$customer = $customer;
+Enterprise_CustomerBalance_Model_Quote_ApiTest::$customer = $customer;
 
 //Create new simple product to add it to shopping cart
 $product = Mage::getModel('Mage_Catalog_Model_Product');
 $product->setTypeId('simple')
+    ->setStoreId(1)
+    ->setWebsiteId(1)
     ->setAttributeSetId(4)
     ->setName('Simple Product')
     ->setSku('simple' . uniqid())
@@ -46,17 +49,16 @@ $product->setTypeId('simple')
     ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
     ->setWeight(12)
     ->setStockData(
-    array(
-        'use_config_manage_stock' => 1,
-        'qty' => 100,
-        'is_qty_decimal' => 0,
-        'is_in_stock' => 1,
-    )
-)
-    ->save();
+        array(
+            'use_config_manage_stock' => 1,
+            'qty' => 100,
+            'is_qty_decimal' => 0,
+            'is_in_stock' => 1,
+        )
+    )->save();
 
 //Save product fixture
-Enterprise_CustomerBalance_QuoteTest::$product = $product;
+Enterprise_CustomerBalance_Model_Quote_ApiTest::$product = $product;
 
 //Create shopping cart
 $quote = Mage::getModel('Mage_Sales_Model_Quote');
@@ -104,7 +106,7 @@ $quote->collectTotals()
     ->save();
 
 //Save shopping cart
-Enterprise_CustomerBalance_QuoteTest::$quote = $quote;
+Enterprise_CustomerBalance_Model_Quote_ApiTest::$quote = $quote;
 
 //Create shopping cart by guest
 $guestQuote = Mage::getModel('Mage_Sales_Model_Quote');
@@ -119,4 +121,4 @@ $guestQuote->collectTotals()
     ->save();
 
 //Save shopping shoppingCartCreated by guest
-Enterprise_CustomerBalance_QuoteTest::$guestQuote = $guestQuote;
+Enterprise_CustomerBalance_Model_Quote_ApiTest::$guestQuote = $guestQuote;

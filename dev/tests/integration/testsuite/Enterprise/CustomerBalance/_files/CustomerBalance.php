@@ -9,6 +9,7 @@
 //Add customer
 $customer = Mage::getModel('Mage_Customer_Model_Customer');
 $customer->setStoreId(1)
+    ->setWebsiteId(1)
     ->setCreatedIn('Default Store View')
     ->setDefaultBilling(1)
     ->setDefaultShipping(1)
@@ -37,11 +38,12 @@ $customerBalance->setCustomerId($customer->getId())
     ->save();
 
 //Save customer ID
-Enterprise_CustomerBalance_CustomerBalanceTest::$customer = $customer;
+Enterprise_CustomerBalance_Model_ApiTest::$customer = $customer;
 
 //Add customer without balance
 $customerWithoutBalance = Mage::getModel('Mage_Customer_Model_Customer');
 $customerWithoutBalance->setStoreId(1)
+    ->setWebsiteId(1)
     ->setCreatedIn('Default Store View')
     ->setDefaultBilling(1)
     ->setDefaultShipping(1)
@@ -55,4 +57,4 @@ $customerWithoutBalance->setStoreId(1)
     ->save();
 
 //Save customer without balance ID
-Enterprise_CustomerBalance_CustomerBalanceTest::$customerWithoutBalance = $customerWithoutBalance;
+Enterprise_CustomerBalance_Model_ApiTest::$customerWithoutBalance = $customerWithoutBalance;

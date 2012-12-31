@@ -9,9 +9,9 @@
  */
 
 /**
- * @magentoDataFixture Api/Enterprise/CustomerBalance/_fixture/CustomerBalance.php
+ * @magentoDataFixture Enterprise/CustomerBalance/_files/CustomerBalance.php
  */
-class Enterprise_CustomerBalance_CustomerBalanceTest extends PHPUnit_Framework_TestCase
+class Enterprise_CustomerBalance_Model_ApiTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Customer fixture
@@ -34,7 +34,7 @@ class Enterprise_CustomerBalance_CustomerBalanceTest extends PHPUnit_Framework_T
      */
     public function testCustomerBalanceBalance()
     {
-        $customerBalanceFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/CustomerBalance.xml');
+        $customerBalanceFixture = simplexml_load_file(dirname(__FILE__) . '/../_files/fixture/CustomerBalance.xml');
         $data = Magento_Test_Helper_Api::simpleXmlToArray($customerBalanceFixture);
 
         $data['input']['customerId'] = self::$customer->getId();
@@ -63,7 +63,7 @@ class Enterprise_CustomerBalance_CustomerBalanceTest extends PHPUnit_Framework_T
     public function testCustomerBalanceHistory()
     {
         $customerBalanceHistoryFixture = simplexml_load_file(
-            dirname(__FILE__) . '/_fixture/CustomerBalanceHistory.xml'
+            dirname(__FILE__) . '/../_files/fixture/CustomerBalanceHistory.xml'
         );
         $data = Magento_Test_Helper_Api::simpleXmlToArray($customerBalanceHistoryFixture);
 

@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 /**
- * @magentoDataFixture Api/Enterprise/GiftCard/_fixture/code_pool.php
- * @magentoDataFixture Api/Enterprise/GiftCard/_fixture/giftcard_account.php
+ * @magentoDataFixture Enterprise/GiftCardAccount/_files/code_pool.php
+ * @magentoDataFixture Enterprise/GiftCardAccount/_files/giftcardaccount.php
  */
-class Enterprise_GiftCard_CartTest extends PHPUnit_Framework_TestCase
+class Enterprise_GiftCardAccount_Model_Api_CartTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test giftcard Shopping Cart add, list, remove
@@ -80,7 +80,7 @@ class Enterprise_GiftCard_CartTest extends PHPUnit_Framework_TestCase
      */
     public function testIncorrectDataAddException()
     {
-        $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_cart.xml');
+        $fixture = simplexml_load_file(dirname(__FILE__) . '/../../_files/fixture/giftcard_cart.xml');
         $invalidData = Magento_Test_Helper_Api::simpleXmlToArray($fixture->invalid_create);
         Magento_Test_Helper_Api::call($this, 'shoppingCartGiftcardAdd', (array)$invalidData);
     }
@@ -93,7 +93,7 @@ class Enterprise_GiftCard_CartTest extends PHPUnit_Framework_TestCase
      */
     public function testIncorrectDataListException()
     {
-        $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_cart.xml');
+        $fixture = simplexml_load_file(dirname(__FILE__) . '/../../_files/fixture/giftcard_cart.xml');
         $invalidData = Magento_Test_Helper_Api::simpleXmlToArray($fixture->invalid_list);
         Magento_Test_Helper_Api::call($this, 'shoppingCartGiftcardList', (array)$invalidData);
     }
@@ -106,7 +106,7 @@ class Enterprise_GiftCard_CartTest extends PHPUnit_Framework_TestCase
      */
     public function testIncorrectDataRemoveException()
     {
-        $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_cart.xml');
+        $fixture = simplexml_load_file(dirname(__FILE__) . '/../../_files/fixture/giftcard_cart.xml');
         $invalidData = Magento_Test_Helper_Api::simpleXmlToArray($fixture->invalid_remove);
         Magento_Test_Helper_Api::call($this, 'shoppingCartGiftcardRemove', (array)$invalidData);
     }

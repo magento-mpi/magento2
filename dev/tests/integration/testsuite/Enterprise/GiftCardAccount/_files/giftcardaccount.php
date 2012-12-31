@@ -17,5 +17,6 @@ $model->setCode('giftcardaccount_fixture')
     ->setWebsiteId(Mage::app()->getWebsite()->getId())
     ->setIsRedeemable(Enterprise_GiftCardAccount_Model_Giftcardaccount::REDEEMABLE)
     ->setBalance(9.99)
+    ->setDateExpires(date('Y-m-d'))
     ->save()
 ;

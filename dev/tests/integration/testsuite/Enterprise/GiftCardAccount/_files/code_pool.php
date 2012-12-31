@@ -12,4 +12,4 @@ do {
 } while ($pool->exists($code));
 $pool->saveCode($code);
 
-Enterprise_GiftCard_AccountTest::$code = $code;
+Enterprise_GiftCardAccount_Model_ApiTest::$code = $code;
