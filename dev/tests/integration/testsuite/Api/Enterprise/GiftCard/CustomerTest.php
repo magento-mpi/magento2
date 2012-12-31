@@ -17,12 +17,11 @@ class Enterprise_GiftCard_CustomerTest extends PHPUnit_Framework_TestCase
      */
     public function testInfo()
     {
-        $giftcardAccount = self::getFixture('giftcard_account');
-        $balance = $giftcardAccount->getData('balance');
-        $dateExpires = $giftcardAccount->getData('date_expires');
-        $code = $giftcardAccount->getData('code');
+        $balance = 9.99;
+        $dateExpires = '2022-05-12';
+        $code = 'giftcardaccount_fixture';
 
-        $info = $this->call('giftcardCustomerInfo', array('code' => $code));
+        $info = Magento_Test_Helper_Api::call($this, 'giftcardCustomerInfo', array('code' => $code));
         $this->assertEquals($balance, $info['balance']);
         $this->assertEquals($dateExpires, $info['expire_date']);
     }
@@ -38,18 +37,13 @@ class Enterprise_GiftCard_CustomerTest extends PHPUnit_Framework_TestCase
      */
     public function testRedeem()
     {
-        /** @var $giftcardAccount Enterprise_GiftCardAccount_Model_Giftcardaccount */
-        $giftcardAccount = self::getFixture('giftcard_account');
-        $code = $giftcardAccount->getCode();
+        $code = 'giftcardaccount_fixture';
 
         //Fixture customer id
-        /** @var $customer Mage_Customer_Model_Customer */
-        $customer = self::getFixture('giftcard/customer');
-        $customerId = $customer->getId();
-
+        $customerId = 1;
         $storeId = 1;
 
-        $result = $this->call(
+        $result = Magento_Test_Helper_Api::call($this,
             'giftcardCustomerRedeem',
             array('code' => $code, 'customerId' => $customerId, 'storeId' => $storeId)
         );
@@ -57,13 +51,13 @@ class Enterprise_GiftCard_CustomerTest extends PHPUnit_Framework_TestCase
 
         //Test giftcard redeemed to customer balance
         $customerBalance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance');
-        $customerBalance->setCustomerId($customer->getId());
+        $customerBalance->setCustomerId($customerId);
         $customerBalance->loadByCustomer();
-        $this->assertEquals($giftcardAccount->getBalance(), $customerBalance->getAmount());
+        $this->assertEquals(9.99, $customerBalance->getAmount());
 
         //Test giftcard already redeemed
-        $this->setExpectedException(self::DEFAULT_EXCEPTION);
-        $this->call(
+        $this->setExpectedException('SoapFault');
+        Magento_Test_Helper_Api::call($this,
             'giftcardCustomerRedeem',
             array('code' => $code, 'customerId' => $customerId, 'storeId' => $storeId)
         );
@@ -79,7 +73,7 @@ class Enterprise_GiftCard_CustomerTest extends PHPUnit_Framework_TestCase
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_customer.xml');
         $invalidData = Magento_Test_Helper_Api::simpleXmlToObject($fixture->invalid_info);
-        $this->call('giftcardCustomerInfo', $invalidData);
+        Magento_Test_Helper_Api::call($this, 'giftcardCustomerInfo', (array)$invalidData);
     }
 
     /**
@@ -92,6 +86,6 @@ class Enterprise_GiftCard_CustomerTest extends PHPUnit_Framework_TestCase
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_customer.xml');
         $invalidData = Magento_Test_Helper_Api::simpleXmlToObject($fixture->invalid_redeem);
-        $this->call('giftcardCustomerRedeem', $invalidData);
+        Magento_Test_Helper_Api::call($this, 'giftcardCustomerRedeem', (array)$invalidData);
     }
 }

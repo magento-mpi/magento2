@@ -6,18 +6,20 @@
  * @license     {license_link}
  */
 $customer = Mage::getModel('Mage_Customer_Model_Customer');
-
 $customer
+    ->setWebsiteId(1)
+    ->setEntityId(1)
+    ->setEntityTypeId(1)
+    ->setAttributeSetId(0)
+    ->setEmail('customer@example.com')
+    ->setPassword('password')
+    ->setGroupId(1)
     ->setStoreId(1)
-    ->setCreatedIn('Default Store View')
+    ->setIsActive(1)
+    ->setFirstname('Firstname')
+    ->setLastname('Lastname')
     ->setDefaultBilling(1)
     ->setDefaultShipping(1)
-    ->setEmail('mr.test_giftcard' . uniqid() . '@test.com')
-    ->setFirstname('Test')
-    ->setLastname('Test')
-    ->setMiddlename('Test')
-    ->setGroupId(1)
-    ->setRewardUpdateNotification(1)
-    ->setRewardWarningNotification(1)
-    ->save();
-PHPUnit_Framework_TestCase::setFixture('giftcard/customer', $customer);
+;
+$customer->isObjectNew(true);
+$customer->save();

@@ -12,17 +12,6 @@
 class Enterprise_GiftCard_CartTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-        $this->deleteFixture('giftcard_account', true);
-
-        parent::tearDown();
-    }
-
-    /**
      * Test giftcard Shopping Cart add, list, remove
      *
      * @return void
@@ -30,14 +19,14 @@ class Enterprise_GiftCard_CartTest extends PHPUnit_Framework_TestCase
     public function testLSD()
     {
         //Test giftcard add to quote
-        $giftCardAccount = self::getFixture('giftcard_account');
         $storeId = 1;
-        $quoteId = $this->call('shoppingCartCreate', array('store' => $storeId));
+        $quoteId = Magento_Test_Helper_Api::call($this, 'shoppingCartCreate', array('store' => $storeId));
 
-        $addResult = $this->call(
+        $giftcardAccountCode = 'giftcardaccount_fixture';
+        $addResult = Magento_Test_Helper_Api::call($this,
             'shoppingCartGiftcardAdd',
             array(
-                'giftcardAccountCode' => $giftCardAccount->getCode(),
+                'giftcardAccountCode' => $giftcardAccountCode,
                 'quoteId' => $quoteId,
                 'storeId' => $storeId
             )
@@ -45,21 +34,24 @@ class Enterprise_GiftCard_CartTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($addResult, 'Add giftcard to quote');
 
         //Test list of giftcards added to quote
-        $giftCards = $this->call('shoppingCartGiftcardList', array('quoteId' => $quoteId, 'storeId' => $storeId));
+        $giftCards = Magento_Test_Helper_Api::call(
+            $this, 'shoppingCartGiftcardList',
+            array('quoteId' => $quoteId, 'storeId' => $storeId)
+        );
         $this->assertInternalType('array', $giftCards);
         $this->assertGreaterThan(0, count($giftCards));
 
         if (!isset($giftCards[0])) { // workaround for WSI plain array response
             $giftCards = array($giftCards);
         }
-        $this->assertEquals($giftCardAccount->getCode(), $giftCards[0]['code']);
-        $this->assertEquals($giftCardAccount->getBalance(), $giftCards[0]['base_amount']);
+        $this->assertEquals($giftcardAccountCode, $giftCards[0]['code']);
+        $this->assertEquals(9.99, $giftCards[0]['base_amount']);
 
         //Test giftcard removing from quote
-        $removeResult = $this->call(
+        $removeResult = Magento_Test_Helper_Api::call($this,
             'shoppingCartGiftcardRemove',
             array(
-                'giftcardAccountCode' => $giftCardAccount->getCode(),
+                'giftcardAccountCode' => $giftcardAccountCode,
                 'quoteId' => $quoteId,
                 'storeId' => $storeId
             )
@@ -73,10 +65,10 @@ class Enterprise_GiftCard_CartTest extends PHPUnit_Framework_TestCase
         $quote->delete();
 
         //Test giftcard removed
-        $this->setExpectedException(self::DEFAULT_EXCEPTION);
-        $this->call(
+        $this->setExpectedException('SoapFault');
+        Magento_Test_Helper_Api::call($this,
             'shoppingCartGiftcardRemove',
-            array('giftcardAccountCode' => $giftCardAccount->getCode(), 'quoteId' => $quoteId, 'storeId' => $storeId)
+            array('giftcardAccountCode' => $giftcardAccountCode, 'quoteId' => $quoteId, 'storeId' => $storeId)
         );
     }
 
@@ -90,7 +82,7 @@ class Enterprise_GiftCard_CartTest extends PHPUnit_Framework_TestCase
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_cart.xml');
         $invalidData = Magento_Test_Helper_Api::simpleXmlToObject($fixture->invalid_create);
-        $this->call('shoppingCartGiftcardAdd', $invalidData);
+        Magento_Test_Helper_Api::call($this, 'shoppingCartGiftcardAdd', (array)$invalidData);
     }
 
     /**
@@ -103,7 +95,7 @@ class Enterprise_GiftCard_CartTest extends PHPUnit_Framework_TestCase
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_cart.xml');
         $invalidData = Magento_Test_Helper_Api::simpleXmlToObject($fixture->invalid_list);
-        $this->call('shoppingCartGiftcardList', $invalidData);
+        Magento_Test_Helper_Api::call($this, 'shoppingCartGiftcardList', (array)$invalidData);
     }
 
     /**
@@ -116,6 +108,6 @@ class Enterprise_GiftCard_CartTest extends PHPUnit_Framework_TestCase
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_cart.xml');
         $invalidData = Magento_Test_Helper_Api::simpleXmlToObject($fixture->invalid_remove);
-        $this->call('shoppingCartGiftcardRemove', $invalidData);
+        Magento_Test_Helper_Api::call($this, 'shoppingCartGiftcardRemove', (array)$invalidData);
     }
 }

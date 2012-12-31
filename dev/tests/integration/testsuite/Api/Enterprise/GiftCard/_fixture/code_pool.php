@@ -12,8 +12,4 @@ do {
 } while ($pool->exists($code));
 $pool->saveCode($code);
 
-PHPUnit_Framework_TestCase::setFixture(
-    'giftcardaccount_pool_code',
-    $code,
-    PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_DISABLED
-);
+Enterprise_GiftCard_AccountTest::$code = $code;
