@@ -13,9 +13,6 @@
  */
 class Enterprise_CustomerBalance_CustomerBalanceTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Test_Helper_Api */
-    protected $_apiHelper;
-
     /**
      * Customer fixture
      *
@@ -29,12 +26,6 @@ class Enterprise_CustomerBalance_CustomerBalanceTest extends PHPUnit_Framework_T
      * @var Mage_Customer_Model_Customer
      */
     public static $customerWithoutBalance = null;
-
-    protected function setUp()
-    {
-        $this->_apiHelper = Magento_Test_Helper_Factory::getHelper('Api');
-        parent::setUp();
-    }
 
     public static function tearDownAfterClass()
     {
@@ -62,7 +53,7 @@ class Enterprise_CustomerBalance_CustomerBalanceTest extends PHPUnit_Framework_T
 
         $data->input->customerId = self::$customer->getId();
 
-        $result = $this->_apiHelper->call('enterpriseCustomerbalanceBalance', (array)$data->input);
+        $result = Magento_Test_Helper_Api::call($this, 'enterpriseCustomerbalanceBalance', (array)$data->input);
         $this->assertEquals($data->expected->balance, $result, 'This balance value is not expected');
     }
 
@@ -75,7 +66,7 @@ class Enterprise_CustomerBalance_CustomerBalanceTest extends PHPUnit_Framework_T
     {
         $this->setExpectedException('SoapFault', 'Balance with requested parameters is not found.');
         $params = array(self::$customerWithoutBalance->getId(), $websiteId = 1);
-        $this->_apiHelper->call('enterpriseCustomerbalanceBalance', $params);
+        Magento_Test_Helper_Api::call($this, 'enterpriseCustomerbalanceBalance', $params);
     }
 
     /**
@@ -92,7 +83,7 @@ class Enterprise_CustomerBalance_CustomerBalanceTest extends PHPUnit_Framework_T
 
         $data->input->customerId = self::$customer->getId();
 
-        $result = $this->_apiHelper->call(
+        $result = Magento_Test_Helper_Api::call($this,
             'enterpriseCustomerbalanceHistory',
             array($data->input->customerId, $data->input->websiteId)
         );
@@ -115,6 +106,6 @@ class Enterprise_CustomerBalance_CustomerBalanceTest extends PHPUnit_Framework_T
     {
         $this->setExpectedException('SoapFault', 'History with requested parameters is not found.');
         $params = array(self::$customerWithoutBalance->getId(), $websiteId = 1);
-        $this->_apiHelper->call('enterpriseCustomerbalanceHistory', $params);
+        Magento_Test_Helper_Api::call($this, 'enterpriseCustomerbalanceHistory', $params);
     }
 }

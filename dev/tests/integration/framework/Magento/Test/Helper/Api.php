@@ -7,33 +7,33 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-// TODO: Remove inheritance
-class Magento_Test_Helper_Api extends PHPUnit_Framework_TestCase
+class Magento_Test_Helper_Api
 {
     /**
      * Call API method via API handler.
      *
+     * @param PHPUnit_Framework_TestCase $testCase Active test case
      * @param string $path
      * @param array $params
      * @return mixed
      */
-    public function call($path, $params = array())
+    public static function call(PHPUnit_Framework_TestCase $testCase, $path, $params = array())
     {
-        $soapAdapterMock = $this->getMock('Mage_Api_Model_Server_Adapter_Soap', array('fault'));
-        $soapAdapterMock->expects($this->any())->method('fault')->will(
-            $this->returnCallback(array($this, 'soapAdapterFaultCallback'))
+        $soapAdapterMock = $testCase->getMock('Mage_Api_Model_Server_Adapter_Soap', array('fault'));
+        $soapAdapterMock->expects($testCase->any())->method('fault')->will(
+            $testCase->returnCallback(array(__CLASS__, 'soapAdapterFaultCallback'))
         );
 
-        $serverMock = $this->getMock('Mage_Api_Model_Server', array('getAdapter'));
-        $serverMock->expects($this->any())->method('getAdapter')->will($this->returnValue($soapAdapterMock));
+        $serverMock = $testCase->getMock('Mage_Api_Model_Server', array('getAdapter'));
+        $serverMock->expects($testCase->any())->method('getAdapter')->will($testCase->returnValue($soapAdapterMock));
 
-        $apiSessionMock = $this->getMock('Mage_Api_Model_Session', array('isAllowed', 'isLoggedIn'));
-        $apiSessionMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
-        $apiSessionMock->expects($this->any())->method('isLoggedIn')->will($this->returnValue(true));
+        $apiSessionMock = $testCase->getMock('Mage_Api_Model_Session', array('isAllowed', 'isLoggedIn'));
+        $apiSessionMock->expects($testCase->any())->method('isAllowed')->will($testCase->returnValue(true));
+        $apiSessionMock->expects($testCase->any())->method('isLoggedIn')->will($testCase->returnValue(true));
 
-        $handlerMock = $this->getMock('Mage_Api_Model_Server_Handler_Soap', array('_getServer', '_getSession'));
-        $handlerMock->expects($this->any())->method('_getServer')->will($this->returnValue($serverMock));
-        $handlerMock->expects($this->any())->method('_getSession')->will($this->returnValue($apiSessionMock));
+        $handlerMock = $testCase->getMock('Mage_Api_Model_Server_Handler_Soap', array('_getServer', '_getSession'));
+        $handlerMock->expects($testCase->any())->method('_getServer')->will($testCase->returnValue($serverMock));
+        $handlerMock->expects($testCase->any())->method('_getSession')->will($testCase->returnValue($apiSessionMock));
 
         array_unshift($params, 'sessionId');
         return call_user_func_array(array($handlerMock, $path), $params);
@@ -46,7 +46,7 @@ class Magento_Test_Helper_Api extends PHPUnit_Framework_TestCase
      * @param string $exceptionMessage
      * @throws SoapFault
      */
-    public function soapAdapterFaultCallback($exceptionCode, $exceptionMessage)
+    public static function soapAdapterFaultCallback($exceptionCode, $exceptionMessage)
     {
         throw new SoapFault($exceptionCode, $exceptionMessage);
     }
