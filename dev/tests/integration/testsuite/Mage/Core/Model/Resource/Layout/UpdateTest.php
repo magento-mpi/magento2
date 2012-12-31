@@ -24,23 +24,23 @@ class Mage_Core_Model_Resource_Layout_UpdateTest extends PHPUnit_Framework_TestC
     /**
      * @var Mage_Core_Model_Design_Package
      */
-    protected $_design;
+    protected $_designPackage;
 
     protected function setUp()
     {
         $this->_objectManager = Mage::getObjectManager();
-        $this->_design = $this->_objectManager->get('Mage_Core_Model_Design_Package');
+        $this->_designPackage = $this->_objectManager->get('Mage_Core_Model_Design_Package');
 
-        $this->_themeId = $this->_design->getDesignTheme()->getThemeId();
+        $this->_themeId = $this->_designPackage->getDesignTheme()->getThemeId();
         /** @var $theme Mage_Core_Model_Theme */
         $theme = $this->_objectManager->create('Mage_Core_Model_Theme');
         $theme->load('Test Theme', 'theme_title');
-        $this->_design->getDesignTheme()->setThemeId($theme->getId());
+        $this->_designPackage->getDesignTheme()->setThemeId($theme->getId());
     }
 
     protected function tearDown()
     {
-        $this->_design->getDesignTheme()->setThemeId($this->_themeId);
+        $this->_designPackage->getDesignTheme()->setThemeId($this->_themeId);
     }
 
     /**
