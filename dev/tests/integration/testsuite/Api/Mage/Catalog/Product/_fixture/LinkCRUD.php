@@ -8,26 +8,26 @@
 
 //Add customer
 $fixture = simplexml_load_file(__DIR__ . '/_data/xml/LinkCRUD.xml');
-$customerData = Magento_Test_TestCase_ApiAbstract::simpleXmlToObject($fixture->customer);
+$customerData = Magento_Test_Helper_Api::simpleXmlToObject($fixture->customer);
 $customerData['email'] = mt_rand(1000, 9999) . '.' . $customerData['email'];
 
 $customer = Mage::getModel('Mage_Customer_Model_Customer');
 $customer->setData($customerData)->save();
-Magento_Test_TestCase_ApiAbstract::setFixture(
+PHPUnit_Framework_TestCase::setFixture(
     'customerData',
     $customer,
-    Magento_Test_TestCase_ApiAbstract::AUTO_TEAR_DOWN_DISABLED
+    PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_DISABLED
 );
 
 //Create new downloadable product
-$productData = Magento_Test_TestCase_ApiAbstract::simpleXmlToObject($fixture->product);
+$productData = Magento_Test_Helper_Api::simpleXmlToObject($fixture->product);
 $productData['sku'] = $productData['sku'] . mt_rand(1000, 9999);
 $productData['name'] = $productData['name'] . ' ' . mt_rand(1000, 9999);
 
 $product = Mage::getModel('Mage_Catalog_Model_Product');
 $product->setData($productData)->save();
-Magento_Test_TestCase_ApiAbstract::setFixture(
+PHPUnit_Framework_TestCase::setFixture(
     'productData',
     $product,
-    Magento_Test_TestCase_ApiAbstract::AUTO_TEAR_DOWN_DISABLED
+    PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_DISABLED
 );

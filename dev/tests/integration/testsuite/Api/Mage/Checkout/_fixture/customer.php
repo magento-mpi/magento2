@@ -18,4 +18,4 @@ $customer->setStoreId(1)
     ->setRewardUpdateNotification(1)
     ->setRewardWarningNotification(1)
     ->save();
-Magento_Test_TestCase_ApiAbstract::setFixture('creditmemo/customer', $customer);
+PHPUnit_Framework_TestCase::setFixture('creditmemo/customer', $customer);

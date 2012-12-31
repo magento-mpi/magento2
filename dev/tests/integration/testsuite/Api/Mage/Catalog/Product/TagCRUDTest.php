@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 /**
- * @magentoApiDataFixture Mage/Catalog/Product/_fixture/TagCRUD.php
+ * @magentoDataFixture Api/Mage/Catalog/Product/_fixture/TagCRUD.php
  */
-class Mage_Catalog_Product_TagCRUDTest extends Magento_Test_TestCase_ApiAbstract
+class Mage_Catalog_Product_TagCRUDTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test tag CRUD
@@ -18,11 +18,11 @@ class Mage_Catalog_Product_TagCRUDTest extends Magento_Test_TestCase_ApiAbstract
     public function testTagCRUD()
     {
         $tagFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/TagCRUD.xml');
-        $data = self::simpleXmlToObject($tagFixture->tagData);
-        $expected = self::simpleXmlToObject($tagFixture->expected);
+        $data = Magento_Test_Helper_Api::simpleXmlToObject($tagFixture->tagData);
+        $expected = Magento_Test_Helper_Api::simpleXmlToObject($tagFixture->expected);
 
-        $data['product_id'] = Magento_Test_TestCase_ApiAbstract::getFixture('productData')->getId();
-        $data['customer_id'] = Magento_Test_TestCase_ApiAbstract::getFixture('customerData')->getId();
+        $data['product_id'] = PHPUnit_Framework_TestCase::getFixture('productData')->getId();
+        $data['customer_id'] = PHPUnit_Framework_TestCase::getFixture('customerData')->getId();
 
         // create test
         $createdTags = $this->call('catalogProductTagAdd', array('data' => $data));
@@ -40,7 +40,7 @@ class Mage_Catalog_Product_TagCRUDTest extends Magento_Test_TestCase_ApiAbstract
 
         // Invalid customer ID exception test
         try {
-            $data['product_id'] = Magento_Test_TestCase_ApiAbstract::getFixture('productData')->getId();
+            $data['product_id'] = PHPUnit_Framework_TestCase::getFixture('productData')->getId();
             $data['customer_id'] = mt_rand(10000, 99999);
             $this->call('catalogProductTagAdd', array('data' => $data));
             $this->fail("Didn't receive exception!");
@@ -50,8 +50,8 @@ class Mage_Catalog_Product_TagCRUDTest extends Magento_Test_TestCase_ApiAbstract
 
         // Invalid store ID exception test
         try {
-            $data['product_id'] = Magento_Test_TestCase_ApiAbstract::getFixture('productData')->getId();
-            $data['customer_id'] = Magento_Test_TestCase_ApiAbstract::getFixture('customerData')->getId();
+            $data['product_id'] = PHPUnit_Framework_TestCase::getFixture('productData')->getId();
+            $data['customer_id'] = PHPUnit_Framework_TestCase::getFixture('customerData')->getId();
             $data->store = mt_rand(10000, 99999);
             $this->call('catalogProductTagAdd', array('data' => $data));
             $this->fail("Didn't receive exception!");
@@ -63,7 +63,7 @@ class Mage_Catalog_Product_TagCRUDTest extends Magento_Test_TestCase_ApiAbstract
         $tagsList = $this->call(
             'catalogProductTagList',
             array(
-                'productId' => Magento_Test_TestCase_ApiAbstract::getFixture('productData')->getId(),
+                'productId' => PHPUnit_Framework_TestCase::getFixture('productData')->getId(),
                 'store' => 0
             )
         );

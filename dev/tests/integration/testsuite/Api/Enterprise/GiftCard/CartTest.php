@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 /**
- * @magentoApiDataFixture Enterprise/GiftCard/_fixture/code_pool.php
- * @magentoApiDataFixture Enterprise/GiftCard/_fixture/giftcard_account.php
+ * @magentoDataFixture Api/Enterprise/GiftCard/_fixture/code_pool.php
+ * @magentoDataFixture Api/Enterprise/GiftCard/_fixture/giftcard_account.php
  */
-class Enterprise_GiftCard_CartTest extends Magento_Test_TestCase_ApiAbstract
+class Enterprise_GiftCard_CartTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Tears down the fixture, for example, close a network connection.
@@ -89,7 +89,7 @@ class Enterprise_GiftCard_CartTest extends Magento_Test_TestCase_ApiAbstract
     public function testIncorrectDataAddException()
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_cart.xml');
-        $invalidData = self::simpleXmlToObject($fixture->invalid_create);
+        $invalidData = Magento_Test_Helper_Api::simpleXmlToObject($fixture->invalid_create);
         $this->call('shoppingCartGiftcardAdd', $invalidData);
     }
 
@@ -102,7 +102,7 @@ class Enterprise_GiftCard_CartTest extends Magento_Test_TestCase_ApiAbstract
     public function testIncorrectDataListException()
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_cart.xml');
-        $invalidData = self::simpleXmlToObject($fixture->invalid_list);
+        $invalidData = Magento_Test_Helper_Api::simpleXmlToObject($fixture->invalid_list);
         $this->call('shoppingCartGiftcardList', $invalidData);
     }
 
@@ -115,7 +115,7 @@ class Enterprise_GiftCard_CartTest extends Magento_Test_TestCase_ApiAbstract
     public function testIncorrectDataRemoveException()
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_cart.xml');
-        $invalidData = self::simpleXmlToObject($fixture->invalid_remove);
+        $invalidData = Magento_Test_Helper_Api::simpleXmlToObject($fixture->invalid_remove);
         $this->call('shoppingCartGiftcardRemove', $invalidData);
     }
 }

@@ -206,7 +206,7 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
      * Test product create resource with not unique sku value
      * Negative test.
      *
-     * @magentoApiDataFixture Mage/SalesOrder/_fixture/product_simple.php
+     * @magentoDataFixture Api/Mage/SalesOrder/_fixture/product_simple.php
      * @resourceOperation product::create
      */
     public function testCreateNotUniqueSku()

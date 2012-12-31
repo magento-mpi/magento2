@@ -5,20 +5,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Catalog_Product_DownloadableLinkCRUDTest extends Magento_Test_TestCase_ApiAbstract
+class Mage_Catalog_Product_DownloadableLinkCRUDTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test downloadable link create
      *
-     * @magentoApiDataFixture Mage/Catalog/Product/_fixture/LinkCRUD.php
+     * @magentoDataFixture Api/Mage/Catalog/Product/_fixture/LinkCRUD.php
      * @return void
      */
     public function testDownloadableLinkCreate()
     {
         $tagFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/LinkCRUD.xml');
-        $items = self::simpleXmlToObject($tagFixture->items);
+        $items = Magento_Test_Helper_Api::simpleXmlToObject($tagFixture->items);
 
-        $productId = Magento_Test_TestCase_ApiAbstract::getFixture('productData')->getId();
+        $productId = PHPUnit_Framework_TestCase::getFixture('productData')->getId();
 
         foreach ($items as $item) {
             foreach ($item as $key => $value) {
@@ -55,12 +55,12 @@ class Mage_Catalog_Product_DownloadableLinkCRUDTest extends Magento_Test_TestCas
      * Test get downloadable link items
      *
      * @return void
-     * @magentoApiDataFixture Mage/Catalog/Product/_fixture/DownloadableWithLinks.php
+     * @magentoDataFixture Api/Mage/Catalog/Product/_fixture/DownloadableWithLinks.php
      */
     public function testDownloadableLinkItems()
     {
         /** @var Mage_Catalog_Model_Product $product */
-        $product = Magento_Test_TestCase_ApiAbstract::getFixture('downloadable');
+        $product = PHPUnit_Framework_TestCase::getFixture('downloadable');
         $productId = $product->getId();
 
         $result = $this->call('catalogProductDownloadableLinkList', array('productId' => $productId));
@@ -82,13 +82,13 @@ class Mage_Catalog_Product_DownloadableLinkCRUDTest extends Magento_Test_TestCas
     /**
      * Remove downloadable link
      *
-     * @magentoApiDataFixture Mage/Catalog/Product/_fixture/DownloadableWithLinks.php
+     * @magentoDataFixture Api/Mage/Catalog/Product/_fixture/DownloadableWithLinks.php
      * @return void
      */
     public function testDownloadableLinkRemove()
     {
         /** @var Mage_Catalog_Model_Product $product */
-        $product = Magento_Test_TestCase_ApiAbstract::getFixture('downloadable');
+        $product = PHPUnit_Framework_TestCase::getFixture('downloadable');
         /** @var Mage_Downloadable_Model_Product_Type $downloadable */
         $downloadable = $product->getTypeInstance();
         $links = $downloadable->getLinks($product);

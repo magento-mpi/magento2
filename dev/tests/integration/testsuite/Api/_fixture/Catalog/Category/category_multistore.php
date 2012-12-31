@@ -19,12 +19,12 @@ $categoryFixture->save();
 // create new store fixture
 require '_fixture/Core/Store/store.php';
 /** @var $storeFixture Mage_Core_Model_Store */
-$storeFixture = Magento_Test_TestCase_ApiAbstract::getFixture('store');
+$storeFixture = PHPUnit_Framework_TestCase::getFixture('store');
 $categoryDataOnStore = require '_fixture/_data/Catalog/Category/category_store_data.php';
 $categoryFixture->setStoreId($storeFixture->getId())->addData($categoryDataOnStore)->save();
 
-Magento_Test_TestCase_ApiAbstract::setFixture(
+PHPUnit_Framework_TestCase::setFixture(
     'category',
     $categoryFixture,
-    Magento_Test_TestCase_ApiAbstract::AUTO_TEAR_DOWN_DISABLED
+    PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_DISABLED
 );

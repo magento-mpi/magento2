@@ -12,9 +12,9 @@
  *
  * @copyright   {copyright}
  * @license     {license_link}
- * @magentoApiDataFixture Mage/SalesOrder/_fixture/order.php
+ * @magentoDataFixture Api/Mage/SalesOrder/_fixture/order.php
  */
-class SalesOrder_StatusTest extends Magento_Test_TestCase_ApiAbstract
+class SalesOrder_StatusTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Tears down the fixture, for example, close a network connection.
@@ -22,10 +22,10 @@ class SalesOrder_StatusTest extends Magento_Test_TestCase_ApiAbstract
      */
     public static function tearDownAfterClass()
     {
-        Magento_Test_TestCase_ApiAbstract::deleteFixture('customer', true);
-        Magento_Test_TestCase_ApiAbstract::deleteFixture('product_virtual', true);
-        Magento_Test_TestCase_ApiAbstract::deleteFixture('quote', true);
-        Magento_Test_TestCase_ApiAbstract::deleteFixture('order', true);
+        PHPUnit_Framework_TestCase::deleteFixture('customer', true);
+        PHPUnit_Framework_TestCase::deleteFixture('product_virtual', true);
+        PHPUnit_Framework_TestCase::deleteFixture('quote', true);
+        PHPUnit_Framework_TestCase::deleteFixture('order', true);
 
         parent::tearDownAfterClass();
     }
@@ -38,7 +38,7 @@ class SalesOrder_StatusTest extends Magento_Test_TestCase_ApiAbstract
     public function testCancelPendingOrder()
     {
         /** @var $order Mage_Sales_Model_Order */
-        $order = Magento_Test_TestCase_ApiAbstract::getFixture('order');
+        $order = PHPUnit_Framework_TestCase::getFixture('order');
 
         $order->setStatus('pending')
             ->save();
@@ -66,7 +66,7 @@ class SalesOrder_StatusTest extends Magento_Test_TestCase_ApiAbstract
     public function testHoldProcessingOrder()
     {
         /** @var $order Mage_Sales_Model_Order */
-        $order = Magento_Test_TestCase_ApiAbstract::getFixture('order');
+        $order = PHPUnit_Framework_TestCase::getFixture('order');
 
         $order->setState(Mage_Sales_Model_Order::STATE_NEW, 'pending')
             ->save();

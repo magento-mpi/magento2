@@ -9,7 +9,7 @@
 require '_fixture/Core/Store/store_on_new_website.php';
 $websiteIds = array(Mage::app()->getDefaultStoreView()->getWebsiteId());
 /** @var $testStore Mage_Core_Model_Store */
-$testStore = Magento_Test_TestCase_ApiAbstract::getFixture('store_on_new_website');
+$testStore = PHPUnit_Framework_TestCase::getFixture('store_on_new_website');
 if ($testStore) {
     $websiteIds[] = $testStore->getWebsiteId();
 }
@@ -29,4 +29,4 @@ for ($i = 1; $i <= 3; $i++) {
     $product->save();
     $products[] = $product;
 }
-Magento_Test_TestCase_ApiAbstract::setFixture('products', $products);
+PHPUnit_Framework_TestCase::setFixture('products', $products);

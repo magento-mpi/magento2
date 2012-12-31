@@ -20,4 +20,4 @@ $customer
     ->setRewardUpdateNotification(1)
     ->setRewardWarningNotification(1)
     ->save();
-Magento_Test_TestCase_ApiAbstract::setFixture('giftcard/customer', $customer);
+PHPUnit_Framework_TestCase::setFixture('giftcard/customer', $customer);

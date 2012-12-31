@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Catalog_Product_Helper_Configurable extends Magento_Test_TestCase_ApiAbstract
+class Mage_Catalog_Product_Helper_Configurable extends PHPUnit_Framework_TestCase
 {
     /**
      * Retrieve valid configurable data

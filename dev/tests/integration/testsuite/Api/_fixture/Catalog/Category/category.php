@@ -15,8 +15,8 @@ $parentCategory = Mage::getModel('Mage_Catalog_Model_Category')->load(
 $categoryFixture->setPath($parentCategory->getPath());
 $categoryFixture->setStoreId(0);
 $categoryFixture->save();
-Magento_Test_TestCase_ApiAbstract::setFixture(
+PHPUnit_Framework_TestCase::setFixture(
     'category',
     $categoryFixture,
-    Magento_Test_TestCase_ApiAbstract::AUTO_TEAR_DOWN_DISABLED
+    PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_DISABLED
 );

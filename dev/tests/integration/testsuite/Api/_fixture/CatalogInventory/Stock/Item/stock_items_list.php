@@ -24,5 +24,5 @@ for ($i = 0; $i < COUNT_STOCK_ITEMS_LIST; $i++) {
     $stockItems[] = $stockItem->setProductId($product->getId())->save();
 }
 
-Magento_Test_TestCase_ApiAbstract::setFixture('cataloginventory_stock_products', $products);
-Magento_Test_TestCase_ApiAbstract::setFixture('cataloginventory_stock_items', $stockItems);
+PHPUnit_Framework_TestCase::setFixture('cataloginventory_stock_products', $products);
+PHPUnit_Framework_TestCase::setFixture('cataloginventory_stock_items', $stockItems);

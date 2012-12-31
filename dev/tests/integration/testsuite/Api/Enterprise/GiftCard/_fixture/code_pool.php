@@ -12,8 +12,8 @@ do {
 } while ($pool->exists($code));
 $pool->saveCode($code);
 
-Magento_Test_TestCase_ApiAbstract::setFixture(
+PHPUnit_Framework_TestCase::setFixture(
     'giftcardaccount_pool_code',
     $code,
-    Magento_Test_TestCase_ApiAbstract::AUTO_TEAR_DOWN_DISABLED
+    PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_DISABLED
 );

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Catalog_Category_CategoryTest extends Magento_Test_TestCase_ApiAbstract
+class Mage_Catalog_Category_CategoryTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Fixture data

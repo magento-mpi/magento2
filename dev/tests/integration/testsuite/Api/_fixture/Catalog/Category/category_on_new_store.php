@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-if (!Magento_Test_TestCase_ApiAbstract::getFixture('store')) {
+if (!PHPUnit_Framework_TestCase::getFixture('store')) {
 
     $category = Mage::getModel('Mage_Catalog_Model_Category');
     $category->setData(
@@ -38,10 +38,10 @@ if (!Magento_Test_TestCase_ApiAbstract::getFixture('store')) {
     $category->setPath($parentCategory->getPath());
     $category->setStoreId(0);
     $category->save();
-    Magento_Test_TestCase_ApiAbstract::setFixture(
+    PHPUnit_Framework_TestCase::setFixture(
         'category',
         $category,
-        Magento_Test_TestCase_ApiAbstract::AUTO_TEAR_DOWN_DISABLED
+        PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_DISABLED
     );
 
 
@@ -53,10 +53,10 @@ if (!Magento_Test_TestCase_ApiAbstract::getFixture('store')) {
         )
     );
     $website->save();
-    Magento_Test_TestCase_ApiAbstract::setFixture(
+    PHPUnit_Framework_TestCase::setFixture(
         'website',
         $website,
-        Magento_Test_TestCase_ApiAbstract::AUTO_TEAR_DOWN_DISABLED
+        PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_DISABLED
     );
 
     $storeGroup = Mage::getModel('Mage_Core_Model_Store_Group');
@@ -68,10 +68,10 @@ if (!Magento_Test_TestCase_ApiAbstract::getFixture('store')) {
             'root_category_id' => $category->getId()
         )
     )->save();
-    Magento_Test_TestCase_ApiAbstract::setFixture(
+    PHPUnit_Framework_TestCase::setFixture(
         'store_group',
         $storeGroup,
-        Magento_Test_TestCase_ApiAbstract::AUTO_TEAR_DOWN_DISABLED
+        PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_DISABLED
     );
 
 
@@ -86,9 +86,9 @@ if (!Magento_Test_TestCase_ApiAbstract::getFixture('store')) {
         )
     )->save();
     Mage::app()->reinitStores();
-    Magento_Test_TestCase_ApiAbstract::setFixture(
+    PHPUnit_Framework_TestCase::setFixture(
         'store',
         $store,
-        Magento_Test_TestCase_ApiAbstract::AUTO_TEAR_DOWN_DISABLED
+        PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_DISABLED
     );
 }

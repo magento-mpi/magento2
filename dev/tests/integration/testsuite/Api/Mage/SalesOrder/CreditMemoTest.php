@@ -19,7 +19,7 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
     /**
      * Test sales order credit memo list, info, create, cancel
      *
-     * @magentoApiDataFixture Mage/SalesOrder/_fixture/invoice.php
+     * @magentoDataFixture Api/Mage/SalesOrder/_fixture/invoice.php
      * @magentoAppIsolation enabled
      */
     public function testCRUD()
@@ -92,7 +92,7 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
      * Test Exception when refund amount greater than available to refund amount
      *
      * @expectedException SoapFault
-     * @magentoApiDataFixture Mage/SalesOrder/_fixture/invoice.php
+     * @magentoDataFixture Api/Mage/SalesOrder/_fixture/invoice.php
      * @magentoAppIsolation enabled
      */
     public function testNegativeRefundException()
@@ -183,7 +183,7 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
     /**
      * Test credit memo create API call results
      *
-     * @magentoApiDataFixture Mage/SalesOrder/_fixture/invoice.php
+     * @magentoDataFixture Api/Mage/SalesOrder/_fixture/invoice.php
      * @magentoAppIsolation enabled
      */
     public function testAutoIncrementType()
@@ -231,7 +231,7 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
     /**
      * Test order creditmemo list. With filters
      *
-     * @magentoApiDataFixture Mage/SalesOrder/_fixture/invoice.php
+     * @magentoDataFixture Api/Mage/SalesOrder/_fixture/invoice.php
      * @magentoAppIsolation enabled
      * @depends testCRUD
      */

@@ -9,11 +9,11 @@ Mage::init('base', 'website');
 //Set up customer fixture
 require 'customer.php';
 /** @var $customer Mage_Customer_Model_Customer */
-$customer = Magento_Test_TestCase_ApiAbstract::getFixture('customer');
+$customer = PHPUnit_Framework_TestCase::getFixture('customer');
 //Set up virtual product fixture
 require 'product_virtual.php';
 /** @var $product Mage_Catalog_Model_Product */
-$product = Magento_Test_TestCase_ApiAbstract::getFixture('product_virtual');
+$product = PHPUnit_Framework_TestCase::getFixture('product_virtual');
 
 //Create quote
 $quote = Mage::getModel('Mage_Sales_Model_Quote');
@@ -27,10 +27,10 @@ $quote->setStoreId(1)
 
 $quote->collectTotals();
 $quote->save();
-Magento_Test_TestCase_ApiAbstract::setFixture(
+PHPUnit_Framework_TestCase::setFixture(
     'quote',
     $quote,
-    Magento_Test_TestCase_ApiAbstract::AUTO_TEAR_DOWN_AFTER_CLASS
+    PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_AFTER_CLASS
 );
 
 //Create order
@@ -40,10 +40,10 @@ $quoteService->getQuote()->getPayment()->setMethod('checkmo');
 $order = $quoteService->submitOrder();
 $order->place();
 $order->save();
-Magento_Test_TestCase_ApiAbstract::setFixture(
+PHPUnit_Framework_TestCase::setFixture(
     'order',
     $order,
-    Magento_Test_TestCase_ApiAbstract::AUTO_TEAR_DOWN_AFTER_CLASS
+    PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_AFTER_CLASS
 );
 
 //Create order
@@ -58,10 +58,10 @@ $quote2->setStoreId(1)
 
 $quote2->collectTotals();
 $quote2->save();
-Magento_Test_TestCase_ApiAbstract::setFixture(
+PHPUnit_Framework_TestCase::setFixture(
     'quote2',
     $quote2,
-    Magento_Test_TestCase_ApiAbstract::AUTO_TEAR_DOWN_AFTER_CLASS
+    PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_AFTER_CLASS
 );
 
 $quoteService2 = new Mage_Sales_Model_Service_Quote($quote2);
@@ -70,8 +70,8 @@ $quoteService2->getQuote()->getPayment()->setMethod('checkmo');
 $order2 = $quoteService2->submitOrder();
 $order2->place();
 $order2->save();
-Magento_Test_TestCase_ApiAbstract::setFixture(
+PHPUnit_Framework_TestCase::setFixture(
     'order2',
     $order2,
-    Magento_Test_TestCase_ApiAbstract::AUTO_TEAR_DOWN_AFTER_CLASS
+    PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_AFTER_CLASS
 );

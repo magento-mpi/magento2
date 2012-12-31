@@ -13,7 +13,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Catalog_Product_AttributeTest extends Magento_Test_TestCase_ApiAbstract
+class Mage_Catalog_Product_AttributeTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Tests attribute creation with invalid characters in attribute code (possible SQL injection)
@@ -36,8 +36,8 @@ class Mage_Catalog_Product_AttributeTest extends Magento_Test_TestCase_ApiAbstra
 
             $this->fail('Exception with message like "invalid attribute code" expected but not thrown');
         } catch (Exception $e) {
-            if (TESTS_WEBSERVICE_TYPE == Magento_Test_TestCase_ApiAbstract::TYPE_SOAP
-                || TESTS_WEBSERVICE_TYPE == Magento_Test_TestCase_ApiAbstract::TYPE_SOAP_WSI
+            if (TESTS_WEBSERVICE_TYPE == PHPUnit_Framework_TestCase::TYPE_SOAP
+                || TESTS_WEBSERVICE_TYPE == PHPUnit_Framework_TestCase::TYPE_SOAP_WSI
             ) {
                 $this->assertEquals(103, $e->faultcode, 'Unexpected fault code');
             }

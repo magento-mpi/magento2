@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_GiftCard_AccountTest extends Magento_Test_TestCase_ApiAbstract
+class Enterprise_GiftCard_AccountTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test create, list, info, update, remove
      *
-     * @magentoApiDataFixture Enterprise/GiftCard/_fixture/code_pool.php
+     * @magentoDataFixture Api/Enterprise/GiftCard/_fixture/code_pool.php
      *
      * @return void
      */
@@ -20,7 +20,7 @@ class Enterprise_GiftCard_AccountTest extends Magento_Test_TestCase_ApiAbstract
         $giftcardAccountFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_account.xml');
 
         //Test create
-        $createData = self::simpleXmlToObject($giftcardAccountFixture->create);
+        $createData = Magento_Test_Helper_Api::simpleXmlToObject($giftcardAccountFixture->create);
         $id = $this->call('giftcardAccountCreate', array('giftcardAccountData' => $createData));
         $this->assertGreaterThan(0, $id);
 
@@ -41,7 +41,7 @@ class Enterprise_GiftCard_AccountTest extends Magento_Test_TestCase_ApiAbstract
         $this->_testDataCorrect($createData, new Varien_Object($info));
 
         //Test update
-        $updateData = self::simpleXmlToObject($giftcardAccountFixture->update);
+        $updateData = Magento_Test_Helper_Api::simpleXmlToObject($giftcardAccountFixture->update);
         $updateResult = $this->call(
             'giftcardAccountUpdate',
             array('giftcardAccountId' => $id, 'giftcardData' => $updateData)
@@ -75,7 +75,7 @@ class Enterprise_GiftCard_AccountTest extends Magento_Test_TestCase_ApiAbstract
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_account.xml');
 
-        $invalidCreateData = self::simpleXmlToObject($fixture->invalid_create);
+        $invalidCreateData = Magento_Test_Helper_Api::simpleXmlToObject($fixture->invalid_create);
         $this->call('giftcardAccountCreate', array($invalidCreateData));
     }
 
@@ -89,7 +89,7 @@ class Enterprise_GiftCard_AccountTest extends Magento_Test_TestCase_ApiAbstract
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_account.xml');
 
-        $invalidData = self::simpleXmlToObject($fixture->invalid_info);
+        $invalidData = Magento_Test_Helper_Api::simpleXmlToObject($fixture->invalid_info);
         $this->call('giftcardAccountInfo', array($invalidData['giftcard_id']));
     }
 

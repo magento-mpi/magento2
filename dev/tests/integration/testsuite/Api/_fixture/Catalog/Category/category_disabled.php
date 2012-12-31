@@ -15,4 +15,4 @@ $parentCategory = Mage::getModel('Mage_Catalog_Model_Category')->load(
 $categoryFixture->setPath($parentCategory->getPath());
 $categoryFixture->setIsActive(false);
 $categoryFixture->save();
-Magento_Test_TestCase_ApiAbstract::setFixture('category_disabled', $categoryFixture);
+PHPUnit_Framework_TestCase::setFixture('category_disabled', $categoryFixture);

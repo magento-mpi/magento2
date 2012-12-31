@@ -5,13 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_GiftCard_CustomerTest extends Magento_Test_TestCase_ApiAbstract
+class Enterprise_GiftCard_CustomerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test giftcard customer info by code
      *
-     * @magentoApiDataFixture Enterprise/GiftCard/_fixture/code_pool.php
-     * @magentoApiDataFixture Enterprise/GiftCard/_fixture/giftcard_account.php
+     * @magentoDataFixture Api/Enterprise/GiftCard/_fixture/code_pool.php
+     * @magentoDataFixture Api/Enterprise/GiftCard/_fixture/giftcard_account.php
      *
      * @return void
      */
@@ -30,9 +30,9 @@ class Enterprise_GiftCard_CustomerTest extends Magento_Test_TestCase_ApiAbstract
     /**
      * Test redeem amount present on gift card to Store Credit.
      *
-     * @magentoApiDataFixture Enterprise/GiftCard/_fixture/customer.php
-     * @magentoApiDataFixture Enterprise/GiftCard/_fixture/code_pool.php
-     * @magentoApiDataFixture Enterprise/GiftCard/_fixture/giftcard_account.php
+     * @magentoDataFixture Api/Enterprise/GiftCard/_fixture/customer.php
+     * @magentoDataFixture Api/Enterprise/GiftCard/_fixture/code_pool.php
+     * @magentoDataFixture Api/Enterprise/GiftCard/_fixture/giftcard_account.php
      *
      * @return void
      */
@@ -78,7 +78,7 @@ class Enterprise_GiftCard_CustomerTest extends Magento_Test_TestCase_ApiAbstract
     public function testIncorrectDataInfoException()
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_customer.xml');
-        $invalidData = self::simpleXmlToObject($fixture->invalid_info);
+        $invalidData = Magento_Test_Helper_Api::simpleXmlToObject($fixture->invalid_info);
         $this->call('giftcardCustomerInfo', $invalidData);
     }
 
@@ -91,7 +91,7 @@ class Enterprise_GiftCard_CustomerTest extends Magento_Test_TestCase_ApiAbstract
     public function testIncorrectDataRedeemException()
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_customer.xml');
-        $invalidData = self::simpleXmlToObject($fixture->invalid_redeem);
+        $invalidData = Magento_Test_Helper_Api::simpleXmlToObject($fixture->invalid_redeem);
         $this->call('giftcardCustomerRedeem', $invalidData);
     }
 }

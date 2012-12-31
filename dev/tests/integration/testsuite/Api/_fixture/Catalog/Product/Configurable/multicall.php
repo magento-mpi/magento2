@@ -9,13 +9,13 @@
 include "attribute_set_with_one_attribute.php";
 
 /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
-$attributeSet = Magento_Test_TestCase_ApiAbstract::getFixture('attribute_set_with_one_attribute');
+$attributeSet = PHPUnit_Framework_TestCase::getFixture('attribute_set_with_one_attribute');
 /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-$attribute = Magento_Test_TestCase_ApiAbstract::getFixture('eav_configurable_attribute');
+$attribute = PHPUnit_Framework_TestCase::getFixture('eav_configurable_attribute');
 $attributeSourceOptions = $attribute->getSource()->getAllOptions(false);
 /** @var $simpleProduct Mage_Catalog_Model_Product */
 $simpleProduct = require '_fixture/_block/Catalog/Product.php';
 $simpleProduct->setAttributeSetId($attributeSet->getId())
     ->setData($attribute->getAttributeCode(), $attributeSourceOptions[0]['value'])
     ->save();
-Magento_Test_TestCase_ApiAbstract::setFixture('simple_product_for_configurable', $simpleProduct);
+PHPUnit_Framework_TestCase::setFixture('simple_product_for_configurable', $simpleProduct);

@@ -8,7 +8,7 @@
 
 require 'category.php';
 /** @var $category Mage_Catalog_Model_Category */
-$category = Magento_Test_TestCase_ApiAbstract::getFixture('category');
+$category = PHPUnit_Framework_TestCase::getFixture('category');
 $assignedProductsFixture = array();
 $assignedProducts = array();
 for ($i = 0; $i <= 2; $i++) {
@@ -33,12 +33,12 @@ for ($i = 0; $i <= 2; $i++) {
 }
 $category->setPostedProducts($assignedProducts);
 $category->save();
-Magento_Test_TestCase_ApiAbstract::setFixture('assigned_products', $assignedProductsFixture);
+PHPUnit_Framework_TestCase::setFixture('assigned_products', $assignedProductsFixture);
 // reload category to make assigned_products available in it
 $category = Mage::getModel('Mage_Catalog_Model_Category')->load($category->getId());
-Magento_Test_TestCase_ApiAbstract::setFixture(
+PHPUnit_Framework_TestCase::setFixture(
     'category',
     $category,
-    Magento_Test_TestCase_ApiAbstract::AUTO_TEAR_DOWN_DISABLED
+    PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_DISABLED
 );
 

@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 /**
- * @magentoApiDataFixture Mage/Catalog/Product/_fixture/CustomOption.php
+ * @magentoDataFixture Api/Mage/Catalog/Product/_fixture/CustomOption.php
  */
-class Mage_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_TestCase_ApiAbstract
+class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var array
@@ -21,9 +21,9 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_TestCase_Ap
     public function testCustomOptionCRUD()
     {
         $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOption.xml');
-        $customOptions = self::simpleXmlToObject($customOptionFixture->CustomOptionsToAdd);
+        $customOptions = Magento_Test_Helper_Api::simpleXmlToObject($customOptionFixture->CustomOptionsToAdd);
         $store = (string)$customOptionFixture->store;
-        $fixtureProductId = Magento_Test_TestCase_ApiAbstract::getFixture('productData')->getId();
+        $fixtureProductId = PHPUnit_Framework_TestCase::getFixture('productData')->getId();
 
         $createdOptionBefore = $this->call(
             'catalogProductCustomOptionList',
@@ -70,7 +70,7 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_TestCase_Ap
 
         // update & info
         $updateCounter = 0;
-        $customOptionsToUpdate = self::simpleXmlToObject($customOptionFixture->CustomOptionsToUpdate);
+        $customOptionsToUpdate = Magento_Test_Helper_Api::simpleXmlToObject($customOptionFixture->CustomOptionsToUpdate);
         foreach (self::$createdOptionAfter as $option) {
             $optionInfo = $this->call(
                 'catalogProductCustomOptionInfo',
@@ -115,7 +115,7 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_TestCase_Ap
 
                 if (isset($toUpdateValues['additional_fields'])) {
                     $updateAdditionalFields = reset($toUpdateValues['additional_fields']);
-                    if (TESTS_WEBSERVICE_TYPE == Magento_Test_TestCase_ApiAbstract::TYPE_SOAP_WSI) {
+                    if (TESTS_WEBSERVICE_TYPE == PHPUnit_Framework_TestCase::TYPE_SOAP_WSI) {
                         // incorrect in case additional_fields count > 1
                         $actualAdditionalFields = $optionInfoAfterUpdate['additional_fields'];
                     } else {
@@ -141,7 +141,7 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_TestCase_Ap
     public function testCustomOptionTypes()
     {
         $attributeSetFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOptionTypes.xml');
-        $customOptionsTypes = self::simpleXmlToObject($attributeSetFixture);
+        $customOptionsTypes = Magento_Test_Helper_Api::simpleXmlToObject($attributeSetFixture);
 
         $optionTypes = $this->call('catalogProductCustomOptionTypes', array());
         $this->assertEquals($customOptionsTypes['customOptionTypes']['types'], $optionTypes);
@@ -182,7 +182,7 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_TestCase_Ap
     public function testCustomOptionAddExceptionProductNotExists()
     {
         $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOption.xml');
-        $customOptions = self::simpleXmlToObject($customOptionFixture->CustomOptionsToAdd);
+        $customOptions = Magento_Test_Helper_Api::simpleXmlToObject($customOptionFixture->CustomOptionsToAdd);
 
         $option = reset($customOptions);
         if (isset($option['additional_fields'])
@@ -207,9 +207,9 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_TestCase_Ap
      */
     public function testCustomOptionAddExceptionAdditionalFieldsNotSet()
     {
-        $fixtureProductId = Magento_Test_TestCase_ApiAbstract::getFixture('productData')->getId();
+        $fixtureProductId = PHPUnit_Framework_TestCase::getFixture('productData')->getId();
         $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOption.xml');
-        $customOptions = self::simpleXmlToObject($customOptionFixture->CustomOptionsToAdd);
+        $customOptions = Magento_Test_Helper_Api::simpleXmlToObject($customOptionFixture->CustomOptionsToAdd);
 
         $option = $customOptions['field'];
         $option['additional_fields'] = array();
@@ -225,9 +225,9 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_TestCase_Ap
      */
     public function testCustomOptionDateTimeAddExceptionStoreNotExist()
     {
-        $fixtureProductId = Magento_Test_TestCase_ApiAbstract::getFixture('productData')->getId();
+        $fixtureProductId = PHPUnit_Framework_TestCase::getFixture('productData')->getId();
         $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOption.xml');
-        $customOptions = self::simpleXmlToObject($customOptionFixture->CustomOptionsToAdd);
+        $customOptions = Magento_Test_Helper_Api::simpleXmlToObject($customOptionFixture->CustomOptionsToAdd);
 
         $option = reset($customOptions);
         if (isset($option['additional_fields'])
@@ -273,7 +273,7 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_TestCase_Ap
      */
     public function testCustomOptionListExceptionStoreNotExists()
     {
-        $fixtureProductId = Magento_Test_TestCase_ApiAbstract::getFixture('productData')->getId();
+        $fixtureProductId = PHPUnit_Framework_TestCase::getFixture('productData')->getId();
 
         $this->setExpectedException(self::DEFAULT_EXCEPTION);
         $this->call(
@@ -295,7 +295,7 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_TestCase_Ap
     {
         $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOption.xml');
 
-        $customOptionsToUpdate = self::simpleXmlToObject($customOptionFixture->CustomOptionsToUpdate);
+        $customOptionsToUpdate = Magento_Test_Helper_Api::simpleXmlToObject($customOptionFixture->CustomOptionsToUpdate);
         $option = reset(self::$createdOptionAfter);
 
         $toUpdateValues = $customOptionsToUpdate[$option['type']];

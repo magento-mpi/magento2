@@ -8,5 +8,5 @@
 
 require '_fixture/Catalog/Category/category_on_new_store.php';
 return array(
-    'category_id' => Magento_Test_TestCase_ApiAbstract::getFixture('category')->getId()
+    'category_id' => PHPUnit_Framework_TestCase::getFixture('category')->getId()
 );

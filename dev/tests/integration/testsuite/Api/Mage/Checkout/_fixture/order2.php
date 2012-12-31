@@ -9,12 +9,12 @@
 //Set up customer fixture
 require_once 'customer.php';
 /** @var $customer Mage_Customer_Model_Customer */
-$customer = Magento_Test_TestCase_ApiAbstract::getFixture('creditmemo/customer');
+$customer = PHPUnit_Framework_TestCase::getFixture('creditmemo/customer');
 
 //Set up customer address fixture
 require_once 'customer_address.php';
 /** @var $customerAddress Mage_Customer_Model_Address */
-$customerAddress = Magento_Test_TestCase_ApiAbstract::getFixture('creditmemo/customer_address');
+$customerAddress = PHPUnit_Framework_TestCase::getFixture('creditmemo/customer_address');
 
 /*//$customerAddress->addShippingRate($rate);
 $customerAddress->setShippingMethod('freeshipping_freeshipping');
@@ -24,7 +24,7 @@ $customerAddress->save();*/
 //Set up simple product fixture
 require_once 'product_simple.php';
 /** @var $product Mage_Catalog_Model_Product */
-$product = Magento_Test_TestCase_ApiAbstract::getFixture('product_simple');
+$product = PHPUnit_Framework_TestCase::getFixture('product_simple');
 
 //Set customer default shipping and billing address
 $customer->addAddress($customerAddress);
@@ -53,11 +53,11 @@ $quote->getPayment()->setMethod('checkmo');
 
 $quote->collectTotals();
 $quote->save();
-Magento_Test_TestCase_ApiAbstract::setFixture('quote', $quote);
+PHPUnit_Framework_TestCase::setFixture('quote', $quote);
 
 //Create order
 $quoteService = new Mage_Sales_Model_Service_Quote($quote);
 //Set payment method to check/money order
 $quoteService->getQuote()->getPayment()->setMethod('checkmo');
 
-Magento_Test_TestCase_ApiAbstract::setFixture('order', $order);
+PHPUnit_Framework_TestCase::setFixture('order', $order);

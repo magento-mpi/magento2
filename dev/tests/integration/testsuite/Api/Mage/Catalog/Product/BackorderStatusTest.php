@@ -13,7 +13,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Catalog_Product_BackorderStatusTest extends Magento_Test_TestCase_ApiAbstract
+class Mage_Catalog_Product_BackorderStatusTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Sets up the fixture, for example, open a network connection.
@@ -67,8 +67,8 @@ class Mage_Catalog_Product_BackorderStatusTest extends Magento_Test_TestCase_Api
             )
         );
 
-        if (Magento_Test_TestCase_ApiAbstract::TYPE_SOAP === TESTS_WEBSERVICE_TYPE
-            || Magento_Test_TestCase_ApiAbstract::TYPE_SOAP_WSI === TESTS_WEBSERVICE_TYPE
+        if (PHPUnit_Framework_TestCase::TYPE_SOAP === TESTS_WEBSERVICE_TYPE
+            || PHPUnit_Framework_TestCase::TYPE_SOAP_WSI === TESTS_WEBSERVICE_TYPE
         ) {
             $this->assertEquals(1, $result);
         } else {

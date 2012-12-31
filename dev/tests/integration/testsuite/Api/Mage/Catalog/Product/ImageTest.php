@@ -13,7 +13,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Catalog_Product_ImageTest extends Magento_Test_TestCase_ApiAbstract
+class Mage_Catalog_Product_ImageTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Catalog_Model_Product

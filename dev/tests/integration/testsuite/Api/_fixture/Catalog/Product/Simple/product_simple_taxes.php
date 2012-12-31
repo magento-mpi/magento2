@@ -15,4 +15,4 @@ $product->addData($productData)
     ->setWebsiteIds(array(Mage::app()->getDefaultStoreView()->getWebsiteId()))
     ->save();
 
-Magento_Test_TestCase_ApiAbstract::setFixture('product_simple_taxes', $product);
+PHPUnit_Framework_TestCase::setFixture('product_simple_taxes', $product);

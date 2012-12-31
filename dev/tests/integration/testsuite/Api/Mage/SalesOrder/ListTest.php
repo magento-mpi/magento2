@@ -12,9 +12,9 @@
  *
  * @copyright   {copyright}
  * @license     {license_link}
- * @magentoApiDataFixture Mage/SalesOrder/_fixture/order.php
+ * @magentoDataFixture Api/Mage/SalesOrder/_fixture/order.php
  */
-class SalesOrder_ListTest extends Magento_Test_TestCase_ApiAbstract
+class SalesOrder_ListTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test getting sales order list in other methods

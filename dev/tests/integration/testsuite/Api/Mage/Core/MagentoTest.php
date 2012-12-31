@@ -11,7 +11,7 @@
 /**
  * Magento info Api tests
  */
-class Mage_Core_MagentoTest extends Magento_Test_TestCase_ApiAbstract
+class Mage_Core_MagentoTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test magento magento info retrieving

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Catalog_Category_Attribute_AttributeTest extends Magento_Test_TestCase_ApiAbstract
+class Mage_Catalog_Category_Attribute_AttributeTest extends PHPUnit_Framework_TestCase
 {
     /** @var SimpleXMLObject|stdClass */
     protected static $_attributeFixture;

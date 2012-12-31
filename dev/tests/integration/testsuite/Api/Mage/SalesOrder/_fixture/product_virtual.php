@@ -27,8 +27,8 @@ $product->setTypeId('virtual')
     )
 );
 $product->save();
-Magento_Test_TestCase_ApiAbstract::setFixture(
+PHPUnit_Framework_TestCase::setFixture(
     'product_virtual',
     $product,
-    Magento_Test_TestCase_ApiAbstract::AUTO_TEAR_DOWN_AFTER_CLASS
+    PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_AFTER_CLASS
 );

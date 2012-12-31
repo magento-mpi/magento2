@@ -38,7 +38,7 @@ for ($i = 0; $i < COUNT_CUSTOMER_ADDRESES; $i++) {
     $address->save();
 }
 
-Magento_Test_TestCase_ApiAbstract::setFixture(
+PHPUnit_Framework_TestCase::setFixture(
     'customer',
     Mage::getModel('Mage_Customer_Model_Customer')->load($customerFixture->getId())
 ); // for load addresses collection

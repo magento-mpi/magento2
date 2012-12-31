@@ -5,11 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-if (!Magento_Test_TestCase_ApiAbstract::getFixture('order')) {
+if (!PHPUnit_Framework_TestCase::getFixture('order')) {
     require 'order.php';
 }
 /** @var $order Mage_Sales_Model_Order */
-$order = Magento_Test_TestCase_ApiAbstract::getFixture('order');
+$order = PHPUnit_Framework_TestCase::getFixture('order');
 
 $orderService = new Mage_Sales_Model_Service_Order($order);
 $invoice = $orderService->prepareInvoice();
@@ -20,8 +20,8 @@ $transactionSave->addObject($invoice)
     ->addObject($invoice->getOrder())
     ->save();
 
-Magento_Test_TestCase_ApiAbstract::setFixture('invoice', $invoice);
-$order2 = Magento_Test_TestCase_ApiAbstract::getFixture('order2');
+PHPUnit_Framework_TestCase::setFixture('invoice', $invoice);
+$order2 = PHPUnit_Framework_TestCase::getFixture('order2');
 $orderService2 = new Mage_Sales_Model_Service_Order($order2);
 $invoice2 = $orderService2->prepareInvoice();
 $invoice2->register();
@@ -31,4 +31,4 @@ $transactionSave2->addObject($invoice2)
     ->addObject($invoice2->getOrder())
     ->save();
 
-Magento_Test_TestCase_ApiAbstract::setFixture('invoice2', $invoice2);
+PHPUnit_Framework_TestCase::setFixture('invoice2', $invoice2);

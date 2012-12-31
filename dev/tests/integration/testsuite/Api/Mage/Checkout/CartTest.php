@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Checkout_CartTest extends Magento_Test_TestCase_ApiAbstract
+class Mage_Checkout_CartTest extends PHPUnit_Framework_TestCase
 {
     /** @var Mage_Eav_Model_Entity_Store */
     protected static $_entityStore;
@@ -108,7 +108,7 @@ class Mage_Checkout_CartTest extends Magento_Test_TestCase_ApiAbstract
         Mage::unregister('isSecureArea');
 
         $this->_restoreIncrementIdPrefix();
-        Magento_Test_TestCase_ApiAbstract::deleteFixture('customer', true);
+        PHPUnit_Framework_TestCase::deleteFixture('customer', true);
         parent::tearDown();
     }
 
@@ -163,8 +163,8 @@ class Mage_Checkout_CartTest extends Magento_Test_TestCase_ApiAbstract
         }
 
         // Add product with custom option to cart via API
-        if (TESTS_WEBSERVICE_TYPE == Magento_Test_TestCase_ApiAbstract::TYPE_SOAP
-            || TESTS_WEBSERVICE_TYPE == Magento_Test_TestCase_ApiAbstract::TYPE_SOAP_WSI
+        if (TESTS_WEBSERVICE_TYPE == PHPUnit_Framework_TestCase::TYPE_SOAP
+            || TESTS_WEBSERVICE_TYPE == PHPUnit_Framework_TestCase::TYPE_SOAP_WSI
         ) { // use associative array for SOAP v2
             $customOptionsData = array(array('key' => $customOptionId, 'value' => $customOptionValue));
         } else { // use numeric array otherwise
@@ -274,7 +274,7 @@ class Mage_Checkout_CartTest extends Magento_Test_TestCase_ApiAbstract
     /**
      * Test for product list from shopping cart API method
      *
-     * @magentoApiDataFixture Mage/Checkout/_fixture/order.php
+     * @magentoDataFixture Api/Mage/Checkout/_fixture/order.php
      */
     public function testCreateOrder()
     {
@@ -298,7 +298,7 @@ class Mage_Checkout_CartTest extends Magento_Test_TestCase_ApiAbstract
     /**
      * Test order creation with payment method
      *
-     * @magentoApiDataFixture Mage/Checkout/_fixture/order_with_payment_method.php
+     * @magentoDataFixture Api/Mage/Checkout/_fixture/order_with_payment_method.php
      */
     public function testCreateOrderWithPayment()
     {
@@ -332,7 +332,7 @@ class Mage_Checkout_CartTest extends Magento_Test_TestCase_ApiAbstract
     /**
      * Test order creation with not available payment method
      *
-     * @magentoApiDataFixture Mage/Checkout/_fixture/order_with_payment_method.php
+     * @magentoDataFixture Api/Mage/Checkout/_fixture/order_with_payment_method.php
      */
     public function testCreateOrderWithNotAvailablePayment()
     {
@@ -368,7 +368,7 @@ class Mage_Checkout_CartTest extends Magento_Test_TestCase_ApiAbstract
     /**
      * Test order creation with payment method data empty
      *
-     * @magentoApiDataFixture Mage/Checkout/_fixture/order_with_payment_method.php
+     * @magentoDataFixture Api/Mage/Checkout/_fixture/order_with_payment_method.php
      */
     public function testCreateOrderWithEmptyPaymentData()
     {
@@ -394,7 +394,7 @@ class Mage_Checkout_CartTest extends Magento_Test_TestCase_ApiAbstract
     /**
      * Test order creation with invalid payment method data
      *
-     * @magentoApiDataFixture Mage/Checkout/_fixture/order_with_payment_method.php
+     * @magentoDataFixture Api/Mage/Checkout/_fixture/order_with_payment_method.php
      */
     public function testCreateOrderWithInvalidPaymentData()
     {

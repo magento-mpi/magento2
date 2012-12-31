@@ -21,16 +21,16 @@ $customer->setDefaultShipping($customerAddress->getId());
 $customer->setDefaultBilling($customerAddress->getId());
 $customer->save();
 
-Magento_Test_TestCase_ApiAbstract::setFixture(
+PHPUnit_Framework_TestCase::setFixture(
     'customer',
     Mage::getModel('Mage_Customer_Model_Customer')->load($customerFixture->getId()),
-    Magento_Test_TestCase_ApiAbstract::AUTO_TEAR_DOWN_DISABLED
+    PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_DISABLED
 ); // for load addresses collection
 
 //Set up simple product fixture
 require_once 'product_simple.php';
 /** @var $product Mage_Catalog_Model_Product */
-$product = Magento_Test_TestCase_ApiAbstract::getFixture('product_simple');
+$product = PHPUnit_Framework_TestCase::getFixture('product_simple');
 
 
 //Create quote
@@ -50,10 +50,10 @@ $quote->getPayment()->setMethod('ccsave');
 
 $quote->collectTotals();
 $quote->save();
-Magento_Test_TestCase_ApiAbstract::setFixture(
+PHPUnit_Framework_TestCase::setFixture(
     'quote',
     $quote,
-    Magento_Test_TestCase_ApiAbstract::AUTO_TEAR_DOWN_DISABLED
+    PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_DISABLED
 );
 
 //Create order
@@ -61,8 +61,8 @@ $quoteService = new Mage_Sales_Model_Service_Quote($quote);
 //Set payment method to check/money order
 $quoteService->getQuote()->getPayment()->setMethod('ccsave');
 
-Magento_Test_TestCase_ApiAbstract::setFixture(
+PHPUnit_Framework_TestCase::setFixture(
     'order',
     $order,
-    Magento_Test_TestCase_ApiAbstract::AUTO_TEAR_DOWN_DISABLED
+    PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_DISABLED
 );

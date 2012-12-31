@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Catalog_Product_AttributeSetCRUDTest extends Magento_Test_TestCase_ApiAbstract
+class Mage_Catalog_Product_AttributeSetCRUDTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Remove attribute set
@@ -48,7 +48,7 @@ class Mage_Catalog_Product_AttributeSetCRUDTest extends Magento_Test_TestCase_Ap
     public function testAttributeSetCRUD()
     {
         $attributeSetFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/AttributeSet.xml');
-        $data = self::simpleXmlToObject($attributeSetFixture->create);
+        $data = Magento_Test_Helper_Api::simpleXmlToObject($attributeSetFixture->create);
         $data->attributeSetName = $data->attributeSetName . ' ' . mt_rand(1000, 9999);
 
         // create test
@@ -75,7 +75,7 @@ class Mage_Catalog_Product_AttributeSetCRUDTest extends Magento_Test_TestCase_Ap
         $this->assertTrue($completeFlag, "Can't find added attribute set in list");
 
         // Remove AttrSet with related products
-        $productData = self::simpleXmlToObject($attributeSetFixture->RelatedProduct);
+        $productData = Magento_Test_Helper_Api::simpleXmlToObject($attributeSetFixture->RelatedProduct);
         $productData['sku'] = $productData['sku'] . '_' . mt_rand(1000, 9999);
         $productId = $this->call(
             'catalogProductCreate',
@@ -111,7 +111,7 @@ class Mage_Catalog_Product_AttributeSetCRUDTest extends Magento_Test_TestCase_Ap
     /**
      * Test attribute CRUD in attribute set
      *
-     * @magentoApiDataFixture Mage/Catalog/Product/_fixture/AttributeSet.php
+     * @magentoDataFixture Api/Mage/Catalog/Product/_fixture/AttributeSet.php
      * @return void
      */
     public function testAttributeSetAttrCRUD()
@@ -140,14 +140,14 @@ class Mage_Catalog_Product_AttributeSetCRUDTest extends Magento_Test_TestCase_Ap
     /**
      * Test group of attribute sets CRUD
      *
-     * @magentoApiDataFixture Mage/Catalog/Product/_fixture/AttributeSet.php
+     * @magentoDataFixture Api/Mage/Catalog/Product/_fixture/AttributeSet.php
      * @return void
      */
     public function testAttributeSetGroupCRUD()
     {
         $testAttributeSetId = self::getFixture('testAttributeSetId');
         $attributeSetFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/AttributeSet.xml');
-        $data = self::simpleXmlToObject($attributeSetFixture->groupAdd);
+        $data = Magento_Test_Helper_Api::simpleXmlToObject($attributeSetFixture->groupAdd);
 
         // add group test
         $createdAttributeSetGroupId = $this->call(

@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-if (!Magento_Test_TestCase_ApiAbstract::getFixture('category_on_new_website')) {
+if (!PHPUnit_Framework_TestCase::getFixture('category_on_new_website')) {
     /* @var $rootCategory Mage_Catalog_Model_Category */
     $rootCategory = require '_fixture/_block/Catalog/Category.php';
     $rootCategory->save();
@@ -14,12 +14,12 @@ if (!Magento_Test_TestCase_ApiAbstract::getFixture('category_on_new_website')) {
     // create new store fuxture
     require '_fixture/Core/Store/store_on_new_website.php';
     /** @var $storeGroup Mage_Core_Model_Store_Group */
-    $storeGroup = Magento_Test_TestCase_ApiAbstract::getFixture('store_group');
+    $storeGroup = PHPUnit_Framework_TestCase::getFixture('store_group');
     $storeGroup->setRootCategoryId($rootCategory->getId())->save();
 
-    Magento_Test_TestCase_ApiAbstract::setFixture(
+    PHPUnit_Framework_TestCase::setFixture(
         'category_on_new_website',
         $rootCategory,
-        Magento_Test_TestCase_ApiAbstract::AUTO_TEAR_DOWN_DISABLED
+        PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_DISABLED
     );
 }

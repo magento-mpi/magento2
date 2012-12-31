@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 /**
- * @magentoApiDataFixture Mage/SalesOrder/_fixture/shipment.php
+ * @magentoDataFixture Api/Mage/SalesOrder/_fixture/shipment.php
  */
 class SalesOrder_ShipmentTest extends SalesOrder_AbstractTest
 {

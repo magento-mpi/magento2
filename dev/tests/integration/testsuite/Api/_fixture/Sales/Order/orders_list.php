@@ -26,4 +26,4 @@ for ($i = 0; $i < COUNT_ORDERS_LIST; $i++) {
     $ordersList[] = $order;
 }
 
-Magento_Test_TestCase_ApiAbstract::setFixture('orders_list', $ordersList);
+PHPUnit_Framework_TestCase::setFixture('orders_list', $ordersList);

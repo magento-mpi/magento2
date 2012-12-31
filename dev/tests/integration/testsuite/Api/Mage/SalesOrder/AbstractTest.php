@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class SalesOrder_AbstractTest extends Magento_Test_TestCase_ApiAbstract
+abstract class SalesOrder_AbstractTest extends PHPUnit_Framework_TestCase
 {
     /** @var Mage_Eav_Model_Entity_Store */
     protected static $_entityStore;

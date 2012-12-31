@@ -20,4 +20,4 @@ for ($i = 0; $i < CATEGORIES_IN_TREE; $i++) {
     $categoryTree[] = $categoryFixture;
 }
 
-Magento_Test_TestCase_ApiAbstract::setFixture('category_tree', $categoryTree);
+PHPUnit_Framework_TestCase::setFixture('category_tree', $categoryTree);
