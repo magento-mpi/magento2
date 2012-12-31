@@ -533,13 +533,12 @@
                         <id>gridRefreshStatistics</id>
                         <use_ajax>0</use_ajax>
                         <sortable>0</sortable>
-                        <filter_visibility>0</filter_visibility>
                         <pager_visibility>0</pager_visibility>
                         <dataSource type="object">Mage_Reports_Model_Resource_Refresh_Collection</dataSource>
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_Massaction" name="adminhtml.block.refresh.statistics.massactions" as="grid.massaction">
                         <arguments>
-                            <massaction_id_field>user_id</massaction_id_field>
+                            <massaction_id_field>id</massaction_id_field>
                             <form_field_name>code</form_field_name>
                             <use_select_all>1</use_select_all>
                             <options>
