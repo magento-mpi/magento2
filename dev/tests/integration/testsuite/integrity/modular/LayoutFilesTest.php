@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group integrity
- */
 class Integrity_Modular_LayoutFilesTest extends PHPUnit_Framework_TestCase
 {
     /**

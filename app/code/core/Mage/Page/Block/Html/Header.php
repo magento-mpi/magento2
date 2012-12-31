@@ -119,7 +119,8 @@ class Mage_Page_Block_Html_Header extends Mage_Core_Block_Template
     {
         $folderName = Mage_Backend_Model_Config_Backend_Image_Logo::UPLOAD_DIR;
         $storeLogoPath = $this->_storeConfig->getConfig('design/header/logo_src');
-        $logoUrl = $this->_urlBuilder->getBaseUrl(array('_type' => 'media')) . $folderName . '/' . $storeLogoPath;
+        $logoUrl = $this->_urlBuilder->getBaseUrl(array('_type' => Mage_Core_Model_Store::URL_TYPE_MEDIA))
+            . $folderName . '/' . $storeLogoPath;
         $absolutePath = $this->_configOptions->getDir('media') . DIRECTORY_SEPARATOR
             . $folderName . DIRECTORY_SEPARATOR . $storeLogoPath;
 

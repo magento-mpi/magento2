@@ -348,6 +348,7 @@ class Mage_Core_Model_Url extends Varien_Object
      */
     public function getBaseUrl($params = array())
     {
+        $currentType = $this->getType();
         if (isset($params['_store'])) {
             $this->setStore($params['_store']);
         }
@@ -366,7 +367,9 @@ class Mage_Core_Model_Url extends Varien_Object
             $this->setType(Mage_Core_Model_Store::URL_TYPE_DIRECT_LINK);
         }
 
-        return $this->getStore()->getBaseUrl($this->getType(), $this->isSecure());
+        $result =  $this->getStore()->getBaseUrl($this->getType(), $this->isSecure());
+        $this->setType($currentType);
+        return $result;
     }
 
     /**

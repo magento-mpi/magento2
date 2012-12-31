@@ -122,7 +122,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
             'label'    => $this->__('Theme Version'),
             'title'    => $this->__('Theme Version'),
             'name'     => 'theme_version',
-            'required' => $this->_getFieldAttrRequired(),
+            'required' => $this->_isFieldAttrRequired(),
             'note'     => $this->_filterFieldNote($this->__('Example: 0.0.0.1 or 123.1.0.25-alpha1'))
         ));
 
@@ -130,22 +130,16 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
             'label'    => $this->__('Theme Title'),
             'title'    => $this->__('Theme Title'),
             'name'     => 'theme_title',
-            'required' => $this->_getFieldAttrRequired()
+            'required' => $this->_isFieldAttrRequired()
         ));
 
         if ($this->_isThemeEditable) {
-            $maxImageSize = Mage::helper('Mage_Core_Helper_File_Storage')->getMaxFileSizeInMb();
-            if ($maxImageSize) {
-                $previewImageNote = $this->__('Max image size %sM', $maxImageSize);
-            } else {
-                $previewImageNote = $this->__('System doesn\'t allow to get file upload settings');
-            }
             $themeFieldset->addField('preview_image', 'image', array(
                 'label'    => $this->__('Theme Preview Image'),
                 'title'    => $this->__('Theme Preview Image'),
                 'name'     => 'preview_image',
                 'required' => false,
-                'note'     => $previewImageNote
+                'note'     => $this->_getPreviewImageNote()
             ));
         } else if (!empty($formData['preview_image'])) {
             $themeFieldset->addField('preview_image', 'note', array(
@@ -176,7 +170,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
             'label'    => $this->__('Magento Version From'),
             'title'    => $this->__('Magento Version From'),
             'name'     => 'magento_version_from',
-            'required' => $this->_getFieldAttrRequired(),
+            'required' => $this->_isFieldAttrRequired(),
             'note'     => $this->_filterFieldNote($this->__('Example: 1.6.0.0 or *'))
         ));
 
@@ -184,7 +178,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
             'label'    => $this->__('Magento Version To'),
             'title'    => $this->__('Magento Version To'),
             'name'     => 'magento_version_to',
-            'required' => $this->_getFieldAttrRequired(),
+            'required' => $this->_isFieldAttrRequired(),
             'note'     => $this->_filterFieldNote($this->__('Example: 1.6.0.0 or *'))
         ));
 
@@ -207,7 +201,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
      *
      * @return bool
      */
-    protected function _getFieldAttrRequired()
+    protected function _isFieldAttrRequired()
     {
         return $this->_isThemeEditable ? true : false;
     }
@@ -324,5 +318,20 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
         }
 
         return $data;
+    }
+
+    /**
+     * Get note string for theme's preview image
+     *
+     * @return string
+     */
+    protected function _getPreviewImageNote()
+    {
+        $maxImageSize = Mage::helper('Mage_Core_Helper_File_Storage')->getMaxFileSizeInMb();
+        if ($maxImageSize) {
+            return $this->__('Max image size %sM', $maxImageSize);
+        } else {
+            return $this->__('System doesn\'t allow to get file upload settings');
+        }
     }
 }

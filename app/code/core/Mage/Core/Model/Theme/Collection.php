@@ -238,7 +238,7 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
             'preview_image'        => $media['preview_image'] ? $media['preview_image'] : null,
             'magento_version_from' => $themeVersions['from'],
             'magento_version_to'   => $themeVersions['to'],
-            'is_featured'          => $themeConfig->getFeatured($packageCode, $themeCode),
+            'is_featured'          => $themeConfig->isFeatured($packageCode, $themeCode),
             'parent_theme_path'    => $parentTheme ? implode('/', $parentTheme) : null
         );
     }
