@@ -17,20 +17,6 @@
 class SalesOrder_StatusTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     */
-    public static function tearDownAfterClass()
-    {
-        PHPUnit_Framework_TestCase::deleteFixture('customer', true);
-        PHPUnit_Framework_TestCase::deleteFixture('product_virtual', true);
-        PHPUnit_Framework_TestCase::deleteFixture('quote', true);
-        PHPUnit_Framework_TestCase::deleteFixture('order', true);
-
-        parent::tearDownAfterClass();
-    }
-
-    /**
      * Test for salesOrderCancel when order is in 'pending' status
      */
     public function testCancelPendingOrder()

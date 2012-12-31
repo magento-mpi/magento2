@@ -288,7 +288,7 @@ class Mage_Checkout_CartTest extends PHPUnit_Framework_TestCase
         $prefix = '01';
         $this->_setIncrementIdPrefix('order', $prefix);
 
-        $quote = self::getFixture('quote');
+        $quote = Mage::registry('quote');
 
         $orderIncrementId = Magento_Test_Helper_Api::call(
             $this,
@@ -309,7 +309,7 @@ class Mage_Checkout_CartTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateOrderWithPayment()
     {
-        $quote = self::getFixture('quote');
+        $quote = Mage::registry('quote');
         $paymentMethod = array(
             'method' => 'ccsave',
             'cc_owner' => 'user',
@@ -344,7 +344,7 @@ class Mage_Checkout_CartTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateOrderWithNotAvailablePayment()
     {
-        $quote = self::getFixture('quote');
+        $quote = Mage::registry('quote');
         $paymentMethod = array(
             'method' => 'paypal_direct',
             'cc_owner' => 'user',
@@ -381,7 +381,7 @@ class Mage_Checkout_CartTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateOrderWithEmptyPaymentData()
     {
-        $quote = self::getFixture('quote');
+        $quote = Mage::registry('quote');
         $errorCode = 1071;
         $errorMessage = 'Payment method data is empty.';
         try {
@@ -408,7 +408,7 @@ class Mage_Checkout_CartTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateOrderWithInvalidPaymentData()
     {
-        $quote = self::getFixture('quote');
+        $quote = Mage::registry('quote');
         $paymentMethod = array(
             'method' => 'ccsave',
             'cc_owner' => 'user',

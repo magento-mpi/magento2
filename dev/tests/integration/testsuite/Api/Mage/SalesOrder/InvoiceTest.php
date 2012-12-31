@@ -8,30 +8,6 @@
 class SalesOrder_InvoiceTest extends SalesOrder_AbstractTest
 {
     /**
-     * Delete used fixtures
-     * Clean up invoice and revert changes to entity store model
-     */
-    protected function tearDown()
-    {
-        $this->deleteFixture('invoice', true);
-        $this->deleteFixture('invoice2', true);
-        $this->deleteFixture('order2', true);
-        $this->deleteFixture('quote2', true);
-        $this->deleteFixture('order', true);
-        $this->deleteFixture('quote', true);
-        $this->deleteFixture('product_virtual', true);
-        $this->deleteFixture('customer_address', true);
-        $this->deleteFixture('customer', true);
-
-        $invoice = Mage::getModel('Mage_Sales_Model_Order_Invoice');
-        $invoice->loadByIncrementId(self::getFixture('invoiceIncrementId'));
-        $this->callModelDelete($invoice, true);
-        $this->_restoreIncrementIdPrefix();
-
-        parent::tearDown();
-    }
-
-    /**
      * Test create and read created invoice
      *
      * @magentoDataFixture Api/Mage/SalesOrder/_fixture/order.php
@@ -40,7 +16,7 @@ class SalesOrder_InvoiceTest extends SalesOrder_AbstractTest
     public function testCRUD()
     {
         /** @var $order Mage_Sales_Model_Order */
-        $order = self::getFixture('order');
+        $order = Mage::registry('order');
         $id = $order->getIncrementId();
 
         // Create new invoice
@@ -56,12 +32,12 @@ class SalesOrder_InvoiceTest extends SalesOrder_AbstractTest
             )
         );
         $this->assertNotNull($newInvoiceId);
-        self::setFixture('invoiceIncrementId', $newInvoiceId);
+        Mage::register('invoiceIncrementId', $newInvoiceId);
 
         // View new invoice
         $invoice = Magento_Test_Helper_Api::call(
             $this,
-            'sales_salesOrderInvoiceInfo',
+            'salesOrderInvoiceInfo',
             array(
                 'invoiceIncrementId' => $newInvoiceId
             )
@@ -79,7 +55,7 @@ class SalesOrder_InvoiceTest extends SalesOrder_AbstractTest
     public function testAutoIncrementType()
     {
         /** @var $quote Mage_Sales_Model_Quote */
-        $order = self::getFixture('order2');
+        $order = Mage::registry('order2');
         $id = $order->getIncrementId();
 
         // Set invoice increment id prefix
@@ -101,7 +77,7 @@ class SalesOrder_InvoiceTest extends SalesOrder_AbstractTest
 
         $this->assertTrue(is_string($newInvoiceId), 'Increment Id is not a string');
         $this->assertStringStartsWith($prefix, $newInvoiceId, 'Increment Id returned by API is not correct');
-        self::setFixture('invoiceIncrementId', $newInvoiceId);
+        Mage::register('invoiceIncrementId', $newInvoiceId);
     }
 
     /**
@@ -113,18 +89,18 @@ class SalesOrder_InvoiceTest extends SalesOrder_AbstractTest
     public function testListWithFilters()
     {
         /** @var $invoice Mage_Sales_Model_Order_Invoice */
-        $invoice = self::getFixture('invoice');
+        $invoice = Mage::registry('invoice');
 
         $filters = array(
-            'filters' => array(
+            'filters' => (object)array(
                 'filter' => array(
-                    array('key' => 'state', 'value' => $invoice->getData('state')),
-                    array('key' => 'created_at', 'value' => $invoice->getData('created_at'))
+                    (object)array('key' => 'state', 'value' => $invoice->getData('state')),
+                    (object)array('key' => 'created_at', 'value' => $invoice->getData('created_at'))
                 ),
                 'complex_filter' => array(
-                    array(
+                    (object)array(
                         'key' => 'invoice_id',
-                        'value' => array('key' => 'in', 'value' => array($invoice->getId(), 0))
+                        'value' => (object)array('key' => 'in', 'value' => array($invoice->getId(), 0))
                     ),
                 )
             )

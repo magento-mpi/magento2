@@ -22,22 +22,22 @@ class SalesOrder_ListTest extends PHPUnit_Framework_TestCase
     public function testList()
     {
         /** @var $order Mage_Sales_Model_Order */
-        $order = self::getFixture('order');
+        $order = Mage::registry('order');
 
         $filters = array(
-            'filters' => array(
+            'filters' => (object)array(
                 'filter' => array(
-                    array('key' => 'status', 'value' => $order->getData('status')),
-                    array('key' => 'created_at', 'value' => $order->getData('created_at'))
+                    (object)array('key' => 'status', 'value' => $order->getData('status')),
+                    (object)array('key' => 'created_at', 'value' => $order->getData('created_at'))
                 ),
                 'complex_filter' => array(
-                    array(
+                    (object)array(
                         'key' => 'order_id',
-                        'value' => array('key' => 'in', 'value' => "{$order->getId()},0")
+                        'value' => (object)array('key' => 'in', 'value' => "{$order->getId()},0")
                     ),
                     array(
                         'key' => 'protect_code',
-                        'value' => array('key' => 'in', 'value' => $order->getData('protect_code'))
+                        'value' => (object)array('key' => 'in', 'value' => $order->getData('protect_code'))
                     )
                 )
             )
@@ -52,19 +52,5 @@ class SalesOrder_ListTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('array', $result);
         $this->assertEquals(1, count($result));
         $this->assertEquals($order->getId(), $result[0]['order_id']);
-    }
-
-    /**
-     * Delete created fixtures
-     */
-    static public function tearDownAfterClass()
-    {
-        self::deleteFixture('order', true);
-        self::deleteFixture('order2', true);
-        self::deleteFixture('quote', true);
-        self::deleteFixture('quote2', true);
-        self::deleteFixture('product_virtual', true);
-        self::deleteFixture('customer', true);
-        parent::tearDownAfterClass();
     }
 }

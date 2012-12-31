@@ -10,23 +10,10 @@
  */
 class SalesOrder_ShipmentTest extends SalesOrder_AbstractTest
 {
-    /**
-     * Clean up shipment and revert changes to entity store model
-     */
-    protected function tearDown()
-    {
-        $shipment = Mage::getModel('Mage_Sales_Model_Order_Shipment');
-        $shipment->loadByIncrementId(self::getFixture('shipmentIncrementId'));
-        $this->callModelDelete($shipment, true);
-
-        $this->_restoreIncrementIdPrefix();
-        parent::tearDown();
-    }
-
     public function testCRUD()
     {
         /** @var $order Mage_Sales_Model_Order */
-        $order = self::getFixture('order');
+        $order = Mage::registry('order');
 
         $id = $order->getIncrementId();
 
@@ -42,12 +29,12 @@ class SalesOrder_ShipmentTest extends SalesOrder_AbstractTest
                 'includeComment' => true
             )
         );
-        self::setFixture('shipmentIncrementId', $newShipmentId);
+        Mage::register('shipmentIncrementId', $newShipmentId);
 
         // View new shipment
         $shipment = Magento_Test_Helper_Api::call(
             $this,
-            'sales_salesOrderShipmentInfo',
+            'salesOrderShipmentInfo',
             array(
                 'shipmentIncrementId' => $newShipmentId
             )
@@ -62,7 +49,7 @@ class SalesOrder_ShipmentTest extends SalesOrder_AbstractTest
     public function testAutoIncrementType()
     {
         /** @var $quote Mage_Sales_Model_Quote */
-        $quote = self::getFixture('quote');
+        $quote = Mage::registry('quote');
         //Create order
         $quoteService = new Mage_Sales_Model_Service_Quote($quote);
         //Set payment method to check/money order
@@ -88,7 +75,8 @@ class SalesOrder_ShipmentTest extends SalesOrder_AbstractTest
                 'includeComment' => true
             )
         );
-        self::setFixture('shipmentIncrementId', $newShipmentId);
+        Mage::unregister('shipmentIncrementId');
+        Mage::register('shipmentIncrementId', $newShipmentId);
 
         $this->assertTrue(is_string($newShipmentId), 'Increment Id is not a string');
         $this->assertStringStartsWith($prefix, $newShipmentId, 'Increment Id returned by API is not correct');
@@ -100,7 +88,7 @@ class SalesOrder_ShipmentTest extends SalesOrder_AbstractTest
     public function testSendInfo()
     {
         /** @var $quote Mage_Sales_Model_Quote */
-        $quote = self::getFixture('quote');
+        $quote = Mage::registry('quote');
         //Create order
         $quoteService = new Mage_Sales_Model_Service_Quote($quote);
         //Set payment method to check/money order
@@ -123,7 +111,8 @@ class SalesOrder_ShipmentTest extends SalesOrder_AbstractTest
             )
         );
         $this->assertGreaterThan(0, strlen($newShipmentId));
-        self::setFixture('shipmentIncrementId', $newShipmentId);
+        Mage::unregister('shipmentIncrementId');
+        Mage::register('shipmentIncrementId', $newShipmentId);
 
         // Send info
         $isOk = Magento_Test_Helper_Api::call(

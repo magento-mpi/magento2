@@ -104,7 +104,7 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
     public function testNegativeRefundException()
     {
         /** @var $order Mage_Sales_Model_Order */
-        $order = self::getFixture('order');
+        $order = Mage::registry('order');
         $overRefundAmount = $order->getGrandTotal() + 10;
 
         Magento_Test_Helper_Api::call(
@@ -112,7 +112,7 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
             'salesOrderCreditmemoCreate',
             array(
                 'creditmemoIncrementId' => $order->getIncrementId(),
-                'creditmemoData' => array(
+                'creditmemoData' => (object)array(
                     'adjustment_positive' => $overRefundAmount
                 )
             )
@@ -124,14 +124,14 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
      */
     public function testListEmptyFilter()
     {
-        $filter = array('order_id' => 'invalid-id');
-        if (self::$_clients[self::$_defaultAdapterCode] instanceof Magento_Test_TestCase_Api_Client_Soap) {
-            $filter = array(
-                'filter' => array(array('key' => 'order_id', 'value' => 'invalid-id'))
-            );
-        }
-
-        $creditmemoList = Magento_Test_Helper_Api::call($this, 'salesOrderCreditmemoList', array('filters' => $filter));
+        $filter = array(
+            'filter' => array((object)array('key' => 'order_id', 'value' => 'invalid-id'))
+        );
+        $creditmemoList = Magento_Test_Helper_Api::call(
+            $this,
+            'salesOrderCreditmemoList',
+            (object)array('filters' => $filter)
+        );
         $this->assertEquals(0, count($creditmemoList));
     }
 
@@ -209,7 +209,7 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
         $prefix = '01';
         $this->_setIncrementIdPrefix('creditmemo', $prefix);
 
-        $order = self::getFixture('order2');
+        $order = Mage::registry('order2');
 
         $orderItems = $order->getAllItems();
         $qtys = array();
@@ -236,7 +236,7 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
                 'creditmemoData' => $data
             )
         );
-        self::setFixture('creditmemoIncrementId', $creditMemoIncrementId);
+        Mage::register('creditmemoIncrementId', $creditMemoIncrementId);
 
         $this->assertTrue(is_string($creditMemoIncrementId), 'Increment Id is not a string');
         $this->assertStringStartsWith(
@@ -262,15 +262,15 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
         $creditmemo = Mage::getModel('Mage_Sales_Model_Order_Creditmemo')->load($creditMemoIncrementId, 'increment_id');
 
         $filters = array(
-            'filters' => array(
+            'filters' => (object)array(
                 'filter' => array(
-                    array('key' => 'state', 'value' => $creditmemo->getData('state')),
-                    array('key' => 'created_at', 'value' => $creditmemo->getData('created_at'))
+                    (object)array('key' => 'state', 'value' => $creditmemo->getData('state')),
+                    (object)array('key' => 'created_at', 'value' => $creditmemo->getData('created_at'))
                 ),
                 'complex_filter' => array(
-                    array(
+                    (object)array(
                         'key' => 'creditmemo_id',
-                        'value' => array('key' => 'in', 'value' => array($creditmemo->getId(), 0))
+                        'value' => (object)array('key' => 'in', 'value' => array($creditmemo->getId(), 0))
                     ),
                 )
             )
@@ -300,10 +300,10 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
     protected function _createCreditmemo()
     {
         /** @var $product Mage_Catalog_Model_Product */
-        $product = self::getFixture('product_virtual');
+        $product = Mage::registry('product_virtual');
 
         /** @var $order Mage_Sales_Model_Order */
-        $order = self::getFixture('order');
+        $order = Mage::registry('order');
 
         $orderItems = $order->getAllItems();
         $qtys = array();
@@ -328,7 +328,7 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
             'salesOrderCreditmemoCreate',
             array(
                 'creditmemoIncrementId' => $orderIncrementalId,
-                'creditmemoData' => $data
+                'creditmemoData' => (object)$data
             )
         );
 
