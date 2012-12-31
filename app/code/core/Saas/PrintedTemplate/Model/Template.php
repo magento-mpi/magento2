@@ -88,13 +88,6 @@ class Saas_PrintedTemplate_Model_Template extends Mage_Core_Model_Template
     static protected $_defaultTemplates;
 
     /**
-     * Xml path template to printed template nodes
-     *
-     */
-    const XML_PATH_TEMPLATE_SYSTEM_CONFIG
-        = '//sections/*/groups/*/fields/*[source_model="Saas_PrintedTemplate_Model_Source_Template__%s"]';
-
-    /**
      * Model constructor. Initialize resource for data.
      */
     protected function _construct()
@@ -540,30 +533,15 @@ class Saas_PrintedTemplate_Model_Template extends Mage_Core_Model_Template
         if (!$templateId) {
             return array();
         }
-        $paths = array();
 
-        //$configSections = Mage::getSingleton('adminhtml/config')->getSections();
-        $configSections = Mage::getConfig()
-            ->loadModulesConfiguration('adminhtml/system.xml')
-            ->applyExtends()
-            ->getNode('system');
-
-        $sysCfgNodes = $configSections->xpath(
-            sprintf(self::XML_PATH_TEMPLATE_SYSTEM_CONFIG, ucfirst($this->getEntityType()))
+        $config = Mage::getSingleton('Mage_Backend_Model_Config_Structure');
+        $paths = $config->getFieldPathsByAttribute(
+            'source_model',
+            sprintf('Saas_PrintedTemplate_Model_Source_Template_%s', ucfirst($this->getEntityType()))
         );
-        if (!is_array($sysCfgNodes)) {
+
+        if (!is_array($paths)) {
             return array();
-        }
-
-        foreach ($sysCfgNodes as $fieldNode) {
-            $groupNode = $fieldNode->getParent()->getParent();
-            $sectionNode = $groupNode->getParent()->getParent();
-
-            $sectionName = $sectionNode->getName();
-            $groupName = $groupNode->getName();
-            $fieldName = $fieldNode->getName();
-
-            $paths[] = implode('/', array($sectionName, $groupName, $fieldName));
         }
 
         $configData = Mage::getModel('Mage_Core_Model_Config_Data')
