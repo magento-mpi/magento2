@@ -23,8 +23,11 @@ $id = $this->escapeHtml($attribute['attribute_id']);
             " <?php echo $this->getUiId('attrribute-container', $attribute['attribute_code']) ?>>
     <input name="attributes[]" id="configurable_attribute_<?php echo $id ?>"
         value="<?php echo $id; ?>" type="hidden">
-    <input value="<?php echo $this->escapeHtml($attribute['id']); ?>" type="hidden"
+    <input value="<?php echo $this->escapeHtml($attribute['attribute_code']); ?>" type="hidden"
         name="product[configurable_attributes_data][<?php echo $id ?>][id]"/>
+    <input value="<?php echo $id ?>" type="hidden"
+        class="attribute-code"
+        name="product[configurable_attributes_data][<?php echo $id ?>][code]"/>
     <input value="<?php echo $id; ?>" type="hidden"
         name="product[configurable_attributes_data][<?php echo $id ?>][attribute_id]"/>
     <input value="<?php echo $this->escapeHtml($attribute['position']); ?>" type="hidden" class="attribute-position"
@@ -36,11 +39,11 @@ $id = $this->escapeHtml($attribute['attribute_id']);
             <input value="<?php echo $this->escapeHtml($attribute['label']); ?>"
                 name="product[configurable_attributes_data][<?php echo $id ?>][label]"
                 data-store-label="<?php echo $this->escapeHtml($attribute['label']); ?>"
-                style="background: #6F8992; border: none"
-                class="required-entry"/>
+                class="store-label required-entry"/>
             <label for="attribute-<?php echo $id ?>">
                 <input value="1"
                     type="checkbox"
+                    class="use-default"
                     name="product[configurable_attributes_data][<?php echo $id ?>][use_default]"
                     id="attribute-<?php echo $id ?>"/>
                 <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Use default')?>

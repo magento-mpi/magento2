@@ -12,8 +12,7 @@
 <div class="entry-edit" id="<?php echo $this->getId() ?>">
     <div class="entry-edit-head">
         <h4 class="icon-head head-edit-form fieldset-legend">
-
-        <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Variation') ?>
+            <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Variations') ?>
         </h4>
         <div style="float:right">
             <input type="checkbox" id="<?php echo $this->getId()?>-checkbox" name="attributes"
@@ -42,42 +41,39 @@
             ));
         } ?>
         </div>
-        <?php  echo $this->getChildHtml('generate'); ?>
-        <?php
-        if (count($this->getSelectedAttributes())) {
-            echo $this->getChildHtml('matrix');
-        ?>
-            <div id="associated-products-container"
-                data-used-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getAttributes())); ?>"
-                style="display: none;">
-                <?php echo $this->getGridHtml(); ?>
-            </div>
-
-            <div><input type="hidden" name="affect_configurable_product_attributes" value="1" /></div>
-        <?php } ?>
-
+        <?php echo $this->getChildHtml('generate'); ?>
+        <div id="product-variations-matrix" class="grid" style="margin:20px 0">
+            <?php echo $this->getChildHtml('matrix'); ?>
+        </div>
+        <div id="associated-products-container" style="display: none;">
+            <?php echo $this->getGridHtml(); ?>
+        </div>
+        <input type="hidden" name="affect_configurable_product_attributes" value="1" />
 </fieldset>
 
 <script type="text/javascript">
 jQuery(function($) {
-    var usedAttributes = $('#associated-products-container').data('usedAttributes') || [];
-    $('#attributes-container').configurableAttributes();
+    var $variationsContainer = $("#<?php echo $this->getId()?>");
+    $('#attributes-container').variationsAttributes();
 
     $("#<?php echo $this->getId()?>-checkbox").on('click change', function() {
         var $fieldset = $("#<?php echo $this->getId()?> > fieldset");
         if ($(this).is(':checked')) {
             $fieldset.show();
-            $("#<?php echo $this->getId()?> input[name='attributes[]']").removeAttr('disabled');
+            $('#change-attribute-set-button').attr('disabled', true).addClass('disabled');
+            $variationsContainer.find("input[name='attributes[]']").removeAttr('disabled');
             $('#qty').attr('disabled', true);
-            $.each(usedAttributes, function() {
-                $('#attribute-' + this.attribute_code + '-container select').attr('disabled', true);
-            });
+            $variationsContainer.find('.attribute-code').each(function () {
+                $('#attribute-' + $(this).val() + '-container select').attr('disabled', true);
+            })
         } else {
+            $('#change-attribute-set-button').removeAttr('disabled').removeClass('disabled');
             $('#qty').removeAttr('disabled');
-            $("#<?php echo $this->getId()?> input[name='attributes[]']").attr('disabled', true);
-            $.each(usedAttributes, function() {
-                $('#attribute-' + this.attribute_code + '-container select').removeAttr('disabled');
+            $variationsContainer.find(".attribute-container").remove();
+            $variationsContainer.find('.attribute-code').each(function() {
+                $('#attribute-' + $(this).val() + '-container select').removeAttr('disabled');
             });
+            $('#product-variations-matrix').trigger('disable');
             $fieldset.hide();
         }
     }).trigger('change');
@@ -90,20 +86,20 @@ jQuery(function($) {
         resizable:true
     });
 
-    $.each($('#product-variations-matrix input[type!="checkbox"][type!="hidden"]'), function(key, input) {
-        var $input = $(input),
-            name = $input.attr('name'),
-            $parentInput = $('#' + name.match(/\[(\w+)\]$/)[1]),
-            classes = $parentInput.attr('class');
-        if (classes) {
-            $.each(classes.split(/\s+/), function (k, v) {
-                if (v.indexOf('validate-') === 0) {
-                    $input.addClass(v);
-                }
-            });
-        }
+    $('#product-variations-matrix').on('generate', function(e, data) {
+        $.ajax({
+            url: data.url,
+            data: $("#product-edit-form").serialize(),
+            dataType: 'html',
+            context: $variationsContainer,
+            showLoader: true
+        }).success(function(data) {
+            $('#product-variations-matrix').html(data);
+        });
     });
-
+    $('#product-variations-matrix').on('disable', function() {
+        $(this).html('');
+    });
     $('#product-variations-matrix').on('click', 'input.associated-matrix-product-id', function() {
         $(this).closest('tr').find('input[type!=checkbox]').prop('disabled', !$(this).is(':checked'));
     });
@@ -112,13 +108,14 @@ jQuery(function($) {
         event.preventDefault();
         var grid = window.<?php echo $this->getGridJsObject() ?>;
         var $button = $(this);
-        var attribute_ids = [];
-        $.each(usedAttributes, function() {
-            attribute_ids.push(this.attribute_id);
-        });
+        var attributeIds = [];
+        $variationsContainer.find("input[name='attributes[]']").each(function () {
+            attributeIds.push($(this).val());
+        })
+
         grid.reloadParams = {
             'filter': $button.data('attributes'),
-            'attributes[]': attribute_ids
+            'attributes[]': attributeIds
         };
         grid.reload(null, function() {
             $gridDialog.dialog('open')

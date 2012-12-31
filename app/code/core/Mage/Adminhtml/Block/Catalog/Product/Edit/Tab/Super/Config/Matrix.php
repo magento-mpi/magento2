@@ -67,6 +67,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
 
         }
         $attributesCount = count($variationalAttributes);
+        if ($attributesCount === 0) {
+            return array();
+        }
 
         $variations = array();
         $currentVariation = array_fill(0, $attributesCount, 0);
@@ -154,7 +157,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
     public function getUsedProducts()
     {
         $productByUsedAttributes = array();
-        foreach ($this->_getProduct()->getTypeInstance()->getUsedProducts($this->_getProduct()) as $product) {
+        foreach ($this->_getProductType()->getUsedProducts($this->_getProduct()) as $product) {
             $keys = array();
             foreach ($this->getUsedAttributes() as $attribute) {
                 /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
@@ -164,5 +167,23 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
             $productByUsedAttributes[implode('-', $keys)] = $product;
         }
         return $productByUsedAttributes;
+    }
+
+    /**
+     * Get html class for attribute
+     *
+     * @param string $code
+     * @return string
+     */
+    public function getAttributeClassName($code)
+    {
+        /** @var $config Mage_Catalog_Model_Config */
+        $config = Mage::getSingleton('Mage_Catalog_Model_Config');
+        /** @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
+        $attribute = $config->getAttribute(Mage_Catalog_Model_Product::ENTITY, $code);
+        if (!$attribute instanceof Mage_Eav_Model_Entity_Attribute_Abstract) {
+            return '';
+        }
+        return $attribute->getFrontend()->getClass();
     }
 }

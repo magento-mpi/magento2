@@ -323,6 +323,17 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     }
 
     /**
+     * Get variations matrix block
+     *
+     */
+    public function variationsMatrixAction()
+    {
+        $this->_initProduct();
+        $this->loadLayout();
+        $this->renderLayout();
+    }
+
+    /**
      * Get categories fieldset block
      *
      */
