@@ -106,7 +106,10 @@ abstract class Mage_Catalog_ProductAbstract extends PHPUnit_Framework_TestCase
             'type' => $productData['type_id'],
             'set' => $productData['attribute_set_id'],
             'sku' => $productData['sku'],
-            'productData' => array_diff_key($productData, array_flip(array('type_id', 'attribute_set_id', 'sku')))
+            'productData' => array_diff_key(
+                $productData,
+                array_flip(array('type_id', 'attribute_set_id', 'sku'))
+            )
         );
         foreach ($dataFormattedForRequest['productData'] as $attrCode => &$attrValue) {
             if (in_array($attrCode, array_keys($this->_productAttributesArrayMap)) && is_array($attrValue)) {
@@ -122,7 +125,12 @@ abstract class Mage_Catalog_ProductAbstract extends PHPUnit_Framework_TestCase
                 unset($arrayItem);
             }
         }
-
+        if (isset($dataFormattedForRequest['productData']['tier_price'])) {
+            foreach ($dataFormattedForRequest['productData']['tier_price'] as &$tierPriceItem) {
+                $tierPriceItem = (object)$tierPriceItem;
+            }
+        }
+        $dataFormattedForRequest['productData'] = (object)$dataFormattedForRequest['productData'];
         return $dataFormattedForRequest;
     }
 
@@ -137,5 +145,22 @@ abstract class Mage_Catalog_ProductAbstract extends PHPUnit_Framework_TestCase
         $expectedMessages = is_array($expectedMessages) ? $expectedMessages : array($expectedMessages);
         $receivedMessages = explode("\n", $e->getMessage());
         $this->assertMessagesEqual($expectedMessages, $receivedMessages);
+    }
+
+    /**
+     * Assert that two products are equal.
+     *
+     * @param Mage_Catalog_Model_Product $expected
+     * @param Mage_Catalog_Model_Product $actual
+     */
+    public function assertProductEquals(Mage_Catalog_Model_Product $expected, Mage_Catalog_Model_Product $actual)
+    {
+        foreach ($expected->getData() as $attribute => $value) {
+            $this->assertEquals(
+                $value,
+                $actual->getData($attribute),
+                sprintf('Attribute "%s" value does not equal to expected "%s".', $attribute, $value)
+            );
+        }
     }
 }

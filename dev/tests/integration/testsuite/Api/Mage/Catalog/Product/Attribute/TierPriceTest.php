@@ -7,10 +7,11 @@
  */
 class Mage_Catalog_Product_Attribute_TierPriceTest extends PHPUnit_Framework_TestCase
 {
+    /** @var Mage_Catalog_Model_Product */
+    protected $_product;
+
     /**
      * Set up product fixture
-     *
-     * @return void
      */
     protected function setUp()
     {
@@ -20,44 +21,28 @@ class Mage_Catalog_Product_Attribute_TierPriceTest extends PHPUnit_Framework_Tes
         $product->setData($productData['create_full_fledged']);
         $product->save();
 
-        $this->setFixture('product', $product);
+        $this->_product = $product;
 
         parent::setUp();
     }
 
     /**
-     * Delete product fixture
-     *
-     * @return void
-     */
-    protected function tearDown()
-    {
-        $this->deleteFixture('product', true);
-        parent::tearDown();
-    }
-
-    /**
      * Test product tier price attribute update
-     *
-     * @return void
      */
     public function testUpdate()
     {
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = $this->getFixture('product');
-
         $result = Magento_Test_Helper_Api::call(
             $this,
             'catalogProductAttributeTierPriceUpdate',
             array(
-                'productId' => $product->getId(),
+                'productId' => $this->_product->getId(),
                 'tierPrices' => array(
-                    array(
+                    (object)array(
                         'customer_group_id' => Mage_Customer_Model_Group::CUST_GROUP_ALL,
                         'qty' => 3,
                         'price' => 0.88,
                     ),
-                    array(
+                    (object)array(
                         'customer_group_id' => Mage_Customer_Model_Group::CUST_GROUP_ALL,
                         'qty' => 5,
                         'price' => 0.77,
@@ -68,8 +53,16 @@ class Mage_Catalog_Product_Attribute_TierPriceTest extends PHPUnit_Framework_Tes
 
         $this->assertTrue((bool)$result, 'Product tier price attribute update API failed');
         // Reload product to check tier prices were applied
-        $product->load($product->getId());
-        $this->assertEquals($product->getTierPrice(3), 0.88, 'Product tier price (3) attribute update was not applied');
-        $this->assertEquals($product->getTierPrice(5), 0.77, 'Product tier price (5) attribute update was not applied');
+        $this->_product->load($this->_product->getId());
+        $this->assertEquals(
+            $this->_product->getTierPrice(3),
+            0.88,
+            'Product tier price (3) attribute update was not applied'
+        );
+        $this->assertEquals(
+            $this->_product->getTierPrice(5),
+            0.77,
+            'Product tier price (5) attribute update was not applied'
+        );
     }
 }

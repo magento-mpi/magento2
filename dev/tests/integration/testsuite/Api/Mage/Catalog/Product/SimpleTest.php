@@ -28,21 +28,6 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
     protected $_defaultHelper = 'Mage_Catalog_Product_Helper_Simple';
 
     /**
-     * Tear down
-     *
-     * @return void
-     */
-    protected function tearDown()
-    {
-        $product = Mage::getModel('Mage_Catalog_Model_Product');
-        $product->load($this->getFixture('productId'));
-        $this->callModelDelete($product, true);
-        $this->callModelDelete($this->_store, true);
-
-        parent::tearDown();
-    }
-
-    /**
      * Test product resource post
      *
      * @resourceOperation product::create
@@ -55,7 +40,6 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
         $actualProduct = Mage::getModel('Mage_Catalog_Model_Product');
         $actualProduct->load($productId);
         $this->assertNotNull($actualProduct->getId());
-        $this->addModelToDelete($actualProduct, true);
         $expectedProduct = Mage::getModel('Mage_Catalog_Model_Product');
         $expectedProduct->setData($productData);
 
@@ -76,7 +60,6 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load($productId);
         $this->assertNotNull($product->getId());
-        $this->addModelToDelete($product, true);
         $skipAttributes = array(
             'news_from_date',
             'news_to_date',
@@ -213,7 +196,7 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
     {
         $this->markTestSkipped("This test fails due to absence of proper validation in the functionality itself.");
         /** @var $product Mage_Catalog_Model_Product */
-        $product = $this->getFixture('product_simple');
+        $product = Mage::registry('product_simple');
         $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_data');
         $productData['sku'] = $product->getSku();
 
@@ -280,7 +263,6 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load($productId);
         $this->assertNotNull($product->getId());
-        $this->addModelToDelete($product, true);
 
         $this->_getHelper()->checkStockItemDataUseDefault($product);
     }
@@ -289,18 +271,16 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
      * Test product resource post using config values in inventory manage stock field
      *
      * @resourceOperation product::create
+     * @magentoConfigFixture cataloginventory/item_options/manage_stock 0
      */
     public function testCreateInventoryManageStockUseConfig()
     {
         $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_manage_stock_use_config');
 
-        $this->_updateAppConfig('cataloginventory/item_options/manage_stock', 0, true, true);
-
         $productId = $this->_createProductWithApi($productData);
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load($productId);
         $this->assertNotNull($product->getId());
-        $this->addModelToDelete($product, true);
 
         $stockItem = $product->getStockItem();
         $this->assertNotNull($stockItem);
@@ -342,22 +322,20 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
         $this->assertEquals($specialFrom, $product->getSpecialFromDate(), 'Special price from not changed');
         $this->assertEquals($specialTo, $product->getSpecialToDate(), 'Special price to not changed');
 
-        $this->setFixture('productId', $product->getId());
+        Mage::register('productId', $product->getId());
     }
 
     /**
      * Test get product info by numeric SKU
-     *
-     * @return void
      */
     public function testProductInfoByNumericSku()
     {
         $data = require dirname(__FILE__) . '/_fixture/ProductData.php';
 
         //generate numeric sku
-        $data->create->sku = rand(1000000, 99999999);
+        $data['create_with_attributes_soapv2']->sku = rand(1000000, 99999999);
 
-        $id = Magento_Test_Helper_Api::call($this, 'catalogProductCreate', $data->create);
+        $id = Magento_Test_Helper_Api::call($this, 'catalogProductCreate', $data['create']);
 
         $this->assertEquals(
             $id,
@@ -368,7 +346,8 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
         //test new product exists in DB
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load($id);
-        $this->setFixture('productId', $product->getId());
+        Mage::unregister('productId');
+        Mage::register('productId', $product->getId());
         $this->assertNotNull($product->getId(), 'Tested product not found.');
 
         $result = Magento_Test_Helper_Api::call(
@@ -389,16 +368,15 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
 
     /**
      * Test product CRUD
-     *
-     * @return void
      */
     public function testProductCrud()
     {
         $data = require dirname(__FILE__) . '/_fixture/ProductData.php';
 
         // create product for test
-        $productId = Magento_Test_Helper_Api::call($this, 'catalogProductCreate', $data->create);
-        $this->setFixture('productId', $productId);
+        $productId = Magento_Test_Helper_Api::call($this, 'catalogProductCreate', $data['create_with_attributes_soapv2']);
+        Mage::unregister('productId');
+        Mage::register('productId', $productId);
 
         // test new product id returned
         $this->assertGreaterThan(0, $productId);
@@ -409,9 +387,9 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
         $this->assertNotNull($product->getId());
 
         //update product
-        $data->update = array('productId' => $productId) + $data['update'];
+        $data['create_with_attributes_soapv2'] = array('productId' => $productId) + $data['update'];
 
-        $isOk = Magento_Test_Helper_Api::call($this, 'catalogProductUpdate', $data->update);
+        $isOk = Magento_Test_Helper_Api::call($this, 'catalogProductUpdate', $data['create_with_attributes_soapv2']);
 
         //test call response is true
         $this->assertTrue($isOk, 'Call returned false');
@@ -420,7 +398,7 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load($productId);
         $this->assertNotNull($product->getId());
-        $this->assertEquals($data['update']['productData']['name'], $product->getName());
+        $this->assertEquals($data['update']['productData']->name, $product->getName());
 
         //delete product
         $isOk = Magento_Test_Helper_Api::call($this, 'catalogProductDelete', array('productId' => $productId));
@@ -436,8 +414,6 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
 
     /**
      * Test product CRUD with custom options
-     *
-     * @return void
      */
     public function testProductWithOptionsCrud()
     {
@@ -445,11 +421,7 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
         $data = require dirname(__FILE__) . '/_fixture/ProductData.php';
 
         try {
-            switch (TESTS_WEBSERVICE_TYPE) {
-                case self::TYPE_SOAP:
-                    $this->_testSoapV2($optionValueApi, $optionValueInstaller, $data);
-                    break;
-            }
+            $this->_testSoapV2($optionValueApi, $optionValueInstaller, $data);
         } catch (Exception $e) {
             //give delete attributes
         }
@@ -471,17 +443,19 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
      * @param int $optionValueApi
      * @param int $optionValueInstaller
      * @param array $data
-     * @return void
      */
     protected function _testSoapV2($optionValueApi, $optionValueInstaller, $data)
     {
-        $attributes = & $data['create_with_attributes_soapv2']['productData']['additional_attributes'];
+        $attributes = array();
         $attributes['single_data'][1]['value'] = $optionValueApi;
         $attributes['single_data'][3]['value'] = $optionValueInstaller;
+        $productData = &$data['create_with_attributes_soapv2']['productData'];
+        $productData->additional_attributes = $attributes;
 
         // create product for test
-        $productId = Magento_Test_Helper_Api::call($this, 'catalogProductCreate', $data->create_with_attributes_soapv2);
-        $this->setFixture('productId', $productId);
+        $productId = Magento_Test_Helper_Api::call($this, 'catalogProductCreate', $data['create_with_attributes_soapv2']);
+        Mage::unregister('productId');
+        Mage::register('productId', $productId);
 
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load($productId);
@@ -505,30 +479,26 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
      */
     protected function _addAttributes()
     {
-        $this->setFixture('attributes', true);
-
         $data = require dirname(__FILE__) . '/_fixture/ProductAttributeData.php';
-
-
         // add product attributes via installer
         $installer = new Mage_Catalog_Model_Resource_Setup('core_setup');
         $installer->addAttribute(
             'catalog_product',
             $data['create_text_installer']['code'],
-            $data->create_text_installer->attributeData
+            $data['create_text_installer']['attributeData']
         );
         $installer->addAttribute(
             'catalog_product',
             $data['create_select_installer']['code'],
-            $data->create_select_installer->attributeData
+            $data['create_select_installer']['attributeData']
         );
 
         //add attributes to default attribute set via installer
-        $installer->addAttributeToSet('catalog_product', 4, 'Default', $data->create_text_installer->code);
-        $installer->addAttributeToSet('catalog_product', 4, 'Default', $data->create_select_installer->code);
+        $installer->addAttributeToSet('catalog_product', 4, 'Default', $data['create_text_installer']['code']);
+        $installer->addAttributeToSet('catalog_product', 4, 'Default', $data['create_select_installer']['code']);
 
         $attribute = Mage::getModel('Mage_Eav_Model_Entity_Attribute');
-        $attribute->loadByCode('catalog_product', $data->create_select_installer->code);
+        $attribute->loadByCode('catalog_product', $data['create_select_installer']['code']);
         $collection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection')
             ->setAttributeFilter($attribute->getId())
             ->load();
@@ -537,8 +507,8 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
 
         //add product attributes via api model
         $model = Mage::getModel('Mage_Catalog_Model_Product_Attribute_Api');
-        $response1 = $model->create($data->create_text_api);
-        $response2 = $model->create($data->create_select_api);
+        $response1 = $model->create($data['create_text_api']);
+        $response2 = $model->create($data['create_select_api']);
 
         //add options
         $model = Mage::getModel('Mage_Catalog_Model_Product_Attribute_Api');
@@ -553,7 +523,7 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
         $model->attributeAdd($response2, 4);
 
         $attributes = array($response1, $response2);
-        $this->setFixture('attributes', $attributes);
+        Mage::register('attributes', $attributes);
 
         return array($optionValueApi, $optionValueInstaller);
     }
@@ -562,34 +532,14 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
      * Remove attributes created for tests
      *
      * Help CRUD method
-     *
-     * @return void
      */
     protected function _removeAttributes()
     {
-        $attributes = $this->getFixture('attributes');
-        foreach ($attributes as $attribute) {
-            //remove by id
-            $model = Mage::getModel('Mage_Catalog_Model_Product_Attribute_Api');
-            $model->remove($attribute);
-        }
-
-        $data = require dirname(__FILE__) . '/_fixture/ProductAttributeData.php';
-        $attributes = array(
-            $data['create_text_installer']['code'],
-            $data['create_select_installer']['code'],
-        );
-        $installer = new Mage_Catalog_Model_Resource_Setup('core_setup');
-        foreach ($attributes as $attribute) {
-            //remove by code
-            $installer->removeAttribute('catalog_product', $attribute);
-        }
+        Mage::unregister('attributes');
     }
 
     /**
      * Test create product with invalid attribute set
-     *
-     * @return void
      */
     public function testProductCreateWithInvalidAttributeSet()
     {
@@ -631,8 +581,6 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
 
     /**
      * Test product attributes update in custom store view
-     *
-     * @return void
      */
     public function testProductUpdateCustomStore()
     {
@@ -650,18 +598,18 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
         )->save();
         // We need to reinit stores config as we are going to load product models later in this test
         Mage::app()->reinitStores();
-        $this->_getAppCache()->flush();
 
         $data = require dirname(__FILE__) . '/_fixture/ProductData.php';
         // create product for test
-        $productId = Magento_Test_Helper_Api::call($this, 'catalogProductCreate', $data->create_full->soap);
+        $productId = Magento_Test_Helper_Api::call($this, 'catalogProductCreate', $data['create_full']['soap']);
         $this->assertGreaterThan(0, $productId, 'Product was not created');
-        $this->setFixture('productId', $productId);
+        Mage::unregister('productId');
+        Mage::register('productId', $productId);
 
         // update product on test store
         $data['update_custom_store'] = array('productId' => $productId) + $data['update_custom_store'];
-        $data->update_custom_store->store = $this->_store->getCode();
-        $isOk = Magento_Test_Helper_Api::call($this, 'catalogProductUpdate', $data->update_custom_store);
+        $data['update_custom_store']->store = $this->_store->getCode();
+        $isOk = Magento_Test_Helper_Api::call($this, 'catalogProductUpdate', $data['update_custom_store']);
         $this->assertTrue($isOk, 'Can not update product on test store');
 
         // Load product in test store
@@ -669,26 +617,26 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
         $product->setStoreId($this->_store->getId())->load($productId);
         $this->assertNotNull($product->getId());
         $this->assertEquals(
-            $data['update_custom_store']['productData']['name'],
+            $data['update_custom_store']['productData']->name,
             $product->getName(),
             'Product name was not updated'
         );
 
         // update product attribute in default store
         $data['update_default_store'] = array('productId' => $productId) + $data['update_default_store'];
-        $isOk = Magento_Test_Helper_Api::call($this, 'catalogProductUpdate', $data->update_default_store);
+        $isOk = Magento_Test_Helper_Api::call($this, 'catalogProductUpdate', $data['update_default_store']);
         $this->assertTrue($isOk, 'Can not update product on default store');
 
         // Load product in default store
         $productDefault = Mage::getModel('Mage_Catalog_Model_Product');
         $productDefault->load($productId);
         $this->assertEquals(
-            $data['update_default_store']['productData']['description'],
+            $data['update_default_store']['productData']->description,
             $productDefault->getDescription(),
             'Description attribute was not updated for default store'
         );
         $this->assertEquals(
-            $data['create_full']['soap']['productData']['name'],
+            $data['create_full']['soap']['productData']->name,
             $productDefault->getName(),
             'Product name attribute should not have been changed'
         );
@@ -697,12 +645,12 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
         $productTestStore = Mage::getModel('Mage_Catalog_Model_Product');
         $productTestStore->setStoreId($this->_store->getId())->load($productId);
         $this->assertEquals(
-            $data['update_default_store']['productData']['description'],
+            $data['update_default_store']['productData']->description,
             $productTestStore->getDescription(),
             'Description attribute was not updated for test store'
         );
         $this->assertEquals(
-            $data['update_custom_store']['productData']['name'],
+            $data['update_custom_store']['productData']->name,
             $productTestStore->getName(),
             'Product name attribute should not have been changed for test store'
         );
@@ -710,8 +658,6 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
 
     /**
      * Test create product to test default values for media attributes
-     *
-     * @return void
      */
     public function testProductCreateForTestMediaAttributesDefaultValue()
     {
@@ -720,7 +666,8 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
 
         // create product for test
         $productId = Magento_Test_Helper_Api::call($this, 'catalogProductCreate', $productData);
-        $this->setFixture('productId', $productId);
+        Mage::unregister('productId');
+        Mage::register('productId', $productId);
 
         // test new product id returned
         $this->assertGreaterThan(0, $productId);

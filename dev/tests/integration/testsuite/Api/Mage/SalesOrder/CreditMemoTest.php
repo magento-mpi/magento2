@@ -86,7 +86,7 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
 
         //Test cancel
         //Situation when creditmemo is possible to cancel was not found
-        $this->setExpectedException(self::DEFAULT_EXCEPTION);
+        $this->setExpectedException('SoapFault');
         Magento_Test_Helper_Api::call(
             $this,
             'salesOrderCreditmemoCancel',
@@ -336,7 +336,7 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
         /** @var Mage_Sales_Model_Order_Creditmemo $createdCreditmemo */
         $createdCreditmemo = Mage::getModel('Mage_Sales_Model_Order_Creditmemo');
         $createdCreditmemo->load($creditMemoIncrementId, 'increment_id');
-        $this->setFixture('creditmemo', $createdCreditmemo);
+        Mage::register('creditmemo', $createdCreditmemo);
 
         $this->assertNotEmpty($creditMemoIncrementId, 'Creditmemo was not created');
         return array($product, $qtys, $adjustmentPositive, $adjustmentNegative, $creditMemoIncrementId);

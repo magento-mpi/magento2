@@ -14,11 +14,11 @@ $product->setStoreId(0)
     ->save();
 // product should be assigned to website (with appropriate store view) to use store view in rest
 $websites = $product->getWebsiteIds();
-$websites[] = PHPUnit_Framework_TestCase::getFixture('website')->getId();
+$websites[] = Mage::registry('website')->getId();
 
 // to make stock item visible from created product it should be reloaded
 $product = Mage::getModel('Mage_Catalog_Model_Product')->load($product->getId());
-$product->setStoreId(PHPUnit_Framework_TestCase::getFixture('store')->getId())
+$product->setStoreId(Mage::registry('store')->getId())
     ->setWebsiteIds($websites)
     ->save();
 PHPUnit_Framework_TestCase::setFixture('product_simple', $product);

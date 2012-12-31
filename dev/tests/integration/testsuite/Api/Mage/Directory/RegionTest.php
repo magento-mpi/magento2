@@ -12,8 +12,6 @@ class Mage_Directory_RegionTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test directoryRegionList API method
-     *
-     * @return void
      */
     public function testList()
     {

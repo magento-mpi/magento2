@@ -15,6 +15,9 @@
  */
 class Mage_Catalog_Product_BackorderStatusTest extends PHPUnit_Framework_TestCase
 {
+    /** @var Mage_Catalog_Model_Product */
+    protected $_product;
+
     /**
      * Sets up the fixture, for example, open a network connection.
      * This method is called before a test is executed.
@@ -27,31 +30,16 @@ class Mage_Catalog_Product_BackorderStatusTest extends PHPUnit_Framework_TestCas
         $product->setData($productData['create_full_fledged']);
         $product->save();
 
-        $this->setFixture('product', $product);
+        $this->_product = $product;
 
         parent::setUp();
     }
 
     /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-        $this->deleteFixture('product', true);
-        parent::tearDown();
-    }
-
-    /**
      * Test updating product back-order status
-     *
-     * @return void
      */
     public function testBackorderStatusUpdate()
     {
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = $this->getFixture('product');
-
         $newProductData = new stdClass();
         $newProductData->use_config_manage_stock = 0;
         $newProductData->manage_stock = 1;
@@ -63,21 +51,15 @@ class Mage_Catalog_Product_BackorderStatusTest extends PHPUnit_Framework_TestCas
             $this,
             'catalogInventoryStockItemUpdate',
             array(
-                'productId' => $this->getFixture('product')->getSku(),
+                'productId' => $this->_product->getSku(),
                 'data' => (array)$newProductData
             )
         );
 
-        if (PHPUnit_Framework_TestCase::TYPE_SOAP === TESTS_WEBSERVICE_TYPE
-            || PHPUnit_Framework_TestCase::TYPE_SOAP_WSI === TESTS_WEBSERVICE_TYPE
-        ) {
-            $this->assertEquals(1, $result);
-        } else {
-            $this->assertTrue($result);
-        }
+        $this->assertEquals(1, $result);
         // have to re-load product for stock item set
-        $product->load($product->getId());
-        $this->assertEquals(1, $product->getStockItem()->getBackorders());
-        $this->assertEquals(0, $product->getStockItem()->getUseConfigBackorders());
+        $this->_product->load($this->_product->getId());
+        $this->assertEquals(1, $this->_product->getStockItem()->getBackorders());
+        $this->assertEquals(0, $this->_product->getStockItem()->getUseConfigBackorders());
     }
 }

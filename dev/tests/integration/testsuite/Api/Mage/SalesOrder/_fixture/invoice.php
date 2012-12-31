@@ -5,11 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-if (!PHPUnit_Framework_TestCase::getFixture('order')) {
+if (!Mage::registry('order')) {
     require 'order.php';
 }
 /** @var $order Mage_Sales_Model_Order */
-$order = PHPUnit_Framework_TestCase::getFixture('order');
+$order = Mage::registry('order');
 
 $orderService = new Mage_Sales_Model_Service_Order($order);
 $invoice = $orderService->prepareInvoice();
@@ -20,8 +20,8 @@ $transactionSave->addObject($invoice)
     ->addObject($invoice->getOrder())
     ->save();
 
-PHPUnit_Framework_TestCase::setFixture('invoice', $invoice);
-$order2 = PHPUnit_Framework_TestCase::getFixture('order2');
+Mage::register('invoice', $invoice);
+$order2 = Mage::registry('order2');
 $orderService2 = new Mage_Sales_Model_Service_Order($order2);
 $invoice2 = $orderService2->prepareInvoice();
 $invoice2->register();
@@ -31,4 +31,4 @@ $transactionSave2->addObject($invoice2)
     ->addObject($invoice2->getOrder())
     ->save();
 
-PHPUnit_Framework_TestCase::setFixture('invoice2', $invoice2);
+Mage::register('invoice2', $invoice2);

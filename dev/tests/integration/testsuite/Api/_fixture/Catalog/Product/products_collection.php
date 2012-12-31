@@ -9,7 +9,7 @@
 require '_fixture/Core/Store/store_on_new_website.php';
 $websiteIds = array(Mage::app()->getDefaultStoreView()->getWebsiteId());
 /** @var $testStore Mage_Core_Model_Store */
-$testStore = PHPUnit_Framework_TestCase::getFixture('store_on_new_website');
+$testStore = Mage::registry('store_on_new_website');
 if ($testStore) {
     $websiteIds[] = $testStore->getWebsiteId();
 }

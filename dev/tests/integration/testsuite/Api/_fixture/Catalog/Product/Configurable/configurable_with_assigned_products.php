@@ -8,7 +8,7 @@
 include "configurable.php";
 define('CONFIGURABLE_ASSIGNED_PRODUCTS_COUNT', 2);
 /** @var $configurableProduct Mage_Catalog_Model_Product */
-$configurableProduct = PHPUnit_Framework_TestCase::getFixture('product_configurable');
+$configurableProduct = Mage::registry('product_configurable');
 
 $productsToAssignIds = array();
 for ($i = 0; $i < CONFIGURABLE_ASSIGNED_PRODUCTS_COUNT; $i++) {
@@ -20,13 +20,13 @@ for ($i = 0; $i < CONFIGURABLE_ASSIGNED_PRODUCTS_COUNT; $i++) {
     // set configurable attributes values
     for ($attributeCount = 1; $attributeCount <= ATTRIBUTES_COUNT; $attributeCount++) {
         /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-        $attribute = PHPUnit_Framework_TestCase::getFixture("eav_configurable_attribute_$attributeCount");
+        $attribute = Mage::registry("eav_configurable_attribute_$attributeCount");
         $lastOption = end($attribute->getSource()->getAllOptions());
         $product->setData($attribute->getAttributeCode(), $lastOption['value']);
     }
     $product->save();
     $productsToAssignIds[$product->getId()] = $product->getId();
-    PHPUnit_Framework_TestCase::setFixture("configurable_assigned_product_$i", $product);
+    Mage::register("configurable_assigned_product_$i", $product);
 }
 $configurableProduct->setConfigurableProductsData($productsToAssignIds)->save();
 $configurableProduct->save();
@@ -50,5 +50,5 @@ $configurableProduct->setConfigurableAttributesData($configurableAttributes)
 
 // reload configurable product data after adding prices
 $configurableProduct = Mage::getModel('Mage_Catalog_Model_Product')->load($configurableProduct->getId());
-PHPUnit_Framework_TestCase::setFixture("product_configurable", $configurableProduct);
+Mage::register("product_configurable", $configurableProduct);
 

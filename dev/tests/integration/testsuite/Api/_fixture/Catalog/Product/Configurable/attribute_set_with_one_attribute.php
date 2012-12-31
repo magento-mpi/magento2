@@ -13,7 +13,7 @@ $attributeSet->save();
 /** @var $entityType Mage_Eav_Model_Entity_Type */
 $entityType = Mage::getModel('Mage_Eav_Model_Entity_Type')->loadByCode('catalog_product');
 $attributeSet->initFromSkeleton($entityType->getDefaultAttributeSetId())->save();
-PHPUnit_Framework_TestCase::setFixture('attribute_set_with_one_attribute', $attributeSet);
+Mage::register('attribute_set_with_one_attribute', $attributeSet);
 
 /** @var $attributeFixture Mage_Catalog_Model_Resource_Eav_Attribute */
 $attributeFixture = require '_fixture/_block/Catalog/Product/Attribute.php';
@@ -39,4 +39,4 @@ $attribute->setOption(
     )
 );
 $attribute->save();
-PHPUnit_Framework_TestCase::setFixture('eav_configurable_attribute', $attribute);
+Mage::register('eav_configurable_attribute', $attribute);

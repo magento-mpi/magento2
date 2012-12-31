@@ -384,7 +384,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
     {
         $product = Mage::helper('Mage_Catalog_Helper_Product')->getProduct($productId, null, $identifierType);
         if (!$product->getId()) {
-            $this->_fault('not_exists','Product not exists.');
+            $this->_fault('product_not_exists', 'Product not exists.');
         }
         return $product->getId();
     }

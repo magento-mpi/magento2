@@ -12,8 +12,6 @@ class SalesOrder_ShipmentTest extends SalesOrder_AbstractTest
 {
     /**
      * Clean up shipment and revert changes to entity store model
-     *
-     * @return void
      */
     protected function tearDown()
     {
@@ -60,8 +58,6 @@ class SalesOrder_ShipmentTest extends SalesOrder_AbstractTest
 
     /**
      * Test shipment create API call results
-     *
-     * @return void
      */
     public function testAutoIncrementType()
     {
@@ -100,8 +96,6 @@ class SalesOrder_ShipmentTest extends SalesOrder_AbstractTest
 
     /**
      * Test send shipping info API
-     *
-     * @return void
      */
     public function testSendInfo()
     {

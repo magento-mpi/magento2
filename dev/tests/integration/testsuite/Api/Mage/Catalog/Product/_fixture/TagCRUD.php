@@ -8,26 +8,24 @@
 
 //Add customer
 $tagFixture = simplexml_load_file(__DIR__ . '/_data/xml/TagCRUD.xml');
-$customerData = Magento_Test_Helper_Api::simpleXmlToObject($tagFixture->customer);
+$customerData = Magento_Test_Helper_Api::simpleXmlToArray($tagFixture->customer);
 $customerData['email'] = mt_rand(1000, 9999) . '.' . $customerData['email'];
 
 $customer = Mage::getModel('Mage_Customer_Model_Customer');
 $customer->setData($customerData)->save();
-PHPUnit_Framework_TestCase::setFixture(
+Mage::register(
     'customerData',
-    $customer,
-    PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_DISABLED
+    $customer
 );
 
 //Create new simple product
-$productData = Magento_Test_Helper_Api::simpleXmlToObject($tagFixture->product);
+$productData = Magento_Test_Helper_Api::simpleXmlToArray($tagFixture->product);
 $productData['sku'] = $productData['sku'] . mt_rand(1000, 9999);
 $productData['name'] = $productData['name'] . ' ' . mt_rand(1000, 9999);
 
 $product = Mage::getModel('Mage_Catalog_Model_Product');
 $product->setData($productData)->save();
-PHPUnit_Framework_TestCase::setFixture(
+Mage::register(
     'productData',
-    $product,
-    PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_DISABLED
+    $product
 );

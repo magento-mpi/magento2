@@ -18,10 +18,9 @@ $customer->setStoreId(1)
     ->setRewardUpdateNotification(1)
     ->setRewardWarningNotification(1)
     ->save();
-PHPUnit_Framework_TestCase::setFixture(
+Mage::register(
     'customer',
-    $customer,
-    PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_AFTER_CLASS
+    $customer
 );
 
 $customerAddress = Mage::getModel('Mage_Customer_Model_Address');
@@ -44,10 +43,9 @@ $customerAddress->setData(
 );
 $customerAddress->setCustomer($customer);
 $customerAddress->save();
-PHPUnit_Framework_TestCase::setFixture(
+Mage::register(
     'customer_address',
-    $customerAddress,
-    PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_AFTER_CLASS
+    $customerAddress
 );
 
 //Set customer default shipping and billing address

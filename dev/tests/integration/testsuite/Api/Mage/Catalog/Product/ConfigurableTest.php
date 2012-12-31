@@ -37,7 +37,6 @@ class Mage_Catalog_Product_ConfigurableTest extends Mage_Catalog_ProductAbstract
         // Validate outcome
         /** @var $actual Mage_Catalog_Model_Product */
         $actual = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
-        $this->addModelToDelete($actual, true);
         $this->_getHelper()->checkConfigurableAttributesData(
             $actual,
             $productData['configurable_attributes'],
@@ -82,7 +81,7 @@ class Mage_Catalog_Product_ConfigurableTest extends Mage_Catalog_ProductAbstract
         $this->markTestSkipped("This test fails due to absence of proper validation in the functionality itself.");
         $productData = $this->_getHelper()->getCreateDataWithInvalidConfigurableAttribute();
         /** @var $invalidAttribute Mage_Catalog_Model_Resource_Eav_Attribute */
-        $invalidAttribute = $this->getFixture('eav_invalid_configurable_attribute');
+        $invalidAttribute = Mage::registry('eav_invalid_configurable_attribute');
         $expectedMessages = array(
             sprintf(
                 'The attribute with code "%s" cannot be used to create a configurable product.',
@@ -108,7 +107,7 @@ class Mage_Catalog_Product_ConfigurableTest extends Mage_Catalog_ProductAbstract
         $this->markTestSkipped("This test fails due to absence of proper validation in the functionality itself.");
         $productData = $this->_getHelper()->getCreateDataWithInvalidConfigurableOptionPrice();
         /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-        $attribute = $this->getFixture('eav_configurable_attribute');
+        $attribute = Mage::registry('eav_configurable_attribute');
         $attributeSourceOptions = $attribute->getSource()->getAllOptions(false);
         $expectedMessages = array(
             sprintf(
@@ -142,7 +141,7 @@ class Mage_Catalog_Product_ConfigurableTest extends Mage_Catalog_ProductAbstract
         $this->markTestSkipped("This test fails due to absence of proper validation in the functionality itself.");
         $productData = $this->_getHelper()->getCreateDataWithInvalidConfigurableOptionValue();
         /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-        $attribute = $this->getFixture('eav_configurable_attribute');
+        $attribute = Mage::registry('eav_configurable_attribute');
         // Validate outcome
         $expectedMessages = array(
             "The \"option_value\" value \"invalid_option_value\" for the configurable attribute"
@@ -167,9 +166,9 @@ class Mage_Catalog_Product_ConfigurableTest extends Mage_Catalog_ProductAbstract
         $this->markTestSkipped("This test fails due to absence of proper validation in the functionality itself.");
         $productData = $this->_getHelper()->getCreateDataWithInvalidConfigurableOptionLabel();
         /** @var $attributeOne Mage_Catalog_Model_Resource_Eav_Attribute */
-        $attributeOne = $this->getFixture('eav_configurable_attribute_1');
+        $attributeOne = Mage::registry('eav_configurable_attribute_1');
         /** @var $attributeTwo Mage_Catalog_Model_Resource_Eav_Attribute */
-        $attributeTwo = $this->getFixture('eav_configurable_attribute_2');
+        $attributeTwo = Mage::registry('eav_configurable_attribute_2');
         // Validate outcome
         $expectedMessages = array(
             sprintf(

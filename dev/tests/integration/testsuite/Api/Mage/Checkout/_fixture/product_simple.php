@@ -26,8 +26,7 @@ $product->setTypeId('simple')
     )
 )
     ->save();
-PHPUnit_Framework_TestCase::setFixture(
+Mage::register(
     'product_simple',
-    $product,
-    PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_DISABLED
+    $product
 );

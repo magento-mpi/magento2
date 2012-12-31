@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-if (!PHPUnit_Framework_TestCase::getFixture('website')) {
+if (!Mage::registry('website')) {
     $website = Mage::getModel('Mage_Core_Model_Website');
     $website->setData(
         array(
@@ -22,12 +22,12 @@ if (!PHPUnit_Framework_TestCase::getFixture('website')) {
     );
 }
 
-if (!PHPUnit_Framework_TestCase::getFixture('store_group')) {
+if (!Mage::registry('store_group')) {
     $defaultCategoryId = 2;
     $storeGroup = Mage::getModel('Mage_Core_Model_Store_Group');
     $storeGroup->setData(
         array(
-            'website_id' => PHPUnit_Framework_TestCase::getFixture('website')->getId(),
+            'website_id' => Mage::registry('website')->getId(),
             'name' => 'Test Store' . uniqid(),
             'code' => 'store_group_' . uniqid(),
             'root_category_id' => $defaultCategoryId
@@ -40,15 +40,15 @@ if (!PHPUnit_Framework_TestCase::getFixture('store_group')) {
     );
 }
 
-if (!PHPUnit_Framework_TestCase::getFixture('store_on_new_website')) {
+if (!Mage::registry('store_on_new_website')) {
     $store = Mage::getModel('Mage_Core_Model_Store');
     $store->setData(
         array(
-            'group_id' => PHPUnit_Framework_TestCase::getFixture('store_group')->getId(),
+            'group_id' => Mage::registry('store_group')->getId(),
             'name' => 'Test Store View',
             'code' => 'store_' . uniqid(),
             'is_active' => true,
-            'website_id' => PHPUnit_Framework_TestCase::getFixture('website')->getId()
+            'website_id' => Mage::registry('website')->getId()
         )
     )->save();
     PHPUnit_Framework_TestCase::setFixture(

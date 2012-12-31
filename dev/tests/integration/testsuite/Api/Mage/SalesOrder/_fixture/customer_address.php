@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 require_once 'customer.php';
-$customer = PHPUnit_Framework_TestCase::getFixture('creditmemo/customer');
+$customer = Mage::registry('creditmemo/customer');
 
 $customerAddress = Mage::getModel('Mage_Customer_Model_Address');
 $customerAddress->setData(
@@ -28,4 +28,4 @@ $customerAddress->setData(
 );
 $customerAddress->setCustomer($customer);
 $customerAddress->save();
-PHPUnit_Framework_TestCase::setFixture('creditmemo/customer_address', $customerAddress);
+Mage::register('creditmemo/customer_address', $customerAddress);

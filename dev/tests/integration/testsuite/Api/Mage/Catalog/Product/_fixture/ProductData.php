@@ -12,7 +12,7 @@ return array(
         'type' => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
         'set' => 4,
         'sku' => 'simple' . uniqid(),
-        'productData' => array(
+        'productData' => (object)array(
             'name' => 'test',
             'description' => 'description',
             'short_description' => 'short description',
@@ -30,20 +30,20 @@ return array(
         )
     ),
     'update' => array(
-        'productData' => array(
+        'productData' => (object)array(
             'status' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED, //required to see product on backend
             'name' => 'Simple Product Updated', //test update method
         )
     ),
     'update_custom_store' => array(
-        'productData' => array(
+        'productData' => (object)array(
             'status' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED, //required to see product on backend
             'name' => 'Simple Product Updated Custom Store', //test update method
         ),
         'store' => 'test_store'
     ),
     'update_default_store' => array(
-        'productData' => array(
+        'productData' => (object)array(
             'description' => 'Updated description'
         )
     ),
@@ -51,7 +51,7 @@ return array(
         'type' => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
         'set' => 4,
         'sku' => 'simple' . uniqid(),
-        'productData' => array(
+        'productData' => (object)array(
             'status' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED, //required to see product on backend
             'name' => 'Product with attributes',
             'description' => 'description',
@@ -87,7 +87,7 @@ return array(
         'type' => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
         'set' => 4,
         'sku' => 'simple' . uniqid(),
-        'productData' => array(
+        'productData' => (object)array(
             'status' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED, //required to see product on backend
             'name' => 'Product with attributes',
             'description' => 'description',
@@ -138,7 +138,7 @@ return array(
             'type' => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
             'set' => 4,
             'sku' => 'simple' . uniqid(),
-            'productData' => array(
+            'productData' => (object)array(
                 'name' => 'Simple Product',
                 'website_ids' => array(Mage::app()->getStore()->getWebsiteId()),
                 'description' => '...',

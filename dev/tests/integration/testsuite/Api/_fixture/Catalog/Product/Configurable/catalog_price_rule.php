@@ -20,7 +20,7 @@ $rule->setSubIsEnable(1)
     ->save();
 Mage::getModel('Mage_CatalogRule_Model_Rule')->applyAll();
 
-PHPUnit_Framework_TestCase::setFixture(
+Mage::register(
     'catalog_price_rule',
     $rule,
     PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_DISABLED

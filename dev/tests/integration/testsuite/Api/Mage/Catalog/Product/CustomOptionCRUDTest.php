@@ -23,7 +23,7 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
         $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOption.xml');
         $customOptions = Magento_Test_Helper_Api::simpleXmlToArray($customOptionFixture->CustomOptionsToAdd);
         $store = (string)$customOptionFixture->store;
-        $fixtureProductId = PHPUnit_Framework_TestCase::getFixture('productData')->getId();
+        $fixtureProductId = Mage::registry('productData')->getId();
 
         $createdOptionBefore = Magento_Test_Helper_Api::call(
             $this,
@@ -47,7 +47,7 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
                 'catalogProductCustomOptionAdd',
                 array(
                     'productId' => $fixtureProductId,
-                    'data' => $option,
+                    'data' => (object)$option,
                     'store' => $store
                 )
             );
@@ -199,7 +199,7 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
         ) {
             $option['additional_fields'] = array($option['additional_fields']);
         }
-        $this->setExpectedException(self::DEFAULT_EXCEPTION);
+        $this->setExpectedException('SoapFault');
         Magento_Test_Helper_Api::call(
             $this,
             'catalogProductCustomOptionAdd',
@@ -217,14 +217,14 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
      */
     public function testCustomOptionAddExceptionAdditionalFieldsNotSet()
     {
-        $fixtureProductId = PHPUnit_Framework_TestCase::getFixture('productData')->getId();
+        $fixtureProductId = Mage::registry('productData')->getId();
         $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOption.xml');
         $customOptions = Magento_Test_Helper_Api::simpleXmlToArray($customOptionFixture->CustomOptionsToAdd);
 
         $option = $customOptions['field'];
         $option['additional_fields'] = array();
 
-        $this->setExpectedException(self::DEFAULT_EXCEPTION, 'Provided data is invalid.');
+        $this->setExpectedException('SoapFault', 'Provided data is invalid.');
         Magento_Test_Helper_Api::call(
             $this,
             'catalogProductCustomOptionAdd',
@@ -239,7 +239,7 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
      */
     public function testCustomOptionDateTimeAddExceptionStoreNotExist()
     {
-        $fixtureProductId = PHPUnit_Framework_TestCase::getFixture('productData')->getId();
+        $fixtureProductId = Mage::registry('productData')->getId();
         $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOption.xml');
         $customOptions = Magento_Test_Helper_Api::simpleXmlToArray($customOptionFixture->CustomOptionsToAdd);
 
@@ -249,7 +249,7 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
         ) {
             $option['additional_fields'] = array($option['additional_fields']);
         }
-        $this->setExpectedException(self::DEFAULT_EXCEPTION);
+        $this->setExpectedException('SoapFault');
         Magento_Test_Helper_Api::call(
             $this,
             'catalogProductCustomOptionAdd',
@@ -271,7 +271,7 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
         $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOption.xml');
         $store = (string)$customOptionFixture->store;
 
-        $this->setExpectedException(self::DEFAULT_EXCEPTION);
+        $this->setExpectedException('SoapFault');
         Magento_Test_Helper_Api::call(
             $this,
             'catalogProductCustomOptionList',
@@ -289,9 +289,9 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
      */
     public function testCustomOptionListExceptionStoreNotExists()
     {
-        $fixtureProductId = PHPUnit_Framework_TestCase::getFixture('productData')->getId();
+        $fixtureProductId = Mage::registry('productData')->getId();
 
-        $this->setExpectedException(self::DEFAULT_EXCEPTION);
+        $this->setExpectedException('SoapFault');
         Magento_Test_Helper_Api::call(
             $this,
             'catalogProductCustomOptionList',

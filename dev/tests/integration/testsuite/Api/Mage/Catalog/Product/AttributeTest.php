@@ -17,8 +17,6 @@ class Mage_Catalog_Product_AttributeTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Tests attribute creation with invalid characters in attribute code (possible SQL injection)
-     *
-     * @return void
      */
     public function testCreateWithInvalidCode()
     {
@@ -36,11 +34,7 @@ class Mage_Catalog_Product_AttributeTest extends PHPUnit_Framework_TestCase
 
             $this->fail('Exception with message like "invalid attribute code" expected but not thrown');
         } catch (Exception $e) {
-            if (TESTS_WEBSERVICE_TYPE == PHPUnit_Framework_TestCase::TYPE_SOAP
-                || TESTS_WEBSERVICE_TYPE == PHPUnit_Framework_TestCase::TYPE_SOAP_WSI
-            ) {
-                $this->assertEquals(103, $e->faultcode, 'Unexpected fault code');
-            }
+            $this->assertEquals(103, $e->faultcode, 'Unexpected fault code');
             $this->assertEquals(
                 'Attribute code is invalid. Please use only letters (a-z), numbers (0-9), '
                     . 'or underscore(_) in this field. First character should be a letter.',

@@ -52,24 +52,10 @@ class Mage_Catalog_Product_ImageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-        self::callModelDelete($this->_product, true);
-        unset($this->_product);
-        unset($this->_requestData);
-
-        parent::tearDown();
-    }
-
-    /**
      * Tests valid image for product creation
      *
      * @dataProvider validImageProvider
-     * @param strign $validImgPath Absolute path to valid image file
-     * @return void
+     * @param string $validImgPath Absolute path to valid image file
      */
     public function testCreateValidImage($validImgPath)
     {
@@ -101,8 +87,6 @@ class Mage_Catalog_Product_ImageTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests not an image for product creation
-     *
-     * @return void
      */
     public function testCreateNotAnImage()
     {
@@ -136,7 +120,6 @@ class Mage_Catalog_Product_ImageTest extends PHPUnit_Framework_TestCase
      *
      * @dataProvider invalidImageProvider
      * @param strign $invalidImgPath Absolute path to invalid image file
-     * @return void
      */
     public function testCreateInvalidImage($invalidImgPath)
     {

@@ -17,8 +17,6 @@ class LoginTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Restore session to make possible another tests work
-     *
-     * @return void
      */
     public static function tearDownAfterClass()
     {
@@ -30,8 +28,6 @@ class LoginTest extends PHPUnit_Framework_TestCase
 
     /**
      * Test API login
-     *
-     * @return void
      */
     public function testLoginSuccess()
     {
@@ -79,7 +75,6 @@ class LoginTest extends PHPUnit_Framework_TestCase
 
     /**
      * Test login with invalid credentials should throw exception
-     *
      */
     public function testLoginInvalidCredentials()
     {
@@ -130,7 +125,6 @@ class LoginTest extends PHPUnit_Framework_TestCase
      * Check login with credentials created in specific order
      *
      * @see APIA-46
-     * @return void
      */
     public function testApiUserSortingBug()
     {

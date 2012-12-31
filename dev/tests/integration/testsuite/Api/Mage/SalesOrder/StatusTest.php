@@ -32,13 +32,11 @@ class SalesOrder_StatusTest extends PHPUnit_Framework_TestCase
 
     /**
      * Test for salesOrderCancel when order is in 'pending' status
-     *
-     * @return void
      */
     public function testCancelPendingOrder()
     {
         /** @var $order Mage_Sales_Model_Order */
-        $order = PHPUnit_Framework_TestCase::getFixture('order');
+        $order = Mage::registry('order');
 
         $order->setStatus('pending')
             ->save();
@@ -61,13 +59,11 @@ class SalesOrder_StatusTest extends PHPUnit_Framework_TestCase
 
     /**
      * Test for salesOrderHold when order is in 'processing' status
-     *
-     * @return void
      */
     public function testHoldProcessingOrder()
     {
         /** @var $order Mage_Sales_Model_Order */
-        $order = PHPUnit_Framework_TestCase::getFixture('order');
+        $order = Mage::registry('order');
 
         $order->setState(Mage_Sales_Model_Order::STATE_NEW, 'pending')
             ->save();

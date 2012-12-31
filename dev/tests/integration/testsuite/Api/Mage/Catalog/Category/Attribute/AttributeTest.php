@@ -23,8 +23,6 @@ class Mage_Catalog_Category_Attribute_AttributeTest extends PHPUnit_Framework_Te
 
     /**
      * Create new test category attribute with options
-     *
-     * @return void
      */
     public static function setUpBeforeClass()
     {
@@ -41,8 +39,6 @@ class Mage_Catalog_Category_Attribute_AttributeTest extends PHPUnit_Framework_Te
 
     /**
      * Delete new test category attribute and its options
-     *
-     * @return void
      */
     public static function tearDownAfterClass()
     {
@@ -59,8 +55,6 @@ class Mage_Catalog_Category_Attribute_AttributeTest extends PHPUnit_Framework_Te
 
     /**
      * Test catalog_category_attribute.list list
-     *
-     * @return void
      */
     public function testList()
     {
@@ -81,8 +75,6 @@ class Mage_Catalog_Category_Attribute_AttributeTest extends PHPUnit_Framework_Te
 
     /**
      * Test catalog_category_attribute.options list
-     *
-     * @return void
      */
     public function testAttributeOptions()
     {

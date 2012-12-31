@@ -19,7 +19,7 @@ $categoryFixture->save();
 // create new store fixture
 require '_fixture/Core/Store/store.php';
 /** @var $storeFixture Mage_Core_Model_Store */
-$storeFixture = PHPUnit_Framework_TestCase::getFixture('store');
+$storeFixture = Mage::registry('store');
 $categoryDataOnStore = require '_fixture/_data/Catalog/Category/category_store_data.php';
 $categoryFixture->setStoreId($storeFixture->getId())->addData($categoryDataOnStore)->save();
 

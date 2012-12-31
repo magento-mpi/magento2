@@ -9,14 +9,13 @@
 $fixture = simplexml_load_file(__DIR__ . '/_data/xml/CustomOption.xml');
 
 //Create new simple product
-$productData = Magento_Test_Helper_Api::simpleXmlToObject($fixture->fixtureProduct);
+$productData = Magento_Test_Helper_Api::simpleXmlToArray($fixture->fixtureProduct);
 $productData['sku'] = $productData['sku'] . mt_rand(1000, 9999);
 $productData['name'] = $productData['name'] . ' ' . mt_rand(1000, 9999);
 
 $product = Mage::getModel('Mage_Catalog_Model_Product');
 $product->setData($productData)->setStoreId(1)->save();
-PHPUnit_Framework_TestCase::setFixture(
+Mage::register(
     'productData',
-    $product,
-    PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_AFTER_CLASS
+    $product
 );

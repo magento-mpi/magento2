@@ -8,7 +8,7 @@
 
 require 'category.php';
 /** @var $category Mage_Catalog_Model_Category */
-$category = PHPUnit_Framework_TestCase::getFixture('category');
+$category = Mage::registry('category');
 $assignedProductsFixture = array();
 $assignedProducts = array();
 for ($i = 0; $i <= 2; $i++) {

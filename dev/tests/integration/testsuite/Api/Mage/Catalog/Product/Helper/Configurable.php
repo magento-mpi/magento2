@@ -20,11 +20,11 @@ class Mage_Catalog_Product_Helper_Configurable extends PHPUnit_Framework_TestCas
         // Prepare fixture
         $productData = $this->_getValidProductPostData();
         /** @var Mage_Eav_Model_Entity_Attribute_Set $attributeSet */
-        $attributeSet = $this->getFixture('attribute_set_with_configurable');
+        $attributeSet = Mage::registry('attribute_set_with_configurable');
         /** @var Mage_Catalog_Model_Resource_Eav_Attribute $attributeOne */
-        $attributeOne = $this->getFixture('eav_configurable_attribute_1');
+        $attributeOne = Mage::registry('eav_configurable_attribute_1');
         /** @var Mage_Catalog_Model_Resource_Eav_Attribute $attributeTwo */
-        $attributeTwo = $this->getFixture('eav_configurable_attribute_2');
+        $attributeTwo = Mage::registry('eav_configurable_attribute_2');
         $productData['attribute_set_id'] = $attributeSet->getId();
         /** @var Mage_Eav_Model_Entity_Attribute_Source_Table $attributeOneSource */
         $attributeOneSource = $attributeOne->getSource();
@@ -79,10 +79,10 @@ class Mage_Catalog_Product_Helper_Configurable extends PHPUnit_Framework_TestCas
         // Prepare fixture
         $productData = $this->_getValidProductPostData();
         /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
-        $attributeSet = $this->getFixture('attribute_set_with_invalid_attribute');
+        $attributeSet = Mage::registry('attribute_set_with_invalid_attribute');
         $productData['attribute_set_id'] = $attributeSet->getId();
         /** @var $invalidAttribute Mage_Catalog_Model_Resource_Eav_Attribute */
-        $invalidAttribute = $this->getFixture('eav_invalid_configurable_attribute');
+        $invalidAttribute = Mage::registry('eav_invalid_configurable_attribute');
         $productData['configurable_attributes'] = array(
             array('attribute_code' => $invalidAttribute->getAttributeCode()),
             array('attribute_code' => 'NOT_EXISTING_ATTRIBUTE')
@@ -101,10 +101,10 @@ class Mage_Catalog_Product_Helper_Configurable extends PHPUnit_Framework_TestCas
         // Prepare fixture
         $productData = $this->_getValidProductPostData();
         /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
-        $attributeSet = $this->getFixture('attribute_set_with_one_attribute');
+        $attributeSet = Mage::registry('attribute_set_with_one_attribute');
         $productData['attribute_set_id'] = $attributeSet->getId();
         /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-        $attribute = $this->getFixture('eav_configurable_attribute');
+        $attribute = Mage::registry('eav_configurable_attribute');
         $attributeSourceOptions = $attribute->getSource()->getAllOptions(false);
         $productData['configurable_attributes'] = array(
             array(
@@ -138,10 +138,10 @@ class Mage_Catalog_Product_Helper_Configurable extends PHPUnit_Framework_TestCas
         // Prepare fixture
         $productData = $this->_getValidProductPostData();
         /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
-        $attributeSet = $this->getFixture('attribute_set_with_one_attribute');
+        $attributeSet = Mage::registry('attribute_set_with_one_attribute');
         $productData['attribute_set_id'] = $attributeSet->getId();
         /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-        $attribute = $this->getFixture('eav_configurable_attribute');
+        $attribute = Mage::registry('eav_configurable_attribute');
         $productData['configurable_attributes'] = array(
             array(
                 'attribute_code' => $attribute->getAttributeCode(),
@@ -169,12 +169,12 @@ class Mage_Catalog_Product_Helper_Configurable extends PHPUnit_Framework_TestCas
         // Prepare fixture
         $productData = $this->_getValidProductPostData();
         /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
-        $attributeSet = $this->getFixture('attribute_set_with_configurable');
+        $attributeSet = Mage::registry('attribute_set_with_configurable');
         $productData['attribute_set_id'] = $attributeSet->getId();
         /** @var $attributeOne Mage_Catalog_Model_Resource_Eav_Attribute */
-        $attributeOne = $this->getFixture('eav_configurable_attribute_1');
+        $attributeOne = Mage::registry('eav_configurable_attribute_1');
         /** @var $attributeTwo Mage_Catalog_Model_Resource_Eav_Attribute */
-        $attributeTwo = $this->getFixture('eav_configurable_attribute_2');
+        $attributeTwo = Mage::registry('eav_configurable_attribute_2');
         $productData['configurable_attributes'] = array(
             array(
                 'attribute_code' => $attributeOne->getAttributeCode(),

@@ -29,8 +29,6 @@ class Enterprise_CustomerBalance_Model_ApiTest extends PHPUnit_Framework_TestCas
 
     /**
      * Test successful customer balance info
-     *
-     * @return void
      */
     public function testCustomerBalanceBalance()
     {

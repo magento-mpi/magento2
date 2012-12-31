@@ -13,8 +13,6 @@ class Enterprise_GiftCardAccount_Model_Api_CartTest extends PHPUnit_Framework_Te
 {
     /**
      * Test giftcard Shopping Cart add, list, remove
-     *
-     * @return void
      */
     public function testLSD()
     {
@@ -76,7 +74,6 @@ class Enterprise_GiftCardAccount_Model_Api_CartTest extends PHPUnit_Framework_Te
      * Test add throw exception with incorrect data
      *
      * @expectedException SoapFault
-     * @return void
      */
     public function testIncorrectDataAddException()
     {
@@ -89,7 +86,6 @@ class Enterprise_GiftCardAccount_Model_Api_CartTest extends PHPUnit_Framework_Te
      * Test list throw exception with incorrect data
      *
      * @expectedException SoapFault
-     * @return void
      */
     public function testIncorrectDataListException()
     {
@@ -102,7 +98,6 @@ class Enterprise_GiftCardAccount_Model_Api_CartTest extends PHPUnit_Framework_Te
      * Test remove throw exception with incorrect data
      *
      * @expectedException SoapFault
-     * @return void
      */
     public function testIncorrectDataRemoveException()
     {

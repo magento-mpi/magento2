@@ -10,8 +10,6 @@ class SalesOrder_InvoiceTest extends SalesOrder_AbstractTest
     /**
      * Delete used fixtures
      * Clean up invoice and revert changes to entity store model
-     *
-     * @return void
      */
     protected function tearDown()
     {

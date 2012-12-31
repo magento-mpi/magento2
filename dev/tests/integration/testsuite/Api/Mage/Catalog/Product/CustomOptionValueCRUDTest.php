@@ -21,7 +21,7 @@ class Mage_Catalog_Product_CustomOptionValueCRUDTest extends PHPUnit_Framework_T
         $customOptionValues = Magento_Test_Helper_Api::simpleXmlToArray($valueFixture->CustomOptionValues);
 
         $store = (string)$valueFixture->store;
-        $fixtureCustomOptionId = PHPUnit_Framework_TestCase::getFixture('customOptionId');
+        $fixtureCustomOptionId = Mage::registry('customOptionId');
 
         $createdOptionValuesBefore = Magento_Test_Helper_Api::call(
             $this,
@@ -59,7 +59,7 @@ class Mage_Catalog_Product_CustomOptionValueCRUDTest extends PHPUnit_Framework_T
         $this->assertTrue(is_array($createdOptionValuesAfter));
         $this->assertCount(3, $createdOptionValuesAfter);
 
-        self::$_lastAddedOption = array_pop($createdOptionValuesAfter);
+        self::$_lastAddedOption = (array)array_pop($createdOptionValuesAfter);
         $this->assertEquals($customOptionValues['value_1']['title'], self::$_lastAddedOption['title']);
 
         // Update & info tests
@@ -88,7 +88,7 @@ class Mage_Catalog_Product_CustomOptionValueCRUDTest extends PHPUnit_Framework_T
 
         foreach ($toUpdateValues as $key => $value) {
             if (is_string($value)) {
-                $this->assertEquals($value, $optionValueInfoAfterUpdate[$key]);
+                $this->assertEquals($value, $optionValueInfoAfterUpdate->$key);
             }
         }
     }
@@ -192,7 +192,7 @@ class Mage_Catalog_Product_CustomOptionValueCRUDTest extends PHPUnit_Framework_T
         $this->assertTrue((bool)$removeOptionValueResult);
 
         // Delete exception test
-        $this->setExpectedException(self::DEFAULT_EXCEPTION, 'Option value with requested ID does not exist.');
+        $this->setExpectedException('SoapFault', 'Option value with requested ID does not exist.');
         Magento_Test_Helper_Api::call(
             $this,
             'catalogProductCustomOptionValueRemove',

@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-if (!PHPUnit_Framework_TestCase::getFixture('attribute_set_with_configurable')) {
+if (!Mage::registry('attribute_set_with_configurable')) {
     define('ATTRIBUTES_COUNT', 2);
     define('ATTRIBUTE_OPTIONS_COUNT', 3);
 
@@ -16,7 +16,7 @@ if (!PHPUnit_Framework_TestCase::getFixture('attribute_set_with_configurable')) 
     /** @var $entityType Mage_Eav_Model_Entity_Type */
     $entityType = Mage::getModel('Mage_Eav_Model_Entity_Type')->loadByCode('catalog_product');
     $attributeSet->initFromSkeleton($entityType->getDefaultAttributeSetId())->save();
-    PHPUnit_Framework_TestCase::setFixture('attribute_set_with_configurable', $attributeSet);
+    Mage::register('attribute_set_with_configurable', $attributeSet);
 
     /** @var $attributeFixture Mage_Catalog_Model_Resource_Eav_Attribute */
     $attributeFixture = require '_fixture/_block/Catalog/Product/Attribute.php';
@@ -45,7 +45,7 @@ if (!PHPUnit_Framework_TestCase::getFixture('attribute_set_with_configurable')) 
             )
         );
         $attribute->save();
-        PHPUnit_Framework_TestCase::setFixture('eav_configurable_attribute_' . $attributeCount, $attribute);
+        Mage::register('eav_configurable_attribute_' . $attributeCount, $attribute);
         unset($attribute);
     }
 }

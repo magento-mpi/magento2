@@ -9,11 +9,11 @@ Mage::init('base', 'website');
 //Set up customer fixture
 require 'customer.php';
 /** @var $customer Mage_Customer_Model_Customer */
-$customer = PHPUnit_Framework_TestCase::getFixture('customer');
+$customer = Mage::registry('customer');
 //Set up virtual product fixture
 require 'product_virtual.php';
 /** @var $product Mage_Catalog_Model_Product */
-$product = PHPUnit_Framework_TestCase::getFixture('product_virtual');
+$product = Mage::registry('product_virtual');
 
 //Create quote
 $quote = Mage::getModel('Mage_Sales_Model_Quote');
@@ -27,10 +27,9 @@ $quote->setStoreId(1)
 
 $quote->collectTotals();
 $quote->save();
-PHPUnit_Framework_TestCase::setFixture(
+Mage::register(
     'quote',
-    $quote,
-    PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_AFTER_CLASS
+    $quote
 );
 
 //Create order
@@ -40,10 +39,9 @@ $quoteService->getQuote()->getPayment()->setMethod('checkmo');
 $order = $quoteService->submitOrder();
 $order->place();
 $order->save();
-PHPUnit_Framework_TestCase::setFixture(
+Mage::register(
     'order',
-    $order,
-    PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_AFTER_CLASS
+    $order
 );
 
 //Create order
@@ -58,10 +56,9 @@ $quote2->setStoreId(1)
 
 $quote2->collectTotals();
 $quote2->save();
-PHPUnit_Framework_TestCase::setFixture(
+Mage::register(
     'quote2',
-    $quote2,
-    PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_AFTER_CLASS
+    $quote2
 );
 
 $quoteService2 = new Mage_Sales_Model_Service_Quote($quote2);
@@ -70,8 +67,7 @@ $quoteService2->getQuote()->getPayment()->setMethod('checkmo');
 $order2 = $quoteService2->submitOrder();
 $order2->place();
 $order2->save();
-PHPUnit_Framework_TestCase::setFixture(
+Mage::register(
     'order2',
-    $order2,
-    PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_AFTER_CLASS
+    $order2
 );

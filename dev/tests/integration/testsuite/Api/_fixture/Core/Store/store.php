@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-if (!PHPUnit_Framework_TestCase::getFixture('store')) {
+if (!Mage::registry('store')) {
     $defaultWebsite = Mage::app()->getWebsite();
     /** @var $storeFixture Mage_Core_Model_Store */
     $storeFixture = require '_fixture/_block/Core/Store.php';

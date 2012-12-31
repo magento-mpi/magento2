@@ -43,8 +43,6 @@ class Enterprise_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_T
 
     /**
      * Test successful customer balance set amount to quote
-     *
-     * @return void
      */
     public function testCustomerBalanceForQuoteSetAmount()
     {
@@ -61,7 +59,6 @@ class Enterprise_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_T
      * Test successful customer balance remove amount from quote
      *
      * @depends testCustomerBalanceForQuoteSetAmount
-     * @return void
      */
     public function testCustomerBalanceForQuoteRemoveAmount()
     {
@@ -83,8 +80,6 @@ class Enterprise_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_T
 
     /**
      * Test successful customer balance set amount to quote using quote_id only
-     *
-     * @return void
      */
     public function testCustomerBalanceForQuoteSetAmountWithoutStoreId()
     {
@@ -101,7 +96,6 @@ class Enterprise_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_T
      * Test successful customer balance remove amount from quote using quote_id only
      *
      * @depends testCustomerBalanceForQuoteSetAmountWithoutStoreId
-     * @return void
      */
     public function testCustomerBalanceForQuoteRemoveAmountWithoutStoreId()
     {
@@ -116,8 +110,6 @@ class Enterprise_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_T
 
     /**
      * Test successful customer balance set amount to quote using store code
-     *
-     * @return void
      */
     public function testCustomerBalanceForQuoteSetAmountUsingStoreCode()
     {
@@ -136,7 +128,6 @@ class Enterprise_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_T
      * Test successful customer balance remove amount from quote using store code
      *
      * @depends testCustomerBalanceForQuoteSetAmountUsingStoreCode
-     * @return void
      */
     public function testCustomerBalanceForQuoteRemoveAmountUsingStoreCode()
     {
@@ -161,7 +152,6 @@ class Enterprise_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_T
      * Test customer balance set amount to quote using store code exception: No store found with requested id or code.
      *
      * @expectedException SoapFault
-     * @return void
      */
     public function testCustomerBalanceForQuoteSetAmountUsingInvalidStoreCodeException()
     {
@@ -179,7 +169,6 @@ class Enterprise_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_T
      * Test customer balance set amount to quote exception:  No quote found with requested id.
      *
      * @expectedException SoapFault
-     * @return void
      */
     public function testCustomerBalanceForQuoteSetAmountExceptionQuoteNotExists()
     {
@@ -193,7 +182,6 @@ class Enterprise_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_T
      * Test customer balance remove amount from quote exception: No quote found with requested id.
      *
      * @expectedException SoapFault
-     * @return void
      */
     public function testCustomerBalanceForQuoteRemoveAmountExceptionQuoteNotExists()
     {
@@ -208,7 +196,6 @@ class Enterprise_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_T
      * Store credit can not be used for quote created by guest.
      *
      * @expectedException SoapFault
-     * @return void
      */
     public function testCustomerBalanceForQuoteSetAmountExceptionGuestQuote()
     {
@@ -227,7 +214,6 @@ class Enterprise_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_T
      * Store credit can not be used for quote created by guest.
      *
      * @expectedException SoapFault
-     * @return void
      */
     public function testCustomerBalanceForQuoteRemoveAmountExceptionGuestQuote()
     {

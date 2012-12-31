@@ -164,10 +164,10 @@
                         <code>100</code>
                         <message>Requested store view is not found.</message>
                     </store_not_exists>
-                    <not_exists>
+                    <product_not_exists>
                         <code>101</code>
                         <message>Product does not exist.</message>
-                    </not_exists>
+                    </product_not_exists>
                     <data_invalid>
                         <code>102</code>
                         <message>Provided data is invalid. Details are in error message.</message>

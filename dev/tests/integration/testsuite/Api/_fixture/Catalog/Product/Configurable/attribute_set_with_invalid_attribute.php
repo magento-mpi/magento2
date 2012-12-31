@@ -12,7 +12,7 @@ $attributeSet->save();
 /** @var $entityType Mage_Eav_Model_Entity_Type */
 $entityType = Mage::getModel('Mage_Eav_Model_Entity_Type')->loadByCode('catalog_product');
 $attributeSet->initFromSkeleton($entityType->getDefaultAttributeSetId())->save();
-PHPUnit_Framework_TestCase::setFixture('attribute_set_with_invalid_attribute', $attributeSet);
+Mage::register('attribute_set_with_invalid_attribute', $attributeSet);
 
 /** @var $attributeFixture Mage_Catalog_Model_Resource_Eav_Attribute */
 $attributeFixture = require '_fixture/_block/Catalog/Product/Attribute.php';
@@ -27,7 +27,7 @@ $validAttribute->setAttributeCode(substr('valid_attribute_' . uniqid(), 0, 30))
     ->setAttributeSetId($attributeSet->getId())
     ->setAttributeGroupId($attributeSet->getDefaultGroupId());
 $validAttribute->save();
-PHPUnit_Framework_TestCase::setFixture('eav_valid_configurable_attribute', $validAttribute);
+Mage::register('eav_valid_configurable_attribute', $validAttribute);
 
 $invalidAttribute = clone $attributeFixture;
 $invalidAttribute->setAttributeCode(substr('invalid_attribute_' . uniqid(), 0, 30))
@@ -39,6 +39,6 @@ $invalidAttribute->setAttributeCode(substr('invalid_attribute_' . uniqid(), 0, 3
     ->setAttributeSetId($attributeSet->getId())
     ->setAttributeGroupId($attributeSet->getDefaultGroupId());
 $invalidAttribute->save();
-PHPUnit_Framework_TestCase::setFixture('eav_invalid_configurable_attribute', $invalidAttribute);
+Mage::register('eav_invalid_configurable_attribute', $invalidAttribute);
 
 

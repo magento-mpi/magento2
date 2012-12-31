@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-if (!PHPUnit_Framework_TestCase::getFixture('store')) {
+if (!Mage::registry('store')) {
 
     $category = Mage::getModel('Mage_Catalog_Model_Category');
     $category->setData(
