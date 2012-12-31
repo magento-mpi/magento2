@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Reports
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,7 +15,7 @@
  * @package    Mage_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Reports_Block_Adminhtml_Refresh_Statistics extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_Reports_Block_Adminhtml_Refresh_Statistics extends Mage_Backend_Block_Widget_Grid_Container
 {
     /*
      * Modify Header and remove button "Add"
