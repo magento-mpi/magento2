@@ -174,13 +174,6 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
         $filesystem->ensureDirectoryExists($dir, 0644);
     }
 
-    public function testCreateFile()
-    {
-        $filesystem = new Magento_Filesystem($this->_getDefaultAdapterMock());
-        $filesystem->setWorkingDirectory('/tmp');
-        $this->assertInstanceOf('Magento_Filesystem_File', $filesystem->createFile('/tmp/testfile.txt'));
-    }
-
     /**
      * @dataProvider allowCreateDirsDataProvider
      * @param bool $allowCreateDirs
@@ -217,13 +210,6 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
     public function allowCreateDirsDataProvider()
     {
         return array(array(true), array(false));
-    }
-
-    public function testCreateStreamDefault()
-    {
-        $filesystem = new Magento_Filesystem($this->_getDefaultAdapterMock());
-        $filesystem->setWorkingDirectory('/tmp');
-        $this->assertInstanceOf('Magento_Filesystem_Stream_Memory', $filesystem->createStream('/tmp/test.txt'));
     }
 
     public function testCreateStreamCustom()
