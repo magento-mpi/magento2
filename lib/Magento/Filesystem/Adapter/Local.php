@@ -133,7 +133,7 @@ class Magento_Filesystem_Adapter_Local implements
 
         if (is_dir($key) && $recursively) {
             foreach ($this->getNestedKeys($key) as $nestedKey) {
-                if (!@chmod($nestedKey, $permissions, true)) {
+                if (!@chmod($nestedKey, $permissions)) {
                     throw new Magento_Filesystem_Exception(sprintf('Failed to change mode of %s', $nestedKey));
                 }
             }

@@ -115,6 +115,26 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testDeleteNotExists()
+    {
+        $fileName = $this->_getFilePath() . 'tempFile3.css';
+        $this->_adapter->delete($fileName);
+        $this->assertFileNotExists($fileName);
+    }
+
+    public function testDeleteDir()
+    {
+        $fileName = $this->_getFilePath() . 'new_directory' . DS . 'tempFile3.css';
+        $dirName = $this->_getFilePath() . 'new_directory';
+        $this->_tearDownFiles = array($fileName);
+        $this->_tearDownDirs = array($dirName);
+        mkdir($dirName, 0111);
+        file_put_contents($fileName, 'test data');
+        $this->_adapter->delete($dirName);
+        $this->assertFileNotExists($dirName);
+        $this->assertFileNotExists($fileName);
+    }
+
     public function testDelete()
     {
         $fileName = $this->_getFilePath() . 'tempFile3.css';
@@ -122,6 +142,49 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
         file_put_contents($fileName, 'test data');
         $this->_adapter->delete($fileName);
         $this->assertFileNotExists($fileName);
+    }
+
+    public function testChangePermissionsFile()
+    {
+        $fileName = $this->_getFilePath() . 'tempFile3.css';
+        $this->_tearDownFiles = array($fileName);
+        file_put_contents($fileName, 'test data');
+        $this->_adapter->changePermissions($fileName, 0666, false);
+        $this->assertEquals(0666, fileperms($fileName) & 0777);
+    }
+
+    public function testChangePermissionsDir()
+    {
+        $fileName = $this->_getFilePath() . 'new_directory2' . DS . 'tempFile3.css';
+        $dirName = $this->_getFilePath() . 'new_directory2';
+        $this->_tearDownFiles = array($fileName);
+        $this->_tearDownDirs = array($dirName);
+        mkdir($dirName, 0777);
+        file_put_contents($fileName, 'test data');
+        $this->_adapter->changePermissions($dirName, 0666, true);
+        $this->assertEquals(0666, fileperms($fileName) & 0777);
+    }
+
+    public function testIsFile()
+    {
+        $this->assertTrue($this->_adapter->isFile($this->_getFilePath() . 'popup.csv'));
+    }
+
+    public function testIsWritable()
+    {
+        $this->assertTrue($this->_adapter->isWritable($this->_getFilePath() . 'popup.csv'));
+    }
+
+    public function testIsReadable()
+    {
+        $this->assertTrue($this->_adapter->isReadable($this->_getFilePath() . 'popup.csv'));
+    }
+
+    public function testCreateStream()
+    {
+        $stream = $this->_adapter->createStream($this->_getFilePath() . 'popup.csv', 'r');
+        $this->assertInstanceOf('Magento_Filesystem_Stream_Local', $stream);
+        $stream->close();
     }
 
     /**

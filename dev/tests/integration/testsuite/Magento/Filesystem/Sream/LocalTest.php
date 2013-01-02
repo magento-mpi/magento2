@@ -89,13 +89,21 @@ class Magento_Filesystem_Stream_LocalTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(array('data1', 'data2'), $stream->readCsv());
     }
 
-    /**
-     * @expectedException Magento_Filesystem_Exception
-     */
     public function testClose()
     {
+        $this->_stream->open(new Magento_Filesystem_Stream_Mode('r'));
         $this->_stream->close();
-        $this->_stream->read(1);
+        $this->assertAttributeEquals(null, '_mode', $this->_stream);
+        $this->assertAttributeEquals(null, '_fileHandle', $this->_stream);
+    }
+
+    public function testFlush()
+    {
+        $stream = new Magento_Filesystem_Stream_Local($this->_writeFileName);
+        $stream->open(new Magento_Filesystem_Stream_Mode('w'));
+        $stream->write('test data');
+        $stream->flush();
+        $this->assertEquals('test data', file_get_contents($this->_writeFileName));
     }
 
     public function testSeek()
@@ -134,6 +142,7 @@ class Magento_Filesystem_Stream_LocalTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param string $method
+     * @param array $arguments
      * @dataProvider streamNotOpenedDataProvider
      * @expectedException Magento_Filesystem_Exception
      */
@@ -187,6 +196,7 @@ class Magento_Filesystem_Stream_LocalTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param string $method
+     * @param array $arguments
      * @dataProvider forbiddenWriteDataProvider
      * @expectedException Magento_Filesystem_Exception
      * @expectedExceptionMessage The stream does not allow write.
