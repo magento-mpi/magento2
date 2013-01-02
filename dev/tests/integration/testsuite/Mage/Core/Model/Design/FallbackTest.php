@@ -61,7 +61,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
         // Prepare config with directories
         $baseDir = dirname(__DIR__) . DIRECTORY_SEPARATOR .  '_files' . DIRECTORY_SEPARATOR . 'fallback';
         $viewDir = $baseDir . DIRECTORY_SEPARATOR . 'design';
-        $dirs = new Mage_Core_Model_Dir($baseDir, array(), array(Mage_Core_Model_Dir::VIEW => $viewDir));
+        $dirs = new Mage_Core_Model_Dir($baseDir, array(), array(Mage_Core_Model_Dir::THEMES => $viewDir));
 
         /** @var $collection Mage_Core_Model_Theme_Collection */
         $collection = Mage::getModel('Mage_Core_Model_Theme_Collection');

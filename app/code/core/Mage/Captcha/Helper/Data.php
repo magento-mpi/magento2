@@ -64,6 +64,16 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_dirs = null;
 
     /**
+     * Inject dependencies
+     *
+     * @param Mage_Core_Model_Dir $dirs
+     */
+    public function __construct(Mage_Core_Model_Dir $dirs)
+    {
+        $this->_dirs = $dirs;
+    }
+
+    /**
      * Get Config
      * @return Mage_Core_Model_Config
      */
@@ -166,31 +176,6 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Get directory reference object
-     *
-     * @return Mage_Core_Model_Dir
-     */
-    private function _getDirs()
-    {
-        if (!$this->_dirs) {
-            return Mage::getObjectManager()->get('Mage_Core_Model_Dir');
-        }
-        return $this->_dirs;
-    }
-
-    /**
-     * Set directory reference object
-     *
-     * @param Mage_Core_Model_Dir $dirs
-     * @return Mage_Captcha_Helper_Data
-     */
-    public function setDirs(Mage_Core_Model_Dir $dirs)
-    {
-        $this->_dirs = $dirs;
-        return $this;
-    }
-
-    /**
      * Get list of available fonts
      * Return format:
      * [['arial'] => ['label' => 'Arial', 'path' => '/www/magento/fonts/arial.ttf']]
@@ -202,7 +187,7 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
         $node = $this->getConfig()->getNode(Mage_Captcha_Helper_Data::XML_PATH_CAPTCHA_FONTS);
         $fonts = array();
         if ($node) {
-            $libDir = $this->_getDirs()->getDir(Mage_Core_Model_Dir::LIB);
+            $libDir = $this->_dirs->getDir(Mage_Core_Model_Dir::LIB);
             foreach ($node->children() as $fontName => $fontNode) {
                 $fonts[$fontName] = array(
                     'label' => (string)$fontNode->label,
@@ -221,7 +206,7 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getImgDir($website = null)
     {
-        $captchaDir = $this->_getDirs()->getDir(Mage_Core_Model_Dir::MEDIA) . DIRECTORY_SEPARATOR . 'captcha'
+        $captchaDir = $this->_dirs->getDir(Mage_Core_Model_Dir::MEDIA) . DIRECTORY_SEPARATOR . 'captcha'
             . DIRECTORY_SEPARATOR . $this->getWebsite($website)->getCode();
         $io = new Varien_Io_File();
         $io->checkAndCreateFolder($captchaDir, 0755);

@@ -45,7 +45,7 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
             Mage_Core_Model_App::INIT_OPTION_SCOPE_TYPE => 'store',
             Mage_Core_Model_App::INIT_OPTION_SCOPE_CODE => 'admin',
             Mage_Core_Model_App::INIT_OPTION_DIRS => array(
-                Mage_Core_Model_Dir::VIEW => __DIR__ . '/../../_files/design'
+                Mage_Core_Model_Dir::THEMES => __DIR__ . '/../../_files/design'
             ),
         ));
 

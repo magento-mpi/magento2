@@ -88,7 +88,7 @@ class Mage_Core_Model_DirTest extends PHPUnit_Framework_TestCase
 
         // new root has affected all its non-customized children
         $this->assertStringStartsWith($newRoot, $dir->getDir(Mage_Core_Model_Dir::APP));
-        $this->assertStringStartsWith($newRoot, $dir->getDir(Mage_Core_Model_Dir::CODE));
+        $this->assertStringStartsWith($newRoot, $dir->getDir(Mage_Core_Model_Dir::MODULES));
 
         // but it didn't affect the customized dirs
         $this->assertEquals($newMedia, $dir->getDir(Mage_Core_Model_Dir::MEDIA));

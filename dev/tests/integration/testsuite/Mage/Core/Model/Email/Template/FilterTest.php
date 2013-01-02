@@ -97,7 +97,7 @@ class Mage_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCa
     {
         Magento_Test_Bootstrap::getInstance()->reinitialize(array(
             Mage_Core_Model_App::INIT_OPTION_DIRS => array(
-                Mage_Core_Model_Dir::VIEW => dirname(__DIR__) . '/_files/design'
+                Mage_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design'
             )
         ));
 

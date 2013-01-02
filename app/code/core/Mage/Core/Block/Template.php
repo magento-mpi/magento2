@@ -253,7 +253,7 @@ HTML;
             $templateFile = realpath($fileName);
             if ($templateFile && (
                 strpos($templateFile, $this->_dirs->getDir(Mage_Core_Model_Dir::APP)) === 0
-                || strpos($templateFile, $this->_dirs->getDir(Mage_Core_Model_Dir::VIEW)) === 0
+                || strpos($templateFile, $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES)) === 0
                 || $this->_getAllowSymlinks())
             ) {
                 include $templateFile;

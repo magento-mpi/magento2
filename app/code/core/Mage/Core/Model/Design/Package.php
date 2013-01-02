@@ -736,7 +736,7 @@ class Mage_Core_Model_Design_Package
      */
     protected function _buildPublicViewSufficientFilename($filename, array $params)
     {
-        $designDir = Mage::getBaseDir(Mage_Core_Model_Dir::VIEW) . DS;
+        $designDir = Mage::getBaseDir(Mage_Core_Model_Dir::THEMES) . DS;
         if (0 === strpos($filename, $designDir)) {
             // theme file
             $publicFile = substr($filename, strlen($designDir));
@@ -806,7 +806,7 @@ class Mage_Core_Model_Design_Package
             $relativeThemeFile = $fileUrl;
         } else {
             /* Check if module file overridden on theme level based on _module property and file path */
-            if ($params['module'] && strpos($parentFilePath, Mage::getBaseDir(Mage_Core_Model_Dir::VIEW)) === 0) {
+            if ($params['module'] && strpos($parentFilePath, Mage::getBaseDir(Mage_Core_Model_Dir::THEMES)) === 0) {
                 /* Add module directory to relative URL for canonization */
                 $relativeThemeFile = dirname($params['module'] . DS . $parentFileName)
                     . DS . $fileUrl;

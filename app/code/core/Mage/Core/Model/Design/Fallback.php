@@ -101,7 +101,7 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
      */
     public function getFile($file, $module = null)
     {
-        $dir = $this->_dirs->getDir(Mage_Core_Model_Dir::VIEW);
+        $dir = $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES);
         $dirs = array();
         $themeModel = $this->_theme;
         while ($themeModel) {
@@ -122,7 +122,7 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
      */
     public function getLocaleFile($file)
     {
-        $dir = $this->_dirs->getDir(Mage_Core_Model_Dir::VIEW);
+        $dir = $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES);
         $dirs = array();
         $themeModel = $this->_theme;
         while ($themeModel) {
@@ -143,7 +143,7 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
      */
     public function getViewFile($file, $module = null)
     {
-        $dir = $this->_dirs->getDir(Mage_Core_Model_Dir::VIEW);
+        $dir = $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES);
         $moduleDir = $module ? $this->_appConfig->getModuleDir('view', $module) : '';
 
         $dirs = array();

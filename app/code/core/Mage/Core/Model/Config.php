@@ -750,7 +750,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         /** @var $dirs Mage_Core_Model_Dir */
         $dirs = $this->_objectManager->get('Mage_Core_Model_Dir');
-        $codeDir = $dirs->getDir(Mage_Core_Model_Dir::CODE);
+        $codeDir = $dirs->getDir(Mage_Core_Model_Dir::MODULES);
         $moduleFiles = glob($codeDir . DS . '*' . DS . '*' . DS . '*' . DS . 'etc' . DS . 'config.xml');
 
         if (!$moduleFiles) {
@@ -1055,7 +1055,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $codePool = (string)$this->getModuleConfig($moduleName)->codePool;
         /** @var $dirs Mage_Core_Model_Dir */
         $dirs = $this->_objectManager->get('Mage_Core_Model_Dir');
-        $dir = $dirs->getDir(Mage_Core_Model_Dir::CODE) . DS . $codePool . DS . uc_words($moduleName, DS);
+        $dir = $dirs->getDir(Mage_Core_Model_Dir::MODULES) . DS . $codePool . DS . uc_words($moduleName, DS);
 
         switch ($type) {
             case 'etc':

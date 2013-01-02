@@ -425,7 +425,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     {
         Magento_Test_Bootstrap::getInstance()->reinitialize(array(
             Mage_Core_Model_App::INIT_OPTION_DIRS => array(
-                Mage_Core_Model_Dir::VIEW =>
+                Mage_Core_Model_Dir::THEMES =>
                     Magento_Test_Bootstrap::getInstance()->getInstallDir() . '/media_for_change'
             )
         ));
@@ -500,7 +500,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     {
         Magento_Test_Bootstrap::getInstance()->reinitialize(array(
             Mage_Core_Model_App::INIT_OPTION_DIRS => array(
-                Mage_Core_Model_Dir::VIEW =>
+                Mage_Core_Model_Dir::THEMES =>
                     Magento_Test_Bootstrap::getInstance()->getInstallDir() . '/media_for_change'
             )
         ));
@@ -535,7 +535,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     {
         Magento_Test_Bootstrap::getInstance()->reinitialize(array(
             Mage_Core_Model_App::INIT_OPTION_DIRS => array(
-                Mage_Core_Model_Dir::VIEW => dirname(__DIR__) . '/_files/design/'
+                Mage_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design/'
             )
         ));
         $this->_model->setDesignTheme('test/default');

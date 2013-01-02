@@ -217,7 +217,8 @@ class Mage_Captcha_Model_ZendTest extends PHPUnit_Framework_TestCase
     {
         $helper = $this->getMock(
             'Mage_Captcha_Helper_Data',
-            array('getConfigNode', 'getFonts', '_getWebsiteCode', 'getImgUrl')
+            array('getConfigNode', 'getFonts', '_getWebsiteCode', 'getImgUrl'),
+            array(new Mage_Core_Model_Dir(TESTS_TEMP_DIR))
         );
 
         $helper->expects($this->any())
