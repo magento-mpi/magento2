@@ -9,6 +9,8 @@
  */
 class Magento_Filesystem
 {
+    const DIRECTORY_SEPARATOR = '/';
+
     /**
      * @var Magento_Filesystem_AdapterInterface
      */
@@ -30,12 +32,14 @@ class Magento_Filesystem
     protected $_newDirPermissions = 0777;
 
     /**
+     * Initialize adapter and default working directory.
+     *
      * @param Magento_Filesystem_AdapterInterface $adapter
      */
     public function __construct(Magento_Filesystem_AdapterInterface $adapter)
     {
         $this->_adapter = $adapter;
-        $this->setWorkingDirectory(self::getAbsolutePath(self::getPathFromArray(array(__DIR__, '..', '..'))));
+        $this->_workingDirectory = self::getAbsolutePath(self::getPathFromArray(array(__DIR__, '..', '..')));
     }
 
     /**
@@ -43,9 +47,13 @@ class Magento_Filesystem
      *
      * @param string $dir
      * @return Magento_Filesystem
+     * @throws InvalidArgumentException
      */
     public function setWorkingDirectory($dir)
     {
+        if (!$this->_adapter->isDirectory($dir)) {
+            throw new InvalidArgumentException(sprintf('Working directory "%s" does not exists', $dir));
+        }
         $this->_workingDirectory = $dir;
         return $this;
     }
@@ -85,7 +93,9 @@ class Magento_Filesystem
      */
     public function read($key)
     {
-        return $this->_adapter->read($this->_getCheckedPath($key));
+        $path = $this->_getCheckedPath($key);
+        $this->_checkFileExists($path);
+        return $this->_adapter->read($path);
     }
 
     /**
@@ -97,7 +107,9 @@ class Magento_Filesystem
      */
     public function write($key, $content)
     {
-        return $this->_adapter->write($this->_getCheckedPath($key), $content);
+        $path = $this->_getCheckedPath($key);
+        $this->ensureDirectoryExists(dirname($path));
+        return $this->_adapter->write($path, $content);
     }
 
     /**
@@ -108,7 +120,9 @@ class Magento_Filesystem
      */
     public function delete($key)
     {
-        return $this->_adapter->delete($this->_getCheckedPath($key));
+        $path = $this->_getCheckedPath($key);
+        $this->_checkFileExists($path);
+        return $this->_adapter->delete($path);
     }
 
     /**
@@ -116,12 +130,31 @@ class Magento_Filesystem
      *
      * @param string $source
      * @param string $target
+     * @param string|null $targetDirectory
      * @return bool
      */
-    public function rename($source, $target)
+    public function rename($source, $target, $targetDirectory = null)
     {
-        return $this->_adapter->rename($this->_getCheckedPath($source), $this->_getCheckedPath($target));
+        $sourcePath = $this->_getCheckedPath($source);
+        $this->_checkFileExists($sourcePath);
+        return $this->_adapter->rename($sourcePath, $this->_getCheckedPath($target, $targetDirectory));
     }
+
+    /**
+     * Copy the file.
+     *
+     * @param string $source
+     * @param string $target
+     * @param string|null $targetDirectory
+     * @return bool
+     */
+    public function copy($source, $target, $targetDirectory = null)
+    {
+        $sourcePath = $this->_getCheckedPath($source);
+        $this->_checkFileExists($sourcePath);
+        return $this->_adapter->copy($sourcePath, $this->_getCheckedPath($target, $targetDirectory));
+    }
+
 
     /**
      * Check if key is directory.
@@ -176,7 +209,7 @@ class Magento_Filesystem
      */
     public function changePermissions($key, $permissions, $recursively = false)
     {
-        $this->_adapter->changePermissions($key, $permissions, $recursively);
+        $this->_adapter->changePermissions($this->_getCheckedPath($key), $permissions, $recursively);
     }
 
     /**
@@ -187,7 +220,7 @@ class Magento_Filesystem
      */
     public function getNestedKeys($key)
     {
-        return $this->_adapter->getNestedKeys($key);
+        return $this->_adapter->getNestedKeys($this->_getCheckedPath($key));
     }
 
     /**
@@ -198,9 +231,15 @@ class Magento_Filesystem
      */
     public function createDirectory($key, $permissions = 0777)
     {
-        $this->_adapter->createDirectory($key, $permissions);
+        $this->_adapter->createDirectory($this->_getCheckedPath($key), $permissions);
     }
 
+    /**
+     * Create directory if it does not exists.
+     *
+     * @param string $key
+     * @param int $permissions
+     */
     public function ensureDirectoryExists($key, $permissions = 0777)
     {
         if (!$this->isDirectory($key)) {
@@ -208,10 +247,16 @@ class Magento_Filesystem
         }
     }
 
+    /**
+     * Sets access and modification time of file.
+     *
+     * @param string $key
+     */
     public function touch($key)
     {
-        if (!$this->isDirectory(dirname($key)) && $this->_isAllowCreateDirs) {
-            $this->createDirectory(dirname($key), $this->_newDirPermissions);
+        $key = $this->_getCheckedPath($key);
+        if ($this->_isAllowCreateDirs) {
+            $this->ensureDirectoryExists(dirname($key), $this->_newDirPermissions);
         }
         $this->_adapter->touch($key);
     }
@@ -221,13 +266,15 @@ class Magento_Filesystem
      *
      * @param string $key
      * @return Magento_Filesystem_StreamInterface
+     * @throws Magento_Filesystem_Exception
      */
     public function createStream($key)
     {
+        $key = $this->_getCheckedPath($key);
         if ($this->_adapter instanceof Magento_Filesystem_Stream_FactoryInterface) {
             return $this->_adapter->createStream($key);
         }
-        return new Magento_Filesystem_Stream_Memory($this, $key);
+        throw new Magento_Filesystem_Exception('Filesystem adapter doesn\'t support streams.');
     }
 
     /**
@@ -240,41 +287,40 @@ class Magento_Filesystem
      */
     public function createAndOpenStream($key, $mode)
     {
-        if ($this->_adapter instanceof Magento_Filesystem_Stream_FactoryInterface) {
-            $result = $this->_adapter->createStream($key);
-        } else {
-            $result = new Magento_Filesystem_Stream_Memory($this, $key);
-        }
+        $stream = $this->createStream($key);
         if (is_string($mode)) {
             $mode = new Magento_Filesystem_Stream_Mode($mode);
         } elseif (!$mode instanceof Magento_Filesystem_Stream_Mode) {
             throw new InvalidArgumentException('Wrong mode parameter');
         }
-        $result->open($mode);
-        return $result;
+        $stream->open($mode);
+        return $stream;
     }
 
     /**
-     * Creates file object
+     * Check that file exists
      *
-     * @param string $key
-     * @return Magento_Filesystem_File
+     * @param string $path
+     * @throws InvalidArgumentException
      */
-    public function createFile($key)
+    protected function _checkFileExists($path)
     {
-        return new Magento_Filesystem_File($key, $this);
+        if (!$this->_adapter->exists($path)) {
+            throw new InvalidArgumentException(sprintf('"%s" does not exists', $path));
+        }
     }
 
     /**
      * Get absolute checked path
      *
      * @param string $key
+     * @param string|null $workingDirectory
      * @return string
      */
-    protected function _getCheckedPath($key)
+    protected function _getCheckedPath($key, $workingDirectory = null)
     {
         $path = self::getAbsolutePath($key);
-        $this->_checkPath($path);
+        $this->_checkPath($path, $workingDirectory);
         return $path;
     }
 
@@ -282,12 +328,16 @@ class Magento_Filesystem
      * Check path isolation
      *
      * @param string $key
+     * @param string|null $workingDirectory
      * @throws InvalidArgumentException
      */
-    protected function _checkPath($key)
+    protected function _checkPath($key, $workingDirectory = null)
     {
-        if ($this->_workingDirectory) {
-            if (0 !== strpos($key, $this->_workingDirectory)) {
+        if (!$workingDirectory) {
+            $workingDirectory = $this->_workingDirectory;
+        }
+        if ($workingDirectory) {
+            if (0 !== strpos($key, $workingDirectory)) {
                 throw new InvalidArgumentException('Invalid path');
             }
         }
@@ -332,9 +382,9 @@ class Magento_Filesystem
             throw new InvalidArgumentException('Path must contain at least one node');
         }
         $isWindows = preg_match('/\w:/', $path[0]);
-        $path = implode(DIRECTORY_SEPARATOR, $path);
+        $path = implode(self::DIRECTORY_SEPARATOR, $path);
         if ($isAbsolute && !$isWindows) {
-            return DIRECTORY_SEPARATOR . ltrim($path, DIRECTORY_SEPARATOR);
+            return self::DIRECTORY_SEPARATOR . ltrim($path, self::DIRECTORY_SEPARATOR);
         } else {
             return $path;
         }
@@ -348,8 +398,8 @@ class Magento_Filesystem
      */
     public static function getPathAsArray($path)
     {
-        $path = str_replace('\\', DIRECTORY_SEPARATOR, $path);
-        return explode(DIRECTORY_SEPARATOR, ltrim($path, DIRECTORY_SEPARATOR));
+        $path = str_replace('\\', self::DIRECTORY_SEPARATOR, $path);
+        return explode(self::DIRECTORY_SEPARATOR, ltrim($path, self::DIRECTORY_SEPARATOR));
     }
 
     /**

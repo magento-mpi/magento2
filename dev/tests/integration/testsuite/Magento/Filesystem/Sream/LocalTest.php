@@ -21,7 +21,7 @@ class Magento_Filesystem_Stream_LocalTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_stream = new Magento_Filesystem_Stream_Local(__DIR__ . DS . '..' . DS . '_files' . DS . 'popup.css');
+        $this->_stream = new Magento_Filesystem_Stream_Local(__DIR__ . DS . '..' . DS . '_files' . DS . 'popup.csv');
         $this->_writeFileName = __DIR__ . DS . '..' . DS . '_files' . DS . 'new.css';
     }
 
@@ -137,9 +137,9 @@ class Magento_Filesystem_Stream_LocalTest extends PHPUnit_Framework_TestCase
      * @dataProvider streamNotOpenedDataProvider
      * @expectedException Magento_Filesystem_Exception
      */
-    public function testExceptionStreamNotOpened($method)
+    public function testExceptionStreamNotOpened($method, array $arguments = array(1))
     {
-        $this->_stream->$method(1);
+        call_user_func(array($this->_stream, $method), $arguments);
     }
 
     /**
@@ -151,7 +151,7 @@ class Magento_Filesystem_Stream_LocalTest extends PHPUnit_Framework_TestCase
             array('read'),
             array('readCsv'),
             array('write'),
-            array('writeCsv'),
+            array('writeCsv', array(array(1))),
             array('close'),
             array('flush'),
             array('seek'),
@@ -191,10 +191,10 @@ class Magento_Filesystem_Stream_LocalTest extends PHPUnit_Framework_TestCase
      * @expectedException Magento_Filesystem_Exception
      * @expectedExceptionMessage The stream does not allow write.
      */
-    public function testForbiddenWrite($method)
+    public function testForbiddenWrite($method, array $arguments = array(1))
     {
         $this->_stream->open(new Magento_Filesystem_Stream_Mode('r'));
-        $this->_stream->$method(1);
+        call_user_func(array($this->_stream, $method), $arguments);
     }
 
     /**
@@ -204,7 +204,7 @@ class Magento_Filesystem_Stream_LocalTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array('write'),
-            array('writeCsv'),
+            array('writeCsv', array(array(1))),
         );
     }
 }

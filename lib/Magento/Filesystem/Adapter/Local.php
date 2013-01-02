@@ -58,6 +58,18 @@ class Magento_Filesystem_Adapter_Local implements
     }
 
     /**
+     * Copy the file.
+     *
+     * @param string $source
+     * @param string $target
+     * @return bool
+     */
+    public function copy($source, $target)
+    {
+        return copy($source, $target);
+    }
+
+    /**
      * Deletes the file or directory recursively.
      *
      * @param string $key
@@ -76,6 +88,21 @@ class Magento_Filesystem_Adapter_Local implements
             return;
         }
 
+        $this->_deleteNestedKeys($key);
+
+        if (true !== @rmdir($key)) {
+            throw new Magento_Filesystem_Exception(sprintf('Failed to remove directory %s', $key));
+        }
+    }
+
+    /**
+     * Deletes all nested keys
+     *
+     * @param string $key
+     * @throws Magento_Filesystem_Exception
+     */
+    protected function _deleteNestedKeys($key)
+    {
         foreach ($this->getNestedKeys($key) as $nestedKey) {
             if (is_dir($nestedKey) && !is_link($nestedKey) && true !== @rmdir($nestedKey)) {
                 throw new Magento_Filesystem_Exception(sprintf('Failed to remove directory %s', $nestedKey));
@@ -87,10 +114,6 @@ class Magento_Filesystem_Adapter_Local implements
                     throw new Magento_Filesystem_Exception(sprintf('Failed to remove file %s', $nestedKey));
                 }
             }
-        }
-
-        if (true !== @rmdir($key)) {
-            throw new Magento_Filesystem_Exception(sprintf('Failed to remove directory %s', $key));
         }
     }
 
