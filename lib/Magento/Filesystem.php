@@ -266,6 +266,7 @@ class Magento_Filesystem
      *
      * @param string $key
      * @return Magento_Filesystem_StreamInterface
+     * @throws Magento_Filesystem_Exception
      */
     public function createStream($key)
     {
@@ -273,7 +274,7 @@ class Magento_Filesystem
         if ($this->_adapter instanceof Magento_Filesystem_Stream_FactoryInterface) {
             return $this->_adapter->createStream($key);
         }
-        return new Magento_Filesystem_Stream_Memory($this, $key);
+        throw new Magento_Filesystem_Exception('Filesystem adapter doesn\'t support streams.');
     }
 
     /**
