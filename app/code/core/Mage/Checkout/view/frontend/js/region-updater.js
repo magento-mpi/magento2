@@ -69,18 +69,18 @@
                 $.each(this.options.regionJson[country], $.proxy(function(key, value) {
                     this._renderSelectOption(regionList, key, value);
                 }, this));
-                regionList.addClass('required').show();
+                regionList.addClass('required-entry').show();
                 regionInput.hide();
                 requiredLabel.show();
             } else {
-                regionList.removeClass('required').hide();
+                regionList.removeClass('required-entry').hide();
                 regionInput.show();
                 requiredLabel.hide();
             }
             // If country is in optionalzip list, make postcode input not required
             $.inArray(country, this.options.countriesWithOptionalZip) >= 0 ?
-                postcode.removeClass('required').parent().siblings('label').children('em').hide() :
-                postcode.addClass('required').parent().siblings('label').children('em').show();
+                postcode.removeClass('required-entry').parent().siblings('label').children('em').hide() :
+                postcode.addClass('required-entry').parent().siblings('label').children('em').show();
             // Add defaultvalue attribute to state/province select element
             regionList.attr('defaultvalue', this.options.defaultRegion);
         }

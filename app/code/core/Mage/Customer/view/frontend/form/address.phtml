@@ -52,7 +52,7 @@
                 <div class="field">
                     <label for="city" class="required"><em>*</em><?php echo $this->__('City') ?></label>
                     <div class="input-box">
-                        <input type="text" name="city" value="<?php echo $this->escapeHtml($data->getCity()) ?>" title="<?php echo $this->__('City') ?>" class="input-text <?php echo $this->helper('Mage_Customer_Helper_Address')->getAttributeValidationClass('city') ?>" id="city" data-validate="{required:true}"/>
+                        <input type="text" name="city" value="<?php echo $this->escapeHtml($data->getCity()) ?>" title="<?php echo $this->__('City') ?>" class="input-text <?php echo $this->helper('Mage_Customer_Helper_Address')->getAttributeValidationClass('city') ?>" id="city" />
                     </div>
                 </div>
                 <div class="field">
@@ -85,7 +85,7 @@
                 <div class="field">
                     <label for="telephone" class="required"><em>*</em><?php echo $this->__('Telephone') ?></label>
                     <div class="input-box">
-                        <input type="text" name="telephone" value="<?php echo $this->escapeHtml($data->getTelephone()) ?>" title="<?php echo $this->__('Telephone') ?>" class="input-text <?php echo $this->helper('Mage_Customer_Helper_Address')->getAttributeValidationClass('telephone') ?>" id="telephone" data-validate="{required:true}"/>
+                        <input type="text" name="telephone" value="<?php echo $this->escapeHtml($data->getTelephone()) ?>" title="<?php echo $this->__('Telephone') ?>" class="input-text <?php echo $this->helper('Mage_Customer_Helper_Address')->getAttributeValidationClass('telephone') ?>" id="telephone" >
                     </div>
                 </div>
                 <div class="field">
