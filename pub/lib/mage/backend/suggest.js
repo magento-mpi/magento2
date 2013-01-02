@@ -29,7 +29,8 @@
             },
             attributes: {
                 'class': 'mage-suggest-dropdown'
-            }
+            },
+            bottomMargin: 35
         },
 
         /**
@@ -244,6 +245,23 @@
             $.tmpl(this.template, {items: items}).appendTo(this.dropdown.empty());
             this.dropdown.trigger('contentUpdated');
             this._showDropdown();
+            this._recalculateDropdownHeight();
+        },
+
+        /**
+         * Recalculates height of dropdown and cut it if needed
+         * @private
+         */
+        _recalculateDropdownHeight: function() {
+            var dropdown = this.dropdown.css('visibility', 'hidden'),
+                fromTop = dropdown.offset().top,
+                winHeight = $(window).height(),
+                isOverflowApplied = (fromTop + dropdown.outerHeight()) > winHeight;
+
+            dropdown
+                .css('visibility', '')
+                [isOverflowApplied ? 'addClass':'removeClass']('overflow-y')
+                .height(isOverflowApplied ? winHeight - fromTop - this.options.bottomMargin : '');
         },
 
         /**
