@@ -30,6 +30,8 @@ class Magento_Filesystem
     protected $_newDirPermissions = 0777;
 
     /**
+     * Initialize adapter and default working directory.
+     *
      * @param Magento_Filesystem_AdapterInterface $adapter
      */
     public function __construct(Magento_Filesystem_AdapterInterface $adapter)
@@ -89,7 +91,9 @@ class Magento_Filesystem
      */
     public function read($key)
     {
-        return $this->_adapter->read($this->_getCheckedPath($key));
+        $path = $this->_getCheckedPath($key);
+        $this->_checkFileExists($path);
+        return $this->_adapter->read($path);
     }
 
     /**
@@ -101,7 +105,9 @@ class Magento_Filesystem
      */
     public function write($key, $content)
     {
-        return $this->_adapter->write($this->_getCheckedPath($key), $content);
+        $path = $this->_getCheckedPath($key);
+        $this->ensureDirectoryExists(dirname($path));
+        return $this->_adapter->write($path, $content);
     }
 
     /**
@@ -112,7 +118,9 @@ class Magento_Filesystem
      */
     public function delete($key)
     {
-        return $this->_adapter->delete($this->_getCheckedPath($key));
+        $path = $this->_getCheckedPath($key);
+        $this->_checkFileExists($path);
+        return $this->_adapter->delete($path);
     }
 
     /**
@@ -124,7 +132,9 @@ class Magento_Filesystem
      */
     public function rename($source, $target)
     {
-        return $this->_adapter->rename($this->_getCheckedPath($source), $this->_getCheckedPath($target));
+        $sourcePath = $this->_getCheckedPath($source);
+        $this->_checkFileExists($sourcePath);
+        return $this->_adapter->rename($sourcePath, $this->_getCheckedPath($target));
     }
 
     /**
@@ -136,7 +146,9 @@ class Magento_Filesystem
      */
     public function copy($source, $target)
     {
-        return $this->_adapter->copy($this->_getCheckedPath($source), $this->_getCheckedPath($target));
+        $sourcePath = $this->_getCheckedPath($source);
+        $this->_checkFileExists($sourcePath);
+        return $this->_adapter->copy($sourcePath, $this->_getCheckedPath($target));
     }
 
 
@@ -289,6 +301,19 @@ class Magento_Filesystem
     public function createFile($key)
     {
         return new Magento_Filesystem_File($this->_getCheckedPath($key), $this);
+    }
+
+    /**
+     * Check that file exists
+     *
+     * @param string $path
+     * @throws InvalidArgumentException
+     */
+    protected function _checkFileExists($path)
+    {
+        if (!$this->_adapter->exists($path)) {
+            throw new InvalidArgumentException(sprintf('"%s" does not exists', $path));
+        }
     }
 
     /**
