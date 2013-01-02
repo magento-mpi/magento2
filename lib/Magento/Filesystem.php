@@ -130,13 +130,14 @@ class Magento_Filesystem
      *
      * @param string $source
      * @param string $target
+     * @param string|null $targetDirectory
      * @return bool
      */
-    public function rename($source, $target)
+    public function rename($source, $target, $targetDirectory = null)
     {
         $sourcePath = $this->_getCheckedPath($source);
         $this->_checkFileExists($sourcePath);
-        return $this->_adapter->rename($sourcePath, $this->_getCheckedPath($target));
+        return $this->_adapter->rename($sourcePath, $this->_getCheckedPath($target, $targetDirectory));
     }
 
     /**
@@ -144,13 +145,14 @@ class Magento_Filesystem
      *
      * @param string $source
      * @param string $target
+     * @param string|null $targetDirectory
      * @return bool
      */
-    public function copy($source, $target)
+    public function copy($source, $target, $targetDirectory = null)
     {
         $sourcePath = $this->_getCheckedPath($source);
         $this->_checkFileExists($sourcePath);
-        return $this->_adapter->copy($sourcePath, $this->_getCheckedPath($target));
+        return $this->_adapter->copy($sourcePath, $this->_getCheckedPath($target, $targetDirectory));
     }
 
 
@@ -322,12 +324,13 @@ class Magento_Filesystem
      * Get absolute checked path
      *
      * @param string $key
+     * @param string|null $workingDirectory
      * @return string
      */
-    protected function _getCheckedPath($key)
+    protected function _getCheckedPath($key, $workingDirectory = null)
     {
         $path = self::getAbsolutePath($key);
-        $this->_checkPath($path);
+        $this->_checkPath($path, $workingDirectory);
         return $path;
     }
 
@@ -335,12 +338,16 @@ class Magento_Filesystem
      * Check path isolation
      *
      * @param string $key
+     * @param string|null $workingDirectory
      * @throws InvalidArgumentException
      */
-    protected function _checkPath($key)
+    protected function _checkPath($key, $workingDirectory = null)
     {
-        if ($this->_workingDirectory) {
-            if (0 !== strpos($key, $this->_workingDirectory)) {
+        if (!$workingDirectory) {
+            $workingDirectory = $this->_workingDirectory;
+        }
+        if ($workingDirectory) {
+            if (0 !== strpos($key, $workingDirectory)) {
                 throw new InvalidArgumentException('Invalid path');
             }
         }
