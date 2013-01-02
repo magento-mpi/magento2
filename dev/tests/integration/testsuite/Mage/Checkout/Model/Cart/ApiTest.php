@@ -1,107 +1,34 @@
 <?php
 /**
- * Checkout tests.
+ * Checkout API tests.
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Checkout_CartTest extends PHPUnit_Framework_TestCase
+class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Eav_Model_Entity_Store */
-    protected static $_entityStore;
-
-    /** @var array */
-    protected static $_origData = array();
-
     /**
-     * Product for test
+     * Test for product add to shopping cart.
      *
-     * @var Mage_Catalog_Model_Product
-     */
-    protected $_product;
-
-    /**
-     * Quote object
-     *
-     * @var Mage_Sales_Model_Quote
-     */
-    protected $_quote;
-
-    /**
-     * Sales Rule object
-     *
-     * @var Mage_SalesRule_Model_Rule
-     */
-    protected $_salesRule;
-
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
-    {
-        // create product for test
-        $this->_product = Mage::getModel('Mage_Catalog_Model_Product');
-
-        $this->_product->setData(
-            array(
-                'sku' => 'simple' . uniqid(),
-                'attribute_set_id' => 4,
-                'type_id' => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
-                'name' => 'Simple Product',
-                'website_ids' => array(Mage::app()->getStore()->getWebsiteId()),
-                'description' => '...',
-                'short_description' => '...',
-                'price' => 0.99,
-                'tax_class_id' => 2,
-                'visibility' => Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
-                'status' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED
-            )
-        );
-        $this->_product->save();
-        $this->_product->load($this->_product->getId());
-        $this->_product->setStockData(
-            array(
-                'manage_stock' => 1,
-                'qty' => 10,
-                'backorders' => 1,
-                'is_in_stock' => '1',
-            )
-        );
-        $this->_product->save();
-
-        // Disable exceptions to avoid errors in cookie processing
-        Mage::$headersSentThrowsException = false;
-
-        // create quote for test
-        $this->_quote = Mage::getModel('Mage_Sales_Model_Quote');
-
-        $this->_quote->setData(
-            array(
-                'store_id' => 1,
-                'is_active' => 0,
-                'is_multi_shipping' => 0
-            )
-        );
-        $this->_quote->save();
-
-        parent::setUp();
-    }
-
-    /**
-     * Test for product add to shopping cart
+     * @magentoDataFixture Mage/Catalog/_files/product_simple_duplicated.php
+     * @magentoDataFixture Mage/Checkout/_files/quote.php
      */
     public function testProductAddToCart()
     {
+        /** @var Mage_Sales_Model_Resource_Quote_Collection $quoteCollection */
+        $quoteCollection = Mage::getModel('Mage_Sales_Model_Resource_Quote_Collection');
+        $quote = $quoteCollection->getFirstItem();
+        $productSku = 'simple-1';
+
         $soapResult = Magento_Test_Helper_Api::call(
             $this,
             'shoppingCartProductAdd',
             array(
-                'quoteId' => $this->_quote->getId(),
+                'quoteId' => $quote->getId(),
                 'productsData' => array(
-                    array('sku' => $this->_product->getSku(), 'qty' => 1)
+                    (object)array('sku' => $productSku, 'qty' => 1)
                 )
             )
         );
@@ -110,28 +37,29 @@ class Mage_Checkout_CartTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for product with custom options add to shopping cart
+     * Test for product with custom options add to shopping cart.
+     *
+     * @magentoDataFixture Mage/Catalog/_files/product_with_options.php
+     * @magentoDataFixture Mage/Checkout/_files/quote.php
      */
     public function testProductWithCustomOptionsAddToCart()
     {
         // Create custom option for product
         $customOptionId = null;
-        $customOptionTitle = 'My Text ' . uniqid();
-        $customOptionValue = 'Hello WORLD';
-
-        $this->_product->setCanSaveCustomOptions(true);
-        $this->_product->setProductOptions(
-            array(
-                array('type' => 'field', 'title' => $customOptionTitle, 'is_require' => 0, 'max_characters' => 0)
-            )
-        );
-        $this->_product->save();
+        $customOptionTitle = 'test_option_code_1';
+        $customOptionValue = 'option_value';
+        /** @var Mage_Catalog_Model_Product $product */
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        $product->load(1);
+        /** @var Mage_Sales_Model_Resource_Quote_Collection $quoteCollection */
+        $quoteCollection = Mage::getModel('Mage_Sales_Model_Resource_Quote_Collection');
+        $quote = $quoteCollection->getFirstItem();
 
         // Find ID of created custom option for future use
         /** @var $productOption Mage_Catalog_Model_Product_Option */
         $productOption = Mage::getModel('Mage_Catalog_Model_Product_Option');
 
-        foreach ($productOption->getProductOptionCollection($this->_product) as $option) {
+        foreach ($productOption->getProductOptionCollection($product) as $option) {
             if ($option['default_title'] == $customOptionTitle) {
                 $customOptionId = $option['option_id'];
                 break;
@@ -146,9 +74,9 @@ class Mage_Checkout_CartTest extends PHPUnit_Framework_TestCase
             $this,
             'shoppingCartProductAdd',
             array(
-                'quoteId' => $this->_quote->getId(),
+                'quoteId' => $quote->getId(),
                 'productsData' => array(
-                    array('sku' => $this->_product->getSku(), 'qty' => 1, 'options' => $customOptionsData)
+                    (object)array('sku' => $product->getSku(), 'qty' => 1, 'options' => $customOptionsData)
                 )
             )
         );
@@ -159,7 +87,7 @@ class Mage_Checkout_CartTest extends PHPUnit_Framework_TestCase
         $quoteItemOption = Mage::getResourceModel('Mage_Sales_Model_Resource_Quote_Item_Option_Collection');
         $itemOptionValue = null;
 
-        foreach ($quoteItemOption->getOptionsByProduct($this->_product) as $row) {
+        foreach ($quoteItemOption->getOptionsByProduct($product) as $row) {
             if ('option_' . $customOptionId == $row['code']) {
                 $itemOptionValue = $row['value'];
                 break;
@@ -176,21 +104,23 @@ class Mage_Checkout_CartTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for product list from shopping cart API method
+     * Test for product list from shopping cart API method.
+     *
+     * @magentoDataFixture Mage/Checkout/_files/quote_with_simple_product.php
      */
     public function testCartProductList()
     {
-        // have to re-load product for stock item set
-        $this->_product->load($this->_product->getId());
-
-        // add product as a quote item
-        $this->_quote->addProduct($this->_product);
-        $this->_quote->collectTotals()->save();
+        /** @var Mage_Catalog_Model_Product $product */
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        $product->load(1);
+        /** @var Mage_Sales_Model_Resource_Quote_Collection $quoteCollection */
+        $quoteCollection = Mage::getModel('Mage_Sales_Model_Resource_Quote_Collection');
+        $quote = $quoteCollection->getFirstItem();
 
         $soapResult = Magento_Test_Helper_Api::call(
             $this,
             'shoppingCartProductList',
-            array('quoteId' => $this->_quote->getId())
+            array('quoteId' => $quote->getId())
         );
 
         $this->assertInternalType('array', $soapResult, 'Product List call result is not an array');
@@ -201,16 +131,27 @@ class Mage_Checkout_CartTest extends PHPUnit_Framework_TestCase
             $soapResult = $soapResult[0]; //workaround for different result structure
         }
         $this->assertArrayHasKey('sku', $soapResult, 'Product List call result does not contain a product sku');
-        $this->assertEquals($this->_product->getSku(), $soapResult['sku'], 'Product Sku does not match fixture');
+        $this->assertEquals($product->getSku(), $soapResult['sku'], 'Product Sku does not match fixture');
     }
 
     /**
-     * Test coupon code applying
+     * Test coupon code applying.
+     *
+     * @magentoDataFixture Mage/Checkout/_files/quote_with_simple_product.php
      */
     public function testCartCouponAdd()
     {
+        /** @var Mage_Catalog_Model_Product $product */
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        $product->load(1);
+        /** @var Mage_Sales_Model_Resource_Quote_Collection $quoteCollection */
+        $quoteCollection = Mage::getModel('Mage_Sales_Model_Resource_Quote_Collection');
+        /** @var Mage_Sales_Model_Quote $quote */
+        $quote = $quoteCollection->getFirstItem();
+
         // create sales rule coupon
-        $this->_salesRule = Mage::getModel('Mage_SalesRule_Model_Rule');
+        /** @var Mage_SalesRule_Model_Rule $salesRule */
+        $salesRule = Mage::getModel('Mage_SalesRule_Model_Rule');
         $discount = 10;
         $data = array(
             'name' => 'Test Coupon',
@@ -222,28 +163,21 @@ class Mage_Checkout_CartTest extends PHPUnit_Framework_TestCase
             'simple_action' => Mage_SalesRule_Model_Rule::BY_PERCENT_ACTION,
             'discount_amount' => $discount,
         );
-        $this->_salesRule->loadPost($data)->setUseAutoGeneration(false)->save();
-
-        // have to re-load product for stock item set
-        $this->_product->load($this->_product->getId());
-
-        // add product as a quote item
-        $this->_quote->addProduct($this->_product);
-        $this->_quote->collectTotals()->save();
+        $salesRule->loadPost($data)->setUseAutoGeneration(false)->save();
 
         $soapResult = Magento_Test_Helper_Api::call(
             $this,
             'shoppingCartCouponAdd',
             array(
-                'quoteId' => $this->_quote->getId(),
-                'couponCode' => $this->_salesRule->getCouponCode()
+                'quoteId' => $quote->getId(),
+                'couponCode' => $salesRule->getCouponCode()
             )
         );
         $this->assertTrue($soapResult, 'Coupon code was not applied');
-        $this->_quote->load($this->_quote->getId());
-        $discountedPrice = sprintf('%01.2f', $this->_product->getPrice() * (1 - $discount / 100));
+        $quote->load($quote->getId());
+        $discountedPrice = sprintf('%01.2f', $product->getPrice() * (1 - $discount / 100));
         $this->assertEquals(
-            $this->_quote->getSubtotalWithDiscount(),
+            $quote->getSubtotalWithDiscount(),
             $discountedPrice,
             'Quote subtotal price does not match discounted item price'
         );
@@ -252,7 +186,7 @@ class Mage_Checkout_CartTest extends PHPUnit_Framework_TestCase
     /**
      * Test for product list from shopping cart API method
      *
-     * @magentoDataFixture Api/Mage/Checkout/_fixture/order.php
+     * @magentoDataFixture Mage/Checkout/_files/quote_with_check_payment.php
      * @magentoAppIsolation enabled
      */
     public function testCreateOrder()
@@ -262,7 +196,6 @@ class Mage_Checkout_CartTest extends PHPUnit_Framework_TestCase
         Magento_Test_Helper_Api::setIncrementIdPrefix('order', $prefix);
 
         $quote = Mage::registry('quote');
-
         $orderIncrementId = Magento_Test_Helper_Api::call(
             $this,
             'shoppingCartOrder',
@@ -278,7 +211,7 @@ class Mage_Checkout_CartTest extends PHPUnit_Framework_TestCase
     /**
      * Test order creation with payment method
      *
-     * @magentoDataFixture Api/Mage/Checkout/_fixture/order_with_payment_method.php
+     * @magentoDataFixture Mage/Checkout/_files/quote_with_ccsave_payment.php
      * @magentoAppIsolation enabled
      */
     public function testCreateOrderWithPayment()
@@ -314,7 +247,7 @@ class Mage_Checkout_CartTest extends PHPUnit_Framework_TestCase
     /**
      * Test order creation with not available payment method
      *
-     * @magentoDataFixture Api/Mage/Checkout/_fixture/order_with_payment_method.php
+     * @magentoDataFixture Mage/Checkout/_files/quote_with_ccsave_payment.php
      * @magentoAppIsolation enabled
      */
     public function testCreateOrderWithNotAvailablePayment()
@@ -352,7 +285,7 @@ class Mage_Checkout_CartTest extends PHPUnit_Framework_TestCase
     /**
      * Test order creation with payment method data empty
      *
-     * @magentoDataFixture Api/Mage/Checkout/_fixture/order_with_payment_method.php
+     * @magentoDataFixture Mage/Checkout/_files/quote_with_ccsave_payment.php
      * @magentoAppIsolation enabled
      */
     public function testCreateOrderWithEmptyPaymentData()
@@ -380,7 +313,7 @@ class Mage_Checkout_CartTest extends PHPUnit_Framework_TestCase
     /**
      * Test order creation with invalid payment method data
      *
-     * @magentoDataFixture Api/Mage/Checkout/_fixture/order_with_payment_method.php
+     * @magentoDataFixture Mage/Checkout/_files/quote_with_ccsave_payment.php
      * @magentoAppIsolation enabled
      */
     public function testCreateOrderWithInvalidPaymentData()

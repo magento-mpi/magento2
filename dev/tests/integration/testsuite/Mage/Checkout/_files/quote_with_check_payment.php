@@ -2,42 +2,40 @@
 /**
  * {license_notice}
  *
+ * @category    Magento
+ * @package     Mage_Checkout
+ * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-//Set up customer fixture
-require_once 'customer.php';
-/** @var $customer Mage_Customer_Model_Customer */
-$customer = Mage::registry('creditmemo/customer');
+require __DIR__ . '/../../Customer/_files/customer.php';
+/** @var Mage_Customer_Model_Customer $customer */
+$customer = Mage::getModel('Mage_Customer_Model_Customer');
+$customer->load(1);
 
-//Set up customer address fixture
-require_once 'customer_address.php';
-/** @var $customerAddress Mage_Customer_Model_Address */
-$customerAddress = Mage::registry('creditmemo/customer_address');
+require __DIR__ . '/../../Customer/_files/customer_address.php';
+/** @var Mage_Customer_Model_Address $customerAddress */
+$customerAddress = Mage::getModel('Mage_Customer_Model_Address');
+$customerAddress->load(1);
 
-/*//$customerAddress->addShippingRate($rate);
-$customerAddress->setShippingMethod('freeshipping_freeshipping');
-$customerAddress->addShippingRate($method);   //$rate
-$customerAddress->save();*/
-
-//Set up simple product fixture
-require_once 'product_simple.php';
+require __DIR__ . '/../../Catalog/_files/products.php';
 /** @var $product Mage_Catalog_Model_Product */
-$product = Mage::registry('product_simple');
+$product = Mage::getModel('Mage_Catalog_Model_Product');
+$product->load(1);
 
-//Set customer default shipping and billing address
-$customer->addAddress($customerAddress);
-$customer->setDefaultShipping($customerAddress->getId());
-$customer->setDefaultBilling($customerAddress->getId());
-$customer->save();
+/** @var Mage_Sales_Model_Quote_Address $quoteShippingAddress */
+$quoteShippingAddress = Mage::getModel('Mage_Sales_Model_Quote_Address');
+$quoteShippingAddress->importCustomerAddress($customerAddress);
 
-//Create quote
+/** @var Mage_Sales_Model_Quote $quote */
 $quote = Mage::getModel('Mage_Sales_Model_Quote');
 $quote->setStoreId(1)
     ->setIsActive(false)
     ->setIsMultiShipping(false)
     ->assignCustomerWithAddressChange($customer)
+    ->setShippingAddress($quoteShippingAddress)
+    ->setBillingAddress($quoteShippingAddress)
     ->setCheckoutMethod($customer->getMode())
     ->setPasswordHash($customer->encryptPassword($customer->getPassword()))
     ->addProduct($product->load($product->getId()), 2);
@@ -55,9 +53,5 @@ $quote->collectTotals();
 $quote->save();
 Mage::register('quote', $quote);
 
-//Create order
 $quoteService = new Mage_Sales_Model_Service_Quote($quote);
-//Set payment method to check/money order
 $quoteService->getQuote()->getPayment()->setMethod('checkmo');
-
-Mage::register('order', $order);
