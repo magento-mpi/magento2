@@ -23,7 +23,16 @@
             source: null,
             events: {},
             appendMethod: 'after',
-            control: ':ui-menu',
+            control: 'menu',
+            controls: {
+                menu: {
+                    selector: ':ui-menu',
+                    eventsMap: {
+                        change: 'menufocus',
+                        select: 'menuselect'
+                    }
+                }
+            },
             wrapperAttributes: {
                 'class': 'mage-suggest'
             },
@@ -41,8 +50,9 @@
             this.dropdown = $('<div/>', this.options.attributes).hide();
             this.element
                 .wrap($('<div/>', this.options.wrapperAttributes))
-                .attr('autocomplete', 'off')
-                [this.options.appendMethod](this.dropdown);
+                [this.options.appendMethod](this.dropdown)
+                .attr('autocomplete', 'off');
+            this._control = this.options.controls[this.options.control] || {};
             this._bind();
         },
 
@@ -71,9 +81,7 @@
          * @private
          */
         _proxyEvents: function(event) {
-            this.dropdown
-                .find(this.options.control)
-                .triggerHandler(event);
+            this.dropdown.find(this._control.selector).triggerHandler(event);
         },
 
         /**
@@ -141,13 +149,15 @@
                 blur: this._hideDropdown
             }, this.options.events));
 
-            this._on(this.dropdown, {
-                menufocus: function(e, ui) {
-                    this.element.val(ui.item.text());
-                },
-                menuselect: this._enterCurrentValue,
-                click: this._enterCurrentValue
-            });
+            var events = {};
+
+            events[this._control.eventsMap.change] = function(e, ui) {
+                this.element.val(ui.item.text());
+            };
+            events[this._control.eventsMap.select] = this._enterCurrentValue;
+            events['click'] = this._enterCurrentValue;
+
+            this._on(this.dropdown, events);
         },
 
         /**
@@ -214,13 +224,10 @@
          * @public
          */
         search: function() {
-            /**
-             * @type {string} - searched phrase
-             * @private
-             */
-            this._term = this._value();
-            if (this._term) {
-                this._search(this._term);
+            var term = this._value();
+            if (this._term !== term) {
+                this._term = term;
+                this._search(term);
             }
         },
 
@@ -241,7 +248,10 @@
          */
         _renderDropdown: function(items) {
             this._items = items;
-            $.tmpl(this.template, {items: items}).appendTo(this.dropdown.empty());
+            $.tmpl(this.template, {
+                items: this._items,
+                term: this._term
+            }).appendTo(this.dropdown.empty());
             this.dropdown.trigger('contentUpdated');
             this._showDropdown();
         },
@@ -345,6 +355,11 @@
                     if (!this._value()) {
                         this._renderDropdown(this._recentItems);
                     }
+                }
+            });
+            this._on(this.dropdown, {
+                menuselect: function(e, ui) {
+                    this._addRecent(ui.item.data('item-data'));
                 }
             });
         },
