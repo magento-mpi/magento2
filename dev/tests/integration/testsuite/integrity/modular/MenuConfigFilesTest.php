@@ -97,7 +97,7 @@ class Integrity_Modular_MenuConfigFilesTest extends PHPUnit_Framework_TestCase
     public function testMergedConfig()
     {
         try {
-           $this->_model->validate();
+            $this->_model->validate();
         } catch (Magento_Exception $e) {
             $this->fail($e->getMessage());
         }
