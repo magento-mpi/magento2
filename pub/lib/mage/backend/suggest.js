@@ -23,7 +23,10 @@
             source: null,
             events: {},
             appendMethod: 'after',
-            control: ':ui-menu'
+            control: ':ui-menu',
+            wrapperAttributes: {
+                'class': 'mage-suggest'
+            }
         },
 
         /**
@@ -32,11 +35,9 @@
          */
         _create: function() {
             this._setTemplate();
-            this.dropdown = $('<div/>').uniqueId();
+            this.dropdown = $('<div/>');
             this.element
-                .wrap($('<div/>', {
-                    'class': 'mage-suggest'
-                }).uniqueId())
+                .wrap($('<div/>', this.options.wrapperAttributes))
                 .attr('autocomplete', 'off')
                 [this.options.appendMethod](this.dropdown);
             this._bind();
@@ -47,7 +48,7 @@
          * @private
          */
         _destroy: function() {
-            this.element.removeAttr('autocomplete');
+            this.element.removeAttr('autocomplete').unwrap();
             this.dropdown.remove();
             this._off("keydown keyup blur");
         },
