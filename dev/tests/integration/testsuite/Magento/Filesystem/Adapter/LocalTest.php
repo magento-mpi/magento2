@@ -14,9 +14,40 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
      */
     protected $_adapter;
 
+    /**
+     * @var string
+     */
+    protected $_filePath;
+
+    /**
+     * @var array
+     */
+    protected $_tearDownFiles = array();
+
+    protected $_tearDownDirs = array();
+
     protected function setUp()
     {
         $this->_adapter = new Magento_Filesystem_Adapter_Local();
+    }
+
+    protected function tearDown()
+    {
+        foreach ($this->_tearDownDirs as $dirName) {
+            if (file_exists($dirName)) {
+                rmdir($dirName);
+            }
+        }
+        foreach ($this->_tearDownFiles as $fileName) {
+            if (file_exists($fileName)) {
+                unlink($fileName);
+            }
+        }
+    }
+
+    protected function _getFilePath()
+    {
+        return __DIR__ . DS . '..' . DS . '_files' . DS;
     }
 
     /**
@@ -34,10 +65,9 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
      */
     public function existsDataProvider()
     {
-        $filesPath = __DIR__ . DS . '..' . DS . '_files' . DS;
         return array(
-            'existed file' => array($filesPath . 'popup.csv', true),
-            'not existed file' => array($filesPath . 'popup2.css', false),
+            'existed file' => array($this->_getFilePath() . 'popup.csv', true),
+            'not existed file' => array($this->_getFilePath() . 'popup2.css', false),
         );
     }
 
@@ -56,9 +86,8 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
      */
     public function readDataProvider()
     {
-        $filesPath = __DIR__ . DS . '..' . DS . '_files' . DS;
         return array(
-            'read' => array($filesPath . 'popup.csv', 'var myData = 5;'),
+            'read' => array($this->_getFilePath() . 'popup.csv', 'var myData = 5;'),
         );
     }
 
@@ -66,21 +95,13 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
      * @param string $fileName
      * @param string $fileData
      * @dataProvider writeDataProvider
-     * @throws Exception
      */
     public function testWrite($fileName, $fileData)
     {
-        try {
-            $this->_adapter->write($fileName, $fileData);
-            $this->assertFileExists($fileName);
-            $this->assertEquals(file_get_contents($fileName), $fileData);
-            unlink($fileName);
-        } catch (Exception $e) {
-            if (file_exists($fileName)) {
-                unlink($fileName);
-            }
-            throw $e;
-        }
+        $this->_tearDownFiles = array($fileName);
+        $this->_adapter->write($fileName, $fileData);
+        $this->assertFileExists($fileName);
+        $this->assertEquals(file_get_contents($fileName), $fileData);
     }
 
     /**
@@ -88,76 +109,60 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
      */
     public function writeDataProvider()
     {
-        $filesPath = __DIR__ . DS . '..' . DS . '_files' . DS;
         return array(
-            'correct file' => array($filesPath . 'tempFile.css', 'temporary data'),
-            'empty file' => array($filesPath . 'tempFile2.css', '')
+            'correct file' => array($this->_getFilePath() . 'tempFile.css', 'temporary data'),
+            'empty file' => array($this->_getFilePath() . 'tempFile2.css', '')
         );
     }
 
     public function testDelete()
     {
-        $fileName = __DIR__ . DS . '..' . DS . '_files' . DS . 'tempFile3.css';
+        $fileName = $this->_getFilePath() . 'tempFile3.css';
+        $this->_tearDownFiles = array($fileName);
         file_put_contents($fileName, 'test data');
-        try {
-            $this->_adapter->delete($fileName);
-            $this->assertFileNotExists($fileName);
-        } catch (Exception $e) {
-            unlink($fileName);
-            throw $e;
-        }
+        $this->_adapter->delete($fileName);
+        $this->assertFileNotExists($fileName);
     }
 
     /**
      * @param string $sourceName
      * @param string $targetName
      * @throws Exception
-     * @dataProvider renameDaraProvider
+     * @dataProvider renameDataProvider
      */
     public function testRename($sourceName, $targetName)
     {
-        try {
-            file_put_contents($sourceName, 'test data');
-            $this->_adapter->rename($sourceName, $targetName);
-            $this->assertFileExists($targetName);
-            $this->assertFileNotExists($sourceName);
-            $this->assertEquals(file_get_contents($targetName), 'test data');
-            unlink($targetName);
-        } catch (Exception $e) {
-            unlink($sourceName);
-            unlink($targetName);
-            throw $e;
-        }
+        $this->_tearDownFiles = array($sourceName, $targetName);
+        file_put_contents($sourceName, 'test data');
+        $this->_adapter->rename($sourceName, $targetName);
+        $this->assertFileExists($targetName);
+        $this->assertFileNotExists($sourceName);
+        $this->assertEquals(file_get_contents($targetName), 'test data');
     }
 
     /**
      * @return array
      */
-    public function renameDaraProvider()
+    public function renameDataProvider()
     {
-        $filesPath = __DIR__ . DS . '..' . DS . '_files' . DS;
         return array(
-            'test 1' => array($filesPath . 'file1.js', $filesPath . 'file2.js'),
+            'test 1' => array($this->_getFilePath() . 'file1.js', $this->_getFilePath() . 'file2.js'),
         );
     }
 
     public function testIsDirectory()
     {
-        $filesPath = __DIR__ . DS . '..' . DS . '_files' . DS;
-        $this->assertTrue($this->_adapter->isDirectory($filesPath));
-        $this->assertFalse($this->_adapter->isDirectory($filesPath . 'popup.csv'));
+        $this->assertTrue($this->_adapter->isDirectory($this->_getFilePath()));
+        $this->assertFalse($this->_adapter->isDirectory($this->_getFilePath() . 'popup.csv'));
     }
 
     public function testCreateDirectory()
     {
-        $directoryName = __DIR__ . DS . '..' . DS . '_files' . DS . 'new_directory';
-        if (file_exists($directoryName)) {
-            rmdir($directoryName);
-        }
+        $directoryName = $this->_getFilePath() . 'new_directory';
+        $this->_tearDownDirs = array($directoryName);
         $this->_adapter->createDirectory($directoryName, 0111);
         $this->assertFileExists($directoryName);
         $this->assertTrue(is_dir($directoryName));
-        unlink($directoryName);
     }
 
     /**
@@ -173,27 +178,19 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
      * @dataProvider touchDataProvider
      * @param string $fileName
      * @param bool $newFile
-     * @throws Exception
      */
     public function testTouch($fileName, $newFile = false)
     {
-        try {
-            if ($newFile) {
-                $this->assertFileNotExists($fileName);
-            } else {
-                $this->assertFileExists($fileName);
-            }
-            $this->_adapter->touch($fileName);
-            if ($newFile) {
-                $this->assertFileExists($fileName);
-                unlink($fileName);
-            }
-        } catch (Exception $e) {
-            if ($newFile && file_exists($fileName)) {
-                unlink($fileName);
-            }
-            throw $e;
+        if ($newFile) {
+            $this->_tearDownFiles = array($fileName);
         }
+        if ($newFile) {
+            $this->assertFileNotExists($fileName);
+        } else {
+            $this->assertFileExists($fileName);
+        }
+        $this->_adapter->touch($fileName);
+        $this->assertFileExists($fileName);
     }
 
     /**
@@ -201,27 +198,20 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
      */
     public function touchDataProvider()
     {
-        $filesPath = __DIR__ . DS . '..' . DS . '_files' . DS;
         return array(
-            'update file' => array($filesPath . 'popup.csv', false),
-            'create file' => array($filesPath . 'popup2.css', true)
+            'update file' => array($this->_getFilePath() . 'popup.csv', false),
+            'create file' => array($this->_getFilePath() . 'popup2.css', true)
         );
     }
 
     /**
      * @param string $sourceName
      * @param string $targetName
-     * @throws Exception
-     * @dataProvider renameDaraProvider
+     * @dataProvider renameDataProvider
      */
     public function testCopy($sourceName, $targetName)
     {
-        if (file_exists($sourceName)) {
-            unlink($sourceName);
-        }
-        if (file_exists($targetName)) {
-            unlink($targetName);
-        }
+        $this->_tearDownFiles = array($sourceName, $targetName);
         $testData = 'test data';
         file_put_contents($sourceName, $testData);
         $this->_adapter->copy($sourceName, $targetName);
