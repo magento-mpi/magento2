@@ -26,6 +26,9 @@
             control: ':ui-menu',
             wrapperAttributes: {
                 'class': 'mage-suggest'
+            },
+            attributes: {
+                'class': 'mage-suggest-dropdown'
             }
         },
 
@@ -35,7 +38,7 @@
          */
         _create: function() {
             this._setTemplate();
-            this.dropdown = $('<div/>');
+            this.dropdown = $('<div/>', this.options.attributes).hide();
             this.element
                 .wrap($('<div/>', this.options.wrapperAttributes))
                 .attr('autocomplete', 'off')

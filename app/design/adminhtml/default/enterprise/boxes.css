@@ -818,6 +818,14 @@ div.autocomplete ul { margin:0; padding:0; }
 div.autocomplete ul li.selected { background-color:#dcebf0; }
 div.autocomplete ul li { padding:.5em .7em; min-height:32px; cursor:pointer; text-align:left; color:#2f2f2f; line-height:1.3em; }
 
+/* Mage suggest */
+.mage-suggest { position:relative; display: inline-block; background: #fff; border-radius: 5px; box-shadow: 1px 0 2px #ddd; }
+.mage-suggest .input-text { border-radius: 5px; margin: 7px; border: 1px solid #ddd; height: 20px; padding: 3px 25px 3px 10px; line-height: 26px; background: url(images/bkg_search-magnifier.png) 98% 50% no-repeat; }
+.mage-suggest-dropdown { position: absolute; top: 100%; margin-top:-4px; left: 0; min-width: 100%; background: #fff; border: solid #ddd; border-width: 0 1px 1px; padding: 10px 0; box-sizing: border-box; border-radius: 0 0 5px 5px; box-shadow: 1px 1px 2px #ddd; }
+.mage-suggest-dropdown .ui-menu-item a { display:block; padding: 0 10px; text-decoration: none; font:normal 12px/26px Arial, sans-serif; text-align: left; border-bottom: 1px solid #f2f2f2; color:#2d2d2d; }
+.mage-suggest-dropdown .ui-state-active,
+.mage-suggest-dropdown .ui-state-focus { background: #f2f2f2; color:#000; }
+
 /* Footer */
 .footer .bug-report                     { float:left; width:35%; text-align:left; }
 .footer .legality                       { float:right; width:35%; min-height:19px; padding-left:22px; text-align:right; }
