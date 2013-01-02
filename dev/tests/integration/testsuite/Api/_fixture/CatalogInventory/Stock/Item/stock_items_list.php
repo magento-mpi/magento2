@@ -24,5 +24,5 @@ for ($i = 0; $i < COUNT_STOCK_ITEMS_LIST; $i++) {
     $stockItems[] = $stockItem->setProductId($product->getId())->save();
 }
 
-PHPUnit_Framework_TestCase::setFixture('cataloginventory_stock_products', $products);
-PHPUnit_Framework_TestCase::setFixture('cataloginventory_stock_items', $stockItems);
+Mage::register('cataloginventory_stock_products', $products);
+Mage::register('cataloginventory_stock_items', $stockItems);

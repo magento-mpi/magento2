@@ -29,4 +29,4 @@ for ($i = 1; $i <= 3; $i++) {
     $product->save();
     $products[] = $product;
 }
-PHPUnit_Framework_TestCase::setFixture('products', $products);
+Mage::register('products', $products);

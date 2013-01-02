@@ -33,12 +33,11 @@ for ($i = 0; $i <= 2; $i++) {
 }
 $category->setPostedProducts($assignedProducts);
 $category->save();
-PHPUnit_Framework_TestCase::setFixture('assigned_products', $assignedProductsFixture);
+Mage::register('assigned_products', $assignedProductsFixture);
 // reload category to make assigned_products available in it
 $category = Mage::getModel('Mage_Catalog_Model_Category')->load($category->getId());
-PHPUnit_Framework_TestCase::setFixture(
+Mage::register(
     'category',
-    $category,
-    PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_DISABLED
+    $category
 );
 

@@ -26,4 +26,4 @@ for ($i = 0; $i < COUNT_ORDERS_LIST; $i++) {
     $ordersList[] = $order;
 }
 
-PHPUnit_Framework_TestCase::setFixture('orders_list', $ordersList);
+Mage::register('orders_list', $ordersList);

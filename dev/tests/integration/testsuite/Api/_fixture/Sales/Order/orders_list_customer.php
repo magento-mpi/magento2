@@ -52,4 +52,4 @@ for ($i = 0; $i < COUNT_NOT_CUSTOMER_ORDERS_LIST; $i++) {
     $ordersList[] = $order;
 }
 
-PHPUnit_Framework_TestCase::setFixture('orders_list_customer', $ordersList);
+Mage::register('orders_list_customer', $ordersList);

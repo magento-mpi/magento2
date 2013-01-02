@@ -17,9 +17,8 @@ if (!Mage::registry('category_on_new_website')) {
     $storeGroup = Mage::registry('store_group');
     $storeGroup->setRootCategoryId($rootCategory->getId())->save();
 
-    PHPUnit_Framework_TestCase::setFixture(
+    Mage::register(
         'category_on_new_website',
-        $rootCategory,
-        PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_DISABLED
+        $rootCategory
     );
 }

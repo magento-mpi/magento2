@@ -20,4 +20,4 @@ for ($i = 0; $i < CATEGORIES_IN_TREE; $i++) {
     $categoryTree[] = $categoryFixture;
 }
 
-PHPUnit_Framework_TestCase::setFixture('category_tree', $categoryTree);
+Mage::register('category_tree', $categoryTree);

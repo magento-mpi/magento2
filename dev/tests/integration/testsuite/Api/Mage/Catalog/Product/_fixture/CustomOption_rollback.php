@@ -6,5 +6,4 @@
  * @license     {license_link}
  */
 
-Mage::unregister('testAttributeSetId');
-Mage::unregister('testAttributeSetAttrIdsArray');
+Mage::unregister('productData');

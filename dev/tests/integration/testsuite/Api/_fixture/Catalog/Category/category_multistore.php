@@ -23,8 +23,4 @@ $storeFixture = Mage::registry('store');
 $categoryDataOnStore = require '_fixture/_data/Catalog/Category/category_store_data.php';
 $categoryFixture->setStoreId($storeFixture->getId())->addData($categoryDataOnStore)->save();
 
-PHPUnit_Framework_TestCase::setFixture(
-    'category',
-    $categoryFixture,
-    PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_DISABLED
-);
+Mage::register('category', $categoryFixture);

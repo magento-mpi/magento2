@@ -50,10 +50,10 @@ $order = $quoteService->submitOrder()
     ->place()
     ->save();
 
-PHPUnit_Framework_TestCase::setFixture('customer_product1', $product1);
-PHPUnit_Framework_TestCase::setFixture('customer_product2', $product2);
-PHPUnit_Framework_TestCase::setFixture('customer_quote', $quote);
-PHPUnit_Framework_TestCase::setFixture(
+Mage::register('customer_product1', $product1);
+Mage::register('customer_product2', $product2);
+Mage::register('customer_quote', $quote);
+Mage::register(
     'customer_order',
     Mage::getModel('Mage_Sales_Model_Order')->load($order->getId())
 );

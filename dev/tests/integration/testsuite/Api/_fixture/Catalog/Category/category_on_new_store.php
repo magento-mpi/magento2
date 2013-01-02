@@ -38,10 +38,9 @@ if (!Mage::registry('store')) {
     $category->setPath($parentCategory->getPath());
     $category->setStoreId(0);
     $category->save();
-    PHPUnit_Framework_TestCase::setFixture(
+    Mage::register(
         'category',
-        $category,
-        PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_DISABLED
+        $category
     );
 
 
@@ -53,10 +52,9 @@ if (!Mage::registry('store')) {
         )
     );
     $website->save();
-    PHPUnit_Framework_TestCase::setFixture(
+    Mage::register(
         'website',
-        $website,
-        PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_DISABLED
+        $website
     );
 
     $storeGroup = Mage::getModel('Mage_Core_Model_Store_Group');
@@ -68,10 +66,9 @@ if (!Mage::registry('store')) {
             'root_category_id' => $category->getId()
         )
     )->save();
-    PHPUnit_Framework_TestCase::setFixture(
+    Mage::register(
         'store_group',
-        $storeGroup,
-        PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_DISABLED
+        $storeGroup
     );
 
 
@@ -86,9 +83,8 @@ if (!Mage::registry('store')) {
         )
     )->save();
     Mage::app()->reinitStores();
-    PHPUnit_Framework_TestCase::setFixture(
+    Mage::register(
         'store',
-        $store,
-        PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_DISABLED
+        $store
     );
 }

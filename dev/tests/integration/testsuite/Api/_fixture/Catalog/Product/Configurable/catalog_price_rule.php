@@ -22,6 +22,5 @@ Mage::getModel('Mage_CatalogRule_Model_Rule')->applyAll();
 
 Mage::register(
     'catalog_price_rule',
-    $rule,
-    PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_DISABLED
+    $rule
 );

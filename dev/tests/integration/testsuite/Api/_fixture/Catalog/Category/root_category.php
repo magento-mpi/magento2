@@ -14,4 +14,4 @@ $parentCategory = Mage::getModel('Mage_Catalog_Model_Category')->load(
 );
 $categoryFixture->setStoreId(0);
 $categoryFixture->save();
-PHPUnit_Framework_TestCase::setFixture('root_category', $categoryFixture);
+Mage::register('root_category', $categoryFixture);

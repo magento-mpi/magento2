@@ -45,4 +45,4 @@ $product->addData($productData)->save();
 
 // to make stock item visible from created product it should be reloaded
 $product = Mage::getModel('Mage_Catalog_Model_Product')->load($product->getId());
-PHPUnit_Framework_TestCase::setFixture('product_simple', $product);
+Mage::register('product_simple', $product);

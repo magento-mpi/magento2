@@ -193,17 +193,6 @@ class Mage_Catalog_Product_AttributeSetCRUDTest extends PHPUnit_Framework_TestCa
         );
         $this->assertTrue((bool)$renameResult);
 
-        // rename group exception test
-        try {
-            Magento_Test_Helper_Api::call(
-                $this,
-                'catalogProductAttributeSetGroupRename',
-                array('groupId' => $createdAttributeSetGroupId, 'groupName' => $data['existsGroupName'])
-            );
-            $this->fail("Didn't receive exception!");
-        } catch (Exception $e) {
-        }
-
         // remove group test
         $removeResult = Magento_Test_Helper_Api::call(
             $this,

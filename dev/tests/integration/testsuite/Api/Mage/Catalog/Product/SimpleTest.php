@@ -12,14 +12,6 @@
  */
 class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
 {
-
-    /**
-     * Test store model
-     *
-     * @var Mage_Core_Model_Store
-     */
-    protected $_store;
-
     /**
      * Default helper for current test suite
      *
@@ -421,7 +413,32 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
         $data = require dirname(__FILE__) . '/_fixture/ProductData.php';
 
         try {
-            $this->_testSoapV2($optionValueApi, $optionValueInstaller, $data);
+            $attributes = array();
+            $attributes['single_data'][1]['value'] = $optionValueApi;
+            $attributes['single_data'][3]['value'] = $optionValueInstaller;
+            $productData = & $data['create_with_attributes_soapv2']['productData'];
+            $productData->additional_attributes = $attributes;
+
+            // create product for test
+            $productId = Magento_Test_Helper_Api::call(
+                $this,
+                'catalogProductCreate',
+                $data['create_with_attributes_soapv2']
+            );
+            Mage::unregister('productId');
+            Mage::register('productId', $productId);
+
+            $product = Mage::getModel('Mage_Catalog_Model_Product');
+            $product->load($productId);
+
+            // test new product id returned
+            $this->assertGreaterThan(0, $productId);
+
+            //test new product attributes
+            $this->assertEquals($attributes['single_data'][0]['value'], $product->getData('a_text_api'));
+            $this->assertEquals($attributes['single_data'][1]['value'], $product->getData('a_select_api'));
+            $this->assertEquals($attributes['single_data'][2]['value'], $product->getData('a_text_ins'));
+            $this->assertEquals($attributes['single_data'][3]['value'], $product->getData('a_select_ins'));
         } catch (Exception $e) {
             //give delete attributes
         }
@@ -432,42 +449,6 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
             //throw exception if it was catch
             throw $e;
         }
-
-    }
-
-    /**
-     * Test for SOAPV2
-     *
-     * Help CRUD method
-     *
-     * @param int $optionValueApi
-     * @param int $optionValueInstaller
-     * @param array $data
-     */
-    protected function _testSoapV2($optionValueApi, $optionValueInstaller, $data)
-    {
-        $attributes = array();
-        $attributes['single_data'][1]['value'] = $optionValueApi;
-        $attributes['single_data'][3]['value'] = $optionValueInstaller;
-        $productData = &$data['create_with_attributes_soapv2']['productData'];
-        $productData->additional_attributes = $attributes;
-
-        // create product for test
-        $productId = Magento_Test_Helper_Api::call($this, 'catalogProductCreate', $data['create_with_attributes_soapv2']);
-        Mage::unregister('productId');
-        Mage::register('productId', $productId);
-
-        $product = Mage::getModel('Mage_Catalog_Model_Product');
-        $product->load($productId);
-
-        // test new product id returned
-        $this->assertGreaterThan(0, $productId);
-
-        //test new product attributes
-        $this->assertEquals($attributes['single_data'][0]['value'], $product->getData('a_text_api'));
-        $this->assertEquals($attributes['single_data'][1]['value'], $product->getData('a_select_api'));
-        $this->assertEquals($attributes['single_data'][2]['value'], $product->getData('a_text_ins'));
-        $this->assertEquals($attributes['single_data'][3]['value'], $product->getData('a_select_ins'));
     }
 
     /**
@@ -581,23 +562,13 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
 
     /**
      * Test product attributes update in custom store view
+     *
+     * @magentoDataFixture Api/_fixture/Core/Store/store_on_new_website.php
      */
     public function testProductUpdateCustomStore()
     {
-        // Create test store view
-        $website = Mage::app()->getWebsite();
-        $this->_store = Mage::getModel('Mage_Core_Model_Store');
-        $this->_store->setData(
-            array(
-                'group_id' => $website->getDefaultGroupId(),
-                'name' => 'Test Store View',
-                'code' => 'test_store',
-                'is_active' => true,
-                'website_id' => $website->getId()
-            )
-        )->save();
-        // We need to reinit stores config as we are going to load product models later in this test
-        Mage::app()->reinitStores();
+        /** @var Mage_Core_Model_Store $store */
+        $store = Mage::registry('store_on_new_website');
 
         $data = require dirname(__FILE__) . '/_fixture/ProductData.php';
         // create product for test
@@ -608,13 +579,13 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
 
         // update product on test store
         $data['update_custom_store'] = array('productId' => $productId) + $data['update_custom_store'];
-        $data['update_custom_store']->store = $this->_store->getCode();
+        $data['update_custom_store']['store'] = $store->getCode();
         $isOk = Magento_Test_Helper_Api::call($this, 'catalogProductUpdate', $data['update_custom_store']);
         $this->assertTrue($isOk, 'Can not update product on test store');
 
         // Load product in test store
         $product = Mage::getModel('Mage_Catalog_Model_Product');
-        $product->setStoreId($this->_store->getId())->load($productId);
+        $product->setStoreId($store->getId())->load($productId);
         $this->assertNotNull($product->getId());
         $this->assertEquals(
             $data['update_custom_store']['productData']->name,
@@ -643,7 +614,7 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
 
         // Load product in test store
         $productTestStore = Mage::getModel('Mage_Catalog_Model_Product');
-        $productTestStore->setStoreId($this->_store->getId())->load($productId);
+        $productTestStore->setStoreId($store->getId())->load($productId);
         $this->assertEquals(
             $data['update_default_store']['productData']->description,
             $productTestStore->getDescription(),

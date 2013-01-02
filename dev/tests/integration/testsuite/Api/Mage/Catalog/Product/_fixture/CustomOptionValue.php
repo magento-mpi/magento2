@@ -15,10 +15,7 @@ $productData['name'] = $productData['name'] . ' ' . mt_rand(1000, 9999);
 
 $product = Mage::getModel('Mage_Catalog_Model_Product');
 $product->setData($productData)->save();
-Mage::register(
-    'productData',
-    $product
-);
+Mage::register('productData', $product);
 
 $customOptionApi = Mage::getModel('Mage_Catalog_Model_Product_Option_Api');
 $data = Magento_Test_Helper_Api::simpleXmlToArray($fixture->fixtureCustomOption);

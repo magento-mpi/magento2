@@ -21,4 +21,4 @@ $product = Mage::getModel('Mage_Catalog_Model_Product')->load($product->getId())
 $product->setStoreId(Mage::registry('store')->getId())
     ->setWebsiteIds($websites)
     ->save();
-PHPUnit_Framework_TestCase::setFixture('product_simple', $product);
+Mage::register('product_simple', $product);

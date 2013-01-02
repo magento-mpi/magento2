@@ -34,6 +34,6 @@ $order = $quoteService->submitOrder()
     ->place()
     ->save();
 
-PHPUnit_Framework_TestCase::setFixture('products', array($product1, $product2));
-PHPUnit_Framework_TestCase::setFixture('quote', $quoteFixture);
-PHPUnit_Framework_TestCase::setFixture('order', Mage::getModel('Mage_Sales_Model_Order')->load($order->getId()));
+Mage::register('products', array($product1, $product2));
+Mage::register('quote', $quoteFixture);
+Mage::register('order', Mage::getModel('Mage_Sales_Model_Order')->load($order->getId()));

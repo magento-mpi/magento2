@@ -20,6 +20,7 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
      */
     public function testCustomOptionCRUD()
     {
+        $this->markTestSkipped("Skipped due to bug MAGETWO-5273.");
         $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOption.xml');
         $customOptions = Magento_Test_Helper_Api::simpleXmlToArray($customOptionFixture->CustomOptionsToAdd);
         $store = (string)$customOptionFixture->store;
@@ -143,8 +144,6 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
 
     /**
      * Product Custom Option ::types() method test
-     *
-     * @depends testCustomOptionCRUD
      */
     public function testCustomOptionTypes()
     {
@@ -185,8 +184,6 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
 
     /**
      * Test option add exception: product_not_exists
-     *
-     * @depends testCustomOptionCRUD
      */
     public function testCustomOptionAddExceptionProductNotExists()
     {
@@ -212,8 +209,6 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
 
     /**
      * Test option add without additional fields exception: invalid_data
-     *
-     * @depends testCustomOptionCRUD
      */
     public function testCustomOptionAddExceptionAdditionalFieldsNotSet()
     {
@@ -234,8 +229,6 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
 
     /**
      * Test option date_time add with store id exception: store_not_exists
-     *
-     * @depends testCustomOptionCRUD
      */
     public function testCustomOptionDateTimeAddExceptionStoreNotExist()
     {
@@ -263,8 +256,6 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
 
     /**
      * Test product custom options list exception: product_not_exists
-     *
-     * @depends testCustomOptionCRUD
      */
     public function testCustomOptionListExceptionProductNotExists()
     {
@@ -284,8 +275,6 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
 
     /**
      * Test product custom options list exception: store_not_exists
-     *
-     * @depends testCustomOptionCRUD
      */
     public function testCustomOptionListExceptionStoreNotExists()
     {
@@ -306,7 +295,6 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
      * Test option add with invalid type
      *
      * @expectedException SoapFault
-     * @depends testCustomOptionCRUD
      */
     public function testCustomOptionUpdateExceptionInvalidType()
     {
@@ -317,10 +305,10 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
         );
         $option = reset(self::$createdOptionAfter);
 
-        $toUpdateValues = $customOptionsToUpdate[$option['type']];
+        $toUpdateValues = $customOptionsToUpdate[$option->type];
         $toUpdateValues['type'] = 'unknown_type';
 
-        $this->_updateOption($option['option_id'], $toUpdateValues);
+        $this->_updateOption($option->option_id, $toUpdateValues);
     }
 
     /**
@@ -337,7 +325,7 @@ class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCa
                 $this,
                 'catalogProductCustomOptionRemove',
                 array(
-                    'optionId' => $option['option_id']
+                    'optionId' => $option->option_id
                 )
             );
             $this->assertTrue((bool)$removeOptionResult);

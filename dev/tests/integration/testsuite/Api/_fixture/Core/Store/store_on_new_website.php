@@ -15,10 +15,9 @@ if (!Mage::registry('website')) {
         )
     );
     $website->save();
-    PHPUnit_Framework_TestCase::setFixture(
+    Mage::register(
         'website',
-        $website,
-        PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_DISABLED
+        $website
     );
 }
 
@@ -33,10 +32,9 @@ if (!Mage::registry('store_group')) {
             'root_category_id' => $defaultCategoryId
         )
     )->save();
-    PHPUnit_Framework_TestCase::setFixture(
+    Mage::register(
         'store_group',
-        $storeGroup,
-        PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_DISABLED
+        $storeGroup
     );
 }
 
@@ -51,10 +49,9 @@ if (!Mage::registry('store_on_new_website')) {
             'website_id' => Mage::registry('website')->getId()
         )
     )->save();
-    PHPUnit_Framework_TestCase::setFixture(
+    Mage::register(
         'store_on_new_website',
-        $store,
-        PHPUnit_Framework_TestCase::AUTO_TEAR_DOWN_DISABLED
+        $store
     );
     Mage::app()->reinitStores();
 }

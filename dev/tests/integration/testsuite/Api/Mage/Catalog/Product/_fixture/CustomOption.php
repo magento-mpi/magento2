@@ -15,7 +15,4 @@ $productData['name'] = $productData['name'] . ' ' . mt_rand(1000, 9999);
 
 $product = Mage::getModel('Mage_Catalog_Model_Product');
 $product->setData($productData)->setStoreId(1)->save();
-Mage::register(
-    'productData',
-    $product
-);
+Mage::register('productData', $product);

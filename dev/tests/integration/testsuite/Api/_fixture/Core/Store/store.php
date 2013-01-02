@@ -11,6 +11,6 @@ if (!Mage::registry('store')) {
     /** @var $storeFixture Mage_Core_Model_Store */
     $storeFixture = require '_fixture/_block/Core/Store.php';
     $storeFixture->setWebsiteId($defaultWebsite->getId())->setGroupId($defaultWebsite->getDefaultGroupId())->save();
-    PHPUnit_Framework_TestCase::setFixture('store', $storeFixture);
+    Mage::register('store', $storeFixture);
     Mage::app()->reinitStores();
 }

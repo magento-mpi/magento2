@@ -13,10 +13,7 @@ $customerData['email'] = mt_rand(1000, 9999) . '.' . $customerData['email'];
 
 $customer = Mage::getModel('Mage_Customer_Model_Customer');
 $customer->setData($customerData)->save();
-Mage::register(
-    'customerData',
-    $customer
-);
+Mage::register('customerData', $customer);
 
 //Create new downloadable product
 $productData = Magento_Test_Helper_Api::simpleXmlToArray($fixture->product);
@@ -25,7 +22,4 @@ $productData['name'] = $productData['name'] . ' ' . mt_rand(1000, 9999);
 
 $product = Mage::getModel('Mage_Catalog_Model_Product');
 $product->setData($productData)->save();
-Mage::register(
-    'productData',
-    $product
-);
+Mage::register('productData', $product);
