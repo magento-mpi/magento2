@@ -430,7 +430,19 @@ report_review_product:
             4: Avg. Approved Rating
             5: Last Review
             6: Action
-
+#dataset for ui elements for Report Statistics grid
+report_statistics:
+    fieldset:
+        report_statistics_grid: tablename
+    button:
+        submit:
+    dropdown:
+        actions:
+    headers:
+            0: ' '
+            1: Report
+            2: Description
+            3: Updated At
 #dataset for ui elements for Newsletter Queue grid
 newsletter_queue:
     fieldset:

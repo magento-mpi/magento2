@@ -46,6 +46,7 @@ class Enterprice_Mage_Grid_UiElementsTest extends Core_Mage_Grid_UiElementsTest
             array('newsletter_queue'),
             array('manage_customer_address_attributes'),
             array('admin_action_log_archive'),
+            array('report_statistics'),
         );
     }
 }
