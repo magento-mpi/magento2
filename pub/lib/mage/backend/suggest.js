@@ -357,11 +357,6 @@
                     }
                 }
             });
-            this._on(this.dropdown, {
-                menuselect: function(e, ui) {
-                    this._addRecent(ui.item.data('item-data'));
-                }
-            });
         },
 
         /**
