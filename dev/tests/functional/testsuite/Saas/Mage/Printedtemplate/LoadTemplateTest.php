@@ -44,7 +44,6 @@ class Saas_Mage_Printedtemplate_LoadTemplateTest
             //Get value of Template Name field
             $actualTemplateName = $this->getElementsValue($this->_getControlXpath('field', 'template_name'), 'value');
             //Check that Template name is the same as expected
-            var_dump($actualTemplateName[0]);
             if ($actualTemplateName[0] != $originalTemplateName) {
                 $this->fail('Template is not loaded or has incorrect name');
             }
