@@ -50,7 +50,7 @@
         _destroy: function() {
             this.element.removeAttr('autocomplete').unwrap();
             this.dropdown.remove();
-            this._off("keydown keyup blur");
+            this._off(this.element, 'keydown keyup blur');
         },
 
         /**
