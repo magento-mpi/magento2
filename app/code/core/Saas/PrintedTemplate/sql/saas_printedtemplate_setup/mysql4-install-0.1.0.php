@@ -162,7 +162,7 @@ $itemTaxTable->setName($this->getTable('saas_printed_template_order_item_tax'))
     ->addForeignKey(
         'FK_SALES_ORDER_ITEM_TAX_ITEM_ID',
         'item_id',
-        $this->getTable('sales/order_item'),
+        $this->getTable('sales_flat_order_item'),
         'item_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE,
         Varien_Db_Ddl_Table::ACTION_CASCADE
@@ -215,7 +215,7 @@ $shippingTaxTable->setName(
     ->addForeignKey(
         'FK_SALES_ORDER_SHIPPING_TAX_ORDER_ID',
         'order_id',
-        $this->getTable('sales/order'),
+        $this->getTable('sales_flat_order'),
         'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE,
         Varien_Db_Ddl_Table::ACTION_CASCADE
