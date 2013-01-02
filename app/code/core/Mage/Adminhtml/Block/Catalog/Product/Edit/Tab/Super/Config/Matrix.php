@@ -128,7 +128,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
                     if (isset($configurableData[$key])) {
                         $attribute['values'] = array_merge(
                             isset($attribute['values']) ? $attribute['values'] : array(),
-                            isset($configurableData[$key]['values']) ? array_filter($configurableData[$key]['values']) : array()
+                            isset($configurableData[$key]['values'])
+                                ? array_filter($configurableData[$key]['values'])
+                                : array()
                         );
                     }
                 }
@@ -175,15 +177,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
      * @param string $code
      * @return string
      */
-    public function getAttributeClassName($code)
+    public function getAttributeFrontendClass($code)
     {
         /** @var $config Mage_Catalog_Model_Config */
         $config = Mage::getSingleton('Mage_Catalog_Model_Config');
-        /** @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
+        /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
         $attribute = $config->getAttribute(Mage_Catalog_Model_Product::ENTITY, $code);
-        if (!$attribute instanceof Mage_Eav_Model_Entity_Attribute_Abstract) {
-            return '';
-        }
-        return $attribute->getFrontend()->getClass();
+        return $attribute instanceof Mage_Eav_Model_Entity_Attribute_Abstract
+            ? $attribute->getFrontend()->getClass()
+            : '';
     }
 }

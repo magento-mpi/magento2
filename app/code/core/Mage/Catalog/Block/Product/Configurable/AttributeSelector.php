@@ -44,9 +44,9 @@ class Mage_Catalog_Block_Product_Configurable_AttributeSelector extends Mage_Bac
             /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
             if (!$attribute->getApplyTo() || count(array_diff($types, $attribute->getApplyTo())) === 0) {
                 $result[$id] = array(
-                    'id' => $attribute->getId(),
-                    'label' => $attribute->getFrontendLabel(),
-                    'code' => $attribute->getAttributeCode(),
+                    'id'      => $attribute->getId(),
+                    'label'   => $attribute->getFrontendLabel(),
+                    'code'    => $attribute->getAttributeCode(),
                     'options' => $attribute->getSource()->getAllOptions(false)
                 );
             }

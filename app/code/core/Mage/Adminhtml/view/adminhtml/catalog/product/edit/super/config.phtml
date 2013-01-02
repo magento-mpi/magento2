@@ -69,7 +69,7 @@ jQuery(function($) {
         } else {
             $('#change-attribute-set-button').removeAttr('disabled').removeClass('disabled');
             $('#qty').removeAttr('disabled');
-            $variationsContainer.find(".attribute-container").remove();
+            $variationsContainer.find('.attribute-container').remove();
             $variationsContainer.find('.attribute-code').each(function() {
                 $('#attribute-' + $(this).val() + '-container select').removeAttr('disabled');
             });
@@ -86,63 +86,61 @@ jQuery(function($) {
         resizable:true
     });
 
-    $('#product-variations-matrix').on('generate', function(e, data) {
-        $.ajax({
-            url: data.url,
-            data: $("#product-edit-form").serialize(),
-            dataType: 'html',
-            context: $variationsContainer,
-            showLoader: true
-        }).success(function(data) {
-            $('#product-variations-matrix').html(data);
-        });
-    });
-    $('#product-variations-matrix').on('disable', function() {
-        $(this).html('');
-    });
-    $('#product-variations-matrix').on('click', 'input.associated-matrix-product-id', function() {
-        $(this).closest('tr').find('input[type!=checkbox]').prop('disabled', !$(this).is(':checked'));
-    });
-
-    $('#product-variations-matrix').on('click', '.choose-product', function(event) {
-        event.preventDefault();
-        var grid = window.<?php echo $this->getGridJsObject() ?>;
-        var $button = $(this);
-        var attributeIds = [];
-        $variationsContainer.find("input[name='attributes[]']").each(function () {
-            attributeIds.push($(this).val());
+    $('#product-variations-matrix')
+        .on('generate', function(event, data) {
+            $.ajax({
+                url: data.url,
+                data: $('#product-edit-form').serialize(),
+                dataType: 'html',
+                context: $variationsContainer,
+                showLoader: true
+            }).success(function(data) {
+                $('#product-variations-matrix').html(data);
+            });
         })
+        .on('disable', function() {
+            $(this).html('');
+        })
+        .on('click', 'input.associated-matrix-product-id', function() {
+            $(this).closest('tr').find('input[type!=checkbox]').prop('disabled', !$(this).is(':checked'));
+        })
+        .on('click', '.choose-product', function(event) {
+            event.preventDefault();
+            var grid = window.<?php echo $this->getGridJsObject() ?>;
+            var $button = $(this);
+            var attributeIds = [];
+            $variationsContainer.find("input[name='attributes[]']").each(function () {
+                attributeIds.push($(this).val());
+            });
 
-        grid.reloadParams = {
-            'filter': $button.data('attributes'),
-            'attributes[]': attributeIds
-        };
-        grid.reload(null, function() {
-            $gridDialog.dialog('open')
+            grid.reloadParams = {
+                'filter': $button.data('attributes'),
+                'attributes[]': attributeIds
+            };
+            grid.reload(null, function() {
+                $gridDialog.dialog('open')
+            });
+
+            grid.rowClickCallback = function(grid, event) {
+                if (!this.rows || !this.rows.length) {
+                    return;
+                }
+                var $gridRow = $(event.target).parents('tr'),
+                    associatedClass = '.associated-product-';
+                if ($gridRow.find(associatedClass + 'id').length) {
+                    var $matrixRow = $button.parents('tr'),
+                        matrixClass = '.associated-matrix-product-';
+                    $.each('name,sku,qty,weight,id'.split(','), function () {
+                        var target = $matrixRow.find(matrixClass + this),
+                            value = $.trim($gridRow.find(associatedClass + this).text()),
+                            button = target.find('button.choose-product');
+                        target[target.is('input[type=checkbox]') ? 'val' : 'html'](value).append(button);
+                    });
+                    $matrixRow.find(matrixClass + 'id').attr('checked', true).removeAttr('disabled');
+                }
+                $gridDialog.dialog('close');
+            };
         });
-
-        grid.rowClickCallback = function(grid, event) {
-            if (!this.rows || !this.rows.length) {
-                return;
-            }
-            var $matrixRow = $button.parents('tr');
-            var $gridRow = $(event.target).parents('tr');
-            var matrixClass = '.associated-matrix-product-';
-            var associatedClass = '.associated-product-';
-            var productFields = ['name', 'sku', 'qty', 'weight', 'id'];
-
-            if ($gridRow.find(associatedClass + 'id').length) {
-                $.each(productFields, function () {
-                    var target = $matrixRow.find(matrixClass + this),
-                        value = $.trim($gridRow.find(associatedClass + this).text()),
-                        button = target.find('button.choose-product');
-                    target[target.is('input[type=checkbox]') ? 'val' : 'html'](value).append(button);
-                });
-                $matrixRow.find(matrixClass + 'id').attr('checked', true).removeAttr('disabled');
-            }
-            $gridDialog.dialog('close');
-        };
-    });
 });
 </script>
 </div>

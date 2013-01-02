@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 (function($) {
-    $.widget("mage.variationsAttributes", {
+    $.widget('mage.variationsAttributes', {
         //Set up the widget
         _create: function () {
             this.element.sortable({
@@ -19,31 +19,39 @@
                     })
                 }
             });
-            this.element.on('click change', 'input.price-variation', function () {
-                var $this = $(this),
-                    $block = $this.closest('.entry-edit');
 
+            var havePriceVariationsCheckboxHandler = function (event) {
+                var $this = $(event.target),
+                    $block = $this.closest('.entry-edit');
                 if ($this.is(':checked')) {
                     $block.addClass('have-price');
                 } else {
                     $block.removeClass('have-price');
                     $block.find('.pricing-value').val('');
                 }
-            });
-            this.element.on('click', '.remove', function () {
-                var $entity = $(this).closest('.entry-edit');
-                $('#attribute-' + $entity.find('.attribute-code').val() + '-container select').removeAttr('disabled');
-                $entity.remove();
-            });
-            this.element.on('click', '.toggle', function () {
-                $(this).parent().next('fieldset').toggle();
-            });
-            this.element.on('add', function (event, attribute) {
-                $('#attribute-template').tmpl({attribute: attribute}).appendTo($(this));
-                $('#attribute-' + attribute.code + '-container select').attr('disabled', true);
-            });
-            this.element.on('click change', '.use-default', function () {
-                $(this).closest('.fieldset-legend').find('.store-label').prop('disabled', $(this).is(':checked'));
+            };
+            var useDefaultCheckboxHandler = function (event) {
+                var $this = $(event.target);
+                $this.closest('.fieldset-legend').find('.store-label').prop('disabled', $this.is(':checked'));
+            };
+
+            this._on({
+                'click input.price-variation': havePriceVariationsCheckboxHandler,
+                'change input.price-variation': havePriceVariationsCheckboxHandler,
+                'click .remove':  function (event) {
+                    var $entity = $(event.target).closest('.entry-edit');
+                    $('#attribute-' + $entity.find('.attribute-code').val() + '-container select').removeAttr('disabled');
+                    $entity.remove();
+                },
+                'click .toggle': function (event) {
+                    $(event.target).parent().next('fieldset').toggle();
+                },
+                'add': function (event, attribute) {
+                    $('#attribute-template').tmpl({attribute: attribute}).appendTo($(event.target));
+                    $('#attribute-' + attribute.code + '-container select').attr('disabled', true);
+                },
+                'click .use-default': useDefaultCheckboxHandler,
+                'change .use-default': useDefaultCheckboxHandler
             });
         }
     });
