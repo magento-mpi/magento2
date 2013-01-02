@@ -184,17 +184,17 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_Entity extends Saas_PrintedTe
                         'tax_real_percent' => 0,
                     ));
                     if ($tax->getIsTaxAfterDiscount()) {
-                        $itemInfo[$id]->row_total -= $tax->getDiscountAmount();
+                        $itemInfo[$id]->setRowTotal($itemInfo[$id]->getRowTotal() - $tax->getDiscountAmount());
                     }
                 }
 
-                $itemInfo[$id]->tax_real_percent += $tax->getRealPercent() / 100.;
+                $itemInfo[$id]->setTaxRealPercent($itemInfo[$id]->getTaxRealPercent() + $tax->getRealPercent() / 100.);
 
                 // add percentages to compund ID object
                 if ($prev && $prev->getItemId() == $tax->getItemId() && $prev->getPriority() == $tax->getPriority()) {
-                    $itemInfo[$id]->compound_id->addAnd($tax->getPercent());
-                } else {
-                    $itemInfo[$id]->compound_id->addAfter($tax->getPercent());
+                    $itemInfo[$id]->getCompoundId()->addAnd($tax->getPercent());
+                } else { //var_dump($itemInfo[$id]);die();
+                    $itemInfo[$id]->getCompoundId()->addAfter($tax->getPercent());
                 }
                 $prev = $tax;
             }
@@ -203,23 +203,28 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_Entity extends Saas_PrintedTe
         // Group tax info by compound ID
         $taxes = array();
         foreach ($itemInfo as $id => $info) {
-            $cid = (string)$info->compound_id;
+            $cid = (string)$info->getCompoundId();
             if (!isset($taxes[$cid])) {
                 $taxes[$cid] = new Varien_Object(array(
-                    'compound_id'  => $info->compound_id,
+                    'compound_id'  => $info->getCompoundId(),
                     'tax_amount'   => 0,
                     'total_amount' => 0,
                     'row_total_without_discount'  => 0,
                     'tax_amount_without_discount' => 0,
                 ));
             }
-            $taxes[$cid]->total_amount += $info->row_total;
-            $taxes[$cid]->tax_amount += $info->tax_amount;
+            $taxes[$cid]->setTotalAmount($taxes[$cid]->getTotalAmount() + $info->getRowTotal());
+            $taxes[$cid]->setTaxAmount($taxes[$cid]->getTaxAmount() + $info->getTaxAmount());
 
             // calculate row total and tax amount without discount taxes, it is a special values for French invoice
-            $discountExcTax = $info->discount / (1 + $info->tax_real_percent);
-            $taxes[$cid]->total_amount_without_discount += $info->row_total - $discountExcTax;
-            $taxes[$cid]->tax_amount_without_discount += $info->tax_amount - $discountExcTax * $info->tax_real_percent;
+            $discountExcTax = $info->getDiscount() / (1 + $info->getTaxRealPercent());
+            $taxes[$cid]->setTotalAmountWithoutDiscount(
+                $taxes[$cid]->getTotalAmountWithoutDiscount() + $info->getRowTotal() - $discountExcTax
+            );
+            $taxes[$cid]->setTaxAmountWithoutDiscount(
+                $taxes[$cid]->getTaxAmountWithoutDiscount() + $info->getTaxAmount()
+                    - $discountExcTax * $info->getTaxRealPercent()
+            );
         }
 
         // Wrap with variable
@@ -242,13 +247,13 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_Entity extends Saas_PrintedTe
         $summary = new Varien_Object;
         foreach ($taxes as $tax) {
             if ($tax instanceof Varien_Object) {
-                $summary->total_amount += $tax->total_amount;
-                $summary->base_total_amount += $tax->base_total_amount;
-                $summary->tax_amount += $tax->tax_amount;
-                $summary->base_tax_amount += $tax->base_tax_amount;
-                $summary->percent = $tax->percent;
-                $summary->order_id = $tax->order_id;
-                $summary->order = $tax->order;
+                $summary->setTotalAmount($summary->getTotalAmount() + $tax->getTotalAmount());
+                $summary->setBaseTotalAmount($summary->getBaseTotalAmount() + $tax->getBaseTotalAmount());
+                $summary->setTaxAmount($summary->getTaxAmount() + $tax->getTaxAmount());
+                $summary->setBaseTaxAmount($summary->getBaseTaxAmount() + $tax->getBaseTaxAmount());
+                $summary->percent = $tax->getPercent();
+                $summary->order_id = $tax->getOrderId();
+                $summary->order = $tax->getOrder();
             }
         }
 
