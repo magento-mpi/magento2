@@ -75,23 +75,6 @@ PanelTest.prototype.testBind = function() {
 
     panel.vde_panel('destroy');
 };
-PanelTest.prototype.testOnSwitchMode = function() {
-    /*:DOC += <div id="panel"></div> */
-    var panel = jQuery('#panel').vde_panel();
-
-    var data = {
-        mode_url: 'test_url'
-    };
-
-    jQuery(window).on('beforeunload', function(e) {
-        e.stopImmediatePropagation();
-        assertEquals(data.mode_url, document.location);
-    });
-
-    jQuery('#panel').data("vde_panel")._onSwitchMode(null, data);
-
-    panel.vde_panel('destroy');
-};
 PanelTest.prototype.testSaveTemporaryLayoutChanges = function() {
     /*:DOC +=
         <div id="panel"></div>
