@@ -102,12 +102,8 @@ abstract class Saas_PrintedTemplate_Block_Widget_AbstractGrid
             foreach ($this->_styleMap[$key] as $cssProperty => $widgetProperity) {
                 if (is_array($widgetProperity)) {
                     list ($property, $converter) = $widgetProperity;
-                    $converter = array($this, '_convertCss' . uc_words($converter));
-                    try {
-                        $cssValue = call_user_func($converter, $this->getData($property));
-                    } catch (Varien_Exception $e) {
-                        $cssValue = $this->getData($property);
-                    }
+                    $converterMethod = '_convertCss' . uc_words($converter, '');
+                    $cssValue = $this->$converterMethod($this->_getData($property));
                 } else {
                     $cssValue = $this->_getData($widgetProperity);
                 }
