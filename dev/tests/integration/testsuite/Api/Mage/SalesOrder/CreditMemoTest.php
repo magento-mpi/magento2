@@ -5,17 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
+class SalesOrder_CreditMemoTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * Remove all created models
-     */
-    protected function tearDown()
-    {
-        $this->_restoreIncrementIdPrefix();
-        parent::tearDown();
-    }
-
     /**
      * Test sales order credit memo list, info, create, cancel
      *
@@ -207,7 +198,7 @@ class SalesOrder_CreditMemoTest extends SalesOrder_AbstractTest
     {
         // Set creditmemo increment id prefix
         $prefix = '01';
-        $this->_setIncrementIdPrefix('creditmemo', $prefix);
+        Magento_Test_Helper_Api::setIncrementIdPrefix('creditmemo', $prefix);
 
         $order = Mage::registry('order2');
 

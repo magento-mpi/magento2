@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class SalesOrder_InvoiceTest extends SalesOrder_AbstractTest
+class SalesOrder_InvoiceTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test create and read created invoice
@@ -60,7 +60,7 @@ class SalesOrder_InvoiceTest extends SalesOrder_AbstractTest
 
         // Set invoice increment id prefix
         $prefix = '01';
-        $this->_setIncrementIdPrefix('invoice', $prefix);
+        Magento_Test_Helper_Api::setIncrementIdPrefix('invoice', $prefix);
 
         // Create new invoice
         $newInvoiceId = Magento_Test_Helper_Api::call(

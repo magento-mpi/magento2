@@ -8,7 +8,7 @@
 /**
  * @magentoDataFixture Api/Mage/SalesOrder/_fixture/shipment.php
  */
-class SalesOrder_ShipmentTest extends SalesOrder_AbstractTest
+class SalesOrder_ShipmentTest extends PHPUnit_Framework_TestCase
 {
     public function testCRUD()
     {
@@ -61,7 +61,7 @@ class SalesOrder_ShipmentTest extends SalesOrder_AbstractTest
 
         // Set shipping increment id prefix
         $prefix = '01';
-        $this->_setIncrementIdPrefix('shipment', $prefix);
+        Magento_Test_Helper_Api::setIncrementIdPrefix('shipment', $prefix);
 
         // Create new shipment
         $newShipmentId = Magento_Test_Helper_Api::call(

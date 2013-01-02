@@ -26,7 +26,5 @@ $product->setTypeId('simple')
     )
 )
     ->save();
-Mage::register(
-    'product_simple',
-    $product
-);
+
+return $product;

@@ -19,9 +19,7 @@ require_once 'customer_address.php';
 $customerAddress = Mage::registry('creditmemo/customer_address');
 
 //Set up simple product fixture
-require_once 'product_simple.php';
-/** @var $product Mage_Catalog_Model_Product */
-$product = Mage::registry('product_simple');
+$product = require 'product_simple.php';
 
 //Set customer default shipping and billing address
 $customer->addAddress($customerAddress);
@@ -59,8 +57,3 @@ Mage::register(
 $quoteService = new Mage_Sales_Model_Service_Quote($quote);
 //Set payment method to check/money order
 $quoteService->getQuote()->getPayment()->setMethod('checkmo');
-
-Mage::register(
-    'order',
-    $order
-);

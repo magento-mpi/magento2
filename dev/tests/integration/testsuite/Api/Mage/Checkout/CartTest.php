@@ -91,27 +91,6 @@ class Mage_Checkout_CartTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-        Mage::register('isSecureArea', true);
-
-        $this->_product->delete();
-        $this->_quote->delete();
-        if ($this->_salesRule instanceof Mage_SalesRule_Model_Rule) {
-            $this->_salesRule->delete();
-        }
-
-        Mage::unregister('isSecureArea');
-
-        $this->_restoreIncrementIdPrefix();
-        PHPUnit_Framework_TestCase::deleteFixture('customer', true);
-        parent::tearDown();
-    }
-
-    /**
      * Test for product add to shopping cart
      */
     public function testProductAddToCart()
@@ -162,14 +141,7 @@ class Mage_Checkout_CartTest extends PHPUnit_Framework_TestCase
             $this->fail('Can not find custom option ID that been created');
         }
 
-        // Add product with custom option to cart via API
-        if (TESTS_WEBSERVICE_TYPE == PHPUnit_Framework_TestCase::TYPE_SOAP
-            || TESTS_WEBSERVICE_TYPE == PHPUnit_Framework_TestCase::TYPE_SOAP_WSI
-        ) { // use associative array for SOAP v2
-            $customOptionsData = array(array('key' => $customOptionId, 'value' => $customOptionValue));
-        } else { // use numeric array otherwise
-            $customOptionsData = array($customOptionId => $customOptionValue);
-        }
+        $customOptionsData = array($customOptionId => $customOptionValue);
         $soapResult = Magento_Test_Helper_Api::call(
             $this,
             'shoppingCartProductAdd',
@@ -281,12 +253,13 @@ class Mage_Checkout_CartTest extends PHPUnit_Framework_TestCase
      * Test for product list from shopping cart API method
      *
      * @magentoDataFixture Api/Mage/Checkout/_fixture/order.php
+     * @magentoAppIsolation enabled
      */
     public function testCreateOrder()
     {
         // Set order increment id prefix
         $prefix = '01';
-        $this->_setIncrementIdPrefix('order', $prefix);
+        Magento_Test_Helper_Api::setIncrementIdPrefix('order', $prefix);
 
         $quote = Mage::registry('quote');
 
@@ -306,6 +279,7 @@ class Mage_Checkout_CartTest extends PHPUnit_Framework_TestCase
      * Test order creation with payment method
      *
      * @magentoDataFixture Api/Mage/Checkout/_fixture/order_with_payment_method.php
+     * @magentoAppIsolation enabled
      */
     public function testCreateOrderWithPayment()
     {
@@ -327,7 +301,7 @@ class Mage_Checkout_CartTest extends PHPUnit_Framework_TestCase
                 'quoteId' => $quote->getId(),
                 'store' => null,
                 'agreements' => null,
-                'paymentData' => $paymentMethod
+                'paymentData' => (object)$paymentMethod
             )
         );
 
@@ -341,6 +315,7 @@ class Mage_Checkout_CartTest extends PHPUnit_Framework_TestCase
      * Test order creation with not available payment method
      *
      * @magentoDataFixture Api/Mage/Checkout/_fixture/order_with_payment_method.php
+     * @magentoAppIsolation enabled
      */
     public function testCreateOrderWithNotAvailablePayment()
     {
@@ -365,7 +340,7 @@ class Mage_Checkout_CartTest extends PHPUnit_Framework_TestCase
                     'quoteId' => $quote->getId(),
                     'store' => null,
                     'agreements' => null,
-                    'paymentData' => $paymentMethod
+                    'paymentData' => (object)$paymentMethod
                 )
             );
             $this->fail('Expected error exception was not raised.');
@@ -378,6 +353,7 @@ class Mage_Checkout_CartTest extends PHPUnit_Framework_TestCase
      * Test order creation with payment method data empty
      *
      * @magentoDataFixture Api/Mage/Checkout/_fixture/order_with_payment_method.php
+     * @magentoAppIsolation enabled
      */
     public function testCreateOrderWithEmptyPaymentData()
     {
@@ -405,6 +381,7 @@ class Mage_Checkout_CartTest extends PHPUnit_Framework_TestCase
      * Test order creation with invalid payment method data
      *
      * @magentoDataFixture Api/Mage/Checkout/_fixture/order_with_payment_method.php
+     * @magentoAppIsolation enabled
      */
     public function testCreateOrderWithInvalidPaymentData()
     {
@@ -428,7 +405,7 @@ class Mage_Checkout_CartTest extends PHPUnit_Framework_TestCase
                     'quoteId' => $quote->getId(),
                     'store' => null,
                     'agreements' => null,
-                    'paymentData' => $paymentMethod
+                    'paymentData' => (object)$paymentMethod
                 )
             );
             $this->fail('Expected error exception was not raised.');
@@ -449,45 +426,5 @@ class Mage_Checkout_CartTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals($expectedCode, $actualCode);
         $this->assertEquals($expectedMessage, $actualMessage);
-    }
-
-    /**
-     * Restore increment ID prefix in entity model.
-     */
-    protected function _restoreIncrementIdPrefix()
-    {
-        $entityStoreModel = self::$_entityStore;
-        if ($entityStoreModel instanceof Mage_Eav_Model_Entity_Store) {
-            $entityStoreModel->loadByEntityStore($entityStoreModel->getEntityTypeId(), $entityStoreModel->getStoreId());
-            $entityStoreModel->setIncrementPrefix(self::$_origData['increment_prefix'])
-                ->setIncrementLastId(++self::$_origData['increment_last_id'])
-                ->save();
-        }
-    }
-
-    /**
-     * Set increment id prefix in entity model.
-     *
-     * @param string $entityType
-     * @param string $prefix
-     */
-    protected function _setIncrementIdPrefix($entityType, $prefix)
-    {
-        $website = Mage::app()->getWebsite();
-        $storeId = $website->getDefaultStore()->getId();
-        $entityTypeModel = Mage::getModel('Mage_Eav_Model_Entity_Type')->loadByCode($entityType);
-        /** @var Mage_Eav_Model_Entity_Store $entityStore */
-        $entityStore = Mage::getModel('Mage_Eav_Model_Entity_Store')->loadByEntityStore(
-            $entityTypeModel->getId(),
-            $storeId
-        );
-        $origPrefix = $entityStore->getIncrementPrefix() == null ? $storeId : $entityStore->getIncrementPrefix();
-        self::$_origData['increment_prefix'] = $origPrefix;
-        self::$_origData['increment_last_id'] = $entityStore->getIncrementLastId();
-        $entityStore->setEntityTypeId($entityTypeModel->getId());
-        $entityStore->setStoreId($storeId);
-        $entityStore->setIncrementPrefix($prefix);
-        $entityStore->save();
-        self::$_entityStore = $entityStore;
     }
 }
