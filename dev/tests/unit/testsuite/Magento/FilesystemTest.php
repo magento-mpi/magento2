@@ -62,27 +62,41 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider twoFilesOperationsDataProvider
+     * @dataProvider twoFilesOperationsValidDataProvider
      * @param string $method
+     * @param string $source
+     * @param string $target
+     * @param string|null $targetDir
      */
-    public function testTwoFilesOperation($method)
+    public function testTwoFilesOperation($method, $source, $target, $targetDir = null)
     {
-        $source = '/tmp/path01';
-        $destination = '/tmp/path02';
         $adapterMock = $this->_getDefaultAdapterMock();
         $adapterMock->expects($this->once())
             ->method($method)
-            ->with($source, $destination);
+            ->with($source, $target);
 
         $filesystem = new Magento_Filesystem($adapterMock);
         $filesystem->setWorkingDirectory('/tmp');
-        $filesystem->$method($source, $destination);
+        $filesystem->$method($source, $target, $targetDir);
+    }
+
+    /**
+     * @return array
+     */
+    public function twoFilesOperationsValidDataProvider()
+    {
+        return array(
+            'copy both tmp' => array('copy', '/tmp/path/file001.log', '/tmp/path/file001.bak'),
+            'move both tmp' => array('copy', '/tmp/path/file001.log', '/tmp/path/file001.bak'),
+            'copy different' => array('copy', '/tmp/path/file001.log', '/storage/file001.bak', '/storage'),
+            'move different' => array('copy', '/tmp/path/file001.log', '/storage/file001.bak', '/storage'),
+        );
     }
 
     /**
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage Invalid path
-     * @dataProvider twoFilesOperationsDataProvider
+     * @dataProvider twoFilesOperationsInvalidDataProvider
      * @param string $method
      * @param string $source
      * @param string $destination
@@ -101,7 +115,7 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function twoFilesOperationsDataProvider()
+    public function twoFilesOperationsInvalidDataProvider()
     {
         return array(
             'copy first path invalid' => array('copy', '/tmp/../etc/passwd', '/tmp/path001'),
@@ -110,6 +124,8 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
             'rename first path invalid' => array('rename', '/tmp/../etc/passwd', '/tmp/path001'),
             'rename second path invalid' => array('rename', '/tmp/uploaded.txt', '/tmp/../etc/passwd'),
             'rename both path invalid' => array('rename', '/tmp/../etc/passwd', '/tmp/../dev/null'),
+            'copy target path invalid' => array('copy', '/tmp/passwd', '/etc/../dev/null', '/etc'),
+            'rename target path invalid' => array('rename', '/tmp/passwd', '/etc/../dev/null', '/etc'),
         );
     }
 
