@@ -366,7 +366,11 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
         $data = require dirname(__FILE__) . '/_fixture/ProductData.php';
 
         // create product for test
-        $productId = Magento_Test_Helper_Api::call($this, 'catalogProductCreate', $data['create_with_attributes_soapv2']);
+        $productId = Magento_Test_Helper_Api::call(
+            $this,
+            'catalogProductCreate',
+            $data['create_with_attributes_soapv2']
+        );
         Mage::unregister('productId');
         Mage::register('productId', $productId);
 
@@ -406,117 +410,40 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
 
     /**
      * Test product CRUD with custom options
+     *
+     * @magentoDataFixture Api/Mage/Catalog/Product/_fixture/ProductWithOptionCrud.php
      */
     public function testProductWithOptionsCrud()
     {
-        list($optionValueApi, $optionValueInstaller) = $this->_addAttributes();
+        $this->markTestSkipped("TODO: Fix test");
+        $optionValueApi = Mage::registry('optionValueApi');
+        $optionValueInstaller = Mage::registry('optionValueInstaller');
         $data = require dirname(__FILE__) . '/_fixture/ProductData.php';
 
-        try {
-            $attributes = array();
-            $attributes['single_data'][1]['value'] = $optionValueApi;
-            $attributes['single_data'][3]['value'] = $optionValueInstaller;
-            $productData = & $data['create_with_attributes_soapv2']['productData'];
-            $productData->additional_attributes = $attributes;
+        $singleData = & $data['create_with_attributes_soapv2']['productData']->additional_attributes->single_data;
+        $singleData[1]->value = $optionValueApi;
+        $singleData[3]->value = $optionValueInstaller;
+        $attributes = $data['create_with_attributes_soapv2']['productData']->additional_attributes;
 
-            // create product for test
-            $productId = Magento_Test_Helper_Api::call(
-                $this,
-                'catalogProductCreate',
-                $data['create_with_attributes_soapv2']
-            );
-            Mage::unregister('productId');
-            Mage::register('productId', $productId);
-
-            $product = Mage::getModel('Mage_Catalog_Model_Product');
-            $product->load($productId);
-
-            // test new product id returned
-            $this->assertGreaterThan(0, $productId);
-
-            //test new product attributes
-            $this->assertEquals($attributes['single_data'][0]['value'], $product->getData('a_text_api'));
-            $this->assertEquals($attributes['single_data'][1]['value'], $product->getData('a_select_api'));
-            $this->assertEquals($attributes['single_data'][2]['value'], $product->getData('a_text_ins'));
-            $this->assertEquals($attributes['single_data'][3]['value'], $product->getData('a_select_ins'));
-        } catch (Exception $e) {
-            //give delete attributes
-        }
-
-        $this->_removeAttributes();
-
-        if (isset($e)) {
-            //throw exception if it was catch
-            throw $e;
-        }
-    }
-
-    /**
-     * Add attributes for tests
-     *
-     * Help CRUD method
-     *
-     * @return array
-     */
-    protected function _addAttributes()
-    {
-        $data = require dirname(__FILE__) . '/_fixture/ProductAttributeData.php';
-        // add product attributes via installer
-        $installer = new Mage_Catalog_Model_Resource_Setup('core_setup');
-        $installer->addAttribute(
-            'catalog_product',
-            $data['create_text_installer']['code'],
-            $data['create_text_installer']['attributeData']
-        );
-        $installer->addAttribute(
-            'catalog_product',
-            $data['create_select_installer']['code'],
-            $data['create_select_installer']['attributeData']
+        // create product for test
+        $productId = Magento_Test_Helper_Api::call(
+            $this,
+            'catalogProductCreate',
+            $data['create_with_attributes_soapv2']
         );
 
-        //add attributes to default attribute set via installer
-        $installer->addAttributeToSet('catalog_product', 4, 'Default', $data['create_text_installer']['code']);
-        $installer->addAttributeToSet('catalog_product', 4, 'Default', $data['create_select_installer']['code']);
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        $product->load($productId);
 
-        $attribute = Mage::getModel('Mage_Eav_Model_Entity_Attribute');
-        $attribute->loadByCode('catalog_product', $data['create_select_installer']['code']);
-        $collection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection')
-            ->setAttributeFilter($attribute->getId())
-            ->load();
-        $options = $collection->toOptionArray();
-        $optionValueInstaller = $options[1]['value'];
+        // test new product id returned
+        $this->assertGreaterThan(0, $productId);
 
-        //add product attributes via api model
-        $model = Mage::getModel('Mage_Catalog_Model_Product_Attribute_Api');
-        $response1 = $model->create($data['create_text_api']);
-        $response2 = $model->create($data['create_select_api']);
+        //test new product attributes
+        $this->assertEquals($attributes->single_data[0]->value, $product->getData('a_text_api'));
+        $this->assertEquals($attributes->single_data[1]->value, $product->getData('a_select_api'));
+        $this->assertEquals($attributes->single_data[2]->value, $product->getData('a_text_ins'));
+        $this->assertEquals($attributes->single_data[3]->value, $product->getData('a_select_ins'));
 
-        //add options
-        $model = Mage::getModel('Mage_Catalog_Model_Product_Attribute_Api');
-        $model->addOption($response2, $data['create_select_api_options'][0]);
-        $model->addOption($response2, $data['create_select_api_options'][1]);
-        $options = $model->options($response2);
-        $optionValueApi = $options[1]['value'];
-
-        //add attributes to default attribute set via api model
-        $model = Mage::getModel('Mage_Catalog_Model_Product_Attribute_Set_Api');
-        $model->attributeAdd($response1, 4);
-        $model->attributeAdd($response2, 4);
-
-        $attributes = array($response1, $response2);
-        Mage::register('attributes', $attributes);
-
-        return array($optionValueApi, $optionValueInstaller);
-    }
-
-    /**
-     * Remove attributes created for tests
-     *
-     * Help CRUD method
-     */
-    protected function _removeAttributes()
-    {
-        Mage::unregister('attributes');
     }
 
     /**

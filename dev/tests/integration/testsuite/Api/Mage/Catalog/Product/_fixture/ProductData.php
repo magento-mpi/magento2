@@ -60,56 +60,26 @@ return array(
             'visibility' => Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
             'price' => 9.99,
             'tax_class_id' => 2,
-            'additional_attributes' => array(
+            'additional_attributes' => (object)array(
                 'single_data' => array(
-                    array(
+                    (object)array(
                         'key' => 'a_text_api',
                         'value' => 'qqq123'
                     ),
-                    array(
+                    (object)array(
                         'key' => 'a_select_api',
                         'value' => '__PLACEHOLDER__'
                     ),
-                    array(
+                    (object)array(
                         'key' => 'a_text_ins',
                         'value' => 'qqq123'
                     ),
-                    array(
+                    (object)array(
                         'key' => 'a_select_ins',
                         'value' => '__PLACEHOLDER__'
                     ),
                 ),
                 'multi_data' => array()
-            )
-        )
-    ),
-    'create_with_attributes_soap' => array(
-        'type' => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
-        'set' => 4,
-        'sku' => 'simple' . uniqid(),
-        'productData' => (object)array(
-            'status' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED, //required to see product on backend
-            'name' => 'Product with attributes',
-            'description' => 'description',
-            'short_description' => 'short description',
-            'weight' => 1,
-            'visibility' => Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
-            'price' => 9.99,
-            'tax_class_id' => 2,
-            'additional_attributes' => array(
-                'single_data' => array(
-                    'a_text_api' => 'qqq123',
-                    'a_select_api' => '__PLACEHOLDER__',
-                    'a_text_ins' => 'qqq123',
-                    'a_select_ins' => '__PLACEHOLDER__'
-                ),
-                'multi_data' => array()
-            ),
-            'stock_data' => array(
-                'manage_stock' => 1,
-                'qty' => 10,
-                'backorders' => 1,
-                'is_in_stock' => '1',
             )
         )
     ),
