@@ -17,10 +17,4 @@
  */
 class Mage_Launcher_Block_Adminhtml_Promotestore_Seo_Tile extends Mage_Launcher_Block_Adminhtml_Tile
 {
-    /**
-     * Template for SEO Tile Block
-     *
-     */
-    protected $_template = 'page/promotestore/tile/seo.phtml';
-
 }

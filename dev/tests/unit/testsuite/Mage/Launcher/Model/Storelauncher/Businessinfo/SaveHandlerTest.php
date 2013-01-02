@@ -29,7 +29,7 @@ class Mage_Launcher_Model_Storelauncher_Businessinfo_SaveHandlerTest extends PHP
             false
         );
 
-        if(isset($expectedData['shipping'])) {
+        if (isset($expectedData['shipping'])) {
             $setSectionWith = $this->logicalOr(
                 $this->equalTo('general'),
                 $this->equalTo('trans_email'),

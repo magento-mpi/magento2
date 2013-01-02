@@ -17,9 +17,4 @@
  */
 class Mage_Launcher_Block_Adminhtml_Promotestore_Customercommunication_Tile extends Mage_Launcher_Block_Adminhtml_Tile
 {
-    /**
-     * Template for Customercommunication Tile Block
-     *
-     */
-    protected $_template = 'page/promotestore/tile/customercommunication.phtml';
 }

@@ -18,13 +18,6 @@
 class Mage_Launcher_Block_Adminhtml_Promotestore_Seo_Drawer extends Mage_Launcher_Block_Adminhtml_Drawer
 {
     /**
-     * Template for SEO Tile Block
-     *
-     * @var string
-     */
-    protected $_template = 'page/promotestore/tile/seo_drawer.phtml';
-
-    /**
      * Get Translated Tile Header
      *
      * @return string

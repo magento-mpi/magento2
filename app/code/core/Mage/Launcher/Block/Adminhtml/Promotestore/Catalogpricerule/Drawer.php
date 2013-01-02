@@ -18,13 +18,6 @@
 class Mage_Launcher_Block_Adminhtml_Promotestore_Catalogpricerule_Drawer extends Mage_Launcher_Block_Adminhtml_Drawer
 {
     /**
-     * Template for Catalog Price Rule Tile Block
-     *
-     * @var string
-     */
-    protected $_template = 'page/promotestore/tile/catalogpricerule_drawer.phtml';
-
-    /**
      * Get Translated Tile Header
      *
      * @return string

@@ -17,11 +17,4 @@
  */
 class Mage_Launcher_Block_Adminhtml_Promotestore_Catalogpricerule_Tile extends Mage_Launcher_Block_Adminhtml_Tile
 {
-    /**
-     * Template for Catalog Price Rule  Tile Block
-     *
-     * @var string
-     */
-    protected $_template = 'page/promotestore/tile/catalogpricerule.phtml';
-
 }

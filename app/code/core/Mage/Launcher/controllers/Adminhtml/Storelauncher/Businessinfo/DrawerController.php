@@ -18,17 +18,4 @@
 class Mage_Launcher_Adminhtml_Storelauncher_Businessinfo_DrawerController
     extends Mage_Launcher_Controller_BaseDrawer
 {
-    /**
-     * Businessinfo Drawer Block Class Name
-     *
-     * @var string
-     */
-    protected $_drawerBlockName = 'Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer';
-
-    /**
-     * Businessinfo Tile Block Class Name
-     *
-     * @var string
-     */
-    protected $_tileBlockName = 'Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile';
 }

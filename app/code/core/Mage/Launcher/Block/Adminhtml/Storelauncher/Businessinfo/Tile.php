@@ -18,13 +18,6 @@
 class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile extends Mage_Launcher_Block_Adminhtml_Tile
 {
     /**
-     * Template for Businessinfo Tile Block
-     *
-     * @var string
-     */
-    protected $_template = 'page/storelauncher/tile/businessinfo.phtml';
-
-    /**
      * Region Model
      *
      * @var Mage_Directory_Model_Region

@@ -17,10 +17,4 @@
  */
 class Mage_Launcher_Block_Adminhtml_Promotestore_Reports_Tile extends Mage_Launcher_Block_Adminhtml_Tile
 {
-    /**
-     * Template for Reports Tile Block
-     *
-     */
-    protected $_template = 'page/promotestore/tile/reports.phtml';
-
 }

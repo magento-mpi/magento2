@@ -18,17 +18,4 @@
 class Mage_Launcher_Adminhtml_Promotestore_Contentpages_DrawerController
     extends Mage_Launcher_Controller_BaseDrawer
 {
-    /**
-     * Contentpages Drawer Block Class Name
-     *
-     * @var string
-     */
-    protected $_drawerBlockName = 'Mage_Launcher_Block_Adminhtml_Promotestore_Contentpages_Drawer';
-
-    /**
-     * Contentpages Tile Block Class Name
-     *
-     * @var string
-     */
-    protected $_tileBlockName = 'Mage_Launcher_Block_Adminhtml_Promotestore_Contentpages_Tile';
 }

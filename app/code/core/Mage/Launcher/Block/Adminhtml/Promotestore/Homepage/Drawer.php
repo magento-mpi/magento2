@@ -18,13 +18,6 @@
 class Mage_Launcher_Block_Adminhtml_Promotestore_Homepage_Drawer extends Mage_Launcher_Block_Adminhtml_Drawer
 {
     /**
-     * Template for Homepage Tile Block
-     *
-     * @var string
-     */
-    protected $_template = 'page/promotestore/tile/homepage_drawer.phtml';
-
-    /**
      * Get Translated Tile Header
      *
      * @return string

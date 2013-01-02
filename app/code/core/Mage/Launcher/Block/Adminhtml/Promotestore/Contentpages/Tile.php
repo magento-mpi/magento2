@@ -17,10 +17,4 @@
  */
 class Mage_Launcher_Block_Adminhtml_Promotestore_Contentpages_Tile extends Mage_Launcher_Block_Adminhtml_Tile
 {
-    /**
-     * Template for Contetpages Tile Block
-     *
-     */
-    protected $_template = 'page/promotestore/tile/contentpages.phtml';
-
 }

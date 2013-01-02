@@ -15,15 +15,8 @@
  * @package    Mage_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Block_Adminhtml_Promotestore_Googleanalystics_Drawer extends Mage_Launcher_Block_Adminhtml_Drawer
+class Mage_Launcher_Block_Adminhtml_Promotestore_Googleanalytics_Drawer extends Mage_Launcher_Block_Adminhtml_Drawer
 {
-    /**
-     * Template for Googleanalystics Tile Block
-     *
-     * @var string
-     */
-    protected $_template = 'page/promotestore/tile/googleanalytics_drawer.phtml';
-
     /**
      * Get Translated Tile Header
      *

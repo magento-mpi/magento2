@@ -18,13 +18,6 @@
 class Mage_Launcher_Block_Adminhtml_Promotestore_Contentpages_Drawer extends Mage_Launcher_Block_Adminhtml_Drawer
 {
     /**
-     * Template for Contentpages Tile Block
-     *
-     * @var string
-     */
-    protected $_template = 'page/promotestore/tile/contentpages_drawer.phtml';
-
-    /**
      * Get Translated Tile Header
      *
      * @return string

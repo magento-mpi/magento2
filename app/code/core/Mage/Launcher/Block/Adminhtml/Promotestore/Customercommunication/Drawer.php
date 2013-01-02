@@ -19,13 +19,6 @@ class Mage_Launcher_Block_Adminhtml_Promotestore_Customercommunication_Drawer
     extends Mage_Launcher_Block_Adminhtml_Drawer
 {
     /**
-     * Template for Customercommunication Drawer Block
-     *
-     * @var string
-     */
-    protected $_template = 'page/promotestore/tile/customercommunication_drawer.phtml';
-
-    /**
      * Get Translated Tile Header
      *
      * @return string
