@@ -36,7 +36,7 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     {
         $filesPath = __DIR__ . DS . '..' . DS . '_files' . DS;
         return array(
-            'existed file' => array($filesPath . 'popup.css', true),
+            'existed file' => array($filesPath . 'popup.csv', true),
             'not existed file' => array($filesPath . 'popup2.css', false),
         );
     }
@@ -58,7 +58,7 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     {
         $filesPath = __DIR__ . DS . '..' . DS . '_files' . DS;
         return array(
-            'read' => array($filesPath . 'popup.css', 'var myData = 5;'),
+            'read' => array($filesPath . 'popup.csv', 'var myData = 5;'),
         );
     }
 
@@ -145,7 +145,7 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     {
         $filesPath = __DIR__ . DS . '..' . DS . '_files' . DS;
         $this->assertTrue($this->_adapter->isDirectory($filesPath));
-        $this->assertFalse($this->_adapter->isDirectory($filesPath . 'popup.css'));
+        $this->assertFalse($this->_adapter->isDirectory($filesPath . 'popup.csv'));
     }
 
     public function testCreateDirectory()
@@ -203,7 +203,7 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     {
         $filesPath = __DIR__ . DS . '..' . DS . '_files' . DS;
         return array(
-            'update file' => array($filesPath . 'popup.css', false),
+            'update file' => array($filesPath . 'popup.csv', false),
             'create file' => array($filesPath . 'popup2.css', true)
         );
     }
