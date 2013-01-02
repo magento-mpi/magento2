@@ -22,7 +22,7 @@
              */
             source: null,
             events: {},
-            appendTo: 'after',
+            appendMethod: 'after',
             control: ':ui-menu'
         },
 
@@ -32,9 +32,13 @@
          */
         _create: function() {
             this._setTemplate();
-            this.element.attr('autocomplete', 'off');
-            this.dropdown = $('<div/>');
-            this.element[this.options.appendTo](this.dropdown);
+            this.dropdown = $('<div/>').uniqueId();
+            this.element
+                .wrap($('<div/>', {
+                    'class': 'mage-suggest'
+                }).uniqueId())
+                .attr('autocomplete', 'off')
+                [this.options.appendMethod](this.dropdown);
             this._bind();
         },
 
