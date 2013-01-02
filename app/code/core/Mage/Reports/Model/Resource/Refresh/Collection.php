@@ -37,7 +37,7 @@ class Mage_Reports_Model_Resource_Refresh_Collection extends Varien_Data_Collect
      * Load data
      * @return Mage_Reports_Model_Resource_Refresh_Collection|Varien_Data_Collection
      */
-    public function loadData()
+    public function loadData($printQuery = false, $logQuery = false)
     {
         if (!count($this->_items)) {
             $data = array(
