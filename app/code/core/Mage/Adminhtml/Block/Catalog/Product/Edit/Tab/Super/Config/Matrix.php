@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
         $usedProductAttributes = $this->getAttributes();
         foreach ($usedProductAttributes as &$attribute) {
             $options = array();
-            foreach ($attribute['options'] as $key => $valueInfo) {
+            foreach ($attribute['options'] as $valueInfo) {
                 foreach ($attribute['values'] as $priceData) {
                     if ($priceData['value_index'] == $valueInfo['value']
                         && (!isset($priceData['include']) || $priceData['include'])
