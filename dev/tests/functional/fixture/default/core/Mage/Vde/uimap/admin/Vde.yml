@@ -28,7 +28,7 @@ vde_design:
                         checkboxes:
                             highlight: //div[@id='vde_highlighting' and @class='vde_cell_list_item%isChecked%']
                         fields:
-                            page_type_selector: //a[contains(., '%pageType%')]
+                            page_type_selector: //a[text()=normalize-space('%pageType%')]
                 -
                     iframe:
                         xpath: //iframe[@id='vde_container_frame']
@@ -38,6 +38,7 @@ vde_design:
                             body: //body[contains(@class, '%wrappedPage%')]
                         pageelements:
                             vde_element: //div[@data-name='%dataName%']
+                            vde_container: //div[contains(@class, 'vde_container')]
                             highlight_containers: //div[@class="vde_element_wrapper vde_draggable vde_removable"%displayStyle%]
                             draggable_elements: //div[contains(@class, 'vde_draggable')]
                             removable_elements: //div[contains(@class, 'vde_removable')]

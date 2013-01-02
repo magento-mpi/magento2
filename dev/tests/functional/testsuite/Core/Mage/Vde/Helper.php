@@ -29,14 +29,40 @@ class Core_Mage_Vde_Helper extends Mage_Selenium_AbstractHelper
      * Select specific Page Type
      *
      * @param string $pageType
+     * @return Core_Mage_Vde_Helper
      */
     public function selectPageHandle($pageType)
     {
-        $this->clickControl('dropdown','page_selector', false);
         $this->addParameter('pageType', $pageType);
-        $this->waitForElementVisible($this->_getControlXpath('field', 'page_type_selector'));
+        if (!$this->controlIsVisible('field', 'page_type_selector')) {
+            $this->clickControl('dropdown','page_selector', false);
+            $this->waitForElementVisible($this->_getControlXpath('field', 'page_type_selector'));
+        }
         $this->clickControl('field','page_type_selector', false);
-        $this->waitForFrameToLoad('vde_container_frame');
+        $this->waitForPageToLoad();
+
+        return $this;
+    }
+
+    /**
+     * Expand page handle
+     *
+     * @param string $pageType
+     * @return Core_Mage_Vde_Helper
+     */
+    public function expandPageHandle($pageType)
+    {
+        $this->addParameter('pageType', $pageType);
+        $xpath = $this->_getControlXpath('field', 'page_type_selector');
+        if (!$this->controlIsVisible('field', 'page_type_selector')) {
+            $this->clickControl('dropdown','page_selector', false);
+            $this->waitForElementVisible($xpath);
+        }
+        $xpath .= '/preceding-sibling::ins';
+        $this->getElement($xpath)->click();
+        $this->waitForPageToLoad();
+
+        return $this;
     }
 
     /**
@@ -131,40 +157,14 @@ class Core_Mage_Vde_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * Search for removable/draggable element in container and return its name
-     *
-     * @param string $operation Operation with element (draggable/removable)
-     * @param string|null $wrapperDataName
-     * @return string|null
-     */
-    public function getOperableBlockName($operation = 'draggable', $wrapperDataName = null)
-    {
-        $locator = $this->_getControlXpath('pageelement', $operation . '_elements');
-        if ($wrapperDataName) {
-            $this->addParameter('dataName', $wrapperDataName);
-            if ($this->controlIsPresent('pageelement', 'vde_element')) {
-                $locator = $this->_getControlXpath('pageelement', 'vde_element') . $locator;
-            }
-        }
-        if ($this->elementIsPresent($locator)) {
-            $elements = $this->getElements($locator);
-            /** @var $block PHPUnit_Extensions_Selenium2TestCase_Element */
-            $block = $elements[0];
-            return $block->attribute('data-name');
-        }
-
-        return null;
-    }
-
-    /**
      * Remove VDE block in design mode
      *
-     * @param string $name
+     * @param PHPUnit_Extensions_Selenium2TestCase_Element $block
      * @return Core_Mage_Vde_Helper
      */
-    public function removeBlock($name)
+    public function removeBlock($block)
     {
-        $this->addParameter('dataName', $name);
+        $this->addParameter('dataName', $block->attribute('data-name'));
         $this->clickControl('link', 'remove_vde_element', false);
 
         return $this;
@@ -173,24 +173,39 @@ class Core_Mage_Vde_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Drag and drop VDE block in design mode
      *
-     * @param string $blockName
-     * @param string $destinationElementName
+     * @param PHPUnit_Extensions_Selenium2TestCase_Element $block
+     * @param PHPUnit_Extensions_Selenium2TestCase_Element $destinationContainer
      * @return Core_Mage_Vde_Helper
      */
-    public function dragBlock($blockName, $destinationElementName)
+    public function dragBlock($block, $destinationContainer)
     {
-        $this->addParameter('dataName', $blockName);
-        $block = $this->getElement($this->_getControlXpath('pageelement', 'vde_element'));
-
-        $this->addParameter('dataName', $destinationElementName);
-        $destinationElement = $this->getElement($this->_getControlXpath('pageelement', 'vde_element'));
-
         $block->click();
         $this->moveto($block);
         $this->buttondown();
-        $this->moveto($destinationElement);
+        $this->moveto($destinationContainer);
         $this->buttonup();
+        $this->waitForPageToLoad();
+        $this->assertEquals($destinationContainer->attribute('data-name'),
+            $this->getWrapperElement($block)->attribute('data-name')
+        );
 
         return $this;
+    }
+
+    /**
+     * Get wrapper element
+     *
+     * @param PHPUnit_Extensions_Selenium2TestCase_Element $block
+     * @return null|PHPUnit_Extensions_Selenium2TestCase_Element
+     */
+    public function getWrapperElement($block)
+    {
+        $this->addParameter('dataName', $block->attribute('data-name'));
+        $xpath = $this->_getControlXpath('pageelement', 'vde_element') . "/ancestor::div[@data-name]";
+        if ($this->elementIsPresent($xpath)) {
+            return $this->getElement($xpath);
+        }
+
+        return null;
     }
 }
