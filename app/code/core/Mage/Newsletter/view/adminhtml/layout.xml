@@ -11,10 +11,9 @@
 -->
 <layout>
     <adminhtml_newsletter_queue_index>
-        <update handle="formkey"/>
         <update handle="adminhtml_newsletter_queue_grid_block" />
         <reference name='content'>
-            <block type='Mage_Adminhtml_Block_Template' template="Mage_Adminhtml::newsletter/queue/list.phtml" name='adminhtml.newsletter.queue.grid.container' />
+            <block type='Mage_Backend_Block_Template' template="Mage_Newsletter::queue/list.phtml" name='adminhtml.newsletter.queue.grid.container' />
         </reference>
     </adminhtml_newsletter_queue_index>
 

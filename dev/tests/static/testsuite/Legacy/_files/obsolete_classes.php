@@ -48,6 +48,7 @@ return array(
     $this->_getClassRule('Mage_Adminhtml_Block_Catalog_Search_Grid'),
     $this->_getClassRule('Mage_Adminhtml_Block_Newsletter_Problem_Grid'),
     $this->_getClassRule('Mage_Adminhtml_Block_Newsletter_Queue_Grid'),
+    $this->_getClassRule('Mage_Adminhtml_Block_Newsletter_Queue'),
     $this->_getClassRule('Mage_Adminhtml_Block_Page_Menu', 'Mage_Backend_Block_Menu'),
     $this->_getClassRule('Mage_Adminhtml_Block_Permissions_User'),
     $this->_getClassRule('Mage_Adminhtml_Block_Permissions_User_Grid'),

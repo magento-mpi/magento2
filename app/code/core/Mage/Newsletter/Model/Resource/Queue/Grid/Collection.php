@@ -20,7 +20,7 @@ class Mage_Newsletter_Model_Resource_Queue_Grid_Collection
     extends Mage_Newsletter_Model_Resource_Queue_Collection
 {
     /**
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract|Mage_Newsletter_Model_Resource_Queue_Grid_Collection
+     * @return Mage_Newsletter_Model_Resource_Queue_Grid_Collection
      */
     protected function _initSelect()
     {

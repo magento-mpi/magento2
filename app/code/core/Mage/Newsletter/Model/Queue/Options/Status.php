@@ -26,7 +26,7 @@ class Mage_Newsletter_Model_Queue_Options_Status implements Mage_Core_Model_Opti
     protected $_helper;
 
     /**
-     * @param Mage_Newsletter_Helper_Data $catalogEventHelper
+     * @param Mage_Newsletter_Helper_Data $newsletterHelper
      */
     public function __construct(Mage_Newsletter_Helper_Data $newsletterHelper)
     {
@@ -41,11 +41,11 @@ class Mage_Newsletter_Model_Queue_Options_Status implements Mage_Core_Model_Opti
     public function toOptionArray()
     {
         return array(
-            Mage_Newsletter_Model_Queue::STATUS_SENT 	=> Mage::helper('Mage_Newsletter_Helper_Data')->__('Sent'),
-            Mage_Newsletter_Model_Queue::STATUS_CANCEL	=> Mage::helper('Mage_Newsletter_Helper_Data')->__('Cancelled'),
-            Mage_Newsletter_Model_Queue::STATUS_NEVER 	=> Mage::helper('Mage_Newsletter_Helper_Data')->__('Not Sent'),
-            Mage_Newsletter_Model_Queue::STATUS_SENDING => Mage::helper('Mage_Newsletter_Helper_Data')->__('Sending'),
-            Mage_Newsletter_Model_Queue::STATUS_PAUSE 	=> Mage::helper('Mage_Newsletter_Helper_Data')->__('Paused'),
+            Mage_Newsletter_Model_Queue::STATUS_SENT 	=> $this->_helper->__('Sent'),
+            Mage_Newsletter_Model_Queue::STATUS_CANCEL	=> $this->_helper->__('Cancelled'),
+            Mage_Newsletter_Model_Queue::STATUS_NEVER 	=> $this->_helper->__('Not Sent'),
+            Mage_Newsletter_Model_Queue::STATUS_SENDING => $this->_helper->__('Sending'),
+            Mage_Newsletter_Model_Queue::STATUS_PAUSE 	=> $this->_helper->__('Paused'),
         );
     }
 }
