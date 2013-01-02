@@ -20,7 +20,7 @@ $id = $this->escapeHtml($attribute['attribute_id']);
 ?>
 <div class="entry-edit attribute-container
             <?php echo $havePriceVariation ? ' have-price' : '' ?>
-            " <?php echo $this->getUiId('attrribute-container', $attribute['attribute_code']) ?>>
+            " <?php echo $this->getUiId('attribute-container', $attribute['attribute_code']) ?>>
     <input name="attributes[]" id="configurable_attribute_<?php echo $id ?>"
         value="<?php echo $id; ?>" type="hidden">
     <input value="<?php echo $this->escapeHtml($attribute['attribute_code']); ?>" type="hidden"

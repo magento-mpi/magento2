@@ -249,7 +249,7 @@ new_product:
                                         associated_weight: //td[normalize-space(@class)='associated-product-weight']
                             -
                                 attribute_block:
-                                    xpath: //*[@data-ui-id='admin-product-edit-tab-super-config-grid-container-schedule-block-attrribute-container-%attributeCode%']
+                                    xpath: //*[@data-ui-id='admin-product-edit-tab-super-config-grid-container-schedule-block-attribute-container-%attributeCode%']
                                     pageelements:
                                         delete_block: //*[@class='ui-icon ui-icon-circle-close remove']
                                         expand_block: //*[@class='ui-icon ui-icon-circle-triangle-s toggle']
