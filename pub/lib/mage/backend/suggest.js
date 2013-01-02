@@ -93,7 +93,9 @@
                         case keyCode.DOWN:
                         case keyCode.LEFT:
                         case keyCode.RIGHT:
-                            this._proxyEvents(event);
+                            if (!event.shiftKey) {
+                                this._proxyEvents(event);
+                            }
                             break;
                         case keyCode.TAB:
                             if (this.isDropdownShown()) {
@@ -149,12 +151,25 @@
         },
 
         /**
-         *
+         * Save selected item and hide dropdown
          * @private
          */
         _enterCurrentValue: function() {
-            this.term = this._value();
-            this._hideDropdown();
+            if (this.isDropdownShown()) {
+                /**
+                 * @type {string} - searched phrase
+                 * @private
+                 */
+                this._term = this._value();
+                /**
+                 * @type {(Object|null)} - label+value object of selected item
+                 * @private
+                 */
+                this._selectedItem = $.grep(this._items, $.proxy(function(v) {
+                    return v.label === this._term;
+                }, this))[0] || null;
+                this._hideDropdown();
+            }
         },
 
         /**
@@ -180,7 +195,7 @@
          * @private
          */
         _hideDropdown: function() {
-            this.element.val(this.term);
+            this.element.val(this._term);
             this.dropdown.hide().empty();
         },
 
@@ -199,10 +214,13 @@
          * @public
          */
         search: function() {
-            var term = this._value();
-            if (this.term !== term && term.length) {
-                this.term = term;
-                this._search(term);
+            /**
+             * @type {string} - searched phrase
+             * @private
+             */
+            this._term = this._value();
+            if (this._term) {
+                this._search(this._term);
             }
         },
 
@@ -213,19 +231,19 @@
          */
         _search: function(term) {
             this.element.addClass('ui-autocomplete-loading');
-//            this.cancelSearch = false; // have not found usages, so commented it
-            this._source(term, $.proxy(this._renderData, this));
+            this._source(term, $.proxy(this._renderDropdown, this));
         },
 
         /**
          * Render content of suggest's dropdown
-         * @param {Object} data
+         * @param {Array} items - list of label+value objects
          * @private
          */
-        _renderData: function(data) {
-            this._showDropdown();
-            $.tmpl(this.template, {data: data}).appendTo(this.dropdown.empty());
+        _renderDropdown: function(items) {
+            this._items = items;
+            $.tmpl(this.template, {items: items}).appendTo(this.dropdown.empty());
             this.dropdown.trigger('contentUpdated');
+            this._showDropdown();
         },
 
         /**
@@ -251,14 +269,14 @@
         },
 
         /**
-         * Perform filtering in advance loaded data and returns search result
-         * @param {Array} data - all available data
+         * Perform filtering in advance loaded items and returns search result
+         * @param {Array} items - all available items
          * @param {string} term - search phrase
          * @return {Object}
          */
-        filter: function(data, term) {
+        filter: function(items, term) {
             var matcher = new RegExp(term, 'i');
-            return $.grep(data, function(value) {
+            return $.grep(items, function(value) {
                 return matcher.test(value.label || value.value || value);
             });
         }
@@ -306,8 +324,12 @@
          */
         _create: function() {
             if (this.options.showRecent && window.localStorage) {
-                var recentData = JSON.parse(localStorage.getItem(this.options.storageKey));
-                this.recentData = $.isArray(recentData) ? recentData : [];
+                var recentItems = JSON.parse(localStorage.getItem(this.options.storageKey));
+                /**
+                 * @type {Array} - list of recently searched items
+                 * @private
+                 */
+                this._recentItems = $.isArray(recentItems) ? recentItems : [];
             }
             this._super();
         },
@@ -321,29 +343,43 @@
             this._on({
                 focus: function() {
                     if (!this._value()) {
-                        this._renderData(this.recentData);
+                        this._renderDropdown(this._recentItems);
                     }
-                }
-            });
-            this._on(this.dropdown, {
-                menuselect: function(e, ui) {
-                    this._addRecent(ui.item.data('item-data'));
                 }
             });
         },
 
         /**
-         *
-         * @param val
+         * @override
+         */
+        search: function() {
+            this._super();
+            if (!this._term) {
+                this._renderDropdown(this._recentItems);
+            }
+        },
+
+        /**
+         * @override
          * @private
          */
-        _addRecent: function(data) {
-            this.recentData = $.grep(this.recentData, function(obj){
-                return obj.value !== data.value;
+        _enterCurrentValue: function() {
+            this._super();
+            this._addRecent(this._selectedItem);
+        },
+
+        /**
+         *
+         * @param item
+         * @private
+         */
+        _addRecent: function(item) {
+            this._recentItems = $.grep(this._recentItems, function(obj){
+                return obj.value !== item.value;
             });
-            this.recentData.unshift(data);
-            this.recentData = this.recentData.slice(0, this.options.storageLimit);
-            localStorage.setItem(this.options.storageKey, JSON.stringify(this.recentData));
+            this._recentItems.unshift(item);
+            this._recentItems = this._recentItems.slice(0, this.options.storageLimit);
+            localStorage.setItem(this.options.storageKey, JSON.stringify(this._recentItems));
         }
     });
 
@@ -355,7 +391,7 @@
             this._super();
             this._on(this.dropdown, {
                 showAll: function() {
-                    this._search('', this._renderData);
+                    this._search('', this._renderDropdown);
                 }
             });
         }
