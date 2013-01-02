@@ -213,3 +213,21 @@ manage_customer_address_attributes:
         3: System
         4: Visible on Frontend
         5: Sort Order
+
+#dataset for ui elements in Manage Customer Attribute grid
+admin_action_log_archive:
+    fieldset:
+        action_logs_archive_grid: tablename
+    button:
+        reset_filter:
+        search:
+    dropdown:
+        view_on_page:
+    field:
+        archive_file:
+        date_from:
+        date_to:
+        page:
+    headers:
+        0: Archive File
+        1: Date
