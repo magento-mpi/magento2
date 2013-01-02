@@ -295,17 +295,6 @@ class Magento_Filesystem
     }
 
     /**
-     * Creates file object
-     *
-     * @param string $key
-     * @return Magento_Filesystem_File
-     */
-    public function createFile($key)
-    {
-        return new Magento_Filesystem_File($this->_getCheckedPath($key), $this);
-    }
-
-    /**
      * Check that file exists
      *
      * @param string $path
