@@ -48,7 +48,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      *
      * @var string
      */
-    protected $_rawDataSuffix = 'Raw';
+    private $_rawDataSuffix = 'Raw';
 
     /**
      * Constructs object, check type of variable if defined
@@ -194,7 +194,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      */
     protected function _hasRawDataSuffix($name)
     {
-        return $this->_rawDataSuffix && (substr($name, -strlen($this->_rawDataSuffix)) === $this->_rawDataSuffix);
+        return !strcasecmp(substr($name, -strlen($this->_rawDataSuffix)), $this->_rawDataSuffix);
     }
 
     /**
@@ -205,7 +205,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      */
     protected function _stripRawDataSuffix($name)
     {
-        return substr($name, 0, -strlen($this->_rawDataSuffix));
+        return substr($name, 0, -strlen($this->_rawDataSuffix) - 1);
     }
 
     /**
@@ -240,7 +240,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
     /**
      * If property is allowed returns its formated value
      *
-     * Use _format() to format value tp human readable form.
+     * Use _format() to format value to human readable form.
      *
      * @param mixed $name
      * @return mixed
@@ -260,9 +260,9 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
 
         $getterName = 'get' . $this->_camelize($name);
 
-        return (!$raw && is_callable(array($this, $getterName)))
+        return (!$raw && method_exists($this, $getterName))
             ? $this->$getterName()
-            : $this->_format($this->_value->$name, $type);
+            : $this->_format($this->_value->$getterName(), $type);
     }
 
     /**
