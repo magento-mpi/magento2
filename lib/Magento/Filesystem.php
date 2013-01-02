@@ -9,6 +9,8 @@
  */
 class Magento_Filesystem
 {
+    const DIRECTORY_SEPARATOR = '/';
+
     /**
      * @var Magento_Filesystem_AdapterInterface
      */
@@ -383,9 +385,9 @@ class Magento_Filesystem
             throw new InvalidArgumentException('Path must contain at least one node');
         }
         $isWindows = preg_match('/\w:/', $path[0]);
-        $path = implode(DIRECTORY_SEPARATOR, $path);
+        $path = implode(self::DIRECTORY_SEPARATOR, $path);
         if ($isAbsolute && !$isWindows) {
-            return DIRECTORY_SEPARATOR . ltrim($path, DIRECTORY_SEPARATOR);
+            return self::DIRECTORY_SEPARATOR . ltrim($path, self::DIRECTORY_SEPARATOR);
         } else {
             return $path;
         }
@@ -399,8 +401,8 @@ class Magento_Filesystem
      */
     public static function getPathAsArray($path)
     {
-        $path = str_replace('\\', DIRECTORY_SEPARATOR, $path);
-        return explode(DIRECTORY_SEPARATOR, ltrim($path, DIRECTORY_SEPARATOR));
+        $path = str_replace('\\', self::DIRECTORY_SEPARATOR, $path);
+        return explode(self::DIRECTORY_SEPARATOR, ltrim($path, self::DIRECTORY_SEPARATOR));
     }
 
     /**
