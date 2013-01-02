@@ -38,8 +38,7 @@
             },
             attributes: {
                 'class': 'mage-suggest-dropdown'
-            },
-            bottomMargin: 35
+            }
         },
 
         /**
@@ -255,23 +254,6 @@
             }).appendTo(this.dropdown.empty());
             this.dropdown.trigger('contentUpdated');
             this._showDropdown();
-            this._recalculateDropdownHeight();
-        },
-
-        /**
-         * Recalculates height of dropdown and cut it if needed
-         * @private
-         */
-        _recalculateDropdownHeight: function() {
-            var dropdown = this.dropdown.css('visibility', 'hidden'),
-                fromTop = dropdown.offset().top,
-                winHeight = $(window).height(),
-                isOverflowApplied = (fromTop + dropdown.outerHeight()) > winHeight;
-
-            dropdown
-                .css('visibility', '')
-                [isOverflowApplied ? 'addClass':'removeClass']('overflow-y')
-                .height(isOverflowApplied ? winHeight - fromTop - this.options.bottomMargin : '');
         },
 
         /**
@@ -307,6 +289,39 @@
             return $.grep(items, function(value) {
                 return matcher.test(value.label || value.value || value);
             });
+        }
+    });
+
+    /**
+     * Implements height prediction functionality to dropdown item
+     */
+    $.widget('mage.suggest', $.mage.suggest, {
+        /**
+         * Extension specific options
+         */
+        options: {
+            bottomMargin: 35
+        },
+
+        _renderDropdown: function() {
+            this._superApply(arguments);
+            this._recalculateDropdownHeight();
+        },
+
+        /**
+         * Recalculates height of dropdown and cut it if needed
+         * @private
+         */
+        _recalculateDropdownHeight: function() {
+            var dropdown = this.dropdown.css('visibility', 'hidden'),
+                fromTop = dropdown.offset().top,
+                winHeight = $(window).height(),
+                isOverflowApplied = (fromTop + dropdown.outerHeight()) > winHeight;
+
+            dropdown
+                .css('visibility', '')
+                [isOverflowApplied ? 'addClass':'removeClass']('overflow-y')
+                .height(isOverflowApplied ? winHeight - fromTop - this.options.bottomMargin : '');
         }
     });
 
