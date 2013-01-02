@@ -36,7 +36,7 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     {
         $filesPath = __DIR__ . DS . '..' . DS . '_files' . DS;
         return array(
-            'existed file' => array($filesPath . 'popup.css', true),
+            'existed file' => array($filesPath . 'popup.csv', true),
             'not existed file' => array($filesPath . 'popup2.css', false),
         );
     }
@@ -58,14 +58,13 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     {
         $filesPath = __DIR__ . DS . '..' . DS . '_files' . DS;
         return array(
-            'read' => array($filesPath . 'popup.css', 'var myData = 5;'),
+            'read' => array($filesPath . 'popup.csv', 'var myData = 5;'),
         );
     }
 
     /**
      * @param string $fileName
      * @param string $fileData
-     * @param bool $success
      * @dataProvider writeDataProvider
      * @throws Exception
      */
@@ -146,42 +145,28 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     {
         $filesPath = __DIR__ . DS . '..' . DS . '_files' . DS;
         $this->assertTrue($this->_adapter->isDirectory($filesPath));
-        $this->assertFalse($this->_adapter->isDirectory($filesPath . 'popup.css'));
+        $this->assertFalse($this->_adapter->isDirectory($filesPath . 'popup.csv'));
     }
 
-    /**
-     * @param string $directoryName
-     * @param bool $success
-     * @dataProvider createDirectoryDataProvider
-     * @throws Exception
-     */
-    public function testCreateDirectory($directoryName, $success)
+    public function testCreateDirectory()
     {
-        try{
-            if ($success) {
-                $this->_adapter->createDirectory($directoryName);
-                $this->assertFileExists($directoryName);
-                $this->assertTrue(is_dir($directoryName));
-                unlink($directoryName);
-            } else {
-                $this->_adapter->createDirectory($directoryName);
-                $this->assertFileNotExists($directoryName);
-            }
-        } catch (Exception $e) {
-            unlink($directoryName);
-            throw $e;
+        $directoryName = __DIR__ . DS . '..' . DS . '_files' . DS . 'new_directory';
+        if (file_exists($directoryName)) {
+            rmdir($directoryName);
         }
+        $this->_adapter->createDirectory($directoryName, 0111);
+        $this->assertFileExists($directoryName);
+        $this->assertTrue(is_dir($directoryName));
+        unlink($directoryName);
     }
 
     /**
-     * @return array
+     *
+     * @expectedException Magento_Filesystem_Exception
      */
-    public function createDirectoryDataProvider()
+    public function testCreateDirectoryError()
     {
-        return array(
-            'success' => array(__DIR__ . DS . '..' . DS . '_files' . DS . 'new_directory', true),
-            'failure' => array('', false),
-        );
+        $this->_adapter->createDirectory('', 0777);
     }
 
     /**
@@ -218,8 +203,31 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     {
         $filesPath = __DIR__ . DS . '..' . DS . '_files' . DS;
         return array(
-            'update file' => array($filesPath . 'popup.css', false),
+            'update file' => array($filesPath . 'popup.csv', false),
             'create file' => array($filesPath . 'popup2.css', true)
         );
+    }
+
+    /**
+     * @param string $sourceName
+     * @param string $targetName
+     * @throws Exception
+     * @dataProvider renameDaraProvider
+     */
+    public function testCopy($sourceName, $targetName)
+    {
+        if (file_exists($sourceName)) {
+            unlink($sourceName);
+        }
+        if (file_exists($targetName)) {
+            unlink($targetName);
+        }
+        $testData = 'test data';
+        file_put_contents($sourceName, $testData);
+        $this->_adapter->copy($sourceName, $targetName);
+        $this->assertFileExists($targetName);
+        $this->assertFileExists($sourceName);
+        $this->assertEquals($testData, file_get_contents($targetName));
+        $this->assertEquals($testData, file_get_contents($targetName));
     }
 }
