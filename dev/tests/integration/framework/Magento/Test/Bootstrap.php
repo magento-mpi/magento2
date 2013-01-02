@@ -164,13 +164,13 @@ class Magento_Test_Bootstrap
     /**
      * Initialize DB configuration, db vendor and install dir
      *
-     * @param $magentoDir
-     * @param $testsDir
-     * @param $localXmlFile
-     * @param $globalEtcFiles
-     * @param $moduleEtcFiles
-     * @param $customXmlFile
-     * @param $tmpDir
+     * @param string $magentoDir
+     * @param string $testsDir
+     * @param string $localXmlFile
+     * @param string $globalEtcFiles
+     * @param string $moduleEtcFiles
+     * @param string $customXmlFile
+     * @param string $tmpDir
      * @param Magento_Shell $shell
      * @param bool $isCleanupEnabled
      * @param bool $isDeveloperMode
