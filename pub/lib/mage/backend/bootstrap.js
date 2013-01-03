@@ -75,7 +75,20 @@ jQuery(function ($) {
         }
     });
 
-    var bootstrap = function() {
+    var bootstrap = function(context) {
+
+        // Temporary solution, will be replaced when plug-in "mage" will be merged to master
+        var collection = context ?
+            context.add(context.find('[data-mage-init]')) :
+            $('[data-mage-init]');
+
+        collection.each(function(){
+            var inits = $(this).data('mage-init') || {};
+            $.each(inits, $.proxy(function(key, args){
+                $(this)[key].apply($(this), $.makeArray(args));
+            }, this));
+        });
+
         /*
          * Initialization of button widgets
          */
@@ -100,5 +113,8 @@ jQuery(function ($) {
         }
     };
 
-    $(document).ready(bootstrap);
+    $(document).ready(function() {bootstrap();});
+    $(document).on('contentUpdated', function(e) {
+        bootstrap($(e.target));
+    })
 });
