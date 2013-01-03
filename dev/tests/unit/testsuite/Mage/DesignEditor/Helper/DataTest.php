@@ -24,7 +24,7 @@ class Mage_DesignEditor_Helper_DataTest extends PHPUnit_Framework_TestCase
     /**
      * Test disabled cache types
      */
-    const TEST_DISABLED_CACHE_TYPES = 'type1, type2 ';
+    const TEST_DISABLED_CACHE_TYPES = '<type1 /><type2 />';
 
     /**
      * Test data for blocks and containers

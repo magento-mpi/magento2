@@ -94,7 +94,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         $this->_urlModelFactory = $this->getMock('Mage_DesignEditor_Model_Url_Factory', array('replaceClassName'),
             array(), '', false
         );
-        $this->_cacheManager = $this->getMock('Mage_Core_Model_Cache', array('banUse', 'cleanType'),
+        $this->_cacheManager = $this->getMock('Mage_Core_Model_Cache', array('canUse', 'banUse'),
             array(), '', false
         );
         $this->_dataHelper = $this->getMock('Mage_DesignEditor_Helper_Data', array('getDisabledCacheTypes'),
@@ -130,19 +130,19 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_cacheTypes));
 
         $this->_cacheManager->expects($this->at(0))
-            ->method('banUse')
+            ->method('canUse')
             ->with('type1')
-            ->will($this->returnSelf());
+            ->will($this->returnValue(true));
         $this->_cacheManager->expects($this->at(1))
-            ->method('cleanType')
+            ->method('banUse')
             ->with('type1')
             ->will($this->returnSelf());
         $this->_cacheManager->expects($this->at(2))
-            ->method('banUse')
+            ->method('canUse')
             ->with('type2')
-            ->will($this->returnSelf());
+            ->will($this->returnValue(true));
         $this->_cacheManager->expects($this->at(3))
-            ->method('cleanType')
+            ->method('banUse')
             ->with('type2')
             ->will($this->returnSelf());
     }

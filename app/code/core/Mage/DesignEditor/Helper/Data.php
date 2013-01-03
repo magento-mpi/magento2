@@ -65,13 +65,8 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getDisabledCacheTypes()
     {
-        $cacheTypes = explode(',', $this->_configuration->getNode(self::XML_PATH_DISABLED_CACHE_TYPES));
-        $resultCacheTypes = array();
-        foreach ($cacheTypes as $cacheType) {
-            $resultCacheTypes[] = trim($cacheType);
-        }
-
-        return $resultCacheTypes;
+        $cacheTypes = $this->_configuration->getNode(self::XML_PATH_DISABLED_CACHE_TYPES)->asArray();
+        return array_keys($cacheTypes);
     }
 
     /**

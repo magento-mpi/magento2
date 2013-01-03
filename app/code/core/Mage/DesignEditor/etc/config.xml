@@ -63,7 +63,11 @@
         <design_editor>
             <frontName>vde</frontName>
             <defaultHandle>default</defaultHandle>
-            <disabledCacheTypes>BLOCK_HTML,LAYOUT_GENERAL_CACHE_TAG,FPC</disabledCacheTypes>
+            <disabledCacheTypes>
+                <block_html />
+                <layout />
+                <config />
+            </disabledCacheTypes>
             <layout_update>
                 <days_to_expire>5</days_to_expire>
             </layout_update>
