@@ -28,6 +28,26 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
      */
     protected $_formattedOptionValue = null;
 
+    /**
+     * @var Magento_Filesystem
+     */
+    protected $_filesystem;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object attributes
+     * This behavior may change in child classes
+     *
+     * @param Magento_Filesystem $filesystem
+     * @param array $data
+     */
+    public function __construct(Magento_Filesystem $filesystem, $data = array())
+    {
+        $this->_filesystem = $filesystem;
+        $this->_data = $data;
+    }
+
     public function isCustomizedView()
     {
         return true;
@@ -164,7 +184,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
         /**
          * Upload init
          */
-        $upload   = new Zend_File_Transfer_Adapter_Http();
+        $upload = new Zend_File_Transfer_Adapter_Http();
         $file = $processingParams->getFilesPrefix() . 'options_' . $option->getId() . '_file';
         $maxFileSize = $this->getFileStorageHelper()->getMaxFileSize();
         try {
@@ -246,7 +266,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
             $dispersion = Mage_Core_Model_File_Uploader::getDispretionPath($fileName);
 
             $filePath = $dispersion;
-            $fileHash = md5(file_get_contents($fileInfo['tmp_name']));
+            $fileHash = md5($this->_filesystem->read($fileInfo['tmp_name']));
             $filePath .= DS . $fileHash . '.' . $extension;
             $fileFullPath = $this->getQuoteTargetDir() . $filePath;
 
@@ -265,7 +285,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
 
             $_width = 0;
             $_height = 0;
-            if (is_readable($fileInfo['tmp_name'])) {
+            if ($this->_filesystem->isReadable($fileInfo['tmp_name'])) {
                 $_imageSize = getimagesize($fileInfo['tmp_name']);
                 if ($_imageSize) {
                     $_width = $_imageSize[0];
@@ -325,7 +345,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
 
         $fileFullPath = null;
         foreach ($checkPaths as $path) {
-            if (!is_file($path)) {
+            if (!$this->_filesystem->isFile($path)) {
                 if (!Mage::helper('Mage_Core_Helper_File_Storage_Database')->saveFileToFilesystem($fileFullPath)) {
                     continue;
                 }
@@ -376,9 +396,9 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
 
 
         if ($validatorChain->isValid($fileFullPath)) {
-            $ok = is_readable($fileFullPath)
+            $ok = $this->_filesystem->isReadable($fileFullPath)
                 && isset($optionValue['secret_key'])
-                && substr(md5(file_get_contents($fileFullPath)), 0, 20) == $optionValue['secret_key'];
+                && substr(md5($this->_filesystem->read($fileFullPath)), 0, 20) == $optionValue['secret_key'];
 
             return $ok;
         } elseif ($validatorChain->getErrors()) {
@@ -624,14 +644,16 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
                 throw new Exception();
             }
             $quoteFileFullPath = Mage::getBaseDir() . $value['quote_path'];
-            if (!is_file($quoteFileFullPath) || !is_readable($quoteFileFullPath)) {
+            if (!$this->_filesystem->isFile($quoteFileFullPath)
+                || !$this->_filesystem->isReadable($quoteFileFullPath)
+            ) {
                 throw new Exception();
             }
             $orderFileFullPath = Mage::getBaseDir() . $value['order_path'];
             $dir = pathinfo($orderFileFullPath, PATHINFO_DIRNAME);
             $this->_createWriteableDir($dir);
             Mage::helper('Mage_Core_Helper_File_Storage_Database')->copyFile($quoteFileFullPath, $orderFileFullPath);
-            @copy($quoteFileFullPath, $orderFileFullPath);
+            $this->_filesystem->copy($quoteFileFullPath, $orderFileFullPath);
         } catch (Exception $e) {
             return $this;
         }
@@ -694,14 +716,11 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
         $this->_createWriteableDir($this->getOrderTargetDir());
 
         // Directory listing and hotlink secure
-        $io = new Varien_Io_File();
-        $io->cd($this->getTargetDir());
-        if (!$io->fileExists($this->getTargetDir() . DS . '.htaccess')) {
-            $io->streamOpen($this->getTargetDir() . DS . '.htaccess');
-            $io->streamLock(true);
-            $io->streamWrite("Order deny,allow\nDeny from all");
-            $io->streamUnlock();
-            $io->streamClose();
+        if (!$this->_filesystem->isFile($this->getTargetDir() . DS . '.htaccess')) {
+            $stream = $this->_filesystem->createStream($this->getTargetDir() . DS . '.htaccess');
+            $stream->open('w+');
+            $stream->write("Order deny,allow\nDeny from all");
+            $stream->close();
         }
     }
 
@@ -713,9 +732,12 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
      */
     protected function _createWriteableDir($path)
     {
-        $io = new Varien_Io_File();
-        if (!$io->isWriteable($path) && !$io->mkdir($path, 0777, true)) {
-            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__("Cannot create writeable directory '%s'.", $path));
+        try {
+            $this->_filesystem->createDirectory($path, 0777);
+        } catch (Magento_Filesystem_Exception $e) {
+            Mage::throwException(
+                Mage::helper('Mage_Catalog_Helper_Data')->__("Cannot create writeable directory '%s'.", $path)
+            );
         }
     }
 
@@ -758,7 +780,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
         }
 
         // File path came in - check the physical file
-        if (!is_readable($fileInfo)) {
+        if (!$this->_filesystem->isReadable($fileInfo)) {
             return false;
         }
         $imageInfo = getimagesize($fileInfo);

@@ -96,6 +96,11 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     const OPTION_PREFIX = 'option_';
 
     /**
+     * @var Magento_Filesystem
+     */
+    protected $_filesystem;
+
+    /**
      * Delete data specific for this product type
      *
      * @param Mage_Catalog_Model_Product $product
@@ -105,10 +110,12 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     /**
      * Initialize data
      *
+     * @param Magento_Filesystem $filesystem
      * @param array $data
      */
-    public function __construct(array $data = array())
+    public function __construct(Magento_Filesystem $filesystem, array $data = array())
     {
+        $this->_filesystem = $filesystem;
         $this->_helpers = isset($data['helpers']) ? $data['helpers'] : array();
     }
 
@@ -394,9 +401,14 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                         $uploader = isset($queueOptions['uploader']) ? $queueOptions['uploader'] : null;
 
                         $path = dirname($dst);
-                        $io = new Varien_Io_File();
-                        if (!$io->isWriteable($path) && !$io->mkdir($path, 0777, true)) {
-                            Mage::throwException($this->_helper('Mage_Catalog_Helper_Data')->__("Cannot create writeable directory '%s'.", $path));
+
+                        try {
+                            $this->_filesystem->createDirectory($path, 0777);
+                        } catch (Magento_Filesystem_Exception $e) {
+                            Mage::throwException(
+                                $this->_helper('Mage_Catalog_Helper_Data')
+                                    ->__("Cannot create writeable directory '%s'.", $path)
+                            );
                         }
 
                         $uploader->setDestination($path);
