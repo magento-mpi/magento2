@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento
+ * @package     Mage_GiftWrapping
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -22,19 +22,22 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_use_default_per_website');
     }
 
     public function assertPreconditions()
     {
         $this->loginAdminUser();
-        //Load default application settings
-        $this->_configHelper->getConfigAreas(true);
     }
 
     protected function tearDownAfterTest()
     {
         //Load default application settings
-        $this->_configHelper->getConfigAreas(true);
+        $this->getConfigHelper()->getConfigAreas(true);
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_use_default_per_website');
     }
 
     /**
@@ -46,9 +49,10 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
      */
     public function preconditionsCreateWebsite()
     {
+        $this->markTestIncomplete("Enterprise_Staging is obsolete. The tests should be refactored.");
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('staging_website_enable_auto_entries');
+        $this->systemConfigurationHelper()->configure('StagingWebsite/staging_website_enable_auto_entries');
         //Data
         $website = $this->loadDataSet('StagingWebsite', 'staging_website');
         //Steps
@@ -70,7 +74,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
     public function preconditionsCreateProduct($website)
     {
         $products = array();
-        for ($i = 0; $i < 2; $i++){
+        for ($i = 0; $i < 2; $i++) {
             //Data
             $productData = $this->loadDataSet('Product', 'simple_product_visible');
             $productData['websites'] .= ',' . $website['general_information']['staging_website_name'];
@@ -99,7 +103,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
         //Steps
         $newFrontendUrl = $this->stagingWebsiteHelper()->buildFrontendUrl(
             $website['general_information']['staging_website_code']);
-        $this->_configHelper->setAreaBaseUrl('frontend', $newFrontendUrl);
+        $this->getConfigHelper()->setAreaBaseUrl('frontend', $newFrontendUrl);
         $this->logoutCustomer();
         $this->frontend('customer_login');
         $this->customerHelper()->registerCustomer($userData);
@@ -172,28 +176,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
      * <p>Verify that when "Allow Gift Wrapping" and Gift Messages for Order Items in SysConfig set to "No",
      * but Gift Wrapping and Gift Messages in a product Menu Gift Options set to "Yes",
      * then Gift Wrapping and Gift messages for that product in Frontend on item level are available.</p>
-     * <p>Preconditions:</p>
-     * <p>1. In system configuration setting "Allow Gift Wrapping" for Order Items" and
-     * "Allow Gift Message"s for Order Items"is set to "No".</p>
-     * <p>Steps:</p>
-     * <p>1. In backend Go to Catalog > Manage Products.</p>
-     * <p>2. Select some simple product and choose Gift Options.</p>
-     * <p>3. Set "Allow Gift Wrapping"  and "Allow Gift Message"s  to "Yes" and Save the product.</p>
-     * <p>4. In Frontend add the above product to the shopping cart and proceed to onepage checkout</p>
-     * <p>5. Fill all required fields in billing and shipping addresses and press "Continue" button. </p>
-     * <p>6. Select checkbox "Add gift options".</p>
-     * <p>7. Select checkbox "Add gift options for Individual Items".</p>
-     * <p>Expected result:</p>
-     * <p>Item has dropdown "Gift Wrapping Design" and Gift Messages fields.<p>
-     * <p>8. Choose "Gift Wrapping design" and fill Gift Messages fields, press "Continue" button.</p>
-     * <p>9. Select Payment Method "Check/Money order" and press "Continue" button.</p>
-     * <p>Expected result:</p>
-     * <p>Cost of Gift Wrapping is correctly included in Grand Total<p>
-     * <p>10. Press "PLACE ORDER" button.</p>
-     * <p>Expected result:</p>
-     * <p>New page with message "Your order has been received" is displayed.
-     * In Backend new order is present and contains all and correct information (price, design, text, names, etc.)
-     * about the selected Gift Wrapping and Gift Messages.
      *
      * @param $products
      * @param $userData
@@ -205,15 +187,12 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
      */
     public function giftOptionsOnProductLevelSetToYes($products, $userData, $giftWrappingData)
     {
-        //Preconditions
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('gift_message_and_wrapping_all_disable');
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'recount_gift_wrapping_no_img_one_page',
             array ('gift_wrapping_for_items'    => '$' . $giftWrappingData['gift_wrapping_price'],
-                    'item_gift_wrapping_design' => $giftWrappingData['gift_wrapping_design']),
+                   'item_gift_wrapping_design' => $giftWrappingData['gift_wrapping_design']),
             array('product_1'                   => $products[0]['general_name'],
-                   'validate_product_1'         => $products[0]['general_name']));
+                  'validate_product_1'         => $products[0]['general_name']));
         $giftMsg = $checkoutData['shipping_data']['add_gift_options']['individual_items']['item_1'];
         $vrfGiftData = $this->loadDataSet('OnePageCheckout', 'verify_gift_data',
             array('sku_product'                 => $products[0]['general_sku'],
@@ -230,8 +209,8 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
         $this->assertMessagePresent('success', 'success_checkout');
         $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
-        $this->addParameter('order_id', '#' . $orderId);
-        $this->searchAndOpen(array('filter_order_id' => $orderId));
+        $this->addParameter('elementTitle', '#' . $orderId);
+        $this->searchAndOpen(array('filter_order_id' => $orderId), 'sales_order_grid');
         $this->orderHelper()->verifyGiftMessage($vrfGiftData);
     }
 
@@ -241,19 +220,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
      * <p>Verify that when "Allow Gift Wrapping" and Gift Messages for Order Items in Config set to "Yes",
      * but Gift Wrapping and Gift Messages in a product Menu Gift Options set to "No",
      * then Gift Wrapping and Gift Messages for that product in Frontend on item level is not available.</p>
-     * <p>Preconditions:</p>
-     * <p>1. "Allow Gift Wrapping" on Order Level" set to "No"</p>
-     * <p>2. "Allow Gift Message" on Order Level" set to "No"</p>
-     * <p>3. "Allow Gift Message"s for Order Items" set to "Yes"</p>
-     * <p>4. "Allow Gift Wrapping" for Order Items" set to "Yes"</p>
-     * <p>Steps:</p>
-     * <p>1. In backend Go to Catalog > Manage Products</p>
-     * <p>2. Select some simple product and choose Gift Options.</p>
-     * <p>3. Set "Allow Gift Wrapping" and "Allow Gift Message"s to "No", then Save the product.</p>
-     * <p>4. In Frontend add the above product to the shopping cart and proceed to onepage checkout.</p>
-     * <p>5. Fill all required fields in billing and shipping addresses and press "Continue" button.</p>
-     * <p>Expected result:</p>
-     * <p>"Add gift options" with checkbox is absent on the checkout page when you choose shipping method.<p>
      *
      * @param $products
      * @param $userData
@@ -265,8 +231,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
     {
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('gift_options_disable_all');
-        $this->systemConfigurationHelper()->configure('ind_items_all_yes_order_all_no');
+        $this->systemConfigurationHelper()->configure('GiftMessage/ind_items_all_yes_order_all_no');
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'gift_data_general', null,
             array('product_1' => $products[0]['general_name']));
@@ -292,20 +257,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
      * <p>Verify that when "Allow Gift Wrapping" and Gift Messages for Order Items in Config set to "Yes",
      * but Gift Wrapping and Gift Messages in a product Menu Gift Options set to "No",
      * then Gift Wrapping and Gift Messages for that product in Frontend on item level is not available.</p>
-     * <p>Preconditions:</p>
-     * <p>1. "Allow Gift Wrapping" on Order Level" set to "Yes"</p>
-     * <p>2. "Allow Gift Message" on Order Level" set to "Yes"</p>
-     * <p>3. "Allow Gift Message"s for Order Items" set to "No"</p>
-     * <p>4. "Allow Gift Wrapping" for Order Items" set to "No"</p>
-     * <p>Steps:</p>
-     * <p>1. In backend Go to Catalog > Manage Products</p>
-     * <p>2. Select some simple product and choose Gift Options.</p>
-     * <p>3. Set "Allow Gift Wrapping" and "Allow Gift Message"s to "No", then Save the product.</p>
-     * <p>4. In Frontend add the above product to the shopping cart and proceed to onepage checkout.</p>
-     * <p>5. Fill all required fields in billing and shipping addresses and press "Continue" button.</p>
-     * <p>6. Select checkbox "Add gift options".</p>
-     * <p>Expected result:</p>
-     * <p>"Add gift options" with checkbox is absent on the checkout page when you choose shipping method.<p>
      *
      * @param $products
      * @param $userData
@@ -317,8 +268,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
     {
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('gift_options_disable_all');
-        $this->systemConfigurationHelper()->configure('ind_items_all_yes_order_all_no');
+        $this->systemConfigurationHelper()->configure('GiftMessage/ind_items_all_yes_order_all_no');
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'gift_data_general', null,
             array('product_1' => $products[0]['general_name']));
@@ -352,22 +302,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
      * <p>Verify that when "Allow Gift Message"s for Order Items in Config set to “Yes",
      * and Gift Messages in a product Menu Gift Options set to "No",
      * then Gift Messages for that product in Frontend on item level is not available.</p>
-     * <p>Preconditions:</p>
-     * <p>1. "Allow Gift Wrapping" on Order Level" set to "Yes"</p>
-     * <p>2. "Allow Gift Message" on Order Level" set to "Yes"</p>
-     * <p>3. "Allow Gift Message"s for Order Items" set to "Yes"</p>
-     * <p>4. "Allow Gift Wrapping" for Order Items" set to "Yes"</p>
-     * <p>Steps:</p>
-     * <p>1. In backend Go to Catalog > Manage Products</p>
-     * <p>2. Select some simple product and choose Gift Options.</p>
-     * <p>3. Set "Allow Gift Wrapping" to "No" and Save the product. (TL-MAGE-832)</p>
-     * <p>3. Set "Allow Gift Message" to "No" and Save the product. (TL-MAGE-849)</p>
-     * <p>4. In Frontend add the above product to the shopping cart and proceed to onepage checkout.</p>
-     * <p>5. Fill all required fields in billing and shipping addresses and press "Continue" button.</p>
-     * <p>6. Select checkbox "Add gift options".</p>
-     * <p>7. Select checkbox "Add gift options for Individual Items".</p>
-     * <p>Expected result:</p>
-     * <p>Item does not have "Gift Wrapping Design" dropdown.<p>
      *
      * @param $productGiftOptions
      * @param $assert
@@ -382,8 +316,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
     {
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('gift_options_disable_all');
-        $this->systemConfigurationHelper()->configure('ind_items_all_yes_order_all_no');
+        $this->systemConfigurationHelper()->configure('GiftMessage/ind_items_all_yes_order_all_no');
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'gift_data_general', null,
             array('product_1' => $products[0]['general_name']));
@@ -425,23 +358,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
      * <p>Verify that when "Allow Gift Wrapping" for Order Items in Config set to "Yes"
      * and Gift Wrapping in a product Menu Gift Options set to "No",
      * then Gift Wrapping for that product in Frontend on item level is not available.</p>
-     * <p>Preconditions:</p>
-     * <p>1. "Allow Gift Wrapping" on Order Level" set to "No"</p>
-     * <p>2. "Allow Gift Message" on Order Level" set to "No"</p>
-     * <p>3. "Allow Gift Message"s for Order Items" set to "No"</p>
-     * <p>4. "Allow Gift Wrapping" for Order Items" set to "Yes"</p>
-     * <p>Steps:</p>
-     * <p>1. In backend Go to Catalog > Manage Products</p>
-     * <p>2. Select some simple product and choose Gift Options.</p>
-     * <p>3. Set "Allow Gift Wrapping" to "No" and Save the product. (TL-MAGE-845)</p>
-     * <p>3. Set "Allow Gift Message" to "No" and Save the product. (TL-MAGE-851)</p>
-     * <p>4. In Frontend add two or more products (including the product from step 2) to the shopping cart
-     * and proceed to onepage checkout.</p>
-     * <p>5. Fill all required fields in billing and shipping addresses and press "Continue" button.</p>
-     * <p>6. Select checkbox "Add gift options".</p>
-     * <p>7. Select checkbox "Add gift options for Individual Items".</p>
-     * <p>Expected result:</p>
-     * <p>Item from step 2 is absent in list from "Gift Options for Individual Items" <p>
      *
      * @param $sysSettings
      * @param $productGiftOptions
@@ -456,8 +372,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
     {
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('gift_options_disable_all');
-        $this->systemConfigurationHelper()->configure($sysSettings);
+        $this->systemConfigurationHelper()->configure('GiftMessage/' . $sysSettings);
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'gift_data_general', null,
             array('product_1' => $products[0]['general_name'],
@@ -499,32 +414,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
      * <p>Verify that when Price for Gift Wrapping in a product Menu is different from
      * price setting in Manage Gift Wrapping Menu,
      * then price for Gift Wrapping for that product in Frontend is equal to first one.</p>
-     * <p>Preconditions:</p>
-     * <p>1. In system configuration setting "Allow Gift Wrapping" for Order Items" and
-     * "Allow Gift Message"s for Order Items"is set to "Yes".</p>
-     * <p>Steps:</p>
-     * <p>1. Go to Sales > Gift Wrapping and note price (for example 2.25) for Gift Wrapping in your store.</p>
-     * <p>2. In backend Go to Catalog > Manage Products.</p>
-     * <p>3. Select some simple product and choose Gift Options.</p>
-     * <p>4. In  "Price for Gift Wrapping" field a set any price different from the above (for example 10).</p>
-     * <p>5. In Frontend add the above product and some other product with config gift option to the shopping cart and
-     * proceed to checkout.</p>
-     * <p>6. Fill all required fields in billing and shipping addresses and press "Continue" button.</p>
-     * <p>7. Select checkbox "Add gift options".</p>
-     * <p>8. Select checkboxes "Add gift options for the Entire Order" and "Gift Options for Individual Items".</p>
-     * <p>9. Select Gift Wrapping Design for entire order and individual items.</p>
-     * <p>Expected result:</p>
-     * <p>Price on Gift Wrapping for item from step 3 is equal to 10<p>
-     * <p>Prices on Gift Wrappings for another item and entire order is equal to 2.25.<p>
-     * <p>10. Press "Continue" button and  Select Payment Method "Check/Money order" then press "Continue" button
-     * one more.</p>
-     * <p>Expected result:</p>
-     * <p>Cost of Gift Wrapping is correctly included in Grand Total<p>
-     * <p>11. Press "PLACE ORDER" button.</p>
-     * <p>Expected result:</p>
-     * <p>New page with message "Your order has been received" is displayed.<p>
-     * <p>In Backend new order is present and contains all and correct information (price, design, etc.) about
-     * the selected Gift Wrapping.<p>
      *
      * @param $products
      * @param $userData
@@ -538,8 +427,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
     {
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('gift_options_disable_all');
-        $this->systemConfigurationHelper()->configure('gift_message_and_wrapping_all_enable');
+        $this->systemConfigurationHelper()->configure('GiftMessage/ind_items_all_yes_order_all_yes');
         //Data
         $productGiftOptions = $this->loadDataSet('GiftWrapping', 'gift_options_custom_wrapping_price');
         $vrfGiftWrapping = $this->loadDataSet('OnePageCheckout', 'verify_wrapping_data', null,
@@ -552,7 +440,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'gift_wrapping_custom_price',
             array('gift_wrapping_for_order'   => '$' . $giftWrappingData['gift_wrapping_price'],
                   'gift_wrapping_for_items'   => '$' . ($productGiftOptions['gift_options_price_for_gift_wrapping'] +
-                                                 $giftWrappingData['gift_wrapping_price'])),
+                                                        $giftWrappingData['gift_wrapping_price'])),
             array('product_1'                 => $products[0]['general_name'],
                   'product_2'                 => $products[1]['general_name'],
                   'validate_product_1'        => $products[0]['general_name'],
@@ -570,8 +458,8 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
         $this->assertMessagePresent('success', 'success_checkout');
         $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
-        $this->addParameter('order_id', '#' . $orderId);
-        $this->searchAndOpen(array('filter_order_id' => $orderId));
+        $this->addParameter('elementTitle', '#' . $orderId);
+        $this->searchAndOpen(array('filter_order_id' => $orderId), 'sales_order_grid');
         $this->orderHelper()->verifyGiftWrapping($vrfGiftWrapping);
     }
 
@@ -581,40 +469,6 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
      * <p>Verify that when Price for Gift Wrapping in a product Menu (for store scope) is different from
      * prices setting in Manage Gift Wrapping Menu and Product Menu (for default values),
      * then price for Gift Wrapping for that product in Frontend is equal to first one (on selected Website scope).</p>
-     * <p>Preconditions:</p>
-     * <p>1. In system configuration setting "Allow Gift Wrapping" for Order Items" and
-     * "Allow Gift Message"s for Order Items" are set to "Yes".</p>
-     * <p>Steps:</p>
-     * <p>1. Go to Sales > Gift Wrapping and note price (for example 2.25) for Gift Wrapping in your store.</p>
-     * <p>2. In backend Go to Catalog > Manage Products.</p>
-     * <p>3. Select some simple product and choose Gift Options.</p>
-     * <p>4. Notice that dropdown "Choose Store View" should display "Default Values".
-     * In "Price for Gift Wrapping" field set any price different from the above (for example 10).
-     * Press "Save and Continue" button. </p>
-     * <p>5. Select in dropdown "Choose Store View" your store.</p>
-     * <p>6. Press OK in notification window .</p>
-     * <p>Expected result:</p>
-     * <p>Field "Price for Gift Wrapping" is disabled (with value 10 in our example) and checkbox "Use Default Value"
-     * must be selected for one.</p>
-     * <p>7. Unselect checkbox "Use Default Value" for field "Price for Gift Wrapping" and set field value to
-     * different from the both values above (for example 20). Save the product changes.</p>
-     * <p>8. In Frontend add the above product and some other product with config gift option to the shopping cart
-     * and proceed to checkout.</p>
-     * <p>9. Fill all required fields in billing and shipping addresses and press "Continue" button.</p>
-     * <p>10. Select checkbox "Add gift options".</p>
-     * <p>11. Select checkboxes "Add gift options for the Entire Order" and "Gift Options for Individual Items".</p>
-     * <p>12. Select Gift Wrapping Design for entire order and individual items.</p>
-     * <p>Expected result:</p>
-     * <p>Price on Gift Wrapping for item from step 3 is equal to 20<p>
-     * <p>Prices on Gift Wrappings for another item and entire order are equal to 2.25.<p>
-     * <p>13. Press "Continue" button, select Payment Method "Check/Money order", then press "Continue" again.</p>
-     * <p>Expected result:</p>
-     * <p>Cost of Gift Wrapping is correctly included in Grand Total<p>
-     * <p>14. Press "PLACE ORDER" button.	After step 6.</p>
-     * <p>Expected result:</p>
-     * <p>New page with message "Your order has been received" is displayed.<p>
-     * <p>In Backend new order is present and contains all and correct information (price, design, etc.) about
-     * the selected Gift Wrapping.<p>
      *
      * @param $products
      * @param $userData
@@ -631,23 +485,23 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
     {
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('GiftMessage', 'gift_wrapping_all_enable');
-        $this->systemConfigurationHelper()->configure('GiftMessage', 'gift_options_website_price_scope');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_wrapping_all_enable');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_website_price_scope');
         //Data
         $productGiftOptions = $this->loadDataSet('GiftWrapping', 'gift_options_custom_wrapping_price');
-        $productGiftOptionsSite = $this->loadDataSet('GiftWrapping',
+        $productGOSite = $this->loadDataSet('GiftWrapping',
             'gift_options_custom_wrapping_price_on_store_view');
         $vrfGiftWrapping = $this->loadDataSet('OnePageCheckout', 'verify_wrapping_data', null,
             array('gift_wrapping_design'    => $giftWrappingData['gift_wrapping_design'],
                   'sku_product_1'           => $products[0]['general_sku'],
                   'sku_product_2'           => $products[1]['general_sku'],
                   'price_order'             => '$' . $giftWrappingData['gift_wrapping_price'],
-                  'price_product_1'         => '$' . $productGiftOptionsSite['gift_options_price_for_gift_wrapping'],
+                  'price_product_1'         => '$' . $productGOSite['gift_options_price_for_gift_wrapping'],
                   'price_product_2'         => '$' . $giftWrappingData['gift_wrapping_price']));
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'gift_wrapping_custom_price_on_site',
             array('gift_wrapping_for_order' => '$' . $giftWrappingData['gift_wrapping_price'],
-                  'gift_wrapping_for_items' => '$' . ($productGiftOptionsSite['gift_options_price_for_gift_wrapping'] +
-                                               $giftWrappingData['gift_wrapping_price'])),
+                  'gift_wrapping_for_items' => '$' . ($productGOSite['gift_options_price_for_gift_wrapping'] +
+                                                      $giftWrappingData['gift_wrapping_price'])),
             array('product_1'               => $products[0]['general_name'],
                   'product_2'               => $products[1]['general_name'],
                   'validate_product_1'      => $products[0]['general_name'],
@@ -659,24 +513,22 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
         $this->_updateProductGiftOptions($products[1]['general_name'], 'gift_options_message_yes_wrapping_yes');
         $this->navigate('manage_products');
         $this->productHelper()->openProduct(array('product_name' => $products[0]['general_name']));
-        $this->chooseOkOnNextConfirmation();
-        $this->fillForm(array('choose_store_view' => 'Default Values'));
+        $this->selectStoreScope('dropdown', 'choose_store_view', 'Default Values');
+        $this->acceptAlert();
         $this->productHelper()->fillTab($productGiftOptions, 'gift_options');
-        $this->addParameter('tabId', '0');
-        $this->addParameter('storeId', '0');
         $this->clickButton('save_and_continue_edit');
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->chooseOkOnNextConfirmation();
-        $this->productHelper()->chooseStoreView($website['general_information']['staging_website_name'] .
-                                                '/Main Website Store/Default Store View');
-        $this->getConfirmation();
+        $this->acceptAlert();
+        $scope = $website['general_information']['staging_website_name'] . '/Main Website Store/Default Store View';
+        $this->selectStoreScope('dropdown', 'choose_store_view', $scope);
+        $this->acceptAlert();
         $this->waitForPageToLoad();
-        $this->productHelper()->fillTab($productGiftOptionsSite, 'gift_options');
+        $this->productHelper()->fillTab($productGOSite, 'gift_options');
         $this->clickButton('save');
         $this->assertMessagePresent('success', 'success_saved_product');
         $newFrontendUrl = $this->stagingWebsiteHelper()->buildFrontendUrl(
             $website['general_information']['staging_website_code']);
-        $this->_configHelper->setAreaBaseUrl('frontend', $newFrontendUrl);
+        $this->getConfigHelper()->setAreaBaseUrl('frontend', $newFrontendUrl);
         $this->customerHelper()->frontLoginCustomer($userData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $orderId = $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
@@ -684,8 +536,8 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
         $this->assertMessagePresent('success', 'success_checkout');
         $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
-        $this->addParameter('order_id', '#' . $orderId);
-        $this->searchAndOpen(array('filter_order_id' => $orderId));
+        $this->addParameter('elementTitle', '#' . $orderId);
+        $this->searchAndOpen(array('filter_order_id' => $orderId), 'sales_order_grid');
         $this->orderHelper()->verifyGiftWrapping($vrfGiftWrapping);
     }
 }

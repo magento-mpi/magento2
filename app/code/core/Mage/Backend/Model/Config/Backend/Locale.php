@@ -42,8 +42,7 @@ class Mage_Backend_Model_Config_Backend_Locale extends Mage_Core_Model_Config_Da
                     $currencyName = Mage::app()->getLocale()->currency($data->getValue())->getName();
                     if ($match[1] == 'base') {
                         $fieldName = Mage::helper('Mage_Backend_Helper_Data')->__('Base currency');
-                    }
-                    else {
+                    } else {
                         $fieldName = Mage::helper('Mage_Backend_Helper_Data')->__('Display default currency');
                     }
 
@@ -53,8 +52,10 @@ class Mage_Backend_Model_Config_Backend_Locale extends Mage_Core_Model_Config_Da
                             break;
 
                         case 'website':
-                            $websiteName = Mage::getModel('Mage_Core_Model_Website')->load($data->getScopeId())->getName();
-                            $scopeName = Mage::helper('Mage_Backend_Helper_Data')->__('website(%s) scope', $websiteName);
+                            $websiteName = Mage::getModel('Mage_Core_Model_Website')
+                                ->load($data->getScopeId())->getName();
+                            $scopeName = Mage::helper('Mage_Backend_Helper_Data')
+                                ->__('website(%s) scope', $websiteName);
                             break;
 
                         case 'store':
@@ -63,7 +64,8 @@ class Mage_Backend_Model_Config_Backend_Locale extends Mage_Core_Model_Config_Da
                             break;
                     }
 
-                    $exceptions[] = Mage::helper('Mage_Backend_Helper_Data')->__('Currency "%s" is used as %s in %s.', $currencyName, $fieldName, $scopeName);
+                    $exceptions[] = Mage::helper('Mage_Backend_Helper_Data')
+                        ->__('Currency "%s" is used as %s in %s.', $currencyName, $fieldName, $scopeName);
                 }
             }
         }

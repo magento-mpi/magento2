@@ -53,15 +53,6 @@ class Core_Mage_Order_Create_ExistCustomerTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Creating order for existing customer with same billing and shipping addresses.</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Orders" page;</p>
-     * <p>2. Create new order and choose existing customer from the list;</p>
-     * <p>3. Choose existing address for billing and shipping;</p>
-     * <p>4. Fill in all required fields
-     * (add products, add payment method information, choose shipping method, etc);</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Order is created, no error messages appear;</p>
      *
      * @param array $testData
      *

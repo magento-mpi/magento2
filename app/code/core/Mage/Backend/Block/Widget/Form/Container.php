@@ -47,8 +47,8 @@ class Mage_Backend_Block_Widget_Form_Container extends Mage_Backend_Block_Widget
             $this->_addButton('delete', array(
                 'label'     => $this->__('Delete'),
                 'class'     => 'delete',
-                'onclick'   => 'deleteConfirm(\''. $this->__('Are you sure you want to do this?')
-                    .'\', \'' . $this->getDeleteUrl() . '\')',
+                'onclick'   => 'deleteConfirm(\'' . $this->__('Are you sure you want to do this?')
+                    . '\', \'' . $this->getDeleteUrl() . '\')',
             ));
         }
 

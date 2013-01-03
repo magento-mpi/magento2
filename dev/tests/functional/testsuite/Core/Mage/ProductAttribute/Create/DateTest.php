@@ -46,14 +46,6 @@ class Core_Mage_ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create "Date" type Product Attribute (required fields only)</p>
-     * <p>Steps:</p>
-     * <p>1.Click on "Add New Attribute" button</p>
-     * <p>2.Choose "Date" in 'Catalog Input Type for Store Owner' dropdown</p>
-     * <p>3.Fill all required fields</p>
-     * <p>4.Click on "Save Attribute" button</p>
-     * <p>Expected result:</p>
-     * <p>New attribute ["Date" type] successfully created.</p>
-     * <p>Success message: 'The product attribute has been saved.' is displayed.</p>
      *
      * @return array
      * @test
@@ -75,15 +67,6 @@ class Core_Mage_ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase
     /**
      * <p>Checking of verification for duplicate of Product Attributes with similar code</p>
      * <p>Creation of new attribute with existing code.</p>
-     * <p>Steps:</p>
-     * <p>1.Click on "Add New Attribute" button</p>
-     * <p>2.Choose "Date" in 'Catalog Input Type for Store Owner' dropdown</p>
-     * <p>3.Fill 'Attribute Code' field by code used in test before.</p>
-     * <p>4.Fill other required fields by regular data.</p>
-     * <p>5.Click on "Save Attribute" button</p>
-     * <p>Expected result:</p>
-     * <p>New attribute ["Date" type] should not be created.</p>
-     * <p>Error message: 'Attribute with the same code already exists' is displayed.</p>
      *
      * @param array $attrData
      *
@@ -101,14 +84,6 @@ class Core_Mage_ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Checking validation for required fields are EMPTY</p>
-     * <p>Steps:</p>
-     * <p>1.Click on "Add New Attribute" button</p>
-     * <p>2.Choose "Date" in 'Catalog Input Type for Store Owner' dropdown</p>
-     * <p>3.Skip filling of one field required and fill other required fields.</p>
-     * <p>4.Click on "Save Attribute" button</p>
-     * <p>Expected result:</p>
-     * <p>New attribute ["Date" type] should not be created.</p>
-     * <p>Error JS message: 'This is a required field.' is displayed.</p>
      *
      * @param $emptyField
      *
@@ -151,16 +126,6 @@ class Core_Mage_ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Checking validation for valid data in the 'Attribute Code' field</p>
-     * <p>Steps:</p>
-     * <p>1.Click on "Add New Attribute" button</p>
-     * <p>2.Choose "Date" in 'Catalog Input Type for Store Owner' dropdown</p>
-     * <p>3.Fill 'Attribute Code' field by invalid data [Examples: '0xxx'/'_xxx'/'111']</p>
-     * <p>4.Fill other required fields by regular data.</p>
-     * <p>5.Click on "Save Attribute" button</p>
-     * <p>Expected result:</p>
-     * <p>New attribute ["Date" type] should not be created.</p>
-     * <p>Error JS message: 'Please use only letters (a-z), numbers (0-9) or underscore(_) in</p>
-     * <p>this field, first character should be a letter.' is displayed.</p>
      *
      * @param $wrongAttributeCode
      * @param $validationMessage
@@ -196,15 +161,6 @@ class Core_Mage_ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase
     /**
      * <p>Checking of correct validate of submitting form by using special</p>
      * <p>characters for all fields exclude 'Attribute Code' field.</p>
-     * <p>Steps:</p>
-     * <p>1.Click on "Add New Attribute" button</p>
-     * <p>2.Choose "Date" in 'Catalog Input Type for Store Owner' dropdown</p>
-     * <p>3.Fill 'Attribute Code' field by regular data.</p>
-     * <p>4.Fill other required fields by special characters.</p>
-     * <p>5.Click on "Save Attribute" button</p>
-     * <p>Expected result:</p>
-     * <p>New attribute ["Date" type] successfully created.</p>
-     * <p>Success message: 'The product attribute has been saved.' is displayed.</p>
      *
      * @test
      * @depends withRequiredFieldsOnly
@@ -230,14 +186,6 @@ class Core_Mage_ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Checking of correct work of submitting form by using long values for fields filling</p>
-     * <p>Steps:</p>
-     * <p>1.Click on "Add New Attribute" button</p>
-     * <p>2.Choose "Date" in 'Catalog Input Type for Store Owner' dropdown</p>
-     * <p>3.Fill all required fields by long value alpha-numeric data.</p>
-     * <p>4.Click on "Save Attribute" button</p>
-     * <p>Expected result:</p>
-     * <p>New attribute ["Date" type] successfully created.</p>
-     * <p>Success message: 'The product attribute has been saved.' is displayed.</p>
      *
      * @test
      * @depends withRequiredFieldsOnly

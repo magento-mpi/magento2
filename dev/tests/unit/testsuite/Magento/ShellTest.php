@@ -14,13 +14,13 @@ class Magento_ShellTest extends PHPUnit_Framework_TestCase
     public function testGetSetVerbose()
     {
         $shell = new Magento_Shell(false);
-        $this->assertFalse($shell->getVerbose());
+        $this->assertFalse($shell->isVerbose());
 
         $shell->setVerbose(true);
-        $this->assertTrue($shell->getVerbose());
+        $this->assertTrue($shell->isVerbose());
 
         $shell->setVerbose(false);
-        $this->assertFalse($shell->getVerbose());
+        $this->assertFalse($shell->isVerbose());
     }
 
     /**
@@ -89,5 +89,13 @@ class Magento_ShellTest extends PHPUnit_Framework_TestCase
             $this->assertEquals($expectedError, $e->getPrevious()->getMessage());
             $this->assertEquals(42, $e->getPrevious()->getCode());
         }
+    }
+
+    public function testOutput()
+    {
+        $fixture = uniqid();
+        $this->expectOutputString($fixture . PHP_EOL);
+        $shell = new Magento_Shell;
+        $shell->output($fixture);
     }
 }

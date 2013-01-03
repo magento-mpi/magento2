@@ -30,12 +30,6 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Test navigation.</p>
-     * <p>Steps:</p>
-     * <p>1. Verify that 'Create Website' button is present and click her.</p>
-     * <p>2. Verify that the create website page is opened.</p>
-     * <p>3. Verify that 'Back' button is present.</p>
-     * <p>4. Verify that 'Save Website' button is present.</p>
-     * <p>5. Verify that 'Reset' button is present.</p>
      *
      * @test
      */
@@ -52,13 +46,6 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Website. Fill in only required fields.</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Create Website' button.</p>
-     * <p>2. Fill in required fields.</p>
-     * <p>3. Click 'Save Website' button.</p>
-     * <p>Expected result:</p>
-     * <p>Website is created.</p>
-     * <p>Success Message is displayed</p>
      *
      * @return array
      * @test
@@ -79,14 +66,6 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Website.  Fill in field 'Code' by using code that already exist.</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Create Website' button.</p>
-     * <p>2. Fill in 'Code' field by using code that already exist.</p>
-     * <p>3. Fill other required fields by regular data.</p>
-     * <p>4. Click 'Save Website' button.</p>
-     * <p>Expected result:</p>
-     * <p>Website is not created.</p>
-     * <p>Error Message is displayed.</p>
      *
      * @param array $websiteData
      *
@@ -104,13 +83,6 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Website. Fill in all required fields except one field.</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Create Website' button.</p>
-     * <p>2. Fill in required fields except one field.</p>
-     * <p>3. Click 'Save Website' button.</p>
-     * <p>Expected result:</p>
-     * <p>Website is not created.</p>
-     * <p>Error Message is displayed.</p>
      *
      * @param $emptyField
      *
@@ -142,13 +114,6 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Website. Fill in only required fields. Use max long values for fields 'Name' and 'Code'</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Create Website' button.</p>
-     * <p>2. Fill in required fields by long value alpha-numeric data.</p>
-     * <p>3. Click 'Save Website' button.</p>
-     * <p>Expected result:</p>
-     * <p>Website is created. Success Message is displayed.</p>
-     * <p>Length of field "Name" is 255 characters. Length of field "Code" is 32 characters.</p>
      *
      * @test
      * @depends withRequiredFieldsOnly
@@ -168,14 +133,6 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Website. Fill in field 'Name' by using special characters.</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Create Website' button.</p>
-     * <p>2. Fill in 'Name' field by special characters.</p>
-     * <p>3. Fill other required fields by regular data.</p>
-     * <p>4. Click 'Save Website' button.</p>
-     * <p>Expected result:</p>
-     * <p>Website is created.</p>
-     * <p>Success Message is displayed</p>
      *
      * @test
      * @depends withRequiredFieldsOnly
@@ -194,14 +151,6 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Website.  Fill in field 'Code' by using wrong values.</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Create Website' button.</p>
-     * <p>2. Fill in 'Code' field by wrong value.</p>
-     * <p>3. Fill other required fields by regular data.</p>
-     * <p>4. Click 'Save Website' button.</p>
-     * <p>Expected result:</p>
-     * <p>Website is not created.</p>
-     * <p>Error Message is displayed.</p>
      *
      * @param $invalidCode
      *
@@ -232,10 +181,6 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Website with several Stores assigned to one Root Category</p>
-     * <p>Steps:</p>
-     * <p>1. Create website</p>
-     * <p>2. Create first store</p>
-     * <p>3. Create second store</p>
      *
      * @test
      * @depends withRequiredFieldsOnly
@@ -265,11 +210,6 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Website with several Store Views in one Store</p>
-     * <p>Steps:</p>
-     * <p>1. Create website</p>
-     * <p>2. Create store</p>
-     * <p>3. Create first store view</p>
-     * <p>4. Create second store view</p>
      *
      * @test
      * @depends withRequiredFieldsOnly

@@ -31,7 +31,7 @@ class Mage_Selenium_Uimap_Tab extends Mage_Selenium_Uimap_Abstract
      * @param string $tabId Tab's ID
      * @param array $tabContainer Array of data that contains the specific tab
      */
-    public function  __construct($tabId, array &$tabContainer)
+    public function __construct($tabId, array &$tabContainer)
     {
         $this->_tabId = $tabId;
         $this->_xPath = isset($tabContainer['xpath'])
@@ -54,14 +54,14 @@ class Mage_Selenium_Uimap_Tab extends Mage_Selenium_Uimap_Abstract
     /**
      * Get Fieldset structure by ID
      *
-     * @param string $id Fieldset ID
+     * @param string $fieldsetId ID
      *
      * @return Mage_Selenium_Uimap_Fieldset|null
      */
-    public function getFieldset($id)
+    public function getFieldset($fieldsetId)
     {
         return isset($this->_elements['fieldsets'])
-            ? $this->_elements['fieldsets']->getFieldset($id)
+            ? $this->_elements['fieldsets']->getFieldset($fieldsetId)
             : null;
     }
 
@@ -75,9 +75,41 @@ class Mage_Selenium_Uimap_Tab extends Mage_Selenium_Uimap_Abstract
             return array();
         }
         $names = array();
-        foreach ($this->_elements['fieldsets'] as $fieldsetName => $content) {
+        foreach ($this->_elements['fieldsets'] as $fieldsetName => $value) {
             $names[] = $fieldsetName;
+            $this->_elements['fieldsets'][$fieldsetName] = $value;
         }
         return $names;
+    }
+
+    /**
+     * Get Tab Elements
+     *
+     * @param null|Mage_Selenium_Helper_Params $paramsDecorator
+     *
+     * @return array
+     */
+    public function getTabElements($paramsDecorator = null)
+    {
+        if (!isset($this->_elements['fieldsets'])) {
+            return array();
+        }
+        $elements = array();
+        foreach ($this->_elements['fieldsets'] as $fieldset) {
+            foreach ($fieldset->_elements as $elementType => $elementsData) {
+                $type = preg_replace('/(e)?s$/', '', $elementType);
+                foreach ($elementsData as $elementName => $elementLocator) {
+                    if (array_key_exists($type, $elements)
+                        && array_key_exists($elementName, $elements[$type])
+                        && $type != 'required'
+                    ) {
+                        trigger_error('"' . $this->getTabId() . '" tab contains several "' . $type . '" with name "'
+                                      . $elementName . '"', E_USER_NOTICE);
+                    }
+                    $elements[$type][$elementName] = $this->_applyParamsToString($elementLocator, $paramsDecorator);
+                }
+            }
+        }
+        return $elements;
     }
 }

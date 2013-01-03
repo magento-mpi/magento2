@@ -34,6 +34,11 @@ class Enterprise_PageCache_Model_Cache
     static public function getCacheInstance()
     {
         if (is_null(self::$_cache)) {
+            Magento_Profiler::start('enterprise_page_cache_create', array(
+                'group' => 'enterprise_page_cache',
+                'operation' => 'enterprise_page_cache:create'
+            ));
+
             $options = Mage::app()->getConfig()->getNode('global/full_page_cache');
             if (!$options) {
                 self::$_cache = Mage::app()->getCacheInstance();
@@ -50,6 +55,8 @@ class Enterprise_PageCache_Model_Cache
             }
 
             self::$_cache = Mage::getModel('Mage_Core_Model_Cache', array('options' => $options));
+
+            Magento_Profiler::stop('enterprise_page_cache_create');
         }
 
         return self::$_cache;

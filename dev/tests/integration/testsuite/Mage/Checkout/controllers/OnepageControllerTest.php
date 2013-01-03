@@ -64,6 +64,7 @@ class Mage_Checkout_OnepageControllerTest extends Magento_Test_TestCase_Controll
     public function testReviewAction()
     {
         $this->dispatch('checkout/onepage/review');
+        $this->assertContains('Place Order', $this->getResponse()->getBody());
         $this->assertContains('checkout-review', $this->getResponse()->getBody());
     }
 

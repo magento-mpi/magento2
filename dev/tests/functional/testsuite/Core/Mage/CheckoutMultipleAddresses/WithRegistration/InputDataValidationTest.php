@@ -39,18 +39,6 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
 
     /**
      * <p>Customer registration.  Use email that already exist.</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Checkout with Multiple Addresses".</p>
-     * <p>4. Select Checkout Method with Registering</p>
-     * <p>5. Navigate to 'Create an Account' page.</p>
-     * <p>6. Fill in 'Email' field by using code that already exist.</p>
-     * <p>7. Fill other required fields by regular data.</p>
-     * <p>8. Click 'Submit' button.</p>
-     * <p>Expected result:</p>
-     * <p>Customer is not registered.</p>
-     * <p>Error Message is displayed.</p>
      *
      * @param array $testData
      *
@@ -77,17 +65,6 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
 
     /**
      * <p>Customer registration. Fill in only required fields. Use max long values for fields.</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Checkout with Multiple Addresses".</p>
-     * <p>4. Select Checkout Method with Registering</p>
-     * <p>5. Navigate to 'Create an Account' page.</p>
-     * <p>6. Fill in required fields by long value alpha-numeric data.</p>
-     * <p>7. Click 'Submit' button.</p>
-     * <p>Expected result:</p>
-     * <p>Customer is registered. Success Message is displayed.</p>
-     * <p>Length of fields are 255 characters.</p>
      *
      * @param array $testData
      *
@@ -110,17 +87,6 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
 
     /**
      * <p>Customer registration with empty required field.</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Checkout with Multiple Addresses".</p>
-     * <p>4. Select Checkout Method with Registering</p>
-     * <p>5. Navigate to 'Create an Account' page.</p>
-     * <p>6. Fill in fields except one required.</p>
-     * <p>7. Click 'Submit' button</p>
-     * <p>Expected result:</p>
-     * <p>Customer is not registered.</p>
-     * <p>Error Message is displayed.</p>
      *
      * @param string $field
      * @param string $fieldName
@@ -168,17 +134,6 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
 
     /**
      * <p>Customer registration. Fill in all required fields by using special characters(except the field "email").</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Checkout with Multiple Addresses".</p>
-     * <p>4. Select Checkout Method with Registering</p>
-     * <p>5. Navigate to 'Create an Account' page.</p>
-     * <p>6. Fill in all required fields by using special characters(except the field "email").</p>
-     * <p>7. Click 'Submit' button.</p>
-     * <p>Expected result:</p>
-     * <p>Customer is registered.</p>
-     * <p>Success Message is displayed</p>
      *
      * @param array $testData
      *
@@ -201,18 +156,6 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
 
     /**
      * <p>Customer registration with invalid value for 'Email' field</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Checkout with Multiple Addresses".</p>
-     * <p>4. Select Checkout Method with Registering</p>
-     * <p>5. Navigate to 'Create an Account' page.</p>
-     * <p>6. Fill in 'Email' field by wrong value.</p>
-     * <p>7. Fill other required fields by regular data.</p>
-     * <p>8. Click 'Submit' button.</p>
-     * <p>Expected result:</p>
-     * <p>Customer is not registered.</p>
-     * <p>Error Message is displayed.</p>
      *
      * @param string $invalidEmail
      * @param array $testData
@@ -248,18 +191,6 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
 
     /**
      * <p>Customer registration with invalid value for 'Password' fields</p>
-     * <p>Steps:</p>
-     * <p>1. Open product page.</p>
-     * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Checkout with Multiple Addresses".</p>
-     * <p>4. Select Checkout Method with Registering</p>
-     * <p>5. Navigate to 'Create an Account' page.</p>
-     * <p>6. Fill in 'password' fields by wrong value.</p>
-     * <p>7. Fill other required fields by regular data.</p>
-     * <p>8. Click 'Submit' button.</p>
-     * <p>Expected result:</p>
-     * <p>Customer is not registered.</p>
-     * <p>Error Message is displayed.</p>
      *
      * @param string $invalidPassword
      * @param string $errorMessage

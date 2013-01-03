@@ -1,15 +1,11 @@
 <?php
 /**
+ * Mysql PDO DB adapter
+ *
  * {license_notice}
  *
- * @category   Varien
- * @package    Varien_Db
- * @copyright  {copyright}
- * @license    {license_link}
- */
-
-/**
- * Mysql PDO DB adapter
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements Varien_Db_Adapter_Interface
 {
@@ -426,6 +422,13 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
                 $this->_debugStat(self::DEBUG_QUERY, $sql, $bind, $result);
                 return $result;
             } catch (Exception $e) {
+                // Finalize broken query
+                $profiler = $this->getProfiler();
+                if ($profiler instanceof Varien_Db_Profiler) {
+                    /** @var Varien_Db_Profiler $profiler */
+                    $profiler->queryEndLast();
+                }
+
                 /** @var $pdoException PDOException */
                 $pdoException = null;
                 if ($e instanceof PDOException) {

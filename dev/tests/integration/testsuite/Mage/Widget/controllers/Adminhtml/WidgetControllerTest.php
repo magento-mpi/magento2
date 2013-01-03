@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Widget_Adminhtml_WidgetControllerTest extends Mage_Adminhtml_Utility_Controller
+class Mage_Widget_Adminhtml_WidgetControllerTest extends Mage_Backend_Utility_Controller
 {
     /**
      * Partially covers Mage_Widget_Block_Adminhtml_Widget_Options::_addField()

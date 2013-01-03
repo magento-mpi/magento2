@@ -42,10 +42,15 @@ class Mage_Selenium_Helper_Params
      * @param string $name Parameter name
      * @param string $value Parameter value (null to unset)
      *
+     * @throws OutOfRangeException
      * @return Mage_Selenium_Helper_Params
      */
     public function setParameter($name, $value)
     {
+        if (is_array($value)) {
+            throw new OutOfRangeException(
+                'Can not add parameter ' . $name . ' because value type is array' . print_r($value, true));
+        }
         $key = '%' . $name . '%';
         if ($value === null) {
             unset($this->_paramsArray[$key]);

@@ -381,7 +381,7 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
      */
     public function getSchemaFile()
     {
-        return __DIR__ . '/validation.xsd';
+        return __DIR__ . '/etc/validation.xsd';
     }
 
     /**

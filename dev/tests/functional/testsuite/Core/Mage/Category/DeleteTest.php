@@ -20,7 +20,6 @@ class Core_Mage_Category_DeleteTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
-     * <p>Navigate to Catalog -> Manage Categories</p>
      */
     protected function assertPreConditions()
     {
@@ -31,13 +30,6 @@ class Core_Mage_Category_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Deleting Root Category</p>
-     * <p>Pre-Conditions:</p>
-     * <p>Root Category created</p>
-     * <p>Steps:</p>
-     * <p>Select Root Category</p>
-     * <p>Click "Delete" button</p>
-     * <p>Expected result</p>
-     * <p>Root category Deleted, Success message appears</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3167
@@ -59,13 +51,6 @@ class Core_Mage_Category_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Deleting  Subcategory</p>
-     * <p>Pre-Conditions:</p>
-     * <p>Subcategory created</p>
-     * <p>Steps:</p>
-     * <p>Select created Subcategory</p>
-     * <p>Click "Delete" button</p>
-     * <p>Expected result</p>
-     * <p>Subcategory Deleted, Success message appears</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3170
@@ -87,12 +72,6 @@ class Core_Mage_Category_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Deleting Root Category that assigned to store</p>
-     * <p>Pre-Conditions:</p>
-     * <p>Root Category created and assigned to store</p>
-     * <p>Steps:</p>
-     * <p>Select Root Category</p>
-     * <p>Expected result</p>
-     * <p>Verify that button "Delete" is absent on the page</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3171
@@ -126,14 +105,6 @@ class Core_Mage_Category_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Deleting Root Category with Subcategory</p>
-     * <p>Pre-Conditions:</p>
-     * <p>Root Category Created</p>
-     * <p>Subcategory created</p>
-     * <p>Steps:</p>
-     * <p>Select created Root Category</p>
-     * <p>Click "Delete" button</p>
-     * <p>Expected result</p>
-     * <p>Subcategory Deleted, Success message appears</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3168
@@ -161,14 +132,6 @@ class Core_Mage_Category_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Deleting Root Category with Subcategory</p>
-     * <p>Pre-Conditions:</p>
-     * <p>Root Category Created</p>
-     * <p>Subcategory created</p>
-     * <p>Steps:</p>
-     * <p>Select created Root Category</p>
-     * <p>Click "Delete" button</p>
-     * <p>Expected result</p>
-     * <p>Subcategory Deleted, Success message appears</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3169

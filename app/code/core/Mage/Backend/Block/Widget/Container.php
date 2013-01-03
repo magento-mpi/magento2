@@ -47,30 +47,30 @@ class Mage_Backend_Block_Widget_Container extends Mage_Backend_Block_Template
     /**
      * Add a button
      *
-     * @param string $id
+     * @param string $buttonId
      * @param array $data
      * @param integer $level
      * @param integer $sortOrder
      * @param string|null $region, that button should be displayed in ('header', 'footer', null)
      * @return Mage_Backend_Block_Widget_Container
      */
-    protected function _addButton($id, $data, $level = 0, $sortOrder = 0, $region = 'header')
+    protected function _addButton($buttonId, $data, $level = 0, $sortOrder = 0, $region = 'header')
     {
         if (!isset($this->_buttons[$level])) {
             $this->_buttons[$level] = array();
         }
         if (empty($data['id'])) {
-            $data['id'] = $id;
+            $data['id'] = $buttonId;
         }
-        $this->_buttons[$level][$id] = $data;
-        $this->_buttons[$level][$id]['region'] = $region;
-        if (empty($this->_buttons[$level][$id]['id'])) {
-            $this->_buttons[$level][$id]['id'] = $id;
+        $this->_buttons[$level][$buttonId] = $data;
+        $this->_buttons[$level][$buttonId]['region'] = $region;
+        if (empty($this->_buttons[$level][$buttonId]['id'])) {
+            $this->_buttons[$level][$buttonId]['id'] = $buttonId;
         }
         if ($sortOrder) {
-            $this->_buttons[$level][$id]['sort_order'] = $sortOrder;
+            $this->_buttons[$level][$buttonId]['sort_order'] = $sortOrder;
         } else {
-            $this->_buttons[$level][$id]['sort_order'] = count($this->_buttons[$level]) * 10;
+            $this->_buttons[$level][$buttonId]['sort_order'] = count($this->_buttons[$level]) * 10;
         }
         return $this;
     }
@@ -78,29 +78,29 @@ class Mage_Backend_Block_Widget_Container extends Mage_Backend_Block_Template
     /**
      * Public wrapper for protected _addButton method
      *
-     * @param string $id
+     * @param string $buttonId
      * @param array $data
      * @param integer $level
      * @param integer $sortOrder
      * @param string|null $region, that button should be displayed in ('header', 'footer', null)
      * @return Mage_Backend_Block_Widget_Container
      */
-    public function addButton($id, $data, $level = 0, $sortOrder = 0, $region = 'header')
+    public function addButton($buttonId, $data, $level = 0, $sortOrder = 0, $region = 'header')
     {
-        return $this->_addButton($id, $data, $level, $sortOrder, $region);
+        return $this->_addButton($buttonId, $data, $level, $sortOrder, $region);
     }
 
     /**
      * Remove existing button
      *
-     * @param string $id
+     * @param string $buttonId
      * @return Mage_Backend_Block_Widget_Container
      */
-    protected function _removeButton($id)
+    protected function _removeButton($buttonId)
     {
         foreach ($this->_buttons as $level => $buttons) {
-            if (isset($buttons[$id])) {
-                unset($this->_buttons[$level][$id]);
+            if (isset($buttons[$buttonId])) {
+                unset($this->_buttons[$level][$buttonId]);
             }
         }
         return $this;
@@ -109,38 +109,38 @@ class Mage_Backend_Block_Widget_Container extends Mage_Backend_Block_Template
     /**
      * Public wrapper for the _removeButton() method
      *
-     * @param string $id
+     * @param string $buttonId
      * @return Mage_Backend_Block_Widget_Container
      */
-    public function removeButton($id)
+    public function removeButton($buttonId)
     {
-        return $this->_removeButton($id);
+        return $this->_removeButton($buttonId);
     }
 
     /**
      * Update specified button property
      *
-     * @param string $id
+     * @param string $buttonId
      * @param string|null $key
      * @param mixed $data
      * @return Mage_Backend_Block_Widget_Container
      */
-    protected function _updateButton($id, $key=null, $data)
+    protected function _updateButton($buttonId, $key=null, $data)
     {
         foreach ($this->_buttons as $level => $buttons) {
-            if (isset($buttons[$id])) {
+            if (isset($buttons[$buttonId])) {
                 if (!empty($key)) {
-                    if ($child = $this->getChildBlock($id . '_button')) {
+                    if ($child = $this->getChildBlock($buttonId . '_button')) {
                         $child->setData($key, $data);
                     }
                     if ('level' == $key) {
-                        $this->_buttons[$data][$id] = $this->_buttons[$level][$id];
-                        unset($this->_buttons[$level][$id]);
+                        $this->_buttons[$data][$buttonId] = $this->_buttons[$level][$buttonId];
+                        unset($this->_buttons[$level][$buttonId]);
                     } else {
-                        $this->_buttons[$level][$id][$key] = $data;
+                        $this->_buttons[$level][$buttonId][$key] = $data;
                     }
                 } else {
-                    $this->_buttons[$level][$id] = $data;
+                    $this->_buttons[$level][$buttonId] = $data;
                 }
                 break;
             }
@@ -151,14 +151,14 @@ class Mage_Backend_Block_Widget_Container extends Mage_Backend_Block_Template
     /**
      * Public wrapper for protected _updateButton method
      *
-     * @param string $id
+     * @param string $buttonId
      * @param string|null $key
      * @param mixed $data
      * @return Mage_Backend_Block_Widget_Container
      */
-    public function updateButton($id, $key=null, $data)
+    public function updateButton($buttonId, $key = null, $data)
     {
-        return $this->_updateButton($id, $key, $data);
+        return $this->_updateButton($buttonId, $key, $data);
     }
 
     /**
@@ -168,9 +168,9 @@ class Mage_Backend_Block_Widget_Container extends Mage_Backend_Block_Template
      */
     protected function _prepareLayout()
     {
-        foreach ($this->_buttons as $level => $buttons) {
-            foreach ($buttons as $id => $data) {
-                $childId = $this->_prepareButtonBlockId($id);
+        foreach ($this->_buttons as $buttons) {
+            foreach ($buttons as $buttonId => $data) {
+                $childId = $this->_prepareButtonBlockId($buttonId);
                 $blockClassName = isset($data['class_name']) ? $data['class_name'] : null;
                 $this->_addButtonChildBlock($childId, $blockClassName);
             }
@@ -181,12 +181,12 @@ class Mage_Backend_Block_Widget_Container extends Mage_Backend_Block_Template
     /**
      * Prepare block id for button's id
      *
-     * @param string $id
+     * @param string $buttonId
      * @return string
      */
-    protected function _prepareButtonBlockId($id)
+    protected function _prepareButtonBlockId($buttonId)
     {
-        return $id . '_button';
+        return $buttonId . '_button';
     }
 
     /**
@@ -201,7 +201,7 @@ class Mage_Backend_Block_Widget_Container extends Mage_Backend_Block_Template
         if (null === $blockClassName) {
             $blockClassName = 'Mage_Backend_Block_Widget_Button';
         }
-        $block = $this->getLayout()->createBlock($blockClassName,  $this->getNameInLayout() . '-' . $childId);
+        $block = $this->getLayout()->createBlock($blockClassName, $this->getNameInLayout() . '-' . $childId);
         $this->setChild($childId, $block);
         return $block;
     }
@@ -215,20 +215,15 @@ class Mage_Backend_Block_Widget_Container extends Mage_Backend_Block_Template
     public function getButtonsHtml($region = null)
     {
         $out = '';
-        foreach ($this->_buttons as $level => $buttons) {
-            $_buttons = array();
-            foreach ($buttons as $id => $data) {
-                $_buttons[$data['sort_order']]['id'] = $id;
-                $_buttons[$data['sort_order']]['data'] = $data;
-            }
-            ksort($_buttons);
+        foreach ($this->_buttons as $buttons) {
+            $_buttons = $this->_sortButtons($buttons);
             foreach ($_buttons as $button) {
-                $id = $button['id'];
+                $buttonId = $button['id'];
                 $data = $button['data'];
                 if ($region && isset($data['region']) && ($region != $data['region'])) {
                     continue;
                 }
-                $childId = $this->_prepareButtonBlockId($id);
+                $childId = $this->_prepareButtonBlockId($buttonId);
                 $child = $this->getChildBlock($childId);
 
                 if (!$child) {
@@ -244,6 +239,23 @@ class Mage_Backend_Block_Widget_Container extends Mage_Backend_Block_Template
             }
         }
         return $out;
+    }
+
+    /**
+     * Sort buttons by sort order
+     *
+     * @param array $buttons
+     * @return array
+     */
+    public function _sortButtons($buttons)
+    {
+        $_buttons = array();
+        foreach ($buttons as $buttonId => $data) {
+            $_buttons[$data['sort_order']]['id'] = $buttonId;
+            $_buttons[$data['sort_order']]['data'] = $data;
+        }
+        ksort($_buttons);
+        return $_buttons;
     }
 
     /**
@@ -283,8 +295,8 @@ class Mage_Backend_Block_Widget_Container extends Mage_Backend_Block_Template
      */
     public function hasFooterButtons()
     {
-        foreach ($this->_buttons as $level => $buttons) {
-            foreach ($buttons as $id => $data) {
+        foreach ($this->_buttons as $buttons) {
+            foreach ($buttons as $data) {
                 if (isset($data['region']) && ('footer' == $data['region'])) {
                     return true;
                 }

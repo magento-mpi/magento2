@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Backend
- */
 class Mage_Backend_Model_Config_DataTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -22,6 +19,7 @@ class Mage_Backend_Model_Config_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testSaveWithSingleStoreModeEnabled($groups)
     {
+        Mage::getConfig()->setCurrentAreaCode('adminhtml');
         /** @var $_configDataObject Mage_Backend_Model_Config */
         $_configDataObject = Mage::getModel('Mage_Backend_Model_Config');
         $_configData = $_configDataObject->setSection('dev')

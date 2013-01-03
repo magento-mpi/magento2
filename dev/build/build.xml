@@ -29,7 +29,6 @@
                 <isset property="dir.build_directory"/>
             </not>
         </condition>
-        <property name="dir.extruder" location="${dir.build_directory}/${extruder.dir}"/>
     </target>
 
     <!-- setup permissions for the application installation -->
@@ -45,11 +44,10 @@
     <!-- delete files, that don't belong to Community Edition, from working copy -->
     <target name="prepare-ce" depends="prepare-build-properties">
         <exec executable="php" failonerror="true">
-            <arg line="-f ${dir.extruder}/extruder.php --
-                -w ${dir.build_directory}
-                -l ${dir.extruder}/publication/extruder/common.txt
-                -l ${dir.extruder}/publication/extruder/ce.txt
-                -v
+            <arg line="-f ${dir.build_directory}/dev/build/publication/edition.php --
+                --dir=${dir.build_directory}
+                --edition=ce
+                --build
                 "/>
         </exec>
     </target>
@@ -70,6 +68,7 @@
 
     <target name="prepare-ee" depends="prepare-build-properties">
         <copy file="${dir.build_directory}/${enterprise-enabler.file}.dist" tofile="${dir.build_directory}/${enterprise-enabler.file}"/>
+        <copy file="${dir.build_directory}/${saas-enabler.file}.dist" tofile="${dir.build_directory}/${saas-enabler.file}"/>
 
         <replace file="${dir.build_directory}/downloader/config.ini" token="community" value="enterprise"/>
         <replace file="${dir.build_directory}/app/Mage.php" token="self::EDITION_COMMUNITY" value="self::EDITION_ENTERPRISE"/>

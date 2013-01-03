@@ -64,7 +64,7 @@ class Mage_Webapi_Controller_Response_FactoryTest extends PHPUnit_Framework_Test
         );
         $this->setExpectedException(
             'LogicException',
-            printf('There is no corresponding response class for the "%s" API type.', $wrongApiType)
+            sprintf('There is no corresponding response class for the "%s" API type.', $wrongApiType)
         );
         $this->_factory->get();
     }

@@ -17,7 +17,7 @@ class Mage_Testlink_Connector
      * Default server url. Should be overriden in phpunit.xml
      * @var string
      */
-    public static $SERVER_URL = "http://localhost//testlink/lib/api/xmlrpc.php";
+    public static $serverURL = "http://localhost//testlink/lib/api/xmlrpc.php";
 
     /**
      * @var IXR_Client
@@ -25,7 +25,7 @@ class Mage_Testlink_Connector
     private $_client;
 
     /**
-     * Key used for getting connection to xml-rpc of testlink (all test cases will be signed from the user whoes id is used)
+     * Key used to get connection to xml-rpc of testlink (all test cases will be signed from the user whoes id is used)
      *
      * @var string|null
      */
@@ -49,7 +49,7 @@ class Mage_Testlink_Connector
      */
     public function __construct()
     {
-        $this->_client = new IXR_Client(Mage_Testlink_Connector::$SERVER_URL);
+        $this->_client = new IXR_Client(Mage_Testlink_Connector::$serverURL);
     }
 
     /**
@@ -72,41 +72,46 @@ class Mage_Testlink_Connector
     /**
      * Send the result of test execution of the test case
      *
-     * @param string $tcaseexternalid
-     * @param string $tplanid
-     * @param string $buildid
-     * @param string $buildname
+     * @param string $tCaseExternalId
+     * @param string $tPlanId
+     * @param string $buildId
+     * @param string $buildName
      * @param string $status
      * @param string $notes
-     * @param string $bugid
-     * @param string $customfields
-     * @param string $platformname
-     * @param bool $overwrite
-     * @param bool $debug
+     * @param string $bugId
+     * @param string $customFields
+     * @param string $platformName
      *
      * @return array
      */
-    protected function reportResult($tcaseexternalid=null, $tplanid, $buildid=null, $buildname=null,
-                          $status, $notes=null, $bugid=null, $customfields=null, $platformname=null,
-                          $overwrite=false, $debug=false)
-    {
-        $this->_client->debug = $debug;
+    protected function reportResult(
+        $tCaseExternalId=null,
+        $tPlanId,
+        $buildId=null,
+        $buildName=null,
+        $status,
+        $notes=null,
+        $bugId=null,
+        $customFields=null,
+        $platformName=null
+    ) {
+        $this->_client->debug = false;
         $data = array();
         $data["devKey"] = Mage_Testlink_Connector::$devKey;
-        $data["testplanid"] = $tplanid;
+        $data["testplanid"] = $tPlanId;
 
-        if (!is_null($bugid)) {
-            $data["bugid"] = $bugid;
+        if (!is_null($bugId)) {
+            $data["bugid"] = $bugId;
         }
 
-        if (!is_null($tcaseexternalid)) {
-            $data["testcaseexternalid"] = $tcaseexternalid;
+        if (!is_null($tCaseExternalId)) {
+            $data["testcaseexternalid"] = $tCaseExternalId;
         }
 
-        if (!is_null($buildid)) {
-            $data["buildid"] = $buildid;
-        } elseif (!is_null($buildname)) {
-            $data["buildname"] = $buildname;
+        if (!is_null($buildId)) {
+            $data["buildid"] = $buildId;
+        } elseif (!is_null($buildName)) {
+            $data["buildname"] = $buildName;
         }
 
         if (!is_null($notes)) {
@@ -114,17 +119,15 @@ class Mage_Testlink_Connector
         }
         $data["status"] = $status;
 
-        if (!is_null($customfields)) {
-            $data["customfields"] = $customfields;
+        if (!is_null($customFields)) {
+            $data["customfields"] = $customFields;
         }
 
-        if (!is_null($platformname)) {
-            $data["platformname"] = $platformname;
+        if (!is_null($platformName)) {
+            $data["platformname"] = $platformName;
         }
 
-        if (!is_null($overwrite)) {
-            $data["overwrite"] = $overwrite;
-        }
+        $data["overwrite"] = true;
 
         if ($this->_client->query('tl.reportTCResult', $data)) {
             $response = $this->_client->getResponse();
@@ -170,7 +173,7 @@ class Mage_Testlink_Connector
             if (!empty($projects)) {
                 foreach ($projects as $project) {
                     if (isset($project["name"]) && ($project["name"] == $name)) {
-                        return $id = isset($project["id"]) ? $project["id"] : null;
+                        return isset($project["id"]) ? $project["id"] : null;
                     }
                 }
             } else {
@@ -179,22 +182,23 @@ class Mage_Testlink_Connector
         } else {
             return $name;
         }
+        return null;
     }
 
     /**
      * Gets array of all tests plans in project
      *
-     * @param string    $project_id
+     * @param string    $projectId
      *
      * @return array
      */
-    protected function getTestPlans($project_id)
+    protected function getTestPlans($projectId)
     {
         $plans = array();
-        if (is_numeric($project_id)) {
+        if (is_numeric($projectId)) {
             $method = 'getProjectTestPlans';
             $args = array();
-            $args["testprojectid"] = $project_id;
+            $args["testprojectid"] = $projectId;
             $plans = $this->action($method, $args);
         }
         return $plans;
@@ -203,73 +207,80 @@ class Mage_Testlink_Connector
     /**
      * Gets the last test plan from project or searches for test plan by name or id
      *
-     * @param string        $project_id
+     * @param string        $projectId
      * @param string|null   $testPlan
      *
      * @return array
      */
-    public function getTestPlan($project_id, $testPlan=null)
+    public function getTestPlan($projectId, $testPlan=null)
     {
-        $plans = $this->getTestPlans($project_id);
+        $plans = $this->getTestPlans($projectId);
         if (isset($testPlan) && !empty($plans)) {
-            if (is_numeric($testPlan)) {
-                foreach ($plans as $plan) {
-                    if (isset($plan['id']) && $plan['id'] == $testPlan) {
-                        return $plan;
-                    }
-                }
-            } else {
-                foreach ($plans as $plan) {
-                    if (isset($plan['name']) && $plan['name'] == $testPlan) {
-                        return $plan;
-                    }
-                }
+            $plan = $this->_defineTestPlan($testPlan, $plans);
+            if (!empty($plan)) {
+                return $plan;
             }
         } else {
             return $plan = (!empty($plans)) ? $plans[count($plans) - 1] : array();
         }
+        return null;
+    }
+
+    /**
+     * Defines test plan
+     * @param $testPlan
+     * @param $plans
+     * @return null
+     */
+    protected function _defineTestPlan($testPlan, $plans)
+    {
+        if (is_numeric($testPlan)) {
+            foreach ($plans as $plan) {
+                if (isset($plan['id']) && $plan['id'] == $testPlan) {
+                    return $plan;
+                }
+            }
+        } else {
+            foreach ($plans as $plan) {
+                if (isset($plan['name']) && $plan['name'] == $testPlan) {
+                    return $plan;
+                }
+            }
+        }
+        return null;
     }
 
     /**
      * Gets array of all builds from the test plan
      *
-     * @param string $testplan_id
+     * @param string $testplanId
      *
      * @return array
      */
-    protected function getBuilds($testplan_id)
+    protected function getBuilds($testplanId)
     {
         $method = 'getBuildsForTestPlan';
         $args = array();
-        $args["testplanid"] = $testplan_id;
+        $args["testplanid"] = $testplanId;
         return $this->action($method, $args);
     }
 
     /**
      * Gets current build
      *
-     * @param string      $testplan_id
+     * @param string      $testplanId
      * @param string|null $buildId
      *
      * @return array
      */
-    public function getBuild($testplan_id, $buildId=null)
+    public function getBuild($testplanId, $buildId=null)
     {
-        $builds = isset($testplan_id) ? $this->getBuilds($testplan_id) : array();
+        $builds = isset($testplanId) ? $this->getBuilds($testplanId) : array();
         if (!empty($builds)) {
             if (isset($buildId)) {
-                foreach ($builds as $build) {
-                    if (is_numeric($buildId)) {
-                        if (isset($build['id']) && $build['id'] == $buildId) {
-                            return $build;
-                        } elseif (isset($build['name']) && $build['name'] == $buildId) {
-                            return $build;
-                        }
-                    } else {
-                        if (isset($build['name']) && $build['name'] == $buildId) {
-                            return $build;
-                        }
-                    }
+                $build = $this->_defineBuild($builds, $buildId);
+                if (!empty($build)) {
+                    return $build;
                 }
             } else {
                 return $builds[count($builds) -1];
@@ -279,17 +290,41 @@ class Mage_Testlink_Connector
     }
 
     /**
+     * Defines build
+     * @param $builds
+     * @param $buildId
+     * @return null
+     */
+    protected function _defineBuild($builds, $buildId)
+    {
+        foreach ($builds as $build) {
+            if (is_numeric($buildId)) {
+                if (isset($build['id']) && $build['id'] == $buildId) {
+                    return $build;
+                } elseif (isset($build['name']) && $build['name'] == $buildId) {
+                    return $build;
+                }
+            } else {
+                if (isset($build['name']) && $build['name'] == $buildId) {
+                    return $build;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
      * Gets available tests from the test plan in testlink
      *
-     * @param string $testplan_id
+     * @param string $testplanId
      *
      * @return array
      */
-    protected function getTests($testplan_id)
+    protected function getTests($testplanId)
     {
         $method = 'getTestCasesForTestPlan';
         $args = array();
-        $args["testplanid"] = $testplan_id;
+        $args["testplanid"] = $testplanId;
         return $this->action($method, $args);
     }
 }
