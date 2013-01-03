@@ -39,7 +39,7 @@
                 'change input.price-variation': havePriceVariationsCheckboxHandler,
                 'click .remove':  function (event) {
                     var $entity = $(event.target).closest('.entry-edit');
-                    $('#attribute-' + $entity.find('name$=[code]').val() + '-container select').removeAttr('disabled');
+                    $('#attribute-' + $entity.find('[name$="[code]"]').val() + '-container select').removeAttr('disabled');
                     $entity.remove();
                 },
                 'click .toggle': function (event) {

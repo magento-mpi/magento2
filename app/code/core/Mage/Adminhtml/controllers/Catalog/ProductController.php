@@ -328,7 +328,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function variationsMatrixAction()
     {
-        $this->_initProduct();
+        $this->_initProductSave($this->_initProduct());
         $this->loadLayout();
         $this->renderLayout();
     }
@@ -694,8 +694,13 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
             $product->setNewVariationsAttributeSetId($this->getRequest()->getPost('new-variations-attribute-set-id'));
             $associatedProductIds = $this->getRequest()->getPost('associated_product_ids', array());
-            $generatedProductIds = $this->_objectManager->get('Mage_Catalog_Model_Product_Type_Configurable')
-                ->generateSimpleProducts($product, $this->getRequest()->getPost('variations-matrix', array()));
+            if ($this->getRequest()->getActionName() != 'variationsMatrix') {
+                $generatedProductIds = $this->_objectManager->get('Mage_Catalog_Model_Product_Type_Configurable')
+                    ->generateSimpleProducts($product, $this->getRequest()->getPost('variations-matrix', array()));
+                $this->getRequest()->setPost('variations-matrix', array());
+            } else {
+                $generatedProductIds = array();
+            }
             $product->setAssociatedProductIds(array_filter(array_merge($associatedProductIds, $generatedProductIds)));
 
             $product->setCanSaveConfigurableAttributes(
