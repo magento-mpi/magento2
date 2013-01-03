@@ -157,7 +157,10 @@
                             this.search();
                     }
                 },
-                blur: this._hideDropdown
+                blur: this._hideDropdown,
+                cut: this.search,
+                paste: this.search,
+                input: this.search
             }, this.options.events));
 
             this._bindDropdown();
