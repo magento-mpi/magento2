@@ -1,3 +1,2 @@
-app/code/core/Enterprise/Cms/view/adminhtml/page/edit.js
-app/code/core/Enterprise/Rma/view/frontend/rma-create.js
-app/code/core/Enterprise/Rma/view/frontend/rma-track-info.js
+app/code/core/Enterprise/Cms
+app/code/core/Enterprise/Rma
