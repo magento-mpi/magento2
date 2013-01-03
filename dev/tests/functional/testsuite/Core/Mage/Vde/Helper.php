@@ -186,26 +186,109 @@ class Core_Mage_Vde_Helper extends Mage_Selenium_AbstractHelper
         $this->buttonup();
         $this->waitForPageToLoad();
         $this->assertEquals($destinationContainer->attribute('data-name'),
-            $this->getWrapperElement($block)->attribute('data-name')
+            $this->getContainer($block, true)->attribute('data-name')
         );
 
         return $this;
     }
 
     /**
+     * Get block element by data-name or class name
+     *
+     * @param string $name data-name attribute in design mode or class name in navigation mode
+     * @param bool $designMode
+     * @return null|PHPUnit_Extensions_Selenium2TestCase_Element
+     */
+    public function getBlock($name, $designMode = false)
+    {
+        if ($designMode) {
+            $mode = 'design';
+            $this->addParameter('dataName', $name);
+        } else {
+            $mode = 'navigation';
+            $this->addParameter('className', $name);
+        }
+        $this->setVdePage($mode);
+        if ($this->controlIsPresent('fieldset', 'iframe')) {
+            $this->frame('vde_container_frame');
+        }
+        if ($this->controlIsPresent('pageelement', 'vde_element')) {
+            return $this->getElement($this->_getControlXpath('pageelement', 'vde_element'));
+        }
+
+        return null;
+    }
+
+    /**
      * Get wrapper element
      *
      * @param PHPUnit_Extensions_Selenium2TestCase_Element $block
+     * @param bool $designMode
      * @return null|PHPUnit_Extensions_Selenium2TestCase_Element
      */
-    public function getWrapperElement($block)
+    public function getContainer($block, $designMode = false)
     {
-        $this->addParameter('dataName', $block->attribute('data-name'));
-        $xpath = $this->_getControlXpath('pageelement', 'vde_element') . "/ancestor::div[@data-name]";
+        if ($designMode) {
+            $mode = 'design';
+            $this->addParameter('dataName', $block->attribute('data-name'));
+        } else {
+            $mode = 'navigation';
+            $this->addParameter('className', $block->attribute('class'));
+        }
+        $this->setVdePage($mode);
+        if ($this->controlIsPresent('fieldset', 'iframe')) {
+            $this->frame('vde_container_frame');
+        }
+        $xpath = $this->_getControlXpath('pageelement', 'vde_element') . "/parent::div";
         if ($this->elementIsPresent($xpath)) {
             return $this->getElement($xpath);
         }
 
         return null;
+    }
+
+    /**
+     * Set area and current page in design or navigation mode
+     *
+     * @param string $mode
+     * @param string $frontPage
+     */
+    public function setVdePage($mode, $frontPage = '')
+    {
+        if ($mode == 'navigation' && $frontPage != '') {
+            // Set provided frontend page as current in navigation mode
+            $this->setArea('frontend');
+            $this->setCurrentPage($frontPage);
+        } else {
+            $this->getArea() == 'admin' ? : $this->setArea('admin');
+            $this->getCurrentPage() == 'vde_' . $mode ? : $this->setCurrentPage('vde_' . $mode);
+        }
+    }
+
+    /**
+     * Switch from VDE navigation to design mode
+     *
+     * @return Core_Mage_Vde_Helper
+     */
+    public function switchToDesignMode()
+    {
+        $this->window('');
+        $this->clickButton('design_mode');
+
+        return $this;
+    }
+
+    /**
+     * Switch from VDE design to navigation mode
+     *
+     * @return Core_Mage_Vde_Helper
+     */
+    public function switchToNavigationMode()
+    {
+        $this->window('');
+        $this->clickButton('navigation_mode');
+        $this->waitForNewPage();
+
+        return $this;
     }
 }

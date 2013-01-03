@@ -59,3 +59,10 @@ vde_navigation:
                             xpath: //div[@id='vde_toolbar_row']
                             buttons:
                                 design_mode: //button[@title='Design Mode']
+                    -
+                        iframe:
+                            xpath: //iframe[@id='vde_container_frame']
+                    -
+                        page_frame:
+                            pageelements:
+                                vde_element: //div[contains(@class, '%className%')]
