@@ -9,7 +9,12 @@
  */
 
 require_once __DIR__ . '/../../app/bootstrap.php';
-Mage::app('admin', 'store');
+/** @var $app Mage_Core_Model_App */
+$app = Mage::getObjectManager()->get('Mage_Core_Model_App');
+$app->init(array(
+    Mage_Core_Model_App::INIT_OPTION_SCOPE_CODE => 'admin',
+    Mage_Core_Model_App::INIT_OPTION_SCOPE_TYPE => 'store',
+));
 
 /** @var $shell Mage_Log_Model_Shell */
 $shell = Mage::getModel('Mage_Log_Model_Shell', array('entryPoint' => basename(__FILE__)));
