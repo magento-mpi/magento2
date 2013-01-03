@@ -152,7 +152,7 @@ class Saas_PrintedTemplate_Model_Converter_PdfAdapter_Wkhtmltopdf
 </html>
 EOT;
         $result = $this->_pipeExec(
-            $path . ' ' . $this->_getParams($headerFileName, $footerFileName) . ' - -',
+            escapeshellarg($path) . ' ' . $this->_getParams($headerFileName, $footerFileName) . ' - -',
             $bodyHtml
         );
         @unlink($headerFileName);

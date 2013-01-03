@@ -158,7 +158,7 @@ class Saas_PrintedTemplate_Model_Variable_Invoice extends Saas_PrintedTemplate_M
     protected function _getGrandTotalExclTaxWithoutDiscountTaxRaw()
     {
         if (!$this->_value->hasGrandTotalExclTaxWithoutDiscountTax()) {
-            $discountTax = $this->_value->getDiscountAmount() - $this->_getDiscountAmountWithoutTaxRaw();
+            $discountTax = -$this->_value->getDiscountAmount() - $this->_getDiscountAmountWithoutTaxRaw();
             $grandTotalExclTaxWithoutDiscountTax = $this->_value->getGrandTotalExclTax() + $discountTax;
             $this->_value->setGrandTotalExclTaxWithoutDiscountTax($grandTotalExclTaxWithoutDiscountTax);
         }
