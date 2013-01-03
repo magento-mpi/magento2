@@ -61,10 +61,9 @@
                     <div class="box-content">
                         <div class="a-right">
                         <?php if ($trackingNumbers->count()): ?>
-                            <a class="f-left"
-                                href="#"
-                                data-mage-popwin="{windowURL:'<?php echo $this->helper('Enterprise_Rma_Helper_Data')->getTrackingPopupUrlBySalesModel($this->getRma()) ?>',windowName:'trackshipment',width:800,height:600,top:0,left:0,resizable:1,scrollbars:1}"
-                                title="<?php echo $this->__('Track this shipment') ?>">
+                            <a class="f-left" href="#"
+                               data-mage-popwin="{windowURL:'<?php echo $this->helper('Enterprise_Rma_Helper_Data')->getTrackingPopupUrlBySalesModel($this->getRma()) ?>',windowName:'trackshipment',width:800,height:600,top:0,left:0,resizable:1,scrollbars:1}"
+                               title="<?php echo $this->__('Track this shipment') ?>">
                                     <?php echo $this->__('Track this shipment') ?>
                             </a>
                         <?php endif ?>
@@ -123,7 +122,9 @@
                 "<?php echo $this->getViewFileUrl('jquery/jquery.popupwindow.js')?>",
                 "<?php echo $this->getViewFileUrl('mage/popup-window.js')?>",
                 "<?php echo $this->getViewFileUrl('Enterprise_Rma::rma-track-info.js') ?>", function() {
-                    jQuery('#rma_track_info').rmaTrackInfo({addLabelUrl: '<?php echo $this->getAddLabelUrl() ?>'}).validation();
+                    jQuery('#rma_track_info').rmaTrackInfo({
+                        addLabelUrl: '<?php echo $this->getAddLabelUrl() ?>'
+                    }).validation();
                 });
         });
     </script>
