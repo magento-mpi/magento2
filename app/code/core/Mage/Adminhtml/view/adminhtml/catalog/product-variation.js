@@ -8,13 +8,12 @@
  */
 (function($) {
     $.widget('mage.variationsAttributes', {
-        //Set up the widget
         _create: function () {
             this.element.sortable({
                 axis: 'y',
                 handle: '.entry-edit-head',
                 update: function () {
-                    $(this).find('.attribute-position').each(function (index) {
+                    $(this).find('[name$="[position]"]').each(function (index) {
                         $(this).val(index)
                     })
                 }
@@ -40,7 +39,7 @@
                 'change input.price-variation': havePriceVariationsCheckboxHandler,
                 'click .remove':  function (event) {
                     var $entity = $(event.target).closest('.entry-edit');
-                    $('#attribute-' + $entity.find('.attribute-code').val() + '-container select').removeAttr('disabled');
+                    $('#attribute-' + $entity.find('name$=[code]').val() + '-container select').removeAttr('disabled');
                     $entity.remove();
                 },
                 'click .toggle': function (event) {
@@ -53,6 +52,25 @@
                 'click .use-default': useDefaultCheckboxHandler,
                 'change .use-default': useDefaultCheckboxHandler
             });
+        },
+        /**
+         * Retrieve list of attributes
+         *
+         * @return {Array}
+         */
+        getAttributes: function () {
+            return $.map(
+                $(this.element).find('.entry-edit') || [],
+                function (attribute) {
+                    var $attribute = $(attribute);
+                    return {
+                        id: $attribute.find('[name$="[attribute_id]"]').val(),
+                        code: $attribute.find('[name$="[code]"]').val(),
+                        label: $attribute.find('[name$="[label]"]').val(),
+                        position: $attribute.find('[name$="[position]"]').val()
+                    };
+                }
+            );
         }
     });
 })(jQuery);

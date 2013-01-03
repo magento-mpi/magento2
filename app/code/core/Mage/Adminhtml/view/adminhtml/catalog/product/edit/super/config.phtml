@@ -63,15 +63,15 @@ jQuery(function($) {
             $('#change-attribute-set-button').attr('disabled', true).addClass('disabled');
             $variationsContainer.find("input[name='attributes[]']").removeAttr('disabled');
             $('#qty').attr('disabled', true);
-            $variationsContainer.find('.attribute-code').each(function () {
-                $('#attribute-' + $(this).val() + '-container select').attr('disabled', true);
+            $.each($('#attributes-container').variationsAttributes('getAttributes'), function() {
+                $('#attribute-' + this.code + '-container select').attr('disabled', true);
             })
         } else {
             $('#change-attribute-set-button').removeAttr('disabled').removeClass('disabled');
             $('#qty').removeAttr('disabled');
-            $variationsContainer.find('.attribute-container').remove();
-            $variationsContainer.find('.attribute-code').each(function() {
-                $('#attribute-' + $(this).val() + '-container select').removeAttr('disabled');
+            $variationsContainer.find('.entry-edit').remove();
+            $.each($('#attributes-container').variationsAttributes('getAttributes'), function() {
+                $('#attribute-' + this.code + '-container select').removeAttr('disabled');
             });
             $('#product-variations-matrix').trigger('disable');
             $fieldset.hide();
@@ -79,11 +79,11 @@ jQuery(function($) {
     }).trigger('change');
 
     var $gridDialog = $('#associated-products-container').dialog({
-        title:'Select Associated Product',
-        autoOpen:false,
-        minWidth:980,
-        modal:true,
-        resizable:true
+        title: 'Select Associated Product',
+        autoOpen: false,
+        minWidth: 980,
+        modal: true,
+        resizable: true
     });
 
     $('#product-variations-matrix')

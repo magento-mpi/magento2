@@ -18,19 +18,18 @@ $havePriceVariation = array_reduce(
 );
 $id = $this->escapeHtml($attribute['attribute_id']);
 ?>
-<div class="entry-edit attribute-container
+<div class="entry-edit
             <?php echo $havePriceVariation ? ' have-price' : '' ?>
             " <?php echo $this->getUiId('attribute-container', $attribute['attribute_code']) ?>>
     <input name="attributes[]" id="configurable_attribute_<?php echo $id ?>"
         value="<?php echo $id; ?>" type="hidden">
     <input value="<?php echo $this->escapeHtml($attribute['attribute_code']); ?>" type="hidden"
         name="product[configurable_attributes_data][<?php echo $id ?>][id]"/>
-    <input value="<?php echo $id ?>" type="hidden"
-        class="attribute-code"
+    <input value="<?php echo $this->escapeHtml($attribute['attribute_code']); ?>" type="hidden"
         name="product[configurable_attributes_data][<?php echo $id ?>][code]"/>
     <input value="<?php echo $id; ?>" type="hidden"
         name="product[configurable_attributes_data][<?php echo $id ?>][attribute_id]"/>
-    <input value="<?php echo $this->escapeHtml($attribute['position']); ?>" type="hidden" class="attribute-position"
+    <input value="<?php echo $this->escapeHtml($attribute['position']); ?>" type="hidden"
         name="product[configurable_attributes_data][<?php echo $id ?>][position]"/>
 
     <div class="entry-edit-head" style="cursor: move;">

@@ -68,6 +68,7 @@
                                 return_session_messages_only: 1
                             },
                             dataType: 'json',
+                            showLoader: true,
                             context: $form
                         })
                             .success(function (data) {
@@ -98,16 +99,16 @@
                     return; // affected attribute set was already chosen
                 }
                 var extendingAttributes = [];
-                $.each($('#associated-products-container').data('usedAttributes') || [], function () {
-                    if (!$('#attribute-' + this.attribute_code + '-container').length) {
-                        extendingAttributes.push(this.attribute_id);
+                $.each($('#attributes-container').variationsAttributes('getAttributes'), function () {
+                    if (!$('#attribute-' + this.code + '-container').length) {
+                        extendingAttributes.push(this.id);
                     }
                 });
                 if (!extendingAttributes.length) {
                     $('#new-variations-attribute-set-id').val($('#attribute_set_id').val());
                     return; // all selected configurable attributes belong to current attribute set
                 }
-                if (!$('.associated-matrix-product-id:checked').closest('tr').has('input[name$="\[name\]"]').length) {
+                if (!$('.associated-matrix-product-id:checked').closest('tr').has('input[name$="[name]"]').length) {
                     return; // no new simple products to save from matrix: uniting attribute set is not needed
                 }
 

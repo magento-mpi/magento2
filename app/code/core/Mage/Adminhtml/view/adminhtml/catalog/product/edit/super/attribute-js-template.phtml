@@ -10,17 +10,16 @@
 /* @var $this Mage_Core_Block_Template */
 ?>
 <script id="attribute-template" type="text/x-jquery-tmpl">
-    <div class="entry-edit attribute-container">
+    <div class="entry-edit">
         <input name="attributes[]" id="configurable_attribute_${attribute.id}"
             value="${attribute.id}" type="hidden">
         <input value="new" type="hidden"
             name="product[configurable_attributes_data][${attribute.id}]][id]"/>
         <input value="${attribute.id}" type="hidden"
             name="product[configurable_attributes_data][${attribute.id}][attribute_id]"/>
-        <input value="" type="hidden" class="attribute-position"
+        <input value="" type="hidden"
             name="product[configurable_attributes_data][${attribute.id}][position]"/>
         <input value="${attribute.code}" type="hidden"
-            class="attribute-code"
             name="product[configurable_attributes_data][${attribute.id}][code]"/>
 
         <div class="entry-edit-head" style="cursor: move;">
