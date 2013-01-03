@@ -33,7 +33,8 @@ class Maged_Model_Session extends Maged_Model
     {
         if (class_exists('Mage') && Mage::isInstalled()) {
             // initialize Magento Config
-            Mage::app();
+            $app = Mage::getObjectManager()->get('Mage_Core_Model_App');
+            $app->init(array());
             $this->_session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
         } else {
             session_start();

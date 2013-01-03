@@ -230,7 +230,8 @@ class Magento_Test_Bootstrap
     {
         Mage::setIsDeveloperMode($this->_isDeveloperMode);
         Mage::$headersSentThrowsException = false;
-        Mage::app($initParams);
+        $app = Mage::getObjectManager()->get('Mage_Core_Model_App');
+        $app->init($initParams);
     }
 
     /**

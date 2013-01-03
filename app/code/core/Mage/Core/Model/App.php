@@ -290,6 +290,7 @@ class Mage_Core_Model_App
      */
     public function init(array $params)
     {
+        Magento_Profiler::start('self::app::init');
         $this->_initEnvironment();
         $this->_initParams = $params;
         $this->_initFilesystem();
@@ -314,6 +315,7 @@ class Mage_Core_Model_App
             $logger->initForStore($this->_store, $this->_config);
             $this->_initRequest();
         }
+        Magento_Profiler::stop('self::app::init');
         return $this;
     }
 
@@ -372,7 +374,8 @@ class Mage_Core_Model_App
      */
     public function run(array $params)
     {
-        try{
+        try {
+            Magento_Profiler::start('mage');
             if (isset($params[Mage::INIT_OPTION_EDITION])) {
                 Mage::setEdition($params[Mage::INIT_OPTION_EDITION]);
             }
@@ -414,6 +417,7 @@ class Mage_Core_Model_App
                 Magento_Profiler::stop('init');
                 $controllerFront->dispatch();
             }
+            Magento_Profiler::stop('mage');
         } catch (Mage_Core_Model_Session_Exception $e) {
             header('Location: ' . Mage::getBaseUrl());
         } catch (Mage_Core_Model_Store_Exception $e) {
