@@ -12,7 +12,7 @@
         options: {
             slideSpeed: 1500,
             slideSelector: '#bundle-slide',
-            slideBackSelector: '#bundle-slide-back',
+            slideBackSelector: '.bundle-slide-back',
             bundleProductSelector: '#bundleProduct',
             bundleOptionsContainer: '#options-container',
             productViewContainer: '#productView'
@@ -22,6 +22,7 @@
         _create: function() {
             $(this.options.slideSelector).on('click', $.proxy(this._slide, this));
             $(this.options.slideBackSelector).on('click', $.proxy(this._slideBack, this));
+            this.options.autostart && this._slide();
         },
 
         /**

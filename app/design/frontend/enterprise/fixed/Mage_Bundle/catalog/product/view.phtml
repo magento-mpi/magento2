@@ -101,7 +101,7 @@ $_product = $this->getProduct();
         <div id="options-container" style="display:none">
             <div id="customizeTitle" class="page-title title-buttons">
                 <h1><?php echo $this->__('Customize %s', $_helper->productAttribute($_product, $_product->getName(), 'name')) ?></h1>
-                <a href="#" onclick="Enterprise.Bundle.end(); return false;"><small>&lsaquo;</small> Go back to product detail</a>
+                <a href="#" class="bundle-slide-back"><small>&lsaquo;</small> Go back to product detail</a>
             </div>
             <?php echo $this->getChildHtml('bundleSummary') ?>
             <?php echo $this->getChildChildHtml('options_container') ?>
@@ -111,15 +111,13 @@ $_product = $this->getProduct();
     </div>
 </div>
 <script type="text/javascript">
-        <?php if ($this->isStartCustomization()): ?>
-            Enterprise.Bundle.start();
-        <?php endif;?>
-        Enterprise.Bundle.initialize();
-</script>
-<script type="text/javascript">
     (function($) {
         head.js("<?php echo $this->getViewFileUrl('Mage_Bundle::js/slide.js')?>", function() {
-            $('#bundle-product-wrapper').slide();
+            $('#bundle-product-wrapper').slide(
+                <?php if ($this->isStartCustomization()): ?>
+                    {autostart: true}
+                <?php endif;?>
+            );
         });
     })(jQuery);
 </script>
