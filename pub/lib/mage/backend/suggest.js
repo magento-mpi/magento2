@@ -21,6 +21,7 @@
              * @type {(string|Array)}
              */
             source: null,
+            delay: 500,
             events: {},
             appendMethod: 'after',
             control: 'menu',
@@ -28,7 +29,8 @@
                 menu: {
                     selector: ':ui-menu',
                     eventsMap: {
-                        change: 'menufocus',
+                        focus: 'menufocus',
+                        blur: 'menublur',
                         select: 'menuselect'
                     }
                 }
@@ -47,11 +49,17 @@
          */
         _create: function() {
             this._setTemplate();
+            this._selectedItem = {value: '', label: ''};
             this.dropdown = $('<div/>', this.options.attributes).hide();
             this.element
                 .wrap($('<div/>', this.options.wrapperAttributes))
                 [this.options.appendMethod](this.dropdown)
                 .attr('autocomplete', 'off');
+            this.hiddenInput = $('<input/>', {
+                type: 'hidden',
+                name: this.element.attr('name')
+            }).insertBefore(this.element);
+            this.element.removeAttr('name');
             this._control = this.options.controls[this.options.control] || {};
             this._bind();
         },
@@ -61,8 +69,11 @@
          * @private
          */
         _destroy: function() {
-            this.element.removeAttr('autocomplete').unwrap();
+            this.element.removeAttr('autocomplete')
+                .unwrap()
+                .attr('name', this.hiddenInput.attr('name'));
             this.dropdown.remove();
+            this.hiddenInput.remove();
             this._off(this.element, 'keydown keyup blur');
         },
 
@@ -107,7 +118,7 @@
                             break;
                         case keyCode.TAB:
                             if (this.isDropdownShown()) {
-                                this._enterCurrentValue();
+                                this._selectItem();
                                 event.preventDefault();
                             }
                             break;
@@ -149,14 +160,23 @@
                 blur: this._hideDropdown
             }, this.options.events));
 
-            var events = {};
+            this._bindDropdown();
+        },
 
-            events[this._control.eventsMap.change] = function(e, ui) {
+        _bindDropdown: function() {
+            var events = {
+                click: this._selectItem,
+                mousedown: function(e) {
+                    e.preventDefault();
+                }
+            };
+            events[this._control.eventsMap.select] = this._selectItem;
+            events[this._control.eventsMap.focus] = function(e, ui) {
                 this.element.val(ui.item.text());
             };
-            events[this._control.eventsMap.select] = this._enterCurrentValue;
-            events['click'] = this._enterCurrentValue;
-
+            events[this._control.eventsMap.blur] = function() {
+                this.element.val(this._term);
+            };
             this._on(this.dropdown, events);
         },
 
@@ -164,21 +184,20 @@
          * Save selected item and hide dropdown
          * @private
          */
-        _enterCurrentValue: function() {
-            if (this.isDropdownShown()) {
-                /**
-                 * @type {string} - searched phrase
-                 * @private
-                 */
-                this._term = this._value();
+        _selectItem: function() {
+            var term = this._value();
+            if (this.isDropdownShown() && term) {
                 /**
                  * @type {(Object|null)} - label+value object of selected item
                  * @private
                  */
                 this._selectedItem = $.grep(this._items, $.proxy(function(v) {
-                    return v.label === this._term;
-                }, this))[0] || null;
-                this._hideDropdown();
+                    return v.label === term;
+                }, this))[0] || {value: '', label: ''};
+                if (this._selectedItem.value) {
+                    this.hiddenInput.val(this._selectedItem.value);
+                    this._hideDropdown();
+                }
             }
         },
 
@@ -205,7 +224,7 @@
          * @private
          */
         _hideDropdown: function() {
-            this.element.val(this._term);
+            this.element.val(this._selectedItem.label);
             this.dropdown.hide().empty();
         },
 
@@ -227,7 +246,9 @@
             var term = this._value();
             if (this._term !== term) {
                 this._term = term;
-                this._search(term);
+                if (term) {
+                    this._search(term);
+                }
             }
         },
 
@@ -238,7 +259,14 @@
          */
         _search: function(term) {
             this.element.addClass('ui-autocomplete-loading');
-            this._source(term, $.proxy(this._renderDropdown, this));
+            if (this.options.delay) {
+                clearTimeout(this._searchTimeout);
+                this._searchTimeout = this._delay(function() {
+                    this._source(term, this._renderDropdown);
+                }, this.options.delay);
+            } else {
+                this._source(term, this._renderDropdown);
+            }
         },
 
         /**
@@ -263,11 +291,16 @@
          * @private
          */
         _source: function(term, render) {
+            render = $.proxy(render, this);
+
             if ($.isArray(this.options.source)) {
                 render(this.filter(this.options.source, term));
 
             } else if ($.type(this.options.source) === 'string') {
-                $.ajax($.extend({
+                if (this._xhr) {
+                    this._xhr.abort();
+                }
+                this._xhr = $.ajax($.extend({
                     url: this.options.source,
                     type: 'POST',
                     dataType: 'json',
@@ -326,32 +359,6 @@
     });
 
     /**
-     * Implement search delay option
-     */
-    $.widget('mage.suggest', $.mage.suggest, {
-        options: {
-            delay: 500
-        },
-
-        /**
-         * @override
-         * @private
-         */
-        _search: function() {
-            var args = arguments;
-            if (this.options.delay) {
-                clearTimeout(this.searchTimeout);
-                var _super = $.proxy(this._superApply, this);
-                this.searchTimeout = this._delay(function() {
-                    _super(args);
-                }, this.options.delay);
-            } else {
-                this._superApply(args);
-            }
-        }
-    });
-
-    /**
      * Implement storing search history and display recent searches
      */
     $.widget('mage.suggest', $.mage.suggest, {
@@ -398,6 +405,10 @@
         search: function() {
             this._super();
             if (!this._term) {
+                clearTimeout(this._searchTimeout);
+                if (this._xhr) {
+                    this._xhr.abort();
+                }
                 this._renderDropdown(this._recentItems);
             }
         },
@@ -406,7 +417,7 @@
          * @override
          * @private
          */
-        _enterCurrentValue: function() {
+        _selectItem: function() {
             this._super();
             this._addRecent(this._selectedItem);
         },
