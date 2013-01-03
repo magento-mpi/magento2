@@ -18,24 +18,22 @@ class Integrity_Modular_MenuConfigFilesTest extends PHPUnit_Framework_TestCase
     protected $_fileList = array();
 
     /**
-     * Mage_Backend_Model_Config_Menu
+     * @var Mage_Backend_Model_Menu_Config_Menu
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = $this->getMockForAbstractClass(
-            'Mage_Backend_Model_Menu_Config_Menu',
-            array(),
-            '',
-            false
+        $this->_model = Mage::getModel('Mage_Backend_Model_Menu_Config_Menu',
+            array(
+                'configFiles' => $this->_getConfigurationFileList(),
+            )
         );
     }
 
     protected function tearDown()
     {
         $this->_model = null;
-        $this->_fileList = null;
     }
 
     /**
@@ -60,7 +58,6 @@ class Integrity_Modular_MenuConfigFilesTest extends PHPUnit_Framework_TestCase
      */
     protected function _validateConfigFile($file)
     {
-
         $schemaFile = $this->_model->getSchemaFile();
         $domConfig = new Magento_Config_Dom(file_get_contents($file));
         $result = $domConfig->validate($schemaFile, $errors);
@@ -78,7 +75,6 @@ class Integrity_Modular_MenuConfigFilesTest extends PHPUnit_Framework_TestCase
      */
     public function testMenuConfigFile($file)
     {
-        $this->markTestIncomplete('MAGETWO-6608');
         $this->_validateConfigFile($file);
     }
 
@@ -100,11 +96,8 @@ class Integrity_Modular_MenuConfigFilesTest extends PHPUnit_Framework_TestCase
      */
     public function testMergedConfig()
     {
-        $model = Mage::getModel('Mage_Backend_Model_Menu_Config_Menu',
-            array('configFiles' => $this->_getConfigurationFileList())
-        );
         try {
-            $this->assertInstanceOf('Mage_Backend_Model_Menu_Config_Menu', $model->validate());
+            $this->_model->validate();
         } catch (Magento_Exception $e) {
             $this->fail($e->getMessage());
         }
