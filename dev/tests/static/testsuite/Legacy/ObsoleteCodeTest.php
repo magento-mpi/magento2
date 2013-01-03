@@ -20,12 +20,86 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
      */
     const SUGGESTION_MESSAGE = 'Use "%s" instead.';
 
-    /**
-     * In-memory cache for the configuration files
+    /**@#+
+     * Lists of obsolete entities from fixtures
      *
      * @var array
      */
-    protected static $_configFilesCache = array();
+    protected static $_classes    = array();
+    protected static $_constants  = array();
+    protected static $_methods    = array();
+    protected static $_attributes = array();
+    /**#@-*/
+
+    /**
+     * Read fixtures into memory as arrays
+     */
+    public static function setUpBeforeClass()
+    {
+        $errors = array();
+        self::_populateList(self::$_classes, $errors, 'obsolete_classes*.php', false);
+        self::_populateList(self::$_constants, $errors, 'obsolete_constants*.php');
+        self::_populateList(self::$_methods, $errors, 'obsolete_methods*.php');
+        self::_populateList(self::$_attributes, $errors, 'obsolete_properties*.php');
+        if ($errors) {
+            echo 'Duplicate patterns identified in list declarations:' . PHP_EOL . PHP_EOL;
+            foreach ($errors as $file => $list) {
+                echo $file . PHP_EOL;
+                foreach ($list as $key) {
+                    echo "    {$key}" . PHP_EOL;
+                }
+                echo PHP_EOL;
+            }
+            echo new Exception('Terminating test to avoid scanning entire system with corrupted fixtures.') . PHP_EOL;
+            exit(1);
+        }
+    }
+
+    /**
+     * Read the specified file pattern and merge it with the list
+     *
+     * Duplicate entries will be recorded into errors array.
+     *
+     * @param array $list
+     * @param array $errors
+     * @param string $filePattern
+     * @param bool $hasScope
+     */
+    protected static function _populateList(array &$list, array &$errors, $filePattern, $hasScope = true)
+    {
+
+        foreach (glob(__DIR__ . '/_files/' . $filePattern, GLOB_BRACE) as $file) {
+            foreach (self::_readList($file) as $row) {
+                $item = $row[0];
+                if ($hasScope) {
+                    $scope = isset($row[1]) ? $row[1] : '';
+                    $replacement = isset($row[2]) ? $row[2] : '';
+                    $dir = isset($row[3]) ? $row[3] : '';
+                } else {
+                    $scope = '';
+                    $replacement = isset($row[1]) ? $row[1] : '';
+                    $dir = isset($row[2]) ? $row[2] : '';
+                }
+                $key = "{$item}|{$scope}";
+                if (isset($list[$key])) {
+                    $errors[$file][] = $key;
+                } else {
+                    $list[$key] = array($item, $scope, $replacement, $dir);
+                }
+            }
+        }
+    }
+
+    /**
+     * Isolate including a file into a method to reduce scope
+     *
+     * @param $file
+     * @return array
+     */
+    protected static function _readList($file)
+    {
+        return include($file);
+    }
 
     /**
      * @param string $file
@@ -93,13 +167,36 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
      */
     protected function _testObsoleteClasses($content, $file)
     {
-        $declarations = $this->_getRelevantConfigEntities('obsolete_classes*.php', $content, $file);
-        foreach ($declarations as $declaration) {
-            list($entity, $suggestion) = $declaration;
-            $this->_assertNotRegExp('/[^a-z\d_]' . preg_quote($entity, '/') . '[^a-z\d_]/iS', $content,
-                "Class '$entity' is obsolete. $suggestion"
-            );
+        foreach (self::$_classes as $row) {
+            list($entity, , $suggestion, $dir) = $row;
+            if (!$this->_isScopeSkipped($file, $content, '', $dir)) {
+                $this->_assertNotRegExp('/[^a-z\d_]' . preg_quote($entity, '/') . '[^a-z\d_]/iS', $content,
+                    sprintf("Class '%s' is obsolete. Replacement suggestion: %s", $entity, $suggestion)
+                );
+            }
         }
+    }
+
+    /**
+     * Determine if file/content should be skipped based on specified scope/directory
+     *
+     * @param string $file
+     * @param string $content
+     * @param string $scope
+     * @param string $dir
+     * @return bool
+     */
+    protected function _isScopeSkipped($file, $content, $scope, $dir)
+    {
+        $regexp = '/(class|extends)\s+' . preg_quote($scope, '/') . '(\s|;)/S';
+        /* Note: strpos is used just to prevent excessive preg_match calls */
+        if ($scope && (!strpos($content, $scope) || !preg_match($regexp, $content))) {
+            return true;
+        }
+        if ($dir && 0 !== strpos(str_replace('\\', '/', $file), str_replace('\\', '/', $dir))) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -108,12 +205,13 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
      */
     protected function _testObsoleteMethods($content, $file)
     {
-        $declarations = $this->_getRelevantConfigEntities('obsolete_methods*.php', $content, $file);
-        foreach ($declarations as $declaration) {
-            list($method, $suggestion) = $declaration;
-            $this->_assertNotRegExp('/[^a-z\d_]' . preg_quote($method, '/') . '\s*\(/iS', $content,
-                "Method '$method' is obsolete. $suggestion"
-            );
+        foreach (self::$_methods as $row) {
+            list($method, $scope , $suggestion, $dir) = $row;
+            if (!$this->_isScopeSkipped($file, $content, $scope, $dir)) {
+                $this->_assertNotRegExp('/[^a-z\d_]' . preg_quote($method, '/') . '\s*\(/iS', $content,
+                    sprintf("Method '%s' is obsolete. Replacement suggestion: ", $method, $suggestion)
+                );
+            }
         }
     }
 
@@ -156,12 +254,13 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
      */
     protected function _testObsoleteProperties($content, $file)
     {
-        $declarations = $this->_getRelevantConfigEntities('obsolete_properties*.php', $content, $file);
-        foreach ($declarations as $declaration) {
-            list($entity, $suggestion) = $declaration;
-            $this->_assertNotRegExp('/[^a-z\d_]' . preg_quote($entity, '/') . '[^a-z\d_]/iS', $content,
-                "Property '$entity' is obsolete. $suggestion"
-            );
+        foreach (self::$_attributes as $row) {
+            list($attribute, $scope , $suggestion, $dir) = $row;
+            if (!$this->_isScopeSkipped($file, $content, $scope, $dir)) {
+                $this->_assertNotRegExp('/[^a-z\d_]' . preg_quote($attribute, '/') . '[^a-z\d_]/iS', $content,
+                    sprintf("Class attribute '%s' is obsolete. Replacement suggestion: %s", $attribute, $suggestion)
+                );
+            }
         }
     }
 
@@ -182,12 +281,13 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
      */
     protected function _testObsoleteConstants($content, $file)
     {
-        $declarations = $this->_getRelevantConfigEntities('obsolete_constants*.php', $content, $file);
-        foreach ($declarations as $declaration) {
-            list($entity, $suggestion) = $declaration;
-            $this->_assertNotRegExp('/[^a-z\d_]' . preg_quote($entity, '/') . '[^a-z\d_]/iS', $content,
-                "Constant '$entity' is obsolete. $suggestion"
-            );
+        foreach (self::$_constants as $row) {
+            list($constant, $scope , $suggestion, $dir) = $row;
+            if (!$this->_isScopeSkipped($file, $content, $scope, $dir)) {
+                $this->_assertNotRegExp('/[^a-z\d_]' . preg_quote($constant, '/') . '[^a-z\d_]/iS', $content,
+                    sprintf("Constant '%s' is obsolete. Replacement suggestion: ", $constant, $suggestion)
+                );
+            }
         }
     }
 
@@ -199,57 +299,6 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
         $this->_assertNotRegExp('/[^a-z\d_]skipCalculate[^a-z\d_]/iS', $content,
             "Configuration property 'skipCalculate' is obsolete."
         );
-    }
-
-    /**
-     * Retrieve configuration items, whose 'class_scope' match to the content, in the following format:
-     *   array(
-     *     array('<entity>', '<suggestion>'),
-     *     ...
-     *   )
-     *
-     * @param string $fileNamePattern
-     * @param string $content
-     * @param string $file
-     * @return array
-     */
-    protected function _getRelevantConfigEntities($fileNamePattern, $content, $file)
-    {
-        $result = array();
-        foreach ($this->_loadConfigFiles($fileNamePattern) as $info) {
-            $class = $info['class_scope'];
-            $regexp = '/(class|extends)\s+' . preg_quote($class, '/') . '(\s|;)/S';
-            /* Note: strpos is used just to prevent excessive preg_match calls */
-            if ($class && (!strpos($content, $class) || !preg_match($regexp, $content))) {
-                continue;
-            }
-            if ($info['directory']) {
-                if (0 !== strpos(str_replace('\\', '/', $file), str_replace('\\', '/', $info['directory']))) {
-                    continue;
-                }
-            }
-            $result[] = array($info['obsolete_entity'], $info['suggestion']);
-        }
-        return $result;
-    }
-
-    /**
-     * Load configuration data from the files that match a glob-pattern
-     *
-     * @param string $fileNamePattern
-     * @return array
-     */
-    protected function _loadConfigFiles($fileNamePattern)
-    {
-        if (isset(self::$_configFilesCache[$fileNamePattern])) {
-            return self::$_configFilesCache[$fileNamePattern];
-        }
-        $config = array();
-        foreach (glob(dirname(__FILE__) . '/_files/' . $fileNamePattern, GLOB_BRACE) as $configFile) {
-            $config = array_merge($config, include($configFile));
-        }
-        self::$_configFilesCache[$fileNamePattern] = $config;
-        return $config;
     }
 
     /**
@@ -265,37 +314,5 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
     protected function _assertNotRegexp($regex, $content, $message)
     {
         $this->assertSame(0, preg_match($regex, $content), $message);
-    }
-
-    /**
-     * Add class rule
-     *
-     * @param string $name
-     * @param null|string $suggestion
-     * @param null|string $directory
-     * @return array
-     */
-    protected function _getClassRule($name, $suggestion = null, $directory = null)
-    {
-        return $this->_getRule($name, null, $suggestion, $directory);
-    }
-
-    /**
-     * Get rule
-     *
-     * @param string $obsoleteEntity
-     * @param null|string $classScope
-     * @param null|string $suggestion
-     * @param null|string $directory
-     * @return array
-     */
-    protected function _getRule($obsoleteEntity, $classScope = null, $suggestion = null, $directory = null)
-    {
-        return array(
-            'obsolete_entity' => $obsoleteEntity,
-            'class_scope' => $classScope,
-            'suggestion' => $suggestion,
-            'directory' => $directory
-        );
     }
 }
