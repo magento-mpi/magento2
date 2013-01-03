@@ -8,7 +8,7 @@
 /**
  * Test Directory Region operations
  */
-class Mage_Directory_RegionTest extends PHPUnit_Framework_TestCase
+class Mage_Directory_Model_Region_ApiTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test directoryRegionList API method
