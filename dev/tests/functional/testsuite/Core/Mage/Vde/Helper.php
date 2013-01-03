@@ -137,6 +137,9 @@ class Core_Mage_Vde_Helper extends Mage_Selenium_AbstractHelper
      */
     public function openThemeDemo($id = null)
     {
+        if ($this->controlIsPresent('link', 'available_themes_tab')) {
+            $this->clickControl('link', 'available_themes_tab');
+        }
         $themeContainerXpath = $this->_getControlXpath('pageelement', 'theme_list_elements');
         $demoButtonXpath = $this->_getControlXpath('button', 'preview_demo_button');
         if ($id) {
