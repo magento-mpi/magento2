@@ -32,6 +32,11 @@ class Core_Mage_Vde_TemporarySaveTest extends Mage_Selenium_TestCase
         $this->vdeHelper()->openThemeDemo();
     }
 
+    protected function tearDownAfterTest()
+    {
+          $this->window('');
+    }
+
     /**
      * @test
      * @TestlinkId TL-MAGE-6568
