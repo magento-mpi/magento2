@@ -103,7 +103,9 @@
          */
         _focusComment: function(e) {
             var commentInput = e.currentTarget;
-            commentInput.value = commentInput.value === this.options.commentString ? '' : this.options.commentString;
+            if (commentInput.value === '' || commentInput.value === this.options.commentString) {
+                commentInput.value = commentInput.value === this.options.commentString ? '' : this.options.commentString;
+            }
         }
     });
 })(jQuery, window);
