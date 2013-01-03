@@ -78,22 +78,24 @@ class Magento_Filesystem
      * Checks the file existence.
      *
      * @param string $key
+     * @param string|null $workingDirectory
      * @return bool
      */
-    public function has($key)
+    public function has($key, $workingDirectory = null)
     {
-        return $this->_adapter->exists($this->_getCheckedPath($key));
+        return $this->_adapter->exists($this->_getCheckedPath($key, $workingDirectory));
     }
 
     /**
      * Reads content of the file.
      *
      * @param string $key
+     * @param string|null $workingDirectory
      * @return string
      */
-    public function read($key)
+    public function read($key, $workingDirectory = null)
     {
-        $path = $this->_getCheckedPath($key);
+        $path = $this->_getCheckedPath($key, $workingDirectory);
         $this->_checkFileExists($path);
         return $this->_adapter->read($path);
     }
@@ -103,11 +105,12 @@ class Magento_Filesystem
      *
      * @param string $key
      * @param string $content
+     * @param string|null $workingDirectory
      * @return int The number of bytes that were written.
      */
-    public function write($key, $content)
+    public function write($key, $content, $workingDirectory = null)
     {
-        $path = $this->_getCheckedPath($key);
+        $path = $this->_getCheckedPath($key, $workingDirectory);
         $this->ensureDirectoryExists(dirname($path));
         return $this->_adapter->write($path, $content);
     }
@@ -116,12 +119,13 @@ class Magento_Filesystem
      * Deletes the key.
      *
      * @param string $key
+     * @param string|null $workingDirectory
      * @return bool
      */
-    public function delete($key)
+    public function delete($key, $workingDirectory = null)
     {
-        $path = $this->_getCheckedPath($key);
-        $this->_checkFileExists($path);
+        $path = $this->_getCheckedPath($key, $workingDirectory);
+        $this->_checkExists($path);
         return $this->_adapter->delete($path);
     }
 
@@ -130,14 +134,20 @@ class Magento_Filesystem
      *
      * @param string $source
      * @param string $target
+     * @param string|null $workingDirectory
      * @param string|null $targetDirectory
      * @return bool
      */
-    public function rename($source, $target, $targetDirectory = null)
+    public function rename($source, $target, $workingDirectory = null, $targetDirectory = null)
     {
-        $sourcePath = $this->_getCheckedPath($source);
-        $this->_checkFileExists($sourcePath);
-        return $this->_adapter->rename($sourcePath, $this->_getCheckedPath($target, $targetDirectory));
+        if ($workingDirectory && null === $targetDirectory) {
+            $targetDirectory = $workingDirectory;
+        }
+        $sourcePath = $this->_getCheckedPath($source, $workingDirectory);
+        $targetPath = $this->_getCheckedPath($target, $targetDirectory);
+        $this->_checkExists($sourcePath);
+        $this->ensureDirectoryExists(dirname($targetPath), $this->_newDirPermissions, $targetDirectory);
+        return $this->_adapter->rename($sourcePath, $targetPath);
     }
 
     /**
@@ -145,14 +155,20 @@ class Magento_Filesystem
      *
      * @param string $source
      * @param string $target
+     * @param string|null $workingDirectory
      * @param string|null $targetDirectory
      * @return bool
      */
-    public function copy($source, $target, $targetDirectory = null)
+    public function copy($source, $target, $workingDirectory = null, $targetDirectory = null)
     {
-        $sourcePath = $this->_getCheckedPath($source);
+        if ($workingDirectory && null === $targetDirectory) {
+            $targetDirectory = $workingDirectory;
+        }
+        $sourcePath = $this->_getCheckedPath($source, $workingDirectory);
+        $targetPath = $this->_getCheckedPath($target, $targetDirectory);
         $this->_checkFileExists($sourcePath);
-        return $this->_adapter->copy($sourcePath, $this->_getCheckedPath($target, $targetDirectory));
+        $this->ensureDirectoryExists(dirname($targetPath), $this->_newDirPermissions, $targetDirectory);
+        return $this->_adapter->copy($sourcePath, $targetPath);
     }
 
 
@@ -160,44 +176,48 @@ class Magento_Filesystem
      * Check if key is directory.
      *
      * @param string $key
+     * @param string|null $workingDirectory
      * @return bool
      */
-    public function isDirectory($key)
+    public function isDirectory($key, $workingDirectory = null)
     {
-        return $this->_adapter->isDirectory($this->_getCheckedPath($key));
+        return $this->_adapter->isDirectory($this->_getCheckedPath($key, $workingDirectory));
     }
 
     /**
      * Check if key is file.
      *
      * @param string $key
+     * @param string|null $workingDirectory
      * @return bool
      */
-    public function isFile($key)
+    public function isFile($key, $workingDirectory = null)
     {
-        return $this->_adapter->isFile($this->_getCheckedPath($key));
+        return $this->_adapter->isFile($this->_getCheckedPath($key, $workingDirectory));
     }
 
     /**
      * Check if key exists and is writable
      *
      * @param string $key
+     * @param string|null $workingDirectory
      * @return bool
      */
-    public function isWritable($key)
+    public function isWritable($key, $workingDirectory = null)
     {
-        return $this->_adapter->isWritable($this->_getCheckedPath($key));
+        return $this->_adapter->isWritable($this->_getCheckedPath($key, $workingDirectory));
     }
 
     /**
      * Check if key exists and is readable
      *
      * @param string $key
+     * @param string|null $workingDirectory
      * @return bool
      */
-    public function isReadable($key)
+    public function isReadable($key, $workingDirectory = null)
     {
-        return $this->_adapter->isReadable($this->_getCheckedPath($key));
+        return $this->_adapter->isReadable($this->_getCheckedPath($key, $workingDirectory));
     }
 
     /**
@@ -206,21 +226,23 @@ class Magento_Filesystem
      * @param string $key
      * @param int $permissions
      * @param bool $recursively
+     * @param string|null $workingDirectory
      */
-    public function changePermissions($key, $permissions, $recursively = false)
+    public function changePermissions($key, $permissions, $recursively = false, $workingDirectory = null)
     {
-        $this->_adapter->changePermissions($this->_getCheckedPath($key), $permissions, $recursively);
+        $this->_adapter->changePermissions($this->_getCheckedPath($key, $workingDirectory), $permissions, $recursively);
     }
 
     /**
      * Gets list of all nested keys
      *
      * @param string $key
+     * @param string|null $workingDirectory
      * @return array
      */
-    public function getNestedKeys($key)
+    public function getNestedKeys($key, $workingDirectory = null)
     {
-        return $this->_adapter->getNestedKeys($this->_getCheckedPath($key));
+        return $this->_adapter->getNestedKeys($this->_getCheckedPath($key, $workingDirectory));
     }
 
     /**
@@ -228,10 +250,16 @@ class Magento_Filesystem
      *
      * @param string $key
      * @param int $permissions
+     * @param string|null $workingDirectory
      */
-    public function createDirectory($key, $permissions = 0777)
+    public function createDirectory($key, $permissions = 0777, $workingDirectory = null)
     {
-        $this->_adapter->createDirectory($this->_getCheckedPath($key), $permissions);
+        $path = $this->_getCheckedPath($key, $workingDirectory);
+        $parentPath = dirname($path);
+        if (!$this->isDirectory($parentPath)) {
+            $this->createDirectory($parentPath, $permissions, $workingDirectory);
+        }
+        $this->_adapter->createDirectory($path, $permissions);
     }
 
     /**
@@ -239,11 +267,17 @@ class Magento_Filesystem
      *
      * @param string $key
      * @param int $permissions
+     * @param string|null $workingDirectory
+     * @throws Magento_Filesystem_Exception
      */
-    public function ensureDirectoryExists($key, $permissions = 0777)
+    public function ensureDirectoryExists($key, $permissions = 0777, $workingDirectory = null)
     {
-        if (!$this->isDirectory($key)) {
-            $this->createDirectory($key, $permissions);
+        if (!$this->isDirectory($key, $workingDirectory)) {
+            if ($this->_isAllowCreateDirs) {
+                $this->createDirectory($key, $permissions, $workingDirectory);
+            } else {
+                throw new Magento_Filesystem_Exception("Directory '$key' doesn't exist.");
+            }
         }
     }
 
@@ -251,13 +285,12 @@ class Magento_Filesystem
      * Sets access and modification time of file.
      *
      * @param string $key
+     * @param string|null $workingDirectory
      */
-    public function touch($key)
+    public function touch($key, $workingDirectory = null)
     {
-        $key = $this->_getCheckedPath($key);
-        if ($this->_isAllowCreateDirs) {
-            $this->ensureDirectoryExists(dirname($key), $this->_newDirPermissions);
-        }
+        $key = $this->_getCheckedPath($key, $workingDirectory);
+        $this->ensureDirectoryExists(dirname($key), $this->_newDirPermissions);
         $this->_adapter->touch($key);
     }
 
@@ -265,16 +298,18 @@ class Magento_Filesystem
      * Creates stream object
      *
      * @param string $key
+     * @param string|null $workingDirectory
      * @return Magento_Filesystem_StreamInterface
      * @throws Magento_Filesystem_Exception
      */
-    public function createStream($key)
+    public function createStream($key, $workingDirectory = null)
     {
-        $key = $this->_getCheckedPath($key);
+        $key = $this->_getCheckedPath($key, $workingDirectory);
         if ($this->_adapter instanceof Magento_Filesystem_Stream_FactoryInterface) {
             return $this->_adapter->createStream($key);
+        } else {
+            throw new Magento_Filesystem_Exception("Filesystem doesn't support streams.");
         }
-        throw new Magento_Filesystem_Exception('Filesystem adapter doesn\'t support streams.');
     }
 
     /**
@@ -304,6 +339,19 @@ class Magento_Filesystem
      * @throws InvalidArgumentException
      */
     protected function _checkFileExists($path)
+    {
+        if (!$this->_adapter->isFile($path)) {
+            throw new InvalidArgumentException(sprintf('"%s" does not exists', $path));
+        }
+    }
+
+    /**
+     * Check that file or directory exists
+     *
+     * @param string $path
+     * @throws InvalidArgumentException
+     */
+    protected function _checkExists($path)
     {
         if (!$this->_adapter->exists($path)) {
             throw new InvalidArgumentException(sprintf('"%s" does not exists', $path));

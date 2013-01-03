@@ -22,9 +22,7 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     /**
      * @var array
      */
-    protected $_tearDownFiles = array();
-
-    protected $_tearDownDirs = array();
+    protected $_deleteFiles = array();
 
     protected function setUp()
     {
@@ -33,19 +31,19 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        foreach ($this->_tearDownDirs as $dirName) {
-            if (file_exists($dirName)) {
-                rmdir($dirName);
-            }
-        }
-        foreach ($this->_tearDownFiles as $fileName) {
-            if (file_exists($fileName)) {
+        foreach ($this->_deleteFiles as $fileName) {
+            if (is_dir($fileName)) {
+                rmdir($fileName);
+            } elseif (is_file($fileName)) {
                 unlink($fileName);
             }
         }
     }
 
-    protected function _getFilePath()
+    /**
+     * @return string
+     */
+    protected function _getFixturesPath()
     {
         return __DIR__ . DS . '..' . DS . '_files' . DS;
     }
@@ -66,8 +64,8 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     public function existsDataProvider()
     {
         return array(
-            'existed file' => array($this->_getFilePath() . 'popup.csv', true),
-            'not existed file' => array($this->_getFilePath() . 'popup2.css', false),
+            'existed file' => array($this->_getFixturesPath() . 'popup.csv', true),
+            'not existed file' => array($this->_getFixturesPath() . 'popup2.css', false),
         );
     }
 
@@ -87,7 +85,7 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     public function readDataProvider()
     {
         return array(
-            'read' => array($this->_getFilePath() . 'popup.csv', 'var myData = 5;'),
+            'read' => array($this->_getFixturesPath() . 'popup.csv', 'var myData = 5;'),
         );
     }
 
@@ -98,7 +96,7 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
      */
     public function testWrite($fileName, $fileData)
     {
-        $this->_tearDownFiles = array($fileName);
+        $this->_deleteFiles = array($fileName);
         $this->_adapter->write($fileName, $fileData);
         $this->assertFileExists($fileName);
         $this->assertEquals(file_get_contents($fileName), $fileData);
@@ -110,18 +108,81 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     public function writeDataProvider()
     {
         return array(
-            'correct file' => array($this->_getFilePath() . 'tempFile.css', 'temporary data'),
-            'empty file' => array($this->_getFilePath() . 'tempFile2.css', '')
+            'correct file' => array($this->_getFixturesPath() . 'tempFile.css', 'temporary data'),
+            'empty file' => array($this->_getFixturesPath() . 'tempFile2.css', '')
         );
+    }
+
+    public function testDeleteNotExists()
+    {
+        $fileName = $this->_getFixturesPath() . 'tempFile3.css';
+        $this->_adapter->delete($fileName);
+        $this->assertFileNotExists($fileName);
+    }
+
+    public function testDeleteDir()
+    {
+        $fileName = $this->_getFixturesPath() . 'new_directory' . DS . 'tempFile3.css';
+        $dirName = $this->_getFixturesPath() . 'new_directory';
+        $this->_deleteFiles[] = $fileName;
+        $this->_deleteFiles[] = $dirName;
+        mkdir($dirName, 0755);
+        file_put_contents($fileName, 'test data');
+        $this->_adapter->delete($dirName);
+        $this->assertFileNotExists($dirName);
+        $this->assertFileNotExists($fileName);
     }
 
     public function testDelete()
     {
-        $fileName = $this->_getFilePath() . 'tempFile3.css';
-        $this->_tearDownFiles = array($fileName);
+        $fileName = $this->_getFixturesPath() . 'tempFile3.css';
+        $this->_deleteFiles = array($fileName);
         file_put_contents($fileName, 'test data');
         $this->_adapter->delete($fileName);
         $this->assertFileNotExists($fileName);
+    }
+
+    public function testChangePermissionsFile()
+    {
+        $fileName = $this->_getFixturesPath() . 'tempFile3.css';
+        $this->_deleteFiles[] = $fileName;
+        file_put_contents($fileName, 'test data');
+        $this->_adapter->changePermissions($fileName, 0666, false);
+        $this->assertEquals(0666, fileperms($fileName) & 0777);
+    }
+
+    public function testChangePermissionsDir()
+    {
+        $fileName = $this->_getFixturesPath() . 'new_directory2' . DS . 'tempFile3.css';
+        $dirName = $this->_getFixturesPath() . 'new_directory2';
+        $this->_deleteFiles[] = $fileName;
+        $this->_deleteFiles[] = $dirName;
+        mkdir($dirName, 0777);
+        file_put_contents($fileName, 'test data');
+        $this->_adapter->changePermissions($dirName, 0755, true);
+        $this->assertEquals(0755, fileperms($dirName) & 0777);
+        $this->assertEquals(0755, fileperms($fileName) & 0777);
+    }
+
+    public function testIsFile()
+    {
+        $this->assertTrue($this->_adapter->isFile($this->_getFixturesPath() . 'popup.csv'));
+    }
+
+    public function testIsWritable()
+    {
+        $this->assertTrue($this->_adapter->isWritable($this->_getFixturesPath() . 'popup.csv'));
+    }
+
+    public function testIsReadable()
+    {
+        $this->assertTrue($this->_adapter->isReadable($this->_getFixturesPath() . 'popup.csv'));
+    }
+
+    public function testCreateStream()
+    {
+        $stream = $this->_adapter->createStream($this->_getFixturesPath() . 'popup.csv');
+        $this->assertInstanceOf('Magento_Filesystem_Stream_Local', $stream);
     }
 
     /**
@@ -132,7 +193,8 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
      */
     public function testRename($sourceName, $targetName)
     {
-        $this->_tearDownFiles = array($sourceName, $targetName);
+        $this->_deleteFiles[] = $sourceName;
+        $this->_deleteFiles[] = $targetName;
         file_put_contents($sourceName, 'test data');
         $this->_adapter->rename($sourceName, $targetName);
         $this->assertFileExists($targetName);
@@ -146,21 +208,21 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     public function renameDataProvider()
     {
         return array(
-            'test 1' => array($this->_getFilePath() . 'file1.js', $this->_getFilePath() . 'file2.js'),
+            'test 1' => array($this->_getFixturesPath() . 'file1.js', $this->_getFixturesPath() . 'file2.js'),
         );
     }
 
     public function testIsDirectory()
     {
-        $this->assertTrue($this->_adapter->isDirectory($this->_getFilePath()));
-        $this->assertFalse($this->_adapter->isDirectory($this->_getFilePath() . 'popup.csv'));
+        $this->assertTrue($this->_adapter->isDirectory($this->_getFixturesPath()));
+        $this->assertFalse($this->_adapter->isDirectory($this->_getFixturesPath() . 'popup.csv'));
     }
 
     public function testCreateDirectory()
     {
-        $directoryName = $this->_getFilePath() . 'new_directory';
-        $this->_tearDownDirs = array($directoryName);
-        $this->_adapter->createDirectory($directoryName, 0111);
+        $directoryName = $this->_getFixturesPath() . 'new_directory';
+        $this->_deleteFiles[] = $directoryName;
+        $this->_adapter->createDirectory($directoryName, 0755);
         $this->assertFileExists($directoryName);
         $this->assertTrue(is_dir($directoryName));
     }
@@ -171,7 +233,7 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateDirectoryError()
     {
-        $this->_adapter->createDirectory('', 0777);
+        $this->_adapter->createDirectory('', 0755);
     }
 
     /**
@@ -182,7 +244,7 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     public function testTouch($fileName, $newFile = false)
     {
         if ($newFile) {
-            $this->_tearDownFiles = array($fileName);
+            $this->_deleteFiles = array($fileName);
         }
         if ($newFile) {
             $this->assertFileNotExists($fileName);
@@ -199,8 +261,8 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     public function touchDataProvider()
     {
         return array(
-            'update file' => array($this->_getFilePath() . 'popup.csv', false),
-            'create file' => array($this->_getFilePath() . 'popup2.css', true)
+            'update file' => array($this->_getFixturesPath() . 'popup.csv', false),
+            'create file' => array($this->_getFixturesPath() . 'popup2.css', true)
         );
     }
 
@@ -211,7 +273,7 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
      */
     public function testCopy($sourceName, $targetName)
     {
-        $this->_tearDownFiles = array($sourceName, $targetName);
+        $this->_deleteFiles = array($sourceName, $targetName);
         $testData = 'test data';
         file_put_contents($sourceName, $testData);
         $this->_adapter->copy($sourceName, $targetName);
