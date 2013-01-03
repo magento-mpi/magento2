@@ -40,16 +40,32 @@ if ($mediaDirectory) {
     checkResource($relativeFilename, $allowedResources);
     sendFile($filePath);
 }
+try {
+    /** @var $app Mage_Core_Model_App */
+    $app = self::getObjectManager()->create('Mage_Core_Model_App');
+    Mage::setApp($app);
 
-if (empty($mediaDirectory)) {
-    Mage::init($_SERVER);
-} else {
-    $params = array_merge(
-        $_SERVER,
-        array(Mage_Core_Model_Cache::APP_INIT_PARAM => array('disallow_save' => true))
-    );
-    Mage::init($params, array('Mage_Core'));
+    if (empty($mediaDirectory)) {
+        $app->init($_SERVER);
+    } else {
+        $params = array_merge(
+            $_SERVER,
+            array(Mage_Core_Model_Cache::APP_INIT_PARAM => array('disallow_save' => true))
+        );
+        $app->init($params, array('Mage_Core'));
+    }
+
+} catch (Mage_Core_Model_Session_Exception $e) {
+    header('Location: ' . self::getBaseUrl());
+    die;
+} catch (Mage_Core_Model_Store_Exception $e) {
+    require_once(self::getBaseDir(Mage_Core_Model_Dir::PUB) . DS . 'errors' . DS . '404.php');
+    die;
+} catch (Exception $e) {
+    self::printException($e);
+    die;
 }
+
 Mage::app()->requireInstalledInstance();
 
 if (!$mediaDirectory) {

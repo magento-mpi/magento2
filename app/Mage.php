@@ -175,6 +175,16 @@ final class Mage
     }
 
     /**
+     * Set edition
+     *
+     * @param string $edition
+     */
+    public static function setEdition($edition)
+    {
+        self::$_currentEdition = $edition;
+    }
+
+    /**
      * Set all my static data to defaults
      *
      */
@@ -653,73 +663,26 @@ final class Mage
     }
 
     /**
+     * Set Application object
+     *
+     * @param Mage_Core_Model_App $app
+     * @throws LogicException
+     */
+    public static function setApp(Mage_Core_Model_App $app)
+    {
+        if (!is_null(self::$_app) && $app !== self::$_app) {
+            throw new LogicException('Only one application object can exist.');
+        }
+        self::$_app = $app;
+    }
+
+    /**
      * @static
      * @param string $areaCode
      */
     public static function setCurrentArea($areaCode)
     {
         self::getObjectManager()->loadAreaConfiguration($areaCode);
-    }
-
-    /**
-     * @static
-     * @param array $params
-     * @param string|array $modules
-     */
-    public static function init(array $params, $modules = array())
-    {
-        try {
-            /** @var $app Mage_Core_Model_App */
-            $app = self::getObjectManager()->create('Mage_Core_Model_App');
-            self::$_app = $app;
-            if (!empty($modules)) {
-                self::$_app->initSpecified($params, $modules);
-            } else {
-                self::$_app->init($params);
-            }
-        } catch (Mage_Core_Model_Session_Exception $e) {
-            header('Location: ' . self::getBaseUrl());
-            die;
-        } catch (Mage_Core_Model_Store_Exception $e) {
-            require_once(self::getBaseDir(Mage_Core_Model_Dir::PUB) . DS . 'errors' . DS . '404.php');
-            die;
-        } catch (Exception $e) {
-            self::printException($e);
-            die;
-        }
-    }
-
-    /**
-     * Front end main entry point
-     *
-     * @param array $params
-     */
-    public static function run(array $params)
-    {
-        try {
-            Magento_Profiler::start('mage');
-            if (isset($params[self::INIT_OPTION_EDITION])) {
-                self::$_currentEdition = $params[self::INIT_OPTION_EDITION];
-            }
-            /** @var $app Mage_Core_Model_App */
-            $app = self::getObjectManager()->create('Mage_Core_Model_App');
-            self::$_app = $app;
-            if (isset($params[self::INIT_OPTION_REQUEST])) {
-                self::$_app->setRequest($params[self::INIT_OPTION_REQUEST]);
-            }
-            if (isset($params[self::INIT_OPTION_RESPONSE])) {
-                self::$_app->setResponse($params[self::INIT_OPTION_RESPONSE]);
-            }
-            self::$_events = new Varien_Event_Collection();
-            self::$_app->run($params);
-            Magento_Profiler::stop('mage');
-        } catch (Mage_Core_Model_Session_Exception $e) {
-            header('Location: ' . self::getBaseUrl());
-        } catch (Mage_Core_Model_Store_Exception $e) {
-            require_once(self::getBaseDir() . '/pub/errors/404.php');
-        } catch (Exception $e) {
-            self::printException($e);
-        }
     }
 
     /**
