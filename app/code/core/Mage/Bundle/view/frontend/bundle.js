@@ -6,8 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/*jshint evil:true browser:true jquery:true*/
-
+/*jshint browser:true jquery:true*/
 (function($, undefined) {
     "use strict";
     $.widget('mage.bundleOption', {
@@ -19,7 +18,6 @@
         },
 
         _create: function() {
-
             $(this.options.productBundleSelector).each(
                 $.proxy(function(key, value) {
                     var element = $(value),
@@ -28,7 +26,6 @@
                     element.on((isNotCheckboxRadio ? 'change' : 'click'), $.proxy(this.changeSelection, this));
                 }, this)
             );
-
             $(this.options.bundleConfig.defaultValues).each(function(key, ele) {
                 if (this.options.optionConfig.options[ele].isMulti) {
                     var selected = [];
@@ -78,9 +75,9 @@
         },
 
         changeSelection: function(e) {
-            var element = $(e.target);
-            var parts = element.attr('id').split('-');
-            var config = this.options.bundleConfig;
+            var element = $(e.target),
+                parts = element.attr('id').split('-'),
+                config = this.options.bundleConfig;
             if (config.options[parts[2]].isMulti) {
                 var selected = [];
                 if (element.is('select')) {
@@ -136,16 +133,14 @@
                                 var prices = this.selectionPrice(index, element);
                                 optionPrice.update(prices[0], prices[1], prices[2]);
                             }
-
                         }, this));
                     }
                 }, this));
-
                 // Loop through each priceSelector and update price
                 $.each(this.options.priceSelectors, $.proxy(function(index, value) {
                     var priceElement = $(value),
-                        clone = $(value + "_clone");
-                    var isClone = false;
+                        clone = $(value + "_clone"),
+                        isClone = false;
                     if (priceElement.length === 0) {
                         priceElement = clone;
                         isClone = true;
@@ -160,7 +155,9 @@
                             price = optionPrice.price;
                         }
 
-                        var priceHtml = $.tmpl(this.options.priceTemplate, {'formattedPrice': this._formatCurrency(price, this.options.bundleConfig.priceFormat)});
+                        var priceHtml = $.tmpl(this.options.priceTemplate,
+                            {'formattedPrice': this._formatCurrency(price, this.options.bundleConfig.priceFormat)}
+                        );
                         priceElement.html(priceHtml[0].outerHTML);
                         // If clone exists, update clone price as well
                         if (!isClone && clone.length === 1) {
@@ -169,15 +166,14 @@
                         $(this.options.mapPopupPrice).find(value).html(priceHtml);
                     }
                 }, this));
-
             }
         },
 
         selectionPrice: function(optionId, selectionId) {
-            var qty = null;
-            var config = this.options.bundleConfig;
-            var configOption = config.options[optionId];
-            if (configOption.selections[selectionId].customQty == 1 && !configOption.isMulti) {
+            var qty = null,
+                config = this.options.bundleConfig,
+                configOption = config.options[optionId];
+            if (configOption.selections[selectionId].customQty === 1 && !configOption.isMulti) {
                 if ($(this.options.bundleOptionQtyPrefix + optionId + this.options.bundleOptionQtySuffix)) {
                     qty = $(this.options.bundleOptionQtyPrefix + optionId + this.options.bundleOptionQtySuffix).val();
                 } else {
@@ -186,8 +182,9 @@
             } else {
                 qty = configOption.selections[selectionId].qty;
             }
-            var price, tierPrice;
-            var selection = configOption.selections[selectionId];
+
+            var price, tierPrice,
+                selection = configOption.selections[selectionId];
             if (config.priceType === '0') {
                 price = configOption.selections[selectionId].price;
                 tierPrice = configOption.selections[selectionId].tierPrice;
@@ -197,7 +194,6 @@
                     }
                 });
             } else {
-
                 if (selection.priceType === '0') {
                     price = selection.priceValue;
                 } else {
@@ -207,22 +203,19 @@
 
             var disposition = configOption.selections[selectionId].plusDisposition +
                 configOption.selections[selectionId].minusDisposition;
-
             if (config.specialPrice) {
                 price = Math.min((Math.round(price * config.specialPrice) / 100), price);
             }
 
             var priceInclTax;
-
             if (selection.priceInclTax !== undefined) {
                 priceInclTax = selection.priceInclTax;
                 price = selection.priceExclTax !== undefined ? selection.priceExclTax : selection.price;
             } else {
                 priceInclTax = price;
             }
-            var result = [price * qty, disposition * qty, priceInclTax * qty];
-            return result;
 
+            return [price * qty, disposition * qty, priceInclTax * qty];
         },
 
         populateQty: function(optionId, selectionId) {
@@ -236,13 +229,12 @@
         },
 
         showQtyInput: function(optionId, value, canEdit) {
-            var ele = $('#bundle-option-' + optionId + '-qty-input');
-            ele.val(value);
-            ele.attr('disabled', !canEdit);
+            var element = $('#bundle-option-' + optionId + '-qty-input');
+            element.val(value).attr('disabled', !canEdit);
             if (canEdit) {
-                ele.removeClass('qty-disabled');
+                element.removeClass('qty-disabled');
             } else {
-                ele.addClass('qty-disabled');
+                element.addClass('qty-disabled');
             }
         }
     });
