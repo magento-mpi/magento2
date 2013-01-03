@@ -188,7 +188,7 @@
                     var dataForm = $('#form-validate').validation({
                         <?php if ($_dob->isEnabled()): ?>
                         errorPlacement: function(error, element) {
-                            if (element.prop('id') === 'dob') {
+                            if (element.prop('id') === 'full') {
                                 var dobElement = $('.customer-dob'),
                                     errorClass = error.prop('class');
                                 error.insertAfter(element.parent());
@@ -199,7 +199,7 @@
                                 error.insertAfter(element);
                             }
                         },
-                        ignore: ':hidden:not(#dob)'
+                        ignore: ':hidden:not(#full)'
                         <?php endif ?>
                     }).find('input:text').attr('autocomplete', 'off');
                     <?php if($this->getShowAddressFields()): ?>
