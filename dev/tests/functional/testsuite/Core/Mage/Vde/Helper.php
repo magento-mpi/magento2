@@ -167,6 +167,7 @@ class Core_Mage_Vde_Helper extends Mage_Selenium_AbstractHelper
      */
     public function removeBlock($block)
     {
+        $this->assertNotNull($block, 'Unable to remove block: element not exists');
         $this->addParameter('dataName', $block->attribute('data-name'));
         $this->clickControl('link', 'remove_vde_element', false);
 
@@ -182,6 +183,7 @@ class Core_Mage_Vde_Helper extends Mage_Selenium_AbstractHelper
      */
     public function dragBlock($block, $destinationContainer)
     {
+        $this->assertNotNull($block, 'Unable to drag block: element not exists');
         $block->click();
         $this->moveto($block);
         $this->buttondown();
@@ -291,6 +293,7 @@ class Core_Mage_Vde_Helper extends Mage_Selenium_AbstractHelper
         $this->window('');
         $this->clickButton('navigation_mode');
         $this->waitForNewPage();
+        sleep(1);
 
         return $this;
     }
