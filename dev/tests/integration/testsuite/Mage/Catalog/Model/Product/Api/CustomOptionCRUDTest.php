@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 /**
- * @magentoDataFixture Api/Mage/Catalog/Product/_fixture/CustomOption.php
+ * @magentoDataFixture Mage/Catalog/Model/Product/Api/_fixture/CustomOption.php
  */
-class Mage_Catalog_Product_CustomOptionCRUDTest extends PHPUnit_Framework_TestCase
+class Mage_Catalog_Model_Product_Api_CustomOptionCRUDTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var array

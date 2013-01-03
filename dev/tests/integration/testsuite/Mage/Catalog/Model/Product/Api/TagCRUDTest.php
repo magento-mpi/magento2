@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 /**
- * @magentoDataFixture Api/Mage/Catalog/Product/_fixture/TagCRUD.php
+ * @magentoDataFixture Mage/Catalog/Model/Product/Api/_fixture/TagCRUD.php
  */
-class Mage_Catalog_Product_TagCRUDTest extends PHPUnit_Framework_TestCase
+class Mage_Catalog_Model_Product_Api_TagCRUDTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test tag CRUD

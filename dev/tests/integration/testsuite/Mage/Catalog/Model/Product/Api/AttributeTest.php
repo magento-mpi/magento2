@@ -13,7 +13,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Catalog_Product_AttributeTest extends PHPUnit_Framework_TestCase
+class Mage_Catalog_Model_Product_Api_AttributeTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Tests attribute creation with invalid characters in attribute code (possible SQL injection)

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Catalog_Product_AttributeSetCRUDTest extends PHPUnit_Framework_TestCase
+class Mage_Catalog_Model_Product_Api_AttributeSetCRUDTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Remove attribute set
@@ -130,7 +130,7 @@ class Mage_Catalog_Product_AttributeSetCRUDTest extends PHPUnit_Framework_TestCa
     /**
      * Test attribute CRUD in attribute set
      *
-     * @magentoDataFixture Api/Mage/Catalog/Product/_fixture/AttributeSet.php
+     * @magentoDataFixture Mage/Catalog/Model/Product/Api/_fixture/AttributeSet.php
      */
     public function testAttributeSetAttrCRUD()
     {
@@ -157,7 +157,7 @@ class Mage_Catalog_Product_AttributeSetCRUDTest extends PHPUnit_Framework_TestCa
     /**
      * Test group of attribute sets CRUD
      *
-     * @magentoDataFixture Api/Mage/Catalog/Product/_fixture/AttributeSet.php
+     * @magentoDataFixture Mage/Catalog/Model/Product/Api/_fixture/AttributeSet.php
      */
     public function testAttributeSetGroupCRUD()
     {

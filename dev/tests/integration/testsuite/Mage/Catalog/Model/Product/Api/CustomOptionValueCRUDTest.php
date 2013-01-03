@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 /**
- * @magentoDataFixture Api/Mage/Catalog/Product/_fixture/CustomOptionValue.php
+ * @magentoDataFixture Mage/Catalog/Model/Product/Api/_fixture/CustomOptionValue.php
  */
-class Mage_Catalog_Product_CustomOptionValueCRUDTest extends PHPUnit_Framework_TestCase
+class Mage_Catalog_Model_Product_Api_CustomOptionValueCRUDTest extends PHPUnit_Framework_TestCase
 {
     protected static $_lastAddedOption;
 

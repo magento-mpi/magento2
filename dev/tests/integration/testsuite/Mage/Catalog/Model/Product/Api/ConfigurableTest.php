@@ -11,16 +11,16 @@
 /**
  * Test configurable product API
  *
- * @method Mage_Catalog_Product_Helper_Configurable _getHelper()
+ * @method Mage_Catalog_Model_Product_Api_Helper_Configurable _getHelper()
  */
-class Mage_Catalog_Product_ConfigurableTest extends Mage_Catalog_ProductAbstract
+class Mage_Catalog_Model_Product_Api_ConfigurableTest extends Mage_Catalog_Model_Product_Api_TestCaseAbstract
 {
     /**
      * Default helper for current test suite
      *
      * @var string
      */
-    protected $_defaultHelper = 'Mage_Catalog_Product_Helper_Configurable';
+    protected $_defaultHelper = 'Mage_Catalog_Model_Product_Api_Helper_Configurable';
 
     /**
      * Test successful configurable product create.

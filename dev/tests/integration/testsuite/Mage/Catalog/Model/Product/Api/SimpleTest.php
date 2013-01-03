@@ -8,21 +8,19 @@
 /**
  * Test Product CRUD operations
  *
- * @method Mage_Catalog_Product_Helper_Simple _getHelper()
+ * @method Mage_Catalog_Model_Product_Api_Helper_Simple _getHelper()
  */
-class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
+class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Product_Api_TestCaseAbstract
 {
     /**
      * Default helper for current test suite
      *
      * @var string
      */
-    protected $_defaultHelper = 'Mage_Catalog_Product_Helper_Simple';
+    protected $_defaultHelper = 'Mage_Catalog_Model_Product_Api_Helper_Simple';
 
     /**
      * Test product resource post
-     *
-     * @resourceOperation product::create
      */
     public function testCreateSimpleRequiredFieldsOnly()
     {
@@ -43,7 +41,6 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
      *
      * @param array $productData
      * @dataProvider dataProviderTestCreateSimpleAllFieldsValid
-     * @resourceOperation product::create
      */
     public function testCreateSimpleAllFieldsValid($productData)
     {
@@ -80,7 +77,6 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
     /**
      * Data provider for testCreateSimpleAllFieldsValid
      *
-     * @dataSetNumber 2
      * @return array
      */
     public function dataProviderTestCreateSimpleAllFieldsValid()
@@ -101,8 +97,6 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
     /**
      * Test product resource post with all invalid fields
      * Negative test.
-     *
-     * @resourceOperation product::create
      */
     public function testCreateSimpleAllFieldsInvalid()
     {
@@ -146,8 +140,6 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
     /**
      * Test product create resource with invalid qty uses decimals value
      * Negative test.
-     *
-     * @resourceOperation product::create
      */
     public function testCreateInvalidQtyUsesDecimals()
     {
@@ -163,8 +155,6 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
     /**
      * Test product create resource with invalid weight value
      * Negative test.
-     *
-     * @resourceOperation product::create
      */
     public function testCreateWeightOutOfRange()
     {
@@ -182,7 +172,6 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
      * Negative test.
      *
      * @magentoDataFixture Api/Mage/SalesOrder/_fixture/product_simple.php
-     * @resourceOperation product::create
      */
     public function testCreateNotUniqueSku()
     {
@@ -203,7 +192,6 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
      * Negative test.
      *
      * @param array $productData
-     * @resourceOperation product::create
      * @dataProvider dataProviderTestCreateEmptyRequiredFields
      */
     public function testCreateEmptyRequiredFields($productData)
@@ -227,7 +215,6 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
     /**
      * Data provider for testCreateEmptyRequiredFields
      *
-     * @dataSetNumber 2
      * @return array
      */
     public function dataProviderTestCreateEmptyRequiredFields()
@@ -244,8 +231,6 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
 
     /**
      * Test product resource post using config values in inventory
-     *
-     * @resourceOperation product::create
      */
     public function testCreateInventoryUseConfigValues()
     {
@@ -262,8 +247,7 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
     /**
      * Test product resource post using config values in inventory manage stock field
      *
-     * @resourceOperation product::create
-     * @magentoConfigFixture cataloginventory/item_options/manage_stock 0
+     * @magentoConfigFixture current_store cataloginventory/item_options/manage_stock 0
      */
     public function testCreateInventoryManageStockUseConfig()
     {
@@ -313,8 +297,6 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
         $this->assertEquals($specialPrice, $product->getSpecialPrice(), 'Special price not changed');
         $this->assertEquals($specialFrom, $product->getSpecialFromDate(), 'Special price from not changed');
         $this->assertEquals($specialTo, $product->getSpecialToDate(), 'Special price to not changed');
-
-        Mage::register('productId', $product->getId());
     }
 
     /**
@@ -338,8 +320,6 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
         //test new product exists in DB
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load($id);
-        Mage::unregister('productId');
-        Mage::register('productId', $product->getId());
         $this->assertNotNull($product->getId(), 'Tested product not found.');
 
         $result = Magento_Test_Helper_Api::call(
@@ -371,8 +351,6 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
             'catalogProductCreate',
             $data['create_with_attributes_soapv2']
         );
-        Mage::unregister('productId');
-        Mage::register('productId', $productId);
 
         // test new product id returned
         $this->assertGreaterThan(0, $productId);
@@ -411,7 +389,7 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
     /**
      * Test product CRUD with custom options
      *
-     * @magentoDataFixture Api/Mage/Catalog/Product/_fixture/ProductWithOptionCrud.php
+     * @magentoDataFixture Mage/Catalog/Model/Product/Api/_fixture/ProductWithOptionCrud.php
      */
     public function testProductWithOptionsCrud()
     {
@@ -501,8 +479,6 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
         // create product for test
         $productId = Magento_Test_Helper_Api::call($this, 'catalogProductCreate', $data['create_full']['soap']);
         $this->assertGreaterThan(0, $productId, 'Product was not created');
-        Mage::unregister('productId');
-        Mage::register('productId', $productId);
 
         // update product on test store
         $data['update_custom_store'] = array('productId' => $productId) + $data['update_custom_store'];
@@ -564,8 +540,6 @@ class Mage_Catalog_Product_SimpleTest extends Mage_Catalog_ProductAbstract
 
         // create product for test
         $productId = Magento_Test_Helper_Api::call($this, 'catalogProductCreate', $productData);
-        Mage::unregister('productId');
-        Mage::register('productId', $productId);
 
         // test new product id returned
         $this->assertGreaterThan(0, $productId);

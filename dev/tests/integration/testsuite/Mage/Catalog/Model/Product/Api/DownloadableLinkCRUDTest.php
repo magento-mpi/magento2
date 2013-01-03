@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Catalog_Product_DownloadableLinkCRUDTest extends PHPUnit_Framework_TestCase
+class Mage_Catalog_Model_Product_Api_DownloadableLinkCRUDTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test downloadable link create
      *
-     * @magentoDataFixture Api/Mage/Catalog/Product/_fixture/LinkCRUD.php
+     * @magentoDataFixture Mage/Catalog/Model/Product/Api/_fixture/LinkCRUD.php
      */
     public function testDownloadableLinkCreate()
     {
@@ -54,7 +54,7 @@ class Mage_Catalog_Product_DownloadableLinkCRUDTest extends PHPUnit_Framework_Te
     /**
      * Test get downloadable link items
      *
-     * @magentoDataFixture Api/Mage/Catalog/Product/_fixture/DownloadableWithLinks.php
+     * @magentoDataFixture Mage/Catalog/Model/Product/Api/_fixture/DownloadableWithLinks.php
      */
     public function testDownloadableLinkItems()
     {
@@ -85,7 +85,7 @@ class Mage_Catalog_Product_DownloadableLinkCRUDTest extends PHPUnit_Framework_Te
     /**
      * Remove downloadable link
      *
-     * @magentoDataFixture Api/Mage/Catalog/Product/_fixture/DownloadableWithLinks.php
+     * @magentoDataFixture Mage/Catalog/Model/Product/Api/_fixture/DownloadableWithLinks.php
      */
     public function testDownloadableLinkRemove()
     {

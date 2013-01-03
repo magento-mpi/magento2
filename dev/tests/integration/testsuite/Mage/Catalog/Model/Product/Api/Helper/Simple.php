@@ -14,7 +14,7 @@
  * @license     {license_link}
  */
 
-class Mage_Catalog_Product_Helper_Simple extends PHPUnit_Framework_TestCase
+class Mage_Catalog_Model_Product_Api_Helper_Simple extends PHPUnit_Framework_TestCase
 {
     /**
      * Load simple product fixture data

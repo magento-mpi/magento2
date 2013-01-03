@@ -8,7 +8,7 @@
 /**
  * Abstract class for products resource tests
  */
-abstract class Mage_Catalog_ProductAbstract extends PHPUnit_Framework_TestCase
+abstract class Mage_Catalog_Model_Product_Api_TestCaseAbstract extends PHPUnit_Framework_TestCase
 {
     /**
      * Default helper for current test suite
