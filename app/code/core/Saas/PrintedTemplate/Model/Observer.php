@@ -43,6 +43,10 @@ class Saas_PrintedTemplate_Model_Observer
         'Mage_Sales_Block_Widget_Guest_Form',
         'Enterprise_Cms_Block_Widget_Node',
         'Enterprise_Banner_Block_Widget_Banner',
+        'Enterprise_CatalogEvent_Block_Widget_Lister',
+        'Enterprise_GiftRegistry_Block_Search_Widget_Form',
+        'Enterprise_Checkout_Block_Widget_Sku',
+        'Enterprise_Wishlist_Block_Widget_Search',
     );
 
     /**
