@@ -435,7 +435,9 @@
          */
         _selectItem: function() {
             this._super();
-            this._addRecent(this._selectedItem);
+            if (this._selectedItem.value) {
+                this._addRecent(this._selectedItem);
+            }
         },
 
         /**
