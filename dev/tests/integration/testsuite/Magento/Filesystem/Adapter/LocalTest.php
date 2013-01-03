@@ -182,9 +182,8 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
 
     public function testCreateStream()
     {
-        $stream = $this->_adapter->createStream($this->_getFilePath() . 'popup.csv', 'r');
+        $stream = $this->_adapter->createStream($this->_getFilePath() . 'popup.csv');
         $this->assertInstanceOf('Magento_Filesystem_Stream_Local', $stream);
-        $stream->close();
     }
 
     /**
