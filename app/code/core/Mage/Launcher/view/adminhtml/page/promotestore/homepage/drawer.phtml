@@ -22,7 +22,7 @@
         <p><?php echo $this->__('We recommend that you configure the Homepage on you new site following these steps') ?></p>
         <ul class="checklist">
             <li class="uncompleted"><a href="<?php echo $this->getUrl('adminhtml/cms_page/edit', array('page_id' => 2)) ?>">Create Content for Your Home Page</a></li>
-            <li class="uncompleted"><a href="<?php echo $this->getUrl('adminhtml/system_config/edit/section/design') ?>">Configure Meta Tags</a></li>
+            <li class="uncompleted"><a href="<?php echo $this->getUrl('adminhtml/system_config/edit', array('section' => 'design', '_fragment' => 'design_head-link')) ?>">Configure Meta Tags</a></li>
         </ul>
     </div>
     </form>

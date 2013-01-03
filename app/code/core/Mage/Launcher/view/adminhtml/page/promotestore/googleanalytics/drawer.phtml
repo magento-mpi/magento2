@@ -24,7 +24,7 @@
                 <input id="google_analytics_account" name="groups[google][analytics][fields][account][value]" data-ui-id="text-groups-analytics-fields-account-value" value="" class=" input-text" type="text">
             <?php endif; ?>
             <?php if ($this->getTileState() == Mage_Launcher_Model_Tile::STATE_COMPLETE) :?>
-                <li class="uncompleted"><a href="<?php echo $this->getUrl('adminhtml/system_config/edit', array('section' => 'google'))?>"><?php echo $this->__('Edit Google Analytics Settings'); ?> </a></li>
+                <li class="uncompleted"><a href="<?php echo $this->getUrl('adminhtml/system_config/edit', array('section' => 'google', '_fragment' => 'google_analytics-link'))?>"><?php echo $this->__('Edit Google Analytics Settings'); ?> </a></li>
             <?php endif; ?>
         </div>
     </form>

@@ -28,6 +28,9 @@
     </adminhtml_auth_login>
 
     <adminhtml_system_config_edit>
+        <reference name="head">
+            <action method="addJs"><file>jquery/jquery.ba-hashchange.min.js</file></action>
+        </reference>
         <reference name="js">
             <block type="Mage_Backend_Block_Template" template="Mage_Adminhtml::system/shipping/ups.phtml"/>
             <block type="Mage_Backend_Block_Template" template="system/config/js.phtml"/>
