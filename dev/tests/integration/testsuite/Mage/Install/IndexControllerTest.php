@@ -15,7 +15,7 @@ class Mage_Install_IndexControllerTest extends Magento_Test_TestCase_ControllerA
         $this->assertEquals('wizard', $request->getControllerName());
         $this->assertEquals('install', $request->getModuleName());
         /**
-         * Make sure tha preDispatch() didn't cleanup var directory (by asserting presence of anything there),
+         * Make sure that preDispatch() didn't cleanup var directory (by asserting presence of anything there),
          * because in integration testing environment the application is considered "installed"
          */
         $this->assertFileExists(Mage::getBaseDir(Mage_Core_Model_Dir::TMP));

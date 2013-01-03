@@ -7,6 +7,9 @@
  */
 class Mage_Paypal_Model_Report_SettlementTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testFetchAndSave()
     {
         /** @var $model Mage_Paypal_Model_Report_Settlement; */
@@ -35,10 +38,10 @@ class Mage_Paypal_Model_Report_SettlementTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(array()),
-            array(array('username', 'password', 'path')),
-            array(array('hostname', 'password', 'path')),
-            array(array('hostname', 'username', 'path')),
-            array(array('hostname', 'username', 'password')),
+            array(array('username' => 'test', 'password' => 'test', 'path' => '/')),
+            array(array('hostname' => 'example.com', 'password' => 'test', 'path' => '/')),
+            array(array('hostname' => 'example.com', 'username' => 'test', 'path' => '/')),
+            array(array('hostname' => 'example.com', 'username' => 'test', 'password' => 'test')),
         );
     }
 }
