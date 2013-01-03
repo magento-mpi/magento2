@@ -204,6 +204,7 @@
                     return v.label === term;
                 }, this))[0] || {value: '', label: ''};
                 if (this._selectedItem.value) {
+                    this._term = this._selectedItem.label;
                     this.hiddenInput.val(this._selectedItem.value);
                     this._hideDropdown();
                 }
@@ -257,6 +258,9 @@
                 this._term = term;
                 if (term) {
                     this._search(term);
+                } else {
+                    this._selectedItem = {value: '', label: ''};
+                    this.hiddenInput.val(this._selectedItem.value);
                 }
             }
         },
