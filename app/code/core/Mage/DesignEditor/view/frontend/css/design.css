@@ -6,30 +6,27 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+body {
+    padding-top: 15px;
+}
 a, button {
     cursor: default !important;
 }
 .vde_element_wrapper {
-    margin-bottom: 3px;
-    padding: 0px 2px 2px 2px;
     border: 2px solid #69a8cf;
-    border-radius: 4px;
 }
 .vde_element_wrapper.vde_draggable {
     cursor: pointer;
+    margin-bottom: 2px;
 }
 .vde_element_wrapper.vde_draggable.ui-sortable-helper {
     cursor: move;
 }
 .vde_element_title {
     font-family:Arial, Helvetica, sans-serif;
-    margin: -2px 0 0 -4px;
+    margin: 2px;
     padding: 0;
     border-width: 2px 5px 6px 7px;
-    border-image: url(../images/block.png) 2 5 6 7 stretch stretch;
-    border-image-outset: fill;
-    -webkit-border-image: url(../images/block.png) 2 5 6 7 stretch stretch;
-    -moz-border-image: url(../images/block.png) 2 5 6 7 stretch stretch;
     color: black;
     font-size: 8pt;
     font-weight: bold;
@@ -43,41 +40,51 @@ a, button {
     margin: -26px -6px 0px -4px;
     padding: 0px;
     border-width: 2px 5px 6px 7px;
-    border-image: url(../images/stub.png) 2 5 6 7 stretch stretch;
-    border-image-outset: fill;
-    -webkit-border-image: url(../images/stub.png) 2 5 6 7 stretch stretch;
-    -moz-border-image: url(../images/stub.png) 2 5 6 7 stretch stretch;
     max-width: 20px;
     height: 18px;
     overflow: hidden;
     text-align: right;
     line-height: 17px;
-    cursor: default;
     float: right;
 }
+.vde_element_remove img {
+    cursor: pointer;
+}
 .vde_element_wrapper.vde_container {
-    border: 2px solid #7bc361;
+    border: none;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    min-width: 150px;
+}
+.vde_element_wrapper.vde_highlight {
+    border: 1px solid #dedede;
+    background-color: #fafafa;
 }
 .vde_container > .vde_element_title {
-    border-image: url(../images/container.png) 2 5 6 7 stretch stretch;
-    -webkit-border-image: url(../images/container.png) 2 5 6 7 stretch stretch;
-    -moz-border-image: url(../images/container.png) 2 5 6 7 stretch stretch;
+    display: none;
+    position: absolute;
+    background-color: #7bc361;
+    margin-top: -18px;
+    margin-left: -3px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: #ffffff;
+    border-radius: 0px 4px 0px 0px;
 }
 .vde_element_wrapper.vde_stub {
     border: 2px solid #92978d;
-}
-.vde_stub > .vde_element_title {
-    border-image: url(../images/stub.png) 2 5 6 7 stretch stretch;
-    -webkit-border-image: url(../images/stub.png) 2 5 6 7 stretch stretch;
-    -moz-border-image: url(../images/stub.png) 2 5 6 7 stretch stretch;
+    margin: 2px;
+    min-height: 40px;
+    background-color: #dadfd4;
 }
 .vde_container.vde_container_hover {
-    border-color: #006400;
+    border-style: dashed;
+    border-width: 3px;
+    border-color: #7bc361;
+    min-height: 40px;
 }
 .vde_container.vde_container_hover > .vde_element_title {
-    border-image: url(../images/container_hover.png) 2 5 6 7 stretch stretch;
-    -webkit-border-image: url(../images/container_hover.png) 2 5 6 7 stretch stretch;
-    -moz-border-image: url(../images/container_hover.png) 2 5 6 7 stretch stretch;
+    display: block;
 }
 .vde_placeholder {
     background-color: #F5F5DC;
@@ -103,4 +110,7 @@ a, button {
 .vde_history_toolbar ul li {
     white-space: nowrap;
     overflow: hidden;
+}
+.vde_opacity_enabled {
+    opacity: 0.5;
 }
