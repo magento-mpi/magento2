@@ -34,6 +34,7 @@ jQuery(function ($) {
          * @param {Object}
          */
         beforeSend: function(jqXHR, settings) {
+            var form_key = typeof FORM_KEY !== 'undefined' ? FORM_KEY : null;
             if (!settings.url.match(new RegExp('[?&]isAjax=true',''))) {
                 settings.url = settings.url.match(
                     new RegExp('\\?',"g")) ?
@@ -44,16 +45,16 @@ jQuery(function ($) {
                 settings.data.indexOf('form_key=') === -1
             ) {
                 settings.data += '&' + $.param({
-                    form_key: FORM_KEY
+                    form_key: form_key
                 });
             } else {
                 if (!settings.data) {
                     settings.data = {
-                        form_key: FORM_KEY
+                        form_key: form_key
                     };
                 }
                 if (!settings.data.form_key) {
-                    settings.data.form_key = FORM_KEY;
+                    settings.data.form_key = form_key;
                 }
             }
         },
