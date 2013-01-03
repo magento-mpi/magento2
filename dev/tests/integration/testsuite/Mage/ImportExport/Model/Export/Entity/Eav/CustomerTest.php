@@ -141,7 +141,8 @@ class Mage_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_Fra
      */
     public function testFilterEntityCollection()
     {
-        $createdAtDate = '2013-01-01';
+        $createdAtDate = '2038-01-01';
+
         /**
          * Change created_at date of first customer for future filter test.
          */
