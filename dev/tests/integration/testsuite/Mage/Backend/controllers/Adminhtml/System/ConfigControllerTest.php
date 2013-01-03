@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Adminhtml_System_ConfigControllerTest extends Mage_Adminhtml_Utility_Controller
+class Mage_Backend_Adminhtml_System_ConfigControllerTest extends Mage_Backend_Utility_Controller
 {
     public function testEditAction()
     {
