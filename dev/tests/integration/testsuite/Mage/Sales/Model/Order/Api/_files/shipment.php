@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+Mage::init('base', 'website');
+//Set up customer fixture
 //Set up customer address fixture
 require 'customer.php';
 /** @var $customer Mage_Customer_Model_Customer */
 $customer = Mage::registry('customer');
 /** @var $customerAddress Mage_Customer_Model_Address */
 $customerAddress = Mage::registry('customer_address');
-
 /*//$customerAddress->addShippingRate($rate);
 $customerAddress->setShippingMethod('freeshipping_freeshipping');
 $customerAddress->addShippingRate($method);   //$rate
@@ -22,6 +22,7 @@ $customerAddress->save();*/
 require 'product_simple.php';
 /** @var $product Mage_Catalog_Model_Product */
 $product = Mage::registry('product_simple');
+
 
 //Create quote
 $quote = Mage::getModel('Mage_Sales_Model_Quote');
@@ -43,10 +44,7 @@ $quote->getShippingAddress()->addShippingRate($rate);
 
 $quote->collectTotals();
 $quote->save();
-Mage::register(
-    'quote',
-    $quote
-);
+Mage::register('quote', $quote);
 
 //Create order
 $quoteService = new Mage_Sales_Model_Service_Quote($quote);
@@ -55,7 +53,4 @@ $quoteService->getQuote()->getPayment()->setMethod('checkmo');
 $order = $quoteService->submitOrder();
 $order->place();
 $order->save();
-Mage::register(
-    'order',
-    $order
-);
+Mage::register('order', $order);

@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class SalesOrder_InvoiceTest extends PHPUnit_Framework_TestCase
+class Mage_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test create and read created invoice
      *
-     * @magentoDataFixture Api/Mage/SalesOrder/_fixture/order.php
+     * @magentoDataFixture Mage/Sales/Model/Order/Api/_files/order.php
      * @magentoAppIsolation enabled
      */
     public function testCRUD()
@@ -49,7 +49,7 @@ class SalesOrder_InvoiceTest extends PHPUnit_Framework_TestCase
     /**
      * Test credit memo create API call results
      *
-     * @magentoDataFixture Api/Mage/SalesOrder/_fixture/order.php
+     * @magentoDataFixture Mage/Sales/Model/Order/Api/_files/order.php
      * @magentoAppIsolation enabled
      */
     public function testAutoIncrementType()
@@ -83,7 +83,7 @@ class SalesOrder_InvoiceTest extends PHPUnit_Framework_TestCase
     /**
      * Test order invoice list. With filters
      *
-     * @magentoDataFixture Api/Mage/SalesOrder/_fixture/invoice.php
+     * @magentoDataFixture Mage/Sales/Model/Order/Api/_files/invoice.php
      * @magentoAppIsolation enabled
      */
     public function testListWithFilters()

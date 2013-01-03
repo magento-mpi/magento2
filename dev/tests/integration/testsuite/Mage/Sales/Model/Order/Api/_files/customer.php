@@ -18,10 +18,7 @@ $customer->setStoreId(1)
     ->setRewardUpdateNotification(1)
     ->setRewardWarningNotification(1)
     ->save();
-Mage::register(
-    'customer',
-    $customer
-);
+Mage::register('customer', $customer);
 
 $customerAddress = Mage::getModel('Mage_Customer_Model_Address');
 $customerAddress->setData(
@@ -43,10 +40,7 @@ $customerAddress->setData(
 );
 $customerAddress->setCustomer($customer);
 $customerAddress->save();
-Mage::register(
-    'customer_address',
-    $customerAddress
-);
+Mage::register('customer_address', $customerAddress);
 
 //Set customer default shipping and billing address
 $customer->addAddress($customerAddress);

@@ -27,7 +27,4 @@ $product->setTypeId('virtual')
     )
 );
 $product->save();
-Mage::register(
-    'product_virtual',
-    $product
-);
+Mage::register('product_virtual', $product);

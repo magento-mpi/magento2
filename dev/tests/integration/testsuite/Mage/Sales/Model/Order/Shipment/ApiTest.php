@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 /**
- * @magentoDataFixture Api/Mage/SalesOrder/_fixture/shipment.php
+ * @magentoDataFixture Mage/Sales/Model/Order/Api/_files/shipment.php
  */
-class SalesOrder_ShipmentTest extends PHPUnit_Framework_TestCase
+class Mage_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestCase
 {
     public function testCRUD()
     {
