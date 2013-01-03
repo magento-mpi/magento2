@@ -73,8 +73,8 @@
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='download'>
                         <arguments>
                             <header translate='true' module='Enterprise_Logging'>Archive File</header>
-                            <index>type_id</index>
-                            <format><a href="*/*/downloadbasename/$basename/">$basename</a></format>
+                            <index>basename</index>
+                            <renderer>Enterprise_Logging_Block_Adminhtml_Grid_Renderer_Download</renderer>
                         </arguments>
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='date'>
