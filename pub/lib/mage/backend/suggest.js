@@ -15,7 +15,7 @@
      */
     $.widget('mage.suggest', {
         options: {
-            template: '#menuTemplate',
+            template: '',
             minLength: 1,
             /**
              * @type {(string|Array)}
@@ -53,7 +53,8 @@
             this._selectedItem = {value: '', label: ''};
             this.dropdown = $('<div/>', this.options.attributes).hide();
             this.element
-                .wrap($('<div><div class="mage-suggest-inner"></div></div>').prop(this.options.wrapperAttributes))
+                .wrap($('<div><div class="mage-suggest-inner"></div></div>')
+                .prop(this.options.wrapperAttributes))
                 [this.options.appendMethod](this.dropdown)
                 .attr('autocomplete', 'off');
             this.hiddenInput = $('<input/>', {
@@ -263,10 +264,11 @@
         /**
          * Actual search method, can be overridden in descendants
          * @param {string} term - search phrase
+         * @param {Object} context - search context
          * @private
          */
         _search: function(term, context) {
-            var renderer = $.proxy(function(items){
+            var renderer = $.proxy(function(items) {
                 return this._renderDropdown(items, context || {});
             }, this);
             this.element.addClass('ui-autocomplete-loading');
@@ -281,23 +283,28 @@
         },
 
         /**
-         *
+         * Extend basic context with additional data (search results, search term)
+         * @param {Object} context
          * @return {Object}
          * @private
          */
-        _prepareDropdownContext: function() {
-            return {items: this._items, term: this._term};
+        _prepareDropdownContext: function(context) {
+            return $.extend(context, {
+                items: this._items,
+                term: this._term
+            });
         },
 
         /**
          * Render content of suggest's dropdown
          * @param {Array} items - list of label+value objects
+         * @param {Object} context - template's context
          * @private
          */
         _renderDropdown: function(items, context) {
             this._items = items;
-            context = $.extend(context, this._prepareDropdownContext());
-            $.tmpl(this.template, context).appendTo(this.dropdown.empty());
+            $.tmpl(this.template, this._prepareDropdownContext(context))
+                .appendTo(this.dropdown.empty());
             this.dropdown.trigger('contentUpdated');
             this._showDropdown();
         },
@@ -352,6 +359,10 @@
             bottomMargin: 35
         },
 
+        /**
+         * @override
+         * @private
+         */
         _renderDropdown: function() {
             this._superApply(arguments);
             this._recalculateDropdownHeight();
@@ -441,8 +452,8 @@
         },
 
         /**
-         *
-         * @param item
+         * Add selected item of search result into storage of recents
+         * @param {Object} item - label+value object
          * @private
          */
         _addRecent: function(item) {
@@ -467,10 +478,20 @@
             this._super();
             this._on(this.dropdown, {
                 showAll: function() {
-                    this._search('', {showAll: true});
+                    this._search('', {_allSown: true});
                 }
             });
+        },
+
+        /**
+         * @override
+         * @private
+         */
+        _prepareDropdownContext: function() {
+            var context = this._superApply(arguments);
+            return $.extend(context, {allShown: function(){
+                return !!context._allSown;
+            }});
         }
     });
-
 })(jQuery);

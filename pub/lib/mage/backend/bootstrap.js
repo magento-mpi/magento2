@@ -75,46 +75,51 @@ jQuery(function ($) {
         }
     });
 
-    var bootstrap = function(context) {
 
-        // Temporary solution, will be replaced when plug-in "mage" will be merged to master
-        var collection = context ?
-            context.add(context.find('[data-mage-init]')) :
-            $('[data-mage-init]');
 
-        collection.each(function(){
-            var inits = $(this).data('mage-init') || {};
-            $.each(inits, $.proxy(function(key, args){
-                $(this)[key].apply($(this), $.makeArray(args));
-            }, this));
-        });
+    var mageInit = function(context) {
+            // Temporary solution, will be replaced when plug-in "mage" will be merged to master
+            var collection = context ?
+                context.add(context.find('[data-mage-init]')) :
+                $('[data-mage-init]');
 
-        /*
-         * Initialization of button widgets
-         */
-        $('*[data-widget-button]').button();
 
-        /*
-         * Show loader on ajax send
-         */
-        $('body').on('ajaxSend processStart', function(e, jqxhr, settings) {
-            if(settings.showLoader) {
-                $(e.target).loader({
-                    icon: $('#loading_mask_loader img').attr('src')
-                }).loader('show');
+            collection.each(function(){
+                var inits = $(this).data('mage-init') || {};
+                $.each(inits, $.proxy(function(key, args){
+                    $(this)[key].apply($(this), $.makeArray(args));
+                }, this));
+            });
+        },
+        bootstrap = function() {
+            mageInit();
+
+            /*
+             * Initialization of button widgets
+             */
+            $('*[data-widget-button]').button();
+
+            /*
+             * Show loader on ajax send
+             */
+            $('body').on('ajaxSend processStart', function(e, jqxhr, settings) {
+                if(settings.showLoader) {
+                    $(e.target).loader({
+                        icon: $('#loading_mask_loader img').attr('src')
+                    }).loader('show');
+                }
+            });
+
+            /*
+             * Initialization of notification widget
+             */
+            if ($('#messages').length) {
+                $('#messages').notification();
             }
-        });
-
-        /*
-         * Initialization of notification widget
-         */
-        if ($('#messages').length) {
-            $('#messages').notification();
-        }
-    };
+        };
 
     $(document).ready(function() {bootstrap();});
     $(document).on('contentUpdated', function(e) {
-        bootstrap($(e.target));
-    })
+        mageInit($(e.target));
+    });
 });
