@@ -93,7 +93,7 @@ class Saas_PrintedTemplate_Block_Widget_Field_Columns
 
         return '<input type="text" name="' . $inputName . '" value="#{' . $columnName . '}" ' .
             ($column['size'] ? 'size="' . $column['size'] . '"' : '') . ' class="' .
-            (isset($column['class']) ? $column['class'] : 'input-text') . ' skip-submit items-grid-field"'.
+            (isset($column['class']) ? $column['class'] : 'input-text') . ' items-grid-field"'.
             (isset($column['style']) ? ' style="'.$column['style'] . '"' : '') . '/>';
     }
 
