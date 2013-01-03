@@ -52,7 +52,7 @@
             this._selectedItem = {value: '', label: ''};
             this.dropdown = $('<div/>', this.options.attributes).hide();
             this.element
-                .wrap($('<div/>', this.options.wrapperAttributes))
+                .wrap($('<div><div class="mage-suggest-inner"></div></div>').prop(this.options.wrapperAttributes))
                 [this.options.appendMethod](this.dropdown)
                 .attr('autocomplete', 'off');
             this.hiddenInput = $('<input/>', {
@@ -83,7 +83,7 @@
          * @private
          */
         _value: function() {
-            return this.element[this.element.is(':input') ? 'val' : 'text']();
+            return $.trim(this.element[this.element.is(':input') ? 'val' : 'text']());
         },
 
         /**
@@ -163,6 +163,10 @@
             this._bindDropdown();
         },
 
+        /**
+         *
+         * @private
+         */
         _bindDropdown: function() {
             var events = {
                 click: this._selectItem,
@@ -236,6 +240,7 @@
             this.template = $(this.options.template).length ?
                 $(this.options.template).template() :
                 $.template('suggestTemplate', this.options.template);
+            console.log(this.template.toSource());
         },
 
         /**
@@ -244,7 +249,7 @@
          */
         search: function() {
             var term = this._value();
-            if (this._term !== term) {
+            if (term && this._term !== term) {
                 this._term = term;
                 if (term) {
                     this._search(term);
@@ -257,16 +262,28 @@
          * @param {string} term - search phrase
          * @private
          */
-        _search: function(term) {
+        _search: function(term, context) {
+            var renderer = $.proxy(function(items){
+                return this._renderDropdown(items, context || {});
+            }, this);
             this.element.addClass('ui-autocomplete-loading');
             if (this.options.delay) {
                 clearTimeout(this._searchTimeout);
                 this._searchTimeout = this._delay(function() {
-                    this._source(term, this._renderDropdown);
+                    this._source(term, renderer);
                 }, this.options.delay);
             } else {
-                this._source(term, this._renderDropdown);
+                this._source(term, renderer);
             }
+        },
+
+        /**
+         *
+         * @return {Object}
+         * @private
+         */
+        _prepareDropdownContext: function() {
+            return {items: this._items, term: this._term};
         },
 
         /**
@@ -274,12 +291,10 @@
          * @param {Array} items - list of label+value objects
          * @private
          */
-        _renderDropdown: function(items) {
+        _renderDropdown: function(items, context) {
             this._items = items;
-            $.tmpl(this.template, {
-                items: this._items,
-                term: this._term
-            }).appendTo(this.dropdown.empty());
+            $.tmpl(this.template, $.extend(this._prepareDropdownContext(), context))
+                .appendTo(this.dropdown.empty());
             this.dropdown.trigger('contentUpdated');
             this._showDropdown();
         },
@@ -287,14 +302,12 @@
         /**
          * Implement search process via spesific source
          * @param {string} term - search phrase
-         * @param {Function} render - search results handler, display search result
+         * @param {Function} renderer - search results handler, display search result
          * @private
          */
-        _source: function(term, render) {
-            render = $.proxy(render, this);
-
+        _source: function(term, renderer) {
             if ($.isArray(this.options.source)) {
-                render(this.filter(this.options.source, term));
+                renderer(this.filter(this.options.source, term));
 
             } else if ($.type(this.options.source) === 'string') {
                 if (this._xhr) {
@@ -305,7 +318,7 @@
                     type: 'POST',
                     dataType: 'json',
                     data: {q: term},
-                    success: render,
+                    success: renderer,
                     showLoader: true
                 }, this.options.ajaxOptions || {}));
             }
@@ -441,11 +454,15 @@
      * Implement show all functionality
      */
     $.widget('mage.suggest', $.mage.suggest, {
+        /**
+         * @override
+         * @private
+         */
         _bind: function() {
             this._super();
             this._on(this.dropdown, {
                 showAll: function() {
-                    this._search('', this._renderDropdown);
+                    this._search('', {showAll: true});
                 }
             });
         }
