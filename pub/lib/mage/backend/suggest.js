@@ -49,6 +49,7 @@
          */
         _create: function() {
             this._setTemplate();
+            this._term = '';
             this._selectedItem = {value: '', label: ''};
             this.dropdown = $('<div/>', this.options.attributes).hide();
             this.element
@@ -167,7 +168,7 @@
         },
 
         /**
-         *
+         * Bind handlers for dropdown element on specific events
          * @private
          */
         _bindDropdown: function() {
@@ -243,7 +244,6 @@
             this.template = $(this.options.template).length ?
                 $(this.options.template).template() :
                 $.template('suggestTemplate', this.options.template);
-            console.log(this.template.toSource());
         },
 
         /**
@@ -252,7 +252,7 @@
          */
         search: function() {
             var term = this._value();
-            if (term && this._term !== term) {
+            if (this._term !== term) {
                 this._term = term;
                 if (term) {
                     this._search(term);
@@ -296,8 +296,8 @@
          */
         _renderDropdown: function(items, context) {
             this._items = items;
-            $.tmpl(this.template, $.extend(this._prepareDropdownContext(), context))
-                .appendTo(this.dropdown.empty());
+            context = $.extend(context, this._prepareDropdownContext());
+            $.tmpl(this.template, context).appendTo(this.dropdown.empty());
             this.dropdown.trigger('contentUpdated');
             this._showDropdown();
         },
