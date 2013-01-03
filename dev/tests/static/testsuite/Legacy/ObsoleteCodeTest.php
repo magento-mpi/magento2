@@ -42,16 +42,15 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
         self::_populateList(self::$_methods, $errors, 'obsolete_methods*.php');
         self::_populateList(self::$_attributes, $errors, 'obsolete_properties*.php');
         if ($errors) {
-            echo 'Duplicate patterns identified in list declarations:' . PHP_EOL . PHP_EOL;
+            $message = 'Duplicate patterns identified in list declarations:' . PHP_EOL . PHP_EOL;
             foreach ($errors as $file => $list) {
-                echo $file . PHP_EOL;
+                $message .= $file . PHP_EOL;
                 foreach ($list as $key) {
-                    echo "    {$key}" . PHP_EOL;
+                    $message .= "    {$key}" . PHP_EOL;
                 }
-                echo PHP_EOL;
+                $message .= PHP_EOL;
             }
-            echo new Exception('Terminating test to avoid scanning entire system with corrupted fixtures.') . PHP_EOL;
-            exit(1);
+            throw new Exception($message);
         }
     }
 
@@ -70,16 +69,7 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
 
         foreach (glob(__DIR__ . '/_files/' . $filePattern, GLOB_BRACE) as $file) {
             foreach (self::_readList($file) as $row) {
-                $item = $row[0];
-                if ($hasScope) {
-                    $scope = isset($row[1]) ? $row[1] : '';
-                    $replacement = isset($row[2]) ? $row[2] : '';
-                    $dir = isset($row[3]) ? $row[3] : '';
-                } else {
-                    $scope = '';
-                    $replacement = isset($row[1]) ? $row[1] : '';
-                    $dir = isset($row[2]) ? $row[2] : '';
-                }
+                list($item, $scope, $replacement, $dir) = self::_padRow($row, $hasScope);
                 $key = "{$item}|{$scope}";
                 if (isset($list[$key])) {
                     $errors[$file][] = $key;
@@ -88,6 +78,22 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
                 }
             }
         }
+    }
+
+    /**
+     * Populate insufficient row elements regarding to whether the row supposed to have scope value
+     *
+     * @param array $row
+     * @param bool $hasScope
+     * @return array
+     */
+    protected static function _padRow($row, $hasScope)
+    {
+        if ($hasScope) {
+            return array_pad($row, 4, '');
+        }
+        list($item, $replacement, $dir) = array_pad($row, 3, '');
+        return array($item, '', $replacement, $dir);
     }
 
     /**
