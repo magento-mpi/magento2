@@ -72,8 +72,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
     public function getNavigationModeUrl()
     {
         return $this->getUrl('*/*/launch', array(
-            'mode' => Mage_DesignEditor_Model_State::MODE_NAVIGATION,
-            'theme_id' => $this->getThemeId()
+            'theme_id' => $this->getThemeId(),
+            'mode' => Mage_DesignEditor_Model_State::MODE_NAVIGATION
         ));
     }
 
@@ -85,8 +85,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
     public function getDesignModeUrl()
     {
         return $this->getUrl('*/*/launch', array(
-            'mode' => Mage_DesignEditor_Model_State::MODE_DESIGN,
-            'theme_id' => $this->getThemeId()
+            'theme_id' => $this->getThemeId(),
+            'mode' => Mage_DesignEditor_Model_State::MODE_DESIGN
         ));
     }
 
