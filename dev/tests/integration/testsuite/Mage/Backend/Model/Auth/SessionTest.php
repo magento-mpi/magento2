@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Backend
- */
 class Mage_Backend_Model_Auth_SessionTest extends PHPUnit_Framework_TestCase
 {
     /**

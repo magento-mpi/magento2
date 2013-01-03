@@ -251,6 +251,7 @@ return array(
     $this->_getRule('getStoreSelectOptions', 'Mage_Backend_Block_System_Config_Tabs'),
     $this->_getRule('getSuggestedZeroDate'),
     $this->_getRule('getSuggestionsByQuery'),
+    $this->_getRule('getSysTmpDir'),
     $this->_getRule('getTaxAmount', 'Mage_Sales_Model_Quote_Item_Abstract'),
     $this->_getRule('getTaxRatesByProductClass', null, '_getAllRatesByProductClass'),
     $this->_getRule('getTemplateFilename', null, 'getFilename'),

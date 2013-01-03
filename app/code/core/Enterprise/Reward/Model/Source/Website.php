@@ -15,7 +15,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Model_Source_Website
+class Enterprise_Reward_Model_Source_Website implements Mage_Core_Model_Option_ArrayInterface
 {
     /**
      * Prepare and return array of website ids and their names

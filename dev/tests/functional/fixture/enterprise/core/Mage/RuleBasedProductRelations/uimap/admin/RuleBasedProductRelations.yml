@@ -26,7 +26,9 @@ manage_product_rules:
                         dropdowns:
                             filter_applies_to: //select[@name='apply_to']
                             filter_status: //select[@id='TargetRuleGrid_filter_is_active']
+                            view_on_page: //select[@name='limit']
                         fields:
+                            page: //input[@name='page']
                             filter_id: //input[@id='TargetRuleGrid_filter_rule_id']
                             filter_rule_name: //input[@id='TargetRuleGrid_filter_name']
                             filter_date_start_from: //input[@name='from_date[from]']

@@ -31,6 +31,7 @@ class Enterprise_Mage_Rollback_RollbackTest extends Mage_Selenium_TestCase
      */
     public function createWebsite()
     {
+        $this->markTestIncomplete("Enterprise_Staging is obsolete. The tests should be refactored.");
         //Preconditions
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('StagingWebsite/staging_website_enable_auto_entries');
