@@ -373,7 +373,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     public function setStoreId($storeId)
     {
         if (!is_numeric($storeId)) {
-            $storeId = Mage::app($storeId)->getStore()->getId();
+            $storeId = Mage::app()->getStore()->getId();
         }
         $this->setData('store_id', $storeId);
         $this->getResource()->setStoreId($storeId);

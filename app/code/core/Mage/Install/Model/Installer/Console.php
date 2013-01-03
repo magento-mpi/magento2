@@ -71,7 +71,8 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
     public function __construct(array $installArgs)
     {
         $params = $this->_buildInitParams($installArgs);
-        Mage::app($params);
+        $app = Mage::getObjectManager()->get('Mage_Core_Model_App');
+        $app->init($params);
         $this->_getInstaller()->setDataModel($this->_getDataModel());
     }
 

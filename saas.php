@@ -21,5 +21,11 @@
 return function ($appConfigString) {
     $params = array_merge($_SERVER, unserialize($appConfigString));
     require __DIR__ . '/app/bootstrap.php';
-    Mage::run($params);
+    try {
+        /** @var $app Mage_Core_Model_App */
+        $app = Mage::getObjectManager()->get('Mage_Core_Model_App');
+        $app->run($params);
+    } catch (Exception $e) {
+        Mage::printException($e);
+    }
 };

@@ -372,36 +372,52 @@ class Mage_Core_Model_App
      */
     public function run(array $params)
     {
-        Magento_Profiler::start('init');
-
-        $this->baseInit($params);
-
-        Magento_Profiler::stop('init');
-
-        if ($this->_cache->processRequest($this->getResponse())) {
-            $this->getResponse()->sendResponse();
-        } else {
-            Magento_Profiler::start('init');
-
-            $this->_initModules();
-            $this->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
-            $this->_objectManager->loadAreaConfiguration();
-
-            if ($this->_config->isLocalConfigLoaded()) {
-                $this->_initCurrentStore(
-                    $this->getInitParam(self::INIT_OPTION_SCOPE_CODE),
-                    $this->getInitParam(self::INIT_OPTION_SCOPE_TYPE) ?: self::SCOPE_TYPE_STORE
-                );
-                /** @var $logger Mage_Core_Model_Logger */
-                $logger = $this->_objectManager->get('Mage_Core_Model_Logger');
-                $logger->initForStore($this->_store, $this->_config);
-                $this->_initRequest();
-                Mage_Core_Model_Resource_Setup::applyAllDataUpdates();
+        try{
+            if (isset($params[Mage::INIT_OPTION_EDITION])) {
+                Mage::setEdition($params[Mage::INIT_OPTION_EDITION]);
+            }
+            if (isset($params[Mage::INIT_OPTION_REQUEST])) {
+                $this->setRequest($params[Mage::INIT_OPTION_REQUEST]);
+            }
+            if (isset($params[Mage::INIT_OPTION_RESPONSE])) {
+                $this->setResponse($params[Mage::INIT_OPTION_RESPONSE]);
             }
 
-            $controllerFront = $this->getFrontController();
+            Magento_Profiler::start('init');
+
+            $this->baseInit($params);
+
             Magento_Profiler::stop('init');
-            $controllerFront->dispatch();
+
+            if ($this->_cache->processRequest($this->getResponse())) {
+                $this->getResponse()->sendResponse();
+            } else {
+                Magento_Profiler::start('init');
+
+                $this->_initModules();
+                $this->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
+                $this->_objectManager->loadAreaConfiguration();
+
+                if ($this->_config->isLocalConfigLoaded()) {
+                    $this->_initCurrentStore(
+                        $this->getInitParam(self::INIT_OPTION_SCOPE_CODE),
+                        $this->getInitParam(self::INIT_OPTION_SCOPE_TYPE) ?: self::SCOPE_TYPE_STORE
+                    );
+                    /** @var $logger Mage_Core_Model_Logger */
+                    $logger = $this->_objectManager->get('Mage_Core_Model_Logger');
+                    $logger->initForStore($this->_store, $this->_config);
+                    $this->_initRequest();
+                    Mage_Core_Model_Resource_Setup::applyAllDataUpdates();
+                }
+
+                $controllerFront = $this->getFrontController();
+                Magento_Profiler::stop('init');
+                $controllerFront->dispatch();
+            }
+        } catch (Mage_Core_Model_Session_Exception $e) {
+            header('Location: ' . Mage::getBaseUrl());
+        } catch (Mage_Core_Model_Store_Exception $e) {
+            require_once(Mage::getBaseDir() . '/pub/errors/404.php');
         }
         return $this;
     }

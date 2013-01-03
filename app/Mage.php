@@ -644,36 +644,13 @@ final class Mage
     }
 
     /**
-     * Get initialized application object.
+     * Get application object.
      *
-     * @param array $params
      * @return Mage_Core_Model_App
      */
-    public static function app(array $params = array())
+    public static function app()
     {
-        if (null === self::$_app) {
-            self::$_app = self::getObjectManager()->get('Mage_Core_Model_App');
-            self::$_events = new Varien_Event_Collection();
-
-            Magento_Profiler::start('self::app::init');
-            self::$_app->init($params);
-            Magento_Profiler::stop('self::app::init');
-        }
-        return self::$_app;
-    }
-
-    /**
-     * Set Application object
-     *
-     * @param Mage_Core_Model_App $app
-     * @throws LogicException
-     */
-    public static function setApp(Mage_Core_Model_App $app)
-    {
-        if (!is_null(self::$_app) && $app !== self::$_app) {
-            throw new LogicException('Only one application object can exist.');
-        }
-        self::$_app = $app;
+        return self::getObjectManager()->get('Mage_Core_Model_App');
     }
 
     /**

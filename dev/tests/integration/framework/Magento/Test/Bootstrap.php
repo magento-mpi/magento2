@@ -251,7 +251,13 @@ class Magento_Test_Bootstrap
      */
     public function runApp(array $additionalParams)
     {
-        Mage::run($this->_customizeParams($additionalParams));
+        try {
+            /** @var $app Mage_Core_Model_App */
+            $app = Mage::getObjectManager()->get('Mage_Core_Model_App');
+            $app->run($this->_customizeParams($additionalParams));
+        } catch (Exception $e) {
+            Mage::printException($e);
+        }
     }
 
     /**
