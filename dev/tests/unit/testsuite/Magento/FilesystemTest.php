@@ -63,27 +63,24 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider twoFilesOperationsValidDataProvider
+     *
      * @param string $method
+     * @param string $checkMethod
      * @param string $source
      * @param string $target
      * @param string|null $workingDirectory
      * @param string|null $targetDir
      */
-    public function testTwoFilesOperation($method, $source, $target, $workingDirectory = null, $targetDir = null)
-    {
+    public function testTwoFilesOperation($method, $checkMethod, $source, $target, $workingDirectory = null,
+        $targetDir = null
+    ) {
         $adapterMock = $this->getMockBuilder('Magento_Filesystem_AdapterInterface')
             ->getMock();
-        $adapterMock->expects($this->at(0))
-            ->method('isDirectory')
-            ->with('/tmp')
-            ->will($this->returnValue(true));
-        $adapterMock->expects($this->at(1))
-            ->method('isDirectory')
-            ->will($this->returnValue(true));
         $adapterMock->expects($this->exactly(2))
-            ->method('isDirectory');
+            ->method('isDirectory')
+            ->will($this->returnValue(true));
         $adapterMock->expects($this->once())
-            ->method('exists')
+            ->method($checkMethod)
             ->will($this->returnValue(true));
         $adapterMock->expects($this->once())
             ->method($method)
@@ -100,14 +97,18 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
     public function twoFilesOperationsValidDataProvider()
     {
         return array(
-            'copy both tmp' => array('copy', '/tmp/path/file001.log', '/tmp/path/file001.bak'),
-            'move both tmp' => array('rename', '/tmp/path/file001.log', '/tmp/path/file001.bak'),
-            'copy both tmp #2' => array('copy', '/tmp/path/file001.log', '/tmp/path/file001.bak', '/tmp'),
-            'move both tmp #2' => array('rename', '/tmp/path/file001.log', '/tmp/path/file001.bak', '/tmp'),
-            'copy different' => array('copy', '/tmp/path/file001.log', '/storage/file001.bak', null, '/storage'),
-            'move different' => array('rename', '/tmp/path/file001.log', '/storage/file001.bak', null, '/storage'),
-            'copy different #2' => array('copy', '/tmp/path/file001.log', '/storage/file001.bak', '/tmp', '/storage'),
-            'move different #2' => array('rename', '/tmp/path/file001.log', '/storage/file001.bak', '/tmp', '/storage'),
+            'copy both tmp' => array('copy', 'isFile', '/tmp/path/file001.log', '/tmp/path/file001.bak'),
+            'move both tmp' => array('rename', 'exists', '/tmp/path/file001.log', '/tmp/path/file001.bak'),
+            'copy both tmp #2' => array('copy', 'isFile', '/tmp/path/file001.log', '/tmp/path/file001.bak', '/tmp'),
+            'move both tmp #2' => array('rename', 'exists', '/tmp/path/file001.log', '/tmp/path/file001.bak', '/tmp'),
+            'copy different'
+                => array('copy', 'isFile', '/tmp/path/file001.log', '/storage/file001.bak', null, '/storage'),
+            'move different'
+                => array('rename', 'exists', '/tmp/path/file001.log', '/storage/file001.bak', null, '/storage'),
+            'copy different #2'
+                => array('copy', 'isFile', '/tmp/path/file001.log', '/storage/file001.bak', '/tmp', '/storage'),
+            'move different #2'
+                => array('rename', 'exists', '/tmp/path/file001.log', '/storage/file001.bak', '/tmp', '/storage'),
         );
     }
 
@@ -176,7 +177,11 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
         $filesystem->ensureDirectoryExists($dir, 0644);
     }
 
-    public function testEnsureDirectoryExistsNoDir()
+    /**
+     * @expectedException Magento_Filesystem_Exception
+     * @expectedExceptionMessage Directory '/tmp/path' doesn't exist.
+     */
+    public function testEnsureDirectoryExistsException()
     {
         $dir = '/tmp/path';
         $adapterMock = $this->getMockBuilder('Magento_Filesystem_AdapterInterface')
@@ -191,11 +196,47 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(false));
         $adapterMock->expects($this->exactly(2))
             ->method('isDirectory');
-        $adapterMock->expects($this->once())
-            ->method('createDirectory')
-            ->with($dir);
+        $adapterMock->expects($this->never())
+            ->method('createDirectory');
         $filesystem = new Magento_Filesystem($adapterMock);
         $filesystem->setWorkingDirectory('/tmp');
+        $filesystem->ensureDirectoryExists($dir, 0644);
+    }
+
+    public function testEnsureDirectoryExistsNoDir()
+    {
+        $dir = '/tmp/path1/path2';
+        $adapterMock = $this->getMockBuilder('Magento_Filesystem_AdapterInterface')
+            ->getMock();
+        $adapterMock->expects($this->at(0))
+            ->method('isDirectory')
+            ->with('/tmp')
+            ->will($this->returnValue(true));
+        $adapterMock->expects($this->at(1))
+            ->method('isDirectory')
+            ->with($dir)
+            ->will($this->returnValue(false));
+        $adapterMock->expects($this->at(2))
+            ->method('isDirectory')
+            ->with('/tmp/path1')
+            ->will($this->returnValue(false));
+        $adapterMock->expects($this->at(3))
+            ->method('isDirectory')
+            ->with('/tmp')
+            ->will($this->returnValue(true));
+        $adapterMock->expects($this->exactly(4))
+            ->method('isDirectory');
+        $adapterMock->expects($this->at(4))
+            ->method('createDirectory')
+            ->with('/tmp/path1');
+        $adapterMock->expects($this->at(5))
+            ->method('createDirectory')
+            ->with('/tmp/path1/path2');
+        $adapterMock->expects($this->exactly(2))
+            ->method('createDirectory');
+        $filesystem = new Magento_Filesystem($adapterMock);
+        $filesystem->setWorkingDirectory('/tmp');
+        $filesystem->setIsAllowCreateDirectories(true);
         $filesystem->ensureDirectoryExists($dir, 0644);
     }
 
@@ -208,7 +249,7 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
         $validPath = '/tmp/path/file.txt';
         $adapterMock = $this->getMockBuilder('Magento_Filesystem_AdapterInterface')
             ->getMock();
-        $adapterMock->expects($this->exactly(1 + (int)$allowCreateDirs))
+        $adapterMock->expects($this->exactly(2))
             ->method('isDirectory')
             ->will($this->returnValue(true));
 
@@ -264,9 +305,26 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateStreamIsolation()
     {
+        $adapterMock = $this->getMockBuilder('Magento_Filesystem_Adapter_Local')
+            ->getMock();
+        $adapterMock->expects($this->once())
+            ->method('isDirectory')
+            ->with('/tmp')
+            ->will($this->returnValue(true));
+        $filesystem = new Magento_Filesystem($adapterMock);
+        $filesystem->setWorkingDirectory('/tmp');
+        $filesystem->createStream('/tmp/../etc/test.txt');
+    }
+
+    /**
+     * @expectedException Magento_Filesystem_Exception
+     * @expectedExceptionMessage Filesystem doesn't support streams.
+     */
+    public function testCreateStreamException()
+    {
         $filesystem = new Magento_Filesystem($this->_getDefaultAdapterMock());
         $filesystem->setWorkingDirectory('/tmp');
-        $this->assertInstanceOf('Magento_Filesystem_Stream_Memory', $filesystem->createStream('/tmp/../etc/test.txt'));
+        $filesystem->createStream('/tmp/test.txt');
     }
 
     /**
@@ -357,9 +415,32 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @return array
+     */
+    public function adapterMethods()
+    {
+        return array(
+            'exists' => array('has', 'exists'),
+            'delete' => array('delete', 'delete'),
+            'isFile' => array('isFile', 'isFile'),
+            'isWritable' => array('isWritable', 'isWritable'),
+            'isReadable' => array('isReadable', 'isReadable'),
+            'getNestedKeys' => array('getNestedKeys', 'getNestedKeys'),
+            'changePermissions' => array('changePermissions', 'changePermissions', array(0777, true)),
+            'exists #2' => array('has', 'exists', array('/tmp')),
+            'delete #2' => array('delete', 'delete', array('/tmp')),
+            'isFile #2' => array('isFile', 'isFile', array('/tmp')),
+            'isWritable #2' => array('isWritable', 'isWritable', array('/tmp')),
+            'isReadable #2' => array('isReadable', 'isReadable', array('/tmp')),
+            'getNestedKeys #2' => array('getNestedKeys', 'getNestedKeys', array('/tmp')),
+            'changePermissions #2' => array('changePermissions', 'changePermissions', array(0777, true, '/tmp')),
+        );
+    }
+
+    /**
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage Invalid path
-     * @dataProvider adapterMethods
+     * @dataProvider adapterIsolationMethods
      * @param string $method
      * @param string $adapterMethod
      * @param array|null $params
@@ -381,28 +462,58 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function adapterMethods()
+    public function adapterIsolationMethods()
     {
-        return array(
-            'exists' => array('has', 'exists'),
-            'read' => array('read', 'read'),
-            'delete' => array('delete', 'delete'),
-            'isFile' => array('isFile', 'isFile'),
-            'isWritable' => array('isWritable', 'isWritable'),
-            'isReadable' => array('isReadable', 'isReadable'),
-            'getNestedKeys' => array('getNestedKeys', 'getNestedKeys'),
-            'changePermissions' => array('changePermissions', 'changePermissions', array(0777, true)),
-            'createDirectory' => array('createDirectory', 'createDirectory', array(0777)),
-            'exists #2' => array('has', 'exists', array('/tmp')),
-            'read #2' => array('read', 'read', array('/tmp')),
-            'delete #2' => array('delete', 'delete', array('/tmp')),
-            'isFile #2' => array('isFile', 'isFile', array('/tmp')),
-            'isWritable #2' => array('isWritable', 'isWritable', array('/tmp')),
-            'isReadable #2' => array('isReadable', 'isReadable', array('/tmp')),
-            'getNestedKeys #2' => array('getNestedKeys', 'getNestedKeys', array('/tmp')),
-            'changePermissions #2' => array('changePermissions', 'changePermissions', array(0777, true, '/tmp')),
-            'createDirectory #2' => array('createDirectory', 'createDirectory', array(0777, '/tmp')),
-        );
+        return $this->adapterMethods()
+            + array(
+                'read' => array('read', 'read'),
+                'read #2' => array('read', 'read', array('/tmp')),
+                'createDirectory' => array('createDirectory', 'createDirectory', array(0777)),
+                'createDirectory #2' => array('createDirectory', 'createDirectory', array(0777, '/tmp')),
+            );
+    }
+
+    /**
+     * @dataProvider workingDirDataProvider
+     * @param string|null $workingDirectory
+     */
+    public function testRead($workingDirectory)
+    {
+        $validPath = '/tmp/path/file.txt';
+        $adapterMock = $this->_getDefaultAdapterMock();
+        $adapterMock->expects($this->once())
+            ->method('isFile')
+            ->with($validPath)
+            ->will($this->returnValue(true));
+        $adapterMock->expects($this->once())
+            ->method('read')
+            ->with($validPath);
+
+        $filesystem = new Magento_Filesystem($adapterMock);
+        $filesystem->setWorkingDirectory('/tmp');
+        $filesystem->read($validPath, $workingDirectory);
+    }
+
+    /**
+     * @dataProvider workingDirDataProvider
+     * @param string|null $workingDirectory
+     */
+    public function testCreateDirectory($workingDirectory)
+    {
+        $validPath = '/tmp/path';
+        $adapterMock = $this->getMockBuilder('Magento_Filesystem_AdapterInterface')
+            ->getMock();
+        $adapterMock->expects($this->exactly(2))
+            ->method('isDirectory')
+            ->with('/tmp')
+            ->will($this->returnValue(true));
+        $adapterMock->expects($this->once())
+            ->method('createDirectory')
+            ->with($validPath);
+
+        $filesystem = new Magento_Filesystem($adapterMock);
+        $filesystem->setWorkingDirectory('/tmp');
+        $filesystem->createDirectory($validPath, 0777, $workingDirectory);
     }
 
     /**
@@ -500,9 +611,45 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
     {
         return array(
             'delete' => array('delete'),
+            'rename' => array('rename', array('/tmp/file001.txt'))
+        );
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage "/tmp/test/file.txt" does not exists
+     * @dataProvider methodsWithPathChecksDataProvider
+     * @param string $method
+     * @param array|null $params
+     */
+    public function testPathChecks($method, array $params = null)
+    {
+        $path = '/tmp/test/file.txt';
+        $adapterMock = $this->getMockBuilder('Magento_Filesystem_AdapterInterface')
+            ->getMock();
+        $adapterMock->expects($this->once())
+            ->method('isDirectory')
+            ->with('/tmp')
+            ->will($this->returnValue(true));
+        $adapterMock->expects($this->once())
+            ->method('isFile')
+            ->with($path)
+            ->will($this->returnValue(false));
+        $filesystem = new Magento_Filesystem($adapterMock);
+        $filesystem->setWorkingDirectory('/tmp');
+        $params = (array)$params;
+        array_unshift($params, $path);
+        call_user_func_array(array($filesystem, $method), $params);
+    }
+
+    /**
+     * @return array
+     */
+    public function methodsWithPathChecksDataProvider()
+    {
+        return array(
             'read' => array('read'),
             'copy' => array('copy', array('/tmp/file001.txt')),
-            'rename' => array('rename', array('/tmp/file001.txt'))
         );
     }
 
