@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 /**
- * @magentoDataFixture Mage/Catalog/Model/Product/Api/_fixture/TagCRUD.php
+ * @magentoDataFixture Mage/Catalog/Model/Product/Api/_files/TagCRUD.php
  */
 class Mage_Catalog_Model_Product_Api_TagCRUDTest extends PHPUnit_Framework_TestCase
 {
@@ -15,7 +15,7 @@ class Mage_Catalog_Model_Product_Api_TagCRUDTest extends PHPUnit_Framework_TestC
      */
     public function testTagCRUD()
     {
-        $tagFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/TagCRUD.xml');
+        $tagFixture = simplexml_load_file(dirname(__FILE__) . '/_files/_data/xml/TagCRUD.xml');
         $data = Magento_Test_Helper_Api::simpleXmlToArray($tagFixture->tagData);
         $expected = Magento_Test_Helper_Api::simpleXmlToArray($tagFixture->expected);
 

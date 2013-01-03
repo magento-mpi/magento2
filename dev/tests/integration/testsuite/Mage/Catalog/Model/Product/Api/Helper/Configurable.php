@@ -16,7 +16,7 @@ class Mage_Catalog_Model_Product_Api_Helper_Configurable extends PHPUnit_Framewo
      */
     public function getValidCreateData()
     {
-        require '_fixture/Catalog/Product/Configurable/attribute_set.php';
+        require '_files/Catalog/Product/Configurable/attribute_set.php';
         // Prepare fixture
         $productData = $this->_getValidProductPostData();
         /** @var Mage_Eav_Model_Entity_Attribute_Set $attributeSet */
@@ -75,7 +75,7 @@ class Mage_Catalog_Model_Product_Api_Helper_Configurable extends PHPUnit_Framewo
      */
     public function getCreateDataWithInvalidConfigurableAttribute()
     {
-        require '_fixture/Catalog/Product/Configurable/attribute_set_with_invalid_attribute.php';
+        require '_files/Catalog/Product/Configurable/attribute_set_with_invalid_attribute.php';
         // Prepare fixture
         $productData = $this->_getValidProductPostData();
         /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
@@ -97,7 +97,7 @@ class Mage_Catalog_Model_Product_Api_Helper_Configurable extends PHPUnit_Framewo
      */
     public function getCreateDataWithInvalidConfigurableOptionPrice()
     {
-        require '_fixture/Catalog/Product/Configurable/attribute_set_with_one_attribute.php';
+        require '_files/Catalog/Product/Configurable/attribute_set_with_one_attribute.php';
         // Prepare fixture
         $productData = $this->_getValidProductPostData();
         /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
@@ -134,7 +134,7 @@ class Mage_Catalog_Model_Product_Api_Helper_Configurable extends PHPUnit_Framewo
      */
     public function getCreateDataWithInvalidConfigurableOptionValue()
     {
-        require '_fixture/Catalog/Product/Configurable/attribute_set_with_one_attribute.php';
+        require '_files/Catalog/Product/Configurable/attribute_set_with_one_attribute.php';
         // Prepare fixture
         $productData = $this->_getValidProductPostData();
         /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
@@ -165,7 +165,7 @@ class Mage_Catalog_Model_Product_Api_Helper_Configurable extends PHPUnit_Framewo
      */
     public function getCreateDataWithInvalidConfigurableOptionLabel()
     {
-        require '_fixture/Catalog/Product/Configurable/attribute_set.php';
+        require '_files/Catalog/Product/Configurable/attribute_set.php';
         // Prepare fixture
         $productData = $this->_getValidProductPostData();
         /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
@@ -283,6 +283,6 @@ class Mage_Catalog_Model_Product_Api_Helper_Configurable extends PHPUnit_Framewo
      */
     protected function _getValidProductPostData()
     {
-        return require '_fixture/_data/Catalog/Product/Configurable/product_configurable_all_fields.php';
+        return require '_files/_data/Catalog/Product/Configurable/product_configurable_all_fields.php';
     }
 }

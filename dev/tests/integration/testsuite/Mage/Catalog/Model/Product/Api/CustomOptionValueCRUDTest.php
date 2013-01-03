@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 /**
- * @magentoDataFixture Mage/Catalog/Model/Product/Api/_fixture/CustomOptionValue.php
+ * @magentoDataFixture Mage/Catalog/Model/Product/Api/_files/CustomOptionValue.php
  */
 class Mage_Catalog_Model_Product_Api_CustomOptionValueCRUDTest extends PHPUnit_Framework_TestCase
 {
@@ -17,7 +17,7 @@ class Mage_Catalog_Model_Product_Api_CustomOptionValueCRUDTest extends PHPUnit_F
      */
     public function testCustomOptionValueCRUD()
     {
-        $valueFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOptionValue.xml');
+        $valueFixture = simplexml_load_file(dirname(__FILE__) . '/_files/_data/xml/CustomOptionValue.xml');
         $customOptionValues = Magento_Test_Helper_Api::simpleXmlToArray($valueFixture->CustomOptionValues);
 
         $store = (string)$valueFixture->store;
@@ -101,7 +101,7 @@ class Mage_Catalog_Model_Product_Api_CustomOptionValueCRUDTest extends PHPUnit_F
      */
     public function testCustomOptionValueAddExceptionInvalidOptionId()
     {
-        $valueFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOptionValue.xml');
+        $valueFixture = simplexml_load_file(dirname(__FILE__) . '/_files/_data/xml/CustomOptionValue.xml');
         $customOptionValues = Magento_Test_Helper_Api::simpleXmlToArray($valueFixture->CustomOptionValues);
         // for wsi complexObjectArray
         $customOptionValuesData = array(reset($customOptionValues));
@@ -135,7 +135,7 @@ class Mage_Catalog_Model_Product_Api_CustomOptionValueCRUDTest extends PHPUnit_F
      */
     public function testCustomOptionValueUpdateExceptionValueId()
     {
-        $valueFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOptionValue.xml');
+        $valueFixture = simplexml_load_file(dirname(__FILE__) . '/_files/_data/xml/CustomOptionValue.xml');
         $customOptionValuesToUpdate = Magento_Test_Helper_Api::simpleXmlToArray(
             $valueFixture->CustomOptionValuesToUpdate
         );
@@ -158,7 +158,7 @@ class Mage_Catalog_Model_Product_Api_CustomOptionValueCRUDTest extends PHPUnit_F
      */
     public function testCustomOptionValueUpdateExceptionTitle()
     {
-        $valueFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOptionValue.xml');
+        $valueFixture = simplexml_load_file(dirname(__FILE__) . '/_files/_data/xml/CustomOptionValue.xml');
         $customOptionValuesToUpdate = Magento_Test_Helper_Api::simpleXmlToArray(
             $valueFixture->CustomOptionValuesToUpdate
         );

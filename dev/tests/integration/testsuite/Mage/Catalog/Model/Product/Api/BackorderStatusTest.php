@@ -24,7 +24,7 @@ class Mage_Catalog_Model_Product_Api_BackorderStatusTest extends PHPUnit_Framewo
      */
     protected function setUp()
     {
-        $productData = require dirname(__FILE__) . '/_fixture/ProductData.php';
+        $productData = require dirname(__FILE__) . '/_files/ProductData.php';
         $product = Mage::getModel('Mage_Catalog_Model_Product');
 
         $product->setData($productData['create_full_fledged']);

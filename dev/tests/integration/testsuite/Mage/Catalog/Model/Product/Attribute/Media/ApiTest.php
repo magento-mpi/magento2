@@ -25,7 +25,7 @@ class Mage_Catalog_Model_Product_Attribute_Media_ApiTest extends PHPUnit_Framewo
     /**
      * @var string
      */
-    protected static $_fixtureDir;
+    protected static $_filesDir;
 
     /**
      * @var string
@@ -44,10 +44,10 @@ class Mage_Catalog_Model_Product_Attribute_Media_ApiTest extends PHPUnit_Framewo
 
     public static function setUpBeforeClass()
     {
-        self::$_fixtureDir = realpath(__DIR__ . '/../../../../_files');
+        self::$_filesDir = realpath(__DIR__ . '/../../../../_files');
         self::$_mediaTmpDir = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getBaseTmpMediaPath();
         mkdir(self::$_mediaTmpDir . "/m/a", 0777, true);
-        copy(self::$_fixtureDir . '/magento_image.jpg', self::$_mediaTmpDir . '/m/a/magento_image.jpg');
+        copy(self::$_filesDir . '/magento_image.jpg', self::$_mediaTmpDir . '/m/a/magento_image.jpg');
     }
 
     public static function tearDownAfterClass()
@@ -97,7 +97,7 @@ class Mage_Catalog_Model_Product_Attribute_Media_ApiTest extends PHPUnit_Framewo
         $data = array(
             'file' => array(
                 'mime'      => 'image/jpeg',
-                'content'   => base64_encode(file_get_contents(self::$_fixtureDir.'/magento_small_image.jpg'))
+                'content'   => base64_encode(file_get_contents(self::$_filesDir.'/magento_small_image.jpg'))
             )
         );
         $this->_model->create(1, $data);
@@ -131,7 +131,7 @@ class Mage_Catalog_Model_Product_Attribute_Media_ApiTest extends PHPUnit_Framewo
         $data = array(
             'file' => array(
                 'mime'      => 'image/jpeg',
-                'content'   => base64_encode(file_get_contents(self::$_fixtureDir.'/magento_small_image.jpg'))
+                'content'   => base64_encode(file_get_contents(self::$_filesDir.'/magento_small_image.jpg'))
             )
         );
         $this->assertTrue($this->_model->update(1, $file, $data));

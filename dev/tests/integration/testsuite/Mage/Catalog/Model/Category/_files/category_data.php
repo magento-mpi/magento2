@@ -29,7 +29,7 @@ return array(
             'meta_title' => 'Meta title',
             'url_key' => 'url-key',
         ),
-        'storeView' => '0',
+        'store' => '0',
     ),
     'update' => array(
         'categoryId' => null,
@@ -57,7 +57,7 @@ return array(
             'meta_title' => 'Meta title update',
             'url_key' => 'url-key-update',
         ),
-        'storeView' => '1',
+        'store' => '1',
     ),
     //skip test keys list.
     'create_skip_to_check' => array('custom_design_apply', 'custom_design_from', 'custom_design_to', 'position'),

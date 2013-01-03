@@ -171,7 +171,7 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
      * Test product create resource with not unique sku value
      * Negative test.
      *
-     * @magentoDataFixture Api/Mage/SalesOrder/_fixture/product_simple.php
+     * @magentoDataFixture Api/Mage/SalesOrder/_files/product_simple.php
      */
     public function testCreateNotUniqueSku()
     {
@@ -268,7 +268,7 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
      */
     public function testSetSpecialPrice()
     {
-        $productData = require dirname(__FILE__) . '/_fixture/ProductData.php';
+        $productData = require dirname(__FILE__) . '/_files/ProductData.php';
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $specialPrice = 1.99;
         $specialFrom = '2011-12-22 00:00:00';
@@ -304,7 +304,7 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
      */
     public function testProductInfoByNumericSku()
     {
-        $data = require dirname(__FILE__) . '/_fixture/ProductData.php';
+        $data = require dirname(__FILE__) . '/_files/ProductData.php';
 
         //generate numeric sku
         $data['create_with_attributes_soapv2']->sku = rand(1000000, 99999999);
@@ -343,7 +343,7 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
      */
     public function testProductCrud()
     {
-        $data = require dirname(__FILE__) . '/_fixture/ProductData.php';
+        $data = require dirname(__FILE__) . '/_files/ProductData.php';
 
         // create product for test
         $productId = Magento_Test_Helper_Api::call(
@@ -389,14 +389,14 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
     /**
      * Test product CRUD with custom options
      *
-     * @magentoDataFixture Mage/Catalog/Model/Product/Api/_fixture/ProductWithOptionCrud.php
+     * @magentoDataFixture Mage/Catalog/Model/Product/Api/_files/ProductWithOptionCrud.php
      */
     public function testProductWithOptionsCrud()
     {
         $this->markTestSkipped("TODO: Fix test");
         $optionValueApi = Mage::registry('optionValueApi');
         $optionValueInstaller = Mage::registry('optionValueInstaller');
-        $data = require dirname(__FILE__) . '/_fixture/ProductData.php';
+        $data = require dirname(__FILE__) . '/_files/ProductData.php';
 
         $singleData = & $data['create_with_attributes_soapv2']['productData']->additional_attributes->single_data;
         $singleData[1]->value = $optionValueApi;
@@ -429,7 +429,7 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
      */
     public function testProductCreateWithInvalidAttributeSet()
     {
-        $productData = require dirname(__FILE__) . '/_fixture/ProductData.php';
+        $productData = require dirname(__FILE__) . '/_files/ProductData.php';
         $productData = $productData['create_full']['soap'];
         $productData['set'] = 'invalid';
 
@@ -468,14 +468,14 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
     /**
      * Test product attributes update in custom store view
      *
-     * @magentoDataFixture Api/_fixture/Core/Store/store_on_new_website.php
+     * @magentoDataFixture Api/_files/Core/Store/store_on_new_website.php
      */
     public function testProductUpdateCustomStore()
     {
         /** @var Mage_Core_Model_Store $store */
         $store = Mage::registry('store_on_new_website');
 
-        $data = require dirname(__FILE__) . '/_fixture/ProductData.php';
+        $data = require dirname(__FILE__) . '/_files/ProductData.php';
         // create product for test
         $productId = Magento_Test_Helper_Api::call($this, 'catalogProductCreate', $data['create_full']['soap']);
         $this->assertGreaterThan(0, $productId, 'Product was not created');
@@ -535,7 +535,7 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
      */
     public function testProductCreateForTestMediaAttributesDefaultValue()
     {
-        $productData = require dirname(__FILE__) . '/_fixture/ProductData.php';
+        $productData = require dirname(__FILE__) . '/_files/ProductData.php';
         $productData = $productData['create'];
 
         // create product for test

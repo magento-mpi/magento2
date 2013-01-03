@@ -15,7 +15,7 @@ class Mage_Catalog_Model_Product_Api_Attribute_TierPriceTest extends PHPUnit_Fra
      */
     protected function setUp()
     {
-        $productData = require realpath(dirname(__FILE__) . '/../_fixture/ProductData.php');
+        $productData = require realpath(dirname(__FILE__) . '/../_files/ProductData.php');
         $product = Mage::getModel('Mage_Catalog_Model_Product');
 
         $product->setData($productData['create_full_fledged']);

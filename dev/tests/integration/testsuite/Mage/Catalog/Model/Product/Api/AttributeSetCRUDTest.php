@@ -45,7 +45,7 @@ class Mage_Catalog_Model_Product_Api_AttributeSetCRUDTest extends PHPUnit_Framew
      */
     public function testAttributeSetCRUD()
     {
-        $attributeSetFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/AttributeSet.xml');
+        $attributeSetFixture = simplexml_load_file(dirname(__FILE__) . '/_files/_data/xml/AttributeSet.xml');
         $data = Magento_Test_Helper_Api::simpleXmlToArray($attributeSetFixture->create);
         $data['attributeSetName'] = $data['attributeSetName'] . ' ' . mt_rand(1000, 9999);
 
@@ -130,7 +130,7 @@ class Mage_Catalog_Model_Product_Api_AttributeSetCRUDTest extends PHPUnit_Framew
     /**
      * Test attribute CRUD in attribute set
      *
-     * @magentoDataFixture Mage/Catalog/Model/Product/Api/_fixture/AttributeSet.php
+     * @magentoDataFixture Mage/Catalog/Model/Product/Api/_files/AttributeSet.php
      */
     public function testAttributeSetAttrCRUD()
     {
@@ -157,12 +157,12 @@ class Mage_Catalog_Model_Product_Api_AttributeSetCRUDTest extends PHPUnit_Framew
     /**
      * Test group of attribute sets CRUD
      *
-     * @magentoDataFixture Mage/Catalog/Model/Product/Api/_fixture/AttributeSet.php
+     * @magentoDataFixture Mage/Catalog/Model/Product/Api/_files/AttributeSet.php
      */
     public function testAttributeSetGroupCRUD()
     {
         $testAttributeSetId = Mage::registry('testAttributeSetId');
-        $attributeSetFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/AttributeSet.xml');
+        $attributeSetFixture = simplexml_load_file(dirname(__FILE__) . '/_files/_data/xml/AttributeSet.xml');
         $data = Magento_Test_Helper_Api::simpleXmlToArray($attributeSetFixture->groupAdd);
 
         // add group test

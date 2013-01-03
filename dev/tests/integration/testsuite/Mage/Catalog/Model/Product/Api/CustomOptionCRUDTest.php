@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 /**
- * @magentoDataFixture Mage/Catalog/Model/Product/Api/_fixture/CustomOption.php
+ * @magentoDataFixture Mage/Catalog/Model/Product/Api/_files/CustomOption.php
  */
 class Mage_Catalog_Model_Product_Api_CustomOptionCRUDTest extends PHPUnit_Framework_TestCase
 {
@@ -21,7 +21,7 @@ class Mage_Catalog_Model_Product_Api_CustomOptionCRUDTest extends PHPUnit_Framew
     public function testCustomOptionCRUD()
     {
         $this->markTestSkipped("Skipped due to bug MAGETWO-5273.");
-        $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOption.xml');
+        $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_files/_data/xml/CustomOption.xml');
         $customOptions = Magento_Test_Helper_Api::simpleXmlToArray($customOptionFixture->CustomOptionsToAdd);
         $store = (string)$customOptionFixture->store;
         $fixtureProductId = Mage::registry('productData')->getId();
@@ -147,7 +147,7 @@ class Mage_Catalog_Model_Product_Api_CustomOptionCRUDTest extends PHPUnit_Framew
      */
     public function testCustomOptionTypes()
     {
-        $attributeSetFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOptionTypes.xml');
+        $attributeSetFixture = simplexml_load_file(dirname(__FILE__) . '/_files/_data/xml/CustomOptionTypes.xml');
         $customOptionsTypes = Magento_Test_Helper_Api::simpleXmlToArray($attributeSetFixture);
 
         $optionTypes = Magento_Test_Helper_Api::call($this, 'catalogProductCustomOptionTypes', array());
@@ -187,7 +187,7 @@ class Mage_Catalog_Model_Product_Api_CustomOptionCRUDTest extends PHPUnit_Framew
      */
     public function testCustomOptionAddExceptionProductNotExists()
     {
-        $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOption.xml');
+        $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_files/_data/xml/CustomOption.xml');
         $customOptions = Magento_Test_Helper_Api::simpleXmlToArray($customOptionFixture->CustomOptionsToAdd);
 
         $option = reset($customOptions);
@@ -213,7 +213,7 @@ class Mage_Catalog_Model_Product_Api_CustomOptionCRUDTest extends PHPUnit_Framew
     public function testCustomOptionAddExceptionAdditionalFieldsNotSet()
     {
         $fixtureProductId = Mage::registry('productData')->getId();
-        $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOption.xml');
+        $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_files/_data/xml/CustomOption.xml');
         $customOptions = Magento_Test_Helper_Api::simpleXmlToArray($customOptionFixture->CustomOptionsToAdd);
 
         $option = $customOptions['field'];
@@ -233,7 +233,7 @@ class Mage_Catalog_Model_Product_Api_CustomOptionCRUDTest extends PHPUnit_Framew
     public function testCustomOptionDateTimeAddExceptionStoreNotExist()
     {
         $fixtureProductId = Mage::registry('productData')->getId();
-        $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOption.xml');
+        $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_files/_data/xml/CustomOption.xml');
         $customOptions = Magento_Test_Helper_Api::simpleXmlToArray($customOptionFixture->CustomOptionsToAdd);
 
         $option = reset($customOptions);
@@ -259,7 +259,7 @@ class Mage_Catalog_Model_Product_Api_CustomOptionCRUDTest extends PHPUnit_Framew
      */
     public function testCustomOptionListExceptionProductNotExists()
     {
-        $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOption.xml');
+        $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_files/_data/xml/CustomOption.xml');
         $store = (string)$customOptionFixture->store;
 
         $this->setExpectedException('SoapFault');
@@ -298,7 +298,7 @@ class Mage_Catalog_Model_Product_Api_CustomOptionCRUDTest extends PHPUnit_Framew
      */
     public function testCustomOptionUpdateExceptionInvalidType()
     {
-        $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/CustomOption.xml');
+        $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_files/_data/xml/CustomOption.xml');
 
         $customOptionsToUpdate = Magento_Test_Helper_Api::simpleXmlToArray(
             $customOptionFixture->CustomOptionsToUpdate
