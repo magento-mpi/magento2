@@ -108,13 +108,15 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
         $demoButton->setData(array(
             'label'     => $this->__('Theme Demo'),
             'class'     => 'preview-demo',
-            'data_attr' => array(
-                'widget-button' => array(
-                    'event' => 'preview',
-                    'related' => 'body',
-                    'eventData' => array(
-                        'preview_url' => $this->_getPreviewUrl($themeBlock->getTheme()->getId())
-                    )
+            'data_attribute' => array(
+                'mage-init' => array(
+                    'button' => array(
+                        'event' => 'preview',
+                        'target' => 'body',
+                        'eventData' => array(
+                            'preview_url' => $this->_getPreviewUrl($themeBlock->getTheme()->getId())
+                        )
+                    ),
                 ),
             )
         ));

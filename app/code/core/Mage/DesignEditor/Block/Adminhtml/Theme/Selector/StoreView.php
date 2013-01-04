@@ -119,11 +119,13 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
         $assignSaveButton->setData(array(
             'label'     => $this->__('Done'),
             'class'     => 'store-assign-done save',
-            'data_attr' => array(
-                'widget-button' => array(
-                    'event' => 'assign-save',
-                    'related' => 'body',
-                    'eventData' => array()
+            'data_attribute' => array(
+                'mage-init' => array(
+                    'button' => array(
+                        'event' => 'assign-save',
+                        'target' => 'body',
+                        'eventData' => array()
+                    ),
                 ),
             )
         ));

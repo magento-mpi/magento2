@@ -101,13 +101,15 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
         $assignButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
         $assignButton->setData(array(
             'label'   => $this->__('Assign this Theme'),
-            'data_attr'  => array(
-                'widget-button' => array(
-                    'event' => 'assign',
-                    'related' => 'body',
-                    'eventData' => array(
-                        'theme_id' => $this->getThemeId()
-                    )
+            'data_attribute'  => array(
+                'mage-init' => array(
+                    'button' => array(
+                        'event' => 'assign',
+                        'target' => 'body',
+                        'eventData' => array(
+                            'theme_id' => $this->getThemeId()
+                        )
+                    ),
                 ),
             ),
             'class'   => 'save action-theme-assign',
