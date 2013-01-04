@@ -135,7 +135,6 @@
                                     optionPrice.update(prices[0], prices[1], prices[2]);
                                 }
                             }
-
                         }, this));
                     }
                 }, this));
