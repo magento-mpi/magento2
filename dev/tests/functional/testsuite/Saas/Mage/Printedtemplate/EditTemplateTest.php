@@ -44,7 +44,7 @@ class Saas_Mage_Printedtemplate_EditTemplateTest
         $this->fillForm($newTemplate);
         $this->clickButton('save_template');
 
-        //seach new template by new name
+        //search new template by new name
         $this->printedtemplateHelper()->searchTemplateByName($newTemplate['template_name']);
         $this->logoutAdminUser();
     }

@@ -40,7 +40,7 @@ class Saas_Mage_Printedtemplate_DeleteTemplateTest
         $this->clickButtonAndConfirm('delete_template', 'confirmation_for_delete');
         $this->assertMessagePresent('success', 'success_deleted_template');
 
-        //seach deleted template by new name
+        //search deleted template by name
         $this->printedtemplateHelper()->searchTemplateByName($templateName, false);
 
         $this->logoutAdminUser();
