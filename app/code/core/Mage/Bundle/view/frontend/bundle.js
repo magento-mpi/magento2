@@ -124,15 +124,18 @@
                 $.each(this.options.bundleConfig.selected, $.proxy(function(index, value) {
                     if (this.options.bundleConfig.options[index]) {
                         $.each(value, $.proxy(function(key, element) {
-                            if ($.isArray(element)) {
-                                $.each(element, $.proxy(function(k, e) {
-                                    var prices = this.selectionPrice(index, e);
+                            if (element !== '' && element !== 'none' && element !== undefined && element !== null) {
+                                if ($.isArray(element)) {
+                                    $.each(element, $.proxy(function(k, e) {
+                                        var prices = this.selectionPrice(index, e);
+                                        optionPrice.update(prices[0], prices[1], prices[2]);
+                                    }, this));
+                                } else {
+                                    var prices = this.selectionPrice(index, element);
                                     optionPrice.update(prices[0], prices[1], prices[2]);
-                                }, this));
-                            } else {
-                                var prices = this.selectionPrice(index, element);
-                                optionPrice.update(prices[0], prices[1], prices[2]);
+                                }
                             }
+
                         }, this));
                     }
                 }, this));
