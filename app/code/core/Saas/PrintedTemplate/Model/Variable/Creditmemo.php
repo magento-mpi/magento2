@@ -48,7 +48,11 @@ class Saas_PrintedTemplate_Model_Variable_Creditmemo extends Saas_PrintedTemplat
     {
         $value = $this->_value;
 
-        $value->setGrandTotalExclTax($value->getGrandTotal() - $value->getTaxAmount());
+        if ($this->_isFloatEqualToZero($value->getGrandTotal())) {
+            $value->setGrandTotalExclTax($value->getGrandTotal());
+        } else {
+            $value->setGrandTotalExclTax($value->getGrandTotal() - $value->getTaxAmount());
+        }
 
         if (!$value->hasSubtotalWithShipping()) {
             $value->setSubtotalWithShipping($value->getSubtotal() + $value->getShippingAmount());
