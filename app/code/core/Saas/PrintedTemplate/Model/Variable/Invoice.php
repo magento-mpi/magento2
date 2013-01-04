@@ -64,7 +64,7 @@ class Saas_PrintedTemplate_Model_Variable_Invoice extends Saas_PrintedTemplate_M
 
         if (!$value->hasGrandTotalExclTax()) {
             $value->setGrandTotalExclTax($value->getGrandTotal());
-            if ($value->hasTaxAmount()) {
+            if ($value->hasTaxAmount() && !$this->_isFloatEqualToZero($value->getGrandTotal())) {
                 $value->setGrandTotalExclTax((float)$value->getGrandTotalExclTax() - (float)$value->getTaxAmount());
             }
         }
