@@ -25,7 +25,7 @@ abstract class Mage_Catalog_Model_Product_Api_TestCaseAbstract extends PHPUnit_F
      *
      * @var array
      */
-    protected $_productAttributesArrayMap = array(
+    protected $_attributesArrayMap = array(
         'tier_price' => array(
             'website_id' => 'website',
             'cust_group' => 'customer_group_id',
@@ -89,8 +89,8 @@ abstract class Mage_Catalog_Model_Product_Api_TestCaseAbstract extends PHPUnit_F
      */
     protected function _tryToCreateProductWithApi($productData)
     {
-        $dataFormattedForRequest = $this->_prepareProductDataForSoap($productData);
-        $response = Magento_Test_Helper_Api::call($this, 'catalogProductCreate', $dataFormattedForRequest);
+        $formattedData = $this->_prepareProductDataForSoap($productData);
+        $response = Magento_Test_Helper_Api::call($this, 'catalogProductCreate', $formattedData);
         return $response;
     }
 
@@ -102,7 +102,7 @@ abstract class Mage_Catalog_Model_Product_Api_TestCaseAbstract extends PHPUnit_F
      */
     protected function _prepareProductDataForSoap($productData)
     {
-        $dataFormattedForRequest = array(
+        $formattedData = array(
             'type' => $productData['type_id'],
             'set' => $productData['attribute_set_id'],
             'sku' => $productData['sku'],
@@ -111,9 +111,9 @@ abstract class Mage_Catalog_Model_Product_Api_TestCaseAbstract extends PHPUnit_F
                 array_flip(array('type_id', 'attribute_set_id', 'sku'))
             )
         );
-        foreach ($dataFormattedForRequest['productData'] as $attrCode => &$attrValue) {
-            if (in_array($attrCode, array_keys($this->_productAttributesArrayMap)) && is_array($attrValue)) {
-                $map = $this->_productAttributesArrayMap[$attrCode];
+        foreach ($formattedData['productData'] as $attrCode => &$attrValue) {
+            if (in_array($attrCode, array_keys($this->_attributesArrayMap)) && is_array($attrValue)) {
+                $map = $this->_attributesArrayMap[$attrCode];
                 foreach ($attrValue as &$arrayItem) {
                     foreach ($map as $arrayKey => $keyMapValue) {
                         if (in_array($arrayKey, $arrayItem)) {
@@ -125,25 +125,25 @@ abstract class Mage_Catalog_Model_Product_Api_TestCaseAbstract extends PHPUnit_F
                 unset($arrayItem);
             }
         }
-        if (isset($dataFormattedForRequest['productData']['tier_price'])) {
-            foreach ($dataFormattedForRequest['productData']['tier_price'] as &$tierPriceItem) {
+        if (isset($formattedData['productData']['tier_price'])) {
+            foreach ($formattedData['productData']['tier_price'] as &$tierPriceItem) {
                 $tierPriceItem = (object)$tierPriceItem;
             }
         }
-        $dataFormattedForRequest['productData'] = (object)$dataFormattedForRequest['productData'];
-        return $dataFormattedForRequest;
+        $formattedData['productData'] = (object)$formattedData['productData'];
+        return $formattedData;
     }
 
     /**
      * Check if expected messages contained in the SoapFault exception
      *
-     * @param SoapFault $e
+     * @param SoapFault $exception
      * @param array|string $expectedMessages
      */
-    protected function _checkErrorMessagesInResponse(SoapFault $e, $expectedMessages)
+    protected function _checkErrorMessagesInResponse(SoapFault $exception, $expectedMessages)
     {
         $expectedMessages = is_array($expectedMessages) ? $expectedMessages : array($expectedMessages);
-        $receivedMessages = explode("\n", $e->getMessage());
+        $receivedMessages = explode("\n", $exception->getMessage());
         $this->assertMessagesEqual($expectedMessages, $receivedMessages);
     }
 

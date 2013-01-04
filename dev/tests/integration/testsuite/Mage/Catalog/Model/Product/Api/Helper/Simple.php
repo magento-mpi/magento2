@@ -27,13 +27,13 @@ class Mage_Catalog_Model_Product_Api_Helper_Simple extends PHPUnit_Framework_Tes
      * @param Mage_Catalog_Model_Product $product
      * @param array $expectedProductData
      * @param array $skipAttributes
-     * @param array $skipStockItemAttributes
+     * @param array $skipStockItemAttrs
      */
     public function checkSimpleAttributesData(
         $product,
         $expectedProductData,
         $skipAttributes = array(),
-        $skipStockItemAttributes = array()
+        $skipStockItemAttrs = array()
     ) {
         $expectedProductData = array_diff_key($expectedProductData, array_flip($skipAttributes));
 
@@ -73,7 +73,7 @@ class Mage_Catalog_Model_Product_Api_Helper_Simple extends PHPUnit_Framework_Tes
 
         if (isset($expectedProductData['stock_data'])) {
             $stockItem = $product->getStockItem();
-            $expectedStock = array_diff_key($expectedProductData['stock_data'], array_flip($skipStockItemAttributes));
+            $expectedStock = array_diff_key($expectedProductData['stock_data'], array_flip($skipStockItemAttrs));
             foreach ($expectedStock as $attribute => $value) {
                 $this->assertEquals(
                     $value,

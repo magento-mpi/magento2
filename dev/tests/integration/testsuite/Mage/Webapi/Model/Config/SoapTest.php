@@ -122,7 +122,12 @@ class Mage_Webapi_Model_Config_SoapTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array('customerUpdate', 'v1', false, "In case when resource is not found, 'false' is expected."),
-            array('vendorModuleResourceCreate', 'v100', false, "In case when version is not found, 'false' is expected."),
+            array(
+                'vendorModuleResourceCreate',
+                'v100',
+                false,
+                "In case when version is not found, 'false' is expected."
+            ),
         );
     }
 
@@ -181,7 +186,12 @@ class Mage_Webapi_Model_Config_SoapTest extends PHPUnit_Framework_TestCase
                 'multiDelete',
                 "If version is not set - no check must be performed for operation existence in resource."
             ),
-            array('vendorModuleResourceUpdate', 'v100', false, "In case when version is not found, 'false' is expected."),
+            array(
+                'vendorModuleResourceUpdate',
+                'v100',
+                false,
+                "In case when version is not found, 'false' is expected."
+            ),
         );
     }
 

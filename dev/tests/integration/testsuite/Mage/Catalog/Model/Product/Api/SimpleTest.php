@@ -70,13 +70,13 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
             'gift_wrapping_available',
             'gift_wrapping_price'
         );
-        $skipStockItemAttributes = array('min_qty');
+        $skipStockItemAttrs = array('min_qty');
 
         $this->_getHelper()->checkSimpleAttributesData(
             $product,
             $productData,
             $skipAttributes,
-            $skipStockItemAttributes
+            $skipStockItemAttrs
         );
     }
 
@@ -92,10 +92,10 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
         // Fix for tests, because in current soap version this field has "int" type in WSDL
         // @TODO: fix WSDL in new soap version when implemented
         $productData['stock_data']['notify_stock_qty'] = 2;
-        $productDataSpecialChars = require '_files/_data/simple_product_special_chars_data.php';
+        $specialCharsData = require '_files/_data/simple_product_special_chars_data.php';
 
         return array(
-            array($productDataSpecialChars),
+            array($specialCharsData),
             array($productData),
         );
     }
@@ -187,17 +187,17 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
         //generate numeric sku
         $data['create_with_attributes_soapv2']->sku = rand(1000000, 99999999);
 
-        $id = Magento_Test_Helper_Api::call($this, 'catalogProductCreate', $data['create']);
+        $productId = Magento_Test_Helper_Api::call($this, 'catalogProductCreate', $data['create']);
 
         $this->assertEquals(
-            $id,
-            (int)$id,
+            $productId,
+            (int)$productId,
             'Result of a create method is not an integer.'
         );
 
         //test new product exists in DB
         $product = Mage::getModel('Mage_Catalog_Model_Product');
-        $product->load($id);
+        $product->load($productId);
         $this->assertNotNull($product->getId(), 'Tested product not found.');
 
         $result = Magento_Test_Helper_Api::call(
@@ -213,7 +213,7 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
 
         $this->assertInternalType('array', $result, 'Response is not an array');
         $this->assertArrayHasKey('product_id', $result, 'Response array does not have "product_id" key');
-        $this->assertEquals($id, $result['product_id'], 'Product cannot be load by SKU which is numeric');
+        $this->assertEquals($productId, $result['product_id'], 'Product cannot be load by SKU which is numeric');
     }
 
     /**
@@ -279,7 +279,7 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
         $optionValueInstaller = Mage::registry('optionValueInstaller');
         $data = require dirname(__FILE__) . '/_files/ProductData.php';
 
-        $singleData = & $data['create_with_attributes_soapv2']['productData']->additional_attributes->single_data;
+        $singleData = & $data['create_with_attributes_soapv2']['productData']->additional_attributes->singleData;
         $singleData[1]->value = $optionValueApi;
         $singleData[3]->value = $optionValueInstaller;
         $attributes = $data['create_with_attributes_soapv2']['productData']->additional_attributes;
@@ -298,10 +298,10 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
         $this->assertGreaterThan(0, $productId);
 
         //test new product attributes
-        $this->assertEquals($attributes->single_data[0]->value, $product->getData('a_text_api'));
-        $this->assertEquals($attributes->single_data[1]->value, $product->getData('a_select_api'));
-        $this->assertEquals($attributes->single_data[2]->value, $product->getData('a_text_ins'));
-        $this->assertEquals($attributes->single_data[3]->value, $product->getData('a_select_ins'));
+        $this->assertEquals($attributes->singleData[0]->value, $product->getData('a_text_api'));
+        $this->assertEquals($attributes->singleData[1]->value, $product->getData('a_select_api'));
+        $this->assertEquals($attributes->singleData[2]->value, $product->getData('a_text_ins'));
+        $this->assertEquals($attributes->singleData[3]->value, $product->getData('a_select_ins'));
 
     }
 

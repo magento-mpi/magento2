@@ -4,7 +4,7 @@
         <attributeSetName>Test Attribute Set</attributeSetName>
         <skeletonSetId>4</skeletonSetId>
     </create>
-    <AttributeEntityToCreate>
+    <attributeEntityToCreate>
         <attribute_code>a_test_attr_textarea</attribute_code>
         <scope>store</scope>
         <frontend_input>textarea</frontend_input>
@@ -32,12 +32,12 @@
             <store_id>1</store_id>
             <label>bbb</label>
         </frontend_label>
-    </AttributeEntityToCreate>
+    </attributeEntityToCreate>
     <groupAdd>
         <groupName>Test Group</groupName>
         <existsGroupName>General</existsGroupName>
     </groupAdd>
-    <RelatedProduct>
+    <relatedProduct>
         <typeId>simple</typeId>
         <sku>test_attribute_set_product</sku>
         <productData>
@@ -57,5 +57,5 @@
                 <is_in_stock>1</is_in_stock>
             </stock_data>
         </productData>
-    </RelatedProduct>
+    </relatedProduct>
 </root>

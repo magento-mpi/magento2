@@ -41,19 +41,20 @@ class Mage_Catalog_Model_Product_Api_BackorderStatusTest extends PHPUnit_Framewo
      */
     public function testBackorderStatusUpdate()
     {
-        $newProductData = new stdClass();
-        $newProductData->use_config_manage_stock = 0;
-        $newProductData->manage_stock = 1;
-        $newProductData->is_in_stock = 0;
-        $newProductData->use_config_backorders = 0;
-        $newProductData->backorders = 1;
+        $newProductData = array(
+            'use_config_manage_stock' => 0,
+            'manage_stock' => 1,
+            'is_in_stock' => 0,
+            'use_config_backorders' => 0,
+            'backorders' => 1,
+        );
 
         $result = Magento_Test_Helper_Api::call(
             $this,
             'catalogInventoryStockItemUpdate',
             array(
                 'productId' => $this->_product->getSku(),
-                'data' => (array)$newProductData
+                'data' => $newProductData
             )
         );
 

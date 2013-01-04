@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
     <store>default</store>
-    <CustomOptionValues>
+    <customOptionValues>
         <value_1>
             <title>Test custom option value</title>
             <price>50.00</price>
@@ -9,8 +9,8 @@
             <sku>test_custom_option_value_sku</sku>
             <sort_order>0</sort_order>
         </value_1>
-    </CustomOptionValues>
-    <CustomOptionValuesToUpdate>
+    </customOptionValues>
+    <customOptionValuesToUpdate>
         <value_1>
             <title>Updated test custom option value</title>
             <price>1000.00</price>
@@ -18,7 +18,7 @@
             <sku>test_custom_option_value_sku_2222</sku>
             <sort_order>10</sort_order>
         </value_1>
-    </CustomOptionValuesToUpdate>
+    </customOptionValuesToUpdate>
     <fixtureCustomOption>
         <title>Test custom option Multiselect</title>
         <type>multiple</type>

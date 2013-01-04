@@ -61,7 +61,7 @@ return array(
             'price' => 9.99,
             'tax_class_id' => 2,
             'additional_attributes' => (object)array(
-                'single_data' => array(
+                'singleData' => array(
                     (object)array(
                         'key' => 'a_text_api',
                         'value' => 'qqq123'

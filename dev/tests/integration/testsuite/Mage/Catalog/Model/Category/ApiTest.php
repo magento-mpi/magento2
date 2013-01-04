@@ -173,8 +173,8 @@ class Mage_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
      */
     protected function _formatActiveDesignDate($date)
     {
-        list($m, $d, $y) = explode('/', $date);
-        return "$y-$m-$d 00:00:00";
+        list($month, $day, $year) = explode('/', $date);
+        return "$year-$month-$day 00:00:00";
     }
 
     /**
@@ -196,6 +196,21 @@ class Mage_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
     public function testCrudViaHandler()
     {
         $categoryFixture = $this->_getFixtureData();
+
+        $categoryId = $this->_testCreate($categoryFixture);
+        $this->_testUpdate($categoryId, $categoryFixture);
+        $this->_testRead($categoryId, $categoryFixture);
+        $this->_testDelete($categoryId);
+    }
+
+    /**
+     * Test category create.
+     *
+     * @param array $categoryFixture
+     * @return int
+     */
+    protected function _testCreate($categoryFixture)
+    {
         $categoryId = Magento_Test_Helper_Api::call(
             $this,
             'catalogCategoryCreate',
@@ -211,9 +226,7 @@ class Mage_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
             (int)$categoryId,
             'Result of a create method is not an integer.'
         );
-        /**
-         * Test create
-         */
+
         $category = Mage::getModel('Mage_Catalog_Model_Category');
         $category->load($categoryId);
 
@@ -265,39 +278,17 @@ class Mage_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
             );
         }
 
-        /**
-         * Test update
-         */
-        $categoryFixture['update']['categoryId'] = $categoryId;
-        $resultUpdated = Magento_Test_Helper_Api::call($this, 'catalogCategoryUpdate', $categoryFixture['update']);
-        $this->assertTrue($resultUpdated);
+        return $categoryId;
+    }
 
-        $category = Mage::getModel('Mage_Catalog_Model_Category');
-        $category->load($categoryId);
-
-        //check updated data
-        $this->assertEquals(
-            $category['custom_design_from'],
-            $this->_formatActiveDesignDate(
-                $categoryFixture['update']['categoryData']->custom_design_from
-            ),
-            'Category active design date is not the same like sent to API on update.'
-        );
-
-        foreach ($categoryFixture['update']['categoryData'] as $name => $value) {
-            if (in_array($name, $categoryFixture['update_skip_to_check'])) {
-                continue;
-            }
-            $this->assertEquals(
-                $value,
-                $category[$name],
-                sprintf('Category data with name "%s" is not the same like sent to update.', $name)
-            );
-        }
-
-        /**
-         * Test read
-         */
+    /**
+     * Test category read
+     *
+     * @param int $categoryId
+     * @param array $categoryFixture
+     */
+    protected function _testRead($categoryId, $categoryFixture)
+    {
         $categoryRead = Magento_Test_Helper_Api::call(
             $this,
             'catalogCategoryInfo',
@@ -327,10 +318,51 @@ class Mage_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
                 sprintf('Category data with name "%s" is not the same like sent to update.', $name)
             );
         }
+    }
 
-        /**
-         * Test delete
-         */
+    /**
+     * Test category update
+     *
+     * @param int $categoryId
+     * @param array $categoryFixture
+     */
+    protected function _testUpdate($categoryId, $categoryFixture)
+    {
+        $categoryFixture['update']['categoryId'] = $categoryId;
+        $resultUpdated = Magento_Test_Helper_Api::call($this, 'catalogCategoryUpdate', $categoryFixture['update']);
+        $this->assertTrue($resultUpdated);
+
+        $category = Mage::getModel('Mage_Catalog_Model_Category');
+        $category->load($categoryId);
+
+        //check updated data
+        $this->assertEquals(
+            $category['custom_design_from'],
+            $this->_formatActiveDesignDate(
+                $categoryFixture['update']['categoryData']->custom_design_from
+            ),
+            'Category active design date is not the same like sent to API on update.'
+        );
+
+        foreach ($categoryFixture['update']['categoryData'] as $name => $value) {
+            if (in_array($name, $categoryFixture['update_skip_to_check'])) {
+                continue;
+            }
+            $this->assertEquals(
+                $value,
+                $category[$name],
+                sprintf('Category data with name "%s" is not the same like sent to update.', $name)
+            );
+        }
+    }
+
+    /**
+     * Test category delete
+     *
+     * @param int $categoryId
+     */
+    protected function _testDelete($categoryId)
+    {
         $categoryDelete = Magento_Test_Helper_Api::call(
             $this,
             'catalogCategoryDelete',

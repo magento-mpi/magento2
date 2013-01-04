@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
     <store>default</store>
-    <CustomOptionsToAdd>
+    <customOptionsToAdd>
         <field>
             <title>Test custom option Text Field</title>
             <type>field</type>
@@ -74,8 +74,8 @@
                 <max_characters>7</max_characters>
             </additional_fields>
         </area>
-    </CustomOptionsToAdd>
-    <CustomOptionsToUpdate>
+    </customOptionsToAdd>
+    <customOptionsToUpdate>
         <field>
             <title>Test custom option Text Field Updated</title>
             <additional_fields>
@@ -97,7 +97,7 @@
                 <max_characters>20</max_characters>
             </additional_fields>
         </area>
-    </CustomOptionsToUpdate>
+    </customOptionsToUpdate>
     <fixtureProduct>
         <sku>sku</sku>
         <attribute_set_id>4</attribute_set_id>

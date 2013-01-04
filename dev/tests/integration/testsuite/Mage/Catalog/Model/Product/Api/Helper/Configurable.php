@@ -57,79 +57,27 @@ class Mage_Catalog_Model_Product_Api_Helper_Configurable extends PHPUnit_Framewo
      * Check if the configurable attributes' data was saved correctly during create
      *
      * @param Mage_Catalog_Model_Product $configurable
-     * @param array $expectedConfigurableData
+     * @param array $expectedAttributes
      * @param bool $validatePrices
      */
     public function checkConfigurableAttributesData(
         $configurable,
-        $expectedConfigurableData,
+        $expectedAttributes,
         $validatePrices = true
     ) {
         /** @var Mage_Catalog_Model_Product_Type_Configurable $configurableType */
         $configurableType = $configurable->getTypeInstance();
-        $actualConfigurableData = $configurableType->getConfigurableAttributesAsArray($configurable);
-        foreach ($expectedConfigurableData as $expectedData) {
-            $attributeCode = $expectedData['attribute_code'];
+        $actualAttributes = $configurableType->getConfigurableAttributesAsArray($configurable);
+        foreach ($expectedAttributes as $expectedAttribute) {
+            $attributeCode = $expectedAttribute['attribute_code'];
             $attributeDataFound = false;
-            foreach ($actualConfigurableData as $actualData) {
-                if ($actualData['attribute_code'] == $attributeCode) {
-                    if (isset($expectedData['position'])) {
-                        $this->assertEquals($expectedData['position'], $actualData['position'], "Position is invalid.");
-                    }
-                    if (isset($expectedData['frontend_label_use_default'])
-                        && $expectedData['frontend_label_use_default'] == 1
+            foreach ($actualAttributes as $actualAttribute) {
+                if ($actualAttribute['attribute_code'] == $attributeCode) {
+                    $this->_assetAttributes($expectedAttribute, $actualAttribute);
+                    if ($validatePrices && isset($expectedAttribute['prices'])
+                        && is_array($expectedAttribute['prices'])
                     ) {
-                        $this->assertEquals(
-                            $expectedData['frontend_label_use_default'],
-                            $actualData['use_default'],
-                            "The value of 'use default frontend label' is invalid."
-                        );
-                        if (isset($expectedData['frontend_label'])) {
-                            $this->assertNotEquals(
-                                $expectedData['frontend_label'],
-                                $actualData['label'],
-                                "Default frontend label must be used."
-                            );
-                        }
-                    } else {
-                        if (isset($expectedData['frontend_label'])) {
-                            $this->assertEquals(
-                                $expectedData['frontend_label'],
-                                $actualData['label'],
-                                "Frontend label is invalid."
-                            );
-                        }
-                    }
-                    if ($validatePrices && isset($expectedData['prices']) && is_array($expectedData['prices'])) {
-                        $values = array();
-                        foreach ($actualData['values'] as $value) {
-                            $values[$value['value_index']] = $value;
-                        }
-                        foreach ($expectedData['prices'] as $expectedValue) {
-                            if (isset($expectedValue['option_value'])) {
-                                $this->assertArrayHasKey(
-                                    $expectedValue['option_value'],
-                                    $values,
-                                    'Expected price value not found in actual values.'
-                                );
-                                $actualValue = $values[$expectedValue['option_value']];
-                                if (isset($expectedValue['price'])) {
-                                    $this->assertEquals(
-                                        $expectedValue['price'],
-                                        $actualValue['pricing_value'],
-                                        'Option price does not match.'
-                                    );
-                                }
-                                if (isset($expectedValue['price_type'])) {
-                                    $isPercent = ($expectedValue['price_type'] == 'percent') ? 1 : 0;
-                                    $this->assertEquals(
-                                        $isPercent,
-                                        $actualValue['is_percent'],
-                                        'Option price type does not match.'
-                                    );
-                                }
-                            }
-                        }
+                        $this->_assertPrices($actualAttribute['values'], $expectedAttribute['prices']);
                     }
                     $attributeDataFound = true;
                     break;
@@ -139,6 +87,80 @@ class Mage_Catalog_Model_Product_Api_Helper_Configurable extends PHPUnit_Framewo
                 $attributeDataFound,
                 "Attribute with code $attributeCode is not used as a configurable one."
             );
+        }
+    }
+
+    protected function _assetAttributes($expectedAttribute, $actualAttribute)
+    {
+        if (isset($expectedAttribute['position'])) {
+            $this->assertEquals(
+                $expectedAttribute['position'],
+                $actualAttribute['position'],
+                "Position is invalid."
+            );
+        }
+        if (isset($expectedAttribute['frontend_label_use_default'])
+            && $expectedAttribute['frontend_label_use_default'] == 1
+        ) {
+            $this->assertEquals(
+                $expectedAttribute['frontend_label_use_default'],
+                $actualAttribute['use_default'],
+                "The value of 'use default frontend label' is invalid."
+            );
+            if (isset($expectedAttribute['frontend_label'])) {
+                $this->assertNotEquals(
+                    $expectedAttribute['frontend_label'],
+                    $actualAttribute['label'],
+                    "Default frontend label must be used."
+                );
+            }
+        } else {
+            if (isset($expectedAttribute['frontend_label'])) {
+                $this->assertEquals(
+                    $expectedAttribute['frontend_label'],
+                    $actualAttribute['label'],
+                    "Frontend label is invalid."
+                );
+            }
+        }
+    }
+
+    /**
+     * Validate prices
+     *
+     * @param $actualValues
+     * @param $expectedPrices
+     */
+    protected function _assertPrices($actualValues, $expectedPrices)
+    {
+        $values = array();
+        foreach ($actualValues as $value) {
+            $values[$value['value_index']] = $value;
+        }
+        foreach ($expectedPrices as $expectedValue) {
+            if (isset($expectedValue['option_value'])) {
+                $this->assertArrayHasKey(
+                    $expectedValue['option_value'],
+                    $values,
+                    'Expected price value not found in actual values.'
+                );
+                $actualValue = $values[$expectedValue['option_value']];
+                if (isset($expectedValue['price'])) {
+                    $this->assertEquals(
+                        $expectedValue['price'],
+                        $actualValue['pricing_value'],
+                        'Option price does not match.'
+                    );
+                }
+                if (isset($expectedValue['price_type'])) {
+                    $isPercent = ($expectedValue['price_type'] == 'percent') ? 1 : 0;
+                    $this->assertEquals(
+                        $isPercent,
+                        $actualValue['is_percent'],
+                        'Option price type does not match.'
+                    );
+                }
+            }
         }
     }
 

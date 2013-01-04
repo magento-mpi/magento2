@@ -72,16 +72,16 @@ class Mage_Catalog_Model_Product_Api_TagCRUDTest extends PHPUnit_Framework_TestC
         $this->assertCount((int)$expected['created_tags_count'], $tagsList, "Can't find added tag in list");
 
         // delete test
-        $tagToDelete = array_shift($tagsList);
+        $tagToDelete = (array)array_shift($tagsList);
         $tagDelete = Magento_Test_Helper_Api::call(
             $this,
             'catalogProductTagRemove',
-            array('tagId' => $tagToDelete->tag_id)
+            array('tagId' => $tagToDelete['tag_id'])
         );
         $this->assertTrue((bool)$tagDelete, "Can't delete added tag");
 
         // Delete exception test
         $this->setExpectedException('SoapFault', 'Requested tag does not exist.');
-        Magento_Test_Helper_Api::call($this, 'catalogProductTagRemove', array('tagId' => $tagToDelete->tag_id));
+        Magento_Test_Helper_Api::call($this, 'catalogProductTagRemove', array('tagId' => $tagToDelete['tag_id']));
     }
 }

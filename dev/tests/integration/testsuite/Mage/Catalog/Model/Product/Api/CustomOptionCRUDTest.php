@@ -14,7 +14,7 @@ class Mage_Catalog_Model_Product_Api_CustomOptionCRUDTest extends PHPUnit_Framew
     /**
      * @var array
      */
-    protected static $createdOptionAfter;
+    protected static $_createdOptionAfter;
 
     /**
      * Product Custom Option CRUD test
@@ -23,10 +23,26 @@ class Mage_Catalog_Model_Product_Api_CustomOptionCRUDTest extends PHPUnit_Framew
     {
         $this->markTestSkipped("Skipped due to bug MAGETWO-5273.");
         $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_files/_data/xml/CustomOption.xml');
-        $customOptions = Magento_Test_Helper_Api::simpleXmlToArray($customOptionFixture->CustomOptionsToAdd);
+        $customOptions = Magento_Test_Helper_Api::simpleXmlToArray($customOptionFixture->customOptionsToAdd);
         $store = (string)$customOptionFixture->store;
-        $fixtureProductId = Mage::registry('productData')->getId();
 
+        $this->_testCreate($store, $customOptions);
+        $this->_testRead($store, $customOptions);
+        $optionsToUpdate = Magento_Test_Helper_Api::simpleXmlToArray(
+            $customOptionFixture->customOptionsToUpdate
+        );
+        $this->_testUpdate($optionsToUpdate);
+    }
+
+    /**
+     * Test creating custom options
+     *
+     * @param string $store
+     * @param array $customOptions
+     */
+    protected function _testCreate($store, $customOptions)
+    {
+        $fixtureProductId = Mage::registry('productData')->getId();
         $createdOptionBefore = Magento_Test_Helper_Api::call(
             $this,
             'catalogProductCustomOptionList',
@@ -55,9 +71,18 @@ class Mage_Catalog_Model_Product_Api_CustomOptionCRUDTest extends PHPUnit_Framew
             );
             $this->assertTrue((bool)$addedOptionResult);
         }
+    }
 
-        // list
-        self::$createdOptionAfter = Magento_Test_Helper_Api::call(
+    /**
+     * Test reading custom options
+     *
+     * @param string $store
+     * @param array $customOptions
+     */
+    protected function _testRead($store, $customOptions)
+    {
+        $fixtureProductId = Mage::registry('productData')->getId();
+        self::$_createdOptionAfter = Magento_Test_Helper_Api::call(
             $this,
             'catalogProductCustomOptionList',
             array(
@@ -66,19 +91,23 @@ class Mage_Catalog_Model_Product_Api_CustomOptionCRUDTest extends PHPUnit_Framew
             )
         );
 
-        $this->assertTrue(is_array(self::$createdOptionAfter));
-        $this->assertEquals(count($customOptions), count(self::$createdOptionAfter));
+        $this->assertTrue(is_array(self::$_createdOptionAfter));
+        $this->assertEquals(count($customOptions), count(self::$_createdOptionAfter));
 
-        foreach (self::$createdOptionAfter as $option) {
+        foreach (self::$_createdOptionAfter as $option) {
             $this->assertEquals($customOptions[$option['type']]['title'], $option['title']);
         }
+    }
 
-        // update & info
+    /**
+     * Test updating custom option
+     *
+     * @param array $optionsToUpdate
+     */
+    protected function _testUpdate($optionsToUpdate)
+    {
         $updateCounter = 0;
-        $customOptionsToUpdate = Magento_Test_Helper_Api::simpleXmlToArray(
-            $customOptionFixture->CustomOptionsToUpdate
-        );
-        foreach (self::$createdOptionAfter as $option) {
+        foreach (self::$_createdOptionAfter as $option) {
             $optionInfo = Magento_Test_Helper_Api::call(
                 $this,
                 'catalogProductCustomOptionInfo',
@@ -90,8 +119,8 @@ class Mage_Catalog_Model_Product_Api_CustomOptionCRUDTest extends PHPUnit_Framew
             $this->assertTrue(is_array($optionInfo));
             $this->assertGreaterThan(3, count($optionInfo));
 
-            if (isset($customOptionsToUpdate[$option['type']])) {
-                $toUpdateValues = $customOptionsToUpdate[$option['type']];
+            if (isset($optionsToUpdate[$option['type']])) {
+                $toUpdateValues = $optionsToUpdate[$option['type']];
                 if (isset($toUpdateValues['additional_fields'])
                     and !is_array(reset($toUpdateValues['additional_fields']))
                 ) {
@@ -109,38 +138,44 @@ class Mage_Catalog_Model_Product_Api_CustomOptionCRUDTest extends PHPUnit_Framew
                 $this->assertTrue((bool)$updateOptionResult);
                 $updateCounter++;
 
-                $optionInfoAfterUpdate = Magento_Test_Helper_Api::call(
-                    $this,
-                    'catalogProductCustomOptionInfo',
-                    array(
-                        'optionId' => $option['option_id']
-                    )
-                );
-
-                foreach ($toUpdateValues as $key => $value) {
-                    if (is_string($value)) {
-                        self::assertEquals($value, $optionInfoAfterUpdate[$key]);
-                    }
-                }
-
-                if (isset($toUpdateValues['additional_fields'])) {
-                    $updateAdditionalFields = reset($toUpdateValues['additional_fields']);
-                    if (TESTS_WEBSERVICE_TYPE == PHPUnit_Framework_TestCase::TYPE_SOAP_WSI) {
-                        // incorrect in case additional_fields count > 1
-                        $actualAdditionalFields = $optionInfoAfterUpdate['additional_fields'];
-                    } else {
-                        $actualAdditionalFields = reset($optionInfoAfterUpdate['additional_fields']);
-                    }
-                    foreach ($updateAdditionalFields as $key => $value) {
-                        if (is_string($value)) {
-                            self::assertEquals($value, $actualAdditionalFields[$key]);
-                        }
-                    }
-                }
+                $this->_testOptionsAfterUpdate($option['option_id'], $toUpdateValues);
             }
         }
 
-        $this->assertCount($updateCounter, $customOptionsToUpdate);
+        $this->assertCount($updateCounter, $optionsToUpdate);
+    }
+
+    /**
+     * Check that options has been updated correctly
+     *
+     * @param int $optionId
+     * @param array $toUpdateValues
+     */
+    protected function _testOptionsAfterUpdate($optionId, $toUpdateValues)
+    {
+        $optionAfterUpdate = Magento_Test_Helper_Api::call(
+            $this,
+            'catalogProductCustomOptionInfo',
+            array(
+                'optionId' => $optionId
+            )
+        );
+
+        foreach ($toUpdateValues as $key => $value) {
+            if (is_string($value)) {
+                self::assertEquals($value, $optionAfterUpdate[$key]);
+            }
+        }
+
+        if (isset($toUpdateValues['additional_fields'])) {
+            $updateFields = reset($toUpdateValues['additional_fields']);
+            $actualFields = reset($optionAfterUpdate['additional_fields']);
+            foreach ($updateFields as $key => $value) {
+                if (is_string($value)) {
+                    self::assertEquals($value, $actualFields[$key]);
+                }
+            }
+        }
     }
 
     /**
@@ -189,7 +224,7 @@ class Mage_Catalog_Model_Product_Api_CustomOptionCRUDTest extends PHPUnit_Framew
     public function testCustomOptionAddExceptionProductNotExists()
     {
         $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_files/_data/xml/CustomOption.xml');
-        $customOptions = Magento_Test_Helper_Api::simpleXmlToArray($customOptionFixture->CustomOptionsToAdd);
+        $customOptions = Magento_Test_Helper_Api::simpleXmlToArray($customOptionFixture->customOptionsToAdd);
 
         $option = reset($customOptions);
         if (isset($option['additional_fields'])
@@ -215,7 +250,7 @@ class Mage_Catalog_Model_Product_Api_CustomOptionCRUDTest extends PHPUnit_Framew
     {
         $fixtureProductId = Mage::registry('productData')->getId();
         $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_files/_data/xml/CustomOption.xml');
-        $customOptions = Magento_Test_Helper_Api::simpleXmlToArray($customOptionFixture->CustomOptionsToAdd);
+        $customOptions = Magento_Test_Helper_Api::simpleXmlToArray($customOptionFixture->customOptionsToAdd);
 
         $option = $customOptions['field'];
         $option['additional_fields'] = array();
@@ -235,7 +270,7 @@ class Mage_Catalog_Model_Product_Api_CustomOptionCRUDTest extends PHPUnit_Framew
     {
         $fixtureProductId = Mage::registry('productData')->getId();
         $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_files/_data/xml/CustomOption.xml');
-        $customOptions = Magento_Test_Helper_Api::simpleXmlToArray($customOptionFixture->CustomOptionsToAdd);
+        $customOptions = Magento_Test_Helper_Api::simpleXmlToArray($customOptionFixture->customOptionsToAdd);
 
         $option = reset($customOptions);
         if (isset($option['additional_fields'])
@@ -301,15 +336,15 @@ class Mage_Catalog_Model_Product_Api_CustomOptionCRUDTest extends PHPUnit_Framew
     {
         $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_files/_data/xml/CustomOption.xml');
 
-        $customOptionsToUpdate = Magento_Test_Helper_Api::simpleXmlToArray(
-            $customOptionFixture->CustomOptionsToUpdate
+        $optionsToUpdate = Magento_Test_Helper_Api::simpleXmlToArray(
+            $customOptionFixture->customOptionsToUpdate
         );
-        $option = reset(self::$createdOptionAfter);
+        $option = (array)reset(self::$_createdOptionAfter);
 
-        $toUpdateValues = $customOptionsToUpdate[$option->type];
+        $toUpdateValues = $optionsToUpdate[$option['type']];
         $toUpdateValues['type'] = 'unknown_type';
 
-        $this->_updateOption($option->option_id, $toUpdateValues);
+        $this->_updateOption($option['option_id'], $toUpdateValues);
     }
 
     /**
@@ -321,13 +356,15 @@ class Mage_Catalog_Model_Product_Api_CustomOptionCRUDTest extends PHPUnit_Framew
     public function testCustomOptionRemove()
     {
         // Remove
-        foreach (self::$createdOptionAfter as $option) {
+        foreach (self::$_createdOptionAfter as $option) {
             $removeOptionResult = Magento_Test_Helper_Api::call(
                 $this,
                 'catalogProductCustomOptionRemove',
+                // @codingStandardsIgnoreStart
                 array(
                     'optionId' => $option->option_id
                 )
+                // @codingStandardsIgnoreEnd
             );
             $this->assertTrue((bool)$removeOptionResult);
         }

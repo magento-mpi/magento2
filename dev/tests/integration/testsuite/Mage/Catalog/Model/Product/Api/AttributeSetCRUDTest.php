@@ -85,7 +85,7 @@ class Mage_Catalog_Model_Product_Api_AttributeSetCRUDTest extends PHPUnit_Framew
         $this->assertTrue($completeFlag, "Can't find added attribute set in list");
 
         // Remove AttrSet with related products
-        $productData = Magento_Test_Helper_Api::simpleXmlToArray($attributeSetFixture->RelatedProduct);
+        $productData = Magento_Test_Helper_Api::simpleXmlToArray($attributeSetFixture->relatedProduct);
         $productData['sku'] = $productData['sku'] . '_' . mt_rand(1000, 9999);
         $productId = Magento_Test_Helper_Api::call(
             $this,
@@ -139,13 +139,13 @@ class Mage_Catalog_Model_Product_Api_AttributeSetCRUDTest extends PHPUnit_Framew
     public function testAttributeSetAttrCRUD()
     {
         $testAttributeSetId = Mage::registry('testAttributeSetId');
-        $testAttributeSetAttrIdsArray = Mage::registry('testAttributeSetAttrIdsArray');
+        $attrIdsArray = Mage::registry('testAttributeSetAttrIdsArray');
 
         // add attribute test
         $addResult = Magento_Test_Helper_Api::call(
             $this,
             'catalogProductAttributeSetAttributeAdd',
-            array('attributeId' => $testAttributeSetAttrIdsArray[0], 'attributeSetId' => $testAttributeSetId)
+            array('attributeId' => $attrIdsArray[0], 'attributeSetId' => $testAttributeSetId)
         );
         $this->assertTrue((bool)$addResult);
 
@@ -153,7 +153,7 @@ class Mage_Catalog_Model_Product_Api_AttributeSetCRUDTest extends PHPUnit_Framew
         $removeResult = Magento_Test_Helper_Api::call(
             $this,
             'catalogProductAttributeSetAttributeRemove',
-            array('attributeId' => $testAttributeSetAttrIdsArray[0], 'attributeSetId' => $testAttributeSetId)
+            array('attributeId' => $attrIdsArray[0], 'attributeSetId' => $testAttributeSetId)
         );
         $this->assertTrue((bool)$removeResult);
     }
@@ -170,16 +170,16 @@ class Mage_Catalog_Model_Product_Api_AttributeSetCRUDTest extends PHPUnit_Framew
         $data = Magento_Test_Helper_Api::simpleXmlToArray($attributeSetFixture->groupAdd);
 
         // add group test
-        $createdAttributeSetGroupId = Magento_Test_Helper_Api::call(
+        $attrSetGroupId = Magento_Test_Helper_Api::call(
             $this,
             'catalogProductAttributeSetGroupAdd',
             array('attributeSetId' => $testAttributeSetId, 'groupName' => $data['groupName'])
         );
-        $this->assertGreaterThan(0, $createdAttributeSetGroupId);
+        $this->assertGreaterThan(0, $attrSetGroupId);
 
         // add already exist group exception test
         try {
-            $createdAttributeSetGroupId = Magento_Test_Helper_Api::call(
+            $attrSetGroupId = Magento_Test_Helper_Api::call(
                 $this,
                 'catalogProductAttributeSetGroupAdd',
                 array('attributeSetId' => $testAttributeSetId, 'groupName' => $data['existsGroupName'])
@@ -193,7 +193,7 @@ class Mage_Catalog_Model_Product_Api_AttributeSetCRUDTest extends PHPUnit_Framew
         $renameResult = Magento_Test_Helper_Api::call(
             $this,
             'catalogProductAttributeSetGroupRename',
-            array('groupId' => $createdAttributeSetGroupId, 'groupName' => $groupName)
+            array('groupId' => $attrSetGroupId, 'groupName' => $groupName)
         );
         $this->assertTrue((bool)$renameResult);
 
@@ -201,7 +201,7 @@ class Mage_Catalog_Model_Product_Api_AttributeSetCRUDTest extends PHPUnit_Framew
         $removeResult = Magento_Test_Helper_Api::call(
             $this,
             'catalogProductAttributeSetGroupRemove',
-            array('attributeGroupId' => $createdAttributeSetGroupId)
+            array('attributeGroupId' => $attrSetGroupId)
         );
         $this->assertTrue((bool)$removeResult);
 
@@ -213,7 +213,7 @@ class Mage_Catalog_Model_Product_Api_AttributeSetCRUDTest extends PHPUnit_Framew
         Magento_Test_Helper_Api::call(
             $this,
             'catalogProductAttributeSetGroupRemove',
-            array('attributeGroupId' => $createdAttributeSetGroupId)
+            array('attributeGroupId' => $attrSetGroupId)
         );
     }
 }
