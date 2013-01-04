@@ -37,13 +37,13 @@ $_helper = $this->helper('Mage_Core_Helper_Data');
 </button>
 <script type="text/javascript">
 (function($, window) {
-    $(document).on('click.splitButtonToggle', '.widget-button-split .btn-toggle', function(e) {
+    $(document).on('click.splitButtonToggle', '.widget-button-split .btn-toggle:not(.disabled)', function(e) {
         $(this).toggleClass('active')
             .parent()
             .toggleClass('active');
     });
 
-    $(document).on('click.splitButtonDefault', '.widget-button-split .main-control', function(e) {
+    $(document).on('click.splitButtonDefault', '.widget-button-split .main-control:not(.disabled)', function(e) {
         $(this)
             .siblings('.dropdown-menu')
             .find('.item-default')

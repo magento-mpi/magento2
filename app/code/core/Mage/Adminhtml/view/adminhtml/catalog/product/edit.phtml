@@ -28,8 +28,6 @@
     <?php endif; ?>
     <?php if ($this->getProductSetId()): ?>
         <?php echo $this->getChangeAttributeSetButtonHtml() ?>
-        <?php echo $this->getSaveButtonHtml() ?>
-        <?php echo $this->getSaveAndEditButtonHtml() ?>
         <?php echo $this->getSaveSplitButtonHtml(); ?>
     <?php endif; ?>
     </p>
@@ -172,8 +170,9 @@ jQuery(function($) {
 
 jQuery(function($) {
     var $form = $('#product-edit-form'),
-        fieldSelector = 'input.required-entry:not([disabled]), select.required-entry:not([disabled]), textarea.required-entry:not([disabled])';
-    $form.on('change keyup', fieldSelector, function () {
+        fieldSelector = '.required-entry:not([disabled]):not(.ignore-validate),'
+            + '.required-option-select:not([disabled]):not(.ignore-validate)';
+    $form.on('focus change keyup', fieldSelector, function () {
         var allowSave = true;
         $.each($form.find(fieldSelector), function () {
             if (!$(this).val()) {
@@ -182,10 +181,18 @@ jQuery(function($) {
             }
         });
         if (allowSave) {
-            $('.widget-button-save').removeAttr('disabled');
+            $('.widget-button-save, .widget-button-save > *').removeClass('disabled');
+            $('.widget-button-save, .widget-button-save > *').removeAttr('disabled');
         } else {
-            $('.widget-button-save').attr('disabled', true);
+            $('.widget-button-save, .widget-button-save > *').addClass('disabled');
+            $('.widget-button-save, .widget-button-save > *').attr('disabled', true);
         }
+    });
+});
+
+jQuery(function($) {
+    $(window).load(function() {
+        $('#name').focus().val($("#name").val());
     });
 });
 

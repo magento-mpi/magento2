@@ -759,7 +759,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         }
 
         if ($redirectBack === 'new') {
-            $this->_redirect('*/*/new' . $redirectBack, array(
+            $this->_redirect('*/*/new', array(
                 'set'  => $product->getAttributeSetId(),
                 'type' => $product->getTypeId(),
             ));

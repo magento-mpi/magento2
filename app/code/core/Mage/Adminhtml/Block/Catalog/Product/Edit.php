@@ -304,6 +304,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
             if ($this->getProduct()->isDuplicable()) {
                 $options[] = array(
                     'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Save & Duplicate'),
+                    'data_attr' => array('event' => '', 'related' => '#product-edit-form'),
                     'onclick'   => 'setLocation(\'' . $this->getDuplicateUrl() . '\')',
                 );
             }
