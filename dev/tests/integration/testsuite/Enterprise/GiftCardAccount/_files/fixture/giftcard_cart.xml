@@ -6,18 +6,18 @@
  * @license     {license_link}
  */-->
 <root>
-    <invalid_create>
+    <invalidCreate>
         <giftcardAccountCode>invalid-code</giftcardAccountCode>
         <quoteId>invalid-quote</quoteId>
         <storeId>1</storeId>
-    </invalid_create>
-    <invalid_list>
+    </invalidCreate>
+    <invalidList>
         <quoteId>invalid-quote</quoteId>
         <storeId>1</storeId>
-    </invalid_list>
-    <invalid_remove>
+    </invalidList>
+    <invalidRemove>
         <giftcardAccountCode>invalid-code</giftcardAccountCode>
         <quoteId>invalid-quote</quoteId>
         <storeId>1</storeId>
-    </invalid_remove>
+    </invalidRemove>
 </root>

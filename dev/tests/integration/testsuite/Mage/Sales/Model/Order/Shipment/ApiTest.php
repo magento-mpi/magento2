@@ -15,14 +15,14 @@ class Mage_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestCase
         /** @var $order Mage_Sales_Model_Order */
         $order = Mage::registry('order');
 
-        $id = $order->getIncrementId();
+        $incrementId = $order->getIncrementId();
 
         // Create new shipment
         $newShipmentId = Magento_Test_Helper_Api::call(
             $this,
             'salesOrderShipmentCreate',
             array(
-                'orderIncrementId' => $id,
+                'orderIncrementId' => $incrementId,
                 'itemsQty' => array(),
                 'comment' => 'Shipment Created',
                 'email' => true,
@@ -57,7 +57,7 @@ class Mage_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestCase
         $order = $quoteService->submitOrder();
         $order->place();
         $order->save();
-        $id = $order->getIncrementId();
+        $incrementId = $order->getIncrementId();
 
         // Set shipping increment id prefix
         $prefix = '01';
@@ -68,7 +68,7 @@ class Mage_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestCase
             $this,
             'salesOrderShipmentCreate',
             array(
-                'orderIncrementId' => $id,
+                'orderIncrementId' => $incrementId,
                 'itemsQty' => array(),
                 'comment' => 'Shipment Created',
                 'email' => true,
@@ -96,14 +96,14 @@ class Mage_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestCase
         $order = $quoteService->submitOrder();
         $order->place();
         $order->save();
-        $id = $order->getIncrementId();
+        $incrementId = $order->getIncrementId();
 
         // Create new shipment
         $newShipmentId = Magento_Test_Helper_Api::call(
             $this,
             'salesOrderShipmentCreate',
             array(
-                'orderIncrementId' => $id,
+                'orderIncrementId' => $incrementId,
                 'itemsQty' => array(),
                 'comment' => 'Shipment Created',
                 'email' => false,
@@ -120,7 +120,7 @@ class Mage_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestCase
             'salesOrderShipmentSendInfo',
             array(
                 'shipmentIncrementId' => $newShipmentId,
-                'comment' => $id
+                'comment' => $incrementId
             )
         );
 

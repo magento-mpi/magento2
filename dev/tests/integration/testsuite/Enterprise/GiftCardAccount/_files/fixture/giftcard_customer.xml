@@ -6,11 +6,11 @@
  * @license     {license_link}
  */-->
 <root>
-    <invalid_info>
+    <invalidInfo>
         <code>invalid-code</code>
-    </invalid_info>
-    <invalid_redeem>
+    </invalidInfo>
+    <invalidRedeem>
         <code>invalid-quote</code>
         <customerId>invalid-customer</customerId>
-    </invalid_redeem>
+    </invalidRedeem>
 </root>

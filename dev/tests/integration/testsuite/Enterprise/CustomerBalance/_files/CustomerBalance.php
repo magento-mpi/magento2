@@ -57,4 +57,4 @@ $customerWithoutBalance->setStoreId(1)
     ->save();
 
 //Save customer without balance ID
-Enterprise_CustomerBalance_Model_ApiTest::$customerWithoutBalance = $customerWithoutBalance;
+Enterprise_CustomerBalance_Model_ApiTest::$customerNoBalance = $customerWithoutBalance;

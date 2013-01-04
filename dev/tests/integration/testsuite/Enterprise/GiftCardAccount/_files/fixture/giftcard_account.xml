@@ -16,13 +16,13 @@
     <update>
         <balance>100</balance>
     </update>
-    <invalid_create>
+    <invalidCreate>
         <status>invalid_status</status>
         <website_id>1</website_id>
         <balance>-1</balance>
         <is_redeemable>1</is_redeemable>
-    </invalid_create>
-    <invalid_info>
+    </invalidCreate>
+    <invalidInfo>
         <giftcard_id>-1</giftcard_id>
-    </invalid_info>
+    </invalidInfo>
 </root>

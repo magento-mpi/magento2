@@ -17,14 +17,14 @@ class Mage_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCase
     {
         /** @var $order Mage_Sales_Model_Order */
         $order = Mage::registry('order');
-        $id = $order->getIncrementId();
+        $incrementId = $order->getIncrementId();
 
         // Create new invoice
         $newInvoiceId = Magento_Test_Helper_Api::call(
             $this,
             'salesOrderInvoiceCreate',
             array(
-                'orderIncrementId' => $id,
+                'orderIncrementId' => $incrementId,
                 'itemsQty' => array(),
                 'comment' => 'invoice Created',
                 'email' => true,
@@ -56,7 +56,7 @@ class Mage_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCase
     {
         /** @var $quote Mage_Sales_Model_Quote */
         $order = Mage::registry('order2');
-        $id = $order->getIncrementId();
+        $incrementId = $order->getIncrementId();
 
         // Set invoice increment id prefix
         $prefix = '01';
@@ -67,7 +67,7 @@ class Mage_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCase
             $this,
             'salesOrderInvoiceCreate',
             array(
-                'orderIncrementId' => $id,
+                'orderIncrementId' => $incrementId,
                 'itemsQty' => array(),
                 'comment' => 'invoice Created',
                 'email' => true,

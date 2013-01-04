@@ -19,16 +19,16 @@ class Enterprise_GiftCardAccount_Model_ApiTest extends PHPUnit_Framework_TestCas
     public function testCRUD()
     {
         $testModel = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount');
-        $giftcardAccountFixture = simplexml_load_file(
+        $accountFixture = simplexml_load_file(
             dirname(__FILE__) . '/../_files/fixture/giftcard_account.xml'
         );
 
         //Test create
-        $createData = Magento_Test_Helper_Api::simpleXmlToArray($giftcardAccountFixture->create);
-        $id = Magento_Test_Helper_Api::call($this, 'giftcardAccountCreate', array((object)$createData));
-        $this->assertGreaterThan(0, $id);
+        $createData = Magento_Test_Helper_Api::simpleXmlToArray($accountFixture->create);
+        $accountId = Magento_Test_Helper_Api::call($this, 'giftcardAccountCreate', array((object)$createData));
+        $this->assertGreaterThan(0, $accountId);
 
-        $testModel->load($id);
+        $testModel->load($accountId);
         $this->_testDataCorrect($createData, $testModel);
 
         //Test list
@@ -37,7 +37,7 @@ class Enterprise_GiftCardAccount_Model_ApiTest extends PHPUnit_Framework_TestCas
         $this->assertGreaterThan(0, count($list));
 
         //Test info
-        $info = Magento_Test_Helper_Api::call($this, 'giftcardAccountInfo', array('giftcardAccountId' => $id));
+        $info = Magento_Test_Helper_Api::call($this, 'giftcardAccountInfo', array('giftcardAccountId' => $accountId));
 
         unset($createData['status']);
         unset($createData['website_id']);
@@ -45,21 +45,21 @@ class Enterprise_GiftCardAccount_Model_ApiTest extends PHPUnit_Framework_TestCas
         $this->_testDataCorrect($createData, new Varien_Object($info));
 
         //Test update
-        $updateData = Magento_Test_Helper_Api::simpleXmlToArray($giftcardAccountFixture->update);
+        $updateData = Magento_Test_Helper_Api::simpleXmlToArray($accountFixture->update);
         $updateResult = Magento_Test_Helper_Api::call($this,
             'giftcardAccountUpdate',
-            array('giftcardAccountId' => $id, 'giftcardData' => $updateData)
+            array('giftcardAccountId' => $accountId, 'giftcardData' => $updateData)
         );
         $this->assertTrue($updateResult);
 
-        $testModel->load($id);
+        $testModel->load($accountId);
         $this->_testDataCorrect($updateData, $testModel);
 
         //Test remove
         $removeResult = Magento_Test_Helper_Api::call(
             $this,
             'giftcardAccountRemove',
-            array('giftcardAccountId' => $id)
+            array('giftcardAccountId' => $accountId)
         );
         $this->assertTrue($removeResult);
 
@@ -70,7 +70,7 @@ class Enterprise_GiftCardAccount_Model_ApiTest extends PHPUnit_Framework_TestCas
 
         //Test item was really removed and fault was Exception thrown
         $this->setExpectedException('SoapFault');
-        Magento_Test_Helper_Api::call($this, 'giftcardAccountRemove', array('giftcardAccountId' => $id));
+        Magento_Test_Helper_Api::call($this, 'giftcardAccountRemove', array('giftcardAccountId' => $accountId));
     }
 
     /**
@@ -83,7 +83,7 @@ class Enterprise_GiftCardAccount_Model_ApiTest extends PHPUnit_Framework_TestCas
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/../_files/fixture/giftcard_account.xml');
 
-        $invalidCreateData = Magento_Test_Helper_Api::simpleXmlToArray($fixture->invalid_create);
+        $invalidCreateData = Magento_Test_Helper_Api::simpleXmlToArray($fixture->invalidCreate);
         Magento_Test_Helper_Api::call($this, 'giftcardAccountCreate', array($invalidCreateData));
     }
 
@@ -97,8 +97,8 @@ class Enterprise_GiftCardAccount_Model_ApiTest extends PHPUnit_Framework_TestCas
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/../_files/fixture/giftcard_account.xml');
 
-        $invalidData = Magento_Test_Helper_Api::simpleXmlToArray($fixture->invalid_info);
-        Magento_Test_Helper_Api::call($this, 'giftcardAccountInfo', array($invalidData->giftcard_id));
+        $invalidData = Magento_Test_Helper_Api::simpleXmlToArray($fixture->invalidInfo);
+        Magento_Test_Helper_Api::call($this, 'giftcardAccountInfo', array($invalidData->giftcardId));
     }
 
     /**

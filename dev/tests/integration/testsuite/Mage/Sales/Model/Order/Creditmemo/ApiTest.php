@@ -16,7 +16,7 @@ class Mage_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCa
     public function testCRUD()
     {
         $creditmemoInfo = $this->_createCreditmemo();
-        list($product, $qtys, $adjustmentPositive, $adjustmentNegative, $creditMemoIncrementId) = $creditmemoInfo;
+        list($product, $qtys, $adjustmentPositive, $adjustmentNegative, $creditMemoIncrement) = $creditmemoInfo;
 
         //Test list
         $creditmemoList = Magento_Test_Helper_Api::call($this, 'salesOrderCreditmemoList');
@@ -30,7 +30,7 @@ class Mage_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCa
                 $this,
                 'salesOrderCreditmemoAddComment',
                 array(
-                    'creditmemoIncrementId' => $creditMemoIncrementId,
+                    'creditmemoIncrementId' => $creditMemoIncrement,
                     'comment' => $commentText
                 )
             )
@@ -41,13 +41,13 @@ class Mage_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCa
             $this,
             'salesOrderCreditmemoInfo',
             array(
-                'creditmemoIncrementId' => $creditMemoIncrementId
+                'creditmemoIncrementId' => $creditMemoIncrement
             )
         );
 
         $this->assertInternalType('array', $creditmemoInfo);
         $this->assertNotEmpty($creditmemoInfo);
-        $this->assertEquals($creditMemoIncrementId, $creditmemoInfo['increment_id']);
+        $this->assertEquals($creditMemoIncrement, $creditmemoInfo['increment_id']);
 
         //Test adjustments fees were added
         $this->assertEquals($adjustmentPositive, $creditmemoInfo['adjustment_positive']);
@@ -81,7 +81,7 @@ class Mage_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCa
         Magento_Test_Helper_Api::call(
             $this,
             'salesOrderCreditmemoCancel',
-            array('creditmemoIncrementId' => $creditMemoIncrementId)
+            array('creditmemoIncrementId' => $creditMemoIncrement)
         );
     }
 
@@ -219,7 +219,7 @@ class Mage_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCa
         $orderIncrementalId = $order->getIncrementId();
 
         //Test create
-        $creditMemoIncrementId = Magento_Test_Helper_Api::call(
+        $creditMemoIncrement = Magento_Test_Helper_Api::call(
             $this,
             'salesOrderCreditmemoCreate',
             array(
@@ -227,12 +227,12 @@ class Mage_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCa
                 'creditmemoData' => $data
             )
         );
-        Mage::register('creditmemoIncrementId', $creditMemoIncrementId);
+        Mage::register('creditmemoIncrementId', $creditMemoIncrement);
 
-        $this->assertTrue(is_string($creditMemoIncrementId), 'Increment Id is not a string');
+        $this->assertTrue(is_string($creditMemoIncrement), 'Increment Id is not a string');
         $this->assertStringStartsWith(
             $prefix,
-            $creditMemoIncrementId,
+            $creditMemoIncrement,
             'Increment Id returned by API is not correct'
         );
     }
@@ -247,10 +247,10 @@ class Mage_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCa
     public function testListWithFilters()
     {
         $creditmemoInfo = $this->_createCreditmemo();
-        list($product, $qtys, $adjustmentPositive, $adjustmentNegative, $creditMemoIncrementId) = $creditmemoInfo;
+        $creditMemoIncrement = end($creditmemoInfo);
 
         /** @var $creditmemo Mage_Sales_Model_Order_Creditmemo */
-        $creditmemo = Mage::getModel('Mage_Sales_Model_Order_Creditmemo')->load($creditMemoIncrementId, 'increment_id');
+        $creditmemo = Mage::getModel('Mage_Sales_Model_Order_Creditmemo')->load($creditMemoIncrement, 'increment_id');
 
         $filters = array(
             'filters' => (object)array(
@@ -314,7 +314,7 @@ class Mage_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCa
         $orderIncrementalId = $order->getIncrementId();
 
         //Test create
-        $creditMemoIncrementId = Magento_Test_Helper_Api::call(
+        $creditMemoIncrement = Magento_Test_Helper_Api::call(
             $this,
             'salesOrderCreditmemoCreate',
             array(
@@ -326,10 +326,10 @@ class Mage_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCa
         /** Add creditmemo to fixtures to ensure that it is removed in teardown. */
         /** @var Mage_Sales_Model_Order_Creditmemo $createdCreditmemo */
         $createdCreditmemo = Mage::getModel('Mage_Sales_Model_Order_Creditmemo');
-        $createdCreditmemo->load($creditMemoIncrementId, 'increment_id');
+        $createdCreditmemo->load($creditMemoIncrement, 'increment_id');
         Mage::register('creditmemo', $createdCreditmemo);
 
-        $this->assertNotEmpty($creditMemoIncrementId, 'Creditmemo was not created');
-        return array($product, $qtys, $adjustmentPositive, $adjustmentNegative, $creditMemoIncrementId);
+        $this->assertNotEmpty($creditMemoIncrement, 'Creditmemo was not created');
+        return array($product, $qtys, $adjustmentPositive, $adjustmentNegative, $creditMemoIncrement);
     }
 }
