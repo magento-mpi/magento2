@@ -49,43 +49,32 @@ class Saas_PrintedTemplate_Model_Variable_Invoice extends Saas_PrintedTemplate_M
     {
         $value = $this->_value;
 
-        if (!$value->hasDiscountTotal()) {
-            $value->setDiscountTotal(0);
-            if ($value->hasDiscountAmount()) {
-                $value->setDiscountTotal($value->getDiscountTotal() + (float)$value->getDiscountAmount());
-            }
-            if ($value->hasGiftCardsAmount()) {
-                $value->setDiscountTotal($value->getDiscountTotal() + (float)$value->getGiftCardsAmount());
-            }
-            if ($value->hasCustomerBalanceAmount()) {
-                $value->setDiscountTotal($value->getDiscountTotal() + (float)$value->getCustomerBalanceAmount());
-            }
+        $value->setDiscountTotal(0);
+        if ($value->hasDiscountAmount()) {
+            $value->setDiscountTotal($value->getDiscountTotal() + (float)$value->getDiscountAmount());
+        }
+        if ($value->hasGiftCardsAmount()) {
+            $value->setDiscountTotal($value->getDiscountTotal() + (float)$value->getGiftCardsAmount());
+        }
+        if ($value->hasCustomerBalanceAmount()) {
+            $value->setDiscountTotal($value->getDiscountTotal() + (float)$value->getCustomerBalanceAmount());
         }
 
-        if (!$value->hasGrandTotalExclTax()) {
-            $value->setGrandTotalExclTax($value->getGrandTotal());
-            if ($value->hasTaxAmount() && !$this->_isFloatEqualToZero($value->getGrandTotal())) {
-                $value->setGrandTotalExclTax((float)$value->getGrandTotalExclTax() - (float)$value->getTaxAmount());
-            }
+        if ($value->getGrandTotal() - $value->getTaxAmount() < 0) {
+            $value->setGrandTotalExclTax(0);
+        } else {
+            $value->setGrandTotalExclTax($value->getGrandTotalExclTax() - $value->getTaxAmount());
         }
 
-        if (!$value->hasShippingTaxRate()) {
-            $value->setShippingTaxRate($this->_getShippingTaxRate());
-        }
+        $value->setShippingTaxRate($this->_getShippingTaxRate());
 
-        if (!$value->hasShippingDiscountAmount()) {
-            $value->setShippingDiscountAmount(
-                $value->getShippingAmount() > 0 ? $value->getOrder()->getShippingDiscountAmount() : 0
-            );
-        }
+        $value->setShippingDiscountAmount(
+            $value->getShippingAmount() > 0 ? $value->getOrder()->getShippingDiscountAmount() : 0
+        );
 
-        if (!$value->hasShippingTotal()) {
-            $value->setShippingTotal($value->getShippingInclTax() - $value->getShippingDiscountAmount());
-        }
+        $value->setShippingTotal($value->getShippingInclTax() - $value->getShippingDiscountAmount());
 
-        if (!$value->hasSubtotalWithShipping()) {
-            $value->setSubtotalWithShipping($value->getSubtotal() + $value->getShippingAmount());
-        }
+        $value->setSubtotalWithShipping($value->getSubtotal() + $value->getShippingAmount());
 
         return $this;
     }
