@@ -34,7 +34,7 @@ class Mage_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestCase
         $dirs = new Mage_Core_Model_Dir(self::$_tmpDir, array(), array(Mage_Core_Model_Dir::CONFIG => self::$_tmpDir));
 
         $this->assertFileNotExists($expectedFile);
-        $model = new Mage_Install_Model_Installer_Config($config, $dirs);
+        $model = new Mage_Install_Model_Installer_Config($config, $dirs, new Mage_Install_Helper_Data());
         $model->install();
         $this->assertFileExists($expectedFile);
         $this->assertStringEqualsFile($expectedFile, $expectedContents);

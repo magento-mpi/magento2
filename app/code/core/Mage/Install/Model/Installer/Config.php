@@ -36,6 +36,11 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
      */
     protected $_dirs;
 
+    /**
+     * @var Mage_Install_Helper_Data
+     */
+    protected $_helper;
+
     protected $_configData = array();
 
     /**
@@ -43,12 +48,15 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
      *
      * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Dir $dirs
+     * @param Mage_Install_Helper_Data $helper
      */
-    public function __construct(Mage_Core_Model_Config $config, Mage_Core_Model_Dir $dirs)
-    {
+    public function __construct(
+        Mage_Core_Model_Config $config, Mage_Core_Model_Dir $dirs, Mage_Install_Helper_Data $helper
+    ) {
         $this->_localConfigFile = $dirs->getDir(Mage_Core_Model_Dir::CONFIG) . DIRECTORY_SEPARATOR . 'local.xml';
         $this->_dirs = $dirs;
         $this->_config = $config;
+        $this->_helper = $helper;
     }
 
     public function setConfigData($data)
@@ -150,39 +158,59 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
         return $data;
     }
 
-    protected function _checkHostsInfo($data)
+    /**
+     * Check validity of a base URL
+     *
+     * @param string $baseUrl
+     * @throws Exception
+     */
+    protected function _checkUrl($baseUrl)
     {
-        $url  = $data['protocol'] . '://' . $data['host'] . ':' . $data['port'] . $data['base_path'];
-        $surl = $data['secure_protocol'] . '://' . $data['secure_host'] . ':' . $data['secure_port']
-            . $data['secure_base_path'];
-
-        $this->_checkUrl($url);
-        $this->_checkUrl($surl, true);
-
-        return $this;
-    }
-
-    protected function _checkUrl($url, $secure = false)
-    {
-        $prefix = $secure ? 'install/wizard/checkSecureHost/' : 'install/wizard/checkHost/';
         try {
-            $client = new Varien_Http_Client($url . 'index.php/' . $prefix);
+            $staticFile = $this->_findFirstFileRelativePath($this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB), '/');
+            $staticUrl = $baseUrl . $this->_dirs->getUri(Mage_Core_Model_Dir::PUB_LIB) . '/' . $staticFile;
+            $client = new Varien_Http_Client($staticUrl);
             $response = $client->request('GET');
-            /* @var $responce Zend_Http_Response */
-            $body = $response->getBody();
         }
         catch (Exception $e){
-            $this->_getInstaller()->getDataModel()
-                ->addError(Mage::helper('Mage_Install_Helper_Data')->__('The URL "%s" is not accessible.', $url));
+            $errorMessage = $this->_helper->__('The URL "%s" is not accessible.', $baseUrl);
+            $this->_getInstaller()->getDataModel()->addError($errorMessage);
             throw $e;
         }
-
-        if ($body != Mage_Install_Model_Installer::INSTALLER_HOST_RESPONSE) {
-            $this->_getInstaller()->getDataModel()
-                ->addError(Mage::helper('Mage_Install_Helper_Data')->__('The URL "%s" is invalid.', $url));
-            Mage::throwException(Mage::helper('Mage_Install_Helper_Data')->__('Response from server isn\'t valid.'));
+        if ($response->getStatus() != 200) {
+            $this->_getInstaller()->getDataModel()->addError($this->_helper->__('The URL "%s" is invalid.', $baseUrl));
+            Mage::throwException($this->_helper->__('Response from the server is invalid.'));
         }
-        return $this;
+    }
+
+    /**
+     * Find a relative path to a first file located in a directory or its descendants
+     *
+     * @param string $dir Directory to search for a file within
+     * @param string $resultPathSeparator Path separator to be used in a returned file path
+     * @return string|null
+     */
+    protected function _findFirstFileRelativePath($dir, $resultPathSeparator = DIRECTORY_SEPARATOR)
+    {
+        $childDirs = array();
+        foreach (scandir($dir) as $itemName) {
+            if ($itemName == '.' || $itemName == '..') {
+                continue;
+            }
+            $itemPath = $dir . DIRECTORY_SEPARATOR . $itemName;
+            if (is_file($itemPath)) {
+                return $itemName;
+            } else {
+                $childDirs[$itemName] = $itemPath;
+            }
+        }
+        foreach ($childDirs as $dirName => $dirPath) {
+            $filePath = $this->_findFirstFileRelativePath($dirPath, $resultPathSeparator);
+            if ($filePath) {
+                return $dirName . $resultPathSeparator . $filePath;
+            }
+        }
+        return null;
     }
 
     public function replaceTmpInstallDate($date = null)

@@ -48,4 +48,5 @@ return array(
     array('HASH_ALGO'),
     array('SEESION_MAX_COOKIE_LIFETIME'),
     array('URL_TYPE_SKIN'),
+    array('INSTALLER_HOST_RESPONSE', 'Mage_Install_Model_Installer'),
 );
