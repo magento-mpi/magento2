@@ -757,7 +757,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $this->waitForElementEditable($this->_getControlXpath('radiobutton', 'current_attribute_set'));
         $this->clickButton('cancel');
         //Verifying
-        $this->assertEquals('new_configurable_product', $this->getCurrentPage(),
+        $this->assertEquals('new_product', $this->getCurrentPage(),
             'Pressing the Cancel button is leading to page redirection');
         $this->navigate('manage_attribute_sets');
         $this->attributeSetHelper()->openAttributeSet('Default');

@@ -56,7 +56,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
      * <p>Create 2 dropdown attributes with 3 options, Global scope and assign it to created Attribute Set</p>
      *
      * @return array
-     * @ test
+     * @test
      */
     public function setConfigurableAttributesToNewSet()
     {

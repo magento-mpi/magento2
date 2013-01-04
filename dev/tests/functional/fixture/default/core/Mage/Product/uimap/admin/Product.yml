@@ -708,16 +708,6 @@ new_product:
             change_attribute_set_disabled: //button[@id='change-attribute-set-button' and contains(@class, 'disabled')]
         messages: *productMesssages
 
-new_configurable_product:
-    mca: catalog_product/new/set/%setId%/type/%productType%/#product-variations-matrix
-    title: New Product / Manage Products / Catalog / Magento Admin
-    uimap: *newProduct
-
-new_configurable_product_after_changed_attribute_set:
-    mca: catalog_product/new/set/%setId%/type/%productType%/#product-variations-matrix/?set=%setId%
-    title: New Product / Manage Products / Catalog / Magento Admin
-    uimap: *newProduct
-
 # Edit Product page
 edit_product:
     mca: catalog_product/edit/id/%id%/
@@ -824,16 +814,6 @@ edit_new_configurable_save_and_continue:
     mca: catalog_product/edit/id/%id%/set/%setId%/type/%productType%/back/edit/tab/product_info_tabs_group_%tab%/
     title: %elementTitle% / Manage Products / Catalog / Magento Admin
     uimap: *editProduct
-
-new_configurable_after_generation_matrix:
-    mca: catalog_product/new/set/%setId%/type/%productType%/#product-variations-matrix/
-    title: New Product / Manage Products / Catalog / Magento Admin
-    uimap: *newProduct
-
-edit_saved_configurable_after_generation_matrix:
-    mca: catalog_product/edit/id/%id%/#product-variations-matrix/
-    title: %elementTitle% / Manage Products / Catalog / Magento Admin
-    uimap: *newProduct
 
 new_product_after_changed_attribute_set:
     mca: catalog_product/new/type/%productType%/?set=%setId%
