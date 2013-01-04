@@ -145,7 +145,7 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_Collection
                 'base_discount_amount' => 'base_shipping_discount_amount',
             )
         );
-        $this->addFieldToFilter('`sales_flat_creditmemo`.entity_id', $creditmemo->getId());
+        $this->addFieldToFilter('sales_flat_creditmemo.entity_id', $creditmemo->getId());
 
         return $this;
     }
