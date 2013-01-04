@@ -6,7 +6,6 @@
  *
  * @copyright {copyright}
  * @license {license_link}
- * @magentoDbIsolation enabled
  */
 class Mage_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCase
 {
@@ -15,6 +14,7 @@ class Mage_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCa
      *
      * @magentoDataFixture Mage/Sales/Model/Order/Api/_files/invoice.php
      * @magentoAppIsolation enabled
+     * @magentoDbIsolation enabled
      */
     public function testCRUD()
     {
@@ -94,6 +94,7 @@ class Mage_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCa
      * @expectedException SoapFault
      * @magentoDataFixture Mage/Sales/Model/Order/Api/_files/invoice.php
      * @magentoAppIsolation enabled
+     * @magentoDbIsolation enabled
      */
     public function testNegativeRefundException()
     {
@@ -140,7 +141,7 @@ class Mage_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCa
             $this,
             'salesOrderCreditmemoCreate',
             array(
-                'creditmemoIncrementId' => 'invalid-id',
+                'orderIncrementId' => 'invalid-id',
                 'creditmemoData' => array()
             )
         );
@@ -151,7 +152,7 @@ class Mage_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCa
      *
      * @expectedException SoapFault
      */
-    public function testAddCommentInvalidOrderException()
+    public function testAddCommentInvalidCreditmemoException()
     {
         Magento_Test_Helper_Api::call(
             $this,
@@ -168,7 +169,7 @@ class Mage_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCa
      *
      * @expectedException SoapFault
      */
-    public function testInfoInvalidOrderException()
+    public function testInfoInvalidCreditmemoException()
     {
         Magento_Test_Helper_Api::call(
             $this,
@@ -196,6 +197,7 @@ class Mage_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCa
      *
      * @magentoDataFixture Mage/Sales/Model/Order/Api/_files/invoice.php
      * @magentoAppIsolation enabled
+     * @magentoDbIsolation enabled
      */
     public function testAutoIncrementType()
     {
@@ -245,6 +247,7 @@ class Mage_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCa
      *
      * @magentoDataFixture Mage/Sales/Model/Order/Api/_files/invoice.php
      * @magentoAppIsolation enabled
+     * @magentoDbIsolation enabled
      * @depends testCRUD
      */
     public function testListWithFilters()

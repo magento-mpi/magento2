@@ -13,7 +13,6 @@
  * @copyright {copyright}
  * @license {license_link}
  * @method Mage_Catalog_Model_Product_Api_Helper_Simple _getHelper()
- * @magentoDbIsolation enabled
  */
 class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Product_Api_TestCaseAbstract
 {
@@ -26,6 +25,7 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
 
     /**
      * Test product resource post
+     * @magentoDbIsolation enabled
      */
     public function testCreateSimpleRequiredFieldsOnly()
     {
@@ -46,6 +46,7 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
      *
      * @param array $productData
      * @dataProvider dataProviderTestCreateSimpleAllFieldsValid
+     * @magentoDbIsolation enabled
      */
     public function testCreateSimpleAllFieldsValid($productData)
     {
@@ -82,6 +83,7 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
     /**
      * Data provider for testCreateSimpleAllFieldsValid
      *
+     * @magentoDbIsolation enabled
      * @return array
      */
     public function dataProviderTestCreateSimpleAllFieldsValid()
@@ -100,6 +102,8 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
 
     /**
      * Test product resource post using config values in inventory
+     *
+     * @magentoDbIsolation enabled
      */
     public function testCreateInventoryUseConfigValues()
     {
@@ -117,6 +121,7 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
      * Test product resource post using config values in inventory manage stock field
      *
      * @magentoConfigFixture current_store cataloginventory/item_options/manage_stock 0
+     * @magentoDbIsolation enabled
      */
     public function testCreateInventoryManageStockUseConfig()
     {
@@ -134,6 +139,8 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
 
     /**
      * Test for set special price for product
+     *
+     * @magentoDbIsolation enabled
      */
     public function testSetSpecialPrice()
     {
@@ -170,6 +177,8 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
 
     /**
      * Test get product info by numeric SKU
+     *
+     * @magentoDbIsolation enabled
      */
     public function testProductInfoByNumericSku()
     {
@@ -209,6 +218,8 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
 
     /**
      * Test product CRUD
+     *
+     * @magentoDbIsolation enabled
      */
     public function testProductCrud()
     {
@@ -259,6 +270,7 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
      * Test product CRUD with custom options
      *
      * @magentoDataFixture Mage/Catalog/Model/Product/Api/_files/ProductWithOptionCrud.php
+     * @magentoDbIsolation enabled
      */
     public function testProductWithOptionsCrud()
     {
@@ -295,6 +307,8 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
 
     /**
      * Test create product with invalid attribute set
+     *
+     * @magentoDbIsolation enabled
      */
     public function testProductCreateWithInvalidAttributeSet()
     {
@@ -337,6 +351,7 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
     /**
      * Test product attributes update in custom store view
      *
+     * @magentoDbIsolation enabled
      * @magentoDataFixture Mage/Catalog/Model/Product/Api/_files/store_on_new_website.php
      */
     public function testProductUpdateCustomStore()
@@ -401,6 +416,8 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
 
     /**
      * Test create product to test default values for media attributes
+     *
+     * @magentoDbIsolation enabled
      */
     public function testProductCreateForTestMediaAttributesDefaultValue()
     {

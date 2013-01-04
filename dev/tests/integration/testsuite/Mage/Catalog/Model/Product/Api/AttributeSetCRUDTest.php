@@ -6,7 +6,6 @@
  *
  * @copyright {copyright}
  * @license {license_link}
- * @magentoDbIsolation enabled
  */
 class Mage_Catalog_Model_Product_Api_AttributeSetCRUDTest extends PHPUnit_Framework_TestCase
 {
@@ -45,6 +44,8 @@ class Mage_Catalog_Model_Product_Api_AttributeSetCRUDTest extends PHPUnit_Framew
 
     /**
      * Test Attribute set CRUD
+     *
+     * @magentoDbIsolation enabled
      */
     public function testAttributeSetCRUD()
     {
