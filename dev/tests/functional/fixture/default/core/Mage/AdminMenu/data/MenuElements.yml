@@ -20,11 +20,6 @@ menu:
         manage_sales_recurring_profile:
         manage_sales_billing_agreements:
         manage_sales_checkout_terms_conditions:
-        tax:
-            manage_tax_rule:
-            manage_import_export_tax_rates:
-            manage_customer_tax_class:
-            manage_product_tax_class:
 
     catalog:
         manage_products:
@@ -44,19 +39,16 @@ menu:
             pending_tags:
         google_content:
             google_content_manage_attributes:
-            google_content_manage_items:
-        catalog_google_sitemap:
-
-    mobile:
-        manage_apps:
-        submission_history:
-        message_templates:
-        message_queue:
+        xml_sitemap:
 
     customers:
        manage_customers:
        manage_customer_groups:
        online_customers:
+
+    promotions:
+        manage_catalog_price_rules:
+        manage_shopping_cart_price_rules:
 
     newsletter:
         newsletter_templates:
@@ -93,10 +85,6 @@ menu:
             report_customer_totals:
             report_customer_orders:
 
-        promotions:
-                    manage_catalog_price_rules:
-                    manage_shopping_cart_price_rules:
-
         tags:
             report_tag_customer:
             report_tag_product:
@@ -113,17 +101,16 @@ menu:
         tools:
             system_backup:
         web_services:
-            api_user:
-            api_role:
-            oauth_consumer:
-            oauth_authorizedTokens:
-            oauth_admin_token:
+            api_users:
+            api_roles_management:
         design:
             system_design:
-            system_design_editor:
+            design_editor_selector:
+            theme_list:
         import_export:
             import:
             export:
+            manage_import_export_tax_rates:
         manage_currency:
             system_currency:
             system_currencysymbol:
@@ -137,4 +124,7 @@ menu:
         cache_storage_management:
         index_management:
         order_statuses:
+        tax:
+            manage_tax_rule:
+            manage_tax_zones_and_rates:
         system_configuration:

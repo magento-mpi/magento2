@@ -15,6 +15,6 @@ google_content_manage_attributes:
     title: Manage Attributes / Google Content / Catalog / Magento Admin
 
 google_content_manage_items:
-    mca: googleshopping_items/
+    mca: googleshopping_items/index/store/1/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'googleshopping_items/')]
     title: Manage Items / Google Content / Catalog / Magento Admin
