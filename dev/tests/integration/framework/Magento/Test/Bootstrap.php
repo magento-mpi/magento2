@@ -230,6 +230,7 @@ class Magento_Test_Bootstrap
     {
         Mage::setIsDeveloperMode($this->_isDeveloperMode);
         Mage::$headersSentThrowsException = false;
+        /** @var $app Mage_Core_Model_App */
         $app = Mage::getObjectManager()->get('Mage_Core_Model_App');
         $app->init($initParams);
     }
@@ -252,13 +253,9 @@ class Magento_Test_Bootstrap
      */
     public function runApp(array $additionalParams)
     {
-        try {
-            /** @var $app Mage_Core_Model_App */
-            $app = Mage::getObjectManager()->get('Mage_Core_Model_App');
-            $app->run($this->_customizeParams($additionalParams));
-        } catch (Exception $e) {
-            Mage::printException($e);
-        }
+        /** @var $app Mage_Core_Model_App */
+        $app = Mage::getObjectManager()->get('Mage_Core_Model_App');
+        $app->run($this->_customizeParams($additionalParams));
     }
 
     /**

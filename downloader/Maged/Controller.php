@@ -488,14 +488,23 @@ final class Maged_Controller
         if (!self::$_instance) {
             self::$_instance = new self;
 
-            if (self::$_instance->isDownloaded() && self::$_instance->isInstalled()) {
+            if (self::$_instance->isDownloaded()) {
+                if (!class_exists('Mage', false)) {
+                    if (!file_exists(self::getBootstrapPath())) {
+                        return false;
+                    }
+                    include_once self::getBootstrapPath();
+                    Mage::setIsDownloader();
+                }
                 $app = Mage::getObjectManager()->get('Mage_Core_Model_App');
                 $app->init(array(
                     Mage_Core_Model_App::INIT_OPTION_SCOPE_CODE => '',
                     Mage_Core_Model_App::INIT_OPTION_SCOPE_TYPE => 'store',
                     'global_ban_use_cache' => true
                 ));
-                Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
+                if (self::isInstalled()) {
+                    Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
+                }
             }
         }
         return self::$_instance;
@@ -814,13 +823,6 @@ final class Maged_Controller
     {
         if (!$this->isDownloaded()) {
             return false;
-        }
-        if (!class_exists('Mage', false)) {
-            if (!file_exists($this->getBootstrapPath())) {
-                return false;
-            }
-            include_once $this->getBootstrapPath();
-            Mage::setIsDownloader();
         }
         return Mage::isInstalled();
     }

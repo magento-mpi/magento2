@@ -42,8 +42,7 @@ if ($mediaDirectory) {
 }
 try {
     /** @var $app Mage_Core_Model_App */
-    $app = self::getObjectManager()->create('Mage_Core_Model_App');
-    Mage::setApp($app);
+    $app = Mage::getObjectManager()->create('Mage_Core_Model_App');
 
     if (empty($mediaDirectory)) {
         $app->init($_SERVER);
@@ -52,18 +51,12 @@ try {
             $_SERVER,
             array(Mage_Core_Model_Cache::APP_INIT_PARAM => array('disallow_save' => true))
         );
-        $app->init($params, array('Mage_Core'));
+        $app->initSpecified($params, array('Mage_Core'));
     }
-
-} catch (Mage_Core_Model_Session_Exception $e) {
-    header('Location: ' . self::getBaseUrl());
-    die;
 } catch (Mage_Core_Model_Store_Exception $e) {
-    require_once(self::getBaseDir(Mage_Core_Model_Dir::PUB) . DS . 'errors' . DS . '404.php');
-    die;
+    sendNotFoundPage();
 } catch (Exception $e) {
-    self::printException($e);
-    die;
+    Mage::printException($e);
 }
 
 Mage::app()->requireInstalledInstance();
