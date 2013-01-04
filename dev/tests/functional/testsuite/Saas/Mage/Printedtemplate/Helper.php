@@ -96,8 +96,10 @@ class Saas_Mage_Printedtemplate_Helper extends Mage_Selenium_AbstractHelper
         $availableElement = $this->elementIsPresent($xPath);
 
         if ($expectedResult == false) {
-            if ($availableElement || $availableElement->displayed()) {
-                $this->fail($this->locationToString() . "Template is present in templates grid, but it shouldn't.");
+            if ($availableElement ) {
+                if ($availableElement->displayed()) {
+                    $this->fail($this->locationToString() . "Template is present in templates grid, but it shouldn't.");
+                }
             }
         }
         else {
