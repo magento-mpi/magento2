@@ -650,7 +650,10 @@ final class Mage
      */
     public static function app()
     {
-        return self::getObjectManager()->get('Mage_Core_Model_App');
+        if (null === self::$_app) {
+            self::$_app = self::getObjectManager()->get('Mage_Core_Model_App');
+        }
+        return self::$_app;
     }
 
     /**
