@@ -27,6 +27,7 @@ class Core_Mage_Vde_SaveChangesTest extends Mage_Selenium_TestCase
 
     public function setUpBeforeTests()
     {
+        $this->currentWindow()->maximize();
         $this->loginAdminUser();
         $this->admin('design_editor_selector');
         $this->vdeHelper()->openThemeDemo();
@@ -44,29 +45,32 @@ class Core_Mage_Vde_SaveChangesTest extends Mage_Selenium_TestCase
      */
     public function removeExistingBlock()
     {
+        $this->markTestSkipped('Test can not be implemented due to affect Frontend design');
         // Open the proper page in the Design Mode
         $this->vdeHelper()
             ->switchToDesignMode()
             ->expandPageHandle('All Pages')
-            ->selectPageHandle('All Two-Column Layout Pages (Right Column)');
+            ->selectPageHandle('Quick Search Form');
 
-        $block = $this->vdeHelper()->getBlock(self::REMOVABLE_VDE_BLOCK_NAME, true);
+
         $dragBlock = $this->vdeHelper()->getBlock(self::DRAGGABLE_VDE_BLOCK_NAME, true);
         $destination = $this->vdeHelper()->getBlock(self::CONTENT_VDE_BLOCK_NAME, true);
 
-        // Remove the block "Community Pool"
-        $this->vdeHelper()->removeBlock($block);
-
         // Drag the block "Compare Products"
         $this->vdeHelper()->dragBlock($dragBlock, $destination);
+
+        // Remove the block "Community Pool"
+        $block = $this->vdeHelper()->getBlock(self::REMOVABLE_VDE_BLOCK_NAME, true);
+        $this->vdeHelper()->removeBlock($block);
+
+
         $this->window('');
 
         // Save and apply the changes
         $this->clickButtonAndConfirm('assign_this_theme', 'confirm_assign', false);
 
         // Verify that changes are applied on frontend
-        $this->window('');
-        $this->goToArea('frontend', 'about_us', true);
+        $this->frontend('quick_search');
 
         $dragBlock = $this->vdeHelper()->getBlock(self::DRAGGABLE_FRONT_BLOCK_NAME);
         $this->assertEquals(self::CONTENT_FRONT_BLOCK_NAME,
