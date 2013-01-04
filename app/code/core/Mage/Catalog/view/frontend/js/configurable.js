@@ -193,7 +193,7 @@
          * @param element The element associated with the configurable option.
          */
         _reloadOptionLabels: function(element) {
-            if (element && element.options[element.selectedIndex]) {
+            if (!(element && element.options[element.selectedIndex])) {
                 return false;
             }
             var selectedPrice = 0,
