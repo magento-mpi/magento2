@@ -1090,52 +1090,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     }
 
     /**
-     * Load event observers for an area (front, admin)
-     *
-     * @param   string $area
-     * @return  boolean
-     */
-    public function loadEventObservers($area)
-    {
-        $events = $this->getNode("$area/events");
-        if ($events) {
-            $events = $events->children();
-        } else {
-            return false;
-        }
-
-        foreach ($events as $event) {
-            $eventName = $event->getName();
-            $observers = $event->observers->children();
-            foreach ($observers as $observer) {
-                switch ((string)$observer->type) {
-                    case 'singleton':
-                        $callback = array(
-                            Mage::getSingleton((string)$observer->class),
-                            (string)$observer->method
-                        );
-                        break;
-                    case 'object':
-                    case 'model':
-                        $callback = array(
-                            Mage::getModel((string)$observer->class),
-                            (string)$observer->method
-                        );
-                        break;
-                    default:
-                        $callback = array($observer->getClassName(), (string)$observer->method);
-                        break;
-                }
-
-                $args = (array)$observer->args;
-                $observerClass = $observer->observer_class ? (string)$observer->observer_class : '';
-                Mage::addObserver($eventName, $callback, $args, $observer->getName(), $observerClass);
-            }
-        }
-        return true;
-    }
-
-    /**
      * Get standard path variables.
      *
      * To be used in blocks, templates, etc.

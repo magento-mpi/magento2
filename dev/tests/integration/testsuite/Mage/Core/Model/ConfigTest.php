@@ -370,12 +370,6 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(is_dir($this->_createModel(true)->getModuleDir('etc', 'Mage_Core')));
     }
 
-    public function testLoadEventObservers()
-    {
-        $this->_createModel(true)->loadEventObservers('global');
-        $this->assertArrayHasKey('log_log_clean_after', Mage::getEvents()->getAllEvents());
-    }
-
     public function testGetPathVars()
     {
         $result = $this->_createModel()->getPathVars();

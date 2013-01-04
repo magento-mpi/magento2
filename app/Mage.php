@@ -55,13 +55,6 @@ final class Mage
     static private $_config;
 
     /**
-     * Event Collection Object
-     *
-     * @var Varien_Event_Collection
-     */
-    static private $_events;
-
-    /**
      * Object manager interface
      *
      * @var Magento_ObjectManager
@@ -188,7 +181,6 @@ final class Mage
         self::$_appRoot         = null;
         self::$_app             = null;
         self::$_config          = null;
-        self::$_events          = null;
         self::$_objects         = null;
         self::$_isDownloader    = false;
         self::$_isDeveloperMode = false;
@@ -274,16 +266,6 @@ final class Mage
             self::$_appRoot = $appRootDir;
         }
         return self::$_appRoot;
-    }
-
-    /**
-     * Retrieve Events Collection
-     *
-     * @return Varien_Event_Collection $collection
-     */
-    public static function getEvents()
-    {
-        return self::$_events;
     }
 
     /**
@@ -407,26 +389,6 @@ final class Mage
             self::$_config = self::getObjectManager()->get('Mage_Core_Model_Config');
         }
         return self::$_config;
-    }
-
-    /**
-     * Add observer to even object
-     *
-     * @param string $eventName
-     * @param callback $callback
-     * @param array $data
-     * @param string $observerName
-     * @param string $observerClass
-     * @return Varien_Event_Collection
-     */
-    public static function addObserver($eventName, $callback, $data = array(), $observerName = '', $observerClass = '')
-    {
-        if ($observerClass == '') {
-            $observerClass = 'Varien_Event_Observer';
-        }
-        $observer = self::getObjectManager()->create($observerClass);
-        $observer->setName($observerName)->addData($data)->setEventName($eventName)->setCallback($callback);
-        return self::getEvents()->addObserver($observer);
     }
 
     /**

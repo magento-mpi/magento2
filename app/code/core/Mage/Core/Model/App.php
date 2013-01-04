@@ -431,8 +431,7 @@ class Mage_Core_Model_App
         } catch (Mage_Core_Model_Session_Exception $e) {
             $this->getResponse()->setHeader('Location', Mage::getBaseUrl());
         } catch (Mage_Core_Model_Store_Exception $e) {
-            require_once(Mage::getBaseDir() . DIRECTORY_SEPARATOR
-                . Mage_Core_Model_Dir::PUB . DIRECTORY_SEPARATOR
+            require_once(Mage::getBaseDir(Mage_Core_Model_Dir::PUB) . DIRECTORY_SEPARATOR
                 . 'errors' . DIRECTORY_SEPARATOR
                 . '404.php'
             );

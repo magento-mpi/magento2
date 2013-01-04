@@ -16,10 +16,12 @@ Mage::register('custom_entry_point', true);
 umask(0);
 
 try {
-    Mage::app('admin')->setUseSessionInUrl(false);
-    Mage::app()->requireInstalledInstance();
-    Mage::getConfig()->init()->loadEventObservers('crontab');
-    Mage::app()->addEventArea('crontab');
+    /** @var $app Mage_Core_Model_App */
+    $app = Mage::getObjectManager()->get('Mage_Core_Model_App');
+    $app->init(array(Mage_Core_Model_App::INIT_OPTION_SCOPE_CODE => 'admin'));
+    $app->setUseSessionInUrl(false);
+    $app->requireInstalledInstance();
+    $app->addEventArea('crontab');
     Mage::dispatchEvent('default');
 } catch (Exception $e) {
     Mage::printException($e);
