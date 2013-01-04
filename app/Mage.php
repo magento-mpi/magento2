@@ -13,13 +13,6 @@
  */
 final class Mage
 {
-    /**#@+
-     * Application initialization options to inject custom request/response objects
-     */
-    const INIT_OPTION_REQUEST  = 'request';
-    const INIT_OPTION_RESPONSE = 'response';
-    /**#@-*/
-
     /**
      * Application initialization option to specify custom product edition label
      */

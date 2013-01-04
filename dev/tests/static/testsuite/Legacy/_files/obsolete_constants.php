@@ -47,4 +47,6 @@ return array(
     $this->_getRule('HASH_ALGO'),
     $this->_getRule('SEESION_MAX_COOKIE_LIFETIME'),
     $this->_getRule('URL_TYPE_SKIN'),
+    $this->_getRule('INIT_OPTION_REQUEST', 'Mage', 'Mage_Core_Model_App::INIT_OPTION_REQUEST'),
+    $this->_getRule('INIT_OPTION_RESPONSE', 'Mage', 'Mage_Core_Model_App::INIT_OPTION_RESPONSE'),
 );

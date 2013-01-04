@@ -430,4 +430,6 @@ return array(
     $this->_getRule('getPackage', 'Mage_Widget_Model_Widget_Instance'),
     $this->_getRule('getTheme', 'Mage_Widget_Model_Widget_Instance'),
     $this->_getRule('_parsePackageTheme', 'Mage_Widget_Model_Widget_Instance'),
+    $this->_getRule('init', 'Mage'),
+    $this->_getRule('run', 'Mage'),
 );

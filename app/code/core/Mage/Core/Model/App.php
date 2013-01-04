@@ -39,6 +39,16 @@ class Mage_Core_Model_App
      */
     const INIT_OPTION_DIRS = 'app_dirs';
 
+    /**
+     * Application initialization option to inject custom request object
+     */
+    const INIT_OPTION_REQUEST  = 'request';
+
+    /**
+     * Application initialization option to inject custom response object
+     */
+    const INIT_OPTION_RESPONSE = 'response';
+
     /**#@+
      * Available scope types
      */
@@ -379,11 +389,11 @@ class Mage_Core_Model_App
             if (isset($params[Mage::INIT_OPTION_EDITION])) {
                 Mage::setEdition($params[Mage::INIT_OPTION_EDITION]);
             }
-            if (isset($params[Mage::INIT_OPTION_REQUEST])) {
-                $this->setRequest($params[Mage::INIT_OPTION_REQUEST]);
+            if (isset($params[Mage_Core_Model_App::INIT_OPTION_REQUEST])) {
+                $this->setRequest($params[Mage_Core_Model_App::INIT_OPTION_REQUEST]);
             }
-            if (isset($params[Mage::INIT_OPTION_RESPONSE])) {
-                $this->setResponse($params[Mage::INIT_OPTION_RESPONSE]);
+            if (isset($params[Mage_Core_Model_App::INIT_OPTION_RESPONSE])) {
+                $this->setResponse($params[Mage_Core_Model_App::INIT_OPTION_RESPONSE]);
             }
 
             Magento_Profiler::start('init');
@@ -419,9 +429,13 @@ class Mage_Core_Model_App
             }
             Magento_Profiler::stop('mage');
         } catch (Mage_Core_Model_Session_Exception $e) {
-            header('Location: ' . Mage::getBaseUrl());
+            $this->getResponse()->setHeader('Location', Mage::getBaseUrl());
         } catch (Mage_Core_Model_Store_Exception $e) {
-            require_once(Mage::getBaseDir() . '/pub/errors/404.php');
+            require_once(Mage::getBaseDir() . DIRECTORY_SEPARATOR
+                . Mage_Core_Model_Dir::PUB . DIRECTORY_SEPARATOR
+                . 'errors' . DIRECTORY_SEPARATOR
+                . '404.php'
+            );
         }
         return $this;
     }
