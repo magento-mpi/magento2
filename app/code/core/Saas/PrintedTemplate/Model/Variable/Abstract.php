@@ -359,7 +359,18 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
     }
 
     /**
-     * Formats cuurency value as float
+     * Formats currency value as float
+     *
+     * @param string $value
+     * @return float
+     */
+    public function formatCurrencyAbsRaw($value)
+    {
+        return (null !== $value) ? abs((float)$value) : '';
+    }
+
+    /**
+     * Formats currency value as float
      *
      * @param string $value
      * @return float
