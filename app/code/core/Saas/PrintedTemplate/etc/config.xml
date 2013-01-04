@@ -488,7 +488,7 @@
                         </grand_total_excl_tax>
                         <grand_total_excl_tax_without_discount_tax translate="label">
                             <label>Grand Total Without Tax Without Discount Tax</label>
-                            <type>currency_abs</type>
+                            <type>currency</type>
                         </grand_total_excl_tax_without_discount_tax>
                         <grand_total translate="label">
                             <label>Grand Total</label>
@@ -545,7 +545,7 @@
                         </tax_amount>
                         <tax_amount_without_discount translate="label">
                             <label>Tax Amount Without Discount</label>
-                            <type>currency_abs</type>
+                            <type>currency</type>
                         </tax_amount_without_discount>
                         <total_qty translate="label">
                             <label>Total Items Quantity</label>
