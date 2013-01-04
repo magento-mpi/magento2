@@ -12,7 +12,7 @@ try {
         throw new Exception('Tenant ID cannot be identified.');
     }
     $tenantId = $matches[1];
-    $configFile = realpath(__DIR__ . "/../local.{$tenantId}.xml");
+    $configFile = dirname(__DIR__) . "/local.{$tenantId}.xml";
     if (!$configFile || !file_exists($configFile) || !is_readable($configFile)) {
         throw new Exception("Tenant file '{$configFile}' cannot be found.");
     }
