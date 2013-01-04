@@ -193,9 +193,14 @@
          * @param element The element associated with the configurable option.
          */
         _reloadOptionLabels: function(element) {
-            var selectedPrice = 0;
-            if (element.options[element.selectedIndex].config && !this.options.spConfig.stablePrices) {
-                selectedPrice = parseFloat(element.options[element.selectedIndex].config.price);
+            if(element && element.options[element.selectedIndex]){
+                return false;
+            }
+            var selectedPrice = 0,
+                selOption = element.options[element.selectedIndex];
+
+            if (selOption.hasOwnProperty('config') && selOption.config && !this.options.spConfig.stablePrices) {
+                selectedPrice = parseFloat(selOption.config.price);
             }
             for (var i = 0; i < element.options.length; i++) {
                 if (element.options[i].config) {
@@ -359,7 +364,7 @@
                 oldPrice = 0;
             for (var i = this.options.settings.length - 1; i >= 0; i--) {
                 var selected = this.options.settings[i].options[this.options.settings[i].selectedIndex];
-                if (selected.config) {
+                if (selected && selected.config) {
                     price += parseFloat(selected.config.price);
                     oldPrice += parseFloat(selected.config.oldPrice);
                 }
