@@ -394,7 +394,7 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
         $this->addParameter('qty', $this->defineParameterFromUrl('qty'));
         $this->addParameter('sku', $this->defineParameterFromUrl('sku'));
         if (is_string($productName)) {
-            $this->addParameter('productName', $productName);
+            $this->addParameter('elementTitle', $productName);
         }
         $this->validatePage();
     }
@@ -488,6 +488,7 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
         } else {
             if ($productType == 'simpleNotVisible') {
                 $this->addParameter('productName', $product['product_name']);
+                $this->frontCheckFields($product, true, true);
             }
         }
     }

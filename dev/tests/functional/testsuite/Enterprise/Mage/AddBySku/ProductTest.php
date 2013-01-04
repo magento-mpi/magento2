@@ -64,7 +64,7 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
     public function createCategory()
     {
         $this->loginAdminUser();
-        $this->navigate('manage_categories', false);
+        $this->navigate('manage_categories');
         $this->categoryHelper()->checkCategoriesPage();
         $category = $this->loadDataSet('Category', 'sub_category_required_permissions_deny');
         $this->categoryHelper()->createCategory($category);
@@ -81,11 +81,14 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
      */
     public function createAttribute()
     {
-        $this->loginAdminUser();
+        //Data
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $attrCode = $attrData['attribute_code'];
         $associatedAttributes =
             $this->loadDataSet('AttributeSet', 'associated_attributes', array('General' => $attrCode));
+        //Steps
+        $this->loginAdminUser();
+        $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
         $this->assertMessagePresent('success', 'success_saved_attribute');
         $this->navigate('manage_attribute_sets');
@@ -275,13 +278,10 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
         //Downloadable product
         $download = $this->_createDownloadableProduct();
         //Configurable products
-        $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order',
-            array('general_configurable_attribute_title' => $attrData['admin_title']),
+        $configurable = $this->loadDataSet('Product', 'configurable_product_required', null,
             array(
-                'associated_1' => $simpleProducts['simple']['general_sku'],
-                'value_1' => $attrData['option_1']['admin_option_name'],
-                'associated_2' => $simpleProducts['simpleWithBackorders']['general_sku'],
-                'value_2' => $attrData['option_2']['admin_option_name']
+                'var1_attr_value1' => $attrData['option_1']['admin_option_name'],
+                'general_attribute_1' => $attrData['admin_title']
             )
         );
         $this->productHelper()->createProduct($configurable, 'configurable');
@@ -389,7 +389,6 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
             'sku' => $bundleNotAvailable['general_sku'],
             'qty' => 1
         );
-
         $productData['bundleFixed'] = array(
             'product_name' => $bundleFixed['general_name'],
             'sku' => $bundleFixed['general_sku'],
@@ -413,7 +412,6 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
                 )
             )
         );
-
         $productData['bundleDynamic'] = array(
             'product_name' => $bundleDynamic['general_name'],
             'sku' => $bundleDynamic['general_sku'],
@@ -680,7 +678,7 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
             array('configurable', // configurable product with required options
                 array('type' => 'error', 'text' => 'required_attention_product'),
                 array ('messageOne' => 'specify_option', 'messageTwo' => 'link')),
-            array('grouped', // grouped product [MAGETWO-3926]
+            array('grouped',
                 array('type' => 'error', 'text' =>  'required_attention_product'),
                 array ('messageOne' => 'specify_option', 'messageTwo' => 'link')),
             array('groupedVisibleIndividual', // grouped product with subitem Visibility - Not Visible Individually)
@@ -721,6 +719,7 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
         //Data
         $product = $data[$productType];
         //Preconditions
+        $this->loginAdminUser();
         $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer(array($customer['email']));
         $this->addBySkuHelper()->openShoppingCart();
@@ -754,6 +753,7 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
         //Data
         $product = $data[$productType];
         //Preconditions
+        $this->loginAdminUser();
         $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer(array($customer['email']));
         $this->addBySkuHelper()->openShoppingCart();
@@ -821,7 +821,7 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
      * <p>Adding products for which configuration is not required</p>
      *
      * @param string $productType
-     * @param array $msgShoppingCart
+     * @param mixed $msgShoppingCart
      * @param string $msgAttentionGrid
      * @param string $rule
      * @param array $data
@@ -837,6 +837,7 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_physical');
         //Preconditions
+        $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->navigateToCreateOrderPage(null, $orderData['store_view']);
         //Steps
@@ -897,6 +898,7 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_physical');
         //Preconditions
+        $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->navigateToCreateOrderPage(null, $orderData['store_view']);
         //Steps
@@ -967,6 +969,7 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
         $simpleNotReqCustom = $data['simpleNotRequiredCustom'];
         $productNonExist = array('sku' => $this->generate('string', 10, ':alnum:'), 'qty' => 1);
         //Steps
+        $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->navigateToCreateOrderPage(null, $orderData['store_view']);
         $this->addBySkuHelper()->addProductsBySkuToShoppingCart(array(
@@ -1000,6 +1003,7 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
         $orderData = $this->loadDataSet('SalesOrder', 'order_physical');
         $product = array('sku' => $data['simple']['sku'], 'qty' => $qtySku);
         //Steps
+        $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->navigateToCreateOrderPage(null, $orderData['store_view']);
         //Verifying
@@ -1038,7 +1042,7 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
      * @param string $msgAttentionGrid
      * @param string $rule
      */
-    protected function _verifyProductsInAttentionGrid(array $product, array $msgShoppingCart, $msgAttentionGrid, $rule)
+    protected function _verifyProductsInAttentionGrid($product, $msgShoppingCart, $msgAttentionGrid, $rule)
     {
         if ($rule === 'attention') {
             $this->addParameter('number', '1');

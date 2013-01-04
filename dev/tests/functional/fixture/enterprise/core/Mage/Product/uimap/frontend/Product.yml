@@ -43,6 +43,11 @@ product_page:
                 -
                     details:
                         xpath: //div[dl/dt/span='Details']
+                -
+                    product_oprions:
+                        xpath: //*[@id='product-options-wrapper']
+                        pageelements:
+                            product_custom_option_head_order: //dt[%rowNumber%][contains(label,'%title%')]
 
 product_review:
     uimap:

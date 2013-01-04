@@ -193,7 +193,7 @@ new_product:
                                     links:
                                         configurable_attribute_select: //ul[contains(@class, 'ui-autocomplete')]//a[text()='%attributeTitle%']
                                     buttons:
-                                        generate_product_variations: //button[span='Generate Variations']
+                                        generate_product_variations: //button[@data-ui-id='admin-product-edit-tab-super-config-grid-container-generate']
                                     pageelements:
                                         product_variations_fieldset: /fieldset
                                         configurable_attributes_list: //ul[contains(@class, 'ui-autocomplete')]
@@ -203,6 +203,7 @@ new_product:
                                     checkboxes:
                                         have_price_variation: //label[contains(.,'Have price variation')]/input
                                         include_variation_attribute: //tr[td='%attributeOption%']//input[@type='checkbox' and contains(@name,'[include]')]
+                                        use_default_label: //*[@class='entry-edit-head']//*[@name=contains(.,'[is_default]')]//*[@type='checkbox']
                                     fields:
                                         variation_attribute_price: //tr[td='%attributeOption%']//input[contains(@name,'[pricing_value]')]
                                         frontend_label: //*[@value='%attributeTitle%']
@@ -214,6 +215,11 @@ new_product:
                                         expand_product_variation_attribute: //span[@class='ui-icon ui-icon-circle-triangle-s']
                                     pageelements:
                                         option_line: //tbody/tr
+                                        delete_block: //*[@class='ui-icon ui-icon-circle-close remove']
+                                        expand_block: //*[@class='ui-icon ui-icon-circle-triangle-s toggle']
+                                        drag: //*[@class='ui-icon ui-icon-arrowthick-2-n-s']
+                                    messages:
+                                        required_attribute_label: //*[@class='mage-error' and contains(.,'This field is required.')]
                             -
                                 variations_matrix_grid:
                                     xpath: //div[@id='product-variations-matrix']
@@ -221,6 +227,7 @@ new_product:
                                         include_variation: //tbody/tr[%attributeSearch%]//input[@name='associated_product_ids[]']
                                         assigned_product: //tbody/tr[td/text()='%productSku%'][%attributeSearch%]//input[@checked='checked']
                                     pageelements:
+                                        variations_matrix_header: //tr[normalize-space(@class)='headings']
                                         variation_line: //tbody/tr
                                         attribute_header: //thead//th[text()='%attributeTitle%')]
                                         variation_price: //tbody/tr[%attributeSearch%]//td[@class='associated-matrix-product-price']
@@ -247,21 +254,6 @@ new_product:
                                         associated_quantity: //td[normalize-space(@class)='associated-product-qty']
                                         associated_inventory: //td[6]
                                         associated_weight: //td[normalize-space(@class)='associated-product-weight']
-                            -
-                                attribute_block:
-                                    xpath: //*[@data-ui-id='admin-product-edit-tab-super-config-grid-container-schedule-block-attribute-container-%attributeCode%']
-                                    pageelements:
-                                        delete_block: //*[@class='ui-icon ui-icon-circle-close remove']
-                                        expand_block: //*[@class='ui-icon ui-icon-circle-triangle-s toggle']
-                                        drag: //*[@class='ui-icon ui-icon-arrowthick-2-n-s']
-                                    fields:
-                                        option_change_price: //tbody//tr[contains(.,'%optionName%')]//*[@name = contains(.,'[price_value]')]/input[@type='text']
-                                    dropdowns:
-                                        option_price_rule_type: //tbody//tr[contains(.,'%optionName%')]//*[@name = contains(.,"[is_percent]")]/select
-                                    checkboxes:
-                                        use_default_label: //*[@class='entry-edit-head']//*[@name=contains(.,'[is_default]')]//*[@type='checkbox']
-                                        option_include: //tbody//tr[contains(.,'%optionName%')]//*[@type='checkbox']
-                                        have_price_variations: //*[@class='price-variation']
                 -
                     prices: &pricesTab
                         xpath: //a[@title='Prices']
@@ -712,7 +704,8 @@ new_product:
             reset: //button[span='Reset']
             save: //button[@data-ui-id='product-edit-save-button']
             save_and_continue_edit: //button[@data-ui-id='product-edit-save-and-edit-button']
-            change_attribute_set: //button[span='Change Attribute Set']
+            change_attribute_set: //button[@id='change-attribute-set-button']
+            change_attribute_set_disabled: //button[@id='change-attribute-set-button' and contains(@class, 'disabled')]
         messages: *productMesssages
 
 new_configurable_product:
@@ -823,12 +816,12 @@ edit_saved_product:
     uimap: *editProduct
 
 edit_product_save_and_continue:
-    mca: catalog_product/edit/id/%id%/set/%setId%/type/%productType%/back/edit
+    mca: catalog_product/edit/id/%id%/back/edit/tab/product_info_tabs_group_%tabId%/
     title: %elementTitle% / Manage Products / Catalog / Magento Admin
     uimap: *editProduct
 
 edit_new_configurable_save_and_continue:
-    mca: catalog_product/edit/id/%id%/back/edit/tab/product_info_tabs_group_%tab%/attributes/%attributeTitle%/set/%setId%/type/%productType%/
+    mca: catalog_product/edit/id/%id%/set/%setId%/type/%productType%/back/edit/tab/product_info_tabs_group_%tab%/
     title: %elementTitle% / Manage Products / Catalog / Magento Admin
     uimap: *editProduct
 

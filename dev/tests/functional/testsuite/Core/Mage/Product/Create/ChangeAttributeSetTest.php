@@ -33,10 +33,6 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $attributeData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $attributeSet = $this->loadDataSet('AttributeSet', 'attribute_set',
             array('General' => $attributeData['attribute_code']));
-        $simpleProduct = $this->loadDataSet('Product', 'simple_product_visible',
-            array('product_attribute_set' => $attributeSet['set_name']));
-        $simpleProduct['general_user_attr']['dropdown'][$attributeData['attribute_code']] =
-            $attributeData['option_1']['admin_option_name'];
         //Create attribute
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attributeData);
@@ -45,17 +41,11 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $this->navigate('manage_attribute_sets');
         $this->attributeSetHelper()->createAttributeSet($attributeSet);
         $this->assertMessagePresent('success', 'success_attribute_set_saved');
-        //Create simple product for configurable product
-        $this->navigate('manage_products');
-        $this->productHelper()->createProduct($simpleProduct);
-        $this->assertMessagePresent('success', 'success_saved_product');
 
-        return array('product_attribute_set' => $attributeSet['set_name'],
-                     'assigned_attribute'    => $attributeData['attribute_code'],
-                     'attributeName'         => $attributeData['admin_title'],
-                     'productSku'            => $simpleProduct['general_sku'],
-                     'productName'           => $simpleProduct['general_name'],
-                     'attributeValue'        => $attributeData['option_1']['admin_option_name']);
+        return array(
+            'product_attribute_set' => $attributeSet['set_name'],
+            'assigned_attribute'    => $attributeData['attribute_code']
+        );
     }
 
     /**
@@ -197,31 +187,14 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
     /**
      * <p>Change attribute set for Configurable product during creation</p>
      *
-     * @param array $customSetData
-     *
      * @test
-     * @depends preconditionsForTests
      * @testlinkId TL-MAGE-6471
      */
-    public function forConfigurableDuringCreation($customSetData)
+    public function forConfigurableDuringCreation()
     {
-        //Data
-        $configurable = $this->loadDataSet('Product', 'configurable_product_required',
-            array('associated_product_name' => $customSetData['productName'],
-                  'associated_sku'          => $customSetData['productSku'],
-                  'product_attribute_set'   => $customSetData['product_attribute_set']),
-            array('var1_attr_value1'    => $customSetData['attributeValue'],
-                  'general_attribute_1' => $customSetData['attributeName']));
-        $newAttributeSet = $customSetData['product_attribute_set'];
         //Steps
         $this->productHelper()->selectTypeProduct('configurable');
-        $this->productHelper()->changeAttributeSet($newAttributeSet);
-        $this->productHelper()->fillProductInfo($configurable);
         //Verifying
-        $this->assertFalse($this->controlIsVisible('button', 'change_attribute_set'));
-        $this->saveForm('save');
-        $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->openProduct(array('sku' => $configurable['general_sku']));
-        $this->productHelper()->verifyProductInfo($configurable);
+        $this->assertTrue($this->controlIsVisible('button', 'change_attribute_set_disabled'));
     }
 }

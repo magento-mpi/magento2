@@ -216,7 +216,7 @@ system_configuration:
                                 order_by_sku:
                                     xpath: //*[@id='sales_product_sku']
                                     links:
-                                        sku_link: //*[@id='sales_product_sku-head']
+                                        order_by_sku_link: //parent::div//a[@id='sales_product_sku-head']
                                     dropdowns:
                                         sku_my_account_enable: //*[@id='sales_product_sku_my_account_enable']
                                     multiselects:

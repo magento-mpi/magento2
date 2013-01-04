@@ -603,20 +603,22 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $categoryName = end($explodeCategory);
             $this->addParameter('categoryPath', $categoryPath);
             $element->value($categoryName);
-            $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'category_search_result');
-            if ($this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'category_search')) {
-                $selectCategory = $this->elementIsPresent($this->_getControlXpath(self::FIELD_TYPE_LINK, 'category'));
-                if ($selectCategory) {
-                    $this->moveto($selectCategory);
-                    $selectCategory->click();
-                } elseif ($this->controlIsPresent(self::FIELD_TYPE_LINK, 'selected_category')) {
-                    $element->clear();
-                    $this->clearActiveFocus($element);
+            //@TODO change wait condition for createNewCategory()
+            $this->waitForControlEditable(self::UIMAP_TYPE_FIELDSET, 'category_search');
+            //If not selected category not exist.
+            $selectCategory = $this->elementIsPresent($this->_getControlXpath(self::FIELD_TYPE_LINK, 'category'));
+            if (!$selectCategory) {
+                $element->clear();
+                if (!$this->controlIsPresent(self::FIELD_TYPE_LINK, 'selected_category')) {
+                    $this->createNewCategory($categoryPath);
                 }
+                $this->clearActiveFocus($element);
+                continue;
             } else {
-                $this->createNewCategory($categoryPath, true);
+                $this->moveto($selectCategory);
+                $selectCategory->click();
             }
-            $this->addParameter('categoryName', substr($categoryName, 0, 255));
+            $this->addParameter('categoryName', $categoryName);
             $this->assertTrue($this->controlIsVisible(self::FIELD_TYPE_LINK, 'delete_category'),
                 'Category is not selected');
         }
@@ -624,49 +626,15 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
 
     /**
      * @param string $categoryPath
-     * @param bool $nameIsSet
      */
-    public function createNewCategory($categoryPath, $nameIsSet = false)
+    public function createNewCategory($categoryPath)
     {
-        $parentLocator = $this->_getControlXpath(self::FIELD_TYPE_INPUT, 'parent_category');
-
-        $explodeCategoryPath = explode('/', $categoryPath);
-        $categoryName = array_pop($explodeCategoryPath);
-        $parentPath = implode('/', $explodeCategoryPath);
-        $parentName = end($explodeCategoryPath);
-        //Open new_category form
+        $this->markTestIncomplete('@TODO - implement createNewCategory');
+        $explodeCategory = explode('/', $categoryPath);
+        $categoryName = array_shift($explodeCategory);
         $this->clickButton('new_category', false);
         $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'new_category_form');
-        //Fill or verify new category name field
-        if (!$nameIsSet) {
-            $this->fillField('name', $categoryName);
-        } else {
-            $actualName = $this->getControlAttribute(self::FIELD_TYPE_INPUT, 'name', 'selectedValue');
-            $this->assertSame($categoryName, $actualName, 'Category Name is not moved from categories field');
-        }
-        //Fill and verify parent category field
-        $this->getElement($parentLocator)->value($parentName);
-        $this->waitForControlEditable(self::UIMAP_TYPE_FIELDSET, 'category_search');
-        $this->addParameter('categoryPath', $parentPath);
-        $elements = $this->getControlElements(self::FIELD_TYPE_LINK, 'category',
-            $this->getUimapPage('admin', 'new_product')->findTab('general'));
-        if (empty($elements)) {
-            $this->fail('It is impossible to create category with path - ' . $parentPath);
-        }
-        /** @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
-        foreach ($elements as $element) {
-            if ($element->enabled() && $element->displayed()) {
-                $element->click();
-            }
-        }
-        $actualParentName = $this->getControlAttribute(self::FIELD_TYPE_INPUT, 'parent_category', 'selectedValue');
-        $this->assertSame($actualParentName, $parentName, 'patent category Name is not equal to specified');
-        //Save
-        $this->addParameter('categoryName', substr($categoryName, 0, 255));
-        $waitConditions = array($this->_getControlXpath(self::FIELD_TYPE_LINK, 'delete_category'),
-                                $this->_getMessageXpath('general_validation'));
-        $this->clickButton('new_category_save', false);
-        $this->waitForElementVisible($waitConditions);
+        $this->fillField('name', $categoryName);
     }
 
     /**
@@ -682,12 +650,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         $selectedNames = array();
         $expectedNames = array();
-        $isSelected = $this->elementIsPresent($this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'chosen_category'));
-        if ($isSelected) {
-            foreach ($this->getChildElements($isSelected, 'div') as $el) {
-                /** @var PHPUnit_Extensions_Selenium2TestCase_Element $el */
-                $selectedNames[] = trim($el->text());
-            }
+        $isSelected = $this->getControlElements(self::UIMAP_TYPE_FIELDSET, 'chosen_category', false);
+        foreach ($isSelected as $el) {
+            /** @var PHPUnit_Extensions_Selenium2TestCase_Element $el */
+            $selectedNames[] = trim($el->text());
         }
         foreach ($categoryPath as $category) {
             $explodeCategory = explode('/', $category);
@@ -715,8 +681,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $this->unselectConfigurableAttributes($this->_getSelectedAttributeOptions($attributeData),
                 $attributeData['general_configurable_attribute_title']);
         }
-        $this->clickButton('generate_product_variations');
-        $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'variations_matrix_grid');
+        $this->clickButton('generate_product_variations', false);
+        $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'variations_matrix_header');
     }
 
     /**
@@ -793,13 +759,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $element = $this->getControlElement(self::FIELD_TYPE_INPUT, 'general_configurable_attribute_title');
             $this->focusOnElement($element);
             $element->value($title);
-            $this->waitForControlEditable(self::FIELD_TYPE_PAGEELEMENT, 'configurable_attributes_list');
-            $selectAttribute = $this->elementIsPresent($this->_getControlXpath(self::FIELD_TYPE_LINK,
-                'configurable_attribute_select'));
-            if (!$selectAttribute) {
-                $this->fail('Attribute with title "' . $title . '" is not present in list');
-            }
-            //$this->moveto($selectAttribute);
+            $selectAttribute = $this->waitForControlEditable(self::FIELD_TYPE_LINK, 'configurable_attribute_select');
+            $this->moveto($selectAttribute);
             $selectAttribute->click();
             $this->waitForControlEditable(self::UIMAP_TYPE_FIELDSET, 'product_variation_attribute');
         }
@@ -1042,7 +1003,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $attribute = str_replace(array('_'), '-', $attributeCode);
         $this->addParameter('attributeCode', $attribute);
         $this->addParameter('optionName', $optionName);
-        $select ? $this->fillCheckbox('option_include', 'Yes') : $this->fillCheckbox('option_include', 'No');
+        $this->fillCheckbox('include_variation_attribute', $select ? 'Yes' : 'No');
         $this->clickButton('generate_product_variations');
         $this->waitForNewPage();
     }
@@ -1759,26 +1720,25 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->createProduct($configurable, 'configurable');
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return array('downloadableOption' => array('option'       => $attrData['option_3']['admin_option_name'],
-                                                   'option_front' => $configurableOptions[2]),
-                     'configurableOption' => array('title'                  => $attrData['admin_title'],
-                                                   'custom_option_dropdown' => $configurableOptions[0]),
-                     'virtualOption' => array('option'       => $attrData['option_2']['admin_option_name'],
-                                              'option_front' => $configurableOptions[1]),
+        return array('simple'  => array('product_name' => $associatedPr['configurable_1']['associated_product_name'],
+                                        'product_sku'  => $associatedPr['configurable_1']['associated_sku']),
+                     'virtual' => array('product_name' => $associatedPr['configurable_2']['associated_product_name'],
+                                        'product_sku'  => $associatedPr['configurable_2']['associated_sku']),
                      'downloadable' => array('product_name' => $download['general_name'],
                                              'product_sku'  => $download['general_sku']),
                      'configurable' => array('product_name' => $configurable['general_name'],
                                              'product_sku'  => $configurable['general_sku']),
                      'simpleOption' => array('option'       => $attrData['option_1']['admin_option_name'],
                                              'option_front' => $configurableOptions[0]),
+                     'virtualOption' => array('option'       => $attrData['option_2']['admin_option_name'],
+                                              'option_front' => $configurableOptions[1]),
+                     'downloadableOption' => array('option'       => $attrData['option_3']['admin_option_name'],
+                                                   'option_front' => $configurableOptions[2]),
+                     'configurableOption' => array('title'                  => $attrData['admin_title'],
+                                                   'custom_option_dropdown' => $configurableOptions[0]),
                      'attribute' => array('title'       => $attrData['admin_title'],
                                           'title_front' => $attrData['store_view_titles']['Default Store View'],
-                                          'code'        => $attrCode),
-                     'simple' => array('product_name' => $associatedPr['configurable_1']['associated_product_name'],
-                                       'product_sku'  => $associatedPr['configurable_1']['associated_sku']),
-                     'virtual' => array('product_name' => $associatedPr['configurable_2']['associated_product_name'],
-                                        'product_sku'  => $associatedPr['configurable_2']['associated_sku']),
-                     'category' => $returnCategory);
+                                          'code'        => $attrCode), 'category' => $returnCategory);
     }
 
     /**
