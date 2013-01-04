@@ -12,6 +12,13 @@ class Enterprise_PageCache_Model_CacheTest extends PHPUnit_Framework_TestCase
         Varien_Io_File::rmdirRecursive(Magento_Test_Bootstrap::getInstance()->getInstallDir() . '/' . __CLASS__);
     }
 
+    public function testGetCache()
+    {
+        /** @var $model Enterprise_PageCache_Model_Cache */
+        $model = Mage::getModel('Enterprise_PageCache_Model_Cache');
+        $this->assertInstanceOf('Mage_Core_Model_Cache', $model->getCache());
+    }
+
     /**
      * @magentoAppIsolation enabled
      */
@@ -28,8 +35,7 @@ class Enterprise_PageCache_Model_CacheTest extends PHPUnit_Framework_TestCase
         $dirs = Mage::getObjectManager()->get('Mage_Core_Model_Dir');
         $expectedDir = $dirs->getDir(Mage_Core_Model_Dir::VAR_DIR) . '/full_page_cache';
         $this->assertFileNotExists($expectedDir);
-        $model = new Enterprise_PageCache_Model_Cache;
-        $this->assertInstanceOf('Mage_Core_Model_Cache', $model->getCacheInstance());
+        $this->assertInstanceOf('Mage_Core_Model_Cache', Enterprise_PageCache_Model_Cache::getCacheInstance());
         $this->assertFileExists($expectedDir);
     }
 }
