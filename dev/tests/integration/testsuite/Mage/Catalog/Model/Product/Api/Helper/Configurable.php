@@ -16,7 +16,7 @@ class Mage_Catalog_Model_Product_Api_Helper_Configurable extends PHPUnit_Framewo
      */
     public function getValidCreateData()
     {
-        require '_files/Catalog/Product/Configurable/attribute_set.php';
+        require __DIR__ . '/../_files/attribute_set_with_configurable.php';
         // Prepare fixture
         $productData = $this->_getValidProductPostData();
         /** @var Mage_Eav_Model_Entity_Attribute_Set $attributeSet */
@@ -48,140 +48,6 @@ class Mage_Catalog_Model_Product_Api_Helper_Configurable extends PHPUnit_Framewo
                 'attribute_code' => $attributeTwo->getAttributeCode(),
                 'frontend_label' => "Custom Label",
                 'position' => '4'
-            )
-        );
-        return $productData;
-    }
-
-    /**
-     * Retrieve product data with attribute set not suitable for the configurable product creation
-     *
-     * @return array
-     */
-    public function getCreateDataWithInvalidAttributeSet()
-    {
-        // Prepare fixture
-        $productData = $this->_getValidProductPostData();
-        /** @var $entityType Mage_Eav_Model_Entity_Type */
-        $entityType = Mage::getModel('Mage_Eav_Model_Entity_Type')->loadByCode('catalog_product');
-        $productData['attribute_set_id'] = $entityType->getDefaultAttributeSetId();
-        return $productData;
-    }
-
-    /**
-     * Retrieve product data with configurable attribute that cannot be used for the configurable product creation
-     *
-     * @return array
-     */
-    public function getCreateDataWithInvalidConfigurableAttribute()
-    {
-        require '_files/Catalog/Product/Configurable/attribute_set_with_invalid_attribute.php';
-        // Prepare fixture
-        $productData = $this->_getValidProductPostData();
-        /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
-        $attributeSet = Mage::registry('attribute_set_with_invalid_attribute');
-        $productData['attribute_set_id'] = $attributeSet->getId();
-        /** @var $invalidAttribute Mage_Catalog_Model_Resource_Eav_Attribute */
-        $invalidAttribute = Mage::registry('eav_invalid_configurable_attribute');
-        $productData['configurable_attributes'] = array(
-            array('attribute_code' => $invalidAttribute->getAttributeCode()),
-            array('attribute_code' => 'NOT_EXISTING_ATTRIBUTE')
-        );
-        return $productData;
-    }
-
-    /**
-     * Retrieve product data with invalid configurable option price
-     *
-     * @return array
-     */
-    public function getCreateDataWithInvalidConfigurableOptionPrice()
-    {
-        require '_files/Catalog/Product/Configurable/attribute_set_with_one_attribute.php';
-        // Prepare fixture
-        $productData = $this->_getValidProductPostData();
-        /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
-        $attributeSet = Mage::registry('attribute_set_with_one_attribute');
-        $productData['attribute_set_id'] = $attributeSet->getId();
-        /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-        $attribute = Mage::registry('eav_configurable_attribute');
-        $attributeSourceOptions = $attribute->getSource()->getAllOptions(false);
-        $productData['configurable_attributes'] = array(
-            array(
-                'attribute_code' => $attribute->getAttributeCode(),
-                'frontend_label' => $attribute->getFrontendLabel(),
-                'prices' => array(
-                    array(
-                        'option_value' => $attributeSourceOptions[0]['value'],
-                        'price' => 'invalid',
-                        'price_type' => 'invalid!@#~%^&*'
-                    ),
-                    array(
-                        'option_value' => $attributeSourceOptions[1]['value'],
-                        'price_type' => 'fixed',
-                        'price' => rand(1, 100)
-                    )
-                )
-            )
-        );
-        return $productData;
-    }
-
-    /**
-     * Retrieve product data with invalid configurable option value
-     *
-     * @return array
-     */
-    public function getCreateDataWithInvalidConfigurableOptionValue()
-    {
-        require '_files/Catalog/Product/Configurable/attribute_set_with_one_attribute.php';
-        // Prepare fixture
-        $productData = $this->_getValidProductPostData();
-        /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
-        $attributeSet = Mage::registry('attribute_set_with_one_attribute');
-        $productData['attribute_set_id'] = $attributeSet->getId();
-        /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-        $attribute = Mage::registry('eav_configurable_attribute');
-        $productData['configurable_attributes'] = array(
-            array(
-                'attribute_code' => $attribute->getAttributeCode(),
-                'frontend_label' => $attribute->getFrontendLabel(),
-                'prices' => array(
-                    array(
-                        'option_value' => 'invalid_option_value',
-                        'price_type' => 'fixed',
-                        'price' => rand(1, 100)
-                    ),
-                )
-            )
-        );
-        return $productData;
-    }
-
-    /**
-     * Retrieve product data with invalid configurable option label
-     *
-     * @return array
-     */
-    public function getCreateDataWithInvalidConfigurableOptionLabel()
-    {
-        require '_files/Catalog/Product/Configurable/attribute_set.php';
-        // Prepare fixture
-        $productData = $this->_getValidProductPostData();
-        /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
-        $attributeSet = Mage::registry('attribute_set_with_configurable');
-        $productData['attribute_set_id'] = $attributeSet->getId();
-        /** @var $attributeOne Mage_Catalog_Model_Resource_Eav_Attribute */
-        $attributeOne = Mage::registry('eav_configurable_attribute_1');
-        /** @var $attributeTwo Mage_Catalog_Model_Resource_Eav_Attribute */
-        $attributeTwo = Mage::registry('eav_configurable_attribute_2');
-        $productData['configurable_attributes'] = array(
-            array(
-                'attribute_code' => $attributeOne->getAttributeCode(),
-                'frontend_label' => '  ',
-            ),
-            array(
-                'attribute_code' => $attributeTwo->getAttributeCode(),
             )
         );
         return $productData;
@@ -283,6 +149,6 @@ class Mage_Catalog_Model_Product_Api_Helper_Configurable extends PHPUnit_Framewo
      */
     protected function _getValidProductPostData()
     {
-        return require '_files/_data/Catalog/Product/Configurable/product_configurable_all_fields.php';
+        return require __DIR__ . '/../_files/_data/product_configurable_all_fields.php';
     }
 }

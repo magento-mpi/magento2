@@ -24,7 +24,7 @@ class Mage_Catalog_Model_Product_Api_Helper_Simple extends PHPUnit_Framework_Tes
      */
     public function loadSimpleProductFixtureData($fixtureName)
     {
-        return require '_files/_data/Catalog/Product/Simple/' . $fixtureName . '.php';
+        return require '_fixture/_data/Catalog/Product/Simple/' . $fixtureName . '.php';
     }
 
     /**

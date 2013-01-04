@@ -24,7 +24,7 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
      */
     public function testCreateSimpleRequiredFieldsOnly()
     {
-        $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_data');
+        $productData = require '/_files/_data/simple_product_data.php';
         $productId = $this->_createProductWithApi($productData);
 
         $actualProduct = Mage::getModel('Mage_Catalog_Model_Product');
@@ -81,12 +81,11 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
      */
     public function dataProviderTestCreateSimpleAllFieldsValid()
     {
-        $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_all_fields_data');
+        $productData = require '_files/_data/simple_product_all_fields_data.php';
         // Fix for tests, because in current soap version this field has "int" type in WSDL
         // @TODO: fix WSDL in new soap version when implemented
         $productData['stock_data']['notify_stock_qty'] = 2;
-        $productDataSpecialChars = $this->_getHelper()
-            ->loadSimpleProductFixtureData('simple_product_special_chars_data');
+        $productDataSpecialChars = require '_files/_data/simple_product_special_chars_data.php';
 
         return array(
             array($productDataSpecialChars),
@@ -95,146 +94,11 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
     }
 
     /**
-     * Test product resource post with all invalid fields
-     * Negative test.
-     */
-    public function testCreateSimpleAllFieldsInvalid()
-    {
-        $this->markTestSkipped("This test fails due to absence of proper validation in the functionality itself.");
-        $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_all_fields_invalid_data');
-        // Tier price validation implemented differently in soap
-        unset($productData['tier_price']);
-        $expectedErrors = array(
-            'SKU length should be 64 characters maximum.',
-            'Please enter a valid number in the "qty" field in the "stock_data" set.',
-            'Please enter a number 0 or greater in the "min_qty" field in the "stock_data" set.',
-            'Please use numbers only in the "min_sale_qty" field in the "stock_data" set. '
-                . 'Please avoid spaces or other non numeric characters.',
-            'Please use numbers only in the "max_sale_qty" field in the "stock_data" set. '
-                . 'Please avoid spaces or other non numeric characters.',
-            'Invalid "backorders" value in the "stock_data" set.',
-            'Invalid "is_in_stock" value in the "stock_data" set.',
-        );
-        $invalidValueAttributes = array(
-            'status',
-            'visibility',
-            'tax_class_id',
-            'custom_design',
-            'gift_message_available'
-        );
-        foreach ($invalidValueAttributes as $attribute) {
-            $expectedErrors[] = sprintf('Invalid value "%s" for attribute "%s".', $productData[$attribute], $attribute);
-        }
-        $dateAttributes = array('special_from_date', 'special_to_date');
-        foreach ($dateAttributes as $attribute) {
-            $expectedErrors[] = sprintf('Invalid date in the "%s" field.', $attribute);
-        }
-        $positiveNumberAttributes = array('weight', 'price', 'special_price');
-        foreach ($positiveNumberAttributes as $attribute) {
-            $expectedErrors[] = sprintf('Please enter a number 0 or greater in the "%s" field.', $attribute);
-        }
-
-        $this->_createProductWithErrorMessagesCheck($productData, $expectedErrors);
-    }
-
-    /**
-     * Test product create resource with invalid qty uses decimals value
-     * Negative test.
-     */
-    public function testCreateInvalidQtyUsesDecimals()
-    {
-        $this->markTestSkipped("This test fails due to absence of proper validation in the functionality itself.");
-        $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_invalid_qty_uses_decimals');
-
-        $this->_createProductWithErrorMessagesCheck(
-            $productData,
-            'Invalid "is_qty_decimal" value in the "stock_data" set.'
-        );
-    }
-
-    /**
-     * Test product create resource with invalid weight value
-     * Negative test.
-     */
-    public function testCreateWeightOutOfRange()
-    {
-        $this->markTestSkipped("This test fails due to absence of proper validation in the functionality itself.");
-        $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_weight_out_of_range');
-
-        $this->_createProductWithErrorMessagesCheck(
-            $productData,
-            'The "weight" value is not within the specified range.'
-        );
-    }
-
-    /**
-     * Test product create resource with not unique sku value
-     * Negative test.
-     *
-     * @magentoDataFixture Api/Mage/SalesOrder/_files/product_simple.php
-     */
-    public function testCreateNotUniqueSku()
-    {
-        $this->markTestSkipped("This test fails due to absence of proper validation in the functionality itself.");
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::registry('product_simple');
-        $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_data');
-        $productData['sku'] = $product->getSku();
-
-        $this->_createProductWithErrorMessagesCheck(
-            $productData,
-            'Invalid attribute "sku": The value of attribute "SKU" must be unique'
-        );
-    }
-
-    /**
-     * Test product create resource with empty required fields
-     * Negative test.
-     *
-     * @param array $productData
-     * @dataProvider dataProviderTestCreateEmptyRequiredFields
-     */
-    public function testCreateEmptyRequiredFields($productData)
-    {
-        $this->markTestSkipped("This test fails due to absence of proper validation in the functionality itself.");
-        $expectedErrors = array(
-            'Please enter a valid number in the "qty" field in the "stock_data" set.'
-        );
-        $errorFields = array_diff_key(
-            $productData,
-            array_flip(
-                array('type_id', 'attribute_set_id', 'sku', 'stock_data')
-            )
-        );
-        foreach ($errorFields as $key => $value) {
-            $expectedErrors[] = sprintf('Empty value for "%s" in request.', $key);
-        }
-        $this->_createProductWithErrorMessagesCheck($productData, $expectedErrors);
-    }
-
-    /**
-     * Data provider for testCreateEmptyRequiredFields
-     *
-     * @return array
-     */
-    public function dataProviderTestCreateEmptyRequiredFields()
-    {
-        $productDataEmpty = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_empty_required');
-        $productDataStringsEmptySpaces = $this->_getHelper()
-            ->loadSimpleProductFixtureData('simple_product_empty_spaces_required');
-
-        return array(
-            array($productDataEmpty),
-            array($productDataStringsEmptySpaces),
-        );
-    }
-
-    /**
      * Test product resource post using config values in inventory
      */
     public function testCreateInventoryUseConfigValues()
     {
-        $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_inventory_use_config');
+        $productData = require '/_files/_data/simple_product_inventory_use_config.php';
         $productId = $this->_createProductWithApi($productData);
 
         $product = Mage::getModel('Mage_Catalog_Model_Product');
@@ -251,7 +115,7 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
      */
     public function testCreateInventoryManageStockUseConfig()
     {
-        $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_manage_stock_use_config');
+        $productData = require '/_files/_data/simple_product_manage_stock_use_config.php';
 
         $productId = $this->_createProductWithApi($productData);
         $product = Mage::getModel('Mage_Catalog_Model_Product');
@@ -468,7 +332,7 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
     /**
      * Test product attributes update in custom store view
      *
-     * @magentoDataFixture Api/_files/Core/Store/store_on_new_website.php
+     * @magentoDataFixture Mage/Catalog/Model/Product/Api/_files/store_on_new_website.php
      */
     public function testProductUpdateCustomStore()
     {
