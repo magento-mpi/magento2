@@ -153,7 +153,7 @@ manage_roles:
         messages: *adminUserMessages
 
 # 'New Role' page
-new_role:
+new_admin_role:
     mca: user_role/editrole/
     title: New Role / Roles / Permissions / System / Magento Admin
     uimap:
