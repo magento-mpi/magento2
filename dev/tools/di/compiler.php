@@ -26,7 +26,6 @@ Magento_Autoload_IncludePath::addIncludePath(array(
     BP . DS . 'app' . DS . 'code' . DS . 'core',
     BP . DS . 'lib',
 ));
-Mage::setRoot();
 $definitions = array();
 
 class ArrayDefinitionCompiler

@@ -67,14 +67,7 @@ try {
 
     // remove files that must not be published
     $listsDir = __DIR__ . '/extruder';
-    execVerbose(
-        'php -f %s -- -w %s -l %s -l %s -v',
-        __DIR__ . '/../extruder.php',
-        $targetDir,
-        "$listsDir/common.txt",
-        "$listsDir/ce.txt",
-        "$listsDir/dev_build.txt"
-    );
+    execVerbose('php -f %s -- --dir=%s --edition=ce', __DIR__ . '/edition.php', $targetDir);
 
     // compare if changelog is different from the published one, compose the commit message
     if (!file_exists($logFile)) {
