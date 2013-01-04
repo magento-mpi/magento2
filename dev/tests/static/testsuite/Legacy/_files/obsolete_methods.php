@@ -432,4 +432,7 @@ return array(
     $this->_getRule('_parsePackageTheme', 'Mage_Widget_Model_Widget_Instance'),
     $this->_getRule('init', 'Mage'),
     $this->_getRule('run', 'Mage'),
+    $this->_getRule('loadEventObservers', 'Mage_Core_Model_Config'),
+    $this->_getRule('getEvents', 'Mage'),
+    $this->_getRule('addObserver', 'Mage'),
 );
