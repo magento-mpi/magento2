@@ -650,7 +650,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         $selectedNames = array();
         $expectedNames = array();
-        $isSelected = $this->getControlElements(self::UIMAP_TYPE_FIELDSET, 'chosen_category', false);
+        $isSelected = $this->getControlElements(self::UIMAP_TYPE_FIELDSET, 'chosen_category', null, false);
         foreach ($isSelected as $el) {
             /** @var PHPUnit_Extensions_Selenium2TestCase_Element $el */
             $selectedNames[] = trim($el->text());
