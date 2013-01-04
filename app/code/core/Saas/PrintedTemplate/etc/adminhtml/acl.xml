@@ -14,7 +14,6 @@
         <resources>
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Adminhtml::system">
-                    <resource id="Mage_Adminhtml::email_template" ></resource>
                     <resource id="Saas_PrintedTemplate::printed_template"
                         module="Saas_PrintedTemplate" title="Pdf Print-outs" sortOrder="41">
                         <resource id="Saas_PrintedTemplate::print" title="Print" />
@@ -25,4 +24,3 @@
         </resources>
     </acl>
 </config>
-
