@@ -150,8 +150,7 @@ class Core_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->forgotPassword($emailData);
         //Verifying
         $this->addParameter('adminEmail', $emailData['email']);
-        $this->addParameter('fieldId', 'captcha');
-        $this->assertMessagePresent('validation', 'empty_field');
+        $this->assertMessagePresent('validation', 'empty_captcha');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
