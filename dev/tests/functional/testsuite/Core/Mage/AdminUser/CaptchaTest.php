@@ -81,7 +81,6 @@ class Core_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
         $this->assertMessagePresent('validation', 'empty_captcha');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**
@@ -150,7 +149,6 @@ class Core_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase
         //Verifying
         $this->addParameter('adminEmail', $emailData['email']);
         $this->assertMessagePresent('validation', 'empty_captcha');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**
