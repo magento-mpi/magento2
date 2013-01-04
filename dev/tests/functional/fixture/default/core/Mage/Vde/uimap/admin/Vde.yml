@@ -10,7 +10,7 @@
 ---
 # Visual Design Editor page
 vde_design:
-    mca: system_design_editor/launch/mode/design/theme_id/%themeId%
+    mca: system_design_editor/launch/theme_id/%themeId%/mode/design
     title: Editor / Design / System / Magento Admin
     uimap:
         form:
