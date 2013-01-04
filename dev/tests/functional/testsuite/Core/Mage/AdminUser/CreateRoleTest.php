@@ -41,7 +41,7 @@ class Core_Mage_AdminUser_CreateRoleTest extends Mage_Selenium_TestCase
     {
         $this->assertTrue($this->buttonIsPresent('add_new_role'), 'There is no "Add New Role" button on the page');
         $this->clickButton('add_new_role');
-        $this->assertTrue($this->checkCurrentPage('new_role'), $this->getParsedMessages());
+        $this->assertTrue($this->checkCurrentPage('new_admin_role'), $this->getParsedMessages());
         $this->assertTrue($this->buttonIsPresent('back'), 'There is no "Back" button on the page');
         $this->assertTrue($this->buttonIsPresent('save_role'), 'There is no "Save Role" button on the page');
         $this->assertTrue($this->buttonIsPresent('reset'), 'There is no "Reset" button on the page');

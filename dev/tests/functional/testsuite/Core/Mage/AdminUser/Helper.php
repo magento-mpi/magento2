@@ -186,8 +186,8 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
     public function editRole(array $roleData, $separator = '/')
     {
         $result = $this->_editRoleVars($roleData);
-        if (!empty($searchUserRole)) {
-            $this->openRole($searchUserRole);
+        if (!empty($result['searchUserRole'])) {
+            $this->openRole($result['searchUserRole']);
         }
         $this->fillTab($result['roleInfo'], 'role_info');
         if (!empty($roleResources)) {

@@ -42,7 +42,7 @@ manage_admin_users:
             cannot_delete_account: //li[normalize-space(@class)='error-msg' and contains(.,'You cannot delete your own account.')]
             confirmation_for_delete: Are you sure you want to do this?
             empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
-            error_required_field_role_name: //div[@id='advice-required-entry-role_name']
+            error_required_field_role_name: //tr/td/label[(@class)='mage-error' and contains(.,'This field is required.')]
             exist_email: //li[normalize-space(@class)='error-msg' and contains(.,'Email already exists.')]
             exist_name_or_email: //li[normalize-space(@class)='error-msg' and contains(.,'A user with the same user name or email aleady exists.')]
             invalid_email: //div[@id='advice-validate-email-user_email']
