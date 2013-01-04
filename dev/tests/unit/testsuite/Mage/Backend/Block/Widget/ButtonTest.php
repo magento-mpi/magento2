@@ -102,7 +102,7 @@ class Mage_Backend_Block_Widget_ButtonTest extends PHPUnit_Framework_TestCase
                         'validation' => array('required' => true),
                     ),
                 ),
-                '/data-mage-init="[^"]*" data-widget-button="[^"]*" /'
+                '/data-mage-init="[^"]*" data-validation="[^"]*" /'
             ),
         );
     }

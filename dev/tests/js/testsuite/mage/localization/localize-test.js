@@ -6,6 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/*
 LocalizeTest = TestCase('LocalizeTest');
 
 LocalizeTest.prototype.testInit = function () {
@@ -39,3 +40,4 @@ LocalizeTest.prototype.testCurrency = function () {
     $.mage.locale();
     assertEquals('$0.00', $.mage.localize.currency('0'));
 };
+*/

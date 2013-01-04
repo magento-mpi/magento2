@@ -216,7 +216,7 @@
      $ plugin for validator
      eg:$("#formId").mage().validate()
      */
-    $.fn.mage = function () {
+    /*$.fn.mage = function () {
         var jq = this;
         return {
             validate: function (options) {
@@ -235,7 +235,7 @@
                 });
             }
         };
-    };
+    };*/
 
 })(jQuery);
 
