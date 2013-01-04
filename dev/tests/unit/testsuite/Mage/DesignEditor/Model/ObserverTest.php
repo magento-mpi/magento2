@@ -27,35 +27,6 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param int $themeId
-     * @dataProvider setThemeDataProvider
-     */
-    public function testSetTheme($themeId)
-    {
-        /** @var $session Mage_Backend_Model_Session */
-        $session = $this->getMock('Mage_Backend_Model_Session', null, array(), '', false);
-        $session->setData('theme_id', $themeId);
-
-        $design = $this->getMock('Mage_Core_Model_Design_Package', array('setDesignTheme'), array(), '', false);
-        if ($themeId !== null) {
-            $design->expects($this->once())
-                ->method('setDesignTheme')
-                ->with($themeId);
-        } else {
-            $design->expects($this->never())
-                ->method('setDesignTheme');
-        }
-
-        /** @var $objectManager Magento_ObjectManager */
-        $objectManager = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
-        /** @var $helper Mage_DesignEditor_Helper_Data */
-        $helper = $this->getMock('Mage_DesignEditor_Helper_Data', array(), array(), '', false);
-
-        $this->_model = new Mage_DesignEditor_Model_Observer($objectManager, $session, $design, $helper);
-        $this->_model->setTheme();
-    }
-
-    /**
      * @return array
      */
     public function setThemeDataProvider()
@@ -68,7 +39,7 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     public function testClearLayoutUpdates()
     {
-        // important mocks
+        // mocks
         $helper = $this->getMock('Mage_DesignEditor_Helper_Data', array('getDaysToExpire'), array(), '', false);
         $helper->expects($this->once())
             ->method('getDaysToExpire')
@@ -129,13 +100,8 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->with('Mage_Core_Model_Resource_Layout_Update_Collection')
             ->will($this->returnValue($layoutCollection));
 
-        // not important mocks
-        /** @var $session Mage_Backend_Model_Session */
-        $session = $this->getMock('Mage_Backend_Model_Session', array(), array(), '', false);
-        $design  = $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false);
-
         // test
-        $this->_model = new Mage_DesignEditor_Model_Observer($objectManager, $session, $design, $helper);
+        $this->_model = new Mage_DesignEditor_Model_Observer($objectManager, $helper);
         $this->_model->clearLayoutUpdates();
     }
 }

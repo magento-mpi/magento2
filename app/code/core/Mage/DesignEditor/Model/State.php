@@ -74,12 +74,24 @@ class Mage_DesignEditor_Model_State
     protected $_objectManager;
 
     /**
+     * @var Mage_Core_Model_Design_Package
+     */
+    protected $_designPackage;
+
+    /**
+     * @var Mage_Core_Model_App
+     */
+    protected $_application;
+
+    /**
      * @param Mage_Backend_Model_Session $backendSession
      * @param Mage_Core_Model_Layout_Factory $layoutFactory
      * @param Mage_DesignEditor_Model_Url_Factory $urlModelFactory
      * @param Mage_Core_Model_Cache $cacheManager
      * @param Mage_DesignEditor_Helper_Data $dataHelper
      * @param Magento_ObjectManager $objectManager
+     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_App $application
      */
     public function __construct(
         Mage_Backend_Model_Session $backendSession,
@@ -87,7 +99,9 @@ class Mage_DesignEditor_Model_State
         Mage_DesignEditor_Model_Url_Factory $urlModelFactory,
         Mage_Core_Model_Cache $cacheManager,
         Mage_DesignEditor_Helper_Data $dataHelper,
-        Magento_ObjectManager $objectManager
+        Magento_ObjectManager $objectManager,
+        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_App $application
     ) {
         $this->_backendSession  = $backendSession;
         $this->_layoutFactory   = $layoutFactory;
@@ -95,8 +109,17 @@ class Mage_DesignEditor_Model_State
         $this->_cacheManager    = $cacheManager;
         $this->_dataHelper      = $dataHelper;
         $this->_objectManager   = $objectManager;
+        $this->_designPackage   = $designPackage;
+        $this->_application     = $application;
     }
 
+    /**
+     * Update system data for current VDE environment
+     *
+     * @param string $areaCode
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param Mage_Core_Controller_Varien_ActionAbstract $controller
+     */
     public function update(
         $areaCode,
         Mage_Core_Controller_Request_Http $request,
@@ -118,6 +141,7 @@ class Mage_DesignEditor_Model_State
         $this->_injectUrlModel($mode);
         $this->_injectLayout($mode, $areaCode);
         $this->_injectLayoutUpdateResourceModel();
+        $this->_setTheme();
         $this->_disableCache();
     }
 
@@ -167,13 +191,26 @@ class Mage_DesignEditor_Model_State
     }
 
     /**
+     * Set current VDE theme
+     */
+    protected function _setTheme()
+    {
+        $themeId = $this->_backendSession->getData('theme_id');
+        if ($themeId !== null) {
+            $path = $this->_designPackage->getConfigPathByArea(Mage_Core_Model_App_Area::AREA_FRONTEND);
+            $this->_application->getStore()->setConfig($path, $themeId);
+        }
+    }
+
+    /**
      * Disable some cache types in VDE mode
      */
     protected function _disableCache()
     {
         foreach ($this->_dataHelper->getDisabledCacheTypes() as $cacheCode) {
             if ($this->_cacheManager->canUse($cacheCode)) {
-                $this->_cacheManager->banUse($cacheCode);
+                $this->_cacheManager->banUse($cacheCode)
+                    ->invalidateType($cacheCode);
             }
         }
     }
