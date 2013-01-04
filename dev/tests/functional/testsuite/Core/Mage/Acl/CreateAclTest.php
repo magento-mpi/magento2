@@ -81,7 +81,6 @@ class Core_Mage_Acl_CreateAclTest extends Mage_Selenium_TestCase
             array('Customers', 'manage_customers', 1 ,0),
             array('Dashboard', 'dashboard', 1 ,0),
             array('Catalog', 'manage_products', 1 ,0),
-            array('Mobile', 'manage_apps', 1 ,0),
             array('Newsletter', 'newsletter_templates', 1 ,0),
             array('CMS', 'manage_cms_pages', 1 ,0),
             array('Reports', 'reports_sales_sales', 1 ,0),
