@@ -124,7 +124,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
                         'event' => 'generate',
                         'related' => '#product-variations-matrix',
                         'eventData' => array(
-                            'url' => $this->getUrl('*/*/variationsMatrix'),
+                            'url' => $this->getUrl('*/*/variationsMatrix', array('_current' => true)),
                         ),
                     ),
                 ),
@@ -160,7 +160,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
                     if (isset($configurableData[$key])) {
                         $attribute['values'] = array_merge(
                             isset($attribute['values']) ? $attribute['values'] : array(),
-                            isset($configurableData[$key]['values']) ? array_filter($configurableData[$key]['values']) : array()
+                            isset($configurableData[$key]['values'])
+                                ? array_filter($configurableData[$key]['values'])
+                                : array()
                         );
                     }
                 }

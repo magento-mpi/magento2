@@ -697,11 +697,9 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             if ($this->getRequest()->getActionName() != 'variationsMatrix') {
                 $generatedProductIds = $this->_objectManager->get('Mage_Catalog_Model_Product_Type_Configurable')
                     ->generateSimpleProducts($product, $this->getRequest()->getPost('variations-matrix', array()));
-                $this->getRequest()->setPost('variations-matrix', array());
-            } else {
-                $generatedProductIds = array();
+                $associatedProductIds = array_merge($associatedProductIds, $generatedProductIds);
             }
-            $product->setAssociatedProductIds(array_filter(array_merge($associatedProductIds, $generatedProductIds)));
+            $product->setAssociatedProductIds(array_filter($associatedProductIds));
 
             $product->setCanSaveConfigurableAttributes(
                 (bool)$this->getRequest()->getPost('affect_configurable_product_attributes')
