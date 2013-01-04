@@ -267,19 +267,19 @@
                         </customer_id>
                         <discount_amount translate="label">
                             <label>Total Discount Amount</label>
-                            <type>currency</type>
+                            <type>currency_abs</type>
                         </discount_amount>
                         <discount_canceled translate="label">
                             <label>Canceled Discount Amount</label>
-                            <type>currency</type>
+                            <type>currency_abs</type>
                         </discount_canceled>
                         <discount_invoiced translate="label">
                             <label>Invoiced Discount Amount</label>
-                            <type>currency</type>
+                            <type>currency_abs</type>
                         </discount_invoiced>
                         <discount_refunded translate="label">
                             <label>Refunded Discount Amount</label>
-                            <type>currency</type>
+                            <type>currency_abs</type>
                         </discount_refunded>
                         <discount_description translate="label">
                             <label>Discount Description</label>
@@ -352,7 +352,7 @@
                         </shipping_description>
                         <shipping_discount_amount translate="label">
                             <label>Shipping Discount Amount</label>
-                            <type>currency</type>
+                            <type>currency_abs</type>
                         </shipping_discount_amount>
                         <shipping_incl_tax translate="label">
                             <label>Shipping Amount Including Tax</label>
@@ -465,11 +465,11 @@
                         </customer_balance_amount>
                         <discount_amount>
                             <label>Total Discount Amount</label>
-                            <type>currency</type>
+                            <type>currency_abs</type>
                         </discount_amount>
                         <discount_amount_without_tax>
                             <label>Total Discount Amount Without Tax</label>
-                            <type>currency</type>
+                            <type>currency_abs</type>
                         </discount_amount_without_tax>
                         <gift_cards_amount translate="label">
                             <label>Total Gift Cards Amount</label>
@@ -477,7 +477,7 @@
                         </gift_cards_amount>
                         <discount_total translate="label">
                             <label>Total Discount (Including Store Credit and Gift Cards)</label>
-                            <type>currency</type>
+                            <type>currency_abs</type>
                         </discount_total>
                         <global_currency_code translate="label">
                             <label>Global Currency Code</label>
@@ -488,7 +488,7 @@
                         </grand_total_excl_tax>
                         <grand_total_excl_tax_without_discount_tax translate="label">
                             <label>Grand Total Without Tax Without Discount Tax</label>
-                            <type>currency</type>
+                            <type>currency_abs</type>
                         </grand_total_excl_tax_without_discount_tax>
                         <grand_total translate="label">
                             <label>Grand Total</label>
@@ -518,7 +518,7 @@
                         </shipping_tax_rate>
                         <shipping_discount_amount translate="label">
                             <label>Shipping Discount Amount</label>
-                            <type>currency</type>
+                            <type>currency_abs</type>
                         </shipping_discount_amount>
                         <shipping_total translate="label">
                             <label>Shipping Total Amount</label>
@@ -545,7 +545,7 @@
                         </tax_amount>
                         <tax_amount_without_discount translate="label">
                             <label>Tax Amount Without Discount</label>
-                            <type>currency</type>
+                            <type>currency_abs</type>
                         </tax_amount_without_discount>
                         <total_qty translate="label">
                             <label>Total Items Quantity</label>
@@ -589,7 +589,7 @@
                         </customer_balance_total_refunded>
                         <discount_amount translate="label">
                             <label>Total Discount Amount</label>
-                            <type>currency</type>
+                            <type>currency_abs</type>
                         </discount_amount>
                         <gift_cards_amount translate="label">
                             <label>Total Gift Cards Amount</label>
@@ -623,7 +623,7 @@
                         </shipping_tax_amount>
                         <shipping_discount_amount translate="label">
                             <label>Shipping Discount Amount</label>
-                            <type>currency</type>
+                            <type>currency_abs</type>
                         </shipping_discount_amount>
                         <shipping_total translate="label">
                             <label>Shipping Total Amount</label>
@@ -717,15 +717,15 @@
                         </price_incl_tax>
                         <discount translate="label">
                             <label>Discount</label>
-                            <type>currency</type>
+                            <type>currency_abs</type>
                         </discount>
                         <discount_amount translate="label">
                             <label>Discount Amount</label>
-                            <type>currency</type>
+                            <type>currency_abs</type>
                         </discount_amount>
                         <discount_excl_tax translate="label">
                             <label>Discount Excluding Tax</label>
-                            <type>currency</type>
+                            <type>currency_abs</type>
                         </discount_excl_tax>
                         <discount_rate translate="label">
                             <label>Discount Rate</label>
@@ -788,7 +788,7 @@
                         </price_incl_tax>
                         <discount_amount translate="label">
                             <label>Discount Amount</label>
-                            <type>currency</type>
+                            <type>currency_abs</type>
                         </discount_amount>
                         <discount_rate translate="label">
                             <label>Discount Rate</label>

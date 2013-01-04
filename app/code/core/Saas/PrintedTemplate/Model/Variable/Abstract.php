@@ -348,6 +348,17 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
     }
 
     /**
+     * Formats absolute value of currency with core/data helper
+     *
+     * @param string $value
+     * @return string
+     */
+    public function formatCurrencyAbs($value)
+    {
+        return ($value !== null) ? Mage::helper('Mage_Core_Helper_Data')->formatCurrency(abs($value)) : '';
+    }
+
+    /**
      * Formats cuurency value as float
      *
      * @param string $value
