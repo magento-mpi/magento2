@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftRegistry_Adminhtml_GiftregistryControllerTest extends Mage_Adminhtml_Utility_Controller
+class Enterprise_GiftRegistry_Adminhtml_GiftregistryControllerTest extends Mage_Backend_Utility_Controller
 {
     public function testNewAction()
     {
@@ -17,11 +17,13 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryControllerTest extends Mage_
         $this->assertContains('<h3 class="icon-head head-adminhtml-giftregistry">New Gift Registry Type</h3>',
             $this->getResponse()->getBody()
         );
-        $this->assertContains('<a href="#" id="enterprise_giftregistry_tabs_general_section" name="general_section"'
-            . ' title="General Information"', $this->getResponse()->getBody()
+        $this->assertContains('<a href="#enterprise_giftregistry_tabs_general_section_content"'
+                . ' id="enterprise_giftregistry_tabs_general_section" name="general_section"'
+                . ' title="General Information"', $this->getResponse()->getBody()
         );
-        $this->assertContains('<a href="#" id="enterprise_giftregistry_tabs_registry_attributes"'
-            . ' name="registry_attributes" title="Attributes"', $this->getResponse()->getBody()
+        $this->assertContains('<a href="#enterprise_giftregistry_tabs_registry_attributes_content"'
+                . ' id="enterprise_giftregistry_tabs_registry_attributes"'
+                . ' name="registry_attributes" title="Attributes"', $this->getResponse()->getBody()
         );
     }
 

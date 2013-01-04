@@ -11,8 +11,6 @@
 
 /**
  * Test for abstract export model
- *
- * @group module:Mage_ImportExport
  */
 class Mage_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Framework_TestCase
 {

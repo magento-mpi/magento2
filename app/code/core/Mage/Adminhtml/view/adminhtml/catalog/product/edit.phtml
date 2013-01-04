@@ -35,7 +35,8 @@
 </div>
 <form action="<?php echo $this->getSaveUrl() ?>" method="post" id="product-edit-form" enctype="multipart/form-data">
     <?php echo $this->getBlockHtml('formkey')?>
-    <div style="display:none"></div>
+    <div id="product-edit-form-tabs"></div>
+    <?php echo $this->getChildHtml('product-type-tabs') ?>
 </form>
 <script type="text/javascript">
 //<![CDATA[
@@ -76,14 +77,14 @@
     }
 
 jQuery(function() {
-    var objName = '<?php echo $this->getSelectedTabId() ?>';
-    if (objName) {
-        obj = $(objName);
-        //IE fix (bubbling event model)
-        product_info_tabsJsTabs.setSkipDisplayFirstTab();
-        product_info_tabsJsTabs.showTabContent(obj);
+    <?php if ($this->getSelectedTabId()): ?>
+    if(jQuery('#<?php echo $this->getSelectedTabId() ?>').length) {
+        jQuery('#<?php echo $this->getSelectedTabId() ?>').trigger('click');
     }
-    Product.AttributesBridge.setTabsObject(product_info_tabsJsTabs);
+    <?php endif; ?>
+    jQuery(window).on('tabsbeforeactivate', function(e, ui){
+        jQuery('#config_super_product')[ui.newTab.index() ? 'hide' : 'show']();
+    }).triggerHandler('tabsbeforeactivate', [{newTab: jQuery('#<?php echo $this->getSelectedTabId() ?>').closest('li')}]);
 
     (function ($) {
 
@@ -161,5 +162,11 @@ jQuery(function() {
         new Autogenerator(masks).bindAll();
     })(jQuery);
 });
+
+jQuery(function($) {
+    var data = <?php echo $this->getTypeSwitcherData();?>;
+    new TypeSwitcher(data).bindAll();
+});
+
 //]]>
 </script>

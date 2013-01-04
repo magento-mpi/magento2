@@ -30,12 +30,6 @@ class Core_Mage_Tags_BackendDeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Deleting a new tag</p>
-     * <p>Steps:</p>
-     * <p>1. Create a new tag</p>
-     * <p>2. Open the tag</p>
-     * <p>3. Click button "Delete Tag"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the tag has been deleted.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3498

@@ -91,8 +91,10 @@ $CONFIG['translates'] = array(
     ),
     'Mage_Core' => array(
         'app/code/core/Mage/Core/',
-        'app/design/frontend/base/default/template/core/',
-        'app/design/frontend/base/default/layout/core.xml',
+        'app/code/core/Mage/Core/view/frontend',
+        'app/code/core/Mage/Core/view/adminhtml',
+        'app/code/core/Mage/Core/view/frontend/layout.xml',
+        'lib/Zend/Validate/',
     ),
     'Mage_Cron' => array(
         'app/code/core/Mage/Cron/',
@@ -534,15 +536,10 @@ $CONFIG['translates'] = array(
         '!app/design/adminhtml/default/default/layout/enterprise/', // ! = exclude
         '!app/design/adminhtml/default/default/template/enterprise/', // ! = exclude
     ),
-    'Mage_Api' => array(
-        'app/code/core/Mage/Api/',
-        'app/design/adminhtml/default/default/template/',
-        '!app/design/adminhtml/default/default/template/enterprise/', // ! = exclude
-    ),
-    'Mage_Api2' => array(
-        'app/code/core/Mage/Api2/',
-        'app/design/adminhtml/default/default/template/api2/',
-        'app/design/adminhtml/default/default/layout/api2.xml',
+    'Mage_Webapi' => array(
+        'app/code/core/Mage/Webapi/',
+        'app/design/adminhtml/default/default/template/webapi/',
+        'app/design/adminhtml/default/default/layout/webapi.xml',
     ),
     'Mage_Oauth' => array(
         'app/code/core/Mage/Oauth/',
@@ -566,8 +563,7 @@ $CONFIG['translates'] = array(
 $CONFIG['helpers']  = array(
     'adminhtml'         => 'Mage_Adminhtml',
     'adminnotification' => 'Mage_AdminNotification',
-    'api'               => 'Mage_Api',
-    'api2'              => 'Mage_Api2',
+    'webapi'              => 'Mage_Webapi',
     'oauth'             => 'Mage_Oauth',
     'importexport'      => 'Mage_ImportExport',
     'backup'            => 'Mage_Backup',

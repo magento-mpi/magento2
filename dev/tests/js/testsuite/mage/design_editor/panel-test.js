@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-PanelTest = TestCase('PanelTest');
+PanelTest = TestCase('DesignEditor_PanelTest');
 PanelTest.prototype.testInit = function() {
     /*:DOC += <div id="panel"></div> */
     var panel = jQuery('#panel').vde_panel();

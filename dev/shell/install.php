@@ -44,6 +44,7 @@ if (empty($args)) {
     exit(1);
 }
 
+define('BARE_BOOTSTRAP', 1);
 require_once __DIR__ . '/../../app/bootstrap.php';
 
 $installer = new Mage_Install_Model_Installer_Console();

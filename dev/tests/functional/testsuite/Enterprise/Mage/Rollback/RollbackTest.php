@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento
+ * @package     Mage_Rollback
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -24,22 +24,6 @@ class Enterprise_Mage_Rollback_RollbackTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Preconditions</p>
-     * <p>Create Staging Website</p>
-     *
-     * <p>Steps:</p>
-     * <p>1. Go to system - Content Staging - Staging Websites;</p>
-     * <p>2. Press button "Add Staging Website";</p>
-     * <p>3. Select Source Website and press button "Continue";</p>
-     * <p>4. Specify all settings/options for Staging Website:</p>
-     * <p>Staging Website Code, Staging Website Name, Frontend Restriction</p>
-     * <p>and Select Original Website Content to be Copied to the Staging Website</p>
-     * <p>5. Press button "Create".</p>
-     *
-     * <p>Expected Results:</p>
-     * <p>1. New Staging Website has been created;</p>
-     * <p>2. Admin user is redirected to Manage Staging Website page;</p>
-     * <p>3. Message "The staging website has been created." appears;</p>
      *
      * @return string $websiteCode
      *
@@ -47,9 +31,10 @@ class Enterprise_Mage_Rollback_RollbackTest extends Mage_Selenium_TestCase
      */
     public function createWebsite()
     {
+        $this->markTestIncomplete("Enterprise_Staging is obsolete. The tests should be refactored.");
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('staging_website_enable_auto_entries');
+        $this->systemConfigurationHelper()->configure('StagingWebsite/staging_website_enable_auto_entries');
         //Data
         $website = $this->loadDataSet('StagingWebsite', 'staging_website');
         //Steps
@@ -62,22 +47,6 @@ class Enterprise_Mage_Rollback_RollbackTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Preconditions</p>
-     *
-     * <p>Steps:</p>
-     * <p>1. Go to system - Content Staging - Staging Websites;</p>
-     * <p>2. Open previously created website;</p>
-     * <p>3. Press button "Merge";</p>
-     * <p>4. Select Website to map;</p>
-     * <p>5. Check "Create a backup" checkbox;</p>
-     * <p>6. Select Items to be Merged;</p>
-     * <p>7. Press button "Merge Now"</p>
-     *
-     * <p>Expected Results:</p>
-     * <p>1. Merging process is carried out immediately;</p>
-     * <p>2. Admin user is redirected to Manage Staging Website page;</p>
-     * <p>3. Message "The staging website has been merged." appears;</p>
-     * <p>4. In "Latest Event" column on Manage Staging Websites page shown value "Instant Merger".</p>
      *
      * @depends createWebsite
      * @param string $websiteName
@@ -102,27 +71,6 @@ class Enterprise_Mage_Rollback_RollbackTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Test Case TL-MAGE-2022: Rollback and TL-MAGE-2029: Rollback</p>
-     *
-     * <p>Steps:</p>
-     * <p>1. Go to system - content staging - backups;</p>
-     * <p>2. Open any Backup;</p>
-     * <p>3. Press button "Rollback";</p>
-     * <p>4. Go to "Rollback" tab;</p>
-     * <p>5. Define elements for rollback;</p>
-     * <p>6. Press button "Rollback".</p>
-     *
-     * <p>Expected Results:</p>
-     * <p>After step 3:</p>
-     * <p>1. Admin user is stayed on Backup page;</p>
-     * <p>3. Message "There are no items selected for rollback." appears;</p>
-     *
-     * <p>After step 6:</p>
-     * <p>1. Admin user is stayed on Backup page;</p>
-     * <p>2. Message "The master website has been restored." appears;</p>
-     * <p>3. In "Latest Event" column on Manage Staging Websites page shown value "Rollback";</p>
-     * <p>4. Master website has been restored</p>
-     * <p>5. On Staging Operations Log page record is added with info: "Action - Rollback,
-     *      Websites from - target website, Websites to - empty, Result - Started, Completed"</p>
      *
      * @depends createWebsite
      * @depends mergeWebsite
@@ -154,27 +102,17 @@ class Enterprise_Mage_Rollback_RollbackTest extends Mage_Selenium_TestCase
         $this->navigate('manage_staging_websites');
         $this->addParameter('websiteName', $websiteName);
         $this->addParameter('latestEvent', 'Rollback');
-        $this->search(array('filter_website_name' => $websiteName));
+        $this->search(array('filter_website_name' => $websiteName), 'staging_websites_grid');
         $this->assertTrue($this->controlIsPresent('pageelement', 'latest_event'));
         //Verification of TL-MAGE-2029
         $this->navigate('manage_staging_operations_log');
-        $this->stagingLogHelper()->openLog($rollbackStarted);
+        $this->searchAndOpen($rollbackStarted, 'staging_operations_log_grid');
         $this->navigate('manage_staging_operations_log');
-        $this->stagingLogHelper()->openLog($rollbackCompleted);
+        $this->searchAndOpen($rollbackCompleted, 'staging_operations_log_grid');
     }
 
     /**
      * <p>Test Case TL-MAGE-2023: Deleting Backup</p>
-     *
-     * <p>Steps:</p>
-     * <p>1. Go to system - content staging - backups;</p>
-     * <p>2. Open any Backup;</p>
-     * <p>3. Press button "Delete";</p>
-     * <p>4. Press button "OK";</p>
-     *
-     * <p>Expected Results:</p>
-     * <p>1. Backup is deleted;</p>
-     * <p>3. Admin user is redirected to Manage Backups page.</p>
      *
      * @depends mergeWebsite
      *

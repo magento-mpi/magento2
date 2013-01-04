@@ -10,28 +10,22 @@
  * @license     {license_link}
  */
 -->
-<phpunit backupGlobals="true"
-         backupStaticAttributes="false"
-         bootstrap="framework/bootstrap.php"
-         cacheTokens="true"
-         colors="false"
+<phpunit bootstrap="./framework/bootstrap.php"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
-         forceCoversAnnotation="false"
-         mapTestClassNameToCoveredClassName="false"
-         processIsolation="false"
          stopOnError="false"
          stopOnFailure="false"
          stopOnIncomplete="false"
          stopOnSkipped="false"
-         testSuiteLoaderClass="PHPUnit_Runner_StandardTestSuiteLoader"
          strict="false"
          verbose="true">
     <testsuites>
         <testsuite name="All Tests">
-            <directory suffix="Test.php">testsuite/Enterprise2/Mage/ACL</directory>
-
+            <directory suffix="Test.php">testsuite/Core/Mage/Acl</directory>
+            <!--<directory suffix="Test.php">testsuite/Community17</directory>-->
+            <!--<directory suffix="Test.php">testsuite/Community1701</directory>-->
+            <!--<directory suffix="Test.php">testsuite/Community2</directory>-->
         </testsuite>
     </testsuites>
     <logging>

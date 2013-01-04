@@ -1,8 +1,8 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     default_default
+ * @category    Mage
+ * @package     Mage_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +12,8 @@
 function categorySubmit(url, useAjax) {
     var activeTab = $('active_tab_id');
     if (activeTab) {
-        if (activeTab.tabsJsObject && activeTab.tabsJsObject.activeTab) {
-            activeTab.value = activeTab.tabsJsObject.activeTab.id;
+        if (activeTab.tabsJsObject && activeTab.tabsJsObject.tabs('activeAnchor')) {
+            activeTab.value = activeTab.tabsJsObject.tabs('activeAnchor').prop('id');
         }
     }
 

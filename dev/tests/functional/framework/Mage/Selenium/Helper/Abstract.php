@@ -29,7 +29,7 @@ class Mage_Selenium_Helper_Abstract
      *
      * @param Mage_Selenium_TestConfiguration $config
      */
-    public function  __construct(Mage_Selenium_TestConfiguration $config)
+    public function __construct(Mage_Selenium_TestConfiguration $config)
     {
         $this->_config = $config;
         $this->_init();

@@ -67,28 +67,13 @@ class Core_Mage_PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Steps
         $data = $this->productHelper()->createSimpleProduct(true);
-        return array('customer'     => array('email'    => $userData['email'],
-                                             'password' => $userData['password']),
-                     'categoryPath' => $data['category']['path'],
-                     'categoryName' => $data['category']['name'],
+        return array('customer'     => array('email' => $userData['email'], 'password' => $userData['password']),
+                     'categoryPath' => $data['category']['path'], 'categoryName' => $data['category']['name'],
                      'simpleName'   => $data['simple']['product_name']);
     }
 
     /**
      * <p>Create catalog price rule - To Fixed Amount</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add New Rule"</p>
-     * <p>2. Fill in required fields</p>
-     * <p>3. Select in "General Information" -> "Customer Groups" = "NOT LOGGED IN"</p>
-     * <p>3. Select in "Apply" field option - "To Fixed Amount"</p>
-     * <p>4. Specify "Discount Amount" = 10%</p>
-     * <p>5. Click "Save and Apply" button</p>
-     * <p>Expected result: New rule created, success message appears</p>
-     * <p>Verification</p>
-     * <p>6. Open product in Frontend as a GUEST</p>
-     * <p>7. Verify product special price = $10.00</p>
-     * <p>8. Login to Frontend</p>
-     * <p>9. Verify product REGULAR PRICE = $120.00</p>
      *
      * @param string $ruleType
      * @param array $testData
@@ -104,13 +89,11 @@ class Core_Mage_PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
         $action = $this->loadDataSet('CatalogPriceRule', $ruleType);
         $condition =
             $this->loadDataSet('CatalogPriceRule', 'condition', array('category' => $testData['categoryPath']));
-        $priceRule = $this->loadDataSet('CatalogPriceRule', 'test_catalog_rule', array('conditions' => $condition,
-                                                                                       'status'     => 'Active',
-                                                                                       'actions'    => $action));
-        $override = array('product_name' => $testData['simpleName'],
-                          'category'     => $testData['categoryName']);
+        $priceRule = $this->loadDataSet('CatalogPriceRule', 'test_catalog_rule',
+            array('conditions' => $condition, 'status' => 'Active', 'actions' => $action));
+        $override = array('product_name' => $testData['simpleName'], 'category'     => $testData['categoryName']);
         $productPriceLogged = $this->loadDataSet('PriceReview', $ruleType . '_simple_product_logged');
-        $productPriceNotLogged = $this->loadDataSet('PriceReview', $ruleType . '_simple_product_not_logged');
+        $prodPriceNotLogged = $this->loadDataSet('PriceReview', $ruleType . '_simple_product_not_logged');
         $inCategoryLogged = $this->loadDataSet('PriceReview', $ruleType . '_simple_logged_category', $override);
         $inCategoryNotLogged = $this->loadDataSet('PriceReview', $ruleType . '_simple_not_logged_category', $override);
         //Steps
@@ -128,7 +111,7 @@ class Core_Mage_PriceRules_Catalog_ApplyTest extends Mage_Selenium_TestCase
         $this->frontend();
         $this->categoryHelper()->frontOpenCategoryAndValidateProduct($inCategoryNotLogged);
         $this->productHelper()->frontOpenProduct($testData['simpleName']);
-        $this->categoryHelper()->frontVerifyProductPrices($productPriceNotLogged, $testData['simpleName']);
+        $this->categoryHelper()->frontVerifyProductPrices($prodPriceNotLogged, $testData['simpleName']);
         $this->customerHelper()->frontLoginCustomer($testData['customer']);
         $this->categoryHelper()->frontOpenCategoryAndValidateProduct($inCategoryLogged);
         $this->productHelper()->frontOpenProduct($testData['simpleName']);

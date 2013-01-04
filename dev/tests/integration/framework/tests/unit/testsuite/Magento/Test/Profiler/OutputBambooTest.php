@@ -85,15 +85,15 @@ class Magento_Test_Profiler_OutputBambooTest extends PHPUnit_Framework_TestCase
         /**
          * @link http://php.net/manual/en/wrappers.php.php
          */
-        $this->_output = new Magento_Test_Profiler_OutputBamboo(
-            'php://filter/write=dataCollectorFilter/resource=php://memory',
-            array('sample metric (ms)' => array('profiler_key_for_sample_metric'))
-        );
+        $this->_output = new Magento_Test_Profiler_OutputBamboo(array(
+            'filePath' => 'php://filter/write=dataCollectorFilter/resource=php://memory',
+            'metrics' => array('sample metric (ms)' => array('profiler_key_for_sample_metric'))
+        ));
     }
 
     public function testDisplay()
     {
-        $this->_output->display();
+        $this->_output->display(new Magento_Profiler_Driver_Standard_Stat());
         Magento_Test_Profiler_OutputBambooTestFilter::assertCollectedData("Timestamp,\"sample metric (ms)\"\n%d,%d");
     }
 }

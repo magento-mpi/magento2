@@ -40,7 +40,7 @@ class Enterprise_TargetRule_Adminhtml_TargetruleController extends Mage_Adminhtm
      */
     public function gridAction()
     {
-        $this->loadLayout();
+        $this->loadLayout(false);
         $this->renderLayout();
     }
 

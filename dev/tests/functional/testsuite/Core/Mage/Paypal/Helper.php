@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
+class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
 {
     public static $monthMap = array('1'  => '01 - January', '2'  => '02 - February', '3'  => '03 - March',
                                     '4'  => '04 - April', '5'  => '05 - May', '6'  => '06 - June', '7'  => '07 - July',
@@ -59,8 +59,9 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
         } else {
             $page = $this->_findCurrentPageFromUrl();
         }
-        //$expectedTitle = $this->getUimapPage($this->_configHelper->getArea(), $page)->getTitle($this->_paramsHelper);
-        //$this->assertSame($expectedTitle, $this->getTitle(), 'Title is unexpected for "' . $page . '" page');
+        //$expectedTitle = $this->getUimapPage($this->getConfigHelper()->getArea(),
+        //$page)->getTitle($this->_paramsHelper);
+        //$this->assertSame($expectedTitle, $this->url(), 'Title is unexpected for "' . $page . '" page');
         $this->setCurrentPage($page);
     }
 
@@ -81,7 +82,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
     public function openPaypalTab($tabName = '')
     {
         $page = $this->getUimapPage('paypal_developer', 'paypal_developer_logged_in');
-        $this->click($this->_getControlXpath('tab', $tabName, $page));
+        $this->getControlElement('tab', $tabName, $page)->click();
         $this->waitForNewPage();
         $result = $this->errorMessage();
         $this->assertFalse($result['success'], $this->getMessagesOnPage());
@@ -98,14 +99,14 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
         } catch (Exception $e) {
             $this->skipTestWithScreenshot($e->getMessage());
         }
-        $loginData = array('login_email'     => $this->_configHelper->getDefaultLogin(),
-                           'login_password'  => $this->_configHelper->getDefaultPassword());
+        $loginData = array('login_email'     => $this->getConfigHelper()->getDefaultLogin(),
+                           'login_password'  => $this->getConfigHelper()->getDefaultPassword());
         $this->validatePage();
         if ($this->controlIsPresent('button', 'button_login')) {
             $this->fillForm($loginData);
             $this->clickButton('button_login', false);
             $this->waitForNewPage();
-            $this->waitForElementPresent("//*[@id='nav-menu']");
+            $this->waitForElement($this->_getControlXpath('pageelement', 'navigation_menu'));
             $this->validatePage();
         }
         $result = $this->errorMessage();
@@ -139,8 +140,12 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
             $this->deleteAccount($delete['email']);
             return $this->createPreconfiguredAccount($parameters);
         }
+        $error = $this->errorMessage('incorrect_information');
+        if ($error['success']) {
+            return $this->createPreconfiguredAccount($parameters);
+        }
         $this->assertMessagePresent('success', 'success_created_account');
-        $this->validatePage('developer_created_test_account_us');
+        $this->validatePage();
 
         return $this->getPaypalSandboxAccountInfo($parameters);
     }
@@ -155,12 +160,15 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
     public function getPaypalSandboxAccountInfo(array $parameters)
     {
         $this->addParameter('accountEmail', $parameters['login_email']);
-        $detailTable = $this->_getControlXpath('fieldset', 'account_details');
-        $countRows = $this->getXpathCount($detailTable . '//tr');
-        for ($i = 0; $i < $countRows; $i++) {
-            $key = $this->getTable($detailTable . '.' . $i . '.0');
+        $this->getControlElement('link', 'view_details')->click();
+        $elements = $this->getControlElements('pageelement', 'account_details_line');
+        /**
+         * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
+         */
+        foreach ($elements as $element) {
+            $key = $this->getChildElement($element, 'td[1]')->text();
             $key = preg_replace('/ /', '_', strtolower(trim($key, ':')));
-            $value = $this->getTable($detailTable . '.' . $i . '.2');
+            $value = $this->getChildElement($element, 'td[3]')->text();
             if ($key == 'credit_card') {
                 $cardData = explode(':', $value);
                 $number = preg_replace('/\D/', '', $cardData[0]);
@@ -172,7 +180,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
                 $data[$key] = $value;
             }
         }
-        $data['email'] = trim($this->getText($this->_getControlXpath('pageelement', 'email_account')));
+        $data['email'] = $this->getControlAttribute('pageelement', 'email_account', 'text');
         return $data;
     }
 
@@ -188,12 +196,14 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
         $this->addParameter('accountEmail', $email);
         $this->openPaypalTab('api_credentials');
         $apiCredentials = array();
-        $detailTable = $this->_getControlXpath('fieldset', 'account_api_credentials');
-        $countRows = $this->getXpathCount($detailTable . '//tr');
-        for ($i = 0; $i < $countRows; $i++) {
-            $key = $this->getTable($detailTable . '.' . $i . '.0');
+        $elements = $this->getControlElements('pageelement', 'account_api_credentials_line');
+        /**
+         * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
+         */
+        foreach ($elements as $element) {
+            $key = $this->getChildElement($element, 'td[1]')->text();
             $key = preg_replace('/ /', '_', strtolower(trim($key, ':')));
-            $value = $this->getTable($detailTable . '.' . $i . '.1');
+            $value = $this->getChildElement($element, 'td[2]')->text();
             if ($key == 'test_account') {
                 $apiCredentials['email_associated_with_paypal_merchant_account'] = trim($value);
             } elseif ($key == 'signature') {
@@ -274,14 +284,9 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
      */
     public function paypalSandboxLogin($parameters)
     {
-        if (is_string($parameters)) {
-            $elements = explode('/', $parameters);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $parameters = $this->loadDataSet($fileName, implode('/', $elements));
-        }
-        $xpath = $this->getUimapPage('paypal_sandbox', 'paypal_sandbox')->findButton('button_login');
-        if ($this->isElementPresent($xpath)) {
-            $this->addParameter('pageTitle', $parameters['page_title']);
+        $parameters = $this->fixtureDataToArray($parameters);
+        if ($this->controlIsPresent('button', 'button_login')) {
+            $this->addParameter('elementTitle', $parameters['page_title']);
             $this->validatePage();
             $this->fillForm($parameters['credentials']);
             $this->clickControl('button', 'button_login');
@@ -297,12 +302,8 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
      */
     public function paypalSandboxConfigure($parameters)
     {
-        if (is_string($parameters)) {
-            $elements = explode('/', $parameters);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $parameters = $this->loadDataSet($fileName, implode('/', $elements));
-        }
-        $this->addParameter('pageTitle', $parameters['page_title']);
+        $parameters = $this->fixtureDataToArray($parameters);
+        $this->addParameter('elementTitle', $parameters['page_title']);
         $this->validatePage();
         $this->fillForm($parameters['credentials']);
         $this->clickControl('button', 'button_login');
@@ -318,23 +319,18 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
      */
     public function paypalPayOrder($parameters)
     {
-        if (is_string($parameters)) {
-            $elements = explode('/', $parameters);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $parameters = $this->loadDataSet($fileName, implode('/', $elements));
-        }
-        $xpath = $this->getUimapPage('paypal_sandbox', 'paypal_sandbox')->findButton('button_login');
-        if (!$this->isElementPresent($xpath)) {
-            $this->addParameter('pageTitle', $parameters['page_title_pay_with']);
+        $parameters = $this->fixtureDataToArray($parameters);
+        if (!$this->controlIsPresent('button', 'button_login')) {
+            $this->addParameter('elementTitle', $parameters['page_title_pay_with']);
             $this->validatePage();
-            $this->addParameter('pageTitle', $parameters['page_title']);
+            $this->addParameter('elementTitle', $parameters['page_title']);
             $this->clickControl('link', 'have_paypal_account');
         } else {
-            $this->addParameter('pageTitle', $parameters['page_title']);
+            $this->addParameter('elementTitle', $parameters['page_title']);
             $this->validatePage();
         }
         $this->fillForm($parameters['credentials']);
-        $this->addParameter('pageTitle', $parameters['page_title_review_info']);
+        $this->addParameter('elementTitle', $parameters['page_title_review_info']);
         $this->clickControl('button', 'button_login');
         $this->clickControl('button', 'button_continue');
     }

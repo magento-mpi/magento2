@@ -195,7 +195,8 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      */
     public function fetchView($fileName)
     {
-        Magento_Profiler::start('TEMPLATE:' . $fileName);
+        $viewShortPath = str_replace(Mage::getBaseDir(), '', $fileName);
+        Magento_Profiler::start('TEMPLATE:' . $fileName, array('group' => 'TEMPLATE', 'file_name' => $viewShortPath));
 
         // EXTR_SKIP protects from overriding
         // already defined variables
@@ -324,7 +325,7 @@ HTML;
     protected function _getAllowSymlinks()
     {
         if (is_null($this->_allowSymlinks)) {
-            $this->_allowSymlinks = Mage::getStoreConfigFlag(self::XML_PATH_TEMPLATE_ALLOW_SYMLINK);
+            $this->_allowSymlinks = $this->_storeConfig->getConfigFlag(self::XML_PATH_TEMPLATE_ALLOW_SYMLINK);
         }
         return $this->_allowSymlinks;
     }

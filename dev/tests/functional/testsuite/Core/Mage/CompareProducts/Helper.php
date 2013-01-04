@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
+class Core_Mage_CompareProducts_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Add product from Catalog page
@@ -58,7 +58,7 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
             return false;
         }
         if ($this->controlIsPresent('link', 'compare_clear_all')) {
-            return $this->clickControlAndConfirm('link', 'compare_clear_all', 'confirmation_clear_all_from_compare');
+            $this->clickControlAndConfirm('link', 'compare_clear_all', 'confirmation_clear_all_from_compare');
         }
         return true;
     }
@@ -68,13 +68,11 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
      * Preconditions: page with Compare Products block is opened
      *
      * @param string $productName Name of product to be deleted
-     *
-     * @return bool
      */
     public function frontRemoveProductFromCompareBlock($productName)
     {
         $this->addParameter('productName', $productName);
-        return $this->clickControlAndConfirm('link', 'compare_delete_product',
+        $this->clickControlAndConfirm('link', 'compare_delete_product',
             'confirmation_for_removing_product_from_compare');
     }
 
@@ -98,28 +96,12 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * Get available product details from the Compare Products pop-up
-     *
-     * Preconditions: Compare Products pop-up is opened
-     *
-     * @return array $productData Product details from Compare Products pop-up
+     * Get Field Names
+     * @param $names
+     * @return array $arrayNames
      */
-    public function getProductDetailsOnComparePage()
+    protected function _getFieldNames($names)
     {
-        $xpath = $this->_getControlXpath('fieldset', 'compare_products');
-
-        $rowCount = $this->getXpathCount($xpath . '/*/tr');
-        $columnCount = $this->getXpathCount($xpath . '/tbody[1]/tr/*');
-
-        $data = array();
-        for ($column = 0; $column < $columnCount; $column++) {
-            for ($row = 0; $row < $rowCount; $row++) {
-                $data[$column][$row] = $this->getTable($xpath . '.' . $row . '.' . $column);
-            }
-        }
-
-        //Get Field Names
-        $names = array_shift($data);
         $arrayNames = array();
         foreach ($names as $key => $value) {
             if ($value == null) {
@@ -137,15 +119,14 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
                 $arrayNames[$key] = $value;
             }
         }
+        return $arrayNames;
+    }
 
-        //Generate correct array
-        $returnArray = array();
-        foreach ($data as $number => $productData) {
-            foreach ($productData as $key => $value) {
-                $returnArray['product_' . ($number + 1)][$arrayNames[$key]] = $value;
-            }
-            unset($data[$number]);
-        }
+    /**
+     * @param $returnArray
+     */
+    protected function _formDataForVerifying($returnArray)
+    {
         foreach ($returnArray as &$value) {
             if (isset($value['remove'])) {
                 unset($value['remove']);
@@ -179,8 +160,48 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
                 }
             }
         }
-
         return $returnArray;
+    }
+
+    /**
+     * Get available product details from the Compare Products pop-up
+     *
+     * Preconditions: Compare Products pop-up is opened
+     *
+     * @return array $productData Product details from Compare Products pop-up
+     */
+    public function getProductDetailsOnComparePage()
+    {
+        $data = array();
+        $names = array();
+        $table = $this->getControlElement('fieldset', 'compare_products');
+        /**
+         * @var PHPUnit_Extensions_Selenium2TestCase_Element $cellData
+         */
+        $nameCells = $this->getChildElements($table, '//th');
+        $productCount = count($this->getChildElements($table, 'tbody[1]/tr/*')) - 1;
+        foreach ($nameCells as $cellData) {
+            $names[] = trim($cellData->text());
+        }
+        for ($i = 1; $i <= $productCount; $i++) {
+            $columnData = $this->getChildElements($table, "//td[$i]");
+            foreach ($columnData as $cellData) {
+                $data[$i][] = $cellData->text();
+            }
+
+        }
+        $arrayNames = $this->_getFieldNames($names);
+
+        //Generate correct array
+        $returnArray = array();
+        foreach ($data as $number => $productData) {
+            foreach ($productData as $key => $value) {
+                $returnArray['product_' . ($number)][$arrayNames[$key]] = $value;
+            }
+            unset($data[$number]);
+        }
+
+        return $this->_formDataForVerifying($returnArray);
     }
 
     /**
@@ -208,8 +229,13 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
      */
     public function frontGetAttributesListComparePopup()
     {
-        $attrXPath = $this->_getControlXpath('pageelement', 'product_attribute_names');
-        $attributesList = $this->getElementsText($attrXPath, "/th/span");
+        $totalElements = $this->getControlCount('pageelement', 'product_attribute_names');
+        $attributesList = array();
+        for ($i = 1; $i < $totalElements + 1; $i++) {
+            $this->addParameter('', $i);
+            $elementValue = $this->getControlAttribute('pageelement', 'product_attribute_index_name', 'text');
+            $attributesList[$elementValue] = $i;
+        }
         return $attributesList;
     }
 
@@ -221,29 +247,14 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
      */
     public function frontGetProductsListComparePopup()
     {
-        $productsXPath = $this->_getControlXpath('pageelement', 'product_names');
-        $productsList = $this->getElementsText($productsXPath, "//*[@class='product-name']");
-        return $productsList;
-    }
-
-    /**
-     * Gets text for all element(s) by XPath
-     *
-     * @param string $elementsXpath General XPath of looking up element(s)
-     * @param string $additionalXPath Additional XPath (by default = '')
-     *
-     * @return array Array of elements text with id of element
-     */
-    public function getElementsText($elementsXpath, $additionalXPath = '')
-    {
-        $elements = array();
-        $totalElements = $this->getXpathCount($elementsXpath);
+        $totalElements = $this->getControlCount('pageelement', 'product_names');
+        $productsList = array();
         for ($i = 1; $i < $totalElements + 1; $i++) {
-            $elementXpath = $elementsXpath . "[$i]" . $additionalXPath;
-            $elementValue = $this->getText($elementXpath);
-            $elements[$elementValue] = $i;
+            $this->addParameter('', $i);
+            $elementValue = $this->getControlAttribute('pageelement', 'product_index_name', 'text');
+            $productsList[$elementValue] = $i;
         }
-        return $elements;
+        return $productsList;
     }
 
     /**
@@ -256,10 +267,7 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
     public function frontOpenComparePopup()
     {
         $this->clickButton('compare', false);
-        $names = $this->getAllWindowNames();
-        $popupId = end($names);
-        $this->waitForPopUp($popupId, $this->_browserTimeoutPeriod);
-        $this->selectWindow("name=" . $popupId);
+        $popupId = $this->selectLastWindow();
         $this->validatePage('compare_products');
         return $popupId;
     }
@@ -276,9 +284,8 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
         if (!$popupId) {
             return;
         }
-        $this->selectWindow("name=" . $popupId);
-        $this->clickButton('close_window', false);
+        $this->closeWindow($popupId);
         //Select parent window
-        $this->selectWindow(null);
+        $this->window('');
     }
 }

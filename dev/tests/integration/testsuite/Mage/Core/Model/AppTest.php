@@ -67,6 +67,25 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->_mageModel->getRequest()->isDispatched());
     }
 
+    public function testIsInstalled()
+    {
+        $this->assertTrue($this->_mageModel->isInstalled());
+    }
+
+    /**
+     * @magentoAppIsolation enabled
+     * @expectedException Magento_Exception
+     * @expectedExceptionMessage Application is not installed yet, please complete the installation first.
+     */
+    public function testRequireInstalledInstance()
+    {
+        $this->_model->baseInit(array(
+            Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_DATA
+                => sprintf(Mage_Core_Model_Config::CONFIG_TEMPLATE_INSTALL_DATE, 'invalid')
+        ));
+        $this->_model->requireInstalledInstance();
+    }
+
     public function testGetCookie()
     {
         $this->assertInstanceOf('Mage_Core_Model_Cookie', $this->_model->getCookie());
@@ -204,13 +223,6 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         $locale = $this->_model->getLocale();
         $this->assertInstanceOf('Mage_Core_Model_Locale', $locale);
         $this->assertSame($locale, $this->_model->getLocale());
-    }
-
-    public function testGetLayout()
-    {
-        $layout = $this->_mageModel->getLayout();
-        $this->assertInstanceOf('Mage_Core_Model_Layout', $layout);
-        $this->assertSame($layout, $this->_mageModel->getLayout());
     }
 
     public function testGetTranslator()

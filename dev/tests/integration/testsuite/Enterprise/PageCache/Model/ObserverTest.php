@@ -51,13 +51,13 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $observerData->setEvent(new Varien_Event(array(
             'controller_action' => Mage::getModel(
                 'Mage_Core_Controller_Front_Action',
-                array('request' => $request, 'response' => new Magento_Test_Response())
+                array('request' => $request, 'response' => new Magento_Test_Response(), 'areaCode' => 'adminhtml')
             )
         )));
         $this->_cookie
             ->expects($this->once())
-            ->method('updateCustomerCookies')
-        ;
+            ->method('updateCustomerCookies');
+
         Mage::app()->getCacheInstance()->allowUse(Mage_Core_Block_Abstract::CACHE_GROUP);
         Mage::getSingleton('Mage_Catalog_Model_Session')->setParamsMemorizeDisabled(false);
         $this->_observer->processPreDispatch($observerData);
@@ -73,7 +73,7 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $observerData->setEvent(new Varien_Event(array(
             'controller_action' => Mage::getModel(
                 'Mage_Core_Controller_Front_Action',
-                array('request' => $request, 'response' => new Magento_Test_Response())
+                array('request' => $request, 'response' => new Magento_Test_Response(), 'areaCode' => 'adminhtml')
             )
         )));
         $this->_cookie
@@ -85,23 +85,23 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(Mage::getSingleton('Mage_Catalog_Model_Session')->getParamsMemorizeDisabled());
     }
 
-    public function testDesignEditorSessionActivate()
+    public function testSetNoCacheCookie()
     {
         $this->_cookie
             ->expects($this->once())
             ->method('set')
             ->with(Enterprise_PageCache_Model_Processor::NO_CACHE_COOKIE)
         ;
-        $this->_observer->designEditorSessionActivate(new Varien_Event_Observer());
+        $this->_observer->setNoCacheCookie(new Varien_Event_Observer());
     }
 
-    public function testDesignEditorSessionDeactivate()
+    public function testDeleteNoCacheCookie()
     {
         $this->_cookie
             ->expects($this->once())
             ->method('delete')
             ->with(Enterprise_PageCache_Model_Processor::NO_CACHE_COOKIE)
         ;
-        $this->_observer->designEditorSessionDeactivate(new Varien_Event_Observer());
+        $this->_observer->deleteNoCacheCookie(new Varien_Event_Observer());
     }
 }

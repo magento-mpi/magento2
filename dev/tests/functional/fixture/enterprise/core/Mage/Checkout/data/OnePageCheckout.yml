@@ -11,30 +11,6 @@
 #Test data for One Page Checkout(Frontend)
 ################################################################################
 #                                                                              #
-#                                 Billing Address                              #
-#                                                                              #
-################################################################################
-
-billing_new_signedin_req_physical_withshipping_usa: &billing_new_signedin_with_shipping_usa
-    billing_address_choice: New Address
-    billing_first_name: Steven(billing.req)
-    billing_last_name: Stevenson(billing.req)
-    billing_company: %noValue%
-    billing_street_address_1: street address 1(billing.req)
-    billing_street_address_2: %noValue%
-    billing_city: Los Angeles
-    billing_country: United States
-    billing_state: California
-    billing_region: %noValue%
-    billing_zip_code: 90064
-    billing_telephone: (091)019-019(billing.req)
-    billing_fax: %noValue%
-    billing_save_in_address_book: %noValue%
-    ship_to_this_address: Yes
-    ship_to_different_address: %noValue%
-
-################################################################################
-#                                                                              #
 #                           Order Data for Gift Wrapping                       #
 #                                                                              #
 ################################################################################
@@ -80,7 +56,23 @@ gift_data_general: &giftDataGeneral
             general_name: %product_1%
         product_2:
             general_name: %product_2%
-    billing_address_data: *billing_new_signedin_with_shipping_usa
+    billing_address_data: &billing_new_signedin_with_shipping_usa
+        billing_address_choice: New Address
+        billing_first_name: Steven(billing.req)
+        billing_last_name: Stevenson(billing.req)
+        billing_company: %noValue%
+        billing_street_address_1: street address 1(billing.req)
+        billing_street_address_2: %noValue%
+        billing_city: Los Angeles
+        billing_country: United States
+        billing_state: California
+        billing_region: %noValue%
+        billing_zip_code: 90064
+        billing_telephone: (091)019-019(billing.req)
+        billing_fax: %noValue%
+        billing_save_in_address_book: %noValue%
+        ship_to_this_address: Yes
+        ship_to_different_address: %noValue%
     payment_data: &payment_check_money
         payment_method: Check / Money order
     shipping_data: &shipping_flat_rate

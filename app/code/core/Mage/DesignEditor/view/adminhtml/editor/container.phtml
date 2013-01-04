@@ -1,0 +1,22 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     Mage_DesignEditor
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Editor_Container */ ?>
+<?php echo $this->getChildHtml('design_editor_toolbar'); ?>
+<?php echo $this->getChildHtml('theme.selector.storeview'); ?>
+<iframe name="vde_container_frame" id="vde_container_frame" class="vde_container_frame" src="<?php echo $this->getFrameUrl(); ?>"></iframe>
+<script type="text/javascript">
+(function ($) {
+    $( document ).ready(function( ){
+        $('iframe.vde_container_frame').iframeAutoHeight({minHeight: 240});
+    });
+})(jQuery);
+</script>

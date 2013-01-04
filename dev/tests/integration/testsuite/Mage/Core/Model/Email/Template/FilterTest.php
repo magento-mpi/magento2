@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module::Mage_Layout_Merge
- */
 class Mage_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -101,15 +98,13 @@ class Mage_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCa
      */
     public function testLayoutDirective($currentArea, $directiveParams, $expectedOutput)
     {
-        $this->markTestIncomplete('MAGETWO-5812');
-
         /** @var $themeUtility Mage_Core_Utility_Theme */
-        $themeUtility = Mage::getModel('Mage_Core_Utility_Theme', array(dirname(__DIR__) . '/_files/design'));
-        $themeUtility->registerThemes()->setDesignTheme('test/default', $currentArea);
-
-        Mage::getConfig()->cleanCache();
-        $themeFrontend = $themeUtility->getThemeByParams('test/default', 'frontend');
-        Mage::app()->getStore('default')->setConfig('design/theme/theme_id', $themeFrontend->getId());
+        $themeUtility = Mage::getModel('Mage_Core_Utility_Theme', array(
+            dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'design'
+        ));
+        $themeUtility->registerThemes()
+            ->setDesignTheme('test/default', 'frontend')
+            ->setDesignTheme('test/default', 'adminhtml');
 
         $this->_emulateCurrentArea($currentArea);
         $actualOutput = $this->_model->layoutDirective(array(
@@ -158,8 +153,9 @@ class Mage_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCa
      */
     protected function _emulateCurrentArea($area)
     {
-        /** @var $layout Mage_Core_Model_Layout */
-        $layout = Mage::getSingleton('Mage_Core_Model_Layout', array('area' => $area));
+        /** @var $layoutFactory Mage_Core_Model_Layout_Factory */
+        $layoutFactory = Mage::getObjectManager()->get('Mage_Core_Model_Layout_Factory');
+        $layout = $layoutFactory->createLayout(array('area' => $area));
         $this->assertEquals($area, $layout->getArea());
         $this->assertEquals($area, Mage::app()->getLayout()->getArea());
     }

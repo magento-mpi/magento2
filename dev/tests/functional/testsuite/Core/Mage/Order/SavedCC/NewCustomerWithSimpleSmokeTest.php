@@ -115,23 +115,6 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
 
     /**
      * <p>Invoice for full order</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders;</p>
-     * <p>2.Press "Create New Order" button;</p>
-     * <p>3.Press "Create New Customer" button;</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists;</p>
-     * <p>5.Fill all required fields;</p>
-     * <p>6.Press 'Add Products' button;</p>
-     * <p>7.Add products;</p>
-     * <p>8.Choose shipping address the same as billing;</p>
-     * <p>9.Check payment method 'Credit Card';</p>
-     * <p>10.Choose any from 'Get shipping methods and rates';</p>
-     * <p>11. Submit order;</p>
-     * <p>12. Invoice order;</p>
-     * <p>Expected result:</p>
-     * <p>New customer successfully created. Order is created for the new customer;</p>
-     * <p>Message "The order has been created." is displayed.</p>
-     * <p>Order is invoiced successfully</p>
      *
      * @param array $orderData
      *
@@ -152,23 +135,6 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
 
     /**
      * <p>Invoice for part of order</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders;</p>
-     * <p>2.Press "Create New Order" button;</p>
-     * <p>3.Press "Create New Customer" button;</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists;</p>
-     * <p>5.Fill all required fields;</p>
-     * <p>6.Press 'Add Products' button;</p>
-     * <p>7.Add products;</p>
-     * <p>8.Choose shipping address the same as billing;</p>
-     * <p>9.Check payment method 'Credit Card';</p>
-     * <p>10.Choose any from 'Get shipping methods and rates';</p>
-     * <p>11. Submit order;</p>
-     * <p>12. Partially invoice order;</p>
-     * <p>Expected result:</p>
-     * <p>New customer successfully created. Order is created for the new customer;</p>
-     * <p>Message "The order has been created." is displayed.</p>
-     * <p>Order is invoiced successfully</p>
      *
      * @param array $orderData
      * @param string $sku
@@ -194,24 +160,6 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
 
     /**
      * <p>Credit Memo for whole invoice<p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders;</p>
-     * <p>2.Press "Create New Order" button;</p>
-     * <p>3.Press "Create New Customer" button;</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists;</p>
-     * <p>5.Fill all required fields;</p>
-     * <p>6.Press 'Add Products' button;</p>
-     * <p>7.Add products;</p>
-     * <p>8.Choose shipping address the same as billing;</p>
-     * <p>9.Check payment method 'Credit Card';</p>
-     * <p>10.Choose any from 'Get shipping methods and rates';</p>
-     * <p>11. Submit order;</p>
-     * <p>12. Invoice order;</p>
-     * <p>13. Refund order;</p>
-     * <p>Expected result:</p>
-     * <p>New customer successfully created. Order is created for the new customer;</p>
-     * <p>Message "The order has been created." is displayed.</p>
-     * <p>Order is invoiced and refunded successfully</p>
      *
      * @param array $orderData
      *
@@ -231,24 +179,6 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
 
     /**
      * <p>Credit Memo for part of invoice</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders;</p>
-     * <p>2.Press "Create New Order" button;</p>
-     * <p>3.Press "Create New Customer" button;</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists;</p>
-     * <p>5.Fill all required fields;</p>
-     * <p>6.Press 'Add Products' button;</p>
-     * <p>7.Add two products;</p>
-     * <p>8.Choose shipping address the same as billing;</p>
-     * <p>9.Check payment method 'Credit Card';</p>
-     * <p>10.Choose any from 'Get shipping methods and rates';</p>
-     * <p>11. Submit order;</p>
-     * <p>12. Invoice order;</p>
-     * <p>13. Partially refund order (choose only one product);</p>
-     * <p>Expected result:</p>
-     * <p>New customer successfully created. Order is created for the new customer;</p>
-     * <p>Message "The order has been created." is displayed.</p>
-     * <p>Order is invoiced and refunded successfully</p>
      *
      * @param array $orderData
      * @param string $sku
@@ -273,24 +203,6 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
 
     /**
      * <p>Shipment for order</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders;</p>
-     * <p>2.Press "Create New Order" button;</p>
-     * <p>3.Press "Create New Customer" button;</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists;</p>
-     * <p>5.Fill all required fields;</p>
-     * <p>6.Press 'Add Products' button;</p>
-     * <p>7.Add products;</p>
-     * <p>8.Choose shipping address the same as billing;</p>
-     * <p>9.Check payment method 'Credit Card';</p>
-     * <p>10.Choose any from 'Get shipping methods and rates';</p>
-     * <p>11. Submit order;</p>
-     * <p>12. Invoice order;</p>
-     * <p>13. Ship order;</p>
-     * <p>Expected result:</p>
-     * <p>New customer successfully created. Order is created for the new customer;</p>
-     * <p>Message "The order has been created." is displayed.</p>
-     * <p>Order is invoiced and shipped successfully</p>
      *
      * @param array $orderData
      *
@@ -311,24 +223,6 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
 
     /**
      * <p>Shipment for part of order</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders;</p>
-     * <p>2.Press "Create New Order" button;</p>
-     * <p>3.Press "Create New Customer" button;</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists;</p>
-     * <p>5.Fill all required fields;</p>
-     * <p>6.Press 'Add Products' button;</p>
-     * <p>7.Add several products;</p>
-     * <p>8.Choose shipping address the same as billing;</p>
-     * <p>9.Check payment method 'Credit Card';</p>
-     * <p>10.Choose any from 'Get shipping methods and rates';</p>
-     * <p>11. Submit order;</p>
-     * <p>12. Invoice order;</p>
-     * <p>13. Partially ship order;</p>
-     * <p>Expected result:</p>
-     * <p>New customer successfully created. Order is created for the new customer;</p>
-     * <p>Message "The order has been created." is displayed.</p>
-     * <p>Order is invoiced and shipped successfully</p>
      *
      * @param array $orderData
      * @param string $sku
@@ -354,15 +248,6 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
 
     /**
      * <p>Holding and unholding order after creation.</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Orders" page;</p>
-     * <p>2. Create new order for new customer;</p>
-     * <p>3. Hold order;</p>
-     * <p>Expected result:</p>
-     * <p>Order is holden;</p>
-     * <p>4. Unhold order;</p>
-     * <p>Expected result:</p>
-     * <p>Order is unholden;</p>
      *
      * @param array $orderData
      *
@@ -402,25 +287,6 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
 
     /**
      * <p>Reorder.</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders;</p>
-     * <p>2.Press "Create New Order" button;</p>
-     * <p>3.Press "Create New Customer" button;</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists;</p>
-     * <p>5.Fill all required fields;</p>
-     * <p>6.Press 'Add Products' button;</p>
-     * <p>7.Add products;</p>
-     * <p>8.Choose shipping address the same as billing;</p>
-     * <p>9.Check payment method 'Credit Card';</p>
-     * <p>10.Choose any from 'Get shipping methods and rates';</p>
-     * <p>11. Submit order;</p>
-     * <p>12. Edit order (add products and change billing address);</p>
-     * <p>13. Submit order;</p>
-     * <p>Expected results:</p>
-     * <p>New customer successfully created. Order is created for the new customer;</p>
-     * <p>Message "The order has been created." is displayed.</p>
-     * <p>New order during reorder is created.</p>
-     * <p>Message "The order has been created." is displayed.</p>
      *
      * @param array $orderData
      *
@@ -446,21 +312,6 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
 
     /**
      * <p>Create Orders using Saved CC payment method with 3DSecure</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders.</p>
-     * <p>2.Press "Create New Order" button.</p>
-     * <p>3.Press "Create New Customer" button.</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
-     * <p>5.Press 'Add Products' button.</p>
-     * <p>6.Add simple product.</p>
-     * <p>7.Fill all required fields in billing address form.</p>
-     * <p>8.Choose shipping address the same as billing.</p>
-     * <p>9.Check shipping method</p>
-     * <p>10.Check payment method</p>
-     * <p>11.Validate card with 3D secure</p>
-     * <p>12.Submit order.</p>
-     * <p>Expected result:</p>
-     * <p>New customer is created. Order is created for the new customer.</p>
      *
      * @param string $card
      * @param bool $needSetUp

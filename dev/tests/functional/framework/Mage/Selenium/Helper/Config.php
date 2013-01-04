@@ -284,6 +284,19 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
     }
 
     /**
+     * @return array
+     */
+    public function getConfigAreasUimapFolders()
+    {
+        $uimapFolders = array();
+        $configAreas = $this->getConfigAreas();
+        foreach ($configAreas as $areaName => $areaConfig) {
+            $uimapFolders[$areaName] = $areaConfig['uimap_path'];
+        }
+        return $uimapFolders;
+    }
+
+    /**
      * Return current application config
      * @return array
      * @throws OutOfRangeException
@@ -535,5 +548,19 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
             $this->setLogDir(SELENIUM_TESTS_LOGS);
         }
         return $this->_logDir;
+    }
+
+    /**
+     * Return current application Design Theme
+     * @return array
+     * @throws OutOfRangeException
+     */
+    public function getApplicationDesignTheme()
+    {
+        $applicationConfig = $this->getApplicationConfig();
+        if (!isset($applicationConfig['design_theme'])) {
+            throw new OutOfRangeException('Design Theme for application is not set');
+        }
+        return $applicationConfig['design_theme'];
     }
 }

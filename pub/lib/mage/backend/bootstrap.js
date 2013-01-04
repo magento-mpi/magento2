@@ -9,6 +9,19 @@
 /*jshint jquery:true browser:true */
 /*global FORM_KEY:true*/
 jQuery(function ($) {
+    'use strict';
+    // @TODO move isJSON method inside file with utility functions
+    $.extend(true, $, {
+        mage: {
+            isJSON : function(json){
+                json = json.replace(/\\["\\\/bfnrtu]/g, '@');
+                json = json.replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']');
+                json = json.replace(/(?:^|:|,)(?:\s*\[)+/g, '');
+                return (/^[\],:{}\s]*$/.test(json));
+            }
+        }
+    });
+
     $.ajaxSetup({
         /*
          * @type {string}
@@ -52,9 +65,11 @@ jQuery(function ($) {
          */
         complete: function(jqXHR) {
             if (jqXHR.readyState === 4) {
-                var jsonObject = jQuery.parseJSON(jqXHR.responseText);
-                if (jsonObject.ajaxExpired && jsonObject.ajaxRedirect) {
-                    window.location.replace(jsonObject.ajaxRedirect);
+                if($.mage.isJSON(jqXHR.responseText)) {
+                    var jsonObject = jQuery.parseJSON(jqXHR.responseText);
+                    if (jsonObject.ajaxExpired && jsonObject.ajaxRedirect) {
+                        window.location.replace(jsonObject.ajaxRedirect);
+                    }
                 }
             }
         }
@@ -70,11 +85,13 @@ jQuery(function ($) {
         /*
          * Show loader on ajax send
          */
-        $('body').on('ajaxSend', function(e) {
-            $(e.target).mage('loader', {
-                icon: $('#loading_mask_loader img').attr('src'),
-                showOnInit: true
-            });
+        $('body').on('ajaxSend processStart', function(e, jqxhr, settings) {
+            if (settings && settings.showLoader) {
+                $(e.target).mage('loader', {
+                    icon: $('#loading_mask_loader img').attr('src'),
+                    showOnInit: true
+                });
+            }
         });
 
         /*

@@ -1,0 +1,29 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Product
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+# Test Datasets for Add New Product with attributes for extensions testing
+simple_product_with_param_for_configurable:
+    product_attribute_set: Default
+    general_name: Simple Product
+    general_description: Description for Simple Product
+    general_short_description: Short Description for Simple Product
+    general_sku: simple_sku_%randomize%
+    general_weight: 100
+    general_status: Enabled
+    general_dropdown_goext: goext
+    prices_price: 100
+    prices_tax_class: None
+    inventory_manage_stock_default: No
+    inventory_manage_stock: Yes
+    inventory_qty: 20000
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    custom_options_data: %noValue%

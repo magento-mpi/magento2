@@ -138,7 +138,8 @@
                 url: this.options.ajaxUrl,
                 type: 'POST',
                 data: parameters,
-                context: this.translateDialog
+                context: this.translateDialog,
+                showLoader: true
             }).complete(jQuery.proxy(function() {
                 this.translateDialog.dialog('close');
             }, this));

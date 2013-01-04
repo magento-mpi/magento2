@@ -1,4 +1,3 @@
-# Magento
 #
 # {license_notice}
 #
@@ -105,6 +104,10 @@ create_invoice:
                             email_copy_of_invoice: //input[@type='checkbox' and @name='invoice[send_email]']
                         pageelements:
                             price_totals: //tbody
+                            price_totals_line: //tbody/descendant::tr
+                            price_totals_line_index: //tbody/descendant::tr[%index%]
+                            price_totals_line_index_name: //tbody/descendant::tr[%index%]/*[1]
+                            price_totals_line_index_value: //tbody/descendant::tr[%index%]/*[2]
                         buttons:
                             submit_invoice: //button[span='Submit Invoice']
         buttons:
@@ -114,7 +117,7 @@ create_invoice:
 
 view_invoice:
     mca: sales_invoice/view/invoice_id/%id%/
-    title: %invoiceId% / Invoices / Sales / Magento Admin
+    title: %elementTitle% / Invoices / Sales / Magento Admin
     uimap:
         form: &viewInvoice
             fieldsets:
@@ -152,6 +155,10 @@ view_invoice:
                         xpath: //div[@class='box-right entry-edit'][./div/h4='Invoice Totals']
                         pageelements:
                             price_totals: //tbody
+                            price_totals_line: //tbody/descendant::tr
+                            price_totals_line_index: //tbody/descendant::tr[%index%]
+                            price_totals_line_index_name: //tbody/descendant::tr[%index%]/*[1]
+                            price_totals_line_index_value: //tbody/descendant::tr[%index%]/*[2]
         buttons:
             back: //p[@class='form-buttons']//button[span='Back']
             send_email: //p[@class='form-buttons']//button[span='Send Email']

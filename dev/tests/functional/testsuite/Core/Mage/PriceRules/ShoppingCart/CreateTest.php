@@ -30,13 +30,6 @@ class Core_Mage_PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCas
     /**
      * <p>Bug MAGE-5623 (reproducible in 1.6.2, but is not reproducible in nightly build)</p>
      * <p>Create Shopping cart price rule with empty required fields.</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Promotions - Shopping Cart Price Rules;</p>
-     * <p>2. Fill form for Shopping Cart Price Rules,
-     *       but leave one required field empty (empty fields are listed in data provider);</p>
-     * <p>3. Try to save newly created Shopping Cart Price Rules with one empty required field;</p>
-     * <p>Expected results:</p>
-     * <p>Rule is not created; Message "This is required field" is shown under each empty required field;</p>
      *
      * @param string $fieldName
      * @param string $fieldType
@@ -73,13 +66,6 @@ class Core_Mage_PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCas
 
     /**
      * <p>Create Shopping cart price rule with special symbols in fields.</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Promotions - Shopping Cart Price Rules;</p>
-     * <p>2. Fill form for Shopping Cart Price Rules,
-     *       but one field should be filled with special symbols (fields are listed in data provider);</p>
-     * <p>3. Try to save newly created Shopping Cart Price Rules with one field filled with special symbols;</p>
-     * <p>Expected results:</p>
-     * <p>Rule is created where applicable;</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3320
@@ -101,12 +87,6 @@ class Core_Mage_PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCas
 
     /**
      * <p>Create Shopping cart price rule with required fields only filled.</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Promotions - Shopping Cart Price Rules;</p>
-     * <p>2. Fill form (only required fields) for Shopping Cart Price Rules;</p>
-     * <p>3. Save newly created Shopping Cart Price Rules;</p>
-     * <p>Expected results:</p>
-     * <p>Rule is created;</p>
      *
      * @return string   Returns coupon code
      * @test
@@ -124,12 +104,6 @@ class Core_Mage_PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCas
 
     /**
      * <p>Create Shopping cart price rule with all fields filled (except conditions).</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Promotions - Shopping Cart Price Rules;</p>
-     * <p>2. Fill form (all fields) for Shopping Cart Price Rules;</p>
-     * <p>3. Save newly created Shopping Cart Price Rules;</p>
-     * <p>Expected results:</p>
-     * <p>Rule is created;</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3315
@@ -144,12 +118,6 @@ class Core_Mage_PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCas
 
     /**
      * <p>Create Shopping cart price rule with all fields filled (except conditions).</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Promotions - Shopping Cart Price Rules;</p>
-     * <p>2. Fill form (all fields) for Shopping cart price rule;</p>
-     * <p>3. Save newly created Shopping Cart Price Rule;</p>
-     * <p>Expected results:</p>
-     * <p>Rule is created;</p>
      *
      * @test
      * @TestlinkId    TL-MAGE-3318
@@ -167,12 +135,6 @@ class Core_Mage_PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCas
 
     /**
      * <p>Create Shopping cart price rule with existing coupon.</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to Promotions - Shopping Cart Price Rules;</p>
-     * <p>2. Fill form (all fields) for Shopping Cart Price Rules;</p>
-     * <p>3. Save newly created Shopping Cart Price Rules;</p>
-     * <p>Expected results:</p>
-     * <p>Rule is created;</p>
      *
      * <p>4. Create rule with the same coupon;</p>
      * <p>Expected Results:</p>

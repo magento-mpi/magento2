@@ -8,6 +8,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/** @var $this Legacy_ObsoleteCodeTest */
 return array(
     $this->_getRule('__get', 'Varien_Object'),
     $this->_getRule('__set', 'Varien_Object'),
@@ -24,6 +26,7 @@ return array(
     $this->_getRule('_avoidDoubleTransactionProcessing'),
     $this->_getRule('_beforeChildToHtml'),
     $this->_getRule('_calculatePrice', 'Mage_Sales_Model_Quote_Item_Abstract'),
+    $this->_getRule('_canShowField', 'Mage_Backend_Block_System_Config_Form'),
     $this->_getRule('_canUseLocalModules'),
     $this->_getRule('_checkUrlSettings', 'Mage_Adminhtml_Controller_Action'),
     $this->_getRule('_collectOrigData', 'Mage_Catalog_Model_Resource_Abstract'),
@@ -40,6 +43,7 @@ return array(
     $this->_getRule('_getCacheKey', 'Mage_Catalog_Model_Layer_Filter_Price'),
     $this->_getRule('_getCacheTags', 'Mage_Core_Model_App'),
     $this->_getRule('_getChildHtml'),
+    $this->_getRule('_getCollapseState', 'Mage_Backend_Block_System_Config_Form_Fieldset', '_isCollapseState'),
     $this->_getRule('_getCollectionNames', 'Mage_Adminhtml_Report_SalesController'),
     $this->_getRule('_getConnenctionType', 'Mage_Install_Model_Installer_Db'),
     $this->_getRule('_getDateFromToHtml', 'Mage_ImportExport_Block_Adminhtml_Export_Filter'),
@@ -93,6 +97,7 @@ return array(
     $this->_getRule('_sendUploadResponse', 'Mage_Adminhtml_CustomerController'),
     $this->_getRule('_sendUploadResponse', 'Mage_Adminhtml_Newsletter_SubscriberController'),
     $this->_getRule('_setAttribteValue'),
+    $this->_getRule('_sort', 'Mage_Backend_Model_Config_Structure_Converter'),
     $this->_getRule('_usePriceIncludeTax'),
     $this->_getRule('addBackupedFilter'),
     $this->_getRule('addConfigField', 'Mage_Core_Model_Resource_Setup'),
@@ -151,6 +156,7 @@ return array(
     $this->_getRule('drawItem', 'Mage_Catalog_Block_Navigation'),
     $this->_getRule('dropKey', 'Varien_Db_Adapter_Pdo_Mysql'),
     $this->_getRule('editAction', 'Mage_Tag_CustomerController'),
+    $this->_getRule('escapeJs', 'Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config'),
     $this->_getRule('exportOrderedCsvAction'),
     $this->_getRule('exportOrderedExcelAction'),
     $this->_getRule('fetchItemsCount', 'Mage_Wishlist_Model_Resource_Wishlist'),
@@ -170,6 +176,7 @@ return array(
     $this->_getRule('getAllOrderEntityIds', 'Mage_Rss_Model_Resource_Order'),
     $this->_getRule('getAllOrderEntityTypeIds', 'Mage_Rss_Model_Resource_Order'),
     $this->_getRule('getAnonSuffix'),
+    $this->_getRule('getAttributesJson', 'Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config', 'getAttributes'),
     $this->_getRule('getBaseTaxAmount', 'Mage_Sales_Model_Quote_Item_Abstract'),
     $this->_getRule('getCheckoutMehod', 'Mage_Checkout_Model_Type_Onepage'),
     $this->_getRule('getChild', null, 'Mage_Core_Block_Abstract::getChildBlock()', 'app'),
@@ -233,13 +240,18 @@ return array(
     $this->_getRule('getRowId', 'Mage_Adminhtml_Block_Widget_Grid'),
     $this->_getRule('getSaveTemplateFlag', 'Mage_Newsletter_Model_Queue'),
     $this->_getRule('getSelectionFinalPrice', 'Mage_Bundle_Model_Product_Price'),
+    $this->_getRule('getSecure', 'Mage_Core_Model_Url', 'isSecure'),
+    $this->_getRule('getSecure', 'Mage_Backend_Model_Url', 'isSecure'),
     $this->_getRule('getShipId', 'Mage_Shipping_Block_Tracking_Popup'),
     $this->_getRule('getSortedChildren', null, 'getChildNames'),
     $this->_getRule('getSortedChildBlocks', null, 'getChildNames() + $this->getLayout()->getBlock($name)'),
     $this->_getRule('getStatrupPageUrl'),
+    $this->_getRule('getStoreButtonsHtml', 'Mage_Backend_Block_System_Config_Tabs'),
     $this->_getRule('getStoreCurrency', 'Mage_Sales_Model_Order'),
+    $this->_getRule('getStoreSelectOptions', 'Mage_Backend_Block_System_Config_Tabs'),
     $this->_getRule('getSuggestedZeroDate'),
     $this->_getRule('getSuggestionsByQuery'),
+    $this->_getRule('getSysTmpDir'),
     $this->_getRule('getTaxAmount', 'Mage_Sales_Model_Quote_Item_Abstract'),
     $this->_getRule('getTaxRatesByProductClass', null, '_getAllRatesByProductClass'),
     $this->_getRule('getTemplateFilename', null, 'getFilename'),

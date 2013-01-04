@@ -77,6 +77,16 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
     }
 
     /**
+     * Get product type
+     *
+     * @return Mage_Catalog_Model_Product_Type_Configurable
+     */
+    private function getProductType()
+    {
+        return Mage::getSingleton('Mage_Catalog_Model_Product_Type_Configurable');
+    }
+
+    /**
      * Set order collection by Position
      *
      * @param string $dir
@@ -106,16 +116,16 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
     protected function _afterLoad()
     {
         parent::_afterLoad();
-        Magento_Profiler::start('TTT1:'.__METHOD__);
+        Magento_Profiler::start('TTT1:'.__METHOD__, array('group' => 'TTT1', 'method' => __METHOD__));
         $this->_addProductAttributes();
         Magento_Profiler::stop('TTT1:'.__METHOD__);
-        Magento_Profiler::start('TTT2:'.__METHOD__);
+        Magento_Profiler::start('TTT2:'.__METHOD__, array('group' => 'TTT2', 'method' => __METHOD__));
         $this->_addAssociatedProductFilters();
         Magento_Profiler::stop('TTT2:'.__METHOD__);
-        Magento_Profiler::start('TTT3:'.__METHOD__);
+        Magento_Profiler::start('TTT3:'.__METHOD__, array('group' => 'TTT3', 'method' => __METHOD__));
         $this->_loadLabels();
         Magento_Profiler::stop('TTT3:'.__METHOD__);
-        Magento_Profiler::start('TTT4:'.__METHOD__);
+        Magento_Profiler::start('TTT4:'.__METHOD__, array('group' => 'TTT4', 'method' => __METHOD__));
         $this->_loadPrices();
         Magento_Profiler::stop('TTT4:'.__METHOD__);
         return $this;
@@ -129,7 +139,7 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
     protected function _addProductAttributes()
     {
         foreach ($this->_items as $item) {
-            $productAttribute = $this->getProduct()->getTypeInstance()
+            $productAttribute = $this->getProductType()
                 ->getAttributeById($item->getAttributeId(), $this->getProduct());
             $item->setProductAttribute($productAttribute);
         }
@@ -143,7 +153,7 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
      */
     public function _addAssociatedProductFilters()
     {
-        $this->getProduct()->getTypeInstance()
+        $this->getProductType()
             ->getUsedProducts($this->getProduct(), $this->getColumnValues('attribute_id')); // Filter associated products
         return $this;
     }
@@ -225,7 +235,7 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
             }
 
             $values = array();
-            $usedProducts = $this->getProduct()->getTypeInstance()->getUsedProducts($this->getProduct());
+            $usedProducts = $this->getProductType()->getUsedProducts($this->getProduct());
             if ($usedProducts) {
                 foreach ($this->_items as $item) {
                     $productAttribute = $item->getProductAttribute();
