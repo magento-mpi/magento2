@@ -16,4 +16,9 @@
             <action method="addJs"><file>mage/directpost.js</file></action>
         </reference>
     </adminhtml_sales_order_create_index>
+    <adminhtml_authorizenet_directpost_payment_redirect>
+        <container name="root" label="Root" output="1">
+            <block type="Mage_Authorizenet_Block_Directpost_Iframe" name="iframe" template="directpost/iframe.phtml"/>
+        </container>
+    </adminhtml_authorizenet_directpost_payment_redirect>
 </layout>
