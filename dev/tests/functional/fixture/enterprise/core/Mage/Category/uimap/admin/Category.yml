@@ -43,3 +43,8 @@ manage_categories:
                                         delete_all_permissions_visible: "[not(contains(@class,'no-display'))]//button[contains(@id, '_delete_button')]"
         messages:
             duplicate_permissions: //*[contains(@id, '-category_permissions_%row%_duplicate')]
+
+manage_catalog_event:
+    mca: catalog_event/
+    click_xpath: //div[@class='nav-bar']//a[contains(@href, '/catalog_event/')]
+    title: Catalog Events / Categories / Catalog / Magento Admin
