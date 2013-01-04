@@ -199,7 +199,7 @@
             var selectedPrice = 0,
                 selOption = element.options[element.selectedIndex];
 
-            if (selOption.hasOwnProperty('config') && selOption.config && !this.options.spConfig.stablePrices) {
+            if ('config' in selOption && selOption.config && !this.options.spConfig.stablePrices) {
                 selectedPrice = parseFloat(selOption.config.price);
             }
             for (var i = 0; i < element.options.length; i++) {
