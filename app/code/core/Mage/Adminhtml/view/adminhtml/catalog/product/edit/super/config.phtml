@@ -134,7 +134,7 @@ jQuery(function($) {
                         var target = $matrixRow.find(matrixClass + this),
                             value = $.trim($gridRow.find(associatedClass + this).text()),
                             button = target.find('button.choose-product');
-                        target[target.is('input[type=checkbox]') ? 'val' : 'html'](value).append(button);
+                        target[target.is('input[type=checkbox]') ? 'val' : 'text'](value).append(button);
                     });
                     $matrixRow.find(matrixClass + 'id').attr('checked', true).removeAttr('disabled');
                 }
