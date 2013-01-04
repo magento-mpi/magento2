@@ -26,7 +26,7 @@ class Enterprise_Logging_Block_Adminhtml_Grid_Renderer_Download
      */
     public function _getValue(Varien_Object $row)
     {
-        return '<a href="' . $this->getUrl('*/*/download') . 'basename/' . $row->getBasename() . '/">'
+        return '<a href="' . $this->getUrl('*/*/download', array('basename' => $row->getBasename())) . '">'
                . $row->getBasename() . '</a>';
 
     }
