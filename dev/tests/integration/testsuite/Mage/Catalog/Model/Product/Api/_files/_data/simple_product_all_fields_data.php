@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
  */
 
 /** @var $entityType Mage_Eav_Model_Entity_Type */

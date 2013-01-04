@@ -1,12 +1,13 @@
 <?php
 /**
+ * Product tag API model test.
+ *
  * {license_notice}
  *
- * @copyright   {copyright}
- * @license     {license_link}
- */
-/**
+ * @copyright {copyright}
+ * @license {license_link}
  * @magentoDataFixture Mage/Catalog/Model/Product/Api/_files/TagCRUD.php
+ * @magentoDbIsolation enabled
  */
 class Mage_Catalog_Model_Product_Api_TagCRUDTest extends PHPUnit_Framework_TestCase
 {

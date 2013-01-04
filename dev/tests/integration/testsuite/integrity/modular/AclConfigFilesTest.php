@@ -34,8 +34,6 @@ class Integrity_Modular_AclConfigFilesTest extends PHPUnit_Framework_TestCase
 
     /**
      * Prepare file list of ACL resources
-     *
-     * @return void
      */
     protected function _prepareFileList()
     {

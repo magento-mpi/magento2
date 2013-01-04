@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
  */
 if (!Mage::registry('website')) {
     $website = Mage::getModel('Mage_Core_Model_Website');

@@ -1,16 +1,11 @@
 <?php
 /**
- * Configurable product tests.
+ * Test configurable product API
  *
  * {license_notice}
  *
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
- * Test configurable product API
- *
+ * @copyright {copyright}
+ * @license {license_link}
  * @method Mage_Catalog_Model_Product_Api_Helper_Configurable _getHelper()
  * @magentoDbIsolation enabled
  */

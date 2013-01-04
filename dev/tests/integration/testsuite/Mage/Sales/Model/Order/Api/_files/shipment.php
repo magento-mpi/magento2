@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
  */
 Mage::init('base', 'website');
 //Set up customer fixture

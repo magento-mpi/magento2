@@ -1,12 +1,13 @@
 <?php
 /**
+ * Shipment API model test.
+ *
  * {license_notice}
  *
- * @copyright   {copyright}
- * @license     {license_link}
- */
-/**
+ * @copyright {copyright}
+ * @license {license_link}
  * @magentoDataFixture Mage/Sales/Model/Order/Api/_files/shipment.php
+ * @magentoDbIsolation enabled
  */
 class Mage_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestCase
 {

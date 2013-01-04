@@ -1,9 +1,11 @@
 <?php
 /**
+ * Gift card account for customer API model test.
+ *
  * {license_notice}
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
  */
 class Enterprise_GiftCardAccount_Model_Api_CustomerTest extends PHPUnit_Framework_TestCase
 {
@@ -12,8 +14,6 @@ class Enterprise_GiftCardAccount_Model_Api_CustomerTest extends PHPUnit_Framewor
      *
      * @magentoDataFixture Enterprise/GiftCardAccount/_files/code_pool.php
      * @magentoDataFixture Enterprise/GiftCardAccount/_files/giftcardaccount.php
-     *
-     * @return void
      */
     public function testInfo()
     {
@@ -32,8 +32,6 @@ class Enterprise_GiftCardAccount_Model_Api_CustomerTest extends PHPUnit_Framewor
      * @magentoDataFixture Mage/Customer/_files/customer.php
      * @magentoDataFixture Enterprise/GiftCardAccount/_files/code_pool.php
      * @magentoDataFixture Enterprise/GiftCardAccount/_files/giftcardaccount.php
-     *
-     * @return void
      */
     public function testRedeem()
     {
@@ -67,7 +65,6 @@ class Enterprise_GiftCardAccount_Model_Api_CustomerTest extends PHPUnit_Framewor
      * Test info throw exception with incorrect data
      *
      * @expectedException SoapFault
-     * @return void
      */
     public function testIncorrectDataInfoException()
     {
@@ -80,7 +77,6 @@ class Enterprise_GiftCardAccount_Model_Api_CustomerTest extends PHPUnit_Framewor
      * Test redeem throw exception with incorrect data
      *
      * @expectedException SoapFault
-     * @return void
      */
     public function testIncorrectDataRedeemException()
     {

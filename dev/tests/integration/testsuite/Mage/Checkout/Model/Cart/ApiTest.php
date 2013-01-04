@@ -4,8 +4,9 @@
  *
  * {license_notice}
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
+ * @magentoDbIsolation enabled
  */
 class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
 {

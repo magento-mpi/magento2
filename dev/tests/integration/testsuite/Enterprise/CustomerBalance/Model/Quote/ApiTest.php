@@ -4,12 +4,10 @@
  *
  * {license_notice}
  *
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
+ * @copyright {copyright}
+ * @license {license_link}
  * @magentoDataFixture Enterprise/CustomerBalance/_files/Quote.php
+ * @magentoDbIsolation enabled
  */
 class Enterprise_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_TestCase
 {

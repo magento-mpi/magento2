@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
  */
 $product = Mage::getModel('Mage_Catalog_Model_Product');
 $product->setTypeId('virtual')

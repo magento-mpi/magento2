@@ -2,16 +2,17 @@
 /**
  * {license_notice}
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
  */
 /**
  * Test API getting orders list method
  *
  * {license_notice}
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
+ * @magentoDbIsolation enabled
  */
 class Mage_Catalog_Model_Product_Api_AttributeTest extends PHPUnit_Framework_TestCase
 {

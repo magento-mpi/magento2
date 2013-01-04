@@ -1,17 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
- */
-/**
  * Test API work with product images
  *
  * {license_notice}
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
+ * @magentoDbIsolation enabled
  */
 class Mage_Catalog_Model_Product_Api_ImageTest extends PHPUnit_Framework_TestCase
 {

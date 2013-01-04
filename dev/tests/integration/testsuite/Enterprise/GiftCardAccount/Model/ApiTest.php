@@ -1,9 +1,12 @@
 <?php
 /**
+ * Gift card account API model tests.
+ *
  * {license_notice}
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
+ * @magentoDbIsolation enabled
  */
 class Enterprise_GiftCardAccount_Model_ApiTest extends PHPUnit_Framework_TestCase
 {
@@ -13,8 +16,6 @@ class Enterprise_GiftCardAccount_Model_ApiTest extends PHPUnit_Framework_TestCas
      * Test create, list, info, update, remove
      *
      * @magentoDataFixture Enterprise/GiftCardAccount/_files/code_pool.php
-     *
-     * @return void
      */
     public function testCRUD()
     {
@@ -77,7 +78,6 @@ class Enterprise_GiftCardAccount_Model_ApiTest extends PHPUnit_Framework_TestCas
      * Test Exception on invalid data
      *
      * @expectedException SoapFault
-     * @return void
      */
     public function testCreateExceptionInvalidData()
     {
@@ -91,7 +91,6 @@ class Enterprise_GiftCardAccount_Model_ApiTest extends PHPUnit_Framework_TestCas
      * Test giftcard account not found exception
      *
      * @expectedException SoapFault
-     * @return void
      */
     public function testExceptionNotFound()
     {
@@ -106,7 +105,6 @@ class Enterprise_GiftCardAccount_Model_ApiTest extends PHPUnit_Framework_TestCas
      *
      * @param array $data
      * @param Varien_Object $testModel
-     * @return void
      */
     protected function _testDataCorrect($data, $testModel)
     {

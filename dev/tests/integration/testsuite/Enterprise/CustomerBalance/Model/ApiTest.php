@@ -4,11 +4,8 @@
  *
  * {license_notice}
  *
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
+ * @copyright {copyright}
+ * @license {license_link}
  * @magentoDataFixture Enterprise/CustomerBalance/_files/CustomerBalance.php
  */
 class Enterprise_CustomerBalance_Model_ApiTest extends PHPUnit_Framework_TestCase

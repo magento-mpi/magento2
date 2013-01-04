@@ -138,7 +138,6 @@ class Mage_ImportExport_Model_Export_Entity_ProductTest extends PHPUnit_Framewor
      * Verify header columns (that stock item attributes column headers are present)
      *
      * @param array $headerColumns
-     * @return void
      */
     public function verifyHeaderColumns(array $headerColumns)
     {
@@ -153,7 +152,6 @@ class Mage_ImportExport_Model_Export_Entity_ProductTest extends PHPUnit_Framewor
      * Verify row data (stock item attribute values)
      *
      * @param array $rowData
-     * @return void
      */
     public function verifyRow(array $rowData)
     {

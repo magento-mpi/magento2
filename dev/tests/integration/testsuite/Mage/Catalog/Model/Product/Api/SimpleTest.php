@@ -2,13 +2,18 @@
 /**
  * {license_notice}
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
  */
 /**
  * Test Product CRUD operations
  *
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license {license_link}
  * @method Mage_Catalog_Model_Product_Api_Helper_Simple _getHelper()
+ * @magentoDbIsolation enabled
  */
 class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Product_Api_TestCaseAbstract
 {

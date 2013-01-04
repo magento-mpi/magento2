@@ -1,9 +1,12 @@
 <?php
 /**
+ * Product tier price attribute API test.
+ *
  * {license_notice}
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
+ * @magentoDbIsolation enabled
  */
 class Mage_Catalog_Model_Product_Api_Attribute_TierPriceTest extends PHPUnit_Framework_TestCase
 {

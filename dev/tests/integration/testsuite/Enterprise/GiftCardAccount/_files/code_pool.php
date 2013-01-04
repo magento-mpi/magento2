@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
  */
 $pool = Mage::getResourceModel('Enterprise_GiftCardAccount_Model_Resource_Pool');
 

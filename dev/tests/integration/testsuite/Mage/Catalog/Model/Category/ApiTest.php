@@ -1,18 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  integration_tests
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Test class for Mage_Catalog_Model_Category_Api.
  *
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license {license_link}
  * @magentoDataFixture Mage/Catalog/_files/categories.php
+ * @magentoDbIsolation enabled
  */
 class Mage_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
 {

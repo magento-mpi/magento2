@@ -4,8 +4,8 @@
  *
  * {license_notice}
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
  */
 class Mage_Catalog_Model_Product_Api_Helper_Configurable extends PHPUnit_Framework_TestCase
 {

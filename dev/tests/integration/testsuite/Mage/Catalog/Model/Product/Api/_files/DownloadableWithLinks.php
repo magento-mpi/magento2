@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
  */
 
 $fixture = simplexml_load_file(__DIR__ . '/_data/xml/LinkCRUD.xml');

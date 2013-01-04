@@ -1,13 +1,14 @@
 <?php
 /**
+ * Gift card account API model test.
+ *
  * {license_notice}
  *
- * @copyright   {copyright}
- * @license     {license_link}
- */
-/**
+ * @copyright {copyright}
+ * @license {license_link}
  * @magentoDataFixture Enterprise/GiftCardAccount/_files/code_pool.php
  * @magentoDataFixture Enterprise/GiftCardAccount/_files/giftcardaccount.php
+ * @magentoDbIsolation enabled
  */
 class Enterprise_GiftCardAccount_Model_Api_CartTest extends PHPUnit_Framework_TestCase
 {

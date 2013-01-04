@@ -1,17 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
- */
-/**
  * Simple product tests helper.
  *
  * {license_notice}
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
  */
 
 class Mage_Catalog_Model_Product_Api_Helper_Simple extends PHPUnit_Framework_TestCase

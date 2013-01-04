@@ -1,9 +1,12 @@
 <?php
 /**
+ * Creditmemo API model test.
+ *
  * {license_notice}
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
+ * @magentoDbIsolation enabled
  */
 class Mage_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCase
 {
