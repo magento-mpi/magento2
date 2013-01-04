@@ -209,8 +209,7 @@ class Mage_DesignEditor_Model_State
     {
         foreach ($this->_dataHelper->getDisabledCacheTypes() as $cacheCode) {
             if ($this->_cacheManager->canUse($cacheCode)) {
-                $this->_cacheManager->banUse($cacheCode)
-                    ->invalidateType($cacheCode);
+                $this->_cacheManager->invalidateType($cacheCode);
             }
         }
     }

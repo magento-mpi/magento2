@@ -100,8 +100,23 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->with('Mage_Core_Model_Resource_Layout_Update_Collection')
             ->will($this->returnValue($layoutCollection));
 
+        $cacheManager = $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false);
+
         // test
-        $this->_model = new Mage_DesignEditor_Model_Observer($objectManager, $helper);
+        $this->_model = new Mage_DesignEditor_Model_Observer($objectManager, $helper, $cacheManager);
         $this->_model->clearLayoutUpdates();
+    }
+
+    public function testClearCache()
+    {
+        $objectManager = $this->getMock('Magento_ObjectManager_Zend', array(), array(), '', false);
+        $helper = $this->getMock('Mage_DesignEditor_Helper_Data', array(), array(), '', false);
+
+        $cacheManager = $this->getMock('Mage_Core_Model_Cache', array('flush'), array(), '', false);
+        $cacheManager->expects($this->once())
+            ->method('flush');
+
+        $this->_model = new Mage_DesignEditor_Model_Observer($objectManager, $helper, $cacheManager);
+        $this->_model->clearCache();
     }
 }

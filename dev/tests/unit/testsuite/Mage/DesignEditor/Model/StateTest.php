@@ -160,23 +160,15 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
             ->with('type1')
             ->will($this->returnValue(true));
         $this->_cacheManager->expects($this->at(1))
-            ->method('banUse')
-            ->with('type1')
-            ->will($this->returnSelf());
-        $this->_cacheManager->expects($this->at(2))
             ->method('invalidateType')
             ->with('type1')
             ->will($this->returnSelf());
 
-        $this->_cacheManager->expects($this->at(3))
+        $this->_cacheManager->expects($this->at(2))
             ->method('canUse')
             ->with('type2')
             ->will($this->returnValue(true));
-        $this->_cacheManager->expects($this->at(4))
-            ->method('banUse')
-            ->with('type2')
-            ->will($this->returnSelf());
-        $this->_cacheManager->expects($this->at(5))
+        $this->_cacheManager->expects($this->at(3))
             ->method('invalidateType')
             ->with('type2')
             ->will($this->returnSelf());

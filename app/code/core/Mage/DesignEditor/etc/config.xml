@@ -108,6 +108,16 @@
                 </white_list>
             </container>
         </design_editor>
+        <events>
+            <controller_front_send_response_after>
+                <observers>
+                    <design_editor_clear_cache>
+                        <class>Mage_DesignEditor_Model_Observer</class>
+                        <method>clearCache</method>
+                    </design_editor_clear_cache>
+                </observers>
+            </controller_front_send_response_after>
+        </events>
     </vde>
     <admin>
         <routers>
