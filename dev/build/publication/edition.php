@@ -28,7 +28,7 @@ try {
             $lists[] = 'saas.txt';
             break;
         default:
-            throw new Exception("Specified edition '{$options['e']}' is not implemented.");
+            throw new Exception("Specified edition '{$options['edition']}' is not implemented.");
     }
     $command = 'php -f ' . __DIR__ . '/../extruder.php -- -v -w ' . escapeshellarg($options['dir']);
     foreach ($lists as $list) {

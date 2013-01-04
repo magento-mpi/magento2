@@ -19,7 +19,7 @@ USAGE
 define('DB_NAME_PATTERN', 'saas_qa_tenant_%s');
 define('LOCAL_XML_PATTERN', 'local.%s.xml');
 
-$options = getopt('', array('deploy-dir:', 'deploy-url-pattern:', 'dsn:', 'tenant-ids::', 'new-install::', 'unix::'));
+$options = getopt('', array('deploy-dir:', 'deploy-url-pattern:', 'dsn:', 'tenant-ids::', 'new-install::'));
 if (empty($options['deploy-dir']) || empty($options['deploy-url-pattern']) || empty($options['dsn'])) {
     echo USAGE;
     exit(1);
@@ -47,20 +47,13 @@ try {
 
     // tenant ids
     $tenantsFile = $deployParent . '/tenants.txt';
-    $tenantIds = array();
-    if (!empty($options['tenant-ids'])) {
-        $ids = explode(',', $options['tenant-ids']);
-        foreach ($ids as $id) {
-            if (!preg_match('/^[a-z0-9]+$/', $id)) {
-                throw new Exception("Invalid tenant ID: '{$id}'");
-            }
-            $tenantIds[] = $id;
+    if (empty($options['tenant-ids'])) {
+        if (!is_file($tenantsFile)) {
+            throw new Exception("No file with tenant IDs has been found: {$tenantsFile}");
         }
+        $tenantIds = getTenantIds(file_get_contents($tenantsFile));
     } else {
-        $tenantIds = explode(',', file_get_contents($tenantsFile));
-    }
-    if (empty($tenantIds)) {
-        throw new Exception("No tenants identified to install or update");
+        $tenantIds = getTenantIds($options['tenant-ids']);
     }
 
     require __DIR__ . '/../../../app/autoload.php';
@@ -191,4 +184,27 @@ function rmDirRecursive($dir, Magento_Shell $shell)
     } else {
         $shell->execute('rm -rf %s', array($dir));
     }
+}
+
+/**
+ * Parse string with comma-separated tenant IDs, convert them to array and validate
+ *
+ * @param string $idString
+ * @return array
+ * @throws Exception
+ */
+function getTenantIds($idString)
+{
+    $result = array();
+    if (empty($idString)) {
+        throw new Exception('No tenant IDs specified.');
+    }
+    $ids = explode(',', $idString);
+    foreach ($ids as $id) {
+        if (!preg_match('/^[a-z0-9]+$/', $id)) {
+            throw new Exception("Invalid tenant ID: '{$id}'");
+        }
+        $result[] = $id;
+    }
+    return $result;
 }

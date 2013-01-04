@@ -66,7 +66,6 @@ try {
     }
 
     // remove files that must not be published
-    $listsDir = __DIR__ . '/extruder';
     execVerbose('php -f %s -- --dir=%s --edition=ce', __DIR__ . '/edition.php', $targetDir);
 
     // compare if changelog is different from the published one, compose the commit message
