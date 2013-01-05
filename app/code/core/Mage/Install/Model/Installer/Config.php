@@ -36,11 +36,6 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
      */
     protected $_dirs;
 
-    /**
-     * @var Mage_Install_Helper_Data
-     */
-    protected $_helper;
-
     protected $_configData = array();
 
     /**
@@ -48,15 +43,12 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
      *
      * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Dir $dirs
-     * @param Mage_Install_Helper_Data $helper
      */
-    public function __construct(
-        Mage_Core_Model_Config $config, Mage_Core_Model_Dir $dirs, Mage_Install_Helper_Data $helper
-    ) {
+    public function __construct(Mage_Core_Model_Config $config, Mage_Core_Model_Dir $dirs)
+    {
         $this->_localConfigFile = $dirs->getDir(Mage_Core_Model_Dir::CONFIG) . DIRECTORY_SEPARATOR . 'local.xml';
         $this->_dirs = $dirs;
         $this->_config = $config;
-        $this->_helper = $helper;
     }
 
     public function setConfigData($data)
@@ -173,13 +165,16 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
             $response = $client->request('GET');
         }
         catch (Exception $e){
-            $errorMessage = $this->_helper->__('The URL "%s" is not accessible.', $baseUrl);
-            $this->_getInstaller()->getDataModel()->addError($errorMessage);
+            $this->_getInstaller()->getDataModel()->addError(
+                Mage::helper('Mage_Install_Helper_Data')->__('The URL "%s" is not accessible.', $baseUrl)
+            );
             throw $e;
         }
         if ($response->getStatus() != 200) {
-            $this->_getInstaller()->getDataModel()->addError($this->_helper->__('The URL "%s" is invalid.', $baseUrl));
-            Mage::throwException($this->_helper->__('Response from the server is invalid.'));
+            $this->_getInstaller()->getDataModel()->addError(
+                Mage::helper('Mage_Install_Helper_Data')->__('The URL "%s" is invalid.', $baseUrl)
+            );
+            Mage::throwException(Mage::helper('Mage_Install_Helper_Data')->__('Response from the server is invalid.'));
         }
     }
 
