@@ -2,7 +2,7 @@
 /**
  * Obsolete constants
  *
- * Format: array(<constant_name>[, <class_scope>[, <replacement>[, <directory>]])
+ * Format: array(<constant_name>[, <class_scope> = ''[, <replacement>]])
  *
  * {license_notice}
  *

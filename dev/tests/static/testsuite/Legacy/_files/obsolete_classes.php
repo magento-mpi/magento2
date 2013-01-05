@@ -2,7 +2,7 @@
 /**
  * Obsolete classes
  *
- * Format: array(<class_name>[, <replacement>[, <directory>]])
+ * Format: array(<class_name>[, <replacement>])
  *
  * {license_notice}
  *

@@ -2,7 +2,7 @@
 /**
  * Obsolete methods
  *
- * Format: array(<method_name>[, <class_scope>[, <replacement>[, <directory>]])
+ * Format: array(<method_name = ''>[, <class_scope> = ''[, <replacement>]])
  *
  * {license_notice}
  *
@@ -182,7 +182,6 @@ return array(
     array('getAttributesJson', 'Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config', 'getAttributes'),
     array('getBaseTaxAmount', 'Mage_Sales_Model_Quote_Item_Abstract'),
     array('getCheckoutMehod', 'Mage_Checkout_Model_Type_Onepage'),
-    array('getChild', null, 'Mage_Core_Block_Abstract::getChildBlock()', 'app'),
     array('getChildGroup', null, 'Mage_Core_Block_Abstract::getGroupChildNames()'),
     array('getConfig', 'Mage_Eav_Model_Entity_Attribute_Abstract'),
     array('getCustomerData', 'Mage_Adminhtml_Block_Sales_Order_Create_Form_Account'),

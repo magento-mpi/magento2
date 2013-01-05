@@ -2,7 +2,7 @@
 /**
  * Obsolete class attributes
  *
- * Format: array(<attribute_name>[, <class_scope>[, <replacement>[, <directory>]]])
+ * Format: array(<attribute_name>[, <class_scope> = ''[, <replacement>]])
  *
  * {license_notice}
  *
