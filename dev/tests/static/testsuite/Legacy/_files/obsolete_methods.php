@@ -148,7 +148,7 @@ return array(
     array('convertOldTreeToNew', 'Mage_Catalog_Model_Resource_Setup'),
     array('countChildren', 'Mage_Core_Block_Abstract'),
     array('crear'),
-    array('createDirIfNotExists', 'Mage_Core_Model_Config', 'mkdir()'),
+    array('createDirIfNotExists', null, 'mkdir()'),
     array('createOrderItem', 'Mage_CatalogInventory_Model_Observer'),
     array('debugRequest', 'Mage_Paypal_Model_Api_Standard'),
     array('deleteProductPrices', 'Mage_Catalog_Model_Resource_Product_Attribute_Backend_Tierprice'),

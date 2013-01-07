@@ -117,6 +117,7 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
         $this->_testObsoleteClasses($content);
         $this->_testObsoleteMethods($content);
         $this->_testGetChildSpecialCase($content, $file);
+        $this->_testGetOptionsSpecialCase($content);
         $this->_testObsoleteMethodArguments($content);
         $this->_testObsoleteProperties($content);
         $this->_testObsoleteActions($content);
@@ -229,6 +230,21 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
                 'Block method getChild() is obsolete. Replacement suggestion: Mage_Core_Block_Abstract::getChildBlock()'
             );
         }
+    }
+
+    /**
+     * Special case for ->getConfig()->getOptions()->
+     *
+     * @param string $content
+     */
+    protected function _testGetOptionsSpecialCase($content)
+    {
+        $this->_assertNotRegexp(
+            '/getOptions\(\)->get(Base|App|Code|Design|Etc|Lib|Locale|Js|Media'
+                .'|Var|Tmp|Cache|Log|Session|Upload|Export)?Dir\(/S',
+            $content,
+            'The class Mage_Core_Model_Config_Options. Replacement suggestion: Mage_Core_Model_Dir'
+        );
     }
 
     /**
