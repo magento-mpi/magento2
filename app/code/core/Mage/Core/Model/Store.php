@@ -984,14 +984,14 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     /**
      * Retrieve group model
      *
-     * @return Mage_Core_Model_Store_Group
+     * @return Mage_Core_Model_Store_Group|bool
      */
     public function getGroup()
     {
         if (is_null($this->getGroupId())) {
             return false;
         }
-        return Mage::getModel('Mage_Core_Model_Store_Group')->load($this->getGroupId());
+        return Mage::app()->getGroup($this->getGroupId());
     }
 
     /**

@@ -74,7 +74,16 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
         $website = Mage::app()->getWebsite();
         $this->_model->setWebsite($website);
         $actualResult = $this->_model->getWebsite();
-        $this->assertEquals($website, $actualResult);
+        $this->assertSame($website, $actualResult);
+    }
+
+    public function testSetGetGroup()
+    {
+        $this->assertFalse($this->_model->getGroup());
+        $storeGroup = Mage::app()->getGroup();
+        $this->_model->setGroup($storeGroup);
+        $actualResult = $this->_model->getGroup();
+        $this->assertSame($storeGroup, $actualResult);
     }
 
     /**
