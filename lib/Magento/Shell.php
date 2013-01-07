@@ -14,42 +14,20 @@
 class Magento_Shell
 {
     /**
-     * Verbosity of command execution - whether command output is printed to the standard output or not
+     * Logger instance
      *
-     * @var bool
+     * @var Zend_Log
      */
-    protected $_isVerbose;
+    protected $_logger;
 
     /**
      * Constructor
      *
-     * @param bool $isVerbose Whether command output is printed to the standard output or not
+     * @param Zend_Log $logger Logger instance to be used to log commands and their output
      */
-    public function __construct($isVerbose = false)
+    public function __construct(Zend_Log $logger = null)
     {
-        $this->_isVerbose = $isVerbose;
-    }
-
-    /**
-     * Set verbosity
-     *
-     * @param bool $isVerbose
-     * @return Magento_Shell
-     */
-    public function setVerbose($isVerbose)
-    {
-        $this->_isVerbose = $isVerbose;
-        return $this;
-    }
-
-    /**
-     * Get verbosity
-     *
-     * @return bool
-     */
-    public function isVerbose()
-    {
-        return $this->_isVerbose;
+        $this->_logger = $logger;
     }
 
     /**
@@ -64,14 +42,10 @@ class Magento_Shell
     {
         $arguments = array_map('escapeshellarg', $arguments);
         $command = vsprintf("$command 2>&1", $arguments); // Output errors to STDOUT instead of STDERR
-        if ($this->_isVerbose) {
-            $this->output($command);
-        }
+        $this->_log($command);
         exec($command, $output, $exitCode);
         $output = implode(PHP_EOL, $output);
-        if ($this->_isVerbose) {
-            $this->output($output);
-        }
+        $this->_log($output);
         if ($exitCode) {
             $commandError = new Exception($output, $exitCode);
             throw new Magento_Exception("Command `$command` returned non-zero exit code.", 0, $commandError);
@@ -80,12 +54,14 @@ class Magento_Shell
     }
 
     /**
-     * Echo the specified message
+     * Log a message, if a logger is specified
      *
      * @param string $message
      */
-    public function output($message)
+    protected function _log($message)
     {
-        echo $message . PHP_EOL;
+        if ($this->_logger) {
+            $this->_logger->log($message, Zend_Log::INFO);
+        }
     }
 }

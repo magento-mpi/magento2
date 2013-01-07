@@ -414,4 +414,7 @@ return array(
     array('getPackage', 'Mage_Widget_Model_Widget_Instance'),
     array('getTheme', 'Mage_Widget_Model_Widget_Instance'),
     array('_parsePackageTheme', 'Mage_Widget_Model_Widget_Instance'),
+    array('isVerbose', 'Magento_Shell'),
+    array('setVerbose', 'Magento_Shell'),
+    array('output', 'Magento_Shell'),
 );

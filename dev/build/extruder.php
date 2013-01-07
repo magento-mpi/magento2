@@ -9,8 +9,8 @@
  * @license    {license_link}
  */
 
-require_once __DIR__ . '/../../lib/Magento/Shell.php';
-require_once __DIR__ . '/../../lib/Magento/Exception.php'; // used by Magento_Shell (autoload is not present here)
+require __DIR__ . '/../../app/autoload.php';
+Magento_Autoload_IncludePath::addIncludePath(__DIR__ . '/../../lib');
 
 define('USAGE', <<<USAGE
 $>./extruder.php -w <working_dir> -l /path/to/list.txt [[-l /path/to/extra.txt] parameters]
@@ -23,6 +23,10 @@ USAGE
 );
 
 $options = getopt('w:l:v');
+
+$logWriter = new Zend_Log_Writer_Stream('php://output');
+$logWriter->setFormatter(new Zend_Log_Formatter_Simple('%message%' . PHP_EOL));
+$logger = new Zend_Log($logWriter);
 
 try {
     // working dir argument
@@ -67,7 +71,7 @@ try {
     $verbose = isset($options['v']);
 
     // perform "extrusion"
-    $shell = new Magento_Shell($verbose);
+    $shell = new Magento_Shell($verbose ? $logger : null);
     foreach ($list as $item) {
         if (!file_exists($item)) {
             throw new Exception("The file or directory '{$item} is marked for deletion, but it doesn't exist.");
@@ -88,6 +92,6 @@ try {
     } else {
         $message = $e->getMessage();
     }
-    echo $message . PHP_EOL;
+    $logger->log($message, Zend_Log::ERR);
     exit(1);
 }

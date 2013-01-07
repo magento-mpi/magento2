@@ -8,6 +8,9 @@
  * @license     {license_link}
  */
 
+require __DIR__ . '/../../../app/autoload.php';
+Magento_Autoload_IncludePath::addIncludePath(__DIR__ . '/../../../lib');
+
 define('USAGE', <<<USAGE
 php -f deploy.php --
     --deploy-dir=<deployment_dir> --deploy-url-pattern=<url_pattern>
@@ -19,9 +22,13 @@ USAGE
 define('DB_NAME_PATTERN', 'saas_qa_tenant_%s');
 define('LOCAL_XML_PATTERN', 'local.%s.xml');
 
+$logWriter = new Zend_Log_Writer_Stream('php://output');
+$logWriter->setFormatter(new Zend_Log_Formatter_Simple('%message%' . PHP_EOL));
+$logger = new Zend_Log($logWriter);
+
 $options = getopt('', array('deploy-dir:', 'deploy-url-pattern:', 'dsn:', 'tenant-ids::', 'new-install::'));
 if (empty($options['deploy-dir']) || empty($options['deploy-url-pattern']) || empty($options['dsn'])) {
-    echo USAGE;
+    $logger->log(USAGE, Zend_Log::ERR);
     exit(1);
 }
 
@@ -56,9 +63,7 @@ try {
         $tenantIds = getTenantIds($options['tenant-ids']);
     }
 
-    require __DIR__ . '/../../../app/autoload.php';
-    Magento_Autoload_IncludePath::addIncludePath(array(__DIR__ . '/../../../lib'));
-    $shell = new Magento_Shell(true);
+    $shell = new Magento_Shell($logger);
     $workingDir = realpath(__DIR__ . '/../../..');
 
     if (!empty($options['new-install'])) {
@@ -66,7 +71,7 @@ try {
         if (is_dir($deployDir)) {
             rmDirRecursive($deployDir, $shell);
         }
-        $shell->output("Creating deployment directory: '{$deployDir}'");
+        $logger->log("Creating deployment directory: '{$deployDir}'", Zend_Log::INFO);
         mkdir($deployDir);
 
         // clone git repository from working copy to the deployment dir
@@ -76,7 +81,7 @@ try {
     }
 
     // close access to all entry points
-    $shell->output('Closing access to entry points...');
+    $logger->log('Closing access to entry points...', Zend_Log::INFO);
     touch($deployDir . '/maintenance.flag');
 
     // install per tenant
@@ -92,11 +97,11 @@ try {
         // recreate file system
         $tenantVarDir = "{$deployDir}/var.{$tenantId}";
         rmDirRecursive($tenantVarDir, $shell);
-        $shell->output("Creating var directory: '{$tenantVarDir}'");
+        $logger->log("Creating var directory: '{$tenantVarDir}'", Zend_Log::INFO);
         mkdir($tenantVarDir);
         $tenantMediaUri = "pub/media.{$tenantId}";
         $tenantMediaDir = "{$deployDir}/{$tenantMediaUri}";
-        $shell->output("Creating media directory: '{$tenantMediaDir}'");
+        $logger->log("Creating media directory: '{$tenantMediaDir}'", Zend_Log::INFO);
         mkdir($tenantMediaDir);
 
         // run install.php and obtain generated base configuration
@@ -140,31 +145,31 @@ try {
         $shell->execute($command, $arguments);
         // hack to get the local.xml out of the code base (entire installer requires refactoring to make it clean)
         $tenantConfigFile = $deployParent . '/' . sprintf(LOCAL_XML_PATTERN, $tenantId);
-        $shell->output("Moving 'app/etc/local.xml' out of the code base to '{$tenantConfigFile}'");
+        $logger->log("Moving 'app/etc/local.xml' out of the code base to '{$tenantConfigFile}'", Zend_Log::INFO);
         rename("{$deployDir}/app/etc/local.xml", $tenantConfigFile);
     }
 
     // copy fresh index.build.php into the deployment dir and hack the .htaccess to not impose index.php
     $entryPoint = $deployDir . '/index.build.php';
-    $shell->output("Copying custom entry point to '{$entryPoint}'");
+    $logger->log("Copying custom entry point to '{$entryPoint}'", Zend_Log::INFO);
     copy($workingDir . '/dev/build/saas_qa/index.build.php', $entryPoint);
     $htaccess = $deployDir . '/.htaccess';
-    $shell->output("Copying custom .htaccess '{$htaccess}'");
+    $logger->log("Copying custom .htaccess '{$htaccess}'", Zend_Log::INFO);
     copy($workingDir . '/dev/build/saas_qa/.htaccess', $htaccess);
 
     // open entry points
-    $shell->output('Opening access to entry points...');
+    $logger->log('Opening access to entry points...', Zend_Log::INFO);
     unlink($deployDir . '/maintenance.flag');
 
     // output all URLs available for all tenants to the log
-    $shell->output("Deployed tenant URLs:\n" . implode("\n", $tenantUrls));
+    $logger->log("Deployed tenant URLs:\n" . implode("\n", $tenantUrls), Zend_Log::INFO);
 
     // write file "tenants.txt" in directory outside of deployment dir and persist all tenant IDs for further reuse
-    $shell->output("Tenant IDs are recorded to the file '{$tenantsFile}' for use in future builds.");
+    $logger->log("Tenant IDs are recorded to the file '{$tenantsFile}' for use in future builds.", Zend_Log::INFO);
     file_put_contents($tenantsFile, implode(',', $tenantIds));
 
 } catch (Exception $e) {
-    echo $e;
+    $logger->log((string)$e, Zend_Log::ERR);
     exit(1);
 }
 
