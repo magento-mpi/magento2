@@ -26,9 +26,9 @@ class Mage_Core_Model_Cache
     const APP_INIT_PARAM = 'cache';
 
     /**
-     * @var Mage_Core_Model_App
+     * @var Mage_Core_Model_Config
      */
-    protected $_app;
+    protected $_config;
 
     /**
      * @var Mage_Core_Helper_Abstract
@@ -97,6 +97,11 @@ class Mage_Core_Model_Cache
     protected $_allowedCacheOptions = null;
 
     /**
+     * @var bool
+     */
+    protected $_globalBanUseCache = false;
+
+    /**
      * Class constructor. Initialize cache instance based on options
      *
      * @param Mage_Core_Model_App $app
@@ -105,8 +110,9 @@ class Mage_Core_Model_Cache
      */
     public function __construct(Mage_Core_Model_App $app, Mage_Core_Model_Dir $dirs, array $options = array())
     {
-        $this->_app = $app;
+        $this->_config = $app->getConfig();
         $this->_helper = isset($options['helper']) ? $options['helper'] : Mage::helper('Mage_Core_Helper_Data');
+        $this->_globalBanUseCache = $app->getInitParam('global_ban_use_cache');
 
         $this->_defaultBackendOptions['cache_dir'] = $dirs->getDir(Mage_Core_Model_Dir::CACHE);
         /**
@@ -554,7 +560,7 @@ class Mage_Core_Model_Cache
             $this->_allowedCacheOptions = unserialize($options);
         }
 
-        if ($this->_app->getInitParam('global_ban_use_cache')) {
+        if ($this->_globalBanUseCache) {
             foreach ($this->_allowedCacheOptions as $key => $val) {
                 $this->_allowedCacheOptions[$key] = false;
             }
@@ -632,7 +638,7 @@ class Mage_Core_Model_Cache
     public function getTagsByType($type)
     {
         $path = self::XML_PATH_TYPES.'/'.$type.'/tags';
-        $tagsConfig = $this->_app->getConfig()->getNode($path);
+        $tagsConfig = $this->_config->getNode($path);
         if ($tagsConfig) {
             $tags = (string) $tagsConfig;
             $tags = explode(',', $tags);
@@ -650,7 +656,7 @@ class Mage_Core_Model_Cache
     public function getTypes()
     {
         $types = array();
-        $config = $this->_app->getConfig()->getNode(self::XML_PATH_TYPES);
+        $config = $this->_config->getNode(self::XML_PATH_TYPES);
         if ($config) {
             foreach ($config->children() as $type=>$node) {
                 $types[$type] = new Varien_Object(array(

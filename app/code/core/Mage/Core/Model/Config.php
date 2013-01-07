@@ -1592,7 +1592,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function __destruct()
     {
-        $this->_cacheLoadedSections = array();
         $this->_prototype = null;
         parent::__destruct();
     }
