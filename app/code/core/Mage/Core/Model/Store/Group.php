@@ -77,13 +77,6 @@ class Mage_Core_Model_Store_Group extends Mage_Core_Model_Abstract
     protected $_defaultStore;
 
     /**
-     * Website model
-     *
-     * @var Mage_Core_Model_Website
-     */
-    protected $_website;
-
-    /**
      * @var bool
      */
     private $_isReadOnly = false;

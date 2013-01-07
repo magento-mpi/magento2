@@ -12,7 +12,6 @@
 return array(
     array('_alias', 'Mage_Core_Block_Abstract'),
     array('_anonSuffix'),
-    array('_config', 'Mage_Core_Model_Cache', '_app'),
     array('_isAnonymous'),
     array('_children', 'Mage_Core_Block_Abstract'),
     array('_childrenHtmlCache', 'Mage_Core_Block_Abstract'),

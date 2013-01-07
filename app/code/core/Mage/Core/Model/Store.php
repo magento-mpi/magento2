@@ -128,13 +128,6 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     protected $_priceFilter;
 
     /**
-     * Website model
-     *
-     * @var Mage_Core_Model_Website
-     */
-    protected $_website;
-
-    /**
      * Group model
      *
      * @var Mage_Core_Model_Store_Group
