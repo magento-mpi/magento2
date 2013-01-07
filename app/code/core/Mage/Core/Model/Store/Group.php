@@ -264,7 +264,7 @@ class Mage_Core_Model_Store_Group extends Mage_Core_Model_Abstract
     /**
      * Retrieve website model
      *
-     * @return Mage_Core_Model_Website
+     * @return Mage_Core_Model_Website|bool
      */
     public function getWebsite()
     {

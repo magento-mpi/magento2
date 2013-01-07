@@ -68,6 +68,15 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
         $this->_model->setConfig(Mage_Core_Model_Store::XML_PATH_USE_REWRITES, 0);
     }
 
+    public function testSetGetWebsite()
+    {
+        $this->assertFalse($this->_model->getWebsite());
+        $website = Mage::app()->getWebsite();
+        $this->_model->setWebsite($website);
+        $actualResult = $this->_model->getWebsite();
+        $this->assertEquals($website, $actualResult);
+    }
+
     /**
      * Isolation is enabled, as we pollute config with rewrite values
      *

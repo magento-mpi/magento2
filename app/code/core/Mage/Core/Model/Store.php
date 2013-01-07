@@ -410,7 +410,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     /**
      * Retrieve store website
      *
-     * @return Mage_Core_Model_Website
+     * @return Mage_Core_Model_Website|bool
      */
     public function getWebsite()
     {
