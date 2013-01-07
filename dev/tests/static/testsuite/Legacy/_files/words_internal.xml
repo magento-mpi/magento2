@@ -16,6 +16,7 @@
     <words>
         <word>Magento_Autoload::</word>
         <word>@group module:</word>
+        <word>Magento_Test_Di_InstanceManager</word>
     </words>
     <whitelist>
         <item>
