@@ -11,8 +11,6 @@
 
 /**
  * Test class for Mage_Backend_Block_Template.
- *
- * @group module:Mage_Backend
  */
 class Mage_Backend_Block_TemplateTest extends PHPUnit_Framework_TestCase
 {

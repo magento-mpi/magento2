@@ -26,7 +26,7 @@ class Magento_Acl_Config_Reader extends Magento_Config_XmlAbstract
      */
     public function getSchemaFile()
     {
-        return __DIR__ . '/acl.xsd';
+        return __DIR__ . '/../etc/acl.xsd';
     }
 
     /**

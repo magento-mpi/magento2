@@ -43,7 +43,7 @@
  * @method Core_Mage_Order_Helper|Enterprise_Mage_Order_Helper                                         orderHelper()
  * @method Core_Mage_Paypal_Helper                                                                     paypalHelper()
  * @method Core_Mage_PriceRules_Helper|Enterprise_Mage_PriceRules_Helper                               priceRulesHelper()
- * @method Core_Mage_ProductAttribute_Helper                                                           productAttributeHelper()
+ * @method Core_Mage_ProductAttribute_Helper|Saas_Mage_ProductAttribute_Helper                         productAttributeHelper()
  * @method Core_Mage_Product_Helper|Enterprise_Mage_Product_Helper                                     productHelper()
  * @method Core_Mage_Rating_Helper                                                                     ratingHelper()
  * @method Core_Mage_Reports_Helper                                                                    reportsHelper()
@@ -71,6 +71,7 @@
  * @method Enterprise_Mage_Rollback_Helper                                                             rollbackHelper()
  * @method Enterprise_Mage_WebsiteRestrictions_Helper                                                  websiteRestrictionsHelper()
  * @method Core_Mage_Grid_Helper                                                                       gridHelper()
+ * @method Core_Mage_Theme_Helper                                                                      themeHelper()
  */
 //@codingStandardsIgnoreEnd
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
@@ -179,9 +180,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     protected $_urlPrefix = array();
 
     /**
-     * Testcase error
-     * @var boolean
-     * @deprecated
+     * @var array
      */
     public static $browsers = array();
 
@@ -1244,10 +1243,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function getUrlPostfix()
     {
-        if (is_null($this->_urlPostfix)) {
-            return '';
+        if (!is_null($this->_urlPostfix)) {
+            return $this->_urlPostfix;
         }
-        return $this->_urlPrefix;
+        return '';
     }
 
     /**
@@ -1313,8 +1312,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if ($availableElement) {
             $this->url($availableElement->attribute('href'));
         } else {
-            $url = $this->_uimapHelper->getPageUrl($area, $page, $this->_paramsHelper);
-            $url = isset($this->_urlPostfix) ? $url . $this->_urlPostfix : $url;
+            $url = $this->_uimapHelper->getPageMca($area, $page, $this->_paramsHelper);
+            $baseUrl = $this->_configHelper->getBaseUrl();
+            $url = $baseUrl . $this->getUrlPrefix($area) . $url . $this->getUrlPostfix();
             $this->url($url);
         }
         $this->waitForAjax();
@@ -1508,6 +1508,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     {
         $areasConfig = $this->_configHelper->getConfigAreas();
         $currentUrl = $this->url();
+        $currentUrl = str_replace($this->getUrlPrefix(), '', $currentUrl);
         $mca = self::_getMcaFromCurrentUrl($areasConfig, $currentUrl);
         $area = self::_getAreaFromCurrentUrl($areasConfig, $currentUrl);
         return $this->_uimapHelper->getUimapPageByMca($area, $mca, $this->_paramsHelper);
@@ -1550,7 +1551,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function _findCurrentPageFromUrl($url = null)
     {
         if (is_null($url)) {
-            $url = str_replace($this->_urlPostfix, '', $this->url());
+            $url = $this->url();
+            $url = str_replace(
+                array(
+                    $this->getUrlPostfix(),
+                    $this->getUrlPrefix()
+                ), '', $url
+            );
         }
         $areasConfig = $this->_configHelper->getConfigAreas();
         $mca = self::_getMcaFromCurrentUrl($areasConfig, $url);
@@ -1764,15 +1771,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     {
         $tabsOnPage = false;
         $tabData = $this->getCurrentUimapPage()->getAllTabs($this->_paramsHelper);
-        /**
-         * @var Mage_Selenium_Uimap_Tab $tabUimap
-         */
+        /** @var Mage_Selenium_Uimap_Tab $tabUimap */
         foreach ($tabData as $tabUimap) {
             $tabsOnPage = true;
             $availableElement = $this->elementIsPresent($tabUimap->getXPath());
             if ($availableElement) {
+                $parrentClass = $this->getChildElement($availableElement, '..')->attribute('class');
                 $tabClass = $availableElement->attribute('class');
-                if (preg_match('/active/', $tabClass)) {
+                if (strpos($tabClass, 'active') !== false || strpos($parrentClass, 'active') !== false) {
                     return $tabUimap;
                 }
             }
@@ -3926,6 +3932,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function elementIsPresent($locator)
     {
         $elements = $this->getElements($locator, false);
+        return empty($elements) ? false : array_shift($elements);
+    }
+
+    /**
+     * @param PHPUnit_Extensions_Selenium2TestCase_Element $parentElement
+     * @param string $childLocator
+     *
+     * @return PHPUnit_Extensions_Selenium2TestCase_Element|bool
+     */
+    public function childElementIsPresent(PHPUnit_Extensions_Selenium2TestCase_Element $parentElement, $childLocator)
+    {
+        $elements = $this->getChildElements($parentElement, $childLocator, false);
         return empty($elements) ? false : array_shift($elements);
     }
 

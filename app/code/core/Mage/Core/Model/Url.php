@@ -348,6 +348,7 @@ class Mage_Core_Model_Url extends Varien_Object
      */
     public function getBaseUrl($params = array())
     {
+        $currentType = $this->getType();
         if (isset($params['_store'])) {
             $this->setStore($params['_store']);
         }
@@ -366,7 +367,9 @@ class Mage_Core_Model_Url extends Varien_Object
             $this->setType(Mage_Core_Model_Store::URL_TYPE_DIRECT_LINK);
         }
 
-        return $this->getStore()->getBaseUrl($this->getType(), $this->isSecure());
+        $result =  $this->getStore()->getBaseUrl($this->getType(), $this->isSecure());
+        $this->setType($currentType);
+        return $result;
     }
 
     /**
@@ -454,7 +457,7 @@ class Mage_Core_Model_Url extends Varien_Object
     /**
      * Retrieve route path
      *
-     * @param array $routParams
+     * @param array $routeParams
      * @return string
      */
     public function getRoutePath($routeParams = array())
@@ -709,11 +712,14 @@ class Mage_Core_Model_Url extends Varien_Object
      *
      * @param string $routePath
      * @param array $routeParams
-     *
      * @return string
      */
     public function getRouteUrl($routePath = null, $routeParams = null)
     {
+        if (filter_var($routePath, FILTER_VALIDATE_URL)) {
+            return $routePath;
+        }
+
         $this->unsetData('route_params');
 
         if (isset($routeParams['_direct'])) {
@@ -932,6 +938,10 @@ class Mage_Core_Model_Url extends Varien_Object
      */
     public function getUrl($routePath = null, $routeParams = null)
     {
+        if (filter_var($routePath, FILTER_VALIDATE_URL)) {
+            return $routePath;
+        }
+
         $escapeQuery = false;
 
         /**

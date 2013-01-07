@@ -10,7 +10,6 @@
 (function($) {
     $.widget("mage.form", {
         options: {
-            actionTemplate: '${base}{{each(key, value) args}}${key}/${value}/{{/each}}',
             handlersData: {
                 save: {},
                 saveAndContinueEdit: {
@@ -29,7 +28,6 @@
          * @protected
          */
         _create: function() {
-            $.template('actionTemplate', this.options.actionTemplate);
             this._bind();
         },
 
@@ -43,6 +41,33 @@
             }
         },
 
+        /**
+         * Check if field value is changed
+         * @protected
+         * @param {Object} e event object
+         */
+        _changesObserver: function(e) {
+            var target = $(e.target);
+            if (e.type === 'focus' || e.type === 'focusin') {
+                this.currentField = {
+                    statuses: {
+                        checked: target.is(':checked'),
+                        selected: target.is(':selected')
+                    },
+                    val: target.val()
+                };
+
+            } else {
+                if (this.currentField) {
+                    var changed = target.val() !== this.currentField.val ||
+                        target.is(':checked') !== this.currentField.statuses.checked ||
+                        target.is(':selected') !== this.currentField.statuses.selected;
+                    if (changed) {
+                        target.trigger('changed');
+                    }
+                }
+            }
+        },
         /**
          * Get array with handler names
          * @protected
@@ -74,7 +99,9 @@
          * @protected
          */
         _bind: function() {
-            this.element.on(this._getHandlers().join(' '), $.proxy(this._submit, this));
+            this.element
+                .on(this._getHandlers().join(' '), $.proxy(this._submit, this))
+                .on('focus blur focusin focusout', $.proxy(this._changesObserver, this));
         },
 
         /**
@@ -84,13 +111,26 @@
          */
         _getActionUrl: function(data) {
             if ($.type(data) === 'object') {
-                return $.tmpl('actionTemplate', {
-                    base: this.oldAttributes.action,
-                    args: data.args
-                }).text();
+                return this._buildURL(this.oldAttributes.action, data.args);
             } else {
                 return $.type(data) === 'string' ? data : this.oldAttributes.action;
             }
+        },
+
+        /**
+         * Add additional parameters into URL
+         * @param {string} url - original url
+         * @param {Object} params - object with parameters for action url
+         * @return {string} action url
+         * @private
+         */
+        _buildURL: function(url, params) {
+            var concat = /\?/.test(url) ? ['&', '='] : ['/', '/'];
+            url = url.replace(/[\/&]+$/, '');
+            $.each(params, function(key, value) {
+                url += concat[0] + key + concat[1] + encodeURIComponent(value);
+            });
+            return url + (concat[0] === '/' ? '/' : '');
         },
 
         /**
@@ -136,7 +176,7 @@
         _submit: function(e, data) {
             this._rollback();
             this._beforeSubmit(e.type, data);
-            this.element.triggerHandler('submit');
+            this.element.trigger('submit');
         }
     });
 

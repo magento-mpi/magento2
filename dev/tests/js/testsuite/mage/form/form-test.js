@@ -10,8 +10,6 @@ FormTest = TestCase('FormTest');
 FormTest.prototype.testInit = function() {
     /*:DOC += <form id="form" action="action/url/" ></form>*/
     var form = jQuery('#form').form();
-
-    assertNotUndefined(jQuery.template['actionTemplate']);
     assertTrue(form.is(':mage-form'));
 };
 FormTest.prototype.testRollback = function() {
@@ -73,6 +71,7 @@ FormTest.prototype.testBind = function() {
     form.on('submit', function(e) {
         submitted = true;
         e.stopImmediatePropagation();
+        e.preventDefault();
     });
     $.each(handlersData, function(key) {
         form.trigger(key);
@@ -174,6 +173,10 @@ FormTest.prototype.testBeforeSubmit = function() {
     form.on('beforeSubmit', function(e, data) {
         jQuery.extend(data, beforeSubmitData);
     });
+    form.on('submit', function(e) {
+        e.stopImmediatePropagation();
+        e.preventDefault();
+    });
     form.data("form")._beforeSubmit('testHandler', eventData);
 
     assertEquals(testForm.prop('action'), form.prop('action'));
@@ -194,6 +197,7 @@ FormTest.prototype.testSubmit = function() {
     form.data("form")._storeAttribute('method');
     form
         .on('submit', function(e) {
+            e.preventDefault();
             e.stopImmediatePropagation();
             formSubmitted = true;
         })
@@ -209,4 +213,31 @@ FormTest.prototype.testSubmit = function() {
     assertEquals(form.prop('target'), form.data("form").oldAttributes.target);
     assertEquals(form.prop('method'), form.data("form").oldAttributes.method);
     assertTrue(formSubmitted);
+};
+FormTest.prototype.testBuildURL = function() {
+    var dataProvider = [
+        {
+            params: ['http://domain.com//', {'key[one]': 'value 1', 'key2': '# value'}],
+            expected: 'http://domain.com/key[one]/value%201/key2/%23%20value/'
+        },
+        {
+            params: ['http://domain.com', {'key[one]': 'value 1', 'key2': '# value'}],
+            expected: 'http://domain.com/key[one]/value%201/key2/%23%20value/'
+        },
+        {
+            params: ['http://domain.com?some=param', {'key[one]': 'value 1', 'key2': '# value'}],
+            expected: 'http://domain.com?some=param&key[one]=value%201&key2=%23%20value'
+        },
+        {
+            params: ['http://domain.com?some=param&', {'key[one]': 'value 1', 'key2': '# value'}],
+            expected: 'http://domain.com?some=param&key[one]=value%201&key2=%23%20value'
+        }
+    ],
+        method = jQuery.mage.form._proto._buildURL,
+        quantity = dataProvider.length;
+
+    expectAsserts(quantity);
+    for (var i = 0; i < quantity; i++) {
+        assertEquals(dataProvider[i].expected, method.apply(null, dataProvider[i].params));
+    }
 };

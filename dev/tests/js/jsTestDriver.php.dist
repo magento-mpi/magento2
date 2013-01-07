@@ -21,6 +21,7 @@ return array(
         '/app/code/core/Mage/DesignEditor/view/adminhtml/js/base.js',
         '/app/code/core/Mage/DesignEditor/view/adminhtml/js/design_editor.js',
         '/app/code/core/Mage/DesignEditor/view/frontend/js/design_editor.js',
+        '/app/code/core/Mage/DesignEditor/view/adminhtml/js/infinitescroll.js',
         '/pub/lib/jquery/jstree/jquery.jstree.js',
         '/pub/lib/jquery/slimScroll/slimScroll.min.js',
         '/app/code/core/Mage/DesignEditor/view/frontend/css/styles.css',
@@ -31,6 +32,7 @@ return array(
         '/pub/lib/mage/edit-trigger.js',
         '/pub/lib/mage/translate-inline.js',
         '/pub/lib/mage/backend/form.js',
+        '/pub/lib/mage/backend/tabs.js',
         '/pub/lib/mage/validation.js',
         '/pub/lib/mage/validation/validation.js'
     ),

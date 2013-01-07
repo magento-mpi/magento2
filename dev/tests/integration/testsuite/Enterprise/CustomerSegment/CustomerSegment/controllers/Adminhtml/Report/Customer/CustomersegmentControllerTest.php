@@ -10,7 +10,7 @@
  */
 
 class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentControllerTest
-    extends Mage_Adminhtml_Utility_Controller
+    extends Mage_Backend_Utility_Controller
 {
     /**
      * Checks if child 'grid' block is found in

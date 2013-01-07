@@ -50,7 +50,7 @@ class Mage_Core_Model_App
      * Default store code (for install)
      *
      */
-    const DISTRO_STORE_CODE     = 'default';
+    const DISTRO_STORE_CODE     = Mage_Core_Model_Store::DEFAULT_CODE;
 
     /**
      * Admin store Id
@@ -369,6 +369,28 @@ class Mage_Core_Model_App
     }
 
     /**
+     * Whether the application has been installed or not
+     *
+     * @return bool
+     */
+    public function isInstalled()
+    {
+        return (bool)$this->_config->getInstallDate();
+    }
+
+    /**
+     * Throw an exception, if the application has not been installed yet
+     *
+     * @throws Magento_Exception
+     */
+    public function requireInstalledInstance()
+    {
+        if (!$this->isInstalled()) {
+            throw new Magento_Exception('Application is not installed yet, please complete the installation first.');
+        }
+    }
+
+    /**
      * Initialize PHP environment
      *
      * @return Mage_Core_Model_App
@@ -499,13 +521,13 @@ class Mage_Core_Model_App
             $scopeType = 'website';
         }
         switch ($scopeType) {
-            case 'store':
+            case Mage_Core_Model_App_Options::APP_RUN_TYPE_STORE:
                 $this->_currentStore = $scopeCode;
                 break;
-            case 'group':
+            case Mage_Core_Model_App_Options::APP_RUN_TYPE_GROUP:
                 $this->_currentStore = $this->_getStoreByGroup($scopeCode);
                 break;
-            case 'website':
+            case Mage_Core_Model_App_Options::APP_RUN_TYPE_WEBSITE:
                 $this->_currentStore = $this->_getStoreByWebsite($scopeCode);
                 break;
             default:
@@ -1368,7 +1390,7 @@ class Mage_Core_Model_App
 
             foreach ($events[$eventName]['observers'] as $obsName => $obs) {
                 $observer->setData(array('event' => $event));
-                Magento_Profiler::start('OBSERVER:' . $obsName);
+                Magento_Profiler::start('OBSERVER:' . $obsName, array('group' => 'OBSERVER', 'observer' => $obsName));
                 switch ($obs['type']) {
                     case 'disabled':
                         break;
