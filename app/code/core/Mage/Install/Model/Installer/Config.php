@@ -159,7 +159,8 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
     protected function _checkUrl($baseUrl)
     {
         try {
-            $staticFile = $this->_findFirstFileRelativePath($this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB), '/');
+            $pubLibDir = $this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB);
+            $staticFile = $this->_findFirstFileRelativePath($pubLibDir, '/.+\.(html?|js|css|gif|jpe?g|png)$/');
             $staticUrl = $baseUrl . $this->_dirs->getUri(Mage_Core_Model_Dir::PUB_LIB) . '/' . $staticFile;
             $client = new Varien_Http_Client($staticUrl);
             $response = $client->request('GET');
@@ -182,10 +183,10 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
      * Find a relative path to a first file located in a directory or its descendants
      *
      * @param string $dir Directory to search for a file within
-     * @param string $resultPathSeparator Path separator to be used in a returned file path
+     * @param string $pattern PCRE pattern a file name has to match
      * @return string|null
      */
-    protected function _findFirstFileRelativePath($dir, $resultPathSeparator = DIRECTORY_SEPARATOR)
+    protected function _findFirstFileRelativePath($dir, $pattern = '/.*/')
     {
         $childDirs = array();
         foreach (scandir($dir) as $itemName) {
@@ -194,15 +195,17 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
             }
             $itemPath = $dir . DIRECTORY_SEPARATOR . $itemName;
             if (is_file($itemPath)) {
-                return $itemName;
+                if (preg_match($pattern, $itemName)) {
+                    return $itemName;
+                }
             } else {
                 $childDirs[$itemName] = $itemPath;
             }
         }
         foreach ($childDirs as $dirName => $dirPath) {
-            $filePath = $this->_findFirstFileRelativePath($dirPath, $resultPathSeparator);
+            $filePath = $this->_findFirstFileRelativePath($dirPath, $pattern);
             if ($filePath) {
-                return $dirName . $resultPathSeparator . $filePath;
+                return $dirName . '/' . $filePath;
             }
         }
         return null;
