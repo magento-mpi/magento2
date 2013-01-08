@@ -34,6 +34,12 @@ $tile->setPageId(1);
 $tile->setState(Mage_Launcher_Model_Tile::STATE_TODO);
 $tile->save();
 
+$tile = Mage::getModel('Mage_Launcher_Model_Tile');
+$tile->setCode('shipping');
+$tile->setPageId(1);
+$tile->setState(0);
+$tile->save();
+
 Mage::getModel('Mage_Launcher_Model_Page')
     ->load(2)
     ->setCode('promote_store')

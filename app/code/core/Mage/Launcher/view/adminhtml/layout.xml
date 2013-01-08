@@ -25,7 +25,7 @@
     <launcher_index>
         <block type="Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile" name="business_info.tile" template="page/storelauncher/businessinfo/tile.phtml"/>
         <block type="Mage_Launcher_Block_Adminhtml_Storelauncher_Payments_Tile" name="payments.tile" template="page/storelauncher/payments/tile.phtml"/>
-        <block type="Mage_Launcher_Block_Adminhtml_Tile" name="shipping.tile" template="page/storelauncher/shipping/tile.phtml"/>
+        <block type="Mage_Launcher_Block_Adminhtml_Storelauncher_Shipping_Tile" name="shipping.tile" template="page/storelauncher/shipping/tile.phtml"/>
         <block type="Mage_Launcher_Block_Adminhtml_Storelauncher_Tax_Tile" name="tax.tile" template="page/storelauncher/tax/tile.phtml"/>
     </launcher_index>
 
@@ -86,6 +86,16 @@
     <launcher_storelauncher_payments_drawer_save>
         <block type="Mage_Launcher_Block_Adminhtml_Storelauncher_Payments_Tile" name="payments.tile" template="page/storelauncher/payments/tile.phtml"/>
     </launcher_storelauncher_payments_drawer_save>
+
+    <launcher_storelauncher_shipping_drawer_load>
+        <block type="Mage_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer" name="shipping.drawer" template="page/storelauncher/shipping/drawer.phtml">
+            <block type="Mage_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress" name="shipping-origin-address" template="page/storelauncher/shipping/drawer/origin_address.phtml" />
+        </block>
+    </launcher_storelauncher_shipping_drawer_load>
+
+    <launcher_storelauncher_shipping_drawer_save>
+        <block type="Mage_Launcher_Block_Adminhtml_Storelauncher_Shipping_Tile" name="shipping.tile" template="page/storelauncher/shipping/tile.phtml"/>
+    </launcher_storelauncher_shipping_drawer_save>
 
     <promotestore_index>
         <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Googleanalytics_Tile" name="google_analytics.tile" template="page/promotestore/googleanalytics/tile.phtml"/>

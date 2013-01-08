@@ -80,6 +80,10 @@
                     <state_resolver>Mage_Launcher_Model_Storelauncher_Payments_StateResolver</state_resolver>
                     <save_handler>Mage_Launcher_Model_Storelauncher_Payments_SaveHandler</save_handler>
                 </payments>
+                <shipping>
+                    <state_resolver>Mage_Launcher_Model_Storelauncher_Shipping_StateResolver</state_resolver>
+                    <save_handler>Mage_Launcher_Model_Storelauncher_Shipping_SaveHandler</save_handler>
+                </shipping>
                 <content_pages>
                     <state_resolver>Mage_Launcher_Model_Tile_MinimalStateResolver</state_resolver>
                     <save_handler>Mage_Launcher_Model_Tile_MinimalSaveHandler</save_handler>
