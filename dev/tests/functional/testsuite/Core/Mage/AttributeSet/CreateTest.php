@@ -82,7 +82,7 @@ class Core_Mage_AttributeSet_CreateTest extends Mage_Selenium_TestCase
         //Verifying
         $this->addFieldIdToMessage('field', 'set_name');
         $this->assertMessagePresent('validation', 'empty_required_field');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->assertEquals( 1 , count($this->getParsedMessages('required')));
     }
 
     /**
