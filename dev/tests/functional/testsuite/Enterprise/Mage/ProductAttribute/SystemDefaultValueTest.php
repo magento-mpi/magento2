@@ -17,35 +17,6 @@ class Enterprise_Mage_ProductAttribute_SystemDefaultValueTest
     extends Core_Mage_ProductAttribute_SystemDefaultValueTest
 {
     /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to System - Manage Attributes.</p>
-     */
-    protected function assertPreConditions()
-    {
-        $this->loginAdminUser();
-        $this->navigate('manage_attributes');
-    }
-
-    // @codingStandardsIgnoreStart
-    /**
-     * <p>Default value for System attributes</p>
-
-     *
-     * @param string $attributeCode
-     * @param string $productType
-     * @param string $uimapName
-     *
-     * @test
-     * @dataProvider systemAttributeDataProvider
-     * @TestlinkId TL-MAGE-5749, TL-MAGE-5750, TL-MAGE-5751, TL-MAGE-5752, TL-MAGE-5753, TL-MAGE-5754, TL-MAGE-5755, TL-MAGE-5756, TL-MAGE-5757, TL-MAGE-5758, TL-MAGE-5759, TL-MAGE-5760, TL-MAGE-5761, TL-MAGE-5762, TL-MAGE-5835, TL-MAGE-5836     *
-     */
-    // @codingStandardsIgnoreEnd
-    public function checkDefaultValue($attributeCode, $productType, $uimapName)
-    {
-        parent::checkDefaultValue($attributeCode, $productType, $uimapName);
-    }
-
-    /**
      * <p>DataProvider with system attributes list</p>
      *
      * @return array
@@ -69,19 +40,5 @@ class Enterprise_Mage_ProductAttribute_SystemDefaultValueTest
             array('tax_class_id', 'simple', 'prices_tax_class'),
             array('visibility', 'simple', 'general_visibility')
         );
-    }
-
-    /**
-     * <p>Change selected default value for tax_class_id to '-- Please Select --'</p>
-     *
-     * <p>Expected results:</p>
-     *  <p>1. System displays message 'This is a required field.' under 'Tax Class' filed.</p>
-     *
-     * @test
-     * @TestlinkId TL-MAGE-6082
-     */
-    public function resetDefaultValue()
-    {
-        parent::resetDefaultValue();
     }
 }

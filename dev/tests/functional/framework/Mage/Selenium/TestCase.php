@@ -2738,6 +2738,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $this->clickControlAndWaitMessage($controlType, $controlName);
         $this->waitForElement(self::$_maskXpath);
+        $this->openTab($tabName); //MAGETWO-6731
         if (!is_null($tabUimap)) {
             $this->assertSame($tabName, $this->_getActiveTabUimap()->getTabId(),
                 'Opened wrong tab after Save and Continue Edit action');

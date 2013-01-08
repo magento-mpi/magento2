@@ -15,31 +15,23 @@ custom_design:
     option_1:
         admin_option_name: -- Please Select --
     option_2:
-        admin_option_name: Default / Default / default
+        admin_option_name: Magento Blank
     option_3:
-        admin_option_name: Default / Default / blue
+        admin_option_name: Magento Demo
     option_4:
-        admin_option_name: Default / Default / blank
+        admin_option_name: Magento Demo Blue
     option_5:
-        admin_option_name: Default / Iphone / default
+        admin_option_name: Magento Fixed Design
     option_6:
-        admin_option_name: Default / Iphone / blue
+        admin_option_name: Magento Fluid Design (incompatible version)
     option_7:
-        admin_option_name: Default / Iphone / blank
+        admin_option_name: Magento Iphone
     option_8:
-        admin_option_name: Default / Modern / default
+        admin_option_name: Magento Iphone (HTML5)
     option_9:
-        admin_option_name: Default / Modern / blue
-    option_10:
-        admin_option_name: Default / Modern / blank
-    option_11:
-        admin_option_name: Enterprise / Enterprise / default
-    option_12:
-        admin_option_name: Enterprise / Iphone / default
-    option_13:
-        admin_option_name: Professional / Professional / default (incompatible version)
-    default_value: Default / Modern / blue
-    default_control_value: default/modern/blue
+        admin_option_name: Magento Modern
+    default_value: Magento Blank
+    default_control_value: Magento Blank
 
 enable_googlecheckout:
     attribute_code: enable_googlecheckout
@@ -170,7 +162,7 @@ country_of_manufacture:
     attribute_code: country_of_manufacture
     admin_title: Country of Manufacture
     option_1:
-        admin_option_name:
+        admin_option_name: ''
     option_2:
         admin_option_name: Afghanistan
     option_3:
