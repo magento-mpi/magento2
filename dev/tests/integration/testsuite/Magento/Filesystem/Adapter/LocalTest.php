@@ -286,6 +286,7 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     public function testGetMTime()
     {
         $filePath = $this->_getFixturesPath() . 'mtime.txt';
+        $this->_deleteFiles[] = $filePath;
         $this->_adapter->write($filePath, 'Test');
         $this->assertFileExists($filePath);
         $this->assertGreaterThan(0, $this->_adapter->getMTime($filePath));

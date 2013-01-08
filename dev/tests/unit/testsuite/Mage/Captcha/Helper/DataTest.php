@@ -12,20 +12,22 @@
 class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Captcha_Helper_Data
-     */
-    protected $_object;
-
-    /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function _getHelper($store, $config)
     {
-        $this->_object = new Mage_Captcha_Helper_Data();
-        $this->_object->setConfig($this->_getConfigStub());
-        $this->_object->setWebsite($this->_getWebsiteStub());
-        $this->_object->setStore($this->_getStoreStub());
+        $app = $this->getMockBuilder('Mage_Core_Model_App')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $app->expects($this->any())
+            ->method('getWebsite')
+            ->will($this->returnValue($this->_getWebsiteStub()));
+        $app->expects($this->any())
+            ->method('getStore')
+            ->will($this->returnValue($store));
+        $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local());
+        return new Mage_Captcha_Helper_Data($app, $config, $filesystem);
     }
 
     /**
@@ -40,22 +42,17 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
 
         $store->expects($this->once())
             ->method('getConfig')
-            ->with('customer/captcha/type', null)
+            ->with('customer/captcha/type')
             ->will($this->returnValue('zend'));
-        $this->_object->setStore($store);
 
         $config = $this->_getConfigStub();
         $config->expects($this->once())
             ->method('getModelInstance')
-            ->with('Mage_Captcha_Model_Zend',
-                array(
-                    'params' => array('formId' => 'user_create', 'helper' => $this->_object)
-                )
-            )
+            ->with('Mage_Captcha_Model_Zend')
             ->will($this->returnValue(new Mage_Captcha_Model_Zend(array('formId' => 'user_create'))));
-        $this->_object->setConfig($config);
 
-        $this->assertInstanceOf('Mage_Captcha_Model_Zend', $this->_object->getCaptcha('user_create'));
+        $helper = $this->_getHelper($store, $config);
+        $this->assertInstanceOf('Mage_Captcha_Model_Zend', $helper->getCaptcha('user_create'));
     }
 
     /**
@@ -70,10 +67,10 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
 
         $store->expects($this->once())
             ->method('getConfig')
-            ->with('customer/captcha/enable', null)
+            ->with('customer/captcha/enable')
             ->will($this->returnValue('1'));
-        $this->_object->setStore($store);
-        $this->_object->getConfigNode('enable');
+        $object = $this->_getHelper($store, $this->_getConfigStub());
+        $object->getConfigNode('enable');
     }
 
     /**
@@ -85,9 +82,13 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
         $option->expects($this->any())
             ->method('getDir')
             ->will($this->returnValue(TESTS_TEMP_DIR));
-        $this->_object->setOption($option);
+        $config = $this->_getConfigStub();
+        $config->expects($this->any())
+            ->method('getOptions')
+            ->will($this->returnValue($option));
 
-        $fonts = $this->_object->getFonts();
+        $object = $this->_getHelper($this->_getStoreStub(), $config);
+        $fonts = $object->getFonts();
 
         $this->assertEquals($fonts['linlibertine']['label'], 'LinLibertine');
         $this->assertEquals(
@@ -107,10 +108,14 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
         $option->expects($this->once())
             ->method('getDir')
             ->will($this->returnValue($captchaTmpDir));
-        $this->_object->setOption($option);
+        $config = $this->_getConfigStub();
+        $config->expects($this->any())
+            ->method('getOptions')
+            ->will($this->returnValue($option));
 
+        $object = $this->_getHelper($this->_getStoreStub(), $config);
         $this->assertEquals(
-            $this->_object->getImgDir(),
+            $object->getImgDir(),
             $captchaTmpDir . DIRECTORY_SEPARATOR . 'captcha' . DIRECTORY_SEPARATOR . 'base' . DIRECTORY_SEPARATOR
         );
     }
@@ -121,18 +126,20 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testGetImgUrl()
     {
-        $this->assertEquals($this->_object->getImgUrl(), 'http://localhost/pub/media/captcha/base/');
+        $object = $this->_getHelper($this->_getStoreStub(), $this->_getConfigStub());
+        $this->assertEquals($object->getImgUrl(), 'http://localhost/pub/media/captcha/base/');
     }
 
     /**
      * Create Config Stub
+     *
      * @return Mage_Core_Model_Config
      */
     protected function _getConfigStub()
     {
         $config = $this->getMock(
             'Mage_Core_Model_Config',
-            array('getNode', 'getModelInstance'),
+            array('getNode', 'getModelInstance', 'getOptions'),
             array(), '', false
         );
 
@@ -146,6 +153,7 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     /**
      * Create option stub
+     *
      * @return Mage_Core_Model_Config_Options
      */
     protected function _getOptionStub()
@@ -160,6 +168,7 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     /**
      * Create Website Stub
+     *
      * @return Mage_Core_Model_Website
      */
     protected function _getWebsiteStub()
@@ -179,6 +188,7 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     /**
      * Create store stub
+     *
      * @return Mage_Core_Model_Store
      */
     protected function _getStoreStub()
