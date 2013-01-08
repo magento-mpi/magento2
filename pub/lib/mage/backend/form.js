@@ -10,7 +10,6 @@
 (function($) {
     $.widget("mage.form", {
         options: {
-            actionTemplate: '${base}{{each(key, value) args}}${key}/${value}/{{/each}}',
             handlersData: {
                 save: {},
                 saveAndContinueEdit: {
@@ -29,7 +28,6 @@
          * @protected
          */
         _create: function() {
-            $.template('actionTemplate', this.options.actionTemplate);
             this._bind();
         },
 
@@ -113,13 +111,26 @@
          */
         _getActionUrl: function(data) {
             if ($.type(data) === 'object') {
-                return $.tmpl('actionTemplate', {
-                    base: this.oldAttributes.action,
-                    args: data.args
-                }).text();
+                return this._buildURL(this.oldAttributes.action, data.args);
             } else {
                 return $.type(data) === 'string' ? data : this.oldAttributes.action;
             }
+        },
+
+        /**
+         * Add additional parameters into URL
+         * @param {string} url - original url
+         * @param {Object} params - object with parameters for action url
+         * @return {string} action url
+         * @private
+         */
+        _buildURL: function(url, params) {
+            var concat = /\?/.test(url) ? ['&', '='] : ['/', '/'];
+            url = url.replace(/[\/&]+$/, '');
+            $.each(params, function(key, value) {
+                url += concat[0] + key + concat[1] + encodeURIComponent(value);
+            });
+            return url + (concat[0] === '/' ? '/' : '');
         },
 
         /**
