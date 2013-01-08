@@ -106,6 +106,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
         $uploadUrl = $this->_helperData->escapeHtml($this->_getUploadUrl());
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getForm()->getDataObject();
+        $gallery = $product->getMediaGalleryImages();
         $html = '<input id="' . $htmlId .'-upload" type="file" name="image" '
             . 'data-url="' . $uploadUrl . '" style="display: none;" />'
             . '<input id="' . $htmlId . '" type="hidden" name="'. $this->getName() .'" />'
@@ -113,17 +114,17 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
             .  $this->getEscapedValue()
             . '" data-images="'
             . $this->_escape(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
-                $product->getMediaGalleryImages()->toArray()
+                $gallery ? $gallery->toArray() : array()
             ))
             . '">'
             . '<span id="' . $htmlId . '-upload-placeholder" ></span>'
             . '<script id="' . $htmlId . '-template" type="text/x-jquery-tmpl" >'
             . '<span class="container">
-                    <span class="main-tiser">' . $this->_helperData->__('Main') . '</span>
+                    <span class="main-sticker">' . $this->_helperData->__('Main') . '</span>
                     <span class="close">&times;</span>
                     <img class="base-image-uploader" src="${url}" data-position="${position}" alt="${label}" />
                     <div class="drag-zone">
-                        <button class="make-main">' . $this->_helperData->__('Set main'). '</button>
+                        <button class="make-main" type="button">' . $this->_helperData->__('Set main'). '</button>
                     </span>
                </span>'
             . '</script>'

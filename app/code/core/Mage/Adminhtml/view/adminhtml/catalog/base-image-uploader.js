@@ -14,60 +14,78 @@ function BaseImageUploader(id, maxFileSize) {
             $template = $('#' + id + '-template'),
             $dropPlaceholder = $('#' + id + '-upload-placeholder'),
             images = $container.data('images'),
-            maxImageCount = 5,
             mainImage = $container.data('main'),
-            mainClass = 'main',
-            index = 0;
+            mainClass = 'base-image',
+            currentImageCount = 0,
+            maximumImageCount = 5,
+            isInitialized = false;
 
         $container.on('add', function(event, data) {
-            if (index < maxImageCount) {
+            if (currentImageCount < maximumImageCount) {
                 var $element = $template.tmpl(data);
                 $element.insertBefore($dropPlaceholder);
                 $element.data('image', data);
-                if (data.file == mainImage) {
-                    $element.addClass(mainClass)
+                if (isInitialized && !currentImageCount) {
+                    $.each('image,small_image,thumbnail'.split(','), function () {
+                        if ($('input[name="product[' + this + ']"][value=no_selection]').is(':checked')) {
+                            media_gallery_contentJsObject.imagesValues[this] = data.file;
+                            if (this == 'image') {
+                                mainImage = data.file;
+                            }
+                        }
+                    });
                 }
-                index++;
+                if (data.file == mainImage) {
+                    $element.addClass(mainClass);
+                }
+                currentImageCount++;
             }
-            if (index <= maxImageCount) {
-                $dropPlaceholder.hide()
+            if (currentImageCount >= maximumImageCount) {
+                $dropPlaceholder.hide();
             }
         });
 
-        $.each(images.items, function() {
-            $container.trigger('add', this);
-        });
         $container.on('click', '.container', function (event) {
             $(this).toggleClass('hover');
         });
         $container.on('click', '.make-main', function (event) {
-            var $imageContainer = $(this).closest('.container');
-            var image = $imageContainer.data('image');
+            var $imageContainer = $(this).closest('.container'),
+                image = $imageContainer.data('image');
+
             $container.find('.container').removeClass(mainClass);
             $imageContainer.addClass(mainClass);
             mainImage = image.file;
-            var selector = ".cell-image input[onclick*='" +
-                image.file.replace(/([ #;&,.+*~\':"!^$[\]()=>|\/@])/g, '\\$1') + "']";
-            $(selector).prop('checked', true).trigger('click');
+            _getGalleryRowByImage(image).find('input[name="product[image]"]').trigger('click');
         });
 
         $container.on('click', '.close', function (event) {
-            var $imageContainer = $(this).closest('.container');
-            var image = $imageContainer.data('image');
+            var $imageContainer = $(this).closest('.container'),
+                image = $imageContainer.data('image'),
+                $galleryRow = _getGalleryRowByImage(image);
 
-            var selector = ".cell-remove input[onclick*='" +
-                image.file.replace(/([ #;&,.+*~\':"!^$[\]()=>|\/@])/g, '\\$1') + "']";
-            $(selector).prop('checked', true).trigger('click');
-
+            $galleryRow.find('.cell-remove input[type=checkbox]').prop('checked', true).trigger('click');
+            $.each('image,small_image,thumbnail'.split(','), function () {
+                if ($galleryRow.find('input[name="product[' + this + ']"]').is(':checked')) {
+                    $('input[name="product[' + this + ']"][value=no_selection]').prop('checked', true).trigger('click');
+                }
+            });
+            media_gallery_contentJsObject.updateImages();
             $imageContainer.remove();
-            index--;
-            if (index < maxImageCount) {
+
+            currentImageCount--;
+            if (currentImageCount < maximumImageCount) {
                 $dropPlaceholder.css('display', 'inline-block');
             }
         });
 
+        function _getGalleryRowByImage(image)
+        {
+            var escapedFileName = image.file.replace(/([ #;&,.+*~\':"!^$[\]()=>|\/@])/g, '\\$1');
+            return $('input[onclick*="\'' + escapedFileName + '\'"]').closest('tr');
+        }
+
         $container.sortable({
-            axis: "x",
+            axis: 'x',
             handle: '.container'
         });
 
@@ -79,33 +97,30 @@ function BaseImageUploader(id, maxFileSize) {
             dropZone: $dropPlaceholder,
             acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
             maxFileSize: maxFileSize,
-            done: function (e, data) {
+            done: function (event, data) {
                 if (!data.result) {
                     return;
                 }
                 if (!data.result.error) {
                     $container.trigger('add', data.result);
-
                     if (typeof media_gallery_contentJsObject != 'undefined') {
                         media_gallery_contentJsObject.handleUploadComplete(data.result);
-                        media_gallery_contentJsObject.imagesValues.image = data.result.file;
-                        $.each(['small_image', 'thumbnail'], function () {
-                            if (media_gallery_contentJsObject.getFileElement('no_selection',
-                                'cell-' + this + ' input').checked) {
-                                media_gallery_contentJsObject.imagesValues[this] = data.result.file;
-                            }
-                        });
                         media_gallery_contentJsObject.updateImages();
                     }
                 } else {
                     alert(jQuery.mage.__('File extension not known or unsupported type.'));
                 }
             },
-            add: function(e, data) {
+            add: function(event, data) {
                 $(this).fileupload('process', data).done(function () {
                     data.submit();
                 });
             }
         });
+
+        $.each(images.items || [], function() {
+            $container.trigger('add', this);
+        });
+        isInitialized = true;
     })(jQuery);
 }
