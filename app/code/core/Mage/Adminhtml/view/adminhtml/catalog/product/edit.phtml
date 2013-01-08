@@ -170,7 +170,7 @@ jQuery(function($) {
     var $form = $('#product-edit-form'),
         fieldSelector = '.required-entry:not([disabled]):not(.ignore-validate),' +
             '.required-option-select:not([disabled]):not(.ignore-validate)';
-    $form.on('focus change keyup', fieldSelector, function () {
+    $form.on('focus change keyup click', fieldSelector + ',:checkbox,button', function () {
         var allowSave = true;
         $.each($form.find(fieldSelector), function () {
             if (!$(this).val()) {
