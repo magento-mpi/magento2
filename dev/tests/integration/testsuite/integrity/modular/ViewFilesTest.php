@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group integrity
- */
 class Integrity_Modular_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbstract
 {
     /**

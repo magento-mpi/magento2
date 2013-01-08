@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/*jshint jquery:true*/
+/*jshint jquery:true browser:true*/
 /*global FORM_KEY:true*/
 (function($) {
     'use strict';
@@ -260,7 +260,7 @@
                 anchors.each($.proxy(function(i, anchor) {
                     var anchorId = $(anchor).prop('id');
                     if (shadowTabs[anchorId]) {
-                        $(anchor).parents('li').on('click', $.proxy(function(e) {
+                        $(anchor).parents('li').on('click', $.proxy(function() {
                             $.each(shadowTabs[anchorId], $.proxy(function(i, id) {
                                 this.load($(tabs).index($('#' + id).parents('li')), {});
                             }, this));

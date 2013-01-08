@@ -218,4 +218,3 @@ class Magento_Filesystem_Stream_LocalTest extends PHPUnit_Framework_TestCase
         );
     }
 }
-

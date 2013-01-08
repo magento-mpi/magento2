@@ -14,13 +14,8 @@
  */
 return array(
     'server' => 'http://localhost:9876',
-    'proxy' => array(array('matcher' => '/pub/lib/*', 'server' => '%s/test/%s/pub/lib/')),
     'load' => array(
-        '/pub/lib/globalize',
-        '/pub/lib/mage/localization',
-        '/pub/lib/mage/validation',
-        '/pub/lib/jquery/jquery-ui-1.9.1.custom.min.js',
-        '/pub/lib/jquery/ui/i18n',
+        '/pub/lib/jquery/jquery-ui.custom.min.js',
         '/pub/lib/jquery/jquery-ui-timepicker-addon.js',
         '/pub/lib/jquery/jquery.tmpl.min.js',
         '/app/code/core/Mage/DesignEditor/view/adminhtml/js/base.js',
@@ -29,8 +24,8 @@ return array(
         '/app/code/core/Mage/DesignEditor/view/adminhtml/js/infinitescroll.js',
         '/pub/lib/jquery/jstree/jquery.jstree.js',
         '/pub/lib/jquery/slimScroll/slimScroll.min.js',
-        '/app/code/core/Mage/Page/view/frontend/js/cookies.js',
-        '/app/code/core/Mage/DesignEditor/view/adminhtml/css/styles.css',
+        '/app/code/core/Mage/DesignEditor/view/frontend/css/styles.css',
+        '/pub/lib/mage/cookies.js',
         '/pub/lib/mage/calendar.js',
         '/pub/lib/mage/translate.js',
         '/pub/lib/mage/loader.js',
@@ -38,8 +33,9 @@ return array(
         '/pub/lib/mage/translate-inline.js',
         '/pub/lib/mage/backend/form.js',
         '/pub/lib/mage/backend/tabs.js',
+        '/pub/lib/mage/validation.js',
+        '/pub/lib/mage/validation/validation.js'
     ),
     'test' => array('/dev/tests/js/testsuite'),
-    'serve' => array('/pub/lib/mage/calendar'),
     'JsTestDriver' => '{{path_to_jstestdriver_jar}}'
 );
