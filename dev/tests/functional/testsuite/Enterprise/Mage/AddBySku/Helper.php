@@ -29,25 +29,12 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
                 if (!$this->controlIsPresent('pageelement', 'opened_add_to_shopping_cart_by_sku')) {
                     $this->clickControl('link', 'expand_add_to_shopping_cart_by_sku', false);
                     $this->waitForAjax();
-                }}
+                }
+            }
             if (!$isShoppingCart) {
                 $this->clickButton('add_products_by_sku', false);
             }
-            $i = 0;
-            foreach ($productsToAdd as $value) {
-                if ($i > 0) {
-                    $this->clickButton('add_row', false);
-                    $this->waitForAjax();
-                }
-                $this->addParameter('itemId', $i++);
-                if (is_array($value)) {
-                    $this->fillField('sku', $value['sku']);
-                    $this->fillField('sku_qty', $value['qty']);
-                    $this->waitForAjax();
-                } else {
-                    $this->fail('Got incorrect parameter');
-                }
-            }
+            $this->_fillSkuQty($productsToAdd);
             if ($pressButton && $isShoppingCart) {
                 $this->clickButton('add_selected_products_to_shopping_cart', false);
             }
@@ -55,6 +42,30 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
                 $this->clickButton('submit_sku_form');
             }
             $this->pleaseWait();
+        }
+    }
+
+    /**
+     * Get parameter for product in Shopping Cart
+     *
+     * @param array $productsToAdd
+     */
+    protected function _fillSkuQty(array $productsToAdd)
+    {
+        $item = 0;
+        foreach ($productsToAdd as $value) {
+            if ($item > 0) {
+                $this->clickButton('add_row', false);
+                $this->waitForAjax();
+            }
+            $this->addParameter('itemId', $item++);
+            if (is_array($value)) {
+                $this->fillField('sku', $value['sku']);
+                $this->fillField('sku_qty', $value['qty']);
+                $this->waitForAjax();
+            } else {
+                $this->fail('Got incorrect parameter');
+            }
         }
     }
 
@@ -274,14 +285,14 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
         if (!empty($productsToRemove)) {
             if (!$this->isShoppingCartEmpty()) {
                 $productsData = $this->getProductInfoInTable('product_table_head', 'table_row');
-                $i=1;
+                $rowNumber=1;
                 foreach ($productsData as $value) {
                     if(in_array(trim($value['sku']), $productsToRemove)) {
-                        $this->addParameter('rowNumber', $i);
+                        $this->addParameter('rowNumber', $rowNumber);
                         $this->select($this->_getControlXpath('dropdown', 'grid_massaction_select'), 'Remove');
                         $this->pleaseWait();
                     }
-                    $i++;
+                    $rowNumber++;
                 }
             }
             $this->clickButton('update_items_and_qty', false);
@@ -383,7 +394,7 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
         $this->addParameter('qty', $this->defineParameterFromUrl('qty'));
         $this->addParameter('sku', $this->defineParameterFromUrl('sku'));
         if (is_string($productName)) {
-            $this->addParameter('productName', $productName);
+            $this->addParameter('elementTitle', $productName);
         }
         $this->validatePage();
     }
@@ -403,6 +414,51 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
+     * Configure product which require specifying link in Required Attention grid
+     *
+     * @param array $product
+     * @param string $productType
+     */
+    protected function _frontSpecifyOptions(array $product, $productType)
+    {
+        if (strlen(strstr($productType, 'grouped')) > 0) {
+            $this->frontCheckFields($product, false, false);
+        } else {
+            $this->frontCheckFields($product, true, true);
+        }
+        $this->clickSpecifyLink($product['product_name']);
+        $this->productHelper()->frontFillBuyInfo($product['Options']);
+        $this->clickButton('update_cart');
+        //Verifying
+        if (strlen(strstr($productType, 'grouped')) > 0) {
+            $this->addParameter('productName',
+                $product['Options']['option_1']['parameters']['subproductName']);
+        }
+    }
+
+    /**
+     * Configure product which require quantity modification in Required Attention grid
+     *
+     * @param array $product
+     * @param $productType
+     * @param array $msgShoppingCart
+     * @param array $msgGrid
+     */
+    protected function _frontRequestedQuantity(array $product, $productType, array $msgShoppingCart, array $msgGrid)
+    {
+        $this->frontCheckFields($product, true, true);
+        if ($productType == 'simpleMin') {
+            $qty = $product['qty'] + 1;
+        } else {
+            $qty = $product['qty'] - 1;
+        }
+        $this->addParameter('qty', $qty);
+        $this->assertMessagePresent($msgShoppingCart['type'], $msgGrid['messageTwo']);
+        $this->fillFieldset(array('qty' => $qty), 'products_requiring_attention');
+        $this->clickButton('add_to_cart');
+    }
+
+    /**
      * Configure product in Required Attention grid and add it to Shopping cart if possible
      *
      * @param array $product
@@ -417,31 +473,10 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
             switch ($msgAttentionGrid['messageOne']) {
                 case 'qty_not_available':
                 case 'requested_qty':
-                    $this->frontCheckFields($product, true, true);
-                    if ($productType == 'simpleMin') {
-                        $qty = $product['qty'] + 1;
-                    } else {
-                        $qty = $product['qty'] - 1;
-                    }
-                    $this->addParameter('qty', $qty);
-                    $this->assertMessagePresent($msgShoppingCart['type'], $msgAttentionGrid['messageTwo']);
-                    $this->fillFieldset(array('qty' => $qty), 'products_requiring_attention');
-                    $this->clickButton('add_to_cart');
+                    $this->_frontRequestedQuantity($product, $productType, $msgShoppingCart, $msgAttentionGrid);
                     break;
                 case 'specify_option':
-                    if (strlen(strstr($productType, 'grouped')) > 0) {
-                        $this->frontCheckFields($product, false, false);
-                    } else {
-                        $this->frontCheckFields($product, true, true);
-                    }
-                    $this->clickSpecifyLink($product['product_name']);
-                    $this->productHelper()->frontFillBuyInfo($product['Options']);
-                    $this->clickButton('update_cart');
-                    //Verifying
-                    if (strlen(strstr($productType, 'grouped')) > 0) {
-                        $this->addParameter('productName',
-                            $product['Options']['option_1']['parameters']['subproductName']);
-                    }
+                    $this->_frontSpecifyOptions($product, $productType);
                     break;
                 case 'out_of_stock':
                     $this->frontCheckFields($product, true, false);
@@ -453,6 +488,7 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
         } else {
             if ($productType == 'simpleNotVisible') {
                 $this->addParameter('productName', $product['product_name']);
+                $this->frontCheckFields($product, true, true);
             }
         }
     }

@@ -37,10 +37,10 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_category');
         $productData = $this->productHelper()->createConfigurableProduct(true);
         $categoryPath = $productData['category']['path'];
-        $bundle = $this->loadDataSet('SalesOrder', 'fixed_bundle_for_order', array('categories' => $categoryPath),
+        $bundle = $this->loadDataSet('SalesOrder', 'fixed_bundle_for_order', array('general_categories' => $categoryPath),
             array('add_product_1' => $productData['simple']['product_sku'],
                   'add_product_2' => $productData['virtual']['product_sku']));
-        $grouped = $this->loadDataSet('SalesOrder', 'grouped_product_for_order', array('categories' => $categoryPath),
+        $grouped = $this->loadDataSet('SalesOrder', 'grouped_product_for_order', array('general_categories' => $categoryPath),
             array('associated_1' => $productData['simple']['product_sku'],
                   'associated_2' => $productData['virtual']['product_sku'],
                   'associated_3' => $productData['downloadable']['product_sku']));

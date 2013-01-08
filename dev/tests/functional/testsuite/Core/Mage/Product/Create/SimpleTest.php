@@ -63,6 +63,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
      */
     public function allFieldsInSimple()
     {
+        $this->markTestIncomplete('MAGETWO-4321');
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product');
         $productSearch =
@@ -342,7 +343,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
         //Verifying
         foreach ($tierData as $key => $value) {
             $this->addFieldIdToMessage('field', $key);
-            $this->assertMessagePresent('validation', 'enter_zero_or_greater');
+            $this->assertMessagePresent('validation', 'enter_greater_than_zero');
         }
         $this->assertTrue($this->verifyMessagesCount(2), $this->getParsedMessages());
     }

@@ -57,6 +57,7 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
      */
     public function allFieldsInVirtual()
     {
+        $this->markTestIncomplete('MAGETWO-4321');
         //Data
         $product = $this->loadDataSet('Product', 'virtual_product');
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $product['general_sku']));
@@ -306,7 +307,7 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
         //Verifying
         foreach ($tierData as $key => $value) {
             $this->addFieldIdToMessage('field', $key);
-            $this->assertMessagePresent('validation', 'enter_zero_or_greater');
+            $this->assertMessagePresent('validation', 'enter_greater_than_zero');
         }
         $this->assertTrue($this->verifyMessagesCount(2), $this->getParsedMessages());
     }

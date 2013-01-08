@@ -1,0 +1,55 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var $this Mage_Catalog_Block_Product_Configurable_AttributeSelector */
+?>
+<script type="text/javascript">
+(function($) {
+    'use strict';
+    $(function() {
+        $('#attribute-selector')
+            .autocomplete({
+                minLength: 0,
+                appendTo: '#config_super_product',
+                source: function(request, response) {
+                    $.ajax({
+                        url: '<?php echo $this->getSuggestUrl()?>',
+                        data: {label_part: request.term},
+                        dataType: 'json',
+                        context: '<div>'
+                    })
+                    .success(function(data) {
+                        var list = [];
+                        $.each(data, function(id, item) {
+                            if (!$('#configurable_attribute_' + id ).length) {
+                                list.push(item);
+                            }
+                        });
+                        response(list);
+                    });
+                },
+                focus: function(event, ui) {
+                    return false;
+                },
+                select: function(event, ui) {
+                    var attribute = ui.item;
+                    if (attribute.id) {
+                        $('#attributes-container').trigger('add', attribute);
+                    }
+                    $(this).val('').blur();
+                    return false;
+                }
+            })
+            .on('focus', function () {
+                $(this).autocomplete('search');
+            });
+    });
+})(jQuery);
+</script>

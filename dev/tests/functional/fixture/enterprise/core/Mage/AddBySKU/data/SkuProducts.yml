@@ -34,5 +34,5 @@ simple_sku:
    inventory_qty_increments: %noValue%
    inventory_stock_availability: In Stock
    websites: Main Website
-   categories: Default Category
+   general_categories: Default Category
    custom_options_data: %noValue%

@@ -43,7 +43,7 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
         //Data
         $category = $this->loadDataSet('Category', 'sub_category_required');
         $product = $this->loadDataSet('Product', 'simple_product_visible',
-            array('categories' => $category['parent_category'] . '/' . $category['name']));
+            array('general_categories' => $category['parent_category'] . '/' . $category['name']));
         //Steps
         $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
@@ -56,7 +56,7 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return array('category_path' => $product['categories'],
+        return array('category_path' => $product['general_categories'],
                      'filter_sku'    => $product['general_sku'],);
     }
 

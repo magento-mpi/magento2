@@ -12,7 +12,7 @@
 /**
  * Add by SKU functionality different product configurations on Frontend and Backend
  */
-class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_TestCase
+class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Enable Order by SKU functionality on Frontend</p>
@@ -64,7 +64,7 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
     public function createCategory()
     {
         $this->loginAdminUser();
-        $this->navigate('manage_categories', false);
+        $this->navigate('manage_categories');
         $this->categoryHelper()->checkCategoriesPage();
         $category = $this->loadDataSet('Category', 'sub_category_required_permissions_deny');
         $this->categoryHelper()->createCategory($category);
@@ -81,11 +81,14 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
      */
     public function createAttribute()
     {
-        $this->loginAdminUser();
+        //Data
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $attrCode = $attrData['attribute_code'];
         $associatedAttributes =
             $this->loadDataSet('AttributeSet', 'associated_attributes', array('General' => $attrCode));
+        //Steps
+        $this->loginAdminUser();
+        $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
         $this->assertMessagePresent('success', 'success_saved_attribute');
         $this->navigate('manage_attribute_sets');
@@ -138,7 +141,7 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
         $simpleProducts['simpleDisabled'] = $this->loadDataSet('SkuProducts', 'simple_sku',
             array('general_status' => 'Disabled'));
         $simpleProducts['simpleCategory'] = $this->loadDataSet('SkuProducts', 'simple_sku',
-            array('categories' => $category));
+            array('general_categories' => $category));
         $simpleProducts['simpleWebsite'] = $this->loadDataSet('SkuProducts', 'simple_sku',
             array('websites' => $website));
         $simpleProducts['simpleOutOfStock'] = $this->loadDataSet('SkuProducts', 'simple_sku',
@@ -260,6 +263,7 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
      * @depends createWebsite
      * @depends createCategory
      * @depends createAttribute
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function preconditionsForTests($website, $category, $attrData)
     {
@@ -274,13 +278,10 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
         //Downloadable product
         $download = $this->_createDownloadableProduct();
         //Configurable products
-        $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order',
-            array('configurable_attribute_title' => $attrData['admin_title']),
+        $configurable = $this->loadDataSet('Product', 'configurable_product_required', null,
             array(
-                'associated_1' => $simpleProducts['simple']['general_sku'],
-                'value_1' => $attrData['option_1']['admin_option_name'],
-                'associated_2' => $simpleProducts['simpleWithBackorders']['general_sku'],
-                'value_2' => $attrData['option_2']['admin_option_name']
+                'var1_attr_value1' => $attrData['option_1']['admin_option_name'],
+                'general_attribute_1' => $attrData['admin_title']
             )
         );
         $this->productHelper()->createProduct($configurable, 'configurable');
@@ -371,8 +372,8 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
             )
         );
         $productData['groupedVisibleIndividual'] = array(
-            'product_name' => $groupedVisibleIndividual['general_name'],
-            'sku' => $groupedVisibleIndividual['general_sku'],
+            'product_name' => $groupedVisibleInd['general_name'],
+            'sku' => $groupedVisibleInd['general_sku'],
             'qty' => 1,
             'Options' => array(
                 'option_1' => array(
@@ -388,7 +389,6 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
             'sku' => $bundleNotAvailable['general_sku'],
             'qty' => 1
         );
-
         $productData['bundleFixed'] = array(
             'product_name' => $bundleFixed['general_name'],
             'sku' => $bundleFixed['general_sku'],
@@ -412,7 +412,6 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
                 )
             )
         );
-
         $productData['bundleDynamic'] = array(
             'product_name' => $bundleDynamic['general_name'],
             'sku' => $bundleDynamic['general_sku'],
@@ -507,19 +506,19 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
                 'Options' => array(
                     'option_1'=> array(
                         'parameters' => array (
-                            'title' => $customOptionsRequired['custom_options_general_title']),
+                            'title' => $customOptionsReq['custom_options_general_title']),
                         'options_to_choose' => array(
                             'custom_option_dropdown' =>
-                            $customOptionsRequired['custom_option_row_1']['custom_options_title']
+                            $customOptionsReq['custom_option_row_1']['custom_options_title']
                         )
                     )
                 ),
                 'Options_backend' => array(
                     'option_1' => array(
-                        'title' => $customOptionsRequired['custom_options_general_title'],
+                        'title' => $customOptionsReq['custom_options_general_title'],
                         'field_dropdown' => array(
                             'fieldType' => 'dropdown',
-                            'fieldsValue' => $customOptionsRequired['custom_option_row_1']['custom_options_title']
+                            'fieldsValue' => $customOptionsReq['custom_option_row_1']['custom_options_title']
                         )
                     )
                 )
@@ -679,7 +678,7 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
             array('configurable', // configurable product with required options
                 array('type' => 'error', 'text' => 'required_attention_product'),
                 array ('messageOne' => 'specify_option', 'messageTwo' => 'link')),
-            array('grouped', // grouped product [MAGETWO-3926]
+            array('grouped',
                 array('type' => 'error', 'text' =>  'required_attention_product'),
                 array ('messageOne' => 'specify_option', 'messageTwo' => 'link')),
             array('groupedVisibleIndividual', // grouped product with subitem Visibility - Not Visible Individually)
@@ -720,6 +719,7 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
         //Data
         $product = $data[$productType];
         //Preconditions
+        $this->loginAdminUser();
         $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer(array($customer['email']));
         $this->addBySkuHelper()->openShoppingCart();
@@ -730,43 +730,7 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
         $this->waitForAjax();
         $this->addBySkuHelper()->addProductsBySkuToShoppingCart(array($product), true);
         //Verifying
-        if ($rule === 'attention') {
-            $this->addParameter('number', '1');
-            $this->assertMessagePresent($msgShoppingCart['type'], $msgShoppingCart['text']);
-            $gotData = $this->addBySkuHelper()->getProductInfoInTable('error_table_head', 'error_table_line');
-            $this->assertEquals($gotData['product_1']['sku'], $product['sku']);
-            $this->assertMessagePresent('error', $msgAttentionGrid);
-            $this->addParameter('rowIndex', '1');
-            $qtyXpath = $this->_getControlXpath('field', 'qty');
-            $this->assertTrue($this->isElementPresent($qtyXpath . "[@disabled]"), 'Qty field is not disabled. ');
-        } else {
-            if ($rule === 'enableConfigure') {
-                $this->addParameter('sku', $product['sku']);
-                $this->assertTrue($this->buttonIsPresent('configure_order_item'));
-            } else {
-                if (!is_null($msgShoppingCart['type'])) {
-                    $this->assertMessagePresent($msgShoppingCart['type'], $msgShoppingCart['text']);
-                }
-                switch ($rule) {
-                    case 'sku':
-                        $this->addParameter('sku', $product['sku']);
-                        break;
-                    case 'qty':
-                        $this->addParameter('qty', 5);
-                        break;
-                    case 'productName':
-                        $this->addParameter('productName', $product['product_name']);
-                        break;
-                    default:
-                        break;
-                }
-                $this->assertFalse($this->isElementPresent('sku_error_table'), 'Required Attention grid is present');
-                $this->addParameter('number', '1');
-                $gotData = $this->addBySkuHelper()->getProductInfoInTable();
-                $this->assertEquals($gotData['product_1']['sku'], $product['sku']);
-                $this->assertEquals($gotData['product_1']['qty'], $product['qty']);
-            }
-        }
+        $this->_verifyProductsInAttentionGrid($product, $msgShoppingCart, $msgAttentionGrid, $rule);
     }
 
     /**
@@ -789,6 +753,7 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
         //Data
         $product = $data[$productType];
         //Preconditions
+        $this->loginAdminUser();
         $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer(array($customer['email']));
         $this->addBySkuHelper()->openShoppingCart();
@@ -856,7 +821,7 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
      * <p>Adding products for which configuration is not required</p>
      *
      * @param string $productType
-     * @param array $msgShoppingCart
+     * @param mixed $msgShoppingCart
      * @param string $msgAttentionGrid
      * @param string $rule
      * @param array $data
@@ -872,49 +837,14 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_physical');
         //Preconditions
+        $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->navigateToCreateOrderPage(null, $orderData['store_view']);
         //Steps
         $product = $data[$productType];
         $this->addBySkuHelper()->addProductsBySkuToShoppingCart(array($product), true, false);
         //Verifying
-        if ($rule === 'attention') {
-            $this->addParameter('number', '1');
-            $this->assertMessagePresent($msgShoppingCart['type'], $msgShoppingCart['text']);
-            $gotData = $this->addBySkuHelper()->getProductInfoInTable('error_table_head', 'error_table_line');
-            $this->assertEquals($gotData['product_1']['sku'], $product['sku']);
-            $this->assertMessagePresent('error', $msgAttentionGrid);
-            $this->addParameter('rowIndex', '1');
-            $qtyXpath = $this->_getControlXpath('field', 'qty');
-            $this->assertTrue($this->isElementPresent($qtyXpath . "[@disabled]"), 'Qty field is not disabled. ');
-        } else {
-            if ($rule === 'enableConfigure') {
-                $this->addParameter('sku', $product['sku']);
-                $this->assertTrue($this->buttonIsPresent('configure_order_item'));
-            } else {
-                if (!is_null($msgShoppingCart['type'])) {
-                    $this->assertMessagePresent($msgShoppingCart['type'], $msgShoppingCart['text']);
-                }
-                switch ($rule) {
-                    case 'sku':
-                        $this->addParameter('sku', $product['sku']);
-                        break;
-                    case 'qty':
-                        $this->addParameter('qty', 5);
-                        break;
-                    case 'productName':
-                        $this->addParameter('productName', $product['product_name']);
-                        break;
-                    default:
-                        break;
-                }
-                $this->assertFalse($this->isElementPresent('sku_error_table'), 'Required Attention grid is present');
-                $this->addParameter('number', '1');
-                $gotData = $this->addBySkuHelper()->getProductInfoInTable();
-                $this->assertEquals($gotData['product_1']['sku'], $product['sku']);
-                $this->assertEquals($gotData['product_1']['qty'], $product['qty']);
-            }
-        }
+        $this->_verifyProductsInAttentionGrid($product, $msgShoppingCart, $msgAttentionGrid, $rule);
     }
 
     /**
@@ -968,6 +898,7 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_physical');
         //Preconditions
+        $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->navigateToCreateOrderPage(null, $orderData['store_view']);
         //Steps
@@ -1035,13 +966,14 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_physical');
         $simple = $data['simple'];
-        $simpleNotRequiredCustom = $data['simpleNotRequiredCustom'];
+        $simpleNotReqCustom = $data['simpleNotRequiredCustom'];
         $productNonExist = array('sku' => $this->generate('string', 10, ':alnum:'), 'qty' => 1);
         //Steps
+        $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->navigateToCreateOrderPage(null, $orderData['store_view']);
         $this->addBySkuHelper()->addProductsBySkuToShoppingCart(array(
-            $simple, $simpleNotRequiredCustom, $productNonExist), true, false);
+            $simple, $simpleNotReqCustom, $productNonExist), true, false);
         //Verifying
         $this->addParameter('number', '1');
         $this->assertMessagePresent('error', 'required_attention_product');
@@ -1071,6 +1003,7 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
         $orderData = $this->loadDataSet('SalesOrder', 'order_physical');
         $product = array('sku' => $data['simple']['sku'], 'qty' => $qtySku);
         //Steps
+        $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->navigateToCreateOrderPage(null, $orderData['store_view']);
         //Verifying
@@ -1099,5 +1032,54 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
             array('0.00001'),
             array('999999999.9999'),
         );
+    }
+
+    /**
+     * Verify products in attention in backend area
+     *
+     * @param array $product
+     * @param array $msgShoppingCart
+     * @param string $msgAttentionGrid
+     * @param string $rule
+     */
+    protected function _verifyProductsInAttentionGrid($product, $msgShoppingCart, $msgAttentionGrid, $rule)
+    {
+        if ($rule === 'attention') {
+            $this->addParameter('number', '1');
+            $this->assertMessagePresent($msgShoppingCart['type'], $msgShoppingCart['text']);
+            $gotData = $this->addBySkuHelper()->getProductInfoInTable('error_table_head', 'error_table_line');
+            $this->assertEquals($gotData['product_1']['sku'], $product['sku']);
+            $this->assertMessagePresent('error', $msgAttentionGrid);
+            $this->addParameter('rowIndex', '1');
+            $qtyXpath = $this->_getControlXpath('field', 'qty');
+            $this->assertTrue($this->isElementPresent($qtyXpath . "[@disabled]"), 'Qty field is not disabled. ');
+        } else {
+            if ($rule === 'enableConfigure') {
+                $this->addParameter('sku', $product['sku']);
+                $this->assertTrue($this->buttonIsPresent('configure_order_item'));
+            } else {
+                if (!is_null($msgShoppingCart['type'])) {
+                    $this->assertMessagePresent($msgShoppingCart['type'], $msgShoppingCart['text']);
+                }
+                switch ($rule) {
+                    case 'sku':
+                        $this->addParameter('sku', $product['sku']);
+                        break;
+                    case 'qty':
+                        $this->addParameter('qty', 5);
+                        break;
+                    case 'productName':
+                        $this->addParameter('productName', $product['product_name']);
+                        break;
+                    default:
+                        break;
+                }
+                $this->assertFalse($this->isElementPresent('sku_error_table'), 'Required Attention grid is present');
+                $this->addParameter('number', '1');
+                $gotData = $this->addBySkuHelper()->getProductInfoInTable();
+                $this->assertEquals($gotData['product_1']['sku'], $product['sku']);
+                $this->assertEquals($gotData['product_1']['qty'], $product['qty']);
+            }
+        }
     }
 }

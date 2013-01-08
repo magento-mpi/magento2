@@ -24,6 +24,9 @@ product_page:
                             customize_and_add_to_cart: //button[span='Customize and Add to Cart']
                         pageelements:
                             qty: /..//input[@class='input-text qty'][@value='%price%']
+                            unit_price_label: //div[@class='unitprice-box']/span
+                            unit_price_label_full_info: //div[@class='unitprice-box' and contains(., '%unitPrice% / %unitProductVolume% %measurement%')]
+                            unit_price_price: //div[@class='unitprice-box']/span/span
                         fields:
                             gift_card_open_amount: //input[@id='giftcard_amount_input']
                             gift_card_sender_name: //input[@id='giftcard_sender_name']
@@ -40,6 +43,11 @@ product_page:
                 -
                     details:
                         xpath: //div[dl/dt/span='Details']
+                -
+                    product_oprions:
+                        xpath: //*[@id='product-options-wrapper']
+                        pageelements:
+                            product_custom_option_head_order: //dt[%rowNumber%][contains(label,'%title%')]
 
 product_review:
     uimap:

@@ -6,6 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/*global media_gallery_contentJsObject*/
 function BaseImageUploader(id, maxFileSize) {
     (function ($) {
         $('#' + id + '_upload').fileupload({
@@ -25,6 +26,12 @@ function BaseImageUploader(id, maxFileSize) {
                     if (typeof media_gallery_contentJsObject != 'undefined') {
                         media_gallery_contentJsObject.handleUploadComplete(data.result);
                         media_gallery_contentJsObject.imagesValues.image = data.result.file;
+                        $.each(['small_image', 'thumbnail'], function () {
+                            if (media_gallery_contentJsObject.getFileElement('no_selection',
+                                    'cell-' + this + ' input').checked) {
+                                media_gallery_contentJsObject.imagesValues[this] = data.result.file;
+                            }
+                        });
                         media_gallery_contentJsObject.updateImages();
                     }
                 } else {

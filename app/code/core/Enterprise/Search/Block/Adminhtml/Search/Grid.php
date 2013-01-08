@@ -39,7 +39,7 @@ class Enterprise_Search_Block_Adminhtml_Search_Grid extends Mage_Adminhtml_Block
     /**
      * Prepare collection for Grid
      *
-     * @return Mage_Adminhtml_Block_Catalog_Search_Grid
+     * @return Enterprise_Search_Block_Adminhtml_Search_Grid
      */
     protected function _prepareCollection()
     {
@@ -80,7 +80,7 @@ class Enterprise_Search_Block_Adminhtml_Search_Grid extends Mage_Adminhtml_Block
     /**
      * Prepare Grid columns
      *
-     * @return Mage_Adminhtml_Block_Catalog_Search_Grid
+     * @return Enterprise_Search_Block_Adminhtml_Search_Grid
      */
     protected function _prepareColumns()
     {

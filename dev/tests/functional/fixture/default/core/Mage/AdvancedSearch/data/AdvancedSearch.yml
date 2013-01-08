@@ -48,4 +48,4 @@ product_create:
     inventory_notify_for_qty_below: 12
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category

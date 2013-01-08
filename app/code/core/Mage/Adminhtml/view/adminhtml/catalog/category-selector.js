@@ -72,14 +72,6 @@
             });
             $input.bind('ajaxSend ajaxComplete', function(e) {
                 e.stopPropagation();
-                switch (e.type) {
-                    case 'ajaxSend':
-                        $input.addClass('category-selector-active');
-                        break;
-                    case 'ajaxComplete':
-                        $input.removeClass('category-selector-active');
-                        break;
-                }
             });
             $input.autocomplete({
                 source: function(request, response) {

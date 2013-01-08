@@ -31,31 +31,47 @@ theme_list:
                             magento_version_from: //input[@id='theme_grid_filter_magento_version_from']
                             magento_version_to: //input[@id='theme_grid_filter_magento_version_to']
                         pageelements:
-                             theme_grid: //table[@id='theme_grid_table']
+                            theme_grid: //table[@id='theme_grid_table']
+                            theme_grid_theme_path_empty_column: //table[@id='theme_grid_table']/tbody/tr/td[normalize-space(@class)='theme-path' and not(contains(., '/'))]
+                            theme_grid_theme_row_by_title: //table[@id='theme_grid_table']/tbody/tr[td[normalize-space(@class)='theme-title' and normalize-space(text())='%s']]
         buttons:
             add_new_theme: //button[span='Add New Theme']
+        messages:
+            success_saved_theme: //li[normalize-space(@class)='success-msg' and contains(.,'The theme has been saved.')]
+            success_deleted_theme: //li[normalize-space(@class)='success-msg' and contains(.,'The theme has been deleted.')]
 
 # New Theme page
 new_theme:
     mca: system_design_theme/new
     title: Magento Admin
-    uimap:
+    uimap: &newThemeUimap
         form:
             fieldsets:
                 -
-                    theme_form:
-                        xpath: //form[@id='edit_form']
+                    theme:
+                        xpath: //form[@id='edit_form']//div[@id='theme']
                         dropdowns:
                             theme_parent_id: //select[@id='parent_id']
                         fields:
                             theme_version: //input[@id='theme_version']
                             theme_title: //input[@id='theme_title']
+                -
+                    requirements:
+                        xpath: //form[@id='edit_form']//div[@id='requirements']
+                        fields:
                             magento_version_from: //input[@id='magento_version_from']
                             magento_version_to: //input[@id='magento_version_to']
         buttons:
-            back: //button[span='Back']
-            reset: //button[span='Reset']
-            save_theme: //button[@data-ui-id='theme-edit-save-button']
-            delete_theme: //button[span='Delete']
-            save_and_continue_edit: //button[@data-ui-id='theme-edit-save-and-continue-button']
+            back: //button[@id='back']
+            reset: //button[@id='reset']
+            save_theme: //button[@id='save']
+            delete_theme: //button[@id='delete']
+            save_and_continue_edit: //button[@id='save_and_continue']
+        messages:
+            success_saved_theme: //li[normalize-space(@class)='success-msg' and contains(.,'The theme has been saved.')]
 
+# Edit Theme Page
+edit_theme:
+    mca: system_design_theme/edit/id/%id%
+    title: Magento Admin
+    uimap: *newThemeUimap

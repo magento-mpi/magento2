@@ -82,8 +82,8 @@
                 <design>{{app_dir}}/design</design>
                 <locale>{{app_dir}}/locale</locale>
                 <etc>{{app_dir}}/etc</etc>
-                <media>{{root_dir}}/pub/media</media>
-                <upload>{{root_dir}}/pub/media/upload</upload>
+                <media>{{media_dir}}</media>
+                <upload>{{media_dir}}/upload</upload>
                 <var>{{var_dir}}</var>
                 <cache>{{var_dir}}/cache</cache>
                 <session>{{var_dir}}/session</session>

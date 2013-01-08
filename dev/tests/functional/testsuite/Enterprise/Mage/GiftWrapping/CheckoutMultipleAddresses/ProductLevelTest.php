@@ -74,6 +74,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
      */
     public function preconditionsForTestsWithWebSite()
     {
+        $this->markTestIncomplete("Enterprise_Staging is obsolete. The tests should be refactored.");
         //Creating a website
         $website = $this->loadDataSet('StagingWebsite', 'staging_website');
         $this->navigate('system_configuration');

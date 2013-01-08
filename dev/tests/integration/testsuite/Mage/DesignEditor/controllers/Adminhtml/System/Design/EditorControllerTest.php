@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mage_Adminhtml_Utility_Controller
+class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mage_Backend_Utility_Controller
 {
     /**
      * Identifier theme
@@ -60,122 +60,23 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
         $theme->load(self::$_themeId)->delete();
     }
 
-    /**
-     * Assert that a page content contains the design editor form
-     *
-     * @param string $content
-     */
-    protected function _assertContainsDesignEditor($content)
-    {
-        $expectedFormAction = 'http://localhost/index.php/backend/admin/system_design_editor/launch/';
-        $this->assertContains('Visual Design Editor', $content);
-        $this->assertContains('<form id="edit_form" action="' . $expectedFormAction, $content);
-        $this->assertContains("jQuery('#edit_form').form()", $content);
-    }
-
-    /**
-     * Skip the current test, if session identifier is not defined in the environment
-     */
-    public function _requireSessionId()
-    {
-        if (!$this->_session->getSessionId()) {
-            $this->markTestSkipped('Test requires environment with non-empty session identifier.');
-        }
-    }
-
-    public function testIndexActionSingleStore()
+    public function testIndexAction()
     {
         $this->dispatch('backend/admin/system_design_editor/index');
-        $this->_assertContainsDesignEditor($this->getResponse()->getBody());
-    }
+        $content = $this->getResponse()->getBody();
 
-    /**
-     * @magentoDataFixture Mage/Core/_files/store.php
-     * @magentoConfigFixture fixturestore_store web/unsecure/base_link_url http://example.com/
-     */
-    public function testIndexActionMultipleStores()
-    {
-        $this->dispatch('backend/admin/system_design_editor/index');
-        $responseBody = $this->getResponse()->getBody();
-        $this->_assertContainsDesignEditor($responseBody);
-        $this->assertContains('id="store_id" name="store_id"', $responseBody);
-        $this->assertContains('for="store_id"', $responseBody);
-        $this->assertContains('Store View', $responseBody);
-        $this->assertContains('Fixture Store</option>', $responseBody);
-    }
-
-    /**
-     * @magentoDataFixture prepareTheme
-     */
-    public function testLaunchActionSingleStore()
-    {
-        $session = Mage::getModel('Mage_DesignEditor_Model_Session');
-        $this->assertFalse($session->isDesignEditorActive());
-        $this->getRequest()->setParam('theme_id', self::$_themeId);
-        $this->dispatch('backend/admin/system_design_editor/launch');
-        $this->assertTrue($session->isDesignEditorActive());
-
-        $this->_requireSessionId();
-        $this->assertRedirect($this->equalTo('http://localhost/index.php/?SID=' . $this->_session->getSessionId()));
+        $this->assertContains('Choose a theme to start with', $content);
+        $this->assertContains('<div class="entry-edit">', $content);
+        $this->assertContains("jQuery('.infinite_scroll').infinite_scroll", $content);
     }
 
     public function testLaunchActionSingleStoreWrongThemeId()
     {
-        $session = Mage::getObjectManager()->create('Mage_DesignEditor_Model_Session');
-        $this->assertFalse($session->isDesignEditorActive());
         $this->getRequest()->setParam('theme_id', 999);
         $this->dispatch('backend/admin/system_design_editor/launch');
-        $this->assertFalse($session->isDesignEditorActive());
 
-        $this->_requireSessionId();
         $expected = 'http://localhost/index.php/backend/admin/system_design_editor/index/';
         $this->assertRedirect($this->stringStartsWith($expected));
-    }
-
-    /**
-     * @magentoDataFixture prepareTheme
-     * @magentoDataFixture Mage/Core/_files/store.php
-     * @magentoConfigFixture fixturestore_store web/unsecure/base_link_url http://example.com/
-     */
-    public function testLaunchActionMultipleStores()
-    {
-        $this->getRequest()->setParam('store_id', Mage::app()->getStore('fixturestore')->getId());
-
-        $session = Mage::getModel('Mage_DesignEditor_Model_Session');
-        $this->assertFalse($session->isDesignEditorActive());
-        $this->getRequest()->setParam('theme_id', self::$_themeId);
-        $this->dispatch('backend/admin/system_design_editor/launch');
-        $this->assertTrue($session->isDesignEditorActive());
-
-        $this->_requireSessionId();
-        $expected = 'http://example.com/index.php/?SID=' . $this->_session->getSessionId() . '&___store=fixturestore';
-        $this->assertRedirect($this->equalTo($expected));
-    }
-
-    /**
-     * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
-     */
-    public function testExitAction()
-    {
-        $session = Mage::getModel('Mage_DesignEditor_Model_Session');
-        $this->assertTrue($session->isDesignEditorActive());
-        $this->dispatch('backend/admin/system_design_editor/exit');
-
-        $this->assertFalse($session->isDesignEditorActive());
-        $this->assertContains(
-            '<script type="text/javascript">window.close();</script>',
-            $this->getResponse()->getBody()
-        );
-    }
-
-    public function testRunAction()
-    {
-        $this->dispatch('backend/admin/system_design_editor/run');
-
-        $this->assertSelectCount('div#vde_toolbar_row', true, $this->getResponse()->getBody());
-        $this->assertSelectCount('div#vde_handles_hierarchy', true, $this->getResponse()->getBody());
-        $this->assertSelectCount('div#vde_toolbar_buttons', true, $this->getResponse()->getBody());
-        $this->assertSelectCount('iframe.vde_container_frame', true, $this->getResponse()->getBody());
     }
 
     /**

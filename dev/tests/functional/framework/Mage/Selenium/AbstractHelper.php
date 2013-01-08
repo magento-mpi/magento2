@@ -42,6 +42,7 @@
  * @method bool                     checkCurrentPage(string $page)
  * @method array                    checkMessage(string $message)
  * @method array                    checkMessageByXpath(string $locator)
+ * @method PHPUnit_Extensions_Selenium2TestCase_Element|bool childElementIsPresent(PHPUnit_Extensions_Selenium2TestCase_Element $parentElement, $childLocator)
  * @method void                     clearActiveFocus()
  * @method array|bool               clearDataArray(array $dataArray)
  * @method void                     clearInvalidedCache()
@@ -153,6 +154,9 @@
  * @method PHPUnit_Extensions_Selenium2TestCase_Element waitForElementEditable($locator, int $timeout = null)
  * @method bool                     waitForElementOrAlert($locator, int $timeout = null)
  * @method PHPUnit_Extensions_Selenium2TestCase_Element waitForElementVisible($locator, int $timeout = null)
+ * @method PHPUnit_Extensions_Selenium2TestCase_Element waitForControl($controlType, $controlName, $timeout = null)
+ * @method PHPUnit_Extensions_Selenium2TestCase_Element waitForControlEditable($controlType, $controlName, $timeout = null)
+ * @method PHPUnit_Extensions_Selenium2TestCase_Element waitForControlVisible($controlType, $controlName, $timeout = null)
  * @method void                     waitForNewPage()
  * @method bool                     waitForPageToLoad()
  * @method void                     waitForTextNotPresent(int $pageText, int $timeout = null)
@@ -296,8 +300,10 @@ class Mage_Selenium_AbstractHelper
         $reflectionClass = new ReflectionClass($className);
         if ($reflectionClass->hasMethod($command)) {
             $reflectionMethod = new ReflectionMethod($className, $command);
+
             return $reflectionMethod->invokeArgs($this->_testInstance, $arguments);
         }
+
         return $this->_testInstance->__call($command, $arguments);
     }
 

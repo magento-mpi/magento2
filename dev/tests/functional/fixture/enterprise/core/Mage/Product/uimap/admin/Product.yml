@@ -33,6 +33,22 @@ new_product:
                                         prices_gift_card_website: //*[@id='giftcard_amounts_giftcard_amounts_row_%giftCardId%_website']
                                     fields:
                                         prices_gift_card_amount: //input[@name='product[giftcard_amounts][%giftCardId%][price]']
+                            -
+                                unit_price_fields:
+                                    xpath: //div[contains(div/div/h4,'Prices')]
+                                    dropdowns:
+                                        unit_price_allow_display: //select[@id='unit_price_use']
+                                        unit_price_measure_for_base_prod_pricetab: //select[@id='unit_price_unit']
+                                        unit_price_measure_for_unit_prod_pricetab: //select[@id='unit_price_base_unit']
+                                        unit_price_measure_for_base_prod_pricetab_value: //select[@id='unit_price_unit']/option[@selected='selected']
+                                        unit_price_measure_for_unit_prod_pricetab_value: //select[@id='unit_price_base_unit']/option[@selected='selected']
+                                    fields:
+                                        unit_price_unit_prod_volume: //input[@id='unit_price_base_amount']
+                                        unit_price_one_item_based_prod_volume: //input[@id='unit_price_amount']
+                                        unit_price_invalid_measurement: //label[@class = 'mage-error' and contains(.,'Conversion rate not found for')]
+                                        unit_price_invalid_measurement_with_params: //label[@class = 'mage-error' and contains(.,'Conversion rate not found for %baseMeasure% to %unitMeasure%')]
+                                        unit_price_base_product_invisible: "//tr[@style='display: none;']/td[@class='value']/input[@id='base_price_base_amount']"
+                                        unit_price_input_validation: //label[@class = 'mage-error' and contains(.,'Please enter a number greater than 0 in this field')]
                 -
                     gift_options:
                         fieldsets:
@@ -66,12 +82,6 @@ new_product:
                                         giftcardinfo_allow_message_default: //input[@id='giftcard_use_config_allow_message']
                                         giftcardinfo_email_template_default: //input[@id='giftcard_use_config_email_template']
 
-new_configurable_product:
-    uimap: *newProduct
-
-duplicated_configurable_product:
-    uimap: *newProduct
-
 edit_product:
     uimap: *newProduct
 
@@ -82,12 +92,6 @@ edit_product_save_and_continue:
     uimap: *newProduct
 
 edit_new_configurable_save_and_continue:
-    uimap: *newProduct
-
-create_empty_simple_from_configurable:
-    uimap: *newProduct
-
-create_simple_from_configurable:
     uimap: *newProduct
 
 new_product_after_changed_attribute_set:

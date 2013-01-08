@@ -54,7 +54,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchyTest exte
             ->method('getUpdate')
             ->will($this->returnValue($layoutMerge));
 
-        $vdeUrlBuilder = $this->getMock('Mage_DesignEditor_Model_Url', array('getUrl'), array(), '', false);
+        $vdeUrlBuilder = $this->getMock('Mage_DesignEditor_Model_Url_Handle', array('getUrl'), array(), '', false);
         $vdeUrlBuilder->expects($this->any())
             ->method('getUrl')
             ->will($this->returnCallback(

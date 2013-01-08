@@ -25,6 +25,13 @@ category_page_before_reindex:
                             remove_row: //tr[%rowIndex%]//*[@class='btn-remove']
                         links:
                             sku_link: //p[@class='link-widget-sku']/a
+                -
+                    unit_price:
+                        pageelements:
+                            unit_price_label: //div[@class='unitprice-box']/span
+                            unit_price_label_full_info: //div[@class='unitprice-box' and contains(., '%unitPrice% / %unitProductVolume% %measurement%')]
+                            unit_price_price: //div[@class='unitprice-box']/span/span
+                            unit_price_label_by_product_name: //a[@title='%prodName%']/../div[@class='unitprice-box']
         messages:
             qty_sku_invalid_number: //div[@class='validation-advice' and contains(.,'Please enter a valid number in this field.')]
             qty_sku_negative_number: //div[@class='validation-advice' and contains(.,'Please enter a number greater than 0 in this field.')]

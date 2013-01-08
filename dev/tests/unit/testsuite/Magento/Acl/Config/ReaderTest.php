@@ -50,4 +50,9 @@ class Magento_Acl_Config_ReaderTest extends PHPUnit_Framework_TestCase
         $this->assertEqualXMLStructure($expectedResources->documentElement, $actualResources->documentElement, true);
         $this->assertEquals($expectedResources, $actualResources);
     }
+
+    public function testGetSchemaFile()
+    {
+        $this->assertFileExists($this->_model->getSchemaFile());
+    }
 }

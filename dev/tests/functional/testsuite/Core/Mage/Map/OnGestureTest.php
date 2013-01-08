@@ -28,7 +28,7 @@ class Core_Mage_Map_OnGestureTest extends Mage_Selenium_TestCase
     {
         $category = $this->loadDataSet('Category', 'sub_category_required');
         $catPath = $category['parent_category'] . '/' . $category['name'];
-        $productCat = array('categories' => $catPath);
+        $productCat = array('general_categories' => $catPath);
         $simple = $this->loadDataSet('Product', 'simple_product_visible', $productCat);
         $this->loginAdminUser();
         $this->navigate('manage_categories', false);

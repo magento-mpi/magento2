@@ -53,7 +53,7 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
                                            'add_product_2' => $virtual['general_sku']));
         $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order',
             array(
-                'configurable_attribute_title' => $attrData['admin_title'],
+                'general_configurable_attribute_title' => $attrData['admin_title'],
             ), array(
                 'associated_1' => $simple['general_sku'],
                 'value_1' => $attrData['option_1']['admin_option_name'],

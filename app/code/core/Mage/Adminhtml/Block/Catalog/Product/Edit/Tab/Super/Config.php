@@ -114,6 +114,23 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
             ));
         }
 
+        $this->addChild(
+            'generate',
+            'Mage_Backend_Block_Widget_Button',
+            array(
+                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Generate Variations'),
+                'data_attr' => array(
+                    'widget-button' => array(
+                        'event' => 'generate',
+                        'related' => '#product-variations-matrix',
+                        'eventData' => array(
+                            'url' => $this->getUrl('*/*/variationsMatrix', array('_current' => true)),
+                        ),
+                    ),
+                ),
+            )
+        );
+
         return parent::_prepareLayout();
     }
 
@@ -134,20 +151,38 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
      */
     public function getAttributes()
     {
-        $attributes = (array)$this->_getProductType()->getConfigurableAttributesAsArray($this->_getProduct());
-        foreach ($attributes as &$attribute) {
-            if (isset($attribute['values']) && is_array($attribute['values'])) {
-                foreach ($attribute['values'] as &$attributeValue) {
-                    if (!$this->getCanReadPrice()) {
-                        $attributeValue['pricing_value'] = '';
-                        $attributeValue['is_percent'] = 0;
+        if (!$this->hasData('attributes')) {
+            $attributes = (array)$this->_getProductType()->getConfigurableAttributesAsArray($this->_getProduct());
+            $productData = (array)$this->getRequest()->getParam('product');
+            if (isset($productData['configurable_attributes_data'])) {
+                $configurableData = $productData['configurable_attributes_data'];
+                foreach ($attributes as $key => &$attribute) {
+                    if (isset($configurableData[$key])) {
+                        $attribute['values'] = array_merge(
+                            isset($attribute['values']) ? $attribute['values'] : array(),
+                            isset($configurableData[$key]['values'])
+                                ? array_filter($configurableData[$key]['values'])
+                                : array()
+                        );
                     }
-                    $attributeValue['can_edit_price'] = $this->getCanEditPrice();
-                    $attributeValue['can_read_price'] = $this->getCanReadPrice();
                 }
             }
+
+            foreach ($attributes as &$attribute) {
+                if (isset($attribute['values']) && is_array($attribute['values'])) {
+                    foreach ($attribute['values'] as &$attributeValue) {
+                        if (!$this->getCanReadPrice()) {
+                            $attributeValue['pricing_value'] = '';
+                            $attributeValue['is_percent'] = 0;
+                        }
+                        $attributeValue['can_edit_price'] = $this->getCanEditPrice();
+                        $attributeValue['can_read_price'] = $this->getCanReadPrice();
+                    }
+                }
+            }
+            $this->setData('attributes', $attributes);
         }
-        return $attributes;
+        return $this->getData('attributes');
     }
 
     /**
@@ -248,21 +283,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
     }
 
     /**
-     * Retrieve Quick create product URL
-     *
-     * @return string
-     */
-    public function getQuickCreationUrl()
-    {
-        return $this->getUrl(
-            '*/*/quickCreate',
-            array(
-                'product'  => $this->_getProduct()->getId()
-            )
-        );
-    }
-
-    /**
      * Retrieve Required attributes Ids (comma separated)
      *
      * @return string
@@ -340,52 +360,5 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
         return $this->_getProduct()->isConfigurable()
             ? array_filter($this->_getProductType()->getUsedProductAttributes($this->_getProduct()))
             : array();
-    }
-
-    /**
-     * Retrieve all possible attribute values combinations
-     *
-     * @return array
-     */
-    public function getVariations()
-    {
-        $attributesCount = 0;
-        $variationalAttributes = array();
-        $usedProductAttributes = $this->getSelectedAttributes();
-        foreach ($usedProductAttributes as $attribute) {
-            /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-            $variationalAttributes[] = array(
-                'id' => $attribute->getId(),
-                'values' => $attribute->getSource()->getAllOptions(false),
-            );
-            $attributesCount++;
-        }
-
-        $variations = array();
-        $currentVariation = array_fill(0, $attributesCount, 0);
-        $variationalAttributes = array_reverse($variationalAttributes);
-        $lastAttribute = $attributesCount - 1;
-        do {
-            for ($attributeIndex = 0; $attributeIndex < $attributesCount - 1; ++$attributeIndex) {
-                if ($currentVariation[$attributeIndex] >= count($variationalAttributes[$attributeIndex]['values'])) {
-                    $currentVariation[$attributeIndex] = 0;
-                    ++$currentVariation[$attributeIndex + 1];
-                }
-            }
-            if ($currentVariation[$lastAttribute] >= count($variationalAttributes[$lastAttribute]['values'])) {
-                break;
-            }
-
-            $filledVariation = array();
-            for ($attributeIndex = $attributesCount; $attributeIndex--;) {
-                $currentAttribute = $variationalAttributes[$attributeIndex];
-                $filledVariation[$currentAttribute['id']] =
-                    $currentAttribute['values'][$currentVariation[$attributeIndex]];
-            }
-
-            $variations[] = $filledVariation;
-            $currentVariation[0]++;
-        } while (1);
-        return $variations;
     }
 }

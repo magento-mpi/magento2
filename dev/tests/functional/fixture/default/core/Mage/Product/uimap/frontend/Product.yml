@@ -12,7 +12,7 @@
 product_page:
     mca: %productUrl%.html
     title: %elementTitle%
-    uimap:
+    uimap: &product
         form:
             fieldsets: &productFieldsets
                 -
@@ -79,6 +79,7 @@ product_page:
                             price_box_map_info: //div[@class='price-box map-info']//span[@class='msrp-price-hide-message'and contains(.,'See price before order confirmation.')]
                             map_popup: //div[@id='map-popup']
                             group_price: //div[@class='product-shop']//p[@class='special-price']/span[normalize-space(text())='%symbol%%price%']
+                            product_custom_option_head_order: //dt[%rowNumber%][contains(label,'%title%')]
                 -
                     product_custom_option_head: &product_custom_option_head
                         xpath: //dt[contains(label,'%title%')]
@@ -294,3 +295,8 @@ product_review_category:
     mca: review/product/list/id/%id%/category/%categoryId%/#review-form/
     title: %elementTitle%
     uimap: *productReview
+
+product_page_id:
+    mca: catalog/product/view/id/%id%
+    title: %productTitle%
+    uimap: *product

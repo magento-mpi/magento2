@@ -213,7 +213,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         //Steps
         $this->clickButton('add_new_product_split');
-        $this->productHelper()->fillProductSettings($productData);
+        $this->productHelper()->fillProductInfo($productData);
         $this->openTab('prices');
         $columnsName = $this->shoppingCartHelper()->getColumnNamesAndNumbers('prices_group_price_grid_head');
         //Verifying
