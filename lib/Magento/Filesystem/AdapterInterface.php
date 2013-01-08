@@ -112,6 +112,15 @@ interface Magento_Filesystem_AdapterInterface
     public function isReadable($key);
 
     /**
+     * Calculates the MD5 hash of the file specified
+     *
+     * @param $key
+     * @return string
+     * @throws Magento_Filesystem_Exception
+     */
+    public function getFileMd5($key);
+
+    /**
      * Creates new directory
      *
      * @param string $key
