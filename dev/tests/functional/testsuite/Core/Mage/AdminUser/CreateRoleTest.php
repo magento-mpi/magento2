@@ -85,7 +85,7 @@ class Core_Mage_AdminUser_CreateRoleTest extends Mage_Selenium_TestCase
         //Steps
         $this->adminUserHelper()->createRole($roleData);
         //Verifying
-        $this->assertMessagePresent('error', 'error_required_field_role_name');
+        $this->assertMessagePresent('error', 'empty_required_field');
     }
 
     /**
