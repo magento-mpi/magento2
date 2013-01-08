@@ -12,6 +12,17 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
 {
     protected $_roles;
 
+    /**
+     * @var Magento_Filesystem
+     */
+    protected $_filesystem;
+
+    public function __construct(Magento_Filesystem $filesystem, array $data = array())
+    {
+        $this->_filesystem = $filesystem;
+        parent::__construct($data);
+    }
+
     public function getPear()
     {
         return Varien_Pear::getInstance();
@@ -159,14 +170,15 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
 
             switch ($contents['type'][$i]) {
                 case 'file':
-                    if (!is_file($fullPath)) {
+                    if (!$this->_filesystem->isFile($fullPath)) {
                         Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__("Invalid file: %s", $fullPath));
                     }
-                    $pfm->addFile('/', $contents['path'][$i], array('role'=>$role, 'md5sum'=>md5_file($fullPath)));
+                    $pfm->addFile('/', $contents['path'][$i],
+                        array('role' => $role, 'md5sum' => $this->_filesystem->getFileMd5($fullPath)));
                     break;
 
                 case 'dir':
-                    if (!is_dir($fullPath)) {
+                    if (!$this->_filesystem->isDirectory($fullPath)) {
                         Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__("Invalid directory: %s", $fullPath));
                     }
                     $path = $contents['path'][$i];
@@ -190,7 +202,7 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
     protected function _addDir($pfm, $role, $roleDir, $path, $include, $ignore)
     {
         $roleDirLen = strlen($roleDir);
-        $entries = @glob($roleDir.$path.DS."*");
+        $entries = $this->_filesystem->getNestedKeys($roleDir . $path . DS);
         if (!empty($entries)) {
             foreach ($entries as $entry) {
                 $filePath = substr($entry, $roleDirLen);
@@ -200,14 +212,9 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
                 if (!empty($ignore) && preg_match($ignore, $filePath)) {
                     continue;
                 }
-                if (is_dir($entry)) {
-                    $baseName = basename($entry);
-                    if ('.'===$baseName || '..'===$baseName) {
-                        continue;
-                    }
-                    $this->_addDir($pfm, $role, $roleDir, $filePath, $include, $ignore);
-                } elseif (is_file($entry)) {
-                    $pfm->addFile('/', $filePath, array('role'=>$role, 'md5sum'=>md5_file($entry)));
+                if ($this->_filesystem->isFile($entry)) {
+                    $pfm->addFile('/', $filePath,
+                        array('role' => $role, 'md5sum' => $this->_filesystem->getFileMd5($entry)));
                 }
             }
         }
@@ -262,7 +269,9 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
 
         $pear = Varien_Pear::getInstance();
         $dir = Mage::getBaseDir('var').DS.'pear';
-        if (!@file_put_contents($dir.DS.'package.xml', $this->getPackageXml())) {
+        try {
+            $this->_filesystem->write($dir.DS.'package.xml', $this->getPackageXml());
+        } catch (Magento_Filesystem_Exception $e) {
             return false;
         }
 
@@ -276,13 +285,12 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
         $parts = explode(DS, $fileName);
         array_pop($parts);
         $newDir = implode(DS, $parts);
-        if ((!empty($newDir)) && (!is_dir($dir . DS . $newDir))) {
-            if (!@mkdir($dir . DS . $newDir, 0777, true)) {
-                return false;
+        try {
+            if ((!empty($newDir)) && (!$this->_filesystem->isDirectory($dir . DS . $newDir))) {
+                $this->_filesystem->createDirectory($dir . DS . $newDir);
             }
-        }
-
-        if (!@file_put_contents($dir . DS . $fileName . '.xml', $xml->asNiceXml())) {
+            $this->_filesystem->write($dir . DS . $fileName . '.xml', $xml->asNiceXml());
+        } catch (Magento_Filesystem_Exception $e) {
             return false;
         }
 

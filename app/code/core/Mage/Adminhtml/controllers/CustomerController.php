@@ -769,12 +769,10 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
         $path = Mage::getBaseDir('media') . DS . 'customer';
 
-        $ioFile = new Varien_Io_File();
-        $ioFile->open(array('path' => $path));
-        $fileName   = $ioFile->getCleanPath($path . $file);
-        $path       = $ioFile->getCleanPath($path);
-
-        if ((!$ioFile->fileExists($fileName) || strpos($fileName, $path) !== 0)
+        /** @var Magento_Filesystem $filesystem */
+        $filesystem = $this->_objectManager->get('Magento_Filesystem');
+        $fileName   = $path . $file;
+        if (!$filesystem->isFile($fileName, $path)
             && !Mage::helper('Mage_Core_Helper_File_Storage')->processStorageFile(str_replace('/', DS, $fileName))
         ) {
             return $this->norouteAction();

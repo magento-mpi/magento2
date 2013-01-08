@@ -70,6 +70,22 @@ class Magento_Filesystem_Adapter_Local implements
     }
 
     /**
+     * Calculates the MD5 hash of the file specified
+     *
+     * @param $key
+     * @return string
+     * @throws Magento_Filesystem_Exception
+     */
+    public function getFileMd5($key)
+    {
+        $hash = @md5_file($key);
+        if (false === $hash) {
+            throw new Magento_Filesystem_Exception('Unable to get file hash');
+        }
+        return $hash;
+    }
+
+    /**
      * Deletes the file or directory recursively.
      *
      * @param string $key

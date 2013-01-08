@@ -347,6 +347,18 @@ class Magento_Filesystem
     }
 
     /**
+     * Calculates the md5 hash of a given file
+     *
+     * @param string $key
+     * @param string $workingDirectory
+     * @return string
+     */
+    public function getFileMd5($key, $workingDirectory = null)
+    {
+        return $this->_adapter->getFileMd5($this->_getCheckedPath($key, $workingDirectory));
+    }
+
+    /**
      * Check that file exists
      *
      * @param string $path

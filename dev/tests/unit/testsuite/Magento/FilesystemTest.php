@@ -327,6 +327,25 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
         $filesystem->createStream('/tmp/test.txt');
     }
 
+    public function testGetFileMd5()
+    {
+        $fileName = '/tmp/file1';
+        /** @var Magento_Filesystem_Adapter_Local|PHPUnit_Framework_MockObject_MockObject $adapterMock */
+        $adapterMock = $this->getMockBuilder('Magento_Filesystem_Adapter_Local')
+            ->getMock();
+        $adapterMock->expects($this->once())
+            ->method('getFileMd5')
+            ->with($fileName)
+            ->will($this->returnValue('e5f30e10b8965645d5f8ed5999d88600'));
+        $adapterMock->expects($this->once())
+            ->method('isDirectory')
+            ->with('/tmp')
+            ->will($this->returnValue(true));
+        $filesystem = new Magento_Filesystem($adapterMock);
+        $filesystem->setWorkingDirectory('/tmp');
+        $filesystem->getFileMd5($fileName);
+    }
+
     /**
      * @dataProvider modeDataProvider
      * @param string|Magento_Filesystem_Stream_Mode $mode

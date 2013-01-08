@@ -164,6 +164,21 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0755, fileperms($fileName) & 0777);
     }
 
+    public function testGetFileMd5()
+    {
+        $this->assertEquals('e5f30e10b8965645d5f8ed5999d88600',
+            $this->_adapter->getFileMd5($this->_getFixturesPath() . 'popup.csv'));
+    }
+
+    /**
+     * @expectedException Magento_Filesystem_Exception
+     * @expectedExceptionMessage Unable to get file hash
+     */
+    public function testGetFileMd5Exception()
+    {
+        $this->_adapter->getFileMd5($this->_getFixturesPath() . 'invalid.csv');
+    }
+
     public function testIsFile()
     {
         $this->assertTrue($this->_adapter->isFile($this->_getFixturesPath() . 'popup.csv'));
