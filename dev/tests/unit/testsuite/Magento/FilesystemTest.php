@@ -466,11 +466,34 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
     {
         return $this->adapterMethods()
             + array(
+                'mtime' => array('getMTime', 'getMTime'),
                 'read' => array('read', 'read'),
                 'read #2' => array('read', 'read', array('/tmp')),
                 'createDirectory' => array('createDirectory', 'createDirectory', array(0777)),
                 'createDirectory #2' => array('createDirectory', 'createDirectory', array(0777, '/tmp')),
             );
+    }
+
+    /**
+     * @dataProvider workingDirDataProvider
+     * @param string|null $workingDirectory
+     */
+    public function testGetMTime($workingDirectory)
+    {
+        $validPath = '/tmp/path/file.txt';
+        $adapterMock = $this->_getDefaultAdapterMock();
+        $adapterMock->expects($this->once())
+            ->method('isFile')
+            ->with($validPath)
+            ->will($this->returnValue(true));
+        $adapterMock->expects($this->once())
+            ->method('getMTime')
+            ->with($validPath)
+            ->will($this->returnValue(1));
+
+        $filesystem = new Magento_Filesystem($adapterMock);
+        $filesystem->setWorkingDirectory('/tmp');
+        $this->assertEquals(1, $filesystem->getMTime($validPath, $workingDirectory));
     }
 
     /**

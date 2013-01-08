@@ -245,6 +245,17 @@ class Magento_Filesystem_Adapter_Local implements
     }
 
     /**
+     * Get file modification time.
+     *
+     * @param string $key
+     * @return int
+     */
+    public function getMTime($key)
+    {
+        return filemtime($key);
+    }
+
+    /**
      * Create stream object
      *
      * @param string $path

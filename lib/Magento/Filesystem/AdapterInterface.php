@@ -127,4 +127,12 @@ interface Magento_Filesystem_AdapterInterface
      * @throws Magento_Filesystem_Exception
      */
     public function touch($key);
+
+    /**
+     * Get file modification time.
+     *
+     * @param string $key
+     * @return int
+     */
+    public function getMTime($key);
 }
