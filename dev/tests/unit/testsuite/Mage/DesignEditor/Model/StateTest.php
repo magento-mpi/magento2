@@ -111,7 +111,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         $this->_urlModelFactory = $this->getMock('Mage_DesignEditor_Model_Url_Factory', array('replaceClassName'),
             array(), '', false
         );
-        $this->_cacheManager = $this->getMock('Mage_Core_Model_Cache', array('canUse', 'banUse', 'invalidateType'),
+        $this->_cacheManager = $this->getMock('Mage_Core_Model_Cache', array('canUse', 'banUse'),
             array(), '', false
         );
         $this->_dataHelper = $this->getMock('Mage_DesignEditor_Helper_Data', array('getDisabledCacheTypes'),
@@ -160,7 +160,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
             ->with('type1')
             ->will($this->returnValue(true));
         $this->_cacheManager->expects($this->at(1))
-            ->method('invalidateType')
+            ->method('banUse')
             ->with('type1')
             ->will($this->returnSelf());
 
@@ -169,7 +169,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
             ->with('type2')
             ->will($this->returnValue(true));
         $this->_cacheManager->expects($this->at(3))
-            ->method('invalidateType')
+            ->method('banUse')
             ->with('type2')
             ->will($this->returnSelf());
     }

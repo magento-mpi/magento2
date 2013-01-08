@@ -72,14 +72,4 @@ class Mage_DesignEditor_Model_Observer
             $layoutUpdate->delete();
         }
     }
-
-    /**
-     * Clear all VDE dependent cache
-     */
-    public function clearCache()
-    {
-        // TODO: disable VDE cache here or in Mage_DesignEditor_Model_State to avoid impact on frontend cache
-        // TODO: it should be done in scope of MAGETWO-6709
-        $this->_cacheManager->flush();
-    }
 }

@@ -432,7 +432,8 @@ class Mage_Core_Model_App
             $options = array();
         }
         $options = array_merge($options, $cacheInitOptions);
-        $this->_cache = Mage::getModel('Mage_Core_Model_Cache', array('options' => $options));
+        $this->_cache = $this->_objectManager->create('Mage_Core_Model_Cache', array('options' => $options), false);
+        $this->_objectManager->addSharedInstance($this->_cache, 'Mage_Core_Model_Cache');
         $this->_isCacheLocked = false;
         return $this;
     }
