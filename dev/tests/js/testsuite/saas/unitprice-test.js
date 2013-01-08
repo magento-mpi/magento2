@@ -24,26 +24,26 @@ UnitPriceTest.prototype.testUnitPrice = function() {
                 <select id="unit_price_unit" class=" select">
                     <option selected="selected" value="LBS">LBS</option>
                     <option value="KG">KG</option>
+                </select>
             </td>
         </tr>
         <tr style="display: none;">
             <td class="value">
-                <input id="unit_price_amount" class="input-text" value="1.000" readonly="readonly">
+                <input id="unit_price_amount" class="input-text" value="5.0000" readonly="readonly"/>
             </td>
         </tr>
         <tr style="display: none;">
             <td class="value">
-                <select id="unit_price_base_unit" class=" select">
+                <select id="unit_price_base_unit" class=" select"/>
             </td>
         </tr>
         <tr style="display: none;">
             <td class="value">
-                <input id="unit_price_base_amount" class="input-text">
+                <input id="unit_price_base_amount" class="input-text"/>
             </td>
         </tr>
     </table>
     */
-    verifyfields();
 
     var basePriceUse = $('#unit_price_use');
     var basePriceUnit = $('#unit_price_unit');
@@ -56,14 +56,12 @@ UnitPriceTest.prototype.testUnitPrice = function() {
     assertFalse(basePriceAmountBaseAmount.hasClass('validate-greater-than-zero'));
 
     basePriceUse.val(1);
-    verifyfields();
-    assertTrue(baseAllElements.is(':visible'));
-    assertTrue(basePriceAmount.hasClass('required-entry'));
-    assertTrue(basePriceAmountBaseAmount.hasClass('validate-greater-than-zero'));
-    assertFalse(basePriceAmount.prop('readonly'));
+    assertFalse(baseAllElements.is(':visible'));
+    assertFalse(basePriceAmount.hasClass('required-entry'));
+    assertFalse(basePriceAmountBaseAmount.hasClass('validate-greater-than-zero'));
+    assertTrue(basePriceAmount.prop('readonly'));
 
     basePriceUnit.val('KG');
-    verifyfields();
     assertTrue(basePriceAmount.prop('readonly'));
     assertEquals(basePriceAmount.val(), $('#weight').val());
 };
