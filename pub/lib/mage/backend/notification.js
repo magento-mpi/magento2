@@ -29,17 +29,17 @@
         /**
          * Add new message
          * @protected
-         * @param {Object} event object
-         * @param {Object} The jQuery XMLHttpRequest object returned by $.ajax()
+         * @param {Object} e event object
+         * @param {Object} jqXHR The jQuery XMLHttpRequest object returned by $.ajax()
          * @param {Object}
          */
         _add: function(e, jqXHR) {
-            if($.mage.isJSON(jqXHR.responseText)) {
+            try {
                 var response = $.parseJSON(jqXHR.responseText);
-                if (response.error) {
+                if (response && response.error) {
                     this.element.append($.tmpl('globalNotification', response));
                 }
-            }
+            } catch(e) {}
         }
     });
 })(jQuery);
