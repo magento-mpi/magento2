@@ -11,13 +11,6 @@
 
 $rootDir = realpath(__DIR__ . '/../../../../../../../');
 require_once $rootDir . '/app/bootstrap.php';
+Magento_Autoload_IncludePath::addIncludePath($rootDir . '/dev/tests/integration/framework');
 
-$codeDirs = array(
-    $rootDir . '/lib/',
-    $rootDir . '/app/code/core/',
-    $rootDir . '/dev/tests/integration/framework/',
-);
-set_include_path(implode(PATH_SEPARATOR, $codeDirs) . PATH_SEPARATOR . get_include_path());
-
-Mage::setRoot();
 Mage::initializeObjectManager(null, new Magento_Test_ObjectManager());

@@ -11,8 +11,6 @@
 
 /**
  * Locate all payment methods in the system and verify declaration of their blocks
- *
- * @group integrity
  */
 class Integrity_Mage_Payment_MethodsTest extends PHPUnit_Framework_TestCase
 {

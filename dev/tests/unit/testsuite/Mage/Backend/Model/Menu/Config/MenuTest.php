@@ -15,16 +15,38 @@
 class Mage_Backend_Model_Config_MenuTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @var PHPUnit_Framework_MockObject_MockObject|Mage_Core_Model_Config
+     */
+    protected $_configMock;
+
+    protected function setUp()
+    {
+        $this->_configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
+        $this->_configMock->expects($this->any())
+            ->method('getModuleDir')
+            ->with('etc', 'Mage_Backend')
+            ->will(
+                $this->returnValue(
+                    realpath(__DIR__ . '/../../../../../../../../../app/code/core/Mage/Backend/etc')
+                )
+            );
+    }
+
+    protected function tearDown()
+    {
+        unset($this->_configMock);
+    }
+
+    /**
      * Test existence of xsd file
      */
     public function testGetSchemaFile()
     {
-        $model = $this->getMockForAbstractClass(
-            'Mage_Backend_Model_Menu_Config_Menu',
-            array(),
-            '',
-            false
+        $basePath = realpath(__DIR__)  . '/../../_files/';
+        $files = array(
+            $basePath . 'menu_1.xml',
         );
+        $model = new Mage_Backend_Model_Menu_Config_Menu($this->_configMock, $files);
         $actual = $model->getSchemaFile();
         $this->assertFileExists($actual, 'XSD file [' . $actual . '] not exist');
     }
@@ -55,7 +77,7 @@ class Mage_Backend_Model_Config_MenuTest extends PHPUnit_Framework_TestCase
             $basePath . 'menu_1.xml',
             $basePath . 'menu_2.xml',
         );
-        $model = new Mage_Backend_Model_Menu_Config_Menu($files);
+        $model = new Mage_Backend_Model_Menu_Config_Menu($this->_configMock, $files);
         $actual = $model->getMergedConfig();
         $actual->preserveWhiteSpace = false;
 
@@ -83,7 +105,7 @@ class Mage_Backend_Model_Config_MenuTest extends PHPUnit_Framework_TestCase
             $basePath . 'menu_1.xml',
             $basePath . 'menu_1.xml',
         );
-        $model = new Mage_Backend_Model_Menu_Config_Menu($files);
+        $model = new Mage_Backend_Model_Menu_Config_Menu($this->_configMock, $files);
         $model->validate();
     }
 
@@ -97,7 +119,7 @@ class Mage_Backend_Model_Config_MenuTest extends PHPUnit_Framework_TestCase
             $basePath . 'menu_1.xml',
             $basePath . 'menu_2.xml',
         );
-        $model = new Mage_Backend_Model_Menu_Config_Menu($files);
+        $model = new Mage_Backend_Model_Menu_Config_Menu($this->_configMock, $files);
         try {
             $this->assertInstanceOf('Mage_Backend_Model_Menu_Config_Menu', $model->validate());
         } catch (Magento_Exception $e) {

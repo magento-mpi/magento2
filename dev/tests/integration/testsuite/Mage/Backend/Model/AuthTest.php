@@ -11,8 +11,6 @@
 
 /**
  * Test class for Mage_Backend_Model_Auth.
- *
- * @group module:Mage_Backend
  */
 class Mage_Backend_Model_AuthTest extends PHPUnit_Framework_TestCase
 {

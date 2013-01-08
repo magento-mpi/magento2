@@ -33,16 +33,7 @@
         </reference>
     </restriction_index_stub>
 
-    <catalog_product_view>
-        <reference name="head">
-            <action method="addJs"><file>js/tabs.js</file></action>
-        </reference>
-    </catalog_product_view>
-
     <catalog_product_view_type_bundle>
-        <reference name="head">
-            <action method="addJs"><file>js/bundle_product_view.js</file></action>
-        </reference>
         <reference name="product.info">
             <block type="Enterprise_GiftRegistry_Block_Product_View" name="product.customize.button"/>
         </reference>
