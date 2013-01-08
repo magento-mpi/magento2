@@ -308,7 +308,7 @@ class Mage_Core_Model_App
 
         Magento_Profiler::start('init_config');
         /** @var $config Mage_Core_Model_Config */
-        $config = $this->_objectManager->create('Mage_Core_Model_Config');
+        $config = $this->_objectManager->get('Mage_Core_Model_Config');
         $this->_config = $config;
         $this->_initBaseConfig();
         $this->_initCache();
