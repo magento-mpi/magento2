@@ -77,8 +77,8 @@ class Inspection_JsHint_Command extends Inspection_CommandAbstract
     protected function _buildShellCmd($whiteList, $blackList)
     {
         return $this->_getHostScript(true) . ' '
-            . $this->_getJsHintPath() . ' '
-            . $this->getFileName() . ' '
+            . '"' . $this->_getJsHintPath() . '" '
+            . '"' . $this->getFileName() . '" '
             . $this->_getJsHintOptions();
     }
 
