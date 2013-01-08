@@ -44,24 +44,33 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         $attrCode = $attrData['attribute_code'];
         $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
             array('General' => $attrData['attribute_code']));
-        $productCat = array('categories' => $catPath);
+        $productCat = array('general_categories' => $catPath);
         $simple = $this->loadDataSet('Product', 'simple_product_visible', $productCat);
         $simple['general_user_attr']['dropdown'][$attrCode] = $attrData['option_1']['admin_option_name'];
         $virtual = $this->loadDataSet('Product', 'virtual_product_visible', $productCat);
         $virtual['general_user_attr']['dropdown'][$attrCode] = $attrData['option_2']['admin_option_name'];
         $download = $this->loadDataSet('SalesOrder', 'downloadable_product_for_order',
             array('downloadable_links_purchased_separately' => 'No',
-                  'categories'                              => $catPath));
+                  'general_categories'                              => $catPath));
         $download['general_user_attr']['dropdown'][$attrCode] = $attrData['option_3']['admin_option_name'];
         $downloadWithOption = $this->loadDataSet('SalesOrder', 'downloadable_product_for_order', $productCat);
         $bundle = $this->loadDataSet('SalesOrder', 'fixed_bundle_for_order', $productCat,
             array('add_product_1' => $simple['general_sku'],
                   'add_product_2' => $virtual['general_sku']));
         $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order',
-            array('configurable_attribute_title' => $attrData['admin_title'],
-                  'categories'                   => $catPath), array('associated_1' => $simple['general_sku'],
-                                                                     'associated_2' => $virtual['general_sku'],
-                                                                     'associated_3' => $download['general_sku']));
+            array(
+                'general_configurable_attribute_title' => $attrData['admin_title'],
+                'general_categories' => $catPath
+            ),
+            array(
+                'associated_1' => $simple['general_sku'],
+                'value_1' => $attrData['option_1']['admin_option_name'],
+                'associated_2' => $virtual['general_sku'],
+                'value_2' => $attrData['option_2']['admin_option_name'],
+                'associated_3' => $download['general_sku'],
+                'value_3' => $attrData['option_3']['admin_option_name']
+            )
+        );
         $grouped = $this->loadDataSet('SalesOrder', 'grouped_product_for_order', $productCat,
             array('associated_1' => $simple['general_sku'],
                   'associated_2' => $virtual['general_sku'],
@@ -70,7 +79,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         $configurOptName = $attrData['option_1']['store_view_titles']['Default Store View'];
         $customOptions = $this->loadDataSet('Product', 'custom_options_data');
         $simpleWithCO =
-            $this->loadDataSet('Product', 'simple_product_visible', array('categories'          => $catPath,
+            $this->loadDataSet('Product', 'simple_product_visible', array('general_categories'          => $catPath,
                                                                           'custom_options_data' => $customOptions));
         //Steps and Verification
         $this->loginAdminUser();

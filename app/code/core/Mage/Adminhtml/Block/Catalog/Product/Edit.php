@@ -43,14 +43,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     protected function _prepareLayout()
     {
         if (!$this->getRequest()->getParam('popup')) {
-            $this->addChild('back_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            $this->addChild('back_button', 'Mage_Backend_Block_Widget_Button', array(
                 'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Back'),
                 'onclick'   => 'setLocation(\''
                     . $this->getUrl('*/*/', array('store'=>$this->getRequest()->getParam('store', 0))).'\')',
                 'class' => 'back'
             ));
         } else {
-            $this->addChild('back_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            $this->addChild('back_button', 'Mage_Backend_Block_Widget_Button', array(
                 'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Close Window'),
                 'onclick'   => 'window.close()',
                 'class' => 'cancel'
@@ -59,18 +59,23 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
 
         if (!$this->getProduct()->isReadonly()) {
             if (!$this->getProduct()->isConfigurable() || !$this->getIsConfigured()) {
-                $this->addChild('change_attribute_set_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-                    'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Change Attribute Set'),
-                    'onclick' => "jQuery('#attribute-set-info').dialog('open');"
-                ));
+                $this->addChild(
+                    'change_attribute_set_button',
+                    'Mage_Backend_Block_Widget_Button',
+                    array(
+                        'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Change Attribute Set'),
+                        'onclick' => "jQuery('#attribute-set-info').dialog('open');",
+                        'id' => 'change-attribute-set-button'
+                    )
+                );
             }
 
-            $this->addChild('reset_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            $this->addChild('reset_button', 'Mage_Backend_Block_Widget_Button', array(
                 'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Reset'),
                 'onclick'   => 'setLocation(\''.$this->getUrl('*/*/*', array('_current'=>true)).'\')'
             ));
 
-            $this->addChild('save_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            $this->addChild('save_button', 'Mage_Backend_Block_Widget_Button', array(
                 'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Save'),
                 'class' => 'save',
                 'data_attr'  => array(
@@ -81,7 +86,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
 
         if (!$this->getRequest()->getParam('popup')) {
             if (!$this->getProduct()->isReadonly()) {
-                $this->addChild('save_and_edit_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+                $this->addChild('save_and_edit_button', 'Mage_Backend_Block_Widget_Button', array(
                     'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Save and Continue Edit'),
                     'data_attr'  => array(
                         'widget-button' => array('event' => 'saveAndContinueEdit', 'related' => '#product-edit-form')
@@ -90,7 +95,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
                 ));
             }
             if ($this->getProduct()->isDeleteable()) {
-                $this->addChild('delete_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+                $this->addChild('delete_button', 'Mage_Backend_Block_Widget_Button', array(
                     'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Delete'),
                     'onclick'   => 'confirmSetLocation(\''
                         . Mage::helper('Mage_Catalog_Helper_Data')->__('Are you sure?').'\', \''.$this->getDeleteUrl().'\')',
@@ -99,7 +104,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
             }
 
             if ($this->getProduct()->isDuplicable()) {
-                $this->addChild('duplicate_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+                $this->addChild('duplicate_button', 'Mage_Backend_Block_Widget_Button', array(
                     'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Duplicate'),
                     'onclick'   => 'setLocation(\'' . $this->getDuplicateUrl() . '\')',
                     'class'  => 'add'

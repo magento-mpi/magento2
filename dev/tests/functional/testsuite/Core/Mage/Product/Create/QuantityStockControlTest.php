@@ -66,7 +66,8 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         //Verifying
         $this->assertMessagePresent('success', 'success_attribute_set_saved');
 
-        return array('attribute' => $attributeData['admin_title']);
+        return array('attribute' => $attributeData['admin_title'],
+                     'option'    => $attributeData['option_1']['admin_option_name']);
     }
 
     /**
@@ -101,6 +102,7 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
      */
     public function createAttributeSet()
     {
+        $this->markTestIncomplete('MAGETWO-6268');
         //Data
         $setData = $this->loadDataSet('AttributeSet', 'mini_attribute_set');
         //Steps
@@ -147,13 +149,13 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
      * @dataProvider productTypeDataProvider
      * @TestLinkId TL-MAGE-6369
      */
-
     public function verifyUneditabilityForComposite($productType, $attributeData)
     {
         //Data
         if ($productType == 'configurable') {
-            $productData = $this->loadDataSet('Product', 'configurable_product_visible',
-                array('configurable_attribute_title' => $attributeData['attribute']));
+            $productData = $this->loadDataSet('Product', 'configurable_product_visible', null,
+                array('var1_attr_value1'    => $attributeData['option'],
+                      'general_attribute_1' => $attributeData['attribute']));
         } else {
             $productData = $this->loadDataSet('Product', 'grouped_product_visible');
         }
@@ -196,6 +198,7 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
 
     public function emptyGeneralQuantity($defaultValue)
     {
+        $this->markTestIncomplete('MAGETWO-6266');
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         //Steps
@@ -266,7 +269,7 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $this->assertEquals($productData['inventory_qty'], $this->getControlAttribute('field', 'general_qty', 'value'));
         $this->assertEquals($productData['inventory_stock_availability'],
-            $this->getControlAttribute('dropdown', 'inventory_stock_availability', 'selectedLabel'));
+            $this->getControlAttribute('dropdown', 'general_stock_availability', 'selectedLabel'));
         $this->openTab('inventory');
         $this->assertEquals($productData['inventory_qty'],
             $this->getControlAttribute('field', 'inventory_qty', 'value'));
@@ -355,10 +358,11 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
      */
     public function syncDataAfterChangeAttributeSet($attributeSet)
     {
+        $this->markTestIncomplete('MAGETWO-6268');
         $productData = $this->loadDataSet('Product', 'simple_product_visible');
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData, 'simple', false);
+        $this->productHelper()->createProduct($productData);
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $this->productHelper()->changeAttributeSet($attributeSet['set_name']);

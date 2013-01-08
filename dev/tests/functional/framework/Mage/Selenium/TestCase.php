@@ -2547,6 +2547,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
+     * @param string $controlName Name of a control from UIMap
+     * @param int|null $timeout
+     * @return PHPUnit_Extensions_Selenium2TestCase_Element
+     */
+    public function waitForControl($controlType, $controlName, $timeout = null)
+    {
+        $locator = $this->_getControlXpath($controlType, $controlName);
+        return $this->waitForElement($locator, $timeout);
+    }
+
+    /**
      * Waits for the element(alert) to appear
      *
      * @param string|array $locator
@@ -2623,6 +2635,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
+     * @param string $controlName Name of a control from UIMap
+     * @param int|null $timeout
+     * @return PHPUnit_Extensions_Selenium2TestCase_Element
+     */
+    public function waitForControlVisible($controlType, $controlName, $timeout = null)
+    {
+        $locator = $this->_getControlXpath($controlType, $controlName);
+        return $this->waitForElementVisible($locator, $timeout);
+    }
+
+    /**
      * Waits for the element(s) to be visible
      *
      * @param string|array $locator XPath locator or array of locator's
@@ -2660,6 +2684,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $this->assertEmptyPageErrors();
         throw new RuntimeException($this->locationToString() . 'Timeout after ' . $timeout . ' seconds' . $output);
+    }
+
+    /**
+     * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
+     * @param string $controlName Name of a control from UIMap
+     * @param int|null $timeout
+     * @return PHPUnit_Extensions_Selenium2TestCase_Element
+     */
+    public function waitForControlEditable($controlType, $controlName, $timeout = null)
+    {
+        $locator = $this->_getControlXpath($controlType, $controlName);
+        return $this->waitForElementEditable($locator, $timeout);
     }
 
     /**
@@ -2835,7 +2871,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function _prepareDataForSearch(array $data, $checkFields = array(self::FIELD_TYPE_DROPDOWN => 'website'))
     {
         foreach ($checkFields as $fieldType => $fieldName) {
-            if (array_key_exists($fieldName, $data) && !$this->controlIsPresent($fieldType, $fieldName)) {
+            if (array_key_exists($fieldName, $data) && !$this->controlIsVisible($fieldType, $fieldName)) {
                 unset($data[$fieldName]);
             }
         }
@@ -2894,12 +2930,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * Forming xpath that contains the data to look up
      *
      * @param array $data Array of data to look up
+     * @param string $trLocator
      *
      * @return string
      */
-    public function formSearchXpath(array $data)
+    public function formSearchXpath(array $data, $trLocator = "//table[@class='data']/tbody/tr")
     {
-        $trLocator = "//table[@class='data']/tbody/tr";
         foreach ($data as $key => $value) {
             if (!preg_match('/_from/', $key) && !preg_match('/_to/', $key) && !is_array($value)) {
                 if (strpos($value, "'")) {
@@ -3943,8 +3979,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function childElementIsPresent(PHPUnit_Extensions_Selenium2TestCase_Element $parentElement, $childLocator)
     {
-        $elements = $this->getChildElements($parentElement, $childLocator, false);
-        return empty($elements) ? false : array_shift($elements);
+        $childElements = $this->getChildElements($parentElement, $childLocator, false);
+        return empty($childElements) ? false : array_shift($childElements);
     }
 
     /**
@@ -3975,7 +4011,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @return bool
      * @throws RuntimeException
      */
-    public function waitForPageToLoad($timeout = NULL)
+    public function waitForPageToLoad($timeout = null)
     {
         if (is_null($timeout)) {
             $timeout = $this->_browserTimeout;

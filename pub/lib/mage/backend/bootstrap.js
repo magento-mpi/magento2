@@ -64,12 +64,10 @@ jQuery(function ($) {
          * @param {string}
          */
         complete: function(jqXHR) {
-            if (jqXHR.readyState === 4) {
-                if($.mage.isJSON(jqXHR.responseText)) {
-                    var jsonObject = jQuery.parseJSON(jqXHR.responseText);
-                    if (jsonObject.ajaxExpired && jsonObject.ajaxRedirect) {
-                        window.location.replace(jsonObject.ajaxRedirect);
-                    }
+            if (jqXHR.readyState === 4 && $.mage.isJSON(jqXHR.responseText)) {
+                var jsonObject = jQuery.parseJSON(jqXHR.responseText);
+                if (jsonObject.ajaxExpired && jsonObject.ajaxRedirect) {
+                    window.location.replace(jsonObject.ajaxRedirect);
                 }
             }
         }

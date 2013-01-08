@@ -57,6 +57,7 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
      */
     public function allFieldsInVirtual()
     {
+        $this->markTestIncomplete('MAGETWO-4321');
         //Data
         $product = $this->loadDataSet('Product', 'virtual_product');
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $product['general_sku']));
@@ -129,8 +130,7 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
             array(array('general_status' => '-- Please Select --'), 'dropdown'),
             array(array('general_visibility' => '-- Please Select --'), 'dropdown'),
             array(array('prices_price' => '%noValue%'), 'field'),
-            array(array('prices_tax_class' => '-- Please Select --'), 'dropdown'),
-            array(array('inventory_qty' => ''), 'field')
+            array(array('prices_tax_class' => '-- Please Select --'), 'dropdown')
         );
     }
 

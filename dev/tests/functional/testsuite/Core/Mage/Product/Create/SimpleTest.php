@@ -63,6 +63,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
      */
     public function allFieldsInSimple()
     {
+        $this->markTestIncomplete('MAGETWO-4321');
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product');
         $productSearch =
@@ -139,8 +140,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
             array(array('general_status' => '-- Please Select --'), 'dropdown'),
             array(array('general_visibility' => '-- Please Select --'), 'dropdown'),
             array(array('prices_price' => '%noValue%'), 'field'),
-            array(array('prices_tax_class' => '-- Please Select --'), 'dropdown'),
-            array(array('inventory_qty' => ''), 'field')
+            array(array('prices_tax_class' => '-- Please Select --'), 'dropdown')
         );
     }
 
@@ -222,7 +222,6 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Fails due to MAGE-5658
      * <p>Creating product with invalid weight</p>
      *
      * @TestlinkId TL-MAGE-3420
@@ -230,6 +229,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
      */
     public function invalidWeightInSimple()
     {
+        $this->markTestIncomplete('MAGETWO-6022');
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required',
             array('general_weight' => $this->generate('string', 9, ':punct:')));
@@ -388,128 +388,5 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
             array('g3648GJTest'),
             array('-128')
         );
-    }
-
-    /**
-     * Quick create
-     *
-     * depends onlyRequiredFieldsInSimple
-     * @return array
-     * @test
-     */
-    public function onConfigurableProductPageQuickCreate()
-    {
-        //Data
-        $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
-        $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
-            array('General' => $attrData['attribute_code']));
-        $configurable = $this->loadDataSet('Product', 'configurable_product_required',
-            array('configurable_attribute_title' => $attrData['admin_title']));
-        $productSearch =
-            $this->loadDataSet('Product', 'product_search', array('product_sku' => $configurable['general_sku']));
-        $quickSimple = $this->loadDataSet('Product', 'quick_simple_product',
-            array('quick_simple_product_attribute_value' => $attrData['option_1']['admin_option_name']));
-        //Steps
-        $this->navigate('manage_attributes');
-        $this->productAttributeHelper()->createAttribute($attrData);
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_attribute');
-        //Steps
-        $this->navigate('manage_attribute_sets');
-        $this->attributeSetHelper()->openAttributeSet();
-        $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
-        $this->saveForm('save_attribute_set');
-        //Verifying
-        $this->assertMessagePresent('success', 'success_attribute_set_saved');
-        //Steps
-        $this->navigate('manage_products');
-        $this->productHelper()->createProduct($configurable, 'configurable');
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_product');
-        //Steps
-        $this->productHelper()->openProduct($productSearch);
-        $this->addParameter('attributeCode', $attrData['attribute_code']);
-        $this->fillForm($quickSimple, 'associated');
-        $this->clickButton('quick_create', false);
-        $this->pleaseWait();
-        //Verifying
-        $this->assertMessagePresent('success', 'success_created_product');
-
-        return array('search' => $productSearch, 'attr' => $attrData);
-    }
-
-    /**
-     * Create Empty
-     *
-     * @param $data
-     *
-     * @depends onConfigurableProductPageQuickCreate
-     * @test
-     */
-    public function onConfigurableProductPageCreateEmpty($data)
-    {
-        //Data
-        $searchAttr = $this->loadDataSet('ProductAttribute', 'attribute_search_data',
-            array('attribute_code' => $data['attr']['attribute_code']));
-        $simpleEmpty = $this->loadDataSet('Product', 'simple_product_required');
-        $simpleEmpty['general_user_attr']['dropdown'][$data['attr']['attribute_code']] =
-            $data['attr']['option_2']['admin_option_name'];
-        //Steps
-        //1.Define attribute ID
-        $attrId = $this->productAttributeHelper()->defineAttributeId($searchAttr);
-        $this->addParameter('attrId', $attrId);
-        //2.Define attribute set ID that used in product
-        $this->navigate('manage_products');
-        $setId = $this->productHelper()->defineAttributeSetUsedInProduct($data['search']);
-        $this->addParameter('setId', $setId);
-        //3. Open product and create simple product
-        $this->productHelper()->openProduct($data['search']);
-        $this->openTab('associated');
-        $this->clickButton('create_empty', false);
-        $this->selectLastWindow();
-        $this->productHelper()->fillProductInfo($simpleEmpty);
-        $this->saveForm('save', false);
-        $this->window('');
-        $this->waitForAjax();
-        $xpath = $this->search(array('associated_search_sku' => $simpleEmpty['general_sku']), 'associated');
-        $this->assertNotEquals(null, $xpath, 'Product is not found');
-    }
-
-    /**
-     * Copy From Configurable
-     *
-     * @param $data
-     *
-     * @depends onConfigurableProductPageQuickCreate
-     * @test
-     */
-    public function onConfigurableProductPageCopyFromConfigurable($data)
-    {
-        //Data
-        $searchAttr = $this->loadDataSet('ProductAttribute', 'attribute_search_data',
-            array('attribute_code' => $data['attr']['attribute_code']));
-        $simple = array('general_weight' => '3.21', 'general_sku' => $this->generate('string', 15, ':alnum:'));
-        $simple['general_user_attr']['dropdown'][$data['attr']['attribute_code']] =
-            $data['attr']['option_3']['admin_option_name'];
-        //Steps
-        //1.Define attribute ID
-        $attrId = $this->productAttributeHelper()->defineAttributeId($searchAttr);
-        $this->addParameter('attrId', $attrId);
-        //2.Define attribute set ID that used in product
-        $this->navigate('manage_products');
-        $setId = $this->productHelper()->defineAttributeSetUsedInProduct($data['search']);
-        $this->addParameter('setId', $setId);
-        //3. Open product and create simple product
-        $this->productHelper()->openProduct($data['search']);
-        $this->addParameter('productId', $this->getParameter('id'));
-        $this->openTab('associated');
-        $this->clickButton('create_copy_from_configurable', false);
-        $this->selectLastWindow();
-        $this->productHelper()->fillProductInfo($simple);
-        $this->saveForm('save', false);
-        $this->window('');
-        $this->waitForAjax();
-        $xpath = $this->search(array('associated_search_sku' => $simple['general_sku']), 'associated');
-        $this->assertNotEquals(null, $xpath, 'Product is not found');
     }
 }

@@ -60,7 +60,9 @@ class Core_Mage_Product_Create_OnMinimalAttributeSetTest extends Mage_Selenium_T
         $this->assertMessagePresent('success', 'success_saved_product');
 
 
-        return array('simple_sku' => $productData['general_sku'], 'attribute' => $attrData['admin_title']);
+        return array('simple_sku'     => $productData['general_sku'], 'simple_name' => $productData['general_name'],
+                     'attribute'      => $attrData['admin_title'],
+                     'attributeValue' => $attrData['option_1']['admin_option_name']);
     }
 
     /**
@@ -93,8 +95,10 @@ class Core_Mage_Product_Create_OnMinimalAttributeSetTest extends Mage_Selenium_T
                 break;
             case 'configurable':
                 $productData = $this->loadDataSet('Product', $productType . '_product_minimal',
-                    array('configurable_attribute_title' => $testData['attribute'],
-                          'associated_search_sku'        => $testData['simple_sku']));
+                    array('associated_sku'          => $testData['simple_sku'],
+                          'associated_product_name' => $testData['simple_name']),
+                    array('var1_attr_value1'    => $testData['attributeValue'],
+                          'general_attribute_1' => $testData['attribute']));
                 break;
             case 'fixed_bundle':
             case 'dynamic_bundle':
@@ -127,7 +131,7 @@ class Core_Mage_Product_Create_OnMinimalAttributeSetTest extends Mage_Selenium_T
             array('downloadable'),
             array('configurable'),
             array('fixed_bundle'),
-            array('dynamic_bundle'),
+//            array('dynamic_bundle'), MAGETWO-6269
             array('grouped'));
     }
 

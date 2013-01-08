@@ -62,7 +62,7 @@ frontend_gift_card_validation:
     inventory_backorders: Allow Qty Below 0
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     custom_options_data: &customOptionsData
         custom_options_field: &field
             custom_options_general_title: Custom Option Field
@@ -209,7 +209,7 @@ gift_card:
     inventory_qty_increments: 5
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     giftcardinfo_card_type: Combined
     giftcardinfo_is_redeemable_default: No
     giftcardinfo_is_redeemable: No

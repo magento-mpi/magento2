@@ -200,7 +200,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
             Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Resource is not set.'));
         }
 
-        return $this->_resource ? $this->_resource : Mage::getResourceSingleton($this->_resourceName);
+        return $this->_resource ?: Mage::getResourceSingleton($this->_resourceName);
     }
 
     /**

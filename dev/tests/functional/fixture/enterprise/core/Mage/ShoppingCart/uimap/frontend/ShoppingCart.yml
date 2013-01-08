@@ -1,3 +1,4 @@
+# Magento
 #
 # {license_notice}
 #
@@ -8,7 +9,7 @@
 # @license     {license_link}
 #
 ---
-#
+# Shopping Cart on the Frontend
 shopping_cart:
     uimap:
         form:

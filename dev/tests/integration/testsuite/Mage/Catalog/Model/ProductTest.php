@@ -372,4 +372,21 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Varien_Object', $result);
         $this->assertArrayHasKey('errors', $result->getData());
     }
+
+    public function testValidate()
+    {
+        $this->_model->setTypeId('simple')->setAttributeSetId(4)->setName('Simple Product')
+            ->setSku(uniqid('', true) . uniqid('', true) . uniqid('', true))->setPrice(10)->setMetaTitle('meta title')
+            ->setMetaKeyword('meta keyword')->setMetaDescription('meta description')
+            ->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
+            ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
+            ->setCollectExceptionMessages(true)
+        ;
+        $validationResult = $this->_model->validate();
+        $this->assertEquals('SKU length should be 64 characters maximum.', $validationResult['sku']);
+        unset($validationResult['sku']);
+        foreach ($validationResult as $error) {
+            $this->assertTrue($error);
+        }
+    }
 }

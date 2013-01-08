@@ -82,12 +82,6 @@ new_product:
                                         giftcardinfo_allow_message_default: //input[@id='giftcard_use_config_allow_message']
                                         giftcardinfo_email_template_default: //input[@id='giftcard_use_config_email_template']
 
-new_configurable_product:
-    uimap: *newProduct
-
-duplicated_configurable_product:
-    uimap: *newProduct
-
 edit_product:
     uimap: *newProduct
 
@@ -97,16 +91,7 @@ edit_saved_product:
 edit_product_save_and_continue:
     uimap: *newProduct
 
-edit_new_product_save_and_continue:
-    uimap: *newProduct
-
 edit_new_configurable_save_and_continue:
-    uimap: *newProduct
-
-create_empty_simple_from_configurable:
-    uimap: *newProduct
-
-create_simple_from_configurable:
     uimap: *newProduct
 
 new_product_after_changed_attribute_set:

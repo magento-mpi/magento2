@@ -21,7 +21,8 @@ category_page_before_reindex:
                             qty: //tr[%number%]//input[contains(@name, '[qty]')]
                         buttons:
                             add_to_cart_by_sku: //button[span='Add to Cart']
-                            add_row_by_sku: //span[@title='Add Row']
+                            add_row: //span[@title='Add Row']
+                            remove_row: //tr[%rowIndex%]//*[@class='btn-remove']
                         links:
                             sku_link: //p[@class='link-widget-sku']/a
                 -
@@ -32,7 +33,7 @@ category_page_before_reindex:
                             unit_price_price: //div[@class='unitprice-box']/span/span
                             unit_price_label_by_product_name: //a[@title='%prodName%']/../div[@class='unitprice-box']
         messages:
-            sku_invalid_number: //div[@class='validation-advice' and contains(.,'Please enter a valid number in this field.')]
-            sku_negative_number: //div[@class='validation-advice' and contains(.,'Please enter a number greater than 0 in this field.')]
-            sku_outofrange_number: //div[@class='validation-advice' and contains(.,'The value is not within the specified range.')]
-            sku_required_field: //div[@class='validation-advice' and contains(.,'This is a required field.')]
+            qty_sku_invalid_number: //div[@class='validation-advice' and contains(.,'Please enter a valid number in this field.')]
+            qty_sku_negative_number: //div[@class='validation-advice' and contains(.,'Please enter a number greater than 0 in this field.')]
+            qty_sku_outofrange_number: //div[@class='validation-advice' and contains(.,'The value is not within the specified range.')]
+            qty_sku_required_field: //div[@class='validation-advice' and contains(.,'This is a required field.')]

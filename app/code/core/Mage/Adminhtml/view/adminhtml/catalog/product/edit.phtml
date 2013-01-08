@@ -81,11 +81,11 @@ jQuery(function() {
         jQuery('#<?php echo $this->getSelectedTabId() ?>').trigger('click');
     }
     <?php endif; ?>
-    jQuery(window).on('tabsbeforeactivate', function(e, ui){
-        jQuery('#config_super_product')[ui.newTab.index() ? 'hide' : 'show']();
-    }).triggerHandler('tabsbeforeactivate', [{newTab: jQuery('#<?php echo $this->getSelectedTabId() ?>').closest('li')}]);
 
     (function ($) {
+        $('#product_info_tabs').on('tabsbeforeactivate', function (event, ui) {
+            $('#config_super_product')[$(ui.newPanel).find('#attribute-name-container').length ? 'show' : 'hide']();
+        });
 
         var masks = <?php echo $this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getFieldsAutogenerationMasks())?>;
         var availablePlaceholders = <?php echo $this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getAttributesAllowedForAutogeneration())?>;

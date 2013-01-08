@@ -11,10 +11,6 @@
 
 /**
  * Prices Validation on the Backend
- *
- * @package     selenium
- * @subpackage  tests
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class Enterprise_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCase
 {
@@ -40,6 +36,7 @@ class Enterprise_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCas
 
     /**
      * Create Customer for tests
+     *
      * @return array
      * @test
      * @skipTearDown
@@ -53,13 +50,16 @@ class Enterprise_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCas
         $this->customerHelper()->createCustomer($userData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_customer');
+        $param = $userData['first_name'] . ' ' . $userData['last_name'];
+        $this->addParameter('customer_first_last_name', $param);
         self::$customer = array('email' => $userData['email']);
+
         return self::$customer;
-        //return array('email' => $userData['email']);
     }
 
     /**
      * Create Simple Products for tests
+     *
      * @return array $product
      * @test
      * @skipTearDown
@@ -80,7 +80,7 @@ class Enterprise_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCas
      * @param array $customer
      * @depends createCustomer
      * @test
-     * @TestlinkId	TL-MAGE-4051
+     * @TestlinkId TL-MAGE-4051
      */
     public function displayingAddBySku($customer)
     {
@@ -92,23 +92,18 @@ class Enterprise_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCas
         $this->addParameter('store', $this->defineParameterFromUrl('store'));
         $this->addParameter('customer', $this->defineParameterFromUrl('customer'));
         $this->validatePage('customer_shopping_cart');
-        $this->assertTrue(
-                   $this->controlIsPresent(
-                       'link',
-                       'href_add_to_cart'
-                   ), 'Add to Shopping Cart by SKU section is not found'
-        );
+        $this->assertTrue($this->controlIsPresent('link', 'href_add_to_cart'),
+            'Add to Shopping Cart by SKU section is not found');
         $this->clickControl('link', 'href_add_to_cart', false);
         $this->waitForAjax();
         //Verifying
         $this->addParameter('itemId', 0);
         $this->assertTrue($this->controlIsPresent('field', 'sku'), 'SKU field is not present');
         $this->assertTrue($this->controlIsPresent('field', 'sku_qty'), 'SKU Qty field is not present');
-        $this->assertTrue($this->controlIsPresent('button', 'add_sku'), 'Add button is not present');
-        $this->assertTrue($this->controlIsPresent('pageelement', 'file'), '"File" label is not present');
-        $this->assertTrue($this->controlIsPresent('field', 'sku_file'), 'File field is not present');
+        $this->assertTrue($this->controlIsPresent('button', 'add_row'), 'Add button is not present');
+        $this->assertTrue($this->controlIsPresent('field', 'sku_upload'), 'File field is not present');
         $this->assertTrue($this->controlIsPresent('button', 'reset_file'), '"Reset file" button is not present');
-        $this->assertTrue($this->controlIsPresent('pageelement', 'allowed_file'),
+        $this->assertTrue($this->controlIsPresent('pageelement', 'note_csv'),
             '"Allowed file type label are not displayed under "File" field');
     }
 
@@ -120,18 +115,15 @@ class Enterprise_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCas
      * @depends createCustomer
      * @depends createProduct
      * @test
-     * @TestlinkId	TL-MAGE-4052
+     * @TestlinkId TL-MAGE-4052
      */
     public function addSimpleProductBySku($customer, $product)
     {
         //Data
         $productToAdd = $this->loadDataSet('AddBySku', 'data_to_add_shop_cart_test_single',
             array('sku' => $product ['general_sku']));
-        //$productToAdd ['product_1']['sku'] = $product ['general_sku'];
         $verifyProductData = $this->loadDataSet('AddBySku', 'data_to_check_test_single',
             array('sku' => $product ['general_sku'], 'product' => $product ['general_name']));
-        //$verifyProductData ['product_1']['sku'] = $product ['general_sku'];
-        //$verifyProductData ['product_1']['product'] = $product ['general_name'];
         //Steps
         $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer($customer);
@@ -142,7 +134,6 @@ class Enterprise_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCas
         //Verifying
         $actualProductData = $this->addBySkuHelper()->getProductInfoInTable();
         $this->shoppingCartHelper()->compareArrays($actualProductData['product_1'], $verifyProductData['product_1']);
-        //$this->addBySkuHelper()->clearShoppingCart();
     }
 
     /**
@@ -153,7 +144,7 @@ class Enterprise_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCas
      * @depends createCustomer
      * @depends createProduct
      * @test
-     * @TestlinkId	TL-MAGE-4136
+     * @TestlinkId TL-MAGE-4136
      */
     public function addSimpleProductsWithInvalidData($customer, $product)
     {
@@ -185,7 +176,7 @@ class Enterprise_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCas
      * @param array $customer
      * @depends createCustomer
      * @test
-     * @TestlinkId	TL-MAGE-4248
+     * @TestlinkId TL-MAGE-4248
      */
     public function removeAllProductFromErrorTable($customer)
     {
@@ -209,15 +200,19 @@ class Enterprise_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCas
      * @param array $customer
      * @depends createCustomer
      * @test
-     * @TestlinkId	TL-MAGE-4250
+     * @TestlinkId TL-MAGE-4250
      */
     public function removeSelectedProductFromErrorTable($customer)
     {
         //Data
         $productToAdd = $this->loadDataSet('AddBySku', 'data_to_add_shop_cart_test_remove_invalid');
         $verifyProductData = $this->loadDataSet('AddBySku', 'data_to_check_test_remove_invalid', null,
-            array('product_1' => $productToAdd ['product_1']['sku'], 'product_2' => $productToAdd ['product_2']['sku'],
-                  'product_3' => $productToAdd ['product_3']['sku']));
+            array(
+                'product_1' => $productToAdd ['product_1']['sku'],
+                'product_2' => $productToAdd ['product_2']['sku'],
+                'product_3' => $productToAdd ['product_3']['sku']
+            )
+        );
         //Steps
         $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer($customer);
@@ -236,9 +231,8 @@ class Enterprise_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCas
         $this->addBySkuHelper()->removeSingleItemsFromErrorTable(2);
         $this->shoppingCartHelper()->compareArrays($errorProductData['product_1'], $verifyProductData['product_1']);
         $this->addBySkuHelper()->removeSingleItemsFromErrorTable(1);
-        $this->assertFalse($this->controlIsVisible('fieldset', 'shopping_cart_error'),
+        $this->assertFalse($this->controlIsVisible('fieldset', 'shopping_cart_error_table'),
             'Products are not deleted from attention grid');
-
     }
 }
 

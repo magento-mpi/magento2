@@ -95,7 +95,7 @@ class Enterprise_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
         // Create new product
         $simple = $this->loadDataSet('Product', 'simple_product_visible', array(
             'websites'   => 'Main Website,' . $websiteData['website_name'],
-            'categories' => 'Default Category,' . $categoryData['name']
+            'general_categories' => 'Default Category,' . $categoryData['name']
         ));
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);

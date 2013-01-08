@@ -74,6 +74,7 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
      */
     public function allFieldsInGiftCard()
     {
+        $this->markTestIncomplete('MAGETWO-4321');
         //Data
         $productData = $this->loadDataSet('Product', 'gift_card');
         $productSearch = $this->loadDataSet('Product', 'product_search',
@@ -272,6 +273,7 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
      */
     public function invalidWeightInGiftCard()
     {
+        $this->markTestIncomplete('MAGETWO-6022');
         //Data
         $productData = $this->loadDataSet('Product', 'gift_card_required',
             array('general_weight' => $this->generate('string', 9, ':punct:')));

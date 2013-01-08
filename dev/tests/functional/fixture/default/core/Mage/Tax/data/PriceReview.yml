@@ -25,7 +25,7 @@ simple_product_for_prices_validation_1:
     inventory_qty: 500
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
 
 simple_product_for_prices_validation_2:
     product_attribute_set: Default
@@ -43,7 +43,7 @@ simple_product_for_prices_validation_2:
     inventory_qty: 500
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
 
 simple_product_for_prices_validation_3:
     product_attribute_set: Default
@@ -61,7 +61,7 @@ simple_product_for_prices_validation_3:
     inventory_qty: 500
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
 
 customer_account_for_prices_validation:
     associate_to_website: Main Website
@@ -5988,7 +5988,7 @@ simple_product_for_prices_validation_front_1:
     inventory_min_allowed_qty: 2
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
 
 simple_product_for_prices_validation_front_2:
     product_attribute_set: Default
@@ -6008,7 +6008,7 @@ simple_product_for_prices_validation_front_2:
     inventory_min_allowed_qty: 3
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
 
 simple_product_for_prices_validation_front_3:
     product_attribute_set: Default
@@ -6028,7 +6028,7 @@ simple_product_for_prices_validation_front_3:
     inventory_min_allowed_qty: 5
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
 
 estimate_shipping:
     country: United States
@@ -7736,7 +7736,7 @@ simple_product_for_price_rules_validation_front:
     inventory_min_allowed_qty: 1
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
 
 #############################################################
 #         By Percentage of the Original Price               #

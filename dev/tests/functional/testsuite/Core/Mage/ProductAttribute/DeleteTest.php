@@ -100,7 +100,7 @@ class Core_Mage_ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
         $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
             array('General' => $attrData['attribute_code']));
         $productData = $this->loadDataSet('Product', 'configurable_product_required',
-            array('configurable_attribute_title' => $attrData['admin_title']));
+            array('general_configurable_attribute_title' => $attrData['admin_title']));
         $searchData = $this->loadDataSet('ProductAttribute', 'attribute_search_data',
             array('attribute_code'  => $attrData['attribute_code'],
                   'attribute_label' => $attrData['admin_title']));

@@ -37,6 +37,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      */
     public function requiredFieldsForDynamicSmoke()
     {
+        $this->markTestIncomplete('MAGETWO-6269');
         //Data
         $productData = $this->loadDataSet('Product', 'dynamic_bundle_required');
         //Steps
@@ -71,6 +72,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      */
     public function allFieldsForDynamic()
     {
+        $this->markTestIncomplete('MAGETWO-4321');
         //Data
         $productData = $this->loadDataSet('Product', 'dynamic_bundle');
         $productSearch =
@@ -94,6 +96,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      */
     public function allFieldsForFixed()
     {
+        $this->markTestIncomplete('MAGETWO-4321');
         //Data
         $productData = $this->loadDataSet('Product', 'fixed_bundle');
         $productSearch =
@@ -250,7 +253,6 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Fails due to MAGE-5658
      * <p>Creating product with invalid weight</p>
      *
      * @test
@@ -258,6 +260,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      */
     public function invalidWeightInBundle()
     {
+        $this->markTestIncomplete('MAGETWO-6022');
         //Data
         $productData = $this->loadDataSet('Product', 'fixed_bundle_required',
             array('general_weight' => $this->generate('string', 9, ':punct:')));
