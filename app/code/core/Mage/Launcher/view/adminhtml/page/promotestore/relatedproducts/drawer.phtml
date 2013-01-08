@@ -22,6 +22,7 @@
             <p><?php echo $this->__('We recommend that you configure the Cross-Sells, Up-Sells, Related Products on you new site following these steps'); ?></p>
             <ul class="checklist">
                 <li class="uncompleted"><a href="<?php echo $this->getUrl('adminhtml/targetrule/new') ?>"><?php echo $this->__('Create Product Relations Rule'); ?></a></li>
+                <li class="uncompleted"><a href="<?php echo $this->getUrl('adminhtml/system_config/edit', array('section' => 'catalog', '_fragment' => 'catalog_enterprise_targetrule-link')) ?>"><?php echo $this->__('Configure Rule-Based Product Relations'); ?></a></li>
             </ul>
         </div>
     </form>
