@@ -170,8 +170,8 @@ jQuery(function($) {
 
 jQuery(function($) {
     var $form = $('#product-edit-form'),
-        fieldSelector = '.required-entry:not([disabled]):not(.ignore-validate),'
-            + '.required-option-select:not([disabled]):not(.ignore-validate)';
+        fieldSelector = '.required-entry:not([disabled]):not(.ignore-validate),' +
+            '.required-option-select:not([disabled]):not(.ignore-validate)';
     $form.on('focus change keyup', fieldSelector, function () {
         var allowSave = true;
         $.each($form.find(fieldSelector), function () {
@@ -181,11 +181,9 @@ jQuery(function($) {
             }
         });
         if (allowSave) {
-            $('.widget-button-save, .widget-button-save > *').removeClass('disabled');
-            $('.widget-button-save, .widget-button-save > *').removeAttr('disabled');
+            $('.widget-button-save, .widget-button-save > *').removeClass('disabled').removeAttr('disabled');
         } else {
-            $('.widget-button-save, .widget-button-save > *').addClass('disabled');
-            $('.widget-button-save, .widget-button-save > *').attr('disabled', true);
+            $('.widget-button-save, .widget-button-save > *').addClass('disabled').attr('disabled', true);
         }
     });
 });
