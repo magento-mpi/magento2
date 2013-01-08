@@ -85,8 +85,8 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
         //Steps
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
-        $this->assertMessagePresent('validation', 'empty_' . $emptyField);
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->assertMessagePresent('validation', 'empty_field');
+        $this->assertEquals(1, count($this->getParsedMessages('required')));
     }
 
     public function loginEmptyOneFieldDataProvider()
@@ -201,7 +201,7 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
         //Steps
         $this->adminUserHelper()->forgotPassword($emailData);
         //Verifying
-        $this->assertMessagePresent('error', 'empty_email');
+        $this->assertMessagePresent('error', 'empty_field');
         $this->assertTrue($this->checkCurrentPage('forgot_password'), $this->getParsedMessages());
     }
 
