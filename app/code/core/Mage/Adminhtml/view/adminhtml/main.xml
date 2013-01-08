@@ -50,6 +50,7 @@ Supported layout update handles (special):
                 <action method="addJs"><file>mage/backend/notification.js</file></action>
                 <action method="addJs"><file>mage/backend/bootstrap.js</file></action>
                 <action method="addJs"><file>mage/backend/form.js</file></action>
+                <action method="addJs"><file>mage/backend/floating-header.js</file></action>
                 <action method="addJs"><file>mage/loader.js</file></action>
                 <action method="addJs"><file>prototype/prototype.js</file></action>
                 <action method="addJs"><file>mage/adminhtml/fix-extjs-defer.js</file><params/><if/><condition>can_load_ext_js</condition></action>
