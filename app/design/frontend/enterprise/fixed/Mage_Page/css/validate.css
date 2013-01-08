@@ -16,4 +16,6 @@ div.mage-error {
     color: #D91A00 !important;
     font-size: 11px !important;
     padding: 3px 0 0 !important;
+    margin-right: -250px;
+    width: 250px;
 }

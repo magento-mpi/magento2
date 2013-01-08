@@ -43,3 +43,13 @@
 
     </div>
 </div>
+<script>
+
+    (function ($) {
+        head.js("<?php echo $this->getViewFileUrl('Mage_Bundle::js/float.js') ?>",function() {
+            $('#bundleSummary').float();
+        });
+    })(jQuery);
+
+
+</script>

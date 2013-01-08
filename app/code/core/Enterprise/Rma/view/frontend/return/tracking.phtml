@@ -23,16 +23,14 @@
 <tr>
     <td><?php echo $this->escapeHtml($number->getCarrierTitle()) ?></td>
     <td>
-        <a
-            href="#"
-            onclick="popWin('<?php echo $this->helper('Enterprise_Rma_Helper_Data')->getTrackingPopupUrlBySalesModel($number) ?>','trackshipment','width=800,height=600,top=0,left=0,resizable=yes,scrollbars=yes'); return false;"
-            title="<?php echo $this->escapeHtml($number->getTrackNumber()) ?>">
+        <a href="#" data-mage-popwin = "{windowURL:'<?php echo $this->helper('Enterprise_Rma_Helper_Data')->getTrackingPopupUrlBySalesModel($number) ?>',windowName:'trackshipment',width:800,height:600,top:0,left:0,resizable:1,scrollbars:1}"
+           title="<?php echo $this->escapeHtml($number->getTrackNumber()) ?>">
                 <?php echo $this->escapeHtml($number->getTrackNumber()) ?>
         </a>
     </td>
     <td>
         <?php if(!$number->getIsAdmin() && $this->isPrintShippingLabelAllowed()): ?>
-            <a href="javascript://" onclick="deleteTrackNumber(<?php echo $number->getEntityId()?>)">
+            <a href="#" data-entity-id="<?php echo $number->getEntityId()?>">
                 <?php echo $this->__('Delete') ?>
             </a>
         <?php endif; ?>
@@ -41,20 +39,18 @@
 <?php endforeach; ?>
 <?php if ($this->isPrintShippingLabelAllowed()): ?>
 <script type="text/javascript">
-//<![CDATA[
-    function deleteTrackNumber(number) {
-        if (confirm("<?php echo $this->__('Are you sure you want to delete this tracking information?') ?>")){
-            new Ajax.Updater('track-info-tbody', '<?php echo $this->getDeleteLabelUrl() ?>', {
-                onCreate: function() { $('rma-please-wait').show() },
-                onComplete: function() {
-                    $('rma-please-wait').hide();
-                    decorateTable('track-info-table');
-                },
-                parameters: {number: number}
+    (function($) {
+        $('#rma_track_info').on('mage.setUpRmaOptions', function(e, rmaTrackInfo) {
+            rmaTrackInfo.options.deleteLabelUrl = '<?php echo $this->getDeleteLabelUrl() ?>';
+            rmaTrackInfo.options.deleteMsg = '<?php echo $this->__('Are you sure you want to delete this tracking information?') ?>';
+        });
+        // Need to invoke popwin specifically since this script is injected dynamically every time with Ajax.
+        // For efficiency just limiting to associated anchors.
+        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.popupwindow.js')?>", function() {
+            $('#rma_track_info').find('a[data-mage-popwin]').each(function() {
+                $(this).popupWindow(eval("(" + $(this).attr('data-mage-popwin') + ")"));
             });
-        }
-        return false;
-    }
-//]]>
+        });
+    })(jQuery);
 </script>
 <?php endif; ?>
