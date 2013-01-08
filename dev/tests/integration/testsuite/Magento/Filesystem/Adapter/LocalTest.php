@@ -297,4 +297,12 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($testData, file_get_contents($targetName));
         $this->assertEquals($testData, file_get_contents($targetName));
     }
+
+    public function testGetMTime()
+    {
+        $filePath = $this->_getFixturesPath() . 'mtime.txt';
+        $this->_adapter->write($filePath, 'Test');
+        $this->assertFileExists($filePath);
+        $this->assertGreaterThan(0, $this->_adapter->getMTime($filePath));
+    }
 }
