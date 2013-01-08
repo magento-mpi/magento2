@@ -8,12 +8,12 @@
  * @license     {license_link}
  */
 ?>
-<?php if($this->getTitle()): ?>
-    <h3 <?php echo $this->getUiId('title') ?>><?php echo $this->getTitle() ?></h3>
-<?php endif ?>
 <?php if(!empty($tabs)): ?>
 <div id="<?php echo $this->getId() ?>">
-<ul <?php echo $this->getUiId('tab', $this->getId()) ?> class="<?php echo $this->getIsHoriz() ? 'tabs-horiz' : 'tabs' ?>">
+    <?php if($this->getTitle()): ?>
+        <h3 <?php echo $this->getUiId('title') ?>><?php echo $this->getTitle() ?></h3>
+    <?php endif ?>
+    <ul <?php echo $this->getUiId('tab', $this->getId()) ?> class="<?php echo $this->getIsHoriz() ? 'tabs-horiz' : 'tabs' ?>">
 <?php foreach ($tabs as $_tab): ?>
 <?php if (!$this->canShowTab($_tab)): continue;  endif; ?>
     <?php $_tabClass = 'tab-item-link ' . $this->getTabClass($_tab) . ' ' . (preg_match('/\s?ajax\s?/', $_tab->getClass()) ? 'notloaded' : '') ?>

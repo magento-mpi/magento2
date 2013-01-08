@@ -13,7 +13,8 @@
     // mage.tabs base functionality
     $.widget('mage.tabs', $.ui.tabs, {
         options: {
-            spinner: false
+            spinner: false,
+            groups: 'ul.tabs'
         },
 
         /**
@@ -24,6 +25,20 @@
             var activeIndex = this._getTabIndex(this.options.active);
             this.options.active = activeIndex >= 0 ? activeIndex : 0;
             this._super();
+        },
+
+        /**
+         * @override
+         * @private
+         * @return {Array} Array of DOM-elements
+         */
+        _getList: function() {
+            if(this.options.groups) {
+                return this.element.find(this.options.groups);
+            } else {
+                return this._super();
+            }
+
         },
 
         /**
