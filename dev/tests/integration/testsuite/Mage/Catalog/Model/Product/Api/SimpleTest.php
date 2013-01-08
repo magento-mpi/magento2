@@ -23,7 +23,7 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
      */
     public function testCreateSimpleRequiredFieldsOnly()
     {
-        $productData = require '/_files/_data/simple_product_data.php';
+        $productData = require '_files/_data/simple_product_data.php';
         $productId = $this->_createProductWithApi($productData);
 
         $actualProduct = Mage::getModel('Mage_Catalog_Model_Product');
@@ -101,7 +101,7 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
      */
     public function testCreateInventoryUseConfigValues()
     {
-        $productData = require '/_files/_data/simple_product_inventory_use_config.php';
+        $productData = require '_files/_data/simple_product_inventory_use_config.php';
         $productId = $this->_createProductWithApi($productData);
 
         $product = Mage::getModel('Mage_Catalog_Model_Product');
@@ -119,7 +119,7 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
      */
     public function testCreateInventoryManageStockUseConfig()
     {
-        $productData = require '/_files/_data/simple_product_manage_stock_use_config.php';
+        $productData = require '_files/_data/simple_product_manage_stock_use_config.php';
 
         $productId = $this->_createProductWithApi($productData);
         $product = Mage::getModel('Mage_Catalog_Model_Product');
