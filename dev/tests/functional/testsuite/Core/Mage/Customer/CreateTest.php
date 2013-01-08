@@ -56,6 +56,8 @@ class Core_Mage_Customer_CreateTest extends Mage_Selenium_TestCase
      */
     public function withRequiredFieldsOnly()
     {
+          $this->markTestIncomplete('MAGETWO-6708');
+          $this->markTestIncomplete('MAGETWO-6449');
         //Data
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         //Steps

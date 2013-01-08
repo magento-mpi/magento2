@@ -161,6 +161,7 @@ class Core_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
     public function withLongValuesNotValid($fieldName)
     {
         //Data
+        $this->markTestIncomplete('MAGETWO-6816');
         $userData = $this->loadDataSet('Customers', 'customer_account_register',
             array($fieldName => $this->generate('string', 256, ':alnum:')));
         //Steps

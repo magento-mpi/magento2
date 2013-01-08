@@ -81,6 +81,7 @@ class Core_Mage_Customer_ForgotPasswordTest extends Mage_Selenium_TestCase
      */
     public function oldPasswordTillResetNew()
     {
+        $this->markTestIncomplete('MAGETWO-6449');
         //Data
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         $emailData = array('email' => $userData['email']);
