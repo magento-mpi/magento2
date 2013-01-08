@@ -132,17 +132,11 @@
             },
 
             /**
-             * Trigger event 'processStart' before tab is loaded
-             */
-            beforeLoad: function() {$('body').trigger('processStart');},
-
-            /**
-             * Trigger event 'processStop' after tab is loaded
+             * Replacing href attribute with loaded panel id
              * @param {Object} event - event object
              * @param {Object}
              */
             load: function(event, ui) {
-                $('body').trigger('processStop');
                 $(ui.tab).prop('href', '#' + $(ui.panel).prop('id'));
             }
         }

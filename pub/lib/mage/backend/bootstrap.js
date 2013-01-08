@@ -10,18 +10,6 @@
 /*global FORM_KEY:true*/
 jQuery(function ($) {
     'use strict';
-    // @TODO move isJSON method inside file with utility functions
-    $.extend(true, $, {
-        mage: {
-            isJSON : function(json){
-                json = json.replace(/\\["\\\/bfnrtu]/g, '@');
-                json = json.replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']');
-                json = json.replace(/(?:^|:|,)(?:\s*\[)+/g, '');
-                return (/^[\],:{}\s]*$/.test(json));
-            }
-        }
-    });
-
     $.ajaxSetup({
         /*
          * @type {string}
@@ -40,21 +28,17 @@ jQuery(function ($) {
                     settings.url + '&isAjax=true' :
                     settings.url + '?isAjax=true';
             }
-            if ($.type(settings.data) === "string" &&
-                settings.data.indexOf('form_key=') === -1
-            ) {
+            if (!settings.data) {
+                settings.data = {
+                    form_key: FORM_KEY
+                };
+            } else if ($.type(settings.data) === "string"
+                && settings.data.indexOf('form_key=') === -1) {
                 settings.data += '&' + $.param({
                     form_key: FORM_KEY
                 });
-            } else {
-                if (!settings.data) {
-                    settings.data = {
-                        form_key: FORM_KEY
-                    };
-                }
-                if (!settings.data.form_key) {
-                    settings.data.form_key = FORM_KEY;
-                }
+            } else if($.isPlainObject(settings.data) && !settings.data.form_key) {
+                settings.data.form_key = FORM_KEY;
             }
         },
 
@@ -65,12 +49,12 @@ jQuery(function ($) {
          */
         complete: function(jqXHR) {
             if (jqXHR.readyState === 4) {
-                if($.mage.isJSON(jqXHR.responseText)) {
+                try {
                     var jsonObject = jQuery.parseJSON(jqXHR.responseText);
                     if (jsonObject.ajaxExpired && jsonObject.ajaxRedirect) {
                         window.location.replace(jsonObject.ajaxRedirect);
                     }
-                }
+                } catch(e) {}
             }
         }
     });
@@ -85,7 +69,7 @@ jQuery(function ($) {
          * Show loader on ajax send
          */
         $('body').on('ajaxSend processStart', function(e, jqxhr, settings) {
-            if (settings && settings.showLoader) {
+            if (settings && settings.showLoader || e.type === 'processStart') {
                 $(e.target).loader({
                     icon: $('#loading_mask_loader img').attr('src')
                 }).loader('show');
@@ -95,9 +79,7 @@ jQuery(function ($) {
         /*
          * Initialization of notification widget
          */
-        if ($('#messages').length) {
-            $('#messages').notification();
-        }
+         $('#messages').notification();
     };
 
     $(document).ready(bootstrap);
