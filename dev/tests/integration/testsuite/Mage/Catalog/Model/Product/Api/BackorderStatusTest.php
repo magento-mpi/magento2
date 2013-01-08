@@ -1,11 +1,5 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
- */
-/**
  * Test updating product back-order status through API
  *
  * {license_notice}

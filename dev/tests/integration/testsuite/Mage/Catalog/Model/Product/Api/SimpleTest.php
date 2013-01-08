@@ -1,11 +1,5 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
- */
-/**
  * Test Product CRUD operations
  *
  * {license_notice}

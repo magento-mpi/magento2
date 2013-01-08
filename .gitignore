@@ -29,7 +29,3 @@ atlassian*
 /pub/media/customer/*
 /pub/media/downloadable/*
 /var/*
-dev/api-tests/config.php
-dev/api-tests/integration/tmp/*
-dev/api-tests/integration/framework/local-mysql.xml
-

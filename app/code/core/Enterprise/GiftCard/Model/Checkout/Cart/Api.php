@@ -1,21 +1,12 @@
 <?php
 /**
+ * Gift card API
+ *
  * {license_notice}
  *
- * @category    Enterprise
- * @package     Enterprise_GiftCard
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * GiftCard api
- *
- * @category   Enterprise
- * @package    Enterprise_GiftCard
- * @author     Magento Core Team <core@magentocommerce.com>
- */
-
 class Enterprise_GiftCard_Model_Checkout_Cart_Api extends Mage_Checkout_Model_Api_Resource
 {
     /**

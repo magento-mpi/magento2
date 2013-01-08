@@ -1,19 +1,11 @@
 <?php
 /**
+ * Gift card account API
+ *
  * {license_notice}
  *
- * @category    Enterprise
- * @package     Enterprise_GiftCard
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
- * GiftCard Account api
- *
- * @category   Enterprise
- * @package    Enterprise_GiftCardAccount
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_GiftCardAccount_Model_Api extends Mage_Api_Model_Resource_Abstract
 {

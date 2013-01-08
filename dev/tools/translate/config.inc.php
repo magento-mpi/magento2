@@ -538,7 +538,7 @@ $CONFIG['translates'] = array(
     ),
     'Mage_Api' => array(
         'app/code/core/Mage/Api/',
-        'app/design/adminhtml/default/default/template/',
+        'app/design/adminhtml/default/default/template/api/',
         '!app/design/adminhtml/default/default/template/enterprise/', // ! = exclude
     ),
     'Mage_Webapi' => array(

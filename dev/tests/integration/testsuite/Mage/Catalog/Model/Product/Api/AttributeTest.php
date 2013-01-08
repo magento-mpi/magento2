@@ -1,11 +1,5 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
- */
-/**
  * Test API getting orders list method
  *
  * {license_notice}

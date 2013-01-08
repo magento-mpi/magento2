@@ -2,15 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
- * implementing now
- *
  */
 class Mage_Adminhtml_Block_Api_Tab_Roleinfo extends Mage_Adminhtml_Block_Widget_Form
 {
