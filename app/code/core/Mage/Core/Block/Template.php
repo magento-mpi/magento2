@@ -222,7 +222,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      */
     public function fetchView($fileName)
     {
-        $viewShortPath = str_replace(Mage::getBaseDir(), '', $fileName);
+        $viewShortPath = str_replace($this->_dirs->getDir(Mage_Core_Model_Dir::ROOT), '', $fileName);
         Magento_Profiler::start('TEMPLATE:' . $fileName, array('group' => 'TEMPLATE', 'file_name' => $viewShortPath));
 
         // EXTR_SKIP protects from overriding

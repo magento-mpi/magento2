@@ -26,7 +26,7 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
             $design,
             $this->getMock('Mage_Core_Model_Session'),
             $this->getMock('Mage_Core_Model_Store_Config'),
-            $this->getMock('Mage_Core_Controller_Varien_Front'),
+            $this->getMock('Mage_Core_Controller_Varien_Front', array(), array(), '', false),
             $this->getMock('Mage_Core_Model_Factory_Helper'),
             $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false),
             $this->getMock('Mage_Core_Model_Logger', array(), array(), '', false),
@@ -57,7 +57,7 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
             $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false),
             $this->getMock('Mage_Core_Model_Session'),
             $this->getMock('Mage_Core_Model_Store_Config'),
-            $this->getMock('Mage_Core_Controller_Varien_Front'),
+            $this->getMock('Mage_Core_Controller_Varien_Front', array(), array(), '', false),
             $this->getMock('Mage_Core_Model_Factory_Helper'),
             new Mage_Core_Model_Dir(
                 __DIR__ . '/_files',

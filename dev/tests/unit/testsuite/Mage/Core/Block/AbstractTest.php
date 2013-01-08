@@ -68,7 +68,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
             $design,
             $this->getMock('Mage_Core_Model_Session'),
             $this->getMock('Mage_Core_Model_Store_Config'),
-            $this->getMock('Mage_Core_Controller_Varien_Front'),
+            $this->getMock('Mage_Core_Controller_Varien_Front', array(), array(), '', false),
             $this->getMock('Mage_Core_Model_Factory_Helper'),
         ), uniqid('Mage_Core_Block_Abstract_'));
         $config = $this->getMock('Magento_Config_View', array('getVarValue'), array(), '', false);

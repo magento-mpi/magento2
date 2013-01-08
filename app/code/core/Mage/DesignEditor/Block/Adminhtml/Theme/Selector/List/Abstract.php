@@ -12,10 +12,10 @@
  * Abstract theme list
  *
  * @method Mage_Core_Model_Resource_Theme_Collection getCollection()
- * @method Mage_Backend_Block_Abstract setCollection(Mage_Core_Model_Resource_Theme_Collection $collection)
+ * @method Mage_Core_Block_Template setCollection(Mage_Core_Model_Resource_Theme_Collection $collection)
  */
 abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
-    extends Mage_Backend_Block_Abstract
+    extends Mage_Core_Block_Template
 {
     /**
      * Get tab title
