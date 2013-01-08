@@ -603,38 +603,72 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $categoryName = end($explodeCategory);
             $this->addParameter('categoryPath', $categoryPath);
             $element->value($categoryName);
-            //@TODO change wait condition for createNewCategory()
-            $this->waitForControlEditable(self::UIMAP_TYPE_FIELDSET, 'category_search');
-            //If not selected category not exist.
-            $selectCategory = $this->elementIsPresent($this->_getControlXpath(self::FIELD_TYPE_LINK, 'category'));
-            if (!$selectCategory) {
-                $element->clear();
-                if (!$this->controlIsPresent(self::FIELD_TYPE_LINK, 'selected_category')) {
-                    $this->createNewCategory($categoryPath);
+            $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'category_search_result');
+            if ($this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'category_search')) {
+                $selectCategory = $this->elementIsPresent($this->_getControlXpath(self::FIELD_TYPE_LINK, 'category'));
+                if ($selectCategory) {
+                    $this->moveto($selectCategory);
+                    $selectCategory->click();
+                } elseif ($this->controlIsPresent(self::FIELD_TYPE_LINK, 'selected_category')) {
+                    $element->clear();
+                    $this->clearActiveFocus($element);
                 }
-                $this->clearActiveFocus($element);
-                continue;
             } else {
-                $this->moveto($selectCategory);
-                $selectCategory->click();
+                $this->createNewCategory($categoryPath, true);
             }
-            $this->addParameter('categoryName', $categoryName);
+            $this->addParameter('categoryName', substr($categoryName, 0, 255));
             $this->assertTrue($this->controlIsVisible(self::FIELD_TYPE_LINK, 'delete_category'),
                 'Category is not selected');
         }
     }
 
     /**
+     * Create new category
+     *
      * @param string $categoryPath
+     * @param bool $nameIsSet
      */
-    public function createNewCategory($categoryPath)
+    public function createNewCategory($categoryPath, $nameIsSet = false)
     {
-        $this->markTestIncomplete('@TODO - implement createNewCategory');
-        $explodeCategory = explode('/', $categoryPath);
-        $categoryName = array_shift($explodeCategory);
+        $parentLocator = $this->_getControlXpath(self::FIELD_TYPE_INPUT, 'parent_category');
+
+        $explodeCategoryPath = explode('/', $categoryPath);
+        $categoryName = array_pop($explodeCategoryPath);
+        $parentPath = implode('/', $explodeCategoryPath);
+        $parentName = end($explodeCategoryPath);
+        //Open new_category form
         $this->clickButton('new_category', false);
         $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'new_category_form');
-        $this->fillField('name', $categoryName);
+        //Fill or verify new category name field
+        if (!$nameIsSet) {
+            $this->fillField('name', $categoryName);
+        } else {
+            $actualName = $this->getControlAttribute(self::FIELD_TYPE_INPUT, 'name', 'selectedValue');
+            $this->assertSame($categoryName, $actualName, 'Category Name is not moved from categories field');
+        }
+        //Fill and verify parent category field
+        $this->getElement($parentLocator)->value($parentName);
+        $this->waitForControlEditable(self::UIMAP_TYPE_FIELDSET, 'category_search');
+        $this->addParameter('categoryPath', $parentPath);
+        $elements = $this->getControlElements(self::FIELD_TYPE_LINK, 'category',
+            $this->getUimapPage('admin', 'new_product')->findTab('general'));
+        if (empty($elements)) {
+            $this->fail('It is impossible to create category with path - ' . $parentPath);
+        }
+        /** @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
+        foreach ($elements as $element) {
+            if ($element->enabled() && $element->displayed()) {
+                $element->click();
+            }
+        }
+        $actualParentName = $this->getControlAttribute(self::FIELD_TYPE_INPUT, 'parent_category', 'selectedValue');
+        $this->assertSame($actualParentName, $parentName, 'patent category Name is not equal to specified');
+        //Save
+        $this->addParameter('categoryName', substr($categoryName, 0, 255));
+        $waitConditions = array($this->_getControlXpath(self::FIELD_TYPE_LINK, 'delete_category'),
+                                $this->_getMessageXpath('general_validation'));
+        $this->clickButton('new_category_save', false);
+        $this->waitForElementVisible($waitConditions);
     }
 
     /**
@@ -759,8 +793,13 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $element = $this->getControlElement(self::FIELD_TYPE_INPUT, 'general_configurable_attribute_title');
             $this->focusOnElement($element);
             $element->value($title);
-            $selectAttribute = $this->waitForControlEditable(self::FIELD_TYPE_LINK, 'configurable_attribute_select');
-            $this->moveto($selectAttribute);
+            $this->waitForControlEditable(self::FIELD_TYPE_PAGEELEMENT, 'configurable_attributes_list');
+            $selectAttribute = $this->elementIsPresent($this->_getControlXpath(self::FIELD_TYPE_LINK,
+                'configurable_attribute_select'));
+            if (!$selectAttribute) {
+                $this->fail('Attribute with title "' . $title . '" is not present in list');
+            }
+            //$this->moveto($selectAttribute);
             $selectAttribute->click();
             $this->waitForControlEditable(self::UIMAP_TYPE_FIELDSET, 'product_variation_attribute');
         }
