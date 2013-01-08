@@ -504,21 +504,24 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     {
         //Data
         $configurable = $this->loadDataSet('Product', 'configurable_product_visible',
-            array('general_configurable_attribute_title' => $data['attribute'][0]));
+            array('general_configurable_attribute_title' => $data['attribute1']['admin_title'],
+                  'include_variation_attribute'          => '%noValue%', 'associated_product_name' => '%noValue%',
+                  'associated_sku'                       => '%noValue%', 'use_all_options' => 'Yes'));
         $excludedOption = $data['matrix'][7][6];
         $oneAttributeMatrix = array('1' => array('2' => $configurable['prices_price'], '6' => $data['matrix'][1][6]),
                                     '2' => array('2' => $configurable['prices_price'], '6' => $data['matrix'][4][6]),
                                     '3' => array('2' => $configurable['prices_price'], '6' => $data['matrix'][7][6]));
         //Steps
-        $this->productHelper()->createProduct($configurable, 'configurable', false);
-        $this->productHelper()->verifyConfigurableVariations($oneAttributeMatrix);
-        $this->productHelper()->assignAllConfigurableVariations();
-        $this->saveForm('save');
+        $this->productHelper()->createProduct($configurable, 'configurable');
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $configurable['general_sku']));
-        $this->productHelper()->changeAttributeValueSelection($data['attributeCode'][0], $excludedOption, false);
+        $this->productHelper()->verifyConfigurableVariations($oneAttributeMatrix);
+        $this->productHelper()
+            ->unselectConfigurableAttributeOptions($excludedOption, $data['attribute1']['admin_title']);
+        $this->clickButton('generate_product_variations', false);
+        $this->pleaseWait();
         //Verifying
-        $this->addParameter('attributeSearch', "contains(.,'$excludedOption')");
+        $this->addParameter('attributeSearch', "contains(td,'$excludedOption')");
         $this->assertFalse($this->controlIsVisible('checkbox', 'include_variation'),
             "Matrix contains unselected attribute value's data, but should not");
     }
@@ -536,33 +539,36 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     {
         //Data
         $configurable = $this->loadDataSet('Product', 'configurable_product_visible',
-            array('general_configurable_attribute_title' => $data['attribute'][0]));
-        $newOption = 'Option_Admin_' . $this->generate('string', 5, ':alnum:');
-        $oneAttributeMatrix = array(
-            '1' => array('2' => $configurable['prices_price'], '6' => $data['matrix'][1][6]),
-            '2' => array('2' => $configurable['prices_price'], '6' => $data['matrix'][4][6]),
-            '3' => array('2' => $configurable['prices_price'], '6' => $data['matrix'][7][6]));
+            array('general_configurable_attribute_title' => $data['attribute1']['admin_title'],
+                  'include_variation_attribute'          => '%noValue%', 'associated_product_name' => '%noValue%',
+                  'associated_sku'                       => '%noValue%', 'use_all_options' => 'Yes'));
+        $newOptionName = 'Option_Admin_' . $this->generate('string', 5, ':alnum:');
+        $newOption = $this->loadDataSet('Product', 'general_configurable_attribute_without_price', null,
+            array('var1_attr_value1' => $newOptionName));
+        $oneAttributeMatrix = array('1' => array('2' => $configurable['prices_price'], '6' => $data['matrix'][1][6]),
+                                    '2' => array('2' => $configurable['prices_price'], '6' => $data['matrix'][4][6]),
+                                    '3' => array('2' => $configurable['prices_price'], '6' => $data['matrix'][7][6]));
         //Preconditions. Create product
-        $this->productHelper()->createProduct($configurable, 'configurable', false);
-        $this->productHelper()->verifyConfigurableVariations($oneAttributeMatrix);
-        $this->productHelper()->assignAllConfigurableVariations();
-        $this->saveForm('save');
+        $this->productHelper()->createProduct($configurable, 'configurable');
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps. Add new option to configurable attribute
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->openAttribute(array('attribute_label' => $data['attribute'][0]));
         $this->openTab('manage_labels_options');
-        $this->clickButton('add_option');
         $this->addParameter('fieldOptionNumber', 'option_3');
+        $this->clickButton('add_option', false);
         $this->fillField('admin_option_name', $newOption);
         $this->saveForm('save_attribute');
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps.
         $this->navigate('manage_products');
         $this->productHelper()->openProduct(array('product_sku' => $configurable['general_sku']));
-        $this->productHelper()->changeAttributeValueSelection($data['attributeCode'][0], $newOption);
+        $this->productHelper()->verifyConfigurableVariations($oneAttributeMatrix);
+        $this->productHelper()->selectConfigurableAttributeOptions($newOption, $data['attribute1']['admin_title']);
+        $this->clickButton('generate_product_variations', false);
+        $this->pleaseWait();
         //Verifying
-        $this->addParameter('attributeSearch', "contains(.,'$newOption')");
+        $this->addParameter('attributeSearch', "contains(td,'$newOptionName')");
         $this->assertTrue($this->controlIsPresent('checkbox', 'include_variation'),
             "Matrix does not contain selected attribute value's data, but should");
     }
