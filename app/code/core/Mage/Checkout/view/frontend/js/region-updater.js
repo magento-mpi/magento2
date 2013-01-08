@@ -51,6 +51,22 @@
         },
 
         /**
+         * Takes clearError callback function as first option
+         * If no form is passed as option, look up the closest form and call clearError method.
+         * @private
+         */
+        _clearError: function() {
+            if (this.options.clearError && typeof(this.options.clearError) === "function") {
+                this.options.clearError.call(this);
+            } else {
+                if (!this.options.form) {
+                    this.options.form = this.element.closest('form').length ? $(this.element.closest('form')[0]) : null;
+                }
+                this.options.form && this.options.form.data('validation') && this.options.form.validation('clearError',
+                    this.options.regionListId, this.options.regionInputId, this.options.postcodeId);
+            }
+        },
+        /**
          * Update dropdown list based on the country selected
          * @param {string} country - 2 uppercase letter for country code
          * @private
@@ -61,8 +77,7 @@
                 regionInput = $(this.options.regionInputId),
                 postcode = $(this.options.postcodeId),
                 requiredLabel = regionList.parent().siblings('label').children('em');
-            this.options.form && this.options.form.validation('clearError',
-                this.options.regionListId, this.options.regionInputId, this.options.postcodeId);
+            this._clearError();
             // Populate state/province dropdown list if available or use input box
             if (this.options.regionJson[country]) {
                 this._removeSelectOptions(regionList);
