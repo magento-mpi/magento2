@@ -179,9 +179,9 @@ jQuery(function($) {
             }
         });
         if (allowSave) {
-            $('.widget-button-save, .widget-button-save > *').removeClass('disabled').removeAttr('disabled');
+            $('.widget-button-save, .widget-button-save > *').removeClass('disabled').removeProp('disabled');
         } else {
-            $('.widget-button-save, .widget-button-save > *').addClass('disabled').attr('disabled', true);
+            $('.widget-button-save, .widget-button-save > *').addClass('disabled').prop('disabled', true);
         }
     });
 });
