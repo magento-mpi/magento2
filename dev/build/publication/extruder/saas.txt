@@ -8,3 +8,5 @@ dev/tests/unit/testsuite/Magento/Profiler/Driver/PinbaTest.php
 dev/tests/unit/testsuite/Magento/Profiler/_files/pinba_functions.php
 dev/tests/unit/testsuite/Saas
 lib/Magento/Profiler/Driver/Pinba.php
+app/EntryPoint.php
+dev/tests/unit/testsuite/EntryPointTest.php
