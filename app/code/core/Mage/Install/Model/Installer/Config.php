@@ -150,39 +150,65 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
         return $data;
     }
 
-    protected function _checkHostsInfo($data)
+    /**
+     * Check validity of a base URL
+     *
+     * @param string $baseUrl
+     * @throws Exception
+     */
+    protected function _checkUrl($baseUrl)
     {
-        $url  = $data['protocol'] . '://' . $data['host'] . ':' . $data['port'] . $data['base_path'];
-        $surl = $data['secure_protocol'] . '://' . $data['secure_host'] . ':' . $data['secure_port']
-            . $data['secure_base_path'];
-
-        $this->_checkUrl($url);
-        $this->_checkUrl($surl, true);
-
-        return $this;
-    }
-
-    protected function _checkUrl($url, $secure = false)
-    {
-        $prefix = $secure ? 'install/wizard/checkSecureHost/' : 'install/wizard/checkHost/';
         try {
-            $client = new Varien_Http_Client($url . 'index.php/' . $prefix);
+            $pubLibDir = $this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB);
+            $staticFile = $this->_findFirstFileRelativePath($pubLibDir, '/.+\.(html?|js|css|gif|jpe?g|png)$/');
+            $staticUrl = $baseUrl . $this->_dirs->getUri(Mage_Core_Model_Dir::PUB_LIB) . '/' . $staticFile;
+            $client = new Varien_Http_Client($staticUrl);
             $response = $client->request('GET');
-            /* @var $responce Zend_Http_Response */
-            $body = $response->getBody();
         }
         catch (Exception $e){
-            $this->_getInstaller()->getDataModel()
-                ->addError(Mage::helper('Mage_Install_Helper_Data')->__('The URL "%s" is not accessible.', $url));
+            $this->_getInstaller()->getDataModel()->addError(
+                Mage::helper('Mage_Install_Helper_Data')->__('The URL "%s" is not accessible.', $baseUrl)
+            );
             throw $e;
         }
-
-        if ($body != Mage_Install_Model_Installer::INSTALLER_HOST_RESPONSE) {
-            $this->_getInstaller()->getDataModel()
-                ->addError(Mage::helper('Mage_Install_Helper_Data')->__('The URL "%s" is invalid.', $url));
-            Mage::throwException(Mage::helper('Mage_Install_Helper_Data')->__('Response from server isn\'t valid.'));
+        if ($response->getStatus() != 200) {
+            $this->_getInstaller()->getDataModel()->addError(
+                Mage::helper('Mage_Install_Helper_Data')->__('The URL "%s" is invalid.', $baseUrl)
+            );
+            Mage::throwException(Mage::helper('Mage_Install_Helper_Data')->__('Response from the server is invalid.'));
         }
-        return $this;
+    }
+
+    /**
+     * Find a relative path to a first file located in a directory or its descendants
+     *
+     * @param string $dir Directory to search for a file within
+     * @param string $pattern PCRE pattern a file name has to match
+     * @return string|null
+     */
+    protected function _findFirstFileRelativePath($dir, $pattern = '/.*/')
+    {
+        $childDirs = array();
+        foreach (scandir($dir) as $itemName) {
+            if ($itemName == '.' || $itemName == '..') {
+                continue;
+            }
+            $itemPath = $dir . DIRECTORY_SEPARATOR . $itemName;
+            if (is_file($itemPath)) {
+                if (preg_match($pattern, $itemName)) {
+                    return $itemName;
+                }
+            } else {
+                $childDirs[$itemName] = $itemPath;
+            }
+        }
+        foreach ($childDirs as $dirName => $dirPath) {
+            $filePath = $this->_findFirstFileRelativePath($dirPath, $pattern);
+            if ($filePath) {
+                return $dirName . '/' . $filePath;
+            }
+        }
+        return null;
     }
 
     public function replaceTmpInstallDate($date = null)

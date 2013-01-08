@@ -330,4 +330,18 @@ class Magento_ObjectManager_ZendTest extends PHPUnit_Framework_TestCase
 
         return self::OBJECT_GET;
     }
+
+    public function testAddSharedInstance()
+    {
+        $fixtureObject = new StdClass;
+        $instanceManager = $this->getMock('Zend\Di\InstanceManager', array('addSharedInstance'), array(), '', false);
+        $instanceManager->expects($this->at(0))
+            ->method('addSharedInstance')
+            ->with($this->anything(), 'Magento_ObjectManager');
+        $instanceManager->expects($this->at(1))->method('addSharedInstance')->with($fixtureObject, 'classOrAlias');
+        $diMock = $this->getMock('Zend\Di\Di', array('instanceManager'), array(), '', false);
+        $diMock->expects($this->exactly(2))->method('instanceManager')->will($this->returnValue($instanceManager));
+        $object = new Magento_ObjectManager_Zend(null, $diMock);
+        $this->assertSame($object, $object->addSharedInstance($fixtureObject, 'classOrAlias'));
+    }
 }

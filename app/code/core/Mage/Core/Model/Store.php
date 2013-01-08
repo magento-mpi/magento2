@@ -128,13 +128,6 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     protected $_priceFilter;
 
     /**
-     * Website model
-     *
-     * @var Mage_Core_Model_Website
-     */
-    protected $_website;
-
-    /**
      * Group model
      *
      * @var Mage_Core_Model_Store_Group
@@ -398,29 +391,26 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Set website model
+     * Set relation to the website
      *
      * @param Mage_Core_Model_Website $website
      */
     public function setWebsite(Mage_Core_Model_Website $website)
     {
-        $this->_website = $website;
+        $this->setWebsiteId($website->getId());
     }
 
     /**
      * Retrieve store website
      *
-     * @return Mage_Core_Model_Website
+     * @return Mage_Core_Model_Website|bool
      */
     public function getWebsite()
     {
         if (is_null($this->getWebsiteId())) {
             return false;
         }
-        if (is_null($this->_website)) {
-            $this->_website = Mage::app()->getWebsite($this->getWebsiteId());
-        }
-        return $this->_website;
+        return Mage::app()->getWebsite($this->getWebsiteId());
     }
 
     /**
@@ -988,23 +978,20 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     public function setGroup($group)
     {
-        $this->_group = $group;
+        $this->setGroupId($group->getId());
     }
 
     /**
      * Retrieve group model
      *
-     * @return Mage_Core_Model_Store_Group
+     * @return Mage_Core_Model_Store_Group|bool
      */
     public function getGroup()
     {
         if (is_null($this->getGroupId())) {
             return false;
         }
-        if (is_null($this->_group)) {
-            $this->_group = Mage::getModel('Mage_Core_Model_Store_Group')->load($this->getGroupId());
-        }
-        return $this->_group;
+        return Mage::app()->getGroup($this->getGroupId());
     }
 
     /**

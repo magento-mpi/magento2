@@ -1,14 +1,13 @@
 <?php
 /**
+ * Same as obsolete_constants.php, but specific to Magento EE
+ *
  * {license_notice}
  *
- * @category    tests
- * @package     static
- * @subpackage  Legacy
  * @copyright   {copyright}
  * @license     {license_link}
  */
 return array(
-    $this->_getRule('LAST_PRODUCT_COOKIE', 'Enterprise_PageCache_Model_Processor'),
-    $this->_getRule('XML_PATH_DEFAULT_TIMEZONE', 'Enterprise_CatalogEvent_Model_Event'),
+    array('LAST_PRODUCT_COOKIE', 'Enterprise_PageCache_Model_Processor'),
+    array('XML_PATH_DEFAULT_TIMEZONE', 'Enterprise_CatalogEvent_Model_Event'),
 );

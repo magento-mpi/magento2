@@ -1188,7 +1188,7 @@ class Mage_Core_Model_App
     public function getGroup($id = null)
     {
         if (is_null($id)) {
-            $id = $this->getStore()->getGroup()->getId();
+            $id = $this->getStore()->getGroupId();
         } elseif ($id instanceof Mage_Core_Model_Store_Group) {
             return $id;
         }

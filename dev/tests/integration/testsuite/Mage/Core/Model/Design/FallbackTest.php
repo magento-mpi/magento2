@@ -22,7 +22,6 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers Mage_Core_Model_Design_Fallback::getArea
-     * @covers Mage_Core_Model_Design_Fallback::getPackage
      * @covers Mage_Core_Model_Design_Fallback::getTheme
      * @covers Mage_Core_Model_Design_Fallback::getLocale
      */

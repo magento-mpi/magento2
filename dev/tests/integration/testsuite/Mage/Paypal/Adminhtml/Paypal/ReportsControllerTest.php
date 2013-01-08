@@ -14,6 +14,7 @@ class Mage_Paypal_Adminhtml_Paypal_ReportsControllerTest extends Mage_Adminhtml_
      * @magentoConfigFixture current_store paypal/fetch_reports/ftp_login login
      * @magentoConfigFixture current_store paypal/fetch_reports/ftp_password password
      * @magentoConfigFixture current_store paypal/fetch_reports/ftp_sandbox 0
+     * @magentoDbIsolation enabled
      */
     public function testFetchAction()
     {
