@@ -1,1 +1,2 @@
-app/code/core/Enterprise/Cms/view/adminhtml/page/edit.js
+app/code/core/Enterprise/Cms
+app/code/core/Enterprise/Rma

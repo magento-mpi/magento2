@@ -31,6 +31,6 @@ class Enterprise_GiftCardAccount_Block_Check extends Mage_Core_Block_Template
      */
     public function getCode()
     {
-        return $this->getRequest()->getParam('giftcard_code', '');
+        return $this->getRequest()->getParam('giftcard-code', '');
     }
 }
