@@ -116,7 +116,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
      */
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setData(array(
                 'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_type',
                 'class' => 'select required-entry attribute-type global-scope'
@@ -134,7 +134,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
      */
     public function getGroupSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setData(array(
                 'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_group',
                 'class' => 'select required-entry global-scope'
@@ -152,7 +152,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
      */
     public function getSearcheableSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setData(array(
                  'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_is_searcheable',
                  'class' => 'select required-entry global-scope'
@@ -170,7 +170,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
      */
     public function getListedSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setData(array(
                  'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_is_listed',
                  'class' => 'select required-entry global-scope'
@@ -188,7 +188,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
      */
     public function getRequiredSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setData(array(
                  'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_is_required',
                  'class' => 'select required-entry global-scope'

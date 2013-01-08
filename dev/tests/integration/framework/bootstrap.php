@@ -73,7 +73,9 @@ if (defined('TESTS_BAMBOO_PROFILER_FILE') && defined('TESTS_BAMBOO_PROFILER_METR
  * To allow config fixtures to deal with fixture stores, data fixtures should be processed before config fixtures.
  */
 $eventManager = new Magento_Test_EventManager(array(
-    new Magento_Test_ClearProperties(),
+    new Magento_Test_Workaround_Segfault(),
+    new Magento_Test_Workaround_Cleanup_TestCaseProperties(),
+    new Magento_Test_Workaround_Cleanup_StaticProperties(),
     new Magento_Test_Annotation_AppIsolation(),
     new Magento_Test_Event_Transaction(new Magento_Test_EventManager(array(
         new Magento_Test_Annotation_DbIsolation(),
@@ -93,7 +95,7 @@ Magento_Test_Bootstrap::setInstance(new Magento_Test_Bootstrap(
     $localXmlFile,
     $globalEtcFiles,
     $moduleEtcFiles,
-    'etc/integration-tests-config.xml',
+    $testsBaseDir . DIRECTORY_SEPARATOR . 'etc/integration-tests-config.xml',
     $testsTmpDir,
     new Magento_Shell(),
     $isCleanupEnabled,

@@ -11,50 +11,58 @@
 
 class Magento_ShellTest extends PHPUnit_Framework_TestCase
 {
-    public function testGetSetVerbose()
+    /**
+     * Test that PHP command returns an expected result
+     *
+     * @param Magento_Shell $shell
+     * @param string $phpCommand
+     * @param string $expectedResult
+     */
+    protected function _testExecutePhpCommand(Magento_Shell $shell, $phpCommand, $expectedResult)
     {
-        $shell = new Magento_Shell(false);
-        $this->assertFalse($shell->isVerbose());
-
-        $shell->setVerbose(true);
-        $this->assertTrue($shell->isVerbose());
-
-        $shell->setVerbose(false);
-        $this->assertFalse($shell->isVerbose());
+        $this->expectOutputString(''); // nothing is expected to be ever printed to the standard output
+        $actualResult = $shell->execute('php -r %s', array($phpCommand));
+        $this->assertEquals($expectedResult, $actualResult);
     }
 
     /**
      * @param string $phpCommand
-     * @param bool $isVerbose
-     * @param string $expectedOutput
      * @param string $expectedResult
      * @dataProvider executeDataProvider
      */
-    public function testExecute($phpCommand, $isVerbose, $expectedOutput, $expectedResult = '')
+    public function testExecute($phpCommand, $expectedResult)
     {
-        $this->expectOutputString($expectedOutput);
-        $shell = new Magento_Shell($isVerbose);
-        $actualResult = $shell->execute('php -r %s', array($phpCommand));
-        $this->assertEquals($expectedResult, $actualResult);
+        $this->_testExecutePhpCommand(new Magento_Shell(), $phpCommand, $expectedResult);
+    }
+
+    /**
+     * @param string $phpCommand
+     * @param string $expectedResult
+     * @param array $expectedLogRecords
+     * @dataProvider executeDataProvider
+     */
+    public function testExecuteLog($phpCommand, $expectedResult, $expectedLogRecords)
+    {
+        $logger = $this->getMock('Zend_Log', array('log'));
+        foreach ($expectedLogRecords as $logRecordIndex => $expectedLogMessage) {
+            $logger
+                ->expects($this->at($logRecordIndex))
+                ->method('log')
+                ->with($expectedLogMessage, Zend_Log::INFO)
+            ;
+        }
+        $this->_testExecutePhpCommand(new Magento_Shell($logger), $phpCommand, $expectedResult);
     }
 
     public function executeDataProvider()
     {
         $quote = substr(escapeshellarg(' '), 0, 1);
-        $eol = PHP_EOL;
         return array(
-            'capture STDOUT' => array(
-                'echo 27181;', false, '', '27181',
+            'STDOUT' => array(
+                'echo 27181;', '27181', array("php -r {$quote}echo 27181;{$quote} 2>&1", '27181'),
             ),
-            'print STDOUT' => array(
-                'echo 27182;', true, "php -r {$quote}echo 27182;{$quote} 2>&1{$eol}27182{$eol}", '27182',
-            ),
-            'capture STDERR' => array(
-                'fwrite(STDERR, 27183);', false, '', '27183',
-            ),
-            'print STDERR' => array(
-                'fwrite(STDERR, 27184);', true, "php -r {$quote}fwrite(STDERR, 27184);{$quote} 2>&1{$eol}27184{$eol}",
-                '27184',
+            'STDERR' => array(
+                'fwrite(STDERR, 27182);', '27182', array("php -r {$quote}fwrite(STDERR, 27182);{$quote} 2>&1", '27182'),
             ),
         );
     }
@@ -72,30 +80,19 @@ class Magento_ShellTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param string $phpCommand
-     * @param bool $isVerbose
-     * @param string $expectedOutput
      * @param string $expectedError
      * @dataProvider executeDataProvider
      */
-    public function testExecuteFailureDetails($phpCommand, $isVerbose, $expectedOutput, $expectedError)
+    public function testExecuteFailureDetails($phpCommand, $expectedError)
     {
         try {
             /* Force command to return non-zero exit code */
             $phpFailingCommand = $phpCommand . ' exit(42);';
-            $expectedOutput = str_replace($phpCommand, $phpFailingCommand, $expectedOutput);
-            $this->testExecute($phpFailingCommand, $isVerbose, $expectedOutput);
+            $this->testExecute($phpFailingCommand, ''); // no result is expected in a case of a command failure
         } catch (Magento_Exception $e) {
             $this->assertInstanceOf('Exception', $e->getPrevious());
             $this->assertEquals($expectedError, $e->getPrevious()->getMessage());
             $this->assertEquals(42, $e->getPrevious()->getCode());
         }
-    }
-
-    public function testOutput()
-    {
-        $fixture = uniqid();
-        $this->expectOutputString($fixture . PHP_EOL);
-        $shell = new Magento_Shell;
-        $shell->output($fixture);
     }
 }

@@ -10,7 +10,14 @@
  * @license    {license_link}
  */
 
-require_once __DIR__ . '/app/bootstrap.php';
+require __DIR__ . '/app/bootstrap.php';
+Mage::run($_SERVER);
 
-$appOptions = new Mage_Core_Model_App_Options($_SERVER);
-Mage::run($appOptions->getRunCode(), $appOptions->getRunType(), $appOptions->getRunOptions());
+/**
+ * Example - run a particular store or website:
+ *
+ * $params = $_SERVER;
+ * $params['MAGE_RUN_CODE'] = 'website2';
+ * $params['MAGE_RUN_TYPE'] = 'website';
+ * Mage::run($params)
+ */

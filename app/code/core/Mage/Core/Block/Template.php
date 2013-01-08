@@ -23,13 +23,6 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     const XML_PATH_TEMPLATE_ALLOW_SYMLINK       = 'dev/template/allow_symlink';
 
     /**
-     * View scripts directory
-     *
-     * @var string
-     */
-    protected $_viewDir = '';
-
-    /**
      * Assigned variables for view
      *
      * @var array
@@ -51,11 +44,62 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     protected static $_showTemplateHintsBlocks;
 
     /**
+     * @var Mage_Core_Model_Dir
+     */
+    protected $_dirs;
+
+    /**
+     * @var Mage_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Path to template file in theme.
      *
      * @var string
      */
     protected $_template;
+
+    /**
+     * Constructor
+     *
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param Mage_Core_Model_Layout $layout
+     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Mage_Core_Model_Url $urlBuilder
+     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Session $session
+     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Mage_Core_Controller_Varien_Front $frontController
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_Dir $dirs
+     * @param Mage_Core_Model_Logger $logger
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Controller_Request_Http $request,
+        Mage_Core_Model_Layout $layout,
+        Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Core_Model_Url $urlBuilder,
+        Mage_Core_Model_Translate $translator,
+        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_Session $session,
+        Mage_Core_Model_Store_Config $storeConfig,
+        Mage_Core_Controller_Varien_Front $frontController,
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Core_Model_Dir $dirs,
+        Mage_Core_Model_Logger $logger,
+        array $data = array()
+    ) {
+        $this->_dirs = $dirs;
+        $this->_logger = $logger;
+        parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
+            $session, $storeConfig, $frontController, $helperFactory, $data);
+    }
+
 
     /**
      * Internal constructor, that is called from real constructor
@@ -109,7 +153,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         if ($area) {
             $params['area'] = $area;
         }
-        $templateName = Mage::getDesign()->getFilename($this->getTemplate(), $params);
+        $templateName = $this->_designPackage->getFilename($this->getTemplate(), $params);
         return $templateName;
     }
 
@@ -141,23 +185,6 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
             }
         } else {
             $this->_viewVars[$key] = $value;
-        }
-        return $this;
-    }
-
-    /**
-     * Set template location directory
-     *
-     * @param string $dir
-     * @return Mage_Core_Block_Template
-     */
-    public function setScriptPath($dir)
-    {
-        $scriptPath = realpath($dir);
-        if (strpos($scriptPath, realpath(Mage::getBaseDir('design'))) === 0 || $this->_getAllowSymlinks()) {
-            $this->_viewDir = $dir;
-        } else {
-            Mage::log('Not valid script path:' . $dir, Zend_Log::CRIT, null, true);
         }
         return $this;
     }
@@ -225,12 +252,14 @@ HTML;
 
         try {
             $templateFile = realpath($fileName);
-            if (strpos($templateFile, Mage::getBaseDir('app')) === 0
-                || strpos($templateFile, realpath($this->_viewDir)) === 0 || $this->_getAllowSymlinks()
+            if ($templateFile && (
+                strpos($templateFile, $this->_dirs->getDir(Mage_Core_Model_Dir::APP)) === 0
+                || strpos($templateFile, $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES)) === 0
+                || $this->_getAllowSymlinks())
             ) {
                 include $templateFile;
             } else {
-                Mage::log("Invalid template file: '{$fileName}'", Zend_Log::CRIT, null, true);
+                $this->_logger->log("Invalid template file: '{$fileName}'", Zend_Log::CRIT);
             }
 
         } catch (Exception $e) {
@@ -252,29 +281,16 @@ HTML;
     }
 
     /**
-     * Render block
-     *
-     * @return string
-     */
-    public function renderView()
-    {
-        if (!$this->getTemplate()) {
-            return '';
-        }
-        $this->setScriptPath(Mage::getBaseDir('design'));
-        $html = $this->fetchView($this->getTemplateFile());
-        return $html;
-    }
-
-    /**
      * Render block HTML
      *
      * @return string
      */
     protected function _toHtml()
     {
-        $html = $this->renderView();
-        return $html;
+        if (!$this->getTemplate()) {
+            return '';
+        }
+        return $this->fetchView($this->getTemplateFile());
     }
 
     /**

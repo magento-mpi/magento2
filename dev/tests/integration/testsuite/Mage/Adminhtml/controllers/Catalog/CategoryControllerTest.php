@@ -65,6 +65,7 @@ class Mage_Adminhtml_Catalog_CategoryControllerTest extends Mage_Backend_Utility
     /**
      * @param array $postData
      * @dataProvider categoryCreatedFromProductCreationPageDataProvider
+     * @magentoDbIsolation enabled
      */
     public function testSaveActionFromProductCreationPage($postData)
     {

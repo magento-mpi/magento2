@@ -12,6 +12,11 @@
 class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * Fixture for testing getFonts()
+     */
+    const FONT_FIXTURE = '<fonts><font_code><label>Label</label><path>path/to/fixture.ttf</path></font_code></fonts>';
+
+    /**
      * @var Mage_Captcha_Helper_Data
      */
     protected $_object;
@@ -22,7 +27,7 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_object = new Mage_Captcha_Helper_Data();
+        $this->_object = new Mage_Captcha_Helper_Data(new Mage_Core_Model_Dir(TESTS_TEMP_DIR));
         $this->_object->setConfig($this->_getConfigStub());
         $this->_object->setWebsite($this->_getWebsiteStub());
         $this->_object->setStore($this->_getStoreStub());
@@ -76,24 +81,15 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
         $this->_object->getConfigNode('enable');
     }
 
-    /**
-     * @covers Mage_Captcha_Helper_Data::getFonts
-     */
     public function testGetFonts()
     {
-        $option = $this->_getOptionStub();
-        $option->expects($this->any())
-            ->method('getDir')
-            ->will($this->returnValue(TESTS_TEMP_DIR));
-        $this->_object->setOption($option);
-
         $fonts = $this->_object->getFonts();
-
-        $this->assertEquals($fonts['linlibertine']['label'], 'LinLibertine');
-        $this->assertEquals(
-            $fonts['linlibertine']['path'],
-            TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . 'lib/LinLibertineFont/LinLibertine_Bd-2.8.1.ttf'
-        );
+        $this->assertArrayHasKey('font_code', $fonts); // fixture
+        $this->assertArrayHasKey('label', $fonts['font_code']);
+        $this->assertArrayHasKey('path', $fonts['font_code']);
+        $this->assertEquals('Label', $fonts['font_code']['label']);
+        $this->assertStringStartsWith(TESTS_TEMP_DIR, $fonts['font_code']['path']);
+        $this->assertStringEndsWith('path/to/fixture.ttf', $fonts['font_code']['path']);
     }
 
     /**
@@ -102,17 +98,11 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testGetImgDir()
     {
-        $captchaTmpDir = TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . 'captcha';
-        $option = $this->_getOptionStub();
-        $option->expects($this->once())
-            ->method('getDir')
-            ->will($this->returnValue($captchaTmpDir));
-        $this->_object->setOption($option);
-
-        $this->assertEquals(
-            $this->_object->getImgDir(),
-            $captchaTmpDir . DIRECTORY_SEPARATOR . 'captcha' . DIRECTORY_SEPARATOR . 'base' . DIRECTORY_SEPARATOR
-        );
+        $this->assertFileNotExists(TESTS_TEMP_DIR . '/captcha');
+        $result = $this->_object->getImgDir();
+        $this->assertFileExists($result);
+        $this->assertStringStartsWith(TESTS_TEMP_DIR, $result);
+        $this->assertStringEndsWith('captcha' . DIRECTORY_SEPARATOR . 'base', $result);
     }
 
     /**
@@ -138,24 +128,8 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
 
         $config->expects($this->any())
             ->method('getNode')
-            ->will($this->returnValue(
-                new SimpleXMLElement('<fonts><linlibertine><label>LinLibertine</label>'
-                    . '<path>lib/LinLibertineFont/LinLibertine_Bd-2.8.1.ttf</path></linlibertine></fonts>')));
+            ->will($this->returnValue(new SimpleXMLElement(self::FONT_FIXTURE)));
         return $config;
-    }
-
-    /**
-     * Create option stub
-     * @return Mage_Core_Model_Config_Options
-     */
-    protected function _getOptionStub()
-    {
-        $option = $this->getMock(
-            'Mage_Core_Model_Config_Options',
-            array('getDir'),
-            array(), '', false
-        );
-        return $option;
     }
 
     /**

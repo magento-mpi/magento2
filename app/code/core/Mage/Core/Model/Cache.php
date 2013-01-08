@@ -21,6 +21,11 @@ class Mage_Core_Model_Cache
     const XML_PATH_TYPES    = 'global/cache/types';
 
     /**
+     * Inject custom cache settings in application initialization
+     */
+    const APP_INIT_PARAM = 'cache';
+
+    /**
      * @var Mage_Core_Model_Config
      */
     protected $_config;
@@ -92,16 +97,24 @@ class Mage_Core_Model_Cache
     protected $_allowedCacheOptions = null;
 
     /**
+     * @var bool
+     */
+    protected $_globalBanUseCache = false;
+
+    /**
      * Class constructor. Initialize cache instance based on options
      *
+     * @param Mage_Core_Model_App $app
+     * @param Mage_Core_Model_Dir $dirs
      * @param array $options
      */
-    public function __construct(array $options = array())
+    public function __construct(Mage_Core_Model_App $app, Mage_Core_Model_Dir $dirs, array $options = array())
     {
-        $this->_config = isset($options['config']) ? $options['config'] : Mage::getConfig();
+        $this->_config = $app->getConfig();
         $this->_helper = isset($options['helper']) ? $options['helper'] : Mage::helper('Mage_Core_Helper_Data');
+        $this->_globalBanUseCache = $app->getInitParam('global_ban_use_cache');
 
-        $this->_defaultBackendOptions['cache_dir'] = $this->_config->getOptions()->getDir('cache');
+        $this->_defaultBackendOptions['cache_dir'] = $dirs->getDir(Mage_Core_Model_Dir::CACHE);
         /**
          * Initialize id prefix
          */
@@ -110,7 +123,7 @@ class Mage_Core_Model_Cache
             $this->_idPrefix = $options['prefix'];
         }
         if (empty($this->_idPrefix)) {
-            $this->_idPrefix = substr(md5($this->_config->getOptions()->getEtcDir()), 0, 3).'_';
+            $this->_idPrefix = substr(md5($dirs->getDir(Mage_Core_Model_Dir::CONFIG)), 0, 3) . '_';
         }
 
         $backend = $this->_getBackendOptions($options);
@@ -547,7 +560,7 @@ class Mage_Core_Model_Cache
             $this->_allowedCacheOptions = unserialize($options);
         }
 
-        if ($this->_config->getOptions()->getData('global_ban_use_cache')) {
+        if ($this->_globalBanUseCache) {
             foreach ($this->_allowedCacheOptions as $key => $val) {
                 $this->_allowedCacheOptions[$key] = false;
             }

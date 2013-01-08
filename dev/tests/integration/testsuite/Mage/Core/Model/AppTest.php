@@ -43,10 +43,14 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         $this->_mageModel = null;
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testInit()
     {
+        Mage::app()->getCacheInstance()->banUse('config');
         $this->assertNull($this->_model->getConfig());
-        $this->_model->init('');
+        $this->_model->init(array());
         $this->assertInstanceOf('Mage_Core_Model_Config', $this->_model->getConfig());
         $this->assertNotEmpty($this->_model->getConfig()->getNode());
         $this->assertContains(Mage_Core_Model_App::ADMIN_STORE_ID, array_keys($this->_model->getStores(true)));
@@ -60,30 +64,17 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         if (!Magento_Test_Bootstrap::canTestHeaders()) {
             $this->markTestSkipped('Can\'t test application run without sending headers');
         }
-
-        $_SERVER['HTTP_HOST'] = 'localhost';
-        $this->_mageModel->getRequest()->setRequestUri('core/index/index');
+        Mage::app()->getCacheInstance()->banUse('config');
+        $request = new Magento_Test_Request();
+        $request->setRequestUri('core/index/index');
+        $this->_mageModel->setRequest($request);
         $this->_mageModel->run(array());
-        $this->assertTrue($this->_mageModel->getRequest()->isDispatched());
+        $this->assertTrue($request->isDispatched());
     }
 
     public function testIsInstalled()
     {
         $this->assertTrue($this->_mageModel->isInstalled());
-    }
-
-    /**
-     * @magentoAppIsolation enabled
-     * @expectedException Magento_Exception
-     * @expectedExceptionMessage Application is not installed yet, please complete the installation first.
-     */
-    public function testRequireInstalledInstance()
-    {
-        $this->_model->baseInit(array(
-            Mage_Core_Model_Config::OPTION_LOCAL_CONFIG_EXTRA_DATA
-                => sprintf(Mage_Core_Model_Config::CONFIG_TEMPLATE_INSTALL_DATE, 'invalid')
-        ));
-        $this->_model->requireInstalledInstance();
     }
 
     public function testGetCookie()

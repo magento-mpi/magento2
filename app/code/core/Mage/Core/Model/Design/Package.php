@@ -58,9 +58,19 @@ class Mage_Core_Model_Design_Package
     /**#@-*/
 
     /**
-     * Path to configuration node for file duplication
+     * Path to configuration node that indicates how to materialize view files: with or without "duplication"
      */
-    const XML_PATH_ALLOW_DUPLICATION = 'default/design/theme/allow_view_files_duplication';
+    const XML_PATH_ALLOW_DUPLICATION = 'global/design/theme/allow_view_files_duplication';
+
+    /**
+     * Path to config node that allows automatically updating map files in runtime
+     */
+    const XML_PATH_ALLOW_MAP_UPDATE = 'global/dev/design_fallback/allow_map_update';
+
+    /**
+     * Sub-directory where to store maps of view files fallback (if used)
+     */
+    const FALLBACK_MAP_DIR = 'maps/fallback';
 
     /**
      * PCRE that matches non-absolute URLs in CSS content
@@ -216,36 +226,29 @@ class Mage_Core_Model_Design_Package
      * @param array $params
      * @return string|int
      */
-    public function getConfigurationDesignTheme($area = null, $params = array())
+    public function getConfigurationDesignTheme($area = null, array $params = array())
     {
         if (!$area) {
             $area = $this->getArea();
         }
-        $useId = isset($params['useId']) ? $params['useId'] : true;
         $store = isset($params['store']) ? $params['store'] : null;
 
-        $designTheme = (string)Mage::getStoreConfig($this->getConfigPathByArea($area, $useId), $store);
-        if (empty($designTheme)) {
-            $designTheme = (string)Mage::getConfig()->getNode($this->getConfigPathByArea($area, $useId));
+        if ($this->_isThemePerStoveView($area)) {
+            return Mage::getStoreConfig(self::XML_PATH_THEME_ID, $store)
+                ?: (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
         }
-        return $designTheme;
+        return (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
     }
 
-
     /**
-     * Get configuration xml path to current theme for area
+     * Whether themes in specified area are supposed to be configured per store view
      *
      * @param string $area
-     * @param bool $useId
-     * @return string
+     * @return bool
      */
-    public function getConfigPathByArea($area, $useId = true)
+    private function _isThemePerStoveView($area)
     {
-        $xmlPath = $useId ? self::XML_PATH_THEME_ID : self::XML_PATH_THEME;
-        if ($area !== self::DEFAULT_AREA) {
-            $xmlPath = $area . '/' . $xmlPath;
-        }
-        return $xmlPath;
+        return $area == self::DEFAULT_AREA;
     }
 
     /**
@@ -285,7 +288,7 @@ class Mage_Core_Model_Design_Package
         }
 
         if (!empty($params['themeId'])) {
-            $params['themeModel'] = $this->_getLoadDesignTheme($params['themeId']);
+            $params['themeModel'] = $this->_getLoadDesignTheme($params['themeId'], $params['area']);
         } elseif (!empty($params['package']) && isset($params['theme'])) {
             $themePath = $params['package'] . '/' . $params['theme'];
             $params['themeModel'] = $this->_getLoadDesignTheme($themePath, $params['area']);
@@ -382,15 +385,20 @@ class Mage_Core_Model_Design_Package
     {
         $cacheKey = "{$params['area']}|{$params['themeModel']->getCacheKey()}|{$params['locale']}";
         if (!isset($this->_fallback[$cacheKey])) {
-            $params['canSaveMap'] = (bool) (string) Mage::app()->getConfig()
-                ->getNode('global/dev/design_fallback/allow_map_update');
-            $params['mapDir'] = Mage::getConfig()->getTempVarDir() . '/maps/fallback';
-            $params['baseDir'] = Mage::getBaseDir();
-
-            $model = $this->_isDeveloperMode() ?
-                'Mage_Core_Model_Design_Fallback' :
-                'Mage_Core_Model_Design_Fallback_CachingProxy';
-            $this->_fallback[$cacheKey] = Mage::getModel($model, array('data' => $params));
+            $fallback = Mage::getObjectManager()->create('Mage_Core_Model_Design_Fallback', array('params' => $params));
+            if ($this->_isDeveloperMode()) {
+                $this->_fallback[$cacheKey] = $fallback;
+            } else {
+                /** @var $dirs Mage_Core_Model_Dir */
+                $dirs = Mage::getObjectManager()->get('Mage_Core_Model_Dir');
+                $proxy = new Mage_Core_Model_Design_Fallback_CachingProxy(
+                    $fallback,
+                    $dirs->getDir(Mage_Core_Model_Dir::VAR_DIR) . DIRECTORY_SEPARATOR . self::FALLBACK_MAP_DIR,
+                    $dirs->getDir(Mage_Core_Model_Dir::ROOT),
+                    (bool)(string)Mage::app()->getConfig()->getNode(self::XML_PATH_ALLOW_MAP_UPDATE)
+                );
+                $this->_fallback[$cacheKey] = $proxy;
+            }
         }
         return $this->_fallback[$cacheKey];
     }
@@ -481,19 +489,16 @@ class Mage_Core_Model_Design_Package
      */
     protected function _getPublicFileUrl($file, $isSecure = null)
     {
-        $publicDirUrlTypes = array(
-            Mage_Core_Model_Store::URL_TYPE_THEME  => Mage::getBaseDir('media') . DS . 'theme',
-            Mage_Core_Model_Store::URL_TYPE_JS    => Mage::getBaseDir('js'),
-        );
-        foreach ($publicDirUrlTypes as $publicUrlType => $publicDir) {
-            $publicDir .= DS;
-            if (strpos($file, $publicDir) !== 0) {
-                continue;
+        foreach (array(
+            Mage_Core_Model_Store::URL_TYPE_LIB => Mage_Core_Model_Dir::PUB_LIB,
+            Mage_Core_Model_Store::URL_TYPE_MEDIA => Mage_Core_Model_Dir::MEDIA
+        ) as $urlType => $dirType) {
+            $dir = Mage::getBaseDir($dirType);
+            if (strpos($file, $dir) === 0) {
+                $relativePath = ltrim(substr($file, strlen($dir)), DIRECTORY_SEPARATOR);
+                $relativePath = str_replace(DIRECTORY_SEPARATOR, '/', $relativePath);
+                return Mage::getBaseUrl($urlType, $isSecure) . $relativePath;
             }
-            $url = str_replace($publicDir, '', $file);
-            $url = str_replace(DS, '/' , $url);
-            $url = Mage::getBaseUrl($publicUrlType, $isSecure) . $url;
-            return $url;
         }
         throw new Magento_Exception(
             "Cannot build URL for the file '$file' because it does not reside in a public directory."
@@ -643,7 +648,7 @@ class Mage_Core_Model_Design_Package
      */
     protected function _needToProcessFile($filePath)
     {
-        $jsPath = Mage::getBaseDir('js') . DS;
+        $jsPath = Mage::getBaseDir(Mage_Core_Model_Dir::PUB_LIB) . DS;
         if (strncmp($filePath, $jsPath, strlen($jsPath)) === 0) {
             return false;
         }
@@ -691,7 +696,7 @@ class Mage_Core_Model_Design_Package
      */
     public function getPublicDir()
     {
-        return Mage::getBaseDir('media') . DS . 'theme';
+        return Mage::getBaseDir(Mage_Core_Model_Dir::MEDIA) . DS . 'theme';
     }
 
     /**
@@ -726,7 +731,7 @@ class Mage_Core_Model_Design_Package
      */
     protected function _buildPublicViewSufficientFilename($filename, array $params)
     {
-        $designDir = Mage::getBaseDir('design') . DS;
+        $designDir = Mage::getBaseDir(Mage_Core_Model_Dir::THEMES) . DS;
         if (0 === strpos($filename, $designDir)) {
             // theme file
             $publicFile = substr($filename, strlen($designDir));
@@ -796,7 +801,7 @@ class Mage_Core_Model_Design_Package
             $relativeThemeFile = $fileUrl;
         } else {
             /* Check if module file overridden on theme level based on _module property and file path */
-            if ($params['module'] && strpos($parentFilePath, Mage::getBaseDir('design')) === 0) {
+            if ($params['module'] && strpos($parentFilePath, Mage::getBaseDir(Mage_Core_Model_Dir::THEMES)) === 0) {
                 /* Add module directory to relative URL for canonization */
                 $relativeThemeFile = dirname($params['module'] . DS . $parentFileName)
                     . DS . $fileUrl;
@@ -863,7 +868,7 @@ class Mage_Core_Model_Design_Package
     {
         $filesToMerge = array();
         $mergedFile = array();
-        $jsDir = Mage::getBaseDir('js');
+        $jsDir = Mage::getBaseDir(Mage_Core_Model_Dir::PUB_LIB);
         $publicDir = $this->_buildPublicViewFilename('');
         foreach ($files as $file) {
             $params = array();

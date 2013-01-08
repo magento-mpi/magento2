@@ -44,11 +44,6 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_captcha = array();
 
     /**
-     * @var Mage_Core_Model_Config_Options
-     */
-    protected $_option;
-
-    /**
      * @var Mage_Core_Model_Store
      */
     protected $_store;
@@ -62,6 +57,21 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
      * @var Mage_Core_Model_Website
      */
     protected $_website;
+
+    /**
+     * @var Mage_Core_Model_Dir
+     */
+    protected $_dirs = null;
+
+    /**
+     * Inject dependencies
+     *
+     * @param Mage_Core_Model_Dir $dirs
+     */
+    public function __construct(Mage_Core_Model_Dir $dirs)
+    {
+        $this->_dirs = $dirs;
+    }
 
     /**
      * Get Config
@@ -108,29 +118,6 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
             $this->_store = Mage::app()->getStore($storeName);
         }
         return $this->_store;
-    }
-
-    /**
-     * Set option
-     *
-     * @param Mage_Core_Model_Config_Options $option
-     */
-    public function setOption($option)
-    {
-        $this->_option = $option;
-    }
-
-    /**
-     * Get option
-     *
-     * @return Mage_Core_Model_Config_Options
-     */
-    public function getOption()
-    {
-        if (empty($this->_option)) {
-            $this->_option = $this->getConfig()->getOptions();
-        }
-        return $this->_option;
     }
 
     /**
@@ -188,8 +175,6 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
         return $this->getStore($store)->getConfig( $areaCode . '/captcha/' . $id, $store);
     }
 
-
-
     /**
      * Get list of available fonts
      * Return format:
@@ -202,11 +187,12 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
         $node = $this->getConfig()->getNode(Mage_Captcha_Helper_Data::XML_PATH_CAPTCHA_FONTS);
         $fonts = array();
         if ($node) {
+            $libDir = $this->_dirs->getDir(Mage_Core_Model_Dir::LIB);
             foreach ($node->children() as $fontName => $fontNode) {
-               $fonts[$fontName] = array(
-                   'label' => (string)$fontNode->label,
-                   'path' => $this->getOption()->getDir('base') . DIRECTORY_SEPARATOR . $fontNode->path
-               );
+                $fonts[$fontName] = array(
+                    'label' => (string)$fontNode->label,
+                    'path' => $libDir . DIRECTORY_SEPARATOR . $fontNode->path
+                );
             }
         }
         return $fonts;
@@ -220,8 +206,8 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getImgDir($website = null)
     {
-        $captchaDir = $this->getOption()->getDir('media') . DIRECTORY_SEPARATOR . 'captcha' . DIRECTORY_SEPARATOR
-            . $this->getWebsite($website)->getCode() . DIRECTORY_SEPARATOR;
+        $captchaDir = $this->_dirs->getDir(Mage_Core_Model_Dir::MEDIA) . DIRECTORY_SEPARATOR . 'captcha'
+            . DIRECTORY_SEPARATOR . $this->getWebsite($website)->getCode();
         $io = new Varien_Io_File();
         $io->checkAndCreateFolder($captchaDir, 0755);
         return $captchaDir;

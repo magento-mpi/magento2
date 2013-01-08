@@ -14,7 +14,7 @@ class Enterprise_Enterprise_CodeIntegrityTest extends PHPUnit_Framework_TestCase
     public function testConfiguration()
     {
         $this->assertEquals('enterprise/fixed',
-            (string)Mage::app()->getConfig()->getNode('default/' . Mage_Core_Model_Design_Package::XML_PATH_THEME)
+            (string)Mage::app()->getConfig()->getNode('frontend/' . Mage_Core_Model_Design_Package::XML_PATH_THEME)
         );
         $this->assertEquals('default/enterprise',
             (string)Mage::app()->getConfig()->getNode('adminhtml/' . Mage_Core_Model_Design_Package::XML_PATH_THEME)

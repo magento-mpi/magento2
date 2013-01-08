@@ -10,7 +10,7 @@
  */
 
 /**
- * @magentoDbIsolation enabled
+ * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
  */
 class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCase
 {
@@ -35,19 +35,19 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
 
     public static function setUpBeforeClass()
     {
-        self::$_themePublicDir = Mage::app()->getConfig()->getOptions()->getMediaDir() . '/theme';
+        self::$_themePublicDir = Mage::getBaseDir(Mage_Core_Model_Dir::MEDIA) . '/theme';
         self::$_viewPublicMergedDir = self::$_themePublicDir . '/_merged';
     }
 
     protected function setUp()
     {
-        /** @var $themeUtility Mage_Core_Utility_Theme */
-        $themeUtility = Mage::getModel('Mage_Core_Utility_Theme', array(
-            dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'design',
-            Mage::getModel('Mage_Core_Model_Design_Package')
+        Magento_Test_Bootstrap::getInstance()->reinitialize(array(
+            Mage_Core_Model_App::INIT_OPTION_DIRS => array(
+                Mage_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design'
+            )
         ));
-        $themeUtility->registerThemes()->setDesignTheme('package/default', 'frontend');;
-        $this->_model = $themeUtility->getDesign();
+        $this->_model = new Mage_Core_Model_Design_Package;
+        $this->_model->setDesignTheme('package/default');
     }
 
     protected function tearDown()
@@ -77,7 +77,6 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
      * @magentoConfigFixture current_store dev/css/merge_css_files 1
      * @magentoConfigFixture current_store dev/js/merge_files 1
      * @magentoConfigFixture current_store dev/static/sign 0
-     * @magentoAppIsolation enabled
      */
     public function testMergeFiles($contentType, $files, $expectedFilename, $related = array())
     {
@@ -105,7 +104,6 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
      * @magentoConfigFixture current_store dev/css/merge_css_files 1
      * @magentoConfigFixture current_store dev/js/merge_files 1
      * @magentoConfigFixture current_store dev/static/sign 1
-     * @magentoAppIsolation enabled
      */
     public function testMergeFilesSigned($contentType, $files, $expectedFilename, $related = array())
     {
@@ -172,7 +170,6 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
 
     /**
      * @magentoConfigFixture current_store dev/js/merge_files 1
-     * @magentoAppIsolation enabled
      */
     public function testMergeFilesModification()
     {
@@ -192,7 +189,6 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
 
     /**
      * @magentoConfigFixture current_store dev/js/merge_files 1
-     * @magentoAppIsolation enabled
      */
     public function testCleanMergedJsCss()
     {

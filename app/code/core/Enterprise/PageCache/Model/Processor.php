@@ -184,12 +184,7 @@ class Enterprise_PageCache_Model_Processor
      */
     protected function _getScopeCode()
     {
-        $params = Mage::registry('application_params');
-        $scopeCode = '';
-        if(isset($params['scope_code'])) {
-            $scopeCode = $params['scope_code'];
-        }
-        return $scopeCode;
+        return Mage::app()->getInitParam(Mage_Core_Model_App::INIT_OPTION_SCOPE_CODE);
     }
 
     /**

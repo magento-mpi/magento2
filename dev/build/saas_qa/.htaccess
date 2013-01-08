@@ -142,11 +142,6 @@
     #RewriteRule ^(.*)$ /mobiledirectoryhere/ [L,R=302]
 
 ############################################
-## always send 404 on missing files in these folders
-
-    RewriteCond %{REQUEST_URI} !^/pub/(media|js)/
-
-############################################
 ## never rewrite for existing files, directories and links
 
     RewriteCond %{REQUEST_FILENAME} !-f
@@ -156,7 +151,7 @@
 ############################################
 ## rewrite everything else to index.php
 
-    RewriteRule .* index.php [L]
+    RewriteRule .* index.build.php [L]
 
 </IfModule>
 
