@@ -19,14 +19,18 @@
 class Php_Exemplar_CodeStyleTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Inspection_CodeSniffer_Command
+     * @var CodingStandard_Tool_CodeSniffer
      */
     protected static $_cmd = null;
 
     public static function setUpBeforeClass()
     {
         $reportFile = __DIR__ . '/../../../tmp/phpcs_report.xml';
-        self::$_cmd = new Inspection_CodeSniffer_Command(realpath(__DIR__ . '/../_files/phpcs'), $reportFile);
+        self::$_cmd = new CodingStandard_Tool_CodeSniffer(
+            realpath(__DIR__ . '/../_files/phpcs'),
+            $reportFile,
+            new CodingStandard_Tool_CodeSniffer_Wrapper()
+        );
     }
 
     protected function setUp()
