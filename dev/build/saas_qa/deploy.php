@@ -153,9 +153,11 @@ try {
     $entryPoint = $deployDir . '/index.build.php';
     $logger->log("Copying custom entry point to '{$entryPoint}'", Zend_Log::INFO);
     copy($workingDir . '/dev/build/saas_qa/index.build.php', $entryPoint);
-    $htaccess = $deployDir . '/.htaccess';
-    $logger->log("Copying custom .htaccess '{$htaccess}'", Zend_Log::INFO);
-    copy($workingDir . '/dev/build/saas_qa/.htaccess', $htaccess);
+    $logger->log("Patching '{$htaccessFile}' to point to the custom entry point '{$entryPoint}'", Zend_Log::INFO);
+    $htaccessFile = $deployDir . '/.htaccess';
+    $htaccessContents = file_get_contents($htaccessFile);
+    $htaccessContents = str_replace('index.php', 'index.build.php', $htaccessContents);
+    file_put_contents($htaccessFile, $htaccessContents, LOCK_EX);
 
     // open entry points
     $logger->log('Opening access to entry points...', Zend_Log::INFO);
