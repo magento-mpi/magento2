@@ -19,7 +19,7 @@ advanced_search:
             fieldsets:
                 -
                     advanced_search_information:
-                        xpath: //form[@id='form-validate']/div[@class='fieldset advanced-search']
+                        xpath: //form[@id='form-validate']
                         fields:
                             name: //input[@id='name']
                             description: //input[@id='description']
@@ -30,7 +30,7 @@ advanced_search:
                         multiselects:
                             tax_class: //select[@id='tax_class_id']
         buttons:
-            search: //div[@class='buttons-set']/button[span='Search']
+            search: //div[contains(@class, 'buttons-set')]/button[span='Search']
         messages: &AdvancedSearchMessages
             error_message: //li[normalize-space(@class)='error-msg' and contains(.,'Please specify at least one search term.')]
             error_message_wrong_entered_data: //p[normalize-space(@class)='error-msg' and contains(.,'No items were found using the following search criteria.')]

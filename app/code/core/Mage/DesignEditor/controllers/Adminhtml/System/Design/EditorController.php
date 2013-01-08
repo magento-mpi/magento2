@@ -80,6 +80,9 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
      */
     public function loadThemeListAction()
     {
+        /** @var $coreHelper Mage_Core_Helper_Data */
+        $coreHelper = $this->_objectManager->get('Mage_Core_Helper_Data');
+
         $page = $this->getRequest()->getParam('page', 1);
         $pageSize = $this->getRequest()
             ->getParam('page_size', Mage_Core_Model_Resource_Theme_Collection::DEFAULT_PAGE_SIZE);
@@ -92,12 +95,12 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
             $collection = $service->getThemes($page, $pageSize);
             $this->getLayout()->getBlock('available.theme.list')->setCollection($collection)->setNextPage(++$page);
-            $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(
+            $this->getResponse()->setBody($coreHelper->jsonEncode(
                 array('content' => $this->getLayout()->getOutput())
             ));
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
-            $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(
+            $this->getResponse()->setBody($coreHelper->jsonEncode(
                 array('error' => $this->_helper->__('Theme list can not be loaded')))
             );
         }
@@ -117,15 +120,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $theme->load($themeId);
             if (!$theme->getId()) {
                 throw new InvalidArgumentException($this->__('The theme was not found.'));
-            }
-
-            if (!$theme->isVirtual()) {
-                $themeCustomization = $this->_getThemeCustomization($theme);
-                $this->_redirect('*/*/*/', array(
-                    'theme_id' => $themeCustomization->getId(),
-                    'mode'     => $mode
-                ));
-                return;
             }
 
             $this->_getSession()->setData('theme_id', $theme->getId());
@@ -223,7 +217,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
      */
     public function assignThemeToStoreAction()
     {
-        $themeId = (int)$this->getRequest()->getParam('theme_id');
+        $themeId = (int)$this->_getSession()->getData('theme_id');
         $stores = $this->getRequest()->getParam('stores');
 
         /** @var $coreHelper Mage_Core_Helper_Data */
@@ -250,55 +244,13 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
 
             /** @var $themeService Mage_Core_Model_Theme_Service */
             $themeService = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
-            /** @var $themeCustomization Mage_Core_Model_Theme */
-            $themeCustomization = $themeService->assignThemeToStores($themeId, $stores);
+            $themeService->assignThemeToStores($themeId, $stores);
             $message = $coreHelper->__('Theme successfully assigned');
-            $response = array(
-                'success' => $message,
-                'themeId' => $themeCustomization->getId()
-            );
-        } catch (Exception $e) {
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
-            $response = array('error' => $this->_helper->__('Theme is not assigned'));
-        }
-        $this->getResponse()->setBody($coreHelper->jsonEncode($response));
-    }
-
-    /**
-     * Rename title action
-     */
-    public function quickEditAction()
-    {
-        $themeId = (int)$this->getRequest()->getParam('theme_id');
-        $themeTitle = (string)$this->getRequest()->getParam('theme_title');
-
-        /** @var $coreHelper Mage_Core_Helper_Data */
-        $coreHelper = $this->_objectManager->get('Mage_Core_Helper_Data');
-
-        try {
-            /** @var $theme Mage_Core_Model_Theme */
-            $theme = $this->_objectManager->get('Mage_Core_Model_Theme');
-            if (!($themeId && $theme->load($themeId)->getId())) {
-                throw new Mage_Core_Exception($this->__('The theme was not found.'));
-            }
-            if (!$theme->isVirtual()) {
-                throw new Mage_Core_Exception($this->__('This theme is not editable.'));
-            }
-            if (!$theme->isVirtual()) {
-                throw new Mage_Core_Exception('Only virtual theme is possible to edit.');
-            }
-            $theme->setThemeTitle($themeTitle);
-            $theme->save();
-            $this->getResponse()->setBody($coreHelper->jsonEncode(array('success' => true)));
-        } catch (Mage_Core_Exception $e) {
-            $this->getResponse()->setBody($coreHelper->jsonEncode(array(
-                'error' => true,
-                'message' => $e->getMessage()
-            )));
+            $this->getResponse()->setBody($coreHelper->jsonEncode(array('success' => $message)));
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
             $this->getResponse()->setBody($coreHelper->jsonEncode(
-                array('error' => true, 'message' => $this->__('Theme is not saved')))
+                array('error' => $this->_helper->__('Theme is not assigned')))
             );
         }
     }
@@ -357,18 +309,5 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
                 array(Mage_Core_Model_Message::ERROR => array($e->getMessage()))
             ));
         }
-    }
-
-    /**
-     * Get theme customization
-     *
-     * @param Mage_Core_Model_Theme $theme
-     * @return Mage_Core_Model_Theme
-     */
-    protected function _getThemeCustomization($theme)
-    {
-        /** @var $service Mage_Core_Model_Theme_Service */
-        $service = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
-        return $service->createThemeCustomization($theme);
     }
 }

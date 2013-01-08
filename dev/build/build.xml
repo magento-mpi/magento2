@@ -29,7 +29,6 @@
                 <isset property="dir.build_directory"/>
             </not>
         </condition>
-        <property name="dir.extruder" location="${dir.build_directory}/${extruder.dir}"/>
     </target>
 
     <!-- setup permissions for the application installation -->
@@ -45,11 +44,10 @@
     <!-- delete files, that don't belong to Community Edition, from working copy -->
     <target name="prepare-ce" depends="prepare-build-properties">
         <exec executable="php" failonerror="true">
-            <arg line="-f ${dir.extruder}/extruder.php --
-                -w ${dir.build_directory}
-                -l ${dir.extruder}/publication/extruder/common.txt
-                -l ${dir.extruder}/publication/extruder/ce.txt
-                -v
+            <arg line="-f ${dir.build_directory}/dev/build/publication/edition.php --
+                --dir=${dir.build_directory}
+                --edition=ce
+                --build
                 "/>
         </exec>
     </target>

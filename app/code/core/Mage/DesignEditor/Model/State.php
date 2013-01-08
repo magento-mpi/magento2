@@ -16,7 +16,7 @@ class Mage_DesignEditor_Model_State
     /**#@+
      * Name of layout classes that will be used as main layout
      */
-    const LAYOUT_DESIGN_CLASS_NAME = 'Mage_DesignEditor_Model_Layout';
+    const LAYOUT_DESIGN_CLASS_NAME     = 'Mage_DesignEditor_Model_Layout';
     const LAYOUT_NAVIGATION_CLASS_NAME = 'Mage_Core_Model_Layout';
     /**#@-*/
 
@@ -25,6 +25,13 @@ class Mage_DesignEditor_Model_State
      */
     const URL_MODEL_NAVIGATION_MODE_CLASS_NAME = 'Mage_DesignEditor_Model_Url_NavigationMode';
     const URL_MODEL_DESIGN_MODE_CLASS_NAME     = 'Mage_DesignEditor_Model_Url_DesignMode';
+    /**#@-*/
+
+    /**#@+
+     * Layout update resource models
+     */
+    const LAYOUT_UPDATE_RESOURCE_MODEL_CORE_CLASS_NAME = 'Mage_Core_Model_Resource_Layout_Update';
+    const LAYOUT_UPDATE_RESOURCE_MODEL_VDE_CLASS_NAME  = 'Mage_DesignEditor_Model_Resource_Layout_Update';
     /**#@-*/
 
     /**#@+
@@ -62,26 +69,57 @@ class Mage_DesignEditor_Model_State
     protected $_dataHelper;
 
     /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
+     * @var Mage_Core_Model_Design_Package
+     */
+    protected $_designPackage;
+
+    /**
+     * @var Mage_Core_Model_App
+     */
+    protected $_application;
+
+    /**
      * @param Mage_Backend_Model_Session $backendSession
      * @param Mage_Core_Model_Layout_Factory $layoutFactory
      * @param Mage_DesignEditor_Model_Url_Factory $urlModelFactory
      * @param Mage_Core_Model_Cache $cacheManager
      * @param Mage_DesignEditor_Helper_Data $dataHelper
+     * @param Magento_ObjectManager $objectManager
+     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_App $application
      */
     public function __construct(
         Mage_Backend_Model_Session $backendSession,
         Mage_Core_Model_Layout_Factory $layoutFactory,
         Mage_DesignEditor_Model_Url_Factory $urlModelFactory,
         Mage_Core_Model_Cache $cacheManager,
-        Mage_DesignEditor_Helper_Data $dataHelper
+        Mage_DesignEditor_Helper_Data $dataHelper,
+        Magento_ObjectManager $objectManager,
+        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_App $application
     ) {
         $this->_backendSession  = $backendSession;
         $this->_layoutFactory   = $layoutFactory;
         $this->_urlModelFactory = $urlModelFactory;
         $this->_cacheManager    = $cacheManager;
         $this->_dataHelper      = $dataHelper;
+        $this->_objectManager   = $objectManager;
+        $this->_designPackage   = $designPackage;
+        $this->_application     = $application;
     }
 
+    /**
+     * Update system data for current VDE environment
+     *
+     * @param string $areaCode
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param Mage_Core_Controller_Varien_ActionAbstract $controller
+     */
     public function update(
         $areaCode,
         Mage_Core_Controller_Request_Http $request,
@@ -102,6 +140,8 @@ class Mage_DesignEditor_Model_State
         $this->_backendSession->setData('vde_current_mode', $mode);
         $this->_injectUrlModel($mode);
         $this->_injectLayout($mode, $areaCode);
+        $this->_injectLayoutUpdateResourceModel();
+        $this->_setTheme();
         $this->_disableCache();
     }
 
@@ -141,13 +181,36 @@ class Mage_DesignEditor_Model_State
     }
 
     /**
+     * Replace layout update resource model with custom vde one
+     */
+    protected function _injectLayoutUpdateResourceModel()
+    {
+        $this->_objectManager->addAlias(self::LAYOUT_UPDATE_RESOURCE_MODEL_CORE_CLASS_NAME,
+            self::LAYOUT_UPDATE_RESOURCE_MODEL_VDE_CLASS_NAME
+        );
+    }
+
+    /**
+     * Set current VDE theme
+     */
+    protected function _setTheme()
+    {
+        $themeId = $this->_backendSession->getData('theme_id');
+        if ($themeId !== null) {
+            $path = $this->_designPackage->getConfigPathByArea(Mage_Core_Model_App_Area::AREA_FRONTEND);
+            $this->_application->getStore()->setConfig($path, $themeId);
+        }
+    }
+
+    /**
      * Disable some cache types in VDE mode
      */
     protected function _disableCache()
     {
         foreach ($this->_dataHelper->getDisabledCacheTypes() as $cacheCode) {
-            $this->_cacheManager->banUse($cacheCode);
-            $this->_cacheManager->cleanType($cacheCode);
+            if ($this->_cacheManager->canUse($cacheCode)) {
+                $this->_cacheManager->invalidateType($cacheCode);
+            }
         }
     }
 }

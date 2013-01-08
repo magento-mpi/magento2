@@ -11,7 +11,6 @@
 
 /**
  * @magentoDbIsolation enabled
- * @group module::Mage_Layout_Merge
  */
 class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
 {
