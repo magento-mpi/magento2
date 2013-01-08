@@ -106,14 +106,13 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
      * <p>Create Admin User with one empty required field.</p>
      *
      * @param string $emptyField
-     * @param string $messageCount
      *
      * @test
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends withRequiredFieldsOnly
      * @TestlinkId TL-MAGE-3143
      */
-    public function withRequiredFieldsEmpty($emptyField, $messageCount)
+    public function withRequiredFieldsEmpty($emptyField)
     {
         $userData = $this->loadDataSet('AdminUsers', 'generic_admin_user', array($emptyField => '%noValue%'));
         //Steps
@@ -122,18 +121,18 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
         $xpath = $this->_getControlXpath('field', $emptyField);
         $this->addParameter('fieldXpath', $xpath);
         $this->assertMessagePresent('error', 'empty_required_field');
-        $this->assertTrue($this->verifyMessagesCount($messageCount), $this->getParsedMessages());
+        $this->assertEquals( 1 , $this->count($this->assertMessagePresent('error', 'empty_required_field')));
     }
 
     public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
-            array('user_name', 1),
-            array('first_name', 1),
-            array('last_name', 1),
-            array('email', 1),
-            array('password', 2),
-            array('password_confirmation', 1)
+            array('user_name'),
+            array('first_name'),
+            array('last_name'),
+            array('email'),
+            array('password'),
+            array('password_confirmation')
         );
     }
 
@@ -218,7 +217,7 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
         $this->assertMessagePresent('error', $errorMessage);
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->assertEquals(1, count($this->getParsedMessages('required')));
     }
 
     public function withInvalidPasswordDataProvider()
