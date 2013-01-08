@@ -67,9 +67,22 @@ foreach ($fieldsets as $fieldset => $fields) : ?>
     <?php foreach ($fields as $field => $data) : ?>
         <?php if ($this->useRegionUpdater($data)) : ?>
             <script type="text/javascript">
-                //<![CDATA[
-                    new RegionUpdater('<?php echo $field ?>', '<?php echo $field ?>_region_text', '<?php echo $field ?>_region', regionJSON);
-                 //]]>
+                (function($) {
+                    head.js("<?php echo $this->getViewFileUrl('Mage_Checkout::js/region-updater.js') ?>",
+                        function() {
+                            $('#<?php echo $field ?>').regionUpdater({
+                                regionListId: '#<?php echo $field ?>_region',
+                                regionInputId: '#<?php echo $field ?>_region_text',
+                                clearError: function() {
+                                    var selectorArr = ['<?php echo $field ?>', '<?php echo $field ?>_region', '<?php echo $field ?>_region_text'];
+                                    for (var i = 0; i < selectorArr.length; i++) {
+                                        $('#' + selectorArr[i]).removeClass('validation-failed').next("div.validation-advice").remove();
+                                    }
+                                },
+                                regionJson: regionJSON
+                            });
+                        });
+                })(jQuery);
             </script>
         <?php endif; ?>
     <?php endforeach; ?>
