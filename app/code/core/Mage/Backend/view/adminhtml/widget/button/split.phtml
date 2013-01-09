@@ -22,7 +22,7 @@ $_helper = $this->helper('Mage_Core_Helper_Data');
     <div class="button btn-toggle" data-toggle="dropdown" <?php echo $this->getUiId("dropdown"); ?>><span>Select</span></div>
     <ul class="dropdown-menu" <?php echo $this->getUiId("dropdown-menu"); ?>>
         <?php foreach ($this->getOptions() as $key => $option): ?>
-        <li<?php echo empty($option['button_class']) ? '' : ' class="' . $option['button_class'] . '"'?>>
+        <li>
             <span class="item<?php if (!empty($option['default'])):?> item-default<?php endif; ?>"<?php echo isset($option['onclick']) ? 'onclick="' . $option['onclick'] . '"' : ''?><?php echo $this->getUiId("item", $key)?><?php echo isset($option['data_attr']) ? ' data-widget-button="' . $_helper->escapeHtml($_helper->jsonEncode($option['data_attr'])) . '"' : ''?>">
                 <?php echo $option['label']?>
             </span>
