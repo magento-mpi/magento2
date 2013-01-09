@@ -234,8 +234,9 @@ class Wizard
     {
         $this->_codeBase->setLock();
         $deployDir = $this->_codeBase->getDeployDir();
-        $tenantVarDir = $this->_codeBase->recreateDir($tenant->getVarDirName());
-        $tenantMediaDir = $this->_codeBase->recreateDir($tenant->getMediaDirName());
+        $varDir = $this->_codeBase->recreateDir($tenant->getVarDirName());
+        $mediaUri = $this->_getMediaUri($tenant);
+        $mediaDir = $this->_codeBase->recreateDir($mediaUri);
         $this->_recreateDb($tenant);
 
         // run install.php and obtain generated base configuration
@@ -262,12 +263,8 @@ class Wizard
             'secure_base_url'            => $tenant->getUrl(),
             'session_save'               => 'db',
             'cleanup_database'           => true,
-            'install_option_uris'        => base64_encode(serialize(array(
-                'media' => "pub/{$tenant->getMediaDirName()}"
-            ))),
-            'install_option_dirs'        => base64_encode(serialize(array(
-                'var' => $tenantVarDir, 'media' => $tenantMediaDir
-            ))),
+            'install_option_uris'        => base64_encode(serialize(array('media' => $mediaUri))),
+            'install_option_dirs'        => base64_encode(serialize(array('var' => $varDir, 'media' => $mediaDir))),
         );
         $command = 'php -f %s --';
         $arguments = array("{$deployDir}/dev/shell/install.php");
@@ -285,6 +282,11 @@ class Wizard
         $this->_codeBase->setLock(false);
     }
 
+    private function _getMediaUri(Tenant $tenant)
+    {
+        return "pub/{$tenant->getMediaDirName()}";
+    }
+
     /**
      * Perform upgrade for specified tenant
      *
@@ -295,14 +297,15 @@ class Wizard
         $this->_codeBase->setLock();
         $this->_codeBase->recreateDir($tenant->getVarDirName());
         $localXml = "{$this->_metaDir}/{$tenant->getLocalXmlFilename()}";
+        $mediaUri = $this->_getMediaUri($tenant);
         $this->_shell->execute(
             'php -f %s -- --local-xml=%s --init-uris=%s --init-dirs=%s', array(
                 "{$this->_codeBase->getDeployDir()}/dev/build/saas_qa/upgrade.php",
                 $localXml,
-                base64_encode(serialize(array('media' => "pub/{$tenant->getMediaDirName()}"))),
+                base64_encode(serialize(array('media' => $mediaUri))),
                 base64_encode(serialize(array(
                     'var' => "{$this->_codeBase->getDeployDir()}/{$tenant->getVarDirName()}",
-                    'media' => "{$this->_codeBase->getDeployDir()}/pub/{$tenant->getMediaDirName()}",
+                    'media' => "{$this->_codeBase->getDeployDir()}/{$mediaUri}",
                 )))
             )
         );
