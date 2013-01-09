@@ -251,7 +251,7 @@ class Mage_Captcha_Model_Observer
     {
         foreach (Mage::app()->getWebsites(true) as $website) {
             $expire = time() - Mage::helper('Mage_Captcha_Helper_Data')
-                ->getConfigNode('timeout', $website->getDefaultStore())*60;
+                ->getConfigNode('timeout', $website->getDefaultStore()) * 60;
             $imageDirectory = Mage::helper('Mage_Captcha_Helper_Data')->getImgDir($website);
             foreach ($this->_filesystem->getNestedKeys($imageDirectory) as $filePath) {
                 if ($this->_filesystem->isFile($filePath)

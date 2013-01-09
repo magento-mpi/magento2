@@ -752,6 +752,7 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPathFromArray(array $parts, $expected, $isAbsolute)
     {
+        $expected = Magento_Filesystem::fixSeparator($expected);
         $this->assertEquals($expected, Magento_Filesystem::getPathFromArray($parts, $isAbsolute));
     }
 
@@ -765,6 +766,7 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
             array(array('etc', 'mysql', 'my.cnf'), 'etc/mysql/my.cnf', false),
             array(array('C:', 'Windows', 'my.cnf'), 'C:/Windows/my.cnf', false),
             array(array('C:', 'Windows', 'my.cnf'), 'C:/Windows/my.cnf', true),
+            array(array('C:', 'Windows', 'my.cnf'), 'C:\\Windows/my.cnf', true),
         );
     }
 

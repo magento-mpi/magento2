@@ -265,10 +265,15 @@ class Magento_Filesystem_Adapter_Local implements
      *
      * @param string $key
      * @return int
+     * @throws Magento_Filesystem_Exception
      */
     public function getMTime($key)
     {
-        return filemtime($key);
+        $mtime = filemtime($key);
+        if (false === $mtime) {
+            throw new Magento_Filesystem_Exception(sprintf('Failed to get modification time %s', $key));
+        }
+        return $mtime;
     }
 
     /**
