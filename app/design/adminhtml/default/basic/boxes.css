@@ -265,9 +265,11 @@ ul.tabs .ui-state-active a span,
 ul.tabs .ui-state-active a:hover span { background:#fff; font-weight:bold; }
 ul.tabs a.subitem               { padding-left:2.2em; }
 ul.tabs span.changed,
-ul.tabs span.error              { float:right; background:0; padding:0; }
+ul.tabs span.error,
+ul.tabs span.loading            { float:right; background:0; padding:0; }
 ul.tabs a.changed span.changed  { background:url(images/fam_bullet_disk.gif) 0 0 no-repeat !important; width:16px; height:16px; }
 ul.tabs a.error span.error      { background:url(Mage_Adminhtml::images/fam_bullet_error.gif) 0 0 no-repeat !important; width:16px; height:16px; }
+ul.tabs a.ui-tabs-loading span.loading { background:url(images/loader-small.gif) 0 0 no-repeat !important; width:16px; height:16px; }
 ul.tabs a.changed               { font-style:italic; }
 
 /* Horizontal Tabs */
