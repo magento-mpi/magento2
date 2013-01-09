@@ -169,8 +169,8 @@ class Mage_Api_Model_Server_Adapter_Soap extends Varien_Object
             : $urlModel->getUrl('*/*/*');
 
         if ($withAuth) {
-            $phpAuthUser = $this->getController()->getRequest()->getServer('PHP_AUTH_USER', false);
-            $phpAuthPw = $this->getController()->getRequest()->getServer('PHP_AUTH_PW', false);
+            $phpAuthUser = urlencode($this->getController()->getRequest()->getServer('PHP_AUTH_USER', false));
+            $phpAuthPw = urlencode($this->getController()->getRequest()->getServer('PHP_AUTH_PW', false));
 
             if ($phpAuthUser && $phpAuthPw) {
                 $wsdlUrl = sprintf("http://%s:%s@%s", $phpAuthUser, $phpAuthPw, str_replace('http://', '', $wsdlUrl));
