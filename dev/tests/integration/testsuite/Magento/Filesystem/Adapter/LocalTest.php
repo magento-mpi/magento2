@@ -306,4 +306,13 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
         $this->assertFileExists($filePath);
         $this->assertGreaterThan(0, $this->_adapter->getMTime($filePath));
     }
+
+    public function testGetFileSize()
+    {
+        $filePath = $this->_getFixturesPath() . 'filesize.txt';
+        $this->_deleteFiles[] = $filePath;
+        $this->_adapter->write($filePath, '1234');
+        $this->assertFileExists($filePath);
+        $this->assertEquals(4, $this->_adapter->getFileSize($filePath));
+    }
 }

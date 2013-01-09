@@ -327,29 +327,6 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
         $filesystem->createStream('/tmp/test.txt');
     }
 
-    public function testGetFileMd5()
-    {
-        $fileName = '/tmp/file1';
-        /** @var Magento_Filesystem_Adapter_Local|PHPUnit_Framework_MockObject_MockObject $adapterMock */
-        $adapterMock = $this->getMockBuilder('Magento_Filesystem_Adapter_Local')
-            ->getMock();
-        $adapterMock->expects($this->once())
-            ->method('getFileMd5')
-            ->with($fileName)
-            ->will($this->returnValue('e5f30e10b8965645d5f8ed5999d88600'));
-        $adapterMock->expects($this->once())
-            ->method('isDirectory')
-            ->with('/tmp')
-            ->will($this->returnValue(true));
-        $adapterMock->expects($this->once())
-            ->method('isFile')
-            ->with($fileName)
-            ->will($this->returnValue(true));
-        $filesystem = new Magento_Filesystem($adapterMock);
-        $filesystem->setWorkingDirectory('/tmp');
-        $filesystem->getFileMd5($fileName);
-    }
-
     /**
      * @dataProvider modeDataProvider
      * @param string|Magento_Filesystem_Stream_Mode $mode
@@ -494,15 +471,17 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
                 'read #2' => array('read', 'read', array('/tmp')),
                 'createDirectory' => array('createDirectory', 'createDirectory', array(0777)),
                 'createDirectory #2' => array('createDirectory', 'createDirectory', array(0777, '/tmp')),
-                'getFileMd5' => array('getFileMd5', 'getFileMd5', array('/var/data.txt')),
+                'getFileMd5' => array('getFileMd5', 'getFileMd5'),
+                'getFileSize' => array('getFileSize', 'getFileSize')
             );
     }
 
     /**
-     * @dataProvider workingDirDataProvider
-     * @param string|null $workingDirectory
+     * @dataProvider adapterMethodsWithFileCheckDataProvider
+     * @param string $method
+     * @param string $adapterMethod
      */
-    public function testGetMTime($workingDirectory)
+    public function testAdapterMethodsWithFileChecks($method, $adapterMethod)
     {
         $validPath = '/tmp/path/file.txt';
         $adapterMock = $this->_getDefaultAdapterMock();
@@ -511,34 +490,26 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
             ->with($validPath)
             ->will($this->returnValue(true));
         $adapterMock->expects($this->once())
-            ->method('getMTime')
+            ->method($adapterMethod)
             ->with($validPath)
             ->will($this->returnValue(1));
 
         $filesystem = new Magento_Filesystem($adapterMock);
         $filesystem->setWorkingDirectory('/tmp');
-        $this->assertEquals(1, $filesystem->getMTime($validPath, $workingDirectory));
+        $this->assertEquals(1, $filesystem->$method($validPath));
     }
 
     /**
-     * @dataProvider workingDirDataProvider
-     * @param string|null $workingDirectory
+     * @return array
      */
-    public function testRead($workingDirectory)
+    public function adapterMethodsWithFileCheckDataProvider()
     {
-        $validPath = '/tmp/path/file.txt';
-        $adapterMock = $this->_getDefaultAdapterMock();
-        $adapterMock->expects($this->once())
-            ->method('isFile')
-            ->with($validPath)
-            ->will($this->returnValue(true));
-        $adapterMock->expects($this->once())
-            ->method('read')
-            ->with($validPath);
-
-        $filesystem = new Magento_Filesystem($adapterMock);
-        $filesystem->setWorkingDirectory('/tmp');
-        $filesystem->read($validPath, $workingDirectory);
+        return array(
+            'read' => array('read', 'read'),
+            'getMTime' => array('getMTime', 'getMTime'),
+            'getFileMd5' => array('getFileMd5', 'getFileMd5'),
+            'getFileSize' => array('getFileSize', 'getFileSize')
+        );
     }
 
     /**
