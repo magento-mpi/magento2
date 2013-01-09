@@ -355,7 +355,9 @@ class Magento_Filesystem
      */
     public function getFileMd5($key, $workingDirectory = null)
     {
-        return $this->_adapter->getFileMd5($this->_getCheckedPath($key, $workingDirectory));
+        $key = $this->_getCheckedPath($key, $workingDirectory);
+        $this->_checkFileExists($key);
+        return $this->_adapter->getFileMd5($key);
     }
 
     /**

@@ -341,6 +341,10 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
             ->method('isDirectory')
             ->with('/tmp')
             ->will($this->returnValue(true));
+        $adapterMock->expects($this->once())
+            ->method('isFile')
+            ->with($fileName)
+            ->will($this->returnValue(true));
         $filesystem = new Magento_Filesystem($adapterMock);
         $filesystem->setWorkingDirectory('/tmp');
         $filesystem->getFileMd5($fileName);
@@ -490,6 +494,7 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
                 'read #2' => array('read', 'read', array('/tmp')),
                 'createDirectory' => array('createDirectory', 'createDirectory', array(0777)),
                 'createDirectory #2' => array('createDirectory', 'createDirectory', array(0777, '/tmp')),
+                'getFileMd5' => array('getFileMd5', 'getFileMd5', array('/var/data.txt')),
             );
     }
 
