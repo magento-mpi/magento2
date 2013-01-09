@@ -92,7 +92,7 @@ class Inspection_JsHint_CommandTest extends PHPUnit_Framework_TestCase
         $this->_cmd->expects($this->any())->method('_getHostScript')->will($this->returnValue('cscript'));
         $this->_cmd->expects($this->any())->method('_getJsHintPath')->will($this->returnValue('jshint-path'));
         $this->_cmd->expects($this->any())->method('getFileName')->will($this->returnValue('mage.js'));
-        $this->_cmd->expects($this->once())->method('_execShellCmd')->with('cscript jshint-path mage.js ');
+        $this->_cmd->expects($this->once())->method('_execShellCmd')->with('cscript "jshint-path" "mage.js" ');
         $this->_cmd->run(array());
     }
 }
