@@ -108,7 +108,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
         $product = $this->getForm()->getDataObject();
         $gallery = $product->getMediaGalleryImages();
         $html = '<input id="' . $htmlId .'-upload" type="file" name="image" '
-            . 'data-url="' . $uploadUrl . '" style="display: none;" />'
+            . 'data-url="' . $uploadUrl . '" style="display:none" />'
             . '<input id="' . $htmlId . '" type="hidden" name="'. $this->getName() .'" />'
             . '<div id="' . $htmlId  . '-container" data-main="'
             .  $this->getEscapedValue()
@@ -124,7 +124,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
                     <span class="close">&times;</span>
                     <img class="base-image-uploader" src="${url}" data-position="${position}" alt="${label}" />
                     <div class="drag-zone">
-                        <button class="make-main" type="button">' . $this->_helperData->__('Set main'). '</button>
+                        <button class="make-main" type="button">' . $this->_helperData->__('Make Main') . '</button>
                     </span>
                </span>'
             . '</script>'

@@ -23,8 +23,8 @@ function BaseImageUploader(id, maxFileSize) {
         $container.on('add', function(event, data) {
             if (currentImageCount < maximumImageCount) {
                 var $element = $template.tmpl(data);
-                $element.insertBefore($dropPlaceholder);
-                $element.data('image', data);
+                $element.insertBefore($dropPlaceholder)
+                    .data('image', data);
                 if (isInitialized && !currentImageCount) {
                     $.each('image,small_image,thumbnail'.split(','), function () {
                         if ($('input[name="product[' + this + ']"][value=no_selection]').is(':checked')) {
@@ -43,10 +43,11 @@ function BaseImageUploader(id, maxFileSize) {
             if (currentImageCount >= maximumImageCount) {
                 $dropPlaceholder.hide();
             }
+            $('input[name="product[name]"]').focus().blur(); // prevent just inserted image selection
         });
 
         $container.on('click', '.container', function (event) {
-            $(this).toggleClass('hover');
+            $(this).toggleClass('active').siblings().removeClass('active');
         });
         $container.on('click', '.make-main', function (event) {
             var $imageContainer = $(this).closest('.container'),
@@ -122,5 +123,9 @@ function BaseImageUploader(id, maxFileSize) {
             $container.trigger('add', this);
         });
         isInitialized = true;
+
+        if ($('label[for=image]').text() == 'Base Image') {
+            $('label[for=image]').text('Images');
+        }
     })(jQuery);
 }
