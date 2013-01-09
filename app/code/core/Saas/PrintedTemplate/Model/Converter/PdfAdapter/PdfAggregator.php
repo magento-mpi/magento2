@@ -25,6 +25,7 @@ class Saas_PrintedTemplate_Model_Converter_PdfAdapter_PdfAggregator
      *
      * @param array $pdfDocuments
      * @return string
+     * @throws Exception On incorrect argument
      */
     public function render(array $pdfDocuments)
     {

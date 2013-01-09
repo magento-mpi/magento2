@@ -38,42 +38,42 @@ class Saas_PrintedTemplate_Model_Converter_PdfAdapter_Wkhtmltopdf
      *
      * @var Saas_PrintedTemplate_Model_PageSize|null
      */
-    protected $_pageSize;
+    private $_pageSize;
 
     /**
      * Page ortientation
      *
      * @var string PAGE_ORIENTATION_PORTRAIT|PAGE_ORIENTATION_PORTRAIT|null
      */
-    protected $_pageOrientation;
+    private $_pageOrientation;
 
     /**
      * Header html
      *
      * @var string
      */
-    protected $_headerHtml = '';
+    private $_headerHtml = '';
 
     /**
      * Header height
      *
      * @var Zend_Measure_Length
      */
-    protected $_headerHeight;
+    private $_headerHeight;
 
     /**
      * Footer html
      *
      * @var string
      */
-    protected $_footerHtml = '';
+    private $_footerHtml = '';
 
     /**
      * Footer height
      *
      * @var Zend_Measure_Length
      */
-    protected $_footerHeight;
+    private $_footerHeight;
 
     /**
      * Set header settings
@@ -114,8 +114,8 @@ class Saas_PrintedTemplate_Model_Converter_PdfAdapter_Wkhtmltopdf
      */
     public function renderHtml($bodyHtml, Saas_PrintedTemplate_Model_PageSize $pageSize = null, $pageOrientation = null)
     {
-        $this->setPageSize($pageSize);
-        $this->setPageOrientation($pageOrientation);
+        $this->_setPageSize($pageSize);
+        $this->_setPageOrientation($pageOrientation);
 
         $headerFileName = '';
         $footerFileName = '';
@@ -267,9 +267,8 @@ HTML;
      *
      * @param Saas_PrintedTemplate_Model_PageSize $size
      * @return Saas_PrintedTemplate_Model_Converter_PdfAdapter_Wkhtmltopdf Self
-     * @see Saas_PrintedTemplate_Model_Converter_PdfAdapter_Interface::setPageSize()
      */
-    public function setPageSize(Saas_PrintedTemplate_Model_PageSize $size = null)
+    protected function _setPageSize(Saas_PrintedTemplate_Model_PageSize $size = null)
     {
         $this->_pageSize = $size;
 
@@ -282,9 +281,8 @@ HTML;
      * @param string $orientation
      * @throws InvalidArgumentException
      * @return Saas_PrintedTemplate_Model_Converter_PdfAdapter_Wkhtmltopdf Self
-     * @see Saas_PrintedTemplate_Model_Converter_PdfAdapter_Interface::setPageOrientation()
      */
-    public function setPageOrientation($orientation = null)
+    protected function _setPageOrientation($orientation = null)
     {
         $incorrect = $orientation !== null
             && $orientation != self::PAGE_ORIENTATION_LANDSCAPE
@@ -380,7 +378,7 @@ HTML;
      *
      * @return string
      */
-    protected function _preparePageSize()
+    private function _preparePageSize()
     {
         if (!$this->_pageSize || !$this->_pageSize->hasWidth() && !$this->_pageSize->hasHeight()) {
             return ' --page-size ' . self::DEFAULT_PAGE_SIZE;
@@ -410,7 +408,7 @@ HTML;
      *
      * @return string
      */
-    protected function _preparePageOrientation()
+    private function _preparePageOrientation()
     {
         $orientation = $this->_pageOrientation != self::PAGE_ORIENTATION_LANDSCAPE ? 'portrait' : 'landscape';
 
