@@ -15,8 +15,11 @@
 <iframe name="vde_container_frame" id="vde_container_frame" class="vde_container_frame" src="<?php echo $this->getFrameUrl(); ?>"></iframe>
 <script type="text/javascript">
 (function ($) {
-    $( document ).ready(function( ){
-        $('iframe.vde_container_frame').iframeAutoHeight({minHeight: 240});
+    $( window ).resize(function() {
+        var height = $( window ).innerHeight();
+        var offset = $( 'iframe.vde_container_frame' ).offset();
+        $( 'iframe.vde_container_frame' ).height(height - parseInt(offset.top) - 10);
     });
+    $( window ).ready($( window ).resize());
 })(jQuery);
 </script>
