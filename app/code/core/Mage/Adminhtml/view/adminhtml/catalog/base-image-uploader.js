@@ -56,7 +56,18 @@ function BaseImageUploader(id, maxFileSize) {
             $container.find('.container').removeClass(mainClass);
             $imageContainer.addClass(mainClass);
             mainImage = image.file;
-            _getGalleryRowByImage(image).find('input[name="product[image]"]').trigger('click');
+
+            var $galleryContainer = $('#media_gallery_content_grid'),
+                $currentImage = $galleryContainer.find('input[name="product[image]"]:checked'),
+                $currentSmallImage = $galleryContainer.find('input[name="product[small_image]"]:checked'),
+                $currentThumbnail = $galleryContainer.find('input[name="product[thumbnail]"]:checked'),
+                radiosToSwitch = 'input[name="product[image]"]';
+            if ($currentImage.attr('onclick') == $currentSmallImage.attr('onclick')
+                && $currentImage.attr('onclick') == $currentThumbnail.attr('onclick')
+            ) {
+                radiosToSwitch += ',input[name="product[small_image]"],input[name="product[thumbnail]"]';
+            }
+            _getGalleryRowByImage(image).find(radiosToSwitch).trigger('click');
         });
 
         $container.on('click', '.close', function (event) {
