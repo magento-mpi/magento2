@@ -79,7 +79,7 @@ foreach ($fieldsets as $fieldset => $fields) : ?>
                                         $('#' + selectorArr[i]).removeClass('validation-failed').next("div.validation-advice").remove();
                                     }
                                 },
-                                regionJson: regionJSON
+                                regionJson: <?php echo $this->helper('Mage_Directory_Helper_Data')->getRegionJson(); ?>
                             });
                         });
                 })(jQuery);
