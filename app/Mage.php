@@ -442,20 +442,6 @@ final class Mage
     }
 
     /**
-     * Initialize object manager with definitions file
-     *
-     * @static
-     * @param string $definitionsFile
-     * @param Magento_ObjectManager $objectManager
-     */
-    public static function initializeObjectManager(
-        $definitionsFile = null,
-        Magento_ObjectManager $objectManager = null
-    ) {
-        self::$_objectManager = $objectManager ?: new Magento_ObjectManager_Zend($definitionsFile);
-    }
-
-    /**
      * Retrieve object manager
      *
      * @static
@@ -463,9 +449,6 @@ final class Mage
      */
     public static function getObjectManager()
     {
-        if (!self::$_objectManager) {
-            self::initializeObjectManager();
-        }
         return self::$_objectManager;
     }
 

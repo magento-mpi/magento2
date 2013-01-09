@@ -34,7 +34,6 @@ class MageTest extends PHPUnit_Framework_TestCase
         $mock = $this->getMock('Magento_ObjectManager_Zend', array('get'), array(), '', false);
         /** @var $logger Mage_Core_Model_Logger|PHPUnit_Framework_MockObject_MockObject */
         $logger = $this->getMock('Mage_Core_Model_Logger', array('log', 'addStreamLog'), array(), '', false);
-        Mage::initializeObjectManager(null, $mock);
         try {
             $mock->expects($this->any())->method('get')->will($this->returnValue($logger));
             $logger->expects($this->once())->method('log')->with($message, $expectedLevel, $expectedKey);
@@ -42,9 +41,7 @@ class MageTest extends PHPUnit_Framework_TestCase
                 $logger->expects($this->once())->method('addStreamLog');
             }
             Mage::log($message, $level, $file, $forceLog);
-            Mage::initializeObjectManager(null, $objectManager);
         } catch (Exception $e) {
-            Mage::initializeObjectManager(null, $objectManager);
             throw $e;
         }
 
