@@ -85,12 +85,11 @@ class CodeBase
     public function updateDeployDir()
     {
         $this->_ensureRepository();
-        $this->_shell->execute('git --work-tree=%s --git-dir=%s reset --hard', array(
-            $this->_deployDir, $this->_deployDir . '/.git'
-        ));
-        $this->_shell->execute('git --work-tree=%s --git-dir=%s pull origin', array(
-            $this->_deployDir, $this->_deployDir . '/.git'
-        ));
+        $gitCmd = 'git --work-tree=%s --git-dir=%s';
+        $gitParams = array($this->_deployDir, $this->_deployDir . '/.git');
+        $this->_shell->execute("{$gitCmd} reset --hard", $gitParams);
+        $this->_shell->execute("{$gitCmd} fetch", $gitParams);
+        $this->_shell->execute("{$gitCmd} merge -X theirs remotes/origin/HEAD", $gitParams);
         $this->override();
     }
 
