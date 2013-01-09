@@ -310,9 +310,7 @@ class Mage_Core_Model_App
         /** @var $config Mage_Core_Model_Config */
         $config = $this->_objectManager->get('Mage_Core_Model_Config');
         $this->_config = $config;
-        $this->_initBaseConfig();
         $this->_initCache();
-        $this->_config->init();
         $this->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
         $this->_objectManager->loadAreaConfiguration();
         Magento_Profiler::stop('init_config');
@@ -345,7 +343,6 @@ class Mage_Core_Model_App
         /** @var $config Mage_Core_Model_Config */
         $config = $this->_objectManager->create('Mage_Core_Model_Config');
         $this->_config = $config;
-        $this->_initBaseConfig();
         $this->_initCache($this->getInitParam(Mage_Core_Model_Cache::APP_INIT_PARAM) ?: array());
 
         return $this;
@@ -501,20 +498,6 @@ class Mage_Core_Model_App
                 mkdir($path);
             }
         }
-    }
-
-    /**
-     * Initialize base system configuration (local.xml and config.xml files).
-     * Base configuration provide ability initialize DB connection and cache backend
-     *
-     * @return Mage_Core_Model_App
-     */
-    protected function _initBaseConfig()
-    {
-        Magento_Profiler::start('init_system_config');
-        $this->_config->loadBase();
-        Magento_Profiler::stop('init_system_config');
-        return $this;
     }
 
     /**
