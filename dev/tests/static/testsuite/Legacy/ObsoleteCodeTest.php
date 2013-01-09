@@ -225,7 +225,7 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
      */
     protected function _testGetChildSpecialCase($content, $file)
     {
-        if (0 === strpos(str_replace('\\', '/', $file), 'app')) {
+        if (0 === strpos($file, Utility_Files::init()->getPathToSource() . '/app/')) {
             $this->_assertNotRegexp('/[^a-z\d_]getChild\s*\(/iS', $content,
                 'Block method getChild() is obsolete. Replacement suggestion: Mage_Core_Block_Abstract::getChildBlock()'
             );
