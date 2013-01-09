@@ -7,6 +7,7 @@ dev/tests/static/testsuite/Php/_files/{whitelist,blacklist}/saas.txt
 dev/tests/unit/testsuite/Magento/Profiler/Driver/PinbaTest.php
 dev/tests/unit/testsuite/Magento/Profiler/_files/pinba_functions.php
 dev/tests/unit/testsuite/Saas
+dev/tests/js/testsuite/saas
 lib/Magento/Profiler/Driver/Pinba.php
 app/EntryPoint.php
 dev/tests/unit/testsuite/EntryPointTest.php
