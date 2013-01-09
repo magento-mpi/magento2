@@ -59,7 +59,9 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnCallback(array($this, 'getInstance')));
 
-        $config = new Mage_Core_Model_Config($objectManagerMock, <<<XML
+        $cacheInterfaceMock = $this->getMock('Mage_Core_Model_CacheInterface', array(), array(), '', false);
+
+        $config = new Mage_Core_Model_Config($objectManagerMock, $cacheInterfaceMock, <<<XML
             <config>
                 <global>
                     <cache>

@@ -38,7 +38,9 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
                 )
             ));
 
-        $this->_model = new Mage_Core_Model_Config($objectManagerMock, $data);
+        $cacheInterfaceMock = $this->getMock('Mage_Core_Model_CacheInterface', array(), array(), '', false);
+
+        $this->_model = new Mage_Core_Model_Config($objectManagerMock, $cacheInterfaceMock, $data);
     }
 
     /**

@@ -626,15 +626,15 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     protected function _getAdditionalElementTypes()
     {
         return array(
-            'export' => Mage::getConfig()
+            'export' => $this->_coreConfig
                 ->getBlockClassName('Mage_Backend_Block_System_Config_Form_Field_Export'),
-            'import' => Mage::getConfig()
+            'import' => $this->_coreConfig
                  ->getBlockClassName('Mage_Backend_Block_System_Config_Form_Field_Import'),
-            'allowspecific' => Mage::getConfig()
+            'allowspecific' => $this->_coreConfig
                 ->getBlockClassName('Mage_Backend_Block_System_Config_Form_Field_Select_Allowspecific'),
-            'image' => Mage::getConfig()
+            'image' => $this->_coreConfig
                 ->getBlockClassName('Mage_Backend_Block_System_Config_Form_Field_Image'),
-            'file' => Mage::getConfig()
+            'file' => $this->_coreConfig
                 ->getBlockClassName('Mage_Backend_Block_System_Config_Form_Field_File')
         );
     }
