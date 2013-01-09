@@ -19,45 +19,39 @@
 class Php_Exemplar_CodeStyleTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Inspection_CodeSniffer_Command
+     * @var CodingStandard_Tool_CodeSniffer
      */
     protected static $_cmd = null;
 
     public static function setUpBeforeClass()
     {
-        /*
         $reportFile = __DIR__ . '/../../../tmp/phpcs_report.xml';
-        FIXME: MAGETWO-6396
-        self::$_cmd = new Inspection_CodeSniffer_Command(realpath(__DIR__ . '/../_files/phpcs'), $reportFile);
-        */
+        self::$_cmd = new CodingStandard_Tool_CodeSniffer(
+            realpath(__DIR__ . '/../_files/phpcs'),
+            $reportFile,
+            new CodingStandard_Tool_CodeSniffer_Wrapper()
+        );
     }
 
     protected function setUp()
     {
-        /*
-        FIXME: MAGETWO-6396
         $reportFile = self::$_cmd->getReportFile();
         if (!is_dir(dirname($reportFile))) {
             mkdir(dirname($reportFile), 0777);
         }
-        */
     }
 
     protected function tearDown()
     {
-        /*
-        FIXME: MAGETWO-6396
         $reportFile = self::$_cmd->getReportFile();
         if (file_exists($reportFile)) {
             unlink($reportFile);
         }
         rmdir(dirname($reportFile));
-        */
     }
 
     public function testPhpCsAvailability()
     {
-        $this->markTestIncomplete('MAGETWO-6396');
         $this->assertTrue(self::$_cmd->canRun(), 'PHP Code Sniffer command is not available.');
     }
 
@@ -69,7 +63,6 @@ class Php_Exemplar_CodeStyleTest extends PHPUnit_Framework_TestCase
      */
     public function testRule($inputFile, $expectedResultFile)
     {
-        $this->markTestIncomplete('MAGETWO-6396');
         $expectedXml = simplexml_load_file($expectedResultFile);
 
         // rule is not implemented
