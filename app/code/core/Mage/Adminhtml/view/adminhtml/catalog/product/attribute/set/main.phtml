@@ -320,8 +320,9 @@
                     save : function() {
                         $('messages').update();
                         TreePanels.rebuildTrees();
-                        var _validator = new Validation('set-prop-form', {onSubmit:false});
-                        if( !_validator.validate() ) {
+                        var form = jQuery('#set-prop-form');
+                            form.validate({errorClass: 'mage-error'});
+                        if(!form.valid()) {
                             return;
                         }
                         editSet.req.attribute_set_name = $('attribute_set_name').value;

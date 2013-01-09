@@ -59,7 +59,7 @@ NOTE: Regarding styles - if we leave it this way, we'll move it to boxes.css
 ?>
     <?php echo $this->getSortedDateInputs() ?>
     <span class="dob-full" style="display:none;">
-        <input type="hidden" id="<?php echo $this->getFieldId('full')?>" name="<?php echo $this->getFieldName('dob')?>" />
+        <input type="hidden" id="<?php echo $this->getFieldId('full')?>" name="<?php echo $this->getFieldName('dob')?>" data-validate="{'validate-dob': ['.dob-day', '.dob-month', '.dob-year', <?php echo $this->isRequired() ? 'true' : 'false' ?>]}"/>
     </span>
 
     <div class="validation-advice" id="<?php echo $this->getFieldId('date-advice')?>" style="opacity:0.999999; display:none;"></div>
