@@ -2,7 +2,7 @@
 =============
 * Changed application initialization procedure
   * Application can be started with specific initial configuration data. `Mage_Core_Model_Config::loadBase()` merges this configuration with the highest priority
-  * Slightly changed responsibilities of `Mage`, `Mage_Core_Model_App`, `Mage_Core_Model_Config`, `Mage_Core_Model_App_Options` classes during initialization
+  * `Mage` class is no longer responsible for application installation status. `Mage_Core_Model_App` has this responsibility (`Mage_Core_Model_App::isInstalled()`)
 * Implemented new library component `Magento_Filesystem` for working with file system
   * New component has more abstract layer of interaction with file system, better path isolation
   * Introduced interface Magento_Filesystem_AdapterInterface for file operations. Added concrete implementation in `Magento_Filesystem_Adapter_Local`
