@@ -18,5 +18,5 @@ class Saas_UnitPrice_Block_Catalog_Product_Price extends Mage_Catalog_Block_Prod
         $block->setTemplate('Saas_UnitPrice::unitprice.phtml');
         $html .= $block->toHtml();
         return $html;
-   }
+    }
 }
