@@ -15,6 +15,7 @@
  * @method string getThemeCode()
  * @method string getPackageCode()
  * @method string getThemePath()
+ * @method string getThemeTitle() getThemeTitle()
  * @method string getParentThemePath()
  * @method string getPreviewImage()
  * @method string getThemeDirectory()
@@ -27,6 +28,12 @@
  * @method Mage_Core_Model_Theme setPackageCode(string $packageCode)
  * @method Mage_Core_Model_Theme setThemeCode(string $themeCode)
  * @method Mage_Core_Model_Theme setPreviewImage(string $previewImage)
+ * @method Mage_Core_Model_Theme setThemePath(string $themePath)
+ * @method Mage_Core_Model_Theme setThemeVersion(string $themeVersion)
+ * @method Mage_Core_Model_Theme setArea(string $area)
+ * @method Mage_Core_Model_Theme setThemeTitle(string $themeTitle)
+ * @method Mage_Core_Model_Theme setMagentoVersionFrom(string $versionFrom)
+ * @method Mage_Core_Model_Theme setMagentoVersionTo(string $versionTo)
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
