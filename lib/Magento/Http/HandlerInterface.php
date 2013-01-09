@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Http_Handler
+interface Magento_Http_HandlerInterface
 {
     /**
      * Handle http request

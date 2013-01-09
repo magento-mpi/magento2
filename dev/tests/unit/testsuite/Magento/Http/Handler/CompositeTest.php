@@ -34,8 +34,8 @@ class Magento_Http_Handler_CompositeTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_cacheHandlerMock = $this->getMock('Magento_Http_Handler');
-        $this->_appHandlerMock = $this->getMock('Magento_Http_Handler');
+        $this->_cacheHandlerMock = $this->getMock('Magento_Http_HandlerInterface');
+        $this->_appHandlerMock = $this->getMock('Magento_Http_HandlerInterface');
         $this->_requestMock = $this->getMock('Zend_Controller_Request_Http', array(), array(), '', false);
         $this->_responseMock = $this->getMock('Zend_Controller_Response_Http', array(), array(), '', false);
         $this->_model = new Magento_Http_Handler_Composite(array($this->_cacheHandlerMock, $this->_appHandlerMock));

@@ -7,17 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Http_Handler_Composite implements Magento_Http_Handler
+class Magento_Http_Handler_Composite implements Magento_Http_HandlerInterface
 {
     /**
      * Leaf request handlers
      *
-     * @var Magento_Http_Handler[]
+     * @var Magento_Http_HandlerInterface[]
      */
     protected $_children;
 
     /**
-     * @param Magento_Http_Handler[] $handlers
+     * @param Magento_Http_HandlerInterface[] $handlers
      */
     public function __construct(array $handlers)
     {
