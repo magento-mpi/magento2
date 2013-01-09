@@ -22,6 +22,7 @@
         <word>secure_public_url}}js/</word>
         <word>Mage_Backend_Block_Abstract</word>
         <word>Mage_Core_Model_App_Options</word>
+        <word>Mage_Adminhtml_Utility_Controller</word>
     </words>
     <whitelist>
         <item>

@@ -86,9 +86,8 @@ class Mage_Core_Model_Theme_Service
      * @return Mage_Core_Model_Theme_Service
      * @throws UnexpectedValueException
      */
-    public function assignThemeToStores($themeId, $stores, $scope = Mage_Core_Model_Config::SCOPE_STORES,
-        $area = Mage_Core_Model_App_Area::AREA_FRONTEND
-    ) {
+    public function assignThemeToStores($themeId, $stores, $scope = Mage_Core_Model_Config::SCOPE_STORES)
+    {
         /** @var $theme Mage_Core_Model_Theme */
         $theme = $this->_themeFactory->create()->load($themeId);
         if (!$theme->getId()) {
@@ -97,7 +96,7 @@ class Mage_Core_Model_Theme_Service
 
         $themeCustomization = $theme->isVirtual() ? $theme : $this->_createThemeCustomization($theme);
 
-        $configPath = $this->_design->getConfigPathByArea($area);
+        $configPath = Mage_Core_Model_Design_Package::XML_PATH_THEME_ID;
 
         foreach ($this->_getAssignedScopesCollection($scope, $configPath) as $config) {
             if ($config->getValue() == $themeId && !in_array($config->getScopeId(), $stores)) {

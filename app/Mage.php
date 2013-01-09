@@ -396,14 +396,23 @@ final class Mage
     /**
      * Retrieve a config instance
      *
+     * This method doesn't suit Magento 2 anymore, it is left only until refactoring, when all calls
+     * to Mage::getConfig() will be removed in favor of config dependency injection.
+     *
      * @return Mage_Core_Model_Config
      */
     public static function getConfig()
     {
-        if (!self::$_config) {
-            self::$_config = self::getObjectManager()->get('Mage_Core_Model_Config');
+        if (self::$_app) {
+            // Usual workflow - act as a proxy, retrieve config from the application
+            return self::$_app->getConfig();
+        } else {
+            // Temp workaround for unit tests only, so there is no urgent need to check and refactor them all
+            if (!self::$_config) {
+                self::$_config = self::getObjectManager()->get('Mage_Core_Model_Config');
+            }
+            return self::$_config;
         }
-        return self::$_config;
     }
 
     /**

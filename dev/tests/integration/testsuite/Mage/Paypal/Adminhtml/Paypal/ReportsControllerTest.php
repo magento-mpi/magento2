@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Paypal_Adminhtml_Paypal_ReportsControllerTest extends Mage_Adminhtml_Utility_Controller
+class Mage_Paypal_Adminhtml_Paypal_ReportsControllerTest extends Mage_Backend_Utility_Controller
 {
     /**
      * @magentoConfigFixture current_store paypal/fetch_reports/active 1
