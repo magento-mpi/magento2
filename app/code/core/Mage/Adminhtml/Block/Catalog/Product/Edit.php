@@ -303,7 +303,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
             $options[] = array(
                 'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Save & Edit'),
                 'data_attr' => array('event' => 'saveAndContinueEdit', 'related' => '#product-edit-form'),
-                'default' => true
+                'default' => true,
+                'button_class' => 'option-hidden'
             );
         }
         $options[] = array(

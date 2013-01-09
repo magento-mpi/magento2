@@ -576,6 +576,9 @@ div.button {
     position: relative;
     z-index: 1;
 }
+.dropdown-menu li.option-hidden {
+    display: none;
+}
 .dropdown-menu li .item {
     display: block;
     padding:4px 25px 4px 8px;
