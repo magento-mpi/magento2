@@ -52,9 +52,9 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
         if (isset($data['resourceModel'])) {
             $this->_resourceModel = $data['resourceModel'];
         }
-        $this->_filesystem = $filesystem
-            ->setIsAllowCreateDirectories(true)
-            ->setWorkingDirectory(Mage::getBaseDir('media'));
+        $this->_filesystem = $filesystem;
+        $this->_filesystem->setIsAllowCreateDirectories(true);
+        $this->_filesystem->setWorkingDirectory(Mage::getBaseDir('media'));
         $this->_baseMediaPath = $this->_getConfig()->getBaseMediaPath();
         $this->_baseTmpMediaPath = $this->_getConfig()->getBaseTmpMediaPath();
     }
