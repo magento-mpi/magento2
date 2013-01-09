@@ -240,7 +240,7 @@ new_product:
                                         associated_quantity: //tbody/tr[%attributeSearch%]//input[contains(@name,'[qty]')]
                                         associated_weight: //tbody/tr[%attributeSearch%]//input[contains(@name,'[weight]')]
                                     messages:
-                                        required_field: //*[contains(@for,'create_matrix_product') and contains(@for,'%field%')]
+                                        required_field: //*[contains(@for,'variations-matrix') and contains(@for,'%field%')]
                             -
                                 select_associated_product:
                                     xpath: //div[div/span='Select Associated Product']

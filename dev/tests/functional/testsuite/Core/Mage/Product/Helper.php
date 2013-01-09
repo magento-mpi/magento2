@@ -1073,6 +1073,20 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         return $data;
     }
 
+    /**
+     * Exclude/include attribute's value from process of generation matrix
+     *
+     * @param string $attributeTitle
+     * @param string $optionName
+     * @param bool $select
+     */
+    public function changeAttributeValueSelection($attributeTitle, $optionName, $select = true)
+    {
+        $this->addParameter('attributeTitle', $attributeTitle);
+        $this->addParameter('attributeOption', $optionName);
+        $this->fillCheckbox('include_variation_attribute', ($select ? 'Yes' : 'No'));
+    }
+
     #*********************************************************************************
     #*                                               Prices Tab Helper Methods       *
     #*********************************************************************************

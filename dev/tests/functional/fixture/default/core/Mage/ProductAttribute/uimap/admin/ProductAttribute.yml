@@ -166,9 +166,9 @@ edit_product_attribute:
                                         default_value: //tr[contains(@class,'option-row')][%rowNumber%]//input[@class='input-radio']
                                         default_value_by_option_name: //tr[td//input/@value='%optionName%']//input[@type='radio']
                                     fields:
-                                        admin_option_name: //input[@name='option[value][%fieldOptionNumber%][0]']
+                                        admin_option_name: //input[@name='option[value][option_%fieldOptionNumber%][0]']
                                         admin_option_name_disabled: //tr[contains(@class,'option-row')][%rowNumber%]//input[@class='input-text required-option' and @disabled='disabled']
-                                        option_position: //input[@name='option[order][%fieldOptionNumber%]']
+                                        option_position: //input[@name='option[order][option_%fieldOptionNumber%]']
                                         options_by_store_name: //td[contains(input/@name,'option[value][%fieldOptionNumber%]')][%storeViewNumber%]/input
                                     pageelements:
                                         option_line: //tr[contains(@class,'option-row')]
