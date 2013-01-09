@@ -143,7 +143,6 @@ Product view
             <action method="setTemplate"><template>2columns-right.phtml</template></action>
         </reference>
         <reference name="head">
-            <action method="addCss"><file>Mage_Catalog::zoom.css</file></action>
             <action method="addJs"><file>varien/product.js</file></action>
             <action method="addJs"><file>varien/configurable.js</file></action>
             <action method="addCss"><file>Mage_Catalog::zoom.css</file></action>

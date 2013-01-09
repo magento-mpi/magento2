@@ -188,13 +188,16 @@
                 data.stores = EMPTY_STORES;
             }
 
-            var historyObject = $(this.options.frameSelector).get(0).contentWindow.vdeHistoryObject;
-            if (historyObject && historyObject.getItems().length != 0) {
-                data.layoutUpdate = this._preparePostItems(historyObject.getItems());
-                var frameUrl = $(this.options.frameSelector).attr('src');
-                data.handle = frameUrl.split('handle')[1].replace(/\//g, '');
+            if ($(this.options.frameSelector).get(0)) {
+                var historyObject = $(this.options.frameSelector).get(0).contentWindow.vdeHistoryObject;
+                if (historyObject && historyObject.getItems().length != 0) {
+                    data.layoutUpdate = this._preparePostItems(historyObject.getItems());
+                    var frameUrl = $(this.options.frameSelector).attr('src');
+                    data.handle = frameUrl.split('handle')[1].replace(/\//g, '');
+                }
             }
 
+            $('#messages').html('');
             $.ajax({
                 type: 'POST',
                 url:  this.options.assignSaveUrl,
@@ -202,7 +205,7 @@
                 dataType: 'json',
                 success: $.proxy(function(response) {
                     if (response.error) {
-                        alert($.mage.__('Error') + ': "' + response.error + '".');
+                        alert($.mage.__('Error') + ': "' + response.message + '".');
                     } else {
                         var defaultStore = 0;
                         var url = [
