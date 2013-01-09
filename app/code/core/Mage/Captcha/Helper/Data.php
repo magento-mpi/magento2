@@ -38,6 +38,11 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_CAPTCHA_FONTS = 'default/captcha/fonts';
 
     /**
+     * Default captcha type
+     */
+    const DEFAULT_CAPTCHA_TYPE = 'Zend';
+
+    /**
      * List uses Models of Captcha
      * @var array
      */
@@ -88,6 +93,9 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
     {
         if (!array_key_exists($formId, $this->_captcha)) {
             $type = ucfirst($this->getConfigNode('type'));
+            if (!$type) {
+                $type = self::DEFAULT_CAPTCHA_TYPE;
+            }
             $this->_captcha[$formId] = $this->_config->getModelInstance(
                 'Mage_Captcha_Model_' . $type,
                 array(
@@ -143,8 +151,10 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getImgDir($website = null)
     {
-        $captchaDir = Magento_Filesystem::getPathFromArray(array($this->_config->getOptions()->getDir('media'),
-            'captcha', $this->_app->getWebsite($website)->getCode()));
+        $mediaDir = $this->_config->getOptions()->getDir('media');
+        $captchaDir = Magento_Filesystem::getPathFromArray(array($mediaDir, 'captcha',
+            $this->_app->getWebsite($website)->getCode()));
+        $this->_filesystem->setWorkingDirectory($mediaDir);
         $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_filesystem->ensureDirectoryExists($captchaDir, 0755);
         return $captchaDir . Magento_Filesystem::DIRECTORY_SEPARATOR;

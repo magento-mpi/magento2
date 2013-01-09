@@ -26,7 +26,12 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
         $app->expects($this->any())
             ->method('getStore')
             ->will($this->returnValue($store));
-        $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local());
+        $adapterMock = $this->getMockBuilder('Magento_Filesystem_Adapter_Local')
+            ->getMock();
+        $adapterMock->expects($this->any())
+            ->method('isDirectory')
+            ->will($this->returnValue(true));
+        $filesystem = new Magento_Filesystem($adapterMock);
         return new Mage_Captcha_Helper_Data($app, $config, $filesystem);
     }
 
