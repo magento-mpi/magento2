@@ -1096,7 +1096,8 @@ class Mage_Core_Model_Url extends Varien_Object
      * @param array $params
      * @return string
      */
-    public function getDirectUrl($url, $params = array()) {
+    public function getDirectUrl($url, $params = array())
+    {
         $params['_direct'] = $url;
         return $this->getUrl('', $params);
     }
