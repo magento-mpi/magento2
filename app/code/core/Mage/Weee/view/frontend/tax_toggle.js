@@ -6,8 +6,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/*jshint browser:true jquery:true*/
+(function($){
+    "use strict";
+    $(function(){
+        $('body').on('click','[data-tax-toggle]',function(){
+            var currElem = $(this),
+                args = currElem.data("tax-toggle");
+            $(this).toggleClass(args.expandedClassName);
+            $('#'+ args.itemTaxId).toggle();
+        });
+    });
+})(jQuery);
 
-/**************************** WEEE STUFF ********************************/
+/**
+ * NEED TO REMOVE this function once all the references of taxToggle are removed
+ */
 function taxToggle(details, switcher, expandedClassName)
 {
     if ($(details).style.display == 'none') {
