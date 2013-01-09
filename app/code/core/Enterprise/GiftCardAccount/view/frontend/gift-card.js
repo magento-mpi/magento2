@@ -7,32 +7,31 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-(function ($) {
+(function($) {
     $.widget('mage.giftCard', {
-        options: {
-        },
-        _create: function () {
-            this.giftCardCode = $(this.options.giftCardCodeSelector);
-            $(this.options.applyButton).on('click', $.proxy(function () {
-                this.giftCardCode.attr('data-validate', '{required:true}');
-                this.element.mage().validate().submit();
-            }, this));
-
-            $(this.options.checkStatus).on('click', $.proxy(function () {
+        _create: function() {
+            $(this.options.checkStatus).on('click', $.proxy(function() {
+                if (!$(this.element).validation().valid()) {
+                    return;
+                }
                 var giftCardStatusId = this.options.giftCardStatusId;
                 var giftCardSpinnerId = $(this.options.giftCardSpinnerId);
+                var messages = this.options.messages;
                 $.ajax({
                     url: this.options.giftCardStatusUrl,
                     type: 'post',
                     cache: false,
                     data: {'giftcard_code': $(this.options.giftCardCodeSelector).val()},
-                    beforeSend: function () {
+                    beforeSend: function() {
                         giftCardSpinnerId.show();
                     },
-                    success: function (response) {
+                    success: function(response) {
+                        if ($(messages)) {
+                            $(messages).hide();
+                        }
                         $(giftCardStatusId).html(response);
                     },
-                    complete: function (response) {
+                    complete: function(response) {
                         giftCardSpinnerId.hide();
                     }
                 });

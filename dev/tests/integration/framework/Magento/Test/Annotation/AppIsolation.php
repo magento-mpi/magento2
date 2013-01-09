@@ -33,6 +33,7 @@ class Magento_Test_Annotation_AppIsolation
     {
         if ($this->_hasNonIsolatedTests) {
             $this->_cleanupCache();
+            $this->_resetWorkingDirectory();
             Magento_Test_Bootstrap::getInstance()->reinitialize();
             $this->_hasNonIsolatedTests = false;
         }
@@ -54,6 +55,14 @@ class Magento_Test_Annotation_AppIsolation
                 'DB_ORACLE_DDL', // Varien_Db_Adapter_Oracle::DDL_CACHE_TAG
             )
         );
+    }
+
+    /**
+     * Reset current working directory (CWD)
+     */
+    protected function _resetWorkingDirectory()
+    {
+        chdir(Magento_Test_Bootstrap::getInstance()->getTestsDir());
     }
 
     /**

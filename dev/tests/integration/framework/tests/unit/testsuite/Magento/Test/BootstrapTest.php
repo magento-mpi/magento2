@@ -18,6 +18,7 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
      * @var string
      */
     protected static $_magentoDir;
+    protected static $_testsDir;
     protected static $_localXmlFile;
     protected static $_tmpDir;
     protected static $_globalEtcFiles;
@@ -44,6 +45,7 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         self::$_magentoDir     = realpath(dirname(__FILE__) . '/../../../../../../../../..');
+        self::$_testsDir       = realpath(dirname(__FILE__) . '/../../../../../..');
         self::$_localXmlFile   = realpath(dirname(__FILE__) . '/../../../../../../etc/local-mysql.xml.dist');
         self::$_globalEtcFiles = realpath(dirname(__FILE__) . '/../../../../../../../../../app/etc/*.xml');
         self::$_moduleEtcFiles = realpath(dirname(__FILE__) . '/../../../../../../../../../app/etc/modules/*.xml');
@@ -103,6 +105,7 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
     {
         $this->_bootstrap->__construct(
             self::$_magentoDir,
+            self::$_testsDir,
             ($localXmlFile ? $localXmlFile : self::$_localXmlFile),
             self::$_globalEtcFiles,
             self::$_moduleEtcFiles,
@@ -292,5 +295,10 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
                 array('one' => array('two' => 'five'))
             ),
         );
+    }
+
+    public function testGetTestsDir()
+    {
+        $this->assertEquals(self::$_testsDir, $this->_bootstrap->getTestsDir());
     }
 }
