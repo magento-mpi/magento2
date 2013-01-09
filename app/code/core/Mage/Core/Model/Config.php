@@ -200,18 +200,28 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     protected $_installDate;
 
     /**
+     * @var Mage_Core_Model_CacheInterface
+     */
+    protected $_cacheModel;
+
+    /**
      * Class construct
      *
      * @param Magento_ObjectManager $objectManager
+     * @param Mage_Core_Model_CacheInterface $cache
      * @param mixed $sourceData
      */
-    public function __construct(Magento_ObjectManager $objectManager, $sourceData=null)
-    {
+    public function __construct(
+        Magento_ObjectManager $objectManager,
+        Mage_Core_Model_CacheInterface $cache,
+        $sourceData = null
+    ) {
         $this->_objectManager = $objectManager;
         $this->setCacheId('config_global');
         $this->_prototype = $this->_objectManager->create('Mage_Core_Model_Config_Base');
         $this->_prototype->loadString('<config/>');
         $this->_cacheChecksum = null;
+        $this->_cacheModel = $cache;
         parent::__construct($sourceData);
     }
 
@@ -462,18 +472,18 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     protected function _canUseCacheForInit()
     {
-        return Mage::app()->useCache('config') && $this->_allowCacheForInit
+        return  $this->_cacheModel->canUse('config') && $this->_allowCacheForInit
             && !$this->_loadCache($this->_getCacheLockId());
     }
 
     /**
      * Retrieve cache object
      *
-     * @return Zend_Cache_Frontend_File
+     * @return Mage_Core_Model_CacheInterface
      */
     public function getCache()
     {
-        return Mage::app()->getCache();
+        return $this->_cacheModel;
     }
 
     /**
@@ -494,7 +504,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function saveCache($tags=array())
     {
-        if (!Mage::app()->useCache('config')) {
+        if (!$this->_cacheModel->canUse('config')) {
             return $this;
         }
         if (!in_array(self::CACHE_TAG, $tags)) {
@@ -583,7 +593,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     protected function _loadCache($id)
     {
-        return Mage::app()->loadCache($id);
+        return $this->_cacheModel->load($id);
     }
 
     /**
@@ -592,12 +602,13 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * @param   string $data
      * @param   string $id
      * @param   array $tags
-     * @param   false|int $lifetime
+     * @param   bool|int $lifeTime
      * @return  Mage_Core_Model_Config
      */
-    protected function _saveCache($data, $id, $tags=array(), $lifetime=false)
+    protected function _saveCache($data, $id, $tags = array(), $lifeTime = false)
     {
-        return Mage::app()->saveCache($data, $id, $tags, $lifetime);
+        $this->_cacheModel->save($data, $id, $tags, $lifeTime);
+        return $this;
     }
 
     /**
@@ -608,7 +619,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     protected function _removeCache($id)
     {
-        return Mage::app()->removeCache($id);
+        $this->_cacheModel->remove($id);
+        return $this;
     }
 
     /**
@@ -618,7 +630,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function removeCache()
     {
-        Mage::app()->cleanCache(array(self::CACHE_TAG));
+        $tags = array(self::CACHE_TAG);
+        $this->_cacheModel->clean($tags);
+        Mage::dispatchEvent('application_clean_cache', array('tags' => $tags));
         return parent::removeCache();
     }
 

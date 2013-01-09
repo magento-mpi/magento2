@@ -13,7 +13,7 @@
  * support id and tags preffix support,
  */
 
-class Mage_Core_Model_Cache
+class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
 {
     const DEFAULT_LIFETIME  = 7200;
     const OPTIONS_CACHE_ID  = 'core_cache_options';
