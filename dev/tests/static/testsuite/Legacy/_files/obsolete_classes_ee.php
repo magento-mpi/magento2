@@ -24,4 +24,5 @@ return array(
     $this->_getClassRule('Enterprise_Invitation_Block_Adminhtml_Report_Invitation_General_Grid'),
     $this->_getClassRule('Enterprise_Reward_Block_Adminhtml_Reward_Rate_Grid'),
     $this->_getClassRule('Enterprise_Logging_Block_Adminhtml_Archive_Grid'),
+    $this->_getClassRule('Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Grid'),
 );
