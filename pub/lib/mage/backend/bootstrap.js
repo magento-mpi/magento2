@@ -98,6 +98,7 @@ jQuery(function ($) {
         if ($('#messages').length) {
             $('#messages').notification();
         }
+        $('.content-header').floatingHeader();
     };
 
     $(document).ready(bootstrap);

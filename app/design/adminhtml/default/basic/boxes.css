@@ -845,7 +845,7 @@ div.autocomplete ul li { padding:.5em .7em; min-height:32px; cursor:pointer; tex
 
 .left-col-block { width:200px; }
 
-.content-header.fixed { padding:6px 8px; margin-bottom:0; border:0; position:fixed; left:0; top:0; width:100%; border-bottom:solid 1px #988753; z-index:100; z-index:auto\9; background:#fdfaa4; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=85)"; opacity:.85; }
+.content-header.fixed { padding:6px 8px; margin-bottom:0; border:0; position:fixed; left:0; top:0; width:100%; border-bottom:solid 1px #988753; z-index:100; z-index:auto\9; background:#fdfaa4; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=85)"; opacity:.85; z-index: 100; }
 .content-header.fixed button { margin-top:3px; }
 .content-header.fixed .content-buttons { float:right; }
 .content-buttons { margin-bottom:5px; float:right; display:inline; white-space:nowrap; }

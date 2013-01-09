@@ -7,7 +7,6 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true */
-/*global window:true FORM_KEY:true*/
 (function($) {
     "use strict";
     $.widget('mage.floatingHeader', {
@@ -19,6 +18,10 @@
             fixedClass: 'fixed'
         },
 
+        /**
+         * Widget initialization
+         * @private
+         */
         _create: function() {
             // Do not init widget if there is a skip class applied
             if(this.element.hasClass(this.options.skipSelector)) {
@@ -29,12 +32,20 @@
             this._bind();
         },
 
+        /**
+         * Set privat variables on load, for performance purposes
+         * @private
+         */
         _setVars: function() {
             this._placeholder = this.element.before($('<div/>', this.options.placeholderAttrs)).prev();
             this._offsetTop = this._placeholder.offset().top;
             this._height = this.element.outerHeight(true);
         },
 
+        /**
+         * Event binding, will monitor scroll and resize events (resize events left for backward compat)
+         * @private
+         */
         _bind: function() {
             this._on(window, {
                 scroll: this._handlePageScroll,
@@ -42,6 +53,11 @@
             });
         },
 
+        /**
+         * Event handler for setting fixed positioning
+         * @event
+         * @private
+         */
         _handlePageScroll: function() {
             var isActive = ($(window).scrollTop() > this._offsetTop);
             this.element
@@ -49,13 +65,13 @@
             this._placeholder.height(isActive ? this._height: '');
         },
 
+        /**
+         * Widget destroy functionality
+         * @private
+         */
         _destroy: function() {
             this._placeholder.remove();
             this._off($(window));
         }
-    });
-
-    $(function() {
-        $('.content-header').floatingHeader();
     });
 })(jQuery);
