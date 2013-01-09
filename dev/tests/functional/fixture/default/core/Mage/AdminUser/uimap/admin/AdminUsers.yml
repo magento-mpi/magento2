@@ -41,13 +41,12 @@ manage_admin_users:
         messages: &adminUserMessages
             cannot_delete_account: //li[normalize-space(@class)='error-msg' and contains(.,'You cannot delete your own account.')]
             confirmation_for_delete: Are you sure you want to do this?
-            empty_required_field: //tr/td/label[(@class)='mage-error' and contains(.,'This field is required.')]
-            error_required_field_role_name: //tr/td/label[(@class)='mage-error' and contains(.,'This field is required.')]
+            empty_required_field: //tr/td/label[(@for)='%fieldId%' and contains(.,'This field is required.')]
             exist_email: //li[normalize-space(@class)='error-msg' and contains(.,'Email already exists.')]
             exist_name_or_email: //li[normalize-space(@class)='error-msg' and contains(.,'A user with the same user name or email aleady exists.')]
-            invalid_email: //tr/td/label[(@class)='mage-error' and contains(.,'Please enter a valid email address. For example johndoe@domain.com.')]
-            invalid_password: //tr/td/label[(@class)='mage-error' and contains(.,'Please enter 7 or more characters. Password should contain both numeric and alphabetic characters.')]
-            password_unmatch: //tr/td/label[(@class)='mage-error' and contains(.,'Please make sure your passwords match.')]
+            invalid_email: //tr/td/label[(@for)='user_email' and contains(.,'Please enter a valid email address. For example johndoe@domain.com.')]
+            invalid_password: //tr/td/label[(@for)='user_password' and contains(.,'Please enter 7 or more characters. Password should contain both numeric and alphabetic characters.')]
+            password_unmatch: //tr/td/label[(@for)='user_confirmation' and contains(.,'Please make sure your passwords match.')]
             success_deleted_user: //li[normalize-space(@class)='success-msg' and contains(.,'The user has been deleted.')]
             success_saved_user: //li[normalize-space(@class)='success-msg' and contains(.,'The user has been saved.')]
             success_deleted_role: //div[@id='messages']//li[span='The role has been deleted.']

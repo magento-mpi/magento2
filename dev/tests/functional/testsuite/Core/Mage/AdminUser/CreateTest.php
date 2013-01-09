@@ -106,20 +106,20 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
      * <p>Create Admin User with one empty required field.</p>
      *
      * @param string $emptyField
+     * @param string $fieldId
      *
      * @test
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends withRequiredFieldsOnly
      * @TestlinkId TL-MAGE-3143
      */
-    public function withRequiredFieldsEmpty($emptyField)
+    public function withRequiredFieldsEmpty($emptyField, $fieldId)
     {
         $userData = $this->loadDataSet('AdminUsers', 'generic_admin_user', array($emptyField => '%noValue%'));
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
-        $xpath = $this->_getControlXpath('field', $emptyField);
-        $this->addParameter('fieldXpath', $xpath);
+        $this->addParameter('fieldId', $fieldId);
         $this->assertMessagePresent('error', 'empty_required_field');
         $this->assertEquals( 1 , $this->count($this->assertMessagePresent('error', 'empty_required_field')));
     }
@@ -127,12 +127,12 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
-            array('user_name'),
-            array('first_name'),
-            array('last_name'),
-            array('email'),
-            array('password'),
-            array('password_confirmation')
+            array('user_name', 'user_username'),
+            array('first_name', 'user_firstname'),
+            array('last_name', 'user_lastname'),
+            array('email','user_email'),
+            array('password', 'user_password'),
+            array('password_confirmation', 'user_confirmation')
         );
     }
 

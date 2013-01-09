@@ -71,6 +71,7 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>Login with empty "Username"/"Password"</p>
      *
      * @param string $emptyField
+     * @param array $fieldId
      * @param array $loginData
      *
      * @test
@@ -78,13 +79,14 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
      * @depends loginValidUser
      * @TestlinkId TL-MAGE-3154
      */
-    public function loginEmptyOneField($emptyField, $loginData)
+    public function loginEmptyOneField($emptyField, $fieldId, $loginData)
     {
         //Data
         $loginData[$emptyField] = '%noValue%';
         //Steps
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
+        $this->addParameter('fieldId', $fieldId);
         $this->assertMessagePresent('validation', 'empty_field');
         $this->assertEquals(1, count($this->getParsedMessages('required')));
     }
@@ -92,8 +94,8 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
     public function loginEmptyOneFieldDataProvider()
     {
         return array(
-            array('user_name'),
-            array('password')
+            array('user_name', 'username'),
+            array('password', 'login')
         );
     }
 
@@ -201,6 +203,7 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
         //Steps
         $this->adminUserHelper()->forgotPassword($emailData);
         //Verifying
+        $this->addParameter('fieldId', 'email');
         $this->assertMessagePresent('error', 'empty_field');
         $this->assertTrue($this->checkCurrentPage('forgot_password'), $this->getParsedMessages());
     }
