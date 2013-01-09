@@ -144,4 +144,12 @@ interface Magento_Filesystem_AdapterInterface
      * @return int
      */
     public function getMTime($key);
+
+    /**
+     * Get file size.
+     *
+     * @param string $key
+     * @return int
+     */
+    public function getFileSize($key);
 }

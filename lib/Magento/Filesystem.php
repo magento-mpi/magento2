@@ -310,6 +310,20 @@ class Magento_Filesystem
     }
 
     /**
+     * Get file size.
+     *
+     * @param string $key
+     * @param string|null $workingDirectory
+     * @return int
+     */
+    public function getFileSize($key, $workingDirectory = null)
+    {
+        $key = $this->_getCheckedPath($key, $workingDirectory);
+        $this->_checkFileExists($key);
+        return $this->_adapter->getFileSize($key);
+    }
+
+    /**
      * Creates stream object
      *
      * @param string $key
