@@ -331,7 +331,7 @@ Billing.prototype = {
                 /*if (window.billingRegionUpdater) {
                     billingRegionUpdater.update();
                 }*/
-
+                jQuery('#billing\\:country_id').trigger('change');
                 alert(response.message.join("\n"));
             }
 
@@ -443,6 +443,8 @@ Shipping.prototype = {
             }
             //$('shipping:country_id').value = $('billing:country_id').value;
             //shippingRegionUpdater.update();
+            jQuery('#shipping\\:country_id').trigger('change');
+            $('shipping:same_as_billing').checked = true;
             $('shipping:region_id').value = $('billing:region_id').value;
             $('shipping:region').value = $('billing:region').value;
             //shippingForm.elementChildLoad($('shipping:country_id'), this.setRegionValue.bind(this));
@@ -493,6 +495,7 @@ Shipping.prototype = {
                 /*if (window.shippingRegionUpdater) {
                     shippingRegionUpdater.update();
                 }*/
+                jQuery('#shipping\\:country_id').trigger('change');
                 alert(response.message.join("\n"));
             }
 
