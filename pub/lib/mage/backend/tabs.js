@@ -14,7 +14,7 @@
     $.widget('mage.tabs', $.ui.tabs, {
         options: {
             spinner: false,
-            groups: 'ul.tabs'
+            groups: null
         },
 
         /**
