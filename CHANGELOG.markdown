@@ -3,7 +3,7 @@
 * Changed application initialization procedure
   * Application can be started with specific initial configuration data. `Mage_Core_Model_Config::loadBase()` merges this configuration with the highest priority
   * Slightly changed responsibilities of `Mage`, `Mage_Core_Model_App`, `Mage_Core_Model_Config`, `Mage_Core_Model_App_Options` classes during initialization
-* Implemented new library component for working with file system: `Magento_Filesystem`
+* Implemented new library component `Magento_Filesystem` for working with file system
   * New component has more abstract layer of interaction with file system, better path isolation
   * Introduced interface Magento_Filesystem_AdapterInterface for file operations. Added concrete implementation in `Magento_Filesystem_Adapter_Local`
   * Introduced interface Magento_Filesystem_StreamInterface for stream operations with content. Added concrete implementation in `Magento_Filesystem_Stream_Local`
@@ -12,15 +12,14 @@
 * Improved batch tool for launching automated tests. Tool has an ability to run specified test types. Tool was moved from `dev/tools/batch_tests` to `dev/tools/tests.php`
 * Improved integration test Mage_Adminhtml_DashboardControllerTest to skip test case when Google service is unavailable
 * Improved url building process in new jQuery form widget to have it more secure
-* Removed once more unused `@group module` annotation from integration tests, restricted its further usage
+* Removed obsolete `@group module::<Namespace_Module>` annotation from integration tests, restricted its further usage
 * Updated jQuery library used in application, used unified file name instead of version-based one
 * Relocated XSD files for System Configuration, Menu Configuration, ACL Configuration, ACL Configuration for WebApi, Theme Configuration, View Configuration, Validator Configuration to `etc` subfolders of corresponding modules
 * Bug fixes
   * Fixed bug with placing order in backend using Authorize.Net Direct Post payment method
   * Changed `Mage_Core_Model_Url` to fix bug with incorrect links on frontend (My Wishlist, Go to Shopping Cart, Continue button at first checkout step)
-  * Fixed several bugs after converting backend grids. Changes were made in EAV Attributes, Design, Newsletter, Backup modules
+  * Fixed several bugs after converting backend grids to layout declaration. Changes were made in EAV Attributes, Design, Newsletter, Backup modules
   * Fixed incorrect current working directory behavior on application isolation in tests
-  * Other minor bugs
 
 2.0.0.0-dev37
 =============
