@@ -173,7 +173,7 @@ jQuery(function($) {
     $form.on('focus change keyup click', fieldSelector + ',:checkbox,button', function () {
         var allowSave = true;
         $.each($form.find(fieldSelector), function () {
-            if (!$(this).val()) {
+            if (!$(this).val() && !$(this).closest('.ignore-validate').length) {
                 allowSave = false;
                 return false;
             }
