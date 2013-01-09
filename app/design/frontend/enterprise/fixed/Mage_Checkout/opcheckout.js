@@ -331,7 +331,7 @@ Billing.prototype = {
                 /*if (window.billingRegionUpdater) {
                     billingRegionUpdater.update();
                 }*/
-
+                jQuery('#billing\\:country_id').trigger('change');
                 alert(response.message.join("\n"));
             }
 
@@ -495,6 +495,7 @@ Shipping.prototype = {
                 /*if (window.shippingRegionUpdater) {
                     shippingRegionUpdater.update();
                 }*/
+                jQuery('#shipping\\:country_id').trigger('change');
                 alert(response.message.join("\n"));
             }
 
