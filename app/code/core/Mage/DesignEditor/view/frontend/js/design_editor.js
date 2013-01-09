@@ -102,9 +102,9 @@
         _onDragElementStop: function(event, ui) {
             var block = ui.item;
             var originContainer = this.element.data('name');
-            var originPosition = event.data.position;
+            var originPosition = event.data.position - 1;
             var destinationContainer = this._getContainer(block).data('name');
-            var destinationPosition = block.index();
+            var destinationPosition = block.index() - 1;
 
             var containerChanged = destinationContainer != originContainer;
             var sortingOrderChanged = destinationPosition != originPosition;
