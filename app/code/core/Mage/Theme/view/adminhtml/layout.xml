@@ -28,6 +28,7 @@
         <reference name="head">
             <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.iframe-transport.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload-ui.js</file></action>
 
             <action method="addJs"><file>Mage_Theme::js/form.js</file></action>
         </reference>

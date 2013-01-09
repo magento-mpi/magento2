@@ -154,11 +154,13 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             'legend' => $this->__('Custom CSS'),
             'class'  => 'fieldset-wide'
         ));
+        $this->_addElementTypes($themeFieldset);
 
-        $themeFieldset->addField('css_file_uploader', 'file', array(
+        $themeFieldset->addField('css_file_uploader', 'css_file', array(
             'name'     => 'css_file_uploader',
             'label'    => $this->__('Select CSS File to Upload'),
             'title'    => $this->__('Select CSS File to Upload'),
+            'accept'   => 'text/css',
             'note'     => $this->__('Allowed file types *.css.')
                 . ' ' . $this->__('The file you upload will replace the existing custom.css file (shown below).')
         ));
@@ -195,9 +197,11 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      */
     protected function _getAdditionalElementTypes()
     {
-        $element = Mage::getConfig()
+        $linksElement = Mage::getConfig()
             ->getBlockClassName('Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Links');
-        return array('links' => $element);
+        $fileElement = Mage::getConfig()
+            ->getBlockClassName('Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_File');
+        return array('links' => $linksElement, 'css_file' => $fileElement);
     }
 
     /**
@@ -252,7 +256,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      * @param array $item2
      * @return int
      */
-    protected function _sortGroupFiles ($item1, $item2)
+    protected function _sortGroupFiles($item1, $item2)
     {
         $hasModuleContext = strpos($item1['label'], '::') !== false;
         $hasModuleContext2 = strpos($item2['label'], '::') !== false;

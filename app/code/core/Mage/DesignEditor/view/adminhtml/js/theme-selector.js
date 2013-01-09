@@ -256,7 +256,7 @@
          * @protected
          */
         _init: function() {
-            this.options._control.on('click', $.proxy(this._onEdit, this));
+            this.options._textControl.on('click', $.proxy(this._onEdit, this));
             this.options._saveControl.on('click', $.proxy(this._onSave, this));
             this.document.on('click', $.proxy(this._onCancel, this));
         },
@@ -284,7 +284,8 @@
             }
             this.options.isActive = true;
             this.options._textControl.fadeOut();
-            this.options._inputControl.fadeIn().focus();
+            this.options._inputControl.fadeIn();
+            this.options._inputControl.find('input').focus();
             this._setThemeTitle(this.options.themeData.theme_title);
         },
 
@@ -348,7 +349,7 @@
          * @protected
          */
         _onCancel: function(event) {
-            if (this.options.isActive && this.options._control.has($(event.target)).length === 0) {
+            if (this.options.isActive && this.options._control.has(event.target).length === 0) {
                 this._cancelEdit();
             }
         },

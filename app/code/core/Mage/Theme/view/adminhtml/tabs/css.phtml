@@ -20,6 +20,7 @@
             dataType: 'json',
             replaceFileInput: false,
             url : '<?php echo $this->getUrl('*/system_design_theme/uploadcss') ?>',
+            acceptFileTypes: /(.|\/)(css)$/i,
 
             /**
              * Add data
@@ -55,6 +56,16 @@
                     contentArea.val(data.result.content);
                     contentArea.trigger('focusout');
                 }
+            },
+
+            /**
+             * Fail event
+             * @param e
+             * @param data
+             */
+            fail: function(e, data) {
+                $(this).val('');
+                alert($.mage.__('File extension not known or unsupported type.'));
             }
         });
 
