@@ -32,6 +32,8 @@ class Mage_Core_Model_App_Handler implements Magento_Http_HandlerInterface
      */
     public function handle(Zend_Controller_Request_Http $request, Zend_Controller_Response_Http $response)
     {
+        $response->headersSentThrowsException = Mage::$headersSentThrowsException;
+        $response->setHeader("Content-Type", "text/html; charset=UTF-8");
         $this->_app->setRequest($request)->setResponse($response)->run();
     }
 }

@@ -20,16 +20,6 @@
 class Mage_Core_Model_App
 {
     /**
-     * Scope code initialization option
-     */
-    const INIT_OPTION_SCOPE_CODE = 'MAGE_RUN_CODE';
-
-    /**
-     * Scope type initialization option
-     */
-    const INIT_OPTION_SCOPE_TYPE = 'MAGE_RUN_TYPE';
-
-    /**
      * Custom directory paths initialization option
      */
     const INIT_OPTION_URIS = 'app_uris';
@@ -285,11 +275,23 @@ class Mage_Core_Model_App
     protected $_objectManager;
 
     /**
-     * Constructor
+     * @param Mage_Core_Model_Config $config
+     * @param Mage_Core_Model_Logger $log
+     * @param Magento_ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
-    {
-        $this->_objectManager = $objectManager;
+    public function __construct(
+        Mage_Core_Model_Config $config, Mage_Core_Model_Logger $log, Magento_ObjectManager $objectManager,
+        $scopeCode, $scopeType
+    ) {
+        $this->_config = $config;
+        $this->_log = $log;
+        $log->addStreamLog(Mage_Core_Model_Logger::LOGGER_SYSTEM)
+            ->addStreamLog(Mage_Core_Model_Logger::LOGGER_EXCEPTION);
+        $this->_initEnvironment();
+        if ($this->isInstalled()) {
+            $this->_initCurrentStore($scopeCode, $scopeType ?: self::SCOPE_TYPE_STORE);
+            $this->_log->initForStore($this->_store, $this->_config);
+        }
     }
 
     /**
@@ -301,50 +303,14 @@ class Mage_Core_Model_App
     public function init(array $params)
     {
         Magento_Profiler::start('self::app::init');
-        $this->_initEnvironment();
-        $this->_initParams = $params;
-        $this->_initFilesystem();
-        $logger = $this->_initLogger();
-
         Magento_Profiler::start('init_config');
-        /** @var $config Mage_Core_Model_Config */
-        $config = $this->_objectManager->get('Mage_Core_Model_Config');
-        $this->_config = $config;
-        $this->_initCache();
         $this->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
-        $this->_objectManager->loadAreaConfiguration();
         Magento_Profiler::stop('init_config');
 
         if (Mage::isInstalled()) {
-            $this->_initCurrentStore(
-                $this->getInitParam(self::INIT_OPTION_SCOPE_CODE),
-                $this->getInitParam(self::INIT_OPTION_SCOPE_TYPE) ?: self::SCOPE_TYPE_STORE
-            );
-            $logger->initForStore($this->_store, $this->_config);
             $this->_initRequest();
         }
         Magento_Profiler::stop('self::app::init');
-        return $this;
-    }
-
-    /**
-     * Common logic for all run types
-     *
-     * @param  array $params
-     * @return Mage_Core_Model_App
-     */
-    public function baseInit(array $params)
-    {
-        $this->_initEnvironment();
-        $this->_initParams = $params;
-        $this->_initFilesystem();
-        $this->_initLogger();
-
-        /** @var $config Mage_Core_Model_Config */
-        $config = $this->_objectManager->create('Mage_Core_Model_Config');
-        $this->_config = $config;
-        $this->_initCache($this->getInitParam(Mage_Core_Model_Cache::APP_INIT_PARAM) ?: array());
-
         return $this;
     }
 
@@ -357,19 +323,12 @@ class Mage_Core_Model_App
      * @param  string|array $modules
      * @return Mage_Core_Model_App
      */
-    public function initSpecified(array $params, $modules = array())
+    public function initSpecified($modules = array())
     {
-        $this->baseInit($params);
-
         if (!empty($modules)) {
             $this->_config->addAllowedModules($modules);
         }
         $this->_initModules();
-        $this->_initCurrentStore(
-            $this->getInitParam(self::INIT_OPTION_SCOPE_CODE),
-            $this->getInitParam(self::INIT_OPTION_SCOPE_TYPE) ?: self::SCOPE_TYPE_STORE
-        );
-
         return $this;
     }
 
@@ -379,60 +338,23 @@ class Mage_Core_Model_App
      * @param array $params
      * @return Mage_Core_Model_App
      */
-    public function run(array $params)
+    public function run()
     {
-        try {
-            Magento_Profiler::start('mage');
-            if (isset($params[Mage::INIT_OPTION_EDITION])) {
-                Mage::setEdition($params[Mage::INIT_OPTION_EDITION]);
-            }
-            if (isset($params[Mage_Core_Model_App::INIT_OPTION_REQUEST])) {
-                $this->setRequest($params[Mage_Core_Model_App::INIT_OPTION_REQUEST]);
-            }
-            if (isset($params[Mage_Core_Model_App::INIT_OPTION_RESPONSE])) {
-                $this->setResponse($params[Mage_Core_Model_App::INIT_OPTION_RESPONSE]);
-            }
+        Magento_Profiler::start('init');
 
-            Magento_Profiler::start('init');
+        $this->_initModules();
+        $this->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
 
-            $this->baseInit($params);
-
-            Magento_Profiler::stop('init');
-
-            if ($this->_cache->processRequest($this->getResponse())) {
-                $this->getResponse()->sendResponse();
-            } else {
-                Magento_Profiler::start('init');
-
-                $this->_initModules();
-                $this->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
-                $this->_objectManager->loadAreaConfiguration();
-
-                if ($this->_config->isLocalConfigLoaded()) {
-                    $this->_initCurrentStore(
-                        $this->getInitParam(self::INIT_OPTION_SCOPE_CODE),
-                        $this->getInitParam(self::INIT_OPTION_SCOPE_TYPE) ?: self::SCOPE_TYPE_STORE
-                    );
-                    /** @var $logger Mage_Core_Model_Logger */
-                    $logger = $this->_objectManager->get('Mage_Core_Model_Logger');
-                    $logger->initForStore($this->_store, $this->_config);
-                    $this->_initRequest();
-                    Mage_Core_Model_Resource_Setup::applyAllDataUpdates();
-                }
-
-                $controllerFront = $this->getFrontController();
-                Magento_Profiler::stop('init');
-                $controllerFront->dispatch();
-            }
-            Magento_Profiler::stop('mage');
-        } catch (Mage_Core_Model_Session_Exception $e) {
-            $this->getResponse()->setHeader('Location', Mage::getBaseUrl());
-        } catch (Mage_Core_Model_Store_Exception $e) {
-            require_once(Mage::getBaseDir(Mage_Core_Model_Dir::PUB) . DIRECTORY_SEPARATOR
-                . 'errors' . DIRECTORY_SEPARATOR
-                . '404.php'
-            );
+        if ($this->_config->isLocalConfigLoaded()) {
+            /** @var $logger Mage_Core_Model_Logger */
+            $this->_initRequest();
+            Mage_Core_Model_Resource_Setup::applyAllDataUpdates();
         }
+
+        $controllerFront = $this->getFrontController();
+        Magento_Profiler::stop('init');
+        $controllerFront->dispatch();
+
         return $this;
     }
 
@@ -484,44 +406,6 @@ class Mage_Core_Model_App
     }
 
     /**
-     * Create necessary directories in the file system
-     */
-    protected function _initFileSystem()
-    {
-        $customDirs = $this->getInitParam(self::INIT_OPTION_URIS) ?: array();
-        $customPaths = $this->getInitParam(self::INIT_OPTION_DIRS) ?: array();
-        $dirs = new Mage_Core_Model_Dir(BP, $customDirs, $customPaths);
-        $this->_objectManager->addSharedInstance($dirs, 'Mage_Core_Model_Dir');
-        foreach (Mage_Core_Model_Dir::getWritableDirCodes() as $code) {
-            $path = $dirs->getDir($code);
-            if ($path && !is_dir($path)) {
-                mkdir($path);
-            }
-        }
-    }
-
-    /**
-     * Initialize application cache instance
-     *
-     * @param array $cacheInitOptions
-     * @return Mage_Core_Model_App
-     */
-    protected function _initCache(array $cacheInitOptions = array())
-    {
-        $this->_isCacheLocked = true;
-        $options = $this->_config->getNode('global/cache');
-        if ($options) {
-            $options = $options->asArray();
-        } else {
-            $options = array();
-        }
-        $options = array_merge($options, $cacheInitOptions);
-        $this->_cache = Mage::getModel('Mage_Core_Model_Cache', array('options' => $options));
-        $this->_isCacheLocked = false;
-        return $this;
-    }
-
-    /**
      * Initialize configuration of active modules and locales
      *
      * @return Mage_Core_Model_App
@@ -540,20 +424,6 @@ class Mage_Core_Model_App
             $this->_config->saveCache();
         }
         return $this;
-    }
-
-    /**
-     * Initialize logging of system messages and errors
-     *
-     * @return Mage_Core_Model_Logger
-     */
-    protected function _initLogger()
-    {
-        /** @var $logger Mage_Core_Model_Logger */
-        $logger = $this->_objectManager->create('Mage_Core_Model_Logger');
-        $logger->addStreamLog(Mage_Core_Model_Logger::LOGGER_SYSTEM)
-            ->addStreamLog(Mage_Core_Model_Logger::LOGGER_EXCEPTION);
-        return $logger;
     }
 
     /**
@@ -1284,9 +1154,6 @@ class Mage_Core_Model_App
      */
     public function getCacheInstance()
     {
-        if (!$this->_cache) {
-            $this->_initCache();
-        }
         return $this->_cache;
     }
 
@@ -1297,9 +1164,6 @@ class Mage_Core_Model_App
      */
     public function getCache()
     {
-        if (!$this->_cache) {
-            $this->_initCache();
-        }
         return $this->_cache->getFrontend();
     }
 
@@ -1398,9 +1262,6 @@ class Mage_Core_Model_App
      */
     public function getRequest()
     {
-        if (empty($this->_request)) {
-            $this->_request = $this->_objectManager->get('Mage_Core_Controller_Request_Http');
-        }
         return $this->_request;
     }
 
@@ -1423,11 +1284,6 @@ class Mage_Core_Model_App
      */
     public function getResponse()
     {
-        if (empty($this->_response)) {
-            $this->_response = $this->_objectManager->get('Mage_Core_Controller_Response_Http');
-            $this->_response->headersSentThrowsException = Mage::$headersSentThrowsException;
-            $this->_response->setHeader("Content-Type", "text/html; charset=UTF-8");
-        }
         return $this->_response;
     }
 
