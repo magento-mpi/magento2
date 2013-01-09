@@ -121,7 +121,8 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
         $object = $this->_getHelper($this->_getStoreStub(), $config);
         $this->assertEquals(
             $object->getImgDir(),
-            $captchaTmpDir . DIRECTORY_SEPARATOR . 'captcha' . DIRECTORY_SEPARATOR . 'base' . DIRECTORY_SEPARATOR
+            Magento_Filesystem::getPathFromArray(array($captchaTmpDir, 'captcha', 'base'))
+            . Magento_Filesystem::DIRECTORY_SEPARATOR
         );
     }
 

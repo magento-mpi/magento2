@@ -51,6 +51,7 @@ class Magento_Filesystem
      */
     public function setWorkingDirectory($dir)
     {
+        $dir = self::getAbsolutePath($dir);
         if (!$this->_adapter->isDirectory($dir)) {
             throw new InvalidArgumentException(sprintf('Working directory "%s" does not exists', $dir));
         }
@@ -454,6 +455,7 @@ class Magento_Filesystem
      */
     public static function getPathFromArray(array $path, $isAbsolute = true)
     {
+        $path = array_map(array('Magento_Filesystem', 'fixSeparator'), $path);
         if (!count($path)) {
             throw new InvalidArgumentException('Path must contain at least one node');
         }
@@ -474,8 +476,20 @@ class Magento_Filesystem
      */
     public static function getPathAsArray($path)
     {
-        $path = str_replace('\\', self::DIRECTORY_SEPARATOR, $path);
+        $path = self::fixSeparator($path);
         return explode(self::DIRECTORY_SEPARATOR, ltrim($path, self::DIRECTORY_SEPARATOR));
+    }
+
+    /**
+     * Update directory separator
+     *
+     * @static
+     * @param string $path
+     * @return string
+     */
+    public static function fixSeparator($path)
+    {
+        return str_replace('\\', self::DIRECTORY_SEPARATOR, $path);
     }
 
     /**
