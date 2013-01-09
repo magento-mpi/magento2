@@ -2941,8 +2941,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @return string
      */
-    public function formSearchXpath(array $data, $trLocator = "//table[@class='data']/tbody/tr")
+    public function formSearchXpath(array $data, $trLocator = null)
     {
+        if (is_null($trLocator)) {
+            $trLocator = $this->_getControlXpath('pageelement', 'default_table_line');
+        }
         foreach ($data as $key => $value) {
             if (!preg_match('/_from/', $key) && !preg_match('/_to/', $key) && !is_array($value)) {
                 if (strpos($value, "'")) {
