@@ -63,7 +63,7 @@ class Mage_Core_Model_Resource
     {
         if (isset($this->_connections[$name])) {
             $connection = $this->_connections[$name];
-            if (isset($this->_skippedConnections[$name]) && !Mage::app()->getIsCacheLocked()) {
+            if (isset($this->_skippedConnections[$name])) {
                 $connection->setCacheAdapter(Mage::app()->getCache());
                 unset($this->_skippedConnections[$name]);
             }
@@ -87,11 +87,7 @@ class Mage_Core_Model_Resource
 
         $connection = $this->_newConnection((string)$connConfig->type, $connConfig);
         if ($connection) {
-            if (Mage::app()->getIsCacheLocked()) {
-                $this->_skippedConnections[$name] = true;
-            } else {
-                $connection->setCacheAdapter(Mage::app()->getCache());
-            }
+            $connection->setCacheAdapter(Mage::app()->getCache());
         }
 
         $this->_connections[$name] = $connection;

@@ -108,11 +108,24 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
      * @param Mage_Core_Model_Dir $dirs
      * @param array $options
      */
-    public function __construct(Mage_Core_Model_App $app, Mage_Core_Model_Dir $dirs, array $options = array())
-    {
-        $this->_config = $app->getConfig();
+    public function __construct(
+        Mage_Core_Model_Config $config,
+        Mage_Core_Model_Dir $dirs,
+        $banCache = false,
+        array $options = array()
+    ) {
+        $this->_config = $config;
+        $configOptions = $this->_config->getNode('global/cache');
+        if ($configOptions) {
+            $configOptions = $configOptions->asArray();
+        } else {
+            $configOptions = array();
+        }
+        $options = array_merge($configOptions, $options);
+
+        $options =
         $this->_helper = isset($options['helper']) ? $options['helper'] : Mage::helper('Mage_Core_Helper_Data');
-        $this->_globalBanUseCache = $app->getInitParam('global_ban_use_cache');
+        $this->_globalBanUseCache = $banCache;
 
         $this->_defaultBackendOptions['cache_dir'] = $dirs->getDir(Mage_Core_Model_Dir::CACHE);
         /**
