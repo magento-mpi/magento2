@@ -17,9 +17,68 @@
  */
 class Mage_Backend_Block_Widget_Grid_Column_Filter_Price extends Mage_Backend_Block_Widget_Grid_Column_Filter_Abstract
 {
+    /**
+     * @var array
+     */
     protected $_currencyList = null;
+
+    /**
+     * @var Mage_Directory_Model_Currency
+     */
     protected $_currencyModel = null;
 
+    /**
+     * @var Mage_Directory_Model_Currency_DefaultLocator
+     */
+    protected $_currencyLocator = null;
+
+    /**
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param Mage_Core_Model_Layout $layout
+     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Mage_Backend_Model_Url $urlBuilder
+     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Session $session
+     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Mage_Core_Controller_Varien_Front $frontController
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Directory_Model_Currency $currencyModel
+     * @param Mage_Directory_Model_Currency_DefaultLocator $currencyLocator
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        Mage_Core_Controller_Request_Http $request,
+        Mage_Core_Model_Layout $layout,
+        Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Backend_Model_Url $urlBuilder,
+        Mage_Core_Model_Translate $translator,
+        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_Session $session,
+        Mage_Core_Model_Store_Config $storeConfig,
+        Mage_Core_Controller_Varien_Front $frontController,
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Directory_Model_Currency $currencyModel,
+        Mage_Directory_Model_Currency_DefaultLocator $currencyLocator,
+        array $data = array()
+    ) {
+        parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
+            $session, $storeConfig, $frontController, $helperFactory, $data
+        );
+
+        $this->_currencyModel = $currencyModel;
+        $this->_currencyLocator = $currencyLocator;
+    }
+
+    /**
+     * Retrieve html
+     *
+     * @return string
+     */
     public function getHtml()
     {
         $html  = '<div class="range">';
@@ -47,6 +106,11 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Price extends Mage_Backend_Bl
         return $html;
     }
 
+    /**
+     * Retrieve display currency select
+     *
+     * @return bool|mixed
+     */
     public function getDisplayCurrencySelect()
     {
         if (!is_null($this->getColumn()->getData('display_currency_select'))) {
@@ -56,6 +120,11 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Price extends Mage_Backend_Bl
         }
     }
 
+    /**
+     * Retrieve currency affect
+     *
+     * @return bool|mixed
+     */
     public function getCurrencyAffect()
     {
         if (!is_null($this->getColumn()->getData('currency_affect'))) {
@@ -65,20 +134,16 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Price extends Mage_Backend_Bl
         }
     }
 
-    protected function _getCurrencyModel()
-    {
-        if (is_null($this->_currencyModel)) {
-            $this->_currencyModel = Mage::getModel('Mage_Directory_Model_Currency');
-        }
-
-        return $this->_currencyModel;
-    }
-
+    /**
+     * Retrieve currency select html
+     *
+     * @return string
+     */
     protected function _getCurrencySelectHtml()
     {
         $value = $this->getEscapedValue('currency');
         if (!$value) {
-            $value = $this->getColumn()->getCurrencyCode();
+            $value = $this->_getColumnCurrencyCode();
         }
 
         $html  = '';
@@ -91,14 +156,25 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Price extends Mage_Backend_Bl
         return $html;
     }
 
+    /**
+     * Retrieve list of currencies
+     *
+     * @return array|null
+     */
     protected function _getCurrencyList()
     {
         if (is_null($this->_currencyList)) {
-            $this->_currencyList = $this->_getCurrencyModel()->getConfigAllowCurrencies();
+            $this->_currencyList = $this->_currencyModel->getConfigAllowCurrencies();
         }
         return $this->_currencyList;
     }
 
+    /**
+     * Retrieve filter value
+     *
+     * @param null $index
+     * @return mixed|null
+     */
     public function getValue($index=null)
     {
         if ($index) {
@@ -113,7 +189,11 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Price extends Mage_Backend_Bl
         return null;
     }
 
-
+    /**
+     * Retrieve filter condition
+     *
+     * @return array|mixed|null
+     */
     public function getCondition()
     {
         $value = $this->getValue();
@@ -121,9 +201,9 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Price extends Mage_Backend_Bl
         if (isset($value['currency']) && $this->getCurrencyAffect()) {
             $displayCurrency = $value['currency'];
         } else {
-            $displayCurrency = $this->getColumn()->getCurrencyCode();
+            $displayCurrency = $this->_getColumnCurrencyCode();
         }
-        $rate = $this->_getRate($displayCurrency, $this->getColumn()->getCurrencyCode());
+        $rate = $this->_getRate($displayCurrency, $this->_getColumnCurrencyCode());
 
         if (isset($value['from'])) {
             $value['from'] *= $rate;
@@ -137,14 +217,37 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Price extends Mage_Backend_Bl
         return $value;
     }
 
-    protected function _getRate($from, $to)
+    /**
+     * Retrieve column currency code
+     *
+     * @return string
+     */
+    protected function _getColumnCurrencyCode()
     {
-        return Mage::getModel('Mage_Directory_Model_Currency')->load($from)->getAnyRate($to);
+        return $this->getColumn()->getCurrencyCode()?
+            $this->getColumn()->getCurrencyCode() : $this->_currencyLocator->getDefaultCurrency($this->_request);
     }
 
+    /**
+     * Get currency rate
+     *
+     * @param $from
+     * @param $to
+     * @return float
+     */
+    protected function _getRate($from, $to)
+    {
+        return $this->_currencyModel->load($from)->getAnyRate($to);
+    }
+
+    /**
+     * Prepare currency rates
+     *
+     * @param $displayCurrency
+     */
     public function prepareRates($displayCurrency)
     {
-        $storeCurrency = $this->getColumn()->getCurrencyCode();
+        $storeCurrency = $this->_getColumnCurrencyCode();
 
         $rate = $this->_getRate($storeCurrency, $displayCurrency);
         if ($rate) {
