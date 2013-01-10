@@ -24,11 +24,6 @@ class CodeBase
     /**
      * @var string
      */
-    private $_deployDir;
-
-    /**
-     * @var string
-     */
     private $_workingDir;
 
     /**
@@ -45,55 +40,24 @@ class CodeBase
      * @param string $deployDir
      * @throws \Exception
      */
-    public function __construct(\Magento_Shell $shell, \Zend_Log $logger, $workingDir, $deployDir)
+    public function __construct(\Magento_Shell $shell, \Zend_Log $logger, $workingDir)
     {
         $this->_shell = $shell;
         $this->_log = $logger;
         if (!is_dir($workingDir)) {
             throw new \Exception("Working directory does not exist: '{$workingDir}'");
         }
-        if (!is_dir($deployDir) || !is_writable($deployDir)) {
-            throw new \Exception("Deployment directory does not exist or not writable: '{$deployDir}'");
-        }
         $this->_workingDir = $workingDir;
-        $this->_deployDir = $deployDir;
-    }
-
-    /**
-     * Get deployment directory path
-     *
-     * @return string
-     */
-    public function getDeployDir()
-    {
-        return $this->_deployDir;
     }
 
     /**
      * Re-create the deployment directory and clone the Git repository from scratch
      */
-    public function recreateDeployDir()
+    public function resetWorkingDir()
     {
-        if (is_dir($this->_deployDir)) {
-            $this->_rmDir($this->_deployDir);
-        }
-        $this->_log->log("mkdir('{$this->_deployDir}')", \Zend_Log::INFO);
-        mkdir($this->_deployDir);
-        $this->_shell->execute('git clone %s %s', array($this->_workingDir, $this->_deployDir));
-        $this->_override();
-    }
-
-    /**
-     * Fetch updates from original Git repository
-     */
-    public function updateDeployDir()
-    {
-        $this->_ensureRepository();
         $gitCmd = 'git --work-tree=%s --git-dir=%s';
-        $gitParams = array($this->_deployDir, $this->_deployDir . '/.git');
+        $gitParams = array($this->_workingDir, $this->_workingDir . '/.git');
         $this->_shell->execute("{$gitCmd} reset --hard", $gitParams); // this will erase lock
-        $this->_shell->execute("{$gitCmd} fetch", $gitParams);
-        $this->_shell->execute("{$gitCmd} merge -X theirs remotes/origin/HEAD", $gitParams);
         $this->_override();
         // restore the erased lock
         if ($this->_lockLevel > 0) {
@@ -110,7 +74,7 @@ class CodeBase
     public function recreateDir($dir)
     {
         $this->removeDir($dir);
-        $targetDir = "{$this->_deployDir}/{$dir}";
+        $targetDir = "{$this->_workingDir}/{$dir}";
         $this->_log->log("mkdir('{$targetDir}')", \Zend_Log::INFO);
         mkdir($targetDir);
         return $targetDir;
@@ -127,7 +91,7 @@ class CodeBase
         if (empty($dir)) {
             throw new \Exception('Directory name must be not empty.');
         }
-        $targetDir = "{$this->_deployDir}/{$dir}";
+        $targetDir = "{$this->_workingDir}/{$dir}";
         $this->_rmDir($targetDir);
     }
 
@@ -139,7 +103,6 @@ class CodeBase
      */
     public function setLock($lock = true)
     {
-        $this->_ensureRepository();
         if ($lock) {
             if ($this->_lockLevel == 0) {
                 $this->_lock();
@@ -161,7 +124,7 @@ class CodeBase
      */
     private function _lock()
     {
-        $this->_patchFile('Allow from all', 'Deny from all', "{$this->_deployDir}/.htaccess");
+        $this->_patchFile('Allow from all', 'Deny from all', "{$this->_workingDir}/.htaccess");
     }
 
     /**
@@ -173,25 +136,15 @@ class CodeBase
     {
         // custom entry point
         $source =  "{$this->_workingDir}/dev/build/saas_qa/index.build.php";
-        $dest = "{$this->_deployDir}/index.build.php";
+        $dest = "{$this->_workingDir}/index.build.php";
         $this->_log->log("copy({$source}, {$dest})", \Zend_Log::INFO);
         copy($source, $dest);
 
         // .htaccess
         $this->_shell->execute('git --work-tree=%s --git-dir=%s checkout -- .htaccess', array(
-            $this->_deployDir, $this->_deployDir . '/.git'
+            $this->_workingDir, $this->_workingDir . '/.git'
         ));
-        $this->_patchFile('index.php', 'index.build.php', "{$this->_deployDir}/.htaccess");
-    }
-
-    /**
-     * Make sure repository exists
-     */
-    private function _ensureRepository()
-    {
-        if (!file_exists("{$this->_deployDir}/.git")) {
-            $this->recreateDeployDir();
-        }
+        $this->_patchFile('index.php', 'index.build.php', "{$this->_workingDir}/.htaccess");
     }
 
     /**

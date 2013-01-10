@@ -75,15 +75,15 @@ class Wizard
     public function __construct(\Zend_Log $logger, array $params, $workingDir, $metaInfoDir)
     {
         $this->_params = $params;
-        if (empty($params['deploy-dir']) || empty($params['deploy-url-pattern']) || empty($params['dsn'])) {
+        if (empty($params['deploy-url-pattern']) || empty($params['dsn'])) {
             throw new \Exception('Not all required parameters are specified.');
         }
         if (!$metaInfoDir || !is_dir($metaInfoDir) || !is_writable($metaInfoDir)) {
-            throw new \Exception("Meta information directory does not exist or not writable: '{$workingDir}'");
+            throw new \Exception("Meta information directory does not exist or not writable: '{$metaInfoDir}'");
         }
         $this->_log = $logger;
         $this->_shell = new \Magento_Shell($logger);
-        $this->_codeBase = new CodeBase($this->_shell, $logger, $workingDir, $params['deploy-dir']);
+        $this->_codeBase = new CodeBase($this->_shell, $logger, $workingDir);
         $this->_workingDir = $workingDir;
         $this->_metaDir = $metaInfoDir;
         $this->_initTenants();
@@ -93,7 +93,7 @@ class Wizard
     /**
      * Execute the wizard
      *
-     * 1. If "cleanup" switch is specified, re-create the deployment directory and uninstall all tenants
+     * 1. If "cleanup" switch is specified, reset the working directory and uninstall all tenants
      *   - otherwise update code base and uninstall specified tenants (if specified)
      * 2. Perform upgrade for existing tenants
      * 3. Install new tenants (if specified)
@@ -105,9 +105,8 @@ class Wizard
             if ($this->_tenants) {
                 $this->uninstall(array_keys($this->_tenants));
             }
-            $this->_codeBase->recreateDeployDir();
+            $this->_codeBase->resetWorkingDir();
         } else {
-            $this->_codeBase->updateDeployDir();
             if (!empty($this->_params['uninstall'])) {
                 $this->uninstall($this->_extractIds($this->_params['uninstall']));
             }
@@ -239,7 +238,6 @@ class Wizard
      */
     private function _install(Tenant $tenant)
     {
-        $deployDir = $this->_codeBase->getDeployDir();
         $varDir = $this->_codeBase->recreateDir($tenant->getVarDirName());
         $mediaUri = $this->_getMediaUri($tenant);
         $mediaDir = $this->_codeBase->recreateDir($mediaUri);
@@ -273,7 +271,7 @@ class Wizard
             'install_option_dirs'        => base64_encode(serialize(array('var' => $varDir, 'media' => $mediaDir))),
         );
         $command = 'php -f %s --';
-        $arguments = array("{$deployDir}/dev/shell/install.php");
+        $arguments = array("{$this->_workingDir}/dev/shell/install.php");
         foreach ($options as $key => $value) {
             $command .= ' --%s %s';
             $arguments[] = $key;
@@ -281,7 +279,7 @@ class Wizard
         }
         $this->_shell->execute($command, $arguments);
         // hack to get the local.xml out of the code base (entire installer requires refactoring to make it clean)
-        $origLocalXml = "{$deployDir}/app/etc/local.xml";
+        $origLocalXml = "{$this->_workingDir}/app/etc/local.xml";
         $metaLocalXml = "{$this->_metaDir}/{$tenant->getLocalXmlFilename()}";
         $this->_log->log("rename({$origLocalXml}, {$metaLocalXml})", \Zend_Log::INFO);
         rename($origLocalXml, $metaLocalXml);
@@ -310,11 +308,11 @@ class Wizard
         $mediaUri = $this->_getMediaUri($tenant);
         $this->_shell->execute(
             'php -f %s -- --local-xml=%s --media-uri=%s --media-dir=%s --var-dir=%s', array(
-                "{$this->_codeBase->getDeployDir()}/dev/build/saas_qa/upgrade.php",
+                "{$this->_workingDir}/dev/build/saas_qa/upgrade.php",
                 $localXml,
                 $mediaUri,
-                "{$this->_codeBase->getDeployDir()}/{$tenant->getVarDirName()}",
-                "{$this->_codeBase->getDeployDir()}/{$mediaUri}"
+                "{$this->_workingDir}/{$mediaUri}",
+                "{$this->_workingDir}/{$tenant->getVarDirName()}"
             )
         );
     }
