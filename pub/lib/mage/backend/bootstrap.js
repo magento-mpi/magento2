@@ -33,8 +33,8 @@ jQuery(function ($) {
                 settings.data = {
                     form_key: form_key
                 };
-            } else if ($.type(settings.data) === "string"
-                && settings.data.indexOf('form_key=') === -1) {
+            } else if ($.type(settings.data) === "string" &&
+                settings.data.indexOf('form_key=') === -1) {
                 settings.data += '&' + $.param({
                     form_key: form_key
                 });
