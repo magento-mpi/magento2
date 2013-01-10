@@ -7,11 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- /** @var $this Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix */
+/** @var $this Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix */
 ?>
 <?php
 $variations = $this->getVariations();
-if (count($variations)) {
+if (!$variations) {
+    return;
+}
 $usedProductAttributes = $this->getUsedAttributes();
 $productByUsedAttributes = $this->getAssociatedProducts();
 ?>
@@ -45,15 +47,9 @@ $productByUsedAttributes = $this->getAssociatedProducts();
     </tr>
     </thead>
     <tbody>
-    <?php
-    if (count($variations) === 0) {
-        echo '<tr><td colspan="' . (6 + count($usedProductAttributes)) . '">'
-        . $this->__('No variations generated')
-        . '</td></tr>';
-    }
+<?php
     $isEven = true;
     $productPrice = (float)$this->_getProduct()->getPrice();
-
     foreach ($variations as $variation) {
         $attributeValues = array();
         $attributeLabels = array();
@@ -88,8 +84,8 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                 <td class="associated-matrix-product-weight"><?php echo $product->getWeight()?></td>
                 <td><?php echo implode('</td><td>', $attributeLabels)?></td>
                 <td class="a-center"><input type="checkbox" name="associated_product_ids[]"
-                        value="<?php echo $product->getId()?>" class="checkbox associated-matrix-product-id"
-                        checked="checked"></td>
+                    value="<?php echo $product->getId()?>" class="checkbox associated-matrix-product-id"
+                    checked="checked"></td>
             </tr>
         <?php
         } else {
@@ -134,14 +130,13 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                 <td><?php echo implode('</td><td>', $attributeLabels)?></td>
                 <td class="a-center">
                     <input type="checkbox" name="associated_product_ids[]" value=""
-                        class="checkbox associated-matrix-product-id"<?php echo $checked?>>
+                        class="checkbox associated-matrix-product-id"<?php echo $checked?> />
                 </td>
             </tr>
-        <?php
+    <?php
         }
         $isEven = !$isEven;
     }
     ?>
     </tbody>
 </table>
-<?php } ?>

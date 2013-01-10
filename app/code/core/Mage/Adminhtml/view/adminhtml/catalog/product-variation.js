@@ -33,6 +33,11 @@
                 var $this = $(event.target);
                 $this.closest('.fieldset-legend').find('.store-label').prop('disabled', $this.is(':checked'));
             };
+            var updateGenerateVariationsButtonAvailability = function () {
+                var isDisabled = $('#attributes-container .entry-edit:not(:has(input.include:checked))').length > 0
+                    || !$('#attributes-container .entry-edit').length;
+                $('#generate-variations-button').prop('disabled', isDisabled).toggleClass('disabled', isDisabled);
+            };
 
             this._on({
                 'click input.price-variation': havePriceVariationsCheckboxHandler,
@@ -45,13 +50,16 @@
                 'click .toggle': function (event) {
                     $(event.target).parent().next('fieldset').toggle();
                 },
+                'click input.include': updateGenerateVariationsButtonAvailability,
                 'add': function (event, attribute) {
                     $('#attribute-template').tmpl({attribute: attribute}).appendTo($(event.target));
-                    $('#attribute-' + attribute.code + '-container select').attr('disabled', true);
+                    $('#attribute-' + attribute.code + '-container select').prop('disabled', true);
+                    updateGenerateVariationsButtonAvailability();
                 },
                 'click .use-default': useDefaultCheckboxHandler,
                 'change .use-default': useDefaultCheckboxHandler
             });
+            updateGenerateVariationsButtonAvailability();
         },
         /**
          * Retrieve list of attributes
