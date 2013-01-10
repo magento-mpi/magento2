@@ -8,7 +8,7 @@ app/design/adminhtml/default/enterprise
 app/design/frontend/enterprise
 app/design/install/default/enterprise
 app/etc/enterprise.xml
-app/etc/modules
+app/etc/modules/XEnterprise_Enabler.xml.dist
 dev/tests/integration/etc/modules/XEnterprise_Enabler.xml
 dev/tests/integration/testsuite/Enterprise
 dev/tests/integration/testsuite/integrity/modular/ViewFilesTest.php
