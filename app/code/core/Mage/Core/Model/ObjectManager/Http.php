@@ -20,22 +20,37 @@ class Mage_Core_Model_ObjectManager_Http extends Magento_ObjectManager_Zend
      */
     public function __construct(
         $baseDir, $runCode, $runType, $customDirs = null,
-        $customPath = null, $cacheOptions = array(), $customLocalXml = null
+        $customPath = null, $cacheOptions = array(), $customLocalXml = null, $customConfig = null
     ) {
         parent::__construct($baseDir . '/var/di/definitions.php');
         $this->configure(array(
-            'Mage_Core_Model_Dir' => array(
-                'params' => array('baseDir' => $baseDir, 'customDirs' => $customDirs, 'customPath' => $customPath)
+            'preference' => array(
+                'Mage_Core_Model_Config_StorageInterface' => 'Mage_Core_Model_Config_Storage'
             ),
-            'Mage_Core_Model_Config' => array(
-                'params' => array('localXml' => $customLocalXml)
+            'Mage_Core_Model_Dir' => array(
+                'parameters' => array('baseDir' => $baseDir, 'customDirs' => $customDirs, 'customPath' => $customPath)
+            ),
+            'Mage_Core_Model_Config_Loader' => array(
+                'parameters' => array('loaders' => array(
+                        'Mage_Core_Model_Loader_Modules',
+                        'Mage_Core_Model_Loader_Db',
+                        'Mage_Core_Model_Loader_Locales',
+                        'Mage_Core_Model_Loader_Base',
+                    )
+                )
+            ),
+            'Mage_Core_Model_Config_Storage' => array(
+                'parameters' => array('extraFile' => $customLocalXml, 'extraData' => $customConfig)
             ),
             'Mage_Core_Model_Cache' => array(
-                'params' => array('options' => $cacheOptions),
+                'parameters' => array('options' => $cacheOptions),
             ),
             'Mage_Core_Model_App' => array(
-                'params' => array('scopeCode' => $runCode, 'scopeType' => $runType)
-            )
+                'parameters' => array('scopeCode' => $runCode, 'scopeType' => $runType)
+            ),
+            'Magento_Http_Handler_Composite' => array(
+                'parameters' => array('handlers' => array('Mage_Core_Model_App'))
+            ),
         ));
     }
 }
