@@ -35,17 +35,58 @@
     </adminhtml_logging_details>
 
     <adminhtml_logging_archive>
+        <update handle="formkey"/>
+        <update handle='adminhtml_logging_archive_grid_block' />
         <reference name="content">
-            <block type="Enterprise_Logging_Block_Adminhtml_Container" name="enterprise.logging.archive" template="Mage_Backend::widget/grid/container.phtml">
-                <block type="Enterprise_Logging_Block_Adminhtml_Archive_Grid" name="enterprise.logging.archive.grid"/>
-                <action method="setHeaderText" translate="text">
-                    <text>Admin Actions Log Archive</text>
-                </action>
+            <block type="Enterprise_Logging_Block_Adminhtml_Container" name="adminhtml.logging.archive.grid.container">
+                <arguments translate="header_text" module="Enterprise_Logging">
+                    <header_text>Admin Actions Log Archive</header_text>
+                </arguments>
             </block>
         </reference>
     </adminhtml_logging_archive>
 
     <adminhtml_logging_archivegrid>
-        <block type="Enterprise_Logging_Block_Adminhtml_Archive_Grid" output="1" name="root"/>
+        <update handle="formkey"/>
+        <update handle="adminhtml_logging_archive_grid_block"/>
+        <container label="Logging Archive Block" name="adminhtml.logging.archive.grid.container" output="1"/>
     </adminhtml_logging_archivegrid>
+
+    <adminhtml_logging_archive_grid_block>
+        <reference name='adminhtml.logging.archive.grid.container'>
+            <block type='Mage_Backend_Block_Widget_Grid' name='adminhtml.logging.archive.grid' as='grid'>
+                <arguments>
+                    <id>loggingArchiveGrid</id>
+                    <dataSource type='object'>Enterprise_Logging_Model_Archive_Collection</dataSource>
+                    <default_sort>basename</default_sort>
+                    <default_dir>DESC</default_dir>
+                    <save_parameters_in_session>1</save_parameters_in_session>
+                    <use_ajax>1</use_ajax>
+                    <grid_url type="url">
+                        <path>*/*/archiveGrid</path>
+                        <params>
+                            <_current>1</_current>
+                        </params>
+                    </grid_url>
+                </arguments>
+                <block type='Mage_Backend_Block_Widget_Grid_ColumnSet' name='adminhtml.logging.archive.grid.columnSet' as='grid.columnSet'>
+                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='download'>
+                        <arguments>
+                            <header translate='true' module='Enterprise_Logging'>Archive File</header>
+                            <index>basename</index>
+                            <renderer>Enterprise_Logging_Block_Adminhtml_Grid_Renderer_Download</renderer>
+                        </arguments>
+                    </block>
+                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='date'>
+                        <arguments>
+                            <header translate='true' module='Enterprise_Logging'>Date</header>
+                            <index>time</index>
+                            <type>date</type>
+                            <filter>Enterprise_Logging_Block_Adminhtml_Archive_Grid_Filter_Date</filter>
+                        </arguments>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_logging_archive_grid_block>
 </layout>
