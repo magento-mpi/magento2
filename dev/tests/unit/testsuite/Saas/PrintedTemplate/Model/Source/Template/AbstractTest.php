@@ -84,14 +84,14 @@ class Saas_PrintedTemplate_Model_Source_Template_AbstractTest extends PHPUnit_Fr
                 array(
                     array('value' => '', 'label' => '%s (Default Template from Locale)_test'),
                     array('value' => 'test', 'label' => 'test')
-            )
+                )
             ),
             array(
                 null,
                 array(
                     array('value' => '', 'label' => 'Default Template from Locale_test'),
                     array('value' => 'test', 'label' => 'test')
-            )
+                )
             )
         );
     }
