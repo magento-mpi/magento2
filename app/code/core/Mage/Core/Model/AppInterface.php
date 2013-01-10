@@ -19,16 +19,6 @@ interface Mage_Core_Model_AppInterface
     public function init(array $params);
 
     /**
-     * Run light version of application with specified modules support
-     *
-     * @see Mage_Core_Model_AppInterface->run()
-     *
-     * @param  string|array $modules
-     * @return Mage_Core_Model_AppInterface
-     */
-    public function initSpecified(array $modules = array());
-
-    /**
      * Run application. Run process responsible for request processing and sending response.
      *
      * @return Mage_Core_Model_AppInterface

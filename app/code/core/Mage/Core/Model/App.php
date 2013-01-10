@@ -315,23 +315,6 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     }
 
     /**
-     * Run light version of application with specified modules support
-     *
-     * @see Mage_Core_Model_App->run()
-     *
-     * @param  string|array $modules
-     * @return Mage_Core_Model_App
-     */
-    public function initSpecified(array $modules = array())
-    {
-        if (!empty($modules)) {
-            $this->_config->addAllowedModules($modules);
-        }
-        $this->_initModules();
-        return $this;
-    }
-
-    /**
      * Run application. Run process responsible for request processing and sending response.
      *
      * @return Mage_Core_Model_App
@@ -340,17 +323,10 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     {
         Magento_Profiler::start('init');
 
-        $this->_initModules();
         $this->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
-
-        if ($this->_config->isLocalConfigLoaded()) {
-            /** @var $logger Mage_Core_Model_Logger */
-            $this->_initRequest();
-            Mage_Core_Model_Resource_Setup::applyAllDataUpdates();
-        }
-
         $controllerFront = $this->getFrontController();
         Magento_Profiler::stop('init');
+
         $controllerFront->dispatch();
 
         return $this;
@@ -400,27 +376,6 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     {
         $this->setErrorHandler(self::DEFAULT_ERROR_HANDLER);
         date_default_timezone_set(Mage_Core_Model_Locale::DEFAULT_TIMEZONE);
-        return $this;
-    }
-
-    /**
-     * Initialize configuration of active modules and locales
-     *
-     * @return Mage_Core_Model_App
-     */
-    protected function _initModules()
-    {
-        if (!$this->_config->loadModulesCache()) {
-            $this->_config->loadModules();
-            if ($this->_config->isLocalConfigLoaded() && !$this->_shouldSkipProcessModulesUpdates()) {
-                Magento_Profiler::start('apply_db_schema_updates');
-                Mage_Core_Model_Resource_Setup::applyAllUpdates();
-                Magento_Profiler::stop('apply_db_schema_updates');
-            }
-            $this->_config->loadDb();
-            $this->_config->loadLocales();
-            $this->_config->saveCache();
-        }
         return $this;
     }
 

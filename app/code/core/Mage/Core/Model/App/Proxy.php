@@ -53,19 +53,6 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
     }
 
     /**
-     * Run light version of application with specified modules support
-     *
-     * @see Mage_Core_Model_AppInterface->run()
-     *
-     * @param  string|array $modules
-     * @return Mage_Core_Model_AppInterface
-     */
-    public function initSpecified(array $modules = array())
-    {
-        return $this->_getApp()->initSpecified($modules);
-    }
-
-    /**
      * Run application. Run process responsible for request processing and sending response.
      *
      * @return Mage_Core_Model_AppInterface
