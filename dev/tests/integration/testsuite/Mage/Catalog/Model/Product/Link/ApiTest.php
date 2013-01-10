@@ -23,7 +23,7 @@ class Mage_Catalog_Model_Product_Link_ApiTest extends PHPUnit_Framework_TestCase
     public function testTypes()
     {
         /** Add up-sell and related products. */
-        $types = Magento_Test_Helper_Api::call($this, 'catalogProductLinkTypes', array());
+        $types = Magento_Test_Helper_Api::call($this, 'catalogProductLinkTypes');
         $expectedTypes = array('related', 'up_sell', 'cross_sell', 'grouped');
         $this->assertEquals($expectedTypes, $types);
     }
@@ -116,7 +116,7 @@ class Mage_Catalog_Model_Product_Link_ApiTest extends PHPUnit_Framework_TestCase
         $this->assertCount(1, $upSellProducts, "One link of 'up-sell' type must exist.");
         $expectedFields = array('product_id', 'type', 'set', 'sku', 'position');
         $productData = reset($upSellProducts);
-        $missingFields = array_diff_key($expectedFields, array_keys($productData));
+        $missingFields = array_diff($expectedFields, array_keys($productData));
         $this->assertEmpty(
             $missingFields,
             sprintf("The following fields must be present in response: %s.", implode(', ', $missingFields))
