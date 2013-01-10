@@ -70,6 +70,9 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
         $billingLastnameField = "$billingAliasName.lastname";
         $shippingFirstnameField = "$shippingAliasName.firstname";
         $shippingLastnameField = "$shippingAliasName.lastname";
+        // Oracle CONCAT can only have 2 arguments
+        $billingNameExpr = "CONCAT({{billing_firstname}}, CONCAT(' ', {{billing_lastname}}))";
+        $shippingNameExpr = "CONCAT({{shipping_firstname}}, CONCAT(' ', {{shipping_lastname}}))";
         $orderCollection->addAttributeToSelect('*')
             ->addAddressFields()
             ->addExpressionFieldToSelect('billing_firstname', "{{billing_firstname}}",
@@ -80,9 +83,9 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
                 array('shipping_firstname' => $shippingFirstnameField))
             ->addExpressionFieldToSelect('shipping_lastname', "{{shipping_lastname}}",
                 array('shipping_lastname' => $shippingLastnameField))
-            ->addExpressionFieldToSelect('billing_name', "CONCAT({{billing_firstname}}, ' ', {{billing_lastname}})",
+            ->addExpressionFieldToSelect('billing_name', $billingNameExpr,
                 array('billing_firstname' => $billingFirstnameField, 'billing_lastname' => $billingLastnameField))
-            ->addExpressionFieldToSelect('shipping_name', 'CONCAT({{shipping_firstname}}, " ", {{shipping_lastname}})',
+            ->addExpressionFieldToSelect('shipping_name', $shippingNameExpr,
                 array('shipping_firstname' => $shippingFirstnameField, 'shipping_lastname' => $shippingLastnameField)
         );
 
