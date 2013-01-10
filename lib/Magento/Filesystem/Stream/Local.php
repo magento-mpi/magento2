@@ -224,7 +224,7 @@ class Magento_Filesystem_Stream_Local implements Magento_Filesystem_StreamInterf
     protected function _assertReadable()
     {
         $this->_assertOpened();
-        if (false === $this->_mode->allowsRead()) {
+        if (false === $this->_mode->isReadAllowed()) {
             throw new Magento_Filesystem_Exception('The stream does not allow read.');
         }
     }
@@ -237,7 +237,7 @@ class Magento_Filesystem_Stream_Local implements Magento_Filesystem_StreamInterf
     protected function _assertWritable()
     {
         $this->_assertOpened();
-        if (false === $this->_mode->allowsWrite()) {
+        if (false === $this->_mode->isWriteAllowed()) {
             throw new Magento_Filesystem_Exception('The stream does not allow write.');
         }
     }

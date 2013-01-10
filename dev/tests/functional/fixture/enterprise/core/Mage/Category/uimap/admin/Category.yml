@@ -43,3 +43,34 @@ manage_categories:
                                         delete_all_permissions_visible: "[not(contains(@class,'no-display'))]//button[contains(@id, '_delete_button')]"
         messages:
             duplicate_permissions: //*[contains(@id, '-category_permissions_%row%_duplicate')]
+
+# Manage catalog event page
+manage_catalog_events:
+    mca: catalog_event/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'catalog_event/')]
+    title: Catalog Events / Categories / Catalog / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    manage_catalog_events_grid:
+                        xpath: //div[@id='catalogEventGrid']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                        dropdowns:
+                            display_countdown_ticker_on: //select[@id='catalogEventGrid_filter_display_state']
+                            status: //select[@id='catalogEventGrid_filter_status']
+                            view_on_page: //select[@name='limit']
+                        fields:
+                            page: //input[@name='page']
+                            id: //input[@id='catalogEventGrid_filter_event_id']
+                            category_id: //input[@id='catalogEventGrid_filter_category_id']
+                            category: //input[@id='catalogEventGrid_filter_category']
+                            starts_on_from: //input[@name="date_start[from]"]
+                            starts_on_to: //input[@name="date_start[to]"]
+                            ends_on_from: //input[@name="date_end[from]"]
+                            ends_on_to: //input[@name="date_end[to]"]
+                            sort_order: //input[@id='catalogEventGrid_filter_sort_order']
+        buttons:
+            add_catalog_event: //button[@id='add']
