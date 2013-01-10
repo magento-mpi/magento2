@@ -57,6 +57,8 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
         $this->_filesystem->setWorkingDirectory(Mage::getBaseDir('media'));
         $this->_baseMediaPath = $this->_getConfig()->getBaseMediaPath();
         $this->_baseTmpMediaPath = $this->_getConfig()->getBaseTmpMediaPath();
+        $this->_filesystem->ensureDirectoryExists($this->_baseMediaPath);
+        $this->_filesystem->ensureDirectoryExists($this->_baseTmpMediaPath);
     }
 
     /**

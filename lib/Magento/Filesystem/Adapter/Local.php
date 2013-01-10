@@ -120,14 +120,20 @@ class Magento_Filesystem_Adapter_Local implements
     protected function _deleteNestedKeys($key)
     {
         foreach ($this->getNestedKeys($key) as $nestedKey) {
-            if (is_dir($nestedKey) && !is_link($nestedKey) && true !== @rmdir($nestedKey)) {
-                throw new Magento_Filesystem_Exception(sprintf('Failed to remove directory %s', $nestedKey));
+            if (is_dir($nestedKey) && !is_link($nestedKey)) {
+                if (true !== @rmdir($nestedKey)) {
+                    throw new Magento_Filesystem_Exception(sprintf('Failed to remove directory %s', $nestedKey));
+                }
             } else {
                 // https://bugs.php.net/bug.php?id=52176
-                if (defined('PHP_WINDOWS_VERSION_MAJOR') && is_dir($nestedKey) && true !== @rmdir($nestedKey)) {
-                    throw new Magento_Filesystem_Exception(sprintf('Failed to remove file %s', $nestedKey));
-                } elseif (true !== @unlink($nestedKey)) {
-                    throw new Magento_Filesystem_Exception(sprintf('Failed to remove file %s', $nestedKey));
+                if (defined('PHP_WINDOWS_VERSION_MAJOR') && is_dir($nestedKey)) {
+                    if (true !== @rmdir($nestedKey)) {
+                        throw new Magento_Filesystem_Exception(sprintf('Failed to remove file %s', $nestedKey));
+                    }
+                } else {
+                    if (true !== @unlink($nestedKey)) {
+                        throw new Magento_Filesystem_Exception(sprintf('Failed to remove file %s', $nestedKey));
+                    }
                 }
             }
         }

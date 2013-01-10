@@ -42,6 +42,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
 
         try {
             $filesystem = $this->_objectManager->get('Magento_Filesystem');
+            $filesystem->setIsAllowCreateDirectories(true);
             $filesystem->ensureDirectoryExists($pubTheme, 0777);
             $isWritable = $filesystem->isWritable($pubTheme);
         } catch (Magento_Filesystem_Exception $e) {

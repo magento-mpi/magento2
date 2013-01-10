@@ -628,7 +628,6 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
     public function methodsWithFileChecksDataProvider()
     {
         return array(
-            'delete' => array('delete'),
             'rename' => array('rename', array('/tmp/file001.txt'))
         );
     }

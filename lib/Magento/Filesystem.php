@@ -126,7 +126,6 @@ class Magento_Filesystem
     public function delete($key, $workingDirectory = null)
     {
         $path = $this->_getCheckedPath($key, $workingDirectory);
-        $this->_checkExists($path);
         return $this->_adapter->delete($path);
     }
 
