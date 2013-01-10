@@ -409,7 +409,7 @@ class Mage_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
          * Test update with empty category ID
          */
         $params = $categoryFixture['update'];
-        $params['categoryId'] = 'invalid_category_id';
+        $params['categoryId'] = 9999;
         try {
             $result = Magento_Test_Helper_Api::call($this, 'catalogCategoryUpdate', $params);
         } catch (SoapFault $e) {
