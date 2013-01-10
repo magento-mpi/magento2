@@ -32,6 +32,11 @@ class CodeBase
     private $_workingDir;
 
     /**
+     * @var int
+     */
+    private $_lockLevel = 0;
+
+    /**
      * Set dependencies and basic state parameters
      *
      * @param \Magento_Shell $shell
@@ -65,7 +70,7 @@ class CodeBase
     }
 
     /**
-     * Delete the deployment directory, re-create it and clone the Git repository from working directory
+     * Re-create the deployment directory and clone the Git repository from scratch
      */
     public function recreateDeployDir()
     {
@@ -75,8 +80,7 @@ class CodeBase
         $this->_log->log("mkdir('{$this->_deployDir}')", \Zend_Log::INFO);
         mkdir($this->_deployDir);
         $this->_shell->execute('git clone %s %s', array($this->_workingDir, $this->_deployDir));
-        $this->override();
-
+        $this->_override();
     }
 
     /**
@@ -87,10 +91,14 @@ class CodeBase
         $this->_ensureRepository();
         $gitCmd = 'git --work-tree=%s --git-dir=%s';
         $gitParams = array($this->_deployDir, $this->_deployDir . '/.git');
-        $this->_shell->execute("{$gitCmd} reset --hard", $gitParams);
+        $this->_shell->execute("{$gitCmd} reset --hard", $gitParams); // this will erase lock
         $this->_shell->execute("{$gitCmd} fetch", $gitParams);
         $this->_shell->execute("{$gitCmd} merge -X theirs remotes/origin/HEAD", $gitParams);
-        $this->override();
+        $this->_override();
+        // restore the erased lock
+        if ($this->_lockLevel > 0) {
+            $this->_lock();
+        }
     }
 
     /**
@@ -127,14 +135,33 @@ class CodeBase
      * Make code base non-accessible to the end-user
      *
      * @param bool $lock
+     * @throws \Exception
      */
     public function setLock($lock = true)
     {
+        $this->_ensureRepository();
         if ($lock) {
-            $this->_patchFile('Allow from all', 'Deny from all', "{$this->_deployDir}/.htaccess");
+            if ($this->_lockLevel == 0) {
+                $this->_lock();
+            }
+            $this->_lockLevel++;
         } else {
-            $this->override(); // it will restore and patch .htaccess properly thus opening access back
+            if ($this->_lockLevel == 1) {
+                $this->_override(); // it will restore and patch .htaccess properly thus opening access back
+            }
+            if ($this->_lockLevel == 0) {
+                throw new \Exception('Excessive unlock invoked');
+            }
+            $this->_lockLevel--;
         }
+    }
+
+    /**
+     * Hack .htaccess to deny access to end-user
+     */
+    private function _lock()
+    {
+        $this->_patchFile('Allow from all', 'Deny from all', "{$this->_deployDir}/.htaccess");
     }
 
     /**
@@ -142,15 +169,13 @@ class CodeBase
      *
      * Copy fresh index.build.php into the deployment dir and adjust the .htaccess accordingly
      */
-    public function override()
+    private function _override()
     {
-        $this->_ensureRepository();
-
         // custom entry point
-        $from =  "{$this->_workingDir}/dev/build/saas_qa/index.build.php";
-        $to = "{$this->_deployDir}/index.build.php";
-        $this->_log->log("copy({$from}, {$to})", \Zend_Log::INFO);
-        copy($from, $to);
+        $source =  "{$this->_workingDir}/dev/build/saas_qa/index.build.php";
+        $dest = "{$this->_deployDir}/index.build.php";
+        $this->_log->log("copy({$source}, {$dest})", \Zend_Log::INFO);
+        copy($source, $dest);
 
         // .htaccess
         $this->_shell->execute('git --work-tree=%s --git-dir=%s checkout -- .htaccess', array(
@@ -160,7 +185,7 @@ class CodeBase
     }
 
     /**
-     * Verify if the repository is in place and create it if it is not
+     * Make sure repository exists
      */
     private function _ensureRepository()
     {
@@ -170,17 +195,17 @@ class CodeBase
     }
 
     /**
-     * str_replace() in a file
+     * Replace a string in file, similar to str_replace()
      *
-     * @param string $from
-     * @param string $to
+     * @param string $search
+     * @param string $replace
      * @param string $file
      */
-    private function _patchFile($from, $to, $file)
+    private function _patchFile($search, $replace, $file)
     {
-        $this->_log->log("str_replace('{$from}', '{$to}', {$file})", \Zend_Log::INFO);
+        $this->_log->log("str_replace('{$search}', '{$replace}', {$file})", \Zend_Log::INFO);
         $contents = file_get_contents($file);
-        $contents = str_replace($from, $to, $contents);
+        $contents = str_replace($search, $replace, $contents);
         file_put_contents($file, $contents, LOCK_EX);
     }
 

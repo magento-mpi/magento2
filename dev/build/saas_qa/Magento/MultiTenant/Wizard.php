@@ -22,6 +22,8 @@ class Wizard
     private $_idFile;
 
     /**
+     * Currently deployed tenants
+     *
      * @var array
      */
     private $_tenants = array();
@@ -64,25 +66,24 @@ class Wizard
     /**
      * Initialize with required parameters
      *
+     * @param \Zend_Log $logger
      * @param array $params
      * @param string $workingDir
      * @param string $metaInfoDir
      * @throws \Exception
      */
-    public function __construct(array $params, $workingDir, $metaInfoDir)
+    public function __construct(\Zend_Log $logger, array $params, $workingDir, $metaInfoDir)
     {
         $this->_params = $params;
         if (empty($params['deploy-dir']) || empty($params['deploy-url-pattern']) || empty($params['dsn'])) {
             throw new \Exception('Not all required parameters are specified.');
         }
-        $logWriter = new \Zend_Log_Writer_Stream('php://output');
-        $logWriter->setFormatter(new \Zend_Log_Formatter_Simple('%message%' . PHP_EOL));
-        $this->_log = new \Zend_Log($logWriter);
-        $this->_shell = new \Magento_Shell($this->_log);
-        $this->_codeBase = new CodeBase($this->_shell, $this->_log, $workingDir, $params['deploy-dir']);
         if (!$metaInfoDir || !is_dir($metaInfoDir) || !is_writable($metaInfoDir)) {
             throw new \Exception("Meta information directory does not exist or not writable: '{$workingDir}'");
         }
+        $this->_log = $logger;
+        $this->_shell = new \Magento_Shell($logger);
+        $this->_codeBase = new CodeBase($this->_shell, $logger, $workingDir, $params['deploy-dir']);
         $this->_workingDir = $workingDir;
         $this->_metaDir = $metaInfoDir;
         $this->_initTenants();
@@ -92,14 +93,15 @@ class Wizard
     /**
      * Execute the wizard
      *
-     * 1. If "wipe" switch is specified, re-create the deployment directory and uninstall all tenants
+     * 1. If "cleanup" switch is specified, re-create the deployment directory and uninstall all tenants
      *   - otherwise update code base and uninstall specified tenants (if specified)
-     * 2. Perform upgrade for all tenants
+     * 2. Perform upgrade for existing tenants
      * 3. Install new tenants (if specified)
      */
     public function execute()
     {
-        if (isset($this->_params['wipe'])) {
+        $this->_codeBase->setLock();
+        if (isset($this->_params['cleanup'])) {
             if ($this->_tenants) {
                 $this->uninstall(array_keys($this->_tenants));
             }
@@ -121,6 +123,7 @@ class Wizard
         if (!empty($this->_params['install'])) {
             $this->install($this->_extractIds($this->_params['install']));
         }
+        $this->_codeBase->setLock(false);
     }
 
     /**
@@ -130,6 +133,7 @@ class Wizard
      */
     public function uninstall(array $ids)
     {
+        $this->_codeBase->setLock();
         foreach ($ids as $id) {
             $this->_log->log("=== Uninstall Tenant: '{$id}' ===", \Zend_Log::INFO);
             if (!isset($this->_tenants[$id])) {
@@ -140,13 +144,14 @@ class Wizard
                 /** @var $tenant Tenant */
                 $tenant = $this->_tenants[$id];
                 $this->_dropDb($tenant);
-                $this->_codeBase->removeDir($tenant->getMediaDirName());
+                $this->_codeBase->removeDir($this->_getMediaUri($tenant));
                 $this->_codeBase->removeDir($tenant->getVarDirName());
                 unlink("{$this->_metaDir}/{$tenant->getLocalXmlFilename()}");
                 unset($this->_tenants[$id]);
             }
             $this->_log->log('', \Zend_Log::INFO);
         }
+        $this->_codeBase->setLock(false);
     }
 
     /**
@@ -156,12 +161,14 @@ class Wizard
      */
     public function install(array $ids)
     {
+        $this->_codeBase->setLock();
         foreach ($ids as $id) {
             $tenant = $this->_addTenant($id);
             $this->_log->log("=== Install Tenant: '{$tenant->getId()}' ===", \Zend_Log::INFO);
             $this->_install($tenant);
             $this->_log->log('', \Zend_Log::INFO);
         }
+        $this->_codeBase->setLock(false);
     }
 
     /**
@@ -180,13 +187,13 @@ class Wizard
     /**
      * Add or replace tenant with specified ID
      *
-     * @param string $id
+     * @param string $identifier
      * @return Tenant
      */
-    private function _addTenant($id)
+    private function _addTenant($identifier)
     {
-        $this->_tenants[$id] = new Tenant($id, $this->_params['deploy-url-pattern']);
-        return $this->_tenants[$id];
+        $this->_tenants[$identifier] = new Tenant($identifier, $this->_params['deploy-url-pattern']);
+        return $this->_tenants[$identifier];
     }
 
     /**
@@ -232,7 +239,6 @@ class Wizard
      */
     private function _install(Tenant $tenant)
     {
-        $this->_codeBase->setLock();
         $deployDir = $this->_codeBase->getDeployDir();
         $varDir = $this->_codeBase->recreateDir($tenant->getVarDirName());
         $mediaUri = $this->_getMediaUri($tenant);
@@ -279,9 +285,14 @@ class Wizard
         $metaLocalXml = "{$this->_metaDir}/{$tenant->getLocalXmlFilename()}";
         $this->_log->log("rename({$origLocalXml}, {$metaLocalXml})", \Zend_Log::INFO);
         rename($origLocalXml, $metaLocalXml);
-        $this->_codeBase->setLock(false);
     }
 
+    /**
+     * Compose media URI
+     *
+     * @param Tenant $tenant
+     * @return string
+     */
     private function _getMediaUri(Tenant $tenant)
     {
         return "pub/{$tenant->getMediaDirName()}";
@@ -294,22 +305,18 @@ class Wizard
      */
     private function _upgrade(Tenant $tenant)
     {
-        $this->_codeBase->setLock();
         $this->_codeBase->recreateDir($tenant->getVarDirName());
         $localXml = "{$this->_metaDir}/{$tenant->getLocalXmlFilename()}";
         $mediaUri = $this->_getMediaUri($tenant);
         $this->_shell->execute(
-            'php -f %s -- --local-xml=%s --init-uris=%s --init-dirs=%s', array(
+            'php -f %s -- --local-xml=%s --media-uri=%s --media-dir=%s --var-dir=%s', array(
                 "{$this->_codeBase->getDeployDir()}/dev/build/saas_qa/upgrade.php",
                 $localXml,
-                base64_encode(serialize(array('media' => $mediaUri))),
-                base64_encode(serialize(array(
-                    'var' => "{$this->_codeBase->getDeployDir()}/{$tenant->getVarDirName()}",
-                    'media' => "{$this->_codeBase->getDeployDir()}/{$mediaUri}",
-                )))
+                $mediaUri,
+                "{$this->_codeBase->getDeployDir()}/{$tenant->getVarDirName()}",
+                "{$this->_codeBase->getDeployDir()}/{$mediaUri}"
             )
         );
-        $this->_codeBase->setLock(false);
     }
 
     /**
@@ -357,9 +364,9 @@ class Wizard
             foreach ($this->_tenants as $tenant) {
                 $urls[] = $tenant->getUrl();
             }
-            $this->_log->log("Deployed tenant URLs:\n" . implode("\n", $urls), \Zend_Log::INFO);
-            $this->_log->log("Tenant IDs are recorded to the file '{$this->_idFile}' for future reuse", \Zend_Log::INFO);
             file_put_contents($this->_idFile, implode(',', array_keys($this->_tenants)));
+            $this->_log->log("Deployed tenant URLs:\n" . implode("\n", $urls), \Zend_Log::INFO);
+            $this->_log->log("Tenant IDs are recorded to file '{$this->_idFile}' for future reuse.", \Zend_Log::INFO);
         }
     }
 }

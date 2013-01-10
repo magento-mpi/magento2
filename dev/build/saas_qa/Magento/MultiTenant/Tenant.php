@@ -24,16 +24,16 @@ class Tenant
     /**
      * Set/validate data
      *
-     * @param string $id
+     * @param string $identifier
      * @param string $urlPattern
      * @throws \Exception
      */
-    public function __construct($id, $urlPattern)
+    public function __construct($identifier, $urlPattern)
     {
-        if (!preg_match('/^[a-z0-9]+$/', $id)) {
-            throw new \Exception("Invalid tenant ID: '{$id}'");
+        if (!preg_match('/^[a-z0-9]+$/', $identifier)) {
+            throw new \Exception("Invalid tenant ID: '{$identifier}'");
         }
-        $this->_id = $id;
+        $this->_id = $identifier;
         if (!preg_match('/^https?:\/\/\*\.tenant\..+$/', $urlPattern)) {
             throw new \Exception("Invalid URL pattern: '{$urlPattern}'");
         }

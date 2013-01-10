@@ -19,8 +19,8 @@ try {
     $localXml = file_get_contents($configFile);
 } catch (Exception $e) {
     header('Content-Type: text/plain;charset=UTF-8');
-    header('HTTP/1.0 400 Bad Request');
-    echo $e;
+    header('HTTP/1.0 404 Not Found');
+    echo $e->getMessage();
     exit(1);
 }
 
