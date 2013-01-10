@@ -17,7 +17,7 @@ class Saas_PrintedTemplate_Model_Source_Template_AbstractTest extends PHPUnit_Fr
      * @param string $modelConfig_value
      * @dataProvider providerToOptionArray
      */
-    function testToOptionArray($modelConfig_value,$label)
+    function testToOptionArray($modelConfigValue, $resultExpected)
     {
         $varienObj = new Varien_Object();
 
@@ -42,16 +42,16 @@ class Saas_PrintedTemplate_Model_Source_Template_AbstractTest extends PHPUnit_Fr
             ->getMock();
         $modelConfig->expects($this->any())
             ->method('getNode')
-            ->will($this->returnValue($modelConfig_value));
+            ->will($this->returnValue($modelConfigValue));
 
         $templateAbstract = $this->getMockBuilder('Saas_PrintedTemplate_Model_Source_Template_Abstract')
-            ->setMethods(array('_getEntityType', '_getModel', '_getHelper', '_getConfig'))
+            ->setMethods(array('_getEntityType', '_getTemplate', '_getHelper', '_getConfig'))
             ->getMock();
         $templateAbstract->expects($this->any())
             ->method('_getEntityType')
             ->will($this->returnValue('invoice'));
         $templateAbstract->expects($this->any())
-            ->method('_getModel')
+            ->method('_getTemplate')
             ->will($this->returnValue($varienObj));
         $templateAbstract->expects($this->any())
             ->method('_getHelper')
@@ -59,7 +59,6 @@ class Saas_PrintedTemplate_Model_Source_Template_AbstractTest extends PHPUnit_Fr
         $templateAbstract->expects($this->any())
             ->method('_getConfig')
             ->will($this->returnValue($modelConfig));
-
 
         $collectionDb = $this->getMockBuilder('Varien_Data_Collection_Db')
             ->setMethods(array('addFieldToFilter', 'toOptionArray'))
@@ -69,21 +68,28 @@ class Saas_PrintedTemplate_Model_Source_Template_AbstractTest extends PHPUnit_Fr
             ->will($this->returnSelf());
         $collectionDb->expects($this->any())
             ->method('toOptionArray')
-            ->will($this->returnValue(array(array('value' => 'test','label' => 'test'))));
+            ->will($this->returnValue(array(array('value' => 'test', 'label' => 'test'))));
 
         $varienObj->setCollection($collectionDb);
-
         $result = $templateAbstract->toOptionArray();
-
-        $this->assertTrue(($result[0]['label'] == $label),'Label value is incorrect!');
-
+        $this->assertEquals($resultExpected, $result, 'Arrays not EQUAL');
     }
 
     public function providerToOptionArray()
     {
         return array(
-            array('Printed Invoice','%s (Default Template from Locale)_test'),
-            array(null,'Default Template from Locale_test')
+            array(
+                'Printed Invoice', array(
+                array('value' => '', 'label' => '%s (Default Template from Locale)_test'),
+                array('value' => 'test', 'label' => 'test')
+            )
+            ),
+            array(
+                null, array(
+                array('value' => '', 'label' => 'Default Template from Locale_test'),
+                array('value' => 'test', 'label' => 'test')
+            )
+            )
         );
     }
 }

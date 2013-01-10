@@ -47,7 +47,7 @@ abstract class Saas_PrintedTemplate_Model_Source_Template_Abstract extends Varie
     protected function _getTypeCollection($templateType)
     {
 
-        return $this->_getModel()->getCollection()
+        return $this->_getTemplate()->getCollection()
             ->addFieldToFilter('entity_type', array('eq', $templateType));
     }
 
@@ -82,7 +82,7 @@ abstract class Saas_PrintedTemplate_Model_Source_Template_Abstract extends Varie
         return Mage::helper('Saas_PrintedTemplate_Helper_Data');
     }
 
-    protected function _getModel()
+    protected function _getTemplate()
     {
         return Mage::getModel('Saas_PrintedTemplate_Model_Template');
     }
