@@ -26,7 +26,8 @@ class Saas_PrintedTemplate_Model_Source_Variables
     public function toOptionArray($templateType = null)
     {
         $optionArray = array();
-        $variables = Mage::getSingleton('Saas_PrintedTemplate_Model_Config')->getVariablesArray($templateType);
+        $variables = $this->_getConfigModelSingeleton()->getVariablesArray($templateType);
+
         foreach ($variables as $entity => $options) {
             if (!isset($options['fields'])) {
                 continue;
@@ -35,15 +36,26 @@ class Saas_PrintedTemplate_Model_Source_Variables
             foreach ($options['fields'] as $fieldName => $variable) {
                 $optionArrayVariables[] = array(
                     'value' => '{{var ' . $entity . '.' . $fieldName . '}}',
-                    'label' => Mage::helper('Saas_PrintedTemplate_Helper_Data')->__($variable['label'])
+                    'label' => $this->_getHelper()->__($variable['label'])
                 );
             }
             $label = isset($options['label']) ? $options['label'] : $entity;
             $optionArray[] = array(
-                'label' => Mage::helper('Saas_PrintedTemplate_Helper_Data')->__($label),
+                'label' => $this->_getHelper()->__($label),
                 'value' => $optionArrayVariables
             );
         }
+
         return $optionArray;
+    }
+
+    protected function _getConfigModelSingeleton()
+    {
+        return Mage::getSingleton('Saas_PrintedTemplate_Model_Config');
+    }
+
+    protected function _getHelper()
+    {
+        return Mage::helper('Saas_PrintedTemplate_Helper_Data');
     }
 }

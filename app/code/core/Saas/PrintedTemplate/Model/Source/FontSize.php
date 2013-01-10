@@ -25,12 +25,17 @@ class Saas_PrintedTemplate_Model_Source_FontSize extends Mage_Core_Model_Abstrac
     public function toOptionArray()
     {
         $sizesOptions = array();
-        $sizes = Mage::getSingleton('Saas_PrintedTemplate_Model_Config')->getFontSizesArray();
+        $sizes = $this->_getConfigModelSingeleton()->getFontSizesArray();
 
         foreach ($sizes as $size) {
             $sizesOptions[$size] = $size;
         }
 
         return $sizesOptions;
+    }
+
+    protected function _getConfigModelSingeleton()
+    {
+        return Mage::getSingleton('Saas_PrintedTemplate_Model_Config');
     }
 }
