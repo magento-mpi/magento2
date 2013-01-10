@@ -55,13 +55,13 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
     }
 
     /**
-     * Get "Back" button URL
+     * Get "Quit" button URL
      *
      * @return string
      */
-    public function getBackUrl()
+    public function getQuitUrl()
     {
-        return $this->getUrl('*/*/');
+        return $this->getUrl('*/*/quit');
     }
 
     /**

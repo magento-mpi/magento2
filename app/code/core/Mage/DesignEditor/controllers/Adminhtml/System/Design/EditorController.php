@@ -179,6 +179,22 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     }
 
     /**
+     * VDE quit action
+     */
+    public function quitAction()
+    {
+        /** @var $state Mage_DesignEditor_Model_State */
+        $state = $this->_objectManager->get('Mage_DesignEditor_Model_State');
+        $state->reset();
+
+        /** @var $eventDispatcher Mage_Core_Model_Event_Manager */
+        $eventDispatcher = $this->_objectManager->get('Mage_Core_Model_Event_Manager');
+        $eventDispatcher->dispatch('design_editor_deactivate');
+
+        $this->_redirect('*/*/');
+    }
+
+    /**
      * Get current handle
      *
      * @return string
@@ -187,7 +203,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     {
         /** @var $vdeUrlModel Mage_DesignEditor_Model_Url_Handle */
         $vdeUrlModel = $this->_objectManager->get('Mage_DesignEditor_Model_Url_Handle');
-        $handle = $this->_getSession()->getData('vde_current_handle');
+        $handle = $this->_getSession()->getData(Mage_DesignEditor_Model_State::CURRENT_HANDLE_SESSION_KEY);
         if (empty($handle)) {
             $handle = 'default';
         }
@@ -204,7 +220,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     {
         /** @var $vdeUrlModel Mage_DesignEditor_Model_Url_NavigationMode */
         $vdeUrlModel = $this->_objectManager->get('Mage_DesignEditor_Model_Url_NavigationMode');
-        $url = $this->_getSession()->getData('vde_current_url');
+        $url = $this->_getSession()->getData(Mage_DesignEditor_Model_State::CURRENT_URL_SESSION_KEY);
         if (empty($url)) {
             $url = '';
         }

@@ -24,23 +24,15 @@ class Mage_DesignEditor_Model_Observer
     protected $_helper;
 
     /**
-     * @var Mage_Core_Model_Cache
-     */
-    protected $_cacheManager;
-
-    /**
      * @param Magento_ObjectManager $objectManager
      * @param Mage_DesignEditor_Helper_Data $helper
-     * @param Mage_Core_Model_Cache $cacheManager
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
-        Mage_DesignEditor_Helper_Data $helper,
-        Mage_Core_Model_Cache $cacheManager
+        Mage_DesignEditor_Helper_Data $helper
     ) {
         $this->_objectManager = $objectManager;
         $this->_helper        = $helper;
-        $this->_cacheManager  = $cacheManager;
     }
 
     /**

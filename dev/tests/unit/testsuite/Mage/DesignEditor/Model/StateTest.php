@@ -102,7 +102,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_backendSession = $this->getMock('Mage_Backend_Model_Session', array('setData', 'getData'),
+        $this->_backendSession = $this->getMock('Mage_Backend_Model_Session', array('setData', 'getData', 'unsetData'),
             array(), '', false
         );
         $this->_layoutFactory = $this->getMock('Mage_Core_Model_Layout_Factory', array('createLayout'),
@@ -224,6 +224,20 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($store));
 
         $this->_model->update(self::AREA_CODE, $request, $controller);
+    }
+
+    public function testReset()
+    {
+        $this->_backendSession->expects($this->any())
+            ->method('unsetData')
+            ->with($this->logicalOr(
+                Mage_DesignEditor_Model_State::CURRENT_HANDLE_SESSION_KEY,
+                Mage_DesignEditor_Model_State::CURRENT_MODE_SESSION_KEY,
+                Mage_DesignEditor_Model_State::CURRENT_URL_SESSION_KEY
+            ))
+            ->will($this->returnValue($this->_backendSession));
+
+        $this->_model->reset();
     }
 
     public function testUpdateNavigationMode()
