@@ -6,20 +6,16 @@
  *
  * @copyright {copyright}
  * @license {license_link}
+ * @magentoDataFixture Mage/Checkout/_files/quote_with_simple_product.php
  */
 class Mage_Checkout_Model_Cart_Customer_ApiTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test setting customer to a quote.
-     *
-     * @magentoDataFixture Mage/Checkout/_files/quote.php
      */
     public function testSet()
     {
-        /** @var Mage_Sales_Model_Resource_Quote_Collection $quoteCollection */
-        $quoteCollection = Mage::getModel('Mage_Sales_Model_Resource_Quote_Collection');
-        /** @var Mage_Sales_Model_Quote $quote */
-        $quote = $quoteCollection->getFirstItem();
+        $quote = $this->_getQuote();
 
         $customerData = array(
             'firstname' => 'testFirstname',
@@ -51,15 +47,10 @@ class Mage_Checkout_Model_Cart_Customer_ApiTest extends PHPUnit_Framework_TestCa
 
     /**
      * Test setting customer address data to a quote.
-     *
-     * @magentoDataFixture Mage/Checkout/_files/quote.php
      */
     public function testSetAddresses()
     {
-        /** @var Mage_Sales_Model_Resource_Quote_Collection $quoteCollection */
-        $quoteCollection = Mage::getModel('Mage_Sales_Model_Resource_Quote_Collection');
-        /** @var Mage_Sales_Model_Quote $quote */
-        $quote = $quoteCollection->getFirstItem();
+        $quote = $this->_getQuote();
 
         $billingAddress = array(
             'mode' => 'billing',
@@ -105,5 +96,19 @@ class Mage_Checkout_Model_Cart_Customer_ApiTest extends PHPUnit_Framework_TestCa
         $this->assertEmpty($billingDiff, 'Expected billing address is incorrect');
         $shippingDiff = array_diff($shippingAddress, $quote->getShippingAddress()->getData());
         $this->assertEmpty($shippingDiff, 'Expected shipping address is incorrect');
+    }
+
+    /**
+     * Retrieve quote created in fixture.
+     *
+     * @return Mage_Sales_Model_Quote
+     */
+    protected function _getQuote()
+    {
+        /** @var $session Mage_Checkout_Model_Session */
+        $session = Mage::getModel('Mage_Checkout_Model_Session');
+        /** @var Mage_Sales_Model_Quote $quote */
+        $quote = $session->getQuote();
+        return $quote;
     }
 }
