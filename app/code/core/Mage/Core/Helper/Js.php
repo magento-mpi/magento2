@@ -40,6 +40,11 @@ class Mage_Core_Helper_Js extends Mage_Core_Helper_Abstract
     protected $_config = null;
 
     /**
+     * @var Mage_Core_Model_Config_StorageInterface
+     */
+    protected $_configStorage;
+
+    /**
      * Retrieve JSON of JS sentences translation
      *
      * @return string

@@ -14,9 +14,10 @@ class Mage_Core_Model_Config_Fieldset extends Mage_Core_Model_Config_Base
      * Constructor.
      * Load configuration from enabled modules with appropriate caching.
      *
+     * @param Mage_Core_Model_Config_StorageInterface $configStorage
      * @param Varien_Simplexml_Element|string|null $data
      */
-    public function __construct($data = null)
+    public function __construct(Mage_Core_Model_Config_StorageInterface $configStorage, $data = null)
     {
         parent::__construct($data);
 
@@ -32,7 +33,7 @@ class Mage_Core_Model_Config_Fieldset extends Mage_Core_Model_Config_Base
             }
         }
 
-        $config = $this->_configStorage->loadModulesConfiguration('fieldset.xml');
+        $config = $configStorage->loadModulesConfiguration('fieldset.xml');
         $this->setXml($config->getNode());
 
         if ($canUseCache) {

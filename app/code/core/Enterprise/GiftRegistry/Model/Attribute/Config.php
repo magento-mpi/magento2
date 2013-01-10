@@ -35,7 +35,6 @@ class Enterprise_GiftRegistry_Model_Attribute_Config extends Mage_Core_Model_Abs
         Mage_Core_Model_Config_StorageInterface $configStorage,
         array $data = array()
     )
-
     {
         $this->_configStorage = $configStorage;
         parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);

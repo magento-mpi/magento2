@@ -19,15 +19,20 @@
 class Mage_Install_Model_Config extends Varien_Simplexml_Config
 {
 
+    /**
+     * @var Mage_Core_Model_Config_StorageInterface
+     */
+    protected $_configStorage;
+
     const XML_PATH_WIZARD_STEPS     = 'wizard/steps';
     const XML_PATH_CHECK_WRITEABLE  = 'check/filesystem/writeable';
     const XML_PATH_CHECK_EXTENSIONS = 'check/php/extensions';
 
-    public function __construct()
+    public function __construct(Mage_Core_Model_Config_StorageInterface $configStorage)
     {
         parent::__construct();
         $this->loadString('<?xml version="1.0"?><config></config>');
-        $this->_configStorage->loadModulesConfiguration('install.xml', $this);
+        $configStorage->loadModulesConfiguration('install.xml', $this);
     }
 
     /**
