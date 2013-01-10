@@ -13,7 +13,7 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
     {
         $filesystem = new Magento_Filesystem($this->_getDefaultAdapterMock());
         $filesystem->setWorkingDirectory('/tmp');
-        $this->assertAttributeEquals('/tmp', '_workingDirectory', $filesystem);
+        $this->assertEquals('/tmp', $filesystem->getWorkingDirectory());
     }
 
     /**

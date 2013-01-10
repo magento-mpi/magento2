@@ -31,7 +31,7 @@ class Magento_Filesystem_Stream_Mode_Zlib extends Magento_Filesystem_Stream_Mode
         $searchPattern = '/(r|w|a|x|c)(b)?(\+)?(\d*)(f|h)?/';
         preg_match($searchPattern, $mode, $ratios);
         if (count($ratios) > 4 && $ratios[4]) {
-            $this->_ratio =  (int)$ratios[4];
+            $this->_ratio = (int)$ratios[4];
         }
         if (count($ratios) == 6) {
             $this->_strategy = $ratios[5];
