@@ -127,6 +127,8 @@ PanelTest.prototype.testSaveTemporaryLayoutChanges = function() {
 
     jQuery('#panel').data("vde_panel").saveTemporaryLayoutChanges(1, saveChangesUrl, modeUrl);
 
+    jQuery(document).off('ajaxSend');
+    jQuery(document).off('beforeunload');
     page.vde_page('destroy');
     panel.vde_panel('destroy');
     history.vde_history('destroy');
