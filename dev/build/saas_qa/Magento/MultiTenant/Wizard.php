@@ -75,7 +75,7 @@ class Wizard
     public function __construct(\Zend_Log $logger, array $params, $workingDir, $metaInfoDir)
     {
         $this->_params = $params;
-        if (empty($params['deploy-url-pattern']) || empty($params['dsn'])) {
+        if (empty($params['url-template']) || empty($params['dsn'])) {
             throw new \Exception('Not all required parameters are specified.');
         }
         if (!$metaInfoDir || !is_dir($metaInfoDir) || !is_writable($metaInfoDir)) {
@@ -191,7 +191,7 @@ class Wizard
      */
     private function _addTenant($identifier)
     {
-        $this->_tenants[$identifier] = new Tenant($identifier, $this->_params['deploy-url-pattern']);
+        $this->_tenants[$identifier] = new Tenant($identifier, $this->_params['url-template']);
         return $this->_tenants[$identifier];
     }
 
@@ -347,7 +347,7 @@ class Wizard
      *
      * If there are tenants available:
      * - Output all URLs available for all tenants to the log
-     * - Write file "tenants.txt" in directory outside of deployment dir and persist all tenant IDs for further reuse
+     * - Persist all tenant IDs for further reuse
      */
     public function __destruct()
     {

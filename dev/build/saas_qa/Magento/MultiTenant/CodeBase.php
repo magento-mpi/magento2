@@ -37,7 +37,6 @@ class CodeBase
      * @param \Magento_Shell $shell
      * @param \Zend_Log $logger
      * @param string $workingDir
-     * @param string $deployDir
      * @throws \Exception
      */
     public function __construct(\Magento_Shell $shell, \Zend_Log $logger, $workingDir)

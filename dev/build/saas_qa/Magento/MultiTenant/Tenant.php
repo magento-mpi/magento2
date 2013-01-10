@@ -25,19 +25,19 @@ class Tenant
      * Set/validate data
      *
      * @param string $identifier
-     * @param string $urlPattern
+     * @param string $urlTemplate
      * @throws \Exception
      */
-    public function __construct($identifier, $urlPattern)
+    public function __construct($identifier, $urlTemplate)
     {
         if (!preg_match('/^[a-z0-9]+$/', $identifier)) {
             throw new \Exception("Invalid tenant ID: '{$identifier}'");
         }
         $this->_id = $identifier;
-        if (!preg_match('/^https?:\/\/\*\.tenant\..+$/', $urlPattern)) {
-            throw new \Exception("Invalid URL pattern: '{$urlPattern}'");
+        if (!preg_match('/^https?:\/\/\*\.tenant\..+$/', $urlTemplate)) {
+            throw new \Exception("Invalid URL template: '{$urlTemplate}'");
         }
-        $this->_url = str_replace('*', $this->_id, $urlPattern);
+        $this->_url = str_replace('*', $this->_id, $urlTemplate);
     }
 
     /**
