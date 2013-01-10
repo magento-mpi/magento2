@@ -34,15 +34,19 @@ class Mage_Core_Model_Theme_Files extends Mage_Core_Model_Abstract
     protected $_objectManager;
 
     /**
+     * Initialize dependencies
+     *
+     * @param Mage_Core_Model_Design_Package $design
      * @param Mage_Core_Model_Event_Manager $eventDispatcher
      * @param Mage_Core_Model_Cache $cacheManager
-     * @param Mage_Core_Model_Resource_Abstract $resource
-     * @param Varien_Data_Collection_Db $resourceCollection
      * @param Varien_Io_File $ioFile
      * @param Magento_ObjectManager $objectManager
+     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Varien_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
+        Mage_Core_Model_Design_Package $design,
         Mage_Core_Model_Event_Manager $eventDispatcher,
         Mage_Core_Model_Cache $cacheManager,
         Varien_Io_File $ioFile,
@@ -55,7 +59,7 @@ class Mage_Core_Model_Theme_Files extends Mage_Core_Model_Abstract
 
         $this->_ioFile = $ioFile;
         $this->_objectManager = $objectManager;
-        $this->_design = $this->_objectManager->get('Mage_Core_Model_Design_Package');
+        $this->_design = $design;
     }
 
     /**

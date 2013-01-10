@@ -2,10 +2,9 @@
  * {license_notice}
  *
  * @category    design
- * @package     default_default
+ * @package     default_demo
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-li.rogue {background: url(../access_violation.php);}
-li.test {background: url(../../access_violation.php);}
+.test {background: url(../images/nonexistent_file.png);}

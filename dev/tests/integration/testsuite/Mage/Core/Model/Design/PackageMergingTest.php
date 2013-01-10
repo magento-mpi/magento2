@@ -66,6 +66,7 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
             'css/exception.css',
             'css/file.css',
         ));
+        $this->assertFileNotExists(self::$_themePublicDir . '/frontend/package/default/en_US/access_violation.php');
     }
 
     /**
