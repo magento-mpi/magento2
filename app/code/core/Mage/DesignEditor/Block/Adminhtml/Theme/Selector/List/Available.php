@@ -36,6 +36,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_App $app
      * @param Mage_Core_Model_Theme_Service $serviceModel
      * @param array $data
      *
@@ -53,13 +54,14 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Core_Model_App $app,
         Mage_Core_Model_Theme_Service $serviceModel,
         array $data = array()
     ) {
         $this->_serviceModel = $serviceModel;
 
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $data
+            $session, $storeConfig, $frontController, $helperFactory, $app, $data
         );
     }
 
