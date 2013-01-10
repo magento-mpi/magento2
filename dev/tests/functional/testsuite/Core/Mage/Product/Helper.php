@@ -412,15 +412,16 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     public function openProduct(array $productSearch)
     {
         $productSearch = $this->_prepareDataForSearch($productSearch);
-        $xpathTR = $this->search($productSearch, 'product_grid');
-        $this->assertNotNull($xpathTR, 'Product is not found');
+        $productLocator = $this->search($productSearch, 'product_grid');
+        $this->assertNotNull($productLocator, 'Product is not found');
         $cellId = $this->getColumnIdByName('Name');
-        $this->addParameter('tableLineXpath', $xpathTR);
-        $this->addParameter('cellIndex', $cellId);
-        $param = $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'table_line_cell_index', 'text');
+        $productLine = $this->getElement($productLocator);
+        $cellElements = $this->getChildElements($productLine, 'td');
+        $param = trim($cellElements[$cellId - 1]->text());
         $this->addParameter('elementTitle', $param);
-        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'table_line_cell_index');
+        $this->addParameter('id', $this->defineIdFromTitle($productLocator));
+        $this->url($productLine->attribute('title'));
+        $this->validatePage();
     }
 
     /**
