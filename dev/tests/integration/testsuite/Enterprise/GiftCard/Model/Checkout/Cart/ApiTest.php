@@ -18,10 +18,7 @@ class Enterprise_GiftCard_Model_Checkout_Cart_ApiTest extends PHPUnit_Framework_
      */
     public function testAdd()
     {
-        /** @var $session Mage_Checkout_Model_Session */
-        $session = Mage::getModel('Mage_Checkout_Model_Session');
-        /** @var Mage_Sales_Model_Quote $quote */
-        $quote = $session->getQuote();
+        $quote = $this->_getQuote();
         $giftCardAccountCode = self::GIFT_CARD_ACCOUNT_CODE;
         $isAdded = Magento_Test_Helper_Api::call(
             $this,
@@ -44,10 +41,7 @@ class Enterprise_GiftCard_Model_Checkout_Cart_ApiTest extends PHPUnit_Framework_
      */
     public function testList()
     {
-        /** @var $session Mage_Checkout_Model_Session */
-        $session = Mage::getModel('Mage_Checkout_Model_Session');
-        /** @var Mage_Sales_Model_Quote $quote */
-        $quote = $session->getQuote();
+        $quote = $this->_getQuote();
         $giftCards = Magento_Test_Helper_Api::call(
             $this,
             'shoppingCartGiftcardList',
@@ -76,10 +70,7 @@ class Enterprise_GiftCard_Model_Checkout_Cart_ApiTest extends PHPUnit_Framework_
      */
     public function testRemove()
     {
-        /** @var $session Mage_Checkout_Model_Session */
-        $session = Mage::getModel('Mage_Checkout_Model_Session');
-        /** @var Mage_Sales_Model_Quote $quote */
-        $quote = $session->getQuote();
+        $quote = $this->_getQuote();
         $isRemoved = Magento_Test_Helper_Api::call(
             $this,
             'shoppingCartGiftcardRemove',
@@ -116,5 +107,19 @@ class Enterprise_GiftCard_Model_Checkout_Cart_ApiTest extends PHPUnit_Framework_
             "The value of 'gift_cards' property must contain serialized array."
         );
         return $giftCards;
+    }
+
+    /**
+     * Retrieve quote created in fixture.
+     *
+     * @return Mage_Sales_Model_Quote
+     */
+    protected function _getQuote()
+    {
+        /** @var $session Mage_Checkout_Model_Session */
+        $session = Mage::getModel('Mage_Checkout_Model_Session');
+        /** @var Mage_Sales_Model_Quote $quote */
+        $quote = $session->getQuote();
+        return $quote;
     }
 }
