@@ -17,6 +17,17 @@
  */
 class Mage_Cms_Model_Wysiwyg_Images_Storage_Collection extends Varien_Data_Collection_Filesystem
 {
+    /**
+     * @var Magento_Filesystem
+     */
+    protected $_filesystem;
+
+    public function __construct(Magento_Filesystem $filesystem)
+    {
+        $this->_filesystem = $filesystem;
+        parent::__construct();
+    }
+
     protected function _generateRow($filename)
     {
         $filename = preg_replace('~[/\\\]+~', DIRECTORY_SEPARATOR, $filename);
@@ -24,7 +35,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage_Collection extends Varien_Data_Colle
         return array(
             'filename' => $filename,
             'basename' => basename($filename),
-            'mtime'    => filemtime($filename)
+            'mtime'    => $this->_filesystem->getMTime($filename)
         );
     }
 }
