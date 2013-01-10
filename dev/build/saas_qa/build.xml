@@ -22,7 +22,7 @@
         </condition>
         <exec executable="php" failonerror="true">
             <arg line="-f ${basedir}/dev/build/saas_qa/deploy.php --
-                --url-pattern=${env.multitenant_url_template}
+                --url-template=${env.multitenant_url_template}
                 --install=${env.bamboo_install_ids} --uninstall=${env.bamboo_uninstall_ids}
                 --dsn=mysql://${env.db_user}:${env.db_password}@${env.db_host}
                 "/>
