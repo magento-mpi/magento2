@@ -1,0 +1,89 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Saas
+ * @package     Saas_UnitPrice
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+require_once 'Saas/PrintedTemplate/Model/Source/Template/Invoice.php';
+
+class Saas_PrintedTemplate_Model_Source_Template_AbstractTest extends PHPUnit_Framework_TestCase
+{
+
+    /**
+     * @param string $modelConfig_value
+     * @dataProvider providerToOptionArray
+     */
+    function testToOptionArray($modelConfig_value,$label)
+    {
+        $varienObj = new Varien_Object();
+
+        $helperData = $this->getMockBuilder('Saas_PrintedTemplate_Helper_Data')
+            ->setMethods(array('__'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $helperData->expects($this->any())
+            ->method('__')
+            ->will(
+            $this->returnCallback(
+                function ($text)
+                {
+                    return $text . '_test';
+                }
+            )
+        );
+
+        $modelConfig = $this->getMockBuilder('Mage_Core_Model_Config')
+            ->setMethods(array('getNode'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $modelConfig->expects($this->any())
+            ->method('getNode')
+            ->will($this->returnValue($modelConfig_value));
+
+        $templateAbstract = $this->getMockBuilder('Saas_PrintedTemplate_Model_Source_Template_Abstract')
+            ->setMethods(array('_getEntityType', '_getModel', '_getHelper', '_getConfig'))
+            ->getMock();
+        $templateAbstract->expects($this->any())
+            ->method('_getEntityType')
+            ->will($this->returnValue('invoice'));
+        $templateAbstract->expects($this->any())
+            ->method('_getModel')
+            ->will($this->returnValue($varienObj));
+        $templateAbstract->expects($this->any())
+            ->method('_getHelper')
+            ->will($this->returnValue($helperData));
+        $templateAbstract->expects($this->any())
+            ->method('_getConfig')
+            ->will($this->returnValue($modelConfig));
+
+
+        $collectionDb = $this->getMockBuilder('Varien_Data_Collection_Db')
+            ->setMethods(array('addFieldToFilter', 'toOptionArray'))
+            ->getMock();
+        $collectionDb->expects($this->any())
+            ->method('addFieldToFilter')
+            ->will($this->returnSelf());
+        $collectionDb->expects($this->any())
+            ->method('toOptionArray')
+            ->will($this->returnValue(array(array('value' => 'test','label' => 'test'))));
+
+        $varienObj->setCollection($collectionDb);
+
+        $result = $templateAbstract->toOptionArray();
+
+        $this->assertTrue(($result[0]['label'] == $label),'Label value is incorrect!');
+
+    }
+
+    public function providerToOptionArray()
+    {
+        return array(
+            array('Printed Invoice','%s (Default Template from Locale)_test'),
+            array(null,'Default Template from Locale_test')
+        );
+    }
+}
