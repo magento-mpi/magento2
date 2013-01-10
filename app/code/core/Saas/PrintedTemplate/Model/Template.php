@@ -117,25 +117,23 @@ class Saas_PrintedTemplate_Model_Template extends Mage_Core_Model_Template
         $pageHeight = $footerHeight = $headerHeight = null;
 
         if (!$this->getPageSize()) {
-            throw new UnexpectedValueException($this->_translate(
-                'Page size should be defined.'
-            ));
+            throw new UnexpectedValueException('Page size should be defined.');
         }
 
         if ($this->hasFooter() && $this->getFooter() != '' && !$this->getFooterAutoHeight()) {
             if (!$this->getFooterHeight() || $this->getFooterHeight()->getValue() < 0) {
-                throw new UnexpectedValueException($this->_translate(
+                throw new UnexpectedValueException(
                     'Footer height should be a numeric value which is greater than zero.'
-                ));
+                );
             }
             $footerHeight = $this->_getStandardizedLengthValue($this->getFooterHeight());
         }
 
         if ($this->hasHeader() && $this->getHeader() != '' && !$this->getHeaderAutoHeight()) {
             if (!$this->getHeaderHeight() || $this->getHeaderHeight()->getValue() < 0) {
-                throw new UnexpectedValueException($this->_translate(
+                throw new UnexpectedValueException(
                     'Header height should be a numeric value which is greater than zero.'
-                ));
+                );
             }
             $headerHeight = $this->_getStandardizedLengthValue($this->getHeaderHeight());
         }
@@ -148,9 +146,9 @@ class Saas_PrintedTemplate_Model_Template extends Mage_Core_Model_Template
         );
 
         if (($headerHeight || $footerHeight) && ($pageHeight <= $footerHeight + $headerHeight)) {
-            throw new UnexpectedValueException($this->_translate(
+            throw new UnexpectedValueException(
                 "The height of header and footer can not be greater than page height."
-            ));
+            );
         }
 
         return true;
@@ -218,8 +216,8 @@ class Saas_PrintedTemplate_Model_Template extends Mage_Core_Model_Template
     protected function _checkLengthType($value)
     {
         if (!$value instanceof Zend_Measure_Length && !$value instanceof Saas_PrintedTemplate_Model_RelativeLength) {
-            throw new InvalidArgumentException($this->_translate(
-                    'Incorrect type of height; should be either Zend_Measure_Length or RelativeLength Model.')
+            throw new InvalidArgumentException(
+                'Incorrect type of height; should be either Zend_Measure_Length or RelativeLength Model.'
             );
         }
     }
@@ -328,9 +326,9 @@ class Saas_PrintedTemplate_Model_Template extends Mage_Core_Model_Template
         }
 
         if (!$this->getId()) {
-            throw new UnexpectedValueException($this->_translate(
+            throw new UnexpectedValueException(
                 'Cannot load printed template; please ensure that template for the store of the order is selected.'
-            ));
+            );
         }
 
         return $this;
@@ -574,17 +572,6 @@ class Saas_PrintedTemplate_Model_Template extends Mage_Core_Model_Template
             $configData->delete();
         }
         return $this;
-    }
-
-    /**
-     * Translate message
-     *
-     * @param $message
-     * @return string
-     */
-    protected function _translate($message)
-    {
-        return Mage::helper('Saas_PrintedTemplate_Helper_Data')->__($message);
     }
 
     /**

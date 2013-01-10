@@ -25,9 +25,7 @@ class Saas_PrintedTemplate_Model_TemplateTest extends PHPUnit_Framework_TestCase
     public function testValidate($pageSize, $hasFooter, $footerHeight, $hasHeader, $headerHeight, $message)
     {
         $this->setExpectedException('UnexpectedValueException', $message);
-        $mockedMethods = array('getFooterHeight','_getStandardizedLengthValue','getHeaderHeight',
-            '_translate','getPageSize'
-        );
+        $mockedMethods = array('getFooterHeight','_getStandardizedLengthValue','getHeaderHeight', 'getPageSize');
         $template = $this->getMockBuilder('Saas_PrintedTemplate_Model_Template')
             ->setMethods($mockedMethods)
             ->disableOriginalConstructor()
@@ -66,11 +64,6 @@ class Saas_PrintedTemplate_Model_TemplateTest extends PHPUnit_Framework_TestCase
         $template->expects($this->any())
             ->method('_getStandardizedLengthValue')
             ->will($this->returnValue($pageSize));
-
-        $template->expects($this->any())
-            ->method('_translate')
-            ->with($this->equalTo($message))
-            ->will($this->returnValue($message));
 
         $template->validate();
     }
@@ -198,7 +191,7 @@ class Saas_PrintedTemplate_Model_TemplateTest extends PHPUnit_Framework_TestCase
         $templateId = 1;
 
         $template = $this->getMockBuilder('Saas_PrintedTemplate_Model_Template')
-            ->setMethods(array('load','loadDefault','getDesignConfig','_translate'))
+            ->setMethods(array('load','loadDefault','getDesignConfig'))
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -219,9 +212,6 @@ class Saas_PrintedTemplate_Model_TemplateTest extends PHPUnit_Framework_TestCase
         $template->expects($this->never())
             ->method('loadDefault');
 
-        $template->expects($this->any())
-            ->method('_translate');
-
         $template->loadForStore($templateId);
         $this->assertEquals($templateId, $template->getId());
     }
@@ -236,16 +226,16 @@ class Saas_PrintedTemplate_Model_TemplateTest extends PHPUnit_Framework_TestCase
         $message = 'Cannot load printed template; please ensure that template for the store of the order is selected.';
 
         $template = $this->getMockBuilder('Saas_PrintedTemplate_Model_Template')
-            ->setMethods(array('load','loadDefault','getDesignConfig','_translate'))
+            ->setMethods(array('load','loadDefault','getDesignConfig'))
             ->disableOriginalConstructor()
             ->getMock();
 
         $template->expects($this->any())
             ->method('getDesignConfig')
             ->will($this->returnValue(new Varien_Object(array(
-            'area' => 'frontend',
-            'store' => '1'
-        ))));
+                'area' => 'frontend',
+                'store' => '1'
+            ))));
 
         $template->expects($this->once())
             ->method('load')
@@ -254,11 +244,6 @@ class Saas_PrintedTemplate_Model_TemplateTest extends PHPUnit_Framework_TestCase
 
         $template->expects($this->never())
             ->method('loadDefault');
-
-        $template->expects($this->any())
-            ->method('_translate')
-            ->with($this->equalTo($message))
-            ->will($this->returnValue($message));
 
         $this->setExpectedException('UnexpectedValueException',$message);
         $template->loadForStore($templateId);
