@@ -17,7 +17,7 @@
  * @package     Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_Model_App
+class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
 {
     /**
      * Custom directory paths initialization option
@@ -598,7 +598,7 @@ class Mage_Core_Model_App
 
     public function reinitStores()
     {
-        return $this->_initStores();
+        $this->_initStores();
     }
 
     /**
@@ -1380,9 +1380,14 @@ class Mage_Core_Model_App
         return $this;
     }
 
+    /**
+     * @param $value
+     * @return Mage_Core_Model_AppInterface
+     */
     public function setUpdateMode($value)
     {
         $this->_updateMode = $value;
+        return $this;
     }
 
     public function getUpdateMode()
