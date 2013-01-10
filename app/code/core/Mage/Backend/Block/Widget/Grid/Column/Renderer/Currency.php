@@ -41,6 +41,6 @@ class Mage_Backend_Block_Widget_Grid_Column_Renderer_Currency
     protected function _shouldShowNumberSign()
     {
         return $this->getColumn()->hasShowNumberSign()?
-            (bool)(int)(bool)(int)$this->getColumn()->getShowNumberSign() : false;
+            (bool)(int)$this->getColumn()->getShowNumberSign() : false;
     }
 }

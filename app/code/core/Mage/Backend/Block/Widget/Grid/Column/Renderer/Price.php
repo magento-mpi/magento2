@@ -14,6 +14,8 @@
  * @category   Mage
  * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Backend_Block_Widget_Grid_Column_Renderer_Price
     extends Mage_Backend_Block_Widget_Grid_Column_Renderer_Abstract
