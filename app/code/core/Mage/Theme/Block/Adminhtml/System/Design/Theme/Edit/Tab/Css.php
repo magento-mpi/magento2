@@ -161,8 +161,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             'label'    => $this->__('Select CSS File to Upload'),
             'title'    => $this->__('Select CSS File to Upload'),
             'accept'   => 'text/css',
-            'note'     => $this->__('Allowed file types *.css.')
-                . ' ' . $this->__('The file you upload will replace the existing custom.css file (shown below).')
+            'note'     => $this->_getUploadCssFileNote()
         ));
 
         $themeFieldset->addField('css_uploader_button', 'button', array(
@@ -178,6 +177,27 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         ));
 
         return $this;
+    }
+
+    /**
+     * Get note string for css file to Upload
+     *
+     * @return string
+     */
+    protected function _getUploadCssFileNote()
+    {
+        $messages = array(
+            $this->__('Allowed file types *.css.'),
+            $this->__('The file you upload will replace the existing custom.css file (shown below).')
+        );
+        $maxFileSize = Mage::getObjectManager()->get('Magento_File_Size')->getMaxFileSizeInMb();
+        if ($maxFileSize) {
+            $messages[] = $this->__('Max file size to upload %sM', $maxFileSize);
+        } else {
+            $messages[] = $this->__('System doesn\'t allow to get file upload settings');
+        }
+
+        return implode('<br />', $messages);
     }
 
     /**
