@@ -43,6 +43,12 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         $this->_mageModel = null;
     }
 
+    /**
+     * @covers Mage_Core_Model_App::_initCache
+     *
+     * @magentoConfigFixture global/cache/id_prefix test
+     * @magentoAppIsolation enabled
+     */
     public function testInit()
     {
         $this->assertNull($this->_model->getConfig());
@@ -50,6 +56,12 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mage_Core_Model_Config', $this->_model->getConfig());
         $this->assertNotEmpty($this->_model->getConfig()->getNode());
         $this->assertContains(Mage_Core_Model_App::ADMIN_STORE_ID, array_keys($this->_model->getStores(true)));
+
+        // Check that we have shared cache object inside of object manager
+        $objectManager = Mage::getObjectManager();
+        /** @var $cache Mage_Core_Model_Cache */
+        $cache = $objectManager->get('Mage_Core_Model_Cache');
+        $this->assertAttributeEquals('test', '_idPrefix', $cache);
     }
 
     /**
