@@ -18,21 +18,45 @@
 class Saas_PrintedTemplate_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
-     * @var Mage_Backend_Model_Menu_Config
+     * Returns helper
+     *
+     * @return Mage_Core_Helper_Abstract
      */
-    protected $_menuConfig;
-
-    /**
-     * @var Mage_Backend_Model_Config_Structure
-     */
-    protected $_configStructure;
-
-    public function __construct()
+    protected function _getHelper()
     {
-        $this->_menuConfig = Mage::getSingleton('Mage_Backend_Model_Menu_Config');
-        $this->_configStructure = Mage::getSingleton('Mage_Backend_Model_Config_Structure');
+        return Mage::helper('Mage_Backend_Helper_Data');
     }
 
+    /**
+     * Returns menu config model
+     *
+     * @return Mage_Backend_Model_Menu_Config
+     */
+    protected function _getMenuConfig()
+    {
+        return Mage::getSingleton('Mage_Backend_Model_Menu_Config');
+    }
+
+    /**
+     * Returns config structure model
+     *
+     * @return Mage_Backend_Model_Config_Structure
+     */
+    protected function _getConfigStructure()
+    {
+        return Mage::getSingleton('Mage_Backend_Model_Config_Structure');
+    }
+
+    /**
+     * Proxy to Mage::registry();
+     *
+     * @param string $id
+     * @return string|null Value
+     */
+    protected function _registry($id)
+    {
+        return Mage::registry($id);
+    }
 
     /**
      * Get onclick script for Print button on Invoice View page
@@ -42,7 +66,7 @@ class Saas_PrintedTemplate_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getPrintButtonOnclick($type)
     {
-        return "setLocation('" . $this->_getPrintUrl($type) . "')";
+        return "setLocation('{$this->_getPrintUrl($type)}')";
     }
 
     /**
@@ -53,29 +77,18 @@ class Saas_PrintedTemplate_Helper_Data extends Mage_Core_Helper_Abstract
      */
     protected function _getPrintUrl($type)
     {
-        $model = Mage::registry('current_' . $type);
+        $model = $this->_registry('current_' . $type);
         if (!$model || !$model->getId()) {
             return '';
         }
 
-        return $this->helper('Mage_Backend_Helper_Data')->getUrl(
+        return $this->_getHelper()->getUrl(
             'adminhtml/print/entity/',
             array(
                 'type' => $type,
                 'id'   => $model->getId(),
             )
         );
-    }
-
-    /**
-     * Return helper object
-     *
-     * @param string $className
-     * @return Mage_Core_Helper_Abstract
-     */
-    public function helper($className)
-    {
-        return Mage::helper($className);
     }
 
     /**
@@ -87,13 +100,13 @@ class Saas_PrintedTemplate_Helper_Data extends Mage_Core_Helper_Abstract
     public function getSystemConfigPathsParts($paths)
     {
         $result = $urlParams = $prefixParts = array();
-        $scopeLabel = $this->helper('Mage_Backend_Helper_Data')->__('GLOBAL');
+        $scopeLabel = $this->_getHelper()->__('GLOBAL');
         if ($paths) {
             /**
              * @todo check functionality of getting Mage_Backend_Model_Menu_Config object
              */
             /** @var $menu Mage_Backend_Model_Menu */
-            $menu = $this->_menuConfig->getMenu();
+            $menu = $this->_getMenuConfig()->getMenu();
             $item = $menu->get('Mage_Adminhtml::system');
             // create prefix path parts
             $prefixParts[] = array(
@@ -102,7 +115,7 @@ class Saas_PrintedTemplate_Helper_Data extends Mage_Core_Helper_Abstract
             $item = $menu->get('Mage_Adminhtml::system_config');
             $prefixParts[] = array(
                 'title' => $item->getModuleHelper()->__($item->getTitle()),
-                'url' => $this->helper('Mage_Backend_Helper_Data')->getUrl('adminhtml/system_config/'),
+                'url' => $this->_getHelper()->getUrl('adminhtml/system_config/'),
             );
 
             $pathParts = $prefixParts;
@@ -136,25 +149,24 @@ class Saas_PrintedTemplate_Helper_Data extends Mage_Core_Helper_Abstract
                  * @todo check functionality of getting Mage_Backend_Model_Config_Structure object
                  */
                 $pathParts[] = array(
-                    'title' => $this->_configStructure->getElement($sectionName)->getLabel(),
-                    'url' => $this->helper('Mage_Backend_Helper_Data')
-                        ->getUrl('adminhtml/system_config/edit', $urlParams),
+                    'title' => $this->_getConfigStructure()->getElement($sectionName)->getLabel(),
+                    'url' => $this->_getHelper()->getUrl('adminhtml/system_config/edit', $urlParams),
                 );
                 $elementPathParts = array($sectionName);
                 while (count($pathDataParts) != 1) {
                     $elementPathParts[] = array_shift($pathDataParts);
                     $pathParts[] = array(
-                        'title' => $this->_configStructure
+                        'title' => $this->_getConfigStructure()
                             ->getElementByPathParts($elementPathParts)
-                            ->getLabel()
+                            ->getLabel(),
                     );
                 }
                 $elementPathParts[] = array_shift($pathDataParts);
                 $pathParts[] = array(
-                    'title' => $this->_configStructure
+                    'title' => $this->_getConfigStructure()
                         ->getElementByPathParts($elementPathParts)
                         ->getLabel(),
-                    'scope' => $scopeLabel
+                    'scope' => $scopeLabel,
                 );
                 $result[] = $pathParts;
                 $pathParts = $prefixParts;
