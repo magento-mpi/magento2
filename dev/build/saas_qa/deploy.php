@@ -15,11 +15,15 @@ $logWriter = new \Zend_Log_Writer_Stream('php://output');
 $logWriter->setFormatter(new \Zend_Log_Formatter_Simple('%message%' . PHP_EOL));
 $logger = new \Zend_Log($logWriter);
 try {
-    $params = getopt('', array('meta-dir:', 'deploy-url-pattern:', 'dsn:', 'install::', 'uninstall::', 'cleanup::'));
-    if (empty($params['meta-dir'])) {
-        throw new Exception('Missing required parameter "meta-dir"');
-    }
+    $params = getopt('', array(/*'meta-dir:', */'deploy-url-pattern:', 'dsn:', 'install::', 'uninstall::', 'cleanup::'));
+//    if (empty($params['meta-dir'])) {
+//        throw new Exception('Missing required parameter "meta-dir"');
+//    }
     $workingDir = realpath(__DIR__ . '/../../..');
+    $params['meta-dir'] = $workingDir . '/build.tenants';
+    if (!is_dir($params['meta-dir'])) {
+        mkdir($params['meta-dir']);
+    }
     $controller = new \Magento\MultiTenant\Wizard($logger, $params, $workingDir, $params['meta-dir']);
     $controller->execute();
 } catch (Exception $e) {
