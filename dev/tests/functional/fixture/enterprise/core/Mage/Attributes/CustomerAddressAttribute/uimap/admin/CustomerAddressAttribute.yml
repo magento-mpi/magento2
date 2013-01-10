@@ -27,11 +27,13 @@ manage_customer_address_attributes:
                         fields:
                             attribute_code: //input[@name='attribute_code']
                             attribute_label: //input[@name='frontend_label']
+                            page: //input[@name='page']
+                            sort: //input[@name='sort_order']
                         dropdowns:
                             required: //select[@name='is_required']
                             system: //select[@name='is_user_defined']
                             visible:  //select[@name='is_visible']
-                            sort: //input[@name='sort_order']
+                            view_on_page: //select[@name='limit']
                         pageelements:
                             attributes_grid_head: //div[@id='customerAddressAttributeGrid']//thead/tr[@class='headings']
         buttons:

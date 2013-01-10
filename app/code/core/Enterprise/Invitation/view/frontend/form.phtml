@@ -24,7 +24,7 @@
             <li>
                 <label for="email_<?php echo $_index ?>"<?php if ($_index == 1) echo ' class="required"' ?>><?php if ($_index == 1) echo '<em>*</em>' ?><?php echo $_index; ?>:</label>
                 <div class="input-box">
-                    <input tabindex="<?php echo $_index ?>" name="email[]" id="email_<?php echo $_index ?>" title="<?php echo Mage::helper('Enterprise_Invitation_Helper_Data')->__('Email') ?>" value="" class="<?php if ($_index == 1): ?>required-entry <?php endif;?>input-text validate-email" type="text" />
+                    <input tabindex="<?php echo $_index ?>" name="email[]" id="email_<?php echo $_index ?>" title="<?php echo Mage::helper('Enterprise_Invitation_Helper_Data')->__('Email') ?>" value="" class="input-text" type="text" data-validate="{'validate-email':true<?php if ($_index == 1): ?>, required:true<?php endif;?>}" />
                 </div>
             </li>
             <?php endfor; ?>
@@ -46,7 +46,29 @@
 
 </form>
 <script type="text/javascript">
-    var contactForm = new VarienForm('invitationForm', true);
+    (function($) {
+        head.js(
+            "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js') ?>",
+            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js') ?>",
+            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
+            "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
+            function() {
+                /**
+                 * All input fields have the same name attribute 'email[]',
+                 * by default jQuery validate only validate the first input field.
+                 * We overwrite checkForm function to validate all the input fields.
+                 * This maybe a use case to have a beforeValidation event?
+                 */
+                $.extend($.validator.prototype, {checkForm: function() {
+                    this.prepareForm();
+                    this.findByName(this.elements()[0].name).each($.proxy(function(i, e) {
+                        this.check(e);
+                    }, this));
+                    return this.valid();
+                }});
+                $('#invitationForm').validation({});
+            });
+    })(jQuery);
 </script>
 <?php else:?>
 <p><?php echo Mage::helper('Enterprise_Invitation_Helper_Data')->__('You cannot send more invitations'); ?></p>
