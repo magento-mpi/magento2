@@ -14,7 +14,7 @@ class Magento_Test_Helper_Api
      *
      * @param PHPUnit_Framework_TestCase $testCase Active test case
      * @param string $path
-     * @param array $params
+     * @param array $params Order of items matters as they are passed to call_user_func_array
      * @return mixed
      */
     public static function call(PHPUnit_Framework_TestCase $testCase, $path, $params = array())

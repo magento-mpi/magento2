@@ -9,7 +9,7 @@
  */
 
 /**
- * Shopping cart api for customer data 
+ * Shopping cart api for customer data
  *
  * @category    Mage
  * @package     Mage_Checkout
@@ -43,37 +43,32 @@ class Mage_Checkout_Model_Cart_Customer_Api extends Mage_Checkout_Model_Api_Reso
             $this->_fault('customer_mode_is_unknown');
         }
 
-        switch($customerData['mode']) {
-        case self::MODE_CUSTOMER:
-            /** @var $customer Mage_Customer_Model_Customer */
-            $customer = $this->_getCustomer($customerData['entity_id']);
-            $customer->setMode(self::MODE_CUSTOMER);
-            break;
+        switch ($customerData['mode']) {
+            case self::MODE_CUSTOMER:
+                /** @var Mage_Customer_Model_Customer $customer */
+                $customer = $this->_getCustomer($customerData['entity_id']);
+                $customer->setMode(self::MODE_CUSTOMER);
+                break;
+            case self::MODE_REGISTER:
+            case self::MODE_GUEST:
+                /** @var Mage_Customer_Model_Customer $customer */
+                $customer = Mage::getModel('Mage_Customer_Model_Customer')->setData($customerData);
 
-        case self::MODE_REGISTER:
-        case self::MODE_GUEST:
-            /** @var $customer Mage_Customer_Model_Customer */
-            $customer = Mage::getModel('Mage_Customer_Model_Customer')
-                ->setData($customerData);
+                if ($customer->getMode() == self::MODE_GUEST) {
+                    $password = $customer->generatePassword();
+                    $customer->setPassword($password)
+                        ->setConfirmation($password);
+                }
 
-            if ($customer->getMode() == self::MODE_GUEST) {
-                $password = $customer->generatePassword();
-
-                $customer
-                    ->setPassword($password)
-                    ->setConfirmation($password);
-            }
-
-            $isCustomerValid = $customer->validate();
-            if ($isCustomerValid !== true && is_array($isCustomerValid)) {
-                $this->_fault('customer_data_invalid', implode(PHP_EOL, $isCustomerValid));
-            }
-            break;
+                $isCustomerValid = $customer->validate();
+                if ($isCustomerValid !== true && is_array($isCustomerValid)) {
+                    $this->_fault('customer_data_invalid', implode(PHP_EOL, $isCustomerValid));
+                }
+                break;
         }
 
         try {
-            $quote
-                ->setCustomer($customer)
+            $quote->setCustomer($customer)
                 ->setCheckoutMethod($customer->getMode())
                 ->setPasswordHash($customer->encryptPassword($customer->getPassword()))
                 ->save();
@@ -85,9 +80,9 @@ class Mage_Checkout_Model_Cart_Customer_Api extends Mage_Checkout_Model_Api_Reso
     }
 
     /**
-     * @param  int $quoteId
-     * @param  array of array|object $customerAddressData
-     * @param  int|string $store
+     * @param int $quoteId
+     * @param array of array|object $customerAddressData
+     * @param int|string $store
      * @return int
      */
     public function setAddresses($quoteId, $customerAddressData, $store = null)
@@ -98,7 +93,7 @@ class Mage_Checkout_Model_Cart_Customer_Api extends Mage_Checkout_Model_Api_Reso
         if (is_null($customerAddressData)) {
             $this->_fault('customer_address_data_empty');
         }
-        
+
         foreach ($customerAddressData as $addressItem) {
 //            switch($addressItem['mode']) {
 //            case self::ADDRESS_BILLING:
@@ -130,45 +125,44 @@ class Mage_Checkout_Model_Cart_Customer_Api extends Mage_Checkout_Model_Api_Reso
                 $this->_fault('customer_address_invalid', implode(PHP_EOL, $validateRes));
             }
 
-            switch($addressMode) {
-            case self::ADDRESS_BILLING:
-                $address->setEmail($quote->getCustomer()->getEmail());
+            switch ($addressMode) {
+                case self::ADDRESS_BILLING:
+                    $address->setEmail($quote->getCustomer()->getEmail());
 
-                if (!$quote->isVirtual()) {
-                    $usingCase = isset($addressItem['use_for_shipping']) ? (int)$addressItem['use_for_shipping'] : 0;
-                    switch($usingCase) {
-                    case 0:
-                        $shippingAddress = $quote->getShippingAddress();
-                        $shippingAddress->setSameAsBilling(0);
-                        break;
-                    case 1:
-                        $billingAddress = clone $address;
-                        $billingAddress->unsAddressId()->unsAddressType();
+                    if (!$quote->isVirtual()) {
+                        $useCase = isset($addressItem['use_for_shipping']) ? (int)$addressItem['use_for_shipping'] : 0;
+                        switch ($useCase) {
+                            case 0:
+                                $shippingAddress = $quote->getShippingAddress();
+                                $shippingAddress->setSameAsBilling(0);
+                                break;
+                            case 1:
+                                $billingAddress = clone $address;
+                                $billingAddress->unsAddressId()->unsAddressType();
 
-                        $shippingAddress = $quote->getShippingAddress();
-                        $shippingMethod = $shippingAddress->getShippingMethod();
-                        $shippingAddress->addData($billingAddress->getData())
-                            ->setSameAsBilling(1)
-                            ->setShippingMethod($shippingMethod)
-                            ->setCollectShippingRates(true);
-                        break;
+                                $shippingAddress = $quote->getShippingAddress();
+                                $shippingMethod = $shippingAddress->getShippingMethod();
+                                $shippingAddress->addData($billingAddress->getData())
+                                    ->setSameAsBilling(1)
+                                    ->setShippingMethod($shippingMethod)
+                                    ->setCollectShippingRates(true);
+                                break;
+                        }
                     }
-                }
-                $quote->setBillingAddress($address);
-                break;
+                    $quote->setBillingAddress($address);
+                    break;
 
-            case self::ADDRESS_SHIPPING:
-                $address->setCollectShippingRates(true)
+                case self::ADDRESS_SHIPPING:
+                    $address->setCollectShippingRates(true)
                         ->setSameAsBilling(0);
-                $quote->setShippingAddress($address);
-                break;
+                    $quote->setShippingAddress($address);
+                    break;
             }
 
         }
-        
+
         try {
-            $quote
-                ->collectTotals()
+            $quote->collectTotals()
                 ->save();
         } catch (Exception $e) {
             $this->_fault('address_is_not_set', $e->getMessage());
@@ -180,25 +174,24 @@ class Mage_Checkout_Model_Cart_Customer_Api extends Mage_Checkout_Model_Api_Reso
     /**
      * Prepare customer entered data for implementing
      *
-     * @param  array $customerData
+     * @param array $data
      * @return array
      */
     protected function _prepareCustomerData($data)
     {
-        foreach ($this->_attributesMap['quote_customer'] as $attributeAlias=>$attributeCode) {
-             if(isset($data[$attributeAlias]))
-             {
-                 $data[$attributeCode] = $data[$attributeAlias];
-                 unset($data[$attributeAlias]);
-             }
-         }
+        foreach ($this->_attributesMap['quote_customer'] as $attributeAlias => $attributeCode) {
+            if (isset($data[$attributeAlias])) {
+                $data[$attributeCode] = $data[$attributeAlias];
+                unset($data[$attributeAlias]);
+            }
+        }
         return $data;
     }
 
     /**
      * Prepare customer entered data for implementing
      *
-     * @param  array $data
+     * @param array $data
      * @return array
      */
     protected function _prepareCustomerAddressData($data)
@@ -206,15 +199,14 @@ class Mage_Checkout_Model_Cart_Customer_Api extends Mage_Checkout_Model_Api_Reso
         if (!is_array($data) || !is_array($data[0])) {
             return null;
         }
-        
+
         $dataAddresses = array();
-        foreach($data as $addressItem) {
-            foreach ($this->_attributesMap['quote_address'] as $attributeAlias=>$attributeCode) {
-                 if(isset($addressItem[$attributeAlias]))
-                 {
-                     $addressItem[$attributeCode] = $addressItem[$attributeAlias];
-                     unset($addressItem[$attributeAlias]);
-                 }
+        foreach ($data as $addressItem) {
+            foreach ($this->_attributesMap['quote_address'] as $attributeAlias => $attributeCode) {
+                if (isset($addressItem[$attributeAlias])) {
+                    $addressItem[$attributeCode] = $addressItem[$attributeAlias];
+                    unset($addressItem[$attributeAlias]);
+                }
             }
             $dataAddresses[] = $addressItem;
         }

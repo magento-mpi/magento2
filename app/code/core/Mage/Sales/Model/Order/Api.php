@@ -70,6 +70,9 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
         $billingLastnameField = "$billingAliasName.lastname";
         $shippingFirstnameField = "$shippingAliasName.firstname";
         $shippingLastnameField = "$shippingAliasName.lastname";
+        // Oracle CONCAT can only have 2 arguments
+        $billingNameExpr = "CONCAT({{billing_firstname}}, CONCAT(' ', {{billing_lastname}}))";
+        $shippingNameExpr = "CONCAT({{shipping_firstname}}, CONCAT(' ', {{shipping_lastname}}))";
         $orderCollection->addAttributeToSelect('*')
             ->addAddressFields()
             ->addExpressionFieldToSelect('billing_firstname', "{{billing_firstname}}",
@@ -80,9 +83,9 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
                 array('shipping_firstname' => $shippingFirstnameField))
             ->addExpressionFieldToSelect('shipping_lastname', "{{shipping_lastname}}",
                 array('shipping_lastname' => $shippingLastnameField))
-            ->addExpressionFieldToSelect('billing_name', "CONCAT({{billing_firstname}}, ' ', {{billing_lastname}})",
+            ->addExpressionFieldToSelect('billing_name', $billingNameExpr,
                 array('billing_firstname' => $billingFirstnameField, 'billing_lastname' => $billingLastnameField))
-            ->addExpressionFieldToSelect('shipping_name', 'CONCAT({{shipping_firstname}}, " ", {{shipping_lastname}})',
+            ->addExpressionFieldToSelect('shipping_name', $shippingNameExpr,
                 array('shipping_firstname' => $shippingFirstnameField, 'shipping_lastname' => $shippingLastnameField)
         );
 
@@ -146,13 +149,13 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
     }
 
     /**
-     * Add comment to order
+     * Change order status and optionally log status change with comment.
      *
      * @param string $orderIncrementId
-     * @param string $status
-     * @param string $comment
-     * @param boolean $notify
-     * @return boolean
+     * @param string $status New order status
+     * @param string $comment Comment to order status change
+     * @param boolean $notify Should customer be notified about status change
+     * @return boolean Is method executed successfully
      */
     public function addComment($orderIncrementId, $status, $comment = null, $notify = false)
     {
@@ -163,16 +166,13 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
 
         try {
             if ($notify && $comment) {
-                $oldStore = Mage::getDesign()->getStore();
                 $oldArea = Mage::getDesign()->getArea();
-                Mage::getDesign()->setStore($order->getStoreId());
                 Mage::getDesign()->setArea('frontend');
             }
 
             $order->save();
             $order->sendOrderUpdateEmail($notify, $comment);
             if ($notify && $comment) {
-                Mage::getDesign()->setStore($oldStore);
                 Mage::getDesign()->setArea($oldArea);
             }
 

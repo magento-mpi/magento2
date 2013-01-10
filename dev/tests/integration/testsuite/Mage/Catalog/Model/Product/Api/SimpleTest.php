@@ -308,7 +308,7 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
     {
         $productData = require dirname(__FILE__) . '/_files/ProductData.php';
         $productData = $productData['create_full']['soap'];
-        $productData['set'] = 'invalid';
+        $productData['set'] = 9999;
 
         try {
             Magento_Test_Helper_Api::call($this, 'catalogProductCreate', $productData);
