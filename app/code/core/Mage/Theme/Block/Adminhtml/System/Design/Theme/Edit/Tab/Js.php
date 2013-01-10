@@ -15,17 +15,17 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
     extends Mage_Backend_Block_Widget_Form
     implements Mage_Backend_Block_Widget_Tab_Interface
 {
-
     /**
      * Create a form element with necessary controls
      *
-     * @return Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General|Mage_Backend_Block_Widget_Form
+     * @return Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
      */
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
         $this->setForm($form);
         $this->_addThemeJsFieldset();
+        return $this;
     }
 
     /**
@@ -35,7 +35,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
     {
         $form = $this->getForm();
         $themeFieldset = $form->addFieldset('theme_js', array(
-        'legend' => $this->__('Theme JS'),
+            'legend' => $this->__('Theme JS'),
         ));
         $this->_addElementTypes($themeFieldset);
     }
@@ -57,7 +57,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
      */
     public function getTabLabel()
     {
-    return $this->__('JS Editor');
+        return $this->__('JS Editor');
     }
 
     /**
@@ -67,7 +67,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
      */
     public function getTabTitle()
     {
-    return $this->getTabLabel();
+        return $this->getTabLabel();
     }
 
     /**
@@ -77,7 +77,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
      */
     public function canShowTab()
     {
-    return $this->_getCurrentTheme()->isVirtual() && $this->_getCurrentTheme()->getId();
+        return $this->_getCurrentTheme()->isVirtual() && $this->_getCurrentTheme()->getId();
     }
 
     /**
@@ -87,6 +87,6 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
      */
     public function isHidden()
     {
-    return false;
+        return false;
     }
 }
