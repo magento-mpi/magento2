@@ -149,22 +149,8 @@ class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
         $quoteCollection = Mage::getModel('Mage_Sales_Model_Resource_Quote_Collection');
         /** @var Mage_Sales_Model_Quote $quote */
         $quote = $quoteCollection->getFirstItem();
-
-        // create sales rule coupon
-        /** @var Mage_SalesRule_Model_Rule $salesRule */
-        $salesRule = Mage::getModel('Mage_SalesRule_Model_Rule');
         $discount = 10;
-        $data = array(
-            'name' => 'Test Coupon',
-            'is_active' => true,
-            'website_ids' => array(Mage::app()->getStore()->getWebsiteId()),
-            'customer_group_ids' => array(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID),
-            'coupon_type' => Mage_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC,
-            'coupon_code' => uniqid(),
-            'simple_action' => Mage_SalesRule_Model_Rule::BY_PERCENT_ACTION,
-            'discount_amount' => $discount,
-        );
-        $salesRule->loadPost($data)->setUseAutoGeneration(false)->save();
+        $salesRule = $this->_generateCoupon($discount);
 
         $soapResult = Magento_Test_Helper_Api::call(
             $this,
@@ -182,6 +168,66 @@ class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
             $discountedPrice,
             'Quote subtotal price does not match discounted item price'
         );
+    }
+
+    /**
+     * Test coupon code removing
+     *
+     * @magentoDataFixture Mage/Checkout/_files/quote_with_simple_product.php
+     */
+    public function testCartCouponRemove()
+    {
+        /** @var Mage_Catalog_Model_Product $product */
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        $product->load(1);
+        $originalPrice = $product->getPrice();
+        /** @var Mage_Sales_Model_Resource_Quote_Collection $quoteCollection */
+        $quoteCollection = Mage::getModel('Mage_Sales_Model_Resource_Quote_Collection');
+        /** @var Mage_Sales_Model_Quote $quote */
+        $quote = $quoteCollection->getFirstItem();
+        $salesRule = $this->_generateCoupon(10);
+        /** @var $couponApi Mage_Checkout_Model_Cart_Coupon_Api */
+        $couponApi = Mage::getModel('Mage_Checkout_Model_Cart_Coupon_Api');
+        $couponApi->add($quote->getId(), $salesRule->getCouponCode());
+
+        $soapResult = Magento_Test_Helper_Api::call(
+            $this,
+            'shoppingCartCouponRemove',
+            array('quoteId' => $quote->getId())
+        );
+
+        $this->assertTrue($soapResult, 'Coupon code was not removed');
+        $quote->load($quote->getId());
+
+        $this->assertEquals(
+            $quote->getSubtotalWithDiscount(),
+            $originalPrice,
+            'Quote subtotal price does not match its original price after discount removal'
+        );
+    }
+
+    /**
+     * @param int $discount Discount amount
+     * @return Mage_SalesRule_Model_Rule Generated sales rule
+     */
+    protected function _generateCoupon($discount)
+    {
+        // create sales rule coupon
+        /** @var Mage_SalesRule_Model_Rule $salesRule */
+        $salesRule = Mage::getModel('Mage_SalesRule_Model_Rule');
+        $data = array(
+            'name' => 'Test Coupon',
+            'is_active' => true,
+            'website_ids' => array(Mage::app()->getStore()->getWebsiteId()),
+            'customer_group_ids' => array(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID),
+            'coupon_type' => Mage_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC,
+            'coupon_code' => uniqid(),
+            'simple_action' => Mage_SalesRule_Model_Rule::BY_PERCENT_ACTION,
+            'discount_amount' => $discount,
+        );
+        $salesRule->loadPost($data)->setUseAutoGeneration(false)->save();
+
+        return $salesRule;
     }
 
     /**
