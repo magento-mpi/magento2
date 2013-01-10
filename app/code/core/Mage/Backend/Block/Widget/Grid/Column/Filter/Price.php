@@ -14,6 +14,8 @@
  * @category   Mage
  * @package    Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Backend_Block_Widget_Grid_Column_Filter_Price extends Mage_Backend_Block_Widget_Grid_Column_Filter_Abstract
 {
@@ -231,13 +233,13 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Price extends Mage_Backend_Bl
     /**
      * Get currency rate
      *
-     * @param $from
-     * @param $to
+     * @param $fromRate
+     * @param $toRate
      * @return float
      */
-    protected function _getRate($from, $to)
+    protected function _getRate($fromRate, $toRate)
     {
-        return $this->_currencyModel->load($from)->getAnyRate($to);
+        return $this->_currencyModel->load($fromRate)->getAnyRate($toRate);
     }
 
     /**
