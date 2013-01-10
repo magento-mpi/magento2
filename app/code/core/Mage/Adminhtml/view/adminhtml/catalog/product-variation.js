@@ -46,6 +46,7 @@
                     var $entity = $(event.target).closest('.entry-edit');
                     $('#attribute-' + $entity.find('[name$="[code]"]').val() + '-container select').removeAttr('disabled');
                     $entity.remove();
+                    updateGenerateVariationsButtonAvailability();
                 },
                 'click .toggle': function (event) {
                     $(event.target).parent().next('fieldset').toggle();
