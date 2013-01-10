@@ -21,6 +21,16 @@ class Mage_Core_Model_Design_Package
      */
     const SCOPE_SEPARATOR = '::';
 
+    /**
+     * Public directory which contain theme files
+     */
+    const PUBLIC_BASE_THEME_DIR = 'theme';
+
+    /**
+     * Public directory which contain virtual themes files
+     */
+    const PUBLIC_CUSTOMIZATION_THEME_DIR = 'customization';
+
     /**#@+
      * Public directories prefix group
      */
@@ -380,19 +390,41 @@ class Mage_Core_Model_Design_Package
      */
     protected function _getFallback($params)
     {
-        $cacheKey = "{$params['area']}|{$params['themeModel']->getCacheKey()}|{$params['locale']}";
-        if (!isset($this->_fallback[$cacheKey])) {
-            $params['canSaveMap'] = (bool) (string) Mage::app()->getConfig()
-                ->getNode('global/dev/design_fallback/allow_map_update');
-            $params['mapDir'] = Mage::getConfig()->getTempVarDir() . '/maps/fallback';
-            $params['baseDir'] = Mage::getBaseDir();
+        if (!isset($params['skipProxy'])) {
+            $params['skipProxy'] = $this->_isDeveloperMode();
+        }
 
-            $model = $this->_isDeveloperMode() ?
-                'Mage_Core_Model_Design_Fallback' :
-                'Mage_Core_Model_Design_Fallback_CachingProxy';
-            $this->_fallback[$cacheKey] = Mage::getModel($model, array('data' => $params));
+        $cacheKey = join('|', array(
+            $params['area'],
+            $params['themeModel']->getCacheKey(),
+            $params['locale'],
+            $params['skipProxy']
+        ));
+        if (!isset($this->_fallback[$cacheKey])) {
+            $this->_fallback[$cacheKey] = $this->_createFallback($params);
         }
         return $this->_fallback[$cacheKey];
+    }
+
+    /**
+     * Create fallback model
+     *
+     * @param array $params
+     * @return Mage_Core_Model_Design_Fallback|Mage_Core_Model_Design_Fallback_CachingProxy
+     */
+    protected function _createFallback($params)
+    {
+        $model = 'Mage_Core_Model_Design_Fallback_CachingProxy';
+        if (isset($params['skipProxy']) && $params['skipProxy']) {
+            $model = 'Mage_Core_Model_Design_Fallback';
+        }
+
+        $params['canSaveMap'] = (bool) (string) Mage::app()->getConfig()
+            ->getNode('global/dev/design_fallback/allow_map_update');
+        $params['mapDir'] = Mage::getConfig()->getTempVarDir() . '/maps/fallback';
+        $params['baseDir'] = Mage::getBaseDir();
+
+        return Mage::getModel($model, array('data' => $params));
     }
 
     /**
@@ -482,7 +514,7 @@ class Mage_Core_Model_Design_Package
     protected function _getPublicFileUrl($file, $isSecure = null)
     {
         $publicDirUrlTypes = array(
-            Mage_Core_Model_Store::URL_TYPE_THEME  => Mage::getBaseDir('media') . DS . 'theme',
+            Mage_Core_Model_Store::URL_TYPE_THEME  => $this->getPublicDir(),
             Mage_Core_Model_Store::URL_TYPE_JS    => Mage::getBaseDir('js'),
         );
         foreach ($publicDirUrlTypes as $publicUrlType => $publicDir) {
@@ -491,7 +523,7 @@ class Mage_Core_Model_Design_Package
                 continue;
             }
             $url = str_replace($publicDir, '', $file);
-            $url = str_replace(DS, '/' , $url);
+            $url = str_replace(DS, '/', $url);
             $url = Mage::getBaseUrl($publicUrlType, $isSecure) . $url;
             return $url;
         }
@@ -648,6 +680,11 @@ class Mage_Core_Model_Design_Package
             return false;
         }
 
+        $customizationPath = $this->getCustomizationDir();
+        if (strncmp($filePath, $customizationPath, strlen($customizationPath)) === 0) {
+            return false;
+        }
+
         $protectedExtensions = array(self::CONTENT_TYPE_PHP, self::CONTENT_TYPE_PHTML, self::CONTENT_TYPE_XML);
         if (in_array($this->_getExtension($filePath), $protectedExtensions)) {
             return false;
@@ -691,7 +728,18 @@ class Mage_Core_Model_Design_Package
      */
     public function getPublicDir()
     {
-        return Mage::getBaseDir('media') . DS . 'theme';
+        return Mage::getBaseDir('media') . DIRECTORY_SEPARATOR . self::PUBLIC_BASE_THEME_DIR;
+    }
+
+    /**
+     * Get customization directory
+     *
+     * @return string
+     */
+    public function getCustomizationDir()
+    {
+        return Mage::getBaseDir('media') . DIRECTORY_SEPARATOR . Mage_Core_Model_Design_Package::PUBLIC_BASE_THEME_DIR
+            . DIRECTORY_SEPARATOR . Mage_Core_Model_Design_Package::PUBLIC_CUSTOMIZATION_THEME_DIR;
     }
 
     /**
@@ -705,7 +753,7 @@ class Mage_Core_Model_Design_Package
     {
         if ($params['themeModel']->getThemePath()) {
             $designPath = str_replace('/', DS, $params['themeModel']->getThemePath());
-        } elseif($params['themeModel']->getId()) {
+        } elseif ($params['themeModel']->getId()) {
             $designPath = self::PUBLIC_THEME_DIR . $params['themeModel']->getId();
         } else {
             $designPath = self::PUBLIC_VIEW_DIR;

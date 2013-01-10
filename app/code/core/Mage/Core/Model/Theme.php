@@ -12,7 +12,6 @@
  * Theme model class
  *
  * @method Mage_Core_Model_Theme save()
- * @method string getThemeCode()
  * @method string getPackageCode()
  * @method string getThemePath()
  * @method string getThemeTitle() getThemeTitle()
@@ -20,6 +19,9 @@
  * @method string getPreviewImage()
  * @method string getThemeDirectory()
  * @method string getParentId()
+ * @method string getArea()
+ * @method string getThemeTitle()
+ * @method string getThemeId()
  * @method Mage_Core_Model_Theme setAssignedStores(array $stores)
  * @method array getAssignedStores()
  * @method Mage_Core_Model_Theme addData(array $data)
@@ -48,11 +50,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      * Separator between theme_path elements
      */
     const PATH_SEPARATOR = '/';
-
-    /**
-     * Theme directory
-     */
-    const THEME_DIR = 'theme';
 
     /**
      * Preview image directory
@@ -153,6 +150,18 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Return custom css file
+     *
+     * @return Mage_Core_Model_Theme_Files
+     */
+    public function getCustomCssFile()
+    {
+        /** @var $cssFile Mage_Core_Model_Theme_Files_Css */
+        $cssFile = $this->_objectManager->get('Mage_Core_Model_Theme_Files_Css');
+        return $cssFile->getFileByTheme($this);
+    }
+
+    /**
      * Themes collection loaded from file system configurations
      *
      * @return Mage_Core_Model_Theme_Collection
@@ -180,11 +189,21 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Check is theme deletable
+     * Check if theme is deletable
      *
      * @return bool
      */
     public function isDeletable()
+    {
+        return $this->isVirtual();
+    }
+
+    /**
+     * Check if theme is editable
+     *
+     * @return bool
+     */
+    public function isEditable()
     {
         return $this->isVirtual();
     }
@@ -251,7 +270,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     protected function _beforeDelete()
     {
         if (!$this->isDeletable()) {
-            Mage::throwException($this->_helper->__('Current theme isn\'t deletable.'));
+            Mage::throwException($this->_helper->__('Theme isn\'t deletable.'));
         }
         $this->removePreviewImage();
         return parent::_beforeDelete();
@@ -319,7 +338,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     protected function _getPreviewImagePublishedRootDir()
     {
-        $dirPath = Mage::getBaseDir('media') . DIRECTORY_SEPARATOR . self::THEME_DIR;
+        /** @var $design Mage_Core_Model_Design_Package */
+        $design = $this->_objectManager->get('Mage_Core_Model_Design_Package');
+        $dirPath = $design->getPublicDir();
         $this->_getIoFile()->checkAndCreateFolder($dirPath);
         return $dirPath;
     }
@@ -351,7 +372,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public static function getPreviewImageDirectoryUrl()
     {
-        return Mage::getBaseUrl('media') . self::THEME_DIR . '/' . self::IMAGE_DIR_PREVIEW . '/';
+        return Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_THEME) . self::IMAGE_DIR_PREVIEW . '/';
     }
 
     /**
@@ -364,6 +385,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     {
         if (isset($themeData['theme_id'])) {
             $this->load($themeData['theme_id']);
+            if ($this->getId() && !$this->isEditable()) {
+                Mage::throwException($this->_helper->__('Theme isn\'t editable.'));
+            }
         }
         $previewImageData = array();
         if (isset($themeData['preview_image'])) {
