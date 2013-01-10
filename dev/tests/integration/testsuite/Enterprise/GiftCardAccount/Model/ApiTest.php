@@ -19,6 +19,7 @@ class Enterprise_GiftCardAccount_Model_ApiTest extends PHPUnit_Framework_TestCas
      */
     public function testCRUD()
     {
+        /** @var Enterprise_GiftCardAccount_Model_Giftcardaccount $testModel */
         $testModel = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount');
         $accountFixture = simplexml_load_file(
             dirname(__FILE__) . '/../_files/fixture/giftcard_account.xml'
@@ -30,6 +31,9 @@ class Enterprise_GiftCardAccount_Model_ApiTest extends PHPUnit_Framework_TestCas
         $this->assertGreaterThan(0, $accountId);
 
         $testModel->load($accountId);
+        // Convert dates to Y-m-d format from Oracle
+        $testModel->setDateCreated(date('Y-m-d', strtotime($testModel->getDateCreated())));
+        $testModel->setDateExpires(date('Y-m-d', strtotime($testModel->getDateExpires())));
         $this->_testDataCorrect($createData, $testModel);
 
         //Test list
@@ -42,7 +46,7 @@ class Enterprise_GiftCardAccount_Model_ApiTest extends PHPUnit_Framework_TestCas
 
         unset($createData['status']);
         unset($createData['website_id']);
-        $info['date_expires'] = $info['expire_date'];
+        $info['date_expires'] = date('Y-m-d', strtotime($info['expire_date']));
         $this->_testDataCorrect($createData, new Varien_Object($info));
 
         //Test update

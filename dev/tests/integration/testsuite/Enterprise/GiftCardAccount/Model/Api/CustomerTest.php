@@ -23,7 +23,7 @@ class Enterprise_GiftCardAccount_Model_Api_CustomerTest extends PHPUnit_Framewor
 
         $info = Magento_Test_Helper_Api::call($this, 'giftcardCustomerInfo', array('code' => $code));
         $this->assertEquals($balance, $info['balance']);
-        $this->assertEquals($dateExpires, $info['expire_date']);
+        $this->assertEquals($dateExpires, date('Y-m-d', strtotime($info['expire_date'])));
     }
 
     /**

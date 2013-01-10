@@ -163,6 +163,7 @@ class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
             'coupon_code' => uniqid(),
             'simple_action' => Mage_SalesRule_Model_Rule::BY_PERCENT_ACTION,
             'discount_amount' => $discount,
+            'discount_step' => 1,
         );
         $salesRule->loadPost($data)->setUseAutoGeneration(false)->save();
 
