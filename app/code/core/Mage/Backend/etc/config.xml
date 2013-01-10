@@ -75,6 +75,12 @@
                 </parameters>
                 <shared>0</shared>
             </Mage_Backend_Model_Config_Structure_Element_Iterator_Field>
+            <Mage_Core_Model_Config_StorageInterface>
+                <parameters>
+                    <configStorage>Mage_Core_Model_Config_Storage</configStorage>
+                </parameters>
+                <shared>0</shared>
+            </Mage_Core_Model_Config_StorageInterface>
             <Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper>
                 <parameters>
                     <fieldLocator>Mage_Backend_Model_Config_Structure_Search_Proxy</fieldLocator>

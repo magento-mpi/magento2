@@ -27,7 +27,7 @@ class Mage_Install_Model_Config extends Varien_Simplexml_Config
     {
         parent::__construct();
         $this->loadString('<?xml version="1.0"?><config></config>');
-        Mage::getConfig()->loadModulesConfiguration('install.xml', $this);
+        $this->_configStorage->loadModulesConfiguration('install.xml', $this);
     }
 
     /**

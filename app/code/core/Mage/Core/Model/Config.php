@@ -717,20 +717,6 @@ class Mage_Core_Model_Config
     }
 
     /**
-     * Iterate all active modules "etc" folders and combine data from
-     * specified xml file name to one object
-     *
-     * @param $fileName
-     * @param null $mergeToObject
-     * @param null $mergeModel
-     * @return Mage_Core_Model_Config_Base
-     */
-    public function loadModulesConfiguration($fileName, $mergeToObject = null, $mergeModel=null)
-    {
-        return $this->_storage->loadModulesConfiguration($fileName, $mergeToObject, $mergeModel);
-    }
-
-    /**
      * Go through all modules and find configuration files of active modules
      *
      * @param string $filename

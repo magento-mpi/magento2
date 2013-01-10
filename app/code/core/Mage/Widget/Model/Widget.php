@@ -30,7 +30,7 @@ class Mage_Widget_Model_Widget extends Varien_Object
         } else {
             $config = new Varien_Simplexml_Config();
             $config->loadString('<?xml version="1.0"?><widgets></widgets>');
-            Mage::getConfig()->loadModulesConfiguration('widget.xml', $config);
+            $this->_configStorage->loadModulesConfiguration('widget.xml', $config);
             $xmlConfig = $config;
             if (Mage::app()->useCache('config')) {
                 Mage::app()->saveCache($config->getXmlString(), 'widget_config',

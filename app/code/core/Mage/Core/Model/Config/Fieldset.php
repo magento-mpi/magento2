@@ -32,7 +32,7 @@ class Mage_Core_Model_Config_Fieldset extends Mage_Core_Model_Config_Base
             }
         }
 
-        $config = Mage::getConfig()->loadModulesConfiguration('fieldset.xml');
+        $config = $this->_configStorage->loadModulesConfiguration('fieldset.xml');
         $this->setXml($config->getNode());
 
         if ($canUseCache) {

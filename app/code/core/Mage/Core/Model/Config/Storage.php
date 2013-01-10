@@ -201,7 +201,7 @@ class Mage_Core_Model_Config_Storage
 
         Magento_Profiler::start('load_modules_configuration');
         $resourceConfig = sprintf('config.%s.xml', $this->getResourceConnectionModel('core'));
-        $this->loadModulesConfiguration(array('config.xml',$resourceConfig), $this);
+        $this->_configStorage->loadModulesConfiguration(array('config.xml',$resourceConfig), $this);
         Magento_Profiler::stop('load_modules_configuration');
 
         // Prevent local configuration overriding

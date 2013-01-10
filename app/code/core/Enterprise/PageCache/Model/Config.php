@@ -32,7 +32,7 @@ class Enterprise_PageCache_Model_Config extends Varien_Simplexml_Config
             }
         }
 
-        $config = Mage::getConfig()->loadModulesConfiguration('cache.xml');
+        $config = $this->_configStorage->loadModulesConfiguration('cache.xml');
         $this->setXml($config->getNode());
 
         if ($canUsaCache) {

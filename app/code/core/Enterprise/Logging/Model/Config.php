@@ -42,7 +42,7 @@ class Enterprise_Logging_Model_Config
         } else {
             $config = new Varien_Simplexml_Config;
             $config->loadString('<?xml version="1.0"?><logging></logging>');
-            Mage::getConfig()->loadModulesConfiguration('logging.xml', $config);
+            $this->_configStorage->loadModulesConfiguration('logging.xml', $config);
             $this->_xmlConfig = $config;
             if (Mage::app()->useCache('config')) {
                 Mage::app()->saveCache($config->getXmlString(), 'enterprise_logging_config',
