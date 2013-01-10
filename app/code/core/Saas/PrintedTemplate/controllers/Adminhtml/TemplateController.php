@@ -127,7 +127,7 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
             try {
                 $template->validate();
             }
-            catch (Mage_Core_Exception $e) {
+            catch (Exception $e) {
                 $this->getResponse()->setBody($this->__($e->getMessage()));
                 return;
             }
@@ -154,7 +154,7 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
             try {
                 $template->validate();
             }
-            catch (Mage_Core_Exception $e) {
+            catch (Exception $e) {
                 $this->getResponse()->setBody($this->__($e->getMessage()));
                 return;
             }
