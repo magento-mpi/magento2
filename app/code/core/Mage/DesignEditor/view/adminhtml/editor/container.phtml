@@ -13,13 +13,3 @@
 <?php echo $this->getChildHtml('design_editor_toolbar'); ?>
 <?php echo $this->getChildHtml('theme.selector.storeview'); ?>
 <iframe name="vde_container_frame" id="vde_container_frame" class="vde_container_frame" src="<?php echo $this->getFrameUrl(); ?>"></iframe>
-<script type="text/javascript">
-(function ($) {
-    $( window ).resize(function() {
-        var height = $( window ).innerHeight();
-        var offset = $( 'iframe.vde_container_frame' ).offset();
-        $( 'iframe.vde_container_frame' ).height(height - parseInt(offset.top) - 10);
-    });
-    $( window ).ready($( window ).resize());
-})(jQuery);
-</script>
