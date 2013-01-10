@@ -15,7 +15,7 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_Data_Form_Element_Hidden
+class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_Data_Form_Element_Abstract
 {
     /**
      * Maximum file size to upload in bytes.
@@ -82,6 +82,18 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
         $this->_maxFileSize = $this->_getFileMaxSize();
     }
 
+    public function getDefaultHtml()
+    {
+        $html = $this->getData('default_html');
+        if (is_null($html)) {
+            $html = ($this->getNoSpan() === true) ? '' : '<span class="field-row">' . "\n";
+            $html .= $this->getLabelHtml();
+            $html .= $this->getElementHtml();
+            $html .= ($this->getNoSpan() === true) ? '' : '</span>' . "\n";
+        }
+        return $html;
+    }
+
     /**
      * Return element html code
      *
@@ -92,13 +104,31 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
         $imageUrl = $this->_helperData->escapeHtml($this->_getImageUrl($this->getValue()));
         $htmlId = $this->_helperData->escapeHtml($this->getHtmlId());
         $uploadUrl = $this->_helperData->escapeHtml($this->_getUploadUrl());
-
-        $html = '<input id="' . $htmlId .'_upload" type="file" name="image" '
-                 . 'data-url="' . $uploadUrl . '" style="display: none;" />'
-                 . parent::getElementHtml()
-                 . '<img align="left" src="' . $imageUrl . '" id="' . $htmlId . '_image"'
-                 . ' title="' . $imageUrl . '" alt="' . $imageUrl . '" class="base-image-uploader"'
-                 . ' onclick="jQuery(\'#' . $htmlId . '_upload\').trigger(\'click\')"/>';
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->getForm()->getDataObject();
+        $gallery = $product->getMediaGalleryImages();
+        $html = '<input id="' . $htmlId .'-upload" type="file" name="image" '
+            . 'data-url="' . $uploadUrl . '" style="display:none" />'
+            . '<input id="' . $htmlId . '" type="hidden" name="'. $this->getName() .'" />'
+            . '<div id="' . $htmlId  . '-container" data-main="'
+            .  $this->getEscapedValue()
+            . '" data-images="'
+            . $this->_escape(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
+                $gallery ? $gallery->toArray() : array()
+            ))
+            . '">'
+            . '<span id="' . $htmlId . '-upload-placeholder" ></span>'
+            . '<script id="' . $htmlId . '-template" type="text/x-jquery-tmpl" >'
+            . '<span class="container">
+                    <span class="main-sticker">' . $this->_helperData->__('Main') . '</span>
+                    <span class="close">&times;</span>
+                    <img class="base-image-uploader" src="${url}" data-position="${position}" alt="${label}" />
+                    <div class="drag-zone">
+                        <button class="make-main" type="button">' . $this->_helperData->__('Make Main') . '</button>
+                    </span>
+               </span>'
+            . '</script>'
+            . '</div>';
         $html .= $this->_getJs();
 
         return $html;

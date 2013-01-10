@@ -44,7 +44,8 @@ class Core_Mage_ProductAttribute_SystemAttributeTest extends Mage_Selenium_TestC
         switch ($attributeCode) {
             case 'price':
                 $search = array('attribute_code' => 'price',
-                                'used_in_layered_navigation' => 'Filterable (with results)');
+                    'use_in_layered_navigation' => 'Filterable (with results)'
+                );
                 break;
             case 'status':
                 $search = array('attribute_label' => 'Status');
@@ -53,9 +54,9 @@ class Core_Mage_ProductAttribute_SystemAttributeTest extends Mage_Selenium_TestC
                 $search = array('attribute_code' => $attributeCode);
                 break;
         }
-        $this->searchAndOpen($search, 'attributes_grid');
+        $this->productAttributeHelper()->openAttribute($search);
         //Verifying
-        $this->assertTrue($this->getControlElement('dropdown', 'apply_to')->enabled());
+        $this->assertFalse($this->getControlElement('dropdown', 'apply_to')->enabled());
         if ($applyTo == 'All Product Types') {
             $this->assertFalse($this->controlIsPresent('multiselect', 'apply_product_types'));
         } else {
@@ -63,7 +64,7 @@ class Core_Mage_ProductAttribute_SystemAttributeTest extends Mage_Selenium_TestC
                 'Apply To multiselect is absent');
             $element = $this->getControlElement('multiselect', 'apply_product_types');
             $this->assertFalse($element->enabled(), 'Apply To multiselect is enabled');
-            $this->assertEquals($types, $this->select($element)->selectedLabels());
+            $this->assertEquals($types, $this->select($element)->selectedValues());
         }
     }
 
@@ -131,7 +132,7 @@ class Core_Mage_ProductAttribute_SystemAttributeTest extends Mage_Selenium_TestC
             array('url_key', 'All Product Types', null),
             array('visibility', 'All Product Types', null),
             array('weight', 'Selected Product Types',
-                array('simple', 'virtual', 'bundle', 'downloadable')),
+                array('simple', 'configurable', 'virtual', 'bundle', 'downloadable')),
         );
     }
 }

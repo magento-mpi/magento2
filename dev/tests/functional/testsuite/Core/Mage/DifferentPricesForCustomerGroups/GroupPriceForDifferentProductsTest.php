@@ -146,7 +146,8 @@ class Core_Mage_DifferentPricesForCustomerGroups_GroupPriceForDifferentProductsT
                 'group_3' => $processedGroupNames['retailer_group']));
         //Steps. Creating product with Grouped Price
         if ($productType == 'configurable') {
-            $productData['general_configurable_attribute_title'] = $processedGroupNames['general_configurable_attribute_title'];
+            $productData['general_configurable_attribute_title'] =
+                $processedGroupNames['general_configurable_attribute_title'];
         }
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData, $productType);

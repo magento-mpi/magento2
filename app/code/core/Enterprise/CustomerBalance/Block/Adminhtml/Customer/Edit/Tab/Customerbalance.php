@@ -53,7 +53,8 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
      */
     public function canShowTab()
     {
-        return true;
+        $customer = Mage::registry('current_customer');
+        return (bool)$customer->getId();
     }
 
     /**

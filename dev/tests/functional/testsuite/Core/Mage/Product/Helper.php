@@ -603,38 +603,72 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $categoryName = end($explodeCategory);
             $this->addParameter('categoryPath', $categoryPath);
             $element->value($categoryName);
-            //@TODO change wait condition for createNewCategory()
-            $this->waitForControlEditable(self::UIMAP_TYPE_FIELDSET, 'category_search');
-            //If not selected category not exist.
-            $selectCategory = $this->elementIsPresent($this->_getControlXpath(self::FIELD_TYPE_LINK, 'category'));
-            if (!$selectCategory) {
-                $element->clear();
-                if (!$this->controlIsPresent(self::FIELD_TYPE_LINK, 'selected_category')) {
-                    $this->createNewCategory($categoryPath);
+            $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'category_search_result');
+            if ($this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'category_search')) {
+                $selectCategory = $this->elementIsPresent($this->_getControlXpath(self::FIELD_TYPE_LINK, 'category'));
+                if ($selectCategory) {
+                    $this->moveto($selectCategory);
+                    $selectCategory->click();
+                } elseif ($this->controlIsPresent(self::FIELD_TYPE_LINK, 'selected_category')) {
+                    $element->clear();
+                    $this->clearActiveFocus($element);
                 }
-                $this->clearActiveFocus($element);
-                continue;
             } else {
-                $this->moveto($selectCategory);
-                $selectCategory->click();
+                $this->createNewCategory($categoryPath, true);
             }
-            $this->addParameter('categoryName', $categoryName);
+            $this->addParameter('categoryName', substr($categoryName, 0, 255));
             $this->assertTrue($this->controlIsVisible(self::FIELD_TYPE_LINK, 'delete_category'),
                 'Category is not selected');
         }
     }
 
     /**
+     * Create new category
+     *
      * @param string $categoryPath
+     * @param bool $nameIsSet
      */
-    public function createNewCategory($categoryPath)
+    public function createNewCategory($categoryPath, $nameIsSet = false)
     {
-        $this->markTestIncomplete('@TODO - implement createNewCategory');
-        $explodeCategory = explode('/', $categoryPath);
-        $categoryName = array_shift($explodeCategory);
+        $parentLocator = $this->_getControlXpath(self::FIELD_TYPE_INPUT, 'parent_category');
+
+        $explodeCategoryPath = explode('/', $categoryPath);
+        $categoryName = array_pop($explodeCategoryPath);
+        $parentPath = implode('/', $explodeCategoryPath);
+        $parentName = end($explodeCategoryPath);
+        //Open new_category form
         $this->clickButton('new_category', false);
         $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'new_category_form');
-        $this->fillField('name', $categoryName);
+        //Fill or verify new category name field
+        if (!$nameIsSet) {
+            $this->fillField('name', $categoryName);
+        } else {
+            $actualName = $this->getControlAttribute(self::FIELD_TYPE_INPUT, 'name', 'selectedValue');
+            $this->assertSame($categoryName, $actualName, 'Category Name is not moved from categories field');
+        }
+        //Fill and verify parent category field
+        $this->getElement($parentLocator)->value($parentName);
+        $this->waitForControlEditable(self::UIMAP_TYPE_FIELDSET, 'category_search');
+        $this->addParameter('categoryPath', $parentPath);
+        $elements = $this->getControlElements(self::FIELD_TYPE_LINK, 'category',
+            $this->getUimapPage('admin', 'new_product')->findTab('general'));
+        if (empty($elements)) {
+            $this->fail('It is impossible to create category with path - ' . $parentPath);
+        }
+        /** @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
+        foreach ($elements as $element) {
+            if ($element->enabled() && $element->displayed()) {
+                $element->click();
+            }
+        }
+        $actualParentName = $this->getControlAttribute(self::FIELD_TYPE_INPUT, 'parent_category', 'selectedValue');
+        $this->assertSame($actualParentName, $parentName, 'patent category Name is not equal to specified');
+        //Save
+        $this->addParameter('categoryName', substr($categoryName, 0, 255));
+        $waitConditions = array($this->_getControlXpath(self::FIELD_TYPE_LINK, 'delete_category'),
+                                $this->_getMessageXpath('general_validation'));
+        $this->clickButton('new_category_save', false);
+        $this->waitForElementVisible($waitConditions);
     }
 
     /**
@@ -677,9 +711,18 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     {
         $this->fillCheckbox('is_configurable', 'Yes');
         foreach ($attributes as $attributeData) {
-            $this->selectConfigurableAttribute($attributeData);
-            $this->unselectConfigurableAttributes($this->_getSelectedAttributeOptions($attributeData),
-                $attributeData['general_configurable_attribute_title']);
+            if (!isset($attributeData['general_configurable_attribute_title'])) {
+                $this->fail('general_configurable_attribute_title is not set');
+            }
+            $title = $attributeData['general_configurable_attribute_title'];
+            unset($attributeData['general_configurable_attribute_title']);
+            $this->selectConfigurableAttribute($title);
+            $this->selectConfigurableAttributeOptions($attributeData, $title);
+            if (!isset($attributeData['use_all_options']) || strtolower($attributeData['use_all_options']) != 'yes') {
+                $selected = $this->_getSelectedAttributeOptions($attributeData);
+                $optionNames = $this->getConfigurableAttributeOptionsNames($title);
+                $this->unselectConfigurableAttributeOptions(array_diff($optionNames, $selected), $title);
+            }
         }
         $this->clickButton('generate_product_variations', false);
         $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'variations_matrix_header');
@@ -745,33 +788,54 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Select configurable attribute on Product page using searchable attribute selector control
      *
-     * @param array $attributeData
+     * @param array $attributeTitle
      */
-    public function selectConfigurableAttribute(array $attributeData)
+    public function selectConfigurableAttribute($attributeTitle)
     {
-        if (!isset($attributeData['general_configurable_attribute_title'])) {
-            $this->fail('general_configurable_attribute_title is not set');
-        }
-        $title = $attributeData['general_configurable_attribute_title'];
-        unset($attributeData['general_configurable_attribute_title']);
-        $this->addParameter('attributeTitle', $title);
+        $this->addParameter('attributeTitle', $attributeTitle);
         if (!$this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'product_variation_attribute')) {
             $element = $this->getControlElement(self::FIELD_TYPE_INPUT, 'general_configurable_attribute_title');
             $this->focusOnElement($element);
-            $element->value($title);
-            $selectAttribute = $this->waitForControlEditable(self::FIELD_TYPE_LINK, 'configurable_attribute_select');
-            $this->moveto($selectAttribute);
+            $element->value($attributeTitle);
+            $this->waitForControlEditable(self::FIELD_TYPE_PAGEELEMENT, 'configurable_attributes_list');
+            $selectAttribute = $this->elementIsPresent($this->_getControlXpath(self::FIELD_TYPE_LINK,
+                'configurable_attribute_select'));
+            if (!$selectAttribute) {
+                $this->fail('Attribute with title "' . $attributeTitle . '" is not present in list');
+            }
             $selectAttribute->click();
             $this->waitForControlEditable(self::UIMAP_TYPE_FIELDSET, 'product_variation_attribute');
         }
-        if (isset($attributeData['have_price_variation'])) {
-            $this->fillCheckbox('have_price_variation', $attributeData['have_price_variation']);
-            unset($attributeData['have_price_variation']);
+    }
+
+    /**
+     * Select configurable attribute options
+     *
+     * @param array $optionsData
+     * @param string $attributeTitle
+     */
+    public function selectConfigurableAttributeOptions(array $optionsData, $attributeTitle)
+    {
+        $this->addParameter('attributeTitle', $attributeTitle);
+        $optionNames = $this->getConfigurableAttributeOptionsNames($attributeTitle);
+        if (isset($optionsData['use_all_options']) && strtolower($optionsData['use_all_options']) == 'yes') {
+            foreach ($optionNames as $name) {
+                $this->addParameter('attributeOption', $name);
+                $this->fillCheckbox('include_variation_attribute', 'Yes');
+            }
+            unset($optionsData['use_all_options']);
         }
-        foreach ($attributeData as $optionData) {
+        if (isset($optionsData['have_price_variation'])) {
+            $this->fillCheckbox('have_price_variation', $optionsData['have_price_variation']);
+            unset($optionsData['have_price_variation']);
+        }
+        $number = 0;
+        foreach ($optionsData as $optionData) {
             if (isset($optionData['associated_attribute_value'])) {
                 $this->addParameter('attributeOption', $optionData['associated_attribute_value']);
                 unset($optionData['associated_attribute_value']);
+            } else {
+                $this->addParameter('attributeOption', $optionNames[$number++]);
             }
             $this->fillFieldset($optionData, 'product_variation_attribute');
         }
@@ -780,20 +844,38 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Unselect Configurable Attributes
      *
-     * @param array $skipOptionNames
+     * @param array|string $unselectOptions
      * @param string $attributeName
      */
-    public function unselectConfigurableAttributes($skipOptionNames = array(), $attributeName)
+    public function unselectConfigurableAttributeOptions($unselectOptions, $attributeName)
     {
+        if (is_string($unselectOptions)) {
+            $unselectOptions = explode(',', $unselectOptions);
+            $unselectOptions = array_map('trim', $unselectOptions);
+        }
+        foreach ($unselectOptions as $name) {
+            $this->addParameter('attributeOption', $name);
+            $this->fillCheckbox('include_variation_attribute', 'No');
+        }
+    }
+
+    /**
+     * Get configurable attribute options names
+     *
+     * @param $attributeName
+     *
+     * @return array
+     */
+    public function getConfigurableAttributeOptionsNames($attributeName)
+    {
+        $names = array();
         $this->addParameter('attributeTitle', $attributeName);
         $options = $this->getControlElements(self::FIELD_TYPE_PAGEELEMENT, 'option_line');
         foreach ($options as $option) {
-            $name = $this->getChildElement($option, 'td')->text();
-            if (!in_array($name, $skipOptionNames)) {
-                $this->addParameter('attributeOption', $name);
-                $this->fillCheckbox('include_variation_attribute', 'No');
-            }
+            $names[] = $this->getChildElement($option, 'td')->text();
         }
+
+        return $names;
     }
 
     /**
@@ -994,18 +1076,15 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Exclude/include attribute's value from process of generation matrix
      *
-     * @param string $attributeCode
+     * @param string $attributeTitle
      * @param string $optionName
      * @param bool $select
      */
-    public function changeAttributeValueSelection($attributeCode, $optionName, $select = true)
+    public function changeAttributeValueSelection($attributeTitle, $optionName, $select = true)
     {
-        $attribute = str_replace(array('_'), '-', $attributeCode);
-        $this->addParameter('attributeCode', $attribute);
-        $this->addParameter('optionName', $optionName);
-        $this->fillCheckbox('include_variation_attribute', $select ? 'Yes' : 'No');
-        $this->clickButton('generate_product_variations');
-        $this->waitForNewPage();
+        $this->addParameter('attributeTitle', $attributeTitle);
+        $this->addParameter('attributeOption', $optionName);
+        $this->fillCheckbox('include_variation_attribute', ($select ? 'Yes' : 'No'));
     }
 
     #*********************************************************************************
@@ -1393,7 +1472,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $this->searchAndChoose($value, 'select_product_custom_option_grid');
         }
         $this->clickButton('import', false);
-        $this->pleaseWait();
+        $this->waitForControl(self::UIMAP_TYPE_FIELDSET, 'select_product_custom_option_disabled');
     }
 
     /**

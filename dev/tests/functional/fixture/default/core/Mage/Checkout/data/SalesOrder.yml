@@ -436,6 +436,7 @@ configurable_product_for_order:
         attribute_1:
             general_configurable_attribute_title: %general_attribute_1%
             have_price_variation: Yes
+            use_all_options: %noValue%
             option_1:
                 associated_attribute_value: %var1_attr_value1%
                 variation_attribute_price: 1.99

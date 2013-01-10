@@ -240,7 +240,7 @@ new_product:
                                         associated_quantity: //tbody/tr[%attributeSearch%]//input[contains(@name,'[qty]')]
                                         associated_weight: //tbody/tr[%attributeSearch%]//input[contains(@name,'[weight]')]
                                     messages:
-                                        required_field: //*[contains(@for,'create_matrix_product') and contains(@for,'%field%')]
+                                        required_field: //*[contains(@for,'variations-matrix') and contains(@for,'%field%')]
                             -
                                 select_associated_product:
                                     xpath: //div[div/span='Select Associated Product']
@@ -795,23 +795,13 @@ edit_product:
             change_attribute_set: //button[span='Change Attribute Set']
         messages: *productMesssages
 
-edit_saved_product:
-    mca: catalog_product/edit/id/%id%/back/edit/tab/%tab%
-    title: %elementTitle% / Manage Products / Catalog / Magento Admin
-    uimap: *editProduct
-
-edit_saved_product:
-    mca: catalog_product/edit/id/%id%/back/edit/
+new_product_save_and_continue:
+    mca: catalog_product/edit/id/%id%/set/%set%/type/simple/back/edit/tab/%tab%
     title: %elementTitle% / Manage Products / Catalog / Magento Admin
     uimap: *editProduct
 
 edit_product_save_and_continue:
-    mca: catalog_product/edit/id/%id%/back/edit/tab/product_info_tabs_group_%tabId%/
-    title: %elementTitle% / Manage Products / Catalog / Magento Admin
-    uimap: *editProduct
-
-edit_new_configurable_save_and_continue:
-    mca: catalog_product/edit/id/%id%/set/%setId%/type/%productType%/back/edit/tab/product_info_tabs_group_%tab%/
+    mca: catalog_product/edit/id/%id%/back/edit/tab/%tab%
     title: %elementTitle% / Manage Products / Catalog / Magento Admin
     uimap: *editProduct
 
@@ -820,10 +810,10 @@ new_product_after_changed_attribute_set:
     title: New Product / Manage Products / Catalog / Magento Admin
     uimap: *newProduct
 
-edit_saved_product_after_changed_attribute_set:
+edit_product_after_changed_attribute_set:
     mca: catalog_product/edit/id/%id%/?set=%setId%
     title: %elementTitle% / Manage Products / Catalog / Magento Admin
-    uimap: *newProduct
+    uimap: *editProduct
 
 updating_products:
     mca: catalog_product_action_attribute/edit/

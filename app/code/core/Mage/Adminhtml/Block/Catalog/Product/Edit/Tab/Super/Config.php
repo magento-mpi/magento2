@@ -118,6 +118,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
             'generate',
             'Mage_Backend_Block_Widget_Button',
             array(
+                'id' => 'generate-variations-button',
                 'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Generate Variations'),
                 'data_attr' => array(
                     'widget-button' => array(

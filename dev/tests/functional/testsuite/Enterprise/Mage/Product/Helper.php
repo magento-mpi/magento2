@@ -18,10 +18,9 @@
  */
 class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
 {
-    public $productTabs = array('general', 'prices', 'meta_information', 'images', 'recurring_profile', 'design',
-                                'gift_options', 'inventory', 'websites', 'related', 'up_sells', 'cross_sells',
-                                'custom_options', 'bundle_items', 'associated', 'downloadable_information',
-                                'giftcardinfo');
+    public $productTabs = array('prices', 'meta_information', 'images', 'recurring_profile', 'design', 'gift_options',
+                                'inventory', 'websites', 'related', 'up_sells', 'cross_sells', 'custom_options',
+                                'bundle_items', 'associated', 'downloadable_information', 'giftcardinfo', 'general');
 
     #**************************************************************************************
     #*                                                    Frontend Helper Methods         *
@@ -59,6 +58,8 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
     #**************************************************************************************
 
     /**
+     * Fill in data on Prices Tab
+     *
      * @param array $pricesTab
      */
     public function fillPricesTab(array $pricesTab)
@@ -74,6 +75,8 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
     }
 
     /**
+     * Verify data on Prices Tab
+     *
      * @param array $pricesTab
      */
     public function verifyPricesTab($pricesTab)
@@ -83,7 +86,7 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
             $this->verifyGiftCardAmounts($pricesTab['prices_gift_card_amounts']);
             unset($pricesTab['prices_gift_card_amounts']);
         }
-        parent::fillPricesTab($pricesTab);
+        parent::verifyPricesTab($pricesTab);
     }
 
     /**
