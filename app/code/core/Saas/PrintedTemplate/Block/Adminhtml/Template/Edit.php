@@ -176,9 +176,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Mage_Backend_Bl
      */
     public function getTemplateOptions()
     {
-        $options = array(
-            array('value'=>'', 'label'=> '')
-        );
+        $options = array();
 
         $idLabel = array();
         foreach (Saas_PrintedTemplate_Model_Template::getDefaultTemplates() as $templateId => $row) {
