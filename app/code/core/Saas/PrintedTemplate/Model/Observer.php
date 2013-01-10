@@ -255,16 +255,38 @@ class Saas_PrintedTemplate_Model_Observer
 
     /**
      * Replace URL for print invoices massaction
+     * Remove controls if user is not allowed to print documents
+     *
      * Observe adminhtml_block_html_before event
      *
      * @param Varien_Event_Observer $observer
      * @return Saas_PrintedTemplate_Model_Observer
      */
-    public function updatePrintInvoiceMassaction(Varien_Event_Observer $observer)
+    public function updatePrintTemplateAction(Varien_Event_Observer $observer)
     {
-        $block = $observer->getEvent()->getBlock();
-
         if (!Mage::getStoreConfig('sales_pdf/general/enable_printed_templates')) {
+            return $this;
+        }
+
+        $block = $observer->getEvent()->getBlock();
+        if (!Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Saas_PrintedTemplate::print')) {
+            if ($block instanceof Mage_Backend_Block_Widget_Grid) {
+                $gridBlocks = array('pdfdocs_order','pdfshipments_order','pdfcreditmemos_order','pdfinvoices_order');
+                foreach ($gridBlocks as $_item) {
+                    $item = $block->getMassactionBlock()->getItem($_item);
+                    if ($item) {
+                        $block->getMassactionBlock()->removeItem($item->getId());
+                    }
+                }
+            }
+
+            if ($block instanceof Mage_Backend_Block_Widget_Form_Container) {
+                $blocks = array('sales_creditmemo_view', 'sales_invoice_view', 'sales_shipment_view');
+                if (in_array($block->getNameInLayout(), $blocks)) {
+                    $block->removeButton('print');
+                }
+            }
+
             return $this;
         }
 
