@@ -19,31 +19,21 @@ interface Mage_Core_Model_AppInterface
     public function init(array $params);
 
     /**
-     * Common logic for all run types
-     *
-     * @param  array $params
-     * @return Mage_Core_Model_AppInterface
-     */
-    public function baseInit(array $params);
-
-    /**
      * Run light version of application with specified modules support
      *
      * @see Mage_Core_Model_AppInterface->run()
      *
-     * @param  array $params
      * @param  string|array $modules
      * @return Mage_Core_Model_AppInterface
      */
-    public function initSpecified(array $params, $modules = array());
+    public function initSpecified(array $modules = array());
 
     /**
      * Run application. Run process responsible for request processing and sending response.
      *
-     * @param array $params
      * @return Mage_Core_Model_AppInterface
      */
-    public function run(array $params);
+    public function run();
 
     /**
      * Get initialization parameter

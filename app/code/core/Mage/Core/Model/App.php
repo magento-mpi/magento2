@@ -319,11 +319,10 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
      *
      * @see Mage_Core_Model_App->run()
      *
-     * @param  array $params
      * @param  string|array $modules
      * @return Mage_Core_Model_App
      */
-    public function initSpecified($modules = array())
+    public function initSpecified(array $modules = array())
     {
         if (!empty($modules)) {
             $this->_config->addAllowedModules($modules);
@@ -335,7 +334,6 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     /**
      * Run application. Run process responsible for request processing and sending response.
      *
-     * @param array $params
      * @return Mage_Core_Model_App
      */
     public function run()

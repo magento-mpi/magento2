@@ -53,39 +53,26 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
     }
 
     /**
-     * Common logic for all run types
-     *
-     * @param  array $params
-     * @return Mage_Core_Model_AppInterface
-     */
-    public function baseInit(array $params)
-    {
-        return $this->_getApp()->baseInit($params);
-    }
-
-    /**
      * Run light version of application with specified modules support
      *
      * @see Mage_Core_Model_AppInterface->run()
      *
-     * @param  array $params
      * @param  string|array $modules
      * @return Mage_Core_Model_AppInterface
      */
-    public function initSpecified(array $params, $modules = array())
+    public function initSpecified(array $modules = array())
     {
-        return $this->_getApp()->initSpecified($params, $modules);
+        return $this->_getApp()->initSpecified($modules);
     }
 
     /**
      * Run application. Run process responsible for request processing and sending response.
      *
-     * @param array $params
      * @return Mage_Core_Model_AppInterface
      */
-    public function run(array $params)
+    public function run()
     {
-        return $this->_getApp()->run($params);
+        return $this->_getApp()->run();
     }
 
     /**

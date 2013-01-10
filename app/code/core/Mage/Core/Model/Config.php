@@ -19,38 +19,6 @@ class Mage_Core_Model_Config
     const CACHE_TAG = 'CONFIG';
 
     /**
-     * Flag which allow use cache logic
-     *
-     * @var bool
-     */
-    protected $_useCache = false;
-
-    /**
-     * Instructions for spitting config cache
-     * array(
-     *      $sectionName => $recursionLevel
-     * )
-     * Recursion level provide availability cache sub-nodes separately
-     *
-     * @var array
-     */
-    protected $_cacheSections = array(
-        'admin'     => 0,
-        'adminhtml' => 0,
-        'crontab'   => 0,
-        'install'   => 0,
-        'stores'    => 1,
-        'websites'  => 0
-    );
-
-    /**
-     * Loaded Configuration by cached sections
-     *
-     * @var array
-     */
-    protected $_cacheLoadedSections = array();
-
-    /**
      * Storage for generated class names
      *
      * @var array
@@ -120,7 +88,7 @@ class Mage_Core_Model_Config
     /**
      * @var Mage_Core_Model_Config_Base
      */
-    protected $_data;
+    protected $_config;
 
     /**
      * @var Mage_Core_Model_Dir
@@ -148,9 +116,8 @@ class Mage_Core_Model_Config
     ) {
         $this->_objectManager = $objectManager;
         $this->_app = $app;
-        $this->_cacheChecksum = null;
         $this->_dirs = $dirs;
-        $this->_data = $configFactory->create($this->_storage->getConfiguration());
+        $this->_config = $configFactory->create($this->_storage->getConfiguration());
         $this->_loadInstallDate();
     }
 
@@ -163,33 +130,6 @@ class Mage_Core_Model_Config
         if ($installDateNode) {
             $this->_installDate = strtotime((string)$installDateNode);
         }
-    }
-
-    /**
-     * Getter for section configuration object
-     *
-     * @param array $path
-     * @return Mage_Core_Model_Config_Element
-     */
-    protected function _getSectionConfig($path)
-    {
-        $section = $path[0];
-        if (!isset($this->_cacheSections[$section])) {
-            return false;
-        }
-        $sectionPath = array_slice($path, 0, $this->_cacheSections[$section]+1);
-        $sectionKey = implode('_', $sectionPath);
-
-        if (!isset($this->_cacheLoadedSections[$sectionKey])) {
-            Magento_Profiler::start('init_config_section:' . $sectionKey);
-            $this->_cacheLoadedSections[$sectionKey] = $this->_loadSectionCache($sectionKey);
-            Magento_Profiler::stop('init_config_section:' . $sectionKey);
-        }
-
-        if ($this->_cacheLoadedSections[$sectionKey] === false) {
-            return false;
-        }
-        return $this->_cacheLoadedSections[$sectionKey];
     }
 
     /**
@@ -251,7 +191,7 @@ class Mage_Core_Model_Config
      */
     public function getXpath($xpath)
     {
-        return $this->_data->getXpath($xpath);
+        return $this->_config->getXpath($xpath);
     }
 
     /**
@@ -282,22 +222,7 @@ class Mage_Core_Model_Config
             }
             $path = $scope . ($scopeCode ? '/' . $scopeCode : '' ) . (empty($path) ? '' : '/' . $path);
         }
-
-        /**
-         * Check path cache loading
-         */
-        if ($this->_useCache && ($path !== null)) {
-            $path   = explode('/', $path);
-            $section= $path[0];
-            if (isset($this->_cacheSections[$section])) {
-                $res = $this->getSectionNode($path);
-                if ($res !== false) {
-                    return $res;
-                }
-            }
-        }
-
-        return $this->_data->getNode($path);
+        return $this->_config->getNode($path);
     }
 
     /**
@@ -310,33 +235,7 @@ class Mage_Core_Model_Config
      */
     public function setNode($path, $value, $overwrite = true)
     {
-        if ($this->_useCache && ($path !== null)) {
-            $sectionPath = explode('/', $path);
-            $config = $this->_getSectionConfig($sectionPath);
-            if ($config) {
-                $sectionPath = array_slice($sectionPath, $this->_cacheSections[$sectionPath[0]]+1);
-                $sectionPath = implode('/', $sectionPath);
-                $config->setNode($sectionPath, $value, $overwrite);
-            }
-        }
-        return $this->_data->setNode($path, $value, $overwrite);
-    }
-
-    /**
-     * Get node value from cached section data
-     *
-     * @param   array $path
-     * @return  Mage_Core_Model_Config_Element|bool
-     */
-    public function getSectionNode($path)
-    {
-        $section    = $path[0];
-        $config     = $this->_getSectionConfig($path);
-        $path       = array_slice($path, $this->_cacheSections[$section] + 1);
-        if ($config) {
-            return $config->descend($path);
-        }
-        return false;
+        return $this->_config->setNode($path, $value, $overwrite);
     }
 
     /**
@@ -575,10 +474,9 @@ class Mage_Core_Model_Config
      *
      * To be used in blocks, templates, etc.
      *
-     * @param array|string $args Module name if string
      * @return array
      */
-    public function getPathVars($args = null)
+    public function getPathVars()
     {
         $path = array();
         $path['baseUrl'] = Mage::getBaseUrl();
@@ -683,10 +581,10 @@ class Mage_Core_Model_Config
     {
         if (null === $this->_moduleNamespaces) {
             $this->_moduleNamespaces = array();
-            /** @var $modelConfig Varien_Simplexml_Element */
-            foreach ($this->getXpath('modules/*') as $modelConfig) {
-                if ((string)$modelConfig->active == 'true') {
-                    $moduleName = $modelConfig->getName();
+            /** @var $moduleConfig Varien_Simplexml_Element */
+            foreach ($this->getXpath('modules/*') as $moduleConfig) {
+                if ((string)$moduleConfig->active == 'true') {
+                    $moduleName = $moduleConfig->getName();
                     $module = strtolower($moduleName);
                     $this->_moduleNamespaces[substr($module, 0, strpos($module, '_'))][$module] = $moduleName;
                 }
@@ -734,7 +632,7 @@ class Mage_Core_Model_Config
      */
     public function reinit()
     {
-        $this->_data = $this->_storage->getConfiguration(false);
+        $this->_config = $this->_storage->getConfiguration(false);
     }
 
     /**
@@ -868,8 +766,10 @@ class Mage_Core_Model_Config
     public function removeCache()
     {
         $tags = array(self::CACHE_TAG);
-        Mage::dispatchEvent('application_clean_cache', array('tags' => $tags));
+        /** @var $eventManager Mage_Core_Model_Event_Manager */
+        $eventManager = $this->_objectManager->get('Mage_Core_Model_Event_Manager');
+        $eventManager->dispatch('application_clean_cache', array('tags' => $tags));
         $this->_storage->removeCache($tags);
-        $this->_data->removeCache();
+        $this->_config->removeCache();
     }
 }
