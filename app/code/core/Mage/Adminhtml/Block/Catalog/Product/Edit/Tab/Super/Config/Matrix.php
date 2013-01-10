@@ -25,7 +25,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
      */
     protected function _getProductType()
     {
-        return Mage::getModel('Mage_Catalog_Model_Product_Type_Configurable');
+        return Mage::getSingleton('Mage_Catalog_Model_Product_Type_Configurable');
     }
 
     /**
@@ -152,23 +152,46 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
     }
 
     /**
-     * Get used products
+     * Retrieve actual list of associated products, array key is obtained from varying attributes values
      *
      * @return array
      */
-    public function getUsedProducts()
+    public function getAssociatedProducts()
     {
         $productByUsedAttributes = array();
-        foreach ($this->_getProductType()->getUsedProducts($this->_getProduct()) as $product) {
+        foreach ($this->_getAssociatedProducts() as $product) {
             $keys = array();
             foreach ($this->getUsedAttributes() as $attribute) {
                 /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
                 $keys[] = $product->getData($attribute->getAttributeCode());
             }
-
             $productByUsedAttributes[implode('-', $keys)] = $product;
         }
         return $productByUsedAttributes;
+    }
+
+    /**
+     * Retrieve actual list of associated products (i.e. if product contains variations matrix form data
+     * - previously saved in database relations are not considered)
+     *
+     * @return array
+     */
+    protected function _getAssociatedProducts()
+    {
+        $product = $this->_getProduct();
+        $ids = $this->_getProduct()->getAssociatedProductIds();
+        if ($ids === null) { // form data overrides any relations stored in database
+            return $this->_getProductType()->getUsedProducts($product);
+        }
+        $products = array();
+        foreach ($ids as $productId) {
+            /** @var $product Mage_Catalog_Model_Product */
+            $product = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
+            if ($product->getId()) {
+                $products[] = $product;
+            }
+        }
+        return $products;
     }
 
     /**

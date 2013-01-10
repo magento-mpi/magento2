@@ -16,32 +16,6 @@
 class Enterprise_Mage_ProductAttribute_SystemAttributeTest extends Core_Mage_ProductAttribute_SystemAttributeTest
 {
     /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to System - Manage Attributes.</p>
-     */
-    protected function assertPreConditions()
-    {
-        $this->loginAdminUser();
-        $this->navigate('manage_attributes');
-    }
-
-    /**
-     * <p>Values of Apply To dropdown and multiselect are defined and can't be changed for all system attributes</p>
-     *
-     * @param string $attributeCode
-     * @param string $applyTo
-     * @param array $types
-     *
-     * @test
-     * @dataProvider systemAttributesDataProvider
-     * @TestLinkId TL-MAGE-6423
-     */
-    public function checkApplyProductTypeOptionDisabled($attributeCode, $applyTo, $types)
-    {
-        parent::checkApplyProductTypeOptionDisabled($attributeCode, $applyTo, $types);
-    }
-
-    /**
      * <p>Data Provider with system attributes list and defined product types' applying</p>
      *
      * @return array
@@ -105,7 +79,7 @@ class Enterprise_Mage_ProductAttribute_SystemAttributeTest extends Core_Mage_Pro
             array('url_key', 'All Product Types', null),
             array('visibility', 'All Product Types', null),
             array('weight', 'Selected Product Types',
-                array('simple', 'virtual', 'bundle', 'downloadable', 'giftcard')),
+                array('simple', 'configurable', 'virtual', 'bundle', 'downloadable', 'giftcard')),
             array('allow_open_amount', 'Selected Product Types',
                 array('giftcard')),
             array('giftcard_amounts', 'Selected Product Types',

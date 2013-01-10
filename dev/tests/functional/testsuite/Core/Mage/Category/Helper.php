@@ -98,7 +98,10 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
         }
         $isCategoriesPage = $this->isCategoriesPage();
         list($categoryId) = $correctRoot;
-        $element = $this->getElement('//*[@id="' . $categoryId . '"]/span');
+        if (strpos($categoryId, "'") !== false) {
+            $categoryId = "concat('" . str_replace('\'', "',\"'\",'", $categoryId) . "')";
+        }
+        $element = $this->getElement("//*[@id='$categoryId']/span");
         $this->focusOnElement($element);
         $element->click();
         if ($isCategoriesPage) {

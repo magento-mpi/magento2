@@ -33,8 +33,10 @@
         for(var i in filters){
             if(filters[i].value && filters[i].value.length && !filters[i].disabled) elements.push(filters[i]);
         }
-        var validator  = new Validation('filter_form');
-        if (validator.validate()) {
+
+        var form = jQuery('#filter_form');
+        form.validate({errorClass: 'mage-error'});
+        if (form.valid()) {
             setLocation('<?php echo $this->getFilterUrl(); ?>filter/'+encode_base64(Form.serializeElements(elements))+'/');
         }
     }

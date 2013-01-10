@@ -89,4 +89,12 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_ButtonsTest extends PHPUn
 
         $this->assertEquals("*/*/launch/mode/{$mode}/theme_id/3/", $this->_block->getDesignModeUrl());
     }
+
+    public function testGetSaveTemporaryLayoutUpdateUrl()
+    {
+        $this->_urlBuilder->expects($this->once())
+            ->method('getUrl')
+            ->will($this->returnArgument(0));
+        $this->assertEquals('*/*/saveTemporaryLayoutUpdate', $this->_block->getSaveTemporaryLayoutUpdateUrl());
+    }
 }

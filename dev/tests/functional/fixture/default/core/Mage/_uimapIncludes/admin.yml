@@ -67,6 +67,7 @@ admin_header:
                             table_line_index_cell_index_options: "%tableLineXpath%[%lineIndex%]//td[%cellIndex%]//*[@class='item-options']"
                             table_line_index_cell_index_product_name: "%tableLineXpath%[%lineIndex%]//td[%cellIndex%]//*[@class='product-name']"
                             table_line_input:  "%tableLineXpath%/input"
+                            default_table_line: //table[@class='data']/tbody/tr
                             element_index: "%elementXpath%[%index%]"
                             element_not_disabled_style: "%elementXpath%[not(contains(@style,'display:') and contains(@style,'none'))]"
                             element_with_disabled_style: "%elementXpath%[contains(@style,'display:') and contains(@style,'none')]"

@@ -47,8 +47,13 @@ class Core_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selenium_Te
         $attributeData = $this->loadDataSet('SystemAttributes', $attributeCode);
         $productData = $this->loadDataSet('Product', $productType . '_product_required');
         unset($productData[$uimapName]);
+        $searchData = $this->loadDataSet('ProductAttribute', 'attribute_search_data',
+            array('attribute_code' => $attributeData['attribute_code']));
+        if ($attributeCode == 'status') {
+            $searchData['attribute_label'] = 'Status';
+        }
         //Steps
-        $this->productAttributeHelper()->openAttribute(array('attribute_code' => $attributeData['attribute_code']));
+        $this->productAttributeHelper()->openAttribute($searchData);
         //Verifying
         $this->productAttributeHelper()->verifySystemAttribute($attributeData);
         $this->saveAndContinueEdit('button', 'save_and_continue_edit');
@@ -66,7 +71,7 @@ class Core_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selenium_Te
         if ($attributeCode == 'custom_design') {
             $this->openTab('design');
             $this->assertEquals($attributeData['default_control_value'],
-                $this->getControlAttribute('dropdown', $uimapName, 'selectedValue'),
+                $this->getControlAttribute('dropdown', $uimapName, 'selectedLabel'),
                 'Incorrect default value for custom design attribute.');
         } else {
             $productData[$uimapName] = $attributeData['default_value'];

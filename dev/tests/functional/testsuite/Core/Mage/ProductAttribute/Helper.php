@@ -186,6 +186,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
                         case 'fill':
                             $this->addParameter('fieldOptionNumber', $optionCount);
                             $this->clickButton('add_option', false);
+                            $this->waitForControlEditable('field', 'option_position');
                             $this->storeViewTitles($attrData[$fKey], 'manage_options');
                             $this->fillFieldset($attrData[$fKey], 'manage_options');
                             $optionCount = $this->getControlCount('pageelement', 'manage_options_option');
