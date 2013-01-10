@@ -32,7 +32,6 @@
         },
 
         _create: function() {
-            this._initFrame();
             this._initCells();
             this._initViewLayoutButton();
             this._bind();
@@ -49,7 +48,6 @@
             $body.on(this.options.loadEvent, function() {
                 $('*[data-widget-button]').button();
             });
-            $(window).on('resize', $.proxy(this._resizeFrame, this));
         },
 
         _initCells : function() {
@@ -156,16 +154,7 @@
                 $(element).data('vde_menu').destroy();
             });
             this._super();
-        },
-        _resizeFrame: function() {
-            var height = $(window).innerHeight();
-            var offset = $(this.options.editorFrameSelector).offset();
-            $(this.options.editorFrameSelector).height(height - parseInt(offset.top) - 10);
-        },
-        _initFrame: function() {
-            this._resizeFrame();
         }
-
     });
 
     /**
@@ -189,9 +178,22 @@
                 self.editorFrame = $(this).contents();
                 self._initPanel();
             });
+            this._bind();
+            this._initFrame();
         },
         _initPanel: function () {
             $(this.options.panelSelector).vde_panel({editorFrameSelector: this.options.frameSelector})
+        },
+        _bind: function() {
+            $(window).on('resize', $.proxy(this._resizeFrame, this));
+        },
+        _resizeFrame: function() {
+            var height = $(window).innerHeight();
+            var offset = $(this.options.frameSelector).offset();
+            $(this.options.frameSelector).height(height - parseInt(offset.top) - 10);
+        },
+        _initFrame: function() {
+            this._resizeFrame();
         }
     });
 
