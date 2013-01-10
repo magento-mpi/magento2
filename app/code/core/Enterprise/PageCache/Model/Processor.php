@@ -70,10 +70,18 @@ class Enterprise_PageCache_Model_Processor
     protected $_subprocessor;
 
     /**
-     * Class constructor
+     * Application scope code
+     *
+     * @var string
      */
-    public function __construct()
+    protected $_scoopeCode;
+
+    /**
+     * @param string $scopeCode
+     */
+    public function __construct($scopeCode)
     {
+        $this->_scopeCode = $scopeCode;
         $this->_createRequestIds();
         $this->_requestTags     = array(self::CACHE_TAG);
     }
@@ -184,7 +192,7 @@ class Enterprise_PageCache_Model_Processor
      */
     protected function _getScopeCode()
     {
-        return Mage::app()->getInitParam(Mage_Core_Model_App::INIT_OPTION_SCOPE_CODE);
+        return $this->_scopeCode;
     }
 
     /**

@@ -31,10 +31,10 @@ class Mage_Core_Model_ObjectManager_Http extends Magento_ObjectManager_Zend
                 'params' => array('localXml' => $customLocalXml)
             ),
             'Mage_Core_Model_Cache' => array(
-                'options' => $cacheOptions
+                'params' => array('options' => $cacheOptions),
             ),
             'Mage_Core_Model_App' => array(
-
+                'params' => array('scopeCode' => $runCode, 'scopeType' => $runType)
             )
         ));
     }
