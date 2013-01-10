@@ -14,6 +14,8 @@
  * @category   Mage
  * @package    Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Backend_Block_Widget_Grid_Massaction_Additional extends Mage_Backend_Block_Widget_Form
 {
@@ -70,7 +72,6 @@ class Mage_Backend_Block_Widget_Grid_Massaction_Additional extends Mage_Backend_
         $form = new Varien_Data_Form();
         foreach ($this->getData('fields') as $itemId => $item) {
             $this->_prepareFormItem($item);
-            $item['class'] = isset($item['class']) ? $item['class'] . ' absolute-advice' : 'absolute-advice';
             $form->addField($itemId, $item['type'], $item);
         }
         $this->setForm($form);
@@ -78,6 +79,8 @@ class Mage_Backend_Block_Widget_Grid_Massaction_Additional extends Mage_Backend_
     }
 
     /**
+     * Prepare form item
+     *
      * @param array $item
      */
     protected function _prepareFormItem(array &$item)
@@ -86,5 +89,6 @@ class Mage_Backend_Block_Widget_Grid_Massaction_Additional extends Mage_Backend_
             $argumentHandler = $this->_handlerFactory->getArgumentHandlerByType('options');
             $item['values'] = $argumentHandler->process($item['values']);
         }
+        $item['class'] = isset($item['class']) ? $item['class'] . ' absolute-advice' : 'absolute-advice';
     }
 }
