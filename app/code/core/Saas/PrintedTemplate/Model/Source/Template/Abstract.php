@@ -35,6 +35,7 @@ abstract class Saas_PrintedTemplate_Model_Source_Template_Abstract extends Varie
         $options = $this->_getTypeCollection($this->_getEntityType())
             ->toOptionArray();
         array_unshift($options, $this->_getDefaultOption());
+
         return $options;
     }
 
@@ -46,8 +47,8 @@ abstract class Saas_PrintedTemplate_Model_Source_Template_Abstract extends Varie
      */
     protected function _getTypeCollection($templateType)
     {
-
-        return $this->_getModel()->getCollection()
+        return Mage::getModel('Saas_PrintedTemplate_Model_Template')
+            ->getCollection()
             ->addFieldToFilter('entity_type', array('eq', $templateType));
     }
 
@@ -59,32 +60,16 @@ abstract class Saas_PrintedTemplate_Model_Source_Template_Abstract extends Varie
     protected function _getDefaultOption()
     {
         $nodeName = str_replace('/', '_', $this->getPath());
-        $templateLabelNode = $this->_getConfig()->getNode(
+        $templateLabelNode = Mage::app()->getConfig()->getNode(
             Saas_PrintedTemplate_Model_Template::XML_PATH_TEMPLATE_PRINTED . '/' . $nodeName . '/label'
         );
 
         $defaultTemplateName = ($templateLabelNode)
-            ? $this->_getHelper()->
-                __('%s (Default Template from Locale)', $this->_getHelper()->__((string)$templateLabelNode))
-            : $this->_getHelper()->__('Default Template from Locale');
+            ? Mage::helper('Saas_PrintedTemplate_Helper_Data')
+                ->__('%s (Default Template from Locale)', Mage::helper('Saas_PrintedTemplate_Helper_Data')
+                    ->__((string)$templateLabelNode)
+                ) : Mage::helper('Saas_PrintedTemplate_Helper_Data')->__('Default Template from Locale');
 
         return array('value' => $nodeName, 'label' => $defaultTemplateName);
     }
-
-
-    protected function _getConfig()
-    {
-        return Mage::app()->getConfig();
-    }
-
-    protected function _getHelper()
-    {
-        return Mage::helper('Saas_PrintedTemplate_Helper_Data');
-    }
-
-    protected function _getModel()
-    {
-        return Mage::getModel('Saas_PrintedTemplate_Model_Template');
-    }
-
 }
