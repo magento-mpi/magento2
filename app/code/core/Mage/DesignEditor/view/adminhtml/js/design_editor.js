@@ -46,7 +46,7 @@
             $body.on(this.options.switchModeEvent, $.proxy(this._onSwitchMode, this));
 
             $body.on(this.options.loadEvent, function() {
-                $('*[data-widget-button]').button();
+                $body.trigger('contentUpdated');
             });
         },
 

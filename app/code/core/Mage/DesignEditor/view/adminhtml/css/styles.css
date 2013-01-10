@@ -33,6 +33,35 @@
 .theme-title {
     color: white;
     font-size: 20px;
+    line-height: 24px;
+}
+.theme-title input {
+    font-size: 20px;
+    line-height: 24px;
+}
+.theme-control-title {
+    position: relative;
+    margin: 0;
+    min-height: 40px;
+}
+.theme-title.text-field {
+    padding: 5px 0 5px 10px;
+}
+.theme-title.input-field {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+}
+.theme-title.input-field input {
+    padding: 5px 0 5px 10px;
+    width: 250px;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+}
+.theme-title.input-field .control {
+    float: left;
 }
 
 .theme-back:hover {

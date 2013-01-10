@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Mage_Core>
-            <version>1.6.0.8</version>
+            <version>1.6.0.9</version>
             <active>true</active>
             <codePool>core</codePool>
         </Mage_Core>
@@ -100,6 +100,16 @@
         </di>
     </global>
     <frontend>
+        <events>
+            <controller_action_layout_generate_blocks_after>
+                <observers>
+                    <add_theme_customization>
+                        <class>Mage_Core_Model_Observer</class>
+                        <method>addThemeCustomization</method>
+                    </add_theme_customization>
+                </observers>
+            </controller_action_layout_generate_blocks_after>
+        </events>
         <routers>
             <core>
                 <use>standard</use>
