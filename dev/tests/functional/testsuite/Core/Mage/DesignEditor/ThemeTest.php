@@ -26,22 +26,24 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('design_editor_selector');
         $this->waitForAjax();
-        $this->isElementPresent('infinite_scroll');
+        $this->assertTrue($this->controlIsPresent('pageelement', 'theme_list'));
 
         $xpath = $this->_getControlXpath('pageelement', 'theme_list_elements');
-        $defaultElementsCount = $this->getXpathCount($xpath);
+        $this->waitForElementOrAlert($xpath);
+        $defaultElementsCount = $this->getControlCount('pageelement', 'theme_list_elements');
 
         /** Check that theme list loaded */
         $this->assertGreaterThan(0, $defaultElementsCount);
-        $this->getEval('window.scrollTo(0,Math.max(document.documentElement.scrollHeight, document.body.scrollHeight,'
-            . 'document.documentElement.clientHeight));');
+        $xpath = $this->_getControlXpath('dropdown', 'locales_switcher');
+        $element = $this->getElement($xpath);
+        $this->focusOnElement($element);
         $this->waitForAjax();
 
         /**
          * If equal to default elements count - all themes loaded
          * If greater than default elements count - next page loaded
          */
-        $this->assertGreaterThanOrEqual($defaultElementsCount, $this->getXpathCount($xpath));
+        $this->assertGreaterThanOrEqual($defaultElementsCount, $this->getControlCount('pageelement', 'theme_list_elements'));
     }
 
     /**
@@ -51,14 +53,15 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('design_editor_selector');
-        $this->waitForAjax();
+        $xpath = $this->_getControlXpath('button', 'preview_demo_button');
+        $this->waitForElement($xpath);
 
         /**
          * Available theme list(on first entrance)
          */
-        $this->assertElementPresent($this->_getControlXpath('button', 'preview_demo_button'),
+        $this->assertTrue($this->controlIsPresent('button', 'preview_demo_button'),
             'Preview button is not exists');
-        $this->assertElementPresent($this->_getControlXpath('button', 'assign_theme_button'),
+        $this->assertTrue($this->controlIsPresent('button', 'assign_theme_button'),
             'Assign button is not exists');
 
         $this->themeHelper()->createTheme();
@@ -67,29 +70,30 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
          */
         $this->navigate('design_editor_selector');
 
-        $this->assertElementPresent($this->_getControlXpath('button', 'preview_default_button'),
+        $this->assertTrue($this->controlIsPresent('button', 'preview_default_button'),
             'Preview button is not exists');
-        $this->assertElementPresent($this->_getControlXpath('button', 'assign_theme_button'),
+        $this->assertTrue($this->controlIsPresent('button', 'assign_theme_button'),
             'Assign button is not exists');
-        $this->assertElementPresent($this->_getControlXpath('button', 'edit_theme_button'),
+        $this->assertTrue($this->controlIsPresent('button', 'edit_theme_button'),
             'Edit button is not exists');
-        $this->assertElementPresent($this->_getControlXpath('button', 'delete_theme_button'),
+        $this->assertTrue($this->controlIsPresent('button', 'delete_theme_button'),
             'Delete button is not exists');
 
         /**
          * Available theme list
          */
         $this->clickControl('link', 'available_themes_tab', false);
-        $this->waitForAjax();
+        $xpath = $this->_getControlXpath('button', 'preview_default_button');
+        $this->waitForElement($xpath);
 
-        $this->assertElementPresent($this->_getControlXpath('button', 'preview_default_button'),
+        $this->assertTrue($this->controlIsPresent('button', 'preview_default_button'),
             'Preview button is not exists');
-        $this->assertElementPresent($this->_getControlXpath('button', 'assign_theme_button'),
+        $this->assertTrue($this->controlIsPresent('button', 'assign_theme_button'),
             'Assign button is not exists');
-        $this->assertElementPresent($this->_getControlXpath('button', 'edit_theme_button'),
+        $this->assertTrue($this->controlIsPresent('button', 'edit_theme_button'),
             'Edit button is not exists');
 
-        $this->themeHelper()->deleteAllCustomizedTheme();
+        $this->themeHelper()->deleteAllVirtualThemes();
     }
 
     /**
@@ -98,19 +102,21 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
     public function testPreviewDefault()
     {
         $this->loginAdminUser();
-        $this->themeHelper()->createTheme();
+        $themeData = $this->themeHelper()->createTheme();
+        $themeId = $this->themeHelper()->getThemeIdByTitle($themeData['theme']['theme_title']);
+        $this->addParameter('id', $themeId);
 
         $this->navigate('design_editor_selector');
         $this->waitForAjax();
-        $this->assertElementPresent($this->_getControlXpath('button', 'preview_default_button'),
+        $this->assertTrue($this->controlIsPresent('button', 'preview_default_button'),
             'Preview button is not exists');
-        $this->click($this->_getControlXpath('button', 'preview_default_button'));
-        $this->clickControl('link', 'available_themes_tab', false);
+        $this->clickButton('preview_default_button');
         $this->waitForPageToLoad();
 
-        $this->assertElementPresent('//iframe[@id=\'preview-theme\']', 'iFrame not present in preview page');
+        $this->assertTrue($this->controlIsPresent('pageelement', 'preview_frame'),
+            'iFrame not present in preview page');
 
-        $this->themeHelper()->deleteAllCustomizedTheme();
+        $this->themeHelper()->deleteAllVirtualThemes();
     }
 
     /**
@@ -120,12 +126,14 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('design_editor_selector');
-        $this->waitForAjax();
-        $this->assertElementPresent($this->_getControlXpath('button', 'preview_demo_button'),
-            'Preview button is not exists');
-        $this->click($this->_getControlXpath('button', 'preview_demo_button'));
         $this->waitForPageToLoad();
-        $this->assertElementPresent('//iframe[@id=\'preview-theme\']', 'iFrame not present in preview page');
+        $this->waitForAjax();
+        $this->assertTrue($this->controlIsPresent('button', 'preview_demo_button'),
+            'Preview button is not exists');
+        $this->clickButton('preview_demo_button');
+        $this->waitForPageToLoad();
+        $this->assertTrue($this->controlIsPresent('pageelement', 'preview_frame'),
+            'iFrame not present in preview page');
     }
 
     /**
@@ -137,7 +145,7 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
         $this->themeHelper()->createTheme();
         $this->navigate('design_editor_selector');
 
-        $this->assertElementPresent($this->_getControlXpath('button', 'delete_theme_button'),
+        $this->assertTrue($this->controlIsPresent('button', 'delete_theme_button'),
             'Delete button is not exists');
         $this->clickButtonAndConfirm('delete_theme_button', 'confirmation_for_delete');
         $this->assertMessagePresent('success', 'success_deleted_theme');
