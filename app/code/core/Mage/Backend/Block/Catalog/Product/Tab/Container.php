@@ -11,10 +11,6 @@
 class Mage_Backend_Block_Catalog_Product_Tab_Container extends Mage_Backend_Block_Template
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
-    protected function _construct()
-    {
-        parent::_construct();
-    }
 
     /**
      * Return Tab label
