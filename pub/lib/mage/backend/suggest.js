@@ -33,6 +33,14 @@
                         blur: 'menublur',
                         select: 'menuselect'
                     }
+                },
+                jstree: {
+                    selector: '.jstree',
+                    eventsMap: {
+                        focus: 'hover_node.jstree',
+                        blur: 'dehover_node.jstree',
+                        select: 'select_node.jstree'
+                    }
                 }
             },
             wrapperAttributes: {
@@ -57,13 +65,26 @@
                 .prop(this.options.wrapperAttributes))
                 [this.options.appendMethod](this.dropdown)
                 .attr('autocomplete', 'off');
-            this.hiddenInput = $('<input/>', {
-                type: 'hidden',
-                name: this.element.attr('name')
-            }).insertBefore(this.element);
+            this.hiddenInput = (
+                $(this.options.hiddenInput).length ?
+                    $(this.options.hiddenInput) :
+                    this._createHiddenInput()
+                ).insertBefore(this.element).hide();
             this.element.removeAttr('name');
             this._control = this.options.controls[this.options.control] || {};
             this._bind();
+        },
+
+        /**
+         *
+         * @return {*}
+         * @private
+         */
+        _createHiddenInput: function(){
+            return $('<input/>', {
+                type: 'hidden',
+                name: this.element.attr('name')
+            })
         },
 
         /**
@@ -94,7 +115,12 @@
          * @private
          */
         _proxyEvents: function(event) {
-            this.dropdown.find(this._control.selector).triggerHandler(event);
+            var fakeEvent = $.extend({}, jQuery.Event(event.type), {
+                ctrlKey: event.ctrlKey,
+                keyCode: event.keyCode,
+                which: event.keyCode
+            });
+            this.dropdown.find(this._control.selector).trigger(fakeEvent);
         },
 
         /**
@@ -243,9 +269,10 @@
          * @private
          */
         _setTemplate: function() {
+            this.templateName = 'suggest' + Math.random().toString(36).substr(2);
             this.template = $(this.options.template).length ?
-                $(this.options.template).template() :
-                $.template('suggestTemplate', this.options.template);
+                $(this.options.template).template(this.templateName) :
+                $.template(this.templateName, this.options.template);
         },
 
         /**
@@ -295,7 +322,8 @@
         _prepareDropdownContext: function(context) {
             return $.extend(context, {
                 items: this._items,
-                term: this._term
+                term: this._term,
+                template: this.templateName
             });
         },
 
@@ -331,7 +359,7 @@
                     url: this.options.source,
                     type: 'POST',
                     dataType: 'json',
-                    data: {q: term},
+                    data: {name_part: term},
                     success: renderer,
                     showLoader: true
                 }, this.options.ajaxOptions || {}));
@@ -355,10 +383,10 @@
     /**
      * Implements height prediction functionality to dropdown item
      */
-    $.widget('mage.suggest', $.mage.suggest, {
+    /*$.widget('mage.suggest', $.mage.suggest, {
         /**
          * Extension specific options
-         */
+         *//*
         options: {
             bottomMargin: 35
         },
@@ -366,7 +394,7 @@
         /**
          * @override
          * @private
-         */
+         *//*
         _renderDropdown: function() {
             this._superApply(arguments);
             this._recalculateDropdownHeight();
@@ -375,7 +403,7 @@
         /**
          * Recalculates height of dropdown and cut it if needed
          * @private
-         */
+         *//*
         _recalculateDropdownHeight: function() {
             var dropdown = this.dropdown.css('visibility', 'hidden'),
                 fromTop = dropdown.offset().top,
@@ -387,7 +415,7 @@
                 [isOverflowApplied ? 'addClass':'removeClass']('overflow-y')
                 .height(isOverflowApplied ? winHeight - fromTop - this.options.bottomMargin : '');
         }
-    });
+    });*/
 
     /**
      * Implement storing search history and display recent searches

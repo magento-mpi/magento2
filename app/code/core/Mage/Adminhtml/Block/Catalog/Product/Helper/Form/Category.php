@@ -61,8 +61,17 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Varien_D
         /** @var $coreHelper Mage_Core_Helper_Data */
         $coreHelper = Mage::helper('Mage_Core_Helper_Data');
         return parent::getElementHtml() . "\n"
+            . '<input id="' . $this->getHtmlId() . '-suggest" />' . "\n"
+            . '<script id="' . $this->getHtmlId() . '-template" type="text/x-jquery-tmpl">'
+            . '{{if typeof nested == "undefined"}}<div data-mage-init="{&quot;jstree&quot;:{&quot;plugins&quot;:[&quot;themes&quot;,&quot;html_data&quot;,&quot;checkbox&quot;,&quot;ui&quot;,&quot;hotkeys&quot;]}}">{{/if}}'
+            . '<ul>{{each items}}'
+            . '<li><a href="#">${$value.label}</a>'
+            . '{{if $value.children && $value.children.length}}{{tmpl({items: $value.children, template:template, nested:true}) template}}{{/if}}'
+            . '</li>{{/each}}</ul>'
+            . '{{if typeof nested == "undefined"}}}</div>{{/if}}'
+            . '</script>' . "\n"
             . '<script>//<![CDATA[' . "\n"
-            . 'jQuery(' . $coreHelper->jsonEncode('#' . $this->getHtmlId()) . ').categorySelector('
+            . 'jQuery(' . $coreHelper->jsonEncode('#' . $this->getHtmlId() . '-suggest') . ').multisuggest('
             . $coreHelper->jsonEncode($this->_getSelectorOptions()) . ')' . "\n"
             . '//]]></script>';
     }
@@ -75,7 +84,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Varien_D
     protected function _getSelectorOptions()
     {
         return array(
-            'url' => Mage::helper('Mage_Backend_Helper_Data')->getUrl('adminhtml/catalog_category/suggestCategories'),
+            'source' => Mage::helper('Mage_Backend_Helper_Data')->getUrl('adminhtml/catalog_category/suggestCategories'),
+            'hiddenInput' => '#' . $this->getHtmlId(),
+            'template' => '#' . $this->getHtmlId() . '-template',
+            'control' => 'jstree'
         );
     }
 }
