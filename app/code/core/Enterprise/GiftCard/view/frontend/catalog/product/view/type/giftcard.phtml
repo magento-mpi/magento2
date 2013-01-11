@@ -45,7 +45,9 @@
                     <?php endif; ?>
                     <?php if ($this->isOpenAmountAvailable($_product)): ?>
                     <div id="giftcard_amount_box" class="input-box">
-                        <span class="v-fix"><input type="text" id="giftcard_amount_input" name="custom_giftcard_amount" class="validate-number required-entry input-text giftcard-amount-entry giftcard-min-amount giftcard-max-amount" value="<?php echo $this->escapeHtml($this->getDefaultValue('custom_giftcard_amount')) ?>" /></span>
+                        <span class="v-fix"><input type="text" id="giftcard_amount_input" name="custom_giftcard_amount" class="input-text"
+                                                    data-validate="{number: true,required: true <?php if ($_product->getOpenAmountMin()){echo ',min: ';echo Mage::helper('Mage_Core_Helper_Data')->currency($_product->getOpenAmountMin(), false, false);}?> <?php if ($_product->getOpenAmountMin()){echo ',max: ';echo Mage::helper('Mage_Core_Helper_Data')->currency($_product->getOpenAmountMin(), false, false);}?>}"
+                                                   value="<?php echo $this->escapeHtml($this->getDefaultValue('custom_giftcard_amount')) ?>" /></span>
 
                         <?php if ($_product->getOpenAmountMin() || $_product->getOpenAmountMax()): ?>
                             <?php $_min = Mage::helper('Mage_Core_Helper_Data')->currency($_product->getOpenAmountMin(), true, false); ?>
@@ -60,38 +62,6 @@
                                     <span><?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Maximum: %s', $_max); ?></span>
                                 <?php endif; ?>
                             </p>
-                            <script type="text/javascript">
-                            //<![CDATA[
-                                minAllowedAmount = <?php echo Mage::helper('Mage_Core_Helper_Data')->currency($_product->getOpenAmountMin(), false, false) ?>;
-                                maxAllowedAmount = <?php echo Mage::helper('Mage_Core_Helper_Data')->currency($_product->getOpenAmountMax(), false, false) ?>;
-
-                                function parsePrice(value) {
-                                    value = value.replace('\'', '').replace(' ', '');
-                                    separatorComa = value.indexOf(',');
-                                    separatorDot  = value.indexOf('.');
-
-                                    if (separatorComa != -1 && separatorDot != -1) {
-                                        if (separatorComa > separatorDot) {
-                                            value = value.replace('.', '').replace(',', '.');
-                                        } else {
-                                            value = value.replace(',', '');
-                                        }
-                                    } else if (separatorComa != -1) {
-                                        value = value.replace(',', '.');
-                                    }
-
-                                    return parseFloat(value);
-                                }
-
-                                Validation.add('giftcard-min-amount', '<?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Entered amount is too low'); ?>', function(v) {
-                                    return (parsePrice(v) >= minAllowedAmount);
-                                });
-                                Validation.add('giftcard-max-amount', '<?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Entered amount is too high'); ?>', function(v) {
-                                    if (maxAllowedAmount == 0) {return true;}
-                                    return (parsePrice(v) <= maxAllowedAmount);
-                                });
-                            //]]>
-                            </script>
                         <?php endif; ?>
                     </div>
                     <?php endif; ?>
@@ -114,38 +84,11 @@
             </ul>
         </div>
         <script type="text/javascript">
-        //<![CDATA[
-        if ($('giftcard_amount') && $('giftcard_amount_input')) {
-            $('giftcard_amount_input').hide();
-            $('giftcard_amount_box').hide();
-            $('amount_label_input').hide();
-            Event.observe($('giftcard_amount'), 'change', switchGiftCardInputs);
-        }
-
-        function switchGiftCardInputs()
-        {
-            if (!$('giftcard_amount') || !$('giftcard_amount_input')) {
-                return;
-            }
-
-            value = $('giftcard_amount').options[$('giftcard_amount').selectedIndex].value;
-            if (value == 'custom') {
-                $('giftcard_amount_input').show();
-                $('giftcard_amount_box').show();
-
-                $('amount_label_select').hide();
-                $('amount_label_input').show();
-            } else {
-                $('giftcard_amount_input').hide();
-                $('giftcard_amount_box').hide();
-
-                $('amount_label_select').show();
-                $('amount_label_input').hide();
-            }
-        }
-
-        switchGiftCardInputs();
-        //]]>
+        (function($) {
+            head.js("<?php echo $this->getViewFileUrl('Enterprise_GiftCard::toggle-gift-card.js')?>", function() {
+                $('#giftcard_amount').toggleGiftCard();
+            });
+        })(jQuery);
         </script>
     <?php endif; ?>
     <div class="fieldset giftcard-send-form">
