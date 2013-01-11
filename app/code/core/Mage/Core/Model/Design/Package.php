@@ -76,7 +76,7 @@ class Mage_Core_Model_Design_Package
      * PCRE that matches non-absolute URLs in CSS content
      */
     const REGEX_CSS_RELATIVE_URLS
-        = '#url\s*\(\s*(?(?=\'|").)(?!http\://|https\://|/|data\:)(.+?)(?:[\#\?].*?|[\'"])?\s*\)#';
+        = '#url\s*\(\s*(?(?=\'|").)(?!http\://|https\://|/)(.+?)(?:[\#\?].*?|[\'"])?\s*\)#';
 
     private static $_regexMatchCache      = array();
     private static $_customThemeTypeCache = array();
