@@ -83,6 +83,8 @@ jQuery(function ($) {
          * Initialization of notification widget
          */
         $('#messages').mage('notification');
+
+        $('.content-header').floatingHeader();
     };
 
     $(bootstrap);
