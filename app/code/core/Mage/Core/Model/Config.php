@@ -104,14 +104,14 @@ class Mage_Core_Model_Config
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Config_StorageInterface $configStorage
-     * @param Mage_Core_Model_Config_Base_Factory $configFactory
+     * @param Mage_Core_Model_Config_BaseFactory $configFactory
      * @param Mage_Core_Model_AppInterface $app
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Config_StorageInterface $configStorage,
-        Mage_Core_Model_Config_Base_Factory $configFactory,
+        Mage_Core_Model_Config_BaseFactory $configFactory,
         Mage_Core_Model_AppInterface $app
     ) {
         $this->_objectManager = $objectManager;
@@ -667,17 +667,6 @@ class Mage_Core_Model_Config
     public function getModelClassName($modelClass)
     {
         return $this->_applyClassRewrites($modelClass);
-    }
-
-    /**
-     * Retrieve resource connection model name
-     *
-     * @param string $moduleName
-     * @return string
-     */
-    public function getResourceConnectionModel($moduleName = null)
-    {
-        return $this->_storage->getResourceConnectionModel($moduleName);
     }
 
     /**

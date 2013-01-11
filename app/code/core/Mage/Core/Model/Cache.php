@@ -109,7 +109,7 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
      * @param array $options
      */
     public function __construct(
-        Mage_Core_Model_Config $config,
+        Mage_Core_Model_Config_Primary $config,
         Mage_Core_Model_Dir $dirs,
         $banCache = false,
         array $options = array()
