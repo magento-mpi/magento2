@@ -271,6 +271,9 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $themeService = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
             /** @var $themeCustomization Mage_Core_Model_Theme */
             $themeCustomization = $themeService->assignThemeToStores($themeId, $stores);
+            if ($this->getRequest()->has('layoutUpdate')) {
+                $this->_saveLayoutUpdate($themeId);
+            }
             $message = $coreHelper->__('Theme successfully assigned');
             $response = array(
                 'success' => $message,
