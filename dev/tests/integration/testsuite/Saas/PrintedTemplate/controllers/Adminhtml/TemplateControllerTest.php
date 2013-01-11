@@ -41,7 +41,7 @@ class Saas_PrintedTemplate_Adminhtml_TemplateControllerTest extends Magento_Test
         );
 
         $result = $this->getResponse()->getBody();
-        $expected = '<span data-ui-id="messages-message-notice">Please make sure that popups are allowed.</span>';
+        $expected = 'Please make sure that popups are allowed.';
         $this->assertContains(
             $expected,
             $result,
