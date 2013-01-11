@@ -193,7 +193,8 @@ new_product:
                                     links:
                                         configurable_attribute_select: //ul[contains(@class, 'ui-autocomplete')]//a[text()='%attributeTitle%']
                                     buttons:
-                                        generate_product_variations: //button[@data-ui-id='admin-product-edit-tab-super-config-grid-container-generate']
+                                        generate_product_variations: //button[@data-ui-id='admin-product-edit-tab-super-config-grid-container-generate' and not(@disabled)]
+                                        generate_product_variations_disabled: //button[@data-ui-id='admin-product-edit-tab-super-config-grid-container-generate' and @disabled]
                                     pageelements:
                                         product_variations_fieldset: /fieldset
                                         configurable_attributes_list: //ul[contains(@class, 'ui-autocomplete')]
