@@ -595,7 +595,7 @@ Fonts
     right: 0;
 }
 .edit-theme-title-form > input[type="text"] {
-    width: 75%;
+    width: 70%;
 }
 
 .themes-assigned .edit-theme-title-form {
@@ -706,8 +706,17 @@ Fonts
     line-height: 21pt;
     padding: 2pt 0;
 }
+.action-switch-mode {
+    float: left;
+    background: none;
+    border: 0;
+    height: 30px;
+    line-height: 30px;
+    font-weight: normal;
+}
 
-#vde_toolbar_buttons a.vde_button {
+#vde_toolbar_buttons a.vde_button,
+.action-switch-mode {
     display: block;
     border: 1px solid #c9c6be;
     box-shadow: 0 0 1pt 0 #c9c6be;
@@ -717,11 +726,13 @@ Fonts
     text-decoration: none;
     background-image: url(../images/button.png);
     background-size: contain;
+    background-color:#f4f3f1 !important;
     float: left;
     margin-right: 3px;
 }
 
-#vde_toolbar_buttons a.vde_button:hover {
+#vde_toolbar_buttons a.vde_button:hover,
+.action-switch-mode:hover {
     box-shadow: 0 0 1pt 1pt #c9c6be;
     background-image: url(../images/button_hover.png);
 }

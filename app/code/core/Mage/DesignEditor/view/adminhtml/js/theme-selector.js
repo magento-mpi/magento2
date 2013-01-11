@@ -371,7 +371,6 @@
          */
         _onCancel: function(event) {
             if (this.options.isActive && this.widget().has($(event.target)).length === 0) {
-            if (this.options.isActive && this.options._control.has(event.target).length === 0) {
                 this._cancelEdit();
             }
         },
