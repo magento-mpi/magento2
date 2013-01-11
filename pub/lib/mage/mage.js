@@ -24,7 +24,7 @@
     "use strict";
     /**
      * Plugin mage, initialize components on elements
-     * @param {string} name — component name
+     * @param {string} name - component name
      * @param {}
      * @return {Object}
      */
