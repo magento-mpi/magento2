@@ -42,7 +42,7 @@ class Mage_Checkout_Model_Cart_Customer_ApiTest extends PHPUnit_Framework_TestCa
             'customer_email' => 'testEmail@mail.com',
         );
         $diff = array_diff_assoc($expectedQuoteData, $quote->getData());
-        $this->assertEmpty($diff, 'Expected quote customer data is incorrect.');
+        $this->assertEmpty($diff, 'Customer data in quote is incorrect.');
     }
 
     /**
@@ -93,9 +93,9 @@ class Mage_Checkout_Model_Cart_Customer_ApiTest extends PHPUnit_Framework_TestCa
 
         $quote->load($quote->getId());
         $billingDiff = array_diff($billingAddress, $quote->getBillingAddress()->getData());
-        $this->assertEmpty($billingDiff, 'Expected billing address is incorrect');
+        $this->assertEmpty($billingDiff, 'Billing address in quote is incorrect.');
         $shippingDiff = array_diff($shippingAddress, $quote->getShippingAddress()->getData());
-        $this->assertEmpty($shippingDiff, 'Expected shipping address is incorrect');
+        $this->assertEmpty($shippingDiff, 'Shipping address in quote is incorrect.');
     }
 
     /**
