@@ -117,6 +117,7 @@ class Mage_Core_Model_Config
         $this->_objectManager = $objectManager;
         $this->_app = $app;
         $this->_dirs = $dirs;
+        $this->_storage = $configStorage;
         $this->_config = $configFactory->create($this->_storage->getConfiguration());
         $this->_loadInstallDate();
     }
