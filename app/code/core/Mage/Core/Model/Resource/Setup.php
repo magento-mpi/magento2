@@ -202,7 +202,7 @@ class Mage_Core_Model_Resource_Setup
      */
     static public function applyAllUpdates()
     {
-        Mage::app()->setUpdateMode(true);
+        Mage::setUpdateMode(true);
         self::$_hadUpdates = false;
 
         $resources = Mage::getConfig()->getNode('global/resources')->children();
@@ -227,7 +227,7 @@ class Mage_Core_Model_Resource_Setup
             $setupClass->afterApplyAllUpdates();
         }
 
-        Mage::app()->setUpdateMode(false);
+        Mage::setUpdateMode(false);
         self::$_schemaUpdatesChecked = true;
         return true;
     }

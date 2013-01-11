@@ -119,6 +119,13 @@ final class Mage
     static private $_isSerializable = true;
 
     /**
+     * Update mode flag
+     *
+     * @var bool
+     */
+    static private $_updateMode = false;
+
+    /**
      * Gets the current Magento version string
      * @link http://www.magentocommerce.com/blog/new-community-edition-release-process/
      *
@@ -807,5 +814,25 @@ final class Mage
     public static function getIsSerializable()
     {
         return self::$_isSerializable;
+    }
+
+    /**
+     * Set update mode flag
+     *
+     * @param bool $value
+     */
+    public static function setUpdateMode($value)
+    {
+        self::$_updateMode = $value;
+
+    }
+
+    /**
+     * Get update mode flag
+     * @return bool
+     */
+    public static function getUpdateMode()
+    {
+        return self::$_updateMode;
     }
 }

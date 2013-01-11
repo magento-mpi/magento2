@@ -356,18 +356,6 @@ interface Mage_Core_Model_AppInterface
     public function dispatchEvent($eventName, $args);
 
     /**
-     * @param $value
-     * @return Mage_Core_Model_AppInterface
-     */
-    public function setUpdateMode($value);
-
-
-    /**
-     * @return mixed
-     */
-    public function getUpdateMode();
-
-    /**
      * @throws Mage_Core_Model_Store_Exception
      */
     public function throwStoreException();

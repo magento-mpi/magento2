@@ -49,13 +49,6 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
 
     const XML_PATH_INSTALL_DATE = 'global/install/date';
 
-    const XML_PATH_SKIP_PROCESS_MODULES_UPDATES = 'global/skip_process_modules_updates';
-
-    /**
-     * if this node set to true, we will ignore Developer Mode for applying updates
-     */
-    const XML_PATH_IGNORE_DEV_MODE = 'global/skip_process_modules_updates_ignore_dev_mode';
-
     const DEFAULT_ERROR_HANDLER = 'mageCoreErrorHandler';
 
     /**
@@ -815,7 +808,7 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
      */
     public function getStore($id = null)
     {
-        if (!Mage::isInstalled() || $this->getUpdateMode()) {
+        if (!Mage::isInstalled() || Mage::getUpdateMode()) {
             return $this->_getDefaultStore();
         }
 
@@ -1331,21 +1324,6 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
             Mage::throwException('Method "' . $method . '" is not defined in "' . get_class($object) . '"');
         }
         return $this;
-    }
-
-    /**
-     * @param $value
-     * @return Mage_Core_Model_AppInterface
-     */
-    public function setUpdateMode($value)
-    {
-        $this->_updateMode = $value;
-        return $this;
-    }
-
-    public function getUpdateMode()
-    {
-        return $this->_updateMode;
     }
 
     public function throwStoreException()

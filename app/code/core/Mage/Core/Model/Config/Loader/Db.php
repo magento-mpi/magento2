@@ -7,23 +7,28 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Config_Loader_Db
+class Mage_Core_Model_Config_Loader_Db implements Mage_Core_Model_Config_LoaderInterface
 {
-    /**
-     * Load config data from DB
-     *
-     * @return Mage_Core_Model_Config
-     */
-    protected function _loadDb()
+    protected $_config;
+    protected $_localConfig;
+
+    public function __construct(Mage_Core_Model_Config_Local $localConfig, Mage_Core_Model_Config_Modules $config)
     {
-        Magento_Profiler::start('config');
-        if ($this->getInstallDate()) {
-            Magento_Profiler::start('load_db');
-            $dbConf = $this->getResourceModel();
-            $dbConf->loadToXml($this);
-            Magento_Profiler::stop('load_db');
-        }
-        Magento_Profiler::stop('config');
-        return $this;
+        $this->_config = $config;
+        $this->_localConfig = $localConfig;
     }
+
+    /**
+     * Populate configuration object
+     *
+     * @param Mage_Core_Model_Config_Base $config
+     */
+    public function load(Mage_Core_Model_Config_Base $config) //$config is empty
+    {
+        //load db data
+        $config->extend($this->_config);
+        $config->extend($data);
+        $config->extend($this->_localConfig);
+    }
+
 }

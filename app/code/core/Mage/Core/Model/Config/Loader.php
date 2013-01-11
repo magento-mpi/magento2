@@ -28,11 +28,12 @@ class Mage_Core_Model_Config_Loader implements Mage_Core_Model_Config_LoaderInte
      * @param array $loaders
      */
     public function __construct(
-        Mage_Core_Model_Config_LoaderFactory $loaderFactory,
-        array $loaders
+        Mage_Core_Model_Config_Modules $config,
+        Mage_Core_Model_Config_Loader_Db $loaderDb,
+        Mage_Core_Model_Config_Loader_Local $loaderLocale
+
     ) {
-        $this->_loaderFactory = $loaderFactory;
-        $this->_loaders = $loaders;
+
     }
 
     /**
@@ -42,8 +43,8 @@ class Mage_Core_Model_Config_Loader implements Mage_Core_Model_Config_LoaderInte
      */
     public function load(Mage_Core_Model_Config_Base $config)
     {
-        foreach ($this->_loaders as $loaderName) {
-            $this->_loaderFactory->create($loaderName)->load($config);
-        }
+        $config->extend($this->_config);
+        $loaderDb->load($config);
+        $loaderLocale->load($config);
     }
 }

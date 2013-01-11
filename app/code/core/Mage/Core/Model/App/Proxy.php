@@ -519,24 +519,6 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
     }
 
     /**
-     * @param $value
-     * @return Mage_Core_Model_AppInterface
-     */
-    public function setUpdateMode($value)
-    {
-        return $this->_getApp()->setUpdateMode($value);
-    }
-
-
-    /**
-     * @return mixed
-     */
-    public function getUpdateMode()
-    {
-        return $this->_getApp()->getUpdateMode();
-    }
-
-    /**
      * @throws Mage_Core_Model_Store_Exception
      */
     public function throwStoreException()
