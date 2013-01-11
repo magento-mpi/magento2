@@ -795,9 +795,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                     break;
             }
 
-            $ioFile->streamOpen($fileName, 'r');
-            $contentLength = $ioFile->streamStat('size');
-            $contentModify = $ioFile->streamStat('mtime');
+            $contentLength = $filesystem->getFileSize($fileName);
+            $contentModify = $filesystem->getMTime($fileName);
 
             $this->getResponse()
                 ->setHttpResponseCode(200)
@@ -808,9 +807,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 ->clearBody();
             $this->getResponse()->sendHeaders();
 
-            while (false !== ($buffer = $ioFile->streamRead())) {
-                echo $buffer;
-            }
+            echo $filesystem->read($fileName);
         } else {
             $name = pathinfo($fileName, PATHINFO_BASENAME);
             $this->_prepareDownloadResponse($name, array(

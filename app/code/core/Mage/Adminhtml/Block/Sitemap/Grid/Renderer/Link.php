@@ -20,6 +20,23 @@ class Mage_Adminhtml_Block_Sitemap_Grid_Renderer_Link extends Mage_Adminhtml_Blo
     /** @var Magento_Filesystem */
     protected $_filesystem;
 
+    /**
+     * Constructor
+     *
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param Mage_Core_Model_Layout $layout
+     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Mage_Backend_Model_Url $urlBuilder
+     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Session $session
+     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Mage_Core_Controller_Varien_Front $frontController
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Magento_Filesystem $filesystem
+     * @param array $data
+     */
     public function __construct(
         Mage_Core_Controller_Request_Http $request,
         Mage_Core_Model_Layout $layout,
@@ -53,7 +70,7 @@ class Mage_Adminhtml_Block_Sitemap_Grid_Renderer_Link extends Mage_Adminhtml_Blo
         $url = $this->escapeHtml($sitemap->getSitemapUrl($row->getSitemapPath(), $row->getSitemapFilename()));
 
         $fileName = preg_replace('/^\//', '', $row->getSitemapPath() . $row->getSitemapFilename());
-        if ($this->_filesystem->isFile(BP . DS . $fileName)) {
+        if ($this->_filesystem->isFile(Mage::getBaseDir() . DS . $fileName, Mage::getBaseDir())) {
             return sprintf('<a href="%1$s">%1$s</a>', $url);
         }
 

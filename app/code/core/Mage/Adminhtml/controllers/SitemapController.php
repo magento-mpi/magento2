@@ -108,6 +108,7 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
         // check if data sent
         if ($data = $this->getRequest()->getPost()) {
             // init model and set data
+            /** @var Mage_Sitemap_Model_Sitemap $model */
             $model = Mage::getModel('Mage_Sitemap_Model_Sitemap');
 
             //validate path to generate
@@ -134,9 +135,9 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
 
             if ($this->getRequest()->getParam('sitemap_id')) {
                 $model ->load($this->getRequest()->getParam('sitemap_id'));
-
-                if ($model->getSitemapFilename() && $filesystem->isFile($model->getPreparedFilename())) {
-                    $filesystem->delete($model->getPreparedFilename());
+                $fileName = $model->getSitemapFilename();
+                if ($fileName && $filesystem->isFile($fileName, $model->getSitemapPath())) {
+                    $filesystem->delete($fileName);
                 }
             }
 

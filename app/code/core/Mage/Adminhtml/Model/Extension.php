@@ -17,6 +17,12 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
      */
     protected $_filesystem;
 
+    /**
+     * Constructor
+     *
+     * @param Magento_Filesystem $filesystem
+     * @param array $data
+     */
     public function __construct(Magento_Filesystem $filesystem, array $data = array())
     {
         $this->_filesystem = $filesystem;
@@ -170,15 +176,15 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
 
             switch ($contents['type'][$i]) {
                 case 'file':
-                    if (!$this->_filesystem->isFile($fullPath)) {
+                    if (!$this->_filesystem->isFile($fullPath, $baseDir)) {
                         Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__("Invalid file: %s", $fullPath));
                     }
                     $pfm->addFile('/', $contents['path'][$i],
-                        array('role' => $role, 'md5sum' => $this->_filesystem->getFileMd5($fullPath)));
+                        array('role' => $role, 'md5sum' => $this->_filesystem->getFileMd5($fullPath, $baseDir)));
                     break;
 
                 case 'dir':
-                    if (!$this->_filesystem->isDirectory($fullPath)) {
+                    if (!$this->_filesystem->isDirectory($fullPath, $baseDir)) {
                         Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__("Invalid directory: %s", $fullPath));
                     }
                     $path = $contents['path'][$i];
