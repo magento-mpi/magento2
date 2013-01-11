@@ -18,6 +18,7 @@
 class Saas_PrintedTemplate_Model_Source_Measurement
 {
     /**
+     * Returns all available options with titles
      * List of available measurements from config
      *
      * @var array  Array
@@ -27,29 +28,27 @@ class Saas_PrintedTemplate_Model_Source_Measurement
      *             [label] => Millimeter
      *             [value] => 0
      *         )
-     */
-    protected $_source;
-
-    /**
-     * Initializes source
-     */
-    public function __construct()
-    {
-        $this->_source = Mage::getModel('Saas_PrintedTemplate_Model_Config')->getConfigSectionArray('measurements');
-    }
-
-    /**
-     * Returns all available options with titles
-     *
      * @return array
      */
     public function toOptionArray()
     {
         $options = array();
-        foreach ($this->_source as $key => $item) {
-            $options[strtoupper($key)] = Mage::helper('Saas_PrintedTemplate_Helper_Data')->__($item['label']);
+        $measurement = $this->_getConfigModel()->getConfigSectionArray('measurements');
+
+        foreach ($measurement as $key => $item) {
+            $options[strtoupper($key)] = $this->_getHelper()->__($item['label']);
         }
 
         return $options;
+    }
+
+    protected function _getConfigModel()
+    {
+        return Mage::getModel('Saas_PrintedTemplate_Model_Config');
+    }
+
+    protected function _getHelper()
+    {
+        return Mage::helper('Saas_PrintedTemplate_Helper_Data');
     }
 }

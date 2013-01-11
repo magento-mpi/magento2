@@ -34,8 +34,7 @@ class Saas_PrintedTemplate_Model_Source_AllowedLocales
     {
         if (!$this->_options) {
             $this->_options = array();
-            $allowedLocales = Mage::getSingleton('Saas_PrintedTemplate_Model_Config')
-                ->getConfigSectionArray('allowed_locales');
+            $allowedLocales = $this->_getConfigModelSingeleton()->getConfigSectionArray('allowed_locales');
 
             foreach ($allowedLocales as $code => $description) {
                 $this->_options[] = array('value' => $code, 'label' => $description);
@@ -43,5 +42,10 @@ class Saas_PrintedTemplate_Model_Source_AllowedLocales
         }
 
         return $this->_options;
+    }
+
+    protected function _getConfigModelSingeleton()
+    {
+        return Mage::getSingleton('Saas_PrintedTemplate_Model_Config');
     }
 }

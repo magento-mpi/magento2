@@ -33,14 +33,6 @@ class Saas_PrintedTemplate_Model_Source_PageSize
     protected $_source;
 
     /**
-     * Initializes source
-     */
-    public function __construct()
-    {
-        $this->_source = Mage::getModel('Saas_PrintedTemplate_Model_Config')->getConfigSectionArray('page_size');
-    }
-
-    /**
      * Returns all available options with titles
      *
      * @return array
@@ -48,8 +40,10 @@ class Saas_PrintedTemplate_Model_Source_PageSize
     public function toOptionArray()
     {
         $options = array();
-        foreach ($this->_source as $key => $item) {
-            $options[$key] = Mage::helper('Saas_PrintedTemplate_Helper_Data')->__($item['label']);
+        $source = $this->_getSource();
+
+        foreach ($source as $key => $item) {
+            $options[$key] = $this->_getHelper()->__($item['label']);
         }
 
         return $options;
@@ -83,7 +77,7 @@ class Saas_PrintedTemplate_Model_Source_PageSize
             $config['height'] = new Zend_Measure_Length($sizeInfo['height'], $unit, 'en_US');
         }
 
-        return Mage::getModel('Saas_PrintedTemplate_Model_PageSize', array('sizeInfo' => $config));
+        return $this->_getPageSizeModel($config);
     }
 
     /**
@@ -95,10 +89,36 @@ class Saas_PrintedTemplate_Model_Source_PageSize
      */
     public function getSizeByName($name)
     {
-        if (!isset($this->_source[$name])) {
+        $source = $this->_getSource();
+
+        if (!isset($source[$name])) {
             throw new InvalidArgumentException('Incorrect size code.');
         }
 
-        return $this->_createSize($name, $this->_source[$name]);
+        return $this->_createSize($name, $source[$name]);
+    }
+
+    protected function _getConfigModel()
+    {
+        return Mage::getModel('Saas_PrintedTemplate_Model_Config');
+    }
+
+    protected function _getPageSizeModel($config)
+    {
+        return Mage::getModel('Saas_PrintedTemplate_Model_PageSize', array('sizeInfo' => $config));
+    }
+
+    protected function _getHelper()
+    {
+        return Mage::helper('Saas_PrintedTemplate_Helper_Data');
+    }
+
+    protected function _getSource()
+    {
+        if (!$this->_source) {
+        $this->_source = $this->_getConfigModel()->getConfigSectionArray('page_size');
+        }
+
+        return $this->_source;
     }
 }

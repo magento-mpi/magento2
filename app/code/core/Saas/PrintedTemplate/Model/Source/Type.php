@@ -25,9 +25,9 @@ class Saas_PrintedTemplate_Model_Source_Type
     public function getAllOptions()
     {
         return array(
-            Saas_PrintedTemplate_Model_Template::ENTITY_TYPE_INVOICE    => $this->__('Invoice'),
-            Saas_PrintedTemplate_Model_Template::ENTITY_TYPE_CREDITMEMO => $this->__('Credit Memo'),
-            Saas_PrintedTemplate_Model_Template::ENTITY_TYPE_SHIPMENT   => $this->__('Shipment'),
+            Saas_PrintedTemplate_Model_Template::ENTITY_TYPE_INVOICE    => $this->_getHelper()->__('Invoice'),
+            Saas_PrintedTemplate_Model_Template::ENTITY_TYPE_CREDITMEMO => $this->_getHelper()->__('Credit Memo'),
+            Saas_PrintedTemplate_Model_Template::ENTITY_TYPE_SHIPMENT   => $this->_getHelper()->__('Shipment'),
         );
     }
 
@@ -37,8 +37,8 @@ class Saas_PrintedTemplate_Model_Source_Type
      * @param string $text
      * @return string Translated text
      */
-    protected function __($text)
+    protected function _getHelper()
     {
-        return Mage::helper('Saas_PrintedTemplate_Helper_Data')->__($text);
+        return Mage::helper('Saas_PrintedTemplate_Helper_Data');
     }
 }
