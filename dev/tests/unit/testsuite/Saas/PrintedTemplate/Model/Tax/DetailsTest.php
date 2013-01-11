@@ -316,7 +316,7 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
      * @return Mage_Sales_Model_Quote_Address_Item
      */
     protected function _prepareAddressItem($parentItemId, $id, $addressProduct, $childrenData = array(),
-                                           $isChildrenCalculated = false
+        $isChildrenCalculated = false
     ) {
         $childrenItems = array();
         if ($childrenData) {

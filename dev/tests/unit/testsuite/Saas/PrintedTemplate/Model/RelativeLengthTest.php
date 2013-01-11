@@ -16,7 +16,7 @@ class Saas_PrintedTemplate_Model_RelativeLengthTest extends PHPUnit_Framework_Te
     public function testGetValue()
     {
         $values = array(-1,0,1);
-        foreach ($values as $v){
+        foreach ($values as $v) {
             $object = new Saas_PrintedTemplate_Model_RelativeLength($v);
             $this->assertInternalType('float', $object->getValue());
             $this->assertEquals($v, $object->getValue());

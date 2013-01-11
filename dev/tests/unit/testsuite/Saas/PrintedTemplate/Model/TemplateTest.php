@@ -118,9 +118,14 @@ class Saas_PrintedTemplate_Model_TemplateTest extends PHPUnit_Framework_TestCase
 
         $templateParser->expects($this->any())
             ->method('importContent')
-            ->will($this->returnCallback(function($text, $object) {
-                $object->setContent($text);
-            }));
+            ->will(
+                $this->returnCallback(
+                    function($text, $object)
+                    {
+                        $object->setContent($text);
+                    }
+                )
+            );
 
         $template->expects($this->any())
             ->method('getTemplateFile')
@@ -205,9 +210,14 @@ class Saas_PrintedTemplate_Model_TemplateTest extends PHPUnit_Framework_TestCase
         $template->expects($this->once())
             ->method('load')
             ->with($this->equalTo($templateId))
-            ->will($this->returnCallback(function($id) use ($template) {
-                $template->setId($id);
-            }));
+            ->will(
+                $this->returnCallback(
+                    function($id) use ($template)
+                    {
+                        $template->setId($id);
+                    }
+                )
+            );
 
         $template->expects($this->never())
             ->method('loadDefault');
@@ -245,7 +255,7 @@ class Saas_PrintedTemplate_Model_TemplateTest extends PHPUnit_Framework_TestCase
         $template->expects($this->never())
             ->method('loadDefault');
 
-        $this->setExpectedException('UnexpectedValueException',$message);
+        $this->setExpectedException('UnexpectedValueException', $message);
         $template->loadForStore($templateId);
     }
 }

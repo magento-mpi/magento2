@@ -17,7 +17,7 @@ class Saas_PrintedTemplate_Model_Source_Template_AbstractTest extends PHPUnit_Fr
      * @param string $modelConfig_value
      * @dataProvider providerToOptionArray
      */
-    function testToOptionArray($modelConfigValue, $resultExpected)
+    public function testToOptionArray($modelConfigValue, $resultExpected)
     {
         $varienObj = new Varien_Object();
 
