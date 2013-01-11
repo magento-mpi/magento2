@@ -1,0 +1,22 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+ ?>
+
+<?php /* @var $this Mage_Backend_Block_Catalog_Product_Tab_Container  */ ?>
+<div class="entry-edit" id="<?php echo $this->getId() ?>">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend">
+            <?php echo $this->getTabLabel() ?>
+        </h4>
+    </div>
+    <fieldset>
+        <?php echo $this->getChildHtml('catalog.product.edit.tab.super.group')?>
+    </fieldset>
+</div>

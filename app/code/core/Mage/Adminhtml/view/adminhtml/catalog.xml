@@ -361,14 +361,10 @@ Layout handle for virtual products
 Layout handle for grouped products
 -->
     <adminhtml_catalog_product_grouped>
-        <reference name="product_tabs">
-            <action method="addTab"><name>super</name><block>Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group</block></action>
-        </reference>
-    </adminhtml_catalog_product_grouped>
-
-    <adminhtml_catalog_product_supergroup>
-        <container name="root" label="Root" output="1">
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group" name="catalog.product.edit.tab.super.group" />
+        <reference name="product-type-tabs">
+            <block type="Mage_Catalog_Block_Product_Grouped_AssociatedProducts" name="catalog.product.edit.grouped.container" template="Mage_Backend::catalog/product/tab/container.phtml">
+                <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group" name="catalog.product.edit.tab.super.group" />
+            </block>
             <block type="Mage_Adminhtml_Block_Widget_Grid_Serializer" name="grouped_grid_serializer">
                 <reference name="grouped_grid_serializer">
                     <action method="initSerializerBlock">
@@ -383,8 +379,8 @@ Layout handle for grouped products
                     </action>
                 </reference>
             </block>
-        </container>
-    </adminhtml_catalog_product_supergroup>
+        </reference>
+    </adminhtml_catalog_product_grouped>
 
     <adminhtml_catalog_product_supergroupgridonly>
         <container name="root" label="Root" output="1">
