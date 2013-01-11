@@ -1,19 +1,23 @@
 <?php
 /**
+ * Modules configuration. Contains primary configuration and configuration from modules /etc/*.xml files
+ *
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Configuration for modules availability and dependencies
- */
-class Mage_Core_Model_Config_Modules extends Mage_Core_Model_Config_Base
+class Mage_Core_Model_Config_Modules
 {
+    /**
+     * @param Mage_Core_Model_Config_Loader_Modules $loader
+     */
     public function __construct(Mage_Core_Model_Config_Loader_Modules $loader)
+    {
+        $loader->load($this);
+    }
+
+    public function getResourceConnectionConfig()
     {
 
     }

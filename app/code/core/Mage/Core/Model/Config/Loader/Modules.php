@@ -1,6 +1,6 @@
 <?php
 /**
- * Locale configuration loader
+ * Module configuration loader
  *
  * {license_notice}
  *
@@ -9,62 +9,77 @@
  */
 class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_LoaderInterface
 {
-    protected $_config;
-
-    public function __construct(Mage_Core_Model_Config_Local $config)
-    {
-        $this->_config = $config;
-    }
-
     /**
-     * Populate configuration object
+     * Primary application configuration
      *
-     * @param Mage_Core_Model_Config_Base $config
+     * @var Mage_Core_Model_Config_Primary
      */
-    public function load(Mage_Core_Model_Config_Base $config) //$config is empty
-    {
-        //load $data
-        $config->extend($data);
-
-        $config->extend($this->_config);
-    }
+    protected $_primaryConfig;
 
     /**
      * Load modules configuration
-     *
-     * @return Mage_Core_Model_Config
+    /**
+     * @var Mage_Core_Model_Dir
      */
-    protected function _loadModules()
+    protected $_dirs;
+
+    /**
+     * Loaded modules
+     *
+     * @var array
+     */
+    protected $_modulesCache = array();
+
+    /**
+     * List of modules that should be loaded
+     *
+     * @var array
+     */
+    protected $_allowedModules = array();
+
+    /**
+     * @param Mage_Core_Model_Config_Primary $primaryConfig
+     * @param Mage_Core_Model_Dir $dirs
+     * @param array $allowedModules
+     */
+    public function __construct(
+        Mage_Core_Model_Config_Primary $primaryConfig, Mage_Core_Model_Dir $dirs, array $allowedModules = array()
+    ) {
+        $this->_dirs = $dirs;
+        $this->_primaryConfig = $primaryConfig;
+        $this->_allowedModules = $allowedModules;
+    }
+
+    /**
+     * Populate configuration object with modules configuration
+     *
+     * @param Mage_Core_Model_Config_Base $config
+     */
+    public function load(Mage_Core_Model_Config_Base $config)
     {
         Magento_Profiler::start('config');
         Magento_Profiler::start('load_modules');
-        $this->_loadDeclaredModules();
+        $this->_loadDeclaredModules($config);
 
         Magento_Profiler::start('load_modules_configuration');
-        $resourceConfig = sprintf('config.%s.xml', $this->getResourceConnectionModel('core'));
-        $this->loadModulesConfiguration(array('config.xml',$resourceConfig), $this);
+        $resourceConfig = sprintf('config.%s.xml', $this->_primaryConfig->getResourceConnectionModel());
+        $this->loadModulesConfiguration(array('config.xml', $resourceConfig), $config);
         Magento_Profiler::stop('load_modules_configuration');
 
-        // Prevent local configuration overriding
-        $this->_loadLocalConfig();
-
-        $this->_container->applyExtends();
+        $config->applyExtends();
         Magento_Profiler::stop('load_modules');
         Magento_Profiler::stop('config');
-        return $this;
     }
 
     /**
      * Load declared modules configuration
-     *
-     * @return  Mage_Core_Model_Config
      */
-    protected function _loadDeclaredModules()
+    protected function _loadDeclaredModules(Mage_Core_Model_Config_Base $mergeToConfig)
     {
         Magento_Profiler::start('load_modules_files');
         $moduleFiles = $this->_getDeclaredModuleFiles();
         if (!$moduleFiles) {
-            return $this;
+            return;
         }
         Magento_Profiler::stop('load_modules_files');
 
@@ -105,15 +120,14 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
                 $unsortedConfig->extend(new Mage_Core_Model_Config_Base($module['module']));
             }
         }
-        $sortedConfig = new Mage_Core_Model_Config_Module($unsortedConfig, $this->_allowedModules);
+        $sortedConfig = new Mage_Core_Model_Config_Modules_Sorted($unsortedConfig, $this->_allowedModules);
 
-        $this->extend($sortedConfig);
+        $mergeToConfig->extend($sortedConfig);
         Magento_Profiler::stop('load_modules_declaration');
-        return $this;
     }
 
     /**
-     * Retrive Declared Module file list
+     * Retrieve Declared Module file list
      *
      * @return array
      */
@@ -158,165 +172,69 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
     }
 
     /**
-     * Types of dependencies between modules
-     */
-    const DEPENDENCY_TYPE_SOFT = 'soft';
-    const DEPENDENCY_TYPE_HARD = 'hard';
-
-    /**
-     * Constructor
+     * Iterate all active modules "etc" folders and combine data from
+     * specidied xml file name to one object
      *
-     * @param Mage_Core_Model_Config_Base $modulesConfig Modules configuration merged from the config files
-     * @param array $allowedModules When not empty, defines modules to be taken into account
+     * @param   string $fileName
+     * @param   null|Mage_Core_Model_Config_Base $mergeToObject
+     * @return  Mage_Core_Model_Config_Base
      */
-    public function __construct(Mage_Core_Model_Config_Base $modulesConfig, array $allowedModules = array())
+    public function loadModulesConfiguration($fileName, $mergeToObject = null, $mergeModel=null)
     {
-        // initialize empty modules configuration
-        parent::__construct('<config><modules/></config>');
-
-        $moduleDependencies = $this->_loadModuleDependencies($modulesConfig, $allowedModules);
-
-        $this->_checkModuleRequirements($moduleDependencies);
-
-        $moduleDependencies = $this->_sortModuleDependencies($moduleDependencies);
-
-        // create sorted configuration
-        foreach ($modulesConfig->getNode()->children() as $nodeName => $node) {
-            if ($nodeName != 'modules') {
-                $this->getNode()->appendChild($node);
+        if ($mergeToObject === null) {
+            $mergeToObject = clone $this->_prototypeFactory->create('<config/>');
+        }
+        if ($mergeModel === null) {
+            $mergeModel = clone $this->_prototypeFactory->create('<config/>');
+        }
+        $modules = $this->getNode('modules')->children();
+        foreach ($modules as $modName=>$module) {
+            if ($module->is('active')) {
+                if (!is_array($fileName)) {
+                    $fileName = array($fileName);
+                }
+                foreach ($fileName as $configFile) {
+                    if ($configFile == 'config.xml' && isset($this->_modulesCache[$modName])) {
+                        $mergeToObject->extend($this->_modulesCache[$modName], true);
+                        //Prevent overriding <active> node of module if it was redefined in etc/modules
+                        $mergeToObject->extend(
+                            $this->_prototypeFactory->create(
+                                "<config><modules><{$modName}><active>true</active></{$modName}></modules></config>"
+                            ),
+                            true
+                        );
+                    } else {
+                        $configFilePath = $this->getModuleDir('etc', $modName) . DS . $configFile;
+                        if ($mergeModel->loadFile($configFilePath)) {
+                            $mergeToObject->extend($mergeModel, true);
+                        }
+                    }
+                }
             }
         }
-        foreach ($moduleDependencies as $moduleInfo) {
-            $node = $modulesConfig->getNode('modules/' . $moduleInfo['module']);
-            $this->getNode('modules')->appendChild($node);
-        }
+        unset($this->_modulesCache);
+        return $mergeToObject;
     }
 
     /**
-     * Load dependencies for active & allowed modules into an array structure
+     * Go through all modules and find configuration files of active modules
      *
-     * @param Mage_Core_Model_Config_Base $modulesConfig
-     * @param array $allowedModules
+     * @param string $filename
      * @return array
      */
-    protected function _loadModuleDependencies(Mage_Core_Model_Config_Base $modulesConfig, array $allowedModules)
+    public function getModuleConfigurationFiles($filename)
     {
         $result = array();
-        foreach ($modulesConfig->getNode('modules')->children() as $moduleName => $moduleNode) {
-            $isModuleActive = 'true' === (string)$moduleNode->active;
-            $isModuleAllowed = empty($allowedModules) || in_array($moduleName, $allowedModules);
-            if (!$isModuleActive || !$isModuleAllowed) {
+        $modules = $this->getNode('modules')->children();
+        foreach ($modules as $moduleName => $module) {
+            if ((!$module->is('active'))) {
                 continue;
             }
-            $dependencies = array();
-            if ($moduleNode->depends) {
-                /** @var $dependencyNode Varien_Simplexml_Element */
-                foreach ($moduleNode->depends->children() as $dependencyNode) {
-                    $dependencyModuleName = $dependencyNode->getName();
-                    $dependencies[$dependencyModuleName] = $this->_getDependencyType($dependencyNode);
-                }
+            $file = $this->getModuleDir('etc', $moduleName) . DIRECTORY_SEPARATOR . $filename;
+            if (file_exists($file)) {
+                $result[] = $file;
             }
-            $result[$moduleName] = array(
-                'module'       => $moduleName,
-                'dependencies' => $dependencies,
-            );
         }
         return $result;
     }
-
-    /**
-     * Determine dependency type from XML node that defines module dependency
-     *
-     * @param Varien_Simplexml_Element $dependencyNode
-     * @return string
-     * @throws UnexpectedValueException
-     */
-    protected function _getDependencyType(Varien_Simplexml_Element $dependencyNode)
-    {
-        $result = $dependencyNode->getAttribute('type') ?: self::DEPENDENCY_TYPE_HARD;
-        if (!in_array($result, array(self::DEPENDENCY_TYPE_HARD, self::DEPENDENCY_TYPE_SOFT))) {
-            $dependencyNodeXml = trim($dependencyNode->asNiceXml());
-            throw new UnexpectedValueException(
-                "Unknown module dependency type '$result' in declaration '$dependencyNodeXml'."
-            );
-        }
-        return $result;
-    }
-
-    /**
-     * Check whether module requirements are fulfilled
-     *
-     * @param array $moduleDependencies
-     * @throws Magento_Exception
-     */
-    protected function _checkModuleRequirements(array $moduleDependencies)
-    {
-        foreach ($moduleDependencies as $moduleName => $moduleInfo) {
-            foreach ($moduleInfo['dependencies'] as $relatedModuleName => $dependencyType) {
-                $relatedModuleActive = isset($moduleDependencies[$relatedModuleName]);
-                if (!$relatedModuleActive && $dependencyType == self::DEPENDENCY_TYPE_HARD) {
-                    throw new Magento_Exception("Module '$moduleName' requires module '$relatedModuleName'.");
-                }
-            }
-        }
-    }
-
-    /**
-     * Sort modules until dependent modules go after ones they depend on
-     *
-     * @param array $moduleDependencies
-     * @return array
-     */
-    protected function _sortModuleDependencies(array $moduleDependencies)
-    {
-        // add indirect dependencies
-        foreach ($moduleDependencies as $moduleName => &$moduleInfo) {
-            $moduleInfo['dependencies'] = $this->_getAllDependencies($moduleDependencies, $moduleName);
-        }
-        unset($moduleInfo);
-
-        // "bubble sort" modules until dependent modules go after ones they depend on
-        $moduleDependencies = array_values($moduleDependencies);
-        $size = count($moduleDependencies) - 1;
-        for ($i = $size; $i >= 0; $i--) {
-            for ($j = $size; $i < $j; $j--) {
-                if (isset($moduleDependencies[$i]['dependencies'][$moduleDependencies[$j]['module']])) {
-                    $tempValue              = $moduleDependencies[$i];
-                    $moduleDependencies[$i] = $moduleDependencies[$j];
-                    $moduleDependencies[$j] = $tempValue;
-                }
-            }
-        }
-
-        return $moduleDependencies;
-    }
-
-    /**
-     * Recursively compute all dependencies and detect circular ones
-     *
-     * @param array $moduleDependencies
-     * @param string $moduleName
-     * @param array $usedModules Keep track of used modules to detect circular dependencies
-     * @return array
-     * @throws Magento_Exception
-     */
-    protected function _getAllDependencies(array $moduleDependencies, $moduleName, $usedModules = array())
-    {
-        $usedModules[] = $moduleName;
-        $result = $moduleDependencies[$moduleName]['dependencies'];
-        foreach (array_keys($result) as $relatedModuleName) {
-            if (in_array($relatedModuleName, $usedModules)) {
-                throw new Magento_Exception(
-                    "Module '$moduleName' cannot depend on '$relatedModuleName' since it creates circular dependency."
-                );
-            }
-            if (empty($moduleDependencies[$relatedModuleName])) {
-                continue;
-            }
-            $relatedDependencies = $this->_getAllDependencies($moduleDependencies, $relatedModuleName, $usedModules);
-            $result = array_merge($result, $relatedDependencies);
-        }
-        return $result;
-    }
-
 }
