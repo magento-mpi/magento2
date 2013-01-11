@@ -26,10 +26,10 @@ class Mage_Core_Model_Config_Base_Factory
      * Create config model
      *
      * @param string|Varien_Simplexml_Element $sourceData
-     * @return mixed
+     * @return Mage_Core_Model_Config_Base
      */
     public function create($sourceData = null)
     {
-        return $this->_objectManager->create('Mage_Core_Model_Config_Base', array($sourceData));
+        return $this->_objectManager->create('Mage_Core_Model_Config_Base', array('sourceData' => $sourceData));
     }
 }

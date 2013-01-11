@@ -268,13 +268,27 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     protected $_objectManager;
 
     /**
+     * Data base updater object
+     *
+     * @var Mage_Core_Model_Db_UpdaterInterface
+     */
+    protected $_dbUpdater;
+
+    /**
      * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Logger $log
      * @param Magento_ObjectManager $objectManager
+     * @param Mage_Core_Model_Db_UpdaterInterface $dbUpdater
+     * @param string $scopeCode
+     * @param string $scopeType
      */
     public function __construct(
-        Mage_Core_Model_Config $config, Mage_Core_Model_Logger $log, Magento_ObjectManager $objectManager,
-        $scopeCode, $scopeType
+        Mage_Core_Model_Config $config,
+        Mage_Core_Model_Logger $log,
+        Magento_ObjectManager $objectManager,
+        Mage_Core_Model_Db_UpdaterInterface $dbUpdater,
+        $scopeCode,
+        $scopeType
     ) {
         $this->_config = $config;
         $this->_log = $log;
@@ -285,6 +299,7 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
             $this->_initCurrentStore($scopeCode, $scopeType ?: self::SCOPE_TYPE_STORE);
             $this->_log->initForStore($this->_store, $this->_config);
         }
+        $this->_dbUpdater = $dbUpdater;
     }
 
     /**
@@ -317,6 +332,10 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
         Magento_Profiler::start('init');
 
         $this->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
+
+        $this->_initRequest();
+        $this->_dbUpdater->updateData();
+
         $controllerFront = $this->getFrontController();
         Magento_Profiler::stop('init');
 
@@ -370,25 +389,6 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
         $this->setErrorHandler(self::DEFAULT_ERROR_HANDLER);
         date_default_timezone_set(Mage_Core_Model_Locale::DEFAULT_TIMEZONE);
         return $this;
-    }
-
-    /**
-     * Check whether modules updates processing should be skipped
-     *
-     * @return bool
-     */
-    protected function _shouldSkipProcessModulesUpdates()
-    {
-        if (!Mage::isInstalled()) {
-            return false;
-        }
-
-        $ignoreDevelopmentMode = (bool)(string)$this->_config->getNode(self::XML_PATH_IGNORE_DEV_MODE);
-        if (Mage::getIsDeveloperMode() && !$ignoreDevelopmentMode) {
-            return false;
-        }
-
-        return (bool)(string)$this->_config->getNode(self::XML_PATH_SKIP_PROCESS_MODULES_UPDATES);
     }
 
     /**

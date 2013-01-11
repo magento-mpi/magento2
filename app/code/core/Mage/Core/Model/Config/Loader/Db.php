@@ -9,13 +9,35 @@
  */
 class Mage_Core_Model_Config_Loader_Db implements Mage_Core_Model_Config_LoaderInterface
 {
+    /**
+     * Modules configuration
+     *
+     * @var Mage_Core_Model_Config_Modules
+     */
     protected $_config;
-    protected $_localConfig;
 
-    public function __construct(Mage_Core_Model_Config_Local $localConfig, Mage_Core_Model_Config_Modules $config)
-    {
-        $this->_config = $config;
-        $this->_localConfig = $localConfig;
+    /**
+     * DB scheme model
+     *
+     * @var Mage_Core_Model_Db_UpdaterInterface
+     */
+    protected $_dbUpdater;
+
+    /**
+     * Resource model of config data
+     *
+     * @var Mage_Core_Model_Resource_Config
+     */
+    protected $_resource;
+
+    public function __construct(
+        Mage_Core_Model_Config_Modules $modulesConfig,
+        Mage_Core_Model_Resource_Config $resource,
+        Mage_Core_Model_Db_UpdaterInterface $schemeUpdater
+    ) {
+        $this->_config = $modulesConfig;
+        $this->_resource = $resource;
+        $this->_dbUpdater = $schemeUpdater;
     }
 
     /**
@@ -23,12 +45,17 @@ class Mage_Core_Model_Config_Loader_Db implements Mage_Core_Model_Config_LoaderI
      *
      * @param Mage_Core_Model_Config_Base $config
      */
-    public function load(Mage_Core_Model_Config_Base $config) //$config is empty
+    public function load(Mage_Core_Model_Config_Base $config)
     {
-        //load db data
-        $config->extend($this->_config);
-        $config->extend($data);
-        $config->extend($this->_localConfig);
-    }
+        //update database scheme
+        $this->_dbUpdater->updateScheme();
 
+        //apply modules configuration
+        $config->extend($this->_config);
+
+        //load db configuration
+        Magento_Profiler::start('load_db');
+        $this->_resource->loadToXml($config);
+        Magento_Profiler::stop('load_db');
+    }
 }

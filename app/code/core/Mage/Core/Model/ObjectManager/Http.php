@@ -25,7 +25,8 @@ class Mage_Core_Model_ObjectManager_Http extends Magento_ObjectManager_Zend
         parent::__construct($baseDir . '/var/di/definitions.php');
         $this->configure(array(
             'preference' => array(
-                'Mage_Core_Model_Config_StorageInterface' => 'Mage_Core_Model_Config_Storage'
+                'Mage_Core_Model_Config_StorageInterface' => 'Mage_Core_Model_Config_Storage',
+                'Mage_Core_Model_Db_UpdaterInterface' => 'Mage_Core_Model_Db_Scheme',
             ),
             'Mage_Core_Model_Dir' => array(
                 'parameters' => array('baseDir' => $baseDir, 'customDirs' => $customDirs, 'customPath' => $customPath)

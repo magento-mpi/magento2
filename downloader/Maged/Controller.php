@@ -927,8 +927,11 @@ final class Maged_Controller
 
                 // reinit config and apply all updates
                 Mage::app()->getConfig()->reinit();
-                Mage_Core_Model_Resource_Setup::applyAllUpdates();
-                Mage_Core_Model_Resource_Setup::applyAllDataUpdates();
+
+                /** @var $updater Mage_Core_Model_Db_UpdaterInterface*/
+                $updater = Mage::getObjectManager()->get('Mage_Core_Model_Db_UpdaterInterface');
+                $updater->updateScheme();
+                $updater->updateData();
                 $message .= 'Cache cleaned successfully';
             } else {
                 $result = true;

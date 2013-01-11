@@ -286,7 +286,9 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
             }
 
             // apply data updates
-            Mage_Core_Model_Resource_Setup::applyAllDataUpdates();
+            /** @var $updater Mage_Core_Model_Db_UpdaterInterface*/
+            $updater = Mage::getObjectManager()->get('Mage_Core_Model_Db_UpdaterInterface');
+            $updater->updateData();
 
             /**
              * Validate entered data for administrator user

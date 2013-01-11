@@ -15,20 +15,8 @@
  * @package     Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_Model_Resource_Setup
+class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupInterface
 {
-    const DEFAULT_SETUP_CONNECTION  = 'core_setup';
-    const VERSION_COMPARE_EQUAL     = 0;
-    const VERSION_COMPARE_LOWER     = -1;
-    const VERSION_COMPARE_GREATER   = 1;
-
-    const TYPE_DB_INSTALL           = 'install';
-    const TYPE_DB_UPGRADE           = 'upgrade';
-    const TYPE_DB_ROLLBACK          = 'rollback';
-    const TYPE_DB_UNINSTALL         = 'uninstall';
-    const TYPE_DATA_INSTALL         = 'data-install';
-    const TYPE_DATA_UPGRADE         = 'data-upgrade';
-
     /**
      * Setup resource name
      * @var string
@@ -90,44 +78,50 @@ class Mage_Core_Model_Resource_Setup
     protected $_queriesHooked = false;
 
     /**
-     * Flag which allow to detect that some schema update was applied dueting request
+     * Modules configuration
      *
-     * @var bool
+     * @var Mage_Core_Model_Config_Modules
      */
-    protected static $_hadUpdates;
+    protected $_config;
 
     /**
-     * Flag which allow run data install or upgrade
+     * Modules configuration
      *
-     * @var bool
+     * @var Mage_Core_Model_Resource
      */
-    protected static $_schemaUpdatesChecked;
+    protected $_resourceModel;
 
     /**
      * Initialize resource configurations, setup connection, etc
      *
+     * @param Mage_Core_Model_Config_Modules $config
+     * @param Mage_Core_Model_Resource $resource
      * @param string $resourceName the setup resource name
      */
-    public function __construct($resourceName)
-    {
-        $config = Mage::getConfig();
+    public function __construct(
+        Mage_Core_Model_Config_Modules $config,
+        Mage_Core_Model_Resource $resource,
+        $resourceName
+    ) {
+        $this->_config = $config;
+        $this->_resourceModel = $resource;
         $this->_resourceName = $resourceName;
-        $this->_resourceConfig = $config->getResourceConfig($resourceName);
-        $connection = $config->getResourceConnectionConfig($resourceName);
+        $this->_resourceConfig = $this->_config->getResourceConfig($resourceName);
+        $connection = $this->_config->getResourceConnectionConfig($resourceName);
         if ($connection) {
             $this->_connectionConfig = $connection;
         } else {
-            $this->_connectionConfig = $config->getResourceConnectionConfig(self::DEFAULT_SETUP_CONNECTION);
+            $this->_connectionConfig = $this->_config->getResourceConnectionConfig(self::DEFAULT_SETUP_CONNECTION);
         }
 
         $modName = (string)$this->_resourceConfig->setup->module;
-        $this->_moduleConfig = $config->getModuleConfig($modName);
-        $connection = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection($this->_resourceName);
+        $this->_moduleConfig = $this->_config->getModuleConfig($modName);
+        $connection = $this->_resourceModel->getConnection($this->_resourceName);
         /**
          * If module setup configuration wasn't loaded
          */
         if (!$connection) {
-            $connection = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection($this->_resourceName);
+            $connection = $this->_resourceModel->getConnection($this->_resourceName);
         }
         $this->_conn = $connection;
     }
@@ -165,7 +159,7 @@ class Mage_Core_Model_Resource_Setup
     {
         $cacheKey = $this->_getTableCacheName($tableName);
         if (!isset($this->_tables[$cacheKey])) {
-            $this->_tables[$cacheKey] = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName($tableName);
+            $this->_tables[$cacheKey] = $this->_resourceModel->getTableName($tableName);
         }
         return $this->_tables[$cacheKey];
     }
@@ -196,69 +190,8 @@ class Mage_Core_Model_Resource_Setup
     }
 
     /**
-     * Apply database updates whenever needed
-     *
-     * @return boolean
-     */
-    static public function applyAllUpdates()
-    {
-        Mage::setUpdateMode(true);
-        self::$_hadUpdates = false;
-
-        $resources = Mage::getConfig()->getNode('global/resources')->children();
-        $afterApplyUpdates = array();
-        foreach ($resources as $resName => $resource) {
-            if (!$resource->setup) {
-                continue;
-            }
-            $className = __CLASS__;
-            if (isset($resource->setup->class)) {
-                $className = $resource->setup->getClassName();
-            }
-            $setupClass = Mage::getModel($className, array('resourceName' => $resName));
-
-            $setupClass->applyUpdates();
-            if ($setupClass->getCallAfterApplyAllUpdates()) {
-                $afterApplyUpdates[] = $setupClass;
-            }
-        }
-
-        foreach ($afterApplyUpdates as $setupClass) {
-            $setupClass->afterApplyAllUpdates();
-        }
-
-        Mage::setUpdateMode(false);
-        self::$_schemaUpdatesChecked = true;
-        return true;
-    }
-
-    /**
-     * Apply database data updates whenever needed
-     *
-     */
-    static public function applyAllDataUpdates()
-    {
-        if (!self::$_schemaUpdatesChecked) {
-            return;
-        }
-        $resources = Mage::getConfig()->getNode('global/resources')->children();
-        foreach ($resources as $resName => $resource) {
-            if (!$resource->setup) {
-                continue;
-            }
-            $className = __CLASS__;
-            if (isset($resource->setup->class)) {
-                $className = $resource->setup->getClassName();
-            }
-            $setupClass = Mage::getModel($className, array('resourceName' => $resName));
-            $setupClass->applyDataUpdates();
-        }
-    }
-
-    /**
      * Apply data updates to the system after upgrading.
      *
-     * @param string $fromVersion
      * @return Mage_Core_Model_Resource_Setup
      */
     public function applyDataUpdates()
@@ -571,14 +504,12 @@ class Mage_Core_Model_Resource_Setup
 
     /**
      * Run module modification files. Return version of last applied upgrade (false if no upgrades applied)
-     *
-     * @param string $actionType self::TYPE_*
+     * @param string $actionType
      * @param string $fromVersion
      * @param string $toVersion
-     * @return string|false
-     * @throws Mage_Core_Exception
+     * @return bool|string
+     * @throws Magento_Exception
      */
-
     protected function _modifyResourceDb($actionType, $fromVersion, $toVersion)
     {
         switch ($actionType) {
@@ -637,7 +568,6 @@ class Mage_Core_Model_Resource_Setup
             $version = $file['toVersion'];
             $this->getConnection()->allowDdlCache();
         }
-        self::$_hadUpdates = true;
         return $version;
     }
 
@@ -903,7 +833,7 @@ class Mage_Core_Model_Resource_Setup
      */
     public function getIdxName($tableName, $fields, $indexType = '')
     {
-        return Mage::getSingleton('Mage_Core_Model_Resource')->getIdxName($tableName, $fields, $indexType);
+        return $this->_resourceModel->getIdxName($tableName, $fields, $indexType);
     }
 
     /**
@@ -917,7 +847,7 @@ class Mage_Core_Model_Resource_Setup
      */
     public function getFkName($priTableName, $priColumnName, $refTableName, $refColumnName)
     {
-        return Mage::getSingleton('Mage_Core_Model_Resource')
+        return $this->_resourceModel
             ->getFkName($priTableName, $priColumnName, $refTableName, $refColumnName);
     }
 
