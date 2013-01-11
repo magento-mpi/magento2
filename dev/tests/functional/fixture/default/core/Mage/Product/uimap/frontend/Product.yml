@@ -47,7 +47,7 @@ product_page:
                             #grouped_subproduct_price_special_inlcuding_tax: //table[@id='super-product-table']//tr[./td[text()='%subproductName%']]//span[@class='price-including-tax']/span
                 -
                     product_tier_prices: &product_prices
-                        xpath: //ul[@class='tier-prices product-pricing']
+                        xpath: //div[@class='product-shop']//ul[@class='tier-prices product-pricing']
                         pageelements:
                             tier_price_line: //li
                 -
