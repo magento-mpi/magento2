@@ -109,7 +109,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
         $demoButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
         $demoButton->setData(array(
             'label'     => $this->__('Theme Demo'),
-            'class'     => 'preview-demo',
+            'class'     => 'action-theme-preview',
             'data_attr' => array(
                 'widget-button' => array(
                     'event' => 'preview',

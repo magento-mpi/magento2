@@ -10,14 +10,13 @@
 ?>
 <?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available */?>
 
-<div class="entry-edit">
-    <div class="infinite_scroll">
-        <ul id="theme-container" class="theme-container"></ul>
-        <div class="theme-loader">
-            <img src="<?php echo $this->getViewFileUrl('images/ajax-loader-tr.gif') ?>"/>
-        </div>
+<div class="infinite_scroll">
+    <ul class="themes" id="available-themes-container"></ul>
+    <div class="theme-loader">
+        <img src="<?php echo $this->getViewFileUrl('images/ajax-loader-tr.gif') ?>"/>
     </div>
 </div>
+
 <script type="text/javascript">
     (function ($) {
         $( document ).ready(function( ) {
