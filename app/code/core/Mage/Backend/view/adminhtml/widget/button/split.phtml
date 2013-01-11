@@ -33,19 +33,19 @@
         <?php endforeach; ?>
     </ul>
 </div>
-<script type="text/javascript">
-(function($, window) {
-    $(document).on('click.splitButtonToggle', '.widget-button-split .btn-toggle', function(e) {
-        $(this).toggleClass('active')
-            .parent()
-            .toggleClass('active');
-    });
-
-    $(document).on('click.splitButtonDefault', '.widget-button-split .main-control', function(e) {
-        $(this)
-            .siblings('.dropdown-menu')
-            .find('.item-default')
+<script>
+(function($) {
+    $('.widget-button-split')
+        .on('click.splitToggle', '.btn-toggle', function() {
+            $(this).toggleClass('active')
+                .parent()
+                .toggleClass('active');
+        })
+        .on('click.splitDefault', '.main-control', function() {
+            $(this)
+                .siblings('.dropdown-menu')
+                .find('.item-default')
                 .trigger('click');
-    });
+        });
 })(jQuery);
 </script>
