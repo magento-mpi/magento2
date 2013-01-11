@@ -31,12 +31,11 @@ class Saas_PrintedTemplate_Model_Source_Type
         );
     }
 
-    /**
-     * Proxy to helper's translator
-     *
-     * @param string $text
-     * @return string Translated text
-     */
+   /**
+    * Returns Data helper
+    *
+    * @return  Saas_PrintedTemplate_Helper_Data
+    */
     protected function _getHelper()
     {
         return Mage::helper('Saas_PrintedTemplate_Helper_Data');

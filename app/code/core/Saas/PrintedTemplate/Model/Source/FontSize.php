@@ -34,6 +34,11 @@ class Saas_PrintedTemplate_Model_Source_FontSize extends Mage_Core_Model_Abstrac
         return $sizesOptions;
     }
 
+   /**
+    * Returns Config model
+    *
+    * @return  Saas_PrintedTemplate_Model_Config
+    */
     protected function _getConfigModelSingeleton()
     {
         return Mage::getSingleton('Saas_PrintedTemplate_Model_Config');
