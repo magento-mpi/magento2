@@ -22,6 +22,11 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage_Collection extends Varien_Data_Colle
      */
     protected $_filesystem;
 
+    /**
+     * Constructor
+     *
+     * @param Magento_Filesystem $filesystem
+     */
     public function __construct(Magento_Filesystem $filesystem)
     {
         $this->_filesystem = $filesystem;
@@ -35,7 +40,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage_Collection extends Varien_Data_Colle
         return array(
             'filename' => $filename,
             'basename' => basename($filename),
-            'mtime'    => $this->_filesystem->getMTime($filename)
+            'mtime'    => $this->_filesystem->getMTime($filename, Mage::getBaseDir())
         );
     }
 }
