@@ -10,14 +10,14 @@
 
 class Saas_PrintedTemplate_Model_Source_FontSizeTest extends PHPUnit_Framework_TestCase
 {
-   /**
-    * test toOptionArray method
-    *
-    * @param array $sizes
-    * @params array $expected
-    *
-    * @dataProvider testToOptionArrayProvider
-    */
+    /**
+     * test toOptionArray method
+     *
+     * @param array $sizes
+     * @params array $expected
+     *
+     * @dataProvider testToOptionArrayProvider
+     */
     public function testToOptionArray($sizes, $expected)
     {
         $configModel = new Varien_Object();
@@ -36,11 +36,11 @@ class Saas_PrintedTemplate_Model_Source_FontSizeTest extends PHPUnit_Framework_T
         $this->assertSame($expected, $optionArray);
     }
 
-   /**
-    * provide data for toOptionArrayProvider method
-    *
-    * @return array
-    */
+    /**
+     * provide data for toOptionArrayProvider method
+     *
+     * @return array
+     */
     public function testToOptionArrayProvider()
     {
         return array(

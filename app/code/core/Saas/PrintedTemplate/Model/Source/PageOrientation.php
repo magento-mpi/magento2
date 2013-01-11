@@ -34,21 +34,21 @@ class Saas_PrintedTemplate_Model_Source_PageOrientation
         return $options;
     }
 
-   /**
-    * Returns Config model
-    *
-    * @return  Saas_PrintedTemplate_Model_Config
-    */
+    /**
+     * Returns Config model
+     *
+     * @return  Saas_PrintedTemplate_Model_Config
+     */
     protected function _getConfigModel()
     {
         return Mage::getModel('Saas_PrintedTemplate_Model_Config');
     }
 
-   /**
-    * Returns Data helper
-    *
-    * @return  Saas_PrintedTemplate_Helper_Data
-    */
+    /**
+     * Returns Data helper
+     *
+     * @return  Saas_PrintedTemplate_Helper_Data
+     */
     protected function _getHelper()
     {
         return Mage::helper('Saas_PrintedTemplate_Helper_Data');

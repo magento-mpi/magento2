@@ -36,21 +36,21 @@ class Saas_PrintedTemplate_Model_Source_Font
         return $fontsOptions;
     }
 
-   /**
-    * Returns Config model
-    *
-    * @return  Saas_PrintedTemplate_Model_Config
-    */
+    /**
+     * Returns Config model
+     *
+     * @return  Saas_PrintedTemplate_Model_Config
+     */
     protected function _getConfigModelSingeleton()
     {
         return Mage::getSingleton('Saas_PrintedTemplate_Model_Config');
     }
 
-   /**
-    * Returns Data helper
-    *
-    * @return  Saas_PrintedTemplate_Helper_Data
-    */
+    /**
+     * Returns Data helper
+     *
+     * @return  Saas_PrintedTemplate_Helper_Data
+     */
     protected function _getHelper()
     {
         return Mage::helper('Saas_PrintedTemplate_Helper_Data');
