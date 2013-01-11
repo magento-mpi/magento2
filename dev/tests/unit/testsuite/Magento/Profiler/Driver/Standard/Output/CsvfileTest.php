@@ -32,7 +32,7 @@ class Magento_Profiler_Driver_Standard_Output_CsvfileTest extends PHPUnit_Framew
         return array(
             'Default config' => array(
                 'config' => array(),
-                'filePath' => '/var/log/profiler.csv',
+                'filePath' => str_replace('/', DIRECTORY_SEPARATOR, '/var/log/profiler.csv'),
                 'delimiter' => ',',
                 'enclosure' => '"'
             ),
