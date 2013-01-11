@@ -16,14 +16,14 @@ class Saas_PrintedTemplate_Model_Source_MeasurementTest extends PHPUnit_Framewor
         return $text;
     }
 
-        /**
-	 * test toOptionArray method
-	 *
-	 * @param array $measurement
-	 * @params array $expected
-	 *
-	 * @dataProvider testToOptionArrayProvider
-	 */
+   /**
+    * test toOptionArray method
+    *
+    * @param array $measurement
+    * @params array $expected
+    *
+    * @dataProvider testToOptionArrayProvider
+    */
     public function testToOptionArray($measurement, $expected)
     {
         $configMock = $this->getMockBuilder('Saas_PrintedTemplate_Model_Config')

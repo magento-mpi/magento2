@@ -10,14 +10,14 @@
 
 class Saas_PrintedTemplate_Model_Source_AllowedLocalesTest extends PHPUnit_Framework_TestCase
 {
-        /**
-	 * test toOptionArray method
-	 *
-	 * @param array $locales
-	 * @params array $expected
-	 *
-	 * @dataProvider testToOptionArrayProvider
-	 */
+   /**
+    * test toOptionArray method
+    *
+    * @param array $locales
+    * @params array $expected
+    *
+    * @dataProvider testToOptionArrayProvider
+    */
     public function testToOptionArray($locales, $expected)
     {
         $configMock = $this->getMockBuilder('Saas_PrintedTemplate_Model_Config')
@@ -41,11 +41,11 @@ class Saas_PrintedTemplate_Model_Source_AllowedLocalesTest extends PHPUnit_Frame
         $this->assertSame($expected, $optionArray);
     }
 
-	/**
-	 * provide data for toOptionArrayProvider method
-	 *
-	 * @return array
-	 */
+   /**
+    * provide data for toOptionArrayProvider method
+    *
+    * @return array
+    */
     public function testToOptionArrayProvider()
     {
         return array(
