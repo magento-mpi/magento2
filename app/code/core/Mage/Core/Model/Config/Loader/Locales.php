@@ -30,6 +30,7 @@ class Mage_Core_Model_Config_Loader_Locales implements Mage_Core_Model_Config_Lo
     public function __construct(Mage_Core_Model_Dir $dirs, Mage_Core_Model_Config_BaseFactory $factory)
     {
         $this->_dirs = $dirs;
+        $this->_factory = $factory;
     }
 
     /**
