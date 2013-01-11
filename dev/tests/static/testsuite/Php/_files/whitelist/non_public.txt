@@ -13,4 +13,3 @@ dev/tests/functional/testsuite/Enterprise/Mage/Attributes/CustomerAddressAttribu
 dev/tests/functional/testsuite/Enterprise/Mage/Store/SingleStoreMode/EnableSingleStoreModeTest.php
 dev/tests/functional/testsuite/Enterprise/Mage/Tags/RewardPointsTest.php
 dev/tests/functional/testsuite/Enterprise/Mage/Various/ChangingStoreViewOnFrontend.php
-dev/tests/unit/testsuite/Saas
