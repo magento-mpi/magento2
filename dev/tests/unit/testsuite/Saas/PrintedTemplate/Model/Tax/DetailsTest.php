@@ -230,12 +230,10 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
                 'taxclass', new Varien_Object,
                 array(
                     array(
-                        'percent' => 0.6,
-                        'rates' => array(array('percent' => 0.1), array('percent' => 0.2))
+                        'percent' => 0.6, 'rates' => array(array('percent' => 0.1), array('percent' => 0.2))
                     ),
                     array(
-                        'percent' => 0.1,
-                        'rates' => array(array('percent' => 0.2))
+                        'percent' => 0.1, 'rates' => array(array('percent' => 0.2))
                     )
                 ),
                 array(
