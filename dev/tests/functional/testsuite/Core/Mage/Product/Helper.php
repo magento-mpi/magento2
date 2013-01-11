@@ -1003,6 +1003,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function unselectConfigurableAttributeOptions($unselectOptions, $attributeName)
     {
+        $this->addParameter('attributeTitle', $attributeName);
         if (is_string($unselectOptions)) {
             $unselectOptions = explode(',', $unselectOptions);
             $unselectOptions = array_map('trim', $unselectOptions);
