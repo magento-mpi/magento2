@@ -342,6 +342,7 @@ generate_virtual_associated:
     associated_price: %noValue%
     associated_sku: simple_associated_sku_%randomize%
     associated_quantity: 999
+    associated_weight: ''
     associated_attributes: *confirurableAttributesValues
 
 #*********************************************
@@ -1174,6 +1175,7 @@ configurable_product_required:
     general_name: Configurable Product Required(%randomize%)
     general_description: Description for Configurable Product Required
     general_short_description: Short Description for Configurable Product Required
+    general_weight: 0.1
     general_sku: configurable_sku_req_%randomize%
     general_status: Enabled
     general_visibility: Catalog, Search
@@ -1189,6 +1191,7 @@ configurable_product_visible:
     general_name: Configurable Product Visible(%randomize%)
     general_description: Description for Configurable Product Visible
     general_short_description: Short Description for Configurable Product Visible
+    general_weight: 1
     general_sku: configurable_visible_sku.req_%randomize%
     general_status: Enabled
     general_visibility: Catalog, Search
@@ -1205,6 +1208,7 @@ configurable_product:
     general_name: Configurable Product(%randomize%)
     general_description: Description for Configurable Product
     general_short_description: Short Description for Configurable Product
+    general_weight: 5
     general_sku: configurable_sku_%randomize%
     general_news_from: %currentDate%
     general_news_to: %currentDate%
@@ -1253,6 +1257,7 @@ duplicate_configurable:
     general_name: Duplicate Configurable Product(%randomize%)
     general_description: Description for Configurable Product
     general_short_description: Short Description for Configurable Product
+    general_weight: 3.17
     general_sku: configurable_sku_%randomize%
     general_news_from: %currentDate%
     general_news_to: %currentDate%
@@ -1581,6 +1586,7 @@ configurable_product_related: &configurable_product_related
     general_name: Linking Configurable Product(%randomize%)
     general_description: Description for Configurable Product
     general_short_description: Short Description for Configurable Product
+    general_weight: 3.14
     general_sku: linking_configurable_sku_%randomize%
     general_status: Enabled
     general_visibility: Catalog, Search
@@ -2318,6 +2324,7 @@ configurable_product_minimal:
     general_name: Configurable Product Required(%randomize%)
     general_description: Description for Configurable Product Required
     general_short_description: Short Description for Configurable Product Required
+    general_weight: 5.19
     general_sku: configurable_sku_req_%randomize%
     general_status: Enabled
     general_visibility: Catalog, Search
