@@ -39,7 +39,7 @@ class Mage_Backup_Model_Backup extends Varien_Object
      *
      * @var Magento_Filesystem_Stream_Zlib
      */
-    protected $_handler = null;
+    protected $_stream = null;
 
     /**
      * @var Magento_Filesystem
@@ -52,13 +52,13 @@ class Mage_Backup_Model_Backup extends Varien_Object
     protected $_helper;
 
     /**
-     * @param Magento_Filesystem $filesystem
      * @param Mage_Backup_Helper_Data $helper
      * @param array $data
      */
-    public function __construct(Magento_Filesystem $filesystem, Mage_Backup_Helper_Data $helper, $data = array())
+    public function __construct(Mage_Backup_Helper_Data $helper, $data = array())
     {
-        $this->_filesystem = $filesystem;
+        $adapter = new Magento_Filesystem_Adapter_Zlib(self::COMPRESS_RATE);
+        $this->_filesystem = new Magento_Filesystem($adapter);
         $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_helper = $helper;
         parent::__construct($data);
@@ -159,15 +159,7 @@ class Mage_Backup_Model_Backup extends Varien_Object
             Mage::throwException($this->_helper->__('Wrong order of creation for new backup.'));
         }
 
-        $compress = extension_loaded("zlib");
-        if ($compress) {
-            $rawContent = gzcompress($content, self::COMPRESS_RATE );
-        } else {
-            $rawContent = $content;
-        }
-
-        $fileHeaders = pack("ll", (int)$compress, strlen($rawContent));
-        $this->_filesystem->write($this->_getFilePath(), $fileHeaders . $rawContent);
+        $this->_filesystem->write($this->_getFilePath(), $content);
         return $this;
     }
 
@@ -178,40 +170,11 @@ class Mage_Backup_Model_Backup extends Varien_Object
      */
     public function &getFile()
     {
-
         if (!$this->exists()) {
             Mage::throwException($this->_helper->__("Backup file does not exist."));
         }
 
-        $fResource = $this->_filesystem->createAndOpenStream($this->_getFilePath(), "rb");
-        if (!$fResource) {
-            Mage::throwException($this->_helper->__("Cannot read backup file."));
-        }
-
-        $compressed = 0;
-
-        $info = unpack("lcompress/llength", $fResource->read(8));
-        // If file compressed by zlib
-        if ($info['compress']) {
-            $compressed = 1;
-        }
-
-        if ($compressed && !extension_loaded("zlib")) {
-            $fResource->close();
-            Mage::throwException(
-                $this->_helper->__('The file was compressed with Zlib, but this extension is not installed on server.')
-            );
-        }
-
-        if ($compressed) {
-            $content = gzuncompress($fResource->read($info['length']));
-        } else {
-            $content = $fResource->read($info['length']);
-        }
-
-        $fResource->close();
-
-        return $content;
+        return $this->_filesystem->read($this->_getFilePath());
     }
 
     /**
@@ -251,11 +214,12 @@ class Mage_Backup_Model_Backup extends Varien_Object
         }
 
         $mode = $write ? 'wb' . self::COMPRESS_RATE : 'rb';
-        $mode = new Magento_Filesystem_Stream_Mode_Zlib($mode);
 
         try {
-            $this->_handler = new Magento_Filesystem_Stream_Zlib($this->_getFilePath());
-            $this->_handler->open($mode);
+            $compressStream = 'compress.zlib://';
+            $workingDirectory = $this->_filesystem->getWorkingDirectory();
+            $this->_stream = $this->_filesystem->createAndOpenStream($compressStream . $this->_getFilePath(), $mode,
+                $compressStream . $workingDirectory);
         }
         catch (Magento_Filesystem_Exception $e) {
             throw new Mage_Backup_Exception_NotEnoughPermissions(
@@ -267,6 +231,19 @@ class Mage_Backup_Model_Backup extends Varien_Object
     }
 
     /**
+     * Get zlib handler
+     *
+     * @return Magento_Filesystem_Stream_Zlib
+     */
+    protected function _getStream()
+    {
+        if (is_null($this->_stream)) {
+            Mage::exception('Mage_Backup', $this->_helper->__('Backup file handler was unspecified.'));
+        }
+        return $this->_stream;
+    }
+
+    /**
      * Read backup uncomressed data
      *
      * @param int $length
@@ -274,11 +251,7 @@ class Mage_Backup_Model_Backup extends Varien_Object
      */
     public function read($length)
     {
-        if (is_null($this->_handler)) {
-            Mage::exception('Mage_Backup', $this->_helper->__('Backup file handler was unspecified.'));
-        }
-
-        return $this->_handler->read($length);
+        return $this->_getStream()->read($length);
     }
 
     /**
@@ -288,11 +261,7 @@ class Mage_Backup_Model_Backup extends Varien_Object
      */
     public function eof()
     {
-        if (is_null($this->_handler)) {
-            Mage::exception('Mage_Backup', $this->_helper->__('Backup file handler was unspecified.'));
-        }
-
-        return $this->_handler->eof();
+        return $this->_getStream()->eof();
     }
 
     /**
@@ -303,14 +272,10 @@ class Mage_Backup_Model_Backup extends Varien_Object
      */
     public function write($string)
     {
-        if (is_null($this->_handler)) {
-            Mage::exception('Mage_Backup', $this->_helper->__('Backup file handler was unspecified.'));
-        }
-
         try {
-            $this->_handler->write($string);
+            $this->_getStream()->write($string);
         }
-        catch (Exception $e) {
+        catch (Magento_Filesystem_Exception $e) {
             Mage::exception('Mage_Backup',
                 $this->_helper->__('An error occurred while writing to the backup file "%s".', $this->getFileName()));
         }
@@ -325,8 +290,8 @@ class Mage_Backup_Model_Backup extends Varien_Object
      */
     public function close()
     {
-        $this->_handler->close();
-        $this->_handler = null;
+        $this->_getStream()->close();
+        $this->_stream = null;
 
         return $this;
     }

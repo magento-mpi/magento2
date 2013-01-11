@@ -48,11 +48,14 @@ class Magento_Filesystem_Stream_Local implements Magento_Filesystem_StreamInterf
     /**
      * Opens the stream in the specified mode
      *
-     * @param Magento_Filesystem_Stream_Mode $mode
+     * @param Magento_Filesystem_Stream_Mode|string $mode
      * @throws Magento_Filesystem_Exception If stream cannot be opened
      */
-    public function open(Magento_Filesystem_Stream_Mode $mode)
+    public function open($mode)
     {
+        if (is_string($mode)) {
+            $mode = new Magento_Filesystem_Stream_Mode($mode);
+        }
         $fileHandle = @fopen($this->_path, $mode->getMode());
         if (false === $fileHandle) {
             throw new Magento_Filesystem_Exception(sprintf('The stream "%s" cannot be opened', $this->_path));
