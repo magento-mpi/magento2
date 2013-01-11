@@ -373,13 +373,13 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $layoutRenderer = $this->_objectManager->get('Mage_DesignEditor_Model_History_Renderer_LayoutUpdate');
             $layoutUpdate = $historyModel->output($layoutRenderer, 'current_handle');
 
-            /** @var $updateCollection Mage_Core_Model_Resource_Layout_Update_Collection */
-            $updateCollection = $this->_objectManager->get('Mage_Core_Model_Resource_Layout_Update_Collection');
+            /** @var $updateCollection Mage_DesignEditor_Model_Resource_Layout_Update_Collection */
+            $updateCollection = $this->_objectManager->get('Mage_DesignEditor_Model_Resource_Layout_Update_Collection');
             $updateCollection->addStoreFilter(Mage_Core_Model_App::ADMIN_STORE_ID)
                 ->addThemeFilter($themeId)
                 ->addFieldToFilter('handle', $this->getRequest()->getParam('handle'))
                 ->setOrder('sort_order');
-            /** @var $layoutUpdateModel Mage_Core_Model_Layout_Update */
+            /** @var $layoutUpdateModel Mage_DesignEditor_Model_Layout_Update */
             $layoutUpdateModel = $updateCollection->getFirstItem();
 
             $sortOrder = 0;
