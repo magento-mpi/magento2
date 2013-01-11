@@ -10,13 +10,24 @@
 ?>
 
 <?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Theme */?>
+<?php
+    $themeTitle = $this->quoteEscape($this->getTheme()->getThemeTitle());
+?>
 
 <li class="theme" id="theme-id-<?php echo $this->getTheme()->getId() ?>" style="margin:20px; float:left;">
-    <ul class="theme-element-customizations">
-        <li class="theme-assigned-to-storeview">
-            <span class="theme-title">
+    <ul class="theme-element-customizations" data-widget-options="<?php echo $this->escapeHtml($this->getOptionsJson()); ?>">
+        <li class="theme-assigned-to-storeview theme-control-title"">
+            <span class="theme-title text-field">
                 <?php echo $this->getTheme()->getThemeTitle() ?>
             </span>
+            <div class="theme-title input-field">
+                <div class="control">
+                    <input type="text" value="<?php echo $themeTitle ?>" data-title-original="<?php echo $themeTitle ?>" class="input-text" />
+                </div>
+                <?php echo $this->getQuickSaveButton()->toHtml() ?>
+            </div>
+        </li>
+        <li>
             <?php if ($this->getTheme()->getAssignedStores()): ?>
                 <?php echo $this->__('Store View applied to:') . ' ' . implode(', ', $this->getStoresTitles()) ?>
             <?php endif; ?>
