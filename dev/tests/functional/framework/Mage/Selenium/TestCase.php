@@ -4004,6 +4004,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * Get child elements count
+     *
+     * @param PHPUnit_Extensions_Selenium2TestCase_Element $parentElement
+     * @param string $childLocator
+     *
+     * @return int
+     */
+    public function getChildElementsCount(PHPUnit_Extensions_Selenium2TestCase_Element $parentElement, $childLocator)
+    {
+        $childElements = $this->getChildElements($parentElement, $childLocator, false);
+        return count($childElements);
+    }
+
+    /**
      * Waits for page to load
      *
      * @param null|integer $timeout

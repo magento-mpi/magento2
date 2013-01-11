@@ -101,7 +101,7 @@ custom_options_dropdown: &dropdown
         custom_options_sku: sku_drop_down_row_1
         custom_options_sort_order: 1
 
-custom_options_radiobuttons:  &radiobutton
+custom_options_radiobutton:  &radiobutton
     custom_options_general_title: Custom Option Radio Buttons
     custom_options_general_input_type: Radio Buttons
     custom_options_general_is_required: Yes
@@ -138,16 +138,16 @@ custom_options_multipleselect: &multipleselect
         custom_options_sort_order: 1
 
 custom_options_data: &customOptionsData
-    custom_options_field: *field
-    custom_options_area: *area
-    custom_options_file: *file
-    custom_options_date: *date
-    custom_options_date_time: *dateTime
-    custom_options_time: *time
-    custom_options_dropdown: *dropdown
-    custom_options_radiobuttons:  *radiobutton
-    custom_options_checkbox: *checkbox
-    custom_options_multipleselect: *multipleselect
+    option_1: *field
+    option_2: *area
+    option_3: *file
+    option_4: *date
+    option_5: *dateTime
+    option_6: *time
+    option_7: *dropdown
+    option_8:  *radiobutton
+    option_9: *checkbox
+    option_10: *multipleselect
 
 custom_options_empty:
     custom_options_general_title: Custom Option Title

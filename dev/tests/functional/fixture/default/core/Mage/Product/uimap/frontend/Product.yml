@@ -18,9 +18,9 @@ product_page:
                 -
                     product_prices: &product_prices
                         xpath: //div[@class='price-box']
-                        #pageelements:
-                            #price_regular: //span[@class='regular-price']
-                            #price_old: //p[@class='old-price']
+                        pageelements:
+                            price_regular: //span[@class='regular-price']
+                            price_old: //p[@class='old-price']/span[@class='price']
                             #price_special: //p[@class='special-price']/span[@class='price']
                             #price_special_excluding_tax: //p[@class='special-price']/span[@class='price-excluding-tax']/span[@class='price']
                             #price_special_inlcuding_tax: //p[@class='special-price']/span[@class='price-including-tax']/span[@class='price']
