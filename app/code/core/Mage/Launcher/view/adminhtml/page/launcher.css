@@ -1084,6 +1084,8 @@
 .import-products-form>form:before,
 .product-import-csv:after,
 .product-import-csv:before,
+.payment-method-setup:after,
+.payment-method-setup:before,
 .tax-rules-import-csv:after,
 .tax-rules-import-csv:before,
 .clearfix:before,
@@ -1097,6 +1099,8 @@
 .drawer-content > header .header-inner:after,
 .import-products-form>form:after,
 .product-import-csv:after,
+.payment-method-setup:after,
+.payment-method-setup:before,
 .tax-rules-import-csv:after,
 .clearfix:after {
     clear: both;
@@ -1109,4 +1113,182 @@
 .hidden {
     display: none;
     opacity: 0;
+}
+
+/* Payment method drawer */
+.payment-method-setup {
+    margin: 42px  0 50px 0;
+}
+
+.store-launcher-alternative .payment-method-setup {
+    margin-top: 30px;
+}
+
+.payment-method-config-form {
+    margin: 0 0 50px 0;
+}
+
+.drawer-item > .title {
+    font-family: 'CallunaSans';
+    font-weight: 500;
+    color: #F4863E;
+    font-size: 32px;
+    text-align: center;
+    letter-spacing: -1px;
+    margin: 0;
+}
+
+.payment-method {
+    padding: 12px 15px;
+    background: #faf8f6;
+    border: 1px solid #dcd8ce;
+    display: block;
+    float: left;
+    position: relative;
+    min-height: 380px;
+    width: 23.404255317%;
+    margin-left: 2.127659574%;
+    font-size: 14px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    box-shadow: 0 2px 5px rgba(49, 48, 43, 0.4);
+    transition: all .6s ease;
+    -moz-transition: all .6s ease;
+    -webkit-transition: all .6s ease;
+    -o-transition: all .6s ease;
+}
+
+.payment-method.selected:before {
+    font-family: 'MUI-Icons';
+    font-style: normal;
+    speak: none;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    content: "V";
+    color: white;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    margin-right: 8px;
+    text-align: center;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 16px;
+    border-radius: 20px;
+    background: #F4863E;
+}
+
+.payment-method.selected {
+    box-shadow: 0 2px 16px rgba(49, 48, 43, 0.9);
+}
+
+.payment-method:first-child {
+    margin-left: 0;
+}
+
+.payment-method-payflo-link,
+.payment-method-payflow-pro,
+.payment-method-authorize,
+.has-merchant-account .payment-method-standard,
+.has-merchant-account .payment-method-advanced,
+.has-merchant-account .payment-method-pro {
+    display: none;
+}
+
+.has-merchant-account .payment-method-payflo-link,
+.has-merchant-account .payment-method-payflow-pro,
+.has-merchant-account .payment-method-authorize {
+    display: block;
+}
+
+.bank-merchant-account {
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.payment-method h3 {
+    color: #F4863E;
+    font-family: 'CallunaSans';
+    font-weight: 400;
+    margin: 10px 0;
+    font-size: 24px;
+}
+
+.payment-method p {
+    font-weight: bold;
+}
+
+.payment-method ul {
+    padding-left: 25px;
+}
+
+.payment-method li {
+    margin-bottom: 10px;
+}
+
+.payment-method .choice {
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+}
+
+.payment-method-config-form fieldset {
+    border: 1px solid #CCCCCC;
+    margin: 0;
+    padding: 20px;
+}
+
+.payment-method-config-form .legend {
+    float: none;
+    margin: 0 -10px;
+    padding: 0 10px;
+    color: #676056;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.4;
+    height: auto;
+    width: auto;
+    visibility: visible;
+}
+
+.payment-method-data>div {
+    display: none;
+}
+
+.payment-method-data>div:first-child {
+    display: block;
+}
+
+.action-grant-permissions {
+    margin-left: 20px;
+}
+
+.label-required {
+    display: block;
+    margin-bottom: 8px;
+    color: #F4863E;
+}
+
+.paypal-marker {
+    font-style: italic;
+    color: #32689A;
+}
+
+.example-forms {
+    margin: -23px 0 0 0;
+}
+
+.example-forms>div {
+    display: none;
+}
+
+.example-forms>div:first-child {
+    display: block;
+}
+
+.select-additional-payment>.grid-row {
+    margin: 40px 0 0 0;
 }
