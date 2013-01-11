@@ -425,6 +425,8 @@ class Magento_Filesystem
     {
         if (!$workingDirectory) {
             $workingDirectory = $this->_workingDirectory;
+        } else {
+            $workingDirectory = self::fixSeparator($workingDirectory);
         }
         if ($workingDirectory) {
             if (0 !== strpos($key, $workingDirectory)) {

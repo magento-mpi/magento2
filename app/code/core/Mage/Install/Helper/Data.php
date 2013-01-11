@@ -36,7 +36,10 @@ class Mage_Install_Helper_Data extends Mage_Core_Helper_Abstract
     public function cleanVarFolder()
     {
         foreach ($this->getVarSubFolders() as $folder) {
-            $this->_filesystem->delete($folder);
+            try {
+                $this->_filesystem->delete($folder);
+            } catch (Magento_Filesystem_Exception $e) {
+            }
         }
     }
 

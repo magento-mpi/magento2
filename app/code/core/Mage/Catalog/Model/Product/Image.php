@@ -530,7 +530,9 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
 
     public function isCached()
     {
-        return $this->_fileExists($this->_newFile);
+        if (is_string($this->_newFile)) {
+            return $this->_fileExists($this->_newFile);
+        }
     }
 
     /**
