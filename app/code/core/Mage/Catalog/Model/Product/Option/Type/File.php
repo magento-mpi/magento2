@@ -166,7 +166,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
          */
         $upload   = new Zend_File_Transfer_Adapter_Http();
         $file = $processingParams->getFilesPrefix() . 'options_' . $option->getId() . '_file';
-        $maxFileSize = $this->getFileStorageHelper()->getMaxFileSize();
+        $maxFileSize = $this->getFileSizeService()->getMaxFileSize();
         try {
             $runValidation = $option->getIsRequire() || $upload->isUploaded($file);
             if (!$runValidation) {
@@ -182,7 +182,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
             // when file exceeds the upload_max_filesize, $_FILES is empty
             if (isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['CONTENT_LENGTH'] > $maxFileSize) {
                 $this->setIsValid(false);
-                $value = $this->getFileStorageHelper()->getMaxFileSizeInMb();
+                $value = $this->getFileSizeService()->getMaxFileSizeInMb();
                 Mage::throwException(
                     Mage::helper('Mage_Catalog_Helper_Data')->__("The file you uploaded is larger than %s Megabytes allowed by server", $value)
                 );
@@ -369,7 +369,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
         }
 
         // Maximum file size
-        $maxFileSize = $this->getFileStorageHelper()->getMaxFileSize();
+        $maxFileSize = $this->getFileSizeService()->getMaxFileSize();
         $validatorChain->addValidator(
                 new Zend_Validate_File_FilesSize(array('max' => $maxFileSize))
         );
@@ -413,7 +413,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
                 || $errorCode == Zend_Validate_File_ImageSize::HEIGHT_TOO_BIG) {
                 $result[] = Mage::helper('Mage_Catalog_Helper_Data')->__("Maximum allowed image size for '%s' is %sx%s px.", $option->getTitle(), $option->getImageSizeX(), $option->getImageSizeY());
             } elseif ($errorCode == Zend_Validate_File_FilesSize::TOO_BIG) {
-                $maxFileSize = $this->getFileStorageHelper()->getMaxFileSizeInMb();
+                $maxFileSize = $this->getFileSizeService()->getMaxFileSizeInMb();
                 $result[] = Mage::helper('Mage_Catalog_Helper_Data')->__("The file '%s' you uploaded is larger than %s Megabytes allowed by server", $fileInfo['title'], $maxFileSize);
             }
         }
@@ -771,10 +771,10 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
     /**
      * Get file storage helper
      *
-     * @return Mage_Core_Helper_File_Storage
+     * @return Magento_File_Size
      */
-    public function getFileStorageHelper()
+    public function getFileSizeService()
     {
-        return Mage::helper('Mage_Core_Helper_File_Storage');
+        return Mage::getObjectManager()->get('Magento_File_Size');
     }
 }
