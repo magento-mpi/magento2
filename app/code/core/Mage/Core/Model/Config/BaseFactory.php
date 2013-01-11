@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Config_Base_Factory
+class Mage_Core_Model_Config_BaseFactory
 {
     /**
      * @var Magento_ObjectManager
