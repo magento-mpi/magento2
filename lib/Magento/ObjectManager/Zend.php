@@ -123,4 +123,15 @@ class Magento_ObjectManager_Zend implements Magento_ObjectManager
         $this->_di->instanceManager()->addSharedInstance($instance, $classOrAlias);
         return $this;
     }
+
+    /**
+     * Configure di instance
+     *
+     * @param array $configuration
+     */
+    public function configure(array $configuration)
+    {
+        $config = new Config(array('instance' => $configuration));
+        $this->_di->configure($config);
+    }
 }
