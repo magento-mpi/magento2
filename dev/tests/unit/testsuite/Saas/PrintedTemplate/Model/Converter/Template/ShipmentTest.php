@@ -79,6 +79,6 @@ class Saas_PrintedTemplate_Model_Converter_ShipmentTest extends PHPUnit_Framewor
      */
     public function testExceptionInConstructor()
     {
-        $model = new Saas_PrintedTemplate_Model_Converter_Template_Shipment(array());
+        new Saas_PrintedTemplate_Model_Converter_Template_Shipment(array());
     }
 }

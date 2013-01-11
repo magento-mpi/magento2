@@ -13,7 +13,7 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
     /**
      * Test calculateShippingTaxInfo method
      *
-     * @param boolean $isTaxAppliedAfterDiscount
+     * @param boolean $isTaxAfterDiscount
      * @param boolean $isDiscountOnInclTax
      * @param string $shippingTaxClass
      * @param Varien_Object $rateRequest
@@ -22,11 +22,11 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
      *
      * @dataProvider testCalculateShippingTaxInfoProvider
      */
-    public function testCalculateShippingTaxInfo($isTaxAppliedAfterDiscount, $isDiscountOnInclTax, $shippingTaxClass,
+    public function testCalculateShippingTaxInfo($isTaxAfterDiscount, $isDiscountOnInclTax, $shippingTaxClass,
         $rateRequest, $rates, $expectedTaxInfo
     ) {
         $calculator = $this->_prepareTaxCalculatorMock($rates, $rateRequest);
-        $config = $this->_prepareTaxConfigMock($shippingTaxClass, $isTaxAppliedAfterDiscount, $isDiscountOnInclTax);
+        $config = $this->_prepareTaxConfigMock($shippingTaxClass, $isTaxAfterDiscount, $isDiscountOnInclTax);
 
         $details = new Saas_PrintedTemplate_Model_Tax_Details(
             array('calculator' => $calculator, 'config' => $config)
@@ -108,7 +108,7 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
     /**
      * Test calculateItemsTaxInfo method
      *
-     * @param boolean $isTaxAppliedAfterDiscount
+     * @param boolean $isTaxAfterDiscount
      * @param string $shippingTaxClass
      * @param Varien_Object $rateRequest
      * @param array $rates
@@ -116,7 +116,7 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
      *
      * @dataProvider testCalculateItemsTaxInfoProvider
      */
-    public function testCalculateItemsTaxInfo($isTaxAppliedAfterDiscount, $isDiscountOnInclTax, $addresses,
+    public function testCalculateItemsTaxInfo($isTaxAfterDiscount, $isDiscountOnInclTax, $addresses,
         $shippingTaxClass, $rateRequest, $rates, $expectedTaxInfo
     ) {
         $quoteAddresses = array();
@@ -146,7 +146,7 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
         }
 
         $calculator = $this->_prepareTaxCalculatorMock($rates, $rateRequest);
-        $config = $this->_prepareTaxConfigMock($shippingTaxClass, $isTaxAppliedAfterDiscount, $isDiscountOnInclTax);
+        $config = $this->_prepareTaxConfigMock($shippingTaxClass, $isTaxAfterDiscount, $isDiscountOnInclTax);
 
         $details = new Saas_PrintedTemplate_Model_Tax_Details(
             array('calculator' => $calculator, 'config' => $config)
@@ -166,32 +166,28 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
     public function testCalculateItemsTaxInfoProvider()
     {
         return array(
-            // case 1
             array(
                 1, 1, array(
-                array('non_nominal_items' => array(array(
-                    'parent_item_id' => null, 'id' => 1, 'is_children_calculated' => true,
-                    'address_product' => array('tax_class' => 'product_tax_class'),
-                    'children' => array(
-                        array(
-                            'parent_item_id' => 1, 'id' => 2, 'is_children_calculated' => false,
-                            'address_product' => array('tax_class_id' => 'product_tax_class2'),
-                        ),
-                        array(
-                            'parent_item_id' => 1, 'id' => 3, 'is_children_calculated' => false,
-                            'address_product' => array('tax_class_id' => 'product_tax_class3'),
+                    array('non_nominal_items' => array(array(
+                        'parent_item_id' => null, 'id' => 1, 'is_children_calculated' => true,
+                        'address_product' => array('tax_class' => 'product_tax_class'),
+                        'children' => array(
+                            array(
+                                'parent_item_id' => 1, 'id' => 2, 'is_children_calculated' => false,
+                                'address_product' => array('tax_class_id' => 'product_tax_class2'),
+                            ),
+                            array(
+                                'parent_item_id' => 1, 'id' => 3, 'is_children_calculated' => false,
+                                'address_product' => array('tax_class_id' => 'product_tax_class3'),
+                            )
                         )
-                    )
-                )))
-            ),
+                    )))
+                ),
                 'taxclass', new Varien_Object,
                 array(array(
                     'percent' => 0.255,
-                    'rates' => array(
-                        array('percent' => 0.1),  array('percent' => 0.4), array('percent' => 0.01)
-                    )
+                    'rates' => array(array('percent' => 0.1),  array('percent' => 0.4), array('percent' => 0.01))
                 )),
-                // expectations
                 array(
                     '2' => array(array(
                         'percent' => 0.1, 'real_percent' => 0.05,
@@ -215,43 +211,34 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
                     ))
                 )
             ),
-
-            // case 2
             array(
                 0, 0, array(
-                array('non_nominal_items' => array(array(
-                    'parent_item_id' => null, 'id' => 1, 'is_children_calculated' => true,
-                    'address_product' => array('tax_class' => 'product_tax_class'),
-                    'children' => array(
-                        array(
-                            'parent_item_id' => 1, 'id' => 2, 'is_children_calculated' => false,
-                            'address_product' => array('tax_class_id' => 'product_tax_class2'),
-                        ),
-                        array(
-                            'parent_item_id' => 1, 'id' => 3, 'is_children_calculated' => false,
-                            'address_product' => array('tax_class_id' => 'product_tax_class3'),
+                    array('non_nominal_items' => array(array(
+                        'parent_item_id' => null, 'id' => 1, 'is_children_calculated' => true,
+                        'address_product' => array('tax_class' => 'product_tax_class'),
+                        'children' => array(
+                            array(
+                                'parent_item_id' => 1, 'id' => 2, 'is_children_calculated' => false,
+                                'address_product' => array('tax_class_id' => 'product_tax_class2'),
+                            ),
+                            array(
+                                'parent_item_id' => 1, 'id' => 3, 'is_children_calculated' => false,
+                                'address_product' => array('tax_class_id' => 'product_tax_class3'),
+                            )
                         )
-                    )
-                )))
-            ),
+                    )))
+                ),
                 'taxclass', new Varien_Object,
                 array(
-                    // process 1
                     array(
                         'percent' => 0.6,
-                        'rates' => array(
-                            array('percent' => 0.1), array('percent' => 0.2)
-                        )
+                        'rates' => array(array('percent' => 0.1), array('percent' => 0.2))
                     ),
-                    // process 2
                     array(
                         'percent' => 0.1,
-                        'rates' => array(
-                            array('percent' => 0.2)
-                        )
+                        'rates' => array(array('percent' => 0.2))
                     )
                 ),
-                // expectations
                 array(
                     '2' => array(array(
                         'percent' => 0.1, 'real_percent' => 0.2,
@@ -308,14 +295,14 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
      * Prepare Quote Address Item model mock
      *
      * @param integer $parentItemId
-     * @param integer $id
+     * @param integer $addressId
      * @param Varien_Object $addressProduct
      * @param array $children
      * @param bool $isChildrenCalculated
      *
      * @return Mage_Sales_Model_Quote_Address_Item
      */
-    protected function _prepareAddressItem($parentItemId, $id, $addressProduct, $childrenData = array(),
+    protected function _prepareAddressItem($parentItemId, $addressId, $addressProduct, $childrenData = array(),
         $isChildrenCalculated = false
     ) {
         $childrenItems = array();
@@ -355,7 +342,7 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
 
         $addressItem->expects($this->any())
             ->method('getId')
-            ->will($this->returnValue($id));
+            ->will($this->returnValue($addressId));
 
         $addressItem->expects($this->any())
             ->method('getProduct')
@@ -372,12 +359,12 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
      * Prepare tax/config singleton mock
      *
      * @param string $shippingTaxClass
-     * @param bool $isTaxAppliedAfterDiscount
+     * @param bool $isTaxAfterDiscount
      * @param bool $isDiscountOnInclTax
      *
      * @return Mage_Tax_Model_Config
      */
-    protected function _prepareTaxConfigMock($shippingTaxClass, $isTaxAppliedAfterDiscount, $isDiscountOnInclTax)
+    protected function _prepareTaxConfigMock($shippingTaxClass, $isTaxAfterDiscount, $isDiscountOnInclTax)
     {
         $config = $this->getMockBuilder('Mage_Tax_Model_Config')
             ->setMethods(array('applyTaxAfterDiscount','discountTax','getShippingTaxClass'))
@@ -389,7 +376,7 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
 
         $config->expects($this->any())
             ->method('applyTaxAfterDiscount')
-            ->will($this->returnValue($isTaxAppliedAfterDiscount));
+            ->will($this->returnValue($isTaxAfterDiscount));
 
         $config->expects($this->any())
             ->method('discountTax')

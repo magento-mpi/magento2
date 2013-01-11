@@ -79,6 +79,6 @@ class Saas_PrintedTemplate_Model_Converter_InvoiceTest extends PHPUnit_Framework
      */
     public function testExceptionInConstructor()
     {
-        $model = new Saas_PrintedTemplate_Model_Converter_Template_Invoice(array());
+        new Saas_PrintedTemplate_Model_Converter_Template_Invoice(array());
     }
 }

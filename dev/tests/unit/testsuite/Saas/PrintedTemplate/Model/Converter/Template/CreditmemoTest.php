@@ -79,6 +79,6 @@ class Saas_PrintedTemplate_Model_Converter_CreditmemoTest extends PHPUnit_Framew
      */
     public function testExceptionInConstructor()
     {
-        $model = new Saas_PrintedTemplate_Model_Converter_Template_Creditmemo(array());
+        new Saas_PrintedTemplate_Model_Converter_Template_Creditmemo(array());
     }
 }
