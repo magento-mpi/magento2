@@ -1,12 +1,12 @@
 <?php
 /**
-* {license_notice}
-*
-* @category   Saas
-* @package    Saas_PrintedTemplate
-* @copyright  {copyright}
-* @license    {license_link}
-*/
+ * {license_notice}
+ *
+ * @category   Saas
+ * @package    Saas_PrintedTemplate
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
 
 /**
  * Relative length model.
