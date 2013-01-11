@@ -186,7 +186,7 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
                 'taxclass', new Varien_Object,
                 array(array(
                     'percent' => 0.255,
-                    'rates' => array(array('percent' => 0.1),  array('percent' => 0.4), array('percent' => 0.01))
+                    'rates' => array(array('percent' => 0.1), array('percent' => 0.4), array('percent' => 0.01))
                 )),
                 array(
                     '2' => array(array(
@@ -216,8 +216,7 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
                     array('non_nominal_items' => array(array(
                         'parent_item_id' => null, 'id' => 1, 'is_children_calculated' => true,
                         'address_product' => array('tax_class' => 'product_tax_class'),
-                        'children' => array(
-                            array(
+                        'children' => array(array(
                                 'parent_item_id' => 1, 'id' => 2, 'is_children_calculated' => false,
                                 'address_product' => array('tax_class_id' => 'product_tax_class2'),
                             ),
