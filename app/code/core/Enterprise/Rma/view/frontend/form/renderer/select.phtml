@@ -16,9 +16,9 @@
  */
 /* @var $this Enterprise_Rma_Block_Form_Renderer_Select */
 ?>
-<label for="items:<?php echo $this->getHtmlId()?>_index_"<?php if ($this->isRequired()) echo ' class="required"' ?>><?php if ($this->isRequired()) echo '<em>*</em>' ?><?php echo $this->getLabel() ?></label>
+<label for="items:<?php echo $this->getHtmlId()?>${_index_}"<?php if ($this->isRequired()) echo ' class="required"' ?>><?php if ($this->isRequired()) echo '<em>*</em>' ?><?php echo $this->getLabel() ?></label>
 <div class="input-box">
-    <select id="items:<?php echo $this->getHtmlId()?>_index_" name="items[_index_][<?php echo $this->getFieldName()?>]"<?php if($this->getHtmlClass()):?> class="<?php echo $this->getHtmlClass();?>"<?php endif;?><?php if ($this->getFieldName() == 'reason'): ?> onchange="showOtherOption(this.value, '_index_')"<?php endif; ?>>
+    <select id="items:<?php echo $this->getHtmlId()?>${_index_}" name="items[${_index_}][<?php echo $this->getFieldName()?>]"<?php if($this->getHtmlClass()):?> class="<?php echo $this->getHtmlClass();?>"<?php endif;?><?php if ($this->getFieldName() == 'reason'): ?> data-args='{"index":${_index_}}' <?php endif; ?>>
     <?php foreach ($this->getOptions() as $option):?>
     <option value="<?php echo $option['value']?>"<?php if ($option['value'] == $this->getValue()):?> selected="selected"<?php endif;?>><?php echo $this->escapeHtml($option['label'])?></option>
     <?php endforeach;?>

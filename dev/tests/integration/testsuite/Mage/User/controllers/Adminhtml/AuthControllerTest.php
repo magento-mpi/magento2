@@ -11,8 +11,6 @@
 
 /**
  * Test class for Mage_User_Adminhtml_AuthController.
- *
- * @group module:Mage_User
  */
 class Mage_User_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {

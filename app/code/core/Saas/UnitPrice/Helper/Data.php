@@ -157,8 +157,9 @@ class Saas_UnitPrice_Helper_Data extends Mage_Core_Helper_Abstract
         $file = isset($file) ? $file : 'unitprice.log';
 
         $var = print_r($var, 1);
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $var = str_replace("\n", "\r\n", $var);
+        }
         Mage::log($var, null, $file);
     }
 

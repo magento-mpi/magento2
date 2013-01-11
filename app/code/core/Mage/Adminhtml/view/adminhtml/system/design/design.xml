@@ -54,8 +54,8 @@
                             <header translate='true' module='Mage_Catalog'>Store</header>
                             <width>100px</width>
                             <type>store</type>
-                            <store_view>true</store_view>
-                            <sortable>false</sortable>
+                            <store_view>1</store_view>
+                            <sortable>0</sortable>
                             <index>store_id</index>
                         </arguments>
                     </block>

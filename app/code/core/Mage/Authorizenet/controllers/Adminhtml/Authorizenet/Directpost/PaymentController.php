@@ -180,10 +180,8 @@ class Mage_Authorizenet_Adminhtml_Authorizenet_Directpost_PaymentController
             $this->_returnQuote($cancelOrder, $redirectParams['error_msg']);
         }
 
-        $block = $this->getLayout()
-            ->createBlock('Mage_Authorizenet_Block_Directpost_Iframe')
-            ->setParams(array_merge($params, $redirectParams));
-        $this->getResponse()->setBody($block->toHtml());
+        Mage::register('authorizenet_directpost_form_params', array_merge($params, $redirectParams));
+        $this->loadLayout(false)->renderLayout();
     }
 
     /**

@@ -28,6 +28,7 @@
         <reference name="head">
             <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.iframe-transport.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload-ui.js</file></action>
 
             <action method="addJs"><file>Mage_Theme::js/form.js</file></action>
         </reference>
@@ -38,6 +39,8 @@
             <block type="Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tabs" name="theme_edit_tabs">
                 <block template="tabs/css.phtml" type="Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css"
                        name="theme_edit_tabs_tab_css_tab" />
+                <block type="Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js"
+                       name="theme_edit_tabs_tab_js_tab" />
 
                 <action method="addTab">
                     <name>general_section</name>
@@ -45,7 +48,12 @@
                 </action>
                 <action method="addTab">
                     <name>css_tab</name>
-                    <block>theme_edit_tabs_tab_css_tab</block></action>
+                    <block>theme_edit_tabs_tab_css_tab</block>
+                </action>
+                <action method="addTab">
+                    <name>js_tab</name>
+                    <block>theme_edit_tabs_tab_js_tab</block>
+                </action>
             </block>
         </reference>
     </adminhtml_system_design_theme_edit>

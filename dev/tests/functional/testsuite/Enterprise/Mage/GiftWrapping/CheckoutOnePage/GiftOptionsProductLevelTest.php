@@ -49,6 +49,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
      */
     public function preconditionsCreateWebsite()
     {
+        $this->markTestIncomplete("Enterprise_Staging is obsolete. The tests should be refactored.");
         //Preconditions
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('StagingWebsite/staging_website_enable_auto_entries');

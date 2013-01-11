@@ -77,7 +77,7 @@
                 <div class="actions">
                     <?php if ($isPossibleOnepageCheckout): ?>
                     <?php echo $this->getChildHtml('extra_actions') ?>
-                    <button class="button" type="button" title="<?php echo $this->__('Checkout') ?>">
+                    <button id="top-cart-btn-checkout" class="button" type="button" title="<?php echo $this->__('Checkout') ?>">
                         <span><span><?php echo $this->__('Checkout') ?></span></span></button>
                     <?php endif ?>
                     <a href="<?php echo $this->getUrl('checkout/cart'); ?>"><span><?php echo $this->__('Go to Shopping Cart') ?></span></a>
@@ -87,20 +87,16 @@
     </div>
     <script type="text/javascript">
         (function($) {
-            $.mage.event.observe('mage.checkout.initialize', function (e, o) {
-                o.cartSelector = '#mini-cart',
-                o.isRecursive = true,
-                o.url = '<?php echo $this->getCheckoutUrl();?>',
-                o.button = ':button[title=' + '<?php echo $this->__('Checkout') ?>' + ']',
-                o.closeList = 'a[title=\'' + '<?php echo $this->__('Remove This Item')?>' + '\']',
-                o.container = '#topCartContent',
-                o.closeButton = '.close-btn',
-                o.confirmMessage = '<?php echo $this->__('Are you sure you would like to remove this item from the shopping cart?') ?>'
-            });
-            $.mage.load.jsSync(
-                "<?php echo $this->getViewFileUrl('Mage_Checkout::js/sidebar.js') ?>",
-                "<?php echo $this->getViewFileUrl('Mage_Checkout::js/checkout-topcart.js') ?>"
-             );
+            head.js("<?php echo $this->getViewFileUrl('Mage_Checkout::js/sidebar.js') ?>",
+                "<?php echo $this->getViewFileUrl('Mage_Checkout::js/checkout-topcart.js') ?>", function() {
+                    $('#mini-cart').sidebar({
+                        checkoutUrl: '<?php echo $this->getCheckoutUrl();?>',
+                        checkoutButton: '#top-cart-btn-checkout',
+                        removeButton: 'a[title=\'' + '<?php echo $this->__('Remove item')?>' + '\']',
+                        confirmMessage: '<?php echo $this->__('Are you sure you would like to remove this item from the shopping cart?') ?>'
+                    });
+                    $('#topCartContent').topCart({closeSelector: '.close-btn'});
+                });
         })(jQuery);
     </script>
     <?php endif;?>

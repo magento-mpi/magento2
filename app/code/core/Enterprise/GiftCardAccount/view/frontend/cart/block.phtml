@@ -21,34 +21,29 @@
     </span>
     <form id="giftcard-form" action="<?php echo $this->getUrl('enterprise_giftcardaccount/cart/add') ?>" method="post">
         <fieldset>
-            <label for="giftcard_code"><?php echo $this->__('Enter the gift card code') ?></label>
-            <div class="v-fix"><input class="required-entry input-text" id="giftcard_code" name="giftcard_code" value="" /></div>
-            <button class="button giftcard-btn" type="button" value="<?php echo $this->__('Add Gift Card') ?>"><span><span><?php echo $this->__('Add Gift Card') ?></span></span></button>
+            <label for="giftcard-code"><?php echo $this->__('Enter the gift card code') ?></label>
+            <div class="v-fix"><input class="input-text" id="giftcard-code" name="giftcard_code" data-validate="{required:true}" value="" /></div>
+            <button class="button giftcard-btn" type="submit" value="<?php echo $this->__('Add Gift Card') ?>"><span><span><?php echo $this->__('Add Gift Card') ?></span></span></button>
             <button class="button check-gc-status" type="button" value="<?php echo $this->__('Check Gift Card status and balance') ?>"><span><span><?php echo $this->__('Check Gift Card status and balance') ?></span></span></button>
         </fieldset>
     </form>
 
     <script type="text/javascript">
-        //<![CDATA[
         (function($) {
             head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
-                "<?php echo $this->getViewFileUrl('jquery/additional-methods.js')?>",
                 "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
-                "<?php echo $this->getViewFileUrl('jquery/jquery.hook.js')?>",
-                "<?php echo $this->getViewFileUrl('mage/validation/validate.js')?>",
+                "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
+                "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
                 "<?php echo $this->getViewFileUrl('Enterprise_GiftCardAccount::gift-card.js')?>", function() {
                     $('#giftcard-form').giftCard({
-                        giftCardCodeSelector: '#giftcard_code',
-                        applyButton: 'button.giftcard-btn',
+                        giftCardCodeSelector: '#giftcard-code',
                         checkStatus: 'button.check-gc-status',
                         giftCardStatusUrl: '<?php echo Mage::getUrl('enterprise_giftcardaccount/cart/quickCheck') ?>',
                         giftCardStatusId: '#giftcard_balance_lookup',
                         giftCardSpinnerId: '#gc-please-wait'
-                    });
-
+                    }).validation();
                 });
         })(jQuery);
-        //]]>
     </script>
 
 </div>

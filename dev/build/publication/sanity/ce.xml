@@ -22,6 +22,7 @@
         <word>sqlsrv</word>
         <word>ukpromerchant</word>
         <word>pinba</word>
+        <word>saas</word>
     </words>
     <whitelist>
         <item>
@@ -78,6 +79,10 @@
         <item>
             <word>enterprise</word>
             <path>dev/tools/translate/generate_emailtemplates.php</path>
+        </item>
+        <item>
+            <word>enterprise</word>
+            <path>dev/tests/static/testsuite/Js/_files/blacklist/ee.txt</path>
         </item>
     </whitelist>
 </config>

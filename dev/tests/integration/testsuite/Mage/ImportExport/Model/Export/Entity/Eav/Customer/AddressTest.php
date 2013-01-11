@@ -12,7 +12,6 @@
 /**
  * Test for customer address export model
  *
- * @group module:Mage_ImportExport
  * @magentoDataFixture Mage/ImportExport/_files/customer_with_addresses.php
  */
 class Mage_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends PHPUnit_Framework_TestCase

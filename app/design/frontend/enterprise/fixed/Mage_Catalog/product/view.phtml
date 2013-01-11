@@ -18,8 +18,13 @@
 <?php $_helper = $this->helper('Mage_Catalog_Helper_Output'); ?>
 <?php $_product = $this->getProduct(); ?>
 <script type="text/javascript">
-    var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
+    (function ($) {
+        head.js("<?php echo $this->getViewFileUrl('Mage_Catalog::js/price-option.js') ?>", function () {
+            $('#product_addtocart_form').priceOption({"priceConfig":<?php echo $this->getJsonConfig() ?>});
+        });
+    })(jQuery);
 </script>
+
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->setEscapeMessageFlag(true)->toHtml() ?></div>
 <div class="product-view">
     <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
@@ -76,26 +81,27 @@
         </div>
         <div class="product-collateral">
             <?php if ($detailedInfoGroup = $this->getGroupChildNames('detailed_info', 'getChildHtml')):?>
-                <dl id="collateral-tabs" class="collateral-tabs">
-                <?php $layout = $this->getLayout(); ?>
-                <?php foreach ($detailedInfoGroup as $name):?>
-                    <?php $html = $layout->renderElement($name); ?>
-                    <?php if (!$html) continue; ?>
-                    <?php $alias = $layout->getElementAlias($name); ?>
-                    <dt class="tab"><span><?php echo $this->escapeHtml($this->getChildData($alias, 'title')) ?></span></dt>
-                    <dd class="tab-container">
-                       <div class="tab-content"><?php echo $html ?></div>
-                    </dd>
-                <?php endforeach;?>
-                </dl>
-                <script type="text/javascript">
-                //<![CDATA[
-                    var collateralTabs = new Enterprise.Tabs('collateral-tabs');
-                    Event.observe(window, 'load', function() {
-                        collateralTabs.select();
-                    });
-                //]]>
-                </script>
+                <div class="c pr" data-mage-init="{tabs: []}">
+                    <?php $layout = $this->getLayout(); ?>
+                    <ul>
+                        <?php foreach ($detailedInfoGroup as $name):?>
+                            <?php
+                                $html = $layout->renderElement($name);
+                                if (!$html) continue;
+                                $alias = $layout->getElementAlias($name);
+                                $label = $this->escapeHtml($this->getChildData($alias, 'title'));
+                            ?>
+                            <li><a href="#<?php echo $name; ?>"><?php echo $label; ?></a></li>
+                        <?php endforeach;?>
+                    </ul>
+                    <?php foreach ($detailedInfoGroup as $name):?>
+                        <?php
+                            $html = $layout->renderElement($name);
+                            if (!$html) continue;
+                        ?>
+                        <div id="<?php echo $name; ?>"><?php echo $html; ?></div>
+                    <?php endforeach;?>
+                </div>
             <?php endif; ?>
             <?php if ($this->canEmailToFriend()): ?>
                 <p class="emailto-link"><a href="<?php echo $this->helper('Mage_Catalog_Helper_Product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a></p>
@@ -112,55 +118,3 @@
         <?php echo $this->getChildHtml('upsell_products') ?>
         <?php echo $this->getChildHtml('product_additional_data') ?>
 </div>
-
-<script type="text/javascript">
-//<![CDATA[
-    var productAddToCartForm = new VarienForm('product_addtocart_form');
-    productAddToCartForm.submit = function(button, url) {
-        if (this.validator.validate()) {
-            var form = this.form;
-            var oldUrl = form.action;
-
-            if (url) {
-               form.action = url;
-            }
-            var e = null;
-            try {
-                this.form.submit();
-            } catch (e) {
-            }
-            this.form.action = oldUrl;
-            if (e) {
-                throw e;
-            }
-
-            if (button && button != 'undefined') {
-                button.disabled = true;
-            }
-        }
-    }.bind(productAddToCartForm);
-
-    productAddToCartForm.submitLight = function(button, url){
-        if(this.validator) {
-            var nv = Validation.methods;
-            delete Validation.methods['required-entry'];
-            delete Validation.methods['validate-one-required'];
-            delete Validation.methods['validate-one-required-by-name'];
-            // Remove custom datetime validators
-            for (var methodName in Validation.methods) {
-                if (methodName.match(/^validate-datetime-.*/i)) {
-                    delete Validation.methods[methodName];
-                }
-            }
-
-            if (this.validator.validate()) {
-                if (url) {
-                    this.form.action = url;
-                }
-                this.form.submit();
-            }
-            Object.extend(Validation.methods, nv);
-        }
-    }.bind(productAddToCartForm);
-//]]>
-</script>

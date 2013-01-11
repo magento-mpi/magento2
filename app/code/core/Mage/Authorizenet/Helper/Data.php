@@ -93,7 +93,7 @@ class Mage_Authorizenet_Helper_Data extends Mage_Core_Helper_Abstract
             case 'sales_order_create':
             case 'sales_order_edit':
                 $route = 'adminhtml/authorizenet_directpost_payment/redirect';
-                break;
+                return $this->getAdminUrl($route, $params);
 
             default:
                 $route = 'authorizenet/directpost_payment/redirect';

@@ -1,5 +1,7 @@
 <?php
 /**
+ * Scheduled jobs entry point
+ *
  * {license_notice}
  *
  * @category   Mage
@@ -10,21 +12,12 @@
 
 require dirname(__DIR__) . '/app/bootstrap.php';
 
-if (!Mage::isInstalled()) {
-    echo "Application is not installed yet, please complete install wizard first.";
-    exit;
-}
-
-// Only for urls
-// Don't remove this
-$_SERVER['SCRIPT_NAME'] = str_replace(basename(__FILE__), 'index.php', $_SERVER['SCRIPT_NAME']);
-$_SERVER['SCRIPT_FILENAME'] = str_replace(basename(__FILE__), 'index.php', $_SERVER['SCRIPT_FILENAME']);
-
-Mage::app('admin')->setUseSessionInUrl(false);
-
+Mage::register('custom_entry_point', true);
 umask(0);
 
 try {
+    Mage::app('admin')->setUseSessionInUrl(false);
+    Mage::app()->requireInstalledInstance();
     Mage::getConfig()->init()->loadEventObservers('crontab');
     Mage::app()->addEventArea('crontab');
     Mage::dispatchEvent('default');

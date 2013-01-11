@@ -18,21 +18,10 @@ enterprice_frontend_header:
                         links:
                             my_cart: //strong[@id='cartHeader']
                             empty_my_cart: //strong[@id='cartHeader'][.='My Cart (0)']
-                            your_language: //ul[@id='popId-languageSelect']//a[text()='%storeView%']
+                            checkout: //a[@title='Checkout']
+                            log_in: //a[@title='Log In']
+                            log_out: //a[@title='Log Out']
+                            your_language: //ul[@id='popup-language-select']//a[text()='%storeView%']
                         pageelements:
-                            change_store_view: //div[@id='languageSelect']//span[text()='Change']
-                            selected_store_view: //div[@id='languageSelect']/strong[normalize-space(text())='%storeView%']
-                        buttons:
-                            go_search: //*[@id='search_mini_form']/div/button
-                        fields:
-                            search: //*[@id='search']
-                -
-                    global_footer:
-                        links:
-                            select_store_link: //ul[@id='select-store']//a[normalize-space(text())='%store%']
-                -
-                    general_elements:
-                        pageelements:
-                            front_navigation_menu: //*[@id='nav']
-                        buttons:
-                            category_button: //ul[@id="nav"]//li[contains(a/span,"%catName%")]
+                            change_store_view: //div[@id='language-select']//span[text()='Change']
+                            selected_store_view: //div[@id='language-select']/strong[normalize-space(text())='%storeView%']

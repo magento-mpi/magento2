@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Adminhtml
- */
 class Mage_Adminhtml_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     public function testConstructor()

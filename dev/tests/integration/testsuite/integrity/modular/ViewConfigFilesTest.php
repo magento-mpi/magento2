@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group integrity
- */
 class Integrity_Modular_ViewConfigFilesTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -21,7 +18,7 @@ class Integrity_Modular_ViewConfigFilesTest extends PHPUnit_Framework_TestCase
     public function testViewConfigFile($file)
     {
         $domConfig = new Magento_Config_Dom(file_get_contents($file));
-        $result = $domConfig->validate(Mage::getBaseDir('lib') . '/Magento/Config/view.xsd', $errors);
+        $result = $domConfig->validate(Mage::getBaseDir('lib') . '/Magento/Config/etc/view.xsd', $errors);
         $message = "Invalid XML-file: {$file}\n";
         foreach ($errors as $error) {
             $message .= "{$error->message} Line: {$error->line}\n";

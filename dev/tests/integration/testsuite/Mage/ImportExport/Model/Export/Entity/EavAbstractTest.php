@@ -11,8 +11,6 @@
 
 /**
  * Test for eav abstract export model
- *
- * @group module:Mage_ImportExport
  */
 class Mage_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_Framework_TestCase
 {

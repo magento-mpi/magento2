@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_User
- */
 class Mage_User_Model_Resource_Rules_CollectionTest extends PHPUnit_Framework_TestCase
 {
     /**

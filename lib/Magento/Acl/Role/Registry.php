@@ -34,7 +34,7 @@ class Magento_Acl_Role_Registry extends Zend_Acl_Role_Registry
         } catch (Zend_Acl_Role_Registry_Exception $e) {
             throw new Zend_Acl_Role_Registry_Exception("Child Role id '$roleId' does not exist");
         }
-        
+
         if (!is_array($parents)) {
             $parents = array($parents);
         }

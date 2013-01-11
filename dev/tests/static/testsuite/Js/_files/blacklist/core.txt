@@ -1,8 +1,9 @@
+pub/lib/json2.js
 pub/lib/mage/adminhtml
+pub/lib/mage/backend/editablemultiselect.js
 pub/lib/mage/captcha.js
 pub/lib/mage/directpost.js
 pub/lib/mage/jquery-no-conflict.js
-app/code/core/Mage/Catalog/view/frontend/msrp.js
 app/code/core/Mage/Page/view/frontend/menu.js
 app/code/core/Mage/Checkout/view/frontend/multishipping/payment.js
 app/code/core/Mage/Checkout/view/frontend/onepage/accordion.js

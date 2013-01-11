@@ -67,7 +67,9 @@ class Mage_Core_Model_Config_Options extends Varien_Object
         $this->_data['locale_dir']  = $appRoot . DIRECTORY_SEPARATOR . 'locale';
         $this->_data['pub_dir']     = $root . DIRECTORY_SEPARATOR . 'pub';
         $this->_data['js_dir']      = $this->_data['pub_dir'] . DIRECTORY_SEPARATOR . 'lib';
-        $this->_data['media_dir']   = $this->_data['pub_dir'] . DIRECTORY_SEPARATOR . 'media';
+        $this->_data['media_dir']   = isset($data['media_dir'])
+            ? $data['media_dir']
+            : $this->_data['pub_dir'] . DIRECTORY_SEPARATOR . 'media';
         $this->_data['var_dir']     = $this->getVarDir();
         $this->_data['tmp_dir']     = $this->_data['var_dir'] . DIRECTORY_SEPARATOR . 'tmp';
         $this->_data['cache_dir']   = $this->_data['var_dir'] . DIRECTORY_SEPARATOR . 'cache';
@@ -195,16 +197,6 @@ class Mage_Core_Model_Config_Options extends Varien_Object
     }
 
     /**
-     * System temporary folder paths getter
-     *
-     * @return string
-     */
-    public function getSysTmpDir()
-    {
-        return sys_get_temp_dir();
-    }
-
-    /**
      * Var folder paths getter
      *
      * @return string
@@ -215,10 +207,7 @@ class Mage_Core_Model_Config_Options extends Varien_Object
         $dir = isset($this->_data['var_dir']) ? $this->_data['var_dir']
             : $this->_data['base_dir'] . DIRECTORY_SEPARATOR . self::VAR_DIRECTORY;
         if (!$this->createDirIfNotExists($dir)) {
-            $dir = $this->getSysTmpDir() . DIRECTORY_SEPARATOR . 'magento' . DIRECTORY_SEPARATOR . 'var';
-            if (!$this->createDirIfNotExists($dir)) {
-                throw new Mage_Core_Exception('Unable to find writable var_dir');
-            }
+            throw new Mage_Core_Exception('Unable to find writable var_dir');
         }
         return $dir;
     }
@@ -227,15 +216,13 @@ class Mage_Core_Model_Config_Options extends Varien_Object
      * Temporary folder paths getter
      *
      * @return string
+     * @throws Mage_Core_Exception
      */
     public function getTmpDir()
     {
         $dir = $this->_data['tmp_dir'];
         if (!$this->createDirIfNotExists($dir)) {
-            $dir = $this->getSysTmpDir() . DIRECTORY_SEPARATOR . 'magento' . DIRECTORY_SEPARATOR . 'tmp';
-            if (!$this->createDirIfNotExists($dir)) {
-                throw new Mage_Core_Exception('Unable to find writable tmp_dir');
-            }
+            throw new Mage_Core_Exception('Unable to find writable tmp_dir');
         }
         return $dir;
     }

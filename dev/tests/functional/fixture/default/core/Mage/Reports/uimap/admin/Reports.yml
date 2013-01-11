@@ -465,3 +465,13 @@ report_statistics:
     mca: report_statistics/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_statistics/')]
     title: Refresh Statistics / Sales / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    report_statistics_grid:
+                        xpath: //div[@id='gridRefreshStatistics']
+                        buttons:
+                            submit: //button[span='Submit']
+                        dropdowns:
+                            actions: //select[@id='gridRefreshStatistics_massaction-select']

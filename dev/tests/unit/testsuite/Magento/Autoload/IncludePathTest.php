@@ -47,12 +47,40 @@ class Magento_Autoload_IncludePathTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testAddIncludePath()
+    /**
+     * @dataProvider addIncludePathDataProvider
+     *
+     * @param string|array $fixturePath
+     * @param bool $prepend
+     * @param string $expectedIncludePath
+     */
+    public function testAddIncludePath($fixturePath, $prepend, $expectedIncludePath)
     {
-        $fixture = uniqid();
-        $this->assertNotContains($fixture, get_include_path());
-        Magento_Autoload_IncludePath::addIncludePath(array($fixture), true);
-        $this->assertStringStartsWith($fixture . PATH_SEPARATOR, get_include_path());
+        $expectedIncludePath = str_replace('%include_path%', get_include_path(), $expectedIncludePath);
+        $this->assertNotEquals($expectedIncludePath, get_include_path());
+        Magento_Autoload_IncludePath::addIncludePath($fixturePath, $prepend);
+        $this->assertEquals($expectedIncludePath, get_include_path());
+    }
+
+    public function addIncludePathDataProvider()
+    {
+        $pathSeparator = PATH_SEPARATOR;
+        return array(
+            'prepend string' => array(
+                'fixture_path', true, "fixture_path{$pathSeparator}%include_path%"
+            ),
+            'prepend array' => array(
+                array('fixture_path_one', 'fixture_path_two'), true,
+                "fixture_path_one{$pathSeparator}fixture_path_two{$pathSeparator}%include_path%"
+            ),
+            'append string'  => array(
+                'fixture_path', false, "%include_path%{$pathSeparator}fixture_path"
+            ),
+            'append array' => array(
+                array('fixture_path_one', 'fixture_path_two'), false,
+                "%include_path%{$pathSeparator}fixture_path_one{$pathSeparator}fixture_path_two"
+            ),
+        );
     }
 
     /**

@@ -35,7 +35,7 @@ class Legacy_WordsTest extends PHPUnit_Framework_TestCase
     {
         $words = self::$_wordsFinder->findWords($file);
         if ($words) {
-            $this->fail('Found words: ' . implode(', ', $words));
+            $this->fail("Found words: '" . implode("', '", $words) . "' in '$file' file");
         }
     }
 

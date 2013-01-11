@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+-->
+<project name="SaaS QA Builds" basedir="../../../" default="multitenant_deployment">
+    <target name="multitenant_deployment" description="Basic multi-tenant environment QA setup">
+        <fail unless="env.db_host" message="'db_host' must be defined"/>
+        <fail unless="env.db_user" message="'db_user' must be defined"/>
+        <fail unless="env.db_password" message="'db_password' must be defined"/>
+        <fail unless="env.multitenant_deployment_dir" message="'multitenant_deployment_dir' must be defined"/>
+        <fail unless="env.multitenant_url_pattern" message="'multitenant_deployment_dir' must be defined"/>
+        <condition property="env.bamboo_tenant_ids" value="">
+            <not><isset property="env.bamboo_tenant_ids"/></not>
+        </condition>
+        <condition property="env.bamboo_new_install" value="">
+            <not><isset property="env.bamboo_new_install"/></not>
+        </condition>
+        <exec executable="php" failonerror="true">
+            <arg line="-f ${basedir}/dev/build/saas_qa/deploy.php --
+                --deploy-dir=${env.multitenant_deployment_dir} --deploy-url-pattern=${env.multitenant_url_pattern}
+                --tenant-ids=${env.bamboo_tenant_ids} --new-install=${env.bamboo_new_install}
+                --dsn=mysql://${env.db_user}:${env.db_password}@${env.db_host}
+                "/>
+        </exec>
+    </target>
+</project>

@@ -1,5 +1,7 @@
-# Files or directories that are not published at all (for any reason, can be non-technical)
+# Files or directories that are not to be part of any Magento product edition (for any reason, can be non-technical)
 #
+LICENSE_PRO.html
+LICENSE_PRO.txt
 app/code/*/*/*/Model/Resource/Helper/{Oracle,Mssql}.php
 app/code/*/*/*/sql/*/{oracle,mssql}-*
 app/code/community/Find
@@ -8,6 +10,10 @@ app/code/core/Mage/Install/Block/Db/Type/{Oracle,Mssql}.php
 app/code/core/Mage/Install/Model/Installer/Db/{Mssql,Oracle}.php
 app/code/core/Mage/Install/view/install/db/{mssql,oracle}.phtml
 app/code/core/Mage/Install/view/install/layout_{oracle,mssql}.xml
+app/design/adminhtml/default/pro
+app/design/frontend/pro
+app/design/install/default/pro
+app/etc/aliases_to_classes_map.json
 app/etc/config.{oracle,mssql}.xml
 dev/tests/functional
 dev/tests/integration/etc/local-{oracle,mssql}.xml.dist
@@ -20,8 +26,14 @@ dev/tests/unit/testsuite/Varien/Db/Adapter/Pdo/MssqlTest.php
 dev/tests/static/testsuite/Legacy/_files/words_internal.xml
 dev/tests/static/testsuite/Php/_files/{whitelist,blacklist}/non_public.txt
 dev/tools/translate
+downloader/Maged/Model/Config/Professional.php
+downloader/template/professional
 lib/Varien/Db/Adapter/Oracle.php
 lib/Varien/Db/Adapter/Pdo/Mssql.php
 lib/Varien/Db/Statement/Oracle.php
 lib/Varien/Db/Statement/Pdo/Mssql.php
 lib/Varien/Db/Statement/Sqlsrv.php
+pub/errors/pro
+app/code/core/Saas
+dev/tests/unit/testsuite/Saas
+dev/tests/js/testsuite/saas

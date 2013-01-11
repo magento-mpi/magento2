@@ -50,6 +50,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
      */
     public function preconditionsForTests()
     {
+        $this->markTestIncomplete("Enterprise_Staging is obsolete. The tests should be refactored.");
         //Data
         $website = $this->loadDataSet('StagingWebsite', 'staging_website');
         $websiteName = $website['general_information']['staging_website_name'];

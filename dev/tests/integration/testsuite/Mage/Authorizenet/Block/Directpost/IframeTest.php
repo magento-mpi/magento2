@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @group module:Mage_Authorizenet
- */
 class Mage_Authorizenet_Block_Directpost_IframeTest extends PHPUnit_Framework_TestCase
 {
     /**
