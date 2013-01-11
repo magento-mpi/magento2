@@ -34,20 +34,26 @@ $_helper = $this->helper('Mage_Core_Helper_Data');
         </li>
         <?php endforeach; ?>
     </ul>
-</button>
-<script type="text/javascript">
-(function($, window) {
-    $(document).on('click.splitButtonToggle', '.widget-button-split .btn-toggle:not(.disabled)', function(e) {
-        $(this).toggleClass('active')
-            .parent()
-            .toggleClass('active');
-    });
-
-    $(document).on('click.splitButtonDefault', '.widget-button-split .main-control:not(.disabled)', function(e) {
-        $(this)
-            .siblings('.dropdown-menu')
-            .find('.item-default')
+</div>
+<script>
+(function($) {
+    $('.widget-button-split')
+        .on('click.splitToggle', '.btn-toggle', function() {
+            if ($(this).is('.disabled') {
+                return;
+            }
+            $(this).toggleClass('active')
+                .parent()
+                .toggleClass('active');
+        })
+        .on('click.splitDefault', '.main-control', function() {
+            if ($(this).is('.disabled') {
+                return;
+            }
+            $(this)
+                .siblings('.dropdown-menu')
+                .find('.item-default')
                 .trigger('click');
-    });
+        });
 })(jQuery);
 </script>

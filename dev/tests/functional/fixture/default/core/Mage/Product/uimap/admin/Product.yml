@@ -193,7 +193,8 @@ new_product:
                                     links:
                                         configurable_attribute_select: //ul[contains(@class, 'ui-autocomplete')]//a[text()='%attributeTitle%']
                                     buttons:
-                                        generate_product_variations: //button[@data-ui-id='admin-product-edit-tab-super-config-grid-container-generate']
+                                        generate_product_variations: //button[@data-ui-id='admin-product-edit-tab-super-config-grid-container-generate' and not(@disabled)]
+                                        generate_product_variations_disabled: //button[@data-ui-id='admin-product-edit-tab-super-config-grid-container-generate' and @disabled]
                                     pageelements:
                                         product_variations_fieldset: /fieldset
                                         configurable_attributes_list: //ul[contains(@class, 'ui-autocomplete')]
@@ -796,7 +797,7 @@ edit_product:
         messages: *productMesssages
 
 new_product_save_and_continue:
-    mca: catalog_product/edit/id/%id%/set/%set%/type/simple/back/edit/tab/%tab%
+    mca: catalog_product/edit/id/%id%/set/%set%/type/%productType%/back/edit/tab/%tab%
     title: %elementTitle% / Manage Products / Catalog / Magento Admin
     uimap: *editProduct
 
