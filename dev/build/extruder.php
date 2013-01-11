@@ -80,7 +80,7 @@ try {
             throw new Exception("The file or directory '{$item}' was supposed to be deleted, but it still exists.");
         }
     }
-    $shell->execute('echo preveed!');
+
     exit(0);
 } catch (Exception $e) {
     if ($e->getPrevious()) {
