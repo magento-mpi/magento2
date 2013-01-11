@@ -9,41 +9,46 @@
  */
 class Mage_Core_Model_Config_Loader_Locales implements Mage_Core_Model_Config_LoaderInterface
 {
-    public function __construct(Mage_Core_Model_Dir $dirs)
-    {
-
-    }
+    /**
+     * Base dirs model
+     *
+     * @var Mage_Core_Model_Dir
+     */
+    protected $_dirs;
 
     /**
-     * Load locale configuration from locale configuration files
+     * Element prototype factory
      *
-     * @return Mage_Core_Model_Config
+     * @var Mage_Core_Model_Config_BaseFactory
      */
-    protected function _loadLocales()
-    {
-        $localeDir = $this->_dirs->getDir(Mage_Core_Model_Dir::LOCALE);
-        $files = glob($localeDir . DS . '*' . DS . 'config.xml');
+    protected $_factory;
 
-        if (is_array($files) && !empty($files)) {
-            foreach ($files as $file) {
-                $merge = clone $this->_prototype;
-                $merge->loadFile($file);
-                $this->_container->extend($merge);
-            }
-        }
-        return $this;
+    /**
+     * @param Mage_Core_Model_Dir $dirs
+     * @param Mage_Core_Model_Config_BaseFactory $factory
+     */
+    public function __construct(Mage_Core_Model_Dir $dirs, Mage_Core_Model_Config_BaseFactory $factory)
+    {
+        $this->_dirs = $dirs;
     }
 
     /**
      * Populate configuration object
+     * Load locale configuration from locale configuration files
      *
      * @param Mage_Core_Model_Config_Base $config
      */
-    public function load(Mage_Core_Model_Config_Base $config) //$config is not empty
+    public function load(Mage_Core_Model_Config_Base $config)
     {
-        // TODO: Implement load() method.
-        $config->extend($data);
+        $localeDir = $this->_dirs->getDir(Mage_Core_Model_Dir::LOCALE);
+        $files = glob($localeDir . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . 'config.xml');
+
+        if (is_array($files) && !empty($files)) {
+            foreach ($files as $file) {
+                $merge = $this->_factory->create();
+                $merge->loadFile($file);
+                $config->extend($merge);
+            }
+        }
     }
-
-
 }
