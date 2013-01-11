@@ -62,6 +62,23 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $this->_layout = null;
     }
 
+    /**
+     * Checks, that not existing image in CSS not affected own publication
+     *
+     * @magentoAppIsolation enabled
+     */
+    public function testCssWithWrongImage()
+    {
+        Mage::app()->getConfig()->getOptions()->setDesignDir(__DIR__ . DIRECTORY_SEPARATOR . '_files');
+        $cssUrl = $this->_block->getViewFileUrl('css/wrong.css', array(
+            'area'    => 'frontend',
+            'package' => 'default',
+            'theme'   => 'demo',
+            'locale'  => 'en_US'
+        ));
+        $this->assertStringMatchesFormat('%s/css/wrong.css', $cssUrl);
+    }
+
     public function testGetRequest()
     {
         $this->assertInstanceOf('Mage_Core_Controller_Request_Http', $this->_block->getRequest());

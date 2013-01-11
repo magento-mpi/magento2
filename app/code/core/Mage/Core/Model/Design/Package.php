@@ -110,13 +110,6 @@ class Mage_Core_Model_Design_Package
     protected $_callbackFileDir;
 
     /**
-     * List of theme configuration objects per area
-     *
-     * @var array
-     */
-    protected $_themeConfigs = array();
-
-    /**
      * List of view configuration objects per theme
      *
      * @var array
@@ -817,14 +810,18 @@ class Mage_Core_Model_Design_Package
         $content = file_get_contents($filePath);
         $relativeUrls = $this->_extractCssRelativeUrls($content);
         foreach ($relativeUrls as $urlNotation => $fileUrl) {
-            $relatedFilePathPublic = $this->_publishRelatedViewFile($fileUrl, $filePath, $fileName, $params);
-            $fileUrlNew = basename($relatedFilePathPublic);
-            $offset = $this->_getFilesOffset($relatedFilePathPublic, $publicDir);
-            if ($offset) {
-                $fileUrlNew = $this->_canonize($offset . '/' . $fileUrlNew, true);
+            try {
+                $relatedFilePathPublic = $this->_publishRelatedViewFile($fileUrl, $filePath, $fileName, $params);
+                $fileUrlNew = basename($relatedFilePathPublic);
+                $offset = $this->_getFilesOffset($relatedFilePathPublic, $publicDir);
+                if ($offset) {
+                    $fileUrlNew = $this->_canonize($offset . '/' . $fileUrlNew, true);
+                }
+                $urlNotationNew = str_replace($fileUrl, $fileUrlNew, $urlNotation);
+                $content = str_replace($urlNotation, $urlNotationNew, $content);
+            } catch (Magento_Exception $e) {
+                Mage::logException($e);
             }
-            $urlNotationNew = str_replace($fileUrl, $fileUrlNew, $urlNotation);
-            $content = str_replace($urlNotation, $urlNotationNew, $content);
         }
         return $content;
     }

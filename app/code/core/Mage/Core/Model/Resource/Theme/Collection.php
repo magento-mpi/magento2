@@ -60,7 +60,7 @@ class Mage_Core_Model_Resource_Theme_Collection extends Mage_Core_Model_Resource
      */
     public function toOptionArray()
     {
-        return$this->_toOptionArray('theme_id', 'theme_title');
+        return $this->_toOptionArray('theme_id', 'theme_title');
     }
 
     /**

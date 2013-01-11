@@ -78,7 +78,7 @@ class Mage_Core_Model_Theme_Registration
             $this->_registerThemeRecursively($theme);
         }
 
-        $this->registerDefaultThemes();
+        $this->_registerDefaultThemes();
 
         /** @var $dbCollection Mage_Core_Model_Resource_Theme_Collection */
         $dbCollection = $this->getThemeModel()->getResourceCollection();
@@ -149,7 +149,7 @@ class Mage_Core_Model_Theme_Registration
      *
      * @return Mage_Core_Model_Theme_Registration
      */
-    public function registerDefaultThemes()
+    protected function _registerDefaultThemes()
     {
         /** @var $theme Mage_Core_Model_Theme */
         foreach ($this->_getDefaultThemes() as $area => $theme) {
