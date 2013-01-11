@@ -44,11 +44,11 @@ class Saas_PrintedTemplate_Model_Source_AllowedLocales
         return $this->_options;
     }
 
-   /**
-    * Returns Config model
-    *
-    * @return  Saas_PrintedTemplate_Model_Config
-    */
+    /**
+     * Returns Config model
+     *
+     * @return  Saas_PrintedTemplate_Model_Config
+     */
     protected function _getConfigModelSingeleton()
     {
         return Mage::getSingleton('Saas_PrintedTemplate_Model_Config');

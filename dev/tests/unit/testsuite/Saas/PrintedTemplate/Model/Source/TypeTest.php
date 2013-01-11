@@ -10,20 +10,20 @@
 
 class Saas_PrintedTemplate_Model_Source_TypeTest extends PHPUnit_Framework_TestCase
 {
-   /**
-    * Emulate string translation
-    *
-    * @param mixed $text
-    * @return string
-    */
+    /**
+     * Emulate string translation
+     *
+     * @param mixed $text
+     * @return string
+     */
     public function translate($text)
     {
         return ($text . '_translate');
     }
 
     /**
-    * test getAllOptions method
-    */
+     * test getAllOptions method
+     */
     public function testGetAllOptions()
     {
         $model = $this->getMockBuilder('Saas_PrintedTemplate_Model_Source_Type')

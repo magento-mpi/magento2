@@ -21,14 +21,14 @@ class Saas_PrintedTemplate_Model_Source_FontTest extends PHPUnit_Framework_TestC
         return ($text . '_translated');
     }
 
-   /**
-    * test toOptionArray method
-    *
-    * @param array $fonts
-    * @params array $expected
-    *
-    * @dataProvider testToOptionArrayProvider
-    */
+    /**
+     * test toOptionArray method
+     *
+     * @param array $fonts
+     * @params array $expected
+     *
+     * @dataProvider testToOptionArrayProvider
+     */
     public function testToOptionArray($fonts, $expected)
     {
         $configModel = new Varien_Object();
@@ -59,11 +59,11 @@ class Saas_PrintedTemplate_Model_Source_FontTest extends PHPUnit_Framework_TestC
         $this->assertSame($expected, $optionArray);
     }
 
-   /**
-    * provide data for toOptionArrayProvider method
-    *
-    * @return array
-    */
+    /**
+     * provide data for toOptionArrayProvider method
+     *
+     * @return array
+     */
     public function testToOptionArrayProvider()
     {
         return array(

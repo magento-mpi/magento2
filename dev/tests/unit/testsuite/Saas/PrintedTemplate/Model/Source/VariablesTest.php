@@ -11,25 +11,25 @@
 class Saas_PrintedTemplate_Model_Source_VariablesTest extends PHPUnit_Framework_TestCase
 {
 
-   /**
-    * Emulate string translation
-    *
-    * @param mixed $text
-    * @return string
-    */
+    /**
+     * Emulate string translation
+     *
+     * @param mixed $text
+     * @return string
+     */
     public function translate($text)
     {
         return ($text . '_translate');
     }
 
-   /**
-    * test toOptionArray method
-    *
-    * @param array $variables
-    * @params array $expected
-    *
-    * @dataProvider testToOptionArrayProvider
-    */
+    /**
+     * test toOptionArray method
+     *
+     * @param array $variables
+     * @params array $expected
+     *
+     * @dataProvider testToOptionArrayProvider
+     */
     public function testToOptionArray($variables, $templateType, $expected)
     {
         $configMock = $this->getMockBuilder('Saas_PrintedTemplate_Model_Config')
@@ -66,11 +66,11 @@ class Saas_PrintedTemplate_Model_Source_VariablesTest extends PHPUnit_Framework_
         $this->assertSame($expected, $optionArray);
     }
 
-   /**
-    * provide data for toOptionArrayProvider method
-    *
-    * @return array
-    */
+    /**
+     * provide data for toOptionArrayProvider method
+     *
+     * @return array
+     */
     public function testToOptionArrayProvider()
     {
         return array(

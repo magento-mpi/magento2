@@ -16,14 +16,14 @@ class Saas_PrintedTemplate_Model_Source_PageSizeTest extends PHPUnit_Framework_T
         return $text;
     }
 
-   /**
-    * test toOptionArray method
-    *
-    * @param string $sizes
-    * @params array $expected
-    *
-    * @dataProvider testToOptionArrayProvider
-    */
+    /**
+     * test toOptionArray method
+     *
+     * @param string $sizes
+     * @params array $expected
+     *
+     * @dataProvider testToOptionArrayProvider
+     */
     public function testToOptionArray($sizes, $expected)
     {
         $configMock = $this->getMockBuilder('Saas_PrintedTemplate_Model_Config')
@@ -57,14 +57,14 @@ class Saas_PrintedTemplate_Model_Source_PageSizeTest extends PHPUnit_Framework_T
             ->will($this->returnValue($helperMock));
 
         $optionArray = $model->toOptionArray();
-		$this->assertSame($expected, $optionArray);
+        $this->assertSame($expected, $optionArray);
     }
 
-   /**
-    * provide data for toOptionArrayProvider method
-    *
-    * @return array
-    */
+    /**
+     * provide data for toOptionArrayProvider method
+     *
+     * @return array
+     */
     public function testToOptionArrayProvider()
     {
         return array(
@@ -79,15 +79,15 @@ class Saas_PrintedTemplate_Model_Source_PageSizeTest extends PHPUnit_Framework_T
         );
     }
 
-   /**
-    * test getSizeByName method
-    *
-    * @param array $configSectionArray
-    * @param string $pageFormat
-    * @param array $expected
-    *
-    * @dataProvider testGetSizeByNameProvider
-    */
+    /**
+     * test getSizeByName method
+     *
+     * @param array $configSectionArray
+     * @param string $pageFormat
+     * @param array $expected
+     *
+     * @dataProvider testGetSizeByNameProvider
+     */
     public function testGetSizeByName($configSectionArray, $pageFormat, $expectedWidth, $expectedHeight)
     {
         $model = $this->getMockBuilder('Saas_PrintedTemplate_Model_Source_PageSize')
@@ -118,11 +118,11 @@ class Saas_PrintedTemplate_Model_Source_PageSizeTest extends PHPUnit_Framework_T
         $this->assertEquals($expectedHeight, $pageSizeModel->getHeight()->getValue());
     }
 
-   /**
-    * Provide test data for testGetSizes mmethod
-    *
-    * @return array
-    */
+    /**
+     * Provide test data for testGetSizes mmethod
+     *
+     * @return array
+     */
     public function testGetSizeByNameProvider()
     {
         return array(
@@ -135,15 +135,15 @@ class Saas_PrintedTemplate_Model_Source_PageSizeTest extends PHPUnit_Framework_T
     }
 
     /**
-    * test getSizeByName method
-    *
-    * @param array $configSectionArray
-    * @param string $pageFormat
-    *
-    * @dataProvider testGetSizeByNameExceptionProvider
-    *
-    * @expectedException InvalidArgumentException
-    */
+     * test getSizeByName method
+     *
+     * @param array $configSectionArray
+     * @param string $pageFormat
+     *
+     * @dataProvider testGetSizeByNameExceptionProvider
+     *
+     * @expectedException InvalidArgumentException
+     */
     public function testGetSizeByNameException($configSectionArray, $pageFormat)
     {
         $model = $this->getMockBuilder('Saas_PrintedTemplate_Model_Source_PageSize')
@@ -157,11 +157,11 @@ class Saas_PrintedTemplate_Model_Source_PageSizeTest extends PHPUnit_Framework_T
         $model->getSizeByName($pageFormat);
     }
 
-   /**
-    * Provide test data for testGetSizes mmethod
-    *
-    * @return array
-    */
+    /**
+     * Provide test data for testGetSizes mmethod
+     *
+     * @return array
+     */
     public function testGetSizeByNameExceptionProvider()
     {
         return array(

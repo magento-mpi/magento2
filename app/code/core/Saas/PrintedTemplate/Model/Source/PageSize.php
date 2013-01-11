@@ -98,41 +98,41 @@ class Saas_PrintedTemplate_Model_Source_PageSize
         return $this->_createSize($name, $source[$name]);
     }
 
-   /**
-    * Returns Config model
-    *
-    * @return  Saas_PrintedTemplate_Model_Config
-    */
+    /**
+     * Returns Config model
+     *
+     * @return  Saas_PrintedTemplate_Model_Config
+     */
     protected function _getConfigModel()
     {
         return Mage::getModel('Saas_PrintedTemplate_Model_Config');
     }
 
-   /**
-    * Returns PageSize model
-    *
-    * @return  Saas_PrintedTemplate_Model_PageSize
-    */
+    /**
+     * Returns PageSize model
+     *
+     * @return  Saas_PrintedTemplate_Model_PageSize
+     */
     protected function _getPageSizeModel($config)
     {
         return Mage::getModel('Saas_PrintedTemplate_Model_PageSize', array('sizeInfo' => $config));
     }
 
-   /**
-    * Returns Data helper
-    *
-    * @return  Saas_PrintedTemplate_Helper_Data
-    */
+    /**
+     * Returns Data helper
+     *
+     * @return  Saas_PrintedTemplate_Helper_Data
+     */
     protected function _getHelper()
     {
         return Mage::helper('Saas_PrintedTemplate_Helper_Data');
     }
 
-   /**
-    * Returns $this->_source with page sizes
-    *
-    * @return  $this->_source
-    */
+    /**
+     * Returns $this->_source with page sizes
+     *
+     * @return  $this->_source
+     */
     protected function _getSource()
     {
         if (!$this->_source) {
