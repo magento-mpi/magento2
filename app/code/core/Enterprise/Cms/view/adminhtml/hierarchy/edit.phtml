@@ -272,12 +272,12 @@
 
             // prepare preview link
             // Temporary solution will be removed after refactoring hierarchyNodes and validation functionality
-            jQuery('#node_id').addClass('is-empty');
+            jQuery('#node_id').addClass('validate-no-empty');
             var nodeValue = $('node_id').value,
                 isNodeSaved = jQuery('#edit_form').validate({errorClass: 'mage-error'}).element('#node_id')
                     || (!isNaN(parseNumber(nodeValue)) && !/^\s+$/.test(parseNumber(nodeValue))),
                 isStoreViewLevel = $('store') && $('store').value;
-            jQuery('#node_id').removeClass('is-empty');
+            jQuery('#node_id').removeClass('validate-no-empty');
 
             var isNodePreviewAvailable = <?php echo (int)$this->isNodePreviewAvailable(); ?>;
 

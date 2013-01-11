@@ -332,8 +332,10 @@
             },
             'Please select an option'
         ],
-        "is-empty": [
-            $.mage.isEmpty,
+        "validate-no-empty": [
+            function(value) {
+                return !$.mage.isEmpty(value);
+            },
             'Empty Value'
         ],
         "validate-alphanum-with-spaces": [
@@ -871,7 +873,8 @@
             onclick: false,
             ignoreTitle: true,
             errorClass: 'mage-error',
-            errorElement: 'div'
+            errorElement: 'div',
+            debug: true
         },
         /**
          * Validation creation

@@ -84,7 +84,7 @@ jQuery(function ($) {
          */
         $('#messages').mage('notification');
 
-        $('.content-header').mage('floatingHeader');
+        $('.content-header:not(.skip-header)').mage('floatingHeader');
     };
 
     $(bootstrap);
