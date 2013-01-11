@@ -9,13 +9,15 @@
  */
 
 /**
- * State resolver for Contentpages Tile
+ * Minimal state resolver
  *
- * @category   Mage
- * @package    Mage_Launcher
- * @author     Magento Core Team <core@magentocommerce.com>
+ * This save handler can be used by tiles that are considered to be complete when drawer 'Save' button is clicked
+ *
+ * @category    Mage
+ * @package     Mage_Launcher
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Model_Promotestore_StateResolver implements Mage_Launcher_Model_Tile_StateResolver
+class Mage_Launcher_Model_Tile_MinimalStateResolver implements Mage_Launcher_Model_Tile_StateResolver
 {
     /**
      * Resolve state
