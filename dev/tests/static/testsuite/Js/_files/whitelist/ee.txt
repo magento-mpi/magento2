@@ -1,3 +1,4 @@
 app/code/core/Enterprise/Cms
+app/code/core/Enterprise/GiftCard
 app/code/core/Enterprise/GiftCardAccount
 app/code/core/Enterprise/Rma
