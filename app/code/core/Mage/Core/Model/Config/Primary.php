@@ -14,12 +14,13 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base
      */
     public function __construct(Mage_Core_Model_Config_Loader_Primary $loader)
     {
+        parent::__construct('<config/>');
         $loader->load($this);
     }
 
     public function getResourceConnectionModel()
     {
-        return $this->getResourceConnectionConfig()$this->_xml->global->resources->core_setup->
+        return $this->getResourceConnectionConfig('core_setup')->model;
     }
 
     /**
@@ -54,5 +55,17 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base
     public function getResourceConfig($name)
     {
         return $this->_xml->global->resources->{$name};
+    }
+
+    /**
+     * // After Modules
+     * Get resource configuration for resource name
+     *
+     * @param string $name
+     * @return Varien_Simplexml_Object
+     */
+    public function getResourceTypeConfig($type)
+    {
+        return $this->_xml->global->resource->connection->types->{$type};
     }
 }
