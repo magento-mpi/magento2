@@ -17,7 +17,7 @@
  * @package     Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
+class Mage_Core_Model_App
 {
     /**
      * Custom directory paths initialization option
@@ -285,21 +285,22 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     public function __construct(
         Mage_Core_Model_Config $config,
         Mage_Core_Model_Logger $log,
+        Mage_Core_Model_Cache $cache,
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Db_UpdaterInterface $dbUpdater,
         $scopeCode,
         $scopeType
     ) {
         $this->_config = $config;
+        $this->_cache = $cache;
         $this->_log = $log;
+        $this->_objectManager = $objectManager;
         $log->addStreamLog(Mage_Core_Model_Logger::LOGGER_SYSTEM)
             ->addStreamLog(Mage_Core_Model_Logger::LOGGER_EXCEPTION);
         $this->_initEnvironment();
-        if ($this->isInstalled()) {
-            $this->_initCurrentStore($scopeCode, $scopeType ?: self::SCOPE_TYPE_STORE);
-            $this->_log->initForStore($this->_store, $this->_config);
-        }
         $this->_dbUpdater = $dbUpdater;
+        $this->_scopeCode = $scopeCode;
+        $this->_scopeType = $scopeType;
     }
 
     /**
@@ -333,7 +334,11 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
 
         $this->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
 
-        $this->_initRequest();
+        if ($this->isInstalled()) {
+            $this->_initCurrentStore($this->_scopeCode, $this->_scopeType ?: self::SCOPE_TYPE_STORE);
+            $this->_log->initForStore($this->_store, $this->_config);
+        }
+               $this->_initRequest();
         $this->_dbUpdater->updateData();
 
         $controllerFront = $this->getFrontController();

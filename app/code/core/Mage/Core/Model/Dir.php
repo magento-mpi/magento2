@@ -180,6 +180,12 @@ class Mage_Core_Model_Dir
         foreach ($this->_getDefaultReplacements($dirs) as $code => $replacement) {
             $this->_setDir($code, $replacement);
         }
+        foreach (self::getWritableDirCodes() as $code) {
+            $path = $this->getDir($code);
+            if ($path && !is_dir($path)) {
+                mkdir($path);
+            }
+        }
     }
 
     /**

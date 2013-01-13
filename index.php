@@ -22,7 +22,9 @@
 try {
     require __DIR__ . '/app/bootstrap.php';
     $objectManager = new Mage_Core_Model_ObjectManager_Http(
-        BP, $_SERVER['MAGE_RUN_CODE'], $_SERVER['MAGE_RUN_TYPE'], $_SERVER['CUSTOM_LOCAL_XML']
+        BP,
+        isset($_SERVER['MAGE_RUN_CODE']) ? $_SERVER['MAGE_RUN_CODE'] : '',
+        isset($_SERVER['MAGE_RUN_TYPE']) ? $_SERVER['MAGE_RUN_TYPE'] : 'store'
     );
     $request = $objectManager->get('Mage_Core_Controller_Request_Http');
     $response = $objectManager->get('Mage_Core_Controller_Response_Http');

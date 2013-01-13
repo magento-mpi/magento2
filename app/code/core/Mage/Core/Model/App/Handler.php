@@ -12,14 +12,14 @@ class Mage_Core_Model_App_Handler implements Magento_Http_HandlerInterface
     /**
      * Application object
      *
-     * @var Mage_Core_Model_App
+     * @var Mage_Core_Model_AppInterface
      */
     protected $_app;
 
     /**
-     * @param Mage_Core_Model_App $app
+     * @param Mage_Core_Model_AppInterface $app
      */
-    public function __construct(Mage_Core_Model_App $app)
+    public function __construct(Mage_Core_Model_AppInterface $app)
     {
         $this->_app = $app;
     }

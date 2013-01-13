@@ -17,11 +17,20 @@ class Magento_Http_Handler_Composite implements Magento_Http_HandlerInterface
     protected $_children;
 
     /**
-     * @param Magento_Http_HandlerInterface[] $handlers
+     * Handler factory
+     *
+     * @var Magento_Http_HandlerFactory
      */
-    public function __construct(array $handlers)
+    protected $_handlerFactory;
+
+    /**
+     * @param Magento_Http_HandlerFactory $factory
+     * @param array $handlers
+     */
+    public function __construct(Magento_Http_HandlerFactory $factory, array $handlers)
     {
         $this->_children = $handlers;
+        $this->_handlerFactory = $factory;
     }
 
     /**
@@ -32,8 +41,8 @@ class Magento_Http_Handler_Composite implements Magento_Http_HandlerInterface
      */
     public function handle(Zend_Controller_Request_Http $request, Zend_Controller_Response_Http $response)
     {
-        foreach ($this->_children as $handler) {
-            $handler->handle($request, $response);
+        foreach ($this->_children as $handlerName) {
+            $this->_handlerFactory->create($handlerName)->handle($request, $response);
             if ($request->isDispatched()) {
                 break;
             }

@@ -111,6 +111,7 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
     public function __construct(
         Mage_Core_Model_Config_Primary $config,
         Mage_Core_Model_Dir $dirs,
+        Mage_Core_Model_Factory_Helper $helperFactory,
         $banCache = false,
         array $options = array()
     ) {
@@ -123,8 +124,7 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
         }
         $options = array_merge($configOptions, $options);
 
-        $options =
-        $this->_helper = isset($options['helper']) ? $options['helper'] : Mage::helper('Mage_Core_Helper_Data');
+        $this->_helper = isset($options['helper']) ? $options['helper'] : $helperFactory->get('Mage_Core_Helper_Data');
         $this->_globalBanUseCache = $banCache;
 
         $this->_defaultBackendOptions['cache_dir'] = $dirs->getDir(Mage_Core_Model_Dir::CACHE);

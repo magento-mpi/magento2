@@ -26,7 +26,8 @@ class Mage_Core_Model_ObjectManager_Http extends Magento_ObjectManager_Zend
         $this->configure(array(
             'preference' => array(
                 'Mage_Core_Model_Config_StorageInterface' => 'Mage_Core_Model_Config_Storage',
-                'Mage_Core_Model_Db_UpdaterInterface' => 'Mage_Core_Model_Db_Scheme',
+                'Mage_Core_Model_Db_UpdaterInterface' => 'Mage_Core_Model_Db_Updater',
+                'Mage_Core_Model_AppInterface' => 'Mage_Core_Model_App_Proxy',
             ),
             'Mage_Core_Model_Dir' => array(
                 'parameters' => array('baseDir' => $baseDir, 'customDirs' => $customDirs, 'customPath' => $customPath)
@@ -50,8 +51,9 @@ class Mage_Core_Model_ObjectManager_Http extends Magento_ObjectManager_Zend
                 'parameters' => array('scopeCode' => $runCode, 'scopeType' => $runType)
             ),
             'Magento_Http_Handler_Composite' => array(
-                'parameters' => array('handlers' => array('Mage_Core_Model_App'))
+                'parameters' => array('handlers' => array('Mage_Core_Model_App_Handler'))
             ),
         ));
+        Mage::setObjectManager($this);
     }
 }

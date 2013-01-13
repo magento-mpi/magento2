@@ -460,6 +460,19 @@ final class Mage
     }
 
     /**
+     * Set application object manager
+     * @param Magento_ObjectManager $objectManager
+     */
+    public static function setObjectManager(Magento_ObjectManager $objectManager)
+    {
+        if (!self::$_objectManager) {
+            self::$_objectManager = $objectManager;
+        } else {
+            throw new LogicException('Only one object manager can be used in application');
+        }
+    }
+
+    /**
      * Retrieve object of resource model
      *
      * @param   string $modelClass
@@ -535,8 +548,7 @@ final class Mage
 
         $registryKey = '_helper/' . $name;
         if (!self::registry($registryKey)) {
-            $helperClass = self::getConfig()->getHelperClassName($name);
-            self::register($registryKey, self::getObjectManager()->get($helperClass));
+            self::register($registryKey, self::getObjectManager()->get($name));
         }
         return self::registry($registryKey);
     }
@@ -549,7 +561,8 @@ final class Mage
      */
     public static function getResourceHelper($moduleName)
     {
-        $connectionModel = self::getConfig()->getResourceConnectionModel('core');
+        $connectionModel = self::getObjectManager()->get('Mage_Core_Model_Config_Primary')
+            ->getResourceConnectionModel('core');
 
         $helperClassName = $moduleName . '_Model_Resource_Helper_' . ucfirst($connectionModel);
         $connection = strtolower($moduleName);
