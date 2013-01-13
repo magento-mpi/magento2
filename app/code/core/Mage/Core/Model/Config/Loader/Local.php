@@ -51,8 +51,8 @@ class Mage_Core_Model_Config_Loader_Local implements Mage_Core_Model_Config_Load
     public function __construct(
         Mage_Core_Model_Config_BaseFactory $prototypeFactory,
         Mage_Core_Model_Dir $dirs,
-        $customConfig,
-        $customFile
+        $customConfig = null,
+        $customFile = null
     ) {
         $this->_dirs = $dirs;
         $this->_customFile = $customFile;

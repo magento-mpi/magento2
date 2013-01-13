@@ -10,30 +10,39 @@
 class Mage_Core_Model_Config_Loader implements Mage_Core_Model_Config_LoaderInterface
 {
     /**
-     * Configuration loader factory
+     * Modules configuration object
      *
-     * @var Mage_Core_Model_Config_LoaderFactory
+     * @var Mage_Core_Model_Config_Modules
      */
-    protected $_loaderFactory;
+    protected $_modulesConfig;
 
     /**
-     * Loader names
+     * Database configuration loader
      *
-     * @var array
+     * @var Mage_Core_Model_Config_Loader_Db
      */
-    protected $_loaders;
+    protected $_dbLoader;
 
     /**
-     * @param Mage_Core_Model_Config_LoaderFactory $loaderFactory
-     * @param array $loaders
+     * Locales loader
+     *
+     * @var Mage_Core_Model_Config_Loader_Locales
+     */
+    protected $_localesLoader;
+
+    /**
+     * @param Mage_Core_Model_Config_Modules $config
+     * @param Mage_Core_Model_Config_Loader_Db $loaderDb
+     * @param Mage_Core_Model_Config_Loader_Local $loaderLocale
      */
     public function __construct(
         Mage_Core_Model_Config_Modules $config,
-        Mage_Core_Model_Config_Loader_Db $loaderDb,
-        Mage_Core_Model_Config_Loader_Local $loaderLocale
-
+        Mage_Core_Model_Config_Loader_Db $dbLoader,
+        Mage_Core_Model_Config_Loader_Locales $localesLoader
     ) {
-
+        $this->_modulesConfig = $config;
+        $this->_dbLoader = $dbLoader;
+        $this->_localesLoader = $localesLoader;
     }
 
     /**
@@ -43,8 +52,8 @@ class Mage_Core_Model_Config_Loader implements Mage_Core_Model_Config_LoaderInte
      */
     public function load(Mage_Core_Model_Config_Base $config)
     {
-        $config->extend($this->_config);
-        $loaderDb->load($config);
-        $loaderLocale->load($config);
+        $config->extend($this->_modulesConfig);
+        $this->_dbLoader->load($config);
+        $this->_localesLoader->load($config);
     }
 }
