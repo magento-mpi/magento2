@@ -7,18 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Config_Modules
+class Mage_Core_Model_Config_Modules extends Mage_Core_Model_Config_Base
 {
     /**
      * @param Mage_Core_Model_Config_Loader_Modules $loader
      */
     public function __construct(Mage_Core_Model_Config_Loader_Modules $loader)
     {
+        parent::__construct('<config><modules></modules></config>');
         $loader->load($this);
-    }
-
-    public function getResourceConnectionConfig()
-    {
-
     }
 }

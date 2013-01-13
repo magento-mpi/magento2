@@ -24,6 +24,13 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
     protected $_dirs;
 
     /**
+     * Prototype config factory
+     *
+     * @var Mage_Core_Model_Config_BaseFactory
+     */
+    protected $_prototypeFactory;
+
+    /**
      * Loaded modules
      *
      * @var array
@@ -38,16 +45,28 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
     protected $_allowedModules = array();
 
     /**
+     * Module configuration directories
+     *
+     * @var array
+     */
+    protected $_moduleDirs = array();
+
+    /**
      * @param Mage_Core_Model_Config_Primary $primaryConfig
      * @param Mage_Core_Model_Dir $dirs
+     * @param Mage_Core_Model_Config_BaseFactory $prototypeFactory
      * @param array $allowedModules
      */
     public function __construct(
-        Mage_Core_Model_Config_Primary $primaryConfig, Mage_Core_Model_Dir $dirs, array $allowedModules = array()
+        Mage_Core_Model_Config_Primary $primaryConfig,
+        Mage_Core_Model_Dir $dirs,
+        Mage_Core_Model_Config_BaseFactory $prototypeFactory,
+        array $allowedModules = array()
     ) {
         $this->_dirs = $dirs;
         $this->_primaryConfig = $primaryConfig;
         $this->_allowedModules = $allowedModules;
+        $this->_prototypeFactory = $prototypeFactory;
     }
 
     /**
@@ -57,6 +76,10 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
      */
     public function load(Mage_Core_Model_Config_Base $config)
     {
+        if (!$config->getNode()) {
+            $config->loadString('<config><modules></modules></config>');
+        }
+        $config->extend($this->_primaryConfig);
         Magento_Profiler::start('config');
         Magento_Profiler::start('load_modules');
         $this->_loadDeclaredModules($config);
@@ -177,9 +200,10 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
      *
      * @param   string $fileName
      * @param   null|Mage_Core_Model_Config_Base $mergeToObject
+     * @param   null|Mage_Core_Model_Config_Base $mergeModel
      * @return  Mage_Core_Model_Config_Base
      */
-    public function loadModulesConfiguration($fileName, $mergeToObject = null, $mergeModel=null)
+    public function loadModulesConfiguration($fileName, $mergeToObject = null, $mergeModel = null)
     {
         if ($mergeToObject === null) {
             $mergeToObject = clone $this->_prototypeFactory->create('<config/>');
@@ -187,8 +211,9 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
         if ($mergeModel === null) {
             $mergeModel = clone $this->_prototypeFactory->create('<config/>');
         }
-        $modules = $this->getNode('modules')->children();
-        foreach ($modules as $modName=>$module) {
+        $modules = $mergeToObject->getNode('modules')->children();
+        /** @var $module Varien_Simplexml_Element */
+        foreach ($modules as $modName => $module) {
             if ($module->is('active')) {
                 if (!is_array($fileName)) {
                     $fileName = array($fileName);
@@ -204,7 +229,7 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
                             true
                         );
                     } else {
-                        $configFilePath = $this->getModuleDir('etc', $modName) . DS . $configFile;
+                        $configFilePath = $this->getModuleDir($mergeToObject, 'etc', $modName) . DS . $configFile;
                         if ($mergeModel->loadFile($configFilePath)) {
                             $mergeToObject->extend($mergeModel, true);
                         }
@@ -236,5 +261,40 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
             }
         }
         return $result;
+    }
+
+
+    /**
+     * Get module directory by directory type
+     *
+     * @param   string $type
+     * @param   string $moduleName
+     * @return  string
+     */
+    public function getModuleDir($config, $type, $moduleName)
+    {
+        if (isset($this->_moduleDirs[$moduleName][$type])) {
+            return $this->_moduleDirs[$moduleName][$type];
+        }
+
+        $codePool = (string)$config->getNode('modules/' . $moduleName . 'codePool');
+
+        $dir = $this->_dirs->getDir(Mage_Core_Model_Dir::MODULES) . DIRECTORY_SEPARATOR
+            . $codePool . DIRECTORY_SEPARATOR
+            . uc_words($moduleName, DIRECTORY_SEPARATOR);
+
+        switch ($type) {
+            case 'etc':
+            case 'controllers':
+            case 'sql':
+            case 'data':
+            case 'locale':
+            case 'view':
+                $dir .= DS . $type;
+                break;
+        }
+
+        $dir = str_replace('/', DS, $dir);
+        return $dir;
     }
 }
