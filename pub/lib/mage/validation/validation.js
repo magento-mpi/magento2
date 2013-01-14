@@ -63,17 +63,6 @@
         'Please select one of the options.'
     );
 
-    /**
-     * Validation rule to check if the field has at least two characters
-     */
-    $.validator.addMethod(
-        "validate-name-length",
-        function(value, element, params) {
-            return value.length >= 2;
-        },
-        'Please enter at least 2 letters.'
-    );
-
     $.widget("mage.validation", $.mage.validation, {
         /**
          * Check if form pass validation rules without submit
