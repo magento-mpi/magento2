@@ -14,7 +14,7 @@ class Saas_PrintedTemplate_Model_Wysiwyg_TemplateParserTest extends PHPUnit_Fram
     protected $_templateParser;
     protected $_template;
 
-    public function setup()
+    protected function setUp()
     {
         $this->_wysiwygConfig = $this->getMockBuilder('Saas_PrintedTemplate_Model_Wysiwyg_Config')
             ->setMethods(array('getFooterSeparator', 'getHeaderSeparator'))
@@ -43,9 +43,9 @@ class Saas_PrintedTemplate_Model_Wysiwyg_TemplateParserTest extends PHPUnit_Fram
      *
      * @dataProvider importContentFooterHeaderProvider()
      */
-    public function testShouldParseHeaderFooterContentOnImport(
-        $footerSeparator, $headerSeparator, $footer, $header, $parsedContent, $content)
-    {
+    public function testShouldParseHeaderFooterContentOnImport($footerSeparator, $headerSeparator, $footer, $header,
+        $parsedContent, $content
+    ) {
         $this->_wysiwygConfig->expects($this->any())
             ->method('getFooterSeparator')
             ->will($this->returnValue($footerSeparator));
@@ -115,9 +115,9 @@ class Saas_PrintedTemplate_Model_Wysiwyg_TemplateParserTest extends PHPUnit_Fram
      *
      * @dataProvider exportContentProvider()
      */
-    public function testShouldAssembleFullContentOnExport(
-        $footerSeparator, $headerSeparator, $footer, $header, $content, $fullContent)
-    {
+    public function testShouldAssembleFullContentOnExport($footerSeparator, $headerSeparator, $footer, $header,
+        $content, $fullContent
+    ) {
         $this->_wysiwygConfig->expects($this->any())
             ->method('getFooterSeparator')
             ->will($this->returnValue($footerSeparator));
