@@ -399,6 +399,24 @@ final class Mage
     }
 
     /**
+     * Dispatch event
+     *
+     * Calls all observer callbacks registered for this event
+     * and multiple observers matching event name pattern
+     *
+     * @param string $name
+     * @param array $data
+     */
+    public static function dispatchEvent($name, array $data = array())
+    {
+        Magento_Profiler::start('EVENT:' . $name);
+        /** @var $eventManager Mage_Core_Model_Event_Manager */
+        $eventManager = self::$_objectManager->get('Mage_Core_Model_Event_Manager');
+        $eventManager->dispatch($name, $data);
+        Magento_Profiler::stop('EVENT:' . $name);
+    }
+
+    /**
      * Retrieve model object
      *
      * @link    Mage_Core_Model_Config::getModelInstance

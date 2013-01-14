@@ -48,48 +48,6 @@ class Mage_Core_Model_Event_Manager
     }
 
     /**
-     * Dispatch event
-     *
-     * @param string $eventName
-     * @param array $args
-     */
-    protected function _dispatchEvent($eventName, $args)
-    {
-        foreach ($this->_events as $area => $events) {
-            if (false == isset($events[$eventName])) {
-                continue;
-            }
-
-            $event = new Varien_Event($args);
-            $event->setName($eventName);
-            $observer = new Varien_Event_Observer();
-
-            foreach ($this->_events[$area][$eventName] as $obsName => $obsConfiguration) {
-                $observer->setData(array('event' => $event));
-                Magento_Profiler::start('OBSERVER:' . $obsName);
-                switch ($obsConfiguration['type']) {
-                    case 'disabled':
-                        break;
-                    case 'object':
-                    case 'model':
-                        $method = $obsConfiguration['method'];
-                        $observer->addData($args);
-                        $object = $this->_observerFactory->create($obsConfiguration['model']);
-                        $this->_callObserverMethod($object, $method, $observer);
-                        break;
-                    default:
-                        $method = $obsConfiguration['method'];
-                        $observer->addData($args);
-                        $object = $this->_observerFactory->get($obsConfiguration['model']);
-                        $this->_callObserverMethod($object, $method, $observer);
-                        break;
-                }
-                Magento_Profiler::stop('OBSERVER:' . $obsName);
-            }
-        }
-    }
-
-    /**
      * Performs non-existent observer method calls protection
      *
      * @param object $object
@@ -119,9 +77,38 @@ class Mage_Core_Model_Event_Manager
      */
     public function dispatch($eventName, array $data = array())
     {
-        Magento_Profiler::start('EVENT:' . $eventName);
-        $this->_dispatchEvent($eventName, $data);
-        Magento_Profiler::stop('EVENT:' . $eventName);
+        foreach ($this->_events as $area => $events) {
+            if (false == isset($events[$eventName])) {
+                continue;
+            }
+
+            $event = new Varien_Event($data);
+            $event->setName($eventName);
+            $observer = new Varien_Event_Observer();
+
+            foreach ($this->_events[$area][$eventName] as $obsName => $obsConfiguration) {
+                $observer->setData(array('event' => $event));
+                Magento_Profiler::start('OBSERVER:' . $obsName);
+                switch ($obsConfiguration['type']) {
+                    case 'disabled':
+                        break;
+                    case 'object':
+                    case 'model':
+                        $method = $obsConfiguration['method'];
+                        $observer->addData($data);
+                        $object = $this->_observerFactory->create($obsConfiguration['model']);
+                        $this->_callObserverMethod($object, $method, $observer);
+                        break;
+                    default:
+                        $method = $obsConfiguration['method'];
+                        $observer->addData($data);
+                        $object = $this->_observerFactory->get($obsConfiguration['model']);
+                        $this->_callObserverMethod($object, $method, $observer);
+                        break;
+                }
+                Magento_Profiler::stop('OBSERVER:' . $obsName);
+            }
+        }
     }
 
     /**
