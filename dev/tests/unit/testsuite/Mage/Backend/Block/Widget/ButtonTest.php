@@ -75,28 +75,34 @@ class Mage_Backend_Block_Widget_ButtonTest extends PHPUnit_Framework_TestCase
         return array(
             array(
                 array(
-                    'data_attr' => array(
-                        'widget-button' => array('someKey' => 'someValue'),
+                    'data_attribute' => array(
+                        'validation' => array(
+                            'required' => true
+                        ),
                     ),
                 ),
-                '/data-widget-button="[^"]*" /'
+                '/data-validation="[^"]*" /'
             ),
             array(
                 array(
-                    'data_attr' => array(
-                        'mage-init' => array('someKey' => 'someValue'),
+                    'data_attribute' => array(
+                        'mage-init' => array(
+                            'button' => array('someKey' => 'someValue')
+                        ),
                     ),
                 ),
                 '/data-mage-init="[^"]*" /'
             ),
             array(
                 array(
-                    'data_attr' => array(
-                        'mage-init' => array('someKey' => 'someValue'),
-                        'widget-button' => array('someKey' => 'someValue'),
+                    'data_attribute' => array(
+                        'mage-init' => array(
+                            'button' => array('someKey' => 'someValue')
+                        ),
+                        'validation' => array('required' => true),
                     ),
                 ),
-                '/data-mage-init="[^"]*" data-widget-button="[^"]*" /'
+                '/data-mage-init="[^"]*" data-validation="[^"]*" /'
             ),
         );
     }

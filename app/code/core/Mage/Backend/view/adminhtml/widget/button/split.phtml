@@ -25,11 +25,12 @@ $_helper = $this->helper('Mage_Core_Helper_Data');
             <?php
                 echo isset($option['id']) ? ' id="' . $this->getId() . '-' . $option['id'] . '"' : '',
                     isset($option['onclick']) ? 'onclick="' . $option['onclick'] . '"' : '',
-                    $this->getUiId(isset($option['id']) ? $option['id'] : 'item' . '-' . $key),
-                    isset($option['data_attr'])
-                        ? ' data-widget-button="'
-                            . $_helper->escapeHtml($_helper->jsonEncode($option['data_attr'])) . '"'
-                        : '';
+                    $this->getUiId(isset($option['id']) ? $option['id'] : 'item' . '-' . $key);
+                if (isset($option['data_attribute'])) {
+                    foreach ($option['data_attribute'] as $dataKey => $data) {
+                        echo ' data-', $dataKey, '="', $_helper->escapeHtml($_helper->jsonEncode($data)), '"';
+                    }
+                }
             ?>>
                 <?php echo $this->escapeHtml($option['label']); ?>
             </span>
