@@ -135,10 +135,11 @@ class Mage_DesignEditor_Model_History
      * Render all types of output
      *
      * @param Mage_DesignEditor_Model_History_RendererInterface $renderer
+     * @param string $handle
      * @return Mage_DesignEditor_Model_History_RendererInterface
      */
-    public function output(Mage_DesignEditor_Model_History_RendererInterface $renderer)
+    public function output(Mage_DesignEditor_Model_History_RendererInterface $renderer, $handle = null)
     {
-        return $renderer->render($this->_collection);
+        return $renderer->render($this->_collection, $handle);
     }
 }

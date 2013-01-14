@@ -99,16 +99,6 @@ TabsTest.prototype.testMovePanelsInDestination = function() {
     assertTrue(panel.parents('#tabs').length > 0);
 };
 
-TabsTest.prototype.testAjaxBeforeLoad = function() {
-    /*:DOC += <div id="tabs"></div>*/
-    var tabs = jQuery('#tabs').tabs(),
-        processStart = false;
-
-    jQuery('body').off().on('processStart', function(){processStart = true;});
-    tabs.tabs('option', 'beforeLoad')();
-    assertTrue(processStart);
-};
-
 TabsTest.prototype.testAjaxLoad = function() {
     /*:DOC += <div id="tabs"><ul>
          <li>
@@ -118,15 +108,11 @@ TabsTest.prototype.testAjaxLoad = function() {
      </ul></div>
      */
     var tabs = jQuery('#tabs').tabs(),
-        processStop = false,
         ui = {
             tab: jQuery('#tab1'),
             panel: jQuery('#tab1_content')
         };
-    jQuery('body').off().on('processStop', function(){processStop = true;});
     tabs.tabs('option', 'load')({}, ui);
-
-    assertTrue(processStop);
     assertEquals(jQuery('#tab1').attr('href'), '#tab1_content');
 };
 

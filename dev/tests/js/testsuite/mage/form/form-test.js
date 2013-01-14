@@ -10,8 +10,6 @@ FormTest = TestCase('FormTest');
 FormTest.prototype.testInit = function() {
     /*:DOC += <form id="form" action="action/url/" ></form>*/
     var form = jQuery('#form').form();
-
-    assertNotUndefined(jQuery.template['actionTemplate']);
     assertTrue(form.is(':mage-form'));
 };
 FormTest.prototype.testRollback = function() {
@@ -80,6 +78,7 @@ FormTest.prototype.testBind = function() {
         assertTrue(submitted);
         submitted = false;
     });
+    form.off('submit');
 };
 FormTest.prototype.testGetActionUrl = function() {
     /*:DOC += <form id="form" action="action/url/"></form>*/
@@ -201,6 +200,7 @@ FormTest.prototype.testSubmit = function() {
         .on('submit', function(e) {
             e.preventDefault();
             e.stopImmediatePropagation();
+            e.preventDefault();
             formSubmitted = true;
         })
         .prop({
@@ -215,4 +215,32 @@ FormTest.prototype.testSubmit = function() {
     assertEquals(form.prop('target'), form.data("form").oldAttributes.target);
     assertEquals(form.prop('method'), form.data("form").oldAttributes.method);
     assertTrue(formSubmitted);
+    form.off('submit');
+};
+FormTest.prototype.testBuildURL = function() {
+    var dataProvider = [
+        {
+            params: ['http://domain.com//', {'key[one]': 'value 1', 'key2': '# value'}],
+            expected: 'http://domain.com/key[one]/value%201/key2/%23%20value/'
+        },
+        {
+            params: ['http://domain.com', {'key[one]': 'value 1', 'key2': '# value'}],
+            expected: 'http://domain.com/key[one]/value%201/key2/%23%20value/'
+        },
+        {
+            params: ['http://domain.com?some=param', {'key[one]': 'value 1', 'key2': '# value'}],
+            expected: 'http://domain.com?some=param&key[one]=value%201&key2=%23%20value'
+        },
+        {
+            params: ['http://domain.com?some=param&', {'key[one]': 'value 1', 'key2': '# value'}],
+            expected: 'http://domain.com?some=param&key[one]=value%201&key2=%23%20value'
+        }
+    ],
+        method = jQuery.mage.form._proto._buildURL,
+        quantity = dataProvider.length;
+
+    expectAsserts(quantity);
+    for (var i = 0; i < quantity; i++) {
+        assertEquals(dataProvider[i].expected, method.apply(null, dataProvider[i].params));
+    }
 };

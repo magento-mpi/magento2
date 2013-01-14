@@ -69,3 +69,19 @@ admin_action_log_archive:
     mca: logging/archive/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'logging/archive/')]
     title: Archive / Admin Actions Logs / System / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    action_logs_archive_grid:
+                        xpath: //div[@id='loggingArchiveGrid']
+                        buttons:
+                            search: //button[span='Search']
+                            reset_filter: //button[span='Reset Filter']
+                        fields:
+                            archive_file: //input[@id='loggingArchiveGrid_filter_download']
+                            date_from: //input[@name="date[from]"]
+                            date_to: //input[@name="date[to]"]
+                            page: //input[@name="page"]
+                        dropdowns:
+                            view_on_page: //select[@name="limit"]

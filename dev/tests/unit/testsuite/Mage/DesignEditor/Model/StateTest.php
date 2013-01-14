@@ -10,10 +10,45 @@
  */
 class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
 {
+    /**#@+
+     * Name of layout classes that will be used as main layout
+     */
+    const LAYOUT_DESIGN_CLASS_NAME     = 'Mage_DesignEditor_Model_Layout';
+    const LAYOUT_NAVIGATION_CLASS_NAME = 'Mage_Core_Model_Layout';
+    /**#@-*/
+
+    /**#@+
+     * Url model classes that will be used instead of Mage_Core_Model_Url in different vde modes
+     */
+    const URL_MODEL_NAVIGATION_MODE_CLASS_NAME = 'Mage_DesignEditor_Model_Url_NavigationMode';
+    const URL_MODEL_DESIGN_MODE_CLASS_NAME     = 'Mage_DesignEditor_Model_Url_DesignMode';
+    /**#@-*/
+
+    /**#@+
+     * Layout update resource models
+     */
+    const LAYOUT_UPDATE_RESOURCE_MODEL_CORE_CLASS_NAME = 'Mage_Core_Model_Resource_Layout_Update';
+    const LAYOUT_UPDATE_RESOURCE_MODEL_VDE_CLASS_NAME  = 'Mage_DesignEditor_Model_Resource_Layout_Update';
+    /**#@-*/
+
+    /**#@+
+     * Import behaviors
+     */
+    const MODE_DESIGN     = 'design';
+    const MODE_NAVIGATION = 'navigation';
+    /**#@-*/
+
     /*
      * Test area code
      */
     const AREA_CODE = 'front';
+
+    /**#@+
+     * Test theme data
+     */
+    const THEME_ID = 1;
+    const THEME_CONFIGURATION = 'test_config';
+    /**#@-*/
 
     /**
      * @var Mage_DesignEditor_Model_State
@@ -21,29 +56,44 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var Mage_Backend_Model_Session
+     * @var Mage_Backend_Model_Session|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_backendSession;
 
     /**
-     * @var Mage_Core_Model_Layout_Factory
+     * @var Mage_Core_Model_Layout_Factory|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_layoutFactory;
 
     /**
-     * @var Mage_DesignEditor_Model_Url_Factory
+     * @var Mage_DesignEditor_Model_Url_Factory|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_urlModelFactory;
 
     /**
-     * @var Mage_Core_Model_Cache
+     * @var Mage_Core_Model_Cache|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheManager;
 
     /**
-     * @var Mage_DesignEditor_Helper_Data
+     * @var Mage_DesignEditor_Helper_Data|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dataHelper;
+
+    /**
+     * @var Magento_ObjectManager_Zend|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_objectManager;
+
+    /**
+     * @var Mage_Core_Model_Design_Package|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_designPackage;
+
+    /**
+     * @var Mage_Core_Model_App|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_application;
 
     /**
      * @var array
@@ -52,7 +102,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_backendSession = $this->getMock('Mage_Backend_Model_Session', array('setData'),
+        $this->_backendSession = $this->getMock('Mage_Backend_Model_Session', array('setData', 'getData'),
             array(), '', false
         );
         $this->_layoutFactory = $this->getMock('Mage_Core_Model_Layout_Factory', array('createLayout'),
@@ -61,18 +111,31 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         $this->_urlModelFactory = $this->getMock('Mage_DesignEditor_Model_Url_Factory', array('replaceClassName'),
             array(), '', false
         );
-        $this->_cacheManager = $this->getMock('Mage_Core_Model_Cache', array('banUse', 'cleanType'),
+        $this->_cacheManager = $this->getMock('Mage_Core_Model_Cache', array('canUse', 'banUse', 'invalidateType'),
             array(), '', false
         );
         $this->_dataHelper = $this->getMock('Mage_DesignEditor_Helper_Data', array('getDisabledCacheTypes'),
             array(), '', false
         );
+        $this->_objectManager = $this->getMock('Magento_ObjectManager_Zend', array('addAlias'),
+            array(), '', false
+        );
+        $this->_designPackage = $this->getMock('Mage_Core_Model_Design_Package', array('getConfigPathByArea'),
+            array(), '', false
+        );
+        $this->_application = $this->getMock('Mage_Core_Model_App', array('getStore'),
+            array(), '', false
+        );
+
         $this->_model = new Mage_DesignEditor_Model_State(
             $this->_backendSession,
             $this->_layoutFactory,
             $this->_urlModelFactory,
             $this->_cacheManager,
-            $this->_dataHelper
+            $this->_dataHelper,
+            $this->_objectManager,
+            $this->_designPackage,
+            $this->_application
         );
     }
 
@@ -83,6 +146,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         $this->assertAttributeEquals($this->_urlModelFactory, '_urlModelFactory', $this->_model);
         $this->assertAttributeEquals($this->_cacheManager, '_cacheManager', $this->_model);
         $this->assertAttributeEquals($this->_dataHelper, '_dataHelper', $this->_model);
+        $this->assertAttributeEquals($this->_objectManager, '_objectManager', $this->_model);
     }
 
     protected function _setAdditionalExpectations()
@@ -92,19 +156,20 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_cacheTypes));
 
         $this->_cacheManager->expects($this->at(0))
-            ->method('banUse')
+            ->method('canUse')
             ->with('type1')
-            ->will($this->returnSelf());
+            ->will($this->returnValue(true));
         $this->_cacheManager->expects($this->at(1))
-            ->method('cleanType')
+            ->method('invalidateType')
             ->with('type1')
             ->will($this->returnSelf());
+
         $this->_cacheManager->expects($this->at(2))
-            ->method('banUse')
+            ->method('canUse')
             ->with('type2')
-            ->will($this->returnSelf());
+            ->will($this->returnValue(true));
         $this->_cacheManager->expects($this->at(3))
-            ->method('cleanType')
+            ->method('invalidateType')
             ->with('type2')
             ->will($this->returnSelf());
     }
@@ -126,14 +191,37 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         $this->_backendSession->expects($this->once())
             ->method('setData')
             ->with('vde_current_mode', Mage_DesignEditor_Model_State::MODE_DESIGN);
+        $this->_backendSession->expects($this->once())
+            ->method('getData')
+            ->with('theme_id')
+            ->will($this->returnValue(self::THEME_ID));
 
         $this->_urlModelFactory->expects($this->once())
             ->method('replaceClassName')
-            ->with('Mage_DesignEditor_Model_Url_DesignMode');
+            ->with(self::URL_MODEL_DESIGN_MODE_CLASS_NAME);
 
         $this->_layoutFactory->expects($this->once())
             ->method('createLayout')
-            ->with(array('area' => self::AREA_CODE), 'Mage_DesignEditor_Model_Layout');
+            ->with(array('area' => self::AREA_CODE), self::LAYOUT_DESIGN_CLASS_NAME);
+
+        $this->_objectManager->expects($this->once())
+            ->method('addAlias')
+            ->with(self::LAYOUT_UPDATE_RESOURCE_MODEL_CORE_CLASS_NAME,
+            self::LAYOUT_UPDATE_RESOURCE_MODEL_VDE_CLASS_NAME);
+
+        $this->_designPackage->expects($this->once())
+            ->method('getConfigPathByArea')
+            ->with(Mage_Core_Model_App_Area::AREA_FRONTEND)
+            ->will($this->returnValue(self::THEME_CONFIGURATION));
+
+        $store = $this->getMock('Mage_Core_Model_Store', array('setConfig'), array(), '', false);
+        $store->expects($this->once())
+            ->method('setConfig')
+            ->with(self::THEME_CONFIGURATION, self::THEME_ID);
+
+        $this->_application->expects($this->once())
+            ->method('getStore')
+            ->will($this->returnValue($store));
 
         $this->_model->update(self::AREA_CODE, $request, $controller);
     }
@@ -178,11 +266,16 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
 
         $this->_urlModelFactory->expects($this->once())
             ->method('replaceClassName')
-            ->with('Mage_DesignEditor_Model_Url_NavigationMode');
+            ->with(self::URL_MODEL_NAVIGATION_MODE_CLASS_NAME);
 
         $this->_layoutFactory->expects($this->once())
             ->method('createLayout')
-            ->with(array('area' => self::AREA_CODE), 'Mage_Core_Model_Layout');
+            ->with(array('area' => self::AREA_CODE), self::LAYOUT_NAVIGATION_CLASS_NAME);
+
+        $this->_objectManager->expects($this->once())
+            ->method('addAlias')
+            ->with(self::LAYOUT_UPDATE_RESOURCE_MODEL_CORE_CLASS_NAME,
+            self::LAYOUT_UPDATE_RESOURCE_MODEL_VDE_CLASS_NAME);
 
         $this->_model->update(self::AREA_CODE, $request, $controller);
     }

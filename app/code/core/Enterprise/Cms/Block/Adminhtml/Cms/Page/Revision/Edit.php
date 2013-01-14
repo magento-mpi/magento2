@@ -54,15 +54,17 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
         $this->_addButton('preview', array(
             'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Preview'),
             'class'     => 'preview',
-            'data_attr'  => array(
-                'widget-button' => array(
-                    'event' => 'preview',
-                    'related' => '#edit_form',
-                    'eventData' => array(
-                        'action' => $this->getPreviewUrl()
-                    )
-                )
-            )
+            'data_attribute'  => array(
+                'mage-init' => array(
+                    'button' => array(
+                        'event' => 'preview',
+                        'target' => '#edit_form',
+                        'eventData' => array(
+                            'action' => $this->getPreviewUrl()
+                        )
+                    ),
+                ),
+            ),
         ));
 
         if ($config->canCurrentUserPublishRevision()) {
@@ -78,9 +80,11 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
                     'id'        => 'save_publish_button',
                     'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Save and Publish'),
                     'class'     => 'publish no-display',
-                    'data_attr'  => array(
-                        'widget-button' => array('event' => 'saveAndPublish', 'related' => '#edit_form')
-                    )
+                    'data_attribute'  => array(
+                        'mage-init' => array(
+                            'button' => array('event' => 'saveAndPublish', 'target' => '#edit_form'),
+                        ),
+                    ),
                 ), 1);
             }
 
@@ -89,14 +93,18 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
 
         if ($config->canCurrentUserSaveRevision()) {
             $this->_updateButton('save', 'label', Mage::helper('Enterprise_Cms_Helper_Data')->__('Save'));
-            $this->_updateButton('save', 'data_attr', array(
-                'widget-button' => array('event' => 'save', 'related' => '#edit_form')
+            $this->_updateButton('save', 'data_attribute', array(
+                'mage-init' => array(
+                    'button' => array('event' => 'save', 'target' => '#edit_form')
+                ),
             ));
             $this->_updateButton(
                 'saveandcontinue',
-                'data_attr',
+                'data_attribute',
                 array(
-                    'widget-button' => array('event' => 'preview', 'related' => '#edit_form')
+                    'mage-init' => array(
+                        'button' => array('event' => 'preview', 'target' => '#edit_form')
+                    ),
                 )
             );
 
@@ -105,15 +113,17 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
             $this->_addButton('new_version', array(
                 'id'        => 'new_version',
                 'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Save in New Version...'),
-                'data_attr'  => array(
-                    'widget-button' => array(
-                        'event' => 'save',
-                        'related' => '#edit_form',
-                        'eventData' => array(
-                            'action' => $this->getNewVersionUrl(),
-                            'target' => 'cms-page-preview-' . ($page ? $page->getPageId() : ''),
-                        )
-                    )
+                'data_attribute'  => array(
+                    'mage-init' => array(
+                        'button' => array(
+                            'event' => 'save',
+                            'target' => '#edit_form',
+                            'eventData' => array(
+                                'action' => $this->getNewVersionUrl(),
+                                'target' => 'cms-page-preview-' . ($page ? $page->getPageId() : ''),
+                            )
+                        ),
+                    ),
                 ),
                 'class'     => 'new',
             ));

@@ -22,9 +22,7 @@
             <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="Enterprise_GiftCardAccount_Block_Check" template="cart/check.phtml" name="check">
-                <block type="Enterprise_GiftCardAccount_Block_Check" template="check.phtml" name="check.result" as="check_result"/>
-            </block>
+            <block type="Enterprise_GiftCardAccount_Block_Check" template="check.phtml" name="check.result" as="check_result"/>
         </reference>
     </enterprise_giftcardaccount_cart_check>
 
