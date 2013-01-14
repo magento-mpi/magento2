@@ -1776,9 +1776,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $tabsOnPage = true;
             $availableElement = $this->elementIsPresent($tabUimap->getXPath());
             if ($availableElement) {
-                $parrentClass = $this->getChildElement($availableElement, '..')->attribute('class');
+                $parentClass = $this->getChildElement($availableElement, '..')->attribute('class');
                 $tabClass = $availableElement->attribute('class');
-                if (strpos($tabClass, 'active') !== false || strpos($parrentClass, 'active') !== false) {
+                if (strpos($tabClass, 'active') !== false || strpos($parentClass, 'active') !== false) {
                     return $tabUimap;
                 }
             }
@@ -2348,12 +2348,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function openTab($tabName)
     {
-        $waitAjax = false;
-        $isTabOpened = $this->getControlAttribute('tab', $tabName, 'class');
-        if (!preg_match('/active/', $isTabOpened)) {
-            if (preg_match('/ajax/', $isTabOpened)) {
-                $waitAjax = true;
-            }
+        $tabElement = $this->getControlElement('tab', $tabName);
+        $tabClass = $tabElement->attribute('class');
+        $parentClass = $this->getChildElement($tabElement, '..')->attribute('class');
+        if (strpos($tabClass, 'active') === false && strpos($parentClass, 'active') === false) {
+            $waitAjax = preg_match('/ajax/', $tabClass);
             $this->clickControl('tab', $tabName, false);
             if ($waitAjax) {
                 $this->pleaseWait();
@@ -2709,14 +2708,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if (is_null($timeout)) {
             $timeout = $this->_browserTimeout;
         }
-        $ajax = 'var c = function() {'
-                . 'if (typeof window.Ajax != "undefined") {return window.Ajax.activeRequestCount;};'
-                . 'if (typeof window.jQuery != "undefined") {return window.jQuery.active;};'
-                . 'return 0;}; return c();';
+        $ajax = 'var ajax = 0;var jquery = 0;'
+                . 'if (typeof window.Ajax != "undefined") {ajax = window.Ajax.activeRequestCount;}'
+                . 'if (typeof window.jQuery != "undefined") {jquery = window.jQuery.active;} return ajax + jquery;';
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
-            $ajaxResult = $this->execute(array('script' => $ajax, 'args' => array()));
-            if ($ajaxResult == 0 || $ajaxResult == null) {
+            if ($this->execute(array('script' => $ajax, 'args' => array())) === 0) {
                 return;
             }
             usleep(500000);
@@ -2739,6 +2736,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $this->clickControlAndWaitMessage($controlType, $controlName);
         $this->waitForElement(self::$_maskXpath);
         if (!is_null($tabUimap)) {
+            $this->openTab($tabName); //MAGETWO-6731
             $this->assertSame($tabName, $this->_getActiveTabUimap()->getTabId(),
                 'Opened wrong tab after Save and Continue Edit action');
         }
@@ -2772,7 +2770,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $this->clickControl($controlType, $controlName, false);
         $this->waitForElementVisible($messagesXpath);
         $this->addParameter('id', $this->defineIdFromUrl());
-        $this->addParameter('store', $this->defineIdFromUrl());
+        $this->addParameter('store', $this->defineParameterFromUrl('store'));
         if ($validate) {
             $this->validatePage();
         }
@@ -3654,17 +3652,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
 
             $invalided = array('cache_disabled', 'cache_invalided');
             foreach ($invalided as $value) {
-                $elements = $this->getElements($this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, $value), false);
-                /**
-                 * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
-                 */
+                $elements = $this->getControlElements(self::FIELD_TYPE_PAGEELEMENT, $value, null, false);
+                /** @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
                 foreach ($elements as $element) {
-                    $element->element($this->using('xpath')->value('.//input'))->click();
+                    $this->getChildElement($element, '//input')->click();
                 }
             }
             $this->fillDropdown('cache_action', 'Refresh');
-            $selectedItems =
-                $this->getElement($this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'selected_items'))->text();
+            $selectedItems = $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'selected_items', 'text');
             if ($selectedItems == 0) {
                 $this->fail('Please select cache items for refresh.');
             }

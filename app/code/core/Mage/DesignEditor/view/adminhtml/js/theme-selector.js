@@ -188,30 +188,40 @@
                 data.stores = EMPTY_STORES;
             }
 
-            var historyObject = $(this.options.frameSelector).get(0).contentWindow.vdeHistoryObject;
-            if (historyObject && historyObject.getItems().length != 0) {
-                data.layoutUpdate = this._preparePostItems(historyObject.getItems());
-                var frameUrl = $(this.options.frameSelector).attr('src');
-                data.handle = frameUrl.split('handle')[1].replace(/\//g, '');
+            if ($(this.options.frameSelector).get(0)) {
+                var historyObject = $(this.options.frameSelector).get(0).contentWindow.vdeHistoryObject;
+                if (historyObject && historyObject.getItems().length != 0) {
+                    data.layoutUpdate = this._preparePostItems(historyObject.getItems());
+                    var frameUrl = $(this.options.frameSelector).attr('src');
+                    data.handle = frameUrl.split('handle')[1].replace(/\//g, '');
+                }
             }
 
-            $.post(this.options.assignSaveUrl, data, $.proxy(function(response) {
-                if (response.error) {
-                    alert($.mage.__('Error') + ': "' + response.error + '".');
-                } else {
-                    var defaultStore = 0;
-                    var url = [
-                        this.options.afterAssignSaveUrl + 'store_id',
-                        stores ? stores[0] : defaultStore,
-                        'theme_id',
-                        themeId
-                    ].join('/');
-                    this.options.storesByThemes[themeId] = stores;
+            $('#messages').html('');
+            $.ajax({
+                type: 'POST',
+                url:  this.options.assignSaveUrl,
+                data: data,
+                dataType: 'json',
+                success: $.proxy(function(response) {
+                    if (response.error) {
+                        alert($.mage.__('Error') + ': "' + response.message + '".');
+                    } else {
+                        var defaultStore = 0;
+                        var url = [
+                            this.options.afterAssignSaveUrl + 'store_id',
+                            stores ? stores[0] : defaultStore,
+                            'theme_id',
+                            response.themeId
+                        ].join('/');
+                        this.options.storesByThemes[themeId] = stores;
 
-                    document.location = url;
+                        document.location = url;
+                    }
+                }, this),
+                error: function() {
+                    alert($.mage.__('Error: unknown error.'));
                 }
-            }, this)).error(function() {
-                alert($.mage.__('Error: unknown error.'));
             });
         },
 

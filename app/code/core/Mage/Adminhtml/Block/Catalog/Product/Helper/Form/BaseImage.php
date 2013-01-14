@@ -39,25 +39,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
     protected $_url;
 
     /**
-     * Media Config instance
-     *
-     * @var Mage_Catalog_Model_Product_Media_Config
-     */
-    protected $_mediaConfig;
-
-    /**
-     * Design Package instance
-     *
-     * @var Mage_Core_Model_Design_Package
-     */
-    protected $_design;
-
-    /**
-     * Data instance
-     *
      * @var Mage_Core_Helper_Data
      */
-    protected $_helperData;
+    protected $_coreHelper;
+
+    /**
+     * @var Mage_Catalog_Helper_Data
+     */
+    protected $_catalogHelperData;
 
     /**
      * Constructor
@@ -72,12 +61,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
             : Mage::getSingleton('Mage_Adminhtml_Block_Media_Uploader');
         $this->_url = isset($attributes['url']) ? $attributes['url']
             : Mage::getModel('Mage_Backend_Model_Url');
-        $this->_mediaConfig = isset($attributes['mediaConfig']) ? $attributes['mediaConfig']
-            : Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config');
-        $this->_design = isset($attributes['design']) ? $attributes['design']
-            : Mage::getSingleton('Mage_Core_Model_Design_Package');
-        $this->_helperData = isset($attributes['helperData']) ? $attributes['helperData']
+        $this->_coreHelper = isset($attributes['coreHelper']) ? $attributes['coreHelper']
             : Mage::helper('Mage_Core_Helper_Data');
+        $this->_catalogHelperData = isset($attributes['catalogHelperData']) ? $attributes['catalogHelperData']
+            : Mage::helper('Mage_Catalog_Helper_Data');
 
         $this->_maxFileSize = $this->_getFileMaxSize();
     }
@@ -101,32 +88,30 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
      */
     public function getElementHtml()
     {
-        $imageUrl = $this->_helperData->escapeHtml($this->_getImageUrl($this->getValue()));
-        $htmlId = $this->_helperData->escapeHtml($this->getHtmlId());
-        $uploadUrl = $this->_helperData->escapeHtml($this->_getUploadUrl());
+        $htmlId = $this->_coreHelper->escapeHtml($this->getHtmlId());
+        $uploadUrl = $this->_coreHelper->escapeHtml($this->_getUploadUrl());
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getForm()->getDataObject();
         $gallery = $product->getMediaGalleryImages();
         $html = '<input id="' . $htmlId .'-upload" type="file" name="image" '
             . 'data-url="' . $uploadUrl . '" style="display:none" />'
             . '<input id="' . $htmlId . '" type="hidden" name="'. $this->getName() .'" />'
-            . '<div id="' . $htmlId  . '-container" data-main="'
-            .  $this->getEscapedValue()
-            . '" data-images="'
-            . $this->_escape(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
-                $gallery ? $gallery->toArray() : array()
-            ))
-            . '">'
-            . '<span id="' . $htmlId . '-upload-placeholder" ></span>'
-            . '<script id="' . $htmlId . '-template" type="text/x-jquery-tmpl" >'
-            . '<span class="container">
-                    <span class="main-sticker">' . $this->_helperData->__('Main') . '</span>
-                    <span class="close">&times;</span>
-                    <img class="base-image-uploader" src="${url}" data-position="${position}" alt="${label}" />
-                    <div class="drag-zone">
-                        <button class="make-main" type="button">' . $this->_helperData->__('Make Main') . '</button>
-                    </span>
-               </span>'
+            . '<div id="' . $htmlId  . '-container" data-main="' .  $this->getEscapedValue() . '" '
+            . 'data-images="' . $this->_coreHelper->escapeHtml(
+                $this->_coreHelper->jsonEncode($gallery ? $gallery->toArray() : array())
+            ) . '">'
+            . '<span id="' . $htmlId . '-upload-placeholder"></span>'
+            . '<script id="' . $htmlId . '-template" type="text/x-jquery-tmpl">'
+                . '<span class="container">'
+                . '<span class="main-sticker">' . $this->helper('Mage_Catalog_Helper_Data')->__('Main') . '</span>'
+                    . '<span class="close">&times;</span>'
+                    . '<img class="base-image-uploader" src="${url}" data-position="${position}" alt="${label}" />'
+                    . '<div class="drag-zone">'
+                        . '<button class="make-main" type="button">'
+                            . $this->helper('Mage_Catalog_Helper_Data')->__('Make Main')
+                        . '</button>'
+                    . '</div>'
+                . '</span>'
             . '</script>'
             . '</div>';
         $html .= $this->_getJs();
@@ -142,33 +127,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
     protected function _getJs()
     {
         return "<script>/* <![CDATA[ */"
-               . "jQuery(function(){"
-               . "BaseImageUploader({$this->_helperData->jsonEncode($this->getHtmlId())}, "
-               . "{$this->_helperData->jsonEncode($this->_maxFileSize)});"
-               . " });"
-               . "/*]]>*/</script>";
-    }
-
-    /**
-     * Get full url for image
-     *
-     * @param string $imagePath
-     *
-     * @return string
-     */
-    protected function _getImageUrl($imagePath)
-    {
-        if (!in_array($imagePath, array(null, 'no_selection', '/'))) {
-            if (pathinfo($imagePath, PATHINFO_EXTENSION) == 'tmp') {
-                $imageUrl = $this->_mediaConfig->getTmpMediaUrl(substr($imagePath, 0, -4));
-            } else {
-                $imageUrl = $this->_mediaConfig->getMediaUrl($imagePath);
-            }
-        } else {
-            $imageUrl = $this->_design->getViewFileUrl('Mage_Adminhtml::images/image-placeholder.png');
-        }
-
-        return $imageUrl;
+            . "jQuery(function(){"
+            . "BaseImageUploader({$this->_coreHelper->jsonEncode($this->getHtmlId())}, "
+            . "{$this->_coreHelper->jsonEncode($this->_maxFileSize)});"
+            . " });"
+            . "/*]]>*/</script>";
     }
 
     /**
@@ -189,5 +152,17 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
     protected function _getFileMaxSize()
     {
         return $this->_mediaUploader->getDataMaxSizeInBytes();
+    }
+
+    /**
+     * Dummy function to give translation tool the ability to pick messages
+     * Must be called with Mage_Catalog_Helper_Data $className only
+     *
+     * @param string $className
+     * @return Mage_Catalog_Helper_Data|Mage_Core_Helper_Data
+     */
+    private function helper($className)
+    {
+        return $className === 'Mage_Catalog_Helper_Data' ? $this->_catalogHelperData : $this->_coreHelper;
     }
 }

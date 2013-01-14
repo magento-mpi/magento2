@@ -110,6 +110,7 @@ class Mage_Core_Model_Theme_Service
 
         $configPath = $this->_design->getConfigPathByArea($area);
 
+        // Unassign given theme from stores that were unchecked
         /** @var $config Mage_Core_Model_Config_Data */
         foreach ($this->_getAssignedScopesCollection($scope, $configPath) as $config) {
             if ($config->getValue() == $themeId && !in_array($config->getScopeId(), $stores)) {

@@ -109,21 +109,33 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     {
         $this->frontOpenProduct($productData['general_name']);
         $actualProduct = $this->frontGetProductInfo($productData);
+        if (!empty($actualProduct['custom_options_data'])) {
+            $this->frontVerifyCustomOptionsInfo($actualProduct['custom_options_data'], $productData);
+        }
+        if (!empty($actualProduct['prices_tier_price_data'])) {
+            foreach ($actualProduct['prices_tier_price_data'] as $tierPrice => $data) {
+                foreach ($data as $fieldKey => $fieldValue) {
+                    $expected = $productData['prices_tier_price_data'][$tierPrice][$fieldKey];
+                    if ($fieldValue != $expected) {
+                        $this->addVerificationMessage(
+                            "Value for '$fieldKey' for '$tierPrice' tier price is not equal to specified.('"
+                            . $fieldValue . "' != '" . $expected . "')");
+                    }
+                }
+            }
+        }
         foreach ($actualProduct as $fieldName => $fieldValue) {
             if (is_array($fieldValue)) {
                 continue;
             }
             if ($productData[$fieldName] != $fieldValue) {
                 $this->addVerificationMessage(
-                    'Value for ' . $fieldName . " field is not equal to specified.('" . $fieldValue . "' != '"
+                    "Value for '$fieldName' field is not equal to specified.('" . $fieldValue . "' != '"
                     . $productData[$fieldName] . "')");
             }
             unset($actualProduct[$fieldName]);
         }
         $this->assertEmptyVerificationErrors();
-        if (!empty($actualProduct['custom_options_data'])) {
-            $this->frontVerifyCustomOptionsInfo($actualProduct['custom_options_data'], $productData);
-        }
     }
 
     /**
@@ -141,7 +153,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         if ($this->controlIsPresent('field', 'product_qty')) {
             $data['inventory_min_allowed_qty'] = $this->getControlAttribute('field', 'product_qty', 'selectedValue');
         }
-        $data['inventory_stock_availability'] = $this->getControlAttribute('pageelement', 'availability', 'text');
+        $availability = $this->getControlAttribute('pageelement', 'availability', 'text');
+        $data['inventory_stock_availability'] = str_replace('stock', 'Stock', $availability);
         $data['custom_options_data'] = $this->frontGetCustomOptionsInfo();
 
         return $data;
@@ -155,22 +168,24 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     {
         $tierPrices = $this->getControlElements('pageelement', 'tier_price_line', null, false);
         $data = array();
-        $index = 1;
+        $index = 0;
         /** @var PHPUnit_Extensions_Selenium2TestCase_Element $tierPrice */
         foreach ($tierPrices as $tierPrice) {
             $price = $this->getChildElement($tierPrice, 'span[@class="price"]')->text();
+            $price = preg_replace('/^[\D]+/', '', rtrim(rtrim($price, '0'), '.'));
             $text = $tierPrice->text();
             list($qty) = explode($price, $text);
             $qty = preg_replace('/[^0-9]+/', '', $qty);
-            $data['prices_tier_price_' . $index]['prices_tier_price_qty'] = $qty;
-            $data['prices_tier_price_' . $index++]['prices_tier_price_price'] = $price;
+            $data['prices_tier_price_' . ++$index]['prices_tier_price_qty'] = $qty;
+            $data['prices_tier_price_' . $index]['prices_tier_price_price'] = $price;
         }
 
         return $data;
     }
 
     /**
-     *  Get product prices on product page
+     * Get product prices on product page
+     * @TODO Verified only for simple and virtual product
      * @return array
      */
     public function frontGetProductPrices()
@@ -205,7 +220,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $prices[$name] = trim(preg_replace('/[^0-9\.]+/', '', $price));
         }
         foreach ($prices as $key => $value) {
-            $prices['prices_' . $key] = $value;
+            $prices['prices_' . $key] = rtrim(rtrim($value, '0'), '.');
             unset($prices[$key]);
         }
 
@@ -215,40 +230,63 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Verify Custom Options Info on product page
      *
-     * @param $actualCustomOptions
+     * @param array $actualCustomOptions
      * @param array $product
      */
     public function frontVerifyCustomOptionsInfo($actualCustomOptions, array $product)
     {
         $expectedOptions = $product['custom_options_data'];
+        if (count($actualCustomOptions) != count($expectedOptions)) {
+            $this->fail(
+                "Amounts of the custom options are not equal to specified: ('" . count($expectedOptions) . "' != '"
+                . count($actualCustomOptions) . "')");
+        }
         foreach ($actualCustomOptions as $name => $data) {
-            if (!isset($expectedOptions[$name])) {
-                $this->addVerificationMessage('');
-                continue;
-            }
-            $expectedOption = $expectedOptions[$name];
-            foreach ($expectedOption as $fieldName => $fieldValue) {
-                switch ($fieldName) {
-                    case 'custom_options_sku':
-                        unset($expectedOptions[$name][$fieldName]);
-                        break;
-                    case 'custom_options_price_type':
-                        unset($expectedOptions[$name][$fieldName]);
-                        break;
-                    case 'custom_options_price':
-                        if (isset($expectedOption['custom_options_price_type'])
-                            && $expectedOption['custom_options_price_type'] == 'Percent'
-                        ) {
-                            $basePrice = (isset($product['prices_special_price'])) ? $product['prices_special_price']
-                                : $product['prices_price'];
-                            $fieldValue = $fieldValue * 100 / $basePrice;
-                        }
-                        $expectedOptions[$name][$fieldName] = number_format((float)$fieldValue, 2);
-                        break;
+            $expectedOptions[$name] = $this->_frontFormCustomOptionDataForVerify($expectedOptions[$name], $product);
+            foreach ($expectedOptions[$name] as $fieldName => $fieldValue) {
+                if (strpos($fieldName, 'custom_option_row_') !== false) {
+                    $expectedOptions[$name][$fieldName] =
+                        $this->_frontFormCustomOptionDataForVerify($expectedOptions[$name][$fieldName], $product);
                 }
             }
         }
         $this->assertEquals($expectedOptions, $actualCustomOptions);
+    }
+
+    /**
+     * Form custom options data for verify on product page
+     *
+     * @param array $expectedOption
+     * @param array $productPrices
+     *
+     * @return array
+     */
+    private function _frontFormCustomOptionDataForVerify(array $expectedOption, array $productPrices)
+    {
+        $data = array();
+        foreach ($expectedOption as $fieldName => $fieldValue) {
+            switch ($fieldName) {
+                case 'custom_options_sku':
+                case 'custom_options_price_type':
+                    break;
+                case 'custom_options_price':
+                    if (isset($expectedOption['custom_options_price_type'])
+                        && $expectedOption['custom_options_price_type'] == 'Percent'
+                    ) {
+                        $basePrice = (isset($productPrices['prices_special_price']))
+                            ? $productPrices['prices_special_price']
+                            : $productPrices['prices_price'];
+                        $fieldValue = $fieldValue * 100 / $basePrice;
+                    }
+                    $data[$fieldName] = $fieldValue;
+                    break;
+                default:
+                    $data[$fieldName] = $fieldValue;
+                    break;
+            }
+        }
+
+        return $data;
     }
 
     /**
@@ -325,6 +363,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 $textKey = trim(str_replace(' ', '_', strtolower($textKey)));
                 $customOptionsInfo[$optionId][$fieldNames[$textKey]] = trim(preg_replace('/ px\.$/', '', $textValue));
             }
+            //Define options for custom option with type 'multiselect'|'dropdown'|'radiobutton'|'checkbox'
             $valueOrder = 0;
             if (isset($typesWitOptions[$optionType])) {
                 $type = $typesWitOptions[$optionType];
@@ -372,7 +411,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $price = preg_replace('/^[\D]+/', '', $price);
         }
 
-        return array($title, $price);
+        return array($title, rtrim(rtrim($price, '0'), '.'));
     }
 
     #**************************************************************************************
@@ -971,15 +1010,16 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     {
         $this->addParameter('attributeTitle', $attributeTitle);
         if (!$this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'product_variation_attribute')) {
-            $element = $this->getControlElement(self::FIELD_TYPE_INPUT, 'general_configurable_attribute_title');
-            $this->focusOnElement($element);
-            $element->value($attributeTitle);
-            $this->waitForControlEditable(self::FIELD_TYPE_PAGEELEMENT, 'configurable_attributes_list');
-            $selectAttribute = $this->elementIsPresent($this->_getControlXpath(self::FIELD_TYPE_LINK,
-                'configurable_attribute_select'));
-            if (!$selectAttribute) {
-                $this->fail('Attribute with title "' . $attributeTitle . '" is not present in list');
+            $this->clickControl(self::FIELD_TYPE_INPUT, 'general_configurable_attribute_title', false);
+            if (!$this->controlIsPresent(self::FIELD_TYPE_LINK, 'configurable_attribute_select')) {
+                $element = $this->getControlElement(self::FIELD_TYPE_INPUT, 'general_configurable_attribute_title');
+                $element->value($attributeTitle);
+                $this->waitForControlEditable(self::FIELD_TYPE_PAGEELEMENT, 'configurable_attributes_list');
+                if (!$this->controlIsPresent(self::FIELD_TYPE_LINK, 'configurable_attribute_select')) {
+                    $this->fail('Attribute with title "' . $attributeTitle . '" is not present in list');
+                }
             }
+            $selectAttribute = $this->getControlElement(self::FIELD_TYPE_LINK, 'configurable_attribute_select');
             $selectAttribute->click();
             $this->waitForControlEditable(self::UIMAP_TYPE_FIELDSET, 'product_variation_attribute');
         }
@@ -1619,7 +1659,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function getCustomOptionIdByTitle($optionTitle)
     {
-        $optionElements = $this->getElements(self::UIMAP_TYPE_FIELDSET, 'custom_option_set');
+        $optionElements = $this->getControlElements(self::UIMAP_TYPE_FIELDSET, 'custom_option_set', null, false);
         /** @var $optionElement PHPUnit_Extensions_Selenium2TestCase_Element */
         foreach ($optionElements as $optionElement) {
             $optionTitle = $this->childElementIsPresent($optionElement, "//input[@value='{$optionTitle}']");
@@ -1660,7 +1700,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     {
         $this->openTab('custom_options');
         while ($this->controlIsPresent(self::UIMAP_TYPE_FIELDSET, 'custom_option_set')) {
-            $this->assertTrue($this->buttonIsPresent('button', 'delete_custom_option'),
+            $this->assertTrue($this->buttonIsPresent('delete_custom_option'),
                 $this->locationToString() . "Problem with 'Delete Option' button.\n"
                 . 'Control is not present on the page');
             $this->clickButton('delete_custom_option', false);
@@ -1868,6 +1908,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $optionsCount = $this->getControlCount(self::FIELD_TYPE_PAGEELEMENT, 'bundle_item_row');
         $this->addParameter('optionId', $optionsCount);
         $this->clickButton('add_new_option', false);
+        $this->waitForControlVisible('fieldset', 'new_bundle_option');
         $data = $this->formBundleItemData($bundleOptionData);
         $this->fillFieldset($data['general'], 'new_bundle_option');
         foreach ($data['items'] as $item) {
@@ -1875,12 +1916,15 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 continue;
             }
             $this->clickButton('add_selection', false);
-            $this->pleaseWait();
+            $this->waitForControlVisible('fieldset', 'select_product_to_bundle_option');
             $this->searchAndChoose($item['search'], 'select_product_to_bundle_option');
             $this->clickButton('add_selected_products', false);
-            if (isset($item['fill']) && isset($item['param'])) {
+            if (isset($item['param'])) {
                 $this->addParameter('productSku', $item['param']);
-                $this->fillForm($item['fill']);
+            }
+            $this->waitForControlVisible('pageelement', 'selected_option_product');
+            if (isset($item['fill'])) {
+                $this->fillFieldset($item['fill'], 'new_bundle_option');
             }
         }
     }

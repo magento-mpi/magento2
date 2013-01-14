@@ -558,6 +558,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $this->waitForControlVisible('pageelement', 'variations_matrix_header');
         //Verifying
         $this->addParameter('attributeSearch', "contains(.,'$newOptionTitle')");
+        $this->waitForControlVisible('pageelement', 'variation_price');
         $this->assertTrue($this->controlIsPresent('checkbox', 'include_variation'),
             "Matrix does not contain selected attribute value's data, but should");
     }

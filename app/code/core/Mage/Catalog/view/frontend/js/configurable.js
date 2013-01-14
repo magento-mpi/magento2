@@ -196,7 +196,7 @@
             var images = this.options.spConfig.images,
                 imagesArray = null;
             $.each(this.options.settings, function (k, v) {
-                var selectValue = parseInt(v.value),
+                var selectValue = parseInt(v.value, 10),
                     attributeId = v.id.replace(/[a-z]*/, '');
                 if (selectValue > 0 && attributeId) {
                     if (!imagesArray) {
