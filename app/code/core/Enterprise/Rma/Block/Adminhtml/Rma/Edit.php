@@ -44,10 +44,12 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit extends Mage_Adminhtml_Block_Widge
         if (!$statusIsClosed) {
             $this->_addButton('save_and_edit_button', array(
                     'label'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Save and Continue Edit'),
-                    'data_attr'  => array(
-                        'widget-button' => array('event' => 'saveAndContinueEdit', 'related' => '#edit_form'),
+                    'class'   => 'save',
+                    'data_attribute'  => array(
+                        'mage-init' => array(
+                            'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'),
+                        ),
                     ),
-                    'class'   => 'save'
                 ), 100
             );
 

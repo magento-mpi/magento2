@@ -79,9 +79,9 @@ class Core_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase
                            'password'  => $this->getConfigHelper()->getDefaultPassword());
         //Steps
         $this->adminUserHelper()->loginAdmin($loginData);
+        $this->addParameter('fieldId', 'captcha');
         //Verifying
-        $this->assertMessagePresent('validation', 'empty_captcha');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->assertMessagePresent('validation', 'empty_field');
     }
 
     /**
@@ -149,8 +149,8 @@ class Core_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->forgotPassword($emailData);
         //Verifying
         $this->addParameter('adminEmail', $emailData['email']);
-        $this->assertMessagePresent('validation', 'empty_captcha');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->addParameter('fieldId', 'captcha');
+        $this->assertMessagePresent('validation', 'empty_field');
     }
 
     /**

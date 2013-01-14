@@ -46,6 +46,7 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
     public function loginAdmin($loginData)
     {
         $waitCondition = array($this->_getMessageXpath('general_error'), $this->_getMessageXpath('general_validation'),
+                               $this->_getMessageXpath('general_required'),
                                $this->_getControlXpath('pageelement', 'admin_logo'));
         $this->fillForm($loginData);
         $this->clickButton('login', false);
@@ -61,6 +62,7 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
     public function forgotPassword($emailData)
     {
         $waitCondition = array($this->_getMessageXpath('general_success'), $this->_getMessageXpath('general_error'),
+                               $this->_getMessageXpath('general_required'),
                                $this->_getMessageXpath('general_validation'));
         $this->clickControl('link', 'forgot_password');
         $this->assertTrue($this->checkCurrentPage('forgot_password'));
@@ -184,8 +186,8 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
     public function editRole(array $roleData, $separator = '/')
     {
         $result = $this->_editRoleVars($roleData);
-        if (!empty($searchUserRole)) {
-            $this->openRole($searchUserRole);
+        if (!empty($result['searchUserRole'])) {
+            $this->openRole($result['searchUserRole']);
         }
         $this->fillTab($result['roleInfo'], 'role_info');
         if (!empty($roleResources)) {
