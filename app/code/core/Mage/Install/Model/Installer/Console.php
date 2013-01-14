@@ -64,14 +64,22 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
     protected $_dataModel;
 
     /**
+     * Resource config
+     *
+     * @var Mage_Core_Model_Config_Resource
+     */
+    protected $_resourceConfig;
+
+    /**
      * Initialize application and "data model"
      *
      * @param array $installArgs
      */
-    public function __construct(array $installArgs)
-    {
+    public function __construct(
+        Mage_Core_Model_App $app, Mage_Core_Model_Config_Resource $resourceConfig, array $installArgs
+    ) {
         $params = $this->_buildInitParams($installArgs);
-        $app = Mage::getObjectManager()->get('Mage_Core_Model_App');
+        $this->_resourceConfig = $resourceConfig;
         $app->init($params);
         $this->_getInstaller()->setDataModel($this->_getDataModel());
     }
@@ -371,7 +379,8 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
      */
     protected function _cleanUpDatabase()
     {
-        $dbConfig = Mage::getConfig()->getResourceConnectionConfig(Mage_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
+        $dbConfig = $this->_resourceConfig
+            ->getResourceConnectionConfig(Mage_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
         $modelName = 'Mage_Install_Model_Installer_Db_' . ucfirst($dbConfig->model);
 
         if (!class_exists($modelName)) {

@@ -539,16 +539,6 @@ class Mage_Core_Model_Config
     }
 
     /**
-     * Get DB table names prefix
-     *
-     * @return string
-     */
-    public function getTablePrefix()
-    {
-        return $this->getNode('global/resources/db/table_prefix');
-    }
-
-    /**
      * Determine whether provided name begins from any available modules, according to namespaces priority
      * If matched, returns as the matched module "factory" name or a fully qualified module name
      *
@@ -612,28 +602,6 @@ class Mage_Core_Model_Config
     public function reinit()
     {
         $this->_config = $this->_storage->getConfiguration(false);
-    }
-
-    /**
-     * Get resource configuration for resource name
-     *
-     * @param string $name
-     * @return Varien_Simplexml_Element
-     */
-    public function getResourceConfig($name)
-    {
-        return $this->_storage->getResourceConfig($name);
-    }
-
-    /**
-     * Get connection configuration
-     *
-     * @param   string $name
-     * @return  Varien_Simplexml_Element
-     */
-    public function getResourceConnectionConfig($name)
-    {
-        return $this->_storage->getResourceConnectionConfig($name);
     }
 
     /**
@@ -704,17 +672,6 @@ class Mage_Core_Model_Config
     public function getResourceModelInstance($modelClass='', $constructArguments=array())
     {
         return $this->getModelInstance($modelClass, $constructArguments);
-    }
-
-    /**
-     * Retrieve resource type configuration for resource name
-     *
-     * @param string $type
-     * @return Varien_Simplexml_Element
-     */
-    public function getResourceTypeConfig($type)
-    {
-        return $this->getNode('global/resource/connection/types/' . $type);
     }
 
     /**

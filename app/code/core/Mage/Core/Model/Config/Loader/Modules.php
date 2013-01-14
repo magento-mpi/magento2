@@ -52,21 +52,29 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
     protected $_moduleDirs = array();
 
     /**
+     * @var Mage_Core_Model_Config_Resource
+     */
+    protected $_resourceConfig;
+
+    /**
      * @param Mage_Core_Model_Config_Primary $primaryConfig
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Config_BaseFactory $prototypeFactory
+     * @param Mage_Core_Model_Config_Resource $resourceConfig
      * @param array $allowedModules
      */
     public function __construct(
         Mage_Core_Model_Config_Primary $primaryConfig,
         Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Config_BaseFactory $prototypeFactory,
+        Mage_Core_Model_Config_Resource $resourceConfig,
         array $allowedModules = array()
     ) {
         $this->_dirs = $dirs;
         $this->_primaryConfig = $primaryConfig;
         $this->_allowedModules = $allowedModules;
         $this->_prototypeFactory = $prototypeFactory;
+        $this->_resourceConfig = $resourceConfig;
     }
 
     /**
@@ -85,13 +93,14 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
         $this->_loadDeclaredModules($config);
 
         Magento_Profiler::start('load_modules_configuration');
-        $resourceConfig = sprintf('config.%s.xml', $this->_primaryConfig->getResourceConnectionModel());
+        $resourceConfig = sprintf('config.%s.xml', $this->_resourceConfig->getResourceConnectionModel('core'));
         $this->loadModulesConfiguration(array('config.xml', $resourceConfig), $config);
         Magento_Profiler::stop('load_modules_configuration');
 
         $config->applyExtends();
         Magento_Profiler::stop('load_modules');
         Magento_Profiler::stop('config');
+        $this->_resourceConfig->setConfig($this);
     }
 
     /**

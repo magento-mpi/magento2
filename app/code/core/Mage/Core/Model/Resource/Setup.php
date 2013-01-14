@@ -80,13 +80,6 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
     /**
      * Modules configuration
      *
-     * @var Mage_Core_Model_Config_Modules
-     */
-    protected $_config;
-
-    /**
-     * Modules configuration
-     *
      * @var Mage_Core_Model_Resource
      */
     protected $_resourceModel;
@@ -94,28 +87,29 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
     /**
      * Initialize resource configurations, setup connection, etc
      *
-     * @param Mage_Core_Model_Config_Modules $config
+     * @param Mage_Core_Model_Config_Resource $resourcesConfig
+     * @param Mage_Core_Model_Config_Modules $modulesConfig
      * @param Mage_Core_Model_Resource $resource
-     * @param string $resourceName the setup resource name
+     * @param $resourceName
      */
     public function __construct(
-        Mage_Core_Model_Config_Modules $config,
+        Mage_Core_Model_Config_Resource $resourcesConfig,
+        Mage_Core_Model_Config_Modules $modulesConfig,
         Mage_Core_Model_Resource $resource,
         $resourceName
     ) {
-        $this->_config = $config;
         $this->_resourceModel = $resource;
         $this->_resourceName = $resourceName;
-        $this->_resourceConfig = $this->_config->getResourceConfig($resourceName);
-        $connection = $this->_config->getResourceConnectionConfig($resourceName);
+        $this->_resourceConfig = $resourcesConfig->getResourceConfig($resourceName);
+        $connection = $resourcesConfig->getResourceConnectionConfig($resourceName);
         if ($connection) {
             $this->_connectionConfig = $connection;
         } else {
-            $this->_connectionConfig = $this->_config->getResourceConnectionConfig(self::DEFAULT_SETUP_CONNECTION);
+            $this->_connectionConfig = $resourcesConfig->getResourceConnectionConfig(self::DEFAULT_SETUP_CONNECTION);
         }
 
         $modName = (string)$this->_resourceConfig->setup->module;
-        $this->_moduleConfig = $this->_config->getModuleConfig($modName);
+        $this->_moduleConfig = $modulesConfig->getModuleConfig($modName);
         $connection = $this->_resourceModel->getConnection($this->_resourceName);
         /**
          * If module setup configuration wasn't loaded

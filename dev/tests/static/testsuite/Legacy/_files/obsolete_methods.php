@@ -240,6 +240,16 @@ return array(
     array('getQuoteItem', 'Mage_Catalog_Model_Product_Option_Type_Default'),
     array('getQuoteItemOption', 'Mage_Catalog_Model_Product_Option_Type_Default'),
     array('getQuoteOrdersHtml', 'Mage_GoogleAnalytics_Block_Ga'),
+    array('getResourceConfig', 'Mage_Config_Model_Config', 'Mage_Config_Model_Config_Resource::getResourceConfig'),
+    array('getResourceConnectionConfig', 'Mage_Config_Model_Config',
+        'Mage_Config_Model_Config_Resource::getResourceConnectionConfig'
+    ),
+    array('getResourceConnectionModel', 'Mage_Config_Model_Config',
+        'Mage_Config_Model_Config_Resource::getResourceConnectionModel'
+    ),
+    array('getResourceTypeConfig', 'Mage_Config_Model_Config',
+        'Mage_Config_Model_Config_Resource::getResourceTypeConfig'
+    ),
     array('getRemoveItemUrl', 'Mage_Wishlist_Block_Customer_Sidebar'),
     array('getReorderUrl', 'Mage_Sales_Block_Order_Info'),
     array('getRowId', 'Mage_Adminhtml_Block_Sales_Order_Create_Customer_Grid'),
@@ -258,6 +268,7 @@ return array(
     array('getSuggestedZeroDate'),
     array('getSuggestionsByQuery'),
     array('getSysTmpDir'),
+    array('getTablePrefix', 'Mage_Core_Model_Config', 'Mage_Core_Model_Config_Resource::getTablePrefix'),
     array('getTaxAmount', 'Mage_Sales_Model_Quote_Item_Abstract'),
     array('getTaxRatesByProductClass', null, '_getAllRatesByProductClass'),
     array('getTemplateFilename', null, 'getFilename'),

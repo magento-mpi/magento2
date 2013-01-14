@@ -561,7 +561,8 @@ final class Mage
      */
     public static function getResourceHelper($moduleName)
     {
-        $connectionModel = self::getObjectManager()->get('Mage_Core_Model_Config_Primary')
+        $connectionModel = self::getObjectManager()
+            ->get('Mage_Core_Model_Config_Resource')
             ->getResourceConnectionModel('core');
 
         $helperClassName = $moduleName . '_Model_Resource_Helper_' . ucfirst($connectionModel);
