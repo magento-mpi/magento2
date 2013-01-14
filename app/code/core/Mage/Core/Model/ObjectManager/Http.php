@@ -51,11 +51,29 @@ class Mage_Core_Model_ObjectManager_Http extends Magento_ObjectManager_Zend
             'Mage_Core_Model_App' => array(
                 'parameters' => array('scopeCode' => $runCode, 'scopeType' => $runType)
             ),
-            'Magento_Http_Handler_Composite' => array(
-                'parameters' => array('handlers' => array('Mage_Core_Model_App_Handler'))
-            ),
         ));
         Mage::setObjectManager($this);
+
+        /** @var $config Mage_Core_Model_Config_Primary*/
+        $config = $this->get('Mage_Core_Model_Config_Primary');
+        $configurators = $config->getNode('global/configurators');
+        if ($configurators) {
+            $runTypeParams = array(
+                'baseDir' => $baseDir,
+                'runCode' => $runCode,
+                'runType' => $runType,
+                'customDirs' => $customDirs,
+                'customPath' => $customPath,
+                'cacheOptions' => $cacheOptions,
+                'customLocalXml' => $customLocalXml,
+                'customConfig' => $customConfig,
+            );
+            foreach ($configurators->children() as $configuratorClass) {
+                /** @var $configurator  Magento_ObjectManager_Configuration*/
+                $configurator = $this->get((string) $configuratorClass);
+                $configurator->configure($this, $runTypeParams);
+            }
+        }
         $this->loadAreaConfiguration();
     }
 }

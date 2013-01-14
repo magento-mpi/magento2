@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_PageCache_Model_Processor
+class Enterprise_PageCache_Model_Processor implements Magento_Http_HandlerInterface
 {
     const NO_CACHE_COOKIE               = 'NO_CACHE';
     const XML_NODE_ALLOWED_CACHE        = 'frontend/cache/requests';
@@ -248,7 +248,7 @@ class Enterprise_PageCache_Model_Processor
      * Get page content from cache storage
      *
      * @param string $content
-     * @return string|false
+     * @return string|bool
      */
     public function extractContent($content)
     {
@@ -716,5 +716,22 @@ class Enterprise_PageCache_Model_Processor
     public function getSubprocessor()
     {
         return $this->_subprocessor;
+    }
+
+    /**
+     * Handle http request
+     *
+     * @param Zend_Controller_Request_Http $request
+     * @param Zend_Controller_Response_Http $response
+     */
+    public function handle(Zend_Controller_Request_Http $request, Zend_Controller_Response_Http $response)
+    {
+        $content = false;
+        $content = $this->extractContent($content);
+        if ($content) {
+            $response->appendBody($content);
+            $response->sendResponse();
+            $request->setDispatched(true);
+        }
     }
 }

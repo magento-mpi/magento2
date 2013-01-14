@@ -767,45 +767,4 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
         $this->_saveInvalidatedTypes($types);
         return $this;
     }
-
-    /**
-     * Try to get response body from cache storage with predefined processors
-     *
-     * @param Zend_Controller_Response_Abstract $response
-     * @return bool
-     */
-    public function processRequest(Zend_Controller_Response_Abstract $response)
-    {
-        if (empty($this->_requestProcessors)) {
-            return false;
-        }
-
-        $content = false;
-        foreach ($this->_requestProcessors as $processor) {
-            $processor = $this->_getProcessor($processor);
-            if ($processor) {
-                $content = $processor->extractContent($content);
-            }
-        }
-
-        if ($content) {
-            $response->appendBody($content);
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Get request processor object
-     *
-     * @param string|object $processor Class or object
-     * @return object
-     */
-    protected function _getProcessor($processor)
-    {
-        if (!is_object($processor)) {
-            $processor = new $processor;
-        }
-        return $processor;
-    }
 }

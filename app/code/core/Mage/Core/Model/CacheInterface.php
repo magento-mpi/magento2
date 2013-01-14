@@ -138,12 +138,4 @@ interface Mage_Core_Model_CacheInterface
      * @return Mage_Core_Model_CacheInterface
      */
     public function cleanType($typeCode);
-
-    /**
-     * Try to get response body from cache storage with predefined processors
-     *
-     * @param Zend_Controller_Response_Abstract $response
-     * @return bool
-     */
-    public function processRequest(Zend_Controller_Response_Abstract $response);
 }

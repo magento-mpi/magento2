@@ -60,7 +60,7 @@ class Mage_Core_Model_Config_Storage implements Mage_Core_Model_Config_StorageIn
                 );
             }
         }
-        return $config;
+        return $config->getNode()->asNiceXml(0, '');
     }
 
     /**

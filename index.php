@@ -30,7 +30,6 @@ try {
     $response = $objectManager->get('Mage_Core_Controller_Response_Http');
     $handler = $objectManager->get('Magento_Http_Handler_Composite');
     $handler->handle($request, $response);
-    $response->send();
 } catch (Exception $e) {
     Mage::printException($e);
 }

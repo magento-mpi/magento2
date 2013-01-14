@@ -217,15 +217,4 @@ class Mage_Core_Model_Cache_Proxy implements Mage_Core_Model_CacheInterface
     {
         return $this->_getCache()->cleanType($typeCode);
     }
-
-    /**
-     * Try to get response body from cache storage with predefined processors
-     *
-     * @param Zend_Controller_Response_Abstract $response
-     * @return bool
-     */
-    public function processRequest(Zend_Controller_Response_Abstract $response)
-    {
-        return $this->_getCache()->processRequest($response);
-    }
 }

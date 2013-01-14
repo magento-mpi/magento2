@@ -29,8 +29,26 @@ class Magento_Http_Handler_Composite implements Magento_Http_HandlerInterface
      */
     public function __construct(Magento_Http_HandlerFactory $factory, array $handlers)
     {
+        usort($handlers, array($this, '_cmp'));
         $this->_children = $handlers;
         $this->_handlerFactory = $factory;
+    }
+
+    /**
+     * Sort handlers
+     *
+     * @param $handlerA
+     * @param $handlerB
+     * @return int
+     */
+    protected function _cmp($handlerA, $handlerB)
+    {
+        $sortOrderA = intval($handlerA['sortOrder']);
+        $sortOrderB = intval($handlerB['sortOrder']);
+        if ($sortOrderA == $sortOrderB) {
+            return 0;
+        }
+        return ($sortOrderA < $sortOrderB) ? -1 : 1;
     }
 
     /**
@@ -41,8 +59,8 @@ class Magento_Http_Handler_Composite implements Magento_Http_HandlerInterface
      */
     public function handle(Zend_Controller_Request_Http $request, Zend_Controller_Response_Http $response)
     {
-        foreach ($this->_children as $handlerName) {
-            $this->_handlerFactory->create($handlerName)->handle($request, $response);
+        foreach ($this->_children as $handlerConfig) {
+            $this->_handlerFactory->create($handlerConfig['class'])->handle($request, $response);
             if ($request->isDispatched()) {
                 break;
             }

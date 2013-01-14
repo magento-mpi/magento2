@@ -10,11 +10,13 @@
 -->
 <config>
     <global>
+<!--
         <cache>
             <request_processors>
                 <ee>Enterprise_PageCache_Model_Processor</ee>
             </request_processors>
         </cache>
+-->
         <full_page_cache>
             <backend_options>
                 <cache_dir>full_page_cache</cache_dir>
@@ -22,15 +24,19 @@
         </full_page_cache>
         <skip_process_modules_updates>0</skip_process_modules_updates>
         <di>
-            <Mage_Core_Model_Cache>
+            <Magento_Http_Handler_Composite>
                 <parameters>
-                    <cacheOptions>
-                        <request_processors>
-                            <ee>Enterprise_PageCache_Model_Processor</ee>
-                        </request_processors>
-                    </cacheOptions>
+                    <handlers>
+                        <fpc>
+                            <sortOrder>25</sortOrder>
+                            <class>Enterprise_PageCache_Model_Processor</class>
+                        </fpc>
+                    </handlers>
                 </parameters>
-            </Mage_Core_Model_Cache>
+            </Magento_Http_Handler_Composite>
         </di>
+        <configurators>
+            <pageCache>Enterprise_PageCache_Model_ObjectManager_Configurator</pageCache>
+        </configurators>
     </global>
 </config>

@@ -39,4 +39,11 @@ interface Magento_ObjectManager
      * @return mixed
      */
     public function loadAreaConfiguration($areaCode = null);
+
+    /**
+     * Configure di instance
+     *
+     * @param array $configuration
+     */
+    public function configure(array $configuration);
 }
