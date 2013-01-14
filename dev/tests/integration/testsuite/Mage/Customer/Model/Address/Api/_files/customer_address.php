@@ -42,6 +42,28 @@ $customerAddress->setCustomer($customer);
 $customerAddress->save();
 Mage::register('customer_address', $customerAddress);
 
+$customerAddress2 = Mage::getModel('Mage_Customer_Model_Address');
+$customerAddress2->setData(
+    array(
+        'city' => 'Buffalo',
+        'country_id' => 'US',
+        'fax' => '56-987-987',
+        'firstname' => 'Jacklin',
+        'lastname' => 'Sparrow',
+        'middlename' => 'John',
+        'postcode' => '10012',
+        'region' => 'New York',
+        'region_id' => '43',
+        'street' => '123 Main Street',
+        'telephone' => '718-452-9207',
+        'is_default_billing' => true,
+        'is_default_shipping' => true
+    )
+);
+$customerAddress2->setCustomer($customer);
+$customerAddress2->save();
+Mage::register('customer_address2', $customerAddress2);
+
 //Set customer default shipping and billing address
 $customer->addAddress($customerAddress);
 $customer->setDefaultShipping($customerAddress->getId());
