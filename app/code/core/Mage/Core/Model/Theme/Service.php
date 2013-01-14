@@ -105,10 +105,11 @@ class Mage_Core_Model_Theme_Service
             throw new UnexpectedValueException('Theme is not recognized. Requested id: ' . $themeId);
         }
 
-        $themeCustomization = $theme->isVirtual() ? $theme : $this->_createThemeCustomization($theme);
+        $themeCustomization = $theme->isVirtual() ? $theme : $this->createThemeCustomization($theme);
 
         $configPath = Mage_Core_Model_Design_Package::XML_PATH_THEME_ID;
 
+        // Unassign given theme from stores that were unchecked
         /** @var $config Mage_Core_Model_Config_Data */
         foreach ($this->_getAssignedScopesCollection($scope, $configPath) as $config) {
             if ($config->getValue() == $themeId && !in_array($config->getScopeId(), $stores)) {
@@ -134,7 +135,7 @@ class Mage_Core_Model_Theme_Service
      * @param Mage_Core_Model_Theme $theme
      * @return Mage_Core_Model_Theme
      */
-    protected function _createThemeCustomization($theme)
+    public function createThemeCustomization($theme)
     {
         $themeCopyCount = $this->_getThemeCustomizations()->addFilter('parent_id', $theme->getId())->count();
 
@@ -309,5 +310,33 @@ class Mage_Core_Model_Theme_Service
         }
 
         return $storesByThemes;
+    }
+
+    /**
+     * Add theme customization
+     *
+     * @param Mage_Core_Model_Layout $layout
+     * @return Mage_Core_Model_Theme_Service
+     */
+    public function addThemeCustomization($layout)
+    {
+        $this->_addCssCustomization($layout);
+        return $this;
+    }
+
+    /**
+     * Add css customization
+     *
+     * @param Mage_Core_Model_Layout $layout
+     * @return Mage_Core_Model_Theme_Service
+     */
+    protected function _addCssCustomization($layout)
+    {
+        /** @var $theme Mage_Core_Model_Theme_Files */
+        $customCssFile = $this->_design->getDesignTheme()->getCustomCssFile();
+        if ($customCssFile->getContent()) {
+            $layout->getBlock('head')->addCss($customCssFile->getFilePath());
+        }
+        return $this;
     }
 }

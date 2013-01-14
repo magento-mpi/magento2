@@ -155,12 +155,17 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
             $themeModel = $themeModel->getParentTheme();
         }
 
+        $extraDirs = array(
+            $this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB),
+            Mage::getDesign()->getCustomizationDir()
+        );
+
         return $this->_fallback(
             $file,
             $dirs,
             $module,
             array("{$moduleDir}/{$this->_area}/locale/{$this->_locale}", "{$moduleDir}/{$this->_area}"),
-            array($this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB))
+            $extraDirs
         );
     }
 

@@ -29,7 +29,7 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         Mage::getDesign()->setDesignTheme('test/default');
 
         $this->_model = Mage::getModel('Mage_Core_Model_Layout_Merge', array(
-            'arguments' => array('area' => 'frontend', 'themeId' => Mage::getDesign()->getDesignTheme()->getId())
+            'arguments' => array('area' => 'frontend', 'theme' => Mage::getDesign()->getDesignTheme()->getId())
         ));
     }
 
@@ -201,8 +201,8 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         $expectedText = 'Text declared in the frontend/test/test_theme';
         /** @var $model Mage_Core_Model_Layout_Merge */
         $model = Mage::getModel('Mage_Core_Model_Layout_Merge', array('arguments' => array(
-            'area'       => 'frontend',
-            'themeId'    => $collection->getThemeByFullPath('frontend/test/test_theme')->getId()
+            'area' => 'frontend',
+            'theme' => $collection->getThemeByFullPath('frontend/test/test_theme')->getId()
         )));
         $this->assertNotContains($layoutHandle, $model->getHandles());
         $this->assertNotContains($expectedText, $model->asString());
@@ -226,7 +226,7 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         $collection = new Mage_Core_Model_Resource_Theme_Collection;
         $model = Mage::getModel('Mage_Core_Model_Layout_Merge', array('arguments' => array(
             'area'    => 'frontend',
-            'themeId' => $collection->getThemeByFullPath('frontend/test/test_theme')->getId()
+            'theme' => $collection->getThemeByFullPath('frontend/test/test_theme')->getId()
         )));
         $model->load($layoutHandle);
         $this->assertContains($expectedTextThemeOne, $model->asString());
@@ -235,7 +235,7 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         $collection = new Mage_Core_Model_Resource_Theme_Collection;
         $model = Mage::getModel('Mage_Core_Model_Layout_Merge', array('arguments' => array(
             'area'    => 'frontend',
-            'themeId' => $collection->getThemeByFullPath('frontend/test/cache_test_theme')->getId()
+            'theme' => $collection->getThemeByFullPath('frontend/test/cache_test_theme')->getId()
         )));
         $model->load($layoutHandle);
         $this->assertContains($expectedTextThemeTwo, $model->asString());
