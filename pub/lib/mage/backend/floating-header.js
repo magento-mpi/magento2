@@ -11,7 +11,6 @@
     "use strict";
     $.widget('mage.floatingHeader', {
         options: {
-            skipSelector: '.skip-header',
             placeholderAttrs: {
                 'class': 'content-header-placeholder'
             },
@@ -23,11 +22,6 @@
          * @private
          */
         _create: function() {
-            // Do not init widget if there is a skip class applied
-            if(this.element.hasClass(this.options.skipSelector)) {
-                this.destroy();
-            }
-
             this._setVars();
             this._bind();
         },

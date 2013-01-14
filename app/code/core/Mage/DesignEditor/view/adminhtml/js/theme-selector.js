@@ -60,8 +60,8 @@
                     this.themeId = null;
                 }
             }, this));
-            this.element.on(this.options.loadEvent, function() {
-                $('*[data-widget-button]').button();
+            this._on(this.options.loadEvent, function() {
+                this.element.trigger('contentUpdated');
             });
         },
 
