@@ -58,17 +58,13 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
             array('add_product_1' => $simple['general_sku'],
                   'add_product_2' => $virtual['general_sku']));
         $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order',
+            array('general_categories' => $catPath),
             array(
-                'general_configurable_attribute_title' => $attrData['admin_title'],
-                'general_categories' => $catPath
-            ),
-            array(
-                'associated_1' => $simple['general_sku'],
-                'value_1' => $attrData['option_1']['admin_option_name'],
-                'associated_2' => $virtual['general_sku'],
-                'value_2' => $attrData['option_2']['admin_option_name'],
+                'general_attribute_1' => $attrData['admin_title'],
                 'associated_3' => $download['general_sku'],
-                'value_3' => $attrData['option_3']['admin_option_name']
+                'var1_attr_value1' => $attrData['option_1']['admin_option_name'],
+                'var1_attr_value2' => $attrData['option_2']['admin_option_name'],
+                'var1_attr_value3' => $attrData['option_3']['admin_option_name']
             )
         );
         $grouped = $this->loadDataSet('SalesOrder', 'grouped_product_for_order', $productCat,
