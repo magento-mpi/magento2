@@ -152,3 +152,82 @@ manage_gift_registry:
         2: Label
         3: Sort Order
         4: Is Listed
+
+#dataset for ui elements in Manage Catalog Events grid
+manage_catalog_events:
+    fieldset:
+        manage_catalog_events_grid: tablename
+    button:
+        reset_filter:
+        search:
+        add_catalog_event:
+    dropdown:
+        display_countdown_ticker_on:
+        view_on_page:
+        status:
+    field:
+        page:
+        id:
+        category_id:
+        category:
+        starts_on_from:
+        starts_on_to:
+        ends_on_from:
+        ends_on_to:
+        sort_order:
+    headers:
+        0: ID
+        1: Category ID
+        2: Category
+        3: Starts On
+        4: Ends On
+        5: Status
+        6: Display Countdown Ticker On
+        7: Sort Order
+        8: Action
+
+#dataset for ui elements in Manage Customer Attribute grid
+manage_customer_address_attributes:
+    fieldset:
+        attributes_grid: tablename
+    button:
+        reset_filter:
+        search:
+        add_new_attribute:
+    dropdown:
+        required:
+        system:
+        visible:
+        view_on_page:
+    field:
+        page:
+        attribute_code:
+        attribute_label:
+        sort:
+    pageelement:
+        attributes_grid_head:
+    headers:
+        0: Attribute Code
+        1: Attribute Label
+        2: Required
+        3: System
+        4: Visible on Frontend
+        5: Sort Order
+
+#dataset for ui elements in Manage Customer Attribute grid
+admin_action_log_archive:
+    fieldset:
+        action_logs_archive_grid: tablename
+    button:
+        reset_filter:
+        search:
+    dropdown:
+        view_on_page:
+    field:
+        archive_file:
+        date_from:
+        date_to:
+        page:
+    headers:
+        0: Archive File
+        1: Date

@@ -82,6 +82,13 @@
                 </Mage_Newsletter>
             </modules>
         </translate>
+        <layout>
+            <updates>
+                <newsletters module="Mage_Newsletter">
+                    <file>layout.xml</file>
+                </newsletters>
+            </updates>
+        </layout>
     </adminhtml>
     <frontend>
         <events>

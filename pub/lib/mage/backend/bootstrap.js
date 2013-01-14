@@ -33,8 +33,8 @@ jQuery(function ($) {
                 settings.data = {
                     form_key: form_key
                 };
-            } else if ($.type(settings.data) === "string"
-                && settings.data.indexOf('form_key=') === -1) {
+            } else if ($.type(settings.data) === "string" &&
+                settings.data.indexOf('form_key=') === -1) {
                 settings.data += '&' + $.param({
                     form_key: form_key
                 });
@@ -60,49 +60,32 @@ jQuery(function ($) {
         }
     });
 
-    var mageInit = function(context) {
-            // Temporary solution, will be replaced when plug-in "mage" will be merged to master
-            var collection = context ?
-                context.add(context.find('[data-mage-init]')) :
-                $('[data-mage-init]');
+    var bootstrap = function() {
+        /**
+         * Init all components defined via data-mage-init attribute
+         * and subscribe init action on contentUpdated event
+         */
+        $.mage.init();
 
-
-            collection.each(function(){
-                var inits = $(this).data('mage-init') || {};
-                $.each(inits, $.proxy(function(key, args){
-                    $(this)[key].apply($(this), $.makeArray(args));
-                }, this));
-            });
-        },
-        bootstrap = function() {
-            mageInit();
-
-            /*
-             * Initialization of button widgets
-             */
-            $('*[data-widget-button]').button();
-
-            /*
-             * Show loader on ajax send
-             */
-            $('body').on('ajaxSend processStart', function(e, jqxhr, settings) {
-                if (settings && settings.showLoader || e.type === 'processStart') {
-                    $(e.target).loader({
-                        icon: $('#loading_mask_loader img').attr('src')
-                    }).loader('show');
-                }
-            });
-
-            /*
-             * Initialization of notification widget
-             */
-            if ($('#messages').length) {
-                $('#messages').notification();
+        /*
+         * Show loader on ajax send
+         */
+        $('body').on('ajaxSend processStart', function(e, jqxhr, settings) {
+            if (settings && settings.showLoader || e.type === 'processStart') {
+                $(e.target).mage('loader', {
+                    icon: $('#loading_mask_loader img').attr('src'),
+                    showOnInit: true
+                });
             }
-        };
+        });
 
-    $(document).ready(function() {bootstrap();});
-    $(document).on('contentUpdated', function(e) {
-        mageInit($(e.target));
-    });
+        /*
+         * Initialization of notification widget
+         */
+        $('#messages').mage('notification');
+
+        $('.content-header:not(.skip-header)').mage('floatingHeader');
+    };
+
+    $(bootstrap);
 });

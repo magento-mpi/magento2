@@ -24,8 +24,10 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit extends Mage_Adm
 
         if (Mage::registry('current_giftregistry_type')) {
             $this->_updateButton('save', 'label', Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Save'));
-            $this->_updateButton('save', 'data_attr', array(
-                'widget-button' => array('event' => 'save', 'related' => '#edit_form')
+            $this->_updateButton('save', 'data_attribute', array(
+                'mage-init' => array(
+                    'button' => array('event' => 'save', 'target' => '#edit_form'),
+                )
             ));
 
             $confirmMessage = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__("Deleting this gift registry type will also remove all customers' gift registries created based on it. Are you sure you want to proceed?");
@@ -37,8 +39,10 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit extends Mage_Adm
             $this->_addButton('save_and_continue_edit', array(
                 'class'   => 'save',
                 'label'   => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Save and Continue Edit'),
-                'data_attr' => array(
-                    'widget-button' => array('event' => 'saveAndContinueEdit', 'related' => '#edit_form')
+                'data_attribute' => array(
+                    'mage-init' => array(
+                        'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'),
+                    ),
                 ),
             ), 3);
         }
