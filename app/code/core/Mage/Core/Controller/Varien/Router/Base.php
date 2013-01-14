@@ -42,24 +42,24 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
     /**
      * @var Magento_ObjectManager
      */
-    protected $_objectManager;
+    protected $_app;
 
     /**
      * @param Mage_Core_Controller_Varien_Action_Factory $controllerFactory
-     * @param Magento_ObjectManager $objectManager
+     * @param Mage_Core_Model_App $app
      * @param string $areaCode
      * @param string $baseController
      * @throws InvalidArgumentException
      */
     public function __construct(
         Mage_Core_Controller_Varien_Action_Factory $controllerFactory,
-        Magento_ObjectManager $objectManager,
+        Mage_Core_Model_App $app,
         $areaCode,
         $baseController
     ) {
         parent::__construct($controllerFactory);
 
-        $this->_objectManager  = $objectManager;
+        $this->_app            = $app;
         $this->_areaCode       = $areaCode;
         $this->_baseController = $baseController;
 
@@ -159,7 +159,7 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
             return null;
         }
 
-        $this->_objectManager->loadAreaConfiguration($this->_areaCode);
+        $this->_app->loadDiConfiguration($this->_areaCode);
 
         return $this->_matchController($request, $params);
     }

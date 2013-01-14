@@ -32,18 +32,18 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
 
     /**
      * @param Mage_Core_Controller_Varien_Action_Factory $controllerFactory
-     * @param Magento_ObjectManager $objectManager
+     * @param Mage_Core_Model_App $app
      * @param string $areaCode
      * @param string $baseController
      * @throws InvalidArgumentException
      */
     public function __construct(
         Mage_Core_Controller_Varien_Action_Factory $controllerFactory,
-        Magento_ObjectManager $objectManager,
+        Mage_Core_Model_App $app,
         $areaCode,
         $baseController
     ) {
-        parent::__construct($controllerFactory, $objectManager, $areaCode, $baseController);
+        parent::__construct($controllerFactory, $app, $areaCode, $baseController);
 
         $this->_areaFrontName = Mage::helper('Mage_Backend_Helper_Data')->getAreaFrontName();
         if (empty($this->_areaFrontName)) {

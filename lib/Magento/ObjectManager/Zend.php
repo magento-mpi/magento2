@@ -18,16 +18,6 @@ use Zend\Di\Di,
 class Magento_ObjectManager_Zend implements Magento_ObjectManager
 {
     /**
-     * Default configuration area name
-     */
-    const CONFIGURATION_AREA = 'global';
-
-    /**
-     * Dependency injection configuration node name
-     */
-    const CONFIGURATION_DI_NODE = 'di';
-
-    /**
      * Dependency injection instance
      *
      * @var Magento_Di_Zend
@@ -84,24 +74,30 @@ class Magento_ObjectManager_Zend implements Magento_ObjectManager
     /**
      * Load DI configuration for specified config area
      *
-     * @param string $areaCode
+     * @param array $configuration
      * @return Magento_ObjectManager_Zend
      */
-    public function loadAreaConfiguration($areaCode = null)
+    public function setConfiguration(array $configuration = array())
     {
-        if (!$areaCode) {
-            $areaCode = self::CONFIGURATION_AREA;
-        }
-
-        /** @var $magentoConfiguration Mage_Core_Model_Config */
-        $magentoConfiguration = $this->get('Mage_Core_Model_Config');
-        $node                 = $magentoConfiguration->getNode($areaCode . '/' . self::CONFIGURATION_DI_NODE);
-        if ($node) {
-            $diConfiguration = new Config(array('instance' => $node->asArray()));
-            $diConfiguration->configure($this->_di);
-        }
+        $this->_unsetOldPreferences($configuration);
+        $diConfiguration = new Config(array('instance' => $configuration));
+        $diConfiguration->configure($this->_di);
 
         return $this;
+    }
+
+    /**
+     * Unset old preferences because preferences from some area must override global preferences
+     *
+     * @param array $configuration
+     */
+    protected function _unsetOldPreferences(array $configuration)
+    {
+        if (isset($configuration['preferences']) && is_array($configuration['preferences'])) {
+            foreach (array_keys($configuration['preferences']) as $type) {
+                $this->_di->instanceManager()->unsetTypePreferences($type);
+            }
+        }
     }
 
     /**
