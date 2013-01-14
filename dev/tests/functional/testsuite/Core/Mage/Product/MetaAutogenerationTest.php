@@ -149,7 +149,7 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_name']));
         $this->openTab('meta_information');
         $metaKeywords = $this->getControlAttribute('field', 'meta_information_meta_keywords', 'value');
-        $this->productHelper()->saveProduct('saveAndDuplicate');
+        $this->productHelper()->saveProduct('duplicate');
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
         $this->fillField('general_name', 'Name#2');

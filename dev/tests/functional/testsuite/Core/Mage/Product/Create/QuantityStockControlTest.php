@@ -393,7 +393,7 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         $this->productHelper()->createProduct($productData);
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_name']));
-        $this->productHelper()->saveProduct('saveAndDuplicate');
+        $this->productHelper()->saveProduct('duplicate');
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
         $this->openTab('inventory');

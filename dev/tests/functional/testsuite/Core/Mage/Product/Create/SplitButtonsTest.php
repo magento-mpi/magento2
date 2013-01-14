@@ -14,7 +14,7 @@
 /**
  * Product creation tests
  */
-class Core_Mage_Product_Create_WithSplitButtonTest extends Mage_Selenium_TestCase
+class Core_Mage_Product_Create_SplitButtonsTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
@@ -98,7 +98,7 @@ class Core_Mage_Product_Create_WithSplitButtonTest extends Mage_Selenium_TestCas
         $this->productHelper()->selectTypeProduct('virtual');
         $this->productHelper()->changeAttributeSet($productData['product_attribute_set']);
         $this->productHelper()->fillProductInfo($productData);
-        $this->productHelper()->saveProduct('saveAndNew');
+        $this->productHelper()->saveProduct('new');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertEquals('new_product', $this->getCurrentPage());

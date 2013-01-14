@@ -168,7 +168,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable', false);
         $this->addParameter('elementTitle', $productData['general_name']);
-        $this->productHelper()->saveProduct('saveAndContinueEdit');
+        $this->productHelper()->saveProduct('continueEdit');
         //Verifying
         $newSku = $this->productHelper()->getGeneratedSku($productData['general_sku']);
         $this->addParameter('productSku', $newSku);
@@ -613,7 +613,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $associated['associated_sku']));
         //Steps
         $this->productHelper()->createProduct($configurable, 'configurable', false);
-        $this->productHelper()->saveProduct('save', false);
+        $this->productHelper()->saveProduct('close', false);
         $this->waitForElementEditable($this->_getControlXpath('radiobutton', 'current_attribute_set'));
         $this->assertFalse($this->controlIsVisible('field', 'new_attribute_set_name'));
         $this->saveForm('confirm');
@@ -665,7 +665,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $attributeSetName = $this->generate('string', 30, ':alnum:');
         //Steps
         $this->productHelper()->createProduct($configurable, 'configurable', false);
-        $this->productHelper()->saveProduct('save', false);
+        $this->productHelper()->saveProduct('close', false);
         $this->waitForElementEditable($this->_getControlXpath('radiobutton', 'current_attribute_set'));
         $this->fillRadiobutton('new_attribute_set', 'Yes');
         $this->fillField('new_attribute_set_name', $attributeSetName);
@@ -755,7 +755,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
                   'var1_attr_value1'    => $attributeData['newSet']['attribute2']['option_1']['admin_option_name']));
         //Steps
         $this->productHelper()->createProduct($configurable, 'configurable', false);
-        $this->productHelper()->saveProduct('save', false);
+        $this->productHelper()->saveProduct('close', false);
         $this->waitForElementEditable($this->_getControlXpath('radiobutton', 'current_attribute_set'));
         $this->clickButton('cancel');
         //Verifying
@@ -784,7 +784,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
                   'var1_attr_value1'    => $attributeData['newSet']['attribute2']['option_1']['admin_option_name']));
         //Steps
         $this->productHelper()->createProduct($configurable, 'configurable', false);
-        $this->productHelper()->saveProduct('save', false);
+        $this->productHelper()->saveProduct('close', false);
         $this->waitForElementEditable($this->_getControlXpath('radiobutton', 'current_attribute_set'));
         $this->fillRadiobutton('new_attribute_set', 'Yes');
         //Verifying empty attribute set name

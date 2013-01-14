@@ -125,7 +125,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle', false);
         $this->addParameter('elementTitle', $productData['general_name']);
-        $this->productHelper()->saveProduct('saveAndContinueEdit');
+        $this->productHelper()->saveProduct('continueEdit');
         //Verifying
         $newSku = $this->productHelper()->getGeneratedSku($productData['general_sku']);
         $this->addParameter('productSku', $newSku);

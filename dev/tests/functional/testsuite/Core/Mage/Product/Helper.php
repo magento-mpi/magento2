@@ -523,28 +523,20 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Save product using split button
      *
-     * @param string $saveAction saveAndContinueEdit|saveAndNew|saveAndDuplicate|save
+     * @param string $additionalAction continueEdit|new|duplicate|close
      * @param bool $validate
      */
-    public function saveProduct($saveAction = 'save', $validate = true)
+    public function saveProduct($additionalAction = 'close', $validate = true)
     {
-        if ($this->controlIsVisible('button', 'save_disabled')){
+        if ($this->controlIsVisible('button', 'save_disabled')) {
             $this->fail('Save button is disabled');
         }
-        switch ($saveAction){
-            case 'saveAndContinueEdit':
-                $this->saveAndContinueEdit('button', 'save_and_continue_edit');
-                break;
-            case 'saveAndDuplicate':
-                $this->addParameter('saveAction', '');
-                $this->clickButton('save_split_select', false);
-                $this->saveForm('save_product_by_action', $validate);
-                break;
-            default:
-                $this->addParameter('saveAction', $saveAction);
-                $this->clickButton('save_split_select', false);
-                $this->saveForm('save_product_by_action', $validate);
-                break;
+        if ($additionalAction != 'continueEdit') {
+            $this->addParameter('additionalAction', $additionalAction);
+            $this->clickButton('save_split_select', false);
+            $this->saveForm('save_product_by_action', $validate);
+        } else {
+            $this->saveAndContinueEdit('button', 'save_and_continue_edit');
         }
     }
 
@@ -634,6 +626,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->addParameter('setId', $param);
         $this->clickButton('apply');
         $this->addParameter('attributeSet', $newAttributeSet);
+        $this->waitForNewPage();
         $this->waitForElement($this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'product_attribute_set'));
     }
 
@@ -699,7 +692,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             case 'cross_sells':
             case 'associated':
                 $this->openTab($tabName);
-                foreach ($tabData as $value) {
+                foreach (array_pop($tabData) as $value) {
                     $this->assignProduct($value, $tabName);
                 }
                 break;
@@ -746,7 +739,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             case 'cross_sells':
             case 'associated':
                 $this->openTab($tabName);
-                foreach ($tabData as $value) {
+                foreach (array_pop($tabData) as $value) {
                     $this->isAssignedProduct($value, $tabName);
                 }
                 break;
@@ -754,10 +747,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 $this->verifyCustomOptions($tabData['custom_options_data']);
                 break;
             case 'bundle_items':
-                $this->verifyBundleItemsTab($tabData);
+                $this->verifyBundleItemsTab($tabData['bundle_items_data']);
                 break;
             case 'downloadable_information':
-                $this->verifyDownloadableInformationTab($tabData);
+                $this->verifyDownloadableInformationTab($tabData['downloadable_information_data']);
                 break;
             default:
                 $this->openTab($tabName);
@@ -1593,7 +1586,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         if (!$this->controlIsPresent(self::UIMAP_TYPE_MESSAGE, 'specific_table_no_records_found')) {
             $this->fillCheckbox($type . '_select_all', 'No');
             if ($saveChanges) {
-                $this->saveProduct('saveAndContinueEdit');
+                $this->saveProduct('continueEdit');
                 $this->assertTrue($this->controlIsPresent(self::UIMAP_TYPE_MESSAGE, 'specific_table_no_records_found'),
                     'There are products assigned to "' . $type . '" tab');
             }

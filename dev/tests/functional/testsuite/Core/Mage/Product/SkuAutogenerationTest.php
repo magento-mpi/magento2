@@ -187,7 +187,7 @@ class Core_Mage_Product_SkuAutoGenerationTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_name']));
-        $this->productHelper()->saveProduct('saveAndDuplicate');
+        $this->productHelper()->saveProduct('duplicate');
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
         $this->assertSame($this->productHelper()->getGeneratedSku($productData['general_name']),

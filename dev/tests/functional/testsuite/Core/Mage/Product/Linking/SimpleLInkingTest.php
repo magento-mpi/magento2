@@ -18,8 +18,7 @@
  */
 class Core_Mage_Product_Linking_SimpleLinkingTest extends Mage_Selenium_TestCase
 {
-    private static $_productTypes = array('simple', 'virtual', 'downloadable',
-                                         'bundle', 'configurable', 'grouped');
+    private static $_productTypes = array('simple');
 
     protected function assertPreconditions()
     {
@@ -70,7 +69,7 @@ class Core_Mage_Product_Linking_SimpleLinkingTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct($search);
         $this->productHelper()->unselectAssociatedProduct($assignType);
         $this->productHelper()->assignProduct($assign, $assignType);
-        $this->productHelper()->saveProduct('saveAndContinueEdit');
+        $this->productHelper()->saveProduct('continueEdit');
         $this->productHelper()->isAssignedProduct($assign, $assignType);
         $this->assertEmptyVerificationErrors();
         $this->clearInvalidedCache();
@@ -110,7 +109,7 @@ class Core_Mage_Product_Linking_SimpleLinkingTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct($search);
         $this->productHelper()->unselectAssociatedProduct($assignType);
         $this->productHelper()->assignProduct($assign, $assignType);
-        $this->productHelper()->saveProduct('saveAndContinueEdit');
+        $this->productHelper()->saveProduct('continueEdit');
         $this->productHelper()->isAssignedProduct($assign, $assignType);
         $this->assertEmptyVerificationErrors();
         $this->clearInvalidedCache();
@@ -153,7 +152,7 @@ class Core_Mage_Product_Linking_SimpleLinkingTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct($search);
         $this->productHelper()->unselectAssociatedProduct($assignType);
         $this->productHelper()->assignProduct($assign, $assignType);
-        $this->productHelper()->saveProduct('saveAndContinueEdit');
+        $this->productHelper()->saveProduct('continueEdit');
         $this->productHelper()->isAssignedProduct($assign, $assignType);
         $this->assertEmptyVerificationErrors();
         $this->clearInvalidedCache();
@@ -195,13 +194,13 @@ class Core_Mage_Product_Linking_SimpleLinkingTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct($searchAssigned);
         $this->openTab('inventory');
         $this->fillDropdown('inventory_stock_availability', 'Out of Stock');
-        $this->productHelper()->saveProduct('saveAndContinueEdit');
+        $this->productHelper()->saveProduct('continueEdit');
         //Assign product
         $this->navigate('manage_products');
         $this->productHelper()->openProduct($search);
         $this->productHelper()->unselectAssociatedProduct($assignType);
         $this->productHelper()->assignProduct($assign, $assignType);
-        $this->productHelper()->saveProduct('saveAndContinueEdit');
+        $this->productHelper()->saveProduct('continueEdit');
         $this->productHelper()->isAssignedProduct($assign, $assignType);
         $this->assertEmptyVerificationErrors();
         $this->clearInvalidedCache();
@@ -245,13 +244,13 @@ class Core_Mage_Product_Linking_SimpleLinkingTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct($searchAssigned);
         $this->openTab('inventory');
         $this->fillDropdown('inventory_stock_availability', 'Out of Stock');
-        $this->productHelper()->saveProduct('saveAndContinueEdit');
+        $this->productHelper()->saveProduct('continueEdit');
         //Assign product
         $this->navigate('manage_products');
         $this->productHelper()->openProduct($search);
         $this->productHelper()->unselectAssociatedProduct($assignType);
         $this->productHelper()->assignProduct($assign, $assignType);
-        $this->productHelper()->saveProduct('saveAndContinueEdit');
+        $this->productHelper()->saveProduct('continueEdit');
         $this->productHelper()->isAssignedProduct($assign, $assignType);
         $this->assertEmptyVerificationErrors();
         $this->clearInvalidedCache();
@@ -297,13 +296,13 @@ class Core_Mage_Product_Linking_SimpleLinkingTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct($searchAssigned);
         $this->openTab('inventory');
         $this->fillDropdown('inventory_stock_availability', 'Out of Stock');
-        $this->productHelper()->saveProduct('saveAndContinueEdit');
+        $this->productHelper()->saveProduct('continueEdit');
         //Assign product
         $this->navigate('manage_products');
         $this->productHelper()->openProduct($search);
         $this->productHelper()->unselectAssociatedProduct($assignType);
         $this->productHelper()->assignProduct($assign, $assignType);
-        $this->productHelper()->saveProduct('saveAndContinueEdit');
+        $this->productHelper()->saveProduct('continueEdit');
         $this->productHelper()->isAssignedProduct($assign, $assignType);
         $this->assertEmptyVerificationErrors();
         $this->clearInvalidedCache();
