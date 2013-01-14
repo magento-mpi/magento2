@@ -240,10 +240,10 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
     protected function _testGetOptionsSpecialCase($content)
     {
         $this->_assertNotRegexp(
-            '/getOptions\(\)->get(Base|App|Code|Design|Etc|Lib|Locale|Js|Media'
+            '/getOptions\(\)\s*->get(Base|App|Code|Design|Etc|Lib|Locale|Js|Media'
                 .'|Var|Tmp|Cache|Log|Session|Upload|Export)?Dir\(/S',
             $content,
-            'The class Mage_Core_Model_Config_Options. Replacement suggestion: Mage_Core_Model_Dir'
+            'The class Mage_Core_Model_Config_Options is obsolete. Replacement suggestion: Mage_Core_Model_Dir'
         );
     }
 
