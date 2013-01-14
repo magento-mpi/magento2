@@ -328,9 +328,8 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $this->productHelper()->createProduct($productData, 'configurable', false);
         $this->openTab('general');
         $this->addParameter('field', $field);
-        $this->saveForm('save', false);
         //Verifying
-        $this->assertMessagePresent('validation', 'required_field');
+        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
     }
 
     public function withRequiredFieldsEmptyDataProvider()
@@ -635,7 +634,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $this->productHelper()->openProduct(array('product_sku' => $configurable['general_sku']));
         $this->_setVariationPriceRule($attributeData['attribute1']['admin_title'], $ruleOption, $ruleType, '50');
         $this->clickButton('generate_product_variations');
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $configurable['general_sku']));
         //Verification. Backend
@@ -714,7 +713,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $this->buttondown();
         $this->moveto($attributeBlock1);
         $this->buttonup();
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->frontend();
@@ -750,7 +749,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $this->addParameter('attributeTitle', $attributeData['attribute1']['admin_title']);
         $this->clickControl('link', 'delete_product_variation_attribute');
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->frontOpenProduct($productData['general_name']);
@@ -784,7 +783,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $this->addParameter('attributeTitle', $attributeData['attribute1']['admin_title']);
         $this->fillField('frontend_label', $value);
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->frontOpenProduct($productData['general_name']);
@@ -825,10 +824,9 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $this->addParameter('attributeTitle', $attributeData['attribute1']['admin_title']);
         $this->fillField('frontend_label', '');
-        $this->clickButton('save', false);
-        $this->assertMessagePresent('validation', 'required_attribute_label');
+        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
         $this->fillCheckbox('use_default_label', 'Yes');
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->frontOpenProduct($productData['general_name']);

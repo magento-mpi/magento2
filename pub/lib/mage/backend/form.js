@@ -17,6 +17,11 @@
                         args: {back: 'edit'}
                     }
                 },
+                saveAndNew: {
+                    action: {
+                        args: {back: 'new'}
+                    }
+                },
                 preview: {
                     target: '_blank'
                 }

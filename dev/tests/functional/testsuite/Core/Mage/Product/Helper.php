@@ -516,7 +516,35 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         $this->fillProductInfo($productData);
         if ($isSave) {
-            $this->saveForm('save');
+            $this->saveProduct();
+        }
+    }
+
+    /**
+     * Save product using split button
+     *
+     * @param string $saveAction saveAndContinueEdit|saveAndNew|saveAndDuplicate|save
+     * @param bool $validate
+     */
+    public function saveProduct($saveAction = 'save', $validate = true)
+    {
+        if ($this->controlIsVisible('button', 'save_disabled')){
+            $this->fail('Save button is disabled');
+        }
+        switch ($saveAction){
+            case 'saveAndContinueEdit':
+                $this->saveAndContinueEdit('button', 'save_and_continue_edit');
+                break;
+            case 'saveAndDuplicate':
+                $this->addParameter('saveAction', '');
+                $this->clickButton('save_split_select', false);
+                $this->saveForm('save_product_by_action', $validate);
+                break;
+            default:
+                $this->addParameter('saveAction', $saveAction);
+                $this->clickButton('save_split_select', false);
+                $this->saveForm('save_product_by_action', $validate);
+                break;
         }
     }
 
@@ -1565,7 +1593,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         if (!$this->controlIsPresent(self::UIMAP_TYPE_MESSAGE, 'specific_table_no_records_found')) {
             $this->fillCheckbox($type . '_select_all', 'No');
             if ($saveChanges) {
-                $this->saveAndContinueEdit('button', 'save_and_continue_edit');
+                $this->saveProduct('saveAndContinueEdit');
                 $this->assertTrue($this->controlIsPresent(self::UIMAP_TYPE_MESSAGE, 'specific_table_no_records_found'),
                     'There are products assigned to "' . $type . '" tab');
             }

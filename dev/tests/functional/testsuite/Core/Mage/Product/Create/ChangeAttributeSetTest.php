@@ -73,7 +73,7 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $this->assertTrue($this->controlIsPresent('dropdown', 'general_user_attr_dropdown'),
             "There is absent attribute $assignedAttribute, but shouldn't");
         $this->productHelper()->verifyProductInfo($productDataInitial);
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
     }
 
@@ -103,7 +103,7 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $this->assertFalse($this->controlIsPresent('dropdown', 'general_user_attr_dropdown'),
             "There is present $assignedAttribute attribute, but shouldn't");
         $this->productHelper()->verifyProductInfo($productDataInitial);
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
     }
 
@@ -134,7 +134,7 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $this->assertTrue($this->controlIsPresent('dropdown', 'general_user_attr_dropdown'),
             "There is absent attribute $assignedAttribute, but shouldn't");
         $this->productHelper()->verifyProductInfo($productDataInitial);
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
     }
 
@@ -166,7 +166,7 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $this->assertFalse($this->controlIsPresent('dropdown', 'general_user_attr_dropdown'),
             "There is present $assignedAttribute attribute, but shouldn't");
         $this->productHelper()->verifyProductInfo($productDataInitial);
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
     }
 

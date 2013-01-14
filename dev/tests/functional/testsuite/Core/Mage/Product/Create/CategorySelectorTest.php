@@ -229,7 +229,7 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $this->productHelper()->createProduct($productData, 'simple', false);
         $this->openTab('general');
         $this->clickControl('link', 'delete_category', false);
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         //Verifying
         $this->assertMessagePresent(self::MESSAGE_TYPE_SUCCESS, 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));

@@ -48,7 +48,7 @@ manage_products:
                             product_grid_columns_price: //span[@class='sort-title' and text()='Price']
         buttons:
             add_new_product: //button[span='Add Product']
-            add_new_product_split: //*[@id='add_new_product_main_control']
+            add_new_product_split: //*[@id='add_new_product-main-button']
             add_new_product_split_select: //*[@class='button btn-toggle']
             add_product_by_type: //*[@id='add_new_product']//*[contains(@onclick,'%productType%')]
         messages: &productMesssages
@@ -705,10 +705,12 @@ new_product:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save: //button[@data-ui-id='product-edit-save-button']
-            save_and_continue_edit: //button[@data-ui-id='product-edit-save-and-edit-button']
             change_attribute_set: //button[@id='change-attribute-set-button']
             change_attribute_set_disabled: //button[@id='change-attribute-set-button' and contains(@class, 'disabled')]
+            save_and_continue_edit: //*[@data-ui-id='product-edit-save-split-button']
+            save_split_select: //*[@data-ui-id='product-edit-save-split-button-dropdown']
+            save_product_by_action: //*[@data-widget-button='{"event":"%saveAction%","related":"#product-edit-form"}']
+            save_disabled: //*[@data-ui-id='product-edit-save-split-button' and contains(@class, 'disabled')]
         messages: *productMesssages
 
 # Edit Product page
@@ -792,10 +794,11 @@ edit_product:
             back: //button[span='Back']
             reset: //button[span='Reset']
             delete: //button[span='Delete']
-            duplicate: //button[span='Duplicate']
-            save: //button[@data-ui-id='product-edit-save-button']
-            save_and_continue_edit: //button[@data-ui-id='product-edit-save-and-edit-button']
             change_attribute_set: //button[span='Change Attribute Set']
+            save_and_continue_edit: //*[@data-ui-id='product-edit-save-split-button']
+            save_split_select: //*[@data-ui-id='product-edit-save-split-button-dropdown']
+            save_product_by_action: //*[@data-widget-button='{"event":"%saveAction%","related":"#product-edit-form"}']
+            save_disabled: //*[@data-ui-id='product-edit-save-split-button' and contains(@class, 'disabled')]
         messages: *productMesssages
 
 new_product_save_and_continue:
