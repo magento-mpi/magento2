@@ -21,8 +21,10 @@
         <h2 class="title-checklist"><?php echo $this->__('Go Do') ?> </h2>
         <p><?php echo $this->__('We recommend that you configure the Homepage on you new site following these steps') ?></p>
         <ul class="checklist">
-            <li class="uncompleted"><a href="<?php echo $this->getUrl('adminhtml/cms_page/edit', array('page_id' => 2)) ?>">Create Content for Your Home Page</a></li>
-            <li class="uncompleted"><a href="<?php echo $this->getUrl('adminhtml/system_config/edit', array('section' => 'design', '_fragment' => 'design_head-link')) ?>">Configure Meta Tags</a></li>
+            <?php $trackerLink = $this->getTrackerLink('adminhtml/cms_page/edit', array('page_id' => 2)); ?>
+            <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>">Create Content for Your Home Page</a></li>
+            <?php $trackerLink = $this->getTrackerLink('adminhtml/system_config/edit', array('section' => 'design', '_fragment' => 'design_head-link')); ?>
+            <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>">Configure Meta Tags</a></li>
         </ul>
     </div>
     </form>

@@ -45,6 +45,9 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_DrawerTest extend
             'countryModel' => $this->getMock('Mage_Directory_Model_Config_Source_Country', array(), array(), '', false),
             'validateVat' => $this->getMock('Mage_Adminhtml_Block_Customer_System_Config_ValidatevatFactory',
                 array(), array(), '', false
+            ),
+            'linkTrackerFactory' => $this->getMock('Mage_Launcher_Model_LinkTrackerFactory',
+                array(), array(), '', false
             )
         );
 

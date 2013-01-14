@@ -23,10 +23,17 @@
 
             <p><?php echo $this->__('We recommend that you configure these settings:') ?></p>
             <ul class="checklist">
-                <li class="uncompleted"><a href="<?php echo $this->getUrl('adminhtml/system_config/edit', array('section' => 'trans_email', '_fragment' => 'trans_email_ident_general-link')); ?>"><?php echo $this->__('Store Email Addresses'); ?> </a></li>
-                <li class="uncompleted"><a href="<?php echo $this->getUrl('adminhtml/system_config/edit', array('section' => 'design', '_fragment' => 'design_email-link')); ?>"><?php echo $this->__('Logo for Transactional Email'); ?> </a></li>
-                <li class="uncompleted"><a href="<?php echo $this->getUrl('adminhtml/system_config/edit', array('section' => 'sales_email', '_fragment' => 'sales_email_order-link')); ?>"><?php echo $this->__('Sales Emails'); ?> </a></li>
-                <li class="uncompleted"><a href="<?php echo $this->getUrl('adminhtml/system_email_template'); ?>"><?php echo $this->__('Transactional Emails'); ?></a></li>
+                <?php $trackerLink = $this->getTrackerLink('adminhtml/system_config/edit', array('section' => 'trans_email', '_fragment' => 'trans_email_ident_general-link')); ?>
+                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>"><?php echo $this->__('Store Email Addresses'); ?> </a></li>
+
+                <?php $trackerLink = $this->getTrackerLink('adminhtml/system_config/edit', array('section' => 'design', '_fragment' => 'design_email-link')); ?>
+                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>"><?php echo $this->__('Logo for Transactional Email'); ?> </a></li>
+
+                <?php $trackerLink = $this->getTrackerLink('adminhtml/system_config/edit', array('section' => 'sales_email', '_fragment' => 'sales_email_order-link')); ?>
+                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>"><?php echo $this->__('Sales Emails'); ?> </a></li>
+
+                <?php $trackerLink = $this->getTrackerLink('adminhtml/system_email_template'); ?>
+                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>"><?php echo $this->__('Transactional Emails'); ?></a></li>
             </ul>
         </div>
     </form>

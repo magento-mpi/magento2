@@ -21,6 +21,34 @@
 class Mage_Launcher_Block_Adminhtml_Drawer extends Mage_Backend_Block_Widget_Form
 {
     /**
+     * @var Mage_Launcher_Model_LinkTrackerFactory
+     */
+    protected $_linkTrackerFactory;
+
+    public function __construct(
+        Mage_Core_Controller_Request_Http $request,
+        Mage_Core_Model_Layout $layout,
+        Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Backend_Model_Url $urlBuilder,
+        Mage_Core_Model_Translate $translator,
+        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_Session $session,
+        Mage_Core_Model_Store_Config $storeConfig,
+        Mage_Core_Controller_Varien_Front $frontController,
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Launcher_Model_LinkTrackerFactory $linkTrackerFactory,
+        array $data = array()
+    ) {
+        $this->_linkTrackerFactory = $linkTrackerFactory;
+
+        parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
+            $session, $storeConfig, $frontController, $helperFactory, $data
+        );
+    }
+
+
+    /**
      * Path to template file
      *
      * @todo Default template specified, but it should be changed to custom one
@@ -86,5 +114,25 @@ class Mage_Launcher_Block_Adminhtml_Drawer extends Mage_Backend_Block_Widget_For
             'tile_header' => $this->getTileHeader(),
         );
         return $responseContent;
+    }
+
+    /**
+     * Get link tracker object
+     * @param string $route
+     * @param array $params
+     * @return Mage_Launcher_Model_LinkTracker
+     */
+    public function getTrackerLink($route = '', $params = array())
+    {
+        $urlCode = md5($route . serialize($params));
+        $link = $this->_linkTrackerFactory->create();
+        $link->load($urlCode, 'code');
+        if (!$link->getId()) {
+            $link->setCode($urlCode);
+            $link->setUrl($route);
+            $link->setParams(serialize($params));
+            $link->save();
+        }
+        return $link;
     }
 }

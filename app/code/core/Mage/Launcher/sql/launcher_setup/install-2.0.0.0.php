@@ -85,4 +85,36 @@ $table = $installer->getConnection()
     ->setComment('Tile Data Table');
 $installer->getConnection()->createTable($table);
 
+/**
+ * Create table 'launcher_link_tracker'
+ */
+$table = $installer->getConnection()
+    ->newTable($installer->getTable('launcher_link_tracker'))
+    ->addColumn('link_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+        'identity' => true,
+        'unsigned' => true,
+        'nullable' => false,
+        'primary' => true,
+    ), 'Id')
+    ->addColumn('code', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+        'nullable' => false,
+    ), 'Link Code')
+    ->addColumn('url', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+        'nullable' => false,
+    ), 'Link Url')
+    ->addColumn('params', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+        'nullable'  => true,
+    ), 'Link params')
+    ->addColumn('is_visited', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
+        'unsigned' => true,
+        'nullable' => false,
+        'default' => 0,
+    ), 'Is Link Visited?')
+    ->addIndex($installer->getIdxName('launcher_link_tracker', array('code'),
+        Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('code'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
+    ->setComment('Link Tracker Data Table');
+$installer->getConnection()->createTable($table);
+
+
 $installer->endSetup();

@@ -20,9 +20,17 @@
         <div class="go-do">
             <h2 class="title-checklist"><?php echo $this->__('Go Do') ?> </h2>
             <p><?php echo $this->__('We recommend that you configure SEO on you new site following these steps.'); ?></p>
-            <p><?php echo $this->__('We have configured XML Sitemap for you already. If you want to change please click') ?> <a href ="<?php echo $this->getUrl('adminhtml/system_config/edit', array('section' => 'sitemap', '_fragment' => 'sitemap_category-link')); ?>"> here</a>.</p>
-            <p><?php echo $this->__('We have configured Categories Path for Product URLs for you already. If you want to change please click') ?> <a href ="<?php echo $this->getUrl('adminhtml/system_config/edit', array('section' => 'catalog', '_fragment' => 'catalog_seo-link')); ?>"> here</a>.</p>
-            <p><?php echo $this->__('We have configured Auto-Redirect for pages for you already. If you want to change please click') ?> <a href ="<?php echo $this->getUrl('adminhtml/system_config/edit', array('section' => 'web', '_fragment' => 'web_url-link')); ?>"> here</a>.</p>
+
+            <ul class="checklist">
+                <?php $trackerLink = $this->getTrackerLink('adminhtml/system_config/edit', array('section' => 'sitemap', '_fragment' => 'sitemap_category-link')); ?>
+                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><?php echo $this->__('We have configured XML Sitemap for you already. If you want to change please click') ?> <a href="<?php echo $trackerLink->renderUrl(); ?>"> here</a>.</li>
+
+                <?php $trackerLink = $this->getTrackerLink('adminhtml/system_config/edit', array('section' => 'catalog', '_fragment' => 'catalog_seo-link')); ?>
+                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><?php echo $this->__('We have configured Categories Path for Product URLs for you already. If you want to change please click') ?> <a href="<?php echo $trackerLink->renderUrl(); ?>"> here</a>.</li>
+
+                <?php $trackerLink = $this->getTrackerLink('adminhtml/system_config/edit', array('section' => 'web', '_fragment' => 'web_url-link')); ?>
+                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><?php echo $this->__('We have configured Auto-Redirect for pages for you already. If you want to change please click') ?> <a href="<?php echo $trackerLink->renderUrl(); ?>"> here</a>.</li>
+            </ul>
         </div>
     </form>
 </div>
