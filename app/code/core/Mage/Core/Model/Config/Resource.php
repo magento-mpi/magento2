@@ -74,7 +74,7 @@ class Mage_Core_Model_Config_Resource
      */
     public function getResourceTypeConfig($type)
     {
-        return (string) $this->_config->getNode('global/resource/connection/types/' . $type);
+        return $this->_config->getNode('global/resource/connection/types/' . $type);
     }
 
     /**

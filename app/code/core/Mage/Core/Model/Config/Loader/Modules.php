@@ -100,7 +100,7 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
         $config->applyExtends();
         Magento_Profiler::stop('load_modules');
         Magento_Profiler::stop('config');
-        $this->_resourceConfig->setConfig($this);
+        $this->_resourceConfig->setConfig($config);
     }
 
     /**
