@@ -41,12 +41,11 @@ class Enterprise_GiftCard_Model_Checkout_Cart_ApiTest extends PHPUnit_Framework_
      */
     public function testList()
     {
-        $quote = $this->_getQuote();
         $giftCards = Magento_Test_Helper_Api::call(
             $this,
             'shoppingCartGiftcardList',
             array(
-                $quote->getId()
+                $this->_getQuote()->getId()
             )
         );
         $this->assertInternalType('array', $giftCards, 'The list of gift cards must be an array.');

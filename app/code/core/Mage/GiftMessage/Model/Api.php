@@ -48,6 +48,8 @@ class Mage_GiftMessage_Model_Api extends Mage_Checkout_Model_Api_Resource_Produc
          * And result of Mage::dispatchEvent will always return an Object of Mage_Core_Model_App.
          */
         try {
+            /** Frontend area events must be loaded as we emulate frontend behavior. */
+            Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_FRONTEND, Mage_Core_Model_App_Area::PART_EVENTS);
             Mage::dispatchEvent(
                 'checkout_controller_onepage_save_shipping_method',
                 array('request' => $request, 'quote' => $quote)
