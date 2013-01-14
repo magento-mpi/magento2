@@ -96,7 +96,7 @@ manage_sales_orders:
             min_allowed_quantity_error: //tr[td/@class='first'][contains(.,'%sku%')][.//div='The minimum quantity allowed for purchase is %qty%.']
             max_allowed_quantity_error: //tr[td/@class='first'][contains(.,'%sku%')][.//div='The maximum quantity allowed for purchase is %qty%.']
             wrong_increments_qty: //tr[td/@class='first'][contains(.,'%sku%')][.//div='This product is available for purchase in increments of %qty% only.']
-            customer_email_already_exists: //li[normalize-space(@class)='error-msg' and contains(.,'This customer email already exists')]
+            customer_email_already_exists: //li[normalize-space(@class)='error-msg' and contains(.,'Customer with the same email already exists')]
             email_exceeds_allowed_length: //li[normalize-space(@class)='error-msg' and contains(.,'"Email" exceeds the allowed length.')]
             email_is_not_valid_hostname: //li[normalize-space(@class)='error-msg' and contains(.,'"Email" is not a valid hostname.')]
             not_valid_hostname: //li[normalize-space(@class)='error-msg' and contains(.,"appears to be a DNS hostname but cannot match against hostname schema for TLD")]
