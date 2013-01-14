@@ -12,20 +12,16 @@
     "use strict";
     $.widget('mage.splitButton', {
         options: {
-            wishlistSplitButton:'.split-button .change'
+            splitButton: '.split-button',
+            arrowButton: '.change',
+            activeClass: 'active'
         },
         _create: function() {
-            $(this.options.wishlistSplitButton).each(
-                $.proxy(function(key, value) {
-                    var element = $(value);
-                    element.on('click', $.proxy(this.toggleDropDown, this));
-                }, this)
-            );
+            $(this.options.splitButton + ' ' + this.options.arrowButton).on('click', $.proxy(this.toggleDropDown, this));
         },
         toggleDropDown: function(e) {
-            var element = $(e.target),
-                parent = element.closest('.split-button');
-            parent.toggleClass('active');
+            $(e.target).closest(this.options.splitButton).toggleClass(this.options.activeClass);
+            return false;
         }
     });
 })(jQuery);
