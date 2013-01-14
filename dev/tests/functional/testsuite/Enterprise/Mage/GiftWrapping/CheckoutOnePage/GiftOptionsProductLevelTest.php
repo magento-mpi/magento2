@@ -166,7 +166,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
         $productGiftSettings = (is_string($productGiftSettings)) ?
             $this->loadDataSet('GiftWrapping', $productGiftSettings) : $productGiftSettings;
         $this->productHelper()->fillTab($productGiftSettings, 'gift_options');
-        $this->clickButton('save');
+        $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
     }
 
@@ -524,7 +524,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
         $this->acceptAlert();
         $this->waitForPageToLoad();
         $this->productHelper()->fillTab($productGOSite, 'gift_options');
-        $this->clickButton('save');
+        $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
         $newFrontendUrl = $this->stagingWebsiteHelper()->buildFrontendUrl(
             $website['general_information']['staging_website_code']);

@@ -298,7 +298,7 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $this->fillField('general_qty', $qty);
         $this->fillDropdown('general_stock_availability', $stock);
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
@@ -393,7 +393,7 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         $this->productHelper()->createProduct($productData);
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_name']));
-        $this->clickButton('duplicate');
+        $this->productHelper()->saveProduct('saveAndDuplicate');
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
         $this->openTab('inventory');

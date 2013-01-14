@@ -278,7 +278,7 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_WithProductsTest extends Mage
         $this->navigate('manage_products');
         $this->productHelper()->openProduct($search);
         $this->productHelper()->fillProductTab($customOptionsData, 'custom_options');
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $orderNumbers = $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkout);

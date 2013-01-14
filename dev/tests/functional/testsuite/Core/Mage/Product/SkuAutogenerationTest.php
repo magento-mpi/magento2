@@ -115,7 +115,7 @@ class Core_Mage_Product_SkuAutoGenerationTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'simple', false);
         $this->openTab('general');
         $this->fillField('general_sku', $productSku);
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $productData['general_sku'] = $productSku;
@@ -187,7 +187,7 @@ class Core_Mage_Product_SkuAutoGenerationTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_name']));
-        $this->clickButton('duplicate');
+        $this->productHelper()->saveProduct('saveAndDuplicate');
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
         $this->assertSame($this->productHelper()->getGeneratedSku($productData['general_name']),

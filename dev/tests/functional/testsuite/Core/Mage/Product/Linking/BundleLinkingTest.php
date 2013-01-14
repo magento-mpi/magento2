@@ -70,9 +70,7 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct($search);
         $this->productHelper()->unselectAssociatedProduct($assignType);
         $this->productHelper()->assignProduct($assign, $assignType);
-        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
-        $this->assertSame($assignType, $this->_getActiveTabUimap()->getTabId(),
-            'Wrong Tab is opened after saving product');
+        $this->productHelper()->saveProduct('saveAndContinueEdit');
         $this->productHelper()->isAssignedProduct($assign, $assignType);
         $this->assertEmptyVerificationErrors();
         $this->clearInvalidedCache();
@@ -114,9 +112,7 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct($search);
         $this->productHelper()->unselectAssociatedProduct($assignType);
         $this->productHelper()->assignProduct($assign, $assignType);
-        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
-        $this->assertSame($assignType, $this->_getActiveTabUimap()->getTabId(),
-            'Wrong Tab is opened after saving product');
+        $this->productHelper()->saveProduct('saveAndContinueEdit');
         $this->productHelper()->isAssignedProduct($assign, $assignType);
         $this->assertEmptyVerificationErrors();
         $this->clearInvalidedCache();
@@ -159,9 +155,7 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct($search);
         $this->productHelper()->unselectAssociatedProduct($assignType);
         $this->productHelper()->assignProduct($assign, $assignType);
-        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
-        $this->assertSame($assignType, $this->_getActiveTabUimap()->getTabId(),
-            'Wrong Tab is opened after saving product');
+        $this->productHelper()->saveProduct('saveAndContinueEdit');
         $this->productHelper()->isAssignedProduct($assign, $assignType);
         $this->assertEmptyVerificationErrors();
         $this->clearInvalidedCache();
@@ -203,15 +197,13 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct($searchAssigned);
         $this->openTab('inventory');
         $this->fillDropdown('inventory_stock_availability', 'Out of Stock');
-        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
+        $this->productHelper()->saveProduct('saveAndContinueEdit');
         //Assign product
         $this->navigate('manage_products');
         $this->productHelper()->openProduct($search);
         $this->productHelper()->unselectAssociatedProduct($assignType);
         $this->productHelper()->assignProduct($assign, $assignType);
-        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
-        $this->assertSame($assignType, $this->_getActiveTabUimap()->getTabId(),
-            'Wrong Tab is opened after saving product');
+        $this->productHelper()->saveProduct('saveAndContinueEdit');
         $this->productHelper()->isAssignedProduct($assign, $assignType);
         $this->assertEmptyVerificationErrors();
         $this->clearInvalidedCache();
@@ -257,15 +249,13 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct($searchAssigned);
         $this->openTab('inventory');
         $this->fillDropdown('inventory_stock_availability', 'Out of Stock');
-        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
+        $this->productHelper()->saveProduct('saveAndContinueEdit');
         //Assign product
         $this->navigate('manage_products');
         $this->productHelper()->openProduct($search);
         $this->productHelper()->unselectAssociatedProduct($assignType);
         $this->productHelper()->assignProduct($assign, $assignType);
-        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
-        $this->assertSame($assignType, $this->_getActiveTabUimap()->getTabId(),
-            'Wrong Tab is opened after saving product');
+        $this->productHelper()->saveProduct('saveAndContinueEdit');
         $this->productHelper()->isAssignedProduct($assign, $assignType);
         $this->assertEmptyVerificationErrors();
         $this->clearInvalidedCache();
@@ -311,15 +301,13 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct($searchAssigned);
         $this->openTab('inventory');
         $this->fillDropdown('inventory_stock_availability', 'Out of Stock');
-        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
+        $this->productHelper()->saveProduct('saveAndContinueEdit');
         //Assign product
         $this->navigate('manage_products');
         $this->productHelper()->openProduct($search);
         $this->productHelper()->unselectAssociatedProduct($assignType);
         $this->productHelper()->assignProduct($assign, $assignType);
-        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
-        $this->assertSame($assignType, $this->_getActiveTabUimap()->getTabId(),
-            'Wrong Tab is opened after saving product');
+        $this->productHelper()->saveProduct('saveAndContinueEdit');
         $this->productHelper()->isAssignedProduct($assign, $assignType);
         $this->assertEmptyVerificationErrors();
         $this->clearInvalidedCache();

@@ -160,7 +160,7 @@ jQuery(function($) {
 
     $('.widget-button-save .item-default').parent().hide();
     var $form = $('#product-edit-form'),
-        fieldSelector = '.required-entry:not([disabled]):not(.ignore-validate),' +
+        fieldSelector = '.required-entry:not([disabled]):not(.ignore-validate):not(th),' +
             '.required-option-select:not([disabled]):not(.ignore-validate)';
     $form.on('focus change keyup click', fieldSelector + ',:checkbox,button', function () {
         var disabled = false;
