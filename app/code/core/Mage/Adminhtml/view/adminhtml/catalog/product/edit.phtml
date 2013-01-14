@@ -158,7 +158,7 @@ jQuery(function($) {
     var data = <?php echo $this->getTypeSwitcherData();?>;
     new TypeSwitcher(data).bindAll();
 
-    $('.widget-button-save .item-default').parent().hide();
+    $('.widget-button-save .item-default, #save-split-button-duplicate-button[onclick=""]').parent().hide();
     var $form = $('#product-edit-form'),
         fieldSelector = '.required-entry:not([disabled]):not(.ignore-validate):not(th),' +
             '.required-option-select:not([disabled]):not(.ignore-validate)';

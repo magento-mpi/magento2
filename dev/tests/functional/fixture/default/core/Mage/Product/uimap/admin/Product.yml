@@ -48,7 +48,7 @@ manage_products:
                             product_grid_columns_price: //span[@class='sort-title' and text()='Price']
         buttons:
             add_new_product: //button[span='Add Product']
-            add_new_product_split: //*[@id='add_new_product_main_control']
+            add_new_product_split: //*[@id='add_new_product-main-button']
             add_new_product_split_select: //*[@class='button btn-toggle']
             add_product_by_type: //*[@id='add_new_product']//*[contains(@onclick,'%productType%')]
         messages: &productMesssages
