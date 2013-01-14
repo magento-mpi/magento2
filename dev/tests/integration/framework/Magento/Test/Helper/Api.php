@@ -137,4 +137,27 @@ class Magento_Test_Helper_Api
         $entityStore->setIncrementPrefix($prefix);
         $entityStore->save();
     }
+
+    /**
+     * Check specific fields value in some entity data.
+     *
+     * @param PHPUnit_Framework_TestCase $testCase
+     * @param array $expectedData
+     * @param array $actualData
+     * @param array $fieldsToCompare
+     */
+    public function assertEntityFields(
+        PHPUnit_Framework_TestCase $testCase,
+        array $expectedData,
+        array $actualData,
+        array $fieldsToCompare
+    ) {
+        foreach ($fieldsToCompare as $entityField => $field) {
+            $testCase->assertEquals(
+                $actualData[is_numeric($entityField) ? $field : $entityField],
+                $expectedData[$field],
+                sprintf('"%s" filed has invalid value.', $field)
+            );
+        }
+    }
 }

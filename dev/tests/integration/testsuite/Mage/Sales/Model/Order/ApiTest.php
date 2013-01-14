@@ -48,18 +48,10 @@ class Mage_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
             'customer_email',
             'order_currency_code'
         );
-        foreach ($fieldsToCompare as $entityField => $field) {
-            $this->assertEquals(
-                $order->getData(is_numeric($entityField) ? $field : $entityField),
-                $orderInfo[$field],
-                sprintf(
-                    '"%s" filed has invalid value "%s" in response, "%s" was expected.',
-                    $field,
-                    $orderInfo[$field],
-                    $order->getData($field)
-                )
-            );
-        }
+
+        /** @var Magento_Test_Helper_Api $helper */
+        $helper = Magento_Test_Helper_Factory::getHelper('api');
+        $helper->assertEntityFields($this, $order->getData(), $orderInfo, $fieldsToCompare);
     }
 
     /**
