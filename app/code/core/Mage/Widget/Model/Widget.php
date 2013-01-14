@@ -20,11 +20,9 @@ class Mage_Widget_Model_Widget extends Varien_Object
     /**
      * Load Widgets XML config from widget.xml files and cache it
      *
-     * @param Mage_Core_Model_Config_StorageInterface $configStorage
-     *
      * @return Varien_Simplexml_Config
      */
-    public function getXmlConfig(Mage_Core_Model_Config_StorageInterface $configStorage)
+    public function getXmlConfig()
     {
         $cachedXml = Mage::app()->loadCache('widget_config');
         if ($cachedXml) {
@@ -32,7 +30,8 @@ class Mage_Widget_Model_Widget extends Varien_Object
         } else {
             $config = new Varien_Simplexml_Config();
             $config->loadString('<?xml version="1.0"?><widgets></widgets>');
-            $configStorage->loadModulesConfiguration('widget.xml', $config);
+            Mage::getSingleton('Mage_Core_Model_Config_Modules_Reader')
+                ->loadModulesConfiguration('widget.xml', $config);
             $xmlConfig = $config;
             if (Mage::app()->useCache('config')) {
                 Mage::app()->saveCache($config->getXmlString(), 'widget_config',

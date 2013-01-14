@@ -19,7 +19,7 @@ class Enterprise_GiftRegistry_Model_Attribute_Config extends Mage_Core_Model_Abs
     /**
      * @var Mage_Core_Model_Config_StorageInterface
      */
-    protected $_configStorage;
+    protected $_configReader;
 
     /**
      * Pathes to attribute groups and types nodes
@@ -32,11 +32,11 @@ class Enterprise_GiftRegistry_Model_Attribute_Config extends Mage_Core_Model_Abs
         Mage_Core_Model_Cache $cacheManager,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Varien_Data_Collection_Db $resourceCollection = null,
-        Mage_Core_Model_Config_StorageInterface $configStorage,
+        Mage_Core_Model_Config_Modules_Reader $configReader,
         array $data = array()
     )
     {
-        $this->_configStorage = $configStorage;
+        $this->_configReader = $configReader;
         parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
     }
 
@@ -54,7 +54,7 @@ class Enterprise_GiftRegistry_Model_Attribute_Config extends Mage_Core_Model_Abs
             } else {
                 $xmlConfig = new Varien_Simplexml_Config();
                 $xmlConfig->loadString('<?xml version="1.0"?><prototype></prototype>');
-                $this->_configStorage->loadModulesConfiguration('giftregistry.xml', $xmlConfig);
+                $this->_configReader->loadModulesConfiguration('giftregistry.xml', $xmlConfig);
 
 
                 if (Mage::app()->useCache('config')) {

@@ -87,24 +87,34 @@ class Mage_Core_Model_Config
     protected $_app;
 
     /**
+     * Module configuration reader
+     *
+     * @var Mage_Core_Model_Config_Modules_Reader
+     */
+    protected $_moduleReader;
+
+    /**
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Config_StorageInterface $configStorage
      * @param Mage_Core_Model_Config_BaseFactory $configFactory
      * @param Mage_Core_Model_AppInterface $app
+     * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Config_StorageInterface $configStorage,
         Mage_Core_Model_Config_BaseFactory $configFactory,
-        Mage_Core_Model_AppInterface $app
+        Mage_Core_Model_AppInterface $app,
+        Mage_Core_Model_Config_Modules_Reader $moduleReader
     ) {
         $this->_objectManager = $objectManager;
         $this->_app = $app;
         $this->_dirs = $dirs;
         $this->_storage = $configStorage;
         $this->_config = $configFactory->create($this->_storage->getConfiguration());
+        $this->_moduleReader = $moduleReader;
     }
 
     /**
@@ -332,29 +342,7 @@ class Mage_Core_Model_Config
      */
     public function getModuleDir($type, $moduleName)
     {
-        if (isset($this->_moduleDirs[$moduleName][$type])) {
-            return $this->_moduleDirs[$moduleName][$type];
-        }
-
-        $codePool = (string)$this->getModuleConfig($moduleName)->codePool;
-
-        $dir = $this->_dirs->getDir(Mage_Core_Model_Dir::MODULES) . DIRECTORY_SEPARATOR
-            . $codePool . DIRECTORY_SEPARATOR
-            . uc_words($moduleName, DIRECTORY_SEPARATOR);
-
-        switch ($type) {
-            case 'etc':
-            case 'controllers':
-            case 'sql':
-            case 'data':
-            case 'locale':
-            case 'view':
-                $dir .= DS . $type;
-                break;
-        }
-
-        $dir = str_replace('/', DS, $dir);
-        return $dir;
+        return $this->_moduleReader->getModuleDir($type, $moduleName);
     }
 
     /**
@@ -552,17 +540,6 @@ class Mage_Core_Model_Config
             }
         }
         return '';
-    }
-
-    /**
-     * Go through all modules and find configuration files of active modules
-     *
-     * @param string $filename
-     * @return array
-     */
-    public function getModuleConfigurationFiles($filename)
-    {
-        return $this->_storage->getModuleConfigurationFiles($filename);
     }
 
     /**

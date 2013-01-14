@@ -16,10 +16,10 @@ class Enterprise_PageCache_Model_Config extends Varien_Simplexml_Config
      * Class constructor
      * load cache configuration
      *
-     * @param Mage_Core_Model_Config_StorageInterface $configStorage
+     * @param Mage_Core_Model_Config_Modules_Reader $configReader
      * @param $data
      */
-    public function __construct(Mage_Core_Model_Config_StorageInterface $configStorage, $data = null)
+    public function __construct(Mage_Core_Model_Config_Modules_Reader $configReader, $data = null)
     {
         parent::__construct($data);
         $this->setCacheId('cache_config');
@@ -33,7 +33,7 @@ class Enterprise_PageCache_Model_Config extends Varien_Simplexml_Config
             }
         }
 
-        $config = $configStorage->loadModulesConfiguration('cache.xml');
+        $config = $configReader->loadModulesConfiguration('cache.xml');
         $this->setXml($config->getNode());
 
         if ($canUsaCache) {

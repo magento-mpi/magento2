@@ -31,12 +31,14 @@ class Mage_Backend_Model_Config_Structure_Reader extends Magento_Config_XmlAbstr
     /**
      * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      * @param Mage_Backend_Model_Config_Structure_Converter $structureConverter
      * @param bool $runtimeValidation
      */
     public function __construct(
         Mage_Core_Model_Config $config,
         Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_Config_Modules_Reader $moduleReader,
         Mage_Backend_Model_Config_Structure_Converter $structureConverter,
         $runtimeValidation = true
     ) {
@@ -47,7 +49,7 @@ class Mage_Backend_Model_Config_Structure_Reader extends Magento_Config_XmlAbstr
             && ($cachedData = $cache->load(self::CACHE_SYSTEM_CONFIGURATION_STRUCTURE))) {
             $this->_data = unserialize($cachedData);
         } else {
-            $fileNames = $config
+            $fileNames = $moduleReader
                 ->getModuleConfigurationFiles('adminhtml' . DIRECTORY_SEPARATOR . 'system.xml');
             parent::__construct($fileNames);
 

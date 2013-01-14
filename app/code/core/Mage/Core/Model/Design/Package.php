@@ -151,6 +151,21 @@ class Mage_Core_Model_Design_Package
     protected $_themes = array();
 
     /**
+     * Module configuration reader
+     *
+     * @var Mage_Core_Model_Config_Modules_Reader
+     */
+    protected $_moduleReader;
+
+    /**
+     * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
+     */
+    public function __construct(Mage_Core_Model_Config_Modules_Reader $moduleReader)
+    {
+        $this->_moduleReader = $moduleReader;
+    }
+
+    /**
      * Set package area
      *
      * @param string $area
@@ -1069,7 +1084,7 @@ class Mage_Core_Model_Design_Package
             return $this->_viewConfigs[$key];
         }
 
-        $configFiles = Mage::getConfig()->getModuleConfigurationFiles('view.xml');
+        $configFiles = $this->_moduleReader->getModuleConfigurationFiles('view.xml');
         $themeConfigFile = $this->getFilename('view.xml', array());
         if (file_exists($themeConfigFile)) {
             $configFiles[] = $themeConfigFile;

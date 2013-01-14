@@ -45,22 +45,21 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
     protected $_allowedModules = array();
 
     /**
-     * Module configuration directories
-     *
-     * @var array
-     */
-    protected $_moduleDirs = array();
-
-    /**
      * @var Mage_Core_Model_Config_Resource
      */
     protected $_resourceConfig;
+
+    /**
+     * @var Mage_Core_Model_Config_Loader_Modules_File
+     */
+    protected $_fileReader;
 
     /**
      * @param Mage_Core_Model_Config_Primary $primaryConfig
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Config_BaseFactory $prototypeFactory
      * @param Mage_Core_Model_Config_Resource $resourceConfig
+     * @param Mage_Core_Model_Config_Loader_Modules_File $fileReader
      * @param array $allowedModules
      */
     public function __construct(
@@ -68,6 +67,7 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
         Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Config_BaseFactory $prototypeFactory,
         Mage_Core_Model_Config_Resource $resourceConfig,
+        Mage_Core_Model_Config_Loader_Modules_File $fileReader,
         array $allowedModules = array()
     ) {
         $this->_dirs = $dirs;
@@ -75,6 +75,7 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
         $this->_allowedModules = $allowedModules;
         $this->_prototypeFactory = $prototypeFactory;
         $this->_resourceConfig = $resourceConfig;
+        $this->_fileReader = $fileReader;
     }
 
     /**
@@ -94,7 +95,9 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
 
         Magento_Profiler::start('load_modules_configuration');
         $resourceConfig = sprintf('config.%s.xml', $this->_resourceConfig->getResourceConnectionModel('core'));
-        $this->loadModulesConfiguration(array('config.xml', $resourceConfig), $config);
+        $this->_fileReader->loadConfigurationFromFile(
+            $config, array('config.xml', $resourceConfig), $config, null, $this->_modulesCache
+        );
         Magento_Profiler::stop('load_modules_configuration');
 
         $config->applyExtends();
@@ -201,109 +204,5 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
             $collectModuleFiles['custom'],
             $collectModuleFiles['base']
         );
-    }
-
-    /**
-     * Iterate all active modules "etc" folders and combine data from
-     * specidied xml file name to one object
-     *
-     * @param   string $fileName
-     * @param   null|Mage_Core_Model_Config_Base $mergeToObject
-     * @param   null|Mage_Core_Model_Config_Base $mergeModel
-     * @return  Mage_Core_Model_Config_Base
-     */
-    public function loadModulesConfiguration($fileName, $mergeToObject = null, $mergeModel = null)
-    {
-        if ($mergeToObject === null) {
-            $mergeToObject = clone $this->_prototypeFactory->create('<config/>');
-        }
-        if ($mergeModel === null) {
-            $mergeModel = clone $this->_prototypeFactory->create('<config/>');
-        }
-        $modules = $mergeToObject->getNode('modules')->children();
-        /** @var $module Varien_Simplexml_Element */
-        foreach ($modules as $modName => $module) {
-            if ($module->is('active')) {
-                if (!is_array($fileName)) {
-                    $fileName = array($fileName);
-                }
-                foreach ($fileName as $configFile) {
-                    if ($configFile == 'config.xml' && isset($this->_modulesCache[$modName])) {
-                        $mergeToObject->extend($this->_modulesCache[$modName], true);
-                        //Prevent overriding <active> node of module if it was redefined in etc/modules
-                        $mergeToObject->extend(
-                            $this->_prototypeFactory->create(
-                                "<config><modules><{$modName}><active>true</active></{$modName}></modules></config>"
-                            ),
-                            true
-                        );
-                    } else {
-                        $configFilePath = $this->getModuleDir($mergeToObject, 'etc', $modName) . DS . $configFile;
-                        if ($mergeModel->loadFile($configFilePath)) {
-                            $mergeToObject->extend($mergeModel, true);
-                        }
-                    }
-                }
-            }
-        }
-        unset($this->_modulesCache);
-        return $mergeToObject;
-    }
-
-    /**
-     * Go through all modules and find configuration files of active modules
-     *
-     * @param string $filename
-     * @return array
-     */
-    public function getModuleConfigurationFiles($filename)
-    {
-        $result = array();
-        $modules = $this->getNode('modules')->children();
-        foreach ($modules as $moduleName => $module) {
-            if ((!$module->is('active'))) {
-                continue;
-            }
-            $file = $this->getModuleDir('etc', $moduleName) . DIRECTORY_SEPARATOR . $filename;
-            if (file_exists($file)) {
-                $result[] = $file;
-            }
-        }
-        return $result;
-    }
-
-
-    /**
-     * Get module directory by directory type
-     *
-     * @param   string $type
-     * @param   string $moduleName
-     * @return  string
-     */
-    public function getModuleDir($config, $type, $moduleName)
-    {
-        if (isset($this->_moduleDirs[$moduleName][$type])) {
-            return $this->_moduleDirs[$moduleName][$type];
-        }
-
-        $codePool = (string)$config->getNode('modules/' . $moduleName . 'codePool');
-
-        $dir = $this->_dirs->getDir(Mage_Core_Model_Dir::MODULES) . DIRECTORY_SEPARATOR
-            . $codePool . DIRECTORY_SEPARATOR
-            . uc_words($moduleName, DIRECTORY_SEPARATOR);
-
-        switch ($type) {
-            case 'etc':
-            case 'controllers':
-            case 'sql':
-            case 'data':
-            case 'locale':
-            case 'view':
-                $dir .= DS . $type;
-                break;
-        }
-
-        $dir = str_replace('/', DS, $dir);
-        return $dir;
     }
 }
