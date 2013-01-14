@@ -534,7 +534,11 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         if ($additionalAction != 'continueEdit') {
             $this->addParameter('additionalAction', $additionalAction);
             $this->clickButton('save_split_select', false);
-            $this->saveForm('save_product_by_action', $validate);
+            if ($validate) {
+                $this->saveForm('save_product_by_action');
+            } else {
+                $this->clickButton('save_product_by_action', false);
+            }
         } else {
             $this->saveAndContinueEdit('button', 'save_and_continue_edit');
         }
