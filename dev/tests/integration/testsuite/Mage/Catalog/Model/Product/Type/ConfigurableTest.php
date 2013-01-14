@@ -400,9 +400,11 @@ class Mage_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framework
      */
     public function testGenerateSimpleProducts($productsData)
     {
+        $this->_product->setNewVariationsAttributeSetId(4); // Default attribute set id
         $generatedProducts = $this->_model->generateSimpleProducts($this->_product, $productsData);
         $this->assertEquals(3, count($generatedProducts));
         foreach ($generatedProducts as $productId) {
+            /** @var $product Mage_Catalog_Model_Product */
             $product = Mage::getModel('Mage_Catalog_Model_Product');
             $product->load($productId);
             $this->assertNotNull($product->getName());
