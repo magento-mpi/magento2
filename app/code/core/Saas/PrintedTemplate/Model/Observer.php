@@ -270,7 +270,8 @@ class Saas_PrintedTemplate_Model_Observer
 
         $block = $observer->getEvent()->getBlock();
         if (!Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Saas_PrintedTemplate::print')) {
-            if ($block instanceof Mage_Backend_Block_Widget_Grid) {
+            if ($block instanceof Mage_Backend_Block_Widget_Grid
+                && $block->getMassactionBlock() instanceof Mage_Backend_Block_Widget) {
                 $gridBlocks = array('pdfdocs_order','pdfshipments_order','pdfcreditmemos_order','pdfinvoices_order');
                 foreach ($gridBlocks as $_item) {
                     $item = $block->getMassactionBlock()->getItem($_item);
