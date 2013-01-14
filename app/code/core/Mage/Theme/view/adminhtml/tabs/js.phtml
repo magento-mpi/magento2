@@ -1,0 +1,23 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     Mage_Theme
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<ul class="js-files-container">
+    <?php if (!$this->getJsFiles()->count()): ?>
+        <li><?php echo $this->__('No files found') ?></li>
+    <?php else: ?>
+        <?php /** @var $file Mage_Core_Model_Resource_Theme_Files */ ?>
+        <?php foreach ($this->getJsFiles() as $file): ?>
+            <li>
+                <div class="js-file"><?php echo $file->getFileName() ?></div>
+            </li>
+        <?php endforeach; ?>
+    <?php endif; ?>
+</ul>

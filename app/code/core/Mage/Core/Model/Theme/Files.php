@@ -19,6 +19,11 @@ class Mage_Core_Model_Theme_Files extends Mage_Core_Model_Abstract
     const TYPE_CSS = 'css';
 
     /**
+     * js file type
+     */
+    const TYPE_JS = 'js';
+
+    /**
      * @var Varien_Io_File
      */
     protected $_ioFile;

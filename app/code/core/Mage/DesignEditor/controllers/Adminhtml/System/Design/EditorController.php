@@ -427,13 +427,13 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
                 $this->_saveLayoutUpdate($themeId, true);
             }
             $this->getResponse()->setBody($coreHelper->jsonEncode(
-                    array('success' => $this->__('Temporary layout update saved'))
-                ));
+                array('success' => $this->__('Temporary layout update saved'))
+            ));
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
             $this->getResponse()->setBody($coreHelper->jsonEncode(
-                    array('error' => $this->__('Temporary layout update not saved'))
-                ));
+                array('error' => $this->__('Temporary layout update not saved'))
+            ));
         }
     }
 

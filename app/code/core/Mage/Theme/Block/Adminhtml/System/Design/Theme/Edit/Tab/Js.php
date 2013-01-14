@@ -35,9 +35,15 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
     {
         $form = $this->getForm();
         $themeFieldset = $form->addFieldset('theme_js', array(
-            'legend' => $this->__('Theme JS'),
+            'legend' => $this->__('Theme Java Script'),
         ));
-        $this->_addElementTypes($themeFieldset);
+
+        $jsFieldsetRenderer = $this->getChildBlock('theme_edit_tabs_tab_js_tab_content');
+        $jsFieldsetRenderer->setJsFiles($this->_getCurrentTheme()->getCustomJsFiles());
+        $this->_getCurrentTheme()->getCustomJsFiles();
+
+        $jsFieldset = $themeFieldset->addFieldset('js_fieldset_javascript_content', array('class' => 'fieldset-wide'));
+        $jsFieldset->setRenderer($jsFieldsetRenderer);
     }
 
     /**
