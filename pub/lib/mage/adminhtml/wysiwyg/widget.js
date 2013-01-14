@@ -66,6 +66,10 @@ WysiwygWidget.Widget.prototype = {
 
     initialize: function(formEl, widgetEl, widgetOptionsEl, optionsSourceUrl, widgetTargetId) {
         $(formEl).insert({bottom: widgetTools.getDivHtml(widgetOptionsEl)});
+        jQuery('#' + formEl).mage('validation', {
+            ignore: ".skip-submit",
+            errorClass: 'mage-error'
+        });
         this.formEl = formEl;
         this.widgetEl = $(widgetEl);
         this.widgetOptionsEl = $(widgetOptionsEl);
