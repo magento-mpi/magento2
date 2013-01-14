@@ -220,8 +220,8 @@
         });
     }
 
-    var templateForm = jQuery('#printed_template_edit_form').form().validation();
-    var templatePreviewForm = jQuery('#printed_template_preview_form').form().validation();
+    var templateForm = jQuery('#printed_template_edit_form').mage('form').mage('validation');
+    var templatePreviewForm = jQuery('#printed_template_preview_form').mage('form').mage('validation');
     var templateControl = {
         checkTemplate: function(successHandler) {
             var onComplete = function(response) {
@@ -304,7 +304,7 @@
         },
 
         load: function() {
-            var form = jQuery('#printed_template_load_form').validation();
+            var form = jQuery('#printed_template_load_form').mage('validation');
 
             if (!form.valid()) {
                 return;

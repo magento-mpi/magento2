@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Saas_PrintedTemplate_Adminhtml_TemplateControllerTest extends Magento_Test_TestCase_ControllerAbstract
+class Saas_PrintedTemplate_Model_Wysiwyg_ConfigTest extends Magento_Test_TestCase_ControllerAbstract
 {
     protected function setUp()
     {
@@ -30,22 +30,25 @@ class Saas_PrintedTemplate_Adminhtml_TemplateControllerTest extends Magento_Test
         parent::tearDown();
     }
 
-    public function testPrintedTemplateIsInstalled()
+    /**
+     * @covers Saas_PrintedTemplate_Model_Wysiwyg_Config
+     */
+    public function testGetConfig()
     {
-        $this->dispatch('backend/admin/template/index');
+        $configModel = Mage::getModel('Saas_PrintedTemplate_Model_Wysiwyg_Config');
 
-        $this->assertInstanceOf(
-            'Saas_PrintedTemplate_Block_Adminhtml_Template_Grid',
-            Mage::app()->getLayout()->getBlock('printed.template.grid'),
-            'Saas_PrintedTemplate_Block_Adminhtml_Template_Grid block is not loaded'
-        );
-
+        $this->dispatch('backend/admin/template/edit/entity_type/invoice');
         $result = $this->getResponse()->getBody();
-        $expected = 'Please make sure that popups are allowed.';
-        $this->assertContains(
-            $expected,
-            $result,
-            'Saas_PrintedTemplate_Block_Adminhtml_Template_Grid block is not rendered'
-        );
+
+        $expectedFonts = 'var editorFonts = \'' . $configModel->getFonts() . '\'';
+        $this->assertContains($expectedFonts, $result);
+
+        $expectedErrorMessage = 'editor.settings.magentoheader_error_message = \''
+            . $configModel->getHeaderErrorMessage() . '\'';
+        $this->assertContains($expectedErrorMessage, $result);
+
+        $expectedErrorMessage = 'editor.settings.magentofooter_error_message = \''
+            . $configModel->getFooterErrorMessage() . '\'';
+        $this->assertContains($expectedErrorMessage, $result);
     }
 }
