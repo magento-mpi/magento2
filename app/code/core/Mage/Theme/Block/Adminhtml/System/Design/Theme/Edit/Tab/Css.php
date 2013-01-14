@@ -355,7 +355,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     protected function _getThemeByFilename($filename)
     {
         $designDir = Mage::getConfig()->getOptions()->getDesignDir();
-        list(, $area, $package, $theme,) = explode('/', substr($filename, strlen($designDir)), 5);
+        list(, $area, $package, $theme,) = explode(DIRECTORY_SEPARATOR, substr($filename, strlen($designDir)), 5);
         /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
         $collection = Mage::getModel('Mage_Core_Model_Resource_Theme_Collection');
         return $collection->getThemeByFullPath(join('/', array($area, $package, $theme)));
