@@ -18,8 +18,7 @@
  */
 class Core_Mage_Product_Linking_ConfigurableLinkingTest extends Mage_Selenium_TestCase
 {
-    private static $_productTypes = array('simple', 'virtual', 'downloadable',
-                                         'bundle', 'configurable', 'grouped');
+    private static $_productTypes = array('configurable', 'bundle', 'grouped', 'simple', 'virtual', 'downloadable');
 
     protected function assertPreconditions()
     {
