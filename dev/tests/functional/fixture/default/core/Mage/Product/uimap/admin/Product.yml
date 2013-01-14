@@ -583,20 +583,22 @@ new_product:
                                     buttons:
                                         delete_option: //button[span='Delete Option']
                                         add_selection: //button[span='Add Selection']
-                                        selection_item_delete: //tr[@class="selection" and contains(.,'%productSku%')]//button[span='Delete']
+                                        selection_item_delete: //tr[contains(td,'%productSku%')]//button[span='Delete']
                                     dropdowns:
                                         bundle_items_input_type: //select[contains(@name,'[type]')]
                                         bundle_items_is_required: //select[contains(@name,'required')]
-                                        selection_item_price_type: //tr[@class="selection" and contains(.,'%productSku%')]//select[contains(@name,'selection_price_type')]
-                                        selection_item_user_defined_qty: //tr[@class="selection" and contains(.,'%productSku%')]//select[contains(@name,'selection_can_change_qty')]
+                                        selection_item_price_type: //tr[contains(td,'%productSku%')]//select[contains(@name,'selection_price_type')]
+                                        selection_item_user_defined_qty: //tr[contains(td,'%productSku%')]//select[contains(@name,'selection_can_change_qty')]
                                     fields:
                                         bundle_items_default_title: //input[contains(@name,'[title]')]
                                         bundle_items_position: //input[contains(@name,'position')]
-                                        selection_item_price: //tr[@class="selection" and contains(.,'%productSku%')]//input[contains(@name,'selection_price_value')]
-                                        selection_item_default_qty: //tr[@class="selection" and contains(.,'%productSku%')]//input[contains(@name,'selection_qty')]
-                                        selection_item_position: //tr[@class="selection" and contains(.,'%productSku%')]//input[contains(@name,'[position]')]
+                                        selection_item_price: //tr[contains(td,'%productSku%')]//input[contains(@name,'selection_price_value')]
+                                        selection_item_default_qty: //tr[contains(td,'%productSku%')]//input[contains(@name,'selection_qty')]
+                                        selection_item_position: //tr[contains(td,'%productSku%')]//input[contains(@name,'[position]')]
                                     radiobuttons:
-                                        selection_item_default: //tr[@class="selection" and contains(.,'%productSku%')]//input[contains(@name,'[is_default]')]
+                                        selection_item_default: //tr[contains(td,'%productSku%')]//input[contains(@name,'[is_default]')]
+                                    pageelements:
+                                        selected_option_product: //tr[contains(td,'%productSku%')]
                             -
                                 select_product_to_bundle_option:
                                     xpath: //div[@id='bundle_option_%optionId%']//div[contains(div/h4,'Please Select Products to Add')]

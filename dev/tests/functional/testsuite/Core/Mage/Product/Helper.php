@@ -1010,15 +1010,16 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     {
         $this->addParameter('attributeTitle', $attributeTitle);
         if (!$this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'product_variation_attribute')) {
-            $element = $this->getControlElement(self::FIELD_TYPE_INPUT, 'general_configurable_attribute_title');
-            $this->focusOnElement($element);
-            $element->value($attributeTitle);
-            $this->waitForControlEditable(self::FIELD_TYPE_PAGEELEMENT, 'configurable_attributes_list');
-            $selectAttribute = $this->elementIsPresent($this->_getControlXpath(self::FIELD_TYPE_LINK,
-                'configurable_attribute_select'));
-            if (!$selectAttribute) {
-                $this->fail('Attribute with title "' . $attributeTitle . '" is not present in list');
+            $this->clickControl(self::FIELD_TYPE_INPUT, 'general_configurable_attribute_title', false);
+            if (!$this->controlIsPresent(self::FIELD_TYPE_LINK, 'configurable_attribute_select')) {
+                $element = $this->getControlElement(self::FIELD_TYPE_INPUT, 'general_configurable_attribute_title');
+                $element->value($attributeTitle);
+                $this->waitForControlEditable(self::FIELD_TYPE_PAGEELEMENT, 'configurable_attributes_list');
+                if (!$this->controlIsPresent(self::FIELD_TYPE_LINK, 'configurable_attribute_select')) {
+                    $this->fail('Attribute with title "' . $attributeTitle . '" is not present in list');
+                }
             }
+            $selectAttribute = $this->getControlElement(self::FIELD_TYPE_LINK, 'configurable_attribute_select');
             $selectAttribute->click();
             $this->waitForControlEditable(self::UIMAP_TYPE_FIELDSET, 'product_variation_attribute');
         }
@@ -1907,6 +1908,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $optionsCount = $this->getControlCount(self::FIELD_TYPE_PAGEELEMENT, 'bundle_item_row');
         $this->addParameter('optionId', $optionsCount);
         $this->clickButton('add_new_option', false);
+        $this->waitForControlVisible('fieldset', 'new_bundle_option');
         $data = $this->formBundleItemData($bundleOptionData);
         $this->fillFieldset($data['general'], 'new_bundle_option');
         foreach ($data['items'] as $item) {
@@ -1914,12 +1916,15 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 continue;
             }
             $this->clickButton('add_selection', false);
-            $this->pleaseWait();
+            $this->waitForControlVisible('fieldset', 'select_product_to_bundle_option');
             $this->searchAndChoose($item['search'], 'select_product_to_bundle_option');
             $this->clickButton('add_selected_products', false);
-            if (isset($item['fill']) && isset($item['param'])) {
+            if (isset($item['param'])) {
                 $this->addParameter('productSku', $item['param']);
-                $this->fillForm($item['fill']);
+            }
+            $this->waitForControlVisible('pageelement', 'selected_option_product');
+            if (isset($item['fill'])) {
+                $this->fillFieldset($item['fill'], 'new_bundle_option');
             }
         }
     }
