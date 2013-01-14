@@ -37,9 +37,9 @@
                 jstree: {
                     selector: '.jstree',
                     eventsMap: {
-                        focus: 'hover_node.jstree',
-                        blur: 'dehover_node.jstree',
-                        select: 'select_node.jstree'
+                        focus: 'hover_node',
+                        blur: 'dehover_node',
+                        select: 'select_tree_node'
                     }
                 }
             },
@@ -200,7 +200,7 @@
          */
         _bindDropdown: function() {
             var events = {
-                click: this._selectItem,
+                //click: this._selectItem,
                 mousedown: function(e) {
                     e.preventDefault();
                 }
@@ -219,14 +219,15 @@
          * Save selected item and hide dropdown
          * @private
          */
-        _selectItem: function() {
+        _selectItem: function(e) {
+            var templateData = e && e.target ? $.tmplItem(e.target).data.items : this._items;
             var term = this._value();
             if (this.isDropdownShown() && term) {
                 /**
                  * @type {(Object|null)} - label+value object of selected item
                  * @private
                  */
-                this._selectedItem = $.grep(this._items, $.proxy(function(v) {
+                this._selectedItem = $.grep(templateData, $.proxy(function(v) {
                     return v.label === term;
                 }, this))[0] || {value: '', label: ''};
                 if (this._selectedItem.value) {
@@ -477,7 +478,7 @@
          * @private
          */
         _selectItem: function() {
-            this._super();
+            this._superApply(arguments);
             if (this._selectedItem.value) {
                 this._addRecent(this._selectedItem);
             }
