@@ -40,13 +40,20 @@ class Mage_Core_Model_App_Area
     protected $_code;
 
     /**
-     * Constructor
+     * Area code
      *
-     * @param string $areaCode
+     * @var Mage_Core_Model_Event_Manager
      */
-    public function __construct($areaCode)
+    protected $_eventManager;
+
+    /**
+     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param $areaCode
+     */
+    public function __construct(Mage_Core_Model_Event_Manager $eventManager, $areaCode)
     {
         $this->_code = $areaCode;
+        $this->_eventManager = $eventManager;
     }
 
     /**
@@ -169,7 +176,7 @@ class Mage_Core_Model_App_Area
 
     protected function _initEvents()
     {
-        Mage::app()->addEventArea($this->_code);
+        $this->_eventManager->addEventArea($this->_code);
         return $this;
     }
 

@@ -33,13 +33,6 @@ class Mage_Core_Model_Config
     protected $_secureUrlCache = array();
 
     /**
-     * Configuration for events by area
-     *
-     * @var array
-     */
-    protected $_eventAreas;
-
-    /**
      * Active modules array per namespace
      * @var array
      */
@@ -553,21 +546,6 @@ class Mage_Core_Model_Config
     public function getTablePrefix()
     {
         return $this->getNode('global/resources/db/table_prefix');
-    }
-
-    /**
-     * Get events configuration
-     *
-     * @param   string $area event area
-     * @param   string $eventName event name
-     * @return  Mage_Core_Model_Config_Element
-     */
-    public function getEventConfig($area, $eventName)
-    {
-        if (!isset($this->_eventAreas[$area])) {
-            $this->_eventAreas[$area] = $this->getNode($area)->events;
-        }
-        return $this->_eventAreas[$area]->{$eventName};
     }
 
     /**

@@ -21,8 +21,10 @@ try {
     $app->init(array(Mage_Core_Model_App::INIT_OPTION_SCOPE_CODE => 'admin'));
     $app->setUseSessionInUrl(false);
     $app->requireInstalledInstance();
-    $app->addEventArea('crontab');
-    Mage::dispatchEvent('default');
+
+    $eventManager = Mage::getObjectManager()->get('Mage_Core_Model_Event_Manager');
+    $eventManager->addEventArea('crontab');
+    $eventManager->dispatchEvent('default');
 } catch (Exception $e) {
     Mage::printException($e);
 }

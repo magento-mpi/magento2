@@ -225,13 +225,6 @@ class Mage_Core_Model_App
     protected $_response;
 
     /**
-     * Events cache
-     *
-     * @var array
-     */
-    protected $_events = array();
-
-    /**
      * Update process run flag
      *
      * @var bool
@@ -277,10 +270,11 @@ class Mage_Core_Model_App
     /**
      * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Logger $log
+     * @param Mage_Core_Model_Cache $cache
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_Db_UpdaterInterface $dbUpdater
-     * @param string $scopeCode
-     * @param string $scopeType
+     * @param $scopeCode
+     * @param $scopeType
      */
     public function __construct(
         Mage_Core_Model_Config $config,
@@ -313,7 +307,6 @@ class Mage_Core_Model_App
     {
         Magento_Profiler::start('self::app::init');
         Magento_Profiler::start('init_config');
-        $this->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
         Magento_Profiler::stop('init_config');
 
         if (Mage::isInstalled()) {
@@ -331,8 +324,6 @@ class Mage_Core_Model_App
     public function run()
     {
         Magento_Profiler::start('init');
-
-        $this->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
 
         if ($this->isInstalled()) {
             $this->_initCurrentStore($this->_scopeCode, $this->_scopeType ?: self::SCOPE_TYPE_STORE);
@@ -1247,87 +1238,6 @@ class Mage_Core_Model_App
     public function setResponse(Mage_Core_Controller_Response_Http $response)
     {
         $this->_response = $response;
-        return $this;
-    }
-
-    public function addEventArea($area)
-    {
-        if (!isset($this->_events[$area])) {
-            $this->_events[$area] = array();
-        }
-        return $this;
-    }
-
-    public function dispatchEvent($eventName, $args)
-    {
-        foreach ($this->_events as $area => $events) {
-            if (!isset($events[$eventName])) {
-                $eventConfig = $this->getConfig()->getEventConfig($area, $eventName);
-                if (!$eventConfig) {
-                    $this->_events[$area][$eventName] = false;
-                    continue;
-                }
-                $observers = array();
-                foreach ($eventConfig->observers->children() as $obsName=>$obsConfig) {
-                    $observers[$obsName] = array(
-                        'type'  => (string)$obsConfig->type,
-                        'model' => $obsConfig->class ? (string)$obsConfig->class : $obsConfig->getClassName(),
-                        'method'=> (string)$obsConfig->method,
-                    );
-                }
-                $events[$eventName]['observers'] = $observers;
-                $this->_events[$area][$eventName]['observers'] = $observers;
-            }
-            if (false === $events[$eventName]) {
-                continue;
-            } else {
-                $event = new Varien_Event($args);
-                $event->setName($eventName);
-                $observer = new Varien_Event_Observer();
-            }
-
-            foreach ($events[$eventName]['observers'] as $obsName => $obs) {
-                $observer->setData(array('event' => $event));
-                Magento_Profiler::start('OBSERVER:' . $obsName);
-                switch ($obs['type']) {
-                    case 'disabled':
-                        break;
-                    case 'object':
-                    case 'model':
-                        $method = $obs['method'];
-                        $observer->addData($args);
-                        $object = Mage::getModel($obs['model']);
-                        $this->_callObserverMethod($object, $method, $observer);
-                        break;
-                    default:
-                        $method = $obs['method'];
-                        $observer->addData($args);
-                        $object = Mage::getSingleton($obs['model']);
-                        $this->_callObserverMethod($object, $method, $observer);
-                        break;
-                }
-                Magento_Profiler::stop('OBSERVER:' . $obsName);
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Performs non-existent observer method calls protection
-     *
-     * @param object $object
-     * @param string $method
-     * @param Varien_Event_Observer $observer
-     * @return Mage_Core_Model_App
-     * @throws Mage_Core_Exception
-     */
-    protected function _callObserverMethod($object, $method, $observer)
-    {
-        if (method_exists($object, $method)) {
-            $object->$method($observer);
-        } elseif (Mage::getIsDeveloperMode()) {
-            Mage::throwException('Method "' . $method . '" is not defined in "' . get_class($object) . '"');
-        }
         return $this;
     }
 

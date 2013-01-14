@@ -495,30 +495,7 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
         return $this->_getApp()->setResponse($response);
     }
 
-    /**
-     * Add event area
-     *
-     * @param string $area
-     * @return Mage_Core_Model_AppInterface
-     */
-    public function addEventArea($area)
-    {
-        return $this->_getApp()->addEventArea($area);
-    }
-
-    /**
-     * Dispatch event
-     *
-     * @param string $eventName
-     * @param mixed $args
-     * @return Mage_Core_Model_AppInterface
-     */
-    public function dispatchEvent($eventName, $args)
-    {
-        return $this->_getApp()->dispatchEvent($eventName, $args);
-    }
-
-    /**
+   /**
      * @throws Mage_Core_Model_Store_Exception
      */
     public function throwStoreException()

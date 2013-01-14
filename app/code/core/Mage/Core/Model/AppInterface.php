@@ -339,23 +339,6 @@ interface Mage_Core_Model_AppInterface
     public function setResponse(Mage_Core_Controller_Response_Http $response);
 
     /**
-     * Add event area
-     *
-     * @param string $area
-     * @return Mage_Core_Model_AppInterface
-     */
-    public function addEventArea($area);
-
-    /**
-     * Dispatch event
-     *
-     * @param string $eventName
-     * @param mixed $args
-     * @return Mage_Core_Model_AppInterface
-     */
-    public function dispatchEvent($eventName, $args);
-
-    /**
      * @throws Mage_Core_Model_Store_Exception
      */
     public function throwStoreException();
