@@ -268,7 +268,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
             $this->addParameter('field_id', $fieldName);
             $this->assertMessagePresent('validation', 'empty_required_field');
         }
-        $this->assertEquals(4, count($this->getParsedMessages()));
+        $this->assertEquals(4, count($this->getParsedMessages('required')));
     }
 
     /**
@@ -291,6 +291,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         //Verifying
         $this->addParameter('field_id', 'ccsave_cc_owner');
         $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertEquals(1, count($this->getParsedMessages('required')));
     }
 
     /**
@@ -312,7 +313,8 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         $this->orderHelper()->createOrder($orderData);
         //Verifying
         $this->addParameter('field_id', 'ccsave_cc_type');
-        $this->assertMessagePresent('validation', 'empty_required_field');;
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertEquals(1, count($this->getParsedMessages('required')));
     }
 
     /**
@@ -358,6 +360,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         //Verifying
         $this->addParameter('field_id', 'ccsave_expiration_yr');
         $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertEquals(1, count($this->getParsedMessages('required')));
     }
 
     /**
@@ -381,6 +384,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         //Verifying
         $this->addParameter('field_id', 'ccsave_cc_cid');
         $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertEquals(1, count($this->getParsedMessages('required')));
     }
 
     /**
