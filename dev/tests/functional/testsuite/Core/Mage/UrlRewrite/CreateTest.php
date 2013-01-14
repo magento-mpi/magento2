@@ -52,7 +52,7 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->controlIsPresent('dropdown', 'create_url_rewrite_dropdown'),
             'Create URL Rewrite dropdown is not present');
         $this->assertTrue($this->controlIsPresent('button', 'back'), 'Back button is not present');
-        $this->assertTrue($this->controlIsPresent('fieldset', 'category_rewrite'),
+        $this->assertTrue($this->controlIsPresent('fieldset', 'select_category'),
             'Select Category fieldset is not present');
     }
 
@@ -224,6 +224,7 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      */
     public function urlRewriteForProduct()
     {
+        $this->markTestIncomplete('MAGETWO-6965');
         //Loading data from data file
         $fieldData = $this->loadDataSet('UrlRewrite', 'url_rewrite_product');
         //Create Simple Product
@@ -491,6 +492,7 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      */
     public function productRewriteOfOneStore()
     {
+//        $this->markTestIncomplete('MAGETWO-6965');
         //Create Simple Product
         $this->navigate('manage_products');
         $productData = $this->loadDataSet('Product', 'simple_product_url_rewrite');
@@ -522,20 +524,16 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         //Generate request path and open it
         $urlKeyReplace = str_replace(array('(', ')'), array('-', ''), $productData['general_url_key']);
         $uri = $urlKeyReplace . '.html';
-
         $this->addParameter('url_key', $uri);
         $this->addParameter('page_title', $productData['general_name']);
-        $this->frontend('test_page');
+        $this->frontend('test_page',false);
         $this->assertSame($this->title(), $productData['general_name'], 'Wrong page is opened');
-
         //Select other store
         $this->frontend();
-
         $this->addParameter('store', $storeData['store_name']);
         $this->addParameter('storeViewCode', $storeViewData['store_view_code']);
-        $this->fillDropdown('select_store', $storeData['store_name']);
+        $this->clickControl('link','select_store',false);
         $this->waitForPageToLoad();
-
         $this->frontend('test_page', false);
 
         //Verifying page of URL rewrite for product
@@ -586,7 +584,6 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $rewriteUrl = $this->xmlSitemapHelper()->getFileUrl($fieldData['request_path']);
         //Open default store on frontend if opened other one
         $this->frontend();
-        $this->fillDropdown('select_store', 'Main Website Store');
         $this->waitForPageToLoad();
         //Open URL rewrite for category on frontend
         $this->url($rewriteUrl);
@@ -626,7 +623,7 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->frontend();
         $this->addParameter('store', $storeData['store_name']);
         $this->addParameter('storeViewCode', $storeViewData['store_view_code']);
-        $this->fillDropdown('select_store', $storeData['store_name']);
+        $this->clickControl('link','select_store',false);
         $this->waitForPageToLoad();
         //Generating URL rewrite link
         $rewriteUrl = $this->xmlSitemapHelper()->getFileUrl($fieldData['request_path']);
@@ -818,7 +815,7 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->frontend();
         $this->addParameter('store', $storeData['store_name']);
         $this->addParameter('storeViewCode', $storeViewData['store_view_code']);
-        $this->fillDropdown('select_store', $storeData['store_name']);
+        $this->clickControl('link','select_store',false);
         $this->waitForPageToLoad();
         //Generating URL rewrite link
         $rewriteUrl = $this->xmlSitemapHelper()->getFileUrl($uri);
