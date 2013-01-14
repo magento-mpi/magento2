@@ -569,10 +569,10 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct(array('sku' => $configurable['general_sku']));
-        $this->productHelper()->selectConfigurableAttribute(
-            array('general_configurable_attribute_title' => $attributeData['default']['attribute1']['admin_title']));
-        $this->clickButton('generate_product_variations');
-        $this->waitForNewPage();
+        $this->productHelper()->selectConfigurableAttribute($attributeData['default']['attribute1']['admin_title']);
+        $this->clickButton('generate_product_variations', false);
+        $this->addParameter('attributeTitle', $attributeData['default']['attribute1']['admin_title']);
+        $this->waitForControlVisible('pageelement', 'attribute_header');
         $this->productHelper()->assignAllConfigurableVariations();
         $this->productHelper()->saveProduct();
         //Verifying
