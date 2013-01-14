@@ -9,6 +9,8 @@
  */
 
 /** @var $this Mage_Launcher_Block_Adminhtml_Storelauncher_Payments_Drawer */
+
+$saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
 ?>
 <form action="" id="drawer-form" method="post">
     <?php echo $this->getBlockHtml('formkey')?>
@@ -120,7 +122,9 @@
     </div>
     <div class="payment-method-config-form">
         <div class="payment-method-data">
-            <div style="display: block;">
+            <div style="display: block;" class="payment-method-data-fields">
+                <input type="hidden" name="groups[global][fields][express][value]" value="1">
+                <input type="hidden" name="payment_id" value="paypal_express_checkout">
                 <h3><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Express Checkout'); ?></h3>
                 <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Fusce porttitor diam in tortor porttitor laoreet vitae a urna. In tempus, sem a sollicitudin luctus, est quam tincidunt mauris, quis laoreet lorem magna sit amet tellus. Praesent eros urna, venenatis vel euismod a, elementum in urna. Sed ac scelerisque mi. Maecenas molestie cursus erat ut fermentum. Vestibulum consectetur tempor vehicula.'); ?></p>
                 <div class="grid-row">
@@ -129,31 +133,37 @@
                         <div class="control">
                             <div class="addon">
                                 <input type="text" name="groups[account][fields][business_account][value]" class="input-text" value="<?php echo $this->getStoreConfig()->getConfig('paypal/general/business_account'); ?>" id="store-paypal-express-email">
-                                <div class="addafter"><button class="button"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Update'); ?></button></div>
+                                <div class="addafter">
+                                    <button class="button save-method-button" data-save-url="<?php echo $saveActionUrl; ?>"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Update'); ?></button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="grid-6">
-                    </div>
                 </div>
             </div>
-            <div style="display: none;">
+            <div style="display: none;" class="payment-method-data-fields">
                 <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Fusce porttitor diam in tortor porttitor laoreet vitae a urna. In tempus, sem a sollicitudin luctus, est quam tincidunt mauris, quis laoreet lorem magna sit amet tellus. Praesent eros urna, venenatis vel euismod a, elementum in urna. Sed ac scelerisque mi. Maecenas molestie cursus erat ut fermentum. Vestibulum consectetur tempor vehicula.'); ?></p>
+                <input type="hidden" name="groups[global][fields][wps][value]" value="1">
+                <input type="hidden" name="payment_id" value="paypal_payments_standard">
                 <div class="grid-row">
                     <div class="field grid-6 vat-number with-addon" id="field-store-paypal-standard-email">
                         <label for="store-paypal-standard-email" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Email address associated with the PayPal account'); ?></span></label>
                         <div class="control">
                             <div class="addon">
                                 <input type="text" name="groups[account][fields][business_account][value]" class="input-text" value="<?php echo $this->getStoreConfig()->getConfig('paypal/general/business_account'); ?>" id="store-paypal-standard-email">
-                                <div class="addafter"><button class="button"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Submit'); ?></button></div>
+                                <div class="addafter">
+                                    <button class="button save-method-button" data-save-url="<?php echo $saveActionUrl; ?>"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Submit'); ?></button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div style="display: none;">
+            <div style="display: none;" class="payment-method-data-fields">
                 <fieldset>
                     <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payments Advanced'); ?></legend>
+                    <input type="hidden" name="groups[global][fields][payflow_advanced][value]" value="1">
+                    <input type="hidden" name="payment_id" value="paypal_payments_advanced">
                     <div class="grid-row">
                         <div class="field grid-6" id="field-pm-21">
                             <label for="pm-21" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Partner'); ?></span></label>
@@ -183,29 +193,34 @@
                         </div>
                     </div>
                     <div class="buttons">
-                        <button type="submit"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Submit'); ?></span></button>
+                        <button class="button save-method-button" data-save-url="<?php echo $saveActionUrl; ?>"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Submit'); ?></span></button>
                     </div>
                 </fieldset>
             </div>
-            <div style="display: none;">
+            <div style="display: none;" class="payment-method-data-fields">
                 <fieldset>
                     <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payments Pro'); ?></legend>
+                    <input type="hidden" name="groups[global][fields][express][value]" value="1">
+                    <input type="hidden" name="groups[global][fields][wpp][value]" value="1">
+                    <input type="hidden" name="payment_id" value="paypal_payments_pro">
                     <div class="grid-row">
                         <div class="field grid-6" id="field-pm-31">
-                            <label for="store-paypal-payments-pro-email" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Partner'); ?></span></label>
+                            <label for="store-paypal-payments-pro-email" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Email address associated with the PayPal account'); ?></span></label>
                             <div class="control">
                                 <input type="text" name="groups[account][fields][business_account][value]" class="input-text" value="<?php echo $this->getStoreConfig()->getConfig('paypal/general/business_account'); ?>" id="store-paypal-payments-pro-email">
                             </div>
                         </div>
                     </div>
                     <div class="buttons">
-                        <button type="submit"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Submit'); ?></span></button>
+                        <button class="button save-method-button" data-save-url="<?php echo $saveActionUrl; ?>"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Submit'); ?></span></button>
                     </div>
                 </fieldset>
             </div>
-            <div style="display: none;">
+            <div style="display: none;" class="payment-method-data-fields">
                 <fieldset>
                     <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payflow Link'); ?></legend>
+                    <input type="hidden" name="groups[global][fields][payflow_link][value]" value="1">
+                    <input type="hidden" name="payment_id" value="paypal_payflow_link">
                     <div class="grid-row">
                         <div class="field grid-6" id="field-pm-41">
                             <label for="pm-41" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Partner'); ?></span></label>
@@ -235,13 +250,15 @@
                         </div>
                     </div>
                     <div class="buttons">
-                        <button type="submit"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Submit'); ?></span></button>
+                        <button class="button save-method-button" data-save-url="<?php echo $saveActionUrl; ?>"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Submit'); ?></span></button>
                     </div>
                 </fieldset>
             </div>
-            <div style="display: none;">
+            <div style="display: none;" class="payment-method-data-fields">
                 <fieldset>
                     <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payflow Pro'); ?></legend>
+                    <input type="hidden" name="groups[global][fields][payflow_link][value]" value="1">
+                    <input type="hidden" name="payment_id" value="paypal_payflow_pro">
                     <div class="grid-row">
                         <div class="field grid-6" id="field-pm-51">
                             <label for="pm-51" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Partner'); ?></span></label>
@@ -271,13 +288,15 @@
                         </div>
                     </div>
                     <div class="buttons">
-                        <button type="submit"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Submit'); ?></span></button>
+                        <button class="button save-method-button" data-save-url="<?php echo $saveActionUrl; ?>"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Submit'); ?></span></button>
                     </div>
                 </fieldset>
             </div>
-            <div style="display: none;">
+            <div style="display: none;" class="payment-method-data-fields">
                 <fieldset>
                     <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Authorize.net'); ?></legend>
+                    <input type="hidden" name="groups[authorizenet][fields][active][value]" value="1">
+                    <input type="hidden" name="payment_id" value="authorize_net">
                     <div class="grid-row">
                         <div class="field grid-6" id="field-pm-61">
                             <label for="pm-61" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('API Login ID'); ?></span></label>
@@ -288,12 +307,12 @@
                         <div class="field grid-6" id="field-pm-62">
                             <label for="pm-62" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Transaction Key'); ?></span></label>
                             <div class="control">
-                                <input type="password" class="input-text" id="pm-62" name="groups[verisign][fields][trans_key][value]" value="<?php echo $this->getStoreConfig()->getConfig('payment/authorizenet/trans_key'); ?>">
+                                <input type="password" class="input-text" id="pm-62" name="groups[authorizenet][fields][trans_key][value]" value="<?php echo $this->getStoreConfig()->getConfig('payment/authorizenet/trans_key'); ?>">
                             </div>
                         </div>
                     </div>
                     <div class="buttons">
-                        <button type="submit"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Submit'); ?></span></button>
+                        <button class="button save-method-button" data-save-url="<?php echo $saveActionUrl; ?>"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Submit'); ?></span></button>
                     </div>
                 </fieldset>
             </div>
@@ -305,12 +324,12 @@
 
 <script type="text/javascript">
 (function ($) {
-    $(document).ready(function () {
+    $(document).ready(function() {
         'use strict';
         $('.payment-method .choice input')
-            .on('click.highlightSelected',function(){
+            .on('click.highlightSelected', function() {
                 var elem = $(this),
-                    id = elem.attr('id').replace('payment-method-','');
+                    id = elem.attr('id').replace('payment-method-', '');
                 elem
                     .next()
                     .find('span')
@@ -329,13 +348,13 @@
                     .hide();
             });
         $('.payment-method')
-            .on('click.highlightPayment',function(){
+            .on('click.highlightPayment', function() {
                 $(this)
                     .find('.choice input')
                     .trigger('click.highlightSelected');
             });
         $('#bank-merchant-account')
-            .on('click.toggleBankMerchantAccount',function(){
+            .on('click.toggleBankMerchantAccount', function() {
                 var paymentList = $('.payment-method-list');
                 if ($(this).is(':checked')) {
                     paymentList.addClass('has-merchant-account');
@@ -343,6 +362,33 @@
                     paymentList.removeClass('has-merchant-account');
                 }
             });
+        $('.save-method-button')
+            .on('click.savePaymentMethod', function(event) {
+                var elem = $(this),
+                    fields = elem
+                        .closest('.payment-method-data-fields')
+                        .find(':input');
+                event.preventDefault();
+                var ajaxOptions = {
+                    type: 'POST',
+                    showLoader: true,
+                    data: fields.serialize(),
+                    dataType: 'json',
+                    url: elem.attr('data-save-url'),
+                    success: function(result, status) {
+                        if (result.success) {
+                            if (result && result.message) {
+                                alert(result.message);
+                            }
+                        } else {
+                            if (result && result.error_message) {
+                                alert(result.error_message);
+                            }
+                        }
+                    }
+                };
+                $.ajax(ajaxOptions);
+            });
     });
-})(window.jQuery);
+})(jQuery);
 </script>

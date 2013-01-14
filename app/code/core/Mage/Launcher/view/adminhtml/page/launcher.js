@@ -154,6 +154,7 @@
                         };
                         var ajaxOptions = {
                             type: 'POST',
+                            showLoader: true,
                             data: postData,
                             dataType: 'json',
                             url: $elem.attr('data-load-url'),
@@ -186,6 +187,7 @@
                     postData += '&tileCode=' + buttonSave.attr('tile-code');
                     var ajaxOptions = {
                         type: 'POST',
+                        showLoader: true,
                         data: postData,
                         dataType: 'json',
                         url: buttonSave.attr('data-save-url'),
