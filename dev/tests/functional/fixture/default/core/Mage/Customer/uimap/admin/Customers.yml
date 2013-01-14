@@ -48,7 +48,7 @@ manage_customers:
             success_deleted_customer_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedCustomers% record(s) were deleted.')]
             success_subscribe_unsubscribe_customer_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtySubscribeCustomers% record(s) were updated.')]
             wrong_data_of_birth: //li[normalize-space(@class)='error-msg' and contains(.,'"Date Of Birth" does not fit the entered date format.')]
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This field is required.' and not(contains(@style,'display: none;'))]"
             customer_email_exist: //li[normalize-space(@class)='error-msg' and contains(.,'Customer with the same email already exists.')]
             success_deleted_customer: //li[normalize-space(@class)='success-msg' and contains(.,'The customer has been deleted.')]
             success_saved_customer: //li[normalize-space(@class)='success-msg' and contains(.,'The customer has been saved.')]
