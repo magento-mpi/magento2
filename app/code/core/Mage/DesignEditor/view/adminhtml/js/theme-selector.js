@@ -60,9 +60,9 @@
                     this.themeId = null;
                 }
             }, this));
-            this._on(this.options.loadEvent, function() {
+            this.element.on(this.options.loadEvent, $.proxy(function() {
                 this.element.trigger('contentUpdated');
-            });
+            }, this));
         },
 
         /**
@@ -108,7 +108,7 @@
          * "Assign Save" button click handler
          * @protected
          */
-        _onAssignSave: function(event, data) {
+        _onAssignSave: function() {
             var stores = [];
             var checkedValue = 1;
             $(this.options.storeView.windowSelector).find('form').serializeArray().each(function(object, index) {
