@@ -21,7 +21,7 @@ class Mage_Checkout_Model_Cart_Coupon_Api extends Mage_Checkout_Model_Api_Resour
     /**
      * @param  $quoteId
      * @param  $couponCode
-     * @param  $storeId
+     * @param  $store
      * @return bool
      */
     public function add($quoteId, $couponCode, $store = null)
@@ -31,25 +31,13 @@ class Mage_Checkout_Model_Cart_Coupon_Api extends Mage_Checkout_Model_Api_Resour
 
     /**
      * @param  $quoteId
-     * @param  $storeId
-     * @return void
+     * @param  $store
+     * @return bool
      */
     public function remove($quoteId, $store = null)
     {
         $couponCode = '';
         return $this->_applyCoupon($quoteId, $couponCode, $store);
-    }
-
-    /**
-     * @param  $quoteId
-     * @param  $storeId
-     * @return string
-     */
-    public function get($quoteId, $store = null)
-    {
-        $quote = $this->_getQuote($quoteId, $store);
-
-        return $quote->getCouponCode();
     }
 
     /**
