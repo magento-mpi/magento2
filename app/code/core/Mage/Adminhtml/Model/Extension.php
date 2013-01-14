@@ -26,6 +26,8 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
     public function __construct(Magento_Filesystem $filesystem, array $data = array())
     {
         $this->_filesystem = $filesystem;
+        $this->_filesystem->setIsAllowCreateDirectories(true);
+        $this->_filesystem->setWorkingDirectory($this->getRoleDir('mage') . DS);
         parent::__construct($data);
     }
 
@@ -159,8 +161,6 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
 
     protected function _setContents($pfm)
     {
-        $baseDir = $this->getRoleDir('mage').DS;
-
         $pfm->clearContents();
         $contents = $this->getData('contents');
         $usesRoles = array();
@@ -176,15 +176,15 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
 
             switch ($contents['type'][$i]) {
                 case 'file':
-                    if (!$this->_filesystem->isFile($fullPath, $baseDir)) {
+                    if (!$this->_filesystem->isFile($fullPath)) {
                         Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__("Invalid file: %s", $fullPath));
                     }
                     $pfm->addFile('/', $contents['path'][$i],
-                        array('role' => $role, 'md5sum' => $this->_filesystem->getFileMd5($fullPath, $baseDir)));
+                        array('role' => $role, 'md5sum' => $this->_filesystem->getFileMd5($fullPath)));
                     break;
 
                 case 'dir':
-                    if (!$this->_filesystem->isDirectory($fullPath, $baseDir)) {
+                    if (!$this->_filesystem->isDirectory($fullPath)) {
                         Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__("Invalid directory: %s", $fullPath));
                     }
                     $path = $contents['path'][$i];
@@ -287,14 +287,7 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
         $xml = Mage::helper('Mage_Core_Helper_Data')->assocToXml($this->getData());
         $xml = new Varien_Simplexml_Element($xml->asXML());
 
-        // prepare dir to save
-        $parts = explode(DS, $fileName);
-        array_pop($parts);
-        $newDir = implode(DS, $parts);
         try {
-            if ((!empty($newDir)) && (!$this->_filesystem->isDirectory($dir . DS . $newDir))) {
-                $this->_filesystem->createDirectory($dir . DS . $newDir);
-            }
             $this->_filesystem->write($dir . DS . $fileName . '.xml', $xml->asNiceXml());
         } catch (Magento_Filesystem_Exception $e) {
             return false;

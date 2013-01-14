@@ -115,7 +115,8 @@ class Mage_Adminhtml_Cms_Wysiwyg_ImagesController extends Mage_Adminhtml_Control
                 $_filePath = $path . DS . $file;
                 /** @var Magento_Filesystem $filesystem */
                 $filesystem = $this->_objectManager->get('Magento_Filesystem');
-                if ($filesystem->isFile($_filePath, $helper->getStorageRoot())) {
+                $filesystem->setWorkingDirectory($helper->getStorageRoot());
+                if ($filesystem->isFile($_filePath)) {
                     $this->getStorage()->deleteFile($_filePath);
                 }
             }

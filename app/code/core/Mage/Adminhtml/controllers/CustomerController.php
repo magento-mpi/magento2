@@ -771,8 +771,9 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
         /** @var Magento_Filesystem $filesystem */
         $filesystem = $this->_objectManager->get('Magento_Filesystem');
+        $filesystem->setWorkingDirectory($path);
         $fileName   = $path . $file;
-        if (!$filesystem->isFile($fileName, $path)
+        if (!$filesystem->isFile($fileName)
             && !Mage::helper('Mage_Core_Helper_File_Storage')->processStorageFile(str_replace('/', DS, $fileName))
         ) {
             return $this->norouteAction();
