@@ -671,7 +671,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             case 'cross_sells':
             case 'associated':
                 $this->openTab($tabName);
-                foreach ($tabData as $value) {
+                foreach ($tabData['associated_grouped_data'] as $value) {
                     $this->assignProduct($value, $tabName);
                 }
                 break;
