@@ -22,7 +22,7 @@ class Saas_PrintedTemplate_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @return Mage_Core_Helper_Abstract
      */
-    protected function _getHelper()
+    protected function _getBackendHelper()
     {
         return Mage::helper('Mage_Backend_Helper_Data');
     }
@@ -82,7 +82,7 @@ class Saas_PrintedTemplate_Helper_Data extends Mage_Core_Helper_Abstract
             return '';
         }
 
-        return $this->_getHelper()->getUrl(
+        return $this->_getBackendHelper()->getUrl(
             'adminhtml/print/entity/',
             array(
                 'type' => $type,
@@ -93,6 +93,7 @@ class Saas_PrintedTemplate_Helper_Data extends Mage_Core_Helper_Abstract
 
     /**
      * Convert xml config pathes to decorated names
+     * Method is used to show path to where is config template is used.
      *
      * @param array $paths
      * @return array
@@ -100,7 +101,7 @@ class Saas_PrintedTemplate_Helper_Data extends Mage_Core_Helper_Abstract
     public function getSystemConfigPathsParts($paths)
     {
         $result = $urlParams = $prefixParts = array();
-        $scopeLabel = $this->_getHelper()->__('GLOBAL');
+        $scopeLabel = $this->_getBackendHelper()->__('GLOBAL');
         if ($paths) {
             /**
              * @todo check functionality of getting Mage_Backend_Model_Menu_Config object
@@ -115,7 +116,7 @@ class Saas_PrintedTemplate_Helper_Data extends Mage_Core_Helper_Abstract
             $item = $menu->get('Mage_Adminhtml::system_config');
             $prefixParts[] = array(
                 'title' => $item->getModuleHelper()->__($item->getTitle()),
-                'url' => $this->_getHelper()->getUrl('adminhtml/system_config/'),
+                'url' => $this->_getBackendHelper()->getUrl('adminhtml/system_config/'),
             );
 
             $pathParts = $prefixParts;
@@ -150,7 +151,7 @@ class Saas_PrintedTemplate_Helper_Data extends Mage_Core_Helper_Abstract
                  */
                 $pathParts[] = array(
                     'title' => $this->_getConfigStructure()->getElement($sectionName)->getLabel(),
-                    'url' => $this->_getHelper()->getUrl('adminhtml/system_config/edit', $urlParams),
+                    'url' => $this->_getBackendHelper()->getUrl('adminhtml/system_config/edit', $urlParams),
                 );
                 $elementPathParts = array($sectionName);
                 while (count($pathDataParts) != 1) {
@@ -172,6 +173,7 @@ class Saas_PrintedTemplate_Helper_Data extends Mage_Core_Helper_Abstract
                 $pathParts = $prefixParts;
             }
         }
+
         return $result;
     }
 }
