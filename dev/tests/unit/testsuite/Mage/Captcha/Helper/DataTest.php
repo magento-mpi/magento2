@@ -102,7 +102,7 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
         $result = $this->_object->getImgDir();
         $this->assertFileExists($result);
         $this->assertStringStartsWith(TESTS_TEMP_DIR, $result);
-        $this->assertStringEndsWith('captcha' . DIRECTORY_SEPARATOR . 'base', $result);
+        $this->assertStringEndsWith('captcha' . DIRECTORY_SEPARATOR . 'base' . DIRECTORY_SEPARATOR, $result);
     }
 
     /**
