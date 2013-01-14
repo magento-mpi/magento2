@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
- * @category    Magento
+ * @category    Saas
  * @package     Saas_PrintedTemplate
  * @subpackage  integration_tests
  * @copyright   {copyright}
