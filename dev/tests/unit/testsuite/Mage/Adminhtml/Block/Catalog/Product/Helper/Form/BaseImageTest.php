@@ -74,11 +74,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImageTest extends PHP
      * Test to get valid html code for 'image' attribute
      *
      * @param mixed $imageValue
-     * @param string $methodName
      * @param string $urlPath
      * @dataProvider validateImageUrlDataProvider
      */
-    public function testGetElementHtml($imageValue, $methodName, $urlPath)
+    public function testGetElementHtml($imageValue, $urlPath)
     {
         $this->_block->setValue($imageValue);
         $this->_coreHelper->expects($this->any())->method('escapeHtml')->will($this->returnArgument(0));
@@ -99,12 +98,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImageTest extends PHP
         return array(
             array(
                 '/f/i/file_666.png',
-                'getMediaUrl',
                 'http://example.com/pub/media/tmp/catalog/product/f/i/file_78.png'
             ),
             array(
                 '/f/i/file_666.png.tmp',
-                'getTmpMediaUrl',
                 'http://example.com/pub/images/image-placeholder.png'
             )
         );
