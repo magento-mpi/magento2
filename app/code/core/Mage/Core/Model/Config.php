@@ -67,13 +67,6 @@ class Mage_Core_Model_Config
     protected $_objectManager;
 
     /**
-     * Application installation timestamp
-     *
-     * @var int|null
-     */
-    protected $_installDate;
-
-    /**
      * @var Mage_Core_Model_Config_StorageInterface
      */
     protected $_storage;
@@ -112,18 +105,6 @@ class Mage_Core_Model_Config
         $this->_dirs = $dirs;
         $this->_storage = $configStorage;
         $this->_config = $configFactory->create($this->_storage->getConfiguration());
-        $this->_loadInstallDate();
-    }
-
-    /**
-     * Load application installation date
-     */
-    protected function _loadInstallDate()
-    {
-        $installDateNode = $this->getNode(Mage_Core_Model_App::XML_PATH_INSTALL_DATE);
-        if ($installDateNode) {
-            $this->_installDate = strtotime((string)$installDateNode);
-        }
     }
 
     /**
@@ -526,16 +507,6 @@ class Mage_Core_Model_Config
             return $scheme . $host . $port . rtrim($path, '/') . '/';
         }
         return 'http://localhost/';
-    }
-
-    /**
-     * Retrieve application installation date as a timestamp or NULL, if it has not been installed yet
-     *
-     * @return int|null
-     */
-    public function getInstallDate()
-    {
-        return $this->_installDate;
     }
 
     /**

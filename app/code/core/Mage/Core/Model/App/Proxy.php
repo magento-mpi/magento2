@@ -76,16 +76,6 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
     }
 
     /**
-     * Whether the application has been installed or not
-     *
-     * @return bool
-     */
-    public function isInstalled()
-    {
-        return $this->_getApp()->isInstalled();
-    }
-
-    /**
      * Throw an exception, if the application has not been installed yet
      *
      * @throws Magento_Exception

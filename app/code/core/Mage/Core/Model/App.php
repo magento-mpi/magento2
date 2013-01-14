@@ -47,8 +47,6 @@ class Mage_Core_Model_App
     const SCOPE_TYPE_WEBSITE = 'website';
     /**#@-*/
 
-    const XML_PATH_INSTALL_DATE = 'global/install/date';
-
     const DEFAULT_ERROR_HANDLER = 'mageCoreErrorHandler';
 
     /**
@@ -325,11 +323,11 @@ class Mage_Core_Model_App
     {
         Magento_Profiler::start('init');
 
-        if ($this->isInstalled()) {
+        if (Mage::isInstalled()) {
             $this->_initCurrentStore($this->_scopeCode, $this->_scopeType ?: self::SCOPE_TYPE_STORE);
             $this->_log->initForStore($this->_store, $this->_config);
         }
-               $this->_initRequest();
+        $this->_initRequest();
         $this->_dbUpdater->updateData();
 
         $controllerFront = $this->getFrontController();
@@ -354,23 +352,13 @@ class Mage_Core_Model_App
     }
 
     /**
-     * Whether the application has been installed or not
-     *
-     * @return bool
-     */
-    public function isInstalled()
-    {
-        return (bool)$this->_config->getInstallDate();
-    }
-
-    /**
      * Throw an exception, if the application has not been installed yet
      *
      * @throws Magento_Exception
      */
     public function requireInstalledInstance()
     {
-        if (!$this->isInstalled()) {
+        if (!Mage::isInstalled()) {
             throw new Magento_Exception('Application is not installed yet, please complete the installation first.');
         }
     }

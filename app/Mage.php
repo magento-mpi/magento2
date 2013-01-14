@@ -625,19 +625,13 @@ final class Mage
     }
 
     /**
-     * Shortcut for the application "is installed" getter
+     * Check if application is installed
      *
      * @return bool
-     * @throws Magento_Exception
-     *
-     * @todo Remove in favour of Mage_Core_Model_App::isInstalled() as soon as dependencies on application are injected
      */
     public static function isInstalled()
     {
-        if (!self::$_app) {
-            throw new Magento_Exception('Application instance has not been initialized yet.');
-        }
-        return self::$_app->isInstalled();
+       return (bool) self::$_objectManager->get('Mage_Core_Model_Config_Primary')->getInstallDate();
     }
 
     /**

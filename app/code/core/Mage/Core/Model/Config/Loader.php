@@ -32,8 +32,8 @@ class Mage_Core_Model_Config_Loader implements Mage_Core_Model_Config_LoaderInte
 
     /**
      * @param Mage_Core_Model_Config_Modules $config
-     * @param Mage_Core_Model_Config_Loader_Db $loaderDb
-     * @param Mage_Core_Model_Config_Loader_Local $loaderLocale
+     * @param Mage_Core_Model_Config_Loader_Db $dbLoader
+     * @param Mage_Core_Model_Config_Loader_Locales $localesLoader
      */
     public function __construct(
         Mage_Core_Model_Config_Modules $config,

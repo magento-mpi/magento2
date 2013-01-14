@@ -11,12 +11,13 @@ class Mage_Core_Model_ObjectManager_Http extends Magento_ObjectManager_Zend
 {
     /**
      * @param string $baseDir
-     * @param string $runCode
+     * @param string$runCode
      * @param string $runType
      * @param array $customDirs
      * @param string $customPath
      * @param array $cacheOptions
      * @param string $customLocalXml
+     * @param string $customConfig
      */
     public function __construct(
         $baseDir, $runCode, $runType, $customDirs = null,
@@ -55,5 +56,6 @@ class Mage_Core_Model_ObjectManager_Http extends Magento_ObjectManager_Zend
             ),
         ));
         Mage::setObjectManager($this);
+        $this->loadAreaConfiguration();
     }
 }
