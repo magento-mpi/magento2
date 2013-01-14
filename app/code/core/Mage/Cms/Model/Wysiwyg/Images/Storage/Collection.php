@@ -36,11 +36,11 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage_Collection extends Varien_Data_Colle
     protected function _generateRow($filename)
     {
         $filename = preg_replace('~[/\\\]+~', DIRECTORY_SEPARATOR, $filename);
-        
+
         return array(
             'filename' => $filename,
             'basename' => basename($filename),
-            'mtime'    => $this->_filesystem->getMTime($filename, Mage::getBaseDir())
+            'mtime'    => $this->_filesystem->getMTime($filename)
         );
     }
 }

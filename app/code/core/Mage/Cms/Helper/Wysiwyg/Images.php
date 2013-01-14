@@ -46,6 +46,7 @@ class Mage_Cms_Helper_Wysiwyg_Images extends Mage_Core_Helper_Abstract
     public function __construct(Magento_Filesystem $filesystem)
     {
         $this->_filesystem = $filesystem;
+        $this->_filesystem->setWorkingDirectory($this->getStorageRoot());
     }
 
 
@@ -203,12 +204,12 @@ class Mage_Cms_Helper_Wysiwyg_Images extends Mage_Core_Helper_Abstract
             $path = $this->_getRequest()->getParam($this->getTreeNodeName());
             if ($path) {
                 $path = $this->convertIdToPath($path);
-                if ($this->_filesystem->isDirectory($path, $this->getStorageRoot())) {
+                if ($this->_filesystem->isDirectory($path)) {
                     $currentPath = $path;
                 }
             }
             try {
-                if (!$this->_filesystem->isWritable($currentPath, $this->getStorageRoot())) {
+                if (!$this->_filesystem->isWritable($currentPath)) {
                     $this->_filesystem->createDirectory($currentPath);
                 }
             } catch (Magento_Filesystem_Exception $e) {
