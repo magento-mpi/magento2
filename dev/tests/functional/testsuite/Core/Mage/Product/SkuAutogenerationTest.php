@@ -115,7 +115,7 @@ class Core_Mage_Product_SkuAutoGenerationTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'simple', false);
         $this->openTab('general');
         $this->fillField('general_sku', $productSku);
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $productData['general_sku'] = $productSku;
@@ -187,7 +187,7 @@ class Core_Mage_Product_SkuAutoGenerationTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_name']));
-        $this->clickButton('duplicate');
+        $this->productHelper()->saveProduct('duplicate');
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
         $this->assertSame($this->productHelper()->getGeneratedSku($productData['general_name']),
@@ -212,11 +212,12 @@ class Core_Mage_Product_SkuAutoGenerationTest extends Mage_Selenium_TestCase
         $this->systemConfigurationHelper()->configure($systemConfig);
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData);
+        $this->productHelper()->createProduct($productData, 'simple', false);
         //Verifying
-        $this->addFieldIdToMessage('field', 'general_sku');
-        $this->assertMessagePresent('validation', 'empty_required_field');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
+//        $this->addFieldIdToMessage('field', 'general_sku');
+//        $this->assertMessagePresent('validation', 'empty_required_field');
+//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**

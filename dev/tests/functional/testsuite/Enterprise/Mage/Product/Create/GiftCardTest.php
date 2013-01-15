@@ -134,15 +134,16 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
         }
         $productData = $this->loadDataSet('Product', 'gift_card_required', $overrideData);
         //Steps
-        $this->productHelper()->createProduct($productData, 'giftcard');
+        $this->productHelper()->createProduct($productData, 'giftcard', false);
         //Verifying
-        if ($emptyField == 'prices_gift_card_allow_open_amount') {
-            $this->addParameter('fieldId', 'giftcard_amounts_total');
-        } else {
-            $this->addFieldIdToMessage($fieldType, $emptyField);
-        }
-        $this->assertMessagePresent('validation', 'empty_required_field');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
+//        if ($emptyField == 'prices_gift_card_allow_open_amount') {
+//            $this->addParameter('fieldId', 'giftcard_amounts_total');
+//        } else {
+//            $this->addFieldIdToMessage($fieldType, $emptyField);
+//        }
+//        $this->assertMessagePresent('validation', 'empty_required_field');
+//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function withRequiredFieldsEmptyDataProvider()
@@ -174,15 +175,16 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
         $productData = $this->loadDataSet('Product', 'gift_card_required',
             array('prices_gift_card_amount' => ''));
         //Steps
-        $this->productHelper()->createProduct($productData, 'giftcard');
+        $this->productHelper()->createProduct($productData, 'giftcard', false);
         //Verifying
-        $rowQty = count($this->getControlElements('fieldset', 'prices_gift_card_amounts'));
-        for ($i = 0; $i < $rowQty; $i++) {
-            $this->addParameter('giftCardId', $i);
-            $this->addFieldIdToMessage('field', 'prices_gift_card_amount');
-            $this->assertMessagePresent('validation', 'empty_required_field');
-        }
-        $this->assertTrue($this->verifyMessagesCount(2), $this->getParsedMessages());
+        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
+//        $rowQty = count($this->getControlElements('fieldset', 'prices_gift_card_amounts'));
+//        for ($i = 0; $i < $rowQty; $i++) {
+//            $this->addParameter('giftCardId', $i);
+//            $this->addFieldIdToMessage('field', 'prices_gift_card_amount');
+//            $this->assertMessagePresent('validation', 'empty_required_field');
+//        }
+//        $this->assertTrue($this->verifyMessagesCount(2), $this->getParsedMessages());
     }
 
     /**

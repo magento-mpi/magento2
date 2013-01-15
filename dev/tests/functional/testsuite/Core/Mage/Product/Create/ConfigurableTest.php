@@ -168,7 +168,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable', false);
         $this->addParameter('elementTitle', $productData['general_name']);
-        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
+        $this->productHelper()->saveProduct('continueEdit');
         //Verifying
         $newSku = $this->productHelper()->getGeneratedSku($productData['general_sku']);
         $this->addParameter('productSku', $newSku);
@@ -199,11 +199,12 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
             array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
                   'general_attribute_1' => $attrData['admin_title']));
         //Steps
-        $this->productHelper()->createProduct($product, 'configurable');
+        $this->productHelper()->createProduct($product, 'configurable', false);
         //Verifying
-        $this->addFieldIdToMessage($fieldType, $field);
-        $this->assertMessagePresent('validation', 'empty_required_field');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
+//        $this->addFieldIdToMessage($fieldType, $field);
+//        $this->assertMessagePresent('validation', 'empty_required_field');
+//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function emptyRequiredFieldInConfigurableDataProvider()
@@ -377,11 +378,12 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $productData['prices_tier_price_data'][] =
             $this->loadDataSet('Product', 'prices_tier_price_1', array($emptyTierPrice => '%noValue%'));
         //Steps
-        $this->productHelper()->createProduct($productData, 'configurable');
+        $this->productHelper()->createProduct($productData, 'configurable', false);
         //Verifying
-        $this->addFieldIdToMessage('field', $emptyTierPrice);
-        $this->assertMessagePresent('validation', 'empty_required_field');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
+//        $this->addFieldIdToMessage('field', $emptyTierPrice);
+//        $this->assertMessagePresent('validation', 'empty_required_field');
+//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function emptyTierPriceFieldsInConfigurableDataProvider()
@@ -567,12 +569,12 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct(array('sku' => $configurable['general_sku']));
-        $this->productHelper()->selectConfigurableAttribute(
-            array('general_configurable_attribute_title' => $attributeData['default']['attribute1']['admin_title']));
-        $this->clickButton('generate_product_variations');
-        $this->waitForNewPage();
+        $this->productHelper()->selectConfigurableAttribute($attributeData['default']['attribute1']['admin_title']);
+        $this->clickButton('generate_product_variations', false);
+        $this->addParameter('attributeTitle', $attributeData['default']['attribute1']['admin_title']);
+        $this->waitForControlVisible('pageelement', 'attribute_header');
         $this->productHelper()->assignAllConfigurableVariations();
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertEquals(
@@ -611,7 +613,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $associated['associated_sku']));
         //Steps
         $this->productHelper()->createProduct($configurable, 'configurable', false);
-        $this->clickButton('save', false);
+        $this->productHelper()->saveProduct('close', false);
         $this->waitForElementEditable($this->_getControlXpath('radiobutton', 'current_attribute_set'));
         $this->assertFalse($this->controlIsVisible('field', 'new_attribute_set_name'));
         $this->saveForm('confirm');
@@ -663,7 +665,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $attributeSetName = $this->generate('string', 30, ':alnum:');
         //Steps
         $this->productHelper()->createProduct($configurable, 'configurable', false);
-        $this->clickButton('save', false);
+        $this->productHelper()->saveProduct('close', false);
         $this->waitForElementEditable($this->_getControlXpath('radiobutton', 'current_attribute_set'));
         $this->fillRadiobutton('new_attribute_set', 'Yes');
         $this->fillField('new_attribute_set_name', $attributeSetName);
@@ -753,7 +755,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
                   'var1_attr_value1'    => $attributeData['newSet']['attribute2']['option_1']['admin_option_name']));
         //Steps
         $this->productHelper()->createProduct($configurable, 'configurable', false);
-        $this->clickButton('save', false);
+        $this->productHelper()->saveProduct('close', false);
         $this->waitForElementEditable($this->_getControlXpath('radiobutton', 'current_attribute_set'));
         $this->clickButton('cancel');
         //Verifying
@@ -782,7 +784,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
                   'var1_attr_value1'    => $attributeData['newSet']['attribute2']['option_1']['admin_option_name']));
         //Steps
         $this->productHelper()->createProduct($configurable, 'configurable', false);
-        $this->clickButton('save', false);
+        $this->productHelper()->saveProduct('close', false);
         $this->waitForElementEditable($this->_getControlXpath('radiobutton', 'current_attribute_set'));
         $this->fillRadiobutton('new_attribute_set', 'Yes');
         //Verifying empty attribute set name

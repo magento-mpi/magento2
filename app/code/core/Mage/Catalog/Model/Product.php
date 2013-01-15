@@ -19,6 +19,8 @@
  * @method string Mage_Catalog_Model_Product getTypeId()
  * @method Mage_Catalog_Model_Product setAssociatedProductIds(array $productIds)
  * @method array getAssociatedProductIds()
+ * @method Mage_Catalog_Model_Product setNewVariationsAttributeSetId(int $value)
+ * @method int getNewVariationsAttributeSetId()
  *
  * @category    Mage
  * @package     Mage_Catalog

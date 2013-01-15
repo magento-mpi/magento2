@@ -115,9 +115,10 @@ class Core_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, $type, false);
         $this->productHelper()->importCustomOptions(array($selectProduct));
-        $this->saveForm('save');
-        $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
+        $this->productHelper()->saveProduct();
         //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $this->productHelper()->verifyCustomOptions($productWithOptions['custom_options_data']);
     }
 
@@ -158,9 +159,10 @@ class Core_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'simple', false);
         $this->productHelper()->importCustomOptions(array($selectProduct));
         $this->productHelper()->importCustomOptions(array($selectProduct));
-        $this->saveForm('save');
-        $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
+        $this->productHelper()->saveProduct();
         //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $customOptionsData['custom_options_field_1'] = $simpleField['custom_options_data']['custom_options_field'];
         $customOptionsData['custom_options_field_2'] = $simpleField['custom_options_data']['custom_options_field'];
         $this->productHelper()->verifyCustomOptions($customOptionsData);
@@ -188,9 +190,10 @@ class Core_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'simple', false);
         $this->productHelper()->importCustomOptions(array($selectProductField, $selectProductDate));
-        $this->saveForm('save');
-        $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
+        $this->productHelper()->saveProduct();
         //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $customOptionsData['custom_options_field'] = $simpleField['custom_options_data']['custom_options_field'];
         $customOptionsData['custom_options_date'] = $simpleDate['custom_options_data']['custom_options_date'];
         $this->productHelper()->verifyCustomOptions($customOptionsData);
@@ -216,7 +219,8 @@ class Core_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'simple', false);
         $this->productHelper()->importCustomOptions(array($selectProduct));
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $this->productHelper()->deleteAllCustomOptions();
         //Verifying
@@ -244,9 +248,10 @@ class Core_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->openProduct(array('product_sku' => $simpleField['general_sku']));
         $this->productHelper()->importCustomOptions(array($selectProduct));
-        $this->saveForm('save');
-        $this->productHelper()->openProduct(array('product_sku' => $simpleField['general_sku']));
+        $this->productHelper()->saveProduct();
         //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->openProduct(array('product_sku' => $simpleField['general_sku']));
         $customOptionsData['custom_options_field'] = $simpleField['custom_options_data']['custom_options_field'];
         $customOptionsData['custom_options_date'] = $simpleDate['custom_options_data']['custom_options_date'];
         $this->productHelper()->verifyCustomOptions($customOptionsData);

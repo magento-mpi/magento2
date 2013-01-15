@@ -45,7 +45,7 @@ custom_options_area: &area
     custom_options_general_input_type: Area
     custom_options_general_is_required: Yes
     custom_options_general_sort_order: 2
-    custom_options_price: 18
+    custom_options_price: 20
     custom_options_price_type: Percent
     custom_options_sku: sku_area
     custom_options_max_characters: 80
@@ -55,7 +55,7 @@ custom_options_file: &file
     custom_options_general_input_type: File
     custom_options_general_is_required: No
     custom_options_general_sort_order: 3
-    custom_options_price: 180
+    custom_options_price: 10
     custom_options_price_type: Percent
     custom_options_sku: sku_file
     custom_options_allowed_file_extension: gif,bmp
@@ -77,7 +77,7 @@ custom_options_date_time: &dateTime
     custom_options_general_is_required: Yes
     custom_options_general_sort_order: 5
     custom_options_price: 99.99
-    custom_options_price_type: Percent
+    custom_options_price_type: Fixed
     custom_options_sku: sku_data_time
 
 custom_options_time: &time
@@ -86,7 +86,7 @@ custom_options_time: &time
     custom_options_general_is_required: Yes
     custom_options_general_sort_order: 6
     custom_options_price: 8.99
-    custom_options_price_type: Percent
+    custom_options_price_type: Fixed
     custom_options_sku: sku_time
 
 custom_options_dropdown: &dropdown
@@ -97,7 +97,7 @@ custom_options_dropdown: &dropdown
     custom_option_row_1:
         custom_options_title: Title 1
         custom_options_price: 2.56
-        custom_options_price_type: Percent
+        custom_options_price_type: Fixed
         custom_options_sku: sku_drop_down_row_1
         custom_options_sort_order: 1
 
@@ -108,8 +108,8 @@ custom_options_radiobutton:  &radiobutton
     custom_options_general_sort_order: 8
     custom_option_row_1:
         custom_options_title: Title 1
-        custom_options_price: 2.56
-        custom_options_price_type: Percent
+        custom_options_price: 2
+        custom_options_price_type: Fixed
         custom_options_sku: sku_radio_row_1
         custom_options_sort_order: 1
 
@@ -120,8 +120,8 @@ custom_options_checkbox: &checkbox
     custom_options_general_sort_order: 9
     custom_option_row_1:
         custom_options_title: Title 1
-        custom_options_price: 2.56
-        custom_options_price_type: Percent
+        custom_options_price: 1.56
+        custom_options_price_type: Fixed
         custom_options_sku: sku_checkbox_row_1
         custom_options_sort_order: 1
 
@@ -132,22 +132,22 @@ custom_options_multipleselect: &multipleselect
     custom_options_general_sort_order: 10
     custom_option_row_1:
         custom_options_title: Title 1
-        custom_options_price: 2.56
+        custom_options_price: 1
         custom_options_price_type: Percent
         custom_options_sku: sku_multipleselect_row_1
         custom_options_sort_order: 1
 
 custom_options_data: &customOptionsData
-    custom_options_field: *field
-    custom_options_area: *area
-    custom_options_file: *file
-    custom_options_date: *date
-    custom_options_date_time: *dateTime
-    custom_options_time: *time
-    custom_options_dropdown: *dropdown
-    custom_options_radiobutton:  *radiobutton
-    custom_options_checkbox: *checkbox
-    custom_options_multipleselect: *multipleselect
+    option_1: *field
+    option_2: *area
+    option_3: *file
+    option_4: *date
+    option_5: *dateTime
+    option_6: *time
+    option_7: *dropdown
+    option_8:  *radiobutton
+    option_9: *checkbox
+    option_10: *multipleselect
 
 custom_options_empty:
     custom_options_general_title: Custom Option Title
@@ -275,7 +275,7 @@ associated_grouped_data: &associatedProductsGroupedData
 general_configurable_attribute_with_price: &general_configurable_attribute_with_price
     general_configurable_attribute_title: %general_attribute_2%
     have_price_variation: Yes
-    use_all_options: %noValue%
+    use_all_options: %allOptions%
     option_1:
         associated_attribute_value: %var2_attr_value1%
         variation_attribute_price: 1.99
@@ -295,7 +295,7 @@ general_configurable_attribute_with_price: &general_configurable_attribute_with_
 general_configurable_attribute_without_price: &general_configurable_attribute_without_price
     general_configurable_attribute_title: %general_attribute_1%
     have_price_variation: No
-    use_all_options: %noValue%
+    use_all_options: %allOptions%
     option_1:
         associated_attribute_value: %var1_attr_value1%
         include_variation_attribute: Yes
@@ -1434,21 +1434,17 @@ frontend_simple_product_details_validation:
     general_weight: 2.56
     general_status: Enabled
     general_visibility: Catalog, Search
-    prices_price: 4.95
-    prices_special_price: 3.99
+    prices_price: 110
+    prices_special_price: 100
     prices_special_price_from: %currentDate%
     prices_special_price_to: %currentDate%
     prices_tax_class: None
+    prices_tier_price_data: *tierPriceData
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
     inventory_qty: 100
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 2
-    inventory_max_allowed_qty_default: No
-    inventory_max_allowed_qty: 11
-    inventory_qty_uses_decimals: Yes
-    inventory_backorders_default: No
-    inventory_backorders: Allow Qty Below 0
     inventory_stock_availability: In Stock
     websites: Main Website
     general_categories: Default Category
@@ -1462,25 +1458,17 @@ frontend_virtual_product_details_validation:
     general_sku: virtual_sku_%randomize%
     general_status: Enabled
     general_visibility: Catalog, Search
-    prices_price: 14.95
-    prices_special_price: 13.99
+    prices_price: 110
+    prices_special_price: 100
     prices_special_price_from: %currentDate%
     prices_special_price_to: %currentDate%
     prices_tax_class: None
+    prices_tier_price_data: *tierPriceData
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
-    inventory_qty: 120
+    inventory_qty: 100
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 2
-    inventory_max_allowed_qty_default: No
-    inventory_max_allowed_qty: 11
-    inventory_qty_uses_decimals: Yes
-    inventory_backorders_default: No
-    inventory_backorders: Allow Qty Below 0
-    inventory_enable_qty_increments_default: No
-    inventory_enable_qty_increments: Yes
-    inventory_qty_increments_default: No
-    inventory_qty_increments: 5
     inventory_stock_availability: In Stock
     websites: Main Website
     general_categories: Default Category

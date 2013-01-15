@@ -404,9 +404,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      */
     public function editCustomer($userData)
     {
-        //Data
-        $param = $userData['first_name'] . ' ' . $userData['last_name'];
-        $this->addParameter('customer_first_last_name', $param);
         //Steps
         $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer(array('email' => $userData['email']));
@@ -535,9 +532,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      */
     public function verificationSelectStoreDuringOrderCreation($userData)
     {
-        //Data
-        $param = $userData['first_name'] . ' ' . $userData['last_name'];
-        $this->addParameter('customer_first_last_name', $param);
+        //Steps
         $this->navigate('manage_sales_orders');
         $this->clickButton('create_new_order');
         $this->orderHelper()->searchAndOpen(array('email' => $userData['email']), false, 'order_customer_grid');

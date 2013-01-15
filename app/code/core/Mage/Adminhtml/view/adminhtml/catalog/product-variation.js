@@ -14,8 +14,8 @@
                 handle: '.entry-edit-head',
                 update: function () {
                     $(this).find('[name$="[position]"]').each(function (index) {
-                        $(this).val(index)
-                    })
+                        $(this).val(index);
+                    });
                 }
             });
 
@@ -34,8 +34,8 @@
                 $this.closest('.fieldset-legend').find('.store-label').prop('disabled', $this.is(':checked'));
             };
             var updateGenerateVariationsButtonAvailability = function () {
-                var isDisabled = $('#attributes-container .entry-edit:not(:has(input.include:checked))').length > 0
-                    || !$('#attributes-container .entry-edit').length;
+                var isDisabled = $('#attributes-container .entry-edit:not(:has(input.include:checked))').length > 0 ||
+                    !$('#attributes-container .entry-edit').length;
                 $('#generate-variations-button').prop('disabled', isDisabled).toggleClass('disabled', isDisabled);
             };
 
@@ -46,6 +46,7 @@
                     var $entity = $(event.target).closest('.entry-edit');
                     $('#attribute-' + $entity.find('[name$="[code]"]').val() + '-container select').removeAttr('disabled');
                     $entity.remove();
+                    updateGenerateVariationsButtonAvailability();
                 },
                 'click .toggle': function (event) {
                     $(event.target).parent().next('fieldset').toggle();

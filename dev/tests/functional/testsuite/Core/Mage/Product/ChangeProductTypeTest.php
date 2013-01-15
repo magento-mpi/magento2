@@ -40,7 +40,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->productHelper()->selectTypeProduct('simple');
         $this->fillCheckbox('general_weight_and_type_switcher', 'yes');
         $this->productHelper()->fillProductInfo($productData);
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertEquals($changedType, $this->productHelper()->getProductDataFromGrid($search, 'Type'),
@@ -91,7 +91,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
             $this->fillCheckbox('general_weight_and_type_switcher', 'no');
         }
         $this->productHelper()->fillProductInfo($productData);
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertEquals($changedType, $this->productHelper()->getProductDataFromGrid($search, 'Type'),
@@ -146,7 +146,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct(array('sku' => $simpleProduct['general_sku']));
         $this->fillCheckbox('general_weight_and_type_switcher', 'yes');
         $this->productHelper()->fillProductInfo($productData);
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertEquals($changedType, $this->productHelper()->getProductDataFromGrid($search, 'Type'),
@@ -190,7 +190,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
             }
         }
         $this->productHelper()->fillProductInfo($productData);
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertEquals($changedType, $this->productHelper()->getProductDataFromGrid($search, 'Type'),
@@ -315,7 +315,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->assertFalse($this->controlIsVisible('pageelement', 'product_variations_fieldset'),
             'Product variation block is present');
         $this->productHelper()->fillProductInfo($configurable);
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertEquals('Configurable Product', $this->productHelper()->getProductDataFromGrid($search, 'Type'),
@@ -358,7 +358,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
             'Product variation block is present');
         $this->fillCheckbox('general_weight_and_type_switcher', 'no');
         $this->productHelper()->fillProductInfo($simple);
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertEquals('Simple Product', $this->productHelper()->getProductDataFromGrid($search, 'Type'),
@@ -395,7 +395,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
             'Product variation block is present');
         $this->fillCheckbox('general_weight_and_type_switcher', 'no');
         $this->productHelper()->fillProductInfo($simple);
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertEquals('Simple Product', $this->productHelper()->getProductDataFromGrid($search, 'Type'),
@@ -431,7 +431,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('sku' => $initialProduct['general_sku']));
         $this->productHelper()->fillProductInfo($configurable);
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertEquals('Configurable Product', $this->productHelper()->getProductDataFromGrid($search, 'Type'),
@@ -468,7 +468,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->controlIsVisible('pageelement', 'product_variations_fieldset'),
             'Product variation block is absent');
         $this->productHelper()->unassignAllConfigurableVariations();
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertEquals('Configurable Product', $this->productHelper()->getProductDataFromGrid($search, 'Type'),
