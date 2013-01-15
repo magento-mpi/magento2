@@ -34,13 +34,13 @@
                         <?php echo $this->getBlockHtml('formkey')?>
                         <label for="quick-search-firstname" class="required"><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('First Name') ?> <em>*</em></label>
                         <div class="input-box">
-                            <input type="text" class="input-text" data-validate="{required:true,minlength:2}" id="quick-search-firstname" name="params[firstname]" />
+                            <input type="text" class="input-text" data-validate="{required:true, minlength:2}" id="quick-search-firstname" name="params[firstname]" />
                         </div>
                     </li>
                     <li>
                         <label for="quick-search-lastname" class="required"><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Last Name') ?> <em>*</em></label>
                         <div class="input-box">
-                            <input type="text" class="input-text" data-validate="{required:true,minlength:2}" id="quick-search-lastname" name="params[lastname]" />
+                            <input type="text" class="input-text" data-validate="{required:true, minlength:2}" id="quick-search-lastname" name="params[lastname]" />
                         </div>
                     </li>
                     <li>
@@ -63,7 +63,7 @@
                         <?php echo $this->getBlockHtml('formkey')?>
                         <label for="quick-search-email" class="required"><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Recipient Email') ?> <em>*</em></label>
                         <div class="input-box">
-                            <input type="text" class="input-text" data-validate="{required:true,'validate-name-length':true}" id="quick-search-email" name="params[email]" />
+                            <input type="text" class="input-text" data-validate="{required:true, minlength:2}" id="quick-search-email" name="params[email]" />
                         </div>
                     </li>
                 </ul>
