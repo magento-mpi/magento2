@@ -55,7 +55,7 @@ class MemoryUsageTest extends PHPUnit_Framework_TestCase
      */
     protected function _getRealMemoryUsage()
     {
-        $pid = posix_getpid();
+        $pid = getmypid();
         $shell = new Magento_Shell();
         try {
             // attempt to use the Unix command line interface

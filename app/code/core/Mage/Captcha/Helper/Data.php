@@ -207,7 +207,7 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
     public function getImgDir($website = null)
     {
         $captchaDir = $this->_dirs->getDir(Mage_Core_Model_Dir::MEDIA) . DIRECTORY_SEPARATOR . 'captcha'
-            . DIRECTORY_SEPARATOR . $this->getWebsite($website)->getCode();
+            . DIRECTORY_SEPARATOR . $this->getWebsite($website)->getCode() . DIRECTORY_SEPARATOR;
         $io = new Varien_Io_File();
         $io->checkAndCreateFolder($captchaDir, 0755);
         return $captchaDir;
