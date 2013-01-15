@@ -1,6 +1,6 @@
 <?php
 /**
- * Tag API test.
+ * Product tag API test.
  *
  * {license_notice}
  *
@@ -15,9 +15,11 @@ class Mage_Tag_Model_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testInfo()
     {
+        $tagName = 'tag_name';
+        $tagStatus = Mage_Tag_Model_Tag::STATUS_APPROVED;
         /** @var Mage_Tag_Model_Tag $tag */
         $tag = Mage::getModel('Mage_Tag_Model_Tag');
-        $tagId = $tag->loadByName('tag_name')->getTagId();
+        $tagId = $tag->loadByName($tagName)->getTagId();
         /** Retrieve tag info. */
         $tagInfo = Magento_Test_Helper_Api::call(
             $this,
@@ -25,7 +27,7 @@ class Mage_Tag_Model_ApiTest extends PHPUnit_Framework_TestCase
             array($tagId)
         );
         /** Assert response is not empty. */
-        $this->assertNotNull($tagInfo, 'Tag info is not retrieved.');
+        $this->assertNotEmpty($tagInfo, 'Tag info is not retrieved.');
         /** Assert base fields are present in the response. */
         $expectedFields = array('status', 'name', 'base_popularity', 'products');
         $missingFields = array_diff($expectedFields, array_keys($tagInfo));
@@ -33,6 +35,9 @@ class Mage_Tag_Model_ApiTest extends PHPUnit_Framework_TestCase
             $missingFields,
             sprintf("The following fields must be present in response: %s.", implode(', ', $missingFields))
         );
+        /** Assert retrieved tag data is correct. */
+        $this->assertEquals($tagInfo->name, $tagName, 'Tag name is incorrect.');
+        $this->assertEquals($tagInfo->status, $tagStatus, 'Tag status is incorrect.');
     }
 
     /**
@@ -49,12 +54,12 @@ class Mage_Tag_Model_ApiTest extends PHPUnit_Framework_TestCase
             'catalogProductTagUpdate',
             array($tagId, (object)$updateData)
         );
-        /** Assert tag update result. */
+        /** Check tag update result. */
         $this->assertTrue((bool)$tagUpdateResponse, 'Tag update was unsuccessful.');
         /** Assert updated fields. */
         /** @var Mage_Tag_Model_Tag $updatedTag */
         $updatedTag = Mage::getModel('Mage_Tag_Model_Tag')->loadByName($updateData['name']);
         $this->assertNotEmpty($updatedTag->getTagId(), 'Tag name update was unsuccessful.');
-        $this->assertEquals($updateData['status'], $updatedTag->getStatus(), 'Tag name update was unsuccessful.');
+        $this->assertEquals($updateData['status'], $updatedTag->getStatus(), 'Tag status update was unsuccessful.');
     }
 }
