@@ -174,8 +174,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             'name'  => 'css_download_button',
             'value' => $this->__('Download CSS File'),
             'onclick' => "setLocation('" . $this->getUrl('*/*/downloadCustomCss', array(
-                'theme_id' => $this->_getCurrentTheme()->getId())
-            ) . "');"
+                'theme_id' => $this->_getCurrentTheme()->getId())) . "');"
         );
         if (!$this->_getCurrentTheme()->getCustomCssFile()->getContent()) {
             $cssDownloadButtonConfig['disabled'] = 'disabled';
