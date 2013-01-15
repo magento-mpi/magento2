@@ -108,11 +108,13 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
     /**
      * Test calculateItemsTaxInfo method
      *
-     * @param boolean $isTaxAfterDiscount
-     * @param string $shippingTaxClass
-     * @param Varien_Object $rateRequest
-     * @param array $rates
-     * @param array $expectedTaxInfo
+     * @param $isTaxAfterDiscount
+     * @param $isDiscountOnInclTax
+     * @param $addresses
+     * @param $shippingTaxClass
+     * @param $rateRequest
+     * @param $rates
+     * @param $expectedTaxInfo
      *
      * @dataProvider testCalculateItemsTaxInfoProvider
      */
@@ -294,7 +296,7 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
      * @param integer $parentItemId
      * @param integer $addressId
      * @param Varien_Object $addressProduct
-     * @param array $children
+     * @param array $childrenData
      * @param bool $isChildrenCalculated
      *
      * @return Mage_Sales_Model_Quote_Address_Item

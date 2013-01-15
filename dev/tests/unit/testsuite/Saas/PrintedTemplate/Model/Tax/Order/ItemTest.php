@@ -39,6 +39,9 @@ class Saas_PrintedTemplate_Model_Tax_Order_ItemTest extends PHPUnit_Framework_Te
         $this->assertEquals(false, $item->getIsTaxAfterDiscount());
     }
 
+    /**
+     * Test Saas_PrintedTemplate_Model_Tax_Order_Item::getIsDiscountOnInclTax
+     */
     public function testGetIsDiscountOnInclTax()
     {
         $item = $this->getMockBuilder('Saas_PrintedTemplate_Model_Tax_Order_Item')
