@@ -1,0 +1,14 @@
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     Mage_Theme
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+.js-files-container .js-file {
+    background: url("Mage_Theme::/images/js_icon.gif") no-repeat scroll 5px 50% #ECECEC;
+    border: 1px solid #CCCCCC;
+    padding: 5px 5px 5px 30px;
+}

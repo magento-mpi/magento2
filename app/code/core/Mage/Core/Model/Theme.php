@@ -14,7 +14,6 @@
  * @method Mage_Core_Model_Theme save()
  * @method string getPackageCode()
  * @method string getThemePath()
- * @method string getThemeTitle() getThemeTitle()
  * @method string getParentThemePath()
  * @method string getPreviewImage()
  * @method string getThemeDirectory()
@@ -70,6 +69,20 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      * Preview image height
      */
     const PREVIEW_IMAGE_HEIGHT = 200;
+
+    /**
+     * Custom css file
+     *
+     * @var Mage_Core_Model_Theme_Files
+     */
+    protected $_customCssFile;
+
+    /**
+     * Collection custom js files
+     *
+     * @var Mage_Core_Model_Resource_Theme_Files_Collection
+     */
+    protected $_customJsFiles;
 
     /**
      * Labels collection array
@@ -156,9 +169,27 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function getCustomCssFile()
     {
-        /** @var $cssFile Mage_Core_Model_Theme_Files_Css */
-        $cssFile = $this->_objectManager->get('Mage_Core_Model_Theme_Files_Css');
-        return $cssFile->getFileByTheme($this);
+        if (!$this->_customCssFile) {
+            /** @var $cssFile Mage_Core_Model_Theme_Files_Css */
+            $cssFile = $this->_objectManager->get('Mage_Core_Model_Theme_Files_Css');
+            $this->_customCssFile = $cssFile->getFileByTheme($this);
+        }
+        return $this->_customCssFile;
+    }
+
+    /**
+     * Return custom js file
+     *
+     * @return Mage_Core_Model_Resource_Theme_Files_Collection
+     */
+    public function getCustomJsFiles()
+    {
+        if (!$this->_customJsFiles) {
+            /** @var $jsFile Mage_Core_Model_Theme_Files_Js */
+            $jsFile = $this->_objectManager->get('Mage_Core_Model_Theme_Files_Js');
+            $this->_customJsFiles = $jsFile->getFilesByTheme($this);
+        }
+        return $this->_customJsFiles;
     }
 
     /**
