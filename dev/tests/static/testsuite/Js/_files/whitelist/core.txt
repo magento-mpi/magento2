@@ -13,3 +13,4 @@ app/code/core/Mage/Downloadable
 app/code/core/Mage/Persistent
 app/code/core/Mage/Wishlist
 app/code/core/Mage/Bundle
+app/code/core/Mage/Adminhtml
