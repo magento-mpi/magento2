@@ -13,6 +13,7 @@ class Mage_DesignEditor_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCa
 {
     /**
      * @covers Mage_DesignEditor_Model_Layout_Update::__beforeSave
+     * @magentoDbIsolation enabled
      */
     public function testBeforeSave()
     {
