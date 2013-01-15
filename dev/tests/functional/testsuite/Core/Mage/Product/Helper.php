@@ -172,7 +172,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         /** @var PHPUnit_Extensions_Selenium2TestCase_Element $tierPrice */
         foreach ($tierPrices as $tierPrice) {
             $price = $this->getChildElement($tierPrice, 'span[@class="price"]')->text();
-            $price = preg_replace('/^[\D]+/', '', rtrim(rtrim($price, '0'), '.'));
+            $price = preg_replace('/^[\D]+/', '', preg_replace('/\.0*$/', '', $price));
             $text = $tierPrice->text();
             list($qty) = explode($price, $text);
             $qty = preg_replace('/[^0-9]+/', '', $qty);
@@ -220,7 +220,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $prices[$name] = trim(preg_replace('/[^0-9\.]+/', '', $price));
         }
         foreach ($prices as $key => $value) {
-            $prices['prices_' . $key] = rtrim(rtrim($value, '0'), '.');
+            $prices['prices_' . $key] = preg_replace('/\.0*$/', '', $value);
             unset($prices[$key]);
         }
 
@@ -411,7 +411,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $price = preg_replace('/^\D+/', '', $price);
         }
 
-        return array($title, rtrim(rtrim($price, '0'), '.'));
+        return array($title, preg_replace('/\.0*$/', '', $price));
     }
 
     #**************************************************************************************
