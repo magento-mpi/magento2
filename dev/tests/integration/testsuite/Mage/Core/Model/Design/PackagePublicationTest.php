@@ -400,7 +400,11 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
         $this->_model->getViewFileUrl('css/recursive_import.css', array(
             'package' => 'package',
             'theme'   => 'default',
+            'locale'  => 'en_US'
         ));
+
+        $publishedDir = self::$_themePublicDir . '/frontend/package/default/en_US';
+        $this->assertFileExists("{$publishedDir}/css/recursive_import.css");
     }
 
     /**
