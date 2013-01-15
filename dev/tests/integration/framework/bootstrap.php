@@ -67,6 +67,18 @@ if (defined('TESTS_BAMBOO_PROFILER_FILE') && defined('TESTS_BAMBOO_PROFILER_METR
     Magento_Profiler::add($driver);
 }
 
+/** Memory/leak limit stats */
+/** @var $memLimit Magento_Test_MemoryLimit */
+$memLimit = new Magento_Test_MemoryLimit(
+    defined('TESTS_MEM_USAGE_LIMIT') ? TESTS_MEM_USAGE_LIMIT : 0,
+    defined('TESTS_MEM_LEAK_LIMIT') ? TESTS_MEM_LEAK_LIMIT : 0,
+    new Magento_Test_Helper_Memory(new Magento_Shell)
+);
+register_shutdown_function(function() use ($memLimit) {
+    echo $memLimit->printHeader() . $memLimit->printStats() . PHP_EOL;
+});
+register_shutdown_function(array($memLimit, 'validateUsage'));
+
 /*
  * Activate custom DocBlock annotations.
  * Note: order of registering (and applying) annotations is important.
@@ -107,3 +119,4 @@ Utility_Files::init(new Utility_Files($magentoBaseDir));
 
 /* Unset declared global variables to release PHPUnit from maintaining their values between tests */
 unset($testsBaseDir, $testsTmpDir, $magentoBaseDir, $localXmlFile, $globalEtcFiles, $moduleEtcFiles, $eventManager);
+unset($memCap, $leaksCap);
