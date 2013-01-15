@@ -1,15 +1,11 @@
 <?php
 /**
+ * Application configuration object. Used to access configuration when application is initialized and installed.
+ *
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Core
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
- * Core configuration class
  */
 class Mage_Core_Model_Config
 {
@@ -34,6 +30,7 @@ class Mage_Core_Model_Config
 
     /**
      * Active modules array per namespace
+     *
      * @var array
      */
     private $_moduleNamespaces = null;
@@ -67,21 +64,22 @@ class Mage_Core_Model_Config
     protected $_objectManager;
 
     /**
+     * Configuration storage
+     *
      * @var Mage_Core_Model_Config_StorageInterface
      */
     protected $_storage;
 
     /**
+     * Base configuration
+     *
      * @var Mage_Core_Model_Config_Base
      */
     protected $_config;
 
     /**
-     * @var Mage_Core_Model_Dir
-     */
-    protected $_dirs;
-
-    /**
+     * Application object
+     *
      * @var Mage_Core_Model_AppInterface
      */
     protected $_app;
@@ -94,26 +92,40 @@ class Mage_Core_Model_Config
     protected $_moduleReader;
 
     /**
+     * Configuration sections
+     *
+     * @var Mage_Core_Model_Config_Sections
+     */
+    protected $_sections;
+
+    /**
+     * Loaded configuration sections
+     *
+     * @var array
+     */
+    protected $_loadedSections;
+
+    /**
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Config_StorageInterface $configStorage
+     * @param Mage_Core_Model_Config_Sections $sections
      * @param Mage_Core_Model_Config_BaseFactory $configFactory
      * @param Mage_Core_Model_AppInterface $app
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
-        Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Config_StorageInterface $configStorage,
+        Mage_Core_Model_Config_Sections $sections,
         Mage_Core_Model_Config_BaseFactory $configFactory,
         Mage_Core_Model_AppInterface $app,
         Mage_Core_Model_Config_Modules_Reader $moduleReader
     ) {
         $this->_objectManager = $objectManager;
         $this->_app = $app;
-        $this->_dirs = $dirs;
         $this->_storage = $configStorage;
-        $this->_config = $configFactory->create($this->_storage->getConfiguration());
+        $this->_sections = $sections;
+        $this->_data = $configFactory->create($this->_storage->getConfiguration());
         $this->_moduleReader = $moduleReader;
     }
 
@@ -207,7 +219,25 @@ class Mage_Core_Model_Config
             }
             $path = $scope . ($scopeCode ? '/' . $scopeCode : '' ) . (empty($path) ? '' : '/' . $path);
         }
-        return $this->_config->getNode($path);
+
+
+        /**
+         * Check path cache loading
+         */
+        if ($path !== null) {
+            $sectionKey = $this->_sections->getKey($path);
+            if ($sectionKey !== false) {
+                if (!isset($this->_loadedSections[$sectionKey])) {
+                    Magento_Profiler::start('init_config_section:' . $sectionKey);
+                    $this->_loadedSections[$sectionKey] = $this->_storage->getSection($sectionKey);
+                    Magento_Profiler::stop('init_config_section:' . $sectionKey);
+                }
+                if ($this->_loadedSections[$sectionKey]) {
+                    return $this->_loadedSections[$sectionKey]->getNode(substr($path, strlen($sectionKey) + 1));
+                }
+            }
+        }
+        return $this->_data->getNode($path);
     }
 
     /**

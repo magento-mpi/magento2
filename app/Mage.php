@@ -315,7 +315,7 @@ final class Mage
      */
     public static function getModuleDir($type, $moduleName)
     {
-        return self::getConfig()->getModuleDir($type, $moduleName);
+        return self::getObjectManager()->get('Mage_Core_Model_Config_Modules_Reader')->getModuleDir($type, $moduleName);
     }
 
     /**
