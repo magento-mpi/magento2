@@ -384,6 +384,7 @@ class Mage_Core_Model_Url extends Varien_Object
             return $this;
         }
 
+        $this->unsetData('route_path');
         $a = explode('/', $data);
 
         $route = array_shift($a);
@@ -391,34 +392,33 @@ class Mage_Core_Model_Url extends Varien_Object
             $route = $this->getRequest()->getRequestedRouteName();
         }
         $this->setRouteName($route);
-        $routePath = $route . '/';
 
+        $controller = '';
         if (!empty($a)) {
             $controller = array_shift($a);
             if ('*' === $controller) {
                 $controller = $this->getRequest()->getRequestedControllerName();
             }
-            $this->setControllerName($controller);
-            $routePath .= $controller . '/';
         }
+        $this->setControllerName($controller);
 
+        $action = '';
         if (!empty($a)) {
             $action = array_shift($a);
             if ('*' === $action) {
                 $action = $this->getRequest()->getRequestedActionName();
             }
-            $this->setActionName($action);
-            $routePath .= $action . '/';
         }
+        $this->setActionName($action);
 
         if (!empty($a)) {
-            $this->unsetData('route_params');
             while (!empty($a)) {
                 $key = array_shift($a);
                 if (!empty($a)) {
                     $value = array_shift($a);
                     $this->setRouteParam($key, $value);
-                    $routePath .= $key . '/' . $value . '/';
+                } else {
+                    $this->setRouteParam($key, '');
                 }
             }
         }
@@ -471,10 +471,7 @@ class Mage_Core_Model_Url extends Varien_Object
             $routePath = $this->getActionPath();
             if ($this->getRouteParams()) {
                 foreach ($this->getRouteParams() as $key=>$value) {
-                    if (is_null($value) || false === $value || '' === $value || !is_scalar($value)) {
-                        continue;
-                    }
-                    $routePath .= $key . '/' . $value . '/';
+                    $routePath .= $key . '/' . $value;
                 }
             }
             if ($routePath != '' && substr($routePath, -1, 1) !== '/') {
@@ -729,9 +726,7 @@ class Mage_Core_Model_Url extends Varien_Object
             return $this->getBaseUrl() . $routeParams['_direct'];
         }
 
-        if (!is_null($routePath)) {
-            $this->setRoutePath($routePath);
-        }
+        $this->setRoutePath($routePath);
         if (is_array($routeParams)) {
             $this->setRouteParams($routeParams, false);
         }
@@ -950,7 +945,7 @@ class Mage_Core_Model_Url extends Varien_Object
          * in case when we have params
          */
         if (isset($routeParams['_fragment'])) {
-            $this->setFragment($routeParams['_fragment']);
+            $fragment = $routeParams['_fragment'];
             unset($routeParams['_fragment']);
         }
 
@@ -998,8 +993,8 @@ class Mage_Core_Model_Url extends Varien_Object
             $this->unsetData('query_params');
         }
 
-        if ($this->getFragment()) {
-            $url .= '#' . $this->getFragment();
+        if ($fragment) {
+            $url .= '#' . $fragment;
         }
 
         return $this->escape($url);

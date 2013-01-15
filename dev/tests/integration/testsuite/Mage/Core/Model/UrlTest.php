@@ -326,6 +326,64 @@ class Mage_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('http://localhost/index.php/catalog/product/view/', $result);
     }
 
+    /**
+      * Note: isolation flushes the URL memory cache
+      * @magentoAppIsolation enabled
+      */
+    public function testGetUrlDoesntAddFragmentOnConsequentCalls()
+    {
+        $result = $this->_model->getUrl('catalog/product/view', array(
+            '_nosid' => 1,
+            '_fragment' => 'section'
+        ));
+        $this->assertEquals('http://localhost/index.php/catalog/product/view/#section', $result);
+        $result = $this->_model->getUrl('catalog/product/view', array(
+            '_nosid' => 1,
+        ));
+        $this->assertEquals('http://localhost/index.php/catalog/product/view/', $result);
+    }
+
+    /**
+     * Note: isolation flushes the URL memory cache
+     * @magentoAppIsolation enabled
+     *
+     * @dataProvider consequentCallsDataProvider
+     *
+     * @param string $firstCallUrl
+     * @param string $secondCallUrl
+     */
+    public function testGetUrlOnConsequentCalls($firstCallUrl, $secondCallUrl)
+    {
+        $baseUrl = 'http://localhost/index.php/';
+        $result = $this->_model->getUrl($firstCallUrl);
+        $expectedUrl = $baseUrl . $firstCallUrl;
+        $expectedUrl .= (!empty($firstCallUrl)) ? '/' : '';
+        $this->assertEquals($expectedUrl, $result);
+
+        $result = $this->_model->getUrl($secondCallUrl);
+        $expectedUrl = $baseUrl . $secondCallUrl;
+        $expectedUrl .= (!empty($secondCallUrl)) ? '/' : '';
+        $this->assertEquals($expectedUrl, $result);
+    }
+
+    public function consequentCallsDataProvider()
+    {
+        return array(
+            array('r_1/c_1/a_1/p_1/p_2', 'r_1/c_1/a_1/p_1/p_2'),
+            array('r_1/c_1/a_1/p_1/p_2', 'r_1/c_1/a_1/p_1/p_2_1'),
+            array('r_1/c_1/a_1/p_1/p_2', 'r_1/c_1/a_1/p_1'),
+            array('r_1/c_1/a_1/p_1/p_2', 'r_1/c_1/a_1/p_1_1'),
+            array('r_1/c_1/a_1/p_1/p_2', 'r_1/c_1/a_1'),
+            array('r_1/c_1/a_1/p_1/p_2', 'r_1/c_1/a_2'),
+            array('r_1/c_1/a_1/p_1/p_2', 'r_1/c_1'),
+            array('r_1/c_1/a_1/p_1/p_2', 'r_1/c_2'),
+            array('r_1/c_1/a_1/p_1/p_2', 'r_1'),
+            array('r_1/c_1/a_1/p_1/p_2', 'r_2'),
+            array('r_1/c_1/a_1/p_1/p_2'),
+            array('r_1/c_1/a_1', 'r_1/c_1/a_1/p_1/p_2'),
+            array(null, 'r_1/c_1/a_1')
+        );
+    }
 
     public function testEscape()
     {
