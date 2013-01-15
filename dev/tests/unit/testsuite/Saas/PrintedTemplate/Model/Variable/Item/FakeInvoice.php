@@ -2,10 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Saas
- * @package     unit_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @category   Saas
+ * @package    Saas_PrintedTemplate
+ * @subpackage unit_tests
+ * @copyright  {copyright}
+ * @license    {license_link}
  */
 
 class Saas_PrintedTemplate_Model_Variable_Item_FakeInvoice
@@ -43,4 +44,3 @@ class Saas_PrintedTemplate_Model_Variable_Item_FakeInvoice
         return 'en_US';
     }
 }
-

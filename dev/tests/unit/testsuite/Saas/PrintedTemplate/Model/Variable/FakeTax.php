@@ -2,11 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Saas
- * @package     unit_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @category   Saas
+ * @package    Saas_PrintedTemplate
+ * @subpackage unit_tests
+ * @copyright  {copyright}
+ * @license    {license_link}
  */
+
 class Saas_PrintedTemplate_Model_Variable_FakeTax extends Saas_PrintedTemplate_Model_Variable_Tax
 {
     protected function _setListsFromConfig($variableName)

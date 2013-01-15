@@ -2,10 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Saas
- * @package     unit_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @category   Saas
+ * @package    Saas_PrintedTemplate
+ * @subpackage unit_tests
+ * @copyright  {copyright}
+ * @license    {license_link}
  */
 
 class Saas_PrintedTemplate_Model_Variable_Item_CreditmemoTest extends PHPUnit_Framework_TestCase
@@ -71,7 +72,6 @@ class Saas_PrintedTemplate_Model_Variable_Item_CreditmemoTest extends PHPUnit_Fr
                     'row_total_incl_discount_and_tax' => '',
                 )
             ),
-
             array(
                 array(
                     'discount_amount' => 2,
@@ -88,7 +88,6 @@ class Saas_PrintedTemplate_Model_Variable_Item_CreditmemoTest extends PHPUnit_Fr
                     'row_total_incl_discount_and_tax' => $this->formatPriceTxt('-2')
                 )
             ),
-
             array(
                 array(
                     'discount_amount' => 2,
@@ -106,7 +105,6 @@ class Saas_PrintedTemplate_Model_Variable_Item_CreditmemoTest extends PHPUnit_Fr
                     'row_total_incl_discount_and_tax' => $this->formatPriceTxt('4')
                 )
             ),
-
             array(
                 array(
                     'discount_amount' => 2,

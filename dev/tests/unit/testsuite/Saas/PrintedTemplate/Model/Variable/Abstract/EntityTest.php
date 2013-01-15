@@ -2,11 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Saas
- * @package     unit_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @category   Saas
+ * @package    Saas_PrintedTemplate
+ * @subpackage unit_tests
+ * @copyright  {copyright}
+ * @license    {license_link}
  */
+
 class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -17,7 +19,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
      * @dataProvider formatCurrencyProvider
      * @test
      */
-    public function _testFormatCurrency($value, $expectedResult)
+    public function testFormatCurrency($value, $expectedResult)
     {
         $valueModel = new Varien_Object();
         $order = $this->getMockBuilder('Mage_Sales_Model_Order')
@@ -52,7 +54,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
      *
      * @test
      */
-    public function _testFormatEmptyCurrency()
+    public function testFormatEmptyCurrency()
     {
         $valueModel = new Varien_Object();
         $order = $this->getMockBuilder('Mage_Sales_Model_Order')
@@ -74,7 +76,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
      * @dataProvider formatBaseCurrencyProvider
      * @test
      */
-    public function _testFormatBaseCurrency($value, $expectedResult)
+    public function testFormatBaseCurrency($value, $expectedResult)
     {
         $valueModel = new Varien_Object();
         $order = $this->getMockBuilder('Mage_Sales_Model_Order')
@@ -112,9 +114,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
      */
     public function testGetItems($valueItems, $expectedCount)
     {
-        $itemsTaxes = $this->getMockBuilder(
-            'Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection'
-        )
+        $itemsTaxes = $this->getMockBuilder('Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection')
             ->disableOriginalConstructor()
             ->setMethods(array('getItemsByColumnValue'))
             ->getMock();
@@ -218,18 +218,14 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
      *
      * @dataProvider taxesGroupedByPercentProvider
      */
-    public function testGetTaxesGroupedByPercent(
-        $itemsTaxSettings, $shippingTaxSettings, $expectedResult
-    )
+    public function testGetTaxesGroupedByPercent($itemsTaxSettings, $shippingTaxSettings, $expectedResult)
     {
         $taxes = array();
         foreach ($itemsTaxSettings as $settings) {
             $taxes[] = $this->_prepareTax($settings);
         }
 
-        $itemsTaxes = $this->getMockBuilder(
-            'Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection'
-        )
+        $itemsTaxes = $this->getMockBuilder('Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection')
             ->disableOriginalConstructor()
             ->setMethods(array('getIterator'))
             ->getMock();
@@ -243,9 +239,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
             $taxes[] = $this->_prepareTax($settings);
         }
 
-        $shippingTaxes = $this->getMockBuilder(
-            'Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_Collection'
-        )
+        $shippingTaxes = $this->getMockBuilder('Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_Collection')
             ->disableOriginalConstructor()
             ->setMethods(array('getIterator'))
             ->getMock();
@@ -288,18 +282,14 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
      *
      * @dataProvider taxesGroupedByCompoundIdProvider
      */
-    public function testGetTaxesGroupedByCompoundId(
-        $itemsTaxSettings, $shippingTaxSettings, $expectedResult
-    )
+    public function testGetTaxesGroupedByCompoundId($itemsTaxSettings, $shippingTaxSettings, $expectedResult)
     {
         $taxes = array();
         foreach ($itemsTaxSettings as $settings) {
             $taxes[] = $this->_prepareTax($settings);
         }
 
-        $itemsTaxes = $this->getMockBuilder(
-            'Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection'
-        )
+        $itemsTaxes = $this->getMockBuilder('Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection')
             ->disableOriginalConstructor()
             ->setMethods(array('getIterator'))
             ->getMock();
@@ -313,9 +303,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
             $taxes[] = $this->_prepareTax($settings);
         }
 
-        $shippingTaxes = $this->getMockBuilder(
-            'Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_Collection'
-        )
+        $shippingTaxes = $this->getMockBuilder('Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_Collection')
             ->disableOriginalConstructor()
             ->setMethods(array('getIterator'))
             ->getMock();
@@ -364,18 +352,15 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
             array(
                 array(
                     array(
-                        'percent' => 0.1,
-                        'total_amount' => 100, 'base_total_amount' => 80.99,
+                        'percent' => 0.1, 'total_amount' => 100, 'base_total_amount' => 80.99,
                         'tax_amount' => 10, 'base_tax_amount' => 8.09,
-                        'row_total' => 100.00, 'discount_amount' => 10,
-                        'priority' => 1
+                        'row_total' => 100.00, 'discount_amount' => 10, 'priority' => 1
                     )
                 ),
                 array(),
                 array(
                     '0.1' => array(
-                        'total_amount' => 100,
-                        'tax_amount' => 10,
+                        'total_amount' => 100, 'tax_amount' => 10,
                         'tax_amount_without_discount' => 10.00,
                         'total_amount_without_discount' => 90
                     )
@@ -386,21 +371,16 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
             array(
                 array(
                     array(
-                        'percent' => 0.1,
-                        'total_amount' => 100, 'base_total_amount' => 80.99,
-                        'is_tax_after_discount' => true,
-                        'tax_amount' => 10, 'base_tax_amount' => 8.09,
-                        'row_total' => 100.00, 'discount_amount' => 10,
-                        'priority' => 1
+                        'percent' => 0.1, 'total_amount' => 100, 'base_total_amount' => 80.99,
+                        'is_tax_after_discount' => true, 'tax_amount' => 10, 'base_tax_amount' => 8.09,
+                        'row_total' => 100.00, 'discount_amount' => 10, 'priority' => 1
                     )
                 ),
                 array(),
                 array(
                     '0.1' => array(
-                        'total_amount' => 90,
-                        'tax_amount' => 10,
-                        'tax_amount_without_discount' => 10.00,
-                        'total_amount_without_discount' => 80
+                        'total_amount' => 90, 'tax_amount' => 10,
+                        'tax_amount_without_discount' => 10.00, 'total_amount_without_discount' => 80
                     )
                 )
             ),
@@ -408,21 +388,16 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
             array(
                 array(
                     array(
-                        'percent' => 0.1,
-                        'total_amount' => 90, 'base_total_amount' => 80.99,
-                        'tax_amount' => 10, 'base_tax_amount' => 8.09,
-                        'is_tax_after_discount' => true,
-                        'row_total' => 90.00, 'discount_amount' => 10,
-                        'priority' => 1
+                        'percent' => 0.1, 'total_amount' => 90, 'base_total_amount' => 80.99,
+                        'tax_amount' => 10, 'base_tax_amount' => 8.09, 'is_tax_after_discount' => true,
+                        'row_total' => 90.00, 'discount_amount' => 10, 'priority' => 1
                     )
                 ),
                 array(),
                 array(
                     '0.1' => array(
-                        'total_amount' => 80,
-                        'tax_amount' => 10,
-                        'tax_amount_without_discount' => 10.00,
-                        'total_amount_without_discount' => 70
+                        'total_amount' => 80, 'tax_amount' => 10,
+                        'tax_amount_without_discount' => 10.00, 'total_amount_without_discount' => 70
                     )
                 )
             ),
@@ -430,44 +405,33 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
             array(
                 array(
                     array(
-                        'percent' => 0.1,
-                        'total_amount' => 100, 'base_total_amount' => 80.99,
+                        'percent' => 0.1, 'total_amount' => 100, 'base_total_amount' => 80.99,
                         'is_tax_after_discount' => true,
                         'tax_amount' => 10, 'base_tax_amount' => 8.09,
-                        'row_total' => 100.00, 'discount_amount' => 10,
-                        'priority' => 1
+                        'row_total' => 100.00, 'discount_amount' => 10, 'priority' => 1
                     ), array(
                         'percent' => 0.2,
                         'total_amount' => 22.33, 'base_total_amount' => 20.99,
-                        'tax_amount' => 4.66, 'base_tax_amount' => 4.19,
-                        'is_tax_after_discount' => true,
-                        'row_total' => 100.00, 'discount_amount' => 10,
-                        'priority' => 1
+                        'tax_amount' => 4.66, 'base_tax_amount' => 4.19, 'is_tax_after_discount' => true,
+                        'row_total' => 100.00, 'discount_amount' => 10, 'priority' => 1
                     )
                 ),
                 array(
                     array(
-                        'percent' => 0.1,
-                        'total_amount' => 100, 'base_total_amount' => 90.00,
+                        'percent' => 0.1, 'total_amount' => 100, 'base_total_amount' => 90.00,
                         'tax_amount' => 10, 'base_tax_amount' => 8.09,
                         'row_total' => 100.00, 'discount_amount' => 10,
-                        'is_tax_after_discount' => true,
-                        'priority' => 1
+                        'is_tax_after_discount' => true, 'priority' => 1
                     ), array(
-                        'percent' => 0.2,
-                        'total_amount' => 22.33, 'base_total_amount' => 20.99,
-                        'tax_amount' => 4.66, 'base_tax_amount' => 4.19,
-                        'is_tax_after_discount' => true,
-                        'row_total' => 100.00, 'discount_amount' => 10,
-                        'priority' => 1
+                        'percent' => 0.2, 'total_amount' => 22.33, 'base_total_amount' => 20.99,
+                        'tax_amount' => 4.66, 'base_tax_amount' => 4.19, 'is_tax_after_discount' => true,
+                        'row_total' => 100.00, 'discount_amount' => 10, 'priority' => 1
                     )
                 ),
                 array(
                     '0.1+0.2,0.1+0.2' => array(
-                        'total_amount' => 90,
-                        'tax_amount' => 10,
-                        'tax_amount_without_discount' => 10.00,
-                        'total_amount_without_discount' => 80,
+                        'total_amount' => 90, 'tax_amount' => 10,
+                        'tax_amount_without_discount' => 10.00, 'total_amount_without_discount' => 80,
                     ),
                 )
             )
@@ -566,4 +530,3 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
     }
 
 }
-

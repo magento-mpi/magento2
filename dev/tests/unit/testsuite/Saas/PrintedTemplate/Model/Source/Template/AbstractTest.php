@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-require_once 'Saas/PrintedTemplate/Model/Source/Template/Invoice.php';
 
 class Saas_PrintedTemplate_Model_Source_Template_AbstractTest extends PHPUnit_Framework_TestCase
 {

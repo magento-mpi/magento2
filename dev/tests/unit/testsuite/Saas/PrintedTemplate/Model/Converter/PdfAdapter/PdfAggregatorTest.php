@@ -8,9 +8,6 @@
  * @license    {license_link}
  */
 
-require_once 'Saas/PrintedTemplate/Model/Converter/PdfAdapter/PdfAggregator.php';
-require_once 'Saas/PrintedTemplate/Model/Converter/PdfAdapter/PdfAggregatorInterface.php';
-
 class Saas_PrintedTemplate_Model_Converter_PdfAdapter_PdfAggregatorTest
     extends PHPUnit_Framework_TestCase
 {
