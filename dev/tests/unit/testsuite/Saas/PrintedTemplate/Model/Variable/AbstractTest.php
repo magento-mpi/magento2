@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-require_once 'Saas/PrintedTemplate/Model/Variable/Abstract.php';
 
 class Saas_PrintedTemplate_Model_Variable_AbstractTest extends PHPUnit_Framework_TestCase
 {
@@ -39,17 +38,33 @@ class Saas_PrintedTemplate_Model_Variable_AbstractTest extends PHPUnit_Framework
         $coreHelper->expects($this->any())
             ->method('formatCurrency')
             ->will($this->returnValue('test_data'));
+        $saasHelper = $this->getMockBuilder('Saas_PrintedTemplate_Helper_Data')
+            ->setMethods(array('__'))
+            ->getMock();
+        $saasHelper->expects($this->any())
+            ->method('__')
+            ->will(
+            $this->returnCallback(
+                function ($msg)
+                {
+                    return $msg;
+                }
+            )
+        );
 
         $value = new Varien_Object(array($field => $value));
 
         $abstractFake = $this->getMockBuilder('VariableAbstractFake')
             ->disableOriginalConstructor()
-            ->setMethods(array('_getCoreHelper'))
+            ->setMethods(array('_getCoreHelper','_getHelper'))
             ->getMock();
         $abstractFake->__construct($value, $config);
         $abstractFake->expects($this->any())
             ->method('_getCoreHelper')
             ->will($this->returnValue($coreHelper));
+        $abstractFake->expects($this->any())
+            ->method('_getHelper')
+            ->will($this->returnValue($saasHelper));
 
         $this->assertEquals($expectedResult, ($abstractFake->$variable()));
     }
@@ -147,4 +162,8 @@ class VariableAbstractFake extends Saas_PrintedTemplate_Model_Variable_Abstract
         return $this->_config;
     }
 
+    protected function _getlocale()
+    {
+        return new Zend_Locale('en_US');
+    }
 }

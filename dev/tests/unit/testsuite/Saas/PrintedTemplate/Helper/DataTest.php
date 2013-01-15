@@ -123,9 +123,14 @@ class Saas_PrintedTemplate_Helper_DataTest extends PHPUnit_Framework_TestCase
         $helper = $this->getMock('Mage_Core_Helper_Abstract', array('__', 'getUrl'));
         $helper->expects($this->any())
             ->method('__')
-            ->will($this->returnCallback(function ($msg) {
-                return "$msg-tr";
-            }));
+            ->will(
+                $this->returnCallback(
+                    function ($msg)
+                    {
+                        return "$msg-tr";
+                    }
+                )
+            );
         $helper->expects($this->any())
             ->method('getUrl')
             ->will($this->returnValueMap($urls));

@@ -27,7 +27,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      *
      * @var object
      */
-    private $_value;
+    protected $_value;
 
     /**
      * White list for methods
@@ -320,7 +320,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      * @param string $value
      * @return string
      */
-    protected function formatText($value)
+    public function formatText($value)
     {
         return $value;
     }
@@ -331,7 +331,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      * @param string|Zend_Date $value
      * @return string
      */
-    protected function formatDate($value)
+    public function formatDate($value)
     {
         return $value ? $this->_getCoreHelper()->formatDate($value) : '';
     }
@@ -342,7 +342,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      * @param string $value
      * @return string
      */
-    protected function formatCurrency($value)
+    public function formatCurrency($value)
     {
         return ($value !== null) ? $this->_getCoreHelper()->formatCurrency($value) : '';
     }
@@ -353,7 +353,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      * @param string $value
      * @return string
      */
-    protected function formatCurrencyAbs($value)
+    public function formatCurrencyAbs($value)
     {
         return ($value !== null) ? $this->_getCoreHelper()->formatCurrency(abs($value)) : '';
     }
@@ -364,7 +364,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      * @param string $value
      * @return float
      */
-    protected function formatCurrencyAbsRaw($value)
+    public function formatCurrencyAbsRaw($value)
     {
         return (null !== $value) ? abs((float)$value) : '';
     }
@@ -375,7 +375,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      * @param string $value
      * @return float
      */
-    protected function formatCurrencyRaw($value)
+    public function formatCurrencyRaw($value)
     {
         return (null !== $value) ? (float)$value : '';
     }
@@ -386,7 +386,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      * @param bool $value
      * @return string
      */
-    protected function formatYesNo($value)
+    public function formatYesNo($value)
     {
         return $this->_getHelper()->__($value ? 'Yes' : 'No');
     }
@@ -397,7 +397,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      * @param string $value
      * @return boolean
      */
-    protected function formatYesNoRaw($value)
+    public function formatYesNoRaw($value)
     {
         return (bool) $value;
     }
@@ -409,7 +409,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      * @param number $value
      * @return string
      */
-    protected function formatDecimal($value)
+    public function formatDecimal($value)
     {
         return Zend_Locale_Format::toNumber((float)$value, array('locale' => $this->_getLocale()));
     }
@@ -420,7 +420,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      * @param number $value
      * @return string
      */
-    protected function formatPercent($value)
+    public function formatPercent($value)
     {
         return ($value === null) ? '' : $this->formatDecimal(round($value, 2)) . '%';
     }
@@ -431,7 +431,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      * @param Saas_PrintedTemplate_Model_Tax_CompoundId $value
      * @return string
      */
-    protected function formatCompoundId(Saas_PrintedTemplate_Model_Tax_CompoundId $value)
+    public function formatCompoundId(Saas_PrintedTemplate_Model_Tax_CompoundId $value)
     {
         return join(
             $this->_getHelper()->__(' then '),
@@ -452,6 +452,9 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
             : $this->formatPercent($value);
     }
 
+    /**
+     * @return Mage_Core_Helper_Data
+     */
     protected function _getCoreHelper()
     {
         return Mage::helper('Mage_Core_Helper_Data');
