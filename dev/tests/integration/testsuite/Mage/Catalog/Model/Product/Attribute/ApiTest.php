@@ -263,7 +263,7 @@ class Mage_Catalog_Model_Product_Attribute_ApiTest extends PHPUnit_Framework_Tes
         $optionLabel = "Option Label";
 
         $data = (object)array(
-            "label" => array (
+            "label" => array(
                 (object)array(
                     "store_id" => array("0"),
                     "value" => $optionLabel

@@ -1,10 +1,9 @@
 <?php
 /**
+ * "dropdown" fixture of product EAV attribute.
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Catalog
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
