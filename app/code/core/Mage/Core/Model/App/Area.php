@@ -47,13 +47,23 @@ class Mage_Core_Model_App_Area
     protected $_eventManager;
 
     /**
+     * @var Mage_Core_Model_Translate
+     */
+    protected $_translator;
+
+    /**
      * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Mage_Core_Model_Translate $translator
      * @param $areaCode
      */
-    public function __construct(Mage_Core_Model_Event_Manager $eventManager, $areaCode)
-    {
+    public function __construct(
+        Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Core_Model_Translate $translator,
+        $areaCode
+    ) {
         $this->_code = $areaCode;
         $this->_eventManager = $eventManager;
+        $this->_translator = $translator;
     }
 
     /**
@@ -182,7 +192,7 @@ class Mage_Core_Model_App_Area
 
     protected function _initTranslate()
     {
-        Mage::app()->getTranslator()->init($this->_code);
+        $this->_translator->init($this->_code);
         return $this;
     }
 

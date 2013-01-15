@@ -47,10 +47,14 @@ class Mage_Core_Helper_Js extends Mage_Core_Helper_Abstract
     protected $_configReader;
 
     /**
+     * @param Mage_Core_Model_Translate $translator
      * @param Mage_Core_Model_Config_Modules_Reader $configReader
      */
-    public function __construct(Mage_Core_Model_Config_Modules_Reader $configReader)
-    {
+    public function __construct(
+        Mage_Core_Model_Translate $translator,
+        Mage_Core_Model_Config_Modules_Reader $configReader
+    ) {
+        parent::__construct($translator);
         $this->_configReader = $configReader;
     }
 

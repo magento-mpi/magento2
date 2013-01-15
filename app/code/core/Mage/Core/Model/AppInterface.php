@@ -193,13 +193,6 @@ interface Mage_Core_Model_AppInterface
     public function getLayout();
 
     /**
-     * Retrieve translate object
-     *
-     * @return Mage_Core_Model_Translate
-     */
-    public function getTranslator();
-
-    /**
      * Retrieve helper object
      *
      * @param string $name

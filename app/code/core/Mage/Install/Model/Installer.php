@@ -18,6 +18,20 @@
  */
 class Mage_Install_Model_Installer extends Varien_Object
 {
+    /**
+     * @var Mage_Core_Model_Db_UpdaterInterface
+     */
+    protected $_dbUpdater;
+
+    /**
+     * @param Mage_Core_Model_Db_UpdaterInterface $dbUpdater
+     * @param array $data
+     */
+    public function __construct(Mage_Core_Model_Db_UpdaterInterface $dbUpdater, array $data = array())
+    {
+        $this->_dbUpdater = $dbUpdater;
+        parent::__construct($data);
+    }
 
     /**
      * Installer data model used to store data between installation steps
@@ -69,7 +83,7 @@ class Mage_Install_Model_Installer extends Varien_Object
     public function checkDownloads()
     {
         try {
-            $result = Mage::getModel('Mage_Install_Model_Installer_Pear')->checkDownloads();
+            Mage::getModel('Mage_Install_Model_Installer_Pear')->checkDownloads();
             $result = true;
         } catch (Exception $e) {
             $result = false;
@@ -138,9 +152,7 @@ class Mage_Install_Model_Installer extends Varien_Object
      */
     public function installDb()
     {
-        /** @var $updater Mage_Core_Model_Db_UpdaterInterface*/
-        $updater = Mage::getObjectManager()->get('Mage_Core_Model_Db_UpdaterInterface');
-        $updater->updateScheme();
+        $this->_dbUpdater->updateScheme();
         $data = $this->getDataModel()->getConfigData();
 
         /**

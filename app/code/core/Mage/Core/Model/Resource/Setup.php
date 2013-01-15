@@ -26,21 +26,21 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
     /**
      * Setup resource configuration object
      *
-     * @var Varien_Simplexml_Object
+     * @var Varien_Simplexml_Element
      */
     protected $_resourceConfig;
 
     /**
      * Connection configuration object
      *
-     * @var Varien_Simplexml_Object
+     * @var Varien_Simplexml_Element
      */
     protected $_connectionConfig;
 
     /**
      * Setup module configuration object
      *
-     * @var Varien_Simplexml_Object
+     * @var Varien_Simplexml_Element
      */
     protected $_moduleConfig;
 
@@ -85,21 +85,37 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
     protected $_resourceModel;
 
     /**
+     * Modules configuration reader
+     *
+     * @var Mage_Core_Model_Config_Modules_Reader
+     */
+    protected $_modulesReader;
+
+    /**
+     * @var Mage_Core_Model_Config_Modules
+     */
+    protected $_config;
+
+    /**
      * Initialize resource configurations, setup connection, etc
      *
      * @param Mage_Core_Model_Config_Resource $resourcesConfig
      * @param Mage_Core_Model_Config_Modules $modulesConfig
      * @param Mage_Core_Model_Resource $resource
+     * @param Mage_Core_Model_Config_Modules_Reader $modulesReader
      * @param $resourceName
      */
     public function __construct(
         Mage_Core_Model_Config_Resource $resourcesConfig,
         Mage_Core_Model_Config_Modules $modulesConfig,
         Mage_Core_Model_Resource $resource,
+        Mage_Core_Model_Config_Modules_Reader $modulesReader,
         $resourceName
     ) {
+        $this->_config = $modulesConfig;
         $this->_resourceModel = $resource;
         $this->_resourceName = $resourceName;
+        $this->_modulesReader = $modulesReader;
         $this->_resourceConfig = $resourcesConfig->getResourceConfig($resourceName);
         $connection = $resourcesConfig->getResourceConnectionConfig($resourceName);
         if ($connection) {
@@ -109,7 +125,7 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
         }
 
         $modName = (string)$this->_resourceConfig->setup->module;
-        $this->_moduleConfig = $modulesConfig->getModuleConfig($modName);
+        $this->_moduleConfig = $this->_config->getModuleConfig($modName);
         $connection = $this->_resourceModel->getConnection($this->_resourceName);
         /**
          * If module setup configuration wasn't loaded
@@ -217,6 +233,7 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
          * Hook queries in adapter, so that in MySQL compatibility mode extensions and custom modules will avoid
          * errors due to changes in database structure
          */
+        /** @var $helper Mage_Core_Helper_Data */
         $helper = Mage::helper('Mage_Core_Helper_Data');
         if (((string)$this->_moduleConfig->codePool != 'core') && $helper->useDbCompatibleMode()) {
             $this->_hookQueries();
@@ -392,7 +409,7 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
         $resModel   = (string)$this->_connectionConfig->model;
         $modName    = (string)$this->_moduleConfig[0]->getName();
 
-        $filesDir   = Mage::getModuleDir('sql', $modName) . DS . $this->_resourceName;
+        $filesDir   = $this->_modulesReader->getModuleDir('sql', $modName) . DS . $this->_resourceName;
         if (!is_dir($filesDir) || !is_readable($filesDir)) {
             return array();
         }

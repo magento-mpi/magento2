@@ -1019,19 +1019,6 @@ class Mage_Core_Model_App
     }
 
     /**
-     * Retrieve translate object
-     *
-     * @return Mage_Core_Model_Translate
-     */
-    public function getTranslator()
-    {
-        if (!$this->_translator) {
-            $this->_translator = Mage::getSingleton('Mage_Core_Model_Translate');
-        }
-        return $this->_translator;
-    }
-
-    /**
      * Retrieve helper object
      *
      * @param string $name

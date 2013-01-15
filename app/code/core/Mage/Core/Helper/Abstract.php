@@ -37,6 +37,19 @@ abstract class Mage_Core_Helper_Abstract
     protected $_layout;
 
     /**
+     * @var Mage_Core_Model_Translate
+     */
+    protected $_translator;
+
+    /**
+     * @param Mage_Core_Model_Translate $translator
+     */
+    public function __construct(Mage_Core_Model_Translate $translator)
+    {
+        $this->_translator = $translator;
+    }
+
+    /**
      * Retrieve request object
      *
      * @return Zend_Controller_Request_Http
@@ -66,6 +79,7 @@ abstract class Mage_Core_Helper_Abstract
      * @param   mixed $data
      * @param   string $id
      * @param   array $tags
+     * @param   bool $lifeTime
      * @return  Mage_Core_Helper_Abstract
      */
     protected function _saveCache($data, $id, $tags=array(), $lifeTime=false)
@@ -167,7 +181,7 @@ abstract class Mage_Core_Helper_Abstract
         $args = func_get_args();
         $expr = new Mage_Core_Model_Translate_Expr(array_shift($args), $this->_getModuleName());
         array_unshift($args, $expr);
-        return Mage::app()->getTranslator()->translate($args);
+        return $this->_translator->translate($args);
     }
 
     /**

@@ -47,8 +47,12 @@ class Mage_Core_Model_Config_Loader_Db implements Mage_Core_Model_Config_LoaderI
      */
     public function load(Mage_Core_Model_Config_Base $config)
     {
+        if (false == $this->_resource->getReadConnection()) {
+            return;
+        }
+
         //update database scheme
-        $this->_dbUpdater->updateScheme();
+         $this->_dbUpdater->updateScheme();
 
         //apply modules configuration
         $config->extend($this->_config);

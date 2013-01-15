@@ -293,16 +293,6 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
     }
 
     /**
-     * Retrieve translate object
-     *
-     * @return Mage_Core_Model_Translate
-     */
-    public function getTranslator()
-    {
-        return $this->_getApp()->getTranslator();
-    }
-
-    /**
      * Retrieve helper object
      *
      * @param string $name

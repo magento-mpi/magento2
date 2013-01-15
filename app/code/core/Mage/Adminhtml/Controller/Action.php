@@ -72,7 +72,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Backend_Controller_ActionAbs
     protected function _getTranslator()
     {
         if (null === $this->_translator) {
-            $this->_translator = Mage::app()->getTranslator();
+            $this->_translator = $this->_objectManager->get('Mage_Core_Model_Translate');
         }
         return $this->_translator;
     }

@@ -64,12 +64,12 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_dirs = null;
 
     /**
-     * Inject dependencies
-     *
      * @param Mage_Core_Model_Dir $dirs
+     * @param Mage_Core_Model_Translate $translator
      */
-    public function __construct(Mage_Core_Model_Dir $dirs)
+    public function __construct(Mage_Core_Model_Dir $dirs, Mage_Core_Model_Translate $translator)
     {
+        parent::__construct($translator);
         $this->_dirs = $dirs;
     }
 

@@ -57,6 +57,10 @@ class Mage_Core_Model_Db_Updater implements Mage_Core_Model_Db_UpdaterInterface
      */
     protected function _shouldSkipProcessModulesUpdates()
     {
+        if (!Mage::isInstalled()) {
+            return false;
+        }
+
         $ignoreDevelopmentMode = (bool)(string)$this->_config->getNode(self::XML_PATH_IGNORE_DEV_MODE);
         if (Mage::getIsDeveloperMode() && false == $ignoreDevelopmentMode) {
             return false;
@@ -70,7 +74,7 @@ class Mage_Core_Model_Db_Updater implements Mage_Core_Model_Db_UpdaterInterface
      */
     public function updateScheme()
     {
-        if (false == $this->_shouldSkipProcessModulesUpdates()) {
+        if (true == $this->_shouldSkipProcessModulesUpdates()) {
             return;
         }
 

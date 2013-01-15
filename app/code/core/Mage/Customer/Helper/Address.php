@@ -54,11 +54,12 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
     protected $_blockFactory;
 
     /**
-     * Class constructor
+     * @param Mage_Core_Model_Translate $translator
      * @param Mage_Core_Model_BlockFactory $blockFactory
      */
-    public function __construct(Mage_Core_Model_BlockFactory $blockFactory)
+    public function __construct(Mage_Core_Model_Translate $translator, Mage_Core_Model_BlockFactory $blockFactory)
     {
+        parent::__construct($translator);
         $this->_blockFactory = $blockFactory;
     }
 
@@ -103,6 +104,7 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
      */
     public function getConfig($key, $store = null)
     {
+        return null;
         $websiteId = Mage::app()->getStore($store)->getWebsiteId();
 
         if (!isset($this->_config[$websiteId])) {

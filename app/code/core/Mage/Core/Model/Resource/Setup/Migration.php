@@ -123,18 +123,18 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
     protected $_compositeModules;
 
     /**
-     * Constructor
-     *
      * @param Mage_Core_Model_Config_Resource $resourcesConfig
      * @param Mage_Core_Model_Config_Modules $modulesConfig
      * @param Mage_Core_Model_Resource $resource
-     * @param string $resourceName
+     * @param Mage_Core_Model_Config_Modules_Reader $modulesReader
+     * @param $resourceName
      * @param array $data
      */
     public function __construct(
         Mage_Core_Model_Config_Resource $resourcesConfig,
         Mage_Core_Model_Config_Modules $modulesConfig,
         Mage_Core_Model_Resource $resource,
+        Mage_Core_Model_Config_Modules_Reader $modulesReader,
         $resourceName,
         array $data = array()
     ) {
@@ -143,7 +143,7 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
             || !isset($data['module_config'])
             || !isset($data['connection'])
         ) {
-            parent::__construct($resourcesConfig, $modulesConfig, $resource, $resourceName);
+            parent::__construct($resourcesConfig, $modulesConfig, $resource, $modulesReader, $resourceName);
         } else {
             $this->_resourceModel = $resource;
             $this->_resourceName = $resourceName;
