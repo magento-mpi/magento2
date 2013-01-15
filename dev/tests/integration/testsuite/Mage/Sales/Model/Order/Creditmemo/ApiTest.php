@@ -203,7 +203,7 @@ class Mage_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCa
     {
         // Set creditmemo increment id prefix
         $prefix = '01';
-        Magento_Test_Helper_Api::setIncrementIdPrefix('creditmemo', $prefix);
+        Magento_Test_Helper_Eav::setIncrementIdPrefix('creditmemo', $prefix);
 
         $order = Mage::registry('order2');
 

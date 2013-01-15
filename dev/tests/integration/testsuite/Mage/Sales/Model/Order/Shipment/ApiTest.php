@@ -62,7 +62,7 @@ class Mage_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestCase
 
         // Set shipping increment id prefix
         $prefix = '01';
-        Magento_Test_Helper_Api::setIncrementIdPrefix('shipment', $prefix);
+        Magento_Test_Helper_Eav::setIncrementIdPrefix('shipment', $prefix);
 
         // Create new shipment
         $newShipmentId = Magento_Test_Helper_Api::call(
