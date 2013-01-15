@@ -105,12 +105,12 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      *
      * @param array $productData
      */
-    public function frontVerifyProductInfo(array $productData)
+    public function verifyFrontendProductInfo(array $productData)
     {
         $this->frontOpenProduct($productData['general_name']);
-        $actualProduct = $this->frontGetProductInfo($productData);
+        $actualProduct = $this->getFrontendProductData($productData);
         if (!empty($actualProduct['custom_options_data'])) {
-            $this->frontVerifyCustomOptionsInfo($actualProduct['custom_options_data'], $productData);
+            $this->verifyFrontendCustomOptions($actualProduct['custom_options_data'], $productData);
         }
         if (!empty($actualProduct['prices_tier_price_data'])) {
             foreach ($actualProduct['prices_tier_price_data'] as $tierPrice => $data) {
@@ -143,10 +143,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      *
      * @return array
      */
-    public function frontGetProductInfo()
+    public function getFrontendProductData()
     {
-        $data = $this->frontGetProductPrices();
-        $data['prices_tier_price_data'] = $this->frontGetProductTierPrices();
+        $data = $this->getFrontendProductPrices();
+        $data['prices_tier_price_data'] = $this->getFrontendProductTierPrices();
         $data['general_name'] = $this->getControlAttribute('pageelement', 'product_name', 'text');
         $data['general_description'] = $this->getControlAttribute('pageelement', 'description', 'text');
         $data['general_short_description'] = $this->getControlAttribute('pageelement', 'short_description', 'text');
@@ -155,7 +155,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         $availability = $this->getControlAttribute('pageelement', 'availability', 'text');
         $data['inventory_stock_availability'] = str_replace('stock', 'Stock', $availability);
-        $data['custom_options_data'] = $this->frontGetCustomOptionsInfo();
+        $data['custom_options_data'] = $this->getFrontendCustomOptionsInfo();
 
         return $data;
     }
@@ -164,7 +164,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      * Get product tier prices on product page
      * @return array
      */
-    public function frontGetProductTierPrices()
+    public function getFrontendProductTierPrices()
     {
         $tierPrices = $this->getControlElements('pageelement', 'tier_price_line', null, false);
         $data = array();
@@ -188,7 +188,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      * @TODO Verified only for simple and virtual product
      * @return array
      */
-    public function frontGetProductPrices()
+    public function getFrontendProductPrices()
     {
         $priceData = $this->getControlAttribute('fieldset', 'product_prices', 'text');
         if (!preg_match('/' . preg_quote("\n") . '/', $priceData)) {
@@ -197,7 +197,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $priceData = explode("\n", $priceData);
         $additionalName = array();
         foreach ($priceData as $key => $price) {
-            if (!preg_match('/([\d]+\.[\d]+)|([\d]+)$/', $price)) {
+            if (!preg_match('/(\d+\.\d+)|(\d+)$/', $price)) {
                 $name = trim(str_replace(' ', '_', strtolower($price)), '_:');
                 $additionalName[$key + 1] = $name;
                 $additionalName[$key + 2] = $name;
@@ -233,7 +233,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      * @param array $actualCustomOptions
      * @param array $product
      */
-    public function frontVerifyCustomOptionsInfo($actualCustomOptions, array $product)
+    public function verifyFrontendCustomOptions($actualCustomOptions, array $product)
     {
         $expectedOptions = $product['custom_options_data'];
         if (count($actualCustomOptions) != count($expectedOptions)) {
@@ -242,11 +242,11 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 . count($actualCustomOptions) . "')");
         }
         foreach ($actualCustomOptions as $name => $data) {
-            $expectedOptions[$name] = $this->_frontFormCustomOptionDataForVerify($expectedOptions[$name], $product);
+            $expectedOptions[$name] = $this->_prepareFrontendCustomOptionsForVerify($expectedOptions[$name], $product);
             foreach ($expectedOptions[$name] as $fieldName => $fieldValue) {
                 if (strpos($fieldName, 'custom_option_row_') !== false) {
                     $expectedOptions[$name][$fieldName] =
-                        $this->_frontFormCustomOptionDataForVerify($expectedOptions[$name][$fieldName], $product);
+                        $this->_prepareFrontendCustomOptionsForVerify($expectedOptions[$name][$fieldName], $product);
                 }
             }
         }
@@ -261,7 +261,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      *
      * @return array
      */
-    private function _frontFormCustomOptionDataForVerify(array $expectedOption, array $productPrices)
+    private function _prepareFrontendCustomOptionsForVerify(array $expectedOption, array $productPrices)
     {
         $data = array();
         foreach ($expectedOption as $fieldName => $fieldValue) {
@@ -294,7 +294,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      *
      * @return array
      */
-    public function frontGetCustomOptionsInfo()
+    public function getFrontendCustomOptionsInfo()
     {
         $fieldNames = array('title'                             => 'custom_options_general_title',
                             'price'                             => 'custom_options_price',
@@ -335,7 +335,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 $optionType = $fieldTypes[$elementTextarea->attribute('type')];
             }
             if ($elementSelect) {
-                $selectElementCount = $this->getChildElementsCount($elementBody, '//select');
+                $selectElementCount = count($this->getChildElements($elementBody, '//select', false));
                 if ($selectElementCount == 1) {
                     $optionType =
                         ($elementSelect->attribute('multiple')) ? $fieldTypes['multiple'] : $fieldTypes['select'];
@@ -402,13 +402,13 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     private function _parseCustomOptionTitleAndPrice($textWithTitleAndPrice, $skipCurrency = true)
     {
         $price = '';
-        if (preg_match('/([\d]+\.[\d]+)|([\d]+)/', $textWithTitleAndPrice)) {
-            $delimiter = (preg_match('/(-[\D]+)(([\d]+\.[\d]+)|([\d]+))/', $textWithTitleAndPrice)) ? '-' : '+';
+        if (preg_match('/(\d+\.\d+)|(\d+)/', $textWithTitleAndPrice)) {
+            $delimiter = (preg_match('/(-\D+)((\d+\.\d+)|(\d+))/', $textWithTitleAndPrice)) ? '-' : '+';
             list(, $price) = explode($delimiter, $textWithTitleAndPrice);
         }
         $title = trim(str_replace($price, '', $textWithTitleAndPrice), ' *+-');
         if ($skipCurrency) {
-            $price = preg_replace('/^[\D]+/', '', $price);
+            $price = preg_replace('/^\D+/', '', $price);
         }
 
         return array($title, rtrim(rtrim($price, '0'), '.'));
@@ -466,19 +466,19 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Open product.
      *
-     * @param array $productSearch
+     * @param array $searchData
      */
-    public function openProduct(array $productSearch)
+    public function openProduct(array $searchData)
     {
         //Search product
-        $productSearch = $this->_prepareDataForSearch($productSearch);
-        $productLocator = $this->search($productSearch, 'product_grid');
+        $searchData = $this->_prepareDataForSearch($searchData);
+        $productLocator = $this->search($searchData, 'product_grid');
         $this->assertNotNull($productLocator, 'Product is not found');
-        $productLineElement = $this->getElement($productLocator);
-        $productUrl = $productLineElement->attribute('title');
+        $productRowElement = $this->getElement($productLocator);
+        $productUrl = $productRowElement->attribute('title');
         //Define and add parameters for new page
         $cellId = $this->getColumnIdByName('Name');
-        $cellElement = $this->getChildElement($productLineElement, 'td[' . $cellId . ']');
+        $cellElement = $this->getChildElement($productRowElement, 'td[' . $cellId . ']');
         $this->addParameter('elementTitle', trim($cellElement->text()));
         $this->addParameter('id', $this->defineIdFromUrl($productUrl));
         //Open product
