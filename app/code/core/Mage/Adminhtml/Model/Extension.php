@@ -27,7 +27,7 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
     {
         $this->_filesystem = $filesystem;
         $this->_filesystem->setIsAllowCreateDirectories(true);
-        $this->_filesystem->setWorkingDirectory($this->getRoleDir('mage') . DS);
+        $this->_filesystem->setWorkingDirectory($this->getRoleDir('mage'));
         parent::__construct($data);
     }
 
