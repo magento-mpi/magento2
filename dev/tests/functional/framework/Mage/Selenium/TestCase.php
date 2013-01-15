@@ -912,7 +912,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $this->_messages['success'] = $this->getElementsValue($page->findMessage('general_success'), 'text');
         $this->_messages['error'] = $this->getElementsValue($page->findMessage('general_error'), 'text');
-        $this->_messages['required'] = $this->getElementsValue($page->findMessage('general_required'), 'text');
         foreach ($this->_messages as $messageType => $messages) {
             $this->_messages[$messageType] = array_diff($messages, array(''));
         }
@@ -2733,7 +2732,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function clickControlAndWaitMessage($controlType, $controlName, $validate = true)
     {
-        $messagesXpath = $this->getBasicXpathMessagesExcludeCurrent(array('success', 'error', 'validation', 'required'));
+        $messagesXpath = $this->getBasicXpathMessagesExcludeCurrent(array('success', 'error', 'validation'));
         $this->clickControl($controlType, $controlName, false);
         $this->waitForElementVisible($messagesXpath);
         $this->addParameter('id', $this->defineIdFromUrl());
