@@ -1,0 +1,21 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+ ?>
+<?php /** @var $this Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group_Grid */
+echo $this->getChildHtml()
+?>
+<a id="grouped-add-products">Add Products to Group</a>
+<script type="text/javascript">
+    jQuery(function ($) {
+        $('#grouped-add-products').on('click', function () {
+            console.log('click');
+        });
+    });
+</script>

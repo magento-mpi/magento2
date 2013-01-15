@@ -363,7 +363,8 @@ Layout handle for grouped products
     <adminhtml_catalog_product_grouped>
         <reference name="product-type-tabs">
             <block type="Mage_Catalog_Block_Product_Grouped_AssociatedProducts" name="catalog.product.edit.grouped.container" template="Mage_Backend::catalog/product/tab/container.phtml">
-                <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group" name="catalog.product.edit.tab.super.group" />
+                <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group" name="catalog.product.edit.tab.super.group"/>
+                <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group_Grid" name="catalog.product.edit.tab.super.group.grid" template="Mage_Backend::catalog/product/tab/grouped/add.phtml"/>
             </block>
             <block type="Mage_Adminhtml_Block_Widget_Grid_Serializer" name="grouped_grid_serializer">
                 <reference name="grouped_grid_serializer">
