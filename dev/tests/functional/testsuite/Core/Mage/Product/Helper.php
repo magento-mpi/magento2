@@ -846,7 +846,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $element->value($categoryName);
             $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'category_search_result');
             $searchResult = $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'category_search_result', 'text');
-            if ($searchResult != 'No search results.' && $searchResult != '') {
+            if ($searchResult != 'No search results.') {
                 $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'category_search');
                 $selectCategory = $this->elementIsPresent($this->_getControlXpath(self::FIELD_TYPE_LINK, 'category'));
                 if ($selectCategory) {
@@ -935,7 +935,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         foreach ($categoryPath as $category) {
             $explodeCategory = explode('/', $category);
-            $categoryName = substr(end($explodeCategory), 0, 255);
+            $categoryName = end($explodeCategory);
             $expectedNames[] = $categoryName;
             if (!in_array($categoryName, $selectedNames)) {
                 $this->addVerificationMessage("'$categoryName' category is not selected");

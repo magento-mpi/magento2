@@ -2352,7 +2352,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $tabClass = $tabElement->attribute('class');
         $parentClass = $this->getChildElement($tabElement, '..')->attribute('class');
         if (strpos($tabClass, 'active') === false && strpos($parentClass, 'active') === false) {
-            $waitAjax = (strpos($tabClass, 'ajax') !== false);
+            $waitAjax = strpos($tabClass, 'ajax') !== false;
             $this->clickControl('tab', $tabName, false);
             if ($waitAjax) {
                 $this->pleaseWait();
@@ -2722,7 +2722,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             if ($this->execute(array('script' => $ajax, 'args' => array())) === 0) {
                 return;
             }
-            usleep(500000);
+            usleep(10000);
         }
     }
 
