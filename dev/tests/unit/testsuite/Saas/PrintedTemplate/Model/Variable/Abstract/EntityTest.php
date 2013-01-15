@@ -284,33 +284,33 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
      */
     public function testGetTaxesGroupedByCompoundId($itemsTaxSettings, $shippingTaxSettings, $expectedResult)
     {
-        $taxes = array();
+        $itemsTaxes = array();
         foreach ($itemsTaxSettings as $settings) {
-            $taxes[] = $this->_prepareTax($settings);
+            $itemsTaxes[] = $this->_prepareTax($settings);
         }
 
-        $itemsTaxes = $this->getMockBuilder('Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection')
+        $itemsTaxesModel = $this->getMockBuilder('Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection')
             ->disableOriginalConstructor()
             ->setMethods(array('getIterator'))
             ->getMock();
 
-        $itemsTaxes->expects($this->once())
+        $itemsTaxesModel->expects($this->once())
             ->method('getIterator')
-            ->will($this->returnValue(new ArrayIterator($taxes)));
+            ->will($this->returnValue(new ArrayIterator($itemsTaxes)));
 
-        $taxes = array();
+        $shippingTaxes = array();
         foreach ($shippingTaxSettings as $settings) {
-            $taxes[] = $this->_prepareTax($settings);
+            $shippingTaxes[] = $this->_prepareTax($settings);
         }
 
-        $shippingTaxes = $this->getMockBuilder('Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_Collection')
+        $shippingTaxesModel = $this->getMockBuilder('Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_Collection')
             ->disableOriginalConstructor()
             ->setMethods(array('getIterator'))
             ->getMock();
 
-        $shippingTaxes->expects($this->once())
+        $shippingTaxesModel->expects($this->once())
             ->method('getIterator')
-            ->will($this->returnValue(new ArrayIterator($taxes)));
+            ->will($this->returnValue(new ArrayIterator($shippingTaxes)));
 
         $order = $this->getMockBuilder('Mage_Sales_Model_Order')
             ->disableOriginalConstructor()
@@ -319,7 +319,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
         $valueModel = new Varien_Object();
         $valueModel->setData(
             Saas_PrintedTemplate_Model_Variable_Abstract_Entity::TAXES_GROUPED_BY_PERCENT_CACHE_KEY,
-            array('items_taxes' => $itemsTaxes, 'shipping_taxes' => $shippingTaxes)
+            array('items_taxes' => $itemsTaxesModel, 'shipping_taxes' => $shippingTaxesModel)
         );
         $valueModel->setOrder($order);
 
