@@ -33,15 +33,17 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
 
     protected function tearDownAfterTestClass()
     {
+        $this->skipTestWithScreenshot('Test skiped cause of bug MAGETWO-6965');
         $this->frontend();
-        $this->fillDropdown('select_store', 'Main Website Store');
+        $this->addParameter('store', 'Main Website Store');
+        $this->clickControl('link','select_store',false);
         $this->validatePage();
     }
 
     /**
      * <p>Verify that url rewrite form is present at the backend page<p>
      *
-     * @test
+     *@test
      */
     public function testFormIsPresent()
     {
@@ -492,7 +494,7 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      */
     public function productRewriteOfOneStore()
     {
-//        $this->markTestIncomplete('MAGETWO-6965');
+       $this->markTestIncomplete('MAGETWO-6995');
         //Create Simple Product
         $this->navigate('manage_products');
         $productData = $this->loadDataSet('Product', 'simple_product_url_rewrite');
@@ -603,6 +605,7 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      */
     public function categoryUrlRewriteOtherStore($fieldData)
     {
+        $this->markTestIncomplete('MAGETWO-6995');
         //Create Category
         $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
@@ -624,8 +627,6 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->addParameter('store', $storeData['store_name']);
         $this->addParameter('storeViewCode', $storeViewData['store_view_code']);
         $this->clickControl('link','select_store',false);
-        $this->waitForPageToLoad();
-        //Generating URL rewrite link
         $rewriteUrl = $this->xmlSitemapHelper()->getFileUrl($fieldData['request_path']);
         //Opening URL rewrite on selected store
         $this->url($rewriteUrl);
@@ -795,6 +796,7 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
 
     public function customProductUrlRewriteOtherStore($uri)
     {
+        $this->markTestIncomplete('MAGETWO-6995');
         //Create Category
         $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
@@ -835,6 +837,7 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      */
     public function productRewriteToOtherStore()
     {
+        $this->markTestIncomplete('MAGETWO-6995');
         //Create Root for Store 2
         $this->navigate('manage_categories');
         $category = $this->loadDataSet('Category', 'root_category_required');
