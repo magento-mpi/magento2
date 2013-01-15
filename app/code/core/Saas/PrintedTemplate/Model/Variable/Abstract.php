@@ -27,7 +27,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      *
      * @var object
      */
-    protected $_value;
+    private $_value;
 
     /**
      * White list for methods
@@ -320,7 +320,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      * @param string $value
      * @return string
      */
-    public function formatText($value)
+    protected function formatText($value)
     {
         return $value;
     }
@@ -331,9 +331,9 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      * @param string|Zend_Date $value
      * @return string
      */
-    public function formatDate($value)
+    protected function formatDate($value)
     {
-        return $value ? Mage::helper('Mage_Core_Helper_Data')->formatDate($value) : '';
+        return $value ? $this->_getCoreHelper()->formatDate($value) : '';
     }
 
     /**
@@ -342,9 +342,9 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      * @param string $value
      * @return string
      */
-    public function formatCurrency($value)
+    protected function formatCurrency($value)
     {
-        return ($value !== null) ? Mage::helper('Mage_Core_Helper_Data')->formatCurrency($value) : '';
+        return ($value !== null) ? $this->_getCoreHelper()->formatCurrency($value) : '';
     }
 
     /**
@@ -353,9 +353,9 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      * @param string $value
      * @return string
      */
-    public function formatCurrencyAbs($value)
+    protected function formatCurrencyAbs($value)
     {
-        return ($value !== null) ? Mage::helper('Mage_Core_Helper_Data')->formatCurrency(abs($value)) : '';
+        return ($value !== null) ? $this->_getCoreHelper()->formatCurrency(abs($value)) : '';
     }
 
     /**
@@ -364,7 +364,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      * @param string $value
      * @return float
      */
-    public function formatCurrencyAbsRaw($value)
+    protected function formatCurrencyAbsRaw($value)
     {
         return (null !== $value) ? abs((float)$value) : '';
     }
@@ -375,7 +375,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      * @param string $value
      * @return float
      */
-    public function formatCurrencyRaw($value)
+    protected function formatCurrencyRaw($value)
     {
         return (null !== $value) ? (float)$value : '';
     }
@@ -386,7 +386,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      * @param bool $value
      * @return string
      */
-    public function formatYesNo($value)
+    protected function formatYesNo($value)
     {
         return $this->_getHelper()->__($value ? 'Yes' : 'No');
     }
@@ -397,7 +397,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      * @param string $value
      * @return boolean
      */
-    public function formatYesNoRaw($value)
+    protected function formatYesNoRaw($value)
     {
         return (bool) $value;
     }
@@ -409,7 +409,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      * @param number $value
      * @return string
      */
-    public function formatDecimal($value)
+    protected function formatDecimal($value)
     {
         return Zend_Locale_Format::toNumber((float)$value, array('locale' => $this->_getLocale()));
     }
@@ -420,7 +420,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      * @param number $value
      * @return string
      */
-    public function formatPercent($value)
+    protected function formatPercent($value)
     {
         return ($value === null) ? '' : $this->formatDecimal(round($value, 2)) . '%';
     }
@@ -431,7 +431,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      * @param Saas_PrintedTemplate_Model_Tax_CompoundId $value
      * @return string
      */
-    public function formatCompoundId(Saas_PrintedTemplate_Model_Tax_CompoundId $value)
+    protected function formatCompoundId(Saas_PrintedTemplate_Model_Tax_CompoundId $value)
     {
         return join(
             $this->_getHelper()->__(' then '),
@@ -445,10 +445,17 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      * @param mixed $value
      * @return string
      */
-    public function _formatAfterPart($value)
+    protected function _formatAfterPart($value)
     {
         return is_array($value)
             ? join($this->_getHelper()->__(' and '), array_map(array($this, 'formatPercent'), $value))
             : $this->formatPercent($value);
     }
+
+    protected function _getCoreHelper()
+    {
+        return Mage::helper('Mage_Core_Helper_Data');
+    }
 }
+
+

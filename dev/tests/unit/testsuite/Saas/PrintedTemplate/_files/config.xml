@@ -508,6 +508,35 @@
                     <label>Time of Last Update</label>
                     <type>date</type>
                 </updated_at>
+                <compoundid_test translate="label">
+                    <label>CompoundId</label>
+                    <type>CompoundId</type>
+                </compoundid_test>
+                <currencyabsraw_test translate="label">
+                    <label>CurrencyAbsRaw</label>
+                    <type>CurrencyAbsRaw</type>
+                </currencyabsraw_test>
+                <currencyraw_test translate="label">
+                    <label>CurrencyRaw</label>
+                    <type>CurrencyRaw</type>
+                </currencyraw_test>
+                <percent_test translate="label">
+                    <label>Percent</label>
+                    <type>Percent</type>
+                </percent_test>
+                <text_test translate="label">
+                    <label>Text</label>
+                    <type>Text</type>
+                </text_test>
+                <yesno_test translate="label">
+                    <label>YesNo</label>
+                    <type>YesNo</type>
+                </yesno_test>
+                <yesnoraw_test translate="label">
+                    <label>YesNoRaw</label>
+                    <type>YesNoRaw</type>
+                </yesnoraw_test>
+
             </fields>
         </invoice>
         <creditmemo translate="label">
