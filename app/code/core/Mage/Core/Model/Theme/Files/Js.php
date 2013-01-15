@@ -137,7 +137,7 @@ class Mage_Core_Model_Theme_Files_Js extends Mage_Core_Model_Theme_Files_Abstrac
         $newFileModel = $this->_themeFiles->unsetData();
         return $newFileModel->addData(array(
             'theme_id'  => $theme->getId(),
-            'file_name' => $this->_prepareFileName($theme, $file['name']),
+            'file_path' => 'js/' . $this->_prepareFileName($theme, $file['name']),
             'file_type' => Mage_Core_Model_Theme_Files::TYPE_JS,
             'content'   => $file['content'],
             'is_temporary' => $temporary
@@ -174,7 +174,7 @@ class Mage_Core_Model_Theme_Files_Js extends Mage_Core_Model_Theme_Files_Abstrac
     {
         /** @var $jsFile Mage_Core_Model_Resource_Theme_Files_Collection */
         $jsFile = parent::getCollectionByTheme($theme)
-            ->addFieldToFilter('file_name', array('like' => $fileName))
+            ->addFieldToFilter('file_path', array('like' => "%{$fileName}"))
             ->getFirstItem();
 
         return $jsFile;
