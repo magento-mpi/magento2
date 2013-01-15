@@ -113,7 +113,7 @@ class MemoryUsageTest extends PHPUnit_Framework_TestCase
          *
          * Output format invariant:
          * "Image Name","PID","Session Name","Session#","Mem Usage"
-         * "svchost.exe","464","Services","0","61,252 K"
+         * "php.exe","12345","N/A","0","26,321 K"
          */
         $output = $shell->execute('tasklist /fi %s /fo CSV', array("PID eq $pid"));
 
@@ -123,11 +123,9 @@ class MemoryUsageTest extends PHPUnit_Framework_TestCase
         $keys = fgetcsv($csvHandle);
         $values = fgetcsv($csvHandle);
         fclose($csvHandle);
-
         $stats = array_combine($keys, $values);
 
         $result = $stats['Mem Usage'];
-        $result = str_replace(array('.', ',', ' '), '', $result);
 
         return $this->_convertToBytes($result);
     }
@@ -141,15 +139,17 @@ class MemoryUsageTest extends PHPUnit_Framework_TestCase
      */
     protected function _convertToBytes($number)
     {
+        $number = str_replace(array(',', ' '), '', $number);
         $number = strtoupper($number);
         $units = 'BKMGTPEZY';
-        if (!preg_match("/^(\d+)([$units]?)$/", $number, $matches)) {
-            throw new InvalidArgumentException('Number format is not recognized.');
+        if (!preg_match("/^(\d+(?:\.\d+)?)([$units]?)$/", $number, $matches)) {
+            throw new InvalidArgumentException("Number format '$number' is not recognized.");
         }
-        $result = (int)$matches[1];
+        $result = (float)$matches[1];
         $unitSymbol = $matches[2];
-        $unitShift = $unitSymbol ? strpos($units, $unitSymbol) * 10 : 0;
-        $result = $result << $unitShift;
-        return $result;
+        if ($unitSymbol) {
+            $result *= pow(1024, strpos($units, $unitSymbol));
+        }
+        return (int)$result;
     }
 }
