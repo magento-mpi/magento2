@@ -259,20 +259,26 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'new_category_form');
         // no validation messages displayed
         $this->assertFalse($this->controlIsPresent(self::UIMAP_TYPE_MESSAGE, 'category_name_required'),
-            '"This is a required field" message appeared for Category Name');
+            '"This is a required field" message appeared for Category Name'
+        );
         $this->assertFalse($this->controlIsPresent(self::UIMAP_TYPE_MESSAGE, 'parent_name_required'),
-            '"This is a required field" message appeared for Parent Category');
+            '"This is a required field" message appeared for Parent Category'
+        );
         $this->assertFalse($this->controlIsPresent(self::UIMAP_TYPE_MESSAGE, 'parent_name_existent'),
-            '"Choose existing category" message appeared');
+            '"Choose existing category" message appeared'
+        );
 
         $this->clickButton('new_category_save', false);
         // required fields validation messages shown after save attempt without data entering
         $this->assertTrue($this->controlIsVisible(self::UIMAP_TYPE_MESSAGE, 'category_name_required'),
-            '"This is a required field" message is not appear for Category Name');
+            '"This is a required field" message is not appear for Category Name'
+        );
         $this->assertTrue($this->controlIsVisible(self::UIMAP_TYPE_MESSAGE, 'parent_name_required'),
-            '"This is a required field" message is not appear for Parent Category');
+            '"This is a required field" message is not appear for Parent Category'
+        );
         $this->assertFalse($this->controlIsPresent(self::UIMAP_TYPE_MESSAGE, 'parent_name_existent'),
-            '"Choose existing category" message appeared');
+            '"Choose existing category" message appeared'
+        );
 
         $this->fillField('name', $this->generate('string', 256, ':alnum:'));
         $this->getControlElement('field', 'parent_category')->value($this->generate('string', 256, ':alnum:'));
@@ -283,29 +289,37 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
 
         // only "Choose existing category" validation message is displayed
         $this->assertFalse($this->controlIsVisible(self::UIMAP_TYPE_MESSAGE, 'category_name_required'),
-            '"This is a required field" message appeared for Category Name');
+            '"This is a required field" message appeared for Category Name'
+        );
         $this->assertFalse($this->controlIsVisible(self::UIMAP_TYPE_MESSAGE, 'parent_name_required'),
             '"This is a required field" message appeared for Parent Category');
         $this->assertTrue($this->controlIsVisible(self::UIMAP_TYPE_MESSAGE, 'parent_name_existent'),
-            '"Choose existing category" message is not appear');
+            '"Choose existing category" message is not appear'
+        );
 
         $this->clickButton('new_category_cancel', false);
         $this->assertFalse($this->controlIsVisible(self::UIMAP_TYPE_MESSAGE, 'parent_name_existent'),
-            '"Choose existing category" message appeared');
+            '"Choose existing category" message appeared'
+        );
 
         $this->clickButton('new_category', false);
         $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'new_category_form');
         // fields are cleared, no validation messages displayed
         $this->assertEmpty($this->getControlAttribute(self::FIELD_TYPE_INPUT, 'name', 'selectedValue'),
-            'Category Name field is not empty');
+            'Category Name field is not empty'
+        );
         $this->assertEmpty($this->getControlAttribute(self::FIELD_TYPE_INPUT, 'parent_category', 'selectedValue'),
-            'Parent Name field is not empty');
+            'Parent Name field is not empty'
+        );
         $this->assertFalse($this->controlIsVisible(self::UIMAP_TYPE_MESSAGE, 'category_name_required'),
-            '"This is a required field" message appeared for Category Name');
+            '"This is a required field" message appeared for Category Name'
+        );
         $this->assertFalse($this->controlIsVisible(self::UIMAP_TYPE_MESSAGE, 'parent_name_required'),
-            '"This is a required field" message appeared for Parent Category');
+            '"This is a required field" message appeared for Parent Category'
+        );
         $this->assertFalse($this->controlIsVisible(self::UIMAP_TYPE_MESSAGE, 'parent_name_existent'),
-            '"Choose existing category" message appeared');
+            '"Choose existing category" message appeared'
+        );
     }
 
     /**
