@@ -300,7 +300,7 @@
                 <base_link_url>{{unsecure_base_url}}</base_link_url>
             </unsecure>
             <secure>
-                <base_url>{{base_url}}</base_url>
+                <base_url>{{unsecure_base_url}}</base_url>
                 <base_web_url>{{secure_base_url}}</base_web_url>
                 <base_link_url>{{secure_base_url}}</base_link_url>
                 <use_in_frontend>0</use_in_frontend>
