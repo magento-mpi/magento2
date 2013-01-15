@@ -217,7 +217,7 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
         $this->assertMessagePresent('error', $errorMessage);
-        $this->assertEquals(1, count($this->getParsedMessages('required')));
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function withInvalidPasswordDataProvider()

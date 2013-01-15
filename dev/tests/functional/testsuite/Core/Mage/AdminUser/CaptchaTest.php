@@ -82,7 +82,7 @@ class Core_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase
         $this->addParameter('fieldId', 'captcha');
         //Verifying
         $this->assertMessagePresent('validation', 'empty_field');
-        $this->assertEquals(1, count($this->getParsedMessages('required')));
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**
@@ -152,7 +152,7 @@ class Core_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase
         $this->addParameter('adminEmail', $emailData['email']);
         $this->addParameter('fieldId', 'captcha');
         $this->assertMessagePresent('validation', 'empty_field');
-        $this->assertEquals(1, count($this->getParsedMessages('required')));
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**
