@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
-
+ *
  * @category    Saas
  * @package     Saas_UnitPrice
  * @copyright   {copyright}
@@ -23,7 +23,9 @@ class Saas_UnitPrice_Model_Observer
      */
     public function catalogProductLoadAfter($observer)
     {
-        if (! $this->_getSaasUnitPriceHelperData()->moduleActive()) return;
+        if (!$this->_getSaasUnitPriceHelperData()->moduleActive()) {
+            return;
+        }
 
         $product = $observer->getProduct();
         foreach (array('unit_price_amount', 'unit_price_unit', 'unit_price_base_amount', 'unit_price_base_unit')

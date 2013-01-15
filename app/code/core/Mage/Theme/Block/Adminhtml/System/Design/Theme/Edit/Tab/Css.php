@@ -44,6 +44,8 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_Dir $dirs
+     * @param Mage_Core_Model_Logger $logger
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Theme_Model_Uploader_Service $uploaderService
      * @param array $data
@@ -62,12 +64,14 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Core_Model_Dir $dirs,
+        Mage_Core_Model_Logger $logger,
         Magento_ObjectManager $objectManager,
         Mage_Theme_Model_Uploader_Service $uploaderService,
         array $data = array()
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $data
+            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $data
         );
         $this->_objectManager = $objectManager;
         $this->_uploaderService = $uploaderService;
@@ -207,9 +211,8 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      */
     protected function _getGroupedFiles()
     {
-        $options = Mage::getConfig()->getOptions();
-        $jsDir = $options->getJsDir();
-        $codeDir = $options->getCodeDir();
+        $jsDir = $this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB);
+        $codeDir = $this->_dirs->getDir(Mage_Core_Model_Dir::MODULES);
 
         $groups = array();
         $themes = array();
@@ -279,10 +282,9 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      */
     protected function _getGroup($filename)
     {
-        $options = Mage::getConfig()->getOptions();
-        $designDir = $options->getDesignDir();
-        $jsDir = $options->getJsDir();
-        $codeDir = $options->getCodeDir();
+        $designDir = $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES);
+        $jsDir = $this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB);
+        $codeDir = $this->_dirs->getDir(Mage_Core_Model_Dir::MODULES);
 
         $group = null;
         $theme = null;
@@ -330,7 +332,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      */
     protected function _getThemeByFilename($filename)
     {
-        $designDir = Mage::getConfig()->getOptions()->getDesignDir();
+        $designDir = $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES);
         list(, $area, $package, $theme,) = explode('/', substr($filename, strlen($designDir)), 5);
         /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
         $collection = Mage::getModel('Mage_Core_Model_Resource_Theme_Collection');
@@ -346,8 +348,8 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     protected function _getGroupLabels($themes)
     {
         $labels = array(
-            Mage::getConfig()->getOptions()->getJsDir()   => $this->__('Library files'),
-            Mage::getConfig()->getOptions()->getCodeDir() => $this->__('Framework files')
+            $this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB)   => $this->__('Library files'),
+            $this->_dirs->getDir(Mage_Core_Model_Dir::MODULES)   => $this->__('Framework files')
         );
         foreach ($themes as $theme) {
             /** @var $theme Mage_Core_Model_Theme */

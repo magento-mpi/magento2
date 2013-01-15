@@ -17,11 +17,11 @@ if (
 }
 ?>
 
-<?php $_product = $this->getProduct(); ?>
-<?php if ($_product->getData('unit_price_use')) : ?>
+<?php $product = $this->getProduct(); ?>
+<?php if ($product->getData('unit_price_use')) : ?>
 <div class="unitprice-box">
-    <span class="uint-label-<?php echo $_product->getId() ?>">
-        <?php echo Mage::helper('Saas_UnitPrice_Helper_Data')->getUnitPriceLabel($_product); ?>
+    <span class="uint-label-<?php echo $product->getId() ?>">
+        <?php echo Mage::helper('Saas_UnitPrice_Helper_Data')->getUnitPriceLabel($product); ?>
     </span>
 </div>
 <?php endif; ?>
