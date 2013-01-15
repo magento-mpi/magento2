@@ -471,8 +471,11 @@ class Mage_Core_Model_Url extends Varien_Object
             $routePath = $this->getActionPath();
             if ($this->getRouteParams()) {
                 foreach ($this->getRouteParams() as $key=>$value) {
-                    $routePath .= $key . '/';
-                    $routePath .= (empty($value)) ? '' : $value . '/';
+                    if (is_null($value) || false === $value || '' === $value || !is_scalar($value)) {
+                        $routePath .= $key . '/';
+                        continue;
+                    }
+                    $routePath .= $key . '/' . $value . '/';
                 }
             }
             if ($routePath != '' && substr($routePath, -1, 1) !== '/') {
