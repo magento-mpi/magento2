@@ -31,10 +31,12 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit extends Mage_Backend_B
                 $this->_addButton('save_and_continue', array(
                     'label'     => $this->__('Save and Continue Edit'),
                     'class'     => 'save',
-                    'data_attr' => array(
-                        'widget-button' => array(
-                            'event'   => 'saveAndContinueEdit',
-                            'related' => '#edit_form'
+                    'data_attribute' => array(
+                        'mage-init' => array(
+                            'button' => array(
+                                'event'  => 'saveAndContinueEdit',
+                                'target' => '#edit_form'
+                            ),
                         ),
                     ),
                 ), 1);

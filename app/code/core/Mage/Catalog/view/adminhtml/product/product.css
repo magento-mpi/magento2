@@ -1026,3 +1026,14 @@
     right: 3px;
     bottom: 3px;
 }
+
+.widget-button-split.widget-button-save {
+    margin: 0 0 3px 5px;
+    padding: 0;
+}
+.widget-button-split.widget-button-save .main-control, .widget-button-split.widget-button-save .btn-toggle {
+    padding: 0 7px 2px;
+    font: bold 12px arial,helvetica,sans-serif;
+    filter: none;
+    text-shadow: none;
+}

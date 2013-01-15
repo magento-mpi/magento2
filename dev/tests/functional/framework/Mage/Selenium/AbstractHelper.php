@@ -42,7 +42,7 @@
  * @method bool                     checkCurrentPage(string $page)
  * @method array                    checkMessage(string $message)
  * @method array                    checkMessageByXpath(string $locator)
- * @method PHPUnit_Extensions_Selenium2TestCase_Element|bool childElementIsPresent(PHPUnit_Extensions_Selenium2TestCase_Element $parentElement, $childLocator)
+ * @method PHPUnit_Extensions_Selenium2TestCase_Element|null getPresentChildElement(PHPUnit_Extensions_Selenium2TestCase_Element $parentElement, $childLocator)
  * @method void                     clearActiveFocus()
  * @method array|bool               clearDataArray(array $dataArray)
  * @method void                     clearInvalidedCache()

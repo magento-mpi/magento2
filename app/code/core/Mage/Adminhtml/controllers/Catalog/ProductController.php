@@ -809,10 +809,15 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             }
         }
 
-        if ($redirectBack) {
+        if ($redirectBack === 'new') {
+            $this->_redirect('*/*/new', array(
+                'set'  => $product->getAttributeSetId(),
+                'type' => $product->getTypeId()
+            ));
+        } elseif ($redirectBack) {
             $this->_redirect('*/*/edit', array(
                 'id'       => $productId,
-                '_current' =>true
+                '_current' => true
             ));
         } elseif ($this->getRequest()->getParam('popup')) {
             $this->_redirect('*/*/created', array(

@@ -57,6 +57,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     /**
      * <p>Preconditions for creating configurable product.</p>
      * <p>Create 2 dropdown attributes with 3 options, Global scope and assign it to created Attribute Set</p>
+     * <p>Create Configurable attributes with special values: xss injection ans special characters</p>
      *
      * @return array
      * @test
@@ -66,13 +67,31 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         //Data
         $attributeThird = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $attributeForth = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
+        $xssAttribute = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options',
+            array(
+                'attribute_code' => 'xss_%randomize%',
+                'admin_title' => 'xss_%randomize%',
+                'option_1' => array('admin_option_name' => '<script>alert("xss option");</script>')
+            )
+        );
+        $specialCharacters = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options',
+            array(
+                'attribute_code' => 'special_characters_%randomize%',
+                'admin_title' => str_replace(array(',', '"', "'", '<'), '?', $this->generate('string', 30, ':punct:'))
+            )
+        );
         $associatedAttribute = $this->loadDataSet('AttributeSet', 'associated_attributes',
-            array('General' => array($attributeThird['attribute_code'], $attributeForth['attribute_code'])));
+            array('General' => array($attributeThird['attribute_code'], $attributeForth['attribute_code'],
+                $xssAttribute['attribute_code'], $specialCharacters['attribute_code'])));
         //Steps (attributes)
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attributeThird);
         $this->assertMessagePresent('success', 'success_saved_attribute');
         $this->productAttributeHelper()->createAttribute($attributeForth);
+        $this->assertMessagePresent('success', 'success_saved_attribute');
+        $this->productAttributeHelper()->createAttribute($xssAttribute);
+        $this->assertMessagePresent('success', 'success_saved_attribute');
+        $this->productAttributeHelper()->createAttribute($specialCharacters);
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps (attribute set)
         $this->navigate('manage_attribute_sets');
@@ -84,50 +103,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         return array(
             'attribute1' => $attributeThird,
             'attribute2' => $attributeForth,
-            'matrix' => $this->_getVariationsForTwoAttributes($attributeThird, $attributeForth)
-        );
-    }
-
-    /**
-     * <p>Create Configurable attributes with special values: xss injection ans special characters</p>
-     *
-     * @return array
-     *
-     * @test
-     */
-    public function createConfigurableAttribute()
-    {
-        //Data
-        $xssAttribute = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options',
-            array(
-                'attribute_code' => 'xss_%randomize%',
-                'admin_title' => 'xss_%randomize%',
-                'option_1' => array('admin_option_name' => '<script>alert("xss option");</script>')
-            )
-        );
-                $specialCharacters = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options',
-                    array(
-                        'attribute_code' => 'special_characters_%randomize%',
-                        'admin_title' => str_replace(array(
-                            ',', '"', "'", '<'), '?', $this->generate('string', 30, ':punct:'
-                        ))
-                    )
-                );
-        $associatedAttribute = $this->loadDataSet('AttributeSet', 'associated_attributes',
-            array('General' => array($xssAttribute['attribute_code'], $specialCharacters['attribute_code'])));
-        //Steps
-        $this->navigate('manage_attributes');
-        $this->productAttributeHelper()->createAttribute($xssAttribute);
-        $this->assertMessagePresent('success', 'success_saved_attribute');
-        $this->productAttributeHelper()->createAttribute($specialCharacters);
-        $this->assertMessagePresent('success', 'success_saved_attribute');
-        $this->navigate('manage_attribute_sets');
-        $this->attributeSetHelper()->openAttributeSet('Default');
-        $this->attributeSetHelper()->addAttributeToSet($associatedAttribute);
-        $this->saveForm('save_attribute_set');
-        $this->assertMessagePresent('success', 'success_attribute_set_saved');
-
-        return array(
+            'matrix' => $this->_getVariationsForTwoAttributes($attributeThird, $attributeForth),
             'attribute_xss' => $xssAttribute,
             'attribute_spec' => $specialCharacters,
         );
@@ -150,7 +126,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $this->assertTrue($this->getControlAttribute('checkbox', 'is_configurable', 'selectedValue'));
         $this->productHelper()->selectConfigurableAttribute($attributeData['attribute1']['admin_title']);
         $this->productHelper()->selectConfigurableAttribute($attributeData['attribute2']['admin_title']);
-        $this->clickButton('generate_product_variations');
+        $this->clickButton('generate_product_variations', false);
         $this->waitForControlVisible('pageelement', 'variations_matrix_header');
         //Verifying
         $this->productHelper()->verifyConfigurableVariations($attributeData['matrix'], true);
@@ -245,17 +221,17 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         unset($verifyVirtual['general_configurable_variations']);
         $verifyVirtual = array_replace($verifyVirtual,
             array(
-                'general_name'       => $associated['associated_product_name'],
-                'general_sku'        => $associated['associated_sku'],
+                'general_name' => $associated['associated_product_name'],
+                'general_sku' => $associated['associated_sku'],
                 'inventory_quantity' => $associated['associated_quantity'],
                 'general_visibility' => 'Not Visible Individually',
-                'general_status'     => 'Enabled'
+                'general_status' => 'Enabled',
             )
         );
         $searchConfigurable = $this->loadDataSet('Product', 'product_search',
             array('product_sku' => $configurable['general_sku']));
         $searchVirtual = $this->loadDataSet('Product', 'product_search',
-            array('product_sku' => $verifyVirtual['general_name']));
+            array('product_sku' => $verifyVirtual['general_sku']));
         //Steps
         $this->productHelper()->createProduct($configurable, 'configurable');
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -339,7 +315,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
             )
         );
         $productData = $this->loadDataSet('Product', 'configurable_product_visible',
-            array('configurable_1'  => $associated),
+            array('configurable_1' => $associated),
             array(
                 'general_attribute_1' => $attributeData['attribute1']['admin_title'],
                 'var1_attr_value1' => $attributeData['attribute1']['option_1']['admin_option_name']
@@ -351,9 +327,8 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $this->productHelper()->createProduct($productData, 'configurable', false);
         $this->openTab('general');
         $this->addParameter('field', $field);
-        $this->saveForm('save', false);
         //Verifying
-        $this->assertMessagePresent('validation', 'required_field');
+        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
     }
 
     public function withRequiredFieldsEmptyDataProvider()
@@ -415,24 +390,24 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
      */
     public function verificationAfterUnselectionAllAttributeValues($attributeData)
     {
-        $this->markTestIncomplete('Skipped due to bug MAGETWO-6600, MAGETWO-6640');
         //Data
-        $attribute1 = array('general_configurable_attribute_title' => $attributeData['attribute1']['admin_title']);
-        $attribute2 = array('general_configurable_attribute_title' => $attributeData['attribute2']['admin_title']);
+        $options = array(
+            $attributeData['attribute1']['option_1']['admin_option_name'],
+            $attributeData['attribute1']['option_2']['admin_option_name'],
+            $attributeData['attribute1']['option_3']['admin_option_name']
+        );
         //Steps
         $this->productHelper()->selectTypeProduct('configurable');
         $this->openTab('prices');
         $this->openTab('general');
         $this->assertTrue($this->controlIsVisible('pageelement', 'product_variations_fieldset'));
         $this->assertTrue($this->getControlAttribute('checkbox', 'is_configurable', 'selectedValue'));
-        $this->productHelper()->selectConfigurableAttribute($attribute1);
-        $this->productHelper()->selectConfigurableAttribute($attribute2);
-        $this->productHelper()->unselectConfigurableAttributeOptions(array(),
-            $attribute1['general_configurable_attribute_title']);
-        $this->clickButton('generate_product_variations');
-        $this->waitForControlVisible('pageelement', 'variations_matrix_header');
-        $this->assertTrue($this->controlIsVisible('pageelement', 'product_variations_fieldset'));
-        //        $this->assertMessagePresent('error')
+        $this->productHelper()->selectConfigurableAttribute($attributeData['attribute1']['admin_title']);
+        $this->productHelper()->selectConfigurableAttribute($attributeData['attribute2']['admin_title']);
+        $this->productHelper()->unselectConfigurableAttributeOptions($options,
+            $attributeData['attribute1']['admin_title']);
+        $this->assertTrue($this->controlIsPresent('button', 'generate_product_variations_disabled'),
+            'Button Generate variations is not disabled');
     }
 
     /**
@@ -483,7 +458,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
      *
      * @test
      * @dataProvider attributeTitleSuccessDataProvider
-     * @depends createConfigurableAttribute
+     * @depends setConfigurableAttributesToDefault
      * @testLinkId TL-MAGE-6518
      */
     public function selectAttributeWithSpecialData($attributeTitle, $attributeData)
@@ -505,7 +480,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     {
         return array(
             array('attribute_xss'),
-//            array('attribute_spec'), due to bug MAGETWO-6028
+            array('attribute_spec')
         );
     }
 
@@ -559,11 +534,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $configurable = $this->loadDataSet('Product', 'configurable_product_visible', null,
             array(
                 'general_attribute_1' => $attributeData['attribute1']['admin_title'],
-                'var1_attr_value1' => $attributeData['attribute1']['option_1']['admin_option_name'],
-                'var1_attr_include2' => 'Yes',
-                'var1_attr_value2' => $attributeData['attribute1']['option_2']['admin_option_name'],
-                'var1_attr_include3' => 'Yes',
-                'var1_attr_value3' => $attributeData['attribute1']['option_3']['admin_option_name']
+                'allOptions' => 'Yes'
             )
         );
         unset($configurable['general_configurable_variations']);
@@ -583,12 +554,13 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $this->productHelper()->openProduct(array('product_sku' => $configurable['general_sku']));
         $this->productHelper()->changeAttributeValueSelection($attributeData['attribute1']['admin_title'],
             $newOption['option_4']['admin_option_name']);
-        $this->clickButton('generate_product_variations');
+        $this->clickButton('generate_product_variations', false);
         $this->waitForControlVisible('pageelement', 'variations_matrix_header');
         //Verifying
         $this->addParameter('attributeSearch', "contains(.,'$newOptionTitle')");
-        $this->fillCheckbox('include_variation', 'Yes');
-        $this->assertContains($newOptionTitle, $this->getControlAttribute('pageelement', 'variation_line', 'text'));
+        $this->waitForControlVisible('pageelement', 'variation_price');
+        $this->assertTrue($this->controlIsPresent('checkbox', 'include_variation'),
+            "Matrix does not contain selected attribute value's data, but should");
     }
 
     /**
@@ -614,9 +586,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
             $this->loadDataSet('Product', 'general_configurable_attribute_with_price', null,
                 array(
                     'general_attribute_2' => $attributeData['attribute2']['admin_title'],
-                    'var2_attr_value1' => $attributeData['attribute2']['option_1']['admin_option_name'],
-                    'var2_attr_value2' => $attributeData['attribute2']['option_2']['admin_option_name'],
-                    'var2_attr_value3' => $attributeData['attribute2']['option_3']['admin_option_name']
+                    'allOptions' => 'Yes'
                 )
             );
         unset($configurable['general_configurable_variations']);
@@ -655,11 +625,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
             array('general_name' => 'product_%randomize%', 'general_sku' => 'sku_%randomize%'),
             array(
                 'general_attribute_1' => $attributeData['attribute1']['admin_title'],
-                'var1_attr_value1' => $attributeData['attribute1']['option_1']['admin_option_name'],
-                'var1_attr_value2' => $attributeData['attribute1']['option_2']['admin_option_name'],
-                'var1_attr_include2' => 'Yes',
-                'var1_attr_value3' => $attributeData['attribute1']['option_3']['admin_option_name'],
-                'var1_attr_include3' => 'Yes',
+                'allOptions' => 'Yes'
             )
         );
         $ruleOption = $attributeData['attribute1']['option_1']['admin_option_name'];
@@ -667,9 +633,9 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $this->productHelper()->createProduct($configurable, 'configurable');
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $configurable['general_sku']));
-        $this->setVariationPriceRule($attributeData['attribute1']['admin_title'], $ruleOption, $ruleType, '50');
-        $this->clickButton('generate_product_variations');
-        $this->saveForm('save');
+        $this->_setVariationPriceRule($attributeData['attribute1']['admin_title'], $ruleOption, $ruleType, '50');
+        $this->clickButton('generate_product_variations', false);
+        $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $configurable['general_sku']));
         //Verification. Backend
@@ -699,7 +665,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
      * @param string $ruleType
      * @param string $price
      */
-    protected function setVariationPriceRule($attributeTitle, $option, $ruleType, $price)
+    protected function _setVariationPriceRule($attributeTitle, $option, $ruleType, $price)
     {
         $this->addParameter('attributeTitle', $attributeTitle);
         $this->fillCheckbox('have_price_variation', 'Yes');
@@ -748,7 +714,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $this->buttondown();
         $this->moveto($attributeBlock1);
         $this->buttonup();
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->frontend();
@@ -784,7 +750,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $this->addParameter('attributeTitle', $attributeData['attribute1']['admin_title']);
         $this->clickControl('link', 'delete_product_variation_attribute');
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->frontOpenProduct($productData['general_name']);
@@ -792,48 +758,48 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $this->assertFalse($this->controlIsVisible('fieldset', 'product_custom_option_head'));
     }
 
-        /**
-         * <p>Verify editable input for attribute title in attribute block<p>
-         *
-         * @param string $value
-         * @param array $attributeData
-         *
-         * @test
-         * @dataProvider withFilledAttributeLabelDataProvider
-         * @depends setConfigurableAttributesToDefault
-         * @TestlinkId TL-MAGE-6542, TL-MAGE-6544
-         */
-        public function withFilledAttributeLabelField($value, $attributeData)
-        {
-            //Data
-            $productData = $this->loadDataSet('Product', 'configurable_product_visible', null,
-                array(
-                    'var1_attr_value1' => $attributeData['attribute1']['option_1']['admin_option_name'],
-                    'general_attribute_1' => $attributeData['attribute1']['admin_title']
-                )
-            );
-            //Steps
-            $this->productHelper()->createProduct($productData, 'configurable');
-            $this->assertMessagePresent('success', 'success_saved_product');
-            $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
-            $this->addParameter('attributeTitle', $attributeData['attribute1']['admin_title']);
-            $this->fillField('frontend_label', $value);
-            $this->saveForm('save');
-            //Verifying
-            $this->assertMessagePresent('success', 'success_saved_product');
-            $this->productHelper()->frontOpenProduct($productData['general_name']);
-            $this->addParameter('title', $value);
-            $this->assertTrue($this->controlIsVisible('fieldset', 'product_custom_option_head'));
-        }
+    /**
+     * <p>Verify editable input for attribute title in attribute block<p>
+     *
+     * @param string $value
+     * @param array $attributeData
+     *
+     * @test
+     * @dataProvider withFilledAttributeLabelDataProvider
+     * @depends setConfigurableAttributesToDefault
+     * @TestlinkId TL-MAGE-6542, TL-MAGE-6544
+     */
+    public function withFilledAttributeLabelField($value, $attributeData)
+    {
+        //Data
+        $productData = $this->loadDataSet('Product', 'configurable_product_visible', null,
+            array(
+                'var1_attr_value1' => $attributeData['attribute1']['option_1']['admin_option_name'],
+                'general_attribute_1' => $attributeData['attribute1']['admin_title']
+            )
+        );
+        //Steps
+        $this->productHelper()->createProduct($productData, 'configurable');
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
+        $this->addParameter('attributeTitle', $attributeData['attribute1']['admin_title']);
+        $this->fillField('frontend_label', $value);
+        $this->productHelper()->saveProduct();
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->frontOpenProduct($productData['general_name']);
+        $this->addParameter('title', $value);
+        $this->assertTrue($this->controlIsVisible('fieldset', 'product_custom_option_head'));
+    }
 
-        public function withFilledAttributeLabelDataProvider()
-        {
-            return array(
-                array($this->generate('string', 255, ':alnum:')),
-                array('<img src=example.com?nonexistent.jpg onerror=alert("xss")>'),
-                array(str_replace(array(',', '"', "'", '<'), '?', $this->generate('string', 255, ':punct:')))
-            );
-        }
+    public function withFilledAttributeLabelDataProvider()
+    {
+        return array(
+            array($this->generate('string', 255, ':alnum:')),
+            array('<img src=example.com?nonexistent.jpg onerror=alert("xss")>'),
+            array(str_replace(array(',', '"', "'", '<', '>'), '?', $this->generate('string', 255, ':punct:')))
+        );
+    }
 
     /**
      * <p>Verify editable input for attribute title in attribute block (empty and Use default checkbox)</p>
@@ -859,10 +825,9 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $this->addParameter('attributeTitle', $attributeData['attribute1']['admin_title']);
         $this->fillField('frontend_label', '');
-        $this->clickButton('save', false);
-        $this->assertMessagePresent('validation', 'required_attribute_label');
+        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
         $this->fillCheckbox('use_default_label', 'Yes');
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->frontOpenProduct($productData['general_name']);
@@ -890,7 +855,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $configurable = $this->loadDataSet('Product', 'configurable_product_visible',
             array(
                 'associated_product_name' => $associated['general_name'],
-                'associated_sku'          => $associated['general_sku']
+                'associated_sku' => $associated['general_sku']
             ),
             array(
                 'general_attribute_1' => $attributeData['attribute1']['admin_title'],
@@ -905,13 +870,14 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $this->openTab('general');
         $this->productHelper()->changeAttributeValueSelection($attributeData['attribute1']['admin_title'],
             $newOptionTitle);
-        $this->clickButton('generate_product_variations');
+        $this->clickButton('generate_product_variations', false);
         $this->addParameter('attributeSearch', "contains(.,'$newOptionTitle')");
         $this->waitForControlVisible('pageelement', 'variation_line');
         $this->assertContains($associated['general_sku'],
             $this->getControlAttribute('pageelement', 'variation_line', 'text'));
         $this->addParameter('attributeSearch', "contains(.,'$assignOptionTitle')");
         $this->addParameter('productSku', $associated['general_sku']);
-        $this->assertEquals(true, $this->getControlAttribute('checkbox', 'assigned_product', 'selectedValue'));
+        $this->assertTrue($this->getControlElement('checkbox', 'assigned_product')->selected(),
+            'Product is not assigned to configurable');
     }
 }

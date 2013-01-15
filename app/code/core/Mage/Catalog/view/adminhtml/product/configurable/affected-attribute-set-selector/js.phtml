@@ -10,7 +10,7 @@
 /* @var $this Mage_Catalog_Block_Product_Configurable_AttributeSelector */
 ?>
 <script type="text/javascript">
-(function($) {
+jQuery(function($) {
     'use strict';
     $(function() {
         var $form = $('#affected-attribute-set-form'),
@@ -93,7 +93,7 @@
                 }
             });
 
-        $('button[data-ui-id=product-edit-save-button],button[data-ui-id=product-edit-save-and-edit-button]')
+        $('#save-split-button .item')
             .on('click', function(event) {
                 if ($('#new-variations-attribute-set-id').val() != '') {
                     return; // affected attribute set was already chosen
@@ -117,5 +117,5 @@
                     .dialog('open');
             });
     });
-})(jQuery);
+});
 </script>

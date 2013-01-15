@@ -14,7 +14,7 @@
 # 'Shopping Cart' page
 customer_shopping_cart:
     mca: checkout/index/store/%store%/customer/%customer%/
-    title: Shopping Cart / %customer_first_last_name% / Manage Customers / Customers / Magento Admin
+    title: Shopping Cart / %elementTitle% / Manage Customers / Customers / Magento Admin
     uimap:
         form:
             fieldsets:
