@@ -44,7 +44,10 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Unassigned
                         'event' => 'delete',
                         'target' => 'body',
                         'eventData' => array(
-                            'url' => $this->getUrl('*/system_design_theme/delete/', array('id' => $themeId, 'back' => true))
+                            'url' => $this->getUrl(
+                                '*/system_design_theme/delete/',
+                                array('id' => $themeId, 'back' => true)
+                            )
                         )
                     ),
                 ),
