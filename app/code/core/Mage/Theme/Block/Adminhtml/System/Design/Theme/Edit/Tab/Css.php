@@ -170,6 +170,18 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             'disabled' => 'disabled',
         ));
 
+        $cssDownloadButtonConfig = array(
+            'name'  => 'css_download_button',
+            'value' => $this->__('Download CSS File'),
+            'onclick' => "setLocation('" . $this->getUrl('*/*/downloadCustomCss', array(
+                'theme_id' => $this->_getCurrentTheme()->getId())
+            ) . "');"
+        );
+        if (!$this->_getCurrentTheme()->getCustomCssFile()->getContent()) {
+            $cssDownloadButtonConfig['disabled'] = 'disabled';
+        }
+        $themeFieldset->addField('css_download_button', 'button', $cssDownloadButtonConfig);
+
         $themeFieldset->addField('custom_css_content', 'textarea', array(
             'label'  => $this->__('Edit custom.css'),
             'title'  => $this->__('Edit custom.css'),

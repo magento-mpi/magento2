@@ -197,6 +197,34 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
     }
 
     /**
+     * Download custom css file
+     */
+    public function downloadCustomCssAction()
+    {
+        $themeId = $this->getRequest()->getParam('theme_id');
+        try {
+            /** @var $theme Mage_Core_Model_Theme */
+            $theme = $this->_objectManager->create('Mage_Core_Model_Theme')->load($themeId);
+            if (!$theme->getId()) {
+                throw new InvalidArgumentException('Theme with id ' . $themeId . ' is not found.');
+            }
+
+            $content = $theme->getCustomCssFile()->getContent();
+            if ($content) {
+                $this->_prepareDownloadResponse(Mage_Core_Model_Theme_Files_Css::FILE_NAME, array(
+                    'type'  => 'filename',
+                    'value' => $theme->getCustomCssFile()->getFilePath(true)
+                ));
+            }
+        } catch (Exception $e) {
+            $this->_getSession()->addException($e,
+                $this->__('File "%s" is not found.', Mage_Core_Model_Theme_Files_Css::FILE_NAME));
+            $this->_redirectUrl($this->_getRefererUrl());
+            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+        }
+    }
+
+    /**
      * Download css file
      */
     public function downloadCssAction()
@@ -228,6 +256,7 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
         } catch (Exception $e) {
             $this->_getSession()->addException($e, $this->__('File "%s" is not found.', $fileName));
             $this->_redirectUrl($this->_getRefererUrl());
+            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
     }
 
