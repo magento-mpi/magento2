@@ -58,8 +58,6 @@ class Mage_Checkout_Model_Cart_Coupon_ApiTest extends PHPUnit_Framework_TestCase
 
     /**
      * Test coupon code removing
-     *
-     * @magentoDbIsolation enabled
      */
     public function testCartCouponRemove()
     {
