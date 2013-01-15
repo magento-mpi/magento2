@@ -88,7 +88,7 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
         //Verifying
         $this->addParameter('fieldId', $fieldId);
         $this->assertMessagePresent('validation', 'empty_field');
-        $this->assertEquals(1, count($this->getParsedMessages('required')));
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function loginEmptyOneFieldDataProvider()

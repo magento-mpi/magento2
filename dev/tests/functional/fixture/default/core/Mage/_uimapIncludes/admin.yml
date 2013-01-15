@@ -85,8 +85,6 @@ admin_header:
         messages:
             general_notice: "//*[normalize-space(@class)='notice-msg'][string-length(.)>1]"
             general_success: "//*[normalize-space(@class)='success-msg'][string-length(.)>1]"
-            #general_validation: "//*[normalize-space(@class)='validation-advice'][string-length(.)>1]"
-            general_required: "//*[normalize-space(@class)='mage-error'][string-length(.)>1]"
             general_error: "//*[normalize-space(@class)='error-msg'][string-length(.)>1]"
             general_validation: "//*[normalize-space(@class)='validation-advice' or normalize-space(@class)='mage-error'][string-length(.)>1]"
             #general_notice: "//*/descendant::*[normalize-space(@class)='notice-msg'][string-length(.)>1]"
