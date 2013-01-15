@@ -845,6 +845,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $this->addParameter('categoryPath', $categoryPath);
             $element->value($categoryName);
             $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'category_search_result');
+            sleep(1); //@TODO need wait condition for selecting two created categories
             if ($this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'category_search')) {
                 $selectCategory = $this->elementIsPresent($this->_getControlXpath(self::FIELD_TYPE_LINK, 'category'));
                 if ($selectCategory) {
@@ -889,7 +890,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         //Fill and verify parent category field
         $this->getElement($parentLocator)->value($parentName);
-        $this->waitForControlEditable(self::UIMAP_TYPE_FIELDSET, 'category_search');
+        $this->waitForElement($parentLocator);
+        $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'parent_category_search_result');
         $this->addParameter('categoryPath', $parentPath);
         $elements = $this->getControlElements(self::FIELD_TYPE_LINK, 'category',
             $this->getUimapPage('admin', 'new_product')->findTab('general'));
@@ -932,7 +934,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         foreach ($categoryPath as $category) {
             $explodeCategory = explode('/', $category);
-            $categoryName = end($explodeCategory);
+            $categoryName = substr(end($explodeCategory), 0, 255);
             $expectedNames[] = $categoryName;
             if (!in_array($categoryName, $selectedNames)) {
                 $this->addVerificationMessage("'$categoryName' category is not selected");
