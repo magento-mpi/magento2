@@ -125,15 +125,15 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         //Data
         $product = $this->loadDataSet('Product', 'simple_product_visible',
             array('general_categories' => $categories['default']));
+        $categoryName = end(explode('/', $product['general_categories']));
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($product, 'simple', false);
         $this->openTab('general');
-        $explodeCategory = explode('/', $product['general_categories']);
-        $categoryName = end($explodeCategory);
         $this->getControlElement(self::FIELD_TYPE_INPUT, 'general_categories')->value($categoryName);
+        $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'category_search');
         //Verifying
-        $this->waitForControlVisible('link', 'selected_category');
+        $this->assertTrue($this->controlIsVisible('link', 'selected_category'));
     }
 
     /**
@@ -212,9 +212,12 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $this->navigate('manage_products');
         $this->productHelper()->selectTypeProduct('simple');
         $this->getControlElement(self::FIELD_TYPE_INPUT, 'general_categories')->value($nonexistentCategory);
-        $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'category_search_result');
+        $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'category_search_result');
         //Verifying
-        $this->assertFalse($this->controlIsVisible('fieldset', 'category_search'), 'Category list is not empty.');
+        $this->assertEquals('No search results.',
+            $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'category_search_result', 'text'),
+            "Category $nonexistentCategory was founded"
+        );
     }
 
     /**
