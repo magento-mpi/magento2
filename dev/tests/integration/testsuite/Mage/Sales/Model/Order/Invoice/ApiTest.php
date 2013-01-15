@@ -63,7 +63,7 @@ class Mage_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCase
 
         // Set invoice increment id prefix
         $prefix = '01';
-        Magento_Test_Helper_Api::setIncrementIdPrefix('invoice', $prefix);
+        Magento_Test_Helper_Eav::setIncrementIdPrefix('invoice', $prefix);
 
         // Create new invoice
         $newInvoiceId = Magento_Test_Helper_Api::call(

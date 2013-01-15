@@ -117,28 +117,6 @@ class Magento_Test_Helper_Api
     }
 
     /**
-     * Set increment id prefix in entity model.
-     *
-     * @param string $entityType
-     * @param string $prefix
-     */
-    public static function setIncrementIdPrefix($entityType, $prefix)
-    {
-        $website = Mage::app()->getWebsite();
-        $storeId = $website->getDefaultStore()->getId();
-        $entityTypeModel = Mage::getModel('Mage_Eav_Model_Entity_Type')->loadByCode($entityType);
-        /** @var Mage_Eav_Model_Entity_Store $entityStore */
-        $entityStore = Mage::getModel('Mage_Eav_Model_Entity_Store')->loadByEntityStore(
-            $entityTypeModel->getId(),
-            $storeId
-        );
-        $entityStore->setEntityTypeId($entityTypeModel->getId());
-        $entityStore->setStoreId($storeId);
-        $entityStore->setIncrementPrefix($prefix);
-        $entityStore->save();
-    }
-
-    /**
      * Check specific fields value in some entity data.
      *
      * @param PHPUnit_Framework_TestCase $testCase

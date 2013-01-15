@@ -145,7 +145,7 @@ class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
     {
         // Set order increment id prefix
         $prefix = '01';
-        Magento_Test_Helper_Api::setIncrementIdPrefix('order', $prefix);
+        Magento_Test_Helper_Eav::setIncrementIdPrefix('order', $prefix);
 
         $quote = Mage::registry('quote');
         $orderIncrementId = Magento_Test_Helper_Api::call(
