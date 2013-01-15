@@ -24,14 +24,6 @@ class Mage_CatalogInventory_Model_Stock_Item_ApiTest extends PHPUnit_Framework_T
         );
         /** Assert product stock data retrieving was successful. */
         $this->assertNotEmpty($productsStockData, 'Product stock data retrieving was unsuccessful.');
-        /** Assert base fields are present in the response. */
-        $stockData = reset($productsStockData);
-        $expectedFields = array('product_id', 'sku', 'qty', 'is_in_stock');
-        $missingFields = array_diff($expectedFields, array_keys($stockData));
-        $this->assertEmpty(
-            $missingFields,
-            sprintf("The following fields must be present in response: %s.", implode(', ', $missingFields))
-        );
         /** Assert retrieved product stock data is correct. */
         $expectedData = array(
             'product_id' => '10',
@@ -39,6 +31,7 @@ class Mage_CatalogInventory_Model_Stock_Item_ApiTest extends PHPUnit_Framework_T
             'qty' => 100,
             'is_in_stock' => '1'
         );
+        $stockData = reset($productsStockData);
         $this->assertEquals($expectedData, $stockData, 'Product stock data is incorrect.');
     }
 }
