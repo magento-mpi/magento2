@@ -152,7 +152,7 @@ class Core_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase
         $this->addParameter('adminEmail', $emailData['email']);
         $this->addParameter('fieldId', 'captcha');
         $this->assertMessagePresent('validation', 'empty_field');
-        $this->assertTrue(1, count($this->getParsedMessages('required')));
+        $this->assertEquals(1, count($this->getParsedMessages('required')));
     }
 
     /**
