@@ -268,7 +268,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
             $this->addParameter('field_id', $fieldName);
             $this->assertMessagePresent('validation', 'empty_required_field');
         }
-        $this->assertEquals(4, count($this->getParsedMessages('required')));
+        $this->assertTrue($this->verifyMessagesCount(4), $this->getParsedMessages());
     }
 
     /**
@@ -291,7 +291,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         //Verifying
         $this->addParameter('field_id', 'ccsave_cc_owner');
         $this->assertMessagePresent('validation', 'empty_required_field');
-        $this->assertEquals(1, count($this->getParsedMessages('required')));
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**
@@ -314,7 +314,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         //Verifying
         $this->addParameter('field_id', 'ccsave_cc_type');
         $this->assertMessagePresent('validation', 'empty_required_field');
-        $this->assertEquals(1, count($this->getParsedMessages('required')));
+        $this->getParsedMessages('required');
     }
 
     /**
@@ -338,6 +338,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         $xpath = $this->_getControlXpath('dropdown', 'card_type');
         $this->addParameter('fieldXpath', $xpath);
         $this->assertMessagePresent('validation', 'card_type_doesnt_match');
+        $this->assertEquals(1, count($this->getParsedMessages('error')));
     }
 
     /**
@@ -360,7 +361,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         //Verifying
         $this->addParameter('field_id', 'ccsave_expiration_yr');
         $this->assertMessagePresent('validation', 'empty_required_field');
-        $this->assertEquals(1, count($this->getParsedMessages('required')));
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**
@@ -384,7 +385,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         //Verifying
         $this->addParameter('field_id', 'ccsave_cc_cid');
         $this->assertMessagePresent('validation', 'empty_required_field');
-        $this->assertEquals(1, count($this->getParsedMessages('required')));
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**
