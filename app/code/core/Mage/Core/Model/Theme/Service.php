@@ -62,6 +62,11 @@ class Mage_Core_Model_Theme_Service
     protected $_layoutUpdate;
 
     /**
+     * @var Mage_Core_Model_Event_Manager
+     */
+    protected $_eventManager;
+
+    /**
      * Initialize service model
      *
      * @param Mage_Core_Model_Theme_Factory $themeFactory
@@ -69,19 +74,22 @@ class Mage_Core_Model_Theme_Service
      * @param Mage_Core_Model_App $app
      * @param Mage_Core_Helper_Data $helper
      * @param Mage_DesignEditor_Model_Resource_Layout_Update $layoutUpdate
+     * @param Mage_Core_Model_Event_Manager $eventManager
      */
     public function __construct(
         Mage_Core_Model_Theme_Factory $themeFactory,
         Mage_Core_Model_Design_Package $design,
         Mage_Core_Model_App $app,
         Mage_Core_Helper_Data $helper,
-        Mage_DesignEditor_Model_Resource_Layout_Update $layoutUpdate
+        Mage_DesignEditor_Model_Resource_Layout_Update $layoutUpdate,
+        Mage_Core_Model_Event_Manager $eventManager
     ) {
         $this->_themeFactory = $themeFactory;
         $this->_design       = $design;
         $this->_app          = $app;
         $this->_helper       = $helper;
         $this->_layoutUpdate = $layoutUpdate;
+        $this->_eventManager = $eventManager;
     }
 
     /**
@@ -100,6 +108,16 @@ class Mage_Core_Model_Theme_Service
         $scope = Mage_Core_Model_Config::SCOPE_STORES,
         $area = Mage_Core_Model_App_Area::AREA_FRONTEND
     ) {
+        $this->_eventManager->dispatch('vde_assign_theme_to_stores_before',
+            array(
+                'themeService' => $this,
+                'themeId'      => $themeId,
+                'stores'       => $stores,
+                'scope'        => $scope,
+                'area'         => $area,
+            )
+        );
+
         /** @var $theme Mage_Core_Model_Theme */
         $theme = $this->_themeFactory->create()->load($themeId);
         if (!$theme->getId()) {
@@ -126,6 +144,19 @@ class Mage_Core_Model_Theme_Service
             $this->_app->cleanCache(Mage_Core_Model_Config::CACHE_TAG);
         }
         $this->_makeTemporaryLayoutUpdatesPermanent($themeId, $stores);
+        $this->_app->cleanCache(array('layout', Mage_Core_Model_Layout_Merge::LAYOUT_GENERAL_CACHE_TAG));
+
+        $this->_eventManager->dispatch('vde_assign_theme_to_stores_after',
+            array(
+                'themeService'       => $this,
+                'themeId'            => $themeId,
+                'stores'             => $stores,
+                'scope'              => $scope,
+                'area'               => $area,
+                'theme'              => $theme,
+                'themeCustomization' => $themeCustomization,
+            )
+        );
 
         return $themeCustomization;
     }

@@ -267,18 +267,21 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
                 throw new InvalidArgumentException('Param "stores" is not valid');
             }
 
+            if ($this->getRequest()->has('layoutUpdate')) {
+                $this->_saveLayoutUpdate($themeId);
+            }
+
             /** @var $themeService Mage_Core_Model_Theme_Service */
             $themeService = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
             /** @var $themeCustomization Mage_Core_Model_Theme */
             $themeCustomization = $themeService->assignThemeToStores($themeId, $stores);
-            if ($this->getRequest()->has('layoutUpdate')) {
-                $this->_saveLayoutUpdate($themeId);
-            }
+
             $message = $coreHelper->__('Theme successfully assigned');
             $response = array(
                 'success' => $message,
                 'themeId' => $themeCustomization->getId()
             );
+
             $this->getResponse()->setBody($coreHelper->jsonEncode(array('success' => $message)));
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
