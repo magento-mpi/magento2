@@ -34,7 +34,8 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $additional = $this->loadDataSet('Category', 'sub_category_required');
         $newRoot = $this->loadDataSet('Category', 'root_category_required');
         $subInNew = $this->loadDataSet('Category', 'sub_category_required',
-            array('parent_category' => $newRoot['name']));
+            array('parent_category' => $newRoot['name'])
+        );
         //Create root category
         $this->navigate('manage_categories');
         $this->categoryHelper()->createCategory($newRoot);
@@ -263,9 +264,13 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $this->assertTrue($this->controlIsVisible(self::UIMAP_TYPE_MESSAGE, 'parent_name_required'));
         $this->assertFalse($this->controlIsPresent(self::UIMAP_TYPE_MESSAGE, 'parent_name_existent'));
 
-        $this->fillFieldset(array('name'            => $this->generate('string', 256, ':alnum:'),
-                                  'parent_category' => $this->generate('string', 256, ':alnum:'),),
-            'new_category_form');
+        $this->fillFieldset(
+            array(
+                'name' => $this->generate('string', 256, ':alnum:'),
+                'parent_category' => $this->generate('string', 256, ':alnum:'),
+            ),
+            'new_category_form'
+        );
         $this->clickButton('new_category_save', false);
         sleep(1); // giving time for messages to disappear with animation, waitForElementNotVisible would do the job
 
@@ -302,7 +307,8 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $path = $categories['default'];
         $expectedNameAfterSave = $this->_getExpectedCategoryNameAfterSave($newCategoryName);
         $product = $this->loadDataSet('Product', 'simple_product_visible',
-            array('general_categories' => $path . '/' . $newCategoryName));
+            array('general_categories' => $path . '/' . $newCategoryName)
+        );
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($product, 'simple');
@@ -313,7 +319,8 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $this->categoryHelper()->selectCategory($path . '/' . $expectedNameAfterSave);
         $this->openTab('general_information');
         $this->assertEquals($expectedNameAfterSave,
-            $this->getControlAttribute(self::FIELD_TYPE_INPUT, 'name', 'value'));
+            $this->getControlAttribute(self::FIELD_TYPE_INPUT, 'name', 'value')
+        );
         $this->assertEquals('Yes', $this->getControlAttribute(self::FIELD_TYPE_DROPDOWN, 'is_active', 'selectedLabel'));
     }
 

@@ -2941,7 +2941,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function formSearchXpath(array $data, $trLocator = null)
     {
         if (is_null($trLocator)) {
-            $trLocator = $this->_getControlXpath('pageelement', 'default_table_line');
+            $trLocator = $this->_getControlXpath('pageelement', 'default_table_row');
         }
         foreach ($data as $key => $value) {
             if (!preg_match('/_from/', $key) && !preg_match('/_to/', $key) && !is_array($value)) {
@@ -3997,12 +3997,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @param PHPUnit_Extensions_Selenium2TestCase_Element $parentElement
      * @param string $childLocator
      *
-     * @return PHPUnit_Extensions_Selenium2TestCase_Element|bool
+     * @return PHPUnit_Extensions_Selenium2TestCase_Element|null
      */
-    public function childElementIsPresent(PHPUnit_Extensions_Selenium2TestCase_Element $parentElement, $childLocator)
+    public function getPresentChildElement(PHPUnit_Extensions_Selenium2TestCase_Element $parentElement, $childLocator)
     {
         $childElements = $this->getChildElements($parentElement, $childLocator, false);
-        return empty($childElements) ? false : array_shift($childElements);
+        return $childElements ? array_shift($childElements) : null;
     }
 
     /**
