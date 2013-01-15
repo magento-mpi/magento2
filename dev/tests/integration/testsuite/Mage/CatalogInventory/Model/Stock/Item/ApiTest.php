@@ -32,5 +32,13 @@ class Mage_CatalogInventory_Model_Stock_Item_ApiTest extends PHPUnit_Framework_T
             $missingFields,
             sprintf("The following fields must be present in response: %s.", implode(', ', $missingFields))
         );
+        /** Assert retrieved product stock data is correct. */
+        $expectedData = array(
+            'product_id' => '10',
+            'sku' => 'simple1',
+            'qty' => 100,
+            'is_in_stock' => '1'
+        );
+        $this->assertEquals($expectedData, $stockData, 'Product stock data is incorrect.');
     }
 }
