@@ -363,6 +363,9 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      */
     public function emptyFieldForSamples($emptyField)
     {
+        if ($emptyField == 'downloadable_sample_row_url') {
+            $this->markTestIncomplete('MAGETWO-6990');
+        }
         // Data
         $productData = $this->loadDataSet('Product', 'downloadable_product_required');
         $productData['downloadable_information_data']['downloadable_sample_1'] =
@@ -401,12 +404,15 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      */
     public function emptyFieldForLinks($emptyField)
     {
-        // Data
+        if ($emptyField == 'downloadable_link_row_file_url') {
+            $this->markTestIncomplete('MAGETWO-6990');
+        }
+        //Data
         $productData = $this->loadDataSet('Product', 'downloadable_product_required');
         $productData['downloadable_information_data']['downloadable_link_1'] =
             $this->loadDataSet('Product', 'downloadable_links', array($emptyField => '%noValue%'));
         //Steps
-        $this->productHelper()->createProduct($productData, 'downloadable');
+        $this->productHelper()->createProduct($productData, 'downloadable', false);
         //Verifying
         $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
 //        $this->addFieldIdToMessage('field', $emptyField);

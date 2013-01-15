@@ -161,12 +161,13 @@ jQuery(function($) {
 
     $('.widget-button-save .item-default, #save-split-button-duplicate-button[onclick=""]').parent().hide();
     var $form = $('#product-edit-form'),
-        fieldSelector = '.required-entry:not([disabled]):not(.ignore-validate):not(th),' +
-            '.required-option-select:not([disabled]):not(.ignore-validate)';
+        fieldSelector = '.required-entry, .required-option-select';
     $form.on('focus change keyup click', fieldSelector + ',:checkbox,button', function () {
         var disabled = false;
         $.each($form.find(fieldSelector), function () {
-            if (!$(this).val() && !$(this).closest('.ignore-validate').length) {
+            if (!$.trim($(this).val()) && !$(this).closest('.ignore-validate').length
+                && $(this).is('input, select, textarea') && !$(this).prop('disabled')
+            ) {
                 disabled = true;
                 return false;
             }

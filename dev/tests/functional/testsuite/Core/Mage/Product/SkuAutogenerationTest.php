@@ -212,11 +212,12 @@ class Core_Mage_Product_SkuAutoGenerationTest extends Mage_Selenium_TestCase
         $this->systemConfigurationHelper()->configure($systemConfig);
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData);
+        $this->productHelper()->createProduct($productData, 'simple', false);
         //Verifying
-        $this->addFieldIdToMessage('field', 'general_sku');
-        $this->assertMessagePresent('validation', 'empty_required_field');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
+//        $this->addFieldIdToMessage('field', 'general_sku');
+//        $this->assertMessagePresent('validation', 'empty_required_field');
+//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**

@@ -506,7 +506,7 @@ new_product:
                                         import_options: //*[@id='import_new_defined_option']
                             -
                                 custom_option_set:
-                                    xpath: //div[@class='option-box']
+                                    xpath: //div[contains(div/div/h4,'Custom Options')]//div[@class='option-box']
                                     buttons:
                                         delete_custom_option: //button[span='Delete Option']
                                         delete_option: //div[@id='option_%optionId%']//button[span='Delete Option']

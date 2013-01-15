@@ -14,7 +14,7 @@
 /**
  * Product creation tests
  */
-class Core_Mage_Product_Create_SplitButtonsTest extends Mage_Selenium_TestCase
+class Core_Mage_Product_Create_AddSaveButtonsTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
@@ -60,7 +60,7 @@ class Core_Mage_Product_Create_SplitButtonsTest extends Mage_Selenium_TestCase
      * @test
      * @TestlinkId TL-MAGE-6084
      */
-    public function createSimpleWithSplitButton()
+    public function defaultActionOfAddProductButton()
     {
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required');

@@ -754,7 +754,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 $this->verifyBundleItemsTab($tabData['bundle_items_data']);
                 break;
             case 'downloadable_information':
-                $this->verifyDownloadableInformationTab($tabData['downloadable_information_data']);
+                $this->verifyDownloadableInformationTab($tabData);
                 break;
             default:
                 $this->openTab($tabName);
@@ -845,8 +845,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $this->addParameter('categoryPath', $categoryPath);
             $element->value($categoryName);
             $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'category_search_result');
-            sleep(1); //@TODO need wait condition for selecting two created categories
-            if ($this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'category_search')) {
+            $searchResult = $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'category_search_result', 'text');
+            if ($searchResult != 'No search results.' && $searchResult != '') {
+                $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'category_search');
                 $selectCategory = $this->elementIsPresent($this->_getControlXpath(self::FIELD_TYPE_LINK, 'category'));
                 if ($selectCategory) {
                     $this->moveto($selectCategory);
