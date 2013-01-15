@@ -362,7 +362,6 @@ class Mage_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
      */
     public function testGetUrlOnConsequentCalls($firstCallUrl, $secondCallUrl)
     {
-        $result = $this->_model->getUrl('test/test/edit', array('test' => '1', 'test1' => '2'));
         $baseUrl = 'http://localhost/index.php/';
         $result = $this->_model->getUrl($firstCallUrl);
         $expectedUrl = $baseUrl . $firstCallUrl;
