@@ -11,10 +11,67 @@
 <?php
     /* @var $this Enterprise_Wishlist_Block_Behaviour */
 ?>
+<script id="form-tmpl" type="text/x-jQuery-tmpl">
+    <form id="wishlist-hidden-form" method="post" action="${url}" style="display: none;">
+        <input name="item_id" value="${itemId}"/>
+        <input name="wishlist_id" value="${wishlistId}"/>
+        <input name="qty" value="${qty}"/>
+    </form>
+</script>
+<script id="create-tmpl" type="text/x-jQuery-tmpl">
+    <div class="window-overlay active" style="height: 917px;"></div>
+    <div id="${createWishlistBlockId}" class="popup-block block undefined active">
+        <div class="block-title">
+            <strong>${$.mage.__('Create New Wishlist')}</strong>
+            <div class="${btnCloseClass}">Close</div>
+        </div>
+        <div class="block-content">
+            <form id="${createWishlistFormId}" method="post" action="">
+                <ul class="form-list">
+                    <li>
+                        <label for="wishlist-name">${$.mage.__('Wishlist Name')}</label>
+                        <div class="input-box">
+                            <input id="wishlist-name" class="input-text" data-validate="{required:true}" type="text" name="name" maxlength="255">
+                        </div>
+                    </li>
+                    <li class="control">
+                        <div class="input-box">
+                            <input id="wishlist-public" type="checkbox" name="visibility">
+                        </div>
+                        <label for="wishlist-public">${$.mage.__('Make This Wishlist Public')}</label>
+                    </li>
+                </ul>
+                <div class="buttons-set form-buttons">
+                    <button class="button btn-save" type="submit">
+                                                <span>
+                                                        <span>${$.mage.__('Save')}</span>
+                                                </span>
+                    </button>
+                    <button class="button btn-cancel ${btnCloseClass}" type="button">
+                                                <span>
+                                                    <span>${$.mage.__('Cancel')}</span>
+                                                </span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</script>
 <script type="text/javascript">
-    (function ($) {
-        head.js("<?php echo $this->getViewFileUrl('Enterprise_Persistent::/splitbutton.js') ?>", function() {
-            $('#wishlist-view-form').splitButton();
-        });
+    (function($) {
+        head.js(
+            "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js') ?>",
+            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js') ?>",
+            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
+            "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
+            "<?php echo $this->getViewFileUrl('Enterprise_Wishlist::js/wishlist.js') ?>",
+            "<?php echo $this->getViewFileUrl('Enterprise_Persistent::/splitbutton.js') ?>",
+            function() {
+                $('#wishlist-view-form').splitButton();
+                $('body').wishlist({
+                    createUrl: '<?php echo $this->getCreateUrl();?>',
+                    wishlists: <?php echo $this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getWishlistShortList()); ?>
+                });
+            });
     })(jQuery);
 </script>

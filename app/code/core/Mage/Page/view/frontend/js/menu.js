@@ -26,8 +26,8 @@
 
         /**
          * Show sub menu by adding shown-sub class
-         * @param subElement
          * @private
+         * @param subElement
          */
         _show: function(subElement) {
             if (subElement.data('hideTimeId')) {
@@ -40,8 +40,8 @@
 
         /**
          * Hide sub menu by removing shown-sub class
-         * @param subElement
          * @private
+         * @param subElement
          */
         _hide: function(subElement) {
             if (subElement.data('showTimeId')) {

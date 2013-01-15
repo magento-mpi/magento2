@@ -17,7 +17,7 @@
         <h2><?php echo $this->escapeHtml($this->getCurrentWishlist()->getName());?><a href="#" onclick="Enterprise.Wishlist.edit('<?php echo $this->getEditUrl($this->getCurrentWishlist()->getId());?>', '<?php echo $this->helper('Mage_Core_Helper_Data')->quoteEscape($this->getCurrentWishlist()->getName(), true);?>', <?php echo $this->getCurrentWishlist()->getVisibility() ? 'true' : 'false';?>)" title="<?php echo $this->__('Edit Wishlist')?>" class="link-edit wishlist-edit"><?php echo $this->__('Edit')?></a><span class="item-count">(<?php echo $this->getItemCount($this->getCurrentWishlist());?>)</span></h2>
     </div>
     <?php if ($this->canCreateWishlists($this->getWishlists())): ?>
-        <button type="button" id="wishlist-create-button" onclick="Enterprise.Wishlist.create('<?php echo $this->getCreateUrl();?>')" title="<?php echo $this->__('Create New Wishlist') ?>" class="button btn-create"><span><span><?php echo $this->__('Create New Wishlist') ?></span></span></button>
+        <button type="button" id="wishlist-create-button" data-wishlist-create='{"url":"<?php echo $this->getCreateUrl();?>"}' title="<?php echo $this->__('Create New Wishlist') ?>" class="button btn-create"><span><span><?php echo $this->__('Create New Wishlist') ?></span></span></button>
     <?php endif;?>
     <?php if ($this->getCurrentWishlist()->getVisibility()): ?>
         <p class="note-msg msg-public"><?php echo $this->__('This wishlist is publicly visible.'); ?></p>
@@ -37,57 +37,45 @@
                         <?php endif; ?>
                     <?php endforeach;?>
                     <?php if ($this->canCreateWishlists($this->getWishlists())): ?>
-                        <li onclick="Enterprise.Wishlist.create('<?php echo $this->getCreateUrl();?>');" class="new"><span title="<?php echo $this->__('Create New Wishlist')?>"><?php echo $this->__('Create New Wishlist')?></span></li>
+                        <li class="new"><span data-wishlist-create='{"url":"<?php echo $this->getCreateUrl();?>"}' title="<?php echo $this->__('Create New Wishlist')?>"><?php echo $this->__('Create New Wishlist')?></span></li>
                     <?php endif;?>
                 </ul>
             </div>
         </div>
         <?php if($this->getCurrentWishlist()->getItemsCount()): ?>
-            <div id="wishlists-move" class="split-button">
-                <strong<?php if ($this->getCurrentWishlist()->getId() != $this->getDefaultWishlist()->getId()): ?> onclick="Enterprise.Wishlist.moveSelectedTo(<?php echo $this->getDefaultWishlist()->getId();?>);"<?php endif;?>><span><?php echo $this->__('Move To Wishlist');?></span></strong>
+            <div id="wishlists-move" class="split-button" data-wishlist-move='{"moveSelectedUrl":"<?php echo $this->getMoveSelectedUrl();?>", "moveItemUrl":"<?php echo $this->getMoveItemUrl();?>"}'>
+                <strong><span <?php if ($this->getCurrentWishlist()->getId() != $this->getDefaultWishlist()->getId()): ?>data-wishlist-move-selected='{"wishlistId":"<?php echo $this->getDefaultWishlist()->getId();?>"}'<?php endif;?>><?php echo $this->__('Move To Wishlist');?></span></strong>
                 <a href="#" class="change"><?php echo $this->__('Move To:') ?></a>
                 <div class="list-container">
                     <ul>
                         <?php foreach ($this->getWishlists() as $wishlist): ?>
                             <?php if ($wishlist->getId() !== $this->getCurrentWishlist()->getId()): ?>
-                                <li onclick="Enterprise.Wishlist.moveSelectedTo(<?php echo $wishlist->getId();?>);"><span title="<?php echo $this->escapeHtml($wishlist->getName());?>"><?php echo $this->escapeHtml($wishlist->getName());?></span></li>
+                                <li><span data-wishlist-move-selected='{"wishlistId":"<?php echo $wishlist->getId();?>"}' title="<?php echo $this->escapeHtml($wishlist->getName());?>"><?php echo $this->escapeHtml($wishlist->getName());?></span></li>
                             <?php endif; ?>
                         <?php endforeach;?>
                         <?php if ($this->canCreateWishlists($this->getWishlists())): ?>
-                            <li onclick="Enterprise.Wishlist.moveSelectedToNew();" class="new"><span title="<?php echo $this->__('Create New Wishlist')?>" ><?php echo $this->__('Create New Wishlist')?></span></li>
+                            <li class="new"><span data-wishlist-move-selected='{"new":true}' title="<?php echo $this->__('Create New Wishlist')?>" ><?php echo $this->__('Create New Wishlist')?></span></li>
                         <?php endif;?>
                     </ul>
                 </div>
             </div>
-            <div id="wishlists-copy" class="split-button">
-                <strong<?php if ($this->getCurrentWishlist()->getId() != $this->getDefaultWishlist()->getId()): ?> onclick="Enterprise.Wishlist.copySelectedTo(<?php echo $this->getDefaultWishlist()->getId();?>);"<?php endif;?>><span><?php echo $this->__('Copy To Wishlist');?></span></strong>
+            <div id="wishlists-copy" class="split-button" data-wishlist-copy='{"copySelectedUrl":"<?php echo $this->getCopySelectedUrl();?>", "copyItemUrl":"<?php echo $this->getCopyItemUrl();?>"}'>
+                <strong><span  <?php if ($this->getCurrentWishlist()->getId() != $this->getDefaultWishlist()->getId()): ?>data-wishlist-copy-selected='{"wishlistId":"<?php echo $this->getDefaultWishlist()->getId();?>"}'<?php endif;?>><?php echo $this->__('Copy To Wishlist');?></span></strong>
                 <a href="#" class="change"><?php echo $this->__('Copy To:') ?></a>
                 <div class="list-container">
                     <ul>
                         <?php foreach ($this->getWishlists() as $wishlist): ?>
                             <?php if ($wishlist->getId() !== $this->getCurrentWishlist()->getId()): ?>
-                                <li onclick="Enterprise.Wishlist.copySelectedTo(<?php echo $wishlist->getId();?>);"><span title="<?php echo $this->escapeHtml($wishlist->getName());?>"><?php echo $this->escapeHtml($wishlist->getName());?></span></li>
+                                <li><span data-wishlist-copy-selected='{"wishlistId":"<?php echo $wishlist->getId();?>"}' title="<?php echo $this->escapeHtml($wishlist->getName());?>"><?php echo $this->escapeHtml($wishlist->getName());?></span></li>
                             <?php endif;?>
                         <?php endforeach;?>
                         <?php if ($this->canCreateWishlists($this->getWishlists())): ?>
-                            <li onclick="Enterprise.Wishlist.copySelectedToNew();" class="new"><span title="<?php echo $this->__('Create New Wishlist')?>"><?php echo $this->__('Create New Wishlist')?></span></li>
+                            <li class="new"><span data-wishlist-copy-selected='{"new":true}' title="<?php echo $this->__('Create New Wishlist')?>"><?php echo $this->__('Create New Wishlist')?></span></li>
                         <?php endif;?>
                     </ul>
                 </div>
             </div>
         <?php endif;?>
     </div>
-    <script type="text/javascript">
-    //<![CDATA[
-        Enterprise.Wishlist.form = $('wishlist-view-form');
-        if (!Enterprise.Wishlist.url) {
-            Enterprise.Wishlist.url = {};
-        }
-        Enterprise.Wishlist.url.copySelected = '<?php echo $this->getCopySelectedUrl();?>';
-        Enterprise.Wishlist.url.moveSelected = '<?php echo $this->getMoveSelectedUrl();?>';
-        Enterprise.Wishlist.url.copyItem = '<?php echo $this->getCopyItemUrl();?>';
-        Enterprise.Wishlist.url.moveItem = '<?php echo $this->getMoveItemUrl();?>';
-    //]]>
-    </script>
 </div>
 <?php endif; ?>

@@ -331,6 +331,7 @@ Billing.prototype = {
                 /*if (window.billingRegionUpdater) {
                     billingRegionUpdater.update();
                 }*/
+                // billingRegionUpdater is replaced with jQuery regionUpdater widget which use change event to call update
                 jQuery('#billing\\:country_id').trigger('change');
                 alert(response.message.join("\n"));
             }
@@ -443,6 +444,7 @@ Shipping.prototype = {
             }
             //$('shipping:country_id').value = $('billing:country_id').value;
             //shippingRegionUpdater.update();
+            // shippingRegionUpdater is replaced with jQuery regionUpdater widget which use change event to call update
             jQuery('#shipping\\:country_id').trigger('change');
             $('shipping:same_as_billing').checked = true;
             $('shipping:region_id').value = $('billing:region_id').value;
@@ -495,6 +497,7 @@ Shipping.prototype = {
                 /*if (window.shippingRegionUpdater) {
                     shippingRegionUpdater.update();
                 }*/
+                // shippingRegionUpdater is replaced with jQuery regionUpdater widget which use change event to call update
                 jQuery('#shipping\\:country_id').trigger('change');
                 alert(response.message.join("\n"));
             }
