@@ -1,10 +1,9 @@
 <?php
 /**
+ * SalesRule 10% discount coupon
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Checkout
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,6 +12,7 @@
 $salesRule = Mage::getModel('Mage_SalesRule_Model_Rule');
 
 $data = array(
+    'id' => 1,
     'name' => 'Test Coupon',
     'is_active' => true,
     'website_ids' => array(Mage::app()->getStore()->getWebsiteId()),
