@@ -30,6 +30,8 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
 
     /**
      * Set theme js fieldset
+     *
+     * @return Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
      */
     protected function _addThemeJsFieldset()
     {
@@ -44,6 +46,8 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
 
         $jsFieldset = $themeFieldset->addFieldset('js_fieldset_javascript_content', array('class' => 'fieldset-wide'));
         $jsFieldset->setRenderer($jsFieldsetRenderer);
+
+        return $this;
     }
 
     /**

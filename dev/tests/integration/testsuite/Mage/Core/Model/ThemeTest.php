@@ -198,4 +198,88 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
         $labelsCollection = $themeModel->getLabelsCollection('-- Please Select --');
         $this->assertEquals(++$expectedItemsCount, count($labelsCollection));
     }
+
+    /**
+     * @magentoDbIsolation enabled
+     * @dataProvider getCustomJsFilesProvider
+     */
+    public function testGetCustomJsFiles($filesData, $expectedData)
+    {
+        /** @var $theme Mage_Core_Model_Theme */
+        /** @var $themeModel Mage_Core_Model_Theme */
+        $theme = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
+        $themeModel = $theme->getCollection()->getFirstItem();
+
+        foreach ($filesData as $fileData) {
+            /** @var $filesModel Mage_Core_Model_Theme_Files */
+            $filesModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Files');
+            $fileData['theme_id'] = $themeModel->getId();
+            $filesModel->setData($fileData)
+                ->save();
+        }
+
+        $themeFilesCollection = $themeModel->getCustomJsFiles();
+        $this->assertInstanceOf('Mage_Core_Model_Resource_Theme_Files_Collection', $themeFilesCollection);
+        $themeFiles = $themeFilesCollection->toArray();
+        foreach ($themeFiles['items'] as &$themeFile) {
+            $this->assertEquals($themeModel->getId(), $themeFile['theme_id']);
+            unset($themeFile['theme_id']);
+            unset($themeFile['theme_files_id']);
+        }
+        $this->assertEquals($expectedData, $themeFiles['items']);
+    }
+
+    /**
+     * @return array
+     */
+    public function getCustomJsFilesProvider()
+    {
+        return array(
+            array(
+                'filesData' => array(
+                    array(
+                        'file_name' => 'test_1.js',
+                        'file_type' => Mage_Core_Model_Theme_Files::TYPE_JS,
+                        'content'   => 'content 1',
+                        'order'     => '1'
+                    ),
+                    array(
+                        'file_name' => 'test_2.js',
+                        'file_type' => Mage_Core_Model_Theme_Files::TYPE_JS,
+                        'content'   => 'content 2',
+                        'order'     => '3'
+                    ),
+                    array(
+                        'file_name' => 'test_3.js',
+                        'file_type' => Mage_Core_Model_Theme_Files::TYPE_JS,
+                        'content'   => 'content 3',
+                        'order'     => '2'
+                    ),
+                    array(
+                        'file_name' => 'test_not_js.js',
+                        'file_type' => Mage_Core_Model_Theme_Files::TYPE_CSS,
+                        'content'   => 'content css',
+                        'order'     => ''
+                    )
+                ),
+                'expectedData' => array(
+                    array(
+                        'file_name' => 'test_1.js',
+                        'file_type' => Mage_Core_Model_Theme_Files::TYPE_JS,
+                        'content'   => 'content 1',
+                        'order'     => '1'
+                    ),
+                    array(
+                        'file_name' => 'test_3.js',
+                        'file_type' => Mage_Core_Model_Theme_Files::TYPE_JS,
+                        'content'   => 'content 3',
+                        'order'     => '2'
+                    ),
+                    array(
+                        'file_name' => 'test_2.js',
+                        'file_type' => Mage_Core_Model_Theme_Files::TYPE_JS,
+                        'content'   => 'content 2',
+                        'order'     => '3'
+        ))));
+    }
 }

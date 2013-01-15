@@ -16,7 +16,7 @@ class Mage_Core_Model_Theme_FilesTest extends PHPUnit_Framework_TestCase
      */
     public function testCrud()
     {
-        /** @var $themeModel Mage_Core_Model_Theme_Files */
+        /** @var $filesModel Mage_Core_Model_Theme_Files */
         $filesModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Files');
         $filesData = $this->_getThemeFilesValidData();
 

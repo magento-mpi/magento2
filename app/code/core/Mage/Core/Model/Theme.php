@@ -169,7 +169,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function getCustomCssFile()
     {
-        if (!$this->_customCssFile) {
+        if (is_null($this->_customCssFile)) {
             /** @var $cssFile Mage_Core_Model_Theme_Files_Css */
             $cssFile = $this->_objectManager->get('Mage_Core_Model_Theme_Files_Css');
             $this->_customCssFile = $cssFile->getFileByTheme($this);
@@ -184,7 +184,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function getCustomJsFiles()
     {
-        if (!$this->_customJsFiles) {
+        if (is_null($this->_customJsFiles)) {
             /** @var $jsFile Mage_Core_Model_Theme_Files_Js */
             $jsFile = $this->_objectManager->get('Mage_Core_Model_Theme_Files_Js');
             $this->_customJsFiles = $jsFile->getFilesByTheme($this);
