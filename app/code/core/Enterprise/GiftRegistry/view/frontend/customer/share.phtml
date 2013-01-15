@@ -8,52 +8,32 @@
  * @license     {license_link}
  */
 ?>
-<script type="text/javascript">
-//<![CDATA[
-    i=0;
-    var recipCount = 0;
-    var maxRecip   = <?php echo $this->getRecipientsLimit() ?>;
-    function remove_recipient(i){
-        $('recipients_name'+i).up(2).remove();
-        recipCount--;
-        if(recipCount<maxRecip && maxRecip != 0) {
-            $('add_recipient_button').show();
-            $('max_recipient_message').hide();
-        }
-        return false;
-    }
-
-    function add_recipient(email, name)
-    {
-        if (typeof email == 'undefined') email = '';
-        if (typeof name == 'undefined') name = '';
-        ul = $('recipients_options');
-        var li_mail = Element.extend(document.createElement("li"));
-        li_mail.addClassName('fields');
-
-        if (i!=0) {
-            li_mail.innerHTML = '<p class="btn-remove"><a href="delete_email" onclick="remove_recipient('+i+'); return false" class="btn-remove"><img src="<?php echo $this->getViewFileUrl('images/btn_remove.gif') ?>" alt="<?php echo $this->__('Remove Email') ?>" /><\/a><\/p>'
-            li_mail.addClassName('add-row');
-        }
-        li_mail.innerHTML += '<div class="field"><label for="recipients_name'+i+'" class="required"><em>*<\/em> <?php echo $this->__('Name:') ?><\/label><div class="input-box"><input name="recipients['+i+'][name]" type="text" value="'+name+'" class="input-text required-entry" id="recipients_name'+i+'" /><\/div><\/div>';
-        li_mail.innerHTML += '<div class="field"><label for="recipients_email'+i+'" class="required"><em>*<\/em> <?php echo $this->__('Email Address:') ?><\/label><div class="input-box"><input name="recipients['+i+'][email]" value="'+email+'" title="<?php echo $this->__('Email Address') ?>" id="recipients_email'+i+'" type="text" class="input-text required-entry validate-email" /><\/div><\/div>';
-        i++;
-        recipCount++;
-        if(recipCount>=maxRecip && maxRecip != 0) {
-            $('add_recipient_button').hide();
-            $('max_recipient_message').show();
-        }
-
-        ul.appendChild(li_mail);
-    }
-//]]>
+<script id="add-recipient-tmpl" type="text/x-jQuery-tmpl">
+    <li class="fields ${addRow}">
+        <div class="field">
+            <label for="recipients-name${recipient}" class="required"><em>*</em> ${nameMessage}</label>
+            <div class="input-box">
+                <input name="recipients[${recipient}][name]" type="text" value="${name}" title="${nameMessage}" class="input-text" id="recipients-name${recipient}" data-validate="{required:true}"/>
+            </div>
+        </div>
+        <div class="field">
+            <label for="recipients-email${recipient}" class="required"><em>*</em> ${emailMessage}</label>
+            <div class="input-box">
+                <input name="recipients[${recipient}][email]" value="${email}" title="${emailMessage}" id="recipients-email${recipient}" type="text" class="input-text" data-validate="{required:true, 'validate-email':true}"/>
+            </div>
+        </div>
+    </li>
 </script>
-
+<script id="remove-recipient-tmpl" type="text/x-jQuery-tmpl">
+    <p class="btn-remove">
+        <a href="delete_email" class="btn-remove"><img src="${image}" alt="${alt}"/></a>
+    </p>
+</script>
 <div class="page-title">
     <h1><?php echo $this->getFormHeader() ?></h1>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml(); ?>
-<form action="<?php echo $this->getSendUrl() ?>" method="post" id="giftregistry_sharing_form">
+<form action="<?php echo $this->getSendUrl() ?>" method="post" id="giftregistry-sharing-form">
     <div class="fieldset">
         <?php echo $this->getBlockHtml('formkey')?>
         <h2 class="legend"><?php echo $this->__('Sender:') ?></h2>
@@ -62,33 +42,33 @@
                 <div class="field">
                     <label for="sender_name" class="required"><em>*</em><?php echo $this->__('Name:') ?></label>
                     <div class="input-box">
-                        <input name="sender_name" value="<?php if ($this->getFormData('sender_name')): ?><?php echo $this->getFormData('sender_name') ?><?php else:?><?php echo $this->getCustomerName() ?><?php endif;?>" title="<?php echo $this->__('Name') ?>" id="sender_name" type="text" class="input-text required-entry" />
+                        <input name="sender_name" value="<?php if ($this->getFormData('sender_name')): ?><?php echo $this->getFormData('sender_name') ?><?php else:?><?php echo $this->getCustomerName() ?><?php endif;?>" title="<?php echo $this->__('Name') ?>" id="sender_name" type="text" class="input-text" data-validate="{required:true}"/>
                     </div>
                 </div>
                 <div class="field">
                    <label for="sender_email" class="required"><em>*</em><?php echo $this->__('Email:') ?></label>
                     <div class="input-box">
-                       <input name="sender_email" value="<?php if ($this->getFormData('sender_email')): ?><?php echo $this->getFormData('sender_email'); ?><?php else:?><?php echo $this->getCustomerEmail() ?><?php endif;?>" id="sender_email" type="text" class="input-text required-entry validate-email" />
+                       <input name="sender_email" value="<?php if ($this->getFormData('sender_email')): ?><?php echo $this->getFormData('sender_email'); ?><?php else:?><?php echo $this->getCustomerEmail() ?><?php endif;?>" id="sender_email" type="text" class="input-text" data-validate="{required:true, 'validate-email':true}"/>
                     </div>
                 </div>
             </li>
             <li>
                 <label for="sender_message" class="required"><em>*</em><?php echo $this->__('Message:') ?></label>
                 <div class="input-box">
-                    <textarea name="sender_message" class="input-text required-entry" id="sender_message" cols="3" rows="3" style="height:100px;"><?php echo $this->getFormData('sender_message'); ?></textarea>
+                    <textarea name="sender_message" class="input-text" id="sender_message" cols="3" rows="3" style="height:100px;" data-validate="{required:true}"><?php echo $this->getFormData('sender_message'); ?></textarea>
                 </div>
             </li>
         </ul>
     </div>
     <div class="fieldset">
         <h2 class="legend"><?php echo $this->__('Recipient:') ?></h2>
-        <ul class="form-list" id="recipients_options" >
+        <ul class="form-list" id="recipients-options">
             <li class="no-display">&nbsp;</li>
         </ul>
     </div>
     <div class="buttons-set form-buttons">
         <p class="back-link">
-            <span id="max_recipient_message" style="display:none;">
+            <span id="max-recipient-message" style="display:none;">
                 <?php if ($this->getRecipientsLimit()): ?>
                     <?php echo $this->__('Maximum %d email addresses allowed.', $this->getRecipientsLimit()) ?>
                 <?php endif; ?>
@@ -96,7 +76,7 @@
         </p>
         <button type="submit" class="button"><span><span><?php echo $this->__('Share Gift Registry') ?></span></span></button>
         <?php if ($this->getRecipientsLimit()): ?>
-            <button type="button" id="add_recipient_button" onclick="add_recipient();" class="button"><span><span><?php echo $this->__('Add Recipient') ?></span></span></button>
+            <button type="button" id="add-recipient-button" class="button"><span><span><?php echo $this->__('Add Recipient') ?></span></span></button>
         <?php endif; ?>
     </div>
     <p class="required"><?php echo $this->__('* Required Fields') ?></p>
@@ -106,16 +86,26 @@
 </div>
 
 <script type="text/javascript">
-//<![CDATA[
-    var giftRegistrySharingForm = new VarienForm('giftregistry_sharing_form');
-
-    <?php if ($this->getFormData('recipients')): ?>
-        <?php foreach($this->getFormData('recipients') as $recipient): ?>
-           add_recipient('<?php echo $recipient[1] ?>','<?php echo $recipient[0] ?>');
-        <?php endforeach;?>
-    <?php else: ?>
-        add_recipient();
-    <?php endif; ?>
-//]]>
+    (function($) {
+        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
+            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
+            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
+            "<?php echo $this->getViewFileUrl('Enterprise_GiftRegistry::share.js')?>", function() {
+                $('#giftregistry-sharing-form').shareGiftRegistry({
+                    maxRecipients: '<?php echo $this->getRecipientsLimit() ?>',
+                    recipientNameMessage: '<?php echo $this->__('Name:')?>',
+                    recipientEmailMessage: '<?php echo $this->__('Email Address:') ?>',
+                    removeRecipientMessage: '<?php echo $this->__('Remove Email') ?>',
+                    removeRecipientImage: '<?php echo $this->getViewFileUrl('images/btn_remove.gif') ?>'
+                }).validation();
+<?php if ($this->getFormData('recipients')): ?>
+    <?php foreach($this->getFormData('recipients') as $recipient): ?>
+        $('#giftregistry-sharing-form').data('shareGiftRegistry').addRecipient('<?php echo $recipient[1] ?>', '<?php echo $recipient[0] ?>');
+    <?php endforeach;?>
+<?php else: ?>
+    $('#giftregistry-sharing-form').data('shareGiftRegistry').addRecipient();
+<?php endif; ?>
+            })
+    })(jQuery);
 </script>
-
