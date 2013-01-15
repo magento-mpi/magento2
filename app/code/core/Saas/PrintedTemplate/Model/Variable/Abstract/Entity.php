@@ -73,12 +73,24 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_Entity extends Saas_PrintedTe
             if ($item->getOrderItem()->getParentItemId()) {
                 continue;
             }
-            $items[] = Mage::getModel('Saas_PrintedTemplate_Model_Variable_Item_' . ucfirst($this->_type),
-                array('value' => $item)
-            );
+            $items[] = $this->_getVariableItemModel(array('value' => $item));
         }
 
         return $items;
+    }
+
+    /**
+     * Get variable item model
+     *
+     * @param mixed $arguments Arguments for model initialization
+     *
+     */
+    protected function _getVariableItemModel($arguments)
+    {
+        return Mage::getModel(
+            'Saas_PrintedTemplate_Model_Variable_Item_' . ucfirst($this->_type),
+            $arguments
+        );
     }
 
     /**
@@ -153,13 +165,26 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_Entity extends Saas_PrintedTe
                 $items[(string)$tax->getPercent()][] = $tax;
             }
         }
+
         foreach ($items as &$item) {
             $value = $this->_summarizeTax($item);
-            $item = Mage::getModel('Saas_PrintedTemplate_Model_Variable_Tax', array('value' => $value));
+            $item = $this->_getTaxVariableModel(array('value' => $value));
             $item->setOrder($value->getOrder());
         }
 
         return $items;
+    }
+
+    /**
+     * Get tax variables model
+     *
+     * @param mixed $arguments
+     *
+     * @return Saas_PrintedTemplate_Model_Variable_Tax
+     */
+    protected function _getTaxVariableModel($arguments)
+    {
+        return Mage::getModel('Saas_PrintedTemplate_Model_Variable_Tax', $arguments);
     }
 
     /**
@@ -227,9 +252,10 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_Entity extends Saas_PrintedTe
             );
         }
 
+
         // Wrap with variable
         foreach ($taxes as &$tax) {
-            $tax = Mage::getModel('Saas_PrintedTemplate_Model_Variable_Tax', array('value' => $tax))
+            $tax = $this->_getTaxVariableModel(array('value' => $tax))
                 ->setOrder($this->_value->getOrder());
         }
 
@@ -251,12 +277,11 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_Entity extends Saas_PrintedTe
                 $summary->setBaseTotalAmount($summary->getBaseTotalAmount() + $tax->getBaseTotalAmount());
                 $summary->setTaxAmount($summary->getTaxAmount() + $tax->getTaxAmount());
                 $summary->setBaseTaxAmount($summary->getBaseTaxAmount() + $tax->getBaseTaxAmount());
-                $summary->percent = $tax->getPercent();
-                $summary->order_id = $tax->getOrderId();
-                $summary->order = $tax->getOrder();
+                $summary->setPercent($tax->getPercent());
+                $summary->setOrderId($tax->getOrderId());
+                $summary->setOrder($tax->getOrder());
             }
         }
-
         return $summary;
     }
 

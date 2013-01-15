@@ -51,22 +51,14 @@ class Saas_PrintedTemplate_Model_Variable_Item_Shipment extends Saas_PrintedTemp
         foreach ($items as $item) {
             $parentItem = $item->getOrderItem()->getParentItem();
             if ($parentItem && $parentItem->getId() == $parentItemId) {
-                $children[$item->getOrderItemId()] =
-                    Mage::getModel('Saas_PrintedTemplate_Model_Variable_' . uc_words($this->_itemType),
-                        array('value' => $item)
-                    );
+                $children[$item->getOrderItemId()] = $this->_getVariableModel(array('value' => $item));
             } else if (!$parentItem && $item->getOrderItem()->getId() == $parentItemId) {
-                $children[$item->getOrderItemId()] =
-                    Mage::getModel('Saas_PrintedTemplate_Model_Variable_' . uc_words($this->_itemType),
-                        array('value' => $item)
-                    );
+                $children[$item->getOrderItemId()] = $this->_getVariableModel(array('value' => $item));
                 if ($item->getOrderItem()->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
                     foreach ($item->getOrderItem()->getChildrenItems() as $orderItem) {
                         $orderItem->setOrderItem($orderItem);
                         $children[$orderItem->getId()] =
-                            Mage::getModel('Saas_PrintedTemplate_Model_Variable_' . uc_words($this->_itemType),
-                                array('value' => $orderItem)
-                            );
+                            $this->_getVariableModel(array('value' => $orderItem));
                     }
                 }
             }

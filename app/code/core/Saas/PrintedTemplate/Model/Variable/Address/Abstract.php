@@ -37,11 +37,19 @@ abstract class Saas_PrintedTemplate_Model_Variable_Address_Abstract
     {
         if (!$this->_countryName) {
             $id = $this->_value->getCountryId();
-            $country = Mage::getModel('Mage_Directory_Model_Country')->load($id);
+            $country = $this->_getCountryModel()->load($id);
             $this->_countryName = ($country->getId()) ? $country->getName() : $id;
         }
 
         return $this->_countryName;
+    }
+
+    /**
+     * Get Country
+     */
+    protected function _getCountryModel()
+    {
+        return Mage::getModel('Mage_Directory_Model_Country');
     }
 
     /**
