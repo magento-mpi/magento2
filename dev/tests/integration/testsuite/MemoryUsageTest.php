@@ -14,35 +14,58 @@ class MemoryUsageTest extends PHPUnit_Framework_TestCase
     /**
      * Number of application reinitialization iterations to be conducted by tests
      */
-    const ISOLATION_ITERATION_COUNT = 20;
+    const APP_REINITIALIZATION_LOOPS = 20;
 
     /**
      * Test that application reinitialization produces no memory leaks
      */
-    public function testIsolationMemoryLeak()
+    public function testAppReinitializationNoMemoryLeak()
     {
         $this->_deallocateUnusedMemory();
         $actualMemoryUsage = $this->_getRealMemoryUsage();
-        for ($i = 0; $i < self::ISOLATION_ITERATION_COUNT; $i++) {
+        for ($i = 0; $i < self::APP_REINITIALIZATION_LOOPS; $i++) {
             Magento_Test_Bootstrap::getInstance()->reinitialize();
             $this->_deallocateUnusedMemory();
         }
         $actualMemoryUsage = $this->_getRealMemoryUsage() - $actualMemoryUsage;
-        if ($actualMemoryUsage > 0) {
-            $this->fail(sprintf(
-                "Application isolation causes the memory leak of %u bytes per %u iterations.",
-                $actualMemoryUsage,
-                self::ISOLATION_ITERATION_COUNT
-            ));
-        }
+        $this->assertLessThanOrEqual($this->_getAllowedMemoryUsage(), $actualMemoryUsage, sprintf(
+            "Application reinitialization causes the memory leak of %u bytes per %u iterations.",
+            $actualMemoryUsage,
+            self::APP_REINITIALIZATION_LOOPS
+        ));
     }
 
     /**
-     * Force to immediately deallocate currently unused memory
+     * Force to deallocate no longer used memory
      */
     protected function _deallocateUnusedMemory()
     {
         gc_collect_cycles();
+    }
+
+    /**
+     * Retrieve the allowed memory usage in bytes, depending on the environment
+     *
+     * @return int
+     */
+    protected function _getAllowedMemoryUsage()
+    {
+        // Memory usage limits should not be further increased, corresponding memory leaks have to be fixed instead!
+        if ($this->_isWindowsOs()) {
+            return $this->_convertToBytes('1M');
+        }
+        return 0;
+    }
+
+    /**
+     * Whether the operating system belongs to the Windows family
+     *
+     * @link http://php.net/manual/en/function.php-uname.php
+     * @return bool
+     */
+    protected function _isWindowsOs()
+    {
+        return (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
     }
 
     /**
@@ -57,12 +80,10 @@ class MemoryUsageTest extends PHPUnit_Framework_TestCase
     {
         $pid = getmypid();
         $shell = new Magento_Shell();
-        try {
-            // attempt to use the Unix command line interface
-            $result = $this->_getUnixProcessMemoryUsage($shell, $pid);
-        } catch (Magento_Exception $e) {
-            // fall back to the Windows command line
+        if ($this->_isWindowsOs()) {
             $result = $this->_getWinProcessMemoryUsage($shell, $pid);
+        } else {
+            $result = $this->_getUnixProcessMemoryUsage($shell, $pid);
         }
         return $result;
     }
