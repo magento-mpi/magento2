@@ -37,16 +37,13 @@ class Mage_Core_Model_Config_Loader_Modules_File
 
     /**
      * @param Mage_Core_Model_Dir $dirs
-     * @param Mage_Core_Model_Config_Modules $modulesConfig
      * @param Mage_Core_Model_Config_BaseFactory $prototypeFactory
      */
     public function __construct(
         Mage_Core_Model_Dir $dirs,
-        Mage_Core_Model_Config_Modules $modulesConfig,
         Mage_Core_Model_Config_BaseFactory $prototypeFactory
     ) {
         $this->_dirs = $dirs;
-        $this->_config = $modulesConfig;
         $this->_prototypeFactory = $prototypeFactory;
     }
 
@@ -140,7 +137,7 @@ class Mage_Core_Model_Config_Loader_Modules_File
             return $this->_moduleDirs[$moduleName][$type];
         }
 
-        $codePool = (string)$modulesConfig->getNode('modules/' . $moduleName . 'codePool');
+        $codePool = (string)$modulesConfig->getNode('modules/' . $moduleName . '/codePool');
 
         $dir = $this->_dirs->getDir(Mage_Core_Model_Dir::MODULES) . DIRECTORY_SEPARATOR
             . $codePool . DIRECTORY_SEPARATOR

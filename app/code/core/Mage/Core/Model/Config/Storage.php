@@ -54,13 +54,14 @@ class Mage_Core_Model_Config_Storage implements Mage_Core_Model_Config_StorageIn
         if (!$config) {
             $config = new Mage_Core_Model_Config_Base('<config/>');
             $this->_loader->load($config);
+            $config = $config->getNode()->asNiceXml(0, '');
             if ($useCache) {
                 $this->_cache->save(
-                    $config->getNode()->asNiceXml(0, ''), $this->_cacheId, array(Mage_Core_Model_Config::CACHE_TAG)
+                    $config, $this->_cacheId, array(Mage_Core_Model_Config::CACHE_TAG)
                 );
             }
         }
-        return $config->getNode()->asNiceXml(0, '');
+        return $config;
     }
 
     /**
