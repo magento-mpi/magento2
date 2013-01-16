@@ -58,7 +58,7 @@ class Mage_DesignEditor_Model_Change_Layout_Remove extends Mage_DesignEditor_Mod
      * @param Varien_Simplexml_Element $layoutUpdate
      * @return array
      */
-    public function _getAttributes(Varien_Simplexml_Element $layoutUpdate)
+    protected function _getAttributes(Varien_Simplexml_Element $layoutUpdate)
     {
         $attributes = array();
         if ($layoutUpdate->getAttribute('name') !== null) {

@@ -78,7 +78,7 @@ class Mage_DesignEditor_Model_Change_Layout_Move extends Mage_DesignEditor_Model
      * @param Varien_Simplexml_Element $layoutUpdate
      * @return array
      */
-    public function _getAttributes(Varien_Simplexml_Element $layoutUpdate)
+    protected function _getAttributes(Varien_Simplexml_Element $layoutUpdate)
     {
         $attributes = array();
         if ($layoutUpdate->getAttribute('element') !== null) {

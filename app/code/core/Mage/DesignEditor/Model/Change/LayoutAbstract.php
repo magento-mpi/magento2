@@ -70,7 +70,7 @@ abstract class Mage_DesignEditor_Model_Change_LayoutAbstract extends Mage_Design
      * @param Varien_Simplexml_Element $layoutUpdate
      * @return array
      */
-    public function _getAttributes(Varien_Simplexml_Element $layoutUpdate)
+    protected function _getAttributes(Varien_Simplexml_Element $layoutUpdate)
     {
         $attributes = array();
         $attributes['type']        = $layoutUpdate->getAttribute('type') ?: 'layout';
