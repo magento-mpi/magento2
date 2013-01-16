@@ -7,15 +7,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- ?>
-<?php /** @var $this Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group_Grid */
-echo $this->getChildHtml()
 ?>
+<div id="grouped-products-container">
+    <?php /** @var $this Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group_Grid */
+    echo $this->getChildHtml(); ?>
+</div>
 <a id="grouped-add-products">Add Products to Group</a>
 <script type="text/javascript">
     jQuery(function ($) {
+        var $gridDialog = $('#grouped-products-container').dialog({
+            title:'Select Associated Product',
+            autoOpen:false,
+            minWidth:980,
+            modal:true,
+            resizable:true
+        });
         $('#grouped-add-products').on('click', function () {
-            console.log('click');
+            $gridDialog.dialog('open')
         });
     });
 </script>
