@@ -120,12 +120,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
             array(
                 'id' => 'generate-variations-button',
                 'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Generate Variations'),
-                'data_attr' => array(
-                    'widget-button' => array(
-                        'event' => 'generate',
-                        'related' => '#product-variations-matrix',
-                        'eventData' => array(
-                            'url' => $this->getUrl('*/*/variationsMatrix', array('_current' => true)),
+                'data_attribute' => array(
+                    'mage-init' => array(
+                        'button' => array(
+                            'event' => 'generate',
+                            'target' => '#product-variations-matrix',
+                            'eventData' => array(
+                                'url' => $this->getUrl('*/*/variationsMatrix', array('_current' => true)),
+                            ),
                         ),
                     ),
                 ),

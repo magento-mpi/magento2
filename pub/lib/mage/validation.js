@@ -885,8 +885,7 @@
             onclick: false,
             ignoreTitle: true,
             errorClass: 'mage-error',
-            errorElement: 'div',
-            debug: true
+            errorElement: 'div'
         },
         /**
          * Validation creation

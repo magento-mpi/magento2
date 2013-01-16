@@ -105,12 +105,12 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      *
      * @param array $productData
      */
-    public function frontVerifyProductInfo(array $productData)
+    public function verifyFrontendProductInfo(array $productData)
     {
         $this->frontOpenProduct($productData['general_name']);
-        $actualProduct = $this->frontGetProductInfo($productData);
+        $actualProduct = $this->getFrontendProductData($productData);
         if (!empty($actualProduct['custom_options_data'])) {
-            $this->frontVerifyCustomOptionsInfo($actualProduct['custom_options_data'], $productData);
+            $this->verifyFrontendCustomOptions($actualProduct['custom_options_data'], $productData);
         }
         if (!empty($actualProduct['prices_tier_price_data'])) {
             foreach ($actualProduct['prices_tier_price_data'] as $tierPrice => $data) {
@@ -143,10 +143,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      *
      * @return array
      */
-    public function frontGetProductInfo()
+    public function getFrontendProductData()
     {
-        $data = $this->frontGetProductPrices();
-        $data['prices_tier_price_data'] = $this->frontGetProductTierPrices();
+        $data = $this->getFrontendProductPrices();
+        $data['prices_tier_price_data'] = $this->getFrontendProductTierPrices();
         $data['general_name'] = $this->getControlAttribute('pageelement', 'product_name', 'text');
         $data['general_description'] = $this->getControlAttribute('pageelement', 'description', 'text');
         $data['general_short_description'] = $this->getControlAttribute('pageelement', 'short_description', 'text');
@@ -155,7 +155,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         $availability = $this->getControlAttribute('pageelement', 'availability', 'text');
         $data['inventory_stock_availability'] = str_replace('stock', 'Stock', $availability);
-        $data['custom_options_data'] = $this->frontGetCustomOptionsInfo();
+        $data['custom_options_data'] = $this->getFrontendCustomOptionsInfo();
 
         return $data;
     }
@@ -164,7 +164,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      * Get product tier prices on product page
      * @return array
      */
-    public function frontGetProductTierPrices()
+    public function getFrontendProductTierPrices()
     {
         $tierPrices = $this->getControlElements('pageelement', 'tier_price_line', null, false);
         $data = array();
@@ -172,7 +172,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         /** @var PHPUnit_Extensions_Selenium2TestCase_Element $tierPrice */
         foreach ($tierPrices as $tierPrice) {
             $price = $this->getChildElement($tierPrice, 'span[@class="price"]')->text();
-            $price = preg_replace('/^[\D]+/', '', rtrim(rtrim($price, '0'), '.'));
+            $price = preg_replace('/^[\D]+/', '', preg_replace('/\.0*$/', '', $price));
             $text = $tierPrice->text();
             list($qty) = explode($price, $text);
             $qty = preg_replace('/[^0-9]+/', '', $qty);
@@ -188,7 +188,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      * @TODO Verified only for simple and virtual product
      * @return array
      */
-    public function frontGetProductPrices()
+    public function getFrontendProductPrices()
     {
         $priceData = $this->getControlAttribute('fieldset', 'product_prices', 'text');
         if (!preg_match('/' . preg_quote("\n") . '/', $priceData)) {
@@ -197,7 +197,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $priceData = explode("\n", $priceData);
         $additionalName = array();
         foreach ($priceData as $key => $price) {
-            if (!preg_match('/([\d]+\.[\d]+)|([\d]+)$/', $price)) {
+            if (!preg_match('/(\d+\.\d+)|(\d+)$/', $price)) {
                 $name = trim(str_replace(' ', '_', strtolower($price)), '_:');
                 $additionalName[$key + 1] = $name;
                 $additionalName[$key + 2] = $name;
@@ -220,7 +220,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $prices[$name] = trim(preg_replace('/[^0-9\.]+/', '', $price));
         }
         foreach ($prices as $key => $value) {
-            $prices['prices_' . $key] = rtrim(rtrim($value, '0'), '.');
+            $prices['prices_' . $key] = preg_replace('/\.0*$/', '', $value);
             unset($prices[$key]);
         }
 
@@ -233,7 +233,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      * @param array $actualCustomOptions
      * @param array $product
      */
-    public function frontVerifyCustomOptionsInfo($actualCustomOptions, array $product)
+    public function verifyFrontendCustomOptions($actualCustomOptions, array $product)
     {
         $expectedOptions = $product['custom_options_data'];
         if (count($actualCustomOptions) != count($expectedOptions)) {
@@ -242,11 +242,11 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 . count($actualCustomOptions) . "')");
         }
         foreach ($actualCustomOptions as $name => $data) {
-            $expectedOptions[$name] = $this->_frontFormCustomOptionDataForVerify($expectedOptions[$name], $product);
+            $expectedOptions[$name] = $this->_prepareFrontendCustomOptionsForVerify($expectedOptions[$name], $product);
             foreach ($expectedOptions[$name] as $fieldName => $fieldValue) {
                 if (strpos($fieldName, 'custom_option_row_') !== false) {
                     $expectedOptions[$name][$fieldName] =
-                        $this->_frontFormCustomOptionDataForVerify($expectedOptions[$name][$fieldName], $product);
+                        $this->_prepareFrontendCustomOptionsForVerify($expectedOptions[$name][$fieldName], $product);
                 }
             }
         }
@@ -261,7 +261,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      *
      * @return array
      */
-    private function _frontFormCustomOptionDataForVerify(array $expectedOption, array $productPrices)
+    private function _prepareFrontendCustomOptionsForVerify(array $expectedOption, array $productPrices)
     {
         $data = array();
         foreach ($expectedOption as $fieldName => $fieldValue) {
@@ -294,7 +294,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      *
      * @return array
      */
-    public function frontGetCustomOptionsInfo()
+    public function getFrontendCustomOptionsInfo()
     {
         $fieldNames = array('title'                             => 'custom_options_general_title',
                             'price'                             => 'custom_options_price',
@@ -325,9 +325,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             //Define option type
             $optionType = '';
             $elementBody = $this->getChildElement($option, '//following-sibling::dd[1]');
-            $elementInput = $this->childElementIsPresent($elementBody, "//input[not(@type='hidden')]");
-            $elementTextarea = $this->childElementIsPresent($elementBody, '//textarea');
-            $elementSelect = $this->childElementIsPresent($elementBody, '//select');
+            $elementInput = $this->getPresentChildElement($elementBody, "//input[not(@type='hidden')]");
+            $elementTextarea = $this->getPresentChildElement($elementBody, '//textarea');
+            $elementSelect = $this->getPresentChildElement($elementBody, '//select');
             if ($elementInput) {
                 $optionType = $fieldTypes[$elementInput->attribute('type')];
             }
@@ -335,7 +335,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 $optionType = $fieldTypes[$elementTextarea->attribute('type')];
             }
             if ($elementSelect) {
-                $selectElementCount = $this->getChildElementsCount($elementBody, '//select');
+                $selectElementCount = count($this->getChildElements($elementBody, '//select', false));
                 if ($selectElementCount == 1) {
                     $optionType =
                         ($elementSelect->attribute('multiple')) ? $fieldTypes['multiple'] : $fieldTypes['select'];
@@ -402,16 +402,16 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     private function _parseCustomOptionTitleAndPrice($textWithTitleAndPrice, $skipCurrency = true)
     {
         $price = '';
-        if (preg_match('/([\d]+\.[\d]+)|([\d]+)/', $textWithTitleAndPrice)) {
-            $delimiter = (preg_match('/(-[\D]+)(([\d]+\.[\d]+)|([\d]+))/', $textWithTitleAndPrice)) ? '-' : '+';
+        if (preg_match('/(\d+\.\d+)|(\d+)/', $textWithTitleAndPrice)) {
+            $delimiter = (preg_match('/(-\D+)((\d+\.\d+)|(\d+))/', $textWithTitleAndPrice)) ? '-' : '+';
             list(, $price) = explode($delimiter, $textWithTitleAndPrice);
         }
         $title = trim(str_replace($price, '', $textWithTitleAndPrice), ' *+-');
         if ($skipCurrency) {
-            $price = preg_replace('/^[\D]+/', '', $price);
+            $price = preg_replace('/^\D+/', '', $price);
         }
 
-        return array($title, rtrim(rtrim($price, '0'), '.'));
+        return array($title, preg_replace('/\.0*$/', '', $price));
     }
 
     #**************************************************************************************
@@ -466,19 +466,19 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Open product.
      *
-     * @param array $productSearch
+     * @param array $searchData
      */
-    public function openProduct(array $productSearch)
+    public function openProduct(array $searchData)
     {
         //Search product
-        $productSearch = $this->_prepareDataForSearch($productSearch);
-        $productLocator = $this->search($productSearch, 'product_grid');
+        $searchData = $this->_prepareDataForSearch($searchData);
+        $productLocator = $this->search($searchData, 'product_grid');
         $this->assertNotNull($productLocator, 'Product is not found');
-        $productLineElement = $this->getElement($productLocator);
-        $productUrl = $productLineElement->attribute('title');
+        $productRowElement = $this->getElement($productLocator);
+        $productUrl = $productRowElement->attribute('title');
         //Define and add parameters for new page
         $cellId = $this->getColumnIdByName('Name');
-        $cellElement = $this->getChildElement($productLineElement, 'td[' . $cellId . ']');
+        $cellElement = $this->getChildElement($productRowElement, 'td[' . $cellId . ']');
         $this->addParameter('elementTitle', trim($cellElement->text()));
         $this->addParameter('id', $this->defineIdFromUrl($productUrl));
         //Open product
@@ -516,7 +516,31 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         $this->fillProductInfo($productData);
         if ($isSave) {
-            $this->saveForm('save');
+            $this->saveProduct();
+        }
+    }
+
+    /**
+     * Save product using split button
+     *
+     * @param string $additionalAction continueEdit|new|duplicate|close
+     * @param bool $validate
+     */
+    public function saveProduct($additionalAction = 'close', $validate = true)
+    {
+        if ($this->controlIsVisible('button', 'save_disabled')) {
+            $this->fail('Save button is disabled');
+        }
+        if ($additionalAction != 'continueEdit') {
+            $this->addParameter('additionalAction', $additionalAction);
+            $this->clickButton('save_split_select', false);
+            if ($validate) {
+                $this->saveForm('save_product_by_action');
+            } else {
+                $this->clickButton('save_product_by_action', false);
+            }
+        } else {
+            $this->saveAndContinueEdit('button', 'save_and_continue_edit');
         }
     }
 
@@ -606,6 +630,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->addParameter('setId', $param);
         $this->clickButton('apply');
         $this->addParameter('attributeSet', $newAttributeSet);
+        $this->waitForNewPage();
         $this->waitForElement($this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'product_attribute_set'));
     }
 
@@ -718,7 +743,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             case 'cross_sells':
             case 'associated':
                 $this->openTab($tabName);
-                foreach ($tabData as $value) {
+                foreach (array_pop($tabData) as $value) {
                     $this->isAssignedProduct($value, $tabName);
                 }
                 break;
@@ -726,7 +751,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 $this->verifyCustomOptions($tabData['custom_options_data']);
                 break;
             case 'bundle_items':
-                $this->verifyBundleItemsTab($tabData);
+                $this->verifyBundleItemsTab($tabData['bundle_items_data']);
                 break;
             case 'downloadable_information':
                 $this->verifyDownloadableInformationTab($tabData);
@@ -820,7 +845,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $this->addParameter('categoryPath', $categoryPath);
             $element->value($categoryName);
             $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'category_search_result');
-            if ($this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'category_search')) {
+            $searchResult = $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'category_search_result', 'text');
+            if ($searchResult != 'No search results.') {
+                $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'category_search');
                 $selectCategory = $this->elementIsPresent($this->_getControlXpath(self::FIELD_TYPE_LINK, 'category'));
                 if ($selectCategory) {
                     $this->moveto($selectCategory);
@@ -864,7 +891,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         //Fill and verify parent category field
         $this->getElement($parentLocator)->value($parentName);
-        $this->waitForControlEditable(self::UIMAP_TYPE_FIELDSET, 'category_search');
+        $this->waitForElement($parentLocator);
+        $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'parent_category_search_result');
         $this->addParameter('categoryPath', $parentPath);
         $elements = $this->getControlElements(self::FIELD_TYPE_LINK, 'category',
             $this->getUimapPage('admin', 'new_product')->findTab('general'));
@@ -1264,7 +1292,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $cellElements = $this->getChildElements($rowElement, 'td');
             foreach ($cellElements as $key => $tdElement) {
                 $cellName = trim($cellNames[$key], ' *');
-                $inputElement = $this->childElementIsPresent($tdElement, 'input[not(@type="hidden")]');
+                $inputElement = $this->getPresentChildElement($tdElement, 'input[not(@type="hidden")]');
                 if (!$inputElement) {
                     $lineData[$cellName] = trim(str_replace('Choose', '', $tdElement->text()));
                 } elseif ($cellName == 'Include') {
@@ -1565,7 +1593,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         if (!$this->controlIsPresent(self::UIMAP_TYPE_MESSAGE, 'specific_table_no_records_found')) {
             $this->fillCheckbox($type . '_select_all', 'No');
             if ($saveChanges) {
-                $this->saveAndContinueEdit('button', 'save_and_continue_edit');
+                $this->saveProduct('continueEdit');
                 $this->assertTrue($this->controlIsPresent(self::UIMAP_TYPE_MESSAGE, 'specific_table_no_records_found'),
                     'There are products assigned to "' . $type . '" tab');
             }
@@ -1662,7 +1690,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $optionElements = $this->getControlElements(self::UIMAP_TYPE_FIELDSET, 'custom_option_set', null, false);
         /** @var $optionElement PHPUnit_Extensions_Selenium2TestCase_Element */
         foreach ($optionElements as $optionElement) {
-            $optionTitle = $this->childElementIsPresent($optionElement, "//input[@value='{$optionTitle}']");
+            $optionTitle = $this->getPresentChildElement($optionElement, "//input[@value='{$optionTitle}']");
             if ($optionTitle) {
                 $elementId = $optionTitle->attribute('id');
                 foreach (explode('_', $elementId) as $value) {
@@ -1991,21 +2019,28 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         //Create product
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $attrCode = $attrData['attribute_code'];
-        //@TODO when fixed MAGETWO-6343
-        //$configurableOptions = array($attrData['option_1']['store_view_titles']['Default Store View'],
-        //                             $attrData['option_2']['store_view_titles']['Default Store View'],
-        //                             $attrData['option_3']['store_view_titles']['Default Store View']);
-        $configurableOptions =
-            array($attrData['option_1']['admin_option_name'], $attrData['option_2']['admin_option_name'],
-                  $attrData['option_3']['admin_option_name']);
+        $storeViewOptionsNames = array(
+            $attrData['option_1']['store_view_titles']['Default Store View'],
+            $attrData['option_2']['store_view_titles']['Default Store View'],
+            $attrData['option_3']['store_view_titles']['Default Store View']
+        );
+        $adminOptionsNames = array(
+            $attrData['option_1']['admin_option_name'],
+            $attrData['option_2']['admin_option_name'],
+            $attrData['option_3']['admin_option_name']
+        );
         $download = $this->loadDataSet('SalesOrder', 'downloadable_product_for_order',
             array('downloadable_links_purchased_separately' => 'No', 'general_categories' => $returnCategory['path']));
-        $download['general_user_attr']['dropdown'][$attrCode] = $attrData['option_3']['admin_option_name'];
+        $download['general_user_attr']['dropdown'][$attrCode] = $adminOptionsNames[2];
         $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order',
             array('general_categories' => $returnCategory['path']),
-            array('general_attribute_1' => $attrData['admin_title'], 'associated_3' => $download['general_sku'],
-                  'var1_attr_value1'    => $configurableOptions[0], 'var1_attr_value2' => $configurableOptions[1],
-                  'var1_attr_value3'    => $configurableOptions[2]));
+            array(
+                 'general_attribute_1' => $attrData['admin_title'],
+                 'associated_3'        => $download['general_sku'],
+                 'var1_attr_value1'    => $adminOptionsNames[0],
+                 'var1_attr_value2'    => $adminOptionsNames[1],
+                 'var1_attr_value3'    => $adminOptionsNames[2]
+            ));
         $associatedPr = $configurable['general_configurable_variations'];
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
@@ -2021,25 +2056,46 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->createProduct($configurable, 'configurable');
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return array('downloadableOption' => array('option'       => $attrData['option_3']['admin_option_name'],
-                                                   'option_front' => $configurableOptions[2]),
-                     'configurableOption' => array('title'                  => $attrData['admin_title'],
-                                                   'custom_option_dropdown' => $configurableOptions[0]),
-                     'simple' => array('product_name' => $associatedPr['configurable_1']['associated_product_name'],
-                                       'product_sku'  => $associatedPr['configurable_1']['associated_sku']),
-                     'virtual' => array('product_name' => $associatedPr['configurable_2']['associated_product_name'],
-                                        'product_sku'  => $associatedPr['configurable_2']['associated_sku']),
-                     'downloadable' => array('product_name' => $download['general_name'],
-                                             'product_sku'  => $download['general_sku']),
-                     'configurable' => array('product_name' => $configurable['general_name'],
-                                             'product_sku'  => $configurable['general_sku']),
-                     'simpleOption' => array('option'       => $attrData['option_1']['admin_option_name'],
-                                             'option_front' => $configurableOptions[0]),
-                     'virtualOption' => array('option'       => $attrData['option_2']['admin_option_name'],
-                                              'option_front' => $configurableOptions[1]),
-                     'attribute' => array('title'       => $attrData['admin_title'],
-                                          'title_front' => $attrData['store_view_titles']['Default Store View'],
-                                          'code'        => $attrCode), 'category' => $returnCategory);
+        return array(
+            'simple'             => array(
+                'product_name' => $associatedPr['configurable_1']['associated_product_name'],
+                'product_sku'  => $associatedPr['configurable_1']['associated_sku']
+            ),
+            'downloadable'       => array(
+                'product_name' => $download['general_name'],
+                'product_sku'  => $download['general_sku']
+            ),
+            'virtual'            => array(
+                'product_name' => $associatedPr['configurable_2']['associated_product_name'],
+                'product_sku'  => $associatedPr['configurable_2']['associated_sku']
+            ),
+            'configurable'       => array(
+                'product_name' => $configurable['general_name'],
+                'product_sku'  => $configurable['general_sku']
+            ),
+            'simpleOption'       => array(
+                'option'       => $adminOptionsNames[0],
+                'option_front' => $storeViewOptionsNames[0]
+            ),
+            'virtualOption'      => array(
+                'option'       => $adminOptionsNames[1],
+                'option_front' => $storeViewOptionsNames[1]
+            ),
+            'downloadableOption' => array(
+                'option'       => $adminOptionsNames[2],
+                'option_front' => $storeViewOptionsNames[2]
+            ),
+            'configurableOption' => array(
+                'title'                  => $attrData['admin_title'],
+                'custom_option_dropdown' => $storeViewOptionsNames[0]
+            ),
+            'attribute'          => array(
+                'title'       => $attrData['admin_title'],
+                'title_front' => $attrData['store_view_titles']['Default Store View'],
+                'code'        => $attrCode
+            ),
+            'category'           => $returnCategory
+        );
     }
 
     /**
@@ -2070,8 +2126,11 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $download = $this->loadDataSet('SalesOrder', 'downloadable_product_for_order',
             array('downloadable_links_purchased_separately' => 'No', 'general_categories' => $returnCategory['path']));
         $grouped = $this->loadDataSet('SalesOrder', 'grouped_product_for_order', $productCat,
-            array('associated_1' => $simple['general_sku'], 'associated_2' => $virtual['general_sku'],
-                  'associated_3' => $download['general_sku']));
+            array(
+                 'associated_1' => $simple['general_sku'],
+                 'associated_2' => $virtual['general_sku'],
+                 'associated_3' => $download['general_sku']
+            ));
         $this->navigate('manage_products');
         $this->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -2082,17 +2141,29 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->createProduct($grouped, 'grouped');
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return array('simple' => array('product_name' => $simple['general_name'],
-                                       'product_sku'  => $simple['general_sku']),
-                     'downloadable' => array('product_name' => $download['general_name'],
-                                             'product_sku'  => $download['general_sku']),
-                     'virtual' => array('product_name' => $virtual['general_name'],
-                                        'product_sku'  => $virtual['general_sku']),
-                     'grouped' => array('product_name' => $grouped['general_name'],
-                                        'product_sku'  => $grouped['general_sku']), 'category' => $returnCategory,
-                     'groupedOption' => array('subProduct_1' => $simple['general_name'],
-                                              'subProduct_2' => $virtual['general_name'],
-                                              'subProduct_3' => $download['general_name']));
+        return array(
+            'simple'        => array(
+                'product_name' => $simple['general_name'],
+                'product_sku'  => $simple['general_sku']
+            ),
+            'downloadable'  => array(
+                'product_name' => $download['general_name'],
+                'product_sku'  => $download['general_sku']
+            ),
+            'virtual'       => array(
+                'product_name' => $virtual['general_name'],
+                'product_sku'  => $virtual['general_sku']
+            ),
+            'grouped'       => array(
+                'product_name' => $grouped['general_name'],
+                'product_sku'  => $grouped['general_sku']
+            ), 'category'   => $returnCategory,
+            'groupedOption' => array(
+                'subProduct_1' => $simple['general_name'],
+                'subProduct_2' => $virtual['general_name'],
+                'subProduct_3' => $download['general_name']
+            )
+        );
     }
 
     /**
@@ -2121,8 +2192,13 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $simple = $this->loadDataSet('Product', 'simple_product_visible', $productCat);
         $virtual = $this->loadDataSet('Product', 'virtual_product_visible', $productCat);
         $bundle = $this->loadDataSet('SalesOrder', 'fixed_bundle_for_order', $productCat,
-            array('add_product_1' => $simple['general_sku'], 'price_product_1' => 0.99, 'price_product_2' => 1.24,
-                  'add_product_2' => $virtual['general_sku']));
+            array(
+                 'add_product_1'   => $simple['general_sku'],
+                 'price_product_1' => 0.99,
+                 'add_product_2'   => $virtual['general_sku'],
+                 'price_product_2' => 1.24
+
+            ));
         $this->navigate('manage_products');
         $this->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -2131,16 +2207,27 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->createProduct($bundle, 'bundle');
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return array('simple' => array('product_name' => $simple['general_name'],
-                                       'product_sku'  => $simple['general_sku']),
-                     'virtual' => array('product_name' => $virtual['general_name'],
-                                        'product_sku'  => $virtual['general_sku']),
-                     'bundle' => array('product_name' => $bundle['general_name'],
-                                       'product_sku'  => $bundle['general_sku']), 'category' => $returnCategory,
-                     'bundleOption' => array('subProduct_1' => $simple['general_name'],
-                                             'subProduct_2' => $virtual['general_name'],
-                                             'subProduct_3' => $simple['general_name'],
-                                             'subProduct_4' => $virtual['general_name']));
+        return array(
+            'simple'       => array(
+                'product_name' => $simple['general_name'],
+                'product_sku'  => $simple['general_sku']
+            ),
+            'virtual'      => array(
+                'product_name' => $virtual['general_name'],
+                'product_sku'  => $virtual['general_sku']
+            ),
+            'bundle'       => array(
+                'product_name' => $bundle['general_name'],
+                'product_sku'  => $bundle['general_sku']
+            ),
+            'category'     => $returnCategory,
+            'bundleOption' => array(
+                'subProduct_1' => $simple['general_name'],
+                'subProduct_2' => $virtual['general_name'],
+                'subProduct_3' => $simple['general_name'],
+                'subProduct_4' => $virtual['general_name']
+            )
+        );
     }
 
     /**
@@ -2173,10 +2260,14 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->createProduct($downloadable, 'downloadable');
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return array('downloadable' => array('product_name' => $downloadable['general_name'],
-                                             'product_sku'  => $downloadable['general_sku']),
-                     'downloadableOption' => array('title' => $linksTitle, 'optionTitle' => $link),
-                     'category' => $returnCategory);
+        return array(
+            'downloadable'       => array(
+                'product_name' => $downloadable['general_name'],
+                'product_sku'  => $downloadable['general_sku']
+            ),
+            'downloadableOption' => array('title' => $linksTitle, 'optionTitle' => $link),
+            'category'           => $returnCategory
+        );
     }
 
     /**
@@ -2207,8 +2298,13 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return array('simple' => array('product_name' => $simple['general_name'],
-                                       'product_sku'  => $simple['general_sku']), 'category' => $returnCategory);
+        return array(
+            'simple'   => array(
+                'product_name' => $simple['general_name'],
+                'product_sku'  => $simple['general_sku']
+            ),
+            'category' => $returnCategory
+        );
     }
 
     /**
@@ -2239,7 +2335,12 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->createProduct($virtual, 'virtual');
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return array('virtual' => array('product_name' => $virtual['general_name'],
-                                        'product_sku'  => $virtual['general_sku']), 'category' => $returnCategory);
+        return array(
+            'virtual'  => array(
+                'product_name' => $virtual['general_name'],
+                'product_sku'  => $virtual['general_sku']
+            ),
+            'category' => $returnCategory
+        );
     }
 }

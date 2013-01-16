@@ -2546,6 +2546,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * Wait for control is present
+     *
      * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
      * @param string $controlName Name of a control from UIMap
      * @param int|null $timeout
@@ -2634,6 +2636,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * Wait for control is visible
+     *
      * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
      * @param string $controlName Name of a control from UIMap
      * @param int|null $timeout
@@ -2686,6 +2690,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * Wait for control is editable
+     *
      * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
      * @param string $controlName Name of a control from UIMap
      * @param int|null $timeout
@@ -2932,8 +2938,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @return string
      */
-    public function formSearchXpath(array $data, $trLocator = "//table[@class='data']/tbody/tr")
+    public function formSearchXpath(array $data, $trLocator = null)
     {
+        if (is_null($trLocator)) {
+            $trLocator = $this->_getControlXpath('pageelement', 'default_table_row');
+        }
         foreach ($data as $key => $value) {
             if (!preg_match('/_from/', $key) && !preg_match('/_to/', $key) && !is_array($value)) {
                 if (strpos($value, "'")) {
@@ -3842,6 +3851,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     #                                                                              #
     ################################################################################
     /**
+     * Get Locator Strategy
+     *
      * @param $locator
      *
      * @return string
@@ -3869,6 +3880,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * Get elements
+     *
      * @param string $locator
      * @param bool $failIfEmpty
      *
@@ -3886,6 +3899,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * Get element
+     *
      * @param string $locator
      *
      * @return PHPUnit_Extensions_Selenium2TestCase_Element
@@ -3897,6 +3912,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * Get child elements
+     *
      * @param PHPUnit_Extensions_Selenium2TestCase_Element $parentElement
      * @param string $childLocator
      * @param bool $failIfEmpty
@@ -3917,6 +3934,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * Get child element
+     *
      * @param PHPUnit_Extensions_Selenium2TestCase_Element $parentElement
      * @param string $childLocator
      *
@@ -3929,6 +3948,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * Get control elements
+     *
      * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
      * @param string $controlName Name of a control from UIMap
      * @param mixed $uimap
@@ -3943,6 +3964,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * Get control element
+     *
      * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
      * @param string $controlName Name of a control from UIMap
      * @param mixed $uimap
@@ -3956,6 +3979,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * Verify if element is present on the page
+     *
      * @param string $locator
      *
      * @return bool|PHPUnit_Extensions_Selenium2TestCase_Element
@@ -3967,6 +3992,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * Verify if child element is present on the page
+     *
      * @param PHPUnit_Extensions_Selenium2TestCase_Element $parentElement
      * @param string $childLocator
      *

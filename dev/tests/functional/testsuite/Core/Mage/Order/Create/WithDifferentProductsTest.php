@@ -51,13 +51,15 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
         $bundle = $this->loadDataSet('SalesOrder', 'fixed_bundle_for_order', null,
                                      array('add_product_1' => $simple['general_sku'],
                                            'add_product_2' => $virtual['general_sku']));
-        $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order', null, array(
-            'general_attribute_1' => $attrData['admin_title'],
-            'associated_3' => $download['general_sku'],
-            'var1_attr_value1' => $attrData['option_1']['admin_option_name'],
-            'var1_attr_value2' => $attrData['option_2']['admin_option_name'],
-            'var1_attr_value3' => $attrData['option_3']['admin_option_name']
-        ));
+        $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order', null,
+            array(
+                'general_attribute_1' => $attrData['admin_title'],
+                'associated_3' => $download['general_sku'],
+                'var1_attr_value1' => $attrData['option_1']['admin_option_name'],
+                'var1_attr_value2' => $attrData['option_2']['admin_option_name'],
+                'var1_attr_value3' => $attrData['option_3']['admin_option_name']
+            )
+        );
         $grouped = $this->loadDataSet('SalesOrder', 'grouped_product_for_order', null,
                                       array('associated_1' => $simple['general_sku'],
                                             'associated_2' => $virtual['general_sku'],
@@ -80,8 +82,8 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->createProduct($bundle, 'bundle');
         $this->assertMessagePresent('success', 'success_saved_product');
-//        $this->productHelper()->createProduct($configurable, 'configurable');
-//        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->createProduct($configurable, 'configurable');
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->createProduct($grouped, 'grouped');
         $this->assertMessagePresent('success', 'success_saved_product');
 
@@ -219,7 +221,6 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
      */
     public function withConfigurableProduct($productType, $order, $testData)
     {
-        $this->markTestIncomplete("Another team works with configurable product flow.");
         //Data
         $orderProductOption = $this->loadDataSet('SalesOrder', 'config_option_configurable',
                                                  array('title'       => $testData['title'],
