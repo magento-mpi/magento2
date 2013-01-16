@@ -7,14 +7,33 @@
  * @license     {license_link}
  */
 /*jshint eqnull:true browser:true jquery:true*/
-/*global head:true */
+/*global head:true console:true*/
 (function($) {
     "use strict";
+    /**
+     * Store developer mode flag value
+     * @type {boolean}
+     * @private
+     */
+    var _isDevMode = false;
+
     /**
      * Main namespace for Magento extansions
      * @type {Object}
      */
-    $.mage = {};
+    $.mage = {
+        /**
+         * Setter and getter for developer mode flag
+         * @param {(undefined|boolean)} flag
+         * @return {boolean}
+         */
+        isDevMode: function(flag) {
+            if (typeof flag !== 'undefined') {
+                _isDevMode = !!flag;
+            }
+            return _isDevMode;
+        }
+    };
 })(jQuery);
 
 /**
@@ -89,7 +108,13 @@
         }
         // Build an initialization handler
         var handler = $.proxy(function() {
-            this[init.name].apply(this, init.args);
+            try {
+                this[init.name].apply(this, init.args);
+            } catch (e) {
+                if ($.mage.isDevMode() && console) {
+                    console.error('Cannot initialize components "' + init.name + '"');
+                }
+            }
         }, $(this));
         if (init.resources.length) {
             _onload(init.resources, handler);
