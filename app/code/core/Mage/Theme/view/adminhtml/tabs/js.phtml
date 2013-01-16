@@ -50,6 +50,16 @@
                 if (!data.result.error) {
                     contentArea.html(data.result.content);
                 }
+            },
+
+            /**
+             * Fail event
+             * @param e
+             * @param data
+             */
+            fail: function(e, data) {
+                $(this).val('');
+                alert($.mage.__('File extension not known or unsupported type.'));
             }
         });
 

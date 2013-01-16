@@ -52,7 +52,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
             'name'     => 'js_files_uploader',
             'label'    => $this->__('Select JS Files to Upload'),
             'title'    => $this->__('Select JS Files to Upload'),
-            'accept'   => 'text/javascript',
+            'accept'   => 'application/x-javascript',
             'multiple' => ''
         ));
 

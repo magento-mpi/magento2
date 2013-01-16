@@ -76,7 +76,7 @@ class Mage_Core_Model_Theme_Files_Js
         $themeFile = $this->_themeFiles;
         foreach ($themeJsFiles as $fileId) {
             $themeFile->load($fileId);
-            if ($themeFile->getId()) {
+            if ($themeFile->getId() && ($themeFile->getThemeId() == $theme->getId())) {
                 $themeFile->setIsTemporary(false)->save();
             }
         }
@@ -93,7 +93,8 @@ class Mage_Core_Model_Theme_Files_Js
      */
     public function saveJsFile($theme, $file, $temporary = true)
     {
-        $this->_themeFiles->addData(array(
+        $newFileModel = $this->_themeFiles->unsetData();
+        return $newFileModel->addData(array(
             'theme_id'  => $theme->getId(),
             'file_name' => $this->_prepareFileName($theme, $file['name']),
             'file_type' => Mage_Core_Model_Theme_Files::TYPE_JS,
