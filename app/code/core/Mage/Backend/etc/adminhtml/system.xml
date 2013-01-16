@@ -484,7 +484,7 @@
             </group>
             <group id="unsecure" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Base URLs</label>
-                <comment>Any of the fields allow fully qualified URLs that ends with '/' (slash) e.g. http://example.com/magento/</comment>
+                <comment>Any of the fields allow fully qualified URLs that end with '/' (slash) e.g. http://example.com/magento/</comment>
                 <field id="base_url" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Base URL</label>
                     <backend_model>Mage_Backend_Model_Config_Backend_Baseurl</backend_model>
@@ -508,7 +508,7 @@
             </group>
             <group id="secure" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Base URLs (Secure)</label>
-                <comment>Any of the fields allow fully qualified URLs that ends with '/' (slash) e.g. http://example.com/magento/</comment>
+                <comment>Any of the fields allow fully qualified URLs that end with '/' (slash) e.g. http://example.com/magento/</comment>
                 <field id="base_url" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Secure Base URL</label>
                     <backend_model>Mage_Backend_Model_Config_Backend_Baseurl</backend_model>

@@ -40,14 +40,14 @@ class Mage_Backend_Model_Config_Backend_Baseurl extends Mage_Core_Model_Config_D
         $placeholders = array('{{unsecure_base_url}}');
         switch ($this->getPath()) {
             case Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL:
-                $this->_validateBaseUrl($value);
+                $this->_assertValuesOrUrl(array('{{base_url}}'), $value);
                 break;
             case Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_LINK_URL:
-                $this->_validatePlaceholderUrl($value, $placeholders);
+                $this->_assertStartsWithValuesOrUrl($placeholders, $value);
                 break;
             case Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_MEDIA_URL:
             case Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_LIB_URL:
-                $this->_validateEmptyPlaceholderUrl($value, $placeholders);
+                $this->_assertStartsWithValuesOrUrlOrEmpty($placeholders, $value);
                 break;
             default:
                 return false;
@@ -66,14 +66,14 @@ class Mage_Backend_Model_Config_Backend_Baseurl extends Mage_Core_Model_Config_D
         $placeholders = array('{{unsecure_base_url}}', '{{secure_base_url}}');
         switch ($this->getPath()) {
             case Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL:
-                $this->_validateSecureBaseUrl($value);
+                $this->_assertValuesOrUrl(array('{{base_url}}', '{{unsecure_base_url}}'), $value);
                 break;
             case Mage_Core_Model_Store::XML_PATH_SECURE_BASE_LINK_URL:
-                $this->_validatePlaceholderUrl($value, $placeholders);
+                $this->_assertStartsWithValuesOrUrl($placeholders, $value);
                 break;
             case Mage_Core_Model_Store::XML_PATH_SECURE_BASE_MEDIA_URL:
             case Mage_Core_Model_Store::XML_PATH_SECURE_BASE_LIB_URL:
-                $this->_validateEmptyPlaceholderUrl($value, $placeholders);
+                $this->_assertStartsWithValuesOrUrlOrEmpty($placeholders, $value);
                 break;
             default:
                 return false;
@@ -82,78 +82,53 @@ class Mage_Backend_Model_Config_Backend_Baseurl extends Mage_Core_Model_Config_D
     }
 
     /**
-     * Unsecure base URL validation
+     * Value equals to one of provided items or is a URL
      *
+     * @param array $values
      * @param string $value
      * @throws Mage_Core_Exception
      */
-    private function _validateBaseUrl($value)
+    private function _assertValuesOrUrl(array $values, $value)
     {
-        if ($value != Mage_Core_Model_Store::BASE_URL_PLACEHOLDER && !$this->_isFullyQualifiedUrl($value)) {
+        if (!in_array($value, $values) && !$this->_isFullyQualifiedUrl($value)) {
             throw new Mage_Core_Exception(Mage::helper('Mage_Backend_Helper_Data')
-                ->__('Specify a URL or {{base_url}} placeholder.'));
+                ->__('Value must be a URL or one of placeholders: %s', implode(',', $values)));
         }
     }
 
     /**
-     * Validation of base URL that may start with placeholders
+     * Value starts with one of provided items or is a URL
      *
+     * @param array $values
      * @param string $value
-     * @param array $placeholders
      * @throws Mage_Core_Exception
      */
-    private function _validatePlaceholderUrl($value, array $placeholders)
+    private function _assertStartsWithValuesOrUrl(array $values, $value)
     {
-        $regexPlaceholders = array_map(function ($value) {
-            return preg_quote($value, '/');
-        }, $placeholders);
-        if (!preg_match('/^(' . implode('|', $regexPlaceholders) . ')(.+\/)?$/', $value)
-            && !$this->_isFullyQualifiedUrl($value)
-        ) {
-            $msg = Mage::helper('Mage_Backend_Helper_Data')
-                ->__('Specify a URL or path that starts with placeholder(s): %s.', implode(', ', $placeholders));
-            throw new Mage_Core_Exception($msg);
+        $quoted = array_map('preg_quote', $values, array_fill(0, count($values), '/'));
+        if (!preg_match('/^(' . implode('|', $quoted) . ')(.+\/)?$/', $value) && !$this->_isFullyQualifiedUrl($value)) {
+            throw new Mage_Core_Exception(Mage::helper('Mage_Backend_Helper_Data')
+                ->__('Specify a URL or path that starts with placeholder(s): %s.', implode(', ', $values)));
         }
     }
 
     /**
-     * Validation of base URL that can be empty or have placeholders
+     * Value starts with, empty or is a URL
      *
+     * @param array $values
      * @param string $value
-     * @param array $placeholders
      * @throws Mage_Core_Exception
      */
-    private function _validateEmptyPlaceholderUrl($value, array $placeholders)
+    private function _assertStartsWithValuesOrUrlOrEmpty(array $values, $value)
     {
         if (empty($value)) {
             return;
         }
         try {
-            $this->_validatePlaceholderUrl($value, $placeholders);
+            $this->_assertStartsWithValuesOrUrl($values, $value);
         } catch (Mage_Core_Exception $e) {
             $msg = Mage::helper('Mage_Backend_Helper_Data')
                 ->__('%s An empty value is allowed as well.', $e->getMessage());
-            $error = new Mage_Core_Exception($msg, 0, $e);
-            throw $error;
-        }
-    }
-
-    /**
-     * Secure base URL validation
-     *
-     * @param string $value
-     * @throws Mage_Core_Exception
-     */
-    private function _validateSecureBaseUrl($value)
-    {
-        if ($value == '{{unsecure_base_url}}') {
-            return;
-        }
-        try {
-            $this->_validateBaseUrl($value);
-        } catch (Mage_Core_Exception $e) {
-            $msg = Mage::helper('Mage_Backend_Helper_Data')
-                ->__('%s The {{unsecure_base_url}} placeholder is allowed as well.', $e->getMessage());
             $error = new Mage_Core_Exception($msg, 0, $e);
             throw $error;
         }

@@ -34,8 +34,8 @@ class Mage_Backend_Model_Config_Backend_BaseurlTest extends PHPUnit_Framework_Te
 
         return array(
             // any fully qualified URLs regardless of path
-            array('', 'http://example.com/'),
-            array('', 'http://example.com/uri/'),
+            array('any/path', 'http://example.com/'),
+            array('any/path', 'http://example.com/uri/'),
 
             // unsecure base URLs
             array(Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL, $basePlaceholder),
