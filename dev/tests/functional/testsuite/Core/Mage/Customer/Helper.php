@@ -111,7 +111,7 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_AbstractHelper
      * @param array $userData
      * @param array $addressData
      */
-    public function createCustomer(array $userData, array $addressData = null)
+    public function createCustomer(array $userData, array $addressData = null, $willPageChange = true)
     {
         //Click 'Add New Customer' button.
         $this->clickButton('add_new_customer');
@@ -119,13 +119,18 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_AbstractHelper
         if (array_key_exists('send_from', $userData) && !$this->controlIsPresent('dropdown', 'send_from')) {
             unset($userData['send_from']);
         }
+        if (!isset($addressData)) {
         //Fill in 'Account Information' tab
-        $this->fillForm($userData, 'account_information');
-        //Add address
-        if (isset($addressData)) {
-            $this->addAddress($addressData);
+            $this->fillForm($userData, 'account_information');
+            $this->clickButton('save_customer',$willPageChange);
+            $this->waitForPageToLoad();
         }
-        $this->saveForm('save_customer');
+        if (isset($addressData)) {
+        //Add address
+            $this->fillForm($userData, 'account_information');
+            $this->addAddress($addressData);
+            $this->saveForm('save_customer');
+        }
     }
 
     /**
