@@ -39,9 +39,12 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
             'special_to_date'
         );
         /** Assert response product equals to actual product data. */
-        /** @var Magento_Test_Helper_Api $helper */
-        $helper = Magento_Test_Helper_Factory::getHelper('api');
-        $helper->assertEntityFields($this, $expectedProduct->getData(), $actualProductData, $fieldsToCompare);
+        Magento_Test_Helper_Api::assertEntityFields(
+            $this,
+            $expectedProduct->getData(),
+            $actualProductData,
+            $fieldsToCompare
+        );
     }
 
     /**
@@ -67,10 +70,8 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
             'type_id' => 'type',
             'category_ids',
         );
-        /** @var Magento_Test_Helper_Api $helper */
-        $helper = Magento_Test_Helper_Factory::getHelper('api');
         /** Assert first product from response equals to actual product data. */
-        $helper->assertEntityFields(
+        Magento_Test_Helper_Api::assertEntityFields(
             $this,
             $expectedProduct->getData(),
             reset($actualProductsData),

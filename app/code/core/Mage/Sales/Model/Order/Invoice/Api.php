@@ -25,7 +25,8 @@ class Mage_Sales_Model_Order_Invoice_Api extends Mage_Sales_Model_Api_Resource
         $this->_attributesMap = array(
             'invoice' => array('invoice_id' => 'entity_id'),
             'invoice_item' => array('item_id' => 'entity_id'),
-            'invoice_comment' => array('comment_id' => 'entity_id'));
+            'invoice_comment' => array('comment_id' => 'entity_id')
+        );
     }
 
     /**
@@ -111,17 +112,17 @@ class Mage_Sales_Model_Order_Invoice_Api extends Mage_Sales_Model_Api_Resource
 
         /* @var $order Mage_Sales_Model_Order */
         /**
-          * Check order existing
-          */
+         * Check order existing
+         */
         if (!$order->getId()) {
-             $this->_fault('order_not_exists');
+            $this->_fault('order_not_exists');
         }
 
         /**
          * Check invoice create availability
          */
         if (!$order->canInvoice()) {
-             $this->_fault('data_invalid', Mage::helper('Mage_Sales_Helper_Data')->__('Cannot do invoice for order.'));
+            $this->_fault('data_invalid', Mage::helper('Mage_Sales_Helper_Data')->__('Cannot do invoice for order.'));
         }
 
         $invoice = $order->prepareInvoice($itemsQty);
@@ -200,7 +201,10 @@ class Mage_Sales_Model_Order_Invoice_Api extends Mage_Sales_Model_Api_Resource
         }
 
         if (!$invoice->canCapture()) {
-            $this->_fault('status_not_changed', Mage::helper('Mage_Sales_Helper_Data')->__('Invoice cannot be captured.'));
+            $this->_fault(
+                'status_not_changed',
+                Mage::helper('Mage_Sales_Helper_Data')->__('Invoice cannot be captured.')
+            );
         }
 
         try {
@@ -213,7 +217,10 @@ class Mage_Sales_Model_Order_Invoice_Api extends Mage_Sales_Model_Api_Resource
         } catch (Mage_Core_Exception $e) {
             $this->_fault('status_not_changed', $e->getMessage());
         } catch (Exception $e) {
-            $this->_fault('status_not_changed', Mage::helper('Mage_Sales_Helper_Data')->__('Invoice capturing problem.'));
+            $this->_fault(
+                'status_not_changed',
+                Mage::helper('Mage_Sales_Helper_Data')->__('Invoice capturing problem.')
+            );
         }
 
         return true;
@@ -236,7 +243,10 @@ class Mage_Sales_Model_Order_Invoice_Api extends Mage_Sales_Model_Api_Resource
         }
 
         if (!$invoice->canVoid()) {
-            $this->_fault('status_not_changed', Mage::helper('Mage_Sales_Helper_Data')->__('Invoice cannot be voided.'));
+            $this->_fault(
+                'status_not_changed',
+                Mage::helper('Mage_Sales_Helper_Data')->__('Invoice cannot be voided.')
+            );
         }
 
         try {
@@ -272,7 +282,10 @@ class Mage_Sales_Model_Order_Invoice_Api extends Mage_Sales_Model_Api_Resource
         }
 
         if (!$invoice->canCancel()) {
-            $this->_fault('status_not_changed', Mage::helper('Mage_Sales_Helper_Data')->__('Invoice cannot be canceled.'));
+            $this->_fault(
+                'status_not_changed',
+                Mage::helper('Mage_Sales_Helper_Data')->__('Invoice cannot be canceled.')
+            );
         }
 
         try {
@@ -285,7 +298,10 @@ class Mage_Sales_Model_Order_Invoice_Api extends Mage_Sales_Model_Api_Resource
         } catch (Mage_Core_Exception $e) {
             $this->_fault('status_not_changed', $e->getMessage());
         } catch (Exception $e) {
-            $this->_fault('status_not_changed', Mage::helper('Mage_Sales_Helper_Data')->__('Invoice canceling problem.'));
+            $this->_fault(
+                'status_not_changed',
+                Mage::helper('Mage_Sales_Helper_Data')->__('Invoice canceling problem.')
+            );
         }
 
         return true;

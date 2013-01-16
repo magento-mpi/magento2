@@ -53,7 +53,7 @@ class Mage_Catalog_Model_Product_Attribute_ApiTest extends PHPUnit_Framework_Tes
     public function testOptions($attributeId)
     {
         if (!$attributeId) {
-            $this->fail('Wromg attribute id');
+            $this->fail('Invalid attribute ID.');
         }
         $options = $this->_model->options($attributeId);
         $this->assertInternalType('array', $options);
@@ -223,9 +223,12 @@ class Mage_Catalog_Model_Product_Attribute_ApiTest extends PHPUnit_Framework_Tes
             $fieldsToCompare = array_keys($actualData);
         }
 
-        /** @var Magento_Test_Helper_Api $helper */
-        $helper = Magento_Test_Helper_Factory::getHelper('api');
-        $helper->assertEntityFields($this, $expectedAttribute->getData(), $actualData, $fieldsToCompare);
+        Magento_Test_Helper_Api::assertEntityFields(
+            $this,
+            $expectedAttribute->getData(),
+            $actualData,
+            $fieldsToCompare
+        );
     }
 
     /**

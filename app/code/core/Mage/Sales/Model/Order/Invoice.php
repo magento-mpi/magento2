@@ -288,9 +288,11 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
      */
     public function canCapture()
     {
-        return $this->getState() != self::STATE_CANCELED
+        $state = $this->getState();
+        $mage_Sales_Model_Order_Payment = $this->getOrder()->getPayment();
+        return $state != self::STATE_CANCELED
             && $this->getState() != self::STATE_PAID
-            && $this->getOrder()->getPayment()->canCapture();
+            && $mage_Sales_Model_Order_Payment->canCapture();
     }
 
     /**

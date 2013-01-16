@@ -209,9 +209,12 @@ class Mage_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
             'telephone'
         );
 
-        /** @var Magento_Test_Helper_Api $helper */
-        $helper = Magento_Test_Helper_Factory::getHelper('api');
-        $helper->assertEntityFields($this, $addressModel->getData(), $addressSoapResult, $fieldsToCompare);
+        Magento_Test_Helper_Api::assertEntityFields(
+            $this,
+            $addressModel->getData(),
+            $addressSoapResult,
+            $fieldsToCompare
+        );
     }
 
 }

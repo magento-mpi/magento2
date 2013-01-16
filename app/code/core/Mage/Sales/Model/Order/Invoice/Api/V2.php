@@ -33,17 +33,17 @@ class Mage_Sales_Model_Order_Invoice_Api_V2 extends Mage_Sales_Model_Order_Invoi
         $itemsQty = $this->_prepareItemQtyData($itemsQty);
         /* @var $order Mage_Sales_Model_Order */
         /**
-          * Check order existing
-          */
+         * Check order existing
+         */
         if (!$order->getId()) {
-             $this->_fault('order_not_exists');
+            $this->_fault('order_not_exists');
         }
 
         /**
          * Check invoice create availability
          */
         if (!$order->canInvoice()) {
-             $this->_fault('data_invalid', Mage::helper('Mage_Sales_Helper_Data')->__('Cannot do invoice for order.'));
+            $this->_fault('data_invalid', Mage::helper('Mage_Sales_Helper_Data')->__('Cannot do invoice for order.'));
         }
 
         $invoice = $order->prepareInvoice($itemsQty);
@@ -61,7 +61,8 @@ class Mage_Sales_Model_Order_Invoice_Api_V2 extends Mage_Sales_Model_Order_Invoi
         $invoice->getOrder()->setIsInProcess(true);
 
         try {
-            Mage::getModel('Mage_Core_Model_Resource_Transaction')->addObject($invoice)->addObject($invoice->getOrder())->save();
+            Mage::getModel('Mage_Core_Model_Resource_Transaction')->addObject($invoice)->addObject($invoice->getOrder())
+                ->save();
             $invoice->sendEmail($email, ($includeComment ? $comment : ''));
         } catch (Mage_Core_Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
