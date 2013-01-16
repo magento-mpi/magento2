@@ -48,9 +48,9 @@ manage_catalog_price_rules:
             notification_message: //li[normalize-space(@class)='notice-msg' and contains(.,'There are rules that have been changed but were not applied. Please, click Apply Rules in order to see immediate effect in the catalog.')]
             invalid_url_key_with_numbers_only: //li[normalize-space(@class)='error-msg' and contains(.,'The page URL key cannot consist only of numbers.')]
             invalid_rule_data: //li[normalize-space(@class)='error-msg' and contains(.,'An error occurred while saving the rule data. Please review the log and try again.')]
-            invalid_discount_amount: "//div[@id='advice-validate-not-negative-number-rule_discount_amount' and not(contains(@style,'display: none;'))]"
-            invalid_sub_discount_amount: "//div[@id='advice-validate-not-negative-number-rule_sub_discount_amount' and not(contains(@style,'display: none;'))]"
-            empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
+            invalid_discount_amount: //tr/td/label[(@for)='rule_discount_amount' and contains(.,'Please select one of the above options.')]
+            invalid_sub_discount_amount: //tr/td/label[(@for)='rule_sub_discount_amount' and contains(.,'Please select one of the above options.')]
+            empty_required_field: //tr/td/label[(@for)='%fieldId%' and contains(.,'This field is required.')]
             generic_validation_error: "//div[contains(@id, 'advice-') and contains(@id, '-%fieldId%') and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure you want to do this?
             no_price_rules: //*[@id='promo_catalog_grid_table']//tr[td='No records found.']
