@@ -156,7 +156,7 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
         foreach ($this->getTargetPatterns() as $directoryPath) {
             $pathsToThemeConfig = array_merge(
                 $pathsToThemeConfig,
-                $this->_filesystem->getNestedKeys($this->getBaseDir() . DIRECTORY_SEPARATOR . $directoryPath)
+                $this->_filesystem->searchKeys($this->getBaseDir(), $directoryPath)
             );
         }
 

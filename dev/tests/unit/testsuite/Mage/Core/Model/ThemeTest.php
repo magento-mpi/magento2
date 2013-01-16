@@ -42,19 +42,23 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
         /** @var $themeMock Mage_Core_Model_Theme */
         $themeMock = $this->getMock('Mage_Core_Model_Theme', array('_init'), $arguments, '', true);
         $filesystemMock = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor(true)->getMock();
-        $filesystemMock->expects($this->any())->method('getNestedKeys')
+        $filesystemMock->expects($this->any())->method('searchKeys')
             ->will($this->returnValueMap(array(
                 array(
-                    __DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '/_files/frontend/default/iphone/theme.xml'),
-                    null,
-                    array(__DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '/_files/frontend/default/iphone/theme.xml'))
+                    $designDir, 'frontend/default/iphone/theme.xml',
+                    array(
+                        str_replace('/', DIRECTORY_SEPARATOR, $designDir . '/frontend/default/iphone/theme.xml')
+                    )
                 ),
                 array(
-                    __DIR__ . str_replace('/', DIRECTORY_SEPARATOR,
-                        '/_files/frontend/default/iphone/theme_invalid.xml'),
-                    null,
-                    array(__DIR__ . str_replace('/', DIRECTORY_SEPARATOR,
-                        '/_files/frontend/default/iphone/theme_invalid.xml'))
+                    $designDir, 'frontend/default/iphone/theme_invalid.xml',
+                    array(
+                        str_replace(
+                            '/',
+                            DIRECTORY_SEPARATOR,
+                            $designDir . '/frontend/default/iphone/theme_invalid.xml'
+                        )
+                    )
                 ),
             )
         ));
