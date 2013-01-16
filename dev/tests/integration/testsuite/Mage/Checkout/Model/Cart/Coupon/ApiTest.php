@@ -25,7 +25,7 @@ class Mage_Checkout_Model_Cart_Coupon_ApiTest extends PHPUnit_Framework_TestCase
     {
         $this->_product = Mage::getModel('Mage_Catalog_Model_Product')->load(1);
         $this->_quote = Mage::getModel('Mage_Sales_Model_Resource_Quote_Collection')->getFirstItem();
-        $this->_salesRule = Mage::getModel('Mage_SalesRule_Model_Rule')->load(1);
+        $this->_salesRule = Mage::getModel('Mage_SalesRule_Model_Rule')->load('Test Coupon', 'name');
     }
 
     /**
