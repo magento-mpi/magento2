@@ -494,10 +494,11 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     public function getBaseUrl($type = self::URL_TYPE_LINK, $secure = null)
     {
         $cacheKey = $type . '/' . (is_null($secure) ? 'null' : ($secure ? 'true' : 'false'));
-        $secure = is_null($secure) ? $this->isCurrentlySecure() : (bool)$secure;
-        /** @var $dirs Mage_Core_Model_Dir */
-        $dirs = Mage::getObjectManager()->get('Mage_Core_Model_Dir');
         if (!isset($this->_baseUrlCache[$cacheKey])) {
+            $secure = is_null($secure) ? $this->isCurrentlySecure() : (bool)$secure;
+            /** @var $dirs Mage_Core_Model_Dir */
+            $dirs = Mage::getObjectManager()->get('Mage_Core_Model_Dir');
+            
             switch ($type) {
                 case self::URL_TYPE_WEB:
                     $path = $secure ? self::XML_PATH_SECURE_BASE_URL : self::XML_PATH_UNSECURE_BASE_URL;
