@@ -43,9 +43,8 @@
         /**
          * Hide drop down menu when clicked any where on the page
          * @private
-         * @param {Object} e
          */
-        _hideDropDown: function(e) {
+        _hideDropDown: function() {
             $('.' + this.options.activeClass).removeClass(this.options.activeClass);
         }
     });

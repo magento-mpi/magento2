@@ -14,7 +14,7 @@
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 
 <?php if (count($this->getItems()) > 0): ?>
-<form action="<?php echo $this->getActionUpdateUrl() ?>" method="post" id="form-validate">
+<form action="<?php echo $this->getActionUpdateUrl() ?>" method="post" id="gift-registry-items-form">
     <fieldset>
         <?php echo $this->getBlockHtml('formkey')?>
         <table id="shopping-cart-table" class="data-table">
@@ -54,7 +54,7 @@
             "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>", function() {
-                $('#form-validate').validation();
+                $('#gift-registry-items-form').validation();
             });
     })(jQuery);
 </script>
