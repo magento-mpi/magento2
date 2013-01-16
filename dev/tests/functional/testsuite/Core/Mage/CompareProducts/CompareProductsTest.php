@@ -52,8 +52,8 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
         //Data
         $category = $this->loadDataSet('Category', 'sub_category_required');
         $path = $category['parent_category'] . '/' . $category['name'];
-        $simple = $this->loadDataSet('CompareProducts', 'compare_simple_product', array('categories' => $path));
-        $virtual = $this->loadDataSet('CompareProducts', 'compare_virtual_product', array('categories' => $path));
+        $simple = $this->loadDataSet('CompareProducts', 'compare_simple_product', array('general_categories' => $path));
+        $virtual = $this->loadDataSet('CompareProducts', 'compare_virtual_product', array('general_categories' => $path));
         //Steps
         $this->loginAdminUser();
         $this->navigate('manage_categories', false);

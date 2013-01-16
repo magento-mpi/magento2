@@ -118,11 +118,11 @@ class Core_Mage_ImportExport_Product_CustomOptions_ImportTest extends Mage_Selen
         $this->waitForPageToLoad();
         $this->openTab('custom_options');
         //Need to update custom option, get optionId by Title
-        $optionId = $this->productHelper()->getCustomOptionId('Custom Option Field');
+        $optionId = $this->productHelper()->getCustomOptionIdByTitle('Custom Option Field');
         $this->addParameter('optionId', $optionId);
         $this->fillCheckbox('custom_options_default_value', 'No');
         $this->fillField('custom_options_general_title', 'Custom Option Field ' . $storeViewData['store_view_name']);
-        $this->productHelper()->saveForm('save');
+        $this->productHelper()->saveProduct();
         //switch to all views
         $this->selectStoreScope('dropdown', 'choose_store_view');
         $this->waitForPageToLoad();
