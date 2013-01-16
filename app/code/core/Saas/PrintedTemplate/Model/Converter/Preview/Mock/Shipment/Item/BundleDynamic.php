@@ -19,17 +19,21 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Shipment_Item_BundleDyna
     extends Mage_Sales_Model_Order_Shipment_Item
 {
     /**
-     * @var Saas_PrintedTemplate_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * Initialize shipment item with mock data
      */
     public function init()
     {
-        $this->_helper = Mage::helper('Saas_PrintedTemplate_Helper_Data');
         $this->setData($this->_getMockData());
+    }
+
+    /**
+     * Returns data helper
+     *
+     * @return Saas_PrintedTemplate_Helper_Data
+     */
+    protected function _getHelper()
+    {
+        return Mage::helper('Saas_PrintedTemplate_Helper_Data');
     }
 
     /**
@@ -67,7 +71,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Shipment_Item_BundleDyna
             'order_item_id' => '53',
             'additional_data' => NULL,
             'description' => NULL,
-            'name' => $this->_helper->__('Bundle product dynamic price'),
+            'name' => $this->_getHelper()->__('Bundle product dynamic price'),
             'sku' => 'dynamic price',
         );
     }
@@ -91,7 +95,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Shipment_Item_BundleDyna
                 'order_item_id' => '54',
                 'additional_data' => NULL,
                 'description' => NULL,
-                'name' => $this->_helper->__('Crucial 1GB PC4200 DDR2 533MHz Memory'),
+                'name' => $this->_getHelper()->__('Crucial 1GB PC4200 DDR2 533MHz Memory'),
                 'sku' => '1gbdimm',
             ),
             array (
@@ -105,7 +109,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Shipment_Item_BundleDyna
                 'order_item_id' => '55',
                 'additional_data' => NULL,
                 'description' => NULL,
-                'name' => $this->_helper->__('Logitech diNovo Edge Keyboard'),
+                'name' => $this->_getHelper()->__('Logitech diNovo Edge Keyboard'),
                 'sku' => 'logidinovo',
             ),
         );

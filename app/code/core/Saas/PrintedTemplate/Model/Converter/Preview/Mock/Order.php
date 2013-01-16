@@ -18,21 +18,33 @@
 class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order extends Mage_Sales_Model_Order
 {
     /**
-     * @var Saas_PrintedTemplate_Helper_Data
+     * Constructor
      */
-    protected $_helper;
+    protected function _construct()
+    {
+        $this->_initOrder();
+    }
+
+    /**
+     * Returns data helper
+     *
+     * @return Saas_PrintedTemplate_Helper_Data
+     */
+    protected function _getHelper()
+    {
+        return Mage::helper('Saas_PrintedTemplate_Helper_Data');
+    }
 
     /**
      * Initialize order with mock data
      */
-    protected function _construct()
+    protected function _initOrder()
     {
-        $this->_helper = Mage::helper('Saas_PrintedTemplate_Helper_Data');
         $this->setData($this->_getMockData())
             ->setData(
-                Saas_PrintedTemplate_Model_Variable_Abstract_Entity::TAXES_GROUPED_BY_PERCENT_CACHE_KEY,
-                $this->_getMockTaxes()
-            );
+            Saas_PrintedTemplate_Model_Variable_Abstract_Entity::TAXES_GROUPED_BY_PERCENT_CACHE_KEY,
+            $this->_getMockTaxes()
+        );
 
         foreach ($this->_getMockItems() as $item) {
             $id = $item->getId();
@@ -42,10 +54,22 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order extends Mage_Sales
             $item->setId($id);
         }
 
-        $this->addAddress(Mage::getModel('Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Address_Billing'));
-        $this->addAddress(Mage::getModel('Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Address_Shipping'));
+        $this->addAddress($this->getModel('Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Address_Billing'));
+        $this->addAddress($this->getModel('Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Address_Shipping'));
+        $this->setPayment($this->getModel('Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Payment'));
 
-        $this->setPayment(Mage::getModel('Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Payment'));
+        return $this;
+    }
+
+    /**
+     * Returns model instance
+     *
+     * @param string $modelName
+     * @return mixed
+     */
+    public function getModel($modelName)
+    {
+        return Mage::getModel($modelName);
     }
 
     /**
@@ -98,7 +122,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order extends Mage_Sales
      */
     protected function _createItemMock($type = 'simple')
     {
-        return Mage::getModel('Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_' . ucfirst($type));
+        return $this->getModel('Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_' . ucfirst($type));
     }
 
     /**
@@ -108,18 +132,23 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order extends Mage_Sales
      */
     protected function _getMockTaxes()
     {
-        $itemsTaxes = Mage::getModel('Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Tax_ItemCollection');
+        $itemsTaxes = $this->getModel('Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Tax_ItemCollection');
         foreach ($itemsTaxes as $itemTax) {
             $itemTax->setOrder($this);
         }
 
         $shippingTaxes
-            = Mage::getModel('Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Tax_ShippingCollection');
+            = $this->getModel('Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Tax_ShippingCollection');
         foreach ($shippingTaxes as $shippingTax) {
             $shippingTax->setOrder($this);
         }
 
         return array('items_taxes' => $itemsTaxes, 'shipping_taxes' => $shippingTaxes);
+    }
+
+    protected function _getStoreConfig($path)
+    {
+        return (string) Mage::getStoreConfig($path);
     }
 
     /**
@@ -135,7 +164,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order extends Mage_Sales
             'status' => 'processing',
             'coupon_code' => '111000',
             'protect_code' => '226910',
-            'shipping_description' => $this->_helper->__('Flat Rate - Fixed'),
+            'shipping_description' => $this->_getHelper()->__('Flat Rate - Fixed'),
             'is_virtual' => '0',
             'store_id' => '1',
             'customer_id' => '4',
@@ -228,20 +257,19 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order extends Mage_Sales
             'applied_rule_ids' => '1',
             'base_currency_code' => 'USD',
             'customer_email' => 'RamonaKHill@teleworm.com',
-            'customer_firstname' => $this->_helper->__('Ramona'),
-            'customer_lastname' => $this->_helper->__('Hill'),
+            'customer_firstname' => $this->_getHelper()->__('Ramona'),
+            'customer_lastname' => $this->_getHelper()->__('Hill'),
             'customer_middlename' => '',
-            'customer_prefix' => $this->_helper->__('Mrs.'),
-            'customer_suffix' => $this->_helper->__('K.'),
+            'customer_prefix' => $this->_getHelper()->__('Mrs.'),
+            'customer_suffix' => $this->_getHelper()->__('K.'),
             'customer_taxvat' => '',
-            'discount_description' => $this->_helper->__('Your Coupon:'),
+            'discount_description' => $this->_getHelper()->__('Your Coupon:'),
             'ext_customer_id' => NULL,
             'ext_order_id' => NULL,
             'global_currency_code' => 'USD',
             'hold_before_state' => NULL,
             'hold_before_status' => NULL,
-            'order_currency_code' => (string) Mage::getStoreConfig(
-                Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'order_currency_code' => $this->_getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'original_increment_id' => NULL,
             'relation_child_id' => NULL,
             'relation_child_real_id' => NULL,
@@ -250,7 +278,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order extends Mage_Sales
             'remote_ip' => '192.168.60.94',
             'shipping_method' => 'flatrate_flatrate',
             'store_currency_code' => 'USD',
-            'store_name' => $this->_helper->__("Main Website\nMain Store\nEnglish"),
+            'store_name' => $this->_getHelper()->__("Main Website\nMain Store\nEnglish"),
             'x_forwarded_for' => NULL,
             'customer_note' => NULL,
             'created_at' => '2011-04-28 11:38:02',

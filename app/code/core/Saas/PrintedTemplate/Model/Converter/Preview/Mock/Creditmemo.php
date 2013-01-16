@@ -26,7 +26,6 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Creditmemo extends Mage_
     public function setOrder(Mage_Sales_Model_Order $order)
     {
         parent::setOrder($order);
-
         $cacheKey = Saas_PrintedTemplate_Model_Variable_Abstract_Entity::TAXES_GROUPED_BY_PERCENT_CACHE_KEY;
         $this->setData($this->_getMockData())
             ->setData($cacheKey, $order->getData($cacheKey));

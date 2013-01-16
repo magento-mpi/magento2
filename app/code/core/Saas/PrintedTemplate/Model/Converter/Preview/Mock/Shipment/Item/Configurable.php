@@ -19,17 +19,21 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Shipment_Item_Configurab
     extends Mage_Sales_Model_Order_Shipment_Item
 {
     /**
-     * @var Saas_PrintedTemplate_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * Initialize shipment item with mock data
      */
     public function init()
     {
-        $this->_helper = Mage::helper('Saas_PrintedTemplate_Helper_Data');
         $this->setData($this->_getMockData());
+    }
+
+    /**
+     * Returns data helper
+     *
+     * @return Saas_PrintedTemplate_Helper_Data
+     */
+    protected function _getHelper()
+    {
+        return Mage::helper('Saas_PrintedTemplate_Helper_Data');
     }
 
     /**
@@ -62,7 +66,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Shipment_Item_Configurab
             'order_item_id' => '51',
             'additional_data' => NULL,
             'description' => NULL,
-            'name' => $this->_helper->__('Nine West Women\'s Lucero Pump'),
+            'name' => $this->_getHelper()->__('Nine West Women\'s Lucero Pump'),
             'sku' => 'nine_4',
         );
     }
@@ -85,7 +89,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Shipment_Item_Configurab
             'order_item_id' => '52',
             'additional_data' => NULL,
             'description' => NULL,
-            'name' => $this->_helper->__('Nine West Women\'s Lucero Pump'),
+            'name' => $this->_getHelper()->__('Nine West Women\'s Lucero Pump'),
             'sku' => 'nine_4',
         );
     }

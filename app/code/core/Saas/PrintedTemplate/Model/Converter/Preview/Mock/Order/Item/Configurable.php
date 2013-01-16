@@ -18,23 +18,26 @@
 class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_Configurable extends Mage_Sales_Model_Order_Item
 {
     /**
-     * @var Saas_PrintedTemplate_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * Initialize order item with mock data
      */
     protected function _construct()
     {
         parent::_construct();
-
-        $this->_helper = Mage::helper('Saas_PrintedTemplate_Helper_Data');
         $this->setData($this->_getMockData());
 
         $simple = Mage::getModel('Mage_Sales_Model_Order_Item');
         $simple->setData($this->_getChildMockData());
         $this->addChildItem($simple);
+    }
+
+    /**
+     * Returns data helper
+     *
+     * @return Saas_PrintedTemplate_Helper_Data
+     */
+    protected function _getHelper()
+    {
+        return Mage::helper('Saas_PrintedTemplate_Helper_Data');
     }
 
     /**
@@ -72,11 +75,11 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_Configurable 
                   array (
                     0 =>
                     array (
-                      'label' => $this->_helper->__('Shoe Size'),
+                      'label' => $this->_getHelper()->__('Shoe Size'),
                       'value' => '4',
                     ),
                   ),
-                  'simple_name' => $this->_helper->__("Nine West Women's Lucero Pump"),
+                  'simple_name' => $this->_getHelper()->__("Nine West Women's Lucero Pump"),
                   'simple_sku' => 'nine_4',
                   'product_calculations' => 1,
                   'shipment_type' => 0,
@@ -88,7 +91,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_Configurable 
             'weight' => '2.0000',
             'is_virtual' => '0',
             'sku' => 'nine_4',
-            'name' => $this->_helper->__("Nine West Women's Lucero Pump"),
+            'name' => $this->_getHelper()->__("Nine West Women's Lucero Pump"),
             'description' => NULL,
             'applied_rule_ids' => '1',
             'additional_data' => NULL,
@@ -181,7 +184,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_Configurable 
             'weight' => '2.0000',
             'is_virtual' => '0',
             'sku' => 'nine_4',
-            'name' => $this->_helper->__("Nine West Women's Lucero Pump"),
+            'name' => $this->_getHelper()->__("Nine West Women's Lucero Pump"),
             'description' => NULL,
             'applied_rule_ids' => NULL,
             'additional_data' => NULL,

@@ -18,19 +18,22 @@
 class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_Simple extends Mage_Sales_Model_Order_Item
 {
     /**
-     * @var Saas_PrintedTemplate_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * Initialize order item with mock data
      */
     protected function _construct()
     {
         parent::_construct();
-
-        $this->_helper = Mage::helper('Saas_PrintedTemplate_Helper_Data');
         $this->setData($this->_getMockData());
+    }
+
+    /**
+     * Returns data helper
+     *
+     * @return Saas_PrintedTemplate_Helper_Data
+     */
+    protected function _getHelper()
+    {
+        return Mage::helper('Saas_PrintedTemplate_Helper_Data');
     }
 
     /**
@@ -57,7 +60,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_Simple extend
             'weight' => '0.3000',
             'is_virtual' => '0',
             'sku' => 'HTC Touch Diamond',
-            'name' => $this->_helper->__('HTC Touch Diamond'),
+            'name' => $this->_getHelper()->__('HTC Touch Diamond'),
             'description' => NULL,
             'applied_rule_ids' => '1',
             'additional_data' => NULL,

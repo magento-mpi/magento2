@@ -24,7 +24,6 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Tax_ShippingCollec
     public function __construct()
     {
         parent::__construct();
-
         $this->_data = $this->_getMockData();
     }
 
@@ -36,7 +35,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Tax_ShippingCollec
     protected function _getMockData()
     {
         return array(
-            array (
+            new Varien_Object(array (
                 'shipping_tax_id' => '8',
                 'order_id' => '-1',
                 'code' => 'Test Tax Rates US',
@@ -53,7 +52,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Tax_ShippingCollec
                 'base_tax_amount' => '6.0000',
                 'discount_amount' => '0.0000',
                 'base_discount_amount' => '0.0000',
-            ),
+            )),
         );
     }
 }

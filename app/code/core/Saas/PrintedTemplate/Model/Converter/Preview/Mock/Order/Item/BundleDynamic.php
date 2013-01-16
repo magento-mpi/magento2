@@ -18,18 +18,12 @@
 class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleDynamic extends Mage_Sales_Model_Order_Item
 {
     /**
-     * @var Saas_PrintedTemplate_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * Initialize order item with mock data
      */
     protected function _construct()
     {
         parent::_construct();
 
-        $this->_helper = Mage::helper('Saas_PrintedTemplate_Helper_Data');
         $this->setData($this->_getMockData());
 
         foreach ($this->_getChildrenMockData() as $data) {
@@ -37,6 +31,16 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleDynamic
                 ->setData($data)
                 ->setParentItem($this);
         }
+    }
+
+    /**
+     * Returns data helper
+     *
+     * @return Saas_PrintedTemplate_Helper_Data
+     */
+    protected function _getHelper()
+    {
+        return Mage::helper('Saas_PrintedTemplate_Helper_Data');
     }
 
     /**
@@ -81,12 +85,12 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleDynamic
                     25 =>
                     array (
                       'option_id' => '25',
-                      'label' => $this->_helper->__('Memory'),
+                      'label' => $this->_getHelper()->__('Memory'),
                       'value' =>
                       array (
                         0 =>
                         array (
-                          'title' => $this->_helper->__('Crucial 1GB PC4200 DDR2 533MHz Memory'),
+                          'title' => $this->_getHelper()->__('Crucial 1GB PC4200 DDR2 533MHz Memory'),
                           'qty' => 1,
                           'price' => 301.98,
                         ),
@@ -95,12 +99,12 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleDynamic
                     26 =>
                     array (
                       'option_id' => '26',
-                      'label' => $this->_helper->__('Keyboard'),
+                      'label' => $this->_getHelper()->__('Keyboard'),
                       'value' =>
                       array (
                         0 =>
                         array (
-                          'title' => $this->_helper->__('Logitech diNovo Edge Keyboard'),
+                          'title' => $this->_getHelper()->__('Logitech diNovo Edge Keyboard'),
                           'qty' => 1,
                           'price' => 479.98,
                         ),
@@ -117,7 +121,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleDynamic
             'weight' => '2.0000',
             'is_virtual' => '0',
             'sku' => 'dynamic price',
-            'name' => $this->_helper->__('Bundle product dynamic price'),
+            'name' => $this->_getHelper()->__('Bundle product dynamic price'),
             'description' => NULL,
             'applied_rule_ids' => NULL,
             'additional_data' => NULL,
@@ -231,14 +235,14 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleDynamic
                       serialize(array (
                         'price' => 301.98,
                         'qty' => '1',
-                        'option_label' => $this->_helper->__('Memory'),
+                        'option_label' => $this->_getHelper()->__('Memory'),
                         'option_id' => '25',
                        )),
                     )),
                 'weight' => '1.0000',
                 'is_virtual' => '0',
                 'sku' => '1gbdimm',
-                'name' => $this->_helper->__('Crucial 1GB PC4200 DDR2 533MHz Memory'),
+                'name' => $this->_getHelper()->__('Crucial 1GB PC4200 DDR2 533MHz Memory'),
                 'description' => NULL,
                 'applied_rule_ids' => '1',
                 'additional_data' => NULL,
@@ -342,14 +346,14 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleDynamic
                       serialize(array (
                           'price' => 479.98,
                           'qty' => '1',
-                          'option_label' => $this->_helper->__('Keyboard'),
+                          'option_label' => $this->_getHelper()->__('Keyboard'),
                           'option_id' => '26',
                         )),
                     )),
                 'weight' => '1.0000',
                 'is_virtual' => '0',
                 'sku' => 'logidinovo',
-                'name' => $this->_helper->__('Logitech diNovo Edge Keyboard'),
+                'name' => $this->_getHelper()->__('Logitech diNovo Edge Keyboard'),
                 'description' => NULL,
                 'applied_rule_ids' => '1',
                 'additional_data' => NULL,

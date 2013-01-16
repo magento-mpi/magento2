@@ -37,8 +37,19 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Shipment extends Mage_Sa
             $item->setId($id);
         }
 
-        $this->_tracks = Mage::getModel('Saas_PrintedTemplate_Model_Converter_Preview_Mock_Shipment_Track_Collection');
+        $this->_tracks = $this->getModel('Saas_PrintedTemplate_Model_Converter_Preview_Mock_Shipment_Track_Collection');
         return $this;
+    }
+
+    /**
+     * Returns model instance
+     *
+     * @param string $className
+     * @return mixed
+     */
+    public function getModel($className)
+    {
+        return Mage::getModel($className);
     }
 
     /**
@@ -66,7 +77,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Shipment extends Mage_Sa
      */
     protected function _createItemMock($type)
     {
-        $item = Mage::getModel('Saas_PrintedTemplate_Model_Converter_Preview_Mock_Shipment_Item_' . ucfirst($type));
+        $item = $this->getModel('Saas_PrintedTemplate_Model_Converter_Preview_Mock_Shipment_Item_' . ucfirst($type));
         $item->init();
         $item->setShipment($this);
 

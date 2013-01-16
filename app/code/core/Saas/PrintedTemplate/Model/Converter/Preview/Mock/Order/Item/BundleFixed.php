@@ -18,18 +18,11 @@
 class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleFixed extends Mage_Sales_Model_Order_Item
 {
     /**
-     * @var Saas_PrintedTemplate_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * Initialize order item with mock data
      */
     protected function _construct()
     {
         parent::_construct();
-
-        $this->_helper = Mage::helper('Saas_PrintedTemplate_Helper_Data');
         $this->setData($this->_getMockData());
 
         foreach ($this->_getChildrenMockData() as $data) {
@@ -37,6 +30,16 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleFixed e
                 ->setData($data)
                 ->setParentItem($this);
         }
+    }
+
+    /**
+     * Returns data helper
+     *
+     * @return Saas_PrintedTemplate_Helper_Data
+     */
+    protected function _getHelper()
+    {
+        return Mage::helper('Saas_PrintedTemplate_Helper_Data');
     }
 
     /**
@@ -81,12 +84,12 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleFixed e
                     23 =>
                     array (
                       'option_id' => '23',
-                      'label' => $this->_helper->__('Memory'),
+                      'label' => $this->_getHelper()->__('Memory'),
                       'value' =>
                       array (
                         0 =>
                         array (
-                          'title' => $this->_helper->__('Crucial 2GB PC4200 DDR2 533MHz Memory'),
+                          'title' => $this->_getHelper()->__('Crucial 2GB PC4200 DDR2 533MHz Memory'),
                           'qty' => 1,
                           'price' => 300,
                         ),
@@ -95,12 +98,12 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleFixed e
                     24 =>
                     array (
                       'option_id' => '24',
-                      'label' => $this->_helper->__('Electronics'),
+                      'label' => $this->_getHelper()->__('Electronics'),
                       'value' =>
                       array (
                         0 =>
                         array (
-                          'title' => $this->_helper->__('Electronics product'),
+                          'title' => $this->_getHelper()->__('Electronics product'),
                           'qty' => 1,
                           'price' => 40,
                         ),
@@ -117,7 +120,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleFixed e
             'weight' => '0.0000',
             'is_virtual' => '0',
             'sku' => '23',
-            'name' => $this->_helper->__('Bundle product fixed price'),
+            'name' => $this->_getHelper()->__('Bundle product fixed price'),
             'description' => NULL,
             'applied_rule_ids' => '1',
             'additional_data' => NULL,
@@ -231,14 +234,14 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleFixed e
                         serialize(array (
                           'price' => 40,
                           'qty' => '1',
-                          'option_label' => $this->_helper->__('Electronics'),
+                          'option_label' => $this->_getHelper()->__('Electronics'),
                           'option_id' => '24',
                         )),
                     )),
                 'weight' => '22.0000',
                 'is_virtual' => '0',
                 'sku' => '234222',
-                'name' => $this->_helper->__('Electronics product'),
+                'name' => $this->_getHelper()->__('Electronics product'),
                 'description' => NULL,
                 'applied_rule_ids' => '',
                 'additional_data' => NULL,
@@ -345,14 +348,14 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleFixed e
                         serialize(array (
                           'price' => 300,
                           'qty' => '1',
-                          'option_label' => $this->_helper->__('Memory'),
+                          'option_label' => $this->_getHelper()->__('Memory'),
                           'option_id' => '23',
                         )),
                     )),
                 'weight' => '1.0000',
                 'is_virtual' => '0',
                 'sku' => '2gbdimm',
-                'name' => $this->_helper->__('Crucial 2GB PC4200 DDR2 533MHz Memory'),
+                'name' => $this->_getHelper()->__('Crucial 2GB PC4200 DDR2 533MHz Memory'),
                 'description' => NULL,
                 'applied_rule_ids' => NULL,
                 'additional_data' => NULL,
