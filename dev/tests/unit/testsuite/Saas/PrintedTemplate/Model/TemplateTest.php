@@ -143,7 +143,7 @@ class Saas_PrintedTemplate_Model_TemplateTest extends PHPUnit_Framework_TestCase
     public function loadDefaultDataProvider()
     {
         return array(
-            // array('sales', '', null, ''),
+            array('sales', '', null, ''),
             array(
                 'sales_pdf_invoice_printed_template',
                 '<!--@name Invoice {{var invoice.increment_id}} @-->Invoice template content',
