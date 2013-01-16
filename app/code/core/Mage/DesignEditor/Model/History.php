@@ -86,7 +86,7 @@ class Mage_DesignEditor_Model_History
         /** @var $node Varien_Simplexml_Element */
         foreach ($xml->children() as $node) {
             $item = $this->_getChangeItem($node);
-            $itemId = $node->getAttribute('element');
+            $itemId = $item->getData('element_name');
             if ($this->_collection->getItemById($itemId) !== null) {
                 $this->_collection->removeItemByKey($itemId);
             }
