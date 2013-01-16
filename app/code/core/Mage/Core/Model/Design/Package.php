@@ -139,13 +139,6 @@ class Mage_Core_Model_Design_Package
     protected $_themes = array();
 
     /**
-     * List published css files
-     *
-     * @var array
-     */
-    protected $_publishedCssFiles = array();
-
-    /**
      * Set package area
      *
      * @param string $area
@@ -611,12 +604,8 @@ class Mage_Core_Model_Design_Package
         if (!file_exists($sourcePath)) {
             throw new Magento_Exception("Unable to locate theme file '{$sourcePath}'.");
         }
-        $sourcePath = realpath($sourcePath);
         if (!$this->_needToProcessFile($sourcePath)) {
             return $sourcePath;
-        }
-        if (isset($this->_publishedCssFiles[$sourcePath])) {
-            return $this->_publishedCssFiles[$sourcePath];
         }
 
         $allowPublication = (string)Mage::getConfig()->getNode(self::XML_PATH_ALLOW_DUPLICATION);
@@ -630,7 +619,6 @@ class Mage_Core_Model_Design_Package
 
         /* Validate whether file needs to be published */
         if ($this->_getExtension($themeFile) == self::CONTENT_TYPE_CSS) {
-            $this->_publishedCssFiles[$sourcePath] = $targetPath;
             $cssContent = $this->_getPublicCssContent($sourcePath, dirname($targetPath), $themeFile, $params);
         }
 
