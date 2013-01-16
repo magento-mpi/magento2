@@ -57,7 +57,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
     public function testFormatEmptyCurrency()
     {
         $valueModel = new Varien_Object();
-        $order = $this->getMockBuilder('Mage_Sales_Model_Order')
+        $this->getMockBuilder('Mage_Sales_Model_Order')
             ->disableOriginalConstructor()
             ->setMethods(array('formatPriceTxt'))
             ->getMock();
@@ -216,6 +216,8 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
     /**
      * Test get taxes groupped by percent
      *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     *
      * @dataProvider taxesGroupedByPercentProvider
      */
     public function testGetTaxesGroupedByPercent($itemsTaxSettings, $shippingTaxSettings, $expectedResult)
@@ -279,6 +281,8 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
 
     /**
      * Test get taxes groupped by percent
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      *
      * @dataProvider taxesGroupedByCompoundIdProvider
      */

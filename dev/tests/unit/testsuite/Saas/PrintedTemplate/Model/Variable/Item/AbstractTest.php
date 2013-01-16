@@ -112,10 +112,9 @@ class Saas_PrintedTemplate_Model_Variable_Item_AbstractTest extends PHPUnit_Fram
     /**
      * Get variable model callback
      *
-     * @param array $arguments
      * @return Saas_PrintedTemplate_Model_Variable_Abstract
      */
-    public function getVariableModelCallback($arguments)
+    public function getVariableModelCallback()
     {
         $abstractVariable = $this->getMockBuilder('Saas_PrintedTemplate_Model_Variable_Abstract')
             ->disableOriginalConstructor()
@@ -131,70 +130,8 @@ class Saas_PrintedTemplate_Model_Variable_Item_AbstractTest extends PHPUnit_Fram
      */
     public function getChildrenProvider()
     {
-        return array(
-            '1/1' => array(
-                1, array(
-                    array(
-                        'orderItem' => array(
-                            'id' => 1,
-                            'parentItem' => array(
-                                'id' => 1
-                            ),
-                        ),
-                        'orderItemId' => 1
-                    )
-                ), array(1)
-            ),
-
-            '1/1 - by order item\'s parent id' => array(
-                1, array(
-                    array(
-                        'orderItem' => array(
-                            'id' => 2,
-                            'parentItem' => array(
-                                'id' => 1
-                            ),
-                        ),
-                        'orderItemId' => 1
-                    )
-                ), array(1)
-            ),
-
-            '0/1' => array(
-                2, array(
-                    array(
-                        'orderItem' => array(
-                            'id' => 1,
-                            'parentItem' => array(
-                                'id' => 1
-                            ),
-                        ),
-                        'orderItemId' => 1
-                    )
-                ), array()
-            ),
-
-            '2/2' => array(
-                1, array(
-                    array(
-                        'orderItem' => array(
-                            'id' => 1
-                        ),
-                        'orderItemId' => 1
-                    ),
-
-                    array(
-                        'orderItem' => array(
-                            'id' => 1,
-                            'parentItem' => array(
-                                'id' => 1
-                            ),
-                        ),
-                        'orderItemId' => 2
-                    )
-                ), array(1, 2)
-            )
-        );
+        $fixturePath = __DIR__ . '/../../../_files/';
+        return require_once($fixturePath . 'order_data.php');
     }
 
     /**

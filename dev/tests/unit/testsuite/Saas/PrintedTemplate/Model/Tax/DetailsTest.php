@@ -387,6 +387,8 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
     /**
      * Prepare quote mock object
      *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     *
      * @param null $quoteAddresses
      * @return Mage_Sales_Model_Quote
      */

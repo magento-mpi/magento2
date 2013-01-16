@@ -12,7 +12,11 @@
 class Saas_PrintedTemplate_Model_Variable_Item_FakeInvoice
     extends Saas_PrintedTemplate_Model_Variable_Item_Invoice
 {
-
+    /**
+     * @param string $variableName
+     * @return Saas_PrintedTemplate_Model_Variable_Item_FakeInvoice
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     protected function _setListsFromConfig($variableName)
     {
         $fields = array(

@@ -18,6 +18,11 @@
 class Saas_PrintedTemplate_Model_Variable_Item_FakeAbstract
     extends Saas_PrintedTemplate_Model_Variable_Item_Abstract
 {
+    /**
+     * @param string $type
+     * @return Saas_PrintedTemplate_Model_Variable_Item_FakeAbstract
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     protected function _setListsFromConfig($type)
     {
         return $this;

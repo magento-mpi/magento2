@@ -12,7 +12,11 @@
 class Saas_PrintedTemplate_Model_Variable_Item_FakeCreditmemo
     extends Saas_PrintedTemplate_Model_Variable_Item_Creditmemo
 {
-
+    /**
+     * @param string $variableName
+     * @return Saas_PrintedTemplate_Model_Variable_Item_FakeCreditmemo
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     protected function _setListsFromConfig($variableName)
     {
         $fields = array(

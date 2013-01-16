@@ -11,6 +11,11 @@
 
 class Saas_PrintedTemplate_Model_Variable_FakeTax extends Saas_PrintedTemplate_Model_Variable_Tax
 {
+    /**
+     * @param string $variableName
+     * @return Saas_PrintedTemplate_Model_Template_Variable_Abstract|Saas_PrintedTemplate_Model_Variable_FakeTax
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     protected function _setListsFromConfig($variableName)
     {
         $fields = array(

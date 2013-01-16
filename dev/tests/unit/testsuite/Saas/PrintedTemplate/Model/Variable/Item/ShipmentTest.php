@@ -17,7 +17,7 @@ class Saas_PrintedTemplate_Model_Variable_Item_ShipmentTest extends PHPUnit_Fram
      * @param int orderItemId
      * @param array $itemsData
      * @param array $expectedItems
-     * @dataProvider getChildrenProvider
+     * @dataProvider getChildrenDataProvider
      * @test
      */
     public function testGetChildren($orderItemId, $itemsData, $expectedOrderItemIds)
@@ -36,21 +36,21 @@ class Saas_PrintedTemplate_Model_Variable_Item_ShipmentTest extends PHPUnit_Fram
         $valueModel = new Varien_Object();
         $valueModel->setOrderItem($orderItem);
 
-        $entity = $this->getMockBuilder('Saas_PrintedTemplate_Model_Variable_Item_Shipment')
+        $shipmentEntity = $this->getMockBuilder('Saas_PrintedTemplate_Model_Variable_Item_Shipment')
             ->disableOriginalConstructor()
             ->setMethods(array('_getParentEntity', '_getVariableModel', '_setListsFromConfig'))
             ->getMock();
 
-        $entity->expects($this->any())
+        $shipmentEntity->expects($this->any())
             ->method('_getParentEntity')
             ->will($this->returnValue($parentEntity));
 
-        $entity->expects($this->exactly(count($expectedOrderItemIds)))
+        $shipmentEntity->expects($this->exactly(count($expectedOrderItemIds)))
             ->method('_getVariableModel')
             ->will($this->returnCallback(array($this, 'getVariableModelCallback')));
 
-        $entity->__construct($valueModel);
-        $actualChildren = $entity->getChildren();
+        $shipmentEntity->__construct($valueModel);
+        $actualChildren = $shipmentEntity->getChildren();
         foreach ($actualChildren as $orderItemId => $actualChild) {
             $this->assertInstanceOf(
                 'Saas_PrintedTemplate_Model_Variable_Abstract',
@@ -92,81 +92,18 @@ class Saas_PrintedTemplate_Model_Variable_Item_ShipmentTest extends PHPUnit_Fram
      *
      * @return array
      */
-    public function getChildrenProvider()
+    public function getChildrenDataProvider()
     {
-        return array(
-            '1/1' => array(
-                1, array(
-                    array(
-                        'orderItem' => array(
-                            'id' => 1,
-                            'parentItem' => array(
-                                'id' => 1
-                            ),
-                        ),
-                        'orderItemId' => 1
-                    )
-                ), array(1)
-            ),
-
-            '1/1 - by order item\'s parent id' => array(
-                1, array(
-                    array(
-                        'orderItem' => array(
-                            'id' => 2,
-                            'parentItem' => array(
-                                'id' => 1
-                            ),
-                        ),
-                        'orderItemId' => 1
-                    )
-                ), array(1)
-            ),
-
-            '0/1' => array(
-                2, array(
-                    array(
-                        'orderItem' => array(
-                            'id' => 1,
-                            'parentItem' => array(
-                                'id' => 1
-                            ),
-                        ),
-                        'orderItemId' => 1
-                    )
-                ), array()
-            ),
-
-            '2/2' => array(
-                1, array(
-                    array(
-                        'orderItem' => array(
-                            'id' => 1
-                        ),
-                        'orderItemId' => 1
-                    ),
-
-                    array(
-                        'orderItem' => array(
-                            'id' => 1,
-                            'parentItem' => array(
-                                'id' => 1
-                            ),
-                        ),
-                        'orderItemId' => 2
-                    )
-                ), array(1, 2)
-            )
-        );
+        $fixturePath = __DIR__ . '/../../../_files/';
+        return require_once($fixturePath . 'order_data.php');
     }
 
     /**
      * Get variable model callback
      *
-     * @param array $arguments
      * @return Saas_PrintedTemplate_Model_Variable_Abstract
      */
-    public function getVariableModelCallback($arguments)
+    public function getVariableModelCallback()
     {
         $abstractVariable = $this->getMockBuilder('Saas_PrintedTemplate_Model_Variable_Abstract')
             ->disableOriginalConstructor()
