@@ -19,7 +19,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Core_Model_Config_Base extends Varien_Simplexml_Config
+class Mage_Core_Model_Config_Base extends Varien_Simplexml_Config implements Mage_Core_Model_ConfigInterface
 {
     /**
      * Constructor

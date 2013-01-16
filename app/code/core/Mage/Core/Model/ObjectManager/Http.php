@@ -26,14 +26,31 @@ class Mage_Core_Model_ObjectManager_Http extends Magento_ObjectManager_Zend
         parent::__construct($baseDir . '/var/di/definitions.php');
         $this->configure(array(
             'preference' => array(
-                'Mage_Core_Model_Config_StorageInterface' => 'Mage_Core_Model_Config_Storage',
                 'Mage_Core_Model_Db_UpdaterInterface' => 'Mage_Core_Model_Db_Updater',
                 'Mage_Core_Model_AppInterface' => 'Mage_Core_Model_App_Proxy',
             ),
             'Mage_Core_Model_Dir' => array(
                 'parameters' => array('baseDir' => $baseDir, 'customDirs' => $customDirs, 'customPath' => $customPath)
             ),
+            'Mage_Core_Model_Config' => array(
+                'parameters' => array('storage' => 'Mage_Core_Model_Config_Storage')
+            ),
+            'Mage_Core_Model_Config_Locales' => array(
+                'parameters' => array('storage' => 'Mage_Core_Model_Config_Storage_Locales')
+            ),
+            'Mage_Core_Model_Config_Modules' => array(
+                'parameters' => array('storage' => 'Mage_Core_Model_Config_Storage_Modules')
+            ),
             'Mage_Core_Model_Config_Storage' => array(
+                'parameters' => array('loader' => 'Mage_Core_Model_Config_Loader_Proxy')
+            ),
+            'Mage_Core_Model_Config_Storage_Modules' => array(
+                'parameters' => array('loader' => 'Mage_Core_Model_Config_Loader_Modules_Proxy')
+            ),
+            'Mage_Core_Model_Config_Storage_Locales' => array(
+                'parameters' => array('loader' => 'Mage_Core_Model_Config_Loader_Locales_Proxy')
+            ),
+            'Mage_Core_Model_Config_Loader_Local' => array(
                 'parameters' => array('extraFile' => $customLocalXml, 'extraData' => $customConfig)
             ),
             'Mage_Core_Model_Cache' => array(

@@ -51,7 +51,7 @@ class Mage_Core_Model_Config_Loader_Modules_File
      * Iterate all active modules "etc" folders and combine data from
      * specidied xml file name to one object
      *
-     * @param Mage_Core_Model_Config_Base $modulesConfig
+     * @param Mage_Core_Model_ConfigInterface $modulesConfig
      * @param string $fileName
      * @param Mage_Core_Model_Config_Base|null $mergeToObject
      * @param Mage_Core_Model_Config_Base|null $mergeModel
@@ -59,7 +59,7 @@ class Mage_Core_Model_Config_Loader_Modules_File
      * @return Mage_Core_Model_Config_Base|null
      */
     public function loadConfigurationFromFile(
-        Mage_Core_Model_Config_Base $modulesConfig,
+        Mage_Core_Model_ConfigInterface $modulesConfig,
         $fileName,
         $mergeToObject = null,
         $mergeModel = null,
@@ -103,11 +103,11 @@ class Mage_Core_Model_Config_Loader_Modules_File
     /**
      * Go through all modules and find configuration files of active modules
      *
-     * @param Mage_Core_Model_Config_Base $modulesConfig
+     * @param Mage_Core_Model_ConfigInterface $modulesConfig
      * @param $filename
      * @return array
      */
-    public function getConfigurationFiles(Mage_Core_Model_Config_Base $modulesConfig, $filename)
+    public function getConfigurationFiles(Mage_Core_Model_ConfigInterface $modulesConfig, $filename)
     {
         $result = array();
         $modules = $modulesConfig->getNode('modules')->children();
@@ -126,12 +126,12 @@ class Mage_Core_Model_Config_Loader_Modules_File
     /**
      * Get module directory by directory type
      *
-     * @param Mage_Core_Model_Config_Base $modulesConfig
+     * @param Mage_Core_Model_ConfigInterface $modulesConfig
      * @param string $type
      * @param string $moduleName
      * @return string
      */
-    public function getModuleDir(Mage_Core_Model_Config_Base $modulesConfig, $type, $moduleName)
+    public function getModuleDir(Mage_Core_Model_ConfigInterface $modulesConfig, $type, $moduleName)
     {
         if (isset($this->_moduleDirs[$moduleName][$type])) {
             return $this->_moduleDirs[$moduleName][$type];

@@ -31,9 +31,9 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
     protected $_config;
 
     /**
-     * @var Mage_Core_Helper_Abstract
+     * @var Mage_Core_Model_Factory_Helper
      */
-    protected $_helper;
+    protected $_helperFactory;
 
     /**
      * @var string
@@ -102,10 +102,12 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
     protected $_globalBanUseCache = false;
 
     /**
-     * Class constructor. Initialize cache instance based on options
+     * Initialize cache instance based on options
      *
-     * @param Mage_Core_Model_App $app
+     * @param Mage_Core_Model_Config_Primary $config
      * @param Mage_Core_Model_Dir $dirs
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param bool $banCache
      * @param array $options
      */
     public function __construct(
@@ -124,7 +126,7 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
         }
         $options = array_merge($configOptions, $options);
 
-        $this->_helper = isset($options['helper']) ? $options['helper'] : $helperFactory->get('Mage_Core_Helper_Data');
+        $this->_helperFactory = $helperFactory;
         $this->_globalBanUseCache = $banCache;
 
         $this->_defaultBackendOptions['cache_dir'] = $dirs->getDir(Mage_Core_Model_Dir::CACHE);
@@ -671,11 +673,13 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
         $types = array();
         $config = Mage::getConfig()->getNode(self::XML_PATH_TYPES);
         if ($config) {
+            /** @var $helper Mage_Core_Helper_Data*/
+            $helper = $this->_helperFactory->get('Mage_Core_Helper_Data');
             foreach ($config->children() as $type=>$node) {
                 $types[$type] = new Varien_Object(array(
                     'id'            => $type,
-                    'cache_type'    => $this->_helper->__((string)$node->label),
-                    'description'   => $this->_helper->__((string)$node->description),
+                    'cache_type'    => $helper->__((string)$node->label),
+                    'description'   => $helper->__((string)$node->description),
                     'tags'          => strtoupper((string) $node->tags),
                     'status'        => (int)$this->canUse($type),
                 ));

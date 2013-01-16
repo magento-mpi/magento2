@@ -7,15 +7,55 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Config_Modules extends Mage_Core_Model_Config_Base
+class Mage_Core_Model_Config_Modules implements Mage_Core_Model_ConfigInterface
 {
     /**
-     * @param Mage_Core_Model_Config_Loader_Modules $loader
+     * Configuration data container
+     *
+     * @var Mage_Core_Model_ConfigInterface
      */
-    public function __construct(Mage_Core_Model_Config_Loader_Modules $loader)
+    protected $_data;
+
+    /**
+     * @param Mage_Core_Model_Config_StorageInterface $storage
+     */
+    public function __construct(Mage_Core_Model_Config_StorageInterface $storage)
     {
-        parent::__construct('<config><modules></modules></config>');
-        $loader->load($this);
+        $this->_data = $storage->getConfiguration();
+    }
+
+    /**
+     * Get configuration node
+     *
+     * @param string $path
+     * @return Varien_Simplexml_Element
+     */
+    public function getNode($path = null)
+    {
+        return $this->_data->getNode($path);
+    }
+
+    /**
+     * Create node by $path and set its value
+     *
+     * @param string $path separated by slashes
+     * @param string $value
+     * @param boolean $overwrite
+     */
+    public function setNode($path, $value, $overwrite = true)
+    {
+        $this->_data->setNode($path, $value, $overwrite);
+    }
+
+    /**
+     * Returns nodes found by xpath expression
+     *
+     * @param string $xpath
+     * @return array
+     */
+    public function getXpath($xpath)
+    {
+        return $this->_data->getXpath($xpath);
     }
 
     /**

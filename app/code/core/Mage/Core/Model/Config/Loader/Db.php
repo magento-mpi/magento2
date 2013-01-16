@@ -30,14 +30,27 @@ class Mage_Core_Model_Config_Loader_Db implements Mage_Core_Model_Config_LoaderI
      */
     protected $_resource;
 
+    /**
+     * @var Mage_Core_Model_Config_BaseFactory
+     */
+    protected $_configFactory;
+
+    /**
+     * @param Mage_Core_Model_Config_Modules $modulesConfig
+     * @param Mage_Core_Model_Resource_Config $resource
+     * @param Mage_Core_Model_Db_UpdaterInterface $schemeUpdater
+     * @param Mage_Core_Model_Config_BaseFactory $factory
+     */
     public function __construct(
         Mage_Core_Model_Config_Modules $modulesConfig,
         Mage_Core_Model_Resource_Config $resource,
-        Mage_Core_Model_Db_UpdaterInterface $schemeUpdater
+        Mage_Core_Model_Db_UpdaterInterface $schemeUpdater,
+        Mage_Core_Model_Config_BaseFactory $factory
     ) {
         $this->_config = $modulesConfig;
         $this->_resource = $resource;
         $this->_dbUpdater = $schemeUpdater;
+        $this->_configFactory = $factory;
     }
 
     /**
@@ -55,7 +68,7 @@ class Mage_Core_Model_Config_Loader_Db implements Mage_Core_Model_Config_LoaderI
          $this->_dbUpdater->updateScheme();
 
         //apply modules configuration
-        $config->extend($this->_config);
+        $config->extend($this->_configFactory->create($this->_config->getNode()));
 
         //load db configuration
         Magento_Profiler::start('load_db');

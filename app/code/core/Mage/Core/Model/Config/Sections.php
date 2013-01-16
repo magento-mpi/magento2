@@ -46,7 +46,7 @@ class Mage_Core_Model_Config_Sections
     public function getKey($path)
     {
         $pathParts = explode('/', $path);
-        if (!array_key_exists($pathParts[0],$this->_sections)) {
+        if (!array_key_exists($pathParts[0], $this->_sections)) {
             return false;
         }
         return implode('_', array_slice($pathParts, 0, $this->_sections[$pathParts[0]] + 1));

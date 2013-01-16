@@ -55,6 +55,19 @@
                 </observers>
             </store_collection_load_after>
         </events>
+    </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <use>admin</use>
+                <args>
+                    <module>Mage_Backend</module>
+                    <frontName>admin</frontName>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
         <di>
             <preferences>
                 <Mage_Backend_Model_Auth_StorageInterface>Mage_Backend_Model_Auth_Session</Mage_Backend_Model_Auth_StorageInterface>
@@ -103,19 +116,6 @@
                 <shared>0</shared>
             </Mage_Backend_Model_Config_Structure_Element_Group_Proxy>
         </di>
-    </global>
-    <admin>
-        <routers>
-            <adminhtml>
-                <use>admin</use>
-                <args>
-                    <module>Mage_Backend</module>
-                    <frontName>admin</frontName>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
-    <adminhtml>
         <layout>
             <updates>
                 <backend module='Mage_Backend'>

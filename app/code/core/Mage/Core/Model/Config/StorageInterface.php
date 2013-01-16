@@ -13,7 +13,7 @@ interface Mage_Core_Model_Config_StorageInterface
      * Get loaded configuration
      *
      * @param bool $useCache
-     * @return mixed
+     * @return Mage_Core_Model_ConfigInterface
      */
     public function getConfiguration($useCache = true);
 

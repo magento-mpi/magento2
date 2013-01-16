@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Config
+class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
 {
     /**
      * Config cache tag
@@ -71,9 +71,9 @@ class Mage_Core_Model_Config
     protected $_storage;
 
     /**
-     * Base configuration
+     * Configuration data container
      *
-     * @var Mage_Core_Model_Config_Base
+     * @var Mage_Core_Model_ConfigInterface
      */
     protected $_config;
 
@@ -92,40 +92,21 @@ class Mage_Core_Model_Config
     protected $_moduleReader;
 
     /**
-     * Configuration sections
-     *
-     * @var Mage_Core_Model_Config_Sections
-     */
-    protected $_sections;
-
-    /**
-     * Loaded configuration sections
-     *
-     * @var array
-     */
-    protected $_loadedSections;
-
-    /**
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Model_Config_StorageInterface $configStorage
-     * @param Mage_Core_Model_Config_Sections $sections
-     * @param Mage_Core_Model_Config_BaseFactory $configFactory
+     * @param Mage_Core_Model_Config_StorageInterface $storage
      * @param Mage_Core_Model_AppInterface $app
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
-        Mage_Core_Model_Config_StorageInterface $configStorage,
-        Mage_Core_Model_Config_Sections $sections,
-        Mage_Core_Model_Config_BaseFactory $configFactory,
+        Mage_Core_Model_Config_StorageInterface $storage,
         Mage_Core_Model_AppInterface $app,
         Mage_Core_Model_Config_Modules_Reader $moduleReader
     ) {
         $this->_objectManager = $objectManager;
         $this->_app = $app;
-        $this->_storage = $configStorage;
-        $this->_sections = $sections;
-        $this->_data = $configFactory->create($this->_storage->getConfiguration());
+        $this->_storage = $storage;
+        $this->_config = $this->_storage->getConfiguration();
         $this->_moduleReader = $moduleReader;
     }
 
@@ -219,26 +200,7 @@ class Mage_Core_Model_Config
             }
             $path = $scope . ($scopeCode ? '/' . $scopeCode : '' ) . (empty($path) ? '' : '/' . $path);
         }
-
-
-        /**
-         * Check path cache loading
-         */
-        if ($path !== null) {
-            $sectionKey = $this->_sections->getKey($path);
-            if ($sectionKey !== false) {
-                if (!isset($this->_loadedSections[$sectionKey])) {
-                    Magento_Profiler::start('init_config_section:' . $sectionKey);
-                    $this->_loadedSections[$sectionKey] = $this->_storage->getSection($sectionKey);
-                    Magento_Profiler::stop('init_config_section:' . $sectionKey);
-                }
-                if ($this->_loadedSections[$sectionKey]) {
-                    $path = substr($path, strlen($sectionKey) + 1);
-                    return $this->_loadedSections[$sectionKey]->getNode($path ?: null);
-                }
-            }
-        }
-        return $this->_data->getNode($path);
+        return $this->_config->getNode($path);
     }
 
     /**
@@ -669,11 +631,9 @@ class Mage_Core_Model_Config
      */
     public function removeCache()
     {
-        $tags = array(self::CACHE_TAG);
         /** @var $eventManager Mage_Core_Model_Event_Manager */
         $eventManager = $this->_objectManager->get('Mage_Core_Model_Event_Manager');
-        $eventManager->dispatch('application_clean_cache', array('tags' => $tags));
-        $this->_storage->removeCache($tags);
-        $this->_config->removeCache();
+        $eventManager->dispatch('application_clean_cache', array('tags' => array(self::CACHE_TAG)));
+        $this->_storage->removeCache();
     }
 }
