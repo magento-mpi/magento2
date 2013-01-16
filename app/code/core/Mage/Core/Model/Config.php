@@ -233,7 +233,8 @@ class Mage_Core_Model_Config
                     Magento_Profiler::stop('init_config_section:' . $sectionKey);
                 }
                 if ($this->_loadedSections[$sectionKey]) {
-                    return $this->_loadedSections[$sectionKey]->getNode(substr($path, strlen($sectionKey) + 1));
+                    $path = substr($path, strlen($sectionKey) + 1);
+                    return $this->_loadedSections[$sectionKey]->getNode($path ?: null);
                 }
             }
         }
