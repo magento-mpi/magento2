@@ -379,9 +379,9 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
     public function testLoadDiConfiguration()
     {
         $objectManager = Mage::getObjectManager();
-        $this->_model = $objectManager->get('Mage_Core_Model_App');
+        $this->_model  = $objectManager->get('Mage_Core_Model_App');
         $this->_model->loadDiConfiguration('frontend');
         $testInstance = $objectManager->create('Enterprise_Tag_Block_Reward_Tooltip');
-        $this->assertAttributeInstanceOf('Mage_DesignEditor_Model_Url_NavigationMode', '_urlBuilder' ,$testInstance);
+        $this->assertAttributeInstanceOf('Mage_DesignEditor_Model_Url_NavigationMode', '_urlBuilder', $testInstance);
     }
 }
