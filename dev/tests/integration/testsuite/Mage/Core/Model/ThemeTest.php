@@ -132,11 +132,11 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($themeModel->isVirtual());
     }
 
-
     /**
      * Test id deletable
      *
      * @dataProvider isDeletableDataProvider
+     * @param bool $isVirtual
      */
     public function testIsDeletable($isVirtual)
     {
@@ -200,8 +200,26 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test theme on child relations
+     */
+    public function testChildRelation()
+    {
+        /** @var $theme Mage_Core_Model_Theme */
+        /** @var $currentTheme Mage_Core_Model_Theme */
+        $theme = Mage::getObjectManager()->get('Mage_Core_Model_Theme');
+        foreach ($theme->getCollection() as $currentTheme) {
+            $parentTheme = $currentTheme->getParentTheme();
+            if (!empty($parentTheme)) {
+                $this->assertTrue($parentTheme->hasChildThemes());
+            }
+        }
+    }
+
+    /**
      * @magentoDbIsolation enabled
      * @dataProvider getCustomJsFilesProvider
+     * @param array $filesData
+     * @param array $expectedData
      */
     public function testGetCustomJsFiles($filesData, $expectedData)
     {
