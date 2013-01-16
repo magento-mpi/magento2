@@ -395,8 +395,8 @@ class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
      */
     public function canCreateUser()
     {
-        $maxUserCount = Mage::getConfig()->getNode('global/functional_limitation/max_admin_user_count');
-        return ($this->_getTotalUserCount() < $maxUserCount);
+        $maxUserCount = (int)Mage::getConfig()->getNode('global/functional_limitation/max_admin_user_count');
+        return ($maxUserCount ? $this->_getTotalUserCount() < $maxUserCount : true);
     }
 
     /**

@@ -26,7 +26,13 @@ class Mage_User_Adminhtml_UserController extends Mage_Backend_Controller_ActionA
         $this->_title($this->__('System'))
              ->_title($this->__('Permissions'))
              ->_title($this->__('Users'));
-
+        /** @var $model Mage_User_Model_Resource_User */
+        $model = Mage::getObjectManager()->get('Mage_User_Model_Resource_User');
+        if (!$model->canCreateUser()) {
+            /** @var $session Mage_Adminhtml_Model_Session */
+            $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
+            $session->addNotice(Mage_User_Model_Resource_User::MESSAGE_USER_LIMIT_REACHED);
+        }
         $this->_initAction();
         $this->renderLayout();
     }

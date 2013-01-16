@@ -11,18 +11,25 @@
 
 class Mage_User_Adminhtml_UserControllerTest extends Mage_Backend_Utility_Controller
 {
-    /**
-     * @covers Mage_User_Adminhtml_UserController::indexAction
-     */
     public function testIndexAction()
     {
         $this->dispatch('backend/admin/user/index');
-        $this->assertStringMatchesFormat('%a<div class="content-header">%aUsers%a', $this->getResponse()->getBody());
+        $response = $this->getResponse()->getBody();
+        $this->assertStringMatchesFormat('%a<div class="content-header">%aUsers%a', $response);
+        $this->assertContains('Add New User', $response);
     }
 
     /**
-     * @covers Mage_User_Adminhtml_UserController::rolesGridAction
+     * @magentoConfigFixture global/functional_limitation/max_admin_user_count 1
      */
+    public function testIndexActionLimitedUsers()
+    {
+        $this->dispatch('backend/admin/user/index');
+        $response = $this->getResponse()->getBody();
+        $this->assertNotContains('Add New User', $response);
+        $this->assertContains(Mage_User_Model_Resource_User::MESSAGE_USER_LIMIT_REACHED, $response);
+    }
+
     public function testRoleGridAction()
     {
         $this->getRequest()
@@ -33,9 +40,6 @@ class Mage_User_Adminhtml_UserControllerTest extends Mage_Backend_Utility_Contro
         $this->assertStringMatchesFormat($expected, $this->getResponse()->getBody());
     }
 
-    /**
-     * @covers Mage_User_Adminhtml_UserController::rolesGridAction
-     */
     public function testRolesGridAction()
     {
         $this->getRequest()
@@ -47,9 +51,6 @@ class Mage_User_Adminhtml_UserControllerTest extends Mage_Backend_Utility_Contro
         $this->assertStringMatchesFormat($expected, $this->getResponse()->getBody());
     }
 
-    /**
-     * @covers Mage_User_Adminhtml_UserController::editAction
-     */
     public function testEditAction()
     {
         $this->getRequest()->setParam('user_id', 1);
