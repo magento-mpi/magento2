@@ -5,8 +5,12 @@
  * @copyright {copyright}
  * @license {license_link}
  */
+
+/** @var $customer Mage_Customer_Model_Customer */
 $customer = Mage::getModel('Mage_Customer_Model_Customer');
+$customer->setId(1);
 $customer->setStoreId(1)
+    ->setWebsiteId(1)
     ->setCreatedIn('Default Store View')
     ->setDefaultBilling(1)
     ->setDefaultShipping(1)
@@ -18,8 +22,8 @@ $customer->setStoreId(1)
     ->setRewardUpdateNotification(1)
     ->setRewardWarningNotification(1)
     ->save();
-Mage::register('customer', $customer);
 
+/** @var $customerAddress Mage_Customer_Model_Address */
 $customerAddress = Mage::getModel('Mage_Customer_Model_Address');
 $customerAddress->setData(
     array(
@@ -38,9 +42,9 @@ $customerAddress->setData(
         'is_default_shipping' => true
     )
 );
+$customerAddress->setId(1);
 $customerAddress->setCustomer($customer);
 $customerAddress->save();
-Mage::register('customer_address', $customerAddress);
 
 $customerAddress2 = Mage::getModel('Mage_Customer_Model_Address');
 $customerAddress2->setData(
@@ -56,16 +60,17 @@ $customerAddress2->setData(
         'region_id' => '43',
         'street' => '123 Main Street',
         'telephone' => '718-452-9207',
-        'is_default_billing' => true,
-        'is_default_shipping' => true
+        'is_default_billing' => false,
+        'is_default_shipping' => false
     )
 );
+$customerAddress2->setId(2);
 $customerAddress2->setCustomer($customer);
 $customerAddress2->save();
-Mage::register('customer_address2', $customerAddress2);
 
-//Set customer default shipping and billing address
+// Set customer default shipping and billing address
 $customer->addAddress($customerAddress);
+$customer->addAddress($customerAddress2);
 $customer->setDefaultShipping($customerAddress->getId());
 $customer->setDefaultBilling($customerAddress->getId());
 $customer->save();

@@ -6,8 +6,9 @@
  *
  * @copyright {copyright}
  * @license {license_link}
+ *
  * @magentoDataFixture Mage/Customer/Model/Address/Api/_files/customer_address.php
- * @magentoDbIsolation enabled
+ *
  */
 class Mage_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
 {
@@ -17,19 +18,26 @@ class Mage_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
     public function testCustomerAddressList()
     {
         // Get the customer's addresses
-        $customerAddress = Mage::registry('customer_address');
-        $customer = Mage::registry('customer');
-
         $soapResult = Magento_Test_Helper_Api::call(
             $this,
             'customerAddressList',
             array(
-                'customerId' => $customer->getId()
+                'customerId' => 1
             )
         );
 
-        $this->assertTrue((bool)$soapResult, 'Error during customer address list via API call');
+        $this->assertNotEmpty($soapResult, 'Error during customer address list via API call');
+        $this->assertCount(2, $soapResult, 'Result did not contain 2 addresses');
+
+        /** @var $customerAddress Mage_Customer_Model_Address */
+        $customerAddress = Mage::getModel('Mage_Customer_Model_Address');
+        $customerAddress->load(1);
         $this->_verifyAddress($customerAddress, $soapResult[0]);
+
+        /** @var $customerAddress2 Mage_Customer_Model_Address */
+        $customerAddress2 = Mage::getModel('Mage_Customer_Model_Address');
+        $customerAddress2->load(2);
+        $this->_verifyAddress($customerAddress2, $soapResult[1]);
     }
 
     /**
@@ -39,9 +47,9 @@ class Mage_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
     public function testCustomerAddressInfo()
     {
 
-        // customer address
         /** @var $customerAddress Mage_Customer_Model_Address */
-        $customerAddress = Mage::registry('customer_address');
+        $customerAddress = Mage::getModel('Mage_Customer_Model_Address');
+        $customerAddress->load(1);
 
         $soapResult = Magento_Test_Helper_Api::call(
             $this,
@@ -51,17 +59,19 @@ class Mage_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
             )
         );
 
-        $this->assertTrue((bool)$soapResult, 'Error during customer address info via API call');
+        $this->assertNotEmpty($soapResult, 'Error during customer address info via API call');
         $this->_verifyAddress($customerAddress, $soapResult);
     }
 
 
     /**
      * Test customer address create
+     *
+     * @magentoDbIsolation enabled
      */
     public function testCustomerAddressCreate()
     {
-        $customer = Mage::registry('customer');
+        $customerId = 1;
 
         // New address to create
         $newAddressData = (object)array(
@@ -74,7 +84,8 @@ class Mage_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
             'middlename' => 'Kari',
             'postcode' => '77777',
             'prefix' => 'Ms',
-            'region_id'=> 43,
+            'region_id'=> 35,
+            'region' => 'Mississippi',
             'street' => array('123 FM 101'),
             'suffix' => 'M',
             'telephone' => '5',
@@ -83,115 +94,66 @@ class Mage_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
         );
 
         // Call api to create the address
-        $soapResult = Magento_Test_Helper_Api::call(
+        $newAddressId = Magento_Test_Helper_Api::call(
             $this,
             'customerAddressCreate',
             array(
-                'customerId' => $customer->getId(),
+                'customerId' => $customerId,
                 'addressData' => $newAddressData
             )
         );
-        $this->assertTrue((bool)$soapResult, 'Error during customer address create via API call');
 
         // Verify the new address was added
-        $newAddressId = $soapResult;
-        $soapResult = Magento_Test_Helper_Api::call(
-            $this,
-            'customerAddressInfo',
-            array(
-                'addressId' => $newAddressId
-            )
-        );
-        $this->assertTrue((bool)$soapResult,
-            'Error during customer address info via API call, getting newly created address');
+        /** @var $newAddressModel Mage_Customer_Model_Address */
+        $newAddressModel = Mage::getModel('Mage_Customer_Model_Address');
+        $newAddressModel->load($newAddressId);
 
         // Verify all field values were correctly set
-        foreach ( $newAddressData as $field => $value) {
-            if ($field == 'street') {
-                $this->assertEquals( trim(implode("\n",$value)),
-                    $soapResult[$field], "Field '{$field}' has invalid value");
-            } else {
-                $this->assertEquals($value,
-                    $soapResult[$field], "Field '{$field}' has invalid value");
-            }
-        }
+        $newAddressData->street = trim(implode("\n",$newAddressData->street));
+        $this->_verifyAddress($newAddressModel, (array)$newAddressData);
+
     }
+
 
     /**
      * Test customer address delete
+     *
+     * @magentoDbIsolation enabled
      */
     public function testCustomerAddressDelete()
     {
-        $customer = Mage::registry('customer');
-        $customerAddress = Mage::registry('customer_address2');
+        $addressId = 1;
 
-        // get the customer's current address list
-        $soapResult = Magento_Test_Helper_Api::call(
-            $this,
-            'customerAddressList',
-            array(
-                'customerId' => $customer->getId()
-            )
-        );
-        $this->assertTrue((bool)$soapResult, 'Error getting customer address list via API call.');
-        $originalNumberOfAddresses = count($soapResult);
-        $this->assertGreaterThan(0, $originalNumberOfAddresses, 'customer does not have any addresses to delete');
-
-        // find the one that is $customerAddress id:
-        $found = false;
-        foreach ($soapResult as $returnedAddress ) {
-            if ($returnedAddress['customer_address_id'] == $customerAddress->getId()){
-                $found = true;
-                break;
-            }
-        }
-        $this->assertTrue($found, 'customer address id not found in list of addresses');
-
-        // Delete one
+        // Delete address
         $soapResult = Magento_Test_Helper_Api::call(
             $this,
             'customerAddressDelete',
             array(
-                'addressId' => $customerAddress->getId()
+                'addressId' => $addressId
             )
         );
-        $this->assertTrue((bool)$soapResult, 'Error during customer address delete via API call');
+        $this->assertTrue($soapResult, 'Error during customer address delete via API call');
 
-        // Verify the deleted address is no longer in the list
-        // get the customer's current address list
-        $soapResult = Magento_Test_Helper_Api::call(
-            $this,
-            'customerAddressList',
-            array(
-                'customerId' => $customer->getId()
-            )
-        );
-        $this->assertTrue((bool)$soapResult, 'Error getting customer address list via API call.');
-        $this->assertEquals(--$originalNumberOfAddresses, count($soapResult),
-            'Number of addresses did not go down.');
-
-        // find the one that is $customerAddress id:
-        $found = false;
-        foreach ($soapResult as $returnedAddress ) {
-            if ($returnedAddress['customer_address_id'] == $customerAddress->getId()) {
-                $found = true;
-            }
-        }
-        $this->assertFalse($found, 'customer address id found in list of addresses after deletion');
+        /** @var Mage_Customer_Model_Address $address */
+        $address = Mage::getModel('Mage_Customer_Model_Address')->load($addressId);
+        $this->assertNull($address->getEntityId());
     }
 
     /**
      * Test customer address update
+     *
+     * @magentoDbIsolation enabled
      */
     public function testCustomerAddressUpdate()
     {
-        $customerAddress = Mage::registry('customer_address');
-
+        $addressId = 1;
         $newFirstname = 'Eric';
+        $newTelephone = '888-555-8888';
 
         // Data to set in existing address
         $updateData = (object)array(
-            'firstname' => $newFirstname
+            'firstname' => $newFirstname,
+            'telephone' => $newTelephone
         );
 
         // update a customer's address
@@ -199,37 +161,28 @@ class Mage_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
             $this,
             'customerAddressUpdate',
             array(
-                'addressId' => $customerAddress->getId(),
+                'addressId' => $addressId,
                 'addressData' => $updateData
             )
         );
-        $this->assertTrue((bool)$soapResult, 'Error during customer address update via API call');
 
-        // Verify the address was updated
-        $soapResult = Magento_Test_Helper_Api::call(
-            $this,
-            'customerAddressInfo',
-            array(
-                'addressId' => $customerAddress->getId()
-            )
-        );
-        $this->assertTrue((bool)$soapResult,
-            'Error during customer address info via API call, getting newly created address');
+        $this->assertTrue($soapResult, 'Error during customer address update via API call');
 
         // Verify all field values were correctly set
-        foreach ($soapResult as $field => $value) {
-            if ($field == 'customer_address_id') {
-                // process field mapping
-                $field = 'entity_id';
-            }
+        /** @var $customerAddress Mage_Customer_Model_Address */
+        $customerAddress = Mage::getModel('Mage_Customer_Model_Address');
+        $customerAddress->load($addressId);
 
-            if ($field == 'firstname') {
-                $this->assertEquals($newFirstname, $value, "Firstname was not set to '{$newFirstname}'.");
-            } elseif ($field != 'updated_at') {
-                // ignore updated_at field, it will change
-                $this->assertEquals($customerAddress->getData($field), $value, "Field '{$field}' has invalid value");
-            }
-        }
+        $this->assertEquals(
+            $newFirstname,
+            $customerAddress->getFirstname(),
+            'First name is not updated.'
+        );
+        $this->assertEquals(
+            $newTelephone,
+            $customerAddress->getTelephone(),
+            'Telephone is not updated.'
+        );
     }
 
     /**
@@ -241,12 +194,24 @@ class Mage_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
      */
     protected function _verifyAddress($addressModel, $addressSoapResult)
     {
-        foreach ($addressSoapResult as $field => $value) {
-            if ($field == 'customer_address_id') {
-                // process field mapping
-                $field = 'entity_id';
-            }
-            $this->assertEquals($addressModel->getData($field), $value, "Field '{$field}' has invalid value");
-        }
+        $fieldsToCompare = array(
+            'entity_id' => 'customer_address_id',
+            'city',
+            'country_id',
+            'fax',
+            'firstname',
+            'lastname',
+            'middlename',
+            'postcode',
+            'region',
+            'region_id',
+            'street',
+            'telephone'
+        );
+
+        /** @var Magento_Test_Helper_Api $helper */
+        $helper = Magento_Test_Helper_Factory::getHelper('api');
+        $helper->assertEntityFields($this, $addressModel->getData(), $addressSoapResult, $fieldsToCompare);
     }
+
 }
