@@ -80,6 +80,15 @@ interface Magento_Filesystem_AdapterInterface
     public function getNestedKeys($key);
 
     /**
+     * Gets list of all matched keys
+     *
+     * @param string $pattern
+     * @return array
+     * @throws Magento_Filesystem_Exception
+     */
+    public function searchKeys($pattern);
+
+    /**
      * Check if key is directory.
      *
      * @param string $key

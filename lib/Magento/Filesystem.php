@@ -181,7 +181,6 @@ class Magento_Filesystem
         return $this->_adapter->copy($sourcePath, $targetPath);
     }
 
-
     /**
      * Check if key is directory.
      *
@@ -253,6 +252,27 @@ class Magento_Filesystem
     public function getNestedKeys($key, $workingDirectory = null)
     {
         return $this->_adapter->getNestedKeys($this->_getCheckedPath($key, $workingDirectory));
+    }
+
+    /**
+     * Gets list of all matched keys
+     *
+     * @param string $baseDirectory
+     * @param string $pattern
+     * @return array
+     */
+    public function searchKeys($baseDirectory, $pattern)
+    {
+        if ($baseDirectory) {
+            $baseDirectory = $this->_getCheckedPath($baseDirectory);
+        } else {
+            $baseDirectory = $this->_workingDirectory;
+        }
+        return $this->_adapter->searchKeys(
+            rtrim($baseDirectory, self::DIRECTORY_SEPARATOR)
+            . self::DIRECTORY_SEPARATOR
+            . self::fixSeparator($pattern)
+        );
     }
 
     /**
@@ -355,14 +375,15 @@ class Magento_Filesystem
      *
      * @param string $key
      * @param Magento_Filesystem_Stream_Mode|string $mode
-     * @param string|null $workingDirectory
      * @return Magento_Filesystem_StreamInterface
      * @throws InvalidArgumentException
      */
-    public function createAndOpenStream($key, $mode, $workingDirectory = null)
+    public function createAndOpenStream($key, $mode)
     {
-        $stream = $this->createStream($key, $workingDirectory);
-        if (!$mode instanceof Magento_Filesystem_Stream_Mode && !is_string($mode)) {
+        $stream = $this->createStream($key);
+        if (is_string($mode)) {
+            $mode = new Magento_Filesystem_Stream_Mode($mode);
+        } elseif (!$mode instanceof Magento_Filesystem_Stream_Mode) {
             throw new InvalidArgumentException('Wrong mode parameter');
         }
         $stream->open($mode);
@@ -418,30 +439,11 @@ class Magento_Filesystem
      */
     protected function _getCheckedPath($key, $workingDirectory = null)
     {
-        $path = self::getAbsolutePath($key);
-        $this->_checkPath($path, $workingDirectory);
-        return $path;
-    }
-
-    /**
-     * Check path isolation
-     *
-     * @param string $key
-     * @param string|null $workingDirectory
-     * @throws InvalidArgumentException
-     */
-    protected function _checkPath($key, $workingDirectory = null)
-    {
-        if (!$workingDirectory) {
-            $workingDirectory = $this->_workingDirectory;
-        } else {
-            $workingDirectory = self::fixSeparator($workingDirectory);
+        $workingDirectory = $workingDirectory ? $workingDirectory : $this->_workingDirectory;
+        if (!self::isPathInDirectory($key, $workingDirectory)) {
+            throw new InvalidArgumentException("Path '$key' is out of working directory '$workingDirectory'");
         }
-        if ($workingDirectory) {
-            if (0 !== strpos($key, $workingDirectory)) {
-                throw new InvalidArgumentException('Invalid path');
-            }
-        }
+        return self::getAbsolutePath($key);
     }
 
     /**
@@ -513,7 +515,7 @@ class Magento_Filesystem
      */
     public static function fixSeparator($path)
     {
-        return str_replace('\\', self::DIRECTORY_SEPARATOR, $path);
+        return rtrim(str_replace('\\', self::DIRECTORY_SEPARATOR, $path), self::DIRECTORY_SEPARATOR);
     }
 
     /**
@@ -524,6 +526,18 @@ class Magento_Filesystem
      */
     public static function isAbsolutePath($path)
     {
-        return $path == self::getAbsolutePath($path);
+        return self::fixSeparator($path) == self::getAbsolutePath($path);
+    }
+
+    /**
+     * Checks is directory contains path
+     *
+     * @param string $path
+     * @param string $directory
+     * @return bool
+     */
+    public static function isPathInDirectory($path, $directory)
+    {
+        return 0 === strpos(self::getAbsolutePath($path), self::getAbsolutePath($directory));
     }
 }

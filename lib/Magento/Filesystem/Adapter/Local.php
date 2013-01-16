@@ -196,6 +196,18 @@ class Magento_Filesystem_Adapter_Local implements
     }
 
     /**
+     * Gets list of all matched keys
+     *
+     * @param string $pattern
+     * @return array
+     * @throws Magento_Filesystem_Exception
+     */
+    public function searchKeys($pattern)
+    {
+        return glob($pattern);
+    }
+
+    /**
      * Check if key is a directory.
      *
      * @param string $key

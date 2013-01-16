@@ -45,7 +45,13 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
     protected $_objectManager;
 
     /**
+     * @var Magento_Filesystem
+     */
+    protected $_filesystem;
+
+    /**
      * @param Mage_Core_Controller_Varien_Action_Factory $controllerFactory
+     * @param Magento_Filesystem $filesystem
      * @param Magento_ObjectManager $objectManager
      * @param string $areaCode
      * @param string $baseController
@@ -53,6 +59,7 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
      */
     public function __construct(
         Mage_Core_Controller_Varien_Action_Factory $controllerFactory,
+        Magento_Filesystem $filesystem,
         Magento_ObjectManager $objectManager,
         $areaCode,
         $baseController
@@ -60,6 +67,7 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
         parent::__construct($controllerFactory);
 
         $this->_objectManager  = $objectManager;
+        $this->_filesystem     = $filesystem;
         $this->_areaCode       = $areaCode;
         $this->_baseController = $baseController;
 
@@ -467,7 +475,7 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
     protected function _includeControllerClass($controllerFileName, $controllerClassName)
     {
         if (!class_exists($controllerClassName, false)) {
-            if (!file_exists($controllerFileName)) {
+            if (!$this->_filesystem->isFile($controllerFileName)) {
                 return false;
             }
             include $controllerFileName;
@@ -545,7 +553,11 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
 
     public function validateControllerFileName($fileName)
     {
-        if ($fileName && is_readable($fileName) && false===strpos($fileName, '//')) {
+        if ($fileName
+            && $this->_filesystem->isFile($fileName)
+            && $this->_filesystem->isReadable($fileName)
+            && false === strpos($fileName, '//')
+        ) {
             return true;
         }
         return false;

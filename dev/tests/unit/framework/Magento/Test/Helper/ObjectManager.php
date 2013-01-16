@@ -43,7 +43,8 @@ class Magento_Test_Helper_ObjectManager
             'session'            => 'Mage_Core_Model_Session',
             'storeConfig'        => 'Mage_Core_Model_Store_Config',
             'frontController'    => 'Mage_Core_Controller_Varien_Front',
-            'helperFactory'      => 'Mage_Core_Model_Factory_Helper'
+            'helperFactory'      => 'Mage_Core_Model_Factory_Helper',
+            'filesystem'         => 'Magento_Filesystem',
         ),
         self::MODEL_ENTITY => array(
             'eventDispatcher'    => 'Mage_Core_Model_Event_Manager',

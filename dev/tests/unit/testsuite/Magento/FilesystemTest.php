@@ -113,17 +113,16 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Invalid path
      * @dataProvider twoFilesOperationsInvalidDataProvider
      * @param string $method
      * @param string $source
      * @param string $destination
+     * @param string $exceptionMessage
      * @param string|null $workingDirectory
      * @param string|null $targetDir
      */
-    public function testTwoFilesOperationsIsolationException($method, $source, $destination, $workingDirectory = null,
-        $targetDir = null
+    public function testTwoFilesOperationsIsolationException(
+        $method, $source, $destination, $exceptionMessage, $workingDirectory = null, $targetDir = null
     ) {
         $adapterMock = $this->_getDefaultAdapterMock();
         $adapterMock->expects($this->never())
@@ -131,6 +130,9 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
 
         $filesystem = new Magento_Filesystem($adapterMock);
         $filesystem->setWorkingDirectory('/tmp');
+
+
+        $this->setExpectedException('InvalidArgumentException', $exceptionMessage);
         $filesystem->$method($source, $destination, $workingDirectory, $targetDir);
     }
 
@@ -140,18 +142,88 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
     public function twoFilesOperationsInvalidDataProvider()
     {
         return array(
-            'copy first path invalid' => array('copy', '/tmp/../etc/passwd', '/tmp/path001'),
-            'copy first path invalid #2' => array('copy', '/tmp/../etc/passwd', '/tmp/path001', '/tmp'),
-            'copy second path invalid' => array('copy', '/tmp/uploaded.txt', '/tmp/../etc/passwd'),
-            'copy both path invalid' => array('copy', '/tmp/../etc/passwd', '/tmp/../dev/null'),
-            'rename first path invalid' => array('rename', '/tmp/../etc/passwd', '/tmp/path001'),
-            'rename first path invalid #2' => array('rename', '/tmp/../etc/passwd', '/tmp/path001', '/tmp'),
-            'rename second path invalid' => array('rename', '/tmp/uploaded.txt', '/tmp/../etc/passwd'),
-            'rename both path invalid' => array('rename', '/tmp/../etc/passwd', '/tmp/../dev/null'),
-            'copy target path invalid' => array('copy', '/tmp/passwd', '/etc/../dev/null', null, '/etc'),
-            'rename target path invalid' => array('rename', '/tmp/passwd', '/etc/../dev/null', null, '/etc'),
-            'copy target path invalid #2' => array('copy', '/tmp/passwd', '/etc/../dev/null', '/tmp', '/etc'),
-            'rename target path invalid #2' => array('rename', '/tmp/passwd', '/etc/../dev/null', '/tmp', '/etc'),
+            'copy first path invalid' => array(
+                'copy',
+                '/tmp/../etc/passwd',
+                '/tmp/path001',
+                "Path '/tmp/../etc/passwd' is out of working directory '/tmp'",
+            ),
+            'copy first path invalid #2' => array(
+                'copy',
+                '/tmp/../etc/passwd',
+                '/tmp/path001',
+                "Path '/tmp/../etc/passwd' is out of working directory '/tmp'",
+                '/tmp'
+            ),
+            'copy second path invalid' => array(
+                'copy',
+                '/tmp/uploaded.txt',
+                '/tmp/../etc/passwd',
+                "Path '/tmp/../etc/passwd' is out of working directory '/tmp'",
+            ),
+            'copy both path invalid' => array(
+                'copy',
+                '/tmp/../etc/passwd',
+                '/tmp/../dev/null',
+                "Path '/tmp/../etc/passwd' is out of working directory '/tmp'",
+            ),
+            'rename first path invalid' => array(
+                'rename',
+                '/tmp/../etc/passwd',
+                '/tmp/path001',
+                "Path '/tmp/../etc/passwd' is out of working directory '/tmp'",
+            ),
+            'rename first path invalid #2' => array(
+                'rename',
+                '/tmp/../etc/passwd',
+                '/tmp/path001',
+                "Path '/tmp/../etc/passwd' is out of working directory '/tmp'",
+                '/tmp'
+            ),
+            'rename second path invalid' => array(
+                'rename',
+                '/tmp/uploaded.txt',
+                '/tmp/../etc/passwd',
+                "Path '/tmp/../etc/passwd' is out of working directory '/tmp'",
+            ),
+            'rename both path invalid' => array(
+                'rename',
+                '/tmp/../etc/passwd',
+                '/tmp/../dev/null',
+                "Path '/tmp/../etc/passwd' is out of working directory '/tmp'",
+            ),
+            'copy target path invalid' => array(
+                'copy',
+                '/tmp/passwd',
+                '/etc/../dev/null',
+                "Path '/etc/../dev/null' is out of working directory '/etc'",
+                null,
+                '/etc'
+            ),
+            'rename target path invalid' => array(
+                'rename',
+                '/tmp/passwd',
+                '/etc/../dev/null',
+                "Path '/etc/../dev/null' is out of working directory '/etc'",
+                null,
+                '/etc'
+            ),
+            'copy target path invalid #2' => array(
+                'copy',
+                '/tmp/passwd',
+                '/etc/../dev/null',
+                "Path '/etc/../dev/null' is out of working directory '/etc'",
+                '/tmp',
+                '/etc'
+            ),
+            'rename target path invalid #2' => array(
+                'rename',
+                '/tmp/passwd',
+                '/etc/../dev/null',
+                "Path '/etc/../dev/null' is out of working directory '/etc'",
+                '/tmp',
+                '/etc'
+            ),
         );
     }
 
@@ -261,7 +333,7 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Invalid path
+     * @expectedExceptionMessage Path '/etc/passwd' is out of working directory '/tmp'
      */
     public function testTouchIsolation()
     {
@@ -301,7 +373,7 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Invalid path
+     * @expectedExceptionMessage Path '/tmp/../etc/test.txt' is out of working directory '/tmp'
      */
     public function testCreateStreamIsolation()
     {
@@ -439,7 +511,7 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Invalid path
+     * @expectedExceptionMessage Path '/tmp/../etc/passwd' is out of working directory '/tmp'
      * @dataProvider adapterIsolationMethods
      * @param string $method
      * @param string $adapterMethod
@@ -564,7 +636,7 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Invalid path
+     * @expectedExceptionMessage Path '/tmp/../path/file.txt' is out of working directory '/tmp'
      * @dataProvider workingDirDataProvider
      * @param string|null $workingDirectory
      */
@@ -700,7 +772,7 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
     /**
      * Test isDirectory isolation
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Invalid path
+     * @expectedExceptionMessage Path '/tmp/../etc/passwd' is out of working directory '/tmp'
      * @dataProvider workingDirDataProvider
      * @param string|null $workingDirectory
      */
@@ -797,7 +869,11 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
         return array(
             array(true, '/tmp/file.txt'),
             array(false, '/tmp/../etc/mysql/my.cnf'),
-            array(false, '/tmp/../tmp/file.txt')
+            array(false, '/tmp/../tmp/file.txt'),
+            array(false, 'C:\Temp\..\tmpfile.txt'),
+            array(true, 'C:\Temp\tmpfile.txt'),
+            array(true, '/tmp/'),
+            array(true, '/tmp'),
         );
     }
 
@@ -825,5 +901,29 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
             ->method('exists')
             ->will($this->returnValue(true));
         return $adapterMock;
+    }
+
+    /**
+     * @dataProvider isPathInDirectoryDataProvider
+     * @param string $path
+     * @param string $directory
+     * @param boolean $expectedValue
+     */
+    public function testIsPathInDirectory($path, $directory, $expectedValue)
+    {
+        $this->assertEquals($expectedValue, Magento_Filesystem::isPathInDirectory($path, $directory));
+    }
+
+    /**
+     * @return array
+     */
+    public function isPathInDirectoryDataProvider()
+    {
+        return array(
+            array('/tmp/file', '/tmp', true),
+            array('/tmp/file', '/tmp/dir', false),
+            array('/tmp', '/tmp/', true),
+            array('/tmp/', '/tmp', true),
+        );
     }
 }
