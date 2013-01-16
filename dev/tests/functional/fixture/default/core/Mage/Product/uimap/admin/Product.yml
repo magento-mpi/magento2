@@ -193,14 +193,15 @@ new_product:
                                     fields:
                                         general_configurable_attribute_title: //input[@id='attribute-selector']
                                     links:
-                                        configurable_attribute_select: //ul[contains(@class, 'ui-autocomplete')]//a[text()='%attributeTitle%']
+                                        configurable_attribute_select: //li[@class='ui-menu-item']//a[text()='%attributeTitle%']
                                     buttons:
                                         generate_product_variations: //button[@data-ui-id='admin-product-edit-tab-super-config-grid-container-generate' and not(@disabled)]
                                         generate_product_variations_disabled: //button[@data-ui-id='admin-product-edit-tab-super-config-grid-container-generate' and @disabled]
                                     pageelements:
                                         product_variations_fieldset: /fieldset
-                                        configurable_attributes_list: //ul[contains(@class, 'ui-autocomplete')]
-                                        attribute_search_result: /fieldset/span[@class='ui-helper-hidden-accessible'][text()]
+                                        configurable_attributes_list: "//ul[contains(@class,'ui-autocomplete')][not(contains(@style,'display: none;'))]"
+                                        attribute_search_result: //span[@role='status'][string-length(text())>1]
+                                        attribute_search_specific_result: //span[@role='status'][not(text()='%searchResult%')]
                             -
                                 product_variation_attribute:
                                     xpath: //div[div/h4//@data-store-label='%attributeTitle%']
@@ -233,7 +234,7 @@ new_product:
                                     pageelements:
                                         variations_matrix_header: //tr[normalize-space(@class)='headings']
                                         variation_line: //tbody/tr
-                                        attribute_header: //thead//th[text()='%attributeTitle%')]
+                                        attribute_header: //thead//th[text()='%attributeTitle%']
                                         variation_price: //tbody/tr[%attributeSearch%]//td[@class='associated-matrix-product-price']
                                     buttons:
                                         choose: //tbody/tr[%attributeSearch%]//button[@class='choose-product']

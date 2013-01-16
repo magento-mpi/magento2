@@ -1039,16 +1039,25 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         if ($this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'product_variation_attribute')) {
             return;
         }
-        $element = $this->getControlElement(self::FIELD_TYPE_INPUT, 'general_configurable_attribute_title');
-        $element->value($attributeTitle);
-        $resultElement = $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'attribute_search_result');
+        $this->clickControl(self::FIELD_TYPE_INPUT, 'general_configurable_attribute_title', false);
+        $resultElement = $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'attribute_search_result');
         $searchResult = trim($resultElement->text());
         if ($searchResult == 'No search results.') {
-            $this->fail('Attribute with title "' . $attributeTitle . '" is not present in list');
+            $this->fail('There is no any attribute for creation configurable product');
         }
-        $this->waitForControlEditable(self::FIELD_TYPE_PAGEELEMENT, 'configurable_attributes_list');
-        $selectAttribute = $this->getControlElement(self::FIELD_TYPE_LINK, 'configurable_attribute_select');
-        $selectAttribute->click();
+        $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'configurable_attributes_list');
+        if (!$this->controlIsVisible(self::FIELD_TYPE_LINK, 'configurable_attribute_select')) {
+            $this->addParameter('searchResult', $searchResult);
+            $this->getControlElement(self::FIELD_TYPE_INPUT, 'general_configurable_attribute_title')
+                ->value($attributeTitle);
+            $resultElement =
+                $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'attribute_search_specific_result');
+            $searchResult = trim($resultElement->text());
+            if ($searchResult == 'No search results.') {
+                $this->fail('Attribute with title "' . $attributeTitle . '" is not present in list');
+            }
+        }
+        $this->getControlElement(self::FIELD_TYPE_LINK, 'configurable_attribute_select')->click();
         $this->waitForControlEditable(self::UIMAP_TYPE_FIELDSET, 'product_variation_attribute');
     }
 
@@ -1158,6 +1167,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 $this->formAssignConfigurableParam($attributeData, $this->getTableHeadRowNames($productTable));
             $isProductExist = $this->elementIsPresent($productTable . $trLocator . "[$selectParam]");
             if ($isProductExist) {
+                if (!$isProductExist->displayed()) {
+                    $this->fail('Product exist but "Select Associated Product" grid is not opened');
+                }
                 //if product created
                 $isProductExist->click();
                 $this->waitForElementVisible($variationTable . $trLocator . "[$param]");
