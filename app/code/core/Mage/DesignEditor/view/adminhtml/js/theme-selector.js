@@ -192,9 +192,9 @@
                 var historyObject = $(this.options.frameSelector).get(0).contentWindow.vdeHistoryObject;
                 if (historyObject && historyObject.getItems().length != 0) {
                     data.layoutUpdate = this._preparePostItems(historyObject.getItems());
-                    var frameUrl = $(this.options.frameSelector).attr('src');
-                    data.handle = frameUrl.split('handle')[1].replace(/\//g, '');
                 }
+                var frameUrl = $(this.options.frameSelector).attr('src');
+                data.handle = frameUrl.split('handle')[1].replace(/\//g, '');
             }
 
             $('#messages').html('');
