@@ -41,9 +41,29 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
         );
         /** @var $themeMock Mage_Core_Model_Theme */
         $themeMock = $this->getMock('Mage_Core_Model_Theme', array('_init'), $arguments, '', true);
+        $filesystemMock = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor(true)->getMock();
+        $filesystemMock->expects($this->any())->method('getNestedKeys')
+            ->will($this->returnValueMap(array(
+                array(
+                    Mage::getBaseDir()
+                        . '\dev\tests\unit\testsuite\Mage\Core\Model\_files\frontend\default\iphone\theme.xml',
+                    null,
+                    array(Mage::getBaseDir()
+                        . '\dev\tests\unit\testsuite\Mage\Core\Model\_files\frontend\default\iphone\theme.xml')
+                ),
+                array(
+                    Mage::getBaseDir()
+                        . '\dev\tests\unit\testsuite\Mage\Core\Model\_files\frontend\default\iphone\theme_invalid.xml',
+                    null,
+                    array(Mage::getBaseDir()
+                        . '\dev\tests\unit\testsuite\Mage\Core\Model\_files\frontend\default\iphone\theme_invalid.xml')
+                ),
+            )
+        ));
 
         /** @var $collectionMock Mage_Core_Model_Theme_Collection|PHPUnit_Framework_MockObject_MockObject */
-        $collectionMock = $this->getMock('Mage_Core_Model_Theme_Collection', array('getNewEmptyItem'));
+        $collectionMock = $this->getMock('Mage_Core_Model_Theme_Collection', array('getNewEmptyItem'),
+            array($filesystemMock));
         $collectionMock->expects($this->any())
             ->method('getNewEmptyItem')
             ->will($this->returnValue($themeMock));
