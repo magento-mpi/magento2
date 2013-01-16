@@ -45,18 +45,16 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
         $filesystemMock->expects($this->any())->method('getNestedKeys')
             ->will($this->returnValueMap(array(
                 array(
-                    Mage::getBaseDir()
-                        . '\dev\tests\unit\testsuite\Mage\Core\Model\_files\frontend\default\iphone\theme.xml',
+                    __DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '/_files/frontend/default/iphone/theme.xml'),
                     null,
-                    array(Mage::getBaseDir()
-                        . '\dev\tests\unit\testsuite\Mage\Core\Model\_files\frontend\default\iphone\theme.xml')
+                    array(__DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '/_files/frontend/default/iphone/theme.xml'))
                 ),
                 array(
-                    Mage::getBaseDir()
-                        . '\dev\tests\unit\testsuite\Mage\Core\Model\_files\frontend\default\iphone\theme_invalid.xml',
+                    __DIR__ . str_replace('/', DIRECTORY_SEPARATOR,
+                        '/_files/frontend/default/iphone/theme_invalid.xml'),
                     null,
-                    array(Mage::getBaseDir()
-                        . '\dev\tests\unit\testsuite\Mage\Core\Model\_files\frontend\default\iphone\theme_invalid.xml')
+                    array(__DIR__ . str_replace('/', DIRECTORY_SEPARATOR,
+                        '/_files/frontend/default/iphone/theme_invalid.xml'))
                 ),
             )
         ));
