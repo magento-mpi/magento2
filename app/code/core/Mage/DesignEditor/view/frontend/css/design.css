@@ -23,11 +23,13 @@ a, button {
     cursor: move;
 }
 .vde_element_title {
+    position: absolute;
     font-family:Arial, Helvetica, sans-serif;
     margin: 2px;
+    margin-left: 5px;
     padding: 0;
     border-width: 2px 5px 6px 7px;
-    color: black;
+    color: white;
     font-size: 8pt;
     font-weight: bold;
     max-width: 150px;
@@ -37,7 +39,7 @@ a, button {
     line-height: 17px;
 }
 .vde_element_remove {
-    margin: -21px 0 0 -4px;
+    margin: 4px 4px 0px 0px;
     padding: 0;
     border-width: 2px 5px 6px 7px;
     max-width: 20px;
@@ -89,6 +91,7 @@ a, button {
 }
 .vde_placeholder_content {
     text-align: center;
+    background-color: #a0988d;
 }
 .vde_wrapper_hidden, .vde_wrapper_hidden .vde_element_title {
     display: none;
