@@ -23,14 +23,24 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleDynamic
     protected function _construct()
     {
         parent::_construct();
-
         $this->setData($this->_getMockData());
 
         foreach ($this->_getChildrenMockData() as $data) {
-            Mage::getModel('Mage_Sales_Model_Order_Item')
+            $this->getModel('Mage_Sales_Model_Order_Item')
                 ->setData($data)
                 ->setParentItem($this);
         }
+    }
+
+    /**
+     * Returns model instance
+     *
+     * @param string $modelName
+     * @return mixed
+     */
+    public function getModel($modelName)
+    {
+        return Mage::getModel($modelName);
     }
 
     /**

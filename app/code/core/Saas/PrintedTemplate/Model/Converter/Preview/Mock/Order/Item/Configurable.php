@@ -25,9 +25,20 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_Configurable 
         parent::_construct();
         $this->setData($this->_getMockData());
 
-        $simple = Mage::getModel('Mage_Sales_Model_Order_Item');
+        $simple = $this->getModel('Mage_Sales_Model_Order_Item');
         $simple->setData($this->_getChildMockData());
         $this->addChildItem($simple);
+    }
+
+    /**
+     * Returns model instance
+     *
+     * @param string $modelName
+     * @return mixed
+     */
+    public function getModel($modelName)
+    {
+        return Mage::getModel($modelName);
     }
 
     /**
