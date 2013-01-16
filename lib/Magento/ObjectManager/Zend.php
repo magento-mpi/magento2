@@ -79,7 +79,9 @@ class Magento_ObjectManager_Zend implements Magento_ObjectManager
      */
     public function setConfiguration(array $configuration = array())
     {
-        $this->_unsetOldPreferences($configuration);
+        if (isset($configuration['preferences']) && is_array($configuration['preferences'])) {
+            $this->_unsetOldPreferences($configuration['preferences']);
+        }
         $diConfiguration = new Config(array('instance' => $configuration));
         $diConfiguration->configure($this->_di);
 
@@ -89,14 +91,12 @@ class Magento_ObjectManager_Zend implements Magento_ObjectManager
     /**
      * Unset old preferences because preferences from some area must override global preferences
      *
-     * @param array $configuration
+     * @param array $preferences
      */
-    protected function _unsetOldPreferences(array $configuration)
+    protected function _unsetOldPreferences(array $preferences)
     {
-        if (isset($configuration['preferences']) && is_array($configuration['preferences'])) {
-            foreach (array_keys($configuration['preferences']) as $type) {
-                $this->_di->instanceManager()->unsetTypePreferences($type);
-            }
+        foreach (array_keys($preferences) as $type) {
+            $this->_di->instanceManager()->unsetTypePreferences($type);
         }
     }
 
