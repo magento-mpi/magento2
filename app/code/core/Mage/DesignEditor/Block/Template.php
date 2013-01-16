@@ -13,7 +13,6 @@
  *
  * @method string getElementName()
  * @method string getElementId()
- * @method string getElementHtml()
  * @method string getElementTitle()
  * @method bool getIsManipulationAllowed()
  * @method bool getIsContainer()
@@ -36,10 +35,32 @@ class Mage_DesignEditor_Block_Template extends Mage_Core_Block_Template
     public function getRemoveButton($elementId)
     {
         /** @var $block Mage_DesignEditor_Block_Wrapper_Remove */
-        $block = Mage::getModel('Mage_DesignEditor_Block_Wrapper_Remove', array('data' => array(
-            'template'   => 'wrapper/remove.phtml',
-            'wrapped_element_id' => $elementId
-        )));
+        $block = $this->getLayout()->createBlock('Mage_DesignEditor_Block_Wrapper_Remove', '',
+            array(
+                'data' => array(
+                    'template'           => 'wrapper/remove.phtml',
+                    'wrapped_element_id' => $elementId
+                )
+            )
+        );
         return $block->toHtml();
+    }
+
+    /**
+     * Get element html (real content or placeholder)
+     *
+     * @return string
+     */
+    public function getElementHtml()
+    {
+        $elementHtml = $this->getData('element_html');
+
+        if (empty($elementHtml)) {
+            /** @var $block Mage_DesignEditor_Block_Placeholder */
+            $block = $this->getLayout()->createBlock('Mage_DesignEditor_Block_Placeholder');
+            $elementHtml = $block->toHtml();
+        }
+
+        return $elementHtml;
     }
 }
