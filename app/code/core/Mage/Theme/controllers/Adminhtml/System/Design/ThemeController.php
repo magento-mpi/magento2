@@ -14,40 +14,6 @@
 class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * Theme service model
-     *
-     * @var Mage_Theme_Model_Uploader_Service
-     */
-    protected $_serviceModel;
-
-    /**
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Controller_Response_Http $response
-     * @param string $areaCode
-     * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Layout_Factory $layoutFactory
-     * @param Mage_Theme_Model_Uploader_Service $service
-     * @param array $invokeArgs
-     */
-    public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Controller_Response_Http $response,
-        $areaCode = null,
-        Magento_ObjectManager $objectManager,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Layout_Factory $layoutFactory,
-        Mage_Theme_Model_Uploader_Service $service,
-        array $invokeArgs = array()
-    ) {
-        $this->_serviceModel = $service;
-
-        parent::__construct($request, $response, $areaCode, $objectManager, $frontController, $layoutFactory,
-            $invokeArgs
-        );
-    }
-
-    /**
      * Index action
      */
     public function indexAction()
@@ -91,6 +57,10 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
 
             $this->loadLayout();
 
+            /** @var $jsFileModel Mage_Core_Model_Theme_Files_Js */
+            $jsFileModel = $this->_objectManager->create('Mage_Core_Model_Theme_Files_Js');
+            $jsFileModel->removeTemporaryFiles($theme);
+
             /** @var $tab Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css */
             $tab = $this->getLayout()->getBlock('theme_edit_tabs_tab_css_tab');
             if ($tab && $tab->canShowTab()) {
@@ -122,13 +92,16 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
         $theme = $this->_objectManager->create('Mage_Core_Model_Theme');
         /** @var $themeCss Mage_Core_Model_Theme_Files_Css */
         $themeCss = $this->_objectManager->create('Mage_Core_Model_Theme_Files_Css');
+        $themeJs = $this->_objectManager->create('Mage_Core_Model_Theme_Files_Js');
         try {
             if ($this->getRequest()->getPost()) {
                 $themeData = $this->getRequest()->getParam('theme');
                 $customCssData = $this->getRequest()->getParam('custom_css_content');
+                $customJsData = $this->getRequest()->getParam('js_uploaded_files');
 
                 $theme->saveFormData($themeData);
                 $themeCss->saveFormData($theme, $customCssData);
+                $themeJs->saveFormData($theme, $customJsData);
 
                 $this->_getSession()->addSuccess($this->__('The theme has been saved.'));
             }
@@ -183,10 +156,40 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
      */
     public function uploadCssAction()
     {
-        $serviceModel = $this->_serviceModel;
+        /** @var $serviceModel Mage_Theme_Model_Uploader_Service */
+        $serviceModel = $this->_objectManager->get('Mage_Theme_Model_Uploader_Service');
         try {
             $cssFileContent = $serviceModel->uploadCssFile('css_file_uploader')->getFileContent();
             $result = array('error' => false, 'content' => $cssFileContent);
+        } catch (Mage_Core_Exception $e) {
+            $result = array('error' => true, 'message' => $e->getMessage());
+        } catch (Exception $e) {
+            $result = array('error' => true, 'message' => $this->__('Cannot upload css file'));
+            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+        }
+        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
+    }
+
+    /**
+     * Upload js file
+     */
+    public function uploadJsAction()
+    {
+        /** @var $serviceModel Mage_Theme_Model_Uploader_Service */
+        $serviceModel = $this->_objectManager->get('Mage_Theme_Model_Uploader_Service');
+        $themeId = $this->getRequest()->getParam('id');
+        try {
+            $theme = $this->_objectManager->create('Mage_Core_Model_Theme')->load($themeId);
+            if (!$theme->getId()) {
+                throw new InvalidArgumentException($this->__('Theme with id "%d" is not found.', $themeId));
+            }
+            $serviceModel->uploadJsFile('js_files_uploader', $theme);
+
+            $this->loadLayout();
+            $jsFieldsetRenderer = $this->getLayout()->getBlock('theme_js_file_list');
+            $jsFieldsetRenderer->setJsFiles($theme->getCustomJsFiles());
+            $result = array('content' => $jsFieldsetRenderer->toHtml());
+
         } catch (Mage_Core_Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
         } catch (Exception $e) {

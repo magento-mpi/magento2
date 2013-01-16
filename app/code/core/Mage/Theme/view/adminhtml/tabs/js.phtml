@@ -8,16 +8,55 @@
  * @license     {license_link}
  */
 ?>
+<?php /** @var $this Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js */ ?>
+<?php echo $this->getFormHtml(); ?>
 
-<ul class="js-files-container">
-    <?php if (!$this->getJsFiles()->count()): ?>
-        <li><?php echo $this->__('No files found') ?></li>
-    <?php else: ?>
-        <?php /** @var $file Mage_Core_Model_Resource_Theme_Files */ ?>
-        <?php foreach ($this->getJsFiles() as $file): ?>
-            <li>
-                <div class="js-file"><?php echo $file->getFileName() ?></div>
-            </li>
-        <?php endforeach; ?>
-    <?php endif; ?>
-</ul>
+<script type="text/javascript">
+    (function ($) {
+
+        $('#js_files_uploader').fileupload({
+            dataType: 'json',
+            replaceFileInput: false,
+            //sequentialUploads: true,
+            url : '<?php echo $this->getJsUploadUrl(); ?>',
+            acceptFileTypes: /(.|\/)(js)$/i,
+
+            /**
+             * Add data
+             * @param e
+             * @param data
+             */
+            add: function (e, data) {
+                var uploadButton = $('#js_uploader_button');
+                uploadButton.removeAttr('disabled');
+
+                uploadButton.click(function () {
+                    $('#messages').html('');
+                    $(this).attr('disabled', 'disabled');
+
+                    data.submit();
+                });
+            },
+
+            /**
+             * On done event
+             * @param e
+             * @param data
+             */
+            done: function (e, data) {
+                var contentArea = $('.js-files-container');
+                $(this).val('');
+
+                if (!data.result.error) {
+                    contentArea.html(data.result.content);
+                }
+            }
+        });
+
+        $('#js_files_uploader').click(function () {
+            /** Unbind click event on file change */
+            $('#js_uploader_button').unbind('click');
+        });
+
+    })(jQuery);
+</script>

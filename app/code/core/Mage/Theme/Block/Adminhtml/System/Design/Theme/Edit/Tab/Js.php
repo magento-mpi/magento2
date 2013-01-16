@@ -45,9 +45,37 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
         $this->_getCurrentTheme()->getCustomJsFiles();
 
         $jsFieldset = $themeFieldset->addFieldset('js_fieldset_javascript_content', array('class' => 'fieldset-wide'));
-        $jsFieldset->setRenderer($jsFieldsetRenderer);
 
+        $this->_addElementTypes($themeFieldset);
+
+        $themeFieldset->addField('js_files_uploader', 'js_files', array(
+            'name'     => 'js_files_uploader',
+            'label'    => $this->__('Select JS Files to Upload'),
+            'title'    => $this->__('Select JS Files to Upload'),
+            'accept'   => 'text/javascript',
+            'multiple' => ''
+        ));
+
+        $themeFieldset->addField('js_uploader_button', 'button', array(
+            'name'     => 'js_uploader_button',
+            'value'    => $this->__('Upload JS Files'),
+            'disabled' => 'disabled',
+        ));
+
+        $jsFieldset->setRenderer($jsFieldsetRenderer);
         return $this;
+    }
+
+    /**
+     * Set additional form field type
+     *
+     * @return array
+     */
+    protected function _getAdditionalElementTypes()
+    {
+        $fileElement = Mage::getConfig()
+            ->getBlockClassName('Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_File');
+        return array('js_files' => $fileElement);
     }
 
     /**
@@ -98,5 +126,15 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
     public function isHidden()
     {
         return false;
+    }
+
+    /**
+     * Get upload js url
+     *
+     * @return string
+     */
+    public function getJsUploadUrl()
+    {
+        return $this->getUrl('*/system_design_theme/uploadjs', array('id' => $this->_getCurrentTheme()->getId()));
     }
 }

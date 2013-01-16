@@ -14,12 +14,12 @@
 class Mage_Core_Model_Theme_Files extends Mage_Core_Model_Abstract
 {
     /**
-     * css file type
+     * Css file type
      */
     const TYPE_CSS = 'css';
 
     /**
-     * js file type
+     * Js file type
      */
     const TYPE_JS = 'js';
 

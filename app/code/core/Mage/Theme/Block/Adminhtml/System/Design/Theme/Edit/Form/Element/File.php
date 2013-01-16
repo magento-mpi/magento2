@@ -18,7 +18,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_File exte
      *
      * @var array
      */
-    protected $_htmlAttributes = array('accept');
+    protected $_htmlAttributes = array('accept', 'multiple');
 
     /**
      * Html attributes
