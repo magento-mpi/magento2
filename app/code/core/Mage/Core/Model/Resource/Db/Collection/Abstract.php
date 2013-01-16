@@ -423,7 +423,7 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
     }
 
     /**
-     *  Set resource model name for collection items
+     * Set resource model name for collection items
      *
      * @param string $model
      */

@@ -151,7 +151,6 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
             array('gallery'),
             array('gift_message_available'),
             array('group_price'),
-            array('image'),
             array('is_recurring'),
             array('media_gallery'),
             array('meta_description'),
@@ -237,7 +236,8 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
             array('visibility'),
             array('weight'),
             array('quantity_and_stock_status'),
-            array('category_ids')
+            array('category_ids'),
+            array('image'),
         );
     }
 }

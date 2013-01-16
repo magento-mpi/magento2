@@ -94,7 +94,6 @@ class Core_Mage_ValidationVatNumber_FrontEndOrderCreation_OrderForRegisteredTest
         $vatNumber = array_merge($vatNumber,
             array('general_name' => $vatGroup['simple'], 'email_address' => $userData['email']));
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney_usa', $vatNumber);
-        $userDataParam = $userData['first_name'] . ' ' . $userData['last_name'];
         //Steps
         $this->frontend();
         $this->logoutCustomer();
@@ -108,7 +107,6 @@ class Core_Mage_ValidationVatNumber_FrontEndOrderCreation_OrderForRegisteredTest
             //Steps. Opening customer for changing group
             $this->loginAdminUser();
             $this->navigate('manage_customers');
-            $this->addParameter('customer_first_last_name', $userDataParam);
             $this->customerHelper()->openCustomer(array('email' => $userData['email']));
             $this->saveForm('save_customer');
             $this->customerHelper()->openCustomer(array('email' => $userData['email']));
@@ -116,7 +114,6 @@ class Core_Mage_ValidationVatNumber_FrontEndOrderCreation_OrderForRegisteredTest
         } else {
             $this->loginAdminUser();
             $this->navigate('manage_customers');
-            $this->addParameter('customer_first_last_name', $userDataParam);
             $this->customerHelper()->openCustomer(array('email' => $userData['email']));
             $this->openTab('account_information');
         }

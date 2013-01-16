@@ -62,9 +62,9 @@ frontend_gift_card_validation:
     inventory_backorders: Allow Qty Below 0
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     custom_options_data: &customOptionsData
-        custom_options_field: &field
+        option_1: &field
             custom_options_general_title: Custom Option Field
             custom_options_general_input_type: Field
             custom_options_general_is_required: Yes
@@ -73,7 +73,7 @@ frontend_gift_card_validation:
             custom_options_price_type: Fixed
             custom_options_sku: sku_field
             custom_options_max_characters: 25
-        custom_options_area: &area
+        option_2: &area
             custom_options_general_title: Custom Option Area
             custom_options_general_input_type: Area
             custom_options_general_is_required: Yes
@@ -82,7 +82,7 @@ frontend_gift_card_validation:
             custom_options_price_type: Fixed
             custom_options_sku: sku_area
             custom_options_max_characters: 80
-        custom_options_file: &file
+        option_3: &file
             custom_options_general_title: Custom Option File
             custom_options_general_input_type: File
             custom_options_general_is_required: No
@@ -93,7 +93,7 @@ frontend_gift_card_validation:
             custom_options_allowed_file_extension: gif,bmp
             custom_options_image_size_x: 320
             custom_options_image_size_y: 240
-        custom_options_date: &date
+        option_4: &date
             custom_options_general_title: Custom Option Date
             custom_options_general_input_type: Date
             custom_options_general_is_required: Yes
@@ -101,7 +101,7 @@ frontend_gift_card_validation:
             custom_options_price: 5
             custom_options_price_type: Fixed
             custom_options_sku: sku_date
-        custom_options_date_time: &dateTime
+        option_5: &dateTime
             custom_options_general_title: Custom Options Date & Time
             custom_options_general_input_type: Date & Time
             custom_options_general_is_required: Yes
@@ -109,7 +109,7 @@ frontend_gift_card_validation:
             custom_options_price: 99.99
             custom_options_price_type: Fixed
             custom_options_sku: sku_data_time
-        custom_options_time: &time
+        option_6: &time
             custom_options_general_title: Custom Option Time
             custom_options_general_input_type: Time
             custom_options_general_is_required: Yes
@@ -117,7 +117,7 @@ frontend_gift_card_validation:
             custom_options_price: 8.99
             custom_options_price_type: Fixed
             custom_options_sku: sku_time
-        custom_options_dropdown: &dropdown
+        option_7: &dropdown
             custom_options_general_title: Custom Option Drop-down
             custom_options_general_input_type: Drop-down
             custom_options_general_is_required: Yes
@@ -128,7 +128,7 @@ frontend_gift_card_validation:
                 custom_options_price_type: Fixed
                 custom_options_sku: sku_drop_down_row_1
                 custom_options_sort_order: 1
-        custom_options_radiobutton:  &radiobutton
+        option_8:  &radiobutton
             custom_options_general_title: Custom Option Radio Buttons
             custom_options_general_input_type: Radio Buttons
             custom_options_general_is_required: Yes
@@ -139,7 +139,7 @@ frontend_gift_card_validation:
                 custom_options_price_type: Fixed
                 custom_options_sku: sku_radio_row_1
                 custom_options_sort_order: 1
-        custom_options_checkbox: &checkbox
+        option_9: &checkbox
             custom_options_general_title: Custom Option Checkbox
             custom_options_general_input_type: Checkbox
             custom_options_general_is_required: Yes
@@ -150,7 +150,7 @@ frontend_gift_card_validation:
                 custom_options_price_type: Fixed
                 custom_options_sku: sku_checkbox_row_1
                 custom_options_sort_order: 1
-        custom_options_multipleselect: &multipleselect
+        option_10: &multipleselect
             custom_options_general_title: Custom Option Multiple Select
             custom_options_general_input_type: Multiple Select
             custom_options_general_is_required: Yes
@@ -209,7 +209,7 @@ gift_card:
     inventory_qty_increments: 5
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     giftcardinfo_card_type: Combined
     giftcardinfo_is_redeemable_default: No
     giftcardinfo_is_redeemable: No
