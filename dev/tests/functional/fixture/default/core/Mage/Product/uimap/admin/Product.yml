@@ -200,6 +200,7 @@ new_product:
                                     pageelements:
                                         product_variations_fieldset: /fieldset
                                         configurable_attributes_list: //ul[contains(@class, 'ui-autocomplete')]
+                                        attribute_search_result: /fieldset/span[@class='ui-helper-hidden-accessible'][text()]
                             -
                                 product_variation_attribute:
                                     xpath: //div[div/h4//@data-store-label='%attributeTitle%']

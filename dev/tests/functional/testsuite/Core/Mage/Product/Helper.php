@@ -844,8 +844,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $categoryName = end($explodeCategory);
             $this->addParameter('categoryPath', $categoryPath);
             $element->value($categoryName);
-            $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'category_search_result');
-            $searchResult = $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'category_search_result', 'text');
+            $resultElement = $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'category_search_result');
+            $searchResult = trim($resultElement->text());
             if ($searchResult != 'No search results.') {
                 $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'category_search');
                 $selectCategory = $this->elementIsPresent($this->_getControlXpath(self::FIELD_TYPE_LINK, 'category'));
@@ -891,14 +891,13 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         //Fill and verify parent category field
         $this->getElement($parentLocator)->value($parentName);
-        $this->waitForElement($parentLocator);
-        $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'parent_category_search_result');
-        $this->addParameter('categoryPath', $parentPath);
-        $elements = $this->getControlElements(self::FIELD_TYPE_LINK, 'category',
-            $this->getUimapPage('admin', 'new_product')->findTab('general'));
-        if (empty($elements)) {
+        $resultElement = $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'parent_category_search_result');
+        $searchResult = trim($resultElement->text());
+        if ($searchResult == 'No search results.') {
             $this->fail('It is impossible to create category with path - ' . $parentPath);
         }
+        $this->addParameter('categoryPath', $parentPath);
+        $elements = $this->getControlElements(self::FIELD_TYPE_LINK, 'category');
         /** @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
         foreach ($elements as $element) {
             if ($element->enabled() && $element->displayed()) {
@@ -1037,20 +1036,20 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     public function selectConfigurableAttribute($attributeTitle)
     {
         $this->addParameter('attributeTitle', $attributeTitle);
-        if (!$this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'product_variation_attribute')) {
-            $this->clickControl(self::FIELD_TYPE_INPUT, 'general_configurable_attribute_title', false);
-            if (!$this->controlIsPresent(self::FIELD_TYPE_LINK, 'configurable_attribute_select')) {
-                $element = $this->getControlElement(self::FIELD_TYPE_INPUT, 'general_configurable_attribute_title');
-                $element->value($attributeTitle);
-                $this->waitForControlEditable(self::FIELD_TYPE_PAGEELEMENT, 'configurable_attributes_list');
-                if (!$this->controlIsPresent(self::FIELD_TYPE_LINK, 'configurable_attribute_select')) {
-                    $this->fail('Attribute with title "' . $attributeTitle . '" is not present in list');
-                }
-            }
-            $selectAttribute = $this->getControlElement(self::FIELD_TYPE_LINK, 'configurable_attribute_select');
-            $selectAttribute->click();
-            $this->waitForControlEditable(self::UIMAP_TYPE_FIELDSET, 'product_variation_attribute');
+        if ($this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'product_variation_attribute')) {
+            return;
         }
+        $element = $this->getControlElement(self::FIELD_TYPE_INPUT, 'general_configurable_attribute_title');
+        $element->value($attributeTitle);
+        $resultElement = $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'attribute_search_result');
+        $searchResult = trim($resultElement->text());
+        if ($searchResult == 'No search results.') {
+            $this->fail('Attribute with title "' . $attributeTitle . '" is not present in list');
+        }
+        $this->waitForControlEditable(self::FIELD_TYPE_PAGEELEMENT, 'configurable_attributes_list');
+        $selectAttribute = $this->getControlElement(self::FIELD_TYPE_LINK, 'configurable_attribute_select');
+        $selectAttribute->click();
+        $this->waitForControlEditable(self::UIMAP_TYPE_FIELDSET, 'product_variation_attribute');
     }
 
     /**
