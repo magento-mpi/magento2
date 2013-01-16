@@ -13,4 +13,3 @@ Mage::unregister('order');
 Mage::unregister('product_simple');
 Mage::unregister('customer');
 Mage::unregister('customer_address');
-Mage::unregister('shipment');

@@ -144,8 +144,8 @@ class Magento_Test_Helper_Api
     ) {
         foreach ($fieldsToCompare as $entityField => $field) {
             $testCase->assertEquals(
-                $expectedData[$field],
-                $actualData[is_numeric($entityField) ? $field : $entityField],
+                $expectedData[is_numeric($entityField) ? $field : $entityField],
+                $actualData[$field],
                 sprintf('"%s" filed has invalid value.', $field)
             );
         }

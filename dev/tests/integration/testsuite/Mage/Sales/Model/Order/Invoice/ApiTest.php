@@ -259,7 +259,7 @@ class Mage_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCase
     /**
      * Test order invoice list. With filters
      *
-     * @magentoDataFixture Mage/Sales/Model/Order/Api/_files/invoice.php
+     * @magentoDataFixture Mage/Sales/Model/Order/Api/_files/multiple_invoices.php
      * @magentoAppIsolation enabled
      */
     public function testListWithFilters()

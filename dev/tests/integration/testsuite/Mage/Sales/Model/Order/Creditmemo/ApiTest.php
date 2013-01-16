@@ -12,7 +12,7 @@ class Mage_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCa
     /**
      * Test sales order credit memo list, info, create, cancel
      *
-     * @magentoDataFixture Mage/Sales/Model/Order/Api/_files/invoice.php
+     * @magentoDataFixture Mage/Sales/Model/Order/Api/_files/multiple_invoices.php
      * @magentoAppIsolation enabled
      * @magentoDbIsolation enabled
      */
@@ -92,7 +92,7 @@ class Mage_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCa
      * Test Exception when refund amount greater than available to refund amount
      *
      * @expectedException SoapFault
-     * @magentoDataFixture Mage/Sales/Model/Order/Api/_files/invoice.php
+     * @magentoDataFixture Mage/Sales/Model/Order/Api/_files/multiple_invoices.php
      * @magentoAppIsolation enabled
      * @magentoDbIsolation enabled
      */
@@ -195,7 +195,7 @@ class Mage_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCa
     /**
      * Test credit memo create API call results
      *
-     * @magentoDataFixture Mage/Sales/Model/Order/Api/_files/invoice.php
+     * @magentoDataFixture Mage/Sales/Model/Order/Api/_files/multiple_invoices.php
      * @magentoAppIsolation enabled
      * @magentoDbIsolation enabled
      */
@@ -245,7 +245,7 @@ class Mage_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCa
     /**
      * Test order creditmemo list. With filters
      *
-     * @magentoDataFixture Mage/Sales/Model/Order/Api/_files/invoice.php
+     * @magentoDataFixture Mage/Sales/Model/Order/Api/_files/multiple_invoices.php
      * @magentoAppIsolation enabled
      * @magentoDbIsolation enabled
      * @depends testCRUD

@@ -42,6 +42,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
             ->addAttributeToSelect('increment_id')
             ->addAttributeToSelect('created_at')
             ->addAttributeToSelect('total_qty')
+            ->addAttributeToSelect('entity_id')
             ->joinAttribute('shipping_firstname', 'order_address/firstname', 'shipping_address_id', null, 'left')
             ->joinAttribute('shipping_lastname', 'order_address/lastname', 'shipping_address_id', null, 'left')
             ->joinAttribute('order_increment_id', 'order/increment_id', 'order_id', null, 'left')
@@ -255,37 +256,6 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
         }
 
         return true;
-    }
-
-    /**
-     * Retrieve tracking number info
-     *
-     * @param string $shipmentIncrementId
-     * @param int $trackId
-     * @return mixed
-     */
-    public function infoTrack($shipmentIncrementId, $trackId)
-    {
-         $shipment = Mage::getModel('Mage_Sales_Model_Order_Shipment')->loadByIncrementId($shipmentIncrementId);
-
-        /* @var $shipment Mage_Sales_Model_Order_Shipment */
-
-        if (!$shipment->getId()) {
-            $this->_fault('not_exists');
-        }
-
-        if(!$track = $shipment->getTrackById($trackId)) {
-            $this->_fault('track_not_exists');
-        }
-
-        /* @var $track Mage_Sales_Model_Order_Shipment_Track */
-        $info = $track->getNumberDetail();
-
-        if (is_object($info)) {
-            $info = $info->toArray();
-        }
-
-        return $info;
     }
 
     /**
