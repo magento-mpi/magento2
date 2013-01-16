@@ -530,4 +530,24 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
             touch($fixtureViewPath . $file, $mTime);
         }
     }
+
+    /**
+     * Check that the mechanism of publication not affected data content on css files
+     */
+    public function testCssWithBase64Data()
+    {
+        $publishedPath = self::$_themePublicDir . '/frontend/package/default/en_US';
+        $params =  array(
+            'area'    => 'frontend',
+            'package' => 'package',
+            'theme'   => 'default',
+            'locale'  => 'en_US'
+        );
+        $filePath = $this->_model->getViewFile('css/base64.css', $params);
+
+        // publicate static content
+        $this->_model->getViewFileUrl('css/base64.css', $params);
+
+        $this->assertFileEquals($filePath, "{$publishedPath}/css/base64.css");
+    }
 }
