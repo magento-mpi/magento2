@@ -50,11 +50,16 @@
     /**
      * Execute initialization callback when all resources are loaded
      * @param {Array} args - list of resources
-     * @param {Function} handler - initialization callback
+     * @param {(Function|undefined)} handler - initialization callback
      * @private
      */
     function _onload(args, handler) {
-        args.push(handler);
+        args = $.grep(args, function(resource) {
+            return !$('script[src="' + resource + '"]').length;
+        });
+        if (typeof handler === 'function') {
+            args.push(handler);
+        }
         head.js.apply(head, args);
     }
 
@@ -204,7 +209,7 @@
         load: function() {
             $.each(arguments, function(i, component) {
                 if (_resources[component] && _resources[component].length) {
-                    head.js.apply(head, _resources[component]);
+                    _onload(_resources[component]);
                 }
             });
             return this;

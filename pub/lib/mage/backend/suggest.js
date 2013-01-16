@@ -65,26 +65,28 @@
                 .prop(this.options.wrapperAttributes))
                 [this.options.appendMethod](this.dropdown)
                 .attr('autocomplete', 'off');
-            this.hiddenInput = (
-                $(this.options.hiddenInput).length ?
-                    $(this.options.hiddenInput) :
-                    this._createHiddenInput()
-                ).insertBefore(this.element).hide();
-            this.element.removeAttr('name');
+            if (this.options.valueField) {
+                this.valueField = $(this.options.valueField);
+            } else {
+                this.valueField = this._createValueField()
+                    .insertBefore(this.element)
+                    .attr('name', this.element.attr('name'));
+                this.element.removeAttr('name');
+            }
             this._control = this.options.controls[this.options.control] || {};
             this._bind();
         },
 
         /**
-         *
-         * @return {*}
+         * Create value field which keeps a value for selected option
+         * can be overridden in descendants
+         * @return {jQuery}
          * @private
          */
-        _createHiddenInput: function(){
+        _createValueField: function() {
             return $('<input/>', {
-                type: 'hidden',
-                name: this.element.attr('name')
-            })
+                type: 'hidden'
+            });
         },
 
         /**
@@ -92,11 +94,14 @@
          * @private
          */
         _destroy: function() {
-            this.element.removeAttr('autocomplete')
+            this.element
                 .unwrap()
-                .attr('name', this.hiddenInput.attr('name'));
+                .removeAttr('autocomplete');
+            if (!this.options.valueField) {
+                this.element.attr('name', this.valueField.attr('name'));
+                this.valueField.remove();
+            }
             this.dropdown.remove();
-            this.hiddenInput.remove();
             this._off(this.element, 'keydown keyup blur');
         },
 
@@ -115,7 +120,7 @@
          * @private
          */
         _proxyEvents: function(event) {
-            var fakeEvent = $.extend({}, jQuery.Event(event.type), {
+            var fakeEvent = $.extend({}, $.Event(event.type), {
                 ctrlKey: event.ctrlKey,
                 keyCode: event.keyCode,
                 which: event.keyCode
@@ -232,7 +237,7 @@
                 }, this))[0] || {value: '', label: ''};
                 if (this._selectedItem.value) {
                     this._term = this._selectedItem.label;
-                    this.hiddenInput.val(this._selectedItem.value);
+                    this.valueField.val(this._selectedItem.value);
                     this._hideDropdown();
                 }
             }
@@ -271,9 +276,11 @@
          */
         _setTemplate: function() {
             this.templateName = 'suggest' + Math.random().toString(36).substr(2);
-            this.template = $(this.options.template).length ?
-                $(this.options.template).template(this.templateName) :
+            if ($(this.options.template).length) {
+                $(this.options.template).template(this.templateName);
+            } else {
                 $.template(this.templateName, this.options.template);
+            }
         },
 
         /**
@@ -288,7 +295,7 @@
                     this._search(term);
                 } else {
                     this._selectedItem = {value: '', label: ''};
-                    this.hiddenInput.val(this._selectedItem.value);
+                    this.valueField.val(this._selectedItem.value);
                 }
             }
         },
@@ -336,7 +343,7 @@
          */
         _renderDropdown: function(items, context) {
             this._items = items;
-            $.tmpl(this.template, this._prepareDropdownContext(context))
+            $.tmpl(this.templateName, this._prepareDropdownContext(context))
                 .appendTo(this.dropdown.empty());
             this.dropdown.trigger('contentUpdated');
             this._showDropdown();

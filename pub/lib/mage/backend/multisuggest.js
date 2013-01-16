@@ -10,11 +10,21 @@
 (function($) {
     'use strict';
     $.widget('mage.multisuggest', $.mage.suggest, {
-        _createHiddenInput: function(){
+        /**
+         * @override
+         */
+        _createValueField: function() {
             return $('<select/>', {
-                type: 'hidden',
-                name: this.element.attr('name')
-            })
+                type: 'hidden'
+            });
+        },
+
+        /**
+         * @override
+         */
+        _create: function() {
+            this._super();
+            this.valueField.hide();
         }
     });
 })(jQuery);
