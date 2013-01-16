@@ -69,14 +69,18 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Varien_D
         return parent::getElementHtml() . "\n"
             . '<input id="' . $this->getHtmlId() . '-suggest" />' . "\n"
             . '<script id="' . $this->getHtmlId() . '-template" type="text/x-jquery-tmpl">'
-            . '{{if typeof nested === "undefined"}}<div data-mage-init="' . $treeOptions . '">{{/if}}'
+            . '{{if $data.allShown()}}{{if typeof nested === "undefined"}}<div data-mage-init="' . $treeOptions . '">{{/if}}'
             . '<ul>{{each items}}'
             . '<li><a href="#">${$value.label}</a>'
             . '{{if $value.children && $value.children.length}}'
-            . '{{tmpl({items: $value.children, template:template, nested:true}) template}}'
+            . '{{tmpl(jQuery.extend({}, $data, {items: $value.children, nested: true})) template}}'
             . '{{/if}}'
             . '</li>{{/each}}</ul>'
-            . '{{if typeof nested === "undefined"}}</div>{{/if}}'
+            . '{{if typeof nested === "undefined"}}</div>{{/if}}{{else}}'
+            . '<ul data-mage-init="{&quot;menu&quot;:[]}">'
+            . '{{each items}}'
+            . '<li><a href="#">${$value.label}</a></li>'
+            . '{{/each}}</ul>{{/if}}'
             . '</script>' . "\n"
             . '<script>//<![CDATA[' . "\n"
             . 'jQuery(' . $coreHelper->jsonEncode('#' . $this->getHtmlId() . '-suggest') . ').multisuggest('
@@ -95,7 +99,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Varien_D
             'source' => Mage::helper('Mage_Backend_Helper_Data')->getUrl('adminhtml/catalog_category/suggestCategories'),
             'valueField' => '#' . $this->getHtmlId(),
             'template' => '#' . $this->getHtmlId() . '-template',
-            'control' => 'jstree'
+            'control' => 'jstree',
+            'showRecent' => false
         );
     }
 }

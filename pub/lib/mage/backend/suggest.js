@@ -24,23 +24,12 @@
             delay: 500,
             events: {},
             appendMethod: 'after',
-            control: 'menu',
             controls: {
-                menu: {
-                    selector: ':ui-menu',
-                    eventsMap: {
-                        focus: 'menufocus',
-                        blur: 'menublur',
-                        select: 'menuselect'
-                    }
-                },
-                jstree: {
-                    selector: '.jstree',
-                    eventsMap: {
-                        focus: 'hover_node',
-                        blur: 'dehover_node',
-                        select: 'select_tree_node'
-                    }
+                selector: ':ui-menu, .jstree',
+                eventsMap: {
+                    focus: ['menufocus', 'hover_node'],
+                    blur: ['menublur', 'dehover_node'],
+                    select: ['menuselect', 'select_tree_node']
                 }
             },
             wrapperAttributes: {
@@ -73,7 +62,7 @@
                     .attr('name', this.element.attr('name'));
                 this.element.removeAttr('name');
             }
-            this._control = this.options.controls[this.options.control] || {};
+            this._control = this.options.controls || {};
             this._bind();
         },
 
@@ -210,14 +199,40 @@
                     e.preventDefault();
                 }
             };
-            events[this._control.eventsMap.select] = this._selectItem;
-            events[this._control.eventsMap.focus] = function(e, ui) {
-                this.element.val(ui.item.text());
-            };
-            events[this._control.eventsMap.blur] = function() {
-                this.element.val(this._term);
-            };
+            $.each(this._control.eventsMap, $.proxy(function(suggestEvent, controlEvents) {
+                $.each(controlEvents, $.proxy(function(i, handlerName) {
+                    switch(suggestEvent) {
+                        case 'select' :
+                            events[handlerName] = this._selectItem;
+                            break;
+                        case 'focus' :
+                            events[handlerName] = this._focusItem;
+                            break;
+                        case 'blur' :
+                            events[handlerName] = this._blurItem;
+                            break;
+                    }
+                }, this))
+            }, this));
             this._on(this.dropdown, events);
+        },
+
+        /**
+         *
+         * @param e
+         * @param ui
+         * @private
+         */
+        _focusItem: function(e, ui) {
+            this.element.val(ui.item.text());
+        },
+
+        /**
+         *
+         * @private
+         */
+        _blurItem: function() {
+            this.element.val(this._term);
         },
 
         /**
@@ -374,6 +389,13 @@
             }
         },
 
+        _abortSearch: function() {
+            clearTimeout(this._searchTimeout);
+            if (this._xhr) {
+                this._xhr.abort();
+            }
+        },
+
         /**
          * Perform filtering in advance loaded items and returns search result
          * @param {Array} items - all available items
@@ -457,13 +479,15 @@
          */
         _bind: function() {
             this._super();
-            this._on({
-                focus: function() {
-                    if (!this._value()) {
-                        this._renderDropdown(this._recentItems);
+            if (!this.options.showRecent) {
+                this._on({
+                    focus: function() {
+                        if (!this._value()) {
+                            this._renderDropdown(this._recentItems);
+                        }
                     }
-                }
-            });
+                });
+            }
         },
 
         /**
@@ -471,12 +495,11 @@
          */
         search: function() {
             this._super();
-            if (!this._term) {
-                clearTimeout(this._searchTimeout);
-                if (this._xhr) {
-                    this._xhr.abort();
+            if (this.options.showRecent) {
+                if (!this._term) {
+                    this._abortSearch();
+                    this._renderDropdown(this._recentItems);
                 }
-                this._renderDropdown(this._recentItems);
             }
         },
 
@@ -486,7 +509,7 @@
          */
         _selectItem: function() {
             this._superApply(arguments);
-            if (this._selectedItem.value) {
+            if (this._selectedItem.value && this.options.showRecent) {
                 this._addRecent(this._selectedItem);
             }
         },
@@ -532,6 +555,35 @@
             return $.extend(context, {allShown: function(){
                 return !!context._allSown;
             }});
+        }
+    });
+
+    /**
+     * Implement category selector functionality
+     */
+    $.widget('mage.suggest', $.mage.suggest, {
+        /**
+         *
+         * @private
+         */
+        _bind: function() {
+            this._super();
+            this._on({
+                focus: function() {
+                    this.search();
+                }
+            });
+        },
+
+        /**
+         *
+         */
+        search: function() {
+            this._super();
+            if(!this.options.showRecent && !this._term) {
+                this._abortSearch();
+                this._search('', {_allSown: true});
+            }
         }
     });
 })(jQuery);
