@@ -669,7 +669,7 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
     public function getTypes()
     {
         $types = array();
-        $config = $this->_config->getNode(self::XML_PATH_TYPES);
+        $config = Mage::getConfig()->getNode(self::XML_PATH_TYPES);
         if ($config) {
             foreach ($config->children() as $type=>$node) {
                 $types[$type] = new Varien_Object(array(
