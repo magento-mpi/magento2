@@ -19,6 +19,11 @@
 class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
+     * Error message to be used when the user number restriction is reached
+     */
+    const MESSAGE_USER_LIMIT_REACHED = 'You are using the maximum number of admin accounts allowed.';
+
+    /**
      * Define main table
      *
      */
@@ -381,5 +386,30 @@ class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
         }
 
         return $this;
+    }
+
+    /**
+     * Whether functional restrictions allow to create a new user
+     *
+     * @return bool
+     */
+    public function canCreateUser()
+    {
+        $maxUserCount = Mage::getConfig()->getNode('global/functional_limitation/max_admin_user_count');
+        return ($this->_getTotalUserCount() < $maxUserCount);
+    }
+
+    /**
+     * Retrieve the total user count bypassing any restrictions/filters applied to collections
+     *
+     * @return int
+     */
+    protected function _getTotalUserCount()
+    {
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select();
+        $select->from($this->getMainTable(), 'COUNT(*)');
+        $result = (int)$adapter->fetchOne($select);
+        return $result;
     }
 }
