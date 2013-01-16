@@ -45,22 +45,4 @@ class Mage_DesignEditor_Block_Template extends Mage_Core_Block_Template
         );
         return $block->toHtml();
     }
-
-    /**
-     * Get element html (real content or placeholder)
-     *
-     * @return string
-     */
-    public function getElementHtml()
-    {
-        $elementHtml = $this->getData('element_html');
-
-        if (empty($elementHtml)) {
-            /** @var $block Mage_DesignEditor_Block_Placeholder */
-            $block = $this->getLayout()->createBlock('Mage_DesignEditor_Block_Placeholder');
-            $elementHtml = $block->toHtml();
-        }
-
-        return $elementHtml;
-    }
 }

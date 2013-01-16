@@ -22,6 +22,13 @@ $cssClass = 'vde_element_wrapper'
         <?php echo $this->getRemoveButton($elementId) ?>
     <?php endif; ?>
     <!--start_<?php echo $elementId; ?>-->
-    <?php echo $elementHtml; ?>
+    <?php if ($elementHtml) : ?>
+        <div><?php echo $elementHtml ?></div>
+    <?php elseif (!$this->getIsContainer()) : ?>
+        <div class="vde_placeholder_content">
+            <img src="<?php echo $this->getViewFileUrl('Mage_DesignEditor::images/block-placeholder.png') ?>"
+                 alt="<?php echo $this->__('Placeholder')?>" />
+        </div>
+    <?php endif ?>
     <!--end_<?php echo $elementId; ?>-->
 </div>
