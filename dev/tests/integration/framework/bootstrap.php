@@ -119,4 +119,4 @@ Utility_Files::init(new Utility_Files($magentoBaseDir));
 
 /* Unset declared global variables to release PHPUnit from maintaining their values between tests */
 unset($testsBaseDir, $testsTmpDir, $magentoBaseDir, $localXmlFile, $globalEtcFiles, $moduleEtcFiles, $eventManager);
-unset($memCap, $leaksCap);
+unset($memLimit);
