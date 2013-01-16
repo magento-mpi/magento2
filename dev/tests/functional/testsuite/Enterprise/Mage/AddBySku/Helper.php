@@ -11,44 +11,67 @@
 
 /**
  * Helper class
- *
- * @package     selenium
- * @subpackage  tests
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
 {
+    //---------------------------------------------------Backend--------------------------------------------------------
     /**
      * Add next product
      *
-     * @param array $nextProduct
      * @param bool $pressButton
+     * @param array $productsToAdd
+     * @param bool $isShoppingCart, if false, method is used for Sales - Orders
      */
-    public function addProductShoppingCart(array $nextProduct, $pressButton = true)
+    public function addProductsBySkuToShoppingCart(array $productsToAdd, $pressButton = true, $isShoppingCart = true)
     {
-        if (!empty($nextProduct)) {
-            $identificator = 0;
-            foreach ($nextProduct as $value) {
-                if ($identificator > 0) {
-                    $this->clickButton('add_sku', false);
+        if (!empty($productsToAdd)) {
+            if ($isShoppingCart) {
+                if (!$this->controlIsPresent('pageelement', 'opened_add_to_shopping_cart_by_sku')) {
+                    $this->clickControl('link', 'expand_add_to_shopping_cart_by_sku', false);
                     $this->waitForAjax();
                 }
-                $this->addParameter('itemId', $identificator);
-                if (is_array($value)) {
-                    $this->fillFieldset($value, 'add_to_shopping_cart');
-                } else {
-                    $this->fail('Got incorrect parameter');
-                }
-                $identificator++;
             }
-            if ($pressButton) {
+            if (!$isShoppingCart) {
+                $this->clickButton('add_products_by_sku', false);
+            }
+            $this->_fillSkuQty($productsToAdd);
+            if ($pressButton && $isShoppingCart) {
                 $this->clickButton('add_selected_products_to_shopping_cart', false);
-                $this->waitForAjax();
             }
+            if ($pressButton && !$isShoppingCart) {
+                $this->clickButton('submit_sku_form');
+            }
+            $this->pleaseWait();
         }
-        $this->pleaseWait();
     }
 
+    /**
+     * Get parameter for product in Shopping Cart
+     *
+     * @param array $productsToAdd
+     */
+    protected function _fillSkuQty(array $productsToAdd)
+    {
+        $item = 0;
+        foreach ($productsToAdd as $value) {
+            if ($item > 0) {
+                $this->clickButton('add_row', false);
+                $this->waitForAjax();
+            }
+            $this->addParameter('itemId', $item++);
+            if (is_array($value)) {
+                $this->fillField('sku', $value['sku']);
+                $this->fillField('sku_qty', $value['qty']);
+                $this->waitForAjax();
+            } else {
+                $this->fail('Got incorrect parameter');
+            }
+        }
+    }
+
+    /**
+     * Open shopping cart
+     */
     public function openShoppingCart()
     {
         $this->clickButton('manage_shopping_cart', false);
@@ -58,6 +81,14 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
         $this->validatePage('customer_shopping_cart');
     }
 
+    /**
+     * Gets products info from table
+     *
+     * @param string $tableHeadName
+     * @param string $productTableLine
+     * @param array $skipFields
+     * @return array
+     */
     public function getProductInfoInTable(
         $tableHeadName = 'product_table_head',
         $productTableLine = 'product_line',
@@ -161,103 +192,135 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
         return $productValues;
     }
 
-    public function removeAllItemsFromErrorTable()
+    /**
+     * Clears shopping cart
+     */
+    public function removeAllItemsFromShoppingCart()
+    {
+        if ($this->controlIsVisible('button', 'clear_shop_cart')) {
+            $this->clickButtonAndConfirm('clear_shop_cart', 'confirmation_to_clear_shopping_cart', false);
+            $this->pleaseWait();
+        }
+    }
+
+    /**
+     * Removes all items from error table
+     */
+    public function removeAllItemsFromAttentionTable()
     {
         if ($this->controlIsVisible('button', 'remove_all')) {
             $this->clickButton('remove_all', false);
-            $this->waitForAjax();
+            $this->pleaseWait();
         }
-    }
-
-    public function removeSingleItemsFromErrorTable($itemIndex)
-    {
-        $this->addParameter('del_row', $itemIndex);
-        $this->clickButton('remove_button', false);
-        $this->waitForAjax();
-    }
-
-    public function getProductInfoInErrorTable()
-    {
-        $productValues = $this->getProductInfoInTable('product_table_head_error', 'product_line_error');
-        for ($index = 1; $index <= count($productValues); $index++) {
-            $count = 'product_' . $index;
-            unset($productValues[$count]['product_name']);
-            $productValues[$count]['sku'] = str_replace('SKU not found in catalog.', '', $productValues[$count]['sku']);
-        }
-        return $productValues;
     }
 
     /**
-     * Verify presence of products in grid
+     * Checks if shopping cart table is empty
+     *
+     * @return bool
      */
-    public function verifyProductPresentInGrid($sku, $table)
-    {
-        if (is_string($sku)) {
-            $this->addParameter('skuProduct', $sku);
-            $this->assertTrue($this->controlIsPresent('pageelement', $table),
-                "There is no product with: $sku in $table grid");
-        }
-        if (is_array($sku)) {
-            foreach ($sku as $value) {
-                $this->addParameter('skuProduct', $value);
-                if ($this->controlIsPresent('pageelement', $table)) {
-                } else {
-                    $this->addVerificationMessage("There is no product with: $value in $table grid");
-                }
-            }
-        }
-        $this->assertEmptyVerificationErrors();
-    }
-
-    /**
-     * Verify absence of product in grid
-     */
-    public function verifyProductAbsentInGrid($sku, array $tables)
-    {
-        foreach ($tables as $table) {
-            $this->addParameter('skuProduct', $sku);
-            $this->assertFalse($this->controlIsPresent('pageelement', $table),
-                "Product with SKU: $sku is present in $table");
-            if (is_array($sku)) {
-                foreach ($sku as $value) {
-                    $this->addParameter('skuProduct', $value);
-                    if ($this->controlIsPresent('pageelement', $table)) {
-                        $this->addVerificationMessage("Product with SKU: $value is present in $table");
-                    }
-                }
-                $this->assertEmptyVerificationErrors();
-            }
-        }
-    }
-
-    public function getRowCount($type, $name, $paramName)
-    {
-        $gridRow = $this->_getControlXpath($type, $name);
-        $rowCount = count($this->getElements($gridRow));
-        $this->addParameter($paramName, $rowCount);
-    }
-
-    public function clearShoppingCartAndErrorTable()
-    {
-        //        $this->addBySkuHelper()->clearShoppingCart();
-        $this->addBySkuHelper()->removeAllItemsFromErrorTable();
-    }
-
     public function isShoppingCartEmpty()
     {
-        if ($this->controlIsVisible('pageelement', 'product_table_head_error')) {
-            $productValues = $this->getProductInfoInTable('product_table_head_error', 'product_line_error');
-            if (empty($productValues)) {
-                return true;
-            }
+        if (count($this->getElementsByXpath($this->_getControlXpath('pageelement', 'table_row'))) == 1
+            && $this->controlIsVisible('pageelement', 'no_items')) {
+            return true;
         }
         return false;
     }
 
-    public function verifyErrorTableIsEmpty()
+    /**
+     * Checks if attention table is empty
+     *
+     * @return bool
+     */
+    public function isAttentionTableEmpty() {
+        if ($this->controlIsVisible('pageelement', 'error_table_head')) {
+            $productValues = $this->getProductInfoInTable('error_table_head', 'error_table_line');
+            if (empty($productValues)) {
+                return true;
+            }
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Remove items from Attention Table
+     *
+     * @param array $productsToRemove
+     */
+    public function removeItemsFromAttentionTable(array $productsToRemove)
     {
-        $this->assertFalse($this->controlIsVisible('fieldset', 'shopping_cart_error'),
-            'Products are not deleted from attention grid');
+        if (!empty($productsToRemove)) {
+            if (!$this->isAttentionTableEmpty()) {
+                $xpath = $this->_getControlXpath('pageelement', 'error_table_grid');
+                foreach ($productsToRemove as $key => $productSku) {
+                    $count = count($this->getElementsByXpath($xpath));
+                    $i = 1;
+                    $productSku = 'sku_' . trim($productSku);
+                    while ($i <= $count) {
+                        $value = $this->getAttribute($xpath . "[$i]/td/div/@id");
+                        if (trim($value) == $productSku) {
+                            $this->addParameter('rowIndex', $i);
+                            $this->clickButton('remove_item', false);
+                            unset($productsToRemove[$key]);
+                            $i = $count + 1;
+                            $this->pleaseWait();
+                        } else {
+                            $i++;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Remove items from shopping cart table
+     *
+     * @param array $productsToRemove
+     */
+    public function removeItemsFromShoppingCartTable(array $productsToRemove)
+    {
+        if (!empty($productsToRemove)) {
+            if (!$this->isShoppingCartEmpty()) {
+                $productsData = $this->getProductInfoInTable('product_table_head', 'table_row');
+                $rowNumber=1;
+                foreach ($productsData as $value) {
+                    if(in_array(trim($value['sku']), $productsToRemove)) {
+                        $this->addParameter('rowNumber', $rowNumber);
+                        $this->select($this->_getControlXpath('dropdown', 'grid_massaction_select'), 'Remove');
+                        $this->pleaseWait();
+                    }
+                    $rowNumber++;
+                }
+            }
+            $this->clickButton('update_items_and_qty', false);
+            $this->pleaseWait();
+        }
+    }
+
+    /**
+     * Configure product in Required Attention grid and add it to Shopping cart if possible
+     *
+     * @param array $product
+     * @param array $msgShoppingCart
+     * @param string $msgAttentionGrid
+     */
+    public function configureProduct(array $product, array $msgShoppingCart, $msgAttentionGrid)
+    {
+        if ($msgShoppingCart !== null && $msgAttentionGrid !== null && $msgAttentionGrid == 'specify_option') {
+            $popupXpath = $this->_getControlXpath('fieldset', 'product_composite_configure_form');
+            $this->addParameter('sku', $product['sku']);
+            $this->clickControl('button', 'configure_item', false);
+            $this->waitForElement($popupXpath);
+            $this->waitForAjax();
+            $this->orderHelper()->configureProduct($product['Options_backend']);
+            $uimap = $this->_findUimapElement('fieldset', 'product_composite_configure_form');
+            $this->click($this->_getControlXpath('button', 'ok', $uimap));
+        } else {
+            $this->fail('Added product is not composite product');
+        }
     }
 
     //---------------------------------------------------Frontend-------------------------------------------------------
@@ -331,7 +394,7 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
         $this->addParameter('qty', $this->defineParameterFromUrl('qty'));
         $this->addParameter('sku', $this->defineParameterFromUrl('sku'));
         if (is_string($productName)) {
-            $this->addParameter('productName', $productName);
+            $this->addParameter('elementTitle', $productName);
         }
         $this->validatePage();
     }
@@ -351,6 +414,51 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
+     * Configure product which require specifying link in Required Attention grid
+     *
+     * @param array $product
+     * @param string $productType
+     */
+    protected function _frontSpecifyOptions(array $product, $productType)
+    {
+        if (strlen(strstr($productType, 'grouped')) > 0) {
+            $this->frontCheckFields($product, false, false);
+        } else {
+            $this->frontCheckFields($product, true, true);
+        }
+        $this->clickSpecifyLink($product['product_name']);
+        $this->productHelper()->frontFillBuyInfo($product['Options']);
+        $this->clickButton('update_cart');
+        //Verifying
+        if (strlen(strstr($productType, 'grouped')) > 0) {
+            $this->addParameter('productName',
+                $product['Options']['option_1']['parameters']['subproductName']);
+        }
+    }
+
+    /**
+     * Configure product which require quantity modification in Required Attention grid
+     *
+     * @param array $product
+     * @param $productType
+     * @param array $msgShoppingCart
+     * @param array $msgGrid
+     */
+    protected function _frontRequestedQuantity(array $product, $productType, array $msgShoppingCart, array $msgGrid)
+    {
+        $this->frontCheckFields($product, true, true);
+        if ($productType == 'simpleMin') {
+            $qty = $product['qty'] + 1;
+        } else {
+            $qty = $product['qty'] - 1;
+        }
+        $this->addParameter('qty', $qty);
+        $this->assertMessagePresent($msgShoppingCart['type'], $msgGrid['messageTwo']);
+        $this->fillFieldset(array('qty' => $qty), 'products_requiring_attention');
+        $this->clickButton('add_to_cart');
+    }
+
+    /**
      * Configure product in Required Attention grid and add it to Shopping cart if possible
      *
      * @param array $product
@@ -365,31 +473,13 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
             switch ($msgAttentionGrid['messageOne']) {
                 case 'qty_not_available':
                 case 'requested_qty':
-                    $this->frontCheckFields($product, true, true);
-                    if ($productType == 'simpleMin') {
-                        $qty = $product['qty'] + 1;
-                    } else {
-                        $qty = $product['qty'] - 1;
-                    }
-                    $this->addParameter('qty', $qty);
-                    $this->assertMessagePresent($msgShoppingCart['type'], $msgAttentionGrid['messageTwo']);
-                    $this->fillFieldset(array('qty' => $qty), 'products_requiring_attention');
-                    $this->clickButton('add_to_cart');
+                    $this->_frontRequestedQuantity($product, $productType, $msgShoppingCart, $msgAttentionGrid);
                     break;
                 case 'specify_option':
-                    if (strlen(strstr($productType, 'grouped')) > 0) {
-                        $this->frontCheckFields($product, false, false);
-                    } else {
-                        $this->frontCheckFields($product, true, true);
-                    }
-                    $this->clickSpecifyLink($product['product_name']);
-                    $this->productHelper()->frontFillBuyInfo($product['Options']);
-                    $this->clickButton('update_cart');
-                    //Verifying
-                    if (strlen(strstr($productType, 'grouped')) > 0) {
-                        $this->addParameter('productName',
-                            $product['Options']['option_1']['parameters']['subproductName']);
-                    }
+                    $this->_frontSpecifyOptions($product, $productType);
+                    break;
+                case 'out_of_stock':
+                    $this->frontCheckFields($product, true, false);
                     break;
                 default:
                     $this->frontCheckFields($product, false, false);
@@ -398,6 +488,7 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
         } else {
             if ($productType == 'simpleNotVisible') {
                 $this->addParameter('productName', $product['product_name']);
+                $this->frontCheckFields($product, true, true);
             }
         }
     }

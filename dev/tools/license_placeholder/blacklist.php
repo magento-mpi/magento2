@@ -45,6 +45,7 @@ return array(
     'pub/lib/globalize',
     'pub/lib/jquery',
     'pub/lib/json2.js',
+    'pub/lib/head.load.min.js',
     'pub/media',
     'var',
 );

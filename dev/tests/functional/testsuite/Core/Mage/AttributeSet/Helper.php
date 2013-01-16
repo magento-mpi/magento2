@@ -146,11 +146,11 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_AbstractHelper
             $this->addParameter('attributeName', $attribute);
             if ($isAssigned) {
                 if (!$this->controlIsPresent('link', 'group_attribute')) {
-                    $this->addVerificationMessage("Attribute with title '$attribute' is not assigned to attribute set");
+                    $this->addVerificationMessage("Attribute with code '$attribute' is not assigned to attribute set");
                 }
             } else {
                 if (!$this->controlIsPresent('link', 'unassigned_attribute')) {
-                    $this->addVerificationMessage("Attribute with title '$attribute' is assigned to attribute set");
+                    $this->addVerificationMessage("Attribute with code '$attribute' is assigned to attribute set");
                 }
             }
         }

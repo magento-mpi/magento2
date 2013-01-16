@@ -37,7 +37,7 @@ class Enterprise_Mage_CmsBanners_CreateTest extends Mage_Selenium_TestCase
         $priceRuleData = $this->loadDataSet('CatalogPriceRule', 'test_catalog_rule');
         $ruleData = $this->loadDataSet('ShoppingCartPriceRule', 'scpr_required_fields');
         $product = $this->loadDataSet('Product', 'simple_product_visible',
-            array('categories' => $category['parent_category'] . '/' . $category['name']));
+            array('general_categories' => $category['parent_category'] . '/' . $category['name']));
         //Steps Crating Categories
         $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
@@ -60,7 +60,7 @@ class Enterprise_Mage_CmsBanners_CreateTest extends Mage_Selenium_TestCase
         //Verification Shopping Cart Price Rule
         $this->assertMessagePresent('success', 'success_saved_rule');
 
-        return array('category_path'      => $product['categories'], 'filter_sku' => $product['general_sku'],
+        return array('category_path'      => $product['general_categories'], 'filter_sku' => $product['general_sku'],
                      'catalog_rule_name'  => $priceRuleData['info']['rule_name'],
                      'price_rule_name'    => $ruleData['info']['rule_name'],);
     }

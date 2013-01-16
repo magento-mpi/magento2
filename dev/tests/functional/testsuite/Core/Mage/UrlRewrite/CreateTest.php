@@ -135,7 +135,7 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->validatePage();
 
         //Select Category
-        $categorySearch = $productData['categories'];
+        $categorySearch = $productData['general_categories'];
         $this->addParameter('rootName', $categorySearch);
         $this->clickControl('link', 'root_category', false);
         $this->waitForPageToLoad();
@@ -175,7 +175,7 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
 
         //Select Category
         $this->validatePage('add_new_urlrewrite_category');
-        $categorySearch = $productData['categories'];
+        $categorySearch = $productData['general_categories'];
         $this->addParameter('rootName', $categorySearch);
         $this->clickControl('link', 'root_category', false);
         $this->waitForPageToLoad();
@@ -249,7 +249,7 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->addParameter('id', $this->defineParameterFromUrl('product'));
         $this->validatePage();
         //Select Category
-        $categorySearch = $productData['categories'];
+        $categorySearch = $productData['general_categories'];
         $this->addParameter('rootName', $categorySearch);
         $this->clickControl('link', 'root_category', false);
         $this->waitForPageToLoad();
@@ -308,7 +308,7 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->addParameter('id', $this->defineParameterFromUrl('product'));
         $this->validatePage();
         //Select Category
-        $categorySearch = $productData['categories'];
+        $categorySearch = $productData['general_categories'];
         $this->addParameter('rootName', $categorySearch);
         $this->clickControl('link', 'root_category', false);
         $this->waitForPageToLoad();
@@ -668,7 +668,7 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         //Create product and assign to Website2
         $this->navigate('manage_products');
         $productData = $this->loadDataSet('Product', 'simple_product_url_rewrite',
-            array('websites' => $websiteDataOne['website_name'], 'categories' => $category['name']));
+            array('websites' => $websiteDataOne['website_name'], 'general_categories' => $category['name']));
         //        $productSearch =
         //        $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         $this->productHelper()->createProduct($productData);
@@ -857,7 +857,7 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         //Create product and assign to Website2
         $this->navigate('manage_products');
         $productData =
-            $this->loadDataSet('Product', 'simple_product_url_rewrite', array('categories' => $category['name']));
+            $this->loadDataSet('Product', 'simple_product_url_rewrite', array('general_categories' => $category['name']));
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         $this->productHelper()->createProduct($productData);
@@ -882,7 +882,7 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->validatePage();
 
         //Select Category
-        $categorySearch = $productData['categories'];
+        $categorySearch = $productData['general_categories'];
         $this->addParameter('rootName', $categorySearch);
         $this->clickControl('link', 'root_category', false);
         $this->waitForPageToLoad();

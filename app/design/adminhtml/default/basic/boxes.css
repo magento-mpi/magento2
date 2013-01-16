@@ -265,9 +265,11 @@ ul.tabs .ui-state-active a span,
 ul.tabs .ui-state-active a:hover span { background:#fff; font-weight:bold; }
 ul.tabs a.subitem               { padding-left:2.2em; }
 ul.tabs span.changed,
-ul.tabs span.error              { float:right; background:0; padding:0; }
+ul.tabs span.error,
+ul.tabs span.loading            { float:right; background:0; padding:0; }
 ul.tabs a.changed span.changed  { background:url(images/fam_bullet_disk.gif) 0 0 no-repeat !important; width:16px; height:16px; }
 ul.tabs a.error span.error      { background:url(Mage_Adminhtml::images/fam_bullet_error.gif) 0 0 no-repeat !important; width:16px; height:16px; }
+ul.tabs a.ui-tabs-loading span.loading { background:url(images/loader-small.gif) 0 0 no-repeat !important; width:16px; height:16px; }
 ul.tabs a.changed               { font-style:italic; }
 
 /* Horizontal Tabs */
@@ -886,11 +888,7 @@ div.autocomplete ul li { padding:.5em .7em; min-height:32px; cursor:pointer; tex
 ********************************************************************************************/
 
 /* Content Header */
-.content-header {
-    margin-bottom:18px;
-    border-bottom:4px solid #dfdfdf;
-    padding-bottom:.25em;
-    }
+.content-header { margin-bottom:18px; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; border-bottom:4px solid #dfdfdf; padding-bottom:.25em; padding-top: 6px; }
 .content-header table           { width:100%; }
 .content-header h3              { float:left; margin:.3em .5em 0 0; color:#eb5e00; font-size:1.25em; line-height:1.2em; }
 .content-header .head h3        { float:none; }
@@ -905,16 +903,12 @@ div.autocomplete ul li { padding:.5em .7em; min-height:32px; cursor:pointer; tex
 
 .left-col-block { width:200px; }
 
-/* Floating Content Header */ /* Used to make action buttons always within reach */
-.content-header-floating { display:none; position:fixed; left:0; top:0; width:100%; border-bottom:solid 1px #988753; z-index:100; z-index:auto\9; background:#fdfaa4; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=85)"/* IE8 */; opacity:.85; }
-.content-header-floating .content-header { padding:6px 8px 4px 8px; margin-bottom:0; border:0; }
-.content-header-floating td     { padding-right:20px; }
-.content-header-floating button { margin-top:3px; }
-.content-header-floating .content-buttons { float:right; /* margin:12px 25px 0 0;*/ }
+.content-header.fixed { padding:6px 8px; margin-bottom:0; border:0; position:fixed; left:0; top:0; width:100%; border-bottom:solid 1px #988753; z-index:100; z-index:auto\9; background:#fdfaa4; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=85)"; opacity:.85; z-index: 100; }
+.content-header.fixed button { margin-top:3px; }
+.content-header.fixed .content-buttons { float:right; }
 .content-buttons { margin-bottom:5px; float:right; display:inline; white-space:nowrap; }
-.content-header-floating .form-buttons {padding-right:20px; }
-.content-header-floating h3 {margin-left:20px; display:inline; }
-
+.content-header.fixed .form-buttons { padding-right:20px; }
+.content-header.fixed h3 { margin: 0 0 0 20px; display:inline; }
 
 
 /* Box Head */
