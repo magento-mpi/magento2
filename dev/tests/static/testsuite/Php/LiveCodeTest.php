@@ -55,21 +55,34 @@ class Php_LiveCodeTest extends PHPUnit_Framework_TestCase
     public function testCodeMess()
     {
         $reportFile = self::$_reportDir . '/phpmd_report.xml';
-        $cmd = new Inspection_MessDetector_Command(realpath(__DIR__ . '/_files/phpmd/ruleset.xml'), $reportFile);
-        if (!$cmd->canRun()) {
-            $this->markTestSkipped('PHP Mess Detector command line is not available.');
+        $codeMessDetector = new CodingStandard_Tool_CodeMess(realpath(__DIR__ . '/_files/phpmd/ruleset.xml'),
+            $reportFile
+        );
+
+        if (!$codeMessDetector->canRun()) {
+            $this->markTestSkipped('PHP Mess Detector is not available.');
         }
-        $this->assertTrue($cmd->run(self::$_whiteList, self::$_blackList), $cmd->getLastRunMessage());
+
+        $this->assertEquals(
+            PHP_PMD_TextUI_Command::EXIT_SUCCESS, $codeMessDetector->run(self::$_whiteList, self::$_blackList),
+            "PHP Code Mess has found error(s): See detailed report in $reportFile"
+        );
     }
 
     public function testCopyPaste()
     {
         $reportFile = self::$_reportDir . '/phpcpd_report.xml';
-        $cmd = new Inspection_CopyPasteDetector_Command($reportFile);
-        if (!$cmd->canRun()) {
-            $this->markTestSkipped('PHP Copy/Paste Detector command line is not available.');
+        $copyPasteDetector = new CodingStandard_Tool_CopyPaste($reportFile);
+
+        if (!$copyPasteDetector->canRun()) {
+            $this->markTestSkipped('PHP Copy/Paste Detector is not available.');
         }
-        $this->assertTrue($cmd->run(self::$_whiteList, self::$_blackList), $cmd->getLastRunMessage());
+        $blackList = file(__DIR__ . '/_files/phpcpd/common.txt');
+
+
+        $this->assertTrue($copyPasteDetector->run(array(), $blackList),
+            "PHP Code Mess has found error(s): See detailed report in $reportFile"
+        );
     }
 
     /**

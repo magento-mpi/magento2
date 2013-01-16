@@ -85,6 +85,10 @@ class Js_LiveCodeTest extends PHPUnit_Framework_TestCase
      */
     protected function _verifyTestRunnable($filename)
     {
+        if (!file_exists(TESTS_JSHINT_PATH)) {
+            throw new Exception(TESTS_JSHINT_PATH . ' does not exist.');
+        }
+
         $command = 'which rhino';
         if ($this->_isOsWin()) {
             $command = 'cscript';
