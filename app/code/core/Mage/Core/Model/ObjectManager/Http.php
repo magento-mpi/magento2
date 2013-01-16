@@ -11,8 +11,8 @@ class Mage_Core_Model_ObjectManager_Http extends Magento_ObjectManager_Zend
 {
     /**
      * @param string $baseDir
-     * @param string$runCode
-     * @param string $runType
+     * @param string $scopeCode
+     * @param string $scopeType
      * @param array $customDirs
      * @param string $customPath
      * @param array $cacheOptions
@@ -20,8 +20,8 @@ class Mage_Core_Model_ObjectManager_Http extends Magento_ObjectManager_Zend
      * @param string $customConfig
      */
     public function __construct(
-        $baseDir, $runCode, $runType, $customDirs = null,
-        $customPath = null, $cacheOptions = array(), $customLocalXml = null, $customConfig = null
+        $baseDir, $scopeCode, $scopeType, $customDirs = null,
+        $customUris = null, $cacheOptions = array(), $banCache = false, $customLocalXml = null, $customConfig = null
     ) {
         parent::__construct($baseDir . '/var/di/definitions.php');
         $this->configure(array(
@@ -30,7 +30,7 @@ class Mage_Core_Model_ObjectManager_Http extends Magento_ObjectManager_Zend
                 'Mage_Core_Model_AppInterface' => 'Mage_Core_Model_App_Proxy',
             ),
             'Mage_Core_Model_Dir' => array(
-                'parameters' => array('baseDir' => $baseDir, 'customDirs' => $customDirs, 'customPath' => $customPath)
+                'parameters' => array('baseDir' => $baseDir, 'uris' => $customUris, 'dirs' => $customDirs)
             ),
             'Mage_Core_Model_Config' => array(
                 'parameters' => array('storage' => 'Mage_Core_Model_Config_Storage')
@@ -54,10 +54,10 @@ class Mage_Core_Model_ObjectManager_Http extends Magento_ObjectManager_Zend
                 'parameters' => array('extraFile' => $customLocalXml, 'extraData' => $customConfig)
             ),
             'Mage_Core_Model_Cache' => array(
-                'parameters' => array('options' => $cacheOptions),
+                'parameters' => array('options' => $cacheOptions, 'banCache' => $banCache),
             ),
             'Mage_Core_Model_App' => array(
-                'parameters' => array('scopeCode' => $runCode, 'scopeType' => $runType)
+                'parameters' => array('scopeCode' => $scopeCode, 'scopeType' => $scopeType)
             ),
         ));
         Mage::setObjectManager($this);
@@ -68,10 +68,9 @@ class Mage_Core_Model_ObjectManager_Http extends Magento_ObjectManager_Zend
         if ($configurators) {
             $runTypeParams = array(
                 'baseDir' => $baseDir,
-                'runCode' => $runCode,
-                'runType' => $runType,
+                'runCode' => $scopeCode,
+                'runType' => $scopeType,
                 'customDirs' => $customDirs,
-                'customPath' => $customPath,
                 'cacheOptions' => $cacheOptions,
                 'customLocalXml' => $customLocalXml,
                 'customConfig' => $customConfig,

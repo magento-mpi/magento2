@@ -230,9 +230,18 @@ class Magento_Test_Bootstrap
     {
         Mage::setIsDeveloperMode($this->_isDeveloperMode);
         Mage::$headersSentThrowsException = false;
-        /** @var $app Mage_Core_Model_App */
-        $app = Mage::getObjectManager()->get('Mage_Core_Model_App');
-        $app->init($initParams);
+        if (!Mage::getObjectManager()) {
+            /** @var $app Mage_Core_Model_App */
+            new Mage_Core_Model_ObjectManager_Http(
+                BP,
+                isset($initParams['MAGE_RUN_CODE']) ? $initParams['MAGE_RUN_CODE'] : '',
+                isset($initParams['MAGE_RUN_TYPE']) ? $initParams['MAGE_RUN_TYPE'] : 'store',
+                isset($initParams['app_dirs']) ? $initParams['app_dirs'] : array(),
+                isset($initParams['app_uris']) ? $initParams['app_uris'] : array(),
+                isset($initParams['cache_options']) ? $initParams['cache_options'] : array(),
+                isset($initParams['global_ban_use_cache']) ? $initParams['global_ban_use_cache'] : false
+            );
+        }
     }
 
     /**
@@ -253,9 +262,11 @@ class Magento_Test_Bootstrap
      */
     public function runApp(array $additionalParams)
     {
-        /** @var $app Mage_Core_Model_App */
-        $app = Mage::getObjectManager()->get('Mage_Core_Model_App');
-        $app->run($this->_customizeParams($additionalParams));
+        $composer = Mage::getObjectManager();
+        $handler = $composer->get('Magento_Http_Handler_Composite');
+        $handler->handle(
+            $composer->get('Mage_Core_Controller_Request_Http'), $composer->get('Mage_Core_Controller_Response_Http')
+        );
     }
 
     /**
@@ -477,12 +488,8 @@ class Magento_Test_Bootstrap
         /* Initialize an application in non-installed mode */
         $this->_initialize($this->_initParams);
 
-        /* Run all install and data-install scripts */
-        Mage_Core_Model_Resource_Setup::applyAllUpdates();
-        Mage_Core_Model_Resource_Setup::applyAllDataUpdates();
-
         /* Enable configuration cache by default in order to improve tests performance */
-        Mage::app()->getCacheInstance()->saveOptions(array('config' => 1));
+        Mage::getObjectManager()->get('Mage_Core_Model_Cache')->saveOptions(array('config' => 1));
 
         /* Fill installation date in local.xml to indicate that application is installed */
         $localXml = file_get_contents($targetLocalXml);

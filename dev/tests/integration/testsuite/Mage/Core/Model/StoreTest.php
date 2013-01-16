@@ -142,7 +142,7 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
     public function testGetBaseUrlInPub()
     {
         Magento_Test_Bootstrap::getInstance()->reinitialize(array(
-            Mage_Core_Model_App::INIT_OPTION_URIS => array(Mage_Core_Model_Dir::PUB => '')
+            'app_uris' => array(Mage_Core_Model_Dir::PUB => '')
         ));
         $this->_model->load('default');
 

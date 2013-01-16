@@ -22,7 +22,7 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         Mage::app()->getCacheInstance()->banUse('layout');
 
         Magento_Test_Bootstrap::getInstance()->reinitialize(array(
-            Mage_Core_Model_App::INIT_OPTION_DIRS => array(
+            'app_dirs' => array(
                 Mage_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design'
             )
         ));

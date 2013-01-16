@@ -11,12 +11,12 @@ class Mage_Core_Model_ObjectManager_Media extends Magento_ObjectManager_Zend
 {
     /**
      * @param string $basePath
-     * @param string $runCode
-     * @param string $runType
+     * @param string $scopeCode
+     * @param string $scopeType
      * @param bool $disableCacheSave
      * @param array $allowedModules
      */
-    public function __construct($basePath, $runCode, $runType, $disableCacheSave, array $allowedModules)
+    public function __construct($basePath, $scopeCode, $scopeType, $disableCacheSave, array $allowedModules)
     {
         parent::__construct($basePath . 'var/di/definitions.php');
         $this->configure(array(
@@ -33,7 +33,7 @@ class Mage_Core_Model_ObjectManager_Media extends Magento_ObjectManager_Zend
                 'parameters' => array('allowedModules' => array('Mage_Core'))
             ),
             'Mage_Core_Model_App' => array(
-                'parameters' => array('scopeCode' => $runCode, 'scopeType' => $runType)
+                'parameters' => array('scopeCode' => $scopeCode, 'scopeType' => $scopeType)
             ),
         ));
     }

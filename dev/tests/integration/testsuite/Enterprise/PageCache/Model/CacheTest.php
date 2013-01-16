@@ -26,7 +26,7 @@ class Enterprise_PageCache_Model_CacheTest extends PHPUnit_Framework_TestCase
     {
         $bootstrap = Magento_Test_Bootstrap::getInstance();
         $bootstrap->reinitialize(array(
-            Mage_Core_Model_App::INIT_OPTION_DIRS => array(
+            'app_dirs' => array(
                 Mage_Core_Model_Dir::VAR_DIR => $bootstrap->getInstallDir() . '/' . __CLASS__
             )
         ));
