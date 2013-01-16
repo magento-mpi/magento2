@@ -1,12 +1,11 @@
 <?php
 /**
- * Test Product CRUD operations
+ * Test Product API tests.
  *
  * {license_notice}
  *
  * @copyright {copyright}
  * @license {license_link}
- * @method Mage_Catalog_Model_Product_Api_Helper_Simple _getHelper()
  */
 class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
 {
@@ -39,7 +38,7 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
             'special_to_date'
         );
         /** Assert response product equals to actual product data. */
-        Magento_Test_Helper_Api::assertEntityFields(
+        Magento_Test_Helper_Api::checkEntityFields(
             $this,
             $expectedProduct->getData(),
             $actualProductData,
@@ -57,8 +56,8 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
             $this,
             'catalogProductList'
         );
-        /** Assert returned products quantity. */
-        $this->assertCount(3, $actualProductsData, 'Returned products quantity are wrong.');
+        /** Assert that products quantity equals to 3. */
+        $this->assertCount(3, $actualProductsData, 'Products quantity is invalid.');
 
         /** Loading expected product from fixture. */
         $expectedProduct = Mage::getModel('Mage_Catalog_Model_Product');
@@ -71,7 +70,7 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
             'category_ids',
         );
         /** Assert first product from response equals to actual product data. */
-        Magento_Test_Helper_Api::assertEntityFields(
+        Magento_Test_Helper_Api::checkEntityFields(
             $this,
             $expectedProduct->getData(),
             reset($actualProductsData),

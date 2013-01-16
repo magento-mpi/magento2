@@ -80,7 +80,7 @@ class Mage_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCase
             'entity_id' => 'invoice_id',
             'base_grand_total'
         );
-        Magento_Test_Helper_Api::assertEntityFields(
+        Magento_Test_Helper_Api::checkEntityFields(
             $this,
             $this->_getFixtureInvoice()->getData(),
             $invoiceData,

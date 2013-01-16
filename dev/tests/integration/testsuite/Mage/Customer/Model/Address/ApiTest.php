@@ -209,7 +209,7 @@ class Mage_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
             'telephone'
         );
 
-        Magento_Test_Helper_Api::assertEntityFields(
+        Magento_Test_Helper_Api::checkEntityFields(
             $this,
             $addressModel->getData(),
             $addressSoapResult,
