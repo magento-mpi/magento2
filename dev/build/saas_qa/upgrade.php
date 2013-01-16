@@ -31,12 +31,13 @@ try {
 define('BARE_BOOTSTRAP', 1);
 require __DIR__ . '/../../../app/bootstrap.php';
 Mage::setIsDeveloperMode(true);
-Mage::run(array(
+Mage::app(array(
     Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA => file_get_contents($params['local-xml']),
     Mage_Core_Model_App::INIT_OPTION_URIS => array(Mage_Core_Model_Dir::MEDIA => $params['media-uri']),
     Mage_Core_Model_App::INIT_OPTION_DIRS => array(
         Mage_Core_Model_Dir::MEDIA => $params['media-dir'],
         Mage_Core_Model_Dir::VAR_DIR => $params['var-dir'],
     ),
-    'global_ban_use_cache' => true,
 ));
+Mage_Core_Model_Resource_Setup::applyAllUpdates();
+Mage_Core_Model_Resource_Setup::applyAllDataUpdates();
