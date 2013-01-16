@@ -417,8 +417,6 @@ class Mage_Core_Model_Url extends Varien_Object
                 if (!empty($a)) {
                     $value = array_shift($a);
                     $this->setRouteParam($key, $value);
-                } else {
-                    $this->setRouteParam($key, '');
                 }
             }
         }
@@ -472,7 +470,6 @@ class Mage_Core_Model_Url extends Varien_Object
             if ($this->getRouteParams()) {
                 foreach ($this->getRouteParams() as $key=>$value) {
                     if (is_null($value) || false === $value || '' === $value || !is_scalar($value)) {
-                        $routePath .= $key . '/';
                         continue;
                     }
                     $routePath .= $key . '/' . $value . '/';
@@ -948,6 +945,7 @@ class Mage_Core_Model_Url extends Varien_Object
          * this method has condition for adding default controller and action names
          * in case when we have params
          */
+        $fragment = null;
         if (isset($routeParams['_fragment'])) {
             $fragment = $routeParams['_fragment'];
             unset($routeParams['_fragment']);
@@ -997,7 +995,7 @@ class Mage_Core_Model_Url extends Varien_Object
             $this->unsetData('query_params');
         }
 
-        if ($fragment) {
+        if ($fragment !== null) {
             $url .= '#' . $fragment;
         }
 

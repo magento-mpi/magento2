@@ -335,9 +335,10 @@ class Mage_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-      * Note: isolation flushes the URL memory cache
-      * @magentoAppIsolation enabled
-      */
+     * Note: isolation flushes the URL memory cache
+     * @magentoAppIsolation enabled
+     * @covers Mage_Core_Model_Url::getUrl
+     */
     public function testGetUrlDoesntAddFragmentOnConsequentCalls()
     {
         $result = $this->_model->getUrl('catalog/product/view', array(
@@ -356,41 +357,67 @@ class Mage_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
      * @magentoAppIsolation enabled
      *
      * @dataProvider consequentCallsDataProvider
-     *
      * @param string $firstCallUrl
      * @param string $secondCallUrl
+     * @param array $firstRouteParams
+     * @param array $secondRouteParams
+     * @covers Mage_Core_Model_Url::getUrl
      */
-    public function testGetUrlOnConsequentCalls($firstCallUrl, $secondCallUrl)
+    public function testGetUrlOnConsequentCalls($firstCallUrl, $secondCallUrl, $firstRouteParams, $secondRouteParams)
     {
         $baseUrl = 'http://localhost/index.php/';
-        $result = $this->_model->getUrl($firstCallUrl);
-        $expectedUrl = $baseUrl . $firstCallUrl;
-        $expectedUrl .= (!empty($firstCallUrl)) ? '/' : '';
+        $result = $this->_model->getUrl($firstCallUrl, $firstRouteParams);
+        $expectedUrl = $baseUrl . $this->_buildRoutePath($firstCallUrl, $firstRouteParams);
         $this->assertEquals($expectedUrl, $result);
 
-        $result = $this->_model->getUrl($secondCallUrl);
-        $expectedUrl = $baseUrl . $secondCallUrl;
-        $expectedUrl .= (!empty($secondCallUrl)) ? '/' : '';
+        $result = $this->_model->getUrl($secondCallUrl, $secondRouteParams);
+        $expectedUrl = $baseUrl . $this->_buildRoutePath($secondCallUrl, $secondRouteParams);
         $this->assertEquals($expectedUrl, $result);
     }
 
+    /**
+     * Data provider for testGetUrlOnConsequentCalls()
+     *
+     * @return array
+     */
     public function consequentCallsDataProvider()
     {
         return array(
-            array('r_1/c_1/a_1/p_1/p_2', 'r_1/c_1/a_1/p_1/p_2'),
-            array('r_1/c_1/a_1/p_1/p_2', 'r_1/c_1/a_1/p_1/p_2_1'),
-            array('r_1/c_1/a_1/p_1/p_2', 'r_1/c_1/a_1/p_1'),
-            array('r_1/c_1/a_1/p_1/p_2', 'r_1/c_1/a_1/p_1_1'),
-            array('r_1/c_1/a_1/p_1/p_2', 'r_1/c_1/a_1'),
-            array('r_1/c_1/a_1/p_1/p_2', 'r_1/c_1/a_2'),
-            array('r_1/c_1/a_1/p_1/p_2', 'r_1/c_1'),
-            array('r_1/c_1/a_1/p_1/p_2', 'r_1/c_2'),
-            array('r_1/c_1/a_1/p_1/p_2', 'r_1'),
-            array('r_1/c_1/a_1/p_1/p_2', 'r_2'),
-            array('r_1/c_1/a_1/p_1/p_2'),
-            array('r_1/c_1/a_1', 'r_1/c_1/a_1/p_1/p_2'),
-            array(null, 'r_1/c_1/a_1')
+            array('r_1/c_1/a_1/p_1/v_1', 'r_1/c_1/a_1/p_1/v_1'),
+            array('r_1/c_1/a_1/p_1/v_1', 'r_1/c_1/a_1/p_1/v_2'),
+            array('r_1/c_1/a_1/p_1/v_1', 'r_1/c_1/a_1/p_1'),
+            array('r_1/c_1/a_1/p_1/v_1', 'r_1/c_1/a_1/p_2/v_2'),
+            array('r_1/c_1/a_1/p_1/v_1', 'r_1/c_1/a_1'),
+            array('r_1/c_1/a_1/p_1/v_1', 'r_1/c_1/a_2'),
+            array('r_1/c_1/a_1/p_1/v_1', 'r_1/c_1'),
+            array('r_1/c_1/a_1/p_1/v_1', 'r_1/c_2'),
+            array('r_1/c_1/a_1/p_1/v_1', 'r_1'),
+            array('r_1/c_1/a_1/p_1/v_1', 'r_2'),
+            array('r_1/c_1/a_1/p_1/v_1'),
+            array('r_1/c_1/a_1', 'r_1/c_1/a_1/p_1/v_1'),
+            array(null, 'r_1/c_1/a_1'),
+            array('r_1/c_1/a_1/p_1/v_1', 'r_1/c_1/a_1/p_1/v_1', array('p_2' => 'v_2'), array('p_2' => 'v_2')),
+            array('r_1/c_1/a_1/p_1/v_1', 'r_1/c_1/a_1', array('p_2' => 'v_2'), array('p_2' => 'v_2')),
+            array('r_1/c_1/a_1/p_1/v_1', null, array('p_2' => 'v_2'), array('p_1' => 'v_1', 'p_2' => 'v_2')),
         );
+    }
+
+    /**
+     * Prepare route path
+     *
+     * @param string $path
+     * @param array $params
+     * @return mixed
+     */
+    protected function _buildRoutePath($path, $params = array())
+    {
+        $route = $path;
+        $route .= (!empty($route)) ? '/' : '';
+        foreach ($params as $k => $v) {
+            $route .= $k . '/' . $v . '/';
+        }
+        $route = preg_replace('/p_1(\/)?$/', '', $route);
+        return $route;
     }
 
     public function testEscape()
