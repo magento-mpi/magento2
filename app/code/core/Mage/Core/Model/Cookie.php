@@ -64,7 +64,7 @@ class Mage_Core_Model_Cookie
      */
     protected function _getRequest()
     {
-        return Mage::app()->getRequest();
+        return Mage::getObjectManager()->get('Mage_Core_Controller_Request_Http');
     }
 
     /**

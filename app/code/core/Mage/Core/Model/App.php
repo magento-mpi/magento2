@@ -293,6 +293,10 @@ class Mage_Core_Model_App
         $this->_dbUpdater = $dbUpdater;
         $this->_scopeCode = $scopeCode;
         $this->_scopeType = $scopeType;
+        if (Mage::isInstalled()) {
+            $this->_initCurrentStore($this->_scopeCode, $this->_scopeType ?: self::SCOPE_TYPE_STORE);
+            $this->_log->initForStore($this->_store, $this->_config);
+        }
     }
 
     /**
@@ -323,10 +327,6 @@ class Mage_Core_Model_App
     {
         Magento_Profiler::start('init');
 
-        if (Mage::isInstalled()) {
-            $this->_initCurrentStore($this->_scopeCode, $this->_scopeType ?: self::SCOPE_TYPE_STORE);
-            $this->_log->initForStore($this->_store, $this->_config);
-        }
         $this->_initRequest();
         $this->_dbUpdater->updateData();
 

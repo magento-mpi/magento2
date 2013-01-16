@@ -41,25 +41,21 @@ if ($mediaDirectory) {
     sendFile($filePath);
 }
 try {
-    /** @var $app Mage_Core_Model_App */
-    $app = Mage::getObjectManager()->create('Mage_Core_Model_App');
-
-    if (empty($mediaDirectory)) {
-        $app->init($_SERVER);
-    } else {
-        $params = array_merge(
-            $_SERVER,
-            array(Mage_Core_Model_Cache::APP_INIT_PARAM => array('disallow_save' => true))
-        );
-        $app->initSpecified($params, array('Mage_Core'));
+    $objectManager = new Mage_Core_Model_ObjectManager_Media(dirname(__DIR__),
+        isset($_SERVER['MAGE_RUN_CODE']) ? $_SERVER['MAGE_RUN_CODE'] : '',
+        isset($_SERVER['MAGE_RUN_TYPE']) ? $_SERVER['MAGE_RUN_TYPE'] : 'store',
+        !empty($mediaDirectory),
+        empty($mediaDirectory) ? array('Mage_Core') : array()
+    );
+    Mage::setObjectManager($objectManager);
+    if (!Mage::isInstalled()) {
+        sendNotFoundPage();
     }
 } catch (Mage_Core_Model_Store_Exception $e) {
     sendNotFoundPage();
 } catch (Exception $e) {
     Mage::printException($e);
 }
-
-Mage::app()->requireInstalledInstance();
 
 if (!$mediaDirectory) {
     $config = Mage_Core_Model_File_Storage::getScriptConfig();
