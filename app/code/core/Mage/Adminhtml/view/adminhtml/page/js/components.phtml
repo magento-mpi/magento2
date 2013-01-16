@@ -61,6 +61,11 @@
         .extend('multisuggest', 'suggest',
             '<?php echo $this->getViewFileUrl('mage/backend/multisuggest.js') ?>'
         )
+        .extend('treeSuggest', 'multisuggest', [
+            '<?php echo $this->getViewFileUrl('jquery/jstree/jquery.hotkeys.js') ?>',
+            '<?php echo $this->getViewFileUrl('jquery/jstree/jquery.jstree.js') ?>',
+            '<?php echo $this->getViewFileUrl('mage/backend/tree-suggest.js') ?>'
+        ])
         /**
          * Load resources in advance for components which needed to be instantiated without delay.
          */

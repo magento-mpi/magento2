@@ -31,7 +31,7 @@
             if (typeof flag !== 'undefined') {
                 _isDevMode = !!flag;
             }
-            return _isDevMode;
+            return _isDevMode && typeof console !== 'undefined';
         }
     };
 })(jQuery);
@@ -111,7 +111,7 @@
             try {
                 this[init.name].apply(this, init.args);
             } catch (e) {
-                if ($.mage.isDevMode() && console) {
+                if ($.mage.isDevMode()) {
                     console.error('Cannot initialize components "' + init.name + '"');
                 }
             }

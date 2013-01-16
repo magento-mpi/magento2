@@ -36,4 +36,46 @@
             this.data.ui.last_selected.trigger('select_tree_node');
         }
     });
+
+    $.widget('mage.treeSuggest', $.mage.multisuggest, {
+        /**
+         * @override
+         */
+        _bind: function() {
+            this._super();
+            this._on({
+                focus: function() {
+                    this.search();
+                }
+            });
+        },
+
+        /**
+         * @override
+         */
+        search: function() {
+            console.log('search', this.options.showRecent);
+            this._super();
+            if (!this.options.showRecent && !this._term) {
+                console.log('showRecent');
+                this._abortSearch();
+                this._search('', {_allSown: true});
+            }
+        },
+
+        /**
+         * @override
+         * @private
+         */
+        _prepareDropdownContext: function() {
+            var context = this._superApply(arguments),
+                templateName = this.templateName;
+            return $.extend(context, {
+                renderTreeLevel: function(children) {
+                    var _context = $.extend({}, this.data, {items: children, nested: true});
+                    return $('<div>').append($.tmpl(templateName, _context)).html();
+                }
+            });
+        }
+    });
 })(jQuery);

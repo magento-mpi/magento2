@@ -345,8 +345,7 @@
         _prepareDropdownContext: function(context) {
             return $.extend(context, {
                 items: this._items,
-                term: this._term,
-                template: this.templateName
+                term: this._term
             });
         },
 
@@ -383,8 +382,7 @@
                     type: 'POST',
                     dataType: 'json',
                     data: {name_part: term},
-                    success: renderer,
-                    showLoader: true
+                    success: renderer
                 }, this.options.ajaxOptions || {}));
             }
         },
@@ -452,7 +450,7 @@
      */
     $.widget('mage.suggest', $.mage.suggest, {
         options: {
-            showRecent: true,
+            showRecent: false,
             storageKey: 'suggest',
             storageLimit: 10
         },
@@ -552,38 +550,11 @@
          */
         _prepareDropdownContext: function() {
             var context = this._superApply(arguments);
-            return $.extend(context, {allShown: function(){
-                return !!context._allSown;
-            }});
-        }
-    });
-
-    /**
-     * Implement category selector functionality
-     */
-    $.widget('mage.suggest', $.mage.suggest, {
-        /**
-         *
-         * @private
-         */
-        _bind: function() {
-            this._super();
-            this._on({
-                focus: function() {
-                    this.search();
+            return $.extend(context, {
+                allShown: function(){
+                    return !!context._allSown;
                 }
             });
-        },
-
-        /**
-         *
-         */
-        search: function() {
-            this._super();
-            if(!this.options.showRecent && !this._term) {
-                this._abortSearch();
-                this._search('', {_allSown: true});
-            }
         }
     });
 })(jQuery);

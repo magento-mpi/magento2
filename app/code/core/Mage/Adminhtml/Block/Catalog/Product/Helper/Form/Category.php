@@ -73,7 +73,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Varien_D
             . '<ul>{{each items}}'
             . '<li><a href="#">${$value.label}</a>'
             . '{{if $value.children && $value.children.length}}'
-            . '{{tmpl(jQuery.extend({}, $data, {items: $value.children, nested: true})) template}}'
+            . '{{html renderTreeLevel($value.children)}}'
             . '{{/if}}'
             . '</li>{{/each}}</ul>'
             . '{{if typeof nested === "undefined"}}</div>{{/if}}{{else}}'
@@ -83,8 +83,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Varien_D
             . '{{/each}}</ul>{{/if}}'
             . '</script>' . "\n"
             . '<script>//<![CDATA[' . "\n"
-            . 'jQuery(' . $coreHelper->jsonEncode('#' . $this->getHtmlId() . '-suggest') . ').multisuggest('
-            . $coreHelper->jsonEncode($this->_getSelectorOptions()) . ')' . "\n"
+            . 'jQuery(' . $coreHelper->jsonEncode('#' . $this->getHtmlId() . '-suggest') . ').treeSuggest('
+            . $coreHelper->jsonEncode($this->_getSelectorOptions()) . ');' . "\n"
             . '//]]></script>';
     }
 
@@ -99,8 +99,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Varien_D
             'source' => Mage::helper('Mage_Backend_Helper_Data')->getUrl('adminhtml/catalog_category/suggestCategories'),
             'valueField' => '#' . $this->getHtmlId(),
             'template' => '#' . $this->getHtmlId() . '-template',
-            'control' => 'jstree',
-            'showRecent' => false
+            'control' => 'jstree'
         );
     }
 }
