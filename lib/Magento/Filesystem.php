@@ -375,15 +375,14 @@ class Magento_Filesystem
      *
      * @param string $key
      * @param Magento_Filesystem_Stream_Mode|string $mode
+     * @param string|null $workingDirectory
      * @return Magento_Filesystem_StreamInterface
      * @throws InvalidArgumentException
      */
-    public function createAndOpenStream($key, $mode)
+    public function createAndOpenStream($key, $mode, $workingDirectory = null)
     {
-        $stream = $this->createStream($key);
-        if (is_string($mode)) {
-            $mode = new Magento_Filesystem_Stream_Mode($mode);
-        } elseif (!$mode instanceof Magento_Filesystem_Stream_Mode) {
+        $stream = $this->createStream($key, $workingDirectory);
+        if (!$mode instanceof Magento_Filesystem_Stream_Mode && !is_string($mode)) {
             throw new InvalidArgumentException('Wrong mode parameter');
         }
         $stream->open($mode);
