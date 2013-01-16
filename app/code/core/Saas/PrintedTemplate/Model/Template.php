@@ -495,9 +495,21 @@ class Saas_PrintedTemplate_Model_Template extends Mage_Core_Model_Template
          */
         $templateText = preg_replace('#\{\*.*\*\}#suU', '', $templateText);
         // @todo re-factor it: remove this dependency
-        $this->_getTemplateParser()->importContent($templateText, $this);
+        $this->_importContent($templateText);
         $this->setId($templateId);
 
+        return $this;
+    }
+
+    /**
+     * Parse and set template content
+     *
+     * @param string $templateText
+     * @return Saas_PrintedTemplate_Model_Template
+     */
+    protected function _importContent($templateText)
+    {
+        $this->_getTemplateParser()->importContent($templateText, $this);
         return $this;
     }
 

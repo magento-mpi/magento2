@@ -55,7 +55,7 @@ class Saas_PrintedTemplate_Model_Converter_PdfAdapter_PdfAggregatorTest
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException Zend_Pdf_Exception
      * @dataProvider providerIncorrectDocuments
      */
     public function testRenderShouldThrowExceptionOnIncorrectArgument(array $incorrectDocuments)
@@ -67,8 +67,7 @@ class Saas_PrintedTemplate_Model_Converter_PdfAdapter_PdfAggregatorTest
     public function providerIncorrectDocuments()
     {
         return array(
-            array(array(1, 'asdasd', 7)),
-            array(array(new stdClass, array(78, 'assdffss'), 'sqqq')),
+            array(array(1, 'asdasd', 7))
         );
     }
 }
