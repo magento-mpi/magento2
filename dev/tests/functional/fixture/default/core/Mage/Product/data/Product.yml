@@ -2157,6 +2157,7 @@ configurable_multi_checkout:
     general_name: %randomize%_Configurable Multi Checkout
     general_description: Description for Configurable Product Visible
     general_short_description: Short Description for Configurable Product Visible
+    general_weight: 15
     general_sku: %randomize%_configurable_multi_checkout_sku.req
     general_status: Enabled
     general_visibility: Catalog, Search
@@ -2175,6 +2176,7 @@ configurable_multi_checkout_options:
     product_attribute_set: Default
     general_name: %randomize%_Configurable Multi Checkout Options
     general_description: Description for Configurable Multi Checkout Options
+    general_weight: 3.14
     general_short_description: Short Description for Configurable Multi Checkout Options
     general_sku: %randomize%_configurable_options_sku.req
     general_status: Enabled
