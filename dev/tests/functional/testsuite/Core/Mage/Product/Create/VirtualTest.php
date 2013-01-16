@@ -57,6 +57,7 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
      */
     public function allFieldsInVirtual()
     {
+        $this->markTestIncomplete('MAGETWO-4321');
         //Data
         $product = $this->loadDataSet('Product', 'virtual_product');
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $product['general_sku']));
@@ -84,7 +85,7 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'virtual', false);
         $this->addParameter('elementTitle', $productData['general_name']);
-        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
+        $this->productHelper()->saveProduct('continueEdit');
         //Verifying
         $newSku = $this->productHelper()->getGeneratedSku($productData['general_sku']);
         $this->addParameter('productSku', $newSku);
@@ -112,11 +113,12 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
         $field = key($emptyField);
         $product = $this->loadDataSet('Product', 'virtual_product_required', $emptyField);
         //Steps
-        $this->productHelper()->createProduct($product, 'virtual');
+        $this->productHelper()->createProduct($product, 'virtual', false);
         //Verifying
-        $this->addFieldIdToMessage($fieldType, $field);
-        $this->assertMessagePresent('validation', 'empty_required_field');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
+//        $this->addFieldIdToMessage($fieldType, $field);
+//        $this->assertMessagePresent('validation', 'empty_required_field');
+//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function withRequiredFieldsEmptyDataProvider()
@@ -129,8 +131,7 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
             array(array('general_status' => '-- Please Select --'), 'dropdown'),
             array(array('general_visibility' => '-- Please Select --'), 'dropdown'),
             array(array('prices_price' => '%noValue%'), 'field'),
-            array(array('prices_tax_class' => '-- Please Select --'), 'dropdown'),
-            array(array('inventory_qty' => ''), 'field')
+            array(array('prices_tax_class' => '-- Please Select --'), 'dropdown')
         );
     }
 
@@ -269,11 +270,12 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
         $productData['prices_tier_price_data'][] =
             $this->loadDataSet('Product', 'prices_tier_price_1', array($emptyTierPrice => '%noValue%'));
         //Steps
-        $this->productHelper()->createProduct($productData, 'virtual');
+        $this->productHelper()->createProduct($productData, 'virtual', false);
         //Verifying
-        $this->addFieldIdToMessage('field', $emptyTierPrice);
-        $this->assertMessagePresent('validation', 'empty_required_field');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
+//        $this->addFieldIdToMessage('field', $emptyTierPrice);
+//        $this->assertMessagePresent('validation', 'empty_required_field');
+//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function emptyTierPriceFieldsDataProvider()

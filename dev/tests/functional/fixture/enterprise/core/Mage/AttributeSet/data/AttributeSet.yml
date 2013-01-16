@@ -23,6 +23,7 @@ system_attributes_general_minimal:
     price_view: price_view
     allow_open_amount: allow_open_amount
     giftcard_amounts: giftcard_amounts
+    image: image
 
 system_attributes_unassigned_minimal:
     color: color
@@ -38,7 +39,6 @@ system_attributes_unassigned_minimal:
     gift_wrapping_available: gift_wrapping_available
     gift_wrapping_price: gift_wrapping_price
     group_price: group_price
-    image: image
     is_recurring: is_recurring
     is_returnable: is_returnable
     manufacturer: manufacturer

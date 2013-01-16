@@ -145,7 +145,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
         $this->navigate('manage_products');
         $this->productHelper()->openProduct($search);
         $this->productHelper()->fillProductTab($productSettings, 'gift_options');
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->frontend();
@@ -180,7 +180,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
         $this->navigate('manage_products');
         $this->productHelper()->openProduct($search);
         $this->productHelper()->fillProductTab($productSettings, 'gift_options');
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->frontend();
@@ -231,7 +231,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
         $this->navigate('manage_products');
         $this->productHelper()->openProduct($search);
         $this->productHelper()->fillProductTab($productSettings, 'gift_options');
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->frontend();
@@ -293,7 +293,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
         $this->navigate('manage_products');
         $this->productHelper()->openProduct($search);
         $this->productHelper()->fillProductTab($productSettings, 'gift_options');
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->frontend();
@@ -351,7 +351,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
         $this->navigate('manage_products');
         $this->productHelper()->openProduct($search);
         $this->productHelper()->fillProductTab($productSettings, 'gift_options');
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->frontend();
@@ -393,7 +393,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
         $this->navigate('manage_products');
         $this->productHelper()->openProduct($search);
         $this->productHelper()->fillProductTab($productSettings, 'gift_options');
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->frontend();
@@ -456,7 +456,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
         $this->selectStoreScope('dropdown', 'choose_store_view', $storeView);
         $this->acceptAlert();
         $this->productHelper()->fillTab($productGSOnSView, 'gift_options');
-        $this->clickButton('save');
+        $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $newFrontendUrl = $this->stagingWebsiteHelper()->buildFrontendUrl($website['staging_website_code']);

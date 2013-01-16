@@ -213,7 +213,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         //Steps
         $this->clickButton('add_new_product_split');
-        $this->productHelper()->fillProductSettings($productData);
+        $this->productHelper()->fillProductInfo($productData);
         $this->openTab('prices');
         $columnsName = $this->shoppingCartHelper()->getColumnNamesAndNumbers('prices_group_price_grid_head');
         //Verifying
@@ -453,9 +453,6 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      */
     public function editCustomer($userData)
     {
-        //Data
-        $param = $userData['first_name'] . ' ' . $userData['last_name'];
-        $this->addParameter('customer_first_last_name', $param);
         //Steps
         $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer(array('email' => $userData['email']));
@@ -584,9 +581,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      */
     public function verificationSelectStoreDuringOrderCreation($userData)
     {
-        //Data
-        $param = $userData['first_name'] . ' ' . $userData['last_name'];
-        $this->addParameter('customer_first_last_name', $param);
+        //Steps
         $this->navigate('manage_sales_orders');
         $this->clickButton('create_new_order');
         $this->orderHelper()->searchAndOpen(array('email' => $userData['email']), false, 'order_customer_grid');

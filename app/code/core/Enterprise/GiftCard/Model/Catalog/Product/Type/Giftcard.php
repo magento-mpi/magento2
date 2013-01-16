@@ -116,10 +116,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
      */
     public function isVirtual($product)
     {
-        if ($product->getGiftcardType() == Enterprise_GiftCard_Model_Giftcard::TYPE_VIRTUAL) {
-            return true;
-        }
-        return false;
+        return $product->getGiftcardType() == Enterprise_GiftCard_Model_Giftcard::TYPE_VIRTUAL;
     }
 
     /**

@@ -37,6 +37,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      */
     public function requiredFieldsForDynamicSmoke()
     {
+        $this->markTestIncomplete('MAGETWO-6269');
         //Data
         $productData = $this->loadDataSet('Product', 'dynamic_bundle_required');
         //Steps
@@ -71,6 +72,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      */
     public function allFieldsForDynamic()
     {
+        $this->markTestIncomplete('MAGETWO-4321');
         //Data
         $productData = $this->loadDataSet('Product', 'dynamic_bundle');
         $productSearch =
@@ -94,6 +96,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      */
     public function allFieldsForFixed()
     {
+        $this->markTestIncomplete('MAGETWO-4321');
         //Data
         $productData = $this->loadDataSet('Product', 'fixed_bundle');
         $productSearch =
@@ -122,7 +125,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle', false);
         $this->addParameter('elementTitle', $productData['general_name']);
-        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
+        $this->productHelper()->saveProduct('continueEdit');
         //Verifying
         $newSku = $this->productHelper()->getGeneratedSku($productData['general_sku']);
         $this->addParameter('productSku', $newSku);
@@ -150,11 +153,12 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
         $field = key($emptyField);
         $productData = $this->loadDataSet('Product', 'fixed_bundle_required', $emptyField);
         //Steps
-        $this->productHelper()->createProduct($productData, 'bundle');
+        $this->productHelper()->createProduct($productData, 'bundle', false);
         //Verifying
-        $this->addFieldIdToMessage($fieldType, $field);
-        $this->assertMessagePresent('validation', 'empty_required_field');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
+//        $this->addFieldIdToMessage($fieldType, $field);
+//        $this->assertMessagePresent('validation', 'empty_required_field');
+//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function emptyRequiredFieldInBundleDataProvider()
@@ -250,7 +254,6 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Fails due to MAGE-5658
      * <p>Creating product with invalid weight</p>
      *
      * @test
@@ -258,6 +261,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      */
     public function invalidWeightInBundle()
     {
+        $this->markTestIncomplete('MAGETWO-6022');
         //Data
         $productData = $this->loadDataSet('Product', 'fixed_bundle_required',
             array('general_weight' => $this->generate('string', 9, ':punct:')));
@@ -330,11 +334,12 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
         $productData['prices_tier_price_data'][] =
             $this->loadDataSet('Product', 'prices_tier_price_1', array($emptyTierPrice => '%noValue%'));
         //Steps
-        $this->productHelper()->createProduct($productData, 'bundle');
+        $this->productHelper()->createProduct($productData, 'bundle', false);
         //Verifying
-        $this->addFieldIdToMessage('field', $emptyTierPrice);
-        $this->assertMessagePresent('validation', 'empty_required_field');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
+//        $this->addFieldIdToMessage('field', $emptyTierPrice);
+//        $this->assertMessagePresent('validation', 'empty_required_field');
+//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function emptyTierPriceFieldsInBundleDataProvider()
