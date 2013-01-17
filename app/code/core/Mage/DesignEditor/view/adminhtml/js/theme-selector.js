@@ -194,7 +194,10 @@
                     data.layoutUpdate = this._preparePostItems(historyObject.getItems());
                 }
                 var frameUrl = $(this.options.frameSelector).attr('src');
-                data.handle = frameUrl.split('handle')[1].replace(/\//g, '');
+                var urlParts = frameUrl.split('handle');
+                if (urlParts.length > 1) {
+                    data.handle = frameUrl.split('handle')[1].replace(/\//g, '');
+                }
             }
 
             $('#messages').html('');
