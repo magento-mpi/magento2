@@ -78,11 +78,11 @@ class Mage_Checkout_Model_Cart_Payment_Api extends Mage_Checkout_Model_Api_Resou
     }
 
     /**
-     * @param  $quoteId
-     * @param  $store
+     * @param int $quoteId
+     * @param int $store
      * @return array
      */
-    public function getPaymentMethodsList($quoteId, $store=null)
+    public function getPaymentMethodsList($quoteId, $store = null)
     {
         $quote = $this->_getQuote($quoteId, $store);
         $store = $quote->getStoreId();
@@ -91,18 +91,19 @@ class Mage_Checkout_Model_Cart_Payment_Api extends Mage_Checkout_Model_Api_Resou
 
         $methodsResult = array();
         $methods = Mage::helper('Mage_Payment_Helper_Data')->getStoreMethods($store, $quote);
-        foreach ($methods as $key=>$method) {
+
+        foreach ($methods as $method) {
             /** @var $method Mage_Payment_Model_Method_Abstract */
-            if ($this->_canUsePaymentMethod($method, $quote)
-                    && ($total != 0
-                        || $method->getCode() == 'free'
-                        || ($quote->hasRecurringItems() && $method->canManageRecurringProfiles()))) {
-                $methodsResult[] =
-                        array(
-                            "code" => $method->getCode(),
-                            "title" => $method->getTitle(),
-                            "ccTypes" => $this->_getPaymentMethodAvailableCcTypes($method)
-                        );
+            if ($this->_canUsePaymentMethod($method, $quote)) {
+                $isRecurring = $quote->hasRecurringItems() && $method->canManageRecurringProfiles();
+
+                if ($total != 0 || $method->getCode() == 'free' || $isRecurring) {
+                    $methodsResult[] = array(
+                        'code' => $method->getCode(),
+                        'title' => $method->getTitle(),
+                        'cc_types' => $this->_getPaymentMethodAvailableCcTypes($method),
+                    );
+                }
             }
         }
 
