@@ -29,12 +29,14 @@ jQuery(function($) {
                 }
             });
 
-            $(this.element).find('.is-required').each(function () {
+            this.element.find('.is-required').each(function () {
                 $(this).prop('checked', $(this).closest('.option-box').find('[name$="[required]"]').val() > 0);
             });
-            $(this.element).find('.is-user-defined-qty').each(function () {
+            this.element.find('.is-user-defined-qty').each(function () {
                 $(this).prop('checked', $(this).closest('.qty-box').find('.select').val() > 0);
             });
+
+            $('#weight_and_type_switcher, label[for=weight_and_type_switcher]').hide();
         },
         _initSortableOptions: function () {
             this.element.sortable({
