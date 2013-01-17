@@ -125,11 +125,7 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_AbstractHelper
         if (isset($addressData)) {
             $this->addAddress($addressData);
         }
-        if ($willPageChange){
-            $this->saveForm('save_customer');
-        } else {
-            $this->saveForm('save_customer', $willPageChange);
-        }
+        $this->saveForm('save_customer');
     }
 
     /**
