@@ -14,7 +14,6 @@ interface Magento_ObjectManager_Configuration
      * Configure di instance
      *
      * @param Magento_ObjectManager $objectManager
-     * @param array $runTimeParams
      */
-    public function configure(Magento_ObjectManager $objectManager, array $runTimeParams = array());
+    public function configure(Magento_ObjectManager $objectManager);
 }

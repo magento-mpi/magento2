@@ -26,23 +26,26 @@ abstract class Mage_Core_Model_EntryPointAbstract
     /**
      * @param string $baseDir
      * @param array $params
-     * @param string $objectManagerClass
+     * @param string $configClass
      */
     public function __construct(
-        $baseDir, array $params = array(), $objectManagerClass = 'Mage_Core_Model_ObjectManager'
+        $baseDir, array $params = array()
     ) {
         $this->_params = $params;
-        $this->_objectManager = new $objectManagerClass(
-            $baseDir,
-            $this->_getParam('MAGE_RUN_CODE', ''),
-            $this->_getParam('MAGE_RUN_TYPE', 'store'),
-            $this->_getParam('app_dirs', array()),
-            $this->_getParam('app_uris', array()),
-            $this->_getParam('allowed_modules', array()),
-            $this->_getParam('cache_options', array()),
-            $this->_getParam('global_ban_use_cache', false),
-            $this->_getParam('custom_local_xml_file', false),
-            $this->_getParam('custom_local_config', false)
+        $this->_objectManager = new Mage_Core_Model_ObjectManager(
+            new Mage_Core_Model_ObjectManager_Config(
+                $baseDir,
+                $this->_getParam('MAGE_RUN_CODE', ''),
+                $this->_getParam('MAGE_RUN_TYPE', 'store'),
+                $this->_getParam('app_dirs', array()),
+                $this->_getParam('app_uris', array()),
+                $this->_getParam('allowed_modules', array()),
+                $this->_getParam('cache_options', array()),
+                $this->_getParam('global_ban_use_cache', false),
+                $this->_getParam('custom_local_xml_file', false),
+                $this->_getParam('custom_local_config', false)
+            ),
+            $baseDir
         );
     }
 
