@@ -71,7 +71,7 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
         $this->_fallback = $this->getMock(
             'Mage_Core_Model_Design_Fallback',
             array('getFile', 'getLocaleFile', 'getViewFile'),
-            array($params)
+            array($this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock(), $params)
         );
 
         $this->_model = $this->getMock(

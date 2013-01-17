@@ -142,9 +142,10 @@ interface Magento_Filesystem_AdapterInterface
      * Touches a file
      *
      * @param string $key
+     * @param int|null $fileModificationTime
      * @throws Magento_Filesystem_Exception
      */
-    public function touch($key);
+    public function touch($key, $fileModificationTime = null);
 
     /**
      * Get file modification time.

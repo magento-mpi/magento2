@@ -315,13 +315,14 @@ class Magento_Filesystem
      * Sets access and modification time of file.
      *
      * @param string $key
+     * @param int|null $fileModificationTime
      * @param string|null $workingDirectory
      */
-    public function touch($key, $workingDirectory = null)
+    public function touch($key, $fileModificationTime = null, $workingDirectory = null)
     {
         $key = $this->_getCheckedPath($key, $workingDirectory);
         $this->ensureDirectoryExists(dirname($key), $this->_newDirPermissions);
-        $this->_adapter->touch($key);
+        $this->_adapter->touch($key, $fileModificationTime);
     }
 
     /**
