@@ -35,7 +35,7 @@ class Mage_DesignEditor_Model_History_Renderer_LayoutUpdate implements Mage_Desi
             }
         }
 
-        if ($handle) {
+        if ($handle && $collection->count() > 0) {
             $layoutUpdate = '';
             $element = $element->$handle;
             /** @var $node Varien_Simplexml_Element */
