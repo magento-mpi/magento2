@@ -192,7 +192,7 @@ class Mage_Core_Model_Theme_Files_Js extends Mage_Core_Model_Theme_Files_Abstrac
         /** @var $filesCollection Mage_Core_Model_Resource_Theme_Files_Collection */
         $jsCollection =  parent::getCollectionByTheme($theme);
 
-        /** @var $themeFiles Mage_Core_Model_Theme_Files */
+        /** @var $themeFiles Mage_Core_Model_Resource_Theme_Files_Collection */
         $themeFiles = $jsCollection->setOrder($jsCollection->getConnection()->quoteIdentifier('order'), $order);
 
         return $themeFiles;

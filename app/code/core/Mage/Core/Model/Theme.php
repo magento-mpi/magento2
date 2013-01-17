@@ -112,11 +112,11 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     protected $_helper;
 
     /**
-     * Theme customisation objects for save
+     * Theme customization objects for save
      *
      * @var array
      */
-    protected $_themeCustomisationObject = array();
+    protected $_themeCustomizationObject = array();
 
     /**
      * Initialize dependencies
@@ -288,27 +288,26 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Add theme customisation object
+     * Add theme customization object
      *
-     * @param Mage_Core_Model_Theme_Customisation_Interface $file
+     * @param Mage_Core_Model_Theme_Customization_Interface $file
      * @return Mage_Core_Model_Theme
      */
-    public function setThemeCustomizationObject(Mage_Core_Model_Theme_Customisation_Interface $file)
+    public function setThemeCustomizationObject(Mage_Core_Model_Theme_Customization_Interface $file)
     {
-        $this->_themeCustomisationObject[] = $file;
-        $this->setDataChanges(true);
+        $this->_themeCustomizationObject[] = $file;
         return $this;
     }
 
     /**
-     * Save all theme customisation object
+     * Save all theme customization object
      *
      * @return Mage_Core_Model_Theme
      */
-    protected function _saveThemeCustomisation()
+    protected function _saveThemeCustomization()
     {
-        /** @var $file Mage_Core_Model_Theme_Customisation_Interface */
-        foreach ($this->_themeCustomisationObject as $file) {
+        /** @var $file Mage_Core_Model_Theme_Customization_Interface */
+        foreach ($this->_themeCustomizationObject as $file) {
             $file->saveData($this);
         }
         return $this;
@@ -321,17 +320,17 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     protected function _hasModelChanged()
     {
-        return parent::_hasModelChanged() || $this->_hasCustomisationObject();
+        return parent::_hasModelChanged() || $this->_hasCustomizationObject();
     }
 
     /**
-     * Check whether present customisation objects for save
+     * Check whether present customization objects for save
      *
      * @return bool
      */
-    protected function _hasCustomisationObject()
+    protected function _hasCustomizationObject()
     {
-        return !empty($this->_themeCustomisationObject);
+        return !empty($this->_themeCustomizationObject);
     }
 
     /**
@@ -341,7 +340,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     protected function _afterSave()
     {
-        $this->_saveThemeCustomisation();
+        $this->_saveThemeCustomization();
         return parent::_afterSave();
     }
 

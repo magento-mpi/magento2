@@ -12,7 +12,7 @@
  * Theme files abstract class
  */
 abstract class Mage_Core_Model_Theme_Files_Abstract extends Varien_Object
-    implements Mage_Core_Model_Theme_Customisation_Interface
+    implements Mage_Core_Model_Theme_Customization_Interface
 {
     /**
      * @var Mage_Core_Model_Theme_Files
@@ -68,7 +68,7 @@ abstract class Mage_Core_Model_Theme_Files_Abstract extends Varien_Object
      */
     public function getCollectionByTheme(Mage_Core_Model_Theme $theme)
     {
-        /** @var $filesCollection Mage_Core_Model_Theme_Files */
+        /** @var $filesCollection Mage_Core_Model_Resource_Theme_Files_Collection */
         $filesCollection = $this->_themeFiles->getCollection()->addFilter('theme_id', $theme->getId())
             ->addFilter('file_type', $this->_getFileType());
 

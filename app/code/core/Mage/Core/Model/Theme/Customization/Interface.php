@@ -9,9 +9,9 @@
  */
 
 /**
- * Theme customisation interface
+ * Theme customization interface
  */
-interface Mage_Core_Model_Theme_Customisation_Interface
+interface Mage_Core_Model_Theme_Customization_Interface
 {
     /**
      * Setter for data for save
@@ -21,7 +21,7 @@ interface Mage_Core_Model_Theme_Customisation_Interface
     public function setDataForSave($data);
 
     /**
-     * Return collection customisation form theme
+     * Return collection customization form theme
      *
      * @param Mage_Core_Model_Theme $theme
      * @return Mage_Core_Model_Resource_Db_Collection_Abstract

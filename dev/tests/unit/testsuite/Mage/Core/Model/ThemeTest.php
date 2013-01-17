@@ -106,4 +106,41 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
             'area'                 => 'frontend',
         );
     }
+
+    public function testThemeCustomizationObject()
+    {
+        $themeResource = $this->getMock(
+            'Mage_Core_Model_Resource_Theme',
+            array('beginTransaction', 'save', 'addCommitCallback', 'commit', 'getIdFieldName'),
+            array(),
+            '',
+            false
+        );
+        $themeResource->expects($this->once())->method('beginTransaction')->will($this->returnValue($themeResource));
+        $themeResource->expects($this->once())->method('save')->will($this->returnValue($themeResource));
+        $themeResource->expects($this->once())->method('addCommitCallback')->will($this->returnValue($themeResource));
+        $themeResource->expects($this->once())->method('commit')->will($this->returnValue($themeResource));
+
+        /** @var $themeMock Mage_Core_Model_Theme */
+        $themeMock = $this->getMock(
+            'Mage_Core_Model_Theme',
+            array('_init', '_beforeSave', 'cleanModelCache'),
+            array(
+                 $this->getMock('Mage_Core_Model_Event_Manager', array('dispatch'), array(), '', false),
+                $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false),
+                $this->getMock('Magento_ObjectManager', array(), array(), '', false),
+                $this->getMock('Mage_Core_Model_Theme_Factory', array(), array(), '', false),
+                $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false),
+                $themeResource,
+            ),
+            '',
+            true
+        );
+
+        $jsFile = $this->getMock('Mage_Core_Model_Theme_Files_Js', array('saveData'), array(), '', false);
+        $jsFile->expects($this->once())->method('saveData');
+
+        $themeMock->setThemeCustomizationObject($jsFile);
+        $themeMock->save();
+    }
 }
