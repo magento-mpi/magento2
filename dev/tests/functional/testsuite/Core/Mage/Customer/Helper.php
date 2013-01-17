@@ -128,7 +128,7 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_AbstractHelper
         if ($willPageChange){
             $this->saveForm('save_customer');
         } else {
-            $this->clickButton('save_customer', $willPageChange);
+            $this->saveForm('save_customer', $willPageChange);
         }
     }
 
