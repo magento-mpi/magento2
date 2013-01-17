@@ -167,7 +167,7 @@ class Mage_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Fr
     ) {
         // default mocks - not affected on method functionality
         $controllerFactory  = $this->getMock('Mage_Core_Controller_Varien_Action_Factory', array(), array(), '', false);
-        $objectManager      = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
+        $objectManager      = $this->getMock('Magento_ObjectManager_Zend', array('get'), array(), '', false);
         $testArea           = 'frontend';
         $testBaseController = 'Mage_Core_Controller_Varien_Action';
 
@@ -224,15 +224,29 @@ class Mage_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Fr
             }
         }
 
+        $callback = function ($name) use ($helper, $backendSession, $stateModel, $configuration) {
+            switch ($name) {
+                case 'Mage_DesignEditor_Helper_Data':
+                    return $helper;
+                case 'Mage_Backend_Model_Auth_Session':
+                    return $backendSession;
+                case 'Mage_DesignEditor_Model_State':
+                    return $stateModel;
+                case 'Mage_Core_Model_Config':
+                    return $configuration;
+                default:
+                    return null;
+            }
+        };
+        $objectManager->expects($this->any())
+            ->method('get')
+            ->will($this->returnCallback($callback));
+
         $router = new Mage_DesignEditor_Controller_Varien_Router_Standard(
             $controllerFactory,
             $objectManager,
             $testArea,
-            $testBaseController,
-            $backendSession,
-            $helper,
-            $stateModel,
-            $configuration
+            $testBaseController
         );
         $router->setFront($frontController);
         return $router;

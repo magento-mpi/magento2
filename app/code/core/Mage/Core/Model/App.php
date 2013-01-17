@@ -327,7 +327,7 @@ class Mage_Core_Model_App
         $this->_initLogger();
 
         /** @var $config Mage_Core_Model_Config */
-        $config = $this->_objectManager->create('Mage_Core_Model_Config');
+        $config = $this->_objectManager->get('Mage_Core_Model_Config');
         $this->_config = $config;
         $this->_initBaseConfig();
         $this->_initCache($this->getInitParam(Mage_Core_Model_Cache::APP_INIT_PARAM) ?: array());

@@ -22,9 +22,9 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var Mage_Core_Model_App|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_ObjectManager_Zend
      */
-    protected $_app;
+    protected $_objectManager;
 
     /**
      * @var Mage_Core_Helper_Abstract
@@ -54,12 +54,14 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $objectManagerMock = $this->getMock('Magento_ObjectManager_Zend', array('create', 'get'), array(), '', false);
-        $objectManagerMock->expects($this->any())
+        $this->_objectManager = $this->getMock(
+            'Magento_ObjectManager_Zend', array('create', 'get'), array(), '', false
+        );
+        $this->_objectManager->expects($this->any())
             ->method('create')
             ->will($this->returnCallback(array($this, 'getInstance')));
 
-        $config = new Mage_Core_Model_Config($objectManagerMock, <<<XML
+        $config = new Mage_Core_Model_Config($this->_objectManager, <<<XML
             <config>
                 <global>
                     <cache>
@@ -80,13 +82,24 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
             </config>
 XML
         );
-        $this->_app = $this->getMock('Mage_Core_Model_App', array('getInitParams', 'getConfig'), array(), '', false);
-        $this->_app->expects($this->any())
+        $app = $this->getMock('Mage_Core_Model_App', array('getInitParams', 'getConfig'), array(), '', false);
+        $app->expects($this->any())
             ->method('getInitParam')
             ->will($this->returnValue(false));
-        $this->_app->expects($this->any())
-            ->method('getConfig')
-            ->will($this->returnValue($config));
+
+        $dirs = self::$_dirs;
+        $callback = function ($name) use ($app, $config, $dirs) {
+            switch ($name) {
+                case 'Mage_Core_Model_Config': return $config;
+                case 'Mage_Core_Model_App': return $app;
+                case 'Mage_Core_Model_Dir': return $dirs;
+                default: return null;
+            }
+        };
+        $this->_objectManager->expects($this->any())
+            ->method('get')
+            ->will($this->returnCallback($callback));
+
         $this->_helper = $this->getMock('Mage_Core_Helper_Data', array('__'));
         $this->_helper
             ->expects($this->any())
@@ -98,19 +111,18 @@ XML
         );
         $this->_requestProcessor = $this->getMock('stdClass', array('extractContent'));
         $this->_model = new Mage_Core_Model_Cache(
-            $this->_app, self::$_dirs,
+            $this->_objectManager,
             array(
                 'helper'   => $this->_helper,
                 'frontend' => $this->_cacheFrontend,
                 'backend'  => 'BlackHole',
                 'request_processors' => array($this->_requestProcessor),
         ));
-
     }
 
     protected function tearDown()
     {
-        $this->_app = null;
+        $this->_objectManager = null;
         $this->_cacheFrontend = null;
         $this->_model = null;
     }
@@ -138,7 +150,7 @@ XML
     public function testConstructor(array $options, $expectedBackendClass)
     {
         $options += array('helper' => $this->_helper);
-        $model = new Mage_Core_Model_Cache($this->_app, self::$_dirs, $options);
+        $model = new Mage_Core_Model_Cache($this->_objectManager, $options);
 
         $backend = $model->getFrontend()->getBackend();
         $this->assertInstanceOf($expectedBackendClass, $backend);
@@ -214,7 +226,7 @@ XML
 
     public function testSaveDisallowed()
     {
-        $model = new Mage_Core_Model_Cache($this->_app, self::$_dirs, array(
+        $model = new Mage_Core_Model_Cache($this->_objectManager, array(
             'helper'   => $this->_helper,
             'frontend' => $this->_cacheFrontend,
             'backend'  => 'BlackHole',
@@ -440,7 +452,7 @@ XML
     public function testProcessRequestFalse()
     {
         $response = new Zend_Controller_Response_Http();
-        $this->_model = new Mage_Core_Model_Cache($this->_app, self::$_dirs, array(
+        $this->_model = new Mage_Core_Model_Cache($this->_objectManager, array(
             'helper'   => $this->_helper,
             'frontend' => $this->_cacheFrontend,
             'backend'  => 'BlackHole',

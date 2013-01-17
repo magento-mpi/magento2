@@ -26,11 +26,6 @@ class Mage_Core_Model_Cache
     const APP_INIT_PARAM = 'cache';
 
     /**
-     * @var Mage_Core_Model_Config
-     */
-    protected $_config;
-
-    /**
      * @var Mage_Core_Helper_Abstract
      */
     protected $_helper;
@@ -97,9 +92,9 @@ class Mage_Core_Model_Cache
     protected $_allowedCacheOptions = null;
 
     /**
-     * @var bool
+     * @var Magento_ObjectManager
      */
-    protected $_globalBanUseCache = false;
+    protected $_objectManager;
 
     /**
      * Class constructor. Initialize cache instance based on options
@@ -108,12 +103,12 @@ class Mage_Core_Model_Cache
      * @param Mage_Core_Model_Dir $dirs
      * @param array $options
      */
-    public function __construct(Mage_Core_Model_App $app, Mage_Core_Model_Dir $dirs, array $options = array())
+    public function __construct(Magento_ObjectManager $objectManager, array $options = array())
     {
-        $this->_config = $app->getConfig();
+        $this->_objectManager = $objectManager;
         $this->_helper = isset($options['helper']) ? $options['helper'] : Mage::helper('Mage_Core_Helper_Data');
-        $this->_globalBanUseCache = $app->getInitParam('global_ban_use_cache');
 
+        $dirs = $objectManager->get('Mage_Core_Model_Dir');
         $this->_defaultBackendOptions['cache_dir'] = $dirs->getDir(Mage_Core_Model_Dir::CACHE);
         /**
          * Initialize id prefix
@@ -560,7 +555,7 @@ class Mage_Core_Model_Cache
             $this->_allowedCacheOptions = unserialize($options);
         }
 
-        if ($this->_globalBanUseCache) {
+        if ($this->_objectManager->get('Mage_Core_Model_App')->getInitParam('global_ban_use_cache')) {
             foreach ($this->_allowedCacheOptions as $key => $val) {
                 $this->_allowedCacheOptions[$key] = false;
             }
@@ -638,7 +633,7 @@ class Mage_Core_Model_Cache
     public function getTagsByType($type)
     {
         $path = self::XML_PATH_TYPES.'/'.$type.'/tags';
-        $tagsConfig = $this->_config->getNode($path);
+        $tagsConfig = $this->_objectManager->get('Mage_Core_Model_Config')->getNode($path);
         if ($tagsConfig) {
             $tags = (string) $tagsConfig;
             $tags = explode(',', $tags);
@@ -656,7 +651,7 @@ class Mage_Core_Model_Cache
     public function getTypes()
     {
         $types = array();
-        $config = $this->_config->getNode(self::XML_PATH_TYPES);
+        $config = $this->_objectManager->get('Mage_Core_Model_Config')->getNode(self::XML_PATH_TYPES);
         if ($config) {
             foreach ($config->children() as $type=>$node) {
                 $types[$type] = new Varien_Object(array(

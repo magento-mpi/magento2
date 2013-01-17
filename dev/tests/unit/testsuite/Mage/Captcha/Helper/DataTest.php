@@ -49,6 +49,7 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue('zend'));
         $this->_object->setStore($store);
 
+        $objectManager = $this->getMock('Magento_ObjectManager_Zend', array(), array(), '', false);
         $config = $this->_getConfigStub();
         $config->expects($this->once())
             ->method('getModelInstance')
@@ -57,7 +58,7 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
                     'params' => array('formId' => 'user_create', 'helper' => $this->_object)
                 )
             )
-            ->will($this->returnValue(new Mage_Captcha_Model_Zend(array('formId' => 'user_create'))));
+            ->will($this->returnValue(new Mage_Captcha_Model_Zend($objectManager, array('formId' => 'user_create'))));
         $this->_object->setConfig($config);
 
         $this->assertInstanceOf('Mage_Captcha_Model_Zend', $this->_object->getCaptcha('user_create'));

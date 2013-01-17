@@ -17,7 +17,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
     public function testConstructException()
     {
         $dirs = new Mage_Core_Model_Dir(__DIR__);
-        new Mage_Core_Model_Design_Fallback($dirs, array());
+        new Mage_Core_Model_Design_Fallback($dirs, Mage::getObjectManager(), array());
     }
 
     /**
@@ -35,13 +35,12 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
 
         $dirs = new Mage_Core_Model_Dir(__DIR__);
         $stub = array(
-            'appConfig' => 'stub',
             'themeConfig' => 'stub',
             'area' => 'a',
             'themeModel' => $themeModel,
             'locale' => 'l',
         );
-        $model = new Mage_Core_Model_Design_Fallback($dirs, $stub);
+        $model = new Mage_Core_Model_Design_Fallback($dirs, Mage::getObjectManager(), $stub);
         $this->assertEquals('a', $model->getArea());
         $this->assertEquals($theme, $model->getTheme());
         $this->assertEquals('l', $model->getLocale());
@@ -77,7 +76,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
             'themeModel' => $themeModel,
         );
 
-        return new Mage_Core_Model_Design_Fallback($dirs, $params);
+        return new Mage_Core_Model_Design_Fallback($dirs, Mage::getObjectManager(), $params);
     }
 
     /**
