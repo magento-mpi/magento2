@@ -7,47 +7,60 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/** @var $this Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option */
 ?>
 <script type="text/javascript">
-optionTemplate = '<div id="<?php echo $this->getFieldId() ?>_{{index}}"  class="option-box"> ' +
-'<div class="option-title"> ' +
-    '<label for="<?php echo $this->getFieldName() ?>[{{index}}][title]"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Default Title') ?> <span class="required">*</span></label>' +
-    <?php if ($this->isDefaultStore()): ?>
-    '<input class="input-text required-entry" type="text" name="<?php echo $this->getFieldName() ?>[{{index}}][title]" id="id_<?php echo $this->getFieldName() ?>_{{index}}_title" value="{{title}}">' +
-    <?php else: ?>
-    '<input class="input-text required-entry" type="text" name="<?php echo $this->getFieldName() ?>[{{index}}][default_title]" id="id_<?php echo $this->getFieldName() ?>_{{index}}_default_title" value="{{default_title}}">' +
-    <?php endif; ?>
+optionTemplate = '<div id="<?php echo $this->getFieldId() ?>_{{index}}" class="option-box">\
+<div class="option-title">' +
 <?php echo Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getOptionDeleteButtonHtml()) ?> +
-'</div>' +
-    '<table class="option-header" cellpadding="0" cellspacing="0">' +
-        '<thead>' +
-            '<tr>' +
-                <?php if (!$this->isDefaultStore()): ?>
-                '<th class="opt-title"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Store View Title') ?>  <span class="required">*</span></th>' +
-                <?php endif; ?>
-                '<th class="opt-type"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Input Type') ?></th>' +
-                '<th class="opt-req"><?php echo $this->jsQuoteEscape(Mage::helper('Mage_Bundle_Helper_Data')->__('Is Required')) ?></th>' +
-                '<th class="opt-order"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Position') ?></th>' +
-                '<th>&nbsp;</th>' +
-            '</tr>' +
-        '</thead>' +
-        '<tbody>' +
-            '<tr>' +
-                '<input type="hidden" id="<?php echo $this->getFieldId() ?>_id_{{index}}" name="<?php echo $this->getFieldName() ?>[{{index}}][option_id]" value="{{option_id}}">' +
-                '<input type="hidden" name="<?php echo $this->getFieldName() ?>[{{index}}][delete]" value="" class="delete">' +
-                <?php if (!$this->isDefaultStore()): ?>
-                '<td><input class="input-text required-entry" type="text" name="<?php echo $this->getFieldName() ?>[{{index}}][title]" id="id_<?php echo $this->getFieldName() ?>_{{index}}_title_store" value="{{title}}"></td>' +
-                <?php endif; ?>
-                '<td><?php echo $this->getTypeSelectHtml() ?></td>' +
-                '<td><?php echo $this->getRequireSelectHtml() ?></td>' +
-                '<td><input class="input-text validate-zero-or-greater" type="text" name="<?php echo $this->getFieldName() ?>[{{index}}][position]" value="{{position}}"></td>' +
-                '<td>&nbsp;' + <?php echo Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getAddSelectionButtonHtml()) ?> + '</td>' +
-            '</tr>' +
-        '</tbody>' +
-    '</table>' +
-    '<div id="<?php echo $this->getFieldId() ?>_search_{{index}}">' +
-    '</div>' +
-'</div>';
+'</div>\
+<div class="entry-edit-head">\
+    <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>\
+    <h4 class="icon-head head-edit-form fieldset-legend">\
+    <?php if ($this->isDefaultStore()): ?>\
+        <input class="input-text required-entry" type="text" name="<?php echo $this->getFieldName() ?>[{{index}}][title]" id="id_<?php echo $this->getFieldName() ?>_{{index}}_title" value="{{title}}">\
+    <?php else: ?>\
+        <input class="input-text required-entry" type="text" name="<?php echo $this->getFieldName() ?>[{{index}}][default_title]" id="id_<?php echo $this->getFieldName() ?>_{{index}}_default_title" value="{{default_title}}">\
+    <?php endif; ?>\
+        <?php echo $this->getTypeSelectHtml() ?>\
+        <label>\
+            <input type="checkbox" class="is-required" checked="checked"/>\
+            <?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Is Required')?>\
+        </label>\
+    </h4>\
+    <span class="ui-icon ui-icon-circle-close remove"></span>\
+    <span class="ui-icon ui-icon-circle-triangle-s toggle"></span>\
+</div>\
+<table class="option-header" cellpadding="0" cellspacing="0">\
+    <thead>\
+        <tr>\
+        <?php if (!$this->isDefaultStore()): ?>\
+            <th class="opt-title"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Store View Title') ?>  <span class="required">*</span></th>\
+        <?php endif; ?>\
+            <th class="opt-req"><?php echo $this->jsQuoteEscape(Mage::helper('Mage_Bundle_Helper_Data')->__('Is Required')) ?></th>\
+            <th class="opt-order"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Position') ?></th>\
+            <th>&nbsp;</th>\
+        </tr>\
+    </thead>\
+    <tbody>\
+        <tr>\
+            <input type="hidden" id="<?php echo $this->getFieldId() ?>_id_{{index}}" name="<?php echo $this->getFieldName() ?>[{{index}}][option_id]" value="{{option_id}}">\
+            <input type="hidden" name="<?php echo $this->getFieldName() ?>[{{index}}][delete]" value="" class="delete">\
+            <?php if (!$this->isDefaultStore()): ?>\
+                <td><input class="input-text required-entry" type="text" name="<?php echo $this->getFieldName() ?>[{{index}}][title]" id="id_<?php echo $this->getFieldName() ?>_{{index}}_title_store" value="{{title}}"></td>\
+            <?php endif; ?>\
+            <td class="opt-req"><?php echo $this->getRequireSelectHtml() ?></td>\
+            <td class="opt-order"><input class="input-text validate-zero-or-greater" type="text" name="<?php echo $this->getFieldName() ?>[{{index}}][position]" value="{{position}}"></td>\
+            <td>&nbsp;' +
+            <?php echo Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getAddSelectionButtonHtml()) ?> +
+            '</td>\
+        </tr>\
+    </tbody>\
+</table>\
+<div id="<?php echo $this->getFieldId() ?>_search_{{index}}" class="selection-search">\
+</div>\
+</div>';
 </script>
 
 <?php echo $this->getSelectionHtml() ?>
@@ -110,6 +123,10 @@ Bundle.Option.prototype = {
         }
         // rebind change notifications
         varienWindowOnload(true);
+
+        if (jQuery && jQuery('#bundle_product_container').data('bundleProduct')) {
+            jQuery('#bundle_product_container').bundleProduct('refreshSortableElements');
+        }
 
         return data.index;
     },
@@ -187,33 +204,26 @@ Bundle.Option.prototype = {
             }
         );
     }
-}
+};
 
 var optionIndex = 0;
 bOption = new Bundle.Option(optionTemplate);
-//adding data to templates
-<?php foreach ($this->getOptions() as $_option): ?>
-optionIndex = bOption.add(<?php echo $_option->toJson() ?>);
-<?php if ($_option->getSelections()):?>
-    <?php foreach ($_option->getSelections() as $_selection): ?>
-    <?php $_selection->setName($this->escapeHtml($_selection->getName())); ?>
-bSelection.addRow(optionIndex, <?php echo $_selection->toJson() ?>);
-    <?php endforeach; ?>
-<?php endif; ?>
-<?php endforeach; ?>
-/**
- * Adding event on price type select box of product to hide or show prices for selections
- */
-function togglePriceType() {
-    if ($('price_type').value == '1') {
-        bOption.priceTypeFixed();
-    } else {
-        bOption.priceTypeDynamic();
+<?php
+    foreach ($this->getOptions() as $_option) {
+        /** @var $_option Mage_Bundle_Model_Option */
+        echo 'optionIndex = bOption.add(', $_option->toJson(), ');', PHP_EOL;
+        if ($_option->getSelections()) {
+            foreach ($_option->getSelections() as $_selection) {
+                /** @var $_selection Mage_Catalog_Model_Product */
+                $_selection->setName($this->escapeHtml($_selection->getName()));
+                echo 'bSelection.addRow(optionIndex,', $_selection->toJson(), ');', PHP_EOL;
+            }
+        }
     }
+?>
+function togglePriceType() {
+    bOption['priceType' + ($('price_type').value == '1' ? 'Fixed' : 'Dynamic')]();
 }
-
 togglePriceType();
-
 Event.observe('price_type', 'change', togglePriceType);
-
 </script>

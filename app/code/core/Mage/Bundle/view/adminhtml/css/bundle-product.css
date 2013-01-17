@@ -1,0 +1,62 @@
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Bundle
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+#bundle_product_container {
+    padding-bottom: 15px;
+}
+
+#bundle_product_container .entry-edit > fieldset {
+    margin-bottom: 0;
+}
+
+#bundle_product_container .ui-icon-arrowthick-2-n-s {
+    float: left;
+}
+
+#bundle_product_container .ui-icon-circle-triangle-s,
+#bundle_product_container .ui-icon-circle-close {
+    cursor: pointer;
+    float: right;
+    margin-left: 4px;
+}
+
+#bundle_product_container .option-box {
+    padding: 0;
+}
+
+#bundle_product_container .option-box .entry-edit-head,
+#bundle_product_container .option-box .selection {
+    cursor: move;
+}
+
+#bundle_product_container .option-box .entry-edit-head .input-text {
+    width: 300px;
+}
+
+#bundle_product_container .option-box .entry-edit-head .select-product-option-type {
+    margin-left: 4px;
+    width: 120px;
+}
+
+#bundle_product_container .option-box .entry-edit-head .is-required {
+    margin-left: 4px;
+}
+
+#bundle_product_container .qty-box {
+    text-align: center;
+}
+
+#bundle_product_container .option-title,
+#bundle_product_container .option-header .select,
+#bundle_product_container .option-header .opt-req,
+#bundle_product_container .option-header .opt-order,
+#bundle_product_container .form-list .type-order,
+#bundle_product_container .qty-box .select {
+    display: none;
+}

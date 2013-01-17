@@ -7,6 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/** @var $this Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Selection */
 ?>
 <script type="text/javascript">
 //<![CDATA[
@@ -35,7 +37,7 @@ var bundleTemplateRow ='<td>' +
                 '    <input type="hidden" name="<?php echo $this->getFieldName() ?>[{{parentIndex}}][{{index}}][option_id]" value="{{option_id}}">' +
                 '    <input type="hidden" class="product" name="<?php echo $this->getFieldName() ?>[{{parentIndex}}][{{index}}][product_id]" value="{{product_id}}">' +
                 '    <input type="hidden" name="<?php echo $this->getFieldName() ?>[{{parentIndex}}][{{index}}][delete]" value="" class="delete">' +
-                '    {{name}}<br />' +
+                '    <span class="ui-icon ui-icon-arrowthick-2-n-s"></span> {{name}}<br />' +
                 '   <div  class="nobr">' +
                 '        <strong><?php echo $this->helper('Mage_Sales_Helper_Data')->__('SKU') ?>:</strong> {{sku}}' +
                 '    </div>' +
@@ -51,8 +53,15 @@ var bundleTemplateRow ='<td>' +
                     <?php endif; ?>
                 <?php endif; ?>
                 '<td><input class="input-text required-entry validate-greater-zero-based-on-option validate-zero-or-greater" type="text" name="<?php echo $this->getFieldName() ?>[{{parentIndex}}][{{index}}][selection_qty]" value="{{selection_qty}}"></td>' +
-                '<td class="qty-box"><?php echo $this->getQtyTypeSelectHtml() ?></td>' +
-                '<td><input class="input-text required-entry validate-zero-or-greater" type="text" name="<?php echo $this->getFieldName() ?>[{{parentIndex}}][{{index}}][position]" value="{{position}}"></td>' +
+                '<td class="qty-box">' +
+                    '<input type="checkbox" class="is-user-defined-qty" checked="checked"/>' +
+                    '<?php echo $this->getQtyTypeSelectHtml() ?>' +
+                '</td>' +
+                '<td class="type-order">' +
+                    '<input class="input-text required-entry validate-zero-or-greater" type="text" ' +
+                        'name="<?php echo $this->getFieldName() ?>[{{parentIndex}}][{{index}}][position]" ' +
+                        'value="{{position}}">' +
+                '</td>' +
                 '<td class="a-center"><input onclick="bSelection.checkGroup(event)" type="{{option_type}}" class="default" name="<?php echo $this->getFieldName() ?>[{{parentIndex}}][{{index}}][is_default]" value="1" {{checked}}></td>' +
                 '<td class="last"><span title="Delete Row">' + <?php echo Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getSelectionDeleteButtonHtml()) ?> + '</span></td>';
 
@@ -137,7 +146,9 @@ Bundle.Selection.prototype = {
         this.template = new Template(this.templateRow, this.templateSyntax);
         var tbody = $$('#' + this.idLabel + '_box_' + parentIndex + ' tbody');
 
-        Element.insert(tbody[0], {'bottom':this.template.evaluate(data)});
+        // replace <script to avoid evalScripts() execution
+        var escapedHTML = this.template.evaluate(data).replace(/<(\/?)script/g, '&lt;$1script');
+        Element.insert(tbody[0], {bottom: escapedHTML});
 
         if (data.selection_price_type) {
             $A($(this.idLabel + '_'+data.index+'_price_type').options).each(function(option){
@@ -279,6 +290,10 @@ Bundle.Selection.prototype = {
                 bSelection.addRow(parts[2], data);
             }
         );
+
+        if (jQuery && jQuery('#bundle_product_container').data('bundleProduct')) {
+            jQuery('#bundle_product_container').bundleProduct('refreshSortableElements');
+        }
     },
 
     productGridRowInit : function(grid, row){
