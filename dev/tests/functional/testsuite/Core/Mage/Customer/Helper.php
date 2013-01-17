@@ -111,7 +111,7 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_AbstractHelper
      * @param array $userData
      * @param array $addressData
      */
-    public function createCustomer(array $userData, array $addressData = null, $willPageChange = true)
+    public function createCustomer(array $userData, array $addressData = null)
     {
         //Click 'Add New Customer' button.
         $this->clickButton('add_new_customer');
