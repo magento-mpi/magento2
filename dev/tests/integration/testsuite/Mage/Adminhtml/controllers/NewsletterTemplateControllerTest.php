@@ -100,14 +100,12 @@ class Mage_Adminhtml_Newsletter_TemplateControllerTest extends Mage_Backend_Util
         /**
          * Check that errors was generated and set to session
          */
-        Mage::getSingleton('Mage_Backend_Model_Session')->getMessages(false)->getErrors();
+        $this->assertAdminMessages($this->logicalNot($this->isEmpty()), Mage_Core_Model_Message::ERROR);
 
         /**
          * Check that success message is not set
          */
-        $successMessages = Mage::getSingleton('Mage_Backend_Model_Session')
-            ->getMessages(false)->getItemsByType(Mage_Core_Model_Message::SUCCESS);
-        $this->assertEmpty($successMessages);
+        $this->assertAdminMessages($this->isEmpty(), Mage_Core_Model_Message::SUCCESS);
     }
 
     /**

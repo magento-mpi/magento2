@@ -19,11 +19,6 @@
 class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Error message to be used when the user number restriction is reached
-     */
-    const MESSAGE_USER_LIMIT_REACHED = 'You are using the maximum number of admin accounts allowed.';
-
-    /**
      * Define main table
      *
      */
@@ -369,6 +364,17 @@ class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
     }
 
     /**
+     * Whether a user's identity is confirmed
+     *
+     * @param Mage_Core_Model_Abstract $user
+     * @return bool
+     */
+    public function isUserUnique(Mage_Core_Model_Abstract $user)
+    {
+        return !$this->userExists($user);
+    }
+
+    /**
      * Save user extra data
      *
      * @param Mage_Core_Model_Abstract $object
@@ -400,6 +406,17 @@ class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
     }
 
     /**
+     * Whether the functional limitations permit a user saving
+     *
+     * @param Mage_Core_Model_Abstract $user
+     * @return bool
+     */
+    public function isUserSavingAllowed(Mage_Core_Model_Abstract $user)
+    {
+        return (!$user->isObjectNew() || $this->canCreateUser());
+    }
+
+    /**
      * Retrieve the total user count bypassing any restrictions/filters applied to collections
      *
      * @return int
@@ -411,5 +428,39 @@ class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
         $select->from($this->getMainTable(), 'COUNT(*)');
         $result = (int)$adapter->fetchOne($select);
         return $result;
+    }
+
+    /**
+     * Add validation rules to be applied before saving an entity
+     *
+     * @param Mage_Core_Model_Validator_Entity $validator
+     */
+    public function addBeforeSaveValidation(Mage_Core_Model_Validator_Entity $validator)
+    {
+        $userIdentity = new Zend_Validate_Callback(array($this, 'isUserUnique'));
+        $userIdentity->setMessage(
+            Mage::helper('Mage_User_Helper_Data')->__('A user with the same user name or email already exists.'),
+            Zend_Validate_Callback::INVALID_VALUE
+        );
+
+        $userSavingAllowance = new Zend_Validate_Callback(array($this, 'isUserSavingAllowed'));
+        $userSavingAllowance->setMessage(
+            $this->getMessageUserCreationProhibited(), Zend_Validate_Callback::INVALID_VALUE
+        );
+
+        $validator
+            ->addRule($userIdentity)
+            ->addRule($userSavingAllowance)
+        ;
+    }
+
+    /**
+     * Return the error message to be used when the user creation is prohibited due to the functional restrictions
+     *
+     * @return string
+     */
+    public static function getMessageUserCreationProhibited()
+    {
+        return Mage::helper('Mage_User_Helper_Data')->__('You are using the maximum number of admin accounts allowed.');
     }
 }

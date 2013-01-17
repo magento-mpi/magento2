@@ -281,10 +281,8 @@ class Mage_Adminhtml_Catalog_CategoryControllerTest extends Mage_Backend_Utility
             ),
         ));
         $this->dispatch('backend/admin/catalog_category/save');
-        /** @var Mage_Backend_Model_Session $session */
-        $session = Mage::getSingleton('Mage_Backend_Model_Session');
-        $errorMessages = $session->getMessages()->getErrors();
-        $this->assertCount(1, $errorMessages);
-        $this->assertEquals('Unable to save the category', $errorMessages[0]->getCode());
+        $this->assertAdminMessages(
+            $this->equalTo(array('Unable to save the category')), Mage_Core_Model_Message::ERROR
+        );
     }
 }

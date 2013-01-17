@@ -58,7 +58,7 @@ class Mage_Adminhtml_CustomerControllerTest extends Mage_Backend_Utility_Control
         /**
          * Check that errors was generated and set to session
          */
-        $this->assertNotEmpty(Mage::getSingleton('Mage_Backend_Model_Session')->getMessages(false)->getErrors());
+        $this->assertAdminMessages($this->logicalNot($this->isEmpty()), Mage_Core_Model_Message::ERROR);
         /**
          * Check that customer data were set to session
          */
@@ -85,7 +85,7 @@ class Mage_Adminhtml_CustomerControllerTest extends Mage_Backend_Utility_Control
         /**
          * Check that errors was generated and set to session
          */
-        $this->assertNotEmpty(Mage::getSingleton('Mage_Backend_Model_Session')->getMessages(false)->getErrors());
+        $this->assertAdminMessages($this->logicalNot($this->isEmpty()), Mage_Core_Model_Message::ERROR);
         /**
          * Check that customer data were set to session
          */

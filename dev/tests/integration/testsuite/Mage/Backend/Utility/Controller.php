@@ -26,6 +26,13 @@ class Mage_Backend_Utility_Controller extends Magento_Test_TestCase_ControllerAb
      */
     protected $_auth;
 
+    /**
+     * Whether admin messages have been already asserted
+     *
+     * @var bool
+     */
+    protected $_adminMessagesAsserted = false;
+
     protected function setUp()
     {
         parent::setUp();
@@ -40,6 +47,7 @@ class Mage_Backend_Utility_Controller extends Magento_Test_TestCase_ControllerAb
 
     protected function tearDown()
     {
+        $this->_adminMessagesAsserted = false;
         $this->_auth->logout();
         $this->_auth = null;
         $this->_session = null;
@@ -47,5 +55,36 @@ class Mage_Backend_Utility_Controller extends Magento_Test_TestCase_ControllerAb
         Mage::getSingleton('Mage_Backend_Model_Url')->turnOnSecretKey();
 
         parent::tearDown();
+    }
+
+    /**
+     * Ensure that there were no error messages displayed on the admin panel
+     */
+    protected function assertPostConditions()
+    {
+        if (!$this->_request || $this->_adminMessagesAsserted) {
+            return;
+        }
+        // equalTo() is intentionally used instead of isEmpty() to provide the informative diff
+        $this->assertAdminMessages($this->equalTo(array()), Mage_Core_Model_Message::ERROR);
+    }
+
+    /**
+     * Assert that the actual messages appearing on the admin panel meet expectations
+     *
+     * @param PHPUnit_Framework_Constraint $constraint Constraint to compare admin messages against
+     * @param string|null $messageType Message type filter, one of the constants Mage_Core_Model_Message::*
+     */
+    public function assertAdminMessages(PHPUnit_Framework_Constraint $constraint, $messageType = null)
+    {
+        $this->_adminMessagesAsserted = true;
+        /** @var $session Mage_Backend_Model_Session */
+        $session = $this->_objectManager->get('Mage_Backend_Model_Session');
+        $actualMessages = array();
+        /** @var $message Mage_Core_Model_Message_Abstract */
+        foreach ($session->getMessages()->getItems($messageType) as $message) {
+            $actualMessages[] = $message->getText();
+        }
+        $this->assertThat($actualMessages, $constraint, 'Admin panel messages do not meet expectations');
     }
 }

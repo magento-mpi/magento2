@@ -12,34 +12,8 @@
 /**
  * Test class for Mage_User_Adminhtml_AuthController.
  */
-class Mage_User_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_ControllerAbstract
+class Mage_User_Adminhtml_AuthControllerTest extends Mage_Backend_Utility_Controller
 {
-    /**
-     * @var Mage_Backend_Model_Auth
-     */
-    protected $_auth;
-
-
-    protected function tearDown()
-    {
-        $this->_auth = null;
-        parent::tearDown();
-    }
-
-    protected  function _login()
-    {
-        Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
-
-        $this->_auth = Mage::getSingleton('Mage_Backend_Model_Auth');
-        $this->_auth->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
-    }
-
-    protected  function _logout()
-    {
-        $this->_auth->logout();
-        Mage::getSingleton('Mage_Backend_Model_Url')->turnOnSecretKey();
-    }
-
     /**
      * Test form existence
      * @covers Mage_User_Adminhtml_AuthController::forgotpasswordAction
@@ -101,6 +75,9 @@ class Mage_User_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Contr
     {
         $this->getRequest()->setQuery('token', 'dummy')->setQuery('id', 1);
         $this->dispatch('backend/admin/auth/resetpassword');
+        $this->assertAdminMessages(
+            $this->equalTo(array('Your password reset link has expired.')), Mage_Core_Model_Message::ERROR
+        );
         $this->assertRedirect();
     }
 
@@ -143,11 +120,13 @@ class Mage_User_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Contr
      * @covers Mage_User_Adminhtml_AuthController::_validateResetPasswordLinkToken
      * @magentoDataFixture Mage/User/_files/dummy_user.php
      */
-    public function testResetPaswordPostActionWithDummyToken()
+    public function testResetPasswordPostActionWithDummyToken()
     {
         $this->getRequest()->setQuery('token', 'dummy')->setQuery('id', 1);
         $this->dispatch('backend/admin/auth/resetpasswordpost');
-
+        $this->assertAdminMessages(
+            $this->equalTo(array('Your password reset link has expired.')), Mage_Core_Model_Message::ERROR
+        );
         $this->assertRedirect($this->equalTo(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl()));
     }
 
@@ -156,7 +135,7 @@ class Mage_User_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Contr
      * @covers Mage_User_Adminhtml_AuthController::_validateResetPasswordLinkToken
      * @magentoDataFixture Mage/User/_files/dummy_user.php
      */
-    public function testResetPaswordPostActionWithInvalidPassword()
+    public function testResetPasswordPostActionWithInvalidPassword()
     {
         $user = Mage::getModel('Mage_User_Model_User')->loadByUsername('dummy_username');
         $resetPasswordToken = null;
@@ -178,15 +157,5 @@ class Mage_User_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Contr
         $this->dispatch('backend/admin/auth/resetpasswordpost');
 
         $this->assertRedirect();
-    }
-
-    /**
-     * Empty data fixture to provide support of transaction
-     * @static
-     *
-     */
-    public static function emptyDataFixture()
-    {
-
     }
 }

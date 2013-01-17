@@ -27,7 +27,7 @@ class Mage_User_Adminhtml_UserControllerTest extends Mage_Backend_Utility_Contro
         $this->dispatch('backend/admin/user/index');
         $response = $this->getResponse()->getBody();
         $this->assertNotContains('Add New User', $response);
-        $this->assertContains(Mage_User_Model_Resource_User::MESSAGE_USER_LIMIT_REACHED, $response);
+        $this->assertContains(Mage_User_Model_Resource_User::getMessageUserCreationProhibited(), $response);
     }
 
     public function testRoleGridAction()
