@@ -37,7 +37,10 @@ class Mage_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_Tes
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         /** @var $model Mage_Core_Model_Abstract */
-        $arguments = $objectManagerHelper->getConstructArguments(Magento_Test_Helper_ObjectManager::MODEL_ENTITY);
+        $arguments = $objectManagerHelper->getConstructArguments(
+            Magento_Test_Helper_ObjectManager::MODEL_ENTITY,
+            'Mage_Core_Model_Abstract'
+        );
         $arguments['data'] = $attributeData;
         $model = $this->getMock('Mage_Core_Model_Abstract', null, $arguments);
         $model->setDefault(array('2'));
@@ -92,7 +95,10 @@ class Mage_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_Tes
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         /** @var $model Mage_Core_Model_Abstract */
-        $arguments = $objectManagerHelper->getConstructArguments(Magento_Test_Helper_ObjectManager::MODEL_ENTITY);
+        $arguments = $objectManagerHelper->getConstructArguments(
+            Magento_Test_Helper_ObjectManager::MODEL_ENTITY,
+            'Mage_Core_Model_Abstract'
+        );
         $arguments['data'] = $attributeData;
         $model = $this->getMock('Mage_Core_Model_Abstract', null, $arguments);
         $model->setOption(array('value' => array('option_1' => array('Backend Label', 'Frontend Label'))));
@@ -153,7 +159,10 @@ class Mage_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_Tes
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         /** @var $model Mage_Core_Model_Abstract */
-        $arguments = $objectManagerHelper->getConstructArguments(Magento_Test_Helper_ObjectManager::MODEL_ENTITY);
+        $arguments = $objectManagerHelper->getConstructArguments(
+            Magento_Test_Helper_ObjectManager::MODEL_ENTITY,
+            'Mage_Core_Model_Abstract'
+        );
         $model = $this->getMock('Mage_Core_Model_Abstract', null, $arguments);
         $model->setOption('not-an-array');
 
