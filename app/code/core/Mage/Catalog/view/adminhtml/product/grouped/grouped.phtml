@@ -1,0 +1,65 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<div id="grouped-products-container">
+    <?php
+    $_gridBlock = $this->getChildBlock('catalog.product.group.grid');
+    /** @var $this Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Grouped */
+    echo $this->getChildHtml('catalog.product.group.grid'); ?>
+    <div id="grouped-products-popup">
+        <?php echo $this->getChildHtml('catalog.product.group.grid.popup');?>
+        <button id="grouped-products-select">Select Products</button>
+    </div>
+</div>
+<button id="grouped-add-products">Add Products to Group</button>
+<script type="text/javascript">
+    jQuery(function ($) {
+        var $gridDialog = $('#grouped-products-popup').dialog({
+            title: 'Select Associated Product',
+            autoOpen: false,
+            minWidth: 980,
+            modal: true,
+            resizable: true
+        });
+        var grid = window.<?php echo $_gridBlock->getJsObjectName() ?>,
+            $groupedGrid = $('#groupedGrid'),
+            $groupedGridPopup = $('#groupedGridPopup'),
+            associatedProductsId = <?php echo $_gridBlock->getAssociatedProductsId()?>;
+        var displayGridRow = function (ids) {
+            $.each($groupedGrid.find('.selected-products input[type="checkbox"]'), function () {
+                var inArray = $.inArray($(this).val(), ids) !== -1;
+                $(this).closest('tr').toggle(inArray).toggleClass('ignore-validate', !inArray);
+            });
+        };
+        grid.rowClickCallback = function () {};
+        displayGridRow(associatedProductsId);
+        $groupedGrid.find('.column-hidden').hide();
+        $groupedGrid.find('.selected-products input[type="checkbox"]').prop({checked: true});
+        $('#grouped-add-products').on('click', function () {
+            $gridDialog.dialog('open');
+            return false;
+        });
+        $('#grouped-products-select').on('click', function () {
+            var ids = [];
+            $.each($groupedGridPopup.find('.selected-products input[type="checkbox"]:checked'), function () {
+                ids.push($(this).val());
+            });
+            displayGridRow(ids);
+            $gridDialog.dialog('close');
+            return false;
+        });
+        $groupedGrid.on('click', '.product-delete button', function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            var $this = $(this);
+            $this.closest('tr').hide().addClass('ignore-validate');
+        });
+    });
+</script>

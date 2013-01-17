@@ -362,31 +362,108 @@ Layout handle for grouped products
 -->
     <adminhtml_catalog_product_grouped>
         <reference name="product-type-tabs">
-            <block type="Mage_Catalog_Block_Product_Grouped_AssociatedProducts" name="catalog.product.edit.grouped.container" template="Mage_Backend::catalog/product/tab/container.phtml">
-                <!--<block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group" name="catalog.product.edit.tab.super.group"/>-->
-                <block type="Mage_Core_Block_Template" name="catalog.product.edit.tab.super.container" template="Mage_Backend::catalog/product/tab/grouped/add.phtml">
-                    <block type="Mage_Backend_Block_Widget_Grid" name='catalog.product.edit.tab.super.groups' as='grid'>
+            <block type="Mage_Catalog_Block_Product_Grouped_AssociatedProducts" name="catalog.product.edit.grouped.container" template="Mage_Catalog::product/grouped/container.phtml">
+                <block type="Mage_Core_Block_Template" name="catalog.product.edit.tab.super.container" template="Mage_Catalog::product/grouped/grouped.phtml">
+                    <block type="Mage_Catalog_Block_Product_Tab_Grouped" name="catalog.product.edit.tab.super.group" as="catalog.product.group.grid">
                         <arguments>
                             <id>groupedGrid</id>
+                            <dataSource type="object">Mage_Catalog_Model_Resource_Product_Collection_GroupedProducts</dataSource>
+                            <default_sort>id</default_sort>
+                            <default_dir>DESC</default_dir>
+                            <save_parameters_in_session>1</save_parameters_in_session>
+                        </arguments>
+                        <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" name="catalog.product.edit.tab.super.group.columnSet" as="grid.columnSet">
+                            <arguments>
+                                <id>groupedGrid</id>
+                                <rowUrl>
+                                    <path>*/*/edit</path>
+                                </rowUrl>
+                            </arguments>
+                            <block type="Mage_Backend_Block_Widget_Grid_Column" as="in_products">
+                                <arguments>
+                                    <type>checkbox</type>
+                                    <header_css_class>a-center column-hidden</header_css_class>
+                                    <column_css_class>selected-products column-hidden</column_css_class>
+                                    <align>center</align>
+                                    <index>entity_id</index>
+                                    <width>60px</width>
+                                </arguments>
+                            </block>
+                            <block type="Mage_Backend_Block_Widget_Grid_Column" as="id">
+                                <arguments>
+                                    <header translate="true" module="Mage_Sales">ID</header>
+                                    <type>text</type>
+                                    <index>entity_id</index>
+                                </arguments>
+                            </block>
+                            <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
+                                <arguments>
+                                    <header translate="true" module="Mage_Sales">Name</header>
+                                    <type>text</type>
+                                    <index>name</index>
+                                    <editable>1</editable>
+                                    <width>60px</width>
+                                </arguments>
+                            </block>
+                            <block type="Mage_Backend_Block_Widget_Grid_Column" as="sku">
+                                <arguments>
+                                    <header translate="true" module="Mage_Sales">SKU</header>
+                                    <type>text</type>
+                                    <index>sku</index>
+                                    <width>80px</width>
+                                </arguments>
+                            </block>
+                            <block type="Mage_Backend_Block_Widget_Grid_Column" as="price">
+                                <arguments>
+                                    <header translate="true" module="Mage_Sales">Price</header>
+                                    <type>currency</type>
+                                    <index>price</index>
+                                    <width>110px</width>
+                                    <align>right</align>
+                                </arguments>
+                            </block>
+                            <block type="Mage_Backend_Block_Widget_Grid_Column" as="qty">
+                                <arguments>
+                                    <header translate="true" module="Mage_Sales">Default Qty</header>
+                                    <type>number</type>
+                                    <index>qty</index>
+                                    <width>110px</width>
+                                    <align>right</align>
+                                </arguments>
+                            </block>
+                            <block type="Mage_Backend_Block_Widget_Grid_Column" as="delete">
+                                <arguments>
+                                    <header translate="true" module="Mage_Sales">Delete</header>
+                                    <type>input</type>
+                                    <column_css_class>product-delete</column_css_class>
+                                    <width>110px</width>
+                                    <renderer>Mage_Catalog_Block_Adminhtml_Grid_Column_Renderer_Button</renderer>
+                                    <align>right</align>
+                                </arguments>
+                            </block>
+                        </block>
+                        <block type="Mage_Core_Block_Template" template="Mage_Backend::catalog/product/tab/js.phtml"/>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid" name="catalog.product.edit.tab.super.group.popup" as="catalog.product.group.grid.popup">
+                        <arguments>
+                            <id>groupedGridPopup</id>
                             <dataSource type="object">Mage_Catalog_Model_Resource_Product_Collection_GroupedProducts</dataSource>
                             <default_sort>id</default_sort>
                             <default_dir>ASC</default_dir>
                             <save_parameters_in_session>1</save_parameters_in_session>
                         </arguments>
-                        <block type='Mage_Backend_Block_Widget_Grid_ColumnSet' name='adminhtml.catalog.product.set.grid.columnSet' as='grid.columnSet'>
+                        <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" name="catalog.product.edit.tab.super.group.popup.columnSet" as="grid.columnSet">
                             <arguments>
-                                <id>setGrid</id>
+                                <id>groupedGridPopup</id>
                                 <rowUrl>
                                     <path>*/*/edit</path>
-                                    <extraParamsTemplate>
-                                        <id>getAttributeSetId</id>
-                                    </extraParamsTemplate>
                                 </rowUrl>
                             </arguments>
                             <block type="Mage_Backend_Block_Widget_Grid_Column" as="in_products">
                                 <arguments>
                                     <type>checkbox</type>
                                     <header_css_class>a-center</header_css_class>
+                                    <column_css_class>selected-products</column_css_class>
                                     <width>60px</width>
                                     <align>center</align>
                                     <index>entity_id</index>
@@ -422,26 +499,6 @@ Layout handle for grouped products
                                     <type>currency</type>
                                     <index>price</index>
                                     <width>110px</width>
-                                    <align>right</align>
-                                </arguments>
-                            </block>
-                            <block type="Mage_Backend_Block_Widget_Grid_Column" as="qty">
-                                <arguments>
-                                    <header translate="true" module="Mage_Sales">Default Qty</header>
-                                    <type>number</type>
-                                    <index>qty</index>
-                                    <width>110px</width>
-                                    <editable>1</editable>
-                                    <align>right</align>
-                                </arguments>
-                            </block>
-                            <block type="Mage_Backend_Block_Widget_Grid_Column" as="position">
-                                <arguments>
-                                    <header translate="true" module="Mage_Sales">Position</header>
-                                    <type>number</type>
-                                    <index>position</index>
-                                    <width>110px</width>
-                                    <editable>1</editable>
                                     <align>right</align>
                                 </arguments>
                             </block>
