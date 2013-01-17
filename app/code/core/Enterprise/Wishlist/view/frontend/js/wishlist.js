@@ -1,8 +1,8 @@
 /**
  * {license_notice}
  *
- * @category    EE frontend Wishlist
- * @package     mage
+ * @category    Frontend Wishlist
+ * @package     EE
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,23 +12,25 @@
     'use strict';
     $.widget('mage.wishlist', {
         options: {
-            createTmplSelector: '#create-tmpl',
+            createTmplSelector: '#popup-tmpl',
             createTmplData: {
                 btnCloseClass: 'btn-close',
-                createWishlistBlockId: 'create-wishlist-block',
-                createWishlistFormId: 'create-wishlist-form'
+                popupWishlistBlockId: 'create-wishlist-block',
+                popupWishlistFormId: 'create-wishlist-form'
             },
             errorMsg: $.mage.__('Error happened while creating wishlist. Please try again later'),
             spinnerClass: 'loading'
         },
 
         _create: function() {
-            this.element.on('click', '[data-wishlist-create]', $.proxy(function(e) {
-                var json = $(e.target).data('wishlist-create'),
-                    url = json['url'] ? json['url'] : this.options.createUrl,
+            var _this = this; // in this case $(e.targer) is not the same as $(this)
+            this.element.on('click', '[data-wishlist-create]', function() {
+                var json = $(this).data('wishlist-create'),
+                    url = json['url'] ? json['url'] : _this.options.createUrl,
                     isAjax = json['ajax'];
-                this._showCreateWishlist(url, isAjax);
-            }, this));
+                _this._showCreateWishlist(url, isAjax);
+                return false;
+            });
         },
 
         /**
@@ -39,7 +41,7 @@
          */
         _showCreateWishlist: function(url, isAjax) {
             this.createTmpl ? this.createTmpl.show() : this._initCreateTmpl();
-            $('#' + this.options.createTmplData.createWishlistFormId).attr('action', url);
+            $('#' + this.options.createTmplData.popupWishlistFormId).attr('action', url);
             this.createAjax = isAjax;
         },
 
@@ -53,10 +55,12 @@
                 this.createTmpl.hide();
             }, this))
             .appendTo('body');
-            $('#' + this.options.createTmplData.createWishlistFormId).validation({
+            $('#' + this.options.createTmplData.popupWishlistFormId).validation({
                 submitHandler: $.proxy(function(form) {
                     if (this.createAjax) {
                         this._createWishlistAjax(form);
+                    } else {
+                        form.submit();
                     }
                 }, this)
             });
@@ -75,12 +79,14 @@
                 cache: false,
                 data: _form.serialize(),
                 beforeSend: function() {
-                    $('#' + _this.options.createTmplData.createWishlistBlockId).addClass(_this.options.spinnerClass);
+                    $('#' + _this.options.createTmplData.popupWishlistBlockId).addClass(_this.options.spinnerClass);
                 },
                 success: function(response) {
-                    if (typeof response.wishlist_id !== 'undefined') {
-                        _this._callback && _this._callback(response.wishlist_id);
-                    } else if (typeof response.redirect !== 'undefined') {
+                    if (typeof response['wishlist_id'] !== 'undefined') {
+                        if (_this._callback) {
+                            _this._callback(response.wishlist_id);
+                        }
+                    } else if (typeof response['redirect'] !== 'undefined') {
                         window.location.href(response.redirect);
                     } else {
                         alert(_this.options.errorMsg);
@@ -130,7 +136,7 @@
          * Get wishlist item qty
          * @private
          * @param elem
-         * @return {int} - Item qty
+         * @return {(int|null)} - Item qty
          */
         _getQty: function(elem) {
             var qty = elem.closest('tr').find('input.qty');
@@ -139,8 +145,8 @@
 
         /**
          * Move selected wishlist items to another wishlist
-         * @param e - move to wishlist button
          * @private
+         * @param e - move to wishlist button
          */
         _moveSelectedTo: function(e) {
             var json = $(e.target).data('wishlist-move-selected'),
@@ -152,8 +158,7 @@
             if (json['new']) {
                 this._moveSelectedToNew();
             } else {
-                var url = this.moveWishlistJson.moveSelectedUrl;
-                url = url.replace("%wishlist_id%", wishlistId);
+                var url = this.moveWishlistJson.moveSelectedUrl.replace("%wishlist_id%", wishlistId);
                 $(this.options.wishlistFormSelector).attr('action', url).submit();
             }
         },
@@ -166,8 +171,7 @@
          */
         _moveSelectedToNew: function(url) {
             this._callback = function(wishlistId) {
-                var _url = url || this.moveWishlistJson.moveSelectedUrl;
-                _url = _url.replace("%wishlist_id%", wishlistId);
+                var _url = (url || this.moveWishlistJson.moveSelectedUrl).replace("%wishlist_id%", wishlistId);
                 $(this.options.wishlistFormSelector).attr('action', _url).submit();
             };
             this._showCreateWishlist(this.options.createUrl, true);
@@ -207,7 +211,6 @@
 
     // Extension for mage.wishlist - Copy to Wishlist
     $.widget('mage.wishlist', $.mage.wishlist, {
-
         _create: function() {
             this._super();
             this.copyWishlistJson = this.element.find('[data-wishlist-copy]').data('wishlist-copy');
@@ -251,8 +254,7 @@
             if (json['new']) {
                 this._copySelectedToNew();
             } else {
-                var url = this.copyWishlistJson.copySelectedUrl;
-                url = url.replace("%wishlist_id%", wishlistId);
+                var url = this.copyWishlistJson.copySelectedUrl.replace("%wishlist_id%", wishlistId);
                 $(this.options.wishlistFormSelector).attr('action', url).submit();
             }
         },
@@ -278,12 +280,12 @@
     // Extension for mage.wishlist - Delete Wishlist
     $.widget('mage.wishlist', $.mage.wishlist, {
         options: {
-            delMsg: $.mage.__('You are about to delete your wish list.\nThis action cannot be undone.\nDo you want to proceed?')
+            deleteMsg: $.mage.__('You are about to delete your wish list.\nThis action cannot be undone.\nDo you want to proceed?')
         },
 
         _create: function() {
             this._super();
-            this.element.on('click', '[data-wishlist-delete]', $.proxy(this._delWishlist, this));
+            this.element.on('click', '[data-wishlist-delete]', $.proxy(this._deleteWishlist, this));
         },
 
         /**
@@ -291,14 +293,15 @@
          * @private
          * @param e - Delete wishlist button
          */
-        _delWishlist: function(e)  {
-            if (confirm(this.options.delMsg)) {
+        _deleteWishlist: function(e)  {
+            e.preventDefault();
+            if (confirm(this.options.deleteMsg)) {
                 var json = $(e.target).data('wishlist-delete'),
                     wishlistId = json['wishlistId'],
-                    delUrl = json['delUrl'].replace('%item%', wishlistId),
+                    deleteUrl = json['deleteUrl'].replace('%item%', wishlistId),
                     redirectUrl = json['redirectUrl'];
                 $.ajax({
-                    url: delUrl,
+                    url: deleteUrl,
                     type: 'post',
                     cache: false,
                     success: function() {
@@ -306,6 +309,131 @@
                     }
                 });
             }
+        }
+    });
+
+    // Extension for mage.wishlist - Edit Wishlist
+    $.widget('mage.wishlist', $.mage.wishlist, {
+        options: {
+            editTmplSelector: '#popup-tmpl',
+            editTmplData: {
+                btnCloseClass: 'btn-close',
+                popupWishlistBlockId: 'edit-wishlist-block',
+                popupWishlistFormId: 'edit-wishlist-form',
+                isEdit: true
+            }
+        },
+
+        _create: function() {
+            this._super();
+            this.element.on('click', '[data-wishlist-edit]', $.proxy(this._editWishlist, this));
+        },
+
+        /**
+         * Edit wishlist
+         * @private
+         * @param e - Edit wishlist button
+         */
+        _editWishlist: function(e)  {
+            var json = $(e.target).data('wishlist-edit');
+            this.options.editTmplData.url = json['url'];
+            this.options.editTmplData.name = json['name'];
+            this.options.editTmplData.isPublic = json['isPublic'];
+            this.editTmpl ? this.editTmpl.show() : this._initEditTmpl();
+            return false;
+        },
+
+        /**
+         * Initialized jQuery template for edit wishlist popup block, attach to dom and validation widget to form
+         * @private
+         */
+        _initEditTmpl: function() {
+            this.editTmpl = $(this.options.editTmplSelector).tmpl(this.options.editTmplData);
+            this.editTmpl.on('click', '.' + this.options.editTmplData.btnCloseClass, $.proxy(function() {
+                this.editTmpl.hide();
+            }, this)).appendTo('body');
+            $('#' + this.options.editTmplData.popupWishlistFormId).validation();
+        }
+    });
+
+    // Extension for mage.wishlist - Add Wishlist
+    $.widget('mage.wishlist', $.mage.wishlist, {
+        options: {
+            wishlistLink: '.link-wishlist',
+            splitBtnTmpl: '#split-btn-tmpl'
+        },
+
+        _create: function() {
+            this._super();
+            this.element.on('click', '[data-wishlist-add]', $.proxy(function(e) {
+                window.location.href = $(e.target).data('wishlist-add').url;
+            }, this));
+            this.element.on('click', '[data-wishlist-add-to]', $.proxy(function(e) {
+                var json = $(e.target).data('wishlist-add-to'),
+                    url = json.url,
+                    isNew = json.isNew;
+                if (isNew) {
+                    this._addToNew(url);
+                } else {
+                    window.location.href = json.url;
+                }
+            }, this));
+            this._buildWishlistDropdown();
+        },
+
+        /**
+         * Add product to new wishlist
+         * @private
+         * @param url - base add to wishlist url
+         */
+        _addToNew: function(url) {
+            this._callback = $.proxy(function(wishlistId) {
+                window.location.href = this._buildUrl(url, wishlistId);
+            }, this);
+            this._showCreateWishlist(this.options.createUrl, true);
+        },
+
+        /**
+         * Build add to wishlist dropdown list
+         * @private
+         */
+        _buildWishlistDropdown: function() {
+            if (this.options.wishlists.length > 0) {
+                $(this.options.wishlistLink).each($.proxy(function(index, e) {
+                    var element = $(e),
+                        url = element.attr('href'),
+                        tmplData = {wishlists: [], wishlistAddUrl: url};
+                    for (var i = 0; i < this.options.wishlists.length; i++) {
+                        tmplData.wishlists.push({
+                            name: this.options.wishlists[i].name,
+                            url: this._buildUrl(url, this.options.wishlists[i].id),
+                            isNew: false
+                        });
+                    }
+                    if (this.options.canCreate) {
+                        tmplData.wishlists.push({
+                            newClass: 'new',
+                            name: 'Create New Wishlist',
+                            url: url,
+                            isNew: true
+                        });
+                    }
+                    $(this.options.splitBtnTmpl).tmpl(tmplData).appendTo(element.parent());
+                    element.remove();
+                }, this));
+            }
+        },
+
+        /**
+         * Build url with wishlistId as query parameter
+         * @private
+         * @param url - base url to add product to wishlist
+         * @param wishlistId - wishlistId
+         * @return {String}
+         */
+        _buildUrl: function(url, wishlistId) {
+            var glue = url.indexOf('?') === -1 ? '?' : '&';
+            return url + glue + $.param({'wishlist_id': wishlistId});
         }
     });
 })(jQuery);

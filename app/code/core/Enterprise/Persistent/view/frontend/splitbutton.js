@@ -26,8 +26,9 @@
          * @private
          */
         _create: function() {
-            $(this.options.splitButton + ' ' + this.options.arrowButton).on('click', $.proxy(this._toggleDropDown, this));
-            $(document).on('click', $.proxy(this._hideDropDown, this));
+            this.element.on('click', this.options.splitButton + ' ' + this.options.arrowButton,
+                $.proxy(this.toggleDropDown, this));
+            $(document).on('click', $.proxy(this.hideDropDown, this));
         },
 
         /**
@@ -45,7 +46,7 @@
          * @private
          */
         _hideDropDown: function() {
-            $('.' + this.options.activeClass).removeClass(this.options.activeClass);
+            $(this.options.splitButton + '.' + this.options.activeClass).removeClass(this.options.activeClass);
         }
     });
 })(jQuery);
