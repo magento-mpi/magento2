@@ -32,12 +32,8 @@
                     select: ['menuselect', 'select_tree_node']
                 }
             },
-            wrapperAttributes: {
-                'class': 'mage-suggest'
-            },
-            attributes: {
-                'class': 'mage-suggest-dropdown'
-            }
+            inputWrapper:'<div class="mage-suggest"><div class="mage-suggest-inner"></div></div>',
+            dropdownWrapper: '<div class="mage-suggest-dropdown"></div>'
         },
 
         /**
@@ -45,15 +41,32 @@
          * @private
          */
         _create: function() {
-            this._setTemplate();
             this._term = '';
             this._selectedItem = {value: '', label: ''};
-            this.dropdown = $('<div/>', this.options.attributes).hide();
+            this._control = this.options.controls || {};
+            this._setTemplate();
+            this._render();
+            this._prepareValueField();
+            this._bind();
+        },
+
+        /**
+         *
+         * @private
+         */
+        _render: function() {
+            this.dropdown = $(this.options.dropdownWrapper).hide();
             this.element
-                .wrap($('<div><div class="mage-suggest-inner"></div></div>')
-                .prop(this.options.wrapperAttributes))
+                .wrap(this.options.inputWrapper)
                 [this.options.appendMethod](this.dropdown)
                 .attr('autocomplete', 'off');
+        },
+
+        /**
+         *
+         * @private
+         */
+        _prepareValueField: function(){
             if (this.options.valueField) {
                 this.valueField = $(this.options.valueField);
             } else {
@@ -62,8 +75,6 @@
                     .attr('name', this.element.attr('name'));
                 this.element.removeAttr('name');
             }
-            this._control = this.options.controls || {};
-            this._bind();
         },
 
         /**
@@ -131,6 +142,7 @@
                         case keyCode.UP:
                         case keyCode.DOWN:
                             if (!event.shiftKey) {
+                                event.preventDefault();
                                 this._proxyEvents(event);
                             }
                             break;

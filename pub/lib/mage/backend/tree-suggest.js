@@ -24,8 +24,11 @@
         },
         hover_node: function(obj) {
             hover_node.apply(this, arguments);
-            var node = $(this._get_node(obj).is('a') ? this._get_node(obj) : this._get_node(obj).children("a"));
-            this.get_container().trigger('hover_node', [{item: (node.is('a') ? node : node.find('a:first'))}]);
+            obj = this._get_node(obj);
+            if(!obj.length) {
+                return false;
+            }
+            this.get_container().trigger('hover_node', [{item: obj.find('a:first')}]);
         },
         dehover_node: function() {
             dehover_node.call(this);
@@ -43,6 +46,19 @@
          */
         _bind: function() {
             this._super();
+            this._on({
+                keydown: function(event) {
+                    var keyCode = $.ui.keyCode;
+                    switch (event.keyCode) {
+                        case keyCode.LEFT:
+                        case keyCode.RIGHT:
+                            if (this.isDropdownShown()) {
+                                event.preventDefault();
+                                this._proxyEvents(event);
+                            }
+                    }
+                }
+            });
             this._on({
                 focus: function() {
                     this.search();
@@ -74,6 +90,14 @@
                     return $('<div>').append($.tmpl(templateName, _context)).html();
                 }
             });
+        },
+
+        _renderDropdown: function(items, context) {
+            var control = this.dropdown.find(this._control.selector);
+            if(control.length && control.hasClass('jstree')) {
+                control.jstree("destroy");
+            }
+            this._superApply(arguments);
         }
     });
 })(jQuery);
