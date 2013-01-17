@@ -11,9 +11,12 @@
 <?php if (!$this->getJsFiles()->count()): ?>
     <li><?php echo $this->__('No files found') ?></li>
 <?php else: ?>
-    <?php /** @var $file Mage_Core_Model_Resource_Theme_Files */ ?>
+    <?php /** @var $file Mage_Core_Model_Theme_Files */ ?>
     <?php foreach ($this->getJsFiles() as $file): ?>
         <li>
+            <input class="up" type="button" value="">
+            <input class="down" type="button" value="">
+            <input type="hidden" name="js_order[<?php echo $file->getFileName() ?>]" value="1">
             <div class="js-file"><?php echo $file->getFileName() ?></div>
             <?php if ($file->getIsTemporary()): ?>
                 <input type="hidden" name="js_uploaded_files[]" value="<?php echo $file->getId(); ?>" />

@@ -16,6 +16,7 @@
  * @method string getFileType()
  * @method string getContent()
  * @method string getOrder()
+ * @method bool getIsTemporary()
  * @method setThemeId(int $id)
  * @method setFileName(string $filename)
  * @method setFileType(string $type)

@@ -50,6 +50,8 @@
                 if (!data.result.error) {
                     contentArea.html(data.result.content);
                 }
+
+                $('.ui-sortable').sortable('initButtons');
             },
 
             /**

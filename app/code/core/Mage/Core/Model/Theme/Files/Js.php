@@ -212,7 +212,12 @@ class Mage_Core_Model_Theme_Files_Js extends Mage_Core_Model_Theme_Files_Abstrac
         /** @var $file Mage_Core_Model_Theme_Files */
         foreach ($collection as $file) {
             $position = array_search($file->getFileName(), $orderData);
-            $file->setOrder((int)$position);
+            if ($position === false) {
+                //uploaded files will be on top
+                $file->setOrder(0);
+            }
+            $file->setOrder($position + 1);
+
         }
         $collection->save();
 
