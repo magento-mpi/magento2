@@ -8,11 +8,31 @@
  * @license     {license_link}
  */
 
-use Zend\Code\Reflection;
+use Zend\Code\Reflection,
+    Zend\Di\Definition\IntrospectionStrategy;
 
 class Magento_Di_Definition_RuntimeDefinition_Zend extends Zend\Di\Definition\RuntimeDefinition
     implements Magento_Di_Definition_RuntimeDefinition
 {
+    /**
+     * @var Magento_Di_Generator_Class
+     */
+    protected $_classGenerator;
+
+    /**
+     * @param Zend\Di\Definition\IntrospectionStrategy $introspectionStrategy
+     * @param array $explicitClasses
+     * @param Magento_Di_Generator_Class $classGenerator
+     */
+    public function __construct(
+        IntrospectionStrategy $introspectionStrategy = null,
+        array $explicitClasses = null,
+        Magento_Di_Generator_Class $classGenerator = null
+    ) {
+        parent::__construct($introspectionStrategy, $explicitClasses);
+        $this->_classGenerator = $classGenerator ?: new Magento_Di_Generator_Class();
+    }
+
     /**
      * Process method parameters
      *
@@ -50,5 +70,15 @@ class Magento_Di_Definition_RuntimeDefinition_Zend extends Zend\Di\Definition\Ru
                 : null;
         }
 
+    }
+
+    /**
+     * @param string $class
+     * @return array|string
+     */
+    public function getInstantiator($class)
+    {
+        $this->_classGenerator->generateForConstructor($class);
+        return parent::getInstantiator($class);
     }
 }

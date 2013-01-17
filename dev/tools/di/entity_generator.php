@@ -8,20 +8,7 @@
  * @license    {license_link}
  */
 
-define('DS', DIRECTORY_SEPARATOR);
-define('BP', realpath(__DIR__ . '/../../..'));
-
-require_once BP . '/app/code/core/Mage/Core/functions.php';
-require_once BP . '/app/Mage.php';
-require_once BP . '/app/autoload.php';
-
-Magento_Autoload_IncludePath::addIncludePath(array(
-    BP . DS . 'app' . DS . 'code' . DS . 'local',
-    BP . DS . 'app' . DS . 'code' . DS . 'community',
-    BP . DS . 'app' . DS . 'code' . DS . 'core',
-    BP . DS . 'lib',
-    BP . DS . 'var' . DS . 'generation',
-));
+require __DIR__ . '/../../../app/bootstrap.php';
 
 $generator = new Magento_Di_Generator();
 $generatedEntities = $generator->getGeneratedEntities();
