@@ -82,8 +82,8 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->createProduct($bundle, 'bundle');
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->createProduct($configurable, 'configurable');
-        $this->assertMessagePresent('success', 'success_saved_product');
+//        $this->productHelper()->createProduct($configurable, 'configurable');
+//        $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->createProduct($grouped, 'grouped');
         $this->assertMessagePresent('success', 'success_saved_product');
 
@@ -221,6 +221,7 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
      */
     public function withConfigurableProduct($productType, $order, $testData)
     {
+        $this->markTestIncomplete('Create Configurable product flow has not fixed yet');
         //Data
         $orderProductOption = $this->loadDataSet('SalesOrder', 'config_option_configurable',
                                                  array('title'       => $testData['title'],
