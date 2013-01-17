@@ -21,11 +21,13 @@ class SourceClass extends ParentClass
      * @param string $param1
      * @param string $param2
      * @param string $param3
+     * @param null $param4
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function __construct(ClassGenerator $classGenerator, $param1 = '', $param2 = '\\', $param3 = '\'')
-    {
+    public function __construct(ClassGenerator $classGenerator, $param1 = '', $param2 = '\\', $param3 = '\'',
+        $param4 = null
+    ) {
     }
 
     /**
@@ -36,12 +38,13 @@ class SourceClass extends ParentClass
      * @param string $param2
      * @param string $param3
      * @param array $array
+     * @param null $param5
      * @return void
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function publicChildMethod(ClassGenerator $classGenerator, $param1 = '', $param2 = '\\', $param3 = '\'',
-        array $array = array()
+        array $array = array(), $param5 = null
     ) {
     }
 

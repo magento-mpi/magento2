@@ -80,7 +80,7 @@ class Magento_Di_Generator_ProxyTest extends Magento_Di_Generator_EntityTestAbst
                     array(),
                 ),
             ),
-            'body'       => 'return $this->_objectManager->get(self::CLASS_NAME)->publicChildMethod($classGenerator, $param1, $param2, $param3, $array);',
+            'body'       => 'return $this->_objectManager->get(self::CLASS_NAME)->publicChildMethod($classGenerator, $param1, $param2, $param3, $array, $param5);',
             'docblock'   =>
             array(
                 'shortDescription' => '{@inheritdoc}',
@@ -182,6 +182,13 @@ class Magento_Di_Generator_ProxyTest extends Magento_Di_Generator_EntityTestAbst
 
     protected function setUp()
     {
+        // add param with null default value
+        $value = new \Zend\Code\Generator\ValueGenerator(null, \Zend\Code\Generator\ValueGenerator::TYPE_NULL);
+        static::$_expectedMethods[1]['parameters'][5] = array(
+            'name'              => 'param5',
+            'passedByReference' => false,
+            'defaultValue'      => $value,
+        );
         $ioObjectMock = $this->_getIoObjectMock();
 
         $methods = array('setExtendedClass', 'setName', 'addProperties', 'addMethods', 'setClassDocBlock', 'generate');

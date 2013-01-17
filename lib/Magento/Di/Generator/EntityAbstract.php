@@ -328,8 +328,7 @@ abstract class Magento_Di_Generator_EntityAbstract
      */
     protected function _getNullDefaultValue()
     {
-        $value = new \Zend\Code\Generator\ValueGenerator();
-        $value->setType(\Zend\Code\Generator\ValueGenerator::TYPE_NULL);
+        $value = new \Zend\Code\Generator\ValueGenerator(null, \Zend\Code\Generator\ValueGenerator::TYPE_NULL);
 
         return $value;
     }
