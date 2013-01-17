@@ -32,37 +32,77 @@ class Magento_Http_Handler_CompositeTest extends PHPUnit_Framework_TestCase
      */
     protected $_responseMock;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_handlerFactoryMock;
+
     public function setUp()
     {
-        $this->_cacheHandlerMock = $this->getMock('Magento_Http_HandlerInterface');
-        $this->_appHandlerMock = $this->getMock('Magento_Http_HandlerInterface');
+        $handlers = array(
+            'app' => array(
+                'sortOrder' => 50,
+                'class' => 'Class_App_Handler',
+            ),
+            'fpc' => array(
+                'sortOrder' => 20,
+                'class' => 'Class_Fpc_Handler',
+            ),
+        );
         $this->_requestMock = $this->getMock('Zend_Controller_Request_Http', array(), array(), '', false);
         $this->_responseMock = $this->getMock('Zend_Controller_Response_Http', array(), array(), '', false);
-        $this->_model = new Magento_Http_Handler_Composite(array($this->_cacheHandlerMock, $this->_appHandlerMock));
+        $this->_handlerFactoryMock = $this->getMock('Magento_Http_HandlerFactory', array(), array(), '', false, false);
+        $this->_handlerMock = $this->getMock('Magento_Http_HandlerInterface', array(), array(), '', false, false);
+        $this->_model = new Magento_Http_Handler_Composite($this->_handlerFactoryMock, $handlers);
     }
 
     public function tearDown()
     {
-        unset($this->_appHandlerMock);
-        unset($this->_cacheHandlerMock);
         unset($this->_requestMock);
         unset($this->_responseMock);
+        unset($this->_handlerFactoryMock);
         unset($this->_model);
     }
 
     public function testHandleBreaksCycleIfRequestIsDispatched()
     {
-        $this->_cacheHandlerMock->expects($this->once())->method('handle');
-        $this->_appHandlerMock->expects($this->never())->method('handle');
+        $this->_handlerFactoryMock->expects($this->once())
+            ->method('create')->with('Class_Fpc_Handler')->will($this->returnValue($this->_handlerMock));
+        $this->_handlerMock->expects($this->once())
+            ->method('handle')->with($this->_requestMock, $this->_responseMock);
         $this->_requestMock->expects($this->once())->method('isDispatched')->will($this->returnValue(true));
+
         $this->_model->handle($this->_requestMock, $this->_responseMock);
     }
 
-    public function testHandleCallsAllHandlersUntilRequestIsDispatched()
+    public function testSorting()
     {
-        $this->_cacheHandlerMock->expects($this->once())->method('handle');
-        $this->_appHandlerMock->expects($this->once())->method('handle');
-        $this->_requestMock->expects($this->any())->method('isDispatched')->will($this->returnValue(false));
-        $this->_model->handle($this->_requestMock, $this->_responseMock);
+        $handlers = array(
+            'app' => array(
+                'sortOrder' => 50,
+                'class' => 'Class_App_Handler',
+            ),
+            'fpc' => array(
+                'sortOrder' => 20,
+                'class' => 'Class_Fpc_Handler',
+            ),
+        );
+
+        $model = new Magento_Http_Handler_Composite($this->_handlerFactoryMock, $handlers);
+
+        $this->_handlerMock->expects($this->exactly(2))->method('handle')
+            ->with($this->_requestMock, $this->_responseMock);
+
+        $this->_handlerFactoryMock->expects($this->at(0))
+            ->method('create')
+            ->with('Class_Fpc_Handler')
+            ->will($this->returnValue($this->_handlerMock));
+
+        $this->_handlerFactoryMock->expects($this->at(1))
+            ->method('create')
+            ->with('Class_App_Handler')
+            ->will($this->returnValue($this->_handlerMock));
+
+        $model->handle($this->_requestMock, $this->_responseMock);
     }
 }
