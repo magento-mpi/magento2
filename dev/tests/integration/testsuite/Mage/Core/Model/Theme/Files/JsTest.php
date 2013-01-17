@@ -35,7 +35,7 @@ class Mage_Core_Model_Theme_Files_JsTest extends PHPUnit_Framework_TestCase
      * @magentoDbIsolation enabled
      * @dataProvider fileSampleData
      */
-    public function testGetFilesByTheme($data)
+    public function testGetCollectionByTheme($data)
     {
         /** @var $themeModel Mage_Core_Model_Theme */
         $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
@@ -43,18 +43,18 @@ class Mage_Core_Model_Theme_Files_JsTest extends PHPUnit_Framework_TestCase
 
         /** @var $jsFileModel Mage_Core_Model_Theme_Files_Js */
         $jsFileModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Files_Js');
-        $oldJsFilesCount = $jsFileModel->getFilesByTheme($theme)->count();
+        $oldJsFilesCount = $jsFileModel->getCollectionByTheme($theme)->count();
         $oldJsFilesCount++;
         $jsFileModel->saveJsFile($theme, $data);
 
-        $this->assertEquals($oldJsFilesCount, $jsFileModel->getFilesByTheme($theme)->count());
+        $this->assertEquals($oldJsFilesCount, $jsFileModel->getCollectionByTheme($theme)->count());
     }
 
     /**
      * @magentoDbIsolation enabled
      * @dataProvider fileSampleData
      */
-    public function testSaveFormData($data)
+    public function testSaveData($data)
     {
         /** @var $themeModel Mage_Core_Model_Theme */
         $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
@@ -65,7 +65,8 @@ class Mage_Core_Model_Theme_Files_JsTest extends PHPUnit_Framework_TestCase
         /** @var $file  */
         $file = $jsFileModel->saveJsFile($theme, $data);
 
-        $jsFileModel->saveFormData($theme, array($file->getId()));
+        $jsFileModel->setDataForSave($file->getId());
+        $jsFileModel->saveData($theme);
 
         /** @var $updatedFile Mage_Core_Model_Theme_Files */
         $updatedFile = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Files');
@@ -88,8 +89,8 @@ class Mage_Core_Model_Theme_Files_JsTest extends PHPUnit_Framework_TestCase
         $jsFileModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Files_Js');
         $jsFileModel->saveJsFile($theme, $data);
 
-        $oldJsFilesCount = $jsFileModel->getFilesByTheme($theme)->count();
-        $jsFiles = $jsFileModel->getFilesByTheme($theme);
+        $oldJsFilesCount = $jsFileModel->getCollectionByTheme($theme)->count();
+        $jsFiles = $jsFileModel->getCollectionByTheme($theme);
 
         $temporaryFilesCount = 0;
         foreach ($jsFiles as $file) {
@@ -101,7 +102,7 @@ class Mage_Core_Model_Theme_Files_JsTest extends PHPUnit_Framework_TestCase
         $jsFileModel->removeTemporaryFiles($theme);
 
         $expectedFilesCount = $oldJsFilesCount - $temporaryFilesCount;
-        $this->assertEquals($expectedFilesCount, $jsFileModel->getFilesByTheme($theme)->count());
+        $this->assertEquals($expectedFilesCount, $jsFileModel->getCollectionByTheme($theme)->count());
     }
 
     /**

@@ -112,6 +112,13 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     protected $_helper;
 
     /**
+     * Theme customisation objects for save
+     *
+     * @var array
+     */
+    protected $_themeCustomisationObject = array();
+
+    /**
      * Initialize dependencies
      *
      * @param Mage_Core_Model_Event_Manager $eventDispatcher
@@ -187,7 +194,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         if (is_null($this->_customJsFiles)) {
             /** @var $jsFile Mage_Core_Model_Theme_Files_Js */
             $jsFile = $this->_objectManager->get('Mage_Core_Model_Theme_Files_Js');
-            $this->_customJsFiles = $jsFile->getFilesByTheme($this);
+            $this->_customJsFiles = $jsFile->getCollectionByTheme($this);
         }
         return $this->_customJsFiles;
     }
@@ -278,6 +285,64 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         }
 
         return $this;
+    }
+
+    /**
+     * Add theme customisation object
+     *
+     * @param Mage_Core_Model_Theme_Customisation_Interface $file
+     * @return Mage_Core_Model_Theme
+     */
+    public function setThemeCustomisationObject(Mage_Core_Model_Theme_Customisation_Interface $file)
+    {
+        $this->_themeCustomisationObject[] = $file;
+        $this->setDataChanges(true);
+        return $this;
+    }
+
+    /**
+     * Save all theme customisation object
+     *
+     * @return Mage_Core_Model_Theme
+     */
+    protected function _saveThemeCustomisation()
+    {
+        /** @var $file Mage_Core_Model_Theme_Customisation_Interface */
+        foreach ($this->_themeCustomisationObject as $file) {
+            $file->saveData($this);
+        }
+        return $this;
+    }
+
+    /**
+     * Check whether model has changed data.
+     *
+     * @return boolean
+     */
+    protected function _hasModelChanged()
+    {
+        return parent::_hasModelChanged() || $this->_hasCustomisationObject();
+    }
+
+    /**
+     * Check whether present customisation objects for save
+     *
+     * @return bool
+     */
+    protected function _hasCustomisationObject()
+    {
+        return !empty($this->_themeCustomisationObject);
+    }
+
+    /**
+     * Update all relations after deleting theme
+     *
+     * @return Mage_Core_Model_Theme
+     */
+    protected function _afterSave()
+    {
+        $this->_saveThemeCustomisation();
+        return parent::_afterSave();
     }
 
     /**

@@ -11,7 +11,7 @@
 /**
  * Theme css file model class
  */
-class Mage_Core_Model_Theme_Files_Css
+class Mage_Core_Model_Theme_Files_Css extends Mage_Core_Model_Theme_Files_Abstract
 {
     /**
      * Css file name
@@ -19,36 +19,33 @@ class Mage_Core_Model_Theme_Files_Css
     const FILE_NAME = 'custom.css';
 
     /**
-     * @var Mage_Core_Model_Theme_Files
+     * Return file type
+     *
+     * @return string
      */
-    protected $_themeFiles;
-
-    /**
-     * @param Mage_Core_Model_Theme_Files $themeFiles
-     */
-    public function __construct(Mage_Core_Model_Theme_Files $themeFiles)
+    protected function _getFileType()
     {
-        $this->_themeFiles = $themeFiles;
+        return Mage_Core_Model_Theme_Files::TYPE_CSS;
     }
 
     /**
-     * Save data from form
+     * Save data
      *
      * @param $theme Mage_Core_Model_Theme
-     * @param string $themeCssData
-     * @return Mage_Core_Model_Theme_Files
+     * @return Mage_Core_Model_Theme_Files_Css
      */
-    public function saveFormData($theme, $themeCssData)
+    protected function _save($theme)
     {
         /** @var $cssModel Mage_Core_Model_Theme_Files */
         $cssFile = $this->getFileByTheme($theme);
         $cssFile->addData(array(
             'theme_id'  => $theme->getId(),
             'file_name' => self::FILE_NAME,
-            'file_type' => Mage_Core_Model_Theme_Files::TYPE_CSS,
-            'content'   => $themeCssData
+            'file_type' => $this->_getFileType(),
+            'content'   => $this->_dataForSave
         ))->save();
-        return $cssFile;
+
+        return $this;
     }
 
     /**
@@ -60,11 +57,7 @@ class Mage_Core_Model_Theme_Files_Css
     public function getFileByTheme($theme)
     {
         /** @var $cssModel Mage_Core_Model_Theme_Files */
-        $cssFile = $this->_themeFiles->getCollection()
-            ->addFilter('theme_id', $theme->getId())
-            ->addFilter('file_type', Mage_Core_Model_Theme_Files::TYPE_CSS)
-            ->getFirstItem();
-
+        $cssFile = $this->getCollectionByTheme($theme)->getFirstItem();
         return $cssFile;
     }
 }

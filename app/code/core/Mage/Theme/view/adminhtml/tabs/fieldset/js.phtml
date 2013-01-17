@@ -16,7 +16,12 @@
         <?php /** @var $file Mage_Core_Model_Resource_Theme_Files */ ?>
         <?php foreach ($this->getJsFiles() as $file): ?>
             <li>
-                <div class="js-file"><?php echo $file->getFileName() ?></div>
+                <div class="js-file">                <?php echo $file->getFileName() ?>
+                    <div class="remove-js">
+                        <input type="checkbox" id="remove_js_files_<?php echo $file->getId() ?>" name="js_removed_files[]" value="<?php echo $file->getId() ?>" />
+                        <label for="remove_js_files_<?php echo $file->getId() ?>"><?php echo $this->__('Remove') ?></label>
+                    </div>
+                </div>
             </li>
         <?php endforeach; ?>
     <?php endif; ?>

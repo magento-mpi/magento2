@@ -92,16 +92,23 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
         $theme = $this->_objectManager->create('Mage_Core_Model_Theme');
         /** @var $themeCss Mage_Core_Model_Theme_Files_Css */
         $themeCss = $this->_objectManager->create('Mage_Core_Model_Theme_Files_Css');
+        /** @var $themeJs Mage_Core_Model_Theme_Files_Js */
         $themeJs = $this->_objectManager->create('Mage_Core_Model_Theme_Files_Js');
         try {
             if ($this->getRequest()->getPost()) {
                 $themeData = $this->getRequest()->getParam('theme');
                 $customCssData = $this->getRequest()->getParam('custom_css_content');
-                $customJsData = $this->getRequest()->getParam('js_uploaded_files');
+                $customJsData = (array)$this->getRequest()->getParam('js_uploaded_files');
+                $removeJsFiles = (array)$this->getRequest()->getParam('js_removed_files');
+
+                $themeCss->setDataForSave($customCssData);
+                $theme->setThemeCustomisationObject($themeCss);
+
+                $themeJs->setDataForSave($customJsData);
+                $themeJs->setDataForDelete($removeJsFiles);
+                $theme->setThemeCustomisationObject($themeJs);
 
                 $theme->saveFormData($themeData);
-                $themeCss->saveFormData($theme, $customCssData);
-                $themeJs->saveFormData($theme, $customJsData);
 
                 $this->_getSession()->addSuccess($this->__('The theme has been saved.'));
             }

@@ -11,35 +11,68 @@
 /**
  * Theme js file model class
  */
-class Mage_Core_Model_Theme_Files_Js
+class Mage_Core_Model_Theme_Files_Js extends Mage_Core_Model_Theme_Files_Abstract
 {
     /**
-     * @var Mage_Core_Model_Theme_Files
+     * @var array
      */
-    protected $_themeFiles;
+    protected $_dataForDelete;
 
     /**
-     * @param Mage_Core_Model_Theme_Files $themeFiles
+     * Return file type
+     *
+     * @return string
      */
-    public function __construct(Mage_Core_Model_Theme_Files $themeFiles)
+    protected function _getFileType()
     {
-        $this->_themeFiles = $themeFiles;
+        return Mage_Core_Model_Theme_Files::TYPE_JS;
     }
 
     /**
-     * Return theme js files by theme
+     * Setter for data for delete
+     *
+     * @param array $data
+     * @return Mage_Core_Model_Theme_Files_Js
+     */
+    public function setDataForDelete(array $data)
+    {
+        $this->_dataForDelete = $data;
+        return $this;
+    }
+
+    /**
+     * Save data
+     *
+     * @param Mage_Core_Model_Theme $theme
+     * @return Mage_Core_Model_Theme_Files_Abstract
+     */
+    public function saveData(Mage_Core_Model_Theme $theme)
+    {
+        if (null !== $this->_dataForDelete) {
+            $this->_delete($theme);
+        }
+        parent::saveData($theme);
+        return $this;
+    }
+
+    /**
+     * Delete js files from theme
      *
      * @param $theme Mage_Core_Model_Theme
-     * @return Mage_Core_Model_Resource_Theme_Files_Collection
+     * @return Mage_Core_Model_Theme_Files_Js
      */
-    public function getFilesByTheme($theme)
+    protected function _delete(Mage_Core_Model_Theme $theme)
     {
-        /** @var $jsFiles Mage_Core_Model_Resource_Theme_Files_Collection */
-        $jsFiles = $this->_themeFiles->getCollection()
-            ->setOrder('`order`', Varien_Data_Collection::SORT_ORDER_ASC)
-            ->addFilter('theme_id', $theme->getId())
-            ->addFilter('file_type', Mage_Core_Model_Theme_Files::TYPE_JS);
-        return $jsFiles;
+        /** @var $jsCollection Mage_Core_Model_Resource_Theme_Files_Collection */
+        $jsCollection = $this->getCollectionByTheme($theme);
+        /** @var $jsFile Mage_Core_Model_Theme_Files */
+        foreach ($jsCollection as $jsFile) {
+            if (in_array($jsFile->getId(), $this->_dataForDelete)) {
+                $jsFile->delete();
+            }
+        }
+
+        return $this;
     }
 
     /**
@@ -68,12 +101,12 @@ class Mage_Core_Model_Theme_Files_Js
      * Save form data
      *
      * @param Mage_Core_Model_Theme $theme
-     * @param array $themeJsFiles
      * @return Mage_Core_Model_Theme_Files_Js
      */
-    public function saveFormData($theme, array $themeJsFiles)
+    protected function _save($theme)
     {
         $themeFile = $this->_themeFiles;
+        $themeJsFiles = (array)$this->_dataForSave;
         foreach ($themeJsFiles as $fileId) {
             $themeFile->load($fileId);
             if ($themeFile->getId() && ($themeFile->getThemeId() == $theme->getId())) {
@@ -132,12 +165,28 @@ class Mage_Core_Model_Theme_Files_Js
     protected function _getThemeFileByName($theme, $fileName)
     {
         /** @var $jsFile Mage_Core_Model_Resource_Theme_Files_Collection */
-        $jsFile = $this->_themeFiles->getCollection()
-            ->setOrder('`order`', Varien_Data_Collection::SORT_ORDER_ASC)
-            ->addFilter('theme_id', $theme->getId())
+        $jsFile = parent::getCollectionByTheme($theme)
             ->addFieldToFilter('file_name', array('like' => $fileName))
             ->getFirstItem();
 
         return $jsFile;
+    }
+
+    /**
+     * Save data
+     *
+     * @param Mage_Core_Model_Theme $theme
+     * @param string $order
+     * @return Mage_Core_Model_Resource_Theme_Files_Collection
+     */
+    public function getCollectionByTheme(Mage_Core_Model_Theme $theme, $order = Varien_Data_Collection::SORT_ORDER_ASC)
+    {
+        /** @var $filesCollection Mage_Core_Model_Resource_Theme_Files_Collection */
+        $jsCollection =  parent::getCollectionByTheme($theme);
+
+        /** @var $themeFiles Mage_Core_Model_Theme_Files */
+        $themeFiles = $jsCollection->setOrder($jsCollection->getConnection()->quoteIdentifier('order'), $order);
+
+        return $themeFiles;
     }
 }
