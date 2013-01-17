@@ -98,6 +98,7 @@ class Magento_Di_Generator_ProxyTest extends Magento_Di_Generator_EntityTestAbst
                 array(
                     'name'              => 'param1',
                     'passedByReference' => true,
+                    'defaultValue'      => '',
                 ),
                 array(
                     'name'              => 'array',
