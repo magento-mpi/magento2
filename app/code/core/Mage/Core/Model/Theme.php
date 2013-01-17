@@ -293,7 +293,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      * @param Mage_Core_Model_Theme_Customisation_Interface $file
      * @return Mage_Core_Model_Theme
      */
-    public function setThemeCustomisationObject(Mage_Core_Model_Theme_Customisation_Interface $file)
+    public function setThemeCustomizationObject(Mage_Core_Model_Theme_Customisation_Interface $file)
     {
         $this->_themeCustomisationObject[] = $file;
         $this->setDataChanges(true);

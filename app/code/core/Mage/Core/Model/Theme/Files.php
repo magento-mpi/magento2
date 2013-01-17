@@ -10,6 +10,17 @@
 
 /**
  * Theme files model class
+ *
+ * @method int getThemeId()
+ * @method string getFileName()
+ * @method string getFileType()
+ * @method string getContent()
+ * @method string getOrder()
+ * @method setThemeId(int $id)
+ * @method setFileName(string $filename)
+ * @method setFileType(string $type)
+ * @method setContent(string $content)
+ * @method setOrder(string $order)
  */
 class Mage_Core_Model_Theme_Files extends Mage_Core_Model_Abstract
 {

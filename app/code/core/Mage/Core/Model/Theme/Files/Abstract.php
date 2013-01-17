@@ -11,7 +11,8 @@
 /**
  * Theme files abstract class
  */
-abstract class Mage_Core_Model_Theme_Files_Abstract implements Mage_Core_Model_Theme_Customisation_Interface
+abstract class Mage_Core_Model_Theme_Files_Abstract extends Varien_Object
+    implements Mage_Core_Model_Theme_Customisation_Interface
 {
     /**
      * @var Mage_Core_Model_Theme_Files

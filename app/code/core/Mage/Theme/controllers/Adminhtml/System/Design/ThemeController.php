@@ -98,15 +98,17 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
             if ($this->getRequest()->getPost()) {
                 $themeData = $this->getRequest()->getParam('theme');
                 $customCssData = $this->getRequest()->getParam('custom_css_content');
-                $customJsData = (array)$this->getRequest()->getParam('js_uploaded_files');
+                $uploadJsFiles = (array)$this->getRequest()->getParam('js_uploaded_files');
                 $removeJsFiles = (array)$this->getRequest()->getParam('js_removed_files');
+                $reorderJsFiles = array_keys($this->getRequest()->getParam('js_order'));
 
                 $themeCss->setDataForSave($customCssData);
-                $theme->setThemeCustomisationObject($themeCss);
+                $theme->setThemeCustomizationObject($themeCss);
 
-                $themeJs->setDataForSave($customJsData);
+                $themeJs->setDataForSave($uploadJsFiles);
                 $themeJs->setDataForDelete($removeJsFiles);
-                $theme->setThemeCustomisationObject($themeJs);
+                $themeJs->setJsOrderData($reorderJsFiles);
+                $theme->setThemeCustomizationObject($themeJs);
 
                 $theme->saveFormData($themeData);
 

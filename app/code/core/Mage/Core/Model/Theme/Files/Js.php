@@ -10,6 +10,10 @@
 
 /**
  * Theme js file model class
+ *
+ * @method array getJsOrderData()
+ * @method Mage_Core_Model_Theme_Files_Js setJsOrderData(array)
+ * @method bool hasJsOrderData()
  */
 class Mage_Core_Model_Theme_Files_Js extends Mage_Core_Model_Theme_Files_Abstract
 {
@@ -29,7 +33,7 @@ class Mage_Core_Model_Theme_Files_Js extends Mage_Core_Model_Theme_Files_Abstrac
     }
 
     /**
-     * Setter for data for delete
+     * Sets data for files deletion
      *
      * @param array $data
      * @return Mage_Core_Model_Theme_Files_Js
@@ -52,6 +56,10 @@ class Mage_Core_Model_Theme_Files_Js extends Mage_Core_Model_Theme_Files_Abstrac
             $this->_delete($theme);
         }
         parent::saveData($theme);
+        if ($this->hasJsOrderData()) {
+            $this->_reorder($theme, $this->getJsOrderData());
+        }
+
         return $this;
     }
 
@@ -188,5 +196,26 @@ class Mage_Core_Model_Theme_Files_Js extends Mage_Core_Model_Theme_Files_Abstrac
         $themeFiles = $jsCollection->setOrder($jsCollection->getConnection()->quoteIdentifier('order'), $order);
 
         return $themeFiles;
+    }
+
+    /**
+     * Reorder theme JS files
+     *
+     * @param Mage_Core_Model_Theme $theme
+     * @param array $orderData
+     * @return Mage_Core_Model_Theme_Files_Js
+     */
+    public function _reorder(Mage_Core_Model_Theme $theme, $orderData)
+    {
+        /** @var $collection Mage_Core_Model_Resource_Theme_Files_Collection */
+        $collection = $this->getCollectionByTheme($theme);
+        /** @var $file Mage_Core_Model_Theme_Files */
+        foreach ($collection as $file) {
+            $position = array_search($file->getFileName(), $orderData);
+            $file->setOrder((int)$position);
+        }
+        $collection->save();
+
+        return $this;
     }
 }
