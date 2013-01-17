@@ -314,4 +314,100 @@ class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedCode, $actualCode);
         $this->assertEquals($expectedMessage, $actualMessage);
     }
+
+    /**
+     * Test info method.
+     *
+     * @magentoDataFixture Mage/Checkout/_files/quote_with_check_payment.php
+     * @magentoAppIsolation enabled
+     */
+    public function testInfo()
+    {
+        /** @var Mage_Checkout_Model_Cart $quote */
+        $quote = Mage::registry('quote');
+        $quoteId = $quote->getId();
+        /** Retrieve quote info. */
+        $quoteInfo = Magento_Test_Helper_Api::call(
+            $this,
+            'shoppingCartInfo',
+            array($quoteId)
+        );
+        /** Assert quote info retrieving was successful. */
+        $this->assertNotEmpty($quoteInfo, 'Quote info retrieving was unsuccessful.');
+        /** Assert base fields are present in the response. */
+        $expectedFields = array('shipping_address', 'billing_address', 'items', 'payment');
+        $missingFields = array_diff($expectedFields, array_keys($quoteInfo));
+        $this->assertEmpty(
+            $missingFields,
+            sprintf("The following fields must be present in response: %s.", implode(', ', $missingFields))
+        );
+        /** Assert retrieved quote id is correct. */
+        $this->assertEquals($quoteId, $quoteInfo['quote_id'], 'Quote Id retrieving was unsuccessful.');
+    }
+
+    /**
+     * Test totals method.
+     *
+     * @magentoDataFixture Mage/Checkout/_files/quote_with_check_payment.php
+     * @magentoAppIsolation enabled
+     */
+    public function testTotals()
+    {
+        /** @var Mage_Checkout_Model_Cart $quote */
+        $quote = Mage::registry('quote');
+        $quoteId = $quote->getId();
+        /** Retrieve quote info. */
+        $quoteTotals = Magento_Test_Helper_Api::call(
+            $this,
+            'shoppingCartTotals',
+            array($quoteId)
+        );
+        /** Assert quote totals retrieving were successful. */
+        $this->assertNotEmpty($quoteTotals, 'Quote totals retrieving were unsuccessful.');
+        /** Assert totals titles. */
+        $expectedQuotesTitles = array('Subtotal', 'Gift Cards', 'Store Credit', 'Grand Total');
+        $actualQuotesTitles = array();
+        foreach ($quoteTotals as $quoteTotal) {
+            $actualQuotesTitles[] = $quoteTotal['title'];
+            if ($quoteTotal['title'] == 'Grand Total') {
+                $grandTotal = $quoteTotal;
+            }
+        }
+        $missingQuotesTitles = array_diff($expectedQuotesTitles, $actualQuotesTitles);
+        $this->assertEmpty(
+            $missingQuotesTitles,
+            sprintf("The following quotes titles must be present in response: %s.", implode(', ', $missingQuotesTitles))
+        );
+        /** Assert grand total is retrieved correct. */
+        $expectedGrandTotal = array('title' => 'Grand Total', 'amount' => 20);
+        $this->assertEquals($expectedGrandTotal, $grandTotal, 'Grand total retrieving was unsuccessful.');
+    }
+
+    /**
+     * Test licenseAgreement method.
+     *
+     * @magentoConfigFixture current_store checkout/options/enable_agreements 1
+     * @magentoDataFixture Mage/Checkout/Model/Cart/Api/_files/license_agreement.php
+     * @magentoDataFixture Mage/Checkout/_files/quote_with_check_payment.php
+     */
+    public function testLicenseAgreement()
+    {
+        /** @var Mage_Checkout_Model_Cart $quote */
+        $quote = Mage::registry('quote');
+        $quoteId = $quote->getId();
+        /** Retrieve quote license agreement. */
+        $licenseAgreement = Magento_Test_Helper_Api::call(
+            $this,
+            'shoppingCartLicense',
+            array($quoteId)
+        );
+        /** Assert quote license agreement retrieving were successful. */
+        $this->assertNotEmpty($licenseAgreement, 'Quote license agreement retrieving was unsuccessful.');
+        /** Assert license info is retrieved correct. */
+        /** @var Mage_Checkout_Model_Agreement $agreement */
+        $agreement = Mage::getModel('Mage_Checkout_Model_Agreement')->load('Agreement name', 'name');
+        $agreementData = $agreement->getData();
+        unset($agreementData['store_id']);
+        $this->assertEquals($agreementData, reset($licenseAgreement), 'License agreement data is incorrect.');
+    }
 }
