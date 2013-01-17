@@ -108,16 +108,6 @@ class Mage_Core_Model_Theme_Service
         $scope = Mage_Core_Model_Config::SCOPE_STORES,
         $area = Mage_Core_Model_App_Area::AREA_FRONTEND
     ) {
-        $this->_eventManager->dispatch('vde_assign_theme_to_stores_before',
-            array(
-                'themeService' => $this,
-                'themeId'      => $themeId,
-                'stores'       => $stores,
-                'scope'        => $scope,
-                'area'         => $area,
-            )
-        );
-
         /** @var $theme Mage_Core_Model_Theme */
         $theme = $this->_themeFactory->create()->load($themeId);
         if (!$theme->getId()) {
@@ -146,7 +136,7 @@ class Mage_Core_Model_Theme_Service
         $this->_makeTemporaryLayoutUpdatesPermanent($themeId, $stores);
         $this->_app->cleanCache(array('layout', Mage_Core_Model_Layout_Merge::LAYOUT_GENERAL_CACHE_TAG));
 
-        $this->_eventManager->dispatch('vde_assign_theme_to_stores_after',
+        $this->_eventManager->dispatch('assign_theme_to_stores_after',
             array(
                 'themeService'       => $this,
                 'themeId'            => $themeId,

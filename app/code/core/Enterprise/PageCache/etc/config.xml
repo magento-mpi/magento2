@@ -194,14 +194,14 @@
                     </enterprise_pagecache>
                 </observers>
             </adminhtml_cache_flush_all>
-            <vde_assign_theme_to_stores_after>
+            <assign_theme_to_stores_after>
                 <observers>
                     <enterprise_pagecache>
                         <class>Enterprise_PageCache_Model_Observer</class>
                         <method>cleanCache</method>
                     </enterprise_pagecache>
                 </observers>
-            </vde_assign_theme_to_stores_after>
+            </assign_theme_to_stores_after>
         </events>
         <translate>
             <modules>
