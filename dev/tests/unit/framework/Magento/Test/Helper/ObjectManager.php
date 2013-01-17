@@ -51,6 +51,7 @@ class Magento_Test_Helper_ObjectManager
             'cacheManager'       => 'Mage_Core_Model_Cache',
             'resource'           => '_getResourceModelMock',
             'resourceCollection' => 'Varien_Data_Collection_Db',
+            'filesystem'         => 'Magento_Filesystem',
         )
     );
 
