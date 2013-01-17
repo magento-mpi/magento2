@@ -339,6 +339,11 @@ edit_customer_save_and_continue:
     title: %elementTitle% / Manage Customers / Customers / Magento Admin
     uimap: *edit_customer-uimap
 
+new_customer_with_error:
+    mca: customer/new/tab/customer_info_tabs_account
+    title: New Customer / Manage Customers / Customers / Magento Admin
+    uimap: *edit_customer-uimap
+
 # 'Online Customers' Page
 online_customers:
     mca: customer_online/
