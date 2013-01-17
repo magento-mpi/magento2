@@ -15,7 +15,7 @@
 class Core_Mage_Customer_AddressFormTest extends Mage_Selenium_TestCase
 {
     /**
-     * Verify that Region field corresponds selected Country
+     *<p>Verify that Region field corresponds selected Country</p>
      *
      * @test
      * @TestlinkId TL-MAGE-6446
@@ -25,8 +25,8 @@ class Core_Mage_Customer_AddressFormTest extends Mage_Selenium_TestCase
         //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->addParameter('tabName','general');
-        $this->addParameter('webSite','base');
+        $this->addParameter('tabName', 'general');
+        $this->addParameter('webSite', 'base');
         $this->selectStoreScope('dropdown', 'current_configuration_scope', 'Main Website');
         $this->systemConfigurationHelper()->expandFieldSet('countries_options');
         $this->fillCheckbox('default_country_use_default', 'No');
