@@ -103,7 +103,7 @@ lib/Magento/Acl
 lib/PEAR
 lib/phpseclib
 lib/Varien/Convert
-app/code/core/Mage/Cron/Model
+Mage/Cron/Model
 Mage/SalesRule/Model/Resource/Report/Rule
 Enterprise/GiftCardAccount/Block/Sales/Order
 Mage/SalesRule/Model/Quote/Nominal

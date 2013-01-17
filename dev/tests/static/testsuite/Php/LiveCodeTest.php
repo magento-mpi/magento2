@@ -55,7 +55,7 @@ class Php_LiveCodeTest extends PHPUnit_Framework_TestCase
     public function testCodeMess()
     {
         $reportFile = self::$_reportDir . '/phpmd_report.xml';
-        $codeMessDetector = new CodingStandard_Tool_CodeMess(realpath(__DIR__ . '/_files/phpmd/ruleset.xml'),
+        $codeMessDetector = new CodingStandard_Tool_CodeMessDetector(realpath(__DIR__ . '/_files/phpmd/ruleset.xml'),
             $reportFile
         );
 
@@ -72,7 +72,7 @@ class Php_LiveCodeTest extends PHPUnit_Framework_TestCase
     public function testCopyPaste()
     {
         $reportFile = self::$_reportDir . '/phpcpd_report.xml';
-        $copyPasteDetector = new CodingStandard_Tool_CopyPaste($reportFile);
+        $copyPasteDetector = new CodingStandard_Tool_CopyPasteDetector($reportFile);
 
         if (!$copyPasteDetector->canRun()) {
             $this->markTestSkipped('PHP Copy/Paste Detector is not available.');

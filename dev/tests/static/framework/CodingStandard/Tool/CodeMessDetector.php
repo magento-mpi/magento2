@@ -12,7 +12,7 @@
 /**
  * PHP Code Mess v1.3.3 tool wrapper
  */
-class CodingStandard_Tool_CodeMess implements CodingStandard_ToolInterface
+class CodingStandard_Tool_CodeMessDetector implements CodingStandard_ToolInterface
 {
     /**
      * Ruleset directory

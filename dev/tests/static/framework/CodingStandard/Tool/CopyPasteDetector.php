@@ -10,9 +10,9 @@
  */
 
 /**
- * PHP Copy Paste Detector v1.3.3 tool wrapper
+ * PHP Copy Paste Detector v1.4.0 tool wrapper
  */
-class CodingStandard_Tool_CopyPaste implements CodingStandard_ToolInterface
+class CodingStandard_Tool_CopyPasteDetector implements CodingStandard_ToolInterface
 {
     /**
      * Report file
