@@ -38,7 +38,6 @@ class Core_Mage_Customer_RedirectAfterLoginTest extends Mage_Selenium_TestCase
      */
     public function preconditionsForTests()
     {
-        $this->markTestIncomplete('MAGETWO-6449');
         //Register new customer
         $this->navigate('manage_customers');
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
