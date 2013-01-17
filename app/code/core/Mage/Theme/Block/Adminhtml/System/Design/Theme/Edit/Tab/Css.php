@@ -131,13 +131,15 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      */
     protected function _getThemeCss($fileTitle, $filePath)
     {
+        $appPath = $this->_objectManager->get('Mage_Core_Model_Config')->getOptions()->getBaseDir();
+        $shownFilePath = str_ireplace($appPath, '', $filePath);
         return array(
             'href'      => $this->getUrl('*/*/downloadCss', array(
                 'theme_id' => $this->_getCurrentTheme()->getId(),
                 'file'     => $this->_helperFactory->get('Mage_Theme_Helper_Data')->urlEncode($fileTitle))
             ),
             'label'     => $fileTitle,
-            'title'     => $filePath,
+            'title'     => $shownFilePath,
             'delimiter' => '<br />'
         );
     }
