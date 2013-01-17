@@ -2,34 +2,20 @@
 /**
  * Application entry point
  *
- * {license_notice}
- *
- * @category   Mage
- * @package    Mage
- * @copyright  {copyright}
- * @license    {license_link}
- */
-
- /**
  * Example - run a particular store or website:
- *
+ * --------------------------------------------
  * $params = $_SERVER;
  * $params['MAGE_RUN_CODE'] = 'website2';
  * $params['MAGE_RUN_TYPE'] = 'website';
  * ...
- * $app->run($params)
+ * new Mage_Core_Model_EntryPoint_Http($params)
+ * --------------------------------------------
+ *
+ * {license_notice}
+ *
+ * @copyright  {copyright}
+ * @license    {license_link}
  */
-try {
-    require __DIR__ . '/app/bootstrap.php';
-    $objectManager = new Mage_Core_Model_ObjectManager_Http(
-        BP,
-        isset($_SERVER['MAGE_RUN_CODE']) ? $_SERVER['MAGE_RUN_CODE'] : '',
-        isset($_SERVER['MAGE_RUN_TYPE']) ? $_SERVER['MAGE_RUN_TYPE'] : 'store'
-    );
-    $request = $objectManager->get('Mage_Core_Controller_Request_Http');
-    $response = $objectManager->get('Mage_Core_Controller_Response_Http');
-    $handler = $objectManager->get('Magento_Http_Handler_Composite');
-    $handler->handle($request, $response);
-} catch (Exception $e) {
-    Mage::printException($e);
-}
+require __DIR__ . '/app/bootstrap.php';
+$entryPoint = new Mage_Core_Model_EntryPoint_Http(BP, $_SERVER);
+$entryPoint->processRequest();
