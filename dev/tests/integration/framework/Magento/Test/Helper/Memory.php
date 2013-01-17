@@ -132,8 +132,9 @@ class Magento_Test_Helper_Memory
         $result = (float)$matches[1];
         $unitSymbol = $matches[2];
         $pow = $unitSymbol ? strpos(self::MEMORY_UNITS, $unitSymbol) : 0;
-        if (PHP_INT_SIZE <= 4 && $pow >= 4) {
-            throw new OutOfBoundsException("A 64-bit system is required to process such a number.");
+        $is32Bit = PHP_INT_SIZE == 4;
+        if ($is32Bit && $pow >= 4) {
+            throw new OutOfBoundsException("A 32-bit system is unable to process such a number.");
         }
         if ($unitSymbol) {
             $result *= pow(1024, $pow);

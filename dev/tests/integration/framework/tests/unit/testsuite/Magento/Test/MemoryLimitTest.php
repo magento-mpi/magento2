@@ -19,17 +19,17 @@ class Magento_Test_MemoryLimitTest extends PHPUnit_Framework_TestCase
     {
         $object = $this->_createObject(0, 0);
         $result = $object->printStats();
-        $this->assertContains('Memory usage:', $result);
-        $this->assertContains('1.00MiB', $result);
-        $this->assertContains('Estimated leak:', $result);
-        $this->assertContains('Estimated "official" memory usage:', $result);
+        $this->assertContains('Memory usage (OS):', $result);
+        $this->assertContains('1.00M', $result);
+        $this->assertContains('Estimated memory leak:', $result);
+        $this->assertContains('reported by PHP', $result);
         $this->assertStringEndsWith(PHP_EOL, $result);
 
         $object = $this->_createObject('2M', 0);
-        $this->assertContains('50.00% of currently configured limit of 2M', $object->printStats());
+        $this->assertContains('50.00% of configured 2.00M limit', $object->printStats());
 
         $object = $this->_createObject(0, '500K');
-        $this->assertContains('% of currently configured limit of 500K', $object->printStats());
+        $this->assertContains('% of configured 0.49M limit', $object->printStats());
     }
 
     public function testValidateUsage()

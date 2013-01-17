@@ -15,14 +15,14 @@ class Magento_Test_MemoryLimit
     private $_helper;
 
     /**
-     * @var array
+     * @var int
      */
-    private $_orig = array();
+    private $_memCap = 0;
 
     /**
-     * @var array
+     * @var int
      */
-    private $_bytes = array();
+    private $_leakCap = 0;
 
     /**
      * Initialize with the values
@@ -34,9 +34,8 @@ class Magento_Test_MemoryLimit
      */
     public function __construct($memCap, $leakCap, Magento_Test_Helper_Memory $helper)
     {
-        $this->_orig = array($memCap, $leakCap);
-        $this->_bytes[0] = $memCap ? $helper->convertToBytes($memCap) : 0;
-        $this->_bytes[1] = $leakCap ? $helper->convertToBytes($leakCap) : 0;
+        $this->_memCap = $memCap ? $helper->convertToBytes($memCap) : 0;
+        $this->_leakCap = $leakCap ? $helper->convertToBytes($leakCap) : 0;
         $this->_helper = $helper;
     }
 
@@ -57,24 +56,25 @@ class Magento_Test_MemoryLimit
      */
     public function printStats()
     {
-        list($memCap, $leakCap) = $this->_bytes;
         list($usage, $leak) = $this->_getUsage();
         $result = array();
 
-        $msg = "Memory usage:\t{$this->_toMebibytes($usage)}";
-        $percentMsg = ' - %.2F%% of currently configured limit of %s';
-        if ($memCap) {
-            $msg .= sprintf($percentMsg, 100 * $usage / $memCap, $this->_orig[0]);
+        $msg = sprintf("Memory usage (OS):\t%s (%.2F%% of %s reported by PHP",
+            $this->_toMb($usage),
+            100 * $usage / ($usage - $leak),
+            $this->_toMb($usage - $leak)
+        );
+        $percentMsg = '%.2F%% of configured %s limit';
+        if ($this->_memCap) {
+            $msg .= ', ' . sprintf($percentMsg, 100 * $usage / $this->_memCap, $this->_toMb($this->_memCap));
         }
-        $result[] = "{$msg}.";
+        $result[] = "{$msg})";
 
-        $msg = "Estimated leak:\t{$this->_toMebibytes($leak)}";
-        if ($leakCap) {
-            $msg .= sprintf($percentMsg, 100 * $leak / $leakCap, $this->_orig[1]);
+        $msg = sprintf("Estimated memory leak:\t%s (%.2F%% of used memory", $this->_toMb($leak), 100 * $leak / $usage);
+        if ($this->_leakCap) {
+            $msg .= ', ' . sprintf($percentMsg, 100 * $leak / $this->_leakCap, $this->_toMb($this->_leakCap));
         }
-        $msg .= sprintf(" - %.2F%% of memory usage", 100 * $leak / $usage);
-        $result[] = "{$msg}.";
-        $result[] = sprintf('Estimated "official" memory usage: %s.', $this->_toMebibytes($usage - $leak));
+        $result[] = "{$msg})";
 
         return implode(PHP_EOL, $result) . PHP_EOL;
     }
@@ -85,30 +85,31 @@ class Magento_Test_MemoryLimit
      * @param int $bytes
      * @return string
      */
-    private function _toMebibytes($bytes)
+    private function _toMb($bytes)
     {
-        return sprintf('%.2FMiB', $bytes / (1024 * 1024));
+        return sprintf('%.2FM', $bytes / (1024 * 1024));
     }
 
     /**
-     * Determine memory usage
+     * Raise error if memory usage breaks configured thresholds
      *
      * @return null
      * @throws LogicException
      */
     public function validateUsage()
     {
-        list($memCap, $leakCap) = $this->_bytes;
-        if (!$memCap && !$leakCap) {
+        if (!$this->_memCap && !$this->_leakCap) {
             return null;
         }
         list($usage, $leak) = $this->_getUsage();
-        if ($memCap && ($usage >= $memCap)) {
-            throw new LogicException("Memory limit of {$this->_orig[0]} ({$memCap} bytes) has been reached.");
-        }
-        if ($leakCap && ($leak >= $leakCap)) {
+        if ($this->_memCap && ($usage >= $this->_memCap)) {
             throw new LogicException(
-                "Estimated memory leak limit of {$this->_orig[1]} ({$leakCap} bytes) has been reached."
+                "Memory limit of {$this->_toMb($this->_memCap)} ({$this->_memCap} bytes) has been reached."
+            );
+        }
+        if ($this->_leakCap && ($leak >= $this->_leakCap)) {
+            throw new LogicException("Estimated memory leak limit of {$this->_toMb($this->_leakCap)}"
+                . " ({$this->_leakCap} bytes) has been reached."
             );
         }
     }
