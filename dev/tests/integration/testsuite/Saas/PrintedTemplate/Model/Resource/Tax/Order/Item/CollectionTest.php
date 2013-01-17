@@ -25,10 +25,6 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_CollectionTest extends 
 
     protected function tearDown()
     {
-        Mage::getConfig()->setCurrentAreaCode(
-            Mage::helper('Mage_Backend_Helper_Data')->getAreaCode()
-        );
-
         $this->_collection = null;
     }
 
