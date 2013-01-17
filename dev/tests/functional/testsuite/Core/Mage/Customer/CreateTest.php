@@ -78,7 +78,7 @@ class Core_Mage_Customer_CreateTest extends Mage_Selenium_TestCase
     public function withEmailThatAlreadyExists(array $userData)
     {
         //Steps
-        $this->customerHelper()->createCustomer($userData,null, false);
+        $this->customerHelper()->createCustomer($userData);
         //Verifying
         $this->assertMessagePresent('error', 'customer_email_exist');
     }
