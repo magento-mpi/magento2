@@ -82,16 +82,16 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_OrderTest extends PHPUni
         $model = $this->getMockBuilder('Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Tax_ItemCollection')
             ->disableOriginalConstructor()
             ->getMock();
-        $reflectionItemsCollection = new ReflectionClass(get_class($model));
-        $method = $reflectionItemsCollection->getMethod('_getMockData');
+        $itemsCollection = new ReflectionClass(get_class($model));
+        $method = $itemsCollection->getMethod('_getMockData');
         $method->setAccessible(true);
         $itemsTaxes = $method->invokeArgs($model, array());
 
         $model = $this->getMockBuilder('Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Tax_ShippingCollection')
             ->disableOriginalConstructor()
             ->getMock();
-        $reflectionShipCollection = new ReflectionClass(get_class($model));
-        $method = $reflectionShipCollection->getMethod('_getMockData');
+        $shipCollection = new ReflectionClass(get_class($model));
+        $method = $shipCollection->getMethod('_getMockData');
         $method->setAccessible(true);
         $shippingTaxes = $method->invokeArgs($model, array());
 
