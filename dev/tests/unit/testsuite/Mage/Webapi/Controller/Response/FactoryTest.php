@@ -47,7 +47,7 @@ class Mage_Webapi_Controller_Response_FactoryTest extends PHPUnit_Framework_Test
         $this->_apiFrontController->expects($this->once())->method('determineApiType')->will(
             $this->returnValue(Mage_Webapi_Controller_Front::API_TYPE_SOAP)
         );
-        /** Assert that object manager GET method will be executed once with Mage_Webapi_Controller_Response parameter. */
+        /** Assert that object manager get() will be executed once with Mage_Webapi_Controller_Response parameter. */
         $this->_objectManager->expects($this->once())->method('get')->with('Mage_Webapi_Controller_Response');
         $this->_factory->get();
     }
