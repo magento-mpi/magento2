@@ -92,6 +92,9 @@ class Magento_Di_Generator
             throw new Magento_Exception(implode(' ', $errors));
         }
 
+        // remove generator
+        unset($this->_generator);
+
         return true;
     }
 
