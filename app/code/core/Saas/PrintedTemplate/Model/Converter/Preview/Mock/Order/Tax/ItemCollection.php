@@ -35,7 +35,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Tax_ItemCollection
     protected function _getMockData()
     {
         return array(
-            new Varien_Object(array (
+            array (
                 'item_tax_id' => '28',
                 'item_id' => '51',
                 'code' => 'Tax US',
@@ -53,8 +53,8 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Tax_ItemCollection
                 'base_row_total' => '89.9900',
                 'discount_amount' => '0',
                 'base_discount_amount' => '0',
-            )),
-            new Varien_Object(array (
+            ),
+            array (
                 'item_tax_id' => '29',
                 'item_id' => '54',
                 'code' => 'Test Tax Rates US',
@@ -72,8 +72,8 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Tax_ItemCollection
                 'base_discount_amount' => '0',
                 'tax_amount' => '60.4000',
                 'base_tax_amount' => '30.2000',
-            )),
-            new Varien_Object(array (
+            ),
+            array (
                 'item_tax_id' => '30',
                 'item_id' => '56',
                 'code' => 'Test Tax Rates US',
@@ -91,7 +91,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Tax_ItemCollection
                 'base_discount_amount' => '0',
                 'tax_amount' => '268.0000',
                 'base_tax_amount' => '134.0000',
-            )),
+            ),
         );
     }
 }
