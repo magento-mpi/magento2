@@ -35,7 +35,7 @@ class Enterprise_Checkout_CartControllerTest extends Magento_Test_TestCase_Contr
         $this->assertSelectCount('button.button.btn-cart[type="button"][title="Update Cart"]', 1, $response->getBody(),
             'Response for gift card product doesn\'t contain "Update Cart" button');
 
-        $this->assertSelectCount('input#giftcard_amount_input[type="text"]', 1, $response->getBody(),
+        $this->assertSelectCount('input#giftcard-amount-input[type="text"]', 1, $response->getBody(),
             'Response for gift card product doesn\'t contain gift card amount input field');
     }
 
@@ -144,7 +144,7 @@ class Enterprise_Checkout_CartControllerTest extends Magento_Test_TestCase_Contr
         $this->assertSelectCount('button.button.btn-cart[type="button"][title="Update Cart"]', 1, $response->getBody(),
             'Response for gift card product doesn\'t contain "Update Cart" button');
 
-        $this->assertSelectCount('input#giftcard_amount_input[type="text"]', 1, $response->getBody(),
+        $this->assertSelectCount('input#giftcard-amount-input[type="text"]', 1, $response->getBody(),
             'Response for gift card product doesn\'t contain gift card amount input field');
     }
 
