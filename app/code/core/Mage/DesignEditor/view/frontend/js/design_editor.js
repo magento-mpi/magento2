@@ -63,7 +63,7 @@
         _highlightEmptyContainers: function(originalElement) {
             var self = this;
             $(this.options.containerSelector).each(function (index, element) {
-                if ($(element).find(':visible').length == 0) {
+                if ($(element).find(self.options.items + ':visible').length == 0) {
                     $(element).addClass(self.options.highlightClass)
                         .css('min-height', originalElement.outerHeight(true));
                 }
