@@ -1,0 +1,21 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Magento
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#Test data for Admin User and Admin Role
+url_cms_page_req:
+    page_information:
+        page_title: new cms page(%randomize%)
+        url_key: cms_page_url_%randomize%
+        store_view: Default Store View
+        status: Published
+    content:
+        content_heading: test
+        editor: test

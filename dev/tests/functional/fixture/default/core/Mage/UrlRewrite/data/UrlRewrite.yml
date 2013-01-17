@@ -35,7 +35,7 @@ url_cms_page_req:
         page_title: new cms page(%randomize%)
         url_key: cms_page_url_%randomize%
         store_view: Default Store View
-        status: Published
+        status: Enabled
     content:
         content_heading: test
         editor: test
