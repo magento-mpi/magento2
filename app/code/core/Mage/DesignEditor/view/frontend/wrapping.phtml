@@ -17,12 +17,10 @@ $cssClass = 'vde_element_wrapper'
     . ($this->getIsContainer() ? ' vde_container' : '');
 ?>
 <div id="<?php echo $elementId; ?>" class="<?php echo $cssClass; ?>" data-name="<?php echo $this->getElementName() ?>">
-    <?php if (!$elementHtml) : ?>
-        <div class="vde_element_title"><?php echo $this->getElementTitle() ?></div>
-    <?php endif; ?>
     <?php if ($this->getIsManipulationAllowed()): ?>
         <?php echo $this->getRemoveButton($elementId) ?>
     <?php endif; ?>
+    <div class="vde_element_title"><?php echo $this->getElementTitle() ?></div>
     <!--start_<?php echo $elementId; ?>-->
     <?php if ($elementHtml) : ?>
         <div><?php echo $elementHtml ?></div>
