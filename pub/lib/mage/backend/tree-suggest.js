@@ -54,12 +54,10 @@
          * @override
          */
         search: function() {
-            console.log('search', this.options.showRecent);
             this._super();
             if (!this.options.showRecent && !this._term) {
-                console.log('showRecent');
                 this._abortSearch();
-                this._search('', {_allSown: true});
+                this._search('', {_allShown: true});
             }
         },
 

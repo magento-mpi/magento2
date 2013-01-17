@@ -126,14 +126,10 @@
                 keydown: function(event) {
                     var keyCode = $.ui.keyCode;
                     switch (event.keyCode) {
-                        case keyCode.HOME:
-                        case keyCode.END:
                         case keyCode.PAGE_UP:
                         case keyCode.PAGE_DOWN:
                         case keyCode.UP:
                         case keyCode.DOWN:
-                        case keyCode.LEFT:
-                        case keyCode.RIGHT:
                             if (!event.shiftKey) {
                                 this._proxyEvents(event);
                             }
@@ -194,7 +190,12 @@
          */
         _bindDropdown: function() {
             var events = {
-                //click: this._selectItem,
+                click: function(e) {
+                    // fixes ui-menu's behavior of handling mouse click
+                    this._selectItem();
+                    // prevent default browser's behavior of changing location by anchor href
+                    e.preventDefault();
+                },
                 mousedown: function(e) {
                     e.preventDefault();
                 }
@@ -212,26 +213,28 @@
                             events[handlerName] = this._blurItem;
                             break;
                     }
-                }, this))
+                }, this));
             }, this));
             this._on(this.dropdown, events);
         },
 
         /**
-         *
-         * @param e
-         * @param ui
+         * Handle focus event of options item
+         * @param {Object} e - event object
+         * @param {Object} option
          * @private
          */
-        _focusItem: function(e, ui) {
-            this.element.val(ui.item.text());
+        _focusItem: function(e, option) {
+            this._focused = option.item;
+            this.element.val(this._readItemData(this._focused).label);
         },
 
         /**
-         *
+         * Handle blur event of options item
          * @private
          */
         _blurItem: function() {
+            this._focused = null;
             this.element.val(this._term);
         },
 
@@ -240,22 +243,28 @@
          * @private
          */
         _selectItem: function(e) {
-            var templateData = e && e.target ? $.tmplItem(e.target).data.items : this._items;
-            var term = this._value();
-            if (this.isDropdownShown() && term) {
+            if (this.isDropdownShown() && this._focused) {
                 /**
                  * @type {(Object|null)} - label+value object of selected item
                  * @private
                  */
-                this._selectedItem = $.grep(templateData, $.proxy(function(v) {
-                    return v.label === term;
-                }, this))[0] || {value: '', label: ''};
+                this._selectedItem = this._readItemData(this._focused);
                 if (this._selectedItem.value) {
                     this._term = this._selectedItem.label;
                     this.valueField.val(this._selectedItem.value);
                     this._hideDropdown();
                 }
             }
+        },
+
+        /**
+         * Read option data from item element
+         * @param {Element} item
+         * @return {Object}
+         * @private
+         */
+        _readItemData: function(item) {
+            return item.data('suggestOption') || {value: '', label: ''};
         },
 
         /**
@@ -345,7 +354,10 @@
         _prepareDropdownContext: function(context) {
             return $.extend(context, {
                 items: this._items,
-                term: this._term
+                term: this._term,
+                optionData: function(item) {
+                    return 'data-suggest-option="' + JSON.stringify(item).replace(/"/g, '&quot;') + '"';
+                }
             });
         },
 
@@ -477,7 +489,7 @@
          */
         _bind: function() {
             this._super();
-            if (!this.options.showRecent) {
+            if (this.options.showRecent) {
                 this._on({
                     focus: function() {
                         if (!this._value()) {
@@ -539,7 +551,7 @@
             this._super();
             this._on(this.dropdown, {
                 showAll: function() {
-                    this._search('', {_allSown: true});
+                    this._search('', {_allShown: true});
                 }
             });
         },
@@ -552,7 +564,7 @@
             var context = this._superApply(arguments);
             return $.extend(context, {
                 allShown: function(){
-                    return !!context._allSown;
+                    return !!context._allShown;
                 }
             });
         }
