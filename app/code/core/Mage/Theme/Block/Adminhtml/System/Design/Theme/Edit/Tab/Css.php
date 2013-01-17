@@ -203,7 +203,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             $this->__('Allowed file types *.css.'),
             $this->__('The file you upload will replace the existing custom.css file (shown below).')
         );
-        $maxFileSize = Mage::getObjectManager()->get('Magento_File_Size')->getMaxFileSizeInMb();
+        $maxFileSize = $this->_objectManager->get('Magento_File_Size')->getMaxFileSizeInMb();
         if ($maxFileSize) {
             $messages[] = $this->__('Max file size to upload %sM', $maxFileSize);
         } else {
@@ -230,9 +230,9 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      */
     protected function _getAdditionalElementTypes()
     {
-        $linksElement = Mage::getConfig()
+        $linksElement = $this->_objectManager->get('Mage_Core_Model_Config')
             ->getBlockClassName('Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Links');
-        $fileElement = Mage::getConfig()
+        $fileElement = $this->_objectManager->get('Mage_Core_Model_Config')
             ->getBlockClassName('Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_File');
         return array('links' => $linksElement, 'css_file' => $fileElement);
     }
@@ -244,7 +244,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      */
     protected function _getGroupedFiles()
     {
-        $options = Mage::getConfig()->getOptions();
+        $options = $this->_objectManager->get('Mage_Core_Model_Config')->getOptions();
         $jsDir = $options->getJsDir();
         $codeDir = $options->getCodeDir();
 
@@ -264,7 +264,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         }
 
         if (count($themes) > 1) {
-            $this->_sortThemes($themes);
+            $themes = $this->_sortThemesByHierarchy($themes);
         }
 
         $order = array_merge(array($codeDir, $jsDir), array_map(function ($theme) {
@@ -275,7 +275,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
 
         $labels = $this->_getGroupLabels($themes);
         foreach ($groups as $key => $group) {
-            usort($group, array($this, '_sortGroupFiles'));
+            usort($group, array($this, '_sortGroupFilesCallback'));
             $groups[$labels[$key]] = $group;
             unset($groups[$key]);
         }
@@ -285,20 +285,20 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     /**
      * Sort files inside group
      *
-     * @param array $item1
-     * @param array $item2
+     * @param array $firstGroup
+     * @param array $secondGroup
      * @return int
      */
-    protected function _sortGroupFiles($item1, $item2)
+    protected function _sortGroupFilesCallback($firstGroup, $secondGroup)
     {
-        $hasModuleContext = strpos($item1['label'], '::') !== false;
-        $hasModuleContext2 = strpos($item2['label'], '::') !== false;
+        $hasModuleContextFirst = strpos($firstGroup['label'], '::') !== false;
+        $hasModuleContextSecond = strpos($secondGroup['label'], '::') !== false;
 
-        if ($hasModuleContext && $hasModuleContext2) {
-            $result = strcmp($item1['label'], $item2['label']);
-        } elseif (!$hasModuleContext && !$hasModuleContext2) {
-            $result = strcmp($item1['label'], $item2['label']);
-        } elseif ($hasModuleContext) {
+        if ($hasModuleContextFirst && $hasModuleContextSecond) {
+            $result = strcmp($firstGroup['label'], $secondGroup['label']);
+        } elseif (!$hasModuleContextFirst && !$hasModuleContextSecond) {
+            $result = strcmp($firstGroup['label'], $secondGroup['label']);
+        } elseif ($hasModuleContextFirst) {
             //case when first item has module context and second item doesn't
             $result = 1;
         } else {
@@ -313,10 +313,11 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      *
      * @param string $filename
      * @return array
+     * @throws Mage_Core_Exception
      */
     protected function _getGroup($filename)
     {
-        $options = Mage::getConfig()->getOptions();
+        $options = $this->_objectManager->get('Mage_Core_Model_Config')->getOptions();
         $designDir = $options->getDesignDir();
         $jsDir = $options->getJsDir();
         $codeDir = $options->getCodeDir();
@@ -324,7 +325,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         $group = null;
         $theme = null;
         if (substr($filename, 0, strlen($designDir)) == $designDir) {
-            $theme = $this->_getThemeByFilename($filename);
+            $theme = $this->_getThemeByFilename(substr($filename, strlen($designDir)));
             $group = $theme->getThemeId();
         } elseif (substr($filename, 0, strlen($jsDir)) == $jsDir) {
             $group = $jsDir;
@@ -341,37 +342,52 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      * Sort themes according to their hierarchy
      *
      * @param array $themes
-     * @return Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
+     * @return array
      */
-    protected function _sortThemes(&$themes)
+    protected function _sortThemesByHierarchy($themes)
     {
-        uasort($themes, function($theme, $theme2) {
-            /** @var $theme Mage_Core_Model_Theme */
-            /** @var $theme2 Mage_Core_Model_Theme */
-            while ($parentTheme = $theme->getParentTheme()) {
-                if ($parentTheme->getId() == $theme2->getId()) {
-                    return -1;
-                }
-            }
-            return 1;
-        });
-
-        return $this;
+        uasort($themes, array($this, '_sortThemesByHierarchyCallback'));
+        return $themes;
     }
 
     /**
-     * Get theme object that contains gien file
+     * Sort themes by hierarchy callback
+     *
+     * @param Mage_Core_Model_Theme $firstTheme
+     * @param Mage_Core_Model_Theme $secondTheme
+     * @return int
+     */
+    protected function _sortThemesByHierarchyCallback($firstTheme, $secondTheme)
+    {
+        $parentTheme = $firstTheme->getParentTheme();
+        while ($parentTheme) {
+            if ($parentTheme->getId() == $secondTheme->getId()) {
+                return -1;
+            }
+            $parentTheme = $parentTheme->getParentTheme();
+        }
+        return 1;
+    }
+
+    /**
+     * Get theme object that contains given file
      *
      * @param string $filename
      * @return Mage_Core_Model_Theme
+     * @throws InvalidArgumentException
      */
     protected function _getThemeByFilename($filename)
     {
-        $designDir = Mage::getConfig()->getOptions()->getDesignDir();
-        list(, $area, $package, $theme,) = explode(DIRECTORY_SEPARATOR, substr($filename, strlen($designDir)), 5);
+        $area = strtok($filename, DIRECTORY_SEPARATOR);
+        $package = strtok(DIRECTORY_SEPARATOR);
+        $theme = strtok(DIRECTORY_SEPARATOR);
+
+        if ($area === false || $package === false || $theme === false) {
+            throw new InvalidArgumentException('Theme path does not recognized');
+        }
         /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
-        $collection = Mage::getModel('Mage_Core_Model_Resource_Theme_Collection');
-        return $collection->getThemeByFullPath(join('/', array($area, $package, $theme)));
+        $collection = $this->_objectManager->create('Mage_Core_Model_Resource_Theme_Collection');
+        return $collection->getThemeByFullPath($area . '/' . $package . '/' . $theme);
     }
 
     /**
@@ -383,14 +399,15 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     protected function _getGroupLabels($themes)
     {
         $labels = array(
-            Mage::getConfig()->getOptions()->getJsDir()   => $this->__('Library files'),
-            Mage::getConfig()->getOptions()->getCodeDir() => $this->__('Framework files')
+            $this->_objectManager->get('Mage_Core_Model_Config')->getOptions()->getJsDir()
+                => $this->__('Library files'),
+            $this->_objectManager->get('Mage_Core_Model_Config')->getOptions()->getCodeDir()
+                => $this->__('Framework files')
         );
         foreach ($themes as $theme) {
             /** @var $theme Mage_Core_Model_Theme */
             $labels[$theme->getThemeId()] = $this->__('"%s" Theme files', $theme->getThemeTitle());
         }
-
         return $labels;
     }
 
