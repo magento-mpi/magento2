@@ -31,6 +31,7 @@ dev/tests/static/testsuite/Legacy/_files/obsolete_properties_ee.php
 dev/tests/static/testsuite/Legacy/_files/words_ee.xml
 dev/tests/static/testsuite/Legacy/Enterprise
 dev/tests/static/testsuite/Php/_files/{whitelist,blacklist}/ee.txt
+dev/tests/static/testsuite/Php/_files/phpcpd/blacklist/ee.txt
 dev/tests/unit/testsuite/Magento/Profiler/Driver/PinbaTest.php
 dev/tests/unit/testsuite/Magento/Profiler/_files/pinba_functions.php
 dev/tests/unit/testsuite/Enterprise

@@ -77,8 +77,11 @@ class Php_LiveCodeTest extends PHPUnit_Framework_TestCase
         if (!$copyPasteDetector->canRun()) {
             $this->markTestSkipped('PHP Copy/Paste Detector is not available.');
         }
-        $blackList = file(__DIR__ . '/_files/phpcpd/common.txt');
 
+        $blackList = array();
+        foreach (glob(__DIR__ . '/_files/phpcpd/blacklist/*.txt') as $list) {
+            $blackList = array_merge($blackList, file($list, FILE_IGNORE_NEW_LINES));
+        }
 
         $this->assertTrue($copyPasteDetector->run(array(), $blackList),
             "PHP Code Mess has found error(s): See detailed report in $reportFile"

@@ -19,6 +19,7 @@ dev/tests/integration/testsuite/Social/Facebook
 dev/tests/unit/testsuite/Varien/Db/Adapter/Pdo/MssqlTest.php
 dev/tests/static/testsuite/Legacy/_files/words_internal.xml
 dev/tests/static/testsuite/Php/_files/{whitelist,blacklist}/non_public.txt
+dev/tests/static/testsuite/Php/_files/phpcpd/blacklist/non_public.txt
 dev/tools/translate
 lib/Varien/Db/Adapter/Oracle.php
 lib/Varien/Db/Adapter/Pdo/Mssql.php
