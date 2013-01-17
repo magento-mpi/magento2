@@ -24,6 +24,7 @@ class Magento_Di_Generator_ProxyTest extends Magento_Di_Generator_EntityTestAbst
      *
      * @var array
      */
+    // @codingStandardsIgnoreStart
     protected static $_expectedMethods = array(
         array(
             'name'       => '__construct',
@@ -169,6 +170,7 @@ class Magento_Di_Generator_ProxyTest extends Magento_Di_Generator_EntityTestAbst
             ),
         ),
     );
+    // @codingStandardsIgnoreEnd
 
     /**
      * Model under test

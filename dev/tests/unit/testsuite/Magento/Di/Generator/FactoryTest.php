@@ -106,7 +106,7 @@ class Magento_Di_Generator_FactoryTest extends Magento_Di_Generator_EntityTestAb
 
         /** @var $ioObjectMock Magento_Di_Generator_Io */
         /** @var $codeGeneratorMock Magento_Di_Generator_CodeGenerator_Zend */
-        /** @var $autoLoaderMock Magento_Autoload */
+        /** @var $autoLoaderMock Magento_Autoload_IncludePath */
         $this->_model = new Magento_Di_Generator_Factory(self::SOURCE_CLASS, self::RESULT_CLASS, $ioObjectMock,
             $codeGeneratorMock, $autoLoaderMock
         );

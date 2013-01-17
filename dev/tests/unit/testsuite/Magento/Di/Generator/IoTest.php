@@ -40,7 +40,7 @@ class Magento_Di_Generator_IoTest extends PHPUnit_Framework_TestCase
     protected $_ioObjectMock;
 
     /**
-     * @var Magento_Autoload|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Autoload_IncludePath|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_autoLoaderMock;
 
@@ -56,7 +56,9 @@ class Magento_Di_Generator_IoTest extends PHPUnit_Framework_TestCase
             ->method('dirsep')
             ->will($this->returnValue(self::DIRECTORY_SEPARATOR));
 
-        $this->_autoLoaderMock = $this->getMock('Magento_Autoload_IncludePath', array('getFilePath'), array(), '', false);
+        $this->_autoLoaderMock = $this->getMock(
+            'Magento_Autoload_IncludePath', array('getFilePath'), array(), '', false
+          );
         $this->_autoLoaderMock->staticExpects($this->any())
             ->method('getFilePath')
             ->with(self::CLASS_NAME)
