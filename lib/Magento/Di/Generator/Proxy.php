@@ -95,24 +95,14 @@ class Magento_Di_Generator_Proxy extends Magento_Di_Generator_EntityAbstract
             $defaultValue = $parameter->getDefaultValue();
             if (is_string($defaultValue)) {
                 $parameterInfo['defaultValue'] = $this->_escapeDefaultValue($parameter->getDefaultValue());
+            } elseif ($defaultValue === null) {
+                $parameterInfo['defaultValue'] = $this->_getNullDefaultValue();
             } else {
-                $parameterInfo['defaultValue'] = $parameter->getDefaultValue();
+                $parameterInfo['defaultValue'] = $defaultValue;
             }
         }
 
         return $parameterInfo;
-    }
-
-    /**
-     * Escape method parameter default value
-     *
-     * @param string $value
-     * @return string
-     */
-    protected function _escapeDefaultValue($value)
-    {
-        // escape slashes
-        return str_replace('\\', '\\\\', $value);
     }
 
     /**

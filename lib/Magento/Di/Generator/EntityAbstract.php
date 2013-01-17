@@ -308,4 +308,29 @@ abstract class Magento_Di_Generator_EntityAbstract
         $sourceCode = preg_replace("/\n{2,}}/m", "\n}", $sourceCode);
         return $sourceCode;
     }
+
+    /**
+     * Escape method parameter default value
+     *
+     * @param string $value
+     * @return string
+     */
+    protected function _escapeDefaultValue($value)
+    {
+        // escape slashes
+        return str_replace('\\', '\\\\', $value);
+    }
+
+    /**
+     * Get value generator for null default value
+     *
+     * @return \Zend\Code\Generator\ValueGenerator
+     */
+    protected function _getNullDefaultValue()
+    {
+        $value = new \Zend\Code\Generator\ValueGenerator();
+        $value->setType(\Zend\Code\Generator\ValueGenerator::TYPE_NULL);
+
+        return $value;
+    }
 }
