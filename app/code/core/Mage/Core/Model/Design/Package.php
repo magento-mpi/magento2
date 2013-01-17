@@ -9,80 +9,8 @@
  */
 
 
-class Mage_Core_Model_Design_Package
+class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageInterface
 {
-    /**
-     * Default design area
-     */
-    const DEFAULT_AREA = 'frontend';
-
-    /**
-     * Scope separator
-     */
-    const SCOPE_SEPARATOR = '::';
-
-    /**#@+
-     * Public directories prefix group
-     */
-    const PUBLIC_MERGE_DIR  = '_merged';
-    const PUBLIC_MODULE_DIR = '_module';
-    const PUBLIC_VIEW_DIR   = '_view';
-    const PUBLIC_THEME_DIR  = '_theme';
-    /**#@-*/
-
-    /**#@+
-     * Extensions group for static files
-     */
-    const CONTENT_TYPE_CSS = 'css';
-    const CONTENT_TYPE_JS  = 'js';
-    /**#@-*/
-
-    /**#@+
-     * Protected extensions group for publication mechanism
-     */
-    const CONTENT_TYPE_PHP   = 'php';
-    const CONTENT_TYPE_PHTML = 'phtml';
-    const CONTENT_TYPE_XML   = 'xml';
-    /**#@-*/
-
-    /**
-     * The name of the default theme in the context of a package
-     */
-    const DEFAULT_THEME_NAME = 'default';
-
-    /**
-     * Published file cache storage tag
-     */
-    const PUBLIC_CACHE_TAG = 'design_public';
-
-    /**#@+
-     * Common node path to theme design configuration
-     */
-    const XML_PATH_THEME    = 'design/theme/full_name';
-    const XML_PATH_THEME_ID = 'design/theme/theme_id';
-    /**#@-*/
-
-    /**
-     * Path to configuration node that indicates how to materialize view files: with or without "duplication"
-     */
-    const XML_PATH_ALLOW_DUPLICATION = 'global/design/theme/allow_view_files_duplication';
-
-    /**
-     * Path to config node that allows automatically updating map files in runtime
-     */
-    const XML_PATH_ALLOW_MAP_UPDATE = 'global/dev/design_fallback/allow_map_update';
-
-    /**
-     * Sub-directory where to store maps of view files fallback (if used)
-     */
-    const FALLBACK_MAP_DIR = 'maps/fallback';
-
-    /**
-     * PCRE that matches non-absolute URLs in CSS content
-     */
-    const REGEX_CSS_RELATIVE_URLS
-        = '#url\s*\(\s*(?(?=\'|").)(?!http\://|https\://|/|data\:)(.+?)(?:[\#\?].*?|[\'"])?\s*\)#';
-
     private static $_regexMatchCache      = array();
     private static $_customThemeTypeCache = array();
 

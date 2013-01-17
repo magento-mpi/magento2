@@ -15,7 +15,7 @@
  * @package    Enterprise_PageCache
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_PageCache_Model_Cache
+class Enterprise_PageCache_Model_Cache extends Mage_Core_Model_Cache
 {
     const REQUEST_MESSAGE_GET_PARAM = 'frontend_message';
 
@@ -27,22 +27,33 @@ class Enterprise_PageCache_Model_Cache
     protected $_cache;
 
     /**
-     * Instantiate cache and prepare the "full_page_cache" directory if needed
-     *
-     * @param Mage_Core_Model_App $app
-     * @param Mage_Core_Model_Config $config
+     * @param Mage_Core_Model_Config_Primary $config
      * @param Mage_Core_Model_Dir $dirs
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param bool $banCache
+     * @param array $options
      */
-    public function __construct(Mage_Core_Model_App $app, Mage_Core_Model_Config $config, Mage_Core_Model_Dir $dirs)
+    public function __construct(
+        Mage_Core_Model_Config_Primary $config,
+        Mage_Core_Model_Dir $dirs,
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        $banCache = false,
+        array $options = array()
+    )
     {
         Magento_Profiler::start('enterprise_page_cache_create', array(
             'group' => 'enterprise_page_cache',
             'operation' => 'enterprise_page_cache:create'
         ));
 
-        $options = $config->getNode('global/full_page_cache');
+        $configOptions = $config->getNode('global/full_page_cache');
+        if ($configOptions) {
+            $configOptions = $configOptions->asArray();
+        } else {
+            $configOptions = array();
+        }
+        $options = array_merge($configOptions, $options);
         if ($options) {
-            $options = $options->asArray();
             foreach (array('backend_options', 'slow_backend_options') as $tag) {
                 if (!empty($options[$tag]['cache_dir'])) {
                     $dir = $dirs->getDir(Mage_Core_Model_Dir::VAR_DIR) . DS . $options[$tag]['cache_dir'];
@@ -52,31 +63,8 @@ class Enterprise_PageCache_Model_Cache
                     $options[$tag]['cache_dir'] = $dir;
                 }
             }
-            $this->_cache = Mage::getModel('Mage_Core_Model_Cache', array('options' => $options));
-        } else {
-            $this->_cache = $app->getCacheInstance();
         }
-
+        parent::__construct($config, $dirs, $helperFactory, $banCache, $options);
         Magento_Profiler::stop('enterprise_page_cache_create');
-    }
-
-    /**
-     * @return Mage_Core_Model_Cache
-     */
-    public function getCache()
-    {
-        return $this->_cache;
-    }
-
-    /**
-     * Cache instance static getter (legacy)
-     *
-     * @return Mage_Core_Model_Cache
-     */
-    public static function getCacheInstance()
-    {
-        /** @var $self Enterprise_PageCache_Model_Cache */
-        $self = Mage::getObjectManager()->get('Enterprise_PageCache_Model_Cache');
-        return $self->getCache();
     }
 }

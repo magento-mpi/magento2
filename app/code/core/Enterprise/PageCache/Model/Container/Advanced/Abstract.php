@@ -83,7 +83,7 @@ abstract class Enterprise_PageCache_Model_Container_Advanced_Abstract
 
         $result[$additionalCacheId] = $data;
 
-        Enterprise_PageCache_Model_Cache::getCacheInstance()->save(json_encode($result), $id, $tags, $lifetime);
+        $this->_cache->save(json_encode($result), $id, $tags, $lifetime);
         return $this;
     }
 }

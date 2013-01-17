@@ -11,7 +11,7 @@
 /**
  * Abstract placeholder container
  */
-abstract class Enterprise_PageCache_Model_Container_Abstract
+abstract class Enterprise_PageCache_Model_Container_Abstract implements Enterprise_PageCache_Model_ContainerInterface
 {
     /**
      * @var null|Enterprise_PageCache_Model_Processor
@@ -26,13 +26,20 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
     protected $_placeholder;
 
     /**
-     * Class constructor
-     *
+     * @var Enterprise_PageCache_Model_Cache
+     */
+    protected $_cache;
+
+    /**
+     * @param Enterprise_PageCache_Model_Cache $cache
      * @param Enterprise_PageCache_Model_Container_Placeholder $placeholder
      */
-    public function __construct($placeholder)
-    {
+    public function __construct(
+        Enterprise_PageCache_Model_Cache $cache,
+        Enterprise_PageCache_Model_Container_Placeholder $placeholder
+    ) {
         $this->_placeholder = $placeholder;
+        $this->_cache = $cache;
     }
 
     /**
@@ -141,11 +148,11 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
      * Load cached data by cache id
      *
      * @param string $id
-     * @return string|false
+     * @return string|bool
      */
     protected function _loadCache($id)
     {
-        return Enterprise_PageCache_Model_Cache::getCacheInstance()->load($id);
+        return $this->_cache->load($id);
     }
 
     /**
@@ -170,7 +177,7 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
          */
         Enterprise_PageCache_Helper_Url::replaceSid($data);
 
-        Enterprise_PageCache_Model_Cache::getCacheInstance()->save($data, $id, $tags, $lifetime);
+        $this->_cache->save($data, $id, $tags, $lifetime);
         return $this;
     }
 
@@ -189,10 +196,10 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
     /**
      * Set processor for container needs
      *
-     * @param Enterprise_PageCache_Model_Processor $processor
+     * @param Mage_Core_Model_Cache_ProcessorInterface $processor
      * @return Enterprise_PageCache_Model_Container_Abstract
      */
-    public function setProcessor(Enterprise_PageCache_Model_Processor $processor)
+    public function setProcessor(Mage_Core_Model_Cache_ProcessorInterface $processor)
     {
         $this->_processor = $processor;
         return $this;

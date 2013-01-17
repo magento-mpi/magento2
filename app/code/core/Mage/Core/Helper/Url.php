@@ -17,7 +17,6 @@
  */
 class Mage_Core_Helper_Url extends Mage_Core_Helper_Abstract
 {
-
     /**
      * Retrieve current url
      *
@@ -25,8 +24,8 @@ class Mage_Core_Helper_Url extends Mage_Core_Helper_Abstract
      */
     public function getCurrentUrl()
     {
-        $request = Mage::app()->getRequest();
-        $port = $request->getServer('SERVER_PORT');
+        $request = $this->_getRequest();
+        $port = $this->_getRequest()->getServer('SERVER_PORT');
         if ($port) {
             $defaultPorts = array(
                 Mage_Core_Controller_Request_Http::DEFAULT_HTTP_PORT,
@@ -36,7 +35,6 @@ class Mage_Core_Helper_Url extends Mage_Core_Helper_Abstract
         }
         $url = $request->getScheme() . '://' . $request->getHttpHost() . $port . $request->getServer('REQUEST_URI');
         return $url;
-//        return $this->_getUrl('*/*/*', array('_current' => true, '_use_rewrite' => true));
     }
 
     /**
@@ -49,7 +47,7 @@ class Mage_Core_Helper_Url extends Mage_Core_Helper_Abstract
         return $this->urlEncode($this->getCurrentUrl());
     }
 
-    public function getEncodedUrl($url=null)
+    public function getEncodedUrl($url = null)
     {
         if (!$url) {
             $url = $this->getCurrentUrl();
@@ -109,9 +107,9 @@ class Mage_Core_Helper_Url extends Mage_Core_Helper_Abstract
 
     /**
      * Remove request parameter from url
-     *
      * @param string $url
      * @param string $paramKey
+     * @param bool $caseSensitive
      * @return string
      */
     public function removeRequestParam($url, $paramKey, $caseSensitive = false)

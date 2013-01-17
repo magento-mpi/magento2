@@ -10,13 +10,11 @@
 -->
 <config>
     <global>
-<!--
         <cache>
             <request_processors>
                 <ee>Enterprise_PageCache_Model_Processor</ee>
             </request_processors>
         </cache>
--->
         <full_page_cache>
             <backend_options>
                 <cache_dir>full_page_cache</cache_dir>
@@ -29,7 +27,7 @@
                     <handlers>
                         <fpc>
                             <sortOrder>25</sortOrder>
-                            <class>Enterprise_PageCache_Model_Processor</class>
+                            <class>Enterprise_PageCache_Model_Http_Handler</class>
                         </fpc>
                     </handlers>
                 </parameters>

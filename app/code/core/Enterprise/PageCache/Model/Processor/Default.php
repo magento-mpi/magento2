@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_PageCache_Model_Processor_Default
+class Enterprise_PageCache_Model_Processor_Default implements Mage_Core_Model_Cache_SubProcessorInterface
 {
     /**
      * @var Enterprise_PageCache_Model_Container_Placeholder
@@ -110,11 +110,10 @@ class Enterprise_PageCache_Model_Processor_Default
     /**
      * Return cache page id with application. Depends on GET super global array.
      *
-     * @param Enterprise_PageCache_Model_Processor $processor
-     * @param Zend_Controller_Request_Http $request
+     * @param Mage_Core_Model_Cache_ProcessorInterface $processor
      * @return string
      */
-    public function getPageIdInApp(Enterprise_PageCache_Model_Processor $processor)
+    public function getPageIdInApp(Mage_Core_Model_Cache_ProcessorInterface $processor)
     {
         return $this->getPageIdWithoutApp($processor);
     }
@@ -122,10 +121,10 @@ class Enterprise_PageCache_Model_Processor_Default
     /**
      * Return cache page id without application. Depends on GET super global array.
      *
-     * @param Enterprise_PageCache_Model_Processor $processor
+     * @param Mage_Core_Model_Cache_ProcessorInterface $processor
      * @return string
      */
-    public function getPageIdWithoutApp(Enterprise_PageCache_Model_Processor $processor)
+    public function getPageIdWithoutApp(Mage_Core_Model_Cache_ProcessorInterface $processor)
     {
         $queryParams = $_GET;
         ksort($queryParams);

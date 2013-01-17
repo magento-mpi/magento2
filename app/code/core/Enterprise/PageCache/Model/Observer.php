@@ -25,7 +25,7 @@ class Enterprise_PageCache_Model_Observer
     /**
      * Page Cache Processor
      *
-     * @var Enterprise_PageCache_Model_Processor
+     * @var Mage_Core_Model_Cache_ProcessorInterface
      */
     protected $_processor;
 
@@ -44,13 +44,22 @@ class Enterprise_PageCache_Model_Observer
     protected $_isEnabled;
 
     /**
+     * @var Enterprise_PageCache_Model_Cache
+     */
+    protected $_cache;
+
+    /**
      * Class constructor
      */
-    public function __construct()
-    {
-        $this->_processor = Mage::getSingleton('Enterprise_PageCache_Model_Processor');
-        $this->_config    = Mage::getSingleton('Enterprise_PageCache_Model_Config');
-        $this->_isEnabled = Mage::app()->useCache('full_page');
+    public function __construct(
+        Enterprise_PageCache_Model_Processor $processor,
+        Enterprise_PageCache_Model_Config $config,
+        Enterprise_PageCache_Model_Cache $cache
+    ) {
+        $this->_processor = $processor;
+        $this->_config    = $config;
+        $this->_cache = $cache;
+        $this->_isEnabled = $this->_cache->canUse('full_page');
     }
 
     /**
@@ -122,10 +131,10 @@ class Enterprise_PageCache_Model_Observer
         }
         $cacheId = Enterprise_PageCache_Model_Processor::DESIGN_EXCEPTION_KEY;
 
-        $exception = Enterprise_PageCache_Model_Cache::getCacheInstance()->load($cacheId);
+        $exception = $this->_cache->load($cacheId);
         if (!$exception) {
             $exception = Mage::getStoreConfig(self::XML_PATH_DESIGN_EXCEPTION);
-            Enterprise_PageCache_Model_Cache::getCacheInstance()->save($exception, $cacheId);
+            $this->_cache->save($exception, $cacheId);
             $this->_processor->refreshRequestIds();
         }
         return $this;

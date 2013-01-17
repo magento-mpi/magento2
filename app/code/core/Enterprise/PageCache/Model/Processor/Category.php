@@ -32,10 +32,10 @@ class Enterprise_PageCache_Model_Processor_Category extends Enterprise_PageCache
     /**
      * Return cache page id with application. Depends on catalog session and GET super global array.
      *
-     * @param Enterprise_PageCache_Model_Processor $processor
+     * @param Mage_Core_Model_Cache_ProcessorInterface $processor
      * @return string
      */
-    public function getPageIdInApp(Enterprise_PageCache_Model_Processor $processor)
+    public function getPageIdInApp(Mage_Core_Model_Cache_ProcessorInterface $processor)
     {
         $queryParams = $this->_getQueryParams();
 
@@ -54,10 +54,10 @@ class Enterprise_PageCache_Model_Processor_Category extends Enterprise_PageCache
     /**
      * Return cache page id without application. Depends on GET super global array.
      *
-     * @param Enterprise_PageCache_Model_Processor $processor
+     * @param Mage_Core_Model_Cache_ProcessorInterface $processor
      * @return string
      */
-    public function getPageIdWithoutApp(Enterprise_PageCache_Model_Processor $processor)
+    public function getPageIdWithoutApp(Mage_Core_Model_Cache_ProcessorInterface $processor)
     {
         $this->_updateCategoryViewedCookie($processor);
         $queryParams = $_GET;
