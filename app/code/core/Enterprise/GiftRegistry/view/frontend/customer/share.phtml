@@ -9,25 +9,21 @@
  */
 ?>
 <script id="add-recipient-tmpl" type="text/x-jQuery-tmpl">
-    <li class="fields ${addRow}">
-        <div class="field">
-            <label for="recipients-name${recipient}" class="required"><em>*</em> ${nameMessage}</label>
-            <div class="input-box">
-                <input name="recipients[${recipient}][name]" type="text" value="${name}" title="${nameMessage}" class="input-text" id="recipients-name${recipient}" data-validate="{required:true}"/>
-            </div>
-        </div>
-        <div class="field">
-            <label for="recipients-email${recipient}" class="required"><em>*</em> ${emailMessage}</label>
-            <div class="input-box">
-                <input name="recipients[${recipient}][email]" value="${email}" title="${emailMessage}" id="recipients-email${recipient}" type="text" class="input-text" data-validate="{required:true, 'validate-email':true}"/>
-            </div>
-        </div>
-    </li>
-</script>
-<script id="remove-recipient-tmpl" type="text/x-jQuery-tmpl">
-    <p class="btn-remove">
-        <a href="delete_email" class="btn-remove"><img src="${image}" alt="${alt}"/></a>
+    <p class="btn-remove" id="btn-remove${_index_}">
+        <a href="delete_email" class="btn-remove"><img src="<?php echo $this->getViewFileUrl('images/btn_remove.gif') ?>" alt="<?php echo $this->__('Remove Email') ?>"/></a>
     </p>
+    <div class="field">
+        <label for="recipients-name${_index_}" class="required"><em>*</em> <?php echo $this->__('Name:')?></label>
+        <div class="input-box">
+            <input name="recipients[${_index_}][name]" type="text" title="<?php echo $this->__('Name:')?>" class="input-text" id="recipients-name${_index_}" data-validate="{required:true}"/>
+        </div>
+    </div>
+    <div class="field">
+        <label for="recipients-email${_index_}" class="required"><em>*</em> <?php echo $this->__('Email Address:') ?></label>
+        <div class="input-box">
+            <input name="recipients[${_index_}][email]" title="<?php echo $this->__('Email Address:') ?>" id="recipients-email${_index_}" type="text" class="input-text" data-validate="{required:true, 'validate-email':true}"/>
+        </div>
+    </div>
 </script>
 <div class="page-title">
     <h1><?php echo $this->getFormHeader() ?></h1>
@@ -91,21 +87,19 @@
             "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('Enterprise_GiftRegistry::share.js')?>", function() {
-                $('#giftregistry-sharing-form').shareGiftRegistry({
-                    maxRecipients: '<?php echo $this->getRecipientsLimit() ?>',
-                    recipientNameMessage: '<?php echo $this->__('Name:')?>',
-                    recipientEmailMessage: '<?php echo $this->__('Email Address:') ?>',
-                    removeRecipientMessage: '<?php echo $this->__('Remove Email') ?>',
-                    removeRecipientImage: '<?php echo $this->getViewFileUrl('images/btn_remove.gif') ?>'
+            "<?php echo $this->getViewFileUrl('Mage_Page::js/registrant-builder.js')?>", function() {
+              var formDataPost;
+              <?php if (is_array($this->getFormData('recipients'))): ?>
+                    formDataPost = <?php echo json_encode($this->getFormData('recipients')); ?>;
+                <?php endif; ?>
+                $('#giftregistry-sharing-form').templateBuilder({
+                    registrantTemplate: '#add-recipient-tmpl',
+                    registrantContainer: '#recipients-options',
+                    maxRegistrant: '<?php echo $this->getRecipientsLimit() ?>',
+                    maxRegistrantsMessage: '#max-recipient-message',
+                    addRegistrantBtn: 'add-recipient-button',
+                    formDataPost: {"formData":formDataPost, "templateFields":['recipients-name','recipients-email']}
                 }).validation();
-<?php if ($this->getFormData('recipients')): ?>
-    <?php foreach($this->getFormData('recipients') as $recipient): ?>
-        $('#giftregistry-sharing-form').data('shareGiftRegistry').addRecipient('<?php echo $recipient[1] ?>', '<?php echo $recipient[0] ?>');
-    <?php endforeach;?>
-<?php else: ?>
-    $('#giftregistry-sharing-form').data('shareGiftRegistry').addRecipient();
-<?php endif; ?>
             })
     })(jQuery);
 </script>
