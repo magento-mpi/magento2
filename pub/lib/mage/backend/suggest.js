@@ -42,7 +42,8 @@
          */
         _create: function() {
             this._term = '';
-            this._selectedItem = {value: '', label: ''};
+            this._nonSelectedItem = {value: '', label: ''};
+            this._selectedItem = this._nonSelectedItem;
             this._control = this.options.controls || {};
             this._setTemplate();
             this._render();
@@ -203,8 +204,6 @@
         _bindDropdown: function() {
             var events = {
                 click: function(e) {
-                    // fixes ui-menu's behavior of handling mouse click
-                    this._selectItem();
                     // prevent default browser's behavior of changing location by anchor href
                     e.preventDefault();
                 },
@@ -254,14 +253,10 @@
          * Save selected item and hide dropdown
          * @private
          */
-        _selectItem: function(e) {
+        _selectItem: function() {
             if (this.isDropdownShown() && this._focused) {
-                /**
-                 * @type {(Object|null)} - label+value object of selected item
-                 * @private
-                 */
                 this._selectedItem = this._readItemData(this._focused);
-                if (this._selectedItem.value) {
+                if (this._selectedItem !== this._nonSelectedItem) {
                     this._term = this._selectedItem.label;
                     this.valueField.val(this._selectedItem.value);
                     this._hideDropdown();
@@ -276,7 +271,7 @@
          * @private
          */
         _readItemData: function(item) {
-            return item.data('suggestOption') || {value: '', label: ''};
+            return item.data('suggestOption') || this._nonSelectedItem;
         },
 
         /**
@@ -330,7 +325,7 @@
                 if (term) {
                     this._search(term);
                 } else {
-                    this._selectedItem = {value: '', label: ''};
+                    this._selectedItem = this._nonSelectedItem;
                     this.valueField.val(this._selectedItem.value);
                 }
             }
@@ -383,7 +378,10 @@
             this._items = items;
             $.tmpl(this.templateName, this._prepareDropdownContext(context))
                 .appendTo(this.dropdown.empty());
-            this.dropdown.trigger('contentUpdated');
+            this.dropdown.trigger('contentUpdated')
+                .find(this._control.selector).on('focus', function(e) {
+                    e.preventDefault();
+                });
             this._showDropdown();
         },
 

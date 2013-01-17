@@ -76,10 +76,16 @@
         args = $.grep(args, function(resource) {
             return !$('script[src="' + resource + '"]').length;
         });
-        if (typeof handler === 'function') {
+
+        if (typeof handler === 'function' && args.length) {
             args.push(handler);
         }
-        head.js.apply(head, args);
+
+        if (args.length) {
+            head.js.apply(head, args);
+        } else {
+            handler();
+        }
     }
 
     /**
@@ -116,11 +122,7 @@
                 }
             }
         }, $(this));
-        if (init.resources.length) {
-            _onload(init.resources, handler);
-        } else {
-            handler();
-        }
+        _onload(init.resources, handler);
     }
 
     /**
