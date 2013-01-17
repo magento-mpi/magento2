@@ -35,7 +35,7 @@ class Magento_Di_Generator_Io
     /**
      * Autoloader instance
      *
-     * @var Magento_Autoload
+     * @var Magento_Autoload_IncludePath
      */
     private $_autoloader;
 
@@ -46,14 +46,14 @@ class Magento_Di_Generator_Io
 
     /**
      * @param Varien_Io_Interface $ioObject
-     * @param Magento_Autoload $autoLoader
+     * @param Magento_Autoload_IncludePath $autoLoader
      * @param string $generationDirectory
      */
-    public function __construct(Varien_Io_Interface $ioObject = null, Magento_Autoload $autoLoader = null,
+    public function __construct(Varien_Io_Interface $ioObject = null, Magento_Autoload_IncludePath $autoLoader = null,
         $generationDirectory = null
     ) {
         $this->_ioObject           = $ioObject ? : new Varien_Io_File();
-        $this->_autoloader         = $autoLoader ? : Magento_Autoload::getInstance();
+        $this->_autoloader         = $autoLoader ? : new Magento_Autoload_IncludePath();
         $this->_directorySeparator = $this->_ioObject->dirsep();
 
         if ($generationDirectory) {
@@ -85,7 +85,8 @@ class Magento_Di_Generator_Io
      */
     public function getResultFileName($className)
     {
-        $resultFileName = $this->_autoloader->getClassFile($className);
+        $autoloader = $this->_autoloader;
+        $resultFileName = $autoloader::getFilePath($className);
         return $this->_generationDirectory . $resultFileName;
     }
 

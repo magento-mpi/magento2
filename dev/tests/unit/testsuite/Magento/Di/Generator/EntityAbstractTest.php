@@ -56,7 +56,7 @@ class Magento_Di_Generator_EntityAbstractTest extends PHPUnit_Framework_TestCase
         $this->assertAttributeEmpty('_resultClassName', $this->_model);
         $this->assertAttributeInstanceOf('Magento_Di_Generator_Io', '_ioObject', $this->_model);
         $this->assertAttributeInstanceOf('Magento_Di_Generator_CodeGenerator_Zend', '_classGenerator', $this->_model);
-        $this->assertAttributeInstanceOf('Magento_Autoload', '_autoloader', $this->_model);
+        $this->assertAttributeInstanceOf('Magento_Autoload_IncludePath', '_autoloader', $this->_model);
 
         // with source class name
         $this->_model = $this->getMockForAbstractClass(
@@ -68,7 +68,7 @@ class Magento_Di_Generator_EntityAbstractTest extends PHPUnit_Framework_TestCase
         // with all arguments
         $ioObject      = $this->getMock('Magento_Di_Generator_Io', array(), array(), '', false);
         $codeGenerator = $this->getMock('Magento_Di_Generator_CodeGenerator_Zend', array(), array(), '', false);
-        $autoloader    = $this->getMock('Magento_Autoload', array(), array(), '', false);
+        $autoloader    = $this->getMock('Magento_Autoload_IncludePath', array(), array(), '', false);
 
         $this->_model = $this->getMockForAbstractClass(
             'Magento_Di_Generator_EntityAbstract',
@@ -89,38 +89,64 @@ class Magento_Di_Generator_EntityAbstractTest extends PHPUnit_Framework_TestCase
     {
         return array(
             'no_source_class' => array(
-                '$arguments' => $this->_prepareMocksForValidateData(false),
-                '$errors' => array('Source class ' . self::SOURCE_CLASS . ' doesn\'t exist.')
+                '$errors'           => array('Source class ' . self::SOURCE_CLASS . ' doesn\'t exist.'),
+                '$isGeneration'     => false,
+                '$classExistsFirst' => false,
             ),
             'result_class_exists' => array(
-                '$arguments' => $this->_prepareMocksForValidateData(true, true),
-                '$errors' => array('Result class ' . self::RESULT_CLASS . ' already exists.')
+                '$errors'            => array('Result class ' . self::RESULT_CLASS . ' already exists.'),
+                '$isGeneration'      => false,
+                '$classExistsFirst'  => true,
+                '$classExistsSecond' => true,
             ),
             'cant_create_generation_directory' => array(
-                '$arguments' => $this->_prepareMocksForValidateData(true, false, false),
-                '$errors' => array('Can\'t create directory ' . self::GENERATION_DIRECTORY . '.')
+                '$errors'            => array('Can\'t create directory ' . self::GENERATION_DIRECTORY . '.'),
+                '$isGeneration'      => false,
+                '$classExistsFirst'  => true,
+                '$classExistsSecond' => false,
+                '$makeGeneration'    => false,
+
             ),
             'cant_create_result_directory' => array(
-                '$arguments' => $this->_prepareMocksForValidateData(true, false, true, false),
-                '$errors' => array('Can\'t create directory ' . self::RESULT_DIRECTORY . '.')
+                '$errors'            => array('Can\'t create directory ' . self::RESULT_DIRECTORY . '.'),
+                '$isGeneration'      => false,
+                '$classExistsFirst'  => true,
+                '$classExistsSecond' => false,
+                '$makeGeneration'    => true,
+                '$makeResultFile'    => false
             ),
             'result_file_exists' => array(
-                '$arguments' => $this->_prepareMocksForValidateData(true, false, true, true, true),
-                '$errors' => array('Result file ' . self::RESULT_FILE . ' already exists.')
+                '$errors'            => array('Result file ' . self::RESULT_FILE . ' already exists.'),
+                '$isGeneration'      => false,
+                '$classExistsFirst'  => true,
+                '$classExistsSecond' => false,
+                '$makeGeneration'    => true,
+                '$makeResultFile'    => true,
+                '$fileExists'        => true,
             ),
             'generate_no_data' => array(
-                '$arguments' => $this->_prepareMocksForGenerateCode(false),
-                '$errors' => array('Can\'t generate source code.')
+                '$errors' => array('Can\'t generate source code.'),
+                '$isGeneration'      => true,
+                '$classExistsFirst'  => true,
+                '$classExistsSecond' => false,
+                '$makeGeneration'    => true,
+                '$makeResultFile'    => true,
+                '$fileExists'        => true,
+                '$isValid'           => false
             ),
-            'generate_ok' => array(
-                '$arguments' => $this->_prepareMocksForGenerateCode(true),
-            ),
+            'generate_ok' => array(),
         );
     }
 
     /**
-     * @param array $arguments
      * @param array $errors
+     * @param bool $isGeneration
+     * @param bool $classExistsFirst
+     * @param bool $classExistsSecond
+     * @param bool $makeGeneration
+     * @param bool $makeResultFile
+     * @param bool $fileExists
+     * @param bool $isValid
      *
      * @dataProvider generateDataProvider
      * @covers Magento_Di_Generator_EntityAbstract::generate
@@ -135,8 +161,27 @@ class Magento_Di_Generator_EntityAbstractTest extends PHPUnit_Framework_TestCase
      * @covers Magento_Di_Generator_EntityAbstract::_getGeneratedCode
      * @covers Magento_Di_Generator_EntityAbstract::_fixCodeStyle
      */
-    public function testGenerate($arguments, $errors = array())
-    {
+    public function testGenerate(
+        $errors = array(),
+        $isGeneration = true,
+        $classExistsFirst = true,
+        $classExistsSecond = false,
+        $makeGeneration = true,
+        $makeResultFile = true,
+        $fileExists = false,
+        $isValid = true
+    ) {
+        if ($isGeneration) {
+            $arguments = $this->_prepareMocksForGenerateCode($isValid);
+        } else {
+            $arguments = $this->_prepareMocksForValidateData(
+                $classExistsFirst,
+                $classExistsSecond,
+                $makeGeneration,
+                $makeResultFile,
+                $fileExists
+            );
+        }
         $abstractGetters = array('_getClassProperties', '_getClassMethods');
         $this->_model = $this->getMockForAbstractClass(
             'Magento_Di_Generator_EntityAbstract', $arguments, '', true, true, true, $abstractGetters
@@ -187,7 +232,7 @@ class Magento_Di_Generator_EntityAbstractTest extends PHPUnit_Framework_TestCase
             ),
             array(), '', false
         );
-        $autoloader = $this->getMock('Magento_Autoload', array('classExists'), array(), '', false);
+        $autoloader = $this->getMock('Magento_Autoload_IncludePath', array('getFile'), array(), '', false);
 
         $ioObject->expects($this->any())
             ->method('getResultFileName')
@@ -200,13 +245,13 @@ class Magento_Di_Generator_EntityAbstractTest extends PHPUnit_Framework_TestCase
             ->method('getResultFileDirectory')
             ->will($this->returnValue(self::RESULT_DIRECTORY));
 
-        $autoloader->expects($this->at(0))
-            ->method('classExists')
+        $autoloader->staticExpects($this->at(0))
+            ->method('getFile')
             ->with(self::SOURCE_CLASS)
             ->will($this->returnValue($classExistsFirst));
         if ($classExistsFirst) {
-            $autoloader->expects($this->at(1))
-                ->method('classExists')
+            $autoloader->staticExpects($this->at(1))
+                ->method('getFile')
                 ->with(self::RESULT_CLASS)
                 ->will($this->returnValue($classExistsSecond));
         }
@@ -215,34 +260,25 @@ class Magento_Di_Generator_EntityAbstractTest extends PHPUnit_Framework_TestCase
         if ($classExistsFirst) {
             $expectedInvocations = 2;
         }
-        $autoloader->expects($this->exactly($expectedInvocations))
-            ->method('classExists');
+        $autoloader->staticExpects($this->exactly($expectedInvocations))
+            ->method('getFile');
 
         $expectedInvocations = 1;
-        if ($classExistsSecond) {
+        if (!$classExistsFirst || $classExistsSecond) {
             $expectedInvocations = 0;
         }
         $ioObject->expects($this->exactly($expectedInvocations))
             ->method('makeGenerationDirectory')
             ->will($this->returnValue($makeGeneration));
 
-        $expectedInvocations = 0;
-        if ($makeGeneration) {
-            $expectedInvocations = 1;
-        }
-        $ioObject->expects($this->exactly($expectedInvocations))
-            ->method('makeResultFileDirectory')
-            ->with(self::RESULT_CLASS)
-            ->will($this->returnValue($makeResultFile));
-
-        $expectedInvocations = 0;
-        if ($makeResultFile) {
-            $expectedInvocations = 1;
-        }
-        $ioObject->expects($this->exactly($expectedInvocations))
-            ->method('fileExists')
-            ->with(self::RESULT_FILE)
-            ->will($this->returnValue($fileExists));
+        $this->_prepareIoObjectExpectations(
+            $ioObject,
+            $classExistsFirst,
+            $classExistsSecond,
+            $makeGeneration,
+            $makeResultFile,
+            $fileExists
+        );
 
         return array(
             'source_class'   => self::SOURCE_CLASS,
@@ -251,6 +287,37 @@ class Magento_Di_Generator_EntityAbstractTest extends PHPUnit_Framework_TestCase
             'code_generator' => null,
             'autoloader'     => $autoloader
         );
+    }
+
+    /**
+     * @param $ioObject PHPUnit_Framework_MockObject_MockObject
+     * @param bool $classExistsFirst
+     * @param bool $classExistsSecond
+     * @param bool $makeGeneration
+     * @param bool $makeResultFile
+     * @param bool $fileExists
+     */
+    protected function _prepareIoObjectExpectations(
+        $ioObject,
+        $classExistsFirst,
+        $classExistsSecond,
+        $makeGeneration,
+        $makeResultFile,
+        $fileExists
+    ) {
+        if ($classExistsFirst && !$classExistsSecond && $makeGeneration) {
+            $ioObject->expects($this->once())
+                ->method('makeResultFileDirectory')
+                ->with(self::RESULT_CLASS)
+                ->will($this->returnValue($makeResultFile));
+        }
+
+        if ($classExistsFirst && !$classExistsSecond && $makeGeneration && $makeResultFile) {
+            $ioObject->expects($this->once())
+                ->method('fileExists')
+                ->with(self::RESULT_FILE)
+                ->will($this->returnValue($fileExists));
+        }
     }
 
     /**
@@ -287,9 +354,11 @@ class Magento_Di_Generator_EntityAbstractTest extends PHPUnit_Framework_TestCase
 
         /** @var $ioObject PHPUnit_Framework_MockObject_MockObject */
         $ioObject = $mocks['io_object'];
-        $ioObject->expects($isValid ? $this->once() : $this->never())
-            ->method('writeResultFile')
-            ->with(self::RESULT_FILE, self::RESULT_CODE);
+        if ($isValid) {
+            $ioObject->expects($this->once())
+                ->method('writeResultFile')
+                ->with(self::RESULT_FILE, self::RESULT_CODE);
+        }
 
         return array(
             'source_class'   => $mocks['source_class'],

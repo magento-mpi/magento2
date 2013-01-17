@@ -34,9 +34,12 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
         /** @var $config Mage_Core_Model_Config */
         $config = Mage::getObjectManager()->get('Mage_Core_Model_Config');
         $generationDirectory = $config->getVarDir() . '/generation';
-        Magento_Autoload::getInstance()->addIncludePath($generationDirectory);
 
-        $ioObject = new Magento_Di_Generator_Io(new Varien_Io_File(), Magento_Autoload::getInstance(),
+        Magento_Autoload_IncludePath::addIncludePath($generationDirectory);
+
+        $ioObject = new Magento_Di_Generator_Io(
+            new Varien_Io_File(),
+            new Magento_Autoload_IncludePath(),
             $generationDirectory
         );
         $this->_generator = Mage::getObjectManager()->get('Magento_Di_Generator', array('ioObject' => $ioObject));

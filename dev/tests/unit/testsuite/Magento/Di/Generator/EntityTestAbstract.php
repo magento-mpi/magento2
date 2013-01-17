@@ -56,17 +56,17 @@ class Magento_Di_Generator_EntityTestAbstract extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return Magento_Autoload|PHPUnit_Framework_MockObject_MockObject
+     * @return Magento_Autoload_IncludePath|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getAutoloaderMock()
     {
-        $autoLoaderMock = $this->getMock('Magento_Autoload', array('classExists'), array(), '', false);
-        $autoLoaderMock->expects($this->at(0))
-            ->method('classExists')
+        $autoLoaderMock = $this->getMock('Magento_Autoload_IncludePath', array('getFile'), array(), '', false);
+        $autoLoaderMock->staticExpects($this->at(0))
+            ->method('getFile')
             ->with(static::SOURCE_CLASS)
             ->will($this->returnValue(true));
-        $autoLoaderMock->expects($this->at(1))
-            ->method('classExists')
+        $autoLoaderMock->staticExpects($this->at(1))
+            ->method('getFile')
             ->with(static::RESULT_CLASS)
             ->will($this->returnValue(false));
 

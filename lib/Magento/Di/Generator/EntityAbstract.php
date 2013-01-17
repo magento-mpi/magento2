@@ -42,7 +42,7 @@ abstract class Magento_Di_Generator_EntityAbstract
     /**
      * Autoloader instance
      *
-     * @var Magento_Autoload
+     * @var Magento_Autoload_IncludePath
      */
     private $_autoloader;
 
@@ -58,19 +58,19 @@ abstract class Magento_Di_Generator_EntityAbstract
      * @param string $resultClassName
      * @param Magento_Di_Generator_Io $ioObject
      * @param Magento_Di_Generator_CodeGenerator_Interface $classGenerator
-     * @param Magento_Autoload $autoLoader
+     * @param Magento_Autoload_IncludePath $autoLoader
      */
     public function __construct(
         $sourceClassName = null,
         $resultClassName = null,
         Magento_Di_Generator_Io $ioObject = null,
         Magento_Di_Generator_CodeGenerator_Interface $classGenerator = null,
-        Magento_Autoload $autoLoader = null
+        Magento_Autoload_IncludePath $autoLoader = null
     ) {
         if ($autoLoader) {
             $this->_autoloader = $autoLoader;
         } else {
-            $this->_autoloader = Magento_Autoload::getInstance();
+            $this->_autoloader = new Magento_Autoload_IncludePath();
         }
         if ($ioObject) {
             $this->_ioObject = $ioObject;
@@ -83,7 +83,7 @@ abstract class Magento_Di_Generator_EntityAbstract
             $this->_classGenerator = new Magento_Di_Generator_CodeGenerator_Zend();
         }
 
-        $this->_sourceClassName = ltrim($sourceClassName, Magento_Autoload::NS_SEPARATOR);
+        $this->_sourceClassName = ltrim($sourceClassName, Magento_Autoload_IncludePath::NS_SEPARATOR);
         if ($resultClassName) {
             $this->_resultClassName = $resultClassName;
         } elseif ($sourceClassName) {
@@ -139,7 +139,8 @@ abstract class Magento_Di_Generator_EntityAbstract
      */
     protected function _getFullyQualifiedClassName($className)
     {
-        return Magento_Autoload::NS_SEPARATOR . ltrim($className, Magento_Autoload::NS_SEPARATOR);
+        return Magento_Autoload_IncludePath::NS_SEPARATOR
+            . ltrim($className, Magento_Autoload_IncludePath::NS_SEPARATOR);
     }
 
     /**
@@ -255,10 +256,12 @@ abstract class Magento_Di_Generator_EntityAbstract
         $resultClassName = $this->_getResultClassName();
         $resultFileName  = $this->_ioObject->getResultFileName($resultClassName);
 
-        if (!$this->_autoloader->classExists($sourceClassName)) {
+        $autoloader = $this->_autoloader;
+
+        if (!$autoloader::getFile($sourceClassName)) {
             $this->_addError('Source class ' . $sourceClassName . ' doesn\'t exist.');
             return false;
-        } elseif ($this->_autoloader->classExists($resultClassName)) {
+        } elseif ($autoloader::getFile($resultClassName)) {
             $this->_addError('Result class ' . $resultClassName . ' already exists.');
             return false;
         } elseif (!$this->_ioObject->makeGenerationDirectory()) {

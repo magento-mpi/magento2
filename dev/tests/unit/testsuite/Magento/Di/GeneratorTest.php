@@ -39,7 +39,7 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
     protected $_generator;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Autoload
+     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Autoload_IncludePath
      */
     protected $_autoloader;
 
@@ -48,8 +48,8 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
         $this->_generator = $this->getMockForAbstractClass('Magento_Di_Generator_EntityAbstract',
             array(), '', true, true, true, array('generate')
         );
-        $this->_autoloader = $this->getMock('Magento_Autoload',
-            array('classExists'), array(), '', false
+        $this->_autoloader = $this->getMock('Magento_Autoload_IncludePath',
+            array('getFile'), array(), '', false
         );
     }
 
@@ -80,8 +80,8 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
      */
     public function testGenerateClass($className, $entityType)
     {
-        $this->_autoloader->expects($this->once())
-            ->method('classExists')
+        $this->_autoloader->staticExpects($this->once())
+            ->method('getFile')
             ->with($className . $entityType)
             ->will($this->returnValue(false));
 
@@ -100,8 +100,8 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
     public function testGenerateClassWithExistName($className, $entityType)
     {
         $this->_prepareGeneratorNeverCalls();
-        $this->_autoloader->expects($this->once())
-            ->method('classExists')
+        $this->_autoloader->staticExpects($this->once())
+            ->method('getFile')
             ->with($className . $entityType)
             ->will($this->returnValue(true));
 
@@ -113,8 +113,8 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
     public function testGenerateClassWithWrongName()
     {
         $this->_prepareGeneratorNeverCalls();
-        $this->_autoloader->expects($this->never())
-            ->method('classExists');
+        $this->_autoloader->staticExpects($this->never())
+            ->method('getFile');
 
         $this->_model = new Magento_Di_Generator($this->_generator, $this->_autoloader);
 
@@ -126,8 +126,8 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
      */
     public function testGenerateClassWithError()
     {
-        $this->_autoloader->expects($this->once())
-            ->method('classExists')
+        $this->_autoloader->staticExpects($this->once())
+            ->method('getFile')
             ->will($this->returnValue(false));
 
         $this->_generator->expects($this->once())

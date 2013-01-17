@@ -16,7 +16,7 @@ class Magento_Di_Generator
     protected $_generator;
 
     /**
-     * @var Magento_Autoload
+     * @var Magento_Autoload_IncludePath
      */
     protected $_autoloader;
 
@@ -35,16 +35,16 @@ class Magento_Di_Generator
 
     /**
      * @param Magento_Di_Generator_EntityAbstract $generator
-     * @param Magento_Autoload $autoloader
+     * @param Magento_Autoload_IncludePath $autoloader
      * @param Magento_Di_Generator_Io $ioObject
      */
     public function __construct(
         Magento_Di_Generator_EntityAbstract $generator = null,
-        Magento_Autoload $autoloader = null,
+        Magento_Autoload_IncludePath $autoloader = null,
         Magento_Di_Generator_Io $ioObject = null
     ) {
         $this->_generator  = $generator;
-        $this->_autoloader = $autoloader ? : Magento_Autoload::getInstance();
+        $this->_autoloader = $autoloader ? : new Magento_Autoload_IncludePath();
         $this->_ioObject   = $ioObject ? : new Magento_Di_Generator_Io(new Varien_Io_File(), $this->_autoloader);
     }
 
@@ -80,7 +80,8 @@ class Magento_Di_Generator
         }
 
         // check if file already exists
-        if ($this->_autoloader->classExists($className)) {
+        $autoloader = $this->_autoloader;
+        if ($autoloader::getFile($className)) {
             return false;
         }
 
