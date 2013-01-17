@@ -16,13 +16,13 @@
 </span>
 
 <?php echo $this->getMessagesBlock()->getGroupedHtml(); ?>
-<form action="<?php echo $this->getActionUrl() ?>" method="post" id="gr_search_form">
+<form action="<?php echo $this->getActionUrl() ?>" method="post" id="gr-search-form">
     <div class="fieldset">
         <?php echo $this->getBlockHtml('formkey')?>
         <h2 class="legend"><?php echo $this->__('Search Options') ?></h2>
         <ul class="form-list">
             <li>
-                <label for="params_type_id"><?php echo $this->__('Gift Registry Type') ?></label>
+                <label for="params-type-id"><?php echo $this->__('Gift Registry Type') ?></label>
                 <div class="input-box">
                     <?php echo $this->getTypeSelectHtml() ?>
                 </div>
@@ -62,7 +62,7 @@
 
 <div class="divider"></div>
 
-<form action="<?php echo $this->getActionUrl() ?>" method="post" id="gr_search_email_form">
+<form action="<?php echo $this->getActionUrl() ?>" method="post" id="gr-search-email-form">
     <div class="fieldset">
         <ul class="form-list">
             <li>
@@ -82,7 +82,7 @@
 
 <div class="divider"></div>
 
-<form action="<?php echo $this->getActionUrl() ?>" method="post" id="gr_search_id_form">
+<form action="<?php echo $this->getActionUrl() ?>" method="post" id="gr-search-id-form">
     <div class="fieldset">
         <ul class="form-list">
             <li>
@@ -101,32 +101,19 @@
 </form>
 
 <script type="text/javascript">
-//<![CDATA[
-var grSearchForm = new VarienForm('gr_search_form');
-var grSearchEmailForm = new VarienForm('gr_search_email_form');
-var grSearchIdForm = new VarienForm('gr_search_id_form');
-
-function advancedFormUpdate() {
-    new Ajax.Updater('gr-type-specific-options', '<?php echo $this->getAdvancedUrl() ?>', {
-        evalScripts : true,
-        onCreate: function() {
-            $('gr-please-wait').show()
-        },
-        onComplete: function() {
-            $('gr-please-wait').hide();
-        },
-        parameters : {type_id : $('params_type_id').value}
-    });
-}
-$('params_type_id').observe('change', advancedFormUpdate);
-
-<?php if ($this->getFormData('type_id')): ?>
-    $A($('params_type_id').options).each(function(option){
-        if (option.value==<?php echo $this->getFormData('type_id') ?>) option.selected = true;
-    });
-    advancedFormUpdate();
-<?php endif; ?>
-//]]>
+(function($) {
+    head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+        "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
+        "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
+        "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
+        "<?php echo $this->getViewFileUrl('Enterprise_GiftRegistry::gift-registry-advanced-search.js')?>", function() {
+            $('form[id^="gr-search"]').validation();
+            $('#params-type-id').giftRegistryAdvancedSearch({
+                url: '<?php echo $this->getAdvancedUrl() ?>',
+                selectedOption: '<?php echo ($this->getFormData('type_id') ? $this->getFormData('type_id') : null); ?>'
+            });
+        });
+})(jQuery);
 </script>
 
 <?php if ($this->getSearchResults() && $this->getSearchResults()->getSize()): ?>

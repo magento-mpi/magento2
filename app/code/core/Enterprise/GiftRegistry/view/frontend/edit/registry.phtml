@@ -79,6 +79,9 @@ foreach ($fieldsets as $fieldset => $fields) : ?>
                                         $('#' + selectorArr[i]).removeClass('validation-failed').next("div.validation-advice").remove();
                                     }
                                 },
+                                isRegionRequired: false,
+                                isZipRequired: false,
+                                isCountryRequired: true,
                                 regionJson: <?php echo $this->helper('Mage_Directory_Helper_Data')->getRegionJson(); ?>
                             });
                         });

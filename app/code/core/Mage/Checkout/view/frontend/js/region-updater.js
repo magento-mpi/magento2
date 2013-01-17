@@ -10,15 +10,26 @@
 (function($) {
     $.widget('mage.regionUpdater', {
         options: {
-            regionTemplate: '<option value="${value}" title="${title}" {{if isSelected}}selected="selected"{{/if}}>${title}</option>'
+            regionTemplate: '<option value="${value}" title="${title}" {{if isSelected}}selected="selected"{{/if}}>${title}</option>',
+            isRegionRequired: true,
+            isZipRequired: true,
+            isCountryRequired: true
         },
 
         _create: function() {
+
             this._updateRegion(this.element.find('option:selected').val());
             this.element.on('change', $.proxy(function(e) {
                 this._updateRegion($(e.target).val());
             }, this));
-            this.element.addClass('required');
+            this.isCountryRequired && this.element.addClass('required-entry');
+            $(this.options.regionListId).on('change', $.proxy(function(e) {
+                this.setOption = false;
+                this.currentRegionOption = $(e.target).val();
+            }, this));
+            $(this.options.regionInputId).on('focusout', $.proxy(function() {
+                this.setOption = true;
+            }, this));
         },
 
         /**
@@ -27,7 +38,7 @@
          * @private
          */
         _removeSelectOptions: function(selectElement) {
-            selectElement.find('option').each(function (index){
+            selectElement.find('option').each(function(index) {
                 index && $(this).remove();
             });
         },
@@ -84,7 +95,12 @@
                 $.each(this.options.regionJson[country], $.proxy(function(key, value) {
                     this._renderSelectOption(regionList, key, value);
                 }, this));
-                regionList.addClass('required-entry').show();
+                this.currentRegionOption && regionList.val(this.currentRegionOption);
+                this.setOption && regionList.find("option").filter(function() {
+                    return this.text === regionInput.val();
+                }).attr('selected', true);
+                this.options.isRegionRequired && regionList.addClass('required-entry');
+                regionList.show();
                 regionInput.hide();
                 requiredLabel.show();
             } else {
@@ -93,9 +109,11 @@
                 requiredLabel.hide();
             }
             // If country is in optionalzip list, make postcode input not required
-            $.inArray(country, this.options.countriesWithOptionalZip) >= 0 ?
-                postcode.removeClass('required-entry').parent().siblings('label').children('em').hide() :
-                postcode.addClass('required-entry').parent().siblings('label').children('em').show();
+            if (this.options.isZipRequired) {
+                $.inArray(country, this.options.countriesWithOptionalZip) >= 0 ?
+                    postcode.removeClass('required-entry').parent().siblings('label').children('em').hide() :
+                    postcode.addClass('required-entry').parent().siblings('label').children('em').show();
+            }
             // Add defaultvalue attribute to state/province select element
             regionList.attr('defaultvalue', this.options.defaultRegion);
         }

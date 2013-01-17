@@ -28,8 +28,8 @@
             (function($) {
                 head.js("<?php echo $this->getViewFileUrl('Mage_Wishlist::js/search.js')?>", function() {
                     $('#<?php echo $this->getBlockId();?>-search_by').wishlistSearch({
-                        nameFormSelector : '#<?php echo $this->getBlockId();?>-wishlist-quick-search-widget-name-form',
-                        emailFormSelector : '#<?php echo $this->getBlockId();?>-wishlist-quick-search-widget-email-form'
+                        nameFormSelector: '#<?php echo $this->getBlockId();?>-wishlist-quick-search-widget-name-form',
+                        emailFormSelector: '#<?php echo $this->getBlockId();?>-wishlist-quick-search-widget-email-form'
                     });
                 });
             })(jQuery);
