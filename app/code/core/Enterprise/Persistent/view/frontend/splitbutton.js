@@ -11,7 +11,6 @@
 (function($, undefined) {
     "use strict";
     $.widget('mage.splitButton', {
-
         /**
          * options with default values
          */
@@ -26,9 +25,8 @@
          * @private
          */
         _create: function() {
-            this.element.on('click', this.options.splitButton + ' ' + this.options.arrowButton,
-                $.proxy(this.toggleDropDown, this));
-            $(document).on('click', $.proxy(this.hideDropDown, this));
+            $(this.options.splitButton + ' ' + this.options.arrowButton).on('click', $.proxy(this._toggleDropDown, this));
+            $(document).on('click', $.proxy(this._hideDropDown, this));
         },
 
         /**
