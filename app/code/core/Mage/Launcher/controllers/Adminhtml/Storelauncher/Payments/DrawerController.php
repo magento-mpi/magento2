@@ -23,15 +23,23 @@ class Mage_Launcher_Adminhtml_Storelauncher_Payments_DrawerController
      */
     public function savePaymentAction()
     {
-        $data = $this->getRequest()->getParams();
-        /** @var $tileModel Mage_Launcher_Model_Tile */
-        $tileModel = Mage::getModel('Mage_Launcher_Model_Tile')->loadByCode('payments');
-        $saveHandler = $tileModel->getSaveHandler();
-        //@todo call $saveHandler->savePaymentMethod($data) to save data and retrieve result
-
-        $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(
-            'success' => true,
-        ));
+        $responseContent = '';
+        try {
+            $data = $this->getRequest()->getParams();
+            /** @var $tileModel Mage_Launcher_Model_Tile */
+            $tileModel = Mage::getModel('Mage_Launcher_Model_Tile')->loadByCode('payments');
+            $saveHandler = $tileModel->getSaveHandler();
+            $saveHandler->savePaymentMethod($data);
+            $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(
+                'success' => true,
+                'message' => Mage::helper('Mage_Launcher_Helper_Data')->__('Configuration has been successfully saved.'),
+            ));
+        } catch (Exception $e) {
+            $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(
+                'success' => false,
+                'error_message' => Mage::helper('Mage_Launcher_Helper_Data') ->__($e->getMessage()),
+            ));
+        }
         $this->getResponse()->setBody($responseContent);
     }
 }

@@ -124,7 +124,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
         <div class="payment-method-data">
             <div style="display: block;" class="payment-method-data-fields">
                 <input type="hidden" name="groups[global][fields][express][value]" value="1">
-                <input type="hidden" name="payment_id" value="paypal_express_checkout">
+                <input type="hidden" name="payment_method" value="paypal_express_checkout">
                 <h3><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Express Checkout'); ?></h3>
                 <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Fusce porttitor diam in tortor porttitor laoreet vitae a urna. In tempus, sem a sollicitudin luctus, est quam tincidunt mauris, quis laoreet lorem magna sit amet tellus. Praesent eros urna, venenatis vel euismod a, elementum in urna. Sed ac scelerisque mi. Maecenas molestie cursus erat ut fermentum. Vestibulum consectetur tempor vehicula.'); ?></p>
                 <div class="grid-row">
@@ -144,7 +144,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
             <div style="display: none;" class="payment-method-data-fields">
                 <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Fusce porttitor diam in tortor porttitor laoreet vitae a urna. In tempus, sem a sollicitudin luctus, est quam tincidunt mauris, quis laoreet lorem magna sit amet tellus. Praesent eros urna, venenatis vel euismod a, elementum in urna. Sed ac scelerisque mi. Maecenas molestie cursus erat ut fermentum. Vestibulum consectetur tempor vehicula.'); ?></p>
                 <input type="hidden" name="groups[global][fields][wps][value]" value="1">
-                <input type="hidden" name="payment_id" value="paypal_payments_standard">
+                <input type="hidden" name="payment_method" value="paypal_payments_standard">
                 <div class="grid-row">
                     <div class="field grid-6 vat-number with-addon" id="field-store-paypal-standard-email">
                         <label for="store-paypal-standard-email" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Email address associated with the PayPal account'); ?></span></label>
@@ -163,7 +163,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                 <fieldset>
                     <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payments Advanced'); ?></legend>
                     <input type="hidden" name="groups[global][fields][payflow_advanced][value]" value="1">
-                    <input type="hidden" name="payment_id" value="paypal_payments_advanced">
+                    <input type="hidden" name="payment_method" value="paypal_payments_advanced">
                     <div class="grid-row">
                         <div class="field grid-6" id="field-pm-21">
                             <label for="pm-21" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Partner'); ?></span></label>
@@ -202,7 +202,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                     <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payments Pro'); ?></legend>
                     <input type="hidden" name="groups[global][fields][express][value]" value="1">
                     <input type="hidden" name="groups[global][fields][wpp][value]" value="1">
-                    <input type="hidden" name="payment_id" value="paypal_payments_pro">
+                    <input type="hidden" name="payment_method" value="paypal_payments_pro">
                     <div class="grid-row">
                         <div class="field grid-6" id="field-pm-31">
                             <label for="store-paypal-payments-pro-email" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Email address associated with the PayPal account'); ?></span></label>
@@ -220,7 +220,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                 <fieldset>
                     <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payflow Link'); ?></legend>
                     <input type="hidden" name="groups[global][fields][payflow_link][value]" value="1">
-                    <input type="hidden" name="payment_id" value="paypal_payflow_link">
+                    <input type="hidden" name="payment_method" value="paypal_payflow_link">
                     <div class="grid-row">
                         <div class="field grid-6" id="field-pm-41">
                             <label for="pm-41" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Partner'); ?></span></label>
@@ -258,7 +258,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                 <fieldset>
                     <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payflow Pro'); ?></legend>
                     <input type="hidden" name="groups[global][fields][payflow_link][value]" value="1">
-                    <input type="hidden" name="payment_id" value="paypal_payflow_pro">
+                    <input type="hidden" name="payment_method" value="paypal_payflow_pro">
                     <div class="grid-row">
                         <div class="field grid-6" id="field-pm-51">
                             <label for="pm-51" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Partner'); ?></span></label>
@@ -277,7 +277,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                         <div class="field grid-6" id="field-pm-53">
                             <label for="pm-53" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('User'); ?></span></label>
                             <div class="control">
-                                <input type="password" class="input-text" id="pm-53" name="groups[verisign][fields][user][value]" value="<?php echo $this->getStoreConfig()->getConfig('payment/verisign/user'); ?>">
+                                <input type="text" class="input-text" id="pm-53" name="groups[verisign][fields][user][value]" value="<?php echo $this->getStoreConfig()->getConfig('payment/verisign/user'); ?>">
                             </div>
                         </div>
                         <div class="field grid-6" id="field-pm-54">
@@ -296,7 +296,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                 <fieldset>
                     <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Authorize.net'); ?></legend>
                     <input type="hidden" name="groups[authorizenet][fields][active][value]" value="1">
-                    <input type="hidden" name="payment_id" value="authorize_net">
+                    <input type="hidden" name="payment_method" value="authorize_net">
                     <div class="grid-row">
                         <div class="field grid-6" id="field-pm-61">
                             <label for="pm-61" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('API Login ID'); ?></span></label>
