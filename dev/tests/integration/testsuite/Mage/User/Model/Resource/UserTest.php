@@ -7,20 +7,44 @@
  */
 class Mage_User_Model_Resource_UserTest extends PHPUnit_Framework_TestCase
 {
-    public function testCanCreateUserTrue()
+    /** @var Mage_User_Model_Resource_User */
+    protected $_model;
+
+    protected function setUp()
     {
-        /** @var $model Mage_User_Model_Resource_User */
-        $model = Mage::getResourceSingleton('Mage_User_Model_Resource_User');
-        $this->assertTrue($model->canCreateUser());
+        $this->_model = Mage::getResourceSingleton('Mage_User_Model_Resource_User');
+    }
+
+    protected function tearDown()
+    {
+        $this->_model = null;
     }
 
     /**
+     * No node - no limitation
+     */
+    public function testCanCreateUserTrue()
+    {
+        $this->assertTrue($this->_model->canCreateUser());
+    }
+
+    /**
+     * Explicit zero - don't allow creating
+     *
+     * @magentoConfigFixture global/functional_limitation/max_admin_user_count 0
+     */
+    public function testCanCreateUserZero()
+    {
+        $this->assertFalse($this->_model->canCreateUser());
+    }
+
+    /**
+     * Any other values - compare with users count
+     *
      * @magentoConfigFixture global/functional_limitation/max_admin_user_count 1
      */
     public function testCanCreateUserFalse()
     {
-        /** @var $model Mage_User_Model_Resource_User */
-        $model = Mage::getResourceSingleton('Mage_User_Model_Resource_User');
-        $this->assertFalse($model->canCreateUser());
+        $this->assertFalse($this->_model->canCreateUser());
     }
 }

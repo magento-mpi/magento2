@@ -35,6 +35,7 @@ class Mage_User_Block_User extends Mage_Backend_Block_Widget_Grid_Container
      */
     protected function _toHtml()
     {
+        Mage::dispatchEvent('permissions_user_html_before', array('block' => $this));
         /** @var $model Mage_User_Model_Resource_User */
         $model = Mage::getObjectManager()->get('Mage_User_Model_Resource_User');
         if ($model->canCreateUser()) {

@@ -18,7 +18,7 @@ class Mage_Backend_Block_Widget_Grid_ContainerTest extends PHPUnit_Framework_Tes
             Mage_Backend_Block_Widget_Grid_Container::PARAM_BUTTON_BACK => 'five',
         ));
         $this->assertStringEndsWith('widget', $block->getHeaderCssClass());
-        $this->assertContains('two', $block->getHeaderHtml());
+        $this->assertContains('two', $block->getHeaderText());
         $this->assertInstanceOf('Mage_Backend_Block_Widget_Grid', $block->getChildBlock('grid'));
         $this->assertEquals('four', $block->getAddButtonLabel());
         $this->assertEquals('five', $block->getBackButtonLabel());

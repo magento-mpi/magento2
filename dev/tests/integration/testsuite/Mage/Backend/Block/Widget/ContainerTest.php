@@ -15,6 +15,6 @@ class Mage_Backend_Block_Widget_ContainerTest extends PHPUnit_Framework_TestCase
             Mage_Backend_Block_Widget_Container::PARAM_HEADER_TEXT => 'two',
         ));
         $this->assertStringEndsWith('one', $block->getHeaderCssClass());
-        $this->assertContains('two', $block->getHeaderHtml());
+        $this->assertContains('two', $block->getHeaderText());
     }
 }
