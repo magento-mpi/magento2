@@ -8,7 +8,7 @@
  * @license {license_link}
  * @magentoDataFixture Mage/Checkout/_files/quote_with_simple_product.php
  */
-class Mage_Checkout_Model_Cart_Customer_ApiTest extends PHPUnit_Framework_TestCase
+class Mage_Checkout_Model_Cart_Customer_ApiTest extends Mage_Checkout_Model_Cart_AbstractTest
 {
     /**
      * Test setting customer to a quote.
@@ -96,19 +96,5 @@ class Mage_Checkout_Model_Cart_Customer_ApiTest extends PHPUnit_Framework_TestCa
         $this->assertEmpty($billingDiff, 'Billing address in quote is incorrect.');
         $shippingDiff = array_diff($shippingAddress, $quote->getShippingAddress()->getData());
         $this->assertEmpty($shippingDiff, 'Shipping address in quote is incorrect.');
-    }
-
-    /**
-     * Retrieve quote created in fixture.
-     *
-     * @return Mage_Sales_Model_Quote
-     */
-    protected function _getQuote()
-    {
-        /** @var $session Mage_Checkout_Model_Session */
-        $session = Mage::getModel('Mage_Checkout_Model_Session');
-        /** @var Mage_Sales_Model_Quote $quote */
-        $quote = $session->getQuote();
-        return $quote;
     }
 }

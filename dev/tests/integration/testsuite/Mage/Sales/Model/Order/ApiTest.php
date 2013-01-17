@@ -49,7 +49,7 @@ class Mage_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
             'order_currency_code'
         );
 
-        Magento_Test_Helper_Api::assertEntityFields($this, $order->getData(), $orderInfo, $fieldsToCompare);
+        Magento_Test_Helper_Api::checkEntityFields($this, $order->getData(), $orderInfo, $fieldsToCompare);
     }
 
     /**

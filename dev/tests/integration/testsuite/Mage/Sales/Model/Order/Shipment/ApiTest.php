@@ -1,29 +1,162 @@
 <?php
 /**
- * Shipment API model test.
+ * Tests for shipment API.
  *
  * {license_notice}
  *
  * @copyright {copyright}
  * @license {license_link}
- * @magentoDataFixture Mage/Sales/Model/Order/Api/_files/shipment.php
- * @magentoDbIsolation enabled
  */
 class Mage_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * Test retrieving the list of shipments related to the order via API.
+     *
+     * @magentoDataFixture Mage/Sales/Model/Order/Api/_files/shipment.php
+     */
+    public function testItems()
+    {
+        /** Prepare data. */
+        $shipmentFixture = $this->_getShipmentFixture();
+        $filters = array(
+            'filters' => (object)array(
+                'filter' => array(
+                    (object)array('key' => 'increment_id', 'value' => $shipmentFixture->getIncrementId()),
+                )
+            )
+        );
+
+        /** Retrieve list of shipments via API. */
+        $shipmentsList = Magento_Test_Helper_Api::call($this, 'salesOrderShipmentList', $filters);
+
+        /** Verify received list of shipments. */
+        $this->assertCount(1, $shipmentsList, "Exactly 1 shipment is expected to be in the list results.");
+        $fieldsToCompare = array('increment_id', 'created_at', 'total_qty', 'entity_id' => 'shipment_id');
+        Magento_Test_Helper_Api::checkEntityFields(
+            $this,
+            $shipmentFixture->getData(),
+            reset($shipmentsList),
+            $fieldsToCompare
+        );
+    }
+
+    /**
+     * Test retrieving available carriers for the specified order.
+     *
+     * @magentoDataFixture Mage/Sales/_files/order.php
+     */
+    public function testGetCarriers()
+    {
+        /** Prepare data. */
+        /** @var Mage_Sales_Model_Order $order */
+        $order = Mage::getModel('Mage_Sales_Model_Order');
+        $order->loadByIncrementId('100000001');
+
+        /** Retrieve carriers list */
+        $carriersList = Magento_Test_Helper_Api::call(
+            $this,
+            'salesOrderShipmentGetCarriers',
+            array($order->getIncrementId())
+        );
+
+        /** Verify carriers list. */
+        $this->assertCount(6, $carriersList, "Carriers list contains unexpected quantity of items.");
+        $dhlCarrierData = end($carriersList);
+        $expectedDhlData = array('key' => 'dhlint', 'value' => 'DHL');
+        $this->assertEquals($expectedDhlData, $dhlCarrierData, "Carriers list item is invalid.");
+    }
+
+    /**
+     * Test adding comment to shipment via API.
+     *
+     * @magentoDataFixture Mage/Sales/Model/Order/Api/_files/shipment.php
+     */
+    public function testAddComment()
+    {
+        /** Add comment to shipment via API. */
+        $commentText = 'Shipment test comment.';
+        $isAdded = Magento_Test_Helper_Api::call(
+            $this,
+            'salesOrderShipmentAddComment',
+            array(
+                $this->_getShipmentFixture()->getIncrementId(),
+                $commentText,
+                true, // should email be sent?
+                true, // should comment be included into email body?
+            )
+        );
+        $this->assertTrue($isAdded, "Comment was not added to the shipment.");
+
+        /** Ensure that comment was actually added to the shipment. */
+        /** @var Mage_Sales_Model_Resource_Order_Shipment_Comment_Collection $commentsCollection */
+        $commentsCollection = $this->_getShipmentFixture()->getCommentsCollection(true);
+        $this->assertCount(1, $commentsCollection->getItems(), "Exactly 1 shipment comment is expected to exist.");
+        /** @var Mage_Sales_Model_Order_Shipment_Comment $comment */
+        $comment = $commentsCollection->getFirstItem();
+        $this->assertEquals($commentText, $comment->getComment(), 'Comment text was saved to DB incorrectly.');
+    }
+
+    /**
+     * Test adding and removing tracking information via shipment API.
+     *
+     * @magentoDataFixture Mage/Sales/Model/Order/Api/_files/shipment.php
+     */
+    public function testTrackOperations()
+    {
+        /** Prepare data. */
+        $carrierCode = 'ups';
+        $trackingTitle = 'Tracking title';
+        $trackingNumber = 'N123456';
+
+        /** Add tracking information via API. */
+        $trackingNumberId = Magento_Test_Helper_Api::call(
+            $this,
+            'salesOrderShipmentAddTrack',
+            array($this->_getShipmentFixture()->getIncrementId(), $carrierCode, $trackingTitle, $trackingNumber)
+        );
+        $this->assertGreaterThan(0, (int)$trackingNumberId, "Tracking information was not added.");
+
+        /** Ensure that tracking data was saved correctly. */
+        $tracksCollection = $this->_getShipmentFixture()->getTracksCollection();
+        $this->assertCount(1, $tracksCollection->getItems(), "Tracking information was not saved to DB.");
+        /** @var Mage_Sales_Model_Order_Shipment_Track $track */
+        $track = $tracksCollection->getFirstItem();
+        $this->assertEquals(
+            array($carrierCode, $trackingTitle, $trackingNumber),
+            array($track->getCarrierCode(), $track->getTitle(), $track->getNumber()),
+            'Tracking data was saved incorrectly.'
+        );
+
+        /** Remove tracking information via API. */
+        $isRemoved = Magento_Test_Helper_Api::call(
+            $this,
+            'salesOrderShipmentRemoveTrack',
+            array($this->_getShipmentFixture()->getIncrementId(), $trackingNumberId)
+        );
+        $this->assertTrue($isRemoved, "Tracking information was not removed.");
+
+        /** Ensure that tracking data was saved correctly. */
+        /** @var Mage_Sales_Model_Order_Shipment $updatedShipment */
+        $updatedShipment = Mage::getModel('Mage_Sales_Model_Order_Shipment');
+        $updatedShipment->load($this->_getShipmentFixture()->getId());
+        $tracksCollection = $updatedShipment->getTracksCollection();
+        $this->assertCount(0, $tracksCollection->getItems(), "Tracking information was not removed from DB.");
+    }
+
+    /**
+     * Test shipment create and info via API.
+     *
+     * @magentoDataFixture Mage/Sales/Model/Order/Api/_files/order_with_shipping.php
+     * @magentoDbIsolation enabled
+     */
     public function testCRUD()
     {
-        /** @var $order Mage_Sales_Model_Order */
-        $order = Mage::registry('order');
-
-        $incrementId = $order->getIncrementId();
-
         // Create new shipment
         $newShipmentId = Magento_Test_Helper_Api::call(
             $this,
             'salesOrderShipmentCreate',
             array(
-                'orderIncrementId' => $incrementId,
+                'orderIncrementId' => $this->_getOrderFixture()->getIncrementId(),
                 'itemsQty' => array(),
                 'comment' => 'Shipment Created',
                 'email' => true,
@@ -45,21 +178,13 @@ class Mage_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test shipment create API call results
+     * Test shipment create API.
+     *
+     * @magentoDataFixture Mage/Sales/Model/Order/Api/_files/order_with_shipping.php
+     * @magentoDbIsolation enabled
      */
     public function testAutoIncrementType()
     {
-        /** @var $quote Mage_Sales_Model_Quote */
-        $quote = Mage::registry('quote');
-        //Create order
-        $quoteService = new Mage_Sales_Model_Service_Quote($quote);
-        //Set payment method to check/money order
-        $quoteService->getQuote()->getPayment()->setMethod('checkmo');
-        $order = $quoteService->submitOrder();
-        $order->place();
-        $order->save();
-        $incrementId = $order->getIncrementId();
-
         // Set shipping increment id prefix
         $prefix = '01';
         Magento_Test_Helper_Eav::setIncrementIdPrefix('shipment', $prefix);
@@ -69,7 +194,7 @@ class Mage_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestCase
             $this,
             'salesOrderShipmentCreate',
             array(
-                'orderIncrementId' => $incrementId,
+                'orderIncrementId' => $this->_getOrderFixture()->getIncrementId(),
                 'itemsQty' => array(),
                 'comment' => 'Shipment Created',
                 'email' => true,
@@ -85,46 +210,45 @@ class Mage_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestCase
 
     /**
      * Test send shipping info API
+     *
+     * @magentoDataFixture Mage/Sales/Model/Order/Api/_files/shipment.php
+     * @magentoDbIsolation enabled
      */
     public function testSendInfo()
     {
-        /** @var $quote Mage_Sales_Model_Quote */
-        $quote = Mage::registry('quote');
-        //Create order
-        $quoteService = new Mage_Sales_Model_Service_Quote($quote);
-        //Set payment method to check/money order
-        $quoteService->getQuote()->getPayment()->setMethod('checkmo');
-        $order = $quoteService->submitOrder();
-        $order->place();
-        $order->save();
-        $incrementId = $order->getIncrementId();
-
-        // Create new shipment
-        $newShipmentId = Magento_Test_Helper_Api::call(
-            $this,
-            'salesOrderShipmentCreate',
-            array(
-                'orderIncrementId' => $incrementId,
-                'itemsQty' => array(),
-                'comment' => 'Shipment Created',
-                'email' => false,
-                'includeComment' => true
-            )
-        );
-        $this->assertGreaterThan(0, strlen($newShipmentId));
-        Mage::unregister('shipmentIncrementId');
-        Mage::register('shipmentIncrementId', $newShipmentId);
-
-        // Send info
-        $isOk = Magento_Test_Helper_Api::call(
+        $isSent = Magento_Test_Helper_Api::call(
             $this,
             'salesOrderShipmentSendInfo',
             array(
-                'shipmentIncrementId' => $newShipmentId,
-                'comment' => $incrementId
+                'shipmentIncrementId' => $this->_getShipmentFixture()->getIncrementId(),
+                'comment' => 'Comment text.'
             )
         );
 
-        $this->assertTrue((bool)$isOk);
+        $this->assertTrue((bool)$isSent);
+    }
+
+    /**
+     * Retrieve order from fixture.
+     *
+     * @return Mage_Sales_Model_Order
+     */
+    protected function _getOrderFixture()
+    {
+        /** @var $order Mage_Sales_Model_Order */
+        $order = Mage::registry('order');
+        return $order;
+    }
+
+    /**
+     * Retrieve shipment from fixture.
+     *
+     * @return Mage_Sales_Model_Order_Shipment
+     */
+    protected function _getShipmentFixture()
+    {
+        /** @var $shipment Mage_Sales_Model_Order_Shipment */
+        $shipment = Mage::registry('shipment');
+        return $shipment;
     }
 }

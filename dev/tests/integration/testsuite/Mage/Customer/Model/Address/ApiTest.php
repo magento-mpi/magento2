@@ -109,7 +109,7 @@ class Mage_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
         $newAddressModel->load($newAddressId);
 
         // Verify all field values were correctly set
-        $newAddressData->street = trim(implode("\n",$newAddressData->street));
+        $newAddressData->street = trim(implode("\n", $newAddressData->street));
         $this->_verifyAddress($newAddressModel, (array)$newAddressData);
 
     }
@@ -209,7 +209,7 @@ class Mage_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
             'telephone'
         );
 
-        Magento_Test_Helper_Api::assertEntityFields(
+        Magento_Test_Helper_Api::checkEntityFields(
             $this,
             $addressModel->getData(),
             $addressSoapResult,

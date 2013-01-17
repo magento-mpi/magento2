@@ -223,7 +223,7 @@ class Mage_Catalog_Model_Product_Attribute_ApiTest extends PHPUnit_Framework_Tes
             $fieldsToCompare = array_keys($actualData);
         }
 
-        Magento_Test_Helper_Api::assertEntityFields(
+        Magento_Test_Helper_Api::checkEntityFields(
             $this,
             $expectedAttribute->getData(),
             $actualData,

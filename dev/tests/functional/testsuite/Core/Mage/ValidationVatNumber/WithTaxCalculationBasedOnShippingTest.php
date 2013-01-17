@@ -93,7 +93,6 @@ class Core_Mage_ValidationVatNumber_WithTaxCalculationBasedOnShippingTest extend
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Steps
-        $this->addParameter('customer_first_last_name', $userDataParam);
         $this->customerHelper()->openCustomer(array('email' => $userRegisterData['email']));
         $this->customerHelper()->addAddress($addressData);
         $this->saveForm('save_customer');

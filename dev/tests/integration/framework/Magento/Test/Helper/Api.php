@@ -122,9 +122,21 @@ class Magento_Test_Helper_Api
      * @param PHPUnit_Framework_TestCase $testCase
      * @param array $expectedData
      * @param array $actualData
-     * @param array $fieldsToCompare
+     * @param array $fieldsToCompare To be able to compare fields from loaded model with fields from API response
+     *     this parameter provides fields mapping.
+     *     Array can store model field name $entityField mapped on field name in API response.
+     *     $fieldsToCompare format is:
+     *     $fieldsToCompare = array($modelFieldName => $apiResponseFieldName);
+     *     Example:
+     *     $fieldsToCompare = array(
+     *         'entity_id' => 'product_id',
+     *         'sku',
+     *         'attribute_set_id' => 'set',
+     *         'type_id' => 'type',
+     *         'category_ids',
+     *     );
      */
-    public static function assertEntityFields(
+    public static function checkEntityFields(
         PHPUnit_Framework_TestCase $testCase,
         array $expectedData,
         array $actualData,
@@ -132,8 +144,8 @@ class Magento_Test_Helper_Api
     ) {
         foreach ($fieldsToCompare as $entityField => $field) {
             $testCase->assertEquals(
-                $expectedData[$field],
-                $actualData[is_numeric($entityField) ? $field : $entityField],
+                $expectedData[is_numeric($entityField) ? $field : $entityField],
+                $actualData[$field],
                 sprintf('"%s" filed has invalid value.', $field)
             );
         }

@@ -99,7 +99,7 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
      */
     public function archiveGridAction()
     {
-        $this->loadLayout();
+        $this->loadLayout(false);
         $this->renderLayout();
     }
 

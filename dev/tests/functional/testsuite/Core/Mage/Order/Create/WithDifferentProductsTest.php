@@ -51,11 +51,15 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
         $bundle = $this->loadDataSet('SalesOrder', 'fixed_bundle_for_order', null,
                                      array('add_product_1' => $simple['general_sku'],
                                            'add_product_2' => $virtual['general_sku']));
-        $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order',
-                                           array('configurable_attribute_title' => $attrData['admin_title']),
-                                           array('associated_1' => $simple['general_sku'],
-                                                 'associated_2' => $virtual['general_sku'],
-                                                 'associated_3' => $download['general_sku']));
+        $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order', null,
+            array(
+                'general_attribute_1' => $attrData['admin_title'],
+                'associated_3' => $download['general_sku'],
+                'var1_attr_value1' => $attrData['option_1']['admin_option_name'],
+                'var1_attr_value2' => $attrData['option_2']['admin_option_name'],
+                'var1_attr_value3' => $attrData['option_3']['admin_option_name']
+            )
+        );
         $grouped = $this->loadDataSet('SalesOrder', 'grouped_product_for_order', null,
                                       array('associated_1' => $simple['general_sku'],
                                             'associated_2' => $virtual['general_sku'],
