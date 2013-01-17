@@ -251,6 +251,8 @@ new_product:
                                     xpath: //div[div/span='Select Associated Product']
                                     links:
                                         close_select_associated_product: //a[span='close']
+                                        next_page: //a[@data-ui-id='admin-product-edit-tab-super-config-grid-next']
+                                        product_page: //input[@data-ui-id='admin-product-edit-tab-super-config-grid-current-page']
                                     pageelements:
                                         associated_product_id: //td[normalize-space(@class)='associated-product-id']
                                         associated_product_name: //td[normalize-space(@class)='associated-product-name']
@@ -259,6 +261,7 @@ new_product:
                                         associated_quantity: //td[normalize-space(@class)='associated-product-qty']
                                         associated_inventory: //td[6]
                                         associated_weight: //td[normalize-space(@class)='associated-product-weight']
+                                        opened_product_page: //input[@data-ui-id='admin-product-edit-tab-super-config-grid-current-page'][@value='%pageIndex%']
                 -
                     prices: &pricesTab
                         xpath: //a[@title='Prices']

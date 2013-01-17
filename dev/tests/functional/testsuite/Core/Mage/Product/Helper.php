@@ -1082,15 +1082,14 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $this->fillCheckbox('have_price_variation', $optionsData['have_price_variation']);
             unset($optionsData['have_price_variation']);
         }
-        $number = 0;
         foreach ($optionsData as $optionData) {
             if (isset($optionData['associated_attribute_value'])) {
                 $this->addParameter('attributeOption', $optionData['associated_attribute_value']);
                 unset($optionData['associated_attribute_value']);
-            } else {
-                $this->addParameter('attributeOption', $optionNames[$number++]);
             }
-            $this->fillFieldset($optionData, 'product_variation_attribute');
+            if (!empty($optionData)) {
+                $this->fillFieldset($optionData, 'product_variation_attribute');
+            }
         }
     }
 
@@ -1148,10 +1147,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             if (!isset($assignProduct['associated_attributes'])) {
                 $this->fail('Associated attributes data is required for product selection');
             }
-            $attributeData = $assignProduct['associated_attributes'];
+            $attributes = $assignProduct['associated_attributes'];
             unset($assignProduct['associated_attributes']);
             //Define and add param that clarifies what a line in table will be use
-            $param = $this->formAssignConfigurableParam($attributeData, $headRowNames);
+            $param = $this->formAssignConfigurableParam($attributes, $headRowNames);
             $this->addParameter('attributeSearch', $param);
             $this->fillCheckbox('include_variation', 'Yes');
             $trLocator = $this->formSearchXpath($assignProduct, "//tbody/tr");
@@ -1162,19 +1161,30 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             //If product is not selected
             $productTable = $this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'select_associated_product');
             $this->clickButton('choose', false);
+            $this->pleaseWait();
             $this->waitForElementVisible($productTable);
-            $selectParam =
-                $this->formAssignConfigurableParam($attributeData, $this->getTableHeadRowNames($productTable));
-            $isProductExist = $this->elementIsPresent($productTable . $trLocator . "[$selectParam]");
-            if ($isProductExist) {
-                if (!$isProductExist->displayed()) {
-                    $this->fail('Product exist but "Select Associated Product" grid is not opened');
+            //Define if product created.
+            $selectParam = $this->formAssignConfigurableParam($attributes, $this->getTableHeadRowNames($productTable));
+            $select = false;
+            for (; ;) {
+                if ($this->elementIsPresent($productTable . $trLocator . "[$selectParam]")) {
+                    $select = true;
+                    break;
+                } elseif ($this->controlIsVisible('link', 'next_page')) {
+                    $pageIndex = $this->getControlAttribute('link', 'product_page', 'value') + 1;
+                    $this->addParameter('pageIndex', $pageIndex);
+                    $this->clickControl('link', 'next_page', false);
+                    $this->waitForControlEditable('pageelement', 'opened_product_page');
+                } else {
+                    break;
                 }
-                //if product created
-                $isProductExist->click();
+            }
+            if ($select) {
+                //Select created product
+                $this->getElement($productTable . $trLocator . "[$selectParam]")->click();
                 $this->waitForElementVisible($variationTable . $trLocator . "[$param]");
             } else {
-                //fill data for new product
+                //Fill in data for new product
                 $this->clickControl(self::FIELD_TYPE_LINK, 'close_select_associated_product', false);
                 if (!$this->controlIsPresent(self::FIELD_TYPE_INPUT, 'associated_product_name')) {
                     $this->fail('Product is not exist and you can not create it(already another product is selected)');
