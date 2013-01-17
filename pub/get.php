@@ -41,13 +41,8 @@ if ($mediaDirectory) {
     sendFile($filePath);
 }
 try {
-    $objectManager = new Mage_Core_Model_ObjectManager_Media(dirname(__DIR__),
-        isset($_SERVER['MAGE_RUN_CODE']) ? $_SERVER['MAGE_RUN_CODE'] : '',
-        isset($_SERVER['MAGE_RUN_TYPE']) ? $_SERVER['MAGE_RUN_TYPE'] : 'store',
-        !empty($mediaDirectory),
-        empty($mediaDirectory) ? array('Mage_Core') : array()
-    );
-    Mage::setObjectManager($objectManager);
+    $entryPoint = new Mage_Core_Model_EntryPoint_Media(dirname(__DIR__), $mediaDirectory, $_SERVER);
+    $entryPoint->processRequest();
     if (!Mage::isInstalled()) {
         sendNotFoundPage();
     }
