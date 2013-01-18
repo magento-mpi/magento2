@@ -263,15 +263,16 @@ class Magento_Filesystem
      */
     public function searchKeys($baseDirectory, $pattern)
     {
-        if ($baseDirectory) {
-            $baseDirectory = $this->_getCheckedPath($baseDirectory);
-        } else {
-            $baseDirectory = $this->_workingDirectory;
-        }
+        $baseDirectory = $this->_getCheckedPath($baseDirectory);
+        $this->_checkPathInWorkingDirectory(
+            rtrim($baseDirectory, self::DIRECTORY_SEPARATOR)
+            . DIRECTORY_SEPARATOR
+            . ltrim($pattern, self::DIRECTORY_SEPARATOR)
+        );
         return $this->_adapter->searchKeys(
             rtrim($baseDirectory, self::DIRECTORY_SEPARATOR)
             . self::DIRECTORY_SEPARATOR
-            . self::fixSeparator($pattern)
+            . ltrim(self::fixSeparator($pattern), self::DIRECTORY_SEPARATOR)
         );
     }
 
@@ -439,11 +440,24 @@ class Magento_Filesystem
      */
     protected function _getCheckedPath($key, $workingDirectory = null)
     {
+        $this->_checkPathInWorkingDirectory($key, $workingDirectory);
+        return self::getAbsolutePath($key);
+    }
+
+    /**
+     * Asserts path in working directory
+     *
+     * @param string $key
+     * @param string|null $workingDirectory
+     * @return string
+     * @throws InvalidArgumentException
+     */
+    protected function _checkPathInWorkingDirectory($key, $workingDirectory = null)
+    {
         $workingDirectory = $workingDirectory ? $workingDirectory : $this->_workingDirectory;
         if (!self::isPathInDirectory($key, $workingDirectory)) {
             throw new InvalidArgumentException("Path '$key' is out of working directory '$workingDirectory'");
         }
-        return self::getAbsolutePath($key);
     }
 
     /**

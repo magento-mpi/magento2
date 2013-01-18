@@ -578,7 +578,6 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
     {
         return array(
             'read' => array('read', 'read'),
-            'getMTime' => array('getMTime', 'getMTime'),
             'getFileMd5' => array('getFileMd5', 'getFileMd5'),
             'getFileSize' => array('getFileSize', 'getFileSize')
         );
@@ -924,6 +923,85 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
             array('/tmp/file', '/tmp/dir', false),
             array('/tmp', '/tmp/', true),
             array('/tmp/', '/tmp', true),
+        );
+    }
+
+
+    /**
+     * @dataProvider testSearchFilesDataProvider
+     * @param string $workingDirectory
+     * @param string $baseDirectory
+     * @param string $pattern
+     * @param string $expectedValue
+     */
+    public function testSearchFiles($workingDirectory, $baseDirectory, $pattern, $expectedValue)
+    {
+        $adapter = $adapterMock = $this->getMock('Magento_Filesystem_AdapterInterface');
+
+        $adapter->expects($this->once())
+            ->method('isDirectory')
+            ->with($workingDirectory)
+            ->will($this->returnValue(true));
+
+        $searchResult = array('result');
+        $adapter->expects($this->once())
+            ->method('searchKeys')
+            ->with($expectedValue)
+            ->will($this->returnValue($searchResult));
+
+        $filesystem = new Magento_Filesystem($adapter);
+        $filesystem->setWorkingDirectory($workingDirectory);
+        $this->assertEquals($searchResult, $filesystem->searchKeys($baseDirectory, $pattern));
+    }
+
+    public function testSearchFilesDataProvider()
+    {
+        return array(
+            array('/tmp', '/tmp/some/folder', '*', '/tmp/some/folder/*'),
+            array('/tmp', '/tmp/some/folder/', '/*', '/tmp/some/folder/*'),
+            array('/tmp', '/tmp/some/folder/', '/../../*', '/tmp/some/folder/../../*'),
+        );
+    }
+
+
+    /**
+     * @dataProvider searchFilesIsolationDataProvider
+     * @param string $workingDirectory
+     * @param string $baseDirectory
+     * @param string $pattern
+     * @param string $expectedMessage
+     */
+    public function testSearchFilesIsolation($workingDirectory, $baseDirectory, $pattern, $expectedMessage)
+    {
+        $adapter = $adapterMock = $this->getMock('Magento_Filesystem_AdapterInterface');
+
+        $adapter->expects($this->once())
+            ->method('isDirectory')
+            ->with($workingDirectory)
+            ->will($this->returnValue(true));
+
+        $filesystem = new Magento_Filesystem($adapter);
+        $filesystem->setWorkingDirectory($workingDirectory);
+
+        $this->setExpectedException('InvalidArgumentException', $expectedMessage);
+        $filesystem->searchKeys($baseDirectory, $pattern);
+    }
+
+    public function searchFilesIsolationDataProvider()
+    {
+        return array(
+            array(
+                '/tmp',
+                '/tmp/some/folder',
+                '/../../../*',
+                "Path '/tmp/some/folder/../../../*' is out of working directory '/tmp'"
+            ),
+            array(
+                '/tmp/log',
+                '/tmp/log/some/folder/../../../',
+                '*',
+                "Path '/tmp/log/some/folder/../../../' is out of working directory '/tmp/log'"
+            ),
         );
     }
 }
