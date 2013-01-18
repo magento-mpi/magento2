@@ -386,10 +386,6 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
                 array(
                     $this->_getFixturesPath() . 'foo' . DS . 'bar' . DS . 'file_two.txt',
                 )
-            ),
-            array(
-                '',
-                array()
             )
         );
     }
