@@ -22,6 +22,9 @@ class Mage_Core_Model_Event_Config
      */
     protected $_eventAreas = array();
 
+    /**
+     * @param Mage_Core_Model_Config_Modules $config
+     */
     public function __construct(Mage_Core_Model_Config_Modules $config)
     {
         $this->_config = $config;

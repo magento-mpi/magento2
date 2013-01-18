@@ -16,15 +16,9 @@ Mage::register('custom_entry_point', true);
 umask(0);
 
 try {
-    /** @var $app Mage_Core_Model_App */
-    $app = Mage::getObjectManager()->get('Mage_Core_Model_App');
-    $app->init(array(Mage::PARAM_RUN_CODE => 'admin'));
-    $app->setUseSessionInUrl(false);
-    $app->requireInstalledInstance();
-
-    $eventManager = Mage::getObjectManager()->get('Mage_Core_Model_Event_Manager');
-    $eventManager->addEventArea('crontab');
-    $eventManager->dispatchEvent('default');
+    $params = array(Mage::PARAM_RUN_CODE => 'admin');
+    $entryPoint = new Mage_Core_Model_EntryPoint_Cron(BP, $params);
+    $entryPoint->processRequest();
 } catch (Exception $e) {
     Mage::printException($e);
 }
