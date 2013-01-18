@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Theme_Block_Adminhtml_System_Design_Tab_CssTest extends PHPUnit_Framework_TestCase
+class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
@@ -111,6 +111,8 @@ class Mage_Theme_Block_Adminhtml_System_Design_Tab_CssTest extends PHPUnit_Frame
     }
 
     /**
+     * @param array $files
+     * @param array $expectedResult
      * @dataProvider getGroupedFilesProvider
      */
     public function testGetGroupedFiles($files, $expectedResult)
@@ -144,16 +146,11 @@ class Mage_Theme_Block_Adminhtml_System_Design_Tab_CssTest extends PHPUnit_Frame
 
         $collectionMock->expects($this->any())->method('getThemeByFullPath')->will($this->returnValue($themeMock));
 
-        $configMock = $this->getMock(
-            'Mage_Core_Model_Config',
-            get_class_methods('Mage_Core_Model_Config'),
-            array(),
-            '',
-            false
-        );
+        $configMock = $this->getMock('Mage_Core_Model_Config', get_class_methods('Mage_Core_Model_Config'),
+            array(), '', false);
 
         $configMock->expects($this->any())->method('getOptions')
-            ->will($this->returnValue(Mage::getObjectManager()->get('Mage_Core_Model_Config')->getOptions()));
+            ->will($this->returnValue(Mage::getObjectManager()->create('Mage_Core_Model_Config_Options')));
 
         $objectManagerMock->expects($this->any())->method('create')
             ->with($this->equalTo('Mage_Core_Model_Resource_Theme_Collection'))
@@ -162,15 +159,10 @@ class Mage_Theme_Block_Adminhtml_System_Design_Tab_CssTest extends PHPUnit_Frame
         $objectManagerMock->expects($this->any())->method('get')->with($this->equalTo('Mage_Core_Model_Config'))
             ->will($this->returnValue($configMock));
 
-        $this->_model = $this->getMock(
-            'Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css',
-            array('getFiles', '_getCurrentTheme', 'getUrl'),
-            $constructArguments,
-            '',
-            true
-        );
+        $this->_model = $this->getMock('Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css',
+            array('getUrl', '_getCurrentTheme'), $constructArguments, '', true);
 
-        $this->_model->expects($this->once())->method('getFiles')->will($this->returnValue($files));
+        $this->_model->setFiles($files);
         $this->_model->expects($this->any())->method('_getCurrentTheme')->will($this->returnValue($themeMock));
         $this->_model->expects($this->any())->method('getUrl')->will($this->returnArgument(1));
 
@@ -184,7 +176,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Tab_CssTest extends PHPUnit_Frame
      */
     public function getGroupedFilesProvider()
     {
-        $options = Mage::getObjectManager()->get('Mage_Core_Model_Config')->getOptions();
+        $options = Mage::getObjectManager()->create('Mage_Core_Model_Config_Options');
         $designDir = str_replace($options->getBaseDir(), '', $options->getDesignDir());
         $jsDir = str_replace($options->getBaseDir(), '', $options->getJsDir());
         $codeDir = str_replace($options->getBaseDir(), '', $options->getCodeDir());
@@ -306,14 +298,32 @@ class Mage_Theme_Block_Adminhtml_System_Design_Tab_CssTest extends PHPUnit_Frame
     }
 
     /**
+     * @param string $filename
+     * @param string $filePathForSearch
+     * @param int|string $themeId
      * @dataProvider getGroupProvider
      */
     public function testGetGroup($filename, $filePathForSearch, $themeId)
     {
+        $constructArguments = $this->_prepareModelArguments();
+        $constructArguments['objectManager'] = $objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')
+            ->setMethods(array('get'))
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+
+        $configMock = $this->getMock('Mage_Core_Model_Config', get_class_methods('Mage_Core_Model_Config'),
+            array(), '', false);
+
+        $configMock->expects($this->any())->method('getOptions')
+            ->will($this->returnValue(Mage::getObjectManager()->create('Mage_Core_Model_Config_Options')));
+
+        $objectManagerMock->expects($this->any())->method('get')->with($this->equalTo('Mage_Core_Model_Config'))
+            ->will($this->returnValue($configMock));
+
         $this->_model = $this->getMock(
             'Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css',
             array('_getThemeByFilename'),
-            $this->_prepareModelArguments(),
+            $constructArguments,
             '',
             true
         );
@@ -346,7 +356,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Tab_CssTest extends PHPUnit_Frame
      */
     public function getGroupProvider()
     {
-        $options = Mage::getObjectManager()->get('Mage_Core_Model_Config')->getOptions();
+        $options = Mage::getObjectManager()->create('Mage_Core_Model_Config_Options');
         $designDir = $options->getDesignDir();
         $jsDir = $options->getJsDir();
         $codeDir = $options->getCodeDir();
@@ -376,7 +386,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Tab_CssTest extends PHPUnit_Frame
     public function testSortThemesByHierarchyCallback($firstThemeParentId, $parentOfParentTheme,
         $secondThemeId, $expectedResult
     ) {
-        list($firstTheme, $secondTheme) = $this->_prepareThemesFroHierarchyCallback(
+        list($firstTheme, $secondTheme) = $this->_prepareThemesForHierarchyCallback(
             $firstThemeParentId, $parentOfParentTheme, $secondThemeId
         );
 
@@ -403,7 +413,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Tab_CssTest extends PHPUnit_Frame
      * @param int $secondThemeId
      * @return array
      */
-    protected function _prepareThemesFroHierarchyCallback($firstThemeParentId, $parentOfParentTheme, $secondThemeId)
+    protected function _prepareThemesForHierarchyCallback($firstThemeParentId, $parentOfParentTheme, $secondThemeId)
     {
         $parentTheme = $this->getMock('Mage_Core_Model_Theme', array('getParentTheme', 'getId'), array(), '', false);
 
@@ -466,13 +476,8 @@ class Mage_Theme_Block_Adminhtml_System_Design_Tab_CssTest extends PHPUnit_Frame
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
 
-        $collectionMock = $this->getMock(
-            'Mage_Core_Model_Resource_Theme_Collection',
-            get_class_methods('Mage_Core_Model_Resource_Theme_Collection'),
-            array(),
-            '',
-            false
-        );
+        $collectionMock = $this->getMock('Mage_Core_Model_Resource_Theme_Collection',
+            get_class_methods('Mage_Core_Model_Resource_Theme_Collection'), array(), '', false);
 
         $collectionMock->expects($this->atLeastOnce())
             ->method('getThemeByFullPath')
