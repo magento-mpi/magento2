@@ -43,6 +43,7 @@
         _create: function() {
             this._term = '';
             this._nonSelectedItem = {value: '', label: ''};
+            this._renderedContext = null;
             this._selectedItem = this._nonSelectedItem;
             this._control = this.options.controls || {};
             this._setTemplate();
@@ -298,6 +299,7 @@
          */
         _hideDropdown: function() {
             this.element.val(this._selectedItem.label);
+            this._renderedContext = null;
             this.dropdown.hide().empty();
         },
 
@@ -382,6 +384,7 @@
                 .find(this._control.selector).on('focus', function(e) {
                     e.preventDefault();
                 });
+            this._renderedContext = context;
             this._showDropdown();
         },
 
@@ -570,7 +573,7 @@
          */
         _showAll: function() {
             this._abortSearch();
-            if(this._allItems) {
+            if(this._allItems && this._renderedContext && !this._renderedContext._allShown) {
                 this._renderDropdown(this._allItems, {_allShown: true});
             } else {
                 this._search('', {_allShown: true});
