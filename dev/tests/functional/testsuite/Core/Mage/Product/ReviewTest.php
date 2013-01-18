@@ -42,7 +42,7 @@ class Core_Mage_Product_ReviewTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->reindexInvalidedData();
         $this->clearInvalidedCache();
-        $this->productHelper()->frontVerifyProductInfo($productData);
+        $this->productHelper()->verifyFrontendProductInfo($productData);
     }
 
     public function reviewInfoInProductDetailsDataProvider()

@@ -88,8 +88,6 @@ class Core_Mage_ValidationVatNumber_AutomaticAssignmentGroupsBackendTest extends
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
-        $userDataParam = $userData['first_name'] . ' ' . $userData['last_name'];
-        $this->addParameter('customer_first_last_name', $userDataParam);
         $this->customerHelper()->openCustomer(array('email' => $userData['email']));
         $this->customerHelper()->addAddress($addressData);
         $this->saveForm('save_customer');

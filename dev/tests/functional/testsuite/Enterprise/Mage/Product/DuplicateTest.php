@@ -45,7 +45,7 @@ class Enterprise_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct($search);
-        $this->clickButton('duplicate');
+        $this->productHelper()->saveProduct('duplicate');
         //Verifying
         $productData['inventory_qty'] = '0';
         $this->assertMessagePresent('success', 'success_duplicated_product');

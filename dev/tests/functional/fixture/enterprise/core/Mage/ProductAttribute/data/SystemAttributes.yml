@@ -18,38 +18,6 @@ allow_open_amount:
         admin_option_name: Yes
     default_value: Yes
 
-custom_design:
-    attribute_code: custom_design
-    admin_title: Custom Design
-    option_1:
-        admin_option_name: -- Please Select --
-    option_2:
-        admin_option_name: Default / Default / default
-    option_3:
-        admin_option_name: Default / Default / blue
-    option_4:
-        admin_option_name: Default / Default / blank
-    option_5:
-        admin_option_name: Default / Iphone / default
-    option_6:
-        admin_option_name: Default / Iphone / blue
-    option_7:
-        admin_option_name: Default / Iphone / blank
-    option_8:
-        admin_option_name: Default / Modern / default
-    option_9:
-        admin_option_name: Default / Modern / blue
-    option_10:
-        admin_option_name: Default / Modern / blank
-    option_11:
-        admin_option_name: Enterprise / Enterprise / default
-    option_12:
-        admin_option_name: Enterprise / Iphone / default
-    option_13:
-        admin_option_name: Professional / Professional / default (incompatible version)
-    default_value: Enterprise / Iphone / default
-    default_control_value: enterprise/iphone/default
-
 gift_wrapping_available:
     attribute_code: gift_wrapping_available
     admin_title: Allow Gift Wrapping

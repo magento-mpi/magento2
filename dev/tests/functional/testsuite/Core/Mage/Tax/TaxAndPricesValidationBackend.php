@@ -78,7 +78,7 @@ class Core_Mage_Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_Test
         $this->navigate('manage_products');
         for ($i = 1; $i <= 3; $i++) {
             $simple = $this->loadDataSet('PriceReview', 'simple_product_for_prices_validation_' . $i,
-                array('categories' => $categoryPath));
+                array('general_categories' => $categoryPath));
             $this->productHelper()->createProduct($simple);
             $this->assertMessagePresent('success', 'success_saved_product');
             $products['sku'][$i] = $simple['general_sku'];

@@ -43,7 +43,7 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
         $attributeSet = $this->loadDataSet('AttributeSet', 'attribute_set',
             array('associated_attributes' => array('General' => $attributes)));
         $simpleWithAttributes = $this->loadDataSet('Product', 'simple_product_visible',
-            array('categories'                    => $anchorCategoryPath . '/' . $anchorSubCategory['name'],
+            array('general_categories'                    => $anchorCategoryPath . '/' . $anchorSubCategory['name'],
                   'product_attribute_set'         => $attributeSet['set_name']));
         $simpleWithAttributes['general_user_attr']['dropdown'][$dropDown['attribute_code']] =
             $dropDown['option_1']['admin_option_name'];
@@ -51,7 +51,7 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
         $simpleWithAttributes['general_user_attr']['multiselect'][$multiSelect['attribute_code']] =
             $multiSelect['option_2']['admin_option_name'];
         $simpleWithoutAttrs =
-            $this->loadDataSet('Product', 'simple_product_visible', array('categories' => $anchorCategoryPath));
+            $this->loadDataSet('Product', 'simple_product_visible', array('general_categories' => $anchorCategoryPath));
         //Steps
         $this->loginAdminUser();
         //Creating categories

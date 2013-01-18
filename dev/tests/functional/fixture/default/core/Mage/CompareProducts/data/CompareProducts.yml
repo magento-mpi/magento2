@@ -25,7 +25,7 @@ compare_simple_product:
     inventory_qty: 120
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: %noValue%
+    general_categories: %noValue%
 
 compare_virtual_product:
     product_attribute_set: Default
@@ -47,7 +47,7 @@ compare_virtual_product:
     inventory_qty: 120
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: %noValue%
+    general_categories: %noValue%
 
 verify_compare_data:
     product_1:

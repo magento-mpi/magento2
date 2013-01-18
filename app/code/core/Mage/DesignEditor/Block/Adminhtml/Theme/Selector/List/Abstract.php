@@ -119,13 +119,15 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
         $assignButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
         $assignButton->setData(array(
             'label'   => $this->__('Assign to a Storeview'),
-            'data_attr'  => array(
-                'widget-button' => array(
-                    'event' => 'assign',
-                    'related' => 'body',
-                    'eventData' => array(
-                        'theme_id' => $themeId
-                    )
+            'data_attribute'  => array(
+                'mage-init' => array(
+                    'button' => array(
+                        'event' => 'assign',
+                        'target' => 'body',
+                        'eventData' => array(
+                            'theme_id' => $themeId
+                        )
+                    ),
                 ),
             ),
             'class'   => 'save action-theme-assign',
@@ -149,13 +151,15 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
         $previewButton->setData(array(
             'label'     => $this->__('Preview Theme'),
             'class'     => 'action-theme-preview',
-            'data_attr' => array(
-                'widget-button' => array(
-                    'event' => 'preview',
-                    'related' => 'body',
-                    'eventData' => array(
-                        'preview_url' => $this->_getPreviewUrl($themeBlock->getTheme()->getId())
-                    )
+            'data_attribute' => array(
+                'mage-init' => array(
+                    'button' => array(
+                        'event' => 'preview',
+                        'target' => 'body',
+                        'eventData' => array(
+                            'preview_url' => $this->_getPreviewUrl($themeBlock->getTheme()->getId())
+                        )
+                    ),
                 ),
             )
         ));
@@ -177,13 +181,15 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
         $editButton->setData(array(
             'label'     => $this->__('Edit Theme'),
             'class'     => 'add action-edit',
-            'data_attr' => array(
-                'widget-button' => array(
-                    'event' => 'preview',
-                    'related' => 'body',
-                    'eventData' => array(
-                        'preview_url' => $this->_getEditUrl($themeBlock->getTheme()->getId())
-                    )
+            'data_attribute' => array(
+                'mage-init' => array(
+                    'button' => array(
+                        'event' => 'preview',
+                        'target' => 'body',
+                        'eventData' => array(
+                            'preview_url' => $this->_getEditUrl($themeBlock->getTheme()->getId())
+                        )
+                    ),
                 ),
             )
         ));
