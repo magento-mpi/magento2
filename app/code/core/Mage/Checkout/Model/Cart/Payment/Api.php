@@ -78,6 +78,8 @@ class Mage_Checkout_Model_Cart_Payment_Api extends Mage_Checkout_Model_Api_Resou
     }
 
     /**
+     * Retrieve available payment methods for a quote
+     *
      * @param int $quoteId
      * @param int $store
      * @return array

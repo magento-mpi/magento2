@@ -471,7 +471,7 @@
     <message name="shoppingCartPaymentListRequest">
         <part name="sessionId" type="xsd:string"/>
         <part name="quoteId" type="xsd:int"/>
-        <part name="storeId" type="xsd:string"/>
+        <part name="store" type="xsd:string"/>
     </message>
     <message name="shoppingCartPaymentListResponse">
         <part name="result" type="typens:shoppingCartPaymentMethodResponseEntityArray"/>
