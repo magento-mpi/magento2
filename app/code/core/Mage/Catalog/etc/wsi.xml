@@ -678,6 +678,22 @@
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
+            <xsd:element name="catalogProductListOfAdditionalAttributesRequestParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="productType" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="attributeSetId" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="catalogProductListOfAdditionalAttributesResponseParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="typens:catalogAttributeEntityArray" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
             <xsd:element name="catalogProductAttributeListRequestParam">
                 <xsd:complexType>
                     <xsd:sequence>
@@ -1611,6 +1627,12 @@
     <wsdl:message name="catalogProductAttributeCurrentStoreResponse">
         <wsdl:part name="parameters" element="typens:catalogProductAttributeCurrentStoreResponseParam" />
     </wsdl:message>
+    <wsdl:message name="catalogProductListOfAdditionalAttributesRequest">
+        <wsdl:part name="parameters" element="typens:catalogProductListOfAdditionalAttributesRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="catalogProductListOfAdditionalAttributesResponse">
+        <wsdl:part name="parameters" element="typens:catalogProductListOfAdditionalAttributesResponseParam" />
+    </wsdl:message>
     <wsdl:message name="catalogProductAttributeListRequest">
         <wsdl:part name="parameters" element="typens:catalogProductAttributeListRequestParam" />
     </wsdl:message>
@@ -2056,6 +2078,11 @@
             <wsdl:input message="typens:catalogProductAttributeCurrentStoreRequest" />
             <wsdl:output message="typens:catalogProductAttributeCurrentStoreResponse" />
         </wsdl:operation>
+        <wsdl:operation name="catalogProductListOfAdditionalAttributes">
+            <wsdl:documentation>Get list of additional attributes which are not in default create/update list</wsdl:documentation>
+            <wsdl:input message="typens:catalogProductListOfAdditionalAttributesRequest" />
+            <wsdl:output message="typens:catalogProductListOfAdditionalAttributesResponse" />
+        </wsdl:operation>
         <wsdl:operation name="catalogProductAttributeList">
             <wsdl:documentation>Retrieve attribute list</wsdl:documentation>
             <wsdl:input message="typens:catalogProductAttributeListRequest" />
@@ -2435,6 +2462,15 @@
             </wsdl:output>
         </wsdl:operation>
         <wsdl:operation name="catalogProductAttributeCurrentStore">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="catalogProductListOfAdditionalAttributes">
             <soap:operation soapAction="" />
             <wsdl:input>
                 <soap:body use="literal" />

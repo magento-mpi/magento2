@@ -158,6 +158,11 @@
                         <title>Set special price</title>
                         <acl>catalog/product/update</acl>
                     </setSpecialPrice>
+                    <listOfAdditionalAttributes translate="title" module="Mage_Catalog">
+                        <title>Get list of additional attributes</title>
+                        <method>getAdditionalAttributes</method>
+                        <acl>catalog/product/info</acl>
+                    </listOfAdditionalAttributes>
                 </methods>
                 <faults module="Mage_Catalog">
                     <store_not_exists>

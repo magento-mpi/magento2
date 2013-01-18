@@ -70,7 +70,6 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
         $billingLastnameField = "$billingAliasName.lastname";
         $shippingFirstnameField = "$shippingAliasName.firstname";
         $shippingLastnameField = "$shippingAliasName.lastname";
-        // Oracle CONCAT can only have 2 arguments
         $billingNameExpr = "CONCAT({{billing_firstname}}, CONCAT(' ', {{billing_lastname}}))";
         $shippingNameExpr = "CONCAT({{shipping_firstname}}, CONCAT(' ', {{shipping_lastname}}))";
         $orderCollection->addAttributeToSelect('*')

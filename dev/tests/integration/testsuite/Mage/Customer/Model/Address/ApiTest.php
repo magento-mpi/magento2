@@ -74,7 +74,7 @@ class Mage_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
         $customerId = 1;
 
         // New address to create
-        $newAddressData = (object)array(
+        $newAddressData = array(
             'city' => 'Kyle',
             'company' => 'HBM',
             'country_id' => 'US',
@@ -99,7 +99,7 @@ class Mage_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
             'customerAddressCreate',
             array(
                 'customerId' => $customerId,
-                'addressData' => $newAddressData
+                'addressData' => (object)$newAddressData
             )
         );
 
@@ -109,8 +109,9 @@ class Mage_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
         $newAddressModel->load($newAddressId);
 
         // Verify all field values were correctly set
-        $newAddressData->street = trim(implode("\n", $newAddressData->street));
-        $this->_verifyAddress($newAddressModel, (array)$newAddressData);
+        $newAddressData['street'] = trim(implode("\n", $newAddressData['street']));
+        $newAddressData['customer_address_id'] = $newAddressId;
+        $this->_verifyAddress($newAddressModel, $newAddressData);
 
     }
 

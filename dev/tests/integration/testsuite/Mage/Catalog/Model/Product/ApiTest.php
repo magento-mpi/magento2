@@ -1,6 +1,6 @@
 <?php
 /**
- * Test Product API tests.
+ * Product API tests.
  *
  * {license_notice}
  *
@@ -76,5 +76,27 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
             reset($actualProductsData),
             $fieldsToCompare
         );
+    }
+
+    /**
+     * Test retrieving the list of attributes which are not in default create/update list via API.
+     */
+    public function testGetAdditionalAttributes()
+    {
+        $attributesList = Magento_Test_Helper_Api::call(
+            $this,
+            'catalogProductListOfAdditionalAttributes',
+            array('simple', 4)
+        );
+        $this->assertGreaterThan(40, count($attributesList), "Attributes quantity seems to be incorrect.");
+        $oldIdAttributeData = reset($attributesList);
+        $oldIdExpectedData = array(
+            'attribute_id' => '89',
+            'code' => 'old_id',
+            'type' => 'text',
+            'required' => '0',
+            'scope' => 'global'
+        );
+        $this->assertEquals($oldIdExpectedData, $oldIdAttributeData, "Attribute data from the list is incorrect.");
     }
 }

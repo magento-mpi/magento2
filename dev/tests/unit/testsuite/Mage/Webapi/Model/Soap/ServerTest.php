@@ -70,7 +70,11 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
     public function testGetApiCharset()
     {
         $this->_storeMock->expects($this->once())->method('getConfig')->will($this->returnValue('Windows-1251'));
-        $this->assertEquals('Windows-1251', $this->_soapServer->getApiCharset(), 'API charset encoding getting is invalid.');
+        $this->assertEquals(
+            'Windows-1251',
+            $this->_soapServer->getApiCharset(),
+            'API charset encoding getting is invalid.'
+        );
     }
 
     /**
