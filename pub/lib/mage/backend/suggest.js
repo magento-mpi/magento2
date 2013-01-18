@@ -560,10 +560,34 @@
         _bind: function() {
             this._super();
             this._on(this.dropdown, {
-                showAll: function() {
-                    this._search('', {_allShown: true});
-                }
+                showAll: this._showAll
             });
+        },
+
+        /**
+         *
+         * @private
+         */
+        _showAll: function() {
+            this._abortSearch();
+            if(this._allItems) {
+                this._renderDropdown(this._allItems, {_allShown: true});
+            } else {
+                this._search('', {_allShown: true});
+            }
+        },
+
+        /**
+         * @override
+         * @param items
+         * @param context
+         * @private
+         */
+        _renderDropdown: function(items, context) {
+            this._superApply(arguments);
+            if(context._allShown && !this.allItems) {
+                this._allItems = this._items;
+            }
         },
 
         /**

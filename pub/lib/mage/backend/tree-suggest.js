@@ -70,10 +70,10 @@
          * @override
          */
         search: function() {
-            this._super();
-            if (!this.options.showRecent && !this._term) {
-                this._abortSearch();
-                this._search('', {_allShown: true});
+            if (!this.options.showRecent && !this._value()) {
+                this._showAll();
+            } else {
+                this._super();
             }
         },
 
