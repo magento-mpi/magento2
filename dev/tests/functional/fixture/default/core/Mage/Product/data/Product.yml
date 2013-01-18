@@ -2319,6 +2319,7 @@ configurable_product_minimal:
     general_description: Description for Configurable Product Required
     general_short_description: Short Description for Configurable Product Required
     general_sku: configurable_sku_req_%randomize%
+    general_weight: 1.47
     general_status: Enabled
     general_visibility: Catalog, Search
     general_min_price: 14.95

@@ -533,6 +533,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         if ($additionalAction != 'continueEdit') {
             $this->addParameter('additionalAction', $additionalAction);
+            $this->waitForControlVisible('button', 'save_split_select');
             $this->clickButton('save_split_select', false);
             if ($validate) {
                 $this->saveForm('save_product_by_action');
@@ -629,9 +630,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $param = $this->getControlAttribute(self::FIELD_TYPE_DROPDOWN, 'choose_attribute_set', 'selectedValue');
         $this->addParameter('setId', $param);
         $this->clickButton('apply');
+        $this->waitForElementVisible("//*[@id='product-edit-form-tabs']");
         $this->addParameter('attributeSet', $newAttributeSet);
-        $this->waitForNewPage();
         $this->waitForElement($this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'product_attribute_set'));
+        $this->validatePage();
     }
 
     /**

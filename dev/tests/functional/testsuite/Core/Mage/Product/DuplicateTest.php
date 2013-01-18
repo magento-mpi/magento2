@@ -289,6 +289,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      */
     public function duplicateConfigurable($attrData, $assignData)
     {
+        $this->markTestIncomplete('MAGETWO-4511');
         //Data
         $configurable = $this->loadDataSet('Product', 'duplicate_configurable', $assignData,
             array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
