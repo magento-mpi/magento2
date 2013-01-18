@@ -177,22 +177,24 @@ class Core_Mage_Product_Create_OnMinimalAttributeSetTest extends Mage_Selenium_T
     }
 
     /**
-     * <p>Create products based on minimal attribute set</p>
-     *
-     * <p>Expected result:</p>
-     * <p> Product is created. System displays successful message "The product has been saved.";</p>
+     * Create configurable product based on minimal attribute set
      *
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-5700
      */
-    public function createConfigurableOnMinimal($testData)
+    public function createConfigurableProduct($testData)
     {
         $configurable = $this->loadDataSet('Product', 'configurable_product_minimal',
-            array('associated_sku'          => $testData['simple_sku'],
-                  'associated_product_name' => $testData['simple_name']),
-            array('var1_attr_value1'    => $testData['attributeValue'],
-                  'general_attribute_1' => $testData['attribute']));
+            array(
+                'associated_sku'          => $testData['simple_sku'],
+                'associated_product_name' => $testData['simple_name']
+            ),
+            array(
+                'var1_attr_value1'    => $testData['attributeValue'],
+                'general_attribute_1' => $testData['attribute']
+            )
+        );
         $this->productHelper()->selectTypeProduct('simple');
         $this->productHelper()->changeAttributeSet($configurable['product_attribute_set']);
         $this->waitForControlEditable('field', 'general_name');
