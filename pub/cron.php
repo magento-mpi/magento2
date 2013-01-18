@@ -18,7 +18,7 @@ umask(0);
 try {
     /** @var $app Mage_Core_Model_App */
     $app = Mage::getObjectManager()->get('Mage_Core_Model_App');
-    $app->init(array(Mage_Core_Model_App::INIT_OPTION_SCOPE_CODE => 'admin'));
+    $app->init(array(Mage::PARAM_RUN_CODE => 'admin'));
     $app->setUseSessionInUrl(false);
     $app->requireInstalledInstance();
 

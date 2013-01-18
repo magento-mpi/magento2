@@ -56,7 +56,7 @@ final class Mage
     /**
      * Disallow cache
      */
-    const PARAM_BAN_CACHE = 'ban_cache';
+    const PARAM_BAN_CACHE = 'global_ban_use_cache';
 
     /**
      * Custom local configuration file name

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class Mage_Core_Model_ObjectManager_ConfigAbstract
+abstract class Mage_Core_Model_ObjectManager_ConfigAbstract implements Magento_ObjectManager_Configuration
 {
     /**
      * Runtime configuration params

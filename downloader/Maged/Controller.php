@@ -498,9 +498,9 @@ final class Maged_Controller
                 }
                 $app = Mage::getObjectManager()->get('Mage_Core_Model_App');
                 $app->init(array(
-                    Mage_Core_Model_App::INIT_OPTION_SCOPE_CODE => '',
-                    Mage_Core_Model_App::INIT_OPTION_SCOPE_TYPE => 'store',
-                    'global_ban_use_cache' => true
+                    Mage::PARAM_RUN_CODE => '',
+                    Mage::PARAM_RUN_TYPE => 'store',
+                    Mage::PARAM_BAN_CACHE => true
                 ));
                 if (self::isInstalled()) {
                     Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();

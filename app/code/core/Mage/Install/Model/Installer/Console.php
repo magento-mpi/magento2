@@ -94,10 +94,10 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
     {
         $result = array();
         if (!empty($args[self::OPTION_URIS])) {
-            $result[Mage_Core_Model_App::INIT_OPTION_URIS] = unserialize(base64_decode($args[self::OPTION_URIS]));
+            $result[Mage::PARAM_APP_URIS] = unserialize(base64_decode($args[self::OPTION_URIS]));
         }
         if (!empty($args[self::OPTION_DIRS])) {
-            $result[Mage_Core_Model_App::INIT_OPTION_DIRS] = unserialize(base64_decode($args[self::OPTION_DIRS]));
+            $result[Mage::PARAM_APP_DIRS] = unserialize(base64_decode($args[self::OPTION_DIRS]));
         }
         return $result;
     }

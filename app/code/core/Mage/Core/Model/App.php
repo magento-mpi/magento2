@@ -20,16 +20,6 @@
 class Mage_Core_Model_App
 {
     /**
-     * Custom directory paths initialization option
-     */
-    const INIT_OPTION_URIS = 'app_uris';
-
-    /**
-     * Custom directory absolute paths initialization option
-     */
-    const INIT_OPTION_DIRS = 'app_dirs';
-
-    /**
      * Application initialization option to inject custom request object
      */
     const INIT_OPTION_REQUEST  = 'request';
@@ -1179,6 +1169,9 @@ class Mage_Core_Model_App
      */
     public function getRequest()
     {
+        if (!$this->_request) {
+            $this->_request = Mage::getObjectManager()->get('Mage_Core_Controller_Request_Http');
+        }
         return $this->_request;
     }
 

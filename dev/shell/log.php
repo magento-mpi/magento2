@@ -12,8 +12,8 @@ require_once __DIR__ . '/../../app/bootstrap.php';
 /** @var $app Mage_Core_Model_App */
 $app = Mage::getObjectManager()->get('Mage_Core_Model_App');
 $app->init(array(
-    Mage_Core_Model_App::INIT_OPTION_SCOPE_CODE => 'admin',
-    Mage_Core_Model_App::INIT_OPTION_SCOPE_TYPE => 'store',
+    Mage::PARAM_RUN_CODE => 'admin',
+    Mage::PARAM_RUN_TYPE => 'store',
 ));
 
 /** @var $shell Mage_Log_Model_Shell */
