@@ -25,17 +25,22 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Preview extends Mage_Backend
     protected $_previewContainer = null;
 
     /**
-     * Set template
+     * Before rendering html, but after trying to load cache
+     *
+     * @return Mage_Core_Block_Abstract
      */
-    public function _construct()
+    protected function _beforeToHtml()
     {
         // Calculate page width for CSS
         $tpl = $this->_getTemplate();
         $width = $tpl->getPageOrientation() !=
             Saas_PrintedTemplate_Model_Converter_PdfAdapter_Interface::PAGE_ORIENTATION_LANDSCAPE
-                ? $tpl->getPageSize()->getWidth()
-                : $tpl->getPageSize()->getHeight();
+            ? $tpl->getPageSize()->getWidth()
+            : $tpl->getPageSize()->getHeight();
+
         $this->setWidth($width->setType(Zend_Measure_Length::MILLIMETER)->getValue() . 'mm');
+
+        return parent::_beforeToHtml();
     }
 
     /**
