@@ -548,6 +548,6 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
         // publicate static content
         $this->_model->getViewFileUrl('css/base64.css', $params);
 
-        $this->assertFileEquals($filePath, "{$publishedPath}/css/base64.css");
+        $this->assertFileEquals($filePath, str_replace('/', DIRECTORY_SEPARATOR, "{$publishedPath}/css/base64.css"));
     }
 }
