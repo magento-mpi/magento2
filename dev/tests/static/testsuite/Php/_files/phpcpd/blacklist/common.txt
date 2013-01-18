@@ -10,8 +10,6 @@ Zend
 downloader
 dev
 Mysql
-Oracle
-Mssql
 lib/Varien/Db
 sql
 data
