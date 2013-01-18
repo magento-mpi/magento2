@@ -40,9 +40,8 @@ class Enterprise_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCas
         $app = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
         $resource = $this->getMock('Enterprise_GiftRegistry_Model_Resource_Entity', array(), array(), '', false);
         $helper = $this->getMock('Enterprise_GiftRegistry_Helper_Data', array('__', 'getRegistryLink'));
-        $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
         $translate = $this->getMockBuilder('Mage_Core_Model_Translate')
-            ->setConstructorArgs(array($filesystem, array('locale_hierarchy' => array())))
+            ->setConstructorArgs(array(array('locale_hierarchy' => array())))
             ->getMock();
 
         $config = $this->getMock('Mage_Core_Model_Config', array('getModelInstance'), array(), '', false);
