@@ -45,7 +45,7 @@ custom_options_area: &area
     custom_options_general_input_type: Area
     custom_options_general_is_required: Yes
     custom_options_general_sort_order: 2
-    custom_options_price: 18
+    custom_options_price: 20
     custom_options_price_type: Percent
     custom_options_sku: sku_area
     custom_options_max_characters: 80
@@ -55,7 +55,7 @@ custom_options_file: &file
     custom_options_general_input_type: File
     custom_options_general_is_required: No
     custom_options_general_sort_order: 3
-    custom_options_price: 180
+    custom_options_price: 10
     custom_options_price_type: Percent
     custom_options_sku: sku_file
     custom_options_allowed_file_extension: gif,bmp
@@ -77,7 +77,7 @@ custom_options_date_time: &dateTime
     custom_options_general_is_required: Yes
     custom_options_general_sort_order: 5
     custom_options_price: 99.99
-    custom_options_price_type: Percent
+    custom_options_price_type: Fixed
     custom_options_sku: sku_data_time
 
 custom_options_time: &time
@@ -86,7 +86,7 @@ custom_options_time: &time
     custom_options_general_is_required: Yes
     custom_options_general_sort_order: 6
     custom_options_price: 8.99
-    custom_options_price_type: Percent
+    custom_options_price_type: Fixed
     custom_options_sku: sku_time
 
 custom_options_dropdown: &dropdown
@@ -97,7 +97,7 @@ custom_options_dropdown: &dropdown
     custom_option_row_1:
         custom_options_title: Title 1
         custom_options_price: 2.56
-        custom_options_price_type: Percent
+        custom_options_price_type: Fixed
         custom_options_sku: sku_drop_down_row_1
         custom_options_sort_order: 1
 
@@ -108,8 +108,8 @@ custom_options_radiobutton:  &radiobutton
     custom_options_general_sort_order: 8
     custom_option_row_1:
         custom_options_title: Title 1
-        custom_options_price: 2.56
-        custom_options_price_type: Percent
+        custom_options_price: 2
+        custom_options_price_type: Fixed
         custom_options_sku: sku_radio_row_1
         custom_options_sort_order: 1
 
@@ -120,8 +120,8 @@ custom_options_checkbox: &checkbox
     custom_options_general_sort_order: 9
     custom_option_row_1:
         custom_options_title: Title 1
-        custom_options_price: 2.56
-        custom_options_price_type: Percent
+        custom_options_price: 1.56
+        custom_options_price_type: Fixed
         custom_options_sku: sku_checkbox_row_1
         custom_options_sort_order: 1
 
@@ -132,22 +132,22 @@ custom_options_multipleselect: &multipleselect
     custom_options_general_sort_order: 10
     custom_option_row_1:
         custom_options_title: Title 1
-        custom_options_price: 2.56
+        custom_options_price: 1
         custom_options_price_type: Percent
         custom_options_sku: sku_multipleselect_row_1
         custom_options_sort_order: 1
 
 custom_options_data: &customOptionsData
-    custom_options_field: *field
-    custom_options_area: *area
-    custom_options_file: *file
-    custom_options_date: *date
-    custom_options_date_time: *dateTime
-    custom_options_time: *time
-    custom_options_dropdown: *dropdown
-    custom_options_radiobutton:  *radiobutton
-    custom_options_checkbox: *checkbox
-    custom_options_multipleselect: *multipleselect
+    option_1: *field
+    option_2: *area
+    option_3: *file
+    option_4: *date
+    option_5: *dateTime
+    option_6: *time
+    option_7: *dropdown
+    option_8:  *radiobutton
+    option_9: *checkbox
+    option_10: *multipleselect
 
 custom_options_empty:
     custom_options_general_title: Custom Option Title
@@ -271,26 +271,78 @@ associated_grouped_data: &associatedProductsGroupedData
 #*****************************************************
 #* Associated Products Data for Configurable Product *
 #*****************************************************
+#*************************Attributes Data****************************
+general_configurable_attribute_with_price: &general_configurable_attribute_with_price
+    general_configurable_attribute_title: %general_attribute_2%
+    have_price_variation: Yes
+    use_all_options: %allOptions%
+    option_1:
+        associated_attribute_value: %var2_attr_value1%
+        variation_attribute_price: 1.99
+        variation_attribute_price_type: Fixed
+        include_variation_attribute: Yes
+    option_2:
+        associated_attribute_value: %var2_attr_value2%
+        variation_attribute_price: 15
+        variation_attribute_price_type: Percentage
+        include_variation_attribute: Yes
+    option_3:
+        associated_attribute_value: %var2_attr_value3%
+        variation_attribute_price: 0.25
+        variation_attribute_price_type: Fixed
+        include_variation_attribute: Yes
 
-associated_configurable: &configurableAssociatedProduct1
-    # Data to search
-    associated_search_id: %noValue%
-    associated_search_name: %noValue%
-    associated_search_attribute_set: %noValue%
-    associated_search_sku: %noValue%
-    associated_search_price_from: %noValue%
-    associated_search_price_to: %noValue%
-    associated_search_inventory: %noValue%
-    associated_search_by_attribute_value: %noValue%
-    # Data to fill in
-    associated_product_price: %noValue%
-    associated_product_price_type: %noValue%
+general_configurable_attribute_without_price: &general_configurable_attribute_without_price
+    general_configurable_attribute_title: %general_attribute_1%
+    have_price_variation: No
+    use_all_options: %allOptions%
+    option_1:
+        associated_attribute_value: %var1_attr_value1%
+        include_variation_attribute: Yes
+    option_2:
+        associated_attribute_value: %var1_attr_value2%
+        include_variation_attribute: %var1_attr_include2%
+    option_3:
+        associated_attribute_value: %var1_attr_value3%
+        include_variation_attribute: %var1_attr_include3%
 
-associated_configurable_data: &associatedProductsConfigurableData
-    associated_products_attribute_name_default: %noValue%
-    associated_products_attribute_name: %noValue%
-    associated_configurable_1: *configurableAssociatedProduct1
-    associated_configurable_2: %noValue%
+general_configurable_attributes: &general_configurable_attributes
+    attribute_1: *general_configurable_attribute_without_price
+    attribute_2: %noValue%
+
+#*************************Variations Data****************************
+product_variation: &configurableAssociatedProduct1
+    associated_product_name: Product Variation Name (%randomize%)
+    associated_sku: sku_variation_%randomize%
+    associated_quantity: %noValue%
+    associated_weight: %noValue%
+    associated_attribute_value: %noValue%
+    associated_attributes: &confirurableAttributesValues
+        attribute_1:
+            associated_attribute_name: %general_attribute_1%
+            associated_attribute_value: %var1_attr_value1%
+        attribute_2:
+            associated_attribute_name: %general_attribute_2%
+            associated_attribute_value: %var2_attr_value1%
+
+general_configurable_variations: &associatedProductsConfigurableData
+    configurable_1: *configurableAssociatedProduct1
+    configurable_2: %noValue%
+
+generate_simple_associated:
+    associated_product_name: simple_associated_%randomize%
+    associated_price: %noValue%
+    associated_sku: simple_associated_sku_%randomize%
+    associated_quantity: 999
+    associated_weight: 18
+    associated_attributes: *confirurableAttributesValues
+
+generate_virtual_associated:
+    associated_product_name: virtual_associated_%randomize%
+    associated_price: %noValue%
+    associated_sku: simple_associated_sku_%randomize%
+    associated_quantity: 999
+    associated_attributes: *confirurableAttributesValues
 
 #*********************************************
 #*         Bundle Items Data                 *
@@ -397,19 +449,6 @@ downloadable_information_data: &downloadableData
 #*********************************************
 #*         Simple Product Data               *
 #*********************************************
-
-quick_simple_product:
-    quick_simple_product_name_use_default: No
-    quick_simple_product_name: Quick_Simple(%randomize%)
-    quick_simple_product_sku_use_default: No
-    quick_simple_product_sku: quick_simple_sku_%randomize%
-    quick_simple_product_weight: 6.31
-    quick_simple_product_status: Enabled
-    quick_simple_product_visibility: Catalog, Search
-    quick_simple_product_attribute_value: %noValue%
-    quick_simple_product_qty: 100
-    quick_simple_product_stock_availability: In Stock
-
 simple_product_required:
     product_attribute_set: Default
     general_name: Simple Product Required(%randomize%)
@@ -439,7 +478,7 @@ simple_product_visible:
     inventory_qty: 999
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     custom_options_data: %noValue%
 
 simple_product:
@@ -506,7 +545,7 @@ simple_product:
     inventory_qty_increments: 5
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     related_data: *relatedProductsData
     up_sells_data: *upSellsProductsData
     cross_sells_data: *crossSellsProductsData
@@ -557,7 +596,7 @@ duplicate_simple:
     gift_options_allow_gift_message_default: No
     gift_options_allow_gift_message: Yes
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     related_data: &relatedDuplicate
         related_1:
             related_search_sku: %noValue%
@@ -603,7 +642,7 @@ virtual_product_visible:
     inventory_qty: 999
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     custom_options_data: %noValue%
 
 virtual_product:
@@ -669,7 +708,7 @@ virtual_product:
     inventory_qty_increments: 5
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     related_data: *relatedProductsData
     up_sells_data: *upSellsProductsData
     cross_sells_data: *crossSellsProductsData
@@ -719,7 +758,7 @@ duplicate_virtual:
     gift_options_allow_gift_message_default: No
     gift_options_allow_gift_message: Yes
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     related_data: *relatedDuplicate
     up_sells_data: *upSellsDuplicate
     cross_sells_data: *crossSellsDuplicate
@@ -756,7 +795,7 @@ dynamic_bundle_visible:
     general_visibility: Catalog, Search
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     bundle_items_data:
         item_1: %noValue%
 
@@ -797,7 +836,7 @@ fixed_bundle_visible:
     prices_tax_class: None
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     bundle_items_data:
         item_1: %noValue%
 
@@ -839,7 +878,7 @@ dynamic_bundle:
     inventory_qty_increments: 5
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     related_data: *relatedProductsData
     up_sells_data: *upSellsProductsData
     cross_sells_data: *crossSellsProductsData
@@ -885,7 +924,7 @@ fixed_bundle:
     inventory_qty_increments: 5
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     related_data: *relatedProductsData
     up_sells_data: *upSellsProductsData
     cross_sells_data: *crossSellsProductsData
@@ -925,7 +964,7 @@ duplicate_fixed_bundle:
     gift_options_allow_gift_message_default: No
     gift_options_allow_gift_message: Yes
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     related_data: *relatedDuplicate
     up_sells_data: *upSellsDuplicate
     cross_sells_data: *crossSellsDuplicate
@@ -989,7 +1028,7 @@ duplicate_dynamic_bundle:
     gift_options_allow_gift_message_default: No
     gift_options_allow_gift_message: Yes
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     related_data: *relatedDuplicate
     up_sells_data: *upSellsDuplicate
     cross_sells_data: *crossSellsDuplicate
@@ -1042,7 +1081,7 @@ grouped_product_visible:
     general_visibility: Catalog, Search
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     associated_grouped_data: *associatedProductsGroupedData
 
 grouped_product:
@@ -1077,7 +1116,7 @@ grouped_product:
     inventory_qty_increments: 5
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     related_data: *relatedProductsData
     up_sells_data: *upSellsProductsData
     cross_sells_data: *crossSellsProductsData
@@ -1108,7 +1147,7 @@ duplicate_grouped:
     gift_options_allow_gift_message_default: No
     gift_options_allow_gift_message: Yes
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     related_data: *relatedDuplicate
     up_sells_data: *upSellsDuplicate
     cross_sells_data: *crossSellsDuplicate
@@ -1132,7 +1171,6 @@ duplicate_grouped:
 
 configurable_product_required:
     product_attribute_set: Default
-    configurable_attribute_title: %noValue%
     general_name: Configurable Product Required(%randomize%)
     general_description: Description for Configurable Product Required
     general_short_description: Short Description for Configurable Product Required
@@ -1142,11 +1180,12 @@ configurable_product_required:
     prices_price: 14.95
     prices_special_price: %noValue%
     prices_tax_class: None
+    general_configurable_attributes: *general_configurable_attributes
+    general_configurable_variations: *associatedProductsConfigurableData
 
 # Product that has all needed fields set to be visible in frontend.
 configurable_product_visible:
     product_attribute_set: Default
-    configurable_attribute_title: %noValue%
     general_name: Configurable Product Visible(%randomize%)
     general_description: Description for Configurable Product Visible
     general_short_description: Short Description for Configurable Product Visible
@@ -1157,12 +1196,12 @@ configurable_product_visible:
     prices_tax_class: None
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
-    associated_configurable_data: %noValue%
+    general_categories: Default Category
+    general_configurable_attributes: *general_configurable_attributes
+    general_configurable_variations: *associatedProductsConfigurableData
 
 configurable_product:
     product_attribute_set: Default
-    configurable_attribute_title: %noValue%
     general_name: Configurable Product(%randomize%)
     general_description: Description for Configurable Product
     general_short_description: Short Description for Configurable Product
@@ -1202,15 +1241,15 @@ configurable_product:
     inventory_qty_increments: 5
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     related_data: *relatedProductsData
     up_sells_data: *upSellsProductsData
     cross_sells_data: *crossSellsProductsData
-    associated_configurable_data: *associatedProductsConfigurableData
+    general_configurable_attributes: *general_configurable_attributes
+    general_configurable_variations: *associatedProductsConfigurableData
 
 duplicate_configurable:
     product_attribute_set: Default
-    configurable_attribute_title: %noValue%
     general_name: Duplicate Configurable Product(%randomize%)
     general_description: Description for Configurable Product
     general_short_description: Short Description for Configurable Product
@@ -1243,11 +1282,13 @@ duplicate_configurable:
     gift_options_allow_gift_message_default: No
     gift_options_allow_gift_message: Yes
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     related_data: *relatedDuplicate
     up_sells_data: *upSellsDuplicate
     cross_sells_data: *crossSellsDuplicate
     custom_options_data: *customOptionsData
+    general_configurable_attributes: *general_configurable_attributes
+    general_configurable_variations: *associatedProductsConfigurableData
 
 #*********************************************
 #*         Downloadable Product Data         *
@@ -1265,6 +1306,7 @@ downloadable_product_required:
     prices_special_price: %noValue%
     prices_tax_class: None
     inventory_qty: %noValue%
+    downloadable_information_data: *downloadableData
 
 # Product that has all needed fields set to be visible in frontend.
 downloadable_product_visible:
@@ -1280,7 +1322,7 @@ downloadable_product_visible:
     inventory_qty: 999
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     downloadable_information_data: *downloadableData
 
 downloadable_product:
@@ -1331,7 +1373,7 @@ downloadable_product:
     inventory_qty_increments: 5
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     related_data: *relatedProductsData
     up_sells_data: *upSellsProductsData
     cross_sells_data: *crossSellsProductsData
@@ -1368,7 +1410,7 @@ duplicate_downloadable:
     gift_options_allow_gift_message_default: No
     gift_options_allow_gift_message: Yes
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     related_data: *relatedDuplicate
     up_sells_data: *upSellsDuplicate
     cross_sells_data: *crossSellsDuplicate
@@ -1392,24 +1434,20 @@ frontend_simple_product_details_validation:
     general_weight: 2.56
     general_status: Enabled
     general_visibility: Catalog, Search
-    prices_price: 4.95
-    prices_special_price: 3.99
+    prices_price: 110
+    prices_special_price: 100
     prices_special_price_from: %currentDate%
     prices_special_price_to: %currentDate%
     prices_tax_class: None
+    prices_tier_price_data: *tierPriceData
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
     inventory_qty: 100
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 2
-    inventory_max_allowed_qty_default: No
-    inventory_max_allowed_qty: 11
-    inventory_qty_uses_decimals: Yes
-    inventory_backorders_default: No
-    inventory_backorders: Allow Qty Below 0
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     custom_options_data: *customOptionsData
 
 frontend_virtual_product_details_validation:
@@ -1420,28 +1458,20 @@ frontend_virtual_product_details_validation:
     general_sku: virtual_sku_%randomize%
     general_status: Enabled
     general_visibility: Catalog, Search
-    prices_price: 14.95
-    prices_special_price: 13.99
+    prices_price: 110
+    prices_special_price: 100
     prices_special_price_from: %currentDate%
     prices_special_price_to: %currentDate%
     prices_tax_class: None
+    prices_tier_price_data: *tierPriceData
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
-    inventory_qty: 120
+    inventory_qty: 100
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 2
-    inventory_max_allowed_qty_default: No
-    inventory_max_allowed_qty: 11
-    inventory_qty_uses_decimals: Yes
-    inventory_backorders_default: No
-    inventory_backorders: Allow Qty Below 0
-    inventory_enable_qty_increments_default: No
-    inventory_enable_qty_increments: Yes
-    inventory_qty_increments_default: No
-    inventory_qty_increments: 5
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     custom_options_data: *customOptionsData
 
 ########################################################################################################################
@@ -1464,7 +1494,7 @@ simple_product_related: &simple_product_related
     inventory_qty: 120
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
 
 virtual_product_related: &virtual_product_related
     product_attribute_set: Default
@@ -1479,7 +1509,7 @@ virtual_product_related: &virtual_product_related
     inventory_qty: 50
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
 
 downloadable_product_related: &downloadable_product_related
     product_attribute_set: Default
@@ -1494,7 +1524,7 @@ downloadable_product_related: &downloadable_product_related
     inventory_qty: 50
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     downloadable_information_data:
         downloadable_samples_title: Samples Title
         downloadable_links_title: Links Title
@@ -1531,7 +1561,7 @@ bundle_product_related: &bundle_product_related
     prices_price: 66.32
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     bundle_items_data:
         ship_bundle_items: Separately
         item_1:
@@ -1548,7 +1578,6 @@ bundle_product_related: &bundle_product_related
 
 configurable_product_related: &configurable_product_related
     product_attribute_set: Default
-    configurable_attribute_title: %noValue%
     general_name: Linking Configurable Product(%randomize%)
     general_description: Description for Configurable Product
     general_short_description: Short Description for Configurable Product
@@ -1559,12 +1588,9 @@ configurable_product_related: &configurable_product_related
     prices_tax_class: None
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
-    associated_configurable_data:
-        associated_products_attribute_name_default: No
-        associated_products_attribute_name: attribute_name_%randomize%
-        associated_configurable_1:
-            associated_search_sku: %noValue%
+    general_categories: Default Category
+    general_configurable_attributes: *general_configurable_attributes
+    general_configurable_variations: *associatedProductsConfigurableData
 
 grouped_product_related: &grouped_product_related
     product_attribute_set: Default
@@ -1576,7 +1602,7 @@ grouped_product_related: &grouped_product_related
     general_visibility: Catalog, Search
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     associated_grouped_data:
         associated_grouped_1:
             associated_search_sku: %noValue%
@@ -1803,7 +1829,7 @@ simple_multi_checkout_options:
     inventory_qty: 50
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     custom_options_data: *customOptionsData
 
 ###############################################
@@ -1823,7 +1849,7 @@ virtual_multi_checkout_options:
     inventory_qty: 50
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     custom_options_data: *customOptionsData
 
 ###############################################
@@ -1843,7 +1869,7 @@ downloadable_multi_checkout:
     inventory_qty: 50
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     downloadable_information_data:
         downloadable_samples_title: Samples Title
         downloadable_links_title: Links Title
@@ -1878,7 +1904,7 @@ downloadable_product_visible_multi_checkout:
     inventory_qty: 999
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     downloadable_information_data:
         downloadable_samples_title: Samples Title
         downloadable_links_title: Links Title
@@ -1913,7 +1939,7 @@ downloadable_multi_checkout_options_no_links:
     inventory_qty: 50
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     custom_options_data: *customOptionsData
     downloadable_information_data:
         downloadable_samples_title: Samples Title
@@ -1937,7 +1963,7 @@ downloadable_multi_checkout_no_links:
     inventory_qty: 50
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     downloadable_information_data:
             downloadable_samples_title: Samples Title
             downloadable_links_title: Links Title
@@ -1960,7 +1986,7 @@ downloadable_multi_checkout_options_links:
     inventory_qty: 50
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     custom_options_data: *customOptionsData
     downloadable_information_data: *downloadableData
 
@@ -1978,7 +2004,7 @@ grouped_multi_checkout_options:
     general_visibility: Catalog, Search
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     associated_grouped_data: *associatedProductsGroupedData
 
 ###################################################
@@ -2062,7 +2088,7 @@ fixed_bundle_multi_checkout:
     prices_tax_class: None
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     bundle_items_data: *bundleDataMultiCheckout
 
 dynamic_bundle_multi_checkout:
@@ -2077,7 +2103,7 @@ dynamic_bundle_multi_checkout:
     general_visibility: Catalog, Search
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     bundle_items_data: *bundleDataMultiCheckout
 
 fixed_bundle_multi_checkout_options:
@@ -2096,7 +2122,7 @@ fixed_bundle_multi_checkout_options:
     prices_tax_class: None
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     custom_options_data: *customOptionsData
     bundle_items_data: *bundleDataMultiCheckout
 
@@ -2112,7 +2138,7 @@ dynamic_bundle_multi_checkout_options:
     general_visibility: Catalog, Search
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     custom_options_data: *customOptionsData
     bundle_items_data: *bundleDataMultiCheckout
 
@@ -2122,7 +2148,6 @@ dynamic_bundle_multi_checkout_options:
 
 configurable_multi_checkout:
     product_attribute_set: Default
-    configurable_attribute_title: %noValue%
     general_name: %randomize%_Configurable Multi Checkout
     general_description: Description for Configurable Product Visible
     general_short_description: Short Description for Configurable Product Visible
@@ -2133,17 +2158,15 @@ configurable_multi_checkout:
     prices_tax_class: None
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
-    associated_configurable_data:
-        associated_products_attribute_name_default: %noValue%
-        associated_products_attribute_name: %noValue%
-        associated_configurable_1: *configurableAssociatedProduct1
-        associated_configurable_2: *configurableAssociatedProduct1
-        associated_configurable_3: *configurableAssociatedProduct1
+    general_categories: Default Category
+    general_configurable_attributes: *general_configurable_attributes
+    general_configurable_variations:
+        configurable_1: *configurableAssociatedProduct1
+        configurable_2: *configurableAssociatedProduct1
+        configurable_3: *configurableAssociatedProduct1
 
 configurable_multi_checkout_options:
     product_attribute_set: Default
-    configurable_attribute_title: %noValue%
     general_name: %randomize%_Configurable Multi Checkout Options
     general_description: Description for Configurable Multi Checkout Options
     general_short_description: Short Description for Configurable Multi Checkout Options
@@ -2154,14 +2177,13 @@ configurable_multi_checkout_options:
     prices_tax_class: None
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     custom_options_data: *customOptionsData
-    associated_configurable_data:
-        associated_products_attribute_name_default: %noValue%
-        associated_products_attribute_name: %noValue%
-        associated_configurable_1: *configurableAssociatedProduct1
-        associated_configurable_2: *configurableAssociatedProduct1
-        associated_configurable_3: *configurableAssociatedProduct1
+    general_configurable_attributes: *general_configurable_attributes
+    general_configurable_variations:
+        configurable_1: *configurableAssociatedProduct1
+        configurable_2: *configurableAssociatedProduct1
+        configurable_3: *configurableAssociatedProduct1
 #*********************************************
 #*         Product Updating Data              *
 #*********************************************
@@ -2274,7 +2296,7 @@ simple_product_minimal:
     general_min_price: 9.99
     general_min_tax_class: None
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     custom_options_data:
         custom_options_field: %noValue%
 
@@ -2289,11 +2311,10 @@ virtual_product_minimal:
     general_min_price: 99.99
     general_min_tax_class: None
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
 
 configurable_product_minimal:
     product_attribute_set: Minimal
-    configurable_attribute_title: %noValue%
     general_name: Configurable Product Required(%randomize%)
     general_description: Description for Configurable Product Required
     general_short_description: Short Description for Configurable Product Required
@@ -2302,10 +2323,9 @@ configurable_product_minimal:
     general_visibility: Catalog, Search
     general_min_price: 14.95
     general_min_tax_class: None
-    categories: Default Category
-    associated_configurable_data:
-        associated_configurable_1:
-            associated_search_sku: %associated_1%
+    general_categories: Default Category
+    general_configurable_attributes: *general_configurable_attributes
+    general_configurable_variations: *associatedProductsConfigurableData
 
 downloadable_product_minimal:
     product_attribute_set: Minimal
@@ -2318,9 +2338,8 @@ downloadable_product_minimal:
     general_min_price: 99.99
     general_min_tax_class: None
     websites: Main Website
-    categories: Default Category
-    downloadable_information_data:
-        downloadable_link_1: %noValue%
+    general_categories: Default Category
+    downloadable_information_data: *downloadableData
 
 grouped_product_minimal:
     product_attribute_set: Minimal
@@ -2330,7 +2349,7 @@ grouped_product_minimal:
     general_sku: grouped_visible_sku.req_%randomize%
     general_status: Enabled
     general_visibility: Catalog, Search
-    categories: Default Category
+    general_categories: Default Category
     associated_grouped_data:
         associated_grouped_1:
             associated_search_sku: %associated_1%
@@ -2350,7 +2369,7 @@ fixed_bundle_minimal:
     general_min_price: 12.55
     general_min_tax_class: None
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     bundle_items_data:
         item_1: %noValue%
 
@@ -2366,7 +2385,7 @@ dynamic_bundle_minimal:
     general_visibility: Catalog, Search
     general_min_price_type: Dynamic
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     bundle_items_data:
         item_1: %noValue%
 
@@ -2384,7 +2403,7 @@ simple_product_zero_price:
     inventory_qty: 999
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     custom_options_data: %noValue%
 
 simple_product_wcod:
@@ -2401,7 +2420,7 @@ simple_product_wcod:
     inventory_qty: 999
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     custom_options_data: %noValue%
 
 simple_product_sync_inventory:
@@ -2420,7 +2439,7 @@ simple_product_sync_inventory:
     inventory_qty: %noValue%
     inventory_stock_availability: %noValue%
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     custom_options_data: %noValue%
 
 bundle_product_visible:
@@ -2435,7 +2454,7 @@ bundle_product_visible:
     general_visibility: Catalog, Search
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
     bundle_items_data:
         item_1: %noValue%
 
@@ -2454,4 +2473,4 @@ simple_product_url_rewrite:
     prices_tax_class: None
     inventory_qty: %noValue%
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category

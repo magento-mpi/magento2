@@ -14,8 +14,9 @@
  */
 return array(
     '/pub/lib/jquery/jquery.min.js',
+    '/pub/lib/jquery/jquery-ui.custom.min.js',
     '/pub/lib/jquery/jquery.cookie.js',
-    '/pub/lib/jquery/head.load.min.js',
+    '/pub/lib/head.load.min.js',
     '/pub/lib/mage/mage.js',
     '/pub/lib/mage/decorate.js',
     '/pub/lib/jquery/jquery.validate.js',

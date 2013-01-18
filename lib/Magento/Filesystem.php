@@ -266,7 +266,7 @@ class Magento_Filesystem
         $baseDirectory = $this->_getCheckedPath($baseDirectory);
         $this->_checkPathInWorkingDirectory(
             rtrim($baseDirectory, self::DIRECTORY_SEPARATOR)
-            . DIRECTORY_SEPARATOR
+            . self::DIRECTORY_SEPARATOR
             . ltrim($pattern, self::DIRECTORY_SEPARATOR)
         );
         return $this->_adapter->searchKeys(
