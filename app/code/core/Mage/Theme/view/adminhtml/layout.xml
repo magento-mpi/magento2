@@ -41,7 +41,9 @@
                 <block template="tabs/css.phtml" type="Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css"
                        name="theme_edit_tabs_tab_css_tab" />
                 <block template="tabs/js.phtml" type="Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js" name="theme_edit_tabs_tab_js_tab">
-                    <block template="Mage_Theme::tabs/fieldset/js.phtml" type="Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset" name="theme_edit_tabs_tab_js_tab_content" />
+                    <block template="Mage_Theme::tabs/fieldset/js.phtml" type="Mage_Backend_Block_Widget_Form_Renderer_Fieldset" name="theme_edit_tabs_tab_js_tab_content">
+                        <block template="Mage_Theme::tabs/fieldset/js_items.phtml" type="Mage_Backend_Block_Template" name="theme_edit_tabs_tab_js_items" as="theme.edit.tabs.tab.js.items" />
+                    </block>
                 </block>
 
                 <action method="addTab">
@@ -62,7 +64,7 @@
 
     <adminhtml_system_design_theme_uploadjs>
         <remove name="root"/>
-        <block template="Mage_Theme::tabs/fieldset/js_ajax.phtml" type="Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset" name="theme_js_file_list" as="js_files" />
+        <block template="Mage_Theme::tabs/fieldset/js_items.phtml" type="Mage_Backend_Block_Template" name="theme_js_file_list" as="js_files" />
     </adminhtml_system_design_theme_uploadjs>
 
 </layout>

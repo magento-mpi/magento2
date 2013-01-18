@@ -17,7 +17,13 @@
             <input class="up" type="button" value="">
             <input class="down" type="button" value="">
             <input type="hidden" name="js_order[<?php echo $file->getFileName() ?>]" value="1">
-            <div class="js-file"><?php echo $file->getFileName() ?></div>
+            <div class="js-file">
+                <?php echo $file->getFileName() ?>
+                <div class="remove-js">
+                    <input type="checkbox" id="remove_js_files_<?php echo $file->getId() ?>" name="js_removed_files[]" value="<?php echo $file->getId() ?>" />
+                    <label for="remove_js_files_<?php echo $file->getId() ?>"><?php echo $this->__('Remove') ?></label>
+                </div>
+            </div>
             <?php if ($file->getIsTemporary()): ?>
                 <input type="hidden" name="js_uploaded_files[]" value="<?php echo $file->getId(); ?>" />
             <?php endif; ?>
