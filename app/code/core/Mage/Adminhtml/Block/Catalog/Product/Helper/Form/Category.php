@@ -62,7 +62,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Varien_D
         $coreHelper = Mage::helper('Mage_Core_Helper_Data');
         $treeOptions = $coreHelper->escapeHtml($coreHelper->jsonEncode(array(
             'jstree' => array(
-                'plugins' => array('themes', 'html_data', 'ui', 'hotkeys')
+                'plugins' => array('themes', 'html_data', 'ui', 'hotkeys'),
+                'themes' => array(
+                    'theme' => 'default',
+                    'dots' => false,
+                    'icons' => false,
+                ),
             )
         )));
 
@@ -103,7 +108,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Varien_D
                 ->getUrl('adminhtml/catalog_category/suggestCategories'),
             'valueField' => '#' . $this->getHtmlId(),
             'template' => '#' . $this->getHtmlId() . '-template',
-            'control' => 'jstree'
+            'control' => 'jstree',
+            'className' => 'category-select'
         );
     }
 }

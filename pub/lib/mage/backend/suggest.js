@@ -32,7 +32,8 @@
                     select: ['menuselect', 'select_tree_node']
                 }
             },
-            inputWrapper: '<div class="mage-suggest"><div class="mage-suggest-inner"></div></div>',
+            className: null,
+            inputWrapper:'<div class="mage-suggest"><div class="mage-suggest-inner"></div></div>',
             dropdownWrapper: '<div class="mage-suggest-dropdown"></div>'
         },
 
@@ -58,8 +59,11 @@
          */
         _render: function() {
             this.dropdown = $(this.options.dropdownWrapper).hide();
+            var wrapper = this.options.className ?
+                $(this.options.inputWrapper).addClass(this.options.className) :
+                $(this.options.inputWrapper)
             this.element
-                .wrap(this.options.inputWrapper)
+                .wrap(wrapper)
                 [this.options.appendMethod](this.dropdown)
                 .attr('autocomplete', 'off');
         },
