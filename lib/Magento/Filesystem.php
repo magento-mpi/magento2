@@ -335,7 +335,7 @@ class Magento_Filesystem
     public function getMTime($key, $workingDirectory = null)
     {
         $key = $this->_getCheckedPath($key, $workingDirectory);
-        $this->_checkFileExists($key);
+        $this->_checkExists($key);
         return $this->_adapter->getMTime($key);
     }
 

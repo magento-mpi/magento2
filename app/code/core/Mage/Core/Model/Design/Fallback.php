@@ -150,7 +150,7 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
         $tryFile = '';
         foreach ($dirs as $dir) {
             $tryFile = str_replace('/', DIRECTORY_SEPARATOR, "{$dir}/{$file}");
-            if ($this->_filesystem->isFile($tryFile)) {
+            if ($this->_filesystem->has($tryFile)) {
                 break;
             }
         }

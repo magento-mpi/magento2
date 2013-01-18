@@ -588,7 +588,7 @@ class Mage_Core_Model_Design_Package
         $sourcePath = $this->getViewFile($themeFile, $params);
 
         $minifiedSourcePath = $this->_minifiedPathForStaticFiles($sourcePath);
-        if ($minifiedSourcePath && !Mage::getIsDeveloperMode() && $this->_filesystem->isFile($minifiedSourcePath)) {
+        if ($minifiedSourcePath && !Mage::getIsDeveloperMode() && $this->_filesystem->has($minifiedSourcePath)) {
             $sourcePath = $minifiedSourcePath;
             $themeFile = $this->_minifiedPathForStaticFiles($themeFile);
         }
@@ -615,7 +615,7 @@ class Mage_Core_Model_Design_Package
         }
 
         $fileMTime = $this->_filesystem->getMTime($sourcePath);
-        if (!$this->_filesystem->isFile($targetPath) || $fileMTime != $this->_filesystem->getMTime($targetPath)) {
+        if (!$this->_filesystem->has($targetPath) || $fileMTime != $this->_filesystem->getMTime($targetPath)) {
             $publicDir = dirname($targetPath);
             if (!$this->_filesystem->isDirectory($publicDir)) {
                 $this->_filesystem->createDirectory($publicDir, 0777);
@@ -895,7 +895,7 @@ class Mage_Core_Model_Design_Package
         foreach ($filesToMerge as $file) {
             $filesMTimeData .= $this->_filesystem->getMTime($file);
         }
-        if ($this->_filesystem->isFile($mergedFile) && $this->_filesystem->isFile($mergedMTimeFile)
+        if ($this->_filesystem->has($mergedFile) && $this->_filesystem->has($mergedMTimeFile)
             && ($filesMTimeData == $this->_filesystem->read($mergedMTimeFile))
         ) {
             return $mergedFile;
@@ -906,7 +906,7 @@ class Mage_Core_Model_Design_Package
 
         $result = array();
         foreach ($filesToMerge as $file) {
-            if (!$this->_filesystem->isFile($file)) {
+            if (!$this->_filesystem->has($file)) {
                 throw new Magento_Exception("Unable to locate file '{$file}' for merging.");
             }
             $content = $this->_filesystem->read($file);
@@ -1078,7 +1078,7 @@ class Mage_Core_Model_Design_Package
 
         $configFiles = Mage::getConfig()->getModuleConfigurationFiles('view.xml');
         $themeConfigFile = $this->getFilename('view.xml', array());
-        if (file_exists($themeConfigFile)) {
+        if ($this->_filesystem->has($themeConfigFile)) {
             $configFiles[] = $themeConfigFile;
         }
         $config = new Magento_Config_View($configFiles);
