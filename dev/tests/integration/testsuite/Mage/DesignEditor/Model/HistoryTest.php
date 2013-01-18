@@ -91,6 +91,8 @@ class Mage_DesignEditor_Model_HistoryTest extends PHPUnit_Framework_TestCase
      * Add Xml changes test
      *
      * @dataProvider getXmlChanges
+     * @param string $changes
+     * @param array $result
      */
     public function testAddXmlChanges($changes, $result)
     {

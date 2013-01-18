@@ -11,11 +11,10 @@
 
 class Mage_DesignEditor_Model_Change_Layout_RemoveTest extends PHPUnit_Framework_TestCase
 {
-    /**#@+
+    /**
      * Test element names
      */
-    const TEST_ELEMENT     = 'test_element';
-    /**#@-*/
+    const TEST_ELEMENT = 'test_element';
 
     /**
      * @var Mage_DesignEditor_Model_Change_Layout_Move

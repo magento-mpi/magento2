@@ -29,11 +29,6 @@ class Mage_DesignEditor_Model_History
     const CHANGE_COLLECTION_CLASS = 'Mage_DesignEditor_Model_Change_Collection';
 
     /**
-     * DB layout updates xml object class
-     */
-    const XML_ELEMENT_CLASS = 'Varien_Simplexml_Element';
-
-    /**
      * Internal collection of changes
      *
      * @var Mage_DesignEditor_Model_Change_Collection
@@ -81,7 +76,7 @@ class Mage_DesignEditor_Model_History
         /** @var $xml Varien_Simplexml_Element */
         $xml = simplexml_load_string(
             '<?xml version="1.0" encoding="UTF-8"?><layout>' . $xmlLayoutUpdates . '</layout>',
-            self::XML_ELEMENT_CLASS
+            'Varien_Simplexml_Element'
         );
         /** @var $node Varien_Simplexml_Element */
         foreach ($xml->children() as $node) {
