@@ -31,14 +31,6 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_CollectionTest exte
      */
     protected function tearDown()
     {
-        Mage::getConfig()->setCurrentAreaCode(
-            Mage::helper('Mage_Backend_Helper_Data')->getAreaCode()
-        );
-
-        foreach ($this->_models as $model) {
-            $model->delete();
-        }
-
         $this->_collection = null;
     }
 
