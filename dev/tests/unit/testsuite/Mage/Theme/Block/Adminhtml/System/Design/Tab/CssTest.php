@@ -130,7 +130,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Tab_CssTest extends PHPUnit_Frame
         $constructArguments = $this->_prepareModelArguments();
         $constructArguments['helperFactory'] = $helperFactoryMock;
         $constructArguments['objectManager'] = $objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')
-            ->setMethods(array('create', 'get', 'getOptions'))
+            ->setMethods(array('create', 'get'))
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
 
@@ -346,24 +346,24 @@ class Mage_Theme_Block_Adminhtml_System_Design_Tab_CssTest extends PHPUnit_Frame
      */
     public function getGroupProvider()
     {
-        $options = Mage::getObjectManager()->create('Mage_Core_Model_Config')->getOptions();
+        $options = Mage::getObjectManager()->get('Mage_Core_Model_Config')->getOptions();
         $designDir = $options->getDesignDir();
         $jsDir = $options->getJsDir();
         $codeDir = $options->getCodeDir();
 
         return array(
             array(
-                $designDir . str_replace('/', DIRECTORY_SEPARATOR, 'a/b/c/f/file.xml'),
-                str_replace('/', DIRECTORY_SEPARATOR, 'a/b/c/f/file.xml'),
+                $designDir . str_replace('/', DIRECTORY_SEPARATOR, '/a/b/c/f/file.xml'),
+                str_replace('/', DIRECTORY_SEPARATOR, '/a/b/c/f/file.xml'),
                 1
             ),
             array(
-                $jsDir . str_replace('/', DIRECTORY_SEPARATOR, 'a/b/c/f/file.xml'),
+                $jsDir . str_replace('/', DIRECTORY_SEPARATOR, '/a/b/c/f/file.xml'),
                 null,
                 $jsDir
             ),
             array(
-                $codeDir . str_replace('/', DIRECTORY_SEPARATOR, 'a/b/c/f/file.xml'),
+                $codeDir . str_replace('/', DIRECTORY_SEPARATOR, '/a/b/c/f/file.xml'),
                 null,
                 $codeDir
             ),
