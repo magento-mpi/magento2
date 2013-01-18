@@ -91,7 +91,7 @@ class Magento_Di_Generator_Proxy extends Magento_Di_Generator_EntityAbstract
             $parameterInfo['type'] = $this->_getFullyQualifiedClassName($parameter->getClass()->getName());
         }
 
-        if ($parameter->isDefaultValueAvailable()) {
+        if ($parameter->isOptional() && $parameter->isDefaultValueAvailable()) {
             $defaultValue = $parameter->getDefaultValue();
             if (is_string($defaultValue)) {
                 $parameterInfo['defaultValue'] = $this->_escapeDefaultValue($parameter->getDefaultValue());
