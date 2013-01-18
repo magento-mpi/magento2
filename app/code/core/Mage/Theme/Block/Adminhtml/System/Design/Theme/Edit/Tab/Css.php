@@ -172,16 +172,16 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             'disabled' => 'disabled',
         ));
 
-        $cssDownloadButtonConfig = array(
+        $downloadButtonConfig = array(
             'name'  => 'css_download_button',
             'value' => $this->__('Download CSS File'),
             'onclick' => "setLocation('" . $this->getUrl('*/*/downloadCustomCss', array(
                 'theme_id' => $this->_getCurrentTheme()->getId())) . "');"
         );
         if (!$this->_getCurrentTheme()->getCustomCssFile()->getContent()) {
-            $cssDownloadButtonConfig['disabled'] = 'disabled';
+            $downloadButtonConfig['disabled'] = 'disabled';
         }
-        $themeFieldset->addField('css_download_button', 'button', $cssDownloadButtonConfig);
+        $themeFieldset->addField('css_download_button', 'button', $downloadButtonConfig);
 
         $themeFieldset->addField('custom_css_content', 'textarea', array(
             'label'  => $this->__('Edit custom.css'),
@@ -291,14 +291,14 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      */
     protected function _sortGroupFilesCallback($firstGroup, $secondGroup)
     {
-        $hasModuleContextFirst = strpos($firstGroup['label'], '::') !== false;
-        $hasModuleContextSecond = strpos($secondGroup['label'], '::') !== false;
+        $hasContextFirst = strpos($firstGroup['label'], '::') !== false;
+        $hasContextSecond = strpos($secondGroup['label'], '::') !== false;
 
-        if ($hasModuleContextFirst && $hasModuleContextSecond) {
+        if ($hasContextFirst && $hasContextSecond) {
             $result = strcmp($firstGroup['label'], $secondGroup['label']);
-        } elseif (!$hasModuleContextFirst && !$hasModuleContextSecond) {
+        } elseif (!$hasContextFirst && !$hasContextSecond) {
             $result = strcmp($firstGroup['label'], $secondGroup['label']);
-        } elseif ($hasModuleContextFirst) {
+        } elseif ($hasContextFirst) {
             //case when first item has module context and second item doesn't
             $result = 1;
         } else {
