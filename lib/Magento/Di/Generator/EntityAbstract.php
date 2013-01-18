@@ -205,7 +205,7 @@ abstract class Magento_Di_Generator_EntityAbstract
             ),
             'body' => '$this->_objectManager = $objectManager;',
             'docblock' => array(
-                'shortDescription' => 'Factory constructor',
+                'shortDescription' => ucfirst(static::ENTITY_TYPE) . ' constructor',
                 'tags'             => array(
                     array(
                         'name'        => 'param',

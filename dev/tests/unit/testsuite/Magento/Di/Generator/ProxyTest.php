@@ -38,7 +38,7 @@ class Magento_Di_Generator_ProxyTest extends Magento_Di_Generator_EntityTestAbst
             'body'       => '$this->_objectManager = $objectManager;',
             'docblock'   =>
             array(
-                'shortDescription' => 'Factory constructor',
+                'shortDescription' => 'Proxy constructor',
                 'tags'             =>
                 array(
                     array(
