@@ -48,9 +48,8 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
      */
     public function testInit()
     {
-        Mage::app()->getCacheInstance()->banUse('config');
         $this->assertNull($this->_model->getConfig());
-        $this->_model->init(array());
+        $this->_model->init(Magento_Test_Bootstrap::getInstance()->getInitParams());
         $this->assertInstanceOf('Mage_Core_Model_Config', $this->_model->getConfig());
         $this->assertNotEmpty($this->_model->getConfig()->getNode());
         $this->assertContains(Mage_Core_Model_App::ADMIN_STORE_ID, array_keys($this->_model->getStores(true)));
@@ -64,11 +63,10 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         if (!Magento_Test_Bootstrap::canTestHeaders()) {
             $this->markTestSkipped('Can\'t test application run without sending headers');
         }
-        Mage::app()->getCacheInstance()->banUse('config');
         $request = new Magento_Test_Request();
         $request->setRequestUri('core/index/index');
         $this->_mageModel->setRequest($request);
-        $this->_mageModel->run(array());
+        $this->_mageModel->run(Magento_Test_Bootstrap::getInstance()->getInitParams());
         $this->assertTrue($request->isDispatched());
     }
 

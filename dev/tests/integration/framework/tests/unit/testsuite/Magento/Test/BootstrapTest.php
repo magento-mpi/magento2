@@ -301,4 +301,17 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(self::$_testsDir, $this->_bootstrap->getTestsDir());
     }
+
+    public function testGetInitParams()
+    {
+        $initParams = $this->_bootstrap->getInitParams();
+        $this->_bootstrap->expects($this->once())
+            ->method('_initialize')
+            ->with($initParams);
+        $this->_bootstrap->expects($this->once())
+            ->method('_isInstalled')
+            ->will($this->returnValue(true));
+
+        $this->_callBootstrapConstructor();
+    }
 }

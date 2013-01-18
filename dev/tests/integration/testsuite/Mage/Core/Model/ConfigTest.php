@@ -249,6 +249,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testReinitBaseConfig()
     {
+        $options = Magento_Test_Bootstrap::getInstance()->getInitParams();
         $options[Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA] = '<config><test>old_value</test></config>';
 
         $objectManager = new Magento_Test_ObjectManager();
@@ -505,6 +506,8 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     protected function _createModelWithApp(array $appOptions, Magento_Test_ObjectManager $objectManager = null)
     {
+        $baseOptions = Magento_Test_Bootstrap::getInstance()->getInitParams();
+        $appOptions = array_replace_recursive($baseOptions, $appOptions);
         $objectManager = $objectManager ?: new Magento_Test_ObjectManager();
         /** @var $app Mage_Core_Model_App */
         $app = $objectManager->get('Mage_Core_Model_App');
