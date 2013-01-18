@@ -92,7 +92,6 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
         $this->_model = new Magento_Di_Generator($this->_generator, $this->_autoloader);
 
         $this->assertTrue($this->_model->generateClass($className . $entityType));
-        $this->assertAttributeEmpty('_generator', $this->_model);
     }
 
     /**

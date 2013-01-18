@@ -52,12 +52,11 @@ class SourceClass extends ParentClass
      * Public child method with reference
      *
      * @param \Zend\Code\Generator\ClassGenerator $classGenerator
-     * @param string $param1
      * @param array $array
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function publicMethodWithReference(ClassGenerator &$classGenerator, &$param1 = '', array &$array)
+    public function publicMethodWithReference(ClassGenerator &$classGenerator, array &$array)
     {
     }
 

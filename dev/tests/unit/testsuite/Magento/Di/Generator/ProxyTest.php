@@ -96,17 +96,12 @@ class Magento_Di_Generator_ProxyTest extends Magento_Di_Generator_EntityTestAbst
                     'type'              => '\\Zend\\Code\\Generator\\ClassGenerator',
                 ),
                 array(
-                    'name'              => 'param1',
-                    'passedByReference' => true,
-                    'defaultValue'      => '',
-                ),
-                array(
                     'name'              => 'array',
                     'passedByReference' => true,
                     'type'              => 'array',
                 ),
             ),
-            'body'       => 'return $this->_objectManager->get(self::CLASS_NAME)->publicMethodWithReference($classGenerator, $param1, $array);',
+            'body'       => 'return $this->_objectManager->get(self::CLASS_NAME)->publicMethodWithReference($classGenerator, $array);',
             'docblock'   =>
             array(
                 'shortDescription' => '{@inheritdoc}',
