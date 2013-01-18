@@ -93,7 +93,7 @@ class Magento_Di_Generator
         }
 
         // remove generator
-        unset($this->_generator);
+        $this->_generator = null;
 
         return true;
     }
